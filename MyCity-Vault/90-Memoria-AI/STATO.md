@@ -1,8 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-10-30 13:17
+aggiornato: 2026-10-30 14:46
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> ✅ **2026-10-30 14:46 — Il prezzo nuovo della consegna è online.**
+>
+> Hai unito la #264 del sito e la #899 della memoria alle 14:40. La pagina Spedizioni pubblicata ora dice «una sola per tutto il carrello». Nel registro del sito ho chiuso 51 voci, ognuna con la sua prova.
+>
+> Restano tre cose. I Termini nuovi sono online con la data del 24 maggio. La #900 è ancora aperta, ma il suo lavoro è già entrato. E manca la tua scelta sul freno, A o B.
 
 > 🚀 **2026-10-30 13:17 — La richiesta del sito con il prezzo nuovo è pronta: è la #264.**
 >

@@ -4973,14 +4973,17 @@
       "impatto": "Promessa centrale del servizio non mantenibile al primo ordine; ordini bloccati e incasso del negozio bloccato finché non c'è un rider.",
       "fix": "Decisione di Nicola: approvare almeno un rider (o dichiarare che consegna il negozio stesso) prima di aprire; nel codice, quando non c'è nessun rider attivo, mostrare un tempo onesto o offrire solo il ritiro.",
       "fonte": "design",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Query su produzione: select role, count(*), count(*) filter (where is_approved), count(*) filter (where rider_is_online) from profiles group by role; e stato del rider. Fetch di produzione di home, negozio e prodotto per il testo della promessa.",
       "prova_tipo": "query",
       "prova_eseguita": "rider: totale 1, approvati 0, online 0; il rider ha approval_status pending e zone {}. Tutte le pagine lette in produzione mostrano «Consegna in 30-60 min». · Verifica tecnica: Query SELECT in produzione su profiles, raggruppata per ruolo. rider: totale 1, approvati 0, online 0, approval_status pending, rider_zones []. seller 2, buyer 5, admin 1. Ho letto lib/order-status.ts:80-160 e lib/stripe/payout.ts:299-312. Ho cercato rider e fattorino nelle rotte d'ordine: nessun controllo di disponibilità. Nella scheda del kefir scaricata dalla produzione si legge «Paghi alla consegna Consegna in 30-60 min» in testata e «Disponibile · pronto per la consegna» vicino al prezzo.",
       "giro": 1,
       "verificato": true,
       "fonte_radiografia": "radiografia 2026-10-11 · corsie: produzione-live · id R66 · si ripara: decisione-nicola",
-      "nota_riesame": "2026-10-28 22:30: Dal vaglio dell'ondata 10: è la stessa frase della 1516 (che porta l'elenco dei circa 36 punti e la trappola della fascia «Adesso»). Va riesaminata insieme alla 1516, per chiuderla come superata o fonderla. · 2026-10-29 12:35: fuori dal giro B. Nicola ha deciso la consegna veloce in 30-60 minuti con 1 euro in più, oppure una fascia oraria; il prezzo standard (2 o 3 euro) è da firmare. Queste frasi si cambiano nel pacchetto del prezzo nuovo, che tocca anche il conto in lib/ordini/prezzi.ts e le due rotte."
+      "nota_riesame": "2026-10-28 22:30: Dal vaglio dell'ondata 10: è la stessa frase della 1516 (che porta l'elenco dei circa 36 punti e la trappola della fascia «Adesso»). Va riesaminata insieme alla 1516, per chiuderla come superata o fonderla. · 2026-10-29 12:35: fuori dal giro B. Nicola ha deciso la consegna veloce in 30-60 minuti con 1 euro in più, oppure una fascia oraria; il prezzo standard (2 o 3 euro) è da firmare. Queste frasi si cambiano nel pacchetto del prezzo nuovo, che tocca anche il conto in lib/ordini/prezzi.ts e le due rotte.",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 14 lib/site-branding.ts (3fca82ba). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: dichiarato chiuso dalla squadra dell ondata 14 con la prova rossa-poi-verde (contratto del motore ondata-sito, run wf_f5280289-22c); il pacchetto si era fermato per un altro grave nato, non per questa voce; la correzione dopo e il controllo dei 64 file non l hanno rivista aperta"
     },
     {
       "dimensione": "microcopy",
@@ -30789,23 +30792,29 @@
       "titolo": "La scheda prodotto promette «Consegna in 2-3 giorni» sui prodotti esauriti e su tutti quelli di un negozio senza Express, ma in cassa quella consegna non esiste",
       "severita": "grave",
       "dimensione": "flussi-conversione",
-      "stato": "aperto",
+      "stato": "riparato",
       "file": "app/product/[id]/page.tsx:473-476 (expressEligible) e :802-807 (available = !isOutOfStock && expressEligible) → components/ui/DeliveryCutoff.tsx:111-112 (ramo «Consegna in {STANDARD_ETA_LABEL}») · lib/delivery.ts:15 (STANDARD_ETA_LABEL = '2-3 giorni') · migrations/071_product_creation_enhancements.sql:48 (offers_express DEFAULT false) · app/checkout/page.tsx:338-344 (una sola promessa di consegna) · components/checkout/DeliverySlotPicker.tsx (solo Adesso, Oggi, Domani)",
       "fonte": "preesistente, trovato dal riesame della copia del quinto giro del lotto #262 (run wf_f46054b4-45d, 28/10 notte), gruppi frontend-ordini-scheda",
       "descrizione": "Quando available è falso e il negozio è aperto, DeliveryCutoff scrive «Consegna in 2-3 giorni». Succede in tre casi: 1) prodotto con scorta a zero (isOutOfStock, riga 446: la scheda resta visibile col bollino ESAURITO); 2) negozio con offers_express al valore di serie, cioè false; 3) prodotto con express_enabled=false. La cassa non offre nessuna consegna a 2-3 giorni: le mattonelle sono Adesso, Oggi e Domani. Il commento di app/checkout/page.tsx:338-344 dice che dal 21/8 la promessa è una sola e che il riquadro «standard 24-48h» è stato tolto. La promessa firmata oggi è «in giornata» (registro dei fatti, fatto 7, 26/10). Verifica nella candidata o7: grep -n STANDARD_ETA_LABEL lib/delivery.ts components/ui/DeliveryCutoff.tsx, poi lettura di app/product/[id]/page.tsx:802-807. Passi: 1) approvare un negozio nuovo senza toccare l'Express; 2) aprire la scheda di un suo prodotto disponibile, a negozio aperto; 3) la scheda dice «Consegna in 2-3 giorni»; 4) in cassa si sceglie solo Adesso, Oggi o Domani. Pane Quotidiano ha l'Express acceso dal 21/8 (DECISIONI 2026-08-21 21:22, card #151): oggi lo vede solo chi apre un suo prodotto esaurito. Non provato in produzione da qui. Il ramo «arriva oggi in 30-60 min» contro «in giornata» è già nella voce 1516.",
       "impatto": "Il cliente legge sulla scheda un tempo diverso da quello che la cassa offre. O rinuncia a un prodotto che arriverebbe in giornata, o smette di fidarsi delle promesse del sito. Oggi tocca i prodotti esauriti del forno di lancio. Dal primo negozio nuovo tocca ogni sua scheda, perché l'Express nasce spento.",
-      "fix": "Togliere il ramo «2-3 giorni»: la scheda dice solo la promessa della cassa, presa dalla stessa fonte («in giornata»). Sul prodotto esaurito, niente tempo di consegna. Decidere con Nicola se l'interruttore Express serve ancora, perché la cassa non lo usa più. Aggiungere una prova che renda la scheda con negozio senza Express e con scorta a zero, e che non trovi nessun «2-3 giorni»."
+      "fix": "Togliere il ramo «2-3 giorni»: la scheda dice solo la promessa della cassa, presa dalla stessa fonte («in giornata»). Sul prodotto esaurito, niente tempo di consegna. Decidere con Nicola se l'interruttore Express serve ancora, perché la cassa non lo usa più. Aggiungere una prova che renda la scheda con negozio senza Express e con scorta a zero, e che non trovi nessun «2-3 giorni».",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 15 lib/site-branding.ts (76735785). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 15 («regge», run wf_4c5f7fb6-76d): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "titolo": "Il carrello scrive «Disponibile · Consegna in 30-60 min» anche a negozio chiuso, e il rifiuto arriva solo all'ultimo tocco in cassa",
       "severita": "grave",
       "dimensione": "qa-flussi",
-      "stato": "aperto",
+      "stato": "riparato",
       "file": "app/cart/page.tsx:77-81 (quandoArrivaScrittoNelCarrello guarda solo l'orologio, expressSiPuo 8-21) e 515-544 (riga «Disponibile · …») · app/cart/page.tsx:226 (lettura dei negozi: solo 'id, store_lat, store_lng', niente store_hours) · app/checkout/page.tsx (nessuna lettura degli orari) · rifiuto solo nelle rotte: app/api/orders/cod/route.ts:420-421 e app/api/stripe/checkout/route.ts:404-405 (negozioPuoServire) · la vista seller_public_profiles espone già store_hours: app/api/orders/cod/route.ts:379-381, migrations/126_radiografia_22_agosto.sql:366-375 (righe della base a4f4161c, copia o2-integrazione)",
       "fonte": "preesistente, trovato dal riesame della copia del quinto giro del lotto #262 (run wf_f46054b4-45d, 28/10 notte), gruppi qa-flussi-carrello-ordine",
       "descrizione": "Nel carrello, la riga di disponibilità di ogni prodotto chiude con un tempo di consegna calcolato solo sull'orologio. Fra le 8 e le 21 scrive «Consegna in 30-60 min» (funzione quandoArrivaScrittoNelCarrello, che usa expressSiPuo). Gli orari del negozio non entrano mai nel conto: la lettura dei negozi chiede solo id e coordinate, e nemmeno la cassa legge gli orari. Il controllo «negozio chiuso» esiste solo nelle due rotte che creano l'ordine (negozioPuoServire), che rifiutano «Adesso» a negozio chiuso con un errore 409.\n\nPassi per riprodurre: 1) In un momento in cui il forno è chiuso (per esempio domenica alle 10, o martedì alle 14 durante la pausa) un cliente mette una focaccia nel carrello. 2) Il carrello scrive in verde «✓ Disponibile · Consegna in 30-60 min», con «Procedi al checkout» attivo. 3) In cassa il cliente sceglie «Adesso» e compila indirizzo e telefono. 4) Preme «Ordina e paga alla consegna»: solo adesso la rotta risponde che il negozio è chiuso. Atteso: già nel carrello la riga dice quando il negozio riapre, oppure «Consegna in giornata» o «Consegna domani», e la cassa non offre «Adesso».\n\nProva (lettura del codice sulla base a4f4161c, copia o2-integrazione): grep -n \"store_hours\\|isOpenNow\\|negozioPuoServire\\|motivoNegozioChiuso\" app/cart/page.tsx app/checkout/page.tsx components/checkout/*.tsx non trova niente. grep -n \"negozioPuoServire(\" app/api/orders/cod/route.ts app/api/stripe/checkout/route.ts trova le righe 420 e 404. I minuti contraddicono anche la promessa firmata «in giornata» (registro-fatti, consegna.promessa, 26/10): è la classe della voce 1516. Non verificati: il percorso nel browser e gli orari veri di Pane Quotidiano. È la stessa classe di difetto della 868 (scheda prodotto, chiusa) e della 120 (home, aperta), ma in un altro file.",
       "impatto": "Chi compra legge una promessa falsa proprio nella colonna dove decide. Scopre il no solo sulla pagina dei soldi, dopo aver compilato tutto: è l'abbandono che costa di più. Di solito un forno ha una pausa e un giorno di chiusura, quindi il caso tocca il tipo di negozio con cui si parte. Vale sia per i contanti sia per la carta, perché il rifiuto sta in tutte e due le rotte.",
-      "fix": "Nel carrello aggiungere store_hours alla lettura fetchSellerPublicMap: la vista seller_public_profiles lo espone già, ed è quella da cui le rotte lo leggono. La riga deve decidere con negozioPuoServire o isOpenNow insieme a expressSiPuo. A negozio chiuso scrive quando riapre oppure «Consegna domani», mai i minuti. Se gli orari non si leggono, la riga non promette nessun tempo. In cassa serve lo stesso controllo, per nascondere «Adesso» a negozio chiuso. Prova montata: carrello con un negozio chiuso adesso, la riga non contiene «30-60»; negozio aperto alle 10, la riga lo contiene. Da passare al reparto tech."
+      "fix": "Nel carrello aggiungere store_hours alla lettura fetchSellerPublicMap: la vista seller_public_profiles lo espone già, ed è quella da cui le rotte lo leggono. La riga deve decidere con negozioPuoServire o isOpenNow insieme a expressSiPuo. A negozio chiuso scrive quando riapre oppure «Consegna domani», mai i minuti. Se gli orari non si leggono, la riga non promette nessun tempo. In cassa serve lo stesso controllo, per nascondere «Adesso» a negozio chiuso. Prova montata: carrello con un negozio chiuso adesso, la riga non contiene «30-60»; negozio aperto alle 10, la riga lo contiene. Da passare al reparto tech.",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 14 lib/ordini/prezzi.ts (552008c6). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: dichiarato chiuso dalla squadra dell ondata 14 con la prova rossa-poi-verde (contratto del motore ondata-sito, run wf_f5280289-22c); il pacchetto si era fermato per un altro grave nato, non per questa voce; la correzione dopo e il controllo dei 64 file non l hanno rivista aperta"
     },
     {
       "titolo": "Con la consegna regalata la cassa la chiama «Consegna MyCity · Gratis» e la pagina dell'ordine «Spedizione GRATUITA»: due nomi per la stessa riga",
@@ -31542,13 +31551,16 @@
       "dimensione": "pagamenti-stripe",
       "reparto": "Pagamenti",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "La consegna costa sempre 3 euro: i 50 centesimi sotto i 10 euro e i 50 centesimi della consegna veloce, firmati da Nicola il 29/10, non sono ancora nel codice",
       "file": "lib/ordini/prezzi.ts consegnaDaPagareCents (sempre PLATFORM_DELIVERY_FEE_CENTS = 300) · prezziDelCarrello non riceve la fascia: app/api/stripe/checkout/route.ts ~606 · app/api/orders/cod/route.ts ~805 · app/cart/page.tsx:393",
       "descrizione": "La regola firmata il 29/10 (registro dei fatti consegna.promessa, carta #220) dice 3 euro, 50 centesimi in più sotto i 10 euro di spesa, 50 centesimi in più per la consegna veloce. Nel codice la consegna è 3 euro fissi. Prova della radiografia: prezziDelCarrello con un negozio, 800 centesimi, consegna a domicilio: atteso 350, esce 300, su 0df7945 e sul ramo. Oggi carta, contanti e schermo dicono tutti 3 euro: nessuna sorpresa al cliente, MyCity incassa da 50 centesimi a 1 euro in meno su ogni ordine piccolo o veloce. Minore perché la decisione ha poche ore ed è già pianificata come pacchetto suo (il pacchetto del prezzo, dopo l unione della #263). Trappola per chi la fa: la fascia deve entrare nel conto da tutte e due le rotte e dallo schermo insieme, e l euro va dentro delivery_fee_cents.",
       "fonte": "preesistente rispetto alla decisione del 29/10; trovato dalla radiografia del perimetro del giro B (run wf_5fe12725-8cb, lente pagamenti-stripe) il 2026-10-29 14:47",
-      "nota_riesame": "2026-10-29 16:14: Nicola ha cambiato la regola (registro dei fatti consegna.promessa): la veloce in 30-60 minuti costa 4 euro; sotto i 10 euro di spesa si pagano 4 euro, con la veloce compresa; da 10 euro in su la fascia costa 3 euro. Massimo 4 euro, mai sommati. Il pacchetto del prezzo va costruito su questa regola, non sui 50 centesimi del titolo."
+      "nota_riesame": "2026-10-29 16:14: Nicola ha cambiato la regola (registro dei fatti consegna.promessa): la veloce in 30-60 minuti costa 4 euro; sotto i 10 euro di spesa si pagano 4 euro, con la veloce compresa; da 10 euro in su la fascia costa 3 euro. Massimo 4 euro, mai sommati. Il pacchetto del prezzo va costruito su questa regola, non sui 50 centesimi del titolo.",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 14 lib/ordini/prezzi.ts (552008c6). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: dichiarato chiuso dalla squadra dell ondata 14 con la prova rossa-poi-verde (contratto del motore ondata-sito, run wf_f5280289-22c); il pacchetto si era fermato per un altro grave nato, non per questa voce; la correzione dopo e il controllo dei 64 file non l hanno rivista aperta"
     },
     {
       "dimensione": "architettura",
@@ -31568,12 +31580,15 @@
       "dimensione": "microcopy",
       "reparto": "Testi",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "Il titolo grande della home (variante B, metà dei visitatori) dice «Paghi come vuoi.», e il giro di benvenuto «Ordina, paghi come vuoi»: la cassa offre solo i contanti",
       "file": "app/page.tsx:43,51 · components/BuyerOnboardingTour.tsx:45-48 · lib/experiments.ts:30-34 (home_hero a/b acceso)",
       "descrizione": "La frase c era già. Con le promesse A la riga sotto dice «paghi in contanti alla consegna»: la stessa schermata si contraddice da sola. Chi vuole pagare con la carta lo scopre in cassa, dopo aver scritto l indirizzo. Non verificato se l admin ha un titolo suo in site_settings.home_site. Va nel pacchetto del prezzo, che riscrive i testi della home.",
-      "fonte": "preesistente: c è anche su 0df7945; trovato dalla radiografia del perimetro delle promesse (run wf_656030ba-22b)"
+      "fonte": "preesistente: c è anche su 0df7945; trovato dalla radiografia del perimetro delle promesse (run wf_656030ba-22b)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 15 lib/site-branding.ts (76735785). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 15 («regge», run wf_4c5f7fb6-76d): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "frontend-ux",
@@ -31624,12 +31639,15 @@
       "dimensione": "architettura",
       "reparto": "Architettura",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "La frase «Consegna in giornata, negli orari di apertura del negozio» vive in due copie",
       "file": "components/ui/DeliveryCutoff.tsx:59 (RIGA_CONSEGNA_SENZA_NEGOZIO) · lib/promesse-pubbliche.ts:157 (QUANDO_ARRIVA_SENZA_NEGOZIO)",
       "descrizione": "Il commento dice che la copia serve perché DeliveryCutoff è un componente client, ma lib/promesse-pubbliche.ts è già importato da componenti client. Oggi coincidono; il giorno che la regola cambia, una resta indietro.",
-      "fonte": "nato dal lotto: collaudo a due lenti delle promesse A (run wf_f24a412a-336) sul ramo cucito 6cdb4f1"
+      "fonte": "nato dal lotto: collaudo a due lenti delle promesse A (run wf_f24a412a-336) sul ramo cucito 6cdb4f1",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 15 lib/site-branding.ts (76735785). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 15 («regge», run wf_4c5f7fb6-76d): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "microcopy",
@@ -31734,12 +31752,15 @@
       "dimensione": "pagamenti-stripe",
       "reparto": "Pagamenti",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "Con più negozi nel carrello la consegna costa 3 o 4 euro per ogni negozio: la regola firmata dice 3 euro di base e 1 euro per ogni negozio in più",
       "file": "lib/ordini/prezzi.ts prezziDelCarrello (tariffa per gruppo) · app/api/orders/cod/route.ts · app/api/stripe/checkout/route.ts · app/cart/page.tsx · app/checkout/page.tsx · lib/promesse-pubbliche.ts (le frasi di prezzo che la pagina Spedizioni mostra)",
       "descrizione": "Regola del 29/10 alle 22:21: 3 euro di base per tutto il carrello; 1 euro per ogni negozio in più; 1 euro per ogni negozio in cui la spesa sta sotto i 10 euro; 1 euro per la veloce una volta sola, compresa se c è già almeno un euro della spesa piccola. Esempi (fascia/veloce): 15 € → 3/4; 8 € → 4/4; 15+12 → 4/5; 15+6 → 5/5; 6+7 → 6/6; 15+12+20 → 5/6; 5+6+7 → 8/8. Il codice dell ondata 13 fa pagare la tariffa intera a ogni negozio: con 15+12 sono 6 euro invece di 4. Minore perché oggi c è un solo negozio vero e la decisione ha pochi minuti; va nell ondata 14.",
-      "fonte": "regola firmata da Nicola il 2026-10-29 alle 22:21 (registro dei fatti, consegna.promessa): non ancora nel codice"
+      "fonte": "regola firmata da Nicola il 2026-10-29 alle 22:21 (registro dei fatti, consegna.promessa): non ancora nel codice",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 14 lib/ordini/prezzi.ts (552008c6). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: dichiarato chiuso dalla squadra dell ondata 14 con la prova rossa-poi-verde (contratto del motore ondata-sito, run wf_f5280289-22c); il pacchetto si era fermato per un altro grave nato, non per questa voce; la correzione dopo e il controllo dei 64 file non l hanno rivista aperta"
     },
     {
       "dimensione": "flussi-conversione",
@@ -31756,12 +31777,15 @@
       "dimensione": "microcopy",
       "reparto": "Microcopy",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "La pagina Spedizioni e le domande frequenti dicono «3,00 € per ogni negozio, qualunque sia la spesa», ma sotto i 10 € la cassa ne addebita 4",
       "file": "lib/promesse-pubbliche.ts riquadroTariffaConsegna e fraseTariffaConsegna (mostrate da app/shipping/page.tsx:47-49, che non va toccata: le legge e basta) · lib/promesse-pubbliche.ts:183 rispostaCostoSpedizione (mostrata da app/faq/page.tsx:41)",
       "descrizione": "Il paragrafo sotto il riquadro è stato corretto dalla squadra, il riquadro in cima no; la risposta della FAQ nemmeno. Un cliente che legge la FAQ prima di ordinare un kefir da 2,05 € si aspetta 3 € e in cassa ne trova 4. Nella stessa pagina la frase nuova scrive anche «mai di più .» con uno spazio prima del punto.",
-      "fonte": "nato dal lotto: ondata 13, il prezzo e la fascia (run wf_a2ec12a7-8aa, rami 1af183c9 e 50655846, cuciti in 41a84111)"
+      "fonte": "nato dal lotto: ondata 13, il prezzo e la fascia (run wf_a2ec12a7-8aa, rami 1af183c9 e 50655846, cuciti in 41a84111)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 14 lib/ordini/prezzi.ts (552008c6). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: dichiarato chiuso dalla squadra dell ondata 14 con la prova rossa-poi-verde (contratto del motore ondata-sito, run wf_f5280289-22c); il pacchetto si era fermato per un altro grave nato, non per questa voce; la correzione dopo e il controllo dei 64 file non l hanno rivista aperta"
     },
     {
       "dimensione": "qa-flussi",
@@ -31779,13 +31803,16 @@
       "dimensione": "qa-flussi",
       "reparto": "Flussi critici",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Quindici prove vecchie si aspettano ancora la consegna a 3 euro fissi: il controllo completo del sito è rosso sul ramo del prezzo",
       "file": "tests/unit/al-lancio-si-paga-solo-la-consegna.test.tsx:141,219,318,339 · tests/unit/la-cassa-mostra-la-spedizione-che-addebita-coi-profili-chiusi.test.ts · tests/unit/in-cassa-il-totale-mostrato-e-quello-addebitato.test.ts:68 · tests/unit/le-promesse-della-consegna-cambiano-solo-di-proposito.test.ts",
       "descrizione": "Il sito segue la regola nuova, sono le prove a essere vecchie (attese 300 e «3,00 €», ricevute 400 e «4,00 €»). Finché restano rosse, i controlli «il carrello fa lo stesso conto della cassa» e «mostrato uguale ad addebitato» si fermano prima e non proteggono più niente.",
       "fonte": "nato dal lotto: ondata 13, il prezzo e la fascia (run wf_a2ec12a7-8aa, rami 1af183c9 e 50655846, cuciti in 41a84111)",
-      "nota_riesame": "2026-10-29 22:28 (letto a quell ora): npm run verify sulla base dell ondata 14 (41a84111, il prezzo e la fascia cuciti): 22 prove rosse su 6.178, in 5 file. Ai quattro del titolo si aggiunge tests/unit/il-carrello-non-promette-mezz-ora-alle-undici-di-sera.test.ts (5 rosse) e tests/unit/il-carrello-e-la-cassa-dicono-lo-stesso-numero.test.ts (2 rosse); da guardare se sono attese vecchie o un difetto vero. · 2026-10-30 07:55: npm run verify sul ramo cucito dell ondata 15 (cc05043b): 9 prove rosse su 6.268, in 4 file. Di queste voci restano le 7 del carrello (il-carrello-non-promette-mezz-ora-alle-undici-di-sera: 5; il-carrello-e-la-cassa-dicono-lo-stesso-numero: 2), rosse già su 41a84111: il carrello ora chiama prezziDelCarrello e non più shippingForEuro, e la frase della veloce non è più scritta nel codice del carrello. Le altre due sono le voci 1835 e 1849."
+      "nota_riesame": "2026-10-29 22:28 (letto a quell ora): npm run verify sulla base dell ondata 14 (41a84111, il prezzo e la fascia cuciti): 22 prove rosse su 6.178, in 5 file. Ai quattro del titolo si aggiunge tests/unit/il-carrello-non-promette-mezz-ora-alle-undici-di-sera.test.ts (5 rosse) e tests/unit/il-carrello-e-la-cassa-dicono-lo-stesso-numero.test.ts (2 rosse); da guardare se sono attese vecchie o un difetto vero. · 2026-10-30 07:55: npm run verify sul ramo cucito dell ondata 15 (cc05043b): 9 prove rosse su 6.268, in 4 file. Di queste voci restano le 7 del carrello (il-carrello-non-promette-mezz-ora-alle-undici-di-sera: 5; il-carrello-e-la-cassa-dicono-lo-stesso-numero: 2), rosse già su 41a84111: il carrello ora chiama prezziDelCarrello e non più shippingForEuro, e la frase della veloce non è più scritta nel codice del carrello. Le altre due sono le voci 1835 e 1849.",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 16 app/cart/page.tsx (6a45ef91). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 16 («regge», run wf_932e80c0-8e9): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -31802,12 +31829,15 @@
       "dimensione": "microcopy",
       "reparto": "Microcopy",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Col codice «Spedizione gratuita» e la consegna veloce, a 40 euro la cassa scrive «da 30 euro la copre tutta» e fa pagare 1 euro",
       "file": "lib/promesse-pubbliche.ts rigaDelCodiceSpedizione · lib/ordini/prezzi.ts consegnaDaPagareCents",
       "descrizione": "Il codice copre i 3 euro e non l euro della veloce (scelta ragionata dell AD del 29/10), ma la frase dice che da 30 euro copre tutta la consegna. I codici al lancio sono spenti.",
-      "fonte": "nato dal lotto: ondata 13, il prezzo e la fascia (run wf_a2ec12a7-8aa, rami 1af183c9 e 50655846, cuciti in 41a84111)"
+      "fonte": "nato dal lotto: ondata 13, il prezzo e la fascia (run wf_a2ec12a7-8aa, rami 1af183c9 e 50655846, cuciti in 41a84111)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 14 lib/ordini/prezzi.ts (552008c6). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: dichiarato chiuso dalla squadra dell ondata 14 con la prova rossa-poi-verde (contratto del motore ondata-sito, run wf_f5280289-22c); il pacchetto si era fermato per un altro grave nato, non per questa voce; la correzione dopo e il controllo dei 64 file non l hanno rivista aperta"
     },
     {
       "dimensione": "qa-flussi",
@@ -31824,34 +31854,43 @@
       "dimensione": "qa-flussi",
       "reparto": "Flussi critici",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Se la lettura della consegna veloce cade, la cassa sposta da sola la scelta «Adesso» sulla prima fascia di oggi, senza dirlo",
       "file": "components/checkout/DeliverySlotPicker.tsx (useEffect day==='now' && !expressAvailable) · app/checkout/page.tsx:541-560",
       "descrizione": "Il cliente sceglie «Adesso», la rete cade per un minuto e l ordine parte con la fascia, a 1 euro in meno. Niente soldi persi, ma la scelta cambia in silenzio: va detto con una riga.",
-      "fonte": "nato dal lotto: ondata 13, il prezzo e la fascia (run wf_a2ec12a7-8aa, rami 1af183c9 e 50655846, cuciti in 41a84111)"
+      "fonte": "nato dal lotto: ondata 13, il prezzo e la fascia (run wf_a2ec12a7-8aa, rami 1af183c9 e 50655846, cuciti in 41a84111)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 14 lib/ordini/prezzi.ts (552008c6). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: dichiarato chiuso dalla squadra dell ondata 14 con la prova rossa-poi-verde (contratto del motore ondata-sito, run wf_f5280289-22c); il pacchetto si era fermato per un altro grave nato, non per questa voce; la correzione dopo e il controllo dei 64 file non l hanno rivista aperta"
     },
     {
       "dimensione": "sicurezza-auth",
       "reparto": "Sicurezza e accessi",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "La rotta nuova della consegna veloce è pubblica, senza limite di richieste, e risponde diverso se un profilo esiste",
       "file": "app/api/consegna/veloce/route.ts:26-55 (GET senza withAuthRateLimit, chiave di servizio su ids arbitrari)",
       "descrizione": "Dice a chiunque se c è un fattorino online e, con un uuid di cliente al posto di un negozio, risponde diverso da un uuid inesistente. Impatto basso (gli uuid non si indovinano), ma va chiuso: limite di richieste e lettura solo dei negozi pubblici.",
-      "fonte": "nato dal lotto: ondata 13, il prezzo e la fascia (run wf_a2ec12a7-8aa, rami 1af183c9 e 50655846, cuciti in 41a84111)"
+      "fonte": "nato dal lotto: ondata 13, il prezzo e la fascia (run wf_a2ec12a7-8aa, rami 1af183c9 e 50655846, cuciti in 41a84111)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 14 lib/ordini/prezzi.ts (552008c6). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: dichiarato chiuso dalla squadra dell ondata 14 con la prova rossa-poi-verde (contratto del motore ondata-sito, run wf_f5280289-22c); il pacchetto si era fermato per un altro grave nato, non per questa voce; la correzione dopo e il controllo dei 64 file non l hanno rivista aperta"
     },
     {
       "dimensione": "microcopy",
       "reparto": "Microcopy",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Il carrello vuoto scrive «Consegna MyCity 3,00 € per negozio» e non dice i 4 euro sotto i 10 euro",
       "file": "app/cart/page.tsx:55 descrizioneDelCarrelloVuoto · lib/promesse-pubbliche.ts:369 promessaSpedizione().titolo · lib/constants.ts:171 VALUE_PROPS",
       "descrizione": "La frase è incompleta, non falsa: 3 € è la base. Con la regola dei negozi in più «per negozio» diventa sbagliato del tutto.",
-      "fonte": "nato dal lotto: ondata 13, il prezzo e la fascia (run wf_a2ec12a7-8aa, rami 1af183c9 e 50655846, cuciti in 41a84111)"
+      "fonte": "nato dal lotto: ondata 13, il prezzo e la fascia (run wf_a2ec12a7-8aa, rami 1af183c9 e 50655846, cuciti in 41a84111)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 14 lib/ordini/prezzi.ts (552008c6). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: dichiarato chiuso dalla squadra dell ondata 14 con la prova rossa-poi-verde (contratto del motore ondata-sito, run wf_f5280289-22c); il pacchetto si era fermato per un altro grave nato, non per questa voce; la correzione dopo e il controllo dei 64 file non l hanno rivista aperta"
     },
     {
       "dimensione": "qa-flussi",
@@ -31901,12 +31940,15 @@
       "dimensione": "pagamenti-stripe",
       "reparto": "Pagamenti",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "Con più negozi il fattorino prende 3 euro per ogni ordine di negozio: la regola firmata dice 3 euro per il giro e 1 euro per ogni negozio in più",
       "file": "lib/shipping.ts compensoRiderCents · lib/ordini/prezzi.ts (riderFeeCents per gruppo) · lib/stripe/payout.ts · lib/rider/incasso-alla-consegna.ts · app/rider/earnings/page.tsx",
       "descrizione": "Nicola, 29/10 (letto alle 23:04): «il fattorino prende 1€ per ogni negozio in più» (registro dei fatti, logistica.compenso-fattorino): un negozio 3 euro, due 4, tre 5. Il codice paga 3 euro per ogni ordine di negozio: con tre spese da 10 euro il cliente paga 5 euro di consegna, MyCity prende 3 euro di commissione e il fattorino ne riceverebbe 9, cioè MyCity ci rimette 1 euro. Minore perché oggi c è un solo negozio vero e il fattorino è Nicola; va sistemato prima del secondo negozio, nell ondata 15, con i bonifici del fattorino che restano dentro l incasso.",
-      "fonte": "regola firmata da Nicola il 2026-10-29 alle 23:04 (registro dei fatti, logistica.compenso-fattorino): non ancora nel codice"
+      "fonte": "regola firmata da Nicola il 2026-10-29 alle 23:04 (registro dei fatti, logistica.compenso-fattorino): non ancora nel codice",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 15 lib/ordini/prezzi.ts (b27f0206). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: dichiarato chiuso dalla squadra dell ondata 15 con la prova rossa-poi-verde (contratto del motore ondata-sito, run wf_4c5f7fb6-76d); il pacchetto si era fermato per un altro grave nato, non per questa voce; la correzione dopo e il controllo dei 64 file non l hanno rivista aperta"
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -31945,67 +31987,85 @@
       "dimensione": "pagamenti-stripe",
       "reparto": "Pagamenti",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "Se in un carrello con più negozi uno rifiuta o viene annullato prima della consegna, gli altri restano con 1 euro di consegna invece di ricalcolarla sui negozi rimasti",
       "file": "lib/ordini/prezzi.ts vociDellaConsegna (la base e la veloce stanno solo sull ordine primo) · lib/ordini/annulla.ts · app/api/seller/orders/[id]/reject/route.ts · app/api/cron/expire-stale-orders/route.ts · lib/stripe/payout.ts refundOrder",
       "descrizione": "Regola di Nicola del 30/10 (consegna.negozio-che-rifiuta): la consegna si rifà sui negozi rimasti. Esempio: pane 15 € e frutta 12 €, consegna 4 €; il forno rifiuta; resta la frutta a 3 € di consegna; al cliente tornano 16 €; il fattorino prende 3 €. Oggi l ordine della frutta resta con 1 € di consegna e la base sparisce col rimborso del forno. Vale per gli annullamenti prima della consegna (rifiuto, scadenza, annullo); un reso dopo la consegna non cambia la consegna.",
-      "fonte": "regola firmata da Nicola il 2026-10-30 alle 00:35 (registro dei fatti, consegna.negozio-che-rifiuta): non ancora nel codice"
+      "fonte": "regola firmata da Nicola il 2026-10-30 alle 00:35 (registro dei fatti, consegna.negozio-che-rifiuta): non ancora nel codice",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 15 lib/ordini/prezzi.ts (b27f0206). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: dichiarato chiuso dalla squadra dell ondata 15 con la prova rossa-poi-verde (contratto del motore ondata-sito, run wf_4c5f7fb6-76d); il pacchetto si era fermato per un altro grave nato, non per questa voce; la correzione dopo e il controllo dei 64 file non l hanno rivista aperta"
     },
     {
       "dimensione": "pagamenti-stripe",
       "reparto": "Pagamenti",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Con la carta e più negozi i bonifici al negozio e al fattorino possono superare l addebito del cliente: Stripe rifiuta l ultimo",
       "file": "lib/ordini/prezzi.ts prezziDelCarrello (consegna per ordine) · lib/stripe/payout.ts:242,422 (source_transaction sulla stessa charge) · tests/unit/col-codice-spedizione-gratuita-i-bonifici-stanno-nell-addebito.test.ts:66",
       "descrizione": "Prova del collaudo sul ramo dell ondata 14 prima del rifacimento: tre negozi da 10 €, addebito 35,00 €, bonifici 36,00 €; 15+12+11 € 43,00 contro 43,20; con il codice 15+12 29,50 contro 30,30. Nasceva dal compenso del fattorino a 3 € per ogni ordine e dalla prova ristretta a un negozio. Il rifacimento (552008c6) dice di averlo chiuso: nessun collaudo l ha ancora visto reggere.",
-      "fonte": "nato dal lotto: ondata 14, il prezzo con più negozi e le frasi (run wf_f5280289-22c, rami 552008c6 e 3fca82ba)"
+      "fonte": "nato dal lotto: ondata 14, il prezzo con più negozi e le frasi (run wf_f5280289-22c, rami 552008c6 e 3fca82ba)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 15 lib/ordini/prezzi.ts (b27f0206). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: dichiarato chiuso dalla squadra dell ondata 15 con la prova rossa-poi-verde (contratto del motore ondata-sito, run wf_4c5f7fb6-76d); il pacchetto si era fermato per un altro grave nato, non per questa voce; la correzione dopo e il controllo dei 64 file non l hanno rivista aperta"
     },
     {
       "dimensione": "microcopy",
       "reparto": "Microcopy",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "Le domande frequenti e le descrizioni Google dei negozi e delle categorie promettono ancora i 30-60 minuti come cosa certa",
       "file": "lib/promesse-pubbliche.ts rispostaTempiDiConsegna («In 30-60 min dalla conferma») e fraseComeArriva («Consegna locale in 30-60 min»), usate da app/faq/page.tsx e dai metadati di app/store e app/category",
       "descrizione": "Sono le due frasi che hanno fermato il pacchetto delle frasi nell ondata 14: vivono nel file delle frasi di prezzo, che quella squadra non poteva toccare. Regola: la consegna arriva nella fascia scelta; la veloce in 30-60 minuti solo quando c è un fattorino in servizio e i negozi sono aperti.",
-      "fonte": "preesistente: c è su 41a84111; trovato dal collaudo dell ondata 14 (run wf_f5280289-22c)"
+      "fonte": "preesistente: c è su 41a84111; trovato dal collaudo dell ondata 14 (run wf_f5280289-22c)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 15 lib/ordini/prezzi.ts (b27f0206). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: dichiarato chiuso dalla squadra dell ondata 15 con la prova rossa-poi-verde (contratto del motore ondata-sito, run wf_4c5f7fb6-76d); il pacchetto si era fermato per un altro grave nato, non per questa voce; la correzione dopo e il controllo dei 64 file non l hanno rivista aperta"
     },
     {
       "dimensione": "frontend-ux",
       "reparto": "Interfaccia",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "La pagina consegne dell amministratore scrive «3,00 €–4,00 €» a consegna, ma ora un ordine porta da 1 a 4 euro e il carrello non ha un massimo",
       "file": "app/admin/delivery/page.tsx",
       "descrizione": "Con la regola dei negozi in più il secondo ordine porta 1 € e un carrello di tre negozi sotto i 10 € arriva a 8 €. La pagina deve dire la regola, non un intervallo per ordine.",
-      "fonte": "nato dal lotto: ondata 14, il prezzo con più negozi e le frasi (run wf_f5280289-22c, rami 552008c6 e 3fca82ba)"
+      "fonte": "nato dal lotto: ondata 14, il prezzo con più negozi e le frasi (run wf_f5280289-22c, rami 552008c6 e 3fca82ba)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 15 lib/ordini/prezzi.ts (b27f0206). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: dichiarato chiuso dalla squadra dell ondata 15 con la prova rossa-poi-verde (contratto del motore ondata-sito, run wf_4c5f7fb6-76d); il pacchetto si era fermato per un altro grave nato, non per questa voce; la correzione dopo e il controllo dei 64 file non l hanno rivista aperta"
     },
     {
       "dimensione": "qa-flussi",
       "reparto": "Flussi critici",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Il pacchetto delle frasi fa diventare rosse tre prove che erano verdi: le guardie della pagina Spedizioni e del negozio chiuso",
       "file": "tests/unit (guardie della pagina Spedizioni e del negozio chiuso, citate dal collaudo dell ondata 14)",
       "descrizione": "Le frasi nuove sono giuste, ma tre prove vecchie le confrontano con il testo di prima. Vanno aggiornate senza indebolirle, perché npm run verify torni verde.",
-      "fonte": "nato dal lotto: ondata 14, il prezzo con più negozi e le frasi (run wf_f5280289-22c, rami 552008c6 e 3fca82ba)"
+      "fonte": "nato dal lotto: ondata 14, il prezzo con più negozi e le frasi (run wf_f5280289-22c, rami 552008c6 e 3fca82ba)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 15 lib/site-branding.ts (76735785). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 15 («regge», run wf_4c5f7fb6-76d): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "qa-flussi",
       "reparto": "Flussi critici",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Buchi nelle prove delle frasi: la scheda negozio della home, il conto alla rovescia dopo il caricamento, il prodotto esaurito, la descrizione Google e la copia di «in giornata» possono tornare indietro con le prove verdi",
       "file": "components/home/HeroStoreCard.tsx:206 · components/ui/DeliveryCutoff.tsx · app/product/[id]/page.tsx · app/product/[id]/layout.tsx · app/page.tsx",
       "descrizione": "Mutanti visti verdi dal collaudo: «oggi, in 30-60 min» rimesso nella scheda negozio della home; il conto alla rovescia fino alle 18 dopo l idratazione; esaurito={false} sulla scheda prodotto; «consegna locale in 30-60 minuti» nella descrizione Google; la frase «in giornata» ricopiata fra virgolette doppie; un titolo della home che promette carta o contanti.",
-      "fonte": "nato dal lotto: ondata 14, il prezzo con più negozi e le frasi (run wf_f5280289-22c, rami 552008c6 e 3fca82ba)"
+      "fonte": "nato dal lotto: ondata 14, il prezzo con più negozi e le frasi (run wf_f5280289-22c, rami 552008c6 e 3fca82ba)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 15 lib/site-branding.ts (76735785). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 15 («regge», run wf_4c5f7fb6-76d): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "coerenza-brand",
@@ -32022,23 +32082,29 @@
       "dimensione": "microcopy",
       "reparto": "Microcopy",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "La descrizione Google della home e il titolo di riserva della home nominano l abbigliamento, che al lancio non c è",
       "file": "app/layout.tsx:100 (meta description) · app/page.tsx:32 (sottotitolo di riserva dell eroe)",
       "descrizione": "Nicola il 29/10 alle 00:05 (catalogo.categorie): niente abbigliamento per ora. Le due frasi dicono «alimentari, abbigliamento, casa, elettronica». Il sottotitolo vero della home pubblicata viene dal database (voce 1819) e va cambiato a parte.",
-      "fonte": "preesistente: c è su 0df5557 e sul ramo dell ondata 14; trovato dall AD il 2026-10-30 leggendo la home pubblicata"
+      "fonte": "preesistente: c è su 0df5557 e sul ramo dell ondata 14; trovato dall AD il 2026-10-30 leggendo la home pubblicata",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 15 lib/site-branding.ts (76735785). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 15 («regge», run wf_4c5f7fb6-76d): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "microcopy",
       "reparto": "Microcopy",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "La vetrina del negozio scrive «Consegna oggi» anche quando il negozio è chiuso e oggi non consegna più",
       "file": "components/store-sections/HeroSection.tsx:55-61 (deliversToday = il negozio ha un orario oggi, senza guardare l ora) e :146-150",
       "descrizione": "Giovedì 29/10 alle 20:15, nella vetrina di Pane Quotidiano c erano insieme «Chiuso ora» e «Consegna oggi»: il forno aveva chiuso alle 13. Il badge guarda solo se oggi c è un intervallo di apertura, non se è ancora possibile consegnare. Va legato alle stesse regole della cassa (lib/promessa-consegna.ts e le fasce ancora possibili). È la pagina dell unico negozio vero.",
-      "fonte": "preesistente: c è su 0df5557 e su 9d2bb05d; trovato dall analisi del sito visto da chi compra (PR #900, run wf_b52be27a-121) e dalla sua revisione (run wf_5370ad60-6e4)"
+      "fonte": "preesistente: c è su 0df5557 e su 9d2bb05d; trovato dall analisi del sito visto da chi compra (PR #900, run wf_b52be27a-121) e dalla sua revisione (run wf_5370ad60-6e4)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 16 components/store-sections/HeroSection.tsx (1ad71485). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 16 («regge», run wf_932e80c0-8e9): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "coerenza-brand",
@@ -32055,12 +32121,15 @@
       "dimensione": "frontend-ux",
       "reparto": "Interfaccia",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "Il modulo del negoziante lascia scegliere «Usato» come condizione del prodotto, mentre MyCity non vende l usato",
       "file": "lib/products/schema.ts:40-44 (PRODUCT_CONDITIONS: nuovo, usato, ricondizionato)",
       "descrizione": "CONTESTO_BUSINESS.md mette l usato fra le cose da non costruire mai. Rimedio: togliere «usato» e «ricondizionato» dalle scelte del modulo, lasciando leggibili i prodotti vecchi se ce ne sono.",
-      "fonte": "preesistente: c è su 0df5557 e su 9d2bb05d; trovato dall analisi del sito visto da chi compra (PR #900, run wf_b52be27a-121) e dalla sua revisione (run wf_5370ad60-6e4)"
+      "fonte": "preesistente: c è su 0df5557 e su 9d2bb05d; trovato dall analisi del sito visto da chi compra (PR #900, run wf_b52be27a-121) e dalla sua revisione (run wf_5370ad60-6e4)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 16 components/store-sections/HeroSection.tsx (1ad71485). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 16 («regge», run wf_932e80c0-8e9): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "qa-flussi",
@@ -32099,45 +32168,57 @@
       "dimensione": "flussi-conversione",
       "reparto": "Flussi di conversione",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Dopo il rifiuto di un negozio la consegna degli altri si rifà, ma il cliente non lo sa: con la carta riceve 16 € su 18 senza spiegazione, coi contanti alla porta paga 15 € invece dei 13 € confermati",
       "file": "lib/ordini/annulla.ts avvisaIlClienteDellAnnullo · lib/email/templates.ts ordineAnnullatoTemplate (non riceve né il totale nuovo né gli altri ordini del carrello) · app/api/cron/expire-stale-orders/route.ts (motivo del rimborso e testo della notifica in-app invariati) · la pagina dell ordine del cliente",
       "descrizione": "Esempio della regola consegna.negozio-che-rifiuta: pane 15 € e frutta 12 €, il forno rifiuta. La frutta passa da 13 € a 15 € e al cliente tornano 16 €. Né l email di annullo né la campanella dicono che la consegna è passata sulla frutta. Con i contanti il fattorino chiede 15 € dove la conferma diceva 13: contestazioni alla porta e richieste all assistenza. Il collaudo l ha segnalato da quattro lenti diverse. Al lancio non succede: c è un negozio solo.",
-      "fonte": "nato dal lotto: ondata 15, il prezzo del negozio che rifiuta e le frasi (run wf_4c5f7fb6-76d, rami 8b60312e e 76735785, cuciti in cc05043b su fix/base-ondata-16)"
+      "fonte": "nato dal lotto: ondata 15, il prezzo del negozio che rifiuta e le frasi (run wf_4c5f7fb6-76d, rami 8b60312e e 76735785, cuciti in cc05043b su fix/base-ondata-16)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 16 lib/ordini/annulla.ts (c80e444a). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 16 («regge», run wf_932e80c0-8e9): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "microcopy",
       "reparto": "Microcopy",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "La home e il piede tengono «Abbigliamento»: il bottone sotto il titolo grande e le categorie di riserva, mostrate al primo disegno o se la lettura dal database cade",
       "file": "components/home-sections/HomeSectionRenderer.tsx:64-70 (HERO_CHIPS, reso a riga 155) e :67 · components/Footer.tsx:124 (CATEGORIE_DI_RISERVA)",
       "descrizione": "Nicola il 29/10 alle 00:05 (catalogo.categorie): niente abbigliamento per ora. L ondata 15 ha tolto la parola dal sottotitolo di riserva e dalla descrizione Google, ma subito sotto il titolo resta il bottone «Abbigliamento», e il piede lo elenca fra le categorie di riserva. Prova: git grep -n \"slug: 'abbigliamento'\" components/Footer.tsx components/home-sections/HomeSectionRenderer.tsx trova le righe su 9d2bb05d e su cc05043b.",
-      "fonte": "preesistente: c è su 9d2bb05d; trovato dal collaudo dell ondata 15 (run wf_4c5f7fb6-76d)"
+      "fonte": "preesistente: c è su 9d2bb05d; trovato dal collaudo dell ondata 15 (run wf_4c5f7fb6-76d)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 16 components/store-sections/HeroSection.tsx (1ad71485). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 16 («regge», run wf_932e80c0-8e9): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "qa-flussi",
       "reparto": "Flussi critici",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Buco nelle prove: la frase «in giornata…» ricopiata spezzata in due pezzi nella riga del conto alla rovescia passa la guardia della copia unica",
       "file": "components/ui/DeliveryCutoff.tsx RIGA_CONSEGNA_SENZA_NEGOZIO · tests/unit/le-frasi-della-consegna-non-tornano-indietro.test.tsx (copia sola)",
       "descrizione": "La guardia cerca la frase intera. Se qualcuno la riscrive a mano in due pezzi, la prova resta verde. Prova proposta dal collaudo: con vi.mock di lib/promesse-pubbliche che mette QUANDO_ARRIVA_SENZA_NEGOZIO='FRASE-CAMBIATA', DeliveryCutoff senza negozio deve scrivere 'Consegna FRASE-CAMBIATA': verde sul codice di oggi, rossa sul mutante con la frase spezzata.",
-      "fonte": "nato dal lotto: ondata 15, il prezzo del negozio che rifiuta e le frasi (run wf_4c5f7fb6-76d, rami 8b60312e e 76735785, cuciti in cc05043b su fix/base-ondata-16)"
+      "fonte": "nato dal lotto: ondata 15, il prezzo del negozio che rifiuta e le frasi (run wf_4c5f7fb6-76d, rami 8b60312e e 76735785, cuciti in cc05043b su fix/base-ondata-16)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 16 components/store-sections/HeroSection.tsx (1ad71485). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 16 («regge», run wf_932e80c0-8e9): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "qa-flussi",
       "reparto": "Flussi critici",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Buco nelle prove: «paghi anche con carta» nel sottotitolo della home B lascia verdi tutte le prove, che guardano solo il titolo",
       "file": "app/page.tsx HERO_VARIANTS.b.subhead · tests/unit/le-frasi-della-consegna-non-tornano-indietro.test.tsx (home)",
       "descrizione": "Al lancio si paga solo in contanti. La prova della home guarda il titolo grande e non il sottotitolo. Prova proposta dal collaudo: disegnare Home() per le varianti a e b, togliere la frase di frasePagamento() e controllare che il resto non contenga carta, «come vuoi», bancomat, Satispay o PayPal. Verde oggi, rossa sul mutante del sottotitolo.",
-      "fonte": "nato dal lotto: ondata 15, il prezzo del negozio che rifiuta e le frasi (run wf_4c5f7fb6-76d, rami 8b60312e e 76735785, cuciti in cc05043b su fix/base-ondata-16)"
+      "fonte": "nato dal lotto: ondata 15, il prezzo del negozio che rifiuta e le frasi (run wf_4c5f7fb6-76d, rami 8b60312e e 76735785, cuciti in cc05043b su fix/base-ondata-16)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 16 components/store-sections/HeroSection.tsx (1ad71485). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 16 («regge», run wf_932e80c0-8e9): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -32155,34 +32236,43 @@
       "dimensione": "qa-flussi",
       "reparto": "Flussi critici",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Buco nelle prove: se il ricalcolo dopo un rifiuto dimentica la consegna veloce, le prove della squadra restano verdi",
       "file": "lib/ordini/annulla.ts ricalcolaLaConsegnaDelGiro (consegnaVeloce: eConsegnaVeloce(…)) · tests/unit/se-un-negozio-rifiuta-la-consegna-si-rifa-sui-negozi-rimasti.test.ts (solo fasce normali)",
       "descrizione": "Caso: pane 15 € e frutta 5 € con la veloce; la frutta rifiuta; al pane restano 4 € di consegna e tornano 6 €. Il collaudo l ha provato con un file suo: verde oggi, rosso con consegnaVeloce:false, mentre le 7 prove della squadra restano verdi.",
-      "fonte": "nato dal lotto: ondata 15, il prezzo del negozio che rifiuta e le frasi (run wf_4c5f7fb6-76d, rami 8b60312e e 76735785, cuciti in cc05043b su fix/base-ondata-16)"
+      "fonte": "nato dal lotto: ondata 15, il prezzo del negozio che rifiuta e le frasi (run wf_4c5f7fb6-76d, rami 8b60312e e 76735785, cuciti in cc05043b su fix/base-ondata-16)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 16 lib/ordini/annulla.ts (c80e444a). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 16 («regge», run wf_932e80c0-8e9): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "qa-flussi",
       "reparto": "Flussi critici",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "La prova del giro degli scaduti evita il caso vero: gli altri ordini del carrello sono datati 2999, quindi non si vede mai il carrello che scade tutto nello stesso giro",
       "file": "tests/unit/se-un-negozio-rifiuta-la-consegna-si-rifa-sui-negozi-rimasti.test.ts:157-166 (created_at '2999-01-01' su pane e frutta)",
       "descrizione": "Scade solo la carne, e la prova non vede mai due o tre ordini dello stesso carrello che scadono insieme: è proprio il caso del giro che rimette in coda (voce sopra) e del totale vecchio dopo una lettura caduta.",
-      "fonte": "nato dal lotto: ondata 15, il prezzo del negozio che rifiuta e le frasi (run wf_4c5f7fb6-76d, rami 8b60312e e 76735785, cuciti in cc05043b su fix/base-ondata-16)"
+      "fonte": "nato dal lotto: ondata 15, il prezzo del negozio che rifiuta e le frasi (run wf_4c5f7fb6-76d, rami 8b60312e e 76735785, cuciti in cc05043b su fix/base-ondata-16)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 16 lib/ordini/annulla.ts (c80e444a). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 16 («regge», run wf_932e80c0-8e9): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "qa-flussi",
       "reparto": "Flussi critici",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Buco nelle prove: nessuna vede il secondo annullo in un carrello di tre negozi; senza escludere l ordine già annullato, il terzo resterebbe a 1 €",
       "file": "lib/ordini/annulla.ts rifaiIlGiro, giaAnnullato (r.delivery_status === 'CANCELED' && r.id !== orderId)",
       "descrizione": "Il collaudo ha scritto sei varianti: verdi oggi; col mutante giaAnnullato:false tre diventano rosse, mentre le 19 prove della squadra restano verdi.",
-      "fonte": "nato dal lotto: ondata 15, il prezzo del negozio che rifiuta e le frasi (run wf_4c5f7fb6-76d, rami 8b60312e e 76735785, cuciti in cc05043b su fix/base-ondata-16)"
+      "fonte": "nato dal lotto: ondata 15, il prezzo del negozio che rifiuta e le frasi (run wf_4c5f7fb6-76d, rami 8b60312e e 76735785, cuciti in cc05043b su fix/base-ondata-16)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 16 lib/ordini/annulla.ts (c80e444a). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 16 («regge», run wf_932e80c0-8e9): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "architettura",
@@ -32222,12 +32312,15 @@
       "dimensione": "frontend-ux",
       "reparto": "Interfaccia",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Nella pagina consegne dell amministratore il riquadro del compenso del fattorino va a capo su tre o quattro righe fitte",
       "file": "app/admin/delivery/page.tsx:63-66 (AdminStatCard value={COMPENSO}) · AdminStatCard (text-[26px] font-extrabold leading-none)",
       "descrizione": "Il valore «3,00 € il giro + 1,00 € a negozio in più» è lungo circa 40 caratteri, in una colonna larga circa 200 pixel, a 26 pixel con l interlinea a 1: le righe si toccano. Solo per l amministratore: basta «3 € + 1 €» come valore e la frase nell etichetta.",
-      "fonte": "nato dal lotto: ondata 15, il prezzo del negozio che rifiuta e le frasi (run wf_4c5f7fb6-76d, rami 8b60312e e 76735785, cuciti in cc05043b su fix/base-ondata-16)"
+      "fonte": "nato dal lotto: ondata 15, il prezzo del negozio che rifiuta e le frasi (run wf_4c5f7fb6-76d, rami 8b60312e e 76735785, cuciti in cc05043b su fix/base-ondata-16)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 16 components/store-sections/HeroSection.tsx (1ad71485). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 16 («regge», run wf_932e80c0-8e9): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "architettura",
@@ -32289,34 +32382,43 @@
       "dimensione": "qa-flussi",
       "reparto": "Flussi critici",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Le prove dei Termini guardano parole nel sorgente, non il comportamento: un §4 che promette di rendere tutto con altre frasi, o un rimborso cambiato con la stessa riga, restano verdi",
       "file": "tests/unit/i-termini-non-promettono-un-esito-che-il-codice-non-sa-registrare.test.ts:124 (regex su totaleCent = giro ? …) · tests/unit/se-un-negozio-rifiuta-la-consegna-si-rifa-sui-negozi-rimasti.test.ts:169-171 (tre parole nel §4 di app/terms/page.tsx)",
       "descrizione": "Mutante del collaudo: il §4 riscritto «ti torna tutto quello che hai pagato per lui, anche se nel carrello c erano altri Venditori… la differenza della consegna la copre MyCity» lascia verde la prova. Il comportamento lo prova già il test del negozio che rifiuta: le prove dei Termini dovrebbero confrontare il testo reso della pagina con i casi della regola.",
-      "fonte": "nato dal lotto: ondata 15, il prezzo del negozio che rifiuta e le frasi (run wf_4c5f7fb6-76d, rami 8b60312e e 76735785, cuciti in cc05043b su fix/base-ondata-16)"
+      "fonte": "nato dal lotto: ondata 15, il prezzo del negozio che rifiuta e le frasi (run wf_4c5f7fb6-76d, rami 8b60312e e 76735785, cuciti in cc05043b su fix/base-ondata-16)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 16 lib/ordini/annulla.ts (c80e444a). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 16 («regge», run wf_932e80c0-8e9): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "pagamenti-stripe",
       "reparto": "Pagamenti",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Rimborso impossibile dopo un rifiuto: la consegna resta spostata sui negozi rimasti, e l avviso agli amministratori non lo dice",
       "file": "app/api/cron/expire-stale-orders/route.ts:190-210 (ramo rimborsoSenzaRitorno: niente giro.rimetti, testo di notifyAdmins invariato)",
       "descrizione": "Chi chiude a mano legge «Controlla su Stripe se il cliente ha già avuto i suoi soldi», ma non sa che totale e consegna del carrello sono già riscritti: può rendere il totale vecchio. Letto nel codice dal collaudo, non riprodotto con una prova.",
-      "fonte": "nato dal lotto: ondata 15, il prezzo del negozio che rifiuta e le frasi (run wf_4c5f7fb6-76d, rami 8b60312e e 76735785, cuciti in cc05043b su fix/base-ondata-16)"
+      "fonte": "nato dal lotto: ondata 15, il prezzo del negozio che rifiuta e le frasi (run wf_4c5f7fb6-76d, rami 8b60312e e 76735785, cuciti in cc05043b su fix/base-ondata-16)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 16 lib/ordini/annulla.ts (c80e444a). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 16 («regge», run wf_932e80c0-8e9): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "privacy-legale",
       "reparto": "Privacy e legale",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Il §6 dei Termini promette il rimborso per intero, consegna compresa; ma un ordine annullato in un carrello con più negozi rende la sua merce e la differenza della consegna, per esempio 16 € su 18",
       "file": "lib/legal/promessa-cliente-assente.ts:158 contro lib/ordini/annulla.ts rifaiIlGiro · tests/unit/i-termini-non-promettono-un-esito-che-il-codice-non-sa-registrare.test.ts:116-125 (titolo «residuo INTERO» non più vero)",
       "descrizione": "Se si annulla tutto il carrello, torna tutto (16 + 15 = 31): lì il sito fa giusto. Con un solo ordine annullato e l altro consegnato, il §6 promette più di quello che la regola firmata rende. Il testo va riscritto sulla regola consegna.negozio-che-rifiuta e riletto da legale-privacy; manca una prova con un ordine annullato e l altro consegnato.",
-      "fonte": "nato dal lotto: ondata 15, il prezzo del negozio che rifiuta e le frasi (run wf_4c5f7fb6-76d, rami 8b60312e e 76735785, cuciti in cc05043b su fix/base-ondata-16)"
+      "fonte": "nato dal lotto: ondata 15, il prezzo del negozio che rifiuta e le frasi (run wf_4c5f7fb6-76d, rami 8b60312e e 76735785, cuciti in cc05043b su fix/base-ondata-16)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 16 lib/ordini/annulla.ts (c80e444a). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 16 («regge», run wf_932e80c0-8e9): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "privacy-legale",
@@ -32344,12 +32446,15 @@
       "dimensione": "qa-flussi",
       "reparto": "Flussi critici",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "La prova del salvataggio del prodotto cerca il pulsante «Spedizione», che le frasi dell ondata 14 hanno chiamato «Fascia oraria»: il controllo completo del sito è rosso",
       "file": "tests/unit/il-salvataggio-non-scrive-quello-che-nessuno-ha-toccato.test.ts:166 (pulsante(s, 'Spedizione')) · components/seller/ProductForm.tsx:1061 (ora «Fascia oraria»)",
       "descrizione": "Il modulo è giusto, la prova è vecchia: si ferma con «il pulsante «Spedizione» non è a video», quindi il caso «sceglie lui la spedizione mentre la lettura è caduta» non è più protetto. Verde su 0df5557 e su 552008c6, rossa su 3fca82ba, 9d2bb05d e cc05043b. Va aggiornata al pulsante nuovo senza indebolirla.",
-      "fonte": "nato dal lotto: ondata 14, le frasi (ramo 3fca82ba, cucito in 9d2bb05d); visto dall AD con npm run verify sul ramo cucito dell ondata 15 (cc05043b) il 2026-10-30 07:55"
+      "fonte": "nato dal lotto: ondata 14, le frasi (ramo 3fca82ba, cucito in 9d2bb05d); visto dall AD con npm run verify sul ramo cucito dell ondata 15 (cc05043b) il 2026-10-30 07:55",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 16 components/store-sections/HeroSection.tsx (1ad71485). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 16 («regge», run wf_932e80c0-8e9): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "qa-flussi",
@@ -32564,23 +32669,29 @@
       "dimensione": "qa-flussi",
       "reparto": "Flussi critici",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Buco nelle prove: se la veloce perde il controllo sulle ore, un sì vecchio tiene «Consegna oggi» dopo le 21 senza prova rossa",
       "file": "lib/promessa-consegna.ts consegnaDellaVetrina, veloceAdesso (expressSiPuo). Le prove usano solo il forno, che chiude alle 19:30",
       "descrizione": "Mutante: tolto expressSiPuo da veloceAdesso, le 3 prove della squadra restano verdi (29/29). Lo uccide vitest run zz-collaudo-a-veloce.test.ts (negozio 08-23, 21:30 Rome, veloce:true, atteso 'domani'): verde oggi, rosso sul mutante.",
-      "fonte": "nato dal lotto: ondata 16 (run wf_932e80c0-8e9), rami c80e444a, 1ad71485 e 6a45ef91, cuciti su fix/base-ondata-17"
+      "fonte": "nato dal lotto: ondata 16 (run wf_932e80c0-8e9), rami c80e444a, 1ad71485 e 6a45ef91, cuciti su fix/base-ondata-17",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 17 components/StoreListRow.tsx (2df5c6eb). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 17 («regge», run wf_4a75acee-a4a): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "qa-flussi",
       "reparto": "Flussi critici",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "Buco nelle prove: la prova del sottotitolo non vede «paghi anche con Apple Pay», né «online» né «POS»",
       "file": "tests/unit/le-frasi-della-consegna-non-tornano-indietro.test.tsx:298, regex stretta carta|come vuoi|bancomat|satispay|paypal · app/page.tsx HERO_VARIANTS.b.subhead",
       "descrizione": "Mutante: subhead b «…tua città, paghi anche con Apple Pay:», le-frasi resta verde. La uccide zz-le-frasi-kill.test.tsx (regex +apple pay|google pay|\\bonline\\b|\\bpos\\b): verde oggi, rosso sul mutante. MODO_DI_PAGARE intero non va: oggi segna «puoi pagare alla consegna».",
-      "fonte": "preesistente: c è su cc05043b; trovato dal collaudo dell ondata 16 (run wf_932e80c0-8e9)"
+      "fonte": "preesistente: c è su cc05043b; trovato dal collaudo dell ondata 16 (run wf_932e80c0-8e9)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 17 components/StoreListRow.tsx (2df5c6eb). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 17 («regge», run wf_4a75acee-a4a): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "qa-flussi",
@@ -32597,45 +32708,57 @@
       "dimensione": "frontend-ux",
       "reparto": "Interfaccia",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "La regola «niente usato» vale solo nel menu a tendina: la lettura della foto, l assistente e le API scrivono ancora «usato» e «ricondizionato»",
       "file": "components/seller/ProductForm.tsx:383-386 (foto: normalizeCondition senza condizioneDaScegliere) · lib/ai/patchSchema.ts:20 (enum con usato/ricondizionato) · lib/products/aiPatch.ts:719 · components/seller/ProductForm.tsx:382-386; lib/products/draftFromVision.ts:161; lib/products/aiPatch.ts:1014; enum in lib/ai/patchSchema.ts:20 e nelle rotte product-chat e catalog-chat",
       "descrizione": "Visto da 2 collaudatori o revisori diversi. Probabilità bassa: nessuna categoria ha la chiave «condizione» in lib/category-attributes.ts. Prova da scrivere: handleExtracted con attributes.condizione='usato' su un prodotto nuovo, e il payload salvato non deve avere condition 'usato'. — Letto nel codice: normalizeCondition('usato') dà 'usato' e la riga 386 lo scrive senza passare da condizioneDaScegliere. Su un prodotto nuovo il ramo «valore vecchio» del delta mostra poi «Usato» nel menu e lo salva. Era così anche prima: il delta copre solo piano.scritture.",
-      "fonte": "preesistente: c è su cc05043b; trovato dal collaudo dell ondata 16 (run wf_932e80c0-8e9)"
+      "fonte": "preesistente: c è su cc05043b; trovato dal collaudo dell ondata 16 (run wf_932e80c0-8e9)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 17 components/StoreListRow.tsx (2df5c6eb). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 17 («regge», run wf_4a75acee-a4a): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "microcopy",
       "reparto": "Microcopy",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "L elenco dei negozi scrive sempre «consegna oggi», anche a forno chiuso, e le schede del negozio nella home usano ancora la regola vecchia",
       "file": "components/StoreListRow.tsx:90 (scritta fissa, usata in app/near). Simili, non provate: components/home/HeroStoreCard.tsx:98 e StorePreviewCard.tsx:109 (consegna oggi = aperto ora) · components/StoreListRow.tsx:90 (sempre, senza condizione) · components/home/HeroStoreCard.tsx:93-97 e components/StorePreviewCard.tsx:109 (basta che sia aperto ora)",
       "descrizione": "Visto da 2 collaudatori o revisori diversi. vitest run zz-collaudo-a-lista.test.tsx (StoreListRow, gio 29/10 20:15 Rome, forno thu 07-13, atteso nessun «consegna oggi»): ROSSO sul codice di oggi. Su cc05043b la scritta c'era già: git show cc05043b:components/StoreListRow.tsx | grep -c «consegna oggi» = 1. — Su cc05043b la riga 90 era già uguale. La prova da scrivere: rendere StoreListRow giovedì alle 22:00 con orari 07-13 e aspettarsi che «consegna oggi» non compaia (oggi la prova è rossa). Stessa prova per HeroStoreCard alle 9:00 senza veloce.",
-      "fonte": "preesistente: c è su cc05043b; trovato dal collaudo dell ondata 16 (run wf_932e80c0-8e9)"
+      "fonte": "preesistente: c è su cc05043b; trovato dal collaudo dell ondata 16 (run wf_932e80c0-8e9)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 17 components/StoreListRow.tsx (2df5c6eb). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 17 («regge», run wf_4a75acee-a4a): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "frontend-ux",
       "reparto": "Interfaccia",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Mentre aspetta la risposta della veloce, o se la risposta cade, la vetrina dice «Consegna domani» e poi passa a «Consegna oggi»",
       "file": "components/store-sections/HeroSection.tsx:65-67 + lib/promessa-consegna.ts:213-216 (veloce null porta a domani) · lib/promessa-consegna.ts consegnaDellaVetrina con veloce null + components/store-sections/HeroSection.tsx (useVeloceDelNegozio parte da null) · lib/promessa-consegna.ts:200-215 (consegnaDellaVetrina con veloce=null) + components/store-sections/HeroSection.tsx:64-67",
       "descrizione": "Visto da 3 collaudatori o revisori diversi. La frase resta vera, perché domani si consegna davvero: dice meno del possibile, non promette il falso. Il caso «fetch in corso o caduto con negozio aperto 7-13 alle 10» non ha una prova che lo fissi. — Giovedì 9:00, forno aperto, fattorino online: finché la fetch non risponde la regola dà 'domani'. Il test la-vetrina guarda solo dopo la risposta. Il carrello invece, in attesa, non promette niente — Forno 7-13 alle 10:00: le fasce di oggi (15-18, 18-20) sono false e veloce è null col fetch in corso, quindi esce 'domani'. Poi 'oggi' se arriva possibile:true. In più, il sì della veloce non si richiede mai: col negozio e la pagina aperti resta 'oggi' anche se il rider sparisce.",
-      "fonte": "nato dal lotto: ondata 16 (run wf_932e80c0-8e9), rami c80e444a, 1ad71485 e 6a45ef91, cuciti su fix/base-ondata-17"
+      "fonte": "nato dal lotto: ondata 16 (run wf_932e80c0-8e9), rami c80e444a, 1ad71485 e 6a45ef91, cuciti su fix/base-ondata-17",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 17 components/StoreListRow.tsx (2df5c6eb). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 17 («regge», run wf_4a75acee-a4a): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "frontend-ux",
       "reparto": "Interfaccia",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Nella pagina consegne dell'amministratore la frase lunga del compenso passa nell'etichetta da 10 pixel in maiuscolo, accanto all'icona",
       "file": "app/admin/delivery/page.tsx:33 e 70 · components/admin/AdminUI.tsx:58 (span text-[10px] uppercase dentro flex justify-between)",
       "descrizione": "Circa 64 caratteri in circa 130 pixel: l'etichetta va a capo su 4 righe circa. Il valore adesso è corto e la pagina è solo per l'amministratore: è estetica.",
-      "fonte": "nato dal lotto: ondata 16 (run wf_932e80c0-8e9), rami c80e444a, 1ad71485 e 6a45ef91, cuciti su fix/base-ondata-17"
+      "fonte": "nato dal lotto: ondata 16 (run wf_932e80c0-8e9), rami c80e444a, 1ad71485 e 6a45ef91, cuciti su fix/base-ondata-17",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 17 components/StoreListRow.tsx (2df5c6eb). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 17 («regge», run wf_4a75acee-a4a): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "microcopy",
@@ -32718,12 +32841,15 @@
       "dimensione": "frontend-ux",
       "reparto": "Interfaccia",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "Il carrello legge l'ora del telefono (new Date().getHours()), la vetrina e la cassa l'ora di Roma",
       "file": "app/cart/page.tsx riga 179 (setOraDiAdesso(new Date().getHours())) contro romeNow in DeliveryCutoff/promessa-consegna",
       "descrizione": "Il test il-carrello-non-promette… finge l'ora locale, quindi non lo vede. Conta solo per un telefono con un altro fuso orario",
-      "fonte": "preesistente: c è su cc05043b; trovato dal collaudo dell ondata 16 (run wf_932e80c0-8e9)"
+      "fonte": "preesistente: c è su cc05043b; trovato dal collaudo dell ondata 16 (run wf_932e80c0-8e9)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 18 app/checkout/page.tsx (5be50559). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 18 («regge», run wf_fd762ee6-435): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "qa-flussi",
@@ -32938,12 +33064,15 @@
       "dimensione": "frontend-ux",
       "reparto": "Interfaccia",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "La cassa legge l ora del telefono, mentre la vetrina e le rotte leggono quella di Roma: su un telefono con un altro fuso la vetrina promette la veloce e la cassa non la offre",
       "file": "app/checkout/page.tsx:478,520,529,1153 e components/checkout/DeliverySlotPicker.tsx:79 · app/cart/page.tsx:185, DeliverySlotPicker.tsx:79, checkout/page.tsx:478/520/529/1153 (telefono) contro DeliveryCutoff.tsx:31 e api/consegna/veloce:71 (romeNow). Già su aee530e6 · app/cart/page.tsx riga 185 (setOraDiAdesso(new Date().getHours())) contro romeNow in components/ui/DeliveryCutoff.tsx:31",
       "descrizione": "Visto da 3 collaudatori o revisori diversi. Stesso pipe esbuild|node con TZ=Europe/Bucharest a 2026-10-30T19:30Z (a Roma le 20:30): giornoDiPartenza(new Date().getHours()) vale 'tomorrow' ed expressSiPuo vale false, mentre /api/consegna/veloce usa romeNow (ore 20). — echo \"import{romeNow}from'./lib/store-hours';import{expressSiPuo as e}from'./lib/quando-arriva';const a=new Date('2026-10-30T19:30:00Z');process.exit(e(romeNow(a).getHours())===e(a.getHours())?0:1)\"|node_modules/.bin/esbuild --bundle --platform=node --loader=ts|TZ=Europe/Bucharest node →1 — cp /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/zz-collaudo-a.test.ts tests/unit/ && timeout 540 node /home/user/ad-mycity/cervello/prova-sito.mjs --repo <wt> --file tests/unit/zz-collaudo-a.test.ts -> exit 1 (vetrinaPromette true, carrello false)",
-      "fonte": "preesistente: c è su aee530e6; trovato dal collaudo dell ondata 17 (run wf_4a75acee-a4a)"
+      "fonte": "preesistente: c è su aee530e6; trovato dal collaudo dell ondata 17 (run wf_4a75acee-a4a)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 18 app/checkout/page.tsx (5be50559). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 18 («regge», run wf_fd762ee6-435): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -32960,23 +33089,29 @@
       "dimensione": "qa-flussi",
       "reparto": "Flussi critici",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Il cliente sceglie la veloce, passa dall accesso e torna in cassa: la cassa gli toglie la scelta prima che il server risponda, e gli scrive che la veloce non si può",
       "file": "app/checkout/page.tsx:541 (veloceDisponibile parte da false) · app/checkout/page.tsx:481-482 (la bozza rimette slotDay='now') · components/checkout/DeliverySlotPicker.tsx:96-103 (l'effetto sposta 'now' appena vede la veloce spenta) · components/checkout/DeliverySlotPicker.tsx:82 e :88-95 (la veloce cade se veloceDisponibile è false) e :144-146 (l'avviso resta finché il cliente non tocca una mattonella) · app/checkout/page.tsx:541 (veloceDisponibile parte da false) · :552 (leggiEsitoDellaVeloce(esito) === true: il «non so» diventa «no») · :481-482 (la bozza rimette «now»)",
       "descrizione": "Visto da 2 revisori diversi. Il percorso è quello di quasi ogni cliente nuovo al lancio, perché l'accesso si chiede solo al momento di confermare. Esempio: venerdì 30/10 alle 20:30 un ospite mette 15 € di pane di Pane Quotidiano nel carrello. In cassa sceglie «Adesso · 30-60 min · +1 €», visto che c'è il fattorino. Preme «Ordina». La cassa salva la bozza con giorno 'now' e lo manda all'accesso. Al ritorno la bozza rimette 'now', ma veloceDisponibile vale ancora false, perché la domanda a /api/consegna/veloce parte solo dopo che il carrello è stato letto. Il selettore vede 'now' con la veloce spenta e sposta la scelta sulla prima fascia libera. Alle 20:30 quella fascia è «Domani · 15:00–18:30». Sotto compare la frase «La consegna veloce adesso non si può più: ho scelto la prima fascia libera». Mezzo secondo dopo il server risponde «sì». La mattonella «Adesso · 30-60 min · +1 €» si riaccende, la frase falsa resta, e la scelta non torna indietro. Chi aveva già premuto «Ordina» prima dell'accesso di solito lo ripreme subito: l'ordine parte per domani pomeriggio invece che entro un'ora, e il totale scende di 1 €. Non si perdono soldi, ma il cliente riceve una promessa falsa e un servizio diverso da quello che aveva scelto. È parente della scheda 1802, cioè la lettura che cade, ma qui non cade niente: basta che la risposta del server non sia ancora arrivata. Il difetto nasce con l'ondata 13: prima la veloce dipendeva solo dall'orologio e 'now' restava 'now'. Prova: cp /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro18/flussi/zz-perimetro-flussi-veloce-dalla-bozza.test.ts /home/user/mycity-ondate/vaglio-18/tests/unit/ && cd /home/user/mycity-ondate/vaglio-18 && npx vitest run tests/unit/zz-perimetro-flussi-veloce-dalla-bozza.test.ts → oggi ROSSA (exit 1). Sullo schermo si legge insieme «Adesso 30-60 min · +1 €» e «La consegna veloce adesso non si può più…», e il giorno è passato da 'now' a 'today'. La prova monta il selettore come lo monta la cassa al ritorno dall'accesso: giorno 'now', veloce false, poi il server risponde sì. Poi va cancellata dal repo. — Un esempio. Venerdì 30/10 alle 10:30 un cliente nuovo mette 15 euro di pane di Pane Quotidiano nel carrello, entra in cassa da ospite e sceglie «Adesso · 30-60 min · +1 €». Preme conferma e il sito lo manda all'accesso. Quando torna, la bozza gli rimette «Adesso». La cassa però chiede al server se la veloce si può solo dopo aver letto il carrello. Così al primo disegno veloceDisponibile vale ancora false. Il selettore tratta quel «non lo so ancora» come un «no»: sposta il cliente su «Oggi · In giornata 15:00–18:00» e scrive «La consegna veloce adesso non si può più: ho scelto la prima fascia libera». Un attimo dopo il server risponde sì. La mattonella «Adesso · 30-60 min · +1 €» torna attiva, ma la scelta resta su Oggi e la riga falsa resta a schermo. Il cliente legge due cose che si contraddicono. Se non ci fa caso, l'ordine parte per il pomeriggio invece che entro un'ora. Succede ogni volta, non per caso, e passa dalla strada di ogni cliente nuovo (ospite, poi accesso). Lo stesso succede dopo una sola lettura persa durante il controllo che la cassa fa ogni minuto: la veloce cade, poi torna, e l'avviso resta. In più, a ogni apertura della cassa la mattonella dice «Non disponibile» e poi cambia. La radice è che i tre stati sì / no / non so sono stati schiacciati in due. È la stessa classe di difetto della scheda 1874 (la vetrina dice «domani» mentre aspetta). La scheda 1802 chiedeva di avvisare quando la scelta cambia, e l'avviso adesso c'è. Il difetto qui è un altro: l'avviso parte prima di sapere e non si spegne quando la veloce torna. Su 0df55577 la veloce dipendeva solo dall'ora del telefono, quindi questo comportamento non c'era. Correzione proposta: passare al selettore anche il «non so» (null) e non far cadere la scelta finché il server non ha risposto; spegnere l'avviso quando la veloce torna disponibile. Prova: Rossa oggi, riprodotta due volte. cp /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro18/interfaccia-negozio-admin/zz-perimetro-interfaccia-negozio-admin-veloce-ritorno.test.tsx /home/user/mycity-ondate/vaglio-18/tests/unit/ && cd /home/user/mycity-ondate/vaglio-18 && npx vitest run tests/unit/zz-perimetro-interfaccia-negozio-admin-veloce-ritorno.test.tsx ; rm tests/unit/zz-perimetro-interfaccia-negozio-admin-veloce-ritorno.test.tsx — Risultato: giorni visti now > today > today; mattonella Adesso non premuta e non disabilitata; avviso a schermo: true. Expected 'now', received 'today'. VERIFICA di un secondo revisore: regge, gravità «grave»: 1) Prova dell'altro revisore copiata come tests/unit/zz-perimetro-flussi-verifica-0-veloce-dalla-bozza.test.ts e lanciata con cd /home/user/mycity-ondate/vaglio-18 && npx vitest run tests/unit/zz-perimetro-flussi-verifica-0-veloce-dalla-bozza.test.ts: ROSSA, exit 1. Lo schermo contiene insieme «Adesso30-60 min · +1 €» e «La consegna veloce adesso non si può più: ho scelto la prima fascia libera…». File cancellato subito. 2) Prova mia, più fedele alla pagina: /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro18/flussi-verifica-0/zz-perimetro-flussi-verifica-0-ritorno-accesso.test.ts, copiata in tests/unit/ con lo stesso nome, lanciata con npx vitest run e cancellata subito. Usa le funzioni vere: bozza in localStorage scritta con bozzaDaSalvare e riletta con bozzaLetta, giornoDaRimettere e fasciaDaRimettere come in page.tsx:463-490; slotDay da giornoDiPartenza; veloceDisponibile=false; fetch finta che risponde {possibile} solo quando la si sblocca, letta con leggiEsitoDellaVeloce; scheletro finché il carrello è vuoto; il vero DeliverySlotPicker. Esito: exit 1, 2 rossi e 2 verdi su 4. (a) Venerdì 30/10/2026 20:30, carrello letto dopo, server «sì»: ROSSA. Giorno 'tomorrow' già prima della risposta e anche dopo, 1 sola domanda al server; lo schermo mostra «Adesso30-60 min · +1 €», «Oggi Non più oggi», l'avviso falso e le fasce di domani. (b) 14:00, carrello già in memoria, server «sì»: ROSSA, giorno 'today' prima e dopo, avviso falso. (c) Controllo con bozza 'tomorrow': VERDE, niente avviso e giorno 'tomorrow'. (d) Controllo con server «no»: VERDE, spostare su 'today' con l'avviso è giusto. 3) Lettura di lib/ordini/consegna-veloce.ts: eConsegnaVeloce vale solo con fascia === ETICHETTA_ADESSO, quindi spostando la scelta il supplemento di 1 € sparisce. Ricerca nel registro radiografia-marketplace.json, 1904 problemi: nessuna scheda sul ritorno dall'accesso; la più vicina è la 1802 (rete che cade). Alla fine git -C /home/user/mycity-ondate/vaglio-18 status --porcelain è vuoto: nessun file mio nel repo. — regge, gravità «grave»: Repo /home/user/mycity-ondate/vaglio-18, testa 12e2ea35 invariata. Alla fine git status --porcelain è vuoto: nessun file mio è rimasto.\n\n1) La prova del revisore, lanciata due volte (copiata come tests/unit/zz-perimetro-interfaccia-negozio-admin-verifica-0-veloce-ritorno.test.tsx, eseguita con npx vitest run, poi cancellata). Esito uguale nei due giri: «giorni visti: now > today > today», «mattonella Adesso premuta: false · disabilitata: false», «avviso a schermo: true», AssertionError Expected \"now\" Received \"today\".\n\n2) Una prova mia, più scomoda: monta la PAGINA DI CASSA VERA (CheckoutPage dentro QueryClientProvider), non il selettore da solo. File: /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro18/interfaccia-negozio-admin-verifica-0/zz-perimetro-interfaccia-negozio-admin-verifica-0-pagina-vera.test.tsx, copiato in tests/unit/ con lo stesso nome, eseguito e cancellato a ogni giro.\nCosa è finto: supabase, next/navigation, next/link, sonner, analytics, promotions e la mappa dei negozi. Cosa è vero: la pagina, il selettore, bozzaLetta, giornoDaRimettere e leggiEsitoDellaVeloce.\nDati: venerdì 30/10/2026 10:30; carrello con 1 pane da 15 € di Pane Quotidiano; bozza mc_checkout_draft con giorno 'now'; /api/consegna/veloce risponde {possibile:true} dopo 120 ms.\n\nScenario A (ritorno dall'accesso), rosso in due esecuzioni. Linea del tempo:\n- 10 ms: «Adesso, Non disponibile», spenta, non premuta; Oggi premuta; avviso a schermo.\n- 90 ms (il server ha detto sì): «Adesso, 30-60 min · +1 €», accesa ma non premuta; Oggi premuta; avviso ancora a schermo.\n- Fascia spuntata: «In giornata · 15:00–18:00». La riga «Consegna a domicilio» dice «In giornata · 15:00–18:00».\n- Una sola chiamata alla veloce. Fallisce: expected 'false' to be 'true' (aria-pressed della mattonella Adesso).\n\nScenario B (controllo di ogni minuto, setInterval finto, risposte sì → rete caduta → sì), due esecuzioni identiche:\n- Il cliente tocca Adesso: Adesso premuta.\n- Minuto 1, lettura persa: Adesso spenta, Oggi premuta, avviso a schermo.\n- Minuto 2, il server dice sì: Adesso accesa ma non premuta, Oggi premuta, avviso ancora a schermo. Fascia finale «In giornata · 15:00–18:00».\n\n3) Letture di controllo:\n- git show 0df55577 sul selettore: nessun effetto che sposti 'now'; expressAvailable = expressSiPuo(ora).\n- Ricerca nel registro radiografia-marketplace.json (1904 schede): vicine solo la 1802 (lettura caduta, spostamento muto, minore, aperta) e la 1874 (vetrina in attesa, minore). Nessuna copre questo caso.\n- Rotta contanti, righe 671-673: il server ricontrolla la veloce con veloceSiPuo al momento dell'ordine, quindi tenere 'now' durante l'attesa è sicuro.",
-      "fonte": "nato dalle ondate 13-17 del prezzo; trovato dal controllo del perimetro del 30/10 (run wf_8404b4d0-c10) sul ramo cucito fix/base-ondata-18 (12e2ea35)"
+      "fonte": "nato dalle ondate 13-17 del prezzo; trovato dal controllo del perimetro del 30/10 (run wf_8404b4d0-c10) sul ramo cucito fix/base-ondata-18 (12e2ea35)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 18 app/checkout/page.tsx (5be50559). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 18 («regge», run wf_fd762ee6-435): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "microcopy",
       "reparto": "Microcopy",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "In cassa, con più negozi, si legge ancora «Ogni rider consegna il proprio ordine», mentre il carrello ha appena detto «il fattorino passa da tutti in un giro solo»",
       "file": "app/checkout/page.tsx:1413-1414",
       "descrizione": "Le ondate 14-17 hanno messo la regola del giro unico, decisa da Nicola il 29/10 alle 22:21. Hanno corretto la frase gemella del carrello: «ogni negozio consegna separatamente» è diventato fraseGiroUnico. Hanno anche aggiunto fraseOrdiniDivisi poco sopra, nella stessa cassa. Il riquadro «Il tuo carrello include prodotti da 2 negozi diversi» però dice ancora, coi contanti, «Ogni rider consegna il proprio ordine». Con la carta dice «ogni negozio prepara e fa consegnare il proprio». Esempio: pane 15 € da Pane Quotidiano più frutta 12 €. Il carrello dice «paghi una consegna sola: il fattorino passa da tutti in un giro solo», 4 €. Un passo dopo la cassa promette due fattorini, e il cliente aspetta una seconda consegna che non arriva. È minore perché al lancio c'è un solo negozio vero, quindi il riquadro non compare. La frase c'era già su 0df55577, ma lì era vera: è diventata falsa con la regola delle ondate, che ne hanno corretto solo la copia del carrello. Prova: cd /home/user/mycity-ondate/vaglio-18 && ! grep -nE \"Ogni rider consegna il proprio ordine|fa consegnare il proprio\" app/checkout/page.tsx → oggi exit 1, cioè rossa: le righe 1413 e 1414 ci sono.",
-      "fonte": "nato dalle ondate 13-17 del prezzo; trovato dal controllo del perimetro del 30/10 (run wf_8404b4d0-c10) sul ramo cucito fix/base-ondata-18 (12e2ea35)"
+      "fonte": "nato dalle ondate 13-17 del prezzo; trovato dal controllo del perimetro del 30/10 (run wf_8404b4d0-c10) sul ramo cucito fix/base-ondata-18 (12e2ea35)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 18 app/checkout/page.tsx (5be50559). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 18 («regge», run wf_fd762ee6-435): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "microcopy",
@@ -33048,34 +33183,43 @@
       "dimensione": "architettura",
       "reparto": "Architettura",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Se la consegna si paga lo decide lo stesso file in due modi: con la base a zero la FAQ dice «gratuita qualunque sia la spesa» e la cassa chiede 1 € sotto i 10 €",
       "file": "lib/promesse-pubbliche.ts:194-197 (rispostaCostoSpedizione guarda fasciaCents) contro lib/promesse-pubbliche.ts:433-436 (riquadroTariffaConsegna guarda pienaCents, letto anche da app/shipping/page.tsx:89)",
       "descrizione": "Oggi la base è 3 € e le due risposte coincidono. Supponiamo che un giorno la base passi a zero (una promozione, una riga in lib/constants.ts) e restino gli euro in più. Con 8 € di pane la cassa chiede 1 €. Il riquadro di Spedizioni scrive «Consegna da 0,00 €», quindi per lui si paga. La FAQ invece scrive «La consegna è gratuita, qualunque sia la spesa». È un difetto latente: oggi nessun cliente lo vede, ma è la stessa regola scritta due volte con due soglie diverse. Prova: cp /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro18/architettura-frasi-prodotti/zz-perimetro-architettura-frasi-prodotti-gratis-in-due-modi.test.ts /home/user/mycity-ondate/vaglio-18/tests/unit/ && cd /home/user/mycity-ondate/vaglio-18 && npx vitest run tests/unit/zz-perimetro-architettura-frasi-prodotti-gratis-in-due-modi.test.ts ; rm tests/unit/zz-perimetro-architettura-frasi-prodotti-gratis-in-due-modi.test.ts — la prova mette la base a zero con vi.mock e diventa rossa: riquadro siPaga=true, cassa 100 centesimi, FAQ «gratuita».",
-      "fonte": "nato dalle ondate 13-17 del prezzo; trovato dal controllo del perimetro del 30/10 (run wf_8404b4d0-c10) sul ramo cucito fix/base-ondata-18 (12e2ea35)"
+      "fonte": "nato dalle ondate 13-17 del prezzo; trovato dal controllo del perimetro del 30/10 (run wf_8404b4d0-c10) sul ramo cucito fix/base-ondata-18 (12e2ea35)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 18 app/shipping/page.tsx (75701477). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 18 («regge», run wf_fd762ee6-435): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "architettura",
       "reparto": "Architettura",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Le condizioni della consegna veloce sono riscritte a mano in cinque posti, e tre ne dicono una sola su tre",
       "file": "lib/promesse-pubbliche.ts:117 (fraseComeArriva: «con un fattorino in servizio») · lib/promesse-pubbliche.ts:523 (spiegazioneDellaConsegna: «dalle 8 alle 21» scritto a mano, mentre lo stesso file importa QUANDO_SI_PUO_LA_VELOCE) · lib/promessa-consegna.ts:64 (CONSEGNA_FRASE_INTERA), usata da lib/site-branding.ts:71 per il piede del sito · lib/constants.ts:196 (VALUE_PROPS) · commento in testa a lib/promessa-consegna.ts:4-10 («la casa unica di queste parole»)",
       "descrizione": "Le condizioni della veloce hanno una casa: QUANDO_SI_PUO_LA_VELOCE, cioè «dalle 8 alle 21, a negozi aperti, con un fattorino in servizio». Il commento in testa a promessa-consegna.ts dice che è l'unica, ma non lo è. La descrizione Google della pagina di Pane Quotidiano dice «veloce in 30-60 min con un fattorino in servizio». Il piede del sito dice «…oppure veloce in 30-60 minuti quando c'è un fattorino in servizio». Alle 15, col forno chiuso dalle 13 e Nicola in servizio, la veloce non c'è. Se poi l'ora di chiusura della veloce passa alle 20, la spiegazione del carrello continua a dire «alle 21». La cassa non vende la veloce quando non si può, quindi i soldi restano giusti: è una promessa detta a metà. Prova: cp /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro18/architettura-frasi-prodotti/zz-perimetro-architettura-frasi-prodotti-condizione-veloce.test.ts /home/user/mycity-ondate/vaglio-18/tests/unit/ && cd /home/user/mycity-ondate/vaglio-18 && npx vitest run tests/unit/zz-perimetro-architettura-frasi-prodotti-condizione-veloce.test.ts ; rm tests/unit/zz-perimetro-architettura-frasi-prodotti-condizione-veloce.test.ts — la prova mette CHIUSURA_EXPRESS a 20 con vi.mock. Rossa 2 su 4: la spiegazione dice «alle 21» mentre la casa dice le 20, e le frasi corte non nominano i negozi aperti.",
-      "fonte": "nato dalle ondate 13-17 del prezzo; trovato dal controllo del perimetro del 30/10 (run wf_8404b4d0-c10) sul ramo cucito fix/base-ondata-18 (12e2ea35)"
+      "fonte": "nato dalle ondate 13-17 del prezzo; trovato dal controllo del perimetro del 30/10 (run wf_8404b4d0-c10) sul ramo cucito fix/base-ondata-18 (12e2ea35)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 18 app/shipping/page.tsx (75701477). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 18 («regge», run wf_fd762ee6-435): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "architettura",
       "reparto": "Architettura",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Tre commenti di promesse-pubbliche.ts dicono cose false: un blocco staccato dalla sua funzione, un «per negozio» rimasto, un pannello che non usa la frase",
       "file": "lib/promesse-pubbliche.ts:391-399 · lib/promesse-pubbliche.ts:357 · lib/promesse-pubbliche.ts:405 contro app/admin/delivery/page.tsx:141-147",
       "descrizione": "① Il blocco del 27/10 che descrive rigaDelCodiceSpedizione è rimasto sopra fraseTariffaConsegna. La funzione vera, alla riga 530, è rimasta senza descrizione. Il blocco dice ancora «da 30 € di spesa per negozio tutta», che la riga 541 chiama falso. ② Il campo costoConsegna è descritto come «per negozio», ma oggi è la base per tutto il carrello. ③ fraseTariffaConsegna dice «La usano la cassa, la pagina Spedizioni e il pannello consegne». Il pannello consegne invece ha una terza copia della regola, scritta a mano: oggi è giusta, ma nessuna prova la lega alla cassa. Soldi giusti: sono commenti che portano fuori strada chi tocca questo codice. Prova: lettura: grep -n fraseTariffaConsegna /home/user/mycity-ondate/vaglio-18/app/admin/delivery/page.tsx non trova niente; sed -n 391,410p lib/promesse-pubbliche.ts mostra due blocchi di commento di fila",
-      "fonte": "nato dalle ondate 13-17 del prezzo; trovato dal controllo del perimetro del 30/10 (run wf_8404b4d0-c10) sul ramo cucito fix/base-ondata-18 (12e2ea35)"
+      "fonte": "nato dalle ondate 13-17 del prezzo; trovato dal controllo del perimetro del 30/10 (run wf_8404b4d0-c10) sul ramo cucito fix/base-ondata-18 (12e2ea35)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 18 app/shipping/page.tsx (75701477). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 18 («regge», run wf_fd762ee6-435): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "privacy-legale",
@@ -33103,12 +33247,15 @@
       "dimensione": "microcopy",
       "reparto": "Microcopy",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Quando la veloce cade, l'avviso dice «ho scelto la prima fascia libera», ma la fascia scelta non è la prima e il selettore non sa se è libera",
       "file": "components/checkout/DeliverySlotPicker.tsx:55-56 (testo AVVISO_VELOCE_CADUTA) e :62-65 (quandoLaVeloceCade cambia solo il giorno, non la fascia) · app/checkout/page.tsx:526 (la fascia di domani di partenza è FASCE_DI_DOMANI[2], cioè 15:00–18:30)",
       "descrizione": "Primo caso: è venerdì 30/10 alle 20:30 e il cliente ha scelto «Adesso». Il fattorino si spegne, oppure scattano le 21. La cassa lo sposta su Domani e scrive «ho scelto la prima fascia libera». La fascia segnata però è «Domani · 15:00–18:30», cioè quella di partenza della cassa. La prima di domani è «9:00–12:00». Lo stesso succede su «Oggi»: se il cliente prima aveva toccato «Stasera · 18:00–20:00», resta quella e non la prima. Secondo caso, verificato solo leggendo il codice: il forno chiude alle 13. Alle 12:50 il cliente sceglie «Adesso». Alle 13:00 il server dice che Pane Quotidiano è chiuso e la cassa lo porta su «In giornata · 15:00–18:00», chiamandola «libera». Il selettore non riceve gli orari del negozio, quindi non può saperlo. Al clic su conferma il server rifiuta: «Pane Quotidiano oggi è chiuso in quella fascia». L'avviso è nato in queste ondate. Niente soldi sbagliati: il server ferma l'ordine. Resta una frase falsa nel momento della decisione, e il rifiuto arriva all'ultimo passo. Correzione: dire solo «ho spostato la consegna, scegli l'ora qui sotto», oppure scegliere davvero la prima fascia e non chiamarla «libera». Prova: Rossa oggi. cp /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro18/interfaccia-negozio-admin/zz-perimetro-interfaccia-negozio-admin-prima-fascia.test.tsx /home/user/mycity-ondate/vaglio-18/tests/unit/ && cd /home/user/mycity-ondate/vaglio-18 && npx vitest run tests/unit/zz-perimetro-interfaccia-negozio-admin-prima-fascia.test.tsx ; rm tests/unit/zz-perimetro-interfaccia-negozio-admin-prima-fascia.test.tsx — Expected 'Domani · 9:00–12:00', received 'Domani · 15:00–18:30', con l'avviso «prima fascia libera» a schermo. Il caso del forno che chiude alle 13 è solo lettura.",
-      "fonte": "nato dalle ondate 13-17 del prezzo; trovato dal controllo del perimetro del 30/10 (run wf_8404b4d0-c10) sul ramo cucito fix/base-ondata-18 (12e2ea35)"
+      "fonte": "nato dalle ondate 13-17 del prezzo; trovato dal controllo del perimetro del 30/10 (run wf_8404b4d0-c10) sul ramo cucito fix/base-ondata-18 (12e2ea35)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 18 app/checkout/page.tsx (5be50559). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 18 («regge», run wf_fd762ee6-435): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "microcopy",
@@ -33158,12 +33305,15 @@
       "dimensione": "microcopy",
       "reparto": "Microcopy",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "«Come funziona» dice che la veloce c'è «quando c'è un fattorino in servizio», ma alle 15, col forno chiuso dall'una, non si può anche con Nicola in servizio",
       "file": "app/come-funziona/page.tsx:55 · lib/promessa-consegna.ts:64 (CONSEGNA_FRASE_INTERA) · stessa frase in lib/site-branding.ts:71",
       "descrizione": "Il titolo della pagina «Come funziona» scrive: «Consegna a casa all'ora che scegli, oppure veloce in 30-60 minuti quando c'è un fattorino in servizio». La regola vera, veloceSiPuo, ha tre condizioni: dalle 8 alle 21, negozi aperti, un fattorino in servizio. La frase ne dice una sola. Esempio: venerdì 30/10 alle 15, Pane Quotidiano ha chiuso alle 13 e Nicola è in servizio. Chi ha letto la frase va in cassa aspettandosi la veloce e non trova la fascia «Adesso». La frase intera con le tre condizioni c'è già: è QUANDO_SI_PUO_LA_VELOCE, e la usano la pagina Spedizioni, il pannello del negozio e la FAQ. Qui invece è stata scritta una frase più corta e incompleta. La veloce costa anche 1 € in più, e su questa pagina non si dice da nessuna parte. Nessun soldo va perso: la cassa non la vende. Prova: cp …/perimetro18/interfaccia-pagine/zz-perimetro-interfaccia-pagine-prove.test.tsx /home/user/mycity-ondate/vaglio-18/tests/unit/ && cd /home/user/mycity-ondate/vaglio-18 && npx vitest run tests/unit/zz-perimetro-interfaccia-pagine-prove.test.tsx -t 'come-funziona'; rm -f tests/unit/zz-perimetro-interfaccia-pagine-prove.test.tsx — ROSSA due volte. veloceSiPuo per il forno 07-13 alle 15:00 con 1 fattorino dà possibile=false (passa). CONSEGNA_FRASE_INTERA non nomina né le ore né i negozi aperti (rossa).",
-      "fonte": "nato dalle ondate 13-17 del prezzo; trovato dal controllo del perimetro del 30/10 (run wf_8404b4d0-c10) sul ramo cucito fix/base-ondata-18 (12e2ea35)"
+      "fonte": "nato dalle ondate 13-17 del prezzo; trovato dal controllo del perimetro del 30/10 (run wf_8404b4d0-c10) sul ramo cucito fix/base-ondata-18 (12e2ea35)",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 18 app/shipping/page.tsx (75701477). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 18 («regge», run wf_fd762ee6-435): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "frontend-ux",
@@ -33180,12 +33330,15 @@
       "dimensione": "microcopy",
       "reparto": "Microcopy",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "Il link della home condiviso su WhatsApp e Facebook dice ancora «Consegna rapida», mentre la descrizione per Google e l'immagine dell'anteprima dicono «all'ora che scegli»",
       "file": "app/layout.tsx:117 (openGraph.description) e :126 (twitter.description)",
       "descrizione": "Le ondate hanno cambiato la descrizione per Google (riga 100, DESCRIZIONE_DEL_SITO, «Consegna a casa, all'ora che scegli»). Hanno cambiato anche il testo dell'immagine di anteprima (app/opengraph-image.tsx: «consegna all'ora che scegli»). Due righe più sotto nello stesso file, il testo che WhatsApp e Facebook mostrano sotto l'immagine è rimasto quello vecchio: «Compra dai negozi della tua città. Consegna rapida, pagamento alla consegna.» Così chi riceve il link della home legge due promesse diverse nella stessa anteprima. Il 27/10 «rapida» era già stato tolto dalle categorie perché era una promessa senza tempo né confine (commento in app/category/[slug]/layout.tsx:14). Vale per tutte le pagine che non hanno un'anteprima loro. Prova: cp …/perimetro18/interfaccia-pagine/zz-perimetro-interfaccia-pagine-prove.test.tsx /home/user/mycity-ondate/vaglio-18/tests/unit/ && cd /home/user/mycity-ondate/vaglio-18 && npx vitest run tests/unit/zz-perimetro-interfaccia-pagine-prove.test.tsx -t 'Consegna rapida'; rm -f tests/unit/zz-perimetro-interfaccia-pagine-prove.test.tsx — ROSSA due volte. È una ricerca di parole nel sorgente: va bene per un difetto minore, perché la radice del sito non si può importare in una prova.",
-      "fonte": "preesistente: c è su 0df55577; trovato dal controllo del perimetro delle ondate 13-17 (run wf_8404b4d0-c10) su 12e2ea35"
+      "fonte": "preesistente: c è su 0df55577; trovato dal controllo del perimetro delle ondate 13-17 (run wf_8404b4d0-c10) su 12e2ea35",
+      "chiuso_il": "2026-10-30 14:45",
+      "chiuso_da": "PR #264 · 0a4bfe81",
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 18 app/shipping/page.tsx (75701477). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 18 («regge», run wf_fd762ee6-435): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
     },
     {
       "dimensione": "frontend-ux",
