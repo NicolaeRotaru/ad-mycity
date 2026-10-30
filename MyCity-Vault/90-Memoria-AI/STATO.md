@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-10-30 19:45
+aggiornato: 2026-10-30 20:27
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🔧 **2026-10-30 20:27 — Il motore snello delle ondate è costruito.**
+>
+> Hai unito le otto regole alle 20:12 e hai detto «vai». Ci sono due pezzi nuovi. Il primo toglie la correzione e controlla che la prova cada, senza agenti. Il secondo è il giro d'ondata con un collaudo solo per tutta l'ondata e al massimo 12 subagenti. L'agente leggero per le squadre non nasce: costava più di quanto risparmia. Da unire: la richiesta di stasera. Poi la prima ondata snella, la cassa con gli orari di Pane Quotidiano.
 
 > 🪙 **2026-10-30 19:45 — Ho rianalizzato come lavoro: il costo sta nei controlli, non nelle riparazioni.**
 >
