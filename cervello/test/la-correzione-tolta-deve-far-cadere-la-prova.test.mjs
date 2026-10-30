@@ -144,8 +144,10 @@ test("argomenti sbagliati escono 2 e non toccano niente", () => {
   assert.ok(existsSync(join(r.d, "tests/somma.test.mjs")));
 });
 
-// Alla base la somma sbagliata fa girare la prova per sempre: il passo ② scade coi file alla base.
-const PROVA_CHE_SI_BLOCCA = "import { test } from 'node:test';\nimport { somma } from '../lib/somma.mjs';\ntest('somma', () => { while (somma(1, 1) !== 2) {} });\n";
+// Alla base la somma sbagliata fa girare la prova a lungo: il passo ② scade coi file alla base. Il giro ha
+// una scadenza sua (20 secondi): un kill -9 lascia orfano il processo di prova, e un giro infinito orfano
+// si mangiava la macchina (il 30/10 ne giravano otto da un'ora, e la suite non finiva piu').
+const PROVA_CHE_SI_BLOCCA = "import { test } from 'node:test';\nimport { somma } from '../lib/somma.mjs';\ntest('somma', () => { const fine = Date.now() + 20000; while (somma(1, 1) !== 2 && Date.now() < fine) {} });\n";
 
 test("tempo scaduto al passo ②, anche se il comando non fa exec («…; true»): esce 2 e la correzione torna", () => {
   const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": GIUSTA, "tests/somma.test.mjs": PROVA_CHE_SI_BLOCCA });
