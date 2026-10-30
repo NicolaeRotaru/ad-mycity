@@ -1,0 +1,121 @@
+{
+ "_cosa_e": "Ondata 16 del sito, l ultima del pacchetto del prezzo, sopra l ondata 15 cucita (fix/base-ondata-16 = cc05043b: il prezzo del negozio che rifiuta e le frasi). Quattro pacchetti con territori disgiunti: A il secondo freno della veloce (conferma entro 10 minuti) e l email al negozio con la scadenza giusta; B l avviso al cliente quando la consegna si rifà dopo un rifiuto, i Termini e i buchi delle prove dei soldi; C le frasi della vetrina e della home (Consegna oggi, Abbigliamento, Usato); D le prove vecchie del carrello. Il grave del secondo rifiuto col codice (voce 1825) NON entra: Nicola il 30/10 alle 07:45 ha scelto la strada A, si chiude prima di riaccendere i codici sconto. Le ondate 1-15 sono vuote: si legge con --ondata 16, worktree o16-*.",
+ "data": "2026-10-30 07:58",
+ "registro": "sito",
+ "origine": "esito dell ondata 15 (wf_4c5f7fb6-76d), npm run verify sul ramo cucito cc05043b (9 prove rosse), DECISIONI 2026-10-30 07:45, carta #220 (i due freni della veloce)",
+ "ondate": [
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [
+   {
+    "chiave": "lib/ordini/scadenza-accettazione.ts",
+    "difetti": [
+     {
+      "idx": 1826,
+      "chiave": "qa-flussi|manca il secondo freno della veloce: se il negozio non conferma entro 10 minuti, il cliente che ha pagato l euro in più aspetta fino a tre ore invece di passare a una fascia senza l euro"
+     },
+     {
+      "idx": 264,
+      "chiave": "microcopy|l'email al negozio dice «accetta entro 15 minuti», ma il sito aspetta almeno tre ore o la fine della fascia"
+     }
+    ]
+   },
+   {
+    "chiave": "lib/ordini/annulla.ts",
+    "difetti": [
+     {
+      "idx": 1827,
+      "chiave": "flussi-conversione|dopo il rifiuto di un negozio la consegna degli altri si rifà, ma il cliente non lo sa: con la carta riceve 16 € su 18 senza spiegazione, coi contanti alla porta paga 15 € invece dei 13 € confermati"
+     },
+     {
+      "idx": 1835,
+      "chiave": "architettura|prima della migrazione 124 il ricalcolo dopo un rifiuto si spegne: la lettura chiede gross_total_cents senza ripiego, e la guardia delle colonne nuove è rossa"
+     },
+     {
+      "idx": 1846,
+      "chiave": "privacy-legale|il §6 dei termini promette il rimborso per intero, consegna compresa; ma un ordine annullato in un carrello con più negozi rende la sua merce e la differenza della consegna, per esempio 16 € su 18"
+     },
+     {
+      "idx": 1844,
+      "chiave": "qa-flussi|le prove dei termini guardano parole nel sorgente, non il comportamento: un §4 che promette di rendere tutto con altre frasi, o un rimborso cambiato con la stessa riga, restano verdi"
+     },
+     {
+      "idx": 1832,
+      "chiave": "qa-flussi|buco nelle prove: se il ricalcolo dopo un rifiuto dimentica la consegna veloce, le prove della squadra restano verdi"
+     },
+     {
+      "idx": 1833,
+      "chiave": "qa-flussi|la prova del giro degli scaduti evita il caso vero: gli altri ordini del carrello sono datati 2999, quindi non si vede mai il carrello che scade tutto nello stesso giro"
+     },
+     {
+      "idx": 1834,
+      "chiave": "qa-flussi|buco nelle prove: nessuna vede il secondo annullo in un carrello di tre negozi; senza escludere l ordine già annullato, il terzo resterebbe a 1 €"
+     },
+     {
+      "idx": 1845,
+      "chiave": "pagamenti-stripe|rimborso impossibile dopo un rifiuto: la consegna resta spostata sui negozi rimasti, e l avviso agli amministratori non lo dice"
+     },
+     {
+      "idx": 1850,
+      "chiave": "qa-flussi|tre prove con i nomi del collaudo sono finite nel sito («o15ca», «sonda-collaudo-a», «zz-collaudo-cron-due-scaduti»): nessuno sa cosa proteggono"
+     }
+    ]
+   },
+   {
+    "chiave": "components/store-sections/HeroSection.tsx",
+    "difetti": [
+     {
+      "idx": 1821,
+      "chiave": "microcopy|la vetrina del negozio scrive «consegna oggi» anche quando il negozio è chiuso e oggi non consegna più"
+     },
+     {
+      "idx": 1828,
+      "chiave": "microcopy|la home e il piede tengono «abbigliamento»: il bottone sotto il titolo grande e le categorie di riserva, mostrate al primo disegno o se la lettura dal database cade"
+     },
+     {
+      "idx": 1829,
+      "chiave": "qa-flussi|buco nelle prove: la frase «in giornata…» ricopiata spezzata in due pezzi nella riga del conto alla rovescia passa la guardia della copia unica"
+     },
+     {
+      "idx": 1830,
+      "chiave": "qa-flussi|buco nelle prove: «paghi anche con carta» nel sottotitolo della home b lascia verdi tutte le prove, che guardano solo il titolo"
+     },
+     {
+      "idx": 1838,
+      "chiave": "frontend-ux|nella pagina consegne dell amministratore il riquadro del compenso del fattorino va a capo su tre o quattro righe fitte"
+     },
+     {
+      "idx": 1823,
+      "chiave": "frontend-ux|il modulo del negoziante lascia scegliere «usato» come condizione del prodotto, mentre mycity non vende l usato"
+     },
+     {
+      "idx": 1849,
+      "chiave": "qa-flussi|la prova del salvataggio del prodotto cerca il pulsante «spedizione», che le frasi dell ondata 14 hanno chiamato «fascia oraria»: il controllo completo del sito è rosso"
+     }
+    ]
+   },
+   {
+    "chiave": "app/cart/page.tsx",
+    "difetti": [
+     {
+      "idx": 1798,
+      "chiave": "qa-flussi|quindici prove vecchie si aspettano ancora la consegna a 3 euro fissi: il controllo completo del sito è rosso sul ramo del prezzo"
+     }
+    ]
+   }
+  ]
+ ]
+}

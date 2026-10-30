@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-10-30 01:55
+aggiornato: 2026-10-30 08:01
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -24,7 +24,7 @@ Niente di nuovo. Le tue voci sono nella sezione 1 e nella tua lista.
 
 ## Cosa non ho verificato
 
-La pagina dice com'era il lavoro il 30 ottobre all'1:55. Ogni voce va riletta nel suo posto prima di agire.
+La pagina dice com'era il lavoro il 30 ottobre alle 08:01. Ogni voce va riletta nel suo posto prima di agire.
 
 ---
 
@@ -53,8 +53,15 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
 
 ## 2 · Il mio lavoro sul sito
 
-- **L'ondata 15 sta girando.** Il prezzo con più negozi, il ricalcolo quando un negozio rifiuta, le ultime frasi dei 30-60 minuti, le prove vecchie.
-- **Poi l'ondata 16:** la conferma della veloce entro 10 minuti e l'email al negozio con la scadenza giusta.
+- **L'ondata 15 è cucita** (strada A, scelta tua del 30/10 alle 07:45). Il caso raro col codice sconto resta aperto, e i codici restano spenti finché non è chiuso.
+- **L'ondata 16 sta girando.** È l'ultima del prezzo, con quattro squadre.
+  - La conferma della veloce entro 10 minuti.
+  - L'email al negozio, che dirà l'ora vera entro cui accettare.
+  - L'avviso al cliente quando un negozio rifiuta.
+  - I Termini e i buchi nelle prove dei soldi.
+  - Le frasi della vetrina: «Consegna oggi», «Abbigliamento» e «Usato».
+  - Le prove vecchie del carrello, che oggi tengono rosso il controllo completo.
+- **Poi:** riguardo tutti i file toccati dalle ondate 13-16, e ti porto una sola richiesta di unione del sito.
 - **Poi l'ondata 2:** il pannello, i resi, la vetrina e gli orari dei negozi.
 - **Prima di accendere la carta**, quattro cose:
   - Non pagare due volte i contanti già pagati.
@@ -62,7 +69,7 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
   - La promessa del bonifico «in un'ora».
   - Il permesso delle carte chiesto ai negozi.
 - **Le dieci mosse della richiesta #900** (il sito visto da chi compra) entrano nelle ondate già previste, non in richieste a parte:
-  - La merce in prima schermata parte dopo l'ondata 15.
+  - La merce in prima schermata parte dopo l'ondata 16.
   - Il marchio intero e gli scaffali vuoti stanno nell'ondata 2 (schede 278 e 300).
   - Le promesse false di sconti e resi sono già nel registro (254, 1532, 1533, 50).
   - Restano tue: la cancellazione del negozio di prova, con «Trending ora» spento lo stesso giorno, e la foto del titolare col suo consenso.
@@ -93,8 +100,8 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
 ## Dettagli tecnici
 
 - Tua lista, letta dalla Cabina: `MyCity-Vault/90-Memoria-AI/CHECKLIST-NICOLA.md`. Carte: `AZIONI-IN-ATTESA.md`. Decisioni: `DECISIONI.md`. Fatti: `registro-fatti.json` (prezzo: `consegna.promessa`, `logistica.compenso-fattorino`, `consegna.negozio-che-rifiuta`).
-- Registro del sito: `auto-coscienza/radiografia-marketplace.json`, 1.825 voci. Dalla #900: 1821 (vetrina «Consegna oggi» a negozio chiuso), 1822 («Trending ora»), 1823 («usato»), 1824 («Prezzo crescente»). Prima della carta: 1810, 1797, 1811, 1812. Testo della home dal database: 1819.
-- Piani delle ondate: `consegne/audit/2026-10-29-ondata13-prezzo-sito.json`, `2026-10-29-ondata14-prezzo-sito.json`, `2026-10-30-ondata15-prezzo-sito.json`; ondata 2: `2026-10-28-ondata2-sito.json` e `2026-10-28-ricette-ondata2.json`.
-- Rami del sito: base dell'ondata 15 `fix/base-ondata-15` (`9d2bb05d`). Il ramo della fascia con la carta `fix/ondata-14-lib-ordini-fascia-leggibile-ts` non entra.
+- Registro del sito: `auto-coscienza/radiografia-marketplace.json`, 1.851 voci. Dall'ondata 15: 1825-1850 (il caso raro col codice è la 1825, con la prova `consegne/audit/prove-sito/2026-10-30-secondo-rifiuto-col-codice.prova.ts`; il freno della veloce è la 1826). Dalla #900: 1821 (vetrina «Consegna oggi» a negozio chiuso), 1822 («Trending ora»), 1823 («usato»), 1824 («Prezzo crescente»). Prima della carta: 1810, 1797, 1811, 1812. Testo della home dal database: 1819.
+- Piani delle ondate: `consegne/audit/2026-10-29-ondata13-prezzo-sito.json`, `2026-10-29-ondata14-prezzo-sito.json`, `2026-10-30-ondata15-prezzo-sito.json`, `2026-10-30-ondata16-prezzo-sito.json` (run `wf_932e80c0-8e9`); ondata 2: `2026-10-28-ondata2-sito.json` e `2026-10-28-ricette-ondata2.json`.
+- Rami del sito: base dell'ondata 16 `fix/base-ondata-16` (`cc05043b`, le ondate 13-15 cucite); `npm run verify` lì: 9 prove rosse su 6.268, tutte nell'ondata 16. Il ramo della fascia con la carta `fix/ondata-14-lib-ordini-fascia-leggibile-ts` non entra.
 - Referti di ieri e stanotte: `consegne/finanza/2026-10-29-costi-e-commissioni.md`, `consegne/finanza/2026-10-29-prezzo-della-consegna.md`, `consegne/audit/2026-10-29-ondata1-giroB-sito-referto.md`; richiesta #900: `consegne/design/2026-10-29-esperienza-cliente-vs-migliori.md`, guida per riprendere `consegne/design/2026-10-29-come-riprendere.md`, revisione `wf_5370ad60-6e4`.
 - Pagina del carrello spiegato: https://claude.ai/artifact/R7a3oyeinPkPEc26fMEGqd

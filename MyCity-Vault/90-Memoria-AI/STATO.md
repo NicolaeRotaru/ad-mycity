@@ -1,8 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-10-30 01:55
+aggiornato: 2026-10-30 08:00
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 💶 **2026-10-30 08:00 — L'ondata 15 entra com'è, come hai scelto. L'ondata 16 sta girando, ed è l'ultima del prezzo.**
+>
+> Hai scelto la A alle 07:45. Il caso raro col codice sconto resta aperto: tre negozi, il codice e due rifiuti di fila. I codici restano spenti finché non è chiuso. Ho cucito i due lavori dell'ondata 15 in uno solo.
+>
+> Il controllo completo del sito è rosso su 9 prove su 6.268. Otto erano già rosse dalle ondate 13 e 14: sono prove vecchie. La nona è nata adesso, ed è un difetto vero. Le 9 vanno nell'ondata 16, insieme alla conferma della veloce entro 10 minuti, all'avviso al cliente dopo un rifiuto e alle frasi della vetrina. Dopo riguardo tutti i file toccati, e ti porto una sola richiesta di unione del sito.
 
 > 🛍️ **2026-10-30 00:35 — Il sito visto da chi compra non è ancora al livello di Amazon e Glovo.**
 >

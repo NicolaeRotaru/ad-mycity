@@ -6129,3 +6129,13 @@ Con più negozi la «veloce compresa» è una lettura mia, per tenere la sua reg
 **Lettura mia, da correggere se sbagliata:** vale per gli annullamenti prima della consegna. Un reso dopo la consegna non cambia la consegna, perché il giro è stato fatto.
 
 **Fatto** nuovo `consegna.negozio-che-rifiuta` alle 00:35. Entra nell ondata 15.
+
+## 2026-10-30 07:45 — 🔴 Nicola sceglie la strada A per l ondata 15 del sito: si unisce così, il caso raro col codice resta aperto e i codici restano spenti
+
+**Cosa ha scritto Nicola:** «Fai la A» (letto alle 07:45), alla domanda «semplificare il fix o rinviare il pacchetto?» sull ondata 15 (run `wf_4c5f7fb6-76d`).
+
+**La scelta.** Il pacchetto del prezzo dell ondata 15 (`fix/ondata-15-lib-ordini-prezzi-ts`, `8b60312e`) entra così com è, insieme alle frasi (`76735785`). Resta un caso raro, che al lancio non può succedere: tre negozi, il codice «Spedizione gratuita» e due rifiuti di fila. L ultimo fattorino resta a 1 euro invece di 3. È nel registro del sito come grave (voce 1825), con una prova che gira ed è rossa. Va chiuso prima di riaccendere i codici sconto; finché è aperto, i codici restano spenti.
+
+**Cosa ho fatto dopo** (2026-10-30 07:55). Ho cucito i due rami in `fix/base-ondata-16` (`cc05043b`): tre prove toccate da tutti e due, tenuta la versione che guarda il testo reso. `npm run verify`: 9 prove rosse su 6.268. Otto vengono dalle ondate 13 e 14 (voci 1798 e 1849, prove vecchie); una è nata dall ondata 15 ed è un difetto vero (voce 1835: una lettura del database senza ripiego). Nel registro 25 voci nuove, dalla 1825 alla 1849. Vanno tutte all ondata 16, perché la richiesta del sito deve uscire verde.
+
+**Colore:** 🔴 (soldi: il compenso del fattorino in un caso raro), firmato da Nicola. Il codice resta in rami del sito: niente è unito.
