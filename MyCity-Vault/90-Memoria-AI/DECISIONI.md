@@ -6196,3 +6196,16 @@ Con più negozi la «veloce compresa» è una lettura mia, per tenere la sua reg
 Per non sbagliare i territori una quinta volta, prima di dividere ho cercato tutti i file che leggono l ora del telefono (`getHours()`) e tutte le prove che fissano le frasi vecchie.
 
 **Colore:** 🟡: codice in rami del sito, niente unito.
+
+## 2026-10-30 13:17 — 🟡 L ondata 18 regge, e apro la richiesta del sito #264 con tutto il pacchetto del prezzo
+
+**Cosa è successo.**
+- L ondata 18 (run `wf_fd762ee6-435`, 8 agenti) regge in tutti e due i pacchetti, con zero gravi. La cassa aspetta la risposta della veloce e legge l ora di Roma (`5be50559`). La pagina Spedizioni dice la consegna unica (`75701477`).
+- Li ho cuciti in `fix/base-ondata-19` (`35677a88`). `npm run verify` lì: 6.400 prove su 6.400, in 713 file.
+- I 9 file cambiati dall ondata 18 sono riguardati (run `wf_57f9c01e-7ed`): nessun grave nato. Ne escono due gravi che c erano già (voci 1948 e 1949): la cassa non legge gli orari del negozio.
+- Il perimetro è verde: 64 file su 64.
+- Nel registro 28 voci nuove, dalla 1928 alla 1955.
+
+**Cosa decido.** Apro la richiesta del sito **#264**: le ondate dalla 13 alla 18, dal ramo `ccr-b2418a18-982q9d`. Unirla è una firma rossa di Nicola, perché il sito pubblicato cambia. Nella richiesta segnalo i Termini, da far rileggere, e i due gravi della cassa con gli orari, che propongo come prossimo lavoro. Le chiusure del registro (54 dichiarate, tre riviste aperte) le scrivo dopo l unione.
+
+**Colore:** 🟡 per la richiesta aperta; l unione è 🔴, di Nicola.

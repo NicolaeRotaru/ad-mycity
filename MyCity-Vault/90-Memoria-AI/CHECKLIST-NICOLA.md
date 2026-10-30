@@ -31,6 +31,12 @@ Stripe, Hetzner, Resend, Netsons e le impostazioni di accesso di Supabase non li
 
 - [ ] 🔴 Unisci la richiesta #899 della memoria: le chiusure della #263, il prezzo nuovo della consegna, i piani del sito, il resoconto dei costi.
   → richiesta #899 · verde · tocca solo la memoria.
+- [ ] 🔴 Unisci la richiesta #264 del sito: il prezzo nuovo della consegna, il negozio che rifiuta e le frasi vere. Il sito pubblicato cambia.
+  → richiesta #264 · 6.400 prove verdi · prima decidi sui Termini, qui sotto.
+- [ ] 🔴 Decidi sui Termini prima di unire la #264: i paragrafi 4 e 6 cambiano, e in cima resta la data del 24 maggio.
+  → bozza da far rileggere a un legale · registro del sito, voce 1866.
+- [ ] 🟡 Scegli il freno della veloce: A, un avviso a te dopo 10 minuti senza conferma; B, il freno automatico rifatto subito.
+  → il mio consiglio è A · 1 minuto.
 - [ ] 🟡 Rispondi alle scelte della carta #222, quella del sito visto da chi compra: la più importante è la foto del titolare, col suo consenso.
   → la richiesta #900 è cucita dentro la #899 · la scelta «regali o fresco» è già decisa dai dati: fresco.
 - [ ] 🔴 Cambia il testo grande della home dal pannello dell amministratore: oggi promette «30-60 min» e nomina l abbigliamento.

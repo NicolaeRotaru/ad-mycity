@@ -1,8 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-10-30 12:07
+aggiornato: 2026-10-30 13:17
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🚀 **2026-10-30 13:17 — La richiesta del sito con il prezzo nuovo è pronta: è la #264.**
+>
+> Dentro ci sono le ondate dalla 13 alla 18: il prezzo per tutto il carrello, il negozio che rifiuta, le frasi vere e la cassa con l'ora di Roma. È verde, 6.400 prove su 6.400, e i 64 file cambiati sono riguardati tutti. Prima di unirla decidi sui Termini, che cambiano ma restano con la data del 24 maggio.
+>
+> Restano due gravi che ci sono già oggi: la cassa propone il pomeriggio anche quando Pane Quotidiano è chiuso. Sono il prossimo lavoro che ti propongo.
 
 > 🔎 **2026-10-30 12:07 — Ho riguardato i 64 file del prezzo: c'è un grave nuovo, e lo sistema l'ondata 18 prima della richiesta del sito.**
 >

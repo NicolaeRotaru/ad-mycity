@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 1928,
+    "findings": 1956,
     "bloccanti": 35,
-    "gravi": 543,
-    "minori": 1350,
+    "gravi": 545,
+    "minori": 1376,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -5207,7 +5207,8 @@
       "prova_eseguita": "Il testo è quello citato. Non ho potuto leggere da qui le categorie dei 9 prodotti in produzione: la contraddizione poggia sui totali (un solo negozio reale, panetteria). · Verifica tecnica: Ho letto app/layout.tsx:95-125 e app/stores/layout.tsx:1-25. Ho estratto il meta description dalla home locale: il testo è quello citato. In produzione ho raggruppato i prodotti per negozio, categoria e stato: Pane Quotidiano ha 4 prodotti in alimentari e 1 in alimentari-latticini, Panificio Demo ne ha 4 in panificio, tutti disponibili.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: seo · id R226 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: seo · id R226 · si ripara: codice",
+      "nota_riesame": "2026-10-30 13:14: il controllo dei 9 file dell ondata 18 (wf_57f9c01e-7ed, su 35677a88) la rivede aperta: «L'anteprima del link su WhatsApp e Facebook adesso promette «casa, elettronica, libri», che al lancio non ci sono». Minore, ricerca di parole ammessa (la radice del sito non si importa in una prova): grep -n \"description: DESCRIZIONE_DEL_SITO\" /home/user/mycity-ondate/vaglio-19/app/layout.tsx && grep -n \"elettronica, libri\" /home/user/mycity-ondate/vaglio-19/lib/site-branding.ts — oggi trova le righe 119 e 128 e la riga 81. Su 12e2ea35 le righe 117 e 126 dicevano «Compra dai negozi della tua città. Consegna rapida, pagamento alla consegna.», senza reparti."
     },
     {
       "dimensione": "microcopy",
@@ -33207,6 +33208,314 @@
       "file": "components/ui/DeliveryCutoff.tsx:136-142 (variante inline senza spazio riservato; il banner invece lo riserva con min-h-[3.5rem], righe 125-133)",
       "descrizione": "Su un telefono largo 360 px la riga ha circa 280 px utili. Al primo disegno scrive «Consegna a casa, all'ora che scegli»: 35 caratteri, una riga. Dopo la risposta della cassa (200-800 ms di rete) diventa «Consegna a casa all'ora che scegli, oppure veloce in 30-60 minuti»: 65 caratteri, due righe. Col forno chiuso diventa «Il negozio è chiuso ora, riapre lunedì alle 07:00: in cassa scegli l'ora della consegna»: 87 caratteri, tre righe. In quest'ultimo caso il primo fotogramma mostra la frase del negozio aperto. Il riquadro olive cresce di 20-40 px e spinge giù le righe del pagamento e del costo. Sulla base cresceva già, da «Arriva oggi» a «Ordina entro…». Ora la crescita dipende dalla rete e, col negozio chiuso, il primo fotogramma è più ottimista. Prova: lettura (jsdom non misura l'impaginazione)",
       "fonte": "preesistente: c è su 0df55577; trovato dal controllo del perimetro delle ondate 13-17 (run wf_8404b4d0-c10) su 12e2ea35"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Buco nelle prove: con la carta e piu' negozi torna «ogni negozio fa consegnare il proprio» e nessuna prova diventa rossa",
+      "file": "app/checkout/page.tsx:1440 (ramo paymentMethod==='card' del riquadro piu' negozi); la prova della squadra monta solo la bozza 'cod'",
+      "descrizione": "Mutante M4b (testo carta di 12e2ea35 rimesso): 6 file di prova della squadra verdi, 141/141. Killer: test 'M4b' in /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/collaudo-o18-varianti-a.test.tsx (chiave Stripe finta, bozza 'card', 2 negozi): verde oggi, rosso sul mutante",
+      "fonte": "nato dal lotto: ondata 18 (run wf_fd762ee6-435), rami 5be50559 e 75701477, cuciti su fix/base-ondata-19"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Buco nelle prove: se la veloce cade di giorno (resta Oggi), l'avviso puo' nominare un'altra fascia senza prove rosse",
+      "file": "components/checkout/DeliverySlotPicker.tsx:91 (ramo day==='today' di quandoLaVeloceCade); le prove montate coprono solo le 20:30 (ramo Domani), quella pura solo il giorno",
+      "descrizione": "Mutante V5 (const fascia = FASCE_DI_DOMANI[0]): squadra 141/141 verde. Killer: test 'V5' (Roma 14:00, bozza Adesso, server no: Oggi segnato, fascia 15-18, avviso la nomina) nel file di collaudo in scratchpad: verde oggi, rosso sul mutante",
+      "fonte": "nato dal lotto: ondata 18 (run wf_fd762ee6-435), rami 5be50559 e 75701477, cuciti su fix/base-ondata-19"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Buco nelle prove: la cassa senza bozza che sceglie il giorno di partenza con l'ora del telefono non viene vista",
+      "file": "app/checkout/page.tsx:527 (oraDiApertura), riga 520 della scheda; tutte le prove montate passano dalla bozza, che sovrascrive il giorno di partenza",
+      "descrizione": "Mutante V2c (oraDiApertura = new Date().getHours()): squadra 141/141 verde. Killer: test 'V2c' (nessuna bozza, telefono a Bucarest 20:30 = Roma 19:30: deve partire da Oggi · Stasera 18-20) nel file di collaudo in scratchpad: verde oggi, rosso sul mutante",
+      "fonte": "nato dal lotto: ondata 18 (run wf_fd762ee6-435), rami 5be50559 e 75701477, cuciti su fix/base-ondata-19"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Se il cliente cambia fascia dopo la caduta della veloce, l avviso resta e nomina ancora la fascia di prima",
+      "file": "components/checkout/DeliverySlotPicker.tsx:228 (il radio chiama onTimeChange senza setAvvisoSpostata(null), che sta solo in scegliGiorno:134) · components/checkout/DeliverySlotPicker.tsx · avvisoSpostata: lo azzera solo scegliGiorno, non il cambio di fascia (onTimeChange)",
+      "descrizione": "Visto da 2 collaudatori o revisori diversi. Test 'AVVISO-STANTIO' nel file di collaudo in scratchpad: Roma 20:30, no del server, clic su Domani 12-15 -> l'avviso contiene ancora 'Domani · 9:00–12:00'. Rosso oggi. Non tocca i soldi: il radio e il riepilogo sono giusti. La riga restava gia' su 12e2ea35 — Prima la frase era generica. Adesso nomina una fascia, che resta scritta mentre il pulsante radio ne segna un'altra.",
+      "fonte": "nato dal lotto: ondata 18 (run wf_fd762ee6-435), rami 5be50559 e 75701477, cuciti su fix/base-ondata-19"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Se la domanda sulla veloce resta appesa, con «Adesso» scelta il pulsante per ordinare resta fermo fino al controllo dopo, o per sempre se il server tace, e la riga non dice che si può scegliere un altra fascia",
+      "file": "app/checkout/page.tsx:563-583 (fetch senza timeout) · :561-562 veloceDaAspettare · components/checkout/DeliverySlotPicker.tsx:115-116 veloceInAttesa · app/checkout/page.tsx righe 563-588: fetch di /api/consegna/veloce senza tempo massimo; veloceDaAspettare blocca ordineBloccato e handleSubmit finché esitoVeloce resta null · components/checkout/DeliverySlotPicker.tsx · RIGA_VELOCE_IN_ATTESA / adessoInAttesa (il tocco su Adesso non fa niente); il fetch della pagina della cassa non ha un tempo massimo",
+      "descrizione": "Visto da 3 collaudatori o revisori diversi. Nessuna prova copre la richiesta appesa. Il comportamento non è sbagliato: niente addebito, il cliente può scegliere un'altra fascia. Caso per la squadra: fetch che non risolve mai e «Adesso» dalla bozza, poi si fa avanzare il timer di 60 s. — Lettura del codice, non provato a runtime. Prima l'avvio era false e la veloce cadeva su una fascia; ora null è attesa. Chi torna dall'accesso con «Adesso» attende fino a 60 s il battito, ma può scegliere Oggi/Domani. — Prima si partiva da false e la scelta cadeva subito. Adesso, con la rete lenta, chi ritrova «Adesso» dalla bozza aspetta fino all'errore del browser. Oggi/Domani lo sbloccano, ma nessuno glielo dice.",
+      "fonte": "nato dal lotto: ondata 18 (run wf_fd762ee6-435), rami 5be50559 e 75701477, cuciti su fix/base-ondata-19"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Due guardie sulla veloce controllano il testo del sorgente e non il comportamento",
+      "file": "tests/unit/la-consegna-veloce-si-vende-solo-se-c-e-un-fattorino.test.ts:137-144 · tests/unit/l-ordine-con-un-appuntamento-gia-passato.test.ts:330",
+      "descrizione": "Leggono il file con readFileSync e cercano una stringa (toContain/toMatch). La prova montata la-veloce-resta-scelta-dopo-l-accesso.test.tsx copre già il comportamento, quindi è solo un buco nelle prove.",
+      "fonte": "preesistente: c è su 12e2ea35; trovato dal collaudo dell ondata 18 (run wf_fd762ee6-435)"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "La prova del carrello controlla il testo sorgente con una regex, invece di guardare il comportamento",
+      "file": "tests/unit/il-carrello-non-promette-mezz-ora-alle-undici-di-sera.test.ts, blocco «il primo disegno…» (readFileSync app/cart/page.tsx + toMatch)",
+      "descrizione": "Un refactor innocuo, per esempio rinominare oraDiAdesso, la fa diventare rossa senza nessun difetto. La parte che guarda davvero il comportamento (renderToString senza EXPRESS_ETA_LABEL) c'è già.",
+      "fonte": "nato dal lotto: ondata 18 (run wf_fd762ee6-435), rami 5be50559 e 75701477, cuciti su fix/base-ondata-19"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La scheda prodotto decide «si paga?» in un terzo modo: con la base a zero direbbe «Consegna gratuita» mentre la cassa fa pagare 1 € su 8 €",
+      "file": "lib/promesse-pubbliche.ts:393 (promessaSpedizione: siPaga = costoConsegna > 0), usata da components/ProductCard.tsx:133, app/product/[id]/page.tsx:467, app/checkout/page.tsx:701",
+      "descrizione": "vitest con vi.mock('@/lib/constants', {PLATFORM_DELIVERY_FEE_CENTS:0}): expect(riquadroTariffaConsegna().siPaga).toBe(true); expect(promessaSpedizione().breve).not.toMatch(/gratuita/i). Rossa su 75701477. Oggi la base è 3 €: nessuno vede l'errore.",
+      "fonte": "preesistente: c è su 12e2ea35; trovato dal collaudo dell ondata 18 (run wf_fd762ee6-435)"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "La descrizione Google e WhatsApp di un negozio col nome sopra i 20 caratteri si taglia a 160 caratteri, a metà parola, e perde «con un fattorino in servizio»",
+      "file": "app/store/[id]/layout.tsx:45 (.slice(0,160)) con lib/promesse-pubbliche.ts:119 (fraseComeArriva passa da 97 a 111 caratteri) · lib/promesse-pubbliche.ts fraseComeArriva (ora 111 caratteri, prima 97) + app/store/[id]/layout.tsx:45 .slice(0,160)",
+      "descrizione": "Visto da 2 collaudatori o revisori diversi. `Compra online da Macelleria Salumeria Da Gianni su MyCity. ${fraseComeArriva()}`.slice(0,160) finisce con «con un fattorino in»: expect(desc).toMatch(/fattorino in servizio/) è rossa. Prima reggeva fino a 34 caratteri di nome. — Calcolo: 'Compra online da '+nome+' su MyCity. '+fraseComeArriva(). Con 'Macelleria Salumeria Garetti' (28 car.) sono 168 car. e finisce in «con un fattorino in s». Con 45 car. sparisce la condizione del fattorino. Prima il taglio scattava sopra 34. Pane Quotidiano: 155.",
+      "fonte": "nato dal lotto: ondata 18 (run wf_fd762ee6-435), rami 5be50559 e 75701477, cuciti su fix/base-ondata-19"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "La FAQ sul costo manda agli esempi «nel carrello», ma con il carrello vuoto quella sezione non c'è",
+      "file": "lib/promesse-pubbliche.ts:213 rispostaCostoSpedizione; app/cart/page.tsx:392 (ramo mostraVuoto: EmptyState) contro il <details> RIGA_COME_SI_CALCOLA alla riga 713",
+      "descrizione": "Chi legge la FAQ di solito non ha ancora messo niente nel carrello: su /cart vede «Il tuo carrello è vuoto» e non trova nessun «Come si calcola la consegna». Il rimando è testo semplice, senza link.",
+      "fonte": "nato dal lotto: ondata 18 (run wf_fd762ee6-435), rami 5be50559 e 75701477, cuciti su fix/base-ondata-19"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "«Consegna in fascia oraria»: perso il «che scegli»; la descrizione della categoria alimentari arriva a 163 caratteri",
+      "file": "lib/promesse-pubbliche.ts fraseComeArriva; app/category/[slug]/layout.tsx:12",
+      "descrizione": "Per accorciare, la frase non dice più che la fascia la sceglie il cliente: il resto del sito dice «all'ora che scegli». La descrizione alimentari fa 52+111=163 caratteri: Google la taglia in fondo, proprio sulla condizione della veloce.",
+      "fonte": "nato dal lotto: ondata 18 (run wf_fd762ee6-435), rami 5be50559 e 75701477, cuciti su fix/base-ondata-19"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Con la base a zero la FAQ scrive «Paghi la consegna…: 0,00 € all'ora che scegli» e il riquadro «Consegna da 0,00 €»",
+      "file": "lib/promesse-pubbliche.ts rispostaCostoSpedizione (ramo siPaga con fasciaCents 0) e riquadroTariffaConsegna",
+      "descrizione": "È lo scenario che la prova la-consegna-si-paga-o-no stessa simula (PLATFORM_DELIVERY_FEE_CENTS 0). Il test controlla solo '1,00' e l'assenza di «gratuita», non la frase da 0 €. Oggi non è attivo: la base è 3 €.",
+      "fonte": "nato dal lotto: ondata 18 (run wf_fd762ee6-435), rami 5be50559 e 75701477, cuciti su fix/base-ondata-19"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Spedizioni dice «orari di apertura del negozio che hai scelto» al singolare, ma la veloce vuole tutti i negozi aperti",
+      "file": "app/shipping/page.tsx, lista sotto «Tempi di consegna»",
+      "descrizione": "La riga è al singolare, mentre la stessa pagina e QUANDO_SI_PUO_LA_VELOCE dicono «a negozi aperti». Con il carrello multi-negozio, la regola vera è che siano aperti tutti.",
+      "fonte": "preesistente: c è su 12e2ea35; trovato dal collaudo dell ondata 18 (run wf_fd762ee6-435)"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "VALUE_PROPS non lo mostra nessuna pagina: una delle «cinque case» corrette non arriva a nessun utente",
+      "file": "lib/constants.ts VALUE_PROPS (lo importano solo i test)",
+      "descrizione": "grep -rn VALUE_PROPS fuori da node_modules: lo usano solo tests/unit/*. Nessun import in app/ o components/.",
+      "fonte": "preesistente: c è su 12e2ea35; trovato dal collaudo dell ondata 18 (run wf_fd762ee6-435)"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Con un carrello senza negozio letto la domanda non parte mai, e la tessera «Adesso» dice «Sto controllando…» per sempre",
+      "file": "app/checkout/page.tsx riga 557 e 564: negoziDelCarrello vuoto fa uscire subito l'effetto, esitoVeloce resta null, il selettore mostra veloceInAttesa senza fine",
+      "descrizione": "Lettura del codice, probabilità bassa (gruppi con sellerId vuoto). Prima la tessera diceva «Non disponibile». Se «Adesso» viene dalla bozza, l'ordine resta fermo su RIGA_VELOCE_IN_ATTESA finché il cliente non cambia fascia.",
+      "fonte": "nato dal lotto: ondata 18 (run wf_fd762ee6-435), rami 5be50559 e 75701477, cuciti su fix/base-ondata-19"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Se la veloce cade, la fascia di domani diventa 9:00–12:00: si perde la scelta del cliente e il mattino è la fascia più rifiutata",
+      "file": "components/checkout/DeliverySlotPicker.tsx · quandoLaVeloceCade (FASCE_DI_DOMANI[0]) + useEffect che chiama onTomorrowTimeChange(caduta.fascia)",
+      "descrizione": "Prima restava FASCE_DI_DOMANI[2] (15:00–18:30) o la scelta del cliente. negozioPuoServire (lib/store-hours.ts:210) rifiuta con 409 una fascia di domani se il negozio è chiuso il mattino (es. lunedì mattina). Avviso chiaro, quindi solo attrito.",
+      "fonte": "nato dal lotto: ondata 18 (run wf_fd762ee6-435), rami 5be50559 e 75701477, cuciti su fix/base-ondata-19"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "La stessa frase «Sto controllando che ci sia un fattorino…» compare due volte sulla pagina",
+      "file": "components/checkout/DeliverySlotPicker.tsx (riga role=status) + app/checkout/page.tsx motivoDelBlocco riga ~1116",
+      "descrizione": "",
+      "fonte": "nato dal lotto: ondata 18 (run wf_fd762ee6-435), rami 5be50559 e 75701477, cuciti su fix/base-ondata-19"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Mentre dice «Sto controllando…» può mostrare sotto il motivo del no del carrello di prima",
+      "file": "components/checkout/DeliverySlotPicker.tsx · condizione !expressAvailable && motivoVeloce && !avvisoSpostata",
+      "descrizione": "Succede quando cambiano i negozi del carrello: esitoVeloce è legato ai negozi, motivoVeloce no. Resta il motivo vecchio sotto la scritta d'attesa.",
+      "fonte": "nato dal lotto: ondata 18 (run wf_fd762ee6-435), rami 5be50559 e 75701477, cuciti su fix/base-ondata-19"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "L'esempio del pannello admin regge solo finché la soglia della spesa piccola resta sopra i 7 €",
+      "file": "app/admin/delivery/page.tsx · TRE_NEGOZI_PICCOLI_CENTS con merce fissa 500/600/700",
+      "descrizione": "Oggi la soglia è SPESA_SENZA_SUPPLEMENTO_CENTS=1000 e il totale fa 800, uguale alla formula vecchia. Se la soglia scende a 7 € o meno, la frase «tre negozi sotto i X» conta meno supplementi di quanti ne dice.",
+      "fonte": "nato dal lotto: ondata 18 (run wf_fd762ee6-435), rami 5be50559 e 75701477, cuciti su fix/base-ondata-19"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "L'avviso «la veloce non si può più» resta anche quando, al controllo successivo, Adesso torna disponibile",
+      "file": "components/checkout/DeliverySlotPicker.tsx · avvisoSpostata non si azzera quando expressAvailable torna true",
+      "descrizione": "",
+      "fonte": "preesistente: c è su 12e2ea35; trovato dal collaudo dell ondata 18 (run wf_fd762ee6-435)"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La cassa propone già «Oggi · In giornata 15:00–18:00» anche quando il negozio è chiuso tutto il pomeriggio, come Pane Quotidiano il giovedì e la domenica, e il no arriva solo al tocco su «Ordina»",
+      "file": "components/checkout/DeliverySlotPicker.tsx:110-112 (oggiPossibile e le fasce di oggi guardano solo l'orologio) · :174-180 (tessera «Oggi» accesa) · app/checkout/page.tsx:528-530 (giorno e fascia di partenza) · la rotta che rifiuta: app/api/orders/cod/route.ts:664 (negozioPuoServire) · app/checkout/page.tsx:527-531 (giorno e fascia di partenza decisi solo dall'ora) · app/checkout/page.tsx:231 (dei negozi si leggono solo 'id, store_name, store_lat, store_lng', non gli orari) · app/checkout/page.tsx:1312-1322 (il selettore delle fasce non riceve gli orari del negozio) · app/api/orders/cod/route.ts:664 (la rotta dei contanti rifiuta la fascia con un 409)",
+      "descrizione": "Visto da 2 revisori diversi. Giovedì 29/10 alle 14:00 Maria apre la cassa con 15 € di pane di Pane Quotidiano. Il forno il giovedì chiude alle 13 e non riapre. La cassa parte da sola su «Oggi», con la fascia «In giornata · 15:00–18:00» già segnata, e la tessera «Oggi» dice «Scegli l'ora». Maria compila indirizzo e telefono e preme Ordina. La rotta risponde 409: «Pane Quotidiano oggi è chiuso in quella fascia. Scegli un altro orario, oppure ritira in negozio». Il ritiro però al lancio è spento (scheda 251). La domenica succede tutto il giorno, perché il negozio è sempre chiuso. Il motivo è uno solo: il selettore e la cassa non ricevono gli orari dei negozi del carrello, quindi offrono «Oggi» solo in base all'ora. È il muro all'ultimo passo, come nella scheda 1709 del carrello. Non si perdono soldi: l'ordine non nasce, e Maria può ripiegare su Domani. Al lancio però c'è un negozio solo, ogni domenica e ogni giovedì pomeriggio. Parente della scheda 1918, che vede lo stesso rifiuto solo quando cade la veloce; qui basta aprire la cassa. Orari presi dal vault: PagineGialle del 6/7, lun-sab 9-13 e 16:30-19:30, giovedì pomeriggio e domenica chiuso. Il «giovedì chiude alle 13» c'è anche nella nota di design del 29/10. Il database in questa sessione non l'ho letto. Prova: cp /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro19/interfaccia-o18/zz-perimetro-interfaccia-o18-prove.test.tsx /home/user/mycity-ondate/vaglio-19/tests/unit/ && cd /home/user/mycity-ondate/vaglio-19 && npx vitest run tests/unit/zz-perimetro-interfaccia-o18-prove.test.tsx -t 'A —' ; rm -f /home/user/mycity-ondate/vaglio-19/tests/unit/zz-perimetro-interfaccia-o18-prove.test.tsx — ROSSA due volte su due: monta la cassa vera alle 14:00 di giovedì e alle 10:00 di domenica. La fascia segnata è «In giornata · 15:00–18:00» e negozioPuoServire(orari di Pane Quotidiano, quella fascia) dà false, cioè la regola stessa della rotta. — Un esempio. Giovedì 29/10 alle 14:00 Maria mette nel carrello 15 € di pane di Pane Quotidiano, che è aperto dalle 8 alle 13. In cassa, sotto le tessere, legge il motivo che manda il server: «Pane Quotidiano adesso è chiuso: la consegna veloce non si può. Scegli una fascia oraria: la consegna arriva quando la scegli tu.» Subito sotto c'è già scelta «In giornata · 15:00–18:00», e il pulsante «Ordina e paga alla consegna · 18,00 €» è acceso. Maria scrive indirizzo e telefono e preme. Se non ha fatto l'accesso, prima passa dalla pagina di accesso. Poi la rotta risponde 409: «Pane Quotidiano oggi è chiuso in quella fascia. Scegli un altro orario, oppure ritira in negozio», e il ritiro in negozio al lancio è spento (scheda 251). Il sabato va peggio. Domenica il forno è chiuso, quindi dalle 13 del sabato nessuna delle sette fasce della cassa si può servire (provato con negozioPuoServire). La cassa però ne offre sei, e ognuna finisce in un 409.\n\nLa causa: la cassa sceglie e offre le fasce guardando solo l'orologio. Gli orari del negozio non li legge mai, e il controllo esiste solo nelle due rotte che creano l'ordine. La radice è la stessa del secondo caso della scheda 1918 (la veloce che cade su 15:00–18:00 a forno chiuso) e della 1709. L'ondata 18 ha corretto la frase della 1918 («libera»), ma il 409 resta. Qui colpisce chiunque apra la cassa di pomeriggio, non solo chi aveva scelto «Adesso»: chiudere la 1918 con la frase nuova non chiude questo.\n\nImpatto: niente soldi persi, perché il server ferma l'ordine. Ma al lancio c'è un solo negozio vero, e se i suoi orari sono quelli di un forno, ogni ordine del pomeriggio si ferma all'ultimo passo, spesso dopo il muro dell'accesso.\n\nProposta per tech, senza migrazione se la vista pubblica dei negozi espone già gli orari (da verificare). Leggere store_hours insieme alle coordinate alla riga 231. Passare al selettore solo le fasce che negozioPuoServire accetta, cioè la stessa regola delle rotte, per ogni negozio del carrello. Se non ne resta nessuna, dirlo prima («Pane Quotidiano riapre lunedì alle 8»).\n\nNon verificato: gli orari veri di Pane Quotidiano nel suo profilo, perché da qui non ho accesso al database. La prova usa il «forno vero» delle prove del sito (dal lunedì al sabato 8-13). Se store_hours è vuoto la rotta non rifiuta niente, e il rischio diventa un ordine che nessuno prepara (scheda 24). Prova: cp /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro19/flussi-o18/zz-perimetro-flussi-o18-forno-chiuso.test.tsx /home/user/mycity-ondate/vaglio-19/tests/unit/ && cd /home/user/mycity-ondate/vaglio-19 && npx vitest run tests/unit/zz-perimetro-flussi-o18-forno-chiuso.test.tsx ; rm -f /home/user/mycity-ondate/vaglio-19/tests/unit/zz-perimetro-flussi-o18-forno-chiuso.test.tsx — ROSSA oggi, 2 casi su 2: la cassa viene montata intera (sabato 31/10 alle 13:30 e giovedì 29/10 alle 14:00, ora di Roma), il pulsante è attivo su «In giornata · 15:00–18:00» e negozioPuoServire dice no. Per il sabato senza nessuna fascia buona c'è un controllo puro, verde = confermato: /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro19/flussi-o18/zz-perimetro-flussi-o18-sabato.test.ts VERIFICA di un secondo revisore: regge, gravità «grave»: Repo /home/user/mycity-ondate/vaglio-19 sulla testa 35677a88, toccato solo con file miei e cancellati subito dopo.\n\n1) Ho rifatto la prova del revisore (blocco 'A —') due volte, sotto due nomi miei:\n- cp …/perimetro19/interfaccia-o18/zz-perimetro-interfaccia-o18-prove.test.tsx tests/unit/zz-perimetro-interfaccia-o18-verifica-0-prove.test.tsx\n- npx vitest run tests/unit/zz-perimetro-interfaccia-o18-verifica-0-prove.test.tsx -t 'A —'\n- poi rm. Seconda volta uguale, col nome …-verifica-0-prove2.test.tsx.\nEsito: ROSSA tutte e due le volte, 2 prove fallite su 2 (le altre 3 saltate). Messaggi:\n- «la cassa propone già segnata «In giornata · 15:00–18:00», ma Pane Quotidiano giovedì pomeriggio è chiuso: expected false to be true»\n- «domenica la cassa segna «In giornata · 15:00–18:00»: expected false to be true».\n\n2) Ho scritto una prova mia: /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro19/interfaccia-o18-verifica-0/zz-perimetro-interfaccia-o18-verifica-0-settimana.test.ts\nCosa fa: scorre una settimana a passi di 5 minuti. Usa le funzioni vere della partenza della cassa (giornoDiPartenza, fasciaDiPartenzaOggi, FASCE_DI_DOMANI[2]) e passa ogni scelta a negozioPuoServire con gli orari di Pane Quotidiano.\nComandi: copiata in tests/unit, lanciata con TZ=Europe/Rome npx vitest run, poi rm.\nEsito: ROSSA, «expected 606 to be 0». In tutta la settimana i passi rifiutati sono 606 su 2016. Tra le 8 e le 21 sono 342 su 1092:\n- domenica, «oggi» fino alle 20: 144;\n- giovedì, «oggi» per tutto il giorno, anche al mattino a forno aperto: 144;\n- 19:30-20:00 di lun, mar, mer, ven, sab: 30;\n- mercoledì e sabato dopo le 20 su «domani», già nella scheda 1659: 24.\nIn 510 passi su 606 nessuna fascia di oggi si poteva servire: la tessera «Oggi» andava spenta.\n\n3) Letture del codice: DeliverySlotPicker.tsx:110-112 e 174-180, app/checkout/page.tsx:230 e 527-530, app/api/orders/cod/route.ts:661-667, lib/store-hours.ts:194-216. Ho visto anche come stavano sul main 0df55577: il selettore non legge orari nemmeno lì.\n\n4) Ho cercato nel registro radiografia-marketplace.json (1948 schede). Non c'è una scheda per questo caso. Le vicine sono la 1709, la 1659 e la 1918.\n\n5) Alla fine git status --porcelain è vuoto: nel repo non è rimasto nessun mio file. — regge, gravità «grave»: Ogni prova è stata copiata in /home/user/mycity-ondate/vaglio-19/tests/unit/ col prefisso zz-perimetro-flussi-o18-verifica-0-, lanciata con npx vitest run e cancellata subito. Alla fine git status --porcelain è vuoto.\n\n1) Le due prove del revisore, rinominate (…-forno-chiuso.test.tsx e …-sabato.test.ts). La cassa montata è rossa 2 su 2: sabato 31/10 alle 13:30 e giovedì 29/10 alle 14:00 (ora di Roma) la fascia scelta è «In giornata · 15:00–18:00», il pulsante è attivo e negozioPuoServire(forno 8-13) dà false. Il controllo puro del sabato è verde: alle 13:30 nessuna delle sette fasce va bene.\n\n2) Una prova mia sulla rotta vera app/api/orders/cod/route.ts, con lib/store-hours vera, database e autenticazione finti (impalcatura di la-cassa-in-contanti-si-ferma-quando-non-vede.test.ts) e store_hours del forno dal lunedì al sabato 8-13. Il controllo, giovedì alle 10 con «Domani · 9:00–12:00», dà 200 e l'ordine nasce. La fascia di partenza della cassa prende 409 in tutti e quattro i casi: giovedì 14:00 «In giornata · 15:00–18:00» → «Pane Quotidiano oggi è chiuso in quella fascia. Scegli un altro orario, oppure ritira in negozio.»; giovedì 10:00 a forno aperto, stessa fascia → 409; giovedì 20:30 «Domani · 15:00–18:30» → 409 «…domani è chiuso in quella fascia…»; sabato 13:30 → 409. Il conto ora per ora del giovedì sulla fascia di partenza dà 0 ore buone su 24.\n\n3) La cassa montata (stessa impalcatura del revisore) giovedì 29/10 alle 10:00 con la veloce sì: fascia scelta «In giornata · 15:00–18:00», pulsante fermo=false, servibile=false. Rossa.\n\nHo letto anche il registro radiografia-marketplace.json: le schede vicine sono la 1659, la 1709 e la 1918 (aperte) e la 1121 (chiusa). Nessuna riguarda la fascia di partenza rifiutata. I file di prova stanno in /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro19/flussi-o18-verifica-0/.",
+      "fonte": "preesistente: c è su 12e2ea35; trovato dal controllo dei 9 file dell ondata 18 (run wf_57f9c01e-7ed) su 35677a88"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Alle 17:50 la cassa segna «In giornata · 15:00–18:00»: promette la consegna entro dieci minuti, meno della veloce, e la rotta accetta l'ordine",
+      "file": "components/checkout/DeliverySlotPicker.tsx:110-111 (todayTimes da fasceAncoraPossibili con l'ora intera) · lib/quando-arriva.ts:93 (una fascia resta proponibile finché non è finita, oraDiFine > ora) · app/checkout/page.tsx:528-530 (la fascia di partenza è la prima rimasta)",
+      "descrizione": "Lunedì 2/11 alle 17:50 Maria apre la cassa con 15 € di pane. Pane Quotidiano è aperto, dalle 16:30 alle 19:30. La cassa segna da sola «In giornata · 15:00–18:00» a 3 €, cioè «arriva entro le 18». Mancano dieci minuti. Accanto la veloce dice «30-60 min · +1 €». Così la consegna normale, più economica, promette di arrivare prima di quella veloce. La rotta accetta l'ordine, perché il negozio è aperto in quel pezzo di fascia. Pane Quotidiano riceve un ordine «15:00–18:00» già in ritardo prima di confermarlo, e il fattorino (Nicola) non può arrivare entro le 18. Succede ogni giorno fra le 17:31 e le 17:59. Fra le 19:31 e le 19:59 succede con «Stasera · 18:00–20:00», per i negozi aperti fino alle 20. Il selettore conosce solo l'ora intera: alle 17 propone la fascia fino alle 18, qualunque sia il minuto. Nessun soldo sbagliato. Resta una promessa di orario impossibile, fatta al cliente e al negozio. Prova: cp /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro19/interfaccia-o18/zz-perimetro-interfaccia-o18-prove.test.tsx /home/user/mycity-ondate/vaglio-19/tests/unit/ && cd /home/user/mycity-ondate/vaglio-19 && npx vitest run tests/unit/zz-perimetro-interfaccia-o18-prove.test.tsx -t 'D —' ; rm -f /home/user/mycity-ondate/vaglio-19/tests/unit/zz-perimetro-interfaccia-o18-prove.test.tsx — ROSSA due volte su due: «mancano 10 minuti alla fine: expected 10 to be greater than or equal to 30». Nella stessa prova la rotta accetta (negozioPuoServire true) e a schermo c'è «30-60 min · +1 €». VERIFICA di un secondo revisore: regge, gravità «grave»: Ho fatto due prove, ognuna due volte. Alla fine il repo è pulito: `git -C /home/user/mycity-ondate/vaglio-19 status --porcelain` non stampa niente.\n\n1) La prova del revisore, copiata con un nome mio:\n`cp /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro19/interfaccia-o18/zz-perimetro-interfaccia-o18-prove.test.tsx /home/user/mycity-ondate/vaglio-19/tests/unit/zz-perimetro-interfaccia-o18-verifica-1-prove.test.tsx && cd /home/user/mycity-ondate/vaglio-19 && npx vitest run tests/unit/zz-perimetro-interfaccia-o18-verifica-1-prove.test.tsx -t 'D —' ; rm -f …`\nRisultato ROSSO: 1 caduta e 4 saltate. «la cassa propone già segnata «In giornata · 15:00–18:00» quando mancano 10 minuti alla fine: meno dei 30 minuti minimi della veloce: expected 10 to be greater than or equal to 30». Prima di quel rosso erano già passati tre controlli: tessera premuta «Oggi», `negozioPuoServire` = true, a schermo «30-60 min · +1 €».\n\n2) Una prova mia, pura, con le stesse funzioni di cassa e rotte:\n/tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro19/interfaccia-o18-verifica-1/zz-perimetro-interfaccia-o18-verifica-1-minuti.test.ts\nL'ho copiata in tests/unit/, lanciata con `npx vitest run tests/unit/zz-perimetro-interfaccia-o18-verifica-1-minuti.test.ts` e cancellata, per due giri. Tutte e due le volte: 3 su 3 rosse.\n(a) Lunedì 17:50 con gli orari di Pane Quotidiano. Passano tutti i controlli fino all'ultimo: `giornoDiPartenza` = 'today', la fascia è «In giornata · 15:00–18:00», `siPuoConfermare` = true, `etichettaPerLOrdine` = la fascia, `expressSiPuo` = true, `negozioPuoServire` = true, e `scadenzaAccettazione` = 2026-11-02T19:50Z (il lavoro notturno non annulla alle 18). Poi diventa rosso: «mancano 10 minuti alla fine della fascia segnata: expected 10 to be ≥ 30».\n(b) Lunedì 19:55, negozio aperto fino alle 20: la fascia è «Stasera · 18:00–20:00», la rotta accetta, «expected 5 to be ≥ 30».\n(c) Ho scorso minuto per minuto dalle 15:00 alle 20:59, con un negozio aperto fino alle 20. La fascia di partenza ha meno di 30 minuti, e la rotta accetta, dalle 17:31 alle 17:59 (da 29 minuti rimasti fino a 1) e dalle 19:31 alle 19:59. E `fasceAncoraPossibili(17)` contiene ancora la 15–18.\n\n3) Controlli sul codice:\n- `git diff 0df55577 35677a88 -- lib/quando-arriva.ts` è vuoto. Sul main di base, page.tsx:519-521 e DeliverySlotPicker.tsx:53-54 hanno lo stesso meccanismo con `new Date().getHours()`. Quindi è preesistente.\n- `lib/ordini/fascia-consegna.ts` controlla solo che la fascia sia una delle sette ammesse. La rotta dei contanti (cod/route.ts:664) ha solo `negozioPuoServire`. Non c'è nessun altro freno.\n- Ho cercato in radiografia-marketplace.json (1.948 problemi) con regex su quando-arriva, oraDiFine, DeliverySlotPicker, le etichette 15:00–18:00 e 18:00–20:00, preavviso, margine, cutoff, residuo e minuti. Nessuna scheda descrive questo difetto.\n\nCosa non ho verificato. Non ho provato la rotta della carta (spenta al lancio; lì c'è la stessa chiamata `negozioPuoServire`, stripe/checkout/route.ts:454). Non ho letto gli orari veri di Pane Quotidiano nel database, perché da qui non avevo accesso a Supabase: ho usato quelli del vault (lun-sab 9-13 e 16:30-19:30, giovedì pomeriggio chiuso).",
+      "fonte": "preesistente: c è su 12e2ea35; trovato dal controllo dei 9 file dell ondata 18 (run wf_57f9c01e-7ed) su 35677a88"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Quando la veloce cade perché il negozio è chiuso, il perché sparisce dallo schermo proprio mentre la cassa mette una fascia che quel negozio non può servire",
+      "file": "components/checkout/DeliverySlotPicker.tsx:194 (condizione !expressAvailable && motivoVeloce && !avvisoSpostata)",
+      "descrizione": "Giovedì 29/10 alle 13:05 Maria torna dall'accesso con «Adesso» nella bozza. Il server risponde: «Pane Quotidiano adesso è chiuso: la consegna veloce non si può». La cassa la sposta su «In giornata · 15:00–18:00» e scrive «ho messo «In giornata · 15:00–18:00». Controlla qui sotto che l'ora ti vada bene». Il motivo del server, cioè che il negozio è chiuso, è nascosto proprio perché c'è l'avviso. Maria non ha nessun indizio che il forno il giovedì pomeriggio non riapre. Preme Ordina e la rotta la rifiuta. La riga del perché è l'unica informazione sugli orari che arriva alla cassa, e si spegne nel solo momento in cui servirebbe. La condizione c'era già su 12e2ea35. L'ondata 18 ha reso l'avviso più convincente, perché adesso nomina la fascia. Diversa dalla scheda 1945, che riguarda un motivo vecchio mostrato durante l'attesa. Prova: cp /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro19/interfaccia-o18/zz-perimetro-interfaccia-o18-prove.test.tsx /home/user/mycity-ondate/vaglio-19/tests/unit/ && cd /home/user/mycity-ondate/vaglio-19 && npx vitest run tests/unit/zz-perimetro-interfaccia-o18-prove.test.tsx -t 'B —' ; rm -f /home/user/mycity-ondate/vaglio-19/tests/unit/zz-perimetro-interfaccia-o18-prove.test.tsx — ROSSA due volte su due: il testo visibile della cassa montata contiene l'avviso ma non «adesso è chiuso».",
+      "fonte": "preesistente: c è su 12e2ea35; trovato dal controllo dei 9 file dell ondata 18 (run wf_57f9c01e-7ed) su 35677a88"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Alle 20:00 la scelta «Stasera · 18:00–20:00» diventa «Domani · 15:00–18:30» senza una riga che lo dica",
+      "file": "components/checkout/DeliverySlotPicker.tsx:148-153 (effetto: se oggi non resta niente, onDayChange('tomorrow') senza avviso; se la fascia di oggi è passata, onTodayTimeChange(todayTimes[0]) senza avviso)",
+      "descrizione": "Lunedì 2/11 alle 19:59 Maria è in cassa con «Stasera · 18:00–20:00» segnata. Alle 20:00 parte il controllo della veloce, che si ripete ogni minuto, e la pagina si ridisegna. Il selettore sposta da solo il giorno su Domani e la fascia su «Domani · 15:00–18:30», senza nessuna riga che lo annunci. Lo stesso alle 18:00: «In giornata · 15:00–18:00» diventa «Stasera · 18:00–20:00» in silenzio. Basta anche scrivere nell'indirizzo per far ridisegnare la pagina. Lo spostamento in sé è giusto, perché quella fascia è finita. Ma è lo stesso spostamento muto che la scheda 1802 ha chiuso per la veloce con una riga di avviso. Qui la riga manca, e chi non rilegge ordina per domani pomeriggio credendo di ricevere stasera. La cifra non cambia. Il cambio si vede solo nella riga piccola «Consegna a domicilio». Prova: cp /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro19/interfaccia-o18/zz-perimetro-interfaccia-o18-prove.test.tsx /home/user/mycity-ondate/vaglio-19/tests/unit/ && cd /home/user/mycity-ondate/vaglio-19 && npx vitest run tests/unit/zz-perimetro-interfaccia-o18-prove.test.tsx -t 'C —' ; rm -f /home/user/mycity-ondate/vaglio-19/tests/unit/zz-perimetro-interfaccia-o18-prove.test.tsx — ROSSA due volte su due: dopo il battito delle 20:00 la tessera premuta è Domani e la fascia è «Domani · 15:00–18:30». Le righe role=status sono vuote: expected '' to match.",
+      "fonte": "preesistente: c è su 12e2ea35; trovato dal controllo dei 9 file dell ondata 18 (run wf_57f9c01e-7ed) su 35677a88"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Dopo il no della rotta sulla veloce, la cassa lascia «Adesso» scelta, offerta e a +1 € fino al controllo del minuto dopo: un secondo tocco riceve lo stesso no",
+      "file": "app/checkout/page.tsx:962-965 (onError dei contanti: mostra solo il messaggio) · app/checkout/page.tsx:1066-1069 (onError della carta, stessa cosa) · app/checkout/page.tsx:555-588 (la risposta della veloce si rinnova solo col battito di 60 secondi o se cambiano i negozi del carrello)",
+      "descrizione": "Un esempio. Giovedì 29/10 alle 18:00 Maria sceglie «Adesso» per 15 € di pane: la consegna fa 4 € e il totale 19 €. Mentre scrive l'indirizzo, Nicola spegne il suo interruttore «in servizio». Lo stesso succede alle 12:59 se il forno chiude alle 13. Maria preme «Ordina e paga alla consegna · 19,00 €». La rotta risponde 409: «Adesso non c'è un fattorino libero per la consegna veloce. Scegli una fascia oraria…». La cassa mostra il messaggio e basta. La tessera «Adesso · 30-60 min · +1 €» resta premuta e si può ancora scegliere, e il totale resta 19 €. Questo perché la risposta della veloce resta quella vecchia finché non scatta il battito, fino a 60 secondi dopo. Se Maria ripreme, riceve lo stesso 409. Solo al battito dopo il selettore sposta la scelta e scrive l'avviso.\n\nNiente soldi sbagliati: il server ferma l'ordine tutte e due le volte. Resta però una schermata che contraddice il messaggio appena letto, proprio al momento di pagare.\n\nProposta per tech: quando la rotta risponde 409 sulla veloce, rifare subito la domanda a /api/consegna/veloce, oppure segnare il no per quei negozi. Così il selettore sposta la scelta e l'avviso nomina la fascia messa al suo posto, come fa già quando il no arriva col battito.\n\nC'era già prima dell'ondata 18: su 12e2ea35 la risposta era un vero/falso rinnovato ogni minuto, con lo stesso comportamento. Prova: lettura: la finta di react-query delle prove montate (tests/unit/aiuti/finti/react-query.mjs) registra mutate ma non fa mai girare onError, quindi da qui il 409 non si può simulare a pagina montata. Si vede nel codice: dopo l'errore esitoVeloce non cambia (righe 555-588 contro 962-965).",
+      "fonte": "preesistente: c è su 12e2ea35; trovato dal controllo dei 9 file dell ondata 18 (run wf_57f9c01e-7ed) su 35677a88"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Quando la cassa dice no alla consegna veloce, scrive l'ora a mano («dalle 8 alle 21»), mentre il commento giura che tutte le frasi la prendono da un posto solo",
+      "file": "lib/ordini/consegna-veloce.ts:41 (veloceSiPuo, il testo del no) contro lib/promessa-consegna.ts:67 (ORE_DELLA_VELOCE) e il commento di lib/promessa-consegna.ts:12-16",
+      "descrizione": "L'ondata 18 ha dato una casa sola alle ore della veloce, ORE_DELLA_VELOCE. Il commento in testa a promessa-consegna.ts dice «adesso tutti prendono QUANDO_SI_PUO_LA_VELOCE». Resta però una sesta copia scritta a mano: il motivo del no che la cassa e la rotta dei contanti mostrano al cliente. È «La consegna veloce si fa dalle 8 alle 21». Oggi le due frasi coincidono. Mettiamo che Nicola sposti la chiusura della veloce alle 20, perché in bici dopo quell'ora non ce la fa. Venerdì alle 20:30 la pagina Spedizioni, la FAQ e il carrello dicono «dalle 8 alle 20». La cassa invece rifiuta la veloce scrivendo «si fa dalle 8 alle 21», cioè dice sì e no nella stessa frase. La prova dell'ondata (le-condizioni-della-veloce-hanno-una-casa-sola) sposta la chiusura alle 20 ma non guarda questo testo, e per questo resta verde. I soldi non cambiano: è la frase del no che mente. Prova: cp /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro19/architettura-o18/zz-perimetro-architettura-o18-ore-veloce.test.ts /home/user/mycity-ondate/vaglio-19/tests/unit/ && cd /home/user/mycity-ondate/vaglio-19 && npx vitest run tests/unit/zz-perimetro-architettura-o18-ore-veloce.test.ts ; rm /home/user/mycity-ondate/vaglio-19/tests/unit/zz-perimetro-architettura-o18-ore-veloce.test.ts — la prova mette CHIUSURA_EXPRESS a 20 con vi.mock e chiede a veloceSiPuo alle 21:30 il motivo del no (Pane Quotidiano senza orari, un fattorino online). Rossa su 35677a88: «expected 'La consegna veloce si fa dalle 8 alle 21…' to contain 'dalle 8 alle 20'».",
+      "fonte": "preesistente: c è su 12e2ea35; trovato dal controllo dei 9 file dell ondata 18 (run wf_57f9c01e-7ed) su 35677a88"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Nella stessa pagina la FAQ dice che con più negozi ogni ordine ha «la propria spedizione», e poco sotto che la consegna si paga una volta sola",
+      "file": "app/faq/page.tsx:29 (risposta scritta a mano a «Posso comprare da più negozi nello stesso ordine?») contro lib/promesse-pubbliche.ts:208 (rispostaCostoSpedizione: «una volta sola, per tutto il carrello»)",
+      "descrizione": "La regola «consegna unica per tutto il carrello» vive in rispostaCostoSpedizione. La FAQ la mostra nella sezione Spedizioni. Due domande sopra, nella sezione Acquisti, c'è una risposta scritta a mano il 24/6 e mai riallineata: «alla conferma viene creato un ordine separato per ciascun negozio, ognuno con la propria spedizione e gestione». Esempio: 15 € di pane da Pane Quotidiano e 12 € di frutta. La cassa fa una consegna sola da 4 €. Chi legge «ognuno con la propria spedizione» pensa a due consegne, cioè 6 €, e magari rinuncia al secondo negozio. Il totale vero si vede in cassa, quindi nessuno paga di più. Al lancio c'è un solo negozio vero, quindi oggi non succede. Prova: cp /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro19/architettura-o18/zz-perimetro-architettura-o18-faq.test.tsx /home/user/mycity-ondate/vaglio-19/tests/unit/ && cd /home/user/mycity-ondate/vaglio-19 && npx vitest run tests/unit/zz-perimetro-architettura-o18-faq.test.tsx -t \"propria spedizione\" ; rm /home/user/mycity-ondate/vaglio-19/tests/unit/zz-perimetro-architettura-o18-faq.test.tsx — la prova monta davvero la pagina FAQ (jsdom), apre tutte le risposte e controlla che accanto a «una volta sola, per tutto il carrello» non ci sia «ognuno con la propria spedizione». Rossa su 35677a88. Il controllo che pane 15 € + frutta 12 € costino 4 € è verde.",
+      "fonte": "preesistente: c è su 12e2ea35; trovato dal controllo dei 9 file dell ondata 18 (run wf_57f9c01e-7ed) su 35677a88"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La FAQ dice che il fattorino è pagato «in base alla distanza», mentre la regola firmata dice 3 € il giro più 1 € per ogni negozio in più",
+      "file": "app/faq/page.tsx:175 («Quanto guadagna un rider?») contro lib/constants.ts:119 (COMPENSO_RIDER_CENTS) e lib/constants.ts:128 (COMPENSO_RIDER_NEGOZIO_IN_PIU_CENTS)",
+      "descrizione": "Il compenso del fattorino è deciso da Nicola il 29/10 alle 23:04: 3 € per il giro e 1 € per ogni negozio in più. Non cambia con i chilometri, né con la veloce o con la spesa piccola. Il numero vive in due costanti di lib/constants.ts. La FAQ invece risponde a mano: «Il compenso è calcolato per consegna in base alla distanza». Esempio: un giro da Pane Quotidiano a 4 km paga 3 €, e uno a 1 km paga sempre 3 €. Chi si candida come fattorino si aspetta di guadagnare di più sui giri lunghi. Al lancio il fattorino è Nicola, quindi oggi non sbaglia nessuno. Prova: cp /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro19/architettura-o18/zz-perimetro-architettura-o18-faq.test.tsx /home/user/mycity-ondate/vaglio-19/tests/unit/ && cd /home/user/mycity-ondate/vaglio-19 && npx vitest run tests/unit/zz-perimetro-architettura-o18-faq.test.tsx -t \"compenso del rider\" ; rm /home/user/mycity-ondate/vaglio-19/tests/unit/zz-perimetro-architettura-o18-faq.test.tsx — rossa su 35677a88: la FAQ montata contiene «in base alla distanza», mentre le costanti valgono 300 e 100 centesimi.",
+      "fonte": "preesistente: c è su 12e2ea35; trovato dal controllo dei 9 file dell ondata 18 (run wf_57f9c01e-7ed) su 35677a88"
     }
   ],
   "sync_scan": {
