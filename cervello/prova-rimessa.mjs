@@ -23,19 +23,22 @@
 // oppure le prove nominano un nome esportato che la base non ha («typeof m.doppio» cade senza nessun
 // TypeError). Lo decide il collaudo, rimettendo il difetto com'e' scritto nella scheda.
 //
-// SE MI UCCIDONO. Prima del passo ② scrivo un salvataggio dei file di oggi (in <tmp>/prova-rimessa/). Con
-// SIGINT/SIGTERM/SIGHUP rimetto subito. Con kill -9 non posso: la prossima corsa sullo stesso worktree
-// trova il salvataggio, ferma il gruppo di processi rimasto orfano e rimette i file prima di fare altro.
-// Il prompt delle squadre fa committare PRIMA di lanciarmi: cosi' anche il caso peggiore non perde niente.
-// Due corse insieme sullo stesso worktree non si fanno: il blocco si prende prima del passo ①, la seconda
-// esce 2. Il recupero rimette solo il file che la corsa uccisa aveva lasciato alla base, e solo se sul disco
-// ci sono ancora i suoi byte: lavoro piu' nuovo, o un worktree rifatto, non si toccano.
+// SE MI UCCIDONO. Lavoro solo su file COMMITTATI: un file in --file con modifiche non committate mi ferma
+// prima di toccare qualunque cosa (uscita 2). Cosi' la correzione vera sta sempre nel commit. Con
+// SIGINT/SIGTERM/SIGHUP rimetto subito i file. Con kill -9 non posso: il file resta alla base, la corsa
+// dopo lo vede come «modifica non committata», si ferma e dice di rimetterlo con `git checkout HEAD -- <file>`.
+// Niente salvataggi da recuperare: il ricollaudo del 30/10 ha trovato quattro modi in cui un recupero
+// scriveva sopra il lavoro giusto, e la cura alla radice e' non averne bisogno.
+// Due corse insieme sullo stesso worktree non si fanno: il blocco sta nella cartella git del worktree, si
+// prende prima del passo ① (la seconda esce 2) e sparisce con il worktree. Il log sta li' accanto.
 // LIMITE DICHIARATO: un membro nuovo dentro un oggetto esportato che c'era gia' (`api.doppio` su `api`)
 // non lo vedo; una prova che controlla solo che esista («typeof m.api.doppio») puo' darmi un falso «regge».
 // Per questo il collaudo rilancia la prova e guarda la variante: la macchina viene prima, non da sola.
+// LIMITE DICHIARATO: un blocco stantio (corsa uccisa) conteso da due corse nuove nello stesso istante
+// puo' farle partire tutte e due; nel giro d'ondata ogni worktree ha un lavoratore solo.
 //
 // USCITA. 0 regge · 1 non regge (non_verde, non_morde, instabile) · 2 non provato (argomenti, git, tempo
-// scaduto, nessuna prova vista passare, un'altra corsa in corso) · 3 la macchina non decide
+// scaduto, nessuna prova vista passare, un'altra corsa in corso, un file non committato) · 3 la macchina non decide
 // (rosso_strutturale, rosso_sconosciuto) · 4 NON ripristinato: un file non e' tornato com'era.
 //
 // 🟢 Scrive solo i file passati in --file, e li rimette com'erano. Niente git add, niente commit.
@@ -47,17 +50,14 @@
 // PROVA_RIMESSA_TOTALE_MS (default 480 secondi), sotto i 540 di «timeout 540».
 
 import { spawn } from "node:child_process";
-import { existsSync, readFileSync, writeFileSync, unlinkSync, mkdirSync, statSync, chmodSync, openSync, closeSync, renameSync } from "node:fs";
-import { tmpdir } from "node:os";
-import { join, dirname, normalize, isAbsolute, resolve } from "node:path";
-import { createHash } from "node:crypto";
+import { existsSync, readFileSync, writeFileSync, unlinkSync, mkdirSync, statSync, chmodSync, openSync, closeSync } from "node:fs";
+import { join, dirname, normalize, isAbsolute } from "node:path";
 import { gitEsegui } from "./git-github.mjs";
 
 const COMANDO_DEFAULT = "npx vitest run --reporter=dot {prove}";
 const numero = (v, d) => (Number(v) > 0 ? Number(v) : d);
 const TIMEOUT_MS = numero(process.env.PROVA_RIMESSA_TIMEOUT_MS, 150_000);
 const TOTALE_MS = numero(process.env.PROVA_RIMESSA_TOTALE_MS, 480_000);
-const CARTELLA = join(tmpdir(), "prova-rimessa");
 
 // Solo il MESSAGGIO di un'asserzione caduta. Non basta da solo: vedi tipoDiRosso.
 export const ASSERZIONE = /AssertionError|expected [^\n]{0,160} to (?:be|equal|deeply|strictly|have|include|match|throw|contain|satisfy)\b/;
@@ -126,8 +126,8 @@ function argomenti(argv) {
 const citato = (s) => "'" + String(s).replace(/'/g, "'\\''") + "'";
 const vivo = (pid) => { try { process.kill(pid, 0); return true; } catch (e) { return e.code === "EPERM"; } };
 const uccidiGruppo = (pgid) => { try { process.kill(-pgid, "SIGKILL"); } catch (e) { /* gia' finito */ } };
-// Un pid o un gruppo salvato si riusa solo se /proc dice che e' ancora nostro: i numeri dei processi si
-// riciclano, e un SIGKILL al gruppo sbagliato colpirebbe un processo che non c'entra (ricollaudo del 30/10).
+// Il pid di un blocco vale solo se /proc dice che e' ancora una prova-rimessa: i numeri dei processi si
+// riciclano, e un pid riusato da un altro processo terrebbe il worktree bloccato per sempre (ricollaudo del 30/10).
 const riga = (pid) => { try { return readFileSync("/proc/" + pid + "/cmdline", "utf8").replace(/\0/g, " "); } catch (e) { return null; } };
 const CON_PROC = existsSync("/proc/self/cmdline");
 const nostro = (pid, segno) => { const r = riga(pid); return r !== null ? r.includes(segno) : !CON_PROC && vivo(pid); };
@@ -144,7 +144,7 @@ function prendiBlocco(p) {
   }
   return false;
 }
-const scriviAtomico = (p, testo) => { const tmp = p + "." + process.pid + ".tmp"; writeFileSync(tmp, testo); renameSync(tmp, p); };
+
 
 // Ogni giro in un gruppo di processi suo: il tempo scaduto uccide anche i figli (vitest, «cmd; true»),
 // che altrimenti tengono aperta l'uscita e il giro non finisce mai (collaudo del 30/10).
@@ -185,39 +185,20 @@ async function corpo(a, ctx) {
     if (!statSync(q).isFile()) return no("una prova deve essere un file, non una cartella: " + p);
   }
 
-  mkdirSync(CARTELLA, { recursive: true });
-  const chiave = createHash("sha1").update(resolve(repo)).digest("hex").slice(0, 16);
-  const salvataggio = join(CARTELLA, chiave + ".json");
-  // Il blocco PRIMA del passo ①: una seconda corsa che parte mentre la prima ha un file alla base vedrebbe
-  // la prova rossa per colpa dell'altra e darebbe un falso «regge» (ricollaudo del 30/10).
-  const blocco = join(CARTELLA, chiave + ".lock");
+  // Il blocco PRIMA del passo ①, nella cartella git del worktree: una seconda corsa che parte mentre la
+  // prima ha un file alla base vedrebbe la prova rossa per colpa dell'altra e darebbe un falso «regge».
+  let cartellaGit;
+  try { cartellaGit = gitEsegui(["rev-parse", "--absolute-git-dir"], repo); } catch (e) { return no("non trovo la cartella git del worktree: " + repo); }
+  const blocco = join(cartellaGit, "prova-rimessa.lock");
+  ctx.log = join(cartellaGit, "prova-rimessa.log");
   if (!prendiBlocco(blocco)) return no("un'altra prova-rimessa sta lavorando su questo worktree: aspetta che finisca");
   ctx.blocco = blocco;
 
-  // Il salvataggio di una corsa uccisa con kill -9. Si rimette SOLO il file che quella corsa aveva lasciato
-  // alla base, e solo se sul disco ci sono ancora i byte che lei aveva scritto: se nel frattempo qualcuno ha
-  // scritto lavoro nuovo, o il worktree e' stato rifatto, il salvataggio e' vecchio e si mette da parte.
-  if (existsSync(salvataggio)) {
-    let s = null;
-    try { s = JSON.parse(readFileSync(salvataggio, "utf8")); } catch (e) { s = null; }
-    if (!s || !s.file) return { esito: "non_ripristinato", uscita: 4, passi, motivo: "c'e' il salvataggio di una corsa interrotta e non riesco a leggerlo: guardalo a mano prima di tutto (" + salvataggio + ")" };
-    for (const g of s.pgid || []) if (s.segno && nostro(g, s.segno)) uccidiGruppo(g);
-    const l = s.alla_base;
-    if (l && s.file[l.file]) {
-      const p = join(repo, l.file), x = s.file[l.file];
-      const ora = existsSync(p) ? readFileSync(p).toString("base64") : null;
-      if (ora === l.dati && ora !== x.dati) {
-        if (x.dati === null) { if (existsSync(p)) unlinkSync(p); }
-        else { mkdirSync(dirname(p), { recursive: true }); writeFileSync(p, Buffer.from(x.dati, "base64")); chmodSync(p, x.modo); }
-        const dopo = existsSync(p) ? readFileSync(p).toString("base64") : null;
-        if (dopo !== x.dati) return { esito: "non_ripristinato", uscita: 4, passi, motivo: "una corsa interrotta aveva lasciato " + l.file + " alla base, e NON sono riuscito a rimetterlo" };
-        passi.push("⚠️ una corsa interrotta aveva lasciato " + l.file + " alla base: l'ho rimesso com'era");
-      } else if (ora !== x.dati) {
-        renameSync(salvataggio, salvataggio + ".vecchio");
-        passi.push("⚠️ il salvataggio di una corsa interrotta e' vecchio: " + l.file + " e' cambiato dopo, e non lo tocco. Messo da parte in " + salvataggio + ".vecchio");
-      }
-    }
-    if (existsSync(salvataggio)) unlinkSync(salvataggio);
+  // Solo file committati: la correzione vera deve stare nel commit, cosi' niente si perde se mi uccidono.
+  for (const f of a.file) {
+    let stato = "";
+    try { stato = gitEsegui(["--literal-pathspecs", "status", "--porcelain", "--", f], repo); } catch (e) { return no("git status non risponde su " + f); }
+    if (stato) return no(f + " ha modifiche non committate: committa prima la correzione. Se una corsa di prova-rimessa e' stata interrotta a meta', il file e' rimasto alla base: rimettilo con git -C " + repo + " checkout HEAD -- " + f);
   }
 
   // Cosa c'e' oggi (dal disco, coi permessi) e cosa c'era alla base (come la scriverebbe un checkout).
@@ -234,10 +215,6 @@ async function corpo(a, ctx) {
   }
 
   const figli = new Set();
-  const gruppi = new Set();
-  let allaBase = null; // { file, dati } — il file che in questo momento ho riportato alla base
-  const segno = a.comando.slice(0, 40);
-  const scriviSalvataggio = () => scriviAtomico(salvataggio, JSON.stringify({ pid: process.pid, segno, pgid: [...gruppi], alla_base: allaBase, file: Object.fromEntries([...oggi].map(([f, o]) => [f, o ? { dati: o.dati.toString("base64"), modo: o.modo } : { dati: null }])) }));
   const rimettiUno = (f) => {
     const o = oggi.get(f), p = join(repo, f);
     try {
@@ -248,7 +225,7 @@ async function corpo(a, ctx) {
     return (ora === null && o === null) || (!!ora && !!o && ora.dati.equals(o.dati) && ora.modo === o.modo);
   };
   let toccato = false;
-  const rimettiTutto = () => { if (!toccato) return []; const diversi = a.file.filter((f) => !rimettiUno(f)); if (!diversi.length) { toccato = false; try { unlinkSync(salvataggio); } catch (e) { /* gia' tolto */ } } return diversi; };
+  const rimettiTutto = () => { if (!toccato) return []; const diversi = a.file.filter((f) => !rimettiUno(f)); if (!diversi.length) toccato = false; return diversi; };
   const alSegnale = (s) => { for (const g of figli) uccidiGruppo(g); const d = rimettiTutto(); process.stderr.write("⛔ fermata da " + s + (d.length ? ": NON RIMESSI " + d.join(", ") : ": file rimessi com'erano") + "\n"); if (ctx.blocco && !d.length) { try { unlinkSync(ctx.blocco); } catch (e) { /* gia' tolto */ } } process.exit(d.length ? 4 : 2); };
   const segnali = ["SIGINT", "SIGTERM", "SIGHUP"];
   for (const s of segnali) process.on(s, alSegnale);
@@ -260,11 +237,7 @@ async function corpo(a, ctx) {
   const lancia = async (nome) => {
     const resta = TOTALE_MS - (Date.now() - inizio);
     if (resta < 5000) return { codice: null, uscita: "", scaduto: true };
-    const prima = new Set(figli);
-    const p = giro(repo, a.comando, a.prove, figli, Math.min(TIMEOUT_MS, resta));
-    for (const g of figli) if (!prima.has(g)) gruppi.add(g);
-    if (toccato) scriviSalvataggio();
-    const g = await p;
+    const g = await giro(repo, a.comando, a.prove, figli, Math.min(TIMEOUT_MS, resta));
     log.push("── " + nome + " (uscita " + g.codice + (g.scaduto ? ", tempo scaduto" : "") + ")\n" + g.uscita);
     return g;
   };
@@ -283,14 +256,10 @@ async function corpo(a, ctx) {
     for (const f of a.file) {
       const b = base.get(f), p = join(repo, f);
       toccato = true;
-      allaBase = { file: f, dati: b === null ? null : b.toString("base64") };
-      scriviSalvataggio(); // prima di toccare il disco: un kill -9 da qui in poi si recupera
       if (b === null) { if (existsSync(p)) unlinkSync(p); }
       else { mkdirSync(dirname(p), { recursive: true }); writeFileSync(p, b); }
       const g2 = await lancia("② " + f + " alla base");
       if (!rimettiUno(f)) { r = { esito: "non_ripristinato", uscita: 4, motivo: "NON tornato com'era: " + f }; return r; }
-      allaBase = null;
-      scriviSalvataggio();
       if (g2.scaduto) { r = no("tempo scaduto al passo ② su " + f); return r; }
       if (verde(g2)) { nonMordono.push(f); passi.push("② " + f + " alla base: ancora verde"); continue; }
       const nuovi = nomiNuoviUsati(b ? b.toString("utf8") : "", oggi.get(f) ? oggi.get(f).dati.toString("utf8") : "", testoProve);
@@ -312,9 +281,9 @@ async function corpo(a, ctx) {
     for (const s of segnali) process.off(s, alSegnale);
     process.off("exit", allUscita);
     if (diversi.length && r) r = { esito: "non_ripristinato", uscita: 4, motivo: "NON tornati com'erano: " + diversi.join(", ") };
-    const file = join(CARTELLA, chiave + ".log"); // uno per worktree, riscritto a ogni corsa: /tmp non si riempie
-    try { writeFileSync(file, log.join("\n")); } catch (e) { /* il log e' un di piu' */ }
-    if (r) { r.passi = passi; r.log = file; }
+    // Un log per worktree, nella sua cartella git: riscritto a ogni corsa, sparisce col worktree.
+    try { writeFileSync(ctx.log, log.join("\n")); } catch (e) { /* il log e' un di piu' */ }
+    if (r) { r.passi = passi; r.log = ctx.log; }
   }
 }
 

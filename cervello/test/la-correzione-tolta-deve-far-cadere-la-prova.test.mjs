@@ -61,9 +61,11 @@ test("regge: rossa senza la correzione, verde con, e il file torna identico", ()
   assert.equal(leggi(r, "lib/somma.mjs"), GIUSTA);
 });
 
-test("regge anche con la correzione NON committata, e la correzione non si perde", () => {
+test("una correzione NON committata si ferma prima di toccare niente (2): la correzione vera deve stare nel commit", () => {
   const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": GIUSTA, "tests/somma.test.mjs": PROVA }, { committa: false });
-  assert.equal(lancia(r, "lib/somma.mjs", "tests/somma.test.mjs").uscita, 0);
+  const o = lancia(r, "lib/somma.mjs", "tests/somma.test.mjs");
+  assert.equal(o.uscita, 2);
+  assert.match(o.j.motivo, /non committate/);
   assert.equal(leggi(r, "lib/somma.mjs"), GIUSTA);
 });
 
@@ -110,6 +112,9 @@ test("un file nuovo della correzione: tolto al passo ②, rimesso alla fine", ()
 test("i permessi tornano com'erano: un file eseguibile resta eseguibile", () => {
   const r = repo({ "lib/somma.mjs": SBAGLIATA, "lib/run.sh": "echo 1\n" }, { "lib/somma.mjs": GIUSTA, "lib/run.sh": "echo 2\n", "tests/somma.test.mjs": PROVA }, { committa: false });
   chmodSync(join(r.d, "lib/run.sh"), 0o755);
+  execFileSync("git", ["-C", r.d, "-c", "user.email=t@t", "-c", "user.name=t", "commit", "-q", "-am", "correzione"], { stdio: "pipe" });
+  execFileSync("git", ["-C", r.d, "-c", "user.email=t@t", "-c", "user.name=t", "add", "-A"], { stdio: "pipe" });
+  execFileSync("git", ["-C", r.d, "-c", "user.email=t@t", "-c", "user.name=t", "commit", "-q", "-m", "prova", "--allow-empty"], { stdio: "pipe" });
   lancia(r, "lib/somma.mjs,lib/run.sh", "tests/somma.test.mjs");
   assert.equal(statSync(join(r.d, "lib/run.sh")).mode & 0o777, 0o755);
   assert.equal(leggi(r, "lib/run.sh"), "echo 2\n");
@@ -164,15 +169,15 @@ test("fermata da SIGTERM a meta' del passo ②: la correzione torna subito", asy
   assert.equal(leggi(r, "lib/somma.mjs"), GIUSTA);
 });
 
-test("uccisa con kill -9 a meta' del passo ②: la corsa dopo rimette la correzione non committata", async () => {
-  const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": GIUSTA, "tests/somma.test.mjs": PROVA_CHE_SI_BLOCCA }, { committa: false });
+test("uccisa con kill -9 a meta' del passo ②: la corsa dopo si ferma e dice come rimettere il file dal commit", async () => {
+  const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": GIUSTA, "tests/somma.test.mjs": PROVA_CHE_SI_BLOCCA });
   await fermaAMeta(r, "SIGKILL");
   assert.equal(leggi(r, "lib/somma.mjs"), SBAGLIATA, "kill -9: niente puo' rimettere subito");
-  writeFileSync(join(r.d, "tests/somma.test.mjs"), PROVA); // la prossima corsa ha una prova che finisce
   const o = lancia(r, "lib/somma.mjs", "tests/somma.test.mjs");
-  assert.equal(leggi(r, "lib/somma.mjs"), GIUSTA);
-  assert.match(o.j.passi.join(" "), /corsa interrotta/);
-  assert.equal(o.uscita, 0, JSON.stringify(o.j));
+  assert.equal(o.uscita, 2);
+  assert.match(o.j.motivo, /checkout HEAD -- lib\/somma\.mjs/);
+  execFileSync("git", ["-C", r.d, "checkout", "HEAD", "--", "lib/somma.mjs"], { stdio: "pipe" });
+  assert.equal(leggi(r, "lib/somma.mjs"), GIUSTA, "la correzione e' nel commit: non si e' persa");
 });
 
 test("il rosso si legge dal messaggio; la struttura vince sull'asserzione", () => {
@@ -186,37 +191,31 @@ test("il rosso si legge dal messaggio; la struttura vince sull'asserzione", () =
   assert.equal(passate("niente"), null);
 });
 
-// ── dal ricollaudo del 30/10: il salvataggio non deve mai scrivere sopra lavoro piu' nuovo ─────────
-const CARTELLA_SALVATAGGI = join(tmpdir(), "prova-rimessa");
-const salvataggioDi = (r) => join(CARTELLA_SALVATAGGI, execFileSync("node", ["-e", `process.stdout.write(require('crypto').createHash('sha1').update(require('path').resolve(${JSON.stringify(r.d)})).digest('hex').slice(0,16))`]).toString() + ".json");
-
-test("dopo un kill -9, lavoro nuovo scritto sul file NON viene coperto dal salvataggio vecchio", async () => {
-  const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": GIUSTA, "tests/somma.test.mjs": PROVA_CHE_SI_BLOCCA }, { committa: false });
+// ── dal ricollaudo del 30/10: niente deve mai scrivere sopra lavoro piu' nuovo ─────────────────────
+test("dopo un kill -9, lavoro nuovo scritto sul file non viene toccato: la corsa dopo si ferma", async () => {
+  const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": GIUSTA, "tests/somma.test.mjs": PROVA_CHE_SI_BLOCCA });
   await fermaAMeta(r, "SIGKILL");
   const V2 = "export const somma = (a, b) => a + b; // v2\n";
   writeFileSync(join(r.d, "lib/somma.mjs"), V2);
-  writeFileSync(join(r.d, "tests/somma.test.mjs"), PROVA);
-  const o = lancia(r, "lib/somma.mjs", "tests/somma.test.mjs");
+  assert.equal(lancia(r, "lib/somma.mjs", "tests/somma.test.mjs").uscita, 2);
   assert.equal(leggi(r, "lib/somma.mjs"), V2);
-  assert.match(o.j.passi.join(" "), /vecchio/);
-  DA_TOGLIERE.push(salvataggioDi(r) + ".vecchio");
 });
 
-test("dopo un kill -9, un worktree rifatto allo stesso percorso NON viene coperto dal salvataggio vecchio", async () => {
-  const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": GIUSTA, "tests/somma.test.mjs": PROVA_CHE_SI_BLOCCA }, { committa: false });
+test("dopo un kill -9, un worktree rifatto allo stesso percorso parte pulito, e i suoi file non si toccano", async () => {
+  const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": GIUSTA, "tests/somma.test.mjs": PROVA_CHE_SI_BLOCCA });
   await fermaAMeta(r, "SIGKILL");
   rmSync(r.d, { recursive: true, force: true });
   mkdirSync(r.d);
   const g = (...a) => execFileSync("git", ["-C", r.d, "-c", "user.email=t@t", "-c", "user.name=t", ...a], { stdio: "pipe" }).toString().trim();
   g("init", "-q");
   mkdirSync(join(r.d, "lib")); mkdirSync(join(r.d, "tests"));
-  writeFileSync(join(r.d, "lib/somma.mjs"), SBAGLIATA); g("add", "-A"); g("commit", "-q", "-m", "base");
+  writeFileSync(join(r.d, "lib/somma.mjs"), SBAGLIATA); writeFileSync(join(r.d, "lib/k.mjs"), "export const k = 1;\n"); g("add", "-A"); g("commit", "-q", "-m", "base");
   const nuova = { d: r.d, base: g("rev-parse", "HEAD") };
-  const NUOVO = "export const somma = (a, b) => b + a; // repo nuovo\n";
-  writeFileSync(join(r.d, "lib/somma.mjs"), NUOVO); writeFileSync(join(r.d, "tests/somma.test.mjs"), PROVA);
-  lancia(nuova, "lib/somma.mjs", "tests/somma.test.mjs");
-  assert.equal(leggi(r, "lib/somma.mjs"), NUOVO);
-  DA_TOGLIERE.push(salvataggioDi(r) + ".vecchio");
+  writeFileSync(join(r.d, "lib/k.mjs"), "export const k = 2;\n"); writeFileSync(join(r.d, "tests/somma.test.mjs"), PROVA); g("add", "-A"); g("commit", "-q", "-m", "k");
+  const o = lancia(nuova, "lib/k.mjs", "tests/somma.test.mjs");
+  assert.notEqual(o.uscita, 4);
+  assert.equal(leggi(r, "lib/somma.mjs"), SBAGLIATA, "un file fuori da --file non si tocca mai");
+  assert.equal(o.j.esito, "non_verde", "nel repo nuovo la somma e' quella sbagliata: la prova e' rossa gia' oggi, e lo dice");
 });
 
 test("due corse insieme: la seconda si ferma (2) anche se parte durante il passo ① della prima", async () => {
@@ -230,15 +229,11 @@ test("due corse insieme: la seconda si ferma (2) anche se parte durante il passo
   assert.equal(leggi(r, "lib/somma.mjs"), GIUSTA);
 });
 
-test("un salvataggio che non si legge non si cancella in silenzio: esce 4 e resta li'", async () => {
-  const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": GIUSTA, "tests/somma.test.mjs": PROVA_CHE_SI_BLOCCA }, { committa: false });
-  await fermaAMeta(r, "SIGKILL");
-  const s = salvataggioDi(r);
-  writeFileSync(s, readFileSync(s, "utf8").slice(0, 20));
-  const o = lancia(r, "lib/somma.mjs", "tests/somma.test.mjs");
-  assert.equal(o.uscita, 4);
-  assert.ok(existsSync(s));
-  DA_TOGLIERE.push(s);
+test("un file nuovo della correzione NON committato si ferma (2) e resta dov'e'", () => {
+  const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "tests/somma.test.mjs": PROVA });
+  writeFileSync(join(r.d, "lib/nuovo.mjs"), "export const uno = () => 1;\n");
+  assert.equal(lancia(r, "lib/nuovo.mjs", "tests/somma.test.mjs").uscita, 2);
+  assert.ok(existsSync(join(r.d, "lib/nuovo.mjs")));
 });
 
 test("i percorsi si leggono alla lettera: le quadre di app/[id] non sono caratteri jolly", () => {
