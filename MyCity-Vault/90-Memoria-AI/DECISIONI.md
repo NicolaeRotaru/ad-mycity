@@ -6209,3 +6209,43 @@ Per non sbagliare i territori una quinta volta, prima di dividere ho cercato tut
 **Cosa decido.** Apro la richiesta del sito **#264**: le ondate dalla 13 alla 18, dal ramo `ccr-b2418a18-982q9d`. Unirla è una firma rossa di Nicola, perché il sito pubblicato cambia. Nella richiesta segnalo i Termini, da far rileggere, e i due gravi della cassa con gli orari, che propongo come prossimo lavoro. Le chiusure del registro (54 dichiarate, tre riviste aperte) le scrivo dopo l unione.
 
 **Colore:** 🟡 per la richiesta aperta; l unione è 🔴, di Nicola.
+
+## 2026-10-30 14:46 — 🔴 Nicola unisce la #264 del sito e la #899 della memoria: il prezzo nuovo è online
+
+**Cosa è successo.** Alle 14:40 Nicola ha unito tutte e due le richieste.
+- La #264 del sito è entrata con un unione normale (`0a4bfe81`). Vercel l ha messa online ed è pronta (`dpl_3DbT1Jrwjrxr1Yzsmr3PyZ4XUsQ8`). Ho letto la pagina Spedizioni pubblicata: dice «Consegna da 3,00 €, una sola per tutto il carrello» e «1,00 € in più per ogni negozio in più». La frase «se ordini da due negozi paghi due consegne» non c è più.
+- La #899 della memoria è entrata schiacciata in un salvataggio solo (`c7ae18120`). Il contenuto della #900 è sul principale, ma GitHub non la segna unita: resta aperta.
+- I Termini nuovi, cioè i paragrafi 4 e 6, sono online con in cima ancora «Versione 2.0, in vigore dal 24 maggio 2026» (voce 1866). Nicola non ha detto niente sui Termini prima di unire.
+
+**Cosa ho fatto dopo.** Nel registro del sito ho chiuso 51 voci con `chiudi-sito.mjs --pr 264`, ognuna con la sua prova: 12 gravi e 39 minori. Restano aperte la 1516, la 1774 e la 1835, che il controllo dei file aveva rivisto aperte. Oggi nel registro restano aperte 959 voci: 8 bloccanti, 108 gravi, 843 minori.
+
+**Da dire a Nicola.** La data dei Termini. La #900 si può chiudere a mano, perché il suo lavoro è già sul principale. Il freno della veloce aspetta ancora la sua scelta.
+
+**Colore:** 🔴 le unioni, firmate da Nicola; 🟢 le chiusure nel registro, che è memoria.
+
+## 2026-10-30 14:54 — 🟡 Nicola sceglie la B: il freno automatico della veloce si rifà subito; la #900 è chiusa
+
+**Cosa ha scritto Nicola** (messaggio letto fra le 14:49 e le 14:54): «1) fai la B 2) chiudi la 900».
+
+**Cosa ho fatto.**
+- **La #900 è chiusa**, con un commento che dice dove sta il suo lavoro: sul principale, entrato con la #899 schiacciata (`c7ae18120`).
+- **Parte l ondata 19** (run `wf_4c28f250-6b6`), con una squadra sola sopra il principale del sito `0a4bfe81`. Riparte dal ramo dell ondata 17 (`c80101f7`) e deve chiudere i 3 gravi e i 12 minori del suo collaudo.
+  - Il rimborso dell euro con la carta non deve toccare il bonifico del negozio.
+  - Le letture della migrazione 124 devono passare dal ripiego.
+  - Il lavoro del freno va messo sotto sorveglianza.
+  - Nel territorio della squadra ci sono anche `lib/cron-health.ts` e `lib/ordini/riepilogo-ordine.ts`, i file che le ondate prima non avevano. Piano: `consegne/audit/2026-10-30-ondata19-freno-veloce.json`.
+
+**Colore:** 🟡: codice in un ramo del sito; l unione resta di Nicola.
+
+## 2026-10-30 17:32 — 🟡 Il freno della veloce regge dopo le ondate 19 e 20: apro la richiesta del sito #265
+
+**Cosa ho fatto.**
+- **L ondata 19** (run `wf_4c28f250-6b6`) ha rifatto il freno sopra il principale `0a4bfe81`. Il controllo dei suoi 13 file (run `wf_558510dc-d49`) ha trovato un grave nuovo: il messaggio prometteva «puoi annullare senza costi» anche dopo che il negozio accettava la fascia nuova (voce 1981).
+- **L ondata 20** (run `wf_f12931ba-ebf`) l ha chiuso, con le frasi agli amministratori e le pagine ordini del negozio che rileggono alla riapertura. Il controllo dei suoi 6 file (run `wf_421a5dce-dd7`) ha trovato solo minori: voci 2000-2005.
+- `npm run verify` è verde su `1f35bb96`: 6.489 prove su 6.489, in 724 file. Il perimetro è riguardato tutto: 13 file su 13, su 5 dimensioni.
+- **Ho aperto la #265 del sito**, ramo `ccr-b2418a18-982q9d` = `1f35bb96`, e la seguo. Voci da chiudere dopo l unione: 1826, 264, 1981, 1980, 1984, 1985, 1986, 1958.
+- Resta aperto il grave 1990: la riga «entro quando accettare» può restare indietro fino a 90 secondi, e senza rete resta ferma.
+
+**Un errore mio, corretto.** Nel primo testo della #265 ho scritto «il freno che hai scelto oggi alle 16:13». Quell ora l avevo presa dai commenti della squadra nel codice, senza controllarla. Le 16:13 sono del 29/10, quando Nicola ha deciso il prezzo della veloce. La B l ha scelta il 30/10, con un messaggio letto fra le 14:49 e le 14:54. Il testo della #265 adesso è giusto. I cinque commenti sbagliati nel codice sono la voce 2006 del registro, minore.
+
+**Colore:** 🟡: codice in un ramo del sito e una richiesta aperta; l unione è 🔴 e resta di Nicola.

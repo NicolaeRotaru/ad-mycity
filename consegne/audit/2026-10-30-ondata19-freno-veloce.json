@@ -1,0 +1,41 @@
+{
+ "_cosa_e": "Ondata 19 del sito: il secondo freno della veloce, rifatto per la terza volta su scelta di Nicola (30/10, letta fra le 14:49 e le 14:54: «fai la B»), sopra il principale del sito dopo la #264 (0a4bfe81). Un pacchetto solo: riparte dal ramo dell ondata 17 (c80101f7), chiude i 3 gravi e i 12 minori del suo collaudo, con nel territorio anche chi sorveglia i lavori periodici (lib/cron-health.ts) e chi riassume l ordine (lib/ordini/riepilogo-ordine.ts). Le ondate 1-18 sono vuote: si legge con --ondata 19, worktree o19-*.",
+ "data": "2026-10-30 14:54",
+ "registro": "sito",
+ "origine": "esito dell ondata 17 (wf_4a75acee-a4a), scelta B di Nicola del 30/10 (letta fra le 14:49 e le 14:54), carta #220",
+ "ondate": [
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [
+   {
+    "chiave": "lib/ordini/scadenza-accettazione.ts",
+    "difetti": [
+     {
+      "idx": 1826,
+      "chiave": "qa-flussi|manca il secondo freno della veloce: se il negozio non conferma entro 10 minuti, il cliente che ha pagato l euro in più aspetta fino a tre ore invece di passare a una fascia senza l euro"
+     },
+     {
+      "idx": 264,
+      "chiave": "microcopy|l'email al negozio dice «accetta entro 15 minuti», ma il sito aspetta almeno tre ore o la fine della fascia"
+     }
+    ]
+   }
+  ]
+ ]
+}

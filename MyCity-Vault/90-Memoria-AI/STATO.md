@@ -1,8 +1,20 @@
 ---
 tipo: stato
-aggiornato: 2026-10-30 13:17
+aggiornato: 2026-10-30 17:30
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🧯 **2026-10-30 17:30 — Il freno della veloce è pronto: è la richiesta #265 del sito.**
+>
+> È il freno automatico, quello che hai scelto tu. Se il negozio non conferma una veloce entro 10 minuti, il carrello passa alla prima fascia libera e l'euro in più non si paga. Esempio: Maria alle 18:16 passa a «Stasera · 18:00-20:00» e alla porta paga 18 euro invece di 19.
+>
+> È verde, 6.489 prove su 6.489, e i 13 file del freno sono riguardati tutti. La #900 l'ho chiusa a mano: il suo lavoro era già entrato. Restano da te l'unione della #265 e la data dei Termini.
+
+> ✅ **2026-10-30 14:46 — Il prezzo nuovo della consegna è online.**
+>
+> Hai unito la #264 del sito e la #899 della memoria alle 14:40. La pagina Spedizioni pubblicata ora dice «una sola per tutto il carrello». Nel registro del sito ho chiuso 51 voci, ognuna con la sua prova.
+>
+> Restano tre cose. I Termini nuovi sono online con la data del 24 maggio. La #900 è ancora aperta, ma il suo lavoro è già entrato. E manca la tua scelta sul freno, A o B.
 
 > 🚀 **2026-10-30 13:17 — La richiesta del sito con il prezzo nuovo è pronta: è la #264.**
 >

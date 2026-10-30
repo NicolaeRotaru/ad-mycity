@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-30 13:14",
+  "aggiornato": "2026-10-30 17:26",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -5345,6 +5345,165 @@
         "lib/promesse-pubbliche.ts": "3df00b6ef422",
         "lib/shipping.ts": "20e640ac1817",
         "lib/site-branding.ts": "8427c5b524c8"
+      }
+    },
+    {
+      "quando": "2026-10-30 16:20",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "workflow wf_558510dc-d49 (3 revisori qa + 2 verifiche)",
+      "trovati": 1,
+      "schede": [
+        "Se la fascia non si riesce a scrivere, il freno risponde «ok» e non avvisa nessuno: con la carta l'euro è già tornato, ma l'ordine resta veloce e nessuno lo sa"
+      ],
+      "nota": "i 13 file del freno della veloce su 97e30e30",
+      "file": {
+        "app/api/cron/veloce-non-confermata/route.ts": "ebe0d7753dc8",
+        "app/api/orders/cod/route.ts": "c9e17db11347"
+      }
+    },
+    {
+      "quando": "2026-10-30 16:20",
+      "casa": "marketplace",
+      "dimensione": "pagamenti-stripe",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "workflow wf_558510dc-d49 (3 revisori qa + 2 verifiche)",
+      "trovati": 2,
+      "schede": [
+        "Con la carta, dopo il freno il cruscotto del forno conta due volte l'euro della veloce: dice 12,50 € mentre la pagina Guadagni dice 13,50 €",
+        "Dopo l'euro della veloce reso senza toccare il negozio, il rimborso pieno successivo gli riprende meno della sua quota (71 cent su Maria)"
+      ],
+      "nota": "i 13 file del freno della veloce su 97e30e30",
+      "file": {
+        "lib/stripe/payout.ts": "d27f030f9b57",
+        "lib/stripe/webhook/ordini.ts": "715505fe23c8"
+      }
+    },
+    {
+      "quando": "2026-10-30 16:20",
+      "casa": "marketplace",
+      "dimensione": "deploy-sre",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "workflow wf_558510dc-d49 (3 revisori qa + 2 verifiche)",
+      "trovati": 1,
+      "schede": [
+        "Due giri del freno sovrapposti sullo stesso ordine carta prenotano due volte l'euro: Stripe ne rende uno solo, il libro ne segna 2"
+      ],
+      "nota": "i 13 file del freno della veloce su 97e30e30",
+      "file": {
+        "vercel.json": "7f552a169363"
+      }
+    },
+    {
+      "quando": "2026-10-30 16:20",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "workflow wf_558510dc-d49 (3 revisori qa + 2 verifiche)",
+      "trovati": 6,
+      "schede": [
+        "Il messaggio del freno promette «puoi annullare senza costi», ma appena il negozio accetta la fascia nuova l annullo non si può più",
+        "Carrello carta spostato dal freno: se dopo un negozio rifiuta, la consegna dei rimasti non si ricalcola piu'",
+        "Se la lettura del carrello cade, il freno lo tratta come un ordine solo: sposta la frutta a «Stasera», lascia il forno sulla veloce e dice al cliente che tutta la spesa arriva in fascia",
+        "Con la carta, dopo il freno, la pagina dell'ordine dice ancora «Consegna 4,00 €» e «Già pagato 19,00 €», mentre il messaggio dice che l'euro della veloce non lo paghi",
+        "«Zero righe scritte» viene letto come «il negozio ha confermato»: se il cliente annulla mentre il freno rende l'euro, agli amministratori arriva un avviso falso",
+        "Il lavoro nuovo ogni 5 minuti c'è in vercel.json ma manca nell'elenco dei lavori a cui rimanda il manuale"
+      ],
+      "nota": "i 13 file del freno della veloce su 97e30e30",
+      "file": {
+        "lib/cron-health.ts": "bcafd7d92a5a",
+        "lib/email/templates.ts": "676c8f30f078",
+        "lib/ordini/prezzi.ts": "2b8b86ab7ab2",
+        "lib/ordini/riepilogo-ordine.ts": "5673810f5752",
+        "lib/ordini/scadenza-accettazione.ts": "ffc013737c5e",
+        "lib/ordini/veloce-non-confermata.ts": "bb790fbe9425"
+      }
+    },
+    {
+      "quando": "2026-10-30 16:20",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "workflow wf_558510dc-d49 (3 revisori qa + 2 verifiche)",
+      "trovati": 5,
+      "schede": [
+        "La riga «entro quando accettare» resta ferma all'ora in cui la pagina si è aperta: sabato mattina la lista dice ancora «entro le 12:00 di domani»",
+        "Su una fascia 9:00–12:00 la pagina invita ad accettare fino alle 11:59, senza dire che la consegna ormai non arriva più in tempo",
+        "La riga dice «Il tempo per accettarlo è finito, si sta annullando» mentre l'ordine si può ancora accettare",
+        "L'email «Nuovo ordine» della veloce promette il passaggio alla prima fascia libera anche quando il freno non ne trova",
+        "Nell'elenco ordini la frase della veloce (circa 130 caratteri a 11px) sta dentro la riga dei badge e dentro il nome del link"
+      ],
+      "nota": "i 13 file del freno della veloce su 97e30e30",
+      "file": {
+        "app/seller/orders/[id]/page.tsx": "b96c19e14186",
+        "app/seller/orders/page.tsx": "7a0e285fabb2"
+      }
+    },
+    {
+      "quando": "2026-10-30 17:26",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "workflow wf_421a5dce-dd7 (2 revisori qa)",
+      "trovati": 1,
+      "schede": [
+        "Se campanella ed email al cliente non partono, il freno conta il carrello come spostato, risponde 200 e agli amministratori non arriva niente"
+      ],
+      "nota": "i 6 file della correzione del freno su 1f35bb96",
+      "file": {
+        "app/api/cron/veloce-non-confermata/route.ts": "1b5300d795c6",
+        "app/api/orders/cod/route.ts": "c9e17db11347"
+      }
+    },
+    {
+      "quando": "2026-10-30 17:26",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "workflow wf_421a5dce-dd7 (2 revisori qa)",
+      "trovati": 3,
+      "schede": [
+        "Se il freno sposta la veloce dopo mezzanotte, «Domani» vuol dire lunedì per il cliente e domenica per la scadenza, le pagine e il fattorino",
+        "Il freno conta uno stato «REJECTED» che nel database non esiste: il ramo «ordine rifiutato dal negozio» non scatta mai",
+        "Il commento del colore dell'avviso al negozio parla ancora di «scadenza dei 15 minuti», che l'ondata ha tolto"
+      ],
+      "nota": "i 6 file della correzione del freno su 1f35bb96",
+      "file": {
+        "lib/cron-health.ts": "bcafd7d92a5a",
+        "lib/email/templates.ts": "2d20aba7641d",
+        "lib/ordini/prezzi.ts": "2b8b86ab7ab2",
+        "lib/ordini/riepilogo-ordine.ts": "5673810f5752",
+        "lib/ordini/scadenza-accettazione.ts": "f23ef1e2a3dc",
+        "lib/ordini/veloce-non-confermata.ts": "1e1335f75ad5"
+      }
+    },
+    {
+      "quando": "2026-10-30 17:26",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "workflow wf_421a5dce-dd7 (2 revisori qa)",
+      "trovati": 5,
+      "schede": [
+        "Quando il negoziante sblocca il telefono e la rilettura non riesce, gli ordini che aveva già sullo schermo spariscono dietro la pagina d'errore",
+        "Tra il decimo minuto e il giro del freno, la riga dice al forno che il tempo della veloce è passato, ma se accetta l'ordine resta veloce con l'euro, e nessuno gli dice che deve consegnare in 30-60 minuti",
+        "La riga dice «Il tempo per accettarlo è finito, si sta annullando» mentre l'ordine si può ancora accettare",
+        "La riga «entro quando accettare» del negozio può restare ferma all ultima lettura: fino a 90 secondi alla riapertura o con la pagina aperta, e senza rete resta quella della sera prima",
+        "Nell'elenco ordini la frase della veloce (circa 130 caratteri a 11px) sta dentro la riga dei badge e dentro il nome del link"
+      ],
+      "nota": "i 6 file della correzione del freno su 1f35bb96",
+      "file": {
+        "app/seller/orders/[id]/page.tsx": "5e93c8e17859",
+        "app/seller/orders/page.tsx": "8c16dae5f180"
       }
     }
   ]
