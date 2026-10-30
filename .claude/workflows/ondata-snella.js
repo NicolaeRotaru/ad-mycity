@@ -59,6 +59,10 @@ const MAX = Number(A.max_agenti) > 0 ? Number(A.max_agenti) : 12
 const TIPO_COSTRUISCE = A.tipo_costruisce || "tech"
 const TIPO_CONTROLLA = A.tipo_controlla || "qa"
 const LPF = SCHEDE.lenti_per_file || {}
+// Regola ② del metodo snello: le scelte di Nicola e i casi da provare (dato → atteso) arrivano PRIMA del
+// codice, e valgono per la squadra e per il collaudo. Si passano in args.istruzioni (o schede.istruzioni).
+const ISTRUZIONI = String(A.istruzioni || SCHEDE.istruzioni || "").trim()
+const BLOCCO_ISTRUZIONI = ISTRUZIONI ? "SCELTE GIA' FATTE DA NICOLA E CASI DA PROVARE (vincolanti, scritti prima del codice: ogni caso diventa una prova):\n" + ISTRUZIONI + "\n" : ""
 
 // Il tempo delle prove: 480 secondi dentro gli attrezzi < «timeout 540» < 600 secondi dello strumento Bash.
 const SECONDI = 540
@@ -118,7 +122,9 @@ const S_COLLAUDO = { type: "object", required: ["pacchetti", "difetti"], propert
     dimensione: { type: "string" }, file: { type: "array", items: { type: "string" } }, trovati: { type: "integer" } } } } } }
 
 function schede(p) {
-  return p.difetti.map((d) => "- " + d.chiave + " (" + d.gravita + ")" + ((d.file || d.dove || d.descrizione) ? ": " + [d.file || d.dove, d.descrizione].filter(Boolean).map((x) => String(x).slice(0, 240)).join(" — ") : "")).join("\n")
+  // La scheda intera: schede-pacchetto la taglia gia' a un tetto. Tagliarla di nuovo a 240 caratteri
+  // toglieva alla squadra proprio il «perche'» e l'esempio (regola ⑥: istruzioni precise).
+  return p.difetti.map((d) => "- " + d.chiave + " (" + d.gravita + ")" + ((d.file || d.dove || d.descrizione) ? ": " + [d.file || d.dove, d.descrizione].filter(Boolean).map((x) => String(x).slice(0, 2400)).join(" — ") : "")).join("\n")
 }
 const normalizza = (f, p) => (f ? { ...f, worktree: f.worktree || wtDi(p), file_toccati: unione([], (f.file_toccati || []).map((x) => relativo(x, f.worktree || wtDi(p)))), prove: unione([], (f.prove || []).map((x) => relativo(x, f.worktree || wtDi(p)))) } : f)
 const soloSito = (f) => (f.file_toccati || []).filter((x) => !(f.prove || []).includes(x) && !/^tests\//.test(x))
@@ -142,7 +148,7 @@ function squadra(p, compito, etichetta, fase) {
     "Squadra del pacchetto «" + p.chiave + "» dell'ondata " + ONDATA + " del sito (rischio: " + p.rischio + "). Lavori SOLO nel tuo worktree " + wt + ", sul ramo " + ramo + ".\n" +
     "1. Il worktree: se non c'e' gia', git -C " + REPO + " worktree add " + wt + " " + BASE + " -b " + ramo + " (se il ramo esiste gia': git -C " + REPO + " worktree add " + wt + " " + ramo + ").\n" +
     "2. Le dipendenze si COLLEGANO, non si installano: [ -e " + wt + "/node_modules ] || ln -s " + REPO + "/node_modules " + wt + "/node_modules. Aggiungi solo per nome i file che tocchi, mai git add -A.\n" +
-    "3. " + compito + "\n" +
+    "3. " + compito + "\n" + BLOCCO_ISTRUZIONI +
     "Per ogni difetto: prima una prova in tests/unit/ che diventa ROSSA col difetto, poi il fix, poi la stessa prova VERDE. La prova del sito si lancia cosi': " + LANCIA_PROVA + " --repo " + wt + " --file <i file che hai toccato E la prova che hai scritto, separati da virgola>, e " + TEMPO + ". Esce 0 solo se una prova e' girata davvero; 2 vuol dire NON provato.\n" +
     "4. Committa la correzione e le prove: un commit sul ramo, con un messaggio che spiega il perche'. Niente push, niente merge. Il commit viene PRIMA della prova della macchina, cosi' niente si perde se viene fermata. Dopo il commit il worktree dev'essere pulito (git status vuoto, a parte il collegamento node_modules): quello che fa parte della correzione si committa, il resto si toglie.\n" +
     "5. La prova della macchina: " + LANCIA_RIMESSA + " --repo " + wt + " --base " + BASE + " --file <i file del sito che hai corretto, MAI le prove> --prove <le prove che hai scritto>, e " + TEMPO + ". «regge» (uscita 0): la prova cade senza la correzione, ed e' quello che serve. «non_morde» (1): la prova resta verde senza la correzione, quindi non prova il fix: rifalla finche' morde. «rosso_strutturale» (3): cade solo perche' manca un nome nuovo; se puoi, scrivi la prova sul codice che c'era gia' alla base, altrimenti spiegalo in nota. Un file che da solo non fa cadere la prova e' elencato per nome: o gli serve una prova sua, o non porta la correzione (toglilo da --file e dillo in nota). 2 = non provato (leggi il motivo), 4 = un file non e' tornato com'era (fermati e scrivilo in nota), 124 = tempo della shell finito. Se rifai le prove, un altro commit.\n" +
@@ -198,7 +204,7 @@ function collaudo(lista, lenti, giro) {
   const testa = "Collaudo dell'ondata " + ONDATA + " del sito" + (giro ? " (ricollaudo dopo la correzione)" : "") + ", lente " + lenti.join("+") + ", su TUTTI i pacchetti qui sotto, in un solo lavoro. Non hai scritto tu questo codice: il tuo mandato e' trovare dove non regge.\n"
   const compiti = (lenti.includes("A") ? LENTE_A + "\n" : "") + (lenti.includes("B") ? LENTE_B + "\nDimensioni:\n" + dimensioni(lista) + "\n" : "")
   const tipo = muta ? TIPO_COSTRUISCE : TIPO_CONTROLLA
-  return chiama(testa + compiti + comeDecidi(muta) + "Pacchetti:\n" + elenco(lista) + "\nUn verdetto per ogni pacchetto in pacchetti, con la chiave esatta.\n" + SOBRIO(Math.min(80, 25 + 12 * lista.length)),
+  return chiama(testa + compiti + (BLOCCO_ISTRUZIONI ? BLOCCO_ISTRUZIONI + "Ogni caso qui sopra va provato sul codice del ramo: un caso che il sito sbaglia boccia per «sito».\n" : "") + comeDecidi(muta) + "Pacchetti:\n" + elenco(lista) + "\nUn verdetto per ogni pacchetto in pacchetti, con la chiave esatta.\n" + SOBRIO(Math.min(80, 25 + 12 * lista.length)),
     { label: "collaudo-" + lenti.join("") + (giro ? "-bis" : "") + ":ondata-" + ONDATA, phase: giro ? "Correzione" : "Collaudo", schema: S_COLLAUDO, tipo }, true)
     .then((v) => ({ v, lenti, muta }))
 }

@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-10-30 00:35",
+  "aggiornato": "2026-10-30 22:52",
   "fatti": [
     {
       "id": "architettura.tre-macchine",
@@ -234,6 +234,16 @@
       "valore": "Categorie al lancio, firmate da Nicola il 2026-10-29 00:05: niente abbigliamento per ora; tutto il resto sì, per i piccoli negozi che Glovo e Deliveroo non guardano: spesa fresca (pane e forno, frutta e verdura, macelleria, salumi e formaggi, latticini, gastronomia fresca, pasta fresca, dispensa), cura della persona, parafarmacia, regali e ricorrenze. L'albero va reso più ampio, con più sottocategorie di quello proposto il 29/10 alle 00:40. Pane Quotidiano vende pane, verdura fresca, alimentari e cura della persona.",
       "fonte": "Nicola in chat, 2026-10-29 00:05 (carta #219, punto 1)",
       "aggiornato": "2026-10-29 00:06",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "consegna.fascia-fino-a-60-minuti",
+      "nome": "consegna.fascia-fino-a-60-minuti",
+      "valore": "Una fascia oraria di consegna si puo' scegliere fino a 60 minuti prima della sua fine: alle 17:00 la fascia 15:00-18:00 c'e' ancora, alle 17:01 la cassa propone la successiva. Cosi' la consegna normale non promette mai prima della veloce (30-60 minuti).",
+      "fonte": "Nicola in chat, 2026-10-30 22:25, risposta alla domanda sulle fasce (opzione «60 minuti»)",
+      "aggiornato": "2026-10-30 22:52",
       "storia": [],
       "caccia": [],
       "esenzioni": []

@@ -203,3 +203,13 @@ test("la squadra committa PRIMA della prova della macchina, e il collaudo rifa' 
   assert.match(s, /Il commit viene PRIMA della prova della macchina/);
   assert.match(chiamate.find((c) => c.label === "collaudo-A:ondata-21").prompt, /worktree remove --force <worktree>-collaudo/);
 });
+
+test("le scelte di Nicola e i casi da provare arrivano alla squadra e al collaudo; la scheda arriva intera", async () => {
+  const lunga = [{ ...SOLDI[0], difetti: [{ ...SOLDI[0].difetti[0], descrizione: "x".repeat(600) + " FINE-SCHEDA" }] }];
+  const { chiamate } = await lancia(lunga, () => undefined, { istruzioni: "Una fascia si sceglie fino a 60 minuti prima della fine. Caso: lunedi' 17:01 → la fascia 15-18 non c'e'." });
+  const s = chiamate.find((c) => c.label.startsWith("squadra:")).prompt;
+  assert.match(s, /SCELTE GIA' FATTE DA NICOLA/);
+  assert.match(s, /lunedi' 17:01/);
+  assert.match(s, /FINE-SCHEDA/, "la scheda e' stata tagliata prima della fine");
+  for (const c of chiamate.filter((x) => x.label.startsWith("collaudo"))) assert.match(c.prompt, /60 minuti prima della fine/);
+});
