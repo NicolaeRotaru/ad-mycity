@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 2000,
+    "findings": 2006,
     "bloccanti": 35,
     "gravi": 547,
-    "minori": 1418,
+    "minori": 1424,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -33882,7 +33882,7 @@
       "file": "app/seller/orders/page.tsx e [id]/page.tsx (riga NEW): expire-stale-orders gira ogni 30 min, e la pausa per la divisione del rimborso tiene l'ordine NEW anche più a lungo",
       "descrizione": "Ordine NEW senza fascia nato alle 14:00 Rome, aperto alle 17:10: la riga dice «tempo finito», ma il cron delle 17:30 annulla solo ciò che è ancora NEW, quindi accettarlo alle 17:10 lo salva.",
       "fonte": "nato dal lotto: ondata 19, il freno della veloce (run wf_4c28f250-6b6), ramo 97e30e30 sopra il principale 0a4bfe81",
-      "nota_riesame": "2026-10-30 16:19: il controllo dei 13 file del freno (wf_558510dc-d49, su 97e30e30) la rivede aperta: «Nel dettaglio la riga dice «Il tempo per accettarlo è finito: l'ordine si sta annullando da solo» e subito sotto c'è il pulsante «Accetta ordine» che funziona». lettura"
+      "nota_riesame": "2026-10-30 16:19: il controllo dei 13 file del freno (wf_558510dc-d49, su 97e30e30) la rivede aperta: «Nel dettaglio la riga dice «Il tempo per accettarlo è finito: l'ordine si sta annullando da solo» e subito sotto c'è il pulsante «Accetta ordine» che funziona». lettura · 2026-10-30 17:26: il controllo dei 6 file della correzione del freno (wf_421a5dce-dd7, su 1f35bb96) la rivede aperta: «Ancora presente dopo l'ultima modifica: il dettaglio dice «Il tempo per accettarlo è finito: l'ordine si sta annullando da solo» e subito sotto offre «Accetta ordine», che funziona». cp /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro-o20/pagine-negozio-o20/zz-perimetro-pagine-negozio-o20-tempo-finito.test.tsx /home/user/mycity-ondate/vaglio-o20/tests/unit/ && cd /home/user/mycity-ondate/vaglio-o20 && npx vitest run tests/unit/zz-perimetro-pagine-negozio-o20-tempo-finito.test.tsx; rm tests/unit/zz-perimetro-pagine-negozio-o20-tempo-finito.test.tsx  → rosso: la pagina disegnata (renderToString nel QueryProvider vero) contiene tutte e due le frasi, { finito: true, accetta: true }."
     },
     {
       "dimensione": "microcopy",
@@ -33916,7 +33916,7 @@
       "file": "app/seller/orders/page.tsx riga 171: lo span sta tra il badge «Consegna» e il badge «Contanti», dentro il <Link>",
       "descrizione": "",
       "fonte": "nato dal lotto: ondata 19, il freno della veloce (run wf_4c28f250-6b6), ramo 97e30e30 sopra il principale 0a4bfe81",
-      "nota_riesame": "2026-10-30 16:19: il controllo dei 13 file del freno (wf_558510dc-d49, su 97e30e30) la rivede aperta: «Nella lista la frase della scadenza (fino a circa 170 caratteri a 11 pixel) sta dentro la fila dei bollini e dentro il link». lettura"
+      "nota_riesame": "2026-10-30 16:19: il controllo dei 13 file del freno (wf_558510dc-d49, su 97e30e30) la rivede aperta: «Nella lista la frase della scadenza (fino a circa 170 caratteri a 11 pixel) sta dentro la fila dei bollini e dentro il link». lettura · 2026-10-30 17:26: il controllo dei 6 file della correzione del freno (wf_421a5dce-dd7, su 1f35bb96) la rivede aperta: «Ancora presente: nella lista ordini la frase della scadenza (fino a circa 170 caratteri, scritta piccola a 11 pixel) sta in mezzo alla fila dei bollini e dentro il link». lettura"
     },
     {
       "dimensione": "microcopy",
@@ -34059,7 +34059,8 @@
       "titolo": "La riga «entro quando accettare» del negozio può restare ferma all ultima lettura: fino a 90 secondi alla riapertura o con la pagina aperta, e senza rete resta quella della sera prima",
       "file": "app/seller/orders/page.tsx:103 e [id]/page.tsx:178 (lettoAlle = ultima lettura) · components/providers/QueryProvider.tsx:19-21 (refetchOnWindowFocus:false) · tests/unit/entro-quando-accettare-si-rilegge-quando-il-telefono-si-riapre.test.tsx (riapri: solo focusManager, mai onlineManager) · app/seller/orders/page.tsx (lettoAlle con refetchInterval 90_000); al ritorno dal dettaglio, finché la rilettura non arriva",
       "descrizione": "Visto da 3 collaudatori o revisori diversi. cd worktree && node -e: QueryClient con le opzioni di QueryProvider, QueryObserver refetchInterval 2000, focusManager.setFocused(false) per 4,4 s e poi true. 30 ms dopo: letture=1, lettoAlle vecchio di 4535 ms, exit 1. Lo stato sbagliato dura proprio nel momento in cui il forno guarda. — Buco nelle prove, non un difetto provato: con onlineManager.setOnline(false) prima di setFocused(true), la lettura va in pausa (networkMode 'online') e lettoAlle resta vecchio. Da aggiungere come caso. — Alle 12:00:30 la lista può ancora dire «entro le 12:00 di oggi», se l'ultima lettura è delle 11:59:10. Lo stesso per un istante quando si torna alla lista e la cache ha una lettura vecchia. Il commento in lib dice che contano anche 4 secondi.",
-      "fonte": "nato dal lotto: ondate 19 e 20, il freno della veloce (run wf_4c28f250-6b6 e wf_f12931ba-ebf), ramo 1f35bb96"
+      "fonte": "nato dal lotto: ondate 19 e 20, il freno della veloce (run wf_4c28f250-6b6 e wf_f12931ba-ebf), ramo 1f35bb96",
+      "nota_riesame": "2026-10-30 17:26: il controllo dei 6 file della correzione del freno (wf_421a5dce-dd7, su 1f35bb96) la rivede aperta: «Ancora presente dopo l'ultima modifica: senza rete allo sblocco la riga resta quella di venerdì sera, «entro le 12:00 di domani», accanto a «Consegna: sab 31/10 · 9:00–12:00»». stesso file della seconda scheda (zz-perimetro-pagine-negozio-o20-veloce-e-rete.test.tsx): il test «senza rete allo sblocco la riga resta quella di venerdì sera» è rosso e scrive «sabato 8:35 la pagina scrive: Accettalo o rifiutalo entro le 12:00 di domani.»."
     },
     {
       "dimensione": "microcopy",
@@ -34159,6 +34160,72 @@
       "file": "lib/ordini/veloce-non-confermata.ts, ramo i===0 dopo la rilettura (return 'accettato' quando slot Adesso e stato NEW)",
       "descrizione": "Prima partiva un avviso (sbagliato, ma uno). Ora l'euro è già reso e, se la scrittura continua a non toccare righe (per esempio per un trigger), il giro ritorna ogni 5 minuti in silenzio e il contatore accettatiNelFrattempo cresce.",
       "fonte": "nato dal lotto: ondate 19 e 20, il freno della veloce (run wf_4c28f250-6b6 e wf_f12931ba-ebf), ramo 1f35bb96"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Se il freno sposta la veloce dopo mezzanotte, «Domani» vuol dire lunedì per il cliente e domenica per la scadenza, le pagine e il fattorino",
+      "file": "lib/ordini/veloce-non-confermata.ts:346 (fasciaDopoLaVeloce(romeNow(adesso)) sceglie «Domani» rispetto all'ora del giro) contro lib/ordini/scadenza-accettazione.ts:117-129 (fineDellaFascia: giornoPiacenza(nato) + 1) e lib/ordini/fascia-leggibile.ts:71-83 (fasciaLeggibile conta dal giorno di nascita; la usano le pagine di cliente, negozio e fattorino)",
+      "descrizione": "La regola «Domani si conta dal giorno in cui l'ordine è nato» vive in tre lettori: la scadenza, il giro degli scaduti e le pagine. Il freno è l'unico che scrive l'etichetta in un giorno diverso, quello del giro. Esempio: sabato 31/10 alle 20:45 un cliente compra una veloce da 15 € in un negozio aperto fino alle 21 e chiuso la domenica. Alle 21:00 il freno non trova fasce, e il cliente legge «si annulla entro le 23:45». Alle 00:00 di domenica girano insieme il freno e il giro degli scaduti. Se il freno arriva primo, scrive «Domani · 9:00–12:00» pensando a lunedì 2/11, perché controlla gli orari di lunedì. Campanella ed email dicono al cliente «arriva nella fascia Domani · 9:00–12:00». Chi legge l'etichetta, però, la conta da sabato. La scadenza diventa domenica 1/11 alle 12:00. Cliente, negozio e fattorino vedono «dom 1/11 · 9:00–12:00». Domenica alle 8 il negozio, chiuso, legge «Accettalo o rifiutalo entro le 12:00 di oggi». Il giro degli scaduti lo annulla domenica fra le 12:00 e le 12:30, mentre il cliente aspetta la spesa lunedì. Perché è minore: servono insieme una veloce fra le 20:30 e le 21, un negozio chiuso tutto il giorno dopo e la gara delle 00:00 col giro degli scaduti (oppure quel giro fermo). Con Pane Quotidiano, al lancio, è improbabile. Correzione senza migrazione: il freno non sposta se il giorno di Piacenza di adesso è diverso da quello della nascita, e passa da nonSiSposta. Prova: Prova scritta e lanciata, poi cancellata dal repo; la copia resta negli appunti. Comando: cp /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro-o20/freno-o20/zz-perimetro-freno-o20-domani-e-avvisi.test.ts /home/user/mycity-ondate/vaglio-o20/tests/unit/ && cd /home/user/mycity-ondate/vaglio-o20 && npx vitest run tests/unit/zz-perimetro-freno-o20-domani-e-avvisi.test.ts — il test «A · Domani scritto dal freno dopo mezzanotte» è ROSSO. Valori misurati: alle 00:00 di domenica fasciaDopoLaVeloce dà «Domani · 9:00–12:00»; fineDellaFascia e scadenzaAccettazione danno 2026-11-01T11:00Z (domenica alle 12); fasciaLeggibile dà «dom 1/11 · 9:00–12:00»; la riga del negozio domenica alle 8 dice «entro le 12:00 di oggi».",
+      "fonte": "nato dalle ondate 19 e 20, il freno della veloce; trovato dal controllo dei 6 file della correzione (run wf_421a5dce-dd7) sul ramo 1f35bb96"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Se campanella ed email al cliente non partono, il freno conta il carrello come spostato, risponde 200 e agli amministratori non arriva niente",
+      "file": "lib/ordini/veloce-non-confermata.ts:181-218 (avvisaIlCliente non dice a chi la chiama se ha funzionato) e :251-278 (avvisaNegoziEFattorino: errore solo nel log) · lib/ordini/veloce-non-confermata.ts:557-559 (torna 'spostato') · app/api/cron/veloce-non-confermata/route.ts:24 (200 se daSistemareAMano è 0)",
+      "descrizione": "Il freno cambia la promessa al cliente: da 30-60 minuti a una fascia. Se nessun avviso gli arriva, la rotta lo racconta come un giro pulito. Esempio: alle 18:05 Maria ordina 15 € di pane con la veloce e paga in contanti, consegna 4 €. Alle 18:16 il freno sposta l'ordine su «Stasera · 18:00–20:00» e il totale scende a 18 €. In quel momento la scrittura della campanella cade (errore del database) e l'email torna ok:false. Maria non sa niente da nessuna parte. La rotta risponde 200 con ok:true, spostati 1 e daSistemareAMano 0. Gli amministratori non ricevono nessun avviso: errore taciuto e trasformato in «fatto». Se la veloce fosse stata delle 19:05, l'ordine passava a «Domani · 9:00–12:00»: Maria aspetta il pane stasera e nessuno può avvisarla. Lo stesso vale per i negozi che avevano già accettato e per il fattorino: se la loro campanella cade, preparano ancora per la veloce. Perché è minore: servono database ed email giù insieme, oppure un carrello con più negozi, che al lancio non c'è. Correzione: avvisaIlCliente e avvisaNegoziEFattorino dicono se sono arrivati; se il cliente non è stato raggiunto da nessun canale, spostaIlCarrello torna 'a-mano' con un avviso agli amministratori, una volta per ordine. Prova: Stesso file di prova, test «B · gli avvisi del cambio di fascia che non partono», ROSSO. Comando: cp /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro-o20/freno-o20/zz-perimetro-freno-o20-domani-e-avvisi.test.ts /home/user/mycity-ondate/vaglio-o20/tests/unit/ && cd /home/user/mycity-ondate/vaglio-o20 && npx vitest run tests/unit/zz-perimetro-freno-o20-domani-e-avvisi.test.ts. Passano le precondizioni: ordine su «Stasera · 18:00–20:00» con total_price 18, zero notifiche, risposta 200 con {ok:true, spostati:1, daSistemareAMano:0}. Fallisce solo expect(notifyAdmins).toHaveBeenCalled().",
+      "fonte": "nato dalle ondate 19 e 20, il freno della veloce; trovato dal controllo dei 6 file della correzione (run wf_421a5dce-dd7) sul ramo 1f35bb96"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Il freno conta uno stato «REJECTED» che nel database non esiste: il ramo «ordine rifiutato dal negozio» non scatta mai",
+      "file": "lib/ordini/veloce-non-confermata.ts:65 (FUORI_DAL_GIRO = ['CANCELED', 'REJECTED']) e :493-496 (titolo «Ordine rifiutato mentre il freno rendeva l'euro») contro migrations/011_orders_delivery.sql:46-55 (il controllo di delivery_status non ha REJECTED) e app/api/seller/orders/[id]/reject/route.ts (il rifiuto scrive CANCELED) · lib/ordini/annulla.ts:684 (lì conta solo CANCELED)",
+      "descrizione": "La lista degli stati «uscito dal carrello» è scritta in due posti. Nel freno vale CANCELED o REJECTED, in annulla.ts solo CANCELED. Il database accetta solo CANCELED: lo stato REJECTED non può esistere. Così il ramo che dice agli amministratori «rifiutato dal negozio» è codice morto, e il commento a :475-476 promette una distinzione che non c'è. Esempio: il forno rifiuta l'ordine di Maria proprio mentre il freno le rende l'euro sulla carta. Gli amministratori leggono «risulta annullato», come se avesse annullato Maria. Il conto e le istruzioni sono comunque giusti, per questo è minore. Una prova futura scritta con lo stato REJECTED resterebbe verde su un caso che in produzione non succede mai (vedi la scheda 1988). Prova: lettura + comando: cd /home/user/mycity-ondate/vaglio-o20 && grep -c \"'REJECTED'\" migrations/011_orders_delivery.sql app/api/seller/orders/[id]/reject/route.ts (0 e 0) contro grep -n \"REJECTED\" lib/ordini/veloce-non-confermata.ts (righe 65, 493-496)",
+      "fonte": "nato dalle ondate 19 e 20, il freno della veloce; trovato dal controllo dei 6 file della correzione (run wf_421a5dce-dd7) sul ramo 1f35bb96"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Il commento del colore dell'avviso al negozio parla ancora di «scadenza dei 15 minuti», che l'ondata ha tolto",
+      "file": "lib/email/templates.ts:63 (attenzione: '#B82A28' // … la scadenza dei 15 minuti al negozio)",
+      "descrizione": "L'ondata ha sostituito «Accetta o rifiuta l'ordine entro 15 minuti» con la scadenza vera: fine della fascia, tre ore, o i 10 minuti della veloce. Il commento del colore usato per quella riga dice ancora «la scadenza dei 15 minuti». Chi legge il file per capire la regola trova una promessa che il sito non fa più. È solo un commento: nessun cliente né negozio lo vede. La riga c'era già su 0a4bfe81, dove era vera: è diventata falsa con questa ondata. Prova: lettura + comando: cd /home/user/mycity-ondate/vaglio-o20 && grep -n \"15 minuti\" lib/email/templates.ts (riga 63 commento falso; riga 160 è la nota storica corretta)",
+      "fonte": "nato dalle ondate 19 e 20, il freno della veloce; trovato dal controllo dei 6 file della correzione (run wf_421a5dce-dd7) sul ramo 1f35bb96"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Quando il negoziante sblocca il telefono e la rilettura non riesce, gli ordini che aveva già sullo schermo spariscono dietro la pagina d'errore",
+      "file": "app/seller/orders/page.tsx:97 (...LETTURA_ORDINI_DEL_NEGOZIO), :107-117 (vistaDaQuery: l'errore vince sui dati) · app/seller/orders/[id]/page.tsx:175 (...LETTURA_ORDINI_DEL_NEGOZIO), :347-357 (if (isError) return <ErrorState>) · lib/ordini/scadenza-accettazione.ts:237 (refetchOnWindowFocus 'always')",
+      "descrizione": "Cosa succede. Venerdì 30/10 alle 20:30 il forno di Pane Quotidiano lascia aperta la lista ordini, con dentro l'ordine di Maria: 15 € di pane per sabato 9:00-12:00. Sabato alle 8:30 il fornaio sblocca il telefono in negozio mentre il wifi si sta ancora riagganciando. Dall'ondata 20 la pagina rilegge gli ordini proprio in quell'istante. La lettura cade due volte: il primo tentativo, poi il secondo dopo 2 secondi. React Query 5 a quel punto mette la lettura in errore ma tiene i dati. La lista però fa vincere l'errore (vistaDaQuery) e il dettaglio fa `if (isError)`. Così al posto dell'ordine di Maria il fornaio legge «Non sono riuscito a leggere i tuoi ordini», oppure «Non riesco a caricare l'ordine». L'errore resta finché lui non preme «Riprova» o arriva la lettura successiva: fino a 90 secondi sulla lista, 30 sul dettaglio. Prima di questa modifica (base 0a4bfe81) allo sblocco non partiva nessuna lettura. L'ho provato togliendo l'opzione: 1 sola lettura e nessun errore. Il difetto di fondo (un errore che copre dati già in mano) c'era già con le riletture ogni 30/90 secondi. È la stessa famiglia del 1352, che però riguarda la pagina del cliente. L'ondata 20 lo fa scattare nel momento peggiore, cioè allo sblocco, quando la rete è più spesso giù. Direzione per tech: mostrare la pagina d'errore solo se non c'è nessun dato (in v5 si chiama `isLoadingError`). Quando i dati ci sono, tenerli a schermo con un avviso piccolo «non riesco ad aggiornare». Non si perdono soldi: il fornaio deve solo toccare di nuovo, nel momento in cui guarda. Prova: cp /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro-o20/pagine-negozio-o20/zz-perimetro-pagine-negozio-o20-rilettura-caduta.test.tsx /home/user/mycity-ondate/vaglio-o20/tests/unit/ && cd /home/user/mycity-ondate/vaglio-o20 && npx vitest run tests/unit/zz-perimetro-pagine-negozio-o20-rilettura-caduta.test.tsx; rm tests/unit/zz-perimetro-pagine-negozio-o20-rilettura-caduta.test.tsx  → oggi 2 rossi su 2 (lista: mostraErrore=true con i dati presenti; dettaglio: isError=true con i dati presenti). La prova prende le opzioni dalle pagine vere, dentro il QueryProvider vero.",
+      "fonte": "nato dalle ondate 19 e 20, il freno della veloce; trovato dal controllo dei 6 file della correzione (run wf_421a5dce-dd7) sul ramo 1f35bb96"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Tra il decimo minuto e il giro del freno, la riga dice al forno che il tempo della veloce è passato, ma se accetta l'ordine resta veloce con l'euro, e nessuno gli dice che deve consegnare in 30-60 minuti",
+      "file": "lib/ordini/scadenza-accettazione.ts:207-213 (ramo «Sono passati i 10 minuti…»), mostrato da app/seller/orders/[id]/page.tsx:382-384 e app/seller/orders/page.tsx:179-181 · lib/ordini/veloce-non-confermata.ts:569-576 (cerca solo created_at < adesso-10 min) e :450-457 (scrive solo se ancora NEW) · vercel.json (freno ogni 5 minuti)",
+      "descrizione": "Cosa succede. Venerdì 30/10 alle 18:05:20 Maria ordina 15 € di pane da Pane Quotidiano con la veloce, e paga 4 € di consegna. Il freno gira alle 18:15:00 e cerca solo gli ordini nati prima delle 18:05:00: quello di Maria non lo trova. Il giro dopo è alle 18:20. Alle 18:16 il fornaio apre l'ordine e legge: «Sono passati i 10 minuti per confermare la consegna veloce: se c'è una fascia oraria libera la spesa passa lì da sola. Se non fai niente, si annulla da solo alle 21:05 di oggi.» Due righe sopra, però, c'è scritto «Consegna: Adesso · arrivo in 30-60 min». Il fornaio preme «Accetta ordine» alle 18:16. Alle 18:20 il freno prova a scrivere, ma la scrittura vale solo se l'ordine è ancora NEW: tocca zero righe e lo conta come «accettato». Quindi la veloce e l'euro restano: Maria paga 19 € alla porta e aspetta il pane entro le 19:16. Il fornaio invece ha letto che il tempo della veloce era passato e che la spesa sarebbe finita in una fascia. Può prepararla con calma «entro le 20:00», e la veloce pagata da Maria salta. Quanto spesso: questa finestra si apre fino a 5 minuti su ogni ordine veloce non confermato. Dura fino a tre ore quando il freno non trova una fascia (sabato sera, col negozio chiuso la domenica). Il 1991 è parente ma diverso: riguarda la frase PRIMA dei 10 minuti («la veloce cade» detta come certa). Qui è la frase DOPO, nel caso normale. Proposta: finché l'ordine è ancora «Adesso», la riga dice anche «se lo accetti adesso resta veloce: va consegnato in 30-60 minuti dalla conferma», con le cifre prese da EXPRESS_ETA_LABEL. Prova: cp /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro-o20/pagine-negozio-o20/zz-perimetro-pagine-negozio-o20-veloce-e-rete.test.tsx /home/user/mycity-ondate/vaglio-o20/tests/unit/ && cd /home/user/mycity-ondate/vaglio-o20 && npx vitest run tests/unit/zz-perimetro-pagine-negozio-o20-veloce-e-rete.test.tsx; rm tests/unit/zz-perimetro-pagine-negozio-o20-veloce-e-rete.test.tsx  → il test «veloce fra il decimo minuto e il giro del freno» è rosso. Prima verifica che il giro delle 18:15 non prende l'ordine, poi che alle 18:16 la riga dice «Sono passati» ma non contiene SOTTOTITOLO_ADESSO (30-60 min). Per la parte «accettare tiene la veloce» ho solo letto il codice: veloce-non-confermata.ts:450-457 e :470-517.",
+      "fonte": "nato dalle ondate 19 e 20, il freno della veloce; trovato dal controllo dei 6 file della correzione (run wf_421a5dce-dd7) sul ramo 1f35bb96"
     }
   ],
   "sync_scan": {
