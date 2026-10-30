@@ -91,6 +91,7 @@
 - **"migliora [reparto]"** → il prompt-engineer lo affina. 🟢
 
 ## ⚡ Decisioni & azioni
+- **"cosa resta da fare?"** → ti mostro tutto il lavoro aperto in una pagina ([[LAVORO-APERTO]]): tuo e mio, sito e macchina, con dove sta ogni dettaglio. 🟢
 - **"cosa devo decidere?"** → ti mostro la coda delle cose da firmare ([[AZIONI-IN-ATTESA]]). 🟢
 - **"ok [numero]" / "approva [azione]"** → eseguo l'azione approvata. ▶️
 - **"collega [Telegram / Gemini / …]"** → ti guido a collegare una "mano". 🟢
