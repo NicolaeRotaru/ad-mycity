@@ -23,10 +23,11 @@
 // oppure le prove nominano un nome esportato che la base non ha («typeof m.doppio» cade senza nessun
 // TypeError). Lo decide il collaudo, rimettendo il difetto com'e' scritto nella scheda.
 //
-// SE MI UCCIDONO. Lavoro solo su file COMMITTATI: un file in --file con modifiche non committate mi ferma
-// prima di toccare qualunque cosa (uscita 2). Cosi' la correzione vera sta sempre nel commit. Con
+// SE MI UCCIDONO. Lavoro solo su un worktree PULITO (git status vuoto, a parte il collegamento a node_modules)
+// e su file che git vede davvero (ne' ignorati, ne' assume-unchanged): altrimenti mi fermo prima di toccare
+// qualunque cosa (uscita 2). Cosi' la correzione vera sta sempre nel commit. Con
 // SIGINT/SIGTERM/SIGHUP rimetto subito i file. Con kill -9 non posso: il file resta alla base, la corsa
-// dopo lo vede come «modifica non committata», si ferma e dice di rimetterlo con `git checkout HEAD -- <file>`.
+// dopo lo vede come «modifica non committata», si ferma e dice come rimetterlo (`git checkout HEAD -- <file>`, o `rm` se la correzione l'aveva cancellato).
 // Niente salvataggi da recuperare: il ricollaudo del 30/10 ha trovato quattro modi in cui un recupero
 // scriveva sopra il lavoro giusto, e la cura alla radice e' non averne bisogno.
 // Due corse insieme sullo stesso worktree non si fanno: il blocco sta nella cartella git del worktree, si
@@ -194,11 +195,24 @@ async function corpo(a, ctx) {
   if (!prendiBlocco(blocco)) return no("un'altra prova-rimessa sta lavorando su questo worktree: aspetta che finisca");
   ctx.blocco = blocco;
 
-  // Solo file committati: la correzione vera deve stare nel commit, cosi' niente si perde se mi uccidono.
+  // Solo un worktree PULITO: quello che provo dev'essere esattamente il commit. Non bastano i file in --file
+  // (ricollaudo del 30/10: un aiuto corretto sul disco ma rimasto fuori dal commit dava «regge» su uno stato
+  // che il commit non ha). L'unica cosa ammessa fuori dal commit e' il collegamento a node_modules.
+  // true/false se git risponde; null se non risponde: allora non do un consiglio che potrebbe essere sbagliato.
+  const nelCommit = (f) => { try { return !!gitEsegui(["--literal-pathspecs", "ls-tree", "--name-only", "HEAD", "--", f], repo); } catch (e) { return null; } };
+  let sporchi;
+  try { sporchi = gitEsegui(["status", "--porcelain"], repo).split("\n").map((x) => x.trim()).filter(Boolean).filter((x) => !/^\?\? node_modules\/?$/.test(x)); } catch (e) { return no("git status non risponde su " + repo); }
+  if (sporchi.length) {
+    const consigli = a.file.map((f) => { const c = nelCommit(f); return c === true ? "git -C " + repo + " checkout HEAD -- " + f : c === false ? "rm " + join(repo, f) : "guarda git -C " + repo + " status -- " + f + " (git non mi ha detto se e' nel commit)"; });
+    return no("il worktree ha modifiche non committate (" + sporchi.slice(0, 5).join(", ") + (sporchi.length > 5 ? ", …" : "") + "): committa quello che fa parte della correzione e togli il resto. Se una corsa di prova-rimessa e' stata interrotta a meta', un file e' rimasto alla base; si rimette cosi': " + consigli.join(" · "));
+  }
   for (const f of a.file) {
-    let stato = "";
-    try { stato = gitEsegui(["--literal-pathspecs", "status", "--porcelain", "--", f], repo); } catch (e) { return no("git status non risponde su " + f); }
-    if (stato) return no(f + " ha modifiche non committate: committa prima la correzione. Se una corsa di prova-rimessa e' stata interrotta a meta', il file e' rimasto alla base: rimettilo con git -C " + repo + " checkout HEAD -- " + f);
+    let ignorato = true;
+    try { gitEsegui(["check-ignore", "-q", "--", f], repo); } catch (e) { ignorato = false; }
+    if (ignorato) return no(f + " e' ignorato da git: non sta nel commit, e una prova su di lui non prova la correzione");
+    let voce = "";
+    try { voce = gitEsegui(["--literal-pathspecs", "ls-files", "-v", "--", f], repo); } catch (e) { voce = ""; }
+    if (/^[a-zS]/.test(voce)) return no(f + " e' segnato assume-unchanged o skip-worktree: git non vede le sue modifiche, e il commit potrebbe non essere quello che provo");
   }
 
   // Cosa c'e' oggi (dal disco, coi permessi) e cosa c'era alla base (come la scriverebbe un checkout).

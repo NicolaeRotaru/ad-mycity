@@ -241,3 +241,45 @@ test("i percorsi si leggono alla lettera: le quadre di app/[id] non sono caratte
     { "lib/somma.mjs": GIUSTA, "app/i/p.mjs": "export const p = 2;\n", "tests/somma.test.mjs": PROVA });
   assert.equal(lancia(r, "app/[id]/p.mjs", "tests/somma.test.mjs").uscita, 2);
 });
+
+// ── dall'ultimo ricollaudo del 30/10: il commit deve essere esattamente quello che provo ────────────
+const DELEGA = "import { aiuto } from './aiuto.mjs';\nexport const somma = (a, b) => aiuto(a, b);\n";
+test("un aiuto corretto sul disco ma rimasto fuori dal commit: si ferma (2), niente falso «regge»", () => {
+  const r = repo({ "lib/somma.mjs": SBAGLIATA, "lib/aiuto.mjs": "export const aiuto = (a, b) => a - b;\n" }, { "lib/somma.mjs": DELEGA, "tests/somma.test.mjs": PROVA });
+  writeFileSync(join(r.d, "lib/aiuto.mjs"), "export const aiuto = (a, b) => a + b;\n");
+  assert.equal(lancia(r, "lib/somma.mjs", "tests/somma.test.mjs").uscita, 2);
+});
+
+test("un aiuto NUOVO mai aggiunto a git: si ferma (2)", () => {
+  const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": DELEGA, "tests/somma.test.mjs": PROVA });
+  writeFileSync(join(r.d, "lib/aiuto.mjs"), "export const aiuto = (a, b) => a + b;\n");
+  assert.equal(lancia(r, "lib/somma.mjs", "tests/somma.test.mjs").uscita, 2);
+});
+
+test("il collegamento a node_modules non sporca il worktree: la prova gira", () => {
+  const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": GIUSTA, "tests/somma.test.mjs": PROVA });
+  execFileSync("ln", ["-s", tmpdir(), join(r.d, "node_modules")]);
+  assert.equal(lancia(r, "lib/somma.mjs", "tests/somma.test.mjs").uscita, 0);
+});
+
+test("un file assume-unchanged o ignorato da git non passa (2)", () => {
+  const r = repo({ "lib/somma.mjs": SBAGLIATA, ".gitignore": "lib/gen.mjs\n" }, { "lib/somma.mjs": GIUSTA, "tests/somma.test.mjs": PROVA });
+  execFileSync("git", ["-C", r.d, "update-index", "--assume-unchanged", "lib/somma.mjs"]);
+  writeFileSync(join(r.d, "lib/somma.mjs"), "export const somma = (a, b) => a + b; // v2\n");
+  assert.equal(lancia(r, "lib/somma.mjs", "tests/somma.test.mjs").uscita, 2, "assume-unchanged");
+  writeFileSync(join(r.d, "lib/gen.mjs"), "x\n");
+  execFileSync("git", ["-C", r.d, "update-index", "--no-assume-unchanged", "lib/somma.mjs"]);
+  execFileSync("git", ["-C", r.d, "checkout", "--", "lib/somma.mjs"]);
+  assert.equal(lancia(r, "lib/somma.mjs,lib/gen.mjs", "tests/somma.test.mjs").uscita, 2, "ignorato");
+  assert.ok(existsSync(join(r.d, "lib/gen.mjs")));
+});
+
+test("un file che la correzione ha cancellato e che un'interruzione ha rimesso: il consiglio e' rm, non checkout", () => {
+  const r = repo({ "lib/somma.mjs": SBAGLIATA, "lib/vecchio.mjs": "export const v = 1;\n" }, { "lib/somma.mjs": GIUSTA, "tests/somma.test.mjs": PROVA });
+  execFileSync("git", ["-C", r.d, "-c", "user.email=t@t", "-c", "user.name=t", "rm", "-q", "lib/vecchio.mjs"]);
+  execFileSync("git", ["-C", r.d, "-c", "user.email=t@t", "-c", "user.name=t", "commit", "-q", "-m", "via"]);
+  writeFileSync(join(r.d, "lib/vecchio.mjs"), "export const v = 1;\n");
+  const o = lancia(r, "lib/somma.mjs,lib/vecchio.mjs", "tests/somma.test.mjs");
+  assert.equal(o.uscita, 2);
+  assert.match(o.j.motivo, /rm [^ ]*lib\/vecchio\.mjs/);
+});
