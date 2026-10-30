@@ -51,7 +51,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 **Se va bene:** preparo la prima mossa in un ramo del sito e te la porto da unire. Gli scaffali vuoti entrano nella seconda ondata del sito. Lì c'è già la tua scelta del 26 ottobre sulle categorie vuote.
 
-Contenuto: referto `consegne/design/2026-10-29-esperienza-cliente-vs-migliori.md` (pagella, dieci mosse, prove `file:riga`), foto in `consegne/design/2026-10-29-foto-pagine/`, materiale grezzo collaudato in `consegne/design/2026-10-29-esperienza-cliente-raw.json`. Run `wf_b52be27a-121` (38 agenti). Mossa 1 = carta #201. Chiave di servizio ancora assente su Vercel, riletta il 2026-10-30 00:25 (carte #154 e #210): finché manca, la cassa non registra ordini. Richiesta di unione ad-mycity #900.
+Contenuto: referto `consegne/design/2026-10-29-esperienza-cliente-vs-migliori.md` (pagella, dieci mosse, prove `file:riga`); per ripartire in una sessione nuova `consegne/design/2026-10-29-come-riprendere.md` (mosse collegate alle schede del registro, prove, strumento delle foto); foto in `consegne/design/2026-10-29-foto-pagine/`, materiale grezzo collaudato in `consegne/design/2026-10-29-esperienza-cliente-raw.json`. Run `wf_b52be27a-121` (38 agenti). Mossa 1 = carta #201. Chiave di servizio ancora assente su Vercel, riletta il 2026-10-30 00:25 (carte #154 e #210): finché manca, la cassa non registra ordini. Richiesta di unione ad-mycity #900.
 
 ---
 

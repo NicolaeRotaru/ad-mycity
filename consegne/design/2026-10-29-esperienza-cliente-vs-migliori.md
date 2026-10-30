@@ -520,6 +520,10 @@ Legenda dello stato: ✅ al livello · 🟡 c'è ma sotto livello · ⬜ manca �
 
 ## Dettagli tecnici
 
+### Per riprendere in una sessione nuova
+
+`consegne/design/2026-10-29-come-riprendere.md`: le dieci mosse collegate alle schede del registro del sito, il file da cui parte ognuna, la prova che dice «fatto», lo strumento delle foto (`cervello/foto-pagine-vere.mjs`) e il motore per rimisurare (`consegne/design/2026-10-29-strumenti/`).
+
 ### Da dove vengono i dati
 
 - Codice: `/home/user/mycity`, ramo main, commit `0df5557` (2026-10-29 18:12 +0100). Sola lettura.
