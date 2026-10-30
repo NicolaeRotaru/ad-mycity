@@ -49,7 +49,7 @@ Il sito vero non l'ho aperto in un browser: le foto sono ricostruite attraverso 
 | 3 | Via scaffali vuoti e classifiche finte | R88 grave (idx 300), R232, R103, R200, R226 minori | R88 nel pacchetto `components/CategoryShowcase.tsx` | niente: «categorie vuote nascoste» firmato il 26/10 |
 | 4 | Marchio intero e «Accedi» visibili | R35 grave (idx 278) | sì, nel pacchetto `app/messages/page.tsx` | niente |
 | 5 | Conferma con un codice, senza password | nessuna (vicine: R134, R211) | — | scelta 2 della #222; poi @security e @legale-privacy |
-| 6 | Una promessa di consegna sola | R48 grave (idx 23), R228 minore (idx 266), R66 grave (idx 253) | no | il prezzo del 29/10 16:13 deve prima entrare nella cassa, col suo pacchetto |
+| 6 | Una promessa di consegna sola | R48 grave (idx 23), R66 grave (idx 253); R228 minore (idx 266) la chiude la #263, secondo la richiesta #899 | no | la regola nuova del prezzo (registro dei fatti, `consegna.promessa`, sera del 29/10) deve prima entrare nella cassa: è nell'ondata 14 del sito |
 | 7 | Il volto del titolare | R164, R150, R216 minori | no | scelta 4 della #222 + consenso scritto del titolare (🔴) |
 | 8 | Totale del carrello sotto il pollice | nessuna (vicina: R118) | — | niente |
 | 9 | Via le promesse non mantenute | R64 grave (idx 251), R60 grave (idx 50), R67 grave (idx 254), R257, R108, R264, R227 minori | R64 nel pacchetto `lib/store-hours.ts` | spegnere i 100 punti tocca il database (🔴); la garanzia sul fresco: chi paga lo decide Nicola |

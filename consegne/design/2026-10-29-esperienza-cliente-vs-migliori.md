@@ -8,7 +8,7 @@ fonti:
   - variabili di produzione su Vercel, solo i nomi, rilette il 2026-10-30 00:25
   - database del sito letto in sola lettura il 2026-10-29 20:13
   - codice del sito, ramo main, commit 0df5557 del 2026-10-29 18:12
-  - registro dei fatti, voce consegna.promessa aggiornata il 2026-10-29 16:13
+  - registro dei fatti, voce consegna.promessa (cambiata la sera del 2026-10-29: vale il registro, il referto non ripete i numeri)
 ---
 
 # Il sito visto da chi compra: siamo al livello di Amazon e Glovo?
@@ -40,7 +40,7 @@ Una cosa per prima: lancia il comando che cancella il Panificio Demo, la carta g
 
 Poi una conferma, quando vuoi. Vuoi che il cliente nuovo confermi l'ordine con un codice, invece di creare una password? Tocca la registrazione, quindi la firma è tua.
 
-La regola della consegna non te la richiedo. L'hai confermata il 29 ottobre alle 16:13 con «sì, esatto»: 3 € con la fascia oraria, 4 € la veloce, 4 € sotto i 10 € di spesa. Entra nel codice col suo pacchetto, dopo l'unione della richiesta del sito.
+La regola della consegna non te la richiedo: l'hai decisa la sera del 29 ottobre, e sta nel registro dei fatti. Per esempio, un negozio con 15 euro di spesa paga 3 euro con la fascia oraria e 4 con la veloce. Entra nel codice con la sua ondata del sito.
 
 Una cosa da sapere, senza fretta. Il modulo del negozio permette ancora di scegliere «usato» come condizione del prodotto. Il documento di business dice di non costruire mai l'usato. Propongo di togliere quella scelta dal modulo: è una piccola modifica al codice.
 
@@ -206,7 +206,7 @@ Le mosse vanno fatte una alla volta, nell'ordine. Tutte insieme sarebbero le «d
 - **Chi lo fa meglio:** Glovo, Deliveroo e Uber Eats tengono in basso «Vedi carrello» col totale. Baymard lo mette nelle sue regole per la spesa online: dopo il primo tocco, «Aggiungi» diventa un selettore della quantità.
 - **Sforzo:** qualche giorno.
 - **Corsia:** codice.
-- **Le 5 domande:** le passa. Quando entrerà la regola dei 10 €, la stessa barra potrà dire quanto manca per pagare la consegna 3 € invece di 4 €.
+- **Le 5 domande:** le passa. Quando entrerà la regola nuova della consegna, la stessa barra potrà dire quanto manca perché una spesa piccola non costi 1 euro in più.
 
 ### 9. Togli le promesse che il sito non mantiene
 
@@ -230,7 +230,7 @@ Le mosse vanno fatte una alla volta, nell'ordine. Tutte insieme sarebbero le «d
 
 - **La ricerca che perdona i refusi.** Serve davvero con 2.000 prodotti, oggi con 9 conta poco.
 - **L'ordine dei risultati calcolato nel database.** Questo difetto si vede già oggi: «kefir capra» con «Prezzo crescente» dà zero prodotti. Ma la cura cambia una funzione del database, che è rossa. Va in fila subito dopo le dieci.
-- **Il box anti-spreco.** È nel piano della fase 1, il ritiro in negozio è spento, e una consegna da 4 € pesa quanto il box. Lo decidi tu.
+- **Il box anti-spreco.** È nel piano della fase 1, il ritiro in negozio è spento, e su una spesa piccola la consegna costa quanto il box. Lo decidi tu.
 - **L'ordine da regalare, col biglietto scritto in bottega.** Prima va chiesto a Pane Quotidiano se lo scrive lui a mano: è fatica in più per il negoziante.
 - **Le collezioni di Natale.** Servono negozi da regalo veri, come enoteche e fiorai. Una pagina non riempie un buco di assortimento.
 - **Il prezzo al chilo sulle schede.** È probabilmente un obbligo di legge: prima lo conferma @legale-privacy.
@@ -377,8 +377,8 @@ Legenda dello stato: ✅ al livello · 🟡 c'è ma sotto livello · ⬜ manca �
 | Requisito | Stato | Chi lo fa meglio | Prova | Proposta |
 |---|---|---|---|---|
 | Carrello sempre visibile col totale | 🟡 | Deliveroo | codice | Mossa 8 |
-| Costo di consegna prima della cassa | 🟡 | Uber Eats | pagina vera | «3 € per negozio» scritto in vetrina |
-| «Ti mancano X € per evitare il supplemento» | ⬜ | Deliveroo | codice | Insieme alla regola dei 10 € |
+| Costo di consegna prima della cassa | 🟡 | Uber Eats | pagina vera | la vetrina scrive un costo fisso per negozio |
+| «Ti mancano X € per evitare il supplemento» | ⬜ | Deliveroo | codice | Insieme alla regola nuova della consegna |
 | Cambiare quantità nel carrello | ✅ | Glovo | codice | «Annulla» dopo «Rimuovi» |
 | Cassa in una pagina, pochi campi | ✅ | Amazon | codice | Nascondere il codice sconto: i codici sono spenti dal 27 ottobre, e l'esempio «BENVENUTO10» oggi non vale |
 | Comprare senza registrazione | 🔴 | Uber Eats | codice | Mossa 5 |
@@ -534,7 +534,7 @@ Legenda dello stato: ✅ al livello · 🟡 c'è ma sotto livello · ⬜ manca �
 - Mossa 3: la scelta «categorie vuote nascoste» del 26/10 è in `consegne/audit/2026-10-28-ondata2-preparazione.md` (riga «Vetrina», 3 gravi); l'albero più ampio è la risposta del 29/10 00:08 in AZIONI-IN-ATTESA.
 - Costo dell'analisi (`node cervello/conto-token.mjs --workflow wf_b52be27a-121`): 40 agenti misurati, 2.934 turni; 11,3 milioni di token senza le letture dalla cache, 457 milioni contandole. Due agenti sono stati rifatti dopo il riavvio della macchina della sessione (29/10 21:54).
 - Database: lettura in sola lettura del 2026-10-29 20:13 (9 prodotti, 2 negozi, 0 recensioni, 0 storie, 1 ordine del 24/6 annullato, 0 visite nelle 24 ore, `shop_of_month` vuota, 0 liste, 1 evento scaduto, 0 promozioni attive, 0 prezzi barrati).
-- Registro dei fatti: `registro-fatti.json → consegna.promessa` (riga 242, aggiornato 2026-10-29 16:13): fascia 3 €, veloce 4 €, sotto 10 € sempre 4 €, tetto 4 €. Confermata da Nicola con «sì, esatto» dopo la tabella; `STATO.md` del 2026-10-29 15:40: entra nel codice dopo l'unione della richiesta #263. Per questo non la richiedo a Nicola, anche se il collaudo della prima impressione lo proponeva.
+- Registro dei fatti: `registro-fatti.json → consegna.promessa`. Durante l'analisi (29/10 20:13) valeva la regola delle 16:13. La sera del 29/10 Nicola l'ha cambiata (letta alle 22:21, compenso del fattorino alle 23:04, richiesta di unione #899; il codice è nell'ondata 14 del sito). Il referto non ripete la regola altrove: vale il registro. Per questo non la richiedo a Nicola, anche se il collaudo della prima impressione lo proponeva.
 - Materiale: 14 aree analizzate da senior e collaudate, 3 ricerche di benchmark (Amazon/eBay; Glovo/Deliveroo/Uber Eats/Just Eat; Etsy/Shopify/Too Good To Go/ShopAppy/Miconex/Faire più Baymard, NN/g, Spiegel), 4 lenti sull'occhio più uno scettico (42 osservazioni confermate, cioè 33 problemi e 9 pregi; 7 scartate).
 
 ### Una correzione al materiale
