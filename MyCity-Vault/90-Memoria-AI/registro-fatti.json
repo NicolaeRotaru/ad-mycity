@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-10-30 22:52",
+  "aggiornato": "2026-10-30 23:08",
   "fatti": [
     {
       "id": "architettura.tre-macchine",
@@ -234,6 +234,16 @@
       "valore": "Categorie al lancio, firmate da Nicola il 2026-10-29 00:05: niente abbigliamento per ora; tutto il resto sì, per i piccoli negozi che Glovo e Deliveroo non guardano: spesa fresca (pane e forno, frutta e verdura, macelleria, salumi e formaggi, latticini, gastronomia fresca, pasta fresca, dispensa), cura della persona, parafarmacia, regali e ricorrenze. L'albero va reso più ampio, con più sottocategorie di quello proposto il 29/10 alle 00:40. Pane Quotidiano vende pane, verdura fresca, alimentari e cura della persona.",
       "fonte": "Nicola in chat, 2026-10-29 00:05 (carta #219, punto 1)",
       "aggiornato": "2026-10-29 00:06",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "consegna.fasce-orarie",
+      "nome": "consegna.fasce-orarie",
+      "valore": "Fasce di consegna, uguali per oggi e per i giorni dopo: 7:30-9:00 · 9:00-11:00 · 11:00-13:00 · 16:30-18:00 · 18:00-19:30. Niente fascia di pranzo fra le 13 e le 16:30. Ogni negozio vede solo le fasce in cui e' aperto (gli orari del negozio), quindi per esempio il giovedi' pomeriggio sparisce per chi chiude. Una fascia si sceglie fino a 60 minuti prima della sua fine (fatto consegna.fascia-fino-a-60-minuti). Sostituisce le fasce di prima: oggi 15-18 e 18-20, domani 9-12, 12-15, 15-18:30 e 18:30-20.",
+      "fonte": "Nicola in chat, 2026-10-30 23:05: griglia A delle proposte in consegne/intelligence/2026-10-30-orari-negozi-piacenza.md, poi «No, niente pranzo»",
+      "aggiornato": "2026-10-30 23:08",
       "storia": [],
       "caccia": [],
       "esenzioni": []
