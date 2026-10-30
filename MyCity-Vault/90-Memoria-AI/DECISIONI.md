@@ -6236,3 +6236,16 @@ Per non sbagliare i territori una quinta volta, prima di dividere ho cercato tut
   - Nel territorio della squadra ci sono anche `lib/cron-health.ts` e `lib/ordini/riepilogo-ordine.ts`, i file che le ondate prima non avevano. Piano: `consegne/audit/2026-10-30-ondata19-freno-veloce.json`.
 
 **Colore:** 🟡: codice in un ramo del sito; l unione resta di Nicola.
+
+## 2026-10-30 17:32 — 🟡 Il freno della veloce regge dopo le ondate 19 e 20: apro la richiesta del sito #265
+
+**Cosa ho fatto.**
+- **L ondata 19** (run `wf_4c28f250-6b6`) ha rifatto il freno sopra il principale `0a4bfe81`. Il controllo dei suoi 13 file (run `wf_558510dc-d49`) ha trovato un grave nuovo: il messaggio prometteva «puoi annullare senza costi» anche dopo che il negozio accettava la fascia nuova (voce 1981).
+- **L ondata 20** (run `wf_f12931ba-ebf`) l ha chiuso, con le frasi agli amministratori e le pagine ordini del negozio che rileggono alla riapertura. Il controllo dei suoi 6 file (run `wf_421a5dce-dd7`) ha trovato solo minori: voci 2000-2005.
+- `npm run verify` è verde su `1f35bb96`: 6.489 prove su 6.489, in 724 file. Il perimetro è riguardato tutto: 13 file su 13, su 5 dimensioni.
+- **Ho aperto la #265 del sito**, ramo `ccr-b2418a18-982q9d` = `1f35bb96`, e la seguo. Voci da chiudere dopo l unione: 1826, 264, 1981, 1980, 1984, 1985, 1986, 1958.
+- Resta aperto il grave 1990: la riga «entro quando accettare» può restare indietro fino a 90 secondi, e senza rete resta ferma.
+
+**Un errore mio, corretto.** Nel primo testo della #265 ho scritto «il freno che hai scelto oggi alle 16:13». Quell ora l avevo presa dai commenti della squadra nel codice, senza controllarla. Le 16:13 sono del 29/10, quando Nicola ha deciso il prezzo della veloce. La B l ha scelta il 30/10, con un messaggio letto fra le 14:49 e le 14:54. Il testo della #265 adesso è giusto. I cinque commenti sbagliati nel codice sono la voce 2006 del registro, minore.
+
+**Colore:** 🟡: codice in un ramo del sito e una richiesta aperta; l unione è 🔴 e resta di Nicola.

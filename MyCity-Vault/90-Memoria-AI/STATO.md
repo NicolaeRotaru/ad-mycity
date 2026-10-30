@@ -1,8 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-10-30 14:46
+aggiornato: 2026-10-30 17:30
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🧯 **2026-10-30 17:30 — Il freno della veloce è pronto: è la richiesta #265 del sito.**
+>
+> È il freno automatico, quello che hai scelto tu. Se il negozio non conferma una veloce entro 10 minuti, il carrello passa alla prima fascia libera e l'euro in più non si paga. Esempio: Maria alle 18:16 passa a «Stasera · 18:00-20:00» e alla porta paga 18 euro invece di 19.
+>
+> È verde, 6.489 prove su 6.489, e i 13 file del freno sono riguardati tutti. La #900 l'ho chiusa a mano: il suo lavoro era già entrato. Restano da te l'unione della #265 e la data dei Termini.
 
 > ✅ **2026-10-30 14:46 — Il prezzo nuovo della consegna è online.**
 >

@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 2006,
+    "findings": 2007,
     "bloccanti": 35,
     "gravi": 547,
-    "minori": 1424,
+    "minori": 1425,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -34226,6 +34226,17 @@
       "file": "lib/ordini/scadenza-accettazione.ts:207-213 (ramo «Sono passati i 10 minuti…»), mostrato da app/seller/orders/[id]/page.tsx:382-384 e app/seller/orders/page.tsx:179-181 · lib/ordini/veloce-non-confermata.ts:569-576 (cerca solo created_at < adesso-10 min) e :450-457 (scrive solo se ancora NEW) · vercel.json (freno ogni 5 minuti)",
       "descrizione": "Cosa succede. Venerdì 30/10 alle 18:05:20 Maria ordina 15 € di pane da Pane Quotidiano con la veloce, e paga 4 € di consegna. Il freno gira alle 18:15:00 e cerca solo gli ordini nati prima delle 18:05:00: quello di Maria non lo trova. Il giro dopo è alle 18:20. Alle 18:16 il fornaio apre l'ordine e legge: «Sono passati i 10 minuti per confermare la consegna veloce: se c'è una fascia oraria libera la spesa passa lì da sola. Se non fai niente, si annulla da solo alle 21:05 di oggi.» Due righe sopra, però, c'è scritto «Consegna: Adesso · arrivo in 30-60 min». Il fornaio preme «Accetta ordine» alle 18:16. Alle 18:20 il freno prova a scrivere, ma la scrittura vale solo se l'ordine è ancora NEW: tocca zero righe e lo conta come «accettato». Quindi la veloce e l'euro restano: Maria paga 19 € alla porta e aspetta il pane entro le 19:16. Il fornaio invece ha letto che il tempo della veloce era passato e che la spesa sarebbe finita in una fascia. Può prepararla con calma «entro le 20:00», e la veloce pagata da Maria salta. Quanto spesso: questa finestra si apre fino a 5 minuti su ogni ordine veloce non confermato. Dura fino a tre ore quando il freno non trova una fascia (sabato sera, col negozio chiuso la domenica). Il 1991 è parente ma diverso: riguarda la frase PRIMA dei 10 minuti («la veloce cade» detta come certa). Qui è la frase DOPO, nel caso normale. Proposta: finché l'ordine è ancora «Adesso», la riga dice anche «se lo accetti adesso resta veloce: va consegnato in 30-60 minuti dalla conferma», con le cifre prese da EXPRESS_ETA_LABEL. Prova: cp /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro-o20/pagine-negozio-o20/zz-perimetro-pagine-negozio-o20-veloce-e-rete.test.tsx /home/user/mycity-ondate/vaglio-o20/tests/unit/ && cd /home/user/mycity-ondate/vaglio-o20 && npx vitest run tests/unit/zz-perimetro-pagine-negozio-o20-veloce-e-rete.test.tsx; rm tests/unit/zz-perimetro-pagine-negozio-o20-veloce-e-rete.test.tsx  → il test «veloce fra il decimo minuto e il giro del freno» è rosso. Prima verifica che il giro delle 18:15 non prende l'ordine, poi che alle 18:16 la riga dice «Sono passati» ma non contiene SOTTOTITOLO_ADESSO (30-60 min). Per la parte «accettare tiene la veloce» ho solo letto il codice: veloce-non-confermata.ts:450-457 e :470-517.",
       "fonte": "nato dalle ondate 19 e 20, il freno della veloce; trovato dal controllo dei 6 file della correzione (run wf_421a5dce-dd7) sul ramo 1f35bb96"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "I commenti del freno della veloce dicono «scelta di Nicola del 30/10 alle 16:13», ma alle 16:13 del 29/10 Nicola aveva deciso il prezzo, e la B l ha scelta il 30/10 fra le 14:49 e le 14:54",
+      "file": "lib/ordini/scadenza-accettazione.ts · lib/ordini/veloce-non-confermata.ts · tests/unit/il-freno-della-veloce-regge-guasti-margini-e-concorrenza.test.ts · tests/unit/la-veloce-non-confermata-in-10-minuti-passa-a-una-fascia.test.ts · tests/unit/zz-collaudo-a-credito.test.ts",
+      "descrizione": "Cinque commenti in testa ai file del freno attribuiscono a Nicola una scelta con data e ora sbagliate. Le 16:13 sono del 29/10 (DECISIONI 2026-10-29 16:14: la veloce a 1 euro in più); il freno l ha approvato con la carta #220 il 29/10, e la B l ha scelta il 30/10, messaggio letto fra le 14:49 e le 14:54 (DECISIONI 2026-10-30 14:54). Chi rilegge il codice crede a una decisione che non c è stata a quell ora. Prova: git grep -n \"16:13\" 1f35bb96 -- lib/ordini tests/unit | grep FRENO trova 5 righe.",
+      "fonte": "nato dalle ondate 19-20 del freno; trovato dall AD alle 17:35 del 30/10 rileggendo il testo della richiesta #265, sul ramo 1f35bb96"
     }
   ],
   "sync_scan": {
