@@ -1,8 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-10-30 08:00
+aggiornato: 2026-10-30 09:35
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🧱 **2026-10-30 09:35 — L'ondata 16 regge in tre parti su quattro. Il freno della veloce si rifà nell'ondata 17.**
+>
+> Reggono l'avviso al cliente dopo un rifiuto, le frasi della vetrina e le prove del carrello. Li ho cuciti sopra le ondate 13-15: il controllo completo del sito è tutto verde, 6.308 prove su 6.308.
+>
+> Il freno della veloce aveva 5 gravi. Per esempio, scriveva «non lo paghi» anche quando l'euro restava. L'ondata 17 lo rifà: se non sa dove spostare la spesa, non la sposta e avvisa te. Nella stessa ondata entrano «consegna oggi» nelle altre schede del negozio e le prove del carrello. Poi ti porto la richiesta unica del sito.
 
 > 💶 **2026-10-30 08:00 — L'ondata 15 entra com'è, come hai scelto. L'ondata 16 sta girando, ed è l'ultima del prezzo.**
 >

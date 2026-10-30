@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-10-30 08:01
+aggiornato: 2026-10-30 09:35
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -24,7 +24,7 @@ Niente di nuovo. Le tue voci sono nella sezione 1 e nella tua lista.
 
 ## Cosa non ho verificato
 
-La pagina dice com'era il lavoro il 30 ottobre alle 08:01. Ogni voce va riletta nel suo posto prima di agire.
+La pagina dice com'era il lavoro il 30 ottobre alle 09:35. Ogni voce va riletta nel suo posto prima di agire.
 
 ---
 
@@ -54,14 +54,13 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
 ## 2 · Il mio lavoro sul sito
 
 - **L'ondata 15 è cucita** (strada A, scelta tua del 30/10 alle 07:45). Il caso raro col codice sconto resta aperto, e i codici restano spenti finché non è chiuso.
-- **L'ondata 16 sta girando.** È l'ultima del prezzo, con quattro squadre.
-  - La conferma della veloce entro 10 minuti.
-  - L'email al negozio, che dirà l'ora vera entro cui accettare.
-  - L'avviso al cliente quando un negozio rifiuta.
-  - I Termini e i buchi nelle prove dei soldi.
-  - Le frasi della vetrina: «Consegna oggi», «Abbigliamento» e «Usato».
-  - Le prove vecchie del carrello, che oggi tengono rosso il controllo completo.
-- **Poi:** riguardo tutti i file toccati dalle ondate 13-16, e ti porto una sola richiesta di unione del sito.
+- **L'ondata 16 è cucita**, tranne il freno della veloce. Reggono l'avviso al cliente dopo un rifiuto, le frasi della vetrina e le prove del carrello. Il controllo completo è verde: 6.308 prove su 6.308.
+- **L'ondata 17 sta girando**, con tre squadre.
+  - Il freno della veloce rifatto, con l'email al negozio che dice l'ora vera.
+  - «Consegna oggi» nelle altre schede del negozio, e «usato» scritto dall'assistente.
+  - I buchi nelle prove del carrello.
+- **Poi:** riguardo tutti i file toccati dalle ondate 13-17, e ti porto una sola richiesta di unione del sito.
+- **Dopo la richiesta del sito:** le email di annullo con le cifre sotto il piè di pagina e l'oggetto «non devi pagare niente» (voci 1851-1868). Al lancio non possono succedere: c'è un negozio solo.
 - **Poi l'ondata 2:** il pannello, i resi, la vetrina e gli orari dei negozi.
 - **Prima di accendere la carta**, quattro cose:
   - Non pagare due volte i contanti già pagati.
@@ -100,8 +99,8 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
 ## Dettagli tecnici
 
 - Tua lista, letta dalla Cabina: `MyCity-Vault/90-Memoria-AI/CHECKLIST-NICOLA.md`. Carte: `AZIONI-IN-ATTESA.md`. Decisioni: `DECISIONI.md`. Fatti: `registro-fatti.json` (prezzo: `consegna.promessa`, `logistica.compenso-fattorino`, `consegna.negozio-che-rifiuta`).
-- Registro del sito: `auto-coscienza/radiografia-marketplace.json`, 1.851 voci. Dall'ondata 15: 1825-1850 (il caso raro col codice è la 1825, con la prova `consegne/audit/prove-sito/2026-10-30-secondo-rifiuto-col-codice.prova.ts`; il freno della veloce è la 1826). Dalla #900: 1821 (vetrina «Consegna oggi» a negozio chiuso), 1822 («Trending ora»), 1823 («usato»), 1824 («Prezzo crescente»). Prima della carta: 1810, 1797, 1811, 1812. Testo della home dal database: 1819.
-- Piani delle ondate: `consegne/audit/2026-10-29-ondata13-prezzo-sito.json`, `2026-10-29-ondata14-prezzo-sito.json`, `2026-10-30-ondata15-prezzo-sito.json`, `2026-10-30-ondata16-prezzo-sito.json` (run `wf_932e80c0-8e9`); ondata 2: `2026-10-28-ondata2-sito.json` e `2026-10-28-ricette-ondata2.json`.
-- Rami del sito: base dell'ondata 16 `fix/base-ondata-16` (`cc05043b`, le ondate 13-15 cucite); `npm run verify` lì: 9 prove rosse su 6.268, tutte nell'ondata 16. Il ramo della fascia con la carta `fix/ondata-14-lib-ordini-fascia-leggibile-ts` non entra.
+- Registro del sito: `auto-coscienza/radiografia-marketplace.json`, 1.884 voci. Dall'ondata 16: 1851-1883. Dall'ondata 15: 1825-1850 (il caso raro col codice è la 1825, con la prova `consegne/audit/prove-sito/2026-10-30-secondo-rifiuto-col-codice.prova.ts`; il freno della veloce è la 1826). Dalla #900: 1821 (vetrina «Consegna oggi» a negozio chiuso), 1822 («Trending ora»), 1823 («usato»), 1824 («Prezzo crescente»). Prima della carta: 1810, 1797, 1811, 1812. Testo della home dal database: 1819.
+- Piani delle ondate: `consegne/audit/2026-10-29-ondata13-prezzo-sito.json`, `2026-10-29-ondata14-prezzo-sito.json`, `2026-10-30-ondata15-prezzo-sito.json`, `2026-10-30-ondata16-prezzo-sito.json` (run `wf_932e80c0-8e9`), `2026-10-30-ondata17-prezzo-sito.json` (run `wf_4a75acee-a4a`); ondata 2: `2026-10-28-ondata2-sito.json` e `2026-10-28-ricette-ondata2.json`.
+- Rami del sito: base dell'ondata 17 `fix/base-ondata-17` (`aee530e6`, le ondate 13-16 cucite senza il freno); `npm run verify` lì: 6.308 prove su 6.308. Il freno di prima: `cac593ef`, da cui riparte l'ondata 17. Il ramo della fascia con la carta `fix/ondata-14-lib-ordini-fascia-leggibile-ts` non entra.
 - Referti di ieri e stanotte: `consegne/finanza/2026-10-29-costi-e-commissioni.md`, `consegne/finanza/2026-10-29-prezzo-della-consegna.md`, `consegne/audit/2026-10-29-ondata1-giroB-sito-referto.md`; richiesta #900: `consegne/design/2026-10-29-esperienza-cliente-vs-migliori.md`, guida per riprendere `consegne/design/2026-10-29-come-riprendere.md`, revisione `wf_5370ad60-6e4`.
 - Pagina del carrello spiegato: https://claude.ai/artifact/R7a3oyeinPkPEc26fMEGqd

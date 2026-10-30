@@ -6139,3 +6139,25 @@ Con più negozi la «veloce compresa» è una lettura mia, per tenere la sua reg
 **Cosa ho fatto dopo** (2026-10-30 07:55). Ho cucito i due rami in `fix/base-ondata-16` (`cc05043b`): tre prove toccate da tutti e due, tenuta la versione che guarda il testo reso. `npm run verify`: 9 prove rosse su 6.268. Otto vengono dalle ondate 13 e 14 (voci 1798 e 1849, prove vecchie); una è nata dall ondata 15 ed è un difetto vero (voce 1835: una lettura del database senza ripiego). Nel registro 25 voci nuove, dalla 1825 alla 1849. Vanno tutte all ondata 16, perché la richiesta del sito deve uscire verde.
 
 **Colore:** 🔴 (soldi: il compenso del fattorino in un caso raro), firmato da Nicola. Il codice resta in rami del sito: niente è unito.
+
+## 2026-10-30 09:35 — 🟡 L ondata 16 del sito: tre pacchetti su quattro reggono, il freno della veloce si rifà nell ondata 17
+
+**Cosa è successo** (run `wf_932e80c0-8e9`, 22 agenti su 55).
+- **Reggono**:
+  - l avviso al cliente dopo un rifiuto, con i Termini e le prove dei soldi (`c80e444a`);
+  - le frasi della vetrina, cioè «Consegna oggi» solo se si può ancora, niente «Abbigliamento» e niente «Usato» nel menu (`1ad71485`);
+  - le prove del carrello (`6a45ef91`).
+- Li ho cuciti in `fix/base-ondata-17` (`aee530e6`). `npm run verify` lì è tutto verde: 6.308 prove su 6.308, in 705 file.
+- **Il freno della veloce è fermo** (`cac593ef`), con 5 gravi nati.
+  - Sposta l ordine su una fascia che finisce dopo 10 minuti.
+  - Con un ordine già partito, scrive «non lo paghi» e l euro resta.
+  - Quando non legge gli orari, ripiega su «Domani 9-12» anche col negozio chiuso.
+  - L email al negozio non riceve la fascia dalla cassa. È un mio errore di divisione, il terzo: le due rotte che scrivono l email non erano nel territorio della squadra.
+
+**Cosa decido.**
+- Il freno si rifà subito, nell ondata 17 (run `wf_4a75acee-a4a`). La squadra riparte dal ramo di prima e il disegno diventa più semplice. La fascia nuova è quella che offrirebbe la cassa e finisce almeno 60 minuti dopo. Se un ordine del carrello è già partito, o gli orari non si leggono, il freno non sposta niente e avvisa l amministratore. «Non lo paghi» si scrive solo se l euro è stato tolto davvero. Il territorio ora comprende le due rotte.
+- Nella stessa ondata entrano «consegna oggi» nelle altre schede del negozio (voce 1873, grave) e i buchi nelle prove del carrello.
+- Le correzioni alle email di annullo (voci 1851-1868) vanno dopo la richiesta del sito. Toccano lo stesso file del freno, e al lancio non possono succedere, perché c è un negozio solo.
+- Nel registro del sito 33 voci nuove dall ondata 16, dalla 1851 alla 1883. Le cose trovate sul ramo del freno non entrano: quel ramo non si unisce, e vanno nella scheda dell ondata 17.
+
+**Colore:** 🟡: codice in rami del sito, niente unito.
