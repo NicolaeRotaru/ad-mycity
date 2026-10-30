@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 1988,
+    "findings": 2000,
     "bloccanti": 35,
-    "gravi": 546,
-    "minori": 1407,
+    "gravi": 547,
+    "minori": 1418,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -34027,6 +34027,138 @@
       "file": "lib/ordini/scadenza-accettazione.ts:213-214 (entro = fineDellaFascia), mostrata da app/seller/orders/page.tsx:171-172 e app/seller/orders/[id]/page.tsx:375-376",
       "descrizione": "Per un ordine a fascia, la scadenza scritta al negozio è la FINE della finestra di consegna, non l'inizio. Esempio: ordine di venerdì 21:15 per sabato 9:00–12:00. Sabato alle 11:50 e alle 11:59 la pagina dice ancora «Accettalo o rifiutalo entro le 12:00 di oggi.», senza nessun avviso. Pane Quotidiano, preso dalla mattina, accetta alle 11:50. Nicola ritira e consegna dopo le 12, e la promessa fatta a Maria («9:00–12:00») salta. La frase «la fascia è finita: accettalo solo se puoi consegnarlo subito» c'è già, ma compare solo DOPO la fine della fascia, quando ormai è tardi. Non sono soldi persi, è una promessa al cliente rotta con l'invito della pagina. È una scelta fatta dall'ondata 17 (il commento alla riga 199 la motiva), quindi va decisa da prodotto. Proposta: prima della fine della fascia aggiungere «per consegnare entro le 12:00 accettalo subito», oppure contare la scadenza dall'inizio della fascia. Prova: cd /home/user/mycity-ondate/vaglio-o19 && node -e \"c=process.cwd();r=require('jiti')(c,{alias:{'@':c}})('./lib/ordini/scadenza-accettazione');s=r.rigaScadenzaPerIlNegozio({created_at:'2026-10-30T20:15:00Z',delivery_slot:'Domani · 9:00–12:00'},new Date('2026-10-31T10:50:00Z'));console.log(s);process.exit(/entro le 12:00/.test(s)?1:0)\" (oggi esce con 1 e stampa «Accettalo o rifiutalo entro le 12:00 di oggi.» alle 11:50 di sabato)",
       "fonte": "nato dall ondata 19, il freno della veloce; trovato dal controllo dei suoi 13 file (run wf_558510dc-d49) sul ramo 97e30e30"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "La prova ③ copre solo l'annullo del cliente: un ritorno a «Veloce confermata» col rifiuto del negozio passa verde",
+      "file": "lib/ordini/veloce-non-confermata.ts, ramo di rilettura (if FUORI_DAL_GIRO.includes(stato)); prova tests/unit/il-freno-della-veloce-dice-il-vero-a-chi-deve-saperlo.test.ts ③",
+      "descrizione": "sed -e 's/status = \"CANCELED\"/status = \"REJECTED\"/' -e 's#/annullato/.test#/rifiutato/.test#' tests/unit/il-freno-della-veloce-dice-il-vero-a-chi-deve-saperlo.test.ts > tests/unit/zz-rif.test.ts && npx vitest run tests/unit/zz-rif.test.ts -t '③ Maria' (verde oggi, rosso con stato==='CANCELED')",
+      "fonte": "nato dal lotto: ondate 19 e 20, il freno della veloce (run wf_4c28f250-6b6 e wf_f12931ba-ebf), ramo 1f35bb96"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Le prove della riga «entro quando accettare» cercano parole nel sorgente o ricopiano la formula: non disegnano la pagina, e accettano anche l ora del disegno",
+      "file": "app/seller/orders/page.tsx:177-178 e app/seller/orders/[id]/page.tsx:380-381; la regex del test ⑤ accetta qualsiasi secondo argomento, e la parola dataUpdatedAt basta trovarla nei commenti · tests/unit/il-freno-della-veloce-dice-il-vero-a-chi-deve-saperlo.test.ts:213-224 (regex rigaScadenzaPerIlNegozio(x, y) e parola dataUpdatedAt) · tests/unit/entro-quando-accettare-si-rilegge-quando-il-telefono-si-riapre.test.tsx riga 131",
+      "descrizione": "Visto da 3 collaudatori o revisori diversi. node -e 'for(const f of[\"app/seller/orders/page.tsx\",\"app/seller/orders/[id]/page.tsx\"]){const s=require(\"fs\").readFileSync(f,\"utf8\");if((s.match(/rigaScadenzaPerIlNegozio\\([^)]*\\)/g)||[]).some(u=>!/, lettoAlle\\)$/.test(u)))process.exit(1)}' (exit 0 oggi, 1 col mutante new Date()) — La prova cattura solo le opzioni di useQuery: togliere ...LETTURA_ORDINI_DEL_NEGOZIO la fa diventare rossa. Rimettere rigaScadenzaPerIlNegozio(o) senza lettoAlle nelle due pagine la lascia verde. Il codice di oggi è giusto: è un buco nella prova.",
+      "fonte": "nato dal lotto: ondate 19 e 20, il freno della veloce (run wf_4c28f250-6b6 e wf_f12931ba-ebf), ramo 1f35bb96"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "La riga «entro quando accettare» del negozio può restare ferma all ultima lettura: fino a 90 secondi alla riapertura o con la pagina aperta, e senza rete resta quella della sera prima",
+      "file": "app/seller/orders/page.tsx:103 e [id]/page.tsx:178 (lettoAlle = ultima lettura) · components/providers/QueryProvider.tsx:19-21 (refetchOnWindowFocus:false) · tests/unit/entro-quando-accettare-si-rilegge-quando-il-telefono-si-riapre.test.tsx (riapri: solo focusManager, mai onlineManager) · app/seller/orders/page.tsx (lettoAlle con refetchInterval 90_000); al ritorno dal dettaglio, finché la rilettura non arriva",
+      "descrizione": "Visto da 3 collaudatori o revisori diversi. cd worktree && node -e: QueryClient con le opzioni di QueryProvider, QueryObserver refetchInterval 2000, focusManager.setFocused(false) per 4,4 s e poi true. 30 ms dopo: letture=1, lettoAlle vecchio di 4535 ms, exit 1. Lo stato sbagliato dura proprio nel momento in cui il forno guarda. — Buco nelle prove, non un difetto provato: con onlineManager.setOnline(false) prima di setFocused(true), la lettura va in pausa (networkMode 'online') e lettoAlle resta vecchio. Da aggiungere come caso. — Alle 12:00:30 la lista può ancora dire «entro le 12:00 di oggi», se l'ultima lettura è delle 11:59:10. Lo stesso per un istante quando si torna alla lista e la cache ha una lettura vecchia. Il commento in lib dice che contano anche 4 secondi.",
+      "fonte": "nato dal lotto: ondate 19 e 20, il freno della veloce (run wf_4c28f250-6b6 e wf_f12931ba-ebf), ramo 1f35bb96"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Al negozio la riga e l email «Nuovo ordine» dicono «la veloce cade» come cosa certa, anche quando il freno non trova una fascia e l ordine resta veloce, con l euro, ancora confermabile",
+      "file": "lib/ordini/scadenza-accettazione.ts:204 (veloce prima dei 10 minuti) contro nonSiSposta in lib/ordini/veloce-non-confermata.ts:230-248 · lib/ordini/scadenza-accettazione.ts:204 (ramo veloce prima dei 10 minuti, usato da lib/email/templates.ts:168) · lib/ordini/scadenza-accettazione.ts:204 (rigaScadenzaPerIlNegozio, ramo prima dei 10 minuti) · lib/ordini/scadenza-accettazione.ts, rigaScadenzaPerIlNegozio, ramo prima del freno",
+      "descrizione": "Visto da 4 collaudatori o revisori diversi. rigaScadenzaPerIlNegozio({created_at:'2026-10-31T19:20:00Z', delivery_slot:ETICHETTA_ADESSO}, stesso istante) con negozio chiuso la domenica: la riga contiene «la veloce cade», ma il freno chiama nonSiSposta e l'ordine resta «Adesso» — Script jiti: rigaScadenzaPerIlNegozio(sab 31/10 20:20, Adesso) → «...la veloce cade: se c'è una fascia...», exit 1. Il test ⑥ dà fasciaDopoLaVeloce=null; nonSiSposta lascia la veloce nel conto e dice al cliente «non ha ancora confermato». — Sabato sera con il negozio chiuso la domenica: nonSiSposta lascia l'ordine «Adesso», ma la riga promette che la veloce cade. È lo stesso tipo di certezza falsa che il lotto voleva togliere. — Sabato sera con il negozio chiuso la domenica, nonSiSposta lascia l'ordine «com'era, con la veloce nel conto». Al negozio però era stato detto in modo certo che la veloce cade.",
+      "fonte": "nato dal lotto: ondate 19 e 20, il freno della veloce (run wf_4c28f250-6b6 e wf_f12931ba-ebf), ramo 1f35bb96"
+    },
+    {
+      "dimensione": "deploy-sre",
+      "reparto": "Rilascio e affidabilita'",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Il freno risponde 500 ogni 5 minuti per ore su un carrello già segnalato e che non si può spostare: un errore in Sentry a ogni giro, uguale a un guasto vero, e il manuale dice ancora «se 500, bug nel codice»",
+      "file": "app/api/cron/veloce-non-confermata/route.ts:24 (tuttoAPosto vuole daSistemareAMano===0) · nonSiSposta riga 238 rende 'a-mano' a ogni giro · app/api/cron/veloce-non-confermata/route.ts:24 (tuttoAPosto = ok && daSistemareAMano === 0) · lib/ordini/veloce-non-confermata.ts:238 e :326 (nonSiSposta e «partiti» rendono 'a-mano' a ogni giro) · docs/crons.json (voce veloce-non-confermata), docs/runbook.md righe 223-229, commento in app/api/cron/veloce-non-confermata/route.ts · docs/runbook.md, Diagnosi passo 4 (riga 241) contro il paragrafo nuovo sul freno della veloce (righe 223-229) · app/api/cron/veloce-non-confermata/route.ts (tuttoAPosto) + nonSiSposta in lib/ordini/veloce-non-confermata.ts",
+      "descrizione": "Visto da 5 collaudatori o revisori diversi. due giri alle 20:31 e alle 20:36 di sabato con un negozio chiuso la domenica: status 500 tutte e due le volte, e logger.error «[cron] il lavoro e passato ma ha risposto con un errore» ogni 5 minuti fino all'annullo automatico — Sabato 20:30, negozio chiuso la domenica: nonSiSposta avvisa una volta sola, poi ogni 5 minuti fino all'annullo delle 23:20 rende 'a-mano'. Sono circa 34 risposte 500 e altrettanti logger.error in withCronAuth (lib/api/middleware.ts) per una cosa già detta. — spostaIlCarrello scrive la fascia poi torna 'a-mano' se euroFinale è 'a-mano' o aMeta. La ricerca prende solo NEW con fascia «Adesso» (righe 569-576), quindi il giro dopo dà 200 mentre il rimborso a mano è ancora da fare. L'avviso agli amministratori parte comunque. — Chi è di turno legge il 500 come un guasto del codice e cerca su Sentry. Il caso tipico invece è nonSiSposta: nessuna fascia libera il sabato sera, e un amministratore è già stato avvisato. — Se l'avviso è già scritto, nonSiSposta torna 'a-mano' a ogni giro finché l'ordine non si annulla (fino a 3 ore o al giro notturno). Ogni giro scrive un logger.error nel middleware. Un ok:false (ricerca caduta) dà lo stesso 500: il segnale si confonde.",
+      "fonte": "nato dal lotto: ondate 19 e 20, il freno della veloce (run wf_4c28f250-6b6 e wf_f12931ba-ebf), ramo 1f35bb96"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "L avviso «freno fermo a metà» elenca cosa ha fatto quel giro e non lo stato vero: un rimborso di un altra causa compare come «già reso sulla carta», e al secondo guasto può dire «niente» con l euro già reso",
+      "file": "lib/ordini/veloce-non-confermata.ts:395-396 (ramo giaResi diverso dall'euro: fatto.push con la stessa frase) · lib/ordini/veloce-non-confermata.ts:395-396 (ramo rimborso diverso: fatto.push con giaResi) letto nel catch di frenoDellaVeloce · lib/ordini/veloce-non-confermata.ts catch di frenoDellaVeloce (~righe 600-617), chiave veloce-guasto-<id>:<fatto> · lib/ordini/veloce-non-confermata.ts, ramo giaResi diverso da -deltaCents (fatto.push dopo il logger.error, ~riga 396)",
+      "descrizione": "Visto da 4 collaudatori o revisori diversi. Ordine NEW con un rimborso precedente di 500 cent, poi la scrittura della fascia cade: l'avviso dice «Già fatto: 5,00 € già reso sulla carta», come se l'avesse reso il freno. Solo lettura del codice: non l'ho eseguito. — Giro 1: l'euro torna sulla carta, poi la scrittura cade. Giro 2: cade prima, alla lettura del carrello: chiave nuova e «Già fatto: niente». Il commento dice il contrario («le frasi dipendono dallo stato»). — Ordine con carta con un rimborso precedente di 3,50 € (merce mancante), poi la scrittura della fascia cade. Gli amministratori leggono «Già fatto: 3,50 € già reso sulla carta» e «non rende due volte», e possono non rendere a mano l'euro (daFare non parte dopo il throw).",
+      "fonte": "nato dal lotto: ondate 19 e 20, il freno della veloce (run wf_4c28f250-6b6 e wf_f12931ba-ebf), ramo 1f35bb96"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Un guasto passeggero del database manda un avviso «fermo a metà» per ogni ordine del giro, fino a 100 in un colpo",
+      "file": "lib/ordini/veloce-non-confermata.ts, catch di frenoDellaVeloce (chiave veloce-guasto-<id>:niente, una per ordine)",
+      "descrizione": "",
+      "fonte": "nato dal lotto: ondate 19 e 20, il freno della veloce (run wf_4c28f250-6b6 e wf_f12931ba-ebf), ramo 1f35bb96"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Se il guasto arriva dopo lo spostamento del primo ordine, l'avviso non dice che cliente e negozio non sono stati avvisati",
+      "file": "lib/ordini/veloce-non-confermata.ts testo dell'avviso nel catch («Se l'ordine resta Adesso…»)",
+      "descrizione": "Il primo ordine passa alla fascia, poi la scrittura del secondo dà errore. L'avviso suggerisce cosa fare solo se l'ordine «resta Adesso», ma il primo ordine non lo è più.",
+      "fonte": "nato dal lotto: ondate 19 e 20, il freno della veloce (run wf_4c28f250-6b6 e wf_f12931ba-ebf), ramo 1f35bb96"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Carrello di più negozi: se cade la scrittura del secondo ordine, il primo resta spostato in silenzio",
+      "file": "lib/ordini/veloce-non-confermata.ts ciclo di daSpostare in spostaIlCarrello (throw su error)",
+      "descrizione": "Letto nel codice, non lanciato: avvisaNegoziEFattorino e avvisaIlCliente non partono per l'ordine già scritto. Il giro dopo ricalcola la fascia con l'ora nuova e può darne una diversa al secondo. C'era già prima del lotto.",
+      "fonte": "preesistente: c è su 97e30e30 o prima; trovato dal collaudo dell ondata 20 (run wf_f12931ba-ebf)"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Un annullo in gara su un ordine in contanti, senza euro reso, si conta come «accettato nel frattempo»",
+      "file": "lib/ordini/veloce-non-confermata.ts ramo i===0 con zero righe scritte e resiCents+creditoResoCents=0",
+      "descrizione": "Lo stato si rilegge solo se è già tornato qualcosa al cliente. Senza rimborso torna 'accettato' anche se l'ordine è CANCELED. Sbaglia solo il conteggio, non i soldi.",
+      "fonte": "preesistente: c è su 97e30e30 o prima; trovato dal collaudo dell ondata 20 (run wf_f12931ba-ebf)"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Annullo rifiutato: il 409 dice sempre «il negozio ha già accettato», anche su un ordine già annullato o rifiutato",
+      "file": "app/api/orders/[id]/cancel/route.ts:49-50",
+      "descrizione": "Il ramo `delivery_status !== 'NEW'` risponde sempre «Il negozio ha già accettato l'ordine, non puoi più annullarlo.», anche se lo stato è CANCELED o REJECTED. C'era già prima: il test ① del delta prova solo il caso ACCEPTED.",
+      "fonte": "preesistente: c è su 97e30e30 o prima; trovato dal collaudo dell ondata 20 (run wf_f12931ba-ebf)"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Zero righe scritte con l'ordine ancora NEW e «Adesso»: nessun avviso e conteggiato come accettato nel frattempo",
+      "file": "lib/ordini/veloce-non-confermata.ts, ramo i===0 dopo la rilettura (return 'accettato' quando slot Adesso e stato NEW)",
+      "descrizione": "Prima partiva un avviso (sbagliato, ma uno). Ora l'euro è già reso e, se la scrittura continua a non toccare righe (per esempio per un trigger), il giro ritorna ogni 5 minuti in silenzio e il contatore accettatiNelFrattempo cresce.",
+      "fonte": "nato dal lotto: ondate 19 e 20, il freno della veloce (run wf_4c28f250-6b6 e wf_f12931ba-ebf), ramo 1f35bb96"
     }
   ],
   "sync_scan": {
