@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-10-30 18:20
+aggiornato: 2026-10-30 19:45
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -24,7 +24,7 @@ Niente di nuovo. Le tue voci sono nella sezione 1 e nella tua lista.
 
 ## Cosa non ho verificato
 
-La pagina dice com'era il lavoro il 30 ottobre alle 18:20. Ogni voce va riletta nel suo posto prima di agire.
+La pagina dice com'era il lavoro il 30 ottobre alle 19:45. Ogni voce va riletta nel suo posto prima di agire.
 
 ---
 
@@ -34,6 +34,7 @@ La pagina dice com'era il lavoro il 30 ottobre alle 18:20. Ogni voce va riletta 
 - I Termini nuovi sono online, ma in cima resta «in vigore dal 24 maggio 2026». Vanno fatti rileggere a un legale, e poi va cambiata la data.
 
 **Scelte brevi**
+- Il metodo snello per le ondate: unire la richiesta con le otto regole, e dirmi «vai» per il motore snello. Se puoi, spegni «ultracode» in sessione.
 - Il freno della veloce quando non trova nessuna fascia, per esempio sabato sera col negozio chiuso la domenica. Oggi l'ordine resta veloce e l'euro in più resta da pagare. Il mio consiglio: togliere l'euro anche lì, perché il cliente ha aspettato (voce 1826).
 - Cosa vuol dire «senza difetti» per aprire al primo cliente. Il mio consiglio: zero bloccanti e zero gravi.
 - Il rilascio controllato: subito prima delle chiavi di Vercel, o con un giro adesso.
@@ -53,6 +54,7 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
 
 ## 2 · Il mio lavoro sul sito
 
+- **Prima delle ondate, il metodo snello.** Otto regole per fare le ondate bene con molti meno token (`consegne/audit/2026-10-30-metodo-snello.md`). Al tuo «vai» costruisco il motore snello; la prima ondata snella è la cassa con gli orari del negozio.
 - **L'ondata 15 è cucita** (strada A, scelta tua del 30/10 alle 07:45). Il caso raro col codice sconto resta aperto, e i codici restano spenti finché non è chiuso.
 - **Il prezzo nuovo è online**: hai unito la #264 il 30/10 alle 14:40. Ho chiuso nel registro 51 voci, ognuna con la sua prova.
 - **Il prossimo lavoro che ti propongo:** la cassa che legge gli orari del negozio (voci 1948 e 1949). Oggi propone «Oggi · 15:00-18:00» anche il giovedì pomeriggio, quando Pane Quotidiano è chiuso.
@@ -90,7 +92,7 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
 5. La riparazione del freno della spesa del server.
 6. Le vecchie password da togliere dai file del sito.
 7. Il disegno dei messaggi WhatsApp per il negoziante.
-8. La squadra più leggera per le ondate del sito.
+8. La squadra più leggera per le ondate del sito: è dentro il motore snello.
 9. La scadenza del dominio del sito.
 10. Le 24 carte con il testo vecchio.
 11. Il sì sulle sei schede del pannello dell'amministratore.

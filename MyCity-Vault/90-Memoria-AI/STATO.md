@@ -1,8 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-10-30 18:20
+aggiornato: 2026-10-30 19:45
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🪙 **2026-10-30 19:45 — Ho rianalizzato come lavoro: il costo sta nei controlli, non nelle riparazioni.**
+>
+> L'ondata del 28/10 ha acceso 54 agenti e riletto 118 milioni di token; tre agenti su quattro controllavano. Il prezzo della consegna ha chiesto 8 ondate. Ti propongo otto regole: prima le tue scelte, prima le prove automatiche, un solo collaudo per ondata, al massimo due ondate per funzione. Stima: un'ondata da circa 12 agenti, fra un quinto e un ottavo del costo di oggi.
+>
+> Da firmare: la richiesta con le regole. Poi il tuo «vai» per il motore snello, che costa circa un decimo di un'ondata di oggi. Referto: `consegne/audit/2026-10-30-metodo-snello.md`.
 
 > 🧯 **2026-10-30 18:20 — Il freno della veloce è online.**
 >

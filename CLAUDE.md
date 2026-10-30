@@ -78,12 +78,22 @@ Nel dubbio, sali di colore. **Mai sorprese.** Prima mostri cosa faresti, poi ese
 > Il fatto vive in `registro-fatti.json` come `flusso.pr-sempre`. Resta vero il contrario: aprire la
 > PR non è unirla. La firma sul merge è sua.
 
-> 🪙 **Il consumo è una moltiplicazione: contesto fisso × turni × agenti.** Misura del 25/10/2026: ogni agente
-> di workflow parte da circa 91.000 token e li rilegge a ogni turno; l'ondata 1 del sito ne ha accesi più di 600
-> in tre giorni. Le ondate del sito si lanciano con `.claude/workflows/ondata-sito.js`, mai orchestrate a mano.
-> Squadre, collaudi e riesami girano coi senior `tech` e `qa` (il tipo snello `squadra-sito` non è ancora nato),
-> mai `general-purpose`. Il conto vero si legge con `node cervello/conto-token.mjs` e va nel referto; il protocollo
-> che converge sta nella skill `cantiere`. *Proposta in questa richiesta di unione: auto-modifica 🟡, vale con la firma di Nicola.*
+> 🪙 **Lavoro snello: fatto bene col minimo dei token.** Nicola, 30/10/2026: «fai i lavori veloce e fatti bene,
+> senza errori, controlla quello che hai fatto, consumando il minor numero di token possibile». Il conto: l'ondata
+> del 28/10 = 54 agenti e 118 milioni di token riletti, 3 su 4 a controllare; il prezzo della consegna ha chiesto
+> 8 ondate; un turno dell'AD pesa ~134.000 token prima di fare niente. Le regole:
+> ① una funzione, **al massimo due ondate**: al terzo giro ci si ferma e si chiede a Nicola · ② **prima le scelte,
+> poi il codice**: le domande aperte a Nicola e i casi da provare (dato → atteso) vengono prima di costruire ·
+> ③ **prima la macchina, poi l'agente**: la prova è rossa sul codice vecchio, verde sul nuovo, di nuovo rossa se si
+> toglie la correzione; poi `npm run verify` una volta per ondata · ④ **un collaudo per ondata, non per pacchetto**
+> (due lenti se tocca soldi, dati o permessi): porta le lenti delle dimensioni toccate e vale come radiografia del
+> perimetro, niente vagli né controlli separati · ⑤ il vecchio trovato strada facendo **va nel registro**, non apre
+> un'ondata · ⑥ **istruzioni precise** (file, righe, comando della prova) e agenti leggeri, tetto 12 agenti per
+> ondata col motore snello · ⑦ **l'AD per primo**: comandi raggruppati, file letti a pezzi, niente workflow per una
+> domanda · ⑧ il conto misurato (`node cervello/conto-token.mjs`) **nel referto di ogni ondata**. Il motore snello
+> (`ondata-snella.js`, `prova-rimessa.mjs`, tipo `squadra-sito`) è in costruzione: fino ad allora le ondate girano
+> con `.claude/workflows/ondata-sito.js` e i senior `tech`/`qa`, mai `general-purpose`. Analisi:
+> `consegne/audit/2026-10-30-metodo-snello.md`. *Auto-modifica 🟡: vale con la firma di Nicola.*
 
 ---
 
