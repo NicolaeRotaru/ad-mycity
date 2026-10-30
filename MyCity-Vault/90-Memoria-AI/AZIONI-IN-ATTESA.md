@@ -29,6 +29,23 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- radiografia-totale-sito-3-9 -->
 
+<!-- metodo-snello-ondate -->
+
+### 🟡 #223 — Firma le otto regole per fare le ondate con molti meno token, e dimmi se costruisco il motore · ⏳ accodata 2026-10-30 19:56
+
+**In parole semplici.** Un'ondata del sito costa soprattutto in controlli. Quella del 28/10 ha acceso 54 subagenti e riletto 118 milioni di token, e 27 subagenti su 36 controllavano. Le otto regole spostano il primo controllo su una prova automatica, fanno un solo collaudo per ondata e fermano una funzione dopo due ondate.
+
+**Cosa cambia per te.** Stima: un'ondata da circa 12 subagenti, fra un quinto e un ottavo del costo di oggi. Le scelte che toccano a te arrivano prima del codice.
+
+**Cosa devi fare tu.** Unire la richiesta #903 della memoria, se le regole ti vanno bene. Poi scrivere «vai» per il motore snello, che costa circa un decimo di un'ondata di oggi. Se puoi, spegni «ultracode» nella sessione.
+
+**Cosa non ho verificato.** La stima non è misurata: la misuro sulla prima ondata snella, la cassa che legge gli orari del negozio. Il costo delle ondate dalla 13 alla 20 non c'è più.
+
+Cosa cambia: le ondate del sito seguono otto regole nuove, e le 11 ondate dei gravi scendono da circa 1,3 miliardi a 165-275 milioni di token riletti (stima).
+Se va bene: costruisco il motore snello e lo provo sulla cassa che legge gli orari di Pane Quotidiano.
+
+Referto: `consegne/audit/2026-10-30-metodo-snello.md` · richiesta: https://github.com/NicolaeRotaru/ad-mycity/pull/903
+
 <!-- chiave-anti-robot-prima-di-unire -->
 
 ### 🟡 #222 — Scegli a chi deve somigliare il sito per chi compra, e da quale mossa partire · ⏳ accodata 2026-10-30 00:50

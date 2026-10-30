@@ -6267,3 +6267,11 @@ Per non sbagliare i territori una quinta volta, prima di dividere ho cercato tut
 **Da proporre a Nicola.** Quando il freno non trova una fascia, togliere lo stesso l'euro della veloce. È una regola sui soldi del cliente, quindi la firma è sua.
 
 **Colore:** 🔴 per le unioni, di Nicola. 🟢 per le chiusure nel registro, ognuna con la sua prova rifatta.
+
+## 2026-10-30 19:45 — 🟡 Il metodo snello per le ondate del sito: otto regole proposte, il motore aspetta il «vai»
+
+**Cosa.** Nel paragrafo 🪙 di `CLAUDE.md`, al posto di quello del 25/10, otto regole: al massimo due ondate per funzione, le scelte di Nicola prima del codice, prima la prova automatica e poi l'agente, un collaudo per ondata e non per pacchetto, il vecchio trovato strada facendo nel registro, istruzioni precise e agenti leggeri (tetto 12), l'AD per primo, il conto misurato in ogni referto. Il motore che le applica (`ondata-snella.js`, `prova-rimessa.mjs`, tipo `squadra-sito`) non è costruito: aspetta il «vai».
+
+**Perché.** Nicola, 30/10 sera: «fai i lavori veloce e fatti bene senza errori … consumando il minor numero di token possibile». Le misure: l'ondata del 28/10 = 54 agenti, 118.274.378 token con le riletture, 27 su 36 nei collaudi; il prezzo della consegna = 8 ondate (13-20); delle 8 voci dichiarate chiuse della #265 ne reggono 5. Referto: `consegne/audit/2026-10-30-metodo-snello.md`.
+
+**Colore:** 🟡 auto-modifica, vale con la firma di Nicola sull'unione.
