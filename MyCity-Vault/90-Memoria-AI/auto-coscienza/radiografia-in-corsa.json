@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-29 15:36",
+  "aggiornato": "2026-10-30 13:14",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -5006,6 +5006,345 @@
         "components/seller/AttributesFields.tsx": "0fb081459bb7",
         "components/seller/ProductForm.tsx": "2d4f7c397bde",
         "components/ui/DeliveryCutoff.tsx": "7840a5bfc341"
+      }
+    },
+    {
+      "quando": "2026-10-30 00:51",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/referti-sito.mjs": "4521e051a44f"
+      }
+    },
+    {
+      "quando": "2026-10-30 01:27",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/foto-pagine-vere.mjs": "608c36270d22",
+        "cervello/referti-sito.mjs": "4521e051a44f"
+      }
+    },
+    {
+      "quando": "2026-10-30 01:43",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "il cancello ha trovato un errore taciuto (.catch vuoto sui caratteri) in foto-pagine-vere.mjs: riparato nello stesso giro, prima della consegna",
+      "file": {
+        "cervello/foto-pagine-vere.mjs": "d298b8a2ce40",
+        "cervello/referti-sito.mjs": "4521e051a44f"
+      }
+    },
+    {
+      "quando": "2026-10-30 12:04",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "workflow wf_8404b4d0-c10 (7 revisori qa + 4 verifiche)",
+      "trovati": 1,
+      "schede": [
+        "Il giro degli ordini scaduti rimette l ordine in coda dopo un rimborso fallito, ma lascia la consegna del carrello già riscritta"
+      ],
+      "nota": "perimetro delle ondate 13-17 su 12e2ea35, prima della richiesta di unione unica del sito",
+      "file": {
+        "app/api/consegna/veloce/route.ts": "11c9a5dbebdf",
+        "app/api/cron/expire-stale-orders/route.ts": "18e64b29b7d1",
+        "app/api/orders/cod/route.ts": "738e112414e5"
+      }
+    },
+    {
+      "quando": "2026-10-30 12:04",
+      "casa": "marketplace",
+      "dimensione": "pagamenti-stripe",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "workflow wf_8404b4d0-c10 (7 revisori qa + 4 verifiche)",
+      "trovati": 1,
+      "schede": [
+        "Con la carta la veloce si controlla solo quando si apre una pagina di pagamento nuova: la pagina già aperta si restituisce, e si paga, anche alle 21:30 senza fattorino"
+      ],
+      "nota": "perimetro delle ondate 13-17 su 12e2ea35, prima della richiesta di unione unica del sito",
+      "file": {
+        "app/api/stripe/checkout/route.ts": "fd45810dcf94"
+      }
+    },
+    {
+      "quando": "2026-10-30 12:04",
+      "casa": "marketplace",
+      "dimensione": "ai-endpoints",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "workflow wf_8404b4d0-c10 (7 revisori qa + 4 verifiche)",
+      "trovati": 0,
+      "schede": [],
+      "nota": "perimetro delle ondate 13-17 su 12e2ea35, prima della richiesta di unione unica del sito",
+      "file": {
+        "app/api/ai/catalog-chat/route.ts": "f8ca6cf31242",
+        "app/api/ai/product-chat/route.ts": "d40663d9770c",
+        "app/api/ai/voice-product/route.ts": "471049f132a8"
+      }
+    },
+    {
+      "quando": "2026-10-30 12:04",
+      "casa": "marketplace",
+      "dimensione": "qa-flussi",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "workflow wf_8404b4d0-c10 (7 revisori qa + 4 verifiche)",
+      "trovati": 4,
+      "schede": [
+        "Il cliente sceglie la veloce, passa dall accesso e torna in cassa: la cassa gli toglie la scelta prima che il server risponda, e gli scrive che la veloce non si può",
+        "Ordine con carta pagato dopo mezzanotte: negozio, fattorino e cliente leggono la consegna un giorno dopo quello scelto",
+        "In cassa, con più negozi, si legge ancora «Ogni rider consegna il proprio ordine», mentre il carrello ha appena detto «il fattorino passa da tutti in un giro solo»",
+        "Sulla pagina dell'ordine programmato per domani, sotto «Consegna stimata: sab 31/10 · 9:00–12:00» si legge «In preparazione · pronto entro ~30 min» e poi «Pronto, in consegna a breve»"
+      ],
+      "nota": "perimetro delle ondate 13-17 su 12e2ea35, prima della richiesta di unione unica del sito",
+      "file": {
+        "app/cart/page.tsx": "5a21b68226a7",
+        "app/checkout/page.tsx": "9f1e5f3bca60",
+        "app/orders/[id]/page.tsx": "c657f62c417a"
+      }
+    },
+    {
+      "quando": "2026-10-30 12:04",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "workflow wf_8404b4d0-c10 (7 revisori qa + 4 verifiche)",
+      "trovati": 13,
+      "schede": [
+        "Il carrello in contanti si ritrova solo dalla tabella contro il doppio clic: senza quella riga la regola del negozio che rifiuta non scatta e nessuno lo sa",
+        "Le note dei conti raccontano ancora la consegna «per negozio» e «su ogni ordine», e c'è una costante «massima» che non è un massimo",
+        "Il compenso del fattorino, se chi chiama dimentica un argomento, torna a 3 € su ogni ordine senza che nessuno se ne accorga",
+        "All'assistente AI si dice che la consegna di una pagnotta da 3,50 € costa 4 €, ma la consegna si paga sul carrello e non sul singolo prodotto",
+        "La scheda prodotto conta sempre fino alle 18: dà cinque ore e mezza a un forno che chiude alle 13, e la sera promette «domani» a negozi chiusi domani",
+        "La pagina Spedizioni, dove spiega quanto costa la consegna, dice ancora «per ogni negozio da cui ordini» e «se ordini da due negozi paghi due consegne», accanto a «una volta sola per tutto il carrello»",
+        "Se si chiede all'assistente di togliere la condizione, il modulo dice «Campi aggiornati» ma la condizione resta; sul server la stessa richiesta la svuota",
+        "Se la consegna si paga lo decide lo stesso file in due modi: con la base a zero la FAQ dice «gratuita qualunque sia la spesa» e la cassa chiede 1 € sotto i 10 €",
+        "Le condizioni della consegna veloce sono riscritte a mano in cinque posti, e tre ne dicono una sola su tre",
+        "Promessa 30-60 min al limite in bici: 55 min a 10 km senza contare l'andata del fattorino al negozio",
+        "Tre commenti di promesse-pubbliche.ts dicono cose false: un blocco staccato dalla sua funzione, un «per negozio» rimasto, un pannello che non usa la frase",
+        "Nel §6 dei Termini, quello sul cliente non reperibile, l'esempio parla del forno che rifiuta",
+        "«Nuovo, mai usato» letto dalla foto viene scartato come se fosse usato"
+      ],
+      "nota": "perimetro delle ondate 13-17 su 12e2ea35, prima della richiesta di unione unica del sito",
+      "file": {
+        "lib/ai/patchSchema.ts": "d5e9d0abb19b",
+        "lib/constants.ts": "336cc9e9a2ec",
+        "lib/db/migrazione-124.ts": "3b935b125783",
+        "lib/email/annullo-nel-carrello.ts": "4b20123e6325",
+        "lib/geo.ts": "190bb746e6b0",
+        "lib/legal/promessa-cliente-assente.ts": "8cf34a99459f",
+        "lib/ordini/annulla.ts": "5d2925cf8f76",
+        "lib/ordini/consegna-veloce.ts": "dd6deeed092c",
+        "lib/ordini/fascia-leggibile.ts": "dda2166522d1",
+        "lib/ordini/prezzi.ts": "8176cef9e11d",
+        "lib/ordini/riepilogo-cassa.ts": "60d18dc38ccb",
+        "lib/products/aiPatch.ts": "1dd1c9899ab8",
+        "lib/products/draftFromVision.ts": "cf7c3f3077d9",
+        "lib/products/economics.ts": "87aa4c2e7012",
+        "lib/products/externalSync.ts": "a451f8d9dc7e",
+        "lib/products/schema.ts": "92b1544c3624",
+        "lib/promessa-consegna.ts": "1a320709795e",
+        "lib/promesse-pubbliche.ts": "d4b99621d65b",
+        "lib/shipping.ts": "20e640ac1817",
+        "lib/site-branding.ts": "8427c5b524c8"
+      }
+    },
+    {
+      "quando": "2026-10-30 12:04",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "workflow wf_8404b4d0-c10 (7 revisori qa + 4 verifiche)",
+      "trovati": 14,
+      "schede": [
+        "Il cliente sceglie la veloce, passa dall accesso e torna in cassa: la cassa gli toglie la scelta prima che il server risponda, e gli scrive che la veloce non si può",
+        "Quando la veloce cade, l'avviso dice «ho scelto la prima fascia libera», ma la fascia scelta non è la prima e il selettore non sa se è libera",
+        "Nel modulo prodotto il negozio legge che la scelta della consegna non cambia niente, e subito sotto che per la veloce deve accendere l'Express nel profilo",
+        "Pagina consegne dell'amministratore: nei «Costi base» il compenso del fattorino è ancora la frase lunga come valore, e la riga della veloce scrive «un euro» a mano",
+        "La pagina Spedizioni, dove spiega quanto costa la consegna, dice ancora «per ogni negozio da cui ordini» e «se ordini da due negozi paghi due consegne», accanto a «una volta sola per tutto il carrello»",
+        "Nei Termini c'è scritto che la consegna si calcola «in base a peso e distanza»: il peso non entra nel conto e la distanza non cambia il prezzo",
+        "La scheda prodotto continua a promettere la veloce, coi suoi minuti, dopo le 21, se il sì della cassa era arrivato prima; la vetrina dello stesso negozio no",
+        "«Come funziona» dice che la veloce c'è «quando c'è un fattorino in servizio», ma alle 15, col forno chiuso dall'una, non si può anche con Nicola in servizio",
+        "Sul telefono il riquadro verde della scheda prodotto diventa un muro di testo di 264 caratteri, e dopo il caricamento cresce ancora di una riga",
+        "Il link della home condiviso su WhatsApp e Facebook dice ancora «Consegna rapida», mentre la descrizione per Google e l'immagine dell'anteprima dicono «all'ora che scegli»",
+        "Home e «Come funziona» dicono «in giornata» accanto a «30-60 min», senza dire che i 30-60 minuti sono la consegna veloce",
+        "La scheda prodotto conta sempre fino alle 18: dà cinque ore e mezza a un forno che chiude alle 13, e la sera promette «domani» a negozi chiusi domani",
+        "La risposta sulla veloce si chiede una volta sola: se il fattorino smette il servizio, le schede rimaste aperte continuano a dire «consegna oggi»",
+        "Sul telefono la riga della consegna nella scheda prodotto passa da una a due o tre righe dopo il caricamento, e spinge giù il riquadro"
+      ],
+      "nota": "perimetro delle ondate 13-17 su 12e2ea35, prima della richiesta di unione unica del sito",
+      "file": {
+        "app/about/page.tsx": "0cde667edf21",
+        "app/admin/delivery/page.tsx": "17f155326bdf",
+        "app/category/[slug]/layout.tsx": "8179ea6069e6",
+        "app/come-funziona/page.tsx": "69e3164b7467",
+        "app/layout.tsx": "aa019d9110f0",
+        "app/opengraph-image.tsx": "0aadc36790ff",
+        "app/page.tsx": "625ef40ffdcd",
+        "app/product/[id]/layout.tsx": "30117b535b0d",
+        "app/product/[id]/page.tsx": "deebd638064c",
+        "app/rider/orders/[id]/page.tsx": "04e943017f88",
+        "app/rider/page.tsx": "2606f367b31c",
+        "app/seller/orders/[id]/page.tsx": "7f6ebafb37f6",
+        "app/seller/orders/page.tsx": "6e2e6797e213",
+        "app/seller/profile/page.tsx": "d64fca0162fa",
+        "app/shipping/page.tsx": "2323d3af02ea",
+        "app/store/[id]/opengraph-image.tsx": "0eea3ecb10a1",
+        "app/stores/layout.tsx": "1eda871c9b4d",
+        "app/terms/page.tsx": "cd186051cfb9",
+        "components/BuyerOnboardingTour.tsx": "e204d5d7f2f1",
+        "components/Footer.tsx": "662e7e623542",
+        "components/StoreListRow.tsx": "82ee573f954d",
+        "components/StoreMediaManager.tsx": "7765b941d1dc",
+        "components/StorePreviewCard.tsx": "49c924071c22",
+        "components/admin/AdminUI.tsx": "a03abc9c56d5",
+        "components/checkout/DeliverySlotPicker.tsx": "e35db749b98e",
+        "components/checkout/useTotaliCarrello.ts": "8573a64532ba",
+        "components/home-sections/HomeSectionRenderer.tsx": "485db127957d",
+        "components/home/HeroStoreCard.tsx": "647b00ffbfe6",
+        "components/home/HowItWorks.tsx": "fbdb0db5cfab",
+        "components/seller/ProductForm.tsx": "490b324ff5f3",
+        "components/store-sections/ContactSection.tsx": "bd8f9c9bbab4",
+        "components/store-sections/HeroSection.tsx": "021612277b84",
+        "components/ui/AuthShell.tsx": "bd6a15c26429",
+        "components/ui/DeliveryCutoff.tsx": "998e0212d438"
+      }
+    },
+    {
+      "quando": "2026-10-30 13:14",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "workflow wf_57f9c01e-7ed (3 revisori qa + 3 verifiche)",
+      "trovati": 5,
+      "schede": [
+        "La cassa propone già «Oggi · In giornata 15:00–18:00» anche quando il negozio è chiuso tutto il pomeriggio, come Pane Quotidiano il giovedì e la domenica, e il no arriva solo al tocco su «Ordina»",
+        "Alle 17:50 la cassa segna «In giornata · 15:00–18:00»: promette la consegna entro dieci minuti, meno della veloce, e la rotta accetta l'ordine",
+        "Quando la veloce cade perché il negozio è chiuso, il perché sparisce dallo schermo proprio mentre la cassa mette una fascia che quel negozio non può servire",
+        "Alle 20:00 la scelta «Stasera · 18:00–20:00» diventa «Domani · 15:00–18:30» senza una riga che lo dica",
+        "La descrizione della home su Google promette cinque reparti che il catalogo non ha"
+      ],
+      "nota": "i 9 file cambiati dall ondata 18 su 35677a88, prima della richiesta di unione unica del sito",
+      "file": {
+        "app/about/page.tsx": "0cde667edf21",
+        "app/admin/delivery/page.tsx": "71986c7247bd",
+        "app/category/[slug]/layout.tsx": "8179ea6069e6",
+        "app/come-funziona/page.tsx": "69e3164b7467",
+        "app/layout.tsx": "6cb1b6a84d74",
+        "app/opengraph-image.tsx": "0aadc36790ff",
+        "app/page.tsx": "625ef40ffdcd",
+        "app/product/[id]/layout.tsx": "30117b535b0d",
+        "app/product/[id]/page.tsx": "deebd638064c",
+        "app/rider/orders/[id]/page.tsx": "04e943017f88",
+        "app/rider/page.tsx": "2606f367b31c",
+        "app/seller/orders/[id]/page.tsx": "7f6ebafb37f6",
+        "app/seller/orders/page.tsx": "6e2e6797e213",
+        "app/seller/profile/page.tsx": "d64fca0162fa",
+        "app/shipping/page.tsx": "1a98862cba2b",
+        "app/store/[id]/opengraph-image.tsx": "0eea3ecb10a1",
+        "app/stores/layout.tsx": "1eda871c9b4d",
+        "app/terms/page.tsx": "cd186051cfb9",
+        "components/BuyerOnboardingTour.tsx": "e204d5d7f2f1",
+        "components/Footer.tsx": "662e7e623542",
+        "components/StoreListRow.tsx": "82ee573f954d",
+        "components/StoreMediaManager.tsx": "7765b941d1dc",
+        "components/StorePreviewCard.tsx": "49c924071c22",
+        "components/admin/AdminUI.tsx": "a03abc9c56d5",
+        "components/checkout/DeliverySlotPicker.tsx": "a647c36cc0c3",
+        "components/checkout/useTotaliCarrello.ts": "8573a64532ba",
+        "components/home-sections/HomeSectionRenderer.tsx": "485db127957d",
+        "components/home/HeroStoreCard.tsx": "647b00ffbfe6",
+        "components/home/HowItWorks.tsx": "fbdb0db5cfab",
+        "components/seller/ProductForm.tsx": "490b324ff5f3",
+        "components/store-sections/ContactSection.tsx": "bd8f9c9bbab4",
+        "components/store-sections/HeroSection.tsx": "021612277b84",
+        "components/ui/AuthShell.tsx": "bd6a15c26429",
+        "components/ui/DeliveryCutoff.tsx": "998e0212d438"
+      }
+    },
+    {
+      "quando": "2026-10-30 13:14",
+      "casa": "marketplace",
+      "dimensione": "qa-flussi",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "workflow wf_57f9c01e-7ed (3 revisori qa + 3 verifiche)",
+      "trovati": 2,
+      "schede": [
+        "La cassa propone già «Oggi · In giornata 15:00–18:00» anche quando il negozio è chiuso tutto il pomeriggio, come Pane Quotidiano il giovedì e la domenica, e il no arriva solo al tocco su «Ordina»",
+        "Dopo il no della rotta sulla veloce, la cassa lascia «Adesso» scelta, offerta e a +1 € fino al controllo del minuto dopo: un secondo tocco riceve lo stesso no"
+      ],
+      "nota": "i 9 file cambiati dall ondata 18 su 35677a88, prima della richiesta di unione unica del sito",
+      "file": {
+        "app/cart/page.tsx": "2dad83e08b52",
+        "app/checkout/page.tsx": "f696b7486e97",
+        "app/orders/[id]/page.tsx": "c657f62c417a"
+      }
+    },
+    {
+      "quando": "2026-10-30 13:14",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "workflow wf_57f9c01e-7ed (3 revisori qa + 3 verifiche)",
+      "trovati": 9,
+      "schede": [
+        "Quando la cassa dice no alla consegna veloce, scrive l'ora a mano («dalle 8 alle 21»), mentre il commento giura che tutte le frasi la prendono da un posto solo",
+        "Nella stessa pagina la FAQ dice che con più negozi ogni ordine ha «la propria spedizione», e poco sotto che la consegna si paga una volta sola",
+        "La FAQ dice che il fattorino è pagato «in base alla distanza», mentre la regola firmata dice 3 € il giro più 1 € per ogni negozio in più",
+        "La FAQ sul costo manda agli esempi «nel carrello», ma con il carrello vuoto quella sezione non c'è",
+        "La scheda prodotto decide «si paga?» in un terzo modo: con la base a zero direbbe «Consegna gratuita» mentre la cassa fa pagare 1 € su 8 €",
+        "Con la base a zero la FAQ scrive «Paghi la consegna…: 0,00 € all'ora che scegli» e il riquadro «Consegna da 0,00 €»",
+        "La descrizione Google e WhatsApp di un negozio col nome sopra i 20 caratteri si taglia a 160 caratteri, a metà parola, e perde «con un fattorino in servizio»",
+        "«Consegna in fascia oraria»: perso il «che scegli»; la descrizione della categoria alimentari arriva a 163 caratteri",
+        "VALUE_PROPS non lo mostra nessuna pagina: una delle «cinque case» corrette non arriva a nessun utente"
+      ],
+      "nota": "i 9 file cambiati dall ondata 18 su 35677a88, prima della richiesta di unione unica del sito",
+      "file": {
+        "lib/ai/patchSchema.ts": "d5e9d0abb19b",
+        "lib/constants.ts": "91357a08a677",
+        "lib/db/migrazione-124.ts": "3b935b125783",
+        "lib/email/annullo-nel-carrello.ts": "4b20123e6325",
+        "lib/geo.ts": "190bb746e6b0",
+        "lib/legal/promessa-cliente-assente.ts": "8cf34a99459f",
+        "lib/ordini/annulla.ts": "5d2925cf8f76",
+        "lib/ordini/consegna-veloce.ts": "dd6deeed092c",
+        "lib/ordini/fascia-leggibile.ts": "dda2166522d1",
+        "lib/ordini/prezzi.ts": "8176cef9e11d",
+        "lib/ordini/riepilogo-cassa.ts": "60d18dc38ccb",
+        "lib/products/aiPatch.ts": "1dd1c9899ab8",
+        "lib/products/draftFromVision.ts": "cf7c3f3077d9",
+        "lib/products/economics.ts": "87aa4c2e7012",
+        "lib/products/externalSync.ts": "a451f8d9dc7e",
+        "lib/products/schema.ts": "92b1544c3624",
+        "lib/promessa-consegna.ts": "a2a57981b820",
+        "lib/promesse-pubbliche.ts": "3df00b6ef422",
+        "lib/shipping.ts": "20e640ac1817",
+        "lib/site-branding.ts": "8427c5b524c8"
       }
     }
   ]

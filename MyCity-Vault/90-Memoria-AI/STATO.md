@@ -1,8 +1,50 @@
 ---
 tipo: stato
-aggiornato: 2026-10-29 15:40
+aggiornato: 2026-10-30 13:17
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🚀 **2026-10-30 13:17 — La richiesta del sito con il prezzo nuovo è pronta: è la #264.**
+>
+> Dentro ci sono le ondate dalla 13 alla 18: il prezzo per tutto il carrello, il negozio che rifiuta, le frasi vere e la cassa con l'ora di Roma. È verde, 6.400 prove su 6.400, e i 64 file cambiati sono riguardati tutti. Prima di unirla decidi sui Termini, che cambiano ma restano con la data del 24 maggio.
+>
+> Restano due gravi che ci sono già oggi: la cassa propone il pomeriggio anche quando Pane Quotidiano è chiuso. Sono il prossimo lavoro che ti propongo.
+
+> 🔎 **2026-10-30 12:07 — Ho riguardato i 64 file del prezzo: c'è un grave nuovo, e lo sistema l'ondata 18 prima della richiesta del sito.**
+>
+> Il cliente sceglie la veloce, accede al suo profilo e torna in cassa. La cassa gli toglie la scelta prima di sapere se la veloce si può. L'ondata 18 lo sistema, insieme all'ora di Roma in cassa e alla pagina Spedizioni, che dice ancora «due negozi, due consegne».
+>
+> Il freno della veloce aspetta la tua scelta: per il lancio ti propongo un avviso a te dopo 10 minuti.
+
+> 🧱 **2026-10-30 09:35 — L'ondata 16 regge in tre parti su quattro. Il freno della veloce si rifà nell'ondata 17.**
+>
+> Reggono l'avviso al cliente dopo un rifiuto, le frasi della vetrina e le prove del carrello. Li ho cuciti sopra le ondate 13-15: il controllo completo del sito è tutto verde, 6.308 prove su 6.308.
+>
+> Il freno della veloce aveva 5 gravi. Per esempio, scriveva «non lo paghi» anche quando l'euro restava. L'ondata 17 lo rifà: se non sa dove spostare la spesa, non la sposta e avvisa te. Nella stessa ondata entrano «consegna oggi» nelle altre schede del negozio e le prove del carrello. Poi ti porto la richiesta unica del sito.
+
+> 💶 **2026-10-30 08:00 — L'ondata 15 entra com'è, come hai scelto. L'ondata 16 sta girando, ed è l'ultima del prezzo.**
+>
+> Hai scelto la A alle 07:45. Il caso raro col codice sconto resta aperto: tre negozi, il codice e due rifiuti di fila. I codici restano spenti finché non è chiuso. Ho cucito i due lavori dell'ondata 15 in uno solo.
+>
+> Il controllo completo del sito è rosso su 9 prove su 6.268. Otto erano già rosse dalle ondate 13 e 14: sono prove vecchie. La nona è nata adesso, ed è un difetto vero. Le 9 vanno nell'ondata 16, insieme alla conferma della veloce entro 10 minuti, all'avviso al cliente dopo un rifiuto e alle frasi della vetrina. Dopo riguardo tutti i file toccati, e ti porto una sola richiesta di unione del sito.
+
+> 🛍️ **2026-10-30 00:35 — Il sito visto da chi compra non è ancora al livello di Amazon e Glovo.**
+>
+> Le prime mosse costano minuti. Hai chiesto se il marketplace ha i requisiti dei migliori, guardando solo cosa vede e tocca il cliente. Ho controllato 191 requisiti in 14 aree: 13 sono al livello, 112 ci sono ma sotto, 14 mancano, 51 oggi fanno danno. Come è costruito il sito prende 5,3 su 10. Quello che il cliente vede oggi, con 9 prodotti, prende 3,3.
+>
+> La prima mossa è tua: cancellare il negozio di prova col comando pronto della carta #201. Le altre mosse entrano nelle ondate del sito già previste: il marchio e gli scaffali vuoti nell ondata 2, la merce in prima schermata dopo l ondata 15. La chiave di servizio su Vercel manca ancora, riletta alle 00:25: finché manca, la cassa non registra ordini. Referto, foto delle pagine e dieci mosse nella richiesta di unione di stanotte.
+
+> 💶 **2026-10-30 00:14 — Il prezzo della consegna è deciso, e nel sito è quasi costruito.**
+>
+> Hai fissato la regola. Si parte da 3 euro di base per tutto il carrello. Si aggiunge 1 euro per ogni negozio in più e 1 euro per ogni negozio sotto i 10 euro. La veloce costa 1 euro, una volta sola. Il fattorino prende 3 euro per il giro e 1 euro per ogni negozio in più. Le ondate 13 e 14 l hanno costruita, con la spiegazione nel carrello, ma non sono ancora pronte da unire.
+>
+> ✅ Hai risposto alle 00:35: se un negozio rifiuta, la consegna si ricalcola sui negozi rimasti. L ondata 15, la correzione, sta girando. Il resoconto dei costi e delle commissioni è in consegne/finanza/2026-10-29-costi-e-commissioni.md.
+
+> 🚀 **2026-10-29 18:16 — Hai unito la #263 e la #898: il sito vero è cambiato.**
+>
+> Il sito pubblicato è cambiato alle 18:14. La home dice «Consegna in giornata, negli orari di apertura del negozio». Non promette più «arriva oggi», e non offre più la carta che non si può usare.
+>
+> Nel registro del sito ho chiuso 22 difetti, ognuno con la sua prova e la mutazione vista rossa. Restano aperti 848 difetti su 1.794: 8 bloccanti, 104 gravi e 736 minori. Il prossimo lavoro è il pacchetto del prezzo della consegna, poi l ondata 2.
 
 > 🧱 **2026-10-29 15:40 — L ondata 1 del sito è completa: cassa, promesse e sì/no nella richiesta #263.**
 >

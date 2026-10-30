@@ -1,0 +1,105 @@
+{
+ "_cosa_e": "Ondata 17 del sito, la chiusura del pacchetto del prezzo, sopra le ondate 13-16 cucite (fix/base-ondata-17 = aee530e6: l ondata 16 senza il freno della veloce). Tre pacchetti con territori disgiunti: A il secondo freno della veloce rifatto, ripartendo dal ramo dell ondata 16 (cac593ef) e chiudendo i 5 gravi e i 12 minori del suo collaudo, con le due rotte che scrivono l email al negozio; C «consegna oggi» nelle altre schede del negozio, la vetrina che aspetta la veloce e «usato» scritto dall assistente; D i buchi nelle prove del carrello e l ora del telefono. Le correzioni alle email di annullo (registro 1851-1868) vanno DOPO la richiesta del sito: toccano lib/email/templates.ts, che è del freno, e al lancio non possono succedere (un negozio solo). Il grave del secondo rifiuto col codice (voce 1825) NON entra: Nicola il 30/10 alle 07:45 ha scelto la strada A, si chiude prima di riaccendere i codici sconto. Le ondate 1-16 sono vuote: si legge con --ondata 17, worktree o17-*.",
+ "data": "2026-10-30 09:33",
+ "registro": "sito",
+ "origine": "esito dell ondata 16 (wf_932e80c0-8e9), DECISIONI 2026-10-30 07:45, carta #220 (i due freni della veloce)",
+ "ondate": [
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [
+   {
+    "chiave": "lib/ordini/scadenza-accettazione.ts",
+    "difetti": [
+     {
+      "idx": 1826,
+      "chiave": "qa-flussi|manca il secondo freno della veloce: se il negozio non conferma entro 10 minuti, il cliente che ha pagato l euro in più aspetta fino a tre ore invece di passare a una fascia senza l euro"
+     },
+     {
+      "idx": 264,
+      "chiave": "microcopy|l'email al negozio dice «accetta entro 15 minuti», ma il sito aspetta almeno tre ore o la fine della fascia"
+     }
+    ]
+   },
+   {
+    "chiave": "components/StoreListRow.tsx",
+    "difetti": [
+     {
+      "idx": 1873,
+      "chiave": "microcopy|l elenco dei negozi scrive sempre «consegna oggi», anche a forno chiuso, e le schede del negozio nella home usano ancora la regola vecchia"
+     },
+     {
+      "idx": 1874,
+      "chiave": "frontend-ux|mentre aspetta la risposta della veloce, o se la risposta cade, la vetrina dice «consegna domani» e poi passa a «consegna oggi»"
+     },
+     {
+      "idx": 1869,
+      "chiave": "qa-flussi|buco nelle prove: se la veloce perde il controllo sulle ore, un sì vecchio tiene «consegna oggi» dopo le 21 senza prova rossa"
+     },
+     {
+      "idx": 1870,
+      "chiave": "qa-flussi|buco nelle prove: la prova del sottotitolo non vede «paghi anche con apple pay», né «online» né «pos»"
+     },
+     {
+      "idx": 1871,
+      "chiave": "qa-flussi|buco nelle prove: se il suggerimento dell'assistente scrive «usato» nella condizione, nessuna prova se ne accorge"
+     },
+     {
+      "idx": 1872,
+      "chiave": "frontend-ux|la regola «niente usato» vale solo nel menu a tendina: la lettura della foto, l assistente e le api scrivono ancora «usato» e «ricondizionato»"
+     },
+     {
+      "idx": 1875,
+      "chiave": "frontend-ux|nella pagina consegne dell'amministratore la frase lunga del compenso passa nell'etichetta da 10 pixel in maiuscolo, accanto all'icona"
+     },
+     {
+      "idx": 1876,
+      "chiave": "microcopy|il piede rimette «abbigliamento» dopo la lettura se la categoria è attiva nel database (non verificato)"
+     }
+    ]
+   },
+   {
+    "chiave": "app/cart/page.tsx",
+    "difetti": [
+     {
+      "idx": 1877,
+      "chiave": "qa-flussi|le prove del carrello montato usano sempre quantità 1: se il conto della consegna ignora la quantità, restano verdi"
+     },
+     {
+      "idx": 1878,
+      "chiave": "qa-flussi|le prove leggono solo la riga nascosta per i lettori di schermo: un totale sbagliato a video passa"
+     },
+     {
+      "idx": 1879,
+      "chiave": "qa-flussi|la riga «consegna mycity» a video non è confrontata con la cassa: può mostrare 0 € mentre si addebitano 3 €"
+     },
+     {
+      "idx": 1881,
+      "chiave": "qa-flussi|la prova non controlla più che il carrello parta senza ora (null) nel disegno che arriva dal server"
+     },
+     {
+      "idx": 1882,
+      "chiave": "qa-flussi|la riga «ne restano solo n» col tempo di consegna non viene mai provata montata"
+     },
+     {
+      "idx": 1883,
+      "chiave": "frontend-ux|il carrello legge l'ora del telefono (new date().gethours()), la vetrina e la cassa l'ora di roma"
+     }
+    ]
+   }
+  ]
+ ]
+}

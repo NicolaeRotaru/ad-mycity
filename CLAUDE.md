@@ -136,6 +136,7 @@ Nel dubbio, sali di colore. **Mai sorprese.** Prima mostri cosa faresti, poi ese
   ragionare. Parti da `MyCity-Vault/00-Index.md`.
 - **Dove SCRIVI tu** (memoria AI, separata dalle note di Nicola):
   - `MyCity-Vault/90-Memoria-AI/STATO.md` → aggiorna i numeri chiave + ultime mosse.
+  - `MyCity-Vault/90-Memoria-AI/LAVORO-APERTO.md` → **tutto il lavoro aperto in una pagina** (tuo e di Nicola, sito e macchina, promesse). Leggilo PRIMA di cercare «cosa resta da fare» o un lavoro mancante; aggiornalo a ogni lavoro che si apre o si chiude. *(Nicola, 30/10: «così quando lo chiedo in una nuova sessione lo trova subito».)*
   - `MyCity-Vault/90-Memoria-AI/DECISIONI.md` → log append-only: ogni decisione
     🟡/🔴 con data, cosa, perché. Non riscrivere mai le righe vecchie.
   - `MyCity-Vault/90-Memoria-AI/Briefing/AAAA-MM-GG.md` → un file per ogni giro di
@@ -304,7 +305,7 @@ Nicola lancia lavori con frasi brevi. Riconoscile anche se scritte in modo diver
 - **"radiografia del design" / "audit completo del design" / "analizza tutto il design" / "controlla tutta la grafica" / "trova tutte le cose brutte del sito"** → audit design PROFONDO e completo: esegui il workflow `audit-design` (`.claude/workflows/audit-design.js`, 11 dimensioni in sola lettura che coprono i 24 punti visivi/UX + verifica avversariale di ogni problema), poi scrivi il report per gravità in `consegne/design/AAAA-MM-GG-radiografia-design.md` e mostra i bloccanti. È il "design" in modalità ANALISI portato al massimo. Vedi `COMANDI.md` (sezione 🎨 Design & grafica) e `MyCity-Vault/07-Agenti/DESIGN.md`.
 - **"cosa fanno i concorrenti?" / "che opportunità ci sono?"** → intelligence (+ growth).
 - **"[reparto], fai X" / "riunione su X"** → delega / team-play · **"crea un esperto di X" / "migliora X"** → prompt-engineer + AD.
-- **"cosa devo decidere?"** → mostra [[AZIONI-IN-ATTESA]] · **"ok [n]"** → esegui l'azione approvata · **"collega [mano]"** → builder · **"sblocca Garetti"** → i passi del primo negozio · **"che comandi ho?"** → mostra `COMANDI.md`.
+- **"cosa resta da fare?"** → leggi e mostra `LAVORO-APERTO.md`, senza ricerche nuove · **"cosa devo decidere?"** → mostra [[AZIONI-IN-ATTESA]] · **"ok [n]"** → esegui l'azione approvata · **"collega [mano]"** → builder · **"sblocca Garetti"** → i passi del primo negozio · **"che comandi ho?"** → mostra `COMANDI.md`.
 Il comando avvia il lavoro; resta valido il cancello 🟢🟡🔴 (le azioni reali si accodano/firmano). Se Nicola dice "d'ora in poi quando scrivo X fai Y", aggiungi il comando a `COMANDI.md`.
 
 ---

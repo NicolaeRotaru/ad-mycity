@@ -1,14 +1,104 @@
 {
-  "data": "2026-10-29 00:15",
+  "data": "2026-10-30 08:01",
   "esito": "ok",
-  "copertura": 1257,
+  "copertura": 1313,
   "origine": "cloud",
   "scritto_da": "coerenza-fatti.mjs",
-  "fatti_totali": 50,
-  "cacce_aperte": 4,
-  "file_scansionati": 1257,
+  "fatti_totali": 52,
+  "cacce_aperte": 19,
+  "file_scansionati": 1313,
   "incoerenze": [],
   "cacce": [
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "Consegna promessa al cliente: «in giornata»",
+      "dal": "2026-10-29 12:29",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "la consegna adesso è «in giornata»",
+      "dal": "2026-10-29 12:29",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "Consegna promessa al cliente: «in giornata», con solo i 3 euro di consegna e senza la spedizione a chilometri. Firmato da Nicola il 2026-10-26 con «ok 209» (scelta 8 della carta #209). Sostituisce la promessa a minuti del 21/8, che non era mai stata mantenuta: 0 consegne.",
+      "dal": "2026-10-29 12:29",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "il cliente paga 1 euro in più dei 3 euro di consegna",
+      "dal": "2026-10-29 13:44",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "Due modi di consegna, scelti dal cliente in cassa. Veloce: la spesa arriva in 30-60 minuti e il cliente paga 1 euro in più dei 3 euro di consegna. Altrimenti il cliente sceglie una fascia oraria in cui possiamo consegnare, coi 3 euro di sempre. Detto da Nicola in chat il 2026-10-29, fra le 12:24 e le 12:29, rispondendo alla domanda sui 30-60 minuti. Sostituisce la promessa «in giornata» del 26/10 (carta #209).",
+      "dal": "2026-10-29 13:44",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "50 centesimi in più sotto i 10 euro",
+      "dal": "2026-10-29 16:13",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "fascia oraria 3,50 euro",
+      "dal": "2026-10-29 16:13",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "Sotto i 10 euro di spesa il cliente paga 50 centesimi in più",
+      "dal": "2026-10-29 16:13",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "Consegna 3 euro per negozio, con la fascia oraria scelta dal cliente. Sotto i 10 euro di spesa il cliente paga 50 centesimi in più. Se la vuole subito, con la consegna veloce in 30-60 minuti, paga 50 centesimi in più. I due supplementi si sommano: sotto i 10 euro la consegna veloce costa 4 euro, il massimo. Il fattorino resta a 3 euro a consegna; i centesimi in più restano a MyCity. Deciso da Nicola in chat il 2026-10-29 fra le 13:22 e le 13:44, dopo l analisi della carta #220. Sostituisce «1 euro in più per la veloce» delle 12:29.",
+      "dal": "2026-10-29 16:13",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "Consegna 3 euro per negozio",
+      "dal": "2026-10-29 22:22",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "sotto i 10 euro fascia e veloce costano tutte e due 4 euro",
+      "dal": "2026-10-29 22:22",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "Il massimo è 4 euro",
+      "dal": "2026-10-29 22:22",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "Consegna 3 euro per negozio, con la fascia oraria scelta dal cliente. La consegna veloce in 30-60 minuti costa 1 euro in più: 4 euro. Sotto i 10 euro di spesa si paga 1 euro in più, 4 euro, e la consegna veloce è compresa: sotto i 10 euro fascia e veloce costano tutte e due 4 euro. Il massimo è 4 euro; i due euro in più non si sommano mai. Il fattorino resta a 3 euro a consegna; l euro in più resta a MyCity. Deciso da Nicola in chat il 2026-10-29: «entro 30-60 min 1€ in più e sotto i 10€ +1€ e con la consegna entro 30-60min compresa», confermato con «sì, esatto» dopo la tabella. Sostituisce la regola dei 50 centesimi delle 13:44.",
+      "dal": "2026-10-29 22:22",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "Quanto prende il fattorino per un giro con più negozi è ancora da decidere",
+      "dal": "2026-10-29 23:04",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "Consegna: 3 euro di base per tutto il carrello, con la fascia oraria scelta dal cliente. Si aggiunge 1 euro per ogni negozio in più nel carrello. Si aggiunge 1 euro per ogni negozio in cui la spesa sta sotto i 10 euro: la soglia si guarda negozio per negozio, non sul totale. La consegna veloce in 30-60 minuti costa 1 euro in più, una volta sola per tutto il carrello; se nel carrello c è già almeno un euro della spesa sotto i 10 euro, la veloce è compresa: l euro della veloce e quello della spesa piccola non si sommano mai. Esempi (fascia / veloce): un negozio con 15 euro 3 / 4; un negozio con 8 euro 4 / 4; due negozi con 15 e 12 euro 4 / 5; due negozi con 15 e 6 euro 5 / 5; due negozi con 6 e 7 euro 6 / 6; tre negozi con 15, 12 e 20 euro 5 / 6; tre negozi con 5, 6 e 7 euro 8 / 8. Al lancio il fattorino è Nicola. Quanto prende il fattorino per un giro con più negozi è ancora da decidere, prima del secondo negozio vero. Deciso da Nicola in chat il 2026-10-29 sera, in tre messaggi, e confermato con «sì tutto giusto» sullo schema (letto alle 22:21). Sostituisce «3 euro per negozio» delle 16:13.",
+      "dal": "2026-10-29 23:04",
+      "copie_trovate": 0
+    },
     {
       "fatto": "consegna.raggio",
       "pattern": "fino a 10 km dal negozio",

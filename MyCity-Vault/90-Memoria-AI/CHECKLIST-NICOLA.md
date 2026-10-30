@@ -2,7 +2,7 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale, analisi completa dei lavori di Nicola del 25-26/10 (consegne/ad/2026-10-26-lavori-di-nicola.md)
-aggiornato: 2026-10-28 15:31
+aggiornato: 2026-10-30 01:55
 ---
 
 # ✅ Cose che devo fare io (Nicola)
@@ -26,6 +26,33 @@ Comincia dalla tappa 1. Il testo pronto del messaggio delle firme sta nel refert
 Stripe, Hetzner, Resend, Netsons e le impostazioni di accesso di Supabase non li vedo da qui. I minuti sono stime, non misure.
 
 ---
+
+## 0 · Nuove del 29-30/10 — il prezzo, i costi e la home
+
+- [ ] 🔴 Unisci la richiesta #899 della memoria: le chiusure della #263, il prezzo nuovo della consegna, i piani del sito, il resoconto dei costi.
+  → richiesta #899 · verde · tocca solo la memoria.
+- [ ] 🔴 Unisci la richiesta #264 del sito: il prezzo nuovo della consegna, il negozio che rifiuta e le frasi vere. Il sito pubblicato cambia.
+  → richiesta #264 · 6.400 prove verdi · prima decidi sui Termini, qui sotto.
+- [ ] 🔴 Decidi sui Termini prima di unire la #264: i paragrafi 4 e 6 cambiano, e in cima resta la data del 24 maggio.
+  → bozza da far rileggere a un legale · registro del sito, voce 1866.
+- [ ] 🟡 Scegli il freno della veloce: A, un avviso a te dopo 10 minuti senza conferma; B, il freno automatico rifatto subito.
+  → il mio consiglio è A · 1 minuto.
+- [ ] 🟡 Rispondi alle scelte della carta #222, quella del sito visto da chi compra: la più importante è la foto del titolare, col suo consenso.
+  → la richiesta #900 è cucita dentro la #899 · la scelta «regali o fresco» è già decisa dai dati: fresco.
+- [ ] 🔴 Cambia il testo grande della home dal pannello dell amministratore: oggi promette «30-60 min» e nomina l abbigliamento.
+  → testo proposto in LAVORO-APERTO.md · registro del sito, voce 1819 · 2 minuti.
+- [ ] 🟡 Guarda le ricevute di Claude, Vercel e Supabase, e dimmi quanto pagate davvero.
+  → resoconto consegne/finanza/2026-10-29-costi-e-commissioni.md · 10 minuti.
+- [ ] 🟡 Dimmi quanto costa un bonifico sul tuo conto: è il costo di ogni ordine in contanti.
+  → 2 minuti.
+- [ ] 🟡 Dimmi sì o no alla casa unica dei costi nel registro dei fatti.
+  → resoconto dei costi, sezione «Dove vivono i conti oggi» · 1 minuto.
+- [ ] 🟡 Dimmi se i 5 km si misurano in linea d aria o per strada, e se le sei fasce orarie le copri tutte tu in bici.
+  → 1 minuto.
+- [ ] 🟡 Dimmi cosa fare se alla porta apre chi non ha il codice di consegna del cliente.
+  → 1 minuto · oggi l ordine resterebbe aperto per sempre.
+- [ ] 🟢 Se vuoi che legga il tuo Stripe, collega una chiave di sola lettura nelle impostazioni dell ambiente, col nome STRIPE_SECRET_KEY.
+  → 10 minuti · mai incollarla in chat.
 
 ## 1 · Oggi — le scelte e le chiavi
 

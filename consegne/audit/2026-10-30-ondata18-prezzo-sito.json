@@ -1,0 +1,101 @@
+{
+ "_cosa_e": "Ondata 18 del sito, l ultima prima della richiesta di unione unica del pacchetto del prezzo, sopra le ondate 13-17 cucite (fix/base-ondata-18 = 12e2ea35, verde 6.336 su 6.336, perimetro di 64 file riguardato). Due pacchetti con territori disgiunti: A la cassa e il carrello (il grave della veloce tolta dopo l accesso, l ora del telefono, i buchi nelle prove del carrello ripresi dal ramo 897f68b7); B le frasi della pagina Spedizioni e della consegna che dicono ancora la regola vecchia per negozio. Il freno della veloce resta fuori: aspetta la scelta di Nicola. Le ondate 1-17 sono vuote: si legge con --ondata 18, worktree o18-*.",
+ "data": "2026-10-30 12:06",
+ "registro": "sito",
+ "origine": "controllo del perimetro delle ondate 13-17 (wf_8404b4d0-c10), esito dell ondata 17 (wf_4a75acee-a4a)",
+ "ondate": [
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [
+   {
+    "chiave": "app/checkout/page.tsx",
+    "difetti": [
+     {
+      "idx": 1905,
+      "chiave": "qa-flussi|il cliente sceglie la veloce, passa dall accesso e torna in cassa: la cassa gli toglie la scelta prima che il server risponda, e gli scrive che la veloce non si può"
+     },
+     {
+      "idx": 1903,
+      "chiave": "frontend-ux|la cassa legge l ora del telefono, mentre la vetrina e le rotte leggono quella di roma: su un telefono con un altro fuso la vetrina promette la veloce e la cassa non la offre"
+     },
+     {
+      "idx": 1883,
+      "chiave": "frontend-ux|il carrello legge l'ora del telefono (new date().gethours()), la vetrina e la cassa l'ora di roma"
+     },
+     {
+      "idx": 1906,
+      "chiave": "microcopy|in cassa, con più negozi, si legge ancora «ogni rider consegna il proprio ordine», mentre il carrello ha appena detto «il fattorino passa da tutti in un giro solo»"
+     },
+     {
+      "idx": 1918,
+      "chiave": "microcopy|quando la veloce cade, l'avviso dice «ho scelto la prima fascia libera», ma la fascia scelta non è la prima e il selettore non sa se è libera"
+     },
+     {
+      "idx": 1877,
+      "chiave": "qa-flussi|le prove del carrello montato usano sempre quantità 1: se il conto della consegna ignora la quantità, restano verdi"
+     },
+     {
+      "idx": 1878,
+      "chiave": "qa-flussi|le prove leggono solo la riga nascosta per i lettori di schermo: un totale sbagliato a video passa"
+     },
+     {
+      "idx": 1879,
+      "chiave": "qa-flussi|la riga «consegna mycity» a video non è confrontata con la cassa: può mostrare 0 € mentre si addebitano 3 €"
+     },
+     {
+      "idx": 1881,
+      "chiave": "qa-flussi|la prova non controlla più che il carrello parta senza ora (null) nel disegno che arriva dal server"
+     },
+     {
+      "idx": 1882,
+      "chiave": "qa-flussi|la riga «ne restano solo n» col tempo di consegna non viene mai provata montata"
+     }
+    ]
+   },
+   {
+    "chiave": "app/shipping/page.tsx",
+    "difetti": [
+     {
+      "idx": 1911,
+      "chiave": "microcopy|la pagina spedizioni, dove spiega quanto costa la consegna, dice ancora «per ogni negozio da cui ordini» e «se ordini da due negozi paghi due consegne», accanto a «una volta sola per tutto il carrello»"
+     },
+     {
+      "idx": 1913,
+      "chiave": "architettura|se la consegna si paga lo decide lo stesso file in due modi: con la base a zero la faq dice «gratuita qualunque sia la spesa» e la cassa chiede 1 € sotto i 10 €"
+     },
+     {
+      "idx": 1914,
+      "chiave": "architettura|le condizioni della consegna veloce sono riscritte a mano in cinque posti, e tre ne dicono una sola su tre"
+     },
+     {
+      "idx": 1915,
+      "chiave": "architettura|tre commenti di promesse-pubbliche.ts dicono cose false: un blocco staccato dalla sua funzione, un «per negozio» rimasto, un pannello che non usa la frase"
+     },
+     {
+      "idx": 1923,
+      "chiave": "microcopy|«come funziona» dice che la veloce c'è «quando c'è un fattorino in servizio», ma alle 15, col forno chiuso dall'una, non si può anche con nicola in servizio"
+     },
+     {
+      "idx": 1925,
+      "chiave": "microcopy|il link della home condiviso su whatsapp e facebook dice ancora «consegna rapida», mentre la descrizione per google e l'immagine dell'anteprima dicono «all'ora che scegli»"
+     }
+    ]
+   }
+  ]
+ ]
+}

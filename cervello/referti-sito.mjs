@@ -103,7 +103,8 @@ export const CARTELLE_REFERTI = Object.freeze([...new Set(FONTI_SITO.map((f) => 
 export const CODA_REFERTO_GREZZO = "-raw.json";
 
 /**
- * I referti grezzi che stanno nelle stesse cartelle ma NON parlano del sito.
+ * I referti grezzi che stanno nelle stesse cartelle ma NON vanno nel conto dei problemi del sito:
+ * o non parlano del sito, o non sono un elenco di difetti.
  *
  * Un'esenzione senza il perche' scritto e' un silenzio, ed e' la cosa che stiamo curando: qui ogni
  * voce dice in quale altra casa vive quel referto. Senza questo elenco il guardiano dei referti non
@@ -117,6 +118,14 @@ export const REFERTI_DI_ALTRI = Object.freeze([
     perche:
       "e' la radiografia della MACCHINA, non del sito: i suoi difetti vivono nel cantiere di auto-coscienza (AR-xxx), " +
       "non fra i problemi del marketplace",
+  }),
+  Object.freeze({
+    suffisso: "-esperienza-cliente-raw.json",
+    casa: "consegne/design/<data>-esperienza-cliente-vs-migliori.md (pagella e mosse da firmare)",
+    perche:
+      "e' il confronto del sito coi migliori marketplace requisito per requisito (al livello, sotto, manca, fa danno), " +
+      "non un elenco di difetti: molti «fa danno» sono gia' problemi del registro del sito, e contarli di nuovo li " +
+      "raddoppierebbe. Una mossa che diventa lavoro entra nel registro quando si apre",
   }),
 ]);
 

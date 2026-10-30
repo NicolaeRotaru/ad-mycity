@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-10-29 16:13",
+  "aggiornato": "2026-10-30 00:35",
   "fatti": [
     {
       "id": "architettura.tre-macchine",
@@ -239,11 +239,21 @@
       "esenzioni": []
     },
     {
+      "id": "consegna.negozio-che-rifiuta",
+      "nome": "Quando un negozio del carrello rifiuta l ordine",
+      "valore": "Se in un carrello con più negozi un negozio rifiuta l ordine, non lo conferma in tempo o il suo ordine viene annullato prima della consegna, la consegna si ricalcola sui negozi rimasti con la stessa regola (consegna.promessa). Al cliente torna la merce di quel negozio più la differenza della consegna; il fattorino prende il compenso del giro coi negozi rimasti (logistica.compenso-fattorino). Esempio: pane 15 euro e frutta 12 euro, consegna 4 euro; il forno rifiuta; resta la frutta, consegna 3 euro; al cliente tornano 16 euro (15 di pane e 1 di consegna); il fattorino prende 3 euro invece di 4. Con i contanti il cliente paga semplicemente di meno alla porta. Lettura dell AD: vale per gli annullamenti prima della consegna; un reso dopo la consegna non cambia la consegna, che è stata fatta. Deciso da Nicola in chat il 2026-10-30 («Si va bene», letto alle 00:35) sulla proposta dell AD.",
+      "fonte": "Nicola, chat 2026-10-30: «Si va bene» alla proposta di ricalcolare la consegna sui negozi rimasti",
+      "aggiornato": "2026-10-30 00:35",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
       "id": "consegna.promessa",
       "nome": "consegna.promessa",
-      "valore": "Consegna 3 euro per negozio, con la fascia oraria scelta dal cliente. La consegna veloce in 30-60 minuti costa 1 euro in più: 4 euro. Sotto i 10 euro di spesa si paga 1 euro in più, 4 euro, e la consegna veloce è compresa: sotto i 10 euro fascia e veloce costano tutte e due 4 euro. Il massimo è 4 euro; i due euro in più non si sommano mai. Il fattorino resta a 3 euro a consegna; l euro in più resta a MyCity. Deciso da Nicola in chat il 2026-10-29: «entro 30-60 min 1€ in più e sotto i 10€ +1€ e con la consegna entro 30-60min compresa», confermato con «sì, esatto» dopo la tabella. Sostituisce la regola dei 50 centesimi delle 13:44.",
-      "fonte": "Nicola, chat 2026-10-29: «ci ho ripensato sul prezzo della consegna, entro 30-60 min 1€ in più e sotto i 10€ +1€ e con la consegna entra 30-60min compresa», poi «sì, esatto» alla tabella (sotto i 10 euro 4 e 4; da 10 euro 3 e 4)",
-      "aggiornato": "2026-10-29 16:13",
+      "valore": "Consegna: 3 euro di base per tutto il carrello, con la fascia oraria scelta dal cliente. Si aggiunge 1 euro per ogni negozio in più nel carrello. Si aggiunge 1 euro per ogni negozio in cui la spesa sta sotto i 10 euro: la soglia si guarda negozio per negozio, non sul totale. La consegna veloce in 30-60 minuti costa 1 euro in più, una volta sola per tutto il carrello; se nel carrello c è già almeno un euro della spesa sotto i 10 euro, la veloce è compresa: l euro della veloce e quello della spesa piccola non si sommano mai. Esempi (fascia / veloce): un negozio con 15 euro 3 / 4; un negozio con 8 euro 4 / 4; due negozi con 15 e 12 euro 4 / 5; due negozi con 15 e 6 euro 5 / 5; due negozi con 6 e 7 euro 6 / 6; tre negozi con 15, 12 e 20 euro 5 / 6; tre negozi con 5, 6 e 7 euro 8 / 8. Al lancio il fattorino è Nicola. Il fattorino prende 3 euro per il giro e 1 euro per ogni negozio in più (fatto logistica.compenso-fattorino). Deciso da Nicola in chat il 2026-10-29 sera, in tre messaggi, e confermato con «sì tutto giusto» sullo schema (letto alle 22:21). Sostituisce «3 euro per negozio» delle 16:13.",
+      "fonte": "Nicola, chat 2026-10-29 sera (schema confermato alle 22:21; compenso del fattorino alle 23:04)",
+      "aggiornato": "2026-10-29 23:04",
       "storia": [
         {
           "valore": "Consegna promessa al cliente: 30-60 minuti. Deciso da Nicola in chat il 2026-08-21 alle 19:15, rispondendo alla card #147: la home aveva ragione, il resto del sito (24-48 ore, 36 punti in 28 file) e da riallineare. ATTENZIONE: e una promessa mai ancora mantenuta nemmeno una volta — ordini consegnati = 0, e la bici e dichiarata non operativa dal 14/7.",
@@ -260,6 +270,14 @@
         {
           "valore": "Consegna 3 euro per negozio, con la fascia oraria scelta dal cliente. Sotto i 10 euro di spesa il cliente paga 50 centesimi in più. Se la vuole subito, con la consegna veloce in 30-60 minuti, paga 50 centesimi in più. I due supplementi si sommano: sotto i 10 euro la consegna veloce costa 4 euro, il massimo. Il fattorino resta a 3 euro a consegna; i centesimi in più restano a MyCity. Deciso da Nicola in chat il 2026-10-29 fra le 13:22 e le 13:44, dopo l analisi della carta #220. Sostituisce «1 euro in più per la veloce» delle 12:29.",
           "fino_a": "2026-10-29 16:13"
+        },
+        {
+          "valore": "Consegna 3 euro per negozio, con la fascia oraria scelta dal cliente. La consegna veloce in 30-60 minuti costa 1 euro in più: 4 euro. Sotto i 10 euro di spesa si paga 1 euro in più, 4 euro, e la consegna veloce è compresa: sotto i 10 euro fascia e veloce costano tutte e due 4 euro. Il massimo è 4 euro; i due euro in più non si sommano mai. Il fattorino resta a 3 euro a consegna; l euro in più resta a MyCity. Deciso da Nicola in chat il 2026-10-29: «entro 30-60 min 1€ in più e sotto i 10€ +1€ e con la consegna entro 30-60min compresa», confermato con «sì, esatto» dopo la tabella. Sostituisce la regola dei 50 centesimi delle 13:44.",
+          "fino_a": "2026-10-29 22:22"
+        },
+        {
+          "valore": "Consegna: 3 euro di base per tutto il carrello, con la fascia oraria scelta dal cliente. Si aggiunge 1 euro per ogni negozio in più nel carrello. Si aggiunge 1 euro per ogni negozio in cui la spesa sta sotto i 10 euro: la soglia si guarda negozio per negozio, non sul totale. La consegna veloce in 30-60 minuti costa 1 euro in più, una volta sola per tutto il carrello; se nel carrello c è già almeno un euro della spesa sotto i 10 euro, la veloce è compresa: l euro della veloce e quello della spesa piccola non si sommano mai. Esempi (fascia / veloce): un negozio con 15 euro 3 / 4; un negozio con 8 euro 4 / 4; due negozi con 15 e 12 euro 4 / 5; due negozi con 15 e 6 euro 5 / 5; due negozi con 6 e 7 euro 6 / 6; tre negozi con 15, 12 e 20 euro 5 / 6; tre negozi con 5, 6 e 7 euro 8 / 8. Al lancio il fattorino è Nicola. Quanto prende il fattorino per un giro con più negozi è ancora da decidere, prima del secondo negozio vero. Deciso da Nicola in chat il 2026-10-29 sera, in tre messaggi, e confermato con «sì tutto giusto» sullo schema (letto alle 22:21). Sostituisce «3 euro per negozio» delle 16:13.",
+          "fino_a": "2026-10-29 23:04"
         }
       ],
       "caccia": [
@@ -318,6 +336,30 @@
         {
           "pattern": "Consegna 3 euro per negozio, con la fascia oraria scelta dal cliente. Sotto i 10 euro di spesa il cliente paga 50 centesimi in più. Se la vuole subito, con la consegna veloce in 30-60 minuti, paga 50 centesimi in più. I due supplementi si sommano: sotto i 10 euro la consegna veloce costa 4 euro, il massimo. Il fattorino resta a 3 euro a consegna; i centesimi in più restano a MyCity. Deciso da Nicola in chat il 2026-10-29 fra le 13:22 e le 13:44, dopo l analisi della carta #220. Sostituisce «1 euro in più per la veloce» delle 12:29.",
           "dal": "2026-10-29 16:13"
+        },
+        {
+          "pattern": "Consegna 3 euro per negozio",
+          "dal": "2026-10-29 22:22"
+        },
+        {
+          "pattern": "sotto i 10 euro fascia e veloce costano tutte e due 4 euro",
+          "dal": "2026-10-29 22:22"
+        },
+        {
+          "pattern": "Il massimo è 4 euro",
+          "dal": "2026-10-29 22:22"
+        },
+        {
+          "pattern": "Consegna 3 euro per negozio, con la fascia oraria scelta dal cliente. La consegna veloce in 30-60 minuti costa 1 euro in più: 4 euro. Sotto i 10 euro di spesa si paga 1 euro in più, 4 euro, e la consegna veloce è compresa: sotto i 10 euro fascia e veloce costano tutte e due 4 euro. Il massimo è 4 euro; i due euro in più non si sommano mai. Il fattorino resta a 3 euro a consegna; l euro in più resta a MyCity. Deciso da Nicola in chat il 2026-10-29: «entro 30-60 min 1€ in più e sotto i 10€ +1€ e con la consegna entro 30-60min compresa», confermato con «sì, esatto» dopo la tabella. Sostituisce la regola dei 50 centesimi delle 13:44.",
+          "dal": "2026-10-29 22:22"
+        },
+        {
+          "pattern": "Quanto prende il fattorino per un giro con più negozi è ancora da decidere",
+          "dal": "2026-10-29 23:04"
+        },
+        {
+          "pattern": "Consegna: 3 euro di base per tutto il carrello, con la fascia oraria scelta dal cliente. Si aggiunge 1 euro per ogni negozio in più nel carrello. Si aggiunge 1 euro per ogni negozio in cui la spesa sta sotto i 10 euro: la soglia si guarda negozio per negozio, non sul totale. La consegna veloce in 30-60 minuti costa 1 euro in più, una volta sola per tutto il carrello; se nel carrello c è già almeno un euro della spesa sotto i 10 euro, la veloce è compresa: l euro della veloce e quello della spesa piccola non si sommano mai. Esempi (fascia / veloce): un negozio con 15 euro 3 / 4; un negozio con 8 euro 4 / 4; due negozi con 15 e 12 euro 4 / 5; due negozi con 15 e 6 euro 5 / 5; due negozi con 6 e 7 euro 6 / 6; tre negozi con 15, 12 e 20 euro 5 / 6; tre negozi con 5, 6 e 7 euro 8 / 8. Al lancio il fattorino è Nicola. Quanto prende il fattorino per un giro con più negozi è ancora da decidere, prima del secondo negozio vero. Deciso da Nicola in chat il 2026-10-29 sera, in tre messaggi, e confermato con «sì tutto giusto» sullo schema (letto alle 22:21). Sostituisce «3 euro per negozio» delle 16:13.",
+          "dal": "2026-10-29 23:04"
         }
       ],
       "esenzioni": [
@@ -640,6 +682,16 @@
         "consegne/ad/",
         "MyCity-Vault/90-Memoria-AI/Storico/"
       ]
+    },
+    {
+      "id": "logistica.compenso-fattorino",
+      "nome": "Il compenso del fattorino",
+      "valore": "Il fattorino prende 3 euro per il giro di consegna di un carrello, e 1 euro per ogni negozio in più da cui passa. Esempi: un negozio 3 euro; due negozi 4 euro; tre negozi 5 euro. È lo stesso euro che paga il cliente per ogni negozio in più, quindi la fermata in più si paga da sola. La veloce e la spesa sotto i 10 euro non cambiano il compenso: quegli euro restano a MyCity. Al lancio il fattorino è Nicola. Deciso da Nicola in chat il 2026-10-29 («il fattorino prende 1€ per ogni negozio in più», letto alle 23:04), rispondendo alla domanda «3 euro più 1 per ogni fermata in più, oppure 3 euro per ogni negozio?».",
+      "fonte": "Nicola, chat 2026-10-29: «Il fattorino prende 1€ per ogni negozio in più»",
+      "aggiornato": "2026-10-29 23:04",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
     },
     {
       "id": "logistica.consegne-e-kit",

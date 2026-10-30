@@ -1,0 +1,106 @@
+{
+ "_cosa_e": "Ondata 15 del sito, il giro di correzione del pacchetto del prezzo, sopra il prezzo e le frasi dell ondata 14 cuciti (fix/base-ondata-15 = 9d2bb05d). Due pacchetti con territori disgiunti: A il prezzo con più negozi, coi rimborsi ricalcolati (regola di Nicola delle 00:35), i bonifici dentro l addebito, il compenso del fattorino, le ultime frasi dei 30-60 minuti che vivono nel file delle frasi di prezzo e le prove; B le frasi delle pagine, con le prove che il collaudo ha visto rotte o bucate. Il ramo della data della fascia con la carta (9161cdfd) non entra (DECISIONI 2026-10-30 00:14). La conferma della veloce entro 10 minuti e la 264 sono l ondata 16. Le ondate 1-14 sono vuote: si legge con --ondata 15, worktree o15-*.",
+ "data": "2026-10-30 00:38",
+ "registro": "sito",
+ "origine": "esito dell ondata 14 (wf_f5280289-22c), registro dei fatti consegna.negozio-che-rifiuta (00:35), DECISIONI 2026-10-30 00:14",
+ "ondate": [
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [
+   {
+    "chiave": "lib/ordini/prezzi.ts",
+    "difetti": [
+     {
+      "idx": 1813,
+      "chiave": "pagamenti-stripe|se in un carrello con più negozi uno rifiuta o viene annullato prima della consegna, gli altri restano con 1 euro di consegna invece di ricalcolarla sui negozi rimasti"
+     },
+     {
+      "idx": 1814,
+      "chiave": "pagamenti-stripe|con la carta e più negozi i bonifici al negozio e al fattorino possono superare l addebito del cliente: stripe rifiuta l ultimo"
+     },
+     {
+      "idx": 1809,
+      "chiave": "pagamenti-stripe|con più negozi il fattorino prende 3 euro per ogni ordine di negozio: la regola firmata dice 3 euro per il giro e 1 euro per ogni negozio in più"
+     },
+     {
+      "idx": 1815,
+      "chiave": "microcopy|le domande frequenti e le descrizioni google dei negozi e delle categorie promettono ancora i 30-60 minuti come cosa certa"
+     },
+     {
+      "idx": 253,
+      "chiave": "microcopy|ogni pagina promette la consegna in 30-60 minuti, ma in produzione non c'è nessun fattorino approvato"
+     },
+     {
+      "idx": 1816,
+      "chiave": "frontend-ux|la pagina consegne dell amministratore scrive «3,00 €–4,00 €» a consegna, ma ora un ordine porta da 1 a 4 euro e il carrello non ha un massimo"
+     },
+     {
+      "idx": 1795,
+      "chiave": "flussi-conversione|il carrello non spiega come si calcola la consegna: il cliente vede la cifra, ma non perché paga l euro in più né come evitarlo"
+     },
+     {
+      "idx": 1798,
+      "chiave": "qa-flussi|quindici prove vecchie si aspettano ancora la consegna a 3 euro fissi: il controllo completo del sito è rosso sul ramo del prezzo"
+     },
+     {
+      "idx": 1799,
+      "chiave": "pagamenti-stripe|buchi nelle prove del prezzo: una rotta può passare «non veloce» al conto, la lettura dei fattorini può cadere su «sì», e il carrello può trattare ogni risposta come «sì», con le prove verdi"
+     },
+     {
+      "idx": 1801,
+      "chiave": "qa-flussi|il carrello scrive «consegna in 30-60 min» e intanto conta nel totale la consegna con la fascia"
+     }
+    ]
+   },
+   {
+    "chiave": "lib/site-branding.ts",
+    "difetti": [
+     {
+      "idx": 1516,
+      "chiave": "architettura|promessa 30-60 min al limite in bici: 55 min a 10 km senza contare l'andata del fattorino al negozio"
+     },
+     {
+      "idx": 1784,
+      "chiave": "architettura|la frase «consegna in giornata, negli orari di apertura del negozio» vive in due copie"
+     },
+     {
+      "idx": 1779,
+      "chiave": "microcopy|il titolo grande della home (variante b, metà dei visitatori) dice «paghi come vuoi.», e il giro di benvenuto «ordina, paghi come vuoi»: la cassa offre solo i contanti"
+     },
+     {
+      "idx": 1774,
+      "chiave": "frontend-ux|la scheda prodotto conta sempre fino alle 18: dà cinque ore e mezza a un forno che chiude alle 13, e la sera promette «domani» a negozi chiusi domani"
+     },
+     {
+      "idx": 1708,
+      "chiave": "flussi-conversione|la scheda prodotto promette «consegna in 2-3 giorni» sui prodotti esauriti e su tutti quelli di un negozio senza express, ma in cassa quella consegna non esiste"
+     },
+     {
+      "idx": 1817,
+      "chiave": "qa-flussi|il pacchetto delle frasi fa diventare rosse tre prove che erano verdi: le guardie della pagina spedizioni e del negozio chiuso"
+     },
+     {
+      "idx": 1818,
+      "chiave": "qa-flussi|buchi nelle prove delle frasi: la scheda negozio della home, il conto alla rovescia dopo il caricamento, il prodotto esaurito, la descrizione google e la copia di «in giornata» possono tornare indietro con le prove verdi"
+     },
+     {
+      "idx": 1820,
+      "chiave": "microcopy|la descrizione google della home e il titolo di riserva della home nominano l abbigliamento, che al lancio non c è"
+     }
+    ]
+   }
+  ]
+ ]
+}

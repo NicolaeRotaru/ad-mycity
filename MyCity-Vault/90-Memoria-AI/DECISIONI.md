@@ -6043,3 +6043,169 @@ Nella riga delle 19:55 ho scritto «fase 0 ancora 8 su 8 aperti». È sbagliato:
 **I conti** (formula del sito, fattorino 3 euro): a MyCity resta sempre almeno il 10% della merce; sotto i 10 euro e con la veloce, 1 euro in più. Con l IVA ordinaria al 22% la fascia da 10 euro in su regge, perché il 10% fa almeno 1 euro. **Conseguenza detta a Nicola:** sotto i 10 euro fascia e veloce costano uguale, quindi quasi tutte le spese piccole saranno veloci, una corsa da sola entro un ora.
 
 **Fatto** `consegna.promessa` aggiornato; la regola dei 50 centesimi delle 13:44 è nella sua storia. Carta #220 e STATO aggiornati. Il pacchetto del prezzo lo costruirà così.
+
+## 2026-10-29 18:16 — 🟡 Nicola unisce la #263 del sito e la #898 della memoria: 22 difetti chiusi nel registro
+
+**Cosa è successo.** Nicola ha unito le due richieste alle 18:12. Il main del sito (`0df5557`) ha lo stesso albero del ramo provato (`2b1737b`). Il rilascio di produzione `dpl_EcMdUboG8ZkhxhFJ1oR6x4EbkzWQ` è pronto dalle 18:14, su www.mycity-marketplace.com. La home pubblicata dice la frase nuova, e non contiene più «arriva oggi», «Ordina entro» né «oppure con carta».
+
+**Il registro.** `cervello/chiudi-sito.mjs --applica --pr 263` ha chiuso 22 difetti, senza chiavi orfane:
+- ondata 10: 85, 1214, 1137, 86, 18, 1254, 19, 1293;
+- cassa: 1209, 1208, 1755, 1756, 1757, 1758;
+- promesse: 255, 252, 120, 266, 1206, 249, 256;
+- sì/no: 1778.
+
+Ogni chiusura porta la prova e la mutazione vista rossa. Restano parziali 1252, 1253, 1255, 23 e 1742. Aperti: 848 su 1.794 (8 bloccanti, 104 gravi, 736 minori).
+
+**La #898 è stata unita in un commit solo** (`9a108fdb2`): il contenuto di main coincide con l ultimo salvataggio del ramo, che ho fatto ripartire da main. I controlli di sicurezza sulle due richieste sono fermati.
+
+## 2026-10-29 21:13 — 🟡 Parte il pacchetto del prezzo della consegna, in due ondate
+
+**Cosa ha scritto Nicola:** «parti con il pacchetto del prezzo» (letto alle 21:05).
+
+**Come l ho diviso.** Il prezzo e le frasi pubbliche stanno negli stessi file: per questo vanno in due ondate, in fila.
+- **Ondata 13, adesso:** due squadre in parallelo.
+  - Il prezzo e il primo freno della veloce: schede 1777, 253 e 1709.
+  - La fascia scelta dal cliente nelle pagine del negozio, del fattorino e del cliente: scheda 23.
+- **Ondata 14, sopra la 13:**
+  - le frasi dei 30-60 minuti e di quando arriva la spesa: schede 1516, 1784, 1779, 1774 e 1708;
+  - il secondo freno, cioè la conferma della veloce entro 10 minuti, con la scheda 264.
+
+Il piano è `consegne/audit/2026-10-29-ondata13-prezzo-sito.json`, la base è il main del sito `0df5557`.
+
+**Due scelte ragionate mie, da correggere se sbagliate.**
+- La soglia dei 10 euro vale per negozio, sulla merce di quel negozio dopo gli sconti. È la stessa base su cui si calcola la commissione: così un buono non può far superare i bonifici all incasso.
+- Il codice «Spedizione gratuita» toglie solo la parte dei 3 euro che toglie oggi. L euro in più resta sempre da pagare, perché è il margine di MyCity e paga la corsa singola. Al lancio i codici sono spenti, quindi oggi non cambia niente per nessuno.
+
+**Colore:** 🟡: codice in un ramo del sito, l unione è di Nicola.
+
+## 2026-10-29 22:21 — 🔴 Nicola completa il prezzo della consegna: i negozi in più e la soglia per negozio
+
+**Cosa ha scritto Nicola**, in tre messaggi:
+- «per ogni negozio in più si aggiunge un euro»;
+- «l euro in più della spesa sotto i 10 euro vale solo per negozio»;
+- con un negozio solo sotto i 10 euro «la spesa veloce è compresa».
+
+Gli ho mandato lo schema in quattro passi, con una tabella da uno a tre negozi. Ha risposto «sì tutto giusto».
+
+**La regola:**
+- 3 euro di base per tutto il carrello;
+- 1 euro per ogni negozio in più;
+- 1 euro per ogni negozio sotto i 10 euro;
+- 1 euro per la veloce, una volta sola; la veloce è compresa se c è già almeno un euro della spesa piccola.
+
+Con più negozi la «veloce compresa» è una lettura mia, per tenere la sua regola delle 16:13 («i due euro non si sommano mai»). L ho scritta nello schema e lui l ha confermata.
+
+**Ancora aperto:** quanto prende il fattorino per un giro con più negozi. Ho consigliato 3 euro più 1 per ogni fermata in più. Non blocca il lancio: c è un negozio solo e consegna lui.
+
+**Fatto** `consegna.promessa` aggiornato alle 22:22, con tre cacce; il controllo di coerenza è verde. Nicola ha chiesto anche di spiegarla bene al cliente, soprattutto nel carrello: tre proposte di testo sono in giudizio (run `wf_1bfb78d5-949`), poi entrano nell ondata 14.
+
+## 2026-10-29 23:04 — 🔴 Nicola decide il compenso del fattorino con più negozi
+
+**Cosa ha scritto Nicola:** «il fattorino prende 1€ per ogni negozio in più», rispondendo alla domanda «3 euro più 1 per ogni fermata in più, oppure 3 euro per ogni negozio?».
+
+**La regola:** 3 euro per il giro e 1 euro per ogni negozio in più. Un negozio 3 euro, due 4, tre 5. L euro che il cliente paga per il negozio in più paga la fermata in più; la veloce e la spesa sotto i 10 euro restano a MyCity.
+
+**Fatto** nuovo `logistica.compenso-fattorino` alle 23:04; `consegna.promessa` aggiornato per rimandarci. Nel registro del sito la voce 1809: il codice paga ancora 3 euro per ogni ordine di negozio. L ondata 14 che sta girando non lo tocca, perché la sua scheda dice di lasciare il compenso com è; entra nell ondata 15, con la conferma della veloce entro 10 minuti.
+
+**Colore:** 🔴 (soldi), firmato da Nicola.
+
+## 2026-10-30 00:14 — 🟡 L ondata 14 del sito si ferma: il prezzo e le frasi reggono quasi tutto, la data della fascia con la carta esce dal lavoro
+
+**Cosa è successo** (run `wf_f5280289-22c`, 19 agenti su 40). Tre pacchetti, tutti e tre fermi prima del riesame.
+- **Il prezzo** (`fix/ondata-14-lib-ordini-prezzi-ts`, `552008c6`): la regola dei negozi in più e la spiegazione nel carrello sono costruite. Il rifacimento ha messo anche il compenso del fattorino delle 23:04. Resta un grave nato che chiede una scelta di Nicola: se in un carrello con più negozi il primo rifiuta o viene rimborsato, gli altri restano con 1 euro di consegna.
+- **Le frasi** (`fix/ondata-14-lib-site-branding-ts`, `3fca82ba`): le pagine non promettono più i 30-60 minuti. Il collaudo resta aperto su due frasi che vivono in `lib/promesse-pubbliche.ts`, il file della squadra del prezzo: la risposta sui tempi nelle domande frequenti e la descrizione dei negozi per Google. Errore mio di divisione, il secondo dopo quello dell ondata 13.
+- **La data della fascia con la carta** (`9161cdfd`): la riparazione ha retrodatato la nascita dell ordine e ha fatto nascere due gravi peggiori, fra cui un ordine annullato prima delle 3 ore del negozio.
+
+**Cosa decido.** Il ramo della fascia con la carta non entra: la carta al lancio è spenta, e la scheda 1797 resta aperta nella lista delle cose da fare prima di accenderla, con la 1810. Il prezzo e le frasi si cuciono insieme e vanno a un giro di correzione (ondata 15), dopo la risposta di Nicola sul rimborso.
+
+**Colore:** 🟡 (codice in rami del sito, niente unito).
+
+## 2026-10-30 00:35 — 🔴 Nicola decide cosa succede alla consegna quando un negozio del carrello rifiuta l ordine
+
+**Cosa ha scritto Nicola:** «Si va bene», alla proposta di ricalcolare la consegna sui negozi rimasti.
+
+**La regola:** se in un carrello con più negozi un negozio rifiuta, non conferma in tempo o il suo ordine viene annullato prima della consegna, la consegna si rifà sui negozi rimasti. Esempio: pane 15 euro e frutta 12 euro, consegna 4 euro; il forno rifiuta; al cliente tornano 16 euro e il fattorino prende 3 euro invece di 4. Con i contanti il cliente paga di meno alla porta.
+
+**Lettura mia, da correggere se sbagliata:** vale per gli annullamenti prima della consegna. Un reso dopo la consegna non cambia la consegna, perché il giro è stato fatto.
+
+**Fatto** nuovo `consegna.negozio-che-rifiuta` alle 00:35. Entra nell ondata 15.
+
+## 2026-10-30 07:45 — 🔴 Nicola sceglie la strada A per l ondata 15 del sito: si unisce così, il caso raro col codice resta aperto e i codici restano spenti
+
+**Cosa ha scritto Nicola:** «Fai la A» (letto alle 07:45), alla domanda «semplificare il fix o rinviare il pacchetto?» sull ondata 15 (run `wf_4c5f7fb6-76d`).
+
+**La scelta.** Il pacchetto del prezzo dell ondata 15 (`fix/ondata-15-lib-ordini-prezzi-ts`, `8b60312e`) entra così com è, insieme alle frasi (`76735785`). Resta un caso raro, che al lancio non può succedere: tre negozi, il codice «Spedizione gratuita» e due rifiuti di fila. L ultimo fattorino resta a 1 euro invece di 3. È nel registro del sito come grave (voce 1825), con una prova che gira ed è rossa. Va chiuso prima di riaccendere i codici sconto; finché è aperto, i codici restano spenti.
+
+**Cosa ho fatto dopo** (2026-10-30 07:55). Ho cucito i due rami in `fix/base-ondata-16` (`cc05043b`): tre prove toccate da tutti e due, tenuta la versione che guarda il testo reso. `npm run verify`: 9 prove rosse su 6.268. Otto vengono dalle ondate 13 e 14 (voci 1798 e 1849, prove vecchie); una è nata dall ondata 15 ed è un difetto vero (voce 1835: una lettura del database senza ripiego). Nel registro 25 voci nuove, dalla 1825 alla 1849. Vanno tutte all ondata 16, perché la richiesta del sito deve uscire verde.
+
+**Colore:** 🔴 (soldi: il compenso del fattorino in un caso raro), firmato da Nicola. Il codice resta in rami del sito: niente è unito.
+
+## 2026-10-30 09:35 — 🟡 L ondata 16 del sito: tre pacchetti su quattro reggono, il freno della veloce si rifà nell ondata 17
+
+**Cosa è successo** (run `wf_932e80c0-8e9`, 22 agenti su 55).
+- **Reggono**:
+  - l avviso al cliente dopo un rifiuto, con i Termini e le prove dei soldi (`c80e444a`);
+  - le frasi della vetrina, cioè «Consegna oggi» solo se si può ancora, niente «Abbigliamento» e niente «Usato» nel menu (`1ad71485`);
+  - le prove del carrello (`6a45ef91`).
+- Li ho cuciti in `fix/base-ondata-17` (`aee530e6`). `npm run verify` lì è tutto verde: 6.308 prove su 6.308, in 705 file.
+- **Il freno della veloce è fermo** (`cac593ef`), con 5 gravi nati.
+  - Sposta l ordine su una fascia che finisce dopo 10 minuti.
+  - Con un ordine già partito, scrive «non lo paghi» e l euro resta.
+  - Quando non legge gli orari, ripiega su «Domani 9-12» anche col negozio chiuso.
+  - L email al negozio non riceve la fascia dalla cassa. È un mio errore di divisione, il terzo: le due rotte che scrivono l email non erano nel territorio della squadra.
+
+**Cosa decido.**
+- Il freno si rifà subito, nell ondata 17 (run `wf_4a75acee-a4a`). La squadra riparte dal ramo di prima e il disegno diventa più semplice. La fascia nuova è quella che offrirebbe la cassa e finisce almeno 60 minuti dopo. Se un ordine del carrello è già partito, o gli orari non si leggono, il freno non sposta niente e avvisa l amministratore. «Non lo paghi» si scrive solo se l euro è stato tolto davvero. Il territorio ora comprende le due rotte.
+- Nella stessa ondata entrano «consegna oggi» nelle altre schede del negozio (voce 1873, grave) e i buchi nelle prove del carrello.
+- Le correzioni alle email di annullo (voci 1851-1868) vanno dopo la richiesta del sito. Toccano lo stesso file del freno, e al lancio non possono succedere, perché c è un negozio solo.
+- Nel registro del sito 33 voci nuove dall ondata 16, dalla 1851 alla 1883. Le cose trovate sul ramo del freno non entrano: quel ramo non si unisce, e vanno nella scheda dell ondata 17.
+
+**Colore:** 🟡: codice in rami del sito, niente unito.
+
+## 2026-10-30 11:05 — 🟡 L ondata 17 del sito: entrano le schede del negozio, il freno della veloce resta fuori dalla richiesta del sito
+
+**Cosa è successo** (run `wf_4a75acee-a4a`, 23 agenti su 45).
+- **Regge** «consegna oggi» nelle schede del negozio (`2df5c6eb`). L elenco dei negozi, le schede della home e la vetrina seguono la stessa regola della cassa. L assistente e la foto non scrivono più «usato». Cucito in `fix/base-ondata-18` (`12e2ea35`).
+- **Il freno della veloce è fermo per la seconda volta**, con 3 gravi nati, scesi da 5.
+  - Con la carta, l euro reso al cliente lo pagherebbe per circa il 70% il negozio.
+  - Il freno legge una colonna della migrazione 124 senza il ripiego.
+  - Il lavoro del freno gira senza sorveglianza: se si ferma, nessun allarme. La riga che lo sorveglia sta in un file fuori dal territorio della squadra, ed è il quarto errore di divisione mio.
+- **L ora nel carrello è ferma.** Il carrello passerebbe all ora di Roma mentre la cassa legge ancora quella del telefono, e su un telefono con un altro fuso direbbero cose diverse. La cassa non era nel territorio della squadra.
+
+**Cosa decido.**
+- La richiesta di unione del sito parte con le ondate 13-17, senza il freno della veloce e senza l ora del carrello.
+- Il freno l hai approvato tu con la carta #220. Al lancio però il fattorino sei tu, c è un negozio solo e la carta è spenta. Ti chiedo se partire con un freno semplice, un avviso a te dopo 10 minuti, e rifare quello automatico dopo.
+- Prima della richiesta i 64 file toccati dalle ondate 13-17 si riguardano con la lente giusta (run `wf_8404b4d0-c10`).
+- Nel registro del sito 20 voci nuove dall ondata 17, dalla 1884 alla 1903. Le cose trovate sui rami del freno e del carrello non entrano: quei rami non si uniscono.
+
+**La lezione dei territori**, quattro volte in quattro ondate. Prima di dividere, per ogni file del pacchetto vanno cercati anche quelli che lo chiamano e lo sorvegliano: chi scrive l email, chi legge l ora, il semaforo dei lavori periodici.
+
+**Colore:** 🟡: codice in rami del sito, niente unito.
+
+## 2026-10-30 12:07 — 🟡 Il controllo dei 64 file trova un grave nato: parte l ondata 18, piccola, prima della richiesta del sito
+
+**Cosa è successo** (run `wf_8404b4d0-c10`, 7 revisori e 4 scettici, tutti `qa`). I 64 file toccati dalle ondate 13-17 sono riguardati tutti, con la lente del loro mestiere, e la copertura è registrata: `radiografia-in-corsa` è verde su `12e2ea35`.
+- Un grave nato, confermato da due scettici. Il cliente sceglie la veloce, passa dall accesso e torna in cassa. La cassa gli toglie la scelta prima che il server risponda, e gli scrive che la veloce non si può (voce 1905).
+- La pagina Spedizioni dice ancora «se ordini da due negozi paghi due consegne» (voce 1911). Per gli scettici è minore.
+- Nel registro 24 voci nuove, dalla 1904 alla 1927, e una nota su 9 voci già aperte che risultano ancora vere.
+
+**Cosa decido.** Parte l ondata 18 (run `wf_fd762ee6-435`), con due squadre.
+- **La cassa e il carrello.** Il grave della veloce dopo l accesso. Poi l ora di Roma insieme in cassa, nel selettore delle fasce e nel carrello: l ondata 17 l aveva spostata nel carrello da solo, e per questo era stata fermata. La squadra riprende le prove del carrello dal ramo `897f68b7`.
+- **Le frasi della consegna.** La pagina Spedizioni, la FAQ con la base a zero, le condizioni della veloce scritte una volta sola, «Come funziona» e l anteprima della home.
+
+Per non sbagliare i territori una quinta volta, prima di dividere ho cercato tutti i file che leggono l ora del telefono (`getHours()`) e tutte le prove che fissano le frasi vecchie.
+
+**Colore:** 🟡: codice in rami del sito, niente unito.
+
+## 2026-10-30 13:17 — 🟡 L ondata 18 regge, e apro la richiesta del sito #264 con tutto il pacchetto del prezzo
+
+**Cosa è successo.**
+- L ondata 18 (run `wf_fd762ee6-435`, 8 agenti) regge in tutti e due i pacchetti, con zero gravi. La cassa aspetta la risposta della veloce e legge l ora di Roma (`5be50559`). La pagina Spedizioni dice la consegna unica (`75701477`).
+- Li ho cuciti in `fix/base-ondata-19` (`35677a88`). `npm run verify` lì: 6.400 prove su 6.400, in 713 file.
+- I 9 file cambiati dall ondata 18 sono riguardati (run `wf_57f9c01e-7ed`): nessun grave nato. Ne escono due gravi che c erano già (voci 1948 e 1949): la cassa non legge gli orari del negozio.
+- Il perimetro è verde: 64 file su 64.
+- Nel registro 28 voci nuove, dalla 1928 alla 1955.
+
+**Cosa decido.** Apro la richiesta del sito **#264**: le ondate dalla 13 alla 18, dal ramo `ccr-b2418a18-982q9d`. Unirla è una firma rossa di Nicola, perché il sito pubblicato cambia. Nella richiesta segnalo i Termini, da far rileggere, e i due gravi della cassa con gli orari, che propongo come prossimo lavoro. Le chiusure del registro (54 dichiarate, tre riviste aperte) le scrivo dopo l unione.
+
+**Colore:** 🟡 per la richiesta aperta; l unione è 🔴, di Nicola.
