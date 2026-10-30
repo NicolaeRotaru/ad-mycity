@@ -93,7 +93,7 @@ Per fotografare un ramo NON ancora pubblicato, il sito va acceso in locale (`npm
 
 ### Rimisurare
 
-Il motore dell'analisi è conservato in `consegne/design/2026-10-29-strumenti/esperienza-cliente.workflow.js`, col contesto di partenza `CONTESTO-ANALISI.md` accanto. In testa al file c'è scritto quali tre costanti cambiare. Costo del 29/10: 11,3 milioni di token senza le letture dalla cache. Per rimisurare solo le aree toccate, si tolgono le altre da `DIMS` e si saltano i benchmark.
+Il motore dell'analisi è conservato in `consegne/design/2026-10-29-strumenti/esperienza-cliente.workflow.js`, col contesto di partenza in `cervello/prompt-fragments/esperienza-cliente-contesto.md` (è il testo dato agli agenti, non a Nicola: per questo sta fra i pezzi di prompt della macchina). In testa al file c'è scritto quali tre costanti cambiare. Costo del 29/10: 11,3 milioni di token senza le letture dalla cache. Per rimisurare solo le aree toccate, si tolgono le altre da `DIMS` e si saltano i benchmark.
 
 ### Il testo da incollare in una sessione nuova
 

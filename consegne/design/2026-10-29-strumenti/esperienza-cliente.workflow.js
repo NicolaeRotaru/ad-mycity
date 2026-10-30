@@ -6,7 +6,7 @@
 // PER RILANCIARLO cambia tre costanti qui sotto, poi Workflow({scriptPath: <questa copia>}):
 //   S       la cartella della sessione nuova, con dentro prod/*.txt e screens/*.png rifatti con
 //           cervello/foto-pagine-vere.mjs (vedi consegne/design/2026-10-29-come-riprendere.md);
-//   CTX     il contesto aggiornato: parti da CONTESTO-ANALISI.md accanto a questo file e rifai i numeri
+//   CTX     il contesto aggiornato: parti da cervello/prompt-fragments/esperienza-cliente-contesto.md e rifai i numeri
 //           del catalogo (database in sola lettura) e la data;
 //   REPORT  il nome del referto nuovo, con la data del giorno.
 // Costo misurato il 29/10: 11,3 milioni di token senza le letture dalla cache. Per rimisurare solo le
