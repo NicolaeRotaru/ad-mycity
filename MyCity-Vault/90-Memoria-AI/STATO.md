@@ -1,8 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-10-30 09:35
+aggiornato: 2026-10-30 12:07
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🔎 **2026-10-30 12:07 — Ho riguardato i 64 file del prezzo: c'è un grave nuovo, e lo sistema l'ondata 18 prima della richiesta del sito.**
+>
+> Il cliente sceglie la veloce, accede al suo profilo e torna in cassa. La cassa gli toglie la scelta prima di sapere se la veloce si può. L'ondata 18 lo sistema, insieme all'ora di Roma in cassa e alla pagina Spedizioni, che dice ancora «due negozi, due consegne».
+>
+> Il freno della veloce aspetta la tua scelta: per il lancio ti propongo un avviso a te dopo 10 minuti.
 
 > 🧱 **2026-10-30 09:35 — L'ondata 16 regge in tre parti su quattro. Il freno della veloce si rifà nell'ondata 17.**
 >

@@ -6181,3 +6181,18 @@ Con più negozi la «veloce compresa» è una lettura mia, per tenere la sua reg
 **La lezione dei territori**, quattro volte in quattro ondate. Prima di dividere, per ogni file del pacchetto vanno cercati anche quelli che lo chiamano e lo sorvegliano: chi scrive l email, chi legge l ora, il semaforo dei lavori periodici.
 
 **Colore:** 🟡: codice in rami del sito, niente unito.
+
+## 2026-10-30 12:07 — 🟡 Il controllo dei 64 file trova un grave nato: parte l ondata 18, piccola, prima della richiesta del sito
+
+**Cosa è successo** (run `wf_8404b4d0-c10`, 7 revisori e 4 scettici, tutti `qa`). I 64 file toccati dalle ondate 13-17 sono riguardati tutti, con la lente del loro mestiere, e la copertura è registrata: `radiografia-in-corsa` è verde su `12e2ea35`.
+- Un grave nato, confermato da due scettici. Il cliente sceglie la veloce, passa dall accesso e torna in cassa. La cassa gli toglie la scelta prima che il server risponda, e gli scrive che la veloce non si può (voce 1905).
+- La pagina Spedizioni dice ancora «se ordini da due negozi paghi due consegne» (voce 1911). Per gli scettici è minore.
+- Nel registro 24 voci nuove, dalla 1904 alla 1927, e una nota su 9 voci già aperte che risultano ancora vere.
+
+**Cosa decido.** Parte l ondata 18 (run `wf_fd762ee6-435`), con due squadre.
+- **La cassa e il carrello.** Il grave della veloce dopo l accesso. Poi l ora di Roma insieme in cassa, nel selettore delle fasce e nel carrello: l ondata 17 l aveva spostata nel carrello da solo, e per questo era stata fermata. La squadra riprende le prove del carrello dal ramo `897f68b7`.
+- **Le frasi della consegna.** La pagina Spedizioni, la FAQ con la base a zero, le condizioni della veloce scritte una volta sola, «Come funziona» e l anteprima della home.
+
+Per non sbagliare i territori una quinta volta, prima di dividere ho cercato tutti i file che leggono l ora del telefono (`getHours()`) e tutte le prove che fissano le frasi vecchie.
+
+**Colore:** 🟡: codice in rami del sito, niente unito.
