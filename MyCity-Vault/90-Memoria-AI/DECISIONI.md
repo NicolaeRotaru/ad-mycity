@@ -6222,3 +6222,17 @@ Per non sbagliare i territori una quinta volta, prima di dividere ho cercato tut
 **Da dire a Nicola.** La data dei Termini. La #900 si può chiudere a mano, perché il suo lavoro è già sul principale. Il freno della veloce aspetta ancora la sua scelta.
 
 **Colore:** 🔴 le unioni, firmate da Nicola; 🟢 le chiusure nel registro, che è memoria.
+
+## 2026-10-30 14:54 — 🟡 Nicola sceglie la B: il freno automatico della veloce si rifà subito; la #900 è chiusa
+
+**Cosa ha scritto Nicola** (messaggio letto fra le 14:49 e le 14:54): «1) fai la B 2) chiudi la 900».
+
+**Cosa ho fatto.**
+- **La #900 è chiusa**, con un commento che dice dove sta il suo lavoro: sul principale, entrato con la #899 schiacciata (`c7ae18120`).
+- **Parte l ondata 19** (run `wf_4c28f250-6b6`), con una squadra sola sopra il principale del sito `0a4bfe81`. Riparte dal ramo dell ondata 17 (`c80101f7`) e deve chiudere i 3 gravi e i 12 minori del suo collaudo.
+  - Il rimborso dell euro con la carta non deve toccare il bonifico del negozio.
+  - Le letture della migrazione 124 devono passare dal ripiego.
+  - Il lavoro del freno va messo sotto sorveglianza.
+  - Nel territorio della squadra ci sono anche `lib/cron-health.ts` e `lib/ordini/riepilogo-ordine.ts`, i file che le ondate prima non avevano. Piano: `consegne/audit/2026-10-30-ondata19-freno-veloce.json`.
+
+**Colore:** 🟡: codice in un ramo del sito; l unione resta di Nicola.

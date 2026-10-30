@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-10-30 14:46
+aggiornato: 2026-10-30 14:54
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -24,7 +24,7 @@ Niente di nuovo. Le tue voci sono nella sezione 1 e nella tua lista.
 
 ## Cosa non ho verificato
 
-La pagina dice com'era il lavoro il 30 ottobre alle 14:46. Ogni voce va riletta nel suo posto prima di agire.
+La pagina dice com'era il lavoro il 30 ottobre alle 14:54. Ogni voce va riletta nel suo posto prima di agire.
 
 ---
 
@@ -32,10 +32,8 @@ La pagina dice com'era il lavoro il 30 ottobre alle 14:46. Ogni voce va riletta 
 
 **Da sistemare dopo le unioni del 30/10**
 - I Termini nuovi sono online, ma in cima resta «in vigore dal 24 maggio 2026». Vanno fatti rileggere a un legale, e poi va cambiata la data.
-- La richiesta #900 è ancora aperta: la #899 è entrata schiacciata in un salvataggio solo, e GitHub non la segna unita. Il suo lavoro è già sul principale: si può chiudere a mano.
 
 **Scelte brevi**
-- Il freno della veloce: A, un avviso a te dopo 10 minuti senza conferma, il mio consiglio; B, il freno automatico rifatto subito.
 - Cosa vuol dire «senza difetti» per aprire al primo cliente. Il mio consiglio: zero bloccanti e zero gravi.
 - Il rilascio controllato: subito prima delle chiavi di Vercel, o con un giro adesso.
 - I 5 km: in linea d'aria o per strada.
@@ -57,7 +55,7 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
 - **L'ondata 15 è cucita** (strada A, scelta tua del 30/10 alle 07:45). Il caso raro col codice sconto resta aperto, e i codici restano spenti finché non è chiuso.
 - **Il prezzo nuovo è online**: hai unito la #264 il 30/10 alle 14:40. Ho chiuso nel registro 51 voci, ognuna con la sua prova.
 - **Il prossimo lavoro che ti propongo:** la cassa che legge gli orari del negozio (voci 1948 e 1949). Oggi propone «Oggi · 15:00-18:00» anche il giovedì pomeriggio, quando Pane Quotidiano è chiuso.
-- **Il freno della veloce** aspetta la tua scelta: A o B, nella sezione 1.
+- **L'ondata 19 sta girando**: il freno automatico della veloce, rifatto come hai scelto tu (la B). Poi ti porto una richiesta del sito solo per lui.
 - **Più avanti, le email di annullo.** Hanno le cifre sotto il piè di pagina e l'oggetto «non devi pagare niente» (voci 1851-1868). Al lancio non possono succedere: c'è un negozio solo.
 - **Poi l'ondata 2:** il pannello, i resi, la vetrina e gli orari dei negozi.
 - **Prima di accendere la carta**, quattro cose:
@@ -99,6 +97,6 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
 - Tua lista, letta dalla Cabina: `MyCity-Vault/90-Memoria-AI/CHECKLIST-NICOLA.md`. Carte: `AZIONI-IN-ATTESA.md`. Decisioni: `DECISIONI.md`. Fatti: `registro-fatti.json` (prezzo: `consegna.promessa`, `logistica.compenso-fattorino`, `consegna.negozio-che-rifiuta`).
 - Registro del sito: `auto-coscienza/radiografia-marketplace.json`, 1.956 voci, 959 aperte (8 bloccanti, 108 gravi). Chiusure della #264: 51 (`chiudi-sito.mjs --pr 264 --commit 0a4bfe81`). Dall'ondata 16: 1851-1883; dall'ondata 17: 1884-1903; dal controllo dei 64 file: 1904-1927. Dall'ondata 15: 1825-1850 (il caso raro col codice è la 1825, con la prova `consegne/audit/prove-sito/2026-10-30-secondo-rifiuto-col-codice.prova.ts`; il freno della veloce è la 1826). Dalla #900: 1821 (vetrina «Consegna oggi» a negozio chiuso), 1822 («Trending ora»), 1823 («usato»), 1824 («Prezzo crescente»). Prima della carta: 1810, 1797, 1811, 1812. Testo della home dal database: 1819.
 - Piani delle ondate: `consegne/audit/2026-10-29-ondata13-prezzo-sito.json`, `2026-10-29-ondata14-prezzo-sito.json`, `2026-10-30-ondata15-prezzo-sito.json`, `2026-10-30-ondata16-prezzo-sito.json` (run `wf_932e80c0-8e9`), `2026-10-30-ondata17-prezzo-sito.json` (run `wf_4a75acee-a4a`), `2026-10-30-ondata18-prezzo-sito.json` (run `wf_fd762ee6-435`); controllo dei 64 file: run `wf_8404b4d0-c10`, e dei 9 dell'ondata 18: `wf_57f9c01e-7ed`; ondata 2: `2026-10-28-ondata2-sito.json` e `2026-10-28-ricette-ondata2.json`.
-- Sito: il principale è `0a4bfe81`, cioè la #264 unita; online su Vercel. Il prossimo lavoro del sito riparte da lì. Il freno della veloce: `fix/ondata-17-lib-ordini-scadenza-accettazione-ts` (`c80101f7`), fermo. Il ramo della fascia con la carta `fix/ondata-14-lib-ordini-fascia-leggibile-ts` non entra.
+- Sito: il principale è `0a4bfe81`, cioè la #264 unita; online su Vercel. Il prossimo lavoro del sito riparte da lì. Il freno della veloce: riparte da `c80101f7` nell ondata 19 (run `wf_4c28f250-6b6`, piano `consegne/audit/2026-10-30-ondata19-freno-veloce.json`). Il ramo della fascia con la carta `fix/ondata-14-lib-ordini-fascia-leggibile-ts` non entra.
 - Referti di ieri e stanotte: `consegne/finanza/2026-10-29-costi-e-commissioni.md`, `consegne/finanza/2026-10-29-prezzo-della-consegna.md`, `consegne/audit/2026-10-29-ondata1-giroB-sito-referto.md`; richiesta #900: `consegne/design/2026-10-29-esperienza-cliente-vs-migliori.md`, guida per riprendere `consegne/design/2026-10-29-come-riprendere.md`, revisione `wf_5370ad60-6e4`.
 - Pagina del carrello spiegato: https://claude.ai/artifact/R7a3oyeinPkPEc26fMEGqd

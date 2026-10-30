@@ -35,7 +35,7 @@ Stripe, Hetzner, Resend, Netsons e le impostazioni di accesso di Supabase non li
   → richiesta #264 · 6.400 prove verdi · prima decidi sui Termini, qui sotto.
 - [ ] 🔴 Decidi sui Termini: i paragrafi 4 e 6 nuovi sono già online, ma in cima resta «in vigore dal 24 maggio 2026».
   → la #264 è unita · da far rileggere a un legale e poi cambiare la data · registro del sito, voce 1866.
-- [ ] 🟡 Scegli il freno della veloce: A, un avviso a te dopo 10 minuti senza conferma; B, il freno automatico rifatto subito.
+- [x] 🟡 Scegli il freno della veloce: A, un avviso a te dopo 10 minuti senza conferma; B, il freno automatico rifatto subito.
   → il mio consiglio è A · 1 minuto.
 - [ ] 🟡 Rispondi alle scelte della carta #222, quella del sito visto da chi compra: la più importante è la foto del titolare, col suo consenso.
   → la richiesta #900 è cucita dentro la #899 · la scelta «regali o fresco» è già decisa dai dati: fresco.
