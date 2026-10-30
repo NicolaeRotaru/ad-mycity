@@ -43,6 +43,7 @@ export const meta = {
 
 // ── gli args ───────────────────────────────────────────────────────────────────────────────────
 const A = args || {}
+if (A.tipo !== undefined || A.tipo_controllo !== undefined) throw new Error("args.tipo e args.tipo_controllo non esistono: passa args.tipo_costruisce (chi scrive o muta, default tech) e args.tipo_controlla (chi solo legge, default qa)")
 const COMANDO_SCHEDE = "node cervello/schede-pacchetto.mjs --piano <piano dei pacchetti> --ondata <N> --json"
 let SCHEDE = A.schede
 if (typeof SCHEDE === "string") { try { SCHEDE = JSON.parse(SCHEDE) } catch (e) { SCHEDE = null } }
@@ -107,7 +108,7 @@ const S_FRAMMENTO = { type: "object", required: ["ramo", "commit", "chiusi", "fi
   parziali: { type: "array", maxItems: 12, items: { type: "object", properties: { chiave: { type: "string" }, perche: { type: "string", maxLength: 200 } } } },
   file_toccati: { type: "array", items: { type: "string" } }, prove: { type: "array", items: { type: "string" } },
   prova_uscita: { type: "integer" }, prova: { type: "string", maxLength: 200 },
-  rimessa: { type: "object", required: ["esito", "uscita"], properties: { esito: { type: "string" }, uscita: { type: "integer" } } },
+  rimessa: { type: "object", required: ["esito", "uscita", "file"], properties: { esito: { type: "string" }, uscita: { type: "integer" }, file: { type: "array", items: { type: "string" } } } },
   vecchi: { type: "array", maxItems: 8, items: DIFETTO }, nota: { type: "string", maxLength: 300 } } }
 const S_COLLAUDO = { type: "object", required: ["pacchetti", "difetti"], properties: {
   pacchetti: { type: "array", items: { type: "object", required: ["chiave", "regge", "boccia_per"], properties: {
@@ -121,6 +122,7 @@ function schede(p) {
 }
 const normalizza = (f, p) => (f ? { ...f, worktree: f.worktree || wtDi(p), file_toccati: unione([], (f.file_toccati || []).map((x) => relativo(x, f.worktree || wtDi(p)))), prove: unione([], (f.prove || []).map((x) => relativo(x, f.worktree || wtDi(p)))) } : f)
 const soloSito = (f) => (f.file_toccati || []).filter((x) => !(f.prove || []).includes(x) && !/^tests\//.test(x))
+const nonProvati = (f) => (f.rimessa && f.rimessa.file && f.rimessa.file.length ? soloSito(f).filter((x) => !f.rimessa.file.includes(x)) : [])
 
 // La macchina prima dell'agente: un frammento passa se ha un commit, la prova del sito e' verde (0) e la
 // prova rimessa non dice «non morde». Un rosso solo di struttura passa: lo decide il collaudo.
@@ -142,10 +144,10 @@ function squadra(p, compito, etichetta, fase) {
     "2. Le dipendenze si COLLEGANO, non si installano: [ -e " + wt + "/node_modules ] || ln -s " + REPO + "/node_modules " + wt + "/node_modules. Aggiungi solo per nome i file che tocchi, mai git add -A.\n" +
     "3. " + compito + "\n" +
     "Per ogni difetto: prima una prova in tests/unit/ che diventa ROSSA col difetto, poi il fix, poi la stessa prova VERDE. La prova del sito si lancia cosi': " + LANCIA_PROVA + " --repo " + wt + " --file <i file che hai toccato E la prova che hai scritto, separati da virgola>, e " + TEMPO + ". Esce 0 solo se una prova e' girata davvero; 2 vuol dire NON provato.\n" +
-    "4. La prova della macchina, prima di consegnare: " + LANCIA_RIMESSA + " --repo " + wt + " --base " + BASE + " --file <i file del sito che hai corretto, MAI le prove> --prove <le prove che hai scritto>, e " + TEMPO + ". «regge» (uscita 0): la prova cade senza la correzione, ed e' quello che serve. «non_morde» (1): la prova resta verde senza la correzione, quindi non prova il fix: rifalla finche' morde. «rosso_strutturale» (3): cade solo perche' manca un nome nuovo; se puoi, scrivi la prova sul codice che c'era gia' alla base, altrimenti spiegalo in nota.\n" +
+    "4. Committa la correzione e le prove: un commit sul ramo, con un messaggio che spiega il perche'. Niente push, niente merge. Il commit viene PRIMA della prova della macchina, cosi' niente si perde se viene fermata.\n" +
+    "5. La prova della macchina: " + LANCIA_RIMESSA + " --repo " + wt + " --base " + BASE + " --file <i file del sito che hai corretto, MAI le prove> --prove <le prove che hai scritto>, e " + TEMPO + ". «regge» (uscita 0): la prova cade senza la correzione, ed e' quello che serve. «non_morde» (1): la prova resta verde senza la correzione, quindi non prova il fix: rifalla finche' morde. «rosso_strutturale» (3): cade solo perche' manca un nome nuovo; se puoi, scrivi la prova sul codice che c'era gia' alla base, altrimenti spiegalo in nota. Un file che da solo non fa cadere la prova e' elencato per nome: o gli serve una prova sua, o non porta la correzione (toglilo da --file e dillo in nota). 2 = non provato (leggi il motivo), 4 = un file non e' tornato com'era (fermati e scrivilo in nota), 124 = tempo della shell finito. Se rifai le prove, un altro commit.\n" +
     "Territorio: " + (p.file.join(", ") || "dichiara i file che tocchi") + ", piu' le prove nuove in tests/unit/. Fuori non scrivere: se il fix vero sta fuori, mettilo in parziali col perche'. I difetti che c'erano gia' sulla base e che vedi lavorando NON li ripari: mettili in vecchi.\n" +
-    "Un commit sul ramo, con un messaggio che spiega il perche'. Niente push, niente merge.\n" +
-    "Nel frammento: chiusi = le chiavi dei difetti chiusi, scritte esattamente come arrivano; file_toccati e prove = percorsi relativi alla radice del sito; prova_uscita e prova = uscita e ultima riga di prova-sito; rimessa = esito e uscita di prova-rimessa.\n" +
+    "Nel frammento: chiusi = le chiavi dei difetti chiusi, scritte esattamente come arrivano; file_toccati e prove = percorsi relativi alla radice del sito; prova_uscita e prova = uscita e ultima riga di prova-sito; rimessa = esito, uscita e i file passati in --file a prova-rimessa.\n" +
     SOBRIO(Math.min(60, 20 + 6 * p.difetti.length)),
     { label: etichetta + ":" + slug(p.chiave), phase: fase, schema: S_FRAMMENTO, tipo: TIPO_COSTRUISCE })
     .then((f) => normalizza(f, p))
@@ -170,7 +172,7 @@ const registro = []
 for (const e of lavori) for (const d of ((e.f && e.f.vecchi) || [])) registro.push({ ...d, pacchetto: e.p.chiave, fonte: "squadra" })
 
 // ── ② il collaudo: uno per ondata ──────────────────────────────────────────────────────────────
-const LENTE_A = "Lente A, sa diventare rosso? Per OGNI pacchetto: 1) rilancia TU la prova della macchina: " + LANCIA_RIMESSA + " --repo <worktree> --base " + BASE + " --file <file corretti> --prove <prove>, e " + TEMPO + ". «non_morde», «non_verde» o «instabile» → regge:false, boccia_per «difetto_rimesso» («sito» se le prove sono rosse sul codice di oggi). «rosso_strutturale» o «rosso_sconosciuto» → la macchina non decide: in un worktree tuo (git -C " + REPO + " worktree add <worktree>-collaudo <ramo> --detach) rimetti il difetto COM'E' SCRITTO nella scheda con una mutazione minima, lancia le prove della squadra con la prova del sito: devono diventare rosse. 2) Per i gravi e i bloccanti chiusi cerca UNA variante scomoda, come dice COME DECIDI. Alla fine rimetti tutto a posto e togli il tuo worktree (git -C " + REPO + " worktree remove --force <worktree>-collaudo)."
+const LENTE_A = "Lente A, sa diventare rosso? Lavori SOLO in worktree tuoi: quello della squadra lo legge la lente B nello stesso momento, e la prova della macchina riscrive i file. Per OGNI pacchetto: 0) git -C " + REPO + " worktree add <worktree>-collaudo <commit> --detach, poi [ -e <worktree>-collaudo/node_modules ] || ln -s " + REPO + "/node_modules <worktree>-collaudo/node_modules. 1) Rilancia TU la prova della macchina nel tuo worktree: " + LANCIA_RIMESSA + " --repo <worktree>-collaudo --base " + BASE + " --file <file corretti> --prove <prove>, e " + TEMPO + ". «non_morde», «non_verde» o «instabile» → regge:false, boccia_per «difetto_rimesso» («sito» se le prove sono rosse sul codice di oggi). «rosso_strutturale» o «rosso_sconosciuto» → la macchina non decide: nel tuo worktree rimetti il difetto COM'E' SCRITTO nella scheda con una mutazione minima, lancia le prove della squadra con la prova del sito: devono diventare rosse. 2) Per i gravi e i bloccanti chiusi cerca UNA variante scomoda, come dice COME DECIDI. Alla fine rimetti tutto a posto e togli il tuo worktree (git -C " + REPO + " worktree remove --force <worktree>-collaudo)."
 const LENTE_B = "Lente B, nasce rotto? Per ogni ramo leggi il delta (git -C <worktree> diff " + BASE + "..HEAD -- <file toccati>), cerca gli altri chiamanti dei simboli cambiati (grep nel worktree), immagina la produzione senza le migrazioni nuove applicate, e lancia la prova del sito sui file toccati. Questo vale anche come radiografia del perimetro: in copertura, per ogni dimensione qui sotto, i file che hai guardato e quanti difetti hai trovato (anche 0)."
 function comeDecidi(muta) {
   return "COME DECIDI (il motore legge boccia_per). Si boccia per il sito, non per la prova.\n" +
@@ -185,7 +187,7 @@ function comeDecidi(muta) {
 }
 function elenco(lista) {
   return lista.map((e) => "- «" + e.p.chiave + "» (rischio " + e.p.rischio + ") · worktree " + e.f.worktree + " · ramo " + e.f.ramo + " · commit " + e.f.commit +
-    " · file corretti " + (soloSito(e.f).join(",") || "nessuno") + " · prove " + ((e.f.prove || []).join(",") || "nessuna") +
+    " · file corretti " + ((e.f.rimessa.file && e.f.rimessa.file.length ? e.f.rimessa.file : soloSito(e.f)).join(",") || "nessuno") + (nonProvati(e.f).length ? " · toccati ma NON provati dalla macchina (guardali tu) " + nonProvati(e.f).join(",") : "") + " · prove " + ((e.f.prove || []).join(",") || "nessuna") +
     " · macchina «" + e.f.rimessa.esito + "»\n  chiusi: " + e.f.chiusi.map((k) => { const d = e.p.difetti.find((x) => x.chiave === k); return k + (d && (d.descrizione || d.dove) ? " [" + String(d.descrizione || d.dove).slice(0, 200) + "]" : "") }).join(" · ") +
     (e.motivi ? "\n  motivi della bocciatura di prima: " + e.motivi : "")).join("\n")
 }
@@ -255,12 +257,16 @@ if (daFare.length) {
   })).filter(Boolean)
   for (const e of daFare) if (!corretti.find((c) => c.p.chiave === e.p.chiave) && !esito.has(e.p.chiave)) esito.set(e.p.chiave, { stato: "non_regge", motivo: "correzione non fatta (tetto o squadra caduta) · motivi: " + daCorreggere.get(e.p.chiave).motivi.join(" | ") })
   if (corretti.length) {
-    const piani = lentiBis.includes("AB") ? [["A", "B"]] : lentiBis.map((l) => l.split(""))
-    const esitiBis = await parallel(piani.map((l) => () => collaudo(corretti, l, true)))
-    const rb = leggi(esitiBis.map((x, i) => x || { v: null, lenti: piani[i], muta: piani[i].includes("A") }), corretti)
-    copertura = copertura.concat(rb.copertura)
+    const piani = lentiBis.map((l) => ({ lenti: l.split(""), lista: corretti.filter((c) => daCorreggere.get(c.p.chiave).lenti.has(l)) })).filter((x) => x.lista.length)
+    const esitiBis = await parallel(piani.map((x) => () => collaudo(x.lista.map((c) => ({ ...c, motivi: c.motivi })), x.lenti, true)))
+    const bocciatiBis = new Map()
+    piani.forEach((x, i) => {
+      const rb = leggi([esitiBis[i] || { v: null, lenti: x.lenti, muta: x.lenti.includes("A") }], x.lista)
+      copertura = copertura.concat(rb.copertura)
+      for (const [k, b] of rb.bocciati) bocciatiBis.set(k, (bocciatiBis.get(k) || []).concat(b.motivi))
+    })
     for (const c of corretti) {
-      if (rb.bocciati.has(c.p.chiave)) esito.set(c.p.chiave, { stato: "non_regge", motivo: "dopo un giro di correzione: " + rb.bocciati.get(c.p.chiave).motivi.join(" | ") })
+      if (bocciatiBis.has(c.p.chiave)) esito.set(c.p.chiave, { stato: "non_regge", motivo: "dopo un giro di correzione: " + bocciatiBis.get(c.p.chiave).join(" | ") })
       const i = buoni.findIndex((e) => e.p.chiave === c.p.chiave)
       if (i >= 0) buoni[i] = { ...buoni[i], f: c.f }
     }

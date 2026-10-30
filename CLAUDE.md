@@ -294,15 +294,15 @@ Nicola lancia lavori con frasi brevi; riconoscile anche scritte in modo diverso:
 - **"piano del mattino" / "report della sera" / "review della settimana"** → `cervello/ritmo.md`.
 - **"come stiamo?" / "report KPI" / "controlla i pagamenti" / "proiezione"** → analista/finanza sui dati reali.
 - **"porta [negozio] LIVE" / "trovami negozi" / "negozio in calo"** → catena vendite (+ team).
-- **"supervisiona i negozi" / "controlla i dati mancanti"** → `node cervello/supervisione-negozi.mjs --accoda` (autofill · procura · mai): niente si scrive sul sito senza l'ok di Nicola.
+- **"supervisiona i negozi" / "controlla i dati mancanti" / "cosa manca ai negozi/prodotti"** → `node cervello/supervisione-negozi.mjs --accoda` (autofill · procura · mai): niente si scrive sul sito senza l'ok di Nicola.
 - **"lancia una campagna" / "contenuti della settimana" / "fammi [post/volantino/QR]" / "recupera i carrelli"** → marketing/content/designer/crm.
-- **"contenuti pro: [quali]"** (*"modalità mondiale"*) → la pipeline MODALITÀ MONDIALE in 7 passi, da `BRIEF-CREATIVO.md` alla piattaforma «Il Turno»: non saltarne nessuno.
+- **"contenuti pro: [quali]"** (*"modalità mondiale"*) → la pipeline MODALITÀ MONDIALE in 7 passi, dal BRIEF (`BRIEF-CREATIVO.md`) alla CONSEGNA, agganciata alla piattaforma «Il Turno»: non saltarne nessuno.
 - **"cambia il sito: …" / "audit del marketplace"** → pipeline `MODIFICA-MARKETPLACE.md`.
-- **"radiografia" / "trova tutti i bug"** → workflow `radiografia`, report per gravità in `consegne/audit/`.
-- **"chiudi i gravi del sito" / "lancia l'ondata N del sito"** → `node cervello/pacchetti-lotto.mjs --sito --gravi`, poi il workflow `ondata-snella`. Il cancello del sito è `npm run verify` + `node cervello/radiografia-in-corsa.mjs --repo ../mycity`, non `cancello-lotto.mjs`.
-- **"radiografia mentre riparo"** → `node cervello/radiografia-in-corsa.mjs` · **"radiografia di te stesso"** → workflow `auto-radiografia`.
-- **"controlla se funziona tutto" / "checkup" / "il worker gira?"** → skill `salute` (✅ provato · ❌ rotto · ⚪ non visto da qui, mai un verde).
-- **"design: …"** → squadra design: analisi col workflow `audit-design`, modifica per corsia CONFIG o CODICE · **"radiografia del design"** → workflow `audit-design` al massimo.
+- **"radiografia" / "analizza tutto il sito" / "trova tutti i bug"** → workflow `radiografia`, report per gravità in `consegne/audit/`.
+- **"chiudi i gravi del sito" / "lancia l'ondata N del sito"** → `node cervello/pacchetti-lotto.mjs --sito --gravi --scrivi` (il piano), `node cervello/schede-pacchetto.mjs --piano <piano> --ondata N --json` (le schede), poi il workflow `ondata-snella` con quelle schede. Il cancello del sito è `npm run verify` + `node cervello/radiografia-in-corsa.mjs --repo ../mycity`, non `cancello-lotto.mjs`.
+- **"radiografia mentre riparo"** → `node cervello/radiografia-in-corsa.mjs` · **"radiografia di te stesso" / "fatti la radiografia"** → workflow `auto-radiografia`.
+- **"controlla se funziona tutto" / "è tutto a posto?" / "la macchina sta bene?" / "checkup" / "il worker gira?"** → skill `salute` (✅ provato · ❌ rotto · ⚪ non visto da qui, mai un verde).
+- **"design: …" / "ci sono errori grafici"** → squadra design: analisi col workflow `audit-design`, modifica per corsia CONFIG o CODICE · **"radiografia del design"** → workflow `audit-design` al massimo.
 - **"cosa fanno i concorrenti?"** → intelligence · **"[reparto], fai X"** → delega · **"crea un esperto di X" / "migliora X"** → prompt-engineer + AD.
 - **"cosa resta da fare?"** → `LAVORO-APERTO.md`, senza ricerche nuove · **"cosa devo decidere?"** → [[AZIONI-IN-ATTESA]] · **"ok [n]"** → esegui l'azione approvata · **"collega [mano]"** → builder · **"sblocca Garetti"** → i passi del primo negozio · **"che comandi ho?"** → `COMANDI.md`.
 Il comando avvia il lavoro; resta valido il cancello 🟢🟡🔴 (le azioni reali si accodano/firmano). Se Nicola dice "d'ora in poi quando scrivo X fai Y", aggiungi il comando a `COMANDI.md`.

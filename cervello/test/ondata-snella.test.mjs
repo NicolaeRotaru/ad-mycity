@@ -139,3 +139,52 @@ test("un grave nato senza pacchetto riconoscibile ferma tutti i pacchetti che qu
   const { etichette } = await lancia(SOLDI, (l) => (l === "collaudo-B:ondata-21" ? { pacchetti: SOLDI.map((p) => ({ chiave: p.chiave, regge: true, boccia_per: "nessuno" })), difetti: [{ titolo: "x", gravita: "bloccante", dove: "payout.ts:40", nato_dal_lotto: true, pacchetto: "payout.ts" }] } : undefined));
   assert.equal(etichette.filter((e) => e.startsWith("correggi:")).length, 2);
 });
+
+// ── dal collaudo del 30/10: le mutazioni che la prova non vedeva, e i difetti 4, 13 e 17 ──────────
+
+test("una correzione la cui prova rimessa dice «non morde» non passa: non regge, e non si ricollauda", async () => {
+  const { r, etichette } = await lancia(SOLDI, (l) => {
+    if (l === "collaudo-A:ondata-21") return { pacchetti: [boccia("lib/soldi.ts", "difetto_rimesso"), { chiave: "components/Bottone.tsx", regge: true, boccia_per: "nessuno" }], difetti: [] };
+    if (l === "correggi:lib-soldi-ts") return { ramo: "r", commit: "c2", chiusi: ["x|lib/soldi.ts"], file_toccati: ["lib/soldi.ts"], prove: ["t"], prova_uscita: 0, rimessa: { esito: "non_morde", uscita: 1, file: ["lib/soldi.ts"] } };
+    return undefined;
+  });
+  assert.equal(esitoDi(r, "lib/soldi.ts").esito, "non_regge");
+  assert.ok(!etichette.some((e) => e.endsWith("-bis:ondata-21")));
+});
+
+test("i posti del collaudo sono tenuti da parte: con un tetto stretto il rifacimento salta, i due collaudi no", async () => {
+  const nm = { ramo: "r", commit: "c", chiusi: ["k"], file_toccati: ["lib/soldi.ts"], prove: ["t"], prova_uscita: 0, rimessa: { esito: "non_morde", uscita: 1, file: ["lib/soldi.ts"] } };
+  const { r, etichette } = await lancia(SOLDI, (l) => (l === "squadra:lib-soldi-ts" ? nm : undefined), { max_agenti: 4 });
+  assert.ok(!etichette.includes("rifai:lib-soldi-ts"), "il rifacimento ha preso un posto del collaudo");
+  assert.ok(etichette.includes("collaudo-A:ondata-21") && etichette.includes("collaudo-B:ondata-21"));
+  assert.equal(esitoDi(r, "lib/soldi.ts").esito, "non_regge");
+});
+
+test("niente correzione se poi non c'e' posto per ricollaudarla", async () => {
+  const { etichette } = await lancia(SOLDI, (l) => (l === "collaudo-A:ondata-21" ? { pacchetti: SOLDI.map((p) => boccia(p.chiave, "sito")), difetti: [] } : undefined), { max_agenti: 5 });
+  assert.ok(!etichette.some((e) => e.startsWith("correggi:")), "lanciata una correzione che nessuno potra' ricollaudare");
+});
+
+test("ogni lente ricollauda solo i pacchetti che ha bocciato lei", async () => {
+  const { chiamate } = await lancia(SOLDI, (l) => {
+    if (l === "collaudo-A:ondata-21") return { pacchetti: [boccia("lib/soldi.ts", "sito"), { chiave: "components/Bottone.tsx", regge: true, boccia_per: "nessuno" }], difetti: [] };
+    if (l === "collaudo-B:ondata-21") return { pacchetti: [{ chiave: "lib/soldi.ts", regge: true, boccia_per: "nessuno" }, boccia("components/Bottone.tsx", "sito")], difetti: [] };
+    return undefined;
+  });
+  const a = chiamate.find((c) => c.label === "collaudo-A-bis:ondata-21"), b = chiamate.find((c) => c.label === "collaudo-B-bis:ondata-21");
+  assert.ok(a.prompt.includes("«lib/soldi.ts»") && !a.prompt.includes("«components/Bottone.tsx»"));
+  assert.ok(b.prompt.includes("«components/Bottone.tsx»") && !b.prompt.includes("«lib/soldi.ts»"));
+});
+
+test("la lente A rilancia la prova della macchina nel SUO worktree, non in quello che legge la lente B", async () => {
+  const { chiamate } = await lancia(SOLDI);
+  const a = chiamate.find((c) => c.label === "collaudo-A:ondata-21").prompt;
+  assert.match(a, /--repo <worktree>-collaudo/);
+  assert.match(a, /ln -s sito\/node_modules <worktree>-collaudo\/node_modules/);
+  const s = chiamate.find((c) => c.label.startsWith("squadra:")).prompt;
+  assert.ok(s.indexOf("Committa") < s.indexOf("prova-rimessa.mjs"), "la squadra deve committare prima della prova rimessa");
+});
+
+test("i vecchi nomi degli args fermano il workflow con un errore che dice quelli nuovi", async () => {
+  await assert.rejects(lancia(SOLDI, () => undefined, { tipo: "tech" }), /tipo_costruisce/);
+});

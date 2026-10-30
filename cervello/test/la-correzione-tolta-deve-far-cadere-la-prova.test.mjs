@@ -2,26 +2,31 @@
 //
 // Ogni caso costruisce un repo in una cartella temporanea: un commit di base col difetto, poi la
 // correzione (committata o no) e una prova. Le prove girano con `node --test`, cosi' non serve il sito.
+// Dentro ci sono i nove modi di romperlo trovati dal collaudo del 30/10 (falsi «regge», file non rimessi).
 // Cio' che questa prova NON vede: vitest vero del sito (qui il sito non ha le sue librerie).
 
-import { test } from "node:test";
+import { test, after } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, writeFileSync, readFileSync, existsSync, mkdirSync } from "node:fs";
+import { mkdtempSync, writeFileSync, readFileSync, existsSync, mkdirSync, rmSync, chmodSync, statSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
 import { execFileSync, spawnSync, spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { tipoDiRosso, passate } from "../prova-rimessa.mjs";
+import { tipoDiRosso, passate, nomiNuoviUsati } from "../prova-rimessa.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const ATTREZZO = join(QUI, "..", "prova-rimessa.mjs");
 const COMANDO = "node --test {prove}";
+const DA_TOGLIERE = [];
+after(() => { for (const d of DA_TOGLIERE) rmSync(d, { recursive: true, force: true }); });
 
-function repo(fileBase, fileDopo, { committa = true } = {}) {
+function repo(fileBase, fileDopo, { committa = true, attributi = "" } = {}) {
   const d = mkdtempSync(join(tmpdir(), "rimessa-"));
+  DA_TOGLIERE.push(d);
   const g = (...a) => execFileSync("git", ["-C", d, "-c", "user.email=t@t", "-c", "user.name=t", ...a], { stdio: "pipe" }).toString().trim();
   const scrivi = (file) => { for (const [k, v] of Object.entries(file)) { mkdirSync(dirname(join(d, k)), { recursive: true }); writeFileSync(join(d, k), v); } };
   g("init", "-q");
+  if (attributi) scrivi({ ".gitattributes": attributi });
   scrivi(fileBase);
   g("add", "-A");
   g("commit", "-q", "-m", "base");
@@ -31,56 +36,88 @@ function repo(fileBase, fileDopo, { committa = true } = {}) {
   return { d, base };
 }
 
-function lancia(r, file, prove, env = {}) {
-  const p = spawnSync("node", [ATTREZZO, "--repo", r.d, "--base", r.base, "--file", file, "--prove", prove, "--comando", COMANDO, "--json"],
-    { encoding: "utf8", env: { ...process.env, ...env } });
+const ambiente = (extra) => { const { NODE_TEST_CONTEXT, ...e } = process.env; return { ...e, ...extra }; };
+function lancia(r, file, prove, env = {}, comando = COMANDO) {
+  const p = spawnSync("node", [ATTREZZO, "--repo", r.d, "--base", r.base, "--file", file, "--prove", prove, "--comando", comando, "--json"],
+    { encoding: "utf8", env: ambiente(env), timeout: 60000 });
   let j = null;
   try { j = JSON.parse(p.stdout.trim().split("\n").pop()); } catch (e) { j = null; }
+  if (j && j.log) DA_TOGLIERE.push(j.log);
   return { uscita: p.status, j, err: p.stderr };
 }
+const leggi = (r, f) => readFileSync(join(r.d, f), "utf8");
 
 const SBAGLIATA = "export const somma = (a, b) => a - b;\n";
 const GIUSTA = "export const somma = (a, b) => a + b;\n";
-const PROVA = "import { test } from 'node:test';\nimport assert from 'node:assert/strict';\nimport { somma } from '../lib/somma.mjs';\ntest('somma', () => assert.equal(somma(2, 2), 4));\n";
+const testa = "import { test } from 'node:test';\nimport assert from 'node:assert/strict';\n";
+const PROVA = testa + "import { somma } from '../lib/somma.mjs';\ntest('somma', () => assert.equal(somma(2, 2), 4));\n";
+const CON_DOPPIO = GIUSTA + "export const doppio = (a) => a * 2;\nexport const radice = (a) => { if (a < 0) throw new Error('negativo'); return Math.sqrt(a); };\n";
 
 test("regge: rossa senza la correzione, verde con, e il file torna identico", () => {
   const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": GIUSTA, "tests/somma.test.mjs": PROVA });
   const o = lancia(r, "lib/somma.mjs", "tests/somma.test.mjs");
   assert.equal(o.uscita, 0, JSON.stringify(o.j) + o.err);
   assert.equal(o.j.esito, "regge");
-  assert.equal(readFileSync(join(r.d, "lib/somma.mjs"), "utf8"), GIUSTA);
+  assert.equal(leggi(r, "lib/somma.mjs"), GIUSTA);
 });
 
 test("regge anche con la correzione NON committata, e la correzione non si perde", () => {
   const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": GIUSTA, "tests/somma.test.mjs": PROVA }, { committa: false });
-  const o = lancia(r, "lib/somma.mjs", "tests/somma.test.mjs");
-  assert.equal(o.uscita, 0, JSON.stringify(o.j));
-  assert.equal(readFileSync(join(r.d, "lib/somma.mjs"), "utf8"), GIUSTA);
+  assert.equal(lancia(r, "lib/somma.mjs", "tests/somma.test.mjs").uscita, 0);
+  assert.equal(leggi(r, "lib/somma.mjs"), GIUSTA);
 });
 
 test("non morde: la prova resta verde con la correzione tolta", () => {
-  const vuota = "import { test } from 'node:test';\nimport assert from 'node:assert/strict';\nimport { somma } from '../lib/somma.mjs';\ntest('c\\'e', () => assert.equal(typeof somma, 'function'));\n";
+  const vuota = testa + "import { somma } from '../lib/somma.mjs';\ntest('c', () => assert.equal(typeof somma, 'function'));\n";
   const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": GIUSTA, "tests/somma.test.mjs": vuota });
   const o = lancia(r, "lib/somma.mjs", "tests/somma.test.mjs");
   assert.equal(o.uscita, 1);
   assert.equal(o.j.esito, "non_morde");
-  assert.equal(readFileSync(join(r.d, "lib/somma.mjs"), "utf8"), GIUSTA);
 });
 
-test("rosso solo di struttura: la prova usa un nome che la base non ha, la macchina non decide (3)", () => {
-  const prova = "import { test } from 'node:test';\nimport assert from 'node:assert/strict';\nimport * as m from '../lib/somma.mjs';\ntest('doppio', () => assert.equal(m.doppio(2), 4));\n";
-  const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": GIUSTA + "export const doppio = (a) => a * 2;\n", "tests/somma.test.mjs": prova });
-  const o = lancia(r, "lib/somma.mjs", "tests/somma.test.mjs");
-  assert.equal(o.uscita, 3, JSON.stringify(o.j));
-  assert.equal(o.j.esito, "rosso_strutturale");
+// Collaudo del 30/10, difetto 1: quattro falsi «regge» quando la prova cade solo perche' manca un nome nuovo.
+for (const [nome, prova] of [
+  ["TypeError dentro assert.throws", "import * as m from '../lib/somma.mjs';\ntest('x', () => assert.throws(() => m.radice(-1), /negativo/));\n"],
+  ["typeof su un nome nuovo, senza nessun TypeError", "import * as m from '../lib/somma.mjs';\ntest('x', () => assert.equal(typeof m.doppio, 'function'));\n"],
+  ["il nome del test dice «expected … to be»", "import * as m from '../lib/somma.mjs';\ntest('expected doppio(2) to be 4', () => assert.equal(m.doppio(2), 4));\n"],
+  ["la riga stampata dice «expected … to be»", "import * as m from '../lib/somma.mjs';\nconst r = m.doppio(2); // expected r to be 4\ntest('x', () => assert.equal(r, 4));\n"],
+]) {
+  test("un nome nuovo non fa un «regge»: " + nome, () => {
+    const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": CON_DOPPIO, "tests/somma.test.mjs": testa + prova });
+    const o = lancia(r, "lib/somma.mjs", "tests/somma.test.mjs");
+    assert.equal(o.uscita, 3, JSON.stringify(o.j));
+    assert.equal(o.j.esito, "rosso_strutturale");
+  });
+}
+
+test("due file corretti e una prova che ne guarda uno solo: non morde, e dice quale", () => {
+  const r = repo({ "lib/somma.mjs": SBAGLIATA, "lib/sconto.mjs": "export const sconto = (p) => p;\n" },
+    { "lib/somma.mjs": GIUSTA, "lib/sconto.mjs": "export const sconto = (p) => p * 0.9;\n", "tests/somma.test.mjs": PROVA });
+  const o = lancia(r, "lib/somma.mjs,lib/sconto.mjs", "tests/somma.test.mjs");
+  assert.equal(o.uscita, 1, JSON.stringify(o.j));
+  assert.equal(o.j.esito, "non_morde");
+  assert.match(o.j.motivo, /lib\/sconto\.mjs/);
+  assert.doesNotMatch(o.j.motivo, /lib\/somma\.mjs/);
 });
 
 test("un file nuovo della correzione: tolto al passo ②, rimesso alla fine", () => {
-  const prova = "import { test } from 'node:test';\nimport assert from 'node:assert/strict';\nimport { uno } from '../lib/nuovo.mjs';\ntest('uno', () => assert.equal(uno(), 1));\n";
+  const prova = testa + "import { uno } from '../lib/nuovo.mjs';\ntest('uno', () => assert.equal(uno(), 1));\n";
   const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/nuovo.mjs": "export const uno = () => 1;\n", "tests/nuovo.test.mjs": prova });
-  const o = lancia(r, "lib/nuovo.mjs", "tests/nuovo.test.mjs");
-  assert.equal(o.uscita, 3, JSON.stringify(o.j));
+  assert.equal(lancia(r, "lib/nuovo.mjs", "tests/nuovo.test.mjs").uscita, 3);
   assert.ok(existsSync(join(r.d, "lib/nuovo.mjs")));
+});
+
+test("i permessi tornano com'erano: un file eseguibile resta eseguibile", () => {
+  const r = repo({ "lib/somma.mjs": SBAGLIATA, "lib/run.sh": "echo 1\n" }, { "lib/somma.mjs": GIUSTA, "lib/run.sh": "echo 2\n", "tests/somma.test.mjs": PROVA }, { committa: false });
+  chmodSync(join(r.d, "lib/run.sh"), 0o755);
+  lancia(r, "lib/somma.mjs,lib/run.sh", "tests/somma.test.mjs");
+  assert.equal(statSync(join(r.d, "lib/run.sh")).mode & 0o777, 0o755);
+  assert.equal(leggi(r, "lib/run.sh"), "echo 2\n");
+});
+
+test("con gli a capo convertiti da .gitattributes, un file non toccato resta «uguale alla base» (2)", () => {
+  const r = repo({ "lib/somma.mjs": SBAGLIATA, "lib/altro.mjs": "export const x = 1;\n" }, { "lib/somma.mjs": GIUSTA, "tests/somma.test.mjs": PROVA }, { attributi: "* text eol=crlf\n" });
+  assert.equal(lancia(r, "lib/altro.mjs", "tests/somma.test.mjs").uscita, 2);
 });
 
 test("non verde: la prova e' rossa gia' sul codice di oggi", () => {
@@ -90,41 +127,59 @@ test("non verde: la prova e' rossa gia' sul codice di oggi", () => {
   assert.equal(o.j.esito, "non_verde");
 });
 
-test("argomenti sbagliati: file uguale alla base, file e prova insieme, percorso fuori dal repo → 2", () => {
+test("argomenti sbagliati escono 2 e non toccano niente", () => {
   const r = repo({ "lib/somma.mjs": SBAGLIATA, "lib/altro.mjs": "x\n" }, { "lib/somma.mjs": GIUSTA, "tests/somma.test.mjs": PROVA });
-  assert.equal(lancia(r, "lib/altro.mjs", "tests/somma.test.mjs").uscita, 2);
-  assert.equal(lancia(r, "tests/somma.test.mjs", "tests/somma.test.mjs").uscita, 2);
-  assert.equal(lancia(r, "../fuori.mjs", "tests/somma.test.mjs").uscita, 2);
-  assert.equal(readFileSync(join(r.d, "lib/somma.mjs"), "utf8"), GIUSTA);
+  assert.equal(lancia(r, "lib/altro.mjs", "tests/somma.test.mjs").uscita, 2, "file uguale alla base");
+  assert.equal(lancia(r, "tests/somma.test.mjs", "tests/somma.test.mjs").uscita, 2, "file e prova insieme");
+  assert.equal(lancia(r, "lib/somma.mjs,./tests/somma.test.mjs", "tests/somma.test.mjs").uscita, 2, "file e prova insieme, scritti diversi");
+  assert.equal(lancia(r, "../fuori.mjs", "tests/somma.test.mjs").uscita, 2, "fuori dal repo");
+  assert.equal(lancia(r, "lib/somma.mjs", "tests").uscita, 2, "una cartella al posto della prova");
+  assert.equal(lancia(r, "lib/somma.mjs", "tests/somma.test.mjs", {}, "node --test").uscita, 2, "comando senza {prove}");
+  assert.equal(leggi(r, "lib/somma.mjs"), GIUSTA);
+  assert.ok(existsSync(join(r.d, "tests/somma.test.mjs")));
 });
 
 // Alla base la somma sbagliata fa girare la prova per sempre: il passo ② scade coi file alla base.
 const PROVA_CHE_SI_BLOCCA = "import { test } from 'node:test';\nimport { somma } from '../lib/somma.mjs';\ntest('somma', () => { while (somma(1, 1) !== 2) {} });\n";
 
-test("tempo scaduto al passo ②: esce 2 e la correzione torna al suo posto", () => {
+test("tempo scaduto al passo ②, anche se il comando non fa exec («…; true»): esce 2 e la correzione torna", () => {
   const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": GIUSTA, "tests/somma.test.mjs": PROVA_CHE_SI_BLOCCA });
-  const o = lancia(r, "lib/somma.mjs", "tests/somma.test.mjs", { PROVA_RIMESSA_TIMEOUT_MS: "3000" });
-  assert.equal(o.uscita, 2, JSON.stringify(o.j));
-  assert.equal(readFileSync(join(r.d, "lib/somma.mjs"), "utf8"), GIUSTA);
+  const o = lancia(r, "lib/somma.mjs", "tests/somma.test.mjs", { PROVA_RIMESSA_TIMEOUT_MS: "3000" }, "node --test {prove}; true");
+  assert.equal(o.uscita, 2, JSON.stringify(o.j) + o.err);
+  assert.equal(leggi(r, "lib/somma.mjs"), GIUSTA);
 });
 
-test("fermata da SIGTERM a meta' del passo ②: la correzione torna al suo posto", async () => {
-  const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": GIUSTA, "tests/somma.test.mjs": PROVA_CHE_SI_BLOCCA });
+async function fermaAMeta(r, segnale) {
   const p = spawn("node", [ATTREZZO, "--repo", r.d, "--base", r.base, "--file", "lib/somma.mjs", "--prove", "tests/somma.test.mjs", "--comando", COMANDO],
-    { env: { ...process.env, PROVA_RIMESSA_TIMEOUT_MS: "60000" }, stdio: "ignore" });
-  // aspetto che il passo ② abbia messo la base sul disco, poi fermo l'attrezzo
-  for (let i = 0; i < 100 && readFileSync(join(r.d, "lib/somma.mjs"), "utf8") !== SBAGLIATA; i++) await new Promise((ok) => setTimeout(ok, 100));
-  assert.equal(readFileSync(join(r.d, "lib/somma.mjs"), "utf8"), SBAGLIATA, "il passo ② non e' partito");
-  p.kill("SIGTERM");
-  const codice = await new Promise((ok) => p.on("close", ok));
-  assert.equal(codice, 2);
-  assert.equal(readFileSync(join(r.d, "lib/somma.mjs"), "utf8"), GIUSTA);
+    { env: ambiente({ PROVA_RIMESSA_TIMEOUT_MS: "60000" }), stdio: "ignore" });
+  for (let i = 0; i < 100 && leggi(r, "lib/somma.mjs") !== SBAGLIATA; i++) await new Promise((ok) => setTimeout(ok, 100));
+  assert.equal(leggi(r, "lib/somma.mjs"), SBAGLIATA, "il passo ② non e' partito");
+  p.kill(segnale);
+  return new Promise((ok) => p.on("close", ok));
+}
+
+test("fermata da SIGTERM a meta' del passo ②: la correzione torna subito", async () => {
+  const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": GIUSTA, "tests/somma.test.mjs": PROVA_CHE_SI_BLOCCA });
+  assert.equal(await fermaAMeta(r, "SIGTERM"), 2);
+  assert.equal(leggi(r, "lib/somma.mjs"), GIUSTA);
 });
 
-test("il rosso si legge dal messaggio, non dal codice della prova stampato", () => {
+test("uccisa con kill -9 a meta' del passo ②: la corsa dopo rimette la correzione non committata", async () => {
+  const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": GIUSTA, "tests/somma.test.mjs": PROVA_CHE_SI_BLOCCA }, { committa: false });
+  await fermaAMeta(r, "SIGKILL");
+  assert.equal(leggi(r, "lib/somma.mjs"), SBAGLIATA, "kill -9: niente puo' rimettere subito");
+  writeFileSync(join(r.d, "tests/somma.test.mjs"), PROVA); // la prossima corsa ha una prova che finisce
+  const o = lancia(r, "lib/somma.mjs", "tests/somma.test.mjs");
+  assert.equal(leggi(r, "lib/somma.mjs"), GIUSTA);
+  assert.match(o.j.passi.join(" "), /corsa interrotta/);
+  assert.equal(o.uscita, 0, JSON.stringify(o.j));
+});
+
+test("il rosso si legge dal messaggio; la struttura vince sull'asserzione", () => {
   assert.equal(tipoDiRosso("AssertionError: expected 0 to be 4"), "comportamento");
-  assert.equal(tipoDiRosso("TypeError: m.doppio is not a function\n  > expect(m.doppio(2)).toBe(4)"), "strutturale");
+  assert.equal(tipoDiRosso("AssertionError: Got unwanted exception. TypeError: m.radice is not a function"), "strutturale");
   assert.equal(tipoDiRosso("Error: boom"), "sconosciuto");
+  assert.deepEqual(nomiNuoviUsati("export const a = 1;", "export const a = 1;\nexport function b() {}\nexport { c as d };", "m.b(); d()"), ["b", "d"]);
   assert.equal(passate(" Test Files  1 passed (1)\n      Tests  3 passed (3)"), 3);
   assert.equal(passate("Tests  1 failed | 2 passed (3)"), 2);
   assert.equal(passate("# pass 0\n# fail 0"), 0);
