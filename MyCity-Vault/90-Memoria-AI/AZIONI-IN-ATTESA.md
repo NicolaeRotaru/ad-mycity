@@ -31,7 +31,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- metodo-snello-ondate -->
 
-### 🟡 #223 — Firma le otto regole per fare le ondate con molti meno token, e dimmi se costruisco il motore · ⏳ accodata 2026-10-30 19:56 · aggiornata 2026-10-30 20:27
+### 🟡 #223 — Firma il metodo snello delle ondate del sito · ⏳ accodata 2026-10-30 19:56 · aggiornata 2026-10-30 20:27
 
 > ✏️ **2026-10-30 20:27 — Hai unito la #903 alle 20:12 e hai detto «vai».** Il motore snello è nella richiesta di unione di stasera. Quando la unisci, questa carta è fatta. L'agente leggero per le squadre non nasce: il perché è nel referto `consegne/audit/2026-10-30-motore-snello.md`.
 
