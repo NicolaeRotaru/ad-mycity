@@ -6249,3 +6249,21 @@ Per non sbagliare i territori una quinta volta, prima di dividere ho cercato tut
 **Un errore mio, corretto.** Nel primo testo della #265 ho scritto «il freno che hai scelto oggi alle 16:13». Quell ora l avevo presa dai commenti della squadra nel codice, senza controllarla. Le 16:13 sono del 29/10, quando Nicola ha deciso il prezzo della veloce. La B l ha scelta il 30/10, con un messaggio letto fra le 14:49 e le 14:54. Il testo della #265 adesso è giusto. I cinque commenti sbagliati nel codice sono la voce 2006 del registro, minore.
 
 **Colore:** 🟡: codice in un ramo del sito e una richiesta aperta; l unione è 🔴 e resta di Nicola.
+
+## 2026-10-30 18:20 — 🔴 Nicola unisce la #265 del sito e la #901 della memoria: il freno della veloce è online
+
+**Cosa ha fatto Nicola.** Ha unito tutte e due alle 18:04 (GitHub: la #901 alle 17:04:00Z, schiacciata in `7e5b7a24f`; la #265 alle 17:04:09Z, con un'unione normale, `40cb09ff`).
+
+**Cosa ho fatto.**
+- Il sito pubblicato è pronto alle 18:07 (`dpl_5S51gKVsovji7nMdoiTSnSR39FD7`, READY, su mycity-marketplace.com).
+- **Le prove rifatte sul codice unito.** Otto collaudatori `qa`, uno per voce, ognuno nella sua copia di `40cb09ff` (run `wf_1bce6480-7d0`). Ognuno ha lanciato la prova, poi ha rimesso il difetto nel codice e l'ha vista diventare rossa. Reggono 5 voci, che ho chiuso con `chiudi-sito.mjs --pr 265 --commit 40cb09ff --applica`: la 264, la 1980, la 1984, la 1985 e la 1958.
+- **Tre voci restano aperte, con una nota.**
+  - 1826: quando il freno non trova nessuna fascia, l'ordine resta veloce fino a tre ore e l'euro resta nel conto. La prova V-domenica lo tiene così apposta.
+  - 1981: con più negozi nel carrello, la frase «puoi annullarlo senza costi» non è vera. Al lancio il negozio è uno solo.
+  - 1986: manca l'orologio. Il suo resto è la 1990, grave.
+- **Il freno in produzione.** Gira alle 18:10 e alle 18:15 come previsto, e si ferma con «Service role Supabase non configurato». Lo stesso errore lo danno tutti gli altri lavori a orario, già prima della #265: email, avvisi, bonifici, carrelli scaduti. È la voce del giorno della chiave nella lista di Nicola (sezione 5), ferma apposta fino al via.
+- La memoria è tornata sopra il principale con un'unione (`decb0ece1`), perché la #901 è entrata schiacciata.
+
+**Da proporre a Nicola.** Quando il freno non trova una fascia, togliere lo stesso l'euro della veloce. È una regola sui soldi del cliente, quindi la firma è sua.
+
+**Colore:** 🔴 per le unioni, di Nicola. 🟢 per le chiusure nel registro, ognuna con la sua prova rifatta.

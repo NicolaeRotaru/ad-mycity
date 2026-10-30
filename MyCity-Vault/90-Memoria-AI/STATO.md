@@ -1,8 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-10-30 17:30
+aggiornato: 2026-10-30 18:20
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🧯 **2026-10-30 18:20 — Il freno della veloce è online.**
+>
+> Hai unito le due richieste alle 18:04: la 265 del sito e la 901 della memoria. Il sito pubblicato è pronto dalle 18:07. Un collaudatore ha rifatto sul codice unito le 8 prove del freno: 5 reggono e le ho chiuse nel registro.
+>
+> Il controllo ogni 5 minuti parte, ma si ferma con un errore. Su Vercel manca la chiave di servizio del database, e si fermano così anche le email, gli avvisi e i bonifici ai negozi. È la voce del giorno della chiave nella tua lista. Resta una tua scelta: il freno che non trova nessuna fascia oggi lascia l'euro della veloce, e il mio consiglio è toglierlo.
 
 > 🧯 **2026-10-30 17:30 — Il freno della veloce è pronto: è la richiesta #265 del sito.**
 >
