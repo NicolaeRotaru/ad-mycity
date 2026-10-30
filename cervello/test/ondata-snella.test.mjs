@@ -188,3 +188,18 @@ test("la lente A rilancia la prova della macchina nel SUO worktree, non in quell
 test("i vecchi nomi degli args fermano il workflow con un errore che dice quelli nuovi", async () => {
   await assert.rejects(lancia(SOLDI, () => undefined, { tipo: "tech" }), /tipo_costruisce/);
 });
+
+test("al collaudo arrivano anche i file toccati che la macchina NON ha provato", async () => {
+  const f = { ramo: "r", worktree: "w", commit: "c", chiusi: ["x|components/A.tsx"], file_toccati: ["components/A.tsx", "lib/aiuto.ts"], prove: ["t"], prova_uscita: 0, rimessa: { esito: "regge", uscita: 0, file: ["components/A.tsx"] } };
+  const { chiamate } = await lancia(NIENTE, (l) => (l === "squadra:components-a-tsx" ? f : undefined));
+  assert.match(chiamate.find((c) => c.label.startsWith("collaudo")).prompt, /NON provati dalla macchina \(guardali tu\) lib\/aiuto\.ts/);
+});
+
+test("la squadra committa PRIMA della prova della macchina, e il collaudo rifa' il suo worktree pulito", async () => {
+  const { chiamate } = await lancia(SOLDI);
+  const s = chiamate.find((c) => c.label.startsWith("squadra:")).prompt;
+  const commit = s.indexOf("4. Committa"), macchina = s.indexOf("5. La prova della macchina");
+  assert.ok(commit > 0 && macchina > commit, "il commit deve essere il passo 4 e la prova della macchina il 5");
+  assert.match(s, /Il commit viene PRIMA della prova della macchina/);
+  assert.match(chiamate.find((c) => c.label === "collaudo-A:ondata-21").prompt, /worktree remove --force <worktree>-collaudo/);
+});

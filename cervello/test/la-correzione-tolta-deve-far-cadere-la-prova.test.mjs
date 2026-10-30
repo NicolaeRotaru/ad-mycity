@@ -185,3 +185,64 @@ test("il rosso si legge dal messaggio; la struttura vince sull'asserzione", () =
   assert.equal(passate("# pass 0\n# fail 0"), 0);
   assert.equal(passate("niente"), null);
 });
+
+// ── dal ricollaudo del 30/10: il salvataggio non deve mai scrivere sopra lavoro piu' nuovo ─────────
+const CARTELLA_SALVATAGGI = join(tmpdir(), "prova-rimessa");
+const salvataggioDi = (r) => join(CARTELLA_SALVATAGGI, execFileSync("node", ["-e", `process.stdout.write(require('crypto').createHash('sha1').update(require('path').resolve(${JSON.stringify(r.d)})).digest('hex').slice(0,16))`]).toString() + ".json");
+
+test("dopo un kill -9, lavoro nuovo scritto sul file NON viene coperto dal salvataggio vecchio", async () => {
+  const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": GIUSTA, "tests/somma.test.mjs": PROVA_CHE_SI_BLOCCA }, { committa: false });
+  await fermaAMeta(r, "SIGKILL");
+  const V2 = "export const somma = (a, b) => a + b; // v2\n";
+  writeFileSync(join(r.d, "lib/somma.mjs"), V2);
+  writeFileSync(join(r.d, "tests/somma.test.mjs"), PROVA);
+  const o = lancia(r, "lib/somma.mjs", "tests/somma.test.mjs");
+  assert.equal(leggi(r, "lib/somma.mjs"), V2);
+  assert.match(o.j.passi.join(" "), /vecchio/);
+  DA_TOGLIERE.push(salvataggioDi(r) + ".vecchio");
+});
+
+test("dopo un kill -9, un worktree rifatto allo stesso percorso NON viene coperto dal salvataggio vecchio", async () => {
+  const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": GIUSTA, "tests/somma.test.mjs": PROVA_CHE_SI_BLOCCA }, { committa: false });
+  await fermaAMeta(r, "SIGKILL");
+  rmSync(r.d, { recursive: true, force: true });
+  mkdirSync(r.d);
+  const g = (...a) => execFileSync("git", ["-C", r.d, "-c", "user.email=t@t", "-c", "user.name=t", ...a], { stdio: "pipe" }).toString().trim();
+  g("init", "-q");
+  mkdirSync(join(r.d, "lib")); mkdirSync(join(r.d, "tests"));
+  writeFileSync(join(r.d, "lib/somma.mjs"), SBAGLIATA); g("add", "-A"); g("commit", "-q", "-m", "base");
+  const nuova = { d: r.d, base: g("rev-parse", "HEAD") };
+  const NUOVO = "export const somma = (a, b) => b + a; // repo nuovo\n";
+  writeFileSync(join(r.d, "lib/somma.mjs"), NUOVO); writeFileSync(join(r.d, "tests/somma.test.mjs"), PROVA);
+  lancia(nuova, "lib/somma.mjs", "tests/somma.test.mjs");
+  assert.equal(leggi(r, "lib/somma.mjs"), NUOVO);
+  DA_TOGLIERE.push(salvataggioDi(r) + ".vecchio");
+});
+
+test("due corse insieme: la seconda si ferma (2) anche se parte durante il passo ① della prima", async () => {
+  const lenta = testa + "import { somma } from '../lib/somma.mjs';\ntest('somma', async () => { await new Promise((ok) => setTimeout(ok, 1500)); assert.equal(somma(2, 2), 4); });\n";
+  const r = repo({ "lib/somma.mjs": SBAGLIATA, "lib/k.mjs": "export const k = 1;\n" }, { "lib/somma.mjs": GIUSTA, "lib/k.mjs": "export const k = 2;\n", "tests/somma.test.mjs": lenta });
+  const prima = spawn("node", [ATTREZZO, "--repo", r.d, "--base", r.base, "--file", "lib/somma.mjs,lib/k.mjs", "--prove", "tests/somma.test.mjs", "--comando", COMANDO], { env: ambiente({}), stdio: "ignore" });
+  await new Promise((ok) => setTimeout(ok, 400));
+  const o = lancia(r, "lib/k.mjs", "tests/somma.test.mjs");
+  assert.equal(o.uscita, 2, JSON.stringify(o.j));
+  await new Promise((ok) => prima.on("close", ok));
+  assert.equal(leggi(r, "lib/somma.mjs"), GIUSTA);
+});
+
+test("un salvataggio che non si legge non si cancella in silenzio: esce 4 e resta li'", async () => {
+  const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": GIUSTA, "tests/somma.test.mjs": PROVA_CHE_SI_BLOCCA }, { committa: false });
+  await fermaAMeta(r, "SIGKILL");
+  const s = salvataggioDi(r);
+  writeFileSync(s, readFileSync(s, "utf8").slice(0, 20));
+  const o = lancia(r, "lib/somma.mjs", "tests/somma.test.mjs");
+  assert.equal(o.uscita, 4);
+  assert.ok(existsSync(s));
+  DA_TOGLIERE.push(s);
+});
+
+test("i percorsi si leggono alla lettera: le quadre di app/[id] non sono caratteri jolly", () => {
+  const r = repo({ "lib/somma.mjs": SBAGLIATA, "app/[id]/p.mjs": "export const p = 1;\n", "app/i/p.mjs": "export const p = 1;\n" },
+    { "lib/somma.mjs": GIUSTA, "app/i/p.mjs": "export const p = 2;\n", "tests/somma.test.mjs": PROVA });
+  assert.equal(lancia(r, "app/[id]/p.mjs", "tests/somma.test.mjs").uscita, 2);
+});

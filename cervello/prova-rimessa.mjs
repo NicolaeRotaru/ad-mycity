@@ -27,7 +27,12 @@
 // SIGINT/SIGTERM/SIGHUP rimetto subito. Con kill -9 non posso: la prossima corsa sullo stesso worktree
 // trova il salvataggio, ferma il gruppo di processi rimasto orfano e rimette i file prima di fare altro.
 // Il prompt delle squadre fa committare PRIMA di lanciarmi: cosi' anche il caso peggiore non perde niente.
-// Due corse insieme sullo stesso worktree non si fanno: la seconda esce 2.
+// Due corse insieme sullo stesso worktree non si fanno: il blocco si prende prima del passo ①, la seconda
+// esce 2. Il recupero rimette solo il file che la corsa uccisa aveva lasciato alla base, e solo se sul disco
+// ci sono ancora i suoi byte: lavoro piu' nuovo, o un worktree rifatto, non si toccano.
+// LIMITE DICHIARATO: un membro nuovo dentro un oggetto esportato che c'era gia' (`api.doppio` su `api`)
+// non lo vedo; una prova che controlla solo che esista («typeof m.api.doppio») puo' darmi un falso «regge».
+// Per questo il collaudo rilancia la prova e guarda la variante: la macchina viene prima, non da sola.
 //
 // USCITA. 0 regge · 1 non regge (non_verde, non_morde, instabile) · 2 non provato (argomenti, git, tempo
 // scaduto, nessuna prova vista passare, un'altra corsa in corso) · 3 la macchina non decide
@@ -42,7 +47,7 @@
 // PROVA_RIMESSA_TOTALE_MS (default 480 secondi), sotto i 540 di «timeout 540».
 
 import { spawn } from "node:child_process";
-import { existsSync, readFileSync, writeFileSync, unlinkSync, mkdirSync, statSync, chmodSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync, unlinkSync, mkdirSync, statSync, chmodSync, openSync, closeSync, renameSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, dirname, normalize, isAbsolute, resolve } from "node:path";
 import { createHash } from "node:crypto";
@@ -121,6 +126,25 @@ function argomenti(argv) {
 const citato = (s) => "'" + String(s).replace(/'/g, "'\\''") + "'";
 const vivo = (pid) => { try { process.kill(pid, 0); return true; } catch (e) { return e.code === "EPERM"; } };
 const uccidiGruppo = (pgid) => { try { process.kill(-pgid, "SIGKILL"); } catch (e) { /* gia' finito */ } };
+// Un pid o un gruppo salvato si riusa solo se /proc dice che e' ancora nostro: i numeri dei processi si
+// riciclano, e un SIGKILL al gruppo sbagliato colpirebbe un processo che non c'entra (ricollaudo del 30/10).
+const riga = (pid) => { try { return readFileSync("/proc/" + pid + "/cmdline", "utf8").replace(/\0/g, " "); } catch (e) { return null; } };
+const CON_PROC = existsSync("/proc/self/cmdline");
+const nostro = (pid, segno) => { const r = riga(pid); return r !== null ? r.includes(segno) : !CON_PROC && vivo(pid); };
+function prendiBlocco(p) {
+  for (let i = 0; i < 2; i++) {
+    try { const fd = openSync(p, "wx"); writeFileSync(fd, String(process.pid)); closeSync(fd); return true; }
+    catch (e) {
+      if (e.code !== "EEXIST") throw e;
+      let pid = 0;
+      try { pid = Number(readFileSync(p, "utf8").trim()); } catch (e2) { pid = 0; }
+      if (pid && pid !== process.pid && nostro(pid, "prova-rimessa")) return false;
+      try { unlinkSync(p); } catch (e2) { /* lo ha tolto qualcun altro */ }
+    }
+  }
+  return false;
+}
+const scriviAtomico = (p, testo) => { const tmp = p + "." + process.pid + ".tmp"; writeFileSync(tmp, testo); renameSync(tmp, p); };
 
 // Ogni giro in un gruppo di processi suo: il tempo scaduto uccide anche i figli (vitest, «cmd; true»),
 // che altrimenti tengono aperta l'uscita e il giro non finisce mai (collaudo del 30/10).
@@ -143,6 +167,13 @@ function giro(repo, comando, prove, figli, tetto) {
 }
 
 export async function provaRimessa(a) {
+  const ctx = { blocco: null };
+  const libera = () => { if (ctx.blocco) { try { if (readFileSync(ctx.blocco, "utf8").trim() === String(process.pid)) unlinkSync(ctx.blocco); } catch (e) { /* gia' tolto */ } ctx.blocco = null; } };
+  process.on("exit", libera);
+  try { return await corpo(a, ctx); } finally { libera(); process.off("exit", libera); }
+}
+
+async function corpo(a, ctx) {
   const repo = a.repo;
   const passi = [];
   const no = (motivo) => ({ esito: "non_provato", uscita: 2, passi, motivo });
@@ -154,28 +185,39 @@ export async function provaRimessa(a) {
     if (!statSync(q).isFile()) return no("una prova deve essere un file, non una cartella: " + p);
   }
 
-  // Il salvataggio di una corsa uccisa con kill -9: prima di tutto si rimette quello.
   mkdirSync(CARTELLA, { recursive: true });
   const chiave = createHash("sha1").update(resolve(repo)).digest("hex").slice(0, 16);
   const salvataggio = join(CARTELLA, chiave + ".json");
+  // Il blocco PRIMA del passo ①: una seconda corsa che parte mentre la prima ha un file alla base vedrebbe
+  // la prova rossa per colpa dell'altra e darebbe un falso «regge» (ricollaudo del 30/10).
+  const blocco = join(CARTELLA, chiave + ".lock");
+  if (!prendiBlocco(blocco)) return no("un'altra prova-rimessa sta lavorando su questo worktree: aspetta che finisca");
+  ctx.blocco = blocco;
+
+  // Il salvataggio di una corsa uccisa con kill -9. Si rimette SOLO il file che quella corsa aveva lasciato
+  // alla base, e solo se sul disco ci sono ancora i byte che lei aveva scritto: se nel frattempo qualcuno ha
+  // scritto lavoro nuovo, o il worktree e' stato rifatto, il salvataggio e' vecchio e si mette da parte.
   if (existsSync(salvataggio)) {
     let s = null;
     try { s = JSON.parse(readFileSync(salvataggio, "utf8")); } catch (e) { s = null; }
-    if (s && s.pid && s.pid !== process.pid && vivo(s.pid)) return no("un'altra prova-rimessa sta lavorando su questo worktree (pid " + s.pid + ")");
-    if (s && s.file) {
-      for (const g of s.pgid || []) uccidiGruppo(g);
-      const diversi = [];
-      for (const [f, x] of Object.entries(s.file)) {
-        const p = join(repo, f);
+    if (!s || !s.file) return { esito: "non_ripristinato", uscita: 4, passi, motivo: "c'e' il salvataggio di una corsa interrotta e non riesco a leggerlo: guardalo a mano prima di tutto (" + salvataggio + ")" };
+    for (const g of s.pgid || []) if (s.segno && nostro(g, s.segno)) uccidiGruppo(g);
+    const l = s.alla_base;
+    if (l && s.file[l.file]) {
+      const p = join(repo, l.file), x = s.file[l.file];
+      const ora = existsSync(p) ? readFileSync(p).toString("base64") : null;
+      if (ora === l.dati && ora !== x.dati) {
         if (x.dati === null) { if (existsSync(p)) unlinkSync(p); }
         else { mkdirSync(dirname(p), { recursive: true }); writeFileSync(p, Buffer.from(x.dati, "base64")); chmodSync(p, x.modo); }
-        const ora = existsSync(p) ? readFileSync(p).toString("base64") : null;
-        if (ora !== x.dati) diversi.push(f);
+        const dopo = existsSync(p) ? readFileSync(p).toString("base64") : null;
+        if (dopo !== x.dati) return { esito: "non_ripristinato", uscita: 4, passi, motivo: "una corsa interrotta aveva lasciato " + l.file + " alla base, e NON sono riuscito a rimetterlo" };
+        passi.push("⚠️ una corsa interrotta aveva lasciato " + l.file + " alla base: l'ho rimesso com'era");
+      } else if (ora !== x.dati) {
+        renameSync(salvataggio, salvataggio + ".vecchio");
+        passi.push("⚠️ il salvataggio di una corsa interrotta e' vecchio: " + l.file + " e' cambiato dopo, e non lo tocco. Messo da parte in " + salvataggio + ".vecchio");
       }
-      if (diversi.length) return { esito: "non_ripristinato", uscita: 4, passi, motivo: "una corsa interrotta aveva lasciato i file alla base, e NON sono riuscito a rimetterli: " + diversi.join(", ") };
-      passi.push("⚠️ una corsa interrotta aveva lasciato " + Object.keys(s.file).length + " file alla base: li ho rimessi com'erano");
     }
-    unlinkSync(salvataggio);
+    if (existsSync(salvataggio)) unlinkSync(salvataggio);
   }
 
   // Cosa c'e' oggi (dal disco, coi permessi) e cosa c'era alla base (come la scriverebbe un checkout).
@@ -184,16 +226,18 @@ export async function provaRimessa(a) {
     const p = join(repo, f);
     oggi.set(f, existsSync(p) ? { dati: readFileSync(p), modo: statSync(p).mode & 0o7777 } : null);
     let b = null;
-    try { b = gitEsegui(["ls-tree", "--name-only", a.base, "--", f], repo) ? gitEsegui(["cat-file", "--filters", a.base + ":" + f], repo, {}, { grezzo: true }) : null; } catch (e) { b = null; }
+    try { b = gitEsegui(["--literal-pathspecs", "ls-tree", "--name-only", a.base, "--", f], repo) ? gitEsegui(["cat-file", "--filters", a.base + ":" + f], repo, {}, { grezzo: true }) : null; } catch (e) { b = null; }
     base.set(f, b);
     let uguale = oggi.get(f) === null && b === null;
-    if (oggi.get(f) && b) { try { gitEsegui(["diff", "--quiet", a.base, "--", f], repo); uguale = true; } catch (e) { uguale = false; } }
+    if (oggi.get(f) && b) { try { gitEsegui(["--literal-pathspecs", "diff", "--quiet", a.base, "--", f], repo); uguale = true; } catch (e) { uguale = false; } }
     if (uguale) return no("il file e' uguale alla base, non e' una correzione: " + f);
   }
 
   const figli = new Set();
   const gruppi = new Set();
-  const scriviSalvataggio = () => writeFileSync(salvataggio, JSON.stringify({ pid: process.pid, pgid: [...gruppi], file: Object.fromEntries([...oggi].map(([f, o]) => [f, o ? { dati: o.dati.toString("base64"), modo: o.modo } : { dati: null }])) }));
+  let allaBase = null; // { file, dati } — il file che in questo momento ho riportato alla base
+  const segno = a.comando.slice(0, 40);
+  const scriviSalvataggio = () => scriviAtomico(salvataggio, JSON.stringify({ pid: process.pid, segno, pgid: [...gruppi], alla_base: allaBase, file: Object.fromEntries([...oggi].map(([f, o]) => [f, o ? { dati: o.dati.toString("base64"), modo: o.modo } : { dati: null }])) }));
   const rimettiUno = (f) => {
     const o = oggi.get(f), p = join(repo, f);
     try {
@@ -205,7 +249,7 @@ export async function provaRimessa(a) {
   };
   let toccato = false;
   const rimettiTutto = () => { if (!toccato) return []; const diversi = a.file.filter((f) => !rimettiUno(f)); if (!diversi.length) { toccato = false; try { unlinkSync(salvataggio); } catch (e) { /* gia' tolto */ } } return diversi; };
-  const alSegnale = (s) => { for (const g of figli) uccidiGruppo(g); const d = rimettiTutto(); process.stderr.write("⛔ fermata da " + s + (d.length ? ": NON RIMESSI " + d.join(", ") : ": file rimessi com'erano") + "\n"); process.exit(d.length ? 4 : 2); };
+  const alSegnale = (s) => { for (const g of figli) uccidiGruppo(g); const d = rimettiTutto(); process.stderr.write("⛔ fermata da " + s + (d.length ? ": NON RIMESSI " + d.join(", ") : ": file rimessi com'erano") + "\n"); if (ctx.blocco && !d.length) { try { unlinkSync(ctx.blocco); } catch (e) { /* gia' tolto */ } } process.exit(d.length ? 4 : 2); };
   const segnali = ["SIGINT", "SIGTERM", "SIGHUP"];
   for (const s of segnali) process.on(s, alSegnale);
   const allUscita = () => { rimettiTutto(); };
@@ -239,11 +283,14 @@ export async function provaRimessa(a) {
     for (const f of a.file) {
       const b = base.get(f), p = join(repo, f);
       toccato = true;
-      scriviSalvataggio();
+      allaBase = { file: f, dati: b === null ? null : b.toString("base64") };
+      scriviSalvataggio(); // prima di toccare il disco: un kill -9 da qui in poi si recupera
       if (b === null) { if (existsSync(p)) unlinkSync(p); }
       else { mkdirSync(dirname(p), { recursive: true }); writeFileSync(p, b); }
       const g2 = await lancia("② " + f + " alla base");
       if (!rimettiUno(f)) { r = { esito: "non_ripristinato", uscita: 4, motivo: "NON tornato com'era: " + f }; return r; }
+      allaBase = null;
+      scriviSalvataggio();
       if (g2.scaduto) { r = no("tempo scaduto al passo ② su " + f); return r; }
       if (verde(g2)) { nonMordono.push(f); passi.push("② " + f + " alla base: ancora verde"); continue; }
       const nuovi = nomiNuoviUsati(b ? b.toString("utf8") : "", oggi.get(f) ? oggi.get(f).dati.toString("utf8") : "", testoProve);
