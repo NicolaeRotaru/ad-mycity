@@ -1,0 +1,58 @@
+{
+ "_cosa_e": "Ondata 20 del sito: la correzione del freno della veloce dopo il controllo dei suoi 13 file (run wf_558510dc-d49), sopra il ramo dell ondata 19 (97e30e30, verde 6.478 su 6.478). Un pacchetto solo: la promessa «puoi annullare senza costi» che non regge dopo la conferma del negozio (grave, voce 1981), il freno che fallisce in silenzio, «zero righe» letto come «confermato», il lavoro nuovo che manca nell elenco dei cron, la riga della scadenza ferma all ora di apertura della pagina e la promessa della fascia libera quando non ce n è. Le ondate 1-19 sono vuote: si legge con --ondata 20, worktree o20-*.",
+ "data": "2026-10-30 16:19",
+ "registro": "sito",
+ "origine": "controllo dei 13 file del freno (wf_558510dc-d49), esito dell ondata 19 (wf_4c28f250-6b6)",
+ "ondate": [
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [
+   {
+    "chiave": "lib/ordini/veloce-non-confermata.ts",
+    "difetti": [
+     {
+      "idx": 1981,
+      "chiave": "microcopy|il messaggio del freno promette «puoi annullare senza costi», ma appena il negozio accetta la fascia nuova l annullo non si può più"
+     },
+     {
+      "idx": 1980,
+      "chiave": "api-backend|se la fascia non si riesce a scrivere, il freno risponde «ok» e non avvisa nessuno: con la carta l'euro è già tornato, ma l'ordine resta veloce e nessuno lo sa"
+     },
+     {
+      "idx": 1984,
+      "chiave": "architettura|«zero righe scritte» viene letto come «il negozio ha confermato»: se il cliente annulla mentre il freno rende l'euro, agli amministratori arriva un avviso falso"
+     },
+     {
+      "idx": 1985,
+      "chiave": "architettura|il lavoro nuovo ogni 5 minuti c'è in vercel.json ma manca nell'elenco dei lavori a cui rimanda il manuale"
+     },
+     {
+      "idx": 1986,
+      "chiave": "frontend-ux|la riga «entro quando accettare» resta ferma all'ora in cui la pagina si è aperta: sabato mattina la lista dice ancora «entro le 12:00 di domani»"
+     },
+     {
+      "idx": 1958,
+      "chiave": "microcopy|l'email «nuovo ordine» della veloce promette il passaggio alla prima fascia libera anche quando il freno non ne trova"
+     }
+    ]
+   }
+  ]
+ ]
+}
