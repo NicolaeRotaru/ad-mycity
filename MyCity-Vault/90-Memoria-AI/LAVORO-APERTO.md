@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-10-30 01:29
+aggiornato: 2026-10-30 01:55
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -24,7 +24,7 @@ Niente di nuovo. Le tue voci sono nella sezione 1 e nella tua lista.
 
 ## Cosa non ho verificato
 
-La pagina dice com'era il lavoro il 30 ottobre all'1:29. Ogni voce va riletta nel suo posto prima di agire.
+La pagina dice com'era il lavoro il 30 ottobre all'1:55. Ogni voce va riletta nel suo posto prima di agire.
 
 ---
 
@@ -32,7 +32,7 @@ La pagina dice com'era il lavoro il 30 ottobre all'1:29. Ogni voce va riletta ne
 
 **Da unire**
 - La richiesta di unione #899 della memoria: le chiusure della #263, il prezzo nuovo, i piani del sito, il resoconto dei costi. È verde.
-- La richiesta #900, dell'altra sessione: il sito visto da chi compra, con dieci mosse. Si scontra con la #899 in due file: chi va per seconda va sistemata.
+- La richiesta #900, dell'altra sessione, è cucita dentro la #899 il 30/10 all'1:55: unendo la #899 si unisce anche lei.
 
 **Scelte brevi**
 - Cosa vuol dire «senza difetti» per aprire al primo cliente. Il mio consiglio: zero bloccanti e zero gravi.
@@ -61,7 +61,11 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
   - La data della fascia quando si paga dopo mezzanotte.
   - La promessa del bonifico «in un'ora».
   - Il permesso delle carte chiesto ai negozi.
-- **Le dieci mosse della richiesta #900**, da confrontare col lavoro in corso. La revisione sta girando.
+- **Le dieci mosse della richiesta #900** (il sito visto da chi compra) entrano nelle ondate già previste, non in richieste a parte:
+  - La merce in prima schermata parte dopo l'ondata 15.
+  - Il marchio intero e gli scaffali vuoti stanno nell'ondata 2 (schede 278 e 300).
+  - Le promesse false di sconti e resi sono già nel registro (254, 1532, 1533, 50).
+  - Restano tue: la cancellazione del negozio di prova, con «Trending ora» spento lo stesso giorno, e la foto del titolare col suo consenso.
 
 ## 3 · La macchina
 
@@ -89,8 +93,8 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
 ## Dettagli tecnici
 
 - Tua lista, letta dalla Cabina: `MyCity-Vault/90-Memoria-AI/CHECKLIST-NICOLA.md`. Carte: `AZIONI-IN-ATTESA.md`. Decisioni: `DECISIONI.md`. Fatti: `registro-fatti.json` (prezzo: `consegna.promessa`, `logistica.compenso-fattorino`, `consegna.negozio-che-rifiuta`).
-- Registro del sito: `auto-coscienza/radiografia-marketplace.json`, 1.821 voci. Prima della carta: 1810, 1797, 1811, 1812. Testo della home dal database: 1819.
+- Registro del sito: `auto-coscienza/radiografia-marketplace.json`, 1.825 voci. Dalla #900: 1821 (vetrina «Consegna oggi» a negozio chiuso), 1822 («Trending ora»), 1823 («usato»), 1824 («Prezzo crescente»). Prima della carta: 1810, 1797, 1811, 1812. Testo della home dal database: 1819.
 - Piani delle ondate: `consegne/audit/2026-10-29-ondata13-prezzo-sito.json`, `2026-10-29-ondata14-prezzo-sito.json`, `2026-10-30-ondata15-prezzo-sito.json`; ondata 2: `2026-10-28-ondata2-sito.json` e `2026-10-28-ricette-ondata2.json`.
 - Rami del sito: base dell'ondata 15 `fix/base-ondata-15` (`9d2bb05d`). Il ramo della fascia con la carta `fix/ondata-14-lib-ordini-fascia-leggibile-ts` non entra.
-- Referti di ieri e stanotte: `consegne/finanza/2026-10-29-costi-e-commissioni.md`, `consegne/finanza/2026-10-29-prezzo-della-consegna.md`, `consegne/audit/2026-10-29-ondata1-giroB-sito-referto.md`; richiesta #900: `consegne/design/2026-10-29-esperienza-cliente-vs-migliori.md`.
+- Referti di ieri e stanotte: `consegne/finanza/2026-10-29-costi-e-commissioni.md`, `consegne/finanza/2026-10-29-prezzo-della-consegna.md`, `consegne/audit/2026-10-29-ondata1-giroB-sito-referto.md`; richiesta #900: `consegne/design/2026-10-29-esperienza-cliente-vs-migliori.md`, guida per riprendere `consegne/design/2026-10-29-come-riprendere.md`, revisione `wf_5370ad60-6e4`.
 - Pagina del carrello spiegato: https://claude.ai/artifact/R7a3oyeinPkPEc26fMEGqd

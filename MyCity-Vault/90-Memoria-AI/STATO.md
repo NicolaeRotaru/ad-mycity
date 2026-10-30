@@ -1,14 +1,20 @@
 ---
 tipo: stato
-aggiornato: 2026-10-30 00:14
+aggiornato: 2026-10-30 01:55
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🛍️ **2026-10-30 00:35 — Il sito visto da chi compra non è ancora al livello di Amazon e Glovo.**
+>
+> Le prime mosse costano minuti. Hai chiesto se il marketplace ha i requisiti dei migliori, guardando solo cosa vede e tocca il cliente. Ho controllato 191 requisiti in 14 aree: 13 sono al livello, 112 ci sono ma sotto, 14 mancano, 51 oggi fanno danno. Come è costruito il sito prende 5,3 su 10. Quello che il cliente vede oggi, con 9 prodotti, prende 3,3.
+>
+> La prima mossa è tua: cancellare il negozio di prova col comando pronto della carta #201. Le altre mosse entrano nelle ondate del sito già previste: il marchio e gli scaffali vuoti nell ondata 2, la merce in prima schermata dopo l ondata 15. La chiave di servizio su Vercel manca ancora, riletta alle 00:25: finché manca, la cassa non registra ordini. Referto, foto delle pagine e dieci mosse nella richiesta di unione di stanotte.
 
 > 💶 **2026-10-30 00:14 — Il prezzo della consegna è deciso, e nel sito è quasi costruito.**
 >
 > Hai fissato la regola. Si parte da 3 euro di base per tutto il carrello. Si aggiunge 1 euro per ogni negozio in più e 1 euro per ogni negozio sotto i 10 euro. La veloce costa 1 euro, una volta sola. Il fattorino prende 3 euro per il giro e 1 euro per ogni negozio in più. Le ondate 13 e 14 l hanno costruita, con la spiegazione nel carrello, ma non sono ancora pronte da unire.
 >
-> Ti chiedo una scelta: cosa succede alla consegna se in un carrello con più negozi uno rifiuta l ordine. Poi parte l ondata 15, la correzione. Il resoconto dei costi e delle commissioni è in consegne/finanza/2026-10-29-costi-e-commissioni.md.
+> ✅ Hai risposto alle 00:35: se un negozio rifiuta, la consegna si ricalcola sui negozi rimasti. L ondata 15, la correzione, sta girando. Il resoconto dei costi e delle commissioni è in consegne/finanza/2026-10-29-costi-e-commissioni.md.
 
 > 🚀 **2026-10-29 18:16 — Hai unito la #263 e la #898: il sito vero è cambiato.**
 >

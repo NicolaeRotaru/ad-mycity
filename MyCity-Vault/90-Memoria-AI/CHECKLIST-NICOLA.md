@@ -2,7 +2,7 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale, analisi completa dei lavori di Nicola del 25-26/10 (consegne/ad/2026-10-26-lavori-di-nicola.md)
-aggiornato: 2026-10-30 01:29
+aggiornato: 2026-10-30 01:55
 ---
 
 # ✅ Cose che devo fare io (Nicola)
@@ -31,8 +31,8 @@ Stripe, Hetzner, Resend, Netsons e le impostazioni di accesso di Supabase non li
 
 - [ ] 🔴 Unisci la richiesta #899 della memoria: le chiusure della #263, il prezzo nuovo della consegna, i piani del sito, il resoconto dei costi.
   → richiesta #899 · verde · tocca solo la memoria.
-- [ ] 🟡 Guarda la richiesta #900, il sito visto da chi compra, e rispondi alle quattro scelte della carta #222.
-  → richiesta #900 · si scontra con la #899 in due file: ti dico io l ordine.
+- [ ] 🟡 Rispondi alle scelte della carta #222, quella del sito visto da chi compra: la più importante è la foto del titolare, col suo consenso.
+  → la richiesta #900 è cucita dentro la #899 · la scelta «regali o fresco» è già decisa dai dati: fresco.
 - [ ] 🔴 Cambia il testo grande della home dal pannello dell amministratore: oggi promette «30-60 min» e nomina l abbigliamento.
   → testo proposto in LAVORO-APERTO.md · registro del sito, voce 1819 · 2 minuti.
 - [ ] 🟡 Guarda le ricevute di Claude, Vercel e Supabase, e dimmi quanto pagate davvero.

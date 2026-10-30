@@ -31,6 +31,35 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- chiave-anti-robot-prima-di-unire -->
 
+### 🟡 #222 — Scegli a chi deve somigliare il sito per chi compra, e da quale mossa partire · ⏳ accodata 2026-10-30 00:50
+
+> ✏️ **2026-10-30 01:55 — Nota dell AD, unendo la #900 nella #899 come hai chiesto.** Tre cose cambiano rispetto al testo qui sotto, che è dell altra sessione.
+> - **Niente richieste di unione per ogni mossa.** Il marchio e gli scaffali vuoti sono già nell ondata 2 (schede 278 e 300). La merce in prima schermata tocca file che le ondate 13-15 hanno già cambiato: parte dopo l ondata 15, come pacchetto di un ondata.
+> - **La scelta 3 si ricava dai dati:** negozi da regalo non ce ne sono, quindi a novembre è il fresco di Pane Quotidiano.
+> - **Il giorno della cancellazione del negozio di prova** va spento anche «Trending ora», che darebbe le medaglie ai prodotti di Pane Quotidiano senza vendite. Foto e nome del titolare restano 🔴, col suo consenso scritto.
+
+**In parole semplici.** Mi hai chiesto se il sito, visto da chi compra, è al livello di Amazon, eBay, Glovo e Deliveroo. Non ancora. Ho controllato 191 requisiti dei migliori, e 13 su 191 sono al livello. Altri 112 su 191 ci sono ma sotto, 14 mancano e 51 oggi fanno danno. Un esempio: il kefir di capra di Pane Quotidiano costa 2,95 €. Sul telefono la prima schermata della sua scheda mostra solo la foto. Prezzo e pulsante per comprare arrivano dopo aver scorso, mentre su Amazon e su Glovo stanno nella prima schermata.
+
+**Cosa cambia per te.** Il referto propone dieci mosse, da fare una alla volta. Con le tue scelte parto da quelle che non chiedono firme. Sono tre: la merce nella prima schermata, via gli scaffali vuoti e le classifiche finte, il marchio che si legge intero.
+
+**Cosa devi fare tu.** Rispondere a quattro scelte, scritte qui sotto. Per esempio: «Glovo più Etsy, codice sì, fresco, il titolare lo chiedo io». Prima di tutto resta la cancellazione del negozio di prova: è nella sua carta e tocca a te.
+
+**Cosa non ho verificato.** Il sito vero non l'ho aperto in un browser, perché la rete della sessione lo blocca. Le pagine le ho fotografate ricostruendole qui, con le foto dei prodotti sostituite da un riquadro grigio. I siti dei concorrenti non li ho aperti: il confronto viene da ricerche web con le fonti.
+
+**Le quattro scelte.**
+1. **A chi somigliare nella prima schermata.** Glovo vuol dire negozi e categorie con le foto, per la spesa veloce. Amazon vuol dire ricerca e prezzi. Etsy vuol dire la bottega col volto di chi la tiene. Il mio consiglio: il gesto di Glovo con l'anima di Etsy.
+2. **Il codice al posto della password.** Oggi un cliente nuovo deve registrarsi e uscire dal sito per aprire la posta. Con la mossa 5 riceve un codice di 6 cifre per email e lo scrive nella stessa pagina. Tocca la registrazione, quindi la firma è tua.
+3. **Novembre: regali o fresco.** I regali hanno bisogno di almeno un negozio da regalo vero, come un'enoteca o un fiorista. Senza, la pagina Regali resta vuota. Il fresco di Pane Quotidiano c'è già.
+4. **Il volto del titolare.** Pane Quotidiano ci darebbe una foto al banco e due righe sue? Servono il suo consenso scritto e qualcuno che vada a raccoglierle.
+
+**Cosa cambia:** con le tue scelte parto dalle tre mosse senza firme, una alla volta, ognuna con la sua richiesta di unione.
+
+**Se va bene:** preparo la prima mossa in un ramo del sito e te la porto da unire. Gli scaffali vuoti entrano nella seconda ondata del sito. Lì c'è già la tua scelta del 26 ottobre sulle categorie vuote.
+
+Contenuto: referto `consegne/design/2026-10-29-esperienza-cliente-vs-migliori.md` (pagella, dieci mosse, prove `file:riga`); per ripartire in una sessione nuova `consegne/design/2026-10-29-come-riprendere.md` (mosse collegate alle schede del registro, prove, strumento delle foto); foto in `consegne/design/2026-10-29-foto-pagine/`, materiale grezzo collaudato in `consegne/design/2026-10-29-esperienza-cliente-raw.json`. Run `wf_b52be27a-121` (38 agenti). Mossa 1 = carta #201. Chiave di servizio ancora assente su Vercel, riletta il 2026-10-30 00:25 (carte #154 e #210): finché manca, la cassa non registra ordini. Richiesta di unione ad-mycity #900.
+
+---
+
 ### 🔴 #213 — Comincia dal messaggio delle firme: la tua lista dei lavori è rifatta da capo · ⏳ accodata 2026-10-26 08:50
 
 > ⏰ **2026-10-26 09:05 — Il messaggio è arrivato.** Resta il cambio delle chiavi del database insieme a me: scrivimi «inizio la 203». Poi le visite brevi della tappa 2.

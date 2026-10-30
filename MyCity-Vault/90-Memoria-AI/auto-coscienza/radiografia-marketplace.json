@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 1821,
+    "findings": 1825,
     "bloccanti": 35,
-    "gravi": 536,
-    "minori": 1250,
+    "gravi": 538,
+    "minori": 1252,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -32024,6 +32024,50 @@
       "file": "app/layout.tsx:100 (meta description) · app/page.tsx:32 (sottotitolo di riserva dell eroe)",
       "descrizione": "Nicola il 29/10 alle 00:05 (catalogo.categorie): niente abbigliamento per ora. Le due frasi dicono «alimentari, abbigliamento, casa, elettronica». Il sottotitolo vero della home pubblicata viene dal database (voce 1819) e va cambiato a parte.",
       "fonte": "preesistente: c è su 0df5557 e sul ramo dell ondata 14; trovato dall AD il 2026-10-30 leggendo la home pubblicata"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La vetrina del negozio scrive «Consegna oggi» anche quando il negozio è chiuso e oggi non consegna più",
+      "file": "components/store-sections/HeroSection.tsx:55-61 (deliversToday = il negozio ha un orario oggi, senza guardare l ora) e :146-150",
+      "descrizione": "Giovedì 29/10 alle 20:15, nella vetrina di Pane Quotidiano c erano insieme «Chiuso ora» e «Consegna oggi»: il forno aveva chiuso alle 13. Il badge guarda solo se oggi c è un intervallo di apertura, non se è ancora possibile consegnare. Va legato alle stesse regole della cassa (lib/promessa-consegna.ts e le fasce ancora possibili). È la pagina dell unico negozio vero.",
+      "fonte": "preesistente: c è su 0df5557 e su 9d2bb05d; trovato dall analisi del sito visto da chi compra (PR #900, run wf_b52be27a-121) e dalla sua revisione (run wf_5370ad60-6e4)"
+    },
+    {
+      "dimensione": "coerenza-brand",
+      "reparto": "Coerenza del marchio",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Il riquadro «Trending ora» dà le medaglie #1, #2 e #3 senza nessuna vendita dietro: cancellato il negozio di prova, le darebbe ai prodotti di Pane Quotidiano",
+      "file": "home: sezione «Trending ora» e «I più amati» (components/home-sections/HomeSectionRenderer.tsx e la sezione salvata in site_settings.home_site)",
+      "descrizione": "Senza visite e senza vendite la classifica mostra gli ultimi prodotti pubblicati con le medaglie. Oggi sono quelli del negozio di prova; il giorno che si cancella (carta #201) diventano quelli di Pane Quotidiano. È una classifica finta, come quelle che la mossa 3 della #900 vuole togliere. Rimedio immediato: spegnere la sezione dal pannello lo stesso giorno della carta #201; poi mostrarla solo con dati veri.",
+      "fonte": "preesistente: c è su 0df5557 e su 9d2bb05d; trovato dall analisi del sito visto da chi compra (PR #900, run wf_b52be27a-121) e dalla sua revisione (run wf_5370ad60-6e4)"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Il modulo del negoziante lascia scegliere «Usato» come condizione del prodotto, mentre MyCity non vende l usato",
+      "file": "lib/products/schema.ts:40-44 (PRODUCT_CONDITIONS: nuovo, usato, ricondizionato)",
+      "descrizione": "CONTESTO_BUSINESS.md mette l usato fra le cose da non costruire mai. Rimedio: togliere «usato» e «ricondizionato» dalle scelte del modulo, lasciando leggibili i prodotti vecchi se ce ne sono.",
+      "fonte": "preesistente: c è su 0df5557 e su 9d2bb05d; trovato dall analisi del sito visto da chi compra (PR #900, run wf_b52be27a-121) e dalla sua revisione (run wf_5370ad60-6e4)"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Ordinando per «Prezzo crescente» alcuni prodotti spariscono dalla lista",
+      "file": "lib/queries/griglia-prodotti.ts:132 (citato dall analisi della PR #900)",
+      "descrizione": "Segnalato dall area «Trovare le cose» dell analisi della #900, che lo ha visto leggendo il codice. Non riprodotto da me: va confermato con una prova che ordina un catalogo noto e conta i prodotti.",
+      "fonte": "preesistente: c è su 0df5557 e su 9d2bb05d; trovato dall analisi del sito visto da chi compra (PR #900, run wf_b52be27a-121) e dalla sua revisione (run wf_5370ad60-6e4)"
     }
   ],
   "sync_scan": {
