@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-10-31 12:23",
+  "aggiornato": "2026-10-31 16:13",
   "fatti": [
     {
       "id": "architettura.tre-macchine",
@@ -661,6 +661,36 @@
       "esenzioni": []
     },
     {
+      "id": "legale.recesso-esclusi",
+      "nome": "Prodotti esclusi dal recesso",
+      "valore": "Dal recesso di 14 giorni sono esclusi i prodotti che si deteriorano in fretta (pane, dolci, salumi, latticini e gli altri freschi) e quelli fatti su ordinazione. Su tutto il resto il recesso resta di 14 giorni. Ogni scheda prodotto dice se il prodotto è escluso.",
+      "fonte": "Nicola in chat il 31/10/2026, risposta alle domande prima dell'ondata 6 (letta alle 2026-10-31 16:13)",
+      "aggiornato": "2026-10-31 16:13",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "legale.termini-riaccettazione",
+      "nome": "Riaccettazione dei Termini",
+      "valore": "Quando i Termini cambiano, chi è già iscritto li riaccetta al primo accesso dopo il cambio, prima di ordinare.",
+      "fonte": "Nicola in chat il 31/10/2026, risposta alle domande prima dell'ondata 6 (letta alle 2026-10-31 16:13)",
+      "aggiornato": "2026-10-31 16:13",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "legale.termini-rilettura",
+      "nome": "Chi rilegge i Termini",
+      "valore": "I Termini nuovi li rilegge Nicola prima dell'unione; un avvocato abilitato li rilegge dopo il lancio.",
+      "fonte": "Nicola in chat il 31/10/2026, risposta alle domande prima dell'ondata 6 (letta alle 2026-10-31 16:13)",
+      "aggiornato": "2026-10-31 16:13",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
       "id": "logistica.bici-consegna",
       "nome": "Bici consegna — disponibilità",
       "valore": "Bici pronta: Nicola consegna in bici, fino a 5 km dal negozio (Nicola, 2026-10-28).",
@@ -1162,6 +1192,16 @@
           "chiusa": "2026-08-12 23:11"
         }
       ],
+      "esenzioni": []
+    },
+    {
+      "id": "privacy.consenso-cookie-durata",
+      "nome": "Durata del consenso ai cookie",
+      "valore": "La scelta del cliente sui cookie dura 6 mesi: dopo, il sito la richiede.",
+      "fonte": "Nicola in chat il 31/10/2026, risposta alle domande prima dell'ondata 6 (letta alle 2026-10-31 16:13)",
+      "aggiornato": "2026-10-31 16:13",
+      "storia": [],
+      "caccia": [],
       "esenzioni": []
     },
     {
