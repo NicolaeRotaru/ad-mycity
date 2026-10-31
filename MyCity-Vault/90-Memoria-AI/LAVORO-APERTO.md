@@ -36,8 +36,9 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
   - la falla R9 è già chiusa: l'ho controllato il 31/10.
   - **la richiesta dell'ondata 1 è unita** (NicolaeRotaru/mycity#267, il 31/10 alle 11:57). Il codice è online dalle 11:58, col fermo dei lavori. Adesso tocca a te: i quattro segreti del rilascio su GitHub, il pulsante delle migrazioni (164, 165, 166 e 181), poi la chiave di servizio su Vercel.
   - **l'ondata 2 è in richiesta di unione** (NicolaeRotaru/mycity#268, aperta il 31/10 alle 12:13). Le ondate 3 e 4 sono al lavoro sopra di lei: le loro richieste arrivano dopo l'unione della #268.
-  - **le ondate 3 e 4 sono in richiesta di unione** (NicolaeRotaru/mycity#269): promessa di consegna, documenti, ingresso e iscrizione del negozio.
-  - **l'ondata di correzione ha finito** (31/10, 14:51). Reggono la rotta dei contanti, le fasce, il cliente assente, le scorte, i pulsanti AI e i 30 giorni dei documenti: arrivano in una richiesta dopo l'unione della #269. Restano fuori i rimborsi (un reso diviso fra due negozi con la risposta di Stripe persa) e il pacchetto dell'ingresso, che chiede un'impostazione del pannello di Supabase: i dettagli te li ho dati in chat.
+  - **le ondate 3 e 4 sono unite** (NicolaeRotaru/mycity#269, il 31/10 alle 15:37).
+  - **l'ondata di correzione è in richiesta di unione** (NicolaeRotaru/mycity#270). Dopo l'unione, il pulsante delle migrazioni applica la 171 e la 183. I rimborsi vanno nell'ondata 7; l'ingresso aspetta la tua impostazione nel pannello di Supabase (dettagli in chat).
+  - **le ondate 5 e 6 sono al lavoro** (31/10, 16:16), sopra l'ondata di correzione. La 6 porta i Termini nuovi, che hai scelto di rileggere tu.
   - i quattro segreti del rilascio su GitHub si mettono dopo l'unione dell'ondata 1.
   - lunedì 2/11 mattina, partita IVA e PEC col commercialista: senza il nome del titolare sul sito non si apre;
   - lunedì 2/11, il fornaio completa il suo conto Stripe.

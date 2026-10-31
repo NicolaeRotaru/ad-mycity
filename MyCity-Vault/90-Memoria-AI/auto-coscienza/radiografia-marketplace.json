@@ -316,7 +316,7 @@
       "impatto": "Il primo passo per aprire un negozio si ferma per chi entra dalla porta più naturale: la pagina pubblica «Vendi su MyCity», linkata da footer, FAQ, Chi siamo e Come funziona. Il negoziante ha speso 10 minuti a compilare e riceve un errore che non gli dice cosa fare: è il primo contatto con MyCity.",
       "fix": "Consentire nel database un solo passaggio di ruolo: da 'buyer' a 'seller', e solo se nello stesso aggiornamento approval_status diventa 'pending' e is_approved resta false. Va aggiunta una condizione esplicita in enforce_profile_update_rules, con una prova SQL in tests/sql/rls che faccia l'update da utente autenticato. In alternativa serve una rotta server /api/seller/apply che scriva con la chiave di servizio, che però oggi in produzione manca. Da aggiungere anche una prova end-to-end dell'invio del modulo.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Lettura del codice: app/sell/page.tsx:107 scrive role:'seller' nello stesso update dei dati. migrations/119_radiografia_18_agosto.sql:80-95 elenca le colonne modificabili (c'è approval_status, non c'è role) e a riga ~100 fa RAISE EXCEPTION 'profiles: campo riservato non modificabile' se cambia qualcosa fuori elenco. app/sign-in/page.tsx:201 manda a /sign-up?returnTo=… senza role; app/sign-up/page.tsx:76 parte da 'buyer' se manca ?role. lib/errors.ts:18 traduce 42501 in «Non hai i permessi per questa azione.». grep di role:'seller' su app/lib/components: unica scrittura in app/sell/page.tsx:107.",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": "Ho letto le righe: role non è nell'elenco 'consentiti' della 119. La 161 dice che la procedura «riapplica la 119» e quindi riporta in produzione proprio questa guardia. Ho tentato di ricrearla su un Postgres locale usa e getta, ma non sono riuscito ad avviarlo per i permessi delle cartelle. Prova quindi solo da lettura del codice. · Verifica tecnica: Ho ricreato la guardia in un Postgres 16 usa e getta, con la funzione COPIATA PARI PARI da migrations/119_radiografia_18_agosto.sql:66-130 (script: verifica-frontend-venditore/guardia-119.sql). Ho fatto l'update di /sell con i claim 'authenticated'. Caso cliente (buyer→seller): «ERROR: profiles: campo riservato non modificabile» (line 35 at RAISE). Caso profilo già seller: UPDATE 1. In produzione (SELECT pg_get_functiondef) enforce_profile_update_rules blocca solo NEW.role='admin', quindi oggi passerebbe. Policy di update su profiles in produzione: auth.uid()=id, senza WITH CHECK. Ho letto lib/errors.ts:18 (42501 → «Non hai i permessi…»), sign-in:200-202 (il link verso sign-up porta solo returnTo) e sign-up:76 (senza ?role il ruolo è buyer). Il grep conferma l'unica scrittura di role:'seller' a sell/page.tsx:107. I due negozi in produzione non hanno approval_requested_at, cioè nessuno è mai passato da /sell.",
@@ -328,7 +328,10 @@
         "prova": "Registro di produzione: righe 107, 119 e 161 presenti. enforce_profile_update_rules in produzione ha la lista dei campi consentiti della 119 (migrations/119:66-122), senza «role». app/sell/page.tsx:107 scrive role:'seller' con il client di chi è collegato: il database risponde 42501, e a schermo esce «Non hai i permessi per questa azione.» (lib/errors.ts:18).",
         "nota": "Prima del 24/10 non succedeva: in produzione c'era la guardia vecchia, che bloccava solo il passaggio ad admin. L'ha accesa la 119, entrata con le 48. Oggi un cliente che compila /sell viene respinto. Passa solo chi si registra già da /sign-up?role=seller. Serve una migrazione nuova (🔴, da firmare) che ammetta solo cliente→negozio con approvazione «pending».",
         "data": "2026-10-24 10:45"
-      }
+      },
+      "chiuso_il": "2026-10-31 16:16",
+      "chiuso_da": "PR #269 · ebc318f9",
+      "nota_riparazione": "Riparato nell ondata 4 del piano per aprire (run wf_dc9216f4-6e2), unita con la #269. — prova: cd /home/user/mycity && npx vitest run tests/unit/chi-chiede-di-vendere-non-viene-respinto-dal-database.test.tsx tests/unit/la-richiesta-di-vendere-la-scrive-il-server.test.ts tests/unit/il-modulo-del-negozio-chiede-la-partita-iva.test.tsx tests/unit/al-negozio-non-promettiamo-la-banca-un-ora-dopo.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-4-app-api-seller-apply-route-ts: ffb63c8c: regge (uscita 0)"
     },
     {
       "dimensione": "rls-database",
@@ -2754,13 +2757,16 @@
       "impatto": "Il negozio crede di aver detto a MyCity dove scrivergli, e invece no. Il rischio concreto è perdere ordini quando le email saranno accese, che è proprio il momento del lancio. Inoltre il modulo, già lungo, chiede un dato che non serve a niente.",
       "fix": "Due strade. La più semplice, consigliata per il lancio: togliere il campo dal modulo, oppure renderlo una sola riga in sola lettura con l'email di login e la scritta «qui ti mandiamo gli ordini». L'alternativa: una colonna store_email (migrazione, aggiunta alla lista delle colonne modificabili della guardia profili), salvata da /sell e usata dalla coda email per gli avvisi al negozio.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "grep -rln \"store_email\\|contact_email\\|operational_email\" migrations app lib components → nessun risultato. grep -n contactEmail app/sell/page.tsx → solo riga 165 (valore iniziale), nessuna scrittura nell'update delle righe 82-115.",
       "prova_tipo": "comando",
       "prova_eseguita": "Il primo comando non restituisce nessun file. Nel secondo, contactEmail compare solo come valore iniziale del modulo (riga 165). L'oggetto passato a supabase.from('profiles').update(...) alle righe 82-115 non lo contiene. · Verifica tecnica: grep -rlnE \"store_email|contact_email|operational_email|email_operativa|notification_email\" su migrations, app, lib e components: nessun file. Su contactEmail: lo schema (SellerApplicationForm.tsx:41), il campo con il suggerimento «Diverso da quella di login?» (:249-258) e il valore iniziale (sell/page.tsx:165), mai nell'update delle righe 82-115. Ho controllato che esiste un'email «Nuovo ordine» al negozio (lib/email/templates.ts:149-157) e anche una notifica in-app nella rotta COD (riga ~859).",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-venditore · id R170 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-venditore · id R170 · si ripara: codice",
+      "chiuso_il": "2026-10-31 16:16",
+      "chiuso_da": "PR #269 · ebc318f9",
+      "nota_riparazione": "Riparato nell ondata 4 del piano per aprire (run wf_dc9216f4-6e2), unita con la #269. — prova: cd /home/user/mycity && npx vitest run tests/unit/chi-chiede-di-vendere-non-viene-respinto-dal-database.test.tsx tests/unit/la-richiesta-di-vendere-la-scrive-il-server.test.ts tests/unit/il-modulo-del-negozio-chiede-la-partita-iva.test.tsx tests/unit/al-negozio-non-promettiamo-la-banca-un-ora-dopo.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-4-app-api-seller-apply-route-ts: ffb63c8c: regge (uscita 0)"
     },
     {
       "dimensione": "frontend-ux",
@@ -3690,14 +3696,17 @@
       "impatto": "Tocca la trasparenza verso il cliente su chi vende, cioè l'identità del professionista in un marketplace. Rende impossibile emettere la fattura della commissione e preparare la comunicazione DAC7. E i Termini dichiarano un controllo che non si fa. Riguarda ogni negozio nuovo, a partire da quelli che entreranno dopo Pane Quotidiano.",
       "fix": "Rimettere nel modulo /sell, o in /seller/profile, ragione sociale, forma giuridica, partita IVA, sede legale, PEC o codice SDI. Renderli obbligatori per l'approvazione, con un blocco sul pulsante Approva e nella funzione del database che approva, e con il controllo VIES. Per Pane Quotidiano inserirli prima del lancio. Una prova che approvi un negozio senza partita IVA e si aspetti il rifiuto.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "grep -rnE 'business_vat_number' su app, components e lib (escluse prove e tipi) e grep -rniE 'partita iva|p\\.iva|ragione sociale|sede legale|codice sdi' su app/seller, components/seller, app/sell, app/api/seller e sul modulo d'iscrizione.",
       "prova_tipo": "comando",
       "prova_eseguita": "business_vat_number compare solo in letture: admin/users/page.tsx (mostra), api/admin/users/[id]/kyc (legge), api/kyc/start-check:78 (VIES solo se presente), VendutoDa.tsx (mostra), lib/account/cancellazione.ts (azzera). Nell'area venditore e nel modulo d'iscrizione l'unico risultato sono i commenti «temporaneamente non raccolti / disattivati». Nessun campo scrive i dati azienda. I dati veri di Pane Quotidiano in produzione non li ho potuti leggere: in questa sessione non avevo lo strumento del database. · Verifica tecnica: Ho fatto grep di tutte le colonne business_* su app, components e lib (escluse le prove e i tipi): nessuna scrittura. Ho letto sell/page.tsx:80-120 (l'update del profilo non contiene business_*) e moderate/route.ts (nessun controllo sui dati fiscali). Con una SELECT in produzione su profiles: i 2 negozi approvati hanno ha_piva=false, ha_ragsoc=false, ha_sdi_pec=false.",
       "giro": 3,
       "verificato": true,
       "gia_noto": "Il registro ha CHIUSO «Il cliente non sa mai chi è il venditore: nessuna ragione sociale, P.IVA o sede sulle pagine prodotto e negozio» (noti-chiusi, grave, privacy-legale). La riparazione mostra dati che nessuna pagina permette di inserire, quindi per i negozi iscritti dal sito il difetto è ancora vivo. È un chiuso che non ha cambiato il comportamento, da riaprire. K17 (DAC7 nell'informativa) è un'altra cosa: parla del testo, non della raccolta del dato.",
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: critico-soldi-ordini · ricomparso dopo essere stato chiuso · id R87 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: critico-soldi-ordini · ricomparso dopo essere stato chiuso · id R87 · si ripara: codice",
+      "chiuso_il": "2026-10-31 16:16",
+      "chiuso_da": "PR #269 · ebc318f9",
+      "nota_riparazione": "Riparato nell ondata 4 del piano per aprire (run wf_dc9216f4-6e2), unita con la #269. — prova: cd /home/user/mycity && npx vitest run tests/unit/chi-chiede-di-vendere-non-viene-respinto-dal-database.test.tsx tests/unit/la-richiesta-di-vendere-la-scrive-il-server.test.ts tests/unit/il-modulo-del-negozio-chiede-la-partita-iva.test.tsx tests/unit/al-negozio-non-promettiamo-la-banca-un-ora-dopo.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-4-app-api-seller-apply-route-ts: ffb63c8c: regge (uscita 0)"
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -3746,14 +3755,17 @@
       "impatto": "Il versamento è per il negozio come lo stipendio. La prima promessa sui soldi fatta all'unico negozio vero viene smentita già al primo ordine.",
       "fix": "Dividere la frase in due tempi veri: «Un'ora dopo la consegna la tua parte passa sul tuo conto Stripe. Da lì Stripe la versa sul tuo IBAN secondo il calendario del conto: il primo versamento di solito arriva dopo 7-14 giorni, poi ogni pochi giorni.» Mostrare in Guadagni la data del prossimo versamento letta da Stripe (balance e payouts del conto collegato). Allineare anche la risposta delle domande frequenti, che dice «Bonifico mensile il giorno 5». Implementa @frontend-dev + @backend-dev.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Script eseguito /tmp/claude-0/-home-user/df070674-8e02-5d4e-a9b6-d5d8cacdbadc/scratchpad/pagamenti-stripe-2/split.cjs: stampa fraseAttesaBonifico() e spiegazioneCommissione(). Lettura di payout.ts:236-253 (transfers.create con source_transaction). Documentazione Stripe (API Transfers, «Separate charges and transfers», supporto «Default payout speeds in Europe»), letta tramite ricerca web perché docs.stripe.com non si raggiunge da questa macchina.",
       "prova_tipo": "comando",
       "prova_eseguita": "Output: «TEMPO BONIFICO: circa un'ora dopo la consegna» e «Il bonifico parte in automatico circa un'ora dopo la consegna». Stripe documenta che un trasferimento legato a un incasso «si esegue subito ma i fondi non diventano disponibili finché non lo diventa l'incasso originale», che lo standard europeo è T+7 e che il primo versamento arriva 7-14 giorni dopo il primo incasso. · Verifica tecnica: Letti tempi-bonifico.ts:1-36, earnings/page.tsx:285-300 e commissione.ts:93-97. Letti i tipi di stripe 16.12: TransfersResource.d.ts:36-39 (source_transaction: «pending balance… not available until the original charge becomes available») e AccountsResource.d.ts:1479 (delay_days predefinito 'minimum'). Grep di payout_schedule e settings nella creazione del conto: niente. Lanciato split.cjs: fraseAttesaBonifico() restituisce «circa un'ora dopo la consegna». Letta la scheda di K14 in consegne/audit/2026-08-27-radiografia.md:1087-1092.",
       "giro": 2,
       "verificato": true,
       "gia_noto": "K14",
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: pagamenti-stripe · id R223 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: pagamenti-stripe · id R223 · si ripara: codice",
+      "chiuso_il": "2026-10-31 16:16",
+      "chiuso_da": "PR #269 · ebc318f9",
+      "nota_riparazione": "Riparato nell ondata 4 del piano per aprire (run wf_dc9216f4-6e2), unita con la #269. — prova: cd /home/user/mycity && npx vitest run tests/unit/chi-chiede-di-vendere-non-viene-respinto-dal-database.test.tsx tests/unit/la-richiesta-di-vendere-la-scrive-il-server.test.ts tests/unit/il-modulo-del-negozio-chiede-la-partita-iva.test.tsx tests/unit/al-negozio-non-promettiamo-la-banca-un-ora-dopo.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-4-app-api-seller-apply-route-ts: ffb63c8c: regge (uscita 0)"
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -25031,7 +25043,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "radiografia-in-corsa del lotto gravi del sito",
-      "stato": "aperto",
+      "stato": "riparato",
       "riverifica": {
         "verdetto": "ancora_presente",
         "prova": "app/api/kyc/upload-document/route.ts:118 'const path = `${user.id}/${kind}-${Date.now()}.${ext}`' con upsert:false (122). Alle righe 138-141 aggiorna la colonna del profilo e non cancella mai il file precedente con remove. La pulizia (migrations/135:40-50, funzione documenti_da_cancellare_respinti presente in produzione) restituisce solo i percorsi scritti nelle sei colonne. Produzione oggi: il secchio kyc-docs ha 0 oggetti.",
@@ -25047,7 +25059,10 @@
           "data": "2026-09-08 11:30"
         }
       ],
-      "fuori_dal_referto": true
+      "fuori_dal_referto": true,
+      "chiuso_il": "2026-10-31 16:16",
+      "chiuso_da": "PR #269 · ebc318f9",
+      "nota_riparazione": "Riparato nell ondata 4 del piano per aprire (run wf_dc9216f4-6e2), unita con la #269. — prova: cd /home/user/mycity && npx vitest run tests/unit/il-documento-ricaricato-non-lascia-la-copia-vecchia.test.ts tests/unit/nessun-documento-di-minorenne-entra-nell-archivio.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-4-app-api-kyc-upload-document-route-ts: ac0068c3: regge (uscita 0); 69183c6c: regge (uscita 0)"
     },
     {
       "dimensione": "privacy-legale",
@@ -26213,11 +26228,14 @@
       "impatto": "Tocca una minoranza: le caselle con l'anteprima dei link, più frequenti fra i negozi che fra i privati. Ma a chi tocca, il recupero della password non funziona mai. Non è verificato in produzione: dipende dal filtro.",
       "fix": "Fare /auth/confirm in due tempi. La GET mostra una pagina «Conferma» con un pulsante; solo il POST, o la pagina dopo il clic, chiama verifyOtp. È lo schema che Supabase consiglia contro questi filtri. Va fatto prima di puntare i modelli email su /auth/confirm (scheda R13), altrimenti la strada nuova eredita il difetto. Serve una prova: una GET su /auth/confirm?token_hash=…&type=recovery non deve chiamare verifyOtp (un finto Supabase conta le chiamate e deve contarne zero).",
       "fonte": "trovato dalle squadre della prima ondata mentre riparavano, verificato da un secondo revisore, 16/10/2026 (sicurezza-auth)",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Lettura del codice. app/auth/confirm/route.ts:31 esporta solo GET, e :56 chiama `supabase.auth.verifyOtp({ token_hash, type })` alla prima richiesta, senza nessun passo intermedio. Il link predefinito di oggi, /auth/v1/verify di Supabase, si comporta allo stesso modo. Non provato contro un filtro vero.\n\nVerifica del secondo revisore: Il difetto regge: non ho trovato nessuna protezione che lo copra. In app/auth/confirm/route.ts c'è un solo gestore (GET, riga 31). Alla prima richiesta la riga 56 chiama `supabase.auth.verifyOtp({ token_hash, type })`, senza una pagina intermedia e senza un POST. In lib/auth, app/auth, app/reset-password e middleware.ts non c'è niente contro l'apertura anticipata dei link (anteprima o filtro antivirus): ho cercato prefetch, anteprima, scanner, safe link, antivirus e pulsante, senza risultati. Il comportamento l'ho anche eseguito. Ho lanciato `npx vitest run tests/unit/il-link-della-password-si-apre-da-qualunque-dispositivo.test.ts` e sono passate 25 prove su 25. La prova «IL CASO CHE ROMPEVA» conferma che una sola GET senza cookie su /auth/confirm?token_hash=…&type=recovery chiama già verifyOtp e apre la sessione. Il finto Supabase della prova cancella il link dopo l'uso, come fa quello vero. Una seconda GET finisce quindi su /reset-password?errore=link_scaduto: se la prima GET la fa il filtro, la persona trova il link già consumato. Il meccanismo è documentato da Supabase nella sezione «Email prefetching»: il link viene consumato subito dai filtri come Safe Links di Microsoft Defender. Supabase consiglia proprio una pagina con un pulsante oppure il codice OTP. Il sito non ha nessuna di queste due vie: nessun `{{ .Token }}` e nessun campo per inserire il codice. L'unica alternativa è l'accesso con Google (AuthShell.tsx:139), che a una casella Microsoft 365 non serve. La sever",
       "prova_tipo": "verificata da un secondo revisore",
       "verificato": true,
-      "nato_oggi": true
+      "nato_oggi": true,
+      "chiuso_il": "2026-10-31 16:16",
+      "chiuso_da": "PR #269 · ebc318f9",
+      "nota_riparazione": "Riparato nell ondata 4 del piano per aprire (run wf_dc9216f4-6e2), unita con la #269. — prova: cd /home/user/mycity && npx vitest run tests/unit/il-filtro-della-posta-apre-il-link-senza-consumarlo.test.ts tests/unit/il-link-di-conferma-non-lo-brucia-l-antivirus.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-4-lib-auth-decisione-portiere-ts: feb9ed47: regge (uscita 0)"
     },
     {
       "dimensione": "sicurezza-auth",
@@ -28907,11 +28925,14 @@
       "titolo": "Promessa 30-60 min al limite in bici: 55 min a 10 km senza contare l'andata del fattorino al negozio",
       "severita": "grave",
       "file": "lib/geo.ts deliveryEtaMinutes · lib/delivery.ts EXPRESS_ETA_LABEL · components/Footer.tsx:321 · lib/site-branding.ts:63,68 · app/come-funziona/page.tsx:9,54 · components/home/HeroStoreCard.tsx:206 · app/about/page.tsx:11,26 · app/shipping/page.tsx:53,75 · components/ui/AuthShell.tsx:45 · components/BuyerOnboardingTour.tsx:48 · app/layout.tsx:99 · app/category/[slug]/layout.tsx:35 · app/stores/layout.tsx:10 · app/product/[id]/layout.tsx:26 · components/store-sections/ContactSection.tsx:64 · app/opengraph-image.tsx:57 · app/store/[id]/opengraph-image.tsx:81 · public/manifest.json:4 · app/seller/profile/page.tsx:180 · components/seller/ProductForm.tsx:1044",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "preesistente, trovato dal collaudo del primo giro della fase 2 del lotto #262",
       "descrizione": "deliveryEtaMinutes(10) = 55: restano 5 minuti di margine. Il commento in constants.ts parla di una promessa 'in giornata' (carta #209), ma il sito dice ancora 30-60 min ovunque. Va allineato a parte.",
-      "nota_riesame": "28/10 01:15: passata da minore a grave dopo il riesame del perimetro della fase 2 del lotto #262 (run wf_b9d92819-bde, 27/10 sera) (frontend-consegna#6 dice grave; frontend-account-posta#5 dice grave; architettura-consegna#7 dice grave; qa-flussi-cassa#4 dice grave). È una promessa pubblica falsa, su ogni pagina che la mostra. · 2026-10-28 22:30: Dal vaglio dell'ondata 10: sul main 1776e6b1 i «30-60 minuti» stanno in circa 36 punti (home: nastro, piè di pagina, Come funziona, hero; carrello, Spedizioni, login, giro di benvenuto, FAQ, chi siamo, negozio, categoria, descrizione per Google, immagini di condivisione, public/manifest.json:4, le etichette della cassa in lib/quando-arriva.ts:64-65,186, app/orders/[id]/page.tsx:347). Si contraddicono già /about (:26 contro :140) e il carrello (:79 contro :80). TRAPPOLA per chi ripara: NON cambiare il valore di EXPRESS_ETA_LABEL (lib/delivery.ts:13). ETICHETTA_ADESSO in lib/quando-arriva.ts:64 sta in FASCE_AMMESSE (:80-84) e le due rotte d'ordine la confrontano alla lettera (app/api/orders/cod/route.ts:76, app/api/stripe/checkout/route.ts:77 via lib/ordini/fascia-consegna.ts:34-38; lib/store-hours.ts:118-119): una cassa aperta prima del rilascio verrebbe rifiutata, e 14 righe che incollano «in ${EXPRESS_ETA_LABEL}» scriverebbero «in in giornata». Serve una costante nuova per la promessa pubblica, separata dall'identificativo della fascia, più una prova che un ordine in contanti con la fascia «Adesso» passa ancora. Se la mattonella «Adesso · 30-60» resti accanto a «in giornata» è una scelta di prodotto da far firmare a Nicola. Va riesaminata insieme alla 253 (stessa frase). · 2026-10-29 12:23: per il giro B (scelta B di Nicola, «allargato a tutte le pagine dei 30-60 minuti») il campo file elenca i punti trovati con git grep sulla base fff2c3e, fuori dal pacchetto della cassa. lib/quando-arriva.ts:64-65,186 e app/orders/[id]/page.tsx:347 restano alla squadra della cassa, che li tocca già per la fascia (scheda 23). · 2026-10-29 12:35: fuori dal giro B. Nicola ha deciso la consegna veloce in 30-60 minuti con 1 euro in più, oppure una fascia oraria; il prezzo standard (2 o 3 euro) è da firmare. Queste frasi si cambiano nel pacchetto del prezzo nuovo, che tocca anche il conto in lib/ordini/prezzi.ts e le due rotte. · 2026-10-30 12:04: il controllo del perimetro delle ondate 13-17 (wf_8404b4d0-c10, su 12e2ea35) la rivede aperta: «Il commento di deliveryEtaMinutes promette «55 minuti, dentro i 60 della veloce» contando i 5 km in linea d'aria: su strada sono circa 67». lettura + conto: node -e \"const s=6.5,v=15; console.log(15 + 2*(s/v)*60)\" stampa 66.99..., cioè 67, oltre EXPRESS_ETA_MAX=60"
+      "nota_riesame": "28/10 01:15: passata da minore a grave dopo il riesame del perimetro della fase 2 del lotto #262 (run wf_b9d92819-bde, 27/10 sera) (frontend-consegna#6 dice grave; frontend-account-posta#5 dice grave; architettura-consegna#7 dice grave; qa-flussi-cassa#4 dice grave). È una promessa pubblica falsa, su ogni pagina che la mostra. · 2026-10-28 22:30: Dal vaglio dell'ondata 10: sul main 1776e6b1 i «30-60 minuti» stanno in circa 36 punti (home: nastro, piè di pagina, Come funziona, hero; carrello, Spedizioni, login, giro di benvenuto, FAQ, chi siamo, negozio, categoria, descrizione per Google, immagini di condivisione, public/manifest.json:4, le etichette della cassa in lib/quando-arriva.ts:64-65,186, app/orders/[id]/page.tsx:347). Si contraddicono già /about (:26 contro :140) e il carrello (:79 contro :80). TRAPPOLA per chi ripara: NON cambiare il valore di EXPRESS_ETA_LABEL (lib/delivery.ts:13). ETICHETTA_ADESSO in lib/quando-arriva.ts:64 sta in FASCE_AMMESSE (:80-84) e le due rotte d'ordine la confrontano alla lettera (app/api/orders/cod/route.ts:76, app/api/stripe/checkout/route.ts:77 via lib/ordini/fascia-consegna.ts:34-38; lib/store-hours.ts:118-119): una cassa aperta prima del rilascio verrebbe rifiutata, e 14 righe che incollano «in ${EXPRESS_ETA_LABEL}» scriverebbero «in in giornata». Serve una costante nuova per la promessa pubblica, separata dall'identificativo della fascia, più una prova che un ordine in contanti con la fascia «Adesso» passa ancora. Se la mattonella «Adesso · 30-60» resti accanto a «in giornata» è una scelta di prodotto da far firmare a Nicola. Va riesaminata insieme alla 253 (stessa frase). · 2026-10-29 12:23: per il giro B (scelta B di Nicola, «allargato a tutte le pagine dei 30-60 minuti») il campo file elenca i punti trovati con git grep sulla base fff2c3e, fuori dal pacchetto della cassa. lib/quando-arriva.ts:64-65,186 e app/orders/[id]/page.tsx:347 restano alla squadra della cassa, che li tocca già per la fascia (scheda 23). · 2026-10-29 12:35: fuori dal giro B. Nicola ha deciso la consegna veloce in 30-60 minuti con 1 euro in più, oppure una fascia oraria; il prezzo standard (2 o 3 euro) è da firmare. Queste frasi si cambiano nel pacchetto del prezzo nuovo, che tocca anche il conto in lib/ordini/prezzi.ts e le due rotte. · 2026-10-30 12:04: il controllo del perimetro delle ondate 13-17 (wf_8404b4d0-c10, su 12e2ea35) la rivede aperta: «Il commento di deliveryEtaMinutes promette «55 minuti, dentro i 60 della veloce» contando i 5 km in linea d'aria: su strada sono circa 67». lettura + conto: node -e \"const s=6.5,v=15; console.log(15 + 2*(s/v)*60)\" stampa 66.99..., cioè 67, oltre EXPRESS_ETA_MAX=60",
+      "chiuso_il": "2026-10-31 16:16",
+      "chiuso_da": "PR #269 · ebc318f9",
+      "nota_riparazione": "Riparato nell ondata 3 del piano per aprire (run wf_86375bde-655), unita con la #269. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-scheda-non-conta-fino-alle-18.test.ts tests/unit/la-veloce-al-confine-dei-5-km.test.ts tests/unit/il-reso-dice-quali-prodotti-sono-esclusi.test.tsx tests/unit/la-scheda-non-manda-in-cassa-senza-fasce.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-3-lib-promessa-consegna-ts: e28d126b: regge (uscita 0); c37e7d2d: regge (uscita 0)"
     },
     {
       "titolo": "La prova non copre «Attiva» su un prodotto esaurito: un controllo ridotto alle sole bozze resta verde",
@@ -31637,13 +31658,16 @@
       "dimensione": "frontend-ux",
       "reparto": "UX",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "La scheda prodotto conta sempre fino alle 18: dà cinque ore e mezza a un forno che chiude alle 13, e la sera promette «domani» a negozi chiusi domani",
       "file": "components/ui/DeliveryCutoff.tsx (ramo storeHours: il conto punta a DEFAULT_CUTOFF_HOUR) · lib/delivery.ts:8,30-45 · app/product/[id]/page.tsx:802",
       "descrizione": "Raccoglie V1, V14 e V21. Sabato 31/10 alle 12:30, forno aperto 08-13: la cassa accetta fino alle 12:59, ma la scheda scrive «Ordina entro 05:30:00 e arriva oggi». Il sabato alle 21:30 la scheda dice «Arriva domani» anche se domenica è chiuso. Il no arriva dal server, dopo indirizzo e pagamento. Prova: zz-vaglio-contro-scheda.test.tsx (scratch della sessione), 4 rossi su 6 su 0df7945. Va nel pacchetto del prezzo nuovo, che ridisegna quando arriva la spesa sulle regole della cassa.",
       "fonte": "preesistente: c è anche su 0df7945 (ramo della #263); trovato nel giro B dell ondata 1 (run wf_8774d9cc-eb7), confermato dal vaglio e contro-vaglio wf_5fe12725-8cb",
-      "nota_riesame": "2026-10-30 12:04: il controllo del perimetro delle ondate 13-17 (wf_8404b4d0-c10, su 12e2ea35) la rivede aperta: «La scheda prodotto dice «scegli l'ora in cassa» anche quando la cassa non ha nessuna ora: il sabato di Pane Quotidiano». cp /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro18/architettura-frasi-prodotti/zz-perimetro-architettura-frasi-prodotti-scheda-vigilia.test.ts /home/user/mycity-ondate/vaglio-18/tests/unit/ && cd /home/user/mycity-ondate/vaglio-18 && npx vitest run tests/unit/zz-perimetro-architettura-frasi-prodotti-scheda-vigilia.test.ts ; rm tests/unit/zz-perimetro-architettura-frasi-prodotti-scheda-vigilia.test.ts — oggi è rossa 2 su 2 (provata due volte). Le condizioni di partenza passano: la cassa non ha fasce e la vetrina dà null. Cade solo l'ultima riga, quella sulla frase della scheda. · 2026-10-30 12:04: il controllo del perimetro delle ondate 13-17 (wf_8404b4d0-c10, su 12e2ea35) la rivede aperta: «Sabato pomeriggio la scheda del pane dice «in cassa scegli l'ora della consegna», ma la cassa non ha nessuna ora valida prima di domenica sera». cp /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro18/interfaccia-componenti/zz-perimetro-interfaccia-componenti-prova.test.tsx /home/user/mycity-ondate/vaglio-18/tests/unit/ && cd /home/user/mycity-ondate/vaglio-18 && npx vitest run tests/unit/zz-perimetro-interfaccia-componenti-prova.test.tsx -t \"sabato alle 14\"; rm tests/unit/zz-perimetro-interfaccia-componenti-prova.test.tsx — ROSSA su 12e2ea35 (ricevuto: «Il negozio è chiuso ora, riapre lunedì alle 07:00: in cassa scegli l'ora della consegna»), ripetuta 2 volte. Nello stesso file il caso «il fatto» è VERDE: alle 10 di sabato nessuna delle 6 fasce passa negozioPuoServire, e consegnaDellaVetrina dà null. · 2026-10-30 12:04: il controllo del perimetro delle ondate 13-17 (wf_8404b4d0-c10, su 12e2ea35) la rivede aperta: «Sabato mattina, senza fattorino in servizio, la scheda prodotto e il negozio in evidenza promettono «Consegna a casa, all'ora che scegli», ma la cassa non ha nessuna fascia che il forno possa servire». stesso file di prova: npx vitest run tests/unit/zz-perimetro-interfaccia-componenti-prova.test.tsx -t \"sabato alle 10\" (copiato e poi cancellato come sopra). ROSSE 2 su 2: la scheda prodotto riceve «Consegna a casa, all'ora che scegli»; HeroStoreCard riceve «…Consegna a casaall'ora che scegli…». Il controllo «giovedì alle 10 c'è la fascia di venerdì» è VERDE, quindi la prova non è rossa a prescindere. Ripetuta 2 volte."
+      "nota_riesame": "2026-10-30 12:04: il controllo del perimetro delle ondate 13-17 (wf_8404b4d0-c10, su 12e2ea35) la rivede aperta: «La scheda prodotto dice «scegli l'ora in cassa» anche quando la cassa non ha nessuna ora: il sabato di Pane Quotidiano». cp /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro18/architettura-frasi-prodotti/zz-perimetro-architettura-frasi-prodotti-scheda-vigilia.test.ts /home/user/mycity-ondate/vaglio-18/tests/unit/ && cd /home/user/mycity-ondate/vaglio-18 && npx vitest run tests/unit/zz-perimetro-architettura-frasi-prodotti-scheda-vigilia.test.ts ; rm tests/unit/zz-perimetro-architettura-frasi-prodotti-scheda-vigilia.test.ts — oggi è rossa 2 su 2 (provata due volte). Le condizioni di partenza passano: la cassa non ha fasce e la vetrina dà null. Cade solo l'ultima riga, quella sulla frase della scheda. · 2026-10-30 12:04: il controllo del perimetro delle ondate 13-17 (wf_8404b4d0-c10, su 12e2ea35) la rivede aperta: «Sabato pomeriggio la scheda del pane dice «in cassa scegli l'ora della consegna», ma la cassa non ha nessuna ora valida prima di domenica sera». cp /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro18/interfaccia-componenti/zz-perimetro-interfaccia-componenti-prova.test.tsx /home/user/mycity-ondate/vaglio-18/tests/unit/ && cd /home/user/mycity-ondate/vaglio-18 && npx vitest run tests/unit/zz-perimetro-interfaccia-componenti-prova.test.tsx -t \"sabato alle 14\"; rm tests/unit/zz-perimetro-interfaccia-componenti-prova.test.tsx — ROSSA su 12e2ea35 (ricevuto: «Il negozio è chiuso ora, riapre lunedì alle 07:00: in cassa scegli l'ora della consegna»), ripetuta 2 volte. Nello stesso file il caso «il fatto» è VERDE: alle 10 di sabato nessuna delle 6 fasce passa negozioPuoServire, e consegnaDellaVetrina dà null. · 2026-10-30 12:04: il controllo del perimetro delle ondate 13-17 (wf_8404b4d0-c10, su 12e2ea35) la rivede aperta: «Sabato mattina, senza fattorino in servizio, la scheda prodotto e il negozio in evidenza promettono «Consegna a casa, all'ora che scegli», ma la cassa non ha nessuna fascia che il forno possa servire». stesso file di prova: npx vitest run tests/unit/zz-perimetro-interfaccia-componenti-prova.test.tsx -t \"sabato alle 10\" (copiato e poi cancellato come sopra). ROSSE 2 su 2: la scheda prodotto riceve «Consegna a casa, all'ora che scegli»; HeroStoreCard riceve «…Consegna a casaall'ora che scegli…». Il controllo «giovedì alle 10 c'è la fascia di venerdì» è VERDE, quindi la prova non è rossa a prescindere. Ripetuta 2 volte.",
+      "chiuso_il": "2026-10-31 16:16",
+      "chiuso_da": "PR #269 · ebc318f9",
+      "nota_riparazione": "Riparato nell ondata 3 del piano per aprire (run wf_86375bde-655), unita con la #269. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-scheda-non-conta-fino-alle-18.test.ts tests/unit/la-veloce-al-confine-dei-5-km.test.ts tests/unit/il-reso-dice-quali-prodotti-sono-esclusi.test.tsx tests/unit/la-scheda-non-manda-in-cassa-senza-fasce.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-3-lib-promessa-consegna-ts: e28d126b: regge (uscita 0); c37e7d2d: regge (uscita 0)"
     },
     {
       "dimensione": "frontend-ux",
@@ -32088,12 +32112,15 @@
       "dimensione": "microcopy",
       "reparto": "Microcopy",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "La pagina Guadagni del negozio promette il pagamento «circa un ora dopo la consegna» sull IBAN, ma in banca i soldi arrivano giorni dopo",
       "file": "app/seller/earnings/page.tsx:295 · lib/stripe/tempi-bonifico.ts:24-36 · lib/stripe/client.ts:67-68 (commento «+24h»)",
       "descrizione": "Dopo un ora i soldi arrivano sul conto Stripe del negozio, non in banca: il versamento in banca segue il calendario di Stripe (stima da ricerca: circa 3 giorni lavorativi, la prima volta circa 7). Un negoziante che guarda la banca dopo un ora non trova niente e perde fiducia. Al lancio vale solo per la carta, che è spenta.",
-      "fonte": "preesistente: c è su 0df5557 e su 41a84111; trovato dal controllo dei costi e delle commissioni (run wf_90ac7bed-c22, 2026-10-29), riletto nel codice dall AD"
+      "fonte": "preesistente: c è su 0df5557 e su 41a84111; trovato dal controllo dei costi e delle commissioni (run wf_90ac7bed-c22, 2026-10-29), riletto nel codice dall AD",
+      "chiuso_il": "2026-10-31 16:16",
+      "chiuso_da": "PR #269 · ebc318f9",
+      "nota_riparazione": "Riparato nell ondata 4 del piano per aprire (run wf_dc9216f4-6e2), unita con la #269. — prova: cd /home/user/mycity && npx vitest run tests/unit/chi-chiede-di-vendere-non-viene-respinto-dal-database.test.tsx tests/unit/la-richiesta-di-vendere-la-scrive-il-server.test.ts tests/unit/il-modulo-del-negozio-chiede-la-partita-iva.test.tsx tests/unit/al-negozio-non-promettiamo-la-banca-un-ora-dopo.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-4-app-api-seller-apply-route-ts: ffb63c8c: regge (uscita 0)"
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -34928,12 +34955,15 @@
       "dimensione": "pagamenti-stripe",
       "reparto": "",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "Il modulo d'iscrizione del negozio fa accettare per forza un addebito di 50 euro al mese, ma l'abbonamento al lancio è sospeso",
       "file": "components/SellerApplicationForm.tsx:69 (acceptBilling obbligatorio), :225, :238, :375-378, :403; app/seller/layout.tsx:98",
       "descrizione": "node --experimental-strip-types -e \"import('./lib/funzioni-al-lancio.ts').then(m=>process.exit(!m.ABBONAMENTO_NEGOZI_ACCESO&&/addebito mensile di €50/.test(require('fs').readFileSync('components/SellerApplicationForm.tsx','utf8'))?1:0))\" → exit 1, 3 volte",
-      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), difetto vecchio visto strada facendo, 31/10/2026"
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), difetto vecchio visto strada facendo, 31/10/2026",
+      "chiuso_il": "2026-10-31 16:16",
+      "chiuso_da": "PR #269 · ebc318f9",
+      "nota_riparazione": "Riparato nell ondata 4 del piano per aprire (run wf_dc9216f4-6e2), unita con la #269. — prova: cd /home/user/mycity && npx vitest run tests/unit/chi-chiede-di-vendere-non-viene-respinto-dal-database.test.tsx tests/unit/la-richiesta-di-vendere-la-scrive-il-server.test.ts tests/unit/il-modulo-del-negozio-chiede-la-partita-iva.test.tsx tests/unit/al-negozio-non-promettiamo-la-banca-un-ora-dopo.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-4-app-api-seller-apply-route-ts: ffb63c8c: regge (uscita 0)"
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -35676,12 +35706,15 @@
       "dimensione": "api-backend",
       "reparto": "",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "La nuova porta della richiesta negozio legge il corpo senza tetto e il nome del negozio non ha lunghezza massima",
       "file": "app/api/seller/apply/route.ts: req.json() invece di jsonRichiesta(req, TETTO_JSON); storeName senza .max()",
       "descrizione": "POST con storeName di 1 MB: viene accettato e scritto nel profilo.",
-      "fonte": "ondata 4 del piano dei difetti (run wf_dc9216f4-6e2), nato dal lotto, collaudo B, 31/10/2026"
+      "fonte": "ondata 4 del piano dei difetti (run wf_dc9216f4-6e2), nato dal lotto, collaudo B, 31/10/2026",
+      "chiuso_il": "2026-10-31 16:16",
+      "chiuso_da": "PR #269 · ebc318f9",
+      "nota_riparazione": "Corretto dall AD sul ramo del pacchetto NE (d566acc2), unito con la #269. — prova: cd /home/user/mycity && npx vitest run tests/unit/nessun-corpo-senza-tetto.test.ts — mutazione: la guardia era rossa nel verify del ramo unito (6.794 prove, 1 rossa) prima di d566acc2, verde dopo"
     },
     {
       "dimensione": "architettura",

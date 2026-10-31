@@ -6348,3 +6348,20 @@ Nel registro del sito ho scritto 25 chiusure dell'ondata 1 con `chiudi-sito.mjs 
 
 **Colore:** 🔴 le scelte, di Nicola. 🟡 la memoria e il codice nei rami, da unire.
 
+## 2026-10-31 16:16 — 🔴 Le scelte di Nicola sull'ondata di correzione e sull'ondata 6, e il punto delle unioni
+
+**Cosa.** Nicola ha unito alle 15:37 la NicolaeRotaru/mycity#269 (i quattro pacchetti delle ondate 3 e 4) e la NicolaeRotaru/ad-mycity#909 (la memoria). L'ondata di correzione, scelta da lui, è in richiesta come NicolaeRotaru/mycity#270: reggono la rotta dei contanti, le fasce, il cliente assente, le scorte, i pulsanti AI e i 30 giorni dei documenti.
+
+Restano fuori due pacchetti:
+- i rimborsi (PB): vanno nell'ondata 7, con la migrazione 167 già prenotata;
+- l'ingresso: aspetta un'impostazione del pannello di Supabase che tocca a Nicola, coi dettagli dati in chat.
+
+**Le scelte per l'ondata 6:**
+- recesso: fuori i freschi e i prodotti su ordinazione (fatto `legale.recesso-esclusi`);
+- cookie: la scelta dura 6 mesi (fatto `privacy.consenso-cookie-durata`). L'AD la applica anche al cookie di accesso, che oggi resta 400 giorni contro la settimana scritta nell'informativa: scelta ragionata, perché la domanda nasceva dalla voce 1687, che è proprio quel cookie;
+- Termini: li rilegge Nicola, l'avvocato dopo il lancio (fatto `legale.termini-rilettura`), e chi è iscritto li riaccetta al prossimo accesso (fatto `legale.termini-riaccettazione`).
+
+**Come partono le ondate 5 e 6.** In parallelo (run `wf_ee379132-469` e `wf_631e8390-ab7`), sopra il ramo dell'ondata di correzione, con un solo padrone per ogni file in comune. Nel registro del sito ci sono 11 chiusure della #269.
+
+**Colore:** 🔴 le scelte, di Nicola. 🟡 il codice nei rami e la memoria, da unire.
+
