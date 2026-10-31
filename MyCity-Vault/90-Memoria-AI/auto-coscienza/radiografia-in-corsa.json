@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-31 01:20",
+  "aggiornato": "2026-10-31 01:45",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -5644,6 +5644,20 @@
         "app/seller/orders/[id]/page.tsx": "80fb118cd947",
         "app/seller/orders/page.tsx": "8247187bf250",
         "components/checkout/DeliverySlotPicker.tsx": "dff7d28691e2"
+      }
+    },
+    {
+      "quando": "2026-10-31 01:45",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        ".claude/workflows/ondata-snella.js": "674fc36222f2"
       }
     }
   ]
