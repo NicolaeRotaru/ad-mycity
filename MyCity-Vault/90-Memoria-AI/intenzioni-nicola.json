@@ -79,7 +79,7 @@
     {
       "nome": "Pane Quotidiano",
       "perche": "unico negozio vero, faro di MyCity",
-      "stato": "approvato e visibile con 5 prodotti; il suo conto Stripe ha incassi e versamenti spenti, quindi al lancio si paga solo in contanti (letto il 25/10 sera)"
+      "stato": "approvato e visibile con 5 prodotti; il suo conto Stripe ha incassi e versamenti spenti (letto il 25/10 sera): la carta entra nel lancio e si accende quando Stripe verifica il conto (scelta di Nicola del 31/10)"
     },
     {
       "nome": "Panificio Demo",

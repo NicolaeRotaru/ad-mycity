@@ -6305,3 +6305,15 @@ Per non sbagliare i territori una quinta volta, prima di dividere ho cercato tut
 **Cosa.** Unita alle 01:36, coi 9 controlli del sito verdi sul commit `a5f9548`. Rilascio di produzione su Vercel `dpl_C44A63R2sMNDMTvYd9kpEYFH1oZr`, in costruzione alle 01:43 dal commit `0fc4ec7`. Nel registro del sito chiuse le schede 1948 e 1949 (`chiudi-sito.mjs --pr 266 --commit 0fc4ec7 --applica`), con le tre prove dell'ondata 21 rifatte sul codice unito: 22 su 22.
 
 **Colore:** 🔴 l'unione, di Nicola. 🟢 le chiusure nel registro, ognuna con la sua prova rifatta.
+
+## 2026-10-31 08:25 — 🔴 Le quattro scelte di Nicola per aprire, e 🟢 la verifica delle 1.213 voci del sito
+
+**Cosa scelto da Nicola, in chat, la notte del 31/10.** Si apre al primo cliente con zero bloccanti e zero gravi che al lancio si possono incontrare; i minori dopo, a gruppi. Delle funzioni spente si accende solo la carta: «accendi solo la carta». Le 11 falle nascoste le ricostruisce l'AD in privato; chiavi e password le cambia Nicola. Due ondate possono girare insieme in due sessioni, se toccano file diversi. Alle 08:22 il via al piano: «parti».
+
+**Cosa ha fatto l'AD.** Ha fatto ricontrollare sul codice `40cb09ff`, una per una, le 1.213 voci aperte o dette riparate del registro del sito: 24 verificatori in sola lettura, e un contestatore per zona che ha respinto 15 affermazioni su 98. Ne esce che 214 voci sono già riparate e chiedono solo la prova, circa 120 bloccanti e gravi vanno riparati, e 28 voci si chiudono con le mani di Nicola. Il piano, criticato due volte, mette 7 ondate su due binari per aprire: il binario A porta da solo soldi e cassa. Le sei correzioni del critico finale sono regole vincolanti del piano.
+
+**Perché così.** La metà dei difetti seri veniva dall'11 ottobre e 42 non erano mai stati ricontrollati. Senza la verifica il piano automatico metteva 118 voci in 11 ondate da 5 squadre, comprese voci già riparate.
+
+**Fatti cambiati nel registro dei fatti:** `pagamenti.al-lancio` (la carta entra nel lancio, accesa con `CARTA_ACCESA` quando Stripe verifica il conto) e `lancio.criterio`. Guardiano dei fatti verde.
+
+**Colore:** 🔴 le scelte, di Nicola. 🟢 la verifica, in sola lettura. 🟡 la memoria, da unire. Run `wf_a60601a0-cae`, 53 agenti, circa 6,4 milioni di token. Piano: `consegne/audit/2026-10-31-piano-difetti-sito.md`.

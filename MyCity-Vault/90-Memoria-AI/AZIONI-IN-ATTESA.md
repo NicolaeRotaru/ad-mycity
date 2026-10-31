@@ -31,7 +31,30 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🔴 #225 — Unisci il piano per aprire e fai i tuoi primi passi · ⏳ accodata 2026-10-31 09:15
+
+**In parole semplici.** Ho ricontrollato sul codice tutte le 1.213 voci del registro del sito e ho scritto il piano per aprire: 7 ondate su due binari. Le prime due stanno già lavorando, l'ondata 1 qui e l'ondata 2 in una seconda sessione.
+
+**Cosa cambia per te.** Il primo cliente in contanti arriva giovedì 5/11 sera o venerdì 6/11, se le tue pratiche partono lunedì. La carta si accende il giorno in cui Stripe verifica il conto del fornaio. Ogni giorno ti arrivano due richieste di unione del sito, una per binario.
+
+**Cosa devi fare tu.**
+- Oggi o domenica: la carta #203. I passi aggiornati sono in chat del 31/10.
+- Unire la richiesta della memoria #906.
+- Lunedì 2/11 mattina: partita IVA e PEC col commercialista. Lo stesso giorno il fornaio completa il suo conto Stripe.
+- I segreti del rilascio su GitHub vanno messi dopo l'unione dell'ondata 1, non prima.
+
+**Cosa non ho verificato.** Il sito pubblicato non si apre dalla rete di questa macchina. Le stime di tempo vengono dai giri del 29-30/10.
+
+Cosa cambia: il sito arriva all'apertura con zero bloccanti e zero gravi raggiungibili, contanti e carta compresi, e i minori si riparano dopo.
+Se va bene: lunedì unisci l'ondata 1, premi il pulsante delle migrazioni nuove e metti la chiave di servizio con il fermo dei lavori a orario.
+
+Piano: `consegne/audit/2026-10-31-piano-difetti-sito.md` · memoria: https://github.com/NicolaeRotaru/ad-mycity/pull/906
+
+<!-- piano-difetti-sito -->
+
 ### 🔴 #224 — Unisci le fasce nuove della cassa: sette fasce e il ritiro quando il negozio è aperto · ⏳ accodata 2026-10-31 01:30 · aggiornata 2026-10-31 01:45
+
+> ✅ FATTO 2026-10-31 01:55 — hai unito anche la memoria, la #905. Resta la scelta su fino a quando le rotte accettano le fasce vecchie.
 
 > ✏️ Aggiornata il 2026-10-31 01:45. Hai unito la richiesta del sito alle 01:36. Resta da unire quella della memoria.
 
@@ -186,6 +209,8 @@ Contenuto: `consegne/audit/2026-10-25-consumo-token.md`.
 ---
 
 ### 🔴 #203 — Cambia oggi le chiavi del database del sito: una chiave segreta non è più segreta · ⏳ accodata 2026-10-11 23:15
+
+> ⏰ **2026-10-31 09:15 — Ancora aperta: l'ho ricontrollato oggi.** La procedura nuova te l'ho scritta in chat stamattina. La parte della chiave di servizio sul sito aspetta l'unione dell'ondata 1.
 
 > ⏰ **2026-10-24 14:20 — È ancora la cosa più urgente.** Il piano di riparazione la mette oggi, insieme alla #202, prima di tutto il resto. Finché la chiave vecchia vive, il giorno della chiave della #210 non può partire.
 
