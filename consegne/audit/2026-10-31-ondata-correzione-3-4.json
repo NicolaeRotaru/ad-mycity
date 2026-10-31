@@ -1,0 +1,62 @@
+{
+  "_cosa_e": "Ondata di correzione delle ondate 3 e 4 (scelta di Nicola del 31/10), sopra il ramo dei quattro pacchetti che reggono (6c5be9f7, in richiesta come mycity #269). Due motori in parallelo: 3-bis per i soldi (CA, CF, AN, PB), 4-bis per scorte, AI, documenti a metà e ingresso.",
+  "data": "2026-10-31 14:50",
+  "registro": "sito",
+  "run": [
+    "wf_38a26116-fd4",
+    "wf_868abf3a-e69"
+  ],
+  "esito": {
+    "app/api/orders/cod/route.ts": "regge (7608c3bf)",
+    "components/checkout/DeliverySlotPicker.tsx": "regge (a937a8cf)",
+    "lib/ordini/annulla.ts": "regge (83cd9c8f)",
+    "lib/stripe/payout.ts": "non_regge (1afd45fc): dopo un giro di correzione: sito: cp /tmp/claude-0/-home-user/495085c4-be08-555a-acb8-90cb3e7ad27d/scratchpad/qa-o3-A-payout/diviso-e-risposta-persa.test.ts tests/unit/ && npx vitest run tests/unit/diviso-e-risposta-persa.test.ts nel ramo: expected 2500 to be 4000 (reso 15€ uscito, mai registrato, storni []) | grave nato: Carrello di due negozi, rimborso diviso dal cruscotto e Stripe che perde la risposta: il reso esce ma il negozio tiene la quota (prova: Nel ramo: cp /tmp/claude-0/-home-user/49",
+    "lib/products/salvataggio-tracciato.ts": "regge (1575ec81)",
+    "components/seller/QuickAiTools.tsx": "regge (328d0779)",
+    "lib/privacy/potature-ritenzione.ts": "regge (c285fba8)",
+    "accessi (falle R14 e R15)": "non regge: la correzione rompeva tre percorsi di accesso e iscrizione; i dettagli restano fuori dal deposito finché le falle sono aperte. Il riparo vero di una delle due è un'impostazione del pannello di Supabase."
+  },
+  "parziali": [
+    {
+      "pacchetto": "app/api/orders/cod/route.ts",
+      "voce": "flussi-conversione|chi abita appena oltre i 10 km, come a podenzano o rottofreno, scopre di essere fuori zona solo premendo «ordina»: carrello e cassa non lo avvisano prima",
+      "perche": "Non fatto: ultimo giro speso sul caso bloccante. L'avviso (confine 5 km) va in cart/checkout e chiede una prova di render della cassa: pacchetto UI a parte."
+    },
+    {
+      "pacchetto": "components/checkout/DeliverySlotPicker.tsx",
+      "voce": "qa-flussi|se il negoziante segna chiusi tutti i giorni, per esempio per ferie, il sito lo considera sempre aperto e accetta ordini a qualsiasi ora",
+      "perche": "Soglia 4 giorni su 7: un negozio aperto 3 giorni o meno, in ferie con l'editor di prima, resta «non lo so». Serve un vero interruttore ferie."
+    },
+    {
+      "pacchetto": "lib/ordini/annulla.ts",
+      "voce": "app/rider/orders/[id]/page.tsx",
+      "perche": "Il pulsante viene dal primo giro e qui non l'ho toccato. Nessuna prova lo copre, quindi è fuori da --file."
+    },
+    {
+      "pacchetto": "lib/stripe/payout.ts",
+      "voce": "pagamenti-stripe|il giro che muore fra accumula_rimborso e stripe lascia 1 € prenotato senza soldi usciti; un rimborso a mano dall'admin lo porta a 2",
+      "perche": "Se il processo muore non gira nessun catch: serve una prenotazione con chiave in accumula_rimborso, cioe' una migrazione SQL fuori territorio. Il ramo ⑧ resta «a mano»."
+    },
+    {
+      "pacchetto": "lib/products/salvataggio-tracciato.ts",
+      "voce": "rls-database|un alimento caricato da file va in vendita senza allergeni né ingredienti, e il controllo del database guarda solo gli allergeni",
+      "perche": "Servono una migrazione (trigger sugli ingredienti) e una rotta server per l'import: tocca il DB di produzione, quindi va a security/tech con la firma di Nicola. Non toccato in questo giro."
+    },
+    {
+      "pacchetto": "lib/products/salvataggio-tracciato.ts",
+      "voce": "architettura|il caricamento da file scrive i prodotti direttamente dal browser: non esiste una rotta in cui mettere il freno di caricamento_da_file_acceso",
+      "perche": "Il freno vero sta nel database (RLS o trigger su products) o in una rotta nuova. È la migrazione 170, che l'AD ha rimandato a dopo il codice (regola 8)."
+    },
+    {
+      "pacchetto": "lib/privacy/potature-ritenzione.ts",
+      "voce": "dati-analytics|il registro attività copia in chiaro nome e cognome legali di negozianti e fattorini a ogni modifica del profilo",
+      "perche": "Il trigger lo chiudeva già la 155 sulla base. La 183 ripulisce le righe vecchie. La prova psql su mycity_ci non l'ho lanciata: localhost:5432 non risponde. Il test usa un Postgres usa-e-getta."
+    }
+  ],
+  "ricucitura": "ramo locale correzione-ricucita sopra ondate-3-4-ricucita: CA, CF, AN, SKA, AIH, KY2; fuori PB (rimborsi) e il pacchetto dell'ingresso",
+  "conto_token": {
+    "3-bis": "10 agenti: 27.228.374 token con le letture dalla cache, 1.364.398 senza",
+    "4-bis": "9 agenti: 28.195.671 con le letture, 1.289.382 senza"
+  },
+  "registro_del_sito": "19 voci nuove; 12 tenute fuori (le nate nel ramo dei rimborsi, che non entra, e tutte quelle del pacchetto dell'ingresso, che descrivono falle aperte)"
+}
