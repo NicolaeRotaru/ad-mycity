@@ -6365,3 +6365,5 @@ Restano fuori due pacchetti:
 
 **Colore:** 🔴 le scelte, di Nicola. 🟡 il codice nei rami e la memoria, da unire.
 
+
+- **2026-10-31 17:28** · 🟡 · Ondate 5 e 6 del piano per aprire: reggono 3 pacchetti su 10 (la data della fascia sull'ordine, il freno della veloce, i freni dell'AI e della newsletter). Nicola sceglie: un'ondata di correzione per tutti e 7 gli altri, su due motori in parallelo (soldi: bonifici, falle del database, resi; il resto: modulo prodotto, testi legali col titolare, via i 5 euro e i punti), e una richiesta sola per i 3 che reggono. Per i bonifici, il modulo prodotto e il titolare è il secondo giro di correzione: lo autorizza lui. **Perché:** quattro pacchetti non avevano avuto il loro giro per il tetto dei 12 agenti; con due motori il tetto basta. **Errore mio trovato strada facendo:** la pagina dei Termini era nel territorio dei resi dell'ondata 5, così il pacchetto dei testi non poteva toccarla e le scelte del 31/10 non sono entrate nei Termini. Nella correzione la pagina passa ai testi legali, che assorbono anche il titolare. Run wf_3231678e-3d7 e wf_6cb735f1-94d.

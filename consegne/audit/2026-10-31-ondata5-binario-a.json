@@ -1,0 +1,70 @@
+{
+  "_cosa_e": "Ondata 5 del piano per aprire il sito, binario A, soldi e cassa 2: FW (data della fascia), PA (bonifici, HELD, reclami), VN (freno della veloce), FP (falle del database, dettagli fuori dal deposito), SO (resi del negozio). Base dbbbbccc (correzione-ricucita). Le ondate 5 e 6 hanno girato insieme.",
+  "data": "2026-10-31 17:40",
+  "registro": "sito",
+  "run": "wf_ee379132-469",
+  "esito": {
+    "migrations/173_la_data_della_consegna_sta_sull_ordine.sql": "regge (b4cfd24e)",
+    "lib/stripe/payout.ts": "non_regge (5251564e): dopo un giro di correzione: sito: Data all'italiana: il doppio pagamento torna. Rosso su 5251564e senza mutare: cd /home/user/mycity-ondate/o5-lib-stripe-payout-ts && npx vitest run --config <scratchpad>/p3A/vitest.config.ts (11 verdi, caso 01/12/2026 ro | grave nato: Se la data d'inizio dei contanti si scrive all'italiana (01/12/2026), il giro ripaga da Stripe i contanti che Nicola ha già girato ",
+    "lib/ordini/veloce-non-confermata.ts": "regge (d105bd65)",
+    "migrations/176_falle_r1_r2.sql": "non_regge (77d5361d): i dettagli restano fuori dal deposito finché le falle sono aperte",
+    "app/api/returns/[id]/avanza/route.ts": "non_regge (dcbc3bcc): correzione: la squadra non ha consegnato · motivi: sito: Macchina regge, ma il recesso si chiude con 1 centesimo. Test del recesso: reso RECEIVED, motivo CHANGED_MIND, POST avanza {stato:'REFUNDED',refundAmountCents:1}. npx vitest run sul file: 200, reso REFUNDED con 1 cent su 30€. Merce tornata, cliente senza rimborso, bonifico libero"
+  },
+  "saltati_per_tetto": [
+    "correggi:migrations-176-falle-r1-r2-sql",
+    "correggi:app-api-returns-id-avanza-route-ts"
+  ],
+  "parziali": [
+    {
+      "pacchetto": "migrations/173_la_data_della_consegna_sta_sull_ordine.sql",
+      "voce": "app/orders/page.tsx: dopo 30 secondi la pagina dice ancora «nessun ordine»",
+      "perche": "Ora arrivano campanella ed email. La pagina che aspetta l'ordine è fuori dal territorio: potrebbe leggere il carrello CANCELED e dire «rimborsato»."
+    },
+    {
+      "pacchetto": "lib/stripe/payout.ts",
+      "voce": "pagamenti-stripe|dopo un reclamo, anche chiuso a favore del negozio, il negozio non viene più pagato per quell'ordine",
+      "perche": "Non toccato: questo giro chiude solo i motivi del collaudo. La cura vera è una migrazione nuova che ridefinisce il trigger della 063: file fuori territorio, e la firma sul database spetta a Nicola."
+    },
+    {
+      "pacchetto": "lib/stripe/payout.ts",
+      "voce": "pagamenti-stripe|al negozio che si collega a stripe il sito chiede anche il permesso di incassare carte, che con questo schema non gli serve",
+      "perche": "Non toccato in questo giro (fuori dai motivi del collaudo). Da qui non si apre la documentazione di Stripe Connect per confermare che basta la sola capacità transfers."
+    },
+    {
+      "pacchetto": "app/api/returns/[id]/avanza/route.ts",
+      "voce": "accessibilita|la dichiarazione promette che i dialoghi di conferma trattengono il fuoco e lo riportano indietro: il dialogo di conferma non fa nessuna delle due cose",
+      "perche": "Già corretto sulla base: ConfirmDialog.tsx tiene il Tab dentro (fuocoSuccessivo) e closeWith riporta il fuoco all'opener. Non c'era niente da riparare, quindi nessuna prova nuova."
+    },
+    {
+      "pacchetto": "app/api/returns/[id]/avanza/route.ts",
+      "voce": "privacy-legale|il negozio può chiudere un reso senza rimborsare il cliente, anche se il cliente ha esercitato il recesso e la merce è già tornata",
+      "perche": "Chiuso. La regola vive due volte (rotta e card) perché lib/ è fuori territorio: la casa giusta è lib/rimborsi/regole-del-rimborso.ts. Nemmeno l'admin può forzarla."
+    },
+    {
+      "pacchetto": "app/api/returns/[id]/avanza/route.ts",
+      "voce": "accessibilita|il riquadro «rifiutare l'ordine?» del negoziante lascia scappare il fuoco col tab, non lo riporta su «rifiuta» alla chiusura, e il campo del motivo non ha nome",
+      "perche": "Chiuso. La prova copre il nome del campo, Esc e il ritorno del fuoco. La trappola del Tab arriva dall'hook condiviso: in jsdom offsetParent è null, quindi qui non è esercitata."
+    },
+    {
+      "pacchetto": "app/api/returns/[id]/avanza/route.ts",
+      "voce": "frontend-ux|la riga «entro quando accettare» del negozio può restare ferma all ultima lettura: fino a 90 secondi alla riapertura o con la pagina aperta, e senza rete resta quella della sera prima",
+      "perche": "Chiuso. useOraCheCorre è copiato nelle due pagine: la casa giusta è components/hooks/, fuori territorio. La vecchia prova entro-quando-accettare non l'ho toccata."
+    }
+  ],
+  "nati_nei_rami_che_non_entrano": [
+    "Il giro continua a rileggere e a sommare nel saldo i contrassegni pagati a mano",
+    "Recesso approvato da meno di 14 giorni: la scheda mostra «Chiudi senza rimborso», poi la rotta risponde 409",
+    "Recesso che il cliente ritira prima della decisione: nessuno lo chiude prima di 14 giorni dall'approvazione, il bonifico resta fermo",
+    "Recesso in REQUESTED: la rotta indica una tappa che da lì non esiste, e se il cliente rinuncia il bonifico resta fermo 14 giorni",
+    "La variabile PAGAMENTI_CONTANTI_DA_STRIPE_DAL non è documentata: il giorno in cui serve, nessuno sa che esiste",
+    "Una data senza ora fa partire Stripe dall'una di notte a Piacenza: le consegne fra mezzanotte e l'una non le paga nessuno",
+    "La variabile PAGAMENTI_CONTANTI_DA_STRIPE_DAL non è scritta in nessun posto che Nicola legge: né il formato né il giorno in cui accenderla"
+  ],
+  "conto_token": {
+    "senza_letture": 1870199,
+    "con_letture": 39687715,
+    "agenti": 12,
+    "nota": "node cervello/conto-token.mjs --workflow wf_ee379132-469; quale dei due contatori conti il limite settimanale non è noto"
+  },
+  "dopo": "Scelta di Nicola del 31/10: i 3 pacchetti che reggono delle ondate 5 e 6 (FW, VN, FR) in una richiesta sola; un'ondata di correzione su due motori per gli altri 7 (run wf_3231678e-3d7 e wf_6cb735f1-94d)."
+}

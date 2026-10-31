@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-31 15:08",
+  "aggiornato": "2026-10-31 17:35",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -6180,6 +6180,80 @@
       "nota": "",
       "file": {
         "app/checkout/page.tsx": "c1b44164209b"
+      }
+    },
+    {
+      "quando": "2026-10-31 17:33",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/api/newsletter/route.ts": "cfa47fdbc0a4"
+      }
+    },
+    {
+      "quando": "2026-10-31 17:35",
+      "casa": "marketplace",
+      "dimensione": "ai-endpoints",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/api/ai/catalog-batch/start/route.ts": "3b6d24fcaadf",
+        "app/api/ai/translate/route.ts": "f8a2a272487a",
+        "app/api/ai/catalog-batch/apply/route.ts": "3b827b3fec3c"
+      }
+    },
+    {
+      "quando": "2026-10-31 17:35",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 2,
+      "schede": [
+        "Il commento degli interruttori dice «due eccezioni» senza rotta, ma sono di più: inviti e punti, app installabile, posthog",
+        "«AI per i negozi» spenta ferma anche l'AI dei clienti (riassunto recensioni, risposte, ordine da foto)"
+      ],
+      "nota": "",
+      "file": {
+        "lib/ai/client.ts": "a38d09292cc1",
+        "lib/funzioni-al-lancio.ts": "4a4ee600c987",
+        "lib/ordini/fascia-leggibile.ts": "dc49f5428c39",
+        "lib/ordini/scadenza-accettazione.ts": "ace8aff8e8e3",
+        "lib/ordini/veloce-non-confermata.ts": "04520de11a24"
+      }
+    },
+    {
+      "quando": "2026-10-31 17:35",
+      "casa": "marketplace",
+      "dimensione": "pagamenti-stripe",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 6,
+      "schede": [
+        "Il webhook della carta non rifà il controllo della veloce (fattorini online, 8-21) quando arrivano i soldi",
+        "Quando il webhook rimborsa senza creare l'ordine il cliente non riceve nessun messaggio",
+        "Un evento rinviato dopo il CANCELED per fascia rifà rimborso e avviso agli admin: CANCELED non chiude subito",
+        "Carrello scaduto pagato con carta: rimborso automatico, ma il cliente non riceve email ne' campanella",
+        "Webhook ripreso dopo il rimborso della fascia: con 'Adesso' e negozio riaperto nasce l'ordine gia' rimborsato",
+        "Dopo il rimborso al pagamento, /orders passati 30 secondi dice 'Non hai ancora ordini' invece di 'pagamento rimborsato'"
+      ],
+      "nota": "",
+      "file": {
+        "lib/stripe/webhook/fascia-al-pagamento.ts": "5b03a53901e8",
+        "app/api/stripe/checkout/route.ts": "a3cf546e66de",
+        "lib/stripe/webhook/ordini.ts": "0ddfe1ee2c1d"
       }
     }
   ]
