@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 2033,
+    "findings": 2086,
     "bloccanti": 35,
-    "gravi": 548,
-    "minori": 1450,
+    "gravi": 561,
+    "minori": 1490,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -38,19 +38,19 @@
       "chiave": "rls-database",
       "nome": "Permessi sul database",
       "fonte": "marketplace",
-      "totale": 18,
+      "totale": 19,
       "bloccanti": 4,
       "gravi": 4,
-      "minori": 10
+      "minori": 11
     },
     {
       "chiave": "qa-flussi",
       "nome": "Flussi critici",
       "fonte": "marketplace",
-      "totale": 36,
+      "totale": 43,
       "bloccanti": 1,
       "gravi": 8,
-      "minori": 27
+      "minori": 34
     },
     {
       "chiave": "privacy-legale",
@@ -65,19 +65,19 @@
       "chiave": "sicurezza-auth",
       "nome": "Sicurezza e accessi",
       "fonte": "marketplace",
-      "totale": 13,
+      "totale": 14,
       "bloccanti": 2,
       "gravi": 4,
-      "minori": 7
+      "minori": 8
     },
     {
       "chiave": "api-backend",
       "nome": "API",
       "fonte": "marketplace",
-      "totale": 19,
+      "totale": 25,
       "bloccanti": 0,
       "gravi": 4,
-      "minori": 15
+      "minori": 21
     },
     {
       "chiave": "frontend-ux",
@@ -92,10 +92,10 @@
       "chiave": "deploy-sre",
       "nome": "Rilascio e affidabilita'",
       "fonte": "marketplace",
-      "totale": 15,
+      "totale": 20,
       "bloccanti": 0,
-      "gravi": 7,
-      "minori": 8
+      "gravi": 9,
+      "minori": 11
     },
     {
       "chiave": "ai-endpoints",
@@ -110,19 +110,19 @@
       "chiave": "pagamenti-stripe",
       "nome": "Pagamenti",
       "fonte": "marketplace",
-      "totale": 26,
+      "totale": 29,
       "bloccanti": 0,
-      "gravi": 10,
-      "minori": 16
+      "gravi": 11,
+      "minori": 18
     },
     {
       "chiave": "dati-analytics",
       "nome": "Dati e analitica",
       "fonte": "marketplace",
-      "totale": 16,
+      "totale": 17,
       "bloccanti": 0,
       "gravi": 1,
-      "minori": 15
+      "minori": 16
     },
     {
       "chiave": "accessibilita",
@@ -173,10 +173,10 @@
       "chiave": "microcopy",
       "nome": "Microcopy",
       "fonte": "design",
-      "totale": 33,
+      "totale": 38,
       "bloccanti": 0,
-      "gravi": 11,
-      "minori": 22
+      "gravi": 13,
+      "minori": 25
     },
     {
       "chiave": "accessibilita-visiva",
@@ -34576,6 +34576,589 @@
       "file": "components/store-sections/useStorePageData.ts:55-64; components/store-sections/ReviewsSection.tsx:25,105",
       "descrizione": "La vetrina legge i nomi degli autori con from('profiles').select('id, full_name, public_handle').in('id', userIds). Dopo la 161 la lettura dà zero righe e l'errore si ignora. Ripiego: una vista coi permessi del proprietario sulle recensioni dei negozi approvati, col nome di battesimo.",
       "fonte": "censimento della migrazione 161 (run wf_df9b9a65-06c), 31/10/2026, sola lettura sul commit 0fc4ec7d"
+    },
+    {
+      "dimensione": "deploy-sre",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Anche la prova mensile di ripristino della copia fallisce senza avvisare nessuno",
+      "file": ".github/workflows/backup-db.yml lavoro prova-di-ripristino (da riga ~320): nessun passo if: failure()",
+      "descrizione": "percorso() di _condizioni-github.ts con 'Riaprila su un database vuoto, e cronometra' fallito: nessun passo di allarme gira",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), difetto vecchio visto strada facendo, 31/10/2026"
+    },
+    {
+      "dimensione": "deploy-sre",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Il ritorno indietro non sa a quale rilascio punta davvero il dominio dopo un ritorno indietro precedente",
+      "file": "scripts/prova-di-fumo.mjs rilascioDaTornare + deploy-dopo-ci.yml passo Rilascia in produzione (elenco /v6/deployments)",
+      "descrizione": "",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), difetto vecchio visto strada facendo, 31/10/2026"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Se la lettura delle recensioni della vetrina cade, l'errore si ignora e il negozio sembra senza recensioni",
+      "file": "components/store-sections/useStorePageData.ts: const { data } = await supabase.from('store_reviews')… senza leggere error",
+      "descrizione": "La riga legge solo data: un guasto di rete dà la stessa lista vuota di un negozio che non ha mai ricevuto una recensione.",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), difetto vecchio visto strada facendo, 31/10/2026"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La lettura degli amministratori nel sorvegliante non guarda l'errore: se fallisce, la campanella salta in silenzio",
+      "file": "app/api/cron/operational-alerts/route.ts: const { data: admins } = await admin.from('profiles').select('id').eq('role','admin')",
+      "descrizione": "Visto leggendo, non l'ho fatto girare. Con l'errore la campanella viene saltata senza una riga nei log.",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), difetto vecchio visto strada facendo, 31/10/2026"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Se fallisce la scrittura dell'attesa email dopo un invio riuscito, l'email riparte ogni 15 minuti senza nessun log",
+      "file": "app/api/cron/operational-alerts/route.ts: upsert finale su operational_alert_log senza controllo di error",
+      "descrizione": "Visto leggendo, non l'ho fatto girare.",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), difetto vecchio visto strada facendo, 31/10/2026"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Il conteggio dei promemoria «inviati» include carrelli segnati senza nessuna email",
+      "file": "app/api/cron/abandoned-carts/route.ts ramo senza consenso · lib/carrelli-abbandonati.ts:85,124",
+      "descrizione": "Per la misura della campagna recovery_email_sent_at vuol dire «email inviata». Il ramo senza consenso lo scrive senza spedire niente. Il nuovo ramo per i carrelli oltre 48 ore riusa lo stesso segno.",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), difetto vecchio visto strada facendo, 31/10/2026"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Il tentativo fallito di Resend viene scritto senza controllare se la scrittura è riuscita",
+      "file": "app/api/cron/send-emails/route.ts, ramo errori di processBatch (update attempts/cancelled_at e rinvio crescente)",
+      "descrizione": "I due update su email_queue nel ramo errors non leggono { error }: se falliscono, il tentativo non viene contato e nessuno se ne accorge.",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), difetto vecchio visto strada facendo, 31/10/2026"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La lista dei carrelli da avvisare ne prende 100 senza un ordine: con molti candidati alcuni restano indietro",
+      "file": "migrations/029_welcome_credit_search_fts_price_alert.sql, list_abandoned_carts_to_recover (LIMIT 100 senza ORDER BY)",
+      "descrizione": "Manca un ORDER BY prima del LIMIT 100: quali carrelli escono lo decide il piano di esecuzione. Con più di 100 candidati, uno fresco può aspettare più di un giro.",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), difetto vecchio visto strada facendo, 31/10/2026"
+    },
+    {
+      "dimensione": "dati-analytics",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "POSTHOG_ACCESO spento non ferma gli acquisti mandati a PostHog dal server",
+      "file": "lib/analytics/server.ts:35 (CHIAVE = NEXT_PUBLIC_POSTHOG_KEY, non legge POSTHOG_ACCESO)",
+      "descrizione": "grep -rn NEXT_PUBLIC_POSTHOG_KEY lib app → server.ts:35. Se c'è la chiave su Vercel, contaAcquisto spedisce lo stesso. L'interruttore nuovo ferma solo il browser.",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), nato dal lavoro, 31/10/2026"
+    },
+    {
+      "dimensione": "sicurezza-auth",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "L'invito si scrive dal browser direttamente nella tabella referrals: nessuna rotta lo controlla",
+      "file": "app/sign-up/page.tsx:165 (supabase.from('referrals').insert dal client)",
+      "descrizione": "Non verificato se le regole permettono un inserimento fatto a mano. Da chiudere prima di accendere INVITI_E_PUNTI_ACCESI.",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), difetto vecchio visto strada facendo, 31/10/2026"
+    },
+    {
+      "dimensione": "deploy-sre",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Dopo un ritorno indietro, al rilascio dopo si può tornare di nuovo al rilascio rotto già scartato, e non a quello che usano i clienti",
+      "file": "scripts/prova-di-fumo.mjs rilascioDaTornare · .github/workflows/deploy-dopo-ci.yml:589-597 (nessuna lettura di quale rilascio serve il dominio, /v13/deployments o /v4/aliases)",
+      "descrizione": "node --input-type=module -e \"import{rilascioDaTornare as r}from'./scripts/prova-di-fumo.mjs';const d=s=>({url:s+'.app',state:'READY',target:'production',meta:{githubCommitSha:s}});process.exit(/x/.test(r({deployments:[d('x'),d('w')]},{commitCheEsce:'y'}))?1:0)\" → exit 1",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), difetto vecchio visto strada facendo, 31/10/2026"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Con gli inviti spenti, il menu e la pagina del profilo promettono ancora 5 euro a chi invita un amico",
+      "file": "lib/account-menu.ts:33 «Invita amici · €5 per te» (Navbar, MobileAccountSheet) · app/profile/page.tsx:120 «Invita un amico, ricevi €5 di credito»",
+      "descrizione": "vitest: expect(getAccountMenuItems('buyer').map(i=>i.label).filter(l=>/€\\s*5/.test(l))).toEqual([]) con INVITI_E_PUNTI_ACCESI=false → rosso, riceve ['Invita amici · €5 per te']",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), difetto vecchio visto strada facendo, 31/10/2026"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Se l'email d'allarme parte ma la campanella non si scrive, la campanella non si ritenta per 6 ore, anche se il registro dice il contrario",
+      "file": "app/api/cron/operational-alerts/route.ts, ramo esitoCampanella.error (circa riga 620): l'email riuscita scrive alert_key, e il giro dopo l'allarme non è più tra i freschi",
+      "descrizione": "Lettura: fresh esclude le chiavi email recenti, daSuonare deriva da fresh. Prova da scrivere: insert su notifications con errore, sendEmail ok, due POST: oggi la seconda campanella non parte.",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), nato dal lavoro, 31/10/2026"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La pagina recensioni del negozio legge l'autore con una relazione che non esiste in nessuna migrazione",
+      "file": "app/seller/reviews/page.tsx:42 reviewer:profiles!store_reviews_reviewer_id_fkey; store_reviews.user_id punta ad auth.users (014:59)",
+      "descrizione": "grep -c store_reviews_reviewer_id_fkey lib/database.types.ts → 0, e nessuna migrazione la crea. Non verificato sul database vivo: se manca, la lettura PostgREST fallisce e la pagina va in errore.",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), difetto vecchio visto strada facendo, 31/10/2026"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La pagina clienti del negozio legge ancora il nome del cliente da profiles, chiusa dalla 161 tranne la propria riga",
+      "file": "app/seller/customers/page.tsx:46 buyer:profiles!orders_user_id_fkey ( full_name ) — stesso schema dei difetti chiusi dalla 164, fuori perimetro",
+      "descrizione": "Lettura: dopo la 161 l'aggancio torna vuoto per un utente diverso da chi legge. Non l'ho fatto girare.",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), difetto vecchio visto strada facendo, 31/10/2026"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Con gli inviti spenti, il profilo e il menu promettono ancora 5 euro a chi invita un amico, ma la pagina dice che non c'è nessun premio",
+      "file": "app/profile/page.tsx:120 «Invita un amico, ricevi €5 di credito»; lib/account-menu.ts:33 «Invita amici · €5 per te». La destinazione /profile/referral ora dice «inviti non attivi»",
+      "descrizione": "node --experimental-strip-types: getAccountMenuItems('buyer') restituisce «Invita amici · €5 per te» con INVITI_E_PUNTI_ACCESI=false → exit 1, rifatto due volte. Il banner del profilo c'era già sul commit base.",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), difetto vecchio visto strada facendo, 31/10/2026"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Con l'abbonamento spento è spento anche il portale: un negozio già abbonato non può disdire né cambiare la carta",
+      "file": "app/api/seller/subscription/portal/route.ts: il rifiuto per ABBONAMENTO_NEGOZI_ACCESO arriva prima di tutto; lo chiama GestisciAbbonamento in /seller/profile",
+      "descrizione": "Visto solo leggendo il codice. Gli abbonati veri non li ho contati: il sensore REST non è configurato. Prova da scrivere: POST al portale con subscription_status 'active' deve aprire il portale, non rispondere 503.",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), nato dal lavoro, 31/10/2026"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "L'interruttore «inviti e punti» spegne solo gli inviti: la pagina dei punti e la voce «Punti & Livello» restano accese",
+      "file": "lib/funzioni-al-lancio.ts INVITI_E_PUNTI_ACCESI: lo leggono solo app/sign-up e app/profile/referral; /profile/loyalty e lib/account-menu.ts:32 non lo leggono",
+      "descrizione": "grep -rn INVITI_E_PUNTI_ACCESI app components lib → solo sign-up e referral. È la stessa classe che il pacchetto chiudeva: un «spento» che nessuno legge.",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), nato dal lavoro, 31/10/2026"
+    },
+    {
+      "dimensione": "deploy-sre",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La copia notturna che resta appesa fino al limite dei 30 minuti viene annullata e non suona l'allarme",
+      "file": ".github/workflows/backup-db.yml, passo «Suona l'allarme»: if: failure(), con timeout-minutes: 30 sul lavoro",
+      "descrizione": "Se il lavoro va oltre il tempo massimo GitHub lo annulla, e allora failure() è falso. Confidenza 70%, l'ho solo letto. Rimedio: if: failure() || cancelled(). Prima del lotto non c'era nessun allarme.",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), difetto vecchio visto strada facendo, 31/10/2026"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Altre pagine leggono ancora i nomi da profiles: la chat col negozio, le recensioni e i clienti del negozio restano senza nome dopo la 161",
+      "file": "app/messages/[id]/page.tsx:92-93, app/seller/reviews/page.tsx:42, app/seller/customers/page.tsx:46 (agganci profiles!…_fkey(full_name))",
+      "descrizione": "La 161 toglie «Anyone can view approved seller profiles» e «Public profile read» (righe 353-354). Prova da scrivere, sullo stampo di i-nomi-si-leggono-anche-coi-profili-chiusi: con profiles chiusi la chat deve mostrare il nome del negozio.",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), difetto vecchio visto strada facendo, 31/10/2026"
+    },
+    {
+      "dimensione": "deploy-sre",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Se la copia notturna supera i 30 minuti e il lavoro viene fermato, l'allarme probabilmente non parte",
+      "file": ".github/workflows/backup-db.yml: lavoro backup, timeout-minutes 30 (riga 45) e passo allarme con if: failure()",
+      "descrizione": "Non provato da qui (serve un runner GitHub), confidenza circa 60%. Un lavoro fermato per tempo scaduto viene annullato e failure() non scatta. Prova: lavoro con timeout-minutes 1 e sleep 120 + passo if: failure(). Rimedio: timeout-minutes sul passo pg_dump.",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), difetto vecchio visto strada facendo, 31/10/2026"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La classifica inviti parla ancora di un credito per ogni amico invitato, mentre la pagina inviti dice che il premio non c'è",
+      "file": "app/profile/referral/leaderboard/page.tsx:117",
+      "descrizione": "grep -n 'Il credito per ogni amico' app/profile/referral/leaderboard/page.tsx -> riga 117; con INVITI_E_PUNTI_ACCESI=false /profile/referral dice 'al lancio non c'è un premio'. Solo testo, nessuna cifra promessa.",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), difetto vecchio visto strada facendo, 31/10/2026"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Il modulo d'iscrizione del negozio fa accettare per forza un addebito di 50 euro al mese, ma l'abbonamento al lancio è sospeso",
+      "file": "components/SellerApplicationForm.tsx:69 (acceptBilling obbligatorio), :225, :238, :375-378, :403; app/seller/layout.tsx:98",
+      "descrizione": "node --experimental-strip-types -e \"import('./lib/funzioni-al-lancio.ts').then(m=>process.exit(!m.ABBONAMENTO_NEGOZI_ACCESO&&/addebito mensile di €50/.test(require('fs').readFileSync('components/SellerApplicationForm.tsx','utf8'))?1:0))\" → exit 1, 3 volte",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), difetto vecchio visto strada facendo, 31/10/2026"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Con l'abbonamento spento si chiude anche il portale per disdirlo: chi ha un abbonamento attivo non può annullarlo dal sito",
+      "file": "app/api/seller/subscription/portal/route.ts:24 (503 prima di tutto); components/seller/GestisciAbbonamento.tsx:29 mostra il bottone se stato è active/past_due/canceled",
+      "descrizione": "Diventa grave se in produzione: select count(*) from profiles where subscription_status in ('active','past_due') > 0. Lo spento deve bloccare le nuove richieste di soldi, non la porta per uscire.",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), nato dal lavoro, 31/10/2026"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "L'interruttore 'inviti e punti' dice di spegnere anche i punti, ma nessun pezzo dei punti lo legge",
+      "file": "lib/funzioni-al-lancio.ts:104-110; DailyCheckIn in app/layout.tsx, menu 'Punti & Livello' in lib/account-menu.ts:32",
+      "descrizione": "grep -rn INVITI_E_PUNTI_ACCESI app components lib → solo sign-up, profile/referral, profile: è lo stesso 'spento che nessuno legge' che il file dice di aver tolto",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), nato dal lavoro, 31/10/2026"
+    },
+    {
+      "dimensione": "rls-database",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "La vista nomi_pubblici non ha una prova su un database vero, solo su un database finto",
+      "file": "migrations/164_i_nomi_pubblici_dopo_la_161.sql; tests/sql/rls/ (nessun file sui nomi)",
+      "descrizione": "ls tests/sql/rls | grep -i nomi → vuoto. Manca il caso SQL: anon → permission denied; cliente → nome del suo fattorino; estraneo → niente fattorino",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), nato dal lavoro, 31/10/2026"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Nelle recensioni della vetrina chi ha solo il nome pubblico (senza nome vero) adesso appare come «Cliente»",
+      "file": "components/store-sections/useStorePageData.ts:58 (prima full_name || public_handle, ora solo la prima parola di full_name)",
+      "descrizione": "Diff 0fc4ec7d..HEAD: tolto il ripiego su public_handle. Un autore con full_name null e public_handle 'beppe' prima leggeva 'beppe', ora 'Cliente' (vale anche nel ripiego senza la 164)",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), nato dal lavoro, 31/10/2026"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Ogni visitatore senza account fa una richiesta rifiutata alla vista dei nomi su ogni scheda prodotto e vetrina",
+      "file": "components/ProductQA.tsx:81; components/store-sections/useStorePageData.ts:58; lib/queries/seller-public-profiles.ts fetchNomiPubblici (ramo else → logger.warn)",
+      "descrizione": "Con la 164 applicata un anonimo riceve 401/42501 da /rest/v1/nomi_pubblici e la console scrive '[nomi] vista nomi_pubblici non letta'. Rumore, non un danno: saltare la lettura se non c'è la sessione",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), nato dal lavoro, 31/10/2026"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Altre pagine leggono ancora i nomi delle persone da profiles: dopo la 161 l'elenco clienti del negozio e i messaggi restano senza nome",
+      "file": "app/seller/customers/page.tsx:46; app/messages/page.tsx:84; app/messages/[id]/page.tsx:92",
+      "descrizione": "grep -rn 'buyer:profiles!' app → 3 punti fuori dal pacchetto. Stessa classe del fattorino: la lettura torna vuota senza errore. Resa a schermo non verificata",
+      "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), difetto vecchio visto strada facendo, 31/10/2026"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Il primo giro a mano della cancellazione degli account cancellava davvero se il parametro del conto era scritto male",
+      "file": "app/api/cron/process-deletions/route.ts:97 · lib/cron/fermo-dei-lavori.ts:43",
+      "descrizione": "Il conto senza cancellare partiva solo con solo_conta=1 scritto esatto. Con solo_conta=true, soloConta=1 o la shell che taglia l'indirizzo al primo & senza virgolette, la chiamata a mano faceva la notte vera, che cancella account e non si torna indietro. Corretto prima dell'unione, in due giri di collaudo: giroCheSoloConta() conta per difetto. Cancella solo con cancella=1 esatto, o dalla chiamata del calendario (nessun parametro) con l'interruttore suo CANCELLAZIONI_A_ORARIO=accese: così accendere gli altri dieci lavori non la fa partire.",
+      "prova": "cd /home/user/mycity && npx vitest run tests/unit/i-lavori-a-orario-si-fermano-finche-nicola-non-li-accende.test.ts",
+      "prova_tipo": "comando",
+      "fonte": "collaudo del fermo dei lavori a orario, ondata 1 del piano dei difetti (commit 1bc57b55), 31/10/2026"
+    },
+    {
+      "dimensione": "deploy-sre",
+      "reparto": "Deploy e affidabilità",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Coi lavori a orario fermi il sorvegliante degli allarmi vede i battiti vecchi e suona per lavori fermi di proposito",
+      "file": "app/api/cron/operational-alerts/route.ts · lib/api/middleware.ts",
+      "descrizione": "Un giro fermo non scrive il battito, di proposito. Quando il sorvegliante gira (a mano o coi lavori accesi), trova battiti vecchi e li segnala come guasti, senza dire che il fermo è acceso. Proposta: nel primo giro a mano lanciarlo per ultimo, e far citare LAVORI_A_ORARIO nel testo dell'allarme quando il fermo è acceso.",
+      "fonte": "collaudo del fermo dei lavori a orario, ondata 1 del piano dei difetti (commit 1bc57b55), 31/10/2026"
+    },
+    {
+      "dimensione": "deploy-sre",
+      "reparto": "Deploy e affidabilità",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "La prova del fermo dei lavori non vede una rotta che si ferma su Stripe prima del fermo, né una cartella di lavori fuori dal calendario",
+      "file": "tests/unit/i-lavori-a-orario-si-fermano-finche-nicola-non-li-accende.test.ts:104",
+      "descrizione": "La prova imposta la chiave di Stripe e confronta le rotte con vercel.json. Una rotta che controllasse Stripe prima del fermo, o una dodicesima cartella in app/api/cron che non sta nel calendario, passerebbe senza rosso.",
+      "fonte": "collaudo del fermo dei lavori a orario, ondata 1 del piano dei difetti (commit 1bc57b55), 31/10/2026"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Il conto senza cancellare della cancellazione degli account può dire più account di quelli che la notte cancella davvero",
+      "file": "app/api/cron/process-deletions/route.ts:62",
+      "descrizione": "Il conto prende tutte le righe restituite da process_expired_deletions. La notte vera può saltarne qualcuna strada facendo, quindi il numero letto nel primo giro a mano può essere più alto del vero. Va detto nella risposta o allineato alla regola della notte.",
+      "fonte": "collaudo del fermo dei lavori a orario, ondata 1 del piano dei difetti (commit 1bc57b55), 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Toccare la mappa rimandava al modulo l'indirizzo di quando la mappa si era aperta",
+      "file": "components/StoreLocationPicker.tsx: updatePos dentro l'effetto che apre la mappa",
+      "descrizione": "Corretto qui (indirizzoRef): senza, la strada indicata dal nuovo avviso («tocca la mappa») svuotava l'indirizzo. Lo prova il secondo caso di il-negozio-che-non-cerca-l-indirizzo-non-finisce-a-roma.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Navbar: link della testata senza un colore loro, a rischio di sparire come il logo",
+      "file": "components/Navbar.tsx con app/globals.css:194 (a { color: primary-700 })",
+      "descrizione": "Ho guardato solo il logo e «Accedi». La regola globale dei link resta e colpisce ogni link senza una classe text-… su sfondo primary-700.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "L'esito motivato di una segnalazione non arriva né a chi ha segnalato né al venditore (DSA art. 16.5 e 17)",
+      "file": "app/api/segnalazioni/route.ts (nessun invio dell'esito) · components/Segnala.tsx:58 (il messaggio promette «ti diciamo com'è andata»)",
+      "descrizione": "Registrare una decisione in /admin/segnalazioni e controllare che a chi ha segnalato (segnalante_id / email_contatto) e al venditore arrivi una notifica o una mail: oggi non parte niente, nessun codice legge esito_motivato per comunicarlo.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Commento stantio negli allarmi: dice che /admin/orders/<id> non esiste",
+      "file": "app/api/cron/operational-alerts/route.ts:132 (rotta di un'altra ondata, non toccata)",
+      "descrizione": "grep -n \"non esiste\" app/api/cron/operational-alerts/route.ts",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "L'aiuto fattorini promette consegna pagata come fatta e ban del cliente aggressivo: nessun codice lo fa",
+      "file": "app/rider/help/page.tsx, voce «Cosa succede se un cliente è aggressivo?»",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "L'iscrizione obbliga il fattorino a caricare una sua polizza RC anche se va in bici",
+      "file": "app/rider/onboarding/page.tsx:22 (rider_insurance required: true)",
+      "descrizione": "Non toccato: la scelta della copertura (INAIL, polizza propria) va fatta con Nicola prima del primo fattorino esterno.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Con Trending ora vuoto il contenitore della sezione resta e lascia uno spazio bianco in home",
+      "file": "components/home-sections/HomeSectionRenderer.tsx:416-417 (div con SPAZIO_SEZIONE attorno a <TrendingNow/>)",
+      "descrizione": "Non verificato a schermo. Il contenitore resta montato anche quando il componente restituisce null; dopo questo lotto succede più spesso.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Il ripiego della lettura delle tendenze carica gli ultimi 8 prodotti, che ora non vengono mai mostrati",
+      "file": "lib/queries/fasce-prodotti.ts:63-77 (leggiTendenze, ripiego con view_count 0)",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La prova finta delle pagine messaggi registra «supabase.channel(...).on(...).on is not a function» a ogni giro",
+      "file": "tests/unit/aiuti (finto client Supabase delle pagine montate) · app/messages/page.tsx ascolto realtime",
+      "descrizione": "Il log di prova-rimessa ha 200 righe con questo TypeError su ogni giro: il regex STRUTTURA lo prende e ogni rosso diventa 'strutturale'. Ci sono 10 AssertionError veri.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Nella testata le pillole «Ordini», «Consegne» e «Admin» hanno lo stesso colore dello sfondo: negoziante, fattorino e admin non le vedono",
+      "file": "components/Navbar.tsx:180,186,192 (Link bg-white/10 senza text-white dentro bg-primary-700; vince a{color:primary-700} di globals.css:194)",
+      "descrizione": "Copia di tests/unit/il-logo-e-accedi-si-vedono-sulla-testata.test.tsx con useProfile isAuthenticated/isSeller/isRider/isAdmin:true e i link a[href=/seller/orders],[href=/rider],[href=/admin]: «/seller/orders Ordini: contrasto 1.00», atteso >= 4.5. Rossa sul codice di oggi.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Se l'ordine viene annullato a GPS acceso, la posizione del fattorino continua a scriversi sull'ordine chiuso",
+      "file": "app/rider/orders/[id]/page.tsx:322-325 (si ferma solo con DELIVERED); il trigger ordini_cancella_posizione_a_chiusura scatta solo su UPDATE OF delivery_status",
+      "descrizione": "Copia del caso ③ di il-fattorino-in-strada-ha-il-112-subito-e-numeri-veri.test.tsx con setQueriesData delivery_status:'CANCELED': expect(gps.chiusi).toContain(osservatore.id) → expected [] to include 1. trg_enforce_order_update lascia scrivere rider_lat al fattorino assegnato anche a ordine chiuso.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "rls-database",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "La regola SQL della migrazione 181 (chi vede il nome di chi) non ha una prova che la esegua: si può aprire a tutti e le prove restano verdi",
+      "file": "migrations/181_i_nomi_dei_clienti_che_il_negozio_vede.sql; tests/unit/i-nomi-dei-clienti-che-il-negozio-vede.test.ts la rifà in JS e non legge il .sql",
+      "descrizione": "Con «OR true» dopo AND p.id <> auth.uid() la prova resta 16/16 verde. La uccide: tests/sql/harness/apply.sh, poi nomi_dei_clienti_del_negozio(ARRAY[Maria,Giulia]) chiamata da un altro negozio con request.jwt.claims → 0 righe attese. Oggi: 0, e 3 righe giuste per il negozio vero.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), nato dal lotto, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Nella testata cuore, messaggi e campanella hanno lo stesso colore dello sfondo e non si vedono",
+      "file": "components/Navbar.tsx IconButton (riga ~293): Link senza text-white, la regola a{color:primary-700} (globals.css:194) colora le icone currentColor su bg-primary-700",
+      "descrizione": "Stessa causa del logo e di «Accedi» corretti nel lotto. grep -n 'hover:bg-white/10 rounded-full' components/Navbar.tsx: classe senza colore del testo. Si vede su desktop, per chi ha fatto l'accesso.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Chi segnala un contenuto non riceve mai l'esito che il modulo gli promette",
+      "file": "app/admin/segnalazioni/page.tsx decidi: solo update della riga · components/Segnala.tsx:58,85 promette «ti diciamo com'è andata»",
+      "descrizione": "Nessuna email o notifica a segnalante_id/email_contatto su accolta/respinta (grep notifications|email: nessun riscontro nella pagina). DSA art. 16.5. Diventa rosso con una prova: decisione registrata → un avviso a chi ha segnalato.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Se la lettura dei negozi cade, la sitemap toglie a google tutte le categorie",
+      "file": "app/sitemap.ts: storesRes fallita → approvedSellerIds [] → leggiInBlocchi {data:[],error:null} → conProdotti vuoto",
+      "descrizione": "Il commento dice «se la lettura fallisce si tengono tutte», ma vale solo per l'errore sui prodotti. Rosso: prova con from('profiles') in errore → attese 72 categorie, oggi 0.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), nato dal lotto, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "In home 12 riquadri di caricamento di «di tendenza» poi spariscono: la pagina salta di ~700 punti sul telefono",
+      "file": "components/home/TrendingNow.tsx isLoading → 12 skeleton h-44; poi classificaVera vuota → null dentro un div py-6 (HomeSectionRenderer:417)",
+      "descrizione": "Con la soglia di 3 visite nelle 24 ore la classifica al lancio è quasi sempre vuota: il salto avviene a ogni visita. Prima l'elenco di ripiego riempiva il riquadro.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), nato dal lotto, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "L'editor della home toglie in silenzio la sezione rotta: al primo salvataggio è persa e l'admin non lo sa",
+      "file": "app/admin/home/page.tsx:45 normalizeHomeSite → solo logger.warn; il salvataggio riscrive senza la sezione scartata",
+      "descrizione": "leggiHomeSite restituisce le scartate, ma l'editor non le mostra. Rimedio: un avviso «1 sezione non valida tolta» prima di salvare.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), nato dal lotto, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "I negozi già salvati a roma restano a roma finché non riaprono il profilo",
+      "file": "dati profiles.store_lat=41.9028, store_lng=12.4964: il selettore li riconosce solo all'apertura del modulo",
+      "descrizione": "Non verificato sui dati. In lettura: select id,store_name from profiles where store_lat=41.9028 and store_lng=12.4964. Se torna righe, quei negozi sono fuori zona per Piacenza.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La consolle SOS non mostra da quale consegna parte l'allarme: l'order_id ora scritto non si vede da nessuna parte",
+      "file": "app/admin/sos/page.tsx:35 (order_id letto nella select, mai mostrato) · components/rider/RiderShell.tsx:56",
+      "descrizione": "Sonda B: evento con order_id ord-42 e lat null -> la scheda mostra solo nome, telefono e ora, nessun link all'ordine. Col difetto 1, chi deve aiutare non sa ne' dove ne' per quale consegna.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La pagina d'aiuto promette ancora 'consegna annullata e pagata come fatta', ma sul rimborso il compenso del fattorino viene recuperato",
+      "file": "app/rider/help/page.tsx:81",
+      "descrizione": "lib/stripe/payout.ts:1651 e lib/stripe/webhook/rimborsi.ts:107 recuperano il compenso del fattorino sul rimborso totale: e' il contrario della promessa. Il test 5 ('si promette solo quello che il sito fa') non la copre.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
     }
   ],
   "sync_scan": {

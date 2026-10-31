@@ -1135,6 +1135,29 @@
      ],
      "rischio": "medio: il conto dei 14 giorni è uno solo, nel fuso di Roma, per la pagina e per la rotta",
      "sforzo": "M"
+    },
+    {
+     "codice": "RI2",
+     "nome": "RI2 il pulsante SOS del fattorino, rifatto",
+     "file": [
+      "components/rider/SOSButton.tsx",
+      "app/rider/orders/[id]/page.tsx",
+      "app/rider/history/page.tsx",
+      "app/rider/help/page.tsx",
+      "components/rider/RiderShell.tsx",
+      "app/admin/sos/page.tsx"
+     ],
+     "indici": [
+      115,
+      96,
+      241,
+      116,
+      1561,
+      247
+     ],
+     "rischio": "medio: il 112 si apre per primo, e la posizione arriva lo stesso dopo l avviso",
+     "sforzo": "M",
+     "nota": "Scelta di Nicola del 31/10 (2026-10-31 11:12): rifarlo qui, nell ondata dei nati. Il primo tentativo (ondata 2, ramo fix/ondata-2-components-rider-sosbutton-tsx 04d0e811) apriva il 112 subito ma perdeva la posizione se il GPS rispondeva dopo 1,5 secondi. Serve una migrazione NUOVA (numero libero al momento dell ondata) che lascia al fattorino aggiornare solo lat e lng del proprio SOS, entro pochi minuti dalla nascita; la consolle /admin/sos mostra l ordine. I cinque minori nati nel primo ramo stanno nel referto consegne/audit/2026-10-31-ondata2-binario-b.json, campo RI_fuori: sono i casi da provare."
     }
    ]
   },
@@ -5402,6 +5425,81 @@
       "gravita": "grave",
       "titolo": "Il cliente può scrivere al negozio, ma il negozio non viene mai avvisato e dal suo pannello non vede i messaggi",
       "indice": 22
+     }
+    ]
+   },
+   {
+    "chiave": "components/rider/SOSButton.tsx#nati",
+    "codice": "RI2",
+    "file": [
+     "components/rider/SOSButton.tsx",
+     "app/rider/orders/[id]/page.tsx",
+     "app/rider/history/page.tsx",
+     "app/rider/help/page.tsx",
+     "components/rider/RiderShell.tsx",
+     "app/admin/sos/page.tsx"
+    ],
+    "difetti": [
+     {
+      "chiave": "frontend-ux|il pulsante sos apre il 112 solo dopo aver aspettato gps e rete: con poco segnale il tastierino può non aprirsi mai",
+      "gravita": "grave",
+      "titolo": "Il pulsante SOS apre il 112 solo dopo aver aspettato GPS e rete: con poco segnale il tastierino può non aprirsi mai",
+      "indice": 115
+     },
+     {
+      "chiave": "api-backend|l'sos del fattorino non arriva davvero a nessuno: solo una notifica nel pannello, mentre a lui diciamo «alert immediato»",
+      "gravita": "grave",
+      "titolo": "L'SOS del fattorino non arriva davvero a nessuno: solo una notifica nel pannello, mentre a lui diciamo «alert immediato»",
+      "indice": 96
+     },
+     {
+      "chiave": "mobile-pwa|se il gps del fattorino perde il segnale, la pagina dice «posizione spenta» ma continua a mandarla, anche dopo la consegna",
+      "gravita": "grave",
+      "titolo": "Se il GPS del fattorino perde il segnale, la pagina dice «posizione spenta» ma continua a mandarla, anche dopo la consegna",
+      "indice": 241
+     },
+     {
+      "chiave": "frontend-ux|lo storico consegne dice al fattorino che ha guadagnato zero sulle spese sopra i 30 euro",
+      "gravita": "grave",
+      "titolo": "Lo Storico consegne dice al fattorino che ha guadagnato zero sulle spese sopra i 30 euro",
+      "indice": 116
+     },
+     {
+      "chiave": "frontend-ux|lo storico del fattorino somma la spedizione del cliente come guadagno: dopo il lotto ogni consegna segna +0,00 €",
+      "gravita": "minore",
+      "titolo": "Lo storico del fattorino somma la spedizione del cliente come guadagno: dopo il lotto ogni consegna segna +0,00 €",
+      "indice": 1561
+     },
+     {
+      "chiave": "microcopy|la pagina d'aiuto dei fattorini promette polizza pagata da noi, compenso a chilometri e bonifici a date fisse che il sito non fa, con un numero d'emergenza finto",
+      "gravita": "grave",
+      "titolo": "La pagina d'aiuto dei fattorini promette polizza pagata da noi, compenso a chilometri e bonifici a date fisse che il sito non fa, con un numero d'emergenza finto",
+      "indice": 247
+     },
+     {
+      "chiave": "frontend-ux|l'aiuto fattorini promette consegna pagata come fatta e ban del cliente aggressivo: nessun codice lo fa",
+      "gravita": "minore",
+      "titolo": "L'aiuto fattorini promette consegna pagata come fatta e ban del cliente aggressivo: nessun codice lo fa"
+     },
+     {
+      "chiave": "frontend-ux|l'iscrizione obbliga il fattorino a caricare una sua polizza rc anche se va in bici",
+      "gravita": "minore",
+      "titolo": "L'iscrizione obbliga il fattorino a caricare una sua polizza RC anche se va in bici"
+     },
+     {
+      "chiave": "frontend-ux|se l'ordine viene annullato a gps acceso, la posizione del fattorino continua a scriversi sull'ordine chiuso",
+      "gravita": "grave",
+      "titolo": "Se l'ordine viene annullato a GPS acceso, la posizione del fattorino continua a scriversi sull'ordine chiuso"
+     },
+     {
+      "chiave": "frontend-ux|la consolle sos non mostra da quale consegna parte l'allarme: l'order_id ora scritto non si vede da nessuna parte",
+      "gravita": "grave",
+      "titolo": "La consolle SOS non mostra da quale consegna parte l'allarme: l'order_id ora scritto non si vede da nessuna parte"
+     },
+     {
+      "chiave": "frontend-ux|la pagina d'aiuto promette ancora 'consegna annullata e pagata come fatta', ma sul rimborso il compenso del fattorino viene recuperato",
+      "gravita": "minore",
+      "titolo": "La pagina d'aiuto promette ancora 'consegna annullata e pagata come fatta', ma sul rimborso il compenso del fattorino viene recuperato"
      }
     ]
    }

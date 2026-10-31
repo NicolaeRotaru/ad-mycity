@@ -1,0 +1,69 @@
+{
+  "_cosa_e": "Ondata 2 del piano per aprire il sito, binario B. Cinque pacchetti: VE (vetrina e posizione del negozio), AD (admin: dettaglio ordine e segnalazioni), RI (fattorino: SOS, posizione, storico, aiuto), HP (home composta dal pannello), P161b (i nomi dei clienti che il negozio vede, migrazione 181). Base origin/main 0fc4ec7d.",
+  "data": "2026-10-31 10:37",
+  "registro": "sito",
+  "run": "wf_765f4faf-23a",
+  "esito": {
+    "components/StoreLocationPicker.tsx": "regge (ebeaeffb)",
+    "app/admin/orders/[id]/page.tsx": "regge (98807b96)",
+    "components/rider/SOSButton.tsx": "non_regge (04d0e811)",
+    "lib/home-site.ts": "regge (a81fc255)",
+    "migrations/181_i_nomi_dei_clienti_che_il_negozio_vede.sql": "regge (f4c70dab)"
+  },
+  "ricucitura": "ramo locale ondata-2-ricucita sopra origin/main coi quattro pacchetti che reggono; RI resta fuori (regola del metodo snello: un giro di correzione, poi decide Nicola)",
+  "RI_fuori": {
+    "ramo": "fix/ondata-2-components-rider-sosbutton-tsx",
+    "commit": "04d0e811",
+    "motivo": "dopo un giro di correzione: sito: Motivo GPS chiuso: avviso subito, test 10/10 verde. Nasce rotto: fix GPS dopo 1,5s -> SOS con lat null per sempre, e /admin/sos non mostra order_id. Rosso 2/2: npx vitest run --config /tmp/claude-0/-home-user/495085c4-be08-555a-acb8-90cb3e7ad27d/scratchpad/probe/vitest.sonda.conf | grave nato: L'SOS arriva agli amministratori senza posizione se il GPS risponde anche solo un secondo dopo: il punto si perde per sempre (prova: Sonda A: getUser 300 ms, GPS 1,5 s -> insert con lat null (atteso 45.05). Sul base 0fc4ec7d il GPS si aspettava fino a 8 s. /rider non tiene il GPS acceso: caso)",
+    "nati_nel_ramo_non_registrati": [
+      "un errore passeggero del gps ora spegne la condivisione della posizione finché il fattorino non la riattiva a mano",
+      "l'sos lanciato da un indirizzo /rider/orders/<non-uuid> perde l'avviso: l'insert fallisce sull'order_id",
+      "L'avviso aspetta ancora un giro di rete (getUser) a 112 gia' aperto, e dopo 10 s rinuncia per sempre senza riprovare",
+      "Un errore GPS passeggero (galleria, 30 s senza fix) ora spegne per sempre la posizione condivisa col cliente",
+      "L'SOS premuto da una consegna gia' chiusa (aperta dallo Storico) porta l'ordine vecchio come contesto"
+    ],
+    "proposta": "rifarlo in un'ondata dei nati con una migrazione nuova che lasci al fattorino aggiungere la posizione al proprio SOS dopo l'avviso (UPDATE solo su lat/lng della propria riga, entro pochi minuti), e la consolle SOS che mostra l'ordine"
+  },
+  "registro_del_sito": "20 voci nuove (vecchie viste strada facendo e nate nei quattro pacchetti che entrano); 5 nate nel ramo RI restano qui sopra, non nel registro, perché quel ramo non entra",
+  "conto_token": {
+    "workflow": "9 agenti, 405 turni: 39.518.511 token con le letture dalla cache, 1.451.050 senza (node cervello/conto-token.mjs --workflow wf_765f4faf-23a)",
+    "per_fase": "collaudo 16.084.862 · squadre 20.950.438 · correzione 2.483.211 (con le letture)"
+  },
+  "parziali": [
+    {
+      "pacchetto": "components/StoreLocationPicker.tsx",
+      "voce": "frontend-ux|le foto dell'iphone (heic) adesso entrano davvero, ma nessuno le converte: sul telefono android e su chrome restano un riquadro rotto",
+      "perche": "I formati accettati si decidono in lib/storage/casella-di-caricamento.ts, fuori territorio. Due prove esistenti chiedono che l'HEIC entri: servono quei file e la decisione."
+    },
+    {
+      "pacchetto": "components/StoreLocationPicker.tsx",
+      "voce": "frontend-ux|il negozio che scrive l'indirizzo senza premere «cerca» viene messo a roma, e da piacenza nessuno può più ordinargli una consegna",
+      "perche": "I negozi già salvati a Roma restano lì nel database finché non riaprono il modulo. Rimetterli a posto è una scrittura sul DB (decisione rossa). Le rotte cod e checkout non le ho toccate."
+    },
+    {
+      "pacchetto": "app/admin/orders/[id]/page.tsx",
+      "voce": "privacy-legale|le segnalazioni di contenuti illeciti finiscono in un archivio che nessuno può aprire: la pagina admin a cui porta l'avviso non esiste",
+      "perche": "Pagina e decisione motivata ci sono; manca la voce «Segnalazioni» nel menu admin (app/admin/layout.tsx, fuori territorio): oggi ci si arriva dall'avviso o dall'indirizzo."
+    },
+    {
+      "pacchetto": "components/rider/SOSButton.tsx",
+      "voce": "posizione GPS arrivata dopo l'avviso SOS",
+      "perche": "Va persa: la migrazione 037 non dà al fattorino UPDATE su rider_sos_events. Per aggiungerla dopo serve una policy nuova (migrazione, fuori territorio)."
+    },
+    {
+      "pacchetto": "lib/home-site.ts",
+      "voce": "navigazione-gerarchia|home, piè di pagina e mappa per google mettono in mostra categorie vuote: otto su nove non hanno prodotti",
+      "perche": "Fatta solo la sitemap. Home, piede e noindex leggono da lib/queries/catalogo.ts, /api/catalogo/categorie e lettura-per-metadati: serve una fonte unica delle categorie piene, fuori territorio."
+    },
+    {
+      "pacchetto": "lib/home-site.ts",
+      "voce": "immagini-media|le tessere delle categorie in home sono foto d'archivio scritte a mano nel codice",
+      "perche": "Già chiuso sulla base 0fc4ec7: CategoryShowcase legge categories.image_url (migrazione 159) tramite lib/immagine-categoria.ts. La prova c'è già. Nessuna modifica fatta."
+    },
+    {
+      "pacchetto": "migrations/181_i_nomi_dei_clienti_che_il_negozio_vede.sql",
+      "voce": "frontend-ux|in chat il negoziante vede «utente» al posto del nome di ogni cliente (grave)",
+      "perche": "Il nome vero compare solo dopo che Nicola applica la 181 (🔴). Senza, la chat regge e mostra «Cliente» al posto di «Utente»."
+    }
+  ]
+}

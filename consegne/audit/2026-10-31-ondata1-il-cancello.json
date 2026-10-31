@@ -1,0 +1,21 @@
+{
+  "_cosa_e": "Ondata 1 del piano per aprire il sito (consegne/audit/2026-10-31-piano-difetti-sito.md), binario A, «il cancello». Sei pacchetti: R (rilascio e ritorno indietro), P161a (i nomi dopo la 161), H (la campanella degli allarmi), CE (la coda delle email e i carrelli), INT (gli interruttori delle funzioni spente), più il fermo dei lavori a orario, costruito a parte perché CE l'aveva lasciato scritto solo in una nota. Ramo del sito claude/wonderful-lovelace-h9gbub, base origin/main.",
+  "data": "2026-10-31 10:30",
+  "registro": "sito",
+  "run": "wf_a06aef04-9c8",
+  "esito": {
+    "R": "regge dopo un giro di correzione (il ritorno indietro chiede al dominio quale rilascio serve)",
+    "P161a": "regge dopo un giro di correzione (la vista dei nomi la legge solo chi ha l'account)",
+    "H": "regge",
+    "CE": "regge; il fermo dei lavori non l'aveva costruito, costruito a parte",
+    "INT": "parziale: il modulo d'iscrizione del negozio fa ancora accettare i 50 euro, portato nel pacchetto NE dell'ondata 4",
+    "fermo": "regge dopo tre giri di correzione del freno di process-deletions (due ricollaudi della lente B): conta per difetto, cancella solo con cancella=1 esatto o dal calendario con CANCELLAZIONI_A_ORARIO=accese; la notte che conta lascia il battito, il conto a mano no"
+  },
+  "registro_del_sito": "29 difetti visti dalle squadre e dal collaudo (commit 7ca194003) + 4 dal collaudo del fermo (1 grave nato e corretto prima dell'unione, 3 minori)",
+  "conto_token": {
+    "workflow": "12 agenti, 454 turni: 41.425.523 token con le letture dalla cache, 1.833.943 senza (node cervello/conto-token.mjs --workflow wf_a06aef04-9c8)",
+    "fuori_dal_workflow": "squadra tech del fermo e collaudo del fermo (tre giri): circa 290.000 token di subagente dichiarati dalle notifiche, non misurati con conto-token",
+    "per_fase": "collaudo 11.305.185 · squadre 18.779.985 · correzione 11.340.353 (con le letture)"
+  },
+  "lezione": "Un pacchetto che chiude una nota invece di costruire passa la squadra e la correzione: il collaudo deve chiedere «dov'è il codice» per ogni voce della scheda, non solo «regge quello che c'è»."
+}

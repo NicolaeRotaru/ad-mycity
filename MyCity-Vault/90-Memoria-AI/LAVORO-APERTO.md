@@ -34,9 +34,13 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 - Le tue azioni, con giorno e durata, stanno nella tabella del piano: dove trovarlo lo dice la sezione 2. Le prime:
   - oggi o domenica, chiudere la falla R7. I passi sono in chat del 31/10.
   - la falla R9 è già chiusa: l'ho controllato il 31/10.
+  - **unire la richiesta dell'ondata 1** (NicolaeRotaru/mycity#267, aperta il 31/10 alle 10:31): è la prima da unire.
+  - **l'ondata 2 (binario B) è pronta** in un ramo locale, `ondata-2-ricucita`: quattro pacchetti su cinque, verify verde insieme all'ondata 1 (6.749 su 6.749). Scelta tua del 31/10: aspetta l'unione della #267, poi va sul ramo di sempre con una richiesta sua.
   - i quattro segreti del rilascio su GitHub si mettono dopo l'unione dell'ondata 1.
   - lunedì 2/11 mattina, partita IVA e PEC col commercialista: senza il nome del titolare sul sito non si apre;
   - lunedì 2/11, il fornaio completa il suo conto Stripe.
+  - dopo l'unione dell'ondata 1, il primo giro a mano dei lavori notturni lo facciamo insieme. Poi accendi `LAVORI_A_ORARIO=accesi` su Vercel.
+  - verso le ondate 18-19, e solo dopo un giro a mano con `cancella=1` andato bene, accendi `CANCELLAZIONI_A_ORARIO=accese`. Fino ad allora la notte conta gli account da cancellare e non cancella niente (aggiunto il 31/10 alle 10:28).
 
 **Da sistemare dopo le unioni del 30/10**
 - I Termini nuovi sono online, ma in cima resta «in vigore dal 24 maggio 2026». Vanno fatti rileggere a un legale, e poi va cambiata la data.
