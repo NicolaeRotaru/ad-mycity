@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-10-31 08:25",
+  "aggiornato": "2026-10-31 12:23",
   "fatti": [
     {
       "id": "architettura.tre-macchine",
@@ -234,6 +234,16 @@
       "valore": "Categorie al lancio, firmate da Nicola il 2026-10-29 00:05: niente abbigliamento per ora; tutto il resto sì, per i piccoli negozi che Glovo e Deliveroo non guardano: spesa fresca (pane e forno, frutta e verdura, macelleria, salumi e formaggi, latticini, gastronomia fresca, pasta fresca, dispensa), cura della persona, parafarmacia, regali e ricorrenze. L'albero va reso più ampio, con più sottocategorie di quello proposto il 29/10 alle 00:40. Pane Quotidiano vende pane, verdura fresca, alimentari e cura della persona.",
       "fonte": "Nicola in chat, 2026-10-29 00:05 (carta #219, punto 1)",
       "aggiornato": "2026-10-29 00:06",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "consegna.cliente-assente",
+      "nome": "Cliente assente alla consegna",
+      "valore": "Se il fattorino arriva e il cliente non risponde neanche al telefono, segna «cliente assente» e l'ordine si annulla: rimborso intero (con la carta torna tutto, coi contanti non si paga niente) e la merce torna al negozio. Nessuna trattenuta per la consegna. I Termini si scrivono così.",
+      "fonte": "Nicola in chat il 31/10/2026, risposta alle domande prima delle ondate 3 e 4 (letta alle 2026-10-31 12:23)",
+      "aggiornato": "2026-10-31 12:23",
       "storia": [],
       "caccia": [],
       "esenzioni": []
@@ -617,6 +627,16 @@
       ]
     },
     {
+      "id": "kyc.documenti-iscrizione-a-meta",
+      "nome": "Documenti dell'iscrizione lasciata a metà",
+      "valore": "I documenti d'identità di chi carica carta e selfie e poi non finisce l'iscrizione si cancellano dopo 30 giorni. Se torna, li ricarica.",
+      "fonte": "Nicola in chat il 31/10/2026, risposta alle domande prima delle ondate 3 e 4 (letta alle 2026-10-31 12:23)",
+      "aggiornato": "2026-10-31 12:23",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
       "id": "lancio.criterio",
       "nome": "Quando si parte col primo cliente",
       "valore": "Si apre al primo cliente quando sono a zero i bloccanti e i gravi che al lancio si possono incontrare, con i contanti e con la carta. I minori si riparano dopo, a gruppi, senza fermare l'apertura. Le funzioni che restano spente (AI per i negozi, codici sconto, newsletter, inviti e punti, Drop, Traduci, caricamento da file, app installabile, PostHog, buoni regalo) si riparano prima di riaccenderle, e intanto la rotta del server le rifiuta. Nicola, 31/10/2026, scelta «Bloccanti e gravi del lancio»; prima, il 27/10: «non ha più difetti e la radiografia non trova difetti».",
@@ -869,6 +889,16 @@
       "esenzioni": []
     },
     {
+      "id": "negozio.contatto-dalla-scheda",
+      "nome": "Contatto col negozio dalla scheda prodotto",
+      "valore": "Il pulsante «Contatta il negozio» della scheda prodotto diventa WhatsApp o telefono verso il numero del negozio: niente chat dentro il sito.",
+      "fonte": "Nicola in chat il 31/10/2026, risposta alle domande prima delle ondate 3 e 4 (letta alle 2026-10-31 12:23)",
+      "aggiornato": "2026-10-31 12:23",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
       "id": "negozio.faro",
       "nome": "Negozio faro (unico negozio reale attivo)",
       "valore": "Pane Quotidiano (unico negozio reale; la demo Casa Linda è esclusa). NON puo ancora incassare: al 2026-08-10 il fascicolo pagamenti ha dati mai inviati, incassi disattivati e versamenti disattivati",
@@ -970,6 +1000,16 @@
         "consegne/audit/2026-10-31-verifica-1213-schede.json",
         "consegne/audit/2026-10-31-piano-difetti-sito.json"
       ]
+    },
+    {
+      "id": "pagamenti.bonifico-contanti-al-negozio",
+      "nome": "Bonifico dei contanti al negozio",
+      "valore": "Al lancio i contanti li incassa Nicola, che fa il bonifico al negozio ogni lunedì per le consegne della settimana prima.",
+      "fonte": "Nicola in chat il 31/10/2026, risposta alle domande prima delle ondate 3 e 4 (letta alle 2026-10-31 12:23)",
+      "aggiornato": "2026-10-31 12:23",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
     },
     {
       "id": "pagamenti.rimborso-contanti",

@@ -1,12 +1,12 @@
 {
-  "data": "2026-10-31 01:23",
+  "data": "2026-10-31 12:23",
   "esito": "ok",
-  "copertura": 1432,
+  "copertura": 1439,
   "origine": "cloud",
   "scritto_da": "coerenza-fatti.mjs",
-  "fatti_totali": 54,
-  "cacce_aperte": 21,
-  "file_scansionati": 1432,
+  "fatti_totali": 58,
+  "cacce_aperte": 25,
+  "file_scansionati": 1439,
   "incoerenze": [],
   "cacce": [
     {
@@ -124,6 +124,18 @@
       "copie_trovate": 0
     },
     {
+      "fatto": "lancio.criterio",
+      "pattern": "Da precisare con lui se vale anche per i difetti minori",
+      "dal": "2026-10-31 08:24",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "lancio.criterio",
+      "pattern": "Nicola entra col primo cliente quando il marketplace è pronto, cioè quando «non ha più difetti e la radiografia non trova difetti» (Nicola, 2026-10-27). Da precisare con lui se vale anche per i difetti minori: oggi i minori aperti sono centinaia e ogni radiografia ne trova di nuovi.",
+      "dal": "2026-10-31 08:24",
+      "copie_trovate": 0
+    },
+    {
       "fatto": "logistica.bici-consegna",
       "pattern": "consegna in bici, fino a 10 km",
       "dal": "2026-10-28 08:35",
@@ -133,6 +145,18 @@
       "fatto": "logistica.bici-consegna",
       "pattern": "Bici pronta: Nicola consegna in bici, fino a 10 km dal negozio (Nicola, 2026-10-27).",
       "dal": "2026-10-28 08:35",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "pagamenti.al-lancio",
+      "pattern": "Al lancio si paga solo in contanti alla consegna",
+      "dal": "2026-10-31 08:24",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "pagamenti.al-lancio",
+      "pattern": "Al lancio si paga solo in contanti alla consegna, come oggi; la carta si accende dopo, con la sua lista. Quando un pagamento va storto il sito si ferma e avvisa Nicola con la cifra. Il negozio, per i contanti, lo paga Nicola con un bonifico a mano dopo la rimessa registrata. Eccezione temporanea al paletto 7 («la piattaforma non tocca mai i fondi») accettata da Nicola per il lancio, in attesa del parere del legale. Scelte 3 e 4 della carta #209, firmate il 2026-10-26.",
+      "dal": "2026-10-31 08:24",
       "copie_trovate": 0
     }
   ],

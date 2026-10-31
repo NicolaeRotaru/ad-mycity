@@ -1120,14 +1120,17 @@
       "impatto": "Il numero di telefono di un cliente finisce in un servizio statunitense di analisi, senza consenso dell'interessato e senza dichiararlo nell'informativa. È un trasferimento di dati fuori UE contestabile dal Garante, su ogni ordine in cui negozio o fattorino chiamano il cliente. Oggi è latente solo perché PostHog non è configurato.",
       "fix": "Nelle pagine di PAGINE_CON_DATI_DI_TERZI spegnere anche l'autocapture (posthog.set_config({ autocapture: false }) dentro applicaRegistrazioneSchermo, e riaccenderlo altrove). In alternativa, mettere mask_all_text e mask_all_element_attributes a true nell'init. In before_send scartare gli $autocapture la cui $pathname sta fra quelle pagine e togliere i valori tel:/mailto:. Aggiungere la prova Playwright qui sopra come test che diventa rosso se il numero esce.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Script Playwright /tmp/claude-0/-home-user/df070674-8e02-5d4e-a9b6-d5d8cacdbadc/scratchpad/dati-analytics/prova-autocapture.cjs: carica posthog-js 1.393.0 del repo e il VERO eventoSenzaDatiPersonali del sito (compilato con esbuild da lib/analytics/posthog.tsx), con le stesse opzioni di init del sito; riproduce la riga di app/seller/orders/[id]/page.tsx:520 su /seller/orders/abc, ferma la registrazione, clicca il link e intercetta la richiesta verso us.i.posthog.com. (Unica opzione aggiunta: opt_out_useragent_filter, perché il browser senza finestra viene scartato come bot.)",
       "prova_tipo": "comando",
       "prova_eseguita": "laPaginaSiPuoFilmare(/seller/orders/abc) = false; richieste verso PostHog 2, con $autocapture 1; corpo: \"$elements\":[{\"tag_name\":\"a\",\"$el_text\":\"+39 333 1234567\",…,\"attr__href\":\"tel:+393331234567\"…]; contiene il telefono del cliente: true. · Verifica tecnica: Ho letto posthog.tsx (lista pagine, applicaRegistrazioneSchermo, eventoSenzaDatiPersonali, init), filmato-senza-dati-personali.ts e le tre pagine con tel:. Ho cercato ph-no-capture, mask_all_text e autocapture nel codice: non c'è nessuna protezione. Ho ricompilato da solo lo scrubber dal sorgente vero con esbuild (posthog.tsx con finti react e next/navigation) e ho rieseguito lo script Playwright del collega con posthog-js 1.393.0 del repo. Risultato: laPaginaSiPuoFilmare(/seller/orders/abc) = false; autocapture acceso; 2 richieste verso us.i.posthog.com, di cui 1 con $autocapture. Il corpo contiene $el_text «+39 333 1234567» e attr__href «tel:+393331234567»; contiene il telefono: true. Ho confrontato con K170 nel registro radiografia-marketplace.json.",
       "giro": 1,
       "verificato": true,
       "gia_noto": "K170",
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: dati-analytics · id R22 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: dati-analytics · id R22 · si ripara: codice",
+      "chiuso_il": "2026-10-31 12:22",
+      "chiuso_da": "PR #267 · de5cedde",
+      "nota_riparazione": "Riparato nell ondata 1 del piano per aprire (run wf_a06aef04-9c8), unita con la #267. — prova: cd /home/user/mycity && npx vitest run tests/unit/al-lancio-carta-abbonamento-e-codici-sconto-restano-spenti-anche-con-le-chiavi.test.ts tests/unit/inviti-e-abbonamento-spenti-non-si-vedono-nelle-pagine.test.ts tests/unit/posthog-spento-e-i-clic-non-escono-dalle-pagine-con-dati-di-terzi.test.ts tests/unit/con-gli-inviti-spenti-menu-e-profilo-non-promettono-5-euro.test.tsx — mutazione: prova-rimessa sul ramo fix/ondata-1-lib-funzioni-al-lancio-ts: f09da990: regge (uscita 0); 77c5d637: regge (uscita 0)"
     },
     {
       "dimensione": "privacy-legale",
@@ -2140,13 +2143,16 @@
       "impatto": "Le prime email che MyCity manda al mondo sono fuori contesto. Il rischio è la segnalazione come spam proprio nel giorno in cui il dominio costruisce la sua reputazione. Lo stesso succederà dopo ogni interruzione futura di Resend: «Il tuo ordine è pronto, un rider lo ritira a breve» arriverebbe a ordini già consegnati.",
       "fix": "Due interventi. ① Prima di incollare le chiavi, annullare le 7 righe e i 3 carrelli: UPDATE email_queue SET cancelled_at=now() WHERE sent_at IS NULL AND cancelled_at IS NULL AND send_at < now() - interval '3 days', e UPDATE abandoned_carts SET recovery_email_sent_at=now() WHERE last_activity < now() - interval '48 hours'. È la «annulla le email vecchie» già proposta nella card: 🔴, firma di Nicola. ② Nel codice: in claim_pending_emails annullare invece di prendere le righe oltre una finestra per template (welcome e tutorial 3 giorni, order_ready e order_delivered 2 ore, marketing 7 giorni). In list_abandoned_carts_to_recover aggiungere last_activity > now() - interval '48 hours'. Nella coda, trattare 'skipped' (configurazione mancante) come rinvio senza consumare tentativi.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Lettura del codice. migrazione 150, righe 47-53: WHERE q.send_at <= now() AND q.sent_at IS NULL AND q.cancelled_at IS NULL AND q.attempts < 5 AND (claimed_at…), senza nessun limite inferiore. send-emails/route.ts:170-207: nessun controllo su send_at o created_at prima di sendEmail. 029:204-207: WHERE recovery_email_sent_at IS NULL AND recovered = false AND last_activity < now() - (min_hours||' hours') AND cart_total > 0, senza limite massimo. Conteggio 7+3 dalla card #154 in MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md:1035.",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": "Ho letto adesso le righe citate: nessuna delle due funzioni SQL e nessuna delle due rotte guarda quanto è vecchia la riga. Il numero 7+3 NON l'ho verificato io con una SELECT: lo strumento sul database non era disponibile in questa sessione, e lo riporto dalla card #154 scritta il 10/10. · Verifica tecnica: Ho letto migrazione 150:37-64, send-emails/route.ts:170-280 e abandoned-carts/route.ts:39-123. Ho letto le definizioni in produzione con pg_get_functiondef: nessun limite inferiore su send_at o last_activity. Poi due SELECT in produzione. Coda pendente: welcome 20/8, tutorial_day2 22/8, first_order_promo 25/8, reengagement_14d 3/9, winback_60d 8/8, 15/8 e 19/10, tutte con attempts 0 e tutte di profili con email_marketing=false. Carrelli candidati: 4 (7/9 con consenso, 28/9 ×2 e 11/10 senza). Ho verificato che sendEmail restituisce {ok:false, skipped:true} e che la rotta lo tratta come errore (righe 237-279). Ho controllato AZIONI-IN-ATTESA.md:1035-1042, dove la card #154 già propone «annulla le email vecchie».",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: deploy-sre, email-notifiche · doppioni uniti: N283 · id R145 · si ripara: migrazione-database"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: deploy-sre, email-notifiche · doppioni uniti: N283 · id R145 · si ripara: migrazione-database",
+      "chiuso_il": "2026-10-31 12:22",
+      "chiuso_da": "PR #267 · de5cedde",
+      "nota_riparazione": "Riparato nell ondata 1 del piano per aprire (run wf_a06aef04-9c8), unita con la #267. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-coda-email-non-spedisce-quello-che-e-scaduto.test.ts tests/unit/il-promemoria-del-carrello-parte-una-volta-e-in-tempo.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-1-app-api-cron-send-emails-route-ts: d4b9f832: regge (uscita 0)"
     },
     {
       "dimensione": "api-backend",
@@ -2197,13 +2203,16 @@
       "impatto": "Un errore passeggero spegne per sempre il recupero di tutti i carrelli di quel giro, cioè vendite perse per i negozi, e il rendiconto mente («skipped» invece di «errore»).",
       "fix": "Leggere `error` della select su profiles. Se c'è, rispondere 500 senza marcare nessuno (ApiErrors.internal), così il giro dopo riprova.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "vitest eseguito con il database finto (lettura profili in errore, due candidati con consenso): `cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/df070674-8e02-5d4e-a9b6-d5d8cacdbadc/scratchpad/api-backend-2/vitest.prova.config.mts /tmp/claude-0/-home-user/df070674-8e02-5d4e-a9b6-d5d8cacdbadc/scratchpad/api-backend-2/carrelli-consenso.test.ts`",
       "prova_tipo": "comando",
       "prova_eseguita": "HTTP 200 {\"ok\":true,\"sent\":0,\"skipped\":2,\"errors\":0,\"potate\":0,\"candidates\":2}, marcati come gestiti u1 e u2, email partite 0. La prova è rossa. · Verifica tecnica: Ho letto abandoned-carts/route.ts:28-136. Ho rieseguito la prova vitest del collega: rossa, HTTP 200 {ok:true, sent:0, skipped:2, candidates:2}, marcati u1 e u2, email partite 0.",
       "giro": 2,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: api-backend · id R157 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: api-backend · id R157 · si ripara: codice",
+      "chiuso_il": "2026-10-31 12:22",
+      "chiuso_da": "PR #267 · de5cedde",
+      "nota_riparazione": "Riparato nell ondata 1 del piano per aprire (run wf_a06aef04-9c8), unita con la #267. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-coda-email-non-spedisce-quello-che-e-scaduto.test.ts tests/unit/il-promemoria-del-carrello-parte-una-volta-e-in-tempo.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-1-app-api-cron-send-emails-route-ts: d4b9f832: regge (uscita 0)"
     },
     {
       "dimensione": "api-backend",
@@ -3066,13 +3075,16 @@
       "impatto": "Si perde tempo, e gli altri ambienti installano in modo diverso dalla CI. Il rischio è che un giorno la produzione venga costruita con un albero di dipendenze diverso da quello che la CI ha provato.",
       "fix": "Il rimedio minimo (S) ha tre passi. Aggiungere un .npmrc con `legacy-peer-deps=true`, così ogni ambiente fa come la CI. Rigenerare una volta il lockfile con `npm install` in un branch. Verificare con `npm ci`. Il rimedio vero (M) è risolvere i conflitti fra dipendenze che costringono a usare l'opzione, poi toglierla. I conflitti sono due: react 18 contro pacchetti che vogliono versioni più nuove, e @next/bundle-analyzer@16 insieme a next 15.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Su una copia di package.json e package-lock.json nella cartella di lavoro: cd scratchpad/architettura-dipendenze/lock && timeout 120 npm ci --dry-run --ignore-scripts",
       "prova_tipo": "comando",
       "prova_eseguita": "exit 1: «npm error code EUSAGE … package.json and package-lock.json … are in sync». Mancano 11 pacchetti: @testing-library/dom@10.4.2, @types/aria-query@5.0.4, aria-query@5.3.0, dom-accessibility-api@0.5.16, lz-string@1.5.0, pretty-format@27.5.1, ansi-regex@5.0.1, ansi-styles@5.2.0, react-is@17.0.2, dequal@2.0.3, @swc/helpers@0.5.23. `ls .npmrc` non trova nessun file. · Verifica tecnica: Ho confrontato con `cmp` la copia del collega con package.json e package-lock.json veri: identici. Poi `timeout 120 npm ci --dry-run --ignore-scripts` (npm 10.9.4): «npm error Missing: @swc/helpers@0.5.23 from lock file» e l'uso di EUSAGE. Su una mia copia `npm install --dry-run --ignore-scripts` funziona. Ho verificato che `.npmrc` non esiste, che ci.yml usa --legacy-peer-deps in 7 passi e che .github/ non contiene dependabot.yml.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: architettura-dipendenze, deploy-sre · doppioni uniti: N277 · ricomparso dopo essere stato chiuso · id R173 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: architettura-dipendenze, deploy-sre · doppioni uniti: N277 · ricomparso dopo essere stato chiuso · id R173 · si ripara: codice",
+      "chiuso_il": "2026-10-31 12:22",
+      "chiuso_da": "PR #267 · de5cedde",
+      "nota_riparazione": "Riparato nell ondata 1 del piano per aprire (run wf_a06aef04-9c8), unita con la #267. — prova: cd /home/user/mycity && npx vitest run tests/unit/il-ritorno-indietro-non-torna-sullo-stesso-commit.test.ts tests/unit/la-copia-notturna-fallita-suona-l-allarme.test.ts tests/unit/l-installazione-pulita-parte-senza-opzioni-speciali.test.ts tests/unit/il-ritorno-indietro-torna-a-quello-che-usano-i-clienti.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-1-github-workflows-deploy-dopo-ci-yml: 34230285: rosso_strutturale (uscita 3); 2b672a96: regge (uscita 0)"
     },
     {
       "dimensione": "deploy-sre",
@@ -3084,13 +3096,16 @@
       "impatto": "Diagnosi sbagliata e tempo perso proprio durante un guasto.",
       "fix": "In ready/route.ts distinguere l'errore di configurazione (eccezione di requireSupabaseService) e rispondere pubblicamente con un motivo generico tipo «configurazione del server incompleta», tenendo il nome della chiave solo per chi ha il segreto.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "mcp__Vercel__web_fetch_vercel_url https://mycity-phi.vercel.app/api/health/ready → 503 {\"status\":\"not_ready\",\"degraded\":true,\"cron\":{…\"error\":\"battiti non letti: il database non risponde\"}}; mcp__Supabase__get_project clmpyfvpvfjgeviworth → status ACTIVE_HEALTHY; codice: riga 120 imposta quel testo come predefinito e lo sostituisce solo se dbOk.",
       "prova_tipo": "comando",
       "prova_eseguita": "Visto adesso: produzione risponde «il database non risponde» mentre il progetto Supabase è ACTIVE_HEALTHY; la causa reale è la chiave di servizio assente. · Verifica tecnica: 1) Letto app/api/health/ready/route.ts:96-158: c'è il catch alle righe 107-108, il testo predefinito alla riga 120, che cambia solo se dbOk, e il dettaglio solo se autorizzato (riga 154). 2) grep: lib/env.ts:242 lancia «Service role Supabase non configurato (SUPABASE_SERVICE_ROLE_KEY)». 3) Vercel web_fetch su https://mycity-phi.vercel.app/api/health/ready alle 15:37 UTC di oggi: 503 con {status: not_ready, degraded: true, cron: {… error: battiti non letti: il database non risponde}}. 4) Supabase get_project clmpyfvpvfjgeviworth: status ACTIVE_HEALTHY, Postgres 17.6.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: api-backend, deploy-sre · doppioni uniti: N57 · id R213 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: api-backend, deploy-sre · doppioni uniti: N57 · id R213 · si ripara: codice",
+      "chiuso_il": "2026-10-31 12:22",
+      "chiuso_da": "PR #267 · de5cedde",
+      "nota_riparazione": "Riparato nell ondata 1 del piano per aprire (run wf_a06aef04-9c8), unita con la #267. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-campanella-degli-allarmi-suona-una-volta-anche-senza-posta.test.ts tests/unit/la-porta-sei-pronto-non-scambia-la-chiave-mancante-per-il-database-giu.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-1-app-api-cron-operational-alerts-route-ts: 08cbd692: regge (uscita 0)"
     },
     {
       "dimensione": "deploy-sre",
@@ -25520,11 +25535,14 @@
       "impatto": "Il programma inviti non funziona dalla strada prevista. Ai clienti si promette un credito che non arriva, e la scritta «Codice applicato» è falsa.",
       "fix": "Spostare la registrazione dell'invito sul server. Si passa `ref` nei metadati di signUp (options.data.ref). Una funzione SECURITY DEFINER, oppure handle_new_user, risolve il codice e inserisce la riga in `referrals`. Nel browser si toglie la lettura di `profiles` e l'insert. Prova: un test SQL in tests/sql/rls dove un utente nuovo senza sessione si iscrive con un ref, e la riga in referrals deve esistere.",
       "fonte": "radiografia del perimetro toccato, primo giro — prima ondata del sito, 15/10/2026 (frontend-ux)",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Righe lette: app/sign-up/page.tsx:120-127 (select su profiles da anonimo), :164-170 (insert senza controllo dell'errore), :214 («Codice … applicato»); migrations/033_buyer_public_profile_zone_codes.sql:30-31; migrations/018_fix_orders_user_fk.sql:36-38; migrations/092_referral_no_self_referral.sql:31-32; migrations/089_referral_reward_on_delivery.sql (il trigger legge solo `referrals`); lib/auth/conferma-email.ts:4-6. Ho cercato altre strade: `grep -rn \"from('referrals')\" app lib components` trova solo l'insert di sign-up e due letture. Non ho potuto avviare un Postgres di prova: la cartella scratchpad non è leggibile dall'utente postgres.\n\nVerifica del secondo revisore: Confermato eseguendo. Ho ricostruito il database con le 157 migrazioni vere (tests/sql/harness/apply.sh mycity_ver_frontend_ux, 0 fallite) e ho creato Luca (che invita) e Sara (invitata). Poi ho fatto le stesse domande che fa app/sign-up/page.tsx:120-127.\n\n1) Sara senza account, con ruolo anon: la ricerca su profiles per referral_code di Luca restituisce 0 righe.\n2) Sara con sessione, cioè anche se la conferma email fosse spenta: di nuovo 0 righe. Sulla tabella profiles restano solo due regole di lettura, «la propria riga» (auth.uid() = id) e is_admin(). Le aperture delle migrazioni 033 e 018 non ci sono più nello stato finale: le ha tolte la 161.\n3) L'inserimento in referrals fatto da anon viene rifiutato con «new row violates row-level security policy». La regola chiede referred_id = auth.uid().\n\nQuindi referrerId resta sempre null e la riga in referrals non nasce mai, nemmeno nel caso favorevole. Il trigger reward_referrer_on_delivery (sulla tabella orders) e trg_referral_reward_fisso non hanno niente da premiare. Ho cercato una strada lato server: handle_new_user non legge nessun ref dai metadati, nessuna funzione SECURITY DEFINER risolve il codice, e in app, lib e components non c'è altro inserimento in referrals. Intanto la pagina mostra «Codice … applicato» (riga 214) e /profile/referral promette 5 euro a chi invita.\n\nNota a margine: supabase/config.toml ha enable_confirmations=false, ma vale solo per il locale e la CI. Il punto non conta, perché la ricerca fallisce an",
       "prova_tipo": "verificata da un secondo revisore",
       "verificato": true,
-      "nato_oggi": true
+      "nato_oggi": true,
+      "chiuso_il": "2026-10-31 12:22",
+      "chiuso_da": "PR #267 · de5cedde",
+      "nota_riparazione": "Riparato nell ondata 1 del piano per aprire (run wf_a06aef04-9c8), unita con la #267. — prova: cd /home/user/mycity && npx vitest run tests/unit/al-lancio-carta-abbonamento-e-codici-sconto-restano-spenti-anche-con-le-chiavi.test.ts tests/unit/inviti-e-abbonamento-spenti-non-si-vedono-nelle-pagine.test.ts tests/unit/posthog-spento-e-i-clic-non-escono-dalle-pagine-con-dati-di-terzi.test.ts tests/unit/con-gli-inviti-spenti-menu-e-profilo-non-promettono-5-euro.test.tsx — mutazione: prova-rimessa sul ramo fix/ondata-1-lib-funzioni-al-lancio-ts: f09da990: regge (uscita 0); 77c5d637: regge (uscita 0)"
     },
     {
       "dimensione": "ai-endpoints",
@@ -25712,11 +25730,14 @@
       "impatto": "Proprio nel caso per cui esiste, cioè un rilascio che rompe il sito, il ritorno indietro non ripara niente, oppure rimette online un rilascio rotto. Intanto il riepilogo che Nicola legge dice che la produzione è tornata com'era. I clienti non riescono a comprare finché qualcuno non apre Vercel a mano. Oggi il difetto dorme: i segreti di Vercel non sono accesi e le migrazioni sono ferme. Scatta al primo rilascio rotto dopo l'accensione.",
       "fix": "Prima di pubblicare, chiedere a Vercel quale rilascio serve DAVVERO il dominio di produzione: GET /v13/deployments/mycity-marketplace.com, oppure /v4/aliases/mycity-marketplace.com, che dà l'id del rilascio. Si torna a quello, non al primo dell'elenco. In più, passare a --rilascio-di-adesso il commit in uscita e scartare i rilasci con meta.githubCommitSha uguale. Aggiungere la prova: un elenco con in testa un rilascio dello stesso commit deve dare il rilascio sano che viene dopo.",
       "fonte": "radiografia del perimetro toccato, secondo giro — prima ondata del sito, 16/10/2026 (deploy-sre)",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Comando eseguito: node prova-ritorno.mjs scripts/prova-di-fumo.mjs, con due elenchi realistici passati a rilascioDaTornare. Uscita: «caso1 (commit in rilascio abc123) torna a: https://mycity-git-abc123.vercel.app». La pubblicazione automatica dello STESSO commit viene scelta al posto di mycity-ieri-sano. Uscita: «caso2 (online c e W) torna a: https://mycity-x-rotto-gia-annullato.vercel.app». Il rilascio rotto già scartato viene scelto al posto di W, che è quello online. grep -rn \"rilascioDaTornare\\|rilascio-di-adesso\" tests/ → nessun risultato. vercel.json:6-10 → \"deploymentEnabled\": { \"main\": true }. deploy-dopo-ci.yml:568: `printf '%s' \"$RILASCI\" | node scripts/prova-di-fumo.mjs --rilascio-di-adesso`, senza nessun commit passato.\n\nVerifica del secondo revisore: Ho cercato di smontarlo e non ci sono riuscito: il difetto è vero, e la gravità «grave» regge.\n\n**Cosa ho provato.** Ho passato due elenchi a `node scripts/prova-di-fumo.mjs --rilascio-di-adesso`, con lo stesso comando che usa il lavoro di rilascio.\n- Primo elenco: in testa la pubblicazione automatica dello stesso commit abc123, sotto il rilascio sano di ieri. La risposta è `https://mycity-git-abc123.vercel.app`, uscita 0.\n- Secondo elenco: in testa X, rotto e già scartato, sotto W, quello che è online. La risposta è `https://mycity-x-rotto-gia-annullato.vercel.app`, uscita 0.\n\n**Perché succede.** `rilascioDaTornare` (scripts/prova-di-fumo.mjs:240-255) restituisce il primo rilascio READY con target production. Non guarda il commit e non guarda quale rilascio serve davvero il dominio.\n- La chiamata nel lavoro (deploy-dopo-ci.yml:566-568) chiede `target=production&state=READY&limit=5` e non passa nessun commit.\n- Il passo «Torna indietro» fa `vercel rollback \"$PRECEDENTE\"` alla riga 713 e poi scrive «sono tornata al rilascio …».\n- Il verdetto finale scrive «⛔ Rilascio annullato … sono tornata al rilascio di prima».\n\n**Se c'è una protezione.** Nessuna copre i due casi.\n- Unica attenuante: con `\"main\": true` il verdetto aggiunge un avviso. Dice che Vercel pubblica da solo e che il riepilogo vale solo per il rilascio di questo lavoro. Però non dice che il posto a cui si è tornati può essere lo stesso codice rotto.\n- Primo scenario: il commento in testa al lavoro chiede di accender",
       "prova_tipo": "verificata da un secondo revisore",
       "verificato": true,
-      "nato_oggi": true
+      "nato_oggi": true,
+      "chiuso_il": "2026-10-31 12:22",
+      "chiuso_da": "PR #267 · de5cedde",
+      "nota_riparazione": "Riparato nell ondata 1 del piano per aprire (run wf_a06aef04-9c8), unita con la #267. — prova: cd /home/user/mycity && npx vitest run tests/unit/il-ritorno-indietro-non-torna-sullo-stesso-commit.test.ts tests/unit/la-copia-notturna-fallita-suona-l-allarme.test.ts tests/unit/l-installazione-pulita-parte-senza-opzioni-speciali.test.ts tests/unit/il-ritorno-indietro-torna-a-quello-che-usano-i-clienti.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-1-github-workflows-deploy-dopo-ci-yml: 34230285: rosso_strutturale (uscita 3); 2b672a96: regge (uscita 0)"
     },
     {
       "dimensione": "deploy-sre",
@@ -27062,11 +27083,14 @@
       "impatto": "Si perde un dato di fiducia: chi sta arrivando alla porta. La recensione del fattorino diventa anonima anche per chi la scrive. Nessun effetto sui soldi.",
       "fix": "Dare al cliente solo il nome di battesimo del fattorino del proprio ordine, con una funzione o una vista apposta filtrata su orders.user_id = auth.uid(). In alternativa portarlo da una rotta del server col client di servizio, come già fa /api/profili-pubblici.",
       "fonte": "riesame del perimetro del lotto «letture dalla vista pubblica», 2026-10-18 (verificato da un secondo revisore; c'era già prima del lotto)",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Eseguito su una copia di mycity_base (tutte le migrazioni), come cliente autenticato. La select su seller_public_profiles restituisce 1 riga (Pane Quotidiano, telefono, indirizzo, coordinate). La select su profiles per l'id del fattorino restituisce 0 righe. Su quella copia le regole di lettura di profiles sono solo due: «Admins can read all profiles» e «Users can view their own profile». — Verifica: Ho copiato mycity_base (tutte le migrazioni) in un database mio, con un cliente, un negozio approvato, un fattorino e un ordine consegnato. Come cliente autenticato: seller_public_profiles restituisce 1 riga (Pane Quotidiano, 0523111). La select su profiles per l'id del fattorino restituisce 0 righe. Le regole di lettura su profiles sono solo «Admins can read all profiles» e «Users can view their own profile». public_profile_enabled ha default false. Nel codice non c'è nessun'altra fonte per il nome: grep di orders_rider_id_fkey, rider_name e rider_public.",
       "prova_tipo": "verificata da un secondo revisore",
       "verificato": true,
-      "nato_oggi": true
+      "nato_oggi": true,
+      "chiuso_il": "2026-10-31 12:22",
+      "chiuso_da": "PR #267 · de5cedde",
+      "nota_riparazione": "Riparato nell ondata 1 del piano per aprire (run wf_a06aef04-9c8), unita con la #267. — prova: cd /home/user/mycity && npx vitest run tests/unit/i-nomi-si-leggono-anche-coi-profili-chiusi.test.ts tests/unit/i-nomi-pubblici-li-legge-solo-chi-ha-l-account.test.ts tests/unit/nessuna-funzione-potente-in-mano-a-chi-non-ha-l-account.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-1-migrations-164-i-nomi-pubblici-dopo-la-1: 3afa110c: regge (uscita 0); 67bc3325: rosso_strutturale (uscita 3)"
     },
     {
       "dimensione": "qa-flussi",
@@ -27807,13 +27831,13 @@
       "titolo": "Due interruttori dicono «spento» ma nessuno li legge: i codici sconto in cassa e l'app installabile restano accesi",
       "severita": "minore",
       "file": "lib/funzioni-al-lancio.ts (CODICI_SCONTO_IN_CASSA, APP_INSTALLABILE_ACCESA)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
       "descrizione": "Il grep di entrambi dà 0 letture fuori dal file. couponCode è ancora vivo in app/api/orders/cod e in app/api/stripe/checkout. app/layout.tsx:100 ha manifest e :244 PWAInstallBanner. Così chi legge crede spento un coupon MyCity che il negozio paga al 90%.",
-      "chiuso_il": "2026-10-28 15:28",
-      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
-      "nota_riparazione": "Riparato nella #262, commit 00606399 (doppione della 1400). Il comportamento resta nelle schede 176 e 239. — prova: npx vitest run tests/unit/ogni-interruttore-del-lancio-lo-legge-qualcuno.test.ts — mutazione: il 28/10 su 1776e6b1: un interruttore che nessuno legge aggiunto a lib/funzioni-al-lancio.ts, 1 prova rossa su 8 · Riaperta il 2026-10-31 08:36: la verifica l'ha trovata «presente» sul codice (grep CODICI_SCONTO_IN_CASSA|APP_INSTALLABILE_ACCESA fuori da lib/funzioni-al-lancio.ts: 0; cod/route.ts:794). Nessuno legge i due interruttori: cod applica ancora couponCode (r.794), layout ha manifest (r.101) e PWAInstallBanner (r.247).",
+      "chiuso_il": "2026-10-31 12:22",
+      "chiuso_da": "PR #267 · de5cedde",
+      "nota_riparazione": "Riparato nell ondata 1 del piano per aprire (run wf_a06aef04-9c8), unita con la #267. — prova: cd /home/user/mycity && npx vitest run tests/unit/al-lancio-carta-abbonamento-e-codici-sconto-restano-spenti-anche-con-le-chiavi.test.ts tests/unit/inviti-e-abbonamento-spenti-non-si-vedono-nelle-pagine.test.ts tests/unit/posthog-spento-e-i-clic-non-escono-dalle-pagine-con-dati-di-terzi.test.ts tests/unit/con-gli-inviti-spenti-menu-e-profilo-non-promettono-5-euro.test.tsx — mutazione: prova-rimessa sul ramo fix/ondata-1-lib-funzioni-al-lancio-ts: f09da990: regge (uscita 0); 77c5d637: regge (uscita 0)",
       "riaperto_il": "2026-10-31 08:36",
       "riaperto_da": "verifica delle 1.213 voci sul codice 40cb09ff (run wf_a60601a0-cae, 31/10/2026)"
     },
@@ -27866,10 +27890,13 @@
       "titolo": "Due interruttori dichiarati spenti non li legge nessuno: banner «Metti MyCity in Home», manifest e codici sconto in cassa restano accesi",
       "severita": "minore",
       "file": "lib/funzioni-al-lancio.ts (APP_INSTALLABILE_ACCESA, CODICI_SCONTO_IN_CASSA) · app/layout.tsx:100,244 · app/checkout/page.tsx:53,503 (CouponInput)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
-      "descrizione": "grep -rn 'APP_INSTALLABILE_ACCESA\\|CODICI_SCONTO_IN_CASSA' app components lib | grep -v lib/funzioni-al-lancio.ts → 0 righe (nemmeno negli altri worktree o1-*). layout.tsx e PWAInstallBanner sono nel perimetro ma il diff è vuoto"
+      "descrizione": "grep -rn 'APP_INSTALLABILE_ACCESA\\|CODICI_SCONTO_IN_CASSA' app components lib | grep -v lib/funzioni-al-lancio.ts → 0 righe (nemmeno negli altri worktree o1-*). layout.tsx e PWAInstallBanner sono nel perimetro ma il diff è vuoto",
+      "chiuso_il": "2026-10-31 12:22",
+      "chiuso_da": "PR #267 · de5cedde",
+      "nota_riparazione": "Riparato nell ondata 1 del piano per aprire (run wf_a06aef04-9c8), unita con la #267. — prova: cd /home/user/mycity && npx vitest run tests/unit/al-lancio-carta-abbonamento-e-codici-sconto-restano-spenti-anche-con-le-chiavi.test.ts tests/unit/inviti-e-abbonamento-spenti-non-si-vedono-nelle-pagine.test.ts tests/unit/posthog-spento-e-i-clic-non-escono-dalle-pagine-con-dati-di-terzi.test.ts tests/unit/con-gli-inviti-spenti-menu-e-profilo-non-promettono-5-euro.test.tsx — mutazione: prova-rimessa sul ramo fix/ondata-1-lib-funzioni-al-lancio-ts: f09da990: regge (uscita 0); 77c5d637: regge (uscita 0)"
     },
     {
       "titolo": "Newsletter spenta lascia nel piede di ogni pagina pubblica una fascia crema vuota (bordo sopra e 48px di spazio)",
@@ -27911,10 +27938,13 @@
       "titolo": "App installabile spenta solo sulla carta: manifest e banner restano, APP_INSTALLABILE_ACCESA non lo legge nessuno",
       "severita": "minore",
       "file": "lib/funzioni-al-lancio.ts:64 · app/layout.tsx:100 (manifest '/manifest.json') e :244 (<PWAInstallBanner />)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
-      "descrizione": "grep -rn APP_INSTALLABILE_ACCESA app components lib: compare solo nel file degli interruttori"
+      "descrizione": "grep -rn APP_INSTALLABILE_ACCESA app components lib: compare solo nel file degli interruttori",
+      "chiuso_il": "2026-10-31 12:22",
+      "chiuso_da": "PR #267 · de5cedde",
+      "nota_riparazione": "Riparato nell ondata 1 del piano per aprire (run wf_a06aef04-9c8), unita con la #267. — prova: cd /home/user/mycity && npx vitest run tests/unit/al-lancio-carta-abbonamento-e-codici-sconto-restano-spenti-anche-con-le-chiavi.test.ts tests/unit/inviti-e-abbonamento-spenti-non-si-vedono-nelle-pagine.test.ts tests/unit/posthog-spento-e-i-clic-non-escono-dalle-pagine-con-dati-di-terzi.test.ts tests/unit/con-gli-inviti-spenti-menu-e-profilo-non-promettono-5-euro.test.tsx — mutazione: prova-rimessa sul ramo fix/ondata-1-lib-funzioni-al-lancio-ts: f09da990: regge (uscita 0); 77c5d637: regge (uscita 0)"
     },
     {
       "titolo": "Traduci è frenato solo su apply: la rotta start accetta ancora un lotto 'translate', lo paga all'AI e poi apply lo rifiuta",
@@ -27974,10 +28004,13 @@
       "titolo": "L'interruttore dei codici sconto dice spento, ma la cassa li accetta ancora con carta e alla consegna",
       "severita": "minore",
       "file": "lib/funzioni-al-lancio.ts (CODICI_SCONTO_IN_CASSA) mai letto; app/api/orders/cod/route.ts:539 e app/api/stripe/checkout/route.ts:546 applicano couponCode",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
-      "descrizione": "grep -rn CODICI_SCONTO_IN_CASSA app lib --include=*.ts | grep -v funzioni-al-lancio -> vuoto. Il negozio continua a pagare il 90% di un codice MyCity se un admin ne crea uno. Il rischio c'era già, il lotto ha aggiunto il falso spento"
+      "descrizione": "grep -rn CODICI_SCONTO_IN_CASSA app lib --include=*.ts | grep -v funzioni-al-lancio -> vuoto. Il negozio continua a pagare il 90% di un codice MyCity se un admin ne crea uno. Il rischio c'era già, il lotto ha aggiunto il falso spento",
+      "chiuso_il": "2026-10-31 12:22",
+      "chiuso_da": "PR #267 · de5cedde",
+      "nota_riparazione": "Riparato nell ondata 1 del piano per aprire (run wf_a06aef04-9c8), unita con la #267. — prova: cd /home/user/mycity && npx vitest run tests/unit/al-lancio-carta-abbonamento-e-codici-sconto-restano-spenti-anche-con-le-chiavi.test.ts tests/unit/inviti-e-abbonamento-spenti-non-si-vedono-nelle-pagine.test.ts tests/unit/posthog-spento-e-i-clic-non-escono-dalle-pagine-con-dati-di-terzi.test.ts tests/unit/con-gli-inviti-spenti-menu-e-profilo-non-promettono-5-euro.test.tsx — mutazione: prova-rimessa sul ramo fix/ondata-1-lib-funzioni-al-lancio-ts: f09da990: regge (uscita 0); 77c5d637: regge (uscita 0)"
     },
     {
       "titolo": "La rotta della newsletter ignora il suo interruttore spento, contro la regola del lotto («il freno vero è la rotta»)",
@@ -28492,9 +28525,12 @@
       "titolo": "Nessun allarme attivo quando la copia notturna fallisce. Lo stesso file racconta 21 corse fallite di fila (dal 19/8 al 7/9) che nessuno ha visto: non c'è un passo `if: failure()` che avvisi, e nessun sensore della macchina guarda queste esecuzioni (in cervello/ backup-db compare solo dentro un test).",
       "severita": "grave",
       "file": ".github/workflows/backup-db.yml: tutto il lavoro `backup` (righe 42-274). La prova sta nelle righe 57-59 e 79-86. C'era già in fd4821aa.",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "deploy-sre",
-      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262",
+      "chiuso_il": "2026-10-31 12:22",
+      "chiuso_da": "PR #267 · de5cedde",
+      "nota_riparazione": "Riparato nell ondata 1 del piano per aprire (run wf_a06aef04-9c8), unita con la #267. — prova: cd /home/user/mycity && npx vitest run tests/unit/il-ritorno-indietro-non-torna-sullo-stesso-commit.test.ts tests/unit/la-copia-notturna-fallita-suona-l-allarme.test.ts tests/unit/l-installazione-pulita-parte-senza-opzioni-speciali.test.ts tests/unit/il-ritorno-indietro-torna-a-quello-che-usano-i-clienti.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-1-github-workflows-deploy-dopo-ci-yml: 34230285: rosso_strutturale (uscita 3); 2b672a96: regge (uscita 0)"
     },
     {
       "titolo": "Se la copia delle foto supera i 30 minuti, GitHub annulla il lavoro e «Conserva la copia» (`if: !cancelled()`) non parte. Così si perde il dump del database di quella notte, che era già cifrato prima che le foto partissero. È la stessa famiglia di difetto che il lotto ha chiuso (le foto che uccidono la copia del database), arrivata per un'altra strada.",
@@ -28748,10 +28784,13 @@
       "titolo": "Con la posta di allarme giù, gli amministratori ricevono una nuova notifica nel sito ogni 15 minuti",
       "severita": "minore",
       "file": "app/api/cron/operational-alerts/route.ts: le notifiche vengono inserite prima dell'invio, che ora fallisce senza scrivere l'attesa di sei ore; il cron gira ogni 15 minuti (vercel.json)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "api-backend",
       "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
-      "descrizione": "Prima del lotto l'attesa si scriveva comunque, quindi una notifica ogni 6 ore. Non l'ho fatto girare."
+      "descrizione": "Prima del lotto l'attesa si scriveva comunque, quindi una notifica ogni 6 ore. Non l'ho fatto girare.",
+      "chiuso_il": "2026-10-31 12:22",
+      "chiuso_da": "PR #267 · de5cedde",
+      "nota_riparazione": "Riparato nell ondata 1 del piano per aprire (run wf_a06aef04-9c8), unita con la #267. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-campanella-degli-allarmi-suona-una-volta-anche-senza-posta.test.ts tests/unit/la-porta-sei-pronto-non-scambia-la-chiave-mancante-per-il-database-giu.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-1-app-api-cron-operational-alerts-route-ts: 08cbd692: regge (uscita 0)"
     },
     {
       "titolo": "L'email di annullo dice «il credito ti è stato restituito» anche quando la restituzione è fallita",
@@ -28766,10 +28805,13 @@
       "titolo": "Se l'email d'allarme fallisce, la campanella dell'admin riceve un avviso nuovo ogni 15 minuti invece che ogni 6 ore",
       "severita": "minore",
       "file": "app/api/cron/operational-alerts/route.ts: notifications.insert prima dell'invio, upsert operational_alert_log solo dopo l'invio riuscito",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "api-backend",
       "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
-      "descrizione": "Test vitest con sendEmail finto {ok:false,skipped:true}: chiamare POST due volte con le stesse anomalie e contare gli insert su notifications. Escono 2 invece di 1, cioe' 96 avvisi al giorno per admin proprio mentre la posta e' giu'."
+      "descrizione": "Test vitest con sendEmail finto {ok:false,skipped:true}: chiamare POST due volte con le stesse anomalie e contare gli insert su notifications. Escono 2 invece di 1, cioe' 96 avvisi al giorno per admin proprio mentre la posta e' giu'.",
+      "chiuso_il": "2026-10-31 12:22",
+      "chiuso_da": "PR #267 · de5cedde",
+      "nota_riparazione": "Riparato nell ondata 1 del piano per aprire (run wf_a06aef04-9c8), unita con la #267. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-campanella-degli-allarmi-suona-una-volta-anche-senza-posta.test.ts tests/unit/la-porta-sei-pronto-non-scambia-la-chiave-mancante-per-il-database-giu.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-1-app-api-cron-operational-alerts-route-ts: 08cbd692: regge (uscita 0)"
     },
     {
       "titolo": "Nell'email di annullo mancano il nome del negozio e il numero d'ordine nello stesso formato della conferma",
@@ -28908,10 +28950,13 @@
       "titolo": "La posta di servizio di un account cancellato resta in coda per sempre: ogni mezz'ora si riprende la riga, si legge l'indirizzo, si rilascia",
       "severita": "minore",
       "file": "app/api/cron/send-emails/route.ts: ramo lettura.error di processBatch e rilasciaRiga; lib/account/cancellazione.ts (deleteUser, profilo anonimizzato ma tenuto)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "api-backend",
       "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
-      "descrizione": "Per un utente che non esiste auth-js risponde {user:null, error 404} (GoTrueAdminApi.js:536). Prova: scratchpad/o3a/zz-collaudo-account-cancellato-in-coda.test.ts, da copiare in tests/unit ed eseguire con npx vitest run. Rossa su 1d5c008e (riga mai chiusa), verde con la route di a1b04140."
+      "descrizione": "Per un utente che non esiste auth-js risponde {user:null, error 404} (GoTrueAdminApi.js:536). Prova: scratchpad/o3a/zz-collaudo-account-cancellato-in-coda.test.ts, da copiare in tests/unit ed eseguire con npx vitest run. Rossa su 1d5c008e (riga mai chiusa), verde con la route di a1b04140.",
+      "chiuso_il": "2026-10-31 12:22",
+      "chiuso_da": "PR #267 · de5cedde",
+      "nota_riparazione": "Riparato nell ondata 1 del piano per aprire (run wf_a06aef04-9c8), unita con la #267. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-coda-email-non-spedisce-quello-che-e-scaduto.test.ts tests/unit/il-promemoria-del-carrello-parte-una-volta-e-in-tempo.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-1-app-api-cron-send-emails-route-ts: d4b9f832: regge (uscita 0)"
     },
     {
       "titolo": "L'email di annullo dice «il credito che avevi usato ti è stato restituito» anche quando la restituzione del credito è fallita",
@@ -28935,19 +28980,25 @@
       "titolo": "Promemoria carrello rilasciato senza limite d'età: a posta accesa partono avvisi «4 ore» per carrelli vecchi di settimane",
       "severita": "minore",
       "file": "app/api/cron/abandoned-carts/route.ts ramo skipped (recovery_email_sent_at=null) + migrations/029 list_abandoned_carts_to_recover (solo last_activity < now-4h, nessun tetto, LIMIT 100 senza ORDER)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "api-backend",
       "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
-      "descrizione": "Lettura: prima un invio saltato lasciava il carrello segnato e uscito dalla coda. Ora torna candidato per sempre, e la RPC non ha un limite d'età. Il giorno in cui Resend o UNSUBSCRIBE_SECRET si accendono, chi ha dato il consenso riceve un promemoria per carrelli vecchi."
+      "descrizione": "Lettura: prima un invio saltato lasciava il carrello segnato e uscito dalla coda. Ora torna candidato per sempre, e la RPC non ha un limite d'età. Il giorno in cui Resend o UNSUBSCRIBE_SECRET si accendono, chi ha dato il consenso riceve un promemoria per carrelli vecchi.",
+      "chiuso_il": "2026-10-31 12:22",
+      "chiuso_da": "PR #267 · de5cedde",
+      "nota_riparazione": "Riparato nell ondata 1 del piano per aprire (run wf_a06aef04-9c8), unita con la #267. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-coda-email-non-spedisce-quello-che-e-scaduto.test.ts tests/unit/il-promemoria-del-carrello-parte-una-volta-e-in-tempo.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-1-app-api-cron-send-emails-route-ts: d4b9f832: regge (uscita 0)"
     },
     {
       "titolo": "Le promo saltate per UNSUBSCRIBE_SECRET mancante girano senza scadenza e partono in ritardo quando la chiave arriva",
       "severita": "minore",
       "file": "app/api/cron/send-emails/route.ts rilasciaRiga nel ramo res.skipped (send_at +30 min, niente attempts, niente annullo)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "api-backend",
       "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
-      "descrizione": "Lettura: una riga di marketing saltata viene rimandata di 30 minuti a ogni giro, senza tetto di tentativi né di età. Quando la chiave viene messa, re-engagement e win-back vecchi partono tutti insieme. Non ho verificato se i template hanno una scadenza propria."
+      "descrizione": "Lettura: una riga di marketing saltata viene rimandata di 30 minuti a ogni giro, senza tetto di tentativi né di età. Quando la chiave viene messa, re-engagement e win-back vecchi partono tutti insieme. Non ho verificato se i template hanno una scadenza propria.",
+      "chiuso_il": "2026-10-31 12:22",
+      "chiuso_da": "PR #267 · de5cedde",
+      "nota_riparazione": "Riparato nell ondata 1 del piano per aprire (run wf_a06aef04-9c8), unita con la #267. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-coda-email-non-spedisce-quello-che-e-scaduto.test.ts tests/unit/il-promemoria-del-carrello-parte-una-volta-e-in-tempo.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-1-app-api-cron-send-emails-route-ts: d4b9f832: regge (uscita 0)"
     },
     {
       "titolo": "La email di annullo per la consegna a domicilio dice «credito restituito» anche quando lo storno del wallet è fallito",
@@ -30433,12 +30484,15 @@
       "titolo": "Senza la casella degli allarmi il sorvegliante si ferma prima della campanella: gli amministratori non ricevono nessun allarme, nemmeno nel pannello",
       "severita": "grave",
       "dimensione": "deploy-sre",
-      "stato": "aperto",
+      "stato": "riparato",
       "file": "app/api/cron/operational-alerts/route.ts:595-608 (senza SUPPORT_EMAIL: logger.error e return 500) prima di :619-631 (lettura degli amministratori e insert delle notifiche in-app, che non hanno bisogno della posta) · commenti alle righe 597-601 (22/8: il 500 voluto dalla voce 1079) e 610-617 (27/8, R183: «le notifiche in-app si creano prima dell'invio email») · lib/api/middleware.ts:562-612 (dall'8/9 il battito si scrive anche quando il giro risponde 500) · stessa forma sulla base a1b04140 e sulla copia di main",
       "fonte": "preesistente, trovato dal riesame del perimetro della fase 2 del lotto #262 (run wf_b9d92819-bde, 27/10 sera), gruppi api-posta-prodotti",
       "descrizione": "Il sorvegliante gira ogni 15 minuti e ha due canali: la campanella nel pannello degli amministratori e l'email a SUPPORT_EMAIL. Il 27/8 (R183) la campanella è stata spostata prima dell'invio, così con Resend giù il pannello riceve lo stesso gli allarmi: è la cura con cui si è chiusa la voce 828. Il controllo «manca SUPPORT_EMAIL → 500», nato il 22/8 con la voce 1079, è però rimasto prima della campanella. Se la variabile manca e ci sono anomalie fresche, la rotta risponde 500 alla riga 605 e non arriva mai alle righe 619-631. Niente campanella e niente email, anche se la campanella non ha bisogno della posta. L'attesa di sei ore non si scrive, quindi ogni 15 minuti si ripete lo stesso. Dall'8/9 il battito si scrive anche quando il giro risponde 500 (lib/api/middleware.ts:562-612): il controllo dei lavori fermi resta verde. Resta solo un logger.error, che senza Sentry finisce nei log di Vercel (voce 152). La nota di chiusura della 828 riporta tutte e due le righe («senza SUPPORT_EMAIL risponde 500 (460-474)» e «484-496 crea le notifiche in-app PRIMA dell'email») senza accorgersi dell'ordine. Il 10/10 in produzione mancavano sia SUPPORT_EMAIL sia la chiave di servizio (consegne/salute/2026-10-10-chiavi-vercel.md, nel repo dell'AD). Finché manca la chiave, la rotta si ferma prima, su getAdminSupabase (riga 50). Il giorno in cui arriva la chiave senza SUPPORT_EMAIL, scatta questo ramo. Prova: lettura del codice sul ramo d'integrazione a4f4161c (sed -n 595,631p app/api/cron/operational-alerts/route.ts), ricontrollata in questo consolidamento. È uguale sulla base a1b04140 e sulla copia di main: il difetto è preesistente, non nato dal lotto. Prova che gira, da scrivere: vitest con SUPPORT_EMAIL vuota, finto database con 2 amministratori e un'anomalia fresca; deve trovare 2 righe in notifications, oggi ne trova 0 e la risposta è 500. Non eseguita qui, perché il consolidamento è in sola lettura. Trovato dal riesame (lente api-posta-prodotti), che l'aveva proposto come doppione della 828 chiusa.",
       "impatto": "Il giorno in cui la casella degli allarmi manca, gli amministratori non vedono nessun allarme: ordini fermi, consegne ferme, contanti non confermati, bonifici fermi. Può mancare perché non è stata impostata, perché è stata tolta per sbaglio o perché è un ambiente di anteprima. Non arriva nemmeno la campanella del pannello. È il guasto che la 828 voleva togliere: tutto sembra tranquillo mentre nessuno guarda. Probabilità media-bassa: la carta delle chiavi chiede di impostarla insieme alle altre, ma il 10/10 mancava.",
-      "fix": "Spostare la lettura degli amministratori e l'insert delle notifiche (righe 619-631) prima del controllo su SUPPORT_EMAIL. Il controllo resta e fa rispondere 500, così il guasto si vede, ma dopo che la campanella è scritta. Nel corpo della risposta dire quali canali sono arrivati (campanella sì, email no). Da fare insieme alla voce 1509: con la campanella scritta e l'attesa no, l'avviso tornerebbe ogni 15 minuti, quindi serve un'attesa per canale. Prova che gira: SUPPORT_EMAIL vuota, 2 amministratori e un'anomalia fresca devono dare 2 righe in notifications e risposta 500; oggi le righe sono 0. Passa a @tech."
+      "fix": "Spostare la lettura degli amministratori e l'insert delle notifiche (righe 619-631) prima del controllo su SUPPORT_EMAIL. Il controllo resta e fa rispondere 500, così il guasto si vede, ma dopo che la campanella è scritta. Nel corpo della risposta dire quali canali sono arrivati (campanella sì, email no). Da fare insieme alla voce 1509: con la campanella scritta e l'attesa no, l'avviso tornerebbe ogni 15 minuti, quindi serve un'attesa per canale. Prova che gira: SUPPORT_EMAIL vuota, 2 amministratori e un'anomalia fresca devono dare 2 righe in notifications e risposta 500; oggi le righe sono 0. Passa a @tech.",
+      "chiuso_il": "2026-10-31 12:22",
+      "chiuso_da": "PR #267 · de5cedde",
+      "nota_riparazione": "Riparato nell ondata 1 del piano per aprire (run wf_a06aef04-9c8), unita con la #267. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-campanella-degli-allarmi-suona-una-volta-anche-senza-posta.test.ts tests/unit/la-porta-sei-pronto-non-scambia-la-chiave-mancante-per-il-database-giu.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-1-app-api-cron-operational-alerts-route-ts: 08cbd692: regge (uscita 0)"
     },
     {
       "titolo": "Quando il giro degli ordini scaduti non riesce a restituire credito, buono o merce, resta solo una riga nel log: il credito del cliente può sparire e nessuno riprova",
@@ -30488,23 +30542,29 @@
       "titolo": "Il promemoria del carrello abbandonato può arrivare due volte alla stessa persona se due giri partono insieme: la presa in carico non guarda se era già preso",
       "severita": "minore",
       "dimensione": "api-backend",
-      "stato": "aperto",
+      "stato": "riparato",
       "file": "migrations/029_welcome_credit_search_fts_price_alert.sql:213-224 (mark_abandoned_cart_email_sent: UPDATE senza condizione su recovery_email_sent_at, restituisce void) · app/api/cron/abandoned-carts/route.ts:78-87 (la «rivendicazione» guarda solo l'errore) · vercel.json:27 (giro alle :00 di ogni ora) · docs/acquisition-plan-90d.md:104 (cron-job.org sullo stesso giro ogni ora)",
       "fonte": "preesistente, trovato dal riesame del perimetro della fase 2 del lotto #262 (run wf_b9d92819-bde, 27/10 sera), gruppi api-posta-prodotti",
       "descrizione": "Il giro orario sceglie i carrelli con list_abandoned_carts_to_recover (recovery_email_sent_at IS NULL) e, prima di spedire, li «rivendica» con mark_abandoned_cart_email_sent. Il commento alle righe 78-81 dice che così si scrive solo a chi si è riusciti a marcare. Ma la funzione è `UPDATE abandoned_carts SET recovery_email_sent_at = now() WHERE user_id = p_user`, senza `AND recovery_email_sent_at IS NULL`, e non restituisce niente: riesce sempre, anche se un altro giro ha appena preso lo stesso carrello. Se due giri si sovrappongono (Vercel alle :00 di ogni ora più cron-job.org previsto dalla documentazione, oppure un lancio a mano), tutti e due leggono gli stessi candidati, tutti e due «rivendicano» e tutti e due spediscono. La coda email non ha questo difetto: claim_pending_emails prende le righe in modo atomico. Passi (non eseguiti): due chiamate contemporanee a GET /api/cron/abandoned-carts con lo stesso carrello candidato e Resend finto: partono due email «Hai dimenticato qualcosa?» alla stessa persona.",
       "impatto": "La stessa persona riceve due volte la stessa email commerciale: fastidio, e rischio che la segni come spam proprio mentre il dominio costruisce la sua reputazione. Serve una sovrapposizione dei giri: plausibile solo se il cron esterno è ancora acceso accanto a quello di Vercel, cosa non verificata.",
-      "fix": "Rendere la presa in carico condizionata e parlante: `UPDATE ... WHERE user_id = p_user AND recovery_email_sent_at IS NULL RETURNING true` (o il numero di righe toccate), e nel giro spedire solo se la funzione dice di aver preso il carrello. È una migrazione: serve la firma di Nicola. Spegnere cron-job.org se è ancora acceso."
+      "fix": "Rendere la presa in carico condizionata e parlante: `UPDATE ... WHERE user_id = p_user AND recovery_email_sent_at IS NULL RETURNING true` (o il numero di righe toccate), e nel giro spedire solo se la funzione dice di aver preso il carrello. È una migrazione: serve la firma di Nicola. Spegnere cron-job.org se è ancora acceso.",
+      "chiuso_il": "2026-10-31 12:22",
+      "chiuso_da": "PR #267 · de5cedde",
+      "nota_riparazione": "Riparato nell ondata 1 del piano per aprire (run wf_a06aef04-9c8), unita con la #267. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-coda-email-non-spedisce-quello-che-e-scaduto.test.ts tests/unit/il-promemoria-del-carrello-parte-una-volta-e-in-tempo.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-1-app-api-cron-send-emails-route-ts: d4b9f832: regge (uscita 0)"
     },
     {
       "titolo": "Se la lettura dei profili non riesce, la coda email tratta tutti come «senza consenso» e annulla per sempre le promozioni di quel giro",
       "severita": "minore",
       "dimensione": "api-backend",
-      "stato": "aperto",
+      "stato": "riparato",
       "file": "app/api/cron/send-emails/route.ts:213-221 (lettura dei profili senza leggere l'errore) · :247-252 (riga di marketing senza consenso: annullaRiga, cancellata per sempre)",
       "fonte": "preesistente, trovato dal riesame del perimetro della fase 2 del lotto #262 (run wf_b9d92819-bde, 27/10 sera), gruppi api-posta-prodotti",
       "descrizione": "La coda email legge in una volta sola i profili di chi deve ricevere le email del giro (nome e consenso email_marketing) e non guarda l'errore. Se la lettura va in timeout o viene negata, la mappa dei profili resta vuota. Ogni riga di marketing (promo, re-engagement, win-back) risulta «senza consenso», annullaRiga la cancella per sempre e il giro la conta come saltata. Le email di servizio partono lo stesso, ma senza il nome. La risposta è 200. È lo stesso schema già registrato per i carrelli abbandonati (consensi letti male, carrelli chiusi), qui nella coda email. Passi (non eseguiti): finto database con 3 righe di marketing di persone col consenso e la select su profiles che risponde {data:null, error:{message:'timeout'}}: dopo il giro le 3 righe hanno cancelled_at valorizzato e nessuna email è partita; il giro dopo non le riprende.",
       "impatto": "Chi ha detto sì alle promozioni perde quelle del giro (fino a 15 righe ogni 10 minuti finché dura il guasto), e i conti dicono «saltate» invece di «errore». Raro: serve un guasto proprio su quella lettura.",
-      "fix": "Leggere error dalla select su profiles. Se c'è, rilasciare le righe del giro con rilasciaRiga (senza consumare tentativi) e rispondere 500, così il giro dopo riprova. Mai annullare una riga per «consenso assente» quando il profilo non è stato letto."
+      "fix": "Leggere error dalla select su profiles. Se c'è, rilasciare le righe del giro con rilasciaRiga (senza consumare tentativi) e rispondere 500, così il giro dopo riprova. Mai annullare una riga per «consenso assente» quando il profilo non è stato letto.",
+      "chiuso_il": "2026-10-31 12:22",
+      "chiuso_da": "PR #267 · de5cedde",
+      "nota_riparazione": "Riparato nell ondata 1 del piano per aprire (run wf_a06aef04-9c8), unita con la #267. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-coda-email-non-spedisce-quello-che-e-scaduto.test.ts tests/unit/il-promemoria-del-carrello-parte-una-volta-e-in-tempo.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-1-app-api-cron-send-emails-route-ts: d4b9f832: regge (uscita 0)"
     },
     {
       "titolo": "La pagina Spedizioni dice «ti diciamo subito se ci arriviamo», ma la cassa avvisa del fuori zona solo al clic finale (chi non ha l’account, dopo l’accesso)",
@@ -31716,12 +31776,15 @@
       "dimensione": "architettura",
       "reparto": "Architettura",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "«Al lancio solo contanti» si regge solo sull assenza di una variabile: se qualcuno mette la chiave pubblica di Stripe su Vercel, cambiano la cassa e tutte le frasi senza nessun avviso",
       "file": "lib/promesse-pubbliche.ts:213-217 (cartaAlCheckoutDisponibile legge NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)",
       "descrizione": "La scelta di Nicola (al lancio solo contanti) non ha un interruttore suo: la governa la presenza della chiave. Rimedio: un interruttore esplicito, acceso da Nicola.",
-      "fonte": "preesistente: c è anche su 0df7945; trovato dalla radiografia del perimetro delle promesse (run wf_656030ba-22b)"
+      "fonte": "preesistente: c è anche su 0df7945; trovato dalla radiografia del perimetro delle promesse (run wf_656030ba-22b)",
+      "chiuso_il": "2026-10-31 12:22",
+      "chiuso_da": "PR #267 · de5cedde",
+      "nota_riparazione": "Riparato nell ondata 1 del piano per aprire (run wf_a06aef04-9c8), unita con la #267. — prova: cd /home/user/mycity && npx vitest run tests/unit/al-lancio-carta-abbonamento-e-codici-sconto-restano-spenti-anche-con-le-chiavi.test.ts tests/unit/inviti-e-abbonamento-spenti-non-si-vedono-nelle-pagine.test.ts tests/unit/posthog-spento-e-i-clic-non-escono-dalle-pagine-con-dati-di-terzi.test.ts tests/unit/con-gli-inviti-spenti-menu-e-profilo-non-promettono-5-euro.test.tsx — mutazione: prova-rimessa sul ramo fix/ondata-1-lib-funzioni-al-lancio-ts: f09da990: regge (uscita 0); 77c5d637: regge (uscita 0)"
     },
     {
       "dimensione": "qa-flussi",
@@ -34559,23 +34622,29 @@
       "dimensione": "qa-flussi",
       "reparto": "Flussi critici",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Dopo la migrazione 161 ogni domanda sotto un prodotto è firmata «Cliente», per chiunque la legga",
       "file": "components/ProductQA.tsx:64-80,201",
       "descrizione": "Le domande pubbliche leggono l'autore da profiles (author:profiles!product_questions_author_id_fkey). Dopo la 161 l'aggancio torna vuoto per tutti tranne l'autore stesso. Ripiego: una vista coi permessi del proprietario sulle domande pubbliche, col solo nome di battesimo.",
-      "fonte": "censimento della migrazione 161 (run wf_df9b9a65-06c), 31/10/2026, sola lettura sul commit 0fc4ec7d"
+      "fonte": "censimento della migrazione 161 (run wf_df9b9a65-06c), 31/10/2026, sola lettura sul commit 0fc4ec7d",
+      "chiuso_il": "2026-10-31 12:22",
+      "chiuso_da": "PR #267 · de5cedde",
+      "nota_riparazione": "Riparato nell ondata 1 del piano per aprire (run wf_a06aef04-9c8), unita con la #267. — prova: cd /home/user/mycity && npx vitest run tests/unit/i-nomi-si-leggono-anche-coi-profili-chiusi.test.ts tests/unit/i-nomi-pubblici-li-legge-solo-chi-ha-l-account.test.ts tests/unit/nessuna-funzione-potente-in-mano-a-chi-non-ha-l-account.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-1-migrations-164-i-nomi-pubblici-dopo-la-1: 3afa110c: regge (uscita 0); 67bc3325: rosso_strutturale (uscita 3)"
     },
     {
       "dimensione": "qa-flussi",
       "reparto": "Flussi critici",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Dopo la migrazione 161 ogni recensione nella vetrina del negozio è firmata «Cliente», perché l'errore della lettura dei nomi viene ignorato",
       "file": "components/store-sections/useStorePageData.ts:55-64; components/store-sections/ReviewsSection.tsx:25,105",
       "descrizione": "La vetrina legge i nomi degli autori con from('profiles').select('id, full_name, public_handle').in('id', userIds). Dopo la 161 la lettura dà zero righe e l'errore si ignora. Ripiego: una vista coi permessi del proprietario sulle recensioni dei negozi approvati, col nome di battesimo.",
-      "fonte": "censimento della migrazione 161 (run wf_df9b9a65-06c), 31/10/2026, sola lettura sul commit 0fc4ec7d"
+      "fonte": "censimento della migrazione 161 (run wf_df9b9a65-06c), 31/10/2026, sola lettura sul commit 0fc4ec7d",
+      "chiuso_il": "2026-10-31 12:22",
+      "chiuso_da": "PR #267 · de5cedde",
+      "nota_riparazione": "Riparato nell ondata 1 del piano per aprire (run wf_a06aef04-9c8), unita con la #267. — prova: cd /home/user/mycity && npx vitest run tests/unit/i-nomi-si-leggono-anche-coi-profili-chiusi.test.ts tests/unit/i-nomi-pubblici-li-legge-solo-chi-ha-l-account.test.ts tests/unit/nessuna-funzione-potente-in-mano-a-chi-non-ha-l-account.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-1-migrations-164-i-nomi-pubblici-dopo-la-1: 3afa110c: regge (uscita 0); 67bc3325: rosso_strutturale (uscita 3)"
     },
     {
       "dimensione": "deploy-sre",
@@ -34900,14 +34969,17 @@
       "dimensione": "api-backend",
       "reparto": "API",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Il primo giro a mano della cancellazione degli account cancellava davvero se il parametro del conto era scritto male",
       "file": "app/api/cron/process-deletions/route.ts:97 · lib/cron/fermo-dei-lavori.ts:43",
       "descrizione": "Il conto senza cancellare partiva solo con solo_conta=1 scritto esatto. Con solo_conta=true, soloConta=1 o la shell che taglia l'indirizzo al primo & senza virgolette, la chiamata a mano faceva la notte vera, che cancella account e non si torna indietro. Corretto prima dell'unione, in due giri di collaudo: giroCheSoloConta() conta per difetto. Cancella solo con cancella=1 esatto, o dalla chiamata del calendario (nessun parametro) con l'interruttore suo CANCELLAZIONI_A_ORARIO=accese: così accendere gli altri dieci lavori non la fa partire.",
       "prova": "cd /home/user/mycity && npx vitest run tests/unit/i-lavori-a-orario-si-fermano-finche-nicola-non-li-accende.test.ts",
       "prova_tipo": "comando",
-      "fonte": "collaudo del fermo dei lavori a orario, ondata 1 del piano dei difetti (commit 1bc57b55), 31/10/2026"
+      "fonte": "collaudo del fermo dei lavori a orario, ondata 1 del piano dei difetti (commit 1bc57b55), 31/10/2026",
+      "chiuso_il": "2026-10-31 12:22",
+      "chiuso_da": "PR #267 · de5cedde",
+      "nota_riparazione": "Corretto prima dell unione, nei commit fb1dce2c e 5bf7e8dd, unito con la #267. — prova: cd /home/user/mycity && npx vitest run tests/unit/i-lavori-a-orario-si-fermano-finche-nicola-non-li-accende.test.ts — mutazione: prova rimessa a mano, tre giri: con la regola vecchia 5 rosse, con quella intermedia 6 rosse, senza il battito della notte 1 rossa; con la regola finale 64 su 64 verdi"
     },
     {
       "dimensione": "deploy-sre",
