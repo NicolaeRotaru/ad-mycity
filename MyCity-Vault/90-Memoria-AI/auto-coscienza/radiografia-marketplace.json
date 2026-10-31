@@ -588,7 +588,7 @@
       "impatto": "Vende merce che non esiste. Seguono ordini rifiutati, rimborsi, recensioni arrabbiate e fiducia persa proprio sui negozi piccoli con scorte basse, come pane e gastronomia, dove ogni pezzo conta. Il registro attribuisce l'errore al negoziante.",
       "fix": "Nel modulo di modifica, mandare `stock` solo se il negoziante l'ha cambiata (confronto col valore iniziale; react-hook-form ha già dirtyFields). Per le varianti, mandare solo le righe con lo stock cambiato. Meglio ancora, nella porta salvaProdottoTracciato: se `stock` nel pacchetto è uguale al valore iniziale mandato dal client e diverso da quello riletto, non scriverlo. Oppure scrivere con `.eq('stock', valoreIniziale)` e rispondere «la scorta è cambiata mentre modificavi: ricarica». Va aggiunta una prova che fallisce oggi, con lo scenario 5 → 3 → salvataggio.",
       "fonte": "marketplace",
-      "stato": "riparato",
+      "stato": "aperto",
       "prova": "Comando eseguito sulla funzione vera di salvataggio, con un database finto che ha scorta 3 dopo due vendite e un modulo che porta ancora 5 (letto all'apertura) e cambia solo la descrizione: `cd /home/user/mycity && node_modules/.bin/jiti scratchpad/frontend-venditore-2/scorta-vecchia.ts`. Lettura: schema.ts:122 `stock: unlimitedStock ? null : values.stock ?? 0` (sempre presente); salvataggio-tracciato.ts:276-282 `.update(daScrivere)`; edit/page.tsx:104-113 chiama salvaProdottoDalBrowser e poi saveProductVariants con i valori del modulo.",
       "prova_tipo": "comando",
       "prova_eseguita": "Uscita: «scritto sul database: {\"name\":\"Focaccia\",\"description\":\"nuova\",\"price\":4,\"stock\":5,\"status\":\"available\"}», «campi registrati come cambiati: description,stock,status», «scorta in banca dati dopo il salvataggio: 5 (era 3 dopo le due vendite)». · Verifica tecnica: Ho scritto verifica-frontend-venditore/scorta.test.tsx, che chiama le funzioni vere buildProductPayload e salvaProdottoTracciato con un database finto. Il modulo è stato aperto con scorta 5, nel frattempo il database è sceso a 3, e il modulo cambia solo la descrizione. Uscita: «payload.stock 5 | campi description,stock | stock in banca dopo 5». Ho letto edit/page.tsx:98-113: prima salvaProdottoDalBrowser, poi saveProductVariants con i valori del modulo. Ho letto ProductForm:142-147 (defaultValues solo all'avvio) e 678-691. Con SELECT in produzione: i trigger su products e product_variants, e il fatto che reserve_stock contenga «stock = stock -».",
@@ -597,7 +597,9 @@
       "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-venditore · id R18 · si ripara: codice",
       "chiuso_il": "2026-10-29 18:15",
       "chiuso_da": "PR #263 · 0df5557, unita il 2026-10-29 18:12 e pubblicata (Vercel dpl_EcMdUboG8ZkhxhFJ1oR6x4EbkzWQ)",
-      "nota_riparazione": "Riparato nella #263, ondata 10, pacchetto del catalogo (commit 0a15291). — prova: npm run verify sul codice unito (0df5557 ha lo stesso albero di 2b1737b, provato: 683 file, 6.144 prove verdi) e CI della #263 9 su 9; prove del pacchetto del catalogo dell ondata 10 — mutazione: collaudo dell ondata 10 («regge»): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
+      "nota_riparazione": "Riparato nella #263, ondata 10, pacchetto del catalogo (commit 0a15291). — prova: npm run verify sul codice unito (0df5557 ha lo stesso albero di 2b1737b, provato: 683 file, 6.144 prove verdi) e CI della #263 9 su 9; prove del pacchetto del catalogo dell ondata 10 — mutazione: collaudo dell ondata 10 («regge»): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa · Riaperta il 2026-10-31 08:36: la verifica l'ha trovata «presente» sul codice (components/seller/ProductForm.tsx:710 scortaCambiata; lib/products/persistVariantsServer.ts:46-47 scorteViste). Il modulo toglie stock se non cambiato; le varianti saltano lo stock uguale a quello visto all'apertura. Resta solo da confermare con una prova.",
+      "riaperto_il": "2026-10-31 08:36",
+      "riaperto_da": "verifica delle 1.213 voci sul codice 40cb09ff (run wf_a60601a0-cae, 31/10/2026)"
     },
     {
       "dimensione": "qa-flussi",
@@ -705,7 +707,7 @@
       "impatto": "Falsa sicurezza proprio sul flusso che fa entrare i soldi. Lunghezza dell'inganno: zero millisecondi di controllo dietro un nome che promette tutto.",
       "fix": "Riscrivere le tre prove perché facciano il percorso vero sull'ambiente di prova. Contrassegno: dal carrello seminato a POST /api/orders/cod, poi SELECT dell'ordine (stato NEW, totale giusto) e campanella del negozio. Carta: Stripe in modalità test con webhook firmato e ordine PAID. Rifiuto: rimborso registrato. Consegna: giro release-payouts con transfer in test-mode. Finché l'ambiente non c'è, devono restare saltate con il motivo, ma con un corpo vero: mai un'asserzione sulla variabile stessa. Aggiungere una prova unitaria che vieti `expect(SENZA_AMBIENTE_DI_PROVA)` come unica asserzione.",
       "fonte": "marketplace",
-      "stato": "riparato",
+      "stato": "aperto",
       "prova": "cd <copia del repo> && E2E_DATI_DI_PROVA=1 CI=1 E2E_BASE_URL=http://localhost:3100 npx playwright test tests/e2e/12-la-cassa-dal-carrello-al-pagamento.spec.ts --project=chromium --retries=0 -g \"nasce e il negozio|il rimborso esiste|il bonifico al negozio\"",
       "prova_tipo": "comando",
       "prova_eseguita": "«3 passed (787ms)»: le tre prove sono verdi in 6, 3 e 3 millisecondi. Contro il sito locale col database finto, che non contiene né un negozio né un prodotto. · Verifica tecnica: Ho letto tests/e2e/12-la-cassa-dal-carrello-al-pagamento.spec.ts:170-213 e cercato E2E_DATI_DI_PROVA in .github/: assente. Ho lanciato dalla mia copia: E2E_DATI_DI_PROVA=1 CI=1 E2E_BASE_URL=http://localhost:3100 npx playwright test …12-la-cassa… --project=chromium --retries=0 -g «nasce e il negozio|il rimborso esiste|il bonifico al negozio». Risultato: «3 passed (934ms)», con le prove in 11, 4 e 2 ms, contro il sito locale con il database finto e vuoto. Ho controllato noti-chiusi.txt: il difetto «Nessuna prova end-to-end attraversa il checkout» risulta chiuso.",
@@ -714,7 +716,9 @@
       "fonte_radiografia": "radiografia 2026-10-11 · corsie: test-qualita · ricomparso dopo essere stato chiuso · id R69 · si ripara: codice",
       "chiuso_il": "2026-10-28 15:28",
       "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
-      "nota_riparazione": "Riparato nella #262, commit 1256544f: le prove dell'acquisto vero non passano piu' senza aver guardato. — prova: npx vitest run tests/unit/le-prove-della-cassa-non-passano-senza-aver-guardato.test.ts — mutazione: il 28/10 su 1776e6b1: la prova della cassa rimessa com'era su fd4821aa, 1 prova rossa su 1"
+      "nota_riparazione": "Riparato nella #262, commit 1256544f: le prove dell'acquisto vero non passano piu' senza aver guardato. — prova: npx vitest run tests/unit/le-prove-della-cassa-non-passano-senza-aver-guardato.test.ts — mutazione: il 28/10 su 1776e6b1: la prova della cassa rimessa com'era su fd4821aa, 1 prova rossa su 1 · Riaperta il 2026-10-31 08:36: la verifica l'ha trovata «presente» sul codice (tests/e2e/12-la-cassa-dal-carrello-al-pagamento.spec.ts:212-222 test.skip(true, NON_SCRITTA…)). Non passano più a vuoto: si saltano sempre col motivo. Ma resta che nessuna prova automatica porta un ordine COD fino al database: serve un Supabase di prova.",
+      "riaperto_il": "2026-10-31 08:36",
+      "riaperto_da": "verifica delle 1.213 voci sul codice 40cb09ff (run wf_a60601a0-cae, 31/10/2026)"
     },
     {
       "dimensione": "qa-flussi",
@@ -1811,7 +1815,7 @@
       "impatto": "Il difetto colpisce ogni negozio e ogni fattorino nuovi, dal momento in cui l'iscrizione torna a funzionare. Oggi in produzione è già rotta per un altro motivo: la funzione che crea il profilo, già nota. Il primo contatto del negozio con MyCity diventa una pagina di errore del browser. Il reclutamento dei rider si blocca: l'approvazione resta possibile solo «alla cieca», senza documenti né controllo dei 18 anni.",
       "fix": "In middleware.ts, separare «ruolo sbagliato» da «ruolo giusto ma non ancora approvato». Ruolo sbagliato: si resta come oggi. Non approvato: si lascia passare su /seller/dashboard, dove il layout mostra la schermata di attesa o di rifiuto, e su /rider/onboarding e /rider/profile. Ai negozi non approvati che vanno sul catalogo si toglie il rimando a /seller/dashboard. Le API restano protette: withSellerAuth controlla già is_approved. Aggiungere due prove in tests/unit, una per l'anello e una per il rider in attesa su /rider/onboarding.",
       "fonte": "marketplace",
-      "stato": "riparato",
+      "stato": "aperto",
       "prova": "Script in /tmp/claude-0/-home-user/df070674-8e02-5d4e-a9b6-d5d8cacdbadc/scratchpad/sicurezza-auth/rider.test.ts e loop.test.ts. Eseguono il middleware vero di /home/user/mycity con Supabase finto, seguendo lo schema di tests/unit/middleware-non-aspetta-la-rete.test.ts. Comando: cd …/scratchpad/sicurezza-auth && timeout 120 npx vitest run --config vitest.config.mjs --reporter=verbose",
       "prova_tipo": "comando",
       "prova_eseguita": "Visto adesso: «seller/in-attesa /seller/dashboard -> 307 https://mycity.test/seller/dashboard» per quattro giri di fila, cioè un anello. «seller/in-attesa /product/abc -> 307 …/seller/dashboard» e «/ -> 307 …/seller/dashboard»: anche home e catalogo portano nell'anello. «rider/in-attesa /rider/onboarding -> 307 https://mycity.test/» e «rider/approvato /rider/onboarding -> 200». Il modulo documenti lo vede solo chi è già approvato. · Verifica tecnica: Ho copiato loop.test.ts e rider.test.ts nella mia cartella e li ho eseguiti con vitest contro il middleware vero di /home/user/mycity. Visto: «/seller/dashboard -> 307 …/seller/dashboard» per 4 giri di fila. «/ -> 307 /seller/dashboard» e «/product/abc -> 307 /seller/dashboard». «rider/in-attesa /rider/onboarding -> 307 /». «rider/approvato /rider/onboarding -> 200». «seller/in-attesa /sell -> 200». Ho letto middleware.ts:49-53 e 374-376 (ROLE_PROTECTED, nessuna eccezione), app/seller/layout.tsx:19-29 e 130-150 e app/rider/layout.tsx. Ho interrogato la produzione in sola lettura: profiles ha rider/is_approved=false/pending = 1 (creato il 2026-05-25), seller approvati = 2. La funzione handle_new_user in produzione è la vecchia versione, che mette is_approved=true per seller e rider, e il vincolo chk_approvazione_coerente è NOT VALID.",
@@ -1821,7 +1825,9 @@
       "nota_riesame": "2026-10-28 22:30: Per chi ripara (dal vaglio dell'ondata 10): quando il fattorino non approvato torna a raggiungere la pagina dei documenti, un fattorino 'rejected' che ricarica i documenti resta 'rejected', e i file nuovi cadono a rifiuto+90 giorni (app/api/kyc/upload-document/route.ts:140-143, migrations/135:46-48). Il caricamento fatto da un profilo respinto deve far ripartire l'orologio o riportare lo stato a 'pending'. Prova in tests/sql/rls/20: respinto da 100 giorni, documento appena scritto, documenti_da_cancellare_respinti(90).",
       "chiuso_il": "2026-10-29 18:15",
       "chiuso_da": "PR #263 · 0df5557, unita il 2026-10-29 18:12 e pubblicata (Vercel dpl_EcMdUboG8ZkhxhFJ1oR6x4EbkzWQ)",
-      "nota_riparazione": "Riparato nella #263, ondata 10, pacchetto middleware.ts (run wf_2326095d-a6c, commit 7ffe97a). — prova: npm run verify sul codice unito (0df5557 ha lo stesso albero di 2b1737b, provato: 683 file, 6.144 prove verdi) e CI della #263 9 su 9; prove del pacchetto middleware.ts dell ondata 10 — mutazione: collaudo dell ondata 10 («regge»): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
+      "nota_riparazione": "Riparato nella #263, ondata 10, pacchetto middleware.ts (run wf_2326095d-a6c, commit 7ffe97a). — prova: npm run verify sul codice unito (0df5557 ha lo stesso albero di 2b1737b, provato: 683 file, 6.144 prove verdi) e CI della #263 9 su 9; prove del pacchetto middleware.ts dell ondata 10 — mutazione: collaudo dell ondata 10 («regge»): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa · Riaperta il 2026-10-31 08:36: la verifica l'ha trovata «presente» sul codice (lib/auth/decisione-portiere.ts:256-277 negozio non approvato entra su /seller/dashboard). Il giro chiuso del negozio non c'è più. Il fattorino non approvato resta fuori per scelta firmata il 26/10 (reclutamento chiuso).",
+      "riaperto_il": "2026-10-31 08:36",
+      "riaperto_da": "verifica delle 1.213 voci sul codice 40cb09ff (run wf_a60601a0-cae, 31/10/2026)"
     },
     {
       "dimensione": "sicurezza-auth",
@@ -2312,7 +2318,7 @@
       "impatto": "Si rompe proprio lo strumento pensato per mettere online un catalogo intero in pochi minuti, e si rompe per la maggioranza dei negozi italiani. Contraddice il paletto «il primo risultato si vede in 2-4 settimane»: il catalogo è il primo risultato.",
       "fix": "In parseCsv riconoscere il separatore dalla prima riga: se contiene più ';' che ',', usare ';'. È la convenzione di Excel in italiano, e la virgola decimale nel prezzo è già gestita a riga 110. Il modello andrebbe offerto già con ';'. Nell'errore va detto «il file sembra salvato con un separatore diverso». Serve una prova unitaria con un file ';' e BOM. Già che ci si è, gestire le descrizioni su più righe dentro le virgolette: oggi il file viene spezzato a ogni a capo prima di leggere le virgolette.",
       "fonte": "marketplace",
-      "stato": "riparato",
+      "stato": "aperto",
       "prova": "node scratchpad/frontend-venditore/csv-excel-it.cjs: estrae la funzione parseCsv VERA dal file app/seller/products/import/page.tsx e la esegue su un file come lo salva Excel italiano: \"﻿name;description;price;stock;category_slug\\r\\nPane casereccio;Pane fresco…;4,50;20;alimentari\"",
       "prova_tipo": "comando",
       "prova_eseguita": "Uscita: intestazioni lette: [\"name;description;price;stock;category_slug\"] — colonne mancanti secondo la pagina: name, description, price, stock, category_slug. L'intera riga d'intestazione viene letta come una colonna sola. · Verifica tecnica: Ho scritto il mio script (verifica-frontend-venditore/csv-it.cjs): estrae la funzione parseCsv vera da app/seller/products/import/page.tsx e ci passa il testo attraverso new Blob([...]).text(), come fa file.text() nella pagina. File Excel IT («﻿name;description;price;stock;category_slug\\r\\n…;4,50;…»): intestazioni [\"name;description;price;stock;category_slug\"], mancanti: tutte e cinque. File con la virgola: mancanti nessuna. Ho letto le righe 98-103 (il messaggio d'errore) e 82-88 (il modello scaricato con la virgola). I link alla pagina sono in seller/products/page.tsx:256 e 302 e in seller/dashboard/page.tsx:455.",
@@ -2321,7 +2327,9 @@
       "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-venditore · id R19 · si ripara: codice",
       "chiuso_il": "2026-10-28 15:28",
       "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
-      "nota_riparazione": "Riparato nella #262, ondata 1, pacchetto lib/funzioni-al-lancio.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/funzioni-al-lancio.ts, ondata 1 (run wf_cf281011-0f8, commit 1ab2dca2) — mutazione: collaudo dell'ondata 1 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
+      "nota_riparazione": "Riparato nella #262, ondata 1, pacchetto lib/funzioni-al-lancio.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/funzioni-al-lancio.ts, ondata 1 (run wf_cf281011-0f8, commit 1ab2dca2) — mutazione: collaudo dell'ondata 1 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa · Riaperta il 2026-10-31 08:36: la verifica l'ha trovata «presente» sul codice (app/seller/products/import/page.tsx:42 split su ','; :288 CARICAMENTO_DA_FILE_ACCESO false). parseCsv divide ancora solo sulla virgola; la pagina è spenta dall'interruttore. Il «riparato» del registro è solo lo spegnimento.",
+      "riaperto_il": "2026-10-31 08:36",
+      "riaperto_da": "verifica delle 1.213 voci sul codice 40cb09ff (run wf_a60601a0-cae, 31/10/2026)"
     },
     {
       "dimensione": "frontend-ux",
@@ -3313,7 +3321,7 @@
       "impatto": "Un solo clic riscrive in un'altra lingua l'intero catalogo del negozio. La ricerca interna e quella di Google per parole italiane smettono di trovarlo, e il negozio non ha modo di tornare indietro da solo. Ai negozianti viene presentata come una funzione utile.",
       "fix": "Subito: nascondere «Traduci» (pulsante del modulo e operazione del lotto) finché il sito è solo in italiano, decisione da prendere con Nicola. Se la funzione serve: colonne o tabella `product_translations(product_id, lang, name, description, tags)`, con la traduzione scritta lì e mai sui campi base. In ogni caso un avviso esplicito e un «ripristina» basato sul campo `prima` già salvato nell'audit.",
       "fonte": "marketplace",
-      "stato": "riparato",
+      "stato": "aperto",
       "prova": "Lettura del percorso: ai-batch/page.tsx:352 manda {operation:'translate', targetLang}. catalogBatch.ts:153 costruisce un patch su nome/descrizione/tag. catalog-batch/apply/route.ts:176-205 lo passa a resolveAiPatch, che lo scrive nelle colonne `name`/`description`/`tags` (aiPatch.ts:157-163). Poi `grep -rn \"product_translations\\|name_en\\|translations\" app lib components migrations` per cercare un posto dove l'italiano sopravviva.",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": "Il grep non trova nessuna struttura per le traduzioni. translate/route.ts:124 restituisce `{ patch, lang }` con name/description/tags. QuickAiTools.tsx:100-101 chiama onApplyPatch(json.patch) e dice «Annuncio tradotto nel form — controlla e salva». Il lotto non mostra nessun avviso prima di «Applica a tutti». · Verifica tecnica: grep di product_translations|name_en|translations su app, lib, components e migrations: 0 risultati. Ho letto catalogBatch.ts:153-167, app/api/ai/translate/route.ts:95-124 (restituisce {patch,lang} con name, description e tags), QuickAiTools.tsx:96-108, ai-batch/page.tsx:50-60, 370-385, 405-425 e 440-460, e apply/route.ts:169-205. Ho cercato con grep ripristin|undo in app/seller/products e components/seller: nessuna funzione per annullare.",
@@ -3322,7 +3330,9 @@
       "fonte_radiografia": "radiografia 2026-10-11 · corsie: ai-endpoints · id R42 · si ripara: codice",
       "chiuso_il": "2026-10-28 15:28",
       "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
-      "nota_riparazione": "Riparato nella #262, ondata 1, pacchetto lib/funzioni-al-lancio.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/funzioni-al-lancio.ts, ondata 1 (run wf_cf281011-0f8, commit 1ab2dca2) — mutazione: collaudo dell'ondata 1 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
+      "nota_riparazione": "Riparato nella #262, ondata 1, pacchetto lib/funzioni-al-lancio.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/funzioni-al-lancio.ts, ondata 1 (run wf_cf281011-0f8, commit 1ab2dca2) — mutazione: collaudo dell'ondata 1 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa · Riaperta il 2026-10-31 08:36: la verifica l'ha trovata «presente» sul codice (QuickAiTools.tsx:172 TRADUCI_ACCESO; catalog-batch/apply/route.ts:69 operazioneAccesa). Pulsante nascosto e l'applicazione del lotto rifiuta translate. /api/ai/translate non legge l'interruttore ma restituisce solo un patch.",
+      "riaperto_il": "2026-10-31 08:36",
+      "riaperto_da": "verifica delle 1.213 voci sul codice 40cb09ff (run wf_a60601a0-cae, 31/10/2026)"
     },
     {
       "dimensione": "ai-endpoints",
@@ -5013,7 +5023,7 @@
       "impatto": "Promessa falsa sull'ultimo schermo prima dell'acquisto, su tutte le 9 schede prodotto pubblicate. Si risolve da sola quando arrivano le chiavi Stripe (card #154), ma il difetto di costruzione resta: la frase non segue la cassa.",
       "fix": "Derivare METODI_AL_CHECKOUT dalla stessa condizione della cassa (presenza di NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY), in un solo punto condiviso, e aggiungere la prova che con la chiave assente la frase dice «Paghi in contanti alla consegna».",
       "fonte": "design",
-      "stato": "riparato",
+      "stato": "aperto",
       "prova": "mcp__Vercel__web_fetch_vercel_url su /product/034d599d-fdef-4ecb-9cb3-9e7bcdb9e0e0 e /product/90386a8f-f342-479b-8588-7583a4c2ef27; lettura di lib/promesse-pubbliche.ts:175-185 e app/checkout/page.tsx:541-543; chiavi Vercel di produzione dalla BASELINE (NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY assente).",
       "prova_tipo": "browser",
       "prova_eseguita": "Entrambe le schede in produzione mostrano «Paghi in contanti alla consegna, oppure con carta adesso». Nel codice della cassa stripeAvailable = !!NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY e il metodo iniziale è 'cod' quando manca. · Verifica tecnica: Ho letto in produzione la scheda /product/034d599d-fdef-4ecb-9cb3-9e7bcdb9e0e0 (Pesto Genovese Bio, Pane Quotidiano), HTTP 200. Contiene «Paghi in contanti alla consegna, oppure con carta adesso». Nel codice della pagina non c'è nessuna chiave pubblica Stripe: 0 occorrenze di «pk_». Nel codice ho letto lib/promesse-pubbliche.ts:162-185 e app/checkout/page.tsx:538-560 e 1263-1274. Con grep ho trovato gli usi di frasePagamento e controllato la condizione in PaymentMethodSelector. Ho cercato nei difetti chiusi la voce del 23/8 sulla carta.",
@@ -5023,7 +5033,9 @@
       "nota_riesame": "2026-10-28 22:30: Dal vaglio dell'ondata 10: anche app/come-funziona/page.tsx:26 promette la carta e Stripe, e frasePagamento (lib/promesse-pubbliche.ts:194-206) contiene sempre 'carta-adesso'. Della stessa classe «scritto a mano»: la variante B dell'hero (app/page.tsx:44, esperimento home_hero :140-144) col titolo fisso «Paghi come vuoi.», la banda fiducia della home (components/home-sections/HomeSectionRenderer.tsx:74) e components/ui/AuthShell.tsx:44. La prova deve rendere anche l'hero in variante B con NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY vuota. Il ramo fermo dell'ondata 10 (fix/ondata-10-lib-promesse-pubbliche-ts, 73ab7cc) ripara /come-funziona: non è unito.",
       "chiuso_il": "2026-10-29 18:15",
       "chiuso_da": "PR #263 · 0df5557, unita il 2026-10-29 18:12 e pubblicata (Vercel dpl_EcMdUboG8ZkhxhFJ1oR6x4EbkzWQ)",
-      "nota_riparazione": "Riparato nella #263, promesse A (commit 3787062, 73ab7cc, 251867d, portati come e414ab3, 1eb05fc, 6cdb4f1). — prova: npm run verify sul codice unito (0df5557 ha lo stesso albero di 2b1737b, provato: 683 file, 6.144 prove verdi) e CI della #263 9 su 9; prove tests/unit/le-frasi-pubbliche-seguono-la-cassa-e-la-realta.test.tsx, le-promesse-che-il-sito-non-mantiene.test.ts, la-home-non-promette-minuti-nei-tre-passi.test.tsx — mutazione: collaudo a due lenti delle promesse A (run wf_f24a412a-336, «regge»): M1b, l elenco fisso con «carta-adesso», 2 prove rosse"
+      "nota_riparazione": "Riparato nella #263, promesse A (commit 3787062, 73ab7cc, 251867d, portati come e414ab3, 1eb05fc, 6cdb4f1). — prova: npm run verify sul codice unito (0df5557 ha lo stesso albero di 2b1737b, provato: 683 file, 6.144 prove verdi) e CI della #263 9 su 9; prove tests/unit/le-frasi-pubbliche-seguono-la-cassa-e-la-realta.test.tsx, le-promesse-che-il-sito-non-mantiene.test.ts, la-home-non-promette-minuti-nei-tre-passi.test.tsx — mutazione: collaudo a due lenti delle promesse A (run wf_f24a412a-336, «regge»): M1b, l elenco fisso con «carta-adesso», 2 prove rosse · Riaperta il 2026-10-31 08:36: la verifica l'ha trovata «presente» sul codice (lib/promesse-pubbliche.ts:247-261 metodiAlCheckout legge NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY). L'elenco dei metodi ora segue la stessa chiave della cassa; la scheda usa frasePagamento().",
+      "riaperto_il": "2026-10-31 08:36",
+      "riaperto_da": "verifica delle 1.213 voci sul codice 40cb09ff (run wf_a60601a0-cae, 31/10/2026)"
     },
     {
       "dimensione": "microcopy",
@@ -22488,7 +22500,7 @@
       "impatto": "Il risultato non e' 'una pagina lenta': e' un cliente che al click successivo e' davvero disconnesso, con il carrello e il percorso di cassa interrotti, mentre lui non ha fatto niente di sbagliato. La riparazione e' nata per NON buttare fuori chi e' dentro (`decidiPortiere` distingue 'non ho potuto chiedere' da 'non e' entrato'), e su questo caso lo fa lo stesso — solo passando per un'altra porta, la piu' silenziosa, perche' non lascia un errore ma una sessione morta. Onesta': il meccanismo e' certo (letto nel codice e nelle callback), la FREQUENZA no — dipende da quanto spesso Supabase supera i 3 secondi su un rinnovo, e da qui non posso misurarla.",
       "fix": "Prova da scrivere (oggi non esiste): in tests/unit, un finto `auth.getUser()` che dopo 3500 ms invoca la callback `set()` col gettone nuovo e restituisce l'utente; chiamare `middleware` su una rotta protetta e pretendere che la risposta di rimando porti i cookie aggiornati. Oggi la prova sarebbe rossa: la risposta e' un `NextResponse.redirect` senza nessun cookie di sessione.",
       "fonte": "revisione del perimetro del lotto — 2026-09-03 (sicurezza-soldi)",
-      "stato": "riparato",
+      "stato": "aperto",
       "prova": "Prova da scrivere (oggi non esiste): in tests/unit, un finto `auth.getUser()` che dopo 3500 ms invoca la callback `set()` col gettone nuovo e restituisce l'utente; chiamare `middleware` su una rotta protetta e pretendere che la risposta di rimando porti i cookie aggiornati. Oggi la prova sarebbe rossa: la risposta e' un `NextResponse.redirect` senza nessun cookie di sessione.",
       "prova_tipo": "comando",
       "prova_eseguita": false,
@@ -22506,7 +22518,9 @@
       "fuori_dal_referto": true,
       "chiuso_il": "2026-10-29 18:15",
       "chiuso_da": "PR #263 · 0df5557, unita il 2026-10-29 18:12 e pubblicata (Vercel dpl_EcMdUboG8ZkhxhFJ1oR6x4EbkzWQ)",
-      "nota_riparazione": "Riparato nella #263, ondata 10, pacchetto middleware.ts (run wf_2326095d-a6c, commit 7ffe97a). — prova: npm run verify sul codice unito (0df5557 ha lo stesso albero di 2b1737b, provato: 683 file, 6.144 prove verdi) e CI della #263 9 su 9; prove del pacchetto middleware.ts dell ondata 10 — mutazione: collaudo dell ondata 10 («regge»): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
+      "nota_riparazione": "Riparato nella #263, ondata 10, pacchetto middleware.ts (run wf_2326095d-a6c, commit 7ffe97a). — prova: npm run verify sul codice unito (0df5557 ha lo stesso albero di 2b1737b, provato: 683 file, 6.144 prove verdi) e CI della #263 9 su 9; prove del pacchetto middleware.ts dell ondata 10 — mutazione: collaudo dell ondata 10 («regge»): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa · Riaperta il 2026-10-31 08:36: la verifica l'ha trovata «parziale» sul codice (middleware.ts:503-509 tetto 10 s se sta rinnovando; withCsp:521-525 travasa i cookie). Ora aspetta 10 s sul rinnovo e travasa i cookie sui rimandi; oltre i 10 s il rinnovo si perde ancora (vedi 1743).",
+      "riaperto_il": "2026-10-31 08:36",
+      "riaperto_da": "verifica delle 1.213 voci sul codice 40cb09ff (run wf_a60601a0-cae, 31/10/2026)"
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -23998,7 +24012,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "radiografia-in-corsa del lotto gravi del sito",
-      "stato": "riparato",
+      "stato": "aperto",
       "riverifica": {
         "verdetto": "ancora_presente",
         "prova": "components/ConfirmDialog.tsx:79-91 l'unico ascoltatore gestisce solo Escape (nessun Tab trattenuto, nessun inert, nessun ritorno del fuoco al pulsante d'origine); righe 110-121 dichiara role=\"dialog\" aria-modal=\"true\"; app/accessibility/page.tsx:89-92 promette per le «conferme» «fuoco che resta dentro e torna al punto di partenza»",
@@ -24017,7 +24031,9 @@
       "fuori_dal_referto": true,
       "chiuso_il": "2026-10-29 18:15",
       "chiuso_da": "PR #263 · 0df5557, unita il 2026-10-29 18:12 e pubblicata (Vercel dpl_EcMdUboG8ZkhxhFJ1oR6x4EbkzWQ)",
-      "nota_riparazione": "Riparato nella #263, promesse A (commit 3787062, 73ab7cc, 251867d, portati come e414ab3, 1eb05fc, 6cdb4f1). — prova: npm run verify sul codice unito (0df5557 ha lo stesso albero di 2b1737b, provato: 683 file, 6.144 prove verdi) e CI della #263 9 su 9; prove tests/unit/le-frasi-pubbliche-seguono-la-cassa-e-la-realta.test.tsx, le-promesse-che-il-sito-non-mantiene.test.ts, la-home-non-promette-minuti-nei-tre-passi.test.tsx — mutazione: collaudo a due lenti delle promesse A (run wf_f24a412a-336, «regge»): M4a e M4b, niente trappola Tab e niente ritorno del fuoco, prove rosse"
+      "nota_riparazione": "Riparato nella #263, promesse A (commit 3787062, 73ab7cc, 251867d, portati come e414ab3, 1eb05fc, 6cdb4f1). — prova: npm run verify sul codice unito (0df5557 ha lo stesso albero di 2b1737b, provato: 683 file, 6.144 prove verdi) e CI della #263 9 su 9; prove tests/unit/le-frasi-pubbliche-seguono-la-cassa-e-la-realta.test.tsx, le-promesse-che-il-sito-non-mantiene.test.ts, la-home-non-promette-minuti-nei-tre-passi.test.tsx — mutazione: collaudo a due lenti delle promesse A (run wf_f24a412a-336, «regge»): M4a e M4b, niente trappola Tab e niente ritorno del fuoco, prove rosse · Riaperta il 2026-10-31 08:36: la verifica l'ha trovata «presente» sul codice (components/ConfirmDialog.tsx:41-75 trappola Tab e ritorno del fuoco su activeElement). ConfirmDialog ora gira il Tab fra i bottoni e riporta il fuoco a chi l'ha aperto.",
+      "riaperto_il": "2026-10-31 08:36",
+      "riaperto_da": "verifica delle 1.213 voci sul codice 40cb09ff (run wf_a60601a0-cae, 31/10/2026)"
     },
     {
       "dimensione": "accessibilita",
@@ -27784,13 +27800,15 @@
       "titolo": "Due interruttori dicono «spento» ma nessuno li legge: i codici sconto in cassa e l'app installabile restano accesi",
       "severita": "minore",
       "file": "lib/funzioni-al-lancio.ts (CODICI_SCONTO_IN_CASSA, APP_INSTALLABILE_ACCESA)",
-      "stato": "riparato",
+      "stato": "aperto",
       "dimensione": "architettura",
       "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
       "descrizione": "Il grep di entrambi dà 0 letture fuori dal file. couponCode è ancora vivo in app/api/orders/cod e in app/api/stripe/checkout. app/layout.tsx:100 ha manifest e :244 PWAInstallBanner. Così chi legge crede spento un coupon MyCity che il negozio paga al 90%.",
       "chiuso_il": "2026-10-28 15:28",
       "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
-      "nota_riparazione": "Riparato nella #262, commit 00606399 (doppione della 1400). Il comportamento resta nelle schede 176 e 239. — prova: npx vitest run tests/unit/ogni-interruttore-del-lancio-lo-legge-qualcuno.test.ts — mutazione: il 28/10 su 1776e6b1: un interruttore che nessuno legge aggiunto a lib/funzioni-al-lancio.ts, 1 prova rossa su 8"
+      "nota_riparazione": "Riparato nella #262, commit 00606399 (doppione della 1400). Il comportamento resta nelle schede 176 e 239. — prova: npx vitest run tests/unit/ogni-interruttore-del-lancio-lo-legge-qualcuno.test.ts — mutazione: il 28/10 su 1776e6b1: un interruttore che nessuno legge aggiunto a lib/funzioni-al-lancio.ts, 1 prova rossa su 8 · Riaperta il 2026-10-31 08:36: la verifica l'ha trovata «presente» sul codice (grep CODICI_SCONTO_IN_CASSA|APP_INSTALLABILE_ACCESA fuori da lib/funzioni-al-lancio.ts: 0; cod/route.ts:794). Nessuno legge i due interruttori: cod applica ancora couponCode (r.794), layout ha manifest (r.101) e PWAInstallBanner (r.247).",
+      "riaperto_il": "2026-10-31 08:36",
+      "riaperto_da": "verifica delle 1.213 voci sul codice 40cb09ff (run wf_a60601a0-cae, 31/10/2026)"
     },
     {
       "titolo": "La newsletter spenta non è fermata dalla rotta: una POST fatta a mano iscrive e manda la mail",
@@ -29381,13 +29399,15 @@
       "titolo": "Admin e /shipping danno il confine di 10 km per stagno, ma senza coordinate la cassa accetta qualunque indirizzo",
       "severita": "minore",
       "file": "app/admin/delivery/page.tsx riga «Confine della consegna» («oltre, la cassa rifiuta»); app/shipping/page.tsx «Aree servite» («ti diciamo subito»)",
-      "stato": "riparato",
+      "stato": "aperto",
       "dimensione": "frontend-ux",
       "fonte": "nato dal lotto #262 (riesame del secondo giro della fase 2)",
       "descrizione": "fuoriZonaDiConsegna (lib/ordini/zona-di-consegna.ts): se manca una coordinata return false, cioè la cassa accetta a qualunque distanza (indirizzo non geocodificato o negozio senza posizione). Testo nuovo, regola del 6/9. Non verificato in DB se il negozio reale ha store_lat/lng: a tech.",
       "chiuso_il": "2026-10-28 15:28",
       "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
-      "nota_riparazione": "Riparato nella #262, ondata 7, pacchetto lib/ordini/riepilogo-ordine.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/ordini/riepilogo-ordine.ts, ondata 7 (run wf_1bc11a0a-959, commit e4fe3ff6) — mutazione: collaudo del quinto giro: il difetto rimesso com'era scritto fa diventare rosse le prove; fermo solo su prove migliorabili, poi la copia provata (6ae86ca5) con le prove dei verificatori rosse su a4f4161c e verdi sulla copia, e l'unione firmata da Nicola con «ok 215»"
+      "nota_riparazione": "Riparato nella #262, ondata 7, pacchetto lib/ordini/riepilogo-ordine.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/ordini/riepilogo-ordine.ts, ondata 7 (run wf_1bc11a0a-959, commit e4fe3ff6) — mutazione: collaudo del quinto giro: il difetto rimesso com'era scritto fa diventare rosse le prove; fermo solo su prove migliorabili, poi la copia provata (6ae86ca5) con le prove dei verificatori rosse su a4f4161c e verdi sulla copia, e l'unione firmata da Nicola con «ok 215» · Riaperta il 2026-10-31 08:36: la verifica l'ha trovata «parziale» sul codice (admin/delivery/page.tsx:131 dice che accetta; zona-di-consegna.ts:43 return false; shipping/page.tsx:134 «ti diciamo subito»). Il pannello ora è onesto; /shipping promette ancora e la cassa accetta senza coordinate.",
+      "riaperto_il": "2026-10-31 08:36",
+      "riaperto_da": "verifica delle 1.213 voci sul codice 40cb09ff (run wf_a60601a0-cae, 31/10/2026)"
     },
     {
       "titolo": "«Vicino a te»: a 10 km, il massimo del cursore, l'avviso vuoto dice ancora «Aumenta il raggio», che non si può più",
@@ -32046,7 +32066,7 @@
       "dimensione": "qa-flussi",
       "reparto": "Flussi critici",
       "severita": "minore",
-      "stato": "riparato",
+      "stato": "aperto",
       "nato_oggi": true,
       "titolo": "Il pacchetto delle frasi fa diventare rosse tre prove che erano verdi: le guardie della pagina Spedizioni e del negozio chiuso",
       "file": "tests/unit (guardie della pagina Spedizioni e del negozio chiuso, citate dal collaudo dell ondata 14)",
@@ -32054,7 +32074,9 @@
       "fonte": "nato dal lotto: ondata 14, il prezzo con più negozi e le frasi (run wf_f5280289-22c, rami 552008c6 e 3fca82ba)",
       "chiuso_il": "2026-10-30 14:45",
       "chiuso_da": "PR #264 · 0a4bfe81",
-      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 15 lib/site-branding.ts (76735785). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 15 («regge», run wf_4c5f7fb6-76d): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa"
+      "nota_riparazione": "Riparato nella #264 (pacchetto del prezzo), ondata 15 lib/site-branding.ts (76735785). — prova: npm run verify sul codice unito (main 0a4bfe81 ha lo stesso albero di 35677a88: tipi, lint e 6.400 prove su 6.400 in 713 file) e CI della #264 9 su 9; il controllo dei 64 file toccati (run wf_8404b4d0-c10 e wf_57f9c01e-7ed) non l ha rivista aperta — mutazione: collaudo dell ondata 15 («regge», run wf_4c5f7fb6-76d): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa · Riaperta il 2026-10-31 08:36: la verifica l'ha trovata «non_verificabile» sul codice (scheda senza file preciso; nessun nome di prova da aprire). La scheda non dice quali tre prove: per vederlo serve far girare npm run verify sul main.",
+      "riaperto_il": "2026-10-31 08:36",
+      "riaperto_da": "verifica delle 1.213 voci sul codice 40cb09ff (run wf_a60601a0-cae, 31/10/2026)"
     },
     {
       "dimensione": "qa-flussi",

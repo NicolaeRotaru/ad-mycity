@@ -130,7 +130,12 @@
 "lancio_detto": "spento",
 "contestato": "Lo spegnimento è solo un dato del DB (funzioni-al-lancio.ts:76-81), non verificabile da qui e senza interruttore in cassa. Basta un clic in /admin/coupons/page.tsx:101 e check_coupon (114:349) rifiuta di nuovo.",
 "chiave": "rls-database|il carrello rifiuta il codice di benvenuto a chi ha solo un ordine annullato: la riparazione è arrivata alla cassa ma non al database",
-"stato_registro": "aperto"
+"stato_registro": "aperto",
+"riverifica_0fc4ec7d": {
+"v": "presente",
+"prova": "lib/coupons.ts:104,147-154; diff #266 non tocca coupons né check_coupon",
+"nota": "La #266 non tocca i codici sconto: il carrello chiede ancora a check_coupon, che conta anche gli ordini annullati."
+}
 },
 {
 "i": 8,
@@ -402,7 +407,12 @@
 "in_volo": true,
 "dipende": [],
 "chiave": "qa-flussi|nessuno vede l'orario di consegna scelto dal cliente: né il negozio, né il fattorino, né il cliente stesso",
-"stato_registro": "aperto"
+"stato_registro": "aperto",
+"riverifica_0fc4ec7d": {
+"v": "parziale",
+"prova": "app/api/orders/cod/route.ts:1144-1147; app/seller/orders/[id]/page.tsx:394",
+"nota": "La #266 aggiunge gli orari del negozio alla scadenza, ma la campanella «Nuovo ordine!» scrive ancora solo numero, totale e pagamento, senza fascia."
+}
 },
 {
 "i": 24,
@@ -420,7 +430,12 @@
 "in_volo": true,
 "dipende": [],
 "chiave": "qa-flussi|se il negoziante segna chiusi tutti i giorni, per esempio per ferie, il sito lo considera sempre aperto e accetta ordini a qualsiasi ora",
-"stato_registro": "aperto"
+"stato_registro": "aperto",
+"riverifica_0fc4ec7d": {
+"v": "presente",
+"prova": "lib/store-hours.ts:66-72,202-208,245-246",
+"nota": "orariImpostati considera ancora sette giorni vuoti come orari mai inseriti: negozioPuoServire risponde sì, e il negozio in ferie riceve ordini."
+}
 },
 {
 "i": 25,
@@ -458,7 +473,12 @@
 "in_volo": true,
 "dipende": [],
 "chiave": "qa-flussi|si possono togliere quattro controlli sui soldi e 4.257 prove automatiche su 4.258 restano verdi",
-"stato_registro": "riparato"
+"stato_registro": "riparato",
+"riverifica_0fc4ec7d": {
+"v": "riparato",
+"prova": "lib/stripe/webhook/ordini.ts:529-555 (diff: solo email)",
+"nota": "La #266 aggiunge solo la lettura degli orari per l'email: i controlli sui soldi e le loro prove non cambiano."
+}
 },
 {
 "i": 27,
@@ -824,7 +844,12 @@
 "lancio_detto": "spento",
 "contestato": "Nessun interruttore né nota su PostHog in funzioni-al-lancio.ts. È spento solo perché manca NEXT_PUBLIC_POSTHOG_KEY su Vercel (posthog.tsx:35,277), cosa non verificabile dal repo. Messa la chiave, autocapture (:304-306) riparte.",
 "chiave": "privacy-legale|quando posthog verrà acceso, un clic sul telefono del cliente nelle pagine del negozio manderà quel numero negli stati uniti",
-"stato_registro": "aperto"
+"stato_registro": "aperto",
+"riverifica_0fc4ec7d": {
+"v": "presente",
+"prova": "lib/analytics/posthog.tsx non toccato dalla #266",
+"nota": "PostHog non è cambiato: l'autocapture resta acceso anche nelle pagine con dati di altre persone."
+}
 },
 {
 "i": 48,
@@ -1662,7 +1687,12 @@
 "in_volo": true,
 "dipende": [],
 "chiave": "api-backend|chi paga alla consegna non riceve nessuna email se il negozio rifiuta o lascia scadere l'ordine",
-"stato_registro": "riparato"
+"stato_registro": "riparato",
+"riverifica_0fc4ec7d": {
+"v": "riparato",
+"prova": "app/api/cron/expire-stale-orders/route.ts:12,296",
+"nota": "Il giro notturno chiama ancora avvisaIlClienteDellAnnullo: l'email di annullo parte anche per i contanti. La #266 cambia solo quando scade un ordine."
+}
 },
 {
 "i": 96,
@@ -1986,7 +2016,12 @@
 "in_volo": false,
 "dipende": [],
 "chiave": "frontend-ux|il negozio che scrive l'indirizzo senza premere «cerca» viene messo a roma, e da piacenza nessuno può più ordinargli una consegna",
-"stato_registro": "aperto"
+"stato_registro": "aperto",
+"riverifica_0fc4ec7d": {
+"v": "presente",
+"prova": "components/StoreLocationPicker.tsx:9,34",
+"nota": "Il selettore della posizione non è cambiato: parte ancora da Roma e manda quelle coordinate al modulo."
+}
 },
 {
 "i": 114,
@@ -3018,7 +3053,12 @@
 "in_volo": false,
 "dipende": [],
 "chiave": "pagamenti-stripe|il codice sconto di mycity lo paga il negozio: su 20 euro di pane con 5 euro di sconto incassa 13,50 invece di 18",
-"stato_registro": "aperto"
+"stato_registro": "aperto",
+"riverifica_0fc4ec7d": {
+"v": "presente",
+"prova": "app/api/orders/cod/route.ts:975 (computeOrderSplit)",
+"nota": "La #266 non tocca la divisione dei soldi: lo sconto si toglie ancora prima di calcolare la quota del negozio."
+}
 },
 {
 "i": 177,
@@ -3272,7 +3312,12 @@
 "in_volo": false,
 "dipende": [],
 "chiave": "dati-analytics|il cruscotto del negoziante mostra meno soldi di quelli che riceve quando il cliente paga anche col credito mycity",
-"stato_registro": "aperto"
+"stato_registro": "aperto",
+"riverifica_0fc4ec7d": {
+"v": "presente",
+"prova": "app/api/orders/cod/route.ts:990; lib/metriche-venditore.ts:97",
+"nota": "total_price si scrive ancora senza il credito usato e il cruscotto parte da lì: niente cambiato con la #266."
+}
 },
 {
 "i": 196,
@@ -4046,7 +4091,12 @@
 "in_volo": false,
 "dipende": [],
 "chiave": "mobile-pwa|le etichette di spedizione con nome, indirizzo e telefono del cliente restano salvate sul dispositivo del negozio anche dopo l'uscita dall'account",
-"stato_registro": "riparato"
+"stato_registro": "riparato",
+"riverifica_0fc4ec7d": {
+"v": "riparato",
+"prova": "public/sw.js:153",
+"nota": "/api è ancora fra i percorsi privati del service worker: sw.js non è stato toccato dalla #266."
+}
 },
 {
 "i": 241,
@@ -4226,7 +4276,12 @@
 "in_volo": true,
 "dipende": [],
 "chiave": "microcopy|la pagina dell'unico negozio vero e l'errore di cassa offrono il «ritiro in negozio», ma il servizio è spento",
-"stato_registro": "aperto"
+"stato_registro": "aperto",
+"riverifica_0fc4ec7d": {
+"v": "presente",
+"prova": "lib/store-hours.ts:312,318; lib/store-customization.ts:111",
+"nota": "Il messaggio di negozio chiuso, ora usato da motivoFasciaRifiutata, dice ancora «oppure ritira in negozio». Il bollino si può ancora scegliere."
+}
 },
 {
 "i": 252,
@@ -4280,7 +4335,12 @@
 "in_volo": true,
 "dipende": [],
 "chiave": "microcopy|promettiamo 5 euro di benvenuto (e 5 euro con la newsletter) che si tolgono da soli in cassa, ma in cassa non compaiono mai",
-"stato_registro": "aperto"
+"stato_registro": "aperto",
+"riverifica_0fc4ec7d": {
+"v": "parziale",
+"prova": "diff #266 su templates.ts/checkout/cod: solo orari e fasce",
+"nota": "La #266 non tocca le promesse dei 5 euro: resta la notifica del database da cambiare con una migrazione nuova."
+}
 },
 {
 "i": 255,
@@ -4300,7 +4360,12 @@
 "v_detto": "riparato",
 "contestato": "Scheda ok (product/[id]:811 frasePagamento), ma terms/page.tsx:159 promette ancora carta, Apple Pay, Google Pay; faq/page.tsx:56 «POS al rider»: stessa promessa falsa sul pagamento.",
 "chiave": "microcopy|su ogni scheda prodotto c'è scritto «oppure con carta adesso», ma in produzione la carta non si può usare",
-"stato_registro": "riparato"
+"stato_registro": "riparato",
+"riverifica_0fc4ec7d": {
+"v": "presente",
+"prova": "lib/promesse-pubbliche.ts:261-284",
+"nota": "I metodi di pagamento seguono ancora metodiAlCheckout() e frasePagamento(). La #266 non tocca la frase. Lascio il verdetto di stanotte."
+}
 },
 {
 "i": 256,
@@ -7297,7 +7362,12 @@
 "in_volo": true,
 "dipende": [],
 "chiave": "api-backend|la prova che rende idempotente l'ordine in contanti si scrive best-effort, e la risposta dice riuscito lo stesso",
-"stato_registro": "riparato"
+"stato_registro": "riparato",
+"riverifica_0fc4ec7d": {
+"v": "riparato",
+"prova": "app/api/orders/cod/route.ts:1341-1357",
+"nota": "La riga della chiave si riscrive ancora con dei tentativi (SCRITTURE_DELLA_PROVA) e il doppione resta fermato: la #266 non ci tocca."
+}
 },
 {
 "i": 1209,
@@ -7315,7 +7385,12 @@
 "in_volo": true,
 "dipende": [],
 "chiave": "api-backend|la lettura dei negozi non viene mai controllata: se torna corta, saltano il controllo 'negozio chiuso' e quello 'fuori zona', e la consegna va a tariffa fissa",
-"stato_registro": "riparato"
+"stato_registro": "riparato",
+"riverifica_0fc4ec7d": {
+"v": "riparato",
+"prova": "app/api/orders/cod/route.ts:605-613",
+"nota": "Una lettura dei negozi caduta ferma ancora l'ordine in contanti. Il controllo orari ora passa da motivoFasciaRifiutata."
+}
 },
 {
 "i": 1210,
@@ -13177,7 +13252,12 @@
 "in_volo": false,
 "dipende": [],
 "chiave": "flussi-conversione|la cassa fa pagare la spedizione a chilometri oltre ai 3 euro di consegna, ma nicola ha firmato «solo i 3 euro»",
-"stato_registro": "riparato"
+"stato_registro": "riparato",
+"riverifica_0fc4ec7d": {
+"v": "riparato",
+"prova": "diff #266 su cod/stripe route: nessuna riga di spedizione",
+"nota": "La #266 non cambia il calcolo della consegna: il cliente paga ancora solo la consegna per negozio."
+}
 },
 {
 "i": 1544,
@@ -13539,7 +13619,12 @@
 "in_volo": true,
 "dipende": [],
 "chiave": "pagamenti-stripe|il confine dei 10 km è provato solo sul contrassegno: alla rotta della carta si può togliere il controllo zona con tutte le prove verdi",
-"stato_registro": "riparato"
+"stato_registro": "riparato",
+"riverifica_0fc4ec7d": {
+"v": "riparato",
+"prova": "app/api/stripe/checkout/route.ts:585-586",
+"nota": "Il controllo zona della carta è intatto. La #266 cambia solo il controllo orari, poco sopra."
+}
 },
 {
 "i": 1564,
@@ -13919,7 +14004,12 @@
 "in_volo": false,
 "dipende": [],
 "chiave": "qa-flussi|dopo il pagamento la pagina dell'ordine scrive «spedizione gratuita» sopra «consegna mycity 3,00 €», su ogni ordine (cliente e negoziante)",
-"stato_registro": "riparato"
+"stato_registro": "riparato",
+"riverifica_0fc4ec7d": {
+"v": "riparato",
+"prova": "lib/ordini/riepilogo-ordine.ts invariato fra 40cb09ff e 0fc4ec7d",
+"nota": "file non toccato dalla #266: vale il verdetto del 31/10 notte"
+}
 },
 {
 "i": 1585,
@@ -14099,7 +14189,12 @@
 "in_volo": false,
 "dipende": [],
 "chiave": "api-backend|in contanti il confine dei 10 km può ignorare la latitudine (13 km a nord accettati) e nessuna prova diventa rossa",
-"stato_registro": "riparato"
+"stato_registro": "riparato",
+"riverifica_0fc4ec7d": {
+"v": "riparato",
+"prova": "app/api/orders/cod/route.ts:782-783",
+"nota": "Il blocco zona dei contanti non è cambiato. Le prove sul nord non sono fra i file toccati dalla #266."
+}
 },
 {
 "i": 1595,
@@ -14117,7 +14212,12 @@
 "in_volo": true,
 "dipende": [],
 "chiave": "pagamenti-stripe|con la carta il controllo zona si può spegnere per l'indirizzo scritto a mano: la prova fa dare la stessa casa anche alla rubrica",
-"stato_registro": "riparato"
+"stato_registro": "riparato",
+"riverifica_0fc4ec7d": {
+"v": "riparato",
+"prova": "app/api/stripe/checkout/route.ts:585-586",
+"nota": "Il blocco zona della carta e la sua prova non sono cambiati con la #266."
+}
 },
 {
 "i": 1596,
@@ -14153,7 +14253,12 @@
 "in_volo": false,
 "dipende": [],
 "chiave": "qa-flussi|pagina dell'ordine: «spedizione gratuita» sopra i 3 € torna a prove verdi, la guardia è un grep /gratuit/ sensibile al maiuscolo",
-"stato_registro": "riparato"
+"stato_registro": "riparato",
+"riverifica_0fc4ec7d": {
+"v": "riparato",
+"prova": "app/orders/[id]/page.tsx:691; app/seller/orders/[id]/page.tsx:593",
+"nota": "Le due pagine usano ancora cifraDellaVoce. La #266 sulla pagina del negozio aggiunge solo gli orari per la scadenza."
+}
 },
 {
 "i": 1598,
@@ -14351,7 +14456,12 @@
 "in_volo": false,
 "dipende": [],
 "chiave": "api-backend|il confine dei 10 km è provato solo sui 4 assi: coi contanti misurati «a quadrato» una casa a 13 km in diagonale passa a prove verdi",
-"stato_registro": "riparato"
+"stato_registro": "riparato",
+"riverifica_0fc4ec7d": {
+"v": "riparato",
+"prova": "app/api/orders/cod/route.ts:782-783",
+"nota": "Il controllo zona dei contanti è uguale. La prova sulle diagonali non è stata toccata dalla #266."
+}
 },
 {
 "i": 1609,
@@ -14369,7 +14479,12 @@
 "in_volo": true,
 "dipende": [],
 "chiave": "pagamenti-stripe|alla carta il controllo zona si può togliere dal secondo negozio in poi: le prove hanno un negozio solo e restano verdi",
-"stato_registro": "riparato"
+"stato_registro": "riparato",
+"riverifica_0fc4ec7d": {
+"v": "riparato",
+"prova": "app/api/stripe/checkout/route.ts:585",
+"nota": "Il ciclo zona della carta passa ancora su tutti i negozi. La #266 non tocca il blocco né la prova a due negozi."
+}
 },
 {
 "i": 1610,
@@ -14477,7 +14592,12 @@
 "in_volo": false,
 "dipende": [],
 "chiave": "flussi-conversione|la rotta della carta è provata solo sui 4 assi: un confine a quadrato (13 km in diagonale passa) o a rombo resta verde",
-"stato_registro": "riparato"
+"stato_registro": "riparato",
+"riverifica_0fc4ec7d": {
+"v": "riparato",
+"prova": "tests/unit/la-carta-rifiuta-l-indirizzo-fuori-zona-come-i-contanti.test.ts:46-49; stripe/checkout/route.ts:453",
+"nota": "La #266 tocca solo il controllo della fascia nella rotta della carta. La prova con i punti in diagonale non cambia."
+}
 },
 {
 "i": 1616,
@@ -15251,7 +15371,12 @@
 "in_volo": true,
 "dipende": [],
 "chiave": "microcopy|l'email «3 cose da sapere» promette a ogni nuovo cliente «oppure la ritiri tu», ma il ritiro in negozio è spento",
-"stato_registro": "riparato"
+"stato_registro": "riparato",
+"riverifica_0fc4ec7d": {
+"v": "riparato",
+"prova": "lib/email/templates.ts:630-634 (comeArrivaLaSpesa con RITIRO_IN_NEGOZIO_ATTIVO)",
+"nota": "La #266 aggiunge solo gli orari all'email del negozio. Il ritiro si nomina ancora solo se l'interruttore è acceso."
+}
 },
 {
 "i": 1659,
@@ -15883,7 +16008,12 @@
 "in_volo": true,
 "dipende": [],
 "chiave": "flussi-conversione|chi abita appena oltre i 10 km, come a podenzano o rottofreno, scopre di essere fuori zona solo premendo «ordina»: carrello e cassa non lo avvisano prima",
-"stato_registro": "aperto"
+"stato_registro": "aperto",
+"riverifica_0fc4ec7d": {
+"v": "presente",
+"prova": "app/checkout/page.tsx:233; grep fuoriZonaDiConsegna in checkout e cart: niente; constants.ts:66",
+"nota": "Ora la cassa legge anche gli orari, ma non controlla la zona. Carrello e cassa non avvisano: chi è fuori lo scopre solo con «Ordina»."
+}
 },
 {
 "i": 1694,
@@ -15973,7 +16103,12 @@
 "in_volo": true,
 "dipende": [],
 "chiave": "qa-flussi|pagina del negozio: se la prima lettura cade, un ordine in contanti appare «carta (online)» con «spedizione gratuita»",
-"stato_registro": "aperto"
+"stato_registro": "aperto",
+"riverifica_0fc4ec7d": {
+"v": "presente",
+"prova": "app/seller/orders/[id]/page.tsx:173-178",
+"nota": "La #266 aggiunge solo store_hours alla lettura. Il ripiego senza payment_method scatta ancora su qualunque errore."
+}
 },
 {
 "i": 1699,
@@ -16157,7 +16292,12 @@
 "in_volo": false,
 "dipende": [],
 "chiave": "flussi-conversione|la scheda prodotto promette «consegna in 2-3 giorni» sui prodotti esauriti e su tutti quelli di un negozio senza express, ma in cassa quella consegna non esiste",
-"stato_registro": "riparato"
+"stato_registro": "riparato",
+"riverifica_0fc4ec7d": {
+"v": "riparato",
+"prova": "git diff 40cb09ff..0fc4ec7d: app/product/[id]/page.tsx e DeliveryCutoff.tsx non cambiano",
+"nota": "La #266 non tocca la scheda prodotto, quindi la riparazione di stanotte resta. Cambia solo lib/promessa-consegna.ts, per le fasce."
+}
 },
 {
 "i": 1709,
@@ -16175,7 +16315,12 @@
 "in_volo": false,
 "dipende": [],
 "chiave": "qa-flussi|il carrello scrive «disponibile · consegna in 30-60 min» anche a negozio chiuso, e il rifiuto arriva solo all'ultimo tocco in cassa",
-"stato_registro": "riparato"
+"stato_registro": "riparato",
+"riverifica_0fc4ec7d": {
+"v": "riparato",
+"prova": "app/cart/page.tsx non cambia nella #266; :187 romeNow",
+"nota": "Il carrello non è cambiato. I minuti compaiono solo se la rotta della veloce dice di sì."
+}
 },
 {
 "i": 1710,
@@ -16773,7 +16918,12 @@
 "in_volo": true,
 "dipende": [],
 "chiave": "qa-flussi|dopo certi errori del server il sito dimentica che l'ordine in contanti era già partito, e chi ritocca «ordina» ne crea un secondo",
-"stato_registro": "aperto"
+"stato_registro": "aperto",
+"riverifica_0fc4ec7d": {
+"v": "presente",
+"prova": "lib/ordini/chiave-dopo-l-errore.ts:18-19; checkout/page.tsx:843",
+"nota": "La regola resta «butta la chiave se manca inCorso». Una risposta non JSON diventa {} e la chiave si perde. La #266 non tocca questa parte."
+}
 },
 {
 "i": 1743,
@@ -17009,7 +17159,12 @@
 "in_volo": true,
 "dipende": [],
 "chiave": "api-backend|sulla chiave abbandonata la cassa prende per suo l'ordine in contanti di un altro carrello: dice «fatto», svuota il carrello e l'ordine di adesso non nasce",
-"stato_registro": "riparato"
+"stato_registro": "riparato",
+"riverifica_0fc4ec7d": {
+"v": "riparato",
+"prova": "app/api/orders/cod/route.ts (ramo chiave abbandonata, non cambiato dalla #266)",
+"nota": "La #266 cambia la rotta dei contanti solo nel controllo della fascia e nell'email. Il ramo cerca ancora per gli id della chiave."
+}
 },
 {
 "i": 1756,
@@ -17027,7 +17182,12 @@
 "in_volo": true,
 "dipende": [],
 "chiave": "qa-flussi|dopo l'avviso «il tuo ordine è già arrivato» il browser dimentica il tentativo, e il tocco successivo su ordina crea il secondo ordine in contanti",
-"stato_registro": "riparato"
+"stato_registro": "riparato",
+"riverifica_0fc4ec7d": {
+"v": "riparato",
+"prova": "app/api/orders/cod/route.ts:127,158,179,203 (inCorso: true)",
+"nota": "Le risposte del ramo chiave portano ancora inCorso. La #266 non le tocca."
+}
 },
 {
 "i": 1757,
@@ -17045,7 +17205,12 @@
 "in_volo": true,
 "dipende": [],
 "chiave": "qa-flussi|dopo l'avviso «non riusciamo a controllare il tuo ordine» il browser dimentica il tentativo, e il tocco successivo crea il secondo ordine in contanti",
-"stato_registro": "riparato"
+"stato_registro": "riparato",
+"riverifica_0fc4ec7d": {
+"v": "riparato",
+"prova": "app/api/orders/cod/route.ts:170-179",
+"nota": "Il 503 porta ancora inCorso: true, quindi il browser tiene la chiave."
+}
 },
 {
 "i": 1758,
@@ -17081,7 +17246,12 @@
 "in_volo": true,
 "dipende": [],
 "chiave": "api-backend|se la risposta del primo «ordina» si perde, il prossimo ordine in contanti in quella scheda, anche giorni dopo e con un altro negozio, dice «ordine effettuato» col vecchio ordine: il nuovo non arriva",
-"stato_registro": "aperto"
+"stato_registro": "aperto",
+"riverifica_0fc4ec7d": {
+"v": "presente",
+"prova": "app/checkout/page.tsx:843 (chiudiTentativo solo su successo); lib/ordini/tentativo.ts",
+"nota": "La chiave è ancora legata alla scheda e non al carrello. Se la risposta si perde, l'ordine dopo riceve quello vecchio."
+}
 },
 {
 "i": 1760,
@@ -17245,7 +17415,12 @@
 "in_volo": true,
 "dipende": [],
 "chiave": "api-backend|se il database salva l ordine ma la risposta torna con un errore, la cassa lo tratta come mai nato: rimette la merce, ridà il credito, butta la chiave, e il tocco dopo crea un secondo ordine",
-"stato_registro": "aperto"
+"stato_registro": "aperto",
+"riverifica_0fc4ec7d": {
+"v": "presente",
+"prova": "app/api/orders/cod/route.ts:1049-1051",
+"nota": "Se l'inserimento dà errore, l'ordine ancora non si rilegge. Si rimettono merce e credito e si libera la chiave. Nella #266 cambiano solo le righe."
+}
 },
 {
 "i": 1769,
@@ -17771,7 +17946,12 @@
 "lancio_detto": "spento",
 "contestato": "Anche coi contanti: checkout/page.tsx:1173-1179 ricontrolla solo l'ora, non il giorno; cod/route.ts:1017 salva «Domani»; fascia-leggibile.ts:76-80 conta da created_at → giorno dopo.",
 "chiave": "qa-flussi|ordine con carta pagato dopo mezzanotte: negozio, fattorino e cliente leggono la consegna un giorno dopo quello scelto",
-"stato_registro": "aperto"
+"stato_registro": "aperto",
+"riverifica_0fc4ec7d": {
+"v": "presente",
+"prova": "lib/ordini/fascia-leggibile.ts:72-84; lib/stripe/webhook/ordini.ts:316",
+"nota": "Il giorno si calcola ancora da created_at. La #266 cambia solo come si riconosce la fascia (giornoDellaFascia). Riguarda la carta, spenta al lancio."
+}
 },
 {
 "i": 1798,
@@ -18059,7 +18239,12 @@
 "in_volo": true,
 "dipende": [],
 "chiave": "pagamenti-stripe|se in un carrello con più negozi uno rifiuta o viene annullato prima della consegna, gli altri restano con 1 euro di consegna invece di ricalcolarla sui negozi rimasti",
-"stato_registro": "riparato"
+"stato_registro": "riparato",
+"riverifica_0fc4ec7d": {
+"v": "riparato",
+"prova": "app/api/cron/expire-stale-orders/route.ts:12,177",
+"nota": "Il giro notturno chiama ancora ricalcolaLaConsegnaDelGiro. La #266 cambia solo il filtro e legge gli orari del negozio."
+}
 },
 {
 "i": 1814,
@@ -18297,7 +18482,12 @@
 "v_detto": "riparato",
 "contestato": "Riparato a metà: veloce-non-confermata.ts:230-252 nonSiSposta lascia l'ordine «Adesso» con l'euro della veloce nel conto (:244) fino a 3 ore; riesame del 30/10 la tiene aperta. Cron fermo senza chiave.",
 "chiave": "qa-flussi|manca il secondo freno della veloce: se il negozio non conferma entro 10 minuti, il cliente che ha pagato l euro in più aspetta fino a tre ore invece di passare a una fascia senza l euro",
-"stato_registro": "aperto"
+"stato_registro": "aperto",
+"riverifica_0fc4ec7d": {
+"v": "presente",
+"prova": "lib/ordini/scadenza-accettazione.ts:209; lib/ordini/veloce-non-confermata.ts:24,550",
+"nota": "Il freno dei 10 minuti c'è ancora, e ora sposta solo su fasce valide. Come stanotte, in produzione i cron non girano senza la chiave di servizio."
+}
 },
 {
 "i": 1827,
@@ -19688,7 +19878,12 @@
 "in_volo": true,
 "dipende": [],
 "chiave": "frontend-ux|la cassa legge l ora del telefono, mentre la vetrina e le rotte leggono quella di roma: su un telefono con un altro fuso la vetrina promette la veloce e la cassa non la offre",
-"stato_registro": "riparato"
+"stato_registro": "riparato",
+"riverifica_0fc4ec7d": {
+"v": "riparato",
+"prova": "DeliverySlotPicker.tsx:128; checkout/page.tsx:489,540; cart/page.tsx:187",
+"nota": "Cassa, selettore e carrello usano ancora romeNow. Adesso lo usano anche con i minuti."
+}
 },
 {
 "i": 1904,
@@ -19724,7 +19919,12 @@
 "in_volo": true,
 "dipende": [],
 "chiave": "qa-flussi|il cliente sceglie la veloce, passa dall accesso e torna in cassa: la cassa gli toglie la scelta prima che il server risponda, e gli scrive che la veloce non si può",
-"stato_registro": "riparato"
+"stato_registro": "riparato",
+"riverifica_0fc4ec7d": {
+"v": "riparato",
+"prova": "components/checkout/DeliverySlotPicker.tsx:99,136,145",
+"nota": "quandoLaVeloceCade esce subito se inAttesa: «Adesso» resta finché il server non risponde."
+}
 },
 {
 "i": 1906,
@@ -20490,7 +20690,7 @@
 "i": 1948,
 "sev": "grave",
 "t": "La cassa propone «Oggi 15:00–18:00» col negozio chiuso il pomeriggio; il no arriva solo a «Ordina»",
-"v": "presente",
+"v": "riparato",
 "lancio": "raggiungibile",
 "tipo": "codice",
 "sforzo": "M",
@@ -20498,17 +20698,23 @@
 "file": "components/checkout/DeliverySlotPicker.tsx",
 "radice": "cassa-senza-orari-del-negozio",
 "prova": "DeliverySlotPicker.tsx:110-112 fasce solo dall'ora; checkout/page.tsx:527-530; rotta cod/route.ts:664 negozioPuoServire",
-"nota": "Su main selettore e cassa non ricevono gli orari dei negozi: giovedì pomeriggio e domenica la cassa offre «Oggi», poi 409. Il ramo in volo sembra aggiungerli.",
+"nota": "Ora la cassa legge store_hours e li passa al selettore. Le fasce di oggi e domani usano la stessa regola della rotta (motivoFasciaRifiutata).",
 "in_volo": true,
 "dipende": [],
 "chiave": "qa-flussi|la cassa propone già «oggi · in giornata 15:00–18:00» anche quando il negozio è chiuso tutto il pomeriggio, come pane quotidiano il giovedì e la domenica, e il no arriva solo al tocco su «ordina»",
-"stato_registro": "riparato"
+"stato_registro": "riparato",
+"riverifica_0fc4ec7d": {
+"v": "riparato",
+"prova": "checkout/page.tsx:233,359,1339; DeliverySlotPicker.tsx:131-133; quando-arriva.ts:212,243",
+"nota": "Ora la cassa legge store_hours e li passa al selettore. Le fasce di oggi e domani usano la stessa regola della rotta (motivoFasciaRifiutata)."
+},
+"v_prima": "presente"
 },
 {
 "i": 1949,
 "sev": "grave",
 "t": "Alle 17:50 la cassa segna «In giornata 15:00–18:00»: entro dieci minuti, e la rotta accetta",
-"v": "presente",
+"v": "riparato",
 "lancio": "raggiungibile",
 "tipo": "decisione",
 "sforzo": "M",
@@ -20516,11 +20722,17 @@
 "file": "lib/quando-arriva.ts",
 "radice": "fascia-quasi-finita-proposta",
 "prova": "lib/quando-arriva.ts:93 oraDiFine > ora (ora intera); lib/store-hours.ts:217-220 accetta se resta un minuto",
-"nota": "Una fascia resta proponibile fino all'ultimo minuto, sia in cassa sia nella rotta. Serve un margine minimo (il ramo in volo sembra metterne 60 min).",
+"nota": "Una fascia di oggi si sceglie fino a 60 minuti dalla fine, in cassa, nel freno e in tutte e due le rotte. Alle 17:50 la 15:00-18:00 non c'è più.",
 "in_volo": true,
 "dipende": [],
 "chiave": "frontend-ux|alle 17:50 la cassa segna «in giornata · 15:00–18:00»: promette la consegna entro dieci minuti, meno della veloce, e la rotta accetta l'ordine",
-"stato_registro": "riparato"
+"stato_registro": "riparato",
+"riverifica_0fc4ec7d": {
+"v": "riparato",
+"prova": "lib/quando-arriva.ts:161,191-195; orders/cod/route.ts:669-673; stripe/checkout/route.ts:458-463",
+"nota": "Una fascia di oggi si sceglie fino a 60 minuti dalla fine, in cassa, nel freno e in tutte e due le rotte. Alle 17:50 la 15:00-18:00 non c'è più."
+},
+"v_prima": "presente"
 },
 {
 "i": 1950,
@@ -21100,7 +21312,12 @@
 "in_volo": true,
 "dipende": [],
 "chiave": "microcopy|il messaggio del freno promette «puoi annullare senza costi», ma appena il negozio accetta la fascia nuova l annullo non si può più",
-"stato_registro": "aperto"
+"stato_registro": "aperto",
+"riverifica_0fc4ec7d": {
+"v": "riparato",
+"prova": "lib/ordini/veloce-non-confermata.ts:131",
+"nota": "La frase dice ancora «finché il negozio non lo conferma», come la rotta di annullo."
+}
 },
 {
 "i": 1982,
@@ -21264,7 +21481,12 @@
 "in_volo": true,
 "dipende": [],
 "chiave": "frontend-ux|la riga «entro quando accettare» del negozio può restare ferma all ultima lettura: fino a 90 secondi alla riapertura o con la pagina aperta, e senza rete resta quella della sera prima",
-"stato_registro": "aperto"
+"stato_registro": "aperto",
+"riverifica_0fc4ec7d": {
+"v": "parziale",
+"prova": "app/seller/orders/page.tsx:108,118; [id]/page.tsx:185,192; QueryProvider.tsx:19",
+"nota": "lettoAlle è ancora l'ora dell'ultima lettura. La #266 aggiunge solo gli orari del negozio. Senza rete la riga resta vecchia."
+}
 },
 {
 "i": 1991,
@@ -21744,7 +21966,12 @@
 "in_volo": true,
 "dipende": [],
 "chiave": "pagamenti-stripe|con la carta la fascia si controlla quando nasce la sessione, non quando si paga: la 13:00–16:30 pagata alle 13:01 passa",
-"stato_registro": "aperto"
+"stato_registro": "aperto",
+"riverifica_0fc4ec7d": {
+"v": "presente",
+"prova": "lib/stripe/webhook/ordini.ts:316; stripe/checkout/route.ts:458",
+"nota": "La fascia si controlla solo quando nasce la sessione. Il webhook la scrive senza ricontrollarla: la #266 gli aggiunge solo gli orari per l'email. Solo carta."
+}
 },
 {
 "i": 2017,
@@ -21984,5 +22211,6 @@
 "chiave": "pagamenti-stripe|un pagamento con carta a cavallo della mezzanotte sposta «domani» di un giorno: scadenza e annullo contano dal giorno dopo",
 "stato_registro": "aperto"
 }
-]
+],
+"riverifica": "Il 31/10 alle 08:40 le 45 voci serie sui file cambiati dalla #266 sono state ricontrollate sul commit 0fc4ec7d (run wf_df9b9a65-06c): cambiano 1948 e 1949, ora riparate."
 }
