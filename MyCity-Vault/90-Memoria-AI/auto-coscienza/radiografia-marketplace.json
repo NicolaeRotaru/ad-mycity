@@ -34536,6 +34536,39 @@
       "file": "lib/stripe/webhook/ordini.ts (created_at = ora del webhook); lib/ordini/scadenza-accettazione.ts fineDellaFascia/istanteDiParete, ancorati a created_at",
       "descrizione": "Cassa alle 23:58 di lunedì per «Domani · 9:00–11:00», pagamento alle 00:01. created_at cade martedì, quindi l'etichetta «Domani» vale mercoledì: il negozio legge «entro le 10:00 di domani» riferito a mercoledì. C'era già sul commit a757423.",
       "fonte": "ondata 24 del sito, metodo snello (run wf_ddce7ca0-044), collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Dopo la migrazione 161 il negozio vede «Cliente» al posto del nome di ogni cliente nella pagina Clienti, e la ricerca per nome non trova più nessuno",
+      "file": "app/seller/customers/page.tsx:42-56,74,91,187",
+      "descrizione": "La pagina legge il nome del cliente agganciando l'ordine alla tabella dei profili (buyer:profiles!orders_user_id_fkey). Dopo la 161 i profili si leggono solo per la propria riga: l'aggancio torna vuoto senza errore. Ripiego: usare delivery_full_name dell'ordine, che il negozio legge già sui propri ordini.",
+      "fonte": "censimento della migrazione 161 (run wf_df9b9a65-06c), 31/10/2026, sola lettura sul commit 0fc4ec7d"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Dopo la migrazione 161 ogni domanda sotto un prodotto è firmata «Cliente», per chiunque la legga",
+      "file": "components/ProductQA.tsx:64-80,201",
+      "descrizione": "Le domande pubbliche leggono l'autore da profiles (author:profiles!product_questions_author_id_fkey). Dopo la 161 l'aggancio torna vuoto per tutti tranne l'autore stesso. Ripiego: una vista coi permessi del proprietario sulle domande pubbliche, col solo nome di battesimo.",
+      "fonte": "censimento della migrazione 161 (run wf_df9b9a65-06c), 31/10/2026, sola lettura sul commit 0fc4ec7d"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Dopo la migrazione 161 ogni recensione nella vetrina del negozio è firmata «Cliente», perché l'errore della lettura dei nomi viene ignorato",
+      "file": "components/store-sections/useStorePageData.ts:55-64; components/store-sections/ReviewsSection.tsx:25,105",
+      "descrizione": "La vetrina legge i nomi degli autori con from('profiles').select('id, full_name, public_handle').in('id', userIds). Dopo la 161 la lettura dà zero righe e l'errore si ignora. Ripiego: una vista coi permessi del proprietario sulle recensioni dei negozi approvati, col nome di battesimo.",
+      "fonte": "censimento della migrazione 161 (run wf_df9b9a65-06c), 31/10/2026, sola lettura sul commit 0fc4ec7d"
     }
   ],
   "sync_scan": {

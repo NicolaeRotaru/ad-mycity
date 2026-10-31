@@ -68,6 +68,8 @@ Le date valgono se le tue pratiche partono lunedì.
 
 ### Passo 0 — domenica 1/11, prima del codice
 
+**Stato al 31/10 alle 08:55:** fatti 0.1, 0.2, 0.3 (le richieste #266 e #905 sono unite; riverifica delle 45 voci serie), 0.4 (11 voci riaperte), 0.6 (censimento: 11 file, tre voci nuove 2030-2032), 0.8; per 0.5 le librerie sono installate e il controllo completo sul main nuovo è verde, 6.560 prove su 6.560 in 3 minuti e 38 secondi. Restano 0.5 (la prova a vuoto del motore), 0.7 e 0.9.
+
 0.1 **Salvare i dati nella memoria:**
   - i verdetti delle 1.213 voci in `consegne/audit/2026-10-31-verifica-1213-schede.json`;
   - il piano v2 e le critiche in `consegne/audit/2026-10-31-piano-difetti-sito.json`;
@@ -146,17 +148,26 @@ Le date valgono se le tue pratiche partono lunedì.
 10. **La 342 (cliente assente)** si ripara senza uno stato nuovo: `annullaERimborsa` con motivo `cliente_assente`, sul binario A.
 11. **Due ondate da non mettere insieme:** quella del KYC e delle potature, e quella della cancellazione degli account.
 
-### Livello 1 — per aprire (7 ondate, 4 turni)
+### Livello 1 — per aprire (7 ondate, 4 turni) — disposizione finale del 31/10 alle 08:55
+
+Calcolata da `consegne/audit/2026-10-31-ridisegna-piano.py`, scritta in `consegne/audit/2026-10-31-pacchetti-sito-piano.json`. Controlli dello script: copertura di 1.216 voci, 0 mancanti, 0 doppie; nessun file del blocco cassa o soldi sul binario B; nessun pacchetto oltre 7 voci distinte; nessun file in comune fra le ondate che girano insieme. Lo strumento delle schede legge tutte e 7 le ondate senza voci mancanti.
 
 | Turno | Binario A (soldi e cassa) | Binario B (il resto) |
 |---|---|---|
-| 1 · lun 2/11 | **Ondata 1 «il cancello»**: R rilascio dopo la CI (432, 1076, 1272, 1273, 149, 150, 1480, lock) · P161 · H salute (1671, 1509, 151) · CE coda email e fermo dei lavori (102, 1527, 1676, 1528, 1524, 105, 1677) · INT interruttori (1788, 1420, 1402, 1408, 1413, 1260, 47) | **Ondata 2**: VE vetrina (113, 278, 281, 1310, 1228) · AD admin (118, 1229, 1230, 1236, 49) · RI fattorino (115, 96, 241, 116, 1561, 247) · HP home (1477, 300, 551, 1822) · AIH pulsanti AI (161, 169, 1407, 1416, 1412, 1456) |
-| 2 · mar 3/11 | **Ondata 3 «soldi 1 + cassa»**: CA contanti (1768, 1742, 1759, 1762, 1693) · CF fasce (1948, 1949, 24, 2009, 2008, 1950, 251) · PC promessa e frase del reso (1774, 1516, 50) · AN annullo e cliente assente (1286, 342) · PB rimborso prenotato (1333, 1963, 1287, 1313, 1314) | **Ondata 4**: SKA scorte e porta unica (1737, 19, 1736, 1211, 1538, 1294, 1520) · KY documenti (1240, 1241, 408) · AC accessi e falle R14/R15 (85, 1298, 83, 84) · NE iscrizione del negozio (3, 1754, 182, 134, 185, 1811) · OC ordine del cliente (1245, 1246, 1280, 22) |
-| 3 · mer 4/11 | **Ondata 5 «soldi 2: carta pronta»**: FW data della fascia, migrazione e scrittura (1797, 2029, 2016, 2028, 23) · PA bonifici, HELD e reclami (1810, 1290, 1289, 1285, 1812) · VN freno della veloce (1826) · FP falle del database (0, 1, 4, 179, 326) · SO resi del negozio (52, 44, 1698, 1206, 1990) | **Ondata 6**: SKB modulo prodotto (1454, 1473, 1748, 1749) · FR freni AI e newsletter (1415, 1418, 1485, 1405, 1399…) · LE-a titolare (46) · LE-b testi (69, 255, 248, 261, 1687, 65) · NL via i 5 euro e i punti (254, 107, 9) |
-| 4 · gio 5/11 | **Ondata 7: i nati del livello 1**, poi un ordine vero in contanti, un ordine con carta in anteprima e **l'apertura** | un'ondata del livello 2 senza soldi né cassa, scelta dallo script |
+| 1 · lun 2/11 | **Ondata 1 «il cancello»**: R rilascio dopo la CI · P161a il nome del fattorino e gli autori pubblici dopo la 161 (1353, 2031, 2032) · H salute · CE coda email e fermo dei lavori · INT interruttori | **Ondata 2**: VE vetrina · AD admin · RI fattorino · HP home · P161b i nomi dei clienti visti dal negozio dopo la 161 (1336, 114, 1372, 2030) |
+| 2 · mar 3/11 | **Ondata 3 «soldi e cassa 1»**: CA contanti · CF fasce e orari · PC promessa, frase del reso e del pagamento (50, 255) · AN annullo e cliente assente · PB rimborso prenotato | **Ondata 4**: SKA scorte e porta unica · KY documenti · AC accessi e falle R14/R15 · NE iscrizione del negozio · AIH pulsanti AI |
+| 3 · mer 4/11 | **Ondata 5 «soldi e cassa 2: carta pronta»**: FW data della fascia · PA bonifici, HELD, reclami e permesso delle carte (1812) · VN freno della veloce · FP falle del database · SO resi del negozio | **Ondata 6**: SKB modulo prodotto · FR freni AI e newsletter · LE-a titolare · LE-b testi · NL via i 5 euro e i punti |
+| 4 · gio 5/11 | **Ondata 7**: OC ordine del cliente coi resi, poi i nati del livello 1, poi un ordine vero in contanti, un ordine con carta in anteprima e **l'apertura** | un'ondata del livello 2 senza soldi né cassa |
 
+- **Il pulsante delle migrazioni si preme lunedì dopo l'unione delle ondate 1 e 2**: tutte e due portano letture che la 161 rompe. Poi il rilascio finto, `main:false`, la chiave di servizio.
+- **L'ordine del cliente coi resi (OC) sta sul binario A**: tocca i rimborsi, e 13 prove lo legavano al rimborso prenotato dell'ondata 3.
+- **La 1948 e la 1949 sono riparate dalla #266** (riverifica sul commit `0fc4ec7d`, run `wf_df9b9a65-06c`): escono da CF e si chiudono con la loro prova.
+- **Le 11 prove che legano due ondate che girano insieme** si sorvegliano: la seconda sessione si riallinea sul main appena unito e le fa girare con `npm run verify` prima della sua richiesta di unione.
+  - 1|2: `entro-quando-accettare-si-rilegge-quando-il-telefono-si-riapre`, `il-catalogo-regge-con-i-profili-chiusi`, `la-chat-con-l-assistenza-si-chiama-assistenza-mycity`, `la-consegna-si-promette-all-ora-che-scegli`, `le-frasi-pubbliche-seguono-la-cassa-e-la-realta`, `le-funzioni-spente-al-lancio-le-rifiuta-il-server`;
+  - 3|4: `chi-cancella-l-account-sa-che-l-avviso-del-bonifico-resta`, `chi-ha-pagato-in-contanti-legge-il-vero-su-bonifico-e-cancellazione`, `l-avviso-del-bonifico-resta-utile-dopo-la-cancellazione`;
+  - 5|6: `i-termini-dicono-quello-che-l-annullo-rende-davvero`, `le-funzioni-spente-al-lancio-le-rifiuta-il-server`.
 - **Prima di `CARTA_ACCESA`**, in testa all'ondata 8 sul binario A: WH contestazioni (1267, 1268, 1317).
-- **Le voci 25, 1216 e 195 scendono al livello 2.** Nessun cliente le incontra al lancio, e la e2e vera chiede un progetto di prova a pagamento.
+- **Le voci 25, 1216 e 195 scendono al livello 2**; scendono anche i minori del livello 1 senza una prova in comune col loro grave (regola 7).
 
 ### Livello 2 e 3
 
