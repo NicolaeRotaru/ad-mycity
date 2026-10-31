@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 2007,
+    "findings": 2030,
     "bloccanti": 35,
-    "gravi": 547,
-    "minori": 1425,
+    "gravi": 548,
+    "minori": 1447,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -47,10 +47,10 @@
       "chiave": "qa-flussi",
       "nome": "Flussi critici",
       "fonte": "marketplace",
-      "totale": 28,
+      "totale": 33,
       "bloccanti": 1,
       "gravi": 8,
-      "minori": 19
+      "minori": 24
     },
     {
       "chiave": "privacy-legale",
@@ -83,10 +83,10 @@
       "chiave": "frontend-ux",
       "nome": "Interfaccia",
       "fonte": "marketplace",
-      "totale": 31,
+      "totale": 35,
       "bloccanti": 0,
       "gravi": 9,
-      "minori": 22
+      "minori": 26
     },
     {
       "chiave": "deploy-sre",
@@ -110,10 +110,10 @@
       "chiave": "pagamenti-stripe",
       "nome": "Pagamenti",
       "fonte": "marketplace",
-      "totale": 21,
+      "totale": 26,
       "bloccanti": 0,
-      "gravi": 9,
-      "minori": 12
+      "gravi": 10,
+      "minori": 16
     },
     {
       "chiave": "dati-analytics",
@@ -137,10 +137,10 @@
       "chiave": "architettura",
       "nome": "Architettura",
       "fonte": "marketplace",
-      "totale": 3,
+      "totale": 11,
       "bloccanti": 0,
       "gravi": 0,
-      "minori": 3
+      "minori": 11
     },
     {
       "chiave": "performance",
@@ -173,10 +173,10 @@
       "chiave": "microcopy",
       "nome": "Microcopy",
       "fonte": "design",
-      "totale": 32,
+      "totale": 33,
       "bloccanti": 0,
       "gravi": 11,
-      "minori": 21
+      "minori": 22
     },
     {
       "chiave": "accessibilita-visiva",
@@ -34255,6 +34255,259 @@
       "file": "lib/ordini/scadenza-accettazione.ts · lib/ordini/veloce-non-confermata.ts · tests/unit/il-freno-della-veloce-regge-guasti-margini-e-concorrenza.test.ts · tests/unit/la-veloce-non-confermata-in-10-minuti-passa-a-una-fascia.test.ts · tests/unit/zz-collaudo-a-credito.test.ts",
       "descrizione": "Cinque commenti in testa ai file del freno attribuiscono a Nicola una scelta con data e ora sbagliate. Le 16:13 sono del 29/10 (DECISIONI 2026-10-29 16:14: la veloce a 1 euro in più); il freno l ha approvato con la carta #220 il 29/10, e la B l ha scelta il 30/10, messaggio letto fra le 14:49 e le 14:54 (DECISIONI 2026-10-30 14:54). Chi rilegge il codice crede a una decisione che non c è stata a quell ora. Prova: git grep -n \"16:13\" 1f35bb96 -- lib/ordini tests/unit | grep FRENO trova 5 righe.",
       "fonte": "nato dalle ondate 19-20 del freno; trovato dall AD alle 17:35 del 30/10 rileggendo il testo della richiesta #265, sul ramo 1f35bb96"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La prova del carrello alle 23 a volte cade sotto carico",
+      "file": "tests/unit/il-carrello-non-promette-mezz-ora-alle-undici-di-sera.test.ts:290",
+      "descrizione": "È caduta una volta in un giro con 74 file in parallelo (rigaDellaScorta undefined). Da sola passa 20 su 20 per due volte, sia col fix sia alla base: sembra una prova instabile, non un errore del codice.",
+      "fonte": "ondata 21 del sito, metodo snello (run wf_03b8bd70-559), squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Sabato sera, quando la veloce cade, l'avviso dice «ho messo Domani · 9:00–12:00» ma per la domenica il negozio è chiuso",
+      "file": "components/checkout/DeliverySlotPicker.tsx quandoLaVeloceCade: fasceDiDomaniPossibili(...)[0] ?? FASCE_DI_DOMANI[0]",
+      "descrizione": "sweep.cjs: Pane Quotidiano, 299 minuti (sab 19:01-23:59) in cui la fascia della caduta non è confermabile. La cassa blocca l'ordine, ma l'avviso si contraddice con la tessera «Negozio chiuso» — Visto su un ramo intermedio: da riverificare sul ramo finale 896d704.",
+      "fonte": "ondata 21 del sito, metodo snello (run wf_03b8bd70-559), collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Il selettore non si ridisegna col passare del tempo: aperto alle 16:55 mostra ancora «15:00–18:00» alle 17:05",
+      "file": "components/checkout/DeliverySlotPicker.tsx: romeNow() letto solo al render, nessun timer",
+      "descrizione": "Lettura: il freno all'invio (page.tsx:1186, consegnaScelta con adesso: romeNow()) ferma l'ordine con un avviso, quindi nessun soldo è a rischio: è solo un passo in più per chi compra",
+      "fonte": "ondata 21 del sito, metodo snello (run wf_03b8bd70-559), collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Orari passati alla cassa e 409 della rotta contanti: le prove cercano parole nel sorgente, non fanno girare pagina e rotta",
+      "file": "tests/unit/la-cassa-passa-gli-orari-dei-negozi-al-selettore-e-al-freno.test.ts (tutto readFileSync+toMatch); tests/unit/la-rotta-rifiuta-una-fascia-a-meno-di-un-ora-dalla-fine.test.ts:90-91",
+      "descrizione": "Il codice di oggi fa giusto a lettura: route.ts:668-669 → ApiErrors.conflict = 409 (lib/api/responses.ts:44), prima dell'insert. Ma se si sposta il controllo dopo l'insert, le prove restano verdi. — Visto su un ramo intermedio: da riverificare sul ramo finale 896d704.",
+      "fonte": "ondata 21 del sito, metodo snello (run wf_03b8bd70-559), collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "La regola dei 60 minuti sta in due costanti diverse, e lib/quando-arriva e lib/store-hours ora si importano a vicenda",
+      "file": "lib/quando-arriva.ts MINUTI_PRIMA_DELLA_FINE + import negozioPuoServire; lib/ordini/veloce-non-confermata.ts:99 MINUTI_MINIMI_DI_FASCIA; lib/store-hours.ts:1-6",
+      "descrizione": "Oggi coerenti (tutte e due 60). Il ciclo usa i simboli solo dentro le funzioni: tsc 0 errori, 244 test verdi su 18 file. Cambiarne una sola rompe la parità tra freno della veloce e cassa, senza prove rosse. — Visto su un ramo intermedio: da riverificare sul ramo finale 896d704.",
+      "fonte": "ondata 21 del sito, metodo snello (run wf_03b8bd70-559), collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Una fascia «Domani» inviata alle 23:59 e arrivata alla rotta dopo mezzanotte si giudica sul giorno dopo",
+      "file": "lib/store-hours.ts negozioPuoServire: il giorno di «domani» si conta dall'ora della richiesta, non da quando la cassa ha proposto la fascia",
+      "descrizione": "Nessuna prova scritta: lo dice la lettura del codice (DAY_KEYS[(now.getDay()+1)%7] con now = romeNow() nella rotta).",
+      "fonte": "ondata 22 del sito, metodo snello (run wf_c6291dc6-92e), squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Le prove non fissano che alle 19:30 il forno che chiude alle 19:30 è già chiuso",
+      "file": "lib/store-hours.ts apertoFra: toMinutes(close) > da",
+      "descrizione": "Mutante `toMinutes(close) >= da` lascia verdi le-sette-fasce + la-carta (18/18). Lo uccide: expect(fasceAncoraPossibili(new Date(2026,10,2,19,30),[PQ])).toEqual([]) — verde sul codice di oggi.",
+      "fonte": "ondata 22 del sito, metodo snello (run wf_c6291dc6-92e), collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Le prove non fissano la regola del ritiro per le fasce di domani",
+      "file": "lib/store-hours.ts negozioPuoServire ramo domani: apertoFra(hours[domaniKey], 0, limite)",
+      "descrizione": "Mutanti apertoFra(...,scelta.daMinuti,limite) e (...,daMinuti,aMinuti-1) verdi 18/18. Lo uccide: expect(fasceDiDomaniPossibili(new Date(2026,10,2,14,0),[PQ])).toContain('Domani · 13:00–16:30') — verde oggi.",
+      "fonte": "ondata 22 del sito, metodo snello (run wf_c6291dc6-92e), collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "La bozza della cassa riceve gli orari dei negozi vuoti: il filo con la regola unica non lavora",
+      "file": "app/checkout/page.tsx effetto bozza (deps []) con orariNegozi da useQuery non ancora arrivato",
+      "descrizione": "page.tsx:369 orariNegozi = cartData?.orariNegozi ?? [] (useQuery async, riga 120); l'effetto 468-500 gira una volta al montaggio. Giovedì 14:00 rimette 'Oggi · 16:30–18:00'; poi la corregge il selettore (DeliverySlotPicker riga 171).",
+      "fonte": "ondata 22 del sito, metodo snello (run wf_c6291dc6-92e), collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "Pagamenti",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Con la carta la fascia si controlla quando nasce la sessione, non quando si paga: la 13:00–16:30 pagata alle 13:01 passa",
+      "file": "app/api/stripe/checkout/route.ts:455-464; lib/stripe/webhook/ordini.ts:316 scrive delivery_slot senza motivoFasciaRifiutata; pending_checkouts dura 2 ore",
+      "descrizione": "Visto solo leggendo il codice (confidenza 60%). Prova da scrivere: webhook checkout.session.completed con «Oggi · 13:00–16:30» e orologio a lunedì 13:01 → l'atteso è il rifiuto o il rimborso, oggi l'ordine si scrive. Le finestre di ritiro corte aumentano il rischio.",
+      "fonte": "ondata 22 del sito, metodo snello (run wf_c6291dc6-92e), collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Il 409 dice «domani è chiuso in quella fascia» anche quando il negozio è aperto nella fascia ma apre dopo il limite del ritiro",
+      "file": "lib/store-hours.ts:238-254 motivoNegozioChiuso; lib/quando-arriva.ts consegnaScelta («In quella fascia il negozio è chiuso»)",
+      "descrizione": "Bar aperto martedì 10:30-19:00; lunedì 19:00 sceglie «Domani · 9:00–11:00» → «Bar domani è chiuso in quella fascia» (vedi msgDomani in scratchpad/qa22/entry.ts). La cassa non propone quella fascia: il messaggio lo vede solo chi ha la cassa vecchia o arriva per una corsa.",
+      "fonte": "ondata 22 del sito, metodo snello (run wf_c6291dc6-92e), collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La promessa pubblica «in giornata, negli orari di apertura del negozio» non è più vera con la regola del ritiro",
+      "file": "lib/promesse-pubbliche.ts:173-176 (QUANDO_ARRIVA_SENZA_NEGOZIO, NEGOZIO_CHIUSO_COSA_SUCCEDE), letti da HowItWorks, DeliveryCutoff e /shipping",
+      "descrizione": "Pane chiude alle 19:30 e la cassa propone «Oggi · 19:30–21:00»; lunedì alle 14:00, a forno chiuso, si prenota ancora per oggi, ma /shipping dice «se il negozio è chiuso puoi prenotare per domani». Era già poco preciso sulla base (Stasera 18-20), ora lo è di più.",
+      "fonte": "ondata 22 del sito, metodo snello (run wf_c6291dc6-92e), collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "La tessera «Oggi» dice «Negozio chiuso» mentre il forno è ancora aperto",
+      "file": "lib/quando-arriva.ts sottotitoloOggiSpento, letto da components/checkout/DeliverySlotPicker.tsx",
+      "descrizione": "TZ=Europe/Rome node /tmp/claude-0/-home-user/86dcfbc3-b792-5f8a-8879-e2d3bf6ab6ac/scratchpad/qa22/ricollaudo.cjs, riga INFO: lunedì 19:20 «Negozio chiuso» con Pane Quotidiano aperto fino alle 19:30 (anche giovedì 12:46-12:59).",
+      "fonte": "ondata 22 del sito, metodo snello (run wf_c6291dc6-92e), collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "Pagamenti",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Le due rotte accettano ancora le sei fasce di prima che Nicola ha tolto",
+      "file": "lib/quando-arriva.ts FASCE_AMMESSE include FASCE_DI_PRIMA; app/api/orders/cod/route.ts e app/api/stripe/checkout/route.ts via campoFasciaConsegna",
+      "descrizione": "Una scheda della cassa aperta prima del rilascio può ancora mandare «Domani · 9:00–12:00» o «In giornata · 15:00–18:00» e l'ordine passa, se il negozio può servirla. Serve alle consegne già in corso: decidere una data di fine.",
+      "fonte": "ondata 22 del sito, metodo snello (run wf_c6291dc6-92e), collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Per le fasce di domani non conta il ritiro di oggi: lunedì alle 17 «Domani · 7:30–9:00» non si offre",
+      "file": "lib/store-hours.ts negozioPuoServire, ramo domani: ritiroPossibileFra(hours[domani], 0, limite)",
+      "descrizione": "La regola 3 dice «fra l'ordine e la fine della fascia»: il forno aperto oggi fino alle 19:30 basterebbe. Il codice offre meno fasce, non promette niente di falso: la merce tenuta da parte la notte resta una decisione di Nicola.",
+      "fonte": "ondata 22 del sito, metodo snello (run wf_c6291dc6-92e), collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La cassa accetta un ordine che il negozio deve accettare entro lo stesso minuto",
+      "file": "lib/store-hours.ts negozioPuoServire (MINUTI_PER_IL_RITIRO, quarto d'ora inclusivo)",
+      "descrizione": "Lunedì 19:15, la 19:30–21:00 da Pane Quotidiano passa (caso 7 di Nicola), ma l'ultimo ritiro possibile è proprio le 19:15: il negozio legge «entro le 19:15» nel minuto stesso in cui l'ordine nasce.",
+      "fonte": "ondata 23 del sito, metodo snello (run wf_1cb0e4d8-a34), squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Due intervalli attaccati (9-13 e 13-19:30) non contano come aperto fino a fine fascia: scadenza piu' stretta del necessario",
+      "file": "lib/store-hours.ts ultimoRitiroDellaFascia: apertoFinoAllaFine cerca un solo intervallo con open<=minuto e close>=fine",
+      "descrizione": "Lettura: con orari [[09:00,13:00],[13:00,19:30]] e «Oggi · 11:00–13:00» il negozio e' aperto di fila ma la riga dice l'ultimo ritiro (12:00) invece delle 13:00. Prudente, non perde ordini.",
+      "fonte": "ondata 23 del sito, metodo snello (run wf_1cb0e4d8-a34), collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Dopo l'ultimo ritiro la riga mescola tu e lei e dice «può partire subito» quando il negozio è chiuso",
+      "file": "lib/ordini/scadenza-accettazione.ts:234 (rigaScadenzaPerIlNegozio, ramo «Il negozio chiude prima della fascia»)",
+      "descrizione": "rigaScadenzaPerIlNegozio(nato lun 12:00, «Oggi · 13:00–16:30», adesso lun 14:00, orari PQ) dà «accettalo solo se può partire subito»: il forno resta chiuso fino alle 16:30, e la frase accanto dà del tu («accettalo»). — Visto su un ramo intermedio: da riverificare sul ramo finale 896d704.",
+      "fonte": "ondata 23 del sito, metodo snello (run wf_1cb0e4d8-a34), collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Il giro notturno legge al massimo 100 ordini in NEW, senza ordinarli: con più di 100 ordini vivi, uno scaduto può aspettare",
+      "file": "app/api/cron/expire-stale-orders/route.ts: .limit(100) senza .order('created_at'); ora che il filtro delle tre ore è tolto entrano anche gli ordini giovani",
+      "descrizione": "Oggi c'è un solo negozio vero, quindi siamo lontani da 100 ordini in NEW. La correzione è un .order('created_at') ascendente, ma il finto qb delle prove del giro non ha .order.",
+      "fonte": "ondata 24 del sito, metodo snello (run wf_ddce7ca0-044), squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "Pagamenti",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "L'email «Nuovo ordine» calcola la scadenza da new Date() della rotta, non dal created_at scritto nel database",
+      "file": "app/api/orders/cod/route.ts:1216 e lib/stripe/webhook/ordini.ts:532, createdAt: new Date()",
+      "descrizione": "Sul confine dei secondi (ordine nato alle 12:45:58, email alle 12:46:01) l'email può dire che il ritiro non è più possibile mentre la pagina dice ancora «entro le 12:45».",
+      "fonte": "ondata 24 del sito, metodo snello (run wf_ddce7ca0-044), squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Col telefono del negozio un po' indietro, un ordine non più ritirabile legge «entro le 12:46» invece di «ritiro non più possibile»",
+      "file": "lib/ordini/scadenza-accettazione.ts: entroQuandoAccettare ('impossibile' → created_at) e rigaScadenzaPerIlNegozio; app/seller/orders/*.tsx (lettoAlle è l'ora del browser)",
+      "descrizione": "rigaScadenzaPerIlNegozio({created_at:'2026-11-02T12:46:01+01:00',delivery_slot:'Oggi · 13:00–16:30'}, new Date('2026-11-02T12:45:31+01:00'), orari PQ) → 'Accettalo o rifiutalo entro le 12:46 di oggi.' Dura quanto lo scarto dell'orologio; il giro notturno lo fa scadere comunque.",
+      "fonte": "ondata 24 del sito, metodo snello (run wf_ddce7ca0-044), collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "Pagamenti",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Un ordine con carta pagato dopo l'ultimo ritiro nasce scaduto: il giro lo annulla e rimborsa entro 30 minuti",
+      "file": "lib/stripe/webhook/ordini.ts (crea l'ordine senza ricontrollare la fascia); lib/ordini/scadenza-accettazione.ts scadenzaAccettazione, ramo 'impossibile'",
+      "descrizione": "Cassa alle 12:40 per «Oggi · 13:00–16:30», pagamento alle 12:47: created_at=12:47 e ancoraNeiTempi(o, 13:00, PQ) dà false. Il cliente legge «il negozio non ha accettato in tempo». Lo stesso col freno della veloce che sposta alle 12:45. Prima del lotto l'ordine viveva fino alle 16:30.",
+      "fonte": "ondata 24 del sito, metodo snello (run wf_ddce7ca0-044), collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "Pagamenti",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Un pagamento con carta a cavallo della mezzanotte sposta «Domani» di un giorno: scadenza e annullo contano dal giorno dopo",
+      "file": "lib/stripe/webhook/ordini.ts (created_at = ora del webhook); lib/ordini/scadenza-accettazione.ts fineDellaFascia/istanteDiParete, ancorati a created_at",
+      "descrizione": "Cassa alle 23:58 di lunedì per «Domani · 9:00–11:00», pagamento alle 00:01. created_at cade martedì, quindi l'etichetta «Domani» vale mercoledì: il negozio legge «entro le 10:00 di domani» riferito a mercoledì. C'era già sul commit a757423.",
+      "fonte": "ondata 24 del sito, metodo snello (run wf_ddce7ca0-044), collaudo B, 31/10/2026"
     }
   ],
   "sync_scan": {

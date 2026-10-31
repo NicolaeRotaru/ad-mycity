@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-10-30 20:27
+aggiornato: 2026-10-31 01:30
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🕐 **2026-10-31 01:30 — Le fasce nuove della cassa sono pronte: quattro giri col metodo snello.**
+>
+> La cassa propone sette fasce dalle 7:30 alle 21, e ogni negozio vede solo quelle che può servire. La merce si ritira quando il negozio è aperto e la teniamo fino alla fascia scelta. Il negozio legge l'ora giusta entro cui accettare, e il controllo notturno fa scadere gli ordini che nessuno può più ritirare. Quattro giri, 20 agenti e 40,8 milioni di token con le riletture: una sola ondata del vecchio metodo ne usava 118. Da unire: la richiesta del sito e quella della memoria. Referto: `consegne/audit/2026-10-31-ondate-21-24-fasce-nuove.md`.
 
 > 🔧 **2026-10-30 20:27 — Il motore snello delle ondate è costruito.**
 >
