@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-31 01:45",
+  "aggiornato": "2026-10-31 09:57",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -5658,6 +5658,181 @@
       "nota": "",
       "file": {
         ".claude/workflows/ondata-snella.js": "674fc36222f2"
+      }
+    },
+    {
+      "quando": "2026-10-31 09:56",
+      "casa": "marketplace",
+      "dimensione": "pagamenti-stripe",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/api/stripe/checkout/route.ts": "23b7e4b1c5f2"
+      }
+    },
+    {
+      "quando": "2026-10-31 09:56",
+      "casa": "marketplace",
+      "dimensione": "dati-analytics",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "lib/analytics/posthog.tsx": "b5cae6b1dbd3"
+      }
+    },
+    {
+      "quando": "2026-10-31 09:57",
+      "casa": "marketplace",
+      "dimensione": "deploy-sre",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 5,
+      "schede": [
+        "Anche la prova mensile di ripristino della copia fallisce senza avvisare nessuno",
+        "Il ritorno indietro non sa a quale rilascio punta davvero il dominio dopo un ritorno indietro precedente",
+        "Dopo un ritorno indietro, al rilascio dopo si può tornare di nuovo al rilascio rotto già scartato, e non a quello che usano i clienti",
+        "La copia notturna che resta appesa fino al limite dei 30 minuti viene annullata e non suona l'allarme",
+        "Se la copia notturna supera i 30 minuti e il lavoro viene fermato, l'allarme probabilmente non parte"
+      ],
+      "nota": "",
+      "file": {
+        ".github/workflows/backup-db.yml": "0c54ac1c57ec",
+        ".github/workflows/deploy-dopo-ci.yml": "4c0260b610fe",
+        "scripts/prova-di-fumo.mjs": "307a82586b5a"
+      }
+    },
+    {
+      "quando": "2026-10-31 09:57",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 6,
+      "schede": [
+        "La lettura degli amministratori nel sorvegliante non guarda l'errore: se fallisce, la campanella salta in silenzio",
+        "Se fallisce la scrittura dell'attesa email dopo un invio riuscito, l'email riparte ogni 15 minuti senza nessun log",
+        "Il conteggio dei promemoria «inviati» include carrelli segnati senza nessuna email",
+        "Il tentativo fallito di Resend viene scritto senza controllare se la scrittura è riuscita",
+        "La lista dei carrelli da avvisare ne prende 100 senza un ordine: con molti candidati alcuni restano indietro",
+        "Se l'email d'allarme parte ma la campanella non si scrive, la campanella non si ritenta per 6 ore, anche se il registro dice il contrario"
+      ],
+      "nota": "",
+      "file": {
+        "app/api/cron/abandoned-carts/route.ts": "a66d3a859879",
+        "app/api/cron/operational-alerts/route.ts": "a9bdf1183d79",
+        "app/api/cron/send-emails/route.ts": "51e85ba0df44",
+        "app/api/health/ready/route.ts": "c91650a0b904",
+        "app/api/orders/cod/route.ts": "be2a01085e4a",
+        "app/api/seller/subscription/checkout/route.ts": "302ddffc95a4",
+        "app/api/seller/subscription/portal/route.ts": "8c739ea5c7f3",
+        "app/api/sponsored/checkout/route.ts": "9afa37d9c407"
+      }
+    },
+    {
+      "quando": "2026-10-31 09:57",
+      "casa": "marketplace",
+      "dimensione": "rls-database",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "La vista nomi_pubblici non ha una prova su un database vero, solo su un database finto"
+      ],
+      "nota": "",
+      "file": {
+        "migrations/164_i_nomi_pubblici_dopo_la_161.sql": "2fdd987ee486",
+        "migrations/165_la_coda_email_ha_un_eta_massima.sql": "6689beaae693",
+        "migrations/166_il_promemoria_del_carrello_si_prende_una_volta.sql": "20ee6376733c"
+      }
+    },
+    {
+      "quando": "2026-10-31 09:57",
+      "casa": "marketplace",
+      "dimensione": "qa-flussi",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 7,
+      "schede": [
+        "Se la lettura delle recensioni della vetrina cade, l'errore si ignora e il negozio sembra senza recensioni",
+        "La pagina recensioni del negozio legge l'autore con una relazione che non esiste in nessuna migrazione",
+        "La pagina clienti del negozio legge ancora il nome del cliente da profiles, chiusa dalla 161 tranne la propria riga",
+        "Altre pagine leggono ancora i nomi da profiles: la chat col negozio, le recensioni e i clienti del negozio restano senza nome dopo la 161",
+        "Nelle recensioni della vetrina chi ha solo il nome pubblico (senza nome vero) adesso appare come «Cliente»",
+        "Ogni visitatore senza account fa una richiesta rifiutata alla vista dei nomi su ogni scheda prodotto e vetrina",
+        "Altre pagine leggono ancora i nomi delle persone da profiles: dopo la 161 l'elenco clienti del negozio e i messaggi restano senza nome"
+      ],
+      "nota": "",
+      "file": {
+        "app/checkout/page.tsx": "15280e7b78be",
+        "app/orders/[id]/page.tsx": "3bc8d156e9c4",
+        "app/orders/[id]/review/page.tsx": "de92d2c8fcf8"
+      }
+    },
+    {
+      "quando": "2026-10-31 09:57",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 6,
+      "schede": [
+        "Se la lettura delle recensioni della vetrina cade, l'errore si ignora e il negozio sembra senza recensioni",
+        "La pagina recensioni del negozio legge l'autore con una relazione che non esiste in nessuna migrazione",
+        "Altre pagine leggono ancora i nomi da profiles: la chat col negozio, le recensioni e i clienti del negozio restano senza nome dopo la 161",
+        "Nelle recensioni della vetrina chi ha solo il nome pubblico (senza nome vero) adesso appare come «Cliente»",
+        "Con gli inviti spenti, il menu e la pagina del profilo promettono ancora 5 euro a chi invita un amico",
+        "Con gli inviti spenti, il profilo e il menu promettono ancora 5 euro a chi invita un amico, ma la pagina dice che non c'è nessun premio"
+      ],
+      "nota": "",
+      "file": {
+        "app/layout.tsx": "c86b9ec22ba3",
+        "app/profile/page.tsx": "e72ea79ddbca",
+        "app/profile/referral/page.tsx": "e691da218570",
+        "app/seller/orders/[id]/page.tsx": "ae750a776d58",
+        "app/seller/promote/page.tsx": "05fae2fc8eac",
+        "app/sign-up/page.tsx": "88212d5e2150",
+        "components/ProductQA.tsx": "1c79fa8f56ce",
+        "components/seller/SubscriptionBanner.tsx": "bbf6bef157ce",
+        "components/store-sections/useStorePageData.ts": "014c9593616c"
+      }
+    },
+    {
+      "quando": "2026-10-31 09:57",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 6,
+      "schede": [
+        "Con gli inviti spenti, il menu e la pagina del profilo promettono ancora 5 euro a chi invita un amico",
+        "Con gli inviti spenti, il profilo e il menu promettono ancora 5 euro a chi invita un amico, ma la pagina dice che non c'è nessun premio",
+        "L'interruttore «inviti e punti» spegne solo gli inviti: la pagina dei punti e la voce «Punti & Livello» restano accese",
+        "La classifica inviti parla ancora di un credito per ogni amico invitato, mentre la pagina inviti dice che il premio non c'è",
+        "L'interruttore 'inviti e punti' dice di spegnere anche i punti, ma nessun pezzo dei punti lo legge",
+        "POSTHOG_ACCESO spento non ferma gli acquisti mandati a PostHog dal server"
+      ],
+      "nota": "",
+      "file": {
+        "lib/account-menu.ts": "9387fcf12c63",
+        "lib/database.types.ts": "370b9fe3cf2a",
+        "lib/funzioni-al-lancio.ts": "33fd1c3eedb0",
+        "lib/promesse-pubbliche.ts": "7efa756833cb",
+        "lib/queries/negozio-dell-ordine.ts": "a56a83bfcb8f",
+        "lib/queries/seller-public-profiles.ts": "6b372130de9f"
       }
     }
   ]
