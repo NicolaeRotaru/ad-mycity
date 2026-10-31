@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 2086,
+    "findings": 2149,
     "bloccanti": 35,
-    "gravi": 561,
-    "minori": 1490,
+    "gravi": 581,
+    "minori": 1533,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -2374,14 +2374,17 @@
       "impatto": "La funzione «rispondi alle recensioni» è inutilizzabile per l'unico negozio vero. Una recensione negativa resta senza replica pubblica. E il negoziante vede un errore fisso in una voce del suo menu dal primo giorno.",
       "fix": "Fare come nella pagina del fattorino: leggere `id, rating, comment, created_at, order_id, seller_reply, seller_reply_at, user_id`. Poi prendere i nomi in un secondo passaggio (come useStorePageData) oppure da una vista che esponga solo il nome di battesimo. Aggiungere una prova che fallisca se un embed nomina un vincolo che non esiste in database.types.ts.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Lettura del codice. app/seller/reviews/page.tsx:42 usa l'embed `profiles!store_reviews_reviewer_id_fkey`. In migrations/014_mvp_sprint.sql:59 c'è `user_id uuid NOT NULL REFERENCES auth.users(id)` e nessuna colonna reviewer_id: `grep -rn store_reviews migrations/*.sql | grep -i 'add column|constraint'` trova solo seller_reply/seller_reply_at (047) e le foto (101). Il commento della riparazione gemella è in app/rider/reviews/page.tsx:44-48. Il database di produzione non l'ho interrogato: in questa sessione non avevo lo strumento SQL.",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": "Confermato dal codice e dallo schema delle migrazioni, con un precedente identico già riparato sul fattorino. Non l'ho eseguito contro il PostgREST di produzione. · Verifica tecnica: Ho letto app/seller/reviews/page.tsx:33-50 e 83-90 (ramo di errore), app/rider/reviews/page.tsx:44-52 e components/store-sections/useStorePageData.ts:29-37. In produzione ho fatto una SELECT conname e pg_get_constraintdef da pg_constraint su public.store_reviews: il vincolo citato dall'embed non c'è. Con grep su seller_reply ho visto che non esistono altre pagine che leggono le recensioni per il negozio.",
       "giro": 3,
       "verificato": true,
       "gia_noto": "No per la pagina del negozio. Il gemello del fattorino risulta riparato (commento in app/rider/reviews/page.tsx).",
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: critico-frontend-design · id R27 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: critico-frontend-design · id R27 · si ripara: codice",
+      "chiuso_il": "2026-10-31 13:58",
+      "chiuso_da": "PR #268 · 3f9ddf97",
+      "nota_riparazione": "Riparato nell ondata 2 del piano per aprire (run wf_765f4faf-23a), unita con la #268. — prova: cd /home/user/mycity && npx vitest run tests/unit/i-nomi-dei-clienti-che-il-negozio-vede.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-2-migrations-181-i-nomi-dei-clienti-che-il: f4c70dab: rosso_strutturale (uscita 3)"
     },
     {
       "dimensione": "frontend-ux",
@@ -2453,13 +2456,16 @@
       "impatto": "Il primo giorno di vendite vere chi fa assistenza è cieco. Ogni allarme che il sistema manda porta a un vicolo cieco, così gli allarmi diventano rumore. L'unica leva sull'ordine è annullarlo tutto, con rimborso pieno.",
       "fix": "Creare app/admin/orders/[id]/page.tsx. Deve mostrare: articoli, indirizzo e telefono di consegna, fascia scelta, pagamento e rimborsi, fattorino, codice di consegna (la regola d'accesso «Admin reads delivery codes» c'è già) e il reso collegato. Azioni minime: annulla, riassegna/libera il fattorino, segna consegnato con motivo scritto. Una prova automatica deve fallire se un link interno punta a una rotta che il build non contiene.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "grep -n \"/admin/orders\" scratchpad/build-validazione.log → nella tabella delle rotte compilate c'è solo «ƒ /admin/orders» (riga 183) e «/api/admin/orders/[id]/cancel» (riga 208). ls /home/user/mycity/.next/server/app/admin/orders/ → page.js, page.js.nft.json, page_client-reference-manifest.js: nessuna cartella [id]. ls app/admin | grep '\\[' e ls app | grep '\\[' → nessuna rotta generica che la copra. Poi grep -rn 'admin/orders/${' → link in admin/orders:233, admin/today:198, admin/payouts:221 e in 7 allarmi di operational-alerts.",
       "prova_tipo": "comando",
       "prova_eseguita": "Confermato sul build di oggi: la pagina /admin/orders/[id] non c'è né nel codice sorgente né in quello compilato. Ci sono invece 10 punti che la linkano. Sul server locale /admin/orders/<id> rimanda al login (307): con il database finto non ho potuto entrare come amministratore e vedere la 404 a schermo. · Verifica tecnica: ls app/admin/orders: solo page.tsx. find app -path '*admin*orders*': c'è solo app/api/admin/orders/[id]/cancel. .next/app-path-routes-manifest.json e .next/server/app-paths-manifest.json: solo «/admin/orders/page». grep dei link «admin/orders/${»: 3 pagine e 9 righe in operational-alerts. next.config.js e middleware.ts: nessun rewrite per quel percorso. Letta la riga 636 col link [apri]. curl localhost:3100/admin/orders/<uuid> → 307 verso /sign-in (la porta del middleware), quindi la 404 a schermo non l'ho vista da collegato. Letto admin/orders/page.tsx:244-260: l'unico pulsante è «Annulla».",
       "giro": 2,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-rider-admin, ordini-ciclo-vita · doppioni uniti: N112 · id R50 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-rider-admin, ordini-ciclo-vita · doppioni uniti: N112 · id R50 · si ripara: codice",
+      "chiuso_il": "2026-10-31 13:58",
+      "chiuso_da": "PR #268 · 3f9ddf97",
+      "nota_riparazione": "Riparato nell ondata 2 del piano per aprire (run wf_765f4faf-23a), unita con la #268. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-cabina-admin-non-scambia-un-guasto-per-un-vuoto.test.tsx tests/unit/i-link-della-cabina-admin-portano-a-una-pagina-vera.test.tsx tests/unit/le-tabelle-vuote-della-cabina-dicono-vuoto-allo-stesso-modo.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-2-app-admin-orders-id-page-tsx: 98807b96: rosso_strutturale (uscita 3)"
     },
     {
       "dimensione": "frontend-ux",
@@ -5482,13 +5488,16 @@
       "impatto": "Il marchio compare monco su ogni pagina, la prima cosa che vede chiunque arrivi. Chi ha già un account, cliente o negoziante, da computer non trova dove entrare. Il costo è fiducia, più accessi persi e richieste d'aiuto.",
       "fix": "In Navbar.tsx aggiungere `text-white` ai due Link del logo (righe 127 e 217) e ai due Link «Accedi» (righe 144 e 245). In alternativa avvolgere `{branding.wordmark.rest}` in `<span className=\"text-white\">` come fa già AdminSidebar.tsx:87. A lato: aggiungere un test visivo o di contrasto sulla testata, così la regola globale dei link non può più spegnerla in silenzio.",
       "fonte": "design",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Script Playwright run.cjs, 21 pagine × 375/768/1440, misura il contrasto calcolato di ogni testo. Poi accedi.cjs elenca tutti i link a /sign-in con colore e posizione. Foto: design-visivo/shots/clip_header_1440.png e design-visivo/shots/clip_header_375.png (cartella /tmp/claude-0/-home-user/df070674-8e02-5d4e-a9b6-d5d8cacdbadc/scratchpad/design-visivo/).",
       "prova_tipo": "browser",
       "prova_eseguita": "Il contrasto risulta 1,00:1 su 4 elementi in 19 pagine su 19 con testata: «MyCity» 24px e 20px, «Accedi» 14px, fg rgb(160,59,37) su bg rgb(160,59,37). A 1440 l'unico link /sign-in visibile sta a x=1167 y=53, 70×36, colore rgb(160,59,37). A 375 l'«Accedi» della testata ha lo stesso colore; resta visibile solo quello della barra in basso (rgb(87,83,78)). Nelle foto: a sinistra solo «My», e un buco fra «Carrello» e «Registrati». · Verifica tecnica: Ho scritto un mio script Playwright (verifica-design-visivo/hdr.cjs) e l'ho fatto girare su localhost:3100/about a 1440 e a 375. Logo: color rgb(160,59,37) su bg rgb(160,59,37), sia a 1440 sia a 375. «Accedi» a 1440: x=1167, w=70, rgb(160,59,37) su rgb(160,59,37); a 375 uguale. «Registrati»: rgb(255,255,255). La foto hdr_1440.png mostra solo «My» e un vuoto prima di «Registrati». Per la produzione ho usato web_fetch_vercel_url su /contact. La pagina carica /_next/static/css/b09b9d933ee949bc.css, che ha lo stesso hash della build locale, e la build locale contiene a{color:var(--primary-700)}: il CSS di produzione è identico.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: design-visivo · id R35 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: design-visivo · id R35 · si ripara: codice",
+      "chiuso_il": "2026-10-31 13:58",
+      "chiuso_da": "PR #268 · 3f9ddf97",
+      "nota_riparazione": "Riparato nell ondata 2 del piano per aprire (run wf_765f4faf-23a), unita con la #268. — prova: cd /home/user/mycity && npx vitest run tests/unit/il-negozio-che-non-cerca-l-indirizzo-non-finisce-a-roma.test.tsx tests/unit/il-modulo-del-negozio-non-salva-una-posizione-mai-data.test.tsx tests/unit/il-logo-e-accedi-si-vedono-sulla-testata.test.tsx tests/unit/la-pagina-promozioni-vuota-non-va-in-errore.test.tsx tests/unit/la-tendina-della-ricerca-dice-quando-la-rete-e-caduta.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-2-components-storelocationpicker-tsx: ebeaeffb: regge (uscita 0)"
     },
     {
       "dimensione": "accessibilita-visiva",
@@ -5539,13 +5548,16 @@
       "impatto": "Una voce fissa del menu principale mostra una pagina d'errore a tutti, proprio nella situazione più probabile al lancio (zero promozioni). Toglie fiducia nel primo giro di prova del sito.",
       "fix": "Dare alla griglia una chiave sua, per esempio queryKeys.promotions.activeIds = ['promotions','active-ids'] in lib/queries/keys.ts, e usarla in components/ProductGrid.tsx:297. Oppure far disegnare a app/promozioni/page.tsx il suo stato vuoto senza montare ProductGrid onlyPromo. Aggiungere una prova unitaria che monta le due query con un QueryClient condiviso.",
       "fonte": "design",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "node /tmp/claude-0/-home-user/df070674-8e02-5d4e-a9b6-d5d8cacdbadc/scratchpad/frontend-cliente/promo.cjs — Playwright a 360px su http://localhost:3100/promozioni. Le letture del database sono finte e locali (page.route): la funzione active_promo_products torna [], products torna 2 prodotti, seller_public_profiles torna il negozio approvato. Screenshot: scratchpad/frontend-cliente/promo.png",
       "prova_tipo": "browser",
       "prova_eseguita": "In console: «TypeError: eo.has is not a function at Array.filter … at useMemo». Nella pagina: «Qualcosa è andato storto · Abbiamo registrato il problema. Riprova fra un momento. Riprova · Torna alla home». Controprova: con zero prodotti nel catalogo la stessa pagina mostra correttamente «Nessuna promozione attiva al momento». · Verifica tecnica: Ho rieseguito la prova del collega da una mia copia (verifica-frontend-cliente/promo-v.cjs): Playwright a 360px su localhost:3100/promozioni, con risposte finte e locali (rpc vuota, 2 prodotti). In console è uscito «TypeError: eo.has is not a function at Array.filter … at useMemo». A schermo «Qualcosa è andato storto · Riprova · Torna alla home». Ho letto il codice alle righe citate e con grep ho verificato che la chiave sia usata solo in quei due punti. Sul database di produzione, solo SELECT: seller_promotions ha 1 riga totale e 0 attive adesso. I prodotti 'available' sono 9: 5 di Pane Quotidiano e 4 di Panificio Demo, entrambi i negozi approvati. La griglia legge con status='available' e is_approved (lib/queries/griglia-prodotti.ts:163,221).",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-cliente · id R89 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-cliente · id R89 · si ripara: codice",
+      "chiuso_il": "2026-10-31 13:58",
+      "chiuso_da": "PR #268 · 3f9ddf97",
+      "nota_riparazione": "Riparato nell ondata 2 del piano per aprire (run wf_765f4faf-23a), unita con la #268. — prova: cd /home/user/mycity && npx vitest run tests/unit/il-negozio-che-non-cerca-l-indirizzo-non-finisce-a-roma.test.tsx tests/unit/il-modulo-del-negozio-non-salva-una-posizione-mai-data.test.tsx tests/unit/il-logo-e-accedi-si-vedono-sulla-testata.test.tsx tests/unit/la-pagina-promozioni-vuota-non-va-in-errore.test.tsx tests/unit/la-tendina-della-ricerca-dice-quando-la-rete-e-caduta.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-2-components-storelocationpicker-tsx: ebeaeffb: regge (uscita 0)"
     },
     {
       "dimensione": "stati-ui",
@@ -24698,7 +24710,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "radiografia-in-corsa del lotto gravi del sito",
-      "stato": "aperto",
+      "stato": "riparato",
       "riverifica": {
         "verdetto": "ancora_presente",
         "prova": "app/admin/orders/page.tsx:71 'const { data: orders = [], isLoading } = useQuery(...)'. isError non si usa da nessuna parte nel file; la queryFn fa throw error (riga 86); la riga 267-268 mostra 'Nessun ordine' quando filtered.length === 0.",
@@ -24714,7 +24726,10 @@
           "data": "2026-09-08 11:30"
         }
       ],
-      "fuori_dal_referto": true
+      "fuori_dal_referto": true,
+      "chiuso_il": "2026-10-31 13:58",
+      "chiuso_da": "PR #268 · 3f9ddf97",
+      "nota_riparazione": "Riparato nell ondata 2 del piano per aprire (run wf_765f4faf-23a), unita con la #268. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-cabina-admin-non-scambia-un-guasto-per-un-vuoto.test.tsx tests/unit/i-link-della-cabina-admin-portano-a-una-pagina-vera.test.tsx tests/unit/le-tabelle-vuote-della-cabina-dicono-vuoto-allo-stesso-modo.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-2-app-admin-orders-id-page-tsx: 98807b96: rosso_strutturale (uscita 3)"
     },
     {
       "dimensione": "frontend-ux",
@@ -24726,7 +24741,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "radiografia-in-corsa del lotto gravi del sito",
-      "stato": "aperto",
+      "stato": "riparato",
       "riverifica": {
         "verdetto": "ancora_presente",
         "prova": "app/admin/page.tsx:61 'const { data: stats, isLoading } = useQuery(...)', con la rpc admin_kpi e throw error alle righe 72-73. Riga 143: 'if (isLoading || !stats) { return <LoadingState />; }'. Nessun ramo isError. In produzione admin_kpi esiste (verificato su pg_proc).",
@@ -24742,7 +24757,10 @@
           "data": "2026-09-08 11:30"
         }
       ],
-      "fuori_dal_referto": true
+      "fuori_dal_referto": true,
+      "chiuso_il": "2026-10-31 13:58",
+      "chiuso_da": "PR #268 · 3f9ddf97",
+      "nota_riparazione": "Riparato nell ondata 2 del piano per aprire (run wf_765f4faf-23a), unita con la #268. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-cabina-admin-non-scambia-un-guasto-per-un-vuoto.test.tsx tests/unit/i-link-della-cabina-admin-portano-a-una-pagina-vera.test.tsx tests/unit/le-tabelle-vuote-della-cabina-dicono-vuoto-allo-stesso-modo.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-2-app-admin-orders-id-page-tsx: 98807b96: rosso_strutturale (uscita 3)"
     },
     {
       "dimensione": "frontend-ux",
@@ -24894,7 +24912,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "radiografia-in-corsa del lotto gravi del sito",
-      "stato": "aperto",
+      "stato": "riparato",
       "riverifica": {
         "verdetto": "ancora_presente",
         "prova": "app/admin/coupons/page.tsx:233 'Nessun codice sconto: ho guardato e non ce n’è ancora nessuno.' · lib/admin/vista-delle-campagne.ts:260 'Nessuna campagna.' · app/admin/orders/page.tsx:268 'Nessun ordine' (senza punto).",
@@ -24910,7 +24928,10 @@
           "data": "2026-09-08 11:30"
         }
       ],
-      "fuori_dal_referto": true
+      "fuori_dal_referto": true,
+      "chiuso_il": "2026-10-31 13:58",
+      "chiuso_da": "PR #268 · 3f9ddf97",
+      "nota_riparazione": "Riparato nell ondata 2 del piano per aprire (run wf_765f4faf-23a), unita con la #268. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-cabina-admin-non-scambia-un-guasto-per-un-vuoto.test.tsx tests/unit/i-link-della-cabina-admin-portano-a-una-pagina-vera.test.tsx tests/unit/le-tabelle-vuote-della-cabina-dicono-vuoto-allo-stesso-modo.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-2-app-admin-orders-id-page-tsx: 98807b96: rosso_strutturale (uscita 3)"
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -26393,11 +26414,14 @@
       "impatto": "Nel momento in cui vuole comprare, il cliente legge che il prodotto non c'è, mentre è solo la connessione: chiude la ricerca e il negozio perde la vendita. Chi usa lo screen reader sente la stessa frase falsa.",
       "fix": "In leggiSuggerimentiRicerca: se la ricerca dei prodotti torna con `error` e anche il ripiego fallisce, lanciare l'errore. Lanciarlo anche quando falliscono tutte e tre le domande. In alternativa usare `.throwOnError()` sulle letture. Così useQuery va in errore e il riquadro mostra «Non riesco a cercare adesso» con «Riprova». Una prova che usa il client vero con una fetch che cade, come quella qui sotto, tiene il freno.",
       "fonte": "riesame finale dei file della prima ondata, 2026-10-16 (radiografia mentre si ripara); confermato da due verificatori, uno leggendo e uno eseguendo",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Prova che gira: cd /home/user/wt/perimetro && npx vitest run --config /tmp/claude-0/-home-user/06076910-34c9-5b70-bac3-566ef0676b66/scratchpad/p4fx3/vitest.p4.config.mts ricerca. Usa il client vero di supabase-js con una fetch che lancia TypeError('fetch failed'). Uscita: 1 rossa dopo 14 s, «expected 'vuoto' to be 'errore'». Fatti stampati in out-ricerca.txt: {\"lanciato\":null,\"risultato\":[],\"verdetto\":{\"mostra\":\"vuoto\",\"annuncio\":\"Nessun suggerimento per pane\"}}. In node_modules/@supabase/postgrest-js/dist/index.mjs:291 si vede `if (!this.shouldThrowOnError) res = res.catch((fetchError) => ({ error: … }))`: l'errore di rete diventa un valore, non un'eccezione. · verifica: **1. Prova del revisore, rifatta in una cartella mia.** Ho copiato il suo test nella mia area di lavoro (/tmp/claude-0/-home-user/06076910-34c9-5b70-bac3-566ef0676b66/scratchpad/verif-3-0) e l'ho lanciato da /home/user/wt/perimetro:\n`timeout 120 npx vitest run --config /tmp/claude-0/-home-user/06076910-34c9-5b70-bac3-566ef0676b66/scratchpad/verif-3-0/vitest.v.config.mts`\n\nIl test usa il client vero di supabase-js, con una `fetch` che lancia `TypeError('fetch failed')`. Uscita:\n- `× rete giu: la tendina dice «Nessun risultato» invece di «Non riesco a cercare» 14121ms`\n- `AssertionError: expected 'vuoto' to be 'errore'`\n- `Tests 1 failed (1)`, durata 14,66 s\n\nFatti scritti in out-ricerca.txt:\n`{\"lanciato\":null,\"risultato\":[],\"verdetto\":{\"mostra\":\"vuoto\",\"annuncio\":\"Nessun suggerimento per pane\"}}`\n\n**2. Righe lette.**\n- `node_modules/@supabase/postgrest-js/dist/index.mjs`, righe 270-310. Contiene `if (!this.shouldThrowOnError) res = res.catch((fetchError) => {...`: l'errore di rete diventa un valore. La versione è 2.106.1.\n- `lib/queries/suggerimenti-ricerca.ts`, righe 37 e 77-99: solo `.data`, mai `error`.\n- `lib/queries/seller-public-profiles.ts`, righe 149-150: `if (rows.length === 0) return [];` arriva prima di `fetchSellerPublicMap`, il cui `if (error) throw error;` sta a riga 110.\n- `lib/supabase/client.ts`: `createBrowserClient(url, key)` senza opzioni.\n- `grep -rn \"throwOnError\" lib components app`: nessun uso nelle letture (solo un commento in lib/vista-query.ts:8).\n- ",
       "prova_tipo": "verificata da un secondo revisore",
       "verificato": true,
-      "nato_oggi": true
+      "nato_oggi": true,
+      "chiuso_il": "2026-10-31 13:58",
+      "chiuso_da": "PR #268 · 3f9ddf97",
+      "nota_riparazione": "Riparato nell ondata 2 del piano per aprire (run wf_765f4faf-23a), unita con la #268. — prova: cd /home/user/mycity && npx vitest run tests/unit/il-negozio-che-non-cerca-l-indirizzo-non-finisce-a-roma.test.tsx tests/unit/il-modulo-del-negozio-non-salva-una-posizione-mai-data.test.tsx tests/unit/il-logo-e-accedi-si-vedono-sulla-testata.test.tsx tests/unit/la-pagina-promozioni-vuota-non-va-in-errore.test.tsx tests/unit/la-tendina-della-ricerca-dice-quando-la-rete-e-caduta.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-2-components-storelocationpicker-tsx: ebeaeffb: regge (uscita 0)"
     },
     {
       "dimensione": "frontend-ux",
@@ -27393,11 +27417,14 @@
       "impatto": "Solo durante un guasto della vista. I messaggi restano leggibili.",
       "fix": "Per il cliente il ripiego può dire «Negozio» invece di «Utente», con un piccolo avviso «nome non letto, riprova».",
       "fonte": "collaudo della correzione del lotto «letture dalla vista pubblica», 2026-10-18 (nato dal lotto, scelta dichiarata)",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Collaudo della correzione, lente B: sonda con vistaGiu e utente MARIA; nei mondi dopo le migrazioni elenco «U Utente … U Utente» e testata «Utente»; nel mondo di oggi «Pane Quotidiano» e «Salumeria Due».",
       "prova_tipo": "verificata da un secondo revisore",
       "verificato": true,
-      "nato_oggi": true
+      "nato_oggi": true,
+      "chiuso_il": "2026-10-31 13:58",
+      "chiuso_da": "PR #268 · 3f9ddf97",
+      "nota_riparazione": "Riparato nell ondata 2 del piano per aprire (run wf_765f4faf-23a), unita con la #268. — prova: cd /home/user/mycity && npx vitest run tests/unit/i-nomi-dei-clienti-che-il-negozio-vede.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-2-migrations-181-i-nomi-dei-clienti-che-il: f4c70dab: rosso_strutturale (uscita 3)"
     },
     {
       "dimensione": "frontend-ux",
@@ -28500,9 +28527,12 @@
       "titolo": "Basta una sola sezione non più valida perché sparisca tutta la home composta dal pannello; e se l'admin salva, la home di partenza la sovrascrive",
       "severita": "grave",
       "file": "lib/home-site.ts:291-297 (normalizeHomeSite, identica alla base fd4821aa righe 290-296). La usano app/page.tsx:88, app/admin/home/page.tsx:45 e app/api/admin/home/route.ts:45. Prova in scratchpad/qa-architettura/home.arch.test.ts: una home salvata con un banner a imageUrl 'http://…' e un richText valido restituisce le 11 sezioni di partenza (hero, reorder, popularProducts…), senza log e senza avviso. L'editor mostra quelle come «home effettiva». Non ho verificato se la home_site in produzione abbia oggi una sezione non valida.",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
-      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262",
+      "chiuso_il": "2026-10-31 13:58",
+      "chiuso_da": "PR #268 · 3f9ddf97",
+      "nota_riparazione": "Riparato nell ondata 2 del piano per aprire (run wf_765f4faf-23a), unita con la #268. — prova: cd /home/user/mycity && npx vitest run tests/unit/una-sezione-rotta-non-cancella-la-home-composta.test.ts tests/unit/la-classifica-di-tendenza-si-disegna-solo-con-visite-vere.test.ts tests/unit/la-mappa-del-sito-non-manda-a-google-categorie-vuote.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-2-lib-home-site-ts: a81fc255: regge (uscita 0)"
     },
     {
       "titolo": "Il caricamento da file scrive i prodotti direttamente dal browser: non esiste una rotta in cui mettere il freno di CARICAMENTO_DA_FILE_ACCESO",
@@ -32205,12 +32235,15 @@
       "dimensione": "coerenza-brand",
       "reparto": "Coerenza del marchio",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "Il riquadro «Trending ora» dà le medaglie #1, #2 e #3 senza nessuna vendita dietro: cancellato il negozio di prova, le darebbe ai prodotti di Pane Quotidiano",
       "file": "home: sezione «Trending ora» e «I più amati» (components/home-sections/HomeSectionRenderer.tsx e la sezione salvata in site_settings.home_site)",
       "descrizione": "Senza visite e senza vendite la classifica mostra gli ultimi prodotti pubblicati con le medaglie. Oggi sono quelli del negozio di prova; il giorno che si cancella (carta #201) diventano quelli di Pane Quotidiano. È una classifica finta, come quelle che la mossa 3 della #900 vuole togliere. Rimedio immediato: spegnere la sezione dal pannello lo stesso giorno della carta #201; poi mostrarla solo con dati veri.",
-      "fonte": "preesistente: c è su 0df5557 e su 9d2bb05d; trovato dall analisi del sito visto da chi compra (PR #900, run wf_b52be27a-121) e dalla sua revisione (run wf_5370ad60-6e4)"
+      "fonte": "preesistente: c è su 0df5557 e su 9d2bb05d; trovato dall analisi del sito visto da chi compra (PR #900, run wf_b52be27a-121) e dalla sua revisione (run wf_5370ad60-6e4)",
+      "chiuso_il": "2026-10-31 13:58",
+      "chiuso_da": "PR #268 · 3f9ddf97",
+      "nota_riparazione": "Riparato nell ondata 2 del piano per aprire (run wf_765f4faf-23a), unita con la #268. — prova: cd /home/user/mycity && npx vitest run tests/unit/una-sezione-rotta-non-cancella-la-home-composta.test.ts tests/unit/la-classifica-di-tendenza-si-disegna-solo-con-visite-vere.test.ts tests/unit/la-mappa-del-sito-non-manda-a-google-categorie-vuote.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-2-lib-home-site-ts: a81fc255: regge (uscita 0)"
     },
     {
       "dimensione": "frontend-ux",
@@ -34611,12 +34644,15 @@
       "dimensione": "qa-flussi",
       "reparto": "Flussi critici",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Dopo la migrazione 161 il negozio vede «Cliente» al posto del nome di ogni cliente nella pagina Clienti, e la ricerca per nome non trova più nessuno",
       "file": "app/seller/customers/page.tsx:42-56,74,91,187",
       "descrizione": "La pagina legge il nome del cliente agganciando l'ordine alla tabella dei profili (buyer:profiles!orders_user_id_fkey). Dopo la 161 i profili si leggono solo per la propria riga: l'aggancio torna vuoto senza errore. Ripiego: usare delivery_full_name dell'ordine, che il negozio legge già sui propri ordini.",
-      "fonte": "censimento della migrazione 161 (run wf_df9b9a65-06c), 31/10/2026, sola lettura sul commit 0fc4ec7d"
+      "fonte": "censimento della migrazione 161 (run wf_df9b9a65-06c), 31/10/2026, sola lettura sul commit 0fc4ec7d",
+      "chiuso_il": "2026-10-31 13:58",
+      "chiuso_da": "PR #268 · 3f9ddf97",
+      "nota_riparazione": "Riparato nell ondata 2 del piano per aprire (run wf_765f4faf-23a), unita con la #268. — prova: cd /home/user/mycity && npx vitest run tests/unit/i-nomi-dei-clienti-che-il-negozio-vede.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-2-migrations-181-i-nomi-dei-clienti-che-il: f4c70dab: rosso_strutturale (uscita 3)"
     },
     {
       "dimensione": "qa-flussi",
@@ -35231,6 +35267,696 @@
       "file": "app/rider/help/page.tsx:81",
       "descrizione": "lib/stripe/payout.ts:1651 e lib/stripe/webhook/rimborsi.ts:107 recuperano il compenso del fattorino sul rimborso totale: e' il contrario della promessa. Il test 5 ('si promette solo quello che il sito fa') non la copre.",
       "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Se l'annullamento degli ordini già nati fallisce, la chiave si libera lo stesso e il tocco dopo crea il doppione",
+      "file": "app/api/orders/cod/route.ts rollbackCreatedCodOrders → esciERilascia",
+      "descrizione": "rollbackCreatedCodOrders non legge l'error di orders.delete/restore_stock: azzera createdOrderIds e esciERilascia libera la chiave anche se l'ordine è rimasto in piedi.",
+      "fonte": "ondata 3 del piano dei difetti (run wf_86375bde-655), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Orari mai impostati: l'editor mostra «Chiuso» su tutti i giorni, ma il sito accetta ordini a qualunque ora",
+      "file": "components/seller/StoreHoursEditor.tsx:42-48 (value[d.key] ?? [] mostra «Chiuso») contro lib/store-hours.ts orariImpostati (oggetto vuoto = nessun blocco)",
+      "descrizione": "VendorForm parte da storeHours ?? {}: l'editor disegna 7 righe «Chiuso», mentre negozioPuoServire({}, fascia) dà true a ogni ora.",
+      "fonte": "ondata 3 del piano dei difetti (run wf_86375bde-655), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La FAQ dice «hai 14 giorni per il recesso» senza dire che pane e freschi sono esclusi",
+      "file": "app/faq/page.tsx:94",
+      "descrizione": "La risposta della FAQ sul reso non nomina l'esclusione dell'art. 59 lett. d. I Termini (app/terms/page.tsx:192) e /returns la nominano.",
+      "fonte": "ondata 3 del piano dei difetti (run wf_86375bde-655), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La pagina di richiesta reso accetta il ripensamento anche su ordini di pane",
+      "file": "app/orders/[id]/return/page.tsx:199 · app/api/returns/create/route.ts:71-90",
+      "descrizione": "La rotta controlla solo i 14 giorni. Nessun campo prodotto dice se è deperibile: è lo stesso pezzo che manca al difetto privacy-legale.",
+      "fonte": "ondata 3 del piano dei difetti (run wf_86375bde-655), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Sul ramo carta l'annullo non prende il turno prima del rimborso: due annulli da strade diverse possono restituire il credito due volte",
+      "file": "lib/ordini/annulla.ts ramo isPaidCard: niente claim prima di refundOrder; la chiave di wallet_credit è motivo+ordine e il motivo cambia per strada",
+      "descrizione": "Non verificato: dipende da come refundOrder rifiuta il secondo rimborso. Da ricreare con due annulli concorrenti con motivoCredito diversi.",
+      "fonte": "ondata 3 del piano dei difetti (run wf_86375bde-655), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La scrittura che annulla accetta qualunque stato non annullato, non quello che il chiamante ha controllato",
+      "file": "lib/ordini/annulla.ts update .neq('delivery_status','CANCELED'): fra il controllo OUT_FOR_DELIVERY della rotta e la scrittura l'ordine può diventare DELIVERED",
+      "fonte": "ondata 3 del piano dei difetti (run wf_86375bde-655), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Un reso già rimborsato per intero, con l'esito non scritto sul reso, non si chiude con «rimborsato»",
+      "file": "app/api/returns/[id]/avanza/route.ts: il controllo importoRimborso > residuoCent viene prima di refundOrder",
+      "descrizione": "Sulla carta, dopo un rimborso pieno il residuo è 0. avanza risponde 400 «non può superare» prima che refundOrder possa riconoscere il rimborso già registrato.",
+      "fonte": "ondata 3 del piano dei difetti (run wf_86375bde-655), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Se il processo muore fra il rimborso uscito e la scrittura nell'elenco, un nuovo tentativo registra di nuovo",
+      "file": "lib/stripe/payout.ts: la scrittura nell'elenco dei rimborsi in fondo a refundOrder è solo registrata nei log",
+      "descrizione": "Stessa causa del difetto sulla prenotazione senza chiave: senza l'id nell'elenco, il nuovo controllo non riconosce il rimborso già fatto.",
+      "fonte": "ondata 3 del piano dei difetti (run wf_86375bde-655), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Dopo una risposta persa, lo stesso carrello giorni dopo nella stessa scheda dice «ordine effettuato» col vecchio ordine",
+      "file": "lib/ordini/tentativo.ts chiaveTentativo (l'impronta non conta il tempo) + app/api/orders/cod/route.ts righe 334-340 (order_ids restituiti a qualunque età)",
+      "descrizione": "Copia di la-cassa-in-contanti-non-perde-e-non-ricicla-la-chiave.test.ts. ordina() al forno, tentativi e ordini a -3 giorni, poi ordina() con la stessa impronta: ids contiene il vecchio id e alForno() vale 1. Dopo la risposta persa il carrello resta pieno: è il caso più probabile.",
+      "fonte": "ondata 3 del piano dei difetti (run wf_86375bde-655), difetto vecchio visto strada facendo, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Quando il negozio rifiuta l'ordine, il cliente legge «il credito è tornato sul tuo saldo» anche se lo storno è caduto",
+      "file": "app/api/seller/orders/[id]/reject/route.ts:113, la frase esce con creditoCents>0 senza guardare esito.creditoNonTornatoCents",
+      "descrizione": "grep -n creditoNonTornatoCents app lib: nessun chiamante lo legge. reject/route.ts:113 scrive sempre «è tornato sul tuo saldo». Stessa classe del difetto della rotta cliente-assente, ma senza una prova che gira: per questo è minore.",
+      "fonte": "ondata 3 del piano dei difetti (run wf_86375bde-655), difetto vecchio visto strada facendo, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Se insieme alla scrittura sul reso cade anche l'elenco dei rimborsi dell'ordine, «rimborsato» rimborsa la carta una seconda volta",
+      "file": "lib/stripe/payout.ts ilRimborsoDellaChiaveGiaRegistrato (richiede scritti.has(r.id)) + righe 1772-1786 (errElenco solo loggato)",
+      "descrizione": "Copia di lo-stesso-rimborso-del-reso-non-si-registra-due-volte.test.ts: in rimborsatoMaNonScrittoSulReso va in timeout anche orders.update con stripe_refund_id. Poi avanza RECEIVED e REFUNDED: finto.rimborsi ha 2 elementi. Rimedio: basta metadata.return_id su un rimborso non fallito.",
+      "fonte": "ondata 3 del piano dei difetti (run wf_86375bde-655), difetto vecchio visto strada facendo, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "In ferie (tutti i giorni chiusi) la scheda prodotto non dice «chiuso» e scrive «Consegna a casa, all'ora che scegli»",
+      "file": "lib/promessa-consegna.ts:96-101 haOrari, che usa ancora la regola vecchia (serve un giorno con ore), diversa da orariImpostati in lib/store-hours.ts",
+      "descrizione": "rigaConsegnaDellaScheda({orari: 7 giorni vuoti, adesso: lun 2/11 10:00, veloce: true}) → «Consegna a casa all'ora che scegli, oppure veloce in 30-60 minuti». Con veloce null resta la frase generica. La cassa blocca comunque l'ordine.",
+      "fonte": "ondata 3 del piano dei difetti (run wf_86375bde-655), difetto vecchio visto strada facendo, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Con un indirizzo senza coordinate il confine dei 5 km non si controlla, e la veloce 30-60 min si vende a qualunque distanza",
+      "file": "lib/ordini/zona-di-consegna.ts:43 (senza coordinate risponde false), usato dalle rotte cod e stripe; il commento nuovo in lib/constants.ts dice «oltre i 5 km non si consegna»",
+      "descrizione": "fuoriZonaDiConsegna({storeLat:45.05, storeLng:9.69, deliveryLat:null, deliveryLng:null}) → false, quindi passa. Il commento di cod/route.ts righe 778-780 lo dichiara voluto. Il conto dei 55 minuti regge solo con le coordinate.",
+      "fonte": "ondata 3 del piano dei difetti (run wf_86375bde-655), difetto vecchio visto strada facendo, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Stesso carrello giorni dopo nella stessa scheda: la cassa in contanti dice «fatto» col vecchio ordine e il nuovo non nasce",
+      "file": "lib/ordini/tentativo.ts chiaveTentativo: stessa impronta, stessa chiave, nessuna scadenza. app/api/orders/cod/route.ts:334: una riga con ordini torna a qualunque età",
+      "descrizione": "cd /home/user/mycity-ondate/o3-app-api-orders-cod-route-ts && npx vitest run --config /tmp/claude-0/-home-user/495085c4-be08-555a-acb8-90cb3e7ad27d/scratchpad/qa-o3/vitest.qa.config.mjs → rosso: ids con l'ordine di lunedì, al forno 1 ordine invece di 2",
+      "fonte": "ondata 3 del piano dei difetti (run wf_86375bde-655), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Chiuso per ferie: la cassa rifiuta, ma la scheda prodotto promette «Consegna a casa, all'ora che scegli»",
+      "file": "lib/promessa-consegna.ts:96 haOrari (settimana tutta vuota = senza orari) contro lib/store-hours.ts:208 orariImpostati; arriva in components/ui/DeliveryCutoff.tsx",
+      "descrizione": "cd /home/user/mycity-ondate/o3-components-checkout-deliveryslotpicker-t && npx vitest run --config /tmp/claude-0/-home-user/495085c4-be08-555a-acb8-90cb3e7ad27d/scratchpad/qa-o3b/vitest.qa.config.mjs → riga «Consegna a casa, all'ora che scegli», promessa express",
+      "fonte": "ondata 3 del piano dei difetti (run wf_86375bde-655), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Sabato sera al forno la scheda dice «in cassa scegli l'ora della consegna», ma la cassa non ha fasce né oggi né domani",
+      "file": "lib/promessa-consegna.ts:192 rigaConsegnaDellaScheda: col negozio chiuso aggiunge sempre «in cassa scegli l'ora» senza guardare fasceAncoraPossibili e fasceDiDomaniPossibili",
+      "descrizione": "cd /home/user/mycity-ondate/o3-lib-promessa-consegna-ts && npx vitest run --config /tmp/claude-0/-home-user/495085c4-be08-555a-acb8-90cb3e7ad27d/scratchpad/qa-o3c/vitest.qa.config.mjs → OGGI [] DOMANI [] con la riga «…riapre lunedì: in cassa scegli l'ora»",
+      "fonte": "ondata 3 del piano dei difetti (run wf_86375bde-655), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Veloce al confine dei 5 km: i 55 minuti contano la linea d'aria, sulla strada (6-7 km, lo dice constants.ts) sono circa 61",
+      "file": "lib/geo.ts deliveryEtaMinutes; tests/unit/la-veloce-al-confine-dei-5-km.test.ts:33-34 (le righe 47-49 cercano solo parole nel sorgente)",
+      "descrizione": "deliveryEtaMinutes(6.5) + 20 di andata = 15 + 26 + 20 = 61, sopra EXPRESS_ETA_MAX 60.",
+      "fonte": "ondata 3 del piano dei difetti (run wf_86375bde-655), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Entro la finestra, lo stesso carrello ritoccato dopo che il negozio ha annullato l'ordine riceve «fatto» con l'ordine annullato",
+      "file": "app/api/orders/cod/route.ts ramo 23505 con ordiniGia: restituisce order_ids senza guardare lo stato",
+      "descrizione": "Lettura: la risposta si perde, il negozio rifiuta (o scatta l'annullo automatico della consegna veloce), poi un'ora dopo lo stesso pane nella stessa scheda. Risposta: 200 ripetuto con l'ordine annullato. Era già così sul 6dfc1e1.",
+      "fonte": "ondata 3 del piano dei difetti (run wf_86375bde-655), difetto vecchio visto strada facendo, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La fascia scelta in cassa cambia da sola col passare dell'ora e nessuna riga lo dice: 16:30–18:00 diventa 18:00–19:30 in silenzio",
+      "file": "components/checkout/DeliverySlotPicker.tsx:191-197 (l'effetto che sposta todayTime), ora risvegliato ogni 30 s dal nuovo setInterval; l'avviso c'è solo per la veloce",
+      "descrizione": "Lunedì 2/11 ore 16:55, scelta «Oggi · 16:30–18:00»; dopo 10 min la scelta è 18:00–19:30 e role=status è vuoto. Rosso 2 volte (nel worktree): npx vitest run --config /tmp/claude-0/-home-user/495085c4-be08-555a-acb8-90cb3e7ad27d/scratchpad/qa-o3r2/vitest.qa.config.mjs",
+      "fonte": "ondata 3 del piano dei difetti (run wf_86375bde-655), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La prova del confine dei 5 km conta in linea d'aria: su 6-7 km di strada la veloce arriva in circa 70 minuti, oltre i 60 promessi",
+      "file": "tests/unit/la-veloce-al-confine-dei-5-km.test.ts:24-29; commento in lib/constants.ts (5 km d'aria ≈ 6-7 km di strada); lib/geo.ts:31 deliveryEtaMinutes",
+      "descrizione": "Lettura: 7 km di strada a 15 km/h = 28 min, per due tratte (andata al negozio + consegna) più 15 di preparazione = 71 min. La prova usa 5 km d'aria e trova 55. È una stima, non un comportamento del sito: buco nella prova, non boccia.",
+      "fonte": "ondata 3 del piano dei difetti (run wf_86375bde-655), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Il salvataggio fa due passi: se una variante è cambiata, nome e prezzo del prodotto restano salvati e le varianti no",
+      "file": "app/seller/products/[id]/edit/page.tsx:114-120 · app/api/admin/products/route.ts (update del prodotto prima delle varianti)",
+      "descrizione": "Prima salvaProdottoDalBrowser, poi saveProductVariantsServer, senza transazione: il nuovo errore di scorta cambiata arriva dopo che la riga del prodotto è già scritta.",
+      "fonte": "ondata 4 del piano dei difetti (run wf_dc9216f4-6e2), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Fra la lettura e la scrittura di una variante resta una finestra di millisecondi senza confronta-e-scrivi",
+      "file": "lib/products/persistVariantsServer.ts:59-61",
+      "descrizione": "Il controllo sulla scorta vista avviene prima di scrivere; l'update resta per id. Per chiudere la finestra serve una funzione del database che scriva solo se la scorta è ancora N (migrazione).",
+      "fonte": "ondata 4 del piano dei difetti (run wf_dc9216f4-6e2), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "privacy-legale",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Le copie orfane già nel secchio kyc-docs prima di questa correzione restano: nessuna potatura lista il secchio",
+      "file": "lib/privacy/potature-ritenzione.ts:138-171 (potaFileScaduti toglie solo i percorsi restituiti dalle funzioni SQL)",
+      "descrizione": "Unico .list(userId) su kyc-docs in lib/account/cancellazione.ts:213-233, che gira solo quando si cancella l'account",
+      "fonte": "ondata 4 del piano dei difetti (run wf_dc9216f4-6e2), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "privacy-legale",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Nessun codice dell'app scrive approval_requested_at: una richiesta inviata non si distingue da un'iscrizione abbandonata",
+      "file": "grep approval_requested_at in app/ e lib/: compare solo in lib/database.types.ts",
+      "descrizione": "migrations/021:60 crea la colonna, l'indice 021:98 la usa, ma nessuna rotta la valorizza",
+      "fonte": "ondata 4 del piano dei difetti (run wf_dc9216f4-6e2), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "L'approvazione dall'amministrazione non controlla la partita iva: le richieste mandate prima di questa correzione si approvano ancora senza",
+      "file": "app/admin/users/page.tsx:1077-1083 (mostra «—», nessun blocco) · righe profiles già approvate senza business_vat_number",
+      "fonte": "ondata 4 del piano dei difetti (run wf_dc9216f4-6e2), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Il commento in testa a tempi-bonifico dice «paghiamo entro un'ora dalla consegna», ma un'ora è il passaggio sul conto stripe, non la banca",
+      "file": "lib/stripe/tempi-bonifico.ts:1-21",
+      "fonte": "ondata 4 del piano dei difetti (run wf_dc9216f4-6e2), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La pagina admin «Nuovo prodotto» mostra l'importazione da link con l'AI spenta",
+      "file": "app/admin/products/new/page.tsx:133 (ImportFromUrlBox senza AI_NEGOZI_ACCESA)",
+      "descrizione": "grep: <ImportFromUrlBox montato senza interruttore; chiama /api/marketplace/import-fetch, che risponde non configurato",
+      "fonte": "ondata 4 del piano dei difetti (run wf_dc9216f4-6e2), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "privacy-legale",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Due caricamenti ravvicinati dello stesso documento lasciano una copia della carta d'identità nel secchio, senza puntatore",
+      "file": "app/api/kyc/upload-document/route.ts: percorsoVecchio letto prima dell'upload; app/rider/onboarding/page.tsx: input file disabled solo con !etaConfermata",
+      "descrizione": "Vitest: mock con update che scrive nel profilo e il 1° upload trattenuto; UPLOAD(id_front) due volte in parallelo → nel secchio 2 percorsi id_front-…, il profilo ne punta 1. Rosso su ac0068c3. Cura: togliere i {kind}-* della cartella tranne l'ultimo.",
+      "fonte": "ondata 4 del piano dei difetti (run wf_dc9216f4-6e2), difetto vecchio visto strada facendo, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Con l'AI spenta, l'assistenza del negozio offre ancora «Modifica un prodotto con l'AI», che risponde «servizio non configurato»",
+      "file": "components/SupportChatModal.tsx:72 canUseAi = role === 'seller' (non guarda AI_NEGOZI_ACCESA); SupportChatButton in app/layout.tsx:245",
+      "descrizione": "Copiare /tmp/claude-0/-home-user/495085c4-be08-555a-acb8-90cb3e7ad27d/scratchpad/collaudo-assistenza-ai.test.tsx in tests/unit/ e lanciare npx vitest run: rosso su fe1bee95. catalog-chat/route.ts:176 → 503.",
+      "fonte": "ondata 4 del piano dei difetti (run wf_dc9216f4-6e2), difetto vecchio visto strada facendo, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Il browser del negoziante può ancora scrivere i prodotti senza passare dalla porta che registra la traccia",
+      "file": "migrations/001: regola «Sellers can update their own products» mai revocata; il pacchetto ha corretto solo il commento",
+      "descrizione": "grep -lE 'DROP POLICY (IF EXISTS )?\"Sellers can update their own products\"' migrations/*.sql → nessun file",
+      "fonte": "ondata 4 del piano dei difetti (run wf_dc9216f4-6e2), difetto vecchio visto strada facendo, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La scorta delle varianti si controlla e poi si scrive in due tempi: un ordine che arriva in mezzo si perde ancora",
+      "file": "lib/products/persistVariantsServer.ts: select id,stock e poi update senza eq('stock') (buco dichiarato nel commento)",
+      "descrizione": "grep -n \"eq('stock'\" lib/products/persistVariantsServer.ts → nessuna riga",
+      "fonte": "ondata 4 del piano dei difetti (run wf_dc9216f4-6e2), difetto vecchio visto strada facendo, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "rls-database",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "L'amministrazione può approvare un negozio senza partita IVA (chi era già in coda, o chi si è iscritto come negozio dalla registrazione)",
+      "file": "app/api/admin/users/[id]/moderate/route.ts: il caso approve non controlla business_vat_number",
+      "descrizione": "grep -c business_vat_number 'app/api/admin/users/[id]/moderate/route.ts' → 0",
+      "fonte": "ondata 4 del piano dei difetti (run wf_dc9216f4-6e2), difetto vecchio visto strada facendo, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "PEC e codice SDI, che la scheda chiedeva, il modulo del negozio non li raccoglie ancora",
+      "file": "components/SellerApplicationForm.tsx e app/api/seller/apply/route.ts: business_pec e business_sdi esistono in lib/database.types.ts ma non vengono chiesti",
+      "descrizione": "grep -c 'business_pec\\|business_sdi' app/api/seller/apply/route.ts components/SellerApplicationForm.tsx → 0",
+      "fonte": "ondata 4 del piano dei difetti (run wf_dc9216f4-6e2), difetto vecchio visto strada facendo, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "rls-database",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La regola per riga della migrazione 001 lascia scrivere i prodotti dal browser, senza traccia ne' controllo di vendibilita'",
+      "file": "migrations/001_create_tables.sql:92 (mai tolta) e app/seller/products/import/page.tsx, primo insert di new/page.tsx",
+      "descrizione": "Prova SQL da scrivere: da venditore autenticato, update products set price=1 where id=<suo>. Oggi riesce e nella traccia non resta nulla. Il lotto ha solo corretto il commento: tocca a @security con una migrazione.",
+      "fonte": "ondata 4 del piano dei difetti (run wf_dc9216f4-6e2), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "A chi apre /seller senza essere negozio promettiamo ancora «abbonamento €50/mese», ma l'abbonamento e' sospeso",
+      "file": "app/seller/layout.tsx:98, testo fisso senza ABBONAMENTO_NEGOZI_ACCESO",
+      "descrizione": "Con un account cliente apri /seller: compare «Abbonamento €50/mese» mentre ABBONAMENTO_NEGOZI_ACCESO=false. E' la stessa classe del difetto chiuso nel modulo.",
+      "fonte": "ondata 4 del piano dei difetti (run wf_dc9216f4-6e2), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "rls-database",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "L'approvazione di un negozio non pretende la partita iva, e chi e' gia' approvato non ha nessuna pagina per inserirla",
+      "file": "app/api/admin/users/[id]/moderate/route.ts case 'approve' (nessun controllo); nessuna pagina venditore scrive business_vat_number",
+      "descrizione": "Prova da scrivere: moderate approve su un profilo venditore in attesa senza business_vat_number. Oggi risponde 200. Per chi si e' iscritto prima del 31/10 «Venduto da» resta vuoto. Da controllare in banca dati quanti sono.",
+      "fonte": "ondata 4 del piano dei difetti (run wf_dc9216f4-6e2), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "privacy-legale",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Documento ricaricato: due caricamenti insieme lasciano un orfano, e il documento verificato si cancella senza riaprire la verifica",
+      "file": "app/api/kyc/upload-document/route.ts: lettura di percorsoVecchio prima dell'upload; nessun controllo sullo stato KYC",
+      "descrizione": "Due POST paralleli id_front: leggono lo stesso percorso vecchio e la prima copia nuova resta orfana. Un fattorino verificato che ricarica perde il documento controllato, e lo stato resta «verificato».",
+      "fonte": "ondata 4 del piano dei difetti (run wf_dc9216f4-6e2), nato dal lotto, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "La nuova porta della richiesta negozio legge il corpo senza tetto e il nome del negozio non ha lunghezza massima",
+      "file": "app/api/seller/apply/route.ts: req.json() invece di jsonRichiesta(req, TETTO_JSON); storeName senza .max()",
+      "descrizione": "POST con storeName di 1 MB: viene accettato e scritto nel profilo.",
+      "fonte": "ondata 4 del piano dei difetti (run wf_dc9216f4-6e2), nato dal lotto, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Chi toglie dalla scorta i pezzi venduti al banco mentre ne parte uno online salva senza avviso: il sito vende un pezzo che non c'è",
+      "file": "lib/products/salvataggio-tracciato.ts (stessoValore(prima.stock, daScrivere.stock)), persistVariantsServer.ts (adesso === row.stock), app/api/admin/products/route.ts (ora.stock !== patch.stock)",
+      "descrizione": "node /tmp/claude-0/-home-user/495085c4-be08-555a-acb8-90cb3e7ad27d/scratchpad/qa-o4r/coincidenza.cjs <worktree> → exit 1 (2 volte). Il ramo del salvataggio rimandato non distingue un rinvio da una coincidenza: serve la traccia dell'ultima scrittura (vista→nuovo) o un id del salvataggio.",
+      "fonte": "ondata 4 del piano dei difetti (run wf_dc9216f4-6e2), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Le taglie controllano la scorta e poi scrivono in due tempi: una vendita che cade in mezzo viene ancora cancellata",
+      "file": "lib/products/persistVariantsServer.ts: update(u.row).eq('id', u.id) senza .eq('stock', vista); dalla pagina del venditore gira nel browser, più giri di rete fra lettura e scrittura",
+      "descrizione": "Buco nelle prove: nessuna prova mette una vendita fra select('id, stock') e update. Il prodotto invece scrive già con .eq('stock', condizione).",
+      "fonte": "ondata 4 del piano dei difetti (run wf_dc9216f4-6e2), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Il caricamento da file mette in vendita prodotti senza il controllo di foto, descrizione e ingredienti: si è corretta solo la frase",
+      "file": "app/seller/products/import/page.tsx:146-149 (status 'available' fisso, supabase.from('products').insert dal browser, niente controllaCheSiPossaVendere)",
+      "descrizione": "Da scrivere: vitest che monta import/page.tsx con un CSV di 1 riga senza foto e intercetta l'insert su products; atteso status diverso da 'available' o rifiuto. Oggi, letto: status 'available' fisso.",
+      "fonte": "ondata 4 del piano dei difetti (run wf_dc9216f4-6e2), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "rls-database",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La regola per riga lascia ancora scrivere il catalogo dal browser saltando traccia e controlli: adesso è dichiarato, non chiuso",
+      "file": "migrations/001_create_tables.sql:92-94 «Sellers can update their own products», mai tolta da nessuna migrazione successiva",
+      "descrizione": "grep -rn 'Sellers can update their own products' migrations: solo la CREATE, nessun DROP. Serve una migrazione o un trigger (@security).",
+      "fonte": "ondata 4 del piano dei difetti (run wf_dc9216f4-6e2), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Con l'AI spenta, il pannello aiuto offre ancora al negozio «Modifica un prodotto con l'AI», che risponde «Servizio AI non configurato»",
+      "file": "components/SupportChatModal.tsx:72 (canUseAi = role === 'seller') e :159; montato da SupportChatButton in app/layout.tsx:245",
+      "descrizione": "Vitest jsdom con monta('components/SupportChatModal.tsx') e accendi({open:true,onClose,role:'seller'}): expect(testoVisibile(body)).not.toMatch(/Modifica un prodotto con l.AI/) è rosso. Il pulsante apre SupportProductAssistant, che chiama /api/ai/catalog-chat, e quella rotta risponde 503 (riga 176)",
+      "fonte": "ondata 4 del piano dei difetti (run wf_dc9216f4-6e2), difetto vecchio visto strada facendo, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "privacy-legale",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Un vecchio valore salvato come link firmato lascia nel secchio la copia di prima quando il documento si ricarica",
+      "file": "app/api/kyc/upload-document/route.ts, guardia sostituito.startsWith(`${user.id}/`) prima di togliDalSecchio",
+      "descrizione": "start-check:103 gestisce ancora valori 'http…', quindi i valori vecchi in forma di link sono previsti. Con un valore https://…/object/sign/kyc-docs/<id>/id_front-1.png nella colonna, nessuno toglie il file. Non ho verificato se esistono profili così: da qui il DB non si legge",
+      "fonte": "ondata 4 del piano dei difetti (run wf_dc9216f4-6e2), difetto vecchio visto strada facendo, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La funzione che muore fra l'ordine e gli articoli lascia la merce riservata senza nessuno che la liberi",
+      "file": "app/api/orders/cod/route.ts: reserve_stock e wallet_debit prima di orders.insert; nessuna traccia della riserva fuori dalla memoria della funzione",
+      "descrizione": "Con muoreDopoLOrdine l'ordine resta senza articoli con la merce scalata e il credito tolto. Ora la cassa si ferma, ma la correzione è a mano: serve una riserva scritta (migrazione).",
+      "fonte": "ondata di correzione 3-bis del piano dei difetti (run wf_38a26116-fd4), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "FattiDellaConsegna non vede la rotta «cliente assente»: esitoDiMancataConsegna resta false",
+      "file": "lib/legal/promessa-cliente-assente.ts fattiDellaConsegna · tests/unit/i-termini-non-promettono-un-esito-che-il-codice-non-sa-registrare.test.ts (fuori territorio)",
+      "descrizione": "La prova esistente pretende false e dice ancora «oggi il codice non sa». Sul §6 non cambia niente: la trattenuta richiede anche i tentativi registrati, che sono false.",
+      "fonte": "ondata di correzione 3-bis del piano dei difetti (run wf_38a26116-fd4), nato dal lotto, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Rimborso del reso uscito su Stripe, prenotazione stornata, ordine a 0 €: oltre le 24 ore della chiave Stripe ne crea un secondo",
+      "file": "lib/stripe/payout.ts ilRimborsoDellaChiaveGiaRegistrato: con rimborsato 0 ed elenco vuoto non legge Stripe",
+      "descrizione": "Dentro le 24 ore la chiave return_<id> restituisce lo stesso rimborso. Leggere Stripe anche qui rompe 4 prove esistenti, i cui finti Stripe non hanno refunds.list: la prova di sicurezza è da rifare, fuori territorio.",
+      "fonte": "ondata di correzione 3-bis del piano dei difetti (run wf_38a26116-fd4), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Reso con la carta: in un carrello di due negozi la quota del negozio si toglie due volte",
+      "file": "lib/stripe/payout.ts ilRimborsoDellaChiaveGiaRegistrato, filtro `contati` (riga ~1331)",
+      "descrizione": "Copia di il-rimborso-del-reso-uscito-su-stripe-non-si-rifa.test.ts + re_fuori 1000 su pi_1 {registrato_da_fuori:'1',order_id:altro}; decide guasto, RECEIVED, REFUNDED → storni [1800,1800], refunded 4000 invece di 2000.",
+      "fonte": "ondata di correzione 3-bis del piano dei difetti (run wf_38a26116-fd4), difetto vecchio visto strada facendo, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Ferie salvate prima del rilascio (domenica mai scritta): la cassa accetta ancora ordini e la scheda promette la consegna",
+      "file": "lib/store-hours.ts orariImpostati: settimanaScritta chiede tutti e 7 i giorni; nessun ripristino dei dati già salvati",
+      "descrizione": "vitest: negozioPuoServire({mon:[],tue:[],wed:[],thu:[],fri:[],sat:[]},'Domani · 9:00–11:00',new Date('2026-11-03T10:00:00')) === true; isStoreClosedForOrder(...) === false.",
+      "fonte": "ondata di correzione 3-bis del piano dei difetti (run wf_38a26116-fd4), difetto vecchio visto strada facendo, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Le prove della cassa in contanti non vedono un carrello di due negozi col secondo ordine senza articoli",
+      "file": "tests/unit/la-cassa-non-dice-fatto-per-un-ordine-senza-articoli.test.ts (solo AL_FORNO); route.ts riga 532",
+      "descrizione": "Mutazione `if (aMeta.length > 0)` → `=== ordiniTrovati.length`: prove della squadra verdi. Test che la uccide: gruppi [AL_FORNO, fioraio], primaDellOrdine arma muoreDopoLOrdine al 2° insert, invecchia, 2° tocco → atteso 409.",
+      "fonte": "ondata di correzione 3-bis del piano dei difetti (run wf_38a26116-fd4), nato dal lotto, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La scadenza dell'accettazione tiene la vecchia regola degli orari: per un negozio in ferie l'ordine resta vivo fino a fine fascia",
+      "file": "lib/ordini/scadenza-accettazione.ts:151 orariImpostati (copia locale, non usa quella di lib/store-hours.ts)",
+      "descrizione": "entroQuandoAccettare(ordine con fascia, {sun:[],mon:[],...,sat:[]}) dà la fine della fascia, non la scadenza immediata. La copia locale vede la settimana chiusa come «non impostata».",
+      "fonte": "ondata di correzione 3-bis del piano dei difetti (run wf_38a26116-fd4), difetto vecchio visto strada facendo, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Il rifiuto del negozio scrive al cliente «il credito è tornato sul tuo saldo» anche quando lo storno è caduto",
+      "file": "app/api/seller/orders/[id]/reject/route.ts:109-113, usa wallet_applied_cents e ignora creditoNonTornatoCents di annullaERimborsa (gli amministratori ora vengono avvisati)",
+      "descrizione": "grep -n creditoNonTornato 'app/api/seller/orders/[id]/reject/route.ts' → nessuna riga; la frase esce con il credito speso, non con quello tornato davvero.",
+      "fonte": "ondata di correzione 3-bis del piano dei difetti (run wf_38a26116-fd4), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "«Cliente assente» annulla e rimborsa con un tocco, senza traccia delle telefonate; il controllo dello stato vive solo nella rotta",
+      "file": "app/api/rider/orders/[id]/cliente-assente/route.ts + lib/ordini/annulla.ts:405-412 (update con neq CANCELED, non eq OUT_FOR_DELIVERY: lettura e scrittura separate)",
+      "descrizione": "Lettura: fattorino che consegna, incassa i contanti senza confermarli e poi preme «Cliente assente» → ordine annullato, merce rimessa a scaffale. È la scelta di Nicola (nessuna prova dei tentativi), da sapere.",
+      "fonte": "ondata di correzione 3-bis del piano dei difetti (run wf_38a26116-fd4), nato dal lotto, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Con le ferie il giro notturno tiene vivo fino a fine fascia l'ordine già preso: la scadenza usa ancora la regola vecchia degli orari",
+      "file": "lib/ordini/scadenza-accettazione.ts:151-157, copia propria di orariImpostati (basta un giorno con ore), non quella di lib/store-hours.ts",
+      "descrizione": "entroQuandoAccettare(ordine per domani 9-12, settimana coi 7 giorni vuoti) restituisce la fine della fascia invece del momento della creazione («impossibile»).",
+      "fonte": "ondata di correzione 3-bis del piano dei difetti (run wf_38a26116-fd4), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Da controllare sui dati: un negozio che oggi ha salvato 7 giorni vuoti diventa chiuso sempre appena esce la modifica",
+      "file": "lib/store-hours.ts orariImpostati (settimanaScritta). Non verificato sul database: da qui non ho Supabase",
+      "descrizione": "In sola lettura: select id, store_name from profiles where store_hours ?& array['sun','mon','tue','wed','thu','fri','sat'] and not jsonb_path_exists(store_hours,'$.*[*]') → deve tornare vuoto, o solo negozi davvero in ferie.",
+      "fonte": "ondata di correzione 3-bis del piano dei difetti (run wf_38a26116-fd4), nato dal lotto, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Ordine rimasto a metà: la cassa dice «ti aiutiamo noi» ma avvisa solo il registro, e il cliente resta fermo 12 ore su quel carrello",
+      "file": "app/api/orders/cod/route.ts, ordineRimastoAMeta e ramo aMeta: logger.error (Sentry) e nessun notifyAdmins; la chiave resta, quindi lo stesso 409 torna fino alle 12 ore",
+      "descrizione": "Lettura: grep -n notifyAdmins app/api/orders/cod/route.ts → nessuna riga.",
+      "fonte": "ondata di correzione 3-bis del piano dei difetti (run wf_38a26116-fd4), nato dal lotto, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Stesso carrello entro 12 ore con un'altra fascia o un altro indirizzo: la cassa risponde «fatto» con l'ordine di prima",
+      "file": "app/checkout/page.tsx improntaCarrello (solo negozi, prodotti, quantità) + ramo ripetuto della rotta COD",
+      "descrizione": "Lettura: risposta persa alle 10:00, alle 11:00 stesso carrello con la fascia cambiata → stessa chiave → ripetuto 200 con l'ordine e la fascia delle 10:00. Alla base succedeva lo stesso senza limite di tempo.",
+      "fonte": "ondata di correzione 3-bis del piano dei difetti (run wf_38a26116-fd4), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Ferie salvate con l'editor di prima su 3 giorni o meno: il negozio resta aperto a qualunque ora",
+      "file": "lib/store-hours.ts, orariImpostati, soglia GIORNI_PER_UNA_SETTIMANA_SCRITTA = 4",
+      "descrizione": "negozioPuoServire({fri:[],sat:[],sun:[]},'Domani · 9:00–11:00',new Date('2026-11-03T10:00:00')) dà true. Solo dati del vecchio editor: il nuovo scrive la settimana intera; Pane Quotidiano (6 giorni) è coperto.",
+      "fonte": "ondata di correzione 3-bis del piano dei difetti (run wf_38a26116-fd4), difetto vecchio visto strada facendo, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Reso uscito su Stripe con risposta persa, ordine senza altri rimborsi: se il negozio riprova dopo 24 ore il cliente e' rimborsato due volte",
+      "file": "lib/stripe/payout.ts, ilRimborsoDellaChiaveGiaRegistrato: uscita anticipata `scritti.size === 0 && refunded_amount_cents <= 0`, poi refunds.create con la chiave scaduta",
+      "descrizione": "cd /home/user/mycity-ondate/o3-lib-stripe-payout-ts && npx vitest run --config /tmp/claude-0/-home-user/495085c4-be08-555a-acb8-90cb3e7ad27d/scratchpad/qa-o3-B2-payout/vitest.qa.config.mjs -t \"B: Stripe\" -> rimborsi [re_1,re_2]. Rosso uguale sul 6c5be9f7 (vitest.base.config.mjs)",
+      "fonte": "ondata di correzione 3-bis del piano dei difetti (run wf_38a26116-fd4), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Il salvataggio delle varianti non è tutto-o-niente: cancellazioni e aggiornamenti già fatti restano se una riga dopo fallisce",
+      "file": "lib/products/persistVariantsServer.ts: prima delete, poi update in un ciclo, poi insert, senza transazione",
+      "descrizione": "Se la scrittura condizionata di una variante trova la riga cambiata, le righe precedenti restano scritte. Serve una funzione DB (migrazione 169 prenotata).",
+      "fonte": "ondata di correzione 4-bis del piano dei difetti (run wf_868abf3a-e69), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "privacy-legale",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Se lo storage rifiuta la rimozione, i documenti d'identità a metà iscrizione restano nel secchio senza che nessuno li riprovi",
+      "file": "migrations/171 kyc_file_da_togliere_prendi (DELETE ... RETURNING); lib/privacy/potature-ritenzione.ts potaFileScaduti",
+      "descrizione": "La coda si svuota prima che storage.remove giri. Se remove fallisce, i percorsi restano solo in registro.warn e la notte dopo la coda è vuota. La notte segna errore, ma i file non si ritentano.",
+      "fonte": "ondata di correzione 4-bis del piano dei difetti (run wf_868abf3a-e69), nato dal lotto, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Il modulo prodotto dell'amministrazione dopo «la scorta è cambiata» ridà lo stesso errore finché non lo si riapre",
+      "file": "app/admin/products/[id]/edit/page.tsx onError (solo toast); components/seller/ProductForm.tsx:225 scortaAllApertura useRef",
+      "descrizione": "onError non rilegge il prodotto e stock_visto resta quello vecchio. Il messaggio dice «Riapri il prodotto», quindi si esce. Nel modulo del venditore il prodotto si scrive prima delle varianti, e un conflitto su una variante lascia il resto già salvato.",
+      "fonte": "ondata di correzione 4-bis del piano dei difetti (run wf_868abf3a-e69), nato dal lotto, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "I commenti rimandano a una «migrazione 169» che non esiste in nessun ramo",
+      "file": "lib/products/persistVariantsServer.ts commento 31/10; perimetro api-backend",
+      "descrizione": "ls /home/user/mycity-ondate/*/migrations/169_* e tests/unit/rimandare-un-salvataggio* → nessun file in nessun worktree dell'ondata.",
+      "fonte": "ondata di correzione 4-bis del piano dei difetti (run wf_868abf3a-e69), nato dal lotto, collaudo B, 31/10/2026"
     }
   ],
   "sync_scan": {

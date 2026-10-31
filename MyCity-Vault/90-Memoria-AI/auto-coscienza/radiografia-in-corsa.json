@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-31 10:40",
+  "aggiornato": "2026-10-31 15:08",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -5964,6 +5964,222 @@
         "lib/home-site.ts": "8068a0450935",
         "lib/queries/controparte-della-chat.ts": "738abf1dff2c",
         "lib/queries/suggerimenti-ricerca.ts": "0a4edb7d3570"
+      }
+    },
+    {
+      "quando": "2026-10-31 13:58",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "La nuova porta della richiesta negozio legge il corpo senza tetto e il nome del negozio non ha lunghezza massima"
+      ],
+      "nota": "",
+      "file": {
+        "app/api/seller/apply/route.ts": "e9776b8f7472"
+      }
+    },
+    {
+      "quando": "2026-10-31 13:58",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 4,
+      "schede": [
+        "In ferie (tutti i giorni chiusi) la scheda prodotto non dice «chiuso» e scrive «Consegna a casa, all'ora che scegli»",
+        "Con un indirizzo senza coordinate il confine dei 5 km non si controlla, e la veloce 30-60 min si vende a qualunque distanza",
+        "Chiuso per ferie: la cassa rifiuta, ma la scheda prodotto promette «Consegna a casa, all'ora che scegli»",
+        "Sabato sera al forno la scheda dice «in cassa scegli l'ora della consegna», ma la cassa non ha fasce né oggi né domani"
+      ],
+      "nota": "",
+      "file": {
+        "app/seller/earnings/commissione.ts": "5699b6361391",
+        "app/seller/help/domande.ts": "328ad2ecca06",
+        "lib/delivery.ts": "554ea74f54c6",
+        "app/auth/confirm/route.ts": "8814e8758a91",
+        "lib/constants.ts": "afa5ceefecef",
+        "lib/promessa-consegna.ts": "6944752fe424",
+        "lib/promesse-pubbliche.ts": "53681a796c3e"
+      }
+    },
+    {
+      "quando": "2026-10-31 13:58",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "PEC e codice SDI, che la scheda chiedeva, il modulo del negozio non li raccoglie ancora"
+      ],
+      "nota": "",
+      "file": {
+        "app/seller/earnings/page.tsx": "9676f72322ea",
+        "app/come-funziona/page.tsx": "addf305d53d8",
+        "app/sell/page.tsx": "218e06e88c7b",
+        "components/Footer.tsx": "0dc3352cedfb",
+        "components/SellerApplicationForm.tsx": "cbc00551ee07",
+        "components/checkout/OrderSummary.tsx": "01cc93c0778c",
+        "components/home-sections/HomeSectionRenderer.tsx": "9479de23bf58"
+      }
+    },
+    {
+      "quando": "2026-10-31 13:58",
+      "casa": "marketplace",
+      "dimensione": "privacy-legale",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 3,
+      "schede": [
+        "Due caricamenti ravvicinati dello stesso documento lasciano una copia della carta d'identità nel secchio, senza puntatore",
+        "Documento ricaricato: due caricamenti insieme lasciano un orfano, e il documento verificato si cancella senza riaprire la verifica",
+        "Un vecchio valore salvato come link firmato lascia nel secchio la copia di prima quando il documento si ricarica"
+      ],
+      "nota": "",
+      "file": {
+        "app/api/kyc/upload-document/route.ts": "89ae046560a5"
+      }
+    },
+    {
+      "quando": "2026-10-31 13:58",
+      "casa": "marketplace",
+      "dimensione": "pagamenti-stripe",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "lib/stripe/client.ts": "28810df8052e"
+      }
+    },
+    {
+      "quando": "2026-10-31 15:08",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "Il modulo prodotto dell'amministrazione dopo «la scorta è cambiata» ridà lo stesso errore finché non lo si riapre"
+      ],
+      "nota": "",
+      "file": {
+        "app/admin/products/[id]/edit/page.tsx": "b7991a1cf6ac",
+        "components/SupportChatModal.tsx": "f7fbce1ff939",
+        "components/seller/StoreHoursEditor.tsx": "d0749c706163",
+        "app/rider/orders/[id]/page.tsx": "9b227727859d",
+        "app/seller/dashboard/page.tsx": "6448d843046e",
+        "app/seller/products/[id]/edit/page.tsx": "8c5e54c5dc64",
+        "app/seller/products/page.tsx": "0ec906fc6d0d",
+        "components/checkout/DeliverySlotPicker.tsx": "5438a638f97f",
+        "components/seller/ProductForm.tsx": "3122c76b78bb",
+        "components/seller/QuickAiTools.tsx": "82ee500b9122",
+        "components/seller/SellerShell.tsx": "803ddeef0c41"
+      }
+    },
+    {
+      "quando": "2026-10-31 15:08",
+      "casa": "marketplace",
+      "dimensione": "sicurezza-auth",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/api/admin/products/route.ts": "3d1e5fb84b01"
+      }
+    },
+    {
+      "quando": "2026-10-31 15:08",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 2,
+      "schede": [
+        "La funzione che muore fra l'ordine e gli articoli lascia la merce riservata senza nessuno che la liberi",
+        "Ordine rimasto a metà: la cassa dice «ti aiutiamo noi» ma avvisa solo il registro, e il cliente resta fermo 12 ore su quel carrello"
+      ],
+      "nota": "",
+      "file": {
+        "app/api/rider/orders/[id]/cliente-assente/route.ts": "71d3c3ae0852",
+        "app/api/orders/cod/route.ts": "e67e08ae12ef"
+      }
+    },
+    {
+      "quando": "2026-10-31 15:08",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 5,
+      "schede": [
+        "Ferie salvate prima del rilascio (domenica mai scritta): la cassa accetta ancora ordini e la scheda promette la consegna",
+        "Da controllare sui dati: un negozio che oggi ha salvato 7 giorni vuoti diventa chiuso sempre appena esce la modifica",
+        "Ferie salvate con l'editor di prima su 3 giorni o meno: il negozio resta aperto a qualunque ora",
+        "Il salvataggio delle varianti non è tutto-o-niente: cancellazioni e aggiornamenti già fatti restano se una riga dopo fallisce",
+        "I commenti rimandano a una «migrazione 169» che non esiste in nessun ramo"
+      ],
+      "nota": "",
+      "file": {
+        "lib/ordini/tentativo.ts": "e80087f661b4",
+        "lib/ritiro-in-negozio.ts": "73c995769c17",
+        "lib/constants.ts": "374a6474a75b",
+        "lib/database.types.ts": "4451738d5951",
+        "lib/legal/promessa-cliente-assente.ts": "436be212ac82",
+        "lib/ordini/annulla.ts": "4464c43411d7",
+        "lib/ordini/chiave-dopo-l-errore.ts": "971abe199d7a",
+        "lib/privacy/potature-ritenzione.ts": "3a106d917a8d",
+        "lib/products/persistVariantsServer.ts": "bc3e43cebee5",
+        "lib/products/salvataggio-tracciato.ts": "d426c76e7ec4",
+        "lib/promessa-consegna.ts": "7e922ad9f7be",
+        "lib/store-customization.ts": "90bb59224937",
+        "lib/store-hours.ts": "a4067bf90c58"
+      }
+    },
+    {
+      "quando": "2026-10-31 15:08",
+      "casa": "marketplace",
+      "dimensione": "rls-database",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "migrations/171_i_documenti_d_identita_scadono.sql": "eea152fe9458",
+        "migrations/183_il_registro_non_copia_i_nomi_legali.sql": "7772a4144c69"
+      }
+    },
+    {
+      "quando": "2026-10-31 15:08",
+      "casa": "marketplace",
+      "dimensione": "qa-flussi",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "Stesso carrello entro 12 ore con un'altra fascia o un altro indirizzo: la cassa risponde «fatto» con l'ordine di prima"
+      ],
+      "nota": "",
+      "file": {
+        "app/checkout/page.tsx": "c1b44164209b"
       }
     }
   ]
