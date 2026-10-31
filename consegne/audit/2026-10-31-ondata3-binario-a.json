@@ -1,0 +1,68 @@
+{
+  "_cosa_e": "Ondata 3 del piano per aprire il sito, binario A, la cassa e i soldi: CA (rotta dei contanti), CF (fasce), PC (promessa di consegna), AN (annullo e cliente assente), PB (rimborsi). Base 6dfc1e17 (l'ondata 2, in richiesta come mycity #268). Le ondate 3 e 4 hanno girato insieme, con un solo padrone per ogni file in comune.",
+  "data": "2026-10-31 13:54",
+  "registro": "sito",
+  "run": "wf_86375bde-655",
+  "esito": {
+    "app/api/orders/cod/route.ts": "non_regge (efbe84a3): dopo un giro di correzione: sito: Macchina: regge. Il motivo di prima è chiuso (variante stesso pane a -2 giorni ora verde). Ma il caso «salvato, poi la rete resta giù» è rosso sul ramo senza mutarlo: torna 200 «fatto» con un ordine senza articoli, merce rimessa. npx vitest run --config <scratchpad>/qa-o3-A/vites | grave nato: Se la rete resta giù dopo il salvataggio, la cassa rimette la merce e a",
+    "components/checkout/DeliverySlotPicker.tsx": "non_regge (272eaeb8): dopo un giro di correzione: motivo_aperto: Ramo fermo a 272eaeb8, nessuna correzione. Ferie con 7 giorni vuoti: la cassa blocca, la scheda dice ancora «Consegna a casa, all'ora che scegli». Rosso: npx vitest run --config /tmp/claude-0/-home-user/495085c4-be08-555a-acb8-90cb3e7ad27d/scratchpad/qa-o3b/vitest.qa.config.mjs | grave nato: Chiuso per ferie: la cassa rifiuta l'ordine, ma la scheda prodot",
+    "lib/promessa-consegna.ts": "regge (c37e7d2d)",
+    "lib/ordini/annulla.ts": "non_regge (dcfa2be5): correzione: la squadra non ha consegnato · motivi: sito: rosso_strutturale: rotta mutata senza credito → 2 prove rosse, mordono. Ma sito: copia della prova cliente-assente con wallet_credit in errore 3 volte, carta con 400 cent di credito → al cliente arriva «Ti abbiamo rimborsato tutto» (vitest rosso). La rotta ignora creditoNonTornat | grave nato: Il fattorino segna il cliente assente, il credit",
+    "lib/stripe/payout.ts": "non_regge (e5ffd068): correzione: la squadra non ha consegnato · motivi: sito: Macchina: regge. Variante: nel primo decide va in timeout anche orders.update(stripe_refund_id), lo stesso guasto del reso. Poi RECEIVED e REFUNDED → finto.rimborsi ha 2 elementi (vitest rosso). Il controllo vuole re_1 già nell'elenco. Non visto: se un webhook lo scrive prima."
+  },
+  "saltati_per_tetto": [
+    "correggi:lib-ordini-annulla-ts",
+    "correggi:lib-stripe-payout-ts"
+  ],
+  "parziali": [
+    {
+      "pacchetto": "app/api/orders/cod/route.ts",
+      "voce": "flussi-conversione|chi abita appena oltre i 10 km, come a podenzano o rottofreno, scopre di essere fuori zona solo premendo «ordina»: carrello e cassa non lo avvisano prima",
+      "perche": "Non fatto in questo giro: la correzione dopo il collaudo era limitata alla chiave. L'avviso va in carrello e cassa, file che tocca anche l'altra squadra: serve un pacchetto UI a parte."
+    },
+    {
+      "pacchetto": "components/checkout/DeliverySlotPicker.tsx",
+      "voce": "qa-flussi|se il negoziante segna chiusi tutti i giorni, per esempio per ferie, il sito lo considera sempre aperto e accetta ordini a qualsiasi ora",
+      "perche": "Cassa ferma. La scheda usa haOrari di lib/promessa-consegna.ts:97 (copia di 'impostati' senza la settimana vuota): fuori territorio. Fix: esportare orariImpostati da store-hours e usarlo lì."
+    },
+    {
+      "pacchetto": "lib/promessa-consegna.ts",
+      "voce": "privacy-legale|il sito promette «reso entro 14 giorni» e «ti rimborsiamo senza domande» anche su pane e freschi, che sono esclusi, e non c'è modo di segnarli come esclusi",
+      "perche": "Frasi corrette (commit 062e6380). Manca l'esclusione per singolo prodotto: serve un campo sul prodotto (ProductForm è dell'ondata 4) e la scelta delle categorie di Nicola."
+    },
+    {
+      "pacchetto": "lib/promessa-consegna.ts",
+      "voce": "microcopy|su ogni scheda prodotto c'è scritto «oppure con carta adesso», ma in produzione la carta non si può usare",
+      "perche": "Già chiuso sulla base 6dfc1e17: cartaAlCheckoutDisponibile in lib/promesse-pubbliche.ts e app/checkout/page.tsx. In questo ramo nessuna modifica."
+    },
+    {
+      "pacchetto": "lib/ordini/annulla.ts",
+      "voce": "privacy-legale|manca l'esito «cliente assente»: i termini promettono tre telefonate e un rimborso al netto della consegna, il codice non sa registrarlo",
+      "perche": "Fatti rotta, pulsante e i 5 casi. Il §6 lo genera paragrafiConsegne() in lib/legal/promessa-cliente-assente.ts (fuori perimetro): dice ancora «resta in consegna fino all'assistenza»"
+    },
+    {
+      "pacchetto": "lib/stripe/payout.ts",
+      "voce": "pagamenti-stripe|il giro che muore fra accumula_rimborso e stripe lascia 1 € prenotato senza soldi usciti; un rimborso a mano dall'admin lo porta a 2",
+      "perche": "Se il processo muore non gira nessun catch: serve una prenotazione con chiave in accumula_rimborso, cioè una migrazione SQL fuori dal territorio. Il ramo ⑧ resta «a mano»."
+    },
+    {
+      "pacchetto": "lib/stripe/payout.ts",
+      "voce": "pagamenti-stripe|dopo un guasto, chiudere il reso con i passi normali registra due volte lo stesso rimborso, e al negozio la sua parte viene tolta due volte",
+      "perche": "Chiuso per i resi. Sulla carta il rimborso si trova dal return_id nei metadati Stripe: le chiavi dispute_<id> riusate non sono coperte."
+    }
+  ],
+  "nati_nei_rami_che_non_entrano": [
+    "Reso già rimborsato e ripreso con un'altra cifra: il negozio legge «Il rimborso non è partito» con i soldi già usciti, e nessun avviso",
+    "Cliente assente: la notifica dice «Ti abbiamo rimborsato tutto» anche quando il credito MyCity non è tornato",
+    "Contanti: se dopo un errore normale la riga della chiave non si toglie, il browser la tiene e per un minuto legge «Ordine già in corso»",
+    "Contanti: con inserimento, rilettura e cancellazione cadute, l'ordine può restare senza articoli e dopo un minuto torna come «fatto»",
+    "Con la risposta persa, chi cambia anche solo una quantità e ritocca «Ordina» crea un secondo ordine",
+    "La finestra di 12 ore tiene dentro la spesa del mattino dopo un ordine serale, al contrario di quanto dice il commento",
+    "Il ripreso adotta come proprio un ordine creato dall'invio gemello se il proprio inserimento torna con un errore non 23505",
+    "Contanti: risposta persa, il cliente aggiunge un articolo e ritocca «Ordina»: nascono due ordini e il primo articolo arriva due volte"
+  ],
+  "conto_token": {
+    "workflow": "12 agenti: 40.906.056 token con le letture dalla cache, 1.878.607 senza (node cervello/conto-token.mjs --workflow wf_86375bde-655)"
+  },
+  "dopo": "Scelta di Nicola del 31/10: i pacchetti che reggono vanno in una richiesta sola insieme a quelli dell'altra ondata; quelli che non reggono vanno in un'ondata di correzione (run wf_38a26116-fd4 per la 3, wf_868abf3a-e69 per la 4), ultimo giro per CA, CF, SKA e AIH."
+}

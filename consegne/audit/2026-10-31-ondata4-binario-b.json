@@ -1,0 +1,83 @@
+{
+  "_cosa_e": "Ondata 4 del piano per aprire il sito, binario B: SKA (scorte), KY (documenti), AC (ingresso), NE (iscrizione del negozio), AIH (pulsanti AI). Base 6dfc1e17 (l'ondata 2, in richiesta come mycity #268). Le ondate 3 e 4 hanno girato insieme, con un solo padrone per ogni file in comune.",
+  "data": "2026-10-31 13:54",
+  "registro": "sito",
+  "run": "wf_dc9216f4-6e2",
+  "esito": {
+    "lib/products/salvataggio-tracciato.ts": "non_regge (c95f6014): dopo un giro di correzione: sito: Rosso (dal worktree): node /tmp/claude-0/-home-user/495085c4-be08-555a-acb8-90cb3e7ad27d/scratchpad/qa-o4r/coincidenza.cjs $PWD → exit 1. Vista 5, 1 venduta online (banca 4), il negoziante ne toglie 1 e scrive 4: salvato senza avviso. Idem taglia S 2→1.",
+    "app/api/kyc/upload-document/route.ts": "regge (69183c6c)",
+    "lib/auth/decisione-portiere.ts": "regge (feb9ed47)",
+    "app/api/seller/apply/route.ts": "regge (ffb63c8c)",
+    "components/seller/QuickAiTools.tsx": "non_regge (fe1bee95): dopo un giro di correzione: motivo_aperto: Commit fe1bee95 uguale a prima, SupportChatModal non toccato (riga 72 canUseAi = role==='seller'). Vitest jsdom: monta SupportChatModal {open:true, role:'seller'} con AI_NEGOZI_ACCESA=false, il testo contiene ancora «Modifica un prodotto con l'AI»: rosso"
+  },
+  "saltati_per_tetto": [],
+  "parziali": [
+    {
+      "pacchetto": "lib/products/salvataggio-tracciato.ts",
+      "voce": "rls-database|un alimento caricato da file va in vendita senza allergeni né ingredienti, e il controllo del database guarda solo gli allergeni",
+      "perche": "Serve una migrazione nuova (trigger sugli ingredienti) e una rotta server per l'import: tocca il DB in produzione, va a security/tech con la firma di Nicola."
+    },
+    {
+      "pacchetto": "lib/products/salvataggio-tracciato.ts",
+      "voce": "architettura|il caricamento da file scrive i prodotti direttamente dal browser: non esiste una rotta in cui mettere il freno di caricamento_da_file_acceso",
+      "perche": "Il freno vero sta nel database (RLS o trigger su products) o in una rotta nuova: è una migrazione, fuori da questa correzione."
+    },
+    {
+      "pacchetto": "app/api/kyc/upload-document/route.ts",
+      "voce": "privacy-legale|i documenti di chi si ferma a meta' iscrizione non scadono mai",
+      "perche": "Per la regola dei 30 giorni sui 'pending' servono una migrazione nuova (con la potatura 135 che non si tocca) e lib/privacy/potature-ritenzione.ts: tutti e due fuori dal territorio."
+    },
+    {
+      "pacchetto": "app/api/kyc/upload-document/route.ts",
+      "voce": "dati-analytics|il registro attività copia in chiaro nome e cognome legali di negozianti e fattorini a ogni modifica del profilo",
+      "perche": "Riscrivere la 073 o la 115, già applicate, non cambia il trigger nel DB. Serve una migrazione nuova che oscuri i nomi legali, ed è fuori dal territorio."
+    },
+    {
+      "pacchetto": "lib/auth/decisione-portiere.ts",
+      "voce": "sicurezza-auth|il controllo all'ingresso chiude fuori chi aspetta l'approvazione: il negozio nuovo gira in tondo e il fattorino non arriva mai alla pagina dei documenti",
+      "perche": "Negozio: già chiuso alla base (21f5ddf3, decidiAccessoArea). Fattorino fuori per decisione 1 del 26/10, ma «Diventa rider» resta in sign-up/AuthShell/lavora-con-noi: fuori territorio."
+    },
+    {
+      "pacchetto": "lib/auth/decisione-portiere.ts",
+      "voce": "sicurezza-auth|il tetto di tre secondi del portiere puo bruciare la sessione di un cliente che era regolarmente dentro",
+      "perche": "Già riparato alla base (21f5ddf3): 10 s sul rinnovo e cookie sui rimandi. Oltre 10 s il rinnovo si perde ancora: il fix sta in cookie-di-sessione.ts/middleware.ts, fuori territorio."
+    },
+    {
+      "pacchetto": "lib/auth/decisione-portiere.ts",
+      "voce": "sicurezza-auth|falla di sicurezza r14 da chiudere (sicurezza degli accessi): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+      "perche": "Il punto esatto esiste solo nel referto privato consegnato a Nicola. Qui non c'è, quindi non si può né riprodurre né provare. Serve il referto."
+    },
+    {
+      "pacchetto": "lib/auth/decisione-portiere.ts",
+      "voce": "sicurezza-auth|falla di sicurezza r15 da chiudere (sicurezza degli accessi): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+      "perche": "Il punto esatto esiste solo nel referto privato consegnato a Nicola. Qui non c'è, quindi non si può né riprodurre né provare. Serve il referto."
+    },
+    {
+      "pacchetto": "app/api/seller/apply/route.ts",
+      "voce": "rls-database|un negozio sospeso può rimettersi da solo in coda per l'approvazione rimandando il modulo da /sell",
+      "perche": "Chiuso su /sell (avviso al posto del modulo) e nella rotta (403). La guardia del database 119 lascia ancora passare suspended→pending dal browser: serve una migrazione nuova, fuori territorio."
+    },
+    {
+      "pacchetto": "components/seller/QuickAiTools.tsx",
+      "voce": "ai-endpoints|in produzione l'ai è spenta, ma ai negozianti mostriamo copilot, ai studio e pulsanti ai che rispondono «servizio non configurato»",
+      "perche": "Resta il motivo del collaudo: components/SupportChatModal.tsx:72 canUseAi = role==='seller' senza AI_NEGOZI_ACCESA. File fuori territorio, non toccato. Fix: && AI_NEGOZI_ACCESA."
+    },
+    {
+      "pacchetto": "components/seller/QuickAiTools.tsx",
+      "voce": "ai-endpoints|in produzione tutti i pulsanti di intelligenza artificiale del negozio rispondono «servizio non configurato», a partire dal primo prodotto",
+      "perche": "Stesso buco: il pulsante Assistenza (app/layout.tsx:245) apre SupportChatModal e mostra «Modifica un prodotto con l'AI» → /api/ai/catalog-chat 503. Fix fuori territorio."
+    }
+  ],
+  "nati_nei_rami_che_non_entrano": [
+    "La rotta del venditore risponde 400 e non 409 quando la scorta è cambiata",
+    "dall'amministrazione un conflitto sulle varianti risponde 409, ma i campi del prodotto sono gia' stati scritti",
+    "con l'ai spenta, scansionando il codice a barre il negoziante legge «codice ean salvato», ma e' solo nel modulo e non e' salvato",
+    "Rimandare un salvataggio riuscito dopo una vendita dice «avevi 5, ora sono 7» come se non avesse salvato",
+    "Con una taglia venduta nel frattempo nome e descrizione sono già salvati, ma il messaggio dice «salva di nuovo»"
+  ],
+  "conto_token": {
+    "workflow": "12 agenti: 46.096.713 token con le letture dalla cache, 1.849.391 senza (node cervello/conto-token.mjs --workflow wf_dc9216f4-6e2)"
+  },
+  "dopo": "Scelta di Nicola del 31/10: i pacchetti che reggono vanno in una richiesta sola insieme a quelli dell'altra ondata; quelli che non reggono vanno in un'ondata di correzione (run wf_38a26116-fd4 per la 3, wf_868abf3a-e69 per la 4), ultimo giro per CA, CF, SKA e AIH.",
+  "nota": "La rotta nuova della richiesta negozio leggeva il corpo senza tetto (guardia nessun-corpo-senza-tetto rossa nel verify dei quattro pacchetti insieme): corretta dall'AD sul ramo del pacchetto NE (d566acc2), poi riunita. Le falle R14 e R15 non si potevano toccare senza il referto privato: passano all'ondata di correzione, coi dettagli solo nelle schede temporanee."
+}
