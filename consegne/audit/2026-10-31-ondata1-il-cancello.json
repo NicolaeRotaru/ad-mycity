@@ -9,7 +9,7 @@
     "H": "regge",
     "CE": "regge; il fermo dei lavori non l'aveva costruito, costruito a parte",
     "INT": "parziale: il modulo d'iscrizione del negozio fa ancora accettare i 50 euro, portato nel pacchetto NE dell'ondata 4",
-    "fermo": "regge dopo due giri di correzione del freno di process-deletions: conta per difetto, cancella solo con cancella=1 esatto o dal calendario con CANCELLAZIONI_A_ORARIO=accese"
+    "fermo": "regge dopo tre giri di correzione del freno di process-deletions (due ricollaudi della lente B): conta per difetto, cancella solo con cancella=1 esatto o dal calendario con CANCELLAZIONI_A_ORARIO=accese; la notte che conta lascia il battito, il conto a mano no"
   },
   "registro_del_sito": "29 difetti visti dalle squadre e dal collaudo (commit 7ca194003) + 4 dal collaudo del fermo (1 grave nato e corretto prima dell'unione, 3 minori)",
   "conto_token": {

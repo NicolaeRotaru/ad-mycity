@@ -37,6 +37,8 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
   - i quattro segreti del rilascio su GitHub si mettono dopo l'unione dell'ondata 1.
   - lunedì 2/11 mattina, partita IVA e PEC col commercialista: senza il nome del titolare sul sito non si apre;
   - lunedì 2/11, il fornaio completa il suo conto Stripe.
+  - dopo l'unione dell'ondata 1, il primo giro a mano dei lavori notturni lo facciamo insieme. Poi accendi `LAVORI_A_ORARIO=accesi` su Vercel.
+  - verso le ondate 18-19, e solo dopo un giro a mano con `cancella=1` andato bene, accendi `CANCELLAZIONI_A_ORARIO=accese`. Fino ad allora la notte conta gli account da cancellare e non cancella niente (aggiunto il 31/10 alle 10:45).
 
 **Da sistemare dopo le unioni del 30/10**
 - I Termini nuovi sono online, ma in cima resta «in vigore dal 24 maggio 2026». Vanno fatti rileggere a un legale, e poi va cambiata la data.
