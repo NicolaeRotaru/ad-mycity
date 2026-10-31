@@ -38,7 +38,7 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
   - **l'ondata 2 è in richiesta di unione** (NicolaeRotaru/mycity#268, aperta il 31/10 alle 12:13). Le ondate 3 e 4 sono al lavoro sopra di lei: le loro richieste arrivano dopo l'unione della #268.
   - **le ondate 3 e 4 sono unite** (NicolaeRotaru/mycity#269, il 31/10 alle 15:37).
   - **l'ondata di correzione è unita** (NicolaeRotaru/mycity#270, il 31/10 alle 16:59). Ha chiuso 23 difetti nel registro. Adesso tocca al pulsante delle migrazioni, che applica la 171 e la 183. I rimborsi vanno nell'ondata 7. Anche l'ingresso va nella 7, dopo la tua impostazione nel pannello di Supabase: i dettagli sono in chat.
-  - **le ondate 5 e 6 sono al lavoro** (31/10, 16:16), sopra l'ondata di correzione. La 6 porta i Termini nuovi, che hai scelto di rileggere tu.
+  - **le ondate 5 e 6 hanno finito** (31/10, alle 17:12 e alle 17:19): reggono 3 pacchetti su 10, e sono nella richiesta NicolaeRotaru/mycity#271, da unire. Gli altri 7 sono nell'ondata di correzione, su due motori, come hai scelto (registro delle decisioni, 31/10 alle 17:28). I Termini nuovi arrivano con la correzione, e li rileggi tu prima dell'unione.
   - i quattro segreti del rilascio su GitHub si mettono dopo l'unione dell'ondata 1.
   - lunedì 2/11 mattina, partita IVA e PEC col commercialista: senza il nome del titolare sul sito non si apre;
   - lunedì 2/11, il fornaio completa il suo conto Stripe.
