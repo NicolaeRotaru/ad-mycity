@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-31 09:57",
+  "aggiornato": "2026-10-31 10:31",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -5833,6 +5833,52 @@
         "lib/promesse-pubbliche.ts": "7efa756833cb",
         "lib/queries/negozio-dell-ordine.ts": "a56a83bfcb8f",
         "lib/queries/seller-public-profiles.ts": "6b372130de9f"
+      }
+    },
+    {
+      "quando": "2026-10-31 10:31",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 3,
+      "schede": [
+        "Il primo giro a mano della cancellazione degli account cancellava davvero se il parametro del conto era scritto male",
+        "Il conto senza cancellare della cancellazione degli account può dire più account di quelli che la notte cancella davvero",
+        "Coi lavori a orario fermi il sorvegliante degli allarmi vede i battiti vecchi e suona per lavori fermi di proposito"
+      ],
+      "nota": "",
+      "file": {
+        "app/api/cron/external-price-alerts/route.ts": "4ee1e7ec4593",
+        "app/api/cron/release-payouts/route.ts": "3473a96eccc6",
+        "app/api/cron/riquadra-casse/route.ts": "f07c06c3ba60",
+        "app/api/cron/abandoned-carts/route.ts": "69fbbbe9cc43",
+        "app/api/cron/expire-checkouts/route.ts": "306f1a0fec2a",
+        "app/api/cron/expire-stale-orders/route.ts": "c66517a07604",
+        "app/api/cron/operational-alerts/route.ts": "5c571db5e5d4",
+        "app/api/cron/process-deletions/route.ts": "5701d4aa8d0f",
+        "app/api/cron/send-emails/route.ts": "8e6535d63ba1",
+        "app/api/cron/send-push/route.ts": "f6a03a24afe3",
+        "app/api/cron/veloce-non-confermata/route.ts": "33461cf113ce"
+      }
+    },
+    {
+      "quando": "2026-10-31 10:31",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "La prova del fermo dei lavori non vede una rotta che si ferma su Stripe prima del fermo, né una cartella di lavori fuori dal calendario"
+      ],
+      "nota": "",
+      "file": {
+        "lib/cron/fermo-dei-lavori.ts": "f9dd08809ca5",
+        "lib/api/middleware.ts": "e2a68bb25443",
+        "lib/privacy/potature-ritenzione.ts": "12dd2bdb9764"
       }
     }
   ]

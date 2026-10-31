@@ -197,7 +197,7 @@ Calcolata da `consegne/audit/2026-10-31-ridisegna-piano.py`, scritta in `consegn
 | prima del primo cliente | Fuori dal sito: attestato HACCP, avviso all'ASL, contenitori termici per la bici | dipende dagli uffici |
 | quando Stripe verifica il conto | Accendere `CARTA_ACCESA` e seguire il primo ordine vero con carta | 15 min |
 | dopo il primo giro a mano dei lavori | Accendere `LAVORI_A_ORARIO=accesi` su Vercel: gli altri dieci lavori ripartono, la cancellazione degli account continua a contare e basta | 5 min |
-| verso le ondate 18-19 | Dopo un giro a mano con `cancella=1` andato bene, accendere `CANCELLAZIONI_A_ORARIO=accese` (aggiunto il 31/10 alle 10:45, dal collaudo del fermo) | 5 min |
+| verso le ondate 18-19 | Dopo un giro a mano con `cancella=1` andato bene, accendere `CANCELLAZIONI_A_ORARIO=accese` (aggiunto il 31/10 alle 10:28, dal collaudo del fermo) | 5 min |
 
 ### Le scelte da darmi prima dell'ondata che le usa
 
