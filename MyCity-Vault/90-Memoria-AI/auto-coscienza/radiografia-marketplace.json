@@ -262,10 +262,11 @@
       "impatto": "vedi referto privato",
       "fix": "vedi referto privato",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · id R1 · si ripara: migrazione-database · dettagli fuori dal deposito pubblico"
+      "fonte_radiografia": "radiografia 2026-10-11 · id R1 · si ripara: migrazione-database · dettagli fuori dal deposito pubblico",
+      "nota_riparazione": "2026-10-31 09:01: verificata chiusa in produzione dalla sessione del piano dei difetti, in sola lettura. Resta da chiudere con una prova che gira (la scrive il pacchetto FP o il pacchetto che tocca il file). Dettagli solo in chat: il deposito è pubblico."
     },
     {
       "dimensione": "rls-database",
@@ -277,10 +278,11 @@
       "impatto": "vedi referto privato",
       "fix": "vedi referto privato",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · id R2 · si ripara: migrazione-database · dettagli fuori dal deposito pubblico"
+      "fonte_radiografia": "radiografia 2026-10-11 · id R2 · si ripara: migrazione-database · dettagli fuori dal deposito pubblico",
+      "nota_riparazione": "2026-10-31 09:01: verificata chiusa in produzione dalla sessione del piano dei difetti, in sola lettura. Resta da chiudere con una prova che gira (la scrive il pacchetto FP o il pacchetto che tocca il file). Dettagli solo in chat: il deposito è pubblico."
     },
     {
       "dimensione": "rls-database",
@@ -338,10 +340,11 @@
       "impatto": "vedi referto privato",
       "fix": "vedi referto privato",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "giro": 2,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · id R10 · si ripara: migrazione-database · dettagli fuori dal deposito pubblico"
+      "fonte_radiografia": "radiografia 2026-10-11 · id R10 · si ripara: migrazione-database · dettagli fuori dal deposito pubblico",
+      "nota_riparazione": "2026-10-31 09:01: verificata chiusa in produzione dalla sessione del piano dei difetti, in sola lettura. Resta da chiudere con una prova che gira (la scrive il pacchetto FP o il pacchetto che tocca il file). Dettagli solo in chat: il deposito è pubblico."
     },
     {
       "dimensione": "rls-database",
@@ -353,10 +356,11 @@
       "impatto": "vedi referto privato",
       "fix": "vedi referto privato",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · id R11 · si ripara: migrazione-database · dettagli fuori dal deposito pubblico"
+      "fonte_radiografia": "radiografia 2026-10-11 · id R11 · si ripara: migrazione-database · dettagli fuori dal deposito pubblico",
+      "nota_riparazione": "2026-10-31 09:01: verificata chiusa in produzione dalla sessione del piano dei difetti, in sola lettura. Resta da chiudere con una prova che gira (la scrive il pacchetto FP o il pacchetto che tocca il file). Dettagli solo in chat: il deposito è pubblico."
     },
     {
       "dimensione": "rls-database",
@@ -368,10 +372,11 @@
       "impatto": "vedi referto privato",
       "fix": "vedi referto privato",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · id R12 · si ripara: migrazione-database · dettagli fuori dal deposito pubblico"
+      "fonte_radiografia": "radiografia 2026-10-11 · id R12 · si ripara: migrazione-database · dettagli fuori dal deposito pubblico",
+      "nota_riparazione": "2026-10-31 09:01: verificata chiusa in produzione dalla sessione del piano dei difetti, in sola lettura. Resta da chiudere con una prova che gira (la scrive il pacchetto FP o il pacchetto che tocca il file). Dettagli solo in chat: il deposito è pubblico."
     },
     {
       "dimensione": "rls-database",
@@ -1751,10 +1756,11 @@
       "impatto": "vedi referto privato",
       "fix": "vedi referto privato",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "giro": 3,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · id R9 · si ripara: decisione-nicola · dettagli fuori dal deposito pubblico"
+      "fonte_radiografia": "radiografia 2026-10-11 · id R9 · si ripara: decisione-nicola · dettagli fuori dal deposito pubblico",
+      "nota_riparazione": "2026-10-31 09:01: verificata chiusa in produzione dalla sessione del piano dei difetti, in sola lettura. Resta da chiudere con una prova che gira (la scrive il pacchetto FP o il pacchetto che tocca il file). Dettagli solo in chat: il deposito è pubblico."
     },
     {
       "dimensione": "sicurezza-auth",
@@ -3044,10 +3050,11 @@
       "impatto": "vedi referto privato",
       "fix": "vedi referto privato",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "giro": 3,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · id R75 · si ripara: codice · dettagli fuori dal deposito pubblico"
+      "fonte_radiografia": "radiografia 2026-10-11 · id R75 · si ripara: codice · dettagli fuori dal deposito pubblico",
+      "nota_riparazione": "2026-10-31 09:01: verificata chiusa nel codice dalla sessione del piano dei difetti, in sola lettura. Resta da chiudere con una prova che gira (la scrive il pacchetto FP o il pacchetto che tocca il file). Dettagli solo in chat: il deposito è pubblico."
     },
     {
       "dimensione": "deploy-sre",

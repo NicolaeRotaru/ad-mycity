@@ -8,7 +8,7 @@
 "i": 0,
 "sev": "bloccante",
 "t": "Falla di sicurezza R1 (regole d'accesso al database), dettagli nel referto privato",
-"v": "non_verificabile",
+"v": "riparato",
 "lancio": "raggiungibile",
 "tipo": "config",
 "sforzo": "S",
@@ -16,17 +16,19 @@
 "file": "migrations/",
 "radice": "falla-privata-permessi-db",
 "prova": "consegne/audit/2026-10-11-radiografia.md:129 (solo titolo, si ripara con migrazione)",
-"nota": "Dettagli solo nel referto privato. Serve il referto e lo stato delle regole nel database vero per dire se è chiusa.",
+"nota": "chiusa in produzione: la regola corretta è attiva (lettura del database vero, 31/10 09:00)",
 "in_volo": false,
 "dipende": [],
 "chiave": "rls-database|falla di sicurezza r1 da chiudere (regole d'accesso al database): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
-"stato_registro": "aperto"
+"stato_registro": "aperto",
+"v_prima": "non_verificabile",
+"verifica_31_10": "chiusa in produzione: la regola corretta è attiva (lettura del database vero, 31/10 09:00)"
 },
 {
 "i": 1,
 "sev": "bloccante",
 "t": "Falla di sicurezza R2 (regole d'accesso al database), dettagli nel referto privato",
-"v": "non_verificabile",
+"v": "riparato",
 "lancio": "raggiungibile",
 "tipo": "config",
 "sforzo": "S",
@@ -34,11 +36,13 @@
 "file": "migrations/",
 "radice": "falla-privata-permessi-db",
 "prova": "consegne/audit/2026-10-11-radiografia.md:136 (solo titolo, migrazione)",
-"nota": "Dettagli solo nel referto privato; la radiografia dice che la migrazione 161 non basta e ne serve una in più. Serve il database vero.",
+"nota": "chiusa in produzione: la guardia giusta è attiva e il doppione non c'è più (lettura del database vero, 31/10 09:00)",
 "in_volo": false,
 "dipende": [],
 "chiave": "rls-database|falla di sicurezza r2 da chiudere (regole d'accesso al database): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
-"stato_registro": "aperto"
+"stato_registro": "aperto",
+"v_prima": "non_verificabile",
+"verifica_31_10": "chiusa in produzione: la guardia giusta è attiva e il doppione non c'è più (lettura del database vero, 31/10 09:00)"
 },
 {
 "i": 3,
@@ -62,7 +66,7 @@
 "i": 4,
 "sev": "grave",
 "t": "Falla di sicurezza R10 (regole d'accesso al database), dettagli nel referto privato",
-"v": "non_verificabile",
+"v": "riparato",
 "lancio": "raggiungibile",
 "tipo": "config",
 "sforzo": "S",
@@ -70,17 +74,19 @@
 "file": "migrations/",
 "radice": "falla-privata-permessi-db",
 "prova": "consegne/audit/2026-10-11-radiografia.md:232",
-"nota": "Solo titolo pubblico. Per verificarla servono il referto privato e le regole attive nel database di produzione.",
+"nota": "chiusa in produzione: la vista pubblica non porta i dati riservati (lettura del database vero, 31/10 09:00)",
 "in_volo": false,
 "dipende": [],
 "chiave": "rls-database|falla di sicurezza r10 da chiudere (regole d'accesso al database): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
-"stato_registro": "aperto"
+"stato_registro": "aperto",
+"v_prima": "non_verificabile",
+"verifica_31_10": "chiusa in produzione: la vista pubblica non porta i dati riservati (lettura del database vero, 31/10 09:00)"
 },
 {
 "i": 5,
 "sev": "grave",
 "t": "Falla di sicurezza R11 (regole d'accesso al database), dettagli nel referto privato",
-"v": "non_verificabile",
+"v": "riparato",
 "lancio": "raggiungibile",
 "tipo": "config",
 "sforzo": "S",
@@ -88,17 +94,19 @@
 "file": "migrations/",
 "radice": "produzione-indietro-di-migrazioni",
 "prova": "radiografia.md:239 e :89 (R11 conseguenza di K42, produzione indietro di migrazioni)",
-"nota": "Tornata dopo la chiusura; legata alla produzione indietro con le migrazioni. Serve vedere le migrazioni applicate in produzione.",
+"nota": "chiusa in produzione: nessuna scrittura diretta per chi non è amministratore (lettura del database vero, 31/10 09:00)",
 "in_volo": false,
 "dipende": [],
 "chiave": "rls-database|falla di sicurezza r11 da chiudere (regole d'accesso al database): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
-"stato_registro": "aperto"
+"stato_registro": "aperto",
+"v_prima": "non_verificabile",
+"verifica_31_10": "chiusa in produzione: nessuna scrittura diretta per chi non è amministratore (lettura del database vero, 31/10 09:00)"
 },
 {
 "i": 6,
 "sev": "grave",
 "t": "Falla di sicurezza R12 (regole d'accesso al database), dettagli nel referto privato",
-"v": "non_verificabile",
+"v": "riparato",
 "lancio": "raggiungibile",
 "tipo": "config",
 "sforzo": "S",
@@ -106,11 +114,13 @@
 "file": "migrations/",
 "radice": "produzione-indietro-di-migrazioni",
 "prova": "radiografia.md:246 e :89 (R12 conseguenza di K42)",
-"nota": "Come R11: dipende da quali migrazioni sono applicate in produzione. Non visibile dal deposito.",
+"nota": "chiusa in produzione: solo un fattorino approvato prende un ordine (lettura del database vero, 31/10 09:00)",
 "in_volo": false,
 "dipende": [],
 "chiave": "rls-database|falla di sicurezza r12 da chiudere (regole d'accesso al database): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
-"stato_registro": "aperto"
+"stato_registro": "aperto",
+"v_prima": "non_verificabile",
+"verifica_31_10": "chiusa in produzione: solo un fattorino approvato prende un ordine (lettura del database vero, 31/10 09:00)"
 },
 {
 "i": 7,
@@ -1439,7 +1449,7 @@
 "i": 81,
 "sev": "bloccante",
 "t": "Falla di sicurezza R9 (sicurezza degli accessi), dettagli nel referto privato",
-"v": "non_verificabile",
+"v": "riparato",
 "lancio": "raggiungibile",
 "tipo": "config",
 "sforzo": "S",
@@ -1447,11 +1457,13 @@
 "file": "(impostazioni Supabase)",
 "radice": "credenziale-admin-da-cambiare",
 "prova": "radiografia.md:39 e :222 (decisione di Nicola, card #202)",
-"nota": "Dipende da una credenziale fuori dal codice che solo Nicola può cambiare; dal deposito non si vede se è stata cambiata.",
+"nota": "chiusa in produzione: gli account di prova sono bloccati e l'amministratore è l'account personale di Nicola (lettura del database vero, 31/10 09:00)",
 "in_volo": false,
 "dipende": [],
 "chiave": "sicurezza-auth|falla di sicurezza r9 da chiudere (sicurezza degli accessi): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
-"stato_registro": "aperto"
+"stato_registro": "aperto",
+"v_prima": "non_verificabile",
+"verifica_31_10": "chiusa in produzione: gli account di prova sono bloccati e l'amministratore è l'account personale di Nicola (lettura del database vero, 31/10 09:00)"
 },
 {
 "i": 82,
@@ -2607,7 +2619,7 @@
 "i": 149,
 "sev": "grave",
 "t": "Falla di sicurezza R75 (rilascio), dettagli nel referto privato",
-"v": "non_verificabile",
+"v": "riparato",
 "lancio": "incerto",
 "tipo": "config",
 "sforzo": "S",
@@ -2615,11 +2627,13 @@
 "file": "(nel referto privato)",
 "radice": "falla-privata-rilascio",
 "prova": "radiografia.md:760 (codice, sforzo S)",
-"nota": "Rimedio nel codice di rilascio ma il punto è solo nel referto privato; non verificabile da qui.",
+"nota": "riparata nel codice: il rilascio parte solo da un push sul ramo principale dello stesso deposito (.github/workflows/deploy-dopo-ci.yml:226-229)",
 "in_volo": false,
 "dipende": [],
 "chiave": "deploy-sre|falla di sicurezza r75 da chiudere (rilascio): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
-"stato_registro": "aperto"
+"stato_registro": "aperto",
+"v_prima": "non_verificabile",
+"verifica_31_10": "riparata nel codice: il rilascio parte solo da un push sul ramo principale dello stesso deposito (.github/workflows/deploy-dopo-ci.yml:226-229)"
 },
 {
 "i": 150,
@@ -22212,5 +22226,6 @@
 "stato_registro": "aperto"
 }
 ],
-"riverifica": "Il 31/10 alle 08:40 le 45 voci serie sui file cambiati dalla #266 sono state ricontrollate sul commit 0fc4ec7d (run wf_df9b9a65-06c): cambiano 1948 e 1949, ora riparate."
+"riverifica": "Il 31/10 alle 08:40 le 45 voci serie sui file cambiati dalla #266 sono state ricontrollate sul commit 0fc4ec7d (run wf_df9b9a65-06c): cambiano 1948 e 1949, ora riparate.",
+"falle_nascoste": "Il 31/10 alle 09:00, con letture del database vero e del codice: R1, R2, R10, R11, R12 e R9 sono chiuse in produzione; R75 è riparata nel codice. R7 resta aperta: si chiude con un'impostazione di Nicola. Dettagli solo in chat."
 }

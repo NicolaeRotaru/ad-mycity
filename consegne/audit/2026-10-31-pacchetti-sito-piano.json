@@ -662,6 +662,7 @@
      "codice": "P161b",
      "nome": "P161b i nomi dei clienti visti dal negozio dopo la 161",
      "file": [
+      "migrations/181_i_nomi_dei_clienti_che_il_negozio_vede.sql",
       "app/messages/page.tsx",
       "app/messages/[id]/page.tsx",
       "lib/queries/controparte-della-chat.ts",
@@ -4471,9 +4472,10 @@
     ]
    },
    {
-    "chiave": "app/messages/page.tsx",
+    "chiave": "migrations/181_i_nomi_dei_clienti_che_il_negozio_vede.sql",
     "codice": "P161b",
     "file": [
+     "migrations/181_i_nomi_dei_clienti_che_il_negozio_vede.sql",
      "app/messages/page.tsx",
      "app/messages/[id]/page.tsx",
      "lib/queries/controparte-della-chat.ts",

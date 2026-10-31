@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-10-31 08:25
+aggiornato: 2026-10-31 09:05
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -32,7 +32,7 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 
 **Il piano per aprire (scelto da te il 31/10, «parti» alle 08:22)**
 - Le tue azioni, con giorno e durata, stanno nella tabella del piano: `consegne/audit/2026-10-31-piano-difetti-sito.md`. Le prime tre:
-  - oggi o domenica, cambiare le due credenziali esposte e mettere su GitHub i quattro segreti del rilascio;
+  - oggi o domenica, chiudere la falla R7 coi passi dati in chat (la R9 è già chiusa, controllato il 31/10); i quattro segreti del rilascio su GitHub vanno messi dopo l'unione dell'ondata 1;
   - lunedì 2/11 mattina, partita IVA e PEC col commercialista: senza il nome del titolare sul sito non si apre;
   - lunedì 2/11, il fornaio completa il suo conto Stripe.
 

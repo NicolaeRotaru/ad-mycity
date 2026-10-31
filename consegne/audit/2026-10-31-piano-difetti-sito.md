@@ -37,7 +37,7 @@ Le date valgono se le tue pratiche partono lunedì.
 
 ## Cosa devi fare
 
-- **Oggi o domenica, circa un'ora:** cambiare le due credenziali esposte, che ti scrivo in chat. Poi su GitHub metti i quattro segreti del rilascio e accendi la regola che blocca il codice rosso.
+- **Oggi o domenica, circa un'ora:** chiudere la falla R7, coi passi che ti scrivo in chat. La password di prova dell'amministratore l'hai già sistemata il 25/10: l'ho controllato nel database. Su GitHub i quattro segreti del rilascio vanno messi dopo l'unione dell'ondata 1.
 - **Lunedì 2/11 mattina, la cosa più lunga:** partita IVA e PEC col commercialista. Senza il nome del titolare sul sito non si apre. Lo stesso giorno il fornaio completa il suo conto Stripe.
 - **Lunedì dopo la prima unione:** premere una volta il pulsante che aggiorna il database, poi mettere su Vercel la chiave di servizio. Io ti affianco al primo giro dei lavori a orario.
 - **Prima di ogni ondata, una risposta breve alle sue scelte:** te le porto io, al massimo tre alla volta.
@@ -45,7 +45,7 @@ Le date valgono se le tue pratiche partono lunedì.
 
 ## Cosa non ho verificato
 
-- **La produzione non l'ho vista.** Sono fuori dalla mia vista il database vero, Vercel, GitHub e Stripe: 53 voci dipendono da lì e restano da vedere.
+- **La produzione l'ho vista solo in parte.** Il 31/10 ho letto, senza scrivere, le regole del database vero e i nomi delle variabili di Vercel: sette falle nascoste risultano già chiuse, e le migrazioni sono tutte applicate fino alla 163. Non ho visto GitHub, Stripe né i valori delle variabili: altre voci dipendono da lì.
 - **Le 207 voci che toccano i file dell'ondata in corso** vanno rilette dopo la sua unione: qualcuna può cambiare.
 - **Il critico finale ha detto che la seconda versione del piano non si poteva eseguire così.** Le sue sei correzioni sono qui sotto come regole vincolanti. L'elenco esatto dei pacchetti lo calcola uno script domenica, controllando anche quali file si importano a vicenda: oggi non è ancora fatto.
 - **Le stime di tempo e di token** si basano sui giri del 29-30/10, non su un'ondata del motore snello.
@@ -120,8 +120,9 @@ Le date valgono se le tue pratiche partono lunedì.
    - Il blocco dei soldi: `lib/ordini/annulla.ts`, `lib/stripe/payout.ts`, `lib/stripe/webhook/*`, `lib/db/migrazione-124.ts` e chi li importa.
    - Mai due ondate dei soldi insieme.
    - Contratto bloccato su `refundOrder`, `notifyAdmins`, `conRipiegoSchema`, `CAMPI_124` e `cartaAlCheckoutDisponibile`. La 1290 si ripara dentro `payout.ts`.
-2. **Migrazioni.** Il pulsante `migrazioni-a-mano.yml` le applica tutte, e `deploy-dopo-ci.yml` si ferma se ne mancano più di 20: in produzione ne mancano 48.
-   - Il primo pulsante si preme dopo l'unione dell'ondata 1: le 48 più quelle dell'ondata 1, con «quante» e «ultima» ricontate. Poi il rilascio finto, poi `main:false`.
+2. **Migrazioni.** Il pulsante `migrazioni-a-mano.yml` applica tutte quelle che mancano, e `deploy-dopo-ci.yml` si ferma se ne mancano più di 20. Lettura del database vero del 31/10 alle 09:00: in produzione **non ne manca nessuna fino alla 163**, la 161 compresa. Il numero «48» dei critici veniva da un testo del 19/10.
+   - Il primo pulsante si preme dopo l'unione delle ondate 1 e 2: solo le nuove, cioè 164, 165, 166 e 181, con «quante» e «ultima» ricontate. Poi il rilascio finto, poi `main:false`.
+   - La 161 è già applicata: le letture del censimento oggi mostrano già «Utente» e «Cliente» al posto dei nomi. P161a e P161b riparano un guasto presente.
    - Dopo, le migrazioni che **aggiungono** entrano col pulsante PRIMA dell'unione, e il codice regge senza la colonna (ripiego su PGRST204/42703).
    - Quelle che **tolgono** permessi o colonne seguono l'ordine inverso: prima l'unione del codice che non le usa più, poi la prova di fumo, poi il pulsante.
    - Non si modifica mai un file vecchio: si scrive una migrazione nuova, col suo ritorno indietro e una prova SQL che parte rossa.
@@ -180,13 +181,13 @@ Calcolata da `consegne/audit/2026-10-31-ridisegna-piano.py`, scritta in `consegn
 
 | Quando | Cosa | Durata |
 |---|---|---|
-| sab 31/10 o dom 1/11 | Cambiare le credenziali delle falle R7 e R9, col referto privato | 30-45 min |
-| prima dell'ondata 1 | GitHub: `SUPABASE_DB_URL` (Session pooler), `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`; ruleset Main attivo, col controllo «Main» che comprende «Controlli database» | 30 min |
+| sab 31/10 o dom 1/11 | La falla R7, coi sette passi che ti ho dato in chat. La R9 è già fatta | 45 min |
+| dopo l'unione dell'ondata 1 | GitHub: `SUPABASE_DB_URL` (Session pooler), `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`; ruleset Main attivo, col controllo «Main» che comprende «Controlli database». Prima dell'unione, il rilascio non ha ancora il cancello: non metterli prima | 30 min |
 | subito | Supabase Auth: protezione contro le password già rubate (320) | 5 min |
 | lun 2/11 mattina | Partita IVA e PEC col commercialista (bloccante 46); poi le variabili `NEXT_PUBLIC_TITOLARE_*` su Vercel | 1-3 giorni |
 | lun 2/11 | Il fornaio completa il conto Stripe (dati, documento, IBAN) | 30-60 min, poi i giorni di Stripe |
 | lun 2/11 | Le scelte che non chiedono codice (1370, 1371, 1373, 1514, 1970, 1805) | 15 min |
-| lun 2/11, dopo l'unione della 1 | Premere una volta il pulsante delle migrazioni; poi la chiave di servizio, la casella privacy, `SUPPORT_EMAIL` e Resend su Vercel; il primo giro a mano con me; le variabili della copia delle foto (434) | circa 2 ore e mezza |
+| lun 2/11, dopo l'unione della 1 e della 2 | Premere una volta il pulsante delle migrazioni (solo le nuove: 164, 165, 166, 181); poi la chiave di servizio, la casella privacy, `SUPPORT_EMAIL` e Resend su Vercel; il primo giro a mano con me; le variabili della copia delle foto (434) | circa 2 ore e mezza |
 | entro mer 4/11 | Un progetto Supabase di prova e l'anteprima di Vercel con le chiavi Stripe di test (è una spesa) | 30 min |
 | dopo l'unione della 4 | I template Supabase su `/auth/confirm` (82); ragione sociale e P.IVA di Pane Quotidiano; via il Panificio Demo; lat/lng del negozio | 1 ora |
 | dopo l'unione della 5 | La firma sui riallineamenti 1285 e 1810, guardando l'elenco; poi le chiavi Stripe vere, col webhook e la carta spenta | 1-2 ore |

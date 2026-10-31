@@ -74,7 +74,7 @@ for i in (2030, 2031, 2032):
     VER.setdefault(i, {'i': i, 'v': 'presente', 'sev': 'minore'})
 p161 = pac.pop('P161')
 pac['P161a'] = {'nome': 'P161a il nome del fattorino e gli autori pubblici dopo la 161', 'file': ['migrations/164_i_nomi_pubblici_dopo_la_161.sql', 'app/orders/[id]/page.tsx', 'app/orders/[id]/review/page.tsx', 'app/seller/orders/[id]/page.tsx', 'components/ProductQA.tsx', 'components/store-sections/useStorePageData.ts', 'components/store-sections/ReviewsSection.tsx', 'lib/queries/seller-public-profiles.ts', 'lib/queries/negozio-dell-ordine.ts'], 'indici': [1353, 2031, 2032], 'rischio': 'alto (permessi)', 'sforzo': 'M', 'livello': 1}
-pac['P161b'] = {'nome': 'P161b i nomi dei clienti visti dal negozio dopo la 161', 'file': ['app/messages/page.tsx', 'app/messages/[id]/page.tsx', 'lib/queries/controparte-della-chat.ts', 'app/seller/reviews/page.tsx', 'app/seller/customers/page.tsx'], 'indici': [1336, 114, 2030], 'rischio': 'alto (permessi)', 'sforzo': 'M', 'livello': 1}
+pac['P161b'] = {'nome': 'P161b i nomi dei clienti visti dal negozio dopo la 161', 'file': ['migrations/181_i_nomi_dei_clienti_che_il_negozio_vede.sql', 'app/messages/page.tsx', 'app/messages/[id]/page.tsx', 'lib/queries/controparte-della-chat.ts', 'app/seller/reviews/page.tsx', 'app/seller/customers/page.tsx'], 'indici': [1336, 114, 2030], 'rischio': 'alto (permessi)', 'sforzo': 'M', 'livello': 1}
 assert sorted(p161['indici']) == sorted([1336, 1353, 114]), p161['indici']
 togli('OC2c', [1372]); metti('P161b', [1372])
 
