@@ -6326,3 +6326,11 @@ Per non sbagliare i territori una quinta volta, prima di dividere ho cercato tut
 
 **Colore:** 🟡 il codice, in un ramo e in richiesta di unione; l'unione e le due accensioni sono di Nicola. Tre giri di correzione invece di uno: è sopra la regola del metodo snello, e lo dico nella richiesta.
 
+## 2026-10-31 11:12 — 🟡 Le due scelte di Nicola sull'ondata 2: aspetta la #267, e il pulsante SOS si rifà nell'ondata dei nati
+
+**Cosa.** Nicola ha risposto a due domande. ① L'ondata 2 del sito (VE, AD, HP, P161b, pronta nel ramo locale `ondata-2-ricucita`) non va su un ramo nuovo: aspetta l'unione di NicolaeRotaru/mycity#267, poi il ramo di sempre riparte dal principale e la porta. ② Il pulsante SOS del fattorino (pacchetto RI, «non regge» dopo un giro di correzione) si rifà nell'ondata dei nati del livello 1, la 7, come pacchetto RI2. Avrà una migrazione nuova che lascia al fattorino aggiungere la posizione al proprio avviso dopo che è partito.
+
+**Perché così.** Un ramo solo per sessione, come dicono le regole del deposito. La correzione dell'SOS apriva il 112 subito, ma perdeva la posizione se il GPS rispondeva dopo 1,5 secondi: rifarla adesso avrebbe superato il tetto di due giri per funzione. Al lancio il fattorino è Nicola.
+
+**Colore:** 🟡 la memoria e il piano dei pacchetti, da unire. Le scelte sono di Nicola.
+
