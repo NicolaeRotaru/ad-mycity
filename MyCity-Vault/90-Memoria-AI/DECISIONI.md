@@ -6299,3 +6299,9 @@ Per non sbagliare i territori una quinta volta, prima di dividere ho cercato tut
 **Perché.** Gli orari veri: alle 15:00 di un giorno feriale nessuno dei 9 negozi con orario è aperto (`consegne/intelligence/2026-10-30-orari-negozi-piacenza.md`). Il conto: 4 giri, 20 agenti, 40.810.571 token con le riletture (`consegne/audit/2026-10-31-ondate-21-24-fasce-nuove.md`).
 
 **Colore:** 🔴 le scelte e le unioni, di Nicola. 🟡 il ramo del sito e il registro (voci 2007-2029), da unire.
+
+## 2026-10-31 01:45 — 🔴 Nicola unisce la #266 del sito: le fasce nuove della cassa vanno online
+
+**Cosa.** Unita alle 01:36, coi 9 controlli del sito verdi sul commit `a5f9548`. Rilascio di produzione su Vercel `dpl_C44A63R2sMNDMTvYd9kpEYFH1oZr`, in costruzione alle 01:43 dal commit `0fc4ec7`. Nel registro del sito chiuse le schede 1948 e 1949 (`chiudi-sito.mjs --pr 266 --commit 0fc4ec7 --applica`), con le tre prove dell'ondata 21 rifatte sul codice unito: 22 su 22.
+
+**Colore:** 🔴 l'unione, di Nicola. 🟢 le chiusure nel registro, ognuna con la sua prova rifatta.

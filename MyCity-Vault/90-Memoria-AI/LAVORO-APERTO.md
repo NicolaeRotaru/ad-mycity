@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-10-31 01:30
+aggiornato: 2026-10-31 01:45
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -24,7 +24,7 @@ Niente di nuovo. Le tue voci sono nella sezione 1 e nella tua lista.
 
 ## Cosa non ho verificato
 
-La pagina dice com'era il lavoro il 31 ottobre alle 01:30. Ogni voce va riletta nel suo posto prima di agire.
+La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta nel suo posto prima di agire.
 
 ---
 
@@ -34,7 +34,7 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:30. Ogni voce va riletta 
 - I Termini nuovi sono online, ma in cima resta «in vigore dal 24 maggio 2026». Vanno fatti rileggere a un legale, e poi va cambiata la data.
 
 **Scelte brevi**
-- Le fasce nuove della cassa: unire la richiesta del sito e quella della memoria (carta #224).
+- Le fasce nuove della cassa: il sito è unito (#266, alle 01:36); resta da unire la memoria, la #905 (carta #224).
 - Fino a quando le rotte accettano le fasce vecchie, per le casse rimaste aperte prima del rilascio. Il mio consiglio: una settimana.
 - La borsa frigo e il frigo: prima della spesa faccio verificare cosa chiede l'ASL? Se passi davanti a Pane Quotidiano, una foto del cartello degli orari.
 - Il freno della veloce quando non trova nessuna fascia, per esempio sabato sera col negozio chiuso la domenica. Oggi l'ordine resta veloce e l'euro in più resta da pagare. Il mio consiglio: togliere l'euro anche lì, perché il cliente ha aspettato (voce 1826).
@@ -56,7 +56,7 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
 
 ## 2 · Il mio lavoro sul sito
 
-- **Le fasce nuove della cassa sono pronte** (giri 21-24, `consegne/audit/2026-10-31-ondate-21-24-fasce-nuove.md`): sette fasce, regola del ritiro, scadenza del negozio giusta. Aspettano la tua unione. Il motore snello è unito dal 30/10 alle 22:46.
+- **Le fasce nuove della cassa sono unite** (#266, 31/10 alle 01:36; giri 21-24, `consegne/audit/2026-10-31-ondate-21-24-fasce-nuove.md`): sette fasce, regola del ritiro, scadenza del negozio giusta. Schede 1948 e 1949 chiuse nel registro. Da guardare: il sito pubblicato dopo il rilascio su Vercel.
 - **L'ondata 15 è cucita** (strada A, scelta tua del 30/10 alle 07:45). Il caso raro col codice sconto resta aperto, e i codici restano spenti finché non è chiuso.
 - **Il prezzo nuovo è online**: hai unito la #264 il 30/10 alle 14:40. Ho chiuso nel registro 51 voci, ognuna con la sua prova.
 - **Il prossimo lavoro che ti propongo:** le email di annullo (voci 1851-1868), poi l'ondata 2. Nel registro restano dai giri 21-24 le voci 2007-2029: una grave, la carta che controlla la fascia quando nasce il pagamento (la carta al lancio è spenta), e 22 minori.

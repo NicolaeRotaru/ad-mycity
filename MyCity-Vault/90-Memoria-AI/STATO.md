@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-10-31 01:30
+aggiornato: 2026-10-31 01:45
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🚀 **2026-10-31 01:45 — Hai unito la #266: le fasce nuove vanno online.**
+>
+> Il sito pubblicato si stava costruendo su Vercel alle 01:43, dal commit della tua unione. Nel registro del sito ho chiuso le schede 1948 e 1949, con le prove rifatte sul codice unito: 22 su 22. Resta da unire la #905 della memoria.
 
 > 🕐 **2026-10-31 01:30 — Le fasce nuove della cassa sono pronte: quattro giri col metodo snello.**
 >
