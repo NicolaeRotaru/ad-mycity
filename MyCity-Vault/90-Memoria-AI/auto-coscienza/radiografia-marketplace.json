@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 2149,
+    "findings": 2150,
     "bloccanti": 35,
     "gravi": 581,
-    "minori": 1533,
+    "minori": 1534,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -596,16 +596,16 @@
       "impatto": "Vende merce che non esiste. Seguono ordini rifiutati, rimborsi, recensioni arrabbiate e fiducia persa proprio sui negozi piccoli con scorte basse, come pane e gastronomia, dove ogni pezzo conta. Il registro attribuisce l'errore al negoziante.",
       "fix": "Nel modulo di modifica, mandare `stock` solo se il negoziante l'ha cambiata (confronto col valore iniziale; react-hook-form ha già dirtyFields). Per le varianti, mandare solo le righe con lo stock cambiato. Meglio ancora, nella porta salvaProdottoTracciato: se `stock` nel pacchetto è uguale al valore iniziale mandato dal client e diverso da quello riletto, non scriverlo. Oppure scrivere con `.eq('stock', valoreIniziale)` e rispondere «la scorta è cambiata mentre modificavi: ricarica». Va aggiunta una prova che fallisce oggi, con lo scenario 5 → 3 → salvataggio.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Comando eseguito sulla funzione vera di salvataggio, con un database finto che ha scorta 3 dopo due vendite e un modulo che porta ancora 5 (letto all'apertura) e cambia solo la descrizione: `cd /home/user/mycity && node_modules/.bin/jiti scratchpad/frontend-venditore-2/scorta-vecchia.ts`. Lettura: schema.ts:122 `stock: unlimitedStock ? null : values.stock ?? 0` (sempre presente); salvataggio-tracciato.ts:276-282 `.update(daScrivere)`; edit/page.tsx:104-113 chiama salvaProdottoDalBrowser e poi saveProductVariants con i valori del modulo.",
       "prova_tipo": "comando",
       "prova_eseguita": "Uscita: «scritto sul database: {\"name\":\"Focaccia\",\"description\":\"nuova\",\"price\":4,\"stock\":5,\"status\":\"available\"}», «campi registrati come cambiati: description,stock,status», «scorta in banca dati dopo il salvataggio: 5 (era 3 dopo le due vendite)». · Verifica tecnica: Ho scritto verifica-frontend-venditore/scorta.test.tsx, che chiama le funzioni vere buildProductPayload e salvaProdottoTracciato con un database finto. Il modulo è stato aperto con scorta 5, nel frattempo il database è sceso a 3, e il modulo cambia solo la descrizione. Uscita: «payload.stock 5 | campi description,stock | stock in banca dopo 5». Ho letto edit/page.tsx:98-113: prima salvaProdottoDalBrowser, poi saveProductVariants con i valori del modulo. Ho letto ProductForm:142-147 (defaultValues solo all'avvio) e 678-691. Con SELECT in produzione: i trigger su products e product_variants, e il fatto che reserve_stock contenga «stock = stock -».",
       "giro": 2,
       "verificato": true,
       "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-venditore · id R18 · si ripara: codice",
-      "chiuso_il": "2026-10-29 18:15",
-      "chiuso_da": "PR #263 · 0df5557, unita il 2026-10-29 18:12 e pubblicata (Vercel dpl_EcMdUboG8ZkhxhFJ1oR6x4EbkzWQ)",
-      "nota_riparazione": "Riparato nella #263, ondata 10, pacchetto del catalogo (commit 0a15291). — prova: npm run verify sul codice unito (0df5557 ha lo stesso albero di 2b1737b, provato: 683 file, 6.144 prove verdi) e CI della #263 9 su 9; prove del pacchetto del catalogo dell ondata 10 — mutazione: collaudo dell ondata 10 («regge»): chi non l aveva scritto ha rimesso il difetto com era scritto nella scheda, e la prova è diventata rossa · Riaperta il 2026-10-31 08:36: la verifica l'ha trovata «presente» sul codice (components/seller/ProductForm.tsx:710 scortaCambiata; lib/products/persistVariantsServer.ts:46-47 scorteViste). Il modulo toglie stock se non cambiato; le varianti saltano lo stock uguale a quello visto all'apertura. Resta solo da confermare con una prova.",
+      "chiuso_il": "2026-10-31 17:03",
+      "chiuso_da": "PR #270 · 906e4c79",
+      "nota_riparazione": "Riparato nell ondata 4 e nella sua correzione (run wf_dc9216f4-6e2 e wf_868abf3a-e69), unita con la #270. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-porta-del-catalogo-non-scrive-una-scorta-che-nel-frattempo-e-cambiata.test.ts tests/unit/la-scorta-si-scrive-solo-se-in-banca-dati-c-e-ancora-quella-vista.test.ts tests/unit/la-porta-del-catalogo-non-promette-piu-di-quello-che-fa.test.ts tests/unit/dopo-una-scorta-cambiata-lista-e-modulo-ripartono-dalla-banca-dati.test.tsx tests/unit/la-scorta-si-confronta-con-quella-vista-non-con-quella-scritta.test.ts — mutazione: prova-rimessa sui rami fix/ondata-4-lib-products-salvataggio-tracciato-ts: 6648791a: regge (uscita 0); c95f6014: regge (uscita 0); 1575ec81: regge (uscita 0)",
       "riaperto_il": "2026-10-31 08:36",
       "riaperto_da": "verifica delle 1.213 voci sul codice 40cb09ff (run wf_a60601a0-cae, 31/10/2026)"
     },
@@ -3297,13 +3297,16 @@
       "impatto": "La promessa che rende l'iscrizione leggera («non devi scrivere niente, ci pensa l'AI») è la prima cosa che il negozio prova, e fallisce. Il modulo manuale resta usabile, quindi non è un blocco totale. È però un errore ben visibile nel punto in cui il negozio decide se vale la pena continuare.",
       "fix": "Raccomandazione: decide Nicola, perché è una spesa. Se l'AI fa parte del lancio, aggiungere ANTHROPIC_API_KEY su Vercel (Production), con il budget già previsto in AI_GLOBAL_DAILY_BUDGET_EUR. Se non ne fa parte, esporre al client un segnale «AI disponibile» (es. NEXT_PUBLIC_AI_ATTIVA o una rotta /api/ai/stato). Con quel segnale si nascondono BulkPhotoCreate, ImportFromUrlBox, i pulsanti voce/foto/assistente e il sottotitolo che promette l'AI.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "grep -i anthropic scratchpad/env-prod.txt (elenco delle chiavi di produzione misurato oggi da Vercel) + lettura di lib/ai/client.ts:128-130 (`if (!apiKey) throw new AiConfigError()`) e app/api/ai/description/route.ts:117 (`if (err instanceof AiConfigError) return ApiErrors.unavailable('Servizio AI non configurato.')`).",
       "prova_tipo": "comando",
       "prova_eseguita": "env-prod.txt contiene 12 chiavi (AI_GLOBAL_DAILY_BUDGET_EUR, CRON_SECRET, …, VAPID_PRIVATE_KEY) e nessuna ANTHROPIC_API_KEY: c'è il budget giornaliero dell'AI ma non la chiave. 5 file dell'area venditore chiamano /api/ai/... direttamente. Non ho chiamato le rotte AI di produzione, per non consumare e non scrivere. · Verifica tecnica: Ho letto le variabili d'ambiente del progetto Vercel prj_XvKD8R89QzA7qVyOhltfS85SH4k9 con filter_project_envs, senza decifrare: 12 chiavi, nessuna ANTHROPIC_API_KEY, hiddenProductionEnvCount 0. lib/env.ts:36 legge solo ANTHROPIC_API_KEY. Ho letto lib/ai/client.ts:128-130 (if (!apiKey) throw new AiConfigError()), app/api/ai/description/route.ts:117 (→ ApiErrors.unavailable('Servizio AI non configurato.')) e lib/rate-limit.ts:1-30 (ripiego in memoria, non blocca). Testo e componenti della pagina sono in app/seller/products/new/page.tsx:207-226. In AZIONI-IN-ATTESA.md la card #154 non nomina Anthropic. Non ho chiamato le rotte AI di produzione.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-venditore · id R39 · si ripara: decisione-nicola"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-venditore · id R39 · si ripara: decisione-nicola",
+      "chiuso_il": "2026-10-31 17:03",
+      "chiuso_da": "PR #270 · 906e4c79",
+      "nota_riparazione": "Riparato nell ondata 4 e nella sua correzione (run wf_dc9216f4-6e2 e wf_868abf3a-e69), unita con la #270. — prova: cd /home/user/mycity && npx vitest run tests/unit/con-le-funzioni-spente-il-negozio-non-vede-ingressi-che-non-portano-a-niente.test.ts tests/unit/con-l-ai-spenta-l-assistenza-del-negozio-non-offre-l-ai.test.ts — mutazione: prova-rimessa sui rami fix/ondata-4-components-seller-quickaitools-tsx: fe1bee95: regge (uscita 0); fe1bee95: regge (uscita 0); 328d0779: regge (uscita 0)"
     },
     {
       "dimensione": "ai-endpoints",
@@ -3447,13 +3450,16 @@
       "impatto": "Il primo contatto del negozio con il catalogo è un errore, proprio sulla funzione presentata come la più comoda. Toglie fiducia nel momento in cui il negozio decide se vale la pena caricare i prodotti. La scheda a mano funziona: la vendita non è bloccata, ma lo strumento che dovrebbe portare il catalogo online in meno di 48 ore sì.",
       "fix": "Decisione di Nicola. (a) Raccomandata: mettere ANTHROPIC_API_KEY in produzione. Il tetto giornaliero c'è già, ma senza SUPABASE_SERVICE_ROLE_KEY il conto della spesa non è condiviso fra le copie del sito (K31): le due chiavi vanno insieme. (b) Se la chiave non arriva prima del lancio: una sola costante lato server (es. `aiDisponibile = !!env.anthropicKey()`) passata alle pagine del venditore, che nasconde Copilot, riquadri foto/link e pulsanti AI. Aggiungere la chiave al semaforo di /api/health come «opzionale ma attesa».",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "`cat scratchpad/env-prod.txt` (le 12 chiavi di produzione lette oggi da Vercel) + lettura delle rotte: ognuna apre con `if (!env.anthropicKey()) return ApiErrors.unavailable(...)` + `grep -rn \"AI_ENABLED\\|aiDisponibile\\|NEXT_PUBLIC_AI\" app components lib` per cercare un interruttore lato pagina.",
       "prova_tipo": "comando",
       "prova_eseguita": "Fra le chiavi di produzione c'è AI_GLOBAL_DAILY_BUDGET_EUR ma non ANTHROPIC_API_KEY. Il grep dell'interruttore non trova niente: nessun componente sa se l'AI c'è. Tutte le 17 rotte AI con modello e import-fetch rispondono 503 prima di qualunque altra cosa. lib/health-env.ts non nomina Anthropic. In AZIONI-IN-ATTESA dell'AD non c'è nessuna card per la chiave AI: la mancanza delle chiavi di servizio (card #154) riguarda Supabase/Stripe/Resend/Upstash. · Verifica tecnica: Ho riletto la lista delle variabili con mcp__Vercel__filter_project_envs sul progetto prj_XvKD8R89QzA7qVyOhltfS85SH4k9: 12 chiavi, nessuna ANTHROPIC_API_KEY, hiddenProductionEnvCount 0. Il grep di ANTHROPIC|anthropic su lib/health-env.ts e app/api/health/route.ts non trova niente. Il grep dell'interruttore (AI_ENABLED, aiDisponibile, NEXT_PUBLIC_AI, aiEnabled, aiAvailable) trova solo le rotte server e lib/env.ts. Ho letto app/seller/products/new/page.tsx:205-223, components/seller/SellerShell.tsx:494-506, app/api/vision/extract-products/route.ts:175, app/api/marketplace/import-fetch/route.ts:27 e BulkPhotoCreate.tsx:101-120. Il grep di Anthropic in AZIONI-IN-ATTESA.md non trova nessuna card.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: ai-endpoints, prodotto-completezza · doppioni uniti: N244 · id R94 · si ripara: decisione-nicola"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: ai-endpoints, prodotto-completezza · doppioni uniti: N244 · id R94 · si ripara: decisione-nicola",
+      "chiuso_il": "2026-10-31 17:03",
+      "chiuso_da": "PR #270 · 906e4c79",
+      "nota_riparazione": "Riparato nell ondata 4 e nella sua correzione (run wf_dc9216f4-6e2 e wf_868abf3a-e69), unita con la #270. — prova: cd /home/user/mycity && npx vitest run tests/unit/con-le-funzioni-spente-il-negozio-non-vede-ingressi-che-non-portano-a-niente.test.ts tests/unit/con-l-ai-spenta-l-assistenza-del-negozio-non-offre-l-ai.test.ts — mutazione: prova-rimessa sui rami fix/ondata-4-components-seller-quickaitools-tsx: fe1bee95: regge (uscita 0); fe1bee95: regge (uscita 0); 328d0779: regge (uscita 0)"
     },
     {
       "dimensione": "ai-endpoints",
@@ -4984,13 +4990,16 @@
       "impatto": "Si promette un servizio che non esiste, sulla pagina dell'unico negozio che può incassare e nel momento del pagamento. È lo stesso tipo di difetto che il registro ha già trattato come grave due volte.",
       "fix": "In HeroSection e badgeLabel non mostrare 'ritiro_in_negozio' quando RITIRO_IN_NEGOZIO_ATTIVO è falso, e toglierlo dall'elenco scegliibile nel pannello negozio. In motivoNegozioChiuso aggiungere «oppure ritira in negozio» solo se l'interruttore è acceso, come fa già lib/ordini/zona-di-consegna.ts:58. Per la categoria in intestazione non usare il primo bollino.",
       "fonte": "design",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "grep -o '.\\{120\\}>Ritiro in negozio<' /tmp/claude-0/-home-user/df070674-8e02-5d4e-a9b6-d5d8cacdbadc/scratchpad/verifica-produzione-live/store-pq.json ; node /tmp/claude-0/-home-user/df070674-8e02-5d4e-a9b6-d5d8cacdbadc/scratchpad/i18n-microcopy-giro2/chiuso.cjs",
       "prova_tipo": "comando",
       "prova_eseguita": "L'HTML di produzione della pagina Pane Quotidiano, catturato oggi alle 16:02, contiene lo span del bollino «Ritiro in negozio» e la chiave \"ritiro_in_negozio\". Il testo della pagina dice «Consegna rapida · Via Calzolai … Consegna rapida Prodotti locali Biologico Ritiro in negozio Sostenibile». La funzione vera, con le fasce reali, restituisce «Pane Quotidiano domani è chiuso in quella fascia. Scegli un altro orario, oppure ritira in negozio.» e la stessa frase per «oggi». · Verifica tecnica: SELECT store_customization->'badges' FROM profiles in produzione: Pane Quotidiano contiene ritiro_in_negozio. Nell'HTML di produzione store-pq.json c'è lo span «Ritiro in negozio», e prod-store-pq.txt contiene «Consegna rapida · Via Calzolai». Ho letto lib/store-hours.ts:232-247, HeroSection.tsx:78-90 e 236-250, e zona-di-consegna.ts:50-62. Ho cercato motivoNegozioChiuso con grep: è chiamato a stripe/checkout:405 e cod:421. Ho eseguito chiuso.cjs: per domani e per oggi restituisce «…Scegli un altro orario, oppure ritira in negozio.»",
       "giro": 2,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: i18n-microcopy · id R64 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: i18n-microcopy · id R64 · si ripara: codice",
+      "chiuso_il": "2026-10-31 17:03",
+      "chiuso_da": "PR #270 · 906e4c79",
+      "nota_riparazione": "Riparato nell ondata 3 e nella sua correzione (run wf_86375bde-655 e wf_38a26116-fd4), unita con la #270. — prova: cd /home/user/mycity && npx vitest run tests/unit/il-selettore-della-consegna-segue-l-ora-e-dice-il-perche.test.tsx tests/unit/chiuso-per-ferie-ferma-gli-ordini-e-il-ritiro-spento-non-si-offre.test.tsx tests/unit/chiuso-per-ferie-la-scheda-non-promette-la-consegna.test.ts tests/unit/ferie-con-la-domenica-mai-scritta-ferma-gli-ordini.test.ts — mutazione: prova-rimessa sui rami fix/ondata-3-components-checkout-deliveryslotpicker-t: 272eaeb8: regge (uscita 0); 272eaeb8: regge (uscita 0); c9331977: regge (uscita 0); a937a8cf: regge (uscita 0)"
     },
     {
       "dimensione": "microcopy",
@@ -6932,7 +6941,7 @@
       "impatto": "Esempio: venerdì sera, ordine da 25 € di Pane Quotidiano pagato con carta, il cliente non risponde al citofono né al telefono. Il rider non ha nessun pulsante: l'ordine resta OUT_FOR_DELIVERY, il negozio non vede il payout (release-payouts vuole delivered_at), il cliente non riceve niente finché un admin non annulla a mano — e a quel punto gli rimborsa anche i 3 € di consegna che i termini dicono di trattenere. Ogni volta si perde tempo o soldi, e il cliente legge una promessa scritta che non viene rispettata.",
       "fix": "Decidere UNA procedura vera e scriverla in entrambi i posti. (a) Stato/esito «NON_CONSEGNATO» con rotta rider «cliente assente» che registra i tentativi (ora + esito) e passa l'ordine a negozio/admin; (b) rimborso = totale − quota consegna solo se i tentativi sono registrati (è la prova della procedura), altrimenti integrale; (c) riscrivere §6 con la procedura reale (quanti tentativi, in quanti minuti, cosa succede al fresco). Bozza clausola la preparo io; sviluppo @backend-dev + @operations; validazione legale umana (rosso).",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/privacy-legale-cliente-assente.test.ts   (oggi: 1 failed, «esiti possibili per il rider in consegna: []») · conferma lato DB: PGPASSWORD=postgres psql -h localhost -U postgres -d mycity_ci -At -c \"SELECT count(*) FROM pg_proc WHERE pronamespace='public'::regnamespace AND proname ~* 'assent|fallit|undeliver|non_consegn|riconsegn|tentativ|irreperib';\" → 0",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -6941,9 +6950,9 @@
       "giro": 1,
       "verificato": "collega",
       "fonte_radiografia": "totale 2026-09-03",
-      "nota_riparazione": "QUALE DELLE DUE PARTI HA RAGIONE. Ho guardato prima gli esiti veri della consegna, poi ho deciso: ha ragione il codice, si corregge la promessa. Tre riscontri. (1) Da OUT_FOR_DELIVERY il fattorino ha una strada sola, verify_delivery_code -> DELIVERED: PASSAGGI_LECITI non ha nessun passaggio in uscita da OUT_FOR_DELIVERY, quindi nessun esito alternativo. (2) I tentativi telefonici non li registra niente: in lib/database.types.ts, che e' generato dal database, non esiste ne' delivery_attempts ne' una colonna equivalente. (3) L'annullamento restituisce tutto: annullaERimborsa calcola residuoCent = totaleCent - giaRimborsato, e total_price comprende la quota di consegna. La parte che decide e' la (2): quella clausola toglie soldi a un consumatore sulla base di un fatto - tre telefonate a vuoto - che il sito non sa provare. Una trattenuta senza prova non regge ne' davanti al cliente che contesta ne' davanti alla banca che chiede le evidenze di un chargeback. E costruire l'esito prima di aver deciso la procedura vera (quante telefonate, in quanti minuti, chi tiene la merce fresca, chi paga il giro a vuoto) vorrebbe dire scrivere in codice una decisione di business che nessuno ha preso: e' di Nicola e di operations, non di un file. Il nuovo testo promette meno a nostro favore e di piu' a favore del cliente (rimborso integrale, spese comprese), quindi e' una modifica in favorem consumatoris: non serve una nuova accettazione.\n\nCOSA HO CAMBIATO. Nuovo modulo lib/legal/promessa-cliente-assente.ts: funzioni pure, esportate, fuori dalla pagina. fattiDellaConsegna() legge i tre fatti (esito, tentativi, tipo di rimborso) - il primo derivato dalla macchina degli stati vera, gli altri due costanti dichiarate con accanto il file che dovrebbe cambiare. siPuoPromettereLaTrattenuta() e' vera solo se tutte e tre le gambe esistono insieme. paragrafiConsegne() genera il testo del §6 da quei fatti: oggi scrive che l'ordine non si chiude da solo, che va segnalato dai Contatti e che il rimborso e' integrale, spese comprese; se un domani le tre gambe ci sono, la clausola dei tentativi e della trattenuta torna da sola. La pagina non ha piu' copia sua: stampa e basta.\n\nSCHEDA CONTRO CODICE. La scheda dava lib/order-status.ts:111-116 per PASSAGGI_LECITI: nel file vero sta a riga 137. Il resto della diagnosi era esatto.\n\nIL FIX CLAUSOLA PER CLAUSOLA. (a) stato NON_CONSEGNATO + rotta rider: fuori territorio, in bloccati. (b) rimborso al netto solo con tentativi registrati: fuori territorio (lib/ordini/annulla.ts e lib/stripe/payout.ts, quest'ultimo e' della corsia 22), in bloccati. (c) riscrivere §6: fatto, con la procedura REALE di oggi.\n\nCOSA NON HO POTUTO VERIFICARE. Non ho renderizzato la pagina in un browser: la prova esegue il generatore, non il DOM. Il §6 nuovo tace su cosa succede alla merce fresca rimasta al rider - non l'ho scritto perche' non c'e' nessuna regola nel codice e inventarla sarebbe lo stesso difetto al contrario; e' parte della decisione bloccata. Non ho alzato VERSION da 2.0 sulla pagina: sarebbe da alzare insieme a VERSIONE_TESTI_LEGALI in lib/legal/versione.ts (fuori territorio), e farlo obbligherebbe ogni utente a riaccettare i testi - decisione 🔴. La modifica e' in favore del consumatore, quindi lasciare 2.0 non lo danneggia. Non ho lanciato npm run verify (vietato dal brief). — prova: npx vitest run tests/unit/i-termini-non-promettono-un-esito-che-il-codice-non-sa-registrare.test.ts — mutazione: Mutante 1 eseguito: reso incondizionato il ramo della trattenuta (`if (siPuoPromettereLaTrattenuta(fatti))` -> `if (true)`, cioe' com'era il §6 scritto a mano) -> 4 test rossi su 12: «il §6 generato oggi non promette ne' i tentativi ne' la trattenuta» (expected not to match /al netto delle spese di consegna/i), «e dice invece quello che succede davvero» (expected to match /rimborsato per intero/i), e i due «due gambe su tre non bastano». Rimesso: 12 passed. Mutante 2 eseguito sulla derivazione: `esitoDiMancataConsegna: perIlFattorino || traGliStati` -> `false` -> 1 rosso, «tutte e tre le gambe: i Termini tornano a promettere tentativi e trattenuta» (expected false to be true) - prova che i fatti li legge davvero dalla macchina degli stati e non sono cablati. Rimesso: 12 passed.",
-      "chiuso_il": "2026-09-08 11:27",
-      "chiuso_da": "PR #254 · d54e55f",
+      "nota_riparazione": "Riparato nell ondata 3 e nella sua correzione (run wf_86375bde-655 e wf_38a26116-fd4), unita con la #270. — prova: cd /home/user/mycity && npx vitest run tests/unit/il-credito-che-non-torna-dopo-un-annullo-si-vede.test.ts tests/unit/il-fattorino-puo-segnare-il-cliente-assente.test.ts tests/unit/il-cliente-assente-col-credito-non-tornato-legge-la-verita.test.ts tests/unit/i-termini-dicono-cosa-succede-col-cliente-assente.test.ts — mutazione: prova-rimessa sui rami fix/ondata-3-lib-ordini-annulla-ts: dcfa2be5: rosso_strutturale (uscita 3); 83cd9c8f: rosso_strutturale (uscita 3)",
+      "chiuso_il": "2026-10-31 17:03",
+      "chiuso_da": "PR #270 · 906e4c79",
       "fuori_dal_referto": true,
       "riverifica": {
         "verdetto": "in_parte",
@@ -24209,7 +24218,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "radiografia-in-corsa del lotto gravi del sito",
-      "stato": "aperto",
+      "stato": "riparato",
       "riverifica": {
         "verdetto": "ancora_presente",
         "prova": "Produzione, pg_policies su public.products: la policy UPDATE «Sellers can update their own products» ha qual seller_id=auth.uid() e nessun controllo sui campi, e la policy INSERT «Approved sellers can insert products» è ancora aperta al browser. Nel codice app/seller/products/new/page.tsx:190 e app/seller/products/import/page.tsx:148 fanno ancora .insert diretto da client",
@@ -24225,7 +24234,10 @@
           "data": "2026-09-08 11:30"
         }
       ],
-      "fuori_dal_referto": true
+      "fuori_dal_referto": true,
+      "chiuso_il": "2026-10-31 17:03",
+      "chiuso_da": "PR #270 · 906e4c79",
+      "nota_riparazione": "Riparato nell ondata 4 e nella sua correzione (run wf_dc9216f4-6e2 e wf_868abf3a-e69), unita con la #270. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-porta-del-catalogo-non-scrive-una-scorta-che-nel-frattempo-e-cambiata.test.ts tests/unit/la-scorta-si-scrive-solo-se-in-banca-dati-c-e-ancora-quella-vista.test.ts tests/unit/la-porta-del-catalogo-non-promette-piu-di-quello-che-fa.test.ts tests/unit/dopo-una-scorta-cambiata-lista-e-modulo-ripartono-dalla-banca-dati.test.tsx tests/unit/la-scorta-si-confronta-con-quella-vista-non-con-quella-scritta.test.ts — mutazione: prova-rimessa sui rami fix/ondata-4-lib-products-salvataggio-tracciato-ts: 6648791a: regge (uscita 0); c95f6014: regge (uscita 0); 1575ec81: regge (uscita 0)"
     },
     {
       "dimensione": "api-backend",
@@ -25074,7 +25086,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "radiografia-in-corsa del lotto gravi del sito",
-      "stato": "aperto",
+      "stato": "riparato",
       "riverifica": {
         "verdetto": "ancora_presente",
         "prova": "migrations/135_le_prove_scadono.sql:46-47 'WHERE p.approval_status = 'rejected' AND p.approved_at IS NOT NULL'. In produzione l'unica funzione di pulizia trovata è documenti_da_cancellare_respinti(p_giorni) (query su pg_proc: nessun'altra funzione di scadenza per i documenti d'identità). app/api/kyc/upload-document/route.ts:138-141 scrive i percorsi a prescindere dallo stato. Produzione oggi: 0 profili in attesa con documenti.",
@@ -25090,7 +25102,10 @@
           "data": "2026-09-08 11:30"
         }
       ],
-      "fuori_dal_referto": true
+      "fuori_dal_referto": true,
+      "chiuso_il": "2026-10-31 17:03",
+      "chiuso_da": "PR #270 · 906e4c79",
+      "nota_riparazione": "Riparato nell ondata 4 e nella sua correzione (run wf_dc9216f4-6e2 e wf_868abf3a-e69), unita con la #270. — prova: cd /home/user/mycity && npx vitest run tests/unit/i-documenti-dell-iscrizione-a-meta-scadono.test.ts tests/unit/il-registro-gia-scritto-non-tiene-i-nomi-legali.test.ts — mutazione: prova-rimessa sui rami fix/ondata-4-lib-privacy-potature-ritenzione-ts: 062af093: rosso_strutturale (uscita 3); c285fba8: rosso_strutturale (uscita 3)"
     },
     {
       "dimensione": "privacy-legale",
@@ -26009,7 +26024,7 @@
       "impatto": "Basta un guasto solo perché il cliente perda il credito speso, che può essere anche un buono regalo pagato in euro. Chi potrebbe rimediare non ne sa niente.",
       "fix": "In restituisciCredito, su errore: avviso agli amministratori (notifyAdmins) con cifra, ordine e cliente. In più una traccia che resta, cioè una riga o un segno sull'ordine, letta da un'azione amministrativa «restituisci il credito». Quell'azione richiama wallet_credit con lo stesso motivo e lo stesso riferimento, quindi senza rischio di doppioni. La prova qui sotto va portata in tests/unit.",
       "fonte": "trovato dalle squadre della prima ondata mentre riparavano, verificato da un secondo revisore, 16/10/2026 (pagamenti-stripe)",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "cd /home/user/wt/finale && npx vitest run --config /tmp/claude-0/-home-user/06076910-34c9-5b70-bac3-566ef0676b66/scratchpad/smista-s2/vitest.smista.config.mts -t \"wallet_credit cade\". La prova chiama annullaERimborsa vera sul finto database dei rimborsi, con wallet_credit che risponde 57014. Risultato: rossa, «ordine annullato, 5 € di credito spariti e nessun avviso: resta solo una riga di registro: expected 0 to be greater than 0». Fatti stampati: {\"esito\":{\"ok\":true,\"refundId\":null},\"stato\":\"CANCELED\",\"credito\":0,\"avvisiAdmin\":0}.\n\nVerifica del secondo revisore: Confermato leggendo il codice e facendo girare la prova.\n\n**Il codice.** In /home/user/wt/finale/lib/ordini/annulla.ts, alle righe 91-105, `restituisciCredito` chiama `wallet_credit`. Se c'è un errore o un'eccezione, il codice scrive solo `logger.warn`. In /home/user/wt/finale/lib/logger.ts, `warn` fa soltanto `console.warn`, senza Sentry e senza nessun avviso. Sul ramo dei contanti l'ordine diventa CANCELED, con l'UPDATE condizionato `.neq('delivery_status','CANCELED')`. Solo dopo parte la restituzione del credito. A quel punto `annullaERimborsa` risponde `{ok:true}` comunque. Un secondo annullo trova zero righe e torna `GIA_ANNULLATO`, quindi l'accredito non si ritenta. Le rotte di cliente, negozio e amministratore si fermano tutte a quel controllo.\n\n**Le difese.** Ho cercato e non ne esiste nessuna:\n- nessun `notifyAdmins` in annulla.ts;\n- nessun giro notturno (cron) che confronti gli ordini annullati con `wallet_applied_cents>0` contro `wallet_ledger`;\n- nessuna vista o azione dell'amministratore sul registro del credito.\n\n**Un'aggravante.** La rotta /home/user/wt/finale/app/api/seller/orders/[id]/reject/route.ts:101-106 scrive al cliente «Il credito MyCity che avevi usato (€X) è tornato sul tuo saldo». Lo scrive anche quando l'accredito è fallito, quindi il cliente legge una cosa falsa.\n\n**La prova.** Ho lanciato `npx vitest run --config .../smista-s2/vitest.smista.config.mts -t \"wallet_credit cade\"`. È rossa, come dichiarato. Fatti stampati: `{\"esito\":{\"ok\":true,\"refund",
       "prova_tipo": "verificata da un secondo revisore",
       "verificato": true,
@@ -26019,7 +26034,10 @@
         "prova": "lib/ordini/annulla.ts:100-114 su main: se wallet_credit fallisce scrive solo logger.warn, e annullaERimborsa risponde ok. Nessun segno «credito da restituire» nel database.",
         "nota": "Non dipendeva dalle migrazioni. La 143, ora in produzione, rende sicuro ritentare l'accredito: la riparazione futura (avviso, segno sull'ordine) adesso non rischia doppi accrediti. Oggi 0 ordini con credito usato.",
         "data": "2026-10-24 10:45"
-      }
+      },
+      "chiuso_il": "2026-10-31 17:03",
+      "chiuso_da": "PR #270 · 906e4c79",
+      "nota_riparazione": "Riparato nell ondata 3 e nella sua correzione (run wf_86375bde-655 e wf_38a26116-fd4), unita con la #270. — prova: cd /home/user/mycity && npx vitest run tests/unit/il-credito-che-non-torna-dopo-un-annullo-si-vede.test.ts tests/unit/il-fattorino-puo-segnare-il-cliente-assente.test.ts tests/unit/il-cliente-assente-col-credito-non-tornato-legge-la-verita.test.ts tests/unit/i-termini-dicono-cosa-succede-col-cliente-assente.test.ts — mutazione: prova-rimessa sui rami fix/ondata-3-lib-ordini-annulla-ts: dcfa2be5: rosso_strutturale (uscita 3); 83cd9c8f: rosso_strutturale (uscita 3)"
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -27926,10 +27944,13 @@
       "titolo": "Con l'AI spenta, la scheda prodotto mostra ancora i pulsanti AI che rispondono «servizio non configurato»",
       "severita": "minore",
       "file": "components/seller/QuickAiTools.tsx:160-170",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "frontend-ux",
       "fonte": "preesistente, trovato dal collaudo del giro 1 del lotto #262",
-      "descrizione": "Solo «Traduci» è legato al suo interruttore. «Perché non vende?» e SEO chiamano ancora /api/ai/* anche con AI_NEGOZI_ACCESA=false."
+      "descrizione": "Solo «Traduci» è legato al suo interruttore. «Perché non vende?» e SEO chiamano ancora /api/ai/* anche con AI_NEGOZI_ACCESA=false.",
+      "chiuso_il": "2026-10-31 17:03",
+      "chiuso_da": "PR #270 · 906e4c79",
+      "nota_riparazione": "Riparato nell ondata 4 e nella sua correzione (run wf_dc9216f4-6e2 e wf_868abf3a-e69), unita con la #270. — prova: cd /home/user/mycity && npx vitest run tests/unit/con-le-funzioni-spente-il-negozio-non-vede-ingressi-che-non-portano-a-niente.test.ts tests/unit/con-l-ai-spenta-l-assistenza-del-negozio-non-offre-l-ai.test.ts — mutazione: prova-rimessa sui rami fix/ondata-4-components-seller-quickaitools-tsx: fe1bee95: regge (uscita 0); fe1bee95: regge (uscita 0); 328d0779: regge (uscita 0)"
     },
     {
       "titolo": "Due interruttori dichiarati spenti non li legge nessuno: banner «Metti MyCity in Home», manifest e codici sconto in cassa restano accesi",
@@ -27974,10 +27995,13 @@
       "titolo": "Copilot (laterale e flottante), «AI Studio» e «AI sul catalogo» portano tutti alla pagina «strumenti AI non attivi»",
       "severita": "minore",
       "file": "components/seller/SellerShell.tsx:35,55,308,495-506 · app/seller/products/page.tsx:253",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "accessibilita",
       "fonte": "preesistente, trovato dal collaudo del giro 1 del lotto #262",
-      "descrizione": "Passi: da una qualunque pagina /seller/* → tocco su «Chiedi al Copilot» (in basso a destra) → /seller/products/ai-batch dice «Gli strumenti AI non sono attivi». È la chiamata all'azione più visibile del pannello venditore"
+      "descrizione": "Passi: da una qualunque pagina /seller/* → tocco su «Chiedi al Copilot» (in basso a destra) → /seller/products/ai-batch dice «Gli strumenti AI non sono attivi». È la chiamata all'azione più visibile del pannello venditore",
+      "chiuso_il": "2026-10-31 17:03",
+      "chiuso_da": "PR #270 · 906e4c79",
+      "nota_riparazione": "Riparato nell ondata 4 e nella sua correzione (run wf_dc9216f4-6e2 e wf_868abf3a-e69), unita con la #270. — prova: cd /home/user/mycity && npx vitest run tests/unit/con-le-funzioni-spente-il-negozio-non-vede-ingressi-che-non-portano-a-niente.test.ts tests/unit/con-l-ai-spenta-l-assistenza-del-negozio-non-offre-l-ai.test.ts — mutazione: prova-rimessa sui rami fix/ondata-4-components-seller-quickaitools-tsx: fe1bee95: regge (uscita 0); fe1bee95: regge (uscita 0); 328d0779: regge (uscita 0)"
     },
     {
       "titolo": "App installabile spenta solo sulla carta: manifest e banner restano, APP_INSTALLABILE_ACCESA non lo legge nessuno",
@@ -28013,10 +28037,13 @@
       "titolo": "Con l'AI per i negozi spenta, la scheda prodotto mostra ancora i pulsanti SEO e Diagnosi, che rispondono «Servizio AI non configurato»",
       "severita": "minore",
       "file": "components/seller/QuickAiTools.tsx:152,162 (il lotto lo ha toccato ma lo frena solo con TRADUCI_ACCESO, non con AI_NEGOZI_ACCESA) · montato da components/seller/ProductForm.tsx",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "frontend-ux",
       "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
-      "descrizione": "È proprio il caso che la carta #209 voleva spegnere («pulsanti che rispondono servizio non configurato»)."
+      "descrizione": "È proprio il caso che la carta #209 voleva spegnere («pulsanti che rispondono servizio non configurato»).",
+      "chiuso_il": "2026-10-31 17:03",
+      "chiuso_da": "PR #270 · 906e4c79",
+      "nota_riparazione": "Riparato nell ondata 4 e nella sua correzione (run wf_dc9216f4-6e2 e wf_868abf3a-e69), unita con la #270. — prova: cd /home/user/mycity && npx vitest run tests/unit/con-le-funzioni-spente-il-negozio-non-vede-ingressi-che-non-portano-a-niente.test.ts tests/unit/con-l-ai-spenta-l-assistenza-del-negozio-non-offre-l-ai.test.ts — mutazione: prova-rimessa sui rami fix/ondata-4-components-seller-quickaitools-tsx: fe1bee95: regge (uscita 0); fe1bee95: regge (uscita 0); 328d0779: regge (uscita 0)"
     },
     {
       "titolo": "Traduci frenato solo all'applicazione: /start accetta ancora il lotto 'translate' e lo fa pagare, poi /apply lo rifiuta",
@@ -28368,10 +28395,13 @@
       "titolo": "Le pagine spente (AI e caricamento da file) restano pubblicizzate da menu, pulsante fisso e scorciatoie, e portano a una pagina «non attivo».",
       "severita": "minore",
       "file": "components/seller/SellerShell.tsx: riga 35 (voce «AI Studio»), righe 305-322 (pulsante colorato «Copilot · Gestisci parlando» in cima alla barra laterale), righe 494-505 (pulsante fisso «Chiedi al Copilot» in basso a destra su ogni pagina del negozio). app/seller/products/page.tsx: riga 253 («AI sul catalogo»), riga 256 («Importa CSV»), riga 302 (stato vuoto del catalogo, seconda azione «Importa CSV»). app/seller/dashboard/page.tsx:455 (tessera «Importa prodotti · Carica in massa (CSV)»).",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "frontend-ux",
       "fonte": "nato dal lotto #262 (riesame del perimetro)",
-      "descrizione": "Ho cercato i link con grep: tutti puntano a /seller/products/ai-batch o /seller/products/import. Con l'interruttore a false quelle pagine mostrano solo «Gli strumenti AI non sono attivi» (ai-batch/page.tsx:483-498) oppure «Il caricamento da file non è attivo» (import/page.tsx:287-310). Nessuno di questi file è stato toccato dal lotto (git diff --stat vuoto). Caso concreto: un negozio appena approvato, con 0 prodotti, vede nello stato vuoto due azioni; la seconda, «Importa CSV», porta a una funzione spenta. Il pulsante fisso «Chiedi al Copilot» promette su ogni pagina un assistente che non c'è. Minore perché la pagina d'arrivo spiega e dà l'alternativa giusta. Atteso: niente ingressi verso funzioni spente, o ingressi che lo dicono già nell'etichetta."
+      "descrizione": "Ho cercato i link con grep: tutti puntano a /seller/products/ai-batch o /seller/products/import. Con l'interruttore a false quelle pagine mostrano solo «Gli strumenti AI non sono attivi» (ai-batch/page.tsx:483-498) oppure «Il caricamento da file non è attivo» (import/page.tsx:287-310). Nessuno di questi file è stato toccato dal lotto (git diff --stat vuoto). Caso concreto: un negozio appena approvato, con 0 prodotti, vede nello stato vuoto due azioni; la seconda, «Importa CSV», porta a una funzione spenta. Il pulsante fisso «Chiedi al Copilot» promette su ogni pagina un assistente che non c'è. Minore perché la pagina d'arrivo spiega e dà l'alternativa giusta. Atteso: niente ingressi verso funzioni spente, o ingressi che lo dicono già nell'etichetta.",
+      "chiuso_il": "2026-10-31 17:03",
+      "chiuso_da": "PR #270 · 906e4c79",
+      "nota_riparazione": "Riparato nell ondata 4 e nella sua correzione (run wf_dc9216f4-6e2 e wf_868abf3a-e69), unita con la #270. — prova: cd /home/user/mycity && npx vitest run tests/unit/con-le-funzioni-spente-il-negozio-non-vede-ingressi-che-non-portano-a-niente.test.ts tests/unit/con-l-ai-spenta-l-assistenza-del-negozio-non-offre-l-ai.test.ts — mutazione: prova-rimessa sui rami fix/ondata-4-components-seller-quickaitools-tsx: fe1bee95: regge (uscita 0); fe1bee95: regge (uscita 0); 328d0779: regge (uscita 0)"
     },
     {
       "titolo": "Il Centro venditori dice ancora «Iscriviti alla newsletter per essere avvisato», ma dopo il lotto la newsletter non c'è più in nessuna pagina.",
@@ -28965,10 +28995,13 @@
       "titolo": "Il commento «da nessuna porta» è falso: l'import CSV inserisce prodotti in vendita senza passare da questo controllo",
       "severita": "minore",
       "file": "app/seller/products/import/page.tsx:146-149 (insert diretto con status 'available'); commento in salvataggio-tracciato.ts:352",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "frontend-ux",
       "fonte": "preesistente, trovato dal collaudo del primo giro della fase 2 del lotto #262",
-      "descrizione": "Nel file import/page.tsx l'insert scrive diretto: supabase.from('products').insert(payload) con status: 'available'. Il database ferma solo gli allergeni mancanti; foto, descrizione e ingredienti non li controlla nessuno."
+      "descrizione": "Nel file import/page.tsx l'insert scrive diretto: supabase.from('products').insert(payload) con status: 'available'. Il database ferma solo gli allergeni mancanti; foto, descrizione e ingredienti non li controlla nessuno.",
+      "chiuso_il": "2026-10-31 17:03",
+      "chiuso_da": "PR #270 · 906e4c79",
+      "nota_riparazione": "Riparato nell ondata 4 e nella sua correzione (run wf_dc9216f4-6e2 e wf_868abf3a-e69), unita con la #270. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-porta-del-catalogo-non-scrive-una-scorta-che-nel-frattempo-e-cambiata.test.ts tests/unit/la-scorta-si-scrive-solo-se-in-banca-dati-c-e-ancora-quella-vista.test.ts tests/unit/la-porta-del-catalogo-non-promette-piu-di-quello-che-fa.test.ts tests/unit/dopo-una-scorta-cambiata-lista-e-modulo-ripartono-dalla-banca-dati.test.tsx tests/unit/la-scorta-si-confronta-con-quella-vista-non-con-quella-scritta.test.ts — mutazione: prova-rimessa sui rami fix/ondata-4-lib-products-salvataggio-tracciato-ts: 6648791a: regge (uscita 0); c95f6014: regge (uscita 0); 1575ec81: regge (uscita 0)"
     },
     {
       "titolo": "Nessun test esegue il ramo della rotta: un DaCompletare o un 23514 che ricade su 500 'Riprova' non farebbe rosso",
@@ -29137,10 +29170,13 @@
       "titolo": "Commento falso 'da nessuna porta': import CSV e Nuovo prodotto scrivono status available dal browser",
       "severita": "minore",
       "file": "app/seller/products/import/page.tsx:139-149; app/seller/products/new/page.tsx:191; commento in lib/products/salvataggio-tracciato.ts:352",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "frontend-ux",
       "fonte": "preesistente, trovato dal collaudo del primo giro della fase 2 del lotto #262",
-      "descrizione": "L'import inserisce products con status:'available', senza foto e senza passare da salvaProdottoTracciato. Sul database vale solo il trigger degli allergeni (migrazione 126); foto e descrizione non sono controllate."
+      "descrizione": "L'import inserisce products con status:'available', senza foto e senza passare da salvaProdottoTracciato. Sul database vale solo il trigger degli allergeni (migrazione 126); foto e descrizione non sono controllate.",
+      "chiuso_il": "2026-10-31 17:03",
+      "chiuso_da": "PR #270 · 906e4c79",
+      "nota_riparazione": "Riparato nell ondata 4 e nella sua correzione (run wf_dc9216f4-6e2 e wf_868abf3a-e69), unita con la #270. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-porta-del-catalogo-non-scrive-una-scorta-che-nel-frattempo-e-cambiata.test.ts tests/unit/la-scorta-si-scrive-solo-se-in-banca-dati-c-e-ancora-quella-vista.test.ts tests/unit/la-porta-del-catalogo-non-promette-piu-di-quello-che-fa.test.ts tests/unit/dopo-una-scorta-cambiata-lista-e-modulo-ripartono-dalla-banca-dati.test.tsx tests/unit/la-scorta-si-confronta-con-quella-vista-non-con-quella-scritta.test.ts — mutazione: prova-rimessa sui rami fix/ondata-4-lib-products-salvataggio-tracciato-ts: 6648791a: regge (uscita 0); c95f6014: regge (uscita 0); 1575ec81: regge (uscita 0)"
     },
     {
       "titolo": "Il cron degli ordini scaduti ricopia la logica di annullo invece di usare annullaERimborsa",
@@ -31233,24 +31269,30 @@
       "fonte": "c'era già prima: trovato dall'ondata 10 (run wf_2326095d-a6c), vaglio wf_414a376a-0f4"
     },
     {
-      "stato": "aperto",
+      "stato": "riparato",
       "reparto": "Flussi critici",
       "titolo": "Dall'amministrazione, salvare un prodotto con taglie o varianti rimette in vetrina i pezzi venduti mentre la scheda era aperta",
       "dimensione": "qa-flussi",
       "severita": "grave",
       "file": "app/admin/products/[id]/edit/page.tsx:56-64,149 · app/api/admin/products/route.ts:184-187 · lib/products/persistVariantsServer.ts:17,46-47",
       "descrizione": "La pagina Modifica prodotto dell'amministrazione usa lo stesso modulo del negoziante. Al salvataggio però butta via le scorte viste all'apertura: riga 149, onSubmit passa solo payload e ctx.variants. La PATCH /api/admin/products chiama poi saveProductVariantsServer(admin, id, variants) senza il quarto argomento (route.ts:186). Senza quel numero ogni variante già salvata riscrive la scorta letta all'apertura (persistVariantsServer.ts:17 lo dice: «Senza scorteViste (l'amministrazione) si riscrive tutto, come prima»). Infine il trigger trg_sync_product_variant_rollup (migrations/080_product_variants.sql:59-77) ricalcola products.stock da quella somma. La scorta del prodotto senza varianti invece è protetta anche qui, perché il modulo la toglie quando non è cambiata (ProductForm.tsx:706). Esempio: alle 10 Nicola apre la focaccia con le taglie S (2 pezzi) e M (3) per correggere un refuso. Alle 10:05 un cliente compra una S e in banca dati resta 1. Alle 10:10 Nicola salva: la S torna a 2, e il cliente successivo ordina una focaccia che non esiste. Il rimedio: la pagina admin passa ctx.scorteViste e la PATCH le inoltra a saveProductVariantsServer, come fa già la pagina del negoziante (edit/page.tsx:120,219). Prova rossa oggi: cd /home/user/mycity && node_modules/.bin/jiti /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/triage-prodotti/scorta-vecchia-varianti.ts. Il caso A chiama la funzione vera come fa route.ts:186, su una tabella finta (vista 2, banca dati 1): esce «dopo il salvataggio 2 (giusto: 1)» ed exit 1. Lo scratchpad non resta: chi ripara deve portarla in tests/unit. — Dal contro-vaglio, per chi ripara: (1) la prova scritta nel vaglio non vale, perché chiama saveProductVariantsServer direttamente senza passare dalla rotta: va sostituita da una prova che passa dalla porta dell'amministrazione (vitest sulla PATCH di app/api/admin/products/route.ts:150-190 col client finto, S vista 2 e in banca dati 1, che si aspetta S ancora a 1; oppure montando app/admin/products/[id]/edit/page.tsx col finto di react-query che esegue mutationFn), in un posto che resta. (2) Trappola: updateSchema in route.ts:70-73 è uno z.object non strict e toglie in silenzio le chiavi che non conosce: se scorteViste non entra nello schema, la pagina le manda e la rotta le butta. (3) La prova del lotto tests/unit/chi-corregge-la-descrizione-non-rimette-in-magazzino-la-merce-venduta.test.ts:167-173 («senza le scorte viste... resta tutto come prima») presenta il difetto come voluto: va riscritta quando si chiude questa voce. Lo ha trovato anche la radiografia del perimetro: Stessa cartella di prima: `node --experimental-strip-types --no-warnings scenario2.ts`. Uscita: «admin corregge la descrizione: S in banca = 2 (era 1 dopo la vendita)». La lettura di app/admin/products/[id]/edit/page.tsx:149 mostra `onSubmit={(payload, ctx) => update.mutate({ payload, variants: ctx.variants })}`.",
-      "fonte": "c'era già prima: trovato dall'ondata 10 (run wf_2326095d-a6c), vaglio wf_414a376a-0f4"
+      "fonte": "c'era già prima: trovato dall'ondata 10 (run wf_2326095d-a6c), vaglio wf_414a376a-0f4",
+      "chiuso_il": "2026-10-31 17:03",
+      "chiuso_da": "PR #270 · 906e4c79",
+      "nota_riparazione": "Riparato nell ondata 4 e nella sua correzione (run wf_dc9216f4-6e2 e wf_868abf3a-e69), unita con la #270. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-porta-del-catalogo-non-scrive-una-scorta-che-nel-frattempo-e-cambiata.test.ts tests/unit/la-scorta-si-scrive-solo-se-in-banca-dati-c-e-ancora-quella-vista.test.ts tests/unit/la-porta-del-catalogo-non-promette-piu-di-quello-che-fa.test.ts tests/unit/dopo-una-scorta-cambiata-lista-e-modulo-ripartono-dalla-banca-dati.test.tsx tests/unit/la-scorta-si-confronta-con-quella-vista-non-con-quella-scritta.test.ts — mutazione: prova-rimessa sui rami fix/ondata-4-lib-products-salvataggio-tracciato-ts: 6648791a: regge (uscita 0); c95f6014: regge (uscita 0); 1575ec81: regge (uscita 0)"
     },
     {
-      "stato": "aperto",
+      "stato": "riparato",
       "reparto": "API",
       "titolo": "Se il negoziante cambia la scorta mentre arrivano ordini, il suo numero cancella le vendite e nessuno lo avvisa",
       "dimensione": "api-backend",
       "severita": "grave",
       "file": "components/seller/ProductForm.tsx:706-708 · lib/products/salvataggio-tracciato.ts:357-361 · lib/products/persistVariantsServer.ts:46-47,59-61 · app/seller/products/page.tsx:154-180 · app/api/admin/products/route.ts:170 (patch.stock = rest.stock, assoluto)",
       "descrizione": "La scorta si scrive come numero assoluto, e né la porta del prodotto né quella delle varianti controllano che in banca dati ci sia ancora il numero visto all'apertura. salvaProdottoTracciato fa update(...).eq('id').eq('seller_id'), senza nessun filtro sulla scorta (salvataggio-tracciato.ts:357-361). saveProductVariantsServer aggiorna per id (persistVariantsServer.ts:59-61). Il modulo decide solo se mandarla o no (ProductForm.tsx:706), e non avvisa mai che la scorta è cambiata. La modifica veloce dall'elenco prodotti scrive allo stesso modo (app/seller/products/page.tsx:165-180). Esempio: alle 9 il fornaio apre la focaccia, scorta 5. Alle 9:05 due clienti ne comprano una a testa e in banca dati resta 3. Alle 9:10 scrive 6 per aggiungerne una appena sfornata. In banca dati va 6 invece di 4, e due focacce che non esistono tornano in vetrina. Il rimedio: un confronta-e-scrivi lato server (.eq('stock', vista), o una funzione col valore atteso). Se il numero non torna, la risposta è «la scorta è cambiata mentre modificavi: ora è 3», detta a video al negoziante. È la seconda metà del comportamento giusto scritto nel difetto 19 («se la scorta è cambiata da quando la pagina è stata aperta, il negoziante deve essere avvisato»), che il lotto non ha fatto. Prova rossa oggi: cd /home/user/mycity && node_modules/.bin/jiti /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/triage-prodotti/scorta-vecchia-varianti.ts. Il caso B (vista 5, banca dati 3, lui scrive 6) esce «dopo il salvataggio 6 (giusto: 4, o un avviso)» ed exit 1. Va portata in tests/unit da chi ripara. — Dal contro-vaglio: la stessa perdita c'è sulla porta dell'amministrazione (app/api/admin/products/route.ts:170). La prova va scritta da sola, col suo codice d'uscita: verde solo se la banca dati arriva a 4, oppure se la chiamata fallisce con un errore di «scorta cambiata» e la banca dati resta 3; rossa se finisce a 6, o a 3 senza errore. Deve coprire anche il prodotto senza varianti (salvaProdottoTracciato, lib/products/salvataggio-tracciato.ts:357-361) con un db finto che applica i filtri .eq. La radiografia del perimetro l'ha eseguito: Copie di sola lettura da `git show 0df7945:` (senza le righe import) in /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/prova. Comando: `cd /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/prova && node --experimental-strip-types --no-warnings scenario.ts`. Uscita: «in banca dopo le vendite: 1 1» · «in banca dopo il salvataggio: S = 4 (giusto 3 = 1 rimasto + 2 aggiunti), M = 1» · «scortaCambiata(6, 5) = true -> parte stock: 6, la banca aveva 3: giusto sarebbe 4». Per M, non toccata, la cura funziona: resta 1.",
-      "fonte": "c'era già prima: trovato dall'ondata 10 (run wf_2326095d-a6c), vaglio wf_414a376a-0f4"
+      "fonte": "c'era già prima: trovato dall'ondata 10 (run wf_2326095d-a6c), vaglio wf_414a376a-0f4",
+      "chiuso_il": "2026-10-31 17:03",
+      "chiuso_da": "PR #270 · 906e4c79",
+      "nota_riparazione": "Riparato nell ondata 4 e nella sua correzione (run wf_dc9216f4-6e2 e wf_868abf3a-e69), unita con la #270. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-porta-del-catalogo-non-scrive-una-scorta-che-nel-frattempo-e-cambiata.test.ts tests/unit/la-scorta-si-scrive-solo-se-in-banca-dati-c-e-ancora-quella-vista.test.ts tests/unit/la-porta-del-catalogo-non-promette-piu-di-quello-che-fa.test.ts tests/unit/dopo-una-scorta-cambiata-lista-e-modulo-ripartono-dalla-banca-dati.test.tsx tests/unit/la-scorta-si-confronta-con-quella-vista-non-con-quella-scritta.test.ts — mutazione: prova-rimessa sui rami fix/ondata-4-lib-products-salvataggio-tracciato-ts: 6648791a: regge (uscita 0); c95f6014: regge (uscita 0); 1575ec81: regge (uscita 0)"
     },
     {
       "stato": "aperto",
@@ -31297,7 +31339,7 @@
       "fonte": "nato dal lotto #263 (ondata 10, run wf_2326095d-a6c); vaglio wf_414a376a-0f4"
     },
     {
-      "stato": "aperto",
+      "stato": "riparato",
       "reparto": "Flussi critici",
       "titolo": "Dopo certi errori del server il sito dimentica che l'ordine in contanti era già partito, e chi ritocca «Ordina» ne crea un secondo",
       "dimensione": "qa-flussi",
@@ -31305,7 +31347,10 @@
       "file": "lib/ordini/chiave-dopo-l-errore.ts:17-20 · app/api/orders/cod/route.ts:204 (503 sulla rivendicazione della chiave, senza inCorso) e :760-1044 (finestra fra il primo ordine nato e la riga della chiave riempita)",
       "descrizione": "Per ogni tentativo d'ordine in contanti il browser tiene una chiave. Serve al server per riconoscere un invio ripetuto e non creare un secondo ordine. Dopo un errore la regola è «butta la chiave, a meno che il server dica inCorso» (chiave-dopo-l-errore.ts:17-20, usata in page.tsx:844). Questo default è sbagliato: in certi errori il server non può garantire che nessun ordine sia nato. Primo caso: la funzione cade (timeout, 5xx della piattaforma) dopo l'insert del primo ordine (route.ts:760) e prima che la riga della chiave venga riempita (route.ts:1039-1044). La risposta non è JSON e page.tsx:836 la legge come {}. La chiave viene buttata ma il carrello resta pieno, così al tocco dopo parte una chiave nuova: secondo ordine. Secondo caso: il primo invio crea l'ordine ma la risposta si perde, e la chiave giustamente resta. Al ritocco l'insert della chiave cade per un errore di rete diverso dal duplicato. Allora route.ts:204 risponde 503 «Impossibile registrare l'ordine, riprova» senza inCorso: il browser butta la chiave e il terzo tocco crea il secondo ordine. Il danno: due ordini per una sola spesa, merce riservata due volte, credito MyCity tolto due volte, il negozio che prepara due spese. In più il «riprova» fa credere al cliente che non sia partito niente. Rimedio per tutta la classe: il server dice esplicitamente «chiave libera» (per esempio chiaveLibera:true) solo dalle uscite di esciERilascia, cioè quando nessun ordine è nato. Il browser butta la chiave solo in quel caso e su ogni altro errore la tiene. Va insieme al difetto aperto idx 1208 (la riga della chiave si riempie senza garanzie): tenendo la chiave dopo un crash, la riga resta con order_ids vuoto e dopo 60 secondi la via della chiave abbandonata ricrea comunque l'ordine. Prova che gira: lo scenario VARIANTE-RIVENDICA (copia della prova del collaudo A nella cartella di lavoro, eseguita col config di prova sul codice uguale a 1776e6b1) è rosso oggi, con 2° 503 senza inCorso, 3° 200 e 2 ordini dove se ne aspetta 1. Per chi ripara (giro B dell ondata 1, 29/10): il punto dove si vede è app/checkout/page.tsx, ma la cura va nella rotta (rispondere col segnale inCorso) o in lib/ordini/chiave-dopo-l-errore.ts, che la pagina già usa. In questo giro la pagina della cassa appartiene al pacchetto delle promesse.",
       "fonte": "c'era già prima: trovato dall'ondata 10 (run wf_2326095d-a6c), vaglio wf_414a376a-0f4",
-      "nota_riesame": "2026-10-29 14:46: giro B (ondata 11): chiuso il 503 sulla rivendicazione della chiave (ora inCorso). Resta aperto il caso della rotta che cade dopo il primo ordine: la piattaforma risponde con testo (504), il browser legge {} e butta la chiave. Confermato da due lenti della radiografia del perimetro (run wf_5fe12725-8cb), su 0df7945 e sul ramo. Cura: buttare la chiave solo su una risposta sicuramente della rotta (ok:false senza inCorso)."
+      "nota_riesame": "2026-10-29 14:46: giro B (ondata 11): chiuso il 503 sulla rivendicazione della chiave (ora inCorso). Resta aperto il caso della rotta che cade dopo il primo ordine: la piattaforma risponde con testo (504), il browser legge {} e butta la chiave. Confermato da due lenti della radiografia del perimetro (run wf_5fe12725-8cb), su 0df7945 e sul ramo. Cura: buttare la chiave solo su una risposta sicuramente della rotta (ok:false senza inCorso).",
+      "chiuso_il": "2026-10-31 17:03",
+      "chiuso_da": "PR #270 · 906e4c79",
+      "nota_riparazione": "Riparato nell ondata 3 e nella sua correzione (run wf_86375bde-655 e wf_38a26116-fd4), unita con la #270. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-cassa-in-contanti-non-perde-e-non-ricicla-la-chiave.test.ts tests/unit/contanti-lo-stesso-carrello-giorni-dopo-e-un-ordine-nuovo.test.ts tests/unit/contanti-la-chiave-si-libera-se-l-ordine-non-parte.test.ts tests/unit/la-cassa-non-dice-fatto-per-un-ordine-senza-articoli.test.ts — mutazione: prova-rimessa sui rami fix/ondata-3-app-api-orders-cod-route-ts: 4a4f394e: regge (uscita 0); efbe84a3: regge (uscita 0); 7608c3bf: regge (uscita 0)"
     },
     {
       "stato": "aperto",
@@ -31493,12 +31538,15 @@
       "dimensione": "api-backend",
       "reparto": "API",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "Se la risposta del primo «Ordina» si perde, il prossimo ordine in contanti in quella scheda, anche giorni dopo e con un altro negozio, dice «Ordine effettuato» col vecchio ordine: il nuovo non arriva",
       "file": "app/api/orders/cod/route.ts (ramo order_ids e ramo chiave abbandonata) · lib/ordini/tentativo.ts chiaveTentativo (la chiave vive in sessionStorage e non cambia col carrello)",
       "descrizione": "La chiave del tentativo resta nella scheda quando la risposta si perde, perché chiudiTentativo non gira. Il prossimo ordine in quella scheda riusa la stessa chiave: la rotta trova la riga col vecchio ordine e risponde «fatto» con quello. Il carrello si svuota, si apre la pagina dell ordine vecchio, e al negozio nuovo non arriva niente. Il contro-vaglio l ha allargato: non serve cambiare il carrello subito, basta il prossimo ordine nella stessa scheda. Prova: tests/unit/zz-vaglio-contro1-cassa.test.ts (copia nello scratch della sessione), rossa su 0df7945 e sul ramo cucito. Rimedio: legare la chiave al contenuto del carrello, o farla ruotare quando il carrello cambia.",
-      "fonte": "preesistente: c è anche su 0df7945 (ramo della #263); trovato nel giro B dell ondata 1 (run wf_8774d9cc-eb7), confermato dal vaglio e contro-vaglio wf_5fe12725-8cb"
+      "fonte": "preesistente: c è anche su 0df7945 (ramo della #263); trovato nel giro B dell ondata 1 (run wf_8774d9cc-eb7), confermato dal vaglio e contro-vaglio wf_5fe12725-8cb",
+      "chiuso_il": "2026-10-31 17:03",
+      "chiuso_da": "PR #270 · 906e4c79",
+      "nota_riparazione": "Riparato nell ondata 3 e nella sua correzione (run wf_86375bde-655 e wf_38a26116-fd4), unita con la #270. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-cassa-in-contanti-non-perde-e-non-ricicla-la-chiave.test.ts tests/unit/contanti-lo-stesso-carrello-giorni-dopo-e-un-ordine-nuovo.test.ts tests/unit/contanti-la-chiave-si-libera-se-l-ordine-non-parte.test.ts tests/unit/la-cassa-non-dice-fatto-per-un-ordine-senza-articoli.test.ts — mutazione: prova-rimessa sui rami fix/ondata-3-app-api-orders-cod-route-ts: 4a4f394e: regge (uscita 0); efbe84a3: regge (uscita 0); 7608c3bf: regge (uscita 0)"
     },
     {
       "dimensione": "qa-flussi",
@@ -31526,12 +31574,15 @@
       "dimensione": "api-backend",
       "reparto": "API",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "Se un primo invio lentissimo e un ritocco dopo un minuto creano lo stesso ordine, il secondo legge «errore», il browser butta la chiave e il tocco dopo fa il doppione",
       "file": "app/api/orders/cod/route.ts ramo orderErr (23505 su orders → esciERilascia, 500 senza inCorso) · lib/ordini/chiave-dopo-l-errore.ts:34-37 (il commento dice che il doppione non può nascere)",
       "descrizione": "Raccoglie V9, V17 e V26. Serve un invio vivo per più di un minuto prima di creare l ordine. Su 0df7945 il doppione arriva subito, sul ramo un tocco dopo: il ramo non peggiora. Rimedio proposto: 23505 su orders → ordineGiaInCorso senza liberare la chiave.",
-      "fonte": "preesistente: c è anche su 0df7945 (ramo della #263); trovato nel giro B dell ondata 1 (run wf_8774d9cc-eb7), confermato dal vaglio e contro-vaglio wf_5fe12725-8cb"
+      "fonte": "preesistente: c è anche su 0df7945 (ramo della #263); trovato nel giro B dell ondata 1 (run wf_8774d9cc-eb7), confermato dal vaglio e contro-vaglio wf_5fe12725-8cb",
+      "chiuso_il": "2026-10-31 17:03",
+      "chiuso_da": "PR #270 · 906e4c79",
+      "nota_riparazione": "Riparato nell ondata 3 e nella sua correzione (run wf_86375bde-655 e wf_38a26116-fd4), unita con la #270. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-cassa-in-contanti-non-perde-e-non-ricicla-la-chiave.test.ts tests/unit/contanti-lo-stesso-carrello-giorni-dopo-e-un-ordine-nuovo.test.ts tests/unit/contanti-la-chiave-si-libera-se-l-ordine-non-parte.test.ts tests/unit/la-cassa-non-dice-fatto-per-un-ordine-senza-articoli.test.ts — mutazione: prova-rimessa sui rami fix/ondata-3-app-api-orders-cod-route-ts: 4a4f394e: regge (uscita 0); efbe84a3: regge (uscita 0); 7608c3bf: regge (uscita 0)"
     },
     {
       "dimensione": "api-backend",
@@ -31592,12 +31643,15 @@
       "dimensione": "api-backend",
       "reparto": "API",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "Se il database salva l ordine ma la risposta torna con un errore, la cassa lo tratta come mai nato: rimette la merce, ridà il credito, butta la chiave, e il tocco dopo crea un secondo ordine",
       "file": "app/api/orders/cod/route.ts:1029-1042 (ramo orderErr || !order)",
       "descrizione": "Quando l inserimento in orders torna con errore, la rotta non sa se la riga è nata davvero (per esempio la connessione fra server e database cade dopo il salvataggio). Annulla solo gli ordini dei negozi precedenti, chiama restore_stock, ridà il credito, libera la chiave e risponde 500 senza inCorso. L ordine resta senza articoli e il tocco dopo ne crea un altro. Sul ramo l identificativo dell ordine è noto prima dell inserimento: la rotta potrebbe rileggerlo. Prova temporanea della radiografia, verde sul ramo cucito come riproduzione del difetto.",
-      "fonte": "preesistente: c è anche su 0df7945; trovato dalla radiografia del perimetro del giro B (run wf_5fe12725-8cb)"
+      "fonte": "preesistente: c è anche su 0df7945; trovato dalla radiografia del perimetro del giro B (run wf_5fe12725-8cb)",
+      "chiuso_il": "2026-10-31 17:03",
+      "chiuso_da": "PR #270 · 906e4c79",
+      "nota_riparazione": "Riparato nell ondata 3 e nella sua correzione (run wf_86375bde-655 e wf_38a26116-fd4), unita con la #270. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-cassa-in-contanti-non-perde-e-non-ricicla-la-chiave.test.ts tests/unit/contanti-lo-stesso-carrello-giorni-dopo-e-un-ordine-nuovo.test.ts tests/unit/contanti-la-chiave-si-libera-se-l-ordine-non-parte.test.ts tests/unit/la-cassa-non-dice-fatto-per-un-ordine-senza-articoli.test.ts — mutazione: prova-rimessa sui rami fix/ondata-3-app-api-orders-cod-route-ts: 4a4f394e: regge (uscita 0); efbe84a3: regge (uscita 0); 7608c3bf: regge (uscita 0)"
     },
     {
       "dimensione": "api-backend",
@@ -33770,12 +33824,15 @@
       "dimensione": "microcopy",
       "reparto": "Microcopy",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "Quando la veloce cade perché il negozio è chiuso, il perché sparisce dallo schermo proprio mentre la cassa mette una fascia che quel negozio non può servire",
       "file": "components/checkout/DeliverySlotPicker.tsx:194 (condizione !expressAvailable && motivoVeloce && !avvisoSpostata)",
       "descrizione": "Giovedì 29/10 alle 13:05 Maria torna dall'accesso con «Adesso» nella bozza. Il server risponde: «Pane Quotidiano adesso è chiuso: la consegna veloce non si può». La cassa la sposta su «In giornata · 15:00–18:00» e scrive «ho messo «In giornata · 15:00–18:00». Controlla qui sotto che l'ora ti vada bene». Il motivo del server, cioè che il negozio è chiuso, è nascosto proprio perché c'è l'avviso. Maria non ha nessun indizio che il forno il giovedì pomeriggio non riapre. Preme Ordina e la rotta la rifiuta. La riga del perché è l'unica informazione sugli orari che arriva alla cassa, e si spegne nel solo momento in cui servirebbe. La condizione c'era già su 12e2ea35. L'ondata 18 ha reso l'avviso più convincente, perché adesso nomina la fascia. Diversa dalla scheda 1945, che riguarda un motivo vecchio mostrato durante l'attesa. Prova: cp /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/perimetro19/interfaccia-o18/zz-perimetro-interfaccia-o18-prove.test.tsx /home/user/mycity-ondate/vaglio-19/tests/unit/ && cd /home/user/mycity-ondate/vaglio-19 && npx vitest run tests/unit/zz-perimetro-interfaccia-o18-prove.test.tsx -t 'B —' ; rm -f /home/user/mycity-ondate/vaglio-19/tests/unit/zz-perimetro-interfaccia-o18-prove.test.tsx — ROSSA due volte su due: il testo visibile della cassa montata contiene l'avviso ma non «adesso è chiuso».",
-      "fonte": "preesistente: c è su 12e2ea35; trovato dal controllo dei 9 file dell ondata 18 (run wf_57f9c01e-7ed) su 35677a88"
+      "fonte": "preesistente: c è su 12e2ea35; trovato dal controllo dei 9 file dell ondata 18 (run wf_57f9c01e-7ed) su 35677a88",
+      "chiuso_il": "2026-10-31 17:03",
+      "chiuso_da": "PR #270 · 906e4c79",
+      "nota_riparazione": "Riparato nell ondata 3 e nella sua correzione (run wf_86375bde-655 e wf_38a26116-fd4), unita con la #270. — prova: cd /home/user/mycity && npx vitest run tests/unit/il-selettore-della-consegna-segue-l-ora-e-dice-il-perche.test.tsx tests/unit/chiuso-per-ferie-ferma-gli-ordini-e-il-ritiro-spento-non-si-offre.test.tsx tests/unit/chiuso-per-ferie-la-scheda-non-promette-la-consegna.test.ts tests/unit/ferie-con-la-domenica-mai-scritta-ferma-gli-ordini.test.ts — mutazione: prova-rimessa sui rami fix/ondata-3-components-checkout-deliveryslotpicker-t: 272eaeb8: regge (uscita 0); 272eaeb8: regge (uscita 0); c9331977: regge (uscita 0); a937a8cf: regge (uscita 0)"
     },
     {
       "dimensione": "frontend-ux",
@@ -34429,23 +34486,29 @@
       "dimensione": "frontend-ux",
       "reparto": "Interfaccia",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "Sabato sera, quando la veloce cade, l'avviso dice «ho messo Domani · 9:00–12:00» ma per la domenica il negozio è chiuso",
       "file": "components/checkout/DeliverySlotPicker.tsx quandoLaVeloceCade: fasceDiDomaniPossibili(...)[0] ?? FASCE_DI_DOMANI[0]",
       "descrizione": "sweep.cjs: Pane Quotidiano, 299 minuti (sab 19:01-23:59) in cui la fascia della caduta non è confermabile. La cassa blocca l'ordine, ma l'avviso si contraddice con la tessera «Negozio chiuso» — Visto su un ramo intermedio: da riverificare sul ramo finale 896d704.",
-      "fonte": "ondata 21 del sito, metodo snello (run wf_03b8bd70-559), collaudo B, 31/10/2026"
+      "fonte": "ondata 21 del sito, metodo snello (run wf_03b8bd70-559), collaudo B, 31/10/2026",
+      "chiuso_il": "2026-10-31 17:03",
+      "chiuso_da": "PR #270 · 906e4c79",
+      "nota_riparazione": "Riparato nell ondata 3 e nella sua correzione (run wf_86375bde-655 e wf_38a26116-fd4), unita con la #270. — prova: cd /home/user/mycity && npx vitest run tests/unit/il-selettore-della-consegna-segue-l-ora-e-dice-il-perche.test.tsx tests/unit/chiuso-per-ferie-ferma-gli-ordini-e-il-ritiro-spento-non-si-offre.test.tsx tests/unit/chiuso-per-ferie-la-scheda-non-promette-la-consegna.test.ts tests/unit/ferie-con-la-domenica-mai-scritta-ferma-gli-ordini.test.ts — mutazione: prova-rimessa sui rami fix/ondata-3-components-checkout-deliveryslotpicker-t: 272eaeb8: regge (uscita 0); 272eaeb8: regge (uscita 0); c9331977: regge (uscita 0); a937a8cf: regge (uscita 0)"
     },
     {
       "dimensione": "frontend-ux",
       "reparto": "Interfaccia",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "Il selettore non si ridisegna col passare del tempo: aperto alle 16:55 mostra ancora «15:00–18:00» alle 17:05",
       "file": "components/checkout/DeliverySlotPicker.tsx: romeNow() letto solo al render, nessun timer",
       "descrizione": "Lettura: il freno all'invio (page.tsx:1186, consegnaScelta con adesso: romeNow()) ferma l'ordine con un avviso, quindi nessun soldo è a rischio: è solo un passo in più per chi compra",
-      "fonte": "ondata 21 del sito, metodo snello (run wf_03b8bd70-559), collaudo B, 31/10/2026"
+      "fonte": "ondata 21 del sito, metodo snello (run wf_03b8bd70-559), collaudo B, 31/10/2026",
+      "chiuso_il": "2026-10-31 17:03",
+      "chiuso_da": "PR #270 · 906e4c79",
+      "nota_riparazione": "Riparato nell ondata 3 e nella sua correzione (run wf_86375bde-655 e wf_38a26116-fd4), unita con la #270. — prova: cd /home/user/mycity && npx vitest run tests/unit/il-selettore-della-consegna-segue-l-ora-e-dice-il-perche.test.tsx tests/unit/chiuso-per-ferie-ferma-gli-ordini-e-il-ritiro-spento-non-si-offre.test.tsx tests/unit/chiuso-per-ferie-la-scheda-non-promette-la-consegna.test.ts tests/unit/ferie-con-la-domenica-mai-scritta-ferma-gli-ordini.test.ts — mutazione: prova-rimessa sui rami fix/ondata-3-components-checkout-deliveryslotpicker-t: 272eaeb8: regge (uscita 0); 272eaeb8: regge (uscita 0); c9331977: regge (uscita 0); a937a8cf: regge (uscita 0)"
     },
     {
       "dimensione": "frontend-ux",
@@ -35990,6 +36053,17 @@
       "file": "lib/products/persistVariantsServer.ts commento 31/10; perimetro api-backend",
       "descrizione": "ls /home/user/mycity-ondate/*/migrations/169_* e tests/unit/rimandare-un-salvataggio* → nessun file in nessun worktree dell'ondata.",
       "fonte": "ondata di correzione 4-bis del piano dei difetti (run wf_868abf3a-e69), nato dal lotto, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Il pulsante «cliente assente» nella pagina della consegna del fattorino non ha una prova che lo tocchi",
+      "file": "app/rider/orders/[id]/page.tsx",
+      "descrizione": "La correzione dell ondata 3 ha provato la rotta, i Termini e i cinque casi dell annullo, ma il pulsante che il fattorino tocca non ha una prova: se sparisse o chiamasse la rotta sbagliata, nessun rosso lo direbbe. Dichiarato come parziale dal giro di correzione (run wf_38a26116-fd4).",
+      "fonte": "chiusure della #270, dal parziale dell ondata di correzione 3-bis del piano dei difetti, 31/10/2026"
     }
   ],
   "sync_scan": {
