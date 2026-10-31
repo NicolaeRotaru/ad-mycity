@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-10-30 23:10",
+  "aggiornato": "2026-10-31 08:25",
   "fatti": [
     {
       "id": "architettura.tre-macchine",
@@ -619,11 +619,25 @@
     {
       "id": "lancio.criterio",
       "nome": "Quando si parte col primo cliente",
-      "valore": "Nicola entra col primo cliente quando il marketplace è pronto, cioè quando «non ha più difetti e la radiografia non trova difetti» (Nicola, 2026-10-27). Da precisare con lui se vale anche per i difetti minori: oggi i minori aperti sono centinaia e ogni radiografia ne trova di nuovi.",
-      "fonte": "Nicola, chat 2026-10-27 ~13:20",
-      "aggiornato": "2026-10-27 12:59",
-      "storia": [],
-      "caccia": [],
+      "valore": "Si apre al primo cliente quando sono a zero i bloccanti e i gravi che al lancio si possono incontrare, con i contanti e con la carta. I minori si riparano dopo, a gruppi, senza fermare l'apertura. Le funzioni che restano spente (AI per i negozi, codici sconto, newsletter, inviti e punti, Drop, Traduci, caricamento da file, app installabile, PostHog, buoni regalo) si riparano prima di riaccenderle, e intanto la rotta del server le rifiuta. Nicola, 31/10/2026, scelta «Bloccanti e gravi del lancio»; prima, il 27/10: «non ha più difetti e la radiografia non trova difetti».",
+      "fonte": "Nicola, 2026-10-31 notte, risposta «Bloccanti e gravi del lancio» alla domanda «Pronto» (sessione del piano dei difetti)",
+      "aggiornato": "2026-10-31 08:24",
+      "storia": [
+        {
+          "valore": "Nicola entra col primo cliente quando il marketplace è pronto, cioè quando «non ha più difetti e la radiografia non trova difetti» (Nicola, 2026-10-27). Da precisare con lui se vale anche per i difetti minori: oggi i minori aperti sono centinaia e ogni radiografia ne trova di nuovi.",
+          "fino_a": "2026-10-31 08:24"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "Da precisare con lui se vale anche per i difetti minori",
+          "dal": "2026-10-31 08:24"
+        },
+        {
+          "pattern": "Nicola entra col primo cliente quando il marketplace è pronto, cioè quando «non ha più difetti e la radiografia non trova difetti» (Nicola, 2026-10-27). Da precisare con lui se vale anche per i difetti minori: oggi i minori aperti sono centinaia e ogni radiografia ne trova di nuovi.",
+          "dal": "2026-10-31 08:24"
+        }
+      ],
       "esenzioni": []
     },
     {
@@ -928,12 +942,34 @@
     {
       "id": "pagamenti.al-lancio",
       "nome": "Pagamenti al lancio",
-      "valore": "Al lancio si paga solo in contanti alla consegna, come oggi; la carta si accende dopo, con la sua lista. Quando un pagamento va storto il sito si ferma e avvisa Nicola con la cifra. Il negozio, per i contanti, lo paga Nicola con un bonifico a mano dopo la rimessa registrata. Eccezione temporanea al paletto 7 («la piattaforma non tocca mai i fondi») accettata da Nicola per il lancio, in attesa del parere del legale. Scelte 3 e 4 della carta #209, firmate il 2026-10-26.",
-      "fonte": "Nicola, chat 2026-10-26 ~08:55, «ok 209, parti» e risposte brevi",
-      "aggiornato": "2026-10-26 09:04",
-      "storia": [],
-      "caccia": [],
-      "esenzioni": []
+      "valore": "Al lancio si paga in contanti alla consegna e con la carta. La carta entra nel lancio ma resta spenta finché Nicola non accende l'interruttore CARTA_ACCESA: il giorno in cui Stripe ha verificato il conto del negozio, dopo la sua firma sugli ordini in contanti già pagati a mano (HELD) e dopo un ordine di prova con carta nell'anteprima. Le chiavi di test di Stripe stanno solo nell'anteprima, mai in produzione. Quando un pagamento va storto il sito si ferma e avvisa Nicola con la cifra. Il negozio, per i contanti, lo paga Nicola con un bonifico a mano dopo la rimessa registrata. Eccezione temporanea al paletto 7 («la piattaforma non tocca mai i fondi») accettata da Nicola per il lancio, in attesa del parere del legale. Scelte 3 e 4 della carta #209 (26/10), poi la carta accesa al lancio: Nicola, 31/10/2026, «accendi solo la carta».",
+      "fonte": "Nicola, 2026-10-31 notte, risposta «accendi solo la carta» alla domanda sulle funzioni spente (sessione del piano dei difetti)",
+      "aggiornato": "2026-10-31 08:24",
+      "storia": [
+        {
+          "valore": "Al lancio si paga solo in contanti alla consegna, come oggi; la carta si accende dopo, con la sua lista. Quando un pagamento va storto il sito si ferma e avvisa Nicola con la cifra. Il negozio, per i contanti, lo paga Nicola con un bonifico a mano dopo la rimessa registrata. Eccezione temporanea al paletto 7 («la piattaforma non tocca mai i fondi») accettata da Nicola per il lancio, in attesa del parere del legale. Scelte 3 e 4 della carta #209, firmate il 2026-10-26.",
+          "fino_a": "2026-10-31 08:24"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "Al lancio si paga solo in contanti alla consegna",
+          "dal": "2026-10-31 08:24"
+        },
+        {
+          "pattern": "al lancio la carta è spenta",
+          "dal": "2026-10-31 08:24",
+          "chiusa": "2026-10-31 08:25"
+        },
+        {
+          "pattern": "Al lancio si paga solo in contanti alla consegna, come oggi; la carta si accende dopo, con la sua lista. Quando un pagamento va storto il sito si ferma e avvisa Nicola con la cifra. Il negozio, per i contanti, lo paga Nicola con un bonifico a mano dopo la rimessa registrata. Eccezione temporanea al paletto 7 («la piattaforma non tocca mai i fondi») accettata da Nicola per il lancio, in attesa del parere del legale. Scelte 3 e 4 della carta #209, firmate il 2026-10-26.",
+          "dal": "2026-10-31 08:24"
+        }
+      ],
+      "esenzioni": [
+        "consegne/audit/2026-10-31-verifica-1213-schede.json",
+        "consegne/audit/2026-10-31-piano-difetti-sito.json"
+      ]
     },
     {
       "id": "pagamenti.rimborso-contanti",
