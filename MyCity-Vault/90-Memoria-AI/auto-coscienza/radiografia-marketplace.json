@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 2062,
+    "findings": 2066,
     "bloccanti": 35,
-    "gravi": 553,
-    "minori": 1474,
+    "gravi": 554,
+    "minori": 1477,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -34895,6 +34895,52 @@
       "file": "app/seller/customers/page.tsx:46; app/messages/page.tsx:84; app/messages/[id]/page.tsx:92",
       "descrizione": "grep -rn 'buyer:profiles!' app → 3 punti fuori dal pacchetto. Stessa classe del fattorino: la lettura torna vuota senza errore. Resa a schermo non verificata",
       "fonte": "ondata 1 del piano dei difetti (run wf_a06aef04-9c8), difetto vecchio visto strada facendo, 31/10/2026"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Il primo giro a mano della cancellazione degli account cancellava davvero se il parametro del conto era scritto male",
+      "file": "app/api/cron/process-deletions/route.ts:97 · lib/cron/fermo-dei-lavori.ts:43",
+      "descrizione": "Il conto senza cancellare partiva solo con solo_conta=1 scritto esatto. Con solo_conta=true, soloConta=1 o la shell che taglia l'indirizzo al primo & senza virgolette, la chiamata a mano faceva la notte vera, che cancella account e non si torna indietro. Corretto prima dell'unione, in due giri di collaudo: giroCheSoloConta() conta per difetto. Cancella solo con cancella=1 esatto, o dalla chiamata del calendario (nessun parametro) con l'interruttore suo CANCELLAZIONI_A_ORARIO=accese: così accendere gli altri dieci lavori non la fa partire.",
+      "prova": "cd /home/user/mycity && npx vitest run tests/unit/i-lavori-a-orario-si-fermano-finche-nicola-non-li-accende.test.ts",
+      "prova_tipo": "comando",
+      "fonte": "collaudo del fermo dei lavori a orario, ondata 1 del piano dei difetti (commit 1bc57b55), 31/10/2026"
+    },
+    {
+      "dimensione": "deploy-sre",
+      "reparto": "Deploy e affidabilità",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Coi lavori a orario fermi il sorvegliante degli allarmi vede i battiti vecchi e suona per lavori fermi di proposito",
+      "file": "app/api/cron/operational-alerts/route.ts · lib/api/middleware.ts",
+      "descrizione": "Un giro fermo non scrive il battito, di proposito. Quando il sorvegliante gira (a mano o coi lavori accesi), trova battiti vecchi e li segnala come guasti, senza dire che il fermo è acceso. Proposta: nel primo giro a mano lanciarlo per ultimo, e far citare LAVORI_A_ORARIO nel testo dell'allarme quando il fermo è acceso.",
+      "fonte": "collaudo del fermo dei lavori a orario, ondata 1 del piano dei difetti (commit 1bc57b55), 31/10/2026"
+    },
+    {
+      "dimensione": "deploy-sre",
+      "reparto": "Deploy e affidabilità",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "La prova del fermo dei lavori non vede una rotta che si ferma su Stripe prima del fermo, né una cartella di lavori fuori dal calendario",
+      "file": "tests/unit/i-lavori-a-orario-si-fermano-finche-nicola-non-li-accende.test.ts:104",
+      "descrizione": "La prova imposta la chiave di Stripe e confronta le rotte con vercel.json. Una rotta che controllasse Stripe prima del fermo, o una dodicesima cartella in app/api/cron che non sta nel calendario, passerebbe senza rosso.",
+      "fonte": "collaudo del fermo dei lavori a orario, ondata 1 del piano dei difetti (commit 1bc57b55), 31/10/2026"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Il conto senza cancellare della cancellazione degli account può dire più account di quelli che la notte cancella davvero",
+      "file": "app/api/cron/process-deletions/route.ts:62",
+      "descrizione": "Il conto prende tutte le righe restituite da process_expired_deletions. La notte vera può saltarne qualcuna strada facendo, quindi il numero letto nel primo giro a mano può essere più alto del vero. Va detto nella risposta o allineato alla regola della notte.",
+      "fonte": "collaudo del fermo dei lavori a orario, ondata 1 del piano dei difetti (commit 1bc57b55), 31/10/2026"
     }
   ],
   "sync_scan": {
