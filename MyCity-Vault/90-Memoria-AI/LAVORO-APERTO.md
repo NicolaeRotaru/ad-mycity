@@ -31,8 +31,10 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 ## 1 · Cose che toccano a te
 
 **Il piano per aprire (scelto da te il 31/10, «parti» alle 08:22)**
-- Le tue azioni, con giorno e durata, stanno nella tabella del piano: `consegne/audit/2026-10-31-piano-difetti-sito.md`. Le prime tre:
-  - oggi o domenica, chiudere la falla R7 coi passi dati in chat (la R9 è già chiusa, controllato il 31/10); i quattro segreti del rilascio su GitHub vanno messi dopo l'unione dell'ondata 1;
+- Le tue azioni, con giorno e durata, stanno nella tabella del piano: dove trovarlo lo dice la sezione 2. Le prime:
+  - oggi o domenica, chiudere la falla R7. I passi sono in chat del 31/10.
+  - la falla R9 è già chiusa: l'ho controllato il 31/10.
+  - i quattro segreti del rilascio su GitHub si mettono dopo l'unione dell'ondata 1.
   - lunedì 2/11 mattina, partita IVA e PEC col commercialista: senza il nome del titolare sul sito non si apre;
   - lunedì 2/11, il fornaio completa il suo conto Stripe.
 

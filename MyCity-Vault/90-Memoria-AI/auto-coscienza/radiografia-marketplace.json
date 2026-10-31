@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 2030,
+    "findings": 2033,
     "bloccanti": 35,
     "gravi": 548,
-    "minori": 1447,
+    "minori": 1450,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -47,10 +47,10 @@
       "chiave": "qa-flussi",
       "nome": "Flussi critici",
       "fonte": "marketplace",
-      "totale": 33,
+      "totale": 36,
       "bloccanti": 1,
       "gravi": 8,
-      "minori": 24
+      "minori": 27
     },
     {
       "chiave": "privacy-legale",

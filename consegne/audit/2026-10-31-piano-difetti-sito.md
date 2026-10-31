@@ -3,11 +3,13 @@ data: 2026-10-31 08:25
 approvato: «parti», Nicola, 2026-10-31 08:22
 tipo: piano
 fonte: AD digitale
-richiesta: «analizza tutti i difetti del marketplace e crea un piano per risolverli nel minor tempo possibile e nel modo corretto e senza creare altri problemi, il marketplace deve essere pronto il prima possibile» (Nicola, 31/10/2026)
+richiesta: il piano per riparare tutti i difetti del sito nel minor tempo, senza crearne altri, per aprire il prima possibile (Nicola, 31/10/2026)
 analisi: workflow wf_a60601a0-cae, 53 agenti, circa 6,4 milioni di token
 ---
 
 # Il piano per riparare il sito e aprire al primo cliente
+
+> **In due righe.** Ho ricontrollato sul codice tutte le 1.213 voci del registro del sito, e per aprire servono 7 ondate su due binari. Il primo cliente in contanti arriva giovedì 5/11 sera o venerdì 6/11, se le tue pratiche partono lunedì.
 
 ## In parole semplici
 
