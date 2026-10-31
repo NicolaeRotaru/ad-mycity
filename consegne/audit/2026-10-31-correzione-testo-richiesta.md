@@ -1,4 +1,4 @@
-**In breve:** l'ondata di correzione delle ondate 3 e 4. La cassa dei contanti non dice più «fatto» per un ordine vuoto. Un negozio in ferie non riceve ordini. Il fattorino può segnare il cliente assente.
+**In breve:** dell'ondata di correzione reggono sei pacchetti su otto: la cassa dei contanti, le fasce, il cliente assente, le scorte, i pulsanti AI e i documenti.
 **Per te:** uniscila, poi premi il pulsante delle migrazioni: applica la 171 e la 183.
 
 ## In parole semplici
