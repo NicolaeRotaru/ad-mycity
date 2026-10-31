@@ -6334,3 +6334,17 @@ Per non sbagliare i territori una quinta volta, prima di dividere ho cercato tut
 
 **Colore:** 🟡 la memoria e il piano dei pacchetti, da unire. Le scelte sono di Nicola.
 
+## 2026-10-31 12:23 — 🔴 Le quattro scelte di Nicola prima delle ondate 3 e 4, e le chiusure dell'ondata 1
+
+**Cosa.** Nicola ha unito alle 11:57 la NicolaeRotaru/mycity#267 (ondata 1) e la NicolaeRotaru/ad-mycity#907 (memoria). Vercel ha pubblicato il commit `de5cedde` alle 11:58, ed è pronto. Poi ha dato quattro scelte:
+- cliente assente: annullo e rimborso intero, la merce torna al negozio (fatto `consegna.cliente-assente`, ondata 3, pacchetto AN);
+- documenti dell'iscrizione lasciata a metà: si cancellano dopo 30 giorni (fatto `kyc.documenti-iscrizione-a-meta`, ondata 4, pacchetto KY);
+- bonifico dei contanti al negozio: ogni lunedì, per le consegne della settimana prima (fatto `pagamenti.bonifico-contanti-al-negozio`, ondata 4, pacchetto NE);
+- «Contatta il negozio»: WhatsApp o telefono al posto della chat (fatto `negozio.contatto-dalla-scheda`, ondata 7, pacchetto OC).
+
+Nel registro del sito ho scritto 25 chiusure dell'ondata 1 con `chiudi-sito.mjs --pr 267 --commit de5cedde`. Le 16 prove citate girano: 150 casi su 150. Restano aperte le due voci bloccanti del rilascio che nessuna squadra ha chiuso: il rilascio va in produzione senza aspettare la verifica, e non applica le migrazioni. Si chiudono con le azioni di Nicola su GitHub e Vercel.
+
+**Come partono le ondate 3 e 4.** In parallelo (run `wf_86375bde-655` e `wf_dc9216f4-6e2`), sopra il ramo dell'ondata 2 (`6dfc1e17`) e non sopra il principale. Il motivo: il modulo d'iscrizione del negozio lo cambia già l'ondata 2, che è in richiesta (NicolaeRotaru/mycity#268). Fra le due ondate un file ha un solo padrone: i Termini e i bonifici vanno all'ondata 3, il modulo del prodotto all'ondata 4.
+
+**Colore:** 🔴 le scelte, di Nicola. 🟡 la memoria e il codice nei rami, da unire.
+

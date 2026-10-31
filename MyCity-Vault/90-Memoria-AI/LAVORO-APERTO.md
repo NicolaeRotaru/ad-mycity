@@ -34,8 +34,8 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 - Le tue azioni, con giorno e durata, stanno nella tabella del piano: dove trovarlo lo dice la sezione 2. Le prime:
   - oggi o domenica, chiudere la falla R7. I passi sono in chat del 31/10.
   - la falla R9 è già chiusa: l'ho controllato il 31/10.
-  - **unire la richiesta dell'ondata 1** (NicolaeRotaru/mycity#267, aperta il 31/10 alle 10:31): è la prima da unire.
-  - **l'ondata 2 (binario B) è pronta** in un ramo locale, `ondata-2-ricucita`: quattro pacchetti su cinque, verify verde insieme all'ondata 1 (6.749 su 6.749). Scelta tua del 31/10: aspetta l'unione della #267, poi va sul ramo di sempre con una richiesta sua.
+  - **la richiesta dell'ondata 1 è unita** (NicolaeRotaru/mycity#267, il 31/10 alle 11:57). Il codice è online dalle 11:58, col fermo dei lavori. Adesso tocca a te: i quattro segreti del rilascio su GitHub, il pulsante delle migrazioni (164, 165, 166 e 181), poi la chiave di servizio su Vercel.
+  - **l'ondata 2 è in richiesta di unione** (NicolaeRotaru/mycity#268, aperta il 31/10 alle 12:13). Le ondate 3 e 4 sono al lavoro sopra di lei: le loro richieste arrivano dopo l'unione della #268.
   - i quattro segreti del rilascio su GitHub si mettono dopo l'unione dell'ondata 1.
   - lunedì 2/11 mattina, partita IVA e PEC col commercialista: senza il nome del titolare sul sito non si apre;
   - lunedì 2/11, il fornaio completa il suo conto Stripe.

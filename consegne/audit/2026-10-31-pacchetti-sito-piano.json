@@ -1134,7 +1134,8 @@
       22
      ],
      "rischio": "medio: il conto dei 14 giorni è uno solo, nel fuso di Roma, per la pagina e per la rotta",
-     "sforzo": "M"
+     "sforzo": "M",
+     "nota": "Scelta di Nicola del 31/10 (2026-10-31 12:23), fatto negozio.contatto-dalla-scheda: «Contatta il negozio» diventa WhatsApp o telefono verso il numero del negozio, niente chat. La voce 22 si chiude così."
     },
     {
      "codice": "RI2",
