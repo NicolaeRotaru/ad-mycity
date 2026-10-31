@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-31 10:31",
+  "aggiornato": "2026-10-31 10:40",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -5879,6 +5879,91 @@
         "lib/cron/fermo-dei-lavori.ts": "f9dd08809ca5",
         "lib/api/middleware.ts": "e2a68bb25443",
         "lib/privacy/potature-ritenzione.ts": "12dd2bdb9764"
+      }
+    },
+    {
+      "quando": "2026-10-31 10:39",
+      "casa": "marketplace",
+      "dimensione": "rls-database",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "migrations/181_i_nomi_dei_clienti_che_il_negozio_vede.sql": "ea20540ab19a",
+        "migrations/154_la_chat_non_si_intesta_a_un_altro.sql": "3cca8845a91b",
+        "migrations/026_chat_messaging.sql": "6743d790d7fc",
+        "migrations/126_radiografia_22_agosto.sql": "a6643e85d20d",
+        "migrations/037_rider_sos_admin_dashboard.sql": "9c181a035a7e",
+        "migrations/127_minori_22_agosto.sql": "3545af8c61c5",
+        "migrations/014_mvp_sprint.sql": "b4ec413af06a"
+      }
+    },
+    {
+      "quando": "2026-10-31 10:40",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 14,
+      "schede": [
+        "Toccare la mappa rimandava al modulo l'indirizzo di quando la mappa si era aperta",
+        "Navbar: link della testata senza un colore loro, a rischio di sparire come il logo",
+        "L'aiuto fattorini promette consegna pagata come fatta e ban del cliente aggressivo: nessun codice lo fa",
+        "L'iscrizione obbliga il fattorino a caricare una sua polizza RC anche se va in bici",
+        "Con Trending ora vuoto il contenitore della sezione resta e lascia uno spazio bianco in home",
+        "La prova finta delle pagine messaggi registra «supabase.channel(...).on(...).on is not a function» a ogni giro",
+        "Nella testata le pillole «Ordini», «Consegne» e «Admin» hanno lo stesso colore dello sfondo: negoziante, fattorino e admin non le vedono",
+        "Se l'ordine viene annullato a GPS acceso, la posizione del fattorino continua a scriversi sull'ordine chiuso",
+        "Nella testata cuore, messaggi e campanella hanno lo stesso colore dello sfondo e non si vedono",
+        "Chi segnala un contenuto non riceve mai l'esito che il modulo gli promette",
+        "L'editor della home toglie in silenzio la sezione rotta: al primo salvataggio è persa e l'admin non lo sa",
+        "I negozi già salvati a roma restano a roma finché non riaprono il profilo",
+        "La consolle SOS non mostra da quale consegna parte l'allarme: l'order_id ora scritto non si vede da nessuna parte",
+        "La pagina d'aiuto promette ancora 'consegna annullata e pagata come fatta', ma sul rimborso il compenso del fattorino viene recuperato"
+      ],
+      "nota": "",
+      "file": {
+        "app/admin/orders/[id]/page.tsx": "0d8d62b3c98c",
+        "app/admin/segnalazioni/page.tsx": "056a788a828e",
+        "app/admin/coupons/page.tsx": "dc20dfc347a2",
+        "app/admin/orders/page.tsx": "a2ee265abb8e",
+        "app/admin/page.tsx": "da6156e44f20",
+        "app/messages/[id]/page.tsx": "786d0f68d7e3",
+        "app/messages/page.tsx": "9d98a34a47db",
+        "app/seller/customers/page.tsx": "ea88a67798ce",
+        "app/seller/reviews/page.tsx": "004edd41e870",
+        "components/Navbar.tsx": "ce179e62269c",
+        "components/ProductGrid.tsx": "c17d0cd0ac88",
+        "components/SellerApplicationForm.tsx": "bacffe1bf4ff",
+        "components/StoreLocationPicker.tsx": "1e824267e5c4",
+        "components/VendorForm.tsx": "db82109a92b8",
+        "components/home/TrendingNow.tsx": "fdb77c4ca795"
+      }
+    },
+    {
+      "quando": "2026-10-31 10:40",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 3,
+      "schede": [
+        "Il ripiego della lettura delle tendenze carica gli ultimi 8 prodotti, che ora non vengono mai mostrati",
+        "Se la lettura dei negozi cade, la sitemap toglie a google tutte le categorie",
+        "In home 12 riquadri di caricamento di «di tendenza» poi spariscono: la pagina salta di ~700 punti sul telefono"
+      ],
+      "nota": "",
+      "file": {
+        "app/sitemap.ts": "dfe337556d12",
+        "lib/admin/vista-delle-campagne.ts": "77f06ff59392",
+        "lib/home-site.ts": "8068a0450935",
+        "lib/queries/controparte-della-chat.ts": "738abf1dff2c",
+        "lib/queries/suggerimenti-ricerca.ts": "0a4edb7d3570"
       }
     }
   ]

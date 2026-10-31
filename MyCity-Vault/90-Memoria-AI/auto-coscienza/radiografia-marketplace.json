@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 2066,
+    "findings": 2086,
     "bloccanti": 35,
-    "gravi": 554,
-    "minori": 1477,
+    "gravi": 561,
+    "minori": 1490,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -34941,6 +34941,224 @@
       "file": "app/api/cron/process-deletions/route.ts:62",
       "descrizione": "Il conto prende tutte le righe restituite da process_expired_deletions. La notte vera può saltarne qualcuna strada facendo, quindi il numero letto nel primo giro a mano può essere più alto del vero. Va detto nella risposta o allineato alla regola della notte.",
       "fonte": "collaudo del fermo dei lavori a orario, ondata 1 del piano dei difetti (commit 1bc57b55), 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Toccare la mappa rimandava al modulo l'indirizzo di quando la mappa si era aperta",
+      "file": "components/StoreLocationPicker.tsx: updatePos dentro l'effetto che apre la mappa",
+      "descrizione": "Corretto qui (indirizzoRef): senza, la strada indicata dal nuovo avviso («tocca la mappa») svuotava l'indirizzo. Lo prova il secondo caso di il-negozio-che-non-cerca-l-indirizzo-non-finisce-a-roma.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Navbar: link della testata senza un colore loro, a rischio di sparire come il logo",
+      "file": "components/Navbar.tsx con app/globals.css:194 (a { color: primary-700 })",
+      "descrizione": "Ho guardato solo il logo e «Accedi». La regola globale dei link resta e colpisce ogni link senza una classe text-… su sfondo primary-700.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "L'esito motivato di una segnalazione non arriva né a chi ha segnalato né al venditore (DSA art. 16.5 e 17)",
+      "file": "app/api/segnalazioni/route.ts (nessun invio dell'esito) · components/Segnala.tsx:58 (il messaggio promette «ti diciamo com'è andata»)",
+      "descrizione": "Registrare una decisione in /admin/segnalazioni e controllare che a chi ha segnalato (segnalante_id / email_contatto) e al venditore arrivi una notifica o una mail: oggi non parte niente, nessun codice legge esito_motivato per comunicarlo.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Commento stantio negli allarmi: dice che /admin/orders/<id> non esiste",
+      "file": "app/api/cron/operational-alerts/route.ts:132 (rotta di un'altra ondata, non toccata)",
+      "descrizione": "grep -n \"non esiste\" app/api/cron/operational-alerts/route.ts",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "L'aiuto fattorini promette consegna pagata come fatta e ban del cliente aggressivo: nessun codice lo fa",
+      "file": "app/rider/help/page.tsx, voce «Cosa succede se un cliente è aggressivo?»",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "L'iscrizione obbliga il fattorino a caricare una sua polizza RC anche se va in bici",
+      "file": "app/rider/onboarding/page.tsx:22 (rider_insurance required: true)",
+      "descrizione": "Non toccato: la scelta della copertura (INAIL, polizza propria) va fatta con Nicola prima del primo fattorino esterno.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Con Trending ora vuoto il contenitore della sezione resta e lascia uno spazio bianco in home",
+      "file": "components/home-sections/HomeSectionRenderer.tsx:416-417 (div con SPAZIO_SEZIONE attorno a <TrendingNow/>)",
+      "descrizione": "Non verificato a schermo. Il contenitore resta montato anche quando il componente restituisce null; dopo questo lotto succede più spesso.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Il ripiego della lettura delle tendenze carica gli ultimi 8 prodotti, che ora non vengono mai mostrati",
+      "file": "lib/queries/fasce-prodotti.ts:63-77 (leggiTendenze, ripiego con view_count 0)",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La prova finta delle pagine messaggi registra «supabase.channel(...).on(...).on is not a function» a ogni giro",
+      "file": "tests/unit/aiuti (finto client Supabase delle pagine montate) · app/messages/page.tsx ascolto realtime",
+      "descrizione": "Il log di prova-rimessa ha 200 righe con questo TypeError su ogni giro: il regex STRUTTURA lo prende e ogni rosso diventa 'strutturale'. Ci sono 10 AssertionError veri.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Nella testata le pillole «Ordini», «Consegne» e «Admin» hanno lo stesso colore dello sfondo: negoziante, fattorino e admin non le vedono",
+      "file": "components/Navbar.tsx:180,186,192 (Link bg-white/10 senza text-white dentro bg-primary-700; vince a{color:primary-700} di globals.css:194)",
+      "descrizione": "Copia di tests/unit/il-logo-e-accedi-si-vedono-sulla-testata.test.tsx con useProfile isAuthenticated/isSeller/isRider/isAdmin:true e i link a[href=/seller/orders],[href=/rider],[href=/admin]: «/seller/orders Ordini: contrasto 1.00», atteso >= 4.5. Rossa sul codice di oggi.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Se l'ordine viene annullato a GPS acceso, la posizione del fattorino continua a scriversi sull'ordine chiuso",
+      "file": "app/rider/orders/[id]/page.tsx:322-325 (si ferma solo con DELIVERED); il trigger ordini_cancella_posizione_a_chiusura scatta solo su UPDATE OF delivery_status",
+      "descrizione": "Copia del caso ③ di il-fattorino-in-strada-ha-il-112-subito-e-numeri-veri.test.tsx con setQueriesData delivery_status:'CANCELED': expect(gps.chiusi).toContain(osservatore.id) → expected [] to include 1. trg_enforce_order_update lascia scrivere rider_lat al fattorino assegnato anche a ordine chiuso.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "rls-database",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "La regola SQL della migrazione 181 (chi vede il nome di chi) non ha una prova che la esegua: si può aprire a tutti e le prove restano verdi",
+      "file": "migrations/181_i_nomi_dei_clienti_che_il_negozio_vede.sql; tests/unit/i-nomi-dei-clienti-che-il-negozio-vede.test.ts la rifà in JS e non legge il .sql",
+      "descrizione": "Con «OR true» dopo AND p.id <> auth.uid() la prova resta 16/16 verde. La uccide: tests/sql/harness/apply.sh, poi nomi_dei_clienti_del_negozio(ARRAY[Maria,Giulia]) chiamata da un altro negozio con request.jwt.claims → 0 righe attese. Oggi: 0, e 3 righe giuste per il negozio vero.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), nato dal lotto, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Nella testata cuore, messaggi e campanella hanno lo stesso colore dello sfondo e non si vedono",
+      "file": "components/Navbar.tsx IconButton (riga ~293): Link senza text-white, la regola a{color:primary-700} (globals.css:194) colora le icone currentColor su bg-primary-700",
+      "descrizione": "Stessa causa del logo e di «Accedi» corretti nel lotto. grep -n 'hover:bg-white/10 rounded-full' components/Navbar.tsx: classe senza colore del testo. Si vede su desktop, per chi ha fatto l'accesso.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Chi segnala un contenuto non riceve mai l'esito che il modulo gli promette",
+      "file": "app/admin/segnalazioni/page.tsx decidi: solo update della riga · components/Segnala.tsx:58,85 promette «ti diciamo com'è andata»",
+      "descrizione": "Nessuna email o notifica a segnalante_id/email_contatto su accolta/respinta (grep notifications|email: nessun riscontro nella pagina). DSA art. 16.5. Diventa rosso con una prova: decisione registrata → un avviso a chi ha segnalato.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Se la lettura dei negozi cade, la sitemap toglie a google tutte le categorie",
+      "file": "app/sitemap.ts: storesRes fallita → approvedSellerIds [] → leggiInBlocchi {data:[],error:null} → conProdotti vuoto",
+      "descrizione": "Il commento dice «se la lettura fallisce si tengono tutte», ma vale solo per l'errore sui prodotti. Rosso: prova con from('profiles') in errore → attese 72 categorie, oggi 0.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), nato dal lotto, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "In home 12 riquadri di caricamento di «di tendenza» poi spariscono: la pagina salta di ~700 punti sul telefono",
+      "file": "components/home/TrendingNow.tsx isLoading → 12 skeleton h-44; poi classificaVera vuota → null dentro un div py-6 (HomeSectionRenderer:417)",
+      "descrizione": "Con la soglia di 3 visite nelle 24 ore la classifica al lancio è quasi sempre vuota: il salto avviene a ogni visita. Prima l'elenco di ripiego riempiva il riquadro.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), nato dal lotto, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "L'editor della home toglie in silenzio la sezione rotta: al primo salvataggio è persa e l'admin non lo sa",
+      "file": "app/admin/home/page.tsx:45 normalizeHomeSite → solo logger.warn; il salvataggio riscrive senza la sezione scartata",
+      "descrizione": "leggiHomeSite restituisce le scartate, ma l'editor non le mostra. Rimedio: un avviso «1 sezione non valida tolta» prima di salvare.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), nato dal lotto, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "I negozi già salvati a roma restano a roma finché non riaprono il profilo",
+      "file": "dati profiles.store_lat=41.9028, store_lng=12.4964: il selettore li riconosce solo all'apertura del modulo",
+      "descrizione": "Non verificato sui dati. In lettura: select id,store_name from profiles where store_lat=41.9028 and store_lng=12.4964. Se torna righe, quei negozi sono fuori zona per Piacenza.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La consolle SOS non mostra da quale consegna parte l'allarme: l'order_id ora scritto non si vede da nessuna parte",
+      "file": "app/admin/sos/page.tsx:35 (order_id letto nella select, mai mostrato) · components/rider/RiderShell.tsx:56",
+      "descrizione": "Sonda B: evento con order_id ord-42 e lat null -> la scheda mostra solo nome, telefono e ora, nessun link all'ordine. Col difetto 1, chi deve aiutare non sa ne' dove ne' per quale consegna.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La pagina d'aiuto promette ancora 'consegna annullata e pagata come fatta', ma sul rimborso il compenso del fattorino viene recuperato",
+      "file": "app/rider/help/page.tsx:81",
+      "descrizione": "lib/stripe/payout.ts:1651 e lib/stripe/webhook/rimborsi.ts:107 recuperano il compenso del fattorino sul rimborso totale: e' il contrario della promessa. Il test 5 ('si promette solo quello che il sito fa') non la copre.",
+      "fonte": "ondata 2 del piano dei difetti (run wf_765f4faf-23a), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
     }
   ],
   "sync_scan": {

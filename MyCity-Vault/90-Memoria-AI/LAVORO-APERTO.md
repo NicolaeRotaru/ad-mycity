@@ -35,6 +35,7 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
   - oggi o domenica, chiudere la falla R7. I passi sono in chat del 31/10.
   - la falla R9 è già chiusa: l'ho controllato il 31/10.
   - **unire la richiesta dell'ondata 1** (NicolaeRotaru/mycity#267, aperta il 31/10 alle 10:31): è la prima da unire.
+  - **l'ondata 2 (binario B) è pronta** in un ramo locale, `ondata-2-ricucita`: quattro pacchetti su cinque, verify verde insieme all'ondata 1 (6.749 su 6.749). Aspetta la tua scelta sul ramo dove spingerla, e va unita dopo la #267.
   - i quattro segreti del rilascio su GitHub si mettono dopo l'unione dell'ondata 1.
   - lunedì 2/11 mattina, partita IVA e PEC col commercialista: senza il nome del titolare sul sito non si apre;
   - lunedì 2/11, il fornaio completa il suo conto Stripe.
@@ -45,6 +46,7 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 - I Termini nuovi sono online, ma in cima resta «in vigore dal 24 maggio 2026». Vanno fatti rileggere a un legale, e poi va cambiata la data.
 
 **Scelte brevi**
+- Il pulsante SOS del fattorino (ondata 2, pacchetto RI): la correzione apriva il 112 subito, ma l'avviso agli amministratori arrivava senza posizione se il GPS rispondeva tardi. Il mio consiglio: rifarlo in un'ondata dei nati, con una migrazione nuova che lascia al fattorino aggiungere la posizione dopo l'avviso. Ramo `fix/ondata-2-components-rider-sosbutton-tsx`, referto `consegne/audit/2026-10-31-ondata2-binario-b.json` (31/10 alle 10:40).
 - Fino a quando le rotte accettano le fasce vecchie, per le casse rimaste aperte prima del rilascio. Il mio consiglio: una settimana.
 - La borsa frigo e il frigo: prima della spesa faccio verificare cosa chiede l'ASL? Se passi davanti a Pane Quotidiano, una foto del cartello degli orari.
 - Il freno della veloce quando non trova nessuna fascia, per esempio sabato sera col negozio chiuso la domenica. Oggi l'ordine resta veloce e l'euro in più resta da pagare. Il mio consiglio: togliere l'euro anche lì, perché il cliente ha aspettato (voce 1826).
