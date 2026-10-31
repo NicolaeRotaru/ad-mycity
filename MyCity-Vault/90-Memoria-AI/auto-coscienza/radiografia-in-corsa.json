@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-31 10:40",
+  "aggiornato": "2026-10-31 13:58",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -5964,6 +5964,101 @@
         "lib/home-site.ts": "8068a0450935",
         "lib/queries/controparte-della-chat.ts": "738abf1dff2c",
         "lib/queries/suggerimenti-ricerca.ts": "0a4edb7d3570"
+      }
+    },
+    {
+      "quando": "2026-10-31 13:58",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "La nuova porta della richiesta negozio legge il corpo senza tetto e il nome del negozio non ha lunghezza massima"
+      ],
+      "nota": "",
+      "file": {
+        "app/api/seller/apply/route.ts": "e9776b8f7472"
+      }
+    },
+    {
+      "quando": "2026-10-31 13:58",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 4,
+      "schede": [
+        "In ferie (tutti i giorni chiusi) la scheda prodotto non dice «chiuso» e scrive «Consegna a casa, all'ora che scegli»",
+        "Con un indirizzo senza coordinate il confine dei 5 km non si controlla, e la veloce 30-60 min si vende a qualunque distanza",
+        "Chiuso per ferie: la cassa rifiuta, ma la scheda prodotto promette «Consegna a casa, all'ora che scegli»",
+        "Sabato sera al forno la scheda dice «in cassa scegli l'ora della consegna», ma la cassa non ha fasce né oggi né domani"
+      ],
+      "nota": "",
+      "file": {
+        "app/seller/earnings/commissione.ts": "5699b6361391",
+        "app/seller/help/domande.ts": "328ad2ecca06",
+        "lib/delivery.ts": "554ea74f54c6",
+        "app/auth/confirm/route.ts": "8814e8758a91",
+        "lib/constants.ts": "afa5ceefecef",
+        "lib/promessa-consegna.ts": "6944752fe424",
+        "lib/promesse-pubbliche.ts": "53681a796c3e"
+      }
+    },
+    {
+      "quando": "2026-10-31 13:58",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "PEC e codice SDI, che la scheda chiedeva, il modulo del negozio non li raccoglie ancora"
+      ],
+      "nota": "",
+      "file": {
+        "app/seller/earnings/page.tsx": "9676f72322ea",
+        "app/come-funziona/page.tsx": "addf305d53d8",
+        "app/sell/page.tsx": "218e06e88c7b",
+        "components/Footer.tsx": "0dc3352cedfb",
+        "components/SellerApplicationForm.tsx": "cbc00551ee07",
+        "components/checkout/OrderSummary.tsx": "01cc93c0778c",
+        "components/home-sections/HomeSectionRenderer.tsx": "9479de23bf58"
+      }
+    },
+    {
+      "quando": "2026-10-31 13:58",
+      "casa": "marketplace",
+      "dimensione": "privacy-legale",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 3,
+      "schede": [
+        "Due caricamenti ravvicinati dello stesso documento lasciano una copia della carta d'identità nel secchio, senza puntatore",
+        "Documento ricaricato: due caricamenti insieme lasciano un orfano, e il documento verificato si cancella senza riaprire la verifica",
+        "Un vecchio valore salvato come link firmato lascia nel secchio la copia di prima quando il documento si ricarica"
+      ],
+      "nota": "",
+      "file": {
+        "app/api/kyc/upload-document/route.ts": "89ae046560a5"
+      }
+    },
+    {
+      "quando": "2026-10-31 13:58",
+      "casa": "marketplace",
+      "dimensione": "pagamenti-stripe",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "lib/stripe/client.ts": "28810df8052e"
       }
     }
   ]

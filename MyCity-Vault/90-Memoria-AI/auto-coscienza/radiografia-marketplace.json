@@ -2374,14 +2374,17 @@
       "impatto": "La funzione «rispondi alle recensioni» è inutilizzabile per l'unico negozio vero. Una recensione negativa resta senza replica pubblica. E il negoziante vede un errore fisso in una voce del suo menu dal primo giorno.",
       "fix": "Fare come nella pagina del fattorino: leggere `id, rating, comment, created_at, order_id, seller_reply, seller_reply_at, user_id`. Poi prendere i nomi in un secondo passaggio (come useStorePageData) oppure da una vista che esponga solo il nome di battesimo. Aggiungere una prova che fallisca se un embed nomina un vincolo che non esiste in database.types.ts.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Lettura del codice. app/seller/reviews/page.tsx:42 usa l'embed `profiles!store_reviews_reviewer_id_fkey`. In migrations/014_mvp_sprint.sql:59 c'è `user_id uuid NOT NULL REFERENCES auth.users(id)` e nessuna colonna reviewer_id: `grep -rn store_reviews migrations/*.sql | grep -i 'add column|constraint'` trova solo seller_reply/seller_reply_at (047) e le foto (101). Il commento della riparazione gemella è in app/rider/reviews/page.tsx:44-48. Il database di produzione non l'ho interrogato: in questa sessione non avevo lo strumento SQL.",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": "Confermato dal codice e dallo schema delle migrazioni, con un precedente identico già riparato sul fattorino. Non l'ho eseguito contro il PostgREST di produzione. · Verifica tecnica: Ho letto app/seller/reviews/page.tsx:33-50 e 83-90 (ramo di errore), app/rider/reviews/page.tsx:44-52 e components/store-sections/useStorePageData.ts:29-37. In produzione ho fatto una SELECT conname e pg_get_constraintdef da pg_constraint su public.store_reviews: il vincolo citato dall'embed non c'è. Con grep su seller_reply ho visto che non esistono altre pagine che leggono le recensioni per il negozio.",
       "giro": 3,
       "verificato": true,
       "gia_noto": "No per la pagina del negozio. Il gemello del fattorino risulta riparato (commento in app/rider/reviews/page.tsx).",
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: critico-frontend-design · id R27 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: critico-frontend-design · id R27 · si ripara: codice",
+      "chiuso_il": "2026-10-31 13:58",
+      "chiuso_da": "PR #268 · 3f9ddf97",
+      "nota_riparazione": "Riparato nell ondata 2 del piano per aprire (run wf_765f4faf-23a), unita con la #268. — prova: cd /home/user/mycity && npx vitest run tests/unit/i-nomi-dei-clienti-che-il-negozio-vede.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-2-migrations-181-i-nomi-dei-clienti-che-il: f4c70dab: rosso_strutturale (uscita 3)"
     },
     {
       "dimensione": "frontend-ux",
@@ -2453,13 +2456,16 @@
       "impatto": "Il primo giorno di vendite vere chi fa assistenza è cieco. Ogni allarme che il sistema manda porta a un vicolo cieco, così gli allarmi diventano rumore. L'unica leva sull'ordine è annullarlo tutto, con rimborso pieno.",
       "fix": "Creare app/admin/orders/[id]/page.tsx. Deve mostrare: articoli, indirizzo e telefono di consegna, fascia scelta, pagamento e rimborsi, fattorino, codice di consegna (la regola d'accesso «Admin reads delivery codes» c'è già) e il reso collegato. Azioni minime: annulla, riassegna/libera il fattorino, segna consegnato con motivo scritto. Una prova automatica deve fallire se un link interno punta a una rotta che il build non contiene.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "grep -n \"/admin/orders\" scratchpad/build-validazione.log → nella tabella delle rotte compilate c'è solo «ƒ /admin/orders» (riga 183) e «/api/admin/orders/[id]/cancel» (riga 208). ls /home/user/mycity/.next/server/app/admin/orders/ → page.js, page.js.nft.json, page_client-reference-manifest.js: nessuna cartella [id]. ls app/admin | grep '\\[' e ls app | grep '\\[' → nessuna rotta generica che la copra. Poi grep -rn 'admin/orders/${' → link in admin/orders:233, admin/today:198, admin/payouts:221 e in 7 allarmi di operational-alerts.",
       "prova_tipo": "comando",
       "prova_eseguita": "Confermato sul build di oggi: la pagina /admin/orders/[id] non c'è né nel codice sorgente né in quello compilato. Ci sono invece 10 punti che la linkano. Sul server locale /admin/orders/<id> rimanda al login (307): con il database finto non ho potuto entrare come amministratore e vedere la 404 a schermo. · Verifica tecnica: ls app/admin/orders: solo page.tsx. find app -path '*admin*orders*': c'è solo app/api/admin/orders/[id]/cancel. .next/app-path-routes-manifest.json e .next/server/app-paths-manifest.json: solo «/admin/orders/page». grep dei link «admin/orders/${»: 3 pagine e 9 righe in operational-alerts. next.config.js e middleware.ts: nessun rewrite per quel percorso. Letta la riga 636 col link [apri]. curl localhost:3100/admin/orders/<uuid> → 307 verso /sign-in (la porta del middleware), quindi la 404 a schermo non l'ho vista da collegato. Letto admin/orders/page.tsx:244-260: l'unico pulsante è «Annulla».",
       "giro": 2,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-rider-admin, ordini-ciclo-vita · doppioni uniti: N112 · id R50 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-rider-admin, ordini-ciclo-vita · doppioni uniti: N112 · id R50 · si ripara: codice",
+      "chiuso_il": "2026-10-31 13:58",
+      "chiuso_da": "PR #268 · 3f9ddf97",
+      "nota_riparazione": "Riparato nell ondata 2 del piano per aprire (run wf_765f4faf-23a), unita con la #268. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-cabina-admin-non-scambia-un-guasto-per-un-vuoto.test.tsx tests/unit/i-link-della-cabina-admin-portano-a-una-pagina-vera.test.tsx tests/unit/le-tabelle-vuote-della-cabina-dicono-vuoto-allo-stesso-modo.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-2-app-admin-orders-id-page-tsx: 98807b96: rosso_strutturale (uscita 3)"
     },
     {
       "dimensione": "frontend-ux",
@@ -5482,13 +5488,16 @@
       "impatto": "Il marchio compare monco su ogni pagina, la prima cosa che vede chiunque arrivi. Chi ha già un account, cliente o negoziante, da computer non trova dove entrare. Il costo è fiducia, più accessi persi e richieste d'aiuto.",
       "fix": "In Navbar.tsx aggiungere `text-white` ai due Link del logo (righe 127 e 217) e ai due Link «Accedi» (righe 144 e 245). In alternativa avvolgere `{branding.wordmark.rest}` in `<span className=\"text-white\">` come fa già AdminSidebar.tsx:87. A lato: aggiungere un test visivo o di contrasto sulla testata, così la regola globale dei link non può più spegnerla in silenzio.",
       "fonte": "design",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Script Playwright run.cjs, 21 pagine × 375/768/1440, misura il contrasto calcolato di ogni testo. Poi accedi.cjs elenca tutti i link a /sign-in con colore e posizione. Foto: design-visivo/shots/clip_header_1440.png e design-visivo/shots/clip_header_375.png (cartella /tmp/claude-0/-home-user/df070674-8e02-5d4e-a9b6-d5d8cacdbadc/scratchpad/design-visivo/).",
       "prova_tipo": "browser",
       "prova_eseguita": "Il contrasto risulta 1,00:1 su 4 elementi in 19 pagine su 19 con testata: «MyCity» 24px e 20px, «Accedi» 14px, fg rgb(160,59,37) su bg rgb(160,59,37). A 1440 l'unico link /sign-in visibile sta a x=1167 y=53, 70×36, colore rgb(160,59,37). A 375 l'«Accedi» della testata ha lo stesso colore; resta visibile solo quello della barra in basso (rgb(87,83,78)). Nelle foto: a sinistra solo «My», e un buco fra «Carrello» e «Registrati». · Verifica tecnica: Ho scritto un mio script Playwright (verifica-design-visivo/hdr.cjs) e l'ho fatto girare su localhost:3100/about a 1440 e a 375. Logo: color rgb(160,59,37) su bg rgb(160,59,37), sia a 1440 sia a 375. «Accedi» a 1440: x=1167, w=70, rgb(160,59,37) su rgb(160,59,37); a 375 uguale. «Registrati»: rgb(255,255,255). La foto hdr_1440.png mostra solo «My» e un vuoto prima di «Registrati». Per la produzione ho usato web_fetch_vercel_url su /contact. La pagina carica /_next/static/css/b09b9d933ee949bc.css, che ha lo stesso hash della build locale, e la build locale contiene a{color:var(--primary-700)}: il CSS di produzione è identico.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: design-visivo · id R35 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: design-visivo · id R35 · si ripara: codice",
+      "chiuso_il": "2026-10-31 13:58",
+      "chiuso_da": "PR #268 · 3f9ddf97",
+      "nota_riparazione": "Riparato nell ondata 2 del piano per aprire (run wf_765f4faf-23a), unita con la #268. — prova: cd /home/user/mycity && npx vitest run tests/unit/il-negozio-che-non-cerca-l-indirizzo-non-finisce-a-roma.test.tsx tests/unit/il-modulo-del-negozio-non-salva-una-posizione-mai-data.test.tsx tests/unit/il-logo-e-accedi-si-vedono-sulla-testata.test.tsx tests/unit/la-pagina-promozioni-vuota-non-va-in-errore.test.tsx tests/unit/la-tendina-della-ricerca-dice-quando-la-rete-e-caduta.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-2-components-storelocationpicker-tsx: ebeaeffb: regge (uscita 0)"
     },
     {
       "dimensione": "accessibilita-visiva",
@@ -5539,13 +5548,16 @@
       "impatto": "Una voce fissa del menu principale mostra una pagina d'errore a tutti, proprio nella situazione più probabile al lancio (zero promozioni). Toglie fiducia nel primo giro di prova del sito.",
       "fix": "Dare alla griglia una chiave sua, per esempio queryKeys.promotions.activeIds = ['promotions','active-ids'] in lib/queries/keys.ts, e usarla in components/ProductGrid.tsx:297. Oppure far disegnare a app/promozioni/page.tsx il suo stato vuoto senza montare ProductGrid onlyPromo. Aggiungere una prova unitaria che monta le due query con un QueryClient condiviso.",
       "fonte": "design",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "node /tmp/claude-0/-home-user/df070674-8e02-5d4e-a9b6-d5d8cacdbadc/scratchpad/frontend-cliente/promo.cjs — Playwright a 360px su http://localhost:3100/promozioni. Le letture del database sono finte e locali (page.route): la funzione active_promo_products torna [], products torna 2 prodotti, seller_public_profiles torna il negozio approvato. Screenshot: scratchpad/frontend-cliente/promo.png",
       "prova_tipo": "browser",
       "prova_eseguita": "In console: «TypeError: eo.has is not a function at Array.filter … at useMemo». Nella pagina: «Qualcosa è andato storto · Abbiamo registrato il problema. Riprova fra un momento. Riprova · Torna alla home». Controprova: con zero prodotti nel catalogo la stessa pagina mostra correttamente «Nessuna promozione attiva al momento». · Verifica tecnica: Ho rieseguito la prova del collega da una mia copia (verifica-frontend-cliente/promo-v.cjs): Playwright a 360px su localhost:3100/promozioni, con risposte finte e locali (rpc vuota, 2 prodotti). In console è uscito «TypeError: eo.has is not a function at Array.filter … at useMemo». A schermo «Qualcosa è andato storto · Riprova · Torna alla home». Ho letto il codice alle righe citate e con grep ho verificato che la chiave sia usata solo in quei due punti. Sul database di produzione, solo SELECT: seller_promotions ha 1 riga totale e 0 attive adesso. I prodotti 'available' sono 9: 5 di Pane Quotidiano e 4 di Panificio Demo, entrambi i negozi approvati. La griglia legge con status='available' e is_approved (lib/queries/griglia-prodotti.ts:163,221).",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-cliente · id R89 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-cliente · id R89 · si ripara: codice",
+      "chiuso_il": "2026-10-31 13:58",
+      "chiuso_da": "PR #268 · 3f9ddf97",
+      "nota_riparazione": "Riparato nell ondata 2 del piano per aprire (run wf_765f4faf-23a), unita con la #268. — prova: cd /home/user/mycity && npx vitest run tests/unit/il-negozio-che-non-cerca-l-indirizzo-non-finisce-a-roma.test.tsx tests/unit/il-modulo-del-negozio-non-salva-una-posizione-mai-data.test.tsx tests/unit/il-logo-e-accedi-si-vedono-sulla-testata.test.tsx tests/unit/la-pagina-promozioni-vuota-non-va-in-errore.test.tsx tests/unit/la-tendina-della-ricerca-dice-quando-la-rete-e-caduta.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-2-components-storelocationpicker-tsx: ebeaeffb: regge (uscita 0)"
     },
     {
       "dimensione": "stati-ui",
@@ -24698,7 +24710,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "radiografia-in-corsa del lotto gravi del sito",
-      "stato": "aperto",
+      "stato": "riparato",
       "riverifica": {
         "verdetto": "ancora_presente",
         "prova": "app/admin/orders/page.tsx:71 'const { data: orders = [], isLoading } = useQuery(...)'. isError non si usa da nessuna parte nel file; la queryFn fa throw error (riga 86); la riga 267-268 mostra 'Nessun ordine' quando filtered.length === 0.",
@@ -24714,7 +24726,10 @@
           "data": "2026-09-08 11:30"
         }
       ],
-      "fuori_dal_referto": true
+      "fuori_dal_referto": true,
+      "chiuso_il": "2026-10-31 13:58",
+      "chiuso_da": "PR #268 · 3f9ddf97",
+      "nota_riparazione": "Riparato nell ondata 2 del piano per aprire (run wf_765f4faf-23a), unita con la #268. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-cabina-admin-non-scambia-un-guasto-per-un-vuoto.test.tsx tests/unit/i-link-della-cabina-admin-portano-a-una-pagina-vera.test.tsx tests/unit/le-tabelle-vuote-della-cabina-dicono-vuoto-allo-stesso-modo.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-2-app-admin-orders-id-page-tsx: 98807b96: rosso_strutturale (uscita 3)"
     },
     {
       "dimensione": "frontend-ux",
@@ -24726,7 +24741,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "radiografia-in-corsa del lotto gravi del sito",
-      "stato": "aperto",
+      "stato": "riparato",
       "riverifica": {
         "verdetto": "ancora_presente",
         "prova": "app/admin/page.tsx:61 'const { data: stats, isLoading } = useQuery(...)', con la rpc admin_kpi e throw error alle righe 72-73. Riga 143: 'if (isLoading || !stats) { return <LoadingState />; }'. Nessun ramo isError. In produzione admin_kpi esiste (verificato su pg_proc).",
@@ -24742,7 +24757,10 @@
           "data": "2026-09-08 11:30"
         }
       ],
-      "fuori_dal_referto": true
+      "fuori_dal_referto": true,
+      "chiuso_il": "2026-10-31 13:58",
+      "chiuso_da": "PR #268 · 3f9ddf97",
+      "nota_riparazione": "Riparato nell ondata 2 del piano per aprire (run wf_765f4faf-23a), unita con la #268. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-cabina-admin-non-scambia-un-guasto-per-un-vuoto.test.tsx tests/unit/i-link-della-cabina-admin-portano-a-una-pagina-vera.test.tsx tests/unit/le-tabelle-vuote-della-cabina-dicono-vuoto-allo-stesso-modo.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-2-app-admin-orders-id-page-tsx: 98807b96: rosso_strutturale (uscita 3)"
     },
     {
       "dimensione": "frontend-ux",
@@ -24894,7 +24912,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "radiografia-in-corsa del lotto gravi del sito",
-      "stato": "aperto",
+      "stato": "riparato",
       "riverifica": {
         "verdetto": "ancora_presente",
         "prova": "app/admin/coupons/page.tsx:233 'Nessun codice sconto: ho guardato e non ce n’è ancora nessuno.' · lib/admin/vista-delle-campagne.ts:260 'Nessuna campagna.' · app/admin/orders/page.tsx:268 'Nessun ordine' (senza punto).",
@@ -24910,7 +24928,10 @@
           "data": "2026-09-08 11:30"
         }
       ],
-      "fuori_dal_referto": true
+      "fuori_dal_referto": true,
+      "chiuso_il": "2026-10-31 13:58",
+      "chiuso_da": "PR #268 · 3f9ddf97",
+      "nota_riparazione": "Riparato nell ondata 2 del piano per aprire (run wf_765f4faf-23a), unita con la #268. — prova: cd /home/user/mycity && npx vitest run tests/unit/la-cabina-admin-non-scambia-un-guasto-per-un-vuoto.test.tsx tests/unit/i-link-della-cabina-admin-portano-a-una-pagina-vera.test.tsx tests/unit/le-tabelle-vuote-della-cabina-dicono-vuoto-allo-stesso-modo.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-2-app-admin-orders-id-page-tsx: 98807b96: rosso_strutturale (uscita 3)"
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -26393,11 +26414,14 @@
       "impatto": "Nel momento in cui vuole comprare, il cliente legge che il prodotto non c'è, mentre è solo la connessione: chiude la ricerca e il negozio perde la vendita. Chi usa lo screen reader sente la stessa frase falsa.",
       "fix": "In leggiSuggerimentiRicerca: se la ricerca dei prodotti torna con `error` e anche il ripiego fallisce, lanciare l'errore. Lanciarlo anche quando falliscono tutte e tre le domande. In alternativa usare `.throwOnError()` sulle letture. Così useQuery va in errore e il riquadro mostra «Non riesco a cercare adesso» con «Riprova». Una prova che usa il client vero con una fetch che cade, come quella qui sotto, tiene il freno.",
       "fonte": "riesame finale dei file della prima ondata, 2026-10-16 (radiografia mentre si ripara); confermato da due verificatori, uno leggendo e uno eseguendo",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Prova che gira: cd /home/user/wt/perimetro && npx vitest run --config /tmp/claude-0/-home-user/06076910-34c9-5b70-bac3-566ef0676b66/scratchpad/p4fx3/vitest.p4.config.mts ricerca. Usa il client vero di supabase-js con una fetch che lancia TypeError('fetch failed'). Uscita: 1 rossa dopo 14 s, «expected 'vuoto' to be 'errore'». Fatti stampati in out-ricerca.txt: {\"lanciato\":null,\"risultato\":[],\"verdetto\":{\"mostra\":\"vuoto\",\"annuncio\":\"Nessun suggerimento per pane\"}}. In node_modules/@supabase/postgrest-js/dist/index.mjs:291 si vede `if (!this.shouldThrowOnError) res = res.catch((fetchError) => ({ error: … }))`: l'errore di rete diventa un valore, non un'eccezione. · verifica: **1. Prova del revisore, rifatta in una cartella mia.** Ho copiato il suo test nella mia area di lavoro (/tmp/claude-0/-home-user/06076910-34c9-5b70-bac3-566ef0676b66/scratchpad/verif-3-0) e l'ho lanciato da /home/user/wt/perimetro:\n`timeout 120 npx vitest run --config /tmp/claude-0/-home-user/06076910-34c9-5b70-bac3-566ef0676b66/scratchpad/verif-3-0/vitest.v.config.mts`\n\nIl test usa il client vero di supabase-js, con una `fetch` che lancia `TypeError('fetch failed')`. Uscita:\n- `× rete giu: la tendina dice «Nessun risultato» invece di «Non riesco a cercare» 14121ms`\n- `AssertionError: expected 'vuoto' to be 'errore'`\n- `Tests 1 failed (1)`, durata 14,66 s\n\nFatti scritti in out-ricerca.txt:\n`{\"lanciato\":null,\"risultato\":[],\"verdetto\":{\"mostra\":\"vuoto\",\"annuncio\":\"Nessun suggerimento per pane\"}}`\n\n**2. Righe lette.**\n- `node_modules/@supabase/postgrest-js/dist/index.mjs`, righe 270-310. Contiene `if (!this.shouldThrowOnError) res = res.catch((fetchError) => {...`: l'errore di rete diventa un valore. La versione è 2.106.1.\n- `lib/queries/suggerimenti-ricerca.ts`, righe 37 e 77-99: solo `.data`, mai `error`.\n- `lib/queries/seller-public-profiles.ts`, righe 149-150: `if (rows.length === 0) return [];` arriva prima di `fetchSellerPublicMap`, il cui `if (error) throw error;` sta a riga 110.\n- `lib/supabase/client.ts`: `createBrowserClient(url, key)` senza opzioni.\n- `grep -rn \"throwOnError\" lib components app`: nessun uso nelle letture (solo un commento in lib/vista-query.ts:8).\n- ",
       "prova_tipo": "verificata da un secondo revisore",
       "verificato": true,
-      "nato_oggi": true
+      "nato_oggi": true,
+      "chiuso_il": "2026-10-31 13:58",
+      "chiuso_da": "PR #268 · 3f9ddf97",
+      "nota_riparazione": "Riparato nell ondata 2 del piano per aprire (run wf_765f4faf-23a), unita con la #268. — prova: cd /home/user/mycity && npx vitest run tests/unit/il-negozio-che-non-cerca-l-indirizzo-non-finisce-a-roma.test.tsx tests/unit/il-modulo-del-negozio-non-salva-una-posizione-mai-data.test.tsx tests/unit/il-logo-e-accedi-si-vedono-sulla-testata.test.tsx tests/unit/la-pagina-promozioni-vuota-non-va-in-errore.test.tsx tests/unit/la-tendina-della-ricerca-dice-quando-la-rete-e-caduta.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-2-components-storelocationpicker-tsx: ebeaeffb: regge (uscita 0)"
     },
     {
       "dimensione": "frontend-ux",
@@ -27393,11 +27417,14 @@
       "impatto": "Solo durante un guasto della vista. I messaggi restano leggibili.",
       "fix": "Per il cliente il ripiego può dire «Negozio» invece di «Utente», con un piccolo avviso «nome non letto, riprova».",
       "fonte": "collaudo della correzione del lotto «letture dalla vista pubblica», 2026-10-18 (nato dal lotto, scelta dichiarata)",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Collaudo della correzione, lente B: sonda con vistaGiu e utente MARIA; nei mondi dopo le migrazioni elenco «U Utente … U Utente» e testata «Utente»; nel mondo di oggi «Pane Quotidiano» e «Salumeria Due».",
       "prova_tipo": "verificata da un secondo revisore",
       "verificato": true,
-      "nato_oggi": true
+      "nato_oggi": true,
+      "chiuso_il": "2026-10-31 13:58",
+      "chiuso_da": "PR #268 · 3f9ddf97",
+      "nota_riparazione": "Riparato nell ondata 2 del piano per aprire (run wf_765f4faf-23a), unita con la #268. — prova: cd /home/user/mycity && npx vitest run tests/unit/i-nomi-dei-clienti-che-il-negozio-vede.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-2-migrations-181-i-nomi-dei-clienti-che-il: f4c70dab: rosso_strutturale (uscita 3)"
     },
     {
       "dimensione": "frontend-ux",
@@ -28500,9 +28527,12 @@
       "titolo": "Basta una sola sezione non più valida perché sparisca tutta la home composta dal pannello; e se l'admin salva, la home di partenza la sovrascrive",
       "severita": "grave",
       "file": "lib/home-site.ts:291-297 (normalizeHomeSite, identica alla base fd4821aa righe 290-296). La usano app/page.tsx:88, app/admin/home/page.tsx:45 e app/api/admin/home/route.ts:45. Prova in scratchpad/qa-architettura/home.arch.test.ts: una home salvata con un banner a imageUrl 'http://…' e un richText valido restituisce le 11 sezioni di partenza (hero, reorder, popularProducts…), senza log e senza avviso. L'editor mostra quelle come «home effettiva». Non ho verificato se la home_site in produzione abbia oggi una sezione non valida.",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
-      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262",
+      "chiuso_il": "2026-10-31 13:58",
+      "chiuso_da": "PR #268 · 3f9ddf97",
+      "nota_riparazione": "Riparato nell ondata 2 del piano per aprire (run wf_765f4faf-23a), unita con la #268. — prova: cd /home/user/mycity && npx vitest run tests/unit/una-sezione-rotta-non-cancella-la-home-composta.test.ts tests/unit/la-classifica-di-tendenza-si-disegna-solo-con-visite-vere.test.ts tests/unit/la-mappa-del-sito-non-manda-a-google-categorie-vuote.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-2-lib-home-site-ts: a81fc255: regge (uscita 0)"
     },
     {
       "titolo": "Il caricamento da file scrive i prodotti direttamente dal browser: non esiste una rotta in cui mettere il freno di CARICAMENTO_DA_FILE_ACCESO",
@@ -32205,12 +32235,15 @@
       "dimensione": "coerenza-brand",
       "reparto": "Coerenza del marchio",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": false,
       "titolo": "Il riquadro «Trending ora» dà le medaglie #1, #2 e #3 senza nessuna vendita dietro: cancellato il negozio di prova, le darebbe ai prodotti di Pane Quotidiano",
       "file": "home: sezione «Trending ora» e «I più amati» (components/home-sections/HomeSectionRenderer.tsx e la sezione salvata in site_settings.home_site)",
       "descrizione": "Senza visite e senza vendite la classifica mostra gli ultimi prodotti pubblicati con le medaglie. Oggi sono quelli del negozio di prova; il giorno che si cancella (carta #201) diventano quelli di Pane Quotidiano. È una classifica finta, come quelle che la mossa 3 della #900 vuole togliere. Rimedio immediato: spegnere la sezione dal pannello lo stesso giorno della carta #201; poi mostrarla solo con dati veri.",
-      "fonte": "preesistente: c è su 0df5557 e su 9d2bb05d; trovato dall analisi del sito visto da chi compra (PR #900, run wf_b52be27a-121) e dalla sua revisione (run wf_5370ad60-6e4)"
+      "fonte": "preesistente: c è su 0df5557 e su 9d2bb05d; trovato dall analisi del sito visto da chi compra (PR #900, run wf_b52be27a-121) e dalla sua revisione (run wf_5370ad60-6e4)",
+      "chiuso_il": "2026-10-31 13:58",
+      "chiuso_da": "PR #268 · 3f9ddf97",
+      "nota_riparazione": "Riparato nell ondata 2 del piano per aprire (run wf_765f4faf-23a), unita con la #268. — prova: cd /home/user/mycity && npx vitest run tests/unit/una-sezione-rotta-non-cancella-la-home-composta.test.ts tests/unit/la-classifica-di-tendenza-si-disegna-solo-con-visite-vere.test.ts tests/unit/la-mappa-del-sito-non-manda-a-google-categorie-vuote.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-2-lib-home-site-ts: a81fc255: regge (uscita 0)"
     },
     {
       "dimensione": "frontend-ux",
@@ -34611,12 +34644,15 @@
       "dimensione": "qa-flussi",
       "reparto": "Flussi critici",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Dopo la migrazione 161 il negozio vede «Cliente» al posto del nome di ogni cliente nella pagina Clienti, e la ricerca per nome non trova più nessuno",
       "file": "app/seller/customers/page.tsx:42-56,74,91,187",
       "descrizione": "La pagina legge il nome del cliente agganciando l'ordine alla tabella dei profili (buyer:profiles!orders_user_id_fkey). Dopo la 161 i profili si leggono solo per la propria riga: l'aggancio torna vuoto senza errore. Ripiego: usare delivery_full_name dell'ordine, che il negozio legge già sui propri ordini.",
-      "fonte": "censimento della migrazione 161 (run wf_df9b9a65-06c), 31/10/2026, sola lettura sul commit 0fc4ec7d"
+      "fonte": "censimento della migrazione 161 (run wf_df9b9a65-06c), 31/10/2026, sola lettura sul commit 0fc4ec7d",
+      "chiuso_il": "2026-10-31 13:58",
+      "chiuso_da": "PR #268 · 3f9ddf97",
+      "nota_riparazione": "Riparato nell ondata 2 del piano per aprire (run wf_765f4faf-23a), unita con la #268. — prova: cd /home/user/mycity && npx vitest run tests/unit/i-nomi-dei-clienti-che-il-negozio-vede.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-2-migrations-181-i-nomi-dei-clienti-che-il: f4c70dab: rosso_strutturale (uscita 3)"
     },
     {
       "dimensione": "qa-flussi",
