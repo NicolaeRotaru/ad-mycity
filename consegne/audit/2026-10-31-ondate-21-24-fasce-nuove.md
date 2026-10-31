@@ -36,7 +36,7 @@ Cambia anche il resto della catena:
 ## Cosa non ho verificato
 
 - **Il sito vero non l'ho aperto.** Le prove girano sul codice, non sul sito pubblicato.
-- **Due prove del carrello sono instabili.** Il primo controllo completo ne aveva 2 rosse su 6.560, nello stesso file. Da sole passano sempre, anche sul codice di prima. Il risultato del secondo controllo è scritto in fondo.
+- **Una prova del carrello era fragile, e l'ho corretta io.** Aspettava un numero fisso di giri invece della riga «Ne restano solo», e con tutte le prove insieme cadeva: 2 rosse, poi 1. Adesso aspetta la riga. Il controllo completo è verde: 6.560 su 6.560.
 - **La carta al lancio è spenta.** Il difetto grave rimasto riguarda la carta: la fascia si controlla quando nasce il pagamento, non quando si paga.
 - **Gli orari di 7 negozi su 16 non li ho trovati.** Degli altri 9 nessuno ha due fonti diverse che si confermano.
 
@@ -54,8 +54,8 @@ Cambia anche il resto della catena:
 | 24, email, pagine e giro notturno | `wf_ddce7ca0-044` | 3 | 7.460.345 | 486.723 | regge al primo collaudo |
 | **Totale** | | **20** | **40.810.571** | **2.977.772** | |
 
-- Ramo del sito: `fix/ondata-24-lib-email-templates-ts` = `896d704`, sopra `40cb09f` (7 commit, dal `19441ef` al `896d704`). Va sul ramo `ccr-aebe4f91-ohlf19` del sito.
-- Prove: `npm run verify` sul giro 22 6.535 su 6.535; sul ramo finale 6.558 su 6.560 al primo giro (`tests/unit/il-carrello-non-promette-mezz-ora-alle-undici-di-sera.test.ts`, 2 casi), da solo 20 su 20 tre volte e 20 su 20 sulla base.
+- Ramo del sito: `ccr-aebe4f91-ohlf19` = `a5f9548`, sopra `40cb09f` (8 commit, dal `19441ef` al `a5f9548`), richiesta #266.
+- Prove: `npm run verify` sul giro 22 6.535 su 6.535; sul ramo finale 6.558 su 6.560, poi 6.559 su 6.560 (`tests/unit/il-carrello-non-promette-mezz-ora-alle-undici-di-sera.test.ts`: `assesta()` aspetta giri fissi e la scorta arriva dopo). Corretta dall'AD con `vi.waitFor` (commit `a5f9548`): 6.560 su 6.560. Base `40cb09f`: 6.489 su 6.489. Richiesta del sito: #266.
 - Perimetro: `node cervello/radiografia-in-corsa.mjs --repo <ramo finale>` → 16 file riguardati dopo l'ultima modifica, su 5 dimensioni.
 - Registro del sito: voci 2007-2029, 1 grave (la fascia della carta controllata alla sessione) e 22 minori; 4 da riverificare sul ramo finale.
 - Fatti: `consegna.fascia-fino-a-60-minuti`, `consegna.fasce-orarie`. Orari: `consegne/intelligence/2026-10-30-orari-negozi-piacenza.md`.

@@ -39,12 +39,12 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 **Cosa devi fare tu.** Unire la richiesta del sito e quella della memoria. Poi dirmi fino a quando le rotte accettano le fasce vecchie: il mio consiglio è una settimana.
 
-**Cosa non ho verificato.** Il sito pubblicato non l'ho aperto. Due prove del carrello sono instabili sotto carico: il referto dice com'è andato il secondo controllo completo.
+**Cosa non ho verificato.** Il sito pubblicato non l'ho aperto. Il controllo completo del sito è verde, 6.560 prove su 6.560.
 
 Cosa cambia: il cliente sceglie fra sette fasce che seguono gli orari veri dei negozi, e il negozio legge l'ora giusta entro cui accettare.
 Se va bene: il sito pubblicato propone le fasce nuove, e il prossimo giro sono le email di annullo.
 
-Referto: `consegne/audit/2026-10-31-ondate-21-24-fasce-nuove.md`
+Referto: `consegne/audit/2026-10-31-ondate-21-24-fasce-nuove.md` · richiesta del sito: https://github.com/NicolaeRotaru/mycity/pull/266
 
 <!-- metodo-snello-ondate -->
 
