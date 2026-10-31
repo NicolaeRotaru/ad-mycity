@@ -6289,3 +6289,19 @@ Per non sbagliare i territori una quinta volta, prima di dividere ho cercato tut
 **Perché non nasce il tipo leggero `squadra-sito`.** In 37 posti (19 strumenti e 18 prove) la macchina enumera `.claude/agents/` e conta «i 120 senior»: un tipo in più li farebbe cadere tutti. Sistemarli costava più dei circa 14.000 token a turno che il tipo avrebbe risparmiato.
 
 **Colore:** 🟡 auto-modifica, vale con la firma di Nicola sull'unione.
+
+## 2026-10-31 01:30 — 🔴 Le scelte di Nicola sulle fasce, e 🟡 i quattro giri del sito col metodo snello
+
+**Cosa scelto da Nicola, in chat, la sera del 30/10 e nella notte.** Una fascia si sceglie fino a 60 minuti prima della fine (22:25). Unita la #904, il motore snello (22:46). Le fasce: prima la griglia A senza pranzo, poi sette fasce dalle 7:30 alle 21 con la regola del ritiro: la merce si ritira quando il negozio è aperto e MyCity la tiene fino alla fascia (23:15). La borsa frigo e il frigo li compra lui. Dopo il giro 22 un terzo giro piccolo; dopo il giro 23 un quarto, col territorio giusto. Fatti: `consegna.fascia-fino-a-60-minuti`, `consegna.fasce-orarie`.
+
+**Cosa scelto dall'AD (scelte ragionate, dette a Nicola).** Il ritiro chiede un quarto d'ora di negozio aperto (proposta della squadra del giro 22). La scadenza per accettare e il giro notturno usano sempre l'ultimo momento utile per il ritiro, anche a negozio aperto per tutta la fascia.
+
+**Perché.** Gli orari veri: alle 15:00 di un giorno feriale nessuno dei 9 negozi con orario è aperto (`consegne/intelligence/2026-10-30-orari-negozi-piacenza.md`). Il conto: 4 giri, 20 agenti, 40.810.571 token con le riletture (`consegne/audit/2026-10-31-ondate-21-24-fasce-nuove.md`).
+
+**Colore:** 🔴 le scelte e le unioni, di Nicola. 🟡 il ramo del sito e il registro (voci 2007-2029), da unire.
+
+## 2026-10-31 01:45 — 🔴 Nicola unisce la #266 del sito: le fasce nuove della cassa vanno online
+
+**Cosa.** Unita alle 01:36, coi 9 controlli del sito verdi sul commit `a5f9548`. Rilascio di produzione su Vercel `dpl_C44A63R2sMNDMTvYd9kpEYFH1oZr`, in costruzione alle 01:43 dal commit `0fc4ec7`. Nel registro del sito chiuse le schede 1948 e 1949 (`chiudi-sito.mjs --pr 266 --commit 0fc4ec7 --applica`), con le tre prove dell'ondata 21 rifatte sul codice unito: 22 su 22.
+
+**Colore:** 🔴 l'unione, di Nicola. 🟢 le chiusure nel registro, ognuna con la sua prova rifatta.

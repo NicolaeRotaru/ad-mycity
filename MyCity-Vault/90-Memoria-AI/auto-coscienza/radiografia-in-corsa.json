@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-30 21:57",
+  "aggiornato": "2026-10-31 01:45",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -5537,6 +5537,127 @@
         "cervello/censimento-macchina.mjs": "598af595ad16",
         "cervello/git-github.mjs": "3bccc34cd21b",
         "cervello/prova-rimessa.mjs": "f45d78e8025a"
+      }
+    },
+    {
+      "quando": "2026-10-31 01:20",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/api/cron/expire-stale-orders/route.ts": "765fefb1806f",
+        "app/api/orders/cod/route.ts": "9f3e2459d35d"
+      }
+    },
+    {
+      "quando": "2026-10-31 01:20",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 8,
+      "schede": [
+        "La regola dei 60 minuti sta in due costanti diverse, e lib/quando-arriva e lib/store-hours ora si importano a vicenda",
+        "Una fascia «Domani» inviata alle 23:59 e arrivata alla rotta dopo mezzanotte si giudica sul giorno dopo",
+        "Le prove non fissano che alle 19:30 il forno che chiude alle 19:30 è già chiuso",
+        "Le prove non fissano la regola del ritiro per le fasce di domani",
+        "Il 409 dice «domani è chiuso in quella fascia» anche quando il negozio è aperto nella fascia ma apre dopo il limite del ritiro",
+        "Per le fasce di domani non conta il ritiro di oggi: lunedì alle 17 «Domani · 7:30–9:00» non si offre",
+        "La cassa accetta un ordine che il negozio deve accettare entro lo stesso minuto",
+        "Due intervalli attaccati (9-13 e 13-19:30) non contano come aperto fino a fine fascia: scadenza piu' stretta del necessario"
+      ],
+      "nota": "",
+      "file": {
+        "lib/bozza-checkout.ts": "a165e5bf9822",
+        "lib/email/templates.ts": "01154553c324",
+        "lib/ordini/fascia-leggibile.ts": "3d73ebe593df",
+        "lib/ordini/scadenza-accettazione.ts": "a752586572fc",
+        "lib/ordini/veloce-non-confermata.ts": "813d16ab58d4",
+        "lib/promessa-consegna.ts": "f712555e7828",
+        "lib/quando-arriva.ts": "2d14ed35d814",
+        "lib/store-hours.ts": "9510f72016db"
+      }
+    },
+    {
+      "quando": "2026-10-31 01:20",
+      "casa": "marketplace",
+      "dimensione": "pagamenti-stripe",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 5,
+      "schede": [
+        "Con la carta la fascia si controlla quando nasce la sessione, non quando si paga: la 13:00–16:30 pagata alle 13:01 passa",
+        "Le due rotte accettano ancora le sei fasce di prima che Nicola ha tolto",
+        "L'email «Nuovo ordine» calcola la scadenza da new Date() della rotta, non dal created_at scritto nel database",
+        "Un ordine con carta pagato dopo l'ultimo ritiro nasce scaduto: il giro lo annulla e rimborsa entro 30 minuti",
+        "Un pagamento con carta a cavallo della mezzanotte sposta «Domani» di un giorno: scadenza e annullo contano dal giorno dopo"
+      ],
+      "nota": "",
+      "file": {
+        "app/api/stripe/checkout/route.ts": "c2753f7d92ab",
+        "lib/stripe/webhook/ordini.ts": "fdf5ed115ee2"
+      }
+    },
+    {
+      "quando": "2026-10-31 01:20",
+      "casa": "marketplace",
+      "dimensione": "qa-flussi",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 5,
+      "schede": [
+        "La prova del carrello alle 23 a volte cade sotto carico",
+        "La bozza della cassa riceve gli orari dei negozi vuoti: il filo con la regola unica non lavora",
+        "Dopo l'ultimo ritiro la riga mescola tu e lei e dice «può partire subito» quando il negozio è chiuso",
+        "Il giro notturno legge al massimo 100 ordini in NEW, senza ordinarli: con più di 100 ordini vivi, uno scaduto può aspettare",
+        "Col telefono del negozio un po' indietro, un ordine non più ritirabile legge «entro le 12:46» invece di «ritiro non più possibile»"
+      ],
+      "nota": "",
+      "file": {
+        "app/checkout/page.tsx": "9274d7791918"
+      }
+    },
+    {
+      "quando": "2026-10-31 01:20",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 4,
+      "schede": [
+        "Sabato sera, quando la veloce cade, l'avviso dice «ho messo Domani · 9:00–12:00» ma per la domenica il negozio è chiuso",
+        "Il selettore non si ridisegna col passare del tempo: aperto alle 16:55 mostra ancora «15:00–18:00» alle 17:05",
+        "Orari passati alla cassa e 409 della rotta contanti: le prove cercano parole nel sorgente, non fanno girare pagina e rotta",
+        "La tessera «Oggi» dice «Negozio chiuso» mentre il forno è ancora aperto"
+      ],
+      "nota": "",
+      "file": {
+        "app/seller/orders/[id]/page.tsx": "80fb118cd947",
+        "app/seller/orders/page.tsx": "8247187bf250",
+        "components/checkout/DeliverySlotPicker.tsx": "dff7d28691e2"
+      }
+    },
+    {
+      "quando": "2026-10-31 01:45",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        ".claude/workflows/ondata-snella.js": "674fc36222f2"
       }
     }
   ]

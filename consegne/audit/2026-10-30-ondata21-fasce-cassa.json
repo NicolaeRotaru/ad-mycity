@@ -1,0 +1,43 @@
+{
+  "_cosa_e": "Ondata 21 del sito, la prima col metodo snello (ondata-snella.js): la cassa che propone solo fasce che il negozio puo servire e che finiscono fra almeno 60 minuti (schede 1948 e 1949). Scelta di Nicola delle 22:25: fatto consegna.fascia-fino-a-60-minuti.",
+  "data": "2026-10-30 22:30",
+  "registro": "sito",
+  "origine": "LAVORO-APERTO.md, il prossimo lavoro proposto; carta #223",
+  "ondate": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      {
+        "chiave": "components/checkout/DeliverySlotPicker.tsx",
+        "difetti": [
+          {
+            "idx": 1948,
+            "chiave": "qa-flussi|la cassa propone già «oggi · in giornata 15:00–18:00» anche quando il negozio è chiuso tutto il pomeriggio, come pane quotidiano il giovedì e la domenica, e il no arriva solo al tocco su «ordina»"
+          },
+          {
+            "idx": 1949,
+            "chiave": "frontend-ux|alle 17:50 la cassa segna «in giornata · 15:00–18:00»: promette la consegna entro dieci minuti, meno della veloce, e la rotta accetta l'ordine"
+          }
+        ]
+      }
+    ]
+  ]
+}

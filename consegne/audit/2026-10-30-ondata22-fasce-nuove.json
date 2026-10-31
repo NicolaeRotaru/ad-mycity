@@ -1,0 +1,8 @@
+{
+  "_cosa_e": "Ondata 22 del sito, la seconda e ultima della funzione «fasce della cassa» (regola ① del metodo snello): le sette fasce scelte da Nicola (fatto consegna.fasce-orarie), la regola del ritiro, e quello che l'ondata 21 ha lasciato aperto (la vetrina che dice «oggi» dalle 19:01 alle 19:29, la rotta della carta senza i 60 minuti, la seconda copia dei 60 minuti, la tessera «Oggi»). Base: il ramo dell'ondata 21, commit 9686c46. Le schede e i casi da provare sono negli args del run wf_c6291dc6-92e.",
+  "data": "2026-10-30 23:35",
+  "registro": "sito",
+  "origine": "esito dell'ondata 21 (run wf_03b8bd70-559, 6 agenti, 12.554.489 token con le riletture, 845.189 senza), consegne/intelligence/2026-10-30-orari-negozi-piacenza.md, scelte di Nicola delle 22:25 e delle 23:15",
+  "ondata_21": { "run": "wf_03b8bd70-559", "ramo": "fix/ondata-21-components-checkout-deliveryslotpicker-t", "commit": "9686c4613bb96566255b222dc3810db9265b79ee", "esito": "non_regge: grave nato fuori territorio (lib/promessa-consegna.ts:230), portato nell'ondata 22" },
+  "run": "wf_c6291dc6-92e"
+}

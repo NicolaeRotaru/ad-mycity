@@ -29,9 +29,30 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- radiografia-totale-sito-3-9 -->
 
+<!-- fasce-nuove-della-cassa -->
+
+### 🔴 #224 — Unisci le fasce nuove della cassa: sette fasce e il ritiro quando il negozio è aperto · ⏳ accodata 2026-10-31 01:30 · aggiornata 2026-10-31 01:45
+
+> ✏️ Aggiornata il 2026-10-31 01:45. Hai unito la richiesta del sito alle 01:36. Resta da unire quella della memoria.
+
+**In parole semplici.** La cassa propone sette fasce dalle 7:30 alle 21, e ogni negozio vede solo quelle che può servire. La merce si ritira quando il negozio è aperto e la teniamo fino alla fascia scelta.
+
+**Cosa cambia per te.** Lunedì alle 12:00 un cliente ordina il pane per le 13-16:30. Il forno legge «accettalo entro le 12:45», tu ritiri prima delle 13 e consegni dopo pranzo.
+
+**Cosa devi fare tu.** Unire la richiesta del sito e quella della memoria. Poi dirmi fino a quando le rotte accettano le fasce vecchie: il mio consiglio è una settimana.
+
+**Cosa non ho verificato.** Il sito pubblicato non l'ho aperto. Il controllo completo del sito è verde, 6.560 prove su 6.560.
+
+Cosa cambia: il cliente sceglie fra sette fasce che seguono gli orari veri dei negozi, e il negozio legge l'ora giusta entro cui accettare.
+Se va bene: il sito pubblicato propone le fasce nuove, e il prossimo giro sono le email di annullo.
+
+Referto: `consegne/audit/2026-10-31-ondate-21-24-fasce-nuove.md` · richiesta del sito: https://github.com/NicolaeRotaru/mycity/pull/266
+
 <!-- metodo-snello-ondate -->
 
 ### 🟡 #223 — Firma il metodo snello delle ondate del sito · ⏳ accodata 2026-10-30 19:56 · aggiornata 2026-10-30 20:27
+
+> ✅ FATTO 2026-10-30 22:46 — hai unito la #904: il motore snello è online, e i giri 21-24 l'hanno usato.
 
 > ✏️ **2026-10-30 20:27 — Hai unito la #903 alle 20:12 e hai detto «vai».** Il motore snello è nella richiesta di unione di stasera. Quando la unisci, questa carta è fatta. L'agente leggero per le squadre non nasce: il perché è nel referto `consegne/audit/2026-10-30-motore-snello.md`.
 
