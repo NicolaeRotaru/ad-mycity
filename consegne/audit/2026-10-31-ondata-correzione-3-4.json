@@ -58,5 +58,7 @@
     "3-bis": "10 agenti: 27.228.374 token con le letture dalla cache, 1.364.398 senza",
     "4-bis": "9 agenti: 28.195.671 con le letture, 1.289.382 senza"
   },
-  "registro_del_sito": "19 voci nuove; 12 tenute fuori (le nate nel ramo dei rimborsi, che non entra, e tutte quelle del pacchetto dell'ingresso, che descrivono falle aperte)"
+  "registro_del_sito": "19 voci nuove; 12 tenute fuori (le nate nel ramo dei rimborsi, che non entra, e tutte quelle del pacchetto dell'ingresso, che descrivono falle aperte)",
+  "nota_ricucitura": "La costruzione del ramo unito si fermava su /api/admin/branding con «Cannot access before initialization»: lib/store-hours.ts importava lib/constants.ts, che importa lib/promessa-consegna.ts, che importa lib/store-hours.ts. Corretto dall'AD sul ramo delle fasce (fe01273a): l'interruttore del ritiro sta in lib/ritiro-in-negozio.ts. Il controllo completo non lo vedeva, la costruzione sì. Dopo: verify 6.892 su 6.892, prove nel browser 70 passate e 6 saltate, quattro prove SQL verdi con le migrazioni 171 e 183.",
+  "lezione": "Il controllo completo (tipi, stile, prove unitarie) non vede un giro di import che la costruzione di Next scopre: ogni ricucitura che tocca lib/ va costruita prima della richiesta, non solo verificata."
 }
