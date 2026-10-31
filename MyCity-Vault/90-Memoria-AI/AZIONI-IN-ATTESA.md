@@ -33,7 +33,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ### 🔴 #224 — Unisci le fasce nuove della cassa: sette fasce e il ritiro quando il negozio è aperto · ⏳ accodata 2026-10-31 01:30 · aggiornata 2026-10-31 01:45
 
-> ✏️ **2026-10-31 01:45 — Hai unito la #266 del sito alle 01:36.** Resta la #905 della memoria; poi questa carta è fatta.
+> ✏️ Aggiornata il 2026-10-31 01:45. Hai unito la richiesta del sito alle 01:36. Resta da unire quella della memoria.
 
 **In parole semplici.** La cassa propone sette fasce dalle 7:30 alle 21, e ogni negozio vede solo quelle che può servire. La merce si ritira quando il negozio è aperto e la teniamo fino alla fascia scelta.
 
