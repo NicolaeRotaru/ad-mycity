@@ -62,5 +62,19 @@
   },
   "registro_del_sito": "24 voci nuove; 15 tenute fuori dal deposito (il pacchetto delle falle, i difetti nati nel ramo dei testi, un rinvio aperto della pagina dei Termini: solo in chat).",
   "lezione": "Il territorio decide se un pacchetto può riuscire: LE-b non poteva riscrivere i Termini perché la pagina era nel territorio di SO, e nel giro di correzione mancava lib/auth/accettazione-testi.ts, dove stava la cura. Prima di lanciare, per ogni caso di una scheda: il file dove si ripara è nel territorio del pacchetto?",
-  "dopo": "Richiesta dei 5 pacchetti dopo l'unione della #271. Il terzo giro dei testi (solo la riaccettazione) gira sul run wf_3a764d6a-8fe."
+  "dopo": "Richiesta dei 5 pacchetti dopo l'unione della #271. Il terzo giro dei testi (solo la riaccettazione) gira sul run wf_3a764d6a-8fe.",
+  "chiusure": {
+    "pr": "NicolaeRotaru/mycity#272",
+    "commit": "045df7f5",
+    "unita": "2026-11-01 09:54",
+    "chiuse": 17,
+    "per_pacchetto": {
+      "PA": "4 su 5",
+      "FP": "1 su 2 (la voce del buono regalo resta aperta: il collaudo ha trovato un caso scoperto)",
+      "SO": "5 su 6 (resta il Tab del riquadro «rifiutare l'ordine?», mai provato)",
+      "SKB": "4 su 5",
+      "NL": "3 su 3"
+    },
+    "prove": "29 file, 203 casi su 203 verdi sul codice unito"
+  }
 }
