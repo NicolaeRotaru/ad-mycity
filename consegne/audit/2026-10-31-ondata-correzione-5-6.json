@@ -1,0 +1,66 @@
+{
+  "_cosa_e": "Ondata di correzione delle ondate 5 e 6 del piano per aprire il sito, scelta di Nicola del 31/10: due motori in parallelo. A, soldi: PA (bonifici), FP (falle del database, dettagli fuori dal deposito), SO (resi del negozio). B: SKB (modulo prodotto), LE (testi legali col titolare: la pagina dei Termini passata qui dal territorio dei resi), NL (via i 5 euro e i punti). Base dbbbbccc.",
+  "data": "2026-11-01 01:09",
+  "registro": "sito",
+  "run": [
+    "wf_3231678e-3d7",
+    "wf_6cb735f1-94d"
+  ],
+  "esito": {
+    "lib/stripe/payout.ts": "regge (2759110b)",
+    "migrations/176_falle_r1_r2.sql": "regge (3e6386e6): i dettagli restano fuori dal deposito finché le falle sono aperte",
+    "app/api/returns/[id]/avanza/route.ts": "regge (5a30d43a)",
+    "components/seller/ProductForm.tsx": "regge (bd1e19b6)",
+    "app/terms/page.tsx": "non_regge (8c13983a): la riaccettazione dei Termini 3.0 non vale per chi ha solo la data o una versione vecchia; terzo giro autorizzato da Nicola (run wf_3a764d6a-8fe)",
+    "migrations/168_niente_regali_in_euro_e_punti_spenti.sql": "regge (701ab39e)"
+  },
+  "parziali": [
+    {
+      "pacchetto": "lib/stripe/payout.ts",
+      "voce": "pagamenti-stripe|al negozio che si collega a stripe il sito chiede anche il permesso di incassare carte, che con questo schema non gli serve",
+      "perche": "docs.stripe.com non si apre da qui (ENOTFOUND, rete della sessione): non posso confermare che basti transfers. client.ts lasciato com'e'."
+    },
+    {
+      "pacchetto": "lib/stripe/payout.ts",
+      "voce": "lib/stripe/webhook/dispute.ts:166-172 (commento)",
+      "perche": "Il commento dice ancora che il trigger mette 'OPEN' sull'ordine. Dalla 184 non lo fa piu'. Il file e' fuori territorio, la logica regge, il commento e' da aggiornare."
+    },
+    {
+      "pacchetto": "app/api/returns/[id]/avanza/route.ts",
+      "voce": "nato|app/api/returns/[id]/avanza/route.ts",
+      "perche": "Il ritiro sta sulla pagina del reso. La pagina ordine (app/orders/[id]/page.tsx, fuori territorio) non mostra il reso aperto: se il link compare solo nei 14 giorni, dopo non si trova."
+    },
+    {
+      "pacchetto": "components/seller/ProductForm.tsx",
+      "voce": "privacy-legale|il sito promette «reso entro 14 giorni» e «ti rimborsiamo senza domande» anche su pane e freschi, che sono esclusi, e non c'è modo di segnarli come esclusi",
+      "perche": "Fatti: scheda del prodotto escluso, spunta in modifica, carrello da lib. Resta la cassa: components/checkout/OrderSummary.tsx (fuori territorio) mostra a tutti FRASE_RESO."
+    },
+    {
+      "pacchetto": "app/terms/page.tsx",
+      "voce": "nato|app/terms/page.tsx",
+      "perche": "IVA, /sell, cookie 6 mesi verdi (collaudo terms 3/3). Rotta e cancello su /checkout fatti (riacc caso 2 verde). Caso 1 rosso: va cambiato lib/auth/accettazione-testi.ts, fuori territorio"
+    },
+    {
+      "pacchetto": "app/terms/page.tsx",
+      "voce": "privacy-legale|il sito non dice chi c'è dietro: niente nome, sede, partita iva né pec, il titolare risulta solo «mycity»",
+      "perche": "Il codice è pronto (collaudo tit verde). In produzione mancano le 14 NEXT_PUBLIC_TITOLARE_* su Vercel: le mette Nicola (rosso), il codice non può inventarle"
+    }
+  ],
+  "ricucitura": "ricucita-c56 = b61e7727 (la #271) + SKB, NL, PA, FP, SO, senza conflitti; più c9ba3127 (i tipi del database rigenerati) e f6f18265 (la seconda lettura della modifica prodotto che ignorava il proprio errore). verify 7.085 su 7.085, costruzione verde, 70 prove nel browser su chromium, prove SQL verdi; il pulsante applica 5 migrazioni (168, 178, 179, 180, 184) su un database costruito da b61e7727 e al secondo giro 0.",
+  "conto_token": {
+    "motore_A": {
+      "senza_letture": 1537800,
+      "con_letture": 32030404,
+      "agenti": 10
+    },
+    "motore_B": {
+      "senza_letture": 1169240,
+      "con_letture": 30448685,
+      "agenti": 7
+    },
+    "nota": "node cervello/conto-token.mjs --workflow wf_3231678e-3d7 / wf_6cb735f1-94d"
+  },
+  "registro_del_sito": "24 voci nuove; 15 tenute fuori dal deposito (il pacchetto delle falle, i difetti nati nel ramo dei testi, un rinvio aperto della pagina dei Termini: solo in chat).",
+  "lezione": "Il territorio decide se un pacchetto può riuscire: LE-b non poteva riscrivere i Termini perché la pagina era nel territorio di SO, e nel giro di correzione mancava lib/auth/accettazione-testi.ts, dove stava la cura. Prima di lanciare, per ogni caso di una scheda: il file dove si ripara è nel territorio del pacchetto?",
+  "dopo": "Richiesta dei 5 pacchetti dopo l'unione della #271. Il terzo giro dei testi (solo la riaccettazione) gira sul run wf_3a764d6a-8fe."
+}

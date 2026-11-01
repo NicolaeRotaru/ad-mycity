@@ -60,5 +60,22 @@
   },
   "registro_del_sito": "19 voci nuove; 12 tenute fuori (le nate nel ramo dei rimborsi, che non entra, e tutte quelle del pacchetto dell'ingresso, che descrivono falle aperte)",
   "nota_ricucitura": "La costruzione del ramo unito si fermava su /api/admin/branding con «Cannot access before initialization»: lib/store-hours.ts importava lib/constants.ts, che importa lib/promessa-consegna.ts, che importa lib/store-hours.ts. Corretto dall'AD sul ramo delle fasce (fe01273a): l'interruttore del ritiro sta in lib/ritiro-in-negozio.ts. Il controllo completo non lo vedeva, la costruzione sì. Dopo: verify 6.892 su 6.892, prove nel browser 70 passate e 6 saltate, quattro prove SQL verdi con le migrazioni 171 e 183.",
-  "lezione": "Il controllo completo (tipi, stile, prove unitarie) non vede un giro di import che la costruzione di Next scopre: ogni ricucitura che tocca lib/ va costruita prima della richiesta, non solo verificata."
+  "lezione": "Il controllo completo (tipi, stile, prove unitarie) non vede un giro di import che la costruzione di Next scopre: ogni ricucitura che tocca lib/ va costruita prima della richiesta, non solo verificata.",
+  "chiusure": {
+    "pr": "NicolaeRotaru/mycity#270",
+    "commit": "906e4c79",
+    "unita": "2026-10-31 16:59",
+    "chiuse": 23,
+    "per_pacchetto": {
+      "CA": "4 su 5",
+      "CF": "4 su 5",
+      "AN": "2 su 2",
+      "SKA": "6 su 8",
+      "AIH": "6 su 6",
+      "KY2": "1 su 2"
+    },
+    "restano_aperte_parziali": 5,
+    "prove": "21 file, 103 casi su 103 verdi sul codice unito",
+    "nota": "Nel comando di SKA tolta la prova rimandare-un-salvataggio-..., sostituita dalla correzione (1575ec81) con la-scorta-si-confronta-con-quella-vista-...; le 6 voci restano coperte da 3 prove che esistono. Nuova minore: il pulsante «cliente assente» senza prova."
+  }
 }

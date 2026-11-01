@@ -1,0 +1,85 @@
+{
+  "_cosa_e": "Ondata 6 del piano per aprire il sito, binario B: SKB (modulo prodotto), FR (freni dell'AI e della newsletter), LE-a (titolare), LE-b (testi pubblici), NL (via i 5 euro e i punti). Base dbbbbccc. Errore di pianificazione: app/terms/page.tsx stava nel territorio di SO (ondata 5), quindi LE-b non poteva riscrivere i Termini.",
+  "data": "2026-10-31 17:40",
+  "registro": "sito",
+  "run": "wf_631e8390-ab7",
+  "esito": {
+    "components/seller/ProductForm.tsx": "non_regge (600b8ad8): dopo un giro di correzione: sito: Rosso su 600b8ad8 senza mutare: S=<scratchpad>; cp $S/cA6/zz-collaudoA6-miele-tolto-dal-catalogo.test.ts tests/unit/; npx vitest run tests/unit/zz-collaudoA6-miele-tolto-dal-catalogo.test.ts -t VARIANTE -> 400, atteso 20 | grave nato: Se un prodotto dell'ordine e' stato tolto dal catalogo, il «cambio idea» su tutto l'ordine viene rifiutato per colpa della torta (p",
+    "lib/ai/client.ts": "regge (af7497f6)",
+    "lib/legal/titolare.ts": "non_regge (83345090): dopo un giro di correzione: motivo_aperto: La macchina dice regge, ma il modulo di recesso dice ancora «Destinatario: MyCity», senza indirizzo ne' email. Dal worktree: S=<scratchpad>; WT=$PWD SCRD=$S/cA6/tit npx vitest run --config $S/vitest.qa.config.mjs -> 1 ro | motivo_aperto: Il motivo di prima «Destinatario: MyCity» resta aperto. Dal worktree: S=<scratchpad>; WT=$PWD SCRD=$S/tit npx vitest ru",
+    "app/terms/page.tsx": "non_regge (5db2a134): correzione: la squadra non ha consegnato · motivi: sito: Il modulo di /sell (SellerApplicationForm.tsx:260) dice ancora «Nessun costo mensile». cp <scratchpad>/zz-collaudo-modulo-sell.test.tsx tests/unit/; npx vitest run tests/unit/zz-collaudo-modulo-sell.test.tsx: rosso | sito: /sell dice ancora «Nessun costo mensile»; Termini 10% IVA esclusa vs pagine IVA inclusa; il server scrive il cookie a 40",
+    "migrations/168_niente_regali_in_euro_e_punti_spenti.sql": "non_regge (96e02d4c): correzione: la squadra non ha consegnato · motivi: sito: 4 difetti rimessi nella 168, prova rossa 4/4. Ma ordini vuoti promettono «€5 di benvenuto». cp <scratchpad>/zz-collaudo-ordini-vuoti.test.tsx tests/unit/; npx vitest run tests/unit/zz-collaudo-ordini-vuoti.test.tsx: ross | sito: «I miei ordini» vuoto promette ancora «€5 di benvenuto» (e il banner del layout «Hai €5 di sconto»), che il DB ora"
+  },
+  "saltati_per_tetto": [
+    "correggi:app-terms-page-tsx",
+    "correggi:migrations-168-niente-regali-in-euro-e-p"
+  ],
+  "parziali": [
+    {
+      "pacchetto": "components/seller/ProductForm.tsx",
+      "voce": "privacy-legale|il sito promette «reso entro 14 giorni» e «ti rimborsiamo senza domande» anche su pane e freschi, che sono esclusi, e non c'è modo di segnarli come esclusi",
+      "perche": "Fatti: spunta in Nuovo prodotto, 180, rifiuto/nota resi. Mancano: scheda prodotto/cassa/home dicono ancora «Reso entro 14 giorni»; in modifica la spunta è nascosta (vedi colonneAmmesse)."
+    },
+    {
+      "pacchetto": "components/seller/ProductForm.tsx",
+      "voce": "collaudo|Admin: app/admin/products/[id]/edit/page.tsx:48 ignora l'errore varianti, PATCH route.ts:213 cancella con []",
+      "perche": "Perdita dati chiusa in persistVariantsServer: cancella solo le varianti viste, anche dalla PATCH admin. La pagina admin, fuori territorio, si apre ancora senza taglie: zz-collaudo resta rosso."
+    },
+    {
+      "pacchetto": "components/seller/ProductForm.tsx",
+      "voce": "collaudo|in modifica la spunta «escluso dal recesso» non si salva (colonneAmmesse scarta non_recedibile)",
+      "perche": "Fix vero in lib/products/salvataggio-tracciato.ts, fuori territorio: non_recedibile in colonneAmmesse, NON in COLONNE_DA_RILEGGERE prima della 180. Intanto la spunta in modifica è nascosta."
+    },
+    {
+      "pacchetto": "components/seller/ProductForm.tsx",
+      "voce": "frontend-ux|l'ai per i negozi risulta spenta, ma la scheda nuovo prodotto e modifica prodotto si apre ancora con «compila con una foto: l'ai compila...» e 7 pulsanti ai che rispondono «servizio ai non",
+      "perche": "Non toccato in questo giro (solo motivi del collaudo). La base ha già il prop aiAccesa nel modulo (carta #209): va riverificato dal collaudo."
+    },
+    {
+      "pacchetto": "components/seller/ProductForm.tsx",
+      "voce": "architettura|«ai per i negozi» risulta spenta, ma il modulo prodotto mostra ancora 8 pulsanti ai, compreso «l'ai compila nome, descrizione, categoria, prezzo»",
+      "perche": "Non toccato in questo giro, come il difetto gemello di frontend-ux. La base ha già l'interruttore aiAccesa in ProductForm: va riverificato."
+    },
+    {
+      "pacchetto": "components/seller/ProductForm.tsx",
+      "voce": "frontend-ux|se riapri «modifica prodotto» entro 5 minuti, il modulo mostra e risalva lo stato e il prezzo vecchi: un prodotto segnato «esaurito» dall'elenco torna in vendita",
+      "perche": "Non toccato in questo giro. La base rilegge già (refetchOnMount 'always') e aspetta la rilettura prima di aprire il modulo: va riverificato."
+    },
+    {
+      "pacchetto": "lib/legal/titolare.ts",
+      "voce": "sito: Il motivo chiuso citava i Termini: dicono ancora «gestita da MyCity», e il modulo di recesso «Destinatario: MyCity».",
+      "perche": "«gestita da» chiuso. Destinatario resta rosso: app/terms/page.tsx:236 legge solo denominazione+indirizzo, fuori territorio. Cambiare denominazione romperebbe titolare-check.ts:63."
+    },
+    {
+      "pacchetto": "app/terms/page.tsx",
+      "voce": "privacy-legale|faq e termini danno tre risposte diverse su come si paga, e una è la carta al rider che non esiste",
+      "perche": "FAQ ora usa fraseComeSiPaga() (niente POS al rider). Restano i Termini §5 (carte/Apple Pay, «Stripe, S.A.», escrow) e la versione in accetta-condizioni: fuori territorio (ondata 5)."
+    },
+    {
+      "pacchetto": "app/terms/page.tsx",
+      "voce": "privacy-legale|la cookie policy dice che il cookie di accesso dura una settimana, ma resta sul dispositivo 400 giorni",
+      "perche": "Client browser taglia a 6 mesi, la policy dice 6 mesi. Il server riscrive ancora 400 giorni (middleware.ts, lib/auth/cookie-di-sessione.ts, lib/supabase/server.ts, app/auth/*): fuori territorio."
+    },
+    {
+      "pacchetto": "app/terms/page.tsx",
+      "voce": "privacy-legale|la home e «come funziona» promettono «ti rimborsiamo senza domande» su un forno, dove il reso per legge non c'è",
+      "perche": "Home, come-funziona e carrello erano già corretti sulla base (ondata 3, SPIEGAZIONE_RESO). Restano app/returns/page.tsx:69 e app/terms/page.tsx:184: fuori territorio (ondata 5)."
+    }
+  ],
+  "nati_nei_rami_che_non_entrano": [
+    "Duplicando un prodotto escluso dal recesso, la copia nasce senza la spunta",
+    "la frase unica «nessun canone finché non incassi» non dice quanto sarà il canone dopo (50 euro al mese di listino)",
+    "La scheda prodotto non dice se quel prodotto e' escluso dal recesso: chi ha comprato su ordinazione legge «Reso entro 14 giorni»",
+    "In modifica manca la spunta «escluso dal recesso»: non si toglie un segno messo per sbaglio, né si segnano i prodotti già in catalogo",
+    "La pagina prodotto non dice che QUEL prodotto è escluso: «Reso entro 14 giorni, esclusi freschi» anche su un oggetto su ordinazione segnato",
+    "La nota di sistema sui prodotti esclusi finisce nelle note del reso e il negozio la legge sotto «Nota del cliente»",
+    "Ordine misto con un prodotto non più in catalogo: il rifiuto conta i prodotti trovati, non le righe dell'ordine"
+  ],
+  "conto_token": {
+    "senza_letture": 1709608,
+    "con_letture": 43307859,
+    "agenti": 12,
+    "nota": "node cervello/conto-token.mjs --workflow wf_631e8390-ab7; quale dei due contatori conti il limite settimanale non è noto"
+  },
+  "dopo": "Scelta di Nicola del 31/10: i 3 pacchetti che reggono delle ondate 5 e 6 (FW, VN, FR) in una richiesta sola; un'ondata di correzione su due motori per gli altri 7 (run wf_3231678e-3d7 e wf_6cb735f1-94d)."
+}
