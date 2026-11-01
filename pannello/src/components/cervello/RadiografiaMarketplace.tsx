@@ -15,15 +15,15 @@ import { dimensioneLeggibile } from "@/lib/radiografia-umana";
 // Niente voto inventato: il titolo dice i numeri veri (bloccanti · gravi · minori).
 
 type Finding = { titolo?: string; severita?: string; descrizione?: string; impatto?: string; fix?: string; dove?: string; nota_riparazione?: string };
-type Dimensione = { key?: string; nome?: string | null; findings?: Finding[]; problemi_chiusi?: number };
+type Dimensione = { key?: string; nome?: string | null; findings?: Finding[]; problemi_chiusi?: number; problemi_doppioni?: number };
 type PerSeverita = { bloccante: number; grave: number; minore: number; altre: number };
 type Dati = {
   collegato: boolean; messaggio?: string; data?: string; fonte_raw?: string; report?: string | null;
-  sintesi?: string; meta?: { findings?: number; bloccanti?: number; gravi?: number; minori?: number; agenti?: number | null };
+  sintesi?: string; meta?: { findings?: number; bloccanti?: number; gravi?: number; minori?: number; agenti?: number | null; aggiornato?: string | null };
   dimensioni?: Dimensione[];
   // Il conto DERIVATO dalla lista (rotta → lib/radiografia-marketplace-conti). `letto: false` non è
   // uno zero: vuol dire che la lista non si è potuta leggere, e a schermo diventa ⚪, mai verde.
-  conto?: { letto?: boolean; motivo?: string | null; totale?: number | null; chiusi?: number | null; aperti?: number | null; aperti_per_severita?: PerSeverita | null };
+  conto?: { letto?: boolean; motivo?: string | null; totale?: number | null; chiusi?: number | null; riparati?: number | null; doppioni?: number | null; aperti?: number | null; aperti_per_severita?: PerSeverita | null };
   live?: { data_scan?: string | null; scan_ore_fa?: number | null; scan_stale?: boolean; findings_aperti?: number | null; findings_letto?: boolean; findings_motivo?: string | null; sync_aggiornato?: string | null };
 };
 
@@ -71,6 +71,8 @@ export default function RadiografiaMarketplace() {
   // come zero problemi sarebbe la bugia che questa scheda esiste per non dire.
   const letto = d?.conto?.letto !== false && d?.conto?.aperti != null;
   const aperti = d?.conto?.aperti ?? 0;
+  // L'ultimo aggiornamento del registro (lo scrive chi chiude o ripulisce le voci); senza, la data della radiografia completa.
+  const aggiornato = m?.aggiornato || d?.data || null;
   const ap = d?.conto?.aperti_per_severita ?? { bloccante: 0, grave: 0, minore: 0, altre: 0 };
 
   return (
@@ -80,7 +82,9 @@ export default function RadiografiaMarketplace() {
           <span className="sez-ico"><Store size={16} /></span>
           <div className="min-w-0">
             <span className="t-sez">🏪 Salute sito</span>
-            <div className="t-eti">Audit del marketplace · {d?.data ? dataVault(d.data) : "—"}</div>
+            {/* 1/11/2026 — Qui stava la data dell'ultima radiografia completa (11/10) sopra numeri
+                aggiornati a oggi: Nicola leggeva «referto 11/10» e pensava a numeri vecchi. */}
+            <div className="t-eti">Registro dei difetti · aggiornato {aggiornato ? dataVault(aggiornato) : "—"}</div>
           </div>
         </div>
         {d?.collegato && (
@@ -106,8 +110,8 @@ export default function RadiografiaMarketplace() {
               {!letto ? "⚪" : ap.bloccante > 0 ? "🔴" : ap.grave > 0 ? "🟡" : "🟢"}
               {" "}
               {letto
-                ? `${plurale(ap.bloccante, "bloccante", "bloccanti")} · ${plurale(ap.grave, "grave", "gravi")} ancora aperti · referto ${d.data ? dataVault(d.data) : "—"}`
-                : `Non ho potuto contare i problemi aperti · referto ${d.data ? dataVault(d.data) : "—"}`}
+                ? `${plurale(ap.bloccante, "bloccante", "bloccanti")} · ${plurale(ap.grave, "grave", "gravi")} ancora aperti · aggiornato ${aggiornato ? dataVault(aggiornato) : "—"}`
+                : `Non ho potuto contare i problemi aperti · aggiornato ${aggiornato ? dataVault(aggiornato) : "—"}`}
             </p>
             {!letto && d.conto?.motivo && <p className="t-eti mt-1">{d.conto.motivo}</p>}
             <button type="button" onClick={() => vaiArea("azioni", undefined, "approvare")} className="text-[12px] font-medium text-brand hover:underline mt-1">
@@ -121,19 +125,22 @@ export default function RadiografiaMarketplace() {
             <span className="inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg bg-amber-50 text-amber-700 ring-1 ring-amber-200">{letto ? plurale(ap.grave, "grave aperto", "gravi aperti") : "⚪ gravi aperti"}</span>
             <span className="inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg bg-black/[0.04] text-black/55 ring-1 ring-black/10">{letto ? plurale(ap.minore, "minore aperto", "minori aperti") : "⚪ minori aperti"}</span>
             {letto && (
-              <span className="inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg bg-green-50 text-green-700 ring-1 ring-green-200">{plurale(d.conto?.chiusi ?? 0, "già riparato", "già riparati")}</span>
+              <span className="inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg bg-green-50 text-green-700 ring-1 ring-green-200">{plurale(d.conto?.riparati ?? d.conto?.chiusi ?? 0, "già riparato", "già riparati")}</span>
+            )}
+            {letto && (d.conto?.doppioni ?? 0) > 0 && (
+              <span className="inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg bg-black/[0.04] text-black/55 ring-1 ring-black/10" title="Lo stesso difetto scritto due volte: tolto dal conto, né aperto né riparato.">{plurale(d.conto?.doppioni ?? 0, "doppione tolto", "doppioni tolti")}</span>
             )}
             <span className="inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg bg-black/[0.04] text-black/55 ring-1 ring-black/10">
-              referto {d.data ? dataVault(d.data) : "—"}: {d.conto?.totale ?? m?.findings ?? 0} trovati{m?.agenti ? ` · ${m.agenti} agenti` : ""}
+              {d.conto?.totale ?? m?.findings ?? 0} voci nel registro · ultima radiografia completa {d.data ? dataVault(d.data) : "—"}{m?.agenti ? ` · ${m.agenti} agenti` : ""}
             </span>
           </div>
 
           {d.sintesi && <p className="t-corpo break-words mb-3">{d.sintesi}</p>}
           {d.live?.scan_stale && (
             <div className="rounded-xl border border-amber-200 bg-amber-50/60 px-3 py-2 mb-3 text-[12px] text-amber-900/90">
-              <b>Audit del sito del {d.data ? dataVault(d.data) : "—"}</b>
+              <b>Ultima radiografia completa del sito: {d.data ? dataVault(d.data) : "—"}</b>
               {d.live.scan_ore_fa != null ? ` (${d.live.scan_ore_fa}h fa)` : ""}.
-              {" "}I difetti riparati scendono da soli da questa lista, ma i difetti NUOVI no: per trovarli serve un nuovo audit («radiografia») dopo i merge importanti.
+              {" "}Da allora il registro si aggiorna a ogni ondata: le riparazioni lo fanno scendere e i difetti visti dai collaudi entrano. Le parti del sito che nessuna ondata ha toccato le riguarda solo una radiografia nuova.
             </div>
           )}
           {d.report && (
@@ -154,7 +161,7 @@ export default function RadiografiaMarketplace() {
               const findingsVis = findings.filter((f) => mostraMinori || f.severita === "bloccante" || f.severita === "grave");
               // Una dimensione senza problemi aperti da mostrare sparisce, ma solo se non ha nulla da
               // raccontare: se qui dentro sono stati riparati dei difetti, la riga resta e lo dice.
-              if (findingsVis.length === 0 && !(dim.problemi_chiusi ?? 0)) return null;
+              if (findingsVis.length === 0 && !(dim.problemi_chiusi ?? 0) && !(dim.problemi_doppioni ?? 0)) return null;
               const nBlocc = findingsVis.filter((f) => f.severita === "bloccante").length;
               const nGravi = findingsVis.filter((f) => f.severita === "grave").length;
               const open = aperte.has(dim.key || "");
@@ -167,6 +174,9 @@ export default function RadiografiaMarketplace() {
                     {/* «0 aperti» e «0 aperti, 26 riparati» non raccontano la stessa storia. */}
                     {(dim.problemi_chiusi ?? 0) > 0 && (
                       <span className="text-[10px] px-1.5 rounded bg-green-50 text-green-700 shrink-0">{plurale(dim.problemi_chiusi ?? 0, "riparato", "riparati")}</span>
+                    )}
+                    {(dim.problemi_doppioni ?? 0) > 0 && (
+                      <span className="text-[10px] px-1.5 rounded bg-black/[0.04] text-black/55 shrink-0">{plurale(dim.problemi_doppioni ?? 0, "doppione", "doppioni")}</span>
                     )}
                     <span className="badge badge-off shrink-0">{findingsVis.length}</span>
                     <span className="shrink-0" style={{ color: "var(--text-faint)" }}>{open ? <ChevronDown size={14} /> : <ChevronRight size={14} />}</span>

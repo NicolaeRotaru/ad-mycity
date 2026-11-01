@@ -45,7 +45,16 @@
  * Tutto il resto è APERTO, compreso uno stato che non so nominare: un'etichetta nuova non deve poter
  * far sparire un difetto dal conto (è esattamente com'era sparito il terzo stato del cantiere).
  */
-export const STATI_CHIUSI = Object.freeze(["chiuso", "riparato", "gia_riparato_prima"]);
+export const STATI_CHIUSI = Object.freeze(["chiuso", "riparato", "gia_riparato_prima", "doppione"]);
+
+/**
+ * 1/11/2026 — IL DOPPIONE. Nicola: «metti esattamente i difetti che ci sono, senza doppioni».
+ * Una voce `doppione` è lo stesso difetto di un'altra voce (`doppione_di` porta la chiave di quella).
+ * Non è lavoro, quindi esce dagli aperti; e non è una riparazione, quindi non entra nei «già riparati».
+ * Si conta a parte, e `chiusi` resta «tutto ciò che non è più lavoro»: la somma con gli aperti torna.
+ * Non si cancella mai: il piano delle ondate punta alle voci per posizione.
+ */
+export const STATO_DOPPIONE = "doppione";
 
 /** L'etichetta che il vuoto porta nel conto per stato. Anche il niente ha un nome, così si vede. */
 export const STATO_ASSENTE = "(senza stato)";
@@ -64,6 +73,11 @@ export function statoDi(p) {
 /** Questo problema è chiuso? La porta unica: chi conta, chi disegna e chi giudica passano da qui. */
 export function eChiuso(p) {
   return STATI_CHIUSI.includes(statoDi(p));
+}
+
+/** Questo problema è un doppione di un altro? Non è lavoro e non è una riparazione. */
+export function eDoppione(p) {
+  return statoDi(p) === STATO_DOPPIONE;
 }
 
 /** Questo problema è ancora lavoro? Tutto ciò che non è chiuso — compreso ciò che non so nominare. */
@@ -192,6 +206,8 @@ export function contoMarketplace(digest) {
       divergenza_dal_dichiarato: null,
       totale: null,
       chiusi: null,
+      riparati: null,
+      doppioni: null,
       aperti: null,
       aperti_per_severita: null,
       totale_per_severita: null,
@@ -203,6 +219,7 @@ export function contoMarketplace(digest) {
   const aperti_per_severita = contoVuotoPerSeverita();
   const totale_per_severita = contoVuotoPerSeverita();
   let chiusi = 0;
+  let doppioni = 0;
   let aperti = 0;
 
   for (const p of problemi) {
@@ -213,8 +230,10 @@ export function contoMarketplace(digest) {
     totale_per_severita[ramo] += 1;
     // «Chiuso» lo decide `eChiuso`, la porta unica di questo file — non un confronto in più scritto
     // qui, che sarebbe la seconda definizione della stessa parola dentro lo stesso modulo.
-    if (eChiuso(p)) chiusi += 1;
-    else {
+    if (eChiuso(p)) {
+      chiusi += 1;
+      if (eDoppione(p)) doppioni += 1;
+    } else {
       aperti += 1;
       aperti_per_severita[ramo] += 1;
     }
@@ -228,6 +247,8 @@ export function contoMarketplace(digest) {
     divergenza_dal_dichiarato: dichiarati == null ? null : problemi.length - dichiarati,
     totale: problemi.length,
     chiusi,
+    riparati: chiusi - doppioni,
+    doppioni,
     aperti,
     aperti_per_severita,
     totale_per_severita,
@@ -273,7 +294,7 @@ export function dimensioniDaDisegnare(digest, { soloAperti = true } = {}) {
   const aggiungi = (chiave, nome) => {
     const k = String(chiave ?? "").trim() || "(senza area)";
     if (!perChiave.has(k)) {
-      perChiave.set(k, { key: k, nome: nome ?? null, findings: [], problemi_chiusi: 0 });
+      perChiave.set(k, { key: k, nome: nome ?? null, findings: [], problemi_chiusi: 0, problemi_doppioni: 0 });
       ordine.push(k);
     }
     return perChiave.get(k);
@@ -289,7 +310,9 @@ export function dimensioniDaDisegnare(digest, { soloAperti = true } = {}) {
   for (const p of problemi) {
     const voce = aggiungi(p?.dimensione, null);
     if (eChiuso(p)) {
-      voce.problemi_chiusi += 1;
+      // Nella riga dell'area «riparati» vuol dire riparati: il doppione ha il suo numero.
+      if (eDoppione(p)) voce.problemi_doppioni += 1;
+      else voce.problemi_chiusi += 1;
       if (soloAperti) continue;
     }
     const snello = {};
@@ -302,5 +325,5 @@ export function dimensioniDaDisegnare(digest, { soloAperti = true } = {}) {
   // Una dimensione senza niente da mostrare e senza niente di chiuso non è una riga: è rumore.
   return ordine
     .map((k) => perChiave.get(k))
-    .filter((d) => d.findings.length || d.problemi_chiusi);
+    .filter((d) => d.findings.length || d.problemi_chiusi || d.problemi_doppioni);
 }
