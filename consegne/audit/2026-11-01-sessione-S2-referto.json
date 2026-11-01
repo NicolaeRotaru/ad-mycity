@@ -454,6 +454,11 @@
    "pacchetto": "app/rider/onboarding/page.tsx",
    "prova": "Stessa classe del difetto chiuso: una promessa sui soldi che il codice non mantiene. In release-payouts nessun ramo paga il compenso su un ordine CANCELED.",
    "fonte": "collaudo B"
+  },
+  {
+   "titolo": "Senza la migrazione 191 applicata, un fattorino con la pagina vecchia aperta puo' ancora scrivere la posizione su un ordine annullato: la 191 va applicata insieme al rilascio",
+   "gravita": "minore",
+   "fonte": "ricollaudo della sesta"
   }
  ],
  "fuori_territorio": [
@@ -538,5 +543,15 @@
    "(b) rider_position_updated_at nel trigger della 191: rossa se tolto"
   ],
   "verify": "verde: 7458 passate, 1 saltata"
+ },
+ "correzione_2": {
+  "pr": "https://github.com/NicolaeRotaru/mycity/pull/283",
+  "commit": "e1365f1",
+  "esito": "chiuso",
+  "grave_nato": "Dopo ritiro o invio del reso la pagina dell'ordine mostra lo stato vecchio (cache di 30 s)",
+  "correzione": "refetchOnMount: 'always' sulla lettura dei resi in app/orders/[id]/page.tsx",
+  "prova": "npx vitest run tests/unit/lo-stato-del-reso-si-aggiorna-dopo-ritiro-e-invio.test.ts (prova-rimessa base f0ae11f: regge)",
+  "non_fatto": "invalidateQueries nella pagina del reso: farebbe cadere tests/unit/il-cliente-ritira-la-sua-richiesta-di-reso.test.tsx, che monta la pagina senza QueryClientProvider (file di prova esistente, non modificabile)",
+  "verify": "verde: 7461 passate, 1 saltata"
  }
 }

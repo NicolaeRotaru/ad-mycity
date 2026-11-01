@@ -74,3 +74,11 @@ Un solo giro di correzione, ed è bastato.
 - Richiesta di unione #283, commit `f0ae11f`.
 - `prova-rimessa.mjs` sulla correzione principale: regge.
 - Verify: verde, 7458 prove passate e 1 saltata.
+
+## Correzione 2 dopo il ricollaudo (2026-11-01 17:10)
+Il ricollaudo ha trovato un difetto nuovo. Dopo aver ritirato o inviato un reso, il cliente tornava all'ordine e leggeva lo stato di prima. Per esempio leggeva «Reso richiesto» subito dopo averlo ritirato. La causa era una memoria della pagina che resta valida 30 secondi. Ora la pagina rilegge i resi ogni volta che si apre.
+
+- Prova con la stessa memoria del sito vero: rossa senza la correzione, verde con la correzione.
+- Verify: verde, 7461 prove passate e 1 saltata.
+- Commit `e1365f1`, richiesta di unione #283.
+- Una cosa da ricordare al rilascio: la migrazione 191 va applicata insieme al codice. Senza di lei, un fattorino con la pagina vecchia ancora aperta può scrivere la sua posizione su un ordine annullato.
