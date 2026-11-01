@@ -1,7 +1,7 @@
 {
  "sessione": "S2",
  "pr": "https://github.com/NicolaeRotaru/mycity/pull/277",
- "commit": "f19f3a9",
+ "commit": "be5f65e",
  "ondate": [
   {
    "ondata": 3,
@@ -119,10 +119,112 @@
   },
   {
    "ondata": 4,
-   "run_id": null,
-   "verify": null,
-   "pacchetti": [],
-   "nota": "non lanciata: rate_limit_info.status = allowed_warning (regola 8)"
+   "run_id": "wf_5dbd7106-c66",
+   "verify": "verde: 839 file di prova, 7159 prove; SQL: apply 169/0 fallite, run.sh verde, migrazione-su-database-pieno verde, applica-migrazioni-mancanti x2 = 0 applicate",
+   "pacchetti": [
+    {
+     "chiave": "app/rider/onboarding/page.tsx",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "microcopy|la pagina d'aiuto dei fattorini promette polizza pagata da noi, compenso a chilometri e bonifici a date fisse che il sito non fa, con un numero d'emergenza finto"
+     ],
+     "prova": "npx vitest run tests/unit/l-aiuto-dei-fattorini-dice-come-li-paghiamo-davvero.test.tsx",
+     "file_toccati": [
+      "app/rider/help/page.tsx",
+      "app/lavora-con-noi/page.tsx",
+      "tests/unit/l-aiuto-dei-fattorini-dice-come-li-paghiamo-davvero.test.tsx"
+     ],
+     "non_chiuse": [
+      "privacy-legale|un quindicenne può iscriversi come rider: la data di nascita si salva ma nessuno la confronta con i 18 anni, nemmeno chi approva",
+      "sicurezza-auth|il controllo all'ingresso chiude fuori chi aspetta l'approvazione: il negozio nuovo gira in tondo e il fattorino non arriva mai alla pagina dei documenti"
+     ],
+     "motivo": "",
+     "parziali": [
+      {
+       "chiave": "microcopy|la pagina d'aiuto dei fattorini promette polizza pagata da noi, compenso a chilometri e bonifici a date fisse che il sito non fa, con un numero d'emergenza finto",
+       "perche": "SCELTA PER NICOLA: pagare il fattorino se la consegna si annulla per un cliente aggressivo? Oggi payout.ts paga solo DELIVERED. Racc.: sì, ma solo se il supporto conferma. Idem chi paga la polizza."
+      }
+     ]
+    },
+    {
+     "chiave": "components/rider/SOSButton.tsx",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "frontend-ux|il pulsante sos apre il 112 solo dopo aver aspettato gps e rete: con poco segnale il tastierino può non aprirsi mai"
+     ],
+     "prova": "npx vitest run tests/unit/il-sos-apre-il-112-prima-di-aspettare-gps-e-rete.test.tsx",
+     "file_toccati": [
+      "components/rider/SOSButton.tsx",
+      "tests/unit/il-sos-apre-il-112-prima-di-aspettare-gps-e-rete.test.tsx"
+     ],
+     "non_chiuse": [
+      "api-backend|l'sos del fattorino non arriva davvero a nessuno: solo una notifica nel pannello, mentre a lui diciamo «alert immediato»"
+     ],
+     "motivo": "",
+     "parziali": [
+      {
+       "chiave": "api-backend|l'sos del fattorino non arriva davvero a nessuno: solo una notifica nel pannello, mentre a lui diciamo «alert immediato»",
+       "perche": "Corretto solo il testo «alert immediato», che ora dice il vero. FUORI TERRITORIO: app/api/cron/send-push, lib/email/, push: serve un avviso server immediato (push/email/SMS) agli admin."
+      }
+     ]
+    },
+    {
+     "chiave": "app/orders/[id]/return/page.tsx",
+     "esito": "non regge",
+     "chiavi_chiuse": [],
+     "prova": "sul ramo claude/cinque-s2-non-regge-resi: npx vitest run tests/unit/*recesso*mezzanotte*",
+     "file_toccati": [],
+     "non_chiuse": [
+      "qa-flussi|nell'ultimo giorno di recesso e nel giorno dopo, la pagina fa compilare tutto il reso, iban compreso, e poi il server lo rifiuta come scaduto",
+      "frontend-ux|la pagina di richiesta reso accetta il ripensamento anche su ordini di pane",
+      "qa-flussi|la voce resi del menu account non porta allo stato dei resi chiesti"
+     ],
+     "motivo": "correzione: la prova rimessa dice «rosso_strutturale (base f19f3a9); regge con base fd8d029»: la prova non cade senza la correzione · motivi: sito: Il caso dice 14 giorni di calendario a Roma, fino alle 23:59:59. scadenzaDelRecesso conta 14x24 ore. Consegna 2/11 alle 10:00 Roma, modulo aperto il 16/11 alle 18:00 o alle 23:59:59: risponde scaduto=true. Due rossi in vitest. FUORI TERRITORIO: la rotta. | grave nato: Il modulo di reso conta il recesso in 14x24 ore, non in giorni di calendario a Roma fino alle 23:59:59 (prova: vitest: scadenzaDelRecesso({delivered_at:'2026-11-02T10:00:00+01:00'}, D",
+     "parziali": [
+      {
+       "chiave": "qa-flussi|nell'ultimo giorno di recesso e nel giorno dopo, la pagina fa compilare tutto il reso, iban compreso, e poi il server lo rifiuta come scaduto",
+       "perche": "FUORI TERRITORIO: app/api/returns/create/route.ts — deve importare scadenzaDelRecesso; la regola Roma fino alle 23:59:59 va adottata in rotta e modulo insieme, ora entrambi usano 14 giorni esatti"
+      },
+      {
+       "chiave": "frontend-ux|la pagina di richiesta reso accetta il ripensamento anche su ordini di pane",
+       "perche": "La rotta rifiuta gia' (rifiutoDelRecesso); la pagina legge i prodotti come cliente: un prodotto escluso e nascosto dopo l'ordine resta offribile, il server lo rifiuta comunque"
+      }
+     ]
+    },
+    {
+     "chiave": "app/seller/orders/[id]/page.tsx",
+     "esito": "non regge",
+     "chiavi_chiuse": [],
+     "prova": "prova esistente della #274",
+     "file_toccati": [],
+     "non_chiuse": [
+      "qa-flussi|nessuno vede l'orario di consegna scelto dal cliente: né il negozio, né il fattorino, né il cliente stesso"
+     ],
+     "motivo": "nessun difetto chiuso",
+     "parziali": [
+      {
+       "chiave": "qa-flussi|nessuno vede l'orario di consegna scelto dal cliente: né il negozio, né il fattorino, né il cliente stesso",
+       "perche": "Nel territorio era già chiuso alla base (PR #274, la prova esistente morde). FUORI TERRITORIO: app/api/orders/cod/route.ts e lib/email/, l'avviso «Nuovo ordine!» è senza fascia"
+      }
+     ]
+    },
+    {
+     "chiave": "migrations/191 posizione su ordine chiuso",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "rls-database|la regola del database lascia scrivere al fattorino la posizione su un ordine annullato"
+     ],
+     "prova": "npx vitest run tests/unit/la-posizione-non-si-scrive-su-un-ordine-chiuso.test.ts (PostgreSQL vero)",
+     "file_toccati": [
+      "migrations/191_la_posizione_non_si_scrive_su_un_ordine_chiuso.sql",
+      "tests/unit/la-posizione-non-si-scrive-su-un-ordine-chiuso.test.ts"
+     ],
+     "non_chiuse": [],
+     "motivo": "",
+     "parziali": []
+    }
+   ],
+   "nota": "Ripartita dopo il via di Nicola tramite la sesta (allowed_warning ammesso). Aggiunti: migrazione 191 e voce «Resi» (components/account/). Il quindicenne era gia' chiuso dalla 156 (manca la prova SQL); l'orario di consegna nelle pagine era gia' chiuso dalla #274."
   }
  ],
  "nati": [
@@ -236,6 +338,33 @@
    "nato_dal_lotto": true,
    "pacchetto": "app/rider/profile/page.tsx",
    "fonte": "collaudo B"
+  },
+  {
+   "titolo": "Se l'avviso SOS va oltre i 15 secondi, al fattorino si dice «MyCity NON è stata avvisata» anche quando l'avviso arriva dopo",
+   "gravita": "minore",
+   "dove": "components/rider/SOSButton.tsx (conTempoMassimo su inviaAvvisoSOS)",
+   "nato_dal_lotto": true,
+   "pacchetto": "components/rider/SOSButton.tsx",
+   "prova": "Il tempo massimo ferma solo l'attesa, la scrittura continua. Se l'insert arriva dopo 15 s l'evento c'è, ma il messaggio dice di no. Il 112 è già aperto: impatto basso.",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "In contrassegno l'aiuto dice «il compenso te lo tieni tu dall'incasso», ma con il credito MyCity il contante può non bastare",
+   "gravita": "minore",
+   "dove": "app/rider/help/page.tsx:66 vs lib/shipping.ts compensoDalContante",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/rider/onboarding/page.tsx",
+   "prova": "Con il credito MyCity, total_price può scendere sotto il compenso. La parte che manca la versa il giro dei bonifici (riderCandsContanti); la frase racconta solo il caso normale.",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "Contrassegno: l'aiuto dice 'il compenso te lo tieni dall'incasso', ma se il credito azzera il totale il resto arriva per bonifico",
+   "gravita": "minore",
+   "dove": "app/rider/help/page.tsx:66 vs lib/shipping.ts compensoDalContante (residuoDovutoCents)",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/rider/onboarding/page.tsx",
+   "prova": "Il testo 'il compenso te lo tieni tu dall'incasso' non dice niente del caso in cui il contante non basta (credito MyCity). La regola compensoDalContante trattiene il minimo e manda il resto per bonifico. Basta una mezza frase.",
+   "fonte": "collaudo A"
   }
  ],
  "vecchi_visti": [
@@ -280,6 +409,51 @@
    "pacchetto": "app/api/kyc/start-check/route.ts",
    "prova": "Una POST moderate {action:'approve'} su un rider senza polizza passa. Il controllo è solo nella UI admin.",
    "fonte": "collaudo B"
+  },
+  {
+   "titolo": "La 156 contro i minorenni non ha una prova SQL in tests/sql",
+   "gravita": "minore",
+   "dove": "migrations/156_niente_fattorini_minorenni.sql · tests/sql/rls/",
+   "nato_dal_lotto": false,
+   "prova": "grep 156|maggiore_eta in tests/sql: nessun risultato",
+   "pacchetto": "app/rider/onboarding/page.tsx",
+   "fonte": "squadra"
+  },
+  {
+   "titolo": "Il SOS non riceve mai l'ordine in corso: RiderShell monta SOSButton senza orderId",
+   "gravita": "minore",
+   "dove": "components/rider/RiderShell.tsx:67",
+   "nato_dal_lotto": false,
+   "prova": "Nella scheda: SOSButton senza orderId, quindi order_id resta sempre null in rider_sos_events",
+   "pacchetto": "components/rider/SOSButton.tsx",
+   "fonte": "squadra"
+  },
+  {
+   "titolo": "L'aiuto dei fattorini promette di pagare le consegne annullate, ma il pagamento parte solo sugli ordini consegnati",
+   "gravita": "grave",
+   "dove": "app/rider/help/page.tsx:80 (FAQ «Cosa succede se un cliente è aggressivo?»); lib/stripe/payout.ts:408 NOT_DELIVERED",
+   "nato_dal_lotto": false,
+   "pacchetto": "app/rider/onboarding/page.tsx",
+   "prova": "vitest: renderToStaticMarkup(createElement(RiderHelpPage)) con expect(html).not.toMatch(/annullata e pagata come fatta/) → rosso sul ramo f1c59d6. SCELTA PER NICOLA: pagare il fattorino quando l'ordine si annulla per colpa del cliente? Altrimenti va tolta la promessa.",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "L'ultimo giorno di recesso il cliente trova il modulo di reso già chiuso, prima della mezzanotte",
+   "gravita": "grave",
+   "dove": "app/orders/[id]/return/regole-del-modulo.ts:35-43 + app/api/returns/create/route.ts:95-98 (FUORI TERRITORIO)",
+   "nato_dal_lotto": false,
+   "pacchetto": "app/orders/[id]/return/page.tsx",
+   "prova": "Modulo e rotta contano oltre 14 giorni con la virgola, non il 14° giorno di calendario a Roma fino alle 23:59:59. Vitest su scadenzaDelRecesso, consegna 2026-11-02T09:00Z, adesso 2026-11-16T17:00Z: atteso false, dà true. Serve una regola condivisa in un file nuovo, più la rotta.",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "La pagina d'aiuto promette ancora che una consegna annullata per un cliente aggressivo «viene pagata come fatta»",
+   "gravita": "minore",
+   "dove": "app/rider/help/page.tsx:80",
+   "nato_dal_lotto": false,
+   "pacchetto": "app/rider/onboarding/page.tsx",
+   "prova": "Stessa classe del difetto chiuso: una promessa sui soldi che il codice non mantiene. In release-payouts nessun ramo paga il compenso su un ordine CANCELED.",
+   "fonte": "collaudo B"
   }
  ],
  "fuori_territorio": [
@@ -292,12 +466,20 @@
    "cosa": "l'approvazione di un fattorino deve ricontrollare lato server documenti e scadenze (oggi solo il pulsante spento)"
   },
   {
-   "file": "components/account/",
-   "cosa": "la voce «Resi» del menu account non porta allo stato del reso"
+   "file": "app/api/returns/create/route.ts",
+   "cosa": "regola del recesso condivisa col modulo: 14° giorno di calendario a Roma fino alle 23:59:59"
   },
   {
-   "file": "migrations/191 (S2, non scritta)",
-   "cosa": "la policy di orders lascia scrivere rider_lat al fattorino su ordine CANCELED: serve la serratura nel database"
+   "file": "middleware.ts",
+   "cosa": "chi aspetta l'approvazione (negozio/fattorino) resta chiuso fuori: separare ruolo sbagliato da non ancora approvato"
+  },
+  {
+   "file": "app/api/cron/send-push, lib/email/",
+   "cosa": "avviso SOS immediato agli amministratori (push/email/SMS)"
+  },
+  {
+   "file": "app/api/orders/cod/route.ts, lib/email/",
+   "cosa": "la fascia oraria nell'avviso «Nuovo ordine!» al negozio"
   }
  ],
  "scelte_per_nicola": [
@@ -312,14 +494,25 @@
   {
    "domanda": "Chi paga la polizza dei fattorini (la pagina d'aiuto promette che la paga MyCity)?",
    "raccomandazione": "Decidere prima della seconda ondata; non toccato."
+  },
+  {
+   "domanda": "Paghiamo il fattorino quando la consegna si annulla per colpa del cliente (es. aggressivo)? Oggi il pagamento parte solo su DELIVERED.",
+   "raccomandazione": "Sì, solo se il supporto conferma; intanto la pagina d'aiuto non lo promette."
   }
  ],
  "conto_token": {
-  "workflow": "wf_c7f6522a-9dd",
-  "agenti": 12,
-  "senza_letture_cache": 934418,
-  "con_letture_cache": 20084664,
-  "uscita": 207629
+  "ondata3": {
+   "workflow": "wf_c7f6522a-9dd",
+   "agenti": 12,
+   "senza_letture_cache": 934418,
+   "con_letture_cache": 20084664
+  },
+  "ondata4": {
+   "workflow": "wf_5dbd7106-c66",
+   "agenti": 11,
+   "senza_letture_cache": 717632,
+   "con_letture_cache": 11048568
+  }
  },
  "note_macchina": [
   "Workflow senza freno in .claude/settings.json (cancello-stop): lo aggancia Nicola.",

@@ -1,5 +1,5 @@
 ---
-data: 2026-11-01 13:35
+data: 2026-11-01 15:05
 sessione: S2 — ordine, resi e fattorino
 pr: https://github.com/NicolaeRotaru/mycity/pull/277
 ---
@@ -7,45 +7,57 @@ pr: https://github.com/NicolaeRotaru/mycity/pull/277
 # Sessione S2: ordine, resi e fattorino — referto
 
 ## In parole semplici
-Ho fatto la prima delle mie due ondate (la numero 3 del piano). Su 9 difetti seri ne ho chiusi 7, in 3 pacchetti su 5. Due pacchetti non hanno retto al collaudo e sono rimasti fuori. La seconda ondata non è partita, perché il tetto settimanale dei gettoni è in avviso e la regola approvata dice di fermarsi.
+Ho fatto tutte e due le mie ondate, la 3 e la 4 del piano. Ho chiuso 10 difetti seri, in 6 pacchetti su 10. Tre pacchetti non hanno retto al collaudo e sono rimasti fuori, con il lavoro salvato in rami a parte. Il quarto (l'orario di consegna) non aveva niente da cambiare: era già chiuso prima di me. Il controllo completo è verde e le prove sul database di prova sono verdi.
 
 ## Cosa cambia per te
-- Lo storico del fattorino mostra il suo compenso vero: 3,00 € anche quando il cliente non ha pagato la spedizione (prima diceva 0,00 €).
-- Il GPS del fattorino si spegne davvero quando l'ordine è chiuso o il permesso è tolto. Se il segnale è solo debole, resta acceso e lo dice.
-- Nella pagina dell'ordine il pulsante dice «Chiama il negozio», perché chiama il negozio. Il reso chiesto compare con il suo stato.
-- L'amministratore, prima di approvare un fattorino, vede patente, polizza ed età. «Approva» resta spento se manca un documento o se è scaduto.
+- **Storico del fattorino**: mostra il suo compenso vero. Una consegna con la spedizione gratis prima risultava 0,00 €, ora 3,00 €.
+- **Posizione del fattorino**: non si scrive più su un ordine annullato. Il blocco c'è sia nella pagina sia nel database (migrazione 191).
+- **Pulsante SOS**: apre il 112 per prima cosa. Prima aspettava GPS e rete, e con poco segnale il tastierino poteva non aprirsi mai.
+- **Pagina d'aiuto dei fattorini**: dice i compensi e i tempi veri. Non ha più il numero d'emergenza finto né la promessa della polizza.
+- **Pagina dell'ordine del cliente**: il pulsante dice «Chiama il negozio», perché chiama il negozio. Il reso chiesto si vede con il suo stato.
+- **Pannello amministratore**: prima di approvare un fattorino si vedono documenti, età e scadenze.
 
 ## Cosa devi fare
-1. Decidere se il cliente può vedere il numero personale del fattorino. Io consiglio di no: meglio un numero ponte o una chat.
-2. Decidere se un rinnovo di patente o polizza va ricontrollato dallo staff prima che valga. Io consiglio di sì, con una coda di revisione.
-3. Decidere chi paga la polizza dei fattorini. Oggi la pagina d'aiuto promette che la paga MyCity. Serve prima della seconda ondata.
-4. Dare il via alla seconda ondata quando il tetto dei gettoni lo permette.
+1. Decidere se il cliente può vedere il numero personale del fattorino. Io consiglio di no: meglio un numero ponte.
+2. Decidere chi paga la polizza dei fattorini.
+3. Decidere se paghiamo il fattorino quando la consegna si annulla per colpa del cliente. Io consiglio di sì, ma solo se il supporto lo conferma.
+4. Decidere se un rinnovo di patente o polizza va ricontrollato dallo staff prima che valga. Io consiglio di sì.
 
 ## Cosa non ho verificato
-- Non ho provato le pagine in un browser vero: le prove montano le pagine nell'ambiente di prova.
-- Non ho registrato la copertura della radiografia: il comando scrive nel vault, che in questo lavoro è vietato. Sette file toccati restano senza copertura registrata.
-- Le prove SQL non le ho rilanciate io. Questa richiesta non porta migrazioni: la 190 sta solo nel pacchetto che non regge.
+- Le pagine non le ho guardate a mano in un browser.
+- Non ho registrato la copertura della radiografia: il comando scrive nel vault, che in questo lavoro è vietato.
+- Tre pacchetti non reggono:
+  - **Blocco del fattorino con documenti scaduti**: si poteva spostare la scadenza senza un documento nuovo.
+  - **Consolle SOS**: direbbe «non era in consegna» a chi ha una consegna attiva.
+  - **Resi**: il modulo contava 14 giorni di 24 ore, invece che fino a mezzanotte del quattordicesimo giorno a Roma. Va deciso insieme alla rotta, che non è mia.
 
 ---
 **Dettagli tecnici**
 
-| Pacchetto | Esito | Cosa |
+| Ondata | Pacchetto | Esito |
 |---|---|---|
-| `app/rider/history/page.tsx` | chiuso | compenso con `compensoConsegnaEuro` e `rider_fee_cents` |
-| `app/api/kyc/start-check/route.ts` | chiuso | scheda d'esame del fattorino + rotta `app/api/kyc/documenti-rider/[id]` (link di 120 s) |
-| `app/rider/orders/[id]/page.tsx` | chiuso (4 difetti su 5) | GPS, pulsante, stato del reso; la frase del freno è fuori territorio |
-| `app/rider/profile/page.tsx` | non regge | la migrazione 190 lascia spostare la scadenza senza documento nuovo; la bacheca dice «già preso» al posto di «documenti scaduti» |
-| `app/admin/sos/page.tsx` | non regge | su `/rider` con una consegna attiva l'SOS scrive `order_id` null e la consolle dice «non era in consegna» |
+| 3 | `app/rider/history/page.tsx` | chiuso |
+| 3 | `app/api/kyc/start-check/route.ts` | chiuso |
+| 3 | `app/rider/orders/[id]/page.tsx` | chiuso, 4 difetti su 5 (la frase del freno è fuori territorio) |
+| 3 | `app/rider/profile/page.tsx` | non regge (ramo `claude/cinque-s2-non-regge-app-rider-profile-page-tsx`) |
+| 3 | `app/admin/sos/page.tsx` | non regge (ramo `claude/cinque-s2-non-regge-app-admin-sos-page-tsx`) |
+| 4 | `app/rider/onboarding/page.tsx` | chiusa la pagina d'aiuto; il quindicenne era già chiuso dalla 156 (manca la prova SQL); il blocco all'ingresso è in `middleware.ts`, fuori territorio |
+| 4 | `components/rider/SOSButton.tsx` | chiuso il 112 per primo; l'avviso vero agli amministratori è fuori territorio |
+| 4 | `migrations/191` | chiuso |
+| 4 | `app/orders/[id]/return/page.tsx` | non regge (ramo `claude/cinque-s2-non-regge-resi`) |
+| 4 | `app/seller/orders/[id]/page.tsx` | niente da fare: già chiuso dalla #274; la fascia oraria nell'avviso «Nuovo ordine!» è fuori territorio |
 
-- I due rami che non reggono sono salvati su `claude/cinque-s2-non-regge-app-rider-profile-page-tsx` e `claude/cinque-s2-non-regge-app-admin-sos-page-tsx`.
-- Fuori territorio:
-  - `lib/ordini/veloce-non-confermata.ts` e `lib/email/templates.ts`: la frase «puoi annullare senza costi».
-  - `app/api/admin/users/[id]/moderate/route.ts`: manca il controllo dei documenti dal lato server.
-  - `components/account/`: la voce «Resi» del menu.
-  - La migrazione 191: la policy di `orders` lascia scrivere `rider_lat` su un ordine `CANCELED`.
-- Verify: verde, 836 file di prova, 7146 prove. Run del workflow: `wf_c7f6522a-9dd`. Commit `f19f3a9`.
-- Gettoni: 12 agenti; 934.418 senza le letture dalla cache, 20.084.664 contandole.
+- Verify: verde, 839 file di prova, 7159 prove.
+- Prove SQL sulla copia locale:
+  - `apply.sh`: 169 migrazioni, nessuna fallita.
+  - `run.sh`: verde.
+  - `migrazione-su-database-pieno.sh`: verde.
+  - `applica-migrazioni-mancanti.sh`, due volte: 0 migrazioni applicate.
+- Richiesta di unione #277, testa `be5f65e`.
+- Gettoni:
+  - ondata 3: 934.418 senza le letture dalla cache, 20,1 milioni contandole (12 agenti);
+  - ondata 4: 717.632 senza le letture dalla cache, 11,0 milioni contandole (11 agenti).
+- Difetti nati, vecchi visti e fuori territorio: sono nel `.json` accanto a questo file.
 - Note per la macchina:
-  - Il workflow non ha un freno in `.claude/settings.json`: lo aggancia Nicola.
-  - `ondata-snella.js` riceve gli args grandi come stringa: l'ho aggirato con una copia dello script con gli args scritti dentro.
-- Difetti nati (13) e vecchi visti (5): sono nel `.json` accanto a questo file.
+  - Il workflow non ha un freno in `.claude/settings.json`.
+  - `ondata-snella.js` riceve gli args grandi come stringa.
