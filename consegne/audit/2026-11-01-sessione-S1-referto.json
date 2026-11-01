@@ -1,0 +1,521 @@
+{
+ "sessione": "S1 soldi e cassa",
+ "pr": "https://github.com/NicolaeRotaru/mycity/pull/278",
+ "commit": "d4fcece",
+ "ondate": [
+  {
+   "ondata": 1,
+   "run_id": "wf_ce3dd54b-5fe",
+   "verify": "verde: 835 file, 7160 test",
+   "pacchetti": [
+    {
+     "chiave": "lib/stripe/payout.ts",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "pagamenti-stripe|dopo un guasto, chiudere il reso con i passi normali registra due volte lo stesso rimborso, e al negozio la sua parte viene tolta due volte",
+      "api-backend|con la carta, se la scrittura sul reso cade dopo il rimborso, «rimborsa e chiudi» rimborsa di nuovo: il negozio perde la sua parte due volte e dopo un giorno il cliente riceve i soldi due volte",
+      "pagamenti-stripe|se la risposta del database si perde dopo aver prenotato il rimborso dei contanti, l'ordine risulta rimborsato per intero senza che sia uscito niente, e nessun amministratore viene avvisato",
+      "pagamenti-stripe|se insieme alla scrittura sul reso cade anche l'elenco dei rimborsi dell'ordine, «rimborsato» rimborsa la carta una seconda volta",
+      "pagamenti-stripe|reso con la carta: in un carrello di due negozi la quota del negozio si toglie due volte",
+      "pagamenti-stripe|reso uscito su stripe con risposta persa, ordine senza altri rimborsi: se il negozio riprova dopo 24 ore il cliente e' rimborsato due volte"
+     ],
+     "prova": "npx vitest run tests/unit/il-rimborso-del-reso-con-la-carta-non-esce-due-volte.test.ts (prova-rimessa: rossa senza la correzione di payout.ts)",
+     "file_toccati": [
+      "lib/stripe/payout.ts"
+     ]
+    },
+    {
+     "chiave": "lib/stripe/payout.ts (webhook)",
+     "esito": "non regge",
+     "chiavi_chiuse": [],
+     "prova": "nessuna: alla base dispute/trasferimenti/abbonamenti/route lanciano già l'errore sulle scritture (scritturaObbligatoria/throw); le righe della scheda non tornano. Serve un ricontrollo riga per riga prima di chiuderlo o di dichiararlo già chiuso.",
+     "file_toccati": [],
+     "difetto": "pagamenti-stripe|se il database sbaglia una scrittura durante un pagamento, il sito risponde a stripe «tutto a posto» e stripe non riprova più"
+    },
+    {
+     "chiave": "contestazioni dopo la 063",
+     "esito": "fermo per una scelta",
+     "chiavi_chiuse": [],
+     "prova": "nessuna: serve il confronto con Stripe ordine per ordine sui dati veri e la firma di Nicola sulla correzione",
+     "file_toccati": [],
+     "difetto": "pagamenti-stripe|gli ordini già fermati dal trigger della 063 restano con dispute_status open: la 184 vale solo per i reclami nuovi"
+    },
+    {
+     "chiave": "app/checkout/page.tsx",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "rls-database|il carrello rifiuta il codice di benvenuto a chi ha solo un ordine annullato: la riparazione è arrivata alla cassa ma non al database"
+     ],
+     "prova": "tests/sql/harness/apply.sh senza la 185 poi psql -f tests/sql/rls/44-il-carrello-accetta-il-benvenuto-dopo-un-annullo.test.sql → ERROR «2 controlli falliti»; con la 185 verde. Più npx vitest run tests/unit/il-carrello-conta-il-primo-ordine-come-la-cassa.test.ts",
+     "file_toccati": [
+      "migrations/185_il_carrello_conta_gli_ordini_come_la_cassa.sql",
+      "lib/coupons.ts",
+      "tests/sql/rls/44-il-carrello-accetta-il-benvenuto-dopo-un-annullo.test.sql"
+     ]
+    },
+    {
+     "chiave": "lib/ordini/prezzi.ts",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "pagamenti-stripe|col codice «spedizione gratuita», dopo un primo rifiuto che tocca il tetto, il secondo rifiuto non rifà il giro: il fattorino dell ultimo negozio resta a 1 € invece di 3 €"
+     ],
+     "prova": "npx vitest run tests/unit/col-codice-il-secondo-rifiuto-rifa-il-giro.test.ts tests/unit/col-codice-il-secondo-rifiuto-resta-col-codice.test.ts (e la prova della macchina consegne/audit/prove-sito/2026-10-30-secondo-rifiuto-col-codice.prova.ts: rider 100 → 300)",
+     "file_toccati": [
+      "lib/ordini/prezzi.ts"
+     ]
+    }
+   ]
+  },
+  {
+   "ondata": 2,
+   "run_id": "wf_a73112d8-f2c",
+   "verify": "verde: 845 file, 7213 test",
+   "pacchetti": [
+    {
+     "chiave": "app/api/orders/cod/route.ts",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "api-backend|se l'annullamento degli ordini già nati fallisce, la chiave si libera lo stesso e il tocco dopo crea il doppione"
+     ],
+     "prova": "npx vitest run tests/unit/contanti-se-l-annullamento-fallisce-la-chiave-resta.test.ts",
+     "file_toccati": [
+      "app/api/orders/cod/route.ts"
+     ]
+    },
+    {
+     "chiave": "app/api/orders/cod/route.ts (merce riservata)",
+     "esito": "non regge",
+     "chiavi_chiuse": [],
+     "prova": "nessuna: serve una riserva scritta (migrazione 187 con ritorno indietro e prova SQL) più un giro che la liberi; la squadra non l'ha costruita e la sesta ha chiesto niente secondo tentativo",
+     "file_toccati": [],
+     "difetto": "api-backend|la funzione che muore fra l'ordine e gli articoli lascia la merce riservata senza nessuno che la liberi"
+    },
+    {
+     "chiave": "lib/metriche-venditore.ts+zona",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "dati-analytics|il cruscotto del negoziante mostra meno soldi di quelli che riceve quando il cliente paga anche col credito mycity",
+      "flussi-conversione|chi abita appena oltre i 10 km, come a podenzano o rottofreno, scopre di essere fuori zona solo premendo «ordina»: carrello e cassa non lo avvisano prima"
+     ],
+     "prova": "npx vitest run tests/unit/il-credito-mycity-conta-nell-incasso-del-negozio.test.ts tests/unit/fuori-zona-si-dice-prima-di-ordina.test.ts tests/unit/zona-con-indirizzo-scritto-a-mano.test.ts",
+     "file_toccati": [
+      "lib/metriche-venditore.ts",
+      "app/seller/dashboard/page.tsx",
+      "app/seller/analytics/page.tsx",
+      "app/cart/page.tsx",
+      "app/checkout/page.tsx",
+      "components/checkout/ShippingAddressForm.tsx"
+     ]
+    },
+    {
+     "chiave": "lib/stripe/webhook/dispute.ts",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "pagamenti-stripe|se il cliente viene rimborsato e poi contesta lo stesso pagamento in banca, quando mycity vince il negozio e il fattorino vengono pagati una seconda volta",
+      "pagamenti-stripe|quando la banca chiede solo informazioni su un pagamento, al negozio vengono ripresi i soldi e non tornano più"
+     ],
+     "prova": "npx vitest run tests/unit/la-contestazione-restituisce-solo-quello-che-ha-tolto.test.ts",
+     "file_toccati": [
+      "lib/stripe/webhook/dispute.ts"
+     ]
+    },
+    {
+     "chiave": "lib/stripe/webhook/dispute.ts (contestazione parziale vinta)",
+     "esito": "fermo per una scelta",
+     "chiavi_chiuse": [],
+     "prova": "nessuna: scelta di soldi di Nicola",
+     "file_toccati": [],
+     "difetto": "pagamenti-stripe|se la banca contesta solo una parte del pagamento e mycity vince, al negozio non torna la parte che gli era stata tolta"
+    },
+    {
+     "chiave": "components/checkout/DeliverySlotPicker.tsx",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "frontend-ux|la fascia scelta in cassa cambia da sola col passare dell'ora e nessuna riga lo dice: 16:30–18:00 diventa 18:00–19:30 in silenzio"
+     ],
+     "prova": "npx vitest run tests/unit/la-fascia-scaduta-in-cassa-lo-dice.test.tsx",
+     "file_toccati": [
+      "components/checkout/DeliverySlotPicker.tsx",
+      "tests/unit/l-ordine-con-un-appuntamento-gia-passato.test.ts (regex allargata: resta rossa se si toglie lo spostamento a domani)"
+     ]
+    },
+    {
+     "chiave": "migrations/089_referral_reward_on_delivery.sql",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "microcopy|il premio invito resta 5 euro di credito vero: un invito scritto a mano si incassa alla prima consegna"
+     ],
+     "prova": "tests/sql/harness/apply.sh senza la 186 poi psql -f tests/sql/rls/45-un-invito-scritto-a-mano-non-paga-alla-riaccensione.test.sql → ERROR; con la 186 verde. Più npx vitest run tests/unit/un-invito-scritto-a-mano-non-paga.test.ts",
+     "file_toccati": [
+      "migrations/186_un_invito_non_si_scrive_a_mano.sql"
+     ]
+    },
+    {
+     "chiave": "R83",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "R83 (parte 1 + due minori)"
+     ],
+     "prova": "npx vitest run tests/unit/r83-recupero.test.ts tests/unit/r83-email.test.ts tests/unit/r83-corsa.test.ts",
+     "file_toccati": [
+      "lib/stripe/webhook/giftcard.ts",
+      "lib/stripe/recupero-pagamento-buoni.ts"
+     ]
+    }
+   ]
+  }
+ ],
+ "nati": [
+  {
+   "titolo": "La chiusura di una richiesta di informazioni libera anche un reclamo aperto dal cliente nell'app",
+   "gravita": "minore",
+   "dove": "lib/stripe/webhook/dispute.ts, ramo warning_closed + trigger 063",
+   "prova": "Il trigger 063 mette OPEN per i reclami fatti dall'app. warning_closed scrive WON su ogni ordine OPEN, quindi anche su quelli con un reclamo dell'app ancora aperto.",
+   "pacchetto": "lib/stripe/webhook/dispute.ts",
+   "fonte": "squadra"
+  },
+  {
+   "titolo": "Il carrello avvisa fuori zona anche chi poi sceglie il ritiro in negozio: non passa pickupInStore",
+   "gravita": "minore",
+   "dove": "app/cart/page.tsx riga ~522 (fuoriZonaDiConsegna senza pickupInStore)",
+   "prova": "grep -n 'fuoriZonaDiConsegna' app/cart/page.tsx: la chiamata non passa pickupInStore; la cassa lo passa. Avviso e' informativo, non blocca.",
+   "pacchetto": "lib/metriche-venditore.ts+zona",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "Una prova esistente della fascia oraria diventa rossa col nuovo codice: npm run verify fallisce",
+   "gravita": "minore",
+   "dove": "tests/unit/l-ordine-con-un-appuntamento-gia-passato.test.ts, caso «e il giorno si SPOSTA a domani»",
+   "prova": "npx vitest run tests/unit/l-ordine-con-un-appuntamento-gia-passato.test.ts -> 1 rosso: la regex /if\\s*\\(!oggiPossibile\\)\\s*\\{\\s*onDayChange\\('tomorrow'\\)/ non trova piu' il codice. Il comportamento e' giusto: va aggiornata la prova, non il sito.",
+   "pacchetto": "components/checkout/DeliverySlotPicker.tsx",
+   "fonte": "collaudo B",
+   "stato": "chiuso dall'AD: regex allargata, rossa se si toglie lo spostamento (commit d4fcece)"
+  },
+  {
+   "titolo": "Mentre la cassa cerca l'indirizzo scritto a mano, «ordina» resta premibile e il fuori zona lo dice ancora il server",
+   "gravita": "minore",
+   "dove": "components/checkout/ShippingAddressForm.tsx useCoordinateDellaZona; app/checkout/page.tsx:1123-1134",
+   "prova": "Per 0,6 s più l'attesa della rete la funzione risponde null, quindi fuoriZona=false. Il server poi rifiuta comunque (cod/route.ts:894-929): nessun ordine sbagliato. Manca una prova che fermi il pulsante durante la ricerca.",
+   "pacchetto": "lib/metriche-venditore.ts+zona",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "La domanda della zona non è identica tra cassa e server: la cassa toglie gli spazi da ogni campo, il server solo dalla frase intera",
+   "gravita": "minore",
+   "dove": "components/checkout/ShippingAddressForm.tsx domandaDellaZona vs lib/geocodifica.ts:28",
+   "prova": "Con spazi in più dentro un campo, cassa e server mandano a Nominatim due testi diversi. Quasi sempre il punto trovato è lo stesso. Non ho trovato un caso che dia un esito diverso.",
+   "pacchetto": "lib/metriche-venditore.ts+zona",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "Reso con carta ripreso dopo 24h: un rimborso già fatto fuori da Stripe fa saltare il conteggio e lo storno al negozio",
+   "gravita": "minore",
+   "dove": "lib/stripe/payout.ts refundOrder: nonContato = registrato <= totaleDellOrdineCents - uscito.amount",
+   "prova": "refunded 500 non su Stripe, risposta persa, chiave scaduta: refunded resta 500 invece di 2500, nessuno storno al negozio, solo un avviso. Precondizione non dimostrata. File: /tmp/claude-0/-home-user-ad-mycity/300473ca-ca5a-5f5f-a54f-79ad29a7b389/scratchpad/variante-payout-credito.test.ts",
+   "pacchetto": "lib/stripe/payout.ts",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "La prova SQL 08 del codice di benvenuto e' rossa sempre: inserisce un ordine con stato 'PREPARATION', vietato dal vincolo",
+   "gravita": "minore",
+   "dove": "tests/sql/rls/08-il-carrello-accetta-il-benvenuto-dopo-un-annullo.test.sql riga 63; CI passo 'Controlli di permessi e privacy' (run.sh)",
+   "prova": "su postgres -c 'psql -d <db da apply.sh> -v ON_ERROR_STOP=1 -f .../08-...test.sql' -> ERROR orders_delivery_status_check. Con 'NEW' al posto di 'PREPARATION' e' verde sulla 185 e rossa sulla 114.",
+   "pacchetto": "app/checkout/page.tsx",
+   "fonte": "collaudo B",
+   "stato": "chiuso dall'AD: stato NEW e numero 44 (commit 255e883)"
+  },
+  {
+   "titolo": "Nessuna prova copre il carrello vecchio con annulli senza ricalcolo, che ora entra nella tolleranza «sotto la regola»",
+   "gravita": "minore",
+   "dove": "lib/ordini/prezzi.ts:479-494 (consegnaDopoLAnnullo, ramo dopoUnAnnullo)",
+   "prova": "Oggi il ramo fa giusto: la sonda in scratchpad/sonda3.ts dà 0 differenze dalla base su 57.624 casi (4 negozi, 2 annulli senza ricalcolo, poi il terzo). Manca però un test nel repo che lo fissi.",
+   "pacchetto": "lib/ordini/prezzi.ts",
+   "fonte": "collaudo B"
+  }
+ ],
+ "vecchi_visti": [
+  {
+   "titolo": "Il raggio di consegna vero è 5 km, la scheda parla di 10",
+   "gravita": "minore",
+   "dove": "lib/constants.ts:71 RAGGIO_CONSEGNA_KM = 5",
+   "prova": "Il testo del difetto dice «oltre i 10 km»; la costante e motivoFuoriZona dicono 5",
+   "pacchetto": "lib/metriche-venditore.ts+zona",
+   "fonte": "squadra"
+  },
+  {
+   "titolo": "Le vecchie prove fissano ancora il ripiego sul totale quando il promemoria della contestazione è zero",
+   "gravita": "minore",
+   "dove": "tests/unit/la-contestazione-vinta-ripaga-il-negozio-del-giusto.test.ts:177-199",
+   "prova": "Restano verdi solo perché lì il pagamento è PARTIALLY_REFUNDED. Se Nicola sceglie l'opzione C, vanno tolte insieme a promemoriaOTotale.",
+   "pacchetto": "lib/stripe/webhook/dispute.ts",
+   "fonte": "squadra"
+  },
+  {
+   "titolo": "La registrazione scrive l'invito dal browser senza sessione e scarta l'errore",
+   "gravita": "minore",
+   "dove": "app/sign-up/page.tsx:170",
+   "prova": "Con la conferma email non c'è ancora una sessione: l'insert su referrals fallisce già sulla base, e il risultato non viene controllato.",
+   "pacchetto": "migrations/089_referral_reward_on_delivery.sql",
+   "fonte": "squadra"
+  },
+  {
+   "titolo": "Richiesta di informazioni diventata contestazione: nessuno storno al negozio, solo avviso alla perdita",
+   "gravita": "minore",
+   "dove": "app/api/stripe/webhook/route.ts righe 161-165; lib/stripe/webhook/dispute.ts nonStornati",
+   "prova": "grep -n 'charge.dispute' app/api/stripe/webhook/route.ts: solo created e closed, funds_withdrawn non gestito.",
+   "pacchetto": "lib/stripe/webhook/dispute.ts",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "Chi scrive a mano un indirizzo fuori zona (es. primo ordine da Podenzano) lo scopre ancora solo dopo «ordina»",
+   "gravita": "grave",
+   "dove": "app/checkout/page.tsx:450 e 1118-1128; app/cart/page.tsx:518-527 (solo indirizzo predefinito)",
+   "prova": "Prova che lo farebbe rosso: renderizza la cassa senza indirizzo salvato, scrivi Podenzano, simula coordinateDiUnIndirizzo oltre RAGGIO_CONSEGNA_KM (5) e attendi un role=alert prima del clic. Oggi form.lat e' null, fuoriZonaDiConsegna dice false e avvisa solo il 400 del server.",
+   "pacchetto": "lib/metriche-venditore.ts+zona",
+   "fonte": "collaudo B",
+   "stato": "chiuso nel giro di correzione dell'ondata 2 (commit 3aa1a83, prova tests/unit/zona-con-indirizzo-scritto-a-mano.test.ts)"
+  },
+  {
+   "titolo": "Rimborso parziale + contestazione con promemoria non scritto: alla vittoria si ripaga anche la parte del rimborso",
+   "gravita": "minore",
+   "dove": "lib/stripe/webhook/dispute.ts stornatoDaQuestaContestazione (il ripiego sul totale resta per PARTIALLY_REFUNDED); scrittura del promemoria che solo avvisa",
+   "prova": "Letto, non eseguito: rimborso parziale, poi dispute.created che storna; l'update di dispute_seller_reversed_cents torna {error}; poi won. seller_payout_reversed_cents comprende anche lo storno del rimborso e torna in coda per intero.",
+   "pacchetto": "lib/stripe/webhook/dispute.ts",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "R83: un minore visto nel collaudo (dettagli alla sesta a voce)",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "Ordini con stato NULL esclusi dal conteggio primo ordine (cassa e carrello)",
+   "gravita": "minore",
+   "dove": "lib/coupons.ts:107-112 e la copia gemella nella 185: .neq e <> scartano le righe con delivery_status o payment_status NULL",
+   "prova": "In 001 le colonne accettano NULL. Un ordine con stato NULL non conterebbe come primo ordine. Il difetto era già nella cassa alla base: l'ho replicato solo per tenere identiche le due copie.",
+   "pacchetto": "app/checkout/page.tsx",
+   "fonte": "squadra"
+  },
+  {
+   "titolo": "refundOrder con due chiamate simultanee sulla stessa chiave conta il rimborso due volte (refunded 4000 su 2000 usciti)",
+   "gravita": "minore",
+   "dove": "lib/stripe/payout.ts refundOrder: controllo di Stripe prima di accumula_rimborso, senza lock",
+   "prova": "Promise.allSettled([reso(), reso()]) nel finto della prova della squadra: refunded 4000, creati [2000]. Rosso anche sulla base. Oggi non si raggiunge dal sito: le rotte decide e avanza rivendicano la riga del reso prima.",
+   "pacchetto": "lib/stripe/payout.ts",
+   "fonte": "collaudo A"
+  }
+ ],
+ "fuori_territorio": [
+  {
+   "file": "app/sign-up/page.tsx",
+   "serve": "oggi scrive l'invito dal browser e la 186 lo rifiuta. Prima di riaccendere gli inviti serve una rotta server che controlli il codice invito e scriva con la chiave di servizio (oggi gli inviti sono spenti: nessun effetto al lancio)."
+  },
+  {
+   "file": "app/api/stripe/webhook/route.ts (in territorio, non toccato)",
+   "serve": "gestire charge.dispute.funds_withdrawn: oggi una richiesta di informazioni che diventa contestazione vera non storna il negozio, avvisa solo."
+  }
+ ],
+ "scelte_per_nicola": [
+  {
+   "domanda": "Chi paga i codici sconto di MyCity? Oggi il netto del negozio si calcola sul totale già scontato: su 20 € di pane con 5 € di sconto il negozio incassa 13,50 € invece di 18 €.",
+   "raccomandazione": "Li paga MyCity: sono una spesa per trovare clienti, non un costo del negozio. Poi il codice: in computeOrderSplit la base del netto torna il totale prima dello sconto. I codici oggi sono spenti, quindi non tocca nessuno al lancio."
+  },
+  {
+   "domanda": "Contestazione parziale vinta: cosa si fa con la quota tolta al negozio all'apertura? (es. ordine 50 €, contestati 20 €, al negozio tolti 18 €)",
+   "raccomandazione": "Opzione C: all'apertura non togliere niente al negozio e riprendere a mano solo se MyCity perde. Alternativa B: tenere lo storno e, se si vince, fare un bonifico della quota con una chiave legata alla contestazione."
+  },
+  {
+   "domanda": "Contestazioni aperte dal trigger della 063 prima della 184: correggere i dati veri?",
+   "raccomandazione": "Prima un confronto in sola lettura con Stripe ordine per ordine; poi una correzione firmata solo per gli ordini senza contestazione vera."
+  },
+  {
+   "domanda": "R83: lanciare il recupero dei buoni nati prima della 178 sui dati veri?",
+   "raccomandazione": "Sì, ma prima il giro a vuoto (di base non scrive niente) e la lettura dell'elenco; poi --applica solo con la tua firma."
+  },
+  {
+   "domanda": "R83: cosa fare col rimborso parziale e con la contestazione vinta?",
+   "raccomandazione": "Rimborso parziale: il buono resta valido, ridotto della parte rimborsata (non spento del tutto). Contestazione vinta: il buono si riaccende solo se non è stato già sostituito o riscattato altrove. Oggi la vendita dei buoni è spenta al lancio."
+  }
+ ],
+ "conto_token": {
+  "ondata_1": {
+   "agenti": 8,
+   "senza_letture_cache": 643615,
+   "con_letture_cache": 10157816
+  },
+  "ondata_2": {
+   "agenti": 10,
+   "senza_letture_cache": 862795,
+   "con_letture_cache": 16993681
+  }
+ },
+ "copertura_collaudo": [
+  {
+   "dimensione": "pagamenti-stripe",
+   "file": [
+    "lib/stripe/webhook/dispute.ts",
+    "lib/stripe/webhook/giftcard.ts",
+    "lib/stripe/recupero-pagamento-buoni.ts",
+    "migrations/178_falla_r83.sql"
+   ],
+   "trovati": 1,
+   "lente": "A"
+  },
+  {
+   "dimensione": "api-backend",
+   "file": [
+    "app/api/orders/cod/route.ts"
+   ],
+   "trovati": 0,
+   "lente": "A"
+  },
+  {
+   "dimensione": "dati-analytics",
+   "file": [
+    "lib/metriche-venditore.ts",
+    "app/seller/dashboard/page.tsx",
+    "app/seller/analytics/page.tsx"
+   ],
+   "trovati": 0,
+   "lente": "A"
+  },
+  {
+   "dimensione": "flussi-conversione",
+   "file": [
+    "app/cart/page.tsx",
+    "app/checkout/page.tsx",
+    "lib/ordini/zona-di-consegna.ts"
+   ],
+   "trovati": 1,
+   "lente": "A"
+  },
+  {
+   "dimensione": "frontend-ux",
+   "file": [
+    "components/checkout/DeliverySlotPicker.tsx"
+   ],
+   "trovati": 0,
+   "lente": "A"
+  },
+  {
+   "dimensione": "database-rls",
+   "file": [
+    "migrations/186_un_invito_non_si_scrive_a_mano.sql",
+    "tests/sql/rls/45-un-invito-scritto-a-mano-non-paga-alla-riaccensione.test.sql",
+    "app/sign-up/page.tsx"
+   ],
+   "trovati": 0,
+   "lente": "A"
+  },
+  {
+   "dimensione": "api-backend",
+   "file": [
+    "app/api/orders/cod/route.ts",
+    "tests/unit/contanti-se-l-annullamento-fallisce-la-chiave-resta.test.ts"
+   ],
+   "trovati": 0,
+   "lente": "B"
+  },
+  {
+   "dimensione": "architettura",
+   "file": [
+    "lib/metriche-venditore.ts",
+    "lib/guadagni/negozio.ts",
+    "lib/ordini/zona-di-consegna.ts",
+    "lib/constants.ts"
+   ],
+   "trovati": 0,
+   "lente": "B"
+  },
+  {
+   "dimensione": "frontend-ux",
+   "file": [
+    "app/seller/dashboard/page.tsx",
+    "app/seller/analytics/page.tsx",
+    "components/checkout/DeliverySlotPicker.tsx",
+    "tests/unit/la-fascia-scaduta-in-cassa-lo-dice.test.tsx"
+   ],
+   "trovati": 1,
+   "lente": "B"
+  },
+  {
+   "dimensione": "qa-flussi",
+   "file": [
+    "app/checkout/page.tsx",
+    "app/cart/page.tsx"
+   ],
+   "trovati": 1,
+   "lente": "B"
+  },
+  {
+   "dimensione": "pagamenti-stripe",
+   "file": [
+    "lib/stripe/webhook/dispute.ts",
+    "tests/unit/la-contestazione-restituisce-solo-quello-che-ha-tolto.test.ts",
+    "lib/stripe/webhook/giftcard.ts",
+    "migrations/178_falla_r83.sql",
+    "lib/stripe/recupero-pagamento-buoni.ts",
+    "tests/unit/r83-email.test.ts",
+    "tests/unit/r83-recupero.test.ts",
+    "tests/unit/r83-corsa.test.ts"
+   ],
+   "trovati": 2,
+   "lente": "B"
+  },
+  {
+   "dimensione": "rls-database",
+   "file": [
+    "migrations/089_referral_reward_on_delivery.sql"
+   ],
+   "trovati": 0,
+   "lente": "B"
+  },
+  {
+   "dimensione": "microcopy",
+   "file": [
+    "migrations/092_referral_no_self_referral.sql",
+    "migrations/186_un_invito_non_si_scrive_a_mano.sql",
+    "tests/sql/rls/45-un-invito-scritto-a-mano-non-paga-alla-riaccensione.test.sql",
+    "tests/unit/un-invito-scritto-a-mano-non-paga.test.ts"
+   ],
+   "trovati": 0,
+   "lente": "B"
+  },
+  {
+   "dimensione": "architettura",
+   "file": [
+    "lib/metriche-venditore.ts",
+    "lib/guadagni/negozio.ts",
+    "lib/ordini/zona-di-consegna.ts",
+    "lib/constants.ts",
+    "tests/unit/zona-con-indirizzo-scritto-a-mano.test.ts",
+    "tests/unit/fuori-zona-si-dice-prima-di-ordina.test.ts",
+    "lib/geocodifica.ts",
+    "app/api/geocode/route.ts"
+   ],
+   "trovati": 1,
+   "lente": "B"
+  },
+  {
+   "dimensione": "frontend-ux",
+   "file": [
+    "app/seller/dashboard/page.tsx",
+    "app/seller/analytics/page.tsx",
+    "components/checkout/ShippingAddressForm.tsx",
+    "app/seller/earnings/page.tsx"
+   ],
+   "trovati": 1,
+   "lente": "B"
+  },
+  {
+   "dimensione": "qa-flussi",
+   "file": [
+    "app/checkout/page.tsx",
+    "app/cart/page.tsx",
+    "app/api/orders/cod/route.ts",
+    "app/api/stripe/checkout/route.ts"
+   ],
+   "trovati": 0,
+   "lente": "B"
+  }
+ ]
+}
