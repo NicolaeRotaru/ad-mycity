@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-10-31 09:05
+aggiornato: 2026-11-01 10:50
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -38,7 +38,7 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
   - **l'ondata 2 è in richiesta di unione** (NicolaeRotaru/mycity#268, aperta il 31/10 alle 12:13). Le ondate 3 e 4 sono al lavoro sopra di lei: le loro richieste arrivano dopo l'unione della #268.
   - **le ondate 3 e 4 sono unite** (NicolaeRotaru/mycity#269, il 31/10 alle 15:37).
   - **l'ondata di correzione è unita** (NicolaeRotaru/mycity#270, il 31/10 alle 16:59). Ha chiuso 23 difetti nel registro. Adesso tocca al pulsante delle migrazioni, che applica la 171 e la 183. I rimborsi vanno nell'ondata 7. Anche l'ingresso va nella 7, dopo la tua impostazione nel pannello di Supabase: i dettagli sono in chat.
-  - **le ondate 5 e 6 sono dentro** (1/11): i 3 pacchetti che reggevano con la NicolaeRotaru/mycity#271 alle 08:57, i 5 della correzione con la NicolaeRotaru/mycity#272 alle 09:54. Nel registro: 20 e 17 difetti chiusi. Dopo la #272 il pulsante delle migrazioni applica la 168, la 178, la 179, la 180 e la 184. I Termini 3.0 sono nella NicolaeRotaru/mycity#273: li rileggi tu, poi scrivo la data «in vigore dal» e la unisci.
+  - **le ondate 5 e 6 sono dentro** (1/11): i 3 pacchetti che reggevano con la NicolaeRotaru/mycity#271 alle 08:57, i 5 della correzione con la NicolaeRotaru/mycity#272 alle 09:54. Nel registro: 20 e 17 difetti chiusi. Dopo la #272 il pulsante delle migrazioni applica la 168, la 178, la 179, la 180 e la 184. I Termini 3.0 sono uniti con la NicolaeRotaru/mycity#273 alle 10:14, e la data «in vigore dal 1 novembre 2026» con la NicolaeRotaru/mycity#274 alle 10:40. Nel registro: 5 difetti chiusi. Resta aperto «chi c'è dietro il sito»: mancano sede, partita IVA e PEC.
   - i quattro segreti del rilascio su GitHub si mettono dopo l'unione dell'ondata 1.
   - lunedì 2/11 mattina, partita IVA e PEC col commercialista: senza il nome del titolare sul sito non si apre;
   - lunedì 2/11, il fornaio completa il suo conto Stripe.
@@ -46,7 +46,7 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
   - verso le ondate 18-19, e solo dopo un giro a mano con `cancella=1` andato bene, accendi `CANCELLAZIONI_A_ORARIO=accese`. Fino ad allora la notte conta gli account da cancellare e non cancella niente (aggiunto il 31/10 alle 10:28).
 
 **Da sistemare dopo le unioni del 30/10**
-- I Termini nuovi sono online, ma in cima resta «in vigore dal 24 maggio 2026». Vanno fatti rileggere a un legale, e poi va cambiata la data.
+- I Termini 3.0 sono in vigore dal 1 novembre 2026. Un avvocato li rilegge dopo il lancio, come hai scelto tu.
 
 **Scelte brevi**
 - Fino a quando le rotte accettano le fasce vecchie, per le casse rimaste aperte prima del rilascio. Il mio consiglio: una settimana.

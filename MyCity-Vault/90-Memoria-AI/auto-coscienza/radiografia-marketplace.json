@@ -26,11 +26,12 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 2220,
+    "findings": 2221,
     "bloccanti": 35,
-    "gravi": 601,
+    "gravi": 602,
     "minori": 1584,
-    "agenti": null
+    "agenti": null,
+    "aggiornato": "2026-11-01 10:44"
   },
   "confronto_precedente": null,
   "dimensioni": [
@@ -1474,14 +1475,17 @@
       "impatto": "È un'informazione sbagliata sul diritto di recesso, nella pagina più vista, con il rischio di pratica ingannevole. Su ogni ordine del forno nasce un conflitto fra cliente e negozio.",
       "fix": "Usare la stessa frase onesta del carrello in tutti e due i punti: «Reso entro 14 giorni · alcuni prodotti sono esclusi», con il link a /returns. Togliere «senza domande». Meglio ancora, una costante unica in lib/promesse-pubbliche.ts (FRASE_RESO), usata ovunque.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Nel browser, con Playwright su http://localhost:3100/: la home renderizzata contiene «Reso entro 14 giorni / Cambi idea? Ti rimborsiamo senza domande.». Lettura del codice: come-funziona/page.tsx:31 ha la stessa frase. returns/page.tsx:69 «Non si applica a: prodotti deperibili (alimentari freschi)». cart/page.tsx:766-784 ha la versione corretta «alcuni prodotti sono esclusi», con il commento sul forno.",
       "prova_tipo": "browser",
       "prova_eseguita": "La frase «Ti rimborsiamo senza domande» è nella home di oggi e nel codice di «Come funziona». La pagina Resi e le Condizioni la smentiscono. · Verifica tecnica: Letto HomeSectionRenderer.tsx:71-78 (DEFAULT_TRUST_BULLETS con la frase), :262-300 (usato solo da liveActivity senza bullets e da trustRow) e :560-567. Letto come-funziona/page.tsx:28-32, returns/page.tsx:69, terms/page.tsx:179-190 e cart/page.tsx:766-784. Il grep di «senza domande» nel codice trova solo questi 2 file. Query SQL in produzione su site_settings.home_site: 16 sezioni, nessuna trustRow, liveActivity enabled=false. Con web_fetch su https://mycity-phi.vercel.app/ la home di produzione NON contiene «senza domande». Compare «Reso entro 14 giorni» una volta sola, nella striscia del piè di pagina accanto ad «Acquisto sicuro». Con web_fetch su /come-funziona di produzione la pagina CONTIENE «Reso entro 14 giorni» e «senza domande».",
       "giro": 1,
       "verificato": true,
       "fonte_radiografia": "radiografia 2026-10-11 · corsie: prodotto-completezza · id R227 · si ripara: codice",
-      "nota_riesame": "28/10 01:15: il riesame del perimetro della fase 2 del lotto #262 (run wf_b9d92819-bde, 27/10 sera) la vede grave (frontend-account-posta#7 dice grave; architettura-consegna#9 dice grave); gravità lasciata com'era: il difetto più largo che la contiene ha già la sua voce."
+      "nota_riesame": "28/10 01:15: il riesame del perimetro della fase 2 del lotto #262 (run wf_b9d92819-bde, 27/10 sera) la vede grave (frontend-account-posta#7 dice grave; architettura-consegna#9 dice grave); gravità lasciata com'era: il difetto più largo che la contiene ha già la sua voce.",
+      "chiuso_il": "2026-11-01 10:44",
+      "chiuso_da": "PR #273 · 221d768d",
+      "nota_riparazione": "Riparato nell ondata 6, nella correzione 5-6 e nel terzo giro (run wf_631e8390-ab7, wf_6cb735f1-94d e wf_3a764d6a-8fe), unito con la #273. — prova: cd /home/user/mycity && npx vitest run tests/unit/ai-negozi-diciamo-un-prezzo-solo.test.tsx tests/unit/il-cookie-di-accesso-dura-quanto-dice-la-policy.test.tsx tests/unit/i-termini-dicono-il-prezzo-come-si-paga-e-chi-risponde.test.tsx tests/unit/il-server-non-tiene-il-cookie-di-accesso-oltre-6-mesi.test.ts tests/unit/chi-ha-accettato-i-termini-vecchi-li-riaccetta-prima-di-pagare.test.ts tests/unit/la-riaccettazione-guarda-la-versione-a-verbale-non-la-data.test.ts tests/unit/il-link-della-password-si-apre-da-qualunque-dispositivo.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-6-app-terms-page-tsx: 5db2a134: regge (uscita 0); 70e4e1ac: regge (uscita 0); 8c13983a: rosso_strutturale (uscita 3); 775c31fb: regge (uscita 0)"
     },
     {
       "dimensione": "privacy-legale",
@@ -1550,14 +1554,17 @@
       "impatto": "Contratto (Termini) che descrive metodi di pagamento non offerti e un intermediario di pagamento con un nome diverso da quello dell'informativa; FAQ che promette un mezzo inesistente. Il difetto chiuso «Carta o contanti alla consegna, decidi tu: la carta alla consegna non esiste» è ancora vivo nella FAQ.",
       "fix": "Far nascere la risposta della FAQ e la frase dei Termini da frasePagamento() di lib/promesse-pubbliche.ts (già usata dalla scheda), togliere il POS al rider, allineare il nome del fornitore di pagamento fra Termini e privacy. Il testo dei Termini va comunque validato da un legale.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Fetch di produzione di /terms (testo §5 estratto) e /faq (domanda presente); lettura della risposta in app/faq/page.tsx:55-56.",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": "/terms in produzione: «Modalità accettate: carta di credito/debito (Visa, Mastercard, Amex), Apple Pay, Google Pay» e «provider PSP autorizzati (Stripe, S.A.)». app/faq/page.tsx:56: «contanti o POS al rider». La risposta della FAQ si apre a fisarmonica e non è nell'HTML iniziale: l'ho letta dal codice. · Verifica tecnica: Ho riletto /terms in produzione. Il §5 dice «gestiti da provider PSP autorizzati (Stripe, S.A.)» e «Modalità accettate: carta di credito/debito (Visa, Mastercard, Amex), Apple Pay, Google Pay e, dove indicato dal Venditore, pagamento alla consegna in contanti». La pagina FAQ si costruisce nel browser ('use client'), quindi l'ho aperta con Playwright (Chromium 1194) sul sito locale, che è lo stesso codice della produzione (commit 70a9299). Dopo il clic, la risposta dice «...POS al rider). Stiamo integrando carte, PayPal e Apple/Google Pay.» Con grep ho trovato «Stripe» in privacy/page.tsx:169 e terms/page.tsx:144-151. Ho cercato nel registro i difetti chiusi «Carta o contanti...»: nei loro file la FAQ non c'è.",
       "giro": 1,
       "verificato": true,
       "fonte_radiografia": "radiografia 2026-10-11 · corsie: produzione-live · ricomparso dopo essere stato chiuso · id R279 · si ripara: codice",
-      "nota_riesame": "2026-10-29 15:15: passata da minore a grave: il collaudo delle promesse A (lente B, run wf_f24a412a-336) e la radiografia del perimetro la danno grave. La FAQ (app/faq/page.tsx:56) promette «contanti o POS al rider», il fattorino non ha un POS e la carta è spenta: chi conta di pagare col POS alla porta non riesce a pagare. I Termini (app/terms/page.tsx:144-152) elencano carta, Apple Pay e Google Pay, e i contanti solo «dove indicato dal Venditore». C è su 0df7945."
+      "nota_riesame": "2026-10-29 15:15: passata da minore a grave: il collaudo delle promesse A (lente B, run wf_f24a412a-336) e la radiografia del perimetro la danno grave. La FAQ (app/faq/page.tsx:56) promette «contanti o POS al rider», il fattorino non ha un POS e la carta è spenta: chi conta di pagare col POS alla porta non riesce a pagare. I Termini (app/terms/page.tsx:144-152) elencano carta, Apple Pay e Google Pay, e i contanti solo «dove indicato dal Venditore». C è su 0df7945.",
+      "chiuso_il": "2026-11-01 10:44",
+      "chiuso_da": "PR #273 · 221d768d",
+      "nota_riparazione": "Riparato nell ondata 6, nella correzione 5-6 e nel terzo giro (run wf_631e8390-ab7, wf_6cb735f1-94d e wf_3a764d6a-8fe), unito con la #273. — prova: cd /home/user/mycity && npx vitest run tests/unit/ai-negozi-diciamo-un-prezzo-solo.test.tsx tests/unit/il-cookie-di-accesso-dura-quanto-dice-la-policy.test.tsx tests/unit/i-termini-dicono-il-prezzo-come-si-paga-e-chi-risponde.test.tsx tests/unit/il-server-non-tiene-il-cookie-di-accesso-oltre-6-mesi.test.ts tests/unit/chi-ha-accettato-i-termini-vecchi-li-riaccetta-prima-di-pagare.test.ts tests/unit/la-riaccettazione-guarda-la-versione-a-verbale-non-la-data.test.ts tests/unit/il-link-della-password-si-apre-da-qualunque-dispositivo.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-6-app-terms-page-tsx: 5db2a134: regge (uscita 0); 70e4e1ac: regge (uscita 0); 8c13983a: rosso_strutturale (uscita 3); 775c31fb: regge (uscita 0)"
     },
     {
       "dimensione": "privacy-legale",
@@ -4942,13 +4949,16 @@
       "impatto": "Il negoziante scopre il costo vero solo a metà percorso, quindi la fiducia salta proprio al primo contatto. Che il prezzo sia dichiarato in modo chiaro è uno degli otto paletti. C'è anche un rischio legale: pubblicità ingannevole verso un'impresa, e un addebito ricorrente che i Termini non prevedono. In produzione la pagina Chi siamo mostra già oggi «0€ commissioni mensili per i negozi».",
       "fix": "Mettere il prezzo in un posto solo, accanto alla commissione in lib/constants (ABBONAMENTO_MENSILE_EUR = 50). Riscrivere le sei frasi leggendo quella costante, per esempio «50 € al mese più il 10% sul venduto che ti porta MyCity». Aggiungere l'abbonamento all'articolo commissioni dei Termini; la frase la verifica @legale-privacy. Se invece Nicola decide che l'abbonamento non parte al lancio, va spento il bottone «Attiva €50/mese» e va tolto dal modulo.",
       "fonte": "design",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "curl -s http://localhost:3100/sell | grep -oE '<meta name=\"description\" content=\"[^\"]*\"' ; node /tmp/claude-0/-home-user/df070674-8e02-5d4e-a9b6-d5d8cacdbadc/scratchpad/i18n-microcopy-giro2/pw.cjs (apre /faq, clicca «Quanto costa vendere?») ; grep -o 'commissioni mensili per i negozi' /tmp/claude-0/-home-user/df070674-8e02-5d4e-a9b6-d5d8cacdbadc/scratchpad/verifica-produzione-live/about.json (pagina di produzione catturata oggi alle 16:02)",
       "prova_tipo": "comando",
       "prova_eseguita": "/sell in locale: meta description «Apri gratis il tuo negozio online su MyCity e vendi ai clienti di Piacenza. Nessuna commissione mensile, consegna locale e pagamento alla consegna.» Nel browser la FAQ aperta mostra «Zero commissioni mensili. Si paga solo una piccola commissione sulle vendite effettivamente concluse.» La pagina /about di produzione contiene «0€» e «commissioni mensili per i negozi». Nel codice la rotta dell'abbonamento ha SELLER_SUBSCRIPTION_CENTS = 5000 e recurring interval 'month'. I Termini alle righe 254-258 nominano solo la commissione del 10%. · Verifica tecnica: Ho letto tutte le righe citate. curl su localhost:3100/sell restituisce la meta description «Apri gratis… Nessuna commissione mensile». Nell'HTML di produzione di /about c'è «commissioni mensili per i negozi», nell'HTML della FAQ «Zero commissioni mensili». spiegazioneCommissione() è usata in app/seller/earnings/page.tsx:349. Ho letto SubscriptionBanner.tsx («L'abbonamento venditore costa €50/mese», bottone «Attiva €50/mese») e la rotta checkout (5000 cent, interval month). Nel registro-fatti.json c'è pricing.abbonamento=50€/mese. Ho cercato 'abbonament|mensil' nei Termini: lì c'è solo MARKETPLACE_FEE_BPS.",
       "giro": 2,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-venditore, i18n-microcopy, pagamenti-stripe, produzione-live · doppioni uniti: N15, N98, N262 · id R58 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-venditore, i18n-microcopy, pagamenti-stripe, produzione-live · doppioni uniti: N15, N98, N262 · id R58 · si ripara: codice",
+      "chiuso_il": "2026-11-01 10:44",
+      "chiuso_da": "PR #273 · 221d768d",
+      "nota_riparazione": "Riparato nell ondata 6, nella correzione 5-6 e nel terzo giro (run wf_631e8390-ab7, wf_6cb735f1-94d e wf_3a764d6a-8fe), unito con la #273. — prova: cd /home/user/mycity && npx vitest run tests/unit/ai-negozi-diciamo-un-prezzo-solo.test.tsx tests/unit/il-cookie-di-accesso-dura-quanto-dice-la-policy.test.tsx tests/unit/i-termini-dicono-il-prezzo-come-si-paga-e-chi-risponde.test.tsx tests/unit/il-server-non-tiene-il-cookie-di-accesso-oltre-6-mesi.test.ts tests/unit/chi-ha-accettato-i-termini-vecchi-li-riaccetta-prima-di-pagare.test.ts tests/unit/la-riaccettazione-guarda-la-versione-a-verbale-non-la-data.test.ts tests/unit/il-link-della-password-si-apre-da-qualunque-dispositivo.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-6-app-terms-page-tsx: 5db2a134: regge (uscita 0); 70e4e1ac: regge (uscita 0); 8c13983a: rosso_strutturale (uscita 3); 775c31fb: regge (uscita 0)"
     },
     {
       "dimensione": "microcopy",
@@ -5204,14 +5214,17 @@
       "impatto": "I costi nascosti sono il trauma numero uno del bottegaio (CONTESTO §2.1: agenzie, commissioni del 15-30%). È la promessa che decide se si fida. C'è un rischio di pubblicità ingannevole verso professionisti (D.Lgs. 145/2007). C'è anche il dovere di condizioni chiare verso chi vende sulla piattaforma (Reg. UE 2019/1150).",
       "fix": "Una frase sola, generata dalle costanti (COMMISSIONE_PERCENTO e il canone) e usata in tutti e quattro i punti. Per esempio: «50 € al mese. Il 10% solo sugli ordini che ti portiamo noi, e serve a pagare la consegna. Sull'incasso che fai già: zero.» Va controllato anche il testo della fascia salvato nel costruttore della home in produzione, perché sovrascrive quello del codice.",
       "fonte": "design",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Nel browser, con Playwright su http://localhost:3100/ (oggi alle 17:18), il testo renderizzato contiene «Hai un negozio a Piacenza? Vendi online con zero commissioni.». Lettura del codice: sell/layout.tsx:6 «Apri gratis… Nessuna commissione mensile»; faq/page.tsx:118; commissione.ts:91 «Nessuna commissione mensile, nessun costo di iscrizione», mostrata in earnings/page.tsx:349; SellerApplicationForm.tsx:238 «Abbonamento €50/mese + commissione 10%»; subscription/checkout/route.ts:23 5000 centesimi al mese.",
       "prova_tipo": "browser",
       "prova_eseguita": "La frase «zero commissioni» compare nella home renderizzata adesso. Le altre tre frasi stanno nel codice alle righe citate e contraddicono i 50 €/mese che lo stesso codice addebita. · Verifica tecnica: Query di sola lettura su site_settings.home_site in produzione: sellerCta ha enabled false. Ho letto la home di produzione via Vercel web_fetch: grep «zero commissioni» = 0 e «Hai un negozio» = 0. Ho letto il codice: sell/layout.tsx:6, faq/page.tsx:117-118, earnings/commissione.ts:91, SellerApplicationForm.tsx:225 e 238 (il modulo è montato da app/sell/page.tsx:163), SubscriptionBanner.tsx:20-22 (non bloccante), subscription/checkout/route.ts:23 (5000). Nel registro-fatti ho letto pricing.abbonamento = 50€/mese e pricing.commissione.",
       "giro": 1,
       "verificato": true,
       "fonte_radiografia": "radiografia 2026-10-11 · corsie: i18n-microcopy, prodotto-completezza · doppioni uniti: N191 · id R221 · si ripara: codice",
-      "nota_riesame": "28/10 01:15: passata da minore a grave dopo il riesame del perimetro della fase 2 del lotto #262 (run wf_b9d92819-bde, 27/10 sera) (frontend-account-posta#6 dice grave). È una promessa pubblica falsa, su ogni pagina che la mostra. · 2026-10-28 22:30: Dal vaglio dell'ondata 10: la fascia per i negozianti in fondo alla home dice ancora «Vendi online con zero commissioni» (HomeSectionRenderer.tsx:387), e il segnaposto del pannello la suggerisce (components/admin/home/HomeSectionConfigForm.tsx:221). ATTENZIONE: il canone NON è sospeso nel codice, contro la scelta firmata il 26/10 (pricing.abbonamento): components/SellerApplicationForm.tsx:225,238,378 chiede ancora il consenso all'addebito di 50 euro al mese, components/seller/SubscriptionBanner.tsx:57,62 (mostrato a ogni negoziante non abbonato, app/seller/layout.tsx:163) dice «Attiva €50/mese», e app/api/seller/subscription/checkout/route.ts:23,93 addebita 5000 centesimi. Gemello: 248. · 2026-10-29 15:15: confermato dalla radiografia del perimetro delle promesse: il ripiego della fascia sellerCta in HomeSectionRenderer.tsx:390 dice «Vendi online con zero commissioni», mentre il carrello ora dice «a noi il 10%»."
+      "nota_riesame": "28/10 01:15: passata da minore a grave dopo il riesame del perimetro della fase 2 del lotto #262 (run wf_b9d92819-bde, 27/10 sera) (frontend-account-posta#6 dice grave). È una promessa pubblica falsa, su ogni pagina che la mostra. · 2026-10-28 22:30: Dal vaglio dell'ondata 10: la fascia per i negozianti in fondo alla home dice ancora «Vendi online con zero commissioni» (HomeSectionRenderer.tsx:387), e il segnaposto del pannello la suggerisce (components/admin/home/HomeSectionConfigForm.tsx:221). ATTENZIONE: il canone NON è sospeso nel codice, contro la scelta firmata il 26/10 (pricing.abbonamento): components/SellerApplicationForm.tsx:225,238,378 chiede ancora il consenso all'addebito di 50 euro al mese, components/seller/SubscriptionBanner.tsx:57,62 (mostrato a ogni negoziante non abbonato, app/seller/layout.tsx:163) dice «Attiva €50/mese», e app/api/seller/subscription/checkout/route.ts:23,93 addebita 5000 centesimi. Gemello: 248. · 2026-10-29 15:15: confermato dalla radiografia del perimetro delle promesse: il ripiego della fascia sellerCta in HomeSectionRenderer.tsx:390 dice «Vendi online con zero commissioni», mentre il carrello ora dice «a noi il 10%».",
+      "chiuso_il": "2026-11-01 10:44",
+      "chiuso_da": "PR #273 · 221d768d",
+      "nota_riparazione": "Riparato nell ondata 6, nella correzione 5-6 e nel terzo giro (run wf_631e8390-ab7, wf_6cb735f1-94d e wf_3a764d6a-8fe), unito con la #273. — prova: cd /home/user/mycity && npx vitest run tests/unit/ai-negozi-diciamo-un-prezzo-solo.test.tsx tests/unit/il-cookie-di-accesso-dura-quanto-dice-la-policy.test.tsx tests/unit/i-termini-dicono-il-prezzo-come-si-paga-e-chi-risponde.test.tsx tests/unit/il-server-non-tiene-il-cookie-di-accesso-oltre-6-mesi.test.ts tests/unit/chi-ha-accettato-i-termini-vecchi-li-riaccetta-prima-di-pagare.test.ts tests/unit/la-riaccettazione-guarda-la-versione-a-verbale-non-la-data.test.ts tests/unit/il-link-della-password-si-apre-da-qualunque-dispositivo.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-6-app-terms-page-tsx: 5db2a134: regge (uscita 0); 70e4e1ac: regge (uscita 0); 8c13983a: rosso_strutturale (uscita 3); 775c31fb: regge (uscita 0)"
     },
     {
       "dimensione": "microcopy",
@@ -30831,12 +30844,15 @@
       "titolo": "La cookie policy dice che il cookie di accesso dura una settimana, ma resta sul dispositivo 400 giorni",
       "severita": "grave",
       "dimensione": "privacy-legale",
-      "stato": "aperto",
+      "stato": "riparato",
       "file": "app/cookies/page.tsx:62 (riga sb-*-auth-token, durata «1 settimana») · lib/supabase/client.ts:17 (createBrowserClient senza opzioni) · middleware.ts:429-442 (createServerClient che riscrive i cookie di sessione) · node_modules/@supabase/ssr 0.5.2: dist/main/utils/constants.js:10 (maxAge 400 giorni) e dist/main/cookies.js:167 e :325 (maxAge imposto anche sopra cookieOptions)",
       "fonte": "preesistente, trovato dal riesame del perimetro della fase 2 del lotto #262 (run wf_b9d92819-bde, 27/10 sera), gruppi privacy-legale",
       "descrizione": "La tabella dei cookie tecnici dà a sb-*-auth-token, la sessione di Supabase Auth, una durata di «1 settimana». La libreria in uso, @supabase/ssr 0.5.2, scrive quel cookie con maxAge = 400 * 24 * 60 * 60 secondi, cioè 400 giorni. E lo impone anche sopra le opzioni passate dal codice (setCookieOptions = {...DEFAULT_COOKIE_OPTIONS, ...cookieOptions, maxAge: DEFAULT_COOKIE_OPTIONS.maxAge}). Né il client del browser né il middleware passano opzioni diverse. Il cookie resta quindi sul dispositivo fino a 400 giorni e si rinnova a ogni aggiornamento della sessione. Verifica in revisione: grep -n maxAge node_modules/@supabase/ssr/dist/main/utils/constants.js node_modules/@supabase/ssr/dist/main/cookies.js. Risultato: «maxAge: 400 * 24 * 60 * 60» e, nel ramo che scrive, «maxAge: utils_1.DEFAULT_COOKIE_OPTIONS.maxAge». Non verificato in un browser vero.",
       "impatto": "La durata vera è circa 57 volte quella dichiarata (400 giorni contro 7). Riguarda il cookie che ha ogni persona che ha fatto l'accesso. La durata è un'informazione obbligatoria (linee guida cookie del Garante 2021) ed è la prima cosa che si confronta col browser in un controllo. Una policy smentita qui rende poco credibile anche il resto.",
-      "fix": "Scrivere la durata vera: «fino a 400 giorni; si rinnova a ogni accesso e si cancella quando esci». Se si vuole una sessione più corta, la si imposta su Supabase con la scadenza per inattività, e la policy dichiara quella. Con @supabase/ssr 0.5.2 il maxAge del cookie non si cambia dalle opzioni. Prova, rossa oggi (400 giorni contro 1 settimana): un test che legge DEFAULT_COOKIE_OPTIONS.maxAge da @supabase/ssr e lo confronta con la durata scritta nella riga sb-*-auth-token della pagina /cookies."
+      "fix": "Scrivere la durata vera: «fino a 400 giorni; si rinnova a ogni accesso e si cancella quando esci». Se si vuole una sessione più corta, la si imposta su Supabase con la scadenza per inattività, e la policy dichiara quella. Con @supabase/ssr 0.5.2 il maxAge del cookie non si cambia dalle opzioni. Prova, rossa oggi (400 giorni contro 1 settimana): un test che legge DEFAULT_COOKIE_OPTIONS.maxAge da @supabase/ssr e lo confronta con la durata scritta nella riga sb-*-auth-token della pagina /cookies.",
+      "chiuso_il": "2026-11-01 10:44",
+      "chiuso_da": "PR #273 · 221d768d",
+      "nota_riparazione": "Riparato nell ondata 6, nella correzione 5-6 e nel terzo giro (run wf_631e8390-ab7, wf_6cb735f1-94d e wf_3a764d6a-8fe), unito con la #273. — prova: cd /home/user/mycity && npx vitest run tests/unit/ai-negozi-diciamo-un-prezzo-solo.test.tsx tests/unit/il-cookie-di-accesso-dura-quanto-dice-la-policy.test.tsx tests/unit/i-termini-dicono-il-prezzo-come-si-paga-e-chi-risponde.test.tsx tests/unit/il-server-non-tiene-il-cookie-di-accesso-oltre-6-mesi.test.ts tests/unit/chi-ha-accettato-i-termini-vecchi-li-riaccetta-prima-di-pagare.test.ts tests/unit/la-riaccettazione-guarda-la-versione-a-verbale-non-la-data.test.ts tests/unit/il-link-della-password-si-apre-da-qualunque-dispositivo.test.ts — mutazione: prova-rimessa sul ramo fix/ondata-6-app-terms-page-tsx: 5db2a134: regge (uscita 0); 70e4e1ac: regge (uscita 0); 8c13983a: rosso_strutturale (uscita 3); 775c31fb: regge (uscita 0)"
     },
     {
       "titolo": "La cookie policy, fra i trasferimenti fuori dall'Unione europea, non nomina PostHog, che la sua stessa tabella mette negli Stati Uniti",
@@ -36941,6 +36957,24 @@
       "file": "app/api/seller/apply/route.ts, riga 176: scrive tos_accepted_at ma nessuna riga privacy_terms in consent_log",
       "descrizione": "grep -n 'consent_log\\|privacy_terms' app/api/seller/apply/route.ts non trova niente. Con la regola nuova, alla prima pagina /seller il negozio approvato finisce su /accetta-condizioni (provato da cQA6B, test 1). È una domanda in più, e la candidatura non lascia prova della versione accettata.",
       "fonte": "terzo giro dei testi legali (run wf_3a764d6a-8fe), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "sicurezza-auth",
+      "reparto": "Sicurezza e accessi",
+      "severita": "grave",
+      "stato": "riparato",
+      "nato_oggi": true,
+      "titolo": "Dopo «Continua» la pagina dei Termini poteva portare fuori dal sito",
+      "file": "app/accetta-condizioni/page.tsx",
+      "descrizione": "La pagina «Ancora una cosa» prendeva la destinazione del ritorno dall'indirizzo senza controllarla. Adesso passa da safeInternalPath: si torna solo a una pagina del sito, altrimenti alla home.",
+      "fonte": "visto strada facendo nella richiesta dei Termini 3.0, 31/10/2026",
+      "prova": "cd /home/user/mycity && npx vitest run tests/unit/la-pagina-dei-termini-torna-solo-dentro-il-sito.test.tsx",
+      "prova_tipo": "test",
+      "prova_eseguita": "4 casi: rossa sul codice di prima, verde dopo; verde sul principale ecb8e2c0 il 1/11.",
+      "verificato": "2026-11-01 10:45",
+      "chiuso_il": "2026-11-01 10:45",
+      "chiuso_da": "PR #273 · 221d768d",
+      "nota_riparazione": "Riparato con 03bd4e50, unito con la #273."
     }
   ],
   "sync_scan": {
