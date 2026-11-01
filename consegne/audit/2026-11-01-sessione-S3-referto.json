@@ -634,6 +634,10 @@
   {
    "domanda": "Chiave di servizio, casella privacy o posta del supporto: quale configuriamo per far funzionare scarica-dati e cancellazione?",
    "raccomandazione": "La chiave di servizio (sblocca anche contatti e segnalazioni) più una casella privacy vera."
+  },
+  {
+   "domanda": "Completiamo allergeni e ingredienti dei 7 alimenti del fornaio prima di applicare la 195?",
+   "raccomandazione": "Sì: restano comprabili anche dopo, ma ogni modifica alle dichiarazioni o una ripubblicazione verrebbe rifiutata finché mancano."
   }
  ],
  "conto_token": {
@@ -825,6 +829,7 @@
    "tests/unit/il-caricamento-da-file-legge-l-excel-italiano.test.tsx: il file finto ora è un File vero (con il solo text() i byte erano già persi)",
    "tests/unit/la-decisione-sulla-segnalazione-manda-l-esito.test.tsx: vi.waitFor sulla scheda, sotto carico cadeva",
    "tests/sql/195_un_alimento_senza_ingredienti_non_si_pubblica.test.sql: al rifornimento il prodotto resta fuori vendita invece di un errore"
-  ]
+  ],
+  "dato_produzione": "1/11/2026: 7 prodotti in vendita su 9 sono alimenti senza allergeni né ingredienti; con la 195 corretta restano comprabili, ma vanno completati prima di ripubblicarli o cambiarne dichiarazioni o categoria."
  }
 }

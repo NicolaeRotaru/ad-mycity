@@ -70,3 +70,5 @@ Il collaudo finale aveva bocciato tre riparazioni. Le ho corrette in un giro sol
 3. **L'esito delle segnalazioni parte davvero** dopo «Registra la decisione» nella pagina dell'amministratore.
 
 Prove: la verifica completa è verde (7460 prove) e le prove SQL sulla copia locale sono verdi. La prova dell'esito delle segnalazioni l'ho controllata a mano: la prova automatica che toglie le correzioni non ne riconosce il motivo.
+
+**Da sapere prima di applicare la 195.** Il 1/11/2026 erano in vendita 9 prodotti. In 7 di questi, quasi tutto il catalogo del fornaio, mancano sia gli allergeni sia gli ingredienti. Con la 195 corretta questi 7 restano comprabili e annullabili, e il negozio può cambiarne il prezzo. Però, prima di rimetterli in vendita o di cambiarne le dichiarazioni o la categoria, vanno completati allergeni e ingredienti: altrimenti il salvataggio viene rifiutato. La query per contarli è in cima alla migrazione.
