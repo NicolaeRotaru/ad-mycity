@@ -2,12 +2,12 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale, analisi completa dei lavori di Nicola del 25-26/10 (consegne/ad/2026-10-26-lavori-di-nicola.md)
-aggiornato: 2026-10-30 01:55
+aggiornato: 2026-11-01 12:25
 ---
 
 # ✅ Cose che devo fare io (Nicola)
 
-> **In due righe.** Sono 57 voci in fila, dalla più urgente alla meno; tre le hai fatte il 28/10. Oggi ne servono quattro: due scelte da un minuto, un comando da incollare in Supabase e il cambio delle chiavi del database.
+> **In due righe.** Sono 75 voci in fila, dalla più urgente alla meno: 9 fatte, 66 aperte (conto del 1/11, con le 5 di lunedì 2/11). L'intestazione diceva 57 perché non contava le voci aggiunte dopo il 28/10. Si parte dalla sezione 00: lunedì 2/11 decide la data dell'apertura.
 
 ## In parole semplici
 
@@ -26,6 +26,17 @@ Comincia dalla tappa 1. Il testo pronto del messaggio delle firme sta nel refert
 Stripe, Hetzner, Resend, Netsons e le impostazioni di accesso di Supabase non li vedo da qui. I minuti sono stime, non misure.
 
 ---
+
+## 00 · Lunedì 2/11, la giornata che decide la data
+
+Il sito dev'essere pronto entro il 15/11 e si apre solo con la carta accesa. La carta chiede il conto Stripe di MyCity, e il conto chiede la partita IVA. Per questo lunedì viene prima di tutto. Il perché sta in `consegne/strategia/2026-11-01-conversazione-base.md`.
+
+- [ ] 🔴 Dal commercialista: decidi la partita IVA e la PEC. Se aspetti, mancano il conto Stripe di MyCity e il tuo nome sul sito, quindi niente apertura.
+- [ ] 🔴 Cambia con me la chiave del database (la «203» qui sotto, 45 minuti di fila). Subito dopo, la decisione sul Garante col DPO.
+- [ ] 🔴 Metti le chiavi del sito, una dopo l'altra, come dice la riga sotto.
+  → segreti di GitHub · pulsante delle migrazioni · chiave di servizio su Vercel · Resend col mittente e la casella info@ · primo giro a mano dei lavori automatici con me · poi `LAVORI_A_ORARIO=accesi`.
+- [ ] 🔴 Apri il conto Stripe di MyCity appena hai la partita IVA; lo stesso giorno il fornaio finisce il suo.
+- [ ] 🟡 Prima del 15/11: la borsa termica, il testo della home, la cancellazione del Panificio Demo.
 
 ## 0 · Nuove del 29-30/10 — il prezzo, i costi e la home
 

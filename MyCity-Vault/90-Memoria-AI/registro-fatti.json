@@ -1,8 +1,18 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-10-31 16:13",
+  "aggiornato": "2026-11-01 12:19",
   "fatti": [
+    {
+      "id": "ad.uso-e-crediti",
+      "nome": "Come lavora l'AD e quanto consuma",
+      "valore": "Il server dell'AD si riaccende quando il sito non ha più difetti, perché anche Pannello, AD e senior hanno molti errori da sistemare; poi resta sempre acceso. Fino ad allora guardia e conto della sera girano nel Pannello. Si resta sul piano Max attuale e non si paga MAI un'API di IA: le 18 funzioni IA del sito restano spente e quel lavoro lo fa l'AD. Regole del consumo: prima il programma, poi l'IA; tutti i negozi in un giro solo; modello piccolo per i lavori semplici, grande per diagnosi, strategia e collaudi; si rifà un lavoro solo se qualcosa è cambiato; ogni negozio ha un tetto di consumo al mese, misurato dal primo e letto nel Pannello. Da solo l'AD fa: diagnosi dei guasti, analisi dei negozi, piano del mattino e report della sera, ricerca settimanale su concorrenti ed eventi. Quando deve scegliere: prima il sito che vende, poi la macchina.",
+      "fonte": "Nicola, conversazione del 2026-11-01 mattina (fino alle 12:18), sessione «cosa serve per essere pronti»",
+      "aggiornato": "2026-11-01 12:19",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
     {
       "id": "architettura.tre-macchine",
       "nome": "Architettura bersaglio: le tre macchine (Centro, Piazza, Bottega)",
@@ -22,6 +32,16 @@
           "chiusa": "2026-08-03 22:22"
         }
       ],
+      "esenzioni": []
+    },
+    {
+      "id": "avvisi.negozio",
+      "nome": "Come il negozio sa dell'ordine",
+      "valore": "Al lancio il negozio sa dell'ordine per email, e Nicola telefona al fornaio a ogni ordine finché non c'è l'app. Poi un'app Android minima — mostra solo gli ordini e il tasto «Accetto» — che suona come una sveglia anche a schermo spento finché il negozio accetta; dopo 5 minuti senza risposta suona la stessa app sul telefono di Nicola, che riceve anche un avviso normale a ogni ordine accettato. L'app arriva dopo il 15/11. Distribuzione: file APK installato alla visita fino a 10 negozi; intanto il Play Store con conto personale (il test chiuso con 12 persone per 14 giorni parte dopo l'apertura); dall'11° negozio il Play Store; Apple per ultima. Il fornaio e Nicola hanno Android. Tutto il resto il negozio lo vede sul sito, dove approva le anteprime dopo un avviso via app ed email. Il cliente riceve gli avvisi per email. Gli ordini che il fornaio prende oggi per telefono e WhatsApp entrano col link «ordina da me» che lui manda ai suoi clienti.",
+      "fonte": "Nicola, conversazione del 2026-11-01 mattina (fino alle 12:18), sessione «cosa serve per essere pronti»",
+      "aggiornato": "2026-11-01 12:19",
+      "storia": [],
+      "caccia": [],
       "esenzioni": []
     },
     {
@@ -234,6 +254,16 @@
       "valore": "Categorie al lancio, firmate da Nicola il 2026-10-29 00:05: niente abbigliamento per ora; tutto il resto sì, per i piccoli negozi che Glovo e Deliveroo non guardano: spesa fresca (pane e forno, frutta e verdura, macelleria, salumi e formaggi, latticini, gastronomia fresca, pasta fresca, dispensa), cura della persona, parafarmacia, regali e ricorrenze. L'albero va reso più ampio, con più sottocategorie di quello proposto il 29/10 alle 00:40. Pane Quotidiano vende pane, verdura fresca, alimentari e cura della persona.",
       "fonte": "Nicola in chat, 2026-10-29 00:05 (carta #219, punto 1)",
       "aggiornato": "2026-10-29 00:06",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "consegna.capienza",
+      "nome": "Fasce coperte e ordini per fascia",
+      "valore": "Nicola copre tutte e 7 le fasce, tutti i giorni (le fasce restano filtrate dagli orari del negozio). All'inizio il sito accetta al massimo 5 ordini per fascia, e Nicola può cambiare il numero dal pannello; oggi il sito non ha nessun limite. Se Nicola non può consegnare, consegna un'altra persona — un familiare o un fattorino — e in tutti e due i casi vale come fattorino (account, compenso, posizione INAIL prima della prima consegna: logistica.fattorino-esterno).",
+      "fonte": "Nicola, conversazione del 2026-11-01 mattina (fino alle 12:18), sessione «cosa serve per essere pronti»",
+      "aggiornato": "2026-11-01 12:19",
       "storia": [],
       "caccia": [],
       "esenzioni": []
@@ -469,6 +499,16 @@
       ]
     },
     {
+      "id": "controllo.tre-livelli",
+      "nome": "Chi si accorge dei guasti",
+      "valore": "Tre livelli che si guardano a vicenda. 1) Il sito fa suonare i telefoni in pochi secondi, e ha il tasto «ferma gli ordini». 2) Il Pannello, su un progetto Vercel separato dal sito, fa la guardia ogni 5 minuti senza IA: prova home, cassa e login, legge gli errori nuovi di Sentry, fa girare le regole sui dati; scrive negli Avvisi e manda una notifica al telefono Android di Nicola; ha anche lui il tasto «ferma gli ordini». 3) L'AD sul server ragiona con calma: conto della sera, diagnosi accurata dei guasti (dove, perché, cosa colpisce, come ripararlo), analisi dei negozi. La riparazione la fa Nicola con Claude Code. Le paure da coprire per prime: soldi sbagliati, il negozio che non sa dell'ordine, pagine con errori.",
+      "fonte": "Nicola, conversazione del 2026-11-01 mattina (fino alle 12:18), sessione «cosa serve per essere pronti»",
+      "aggiornato": "2026-11-01 12:19",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
       "id": "eventi.venerdi-piacentini",
       "nome": "Prossimi Venerdì Piacentini",
       "valore": "2026-07-10 e 2026-07-17 (ultima data)",
@@ -658,6 +698,16 @@
           "dal": "2026-10-31 08:24"
         }
       ],
+      "esenzioni": []
+    },
+    {
+      "id": "lancio.data",
+      "nome": "Data e condizioni dell'apertura",
+      "valore": "Il sito dev'essere PRONTO entro domenica 15/11/2026: è la data entro cui tutto funziona, non per forza il giorno del primo ordine (Pane Quotidiano la domenica è chiuso). «Pronto» vuol dire aperto alla città: chiunque a Piacenza ordina senza che Nicola segua ogni ordine. Si apre SOLO con contanti E carta accesi: se Stripe non ha verificato i conti di MyCity e del negozio, la data si sposta (Nicola: «Aspetto la carta»). Si apre anche con un negozio solo, se gli altri non ci sono. I primi clienti sono quelli di Pane Quotidiano: il fornaio lo dice al banco, e in negozio c'è il cartello col QR. Nessuna prova generale: la prova è il primo ordine vero.",
+      "fonte": "Nicola, conversazione del 2026-11-01 mattina (fino alle 12:18), sessione «cosa serve per essere pronti»",
+      "aggiornato": "2026-11-01 12:19",
+      "storia": [],
+      "caccia": [],
       "esenzioni": []
     },
     {
@@ -919,6 +969,26 @@
       "esenzioni": []
     },
     {
+      "id": "negozi.ingresso",
+      "nome": "Come entrano i negozi nuovi",
+      "valore": "Dopo l'apertura, 5 o più negozi nuovi a settimana, a partire dal fresco vicino a Pane Quotidiano (frutta e verdura, macelleria, gastronomia). Prima delle visite la squadra mappa tutti i negozi di fresco entro 5 km e li mette in fila per chi conviene di più; dossier completo sui primi 10: chi è, cosa vende e a quanto, cosa ci guadagna LUI visto dal suo punto di vista, come convincerlo. Dopo l'entrata: numeri ogni settimana a costo zero, esperti ogni mese o subito se il negozio cala. Gli uffici e le aziende vicine partono subito dopo l'apertura. Niente contenuti social per i negozi, per ora.",
+      "fonte": "Nicola, conversazione del 2026-11-01 mattina (fino alle 12:18), sessione «cosa serve per essere pronti»",
+      "aggiornato": "2026-11-01 12:19",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "negozi.prima-ondata",
+      "nome": "Gli strumenti del negozio nella prima ondata",
+      "valore": "Nella prima ondata: «finito per oggi» con un tocco, che riparte da solo la mattina, e «chiuso fino al…» con un tocco; prodotti in un attimo — una foto e l'AD scrive la scheda completa e professionale, o il codice a barre con la banca dati gratuita Open Food Facts; le prime foto le fa Nicola alla visita, poi il negoziante; prezzo e allergeni li conferma sempre il negoziante; il report del lunedì in euro e la lista dei suoi clienti da scaricare. Fuori dalla prima ondata: busta di fine giornata, lista di produzione, caparra, previsione di quanto fare, cartello degli allergeni, ordini che si ripetono, prenotazioni. Contributi: oggi nessun bando è aperto, quindi non si promettono; l'AD li segue e prepara la domanda quando ne esce uno.",
+      "fonte": "Nicola, conversazione del 2026-11-01 mattina (fino alle 12:18), sessione «cosa serve per essere pronti»",
+      "aggiornato": "2026-11-01 12:19",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
       "id": "negozio.contatto-dalla-scheda",
       "nome": "Contatto col negozio dalla scheda prodotto",
       "valore": "Il pulsante «Contatta il negozio» della scheda prodotto diventa WhatsApp o telefono verso il numero del negozio: niente chat dentro il sito.",
@@ -1113,9 +1183,9 @@
     {
       "id": "pricing.commissione",
       "nome": "Commissione piattaforma MyCity",
-      "valore": "10% sul venduto tramite la piattaforma, scritto «IVA inclusa» (scelta 13 della carta #209, firmata il 2026-10-26; l'IVA la conferma il commercialista), e serve a pagare la consegna: non è un margine sullo scontrino che il negozio faceva già. Nicola, 11/8/2026. Regge insieme al paletto «zero commissioni» proprio per questo — la percentuale sta solo sugli ordini portati da MyCity, cioè su denaro nuovo, e copre il costo di portarli. In un pitch va detta così, mai la sola frase «zero commissioni».",
-      "fonte": "Nicola, chat 2026-10-26 ~08:55, «ok 209, parti» e risposte brevi",
-      "aggiornato": "2026-10-26 09:04",
+      "valore": "10% sul venduto tramite la piattaforma, su TUTTI gli ordini: anche quelli dei clienti che il negozio aveva già (arrivati dal suo cartello col QR, dal link «ordina da me» o che prima ordinavano per telefono) e anche sul ritiro in negozio. Copre tutto il servizio — sito, cassa, consegna, strumenti, clienti nuovi — non solo la consegna. Nicola, 1/11/2026: «il 10% non serve a ripagare solo la consegna, ma anche tutto quello che c'è dietro» e, alla domanda sui clienti già suoi, «10% su tutto». È una scelta firmata che cambia il paletto 1 nella forma di agosto. La dicitura «IVA inclusa» resta sospesa finché il commercialista non conferma il regime: col forfettario la commissione non ha IVA. Sui ritiri pagati in contanti al banco il 10% si toglie dal bonifico del lunedì al negozio; se non basta, va nella fattura del mese insieme all'abbonamento.",
+      "fonte": "Nicola, conversazione del 2026-11-01 mattina (fino alle 12:18), sessione «cosa serve per essere pronti»",
+      "aggiornato": "2026-11-01 12:18",
       "storia": [
         {
           "valore": "10% sul venduto",
@@ -1124,6 +1194,10 @@
         {
           "valore": "10% sul venduto tramite la piattaforma, e serve a pagare la consegna: non è un margine sullo scontrino che il negozio faceva già. Nicola, 11/8/2026. Regge insieme al paletto «zero commissioni» proprio per questo — la percentuale sta solo sugli ordini portati da MyCity, cioè su denaro nuovo, e copre il costo di portarli. In un pitch va detta così, mai la sola frase «zero commissioni».",
           "fino_a": "2026-10-26 09:04"
+        },
+        {
+          "valore": "10% sul venduto tramite la piattaforma, scritto «IVA inclusa» (scelta 13 della carta #209, firmata il 2026-10-26; l'IVA la conferma il commercialista), e serve a pagare la consegna: non è un margine sullo scontrino che il negozio faceva già. Nicola, 11/8/2026. Regge insieme al paletto «zero commissioni» proprio per questo — la percentuale sta solo sugli ordini portati da MyCity, cioè su denaro nuovo, e copre il costo di portarli. In un pitch va detta così, mai la sola frase «zero commissioni».",
+          "fino_a": "2026-11-01 12:18"
         }
       ],
       "caccia": [
@@ -1151,6 +1225,10 @@
           "pattern": "10% sul venduto tramite la piattaforma, e serve a pagare la consegna: non è un margine sullo scontrino che il negozio faceva già. Nicola, 11/8/2026. Regge insieme al paletto «zero commissioni» proprio per questo — la percentuale sta solo sugli ordini portati da MyCity, cioè su denaro nuovo, e copre il costo di portarli. In un pitch va detta così, mai la sola frase «zero commissioni».",
           "dal": "2026-10-26 09:04",
           "chiusa": "2026-10-26 09:04"
+        },
+        {
+          "pattern": "10% sul venduto tramite la piattaforma, scritto «IVA inclusa» (scelta 13 della carta #209, firmata il 2026-10-26; l'IVA la conferma il commercialista), e serve a pagare la consegna: non è un margine sullo scontrino che il negozio faceva già. Nicola, 11/8/2026. Regge insieme al paletto «zero commissioni» proprio per questo — la percentuale sta solo sugli ordini portati da MyCity, cioè su denaro nuovo, e copre il costo di portarli. In un pitch va detta così, mai la sola frase «zero commissioni».",
+          "dal": "2026-11-01 12:18"
         }
       ],
       "esenzioni": [
@@ -1217,11 +1295,21 @@
     {
       "id": "prodotto.paletti",
       "nome": "Gli otto paletti non negoziabili del prodotto",
-      "valore": "Otto regole che nessuna funzione può rompere (CONTESTO_BUSINESS.md paragrafo 4): 1) zero commissioni sullo scontrino che il negozio faceva già — canone fisso, eventuali fee solo sul denaro nuovo (welfare, gift card); 2) i clienti sono del negozio: contatti sempre visibili ed esportabili, mai disintermediazione stile Glovo o TheFork; 3) attrito zero e anteprima-poi-approva su WhatsApp, nessuna app nuova da imparare; 4) primo risultato in 2-4 settimane, misurato in cassa e comunicato; 5) onboarding fatto dalla piattaforma, non dal negoziante: il self-service resta inutilizzato; 6) report in linguaggio di cassa (incassi, clienti, ordini), mai like o impression o follower; 7) soldi in sola lettura dentro il perimetro Stripe Connect e Issuing, niente moneta alternativa, gift card multi-negozio da validare con un legale prima di scalare; 8) su WhatsApp mai spam: solo messaggi agganciati a un motivo vero, e le disiscrizioni sono un indicatore di salute critico. Se una richiesta ne rompe uno: fermarsi e dirlo a Nicola PRIMA di costruire.",
-      "fonte": "Nicola — CONTESTO_BUSINESS.md, consegnato in chat 2026-08-11 02:12 insieme alle due ricerche archiviate in docs/ricerca/ (paragrafo 4)",
-      "aggiornato": "2026-08-11 02:18",
-      "storia": [],
-      "caccia": [],
+      "valore": "Le regole che nessuna funzione può rompere (CONTESTO_BUSINESS.md paragrafo 4), come le ha riscritte Nicola il 1/11/2026: 1) il 10% sul venduto si applica a tutti gli ordini che passano dalla piattaforma, anche dei clienti che il negozio aveva già, e copre il servizio (cambiata il 1/11: prima era «zero commissioni sullo scontrino che il negozio faceva già»); 2) i clienti sono del negozio: contatti sempre visibili ed esportabili, mai disintermediazione stile Glovo o TheFork; 3) attrito zero: il negozio ha un'app minima che mostra SOLO gli ordini, e tutto il resto lo vede sul sito, dove approva le anteprime dopo un avviso via app ed email (cambiata il 1/11: prima era «anteprima su WhatsApp, nessuna app nuova»); 4) primo risultato in 2-4 settimane, misurato in cassa e comunicato; 5) onboarding fatto dalla piattaforma, non dal negoziante; 6) report in linguaggio di cassa (incassi, clienti, ordini), mai like o impression o follower; 7) soldi dentro il perimetro Stripe Connect, niente moneta alternativa, gift card multi-negozio da validare con un legale prima di scalare — con l'eccezione già firmata dei contanti che incassa Nicola (pagamenti.al-lancio); 8) su WhatsApp mai spam: solo messaggi agganciati a un motivo vero. Se una richiesta ne rompe uno: fermarsi e dirlo a Nicola PRIMA di costruire.",
+      "fonte": "Nicola, conversazione del 2026-11-01 mattina (fino alle 12:18), sessione «cosa serve per essere pronti»; testo originale: CONTESTO_BUSINESS.md paragrafo 4 (11/8/2026)",
+      "aggiornato": "2026-11-01 12:18",
+      "storia": [
+        {
+          "valore": "Otto regole che nessuna funzione può rompere (CONTESTO_BUSINESS.md paragrafo 4): 1) zero commissioni sullo scontrino che il negozio faceva già — canone fisso, eventuali fee solo sul denaro nuovo (welfare, gift card); 2) i clienti sono del negozio: contatti sempre visibili ed esportabili, mai disintermediazione stile Glovo o TheFork; 3) attrito zero e anteprima-poi-approva su WhatsApp, nessuna app nuova da imparare; 4) primo risultato in 2-4 settimane, misurato in cassa e comunicato; 5) onboarding fatto dalla piattaforma, non dal negoziante: il self-service resta inutilizzato; 6) report in linguaggio di cassa (incassi, clienti, ordini), mai like o impression o follower; 7) soldi in sola lettura dentro il perimetro Stripe Connect e Issuing, niente moneta alternativa, gift card multi-negozio da validare con un legale prima di scalare; 8) su WhatsApp mai spam: solo messaggi agganciati a un motivo vero, e le disiscrizioni sono un indicatore di salute critico. Se una richiesta ne rompe uno: fermarsi e dirlo a Nicola PRIMA di costruire.",
+          "fino_a": "2026-11-01 12:18"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "Otto regole che nessuna funzione può rompere (CONTESTO_BUSINESS.md paragrafo 4): 1) zero commissioni sullo scontrino che il negozio faceva già — canone fisso, eventuali fee solo sul denaro nuovo (welfare, gift card); 2) i clienti sono del negozio: contatti sempre visibili ed esportabili, mai disintermediazione stile Glovo o TheFork; 3) attrito zero e anteprima-poi-approva su WhatsApp, nessuna app nuova da imparare; 4) primo risultato in 2-4 settimane, misurato in cassa e comunicato; 5) onboarding fatto dalla piattaforma, non dal negoziante: il self-service resta inutilizzato; 6) report in linguaggio di cassa (incassi, clienti, ordini), mai like o impression o follower; 7) soldi in sola lettura dentro il perimetro Stripe Connect e Issuing, niente moneta alternativa, gift card multi-negozio da validare con un legale prima di scalare; 8) su WhatsApp mai spam: solo messaggi agganciati a un motivo vero, e le disiscrizioni sono un indicatore di salute critico. Se una richiesta ne rompe uno: fermarsi e dirlo a Nicola PRIMA di costruire.",
+          "dal": "2026-11-01 12:18"
+        }
+      ],
       "esenzioni": []
     },
     {
@@ -1282,6 +1370,26 @@
       ]
     },
     {
+      "id": "rischi.scelti-al-lancio",
+      "nome": "Rischi che Nicola ha scelto di correre al lancio",
+      "valore": "Scelti da Nicola il 1/11/2026, dopo averli letti: l'avvocato rilegge Termini, contratto col negozio e contanti incassati per conto del negozio DOPO il lancio; il corso HACCP e la polizza infortuni più la responsabilità civile della bici arrivano DOPO, subito c'è solo la borsa termica (la prima impressione al cliente; finanza.soglia-costi-extra); la chiave del database esposta si cambia lunedì 2/11, e la decisione sul Garante della privacy arriva dopo il cambio della chiave, anche se la scadenza del 27/10 è già passata. L'AD li tiene scritti come scelte, non come dimenticanze, e li ripropone quando arrivano gli ordini.",
+      "fonte": "Nicola, conversazione del 2026-11-01 mattina (fino alle 12:18), sessione «cosa serve per essere pronti»",
+      "aggiornato": "2026-11-01 12:19",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "ritiro.in-negozio",
+      "nome": "Ritiro in negozio",
+      "valore": "Il ritiro in negozio è acceso dal lancio. Per il cliente è gratis, senza costo di consegna (scelta dell'AD, su «decidi tu» di Nicola: meno consegne per Nicola, meno fatica per il cliente, MyCity prende comunque il 10%). Il cliente paga con carta online, oppure in contanti al banco. Sui contanti al banco il 10% di MyCity si compensa sul bonifico del lunedì al negozio; se in una settimana non basta, il resto va nella fattura del mese con l'abbonamento.",
+      "fonte": "Nicola, conversazione del 2026-11-01 mattina (fino alle 12:18), sessione «cosa serve per essere pronti»",
+      "aggiornato": "2026-11-01 12:19",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
       "id": "sensori.posthog.project_id",
       "nome": "sensori.posthog.project_id",
       "valore": "495230 — «Default project» account US (PostHog Impostazioni → Project); usato da Pannello Radiografia via POSTHOG_PROJECT_ID su Vercel",
@@ -1305,6 +1413,16 @@
           "chiusa": "2026-07-20 20:21"
         }
       ],
+      "esenzioni": []
+    },
+    {
+      "id": "soldi.conto-della-sera",
+      "nome": "Il conto dei soldi di ogni sera",
+      "valore": "Ogni sera alle 21:30 un programma senza IA, quindi a zero crediti, legge gli ordini veri e fa il conto della giornata: venduto, contanti incassati, bonifici da fare ai negozi, compensazioni del 10% sui ritiri pagati al banco. Il senior della contabilità entra solo se i numeri non tornano. Nicola lo legge nel Pannello, con una notifica sul telefono.",
+      "fonte": "Nicola, conversazione del 2026-11-01 mattina (fino alle 12:18), sessione «cosa serve per essere pronti»",
+      "aggiornato": "2026-11-01 12:19",
+      "storia": [],
+      "caccia": [],
       "esenzioni": []
     },
     {
@@ -1402,11 +1520,25 @@
     {
       "id": "strategia.segmenti-onboarding",
       "nome": "Calendario dei segmenti da aprire (set-dic 2026)",
-      "valore": "SETTEMBRE 2026 — fresco (frutta e verdura, panetterie, gastronomie, macellerie): primo valore = anti-spreco + richiami su WhatsApp, pre-ordini per le macellerie; prova richiesta = box vendute e clienti richiamati. OTTOBRE — ottiche, estetiste, mercato coperto: primo valore = prenotazioni + promemoria + recupero dei clienti persi; prova = meno buchi in agenda. NOVEMBRE — regali (enoteche, fiorai, cartolerie) e PMI strutturate: primo valore = gift card cittadina, regali aziendali, welfare territoriale; prova = primo ordine welfare o gift card incassato. DICEMBRE — stop all'onboarding: si consolida e si rinnova. Esclusi per decisione di Nicola: ristoranti, catene e franchising; pescherie in fase 2.",
-      "fonte": "Nicola — CONTESTO_BUSINESS.md, consegnato in chat 2026-08-11 02:12 insieme alle due ricerche archiviate in docs/ricerca/ (paragrafo 6)",
-      "aggiornato": "2026-08-11 02:18",
-      "storia": [],
-      "caccia": [],
+      "valore": "SETTEMBRE 2026 — fresco (frutta e verdura, panetterie, gastronomie, macellerie): primo valore = anti-spreco + richiami, pre-ordini per le macellerie. OTTOBRE — ottiche, estetiste, mercato coperto: prenotazioni, promemoria, recupero dei clienti persi. NOVEMBRE — regali e PMI (saltato: calendario.novembre-regali). DICEMBRE — si continua a far entrare negozi: Nicola il 1/11/2026 ha tolto lo «stop all'onboarding» di dicembre, che non aveva fonte nelle due ricerche (la ricerca sui negozianti ha solo tre finestre: settembre, ottobre, novembre) — «toglila». Esclusi per decisione di Nicola: ristoranti, catene e franchising; pescherie in fase 2. Il ritmo vero dopo l'apertura sta in negozi.ingresso.",
+      "fonte": "Nicola, conversazione del 2026-11-01 mattina (fino alle 12:18), sessione «cosa serve per essere pronti»",
+      "aggiornato": "2026-11-01 12:18",
+      "storia": [
+        {
+          "valore": "SETTEMBRE 2026 — fresco (frutta e verdura, panetterie, gastronomie, macellerie): primo valore = anti-spreco + richiami su WhatsApp, pre-ordini per le macellerie; prova richiesta = box vendute e clienti richiamati. OTTOBRE — ottiche, estetiste, mercato coperto: primo valore = prenotazioni + promemoria + recupero dei clienti persi; prova = meno buchi in agenda. NOVEMBRE — regali (enoteche, fiorai, cartolerie) e PMI strutturate: primo valore = gift card cittadina, regali aziendali, welfare territoriale; prova = primo ordine welfare o gift card incassato. DICEMBRE — stop all'onboarding: si consolida e si rinnova. Esclusi per decisione di Nicola: ristoranti, catene e franchising; pescherie in fase 2.",
+          "fino_a": "2026-11-01 12:18"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "DICEMBRE — stop all'onboarding",
+          "dal": "2026-11-01 12:18"
+        },
+        {
+          "pattern": "SETTEMBRE 2026 — fresco (frutta e verdura, panetterie, gastronomie, macellerie): primo valore = anti-spreco + richiami su WhatsApp, pre-ordini per le macellerie; prova richiesta = box vendute e clienti richiamati. OTTOBRE — ottiche, estetiste, mercato coperto: primo valore = prenotazioni + promemoria + recupero dei clienti persi; prova = meno buchi in agenda. NOVEMBRE — regali (enoteche, fiorai, cartolerie) e PMI strutturate: primo valore = gift card cittadina, regali aziendali, welfare territoriale; prova = primo ordine welfare o gift card incassato. DICEMBRE — stop all'onboarding: si consolida e si rinnova. Esclusi per decisione di Nicola: ristoranti, catene e franchising; pescherie in fase 2.",
+          "dal": "2026-11-01 12:18"
+        }
+      ],
       "esenzioni": []
     },
     {
