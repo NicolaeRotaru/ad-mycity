@@ -1,8 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-11-01 09:57
+aggiornato: 2026-11-01 20:08
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> ✅ **2026-11-01 20:08 — La #280 è unita: nel registro 46 difetti seri chiusi su 84.**
+>
+> Hai unito la #280 alle 18:17 e la memoria #917 alle 18:16. Prima di scrivere ho fatto ricontrollare ogni chiusura sul codice unito: il 51 che ti avevo detto era troppo, perché alcune chiusure coprivano solo un pezzo del difetto. Adesso i tuoi passi sono: dichiarazioni dei 7 alimenti, pulsante delle migrazioni, Supabase, segreti di Vercel.
+>
+> Nel registro del sito restano aperte 4 voci bloccanti, 35 gravi e 957 minori.
 
 > 📜 **2026-11-01 09:57 — Le ondate 5 e 6 sono dentro. I Termini 3.0 aspettano la tua rilettura.**
 >
