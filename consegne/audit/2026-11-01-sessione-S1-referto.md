@@ -51,3 +51,9 @@ Cinque decisioni, che si leggono anche nel referto JSON (`scelte_per_nicola`):
 - **Il giro di correzione dell'ondata 2.** Ha chiuso un grave che il collaudo aveva trovato nella cassa. I minori nati e i vecchi visti sono nel JSON.
 - **Il cancello dello stop.** Segnala che lo strumento Workflow non ha una guardia. Serve un freno in `.claude/settings.json` o una riga in ESENZIONI, con la firma di Nicola: non l'ho toccato.
 - **Due file di prova vecchi modificati.** `tests/unit/l-ordine-con-un-appuntamento-gia-passato.test.ts`: regex allargata, resta rossa se si toglie lo spostamento. La prova SQL 08 della prima ondata è stata rinominata in 44 e usa uno stato d'ordine permesso.
+
+## Correzione dopo il collaudo finale (2026-11-01 15:20)
+Il collaudo finale della sesta sessione ha bocciato un solo pacchetto: il rimborso doppio dei resi, nel caso di un ordine pagato col credito MyCity. La #278 aveva chiuso solo la carta. Esempio: reso da 20 €, il credito esce, si perde la scrittura sul reso. Ai passi normali l'ordine contava 40 € su 20 usciti, e al negozio si toglievano 36 € invece di 18.
+La correzione sta nella richiesta https://github.com/NicolaeRotaru/mycity/pull/282. Prima di segnare il rimborso si legge il diario del credito con la stessa chiave: se il credito c'è già e l'ordine lo conta, non si rifà niente.
+Prove: la prova del collaudatore, rinominata e allargata. Copre 8 € e 35 €, il doppio tocco e due negozi. Una prova nuova sul carrello di due negozi, con 20 € e 25 € rimborsati sull'altro ordine, chiude il buco nel filtro dell'ordine. La prova rimessa regge. Il controllo completo è verde: 7462 prove passate, 1 saltata.
+Cosa resta: un ordine con un altro rimborso, e insieme un credito uscito ma non contato, va ancora avanti come prima. È il guasto doppio già dichiarato.

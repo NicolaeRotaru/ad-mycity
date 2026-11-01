@@ -526,5 +526,16 @@
    "file": "lib/ordini/veloce-non-confermata.ts",
    "esito": "nessuna modifica: la frase dice già «puoi annullarlo senza costi dalla sua pagina finché il negozio non lo conferma» (riga 131), ed è vero: la rotta di annullo accetta solo ordini NEW e rimborsa per intero. La copre tests/unit/il-freno-della-veloce-dice-il-vero-a-chi-deve-saperlo.test.ts"
   }
- ]
+ ],
+ "correzione": {
+  "pr": "https://github.com/NicolaeRotaru/mycity/pull/282",
+  "commit": "0d94eab",
+  "base": "fb74b09",
+  "pacchetto": "lib/stripe/payout.ts",
+  "chiave": "pagamenti-stripe|dopo un guasto, chiudere il reso con i passi normali registra due volte lo stesso rimborso, e al negozio la sua parte viene tolta due volte",
+  "esito": "corretto, da ricollaudare",
+  "prova": "npx vitest run tests/unit/il-reso-pagato-col-credito-ripreso-si-conta-una-volta.test.ts tests/unit/il-rimborso-del-reso-con-la-carta-non-esce-due-volte.test.ts tests/unit/refund-order-cod.test.ts (prova-rimessa su lib/stripe/payout.ts: regge)",
+  "verify": "verde: 7462 passate, 1 saltata",
+  "residuo": "credito uscito ma non contato su un ordine con un altro rimborso: il freno non scatta (guasto doppio gia' dichiarato)"
+ }
 }
