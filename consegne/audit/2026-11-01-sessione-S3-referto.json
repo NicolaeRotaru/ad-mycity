@@ -1,0 +1,835 @@
+{
+ "sessione": "S3",
+ "pr": "https://github.com/NicolaeRotaru/mycity/pull/276",
+ "commit": "13c62bcc9532bb26a08fc4db1855881a7f17c2e1",
+ "ondate": [
+  {
+   "ondata": 5,
+   "run_id": "wf_318dd77b-a26",
+   "verify": "verde (837 file, 7146 prove)",
+   "prove_sql": "apply.sh 169/0 · run.sh tutti verdi · migrazione-su-database-pieno 195 regge · applica-migrazioni-mancanti x2: 1 poi 0",
+   "pacchetti": [
+    {
+     "chiave": "app/terms/page.tsx",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "frontend-ux|i termini dicono ancora «gestita da mycity» e il modulo di recesso ha come destinatario solo «mycity», senza persona né indirizzo"
+     ],
+     "prova": "npx vitest run tests/unit/i-termini-dicono-la-persona-che-gestisce-e-segnalano-i-dati-mancanti.test.tsx",
+     "file_toccati": [
+      "app/terms/page.tsx",
+      "lib/legal/titolare.ts"
+     ],
+     "nota": "Il bloccante «chi c'è dietro» è chiuso nel codice; i valori veri (sede, PIVA, PEC, variabili Vercel) sono una scelta di Nicola. «Segnalazioni senza pagina admin»: già risolto alla base (app/admin/segnalazioni esiste), resta aperto nel registro solo per un manifest .next vecchio."
+    },
+    {
+     "chiave": "components/products/VendutoDa.tsx",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "deploy-sre|il riquadro «venduto da» non compare in produzione: la migrazione che aggiunge i dati dell'impresa alla vista pubblica dei negozi non è stata applicata"
+     ],
+     "prova": "npx vitest run tests/unit/venduto-da-il-no-della-vista-lascia-traccia-nei-log.test.tsx",
+     "file_toccati": [
+      "components/products/VendutoDa.tsx"
+     ],
+     "nota": "Parte di codice chiusa. L'applicazione della 126 in produzione resta rossa, firma di Nicola."
+    },
+    {
+     "chiave": "lib/category-attributes.ts",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "rls-database|un alimento caricato da file va in vendita senza allergeni né ingredienti, e il controllo del database guarda solo gli allergeni"
+     ],
+     "prova": "npx vitest run tests/unit/un-alimento-caricato-da-file-non-va-in-vendita-senza-allergeni-e-ingredienti.test.tsx ; SQL: tests/sql/harness/apply.sh <db> && psql -d <db> -f tests/sql/195_un_alimento_senza_ingredienti_non_si_pubblica.test.sql (rossa senza la 195 e con la 195 di prima sul rifornimento, verde con questa)",
+     "file_toccati": [
+      "app/seller/products/import/page.tsx",
+      "lib/category-attributes.ts",
+      "migrations/195_un_alimento_senza_ingredienti_non_si_pubblica.sql",
+      "tests/sql/195_un_alimento_senza_ingredienti_non_si_pubblica.test.sql",
+      "tests/sql/rls/12-un-alimentare-senza-allergeni-non-si-pubblica.test.sql"
+     ],
+     "nota": "Il workflow lo dava «non regge» perché il giro di correzione era saltato per il tetto di 12 agenti. La correzione l'ha fatta l'AD: trigger rifatto dentro la 195 (zz_…, BEFORE INSERT OR UPDATE, scatta dopo trg_auto_republish). Migrazione non applicata: firma di Nicola."
+    },
+    {
+     "chiave": "app/api/ai/catalog-create-bulk/route.ts",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "ai-endpoints|se il negoziante spunta «le ho controllate», una lista ingredienti più lunga di 500 caratteri fa fallire la creazione di tutte le bozze, con un messaggio che non dice perché"
+     ],
+     "prova": "npx vitest run tests/unit/il-lotto-dalle-foto-non-cade-per-una-lista-ingredienti-lunga.test.ts (il caso da 9000 caratteri è rosso senza la correzione)",
+     "file_toccati": [
+      "app/api/ai/catalog-create-bulk/route.ts"
+     ],
+     "nota": "Il workflow lo dava «non regge» (tetto di 8000 caratteri rimasto nello schema); la correzione l'ha fatta l'AD togliendo il tetto dallo schema."
+    },
+    {
+     "chiave": "lib/site-branding.ts",
+     "esito": "non regge",
+     "chiavi_chiuse": [],
+     "prova": "npx vitest run tests/unit/*salvato-non-ripubblica-promesse-superate.test.ts (copre striscia e piede, non l'eroe)",
+     "file_toccati": [
+      "lib/site-branding.ts"
+     ],
+     "nota": "L'eroe della home lo serve lib/home-site.ts, che è fuori territorio. Il testo nel database lo cambia Nicola dal pannello."
+    },
+    {
+     "chiave": "app/contact/page.tsx",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "privacy-legale|la pagina contatti mostra «sede: mycity» senza indirizzo né persona"
+     ],
+     "prova": "npx vitest run tests/unit/la-pagina-contatti-dice-chi-c-e-dietro.test.tsx",
+     "file_toccati": [
+      "app/contact/page.tsx"
+     ]
+    }
+   ]
+  },
+  {
+   "ondata": 6,
+   "run_id": "wf_5d46d4bc-ce3",
+   "verify": "verde (845 file, 7172 prove)",
+   "prove_sql": "nessuna migrazione nuova",
+   "nota": "Ripartita alle 14:20 per decisione di Nicola, con la regola 8 sospesa.",
+   "pacchetti": [
+    {
+     "chiave": "app/seller/products/import/page.tsx",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "frontend-ux|il caricamento dei prodotti da file non legge i file salvati con excel in italiano",
+      "frontend-ux|il caricamento da file mette in vendita prodotti senza il controllo di foto, descrizione e ingredienti: si è corretta solo la frase"
+     ],
+     "prova": "npx vitest run tests/unit/*csv* tests/unit/un-alimento-caricato-da-file-non-va-in-vendita-senza-allergeni-e-ingredienti.test.tsx",
+     "file_toccati": [
+      "app/seller/products/import/page.tsx"
+     ],
+     "nota": "Il workflow lo dava «non regge» perché la prova dell'ondata 5 voleva 'available' senza foto; l'AD l'ha allineata alla regola nuova (senza foto nasce bozza). La regola per riga della 001 resta aperta: fermo per una scelta."
+    },
+    {
+     "chiave": "rls-database|regola 001",
+     "esito": "fermo per una scelta",
+     "chiavi_chiuse": [],
+     "prova": "",
+     "file_toccati": [],
+     "nota": "Chiuderla con una migrazione rompe il salvataggio del modulo (api/seller/products/[id]) e il bottone Nascondi, che scrivono col client dell'utente."
+    },
+    {
+     "chiave": "components/CategoryShowcase.tsx",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "navigazione-gerarchia|home, piè di pagina e mappa per google mettono in mostra categorie vuote: otto su nove non hanno prodotti",
+      "immagini-media|le tessere delle categorie in home sono foto d'archivio scritte a mano nel codice"
+     ],
+     "prova": "npx vitest run tests/unit/le-categorie-vuote-non-si-mostrano-in-home-nel-piede-ne-a-google.test.tsx",
+     "file_toccati": [
+      "components/CategoryShowcase.tsx",
+      "components/Footer.tsx",
+      "app/sitemap.ts",
+      "app/category/[slug]/layout.tsx"
+     ],
+     "nota": "Il grave nato (scheletri nell'HTML del server) è stato corretto nel giro di correzione: finché le piene non arrivano si mostrano tutte. Il filtro completo nell'HTML del server chiede lib/queries/precarico.ts (fuori territorio)."
+    },
+    {
+     "chiave": "app/privacy/page.tsx",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "privacy-legale|chi vuole scaricare i propri dati o cancellarsi non ha nessuna strada che funzioni in produzione"
+     ],
+     "prova": "vedi i test nuovi del ramo fix/ondata-6-app-privacy-page-tsx (503 leggibile e recapito unico)",
+     "file_toccati": [
+      "app/privacy/page.tsx",
+      "app/api/contact/route.ts",
+      "app/api/account/export/route.ts",
+      "app/api/account/delete/route.ts",
+      "app/profile/settings/page.tsx",
+      "app/cookies/page.tsx",
+      "lib/legal/titolare.ts"
+     ],
+     "nota": "Funziona davvero solo quando Nicola configura la chiave di servizio, oppure la casella privacy, oppure la posta del supporto."
+    },
+    {
+     "chiave": "app/api/segnalazioni/route.ts",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "api-backend|l'esito motivato di una segnalazione non arriva né a chi ha segnalato né al venditore (dsa art. 16.5 e 17)"
+     ],
+     "prova": "vedi i test nuovi del ramo fix/ondata-6-app-api-segnalazioni-route-ts (PATCH /api/segnalazioni manda l'esito)",
+     "file_toccati": [
+      "app/api/segnalazioni/route.ts",
+      "app/api/segnalazioni/esito/comunica.ts",
+      "components/Segnala.tsx"
+     ],
+     "nota": "Il mittente c'è; il collegamento dalla pagina admin è fuori territorio (app/admin/segnalazioni deve chiamare PATCH dopo il salvataggio)."
+    },
+    {
+     "chiave": "lib/home-site.ts",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "coerenza-brand|il titolo grande della home in produzione viene dal database e dice ancora «arriva a casa in 30-60 min» e «abbigliamento»"
+     ],
+     "prova": "vedi il test nuovo del ramo fix/ondata-6-lib-home-site-ts (home_site col testo di produzione: l'eroe non lo pubblica)",
+     "file_toccati": [
+      "lib/home-site.ts"
+     ]
+    }
+   ]
+  }
+ ],
+ "nati": [
+  {
+   "titolo": "Le prove del caricamento da file non coprono il caso allergeni presenti e ingredienti assenti",
+   "gravita": "minore",
+   "dove": "tests/unit/un-alimento-caricato-da-file-non-va-in-vendita-senza-allergeni-e-ingredienti.test.tsx",
+   "nato_dal_lotto": true,
+   "pacchetto": "lib/category-attributes.ts",
+   "prova": "Mutazione in campiObbligatoriMancanti: if (f.key==='ingredienti') return false -> le 3 prove restano verdi. Manca un caso {allergeni:'Glutine'} che si aspetta status draft.",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "La pagina contatti ricompone «persona (marchio)» a mano invece di usare la funzione unica dei dati del titolare",
+   "gravita": "minore",
+   "dove": "app/contact/page.tsx riquadro Chi gestisce: formato gestore (denominazione) duplicato di nomePubblico in lib/legal/titolare.ts (ramo terms)",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/contact/page.tsx",
+   "prova": "Le due stringhe sono scritte in due rami diversi: unendo entrambi, il formato vive in due posti",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "Un attributo oltre 8000 caratteri fa ancora cadere tutto il lotto dalle foto con «Dati prodotti non validi.»",
+   "gravita": "minore",
+   "dove": "app/api/ai/catalog-create-bulk/route.ts DraftSchema attributes z.string().max(MAX_VALORE_LUNGO * 4)",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/api/ai/catalog-create-bulk/route.ts",
+   "prova": "Prova del pacchetto + item('Focaccia',{ingredienti:'x'.repeat(8001),allergeni:'Glutine'}) + item('Pane',…) → status 400 INVALID_REQUEST, nessuna bozza. È minore perché raro: un modello scrive di rado 8000 caratteri.",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "Un attributo lungo che non entrerebbe comunque nella bozza fa scartare tutto il prodotto",
+   "gravita": "minore",
+   "dove": "app/api/ai/catalog-create-bulk/route.ts campoOltreIlTetto (prima del filtro dichiarazioni_confermate e dei campi della categoria)",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/api/ai/catalog-create-bulk/route.ts",
+   "prova": "item con dichiarazioni_confermate:false e ingredienti 'x'.repeat(2001): finisce tra gli scartati, anche se buildDraftProductInsert gli ingredienti li avrebbe tolti comunque",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "Il log di «Venduto da» perde il motivo: l'errore PostgREST è un oggetto, nel log esce «[object Object]»",
+   "gravita": "minore",
+   "dove": "components/products/VendutoDa.tsx useEffect: motivo = error instanceof Error ? … : String(error)",
+   "nato_dal_lotto": true,
+   "pacchetto": "components/products/VendutoDa.tsx",
+   "prova": "postgrest-js 2.106.1 dist/index.mjs:372: error = JSON.parse(body), un oggetto semplice. Rilancia con { message } invece di Error: motivo diventa '[object Object]'. La prova usa new Error, quindi non lo vede.",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "Contatti costruisce a mano il nome del gestore invece di usare nomePubblico() da titolare.ts",
+   "gravita": "minore",
+   "dove": "app/contact/page.tsx riga ~203",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/contact/page.tsx",
+   "prova": "grep -n \"gestore ? `\" app/contact/page.tsx: formato duplicato, contro la regola «un posto solo». Dopo l'unione con il ramo dei termini va sostituito con nomePubblico(chiSiamo).",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "La lettura delle categorie piene presume che le regole del database mostrino solo prodotti di negozi approvati",
+   "gravita": "minore",
+   "dove": "components/CategoryShowcase.tsx domandaCategoriePiene; app/category/[slug]/layout.tsx haProdotti",
+   "nato_dal_lotto": true,
+   "prova": "La sitemap filtra per seller_id dei negozi approvati, qui si filtra solo status='available': se le regole RLS mostrano anche prodotti di negozi non approvati, una categoria potrebbe risultare piena per errore.",
+   "pacchetto": "components/CategoryShowcase.tsx",
+   "fonte": "squadra"
+  },
+  {
+   "titolo": "buco nelle prove (variante): Macchina: rosso_strutturale. Rimesso il difetto (useMemo(() => tutte)): la prova diventa rossa. Footer e layout mordono.",
+   "gravita": "minore",
+   "dove": "components/CategoryShowcase.tsx",
+   "nato_dal_lotto": true,
+   "prova": "Macchina: rosso_strutturale. Rimesso il difetto (useMemo(() => tutte)): la prova diventa rossa. Footer e layout mordono. Buco: senza risalita alla madre (id = null) le 6 prove restano verdi. Comando: npx vitest run tests/unit/le-categorie-vuote-...test.tsx",
+   "pacchetto": "components/CategoryShowcase.tsx",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "La prova della home non copre il prodotto in una sottocategoria: se la madre smette di contare come piena, le prove restano verdi",
+   "gravita": "minore",
+   "dove": "components/CategoryShowcase.tsx categorieConProdotti + tests/unit/le-categorie-vuote-non-si-mostrano-in-home-nel-piede-ne-a-google.test.tsx",
+   "nato_dal_lotto": true,
+   "pacchetto": "components/CategoryShowcase.tsx",
+   "prova": "Mutazione 'id = madreDi.get(id) ?? null' -> 'id = null': npx vitest run sul file di prova dà 6 passate su 6. Serve un caso con il prodotto in una figlia di Alimentari e la tessera Alimentari attesa in home.",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "Home e piede contano i prodotti di qualunque venditore che la sessione vede, la mappa del sito solo quelli dei negozi approvati",
+   "gravita": "minore",
+   "dove": "components/CategoryShowcase.tsx domandaCategoriePiene vs app/sitemap.ts:79-100",
+   "nato_dal_lotto": true,
+   "pacchetto": "components/CategoryShowcase.tsx",
+   "prova": "domandaCategoriePiene non filtra per seller approvato. Un venditore loggato (o un admin) vede i propri prodotti tramite RLS: per lui una categoria con soli prodotti non approvati risulta piena.",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "Comunicare l'esito due volte rimanda la mail e le notifiche; dopo un 502 il nuovo tentativo rimanda anche i canali riusciti",
+   "gravita": "minore",
+   "dove": "app/api/segnalazioni/esito/comunica.ts comunicaEsito",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/api/segnalazioni/route.ts",
+   "prova": "Nessuna colonna o guardia 'esito_comunicato_at': ogni PATCH richiama sendEmail e fa l'insert in notifications senza controllare un invio precedente.",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "Prodotto segnalato poi cancellato: il venditore risulta 'fallita' e la rotta risponde 502 per sempre",
+   "gravita": "minore",
+   "dove": "app/api/segnalazioni/esito/comunica.ts venditoreDi / venditore = sellerId ? ... : 'fallita'",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/api/segnalazioni/route.ts",
+   "prova": "Se products non ha più la riga, seller_id è null, quindi venditore='fallita' e la PATCH risponde 502 a ogni tentativo.",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "Nuova promessa nell'informativa: «ti rispondiamo entro un mese, come prevede la legge»",
+   "gravita": "minore",
+   "dove": "app/privacy/page.tsx, ramo senza pulsanti attivi",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/privacy/page.tsx",
+   "prova": "La frase non c'è sul commit f09318b2 (git show f09318b2:app/privacy/page.tsx | grep 'un mese' non trova nulla). È allineata all'art. 12.3 GDPR, ma è una promessa nuova da far approvare a Nicola.",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "Il piede non elenca nessuna categoria finche' la lettura delle piene non arriva (anche nell'HTML del server)",
+   "gravita": "minore",
+   "dove": "components/Footer.tsx: madri = piene.data ? ... : []",
+   "nato_dal_lotto": true,
+   "pacchetto": "components/CategoryShowcase.tsx",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "Due PATCH dell'esito sulla stessa segnalazione rimandano email e notifiche (manca il segno «esito gia' comunicato»)",
+   "gravita": "minore",
+   "dove": "app/api/segnalazioni/esito/comunica.ts comunicaEsito",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/api/segnalazioni/route.ts",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "L'informativa promette «ti rispondiamo entro un mese»: frase nuova che Nicola deve scegliere",
+   "gravita": "minore",
+   "dove": "app/privacy/page.tsx, ramo !pulsantiAttivi",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/privacy/page.tsx",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "Le categorie vuote compaiono nell'HTML del server in home e nel piede, poi spariscono lato client: le tessere saltano",
+   "gravita": "minore",
+   "dove": "components/CategoryShowcase.tsx:172-177, components/Footer.tsx:174-177 (le categorie piene non sono precaricate: precarico.ts è fuori territorio)",
+   "nato_dal_lotto": true,
+   "pacchetto": "components/CategoryShowcase.tsx",
+   "prova": "renderToString con le sole categorie precaricate (alimentari+elettronica): l'HTML contiene /category/elettronica, che il client toglie quando arriva ['categories','con-prodotti']. Si spegne precaricando CHIAVE_CATEGORIE_PIENE in precarico.ts (fuori territorio).",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "Il conto delle categorie piene legge al massimo 1000 prodotti, senza ordine: oltre, una categoria vera può sparire",
+   "gravita": "minore",
+   "dove": "components/CategoryShowcase.tsx domandaCategoriePiene: .limit(5000) ma supabase/config.toml max_rows=1000",
+   "nato_dal_lotto": true,
+   "pacchetto": "components/CategoryShowcase.tsx",
+   "prova": "Oggi è latente, perché i prodotti disponibili sono pochi. Si spegne con un conto per categoria fatto dal database (RPC o vista con distinct category_id).",
+   "fonte": "collaudo B"
+  }
+ ],
+ "vecchi_visti": [
+  {
+   "titolo": "logger.error nel browser in produzione non scrive in console e Sentry e' spento: ogni errore client sparisce",
+   "gravita": "grave",
+   "dove": "lib/logger.ts:141-151",
+   "nato_dal_lotto": false,
+   "prova": "condizione eServer || NODE_ENV !== 'production': lato client in prod solo captureError verso Sentry non acceso",
+   "pacchetto": "components/products/VendutoDa.tsx",
+   "fonte": "squadra"
+  },
+  {
+   "titolo": "Il lettore CSV del caricamento da file trasforma un campo vuoto tra virgolette (\"\") in una virgoletta \"",
+   "gravita": "minore",
+   "dove": "app/seller/products/import/page.tsx parseCsv: il ramo ch=='\"' && next=='\"' scatta anche su un campo vuoto tra virgolette",
+   "nato_dal_lotto": false,
+   "prova": "Una riga con ingredienti scritti come \"\" dà ingredienti = '\"': non è vuota, quindi l'alimento esce in vendita. Lo blocca solo il guardiano della 195 quando sarà applicata.",
+   "pacchetto": "lib/category-attributes.ts",
+   "fonte": "squadra"
+  },
+  {
+   "titolo": "Un testo alternativo oltre 300 caratteri o un nome troppo lungo fanno ancora fallire tutto il lotto",
+   "gravita": "minore",
+   "dove": "app/api/ai/catalog-create-bulk/route.ts DraftSchema: alt_text max MAX_ALT_TEXT, name, description e tag hanno tetti a livello di schema",
+   "nato_dal_lotto": false,
+   "prova": "Il comportamento di tutto o niente è lo stesso del difetto chiuso, ma riguarda campi diversi. Non è stato riparato qui",
+   "pacchetto": "app/api/ai/catalog-create-bulk/route.ts",
+   "fonte": "squadra"
+  },
+  {
+   "titolo": "Un alimento esaurito senza ingredienti torna in vendita da solo al rifornimento: il guardiano del database non scatta",
+   "gravita": "grave",
+   "dove": "migrations/126 trigger prodotti_alimentari_allergeni (BEFORE UPDATE OF status, attributes, category_id) + 071 auto_republish_on_restock",
+   "nato_dal_lotto": false,
+   "pacchetto": "lib/category-attributes.ts",
+   "prova": "Postgres locale con 195+126+071+032: INSERT alimento {allergeni:Glutine} status out_of_stock stock 0; UPDATE stock=5 -> status available, ingredienti vuoti. Serve migrazione nuova (196) che aggiunga stock al trigger o ricontrolli dentro la ripubblicazione.",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "Un attributo oltre 8000 caratteri fa ancora cadere tutto il lotto dalle foto, con un messaggio che non dice perché",
+   "gravita": "minore",
+   "dove": "app/api/ai/catalog-create-bulk/route.ts DraftSchema attributes z.string().max(MAX_VALORE_LUNGO * 4)",
+   "nato_dal_lotto": false,
+   "pacchetto": "app/api/ai/catalog-create-bulk/route.ts",
+   "prova": "POST con item ingredienti 'x'.repeat(9000) + item valido -> 400 INVALID_REQUEST 'Dati prodotti non validi.' invece di 200 con Focaccia fra gli scartati",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "Il piede stampa ancora solo il marchio «© MyCity», senza la persona che gestisce",
+   "gravita": "minore",
+   "dove": "components/Footer.tsx:350 chiSiamo.denominazione",
+   "nato_dal_lotto": false,
+   "pacchetto": "app/terms/page.tsx",
+   "prova": "grep -n 'chiSiamo.denominazione' components/Footer.tsx -> riga 350 senza gestore/nomePubblico",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "La rotta catalog-create (un prodotto solo) rifiuta ancora gli ingredienti oltre 500 caratteri, con un messaggio generico",
+   "gravita": "minore",
+   "dove": "app/api/ai/catalog-create/route.ts:59 MAX_VALORE_ATTRIBUTO (fuori territorio)",
+   "nato_dal_lotto": false,
+   "pacchetto": "app/api/ai/catalog-create-bulk/route.ts",
+   "prova": "Già nel referto originale (catalog-create/route.ts:59). Serve lo stesso tetto per campo, 2000 per ingredienti e valori nutrizionali, anche lì o nella porta unica draftFromVision.ts.",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "Il bottone Nascondi aggiorna il prodotto dal browser senza traccia nel registro",
+   "gravita": "minore",
+   "dove": "lib/products/nascondi.ts:31 chiamato da app/seller/products/page.tsx:133 e app/seller/products/[id]/edit/page.tsx:174",
+   "nato_dal_lotto": false,
+   "prova": "client.from('products').update({status:'draft'}) col client del browser, nessun writeAudit",
+   "pacchetto": "app/seller/products/import/page.tsx",
+   "fonte": "squadra"
+  },
+  {
+   "titolo": "La pagina impostazioni (browser) manda al modulo contatti anche quando il modulo non arriva a nessuno",
+   "gravita": "minore",
+   "dove": "app/profile/settings/page.tsx:596-607",
+   "nato_dal_lotto": false,
+   "prova": "È un componente client: non vede le variabili del server. Il 503 delle rotte mostra comunque la strada giusta nel messaggio.",
+   "pacchetto": "app/privacy/page.tsx",
+   "fonte": "squadra"
+  },
+  {
+   "titolo": "Cookie policy e sezioni titolare/modifiche della privacy rimandano al modulo contatti anche senza database né posta",
+   "gravita": "minore",
+   "dove": "app/cookies/page.tsx:143-150 · app/privacy/page.tsx sezioni 1 e 9",
+   "nato_dal_lotto": false,
+   "pacchetto": "app/privacy/page.tsx",
+   "fonte": "squadra"
+  },
+  {
+   "titolo": "Chi segnala non riceve ancora nessun esito: la pagina admin salva la decisione ma non chiama il mittente PATCH",
+   "gravita": "grave",
+   "dove": "app/admin/segnalazioni/page.tsx (fuori territorio): dopo il salvataggio serve fetch PATCH /api/segnalazioni {id}",
+   "nato_dal_lotto": false,
+   "pacchetto": "app/api/segnalazioni/route.ts",
+   "prova": "grep -n \"PATCH\\|/api/segnalazioni\" app/admin/segnalazioni/page.tsx non trova nulla: la decisione si scrive direttamente sul database e nessun codice manda l'esito (DSA art. 16.5 e 17).",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "Il freno delle promesse superate non riconosce le riformulazioni dei 30-60 minuti",
+   "gravita": "minore",
+   "dove": "lib/site-branding.ts promessaSuperata (regex /\\b30\\s*[-–]\\s*60\\s*min/)",
+   "nato_dal_lotto": false,
+   "pacchetto": "lib/home-site.ts",
+   "prova": "Prova temporanea con vitest: promessaSuperata('consegna da 30 a 60 minuti'), 'in 30/60 min' e \"arriva in mezz'ora\" restituiscono null. Passano solo le forme con il trattino.",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "Il ripiego dell'eroe (variante A) elenca casa ed elettronica, che sono categorie vuote",
+   "gravita": "minore",
+   "dove": "app/page.tsx HERO_VARIANTS.a.subhead (fuori territorio)",
+   "nato_dal_lotto": false,
+   "pacchetto": "lib/home-site.ts",
+   "prova": "Il sottotitolo di ripiego dice 'Alimentari, casa, elettronica', ma solo Alimentari ha prodotti. È il testo che compare quando il freno scarta quello salvato.",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "La descrizione per Google promette ancora casa, elettronica e libri, che sono categorie vuote",
+   "gravita": "minore",
+   "dove": "lib/site-branding.ts:81 (descrizione di riserva); app/page.tsx:33",
+   "nato_dal_lotto": false,
+   "pacchetto": "components/CategoryShowcase.tsx",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "Il freno delle promesse superate copre solo l'eroe: le intestazioni salvate delle altre sezioni della home non passano dal freno",
+   "gravita": "minore",
+   "dove": "lib/home-site.ts togliPromesseSuperate (solo type hero)",
+   "nato_dal_lotto": false,
+   "pacchetto": "lib/home-site.ts",
+   "fonte": "collaudo B"
+  }
+ ],
+ "copertura_collaudo": [
+  {
+   "dimensione": "prova-rimessa (macchina)",
+   "file": [
+    "app/terms/page.tsx",
+    "lib/legal/titolare.ts",
+    "components/products/VendutoDa.tsx",
+    "lib/category-attributes.ts",
+    "app/seller/products/import/page.tsx",
+    "app/api/ai/catalog-create-bulk/route.ts",
+    "app/contact/page.tsx"
+   ],
+   "trovati": 0,
+   "lente": "A"
+  },
+  {
+   "dimensione": "mutazione sui rosso_strutturale",
+   "file": [
+    "lib/legal/titolare.ts",
+    "lib/category-attributes.ts"
+   ],
+   "trovati": 1,
+   "lente": "A"
+  },
+  {
+   "dimensione": "variante scomoda",
+   "file": [
+    "migrations/195_un_alimento_senza_ingredienti_non_si_pubblica.sql",
+    "app/api/ai/catalog-create-bulk/route.ts",
+    "lib/queries/venduto-da.ts",
+    "components/Footer.tsx"
+   ],
+   "trovati": 3,
+   "lente": "A"
+  },
+  {
+   "dimensione": "frontend-ux",
+   "file": [
+    "app/terms/page.tsx",
+    "components/Footer.tsx",
+    "components/Segnala.tsx",
+    "components/products/VendutoDa.tsx",
+    "app/seller/products/import/page.tsx",
+    "app/contact/page.tsx"
+   ],
+   "trovati": 2,
+   "lente": "B"
+  },
+  {
+   "dimensione": "architettura",
+   "file": [
+    "lib/legal/titolare.ts",
+    "lib/category-attributes.ts"
+   ],
+   "trovati": 1,
+   "lente": "B"
+  },
+  {
+   "dimensione": "privacy-legale",
+   "file": [
+    "app/privacy/page.tsx",
+    "tests/unit/i-termini-dicono-la-persona-che-gestisce-e-segnalano-i-dati-mancanti.test.tsx",
+    "tests/unit/la-pagina-contatti-dice-chi-c-e-dietro.test.tsx"
+   ],
+   "trovati": 0,
+   "lente": "B"
+  },
+  {
+   "dimensione": "api-backend",
+   "file": [
+    "app/api/segnalazioni/route.ts"
+   ],
+   "trovati": 0,
+   "lente": "B"
+  },
+  {
+   "dimensione": "rls-database",
+   "file": [
+    "migrations/126_radiografia_22_agosto.sql",
+    "migrations/195_un_alimento_senza_ingredienti_non_si_pubblica.sql",
+    "tests/sql/195_un_alimento_senza_ingredienti_non_si_pubblica.test.sql",
+    "tests/unit/un-alimento-caricato-da-file-non-va-in-vendita-senza-allergeni-e-ingredienti.test.tsx"
+   ],
+   "trovati": 1,
+   "lente": "B"
+  },
+  {
+   "dimensione": "deploy-sre",
+   "file": [
+    "tests/unit/venduto-da-il-no-della-vista-lascia-traccia-nei-log.test.tsx",
+    "lib/queries/venduto-da.ts"
+   ],
+   "trovati": 1,
+   "lente": "B"
+  },
+  {
+   "dimensione": "ai-endpoints",
+   "file": [
+    "app/api/ai/catalog-create-bulk/route.ts",
+    "tests/unit/il-lotto-dalle-foto-non-cade-per-una-lista-ingredienti-lunga.test.ts",
+    "lib/products/draftFromVision.ts"
+   ],
+   "trovati": 3,
+   "lente": "B"
+  }
+ ],
+ "fuori_territorio": [
+  {
+   "file": "lib/home-site.ts",
+   "serve": "lo stesso freno promessaSuperata di lib/site-branding.ts sull'eroe della home"
+  },
+  {
+   "file": "app/api/ai/catalog-create/route.ts:59",
+   "serve": "tetto per campo, fino a 2000 caratteri per ingredienti e valori nutrizionali, come nel lotto"
+  },
+  {
+   "file": "lib/products/draftFromVision.ts",
+   "serve": "attributoCheEntra taglia a 500: il tetto per campo andrebbe qui"
+  },
+  {
+   "file": "lib/logger.ts:141-151",
+   "serve": "in produzione gli errori del browser non vanno né in console né su Sentry (grave vecchio)"
+  },
+  {
+   "file": "tests/sql/rls/12-un-alimentare-senza-allergeni-non-si-pubblica.test.sql",
+   "serve": "modificato in 2 righe (aggiunti gli ingredienti ai casi validi): eccezione alla regola «solo aggiunte», conseguenza diretta della 195"
+  },
+  {
+   "file": "app/admin/segnalazioni/page.tsx",
+   "serve": "dopo il salvataggio della decisione chiamare PATCH /api/segnalazioni {id}: senza questo l'esito resta non comunicato (grave)"
+  },
+  {
+   "file": "lib/queries/precarico.ts",
+   "serve": "precaricaHome deve precaricare domandaCategoriePiene, così l'HTML del server mostra già solo le categorie piene"
+  },
+  {
+   "file": "app/page.tsx",
+   "serve": "HERO_VARIANTS.a.subhead e la descrizione per Google promettono casa, elettronica e libri, che sono categorie vuote"
+  }
+ ],
+ "scelte_per_nicola": [
+  {
+   "domanda": "Quali sono sede, telefono, partita IVA e PEC del titolare da mostrare sul sito?",
+   "raccomandazione": "Impostarli come variabili NEXT_PUBLIC_TITOLARE_* su Vercel appena c'è la posizione fiscale; fino ad allora il sito nomina Nicolae Rotaru e segnala nei registri cosa manca."
+  },
+  {
+   "domanda": "Applichiamo in produzione la migrazione 126 e la 195?",
+   "raccomandazione": "Sì, insieme, dopo aver contato gli alimenti già in vendita senza ingredienti (la query è nell'intestazione della 195)."
+  },
+  {
+   "domanda": "Che testo mettiamo nel sottotitolo grande della home (dal pannello)?",
+   "raccomandazione": "Usare quello già proposto in LAVORO-APERTO.md: niente «30-60 min» come promessa certa, niente abbigliamento."
+  },
+  {
+   "domanda": "Chiudiamo la regola della migrazione 001 che lascia al negozio modificare i prodotti direttamente dal browser?",
+   "raccomandazione": "Sì, ma solo dopo aver spostato sul server il salvataggio della scheda prodotto e il bottone Nascondi: oggi chiuderla romperebbe quelle due cose."
+  },
+  {
+   "domanda": "Nell'informativa privacy scriviamo «ti rispondiamo entro un mese»?",
+   "raccomandazione": "Sì: è l'obbligo dell'art. 12 del GDPR, non una promessa in più. Va però mantenuto davvero, quindi serve una casella privacy letta."
+  },
+  {
+   "domanda": "Chiave di servizio, casella privacy o posta del supporto: quale configuriamo per far funzionare scarica-dati e cancellazione?",
+   "raccomandazione": "La chiave di servizio (sblocca anche contatti e segnalazioni) più una casella privacy vera."
+  },
+  {
+   "domanda": "Completiamo allergeni e ingredienti dei 7 alimenti del fornaio prima di applicare la 195?",
+   "raccomandazione": "Sì: restano comprabili anche dopo, ma ogni modifica alle dichiarazioni o una ripubblicazione verrebbe rifiutata finché mancano."
+  }
+ ],
+ "conto_token": {
+  "workflow_senza_cache": 606914,
+  "workflow_con_cache": 11051517,
+  "agenti": 10,
+  "sessione_AD_costo_usd_al_momento": 9.04,
+  "workflow_ondata6_senza_cache": 723699,
+  "workflow_ondata6_con_cache": 13392027
+ },
+ "copertura_collaudo_ondata6": [
+  {
+   "dimensione": "navigazione-gerarchia",
+   "file": [
+    "components/CategoryShowcase.tsx",
+    "components/Footer.tsx",
+    "app/category/[slug]/layout.tsx",
+    "app/sitemap.ts"
+   ],
+   "trovati": 2,
+   "lente": "A"
+  },
+  {
+   "dimensione": "privacy-legale",
+   "file": [
+    "app/privacy/page.tsx",
+    "lib/legal/titolare.ts",
+    "app/profile/settings/page.tsx",
+    "app/api/account/export/route.ts",
+    "app/api/account/delete/route.ts",
+    "app/api/contact/route.ts"
+   ],
+   "trovati": 1,
+   "lente": "A"
+  },
+  {
+   "dimensione": "api-backend",
+   "file": [
+    "app/api/segnalazioni/route.ts",
+    "app/api/segnalazioni/esito/comunica.ts",
+    "components/Segnala.tsx",
+    "migrations/126_radiografia_22_agosto.sql"
+   ],
+   "trovati": 3,
+   "lente": "A"
+  },
+  {
+   "dimensione": "coerenza-brand",
+   "file": [
+    "lib/home-site.ts",
+    "lib/site-branding.ts",
+    "components/home-sections/HomeSectionRenderer.tsx",
+    "app/page.tsx"
+   ],
+   "trovati": 2,
+   "lente": "A"
+  },
+  {
+   "dimensione": "frontend-ux",
+   "file": [
+    "components/CategoryShowcase.tsx",
+    "components/Footer.tsx",
+    "app/category/[slug]/layout.tsx",
+    "app/profile/settings/page.tsx",
+    "components/Segnala.tsx"
+   ],
+   "trovati": 2,
+   "lente": "B"
+  },
+  {
+   "dimensione": "architettura",
+   "file": [
+    "app/sitemap.ts",
+    "lib/env.ts",
+    "lib/legal/titolare.ts",
+    "lib/home-site.ts",
+    "lib/site-branding.ts",
+    "lib/queries/precarico.ts"
+   ],
+   "trovati": 1,
+   "lente": "B"
+  },
+  {
+   "dimensione": "navigazione-gerarchia",
+   "file": [
+    "tests/unit/le-categorie-vuote-non-si-mostrano-in-home-nel-piede-ne-a-google.test.tsx"
+   ],
+   "trovati": 0,
+   "lente": "B"
+  },
+  {
+   "dimensione": "privacy-legale",
+   "file": [
+    "app/privacy/page.tsx",
+    "app/cookies/page.tsx",
+    "tests/unit/l-informativa-dice-la-strada-dei-diritti-che-funziona-davvero.test.ts"
+   ],
+   "trovati": 1,
+   "lente": "B"
+  },
+  {
+   "dimensione": "api-backend",
+   "file": [
+    "app/api/contact/route.ts",
+    "app/api/account/export/route.ts",
+    "app/api/account/delete/route.ts",
+    "app/api/segnalazioni/route.ts",
+    "app/api/segnalazioni/esito/comunica.ts",
+    "tests/unit/la-rotta-segnalazioni-manda-l-esito-deciso.test.ts",
+    "tests/unit/l-esito-di-una-segnalazione-arriva-a-chi-ha-segnalato-e-al-venditore.test.ts",
+    "tests/unit/il-modulo-segnala-non-promette-un-esito-che-non-parte.test.tsx"
+   ],
+   "trovati": 1,
+   "lente": "B"
+  },
+  {
+   "dimensione": "coerenza-brand",
+   "file": [
+    "tests/unit/l-eroe-salvato-della-home-non-ripubblica-promesse-superate.test.ts",
+    "components/home-sections/HomeSectionRenderer.tsx"
+   ],
+   "trovati": 1,
+   "lente": "B"
+  },
+  {
+   "dimensione": "frontend-ux",
+   "file": [
+    "components/CategoryShowcase.tsx",
+    "components/Footer.tsx",
+    "app/category/[slug]/layout.tsx"
+   ],
+   "trovati": 2,
+   "lente": "B"
+  },
+  {
+   "dimensione": "architettura",
+   "file": [
+    "app/sitemap.ts"
+   ],
+   "trovati": 0,
+   "lente": "B"
+  },
+  {
+   "dimensione": "navigazione-gerarchia",
+   "file": [
+    "tests/unit/la-vetrina-delle-categorie-esce-piena-nell-html-del-server.test.tsx"
+   ],
+   "trovati": 0,
+   "lente": "B"
+  }
+ ],
+ "correzione": {
+  "pr": "https://github.com/NicolaeRotaru/mycity/pull/285",
+  "commit": "5d0f395",
+  "base": "fb74b09",
+  "verify": "verde (7460 prove)",
+  "punti": [
+   {
+    "chiave": "migrazione 195 blocca lo scalo della merce",
+    "esito": "chiuso",
+    "prova": "bash tests/sql/harness/apply.sh <db> && psql -d <db> -v ON_ERROR_STOP=1 -f tests/sql/195_un_alimento_gia_in_vetrina_resta_comprabile.test.sql (rossa con la 195 di prima, verde ora)",
+    "file_toccati": [
+     "migrations/195_un_alimento_senza_ingredienti_non_si_pubblica.sql",
+     "tests/sql/195_un_alimento_gia_in_vetrina_resta_comprabile.test.sql",
+     "tests/sql/195_un_alimento_senza_ingredienti_non_si_pubblica.test.sql"
+    ],
+    "nota": "Corretta la 195 stessa (mai applicata). In più: la merce che torna a scaffale non ripubblica un alimento senza ingredienti, ma il movimento riesce (l'annullo non si blocca)."
+   },
+   {
+    "chiave": "caricamento da file: Excel italiano Windows-1252",
+    "esito": "chiuso",
+    "prova": "npx vitest run tests/unit/il-caricamento-da-file-legge-l-excel-italiano.test.tsx tests/unit/il-caricamento-da-file-tiene-gli-accenti-dell-excel-italiano.test.tsx (prova-rimessa: rossa sul comportamento)",
+    "file_toccati": [
+     "app/seller/products/import/page.tsx"
+    ],
+    "nota": "Fatte anche le due varianti: a capo nella cella e «19,90 €»."
+   },
+   {
+    "chiave": "esito delle segnalazioni non parte",
+    "esito": "chiuso",
+    "prova": "npx vitest run tests/unit/la-decisione-sulla-segnalazione-manda-l-esito.test.tsx (rossa senza la correzione, verificata a mano; prova-rimessa: rosso_sconosciuto)",
+    "file_toccati": [
+     "app/admin/segnalazioni/page.tsx"
+    ]
+   }
+  ],
+  "prove_sql": "apply.sh 172/0 · run.sh verde · database pieno: 195 regge · mancanti x2: 4 poi 0",
+  "modifiche_a_prove": [
+   "tests/unit/il-caricamento-da-file-legge-l-excel-italiano.test.tsx: il file finto ora è un File vero (con il solo text() i byte erano già persi)",
+   "tests/unit/la-decisione-sulla-segnalazione-manda-l-esito.test.tsx: vi.waitFor sulla scheda, sotto carico cadeva",
+   "tests/sql/195_un_alimento_senza_ingredienti_non_si_pubblica.test.sql: al rifornimento il prodotto resta fuori vendita invece di un errore"
+  ],
+  "dato_produzione": "1/11/2026: 7 prodotti in vendita su 9 sono alimenti senza allergeni né ingredienti; con la 195 corretta restano comprabili, ma vanno completati prima di ripubblicarli o cambiarne dichiarazioni o categoria."
+ }
+}
