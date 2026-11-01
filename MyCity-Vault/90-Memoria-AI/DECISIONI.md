@@ -6369,3 +6369,17 @@ Restano fuori due pacchetti:
 - **2026-10-31 17:28** · 🟡 · Ondate 5 e 6 del piano per aprire: reggono 3 pacchetti su 10 (la data della fascia sull'ordine, il freno della veloce, i freni dell'AI e della newsletter). Nicola sceglie: un'ondata di correzione per tutti e 7 gli altri, su due motori in parallelo (soldi: bonifici, falle del database, resi; il resto: modulo prodotto, testi legali col titolare, via i 5 euro e i punti), e una richiesta sola per i 3 che reggono. Per i bonifici, il modulo prodotto e il titolare è il secondo giro di correzione: lo autorizza lui. **Perché:** quattro pacchetti non avevano avuto il loro giro per il tetto dei 12 agenti; con due motori il tetto basta. **Errore mio trovato strada facendo:** la pagina dei Termini era nel territorio dei resi dell'ondata 5, così il pacchetto dei testi non poteva toccarla e le scelte del 31/10 non sono entrate nei Termini. Nella correzione la pagina passa ai testi legali, che assorbono anche il titolare. Run wf_3231678e-3d7 e wf_6cb735f1-94d.
 
 - **2026-11-01 01:09** · 🟡 · Ondata di correzione delle ondate 5 e 6: reggono 5 pacchetti su 6 (bonifici, falle del database, resi, modulo prodotto, via i 5 euro e i punti). Non regge solo il pacchetto dei testi legali, per la riaccettazione dei Termini 3.0. Nicola sceglie «Terzo giro adesso, solo la riaccettazione»: un pacchetto, tre agenti (la squadra e le due lenti), senza un giro di correzione interno; se non regge va all'ondata 7. **Perché:** la cura stava in lib/auth/accettazione-testi.ts, che non era nel territorio del pacchetto; il resto dei testi è fatto. **Lezione:** prima di lanciare una scheda, per ogni caso si controlla che il file dove si ripara sia nel territorio. Run wf_3a764d6a-8fe.
+
+## 2026-11-01 12:10 — 🔴 Le scelte di Nicola sulle sessioni in parallelo, e la soglia dei 5.000 euro
+
+**Cosa.** Nicola vuole chiudere i difetti del sito il prima possibile, con tante sessioni insieme. Le sue scelte del 1/11:
+- una prova piccola, poi lo schema completo: una sessione che dirige e integra, più costruttrici, collaudatrici e radiografie;
+- una richiesta di unione per giro, non una per sessione;
+- «finito» vuol dire due radiografie complete di fila senza bloccanti né gravi nuovi;
+- la radiografia completa parte giovedì 5/11 dopo le 11:00. Fino ad allora la regola sul tasso di chiusura resta attiva;
+- «sono al 70% dei limiti settimanali, vacci piano, poi da giovedì andiamo alla massima velocità». Fino all'azzeramento di giovedì 5/11 alle 10:00 niente agenti, workflow o sessioni nuove.
+
+**La soglia dei 5.000 euro.** Nicola ha scritto: «la sede, partita iva e pec fino ai 5000 di fatturato non ci sono». La verifica (run `wf_e1bcefed-284`, tre ricercatori e due contestatori) dice che per la partita IVA conta l'abitualità, non un importo. I 5.000 euro sono la franchigia dei contributi INPS del lavoro autonomo occasionale (art. 44 DL 269/2003). La sede può essere la residenza; la PEC serve con la ditta individuale. Il fatto `finanza.soglia-costi-extra` non cambia: decide Nicola dopo il commercialista di lunedì 2/11.
+
+**Colore:** 🔴 le scelte, di Nicola. 🟢 il registro ripulito e i file di preparazione.
+
