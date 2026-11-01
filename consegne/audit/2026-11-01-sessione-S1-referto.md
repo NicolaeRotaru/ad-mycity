@@ -57,3 +57,15 @@ Il collaudo finale della sesta sessione ha bocciato un solo pacchetto: il rimbor
 La correzione sta nella richiesta https://github.com/NicolaeRotaru/mycity/pull/282. Prima di segnare il rimborso si legge il diario del credito con la stessa chiave: se il credito c'è già e l'ordine lo conta, non si rifà niente.
 Prove: la prova del collaudatore, rinominata e allargata. Copre 8 € e 35 €, il doppio tocco e due negozi. Una prova nuova sul carrello di due negozi, con 20 € e 25 € rimborsati sull'altro ordine, chiude il buco nel filtro dell'ordine. La prova rimessa regge. Il controllo completo è verde: 7462 prove passate, 1 saltata.
 Cosa resta: un ordine con un altro rimborso, e insieme un credito uscito ma non contato, va ancora avanti come prima. È il guasto doppio già dichiarato.
+
+## Correzione 2, dopo il secondo ricollaudo (2026-11-01 16:55)
+Il ricollaudo della prima correzione ha trovato due guasti nuovi, tutti e due nel freno del credito.
+- **Un altro reso lo ingannava.** Il freno deduceva «credito già contato» dal totale rimborsato. Esempio: due resi da 20 € sullo stesso ordine, e il secondo ha un guasto doppio. Il totale era già 20 € grazie al primo reso, quindi il secondo non si contava più.
+- **Una funzione morta usciva in silenzio.** Se la funzione si fermava dopo il credito, la ripresa diceva «ok» senza riprendere la quota del negozio e senza avvisare nessuno.
+
+Il rimedio è un segno per ogni reso, al posto del totale. Sull'ordine si scrive «wallet:<chiave del reso>» subito dopo la prenotazione. Se un passo cade, il segno si toglie insieme a lei.
+- Se ci sono il segno e il credito, non si rifà niente. Se lo stato del pagamento non è mai stato scritto, si avvisa chi amministra.
+- Se c'è il segno ma non il credito, si finisce il lavoro senza prenotare di nuovo.
+- Se il segno non c'è, si va come sempre.
+
+Prove: le due del collaudatore, rinominate, più il caso «morta fra la prenotazione e il credito». I casi a ciclo ora mordono anche con 8 € su 50 e 31 € su 80. La prova rimessa regge. Il controllo completo è verde: 7471 prove passate, 1 saltata. Commit 1539bbe, richiesta #282.

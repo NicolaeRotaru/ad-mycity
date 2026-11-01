@@ -537,5 +537,13 @@
   "prova": "npx vitest run tests/unit/il-reso-pagato-col-credito-ripreso-si-conta-una-volta.test.ts tests/unit/il-rimborso-del-reso-con-la-carta-non-esce-due-volte.test.ts tests/unit/refund-order-cod.test.ts (prova-rimessa su lib/stripe/payout.ts: regge)",
   "verify": "verde: 7462 passate, 1 saltata",
   "residuo": "credito uscito ma non contato su un ordine con un altro rimborso: il freno non scatta (guasto doppio gia' dichiarato)"
+ },
+ "correzione_2": {
+  "pr": "https://github.com/NicolaeRotaru/mycity/pull/282",
+  "commit": "1539bbe",
+  "esito": "corretto, da ricollaudare",
+  "rimedio": "segno wallet:<chiave> sull'ordine dopo la prenotazione, tolto dal catch; segno+credito: niente da rifare (avviso se lo stato non è scritto); segno senza credito: si finisce senza prenotare",
+  "prova": "npx vitest run tests/unit/il-credito-ripreso-si-conta-anche-con-un-altro-rimborso.test.ts tests/unit/il-credito-ripreso-dopo-una-funzione-morta-avvisa.test.ts tests/unit/il-reso-pagato-col-credito-ripreso-si-conta-una-volta.test.ts tests/unit/refund-order-cod.test.ts (prova-rimessa su lib/stripe/payout.ts: regge)",
+  "verify": "verde: 7471 passate, 1 saltata"
  }
 }
