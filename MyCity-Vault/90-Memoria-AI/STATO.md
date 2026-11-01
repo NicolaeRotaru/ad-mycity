@@ -4,7 +4,7 @@ aggiornato: 2026-11-01 09:57
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
-> 📜 **2026-11-01 09:57 — Le ondate 5 e 6 sono dentro; i Termini 3.0 aspettano la tua rilettura.**
+> 📜 **2026-11-01 09:57 — Le ondate 5 e 6 sono dentro. I Termini 3.0 aspettano la tua rilettura.**
 >
 > Hai unito la #272 alle 09:54: bonifici al negozio, resi col rimborso intero, modulo prodotto, via i 5 euro e i punti. Adesso premi il pulsante delle migrazioni: applica la 168, la 178, la 179, la 180 e la 184. La #273 porta i Termini 3.0, da rileggere prima dell'unione.
 >
