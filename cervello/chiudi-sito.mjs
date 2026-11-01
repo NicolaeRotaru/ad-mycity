@@ -269,6 +269,9 @@ function main() {
     // convinta che `JSON.stringify` li riemettesse crudi. Provato: non è vero. Da ES2019 li scrive
     // già come `\ud800`, e la regex non trovava mai niente. Quell'inciampo era di Python, in una
     // sessione di agosto, ed era stato ricopiato qui senza rifare la prova. Tolta.
+    // 1/11/2026 — Il Pannello mostrava «referto 11/10» su numeri aggiornati a oggi: la data era quella
+    // dell'ultima radiografia completa, non dell'ultimo aggiornamento. Chi scrive il registro la segna.
+    registro.meta = { ...(registro.meta ?? {}), aggiornato: quando };
     scriviTestoAtomico(REGISTRO, JSON.stringify(registro, null, 2));
     console.log(`\n   📌 scritte ${chiudo.length} chiusure nel registro (${quando}).`);
   } else if (!applica) {

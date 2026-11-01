@@ -51,7 +51,7 @@ const REPO = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..");
 
 /** Le tre parole che chiudono un problema. Scritte qui a mano apposta: se una delle due case ne
  * aggiunge o toglie una senza dirlo, questo elenco resta indietro e il caso ⑨ diventa rosso. */
-const STATI_CHIUSI_ATTESI = ["chiuso", "riparato", "gia_riparato_prima"];
+const STATI_CHIUSI_ATTESI = ["chiuso", "riparato", "gia_riparato_prima", "doppione"];
 
 // Il gemello TypeScript si importa diretto (Node ≥22.18). In cima e non dentro un caso: un `await`
 // dentro un test girerebbe dopo il conteggio e un `1 = 2` stamperebbe «pass» (AR-694).
@@ -99,7 +99,7 @@ test("① sul referto vero la somma torna, e il conto è quello che dice l'elenc
   // l'invariante: il conto deve essere ESATTAMENTE quello che si ricava
   // contando a mano l'elenco, con lo stesso vocabolario di stati.
   const apertiAMano = VERO.problemi.filter(
-    (p) => !["chiuso", "riparato", "gia_riparato_prima"].includes(String(p.stato ?? "").trim().toLowerCase()),
+    (p) => !["chiuso", "riparato", "gia_riparato_prima", "doppione"].includes(String(p.stato ?? "").trim().toLowerCase()),
   ).length;
   assert.equal(c.aperti, apertiAMano, "gli aperti devono coincidere col conto a mano sull'elenco");
   assert.equal(c.chiusi, VERO.problemi.length - apertiAMano);
@@ -268,6 +268,28 @@ test("⑧ alla scheda arrivano solo gli aperti, col numero dei riparati e il «d
   assert.equal(dimensioniDaDisegnare({ meta: { findings: 245 }, dimensioni: [] }), null);
 });
 
+// ── ⑩ IL DOPPIONE ────────────────────────────────────────────────────────────────────────────────
+// 1/11/2026 — Nicola: «metti esattamente i difetti che ci sono, senza doppioni». Due collaudatori che
+// vedono lo stesso difetto lo scrivono due volte; contarlo due volte fra gli aperti gonfia il numero,
+// e contarlo fra i riparati mente sul lavoro fatto. Un doppione non è lavoro e non è una riparazione:
+// si conta a parte, e la somma continua a tornare.
+
+test("⑩ un doppione non è aperto e non è riparato: si conta a parte, in tutte e due le case", () => {
+  const digest = referto([pb("doppione"), pb("riparato"), pb("aperto"), pb("gia_riparato_prima", "minore")]);
+  for (const [nome, casa] of [["cervello", { contoMarketplace, dimensioniDaDisegnare }], ["pannello", pannello]]) {
+    const c = casa.contoMarketplace(digest);
+    assert.equal(c.aperti, 1, `${nome}: il doppione non è aperto`);
+    assert.equal(c.doppioni, 1, `${nome}: il doppione si conta a parte`);
+    assert.equal(c.riparati, 2, `${nome}: «già riparati» non contiene il doppione`);
+    assert.equal(c.chiusi, 3, `${nome}: chiusi = riparati + doppioni, non è più lavoro`);
+    assert.equal(c.aperti + c.chiusi, c.totale, `${nome}: la somma torna`);
+    const [dim] = casa.dimensioniDaDisegnare(digest);
+    assert.equal(dim.problemi_chiusi, 2, `${nome}: nella riga dell'area «riparati» non conta il doppione`);
+    assert.equal(dim.problemi_doppioni, 1, `${nome}: nella riga dell'area il doppione ha il suo numero`);
+    assert.equal(dim.findings.length, 1, `${nome}: la scheda mostra solo l'aperto`);
+  }
+});
+
 // ── ⑨ LE DUE CASE ────────────────────────────────────────────────────────────────────────────────
 
 test("⑨ il gemello TypeScript del Pannello dà gli stessi numeri, campo per campo", () => {
@@ -279,6 +301,7 @@ test("⑨ il gemello TypeScript del Pannello dà gli stessi numeri, campo per ca
     ["severità ignota", referto([pb("aperto", "catastrofico"), pb("aperto", "bloccante")])],
     ["forma vecchia", { meta: { findings: 2 }, dimensioni: [{ key: "a", findings: [{ stato: "chiuso" }, { severita: "grave" }] }] }],
     ["senza niente", {}],
+    ["doppione", referto([pb("doppione"), pb("riparato"), pb("aperto")])],
   ];
   for (const [nome, digest] of casi) {
     assert.deepEqual(

@@ -23,8 +23,11 @@ type Digest = Record<string, unknown> | null | undefined;
 // ① IL VOCABOLARIO — quali stati vogliono dire «non è più lavoro»
 // ═══════════════════════════════════════════════════════════════════════════
 
-/** Gli stati che chiudono un problema del sito: `chiuso` (forma vecchia), `riparato`, `gia_riparato_prima`. */
-export const STATI_CHIUSI = ["chiuso", "riparato", "gia_riparato_prima"] as const;
+/** Gli stati che chiudono un problema del sito: `chiuso` (forma vecchia), `riparato`, `gia_riparato_prima`, `doppione`. */
+export const STATI_CHIUSI = ["chiuso", "riparato", "gia_riparato_prima", "doppione"] as const;
+
+/** 1/11/2026 — Lo stesso difetto di un'altra voce: non è lavoro e non è una riparazione. Gemello di cervello/radiografia-marketplace-conti.mjs. */
+export const STATO_DOPPIONE = "doppione";
 
 /** L'etichetta che il vuoto porta nel conto per stato. Anche il niente ha un nome, così si vede. */
 export const STATO_ASSENTE = "(senza stato)";
@@ -43,6 +46,11 @@ export function statoDi(p: Problema): string {
 /** Questo problema è chiuso? La porta unica: chi conta e chi disegna passano da qui. */
 export function eChiuso(p: Problema): boolean {
   return (STATI_CHIUSI as readonly string[]).includes(statoDi(p));
+}
+
+/** Questo problema è un doppione di un altro? Non è lavoro e non è una riparazione. */
+export function eDoppione(p: Problema): boolean {
+  return statoDi(p) === STATO_DOPPIONE;
 }
 
 /** Questo problema è ancora lavoro? Tutto ciò che non è chiuso — compreso ciò che non so nominare. */
@@ -151,6 +159,8 @@ export type ContoMarketplace = {
   divergenza_dal_dichiarato: number | null;
   totale: number | null;
   chiusi: number | null;
+  riparati: number | null;
+  doppioni: number | null;
   aperti: number | null;
   aperti_per_severita: PerSeverita | null;
   totale_per_severita: PerSeverita | null;
@@ -179,6 +189,8 @@ export function contoMarketplace(digest: Digest): ContoMarketplace {
       divergenza_dal_dichiarato: null,
       totale: null,
       chiusi: null,
+      riparati: null,
+      doppioni: null,
       aperti: null,
       aperti_per_severita: null,
       totale_per_severita: null,
@@ -190,6 +202,7 @@ export function contoMarketplace(digest: Digest): ContoMarketplace {
   const aperti_per_severita = contoVuotoPerSeverita();
   const totale_per_severita = contoVuotoPerSeverita();
   let chiusi = 0;
+  let doppioni = 0;
   let aperti = 0;
 
   for (const p of problemi) {
@@ -198,8 +211,10 @@ export function contoMarketplace(digest: Digest): ContoMarketplace {
     const sev = severitaDi(p);
     const ramo = ((SEVERITA_NOTE as readonly string[]).includes(sev) ? sev : "altre") as keyof PerSeverita;
     totale_per_severita[ramo] += 1;
-    if (eChiuso(p)) chiusi += 1;
-    else {
+    if (eChiuso(p)) {
+      chiusi += 1;
+      if (eDoppione(p)) doppioni += 1;
+    } else {
       aperti += 1;
       aperti_per_severita[ramo] += 1;
     }
@@ -213,6 +228,8 @@ export function contoMarketplace(digest: Digest): ContoMarketplace {
     divergenza_dal_dichiarato: dichiarati == null ? null : problemi.length - dichiarati,
     totale: problemi.length,
     chiusi,
+    riparati: chiusi - doppioni,
+    doppioni,
     aperti,
     aperti_per_severita,
     totale_per_severita,
@@ -241,6 +258,7 @@ export type DimensioneDisegnata = {
   nome: string | null;
   findings: Problema[];
   problemi_chiusi: number;
+  problemi_doppioni: number;
 };
 
 /**
@@ -265,7 +283,7 @@ export function dimensioniDaDisegnare(
   const aggiungi = (chiave: unknown, nome: string | null): DimensioneDisegnata => {
     const k = String(chiave ?? "").trim() || "(senza area)";
     if (!perChiave.has(k)) {
-      perChiave.set(k, { key: k, nome: nome ?? null, findings: [], problemi_chiusi: 0 });
+      perChiave.set(k, { key: k, nome: nome ?? null, findings: [], problemi_chiusi: 0, problemi_doppioni: 0 });
       ordine.push(k);
     }
     return perChiave.get(k) as DimensioneDisegnata;
@@ -282,7 +300,8 @@ export function dimensioniDaDisegnare(
   for (const p of problemi) {
     const voce = aggiungi(p?.dimensione, null);
     if (eChiuso(p)) {
-      voce.problemi_chiusi += 1;
+      if (eDoppione(p)) voce.problemi_doppioni += 1;
+      else voce.problemi_chiusi += 1;
       if (soloAperti) continue;
     }
     const snello: Problema = {};
@@ -294,5 +313,5 @@ export function dimensioniDaDisegnare(
 
   return ordine
     .map((k) => perChiave.get(k) as DimensioneDisegnata)
-    .filter((d) => d.findings.length || d.problemi_chiusi);
+    .filter((d) => d.findings.length || d.problemi_chiusi || d.problemi_doppioni);
 }
