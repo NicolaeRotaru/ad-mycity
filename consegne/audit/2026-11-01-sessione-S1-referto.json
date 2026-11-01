@@ -26,11 +26,13 @@
     },
     {
      "chiave": "lib/stripe/payout.ts (webhook)",
-     "esito": "non regge",
-     "chiavi_chiuse": [],
-     "prova": "nessuna: alla base dispute/trasferimenti/abbonamenti/route lanciano già l'errore sulle scritture (scritturaObbligatoria/throw); le righe della scheda non tornano. Serve un ricontrollo riga per riga prima di chiuderlo o di dichiararlo già chiuso.",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "pagamenti-stripe|se il database sbaglia una scrittura durante un pagamento, il sito risponde a stripe «tutto a posto» e stripe non riprova più"
+     ],
+     "prova": "npx vitest run tests/unit/se-il-database-sbaglia-stripe-riprova.test.ts tests/unit/nei-gestori-di-stripe-una-scrittura-si-legge-sempre.test.ts tests/unit/nei-gestori-di-stripe-nessun-esito-del-database-si-butta.test.ts → 29 verdi; togliendo il throw in scritturaObbligatoria (lib/stripe/webhook/esito.ts) → 14 rossi su 29",
      "file_toccati": [],
-     "difetto": "pagamenti-stripe|se il database sbaglia una scrittura durante un pagamento, il sito risponde a stripe «tutto a posto» e stripe non riprova più"
+     "nota": "già chiuso nel codice di partenza (ecb8e2c): nessuna modifica in questa sessione"
     },
     {
      "chiave": "contestazioni dopo la 063",
@@ -516,6 +518,13 @@
    ],
    "trovati": 0,
    "lente": "B"
+  }
+ ],
+ "fuori_territorio_ricevuti": [
+  {
+   "da": "S2",
+   "file": "lib/ordini/veloce-non-confermata.ts",
+   "esito": "nessuna modifica: la frase dice già «puoi annullarlo senza costi dalla sua pagina finché il negozio non lo conferma» (riga 131), ed è vero: la rotta di annullo accetta solo ordini NEW e rimborsa per intero. La copre tests/unit/il-freno-della-veloce-dice-il-vero-a-chi-deve-saperlo.test.ts"
   }
  ]
 }
