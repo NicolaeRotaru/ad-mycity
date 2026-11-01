@@ -81,5 +81,15 @@
     "agenti": 12,
     "nota": "node cervello/conto-token.mjs --workflow wf_631e8390-ab7; quale dei due contatori conti il limite settimanale non è noto"
   },
-  "dopo": "Scelta di Nicola del 31/10: i 3 pacchetti che reggono delle ondate 5 e 6 (FW, VN, FR) in una richiesta sola; un'ondata di correzione su due motori per gli altri 7 (run wf_3231678e-3d7 e wf_6cb735f1-94d)."
+  "dopo": "Scelta di Nicola del 31/10: i 3 pacchetti che reggono delle ondate 5 e 6 (FW, VN, FR) in una richiesta sola; un'ondata di correzione su due motori per gli altri 7 (run wf_3231678e-3d7 e wf_6cb735f1-94d).",
+  "chiusure": {
+    "pr": "NicolaeRotaru/mycity#271",
+    "commit": "ad544b11",
+    "unita": "2026-11-01 08:57",
+    "chiuse": 14,
+    "per_pacchetto": {
+      "FR": "14 su 14"
+    },
+    "prove": "8 file, 73 casi su 73 verdi sul codice unito"
+  }
 }
