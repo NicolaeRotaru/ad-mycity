@@ -1,7 +1,7 @@
 {
  "sessione": "S3",
  "pr": "https://github.com/NicolaeRotaru/mycity/pull/276",
- "commit": "f09318b2bf055e38e4faf64076389397bbbff0f8",
+ "commit": "13c62bcc9532bb26a08fc4db1855881a7f17c2e1",
  "ondate": [
   {
    "ondata": 5,
@@ -87,10 +87,92 @@
   },
   {
    "ondata": 6,
-   "run_id": null,
-   "verify": null,
-   "pacchetti": [],
-   "nota": "Non lanciata: il tetto settimanale era allowed_warning, non allowed (regola 8)."
+   "run_id": "wf_5d46d4bc-ce3",
+   "verify": "verde (845 file, 7172 prove)",
+   "prove_sql": "nessuna migrazione nuova",
+   "nota": "Ripartita alle 14:20 per decisione di Nicola, con la regola 8 sospesa.",
+   "pacchetti": [
+    {
+     "chiave": "app/seller/products/import/page.tsx",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "frontend-ux|il caricamento dei prodotti da file non legge i file salvati con excel in italiano",
+      "frontend-ux|il caricamento da file mette in vendita prodotti senza il controllo di foto, descrizione e ingredienti: si è corretta solo la frase"
+     ],
+     "prova": "npx vitest run tests/unit/*csv* tests/unit/un-alimento-caricato-da-file-non-va-in-vendita-senza-allergeni-e-ingredienti.test.tsx",
+     "file_toccati": [
+      "app/seller/products/import/page.tsx"
+     ],
+     "nota": "Il workflow lo dava «non regge» perché la prova dell'ondata 5 voleva 'available' senza foto; l'AD l'ha allineata alla regola nuova (senza foto nasce bozza). La regola per riga della 001 resta aperta: fermo per una scelta."
+    },
+    {
+     "chiave": "rls-database|regola 001",
+     "esito": "fermo per una scelta",
+     "chiavi_chiuse": [],
+     "prova": "",
+     "file_toccati": [],
+     "nota": "Chiuderla con una migrazione rompe il salvataggio del modulo (api/seller/products/[id]) e il bottone Nascondi, che scrivono col client dell'utente."
+    },
+    {
+     "chiave": "components/CategoryShowcase.tsx",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "navigazione-gerarchia|home, piè di pagina e mappa per google mettono in mostra categorie vuote: otto su nove non hanno prodotti",
+      "immagini-media|le tessere delle categorie in home sono foto d'archivio scritte a mano nel codice"
+     ],
+     "prova": "npx vitest run tests/unit/le-categorie-vuote-non-si-mostrano-in-home-nel-piede-ne-a-google.test.tsx",
+     "file_toccati": [
+      "components/CategoryShowcase.tsx",
+      "components/Footer.tsx",
+      "app/sitemap.ts",
+      "app/category/[slug]/layout.tsx"
+     ],
+     "nota": "Il grave nato (scheletri nell'HTML del server) è stato corretto nel giro di correzione: finché le piene non arrivano si mostrano tutte. Il filtro completo nell'HTML del server chiede lib/queries/precarico.ts (fuori territorio)."
+    },
+    {
+     "chiave": "app/privacy/page.tsx",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "privacy-legale|chi vuole scaricare i propri dati o cancellarsi non ha nessuna strada che funzioni in produzione"
+     ],
+     "prova": "vedi i test nuovi del ramo fix/ondata-6-app-privacy-page-tsx (503 leggibile e recapito unico)",
+     "file_toccati": [
+      "app/privacy/page.tsx",
+      "app/api/contact/route.ts",
+      "app/api/account/export/route.ts",
+      "app/api/account/delete/route.ts",
+      "app/profile/settings/page.tsx",
+      "app/cookies/page.tsx",
+      "lib/legal/titolare.ts"
+     ],
+     "nota": "Funziona davvero solo quando Nicola configura la chiave di servizio, oppure la casella privacy, oppure la posta del supporto."
+    },
+    {
+     "chiave": "app/api/segnalazioni/route.ts",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "api-backend|l'esito motivato di una segnalazione non arriva né a chi ha segnalato né al venditore (dsa art. 16.5 e 17)"
+     ],
+     "prova": "vedi i test nuovi del ramo fix/ondata-6-app-api-segnalazioni-route-ts (PATCH /api/segnalazioni manda l'esito)",
+     "file_toccati": [
+      "app/api/segnalazioni/route.ts",
+      "app/api/segnalazioni/esito/comunica.ts",
+      "components/Segnala.tsx"
+     ],
+     "nota": "Il mittente c'è; il collegamento dalla pagina admin è fuori territorio (app/admin/segnalazioni deve chiamare PATCH dopo il salvataggio)."
+    },
+    {
+     "chiave": "lib/home-site.ts",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "coerenza-brand|il titolo grande della home in produzione viene dal database e dice ancora «arriva a casa in 30-60 min» e «abbigliamento»"
+     ],
+     "prova": "vedi il test nuovo del ramo fix/ondata-6-lib-home-site-ts (home_site col testo di produzione: l'eroe non lo pubblica)",
+     "file_toccati": [
+      "lib/home-site.ts"
+     ]
+    }
+   ]
   }
  ],
  "nati": [
@@ -146,6 +228,111 @@
    "nato_dal_lotto": true,
    "pacchetto": "app/contact/page.tsx",
    "prova": "grep -n \"gestore ? `\" app/contact/page.tsx: formato duplicato, contro la regola «un posto solo». Dopo l'unione con il ramo dei termini va sostituito con nomePubblico(chiSiamo).",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "La lettura delle categorie piene presume che le regole del database mostrino solo prodotti di negozi approvati",
+   "gravita": "minore",
+   "dove": "components/CategoryShowcase.tsx domandaCategoriePiene; app/category/[slug]/layout.tsx haProdotti",
+   "nato_dal_lotto": true,
+   "prova": "La sitemap filtra per seller_id dei negozi approvati, qui si filtra solo status='available': se le regole RLS mostrano anche prodotti di negozi non approvati, una categoria potrebbe risultare piena per errore.",
+   "pacchetto": "components/CategoryShowcase.tsx",
+   "fonte": "squadra"
+  },
+  {
+   "titolo": "buco nelle prove (variante): Macchina: rosso_strutturale. Rimesso il difetto (useMemo(() => tutte)): la prova diventa rossa. Footer e layout mordono.",
+   "gravita": "minore",
+   "dove": "components/CategoryShowcase.tsx",
+   "nato_dal_lotto": true,
+   "prova": "Macchina: rosso_strutturale. Rimesso il difetto (useMemo(() => tutte)): la prova diventa rossa. Footer e layout mordono. Buco: senza risalita alla madre (id = null) le 6 prove restano verdi. Comando: npx vitest run tests/unit/le-categorie-vuote-...test.tsx",
+   "pacchetto": "components/CategoryShowcase.tsx",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "La prova della home non copre il prodotto in una sottocategoria: se la madre smette di contare come piena, le prove restano verdi",
+   "gravita": "minore",
+   "dove": "components/CategoryShowcase.tsx categorieConProdotti + tests/unit/le-categorie-vuote-non-si-mostrano-in-home-nel-piede-ne-a-google.test.tsx",
+   "nato_dal_lotto": true,
+   "pacchetto": "components/CategoryShowcase.tsx",
+   "prova": "Mutazione 'id = madreDi.get(id) ?? null' -> 'id = null': npx vitest run sul file di prova dà 6 passate su 6. Serve un caso con il prodotto in una figlia di Alimentari e la tessera Alimentari attesa in home.",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "Home e piede contano i prodotti di qualunque venditore che la sessione vede, la mappa del sito solo quelli dei negozi approvati",
+   "gravita": "minore",
+   "dove": "components/CategoryShowcase.tsx domandaCategoriePiene vs app/sitemap.ts:79-100",
+   "nato_dal_lotto": true,
+   "pacchetto": "components/CategoryShowcase.tsx",
+   "prova": "domandaCategoriePiene non filtra per seller approvato. Un venditore loggato (o un admin) vede i propri prodotti tramite RLS: per lui una categoria con soli prodotti non approvati risulta piena.",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "Comunicare l'esito due volte rimanda la mail e le notifiche; dopo un 502 il nuovo tentativo rimanda anche i canali riusciti",
+   "gravita": "minore",
+   "dove": "app/api/segnalazioni/esito/comunica.ts comunicaEsito",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/api/segnalazioni/route.ts",
+   "prova": "Nessuna colonna o guardia 'esito_comunicato_at': ogni PATCH richiama sendEmail e fa l'insert in notifications senza controllare un invio precedente.",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "Prodotto segnalato poi cancellato: il venditore risulta 'fallita' e la rotta risponde 502 per sempre",
+   "gravita": "minore",
+   "dove": "app/api/segnalazioni/esito/comunica.ts venditoreDi / venditore = sellerId ? ... : 'fallita'",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/api/segnalazioni/route.ts",
+   "prova": "Se products non ha più la riga, seller_id è null, quindi venditore='fallita' e la PATCH risponde 502 a ogni tentativo.",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "Nuova promessa nell'informativa: «ti rispondiamo entro un mese, come prevede la legge»",
+   "gravita": "minore",
+   "dove": "app/privacy/page.tsx, ramo senza pulsanti attivi",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/privacy/page.tsx",
+   "prova": "La frase non c'è sul commit f09318b2 (git show f09318b2:app/privacy/page.tsx | grep 'un mese' non trova nulla). È allineata all'art. 12.3 GDPR, ma è una promessa nuova da far approvare a Nicola.",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "Il piede non elenca nessuna categoria finche' la lettura delle piene non arriva (anche nell'HTML del server)",
+   "gravita": "minore",
+   "dove": "components/Footer.tsx: madri = piene.data ? ... : []",
+   "nato_dal_lotto": true,
+   "pacchetto": "components/CategoryShowcase.tsx",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "Due PATCH dell'esito sulla stessa segnalazione rimandano email e notifiche (manca il segno «esito gia' comunicato»)",
+   "gravita": "minore",
+   "dove": "app/api/segnalazioni/esito/comunica.ts comunicaEsito",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/api/segnalazioni/route.ts",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "L'informativa promette «ti rispondiamo entro un mese»: frase nuova che Nicola deve scegliere",
+   "gravita": "minore",
+   "dove": "app/privacy/page.tsx, ramo !pulsantiAttivi",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/privacy/page.tsx",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "Le categorie vuote compaiono nell'HTML del server in home e nel piede, poi spariscono lato client: le tessere saltano",
+   "gravita": "minore",
+   "dove": "components/CategoryShowcase.tsx:172-177, components/Footer.tsx:174-177 (le categorie piene non sono precaricate: precarico.ts è fuori territorio)",
+   "nato_dal_lotto": true,
+   "pacchetto": "components/CategoryShowcase.tsx",
+   "prova": "renderToString con le sole categorie precaricate (alimentari+elettronica): l'HTML contiene /category/elettronica, che il client toglie quando arriva ['categories','con-prodotti']. Si spegne precaricando CHIAVE_CATEGORIE_PIENE in precarico.ts (fuori territorio).",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "Il conto delle categorie piene legge al massimo 1000 prodotti, senza ordine: oltre, una categoria vera può sparire",
+   "gravita": "minore",
+   "dove": "components/CategoryShowcase.tsx domandaCategoriePiene: .limit(5000) ma supabase/config.toml max_rows=1000",
+   "nato_dal_lotto": true,
+   "pacchetto": "components/CategoryShowcase.tsx",
+   "prova": "Oggi è latente, perché i prodotti disponibili sono pochi. Si spegne con un conto per categoria fatto dal database (RPC o vista con distinct category_id).",
    "fonte": "collaudo B"
   }
  ],
@@ -211,6 +398,75 @@
    "nato_dal_lotto": false,
    "pacchetto": "app/api/ai/catalog-create-bulk/route.ts",
    "prova": "Già nel referto originale (catalog-create/route.ts:59). Serve lo stesso tetto per campo, 2000 per ingredienti e valori nutrizionali, anche lì o nella porta unica draftFromVision.ts.",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "Il bottone Nascondi aggiorna il prodotto dal browser senza traccia nel registro",
+   "gravita": "minore",
+   "dove": "lib/products/nascondi.ts:31 chiamato da app/seller/products/page.tsx:133 e app/seller/products/[id]/edit/page.tsx:174",
+   "nato_dal_lotto": false,
+   "prova": "client.from('products').update({status:'draft'}) col client del browser, nessun writeAudit",
+   "pacchetto": "app/seller/products/import/page.tsx",
+   "fonte": "squadra"
+  },
+  {
+   "titolo": "La pagina impostazioni (browser) manda al modulo contatti anche quando il modulo non arriva a nessuno",
+   "gravita": "minore",
+   "dove": "app/profile/settings/page.tsx:596-607",
+   "nato_dal_lotto": false,
+   "prova": "È un componente client: non vede le variabili del server. Il 503 delle rotte mostra comunque la strada giusta nel messaggio.",
+   "pacchetto": "app/privacy/page.tsx",
+   "fonte": "squadra"
+  },
+  {
+   "titolo": "Cookie policy e sezioni titolare/modifiche della privacy rimandano al modulo contatti anche senza database né posta",
+   "gravita": "minore",
+   "dove": "app/cookies/page.tsx:143-150 · app/privacy/page.tsx sezioni 1 e 9",
+   "nato_dal_lotto": false,
+   "pacchetto": "app/privacy/page.tsx",
+   "fonte": "squadra"
+  },
+  {
+   "titolo": "Chi segnala non riceve ancora nessun esito: la pagina admin salva la decisione ma non chiama il mittente PATCH",
+   "gravita": "grave",
+   "dove": "app/admin/segnalazioni/page.tsx (fuori territorio): dopo il salvataggio serve fetch PATCH /api/segnalazioni {id}",
+   "nato_dal_lotto": false,
+   "pacchetto": "app/api/segnalazioni/route.ts",
+   "prova": "grep -n \"PATCH\\|/api/segnalazioni\" app/admin/segnalazioni/page.tsx non trova nulla: la decisione si scrive direttamente sul database e nessun codice manda l'esito (DSA art. 16.5 e 17).",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "Il freno delle promesse superate non riconosce le riformulazioni dei 30-60 minuti",
+   "gravita": "minore",
+   "dove": "lib/site-branding.ts promessaSuperata (regex /\\b30\\s*[-–]\\s*60\\s*min/)",
+   "nato_dal_lotto": false,
+   "pacchetto": "lib/home-site.ts",
+   "prova": "Prova temporanea con vitest: promessaSuperata('consegna da 30 a 60 minuti'), 'in 30/60 min' e \"arriva in mezz'ora\" restituiscono null. Passano solo le forme con il trattino.",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "Il ripiego dell'eroe (variante A) elenca casa ed elettronica, che sono categorie vuote",
+   "gravita": "minore",
+   "dove": "app/page.tsx HERO_VARIANTS.a.subhead (fuori territorio)",
+   "nato_dal_lotto": false,
+   "pacchetto": "lib/home-site.ts",
+   "prova": "Il sottotitolo di ripiego dice 'Alimentari, casa, elettronica', ma solo Alimentari ha prodotti. È il testo che compare quando il freno scarta quello salvato.",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "La descrizione per Google promette ancora casa, elettronica e libri, che sono categorie vuote",
+   "gravita": "minore",
+   "dove": "lib/site-branding.ts:81 (descrizione di riserva); app/page.tsx:33",
+   "nato_dal_lotto": false,
+   "pacchetto": "components/CategoryShowcase.tsx",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "Il freno delle promesse superate copre solo l'eroe: le intestazioni salvate delle altre sezioni della home non passano dal freno",
+   "gravita": "minore",
+   "dove": "lib/home-site.ts togliPromesseSuperate (solo type hero)",
+   "nato_dal_lotto": false,
+   "pacchetto": "lib/home-site.ts",
    "fonte": "collaudo B"
   }
  ],
@@ -340,6 +596,18 @@
   {
    "file": "tests/sql/rls/12-un-alimentare-senza-allergeni-non-si-pubblica.test.sql",
    "serve": "modificato in 2 righe (aggiunti gli ingredienti ai casi validi): eccezione alla regola «solo aggiunte», conseguenza diretta della 195"
+  },
+  {
+   "file": "app/admin/segnalazioni/page.tsx",
+   "serve": "dopo il salvataggio della decisione chiamare PATCH /api/segnalazioni {id}: senza questo l'esito resta non comunicato (grave)"
+  },
+  {
+   "file": "lib/queries/precarico.ts",
+   "serve": "precaricaHome deve precaricare domandaCategoriePiene, così l'HTML del server mostra già solo le categorie piene"
+  },
+  {
+   "file": "app/page.tsx",
+   "serve": "HERO_VARIANTS.a.subhead e la descrizione per Google promettono casa, elettronica e libri, che sono categorie vuote"
   }
  ],
  "scelte_per_nicola": [
@@ -354,12 +622,167 @@
   {
    "domanda": "Che testo mettiamo nel sottotitolo grande della home (dal pannello)?",
    "raccomandazione": "Usare quello già proposto in LAVORO-APERTO.md: niente «30-60 min» come promessa certa, niente abbigliamento."
+  },
+  {
+   "domanda": "Chiudiamo la regola della migrazione 001 che lascia al negozio modificare i prodotti direttamente dal browser?",
+   "raccomandazione": "Sì, ma solo dopo aver spostato sul server il salvataggio della scheda prodotto e il bottone Nascondi: oggi chiuderla romperebbe quelle due cose."
+  },
+  {
+   "domanda": "Nell'informativa privacy scriviamo «ti rispondiamo entro un mese»?",
+   "raccomandazione": "Sì: è l'obbligo dell'art. 12 del GDPR, non una promessa in più. Va però mantenuto davvero, quindi serve una casella privacy letta."
+  },
+  {
+   "domanda": "Chiave di servizio, casella privacy o posta del supporto: quale configuriamo per far funzionare scarica-dati e cancellazione?",
+   "raccomandazione": "La chiave di servizio (sblocca anche contatti e segnalazioni) più una casella privacy vera."
   }
  ],
  "conto_token": {
   "workflow_senza_cache": 606914,
   "workflow_con_cache": 11051517,
   "agenti": 10,
-  "sessione_AD_costo_usd_al_momento": 9.04
- }
+  "sessione_AD_costo_usd_al_momento": 9.04,
+  "workflow_ondata6_senza_cache": 723699,
+  "workflow_ondata6_con_cache": 13392027
+ },
+ "copertura_collaudo_ondata6": [
+  {
+   "dimensione": "navigazione-gerarchia",
+   "file": [
+    "components/CategoryShowcase.tsx",
+    "components/Footer.tsx",
+    "app/category/[slug]/layout.tsx",
+    "app/sitemap.ts"
+   ],
+   "trovati": 2,
+   "lente": "A"
+  },
+  {
+   "dimensione": "privacy-legale",
+   "file": [
+    "app/privacy/page.tsx",
+    "lib/legal/titolare.ts",
+    "app/profile/settings/page.tsx",
+    "app/api/account/export/route.ts",
+    "app/api/account/delete/route.ts",
+    "app/api/contact/route.ts"
+   ],
+   "trovati": 1,
+   "lente": "A"
+  },
+  {
+   "dimensione": "api-backend",
+   "file": [
+    "app/api/segnalazioni/route.ts",
+    "app/api/segnalazioni/esito/comunica.ts",
+    "components/Segnala.tsx",
+    "migrations/126_radiografia_22_agosto.sql"
+   ],
+   "trovati": 3,
+   "lente": "A"
+  },
+  {
+   "dimensione": "coerenza-brand",
+   "file": [
+    "lib/home-site.ts",
+    "lib/site-branding.ts",
+    "components/home-sections/HomeSectionRenderer.tsx",
+    "app/page.tsx"
+   ],
+   "trovati": 2,
+   "lente": "A"
+  },
+  {
+   "dimensione": "frontend-ux",
+   "file": [
+    "components/CategoryShowcase.tsx",
+    "components/Footer.tsx",
+    "app/category/[slug]/layout.tsx",
+    "app/profile/settings/page.tsx",
+    "components/Segnala.tsx"
+   ],
+   "trovati": 2,
+   "lente": "B"
+  },
+  {
+   "dimensione": "architettura",
+   "file": [
+    "app/sitemap.ts",
+    "lib/env.ts",
+    "lib/legal/titolare.ts",
+    "lib/home-site.ts",
+    "lib/site-branding.ts",
+    "lib/queries/precarico.ts"
+   ],
+   "trovati": 1,
+   "lente": "B"
+  },
+  {
+   "dimensione": "navigazione-gerarchia",
+   "file": [
+    "tests/unit/le-categorie-vuote-non-si-mostrano-in-home-nel-piede-ne-a-google.test.tsx"
+   ],
+   "trovati": 0,
+   "lente": "B"
+  },
+  {
+   "dimensione": "privacy-legale",
+   "file": [
+    "app/privacy/page.tsx",
+    "app/cookies/page.tsx",
+    "tests/unit/l-informativa-dice-la-strada-dei-diritti-che-funziona-davvero.test.ts"
+   ],
+   "trovati": 1,
+   "lente": "B"
+  },
+  {
+   "dimensione": "api-backend",
+   "file": [
+    "app/api/contact/route.ts",
+    "app/api/account/export/route.ts",
+    "app/api/account/delete/route.ts",
+    "app/api/segnalazioni/route.ts",
+    "app/api/segnalazioni/esito/comunica.ts",
+    "tests/unit/la-rotta-segnalazioni-manda-l-esito-deciso.test.ts",
+    "tests/unit/l-esito-di-una-segnalazione-arriva-a-chi-ha-segnalato-e-al-venditore.test.ts",
+    "tests/unit/il-modulo-segnala-non-promette-un-esito-che-non-parte.test.tsx"
+   ],
+   "trovati": 1,
+   "lente": "B"
+  },
+  {
+   "dimensione": "coerenza-brand",
+   "file": [
+    "tests/unit/l-eroe-salvato-della-home-non-ripubblica-promesse-superate.test.ts",
+    "components/home-sections/HomeSectionRenderer.tsx"
+   ],
+   "trovati": 1,
+   "lente": "B"
+  },
+  {
+   "dimensione": "frontend-ux",
+   "file": [
+    "components/CategoryShowcase.tsx",
+    "components/Footer.tsx",
+    "app/category/[slug]/layout.tsx"
+   ],
+   "trovati": 2,
+   "lente": "B"
+  },
+  {
+   "dimensione": "architettura",
+   "file": [
+    "app/sitemap.ts"
+   ],
+   "trovati": 0,
+   "lente": "B"
+  },
+  {
+   "dimensione": "navigazione-gerarchia",
+   "file": [
+    "tests/unit/la-vetrina-delle-categorie-esce-piena-nell-html-del-server.test.tsx"
+   ],
+   "trovati": 0,
+   "lente": "B"
+  }
+ ]
 }
