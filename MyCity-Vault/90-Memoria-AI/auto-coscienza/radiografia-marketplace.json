@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 2211,
+    "findings": 2220,
     "bloccanti": 35,
     "gravi": 601,
-    "minori": 1575,
+    "minori": 1584,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -36734,6 +36734,105 @@
       "file": "tests/unit/il-generatore-dei-tipi-non-esegue-i-commenti.test.ts importa scripts/gen-db-types.mjs, che scrive il file al caricamento (riga 269)",
       "descrizione": "Importare lo script per usare senzaCommenti esegue anche la generazione: npm run verify lascia lib/database.types.ts modificato nella cartella. Visto il 31/10 rimettendo insieme la correzione 5-6: il file risultava cambiato senza che nessuno lanciasse db:types. La cura è separare la funzione dalla scrittura (o scrivere solo se lo script è lanciato da riga di comando).",
       "fonte": "ricucitura dell'ondata di correzione 5-6, AD, 31/10/2026"
+    },
+    {
+      "dimensione": "privacy-legale",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La domanda sui Termini si fa solo sulle pagine: le API di ordine non la controllano",
+      "file": "middleware.ts matcher esclude api/: chi chiama direttamente l'API d'ordine salta il cancello di /checkout",
+      "descrizione": "matcher '/((?!_next/|api/|...).*)' in middleware.ts",
+      "fonte": "terzo giro dei testi legali (run wf_3a764d6a-8fe), difetto vecchio visto strada facendo, squadra, 31/10/2026"
+    },
+    {
+      "dimensione": "privacy-legale",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Buco nelle prove (variante): Macchina: regge. Le due prove della bocciatura vecchia ora passano (cB6/riacc 2/2 e cB6r 2/2), quindi il motivo è chiuso",
+      "file": "app/terms/page.tsx",
+      "descrizione": "Macchina: regge. Le due prove della bocciatura vecchia ora passano (cB6/riacc 2/2 e cB6r 2/2), quindi il motivo è chiuso. Il sito è giusto, ma le prove hanno un buco. Comando: S=scratchpad; WT=<worktree> SCRD=$S/cO6var npx vitest run --config $S/vitest.qa.config.mjs",
+      "fonte": "terzo giro dei testi legali (run wf_3a764d6a-8fe), nato dal lavoro, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "privacy-legale",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Le prove non si accorgono se la cassa torna a fidarsi del cookie del ruolo: chi ha i Termini 2.0 pagherebbe senza riaccettarli",
+      "file": "middleware.ts:430 (`&& !sulPagamento` nella scorciatoia del cookie mc_ruolo); tests/unit/*riaccett* non scrivono mai mc_ruolo",
+      "descrizione": "Togliendo `&& !sulPagamento` le 45 prove della squadra restano verdi. La prova del collaudo diventa rossa: S=<scratchpad>; WT=<worktree> SCRD=$S/cO6var npx vitest run --config $S/vitest.qa.config.mjs",
+      "fonte": "terzo giro dei testi legali (run wf_3a764d6a-8fe), nato dal lavoro, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "privacy-legale",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Le prove non si accorgono se il verbale si legge dalla riga più vecchia: chi ha riaccettato i 3.0 riceverebbe la domanda per sempre",
+      "file": "lib/legal/versione.ts:57 (.order('created_at', { ascending: false })); i finti database delle prove ignorano order",
+      "descrizione": "Mettendo ascending:true le 45 prove restano verdi. Da chiudere con una spia sulla catena che controlli order('created_at',{ascending:false}), oppure con un finto database che ordina davvero le righe.",
+      "fonte": "terzo giro dei testi legali (run wf_3a764d6a-8fe), nato dal lavoro, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "privacy-legale",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La rotta che crea l'ordine in contanti non guarda i Termini: da una scheda di pagamento già aperta prima del cambio si ordina coi 2.0",
+      "file": "app/api/orders/cod/route.ts (nessun controllo sul verbale); middleware matcher esclude api/",
+      "descrizione": "grep -n 'tos_\\|consent\\|VERSIONE_TESTI\\|eLaVersioneInVigore' app/api/orders/cod/route.ts: nessun risultato. Il cancello sta solo sulla pagina /checkout. Prova di funzionamento non costruita: la rotta è lunga 1584 righe.",
+      "fonte": "terzo giro dei testi legali (run wf_3a764d6a-8fe), difetto vecchio visto strada facendo, collaudo A, 31/10/2026"
+    },
+    {
+      "dimensione": "privacy-legale",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Un cliente coi Termini 2.0 e la cassa già aperta ordina lo stesso: le rotte d'ordine non guardano la versione accettata",
+      "file": "app/api/orders/cod/route.ts e app/api/stripe/checkout/route.ts non controllano nulla. Il cancello sta solo nel middleware su /checkout, che nel dubbio (scaduto o rotto) fa passare.",
+      "descrizione": "grep -n -i 'tos_\\|VERSIONE_TESTI\\|consent_log' sulle due rotte non trova nessun controllo. Passi: 1) apri /checkout prima del rilascio; 2) dopo il rilascio premi Ordina; 3) l'ordine entra senza riaccettare. Proposta: lo stesso vaChiestaSenzaTrattenere anche nelle due rotte.",
+      "fonte": "terzo giro dei testi legali (run wf_3a764d6a-8fe), nato dal lavoro, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "privacy-legale",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Dopo aver riaccettato i Termini si torna alla cassa senza i parametri: si perdono il passo e il segnale d'iscrizione",
+      "file": "middleware.ts, funzione versoLeCondizioni: azzera url.search e mette in next solo il pathname",
+      "descrizione": "S=<scratchpad>; cd /home/user/mycity-ondate/o6-app-terms-page-tsx; WT=$PWD SCRD=$S/cQA6B npx vitest run --config $S/vitest.qa.config.mjs: 1 test rosso, next='/checkout' invece di '/checkout?passo=2&registrazione=email'",
+      "fonte": "terzo giro dei testi legali (run wf_3a764d6a-8fe), nato dal lavoro, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "privacy-legale",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "La pagina che chiede di riaccettare non dice che i Termini sono cambiati, né cosa cambia (recesso, pagamenti)",
+      "file": "app/accetta-condizioni/page.tsx, il testo fisso «Per usare MyCity devi accettare i Termini…»",
+      "descrizione": "Letto nel codice: il testo non nomina la versione 3.0 e non elenca le modifiche (casi esclusi dal recesso, modi di pagamento). Chi era iscritto coi 2.0 accetta senza sapere cosa è cambiato. Va rivisto da legale-privacy.",
+      "fonte": "terzo giro dei testi legali (run wf_3a764d6a-8fe), nato dal lavoro, collaudo B, 31/10/2026"
+    },
+    {
+      "dimensione": "privacy-legale",
+      "reparto": "",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Chi si candida come negozio ha la data dei Termini ma nessuna riga a verbale: appena approvato, gli vengono richiesti",
+      "file": "app/api/seller/apply/route.ts, riga 176: scrive tos_accepted_at ma nessuna riga privacy_terms in consent_log",
+      "descrizione": "grep -n 'consent_log\\|privacy_terms' app/api/seller/apply/route.ts non trova niente. Con la regola nuova, alla prima pagina /seller il negozio approvato finisce su /accetta-condizioni (provato da cQA6B, test 1). È una domanda in più, e la candidatura non lascia prova della versione accettata.",
+      "fonte": "terzo giro dei testi legali (run wf_3a764d6a-8fe), difetto vecchio visto strada facendo, collaudo B, 31/10/2026"
     }
   ],
   "sync_scan": {
