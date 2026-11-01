@@ -69,3 +69,13 @@ Il rimedio è un segno per ogni reso, al posto del totale. Sull'ordine si scrive
 - Se il segno non c'è, si va come sempre.
 
 Prove: le due del collaudatore, rinominate, più il caso «morta fra la prenotazione e il credito». I casi a ciclo ora mordono anche con 8 € su 50 e 31 € su 80. La prova rimessa regge. Il controllo completo è verde: 7471 prove passate, 1 saltata. Commit 1539bbe, richiesta #282.
+
+## Correzione 2: non regge (2026-11-01 17:00)
+Anche il secondo ricollaudo è rosso, con tutte e due le lenti. È il terzo rosso sullo stesso pezzo. Per la regola fissata da Nicola, la correzione resta fuori. La richiesta #282 resta aperta come materiale per un giro futuro, e il ramo non si tocca.
+- **Cosa chiude.** Le tre prove rosse dei collaudi di prima sono verdi. Il segno `wallet:<chiave>` non rompe chi legge l'elenco dei rimborsi. I casi da 8 € su 50 e da 31 € su 80 mordono.
+- **Cosa resta aperto.** Il caso è un ordine da 40 € pagato tutto col credito. Il reso A da 20 € va a buon fine. Il reso B da 20 € si ferma subito dopo l'uscita del credito. Alla ripresa il freno trova lo stato «rimborsato in parte», ma l'ha scritto A, non B. Così risponde ok: al negozio si tolgono 18 € invece di 36, e nessuno viene avvisato. Il freno guarda lo stato del pagamento, e l'altro rimborso l'ha già cambiato.
+- **Due gravi nati.**
+  - **Ripresa con un'altra cifra.** Il cliente riceve 15 € di credito, ma l'ordine ne conta 20 e al negozio si tolgono 13,50 €, senza avvisi. Il segno del credito non porta la cifra.
+  - **Due guasti nella stessa richiesta.** Se il catch non riesce a togliere il segno ma storna la prenotazione, l'ordine conta 0 € e il tetto lascia rimborsare altri 40 €.
+- **Un minore.** Se il reso supera metà dell'ordine, i passi «ricevuto» e «rimborsato» non arrivano mai al rimborso.
+- **La strada per il giro futuro.** Un segno per chiave che porti anche la cifra, come quello del bonifico, e la ripresa decide da quel segno. Il catch deve togliere il segno prima di stornare la prenotazione, oppure non stornarla se non riesce a toglierlo.

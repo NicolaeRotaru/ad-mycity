@@ -541,9 +541,25 @@
  "correzione_2": {
   "pr": "https://github.com/NicolaeRotaru/mycity/pull/282",
   "commit": "1539bbe",
-  "esito": "corretto, da ricollaudare",
+  "esito": "non regge",
   "rimedio": "segno wallet:<chiave> sull'ordine dopo la prenotazione, tolto dal catch; segno+credito: niente da rifare (avviso se lo stato non è scritto); segno senza credito: si finisce senza prenotare",
   "prova": "npx vitest run tests/unit/il-credito-ripreso-si-conta-anche-con-un-altro-rimborso.test.ts tests/unit/il-credito-ripreso-dopo-una-funzione-morta-avvisa.test.ts tests/unit/il-reso-pagato-col-credito-ripreso-si-conta-una-volta.test.ts tests/unit/refund-order-cod.test.ts (prova-rimessa su lib/stripe/payout.ts: regge)",
-  "verify": "verde: 7471 passate, 1 saltata"
+  "verify": "verde: 7471 passate, 1 saltata",
+  "motivo_aperto": "funzione morta dopo il credito su un ordine con un altro rimborso: il freno legge PARTIALLY_REFUNDED scritto dall'altro reso e risponde ok (quota 18 invece di 36, nessun avviso)",
+  "nati": [
+   {
+    "gravita": "grave",
+    "titolo": "ripresa con un'altra cifra: credito 15, ordine conta 20, quota 13,50, nessun avviso (il segno wallet: non porta la cifra)"
+   },
+   {
+    "gravita": "grave",
+    "titolo": "catch che non toglie il segno ma storna la prenotazione: l'ordine conta 0 e il tetto lascia rimborsare altri 40 €"
+   },
+   {
+    "gravita": "minore",
+    "titolo": "reso oltre metà dell'ordine: avanza risponde 409 e il segno non viene letto"
+   }
+  ],
+  "strada": "segno per chiave con la cifra (come il bonifico), la ripresa decide dal segno; il catch toglie il segno prima di stornare, o non storna"
  }
 }
