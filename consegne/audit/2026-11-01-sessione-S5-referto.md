@@ -214,3 +214,28 @@ La sesta ha bocciato un pacchetto: la moderazione si poteva aggirare. Bastava so
   - prova-rimessa: regge, uscita 0.
   - `npm run verify`: 7456 prove passate e 1 saltata, su 7457.
 - **Cosa non ho verificato.** I profili già sospesi direttamente dall'attesa, prima di questa correzione, salterebbero ancora il controllo alla riattivazione. Contarli è una lettura sul database, che non ho fatto.
+
+### Ritocco dopo il ricollaudo (stessa richiesta #284, commit 57af40b)
+
+**Il caso trovato.** La sesta sessione ha letto il database di produzione e ci ha trovato 1 fattorino sospeso, mai approvato e senza nessun documento. Un clic su «Riattiva» lo avrebbe mandato a consegnare.
+
+**Cosa cambia:**
+- La riattivazione di un sospeso salta il controllo solo se un amministratore lo aveva davvero approvato, cioè se c'è scritto chi l'ha approvato (`approved_by`). Altrimenti rifà il controllo di partita IVA e documenti. Quello dell'età si faceva già.
+- «Riattiva» ora scrive anche chi ha riattivato.
+- Un doppio clic su «Sospendi» risponde «Questo profilo è già sospeso».
+
+**Le prove.** Sono nel file `tests/unit/sospendere-e-riattivare-non-scavalca-l-approvazione.test.ts`:
+- il caso di produzione: «riattiva» risponde 400 e il profilo resta sospeso;
+- il caso giusto: approvato → sospeso → riattivato torna attivo, anche se nel frattempo un documento è sparito;
+- la sospensione di un profilo respinto o senza stato risponde 400;
+- il doppio clic su «Sospendi».
+
+**I controlli:**
+- prova-rimessa, contro la versione cbb6e0f: regge sui due file corretti.
+- `npm run verify`: 7461 passate e 1 saltata, su 7462.
+
+**Rimasto fuori.** Non ho messo il controllo sullo stato al momento della scrittura (`.eq('approval_status', …)`), che protegge da due amministratori che agiscono nello stesso istante. Servirebbe cambiare i finti database di cinque file di prova: lo lascio come proposta.
+
+**Difetti vecchi, da registrare:**
+- Il server non controlla la scadenza della patente e della polizza RC del fattorino.
+- Il tasto «Modifica» del pannello cambia il ruolo e lascia «approvato» un profilo senza partita IVA.
