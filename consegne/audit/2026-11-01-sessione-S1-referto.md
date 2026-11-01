@@ -23,11 +23,11 @@ Dei 5 rimasti fuori, 3 aspettano una tua scelta di soldi e 2 non hanno retto.
 
 ## Cosa devi fare
 Cinque decisioni, che si leggono anche nel referto JSON (`scelte_per_nicola`):
-1. **Chi paga i codici sconto di MyCity.** Oggi li paga il negozio: su 20 € di pane con 5 € di sconto incassa 13,50 € invece di 18. Raccomando che li paghi MyCity. I codici oggi sono spenti, quindi al lancio non tocca nessuno.
-2. **Contestazione parziale vinta.** Esempio: ordine da 50 €, la banca ne contesta 20 e al negozio se ne tolgono 18. Raccomando di non togliere niente all'apertura e riprendere a mano solo se MyCity perde.
-3. **Contestazioni aperte prima della 184.** Raccomando un confronto in sola lettura con Stripe, poi una correzione firmata da te.
-4. **R83, il recupero dei buoni vecchi.** Lo script è pronto e di base gira a vuoto, senza scrivere niente. Lanciarlo sul serio è una tua firma.
-5. **R83, il rimborso parziale e la contestazione vinta del buono.** Le raccomandazioni sono nel JSON.
+- **Chi paga i codici sconto di MyCity.** Oggi li paga il negozio: su 20 € di pane con 5 € di sconto incassa 13,50 € invece di 18. Raccomando che li paghi MyCity. I codici oggi sono spenti, quindi al lancio non tocca nessuno.
+- **Contestazione parziale vinta.** Esempio: ordine da 50 €, la banca ne contesta 20 e al negozio se ne tolgono 18. Raccomando di non togliere niente all'apertura e riprendere a mano solo se MyCity perde.
+- **Contestazioni aperte prima della 184.** Raccomando un confronto in sola lettura con Stripe, poi una correzione firmata da te.
+- **R83, il recupero dei buoni vecchi.** Lo script è pronto e di base gira a vuoto, senza scrivere niente. Lanciarlo sul serio è una tua firma.
+- **R83, il rimborso parziale e la contestazione vinta del buono.** Le raccomandazioni sono nel JSON.
 
 ## Cosa non ho verificato
 - Le migrazioni 185 e 186 le ho provate solo su un Postgres locale. Sul database vero non sono applicate.
