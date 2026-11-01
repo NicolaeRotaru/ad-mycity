@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-01 12:10
+aggiornato: 2026-11-01 12:25
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -29,6 +29,13 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 ---
 
 ## 1 · Cose che toccano a te
+
+**La base dei prossimi mesi.** È la conversazione del 1/11, finita alle 12:18. Il documento intero è `consegne/strategia/2026-11-01-conversazione-base.md`.
+- Pronto entro il 15/11, aperto alla città, **solo con la carta accesa**: lunedì 2/11 (partita IVA, chiave del database, chiavi di Vercel, conto Stripe) decide la data.
+- Cambiate quattro regole con la tua firma: 10% su tutto, app per il negozio solo per gli ordini, anteprime sul sito con avviso, dicembre aperto ai negozi nuovi.
+- Lavori nuovi del sito: ritiro in negozio, 5 ordini per fascia, tasto «ferma gli ordini», avviso subito al fornaio con allarme a te dopo 5 minuti, «finito per oggi» e «chiuso fino al», report del lunedì, lista clienti da scaricare, codice a barre gratis, spegnere ciò che costa (sfondo bianco, controllo prezzi orario con IA).
+- Lavori nuovi del Pannello, la guardia: giro ogni 5 minuti senza IA, prove di home, cassa e login, errori nuovi, notifica sul tuo Android, tasto «ferma gli ordini», conto della sera alle 21:30. Prima di tutto le due date che scadono il 15/11 all'01:00.
+- Dopo il 15/11: l'app Android che suona, avvocato, HACCP e polizza, poi il server dell'AD quando il sito non ha più difetti.
 
 **Il piano per aprire (scelto da te il 31/10, «parti» alle 08:22)**
 - Le tue azioni, con giorno e durata, stanno nella tabella del piano: dove trovarlo lo dice la sezione 2. Le prime:

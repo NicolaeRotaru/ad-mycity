@@ -6383,3 +6383,26 @@ Restano fuori due pacchetti:
 
 **Colore:** 🔴 le scelte, di Nicola. 🟢 il registro ripulito e i file di preparazione.
 
+
+## 2026-11-01 12:21 — 🔴 La base dei prossimi mesi: cosa vuol dire «pronto», e quattro regole cambiate
+
+**Cosa.** Prima conversazione lunga fra Nicola e l'AD da quando è nato il progetto (mattina del 1/11, sessione «cosa serve per essere pronti»). Documento completo: `consegne/strategia/2026-11-01-conversazione-base.md`. Le scelte di Nicola:
+- **pronto** = aperto alla città, **pronto entro il 15/11**, si apre **solo con contanti e carta accesi** («aspetto la carta»), anche con un negozio solo; primi clienti quelli di Pane Quotidiano (il fornaio al banco + cartello col QR);
+- **il cuore oggi è il sito con le consegne**; Nicola consegna in bici, tutte le 7 fasce, tutti i giorni, al massimo 5 ordini per fascia all'inizio; il sostituto (familiare o fattorino) vale come fattorino;
+- **ritiro in negozio da subito**, gratis per il cliente (scelta dell'AD su «decidi tu»), carta online o contanti al banco con compensazione sul bonifico del lunedì;
+- **il 10% vale su tutto**, anche sui clienti che il negozio aveva già: copre il servizio, non solo la consegna;
+- **avviso al negozio**: email + telefonata di Nicola al lancio; poi un'app Android minima (solo ordini + «Accetto») che suona a schermo spento, allarme all'app di Nicola dopo 5 minuti; APK a mano fino a 10 negozi, poi Play Store personale, Apple per ultima. L'app arriva dopo il 15/11;
+- **tre livelli contro i guasti**: il sito suona in secondi · il Pannello fa la guardia ogni 5 minuti a zero IA, con notifica al telefono e tasto «ferma gli ordini» · l'AD fa conto della sera (21:30, programma senza IA) e diagnosi accurate; la riparazione la fa Nicola con Claude Code;
+- **AD**: piano Max attuale, **mai API di IA a pagamento**, sforzo giusto, tetto di consumo per negozio; server riacceso quando il sito non ha più difetti; prima il sito che vende;
+- **negozi**: 5 o più a settimana dopo l'apertura, fresco vicino al forno, mappa + 10 dossier dal punto di vista del negoziante; uffici subito dopo; niente social per ora; prima ondata di strumenti = finito per oggi / chiuso fino al · prodotti in un attimo (foto → scheda dall'AD, codice a barre con Open Food Facts) · report del lunedì + lista clienti da scaricare;
+- **rischi scelti**: avvocato dopo il lancio; HACCP e polizza dopo (subito solo la borsa termica); chiave del database lunedì 2/11, Garante dopo la chiave.
+
+**Regole cambiate, confermate da Nicola** («Sì, confermo»): 10% su tutto (era «niente percentuale su quello che vendeva già») · app per il negozio (era «nessuna app nuova») · anteprime sul sito con avviso (era «su WhatsApp») · dicembre aperto ai negozi nuovi (la regola non aveva fonte nelle ricerche).
+
+**Perché.** Nicola ha chiesto di ragionare insieme «per avere le idee più chiare e dettagliate possibile», come base per i prossimi mesi. Le analisi di supporto (sola lettura, sei analisti, circa 1,06 milioni di token, lanciati prima della nota delle 12:10 sui limiti) sono sintetizzate nei Dettagli tecnici del documento.
+
+**Registro dei fatti:** aggiornati `pricing.commissione`, `prodotto.paletti`, `strategia.segmenti-onboarding`; nuovi `lancio.data`, `ritiro.in-negozio`, `consegna.capienza`, `avvisi.negozio`, `controllo.tre-livelli`, `soldi.conto-della-sera`, `ad.uso-e-crediti`, `negozi.ingresso`, `negozi.prima-ondata`, `rischi.scelti-al-lancio`.
+
+**Legame con la voce delle 12:10.** La partita IVA la decide Nicola lunedì 2/11 col commercialista. Ma senza partita IVA non c'è il conto Stripe di MyCity né il nome del titolare sul sito: con «aspetto la carta», vuol dire niente apertura.
+
+**Colore:** 🔴 le scelte, tutte di Nicola. 🟢 il documento, il registro e la memoria allineata (nessuna riga di codice toccata).

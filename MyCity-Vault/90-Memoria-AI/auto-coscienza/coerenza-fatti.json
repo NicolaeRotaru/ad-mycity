@@ -1,12 +1,12 @@
 {
-  "data": "2026-11-01 11:50",
+  "data": "2026-11-01 12:23",
   "esito": "ok",
-  "copertura": 1449,
+  "copertura": 1450,
   "origine": "cloud",
   "scritto_da": "coerenza-fatti.mjs",
-  "fatti_totali": 62,
-  "cacce_aperte": 25,
-  "file_scansionati": 1449,
+  "fatti_totali": 72,
+  "cacce_aperte": 29,
+  "file_scansionati": 1450,
   "incoerenze": [],
   "cacce": [
     {
@@ -157,6 +157,30 @@
       "fatto": "pagamenti.al-lancio",
       "pattern": "Al lancio si paga solo in contanti alla consegna, come oggi; la carta si accende dopo, con la sua lista. Quando un pagamento va storto il sito si ferma e avvisa Nicola con la cifra. Il negozio, per i contanti, lo paga Nicola con un bonifico a mano dopo la rimessa registrata. Eccezione temporanea al paletto 7 («la piattaforma non tocca mai i fondi») accettata da Nicola per il lancio, in attesa del parere del legale. Scelte 3 e 4 della carta #209, firmate il 2026-10-26.",
       "dal": "2026-10-31 08:24",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "pricing.commissione",
+      "pattern": "10% sul venduto tramite la piattaforma, scritto «IVA inclusa» (scelta 13 della carta #209, firmata il 2026-10-26; l'IVA la conferma il commercialista), e serve a pagare la consegna: non è un margine sullo scontrino che il negozio faceva già. Nicola, 11/8/2026. Regge insieme al paletto «zero commissioni» proprio per questo — la percentuale sta solo sugli ordini portati da MyCity, cioè su denaro nuovo, e copre il costo di portarli. In un pitch va detta così, mai la sola frase «zero commissioni».",
+      "dal": "2026-11-01 12:18",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "prodotto.paletti",
+      "pattern": "Otto regole che nessuna funzione può rompere (CONTESTO_BUSINESS.md paragrafo 4): 1) zero commissioni sullo scontrino che il negozio faceva già — canone fisso, eventuali fee solo sul denaro nuovo (welfare, gift card); 2) i clienti sono del negozio: contatti sempre visibili ed esportabili, mai disintermediazione stile Glovo o TheFork; 3) attrito zero e anteprima-poi-approva su WhatsApp, nessuna app nuova da imparare; 4) primo risultato in 2-4 settimane, misurato in cassa e comunicato; 5) onboarding fatto dalla piattaforma, non dal negoziante: il self-service resta inutilizzato; 6) report in linguaggio di cassa (incassi, clienti, ordini), mai like o impression o follower; 7) soldi in sola lettura dentro il perimetro Stripe Connect e Issuing, niente moneta alternativa, gift card multi-negozio da validare con un legale prima di scalare; 8) su WhatsApp mai spam: solo messaggi agganciati a un motivo vero, e le disiscrizioni sono un indicatore di salute critico. Se una richiesta ne rompe uno: fermarsi e dirlo a Nicola PRIMA di costruire.",
+      "dal": "2026-11-01 12:18",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "strategia.segmenti-onboarding",
+      "pattern": "DICEMBRE — stop all'onboarding",
+      "dal": "2026-11-01 12:18",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "strategia.segmenti-onboarding",
+      "pattern": "SETTEMBRE 2026 — fresco (frutta e verdura, panetterie, gastronomie, macellerie): primo valore = anti-spreco + richiami su WhatsApp, pre-ordini per le macellerie; prova richiesta = box vendute e clienti richiamati. OTTOBRE — ottiche, estetiste, mercato coperto: primo valore = prenotazioni + promemoria + recupero dei clienti persi; prova = meno buchi in agenda. NOVEMBRE — regali (enoteche, fiorai, cartolerie) e PMI strutturate: primo valore = gift card cittadina, regali aziendali, welfare territoriale; prova = primo ordine welfare o gift card incassato. DICEMBRE — stop all'onboarding: si consolida e si rinnova. Esclusi per decisione di Nicola: ristoranti, catene e franchising; pescherie in fase 2.",
+      "dal": "2026-11-01 12:18",
       "copie_trovate": 0
     }
   ],

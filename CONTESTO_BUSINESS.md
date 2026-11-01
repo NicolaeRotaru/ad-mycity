@@ -228,6 +228,23 @@ case è rimasta indietro.
   `northstar.consegnati` (ordini consegnati, oggi 0). Non l'ho rinominato: è un numero letto dal
   database, e serve comunque. Ma «ordini consegnati» adesso è **un contatore, non la stella**.
 
+**⑤ Le regole cambiate da Nicola il 1/11/2026.** Nella prima conversazione lunga
+fra Nicola e l'AD (documento: `consegne/strategia/2026-11-01-conversazione-base.md`) Nicola ha cambiato,
+con la sua firma, tre punti del §4 e del §6: sono le «quattro regole» della conversazione (10% su
+tutto, app per il negozio, anteprime sul sito, dicembre aperto). Il testo sopra resta il suo, parola per parola; le
+regole vive sono nel registro (`prodotto.paletti`, `pricing.commissione`, `strategia.segmenti-onboarding`).
+- **§4.1 — il 10% vale su tutto.** Anche sui clienti che il negozio aveva già, e anche sul ritiro in
+  negozio. Copre tutto il servizio, non solo la consegna: «il 10% non serve a ripagare solo la consegna,
+  ma anche tutto quello che c'è dietro». Quindi il punto ③ qui sopra («il 10% paga la consegna») vale
+  solo come storia.
+- **§4.3 — il negozio ha un'app sua, solo per gli ordini,** che suona finché accetta; tutto il resto lo
+  vede sul sito, e le anteprime le approva lì dopo un avviso via app ed email, non su WhatsApp.
+- **§6 — dicembre è aperto ai negozi nuovi.** Lo «stop all'onboarding» di dicembre non ha fonte nelle
+  due ricerche: la ricerca sui negozianti ha solo tre finestre (settembre, ottobre, novembre). Nicola:
+  «toglila».
+- **§1 e §7 — il cuore oggi è il sito con le consegne**; welfare, buoni regalo e il rituale WhatsApp
+  vengono dopo. La lista del «NON COSTRUIRE» resta intera.
+
 **④ Le due ricerche sono state lette per intero, non solo archiviate.** L'11/8/2026 Nicola ha
 chiesto di leggerle davvero. Fatto: 11 pagine di *Teoria del cambiamento* e 9 di *Il bottegaio come
 cliente pagante*, estratte dai PDF e confrontate riga per riga con la sintesi qui sopra. Il verdetto
