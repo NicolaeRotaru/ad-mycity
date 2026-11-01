@@ -6406,3 +6406,25 @@ Restano fuori due pacchetti:
 **Legame con la voce delle 12:10.** La partita IVA la decide Nicola lunedì 2/11 col commercialista. Ma senza partita IVA non c'è il conto Stripe di MyCity né il nome del titolare sul sito: con «aspetto la carta», vuol dire niente apertura.
 
 **Colore:** 🔴 le scelte, tutte di Nicola. 🟢 il documento, il registro e la memoria allineata (nessuna riga di codice toccata).
+
+## 2026-11-01 17:55 — 🔴 Le cinque sessioni in parallelo sui difetti seri del sito, riunite in una sola richiesta
+
+**Cosa.** Nicola ha chiesto: «risolvi in 5 sessioni in parallelo 2 ondate a testa ed una sesta sessione servirà a controllare tutto il lavoro fatto, controllare che sia tutto giusto e poi unire tutte le pr in una sola». Le sue scelte, in ordine:
+- alle 13:10 circa, «subito», invece di aspettare l'azzeramento del tetto di giovedì 5/11. Il promemoria di giovedì (`trig_012oF2SKSU8QdyP72ojf4vy9`) l'ho spento;
+- solo gli 84 difetti seri (4 bloccanti e 80 gravi), e la sesta è la sessione di coordinamento;
+- alle 14:20 circa, con il tetto ad «avviso», «riparti adesso» e «fai tutto adesso»: le tre seconde ondate ferme sono ripartite;
+- alle 16:30 circa, per il reso pagato col credito bocciato due volte, «un altro giro mirato». La regola: al terzo rosso resta fuori. È rimasto fuori.
+
+**Esito.** 51 difetti seri chiusi su 84, nella richiesta unica NicolaeRotaru/mycity#280, ognuno con una prova che morde.
+- Il collaudo finale (due lenti, agenti nuovi) ha bocciato 7 pezzi, con 3 gravi nati: la 195 che bloccava gli alimenti in vetrina, il reso che non si ritirava più, il recupero password dal link della conferma.
+- Sei pezzi sono stati corretti e ricollaudati fino a reggere. Il reso col credito (NicolaeRotaru/mycity#282) ha avuto tre rossi ed è rimasto fuori.
+- Letture in sola lettura sul database: 7 prodotti in vendita su 9 sono alimenti senza allergeni né ingredienti; 1 fattorino è sospeso senza documenti; la 126 è già applicata.
+
+**Perché.** Il metodo snello con un controllore indipendente, chi ha costruito non collauda, e un'unione sola da firmare.
+
+**Lezioni per i prossimi giri.**
+- Il freno «allowed_warning» è scattato quando Nicola era a circa il 10% del tetto: non vuol dire tetto finito.
+- Lo spazio d'appunti condiviso fra collaudatori paralleli si sovrascrive: ogni collaudatore deve avere una cartella sua.
+- Le prove della 195 non giravano nella CI (`run.sh` legge solo `tests/sql/rls/`): una prova SQL nuova va messa lì.
+
+**Colore:** 🔴 le scelte di Nicola e l'unione su main, che è sua. 🟡 il codice nei rami e le unioni nel ramo di integrazione. 🟢 le letture sul database, i referti e la memoria.

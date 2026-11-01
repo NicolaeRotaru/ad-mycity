@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-01 12:25
+aggiornato: 2026-11-01 17:55
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -29,6 +29,19 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 ---
 
 ## 1 · Cose che toccano a te
+
+**La richiesta unica delle cinque sessioni** (1/11, NicolaeRotaru/mycity#280). Dentro ci sono 51 difetti seri chiusi su 84, ognuno con una prova e un collaudo. La unisci tu.
+- **Prima di unire:** non applicare la migrazione 195 e non cambiare i modelli email di Supabase. Col codice di oggi su main romperebbero il sito.
+- **Dopo l'unione, in ordine:**
+  - completa allergeni e ingredienti dei 7 alimenti del fornaio: oggi 7 prodotti in vendita su 9 non li hanno, e la legge li chiede;
+  - premi il pulsante delle migrazioni: applica tutte quelle che mancano, anche le nuove 185, 186, 191 e 195;
+  - su Supabase accendi «Secure password change», poi cambia i due modelli email;
+  - su GitHub metti i segreti di Vercel e accendi la regola «Main», poi dimmelo e preparo l'ultimo passo;
+  - su Vercel metti la chiave di servizio del database, che serve anche alla copia delle foto.
+- **Da non fare:** non riattivare il fattorino sospeso: non ha nessun documento.
+- **Dati che mi servono:** indirizzo e telefono del titolare, poi partita IVA e PEC.
+- **Le scelte** sui soldi, sui fattorini e sulle regole, col mio consiglio accanto, stanno in un documento solo: `consegne/audit/2026-11-01-cinque-sessioni-referto.md`.
+- **Un giro nuovo**, solo se lo chiedi: circa 12 difetti seri non hanno retto al collaudo, fra cui il reso pagato col credito (NicolaeRotaru/mycity#282, tre rossi).
 
 **La base dei prossimi mesi.** È la conversazione del 1/11, finita alle 12:18. Il documento intero è `consegne/strategia/2026-11-01-conversazione-base.md`.
 - Pronto entro il 15/11, aperto alla città, **solo con la carta accesa**: lunedì 2/11 (partita IVA, chiave del database, chiavi di Vercel, conto Stripe) decide la data.
@@ -77,7 +90,7 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
 ## 2 · Il mio lavoro sul sito
 
 - **Il registro del sito è senza doppioni** (1/11 alle 11:46). I difetti aperti veri sono 980: 4 bloccanti, 80 gravi e 896 minori. Ho tolto 73 doppioni e chiuso 54 difetti già riparati nel codice unito; i 21 gravi chiusi hanno tutti una prova verde. Elenco: `consegne/audit/2026-11-01-difetti-veri.md`, più il foglio di calcolo `.csv` con tutti.
-- **Le sessioni in parallelo partono giovedì 5/11** (scelte di Nicola del 1/11). Fino all'azzeramento del tetto settimanale, giovedì alle 10:00, niente agenti né sessioni nuove: Nicola è al 70%. Giovedì: alle 10:00 una sessione di prova, poi le costruttrici, una richiesta per giro. Dopo le 11:00 la radiografia completa. «Finito» vuol dire due radiografie di fila senza bloccanti né gravi nuovi.
+- **Le cinque sessioni in parallelo hanno lavorato il 1/11** (Nicola ha scelto «subito» alle 13:10 circa e «riparti adesso» alle 14:20 circa). Cinque costruttrici, due ondate a testa; la sesta sessione ha collaudato e riunito. Risultato: 51 difetti seri chiusi su 84, nella richiesta unica NicolaeRotaru/mycity#280. I dati delle sessioni stanno nei file `consegne/audit/2026-11-01-sessione-S1…S5-referto.json`. Nel registro del sito chiudo i 51 dopo l'unione.
 
 - **Le fasce nuove della cassa sono unite**, il 31/10 alle 01:36. Sono sette fasce, con la regola del ritiro e la scadenza giusta per il negozio. Le schede 1948 e 1949 sono chiuse nel registro. Da guardare: il sito pubblicato dopo il rilascio su Vercel. Referto: `consegne/audit/2026-10-31-ondate-21-24-fasce-nuove.md`.
 - **L'ondata 15 è cucita** (strada A, scelta tua del 30/10 alle 07:45). Il caso raro col codice sconto resta aperto, e i codici restano spenti finché non è chiuso.

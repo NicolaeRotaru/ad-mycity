@@ -1,0 +1,342 @@
+{
+  "sessione": "S4 testata-ai-accessi",
+  "pr": "https://github.com/NicolaeRotaru/mycity/pull/275",
+  "ramo_sito": "claude/cinque-s4-testata-ai-accessi",
+  "base_pr": "claude/hopeful-dirac-jneoam",
+  "commit": "30012e66cdcde2be24e7b480f2aefd88e58914cb",
+  "ondate": [
+    {
+      "ondata": 7,
+      "run_id": "wf_ca4402d1-e16",
+      "verify": "verde: 837 file, 7139 prove (dopo aver tolto il pacchetto dei nomi in chat; il primo giro era rosso su 2 prove di tests/unit/i-nomi-dei-clienti-che-il-negozio-vede.test.ts)",
+      "pacchetti": [
+        {
+          "chiave": "components/Navbar.tsx",
+          "esito": "chiuso",
+          "chiavi_chiuse": [
+            "frontend-ux|nella testata le pillole «ordini», «consegne» e «admin» hanno lo stesso colore dello sfondo: negoziante, fattorino e admin non le vedono",
+            "frontend-ux|nella testata cuore, messaggi e campanella hanno lo stesso colore dello sfondo e non si vedono"
+          ],
+          "non_chiuse": [
+            {
+              "chiave": "qa-flussi|il cliente può scrivere al negozio, ma il negozio non viene mai avvisato e dal suo pannello non vede i messaggi",
+              "perche": "parziale: fatta la voce in campanella e la voce Messaggi nel pannello negozio; email e push sono di lib/email/ (S5); la pagina reclami app/orders/ è fuori territorio; resta la scelta di Nicola su «Contatta il negozio» contro WhatsApp"
+            }
+          ],
+          "prova": "npx vitest run tests/unit/le-pillole-e-le-icone-della-testata-si-vedono-da-loggati.test.tsx tests/unit/il-negozio-sa-quando-un-cliente-gli-scrive.test.ts tests/unit/il-pannello-negozio-ha-la-voce-messaggi.test.tsx",
+          "file_toccati": [
+            "components/Navbar.tsx",
+            "components/seller/SellerShell.tsx",
+            "app/api/chat/messages/route.ts"
+          ]
+        },
+        {
+          "chiave": "lib/supabase/client.ts",
+          "esito": "fermo per una scelta",
+          "chiavi_chiuse": [],
+          "nota": "Nessun commit: sulla base ecb8e2c tutti e due erano già corretti nel codice. Cookie a 6 mesi: conDurataMassima in lib/supabase/server.ts e middleware.ts, prova esistente verde (la chiave del registro si può chiudere come già corretta). Nuova password dal telefono: /auth/confirm e il messaggio «altro browser» ci sono già; manca il cambio dei modelli email Supabase, azione di Nicola.",
+          "prova": "nessuna nuova (già corretto sulla base)",
+          "file_toccati": []
+        },
+        {
+          "chiave": "lib/ai/tettoSpesa.ts",
+          "esito": "fermo per una scelta",
+          "chiavi_chiuse": [],
+          "nota": "Fatto nel codice: se il conto condiviso manca da oltre un'ora parte l'allarme, e la quota per copia si stringe con AI_ISTANZE_STIMATE (di base 1, come oggi). Il tetto torna condiviso solo applicando la migrazione 131 in produzione: azione di Nicola.",
+          "prova": "npx vitest run tests/unit/il-conto-condiviso-muto-da-un-ora-accende-l-allarme.test.ts",
+          "file_toccati": [
+            "lib/ai/tettoSpesa.ts"
+          ]
+        },
+        {
+          "chiave": "lib/analytics/posthog.tsx",
+          "esito": "non regge",
+          "chiavi_chiuse": [],
+          "nota": "Entrato nel ramo: mask_personal_data_properties e la ripulitura dell'indirizzo d'ingresso salvato (anche per chi torna). Resta grave: la pagina di provenienza ($initial_referrer) del sito con la ricerca dentro esce ancora intera dalla porta dei flag.",
+          "prova": "npx vitest run tests/unit/posthog-l-indirizzo-d-ingresso-non-esce-dalla-porta-dei-flag.test.ts tests/unit/posthog-visitatore-di-ritorno-indirizzo-salvato-ripulito.test.ts",
+          "file_toccati": [
+            "lib/analytics/posthog.tsx"
+          ]
+        },
+        {
+          "chiave": "app/messages/page.tsx",
+          "esito": "fermo per una scelta",
+          "chiavi_chiuse": [],
+          "nota": "La rotta server dei nomi (ramo s4-salvato/ondata-7-app-messages-page-tsx) reggeva da sola ma rompeva la prova comune tests/unit/i-nomi-dei-clienti-che-il-negozio-vede.test.ts (niente rete nelle prove): tolta con un revert. Il nome arriva già dalla migrazione 181 del codice, da applicare in produzione (azione di Nicola).",
+          "prova": "nessuna nel ramo",
+          "file_toccati": []
+        }
+      ]
+    },
+    {
+      "ondata": 8,
+      "run_id": "wf_4e7f8957-ece",
+      "verify": "verde: 846 file, 7163 prove (dopo aver tolto il manifest nel <head>; il primo giro era rosso su 1 prova comune)",
+      "pacchetti": [
+        {
+          "chiave": "app/api/ai/improve-product/route.ts",
+          "esito": "chiuso",
+          "nota": "Il workflow l'ha segnato non regge solo per la quarta scheda (la scheda della proposta è fuori territorio); le due chiuse hanno la prova rimessa rossa senza la correzione.",
+          "chiavi_chiuse": [
+            "ai-endpoints|l'ai può mettere un «prezzo pieno» barrato preso dal mercato, e la pagina mostra uno sconto che il negozio non ha mai fatto",
+            "ai-endpoints|il negoziante chiede in chat di cambiare un prezzo, la chat risponde «modifiche salvate» e il prezzo resta quello vecchio"
+          ],
+          "non_chiuse": [
+            {
+              "chiave": "ai-endpoints|il modello ai che legge le foto e scrive le schede si spegne il 30 novembre: dodici funzioni smetteranno di rispondere",
+              "perche": "fermo per una scelta: il cambio è pronto dietro AI_MODELLO_VISION / AI_MODELLO_SMART (solo modelli col prezzo in tabella) più un avviso dal 30/11; il default resta claude-sonnet-4-5 finché Nicola non sceglie il sostituto"
+            },
+            {
+              "chiave": "ai-endpoints|nella chat assistenza il negoziante approva una descrizione nuova senza poterla leggere, e al primo messaggio l'assistente riscrive tag e descrizione senza aver visto quelli che ci sono",
+              "perche": "non regge: la rotta in identificazione non propone più tag e descrizione (provato), ma la scheda che li mostra è in lib/products/prontoPerLaVendita.ts, fuori territorio"
+            }
+          ],
+          "prova": "npx vitest run tests/unit/l-ai-non-mette-un-prezzo-pieno-barrato.test.ts tests/unit/la-chat-non-dice-salvate-se-il-prezzo-e-rimasto.test.ts tests/unit/la-chat-dice-cosa-non-e-entrato-al-posto-di-salvate.test.ts tests/unit/il-modello-grande-si-cambia-senza-rilascio.test.ts tests/unit/il-modello-ritirato-si-segnala-dal-giorno-dello-spegnimento.test.ts tests/unit/al-primo-messaggio-la-chat-non-propone-quello-che-non-ha-letto.test.ts",
+          "file_toccati": [
+            "app/api/ai/catalog-apply-bulk/route.ts",
+            "app/api/ai/catalog-apply/route.ts",
+            "app/api/ai/catalog-chat/route.ts",
+            "app/api/ai/improve-product/route.ts",
+            "app/api/ai/product-chat/route.ts",
+            "components/SupportProductAssistant.tsx",
+            "lib/ai/client.ts",
+            "lib/ai/patchSchema.ts",
+            "lib/ai/run.ts",
+            "lib/products/aiPatch.ts"
+          ]
+        },
+        {
+          "chiave": "app/layout.tsx",
+          "esito": "fermo per una scelta",
+          "chiavi_chiuse": [],
+          "nota": "La correzione (manifest nel <head>, ramo s4-salvato/ondata-8-app-layout-tsx) reggeva da sola, ma la prova comune tests/unit/al-lancio-carta-abbonamento-e-codici-sconto-restano-spenti-anche-con-le-chiavi.test.ts:308 fissa la forma vecchia nei metadata: tolta con un revert. Serve il permesso di aggiornare quella riga (solo aggiunte in tests/). Oggi non cambia niente: APP_INSTALLABILE_ACCESA è spento.",
+          "prova": "nel ramo salvato: npx vitest run tests/unit/il-manifest-sta-nella-testa-della-pagina.test.tsx",
+          "file_toccati": []
+        },
+        {
+          "chiave": "lib/auth/decisione-portiere.ts",
+          "esito": "fermo per una scelta",
+          "chiavi_chiuse": [],
+          "nota": "Pronta e provata la parte in lib/auth (tetto lungo per chi ha una tessera di accesso). Serve una riga in middleware.ts:514-523, fuori territorio: il terzo argomento diventa tettoPerChiedereChiSei(req.cookies.getAll()).",
+          "prova": "npx vitest run tests/unit/il-rinnovo-oltre-i-tre-secondi-arriva-al-browser.test.ts",
+          "file_toccati": [
+            "lib/auth/cookie-di-sessione.ts"
+          ]
+        },
+        {
+          "chiave": "components/PhotoReviewUpload.tsx",
+          "esito": "non regge",
+          "chiavi_chiuse": [],
+          "nota": "Non entrato nel ramo (salvato in s4-salvato/ondata-8-components-photoreviewupload-tsx). Grave nato: una foto HEIC da 24 MP di un iPhone recente supera il tetto della tela di Safari e veniva rifiutata anche dove Safari la saprebbe leggere.",
+          "prova": "nel ramo salvato",
+          "file_toccati": []
+        },
+        {
+          "chiave": "R14",
+          "esito": "chiuso",
+          "chiavi_chiuse": [
+            "R14"
+          ],
+          "prova": "npx vitest run tests/unit/la-password-si-cambia-solo-col-link-di-recupero.test.ts",
+          "file_toccati": [
+            "app/reset-password/page.tsx"
+          ]
+        },
+        {
+          "chiave": "R15",
+          "esito": "non regge",
+          "chiavi_chiuse": [],
+          "nota": "Non entrato nel ramo (salvato in s4-salvato/ondata-8-r15). Dettagli solo per messaggio alla sesta.",
+          "prova": "nel ramo salvato",
+          "file_toccati": []
+        }
+      ]
+    }
+  ],
+  "nati": [
+    {
+      "titolo": "Due messaggi del cliente quasi insieme possono non accendere la campanella del negozio",
+      "gravita": "minore",
+      "dove": "app/api/chat/messages/route.ts avvisaChiRiceve (nonLetti > 1)"
+    },
+    {
+      "titolo": "Nella chat Assistenza la campanella può dire «Nuovo messaggio da un cliente» alla persona sbagliata",
+      "gravita": "minore",
+      "dove": "app/api/chat/messages/route.ts titolo della notifica"
+    },
+    {
+      "titolo": "L'allarme del ripiego del tetto AI scatta dopo un'ora di vita della stessa copia: sul serverless può non arrivare (il caso di produzione, funzione assente, è coperto)",
+      "gravita": "minore",
+      "dove": "lib/ai/tettoSpesa.ts segnalaRipiego"
+    },
+    {
+      "titolo": "La prova del visitatore di ritorno legge la memoria ma non intercetta il corpo vero di POST /flags",
+      "gravita": "minore",
+      "dove": "tests/unit/posthog-visitatore-di-ritorno-indirizzo-salvato-ripulito.test.ts"
+    },
+    {
+      "titolo": "La ripulitura PostHog riscrive la memoria a ogni avvio se il nome di un parametro cambia codifica",
+      "gravita": "minore",
+      "dove": "lib/analytics/posthog.tsx ripulisciIndirizzoIngressoSalvato"
+    },
+    {
+      "titolo": "Se in scheda aperta il modello indica un altro prodotto, descrizione e tag di quello passano senza essere stati letti",
+      "gravita": "minore",
+      "dove": "app/api/ai/catalog-chat/route.ts:408 (serve focused && matched.id === focused.id)"
+    },
+    {
+      "titolo": "Nessuna prova vede che runMessage chiama l'avviso del modello ritirato",
+      "gravita": "minore",
+      "dove": "lib/ai/run.ts:328"
+    },
+    {
+      "titolo": "La scheda della proposta può ancora promettere «Prezzo pieno → 99 €», ma il server ora lo rifiuta sempre",
+      "gravita": "minore",
+      "dove": "lib/products/prontoPerLaVendita.ts:692-695 (fuori territorio)"
+    }
+  ],
+  "vecchi_visti": [
+    {
+      "titolo": "PostHog: la pagina di provenienza ($initial_referrer) del sito con la ricerca dentro esce intera dalla porta dei flag",
+      "gravita": "grave",
+      "dove": "lib/analytics/posthog.tsx; posthog-js non la maschera nemmeno con mask_personal_data_properties"
+    },
+    {
+      "titolo": "La scheda della proposta nella chat Assistenza non mostra la descrizione nuova né quali tag spariscono",
+      "gravita": "grave",
+      "dove": "lib/products/prontoPerLaVendita.ts:680 righeDellaProposta, usata da components/SupportProductAssistant.tsx:424"
+    },
+    {
+      "titolo": "Nella chat aperta il negozio legge «Cliente» al posto del nome finché la migrazione 181 non è applicata",
+      "gravita": "minore",
+      "dove": "app/messages/[id]/page.tsx:277 e lib/queries/controparte-della-chat.ts:201"
+    },
+    {
+      "titolo": "La pagina della nuova password chiama «link aperto altrove» anche un codice scaduto aperto nello stesso browser",
+      "gravita": "minore",
+      "dove": "lib/auth/link-email.ts:319"
+    },
+    {
+      "titolo": "Il Realtime finto dell'aiuto di montaggio non concatena due .on(): /messages registra un TypeError nelle prove",
+      "gravita": "minore",
+      "dove": "tests/unit/aiuti (mock di supabase.channel)"
+    }
+  ],
+  "fuori_territorio": [
+    {
+      "file": "lib/email/",
+      "serve": "email e/o push al negozio quando un cliente gli scrive (sessione 5)"
+    },
+    {
+      "file": "app/orders/[id]/dispute/page.tsx",
+      "serve": "il rimando alla chat nella pagina reclami (riga ~101)"
+    },
+    {
+      "file": "middleware.ts:514-523",
+      "serve": "una riga: terzo argomento tettoPerChiedereChiSei(req.cookies.getAll()) perché il rinnovo oltre i tre secondi arrivi al browser"
+    },
+    {
+      "file": "lib/products/prontoPerLaVendita.ts",
+      "serve": "righeDellaProposta deve mostrare la descrizione nuova (accorciata) e i tag tolti, e non promettere più il prezzo pieno barrato"
+    },
+    {
+      "file": "tests/unit/al-lancio-carta-abbonamento-e-codici-sconto-restano-spenti-anche-con-le-chiavi.test.ts:308",
+      "serve": "accettare il manifest scritto nel <head> dietro APP_INSTALLABILE_ACCESA invece che nei metadata"
+    },
+    {
+      "file": "lib/funzioni-al-lancio.ts",
+      "serve": "APP_INSTALLABILE_ACCESA resta spento: il manifest esce solo quando Nicola lo accende"
+    },
+    {
+      "file": ".claude/settings.json (ad-mycity)",
+      "serve": "il freno o l'esenzione per lo strumento Workflow, che il cancello dello stop segnala come non sorvegliato"
+    }
+  ],
+  "scelte_per_nicola": [
+    {
+      "domanda": "Con quale modello sostituire claude-sonnet-4-5, che Anthropic spegne il 30/11/2026?",
+      "raccomandazione": "claude-sonnet-4-6: stesso prezzo (3 $ entrata / 15 $ uscita per milione di token), accetta lo strumento forzato che usano 8 rotte, quindi basta impostare AI_MODELLO_VISION e AI_MODELLO_SMART su Vercel. L'alternativa più economica è claude-sonnet-5-5 (2 $ / 10 $), che però rifiuta lo strumento forzato: servirebbe un'altra ondata sulle 8 rotte. Fonte prezzi: tabella modelli Anthropic aggiornata al 6/10/2026."
+    },
+    {
+      "domanda": "Applichiamo in produzione la migrazione 131 (conto condiviso della spesa AI)?",
+      "raccomandazione": "Sì: oggi il tetto vale per ogni copia del sito e non per il sito intero."
+    },
+    {
+      "domanda": "Applichiamo in produzione la migrazione 181 (nomi dei clienti per il negozio)?",
+      "raccomandazione": "Sì: senza, il negozio legge «Cliente» al posto del nome in chat."
+    },
+    {
+      "domanda": "Cambiamo i modelli email Supabase «Reset password» e «Confirm signup» al formato con token_hash verso /auth/confirm?",
+      "raccomandazione": "Sì: è l'unico pezzo che manca perché il link aperto dal telefono funzioni."
+    },
+    {
+      "domanda": "Attiviamo «Secure password change» nel pannello di Supabase?",
+      "raccomandazione": "Sì: completa sul server la correzione R14 fatta nella pagina."
+    },
+    {
+      "domanda": "Configuriamo la chiave del controllo anti-robot (R15)?",
+      "raccomandazione": "Decidere insieme alla correzione R15, che in questa ondata non ha retto."
+    },
+    {
+      "domanda": "Al lancio teniamo «Contatta il negozio» (ora col campanello in-app) o lo sostituiamo con un pulsante WhatsApp/telefono verso il negozio?",
+      "raccomandazione": "WhatsApp, finché email e push al negozio non ci sono: rispetta il paletto «nessuna app nuova da imparare»."
+    }
+  ],
+  "conto_token": {
+    "ondata_7": {
+      "agenti": 12,
+      "senza_letture_cache": 727088,
+      "con_letture_cache": 12662360
+    },
+    "ondata_8": {
+      "agenti": 10,
+      "senza_letture_cache": 884343,
+      "con_letture_cache": 17073152
+    },
+    "nota": "misurato con node cervello/conto-token.mjs --workflow <run_id>; quale dei due contatori conti per il limite settimanale non è noto"
+  },
+  "copertura_radiografia": "Non registrata: radiografia-in-corsa.mjs registra scrive in MyCity-Vault/ (vietato in questo lavoro). Righe da registrare (dimensione → toccati/trovati), ondata 7: frontend-ux 1+3, backend-api/api-backend 1+2, architettura/ai-endpoints 1+1, dati-analytics 1+2, rls-database 0, qa-flussi 0. Ondata 8: nel journal di wf_4e7f8957-ece.",
+  "correzione": {
+    "pr": "https://github.com/NicolaeRotaru/mycity/pull/281",
+    "ramo": "claude/cinque-s4-correzione",
+    "base": "fb74b09",
+    "commit": "f1b6b1f",
+    "verify": "verde: 903 file, 7468 prove, 1 saltata",
+    "pacchetti": [
+      {
+        "chiave": "modifiche-salvate-col-prezzo-rifiutato",
+        "esito": "chiuso",
+        "prova": "npx vitest run tests/unit/la-scheda-in-chat-non-dice-salvate-se-il-prezzo-non-e-entrato.test.ts tests/unit/il-negoziante-legge-perche-il-prezzo-non-e-entrato.test.ts tests/unit/il-copilot-non-dice-applicato-se-il-prezzo-non-e-entrato.test.ts",
+        "prova_rimessa": "regge (SupportProductAssistant, errors su base fb74b09; catalog-apply-bulk su base ecb8e2c)",
+        "file_toccati": [
+          "components/SupportProductAssistant.tsx",
+          "lib/errors.ts"
+        ]
+      },
+      {
+        "chiave": "R14",
+        "esito": "chiuso",
+        "prova": "npx vitest run tests/unit/il-link-di-recupero-passato-dalla-conferma-porta-al-modulo.test.ts tests/unit/il-rientro-col-link-di-recupero-lo-segna-il-server.test.ts tests/unit/il-segno-del-recupero-lo-firma-solo-il-server.test.ts tests/unit/la-password-si-cambia-solo-col-link-di-recupero.test.ts",
+        "prova_rimessa": "regge sui file vecchi; rosso_strutturale sui due nuovi (decide il ricollaudo)",
+        "file_toccati": [
+          "app/reset-password/page.tsx",
+          "app/auth/confirm/route.ts",
+          "app/auth/recupero/route.ts",
+          "lib/auth/segno-recupero.ts"
+        ]
+      }
+    ],
+    "fuori_territorio": [
+      {
+        "file": "lib/errors.ts",
+        "serve": "senza padrone: friendlyError non toglie le parentesi con «€» (il perché del rifiuto)"
+      }
+    ],
+    "scelte_per_nicola": [
+      {
+        "domanda": "Impostiamo RECUPERO_PASSWORD_SECRET su Vercel?",
+        "raccomandazione": "Facoltativo: senza, il segreto si ricava dalla chiave di servizio senza esporla."
+      }
+    ]
+  }
+}

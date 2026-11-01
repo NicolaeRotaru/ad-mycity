@@ -1,0 +1,391 @@
+{
+ "_cosa_e": "Chi scrive cosa nelle cinque sessioni del 1/11. File comuni a sole aggiunte: messages/, tests/, lib/funzioni-al-lancio.ts. Le migrazioni vecchie non si toccano: se ne scrive una nuova nel proprio intervallo.",
+ "ramo_integrazione_sito": "claude/hopeful-dirac-jneoam",
+ "base_sito": "ecb8e2c",
+ "file_comuni_solo_aggiunte": [
+  "messages/",
+  "tests/",
+  "lib/funzioni-al-lancio.ts"
+ ],
+ "sessioni": {
+  "S1": {
+   "nome": "soldi-e-cassa",
+   "ramo_sito": "claude/cinque-s1-soldi-e-cassa",
+   "ondate_nel_piano": [
+    1,
+    2
+   ],
+   "difetti": 20,
+   "per_ondata": [
+    10,
+    10
+   ],
+   "migrazioni_nuove": [
+    185,
+    186,
+    187,
+    188,
+    189
+   ],
+   "territorio_prefissi": [
+    "lib/stripe/",
+    "lib/ordini/annulla.ts",
+    "lib/ordini/prezzi.ts",
+    "lib/db/migrazione-124.ts",
+    "app/api/orders/cod/",
+    "app/api/orders/[id]/cancel/",
+    "app/checkout/",
+    "components/checkout/",
+    "lib/promesse-pubbliche.ts",
+    "lib/store-hours.ts",
+    "lib/quando-arriva.ts",
+    "lib/promessa-consegna.ts",
+    "lib/delivery.ts",
+    "lib/shipping.ts",
+    "lib/constants.ts",
+    "app/api/cron/release-payouts/",
+    "app/api/returns/",
+    "app/api/stripe/",
+    "app/cart/",
+    "lib/coupons.ts",
+    "lib/ordini/zona-di-consegna.ts",
+    "lib/metriche-venditore.ts",
+    "app/seller/earnings/",
+    "app/seller/dashboard/",
+    "app/seller/analytics/",
+    "lib/ordini/veloce-non-confermata.ts"
+   ],
+   "file_senza_padrone_assegnati": [],
+   "file_da_toccare_misurati": [
+    "app/api/cron/release-payouts/route.ts",
+    "app/api/orders/cod/route.ts",
+    "app/api/returns/[id]/avanza/route.ts",
+    "app/api/returns/[id]/decide/route.ts",
+    "app/api/stripe/checkout/route.ts",
+    "app/api/stripe/webhook/route.ts",
+    "app/cart/page.tsx",
+    "app/checkout/page.tsx",
+    "app/seller/analytics/page.tsx",
+    "app/seller/dashboard/page.tsx",
+    "app/seller/earnings/commissione.ts",
+    "components/checkout/DeliverySlotPicker.tsx",
+    "components/checkout/ShippingAddressForm.tsx",
+    "lib/constants.ts",
+    "lib/coupons.ts",
+    "lib/metriche-venditore.ts",
+    "lib/ordini/annulla.ts",
+    "lib/ordini/prezzi.ts",
+    "lib/ordini/zona-di-consegna.ts",
+    "lib/stripe/client.ts",
+    "lib/stripe/payout.ts",
+    "lib/stripe/webhook/abbonamenti.ts",
+    "lib/stripe/webhook/dispute.ts",
+    "lib/stripe/webhook/ordini.ts",
+    "lib/stripe/webhook/trasferimenti.ts"
+   ]
+  },
+  "S2": {
+   "nome": "ordine-resi-fattorino",
+   "ramo_sito": "claude/cinque-s2-ordine-resi-fattorino",
+   "ondate_nel_piano": [
+    3,
+    4
+   ],
+   "difetti": 17,
+   "per_ondata": [
+    9,
+    8
+   ],
+   "migrazioni_nuove": [
+    190,
+    191,
+    192,
+    193,
+    194
+   ],
+   "territorio_prefissi": [
+    "app/orders/",
+    "app/rider/",
+    "components/rider/",
+    "app/admin/sos/",
+    "app/api/kyc/",
+    "lib/kyc/",
+    "app/admin/users/page.tsx",
+    "app/seller/orders/",
+    "lib/guadagni/",
+    "app/lavora-con-noi/",
+    "app/seller/layout.tsx"
+   ],
+   "file_senza_padrone_assegnati": [],
+   "file_da_toccare_misurati": [
+    "app/admin/sos/page.tsx",
+    "app/admin/users/page.tsx",
+    "app/api/kyc/start-check/route.ts",
+    "app/lavora-con-noi/page.tsx",
+    "app/orders/[id]/page.tsx",
+    "app/orders/[id]/return/page.tsx",
+    "app/rider/help/page.tsx",
+    "app/rider/history/page.tsx",
+    "app/rider/layout.tsx",
+    "app/rider/onboarding/page.tsx",
+    "app/rider/orders/[id]/page.tsx",
+    "app/rider/page.tsx",
+    "app/rider/profile/page.tsx",
+    "app/seller/layout.tsx",
+    "app/seller/orders/[id]/page.tsx",
+    "components/rider/RiderShell.tsx",
+    "components/rider/SOSButton.tsx",
+    "lib/guadagni/fattorino.ts",
+    "lib/kyc/providers.ts"
+   ]
+  },
+  "S3": {
+   "nome": "legale-catalogo-home",
+   "ramo_sito": "claude/cinque-s3-legale-catalogo-home",
+   "ondate_nel_piano": [
+    5,
+    6
+   ],
+   "difetti": 15,
+   "per_ondata": [
+    8,
+    7
+   ],
+   "migrazioni_nuove": [
+    195,
+    196,
+    197,
+    198,
+    199
+   ],
+   "territorio_prefissi": [
+    "app/terms/",
+    "app/privacy/",
+    "app/contact/",
+    "lib/legal/",
+    "components/Footer.tsx",
+    "app/api/segnalazioni/",
+    "components/Segnala.tsx",
+    "app/seller/products/import/",
+    "app/seller/products/new/",
+    "app/api/ai/catalog-create-bulk/",
+    "components/CategoryShowcase.tsx",
+    "lib/site-branding.ts",
+    "app/sitemap.ts",
+    "app/category/",
+    "components/products/VendutoDa.tsx",
+    "lib/category-attributes.ts",
+    "app/api/contact/",
+    "app/api/account/export/",
+    "app/seller/help/"
+   ],
+   "file_senza_padrone_assegnati": [
+    "app/api/account/delete/route.ts",
+    "app/cookies/page.tsx",
+    "app/profile/settings/page.tsx",
+    "lib/env.ts"
+   ],
+   "file_da_toccare_misurati": [
+    "app/api/account/delete/route.ts",
+    "app/api/account/export/route.ts",
+    "app/api/ai/catalog-create-bulk/route.ts",
+    "app/api/contact/route.ts",
+    "app/api/segnalazioni/route.ts",
+    "app/category/[slug]/layout.tsx",
+    "app/contact/page.tsx",
+    "app/cookies/page.tsx",
+    "app/privacy/page.tsx",
+    "app/profile/settings/page.tsx",
+    "app/seller/products/import/page.tsx",
+    "app/sitemap.ts",
+    "app/terms/page.tsx",
+    "components/CategoryShowcase.tsx",
+    "components/Footer.tsx",
+    "components/Segnala.tsx",
+    "components/products/VendutoDa.tsx",
+    "lib/category-attributes.ts",
+    "lib/env.ts",
+    "lib/legal/titolare.ts",
+    "lib/site-branding.ts"
+   ]
+  },
+  "S4": {
+   "nome": "testata-ai-accessi",
+   "ramo_sito": "claude/cinque-s4-testata-ai-accessi",
+   "ondate_nel_piano": [
+    7,
+    8
+   ],
+   "difetti": 15,
+   "per_ondata": [
+    8,
+    7
+   ],
+   "migrazioni_nuove": [
+    200,
+    201,
+    202,
+    203,
+    204
+   ],
+   "territorio_prefissi": [
+    "components/Navbar.tsx",
+    "app/messages/",
+    "app/api/ai/",
+    "app/api/vision/",
+    "lib/ai/",
+    "lib/products/aiPatch.ts",
+    "app/product/[id]/",
+    "lib/supabase/client.ts",
+    "lib/supabase/server.ts",
+    "lib/auth/",
+    "app/reset-password/",
+    "app/auth/",
+    "components/PhotoReviewUpload.tsx",
+    "lib/installabile.ts",
+    "lib/analytics/",
+    "app/layout.tsx",
+    "components/PWAInstallBanner.tsx",
+    "components/ContactSellerButton.tsx",
+    "app/api/chat/",
+    "components/SupportProductAssistant.tsx",
+    "components/seller/CatalogCopilot.tsx",
+    "components/seller/ProductForm.tsx",
+    "components/ProductCard.tsx",
+    "app/seller/stories/",
+    "components/seller/site/"
+   ],
+   "file_senza_padrone_assegnati": [
+    "app/sign-in/page.tsx",
+    "components/MobileTabBar.tsx",
+    "components/seller/SellerShell.tsx",
+    "lib/products/externalSync.ts"
+   ],
+   "file_da_toccare_misurati": [
+    "app/api/ai/barcode-lookup/route.ts",
+    "app/api/ai/catalog-apply-bulk/route.ts",
+    "app/api/ai/catalog-apply/route.ts",
+    "app/api/ai/catalog-chat/route.ts",
+    "app/api/ai/copilot/route.ts",
+    "app/api/ai/diagnose/route.ts",
+    "app/api/ai/improve-product/route.ts",
+    "app/api/ai/product-chat/route.ts",
+    "app/api/ai/variants/route.ts",
+    "app/api/chat/messages/route.ts",
+    "app/api/vision/extract-product/route.ts",
+    "app/api/vision/extract-products/route.ts",
+    "app/api/vision/photo-order/route.ts",
+    "app/auth/callback/route.ts",
+    "app/layout.tsx",
+    "app/messages/page.tsx",
+    "app/product/[id]/page.tsx",
+    "app/reset-password/page.tsx",
+    "app/seller/stories/page.tsx",
+    "app/sign-in/page.tsx",
+    "components/ContactSellerButton.tsx",
+    "components/MobileTabBar.tsx",
+    "components/Navbar.tsx",
+    "components/PWAInstallBanner.tsx",
+    "components/PhotoReviewUpload.tsx",
+    "components/ProductCard.tsx",
+    "components/SupportProductAssistant.tsx",
+    "components/seller/CatalogCopilot.tsx",
+    "components/seller/ProductForm.tsx",
+    "components/seller/SellerShell.tsx",
+    "components/seller/site/GalleryFields.tsx",
+    "components/seller/site/ImageUpload.tsx",
+    "lib/ai/client.ts",
+    "lib/ai/patchSchema.ts",
+    "lib/ai/run.ts",
+    "lib/ai/tettoSpesa.ts",
+    "lib/analytics/posthog.tsx",
+    "lib/auth/decisione-portiere.ts",
+    "lib/installabile.ts",
+    "lib/products/aiPatch.ts",
+    "lib/products/externalSync.ts",
+    "lib/supabase/client.ts",
+    "lib/supabase/server.ts"
+   ]
+  },
+  "S5": {
+   "nome": "rilascio-copie-email",
+   "ramo_sito": "claude/cinque-s5-rilascio-copie-email",
+   "ondate_nel_piano": [
+    9,
+    10
+   ],
+   "difetti": 13,
+   "per_ondata": [
+    7,
+    6
+   ],
+   "migrazioni_nuove": [
+    205,
+    206,
+    207,
+    208,
+    209
+   ],
+   "territorio_prefissi": [
+    ".github/workflows/",
+    "vercel.json",
+    "vercel.js",
+    "scripts/",
+    "app/api/cron/send-emails/",
+    "lib/email/",
+    "lib/ordini/esporta-ordini.ts",
+    "lib/admin/",
+    "app/api/admin/users/",
+    "lib/privacy/",
+    "docs/backup-restore.md",
+    "tests/e2e/12-la-cassa-dal-carrello-al-pagamento.spec.ts"
+   ],
+   "file_senza_padrone_assegnati": [],
+   "file_da_toccare_misurati": [
+    ".github/workflows/backup-db.yml",
+    ".github/workflows/ci.yml",
+    ".github/workflows/deploy-dopo-ci.yml",
+    ".github/workflows/deriva-migrazioni-produzione.yml",
+    "app/api/admin/users/[id]/moderate/route.ts",
+    "app/api/cron/send-emails/route.ts",
+    "docs/backup-restore.md",
+    "lib/admin/esporta-utenti.ts",
+    "lib/ordini/esporta-ordini.ts",
+    "lib/privacy/potature-ritenzione.ts",
+    "scripts/backup-db.sh",
+    "scripts/check-migration-drift.mjs",
+    "scripts/prova-di-fumo.mjs"
+   ]
+  }
+ },
+ "fuori_piano": [
+  {
+   "chiave": "sicurezza-auth|falla di sicurezza r7 da chiudere (sicurezza degli accessi): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+   "titolo": "Falla di sicurezza R7 da chiudere (sicurezza degli accessi): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+   "gravita": "bloccante",
+   "di": "nicola",
+   "perche": "chiude Nicola su Supabase, coi sette passi dati in chat"
+  },
+  {
+   "chiave": "sicurezza-auth|falla di sicurezza r14 da chiudere (sicurezza degli accessi): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+   "titolo": "Falla di sicurezza R14 da chiudere (sicurezza degli accessi): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+   "gravita": "grave",
+   "di": "S4",
+   "perche": "dettagli solo nella chat della sessione dei difetti: entra se arrivano"
+  },
+  {
+   "chiave": "sicurezza-auth|falla di sicurezza r15 da chiudere (sicurezza degli accessi): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+   "titolo": "Falla di sicurezza R15 da chiudere (sicurezza degli accessi): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+   "gravita": "grave",
+   "di": "S4",
+   "perche": "dettagli solo nella chat della sessione dei difetti: entra se arrivano"
+  },
+  {
+   "chiave": "pagamenti-stripe|falla di sicurezza r83 da chiudere (pagamenti): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+   "titolo": "Falla di sicurezza R83 da chiudere (pagamenti): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+   "gravita": "grave",
+   "di": "S1",
+   "perche": "dettagli solo nella chat della sessione dei difetti: entra se arrivano"
+  }
+ ]
+}
