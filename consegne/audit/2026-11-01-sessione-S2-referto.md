@@ -61,3 +61,16 @@ Ho fatto tutte e due le mie ondate, la 3 e la 4 del piano. Ho chiuso 10 difetti 
 - Note per la macchina:
   - Il workflow non ha un freno in `.claude/settings.json`.
   - `ondata-snella.js` riceve gli args grandi come stringa.
+
+## Correzione dopo il collaudo finale (2026-11-01 16:45)
+Il collaudo della sesta ha trovato un difetto grave nato dalla #277. Con un reso richiesto o accettato, la pagina dell'ordine non portava più alla richiesta, l'unico posto dove si può ritirare. Ora c'è «Vedi la richiesta».
+
+Ho chiuso anche i due buchi nelle prove della posizione del fattorino. Prima restavano verdi anche togliendo una parte della correzione, ora diventano rosse:
+- (a) se si toglie il filtro sullo stato dell'ordine;
+- (b) se si toglie una colonna dal trigger della 191.
+
+Un solo giro di correzione, ed è bastato.
+
+- Richiesta di unione #283, commit `f0ae11f`.
+- `prova-rimessa.mjs` sulla correzione principale: regge.
+- Verify: verde, 7458 prove passate e 1 saltata.

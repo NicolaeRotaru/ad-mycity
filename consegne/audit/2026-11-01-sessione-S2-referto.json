@@ -518,5 +518,25 @@
   "Workflow senza freno in .claude/settings.json (cancello-stop): lo aggancia Nicola.",
   "ondata-snella.js: args grandi passati inline arrivano come stringa e il controllo delle schede fallisce; aggirato con una copia dello script con gli args scritti dentro."
  ],
- "radiografia_in_corsa": "7 file toccati senza copertura registrata: non registrata perché scrive in MyCity-Vault (regola 4). Copertura del collaudo nel risultato del workflow."
+ "radiografia_in_corsa": "7 file toccati senza copertura registrata: non registrata perché scrive in MyCity-Vault (regola 4). Copertura del collaudo nel risultato del workflow.",
+ "correzione": {
+  "pr": "https://github.com/NicolaeRotaru/mycity/pull/283",
+  "commit": "f0ae11f",
+  "base": "fb74b09",
+  "esito": "chiuso",
+  "grave_nato": "Con un reso REQUESTED/APPROVED la pagina dell'ordine non porta piu' alla richiesta, dove c'e' «Ritira la richiesta»",
+  "prova": "npx vitest run tests/unit/il-reso-aperto-si-puo-ancora-ritirare.test.ts (prova-rimessa base fb74b09: regge)",
+  "file_toccati": [
+   "app/orders/[id]/page.tsx",
+   "app/orders/[id]/stato-del-reso.ts",
+   "tests/unit/il-reso-aperto-si-puo-ancora-ritirare.test.ts",
+   "tests/unit/il-gps-del-fattorino-si-spegne-davvero.test.ts",
+   "tests/unit/la-posizione-non-si-scrive-su-un-ordine-chiuso.test.ts"
+  ],
+  "buchi_prove": [
+   "(a) filtro .in delivery_status sulla scrittura della posizione: rossa se tolto",
+   "(b) rider_position_updated_at nel trigger della 191: rossa se tolto"
+  ],
+  "verify": "verde: 7458 passate, 1 saltata"
+ }
 }
