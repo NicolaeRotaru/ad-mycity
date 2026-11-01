@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-31 17:35",
+  "aggiornato": "2026-11-01 01:08",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -6254,6 +6254,155 @@
         "lib/stripe/webhook/fascia-al-pagamento.ts": "5b03a53901e8",
         "app/api/stripe/checkout/route.ts": "a3cf546e66de",
         "lib/stripe/webhook/ordini.ts": "0ddfe1ee2c1d"
+      }
+    },
+    {
+      "quando": "2026-11-01 01:08",
+      "casa": "marketplace",
+      "dimensione": "sicurezza-auth",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/api/admin/disputes/[id]/resolve/route.ts": "5bea8e603014"
+      }
+    },
+    {
+      "quando": "2026-11-01 01:08",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 4,
+      "schede": [
+        "Nessuna prova monta la scheda prodotto: se la pagina tornasse alla frase generale del reso, le prove resterebbero verdi",
+        "Nel reso misto la nota «torta da non rimborsare» compare come «Nota del cliente» e il rimborso parte precompilato col totale",
+        "«Duplica» un prodotto escluso dal recesso e la copia nasce recedibile",
+        "Le notifiche di benvenuto già scritte promettono ancora «Hai €5 di sconto», e ora i punti non si convertono più"
+      ],
+      "nota": "",
+      "file": {
+        "app/profile/achievements/page.tsx": "5148c86a308c",
+        "components/seller/ReturnRequestCard.tsx": "5eb9fccca669",
+        "app/admin/products/[id]/edit/page.tsx": "6945bb8b3f1c",
+        "app/product/[id]/page.tsx": "b1efa82a01d9",
+        "app/profile/loyalty/page.tsx": "ef04282cb4d0",
+        "app/seller/orders/[id]/page.tsx": "504abb04c258",
+        "app/seller/orders/page.tsx": "68141cb9ca99",
+        "app/seller/products/[id]/edit/page.tsx": "c4be82c041d4",
+        "app/seller/products/new/page.tsx": "9ce294171162",
+        "components/WelcomeCreditBanner.tsx": "92ca06f44913",
+        "components/seller/ProductForm.tsx": "7e7cb8f989ee"
+      }
+    },
+    {
+      "quando": "2026-11-01 01:08",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "La prova del generatore dei tipi riscrive lib/database.types.ts ogni volta che la suite gira"
+      ],
+      "nota": "",
+      "file": {
+        "lib/ordini/recesso.ts": "0cc35a377722",
+        "lib/rimborsi/regole-del-rimborso.ts": "094514102b7a",
+        "lib/database.types.ts": "2415aea87f3c",
+        "lib/db/migrazione-124.ts": "f0b67cf174e5",
+        "lib/products/persistVariantsServer.ts": "5f7f7cfb3b54",
+        "lib/products/salvataggio-tracciato.ts": "cb29c5430fa3",
+        "lib/promesse-pubbliche.ts": "d674e9b3c967"
+      }
+    },
+    {
+      "quando": "2026-11-01 01:08",
+      "casa": "marketplace",
+      "dimensione": "pagamenti-stripe",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 6,
+      "schede": [
+        "Gli ordini già fermati dal trigger della 063 restano con dispute_status OPEN: la 184 vale solo per i reclami nuovi",
+        "Il commento del webhook dice ancora che il reclamo scrive OPEN sulla colonna della banca",
+        "Gli ordini già bloccati dal vecchio trigger restano senza bonifico dopo la 184",
+        "Con la 184 un ordine con reclamo aperto resta fuori dalla pausa del carrello per un rimborso fatto dal cruscotto",
+        "Gli ordini gia' bloccati dal vecchio trigger con dispute_status OPEN restano senza bonifico",
+        "Gli ordini che hanno già dispute_status='OPEN' dal trigger vecchio restano senza bonifico anche a reclamo chiuso"
+      ],
+      "nota": "",
+      "file": {
+        "lib/stripe/webhook/giftcard.ts": "037a4effd227",
+        "lib/stripe/payout.ts": "c3f4194466b6",
+        "lib/stripe/webhook/dispute.ts": "5b2e5a5c8dfb",
+        "lib/stripe/webhook/rimborsi.ts": "9339a44510ba"
+      }
+    },
+    {
+      "quando": "2026-11-01 01:08",
+      "casa": "marketplace",
+      "dimensione": "rls-database",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "migrations/168_niente_regali_in_euro_e_punti_spenti.sql": "df5012c8383b",
+        "migrations/178_falla_r83.sql": "e1d145a60705",
+        "migrations/179_l_interruttore_sull_ordine_non_si_accende_da_fuori.sql": "afab29fb831e",
+        "migrations/180_i_prodotti_non_recedibili.sql": "b6411f818529",
+        "migrations/184_il_reclamo_chiuso_libera_il_bonifico.sql": "85f245b2c6e5"
+      }
+    },
+    {
+      "quando": "2026-11-01 01:08",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 4,
+      "schede": [
+        "La rotta decide rimborsa un recesso con 1 centesimo già all'approvazione",
+        "Il recesso si chiude con 1 centesimo se il negozio lo approva con un importo",
+        "Dopo la 184 il compenso del fattorino parte anche con un reclamo interno aperto: è un cambio non dichiarato nella migrazione",
+        "Se il cliente ritira il reso mentre il negozio lo approva con rimborso, il reso resta Annullato coi soldi gia' usciti"
+      ],
+      "nota": "",
+      "file": {
+        "app/api/cron/release-payouts/route.ts": "4dc8ab81689c",
+        "app/api/returns/[id]/avanza/route.ts": "f7c09274b6ba",
+        "app/api/returns/[id]/decide/route.ts": "f1277c8de9f4",
+        "app/api/returns/create/route.ts": "b29c48609d92"
+      }
+    },
+    {
+      "quando": "2026-11-01 01:08",
+      "casa": "marketplace",
+      "dimensione": "qa-flussi",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 3,
+      "schede": [
+        "Per il recesso su una riga, l'importo intero e' prezzo per quantita', non quanto il cliente ha pagato con sconto o credito",
+        "Il pulsante per ritirare il reso si raggiunge solo dal link «Richiedi reso», anche quando un reso e' gia' aperto",
+        "Il carrello dice «Reso entro 14 giorni» anche quando dentro c'è solo la torta esclusa"
+      ],
+      "nota": "",
+      "file": {
+        "app/cart/page.tsx": "831fa69a311b",
+        "app/orders/[id]/return/page.tsx": "b858261537ba",
+        "app/orders/page.tsx": "dc300a6d246d"
       }
     }
   ]
