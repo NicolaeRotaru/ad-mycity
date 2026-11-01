@@ -202,3 +202,15 @@ Ripartita su ordine di Nicola, passato dalla sesta alle 14:20 circa. Hanno lavor
 - Ondata 9: 8 consegne di subagenti, circa 746.000 gettoni. Ondata 10: 12 consegne (5 costruttori, 2 collaudatori, 5 correzioni), circa 1.347.000 gettoni. In tutto circa 2,09 milioni su 2 ondate.
 - Sessione AD: 17,4 milioni di gettoni riletti dalla cache, 136.000 scritti, circa 11,8 $ (letto da `get_session`).
 - Il workflow non è stato usato, quindi `conto-token.mjs --workflow` non ha un runId da misurare.
+
+## Correzione dopo il collaudo finale
+
+La sesta ha bocciato un pacchetto: la moderazione si poteva aggirare. Bastava sospendere un profilo ancora **in attesa** e poi riattivarlo. Un fattorino senza documenti o un negozio senza partita IVA risultavano così approvati.
+- **La correzione.** La rotta sospende solo chi è approvato. Per chi è in attesa o respinto risponde con un errore.
+- **Cosa resta uguale.** Un negozio approvato e poi sospeso torna attivo come prima.
+- **Dove sta.** Richiesta [#284](https://github.com/NicolaeRotaru/mycity/pull/284), commit cbb6e0f, base `claude/hopeful-dirac-jneoam`.
+- **Le prove.**
+  - Prova: `npx vitest run tests/unit/sospendere-e-riattivare-non-scavalca-l-approvazione.test.ts`. Era rossa in 2 casi su 2, ora è verde.
+  - prova-rimessa: regge, uscita 0.
+  - `npm run verify`: 7456 prove passate e 1 saltata, su 7457.
+- **Cosa non ho verificato.** I profili già sospesi direttamente dall'attesa, prima di questa correzione, salterebbero ancora il controllo alla riattivazione. Contarli è una lettura sul database, che non ho fatto.

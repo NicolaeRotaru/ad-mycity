@@ -305,5 +305,22 @@
     "totale_subagenti": 2093241,
     "nota": "nessun workflow usato: conto-token.mjs --workflow non ha runId"
   },
-  "ripartenza": "Nicola via la sesta, 2026-11-01 ~14:20: riparti anche con allowed_warning"
+  "ripartenza": "Nicola via la sesta, 2026-11-01 ~14:20: riparti anche con allowed_warning",
+  "correzione": {
+    "pr": "https://github.com/NicolaeRotaru/mycity/pull/284",
+    "commit": "cbb6e0f",
+    "esito": "chiuso",
+    "difetto": "sospendi su un profilo in attesa, poi riattiva, scavalcava partita IVA e documenti",
+    "prova": "npx vitest run tests/unit/sospendere-e-riattivare-non-scavalca-l-approvazione.test.ts",
+    "prova_rimessa": "regge, uscita 0",
+    "verify": "verde, 7456 passate + 1 saltata",
+    "file_toccati": [
+      "app/api/admin/users/[id]/moderate/route.ts",
+      "tests/unit/sospendere-e-riattivare-non-scavalca-l-approvazione.test.ts",
+      "tests/unit/la-moderazione-dice-il-vero.test.ts (dati finti)",
+      "tests/unit/nessuno-approva-un-fattorino-minorenne.test.ts (dati finti)",
+      "tests/unit/si-approva-solo-con-partita-iva-e-documenti.test.ts (dati finti)"
+    ],
+    "non_verificato": "profili gia sospesi dall attesa nel database vero"
+  }
 }
