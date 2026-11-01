@@ -784,5 +784,47 @@
    "trovati": 0,
    "lente": "B"
   }
- ]
+ ],
+ "correzione": {
+  "pr": "https://github.com/NicolaeRotaru/mycity/pull/285",
+  "commit": "5d0f395",
+  "base": "fb74b09",
+  "verify": "verde (7460 prove)",
+  "punti": [
+   {
+    "chiave": "migrazione 195 blocca lo scalo della merce",
+    "esito": "chiuso",
+    "prova": "bash tests/sql/harness/apply.sh <db> && psql -d <db> -v ON_ERROR_STOP=1 -f tests/sql/195_un_alimento_gia_in_vetrina_resta_comprabile.test.sql (rossa con la 195 di prima, verde ora)",
+    "file_toccati": [
+     "migrations/195_un_alimento_senza_ingredienti_non_si_pubblica.sql",
+     "tests/sql/195_un_alimento_gia_in_vetrina_resta_comprabile.test.sql",
+     "tests/sql/195_un_alimento_senza_ingredienti_non_si_pubblica.test.sql"
+    ],
+    "nota": "Corretta la 195 stessa (mai applicata). In più: la merce che torna a scaffale non ripubblica un alimento senza ingredienti, ma il movimento riesce (l'annullo non si blocca)."
+   },
+   {
+    "chiave": "caricamento da file: Excel italiano Windows-1252",
+    "esito": "chiuso",
+    "prova": "npx vitest run tests/unit/il-caricamento-da-file-legge-l-excel-italiano.test.tsx tests/unit/il-caricamento-da-file-tiene-gli-accenti-dell-excel-italiano.test.tsx (prova-rimessa: rossa sul comportamento)",
+    "file_toccati": [
+     "app/seller/products/import/page.tsx"
+    ],
+    "nota": "Fatte anche le due varianti: a capo nella cella e «19,90 €»."
+   },
+   {
+    "chiave": "esito delle segnalazioni non parte",
+    "esito": "chiuso",
+    "prova": "npx vitest run tests/unit/la-decisione-sulla-segnalazione-manda-l-esito.test.tsx (rossa senza la correzione, verificata a mano; prova-rimessa: rosso_sconosciuto)",
+    "file_toccati": [
+     "app/admin/segnalazioni/page.tsx"
+    ]
+   }
+  ],
+  "prove_sql": "apply.sh 172/0 · run.sh verde · database pieno: 195 regge · mancanti x2: 4 poi 0",
+  "modifiche_a_prove": [
+   "tests/unit/il-caricamento-da-file-legge-l-excel-italiano.test.tsx: il file finto ora è un File vero (con il solo text() i byte erano già persi)",
+   "tests/unit/la-decisione-sulla-segnalazione-manda-l-esito.test.tsx: vi.waitFor sulla scheda, sotto carico cadeva",
+   "tests/sql/195_un_alimento_senza_ingredienti_non_si_pubblica.test.sql: al rifornimento il prodotto resta fuori vendita invece di un errore"
+  ]
+ }
 }

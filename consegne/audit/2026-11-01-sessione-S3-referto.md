@@ -60,3 +60,13 @@ Il sito smette di promettere cose che non ci sono: categorie vuote, consegna in 
   - ondata 5: 606.914 senza cache, 11,05 milioni con le letture dalla cache;
   - ondata 6: 723.699 senza cache, 13,39 milioni con le letture dalla cache.
 - Nati, vecchi visti e scelte sono nel `.json` accanto.
+
+---
+
+## Correzione dopo il collaudo finale (richiesta #285)
+Il collaudo finale aveva bocciato tre riparazioni. Le ho corrette in un giro solo, e reggono tutte e tre.
+1. **Gli alimenti già in vendita restano comprabili.** La 195 bloccava anche la vendita, l'annullo e il cambio di prezzo di un alimento già in vetrina senza ingredienti. Ora controlla solo quando il prodotto va in vendita o cambiano le sue dichiarazioni.
+2. **Gli accenti dell'Excel italiano arrivano interi.** «Caffè» non diventa più «Caff�». Una cella su due righe resta un prodotto solo, e «19,90 €» si legge 19,90.
+3. **L'esito delle segnalazioni parte davvero** dopo «Registra la decisione» nella pagina dell'amministratore.
+
+Prove: la verifica completa è verde (7460 prove) e le prove SQL sulla copia locale sono verdi. La prova dell'esito delle segnalazioni l'ho controllata a mano: la prova automatica che toglie le correzioni non ne riconosce il motivo.
