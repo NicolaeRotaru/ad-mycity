@@ -6428,3 +6428,30 @@ Restano fuori due pacchetti:
 - Le prove della 195 non giravano nella CI (`run.sh` legge solo `tests/sql/rls/`): una prova SQL nuova va messa lì.
 
 **Colore:** 🔴 le scelte di Nicola e l'unione su main, che è sua. 🟡 il codice nei rami e le unioni nel ramo di integrazione. 🟢 le letture sul database, i referti e la memoria.
+
+## 2026-11-01 20:08 — 🟡 Chiusi nel registro del sito i difetti della #280: 46 su 84, non 51
+
+**Cosa.** Nicola ha unito la NicolaeRotaru/mycity#280 alle 18:17 e la memoria NicolaeRotaru/ad-mycity#917 alle 18:16. Prima di scrivere le chiusure nel registro del sito, due giri di agenti nuovi hanno ricontrollato tutto sul codice unito `21212f9a`:
+- il primo ha preparato le voci dei difetti nati e di quelli vecchi visti dalle cinque sessioni (5 `tech`), e un secondo gruppo le ha contestate (5 `qa`);
+- il secondo ha riletto ognuna delle 51 chiusure con una domanda sola: il codice chiude tutto il difetto, o solo un pezzo? (5 `qa`).
+
+**Esito.** Alle 20:01, con `cervello/chiudi-sito.mjs`, nel registro sono entrati:
+- 46 degli 84 riparati, ognuno con la sua prova;
+- 1 segnato «già a posto prima», il cookie a 6 mesi: la prova è verde, 2 su 2;
+- 80 voci nuove, di cui 17 già riparate.
+
+Il conto di 51 sbagliava per tre ragioni:
+- uno dei 51 non era fra gli 84: era un difetto vecchio;
+- quattro chiusure coprivano solo una parte di quello che il titolo dice rotto, e una non lo copriva per niente;
+- sette erano chiuse nel caso del titolo ma lasciavano un avanzo, che adesso ha la sua voce.
+
+L'avanzo più serio è un grave dei soldi: il reso ripreso in un carrello di due negozi, dopo un rimborso diviso dal pannello, toglie due volte la quota al negozio. I difetti seri aperti del sito adesso sono 39: 4 bloccanti e 35 gravi.
+
+**Perché.** Il referto della sesta contava le chiavi che le sessioni dichiaravano chiuse. Nessuno aveva confrontato la chiave con quello che la voce del registro diceva ancora rotto, comprese le metà dei titoli e le note di riapertura.
+
+**Lezioni per i prossimi giri.**
+- Il conto «chiusi su N» si dà solo dopo aver incrociato le chiavi con l'elenco degli N. Una chiave fuori elenco ha gonfiato il numero senza che nessuno la vedesse.
+- La domanda «chiude tutto o un pezzo?» va fatta dal collaudo PRIMA dell'unione, voce per voce, contro il testo intero della voce del registro. Il collaudo finale guardava se il codice reggeva, non se copriva tutta la voce.
+- Fuori dal sito, la S4 ha segnalato un debito della macchina: il freno, o l'esenzione, per lo strumento Workflow nelle impostazioni dell'AD. Il cancello dello stop lo dà come non sorvegliato. È un'auto-modifica, quindi aspetta la firma di Nicola.
+
+**Colore:** 🟡 la scrittura del registro del sito, che è memoria. 🟢 le letture in sola lettura sulla produzione (profili respinti: 0) e i due giri di controllo.

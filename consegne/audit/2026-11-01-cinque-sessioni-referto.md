@@ -1,5 +1,5 @@
 ---
-data: 2026-11-01 17:55
+data: 2026-11-01 20:05
 tipo: referto
 fonte: AD digitale, sesta sessione (controllo e unione)
 richiesta: cinque sessioni in parallelo con due ondate a testa, e una sesta che controlla e unisce (Nicola, 1/11)
@@ -7,13 +7,13 @@ richiesta: cinque sessioni in parallelo con due ondate a testa, e una sesta che 
 
 # Le cinque sessioni del 1/11: cosa è chiuso e cosa tocca a te
 
-**In due righe:** 51 difetti seri del sito su 84 sono chiusi e collaudati, tutti in una sola richiesta da unire. Qui sotto trovi i tuoi passi in ordine e le scelte col mio consiglio.
+**In due righe:** dei difetti seri del sito ne sono chiusi 46 su 84, ognuno con una prova, e 1 era già a posto prima. Prima dell'unione ti avevo scritto 51: era sbagliato, e qui sotto c'è il perché.
 
 ## In parole semplici
 
 Cinque sessioni hanno lavorato insieme sui difetti seri del sito. Ognuna aveva i suoi file, così nessuna pestava i piedi alle altre.
-Io ho fatto la sesta: non ho costruito niente. Ho fatto collaudare ogni pezzo da agenti nuovi, che avevano il compito di trovare guasti.
-Il collaudo ha bocciato 7 pezzi. Sei sono stati corretti finché hanno retto. Il settimo è il reso pagato col credito MyCity: non ha retto per tre volte ed è rimasto fuori.
+Io ho fatto la sesta: non ho costruito niente. Ho fatto collaudare ogni pezzo da agenti nuovi, col compito di trovare guasti.
+Hai unito tutto alle 18:17 del 1/11, nella NicolaeRotaru/mycity#280. Dopo l'unione ho fatto ricontrollare ogni chiusura, una per una, prima di scriverla nel registro.
 
 ## Cosa cambia per te
 
@@ -22,21 +22,31 @@ Un esempio concreto: oggi il catalogo del fornaio ha 7 alimenti senza allergeni 
 | Sessione | Difetti seri chiusi |
 |---|---:|
 | Soldi e cassa | 16 su 21 |
-| Ordine, resi e fattorino | 9 su 17 |
-| Testi legali, catalogo e home | 12 su 15 |
+| Ordine, resi e fattorino | 8 su 17 |
+| Testi legali, catalogo e home | 10 su 15 |
 | Barra in alto, AI e accessi | 5 su 17 |
-| Messa online, copie ed email | 9 su 13 |
-| **In tutto** | **51 su 84** |
+| Messa online, copie ed email | 7 su 13 |
+| **In tutto** | **46 su 84** |
 
-La falla R7 conta fra gli 84 ma non sta in nessuna sessione: è tua, su Supabase.
+La falla R7 conta fra gli 84 ma non sta in nessuna sessione: è tua, su Supabase. Un difetto della barra in alto, il cookie di accesso a 6 mesi, era già a posto prima del lotto: l'ho segnato così, e non lo conto come lavoro di oggi.
+
+### Perché 46 e non 51
+
+Dopo l'unione, cinque collaudatori nuovi hanno riletto ogni chiusura sul codice unito. Si chiedevano una cosa: il codice chiude tutto il difetto, o solo un pezzo?
+- **Uno dei 51 non era fra gli 84.** È il fattorino che poteva scrivere la sua posizione su un ordine annullato: un difetto vecchio, trovato e chiuso strada facendo. L'ho scritto nel registro come voce nuova, già riparata.
+- **Quattro erano chiusi solo in parte**, nel pezzo che il titolo dice ancora rotto. Per esempio, la mappa per Google non mostra più le categorie vuote, ma la pagina che parte dal server sì. Restano aperti, con una nota che dice cosa manca.
+- **Uno non era chiuso per niente**: le foto delle categorie in home. La prova copriva le categorie vuote, non le foto.
+- **Sette erano chiusi nel caso del titolo, ma con un avanzo.** Li ho chiusi, e ogni avanzo ha la sua voce nuova. Il più serio riguarda i soldi: in un carrello di due negozi, con un rimborso già diviso dal pannello, il reso ripreso dopo un guasto toglie due volte la quota al negozio. È raro, ma è grave.
+
+### Cosa c'è adesso nel registro
+
+- Le voci nuove sono 80: difetti nati durante il lavoro, difetti vecchi visti strada facendo, e gli avanzi. Di queste, 17 sono già riparate con la loro prova.
+- I difetti seri aperti del sito sono 39 su 2301 voci. Sono i 37 rimasti degli 84, più due gravi nuovi: il rimborso diviso e i 7 alimenti senza dichiarazioni.
+- Ogni difetto serio rimasto aperto ha una riga che dice perché: una tua scelta, un pezzo che non ha retto, o un file di un'altra sessione.
 
 ## Cosa devi fare
 
-### Prima di unire
-
-Non applicare la migrazione 195 e non cambiare i modelli email di Supabase. Col codice che c'è oggi su main romperebbero il sito.
-
-### Dopo l'unione, in quest'ordine
+### I tuoi passi, in quest'ordine
 
 - **Primo:** completa allergeni e ingredienti dei 7 alimenti del fornaio. La legge li chiede per la vendita online.
 - **Secondo:** premi il pulsante delle migrazioni. Applica tutte quelle che mancano, anche le 4 nuove.
@@ -69,27 +79,24 @@ Non applicare la migrazione 195 e non cambiare i modelli email di Supabase. Col 
 ## Cosa non ho verificato
 
 - Niente è stato provato su un telefono vero, in produzione o con Stripe vero. Ci sono solo prove automatiche e prove su un database locale.
-- Nel registro dei difetti chiudo i 51 solo dopo la tua unione, voce per voce.
-- I 33 rimasti li ho divisi a occhio, non a conto esatto. Circa 17 aspettano un tuo passo, circa 12 non reggono, e circa 4 erano già a posto alla base.
-- Il prezzo del modello AI proposto non l'ho controllato io.
+- Alcune voci nuove dicono «da provare su un telefono vero», come la posizione che il pulsante SOS manda a MyCity. Non le ho provate.
+- Per il cookie già a posto ho rilanciato la prova, 2 verdi su 2, ma non l'ho rotta apposta per vederla diventare rossa.
+- Le prove SQL dei collaudatori dopo l'unione non sono girate: su questa macchina il database locale era spento. Le ha fatte girare la CI della #280, verde.
 
 ---
 
 ## Dettagli tecnici
 
-- Richiesta unica: NicolaeRotaru/mycity#280, ramo `claude/hopeful-dirac-jneoam`, testa `79b1801`, base `ecb8e2c`.
+- Richiesta unica: NicolaeRotaru/mycity#280, unita alle 18:17 del 1/11 nel commit `21212f9a`. L'albero è identico alla testa provata `79b1801`.
 - Unite dentro: #275, #276, #277, #278 e #279 (le ondate), poi #281, #283, #284 e #285 (le correzioni). Fuori: #282.
-- `npm run verify` col database locale: 7.493 prove su 7.493. Le prove SQL sono tutte verdi, comprese rls/44, 45, 46 e 47.
+- `npm run verify` col database locale, sulla testa: 7.493 prove su 7.493. Le prove SQL sono tutte verdi, comprese rls/44, 45, 46 e 47.
 - Le migrazioni nuove sono la 185, la 186, la 191 e la 195. Le vecchie da applicare in produzione sono la 131, la 150 e la 181.
-- Letture in sola lettura sul database di produzione del 1/11:
-  - 9 prodotti in vendita, di cui 7 alimenti senza dichiarazioni;
-  - 1 profilo sospeso, un fattorino senza documenti e mai approvato;
-  - 2 negozi approvati, con chi li ha approvati e la partita IVA;
-  - la 126 è già applicata.
-- Referti delle sessioni:
-  - per la macchina, `consegne/audit/2026-11-01-sessione-S1…S5-referto.json`;
-  - in parole, sui rami `claude/cinque-s*` di ad-mycity.
+- Registro: `MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-marketplace.json`, scritto alle 20:01. Le chiusure le ha scritte `cervello/chiudi-sito.mjs`: 63 in tutto, 46 degli 84 più 17 voci nuove, con 0 chiavi orfane.
+- I due giri di controllo dopo l'unione:
+  - `wf_88c90934-76a` preparava le voci, con 5 `tech` che scrivevano e 5 `qa` che contestavano. Gettoni senza le letture dalla cache: 2.516.095; con le letture: 80.877.062.
+  - `wf_ef89f60e-5c7` ricontrollava le chiusure, con 5 `qa`. Gettoni senza le letture dalla cache: 1.066.253; con le letture: 42.853.783.
+- Lettura in sola lettura sulla produzione, la sera del 1/11 prima della scrittura delle 20:01: i profili respinti sono 0. Per questo la voce dei 90 giorni dopo un rifiuto si chiude: non c'è nessun respinto vecchio da sistemare.
+- Le 73 voci in stato `doppione` non passano il conto delle voci scritte male di `cervello/lotto-a-pacchetti.md` ⑨, perché il conto non conosce quello stato. C'erano già prima di stasera, ed è debito del conto.
+- Referti delle sessioni: per la macchina, `consegne/audit/2026-11-01-sessione-S1…S5-referto.json`; in parole, sui rami `claude/cinque-s*` di ad-mycity.
 - Territori: `consegne/audit/2026-11-01-cinque-sessioni-territori.json`. Confini: `consegne/audit/2026-11-01-cinque-sessioni-confini.py`.
-- Le prove rosse dei collaudatori stanno sul ramo d'appoggio `claude/collaudo-finale-prove-rosse` del sito, che non si unisce.
-- Le falle R14, R15 e R83 hanno i dettagli solo nei messaggi fra sessioni.
-- Tempo e costo: dalle 13:18 alle 17:50. Gettoni dichiarati dalle sessioni: fra 0,6 e 0,9 milioni per ondata, senza le riletture dalla cache. Nicola misura circa il 10% del tetto settimanale.
+- Le falle R14, R15 e R83 hanno i dettagli solo nei messaggi fra sessioni. Nel registro, R14 e R83 sono chiuse; la seconda parte di R83 e un suo residuo minore hanno due voci col titolo generico.
