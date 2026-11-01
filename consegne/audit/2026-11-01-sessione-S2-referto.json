@@ -1,0 +1,329 @@
+{
+ "sessione": "S2",
+ "pr": "https://github.com/NicolaeRotaru/mycity/pull/277",
+ "commit": "f19f3a9",
+ "ondate": [
+  {
+   "ondata": 3,
+   "run_id": "wf_c7f6522a-9dd",
+   "verify": "verde: 836 file di prova, 7146 prove (npm run verify, exit 0)",
+   "pacchetti": [
+    {
+     "chiave": "app/rider/profile/page.tsx",
+     "esito": "non regge",
+     "chiavi_chiuse": [],
+     "prova": "tests/sql/harness/apply.sh + tests/sql/rls/44-il-fattorino-coi-documenti-scaduti-non-prende-ordini.test.sql (sul ramo claude/cinque-s2-non-regge-app-rider-profile-page-tsx)",
+     "file_toccati": [],
+     "non_chiuse": [
+      "qa-flussi|un fattorino con patente o assicurazione scaduta continua a prendere consegne, e il profilo gli dice solo «in scadenza»"
+     ],
+     "motivo": "dopo un giro di correzione: sito: Prova macchina: regge. Il rinnovo vero funziona (variante B). Ma la 190 lascia spostare la data senza documento nuovo: chi si iscrive salva le date prima dei documenti, viene approvato, expiry_doc resta NULL e la data cambiata passa. Comando: apply.sh + variante.sql caso A. | grave nato: Il fattorino iscritto dopo la 190 sposta una volta la scadenza senza caricare un documento nuovo (prova: apply.sh. Il fattorino non approvato salva le date con url NULL, service_role scrive url, lo staff approva. Poi l'UPDATE rider_license_expires_on='2036-11-30' p) | sito: Il",
+     "parziali": [
+      {
+       "chiave": "schermata staff per le scadenze",
+       "perche": "Non serve più per sbloccare: il fattorino rinnova da solo con il documento nuovo. Una modifica delle date da admin/users resta un lavoro a parte, fuori dal perimetro del pacchetto."
+      }
+     ]
+    },
+    {
+     "chiave": "app/rider/history/page.tsx",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "frontend-ux|lo storico consegne dice al fattorino che ha guadagnato zero sulle spese sopra i 30 euro"
+     ],
+     "prova": "npx vitest run tests/unit/lo-storico-del-fattorino-mostra-il-suo-compenso.test.tsx",
+     "file_toccati": [
+      "app/rider/history/page.tsx",
+      "tests/unit/lo-storico-del-fattorino-mostra-il-suo-compenso.test.tsx"
+     ],
+     "non_chiuse": [],
+     "motivo": "",
+     "parziali": []
+    },
+    {
+     "chiave": "app/api/kyc/start-check/route.ts",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "frontend-ux|l'amministratore approva i fattorini alla cieca: il pannello non mostra patente, polizza, documento né età"
+     ],
+     "prova": "npx vitest run tests/unit/l-amministratore-vede-i-documenti-del-fattorino-prima-di-approvarlo.test.ts tests/unit/i-documenti-del-fattorino-arrivano-all-amministratore-con-link-brevi.test.ts",
+     "file_toccati": [
+      "app/admin/users/page.tsx",
+      "app/api/kyc/documenti-rider/[id]/route.ts",
+      "lib/kyc/esame-rider.ts",
+      "tests/unit/l-amministratore-vede-i-documenti-del-fattorino-prima-di-approvarlo.test.ts",
+      "tests/unit/i-documenti-del-fattorino-arrivano-all-amministratore-con-link-brevi.test.ts"
+     ],
+     "non_chiuse": [],
+     "motivo": "",
+     "parziali": [
+      {
+       "chiave": "frontend-ux|l'amministratore approva i fattorini alla cieca: il pannello non mostra patente, polizza, documento né età",
+       "perche": "FUORI TERRITORIO: app/api/admin/users/[id]/moderate — l'approvazione non controlla documenti/scadenze/età lato server; oggi il freno vive solo nel pulsante spento del pannello."
+      }
+     ]
+    },
+    {
+     "chiave": "app/rider/orders/[id]/page.tsx",
+     "esito": "chiuso",
+     "chiavi_chiuse": [
+      "frontend-ux|se l'ordine viene annullato a gps acceso, la posizione del fattorino continua a scriversi sull'ordine chiuso",
+      "mobile-pwa|se il gps del fattorino perde il segnale, la pagina dice «posizione spenta» ma continua a mandarla, anche dopo la consegna",
+      "qa-flussi|«contatta il rider» chiama il numero del negozio, non del rider",
+      "qa-flussi|chiesto il reso, la richiesta sparisce: nessuna schermata del cliente ne mostra lo stato, e il modulo si puo' ricompilare a vuoto"
+     ],
+     "prova": "npx vitest run tests/unit/il-gps-del-fattorino-si-spegne-davvero.test.ts tests/unit/la-pagina-dell-ordine-dice-chi-chiami-e-che-il-reso-e-partito.test.ts",
+     "file_toccati": [
+      "app/orders/[id]/page.tsx",
+      "app/orders/[id]/stato-del-reso.ts",
+      "app/rider/orders/[id]/page.tsx",
+      "tests/unit/il-gps-del-fattorino-si-spegne-davvero.test.ts",
+      "tests/unit/la-pagina-dell-ordine-dice-chi-chiami-e-che-il-reso-e-partito.test.ts"
+     ],
+     "non_chiuse": [
+      "microcopy|il messaggio del freno promette «puoi annullare senza costi», ma appena il negozio accetta la fascia nuova l annullo non si può più"
+     ],
+     "motivo": "",
+     "parziali": [
+      {
+       "chiave": "microcopy|il messaggio del freno promette «puoi annullare senza costi», ma appena il negozio accetta la fascia nuova l annullo non si può più",
+       "perche": "FUORI TERRITORIO: lib/ordini/veloce-non-confermata.ts (fraseDelFreno) e lib/email/templates.ts: la frase va riscritta lì; la regola di annullo resta nella rotta cancel. Niente toccato."
+      },
+      {
+       "chiave": "frontend-ux|se l'ordine viene annullato a gps acceso, la posizione del fattorino continua a scriversi sull'ordine chiuso",
+       "perche": "Pagina chiusa e provata. Manca la serratura nel database: migrazione 191 che vieti al fattorino di scrivere rider_lat su ordini chiusi. Tocca la policy di orders: va collaudata a parte."
+      },
+      {
+       "chiave": "qa-flussi|«contatta il rider» chiama il numero del negozio, non del rider",
+       "perche": "SCELTA PER NICOLA: mostrare al cliente il numero del fattorino? Privacy: è un numero personale. Consiglio: numero ponte o chat. Per ora il pulsante dice «Chiama il negozio»."
+      },
+      {
+       "chiave": "qa-flussi|chiesto il reso, la richiesta sparisce: nessuna schermata del cliente ne mostra lo stato, e il modulo si puo' ricompilare a vuoto",
+       "perche": "Chiuso sulla pagina dell'ordine. Restano: la voce «Resi» del menu account (FUORI TERRITORIO: components/account/) e il modulo /orders/[id]/return aperto da URL diretto."
+      }
+     ]
+    },
+    {
+     "chiave": "app/admin/sos/page.tsx",
+     "esito": "non regge",
+     "chiavi_chiuse": [],
+     "prova": "npx vitest run tests/unit/la-consolle-sos-mostra-da-quale-consegna-parte-l-allarme.test.tsx (sul ramo claude/cinque-s2-non-regge-app-admin-sos-page-tsx)",
+     "file_toccati": [],
+     "non_chiuse": [
+      "frontend-ux|la consolle sos non mostra da quale consegna parte l'allarme: l'order_id ora scritto non si vede da nessuna parte"
+     ],
+     "motivo": "dopo un giro di correzione: variante: Sulla pagina della consegna order_id ora viene scritto (vitest 6/6 verdi). Ma su /rider con una consegna attiva (activeOne, page.tsx:295/499) RiderShell ricava l'ordine solo dall'URL e scrive null. La consolle allora afferma 'Non era in consegna', una frase falsa. | grave nato: La consolle SOS dice 'Non era in consegna' quando il fattorino ha una consegna attiva ma sta sulla bacheca (prova: Vitest: monta RiderShell su /rider con un ordine attivo (myActive[0] ASSIGNED), preme SOS e si aspetta order_id dell'ordine attivo. Oggi scrive null e la consol)",
+     "parziali": []
+    }
+   ]
+  },
+  {
+   "ondata": 4,
+   "run_id": null,
+   "verify": null,
+   "pacchetti": [],
+   "nota": "non lanciata: rate_limit_info.status = allowed_warning (regola 8)"
+  }
+ ],
+ "nati": [
+  {
+   "titolo": "Con i documenti scaduti la bacheca dice «Ordine gia' preso da un altro rider» invece del motivo vero",
+   "gravita": "minore",
+   "dove": "app/rider/page.tsx:317-321 (non gestisce motivo DOCUMENTI_SCADUTI introdotto dalla 190)",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/rider/profile/page.tsx",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "Ogni apertura dei documenti del fattorino finisce nel registro come «KYC approvato»",
+   "gravita": "minore",
+   "dove": "app/api/kyc/documenti-rider/[id]/route.ts:69 action 'kyc.approve' per una lettura",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/api/kyc/start-check/route.ts",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "Se il reso e' chiesto entro 30 secondi dall'apertura dell'ordine, al ritorno lo stato non compare e «Richiedi reso» resta",
+   "gravita": "minore",
+   "dove": "app/orders/[id]/page.tsx query resi (staleTime 30s globale) + app/orders/[id]/return/page.tsx:143 push senza invalidate",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/rider/orders/[id]/page.tsx",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "Con documenti scaduti, 'Accetta' risponde 'Ordine già preso da un altro rider'",
+   "gravita": "minore",
+   "dove": "app/rider/page.tsx:318-321 non gestisce motivo DOCUMENTI_SCADUTI (nuovo in mig. 190)",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/rider/profile/page.tsx",
+   "prova": "prendi_ordine restituisce {ok:false,motivo:'DOCUMENTI_SCADUTI'} (test 44). La pagina mostra il testo di GIA_PRESO per ogni motivo diverso da NON_FATTORINO.",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "I link ai documenti del fattorino scadono dopo 2 minuti a pannello aperto",
+   "gravita": "minore",
+   "dove": "app/api/kyc/documenti-rider/[id]/route.ts SCADENZA_LINK_SECONDI=120; app/admin/users/page.tsx non rilegge i link",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/api/kyc/start-check/route.ts",
+   "prova": "Si apre la scheda, si esamina per più di 120 s e poi si clicca 'Apri polizza': il link firmato è scaduto. Bisogna chiudere e riaprire la scheda.",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "Nel registro, guardare i documenti del fattorino figura come 'KYC approvato'",
+   "gravita": "minore",
+   "dove": "app/api/kyc/documenti-rider/[id]/route.ts:69 action 'kyc.approve' (etichetta 'KYC approvato' in lib/audit-azioni.ts:60)",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/api/kyc/start-check/route.ts",
+   "prova": "Ogni apertura della scheda scrive kyc.approve. Chi filtra le approvazioni nel registro trova approvazioni mai avvenute. Lo stesso schema c'era già in app/api/admin/users/[id]/kyc.",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "Reso inviato in meno di 30 s: tornando all'ordine si rivede 'Richiedi reso' senza lo stato",
+   "gravita": "minore",
+   "dove": "app/orders/[id]/page.tsx query resi (staleTime globale 30 s) + return/page.tsx:143 router.push senza invalidate",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/rider/orders/[id]/page.tsx",
+   "prova": "Si apre l'ordine (resi=[] in cache), si invia il reso entro 30 s e si torna: resta il pulsante. Il danno è limitato perché la pagina del reso mostra resoAperto.",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "Con un file qualsiasi il fattorino rinnova da solo la scadenza, senza che lo staff la ricontrolli",
+   "gravita": "minore",
+   "dove": "migrations/190 punto 3: per accettare la data nuova basta un percorso di file nuovo",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/rider/profile/page.tsx",
+   "prova": "Variante B: la rotta di servizio scrive un rider_license_url nuovo e la data +10 anni passa. Nessuno ricontrolla il documento. SCELTA PER NICOLA: il rinnovo va rivisto dallo staff? Raccomandazione: si', con una coda di revisione.",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "L'allarme SOS fallisce del tutto se l'id nell'URL non è un ordine valido: manca il secondo tentativo senza order_id",
+   "gravita": "minore",
+   "dove": "components/rider/SOSButton.tsx:58-66 con l'orderId passato da RiderShell",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/admin/sos/page.tsx",
+   "prova": "Con un URL /rider/orders/xyz, o con un ordine cancellato, l'insert va in errore (22P02 o vincolo FK) e compare 'MyCity NON è stata avvisata'. Prima del lotto lo stesso SOS partiva. Probabilità bassa.",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "Un SOS premuto aprendo una consegna già chiusa dallo storico appare in consolle come la 'consegna in corso'",
+   "gravita": "minore",
+   "dove": "app/rider/history/page.tsx:104 porta a /rider/orders/[id]; RiderShell lo passa al SOS",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/admin/sos/page.tsx",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "Il fattorino approvato rinnova la scadenza caricando un file qualunque, senza revisione dello staff",
+   "gravita": "minore",
+   "dove": "migrations/190, funzione date_documenti_rider_dello_staff",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/rider/profile/page.tsx",
+   "prova": "SCELTA PER NICOLA: la data rinnovata va riesaminata dallo staff? Raccomandazione: segnalare all'admin la nuova data e il nuovo file. Comunque è meglio di prima della 190, quando la data si cambiava liberamente.",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "Il fattorino approvato senza data registrata può impostarne una qualsiasi una volta, senza caricare documenti",
+   "gravita": "minore",
+   "dove": "migrations/190: il riallineamento iniziale riguarda solo chi ha già la data, quindi expiry_doc resta NULL",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/rider/profile/page.tsx",
+   "fonte": "collaudo B"
+  },
+  {
+   "titolo": "Il profilo dice di premere 'Salva i dati', ma quel pulsante sta nel passo 1, sopra i campi delle date",
+   "gravita": "minore",
+   "dove": "app/rider/onboarding/page.tsx:244 (pulsante) e 279-280 (campi delle date); il testo sta in app/rider/profile/page.tsx:238",
+   "nato_dal_lotto": true,
+   "pacchetto": "app/rider/profile/page.tsx",
+   "fonte": "collaudo B"
+  }
+ ],
+ "vecchi_visti": [
+  {
+   "titolo": "Il messaggio di rifiuto dice «visibile al venditore» anche quando si rifiuta un fattorino",
+   "gravita": "minore",
+   "dove": "app/admin/users/page.tsx (onReject del DetailPanel, window.prompt)",
+   "nato_dal_lotto": false,
+   "pacchetto": "app/api/kyc/start-check/route.ts",
+   "fonte": "squadra"
+  },
+  {
+   "titolo": "Manca la colonna della scadenza del documento d'identità: si può controllare solo patente e polizza",
+   "gravita": "minore",
+   "dove": "migrations/171_i_documenti_d_identita_scadono.sql (non c'è kyc_id_doc_expires_on)",
+   "nato_dal_lotto": false,
+   "pacchetto": "app/api/kyc/start-check/route.ts",
+   "fonte": "squadra"
+  },
+  {
+   "titolo": "La regola del database lascia scrivere al fattorino la posizione su un ordine annullato",
+   "gravita": "grave",
+   "dove": "migrations/161_quello_che_il_ripasso_del_9_settembre_aveva_riportato_indietro.sql:365-367 (WITH CHECK esclude solo DELIVERED)",
+   "nato_dal_lotto": false,
+   "pacchetto": "app/rider/orders/[id]/page.tsx",
+   "prova": "La policy «Riders can update assigned or claim free orders» ha WITH CHECK delivery_status <> 'DELIVERED': CANCELED passa.",
+   "fonte": "squadra"
+  },
+  {
+   "titolo": "La rotta moderate approva o riattiva un fattorino senza controllare documenti e scadenze: il blocco e' solo nel pulsante",
+   "gravita": "minore",
+   "dove": "app/api/admin/users/[id]/moderate/route.ts:151 (controlla solo l'eta')",
+   "nato_dal_lotto": false,
+   "pacchetto": "app/api/kyc/start-check/route.ts",
+   "fonte": "collaudo A"
+  },
+  {
+   "titolo": "Il server approva un fattorino anche senza documenti: il blocco esiste solo nel pulsante",
+   "gravita": "minore",
+   "dove": "app/api/admin/users/[id]/moderate/route.ts:71 (approve senza esameRider)",
+   "nato_dal_lotto": false,
+   "pacchetto": "app/api/kyc/start-check/route.ts",
+   "prova": "Una POST moderate {action:'approve'} su un rider senza polizza passa. Il controllo è solo nella UI admin.",
+   "fonte": "collaudo B"
+  }
+ ],
+ "fuori_territorio": [
+  {
+   "file": "lib/ordini/veloce-non-confermata.ts + lib/email/templates.ts",
+   "cosa": "la frase del freno «puoi annullare senza costi» va condizionata allo stato NEW (S1/S5)"
+  },
+  {
+   "file": "app/api/admin/users/[id]/moderate/route.ts",
+   "cosa": "l'approvazione di un fattorino deve ricontrollare lato server documenti e scadenze (oggi solo il pulsante spento)"
+  },
+  {
+   "file": "components/account/",
+   "cosa": "la voce «Resi» del menu account non porta allo stato del reso"
+  },
+  {
+   "file": "migrations/191 (S2, non scritta)",
+   "cosa": "la policy di orders lascia scrivere rider_lat al fattorino su ordine CANCELED: serve la serratura nel database"
+  }
+ ],
+ "scelte_per_nicola": [
+  {
+   "domanda": "Il cliente può vedere il numero personale del fattorino?",
+   "raccomandazione": "No: numero ponte o chat. Per ora il pulsante chiama il negozio e lo dice."
+  },
+  {
+   "domanda": "Quando il fattorino rinnova patente o polizza, lo staff deve ricontrollare il documento prima che la data nuova valga?",
+   "raccomandazione": "Sì, con una coda di revisione (nato nel pacchetto del profilo, che non regge)."
+  },
+  {
+   "domanda": "Chi paga la polizza dei fattorini (la pagina d'aiuto promette che la paga MyCity)?",
+   "raccomandazione": "Decidere prima della seconda ondata; non toccato."
+  }
+ ],
+ "conto_token": {
+  "workflow": "wf_c7f6522a-9dd",
+  "agenti": 12,
+  "senza_letture_cache": 934418,
+  "con_letture_cache": 20084664,
+  "uscita": 207629
+ },
+ "note_macchina": [
+  "Workflow senza freno in .claude/settings.json (cancello-stop): lo aggancia Nicola.",
+  "ondata-snella.js: args grandi passati inline arrivano come stringa e il controllo delle schede fallisce; aggirato con una copia dello script con gli args scritti dentro."
+ ],
+ "radiografia_in_corsa": "7 file toccati senza copertura registrata: non registrata perché scrive in MyCity-Vault (regola 4). Copertura del collaudo nel risultato del workflow."
+}
