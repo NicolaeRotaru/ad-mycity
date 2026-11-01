@@ -1,8 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-10-31 01:45
+aggiornato: 2026-11-01 09:24
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🧱 **2026-11-01 09:24 — Le ondate 1-6 del piano per aprire sono quasi tutte dentro.**
+>
+> Dal 31/10 hai unito cinque richieste del sito, dalla #267 alla #271. La #272 coi 5 pacchetti della correzione è verde e aspetta te: dopo l'unione il pulsante applica la 168, la 178, la 179, la 180 e la 184. Poi arrivano i Termini 3.0, da rileggere tu.
+>
+> Nel registro del sito restano aperte 4 voci bloccanti, 131 gravi e 994 minori. La prossima è l'ondata 7: rimborsi, ingresso, ordine coi resi e il pulsante SOS del fattorino.
 
 > 🚀 **2026-10-31 01:45 — Hai unito la #266: le fasce nuove vanno online.**
 >
