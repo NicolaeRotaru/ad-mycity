@@ -24,9 +24,12 @@ cinque = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(cinque)
 
 TERR = json.loads((QUI / "2026-11-01-cinque-sessioni-territori.json").read_text())
-# File assegnati dopo il piano, per messaggio della sesta (1/11): R15 alla S4, il titolo della home alla S3.
+# File assegnati dopo il piano, per messaggio della sesta (1/11): R15 alla S4, il titolo della home alla S3,
+# la voce «Resi» alla S2, la notte delle cancellazioni alla S5.
 IN_PIU = {
+    "S2": ["components/account/"],
     "S3": ["lib/home-site.ts"],
+    "S5": ["app/api/cron/process-deletions/", "lib/account/cancellazione.ts"],
     "S4": ["app/sign-up/", "app/sign-in/", "app/api/auth/signup/", "app/api/auth/signin/"],
 }
 
