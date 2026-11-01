@@ -1,8 +1,7 @@
 {
   "sessione": "S5",
   "pr": "https://github.com/NicolaeRotaru/mycity/pull/279",
-  "commit": "c62953bd8271a3542626952efa0154a9a5ebfa5f",
-  "fermata_prima_ondata_10": "rate_limit_info.status = allowed_warning (regola 8)",
+  "commit": "9be4667",
   "ondate": [
     {
       "ondata": 9,
@@ -17,7 +16,14 @@
             "deploy-sre|il controllo che confronta il database vero col codice non si è mai collegato, e il rilascio controllato cadrà sullo stesso indirizzo"
           ],
           "prova": "npx vitest run tests/unit/il-ritorno-indietro-torna-a-quello-che-usano-i-clienti.test.ts tests/unit/la-deriva-distingue-non-mi-collego-da-mancano-migrazioni.test.ts",
-          "file_toccati": ["scripts/prova-di-fumo.mjs", "scripts/check-migration-drift.mjs", ".github/workflows/deploy-dopo-ci.yml", ".github/workflows/deriva-migrazioni-produzione.yml", "tests/unit/il-ritorno-indietro-torna-a-quello-che-usano-i-clienti.test.ts", "tests/unit/la-deriva-distingue-non-mi-collego-da-mancano-migrazioni.test.ts"],
+          "file_toccati": [
+            "scripts/prova-di-fumo.mjs",
+            "scripts/check-migration-drift.mjs",
+            ".github/workflows/deploy-dopo-ci.yml",
+            ".github/workflows/deriva-migrazioni-produzione.yml",
+            "tests/unit/il-ritorno-indietro-torna-a-quello-che-usano-i-clienti.test.ts",
+            "tests/unit/la-deriva-distingue-non-mi-collego-da-mancano-migrazioni.test.ts"
+          ],
           "nota": "riserve minori aperte A (un solo altro commit nei 20 rilasci) ed E (dominio senza sha): il giro di correzione 122aa6c e' stato annullato (c62953b) perche' rompeva tests/unit/il-ritorno-indietro-dice-a-quale-rilascio-tornare.test.ts"
         },
         {
@@ -35,42 +41,269 @@
         {
           "chiave": "lib/admin/esporta-utenti.ts",
           "esito": "chiuso",
-          "chiavi_chiuse": ["architettura|due squadre hanno scritto lo stesso modulo di esportazione csv due volte, e le due copie divergono gia' alla nascita"],
+          "chiavi_chiuse": [
+            "architettura|due squadre hanno scritto lo stesso modulo di esportazione csv due volte, e le due copie divergono gia' alla nascita"
+          ],
           "prova": "npx vitest run tests/unit/le-due-esportazioni-csv-sono-una-sola.test.ts",
-          "file_toccati": ["lib/admin/esporta-csv.ts", "lib/admin/esporta-utenti.ts", "lib/ordini/esporta-ordini.ts", "tests/unit/le-due-esportazioni-csv-sono-una-sola.test.ts"]
+          "file_toccati": [
+            "lib/admin/esporta-csv.ts",
+            "lib/admin/esporta-utenti.ts",
+            "lib/ordini/esporta-ordini.ts",
+            "tests/unit/le-due-esportazioni-csv-sono-una-sola.test.ts"
+          ]
         },
         {
           "chiave": "lib/privacy/potature-ritenzione.ts",
           "esito": "chiuso",
-          "chiavi_chiuse": ["privacy-legale|le copie orfane già nel secchio kyc-docs prima di questa correzione restano: nessuna potatura lista il secchio"],
+          "chiavi_chiuse": [
+            "privacy-legale|le copie orfane già nel secchio kyc-docs prima di questa correzione restano: nessuna potatura lista il secchio"
+          ],
           "prova": "npx vitest run tests/unit/le-copie-orfane-dei-documenti-d-identita-non-restano-per-sempre.test.ts tests/unit/un-documento-vivo-non-sparisce-se-un-altro-profilo-esce-dalla-lista.test.ts",
-          "file_toccati": ["lib/privacy/orfani-kyc.ts", "lib/privacy/potature-ritenzione.ts", "tests/unit/le-copie-orfane-dei-documenti-d-identita-non-restano-per-sempre.test.ts", "tests/unit/un-documento-vivo-non-sparisce-se-un-altro-profilo-esce-dalla-lista.test.ts"],
+          "file_toccati": [
+            "lib/privacy/orfani-kyc.ts",
+            "lib/privacy/potature-ritenzione.ts",
+            "tests/unit/le-copie-orfane-dei-documenti-d-identita-non-restano-per-sempre.test.ts",
+            "tests/unit/un-documento-vivo-non-sparisce-se-un-altro-profilo-esce-dalla-lista.test.ts"
+          ],
           "nota": "prova-rimessa esce 3 (rosso_strutturale: modulo nuovo); il collaudo ha rimesso 7 difetti di comportamento, 6 rossi. NON agganciata alla notte: vedi fuori_territorio"
+        }
+      ]
+    },
+    {
+      "ondata": 10,
+      "run_id": null,
+      "verify": "verde: npm run verify exit 0, 7260/7260 su 9be4667",
+      "pacchetti": [
+        {
+          "chiave": "app/api/admin/users/[id]/moderate/route.ts",
+          "esito": "chiuso",
+          "chiavi_chiuse": [
+            "sicurezza-auth|il rifiuto non fa partire il cronometro dei 90 giorni: i documenti del respinto non scadono mai",
+            "rls-database|l'approvazione di un negozio non pretende la partita iva, e chi e' gia' approvato non ha nessuna pagina per inserirla"
+          ],
+          "prova": "npx vitest run tests/unit/si-approva-solo-con-partita-iva-e-documenti.test.ts tests/unit/riattivare-un-sospeso-non-e-una-nuova-approvazione.test.ts",
+          "file_toccati": [
+            "app/api/admin/users/[id]/moderate/route.ts",
+            "lib/admin/regole-approvazione.ts",
+            "tests/unit/si-approva-solo-con-partita-iva-e-documenti.test.ts",
+            "tests/unit/riattivare-un-sospeso-non-e-una-nuova-approvazione.test.ts",
+            "tests/unit/la-moderazione-dice-il-vero.test.ts (solo dati finti)",
+            "tests/unit/nessuno-approva-un-fattorino-minorenne.test.ts (solo dati finti)"
+          ],
+          "nota": "anche il controllo dei documenti dal server: fattorino si', negozio fermo per una scelta; la pagina per inserire la partita IVA di un approvato resta fuori territorio"
+        },
+        {
+          "chiave": ".github/workflows/ci.yml",
+          "esito": "chiuso",
+          "chiavi_chiuse": [
+            "qa-flussi|le tre prove automatiche dell'acquisto vero sono vuote: passano in tre millesimi senza aprire niente"
+          ],
+          "prova": "npx vitest run tests/unit/nessuna-prova-nel-browser-e-un-guscio-vuoto.test.ts",
+          "file_toccati": [
+            "tests/e2e/12-la-cassa-dal-carrello-al-pagamento.spec.ts",
+            ".github/workflows/ci.yml",
+            "tests/unit/nessuna-prova-nel-browser-e-un-guscio-vuoto.test.ts"
+          ],
+          "nota": "chiuso il verde finto; i corpi veri restano fermi per una scelta (ambiente di prova)"
+        },
+        {
+          "chiave": "app/api/cron/send-emails/route.ts",
+          "esito": "fermo per una scelta",
+          "chiavi_chiuse": [],
+          "prova": "npx vitest run tests/unit/la-posta-d-ordine-muta-si-fa-sentire.test.ts tests/unit/la-sentinella-della-posta-non-ferma-il-giro.test.ts",
+          "file_toccati": [
+            "lib/email/sentinella-posta-ordini.ts",
+            "app/api/cron/send-emails/route.ts",
+            "lib/email/avviso-messaggio-negozio.ts",
+            "lib/email/templates.ts",
+            "tests/unit/la-posta-d-ordine-muta-si-fa-sentire.test.ts",
+            "tests/unit/la-sentinella-della-posta-non-ferma-il-giro.test.ts",
+            "tests/unit/il-negozio-sa-che-un-cliente-gli-ha-scritto.test.ts",
+            "tests/unit/l-email-della-veloce-non-promette-l-annullo-dopo-che-il-negozio-accetta.test.ts"
+          ],
+          "nota": "la riparazione vera e' applicare la migrazione 150 in produzione (Nicola); intanto il giro la segnala. Nello stesso pacchetto: avvisaNegozioMessaggioNuovo (da agganciare dalla S4) e il testo dell'annullo in templates.ts"
+        },
+        {
+          "chiave": "scripts/backup-db.sh",
+          "esito": "chiuso",
+          "chiavi_chiuse": [
+            "deploy-sre|le foto di prodotti e negozi non sono in nessuna copia di sicurezza"
+          ],
+          "prova": "npx vitest run tests/unit/le-foto-sono-nella-copia-di-sicurezza.test.ts tests/unit/l-allarme-delle-foto-non-dice-che-manca-il-database.test.ts",
+          "file_toccati": [
+            "scripts/copia-foto.mjs",
+            "scripts/copia-foto.sh",
+            ".github/workflows/backup-db.yml",
+            "docs/backup-restore.md",
+            "tests/unit/le-foto-sono-nella-copia-di-sicurezza.test.ts",
+            "tests/unit/l-allarme-delle-foto-non-dice-che-manca-il-database.test.ts"
+          ],
+          "nota": "serve il segreto SUPABASE_SERVICE_ROLE_KEY per accenderla"
+        },
+        {
+          "chiave": ".github/workflows/backup-db.yml",
+          "esito": "chiuso",
+          "chiavi_chiuse": [
+            "deploy-sre|anche la prova mensile di ripristino della copia fallisce senza avvisare nessuno"
+          ],
+          "prova": "npx vitest run tests/unit/la-prova-di-ripristino-fallita-suona-l-allarme.test.ts",
+          "file_toccati": [
+            ".github/workflows/backup-db.yml",
+            "tests/unit/la-prova-di-ripristino-fallita-suona-l-allarme.test.ts"
+          ]
+        },
+        {
+          "chiave": "app/api/cron/process-deletions/route.ts (fuori territorio assegnato dalla sesta)",
+          "esito": "chiuso",
+          "chiavi_chiuse": [],
+          "prova": "npx vitest run tests/unit/la-notte-vera-toglie-le-copie-orfane-dei-documenti.test.ts tests/unit/la-cancellazione-toglie-tutti-i-file-anche-oltre-mille.test.ts tests/unit/la-rilettura-che-salva-un-documento-suona-il-campanello.test.ts",
+          "file_toccati": [
+            "app/api/cron/process-deletions/route.ts",
+            "lib/account/cancellazione.ts",
+            "lib/privacy/orfani-kyc.ts",
+            "lib/privacy/potature-ritenzione.ts",
+            "tests/unit/aiuti/finto-giro-notturno.ts (aggiunte)",
+            "tests/unit/api-cron-deletions.test.ts (aggiunte)",
+            "tests/unit/la-notte-vera-toglie-le-copie-orfane-dei-documenti.test.ts",
+            "tests/unit/la-cancellazione-toglie-tutti-i-file-anche-oltre-mille.test.ts",
+            "tests/unit/la-rilettura-che-salva-un-documento-suona-il-campanello.test.ts"
+          ],
+          "nota": "aggancio della potatura degli orfani e cancellazione oltre i 1000 file: difetti visti nell'ondata 9, non nel registro"
         }
       ]
     }
   ],
   "nati": [
-    {"gravita": "grave", "file": "lib/privacy/orfani-kyc.ts", "titolo": "La paginazione a offset dei riferimenti poteva saltare un profilo e cancellarne i documenti vivi", "stato": "chiuso nello stesso giro (3d56e43)"},
-    {"gravita": "minore", "file": "lib/admin/esporta-utenti.ts", "titolo": "Ricerca senza lettere latine: il file aveva il nome dell'elenco completo", "stato": "chiuso (55bc70e)"},
-    {"gravita": "minore", "file": "lib/admin/esporta-csv.ts", "titolo": "Avviso «il resto non è stato scaricato» anche quando mancavano solo righe senza id", "stato": "chiuso (55bc70e)"}
+    {
+      "gravita": "grave",
+      "file": "lib/privacy/orfani-kyc.ts",
+      "titolo": "La paginazione a offset dei riferimenti poteva saltare un profilo e cancellarne i documenti vivi",
+      "stato": "chiuso nello stesso giro (3d56e43)"
+    },
+    {
+      "gravita": "minore",
+      "file": "lib/admin/esporta-utenti.ts",
+      "titolo": "Ricerca senza lettere latine: il file aveva il nome dell'elenco completo",
+      "stato": "chiuso (55bc70e)"
+    },
+    {
+      "gravita": "minore",
+      "file": "lib/admin/esporta-csv.ts",
+      "titolo": "Avviso «il resto non è stato scaricato» anche quando mancavano solo righe senza id",
+      "stato": "chiuso (55bc70e)"
+    },
+    {
+      "gravita": "grave",
+      "file": ".github/workflows/backup-db.yml",
+      "titolo": "Allarme che diceva «manca il database» quando cadevano solo le foto; tempo scaduto che perdeva il dump",
+      "stato": "chiuso (e635ec3)"
+    },
+    {
+      "gravita": "medio",
+      "file": "lib/admin/regole-approvazione.ts",
+      "titolo": "Negozio sospeso senza partita IVA non riattivabile",
+      "stato": "chiuso (9bacee3)"
+    },
+    {
+      "gravita": "medio",
+      "file": "app/api/cron/process-deletions/route.ts",
+      "titolo": "Il conto a mano non mostrava i documenti orfani da togliere",
+      "stato": "chiuso (9a3e67a)"
+    },
+    {
+      "gravita": "minore",
+      "file": "tests/unit/nessuna-prova-nel-browser-e-un-guscio-vuoto.test.ts",
+      "titolo": "Freno aggirabile in quattro modi",
+      "stato": "chiuso (b9e48d6)"
+    }
   ],
   "vecchi_visti": [
-    {"gravita": "minore", "file": "scripts/check-migration-drift.mjs", "titolo": "ECONNREFUSED sul pooler e SELECT fallita dopo il collegamento danno un messaggio che porta fuori strada"},
-    {"gravita": "minore", "file": ".github/workflows/deriva-migrazioni-produzione.yml", "titolo": "Senza SALTO_E_ERRORE=1, il pacchetto pg mancante dà verde"},
-    {"gravita": "minore", "file": "scripts/prova-di-fumo.mjs", "titolo": "Ritorno indietro: con un solo altro commit nei 20 rilasci letti si torna al rotto; dominio senza sha restituisce il rilascio che esce"},
-    {"gravita": "grave", "file": "vercel.json", "titolo": "Con il rilascio automatico acceso il ritorno indietro automatico non scatta quasi mai"}
+    {
+      "gravita": "minore",
+      "file": "scripts/check-migration-drift.mjs",
+      "titolo": "ECONNREFUSED sul pooler e SELECT fallita dopo il collegamento danno un messaggio che porta fuori strada"
+    },
+    {
+      "gravita": "minore",
+      "file": ".github/workflows/deriva-migrazioni-produzione.yml",
+      "titolo": "Senza SALTO_E_ERRORE=1, il pacchetto pg mancante dà verde"
+    },
+    {
+      "gravita": "minore",
+      "file": "scripts/prova-di-fumo.mjs",
+      "titolo": "Ritorno indietro: con un solo altro commit nei 20 rilasci letti si torna al rotto; dominio senza sha restituisce il rilascio che esce"
+    },
+    {
+      "gravita": "grave",
+      "file": "vercel.json",
+      "titolo": "Con il rilascio automatico acceso il ritorno indietro automatico non scatta quasi mai"
+    }
   ],
   "fuori_territorio": [
-    {"file": "app/api/cron/process-deletions/route.ts", "cosa": "~riga 123: eseguiPotature(admin as unknown as ClientePotature, logger, adesso, potatureNotturne(adesso)) con const adesso = Date.now(); il ramo contaSenzaCancellare resta com'e'. Senza, la potatura degli orfani kyc non gira."},
-    {"file": "lib/account/cancellazione.ts", "cosa": "~213-233: elenco del secchio con limit 1000 senza pagine; errore delle sottocartelle ignorato"}
+    {
+      "file": "app/api/chat/messages/route.ts (S4)",
+      "cosa": "dopo l'insert: await avvisaNegozioMessaggioNuovo(getAdminSupabase(), { conversationId, senderId: user.id }) da @/lib/email/avviso-messaggio-negozio"
+    },
+    {
+      "file": "lib/ordini/veloce-non-confermata.ts:131 (S1)",
+      "cosa": "«senza costi … finché il negozio non lo conferma» → «… nella fascia nuova»"
+    },
+    {
+      "file": "pagina venditore o pannello admin",
+      "cosa": "inserire la partita IVA di un negozio già approvato"
+    }
   ],
   "scelte_per_nicola": [
-    {"domanda": "Mettere i segreti Vercel su GitHub (VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID, consigliato VERCEL_AUTOMATION_BYPASS_SECRET)", "raccomandazione": "si', subito: e' il primo passo per chiudere «ogni unione pubblica senza CI»"},
-    {"domanda": "Riallineare a mano il database di produzione con docs/migrazioni-baseline-produzione.md (il 31/10 mancavano 4 migrazioni)", "raccomandazione": "si', prima di spegnere il rilascio automatico"},
-    {"domanda": "Portare \"main\": true a false in vercel.json dopo i due passi sopra", "raccomandazione": "si'; preparo io la richiesta quando 1 e 2 sono fatti. Riattiva anche il ritorno indietro automatico pieno"},
-    {"domanda": "Correggere e accendere il ruleset «Main» (bersaglio default branch, controllo «Main», Active) e verificarlo con scripts/controlla-regola-main.mjs", "raccomandazione": "si', costa pochi minuti e ferma le richieste rosse"},
-    {"domanda": "Potatura orfani kyc: vanno bene 7 giorni di margine e 200 file a notte? Va bene che la notte suoni l'allarme se i profili non hanno riferimenti ma il secchio ha file?", "raccomandazione": "si' a entrambe: prudenza su un secchio senza backup"}
+    {
+      "domanda": "Mettere i segreti Vercel su GitHub (VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID, consigliato VERCEL_AUTOMATION_BYPASS_SECRET)",
+      "raccomandazione": "si', subito: e' il primo passo per chiudere «ogni unione pubblica senza CI»"
+    },
+    {
+      "domanda": "Riallineare a mano il database di produzione con docs/migrazioni-baseline-produzione.md (il 31/10 mancavano 4 migrazioni)",
+      "raccomandazione": "si', prima di spegnere il rilascio automatico"
+    },
+    {
+      "domanda": "Portare \"main\": true a false in vercel.json dopo i due passi sopra",
+      "raccomandazione": "si'; preparo io la richiesta quando 1 e 2 sono fatti. Riattiva anche il ritorno indietro automatico pieno"
+    },
+    {
+      "domanda": "Correggere e accendere il ruleset «Main» (bersaglio default branch, controllo «Main», Active) e verificarlo con scripts/controlla-regola-main.mjs",
+      "raccomandazione": "si', costa pochi minuti e ferma le richieste rosse"
+    },
+    {
+      "domanda": "Potatura orfani kyc: vanno bene 7 giorni di margine e 200 file a notte? Va bene che la notte suoni l'allarme se i profili non hanno riferimenti ma il secchio ha file?",
+      "raccomandazione": "si' a entrambe: prudenza su un secchio senza backup"
+    },
+    {
+      "domanda": "Segreto SUPABASE_SERVICE_ROLE_KEY per la copia delle foto",
+      "raccomandazione": "sì, gratis"
+    },
+    {
+      "domanda": "Applicare la migrazione 150 in produzione (email ordine pronto e consegnato)",
+      "raccomandazione": "sì, dentro il riallineamento del database"
+    },
+    {
+      "domanda": "Documenti d'identità ai negozi prima dell'approvazione?",
+      "raccomandazione": "decidi tu; serve prima una pagina di caricamento"
+    },
+    {
+      "domanda": "Se i file personali non si tolgono tutti, la cancellazione dell'account si ferma e riprova la notte dopo?",
+      "raccomandazione": "sì"
+    },
+    {
+      "domanda": "Avvisi della chat: i negozi possono spegnerli? Finestra di 15 minuti ok?",
+      "raccomandazione": "15 minuti ok; spegnerli richiede una migrazione"
+    },
+    {
+      "domanda": "Ambiente delle prove d'acquisto",
+      "raccomandazione": "prima il contrassegno col Supabase locale (0 €), poi le chiavi di prova Stripe"
+    }
   ],
-  "conto_token": {"subagenti": 746319, "ad_cache_letti": 17382561, "ad_scritti": 136142, "costo_usd_ad": 11.81, "nota": "nessun workflow usato: conto-token.mjs --workflow non ha runId"}
+  "conto_token": {
+    "subagenti_ondata_9": 746319,
+    "subagenti_ondata_10": 1346922,
+    "totale_subagenti": 2093241,
+    "nota": "nessun workflow usato: conto-token.mjs --workflow non ha runId"
+  },
+  "ripartenza": "Nicola via la sesta, 2026-11-01 ~14:20: riparti anche con allowed_warning"
 }

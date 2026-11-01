@@ -1,18 +1,20 @@
 ---
-data: 2026-11-01 14:20
+data: 2026-11-01 15:25
 sessione: S5 · rilascio, copie ed email
 pr: https://github.com/NicolaeRotaru/mycity/pull/279
 ---
 
-# Sessione S5 — referto dell'ondata 9 (l'ondata 10 non è partita)
+# Sessione S5 — referto delle ondate 9 e 10
 
 ## In parole semplici
-Il piano mi dava due ondate: la 9 con 7 difetti, la 10 con 6. Ho fatto la 9 e mi sono fermata prima della 10.
-Il motivo è il freno sul tetto settimanale: prima della seconda ondata lo stato doveva essere «allowed», ed era «allowed_warning».
+Il piano mi dava due ondate: la 9 con 7 difetti, la 10 con 6. Le ho fatte tutte e due.
+Dopo la 9 mi ero fermata, perché il tetto settimanale dei gettoni era in avviso. Alle 14:20 circa Nicola, tramite la sesta, ha detto «riparti adesso».
 
 Dei 7 difetti dell'ondata 9:
 - 4 si chiudono con il codice nuovo e una prova che gira;
 - 3 restano fermi, perché si chiudono solo con impostazioni di GitHub e di Vercel che può fare solo Nicola.
+
+L'ondata 10 ha 6 difetti più 5 lavori arrivati da fuori. In tutto, 8 sono chiusi e 3 chiusi solo in parte, fermi per una scelta di Nicola. Il dettaglio è nella sezione «Ondata 10» in fondo.
 
 Tutto il lavoro è in una richiesta di unione sul sito, la #279. La sua base è il ramo della sesta, non main.
 
@@ -112,14 +114,91 @@ Finché il punto 3 non è fatto, ogni unione su main va in produzione senza aspe
 - Un primo giro aveva un rosso per tempo scaduto sotto carico (`l-elenco-utenti-non-spaccia...`): da sola la prova passa 31 su 31.
 - Il secondo giro aveva il rosso vero che ha portato all'annullamento di 122aa6c.
 
-**Ondata 10, non partita** (6 difetti):
-- moderazione degli utenti (2);
-- le prove vuote dell'acquisto vero in `ci.yml` (1);
-- le email «ordine pronto» e «ordine consegnato» (1): la migrazione 150 non è applicata in produzione;
-- le copie delle foto (1);
-- la prova mensile di ripristino (1).
+## Ondata 10
+
+Ripartita su ordine di Nicola, passato dalla sesta alle 14:20 circa. Hanno lavorato 5 squadre e 2 collaudatori, con un solo giro di correzione.
+- Verifica completa su 9be4667: 7260 prove su 7260 verdi.
+- La richiesta è sempre la #279.
+
+**Moderazione degli utenti** (squadra D, commit 8e5609c e 9bacee3), stato **chiuso**:
+- *Il rifiuto fa partire i 90 giorni.* Era già corretto alla base; ora ha una prova che fallisce se si toglie `approved_at` dal rifiuto.
+- *La partita IVA.* «Approva» e «riattiva» da rifiutato o in attesa pretendono una partita IVA valida: 11 cifre più la cifra di controllo, e mai «00000000000».
+  - Riattivare un negozio sospeso non la pretende. La sospensione non è una nuova approvazione, e senza questa eccezione un negozio storico restava bloccato per sempre.
+- *I documenti controllati dal server.* Al fattorino si chiedono quattro documenti: fronte del documento, selfie, patente e polizza.
+- Prove: `npx vitest run tests/unit/si-approva-solo-con-partita-iva-e-documenti.test.ts tests/unit/riattivare-un-sospeso-non-e-una-nuova-approvazione.test.ts`. prova-rimessa: regge.
+- *Fermo per una scelta:* ai negozi oggi non si chiede nessun documento, perché non esiste una pagina dove caricarli.
+
+**Le prove vuote dell'acquisto vero** (squadra E, commit 7350940 e b9e48d6), stato **chiuso** per il verde finto:
+- Le tre prove nascono saltate, con il motivo scritto.
+- Un freno legge le prove come codice e diventa rosso se una prova nel browser non apre niente. Il collaudo aveva trovato quattro modi di aggirarlo: ora sono chiusi.
+- Prova: `npx vitest run tests/unit/nessuna-prova-nel-browser-e-un-guscio-vuoto.test.ts`. prova-rimessa: regge.
+- *Fermo per una scelta:* i corpi veri delle tre prove.
+  - Il contrassegno chiede un lavoro nuovo della CI col Supabase locale: costo 0 €, circa 10 minuti di CI in più a giro.
+  - Il rimborso e il bonifico chiedono le chiavi di prova di Stripe, che sono gratis.
+
+**Le foto nella copia e la prova mensile** (squadra F, commit f2eff8c e e635ec3), stato **chiuso**:
+- Se la prova mensile di ripristino fallisce, suona l'allarme.
+- Le foto dei secchi pubblici (products, stories, reviews) entrano nella copia notturna, cifrate, in un caricamento a parte.
+  - Il database si conserva prima delle foto.
+  - Il passo delle foto ha un tempo massimo di 15 minuti, e ogni richiesta un tempo massimo di 60 secondi.
+  - Il secchio kyc-docs non si copia mai.
+- Se cadono solo le foto, l'allarme lo dice in una segnalazione a parte, e il database risulta salvato.
+- Prove:
+  - `tests/unit/la-prova-di-ripristino-fallita-suona-l-allarme.test.ts`
+  - `tests/unit/le-foto-sono-nella-copia-di-sicurezza.test.ts`
+  - `tests/unit/l-allarme-delle-foto-non-dice-che-manca-il-database.test.ts`
+- prova-rimessa dà «rosso strutturale», perché lo script delle foto è nuovo. Il collaudo ha rimesso a mano 4 difetti su 5: tutti presi.
+- *Serve a Nicola:* il segreto `SUPABASE_SERVICE_ROLE_KEY`. Lo spazio occupato è da guardare la prima notte: il pacco delle foto resta 30 giorni.
+
+**Le email** (squadra G, commit 98a1d35 e 2b55684):
+- *«Ordine pronto» e «ordine consegnato», fermo per una scelta.* La riparazione vera è applicare la migrazione 150 in produzione: è dentro il riallineamento del punto 2.
+  - Intanto il giro della posta scrive un errore se ci sono ordini consegnati e nessuna email in coda. Lo stesso se le email in coda sono di meno, per esempio 5 ordini consegnati e una sola email.
+- *L'avviso al negozio per un messaggio in chat, chiuso nel codice.*
+  - Parte un'email per conversazione, senza il testo del messaggio e senza dati del cliente.
+  - La funzione è `avvisaNegozioMessaggioNuovo`. **Va agganciata dalla S4** in `app/api/chat/messages/route.ts`, con `senderId: user.id`.
+- *Il testo dell'annullo, chiuso.* L'email della consegna veloce dice che l'annullo è gratis solo finché il negozio non conferma la fascia nuova.
+  - La frase gemella in `lib/ordini/veloce-non-confermata.ts:131` è della S1.
+- Prove: `il-negozio-sa-che-un-cliente-gli-ha-scritto`, `la-posta-d-ordine-muta-si-fa-sentire`, `la-sentinella-della-posta-non-ferma-il-giro`, `l-email-della-veloce-non-promette-l-annullo-dopo-che-il-negozio-accetta`.
+
+**Cancellazione e potatura notturna** (squadra H, commit fada228 e 9a3e67a), stato **chiuso**:
+- La notte vera chiama `potatureNotturne(adesso)`.
+- Il conto fatto a mano dice quanti documenti orfani toglierebbe la prima notte, senza toglierne nessuno: campo `fileDaTogliere`.
+- Se la rilettura del profilo salva un documento che la lettura generale aveva mancato, il registro scrive un avviso.
+- La cancellazione dell'account legge l'elenco dei file a pagine, fino a 50.000 file per cartella, e dichiara gli errori delle sottocartelle.
+- Prove:
+  - `la-notte-vera-toglie-le-copie-orfane-dei-documenti`
+  - `la-cancellazione-toglie-tutti-i-file-anche-oltre-mille`
+  - `la-rilettura-che-salva-un-documento-suona-il-campanello`
+- prova-rimessa: regge.
+
+**Scelte nuove per Nicola (ondata 10)**
+1. Il segreto `SUPABASE_SERVICE_ROLE_KEY` per la copia delle foto. È gratis e lo raccomando.
+2. Ai negozi chiediamo i documenti d'identità prima di approvarli? Se sì, prima serve una pagina dove caricarli.
+3. Se i file personali non si tolgono tutti, la cancellazione dell'account va fermata e riprovata la notte dopo? Lo raccomando.
+4. Gli avvisi della chat: lasciare ai negozi la scelta di spegnerli? Serve una migrazione. E va bene la finestra di 15 minuti?
+5. L'ambiente delle prove d'acquisto: prima il contrassegno col Supabase locale (0 €), poi le chiavi di prova di Stripe.
+6. Prima di accendere le cancellazioni a orario: guarda il numero di documenti orfani nel conto a mano.
+
+**Difetti vecchi visti (ondata 10)**
+- `partitaIvaValida` è copiata in `app/api/seller/apply/route.ts`.
+- `lib/kyc/providers.ts` controlla le partite IVA solo nel formato.
+- L'approvazione del fattorino non guarda le scadenze di patente e polizza.
+- `cancellaAccount` cancella l'utente anche se restano file nei secchi `reviews` e `cod-proof`.
+- La variabile `E2E_DATI_DI_PROVA` non è impostata da nessuna parte.
+- Il seed dell'ordine vero non ha prodotti.
+- Il secchio pubblico `products` contiene foto dei contanti e dei resi.
+- La prova mensile usa Postgres 16, la produzione la 17.
+- `backup-db.sh:221` non pulisce i pacchi delle foto.
+- Il primo del mese il lavoro della copia gira due volte.
+- Se cade la copia delle foto via rclone dentro `backup-db.sh`, l'allarme dice che è caduto il database (oggi rclone è spento).
+- La lettura dei profili può fermarsi presto se il database taglia le righe (max-rows): la rilettura salva i documenti, ma è l'unica barriera.
+
+**Fuori territorio ancora aperto**
+- L'aggancio dell'avviso della chat: è della S4.
+- La frase della campanella in `lib/ordini/veloce-non-confermata.ts:131`: è della S1.
+- Una pagina per inserire la partita IVA di un negozio già approvato.
 
 **Conto dei gettoni**
-- 8 consegne di subagenti, circa 746.000 gettoni: 3 costruttori × 2 giri, più 2 collaudatori.
+- Ondata 9: 8 consegne di subagenti, circa 746.000 gettoni. Ondata 10: 12 consegne (5 costruttori, 2 collaudatori, 5 correzioni), circa 1.347.000 gettoni. In tutto circa 2,09 milioni su 2 ondate.
 - Sessione AD: 17,4 milioni di gettoni riletti dalla cache, 136.000 scritti, circa 11,8 $ (letto da `get_session`).
 - Il workflow non è stato usato, quindi `conto-token.mjs --workflow` non ha un runId da misurare.
