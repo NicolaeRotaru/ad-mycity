@@ -70,3 +70,11 @@ Ondata 7: 727.088 senza letture dalla cache, 12.662.360 con. Ondata 8: 884.343 s
 
 ### Rami salvati (non uniti)
 `s4-salvato/ondata-7-app-messages-page-tsx` · `s4-salvato/ondata-8-app-layout-tsx` · `s4-salvato/ondata-8-components-photoreviewupload-tsx` · `s4-salvato/ondata-8-r15` — sul repo del sito. Ramo della richiesta: `claude/cinque-s4-testata-ai-accessi`, commit `30012e6`. `npm run verify` dell'ondata 8: verde, 846 file e 7.163 prove (primo giro rosso su 1 prova comune, sistemato togliendo il manifest).
+
+## Correzione dopo il collaudo finale (1/11/2026 15:00)
+Il collaudo finale sul ramo di integrazione aveva bocciato due cose. Le ho riparate in un solo giro, nella richiesta di unione 281: https://github.com/NicolaeRotaru/mycity/pull/281.
+- **«Modifiche salvate» col prezzo rifiutato:** la scheda in chat ora dice che il prezzo non è entrato e il perché («oltre il 30%, va deciso a mano»). Le prove cadono se si toglie la correzione: regge.
+- **R14, il rientro col link di recupero:** chi arriva dal link passato da `/auth/confirm` vede il modulo e salva. Il segno lo mette solo il server, firmato e legato alla sessione. Chi è dentro con la password resta senza modulo. Regge sui file vecchi; sui due file nuovi la macchina non decide e decide il ricollaudo.
+- `npm run verify`: verde, 7.468 prove superate e 1 saltata.
+- Toccato un file senza padrone: `lib/errors.ts`, per non tagliare il perché del rifiuto.
+- Con questa correzione il cambio dei modelli email di Supabase verso `/auth/confirm` resta fra le tue azioni: non rompe più la nuova password.

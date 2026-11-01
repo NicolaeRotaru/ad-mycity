@@ -295,5 +295,48 @@
     },
     "nota": "misurato con node cervello/conto-token.mjs --workflow <run_id>; quale dei due contatori conti per il limite settimanale non è noto"
   },
-  "copertura_radiografia": "Non registrata: radiografia-in-corsa.mjs registra scrive in MyCity-Vault/ (vietato in questo lavoro). Righe da registrare (dimensione → toccati/trovati), ondata 7: frontend-ux 1+3, backend-api/api-backend 1+2, architettura/ai-endpoints 1+1, dati-analytics 1+2, rls-database 0, qa-flussi 0. Ondata 8: nel journal di wf_4e7f8957-ece."
+  "copertura_radiografia": "Non registrata: radiografia-in-corsa.mjs registra scrive in MyCity-Vault/ (vietato in questo lavoro). Righe da registrare (dimensione → toccati/trovati), ondata 7: frontend-ux 1+3, backend-api/api-backend 1+2, architettura/ai-endpoints 1+1, dati-analytics 1+2, rls-database 0, qa-flussi 0. Ondata 8: nel journal di wf_4e7f8957-ece.",
+  "correzione": {
+    "pr": "https://github.com/NicolaeRotaru/mycity/pull/281",
+    "ramo": "claude/cinque-s4-correzione",
+    "base": "fb74b09",
+    "commit": "f1b6b1f",
+    "verify": "verde: 903 file, 7468 prove, 1 saltata",
+    "pacchetti": [
+      {
+        "chiave": "modifiche-salvate-col-prezzo-rifiutato",
+        "esito": "chiuso",
+        "prova": "npx vitest run tests/unit/la-scheda-in-chat-non-dice-salvate-se-il-prezzo-non-e-entrato.test.ts tests/unit/il-negoziante-legge-perche-il-prezzo-non-e-entrato.test.ts tests/unit/il-copilot-non-dice-applicato-se-il-prezzo-non-e-entrato.test.ts",
+        "prova_rimessa": "regge (SupportProductAssistant, errors su base fb74b09; catalog-apply-bulk su base ecb8e2c)",
+        "file_toccati": [
+          "components/SupportProductAssistant.tsx",
+          "lib/errors.ts"
+        ]
+      },
+      {
+        "chiave": "R14",
+        "esito": "chiuso",
+        "prova": "npx vitest run tests/unit/il-link-di-recupero-passato-dalla-conferma-porta-al-modulo.test.ts tests/unit/il-rientro-col-link-di-recupero-lo-segna-il-server.test.ts tests/unit/il-segno-del-recupero-lo-firma-solo-il-server.test.ts tests/unit/la-password-si-cambia-solo-col-link-di-recupero.test.ts",
+        "prova_rimessa": "regge sui file vecchi; rosso_strutturale sui due nuovi (decide il ricollaudo)",
+        "file_toccati": [
+          "app/reset-password/page.tsx",
+          "app/auth/confirm/route.ts",
+          "app/auth/recupero/route.ts",
+          "lib/auth/segno-recupero.ts"
+        ]
+      }
+    ],
+    "fuori_territorio": [
+      {
+        "file": "lib/errors.ts",
+        "serve": "senza padrone: friendlyError non toglie le parentesi con «€» (il perché del rifiuto)"
+      }
+    ],
+    "scelte_per_nicola": [
+      {
+        "domanda": "Impostiamo RECUPERO_PASSWORD_SECRET su Vercel?",
+        "raccomandazione": "Facoltativo: senza, il segreto si ricava dalla chiave di servizio senza esporla."
+      }
+    ]
+  }
 }
