@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-01 10:50
+aggiornato: 2026-11-01 12:10
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -38,9 +38,9 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
   - **l'ondata 2 è in richiesta di unione** (NicolaeRotaru/mycity#268, aperta il 31/10 alle 12:13). Le ondate 3 e 4 sono al lavoro sopra di lei: le loro richieste arrivano dopo l'unione della #268.
   - **le ondate 3 e 4 sono unite** (NicolaeRotaru/mycity#269, il 31/10 alle 15:37).
   - **l'ondata di correzione è unita** (NicolaeRotaru/mycity#270, il 31/10 alle 16:59). Ha chiuso 23 difetti nel registro. Adesso tocca al pulsante delle migrazioni, che applica la 171 e la 183. I rimborsi vanno nell'ondata 7. Anche l'ingresso va nella 7, dopo la tua impostazione nel pannello di Supabase: i dettagli sono in chat.
-  - **le ondate 5 e 6 sono dentro** (1/11): i 3 pacchetti che reggevano con la NicolaeRotaru/mycity#271 alle 08:57, i 5 della correzione con la NicolaeRotaru/mycity#272 alle 09:54. Nel registro: 20 e 17 difetti chiusi. Dopo la #272 il pulsante delle migrazioni applica la 168, la 178, la 179, la 180 e la 184. I Termini 3.0 sono uniti con la NicolaeRotaru/mycity#273 alle 10:14, e la data «in vigore dal 1 novembre 2026» con la NicolaeRotaru/mycity#274 alle 10:40. Nel registro: 5 difetti chiusi. Resta aperto «chi c'è dietro il sito»: mancano sede, partita IVA e PEC.
+  - **le ondate 5 e 6 sono dentro** (1/11): i 3 pacchetti che reggevano con la NicolaeRotaru/mycity#271 alle 08:57, i 5 della correzione con la NicolaeRotaru/mycity#272 alle 09:54. Nel registro: 20 e 17 difetti chiusi. Dopo la #272 il pulsante delle migrazioni applica la 168, la 178, la 179, la 180 e la 184. I Termini 3.0 sono uniti con la NicolaeRotaru/mycity#273 alle 10:14, e la data «in vigore dal 1 novembre 2026» con la NicolaeRotaru/mycity#274 alle 10:40. Nel registro: 5 difetti chiusi. Resta aperto «chi c'è dietro il sito»: il nome c'è già; indirizzo e telefono servono comunque, partita IVA e PEC arrivano con la ditta individuale.
   - i quattro segreti del rilascio su GitHub si mettono dopo l'unione dell'ondata 1.
-  - lunedì 2/11 mattina, partita IVA e PEC col commercialista: senza il nome del titolare sul sito non si apre;
+  - lunedì 2/11 mattina, il commercialista. La soglia dei 5.000 euro riguarda i contributi INPS, non la partita IVA: la verifica del 1/11 lo dice con le norme. Le cinque domande, in ordine di peso: `consegne/legale/2026-11-01-domande-commercialista.md`. Sul sito servono subito un indirizzo e un telefono;
   - lunedì 2/11, il fornaio completa il suo conto Stripe.
   - dopo l'unione dell'ondata 1, il primo giro a mano dei lavori notturni lo facciamo insieme. Poi accendi `LAVORI_A_ORARIO=accesi` su Vercel.
   - verso le ondate 18-19, e solo dopo un giro a mano con `cancella=1` andato bene, accendi `CANCELLAZIONI_A_ORARIO=accese`. Fino ad allora la notte conta gli account da cancellare e non cancella niente (aggiunto il 31/10 alle 10:28).
@@ -68,6 +68,9 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua lista.
 
 ## 2 · Il mio lavoro sul sito
+
+- **Il registro del sito è senza doppioni** (1/11 alle 11:46). I difetti aperti veri sono 980: 4 bloccanti, 80 gravi e 896 minori. Ho tolto 73 doppioni e chiuso 54 difetti già riparati nel codice unito; i 21 gravi chiusi hanno tutti una prova verde. Elenco: `consegne/audit/2026-11-01-difetti-veri.md`, più il foglio di calcolo `.csv` con tutti.
+- **Le sessioni in parallelo partono giovedì 5/11** (scelte di Nicola del 1/11). Fino all'azzeramento del tetto settimanale, giovedì alle 10:00, niente agenti né sessioni nuove: Nicola è al 70%. Giovedì: alle 10:00 una sessione di prova, poi le costruttrici, una richiesta per giro. Dopo le 11:00 la radiografia completa. «Finito» vuol dire due radiografie di fila senza bloccanti né gravi nuovi.
 
 - **Le fasce nuove della cassa sono unite**, il 31/10 alle 01:36. Sono sette fasce, con la regola del ritiro e la scadenza giusta per il negozio. Le schede 1948 e 1949 sono chiuse nel registro. Da guardare: il sito pubblicato dopo il rilascio su Vercel. Referto: `consegne/audit/2026-10-31-ondate-21-24-fasce-nuove.md`.
 - **L'ondata 15 è cucita** (strada A, scelta tua del 30/10 alle 07:45). Il caso raro col codice sconto resta aperto, e i codici restano spenti finché non è chiuso.

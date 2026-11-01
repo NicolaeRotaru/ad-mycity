@@ -237,11 +237,14 @@ test("⑧ alla scheda arrivano solo gli aperti, col numero dei riparati e il «d
   const dims = dimensioniDaDisegnare(VERO);
   const mostrati = dims.reduce((a, d) => a + d.findings.length, 0);
   const chiusiContati = dims.reduce((a, d) => a + d.problemi_chiusi, 0);
+  // 1/11 — dal registro senza doppioni, il doppione si conta a parte (controllo ⑩): né aperto né riparato.
+  const doppioniContati = dims.reduce((a, d) => a + (d.problemi_doppioni ?? 0), 0);
   const conto = contoMarketplace(VERO);
   // Come nel controllo ①: il numero cambia a ogni lotto, l'invariante no.
   assert.equal(mostrati, conto.aperti, "la scheda disegna gli aperti, non tutti i problemi del referto");
-  assert.equal(chiusiContati, conto.chiusi, "e dei riparati resta il numero, che è un dato che serve");
-  assert.equal(mostrati + chiusiContati, conto.totale, "quello che si disegna piu quello che si conta fa il totale");
+  assert.equal(chiusiContati, conto.riparati, "e dei riparati resta il numero, che è un dato che serve");
+  assert.equal(doppioniContati, conto.doppioni ?? 0, "e dei doppioni pure, ma per conto loro");
+  assert.equal(mostrati + chiusiContati + doppioniContati, conto.totale, "aperti, riparati e doppioni fanno il totale");
 
   // Il «dove» dei referti nuovi sta nel campo `file`: senza la normalizzazione la colonna resta vuota.
   const conDove = dims.flatMap((d) => d.findings).filter((f) => f.dove);
