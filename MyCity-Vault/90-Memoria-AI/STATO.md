@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-11-01 20:08
+aggiornato: 2026-11-03 07:30
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🧭 **2026-11-03 07:30 — L'analisi dei tuoi lavori: cinque sedute, venti scelte col consiglio.**
+>
+> Letto sul sito vero il 3/11 alle 07:15: le chiavi su Vercel sono quelle del 10/10, il database è fermo all'aggiornamento 163 (ne mancano 15) e il negozio di prova è ancora in vetrina. I passi di lunedì 2/11 risultano quindi da fare. Gli alimenti senza dichiarazioni sono 4 del fornaio e 4 del negozio di prova. Il documento: `consegne/ad/2026-11-03-lavori-di-nicola.md`.
 
 > ✅ **2026-11-01 20:08 — La #280 è unita: nel registro 46 difetti seri chiusi su 84.**
 >
