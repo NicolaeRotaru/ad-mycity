@@ -6455,3 +6455,23 @@ L'avanzo più serio è un grave dei soldi: il reso ripreso in un carrello di due
 - Fuori dal sito, la S4 ha segnalato un debito della macchina: il freno, o l'esenzione, per lo strumento Workflow nelle impostazioni dell'AD. Il cancello dello stop lo dà come non sorvegliato. È un'auto-modifica, quindi aspetta la firma di Nicola.
 
 **Colore:** 🟡 la scrittura del registro del sito, che è memoria. 🟢 le letture in sola lettura sulla produzione (profili respinti: 0) e i due giri di controllo.
+
+## 2026-11-03 11:53 — Cancellato il «Panificio Demo» dal database di produzione, su firma di Nicola
+
+**Cosa:** l'AD ha lanciato dal database di produzione il comando della carta #201: 4 prodotti, il negozio «Panificio Demo» e l'account `seller.demo@piacenza-demo.local`, id `44444444-4444-4444-4444-aaaaaaaa0001`. Esito: una riga, 4 · Panificio Demo · seller.demo@piacenza-demo.local. Ricontrollo subito dopo: profilo, account e prodotti del demo a 0; resta solo Pane Quotidiano con 5 prodotti in vendita.
+
+**Perché:** i clienti lo vedevano come un negozio vero, e portava 4 alimenti senza allergeni né ingredienti. Nicola aveva confermato il 27/10 di averlo creato lui.
+
+**Firma:** Nicola in chat il 3/11, «si cancellalo tu», dopo che l'AD aveva chiesto un sì esplicito e detto che va contro la regola «mai scritture sul database». L'eccezione vale solo per questo comando: la regola resta valida per tutto il resto. Prima del comando, lettura in sola lettura: 4 prodotti, 0 ordini.
+
+**Colore:** 🔴 cancellazione irreversibile di dati, eseguita con la firma.
+
+## 2026-11-03 12:05 — Cambiato il sottotitolo della home nel database di produzione, su richiesta di Nicola
+
+**Cosa:** in `site_settings.home_site`, solo il campo `subhead` della sezione `hero`. Prima: «Alimentari, abbigliamento, casa, elettronica: ordini dai commercianti del tuo quartiere in pochi tap, arriva a casa in 30-60 min e paghi alla consegna.» (salvato il 24/6, dal 1/11 scartato dal freno delle promesse superate). Dopo: «Ordini dai negozi del tuo quartiere in pochi tap: ti portiamo la spesa a casa all'ora che scegli, e paghi alla consegna.» Le 16 sezioni sono rimaste 16; titolo e pulsante invariati.
+
+**Perché:** la frase vecchia prometteva abbigliamento e 30-60 minuti; il testo di riserva del codice nominava ancora casa ed elettronica. È la voce 1819 del registro del sito.
+
+**Firma:** Nicola in chat il 3/11, «non riesci a fare tu in 3 passo?», dopo la proposta del testo. Reversibile: il testo vecchio è qui sopra. Quando si accende la carta, il testo prende «o con la carta».
+
+**Colore:** 🔴 scrittura sul database di produzione, eccezione alla regola «mai scritture sul database» limitata a questo campo.
