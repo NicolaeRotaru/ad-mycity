@@ -9,7 +9,7 @@ aggiornato: 2026-11-03 07:15
 
 > **In due righe.** Sono 75 voci in fila, dalla più urgente alla meno: 12 fatte o già decise, 63 aperte (conto del 3/11). L'analisi del 3/11 le raccoglie in cinque sedute, con i consigli sulle scelte: `consegne/ad/2026-11-03-lavori-di-nicola.md`.
 >
-> **Letto sul sito vero il 3/11 alle 07:15:** le chiavi su Vercel sono le stesse del 10/10, il database è fermo all'aggiornamento 163 (ne mancano 15), il negozio di prova è ancora in vetrina. I passi della sezione 00 sono quindi ancora tutti da fare.
+> **Letto sul sito vero il 3/11 alle 07:15.** Le chiavi su Vercel sono le stesse del 10/10. Il database è fermo all'aggiornamento 163, e ne mancano 15. Il negozio di prova è ancora in vetrina. Quindi i passi della sezione 00 sono ancora tutti da fare.
 
 ## In parole semplici
 
