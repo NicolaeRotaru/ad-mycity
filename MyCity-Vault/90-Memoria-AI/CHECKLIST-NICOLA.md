@@ -2,12 +2,14 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale, analisi completa dei lavori di Nicola del 25-26/10 (consegne/ad/2026-10-26-lavori-di-nicola.md)
-aggiornato: 2026-11-01 12:25
+aggiornato: 2026-11-03 07:15
 ---
 
 # ✅ Cose che devo fare io (Nicola)
 
-> **In due righe.** Sono 75 voci in fila, dalla più urgente alla meno: 9 fatte, 66 aperte (conto del 1/11, con le 5 di lunedì 2/11). L'intestazione diceva 57 perché non contava le voci aggiunte dopo il 28/10. Si parte dalla sezione 00: lunedì 2/11 decide la data dell'apertura.
+> **In due righe.** Sono 75 voci in fila, dalla più urgente alla meno: 12 fatte o già decise, 63 aperte (conto del 3/11). L'analisi del 3/11 le raccoglie in cinque sedute, con i consigli sulle scelte: `consegne/ad/2026-11-03-lavori-di-nicola.md`.
+>
+> **Letto sul sito vero il 3/11 alle 07:15:** le chiavi su Vercel sono le stesse del 10/10, il database è fermo all'aggiornamento 163 (ne mancano 15), il negozio di prova è ancora in vetrina. I passi della sezione 00 sono quindi ancora tutti da fare.
 
 ## In parole semplici
 
@@ -44,8 +46,8 @@ Il sito dev'essere pronto entro il 15/11 e si apre solo con la carta accesa. La 
   → richiesta #899 · verde · tocca solo la memoria.
 - [x] 🔴 Unisci la richiesta #264 del sito: il prezzo nuovo della consegna, il negozio che rifiuta e le frasi vere. Il sito pubblicato cambia.
   → richiesta #264 · 6.400 prove verdi · prima decidi sui Termini, qui sotto.
-- [ ] 🔴 Decidi sui Termini: i paragrafi 4 e 6 nuovi sono già online, ma in cima resta «in vigore dal 24 maggio 2026».
-  → la #264 è unita · da far rileggere a un legale e poi cambiare la data · registro del sito, voce 1866.
+- [x] 🔴 Decidi sui Termini: i paragrafi 4 e 6 nuovi sono già online, ma in cima resta «in vigore dal 24 maggio 2026».
+  → fatto il 1/11: Termini 3.0 in vigore dal 1 novembre 2026 (#273, #274) · resta la rilettura di un legale dopo il lancio.
 - [x] 🟡 Scegli il freno della veloce: A, un avviso a te dopo 10 minuti senza conferma; B, il freno automatico rifatto subito.
   → il mio consiglio è A · 1 minuto.
 - [x] 🔴 Unisci la richiesta #265 del sito: il freno della veloce. Se il negozio non conferma entro 10 minuti, il carrello passa alla prima fascia libera e l'euro in più non si paga. Quando la unisci, cambia il sito vero.
@@ -60,8 +62,8 @@ Il sito dev'essere pronto entro il 15/11 e si apre solo con la carta accesa. La 
   → 2 minuti.
 - [ ] 🟡 Dimmi sì o no alla casa unica dei costi nel registro dei fatti.
   → resoconto dei costi, sezione «Dove vivono i conti oggi» · 1 minuto.
-- [ ] 🟡 Dimmi se i 5 km si misurano in linea d aria o per strada, e se le sei fasce orarie le copri tutte tu in bici.
-  → 1 minuto.
+- [ ] 🟡 Dimmi se i 5 km si misurano in linea d aria o per strada. Le fasce le hai già decise il 1/11: tutte e sette, tu, in bici.
+  → 1 minuto · il mio consiglio: per strada.
 - [ ] 🟡 Dimmi cosa fare se alla porta apre chi non ha il codice di consegna del cliente.
   → 1 minuto · oggi l ordine resterebbe aperto per sempre.
 - [ ] 🟢 Se vuoi che legga il tuo Stripe, collega una chiave di sola lettura nelle impostazioni dell ambiente, col nome STRIPE_SECRET_KEY.
@@ -73,8 +75,8 @@ Il sito dev'essere pronto entro il 15/11 e si apre solo con la carta accesa. La 
   → carte #209, #201, #212, #177, #196, #178 · 15 minuti · testo pronto nel referto.
 - [ ] 🔴 Cambia con me le chiavi del database del sito: scrivimi «inizio la 203» quando hai 45 minuti di fila.
   → carta #203 · prima la chiave pubblica nuova su Vercel per sito e Pannello, solo dopo si spegne la vecchia.
-- [ ] 🔴 Dimmi cosa vuol dire «senza difetti» per entrare col primo cliente: A, B o C.
-  → spiegato il 28/10 alle 09:03 · 1 minuto · A = zero bloccanti e zero gravi, B = zero anche i minori, C = zero sul percorso del primo ordine.
+- [x] 🔴 Dimmi cosa vuol dire «senza difetti» per entrare col primo cliente: A, B o C.
+  → deciso col piano del 31/10 e la base del 1/11: A, zero bloccanti e zero gravi.
 - [ ] 🟡 Dimmi A o B sul rilascio controllato: A lo rimando a subito prima della carta #161, B faccio un terzo giro adesso.
   → spiegato il 28/10 alle 09:03 · 1 minuto.
 - [x] 🟡 Dimmi se unire così la consegna da 3 euro e l'email del ritiro: «ok 215» o «215 un altro giro».
@@ -104,8 +106,8 @@ Il sito dev'essere pronto entro il 15/11 e si apre solo con la carta accesa. La 
   → carta #202 · 30 minuti.
 - [ ] 🟡 Guarda nella console Hetzner se il server è acceso e se c'è una fattura scoperta: se è spento non accenderlo, mandami una foto.
   → carta #168 · 10 minuti.
-- [ ] 🔴 Decidi col DPO se avvisare il Garante della privacy per la chiave esposta, dopo il cambio delle chiavi, entro martedì 27/10 sera.
-  → carta #203 · 30 minuti.
+- [ ] 🔴 Decidi col DPO se avvisare il Garante della privacy per la chiave esposta, subito dopo il cambio delle chiavi.
+  → carta #203 · 30 minuti · la data che ti avevo dato, il 27/10, è passata: si decide lo stesso giorno della chiave.
 - [ ] 🟡 Su GitHub, in una seduta: regola «Main» sul sito e sulla macchina, e avvisi sulle librerie con falle note.
   → carta #177 · 10 minuti · dopo la risposta «177: B».
 - [ ] 🟡 Fai una copia a mano delle foto dei prodotti fuori da Supabase: prima chiedimi se posso scaricarle io.
@@ -134,8 +136,8 @@ Il sito dev'essere pronto entro il 15/11 e si apre solo con la carta accesa. La 
 
 ## 4 · Quando le squadre consegnano — dal 27 al 31/10
 
-- [ ] 🟡 Unisci le richieste di unione delle squadre del sito, una alla volta e solo con le prove verdi.
-  → circa 1 ora in tutto.
+- [x] 🟡 Unisci le richieste di unione delle squadre del sito, una alla volta e solo con le prove verdi.
+  → fatto: unite tutte, fino alla #280 del 1/11 alle 18:17.
 - [ ] 🔴 Applica le migrazioni firmate: prima quelle che aggiungono, poi una alla volta quelle che stringono i permessi, mai fra le 8:00 e le 10:30.
   → carta #209 · circa 70 minuti.
 - [ ] 🔴 Firma la migrazione che ripara il modulo «diventa negozio».
