@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-03 07:15
+aggiornato: 2026-11-04 21:10
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -29,6 +29,8 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 ---
 
 ## 1 · Cose che toccano a te
+
+**La parola «quadro» aspetta la tua firma** (4/11 alle 21:10): con una parola sola ti mostro organi, difetti della macchina casa per casa, sito, ritmo e bloccanti. È nella richiesta di unione «Una parola sola per guardare tutti i difetti». Sul quadro del 4/11: 238 difetti aperti sulla macchina (10 bloccanti), 996 sul sito (4 bloccanti, 35 gravi), il server fermo dal 25/9.
 
 **L'analisi dei tuoi lavori del 3/11** raccoglie tutto in cinque sedute, con i consigli sulle 20 scelte: `consegne/ad/2026-11-03-lavori-di-nicola.md`.
 - Letto sul sito vero il 3/11 alle 07:15: chiavi su Vercel uguali al 10/10, database fermo all'aggiornamento 163 (ne mancano 15, dal 164 al 195), negozio di prova ancora in vetrina, testo della home ancora vecchio. I passi di lunedì 2/11 risultano da fare.

@@ -6475,3 +6475,13 @@ L'avanzo più serio è un grave dei soldi: il reso ripreso in un carrello di due
 **Firma:** Nicola in chat il 3/11, «non riesci a fare tu in 3 passo?», dopo la proposta del testo. Reversibile: il testo vecchio è qui sopra. Quando si accende la carta, il testo prende «o con la carta».
 
 **Colore:** 🔴 scrittura sul database di produzione, eccezione alla regola «mai scritture sul database» limitata a questo campo.
+
+## 2026-11-04 21:10 — 🟡 Una parola sola per guardare tutti i difetti: «quadro»
+
+**Cosa:** nuovo comando `node cervello/quadro.mjs`, con la sua prova `cervello/test/quadro.test.mjs`, e la parola «quadro» in `COMANDI.md` e in `CLAUDE.md`. In una pagina mette la visita degli organi, i difetti aperti della macchina casa per casa, il registro del sito, il ritmo di chiusura, i bloccanti e la parola da dire dopo. Zero agenti, pochi secondi.
+
+**Perché:** Nicola, 4/11: «come posso chiederti di controllare tutte queste cose con una parola?». Prima servivano quattro strumenti in tre case, e il «checkup» non contava né i difetti per casa né il sito.
+
+**Prova:** rossa in quattro modi, rompendo il codice apposta (conta i chiusi · un organo non visto diventa verde · il sito conta i riparati · una scheda senza casa si perde); verde sul codice vero, 11 casi su 11.
+
+**Colore:** 🟡 auto-modifica, nella richiesta di unione. La firma è di Nicola.

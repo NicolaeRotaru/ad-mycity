@@ -963,7 +963,7 @@ Solo con questo, i 2 pallini della Cabina diventano verdi (o rossi veri, se un g
 
 **⚠️ Aggiornato il 25/10: l'elenco qui sotto era indietro di 19 programmi** (il 23/8 lo era di 51). Dieci erano entrati nel documento ma non in questa card. Nove non li vedeva lo strumento che rifà l'elenco. Adesso una prova diventa rossa se questa card resta indietro rispetto a chi lancia.
 
-Al posto di `"Bash(node cervello/*.mjs:*)"` — 134 righe:
+Al posto di `"Bash(node cervello/*.mjs:*)"` — 137 righe:
 
 ```json
       "Bash(node cervello/adozione-medicine.mjs:*)",
@@ -1056,6 +1056,7 @@ Al posto di `"Bash(node cervello/*.mjs:*)"` — 134 righe:
       "Bash(node cervello/prova-sito.mjs:*)",
       "Bash(node cervello/prova-trigger.mjs:*)",
       "Bash(node cervello/prove-oneste.mjs:*)",
+      "Bash(node cervello/quadro.mjs:*)",
       "Bash(node cervello/radiografia-in-corsa.mjs:*)",
       "Bash(node cervello/registra-cadenza.mjs:*)",
       "Bash(node cervello/registro-scelte-check.mjs:*)",
@@ -1095,6 +1096,7 @@ Al posto di `"Bash(node cervello/*.mjs:*)"` — 134 righe:
       "Bash(node cervello/test/lotto-a-pacchetti-conto.test.mjs:*)",
       "Bash(node cervello/test/lucchetto-per-corsia.test.mjs:*)",
       "Bash(node cervello/test/pw-driver.mjs:*)",
+      "Bash(node cervello/test/quadro.test.mjs:*)",
       "Bash(node cervello/uscite-check.mjs:*)",
       "Bash(node cervello/utilizzo-senior.mjs:*)",
       "Bash(node cervello/valida-contratti.mjs:*)",
