@@ -5,6 +5,7 @@
 
 import { comeRitentareScrittura } from "./atto-unico";
 import { CENTRO, negozioPerLaCoda, siPuoRipiegareSenzaNegozio } from "./lavoro-negozio";
+import { gemelloDaConflitto } from "./lavoro-gemello";
 
 const URL = process.env.SUPABASE_URL;
 const KEY = process.env.SUPABASE_SERVICE_KEY;
@@ -205,7 +206,9 @@ async function postLavoroUnaVolta(payload: Record<string, string>, gruppoId?: st
   // Meglio un errore che si vede di una riga scritta male che nessuno guarderà mai.
   const negozio = payload.negozio_id || CENTRO;
   const siPuoTogliereIlNegozio = siPuoRipiegareSenzaNegozio(negozio);
-  if (!res.ok && (gruppoId || siPuoTogliereIlNegozio)) {
+  // Un 409 non è mai una colonna che manca: è il freno anti-doppioni (lavori-un-solo-in-attesa.sql).
+  // Ripiegare togliendo le colonne lo nasconderebbe dietro un altro errore.
+  if (!res.ok && res.status !== 409 && (gruppoId || siPuoTogliereIlNegozio)) {
     const { gruppo_id: _g, negozio_id: _n, ...spoglio } = payload;
     const ripiego: Record<string, string> = siPuoTogliereIlNegozio
       ? spoglio
@@ -228,7 +231,7 @@ async function postLavoroUnaVolta(payload: Record<string, string>, gruppoId?: st
 //              schema, permessi) → stabile, riprovare non basta, va indagato
 export type MotivoLavoro = "config" | "timeout" | "rete" | "rifiuto";
 export type EsitoLavoro =
-  | { ok: true; lavoro: Lavoro }
+  | { ok: true; lavoro: Lavoro; giaInCoda?: true }
   | { ok: false; motivo: MotivoLavoro; status?: number; dettaglio: string };
 
 // Budget di tempo TOTALE tenuto sotto il limite di durata della funzione Vercel:
@@ -267,6 +270,13 @@ export async function creaLavoroEsito(richiesta: string, tipo = "analisi", grupp
         continue;
       }
       const corpo = (await res.text().catch(() => "")).slice(0, 300).trim();
+      // Il database ha già lo stesso lavoro in attesa: si usa quello, non è un fallimento.
+      const gemello = gemelloDaConflitto(res.status, corpo);
+      if (gemello) {
+        const esistente = await getLavoroById(gemello).catch(() => null);
+        if (esistente) return { ok: true, lavoro: esistente, giaInCoda: true };
+        return { ok: false, motivo: "rifiuto", status: res.status, dettaglio: `lo stesso lavoro aspetta già in coda (${gemello}), ma non sono riuscito a leggerlo` };
+      }
       ultimo = { motivo: "rifiuto", status: res.status, dettaglio: corpo || res.statusText || "scrittura rifiutata" };
       // 4xx diversi da 429 = errore STABILE (richiesta malformata, RLS, permessi): inutile ritentare.
       if (res.status >= 400 && res.status < 500 && res.status !== 429) break;
