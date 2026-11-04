@@ -22484,6 +22484,28 @@
         "tipo": "umano",
         "come": "Si chiude con una prova che fa rispondere il database con un errore e controlla che l'errore mostrato sia quello vero, con un solo tentativo."
       }
+    },
+    {
+      "stato": "aperto",
+      "nato": "2026-11-04 22:45",
+      "origine": "collaudo del freno anti-doppioni della coda",
+      "nato_come": "regressione",
+      "nato_da": "freno lavori-un-solo-in-attesa, richiesta di unione NicolaeRotaru/ad-mycity#921",
+      "colore": "🟡",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "fonte": "terzo collaudo del 4/11/2026: database provato col codice vero di store.ts, la parte dello schermo letta nel codice e non eseguita in un browser",
+      "id": "AR-1034",
+      "titolo": "Chi segue un lavoro annullato come doppione non lo sa: la chat aspetta 45 minuti e poi scrive che non ha avuto risposta",
+      "dimensione": "robustezza-errori",
+      "dove": "pannello/src/app/page.tsx (attesa della risposta: chiude solo su fatto o errore, ~righe 1480, 1936, 2009, 2075, 2819); pannello/src/lib/parla.ts:112; cervello/worker.sh:1989-1992 con cervello/lib-esito-lavoro.sh:55; pannello/src/app/api/lavori/recupera/route.ts:62-69",
+      "sintomo": "Scrivi «fai un giro» due volte nella stessa conversazione mentre il server è fermo: il freno annulla il primo lavoro e tiene il secondo. Lo schermo segue tutti e due, e sul primo resta «in elaborazione»; dopo 45 minuti scrive «Nessuna risposta», che è falso. Allo stesso modo il log del worker dice «ri-programmato» e la rotta recupera dice «rimessi in coda» per un lavoro che il freno ha annullato.",
+      "causa_radice": "Chi segue un lavoro conosce come fine solo «fatto» ed «errore»: «annullato» non era mai un esito di un lavoro seguito, perché prima lo annullava solo una persona.",
+      "fix_proposto": "Trattare «annullato» come una fine: se la nota dice «[doppione]», mostrare «sostituito da un lavoro identico più recente» e seguire quello. Nel worker e in recupera, leggere lo stato restituito dal PATCH prima di scrivere l'esito.",
+      "verifica": {
+        "tipo": "umano",
+        "come": "Si chiude con una prova del Pannello che segue un lavoro poi annullato come doppione e vede il messaggio giusto invece dell'attesa di 45 minuti."
+      }
     }
   ],
   "meta": {

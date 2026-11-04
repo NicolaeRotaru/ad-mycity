@@ -30,15 +30,21 @@
 -- recente, quindi si annulla quello che torna. Nessuna delle due porte dà un errore: un errore sul
 -- ritorno lascerebbe un lavoro appeso «in corso».
 --
--- LIMITI DICHIARATI. Il controllo guarda le righe che il chiamante vede: tutte le mani scrivono col
--- ruolo di servizio, che le vede tutte. Con un ruolo limitato dalle regole di accesso, o in una
--- transazione REPEATABLE READ, il freno vedrebbe meno. Un UPDATE che cambia il TESTO di un lavoro in
--- attesa non è guardato: nessuno lo fa.
+-- LIMITI DICHIARATI (collaudo del 4/11). ① Il controllo guarda le righe che il chiamante vede: tutte
+-- le mani scrivono col ruolo di servizio, che le vede tutte. ② Tutte scrivono in READ COMMITTED, che è
+-- quello del servizio REST: in REPEATABLE READ due gemelli possono restare in attesa insieme, e chi
+-- inserisce mentre il worker prende il vecchio può ricevere un errore di serializzazione. ③ Due
+-- transazioni che inseriscono più lavori diversi in ordine opposto possono finire in un deadlock:
+-- oggi nessuno inserisce più lavori nella stessa transazione. ④ Un UPDATE che cambia il TESTO di un
+-- lavoro in attesa non è guardato: nessuno lo fa.
 --
 -- Si può rilanciare: la pulizia non trova più niente e il freno si ricrea uguale.
 -- Prova: node --test cervello/test/coda-senza-doppioni.test.mjs (un Postgres vero, usa e getta).
 
 -- ① Il freno. Nasce PRIMA della pulizia: chi accoda mentre la pulizia gira trova già il freno.
+--    Una funzione, due momenti: DOPO un inserimento (porta ①) e PRIMA di un ritorno in attesa (porta ②).
+--    L'annullo del vecchio sta DOPO l'inserimento e non prima: un inserimento che poi non entra
+--    (un ON CONFLICT che finisce in DO NOTHING o in un aggiornamento) non deve annullare niente.
 create or replace function public.lavori_un_solo_in_attesa()
 returns trigger
 language plpgsql
@@ -49,18 +55,19 @@ declare
   quando  text := to_char(now() at time zone 'Europe/Rome', 'YYYY-MM-DD HH24:MI');
 begin
   if new.stato is distinct from 'in_attesa' then
-    return new;
+    return case when tg_when = 'AFTER' then null else new end;
   end if;
   if tg_op = 'UPDATE' and old.stato is not distinct from 'in_attesa' then
     return new;
   end if;
   -- Due scritture gemelle nello stesso istante: senza questo lucchetto si vedrebbero a vicenda
-  -- vuote e resterebbero in attesa tutte e due. Vale solo per i gemelli, si scioglie a fine transazione.
+  -- vuote e resterebbero in attesa tutte e due. È un lucchetto di TRANSAZIONE: con uno di sessione,
+  -- una connessione che resta aperta (come quelle del servizio REST) bloccherebbe i gemelli dopo.
   perform pg_advisory_xact_lock(
     hashtextextended(concat_ws('|', new.negozio_id, new.tipo, coalesce(new.gruppo_id, ''), md5(new.richiesta)), 0));
 
   if tg_op = 'INSERT' then
-    -- Porta ①: entra il nuovo, si annulla il vecchio. Il filtro sullo stato si rilegge dopo il
+    -- Porta ①: il nuovo è entrato, si annulla il vecchio. Il filtro sullo stato si rilegge dopo il
     -- lucchetto della riga: se il worker l'ha appena preso, non è più in attesa e non si tocca.
     update public.lavori
        set stato      = 'annullato',
@@ -74,7 +81,7 @@ begin
        and tipo = new.tipo
        and coalesce(gruppo_id, '') = coalesce(new.gruppo_id, '')
        and md5(richiesta) = md5(new.richiesta);
-    return new;
+    return null;
   end if;
 
   -- Porta ②: chi torna in attesa trova il gemello già lì, e il gemello è più recente.
@@ -98,8 +105,12 @@ end
 $$;
 
 drop trigger if exists lavori_un_solo_in_attesa on public.lavori;
+drop trigger if exists lavori_un_solo_in_attesa_dopo on public.lavori;
 create trigger lavori_un_solo_in_attesa
-  before insert or update of stato on public.lavori
+  before update of stato on public.lavori
+  for each row execute function public.lavori_un_solo_in_attesa();
+create trigger lavori_un_solo_in_attesa_dopo
+  after insert on public.lavori
   for each row execute function public.lavori_un_solo_in_attesa();
 
 -- ② Il controllo del freno resta veloce anche con migliaia di righe: guarda solo quelle in attesa.
@@ -130,6 +141,7 @@ update public.lavori l
 
 -- PER TORNARE INDIETRO (tutto reversibile):
 --   drop trigger if exists lavori_un_solo_in_attesa on public.lavori;
+--   drop trigger if exists lavori_un_solo_in_attesa_dopo on public.lavori;
 --   drop function if exists public.lavori_un_solo_in_attesa();
 --   drop index if exists public.lavori_in_attesa_impronta_idx;
 -- e SOLO DOPO aver tolto il freno (se no tornerebbero subito annullati), per rimettere in attesa i

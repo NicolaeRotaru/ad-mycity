@@ -17,6 +17,8 @@
 //   ⑥ la migrazione si rilancia senza danni;
 //   ⑦ due inserimenti identici nello stesso istante: entrano tutti e due, in attesa ne resta uno;
 //   ⑧ riscrivere la stessa riga (upsert sul suo codice) non la scambia per un suo doppione.
+//   ⑨ un inserimento che poi non entra (ON CONFLICT … DO NOTHING) non annulla il gemello in attesa;
+//   ⑩ una connessione che resta aperta dopo aver accodato non blocca i gemelli che vengono dopo.
 // Senza i programmi di PostgreSQL le prove si SALTANO dicendolo: un salto è scritto, un verde finto no.
 //
 // PERCHÉ IL PIÙ RECENTE (collaudo del 4/11): il worker all'avvio chiude come scaduto ogni lavoro in
@@ -216,9 +218,32 @@ test("⑧ riscrivere la stessa riga in attesa (upsert sul suo codice) non la sca
   assert.equal(deve(`select esperto from public.lavori where id='${U(41)}';`), "qualcuno");
 });
 
+test("⑨ un inserimento che poi non entra (ON CONFLICT … DO NOTHING) non annulla il gemello in attesa", { skip: SALTO }, () => {
+  // U(10) è un giro «fatto»: riscriverlo col suo codice non deve toccare il giro che aspetta.
+  const prima = deve(`select id from public.lavori where stato='in_attesa' and tipo='giro' and richiesta='${GIRO}' and negozio_id='centro' and gruppo_id is null;`);
+  deve(`insert into public.lavori (id, stato, tipo, richiesta, negozio_id) values ('${U(10)}', 'in_attesa', 'giro', '${GIRO}', 'centro') on conflict (id) do nothing;`);
+  assert.equal(stato(10), "fatto");
+  assert.equal(deve(`select id from public.lavori where stato='in_attesa' and tipo='giro' and richiesta='${GIRO}' and negozio_id='centro' and gruppo_id is null;`), prima);
+});
+
+test("⑩ una connessione che resta aperta dopo aver accodato non blocca i gemelli che vengono dopo", { skip: SALTO }, async () => {
+  const testo = "Lavoro accodato da una connessione che resta aperta";
+  // La prima connessione accoda e resta viva, come fanno quelle del servizio REST. La seconda accoda
+  // lo stesso lavoro dopo: deve entrare subito, non aspettare che la prima si chiuda.
+  const resta = psqlInParallelo(`${ins(U(60), { richiesta: testo })} select pg_sleep(2);`);
+  const dopo = psqlInParallelo(`select pg_sleep(0.5); set lock_timeout = '700ms'; ${ins(U(61), { richiesta: testo })}`);
+  const [a, b] = await Promise.all([resta, dopo]);
+  assert.ok(a.ok, a.err);
+  assert.ok(b.ok, `il secondo inserimento è rimasto bloccato dalla connessione aperta: ${b.err}`);
+  assert.equal(stato(61), "in_attesa");
+  assert.equal(stato(60), "annullato");
+});
+
 // MUTAZIONI VERIFICATE il 4/11 (ognuna applicata alla migrazione, prova lanciata, file ripristinato):
 //   · la pulizia ordinata dal più vecchio (`order by created_at, id`) ........ ① ② ROSSI
-//   · il freno senza l'annullo del vecchio all'inserimento .................... ② ④ ⑥ ⑦ ⑧ ROSSI
-//   · il freno senza la porta del ritorno in attesa (solo `before insert`) ... ④ ROSSO
-//   · il freno senza il lucchetto `pg_advisory_xact_lock` ..................... ⑦ ROSSO
-//   · il freno senza `id is distinct from new.id` nell'annullo ................ ⑧ ROSSO
+//   · il freno senza l'annullo del vecchio all'inserimento .................... ② ④ ⑥ ⑦ ⑧ ⑩ ROSSI
+//   · il freno senza la porta del ritorno in attesa ........................... ④ ROSSO
+//   · il freno senza il lucchetto ............................................. ⑦ ROSSO
+//   · il lucchetto di sessione al posto di quello di transazione .............. ⑩ ROSSO
+//   · l'annullo PRIMA dell'inserimento invece che dopo ........................ ⑨ ROSSO
+//   · l'annullo senza `id is distinct from new.id` ............................ ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑩ ROSSI
