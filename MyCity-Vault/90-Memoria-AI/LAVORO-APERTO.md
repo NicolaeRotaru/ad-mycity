@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-04 23:05
+aggiornato: 2026-11-04 23:43
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -32,7 +32,7 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 
 **La parola «quadro» aspetta la tua firma** (4/11 alle 21:10). Con una parola sola ti mostro organi, difetti della macchina casa per casa, sito, ritmo e bloccanti. È nella richiesta di unione #921. Il quadro del 4/11 dice questo: sulla macchina restano 238 difetti aperti, e 10 su 238 sono bloccanti. Sul sito ne restano 996, e 39 su 996 sono seri. Il server è fermo dal 25/9.
 
-**La coda è pulita** (4/11 alle 23:05). Dei 200 lavori in attesa ne restano 16, uno per ogni lavoro diverso. Gli altri 184 sono annullati con la nota, e si possono rimettere in attesa. Il freno nel database non è applicato: i doppioni ricresceranno di 6 al giorno finché il server resta spento.
+**La coda è pulita** (4/11 alle 23:43). Nella scheda «In coda» del Pannello restano 16 lavori, tutti in attesa e tutti diversi. I 184 doppioni e i 294 lavori vecchi di agosto e settembre sono nell'Archivio, con la nota, e si possono rimettere in coda. Il freno nel database non è applicato: i doppioni ricresceranno di 6 al giorno finché il server resta spento.
 
 **Il server è da riaccendere, e tocca a te** (4/11 alle 23:05). È spento dal 25/9 e da qui non ho le mani per entrarci. Prima di riaccenderlo va deciso il tetto di spesa, se no si ferma di nuovo alle 08:38. I passi in ordine sono nella scheda del difetto «il server tace dal 25 settembre».
 
