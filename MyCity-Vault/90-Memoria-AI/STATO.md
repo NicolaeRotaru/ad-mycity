@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-11-03 07:30
+aggiornato: 2026-11-03 12:15
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 

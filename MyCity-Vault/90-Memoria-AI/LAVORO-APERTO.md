@@ -34,6 +34,7 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 - Letto sul sito vero il 3/11 alle 07:15: chiavi su Vercel uguali al 10/10, database fermo all'aggiornamento 163 (ne mancano 15, dal 164 al 195), negozio di prova ancora in vetrina, testo della home ancora vecchio. I passi di lunedì 2/11 risultano da fare.
 - Gli alimenti senza allergeni o ingredienti sono 4 su 5 del fornaio e 4 su 4 del negozio di prova: cancellando il negozio di prova il lavoro si dimezza.
 - Non letti: Stripe, GitHub, Resend, Netsons, Hetzner, e l'esito della visita dal commercialista.
+- **Fatti il 3/11, nella seduta 1:** dominio verificato su Resend verso le 11:45 (era in un vecchio account, ora è tuo). Negozio di prova cancellato alle 11:53 e testo della home cambiato alle 12:05, tutti e due dall'AD col tuo ok. Prossimo: Supabase, cioè indirizzi, password sicura, modelli email e posta con Resend.
 
 **La richiesta unica delle cinque sessioni è unita** (NicolaeRotaru/mycity#280, il 1/11 alle 18:17). Nel registro ho chiuso 46 difetti seri su 84, ognuno con una prova, e 1 era già a posto prima. Prima dell'unione avevo scritto 51: il ricontrollo dopo l'unione ne ha trovati alcuni chiusi solo in parte.
 - **Adesso, in ordine:**

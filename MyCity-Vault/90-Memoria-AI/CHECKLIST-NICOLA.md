@@ -2,12 +2,12 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale, analisi completa dei lavori di Nicola del 25-26/10 (consegne/ad/2026-10-26-lavori-di-nicola.md)
-aggiornato: 2026-11-03 07:15
+aggiornato: 2026-11-03 12:15
 ---
 
 # ✅ Cose che devo fare io (Nicola)
 
-> **In due righe.** Sono 75 voci in fila, dalla più urgente alla meno: 12 fatte o già decise, 63 aperte (conto del 3/11). L'analisi del 3/11 le raccoglie in cinque sedute, con i consigli sulle scelte: `consegne/ad/2026-11-03-lavori-di-nicola.md`.
+> **In due righe.** Sono 75 voci in fila, dalla più urgente alla meno: 14 fatte o già decise, 61 aperte (conto del 3/11 alle 12:15). L'analisi del 3/11 le raccoglie in cinque sedute, con i consigli sulle scelte: `consegne/ad/2026-11-03-lavori-di-nicola.md`.
 >
 > **Letto sul sito vero il 3/11 alle 07:15.** Le chiavi su Vercel sono le stesse del 10/10. Il database è fermo all'aggiornamento 163, e ne mancano 15. Il negozio di prova è ancora in vetrina. Quindi i passi della sezione 00 sono ancora tutti da fare.
 
@@ -38,7 +38,7 @@ Il sito dev'essere pronto entro il 15/11 e si apre solo con la carta accesa. La 
 - [ ] 🔴 Metti le chiavi del sito, una dopo l'altra, come dice la riga sotto.
   → segreti di GitHub · pulsante delle migrazioni · chiave di servizio su Vercel · Resend col mittente e la casella info@ · primo giro a mano dei lavori automatici con me · poi `LAVORI_A_ORARIO=accesi`.
 - [ ] 🔴 Apri il conto Stripe di MyCity appena hai la partita IVA; lo stesso giorno il fornaio finisce il suo.
-- [ ] 🟡 Prima del 15/11: la borsa termica, il testo della home, la cancellazione del Panificio Demo.
+- [ ] 🟡 Prima del 15/11: la borsa termica. Il testo della home e la cancellazione del Panificio Demo sono fatti il 3/11.
 
 ## 0 · Nuove del 29-30/10 — il prezzo, i costi e la home
 
@@ -54,8 +54,8 @@ Il sito dev'essere pronto entro il 15/11 e si apre solo con la carta accesa. La 
   → richiesta #265 · 6.489 prove verdi · nessuna migrazione.
 - [ ] 🟡 Rispondi alle scelte della carta #222, quella del sito visto da chi compra: la più importante è la foto del titolare, col suo consenso.
   → la richiesta #900 è cucita dentro la #899 · la scelta «regali o fresco» è già decisa dai dati: fresco.
-- [ ] 🔴 Cambia il testo grande della home dal pannello dell amministratore: oggi promette «30-60 min» e nomina l abbigliamento.
-  → testo proposto in LAVORO-APERTO.md · registro del sito, voce 1819 · 2 minuti.
+- [x] 🔴 Cambia il testo grande della home dal pannello dell amministratore: oggi promette «30-60 min» e nomina l abbigliamento.
+  → fatto il 3/11 alle 12:05: l'ha scritto l'AD nel database col tuo ok · testo vecchio nel registro delle decisioni.
 - [ ] 🟡 Guarda le ricevute di Claude, Vercel e Supabase, e dimmi quanto pagate davvero.
   → resoconto consegne/finanza/2026-10-29-costi-e-commissioni.md · 10 minuti.
 - [ ] 🟡 Dimmi quanto costa un bonifico sul tuo conto: è il costo di ogni ordine in contanti.
@@ -90,10 +90,10 @@ Il sito dev'essere pronto entro il 15/11 e si apre solo con la carta accesa. La 
 
 - [x] 🔴 Spegni nel database i due codici sconto ancora attivi: una riga da incollare nell'editor SQL di Supabase.
   → carta #214 · 2 minuti.
-- [ ] 🔴 Cancella il Panificio Demo: un comando da incollare nell'editor SQL di Supabase.
-  → carta #201 · 3 minuti · non si può annullare.
+- [x] 🔴 Cancella il Panificio Demo: un comando da incollare nell'editor SQL di Supabase.
+  → fatto il 3/11 alle 11:53: l'ha lanciato l'AD col tuo «si cancellalo tu» · resta solo Pane Quotidiano, 5 prodotti.
 - [ ] 🔴 Verifica su Resend il dominio del mittente e metti chiave e mittente su Vercel: fallo per primo, la verifica può durare ore.
-  → carta #195 · 20 minuti.
+  → dominio verificato il 3/11 verso le 11:45, preso dal vecchio account di Resend · resta la chiave su Vercel, nella seduta con me.
 - [ ] 🟡 Su Supabase, in una visita: accendi la protezione contro le password rubate, aggiungi il www agli indirizzi di rientro, leggi data del prossimo addebito e scadenza della carta.
   → carte #210, #192, #207 · 12 minuti.
 - [ ] 🟡 Copia su Vercel le due chiavi di Upstash.
