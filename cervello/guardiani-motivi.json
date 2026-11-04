@@ -96,6 +96,10 @@
   "prova-sito.mjs": {
    "motivo": "decisione",
    "perche": "Si lancia a mano dentro un'ondata del sito, e solo li': ogni squadra lo lancia nel SUO worktree sui file che ha toccato (il comando arriva nel brief di .claude/workflows/ondata-sito.js e in cervello/brief-corsie.md). Senza --repo e --file non ha niente da provare: un processo ricorrente della macchina non ha un worktree del sito ne' un elenco di file cambiati, e lanciarlo sulla copia collegata vorrebbe dire provare codice che nessuno ha toccato. L'uscita 1 e' il rosso della squadra sul suo pacchetto, non un giudizio sulla salute della macchina; l'uscita 2 e' «non ho potuto provare», verde vuoto compreso. Il cancello del sito resta npm run verify nel repo del sito, questo e' solo la sua versione muta da 30 righe. La sua logica e' di guardia davvero: cervello/test/prova-sito.test.mjs la esegue su nove casi, fra cui il verde vuoto, il tempo finito e il file fuori dal repo."
+  },
+  "quadro.mjs": {
+   "motivo": "decisione",
+   "perche": "4/11: è la parola «quadro» di Nicola — si lancia a mano quando lui chiede di guardare tutti i difetti in una volta. Non è un cancello: mostra e non boccia, e il suo esito 2 vuol dire «quadro parziale», non «fermati». I giudizi che mette in pagina vengono da strumenti già di guardia (salute.mjs, che il VPS lancia mattina e sera; tasso-chiusura.mjs e cantiere-prove.mjs nel giro). Metterlo in un processo automatico conterebbe due volte gli stessi rossi."
   }
  },
  "verdetti_morti_dichiarati": {},

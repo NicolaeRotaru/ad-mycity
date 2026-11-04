@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-11-03 12:15
+aggiornato: 2026-11-04 21:30
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 📋 **2026-11-04 21:30 — Una parola sola per guardare tutti i difetti: «quadro».**
+>
+> Mi scrivi «quadro» e in pochi secondi vedi organi, difetti casa per casa, sito, ritmo e bloccanti. È nella richiesta #921, che aspetta la tua firma. Il quadro di stasera: sulla macchina 238 difetti aperti, 10 bloccanti; sul sito 996, di cui 4 bloccanti e 35 gravi. Il server che fa lavorare la macchina tace dal 25 settembre, e a ottobre ho chiuso 7 difetti su 76 nati.
 
 > 🧭 **2026-11-03 07:30 — L'analisi dei tuoi lavori: cinque sedute, venti scelte col consiglio.**
 >

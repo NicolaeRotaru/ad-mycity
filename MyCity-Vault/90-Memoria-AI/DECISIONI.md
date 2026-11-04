@@ -6475,3 +6475,23 @@ L'avanzo più serio è un grave dei soldi: il reso ripreso in un carrello di due
 **Firma:** Nicola in chat il 3/11, «non riesci a fare tu in 3 passo?», dopo la proposta del testo. Reversibile: il testo vecchio è qui sopra. Quando si accende la carta, il testo prende «o con la carta».
 
 **Colore:** 🔴 scrittura sul database di produzione, eccezione alla regola «mai scritture sul database» limitata a questo campo.
+
+## 2026-11-04 21:10 — 🟡 Una parola sola per guardare tutti i difetti: «quadro»
+
+**Cosa:** nuovo comando `node cervello/quadro.mjs`, con la sua prova `cervello/test/quadro.test.mjs`, e la parola «quadro» in `COMANDI.md` e in `CLAUDE.md`. In una pagina mette la visita degli organi, i difetti aperti della macchina casa per casa, il registro del sito, il ritmo di chiusura, i bloccanti e la parola da dire dopo. Zero agenti, pochi secondi.
+
+**Perché:** Nicola, 4/11: «come posso chiederti di controllare tutte queste cose con una parola?». Prima servivano quattro strumenti in tre case, e il «checkup» non contava né i difetti per casa né il sito.
+
+**Prova:** rossa in quattro modi, rompendo il codice apposta (conta i chiusi · un organo non visto diventa verde · il sito conta i riparati · una scheda senza casa si perde); verde sul codice vero, 11 casi su 11.
+
+**Colore:** 🟡 auto-modifica, nella richiesta di unione. La firma è di Nicola.
+
+## 2026-11-04 22:50 — 🔴 La coda senza doppioni: pronta, aspetta l'ok di Nicola per il database vero
+
+**Cosa:** il freno `pannello/sql/lavori-un-solo-in-attesa.sql`. In coda resta un solo lavoro per ogni richiesta, il più recente. Il vecchio passa ad «annullato» con una nota, e niente si cancella. La stessa migrazione annulla i 184 doppioni di oggi, quindi dei 200 lavori in attesa ne restano 16.
+
+**Perché:** Nicola, 4/11: «togli tutti i lavori in coda doppi ed impedisci che si creano doppioni». Ogni mattina alle 9 il battito rimetteva in coda lo stesso giro e gli stessi playbook mentre il server era fermo.
+
+**Come ci sono arrivata:** la prima versione teneva il lavoro più vecchio. Il collaudo l'ha bocciata, perché alla riaccensione il server chiude come scaduto ogni lavoro in attesa da più di 48 ore. Ci sono stati tre collaudi in tutto, e ognuno ha avuto la sua correzione. La prova gira su un Postgres vero: 10 casi su 10, e diventa rossa in sette modi rompendo la migrazione.
+
+**Colore:** 🔴, perché scrive sul database vero della memoria. Il 4/11 alle 21:45 il database ha chiesto una conferma e nessuno ha risposto: non è stato toccato niente. Si applica col «ok coda» di Nicola.

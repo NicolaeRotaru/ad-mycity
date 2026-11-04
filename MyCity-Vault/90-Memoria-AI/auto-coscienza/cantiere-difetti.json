@@ -22440,6 +22440,73 @@
         "tipo": "umano",
         "come": "Si chiude con una prova che lancia due corse insieme su un blocco stantio e vede uscire 2 la seconda."
       }
+    },
+    {
+      "stato": "aperto",
+      "nato": "2026-11-04 22:20",
+      "origine": "collaudo del freno anti-doppioni della coda",
+      "nato_come": "scoperta",
+      "nato_da": "collaudo del 4/11/2026 (due lenti) sul freno lavori-un-solo-in-attesa",
+      "colore": "🟡",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "fonte": "collaudo del 4/11/2026; lettura dal vivo della coda il 4/11 alle 22:15: i lavori con «[sentinella-dati key=» si fermano nella settimana del 17/8 (86) e non tornano più, anche se il server ha lavorato fino al 25/9",
+      "id": "AR-1032",
+      "titolo": "Le sentinelle non riescono più a mettere lavori in coda dal 25 agosto, e il guardiano della corsia non se ne accorge",
+      "dimensione": "guardiani-e-guardrail",
+      "dove": "cervello/sentinella-dati.mjs: accodaLavoro (~riga 842) scrive senza negozio_id; cervello/lavori-hanno-la-corsia.mjs (~riga 59) riconosce chi scrive solo dalle chiamate curl -X POST",
+      "sintomo": "Dal passo 2 di AR-801 (negozio_id obbligatorio, 25/8) l'inserimento della sentinella senza negozio_id viene rifiutato dal database. In coda nessun lavoro di sentinella dopo la settimana del 17/8. Il guardiano della corsia dà verde perché non vede gli scrittori che usano fetch: sentinella-dati.mjs, store.ts del Pannello, admin-chat del marketplace.",
+      "causa_radice": "Il guardiano trova i punti che scrivono nella coda cercando una forma (curl -X POST), non il gesto (un POST verso rest/v1/lavori, con qualunque strumento). Uno scrittore con un'altra forma resta fuori dal controllo, e il passo che ha reso il campo obbligatorio si è fidato di quel controllo.",
+      "fix_proposto": "① accodaLavoro mette negozio_id: \"centro\" come gli altri; ② il guardiano riconosce anche fetch(...rest/v1/lavori...) con method POST; ③ una prova che inserisce col corpo vero della sentinella in un Postgres usa e getta con negozio_id NOT NULL.",
+      "verifica": {
+        "tipo": "umano",
+        "come": "Si chiude con la prova ③ che diventa rossa sul codice di oggi, e con il guardiano che elenca sentinella-dati.mjs fra i punti che scrivono."
+      }
+    },
+    {
+      "stato": "aperto",
+      "nato": "2026-11-04 22:20",
+      "origine": "collaudo del freno anti-doppioni della coda",
+      "nato_come": "scoperta",
+      "nato_da": "collaudo del 4/11/2026 (due lenti) sul freno lavori-un-solo-in-attesa",
+      "colore": "🟡",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "fonte": "collaudo del 4/11/2026, scenario P2 col codice vero di store.ts su un Postgres usa e getta",
+      "id": "AR-1033",
+      "titolo": "Quando il database rifiuta un lavoro del centro, il Pannello riprova togliendo il negozio, e il secondo tentativo fallisce sempre e copre l'errore vero",
+      "dimensione": "robustezza-errori",
+      "dove": "pannello/src/lib/store.ts: postLavoroUnaVolta, ramo del ripiego (siPuoRipiegareSenzaNegozio)",
+      "sintomo": "Con negozio_id obbligatorio, il ripiego senza negozio per il centro non può mai riuscire: riceve un 400 «not null» e quel 400 sostituisce l'errore che il database aveva dato davvero.",
+      "causa_radice": "Il ripiego era nato per le colonne nuove non ancora migrate; dopo il passo 2 di AR-801 la colonna esiste ed è obbligatoria, e il ripiego non è stato ripensato.",
+      "fix_proposto": "Togliere negozio_id dal ripiego (si toglie solo gruppo_id), oppure fare il ripiego solo sull'errore PGRST204 «colonna che non esiste».",
+      "verifica": {
+        "tipo": "umano",
+        "come": "Si chiude con una prova che fa rispondere il database con un errore e controlla che l'errore mostrato sia quello vero, con un solo tentativo."
+      }
+    },
+    {
+      "stato": "aperto",
+      "nato": "2026-11-04 22:45",
+      "origine": "collaudo del freno anti-doppioni della coda",
+      "nato_come": "regressione",
+      "nato_da": "freno lavori-un-solo-in-attesa, richiesta di unione NicolaeRotaru/ad-mycity#921",
+      "colore": "🟡",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "fonte": "terzo collaudo del 4/11/2026: database provato col codice vero di store.ts, la parte dello schermo letta nel codice e non eseguita in un browser",
+      "id": "AR-1034",
+      "titolo": "Chi segue un lavoro annullato come doppione non lo sa: la chat aspetta 45 minuti e poi scrive che non ha avuto risposta",
+      "dimensione": "robustezza-errori",
+      "dove": "pannello/src/app/page.tsx (attesa della risposta: chiude solo su fatto o errore, ~righe 1480, 1936, 2009, 2075, 2819); pannello/src/lib/parla.ts:112; cervello/worker.sh:1989-1992 con cervello/lib-esito-lavoro.sh:55; pannello/src/app/api/lavori/recupera/route.ts:62-69",
+      "sintomo": "Scrivi «fai un giro» due volte nella stessa conversazione mentre il server è fermo: il freno annulla il primo lavoro e tiene il secondo. Lo schermo segue tutti e due, e sul primo resta «in elaborazione»; dopo 45 minuti scrive «Nessuna risposta», che è falso. Allo stesso modo il log del worker dice «ri-programmato» e la rotta recupera dice «rimessi in coda» per un lavoro che il freno ha annullato.",
+      "causa_radice": "Chi segue un lavoro conosce come fine solo «fatto» ed «errore»: «annullato» non era mai un esito di un lavoro seguito, perché prima lo annullava solo una persona.",
+      "fix_proposto": "Trattare «annullato» come una fine: se la nota dice «[doppione]», mostrare «sostituito da un lavoro identico più recente» e seguire quello. Nel worker e in recupera, leggere lo stato restituito dal PATCH prima di scrivere l'esito.",
+      "verifica": {
+        "tipo": "umano",
+        "come": "Si chiude con una prova del Pannello che segue un lavoro poi annullato come doppione e vede il messaggio giusto invece dell'attesa di 45 minuti."
+      },
+      "malattia": "esito-di-scrittura-buttato"
     }
   ],
   "meta": {
