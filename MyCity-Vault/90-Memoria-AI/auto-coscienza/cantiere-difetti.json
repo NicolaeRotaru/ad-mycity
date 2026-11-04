@@ -22505,7 +22505,8 @@
       "verifica": {
         "tipo": "umano",
         "come": "Si chiude con una prova del Pannello che segue un lavoro poi annullato come doppione e vede il messaggio giusto invece dell'attesa di 45 minuti."
-      }
+      },
+      "malattia": "esito-di-scrittura-buttato"
     }
   ],
   "meta": {
