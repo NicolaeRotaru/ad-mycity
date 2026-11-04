@@ -9,19 +9,22 @@
 //
 // Una regola che vive nel database si prova solo eseguendola. Questo file accende un Postgres VERO,
 // usa e getta, solo sul socket (nessuna porta aperta), ci applica la migrazione e prova:
-//   ① la pulizia tiene il più vecchio di ogni gruppo di gemelli e annulla gli altri, con la nota;
-//   ② un inserimento identico a uno in attesa si ferma con «lavoro-gia-in-coda» e dice chi aspetta;
-//   ③ non è un doppione ciò che cambia corsia, tipo, conversazione, testo, o non è in attesa;
-//   ④ rimettere in attesa un lavoro esistente NON si blocca (ritento del worker, recupero orfani);
-//   ⑤ quando il lavoro parte, lo stesso lavoro si può rimettere in coda;
+//   ① la pulizia tiene il PIÙ RECENTE di ogni gruppo di gemelli e annulla gli altri, con la nota;
+//   ② un lavoro identico a uno in attesa entra, e il vecchio si annulla: in attesa ne resta uno;
+//   ③ non è un doppione ciò che cambia corsia, tipo, conversazione, testo, o nasce già fatto;
+//   ④ chi torna in attesa mentre il gemello aspetta si annulla, senza errore; senza gemello torna davvero;
+//   ⑤ un lavoro già partito non si tocca, e lo stesso lavoro si può rimettere in coda;
 //   ⑥ la migrazione si rilancia senza danni;
-//   ⑦ due inserimenti identici nello stesso istante: ne passa uno solo.
+//   ⑦ due inserimenti identici nello stesso istante: entrano tutti e due, in attesa ne resta uno;
+//   ⑧ riscrivere la stessa riga (upsert sul suo codice) non la scambia per un suo doppione.
 // Senza i programmi di PostgreSQL le prove si SALTANO dicendolo: un salto è scritto, un verde finto no.
 //
-// NON-VACUITÀ (verificata rompendo la migrazione apposta, il 4/11):
-//   · col freno sull'aggiornamento invece che sull'inserimento, i casi ② ④ ⑥ ⑦ diventano ROSSI;
-//   · senza il lucchetto `pg_advisory_xact_lock`, diventa ROSSO il caso ⑦, e solo quello;
-//   · con `posto > 0` al posto di `posto > 1` nella pulizia, i casi ① ② ⑤ ⑥ diventano ROSSI.
+// PERCHÉ IL PIÙ RECENTE (collaudo del 4/11): il worker all'avvio chiude come scaduto ogni lavoro in
+// attesa da più di 48 ore. Tenendo il più vecchio e rifiutando i nuovi, alla riaccensione non sarebbe
+// partito niente.
+//
+// NON-VACUITÀ (verificata rompendo la migrazione apposta, il 4/11): vedi in fondo al file l'elenco
+// delle mutazioni e dei casi che ognuna fa diventare rossi.
 
 import { test, before, after } from "node:test";
 import assert from "node:assert/strict";
@@ -136,21 +139,24 @@ after(() => {
   }
 });
 
-test("① la pulizia tiene il più vecchio dei gemelli e annulla gli altri, con la nota che dice chi resta", { skip: SALTO }, () => {
-  const righe = deve(`select id, stato from public.lavori where id in ('${U(1)}','${U(2)}','${U(3)}') order by id;`);
-  assert.equal(righe, `${U(1)}|in_attesa\n${U(2)}|annullato\n${U(3)}|annullato`);
-  const nota = deve(`select risultato from public.lavori where id='${U(3)}';`);
-  assert.match(nota, /\[doppione\] annullato il \d{4}-\d{2}-\d{2} \d{2}:\d{2}: lo stesso lavoro aspettava già in coda come 00000000-0000-0000-0000-000000000001$/);
+const stato = (n) => deve(`select stato from public.lavori where id='${U(n)}';`);
+const inAttesa = (testo = GIRO) => deve(`select count(*) from public.lavori where richiesta='${testo}' and tipo='giro' and negozio_id='centro' and gruppo_id is null and stato='in_attesa';`);
+
+test("① la pulizia tiene il più recente dei gemelli e annulla gli altri, con la nota che dice chi resta", { skip: SALTO }, () => {
+  assert.equal([stato(1), stato(2), stato(3)].join(" "), "annullato annullato in_attesa");
+  const nota = deve(`select risultato from public.lavori where id='${U(1)}';`);
+  assert.match(nota, /^\[doppione\] annullato il \d{4}-\d{2}-\d{2} \d{2}:\d{2}: sostituito da un lavoro identico più recente, 00000000-0000-0000-0000-000000000003$/);
   const intatti = deve(`select count(*) from public.lavori where id in ('${U(10)}','${U(11)}','${U(12)}','${U(13)}','${U(14)}') and risultato = '';`);
   assert.equal(intatti, "5", "chi non è un doppione non si tocca");
 });
 
-test("② un lavoro identico a uno in attesa non entra, e l'errore dice chi aspetta già", { skip: SALTO }, () => {
+test("② un lavoro identico a uno in attesa entra senza errore, e il vecchio si annulla dicendo chi lo sostituisce", { skip: SALTO }, () => {
   const r = psql(ins(U(20)));
-  assert.equal(r.ok, false, "il doppione è entrato");
-  assert.match(r.err, /lavoro-gia-in-coda/);
-  assert.match(r.err, new RegExp(U(1)), "il dettaglio deve dire quale lavoro aspetta già");
-  assert.equal(deve(`select count(*) from public.lavori where id='${U(20)}';`), "0");
+  assert.ok(r.ok, `chi accoda non deve ricevere un errore: ${r.err}`);
+  assert.equal(stato(20), "in_attesa");
+  assert.equal(stato(3), "annullato");
+  assert.match(deve(`select risultato from public.lavori where id='${U(3)}';`), new RegExp(`sostituito da un lavoro identico più recente, ${U(20)}$`));
+  assert.equal(inAttesa(), "1");
 });
 
 test("③ non è un doppione ciò che cambia corsia, tipo, conversazione, testo, o nasce già fatto", { skip: SALTO }, () => {
@@ -160,33 +166,59 @@ test("③ non è un doppione ciò che cambia corsia, tipo, conversazione, testo,
   deve(ins(U(33), { richiesta: "Un giro diverso" }));
   deve(ins(U(34), { stato: "fatto" }));
   assert.equal(deve(`select count(*) from public.lavori where id in ('${U(30)}','${U(31)}','${U(32)}','${U(33)}','${U(34)}');`), "5");
+  assert.equal(stato(20), "in_attesa", "il giro in attesa non si tocca per una cosa diversa");
+  assert.equal([stato(11), stato(12), stato(13), stato(14)].join(" "), "in_attesa in_attesa in_attesa in_attesa");
 });
 
-test("④ rimettere in attesa un lavoro che esiste già non si blocca (ritento, recupero degli orfani)", { skip: SALTO }, () => {
-  deve(`update public.lavori set stato='in_attesa' where id='${U(2)}';`);
-  assert.equal(deve(`select stato from public.lavori where id='${U(2)}';`), "in_attesa");
-  deve(`update public.lavori set stato='annullato' where id='${U(2)}';`);
+test("④ chi torna in attesa mentre il gemello aspetta si annulla senza errore; senza gemello torna davvero", { skip: SALTO }, () => {
+  // Il ritento del worker o il recupero di un orfano: U(2) torna in attesa, ma U(20) aspetta già.
+  const r = psql(`update public.lavori set stato='in_attesa' where id='${U(2)}';`);
+  assert.ok(r.ok, `il ritorno in attesa non deve dare errore, se no il lavoro resta appeso: ${r.err}`);
+  assert.equal(stato(2), "annullato");
+  assert.match(deve(`select risultato from public.lavori where id='${U(2)}';`), new RegExp(`tornava in attesa, ma lo stesso lavoro aspettava già come ${U(20)}$`));
+  assert.equal(stato(20), "in_attesa", "il gemello che aspettava resta");
+  // Un lavoro fatto che torna in attesa senza nessun gemello: torna davvero.
+  deve(ins(U(35), { stato: "fatto", richiesta: "Un lavoro finito, da rifare" }));
+  deve(`update public.lavori set stato='in_attesa' where id='${U(35)}';`);
+  assert.equal(stato(35), "in_attesa");
 });
 
-test("⑤ quando il lavoro parte, lo stesso lavoro si può rimettere in coda", { skip: SALTO }, () => {
-  deve(`update public.lavori set stato='in_corso' where id='${U(1)}';`);
+test("⑤ un lavoro già partito non si tocca, e lo stesso lavoro si può rimettere in coda", { skip: SALTO }, () => {
+  deve(`update public.lavori set stato='in_corso' where id='${U(20)}';`);
   deve(ins(U(40)));
-  assert.equal(deve(`select stato from public.lavori where id='${U(40)}';`), "in_attesa");
+  assert.equal(stato(20), "in_corso", "il lavoro partito non va annullato");
+  assert.equal(stato(40), "in_attesa");
 });
 
 test("⑥ la migrazione si rilancia senza danni: nessun annullato in più, il freno resta", { skip: SALTO }, () => {
   const prima = deve("select count(*) from public.lavori where stato='annullato';");
   deve(migrazione());
   assert.equal(deve("select count(*) from public.lavori where stato='annullato';"), prima);
-  assert.equal(psql(ins(U(41))).ok, false, "dopo il secondo giro il freno deve esserci ancora");
+  deve(ins(U(41)));
+  assert.equal(stato(40), "annullato", "dopo il secondo giro il freno deve esserci ancora");
+  assert.equal(inAttesa(), "1");
 });
 
-test("⑦ due inserimenti identici nello stesso istante: ne passa uno solo", { skip: SALTO }, async () => {
+test("⑦ due inserimenti identici nello stesso istante: entrano tutti e due, in attesa ne resta uno", { skip: SALTO }, async () => {
   const testo = "Lavoro lanciato due volte nello stesso istante";
   // Ognuno inserisce e poi tiene aperta la transazione: senza lucchetto tutti e due vedrebbero la
-  // coda vuota e passerebbero, perché nessuno dei due ha ancora reso visibile la sua riga.
+  // coda vuota, perché nessuno dei due ha ancora reso visibile la sua riga, e resterebbero in due.
   const sql = (n) => `begin; ${ins(U(n), { richiesta: testo })} select pg_sleep(0.6); commit;`;
   const [a, b] = await Promise.all([psqlInParallelo(sql(50)), psqlInParallelo(sql(51))]);
-  assert.equal([a.ok, b.ok].filter(Boolean).length, 1, `ne doveva passare uno solo: ${a.err} ${b.err}`);
-  assert.equal(deve(`select count(*) from public.lavori where richiesta='${testo}' and stato='in_attesa';`), "1");
+  assert.ok(a.ok && b.ok, `nessuno dei due deve ricevere un errore: ${a.err} ${b.err}`);
+  assert.equal(inAttesa(testo), "1");
 });
+
+test("⑧ riscrivere la stessa riga in attesa (upsert sul suo codice) non la scambia per un suo doppione", { skip: SALTO }, () => {
+  deve(`insert into public.lavori (id, stato, tipo, richiesta, negozio_id) values ('${U(41)}', 'in_attesa', 'giro', '${GIRO}', 'centro')
+        on conflict (id) do update set esperto = 'qualcuno';`);
+  assert.equal(stato(41), "in_attesa");
+  assert.equal(deve(`select esperto from public.lavori where id='${U(41)}';`), "qualcuno");
+});
+
+// MUTAZIONI VERIFICATE il 4/11 (ognuna applicata alla migrazione, prova lanciata, file ripristinato):
+//   · la pulizia ordinata dal più vecchio (`order by created_at, id`) ........ ① ② ROSSI
+//   · il freno senza l'annullo del vecchio all'inserimento .................... ② ④ ⑥ ⑦ ⑧ ROSSI
+//   · il freno senza la porta del ritorno in attesa (solo `before insert`) ... ④ ROSSO
+//   · il freno senza il lucchetto `pg_advisory_xact_lock` ..................... ⑦ ROSSO
+//   · il freno senza `id is distinct from new.id` nell'annullo ................ ⑧ ROSSO
