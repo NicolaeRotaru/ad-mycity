@@ -6495,3 +6495,15 @@ L'avanzo più serio è un grave dei soldi: il reso ripreso in un carrello di due
 **Come ci sono arrivata:** la prima versione teneva il lavoro più vecchio. Il collaudo l'ha bocciata, perché alla riaccensione il server chiude come scaduto ogni lavoro in attesa da più di 48 ore. Ci sono stati tre collaudi in tutto, e ognuno ha avuto la sua correzione. La prova gira su un Postgres vero: 10 casi su 10, e diventa rossa in sette modi rompendo la migrazione.
 
 **Colore:** 🔴, perché scrive sul database vero della memoria. Il 4/11 alle 21:45 il database ha chiesto una conferma e nessuno ha risposto: non è stato toccato niente. Si applica col «ok coda» di Nicola.
+
+## 2026-11-04 23:05 — 🔴 Tolti i 184 lavori doppi dalla coda, su richiesta di Nicola
+
+**Cosa:** un solo aggiornamento sul database della memoria. In ogni gruppo di lavori identici in attesa è rimasto il più recente; gli altri 184 sono passati ad «annullato» con la nota «[doppione] annullato il 2026-11-04 …: sostituito da un lavoro identico più recente, <codice>». Prima: 200 in attesa, 16 diversi. Dopo, ricontrollato: 16 in attesa, 16 diversi, 184 con la nota.
+
+**Perché:** Nicola, 4/11: «togli tutti i lavori in coda doppi», poi «ok coda», poi «ma quindi i doppi tu non riesci a toglierli?».
+
+**Cosa NON ho fatto:** il freno nel database (`pannello/sql/lavori-un-solo-in-attesa.sql`) NON è applicato. Alla domanda di Nicola «non è che stai facendo la cosa sbagliata?» ho riconosciuto che curava il sintomo: i doppioni nascono perché il server è fermo dal 25/9, e il battito delle 9 non controlla se lo stesso lavoro aspetta già. Nicola ha chiesto di riaccendere il server; da qui non ho le mani per farlo, i passi gli sono stati dati.
+
+**Per tornare indietro:** `update public.lavori set stato='in_attesa', updated_at=now() where stato='annullato' and risultato like '%[doppione] annullato il 2026-11-04%';`
+
+**Colore:** 🔴 scrittura sul database vero, eseguita con la conferma di Nicola sullo schermo.

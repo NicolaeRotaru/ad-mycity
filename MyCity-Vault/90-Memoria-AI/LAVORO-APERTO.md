@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-04 21:50
+aggiornato: 2026-11-04 23:05
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -32,7 +32,9 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 
 **La parola «quadro» aspetta la tua firma** (4/11 alle 21:10). Con una parola sola ti mostro organi, difetti della macchina casa per casa, sito, ritmo e bloccanti. È nella richiesta di unione #921. Il quadro del 4/11 dice questo: sulla macchina restano 238 difetti aperti, e 10 su 238 sono bloccanti. Sul sito ne restano 996, e 39 su 996 sono seri. Il server è fermo dal 25/9.
 
-**La coda senza doppioni aspetta il tuo «ok coda»** (4/11 alle 21:50). In coda ci sono 200 lavori in attesa, ma solo 16 sono diversi. Il freno è pronto e provato su un database di prova. Sul database vero non ho ancora toccato niente. È nella stessa richiesta #921.
+**La coda è pulita** (4/11 alle 23:05). Dei 200 lavori in attesa ne restano 16, uno per ogni lavoro diverso. Gli altri 184 sono annullati con la nota, e si possono rimettere in attesa. Il freno nel database non è applicato: i doppioni ricresceranno di 6 al giorno finché il server resta spento.
+
+**Il server è da riaccendere, e tocca a te** (4/11 alle 23:05). È spento dal 25/9 e da qui non ho le mani per entrarci. Prima di riaccenderlo va deciso il tetto di spesa, se no si ferma di nuovo alle 08:38. I passi in ordine sono nella scheda del difetto «il server tace dal 25 settembre».
 
 **L'analisi dei tuoi lavori del 3/11** raccoglie tutto in cinque sedute, con i consigli sulle 20 scelte: `consegne/ad/2026-11-03-lavori-di-nicola.md`.
 - Letto sul sito vero il 3/11 alle 07:15: chiavi su Vercel uguali al 10/10, database fermo all'aggiornamento 163 (ne mancano 15, dal 164 al 195), negozio di prova ancora in vetrina, testo della home ancora vecchio. I passi di lunedì 2/11 risultano da fare.
