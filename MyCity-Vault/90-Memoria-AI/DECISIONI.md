@@ -6507,3 +6507,13 @@ L'avanzo più serio è un grave dei soldi: il reso ripreso in un carrello di due
 **Per tornare indietro:** `update public.lavori set stato='in_attesa', updated_at=now() where stato='annullato' and risultato like '%[doppione] annullato il 2026-11-04%';`
 
 **Colore:** 🔴 scrittura sul database vero, eseguita con la conferma di Nicola sullo schermo.
+
+## 2026-11-04 23:43 — 🔴 Archiviati i 294 lavori vecchi rimasti «in coda», su scelta di Nicola
+
+**Cosa:** un solo aggiornamento sul database della memoria. I lavori nati prima del 1/10 e rimasti «errore» (293) o «in corso» (1, il giro del 25/9 col server spento) sono passati ad «annullato». Ognuno porta la nota «[archiviato] il 2026-11-04 … su richiesta di Nicola: … era: <stato di prima>». Dei 293 errori, 269 si erano fermati sul tetto di spesa (11/9-25/9), 19 su un conflitto di salvataggio (22/8-11/9) e 5 per altri motivi. Ricontrollato: nella scheda «In coda» del Pannello ne restano 16, tutti in attesa.
+
+**Perché:** Nicola ha mandato la schermata «In coda 310». La scheda somma in attesa, in corso ed errori: 16 + 1 + 293. Alla domanda ha scelto «Sì, archiviali».
+
+**Per tornare indietro:** `update public.lavori set stato = case when risultato like '%era: in_corso' then 'in_corso' else 'errore' end, updated_at = now() where risultato like '%[archiviato] il 2026-11-04%';`
+
+**Colore:** 🔴 scrittura sul database vero, con la scelta di Nicola e la sua conferma sullo schermo.
