@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-10-25 17:20",
+  "aggiornato": "2026-11-04 23:58",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -16957,7 +16957,7 @@
       "impatto_crescita": "indiretto: il metro che decide se la memoria puo' essere pubblicata, e una delle due copie giudica cio' che vedono i clienti",
       "dove": "cervello/onesta-check.mjs + pannello/src/lib/onesta-check.ts; malattia in cervello/malattie.json (una-parola-con-due-padroni)",
       "nato_da": "lotto 49, corsia C: trovato riparando AR-394; terza istanza della stessa malattia nello stesso lotto",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-22 20:30",
       "nato_come": "scoperta",
       "lotto_scoperta": 49,
@@ -16965,7 +16965,10 @@
         "tipo": "comando",
         "comando": "node cervello/test/due-metri-una-regola.test.mjs"
       },
-      "nota_fix": "Le due case del metro divergevano su 3 casi del banco, e il Pannello era il piu severo: bocciava orari e date ISO perche le esenzioni vivevano solo nel cervello. Portate anche di la, con gli stessi id. Il tetto delle divergenze scende da 3 a 0, e la prova esegue i due giudizi sugli stessi testi invece di descriverli."
+      "nota_fix": "Le due case del metro divergevano su 3 casi del banco, e il Pannello era il piu severo: bocciava orari e date ISO perche le esenzioni vivevano solo nel cervello. Portate anche di la, con gli stessi id. Il tetto delle divergenze scende da 3 a 0, e la prova esegue i due giudizi sugli stessi testi invece di descriverli.",
+      "chiuso_il": "2026-11-04 23:58",
+      "chiuso_come": "node cervello/test/due-metri-una-regola.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-792",
@@ -18125,7 +18128,7 @@
       "gravita": "bloccante",
       "impatto_crescita": "alto",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-26 21:05",
       "nato_come": "scoperta",
       "nato_da": "lotto 60: cinque mutazioni MIE risultavano verificate e non mordevano. Le ho scoperte applicandole a mano, non fidandomi del verde.",
@@ -18139,7 +18142,10 @@
         "comando": "node cervello/test/una-prova-lanciata-nel-modo-sbagliato.test.mjs",
         "nota": "La cura è alla radice: il conto è sceso da 5 a 0 su 934 al momento della misura (la scheda diceva 435, era vecchia, e il codice comanda). Sei rotture volontarie, tutte diventano rosse. Accanto a questa girano nella suite altre due prove dello stesso fix — una-mutazione-che-nessuno-puo-eseguire.test.mjs (15 casi, il contatore) e mutazioni-senza-esecutore.mjs (il tetto, che il cancello esegue) — ma la verifica ne nomina una sola perché auto-fix una catena non la sa lanciare. ⚠️ NUMERI RIMISURATI IL 31/8, dopo che un collaudo indipendente li ha ricontati: il registro adesso porta 969 voci, non 934. Lo zero regge — nessuna delle 969 e' ineseguibile, ricontato — ma il denominatore scritto era quello di un lotto fa. Un conto giusto con un denominatore vecchio invecchia male: chi lo rilegge fra un mese pensa che il registro sia fermo."
       },
-      "nota_fix": "Come si esegue una prova esce da non-vacuita.mjs e diventa la funzione pura cervello/esecuzione-prova.mjs, usata dal banco per ESEGUIRE e dal contatore per CONTARE (prima erano due decisioni scritte a mano che divergevano). Sa leggere anche una riga di comando, spezzata in argomenti SENZA shell: lista bianca node/npx, metacaratteri rifiutati, && inteso come passi in sequenza. Lancia i .bats con bats e non con node — due voci uscivano rosse per SyntaxError e nessun sensore l'aveva mai visto. E introduce il terzo esito: un avvio fallito è CIECO, non «la prova è diventata rossa», che era tutto il difetto. Le 5 voci rotte si sbloccano e mordono tutte e 5. ⚪ NON MISURATO: il banco è stato eseguito su 12 mutazioni su 934, quindi non so se il terzo esito trasforma qualche verde in ⚪ sulle altre 922."
+      "nota_fix": "Come si esegue una prova esce da non-vacuita.mjs e diventa la funzione pura cervello/esecuzione-prova.mjs, usata dal banco per ESEGUIRE e dal contatore per CONTARE (prima erano due decisioni scritte a mano che divergevano). Sa leggere anche una riga di comando, spezzata in argomenti SENZA shell: lista bianca node/npx, metacaratteri rifiutati, && inteso come passi in sequenza. Lancia i .bats con bats e non con node — due voci uscivano rosse per SyntaxError e nessun sensore l'aveva mai visto. E introduce il terzo esito: un avvio fallito è CIECO, non «la prova è diventata rossa», che era tutto il difetto. Le 5 voci rotte si sbloccano e mordono tutte e 5. ⚪ NON MISURATO: il banco è stato eseguito su 12 mutazioni su 934, quindi non so se il terzo esito trasforma qualche verde in ⚪ sulle altre 922.",
+      "chiuso_il": "2026-11-04 23:58",
+      "chiuso_come": "node cervello/test/una-prova-lanciata-nel-modo-sbagliato.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-841",
@@ -18497,7 +18503,7 @@
       "causa_radice": "① Perché il cieco e l'errore escono uguali? Perché il ramo «il file che mi serve non c'è» fa process.exit(1), e 1 nel contratto di casa vuol dire «ho guardato e ho trovato una violazione». ② Perché è stato scritto così? Perché 1 è il codice di errore che ogni programma usa per riflesso, e senza qualcuno che lo pretenda il terzo stato non lo scrive nessuno. ③ Perché nessun guardiano lo pretendeva? Perché quello che c'è — vincoli-senza-cieco.mjs, AR-843 — guarda il lato CONSUMATORE, e la sua condizione ② richiede che il guardiano dichiari un'uscita 2 nel sorgente: chi il 2 non ce l'ha affatto gli è invisibile per costruzione. ④ Perché la condizione è fatta così? Perché è nata per trovare i vincoli composti a mano, non i produttori muti. ⑤ RADICE: il contratto dei tre codici (AR-322: 0 passato · 1 violazione · 2 non ho potuto misurare) è documentato in cervello/misura-o-cieco.mjs e non è mai stato misurato sui produttori — solo sui consumatori. Una regola scritta e mai contata è una raccomandazione.",
       "fix_proposto": "🟡 Convertire il ramo del cieco a process.exit(2), verificando PRIMA due cose: (a) che sia davvero una cecita e non un reperto, (b) chi ne legge il codice d uscita. NOVE curati in questo lotto: bilancio-vivo, metabolismo, midollo-spinale, guardiano-tempo, chiusure-audit, sentinella-fonti, permessi-check (nessuno ne legge l uscita) piu keyword-owner-check e freschezza-okr, che il giro LEGGE — e li la cura e doppia: exit 2 nello strumento E il blocco di giro.sh che passa da vincolo_da_rc. NOVE dichiarati esenti perche non sono questa malattia. RESTANO TRE, e sono i piu delicati di tutti perche il loro codice d uscita lo legge il cancello o il giro: chiusura-loop, test-cervello, valida-contratti. Li la cura va fatta con la mano ferma — cambiare l uscita di test-cervello o valida-contratti tocca la logica con cui il cancello decide se un lotto si consegna.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-27 18:45",
       "nota": "Trovato riparando, non cercando: stavo curando il triage di AR-375 e ho lanciato bilancio-vivo per vedere se qualcuno degli organi fosse cieco in questo momento. Esce 1 — ma NON è cieco: ha misurato benissimo e dice che il margine realizzato è zero, che è la verità dell'azienda oggi. Cioè lo stesso codice d'uscita copre due stati opposti: «non ho potuto guardare» e «ho guardato e va male». Da fuori non si distinguono, e chi legge va a riparare la cosa sbagliata. Misurato sul codice vero il 27/8: 21 programmi, elencati dal caso di prova. Il caso peggiore non è teorico — è bilancio-vivo, che se STATO.md sparisce dice esattamente quello che dice adesso che sta bene. (Nato_come: scoperta, non regressione — il difetto c era gia, l ho solo incontrato mentre riparavo AR-375; nessun mio fix l ha creato.) ⚠️ IL CONTO ONESTO, corretto guardando i casi a mano: dei 21 di partenza CINQUE non erano questa malattia affatto, e stanno negli esenti del caso di prova col perche scritto — freschezza-checklist (l assenza del file E il reperto: «creala in questo giro»), traccia-decisione (ha gia il suo 2 per il cieco vero; l 1 dice che senza il registro delle decisioni ogni atto e senza traccia), collega-marketplace (ramo di catch: il collegamento e FALLITO, e un azione non una misura), programma-correzione-ar114 («non scrivo niente, meglio un file vecchio che uno mezzo corretto»), rivedi-lezione («questa lezione non esiste» e una risposta, come grep). Senza gli esenti il tetto non sarebbe portabile a zero, e un numero che non arriva a zero si impara a ignorarlo: e il difetto di AR-375. Quindi 13 lordi − 5 esenti = 8 di debito vero. 🔭 VISTO DI FIANCO, riguardando il perimetro con la lente «come si rompe» (non e questa scheda, e non l ho ancora provato): sentinella-fonti nel ramo cieco SCRIVE lo stesso fonti-salute.json, con {ok:false} e senza il campo fonti_allerta_critico. Chi lo legge (sentinella-dati.mjs, controllo M8) fa Array.isArray(undefined) → false, quindi non alza nessun allarme. Non produce un falso rosso — produce SILENZIO: se radar-fonti.json sparisce, nessuno sapra mai piu se le fonti web sono vive. E lo stesso ⚪-letto-come-✅ un piano piu in basso, dentro il FILE invece che nel codice d uscita. Va aperto con la sua prova che gira, non a parole. 📋 CLASSIFICAZIONE FINALE, 21 di partenza: 9 curati, 9 esenti, 3 di debito. I nove esenti sono quasi tutti attrezzi da riga di comando il cui 1 e la RISPOSTA a quello che gli hai chiesto — «questa lezione non esiste», «il branch non esiste, crealo», «--force non esiste piu» (un rifiuto deliberato), «fatto non trovato», «nessun test nel Pannello» (quello e il reperto, ed e grave). Il caso piu netto di tutti era permessi-check: il suo JSON dichiarava esito «cieco» e il codice d uscita diceva 1 nella riga dopo. Si contraddiceva da solo in due righe.",
       "verifica": {
@@ -18506,7 +18512,10 @@
         "nota": "7 casi su 7, tetto sceso da 3 a 0. La prova gemella il-posto-che-non-ce-non-e-un-reperto.test.mjs (11 casi) gira nella suite e copre la funzione pura nuova: esegue i tre strumenti in una copia dell'albero e ASSERISCE che la copia sia spoglia prima di lanciare, invece di sperarlo. Due trappole trovate scrivendola, e tutte e due facevano passare la prova senza provare niente: la cartella delle prove che la copia si portava dietro, e il freno anti-ricorsione che faceva uscire 2 da solo."
       },
       "nato_come": "scoperta",
-      "nota_fix": "La decisione «il posto non c'è (⚪ 2) oppure il posto c'è ed è vuoto (❌ 1)» esce dai tre if scritti a mano e diventa la funzione pura cervello/posto-o-contenuto.mjs, che i tre CHIAMANO. Il ramo «cartella presente e senza prove» resta a 1 APPOSTA: lo zero è il reperto, spesso il più grave. Verificato chi legge ogni codice d'uscita prima di convertirlo, perché convertire senza sistemare chi legge trasforma un falso allarme in un silenzio. Tetto sceso da 3 a 0. ⚠️ RESTA UN BUCO DICHIARATO: in giro.sh il verdetto di valida-contratti è letto da un if scritto a mano invece che dalla funzione di casa, quindi col 2 il giro dà comunque un vincolo ma col testo di dominio sbagliato. Fuori dal territorio del lotto, registrato come difetto nuovo."
+      "nota_fix": "La decisione «il posto non c'è (⚪ 2) oppure il posto c'è ed è vuoto (❌ 1)» esce dai tre if scritti a mano e diventa la funzione pura cervello/posto-o-contenuto.mjs, che i tre CHIAMANO. Il ramo «cartella presente e senza prove» resta a 1 APPOSTA: lo zero è il reperto, spesso il più grave. Verificato chi legge ogni codice d'uscita prima di convertirlo, perché convertire senza sistemare chi legge trasforma un falso allarme in un silenzio. Tetto sceso da 3 a 0. ⚠️ RESTA UN BUCO DICHIARATO: in giro.sh il verdetto di valida-contratti è letto da un if scritto a mano invece che dalla funzione di casa, quindi col 2 il giro dà comunque un vincolo ma col testo di dominio sbagliato. Fuori dal territorio del lotto, registrato come difetto nuovo.",
+      "chiuso_il": "2026-11-04 23:58",
+      "chiuso_come": "node cervello/test/cieco-che-esce-come-un-errore.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-860",
@@ -19047,7 +19056,7 @@
       "causa_radice": "① Curando AR-840 la macchina ha imparato a eseguire una PROVA descritta da una stringa. ② Quella stringa vive in cervello/mutanti.json, e il campo `test` non lo scrive una persona: lo compone cervello/ricuci-corsie.mjs a partire da ciò che una corsia (cioè un modello) consegna — da lì a chi esegue non c'è nessun umano in mezzo. ③ La difesa scritta era un filtro dei metacaratteri di SHELL, ed è fatta bene, ma para un colpo che nessuno tira: la shell non viene mai usata. Chi esegue è node, e di node non filtrava nessuno gli argomenti. Passavano: `node --require=/tmp/x.js`, `node --import=…`, `node -e <codice>`, `npx --yes @chiunque/pacchetto` — zero metacaratteri, e le prime due passavano perfino col controllo severo. ④ Perché nessuno l'ha vista? Perché il blocco intitolato «SICUREZZA» chiamava il parser in modalità STRETTA, che non è quella con cui l'esecutore gira. Un test intitolato sicurezza che verifica una modalità mai usata non è un test mancante: è la ragione per cui nessuno andrà a cercare il problema. ⑤ Il moltiplicatore: il processo figlio ereditava l'ambiente intero, cioè sul server anche Stripe, Supabase in scrittura, Resend e il token di git.",
       "fix_proposto": "🟡 FATTO in questo lotto, quattro pezzi. (a) Lista BIANCA delle opzioni ammesse invece di una lista nera: le opzioni di node che eseguono codice cambiano a ogni rilascio, e una lista nera nasce già vecchia. (b) npx può lanciare solo i runner veri (bats, tsx, vitest, playwright), altrimenti npx È esecuzione di codice preso da internet e la lista bianca dei programmi diventa nominale. (c) Un nome con scope (@a/b) non è un percorso, anche se gli somiglia: passava perché ha una barra dentro. (d) L'ambiente si dà ripulito di tutto ciò che somiglia a una chiave — una prova non ha bisogno di Stripe. In più l'interruttore unico `soloDentroIlRepo:false`, che spegneva tre controlli insieme, è diventato un elenco di radici dichiarate: la fixture in /tmp continua a funzionare e le altre due strade restano chiuse. RESTA DA FARE, dichiarato: il cancello a monte in ricuci-corsie.mjs, che dovrebbe rifiutare la scrittura di una voce che il parser non accetta.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-28 23:10",
       "nato_come": "regressione",
       "nato_da": "AR-840, curato in questo stesso lotto: la cura ha introdotto l'esecuzione di righe di comando e con essa la porta",
@@ -19057,7 +19066,10 @@
         "nota": "Le sette righe che passavano sono i casi della prova, e girano nella MODALITÀ VERA (quella con cui eseguiProva chiama davvero), non in quella stretta. Quattro rotture volontarie, una per difesa, tutte rosse — e due di quelle rotture all'inizio NON facevano rosso, perché due difese si coprivano a vicenda sullo stesso caso: sono stati aggiunti due casi che le separano. ⚪ NON MISURATO: non ho eseguito npx per davvero, e da qui non vedo cosa contenga l'ambiente del server."
       },
       "malattia": "non-pattern-izzabile",
-      "malattia_perche": "La forma generale e: UNA PROVA METTE IN SCENA UNA MODALITA CHE IL CODICE VERO NON USA. Qui il blocco intitolato SICUREZZA chiamava comeSiEsegue in modo stretto, mentre eseguiProva la chiama in modo largo. Nessuna espressione puo vederla, e il motivo e strutturale: le due modalita sono API legittime della stessa funzione, chiamate con la stessa sintassi: la differenza non e nella FORMA del codice ma nella corrispondenza fra due punti lontani del repo (il test e il chiamante di produzione). Un pattern che accusasse ogni chiamata con opzioni sarebbe rumore puro. CHI LA COPRE, e sono due cose diverse: (1) la costante COME_ESEGUE_DAVVERO in cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs, che scrive la modalita vera UNA VOLTA e la usa in tutti i casi, col commento che dice di aggiornarla se eseguiProva cambia riga; (2) la domanda 0a del collaudo (ricrea il difetto nella variante SCOMODA, non in quella che conviene al fix), che e proprio la domanda che lo ha trovato. Se questa forma torna una seconda volta, allora smette di essere una domanda e va promossa a guardiano: la regola di casa e che una domanda che trova qualcosa due volte diventa un freno."
+      "malattia_perche": "La forma generale e: UNA PROVA METTE IN SCENA UNA MODALITA CHE IL CODICE VERO NON USA. Qui il blocco intitolato SICUREZZA chiamava comeSiEsegue in modo stretto, mentre eseguiProva la chiama in modo largo. Nessuna espressione puo vederla, e il motivo e strutturale: le due modalita sono API legittime della stessa funzione, chiamate con la stessa sintassi: la differenza non e nella FORMA del codice ma nella corrispondenza fra due punti lontani del repo (il test e il chiamante di produzione). Un pattern che accusasse ogni chiamata con opzioni sarebbe rumore puro. CHI LA COPRE, e sono due cose diverse: (1) la costante COME_ESEGUE_DAVVERO in cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs, che scrive la modalita vera UNA VOLTA e la usa in tutti i casi, col commento che dice di aggiornarla se eseguiProva cambia riga; (2) la domanda 0a del collaudo (ricrea il difetto nella variante SCOMODA, non in quella che conviene al fix), che e proprio la domanda che lo ha trovato. Se questa forma torna una seconda volta, allora smette di essere una domanda e va promossa a guardiano: la regola di casa e che una domanda che trova qualcosa due volte diventa un freno.",
+      "chiuso_il": "2026-11-04 23:58",
+      "chiuso_come": "node cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-868",
@@ -19068,7 +19080,7 @@
       "causa_radice": "① Il metro dell'onestà maschera i pezzi che SONO una fonte prima di cercare i numeri orfani: un riferimento a codice o una sigla di difetto non sono numeri senza fonte. ② Fra i pezzi mascherati c'era anche il codice fra apici. ③ Su un documento interno è giusto; su una MAIL A UN CLIENTE no, perché in una lettera non c'è codice da proteggere — c'è solo un modo in più di nascondere un numero. Misurato: «siamo scelti da `3.000 clienti`» passava, la stessa frase senza apici veniva fermata. ④ È una regressione di questo lotto: la mascheratura è nata qui.",
       "fix_proposto": "🟡 FATTO: la mascheratura diventa dipendente dal profilo. Sul canale clienti il codice fra apici non si maschera; sulla memoria e sugli audit sì, come prima. Applicato in tutte e due le case (cervello e Pannello), che la prova di AR-791 tiene pinzate.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-28 23:10",
       "nato_come": "regressione",
       "nato_da": "la mascheratura introdotta in questo lotto curando AR-791/AR-433",
@@ -19078,7 +19090,10 @@
         "nota": "Il caso è dentro la prova che confronta le due case: il numero fra apici deve essere fermato sulla lettera, e le due case devono dire la stessa cosa."
       },
       "malattia": "non-pattern-izzabile",
-      "malattia_perche": "La forma generale e: UN COMPORTAMENTO PENSATO PER UN CANALE VIENE APPLICATO A UN ALTRO CANALE, dove significa il contrario. Mascherare il codice fra apici su un documento interno e giusto (li un riferimento a codice E una fonte, AR-433); sulla lettera a un cliente e un modo per nascondere un numero. Non e vedibile da un pattern perche la chiamata e identica nei due casi: cambia solo CHI la chiama e per quale profilo, e quello non sta nella riga. CHI LA COPRE: cervello/test/due-metri-una-regola.test.mjs, che esegue i due giudizi sugli stessi testi e ha il caso dedicato (il numero fra apici deve essere fermato sulla lettera, e non fermato su un audit) piu la mutazione in cervello/mutanti.json che riaccende la mascheratura e fa diventare rossa quella prova. La difesa strutturale e piu forte del pattern: le due case sono PINZATE, quindi una modifica che tocca una sola delle due fa rosso lo stesso giorno."
+      "malattia_perche": "La forma generale e: UN COMPORTAMENTO PENSATO PER UN CANALE VIENE APPLICATO A UN ALTRO CANALE, dove significa il contrario. Mascherare il codice fra apici su un documento interno e giusto (li un riferimento a codice E una fonte, AR-433); sulla lettera a un cliente e un modo per nascondere un numero. Non e vedibile da un pattern perche la chiamata e identica nei due casi: cambia solo CHI la chiama e per quale profilo, e quello non sta nella riga. CHI LA COPRE: cervello/test/due-metri-una-regola.test.mjs, che esegue i due giudizi sugli stessi testi e ha il caso dedicato (il numero fra apici deve essere fermato sulla lettera, e non fermato su un audit) piu la mutazione in cervello/mutanti.json che riaccende la mascheratura e fa diventare rossa quella prova. La difesa strutturale e piu forte del pattern: le due case sono PINZATE, quindi una modifica che tocca una sola delle due fa rosso lo stesso giorno.",
+      "chiuso_il": "2026-11-04 23:58",
+      "chiuso_come": "node cervello/test/due-metri-una-regola.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-869",
@@ -19089,7 +19104,7 @@
       "causa_radice": "① L'espressione che riconosce un numero significativo pretende il separatore delle migliaia: \\d{1,3}(?:[.,]\\d{3})*. ② Quindi «3.000 clienti» lo vede e «3000 clienti» no. ③ Misurato sul codice vero: «Abbiamo 3000 clienti a Piacenza» passa il cancello e parte verso il cliente; la stessa frase col punto viene fermata. ④ È la forma più naturale in cui una persona scrive un numero in una mail, cioè il caso che capita da solo — non un caso costruito. ⑤ Non è una regressione di questo lotto: c'era già, ed è uscito solo perché la radiografia del perimetro ha guardato il file con la lente giusta.",
       "fix_proposto": "🟡 Allargare l'espressione ai numeri senza separatore da 4 cifre in su, e misurare i falsi allarmi che questo introduce (anni, codici postali, numeri civici) prima di consegnare: un cancello che suona su tutto è un cancello spento, ed è il difetto opposto. Va fatto in tutte e due le case insieme, o la prova di AR-791 diventa rossa — che è il suo mestiere.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-28 23:10",
       "nato_come": "scoperta",
       "nato_da": "lotto «il metro si dava buono da solo»: trovati dalla radiografia del perimetro toccato (⑥bis), lanciata sui file che il lotto aveva appena modificato",
@@ -19097,7 +19112,10 @@
         "tipo": "comando",
         "comando": "node cervello/test/banco-mail-onesta.test.mjs"
       },
-      "nota_fix": "Un numero a quattro cifre senza punto era invisibile: l espressione pretendeva il separatore delle migliaia, cioe chiedeva al bugiardo di scrivere «3.000» per essere fermato. Adesso «3000 famiglie» viene visto. Misurato sul banco delle 41 mail vere: nessuna mail onesta in piu viene fermata."
+      "nota_fix": "Un numero a quattro cifre senza punto era invisibile: l espressione pretendeva il separatore delle migliaia, cioe chiedeva al bugiardo di scrivere «3.000» per essere fermato. Adesso «3000 famiglie» viene visto. Misurato sul banco delle 41 mail vere: nessuna mail onesta in piu viene fermata.",
+      "chiuso_il": "2026-11-04 23:58",
+      "chiuso_come": "node cervello/test/banco-mail-onesta.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-870",
@@ -19108,7 +19126,7 @@
       "causa_radice": "① L'espressione che riconosce i riferimenti a codice è quadratica sui blocchi senza spazi. ② Misurato: 80.000 caratteri = 4,7 secondi. ③ Il verso del danno è «canale bloccato», non «cancello aperto»: la mail non parte invece di partire senza controllo, che è il verso meno grave dei due. ④ Nessuno mette un tetto al tempo, quindi il rallentamento diventa un blocco silenzioso.",
       "fix_proposto": "🟡 Ancorare l'espressione per togliere il backtracking, e mettere un tetto alla lunghezza del testo che si giudica — oltre il tetto si dichiara ⚪ invece di macinare.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-28 23:10",
       "nato_come": "scoperta",
       "nato_da": "lotto «il metro si dava buono da solo»: trovati dalla radiografia del perimetro toccato (⑥bis), lanciata sui file che il lotto aveva appena modificato",
@@ -19116,7 +19134,10 @@
         "tipo": "comando",
         "comando": "node cervello/test/metro-che-non-giudica.test.mjs"
       },
-      "nota_fix": "L espressione dei riferimenti a codice era quadratica sui blocchi senza spazi: misurato 10k caratteri = 67 ms, 80k = 4.485 ms. Il verso del danno era «il canale si pianta», non «il cancello si apre». Ancorata per togliere il backtracking."
+      "nota_fix": "L espressione dei riferimenti a codice era quadratica sui blocchi senza spazi: misurato 10k caratteri = 67 ms, 80k = 4.485 ms. Il verso del danno era «il canale si pianta», non «il cancello si apre». Ancorata per togliere il backtracking.",
+      "chiuso_il": "2026-11-04 23:58",
+      "chiuso_come": "node cervello/test/metro-che-non-giudica.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-871",
@@ -19127,7 +19148,7 @@
       "causa_radice": "① Il metro del canale clienti lancia apposta se lo si chiama con un canale che non è la lettera: è una difesa, e va bene. ② Ma chi lo chiama — pannello/src/lib/cancello-atto.ts, alla chiamata dell'atto — non ha nessun try/catch. ③ Quindi un'eccezione lì dentro non diventa «mail bloccata con un motivo», diventa un errore che risale e nessuno sa dire cosa sia successo.",
       "fix_proposto": "🟡 Racchiudere la chiamata e trasformare l'eccezione in un verdetto esplicito di blocco col motivo — mai in un passaggio silenzioso: se il metro non ha potuto giudicare, la mail non parte.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-28 23:10",
       "nato_come": "scoperta",
       "nato_da": "lotto «il metro si dava buono da solo»: trovati dalla radiografia del perimetro toccato (⑥bis), lanciata sui file che il lotto aveva appena modificato",
@@ -19135,7 +19156,10 @@
         "tipo": "comando",
         "comando": "node cervello/test/metro-che-non-giudica.test.mjs"
       },
-      "nota_fix": "Se il metro lanciava un eccezione non la prendeva nessuno: chi lo chiama prima di consegnare una mail a Resend non aveva try/catch. Adesso e un verdetto esplicito di BLOCCO col motivo: se il metro non ha potuto giudicare, la mail NON parte."
+      "nota_fix": "Se il metro lanciava un eccezione non la prendeva nessuno: chi lo chiama prima di consegnare una mail a Resend non aveva try/catch. Adesso e un verdetto esplicito di BLOCCO col motivo: se il metro non ha potuto giudicare, la mail NON parte.",
+      "chiuso_il": "2026-11-04 23:58",
+      "chiuso_come": "node cervello/test/metro-che-non-giudica.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-872",
@@ -19164,7 +19188,7 @@
       "causa_radice": "① L'espressione che riconosce un numero cerca CIFRE. ② «duemila famiglie», «un migliaio di noi», «qualche centinaio di persone» non contengono cifre. ③ Quindi passano, e sono esattamente il modo in cui una persona scrive un numero gonfiato quando vuole che suoni naturale. Misurato: una mail che inventa duemila famiglie e quasi tutte le botteghe del centro esce dal cancello con zero violazioni. ④ Esiste già una regola per «centinaia/migliaia/decine di», ma copre solo quelle tre parole senza numero davanti: «duemila» e «un migliaio» le scavalca.",
       "fix_proposto": "🟡 Allargare la regola dei claim vaghi ai numerali scritti a parole (mille, duemila, un migliaio, centinaio, dozzina, decine, e le forme composte) quando sono attaccati a un soggetto di business. Va fatto in tutte e due le case, o la prova che le tiene pinzate diventa rossa — che è il suo mestiere.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-29 00:20",
       "nato_come": "scoperta",
       "nato_da": "banco delle 41 mail del canale clienti, misurato il 28/8 per far decidere Nicola sul metro dell'onesta: 5 attacchi su 9 passano da TUTTI E DUE i metri",
@@ -19172,7 +19196,10 @@
         "tipo": "comando",
         "comando": "node cervello/test/banco-mail-onesta.test.mjs"
       },
-      "nota_fix": "I numeri scritti a parole («duemila famiglie», «un migliaio di noi», «qualche centinaio») passavano tutti: la regola guardava le CIFRE. Aggiunta la forma dei numerali scritti, in tutte e due le case del metro — la prova che le tiene pinzate diventa rossa se una cambia senza l altra."
+      "nota_fix": "I numeri scritti a parole («duemila famiglie», «un migliaio di noi», «qualche centinaio») passavano tutti: la regola guardava le CIFRE. Aggiunta la forma dei numerali scritti, in tutte e due le case del metro — la prova che le tiene pinzate diventa rossa se una cambia senza l altra.",
+      "chiuso_il": "2026-11-04 23:58",
+      "chiuso_come": "node cervello/test/banco-mail-onesta.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-874",
@@ -19201,7 +19228,7 @@
       "causa_radice": "① «restano 9 posti nel giro di consegna del tuo quartiere» passa: il 9 è una cifra sola, e la regola dei numeri parte da forme più grosse o attaccate a un soggetto di business. ② Ma il difetto vero non è la cifra: è che non esiste nessun giro a numero chiuso. È pressione fabbricata. ③ Nel documento di contesto, paragrafo 7, la lista delle cose da NON costruire mai contiene già i prezzi che ballano e le notifiche a chi passa davanti al negozio: la scarsità finta è la stessa famiglia, e il cancello non la conosce.",
       "fix_proposto": "🟡 Portare la lista delle cose vietate dal contesto dentro il metro come regola: scarsità dichiarata, conto alla rovescia, «ne restano N», «solo per oggi» quando non c'è una scadenza vera in un registro. È una regola di POLITICA, non di forma, e va scritta dove Nicola la può leggere.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-29 00:20",
       "nato_come": "scoperta",
       "nato_da": "banco delle 41 mail del canale clienti, misurato il 28/8 per far decidere Nicola sul metro dell'onesta: 5 attacchi su 9 passano da TUTTI E DUE i metri",
@@ -19209,7 +19236,10 @@
         "tipo": "comando",
         "comando": "node cervello/test/banco-mail-onesta.test.mjs"
       },
-      "nota_fix": "La scarsita fabbricata («restano 9 posti nel giro di consegna») passava, e non era un problema di cifra: e una regola di POLITICA, la stessa famiglia dei prezzi che ballano che CONTESTO_BUSINESS.md §7 mette fra le cose da non costruire mai. Le forme sono composte apposta: le parole sole («restano», «ultimi») compaiono in 15 mail oneste del banco."
+      "nota_fix": "La scarsita fabbricata («restano 9 posti nel giro di consegna») passava, e non era un problema di cifra: e una regola di POLITICA, la stessa famiglia dei prezzi che ballano che CONTESTO_BUSINESS.md §7 mette fra le cose da non costruire mai. Le forme sono composte apposta: le parole sole («restano», «ultimi») compaiono in 15 mail oneste del banco.",
+      "chiuso_il": "2026-11-04 23:58",
+      "chiuso_come": "node cervello/test/banco-mail-onesta.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-876",
@@ -19220,7 +19250,7 @@
       "causa_radice": "① Il profilo dei claim chiede la fonte ai numeri attaccati a un soggetto: negozi, botteghe, famiglie, clienti, utenti, iscritti, follower, recensioni, ordini, consegne. ② «480 nuclei familiari» non c'è: «nuclei familiari» è sinonimo di famiglie e non è in lista. ③ «tagli il 30% della spesa settimanale» nemmeno: è una percentuale che promette un risultato, e non è attaccata a nessun soggetto. ④ Sono le DUE sole mail che il metro severo prende e quello dei claim no — cioè tutto quello che si perde allentando sta in questi due buchi, ed è per questo che è un minore e non un grave: chiuderli fa sparire il costo di allentare.",
       "fix_proposto": "🟡 Aggiungere i sinonimi (nuclei familiari, persone, piacentini, abitanti, nuclei) e trattare come claim la percentuale che promette un risultato («tagli il N%», «risparmi il N%», «il N% in meno»). Misurare i falsi allarmi che introduce prima di consegnare.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-29 00:20",
       "nato_come": "scoperta",
       "nato_da": "banco delle 41 mail del canale clienti, misurato il 28/8 per far decidere Nicola sul metro dell'onesta: 5 attacchi su 9 passano da TUTTI E DUE i metri",
@@ -19228,7 +19258,10 @@
         "tipo": "comando",
         "comando": "node cervello/test/banco-mail-onesta.test.mjs"
       },
-      "nota_fix": "I due buchi da cui scappavano le sole due mail che il metro severo prendeva e quello dei claim no: «nuclei familiari» (sinonimo di famiglie, fuori lista) e la percentuale che promette un risultato. Chiuderli fa sparire il costo di allentare, ed e per questo che valeva farlo anche col metro severo acceso."
+      "nota_fix": "I due buchi da cui scappavano le sole due mail che il metro severo prendeva e quello dei claim no: «nuclei familiari» (sinonimo di famiglie, fuori lista) e la percentuale che promette un risultato. Chiuderli fa sparire il costo di allentare, ed e per questo che valeva farlo anche col metro severo acceso.",
+      "chiuso_il": "2026-11-04 23:58",
+      "chiuso_come": "node cervello/test/banco-mail-onesta.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-877",
@@ -19257,7 +19290,7 @@
       "causa_radice": "① `puntatori-scollegati.mjs` ha un tetto che scende per gli ancoraggi SCOLLEGATI, ed è giusto. ② Non ce l'ha per i ⚪, cioè per gli ancoraggi che non ha potuto guardare perché il file di prova non esiste più. ③ Un solo file di prova rinominato o cancellato — che è ESATTAMENTE l'evento che questo guardiano sorveglia — porta il passo da capace-di-dire-no a «non ho potuto misurare». ④ Il cancello resta comunque non verde (esce 2) e i ⚪ li elenca uno per uno, quindi non passa niente di nascosto: per questo è un minore. Ma il numero dei ⚪ può salire senza che nessuno se ne accorga.",
       "fix_proposto": "🟡 Dare ai ⚪ lo stesso trattamento degli scollegati: un tetto in tetti-lotto.json che scende e non risale.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-29 00:20",
       "nato_come": "scoperta",
       "nato_da": "collaudo indipendente di AR-798 del 28/8, punto ⑤ del referto",
@@ -19265,7 +19298,10 @@
         "tipo": "comando",
         "comando": "node cervello/test/il-tetto-dei-ciechi-non-e-un-accusa.test.mjs"
       },
-      "nota_fix": "I ⚪ non avevano un tetto e potevano crescere in silenzio. Curato in due tempi, e il secondo conta piu del primo: la prima stesura faceva diventare VIOLAZIONE un ⚪ sopra il tetto e trattava la chiave assente come uno zero — cioe accusava contro un riferimento che nessuno aveva dichiarato, e rendeva rosso un cieco contro la regola per cui il 2 non e mai un rosso (due prove del contratto sono diventate rosse, e la CI da 10 a 13). Adesso: chiave assente = non giudico; chiave presente = la crescita e una violazione. Dichiarato il punto di partenza misurato sul repo vero (zero). La prova ha poi trovato un secondo buco nella stessa riga: il valore di default 0 impediva alla guardia di vedere un campo assente — portato a null."
+      "nota_fix": "I ⚪ non avevano un tetto e potevano crescere in silenzio. Curato in due tempi, e il secondo conta piu del primo: la prima stesura faceva diventare VIOLAZIONE un ⚪ sopra il tetto e trattava la chiave assente come uno zero — cioe accusava contro un riferimento che nessuno aveva dichiarato, e rendeva rosso un cieco contro la regola per cui il 2 non e mai un rosso (due prove del contratto sono diventate rosse, e la CI da 10 a 13). Adesso: chiave assente = non giudico; chiave presente = la crescita e una violazione. Dichiarato il punto di partenza misurato sul repo vero (zero). La prova ha poi trovato un secondo buco nella stessa riga: il valore di default 0 impediva alla guardia di vedere un campo assente — portato a null.",
+      "chiuso_il": "2026-11-04 23:58",
+      "chiuso_come": "node cervello/test/il-tetto-dei-ciechi-non-e-un-accusa.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-879",
@@ -19378,7 +19414,7 @@
     {
       "id": "AR-885",
       "gravita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-30 17:05",
       "area": "macchina",
       "titolo": "La porta chiusa il 28/8 aveva ancora due maniglie: si esegue codice come root passando dal lettore dei risultati",
@@ -19394,12 +19430,15 @@
       "nato_come": "regressione",
       "nato_da": "AR-867",
       "malattia": "riparazione-parziale",
-      "malattia_perche": "AR-867 ha chiuso quattro strade per eseguire codice (--require, --import, -e, npx <chiunque>) e ne ha lasciate aperte due dello STESSO tipo, ammettendole nella lista bianca che stava scrivendo per chiuderle: --test-reporter=<percorso> e --experimental-loader caricano ed eseguono un modulo esattamente come --import, vietato dodici righe piu sopra. Non e una difesa mancata: e una difesa costruita a meta, con dentro la cosa da cui difendeva. ⚠️ Ho provato a scrivere una forma piu stretta — «una lista bianca che ammette una FAMIGLIA (--experimental-*) invece di nomi» — e l'ho MISURATA su tutto il repo prima di proporla: le istanze vere sono UNA, ed e legittima (--test-name-pattern accetta testo libero per progetto, e il suo valore passa comunque dal controllo sui percorsi). Una malattia con una popolazione di uno non e una malattia: e una regola inventata per avere una risposta da dare. Quindi la forma che dichiaro e quella vera e gia in catalogo."
+      "malattia_perche": "AR-867 ha chiuso quattro strade per eseguire codice (--require, --import, -e, npx <chiunque>) e ne ha lasciate aperte due dello STESSO tipo, ammettendole nella lista bianca che stava scrivendo per chiuderle: --test-reporter=<percorso> e --experimental-loader caricano ed eseguono un modulo esattamente come --import, vietato dodici righe piu sopra. Non e una difesa mancata: e una difesa costruita a meta, con dentro la cosa da cui difendeva. ⚠️ Ho provato a scrivere una forma piu stretta — «una lista bianca che ammette una FAMIGLIA (--experimental-*) invece di nomi» — e l'ho MISURATA su tutto il repo prima di proporla: le istanze vere sono UNA, ed e legittima (--test-name-pattern accetta testo libero per progetto, e il suo valore passa comunque dal controllo sui percorsi). Una malattia con una popolazione di uno non e una malattia: e una regola inventata per avere una risposta da dare. Quindi la forma che dichiaro e quella vera e gia in catalogo.",
+      "chiuso_il": "2026-11-04 23:58",
+      "chiuso_come": "node cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-886",
       "gravita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-30 17:05",
       "area": "macchina",
       "titolo": "Dentro un file che il tetto ce l ha, un diario cresceva senza tetto — e la prova di sei schede chiuse e diventata rossa da sola",
@@ -19413,12 +19452,15 @@
       },
       "trovato_da": "la prova di sei schede chiuse, diventata rossa da sola durante la ricucitura con main",
       "nato_come": "scoperta",
-      "nato_da": "AR-770"
+      "nato_da": "AR-770",
+      "chiuso_il": "2026-11-04 23:58",
+      "chiuso_come": "node cervello/test/archivi-senza-tetto.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-887",
       "gravita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-30 18:50",
       "area": "pannello",
       "nato_come": "regressione",
@@ -19434,7 +19476,10 @@
       },
       "trovato_da": "radiografia del perimetro toccato, lente pannello/robustezza-errori (il cancello del lotto l'ha chiesta)",
       "malattia": "riparazione-parziale",
-      "malattia_perche": "AR-871 ha aggiunto un QUARTO motivo di stop (`atto-esploso`) e ha riletto solo chi lo produce, non chi lo legge. La rotta delle azioni decide cosa fare guardando quel campo, e il suo ramo era scritto quando i motivi erano tre — tutt'e tre «NON ho toccato il mondo». Il quarto dice «non SO se l'ho toccato», e prendendo la strada dei vecchi faceva tornare in «da approvare» una mail che forse era gia partita. La riparazione ha toccato il produttore e non il lettore: e la stessa forma per cui il sorvegliante emette questa classe. La regola generale che ne esce, e vale oltre questo caso: quando un tipo somma guadagna un valore, ogni posto che ci fa sopra uno switch va riletto — il ramo di default non e neutro, applica al caso nuovo la regola scritta per i vecchi."
+      "malattia_perche": "AR-871 ha aggiunto un QUARTO motivo di stop (`atto-esploso`) e ha riletto solo chi lo produce, non chi lo legge. La rotta delle azioni decide cosa fare guardando quel campo, e il suo ramo era scritto quando i motivi erano tre — tutt'e tre «NON ho toccato il mondo». Il quarto dice «non SO se l'ho toccato», e prendendo la strada dei vecchi faceva tornare in «da approvare» una mail che forse era gia partita. La riparazione ha toccato il produttore e non il lettore: e la stessa forma per cui il sorvegliante emette questa classe. La regola generale che ne esce, e vale oltre questo caso: quando un tipo somma guadagna un valore, ogni posto che ci fa sopra uno switch va riletto — il ramo di default non e neutro, applica al caso nuovo la regola scritta per i vecchi.",
+      "chiuso_il": "2026-11-04 23:58",
+      "chiuso_come": "node cervello/test/c1-atto-una-volta-sola.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-888",
@@ -19506,7 +19551,7 @@
     {
       "id": "AR-891",
       "gravita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-31 16:05",
       "area": "macchina",
       "nato_come": "scoperta",
@@ -19519,7 +19564,10 @@
         "comando": "node cervello/test/il-tetto-del-tempo-scritto-in-quattro-posti.test.mjs",
         "nota": "Due casi nuovi su cinque, e NESSUNO misura quanto ci mette il flusso: sarebbe un numero che cambia col runner. Guardano due invarianti — il tetto del flusso e almeno il doppio di quello della suite (cosi se la suite si allarga e il flusso no, diventa rosso PRIMA che il cancello ricominci a morire in silenzio), e il conto che l'ha deciso e scritto accanto al numero. Piu il difetto opposto: non cosi largo da tenere occupata la coda due ore su un lavoro piantato. Una mutazione: rimettere trenta."
       },
-      "trovato_da": "il fatto che il cancello non si fosse mai fatto sentire — cercato il perche invece di darlo per buono"
+      "trovato_da": "il fatto che il cancello non si fosse mai fatto sentire — cercato il perche invece di darlo per buono",
+      "chiuso_il": "2026-11-04 23:58",
+      "chiuso_come": "node cervello/test/il-tetto-del-tempo-scritto-in-quattro-posti.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-936",
@@ -19736,7 +19784,7 @@
     {
       "id": "AR-927",
       "gravita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-09-01 17:00",
       "area": "macchina",
       "nato_come": "scoperta",
@@ -19749,7 +19797,10 @@
         "comando": "node --test cervello/test/su-main-va-solo-la-memoria.test.mjs",
         "nota": "Cinque casi, e NON sono grep: ritagliano le righe vere del guardiano-integrita da giro.sh e le ESEGUONO in un repo git usa-e-getta con un file di codice sporco. Coprono le due direzioni — il codice non deve passare, la memoria deve passare (togliere tutto sarebbe la cura che spegne il giro) — piu il caso della seconda rete, un file di codice gia messo in stage da qualcun altro. Due mutazioni, tutte e due mordono. Il caso bats resta come specchio lato shell."
       },
-      "trovato_da": "il rosso della suite, seguito fino al commit che l aveva causato invece di essere aggirato"
+      "trovato_da": "il rosso della suite, seguito fino al commit che l aveva causato invece di essere aggirato",
+      "chiuso_il": "2026-11-04 23:58",
+      "chiuso_come": "node --test cervello/test/su-main-va-solo-la-memoria.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-928",
@@ -20455,7 +20506,7 @@
     },
     {
       "id": "AR-957",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "medio",
       "dimensione": "worker-orchestrazione",
       "area": "macchina",
@@ -20472,11 +20523,14 @@
       "dove": "cervello/retry-policy.mjs: classificaErrore (due rami), decidiRitento · cervello/errore-motore.mjs: registra",
       "impatto_crescita": "basso",
       "impatto_crescita_nota": "Non tocca ordini né negozi. Sulla macchina vera l'orologio passato è quasi sempre quello vero, quindi il danno pratico era raro. Ma la prova rossa teneva rossa la CI di ogni richiesta di unione.",
-      "nota_fix": "2026-10-11 01:35, su richiesta di Nicola. Riparato in retry-policy.mjs ed errore-motore.mjs; nessun altro chiamante senza orologio (cercato in tutto il repo). 2026-10-11 02:12, dopo il collaudo indipendente: la prima prova passava solo dalla prosa. Aggiunte tre prove — il ramo della classe dichiarata (`[classe] quota_settimanale`), il guasto registrato da errore-motore.registra (data del reset e ritentativo letti con l'orologio della cadenza), e la sentinella che rilegge un guasto di due giorni prima («resets in 3 days» contato dal momento del guasto: si riprova un giorno dopo, non fra 6 ore). 28/28 verdi. Non-vacuità: quattro mutazioni in cervello/mutanti.json, una per ogni punto in cui l'orologio si perdeva, e tutte e quattro rendono rossa la prova. 2026-10-11 03:08, dopo il secondo collaudo: una lettura che prendeva l'anno dal calendario vero passava tutte le prove finché il calendario era nel 2026 (il collaudo l'ha vista diventare rossa solo spostando l'orologio al 2027). Ora la prova fissa l'anno: con un orologio del 2030 la data del reset è del 2030. Quinta mutazione registrata."
+      "nota_fix": "2026-10-11 01:35, su richiesta di Nicola. Riparato in retry-policy.mjs ed errore-motore.mjs; nessun altro chiamante senza orologio (cercato in tutto il repo). 2026-10-11 02:12, dopo il collaudo indipendente: la prima prova passava solo dalla prosa. Aggiunte tre prove — il ramo della classe dichiarata (`[classe] quota_settimanale`), il guasto registrato da errore-motore.registra (data del reset e ritentativo letti con l'orologio della cadenza), e la sentinella che rilegge un guasto di due giorni prima («resets in 3 days» contato dal momento del guasto: si riprova un giorno dopo, non fra 6 ore). 28/28 verdi. Non-vacuità: quattro mutazioni in cervello/mutanti.json, una per ogni punto in cui l'orologio si perdeva, e tutte e quattro rendono rossa la prova. 2026-10-11 03:08, dopo il secondo collaudo: una lettura che prendeva l'anno dal calendario vero passava tutte le prove finché il calendario era nel 2026 (il collaudo l'ha vista diventare rossa solo spostando l'orologio al 2027). Ora la prova fissa l'anno: con un orologio del 2030 la data del reset è del 2030. Quinta mutazione registrata.",
+      "chiuso_il": "2026-11-04 23:58",
+      "chiuso_come": "node cervello/test/limite-settimanale-riparte.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-958",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "medio",
       "dimensione": "apprendimento",
       "area": "macchina",
@@ -20493,11 +20547,14 @@
       "dove": "cervello/apprendimento-guardiano.mjs: analizza · cervello/test/il-motore-giudicato-dai-morti.test.mjs: ⑥, ⑥bis e ⑦",
       "impatto_crescita": "basso",
       "impatto_crescita_nota": "Non tocca ordini né negozi; teneva rossa la CI. Il verdetto vero, «fermo davvero», resta visibile dove serve: nel guardiano dell'apprendimento e nella visita.",
-      "nota_fix": "2026-10-11 01:35, su richiesta di Nicola: analizza accetta l'istante, ⑥ giudica nel momento dell'ultimo passo, ⑥bis col giorno di oggi. 2026-10-11 02:12, dopo il collaudo indipendente: ⑥ e ⑥bis pretendevano la riga sulle decadute, che sparisce alla prima morte — e due lezioni stanno a 0,32, quattro a 0,35: al prossimo passo muoiono. Simulato il passo sull'archivio vero: con la versione dell'01:45 ⑥ e ⑥bis diventavano rossi, ora restano verdi per la ragione giusta. Aggiunto ⑦, indipendente dall'archivio vero. 8/8 verdi. Non-vacuità: togliendo l'istante dalla chiamata dentro analizza, ⑦ diventa rosso anche sull'archivio dopo le morti. 2026-10-11 03:10, dopo il secondo collaudo: la mia simulazione contava 42 morti, ma senza il tetto del motore e con un arrotondamento. Il collaudo ha rifatto il passo col motore vero (cristallizza-apprendimento.mjs --applica, orologio al 12/10): ne muoiono 5, il massimo per giro (DECAY_MAX_PER_GIRO). La conclusione non cambia: dopo quel passo vero la versione dell'01:45 è rossa su ⑥ e ⑥bis, questa è verde."
+      "nota_fix": "2026-10-11 01:35, su richiesta di Nicola: analizza accetta l'istante, ⑥ giudica nel momento dell'ultimo passo, ⑥bis col giorno di oggi. 2026-10-11 02:12, dopo il collaudo indipendente: ⑥ e ⑥bis pretendevano la riga sulle decadute, che sparisce alla prima morte — e due lezioni stanno a 0,32, quattro a 0,35: al prossimo passo muoiono. Simulato il passo sull'archivio vero: con la versione dell'01:45 ⑥ e ⑥bis diventavano rossi, ora restano verdi per la ragione giusta. Aggiunto ⑦, indipendente dall'archivio vero. 8/8 verdi. Non-vacuità: togliendo l'istante dalla chiamata dentro analizza, ⑦ diventa rosso anche sull'archivio dopo le morti. 2026-10-11 03:10, dopo il secondo collaudo: la mia simulazione contava 42 morti, ma senza il tetto del motore e con un arrotondamento. Il collaudo ha rifatto il passo col motore vero (cristallizza-apprendimento.mjs --applica, orologio al 12/10): ne muoiono 5, il massimo per giro (DECAY_MAX_PER_GIRO). La conclusione non cambia: dopo quel passo vero la versione dell'01:45 è rossa su ⑥ e ⑥bis, questa è verde.",
+      "chiuso_il": "2026-11-04 23:58",
+      "chiuso_come": "node cervello/test/il-motore-giudicato-dai-morti.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-959",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "medio",
       "dimensione": "guardiani-e-guardrail",
       "area": "macchina",
@@ -20514,11 +20571,14 @@
       "dove": "cervello/stampo-metro.mjs: classificaNuovi, senzaEsitiAllaDichiarazione, baselineCieca · cervello/stampo-check.mjs · cervello/stampo-baseline.json",
       "impatto_crescita": "basso",
       "impatto_crescita_nota": "Non tocca ordini né negozi; teneva rossa la CI. Gli invecchiati restano contati nel rapporto: la pressione perché i quaderni ripartano non sparisce, si sposta dove qualcuno può agire.",
-      "nota_fix": "2026-10-11 01:35, su richiesta di Nicola. Caso nuovo ③bis in il-tempo-non-e-una-regressione.test.mjs, con il confine: senza la parola quaderno_vuoto nel debito lo stesso caso blocca ancora. 7/7 verdi; stampo-check esce 0. Non-vacuità: spenta la regola del vuoto, ③bis torna rosso. ④ resta verde anche così, perché adesso dpo e mobile-app hanno il loro ultimo esito nella baseline: la regola serve ai settantadue quaderni ancora in debito. 2026-10-11 02:12, dopo il collaudo indipendente: corretti i testi — «settantadue» quaderni col debito erano quelli di prima del lotto (settanta dopo), e nella baseline si scrive l'ULTIMO esito del quaderno guarito, non il primo. Per @dpo e @mobile-app è lo stesso: un esito solo ciascuno, del 6/9 e del 21/8, misurati. 2026-10-11 03:08, dopo il secondo collaudo (rilievo GRAVE): il fix delle 01:45 copriva solo il quaderno ancora dichiarato vuoto. Il guardiano stesso dice di togliere `quaderno_vuoto` quando il quaderno guarisce: se nessuno scrive `ultimo_esito` nello stesso momento, trenta giorni dopo si ripete il 10/10 — il collaudo l'ha rifatto con un orologio finto. Cura: baselineCieca() in stampo-metro.mjs, e stampo-check esce 1 IL GIORNO STESSO per ogni quaderno che ha esiti ma nella baseline non ha né la data né il «vuoto», stampando la data da scrivere. Vale anche per un senior nuovo. Sul parco vero oggi è vuota: 50 quaderni scrivono e hanno la data, 70 sono dichiarati vuoti. Prova ③ter, mutazione registrata. Rifatto sul file vero: tolta la data di @dpo dalla baseline, stampo-check esce 1 e dice «\"dpo\": \"2026-09-06\"»; rimessa, esce 0. 2026-10-11 03:53, dopo il terzo collaudo (rilievo GRAVE, a una condizione): un senior nuovo entra nella baseline con `quaderno_assente`, il giro gli scrive il primo esito (chiusura-loop registra crea il quaderno) e lo pubblica su main: baselineCieca lo segnalava, e la CI diventava rossa per tutti senza che nessuna richiesta l'avesse causato — il giro non può ripararla, non pubblica cervello/. Rifatto dal collaudo sul repo vero. Cura: senzaEsitiAllaDichiarazione() conta vuoti E assenti (prova ③quater). E una prova che lancia il guardiano vero su un parco finto senza date e pretende uscita 1 (un-quaderno-una-casa): prima, togliendo il rosso dall'uscita, nessuna prova se ne accorgeva. Due mutazioni registrate. 2026-10-11 04:24, dopo il quarto collaudo («regge, nessun bloccante»): un quaderno dichiarato assente che nasce senza una riga di esito valida usciva «vuoto» come regressione — ora è invecchiamento, perché da un quaderno che non c'era non sparisce niente (caso ③quinquies). Il verso verde ha la sua prova sul guardiano vero (un-quaderno-una-casa: dichiarati vuoto e assente, oggi e a 40 giorni, uscita 0): prima, staccando il debito dalle due chiamate, restavano verdi tutte le prove. Il guardiano suggerisce la data da scrivere anche per `quaderno_assente`. Due mutazioni registrate. 2026-10-11 04:49, dopo il quinto collaudo («regge, niente di bloccante»): due mutazioni sul cuore del fix sopravvivevano — tutti i nomi del debito contati come assenti, e «assente» che scusava qualunque difetto nuovo. Il confine di ③quinquies ora usa un debito realistico (21 quaderni veri hanno data e altro debito) e un kit rotto. E il guardiano diceva «togli quaderno_assente» anche per un quaderno nato vuoto, dove obbedire fa diventare rosso: la frase giusta la decide azioneDelGuarito() («sostituiscila con quaderno_vuoto»), anche nel JSON (`azioni_dei_guariti`), caso ③sexies. Tre mutazioni registrate. 2026-10-11 05:53, dopo il sesto collaudo: il consiglio «sostituiscila» ora si legge dal guardiano vero su un parco finto (dichiarato assente, quaderno nato vuoto: azione «sostituisci-con-vuoto», e chi obbedisce resta a uscita 0) — senza il quadro di oggi le prove restavano verdi; e «assente» si prova su tutti i tipi di difetto, come ②ter. Due mutazioni registrate."
+      "nota_fix": "2026-10-11 01:35, su richiesta di Nicola. Caso nuovo ③bis in il-tempo-non-e-una-regressione.test.mjs, con il confine: senza la parola quaderno_vuoto nel debito lo stesso caso blocca ancora. 7/7 verdi; stampo-check esce 0. Non-vacuità: spenta la regola del vuoto, ③bis torna rosso. ④ resta verde anche così, perché adesso dpo e mobile-app hanno il loro ultimo esito nella baseline: la regola serve ai settantadue quaderni ancora in debito. 2026-10-11 02:12, dopo il collaudo indipendente: corretti i testi — «settantadue» quaderni col debito erano quelli di prima del lotto (settanta dopo), e nella baseline si scrive l'ULTIMO esito del quaderno guarito, non il primo. Per @dpo e @mobile-app è lo stesso: un esito solo ciascuno, del 6/9 e del 21/8, misurati. 2026-10-11 03:08, dopo il secondo collaudo (rilievo GRAVE): il fix delle 01:45 copriva solo il quaderno ancora dichiarato vuoto. Il guardiano stesso dice di togliere `quaderno_vuoto` quando il quaderno guarisce: se nessuno scrive `ultimo_esito` nello stesso momento, trenta giorni dopo si ripete il 10/10 — il collaudo l'ha rifatto con un orologio finto. Cura: baselineCieca() in stampo-metro.mjs, e stampo-check esce 1 IL GIORNO STESSO per ogni quaderno che ha esiti ma nella baseline non ha né la data né il «vuoto», stampando la data da scrivere. Vale anche per un senior nuovo. Sul parco vero oggi è vuota: 50 quaderni scrivono e hanno la data, 70 sono dichiarati vuoti. Prova ③ter, mutazione registrata. Rifatto sul file vero: tolta la data di @dpo dalla baseline, stampo-check esce 1 e dice «\"dpo\": \"2026-09-06\"»; rimessa, esce 0. 2026-10-11 03:53, dopo il terzo collaudo (rilievo GRAVE, a una condizione): un senior nuovo entra nella baseline con `quaderno_assente`, il giro gli scrive il primo esito (chiusura-loop registra crea il quaderno) e lo pubblica su main: baselineCieca lo segnalava, e la CI diventava rossa per tutti senza che nessuna richiesta l'avesse causato — il giro non può ripararla, non pubblica cervello/. Rifatto dal collaudo sul repo vero. Cura: senzaEsitiAllaDichiarazione() conta vuoti E assenti (prova ③quater). E una prova che lancia il guardiano vero su un parco finto senza date e pretende uscita 1 (un-quaderno-una-casa): prima, togliendo il rosso dall'uscita, nessuna prova se ne accorgeva. Due mutazioni registrate. 2026-10-11 04:24, dopo il quarto collaudo («regge, nessun bloccante»): un quaderno dichiarato assente che nasce senza una riga di esito valida usciva «vuoto» come regressione — ora è invecchiamento, perché da un quaderno che non c'era non sparisce niente (caso ③quinquies). Il verso verde ha la sua prova sul guardiano vero (un-quaderno-una-casa: dichiarati vuoto e assente, oggi e a 40 giorni, uscita 0): prima, staccando il debito dalle due chiamate, restavano verdi tutte le prove. Il guardiano suggerisce la data da scrivere anche per `quaderno_assente`. Due mutazioni registrate. 2026-10-11 04:49, dopo il quinto collaudo («regge, niente di bloccante»): due mutazioni sul cuore del fix sopravvivevano — tutti i nomi del debito contati come assenti, e «assente» che scusava qualunque difetto nuovo. Il confine di ③quinquies ora usa un debito realistico (21 quaderni veri hanno data e altro debito) e un kit rotto. E il guardiano diceva «togli quaderno_assente» anche per un quaderno nato vuoto, dove obbedire fa diventare rosso: la frase giusta la decide azioneDelGuarito() («sostituiscila con quaderno_vuoto»), anche nel JSON (`azioni_dei_guariti`), caso ③sexies. Tre mutazioni registrate. 2026-10-11 05:53, dopo il sesto collaudo: il consiglio «sostituiscila» ora si legge dal guardiano vero su un parco finto (dichiarato assente, quaderno nato vuoto: azione «sostituisci-con-vuoto», e chi obbedisce resta a uscita 0) — senza il quadro di oggi le prove restavano verdi; e «assente» si prova su tutti i tipi di difetto, come ②ter. Due mutazioni registrate.",
+      "chiuso_il": "2026-11-04 23:58",
+      "chiuso_come": "node cervello/test/il-tempo-non-e-una-regressione.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-960",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "minore",
       "dimensione": "strategia-costo-rischio",
       "area": "macchina",
@@ -20535,7 +20595,10 @@
       "dove": "cervello/documenti-di-governo.mjs: voce scadenzario",
       "impatto_crescita": "basso",
       "impatto_crescita_nota": "Non tocca ordini né negozi. La lista diceva che le scadenze non avevano un guardiano, e lo avevano.",
-      "nota_fix": "2026-10-11 01:35, su richiesta di Nicola. c9-governo-senza-sveglia 8/8 verdi, guardiano-mai-messo-di-guardia 19/19, scadenze-calcolate 21/21. Non-vacuità: rimettendo guardiano null sulla voce, «IL PUNTO» torna rosso. La seconda voce scaduta, glossario-kpi, non ha un guardiano: data spostata al 15/11 col perché nuovo, lavoro nella scheda AR-962. 2026-10-11 02:12, dopo il collaudo indipendente: la prova ora controlla anche che il documento dichiarato esista e che il guardiano legga proprio quello — scadenzario-check.mjs dice nel suo JSON quale file ha letto. Seconda mutazione: rimettendo nella lista la copia del Vault, la prova diventa rossa. E il registro non è più vuoto: dentro c'è la scadenza vera del bando rifiuti del Comune (23/10), che fino ad allora stava solo nella card #200 — vedi AR-964. 2026-10-11 02:31: toccato scadenzario-check.mjs, il cancello ha preteso la guardia dell'entrypoint (AR-445) — prima importarlo lo faceva girare. Messa nella stessa forma di stampo-check.mjs e tasso-lezioni.mjs, che il giro lancia allo stesso modo; la malattia «programma che parte importando» scende da 62 a 61 in cervello/malattie.json. 2026-10-11 03:08, dopo il secondo collaudo: la prova si fidava dell'etichetta — con `registro` scritto fisso restava verde. Ora, col registro iniettato, il campo deve nominare proprio quel file (terza mutazione registrata). E la scadenza del bando è spostata alla fine del 23/10: messa all'inizio, il guardiano avrebbe detto «scaduta» per tutto l'ultimo giorno utile. 2026-10-11 03:53, dopo il terzo collaudo: con la guardia d'avvio che dice sempre «sì» nessuna prova cadeva, e chi importa il modulo sarebbe stato chiuso dal suo process.exit. Ora c9 importa il guardiano da uno script con una scadenza passata nel registro: deve restare vivo e muto. Mutazione registrata."
+      "nota_fix": "2026-10-11 01:35, su richiesta di Nicola. c9-governo-senza-sveglia 8/8 verdi, guardiano-mai-messo-di-guardia 19/19, scadenze-calcolate 21/21. Non-vacuità: rimettendo guardiano null sulla voce, «IL PUNTO» torna rosso. La seconda voce scaduta, glossario-kpi, non ha un guardiano: data spostata al 15/11 col perché nuovo, lavoro nella scheda AR-962. 2026-10-11 02:12, dopo il collaudo indipendente: la prova ora controlla anche che il documento dichiarato esista e che il guardiano legga proprio quello — scadenzario-check.mjs dice nel suo JSON quale file ha letto. Seconda mutazione: rimettendo nella lista la copia del Vault, la prova diventa rossa. E il registro non è più vuoto: dentro c'è la scadenza vera del bando rifiuti del Comune (23/10), che fino ad allora stava solo nella card #200 — vedi AR-964. 2026-10-11 02:31: toccato scadenzario-check.mjs, il cancello ha preteso la guardia dell'entrypoint (AR-445) — prima importarlo lo faceva girare. Messa nella stessa forma di stampo-check.mjs e tasso-lezioni.mjs, che il giro lancia allo stesso modo; la malattia «programma che parte importando» scende da 62 a 61 in cervello/malattie.json. 2026-10-11 03:08, dopo il secondo collaudo: la prova si fidava dell'etichetta — con `registro` scritto fisso restava verde. Ora, col registro iniettato, il campo deve nominare proprio quel file (terza mutazione registrata). E la scadenza del bando è spostata alla fine del 23/10: messa all'inizio, il guardiano avrebbe detto «scaduta» per tutto l'ultimo giorno utile. 2026-10-11 03:53, dopo il terzo collaudo: con la guardia d'avvio che dice sempre «sì» nessuna prova cadeva, e chi importa il modulo sarebbe stato chiuso dal suo process.exit. Ora c9 importa il guardiano da uno script con una scadenza passata nel registro: deve restare vivo e muto. Mutazione registrata.",
+      "chiuso_il": "2026-11-04 23:58",
+      "chiuso_come": "node cervello/test/c9-governo-senza-sveglia.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-961",
@@ -20644,7 +20707,7 @@
     },
     {
       "id": "AR-966",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "medio",
       "dimensione": "strategia-costo-rischio",
       "area": "macchina",
@@ -20661,11 +20724,14 @@
       "dove": "cervello/documenti-di-governo.mjs: attesa.fino · cervello/scadenzario.json: attesa-glossario-kpi · cervello/test/c9-governo-senza-sveglia.test.mjs",
       "impatto_crescita": "basso",
       "impatto_crescita_nota": "Non tocca ordini né negozi, ma una CI rossa per tutti ferma ogni richiesta di unione: il 30/9 è durata fino all'11/10.",
-      "nota_fix": "2026-10-11 03:15, nel lotto della CI rossa: voce `attesa-glossario-kpi` nello scadenzario (15/11 01:00, l'istante esatto in cui la lista la considera scaduta) e prova AR-966 in c9. Non-vacuità: spostando la data solo nella lista, la prova diventa rossa. Il rosso del 15/11 resta, se il controllo non nasce: è la regola della lista. Questa scheda toglie solo la sorpresa. 2026-10-11 05:53, dopo il sesto collaudo: la spazzata delle date-trappola nei registri di cervello/ ne ha trovate due in tutto. Quella del 15/11 è questa. L'altra: in cervello/atti-con-porte.json l'esenzione di cervello/round2-applica.mjs scadeva il 15/10, e dal 16 porte-gemelle sarebbe stato rosso per tutti (rifatto con un orologio finto: verde al 15, rosso al 20). L'esenzione stessa diceva la cura: togliere lo script usa-e-getta del 25/7, già applicato, che nessuno esegue. 2026-10-11 06:10: provata, quella cura non passa il cancello. Il sorvegliante del delta legge quattro righe del file cancellato come freni spenti — nominano costo-ai.mjs, motore-ai.sh e pagella-intelligenza.mjs, su cui poggiano tre mutazioni — e dà quattro voci gravi: in un file che nessuno lancia sono menzioni, non chiamate (AR-969, registrata). Riparare il sorvegliante è un'altra malattia e un altro lotto: l'esenzione è RINNOVATA fino al 14/11 col suo perché, e la sua voce nello scadenzario (esenzione-round2-applica) annuncia il rosso tre giorni prima. Orologio finto su porte-gemelle: verde il 20/10 e il 14/11 alle 23:30 di Greenwich, rosso il 15/11 alle 00:30 di Greenwich — l'istante che lo scadenzario dichiara, l'01:00 a Piacenza. La prova AR-966 ora pretende, per ogni esenzione a scadenza del registro delle porte, la voce nello scadenzario con la stessa data, e nessuna voce orfana. Due mutazioni registrate: data spostata solo nel registro, esenzione rimasta senza data. 2026-10-11 06:59, dopo il settimo collaudo. Verdetto: regge. Ha fatto girare i 28 guardiani del cancello uno per uno a 11 date fino al 2029, spostando l'orologio di node e quello di git: si accende da solo solo porte-gemelle, ed è il rosso annunciato del 15/11, all'istante dichiarato. Tre rilievi minori curati qui. Primo: le tre mutazioni sulle date (attesa del glossario, esenzione delle porte due volte) erano inchiodate al giorno esatto, quindi un rinnovo fatto bene le rendeva cieche e fermava il cancello per una ragione che nessuna istruzione scriveva. Ora cercano solo l'inizio del campo (`fino: \"20`, `\"fino_al\": \"20`, `\"fino_al\": \"`). Rifatto un rinnovo a dicembre in una copia: c9, porte-gemelle, mutazioni-orfane e sorvegliante restano verdi, e le mutazioni mordono. I testi di chiusura dello scadenzario e del registro delle porte dicono di togliere le mutazioni quando sparisce la data. Secondo: la prova c9 pretendeva una voce, non una sola. Un doppione sullo stesso file, messo dopo quella giusta, passava con qualunque data: rifatto, verde col testo vecchio e rosso col nuovo. Ora vuole una voce sola per esenzione e id unici, e una mutazione nuova aggiunge il doppione. Terzo: la frase «toglierlo oggi accende quattro falsi allarmi» valeva sul commit 5e366ab26, non su quello consegnato: corretta qui, in AR-969, nel registro delle porte, nello scadenzario e in STATO. Il quarto rilievo, le date che fanno rosso il cancello anche in hook-in-attesa.json e nelle attese dei gate, che c9 non collega, è AR-972. 2026-10-11 07:37, dopo l'ottavo collaudo, che ha bocciato i testi. La frase di chiusura nominava il registro delle mutazioni col suo percorso, e il sorvegliante lo leggeva come il programma inesistente mutanti.js (AR-973): una sesta voce «difesa-rimossa», accesa proprio seguendo le istruzioni. Tolti i percorsi dai testi di chiusura, e tolti i conti che dipendono dal testo stesso: i numeri misurati stanno in AR-969, commit per commit. E un rilievo sulla stessa richiesta: il collegamento fra voce e data stava nel prefisso dell'id («attesa-», «esenzione-») e in una frase della fonte. Così una scadenza del mondo chiamata «esenzione-imu-2027» faceva rossa la CI, e il messaggio diceva di spegnerla. Un doppione con un altro prefisso passava, e una fonte che citava il file di un'altra esenzione dava un falso rosso. Adesso il collegamento è il campo `cancello: { registro, chiave }` delle due voci, confrontato per uguaglianza, e la regola sta in cervello/scadenze-del-cancello.mjs: funzione pura, provata su dati finti in c9 e legata ai guardiani veri. Il confine delle porte si confronta con esenzioniMorte di porte-gemelle, quello delle attese con scoperti della lista: un attimo prima verde, un attimo dopo rosso. La mutazione del doppione, che dopo la cura di AR-969 avrebbe morso per la ragione sbagliata, è sostituita da otto mutazioni sul codice del modulo. Tutte e undici le mutazioni di AR-966 mordono. Rifatto in una copia: togliere solo l'esenzione dà due «prova-accecata», attese; la cura completa dà le cinque di AR-969 e nessuna dai testi; c9, porte-gemelle e mutazioni-orfane restano verdi. 2026-10-11 08:15, dopo il nono collaudo. Verdetto: regge, e sul perimetro del lavoro il collaudo si può fermare. Sette rilievi minori; chiusi qui: la mutazione della data del glossario ora è legata all'attesa SENZA guardiano (quando il controllo nasce il pezzo sparisce e il banco lo dice, invece di restare verde in silenzio); il modulo non va più in errore con un collegamento malformato o mancante, e un collegamento scritto male ha il suo messaggio («incompleto», non «va in chiuse», che spegnerebbe un avviso vero); il percorso dell'esenzione si scrive come lo scrive porte-gemelle (`normalizza`, confrontato in c9); tre casi finti nuovi (id doppi fra scadenze del mondo, più atti e più esenzioni, attesa rimasta accanto a un guardiano) e sei mutazioni sul modulo: AR-966 ne ha 17, tutte rosse; i testi di chiusura dicono di spostare la voce in chiuse intera, con la sua fonte. Fuori perimetro e chiuso qui perché tocca questa esenzione: il tetto delle porte era 1 con zero porte scoperte dal 24/8, quindi togliere solo l'esenzione e lasciare il file passava tutto verde; sceso a 0 (rifatto in una copia: porte-gemelle rosso). Correzione: la frase «togliere solo l'esenzione dà due prova-accecata; c9, porte-gemelle e mutazioni-orfane restano verdi» mescolava due casi. Togliendo solo l'esenzione, c9 e mutazioni-orfane diventano rosse (voce orfana, due mutazioni senza data) e adesso anche porte-gemelle; restano verdi nella cura completa. Dichiarato e non curato: se due atti esentassero lo stesso file con date diverse, una voce sola non basterebbe (la chiave è il file; oggi c'è un atto solo). 2026-10-11 08:52, dopo il decimo collaudo. Verdetto: regge, e il collaudo si ferma qui. Un rilievo medio fuori dal diff, della stessa famiglia del tetto curato al nono giro: nello stesso atto anche il tetto delle esenzioni «per sempre» era rimasto alto (2, misura vera 1). Così l'esenzione a scadenza di round2-applica si poteva rietichettare «strutturale» con un perché, e passava tutto verde: la scelta che qualcuno dovrà fare il 15/11. Sceso a 1 col comando del guardiano (porte-gemelle --aggiorna-tetti); rifatto in una copia, la rietichettatura ora è rossa (due esenzioni per sempre contro un tetto di 1). Riscritte le spiegazioni dei due tetti, che parlavano dei valori vecchi. Due correzioni a frasi mie. Le porte scoperte sono zero dal 25/8 alle 16:09 (commit f0e747dae), non dal 24/8. E «il modulo non va più in errore con un collegamento malformato» era sbagliata: il modulo vero non andava in errore, perché `rimandi` filtra già quei casi. In errore andava la variante mutata del prefisso, che adesso fa cadere un'asserzione. Registrata AR-974: il messaggio di porte-gemelle che dice insieme «sotto il tetto» e «sopra il tetto». Lezione aggiunta al catalogo delle scorciatoie: il tetto gemello (21) e il legame per nome (22)."
+      "nota_fix": "2026-10-11 03:15, nel lotto della CI rossa: voce `attesa-glossario-kpi` nello scadenzario (15/11 01:00, l'istante esatto in cui la lista la considera scaduta) e prova AR-966 in c9. Non-vacuità: spostando la data solo nella lista, la prova diventa rossa. Il rosso del 15/11 resta, se il controllo non nasce: è la regola della lista. Questa scheda toglie solo la sorpresa. 2026-10-11 05:53, dopo il sesto collaudo: la spazzata delle date-trappola nei registri di cervello/ ne ha trovate due in tutto. Quella del 15/11 è questa. L'altra: in cervello/atti-con-porte.json l'esenzione di cervello/round2-applica.mjs scadeva il 15/10, e dal 16 porte-gemelle sarebbe stato rosso per tutti (rifatto con un orologio finto: verde al 15, rosso al 20). L'esenzione stessa diceva la cura: togliere lo script usa-e-getta del 25/7, già applicato, che nessuno esegue. 2026-10-11 06:10: provata, quella cura non passa il cancello. Il sorvegliante del delta legge quattro righe del file cancellato come freni spenti — nominano costo-ai.mjs, motore-ai.sh e pagella-intelligenza.mjs, su cui poggiano tre mutazioni — e dà quattro voci gravi: in un file che nessuno lancia sono menzioni, non chiamate (AR-969, registrata). Riparare il sorvegliante è un'altra malattia e un altro lotto: l'esenzione è RINNOVATA fino al 14/11 col suo perché, e la sua voce nello scadenzario (esenzione-round2-applica) annuncia il rosso tre giorni prima. Orologio finto su porte-gemelle: verde il 20/10 e il 14/11 alle 23:30 di Greenwich, rosso il 15/11 alle 00:30 di Greenwich — l'istante che lo scadenzario dichiara, l'01:00 a Piacenza. La prova AR-966 ora pretende, per ogni esenzione a scadenza del registro delle porte, la voce nello scadenzario con la stessa data, e nessuna voce orfana. Due mutazioni registrate: data spostata solo nel registro, esenzione rimasta senza data. 2026-10-11 06:59, dopo il settimo collaudo. Verdetto: regge. Ha fatto girare i 28 guardiani del cancello uno per uno a 11 date fino al 2029, spostando l'orologio di node e quello di git: si accende da solo solo porte-gemelle, ed è il rosso annunciato del 15/11, all'istante dichiarato. Tre rilievi minori curati qui. Primo: le tre mutazioni sulle date (attesa del glossario, esenzione delle porte due volte) erano inchiodate al giorno esatto, quindi un rinnovo fatto bene le rendeva cieche e fermava il cancello per una ragione che nessuna istruzione scriveva. Ora cercano solo l'inizio del campo (`fino: \"20`, `\"fino_al\": \"20`, `\"fino_al\": \"`). Rifatto un rinnovo a dicembre in una copia: c9, porte-gemelle, mutazioni-orfane e sorvegliante restano verdi, e le mutazioni mordono. I testi di chiusura dello scadenzario e del registro delle porte dicono di togliere le mutazioni quando sparisce la data. Secondo: la prova c9 pretendeva una voce, non una sola. Un doppione sullo stesso file, messo dopo quella giusta, passava con qualunque data: rifatto, verde col testo vecchio e rosso col nuovo. Ora vuole una voce sola per esenzione e id unici, e una mutazione nuova aggiunge il doppione. Terzo: la frase «toglierlo oggi accende quattro falsi allarmi» valeva sul commit 5e366ab26, non su quello consegnato: corretta qui, in AR-969, nel registro delle porte, nello scadenzario e in STATO. Il quarto rilievo, le date che fanno rosso il cancello anche in hook-in-attesa.json e nelle attese dei gate, che c9 non collega, è AR-972. 2026-10-11 07:37, dopo l'ottavo collaudo, che ha bocciato i testi. La frase di chiusura nominava il registro delle mutazioni col suo percorso, e il sorvegliante lo leggeva come il programma inesistente mutanti.js (AR-973): una sesta voce «difesa-rimossa», accesa proprio seguendo le istruzioni. Tolti i percorsi dai testi di chiusura, e tolti i conti che dipendono dal testo stesso: i numeri misurati stanno in AR-969, commit per commit. E un rilievo sulla stessa richiesta: il collegamento fra voce e data stava nel prefisso dell'id («attesa-», «esenzione-») e in una frase della fonte. Così una scadenza del mondo chiamata «esenzione-imu-2027» faceva rossa la CI, e il messaggio diceva di spegnerla. Un doppione con un altro prefisso passava, e una fonte che citava il file di un'altra esenzione dava un falso rosso. Adesso il collegamento è il campo `cancello: { registro, chiave }` delle due voci, confrontato per uguaglianza, e la regola sta in cervello/scadenze-del-cancello.mjs: funzione pura, provata su dati finti in c9 e legata ai guardiani veri. Il confine delle porte si confronta con esenzioniMorte di porte-gemelle, quello delle attese con scoperti della lista: un attimo prima verde, un attimo dopo rosso. La mutazione del doppione, che dopo la cura di AR-969 avrebbe morso per la ragione sbagliata, è sostituita da otto mutazioni sul codice del modulo. Tutte e undici le mutazioni di AR-966 mordono. Rifatto in una copia: togliere solo l'esenzione dà due «prova-accecata», attese; la cura completa dà le cinque di AR-969 e nessuna dai testi; c9, porte-gemelle e mutazioni-orfane restano verdi. 2026-10-11 08:15, dopo il nono collaudo. Verdetto: regge, e sul perimetro del lavoro il collaudo si può fermare. Sette rilievi minori; chiusi qui: la mutazione della data del glossario ora è legata all'attesa SENZA guardiano (quando il controllo nasce il pezzo sparisce e il banco lo dice, invece di restare verde in silenzio); il modulo non va più in errore con un collegamento malformato o mancante, e un collegamento scritto male ha il suo messaggio («incompleto», non «va in chiuse», che spegnerebbe un avviso vero); il percorso dell'esenzione si scrive come lo scrive porte-gemelle (`normalizza`, confrontato in c9); tre casi finti nuovi (id doppi fra scadenze del mondo, più atti e più esenzioni, attesa rimasta accanto a un guardiano) e sei mutazioni sul modulo: AR-966 ne ha 17, tutte rosse; i testi di chiusura dicono di spostare la voce in chiuse intera, con la sua fonte. Fuori perimetro e chiuso qui perché tocca questa esenzione: il tetto delle porte era 1 con zero porte scoperte dal 24/8, quindi togliere solo l'esenzione e lasciare il file passava tutto verde; sceso a 0 (rifatto in una copia: porte-gemelle rosso). Correzione: la frase «togliere solo l'esenzione dà due prova-accecata; c9, porte-gemelle e mutazioni-orfane restano verdi» mescolava due casi. Togliendo solo l'esenzione, c9 e mutazioni-orfane diventano rosse (voce orfana, due mutazioni senza data) e adesso anche porte-gemelle; restano verdi nella cura completa. Dichiarato e non curato: se due atti esentassero lo stesso file con date diverse, una voce sola non basterebbe (la chiave è il file; oggi c'è un atto solo). 2026-10-11 08:52, dopo il decimo collaudo. Verdetto: regge, e il collaudo si ferma qui. Un rilievo medio fuori dal diff, della stessa famiglia del tetto curato al nono giro: nello stesso atto anche il tetto delle esenzioni «per sempre» era rimasto alto (2, misura vera 1). Così l'esenzione a scadenza di round2-applica si poteva rietichettare «strutturale» con un perché, e passava tutto verde: la scelta che qualcuno dovrà fare il 15/11. Sceso a 1 col comando del guardiano (porte-gemelle --aggiorna-tetti); rifatto in una copia, la rietichettatura ora è rossa (due esenzioni per sempre contro un tetto di 1). Riscritte le spiegazioni dei due tetti, che parlavano dei valori vecchi. Due correzioni a frasi mie. Le porte scoperte sono zero dal 25/8 alle 16:09 (commit f0e747dae), non dal 24/8. E «il modulo non va più in errore con un collegamento malformato» era sbagliata: il modulo vero non andava in errore, perché `rimandi` filtra già quei casi. In errore andava la variante mutata del prefisso, che adesso fa cadere un'asserzione. Registrata AR-974: il messaggio di porte-gemelle che dice insieme «sotto il tetto» e «sopra il tetto». Lezione aggiunta al catalogo delle scorciatoie: il tetto gemello (21) e il legame per nome (22).",
+      "chiuso_il": "2026-11-04 23:58",
+      "chiuso_come": "node cervello/test/c9-governo-senza-sveglia.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-967",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "medio",
       "dimensione": "guardiani-e-guardrail",
       "area": "macchina",
@@ -20682,7 +20748,10 @@
       "dove": "cervello/test/il-quaderno-che-nessuno-firma.test.mjs: «la sonda pubblica i due numeri» e «sulla Sala vera la revisione fra pari» · cervello/sala-regole.mjs: concentrazioneVoci, revisioniTraPari · cervello/test/chi-va-in-turno.test.mjs · cervello/turno-senior.mjs: turnoDelGiro · cervello/test/stato-che-cresce-in-silenzio.test.mjs",
       "impatto_crescita": "basso",
       "impatto_crescita_nota": "Non tocca ordini né negozi, ma una CI rossa per tutti ferma ogni richiesta di unione.",
-      "nota_fix": "2026-10-11 03:22, nel lotto della CI rossa. Verde col calendario vero e con l'orologio al 24/10; rompendo la misura (quota sempre null) la prova diventa rossa. La spazzata: suite intera (478 file) con l'orologio al 24/10, 7 rossi. Questo è l'unico che dipende dal calendario vero. Cinque nascono dall'orologio finto, che sposta Date.now ma non l'ora dei file né quella di bash: i tre del banco (cecita-curabile, prove-costose-in-fila, prove-senza-esecutore-e-senza-mutazione: il banco butta le cartelle temporanee credendole vecchie di 13 giorni — visto: «il posto dove dovevo cercare le prove … non c'è»), parcheggiato-non-e-scaduto (date da Node, età calcolata in bash) e misura-che-non-sporca ⑪ (età di un file). Uno nasce dal modo di lanciarlo: una-prova-lanciata-nel-modo-sbagliato è rossa anche con l'orologio fermo, solo per l'opzione --import. Il 15/11 resta il rosso voluto della lista dei documenti di governo, ora annunciato (AR-966). 2026-10-11 03:53, dopo il terzo collaudo: la metà «finestra vuota → null» si vedeva solo in una settimana muta; ora concentrazioneVoci([]) ha la sua prova (null, non zero), con la mutazione. 2026-10-11 04:24, dopo il quarto collaudo: una seconda prova della stessa malattia nello stesso file — «richieste >= 1» sulla Sala vera, dove l'unica RIVEDI è la riga più vecchia e la potatura consigliata dal giro la sposterebbe nello Storico. Ora il lettore rotto si vede dalle righe, e ogni RIVEDI letta deve essere una richiesta. E una correzione mia: tre righe che avevo scritto in Sala come «RIVEDI→FATTO» il lettore le contava come richieste senza risposta (in Cabina da 1 a 4): riscritte «FATTO» prima dell'unione. 2026-10-11 04:49, dopo il quinto collaudo: terza prova della stessa malattia, in chi-va-in-turno — «più di tre nomi in quattro giri» sulla Sala vera diventava rossa appena tre colleghi raccoglievano il loro passaggio, cioè facevano quello per cui il turno li chiama (il margine era già sceso da 7 a 6). La rotazione ora si prova su un repo finto con nove passaggi pendenti; sulla Sala vera resta solo ciò che vale sempre (chi è convocato ha un passaggio pendente; righe di passaggio presenti → il lettore ne legge). Rifatto lo scenario del collaudo su una copia: verde. Mutazione registrata (passaggi senza rotazione). 2026-10-11 05:53, dopo il sesto collaudo. Una mia affermazione era falsa: nel commit 5e366ab avevo scritto «sulla Sala vera solo invarianti», ma la prova sul tetto dei passaggi (chi-va-in-turno) misurava ancora la Sala vera — bastava che i sei convocati scrivessero il loro FATTO per rendere cieca la mutazione AR-778 del tetto. Ora anche quella prova sta sul repo finto con nove passaggi pendenti, con date diverse (con una data sola, una rotazione che ordina per data passava lo stesso). E stato-che-cresce-in-silenzio pretendeva più di 10 voci in STATO: il giro, sopra la soglia, ne può lasciare una sola, e a 158.914 caratteri su 160.000 bastavano due note normali — ora pretende almeno una. Mutazione registrata."
+      "nota_fix": "2026-10-11 03:22, nel lotto della CI rossa. Verde col calendario vero e con l'orologio al 24/10; rompendo la misura (quota sempre null) la prova diventa rossa. La spazzata: suite intera (478 file) con l'orologio al 24/10, 7 rossi. Questo è l'unico che dipende dal calendario vero. Cinque nascono dall'orologio finto, che sposta Date.now ma non l'ora dei file né quella di bash: i tre del banco (cecita-curabile, prove-costose-in-fila, prove-senza-esecutore-e-senza-mutazione: il banco butta le cartelle temporanee credendole vecchie di 13 giorni — visto: «il posto dove dovevo cercare le prove … non c'è»), parcheggiato-non-e-scaduto (date da Node, età calcolata in bash) e misura-che-non-sporca ⑪ (età di un file). Uno nasce dal modo di lanciarlo: una-prova-lanciata-nel-modo-sbagliato è rossa anche con l'orologio fermo, solo per l'opzione --import. Il 15/11 resta il rosso voluto della lista dei documenti di governo, ora annunciato (AR-966). 2026-10-11 03:53, dopo il terzo collaudo: la metà «finestra vuota → null» si vedeva solo in una settimana muta; ora concentrazioneVoci([]) ha la sua prova (null, non zero), con la mutazione. 2026-10-11 04:24, dopo il quarto collaudo: una seconda prova della stessa malattia nello stesso file — «richieste >= 1» sulla Sala vera, dove l'unica RIVEDI è la riga più vecchia e la potatura consigliata dal giro la sposterebbe nello Storico. Ora il lettore rotto si vede dalle righe, e ogni RIVEDI letta deve essere una richiesta. E una correzione mia: tre righe che avevo scritto in Sala come «RIVEDI→FATTO» il lettore le contava come richieste senza risposta (in Cabina da 1 a 4): riscritte «FATTO» prima dell'unione. 2026-10-11 04:49, dopo il quinto collaudo: terza prova della stessa malattia, in chi-va-in-turno — «più di tre nomi in quattro giri» sulla Sala vera diventava rossa appena tre colleghi raccoglievano il loro passaggio, cioè facevano quello per cui il turno li chiama (il margine era già sceso da 7 a 6). La rotazione ora si prova su un repo finto con nove passaggi pendenti; sulla Sala vera resta solo ciò che vale sempre (chi è convocato ha un passaggio pendente; righe di passaggio presenti → il lettore ne legge). Rifatto lo scenario del collaudo su una copia: verde. Mutazione registrata (passaggi senza rotazione). 2026-10-11 05:53, dopo il sesto collaudo. Una mia affermazione era falsa: nel commit 5e366ab avevo scritto «sulla Sala vera solo invarianti», ma la prova sul tetto dei passaggi (chi-va-in-turno) misurava ancora la Sala vera — bastava che i sei convocati scrivessero il loro FATTO per rendere cieca la mutazione AR-778 del tetto. Ora anche quella prova sta sul repo finto con nove passaggi pendenti, con date diverse (con una data sola, una rotazione che ordina per data passava lo stesso). E stato-che-cresce-in-silenzio pretendeva più di 10 voci in STATO: il giro, sopra la soglia, ne può lasciare una sola, e a 158.914 caratteri su 160.000 bastavano due note normali — ora pretende almeno una. Mutazione registrata.",
+      "chiuso_il": "2026-11-04 23:58",
+      "chiuso_come": "node cervello/test/il-quaderno-che-nessuno-firma.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-968",
@@ -22511,23 +22580,23 @@
   ],
   "meta": {
     "letto": true,
-    "totale": 853,
-    "aperti": 110,
+    "totale": 1025,
+    "aperti": 207,
     "in_corso": 1,
     "da_riverificare": 10,
-    "chiusi": 732,
+    "chiusi": 807,
     "altri": 0,
-    "da_fare": 121,
+    "da_fare": 218,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 732,
-      "aperto": 110,
+      "chiuso": 807,
+      "aperto": 207,
       "da-riverificare": 10,
       "in-corso": 1
     },
     "stati_ignoti": [],
-    "senza_owner": 121,
-    "senza_scadenza": 121,
+    "senza_owner": 218,
+    "senza_scadenza": 218,
     "scaduti": 0,
     "derivato_dalla_lista": true,
     "somma_torna": true
