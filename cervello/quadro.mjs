@@ -16,9 +16,15 @@
 // dove sta (`trovato-riparando`, `macchina`, nessuna), si legge dal titolo; se nemmeno il titolo lo
 // dice, la scheda va in «Senza casa» e il conto lo mostra: nessuna scheda sparisce dal totale.
 //
+// DUE QUADRI, NON UNO (Nicola, 5/11/2026: «voglio dividere la macchina dal marketplace»). La macchina
+// e il sito sono due case con due registri e due strade di riparazione: messi nella stessa pagina,
+// 996 difetti del sito coprivano i 218 della macchina. Il quadro della macchina non legge il registro
+// del sito, e il quadro del sito non fa la visita degli organi.
+//
 // Uso:
-//   node cervello/quadro.mjs                 -> la visita rapida di adesso + tutti i registri
-//   node cervello/quadro.mjs --senza-visita  -> l'ultima visita salvata, senza farne una nuova
+//   node cervello/quadro.mjs                 -> LA MACCHINA: visita, difetti casa per casa, ritmo, bloccanti
+//   node cervello/quadro.mjs --sito          -> IL SITO: i difetti del marketplace, per gravità e per area
+//   node cervello/quadro.mjs --senza-visita  -> la macchina con l'ultima visita salvata, senza farne una nuova
 //   node cervello/quadro.mjs --json          -> i dati, per chi ci deve ragionare sopra
 //
 // La visita di adesso è `salute.mjs`: scrive il suo referto, come quando si dice «checkup».
@@ -150,6 +156,7 @@ export function ritmo(difetti = [], mese, quanti = 4) {
 
 /** Al massimo quattro righe: la parola da dire, e perché. Solo dove c'è un rosso. */
 export function consigli({ organi = {}, macchina, sito, ritmo: r }) {
+  // Ogni quadro consiglia solo la sua casa: il sito ha il suo quadro.
   const out = [];
   const rossi = Object.values(organi).reduce((n, o) => n + o.rotti.length, 0);
   if (rossi) out.push(`«checkup» — ${conta(rossi, "controllo degli organi è rosso", "controlli degli organi sono rossi")}: la visita apre l'organo malato e lo segue fino al verde.`);
@@ -184,10 +191,11 @@ export function testoQuadro(q) {
   const nVisti = tuttiControlli.reduce((n, o) => n + o.ok + o.rotti.length, 0);
   const nNonVisti = tuttiControlli.reduce((n, o) => n + o.nonvisti.length, 0);
 
-  r.push(`📋 IL QUADRO — ${q.quando} · da ${q.casa}`, "");
+  const delSito = q.ambito === "sito";
+  r.push(`${delSito ? "🏪 IL QUADRO DEL SITO" : "📋 IL QUADRO DELLA MACCHINA"} — ${q.quando} · da ${q.casa}`, "");
   const pezzi = [];
   if (m) pezzi.push(`sulla macchina restano ${m.totale} difetti aperti, ${m.bloccante} bloccanti.`);
-  if (s) pezzi.push(`Sul sito ne restano ${s.totale}: ${s.bloccante} bloccanti, ${s.grave} gravi, il resto minori.`);
+  if (s) pezzi.push(`sul sito restano ${s.totale} difetti aperti: ${s.bloccante} bloccanti, ${s.grave} gravi, il resto minori.`);
   if (q.organi) pezzi.push(`Degli organi, ${nRossi} controlli rossi su ${nVisti} guardati, e ${nNonVisti} non li ho potuti vedere da qui.`);
   if (!pezzi.length) pezzi.push("non ho potuto leggere niente: questo quadro è vuoto, che non vuol dire a posto.");
   r.push(`In due righe — ${pezzi.join(" ")}`, "");
@@ -211,7 +219,6 @@ export function testoQuadro(q) {
       r.push(`    ${casa.padEnd(24)}${col(c.bloccante, 10)}${col(c.grave, 7)}${col(c.medio, 6)}${col(c.minore, 8)}${col(c.totale, 8)}`);
     }
     r.push(`    ${"totale macchina".padEnd(24)}${col(m.bloccante, 10)}${col(m.grave, 7)}${col(m.medio, 6)}${col(m.minore, 8)}${col(m.totale, 8)}${m.senza ? `   (${m.senza} senza gravità scritta)` : ""}`);
-    if (s) r.push(`  ${"Il sito (il marketplace)".padEnd(26)}${col(s.bloccante, 10)}${col(s.grave, 7)}${col(s.medio || "—", 6)}${col(s.minore, 8)}${col(s.totale, 8)}`);
     r.push("  La casa si legge dalla dimensione della scheda; dove è vaga, dal titolo.", "");
   }
 
@@ -229,10 +236,17 @@ export function testoQuadro(q) {
     r.push("");
   }
 
-  const bl = [...(q.bloccanti?.macchina || []).map((b) => ({ ...b, dove: "macchina" })), ...(q.bloccanti?.sito || []).map((b) => ({ ...b, dove: "sito" }))];
+  if (q.sitoAree) {
+    r.push("I DIFETTI APERTI DEL SITO — area per area (le dieci più piene)");
+    r.push(`  ${"".padEnd(26)}${col("bloccanti", 10)}${col("gravi", 7)}${col("minori", 8)}${col("totale", 8)}`);
+    for (const [area, c] of q.sitoAree) r.push(`  ${corto(area, 26).padEnd(26)}${col(c.bloccante, 10)}${col(c.grave, 7)}${col(c.minore, 8)}${col(c.totale, 8)}`);
+    r.push(`  ${"totale sito".padEnd(26)}${col(s.bloccante, 10)}${col(s.grave, 7)}${col(s.minore, 8)}${col(s.totale, 8)}`, "");
+  }
+
+  const bl = q.bloccanti || [];
   if (bl.length) {
-    r.push(`I BLOCCANTI — le cose che fermano tutto (${q.bloccanti.macchina.length} sulla macchina, ${q.bloccanti.sito.length} sul sito)`);
-    for (const b of bl) r.push(`  · [${b.dove}] ${corto(senzaEtichetta(b.titolo))}`);
+    r.push(`I BLOCCANTI — le cose che fermano tutto (${bl.length} ${delSito ? "sul sito" : "sulla macchina"})`);
+    for (const b of bl) r.push(`  · ${corto(senzaEtichetta(b.titolo))}`);
     r.push("");
   }
 
@@ -255,8 +269,11 @@ export function testoQuadro(q) {
   r.push("---", "Dettagli tecnici");
   for (const f of q.fontiLette || []) r.push(`  · ${f}`);
   const ids = bl.filter((b) => b.id).map((b) => b.id);
-  if (ids.length) r.push(`  · bloccanti della macchina: ${ids.join(", ")}`);
-  r.push("  · a fondo: node cervello/salute.mjs --completo · node cervello/cantiere-prove.mjs · node cervello/tasso-chiusura.mjs");
+  if (ids.length) r.push(`  · bloccanti: ${ids.join(", ")}`);
+  r.push(delSito ? "  · l'altra casa: «quadro» (la macchina)" : "  · l'altra casa: «quadro sito» (il marketplace)");
+  r.push(delSito
+    ? "  · a fondo: node cervello/pacchetti-lotto.mjs --sito --gravi"
+    : "  · a fondo: node cervello/salute.mjs --completo · node cervello/cantiere-prove.mjs · node cervello/tasso-chiusura.mjs");
   return r.join("\n");
 }
 
@@ -292,11 +309,41 @@ function visita(senzaVisita) {
   };
 }
 
-export function raccogli({ senzaVisita = false } = {}) {
+/** I difetti aperti del sito, area per area: le `quante` più piene. */
+export function areeSito(problemi = [], quante = 10) {
+  const m = {};
+  for (const d of problemi) {
+    if (!d || String(d.stato ?? "").trim() !== "aperto") continue;
+    const a = String(d.dimensione || "senza area");
+    m[a] ??= { bloccante: 0, grave: 0, medio: 0, minore: 0, senza: 0, totale: 0 };
+    m[a][gravitaDi(d.severita)]++;
+    m[a].totale++;
+  }
+  return Object.entries(m).sort((x, y) => y[1].bloccante - x[1].bloccante || y[1].grave - x[1].grave || y[1].totale - x[1].totale).slice(0, quante);
+}
+
+export function raccogli({ senzaVisita = false, ambito = "macchina" } = {}) {
   const quando = nowPiacenza();
   const mese = quando.slice(0, 7);
-  const q = { quando, casa: existsSync("/opt/mycity/ad-mycity") ? "vps" : "claude", fontiLette: [], fontiMancanti: [] };
+  const q = { ambito, quando, casa: existsSync("/opt/mycity/ad-mycity") ? "vps" : "claude", fontiLette: [], fontiMancanti: [] };
 
+  if (ambito === "sito") {
+    // Il quadro del sito non fa la visita: gli organi sono della macchina.
+    const si = leggiJson(FONTI.sito);
+    const problemi = si.dati?.problemi;
+    if (!Array.isArray(problemi)) q.fontiMancanti.push({ cosa: "il registro del sito", perche: si.errore || "manca l'elenco «problemi»" });
+    else {
+      q.sito = contaSito(problemi);
+      q.sitoAree = areeSito(problemi);
+      q.bloccanti = bloccanti(problemi, { campoGravita: "severita", vivo: (d) => String(d.stato ?? "").trim() === "aperto" });
+      const ultima = problemi.map((d) => d.chiuso_il || "").filter(Boolean).sort().at(-1) || "?";
+      q.fontiLette.push(`sito: ${FONTI.sito} (${problemi.length} schede, ultima chiusura ${ultima})`);
+    }
+    q.consigli = consigli(q);
+    return q;
+  }
+
+  // Il quadro della macchina non legge il registro del sito.
   const v = visita(senzaVisita);
   if (v.errore) q.fontiMancanti.push({ cosa: "la visita degli organi", perche: v.errore });
   else {
@@ -311,22 +358,9 @@ export function raccogli({ senzaVisita = false } = {}) {
   else {
     q.macchina = contaPerCasa(difetti);
     q.ritmo = ritmo(difetti, mese);
+    q.bloccanti = bloccanti(difetti);
     q.fontiLette.push(`macchina: ${FONTI.cantiere} (${difetti.length} schede, aggiornato ${c.dati.aggiornato || "?"})`);
   }
-
-  const si = leggiJson(FONTI.sito);
-  const problemi = si.dati?.problemi;
-  if (!Array.isArray(problemi)) q.fontiMancanti.push({ cosa: "il registro del sito", perche: si.errore || "manca l'elenco «problemi»" });
-  else {
-    q.sito = contaSito(problemi);
-    const ultima = problemi.map((d) => d.chiuso_il || "").filter(Boolean).sort().at(-1) || "?";
-    q.fontiLette.push(`sito: ${FONTI.sito} (${problemi.length} schede, ultima chiusura ${ultima})`);
-  }
-
-  q.bloccanti = {
-    macchina: Array.isArray(difetti) ? bloccanti(difetti) : [],
-    sito: Array.isArray(problemi) ? bloccanti(problemi, { campoGravita: "severita", vivo: (d) => String(d.stato ?? "").trim() === "aperto" }) : [],
-  };
   q.consigli = consigli(q);
   return q;
 }
@@ -338,7 +372,7 @@ export function codiceUscita(q) {
 
 function main() {
   const args = process.argv.slice(2);
-  const q = raccogli({ senzaVisita: args.includes("--senza-visita") });
+  const q = raccogli({ senzaVisita: args.includes("--senza-visita"), ambito: args.includes("--sito") ? "sito" : "macchina" });
   console.log(args.includes("--json") ? JSON.stringify(q, null, 2) : testoQuadro(q));
   process.exit(codiceUscita(q));
 }

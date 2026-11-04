@@ -301,7 +301,7 @@ Nicola lancia lavori con frasi brevi; riconoscile anche scritte in modo diverso:
 - **"radiografia" / "analizza tutto il sito" / "trova tutti i bug"** → workflow `radiografia`, report per gravità in `consegne/audit/`.
 - **"chiudi i gravi del sito" / "lancia l'ondata N del sito"** → `node cervello/pacchetti-lotto.mjs --sito --gravi --scrivi` (il piano), `node cervello/schede-pacchetto.mjs --piano <piano> --ondata N --json` (le schede), poi il workflow `ondata-snella` con quelle schede. Il cancello del sito è `npm run verify` + `node cervello/radiografia-in-corsa.mjs --repo ../mycity`, non `cancello-lotto.mjs`.
 - **"radiografia mentre riparo"** → `node cervello/radiografia-in-corsa.mjs` · **"radiografia di te stesso" / "fatti la radiografia"** → workflow `auto-radiografia`.
-- **"quadro" / "come sono messi i difetti?" / "controlla tutto"** → `node cervello/quadro.mjs`: organi + difetti casa per casa + sito + ritmo, in una pagina, zero agenti.
+- **"quadro"** → `node cervello/quadro.mjs`: tutta la macchina (organi + difetti casa per casa + ritmo), senza il marketplace, zero agenti · **"quadro sito"** → `--sito`: solo il marketplace.
 - **"controlla se funziona tutto" / "è tutto a posto?" / "la macchina sta bene?" / "checkup" / "il worker gira?"** → skill `salute` (✅ provato · ❌ rotto · ⚪ non visto da qui, mai un verde).
 - **"design: …" / "ci sono errori grafici"** → squadra design: analisi col workflow `audit-design`, modifica per corsia CONFIG o CODICE · **"radiografia del design"** → workflow `audit-design` al massimo.
 - **"cosa fanno i concorrenti?"** → intelligence · **"[reparto], fai X"** → delega · **"crea un esperto di X" / "migliora X"** → prompt-engineer + AD.
