@@ -70,6 +70,7 @@ Cosa NON cambia: prezzi, commissione del 10%, costi di consegna, compensi del fa
    - **I testi legali.** Termini, privacy e cookie hanno correzioni puntuali, e dalle tre pagine è sparito il riquadro «Avviso legale». La versione della privacy resta privacy-2.0: alzarla vuol dire richiedere il consenso, e lo decidi tu.
    - **La messa online.** La fila dei rilasci ora sta sul lavoro che pubblica, non su tutto il file, e le librerie si installano senza la password del database. Dopo l'unione, il primo rilascio va guardato: deve andare online come sempre.
    - **L'informativa privacy.** Il negozio ora compare fra i fornitori di MyCity, e non lo è. È una correzione rimasta a metà: va rivista con chi ti segue sulla privacy.
+- **Sapere di una scelta sui permessi.** La scritta «Ordinato N volte negli ultimi 7 giorni» sulla scheda prodotto ora la vede anche chi non ha un account. È un numero solo, senza dati dei clienti. L'ho dichiarata nella prova del database che sorveglia le porte aperte a chi non ha un account.
 - **Applicare a mano sei aggiornamenti del database**, in quest'ordine: 200, 205, 215, 230, 231, 245. Li ho provati tutti su un database vuoto: si applicano, e una seconda volta non fanno danni. Prima della 191, se non l'hai ancora applicata, c'è un comando da lanciare: è nella scheda 3 del registro.
 - **Rispondere alle 67 domande**, quando hai tempo: sono in `domande-per-nicola.md`, per gruppo. Nessuna ferma il lancio.
 
