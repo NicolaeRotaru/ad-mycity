@@ -39,7 +39,7 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
   const [aggAt, setAggAt] = useState<number | null>(null);
   // Le caselle che leggono la memoria (/api/moduli/lista) dicono anche DI QUANDO è il dato e,
   // se serve, una frase: «nessun esperimento in corso» è un dato, non una casella spenta.
-  const [info, setInfo] = useState<{ fonti: Fonte[]; conta: number | null; nota?: string } | null>(null);
+  const [info, setInfo] = useState<{ fonti: Fonte[]; conta: number | null; almeno?: number | null; nota?: string } | null>(null);
   const [syncTick, setSyncTick] = useState(0);
   usePanelSync(["memoria", "all"], () => setSyncTick((t) => t + 1));
 
@@ -60,6 +60,7 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
           setInfo({
             fonti: Array.isArray(d.fonti) ? d.fonti : [],
             conta: typeof d.conta === "number" ? d.conta : null,
+            almeno: typeof d.almeno === "number" ? d.almeno : null,
             nota: typeof d.nota === "string" ? d.nota : undefined,
           });
         })
@@ -94,7 +95,16 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
   const collegate = kpis.filter((k) => acceso(k.chiave, k.tipo)).length;
   const statoLabel = def.stato === "live" ? "live" : def.stato === "parziale" ? "parziale" : "da collegare";
   // Il numero accanto al titolo: le COSE (58 difetti) e non le righe (8); «—» se la fonte non si è letta.
-  const badge = etichettaBadge({ righe, collegato: listaColl, conta: info?.conta ?? null, kpiAccesi: collegate, kpiTotali: kpis.length, statoLabel });
+  const badge = etichettaBadge({
+    righe,
+    collegato: listaColl,
+    conta: info?.conta ?? null,
+    almeno: info?.almeno ?? null,
+    parziale: Boolean(info?.fonti.some((f) => !f.letta)),
+    kpiAccesi: collegate,
+    kpiTotali: kpis.length,
+    statoLabel,
+  });
   const haDati = (righe && righe.length > 0) || collegate > 0;
 
   return (

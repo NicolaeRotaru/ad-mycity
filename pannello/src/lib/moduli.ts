@@ -60,8 +60,8 @@ export const MODULI: ModuloDef[] = [
   {
     area: "persone", gruppo: "Chi consegna e chi lavora", emoji: "🚴", titolo: "Rider & flotta",
     descrizione: "Chi consegna, copertura turni e costo per consegna.",
-    fonte: "flotta rider / dispatch", stato: "placeholder",
-    punti: ["Rider attivi e turni coperti", "Ordini per rider e costo/consegna", "Zone scoperte nei picchi"],
+    fonte: "rider iscritti sul sito", stato: "parziale", lista: "/api/moduli/lista?tipo=rider",
+    punti: ["In cima chi ha un documento scaduto o in scadenza (patente, assicurazione, HACCP)", "Ordini per rider, costo per consegna e zone scoperte: non ancora collegati"],
   },
   {
     area: "persone", gruppo: "Chi consegna e chi lavora", emoji: "👥", titolo: "Squadra (i senior AD)",
@@ -81,14 +81,14 @@ export const MODULI: ModuloDef[] = [
   {
     area: "persone", gruppo: "Relazioni esterne", emoji: "📇", titolo: "Contatti & relazioni",
     descrizione: "La rubrica di chi conta fuori: enti, stampa, creator, fornitori.",
-    fonte: "CRM relazioni", stato: "placeholder",
-    punti: ["Comune, Vita in Centro, Camera di Commercio", "Giornalisti e influencer locali", "Fornitori: Stripe, Resend, hosting, tipografia"],
+    fonte: "mappa dei giornali di Piacenza (memoria)", stato: "parziale", lista: "/api/moduli/lista?tipo=contatti",
+    punti: ["Enti (Comune, Vita in Centro, Camera di Commercio), creator e fornitori: rubrica ancora da fare"],
   },
   {
     area: "persone", gruppo: "Relazioni esterne", emoji: "🎯", titolo: "Lead & pipeline negozi",
     descrizione: "Le botteghe da acquisire e a che punto è la trattativa.",
-    fonte: "vendite / CRM", stato: "placeholder",
-    punti: ["Lista botteghe da contattare", "Stato trattativa (contattato → LIVE)", "Pitch e prossima azione"],
+    fonte: "negozi seguiti dalla macchina + negozi trovati dal sito", stato: "live", lista: "/api/moduli/lista?tipo=lead",
+    punti: ["Prossima azione per negozio: nella scheda Azioni"],
   },
 
   // ===================== ⚙️ OPERAZIONI =====================
@@ -118,14 +118,14 @@ export const MODULI: ModuloDef[] = [
   {
     area: "operazioni", gruppo: "Offerta & lavoro", emoji: "📦", titolo: "Catalogo & prodotti",
     descrizione: "Cosa è in vendita: prodotti, esauriti, categorie da coprire.",
-    fonte: "catalogo", stato: "placeholder",
-    punti: ["Prodotti a catalogo e esauriti", "Categorie mancanti nel cluster", "Schede da migliorare (SEO/foto)"],
+    fonte: "prodotti sul sito", stato: "parziale", lista: "/api/moduli/lista?tipo=catalogo",
+    punti: ["In cima gli esauriti e quelli senza foto", "Il numero conta i prodotti «in vendita»: sul sito si vedono solo quelli dei negozi approvati", "Categorie che mancano: non ancora collegate"],
   },
   {
     area: "operazioni", gruppo: "Offerta & lavoro", emoji: "📣", titolo: "Campagne",
     descrizione: "Le iniziative di marketing in corso e il calendario contenuti.",
-    fonte: "marketing", stato: "placeholder",
-    punti: ["Campagne attive (ads/social/CRM)", "Calendario editoriale della settimana", "Stato e risultati per campagna"],
+    fonte: "registro delle campagne (memoria) + messaggi ai negozi dal sito", stato: "live", lista: "/api/moduli/lista?tipo=campagne",
+    punti: ["Ogni campagna nuova si scrive in 90-Memoria-AI/campagne.json"],
   },
   {
     area: "operazioni", gruppo: "Offerta & lavoro", emoji: "✅", titolo: "Task & progetti",
@@ -136,8 +136,8 @@ export const MODULI: ModuloDef[] = [
   {
     area: "operazioni", gruppo: "Tempo & agenda", emoji: "📅", titolo: "Calendario & eventi",
     descrizione: "Cosa succede in città e in azienda che impatta gli ordini.",
-    fonte: "Google Calendar / meteo / eventi città", stato: "placeholder",
-    punti: ["Eventi e mercati a Piacenza", "Meteo (impatta le consegne)", "Scadenze interne e lanci"],
+    fonte: "scadenzario + eventi e meteo dell'intelligence (memoria)", stato: "live", lista: "/api/moduli/lista?tipo=calendario",
+    punti: ["Il controllo degli eventi si rifà dalla scheda Intelligence", "Google Calendar: non collegato"],
   },
 
   // ===================== 🌍 MONDO & RISCHI =====================
@@ -183,8 +183,8 @@ export const MODULI: ModuloDef[] = [
   {
     area: "mondo", gruppo: "Protezione", emoji: "🛡️", titolo: "Sicurezza & accessi",
     descrizione: "Chi può vedere cosa e lo stato di sicurezza.",
-    fonte: "radiografia del sito (difetti aperti di accessi e permessi)", stato: "parziale", lista: "/api/moduli/lista?tipo=sicurezza",
-    punti: ["Il controllo automatico di Supabase si accende con una chiave di gestione: da creare", "Frodi bloccate e account sospesi: non ancora collegati"],
+    fonte: "radiografia del sito + controllo di sicurezza di Supabase", stato: "parziale", lista: "/api/moduli/lista?tipo=sicurezza",
+    punti: ["Il controllo di Supabase lo salva la macchina in memoria, con la sua data", "Frodi bloccate e account sospesi: non ancora collegati"],
   },
   {
     area: "mondo", gruppo: "Protezione", emoji: "⚖️", titolo: "Legale & documenti",

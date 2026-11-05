@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-05 07:31",
+  "aggiornato": "2026-11-05 11:48",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -6506,6 +6506,66 @@
         "pannello/src/lib/badge-modulo.ts": "c338f5c45a91",
         "pannello/src/lib/moduli-memoria.ts": "3b66bf855219",
         "pannello/src/lib/moduli.ts": "3e995a29a0bf"
+      }
+    },
+    {
+      "quando": "2026-11-05 11:36",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/sicurezza-supabase.mjs": "b86f7e260355"
+      }
+    },
+    {
+      "quando": "2026-11-05 11:36",
+      "casa": "pannello",
+      "dimensione": "robustezza-errori",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "pannello/src/components/Modulo.tsx": "bb9ba7f67384",
+        "pannello/src/lib/badge-modulo.ts": "1884517f9657",
+        "pannello/src/lib/moduli-memoria.ts": "0371edaa8927",
+        "pannello/src/lib/moduli-operativi.ts": "958b23361975",
+        "pannello/src/lib/moduli.ts": "b76de9c05cf9"
+      }
+    },
+    {
+      "quando": "2026-11-05 11:36",
+      "casa": "pannello",
+      "dimensione": "coerenza-azioni",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "pannello/src/app/api/moduli/lista/route.ts": "a7c7771e28d7"
+      }
+    },
+    {
+      "quando": "2026-11-05 11:48",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/sicurezza-supabase.mjs": "aa69798fec84"
       }
     }
   ]

@@ -1,0 +1,5 @@
+{
+  "_cosa_e": "Il registro delle campagne di MyCity verso i clienti (pubblicità, social, messaggi, email). Lo legge la casella «Campagne» del Pannello (scheda Operazioni), insieme ai messaggi che il sito manda ai negozi da contattare. Una campagna per voce: titolo, canale, stato (pronta | in_corso | conclusa), obiettivo, inizio e fine (AAAA-MM-GG HH:MM), risultato (con il numero). Si aggiorna «aggiornato» a ogni modifica.",
+  "aggiornato": "2026-11-05 09:51",
+  "campagne": []
+}

@@ -1,3 +1,6 @@
+// Il fuso di Piacenza anche qui: senza, una prova sul cambio d'ora resterebbe verde su una macchina
+// in UTC (la CI) anche se qualcuno rimette il conto con l'ora locale (collaudo del 5/11).
+process.env.TZ = "Europe/Rome";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { MODULI } from "./moduli.ts";
@@ -511,4 +514,80 @@ test("radar: novità scritte come titoli «### ① …» si leggono come le altr
   const r = rispostaConcorrenti(titoli, "2026-10-10", OGGI);
   assert.equal(r.conta, 4);
   assert.equal(r.righe[0].titolo, "Glovo (la società italiana si chiama Foodinho): il controllo giudiziario resta");
+});
+
+// ════════ Il controllo di sicurezza di Supabase nella casella Sicurezza (2026-11-05, «Fai le due cose») ════════
+const SUPA = {
+  aggiornato: "2026-11-05 09:51",
+  avvisi: [
+    { nome: "rls_enabled_no_policy", titolo: "RLS Enabled No Policy", livello: "INFO", quanti: 12, esempi: ["ai_spend_daily", "email_queue"] },
+    { nome: "security_definer_view", titolo: "Security Definer View", livello: "ERROR", quanti: 7, esempi: ["a", "b", "c", "d"], link: "https://supabase.com/docs/x" },
+    { nome: "nome_mai_visto", titolo: "Brand New Lint", livello: "WARN", quanti: 2 },
+  ],
+};
+
+test("sicurezza + Supabase: errori rossi prima degli avvisi, nomi in italiano, totale = difetti + errori e avvisi", () => {
+  const r = rispostaSicurezza(letto({ problemi: PROBLEMI, sync_scan: { aggiornato: "2026-11-01 20:05" } }), OGGI, letto(SUPA));
+  const supa = r.righe.filter((x) => ["errore", "avviso", "informazione"].includes(String(x.meta)));
+  assert.deepEqual(supa.map((x) => x.meta), ["errore", "avviso", "informazione"]);
+  assert.equal(supa[0].titolo, "Viste che girano coi permessi di chi le ha create, non di chi le legge (7)");
+  assert.equal(supa[0].colore, "rosso");
+  assert.equal(supa[0].link, "https://supabase.com/docs/x");
+  assert.equal(supa[1].titolo, "Brand New Lint (2)", "un controllo nuovo tiene il suo titolo");
+  assert.equal(r.conta, 5 + 7 + 2, "nel totale errori e avvisi, non le 12 informazioni");
+  assert.deepEqual(r.fonti.map((f) => [f.nome, f.data, f.letta]), [["difetti del sito", "2026-11-01", true], ["controllo di Supabase sul database del sito", "2026-11-05", true]]);
+  assert.equal(r.nota, "Il numero somma 5 difetti del sito e 9 fra errori e avvisi di Supabase, e lo stesso oggetto può essere contato più volte; le informazioni restano fuori.");
+});
+
+test("sicurezza + Supabase: controllo mai salvato o senza «avvisi» = non letto e niente totale, mai «nessun avviso»", () => {
+  const mai = rispostaSicurezza(letto({ problemi: PROBLEMI }), OGGI, { dati: null, letto: true, motivo: null });
+  assert.equal(mai.conta, undefined);
+  assert.match(String(mai.nota), /Non letti: controllo di Supabase/);
+  assert.equal(mai.fonti[1].motivo, "non ancora salvato in memoria");
+  const strano = rispostaSicurezza(letto({ problemi: PROBLEMI }), OGGI, letto({ aggiornato: "2026-11-05", lints: [] }));
+  assert.equal(strano.fonti[1].letta, false);
+  assert.ok(!/nessun avviso/i.test(String(strano.nota)));
+  const soloSupa = rispostaSicurezza(nonLetto("github giù"), OGGI, letto(SUPA));
+  assert.equal(soloSupa.collegato, true);
+  assert.equal(soloSupa.conta, undefined);
+  assert.match(String(soloSupa.nota), /Non letti: difetti del sito/);
+});
+
+test("sicurezza + Supabase: un avviso elencato con quanti 0 vale 1, mai zero; legale senza tutte le fonti non dà numero", () => {
+  const r = rispostaSicurezza(letto({ problemi: [], meta: { findings: 0 } }), OGGI, letto({ aggiornato: "2026-11-05 09:46", avvisi: [{ nome: "security_definer_view", livello: "ERROR", quanti: 0 }] }));
+  assert.equal(r.conta, 1);
+  assert.ok(!/nessun avviso/i.test(String(r.nota)));
+  assert.equal(rispostaLegale(letto({ problemi: PROBLEMI }), DOCS, nonLetto("github giù"), OGGI).conta, undefined);
+  assert.equal(rispostaLegale(letto({ problemi: PROBLEMI }), [], letto(REGISTRO), OGGI).conta, undefined);
+});
+
+test("sicurezza + Supabase: un controllo vecchio di più di 7 giorni si vede ma non entra nel numero", () => {
+  const r = rispostaSicurezza(letto({ problemi: PROBLEMI }), OGGI, letto({ ...SUPA, aggiornato: "2026-10-20 10:00" }));
+  assert.equal(r.conta, 5);
+  assert.match(String(r.nota), /16 giorni fa: si vede ma non entra nel numero/);
+  assert.ok(r.righe.some((x) => x.meta === "errore"), "le righe di Supabase restano visibili");
+});
+
+test("giorni di calendario: il cambio d'ora di ottobre e di primavera non sposta il conto", async () => {
+  const { giorniTra } = await import("./moduli-memoria.ts");
+  assert.equal(giorniTra("2026-11-05", "2026-10-23"), -13);
+  assert.equal(giorniTra("2027-03-28", "2027-03-27"), -1);
+  assert.equal(giorniTra("2027-03-27", "2027-03-28"), 1);
+  assert.equal(giorniTra("2026-11-05", "2027-04-10"), 156);
+  assert.equal(giorniTra("x", "2026-11-05"), null);
+});
+
+test("sicurezza + Supabase: con gli oggetti diversi contati, il totale usa quelli (62 erano 47) e la nota lo dice", () => {
+  const r = rispostaSicurezza(letto({ problemi: PROBLEMI }), OGGI, letto({ ...SUPA, oggetti_distinti: 6 }));
+  assert.equal(r.conta, 5 + 6);
+  assert.match(String(r.nota), /6 oggetti con errori o avvisi di Supabase/);
+});
+
+test("giorni: una data impossibile non diventa un'altra; una data nel futuro non è «fresca»", async () => {
+  const { giorniTra } = await import("./moduli-memoria.ts");
+  assert.equal(giorniTra("2026-11-05", "2026-13-01"), null);
+  assert.equal(giorniTra("2026-11-05", "2026-11-31"), null);
+  const futuro = rispostaSicurezza(letto({ problemi: PROBLEMI }), OGGI, letto({ ...SUPA, aggiornato: "2026-12-01 10:00" }));
+  assert.equal(futuro.fonti[1].giorni, null);
+  assert.equal(futuro.conta, 5, "un controllo con la data nel futuro non entra nel numero");
 });

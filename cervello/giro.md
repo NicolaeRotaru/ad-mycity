@@ -35,6 +35,10 @@ Passi:
    `supabase_rest` ok → `MARKETPLACE_SUPABASE_*`; altrimenti Supabase MCP con **3 retry** a 30s;
    se entrambi ciechi → baseline STATO + Gap, niente numeri inventati): ordini e incassi ultimi
    7 giorni, nuovi clienti, consegne in corso/in ritardo, carrelli abbandonati, recensioni.
+   Se il MCP Supabase risponde, rifai anche il **controllo di sicurezza di Supabase**:
+   `get_advisors(project_id="clmpyfvpvfjgeviworth", type="security")` → salva l'uscita in un file **fuori dal repository** (es. `/tmp/advisors.json`: ha i nomi delle falle) →
+   `node cervello/sicurezza-supabase.mjs scrivi <file> --progetto clmpyfvpvfjgeviworth`. Lo mostra la casella «Sicurezza & accessi»
+   del Pannello, con la sua data (Nicola, 5/11: la chiave di gestione non serve).
 2. Controlla le SENTINELLE (`cervello/sentinelle.md`) contro i dati interni: se
    un segnale supera la soglia, agisci nei 🟢 e allerta sui 🟡/🔴.
    In più, AUTOCONTROLLO AUTOMAZIONE: esegui `node cervello/verifica-automazione.mjs --json`
