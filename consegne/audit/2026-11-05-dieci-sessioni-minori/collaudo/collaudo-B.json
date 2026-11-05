@@ -1,0 +1,162 @@
+[
+  {
+    "id": 2525,
+    "sessione": "S03",
+    "verdetto": "non_chiude",
+    "prova_morde": "no",
+    "motivo": "L'ordinamento per data crescente rende il risultato prevedibile, ma il problema della scheda resta. Esempio: più di 100 ordini fermi e più vecchi della veloce, cioè ordini per domani rinviati, ordini in attesa della divisione o rimborsi falliti rimessi in coda. Il giro rilegge sempre quei 100, li salta con continue, e la veloce scaduta non viene mai esaminata. Ora succede a ogni giro, non per caso. La prova cerca solo la riga .order nel sorgente: è verde proprio con questa correzione insufficiente. Serve escludere i rinviati nella query, oppure ordinare per scadenza, oppure leggere a pagine.",
+    "dove": "app/api/cron/expire-stale-orders/route.ts:108"
+  },
+  {
+    "id": 1645,
+    "sessione": "S03",
+    "verdetto": "chiude",
+    "prova_morde": "si",
+    "motivo": "Il gruppo della fila è passato dal file al lavoro vercel, come chiedeva la scheda. Il pulsante a mano su un ramo diverso da main ha un gruppo suo, rilascio-produzione-<run_id>: l'espressione è corretta. Resta coerente con migrazioni-a-mano.yml, che usa lo stesso gruppo a livello di lavoro. Non ho potuto verificare da qui la regola di GitHub per cui un lavoro saltato dal suo if non entra nella fila: è la premessa della scheda. La prova è solo strutturale: diventa rossa se torna la fila sul file, ma non controlla il gruppo separato del pulsante a mano.",
+    "dove": ".github/workflows/deploy-dopo-ci.yml:232"
+  },
+  {
+    "id": 795,
+    "sessione": "S03",
+    "verdetto": "in_parte",
+    "prova_morde": "si",
+    "motivo": "Il cancello ferma DROP COLUMN, DROP TABLE e RENAME scritti per esteso. L'ho provato con la regola del test. Lascia però passare altri modi validi di togliere qualcosa a cui il codice di prima si appoggia: ALTER TABLE x DROP colonna (in Postgres la parola COLUMN è facoltativa), DROP VIEW, DROP FUNCTION, ALTER COLUMN ... TYPE. Il terzo punto della correzione proposta, la procedura scritta per il ritorno indietro, non è stato fatto. Il riepilogo che dice di quante migrazioni il database è avanti c'era già.",
+    "dove": "tests/unit/minori-s03-migrazioni-distruttive.test.ts:16"
+  },
+  {
+    "id": 39,
+    "sessione": "S03",
+    "verdetto": "chiude",
+    "prova_morde": "si",
+    "motivo": "Dopo i 10 secondi di attesa la email non si rimanda più, e un errore 422 non si ritenta. La prova con Resend finto conta 1 chiamata: senza la correzione sarebbero 2. Resta un caso vicino, fuori dal titolo. In resend 3.5.0 anche una connessione caduta diventa application_error, e quel nome è nella lista dei ritentabili. Una risposta persa dopo che Resend ha già accettato la email può quindi ancora dare il doppio invio.",
+    "dove": "lib/email/client.ts:188"
+  },
+  {
+    "id": 1585,
+    "sessione": "S03",
+    "verdetto": "chiude",
+    "prova_morde": "si",
+    "motivo": "La lettura di cod_reconciliations ora ha .limit(500). Se il tetto taglia delle righe, l'errore va nel verso sicuro: un fattorino con cassa aperta ma non letto fa scattare un avviso in più, non ne nasconde uno. La prova è una ricerca nel sorgente: diventa rossa senza il limite, ma non prova il comportamento. Per un difetto minore è ammessa.",
+    "dove": "app/api/cron/operational-alerts/route.ts:526"
+  },
+  {
+    "id": 1522,
+    "sessione": "S03",
+    "verdetto": "chiude",
+    "prova_morde": "si",
+    "motivo": "Se non c'è nessun amministratore, il giro risponde 200 con avvisoSenzaDestinatario e scrive un errore nel registro tecnico. Il 500 resta solo per i guasti veri: lettura degli amministratori fallita, avviso non scritto. La prova esegue la rotta con la tabella dei profili vuota: senza la correzione riceverebbe 500.",
+    "dove": "app/api/cron/expire-checkouts/route.ts:154"
+  },
+  {
+    "id": 1851,
+    "sessione": "S03",
+    "verdetto": "chiude",
+    "prova_morde": "si",
+    "motivo": "Ho fatto girare lo script vero, con pg_dump finto e senza rclone, in tre casi. Con FOTO_A_META=si e la sola origine mancante, oppure con le chiavi mancanti, il riepilogo dice «configurazione a metà» e i tre file .gpg ci sono. Senza la variabile dice ancora «rclone non installato» ed esce con 4. Il lavoro resta rosso per il passo delle foto. Ho anche verificato la cifratura nuova (--passphrase-fd 3): una copia fatta così si decifra anche col metodo vecchio. La prova del repository legge solo il testo del YAML e dello script.",
+    "dove": "scripts/backup-db.sh:364"
+  },
+  {
+    "id": 2088,
+    "sessione": "S03",
+    "verdetto": "chiude",
+    "prova_morde": "si",
+    "motivo": "La riga dei pagamenti segue l'interruttore della cassa. A carta spenta l'email dice «Paghi in contanti alla consegna: tieni pronto l’importo». Al primo HEAD (f4a0895) l'unione con S04 lasciava ROSSE due prove di S04 (2079 e 2074), che pretendevano ancora la frase vecchia, e la CI ferma il rilascio. Il commit e95ee3d le ha riallineate e ora sono verdi. Non fatto il controllo generale «nessuna email nomina la carta» proposto dalla scheda: non è nel titolo.",
+    "dove": "lib/email/templates.ts:814"
+  },
+  {
+    "id": 97,
+    "sessione": "S03",
+    "verdetto": "chiude",
+    "prova_morde": "si",
+    "motivo": "Il termine è ora un mese di calendario sull'ora di Piacenza, con il riporto all'ultimo giorno del mese. Ho controllato il conto dei mesi: dicembre passa a gennaio, il 30 o 31 gennaio scade il 28 febbraio. Il verdetto della notte usa il termine nuovo. La prova sul caso 30/01 → 01/03 sarebbe rossa col vecchio conto, che arrivava a 29 giorni e 17 ore e non scattava.",
+    "dove": "lib/cron-cancellazioni.ts:173"
+  },
+  {
+    "id": 44,
+    "sessione": "S03",
+    "verdetto": "chiude",
+    "prova_morde": "si",
+    "motivo": "Il giro del calendario controlla l'ora prima di leggere i carrelli. Il calendario chiama un indirizzo senza parametri, come risulta da vercel.json. Fuori dalle 8-21 di Piacenza il giro esce senza chiamare il database. Il promemoria passa da questa sola rotta: non ho trovato altre strade che lo spediscano. La prova alle 3 di notte controlla zero invii e zero letture; c'è anche la prova opposta alle 10.",
+    "dove": "app/api/cron/abandoned-carts/route.ts:66"
+  },
+  {
+    "id": 1883,
+    "sessione": "S05",
+    "verdetto": "chiude",
+    "prova_morde": "si",
+    "motivo": "Il motivo che arriva al cliente, nell'email del rimborso e nella campanella, è sempre la frase fissa. La nota dell'amministratore finisce solo in metadata.nota del registro. La rotta resta chiusa dietro withAdminAuth. La prova usa la vera annullaERimborsa e la vera rotta: controlla la campanella e il registro, non il testo dell'email, che però nasce dallo stesso reason fisso.",
+    "dove": "app/api/admin/orders/[id]/cancel/route.ts:51"
+  },
+  {
+    "id": 190,
+    "sessione": "S05",
+    "verdetto": "in_parte",
+    "prova_morde": "si",
+    "motivo": "Il negozio ora riceve esito, note e rimborso. Però l'avviso va a disputes.against_id, un campo che scrive il browser del cliente (app/orders/[id]/dispute/page.tsx:95). La regola del database (215, disputes_open_insert) non lo lega al negozio dell'ordine. Un cliente può quindi mettere un altro id o lasciarlo vuoto. In quel caso il negozio vero non sa niente, e note e importo vanno a un estraneo. Correzione: leggere seller_id dall'ordine. Inoltre dice «rimborso al cliente», non la quota tolta al negozio.",
+    "dove": "app/api/admin/disputes/[id]/resolve/route.ts:373"
+  },
+  {
+    "id": 1862,
+    "sessione": "S05",
+    "verdetto": "chiude",
+    "prova_morde": "si",
+    "motivo": "La rotta ora legge l'errore del salvataggio dello stato KYC e risponde con rispostaPerErroreDatabase, che è un errore 5xx. La pagina del fattorino, con una risposta non ok, mostra l'errore e non «KYC inviato». La prova simula il salvataggio che fallisce e pretende un errore 5xx: senza la correzione riceverebbe 200.",
+    "dove": "app/api/kyc/start-check/route.ts:164"
+  },
+  {
+    "id": 293,
+    "sessione": "S05",
+    "verdetto": "chiude",
+    "prova_morde": "si",
+    "motivo": "Il blocco video delle pagine gestite dal pannello ora mostra un tag video quando il provider è file, come la home. Lo schema accetta videoUrl solo https. Le regole di sicurezza del sito (CSP, media-src) ammettono i file video da Supabase. Senza la correzione la prova vedrebbe sparire il blocco, perché videoId è vuoto.",
+    "dove": "components/cms/CmsBlockRenderer.tsx:82"
+  },
+  {
+    "id": 1815,
+    "sessione": "S05",
+    "verdetto": "chiude",
+    "prova_morde": "si",
+    "motivo": "I reclami del cliente ora si contano per opener_id e il nome è solo l'etichetta. Chi non ha nome si legge «Cliente senza nome (id…)». Due omonimi non fanno più scattare «possibili abusi». Il raggruppamento dei negozi resta per nome, ma il titolo parla solo dei clienti. Nota: ora il segnale conta solo i reclami aperti o in esame, un cambio di regola voluto.",
+    "dove": "app/admin/disputes/page.tsx:165"
+  },
+  {
+    "id": 1545,
+    "sessione": "S05",
+    "verdetto": "chiude",
+    "prova_morde": "si",
+    "motivo": "La frase a schermo ora nomina anche i consegnati. La prova disegna la pagina con campione=true e cerca la frase nuova: senza la correzione sarebbe rossa.",
+    "dove": "app/admin/today/page.tsx:146"
+  },
+  {
+    "id": 23,
+    "sessione": "S05",
+    "verdetto": "chiude",
+    "prova_morde": "si",
+    "motivo": "Ogni richiesta dal pulsante d'aiuto scrive una campanella all'account Assistenza. I messaggi successivi scritti da /messages restano raggruppati, per scelta del sistema: suona solo il primo non letto, che ora suona davvero. Il doppione 23505 rilegge la conversazione invece di dare 500, ma nessuna prova lo esegue.",
+    "dove": "app/api/support/conversation/route.ts:148"
+  },
+  {
+    "id": 1812,
+    "sessione": "S05",
+    "verdetto": "chiude",
+    "prova_morde": "si",
+    "motivo": "La sezione «Segnali di rischio» si mostra solo se la lettura non è caduta (!isError). La prova lascia i dati vecchi, accende isError e pretende che la sezione sparisca accanto all'avviso.",
+    "dove": "app/admin/disputes/page.tsx:211"
+  },
+  {
+    "id": 1814,
+    "sessione": "S05",
+    "verdetto": "regressione",
+    "prova_morde": "si",
+    "motivo": "Una persona senza nome ora si legge «utente senza nome (id…)»: questa parte è giusta. Ma ora ogni riga con actor_id vuoto diventa «account cancellato». Il registro ha però righe scritte apposta senza autore dal giro notturno: lib/privacy/avvisi-a-chi-aspetta.ts:362, già su main, con azione privacy.avviso_cancellazione.email_tentata o email_partita. Anche lib/account/cancellazione.ts:771, nuova, scrive senza autore. Prima quelle righe dicevano giustamente «da sistema», ora mentono. La prova conferma la regola sbagliata, cioè che actor_id null vuol dire account cancellato.",
+    "dove": "lib/admin/etichette.ts:15"
+  },
+  {
+    "id": 2501,
+    "sessione": "S05",
+    "verdetto": "chiude",
+    "prova_morde": "si",
+    "motivo": "Dal vecchio link firmato si ricava il percorso del file (sign, public o authenticated) e la copia di prima si cancella. Si tocca sempre e solo la cartella della persona. Il nuovo controllo sul ruolo non blocca i fattorini: /rider si apre solo con il ruolo rider. Senza la correzione la prova vedrebbe la copia vecchia rimasta nel secchio.",
+    "dove": "app/api/kyc/upload-document/route.ts:38"
+  }
+]
