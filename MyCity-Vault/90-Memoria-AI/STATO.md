@@ -4,9 +4,9 @@ aggiornato: 2026-11-05 12:10
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
-> 🩻 **2026-11-05 12:10 — La radiografia del marketplace è finita: 372 difetti nuovi, 1 bloccante e 34 gravi.**
+> 🩻 **2026-11-05 12:10 — La radiografia del marketplace è finita. Ha trovato 372 difetti nuovi.**
 >
-> Ogni file del sito è stato letto per intero da un revisore, più 21 revisori che hanno seguito una cosa sola attraverso tutto il sito: 107 agenti in tutto. Oggi il sito vero non prende ordini: mancano la chiave del database e quella della posta su Vercel, e al database mancano 15 aggiornamenti. Sul database vero ho contato che oggi il pulsante degli aggiornamenti passerebbe. Il secondo blocco è il giro dei soldi dei contanti: il bonifico del lunedì e il rimborso al cliente non si possono segnare come fatti. Nel registro del sito ora sono aperte 1.368 voci: 5 bloccanti, 69 gravi e 1.294 minori (prima erano 996: 4, 35 e 957). Referto: `consegne/audit/2026-11-05-radiografia.md`. Le 7 falle gravi solo in chat.
+> Di questi, 1 è bloccante e 34 sono gravi. Ogni file del sito l'ha letto per intero un revisore. Altri 21 revisori hanno seguito una cosa sola attraverso tutto il sito. Oggi il sito vero non prende ordini: mancano due chiavi su Vercel e 15 aggiornamenti al database. Il secondo blocco sono i soldi dei contanti: il bonifico al negozio e il rimborso al cliente non si segnano come fatti. Nel registro del sito ora ci sono 1.368 voci aperte. Prima erano 996. I tuoi passi sono nella carta #226. Referto: `consegne/audit/2026-11-05-radiografia.md`.
 
 > 📋 **2026-11-04 21:30 — Una parola sola per guardare tutti i difetti: «quadro».**
 >

@@ -8,7 +8,7 @@ richiesta: radiografia al 100% del marketplace (4/11), ripresa il 5/11 come la p
 
 # Il sito non può ancora aprire: tre chiavi mancano, e il giro dei soldi dei contanti non si chiude
 
-**In due righe.** Oggi nessun cliente può ordinare: sul sito vero mancano la chiave del database e quella della posta, e al database mancano 15 aggiornamenti. Poi c'è un secondo blocco, più nascosto: il bonifico del lunedì al negozio e il rimborso al cliente non si possono né vedere bene né segnare come fatti.
+**In due righe.** Oggi il sito vero non apre, per tre passi che solo tu puoi fare. E il primo lunedì dopo il lancio i conti dei contanti non tornerebbero, né col negozio né col cliente.
 
 ## In parole semplici
 
@@ -59,7 +59,7 @@ Sui 15 aggiornamenti ho una notizia buona. Un revisore li ha applicati su una co
 
 ## Cosa devi fare
 
-- **Su Vercel, metti le tre chiavi mancanti** (database, chiave della posta, mittente) e poi **premi il pulsante degli aggiornamenti del database**. È rosso, è tuo. Senza questi tre passi il sito non apre, qualunque cosa ripari io.
+- **Su Vercel, metti le tre chiavi che mancano**, poi **premi il pulsante degli aggiornamenti del database**. È rosso, è tuo. Senza questi tre passi il sito non apre, qualunque cosa ripari io.
 - **Scegli come funziona il bonifico di rimborso al cliente.** Il registro dei fatti, dal 29/10, dice che tocchi «fatto» su un avviso. Il codice invece segue la semplificazione del 17/10, senza nessun «fatto». Dimmi quale vale, e lo costruisco.
 - **Leggi in chat le sette falle gravi** e dimmi se partire subito con quelle.
 - **Porta al commercialista una domanda nuova.** La consegna la incassa MyCity, ma per quei soldi oggi non nasce nessun documento fiscale. I Termini dicono al cliente di chiedere la fattura al negozio.
