@@ -6557,3 +6557,17 @@ L'avanzo più serio è un grave dei soldi: il reso ripreso in un carrello di due
 **Per tornare indietro:** togliere dal registro le schede da AR-1035 ad AR-1157 (campo `id_analisi` valorizzato) e cancellare il referto.
 
 **Colore:** 🟢 memoria della macchina (registro e referto), nessun codice e nessuna scrittura sul sito.
+
+## 2026-11-05 16:12 — Dieci sessioni in parallelo sui difetti minori del sito
+
+**Cosa:** su richiesta di Nicola («apri 10 sessioni e risolvi almeno 600 difetti minori del marketplace, questa sessione servirà solo alla fine per controllare tutto il lavoro fatto»), ho diviso i 1.294 minori aperti del registro del sito in dieci territori di file che non si sovrappongono: 1.245 schede in dieci gruppi da 118 a 132, e 49 lasciate fuori (40 falle col referto privato, 8 che non sono codice, 1 senza file). Ogni sessione lavora sul suo ramo `claude/youthful-gates-blkxmk-m01…m10` del sito, partendo da `main`, con l'obiettivo di almeno 60 riparati veri. Questa sessione controlla, unisce in un ramo solo e apre la richiesta di unione.
+
+**Perché così:** è il metodo del 1/11 (cinque sessioni, territori separati, una sessione che collauda e unisce), che ha retto. I territori separati evitano che due sessioni scrivano lo stesso file.
+
+**Cambia una regola:** il 5/11 avevo scritto «i minori aspettano il lancio». Nicola oggi chiede di ripararli adesso: vale la sua richiesta. I seri della prima ondata restano fuori da questo lavoro e partono al suo via.
+
+**Prima scelta cambiata in corsa:** volevo mettere le schede nel deposito del sito; il controllo automatico ha fermato la pubblicazione (il deposito è pubblico). Le schede restano nel registro dell'AD, e le sessioni leggono solo i numeri da `consegne/audit/2026-11-05-dieci-sessioni-minori/piano.json`.
+
+**Per tornare indietro:** non unire i rami `-m01…-m10`; nulla tocca `main` senza la firma di Nicola.
+
+**Colore:** 🟡 codice del sito in rami separati, nessun deploy, nessuna scrittura sul database.

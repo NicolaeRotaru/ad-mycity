@@ -1,0 +1,323 @@
+{
+ "sessioni": {
+  "S01": {
+   "nome": "soldi-carta-e-guadagni",
+   "migrazioni_nuove": [
+    200,
+    204
+   ],
+   "prefissi": [
+    "lib/stripe/",
+    "app/api/stripe/",
+    "app/api/cron/release-payouts/",
+    "app/api/cron/riquadra-casse/",
+    "lib/guadagni/",
+    "app/seller/earnings/",
+    "lib/rimborsi/",
+    "app/api/returns/",
+    "app/returns/",
+    "app/api/gift-cards/",
+    "app/regali/",
+    "lib/cassa/",
+    "lib/metriche-venditore.ts",
+    "app/seller/analytics/",
+    "app/seller/dashboard/",
+    "lib/ordini/annulla.ts",
+    "lib/ordini/prezzi.ts",
+    "lib/ordini/rimbors",
+    "lib/ordini/pagament",
+    "lib/ordini/contanti",
+    "lib/ordini/bonific",
+    "lib/ordini/incass",
+    "lib/promotions.ts",
+    "app/api/sponsored/"
+   ]
+  },
+  "S02": {
+   "nome": "ordini-e-fattorino",
+   "migrazioni_nuove": [
+    205,
+    209
+   ],
+   "prefissi": [
+    "lib/ordini/",
+    "app/api/orders/",
+    "app/orders/",
+    "lib/order-status.ts",
+    "app/rider/",
+    "components/rider/",
+    "app/api/rider/",
+    "lib/rider/",
+    "app/api/consegna/",
+    "components/orders/",
+    "lib/ritiro-in-negozio.ts",
+    "lib/shipping-etichetta/",
+    "lib/riordino.ts",
+    "components/DeliveryMap.tsx"
+   ]
+  },
+  "S03": {
+   "nome": "lavori-a-orario-email-rilascio",
+   "migrazioni_nuove": [
+    210,
+    214
+   ],
+   "prefissi": [
+    "app/api/cron/expire-stale-orders/",
+    "app/api/cron/veloce-non-confermata/",
+    "app/api/cron/",
+    "lib/email/",
+    "lib/push/",
+    "scripts/",
+    ".github/",
+    "vercel.json",
+    "lib/cron-",
+    "lib/carrelli-abbandonati.ts",
+    "app/api/unsubscribe/",
+    "app/api/newsletter/",
+    "components/PushNotificationOptIn.tsx",
+    "app/notifications/",
+    "lib/health",
+    "app/api/health/",
+    "app/status/",
+    "sentry",
+    "instrumentation",
+    "next.config.js",
+    "package.json",
+    "package-lock.json",
+    ".env.example",
+    "lib/logger.ts",
+    "lib/errors.ts",
+    "docs/",
+    "playwright.config.ts",
+    "lib/db/"
+   ]
+  },
+  "S04": {
+   "nome": "database-prove-e-pagine-secondarie",
+   "migrazioni_nuove": [
+    215,
+    219
+   ],
+   "prefissi": [
+    "app/events/",
+    "app/lists/",
+    "app/favorites/",
+    "components/AddToListButton.tsx",
+    "app/shop-of-month/",
+    "app/piu-venduti/",
+    "components/DailyCheckIn.tsx",
+    "components/BuyerOnboardingTour.tsx",
+    "migrations/",
+    "supabase/",
+    "tests/",
+    "types/",
+    "seeds/"
+   ]
+  },
+  "S05": {
+   "nome": "amministrazione-e-segnalazioni",
+   "migrazioni_nuove": [
+    220,
+    224
+   ],
+   "prefissi": [
+    "app/admin/",
+    "app/api/admin/",
+    "components/admin/",
+    "lib/admin/",
+    "app/api/kyc/",
+    "lib/kyc/",
+    "app/api/segnalazioni/",
+    "components/Segnala.tsx",
+    "app/api/support/",
+    "components/SupportChatModal.tsx",
+    "app/help/",
+    "lib/cms-page.ts",
+    "components/cms/",
+    "lib/sanitize-html.ts",
+    "app/messages/",
+    "app/api/marketplace/"
+   ]
+  },
+  "S06": {
+   "nome": "pannello-del-negozio-e-catalogo",
+   "migrazioni_nuove": [
+    225,
+    229
+   ],
+   "prefissi": [
+    "app/seller/orders/",
+    "app/seller/",
+    "components/seller/",
+    "app/api/seller/",
+    "lib/products/",
+    "components/StoreMediaManager.tsx",
+    "lib/store-customization.ts",
+    "components/VendorForm.tsx",
+    "components/SellerApplicationForm.tsx",
+    "app/sell/",
+    "lib/banner-vetrina.ts",
+    "lib/media/",
+    "lib/image-resize.ts",
+    "lib/storage/",
+    "app/api/image/",
+    "lib/image-url.ts",
+    "app/lavora-con-noi/"
+   ]
+  },
+  "S07": {
+   "nome": "carrello-cassa-e-consegna",
+   "migrazioni_nuove": [
+    230,
+    234
+   ],
+   "prefissi": [
+    "app/checkout/",
+    "components/checkout/",
+    "app/cart/",
+    "components/cart/",
+    "lib/store-hours.ts",
+    "lib/promesse-pubbliche.ts",
+    "lib/quando-arriva.ts",
+    "lib/shipping.ts",
+    "app/shipping/",
+    "lib/coupons.ts",
+    "lib/constants.ts",
+    "lib/promessa-consegna.ts",
+    "app/shared-cart/",
+    "components/ShareCartButton.tsx",
+    "lib/cart-sync.ts",
+    "components/CartCrossDeviceSync.tsx",
+    "components/StickyAddToCart.tsx",
+    "lib/tempo-piacenza.ts",
+    "lib/delivery.ts",
+    "lib/geo.ts",
+    "components/LocationPill.tsx",
+    "app/near/",
+    "lib/funzioni-al-lancio.ts",
+    "components/WelcomeCreditBanner.tsx",
+    "app/promozioni/",
+    "components/PromoTicker.tsx"
+   ]
+  },
+  "S08": {
+   "nome": "legale-privacy-account-accessi",
+   "migrazioni_nuove": [
+    235,
+    239
+   ],
+   "prefissi": [
+    "app/terms/",
+    "app/privacy/",
+    "lib/privacy/",
+    "lib/legal/",
+    "app/cookies/",
+    "components/CookieBanner.tsx",
+    "lib/consent.ts",
+    "app/api/account/",
+    "app/profile/",
+    "lib/account/",
+    "components/account/",
+    "app/api/contact/",
+    "app/contact/",
+    "app/faq/",
+    "app/about/",
+    "app/accessibility/",
+    "components/Footer.tsx",
+    "app/accetta-condizioni/",
+    "lib/contatti-pubblici.ts",
+    "lib/site-branding.ts",
+    "app/u/",
+    "components/PublicProfileToggle.tsx",
+    "app/come-funziona/"
+   ]
+  },
+  "S09": {
+   "nome": "vetrina-prodotto-home-pagine",
+   "migrazioni_nuove": [
+    240,
+    244
+   ],
+   "prefissi": [
+    "app/product/",
+    "components/home/",
+    "components/home-sections/",
+    "components/store-sections/",
+    "lib/queries/",
+    "components/ProductQA.tsx",
+    "app/store/",
+    "app/stores/",
+    "components/ProductGrid.tsx",
+    "app/category/",
+    "app/categorie/",
+    "lib/category-attributes.ts",
+    "app/sitemap.ts",
+    "components/CategoryShowcase.tsx",
+    "components/products/",
+    "components/CategoryBar.tsx",
+    "app/page.tsx",
+    "app/loading.tsx",
+    "lib/home-site.ts",
+    "components/ProductCard.tsx",
+    "components/StoreProductExplorer.tsx",
+    "components/StorePreviewCard.tsx",
+    "components/StoreListRow.tsx",
+    "components/StoreAvatar.tsx",
+    "app/search/",
+    "components/SearchBar.tsx",
+    "components/StoryViewer.tsx",
+    "components/RecentlyViewed.tsx",
+    "components/ProductViewTracker.tsx",
+    "components/LiveActivityFeed.tsx",
+    "components/PhotoReviewUpload.tsx",
+    "app/api/track/"
+   ]
+  },
+  "S10": {
+   "nome": "accessi-ai-analytics-interfaccia-comune",
+   "migrazioni_nuove": [
+    245,
+    249
+   ],
+   "prefissi": [
+    "middleware.ts",
+    "lib/api/",
+    "app/sign-up/",
+    "app/sign-in/",
+    "lib/auth/",
+    "components/VerifyCodeDialog.tsx",
+    "app/auth/",
+    "app/api/auth/",
+    "lib/rate-limit.ts",
+    "lib/rate",
+    "lib/supabase/",
+    "app/reset-password/",
+    "lib/env",
+    "app/api/ai/",
+    "lib/ai/",
+    "app/api/vision/",
+    "app/api/chat/",
+    "lib/analytics/",
+    "components/ui/",
+    "components/providers/",
+    "components/hooks/",
+    "public/",
+    "tailwind.config.ts",
+    "app/globals.css",
+    "app/layout.tsx",
+    "components/Navbar.tsx",
+    "components/MobileTabBar.tsx",
+    "components/PWAInstallBanner.tsx",
+    "components/ActivityTracker.tsx",
+    "lib/format.ts",
+    "messages/",
+    "i18n.ts",
+    "stories/",
+    "hooks/",
+    "app/"
+   ]
+  }
+ },
+ "regola": "Il padrone di un file e la sessione col prefisso piu lungo che combacia. File nuovi: liberi se stanno in un tuo prefisso, o se sono prove nuove tests/unit/minori-sNN-*.test.ts."
+}
