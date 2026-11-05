@@ -339,7 +339,7 @@ function registroFinto({ claude = "# Manuale\n", sentinelle = "", extra = {} } =
   try {
     const scrivi = (rel, t) => { mkdirSync(join(dir, dirname(rel)), { recursive: true }); writeFileSync(join(dir, rel), t); };
     for (const [n, d] of [["alfa", "Usa per vendere ai negozi"], ["beta", "Usa per proteggere i dati"]]) {
-      scrivi(`.claude/agents/${n}.md`, `---\nname: ${n}\ndescription: ${d}\ntools: Read\n---\nCorpo.\n`);
+      scrivi(`.claude/agents/${n}.md`, `---\nname: ${n}\ndescription: ${d}\ntools: Read\nmodel: sonnet\n---\nCorpo.\n`); // 5/11: un senior pulito dichiara il modello
     }
     scrivi(ORGANIGRAMMA, "- 🧪 **alfa** — vende.\n- 🔒 **beta** — protegge.\n");
     scrivi("MyCity-Vault/07-Agenti/AGENTI.md", "Mappa dei 2 senior: alfa, beta.\n");

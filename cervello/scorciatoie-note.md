@@ -88,6 +88,19 @@
 
 ## F. Il costo
 
+*(Misurati il 5/11/2026 sullo smistamento dei 1.294 difetti minori del sito: run `wf_ed63893e-be8` e `wf_9fae883b-f96`.)*
+
+- **Il compito semplice sul modello grande.** Nessuno dei 120 senior aveva `model:`: giravano tutti sul più grande, e
+  un workflow senza `agentType` pure. *Cura: il modello sta nella scheda e il guardiano lo pretende; nei workflow chi
+  smista passa `model: 'sonnet'`.*
+- **La lettura a fette che si legge due volte.** L'agente stampava il file a pezzi; l'uscita troppo lunga veniva
+  salvata a parte e riletta: 7 passi su 16 solo per leggere, e ogni passo rilegge tutto il contesto. *Cura: un file
+  compatto, una voce per riga, una `Read` sola.*
+- **Il verificatore in coda dietro a tutti.** Con 2 agenti alla volta, i verificatori del primo lotto aspettavano la
+  fine dei 12 cercatori. *Cura: prima i doppioni fra tutti i segnalati, poi una verifica sola sul resto.*
+- **La ripresa che non riprende.** Riscritto lo script (da `pipeline` a `parallel`), la ripresa ha rifatto da capo due
+  lotti già finiti. *Cura: i risultati si leggono dal `journal.jsonl` e il lavoro nuovo gira solo sul mancante.*
+
 20. **Il caso peggiore non è quello medio.** Un controllo che costa due decimi di secondo di solito
     può costarne quattrocento quando il lotto tocca il file sbagliato. *Cura: il collaudatore misura
     il caso peggiore, non quello di tutti i giorni.*
