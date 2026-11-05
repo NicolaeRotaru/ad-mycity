@@ -6585,3 +6585,11 @@ L'avanzo più serio è un grave dei soldi: il reso ripreso in un carrello di due
 **Per tornare indietro:** non unire la #287; il registro torna allo stato di prima ripristinando `radiografia-marketplace.json` dal commit fe45c52.
 
 **Colore:** 🟡 codice del sito in un ramo, richiesta aperta e non unita, nessun deploy, nessuna scrittura sul database vero.
+
+## 2026-11-05 23:50 — 🟢 Le dieci sessioni sui minori sono su main: il registro lo dice
+
+**Cosa:** Nicola ha unito alle 23:45 la NicolaeRotaru/mycity#287 (commit db5164c) e la NicolaeRotaru/ad-mycity#932. Nel registro le 844 schede riparate hanno ora `chiuso_il` e `chiuso_da` («PR mycity#287 · db5164c»), come le chiusure del 1/11. Lo stato resta «riparato»: il collaudo a campione dice che circa 2 su 10 potrebbero reggere solo in parte, e un ricontrollo sul codice unito, scheda per scheda, non è stato fatto.
+
+**Cosa resta:** le sei migrazioni a mano (carta #228), il primo rilascio su Vercel da guardare, le 67 domande.
+
+**Colore:** 🟢 memoria della macchina.

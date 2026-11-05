@@ -43,6 +43,8 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 - Dopo l'unione, applicare a mano sei aggiornamenti del database: 200, 205, 215, 230, 231 e 245, in quest'ordine.
 - Per seconda, la richiesta con la memoria dell'AD.
 
+**Aggiornamento del 5/11 alle 23:50.** Hai unito tutte e due le richieste alle 23:45. Della carta resta solo un passo: applicare a mano le sei migrazioni, in quest'ordine: 200, 205, 215, 230, 231 e 245.
+
 **Cosa non ho verificato.** Il collaudo ha guardato 80 riparazioni su 858 dichiarate. Niente è andato online, e non ho provato Stripe né la posta vera.
 
 Cosa cambia: 844 difetti piccoli del sito escono dalla lista, il ritiro in negozio mostra il codice giusto al cliente, e i controlli automatici del sito tornano verdi.
