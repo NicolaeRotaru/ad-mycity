@@ -6517,3 +6517,11 @@ L'avanzo più serio è un grave dei soldi: il reso ripreso in un carrello di due
 **Per tornare indietro:** `update public.lavori set stato = case when risultato like '%era: in_corso' then 'in_corso' else 'errore' end, updated_at = now() where risultato like '%[archiviato] il 2026-11-04%';`
 
 **Colore:** 🔴 scrittura sul database vero, con la scelta di Nicola e la sua conferma sullo schermo.
+
+## 2026-11-05 00:10 — 🟡 Il quadro diviso in due: «quadro» è la macchina, «quadro sito» è il marketplace
+
+**Cosa:** `cervello/quadro.mjs` ha adesso due case. «quadro» mostra solo la macchina: la visita degli organi, i difetti aperti casa per casa, il ritmo e i bloccanti, e non legge più il registro del sito. «quadro sito» (`--sito`) mostra solo il marketplace, per gravità e area per area, senza la visita. Aggiornati `COMANDI.md` e `CLAUDE.md`, e la prova ha 15 casi su 15: diventa rossa se una casa legge l'altra.
+
+**Perché:** Nicola, 5/11: «voglio dividere la macchina dal marketplace, come faccio a chiederti in una sola parola tutte quelle cose che c'entrano con la macchina?».
+
+**Colore:** 🟡 auto-modifica, nella richiesta di unione. La firma è di Nicola.
