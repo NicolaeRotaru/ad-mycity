@@ -356,7 +356,11 @@ export function difettiDaRadiografia(
 ): { ok: true; serie: RigaLista[]; resto: RigaLista[]; totale: number; fonte: Fonte } | { ok: false; fonte: Fonte } {
   const nome = "difetti del sito";
   if (!l.dati) return { ok: false, fonte: fonte(nome, null, oggi, false, l.motivo ?? "la radiografia del sito non c'è") };
-  const data = giorno(l.dati?.sync_scan?.aggiornato) ?? giorno(l.dati?.data);
+  // Il registro porta due date: quella della radiografia («data») e quella dell'ultimo allineamento
+  // col codice («sync_scan.aggiornato»). Il dato è fresco quanto la PIÙ RECENTE delle due: la
+  // radiografia del 5/11 (richiesta #927) lascia l'allineamento all'1/11, e la casella diceva
+  // «dato del 01/11» su difetti trovati il 5.
+  const data = [giorno(l.dati?.sync_scan?.aggiornato), giorno(l.dati?.data)].filter((x): x is string => Boolean(x)).sort().pop() ?? null;
   const e = problemiDelReferto(l.dati);
   if (e.problemi == null) return { ok: false, fonte: fonte(nome, data, oggi, false, e.motivo ?? "la radiografia del sito non si sa contare") };
   const d = righeDifettiSito(e.problemi as ProblemaSito[], dimensioni, cosa);

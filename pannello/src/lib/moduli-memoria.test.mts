@@ -591,3 +591,11 @@ test("giorni: una data impossibile non diventa un'altra; una data nel futuro non
   assert.equal(futuro.fonti[1].giorni, null);
   assert.equal(futuro.conta, 5, "un controllo con la data nel futuro non entra nel numero");
 });
+
+test("la data dei difetti del sito è la più recente fra la radiografia e l'allineamento col codice", () => {
+  const dopo927 = rispostaSicurezza(letto({ data: "2026-11-05", problemi: PROBLEMI, sync_scan: { aggiornato: "2026-11-01 20:05" } }), OGGI);
+  assert.equal(dopo927.fonti[0].data, "2026-11-05");
+  const prima = rispostaSicurezza(letto({ data: "2026-10-11", problemi: PROBLEMI, sync_scan: { aggiornato: "2026-11-01 20:05" } }), OGGI);
+  assert.equal(prima.fonti[0].data, "2026-11-01");
+  assert.equal(rispostaSicurezza(letto({ problemi: PROBLEMI }), OGGI).fonti[0].data, null);
+});
