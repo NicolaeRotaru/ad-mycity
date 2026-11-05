@@ -9,6 +9,12 @@ import Aggiornato from "@/components/Aggiornato";
 import ParlaCasella from "@/components/ParlaCasella";
 import { classeComando, classeComandoSommario } from "@/lib/tocco-bersaglio";
 
+/** «2026-10-10» → «10/10/2026». */
+function dataIt(iso: string): string {
+  const m = iso.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  return m ? `${m[3]}/${m[2]}/${m[1]}` : iso;
+}
+
 function dotCls(c?: string) {
   return c === "rosso" ? "bg-red-500" : c === "giallo" ? "bg-amber-500" : c === "verde" ? "bg-green-500" : "bg-black/25";
 }
@@ -23,6 +29,9 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
   const [caricando, setCaricando] = useState(false);
   const [mostraTutte, setMostraTutte] = useState(false);
   const [aggAt, setAggAt] = useState<number | null>(null);
+  // Le caselle che leggono la memoria (/api/moduli/lista) dicono anche DI QUANDO è il dato e,
+  // se serve, una frase: «nessun esperimento in corso» è un dato, non una casella spenta.
+  const [info, setInfo] = useState<{ datoDel?: string | null; giorni?: number | null; nota?: string } | null>(null);
   const [syncTick, setSyncTick] = useState(0);
   usePanelSync(["memoria", "all"], () => setSyncTick((t) => t + 1));
 
@@ -40,6 +49,7 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
           if (!vivo) return;
           setRighe(Array.isArray(d.righe) ? d.righe : []);
           setListaColl(Boolean(d.collegato));
+          setInfo({ datoDel: d.datoDel ?? null, giorni: typeof d.giorni === "number" ? d.giorni : null, nota: typeof d.nota === "string" ? d.nota : undefined });
         })
         .catch(() => {
           if (!vivo) return;
@@ -104,6 +114,13 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
           {/* Elenco reale (fetch lazy) */}
           {def.lista && (
             <div className="mb-1">
+              {info?.datoDel && (
+                <p className="t-eti mb-1.5">
+                  Dato del {dataIt(info.datoDel)}
+                  {info.giorni != null && info.giorni > 0 ? ` · ${info.giorni === 1 ? "ieri" : `${info.giorni} giorni fa`}` : info.giorni === 0 ? " · oggi" : ""}
+                </p>
+              )}
+              {info?.nota && righe && righe.length > 0 && <p className="t-eti mb-1.5">{info.nota}</p>}
               {caricando && (
                 <div className="flex items-center gap-2 text-black/45 text-[12px] py-2">
                   <Loader2 size={13} className="animate-spin" /> Carico l'elenco…
@@ -112,9 +129,18 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
               {righe && righe.length > 0 && (
                 <div className="space-y-1">
                   {(mostraTutte ? righe : righe.slice(0, 8)).map((r, i) => (
-                    <div key={i} className="flex items-center gap-2 rounded-lg border border-black/[0.06] bg-paper/40 px-2.5 py-1.5">
-                      {r.colore && <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${dotCls(r.colore)}`} />}
-                      <span className="text-[12.5px] text-ink/85 truncate flex-1">{r.titolo}</span>
+                    <div key={i} className={`flex ${r.dettaglio ? "items-start" : "items-center"} gap-2 rounded-lg border border-black/[0.06] bg-paper/40 px-2.5 py-1.5`}>
+                      {r.colore && <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${r.dettaglio ? "mt-[7px]" : ""} ${dotCls(r.colore)}`} />}
+                      <div className="flex-1 min-w-0">
+                        {r.link ? (
+                          <a href={r.link} target="_blank" rel="noopener noreferrer" className="block text-[12.5px] text-ink/85 line-clamp-2 break-words hover:text-brand">
+                            {r.titolo}
+                          </a>
+                        ) : (
+                          <span className="block text-[12.5px] text-ink/85 line-clamp-2 break-words">{r.titolo}</span>
+                        )}
+                        {r.dettaglio && <span className="block text-[11px] text-black/50 leading-snug line-clamp-3 break-words mt-0.5">{r.dettaglio}</span>}
+                      </div>
                       {r.sottotitolo && <span className="text-[11px] text-black/50 shrink-0">{r.sottotitolo}</span>}
                       {r.meta && <span className="badge badge-off shrink-0">{r.meta}</span>}
                     </div>
@@ -127,7 +153,7 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
                 </div>
               )}
               {righe && righe.length === 0 && !caricando && (
-                <p className="t-eti py-1">{listaColl ? "Nessun elemento per ora." : "Marketplace non collegato: l'elenco si accende in produzione."}</p>
+                <p className="t-eti py-1">{info?.nota ?? (listaColl ? "Nessun elemento per ora." : "Marketplace non collegato: l'elenco si accende in produzione.")}</p>
               )}
             </div>
           )}

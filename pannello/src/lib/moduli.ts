@@ -9,7 +9,14 @@ import type { Tipo } from "./format";
 
 export type AreaModulo = "persone" | "operazioni" | "mondo";
 export type ModuloKpi = { label: string; chiave?: string; tipo?: Tipo };
-export type RigaLista = { titolo: string; sottotitolo?: string; meta?: string; colore?: "verde" | "giallo" | "rosso" };
+export type RigaLista = {
+  titolo: string;
+  sottotitolo?: string;
+  meta?: string;
+  colore?: "verde" | "giallo" | "rosso";
+  dettaglio?: string; // seconda riga, va a capo: l'esito di un concorrente, la testata di una notizia
+  link?: string; // se c'è, il titolo si apre in una scheda nuova (le notizie)
+};
 export type ModuloDef = {
   area: AreaModulo;
   gruppo?: string;
@@ -19,7 +26,7 @@ export type ModuloDef = {
   fonte: string;
   stato: "live" | "parziale" | "placeholder";
   kpis?: ModuloKpi[];
-  lista?: string; // endpoint che torna { collegato, righe: RigaLista[] } — elenco reale
+  lista?: string; // endpoint che torna { collegato, righe: RigaLista[], datoDel?, giorni?, nota? } — elenco reale
   punti?: string[];
   apertaDefault?: boolean;
 };
@@ -136,14 +143,14 @@ export const MODULI: ModuloDef[] = [
   {
     area: "mondo", gruppo: "Il mondo fuori", emoji: "🔎", titolo: "Mercato & concorrenti",
     descrizione: "Chi sono i concorrenti e come si muovono.",
-    fonte: "intelligence", stato: "placeholder",
-    punti: ["Concorrenti monitorati e prezzi", "Quota di mercato stimata", "Mosse e novità rilevate"],
+    fonte: "radar concorrenti dell'intelligence (memoria)", stato: "live", lista: "/api/moduli/lista?tipo=concorrenti",
+    punti: ["Il testo intero e il tasto per rifare il controllo: scheda Intelligence", "Quota di mercato stimata: non ancora misurata"],
   },
   {
     area: "mondo", gruppo: "Il mondo fuori", emoji: "🗞️", titolo: "News & rassegna stampa",
     descrizione: "Cosa si dice di noi e della città.",
-    fonte: "PR / rassegna", stato: "placeholder",
-    punti: ["Uscite stampa e menzioni", "Notizie locali rilevanti", "Reach earned"],
+    fonte: "Google Notizie, letto in diretta", stato: "live", lista: "/api/moduli/lista?tipo=rassegna",
+    punti: ["Due ricerche: «MyCity» a Piacenza, e negozi e commercio in città", "Pubblico raggiunto dagli articoli: non misurato"],
   },
   {
     area: "mondo", gruppo: "Reputazione & clienti", emoji: "⭐", titolo: "Reputazione",
@@ -175,25 +182,25 @@ export const MODULI: ModuloDef[] = [
   {
     area: "mondo", gruppo: "Protezione", emoji: "🛡️", titolo: "Sicurezza & accessi",
     descrizione: "Chi può vedere cosa e lo stato di sicurezza.",
-    fonte: "security / Supabase", stato: "placeholder",
-    punti: ["Accessi e chiavi (chi ha cosa)", "RLS e incidenti di sicurezza", "Frodi bloccate / account sospesi"],
+    fonte: "radiografia del sito (difetti aperti di accessi e permessi)", stato: "parziale", lista: "/api/moduli/lista?tipo=sicurezza",
+    punti: ["Il controllo automatico di Supabase si accende con una chiave di gestione: da creare", "Frodi bloccate e account sospesi: non ancora collegati"],
   },
   {
     area: "mondo", gruppo: "Protezione", emoji: "⚖️", titolo: "Legale & documenti",
     descrizione: "Contratti, privacy e scadenze.",
-    fonte: "legale-privacy", stato: "placeholder",
-    punti: ["Contratti firmati / negozi senza contratto", "Consensi GDPR e HACCP", "Scadenze documenti"],
+    fonte: "radiografia del sito + documenti legali + registro rischi", stato: "parziale", lista: "/api/moduli/lista?tipo=legale",
+    punti: ["Chi ha firmato il contratto: il database del sito non lo registra ancora", "Scadenze aperte: nessuna nello scadenzario"],
   },
   {
     area: "mondo", gruppo: "Futuro", emoji: "🧪", titolo: "Esperimenti",
     descrizione: "Le scommesse di crescita in corso e i risultati.",
-    fonte: "growth", stato: "placeholder",
-    punti: ["Esperimenti attivi (pricing, upsell, fee)", "Uplift di ricavo per esperimento", "Prossimi test"],
+    fonte: "registro esperimenti di crescita (memoria)", stato: "live", lista: "/api/moduli/lista?tipo=esperimenti",
+    punti: ["Ogni esperimento nuovo si scrive in 90-Memoria-AI/esperimenti-crescita.json"],
   },
   {
     area: "mondo", gruppo: "Futuro", emoji: "🗺️", titolo: "Roadmap & idee",
     descrizione: "Cosa costruire dopo e il magazzino delle idee.",
-    fonte: "product", stato: "placeholder",
-    punti: ["Roadmap del sito/app", "Idee da valutare (backlog)", "Priorità per impatto sulla North Star"],
+    fonte: "lavoro aperto sul sito (memoria)", stato: "live", lista: "/api/moduli/lista?tipo=roadmap",
+    punti: ["Il resto del lavoro aperto, tuo e della macchina: pagina «Lavoro aperto» della memoria"],
   },
 ];
