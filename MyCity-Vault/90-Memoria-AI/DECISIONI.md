@@ -6571,3 +6571,17 @@ L'avanzo più serio è un grave dei soldi: il reso ripreso in un carrello di due
 **Per tornare indietro:** non unire i rami `-m01…-m10`; nulla tocca `main` senza la firma di Nicola.
 
 **Colore:** 🟡 codice del sito in rami separati, nessun deploy, nessuna scrittura sul database.
+
+## 2026-11-05 17:58 — 🟡 Le dieci sessioni sui minori sono unite in una richiesta sola, dopo il collaudo
+
+**Cosa:** le dieci sessioni hanno finito fra le 17:08 e le 17:48. Ho unito i dieci rami in `claude/youthful-gates-blkxmk` del sito: 17 ricuciture su 16 file in conflitto e 8 prove riallineate. Ho aperto la richiesta unica NicolaeRotaru/mycity#287, come chiesto da Nicola alle 16:10 circa («tutte le pr poi dovranno essere racchiuse in una sola»).
+
+**Il collaudo:** quattro collaudatori indipendenti su 80 riparazioni a campione: 64 reggevano, 14 no (rimesse aperte nel registro con la nota), 2 rompevano altro. Ne ho corrette 2 (schede 190 e 1814), più la migrazione 230 che non si applicava. Sul ramo completo: 8.886 prove verdi, tipi e lint verdi, 177 migrazioni applicate su un Postgres vuoto.
+
+**Nel registro:** 844 minori a `riparato` (da unire su main), 41 già a posto, 50 difetti nuovi. I minori aperti scendono da 1.294 a 459.
+
+**Perché la stima «circa 690» e non 844:** il campione dice che circa 8 su 10 reggono fino in fondo. Il numero vero si saprà solo ricontrollando le altre 778 dopo l'unione.
+
+**Per tornare indietro:** non unire la #287; il registro torna allo stato di prima ripristinando `radiografia-marketplace.json` dal commit fe45c52.
+
+**Colore:** 🟡 codice del sito in un ramo, richiesta aperta e non unita, nessun deploy, nessuna scrittura sul database vero.

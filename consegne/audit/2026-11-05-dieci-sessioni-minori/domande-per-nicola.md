@@ -1,5 +1,5 @@
 ---
-data: 2026-11-05 18:20
+data: 2026-11-05 17:50
 tipo: domande per Nicola
 fonte: referti delle dieci sessioni sui difetti minori del sito (5/11)
 ---

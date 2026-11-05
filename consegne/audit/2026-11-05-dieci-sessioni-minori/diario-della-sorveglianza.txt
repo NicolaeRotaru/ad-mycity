@@ -1,3 +1,4 @@
+# Diario della sorveglianza delle dieci sessioni, 5/11/2026. Orari in UTC: a Piacenza è un’ora in più.
 15:10 S01 commit 344c525: 11 schede (72,9,713,2567,1844,108,1650,48,1686,2569,67), prove nuove 5 file; tocca lib/api/middleware.ts (S10, withCronAuth try/catch 503) e admin/disputes resolve (S05) — da ricucire all'unione
 S04 161025f: eventi/liste/preferiti/più venduti→più recensiti/tour; tocca CategoryBar e HomeSectionRenderer (S09)
 S06 1a6b1c8: candidatura negozio + IBAN con spazi; 15 file, nessun file altrui

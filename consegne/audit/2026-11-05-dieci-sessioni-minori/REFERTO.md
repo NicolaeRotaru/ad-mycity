@@ -1,5 +1,5 @@
 ---
-data: 2026-11-05 18:30
+data: 2026-11-05 17:58
 tipo: referto
 fonte: AD digitale, undicesima sessione (sorveglianza, unione e collaudo)
 richiesta: «apri 10 sessioni e risolvi almeno 600 difetti minori del marketplace» e «tutte le pr poi dovranno essere racchiuse in una sola» (Nicola, 5/11)
@@ -86,7 +86,7 @@ Cosa NON cambia: prezzi, commissione del 10%, costi di consegna, compensi del fa
 ## Dettagli tecnici
 
 - **Ramo unico:** `claude/youthful-gates-blkxmk` del sito (base `main` @ 21212f9). Rami delle sessioni: `claude/youthful-gates-blkxmk-m01…m10`.
-- **Controlli sul ramo completo:** VERIFY
+- **Controlli sul ramo completo** (commit ee73f41, tutte e dieci le sessioni più le ricuciture): `vitest run` 1.196 file, 8.886 prove verdi, 1 saltata (lo era già); `tsc --noEmit` verde; `next lint` verde.
 - **File ricuciti all'unione:** DailyCheckIn, faq, seller/analytics, seller/customers, seller/help/domande, cron/expire-stale-orders (due volte), email/templates, ordini/annulla, home/HeroStoreCard, admin/orders/cancel, orders/cod, returns/decide, rider/earnings, ordini/veloce-non-confermata, seller/products/ai-batch, providers/QueryProvider. Più: `lib/rider/consegne-del-fattorino.ts` legge `total_price` (serve al riepilogo dei contanti di S01, scheda 263); le campanelle di admin/cancel e dispute/resolve passano da `scriviCampanella`.
 - **Correzioni dell'AD dopo il collaudo:** scheda 190 (l'esito del reclamo va al `seller_id` dell'ordine, non al `against_id` scritto dal cliente; prova rossa senza correzione); scheda 1814 (registro: «sistema o account cancellato» per `actor_id` nullo); migrazione 230 (avanzo di copia in cima, errore di sintassi).
 - **Database:** Postgres 16 locale, `tests/sql/harness/apply.sh` = 177 migrazioni applicate, 0 fallite; `run.sh` verde (cartella `tests/sql/rls` 01-50); 200, 205, 215, 230, 231, 245 rieseguite due volte senza errori.
