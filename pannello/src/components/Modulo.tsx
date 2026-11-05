@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { ChevronDown, ChevronRight, Loader2 } from "lucide-react";
 import { formatta, type Tipo } from "@/lib/format";
 import type { ModuloDef, RigaLista } from "@/lib/moduli";
+import type { Fonte } from "@/lib/moduli-memoria";
 import { usePanelSync } from "@/lib/panel-sync";
 import Aggiornato from "@/components/Aggiornato";
 import ParlaCasella from "@/components/ParlaCasella";
@@ -13,6 +14,12 @@ import { classeComando, classeComandoSommario } from "@/lib/tocco-bersaglio";
 function dataIt(iso: string): string {
   const m = iso.match(/^(\d{4})-(\d{2})-(\d{2})/);
   return m ? `${m[3]}/${m[2]}/${m[1]}` : iso;
+}
+
+/** « · 26 giorni fa», « · ieri», « · oggi». */
+function quanto(giorni: number | null | undefined): string {
+  if (giorni == null) return "";
+  return giorni <= 0 ? " · oggi" : giorni === 1 ? " · ieri" : ` · ${giorni} giorni fa`;
 }
 
 function dotCls(c?: string) {
@@ -31,7 +38,7 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
   const [aggAt, setAggAt] = useState<number | null>(null);
   // Le caselle che leggono la memoria (/api/moduli/lista) dicono anche DI QUANDO è il dato e,
   // se serve, una frase: «nessun esperimento in corso» è un dato, non una casella spenta.
-  const [info, setInfo] = useState<{ datoDel?: string | null; giorni?: number | null; nota?: string } | null>(null);
+  const [info, setInfo] = useState<{ fonti: Fonte[]; conta: number | null; nota?: string } | null>(null);
   const [syncTick, setSyncTick] = useState(0);
   usePanelSync(["memoria", "all"], () => setSyncTick((t) => t + 1));
 
@@ -49,12 +56,19 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
           if (!vivo) return;
           setRighe(Array.isArray(d.righe) ? d.righe : []);
           setListaColl(Boolean(d.collegato));
-          setInfo({ datoDel: d.datoDel ?? null, giorni: typeof d.giorni === "number" ? d.giorni : null, nota: typeof d.nota === "string" ? d.nota : undefined });
+          setInfo({
+            fonti: Array.isArray(d.fonti) ? d.fonti : [],
+            conta: typeof d.conta === "number" ? d.conta : null,
+            nota: typeof d.nota === "string" ? d.nota : undefined,
+          });
         })
         .catch(() => {
           if (!vivo) return;
           setRighe((prev) => prev ?? []); // una fetch fallita NON svuota l'elenco già mostrato
           setListaColl(false);
+          // Senza questa riga, una rete caduta alla prima apertura faceva dire «Marketplace non
+          // collegato» anche alle caselle che leggono la memoria: falso. Se avevo già un dato lo tengo.
+          setInfo((prev) => prev ?? { fonti: [], conta: null, nota: "Non sono riuscita a caricare l'elenco: riprovo fra un minuto." });
         })
         .finally(() => {
           if (!vivo) return;
@@ -78,7 +92,8 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
   const kpis = def.kpis || [];
   const collegate = kpis.filter((k) => acceso(k.chiave, k.tipo)).length;
   const statoLabel = def.stato === "live" ? "live" : def.stato === "parziale" ? "parziale" : "da collegare";
-  const badge = righe ? String(righe.length) : kpis.length ? `${collegate}/${kpis.length}` : statoLabel;
+  // Il numero accanto al titolo conta le COSE (58 difetti), non le righe (8): se la rotta lo dà, vince.
+  const badge = info?.conta != null ? String(info.conta) : righe ? String(righe.length) : kpis.length ? `${collegate}/${kpis.length}` : statoLabel;
   const haDati = (righe && righe.length > 0) || collegate > 0;
 
   return (
@@ -114,11 +129,17 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
           {/* Elenco reale (fetch lazy) */}
           {def.lista && (
             <div className="mb-1">
-              {info?.datoDel && (
-                <p className="t-eti mb-1.5">
-                  Dato del {dataIt(info.datoDel)}
-                  {info.giorni != null && info.giorni > 0 ? ` · ${info.giorni === 1 ? "ieri" : `${info.giorni} giorni fa`}` : info.giorni === 0 ? " · oggi" : ""}
-                </p>
+              {info && info.fonti.length === 1 && info.fonti[0].letta && info.fonti[0].data && (
+                <p className="t-eti mb-1.5">Dato del {dataIt(info.fonti[0].data)}{quanto(info.fonti[0].giorni)}</p>
+              )}
+              {info && info.fonti.length > 1 && (
+                <ul className="mb-1.5 space-y-0.5">
+                  {info.fonti.map((f, i) => (
+                    <li key={i} className="t-eti">
+                      {f.nome}: {!f.letta ? `non letto${f.motivo ? ` (${f.motivo})` : ""}` : f.data ? `dato del ${dataIt(f.data)}${quanto(f.giorni)}` : "letto"}
+                    </li>
+                  ))}
+                </ul>
               )}
               {info?.nota && righe && righe.length > 0 && <p className="t-eti mb-1.5">{info.nota}</p>}
               {caricando && (
@@ -133,13 +154,13 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
                       {r.colore && <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${r.dettaglio ? "mt-[7px]" : ""} ${dotCls(r.colore)}`} />}
                       <div className="flex-1 min-w-0">
                         {r.link ? (
-                          <a href={r.link} target="_blank" rel="noopener noreferrer" className="block text-[12.5px] text-ink/85 line-clamp-2 break-words hover:text-brand">
+                          <a href={r.link} target="_blank" rel="noopener noreferrer" className="text-[12.5px] text-ink/85 line-clamp-2 break-words hover:text-brand">
                             {r.titolo}
                           </a>
                         ) : (
-                          <span className="block text-[12.5px] text-ink/85 line-clamp-2 break-words">{r.titolo}</span>
+                          <div className="text-[12.5px] text-ink/85 line-clamp-2 break-words">{r.titolo}</div>
                         )}
-                        {r.dettaglio && <span className="block text-[11px] text-black/50 leading-snug line-clamp-3 break-words mt-0.5">{r.dettaglio}</span>}
+                        {r.dettaglio && <div className="text-[11px] text-black/50 leading-snug line-clamp-3 break-words mt-0.5">{r.dettaglio}</div>}
                       </div>
                       {r.sottotitolo && <span className="text-[11px] text-black/50 shrink-0">{r.sottotitolo}</span>}
                       {r.meta && <span className="badge badge-off shrink-0">{r.meta}</span>}
