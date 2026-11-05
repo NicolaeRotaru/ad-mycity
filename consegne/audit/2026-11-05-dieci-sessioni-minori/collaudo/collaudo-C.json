@@ -1,0 +1,162 @@
+[
+ {
+  "id": 1808,
+  "sessione": "S04",
+  "verdetto": "chiude",
+  "prova_morde": "si",
+  "motivo": "Le tre forme del titolo ora passano: count dentro un aggancio, percorsi JSON (provato su profiles.store_hours->>lun) e aggancio per colonna, con la mappa delle chiavi esterne che coincide con il database vero. Con l'aiuto vecchio le tre prove escono rosse. Resta fuori solo la forma nuova count() con le parentesi, che il titolo non nomina; la prova JSON usa orders.metadata, una colonna che non esiste.",
+  "dove": "tests/unit/aiuti/database-che-conosce-le-colonne.ts:104-108"
+ },
+ {
+  "id": 2507,
+  "sessione": "S04",
+  "verdetto": "chiude",
+  "prova_morde": "si",
+  "motivo": "La prova nuova, quella col carrello di due negozi, gira. L'ho rifatta girare col mutante della scheda (aMeta.length === ordiniTrovati.length) sulla rotta di oggi, già cambiata da S02: esce rossa. Senza mutante è verde.",
+  "dove": "tests/unit/la-cassa-non-dice-fatto-per-un-ordine-senza-articoli.test.ts:299 · app/api/orders/cod/route.ts:614"
+ },
+ {
+  "id": 486,
+  "sessione": "S04",
+  "verdetto": "chiude",
+  "prova_morde": "si",
+  "motivo": "Il file vecchio è tolto e la prova nuova sta in tests/sql/rls, che run.sh esegue anche in CI. Sul database ricostruito è verde. Con una regola mutante USING (true) sugli ordini diventa rossa, sia per tutti sia solo per gli utenti con l'accesso.",
+  "dove": "tests/sql/rls/50-un-cliente-non-legge-gli-ordini-di-un-altro.test.sql:37"
+ },
+ {
+  "id": 2090,
+  "sessione": "S04",
+  "verdetto": "chiude",
+  "prova_morde": "si",
+  "motivo": "La campanella (215) e il sottotitolo della pagina ordine dicono «un rider passa a prenderlo»; nel codice non resta nessun «ritirerà». La prova SQL 48 va rossa rimettendo la funzione della 122; la prova sulla pagina invece è solo una ricerca di parole nel file. Resta un caso dormiente: per un ordine col ritiro in negozio la pagina dice ancora «un rider passa a prenderlo», ma oggi il ritiro è spento.",
+  "dove": "migrations/215_minori_s04_database.sql:364 · app/orders/[id]/page.tsx:374"
+ },
+ {
+  "id": 1834,
+  "sessione": "S04",
+  "verdetto": "chiude",
+  "prova_morde": "si",
+  "motivo": "Una lettura caduta adesso diventa errore con Riprova, e «Accedi per votare» ha il pulsante verso /sign-in?returnTo=/shop-of-month, che la pagina di accesso rispetta. Tre mutanti, tre prove rosse. Resta un difetto vicino: mentre carica, e nei circa 2 secondi del nuovo tentativo, la pagina mostra ancora «Nessun negozio in classifica per ora», perché non distingue il caricamento dal vuoto.",
+  "dove": "app/shop-of-month/page.tsx:77 e :171"
+ },
+ {
+  "id": 406,
+  "sessione": "S04",
+  "verdetto": "in_parte",
+  "prova_morde": "si",
+  "motivo": "«Più venduti» e «questa settimana» sono spariti dalla pagina e dalla barra. Però il titolino nuovo «Scelti dai clienti», con l'icona della fiamma, resta una prova sociale: con zero recensioni (in produzione c'è un solo ordine, annullato) presenta come scelti prodotti che nessuno ha scelto. La scheda chiedeva di nascondere la pagina finché non ci sono dati veri.",
+  "dove": "app/piu-venduti/page.tsx:28"
+ },
+ {
+  "id": 1769,
+  "sessione": "S04",
+  "verdetto": "chiude",
+  "prova_morde": "si",
+  "motivo": "La prova nuova monta la pagina /shop-of-month vera con una scelta del mese che ha il codice FORNO15. Ho rimesso il codice sconto sotto «Visita il negozio» in un mutante: la prova diventa rossa.",
+  "dove": "tests/unit/minori-s04-negozio-del-mese.test.tsx:86"
+ },
+ {
+  "id": 696,
+  "sessione": "S04",
+  "verdetto": "chiude",
+  "prova_morde": "si",
+  "motivo": "I sei paletti esistono e sono validati sul database ricostruito: credito applicato ≥0, consegna ≥0, rimborso del reso ≥0, movimento del portafoglio ≠0, budget e speso degli sponsorizzati ≥0. La migrazione rigira due volte senza errori. Nessuna funzione esistente scrive movimenti a zero. La prova 48 va rossa togliendo i due vincoli sugli ordini, ma non controlla gli altri quattro.",
+  "dove": "migrations/215_minori_s04_database.sql:486"
+ },
+ {
+  "id": 103,
+  "sessione": "S04",
+  "verdetto": "chiude",
+  "prova_morde": "si",
+  "motivo": "Nella regola del fattorino l'annullato vale come chiuso: lo vede per 7 giorni da canceled_at, poi più niente. Tutte le strade che annullano scrivono canceled_at, e nessuna migrazione successiva riapre la regola. Con la regola della 127 rimessa, la prova 48 va rossa: 1 riga letta.",
+  "dove": "migrations/215_minori_s04_database.sql:760"
+ },
+ {
+  "id": 1660,
+  "sessione": "S04",
+  "verdetto": "chiude",
+  "prova_morde": "si",
+  "motivo": "Un reclamo nuovo ora deve nascere «open», senza rimborso, note, data di chiusura o chi l'ha chiuso. Il modulo vero del cliente manda solo i campi permessi, quindi continua a funzionare. Non c'è un'altra regola che apra le scritture, e solo l'amministratore può modificare un reclamo. Con la regola della 063 rimessa, la prova 48 va rossa.",
+  "dove": "migrations/215_minori_s04_database.sql:276"
+ },
+ {
+  "id": 687,
+  "sessione": "S08",
+  "verdetto": "in_parte",
+  "prova_morde": "si",
+  "motivo": "Chiude in parte: la protezione è stata copiata dentro la rotta invece di farla passare dal controllo comune. I dettagli di sicurezza stanno nella sessione dell'AD del 5/11, fuori dal deposito.",
+  "dove": "app/api/account/accetta-condizioni/route.ts"
+ },
+ {
+  "id": 2041,
+  "sessione": "S08",
+  "verdetto": "chiude",
+  "prova_morde": "si",
+  "motivo": "Quando la richiesta c'era già, la rotta POST risponde con gli stessi campi della lettura: giorni, rinvio, motivo e tappa. La pagina scrive «Avevi già chiesto la cancellazione» e mostra il motivo. Ho provato due mutanti, uno sulla rotta e uno sulla pagina: tutti e due fanno diventare rossa la prova.",
+  "dove": "app/api/account/delete/route.ts:105 · app/profile/settings/page.tsx:383"
+ },
+ {
+  "id": 1995,
+  "sessione": "S08",
+  "verdetto": "chiude",
+  "prova_morde": "si",
+  "motivo": "Il testo del 503 vive in moduloNonArrivato(), e la prova nuova lo legge senza casella privacy. Il mutante della scheda (recapito.testo al posto di eUnaCasella) la fa diventare rossa.",
+  "dove": "app/api/contact/route.ts:137 · tests/unit/minori-s08-contatti.test.ts:111"
+ },
+ {
+  "id": 2042,
+  "sessione": "S08",
+  "verdetto": "chiude",
+  "prova_morde": "si",
+  "motivo": "Se la rilettura del motivo cade, la rotta risponde letturaFallita:true e rinviata:null. La pagina allora scrive «Non riusciamo a leggere lo stato» e non mostra il conto alla rovescia. I mutanti sulla libreria e sulla pagina fanno diventare rosse le prove. Resta un caso fratello: se cade la lettura del profilo, la GET risponde ancora pending:false, cioè «nessuna richiesta».",
+  "dove": "lib/privacy/avvisi-a-chi-aspetta.ts:555 · app/api/account/delete/route.ts:205"
+ },
+ {
+  "id": 2007,
+  "sessione": "S08",
+  "verdetto": "in_parte",
+  "prova_morde": "si",
+  "motivo": "L'email ora usa la costante PAGINA_DEI_CONTATTI e la cerca come percorso a sé: «/contacts» e gli indirizzi interi non si spezzano più, e la prova lo vede. Però la stessa sessione ha aggiunto una copia nuova, scritta a mano, di «/contact» e della sua ricerca nella pagina Impostazioni (MotivoConCollegamenti). È proprio il problema della scheda: copie senza una costante comune.",
+  "dove": "app/profile/settings/page.tsx:109"
+ },
+ {
+  "id": 2058,
+  "sessione": "S08",
+  "verdetto": "in_parte",
+  "prova_morde": "si",
+  "motivo": "Il controllo ilModuloArrivaSenzaDatabase adesso guarda i domini: support@mycity.it risponde no, il nostro dominio e i suoi sottodomini rispondono sì. Anche .env.example è corretto. Ma quando manca il database, la rotta /api/contact inoltra ancora a qualunque SUPPORT_EMAIL e risponde «ok». Ci arriva chi segue il rimando al modulo dalla pagina privacy, quindi una richiesta privacy può ancora finire dove nessuno legge.",
+  "dove": "app/api/contact/route.ts:166 · lib/legal/titolare.ts:338"
+ },
+ {
+  "id": 1723,
+  "sessione": "S08",
+  "verdetto": "chiude",
+  "prova_morde": "si",
+  "motivo": "Un errore di lettura o la chiave che manca adesso finiscono nel registro e mostrano la pagina d'errore con Riprova, che è app/error.tsx. «Non trovato» arriva solo quando la lettura riesce vuota. Il «_» dentro ilike è protetto. Togliendo il controllo dell'errore, la prova diventa rossa.",
+  "dove": "app/u/[handle]/page.tsx:37"
+ },
+ {
+  "id": 506,
+  "sessione": "S08",
+  "verdetto": "in_parte",
+  "prova_morde": "si",
+  "motivo": "I tre punti del titolo sono sistemati: in cima alla sezione 4 ci sono il negozio e il rider coi dati che ricevono, Supabase sta «nell'UE, a Parigi», e il riassunto non dice più «solo». Manca il ruolo chiesto dalla scheda: il negozio è titolare autonomo, il rider lavora per conto di MyCity. In più il negozio ora sta sotto il titolo «(sub-responsabili)», cioè risulta un fornitore di MyCity, e non lo è.",
+  "dove": "app/privacy/page.tsx:207-213"
+ },
+ {
+  "id": 178,
+  "sessione": "S08",
+  "verdetto": "chiude",
+  "prova_morde": "si",
+  "motivo": "Indirizzo, CAP e città sono tolti dal Profilo, che ora rimanda a /profile/addresses (la pagina esiste). La frase delle Impostazioni non parla più di «indirizzo principale». I vecchi valori restano nel database, ma la cancellazione dell'account li azzera. La prova monta la pagina e controlla le etichette dei campi.",
+  "dove": "app/profile/page.tsx:104 · app/profile/settings/page.tsx:527"
+ },
+ {
+  "id": 2026,
+  "sessione": "S08",
+  "verdetto": "chiude",
+  "prova_morde": "si",
+  "motivo": "Con zero giorni, o con la data già passata, anche senza un rinvio dichiarato la pagina scrive «I 7 giorni per ripensarci sono passati…». Non dice più «tra 0 giorni… entro questa data». Spegnendo terminePassato in un mutante, la prova diventa rossa.",
+  "dove": "app/profile/settings/page.tsx:762"
+ }
+]

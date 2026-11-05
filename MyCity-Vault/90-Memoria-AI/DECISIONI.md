@@ -6557,3 +6557,31 @@ L'avanzo più serio è un grave dei soldi: il reso ripreso in un carrello di due
 **Per tornare indietro:** togliere dal registro le schede da AR-1035 ad AR-1157 (campo `id_analisi` valorizzato) e cancellare il referto.
 
 **Colore:** 🟢 memoria della macchina (registro e referto), nessun codice e nessuna scrittura sul sito.
+
+## 2026-11-05 16:12 — Dieci sessioni in parallelo sui difetti minori del sito
+
+**Cosa:** su richiesta di Nicola («apri 10 sessioni e risolvi almeno 600 difetti minori del marketplace, questa sessione servirà solo alla fine per controllare tutto il lavoro fatto»), ho diviso i 1.294 minori aperti del registro del sito in dieci territori di file che non si sovrappongono: 1.245 schede in dieci gruppi da 118 a 132, e 49 lasciate fuori (40 falle col referto privato, 8 che non sono codice, 1 senza file). Ogni sessione lavora sul suo ramo `claude/youthful-gates-blkxmk-m01…m10` del sito, partendo da `main`, con l'obiettivo di almeno 60 riparati veri. Questa sessione controlla, unisce in un ramo solo e apre la richiesta di unione.
+
+**Perché così:** è il metodo del 1/11 (cinque sessioni, territori separati, una sessione che collauda e unisce), che ha retto. I territori separati evitano che due sessioni scrivano lo stesso file.
+
+**Cambia una regola:** il 5/11 avevo scritto «i minori aspettano il lancio». Nicola oggi chiede di ripararli adesso: vale la sua richiesta. I seri della prima ondata restano fuori da questo lavoro e partono al suo via.
+
+**Prima scelta cambiata in corsa:** volevo mettere le schede nel deposito del sito; il controllo automatico ha fermato la pubblicazione (il deposito è pubblico). Le schede restano nel registro dell'AD, e le sessioni leggono solo i numeri da `consegne/audit/2026-11-05-dieci-sessioni-minori/piano.json`.
+
+**Per tornare indietro:** non unire i rami `-m01…-m10`; nulla tocca `main` senza la firma di Nicola.
+
+**Colore:** 🟡 codice del sito in rami separati, nessun deploy, nessuna scrittura sul database.
+
+## 2026-11-05 17:58 — 🟡 Le dieci sessioni sui minori sono unite in una richiesta sola, dopo il collaudo
+
+**Cosa:** le dieci sessioni hanno finito fra le 17:08 e le 17:48. Ho unito i dieci rami in `claude/youthful-gates-blkxmk` del sito: 17 ricuciture su 16 file in conflitto e 8 prove riallineate. Ho aperto la richiesta unica NicolaeRotaru/mycity#287, come chiesto da Nicola alle 16:10 circa («tutte le pr poi dovranno essere racchiuse in una sola»).
+
+**Il collaudo:** quattro collaudatori indipendenti su 80 riparazioni a campione: 64 reggevano, 14 no (rimesse aperte nel registro con la nota), 2 rompevano altro. Ne ho corrette 2 (schede 190 e 1814), più la migrazione 230 che non si applicava. Sul ramo completo: 8.886 prove verdi, tipi e lint verdi, 177 migrazioni applicate su un Postgres vuoto.
+
+**Nel registro:** 844 minori a `riparato` (da unire su main), 41 già a posto, 50 difetti nuovi. I minori aperti scendono da 1.294 a 459.
+
+**Perché la stima «circa 690» e non 844:** il campione dice che circa 8 su 10 reggono fino in fondo. Il numero vero si saprà solo ricontrollando le altre 778 dopo l'unione.
+
+**Per tornare indietro:** non unire la #287; il registro torna allo stato di prima ripristinando `radiografia-marketplace.json` dal commit fe45c52.
+
+**Colore:** 🟡 codice del sito in un ramo, richiesta aperta e non unita, nessun deploy, nessuna scrittura sul database vero.

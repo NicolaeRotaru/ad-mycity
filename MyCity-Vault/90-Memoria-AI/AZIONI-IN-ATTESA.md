@@ -31,6 +31,25 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🔴 #228 — Rileggi i testi legali e unisci il lavoro delle dieci sessioni sui difetti piccoli · ⏳ accodata 2026-11-05 18:30
+
+**In parole semplici.** Dieci sessioni hanno riparato i difetti piccoli del sito. Nel registro ne risultano riparati 844, e un collaudo a campione dice che circa 8 su 10 reggono fino in fondo. Tutto il codice sta in una richiesta sola, che aspetta te.
+
+**Cosa cambia per te.** Esempio: chi ritira il pane in negozio vede il suo codice di ritiro appena il forno accetta l'ordine. Prezzi, commissione del 10% e compensi del fattorino restano identici. I minori aperti scendono da 1.294 a 459.
+
+**Cosa devi fare tu.**
+- Rileggere le tre pagine legali: termini, privacy e cookie. È sparito il riquadro «Avviso legale», e la versione della privacy resta la 2.0.
+- Firmare la richiesta col codice delle dieci sessioni: è il passo che manda il sito online.
+- Dopo l'unione, applicare a mano sei aggiornamenti del database: 200, 205, 215, 230, 231 e 245, in quest'ordine.
+- Per seconda, la richiesta con la memoria dell'AD.
+
+**Cosa non ho verificato.** Il collaudo ha guardato 80 riparazioni su 858 dichiarate. Niente è andato online, e non ho provato Stripe né la posta vera.
+
+Cosa cambia: 844 difetti piccoli del sito escono dalla lista, il ritiro in negozio mostra il codice giusto al cliente, e i controlli automatici del sito tornano verdi.
+Se va bene: applichi i sei aggiornamenti del database, io guardo il primo rilascio e segno «chiuso» le schede nel registro.
+
+Richiesta del sito: NicolaeRotaru/mycity#287. Richiesta della memoria: NicolaeRotaru/ad-mycity#932. Referto: `consegne/audit/2026-11-05-dieci-sessioni-minori/REFERTO.md`. Domande: `consegne/audit/2026-11-05-dieci-sessioni-minori/domande-per-nicola.md`.
+
 ### 🟡 #227 — Scegli se riparare prima del lancio il conto dei soldi da dare al negozio · ⏳ accodata 2026-11-05 14:42
 
 **In parole semplici.** Hai rimandato a dopo il marketplace i 123 difetti delle sei pagine «Approfondisci» del Pannello. Uno solo è bloccante, e conta già dal lancio. La scheda dei soldi al negozio legge «già pagato» i contanti che il fattorino deve ancora portare.
