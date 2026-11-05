@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-05 07:00
+aggiornato: 2026-11-05 09:01
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -134,7 +134,7 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
 
 ## 3 · La macchina
 
-- **Le sei caselle della scheda «Mercato» del Pannello leggono la memoria** (05/11 alle 07:00). Sono concorrenti, rassegna stampa, sicurezza, legale, esperimenti e roadmap; prima dicevano «da collegare». Aspetta la tua unione: richiesta NicolaeRotaru/ad-mycity#925, tre giri e tre collaudi. Restano due cose:
+- **Le sei caselle della scheda «Mercato» del Pannello leggono la memoria** (05/11 alle 07:00). Sono concorrenti, rassegna stampa, sicurezza, legale, esperimenti e roadmap; prima dicevano «da collegare». Unita da te il 05/11 alle 08:59 (richiesta NicolaeRotaru/ad-mycity#925). Da guardare: sul Pannello pubblicato, se Google Notizie risponde davvero. Restano due cose:
   - Altre 6 caselle dicono ancora «da collegare», nelle schede «Negozi & clienti» e «Operazioni».
   - Il controllo automatico di sicurezza di Supabase aspetta una chiave di gestione: solo tu puoi crearla.
 - Il server che la fa lavorare da sola è fermo; l'ultimo controllo di salute è del 1° settembre.
