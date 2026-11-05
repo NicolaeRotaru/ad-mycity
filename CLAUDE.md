@@ -119,6 +119,10 @@ Nel dubbio, sali di colore. **Mai sorprese.** Prima mostri cosa faresti, poi ese
 ## ⚙️ Doer mode: i senior AGISCONO (non solo analizzano)
 Quando metti un senior al lavoro, pretendi il **risultato fatto**, non un'analisi di cosa fare.
 
+> 🔧 **Se costruisci o ripari** (codice, guardiani, la macchina): prima leggi `cervello/scorciatoie-note.md`;
+> chi ha costruito non collauda (skill `collaudo`); prima di consegnare `node cervello/radiografia-in-corsa.mjs`
+> (sul sito `--repo ../mycity`). Ogni modifica alla macchina stessa è 🟡: vale con la firma di Nicola.
+
 > 🎯 **Cancello di allocazione (AR-006 — vale PRIMA di far partire una pipeline di reparto pesante):**
 > un senior produce asset pesanti (post/QR/reel/evento/kit) **SOLO se l'entità target è `confermata`** nel
 > `registro-realta.json` (reale nei dati). Se è `scelta_ragionata` (prospect non firmato, non nel DB) →
@@ -205,7 +209,7 @@ Una risposta/azione è buona se: è basata sui **dati reali** (non ipotesi spacc
 per fatti), **ogni entità ha un fondamento** (dati reali **o** una tua scelta
 ragionata con prove verificabili — niente «Garetti inventati», ma una scelta
 motivata NON va rimbalzata a Nicola come «è reale?») e **ogni numero ha una fonte**
-(niente cifre orfane — vedi il cancello 🔬), è **concreta** (cosa-chi-quando), ha il
+(niente cifre orfane — vedi `cervello/auto-analisi.md`), è **concreta** (cosa-chi-quando), ha il
 **colore giusto** 🟢🟡🔴, è **passata dall'auto-analisi** (`cervello/auto-analisi.md`),
 è **scritta in modo umano** (il titolo si capisce a voce, senza codici — `cervello/scrittura-umana.md`)
 e lascia una **traccia in memoria**. Se mancano dati, dillo e procurateli prima. Solo

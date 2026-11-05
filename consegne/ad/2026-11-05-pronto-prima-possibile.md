@@ -1,8 +1,8 @@
 ---
-data: 2026-11-05 15:10
+data: 2026-11-05 14:27
 tipo: analisi
 fonte: AD digitale, su richiesta di Nicola in chat il 5/11
-dati: registro dei difetti del sito (2.673 schede, letto il 5/11 alle 14:21) · Vercel e database letti dal vivo il 5/11 alle 14:40
+dati: registro dei difetti del sito (2.673 schede, letto il 5/11 alle 14:21) · Vercel e database letti dal vivo il 5/11 verso le 14:25
 ---
 
 # Il sito può essere pronto il 15/11: il passo lento non è il codice, sono le chiavi e la carta
@@ -32,7 +32,7 @@ Quindi il lavoro di codice prima di aprire è **32 difetti su 74**, meno della m
 
 ## Cosa cambia per te
 
-**Primo: oggi il sito non apre per motivi che non sono nel codice.** L'ho controllato dal vivo alle 14:40.
+**Primo: oggi il sito non apre per motivi che non sono nel codice.** L'ho controllato dal vivo verso le 14:25.
 - Su Vercel ci sono 11 chiavi, tutte messe il 10/10 o prima. Manca la chiave di servizio del database: senza, il tasto «Ordina» fallisce sempre. Manca la chiave della posta: senza, il forno non riceve l'email dell'ordine. Mancano tutte le chiavi di Stripe.
 - Il database è fermo all'aggiornamento 163. Ne mancano 15, dal 164 al 195.
 
@@ -54,7 +54,7 @@ Queste due cose aspettano dal 31/10, cioè da cinque giorni. Qualunque cosa ripa
 - Dammi indirizzo e telefono del titolare, da scrivere sul sito.
 - **Per ultima**, su Vercel, la chiave e il mittente della posta.
 
-**Perché la posta per ultima** (corretto il 5/11 alle 17:30, dopo la verifica dei minori). Nella coda ci sono email ferme da mesi. L'aggiornamento 165 le fa scadere. Se la chiave della posta arriva prima degli aggiornamenti, partono tutte insieme ai clienti.
+**Perché la posta per ultima** (corretto il 5/11 alle 15:09, dopo la verifica dei minori). Nella coda ci sono email ferme da mesi. L'aggiornamento 165 le fa scadere. Se la chiave della posta arriva prima degli aggiornamenti, partono tutte insieme ai clienti.
 
 **Tre risposte, anche brevi:**
 - La partita IVA è aperta? Cosa ha detto il commercialista il 2/11?
@@ -187,8 +187,8 @@ Due ondate in tutto, come dice la regola del lavoro snello. Se alla seconda rest
 **Fonti.**
 - Registro: `MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-marketplace.json`, campo `problemi`, 2.673 voci. Stati: aperto 1.368, chiuso 805, riparato 360, doppione 73, gia_riparato_prima 67.
 - `node cervello/quadro.mjs --sito` del 5/11 alle 14:21: 5 bloccanti, 69 gravi, 1.294 minori.
-- Vercel, progetto `mycity`, team `nicolaerotarus-projects`: `filter_project_envs` alle 14:40. Produzione: 11 chiavi, nessuna fra `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY`, `RESEND_FROM`, `STRIPE_SECRET_KEY`, `CARTA_ACCESA`. Ultima chiave aggiunta il 10/10 (card #154).
-- Supabase, progetto `clmpyfvpvfjgeviworth`: `list_migrations` alle 14:40, ultima numerata `163`. La `150` (email «pronto» e «consegnato») è applicata.
+- Vercel, progetto `mycity`, team `nicolaerotarus-projects`: `filter_project_envs` verso le 14:25. Produzione: 11 chiavi, nessuna fra `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY`, `RESEND_FROM`, `STRIPE_SECRET_KEY`, `CARTA_ACCESA`. Ultima chiave aggiunta il 10/10 (card #154).
+- Supabase, progetto `clmpyfvpvfjgeviworth`: `list_migrations` verso le 14:25, ultima numerata `163`. La `150` (email «pronto» e «consegnato») è applicata.
 - Fatti: `lancio.criterio`, `lancio.data`, `pagamenti.al-lancio`, `pagamenti.rimborso-contanti`, `consegna.capienza`, `logistica.bici-consegna` in `registro-fatti.json`.
 
 **Come ho classificato l'origine** (campo `fonte`): `marketplace` e `design` = radiografia; testo con «preesistente», «c'era già», «difetto vecchio», «c è su» = vecchio visto riparando (254 aperti); testo con «nato/nati» = nato dal riparare; il resto con «perimetro», «riesame», «collaudo», «ondata», «lotto» = visto riparando, origine non detta (153 aperti, sommati ai 254 nella tabella). Nati dal riparare: 463 in tutto, 29 seri, 1 serio aperto (voce 2353).
@@ -205,7 +205,7 @@ Due ondate in tutto, come dice la regola del lavoro snello. Se alla seconda rest
 
 **Prima ondata, perimetro proposto:** voci 50, 51, 53, 54, 55, 56, 129, 130, 21, 132, 136, 141, 131, 137, più lo spegnimento di 80 e 139. Motore: `.claude/workflows/ondata-snella.js`, schede da `node cervello/schede-pacchetto.mjs`. Cancello: `npm run verify` e `node cervello/radiografia-in-corsa.mjs --repo ../mycity`.
 
-**Gli altri 1.294 (5/11, dalle 14:30 alle 17:30).**
+**Gli altri 1.294 (5/11, dalle 14:33 alle 15:08).**
 - Smistamento: run `wf_ed63893e-be8` (lotti 1-4, modello grande) e `wf_9fae883b-f96` (lotti 5-12, modello piccolo, una lettura). Esiti per voce: `scratchpad/minori/classificati-tutti.json` della sessione. La voce 808 l'ho classificata a mano.
 - Verifica: run `wf_80e0dc84-cb0`, 15 gruppi sul modello piccolo e 7 conferme sul grande, 22 agenti, circa 1,36 milioni di token.
 - Promosso e confermato: voce 474 (con la 146, il ritiro spento). Smentiti dalla seconda lente: 23, 85, 151, 161, 518, 633, 1738.

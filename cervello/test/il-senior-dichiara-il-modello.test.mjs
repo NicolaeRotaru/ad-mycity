@@ -59,11 +59,31 @@ test("nel repo vero ogni senior dichiara un modello ammesso", () => {
   for (const m of Object.keys(r.conteggio)) assert.ok(MODELLI_AMMESSI.includes(m));
 });
 
-test("chi collauda e chi tocca soldi, sicurezza e diritto resta sul modello grande", () => {
-  const perNome = new Map(reali().map((s) => [s.file, estraiModel(s.testo)]));
-  for (const nome of ["qa", "tech", "security", "backend-dev", "finanza", "contabilita", "legale-privacy", "dpo", "prompt-engineer"]) {
-    assert.equal(perNome.get(nome), "opus", `${nome} deve reggere senza un secondo controllo: modello grande`);
-  }
+// L'elenco ESATTO dei senior sul modello grande. Cambiarlo è una scelta: scendere al piccolo chi tocca
+// soldi, permessi o sicurezza fa rosso qui; salire al grande senza motivo costa, e fa rosso uguale.
+const SUL_GRANDE = [
+  "account-security", "analista", "avvocato-civile", "avvocato-ip", "avvocato-lavoro", "backend-dev",
+  "broker-assicurativo", "builder-automazioni", "business-plan-bancabile", "cfo", "chief-of-staff",
+  "commercialista", "consulente-lavoro", "contabilita", "corporate-strategy", "data-engineer", "devops-sre",
+  "direttore-creativo", "dispute", "dpo", "finanza", "fiscalista-iva-ecommerce", "fp-and-a", "fraud-risk",
+  "fundraising-equity", "infosec-soc", "internal-audit", "kyc-aml", "legale-contrattualista", "legale-privacy",
+  "marketplace-payments", "mediatore-creditizio", "medico-competente", "notaio", "platform-infra",
+  "pricing-scientist", "product-manager", "prompt-engineer", "qa", "qa-designer", "revisore-conti", "rspp",
+  "sdet", "security", "seller-financing", "tech", "trust-safety",
+];
+
+test("sul modello grande ci sono esattamente i senior che devono reggere da soli", () => {
+  const grandi = reali().filter((s) => estraiModel(s.testo) === "opus").map((s) => s.file).sort();
+  assert.deepEqual(grandi, [...SUL_GRANDE].sort());
+});
+
+test("model vuoto non ruba la riga dopo, il commento in coda non conta, due righe sono un problema", () => {
+  const vuoto = analizzaModelli([{ file: "v", testo: scheda(["name: v", "model:", "description: y"]) }]);
+  assert.deepEqual(vuoto.senzaModel, ["v"], "model vuoto: è mancante, non «description: y»");
+  const commento = analizzaModelli([{ file: "c", testo: scheda(["name: c", "model: sonnet # il piccolo"]) }]);
+  assert.equal(commento.problemi, 0);
+  const doppio = analizzaModelli([{ file: "d", testo: scheda(["name: d", "model: opus", "model: sonnet"]) }]);
+  assert.equal(doppio.problemi, 1, "due righe model: il router ne legge una, la prova un'altra");
 });
 
 test("chi produce testi e grafiche sta sul modello piccolo", () => {

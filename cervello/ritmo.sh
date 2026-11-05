@@ -168,7 +168,7 @@ elif command -v node >/dev/null 2>&1; then
   fi
 fi
 
-PROMPT="Sei l'AD digitale di MyCity (segui CLAUDE.md e gli agenti in .claude/agents/).
+PROMPT="Sei l'AD digitale di MyCity (segui CLAUDE.md, il manuale dell'AD in cervello/MANUALE-AD.md e gli agenti in .claude/agents/).
 
 ## Compito
 Leggi ed esegui **per intero** la sezione **${RITMO_SEZIONE}** del file \`cervello/ritmo.md\` (aprilo dal disco con Read, NON saltare passi).

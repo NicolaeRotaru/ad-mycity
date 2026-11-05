@@ -251,10 +251,16 @@ export function estraiName(testo) {
 
 /** Estrae `model:` dal frontmatter YAML di un mansionario. "" se manca. */
 export function estraiModel(testo) {
+  return righeModel(testo)[0] || "";
+}
+
+/** Tutti i valori di `model:` nel frontmatter, uno per riga (senza commento in coda, senza virgolette). */
+function righeModel(testo) {
   const m = String(testo || "").match(/^---\s*[\r\n]([\s\S]*?)[\r\n]---/);
   const fm = m ? m[1] : "";
-  const n = fm.match(/^model:\s*(.+?)\s*$/m);
-  return n ? n[1].replace(/^["']|["']$/g, "").trim() : "";
+  return [...fm.matchAll(/^model:[ \t]*(.*?)[ \t]*\r?$/gm)].map((r) =>
+    r[1].replace(/\s+#.*$/, "").replace(/^["']|["']$/g, "").trim(),
+  );
 }
 
 /** I modelli che un senior può dichiarare: il piccolo per produrre, il grande per ciò che deve reggere. */
@@ -270,7 +276,11 @@ export const MODELLI_AMMESSI = ["sonnet", "opus", "haiku"];
  * diagnosi e codice che tocca soldi, dati o permessi, collaudi, sicurezza, soldi veri, diritto e
  * fisco, strategia e numeri su cui Nicola decide, governo della macchina. PICCOLO (sonnet) per il
  * resto: testi, grafiche, operazioni, ricerca, vendite, marketing, cura clienti, che passano
- * comunque da un cancello (direttore-creativo, qa, collaudo, firma di Nicola).
+ * comunque da un cancello (direttore-creativo, qa, collaudo, firma di Nicola). Sul grande anche chi
+ * collega le mani verso i clienti (builder-automazioni), chi banna e sospende (trust-safety) e i
+ * cancelli finali (direttore-creativo, qa-designer). frontend-dev resta sul piccolo: le sue schermate
+ * passano sempre dal collaudo di qa e da `npm run verify`, e la logica dei soldi sta nel backend.
+ * L'elenco esatto dei senior sul grande è fissato in cervello/test/il-senior-dichiara-il-modello.test.mjs.
  * Pura: prende [{file, testo}], nessun I/O.
  */
 export function analizzaModelli(schede = [], ammessi = MODELLI_AMMESSI) {
@@ -278,7 +288,13 @@ export function analizzaModelli(schede = [], ammessi = MODELLI_AMMESSI) {
   const modelSconosciuto = [];
   const conteggio = {};
   for (const { file, testo } of schede) {
-    const model = estraiModel(testo);
+    const righe = righeModel(testo);
+    if (righe.length > 1) {
+      // due righe `model:`: il router ne legge una, la prova un'altra — opus sopra sonnet inganna tutti
+      modelSconosciuto.push({ file, model: `${righe.length} righe model: ${righe.join(" / ")}` });
+      continue;
+    }
+    const model = righe[0] || "";
     if (!model) {
       senzaModel.push(file);
       continue;

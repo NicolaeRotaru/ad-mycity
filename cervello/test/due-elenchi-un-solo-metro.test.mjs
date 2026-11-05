@@ -368,6 +368,14 @@ prova("innesto: il registro vero è VERDE su un repo finto pulito", () => {
   assert.equal(r.rc, 0);
 });
 
+prova("innesto: un senior senza model fa diventare ROSSO il registro, e il motivo è solo quello", () => {
+  // 5/11: la funzione pura era provata, il cablaggio nel drift no — tolta quella riga, tutto restava verde.
+  const r = registroFinto({ extra: { ".claude/agents/alfa.md": "---\nname: alfa\ndescription: Usa per vendere ai negozi\ntools: Read\n---\nCorpo.\n" } });
+  assert.deepEqual(r.json?.modelli_frontmatter?.senzaModel, ["alfa"], r.out);
+  assert.equal(r.json?.drift_totale, 1, `atteso un solo problema, il modello:\n${r.out}`);
+  assert.equal(r.rc, 1, "il senior senza modello è visto ma non arriva al codice d'uscita");
+});
+
 prova("innesto: una sentinella che manda a riallineare il manuale fa diventare ROSSO il registro", () => {
   const r = registroFinto({ sentinelle: "| Drift registro agenti | drift > 0 | AD | riallinea CLAUDE.md/AGENTI.md/COMANDI ai file reali | 🟡 |\n" });
   assert.deepEqual(r.json?.rimandi_al_vecchio_roster?.righe?.map((x) => x.file), ["cervello/sentinelle.md"], r.out);

@@ -1,6 +1,6 @@
 ---
 tipo: manuale
-data: 2026-11-05 16:50
+data: 2026-11-05 15:05
 fonte: le parti di CLAUDE.md che servono solo all'AD, spostate parola per parola il 5/11/2026 su firma di Nicola
 ---
 

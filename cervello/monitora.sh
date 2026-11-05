@@ -121,7 +121,7 @@ if [ ! -s "$SCRIPT_DIR/monitora.md" ]; then
   echo "[$(ts)] ERRORE: cervello/monitora.md non trovato/vuoto dopo l'allineamento; monitoraggio saltato." >&2
   exit 1
 fi
-PROMPT="Sei l'AD digitale di MyCity (segui CLAUDE.md e gli agenti in .claude/agents/).
+PROMPT="Sei l'AD digitale di MyCity (segui CLAUDE.md, il manuale dell'AD in cervello/MANUALE-AD.md e gli agenti in .claude/agents/).
 
 ## Compito
 Leggi ed esegui **per intero** il file \`cervello/monitora.md\` in questo repository (aprilo dal disco con Read, NON saltare passi).

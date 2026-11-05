@@ -102,7 +102,7 @@ prova("il mansionario dell'AD (CLAUDE.md) insegna TUTTI e quattro i blocchi del 
  */
 const PROMPT_GENERALI = [
   { nome: "chat", attacco: "Sei l'AD digitale di MyCity e stai parlando con Nicola nella chat del Pannello" },
-  { nome: "lavori", attacco: "Sei l'AD digitale di MyCity (segui CLAUDE.md). Esegui questo lavoro" },
+  { nome: "lavori", attacco: "Sei l'AD digitale di MyCity (segui CLAUDE.md e cervello/MANUALE-AD.md). Esegui questo lavoro" },
 ];
 
 function promptiDelWorker(src) {
