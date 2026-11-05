@@ -53,7 +53,7 @@ fonte: le parti di CLAUDE.md che servono solo all'AD, spostate parola per parola
 > produrre, smistare e cercare. Un agente di workflow **senza** `agentType` prende il modello della sessione, cioè il
 > grande: per smistare o classificare si passa `model: 'sonnet'` · ⑩ **i dati in un file compatto, letto una volta**
 > (una riga per voce, `Read` con `allow_large`), mai a fette con l'uscita che va salvata e riletta · ⑪ **qui girano
-> 2 agenti alla volta** (4 processori − 2): si contano i turni prima di lanciare, e i verificatori non si mettono in
+> due lavori alla volta** (4 processori meno 2): si contano i turni prima di lanciare, e i verificatori non si mettono in
 > coda dietro a tutti i cercatori — prima si tolgono i doppioni fra i segnalati, poi si verifica il resto · ⑫ per
 > **riusare** un lavoro fermato, si leggono i risultati dal `journal.jsonl` e si lancia un workflow nuovo solo sul
 > mancante: cambiare la forma dello script fa ripartire da capo anche le chiamate rimaste uguali. Il conto del 5/11:
