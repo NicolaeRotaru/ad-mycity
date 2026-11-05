@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-05 10:44
+aggiornato: 2026-11-05 12:32
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -136,7 +136,7 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
 ## 3 · La macchina
 
 - **Le sei caselle della scheda «Mercato» del Pannello leggono la memoria** (05/11 alle 07:00). Sono concorrenti, rassegna stampa, sicurezza, legale, esperimenti e roadmap; prima dicevano «da collegare». Unita da te il 05/11 alle 08:59 (richiesta NicolaeRotaru/ad-mycity#925). Da guardare: sul Pannello pubblicato, se Google Notizie risponde davvero. Poi, su tua richiesta del 05/11 alle 09:44 («Fai le due cose»):
-  - Le ultime 6 caselle (Rider, Contatti, Lead, Catalogo, Campagne, Calendario) leggono i loro dati: nessuna casella del Pannello dice più «da collegare». Aspetta la tua unione: richiesta del ramo `ccr-fb638afc-uqf9u7`.
+  - Le ultime 6 caselle (Rider, Contatti, Lead, Catalogo, Campagne, Calendario) leggono i loro dati: nessuna casella del Pannello dice più «da collegare». Unita da te il 05/11 alle 12:32 (richiesta NicolaeRotaru/ad-mycity#928).
   - Il controllo di sicurezza di Supabase non ha bisogno della chiave: la macchina lo legge dalla sessione e lo salva in memoria con la sua data. Si rifà col comando «controlla la sicurezza di Supabase», e nel giro.
   - Da fare dopo, primo: la rubrica di enti, creator e fornitori. Oggi la casella Contatti ha solo i giornali.
   - Da fare dopo, secondo: chiudere il Pannello a chi non ha fatto l'accesso. L'ho proposto come lavoro a parte.
