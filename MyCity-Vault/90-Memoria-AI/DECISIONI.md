@@ -6585,3 +6585,27 @@ L'avanzo più serio è un grave dei soldi: il reso ripreso in un carrello di due
 **Per tornare indietro:** non unire la #287; il registro torna allo stato di prima ripristinando `radiografia-marketplace.json` dal commit fe45c52.
 
 **Colore:** 🟡 codice del sito in un ramo, richiesta aperta e non unita, nessun deploy, nessuna scrittura sul database vero.
+
+## 2026-11-05 23:50 — 🟢 Le dieci sessioni sui minori sono su main: il registro lo dice
+
+**Cosa:** Nicola ha unito alle 23:45 la NicolaeRotaru/mycity#287 (commit db5164c) e la NicolaeRotaru/ad-mycity#932. Nel registro le 844 schede riparate hanno ora `chiuso_il` e `chiuso_da` («PR mycity#287 · db5164c»), come le chiusure del 1/11. Lo stato resta «riparato»: il collaudo a campione dice che circa 2 su 10 potrebbero reggere solo in parte, e un ricontrollo sul codice unito, scheda per scheda, non è stato fatto.
+
+**Cosa resta:** le sei migrazioni a mano (carta #228), il primo rilascio su Vercel da guardare, le 67 domande.
+
+**Colore:** 🟢 memoria della macchina.
+
+## 2026-11-06 00:16 — 🔴 Le 21 migrazioni che mancavano sono nel database vero, col via di Nicola
+
+**Cosa:** Nicola ha chiesto alle 23:50 se potevo applicare io le migrazioni mancanti. Ho contato in sola lettura: ne mancavano 21, non le 6 della carta #228. C'erano anche le 15 delle settimane scorse, dalla 164 alla 195, mai entrate. Al suo «ok migrazioni» ho fatto partire alle 23:59 il pulsante «Migrazioni a mano», con conferma APPLICA, 21 attese e ultima la 245. Il giro 42126077546 è finito verde alle 00:15.
+
+**Perché il pulsante e non lo strumento Supabase:** è lo script già provato il 23/10. Conta prima di scrivere e applica ogni file tutto o niente. Lo strumento Supabase della sessione il 19/10 si inceppava sulle conferme.
+
+**Verificato dopo, in sola lettura:**
+- il registro ha tutte e 21, e gli oggetti nuovi ci sono;
+- le 7 email ferme in coda sono scadute, e non partiranno quando si collega la posta;
+- le 4 notifiche coi 5 € sono riscritte;
+- chi non ha un account vede ancora 5 prodotti, 1 negozio e 72 categorie, e la home risponde 200.
+
+Gli unici due errori del sito nell'ultima ora sono di prima: manca la chiave di servizio su Vercel.
+
+**Colore:** 🔴 scrittura sul database vero, firmata da Nicola in chat («ok migrazioni», 5/11 alle 23:59).
