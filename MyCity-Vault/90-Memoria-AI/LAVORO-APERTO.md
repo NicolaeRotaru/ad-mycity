@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-05 14:27
+aggiornato: 2026-11-05 15:38
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -29,6 +29,8 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 ---
 
 ## 1 · Cose che toccano a te
+
+**L'analisi «pronto prima possibile» è fatta** (5/11 alle 14:27). Dei 74 difetti seri del sito, 32 vanno riparati nel codice prima di aprire: due ondate. Altri 11 non sono codice e toccano a te, in una seduta di un'ora: chiavi di Vercel, aggiornamenti del database, falla del 31/10, indirizzo. Letto dal vivo verso le 14:25: su Vercel mancano ancora le chiavi del database, della posta e di Stripe; il database è fermo al 163. La data del 15/11 dipende anche da Stripe e dalla partita IVA, che da qui non vedo. Mi servono tre risposte: partita IVA, conti Stripe, «fatto» sul rimborso. Documento: `consegne/ad/2026-11-05-pronto-prima-possibile.md`.
 
 **La parola «quadro» aspetta la tua firma** (4/11 alle 21:10). Con una parola sola ti mostro organi, difetti della macchina casa per casa, sito, ritmo e bloccanti. È nella richiesta di unione #921. Il quadro del 4/11 dice questo: sulla macchina restano 238 difetti aperti, e 10 su 238 sono bloccanti. Sul sito ne restano 996, e 39 su 996 sono seri. Il server è fermo dal 25/9.
 
@@ -102,6 +104,7 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
 
 ### Ancora da fare
 
+- **Fino all'apertura niente radiografie larghe** (5/11): solo la rilettura dei file toccati, i minori dopo il lancio. Lo smistamento dei 74 seri, voce per voce, è nei dettagli di `consegne/ad/2026-11-05-pronto-prima-possibile.md`.
 - **Prima ondata dopo la radiografia del 5/11**, al tuo via: i soldi dei contanti (quanto versare il lunedì, «fatto» sul bonifico al negozio e su quello di rimborso, Guadagni del negozio, rimborso dopo il lunedì) e gli avvisi (allarme a 5 minuti, campanella nel pannello, email d'ordine fallita). Poi le 7 falle gravi. Il buco della consegna veloce non confermata si rilegge dopo aver chiuso i suoi 28 difetti aperti.
 - **Il piano per aprire è partito il 31/10.** Ho ricontrollato sul codice tutte le 1.213 voci aperte o dette riparate. Si apre con zero bloccanti e zero gravi del lancio, carta compresa: 7 ondate su due binari, primo cliente in contanti giovedì 5/11 sera o venerdì 6/11. Piano: `consegne/audit/2026-10-31-piano-difetti-sito.md`; verdetti per voce: `consegne/audit/2026-10-31-verifica-1213-schede.json`. Le email di annullo e l'ondata 2 di prima entrano nelle sue ondate. Nel registro restano dai giri 21-24 le voci 2007-2029: una grave, la carta che controlla la fascia quando nasce il pagamento, che è nell'ondata 5, e 22 minori.
 - **Tre pezzi del freno della veloce restano aperti** (il freno è unito con la #265 il 30/10 alle 18:04):
@@ -135,6 +138,7 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
 
 ## 3 · La macchina
 
+- **Ogni senior dice il suo modello, e il manuale che tutti rileggono pesa la metà** (5/11, su tua firma: «consumare il meno possibile, fare il lavoro migliore e corretto»). 47 senior sul modello grande, 73 sul piccolo; prima giravano tutti sul grande. `CLAUDE.md` è sceso da 30.415 a circa 16.800 byte: le parti solo dell'AD stanno in `cervello/MANUALE-AD.md`, che i prompt del server ora nominano. Il guardiano del registro agenti diventa rosso se un senior perde il modello. Collaudo indipendente fatto: 3 difetti medi trovati e chiusi nello stesso lavoro. Nella richiesta NicolaeRotaru/ad-mycity#930, da unire.
 - **I difetti delle sei pagine «Approfondisci» del Pannello sono salvati, da riprendere dopo il marketplace** (05/11 alle 14:27). Le pagine sono Numeri, Analisi & report, Negozi & clienti, Operazioni, Mercato e Intelligence. Tua scelta: «li riprendiamo dopo aver finito di risolvere il marketplace». Sono 123 schede nel registro della macchina: 1 bloccante, 13 gravi, il resto medi e minori. Il più urgente conta già dal lancio: la scheda dei soldi al negozio legge «già pagato» i contanti ancora in mano al fattorino. Fino alla riparazione, quanto dare al negozio il lunedì si conta dal sito. Se ripararlo prima del lancio lo scegli tu nella carta #227. Alla ripresa servono due tue scelte: quali account sono di prova, e cosa mettere in cima alla pagina Numeri. Referto: `consegne/audit/2026-11-05-pannello-pagine-approfondisci.md`.
 - **Le sei caselle della scheda «Mercato» del Pannello leggono la memoria** (05/11 alle 07:00). Sono concorrenti, rassegna stampa, sicurezza, legale, esperimenti e roadmap; prima dicevano «da collegare». Unita da te il 05/11 alle 08:59 (richiesta NicolaeRotaru/ad-mycity#925). Da guardare: sul Pannello pubblicato, se Google Notizie risponde davvero. Poi, su tua richiesta del 05/11 alle 09:44 («Fai le due cose»):
   - Le ultime 6 caselle (Rider, Contatti, Lead, Catalogo, Campagne, Calendario) leggono i loro dati: nessuna casella del Pannello dice più «da collegare». Unita da te il 05/11 alle 12:32 (richiesta NicolaeRotaru/ad-mycity#928).

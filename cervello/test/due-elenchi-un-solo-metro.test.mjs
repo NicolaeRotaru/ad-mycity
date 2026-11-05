@@ -339,7 +339,7 @@ function registroFinto({ claude = "# Manuale\n", sentinelle = "", extra = {} } =
   try {
     const scrivi = (rel, t) => { mkdirSync(join(dir, dirname(rel)), { recursive: true }); writeFileSync(join(dir, rel), t); };
     for (const [n, d] of [["alfa", "Usa per vendere ai negozi"], ["beta", "Usa per proteggere i dati"]]) {
-      scrivi(`.claude/agents/${n}.md`, `---\nname: ${n}\ndescription: ${d}\ntools: Read\n---\nCorpo.\n`);
+      scrivi(`.claude/agents/${n}.md`, `---\nname: ${n}\ndescription: ${d}\ntools: Read\nmodel: sonnet\n---\nCorpo.\n`); // 5/11: un senior pulito dichiara il modello
     }
     scrivi(ORGANIGRAMMA, "- 🧪 **alfa** — vende.\n- 🔒 **beta** — protegge.\n");
     scrivi("MyCity-Vault/07-Agenti/AGENTI.md", "Mappa dei 2 senior: alfa, beta.\n");
@@ -366,6 +366,14 @@ prova("innesto: il registro vero è VERDE su un repo finto pulito", () => {
   const r = registroFinto();
   assert.equal(r.json?.drift_totale, 0, `atteso drift 0:\n${r.out}`);
   assert.equal(r.rc, 0);
+});
+
+prova("innesto: un senior senza model fa diventare ROSSO il registro, e il motivo è solo quello", () => {
+  // 5/11: la funzione pura era provata, il cablaggio nel drift no — tolta quella riga, tutto restava verde.
+  const r = registroFinto({ extra: { ".claude/agents/alfa.md": "---\nname: alfa\ndescription: Usa per vendere ai negozi\ntools: Read\n---\nCorpo.\n" } });
+  assert.deepEqual(r.json?.modelli_frontmatter?.senzaModel, ["alfa"], r.out);
+  assert.equal(r.json?.drift_totale, 1, `atteso un solo problema, il modello:\n${r.out}`);
+  assert.equal(r.rc, 1, "il senior senza modello è visto ma non arriva al codice d'uscita");
 });
 
 prova("innesto: una sentinella che manda a riallineare il manuale fa diventare ROSSO il registro", () => {
