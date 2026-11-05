@@ -134,7 +134,7 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
 
 ## 3 · La macchina
 
-- **Le sei caselle della scheda «Mercato» del Pannello leggono la memoria** (05/11 alle 07:00). Sono concorrenti, rassegna stampa, sicurezza, legale, esperimenti e roadmap; prima dicevano «da collegare». Aspetta la tua unione nella richiesta del ramo `ccr-fb638afc-uqf9u7`. Restano due cose:
+- **Le sei caselle della scheda «Mercato» del Pannello leggono la memoria** (05/11 alle 07:00). Sono concorrenti, rassegna stampa, sicurezza, legale, esperimenti e roadmap; prima dicevano «da collegare». Aspetta la tua unione: richiesta NicolaeRotaru/ad-mycity#925, tre giri e tre collaudi. Restano due cose:
   - Altre 6 caselle dicono ancora «da collegare», nelle schede «Negozi & clienti» e «Operazioni».
   - Il controllo automatico di sicurezza di Supabase aspetta una chiave di gestione: solo tu puoi crearla.
 - Il server che la fa lavorare da sola è fermo; l'ultimo controllo di salute è del 1° settembre.
