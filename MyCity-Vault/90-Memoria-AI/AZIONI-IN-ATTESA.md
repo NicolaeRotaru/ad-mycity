@@ -33,6 +33,8 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ### 🔴 #228 — Rileggi i testi legali e unisci il lavoro delle dieci sessioni sui difetti piccoli · ⏳ accodata 2026-11-05 18:30
 
+> ✅ FATTO 2026-11-06 00:16 — col tuo «ok migrazioni» ho fatto partire io il pulsante delle migrazioni. Ne mancavano 21, non 6: c'erano anche le 15 delle settimane scorse. Sono entrate tutte, e il catalogo si vede come prima. Resta da guardare il primo rilascio.
+
 **In parole semplici.** Dieci sessioni hanno riparato i difetti piccoli del sito. Nel registro ne risultano riparati 844, e un collaudo a campione dice che circa 8 su 10 reggono fino in fondo. Tutto il codice sta in una richiesta sola, che aspetta te.
 
 **Cosa cambia per te.** Esempio: chi ritira il pane in negozio vede il suo codice di ritiro appena il forno accetta l'ordine. Prezzi, commissione del 10% e compensi del fattorino restano identici. I minori aperti scendono da 1.294 a 459.
