@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-05 12:32
+aggiornato: 2026-11-05 15:20
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -29,6 +29,8 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 ---
 
 ## 1 · Cose che toccano a te
+
+**L'analisi «pronto prima possibile» è fatta** (5/11 alle 15:10). Dei 74 difetti seri del sito, 32 vanno riparati nel codice prima di aprire: due ondate. Altri 11 non sono codice e toccano a te, in una seduta di un'ora: chiavi di Vercel, aggiornamenti del database, falla del 31/10, indirizzo. Letto dal vivo alle 14:40: su Vercel mancano ancora le chiavi del database, della posta e di Stripe; il database è fermo al 163. La data del 15/11 dipende anche da Stripe e dalla partita IVA, che da qui non vedo. Mi servono tre risposte: partita IVA, conti Stripe, «fatto» sul rimborso. Documento: `consegne/ad/2026-11-05-pronto-prima-possibile.md`.
 
 **La parola «quadro» aspetta la tua firma** (4/11 alle 21:10). Con una parola sola ti mostro organi, difetti della macchina casa per casa, sito, ritmo e bloccanti. È nella richiesta di unione #921. Il quadro del 4/11 dice questo: sulla macchina restano 238 difetti aperti, e 10 su 238 sono bloccanti. Sul sito ne restano 996, e 39 su 996 sono seri. Il server è fermo dal 25/9.
 
@@ -102,6 +104,7 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
 
 ### Ancora da fare
 
+- **Fino all'apertura niente radiografie larghe** (5/11): solo la rilettura dei file toccati, i minori dopo il lancio. Lo smistamento dei 74 seri, voce per voce, è nei dettagli di `consegne/ad/2026-11-05-pronto-prima-possibile.md`.
 - **Prima ondata dopo la radiografia del 5/11**, al tuo via: i soldi dei contanti (quanto versare il lunedì, «fatto» sul bonifico al negozio e su quello di rimborso, Guadagni del negozio, rimborso dopo il lunedì) e gli avvisi (allarme a 5 minuti, campanella nel pannello, email d'ordine fallita). Poi le 7 falle gravi. Il buco della consegna veloce non confermata si rilegge dopo aver chiuso i suoi 28 difetti aperti.
 - **Il piano per aprire è partito il 31/10.** Ho ricontrollato sul codice tutte le 1.213 voci aperte o dette riparate. Si apre con zero bloccanti e zero gravi del lancio, carta compresa: 7 ondate su due binari, primo cliente in contanti giovedì 5/11 sera o venerdì 6/11. Piano: `consegne/audit/2026-10-31-piano-difetti-sito.md`; verdetti per voce: `consegne/audit/2026-10-31-verifica-1213-schede.json`. Le email di annullo e l'ondata 2 di prima entrano nelle sue ondate. Nel registro restano dai giri 21-24 le voci 2007-2029: una grave, la carta che controlla la fascia quando nasce il pagamento, che è nell'ondata 5, e 22 minori.
 - **Tre pezzi del freno della veloce restano aperti** (il freno è unito con la #265 il 30/10 alle 18:04):
