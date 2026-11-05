@@ -4,9 +4,31 @@ tipo: domande per Nicola
 fonte: referti delle dieci sessioni sui difetti minori del sito (5/11)
 ---
 
-# Le domande che le dieci sessioni lasciano a te
+# Le 67 domande che le dieci sessioni lasciano a te
 
-Ogni sessione, quando una scheda chiedeva una decisione tua (un prezzo, una regola, un testo legale, un dato che non c'è nel codice), non ha deciso: ha scritto la domanda. Qui sono tutte, per gruppo. Ogni domanda ha il numero della scheda in fondo, per chi poi esegue.
+## In parole semplici
+
+Quando una scheda chiedeva una decisione tua, la sessione non ha deciso al tuo posto: ha scritto una domanda. Sono 67. Altre 20 schede sono lavori da fare a mano, fuori dal codice. Nessuna ferma il lancio del 15/11.
+
+## Cosa cambia per te
+
+Finché non rispondi, quelle 87 schede restano aperte nel registro. Ogni risposta sblocca una riparazione piccola.
+
+Un esempio. La sessione dei soldi chiede: un cliente paga con la carta e chiede il rimborso pieno prima del bonifico al negozio. Il fattorino ha consegnato: il suo compenso si paga lo stesso? Oggi dipende dall'ora del rimborso. Con un sì o un no, la regola diventa una sola.
+
+## Cosa devi fare
+
+Quando hai tempo, leggi i gruppi qui sotto e rispondi in chat con il numero della scheda e la scelta. Parti dai soldi: sono 14 domande.
+
+## Cosa non ho verificato
+
+Le domande le ho riportate come le hanno scritte le sessioni. Non le ho riscritte una per una, e alcune sono lunghe. Non ho controllato se qualcuna è già risolta dalle tue decisioni dei giorni scorsi.
+
+---
+
+## Dettagli tecnici
+
+Le domande per gruppo, con il numero della scheda del registro. In fondo, i lavori da fare a mano.
 
 ## Soldi, carta e guadagni (14)
 

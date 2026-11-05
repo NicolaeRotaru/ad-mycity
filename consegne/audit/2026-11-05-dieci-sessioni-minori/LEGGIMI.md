@@ -1,4 +1,14 @@
-# Le dieci sessioni sui difetti minori — regole comuni (5/11/2026)
+# Le regole date alle dieci sessioni sui difetti piccoli (5/11/2026)
+
+Questo è il foglio di istruzioni che ogni sessione ha letto prima di cominciare: cosa riparare, in quali file, come provare ogni riparazione e cosa non fare mai. Per te non c'è niente da fare qui: le tue cose sono nella carta #228 e nel referto.
+
+Un esempio di regola: una riparazione conta solo se ha una prova che diventa rossa quando la correzione si toglie. Un'altra: nessuna sessione mette il sito online, scrive sul database vero o cambia prezzi e commissioni. Non tutte le hanno rispettate alla lettera: tre sessioni hanno messo nel ramo file temporanei delle prove, due hanno toccato file di altre sessioni. Il diario della sorveglianza dice quando le ho richiamate.
+
+---
+
+## Dettagli tecnici
+
+Il testo dato alle sessioni, com'era.
 
 Nicola ha chiesto: «apri 10 sessioni e risolvi almeno 600 difetti minori del marketplace».
 Questa cartella sta nel deposito dell'AD (`NicolaeRotaru/ad-mycity`, ramo `claude/youthful-gates-blkxmk`,
