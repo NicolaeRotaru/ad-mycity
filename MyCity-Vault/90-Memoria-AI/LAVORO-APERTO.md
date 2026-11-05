@@ -52,7 +52,7 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 - **Da non fare:** non riattivare il fattorino sospeso: non ha nessun documento.
 - **Dati che mi servono:** indirizzo e telefono del titolare, poi partita IVA e PEC.
 - **Le scelte** sui soldi, sui fattorini e sulle regole, col mio consiglio accanto, stanno in un documento solo: `consegne/audit/2026-11-01-cinque-sessioni-referto.md`.
-- **Un giro nuovo**, solo se lo chiedi: nel sito restano 39 difetti seri aperti, ognuno con una riga che dice perché. Fra questi ci sono il reso pagato col credito (NicolaeRotaru/mycity#282, tre rossi) e un rimborso diviso fra due negozi, trovato stasera.
+- **La radiografia del 5/11 è fatta** (12:10): 372 difetti nuovi nel registro del sito, 1 bloccante e 34 gravi, di cui 7 falle riservate (R262-R268, dettagli solo in chat). Tocca a te: le tre chiavi su Vercel, il pulsante degli aggiornamenti del database, la scelta sul «fatto» del bonifico di rimborso, la domanda nuova al commercialista sulla consegna incassata da MyCity. Referto: `consegne/audit/2026-11-05-radiografia.md`.
 
 **La base dei prossimi mesi.** È la conversazione del 1/11, finita alle 12:18. Il documento intero è `consegne/strategia/2026-11-01-conversazione-base.md`.
 - Pronto entro il 15/11, aperto alla città, **solo con la carta accesa**: lunedì 2/11 (partita IVA, chiave del database, chiavi di Vercel, conto Stripe) decide la data.
@@ -102,6 +102,7 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
 
 ### Ancora da fare
 
+- **Prima ondata dopo la radiografia del 5/11**, al tuo via: i soldi dei contanti (quanto versare il lunedì, «fatto» sul bonifico al negozio e su quello di rimborso, Guadagni del negozio, rimborso dopo il lunedì) e gli avvisi (allarme a 5 minuti, campanella nel pannello, email d'ordine fallita). Poi le 7 falle gravi. Il buco della consegna veloce non confermata si rilegge dopo aver chiuso i suoi 28 difetti aperti. Elenco: `consegne/audit/2026-11-05-radiografia.md`.
 - **Il piano per aprire è partito il 31/10.** Ho ricontrollato sul codice tutte le 1.213 voci aperte o dette riparate. Si apre con zero bloccanti e zero gravi del lancio, carta compresa: 7 ondate su due binari, primo cliente in contanti giovedì 5/11 sera o venerdì 6/11. Piano: `consegne/audit/2026-10-31-piano-difetti-sito.md`; verdetti per voce: `consegne/audit/2026-10-31-verifica-1213-schede.json`. Le email di annullo e l'ondata 2 di prima entrano nelle sue ondate. Nel registro restano dai giri 21-24 le voci 2007-2029: una grave, la carta che controlla la fascia quando nasce il pagamento, che è nell'ondata 5, e 22 minori.
 - **Tre pezzi del freno della veloce restano aperti** (il freno è unito con la #265 il 30/10 alle 18:04):
   - Resta aperta la 1826: il freno che non trova una fascia tiene l'euro.
