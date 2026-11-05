@@ -31,6 +31,25 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🔴 #226 — Metti le tre chiavi su Vercel e premi il pulsante del database, poi scegli il «fatto» del rimborso · ⏳ accodata 2026-11-05 12:20
+
+**In parole semplici.** La radiografia del 5/11 ha letto tutto il sito. Oggi il sito vero non prende ordini, e la causa sta in tre passi che solo tu puoi fare.
+
+**Cosa cambia per te.** Senza la chiave del database il tasto «Ordina» fallisce sempre. Senza le chiavi della posta il fornaio non sa del nuovo ordine. Il pulsante del database porta i 15 aggiornamenti che mancano. Una copia ferma come la produzione li ha presi tutti. Oggi sul database vero non c'è nessun ordine che li fermerebbe: ho contato 0.
+
+**Cosa devi fare tu.**
+- Su Vercel: la chiave di servizio del database, la chiave della posta e il suo mittente.
+- Premere il pulsante degli aggiornamenti del database, subito dopo.
+- Dirmi quale regola vale per il rimborso in contanti al cliente. Il registro dice che tocchi «fatto» su un avviso. Il codice invece non ha nessun «fatto».
+- Portare al commercialista una domanda: la consegna la incassa MyCity, ma per quei soldi non nasce nessun documento.
+
+**Cosa non ho verificato.** La rete di questa sessione blocca il dominio del sito. Le pagine le ha provate una copia locale dello stesso codice.
+
+Cosa cambia: il sito vero torna a prendere ordini, e il fornaio riceve l'email di ogni ordine nuovo.
+Se va bene: apro la prima ondata di riparazioni, i soldi dei contanti e gli avvisi, prima del primo lunedì.
+
+Referto: `consegne/audit/2026-11-05-radiografia.md` · memoria: https://github.com/NicolaeRotaru/ad-mycity/pull/927
+
 ### 🔴 #225 — Unisci il piano per aprire e fai i tuoi primi passi · ⏳ accodata 2026-10-31 09:15
 
 **In parole semplici.** Ho ricontrollato sul codice tutte le 1.213 voci del registro del sito e ho scritto il piano per aprire: 7 ondate su due binari. Le prime due stanno già lavorando, l'ondata 1 qui e l'ondata 2 in una seconda sessione.

@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-11-04 21:30
+aggiornato: 2026-11-05 12:10
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🩻 **2026-11-05 12:10 — La radiografia del marketplace è finita. Ha trovato 372 difetti nuovi.**
+>
+> Di questi, 1 è bloccante e 34 sono gravi. Ogni file del sito l'ha letto per intero un revisore. Altri 21 revisori hanno seguito una cosa sola attraverso tutto il sito. Oggi il sito vero non prende ordini: mancano due chiavi su Vercel e 15 aggiornamenti al database. Il secondo blocco sono i soldi dei contanti: il bonifico al negozio e il rimborso al cliente non si segnano come fatti. Nel registro del sito ora ci sono 1.368 voci aperte. Prima erano 996. I tuoi passi sono nella carta #226. Referto: `consegne/audit/2026-11-05-radiografia.md`.
 
 > 📋 **2026-11-04 21:30 — Una parola sola per guardare tutti i difetti: «quadro».**
 >
