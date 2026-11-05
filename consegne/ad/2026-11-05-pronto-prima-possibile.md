@@ -7,7 +7,7 @@ dati: registro dei difetti del sito (2.673 schede, letto il 5/11 alle 14:21) · 
 
 # Il sito può essere pronto il 15/11: il passo lento non è il codice, sono le chiavi e la carta
 
-> **In due righe.** Dei 74 difetti seri, quelli da riparare nel codice prima di aprire sono 32: bastano due ondate.
+> **In due righe.** Prima di aprire vanno riparati nel codice 33 difetti: 32 dei 74 seri, più uno salito dai minori. Bastano due ondate.
 > Il passo che oggi ferma tutto è un'ora di lavoro tuo, ferma dal 31/10, più la verifica di Stripe per la carta.
 
 ## In parole semplici
@@ -47,12 +47,14 @@ Queste due cose aspettano dal 31/10, cioè da cinque giorni. Qualunque cosa ripa
 ## Cosa devi fare
 
 **Una seduta di un'ora con me, domani venerdì 6/11.** In quest'ordine:
-- Su Vercel metti la chiave di servizio del database.
-- Sempre su Vercel, metti la chiave e il mittente della posta.
 - Su GitHub metti i segreti di Vercel e accendi la regola sul ramo principale.
 - Premi il pulsante degli aggiornamenti del database: applica dal 164 al 195.
+- Su Vercel metti la chiave di servizio del database.
 - Chiudi la falla di sicurezza del 31/10: i passi sono nella chat di quel giorno.
 - Dammi indirizzo e telefono del titolare, da scrivere sul sito.
+- **Per ultima**, su Vercel, la chiave e il mittente della posta.
+
+**Perché la posta per ultima** (corretto il 5/11 alle 17:30, dopo la verifica dei minori). Nella coda ci sono email ferme da mesi. L'aggiornamento 165 le fa scadere. Se la chiave della posta arriva prima degli aggiornamenti, partono tutte insieme ai clienti.
 
 **Tre risposte, anche brevi:**
 - La partita IVA è aperta? Cosa ha detto il commercialista il 2/11?
@@ -128,6 +130,38 @@ Quindi la parte che cresce sono i minori. I seri nascono quasi tutti dalle radio
 
 **Fuori dal lancio: 17 su 74.** Le funzioni già spente: intelligenza artificiale, codici sconto, app installabile, statistiche. Gli sconti sugli eventi e le promo per categoria: si spengono con una modifica piccola, invece di ripararli. I casi con più negozi nel carrello. I fattorini esterni: allarme di emergenza, documenti scaduti, età, profilo. La chat, che diventa WhatsApp. Le foto d'archivio delle categorie.
 
+
+## Gli altri 1.294: cosa sono
+
+Hai chiesto: se i seri sono 74, cosa sono gli altri? Li ho fatti leggere tutti, uno per uno, e smistare contro le regole del lancio.
+
+| Cosa sono i 1.294 minori | Quanti, su 1.294 |
+|---|---:|
+| **Al lancio non cambiano niente** | **540** |
+| … nessuno li vede usando il sito: codice, prove, pulizia | 209 |
+| … stanno in funzioni spente al lancio | 145 |
+| … contano solo quando l'azienda cresce | 109 |
+| … altri casi senza conseguenze | 77 |
+| **Danno fastidio, ma non fermano un ordine, non sbagliano soldi, non violano la legge, non espongono dati** | **626** |
+| **Sospetti: potevano pesare più di «minore»** | **128** |
+
+Facciamo un esempio di fastidio. Lo stesso negozio è «dal 1987» nella vetrina e «dal 2026» sulla scheda di ogni prodotto. È brutto, ma il pane si vende lo stesso.
+
+**I 128 sospetti li ho fatti controllare sul codice vero.**
+- **39 sono falle di sicurezza riservate.** Da qui non ne vedo i dettagli. La radiografia le ha già giudicate minori; entrano nell'ondata della sicurezza quando toccano gli stessi file.
+- **89 sono passati da due verificatori.** Il primo, sul modello piccolo, ne ha proposti 8 da promuovere. Il secondo, sul modello grande, doveva smentirli: ne ha smentiti 7.
+- **Ne sale uno solo: il ritiro in negozio.** Hai deciso il 1/11 che è acceso dal lancio. Il codice lo tiene spento. E acceso, oggi, un ritiro non si chiude: il forno vede un codice, il database ne controlla un altro, e il cliente non vede il suo.
+- **12 erano già fra i 74 seri**, scritti con altre parole.
+- **10 sembrano già riparati nel codice.** Li chiudo nel registro solo dopo averli riprovati.
+- **Il controllo all'incontrario**: 30 «fastidi» presi a regola fissa, per vedere se il modello piccolo ne avesse sottovalutato qualcuno. Su 30, nessuno era più grave.
+
+**Nove sono regole tue che il codice non ha ancora.** Non sono guasti: sono lavori decisi e non costruiti. I tre che pesano al lancio:
+- Il ritiro in negozio acceso. Va costruito insieme al difetto qui sopra.
+- Il tetto di 5 ordini per fascia, perché consegni da solo.
+- «Finito per oggi» e «chiuso fino al…» per il forno.
+
+Gli altri sei possono aspettare, e sono nei dettagli.
+
 ## Il piano, giorno per giorno
 
 | Giorno | Cosa | Chi |
@@ -170,3 +204,12 @@ Due ondate in tutto, come dice la regola del lavoro snello. Se alla seconda rest
 - Confini scelti da me: 134 e 469 (di rado, potrebbero stare sulla strada), 81 e 493 (le segnalazioni: obbligo di legge, gestibili a mano con un negozio).
 
 **Prima ondata, perimetro proposto:** voci 50, 51, 53, 54, 55, 56, 129, 130, 21, 132, 136, 141, 131, 137, più lo spegnimento di 80 e 139. Motore: `.claude/workflows/ondata-snella.js`, schede da `node cervello/schede-pacchetto.mjs`. Cancello: `npm run verify` e `node cervello/radiografia-in-corsa.mjs --repo ../mycity`.
+
+**Gli altri 1.294 (5/11, dalle 14:30 alle 17:30).**
+- Smistamento: run `wf_ed63893e-be8` (lotti 1-4, modello grande) e `wf_9fae883b-f96` (lotti 5-12, modello piccolo, una lettura). Esiti per voce: `scratchpad/minori/classificati-tutti.json` della sessione. La voce 808 l'ho classificata a mano.
+- Verifica: run `wf_80e0dc84-cb0`, 15 gruppi sul modello piccolo e 7 conferme sul grande, 22 agenti, circa 1,36 milioni di token.
+- Promosso e confermato: voce 474 (con la 146, il ritiro spento). Smentiti dalla seconda lente: 23, 85, 151, 161, 518, 633, 1738.
+- Già fra i 74: 143→2, 20→1448, 291→493, 319→1448, 475→130, 501→0, 520→490, 1746→0, 2057→0, 2455→133, 2513→2502, 2535→490.
+- Da riprovare per chiuderli: 499, 597, 634, 739, 1533, 1675, 1690, 1886, 2139, 2462.
+- Regole decise e non costruite: 146 e 474 (ritiro), 156 (5 per fascia), 301 («finito per oggi»), 161 (il forno conferma i prodotti caricati da Nicola), 63 (quota del rimborso parziale), 75 (chiavi di prova in produzione), 2031 («prenota per domani» a negozio chiuso), 2413 (PostHog dal server).
+- La voce 20 (le email ferme in coda) è coperta dalla 165: per questo la posta si accende dopo gli aggiornamenti.
