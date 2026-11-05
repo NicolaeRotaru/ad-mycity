@@ -6518,6 +6518,14 @@ L'avanzo più serio è un grave dei soldi: il reso ripreso in un carrello di due
 
 **Colore:** 🔴 scrittura sul database vero, con la scelta di Nicola e la sua conferma sullo schermo.
 
+## 2026-11-05 00:10 — 🟡 Il quadro diviso in due: «quadro» è la macchina, «quadro sito» è il marketplace
+
+**Cosa:** `cervello/quadro.mjs` ha adesso due case. «quadro» mostra solo la macchina: la visita degli organi, i difetti aperti casa per casa, il ritmo e i bloccanti, e non legge più il registro del sito. «quadro sito» (`--sito`) mostra solo il marketplace, per gravità e area per area, senza la visita. Aggiornati `COMANDI.md` e `CLAUDE.md`, e la prova ha 15 casi su 15: diventa rossa se una casa legge l'altra.
+
+**Perché:** Nicola, 5/11: «voglio dividere la macchina dal marketplace, come faccio a chiederti in una sola parola tutte quelle cose che c'entrano con la macchina?».
+
+**Colore:** 🟡 auto-modifica, nella richiesta di unione. La firma è di Nicola.
+
 ## 2026-11-05 07:16 — 🟡 Le sei caselle della scheda «Mercato» del Pannello leggono la memoria, su richiesta di Nicola
 
 **Cosa:** sei caselle della scheda «Mercato» dicevano «da collegare» per una scritta fissa nel catalogo. Il dato invece c'era quasi sempre già. Ora ognuna legge la sua fonte e dice di quando è il dato. Concorrenti legge il radar dell'intelligence. Rassegna legge Google Notizie in diretta. Sicurezza e Legale leggono la radiografia del sito, le bozze dei contratti e il registro rischi. Esperimenti legge un registro nuovo, ancora vuoto. Roadmap legge il lavoro ancora da fare sul sito. Nella pagina del lavoro aperto, la sezione del sito è divisa in «Ancora da fare» e «Fatto di recente», senza togliere nessuna frase. Tre giri, ognuno col suo collaudo indipendente. Il primo collaudo ha bocciato (13 difetti), il secondo ha detto «regge con riserve» (5 difetti). Il terzo giro l'ha scelto Nicola: «Correggi i 5».

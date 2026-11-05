@@ -14,6 +14,8 @@
 //   · togliendo `eChiusa(d) ||` dal filtro di contaPerCasa, i casi ② e ⑧ diventano ROSSI;
 //   · facendo tornare «✅» a segnoOrgano quando `o.ok === 0`, il caso ⑤ diventa ROSSO;
 //   · contando sul sito ogni stato diverso da «chiuso», i casi ③ e ⑧ diventano ROSSI;
+//   · (5/11) facendo leggere il sito al quadro della macchina, o fare la visita a quello del sito,
+//     il caso ⑧ diventa ROSSO: le due case restano separate.
 //   · lasciando senza casa (undefined) la scheda che non ne trova una, i casi ① ② ⑧ diventano ROSSI.
 
 import assert from "node:assert/strict";
@@ -24,6 +26,8 @@ import { eDaFare } from "../stati-cantiere.mjs";
 import {
   FONTI,
   SENZA_CASA,
+  areeSito,
+  bloccanti,
   casaDi,
   codiceUscita,
   consigli,
@@ -128,17 +132,16 @@ prova("⑤ un organo visto solo a metà (zero a posto, solo ⚪) resta ⚪, mai 
 
 function quadroFinto() {
   const macchina = contaPerCasa(finti);
-  const sito = contaSito([{ severita: "bloccante", stato: "aperto" }]);
   const r = ritmo([{ nato: "2026-10-01", stato: "aperto" }, ...Array.from({ length: 9 }, () => ({ nato: "2026-10-02", stato: "aperto" }))], "2026-11");
   const q = {
     quando: "2026-11-04 21:00",
     casa: "claude",
     organi: organiDaVisita(controlli),
     visita: { fonte: "una visita finta" },
+    ambito: "macchina",
     macchina,
-    sito,
     ritmo: r,
-    bloccanti: { macchina: [{ id: "AR-999", titolo: "🔴 BLOCCANTE — Il server tace" }], sito: [{ id: null, titolo: "Il sito non dice chi c'è dietro" }] },
+    bloccanti: [{ id: "AR-999", titolo: "🔴 BLOCCANTE — Il server tace" }],
     fontiLette: ["macchina: un file"],
     fontiMancanti: [],
   };
@@ -151,7 +154,7 @@ prova("⑥ sopra la riga dei dettagli niente sigle AR-…, e i bloccanti si legg
   const [sopra, sotto] = t.split("Dettagli tecnici");
   assert.ok(sotto, "la riga «Dettagli tecnici» c'è");
   assert.doesNotMatch(sopra, /\bAR-\d+/);
-  assert.match(sopra, /\[macchina\] Il server tace/);
+  assert.match(sopra, /· Il server tace/);
   assert.doesNotMatch(sopra, /BLOCCANTE —/);
   assert.match(sotto, /AR-999/);
 });
@@ -168,7 +171,7 @@ prova("⑦ dove c'è un rosso c'è la parola da dire; dove tutto è verde, nient
   const q = quadroFinto();
   assert.ok(q.consigli.some((c) => c.startsWith("«checkup»")));
   assert.ok(q.consigli.some((c) => c.startsWith("«sistema i difetti»")));
-  assert.ok(q.consigli.some((c) => c.startsWith("«chiudi i gravi del sito»")));
+  assert.ok(!q.consigli.some((c) => /sito/.test(c)), "il quadro della macchina non consiglia lavori sul sito");
   assert.ok(q.consigli.some((c) => /prima si chiude e poi si cerca/.test(c)), "ottobre: 10 aperti, 0 chiusi");
   const pulito = consigli({ organi: organiDaVisita([{ organo: "senior", esito: "ok" }]), macchina: contaPerCasa([]), sito: contaSito([]), ritmo: ritmo([], "2026-11") });
   assert.deepEqual(pulito, []);
@@ -190,18 +193,47 @@ prova("⑨ una visita di adesso caduta, sostituita da quella salvata, esce 2", (
   assert.equal(codiceUscita({ fontiMancanti: [], visita: { vecchia: null } }), 0);
 });
 
+// ── ⑩ Due case, due quadri ──────────────────────────────────────────────────
+
+prova("⑩ il quadro della macchina non parla del sito, se non per dire dove trovarlo", () => {
+  const t = testoQuadro(quadroFinto());
+  assert.match(t, /^📋 IL QUADRO DELLA MACCHINA/);
+  const righeCol = t.split("\n").filter((l) => /sito/i.test(l));
+  assert.deepEqual(righeCol, ["  · l'altra casa: «quadro sito» (il marketplace)"]);
+});
+
+prova("⑩ il quadro del sito non fa la visita della macchina e consiglia solo il sito", () => {
+  const problemi = [
+    { severita: "bloccante", stato: "aperto", dimensione: "deploy-sre", titolo: "Il rilascio non applica le migrazioni" },
+    { severita: "grave", stato: "aperto", dimensione: "pagamenti-stripe", titolo: "x" },
+    { severita: "minore", stato: "riparato", dimensione: "pagamenti-stripe", titolo: "y" },
+  ];
+  const q = { ambito: "sito", quando: "2026-11-05 00:00", casa: "claude", sito: contaSito(problemi), sitoAree: areeSito(problemi), bloccanti: bloccanti(problemi, { campoGravita: "severita", vivo: (d) => d.stato === "aperto" }), fontiLette: [], fontiMancanti: [] };
+  q.consigli = consigli(q);
+  const t = testoQuadro(q);
+  assert.match(t, /^🏪 IL QUADRO DEL SITO/);
+  assert.doesNotMatch(t, /ORGANI|IL RITMO|checkup|sistema i difetti/);
+  assert.match(t, /deploy-sre\s+1\s+0\s+0\s+1/);
+  assert.match(t, /· Il rilascio non applica le migrazioni/);
+  assert.deepEqual(q.consigli, ["«chiudi i gravi del sito» — 2 difetti seri sul sito (1 bloccanti, 1 gravi)."]);
+});
+
 // ── ⑧ Sui registri veri ─────────────────────────────────────────────────────
 
-prova("⑧ sui registri veri il quadro dice gli stessi numeri della porta unica", () => {
+prova("⑧ sui registri veri ogni quadro dice gli stessi numeri della porta unica, e legge solo la sua casa", () => {
   const pc = join(AD_ROOT, FONTI.cantiere);
   const ps = join(AD_ROOT, FONTI.sito);
   if (!existsSync(pc) || !existsSync(ps)) return; // in un clone senza vault non c'è niente da confrontare
-  const q = raccogli({ senzaVisita: true });
+  const m = raccogli({ senzaVisita: true });
+  const s = raccogli({ ambito: "sito" });
   const difetti = JSON.parse(readFileSync(pc, "utf8")).difetti;
   const problemi = JSON.parse(readFileSync(ps, "utf8")).problemi;
-  assert.equal(q.macchina.totale.totale, difetti.filter(eDaFare).length);
-  assert.equal(Object.values(q.macchina.case).reduce((n, x) => n + x.totale, 0), q.macchina.totale.totale);
-  assert.equal(q.sito.totale, problemi.filter((d) => d.stato === "aperto").length);
+  assert.equal(m.macchina.totale.totale, difetti.filter(eDaFare).length);
+  assert.equal(Object.values(m.macchina.case).reduce((n, x) => n + x.totale, 0), m.macchina.totale.totale);
+  assert.equal(m.sito, undefined, "il quadro della macchina non deve leggere il registro del sito");
+  assert.equal(s.sito.totale, problemi.filter((d) => d.stato === "aperto").length);
+  assert.equal(s.organi, undefined, "il quadro del sito non deve fare la visita della macchina");
+  assert.equal(s.macchina, undefined);
 });
 
 let falliti = 0;

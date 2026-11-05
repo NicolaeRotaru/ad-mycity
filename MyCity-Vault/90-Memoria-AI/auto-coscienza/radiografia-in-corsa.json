@@ -6464,6 +6464,20 @@
       }
     },
     {
+      "quando": "2026-11-05 00:05",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/quadro.mjs": "0907fce973cb"
+      }
+    },
+    {
       "quando": "2026-11-05 07:31",
       "casa": "pannello",
       "dimensione": "coerenza-azioni",
