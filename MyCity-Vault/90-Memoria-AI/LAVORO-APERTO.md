@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-05 15:16
+aggiornato: 2026-11-05 15:38
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -139,6 +139,7 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
 ## 3 · La macchina
 
 - **Ogni senior dice il suo modello, e il manuale che tutti rileggono pesa la metà** (5/11, su tua firma: «consumare il meno possibile, fare il lavoro migliore e corretto»). 47 senior sul modello grande, 73 sul piccolo; prima giravano tutti sul grande. `CLAUDE.md` è sceso da 30.415 a circa 16.800 byte: le parti solo dell'AD stanno in `cervello/MANUALE-AD.md`, che i prompt del server ora nominano. Il guardiano del registro agenti diventa rosso se un senior perde il modello. Collaudo indipendente fatto: 3 difetti medi trovati e chiusi nello stesso lavoro. Nella richiesta NicolaeRotaru/ad-mycity#930, da unire.
+- **I difetti delle sei pagine «Approfondisci» del Pannello sono salvati, da riprendere dopo il marketplace** (05/11 alle 14:27). Le pagine sono Numeri, Analisi & report, Negozi & clienti, Operazioni, Mercato e Intelligence. Tua scelta: «li riprendiamo dopo aver finito di risolvere il marketplace». Sono 123 schede nel registro della macchina: 1 bloccante, 13 gravi, il resto medi e minori. Il più urgente conta già dal lancio: la scheda dei soldi al negozio legge «già pagato» i contanti ancora in mano al fattorino. Fino alla riparazione, quanto dare al negozio il lunedì si conta dal sito. Se ripararlo prima del lancio lo scegli tu nella carta #227. Alla ripresa servono due tue scelte: quali account sono di prova, e cosa mettere in cima alla pagina Numeri. Referto: `consegne/audit/2026-11-05-pannello-pagine-approfondisci.md`.
 - **Le sei caselle della scheda «Mercato» del Pannello leggono la memoria** (05/11 alle 07:00). Sono concorrenti, rassegna stampa, sicurezza, legale, esperimenti e roadmap; prima dicevano «da collegare». Unita da te il 05/11 alle 08:59 (richiesta NicolaeRotaru/ad-mycity#925). Da guardare: sul Pannello pubblicato, se Google Notizie risponde davvero. Poi, su tua richiesta del 05/11 alle 09:44 («Fai le due cose»):
   - Le ultime 6 caselle (Rider, Contatti, Lead, Catalogo, Campagne, Calendario) leggono i loro dati: nessuna casella del Pannello dice più «da collegare». Unita da te il 05/11 alle 12:32 (richiesta NicolaeRotaru/ad-mycity#928).
   - Il controllo di sicurezza di Supabase non ha bisogno della chiave: la macchina lo legge dalla sessione e lo salva in memoria con la sua data. Si rifà col comando «controlla la sicurezza di Supabase», e nel giro.
@@ -146,7 +147,7 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
   - Da fare dopo, secondo: chiudere il Pannello a chi non ha fatto l'accesso. L'ho proposto come lavoro a parte.
 - Il server che la fa lavorare da sola è fermo; l'ultimo controllo di salute è del 1° settembre.
 - Il 15 novembre all'01:00 scadono due date, e ogni controllo automatico diventa rosso. Lo sistemo entro il 14.
-- Il voto su me stessa a ottobre è 0,09: chiudo prima di aprire ricerche nuove.
+- Il voto su me stessa a ottobre è 0,09; a novembre, con i 123 difetti del Pannello appena salvati, è 0,18 (126 aperti, 23 chiusi). Chiudo prima di aprire ricerche nuove.
 - La Cabina mostra cose vecchie: la Bacheca, gli obiettivi della squadra e il piano del mattino.
 
 ## 4 · Le mie promesse non mantenute

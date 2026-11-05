@@ -6545,3 +6545,15 @@ L'avanzo più serio è un grave dei soldi: il reso ripreso in un carrello di due
 **Per tornare indietro:** non unire la richiesta del ramo `ccr-fb638afc-uqf9u7`, oppure annullarne i commit. I file `90-Memoria-AI/campagne.json` e `90-Memoria-AI/sicurezza-supabase.json` si possono cancellare senza effetti su altro.
 
 **Colore:** 🟡 codice del Pannello e della macchina su un ramo, con la richiesta di unione da firmare. Sul database del sito solo letture (SELECT e controllo di sicurezza), nessuna scrittura.
+
+## 2026-11-05 14:27 — 🟢 Salvati nel registro della macchina i 123 difetti delle sei pagine «Approfondisci» del Pannello, rinviati a dopo il marketplace
+
+**Cosa:** l'analisi del 5/11 delle pagine Numeri, Analisi & report, Negozi & clienti, Operazioni, Mercato e Intelligence ha dato 143 segnalazioni. Ne restano 123 dopo il collaudo e i doppioni: 1 bloccante, 13 gravi, 59 medi, 50 minori. Sono nel registro come schede da AR-1035 ad AR-1157, raggruppate in 13 cause, con la verifica dichiarata umana, un responsabile proposto e la data da fissare. I cinque difetti sui dati personali sono scritti senza dettagli sfruttabili, perché il repository è pubblico. Referto: `consegne/audit/2026-11-05-pannello-pagine-approfondisci.md`.
+
+**Perché:** Nicola, 5/11 alle 14:19: «Salva tutti i difetti, li riprendiamo dopo aver finito di risolvere il marketplace».
+
+**Conseguenza misurata:** il voto «chiudo almeno quanto apro» di novembre passa da 7,67 (3 aperti, 23 chiusi) a 0,18 (126 aperti, 23 chiusi). Sotto 1 il giro non apre ricerche nuove finché non chiude. Il bloccante conta dal lancio: il conto del bonifico del lunedì al negozio va fatto dal sito finché non è riparato.
+
+**Per tornare indietro:** togliere dal registro le schede da AR-1035 ad AR-1157 (campo `id_analisi` valorizzato) e cancellare il referto.
+
+**Colore:** 🟢 memoria della macchina (registro e referto), nessun codice e nessuna scrittura sul sito.

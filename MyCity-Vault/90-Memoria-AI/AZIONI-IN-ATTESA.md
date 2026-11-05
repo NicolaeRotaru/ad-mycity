@@ -31,6 +31,23 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🟡 #227 — Scegli se riparare prima del lancio il conto dei soldi da dare al negozio · ⏳ accodata 2026-11-05 14:42
+
+**In parole semplici.** Hai rimandato a dopo il marketplace i 123 difetti delle sei pagine «Approfondisci» del Pannello. Uno solo è bloccante, e conta già dal lancio. La scheda dei soldi al negozio legge «già pagato» i contanti che il fattorino deve ancora portare.
+
+**Cosa cambia per te.** Esempio: un ordine in contanti consegnato domenica 15/11. Lunedì 16/11 la scheda lo darebbe «pagato al negozio», con la scritta «✅ Nessuna anomalia». Se fai il bonifico guardando il Pannello, a Pane Quotidiano manca quel pagamento.
+
+**Cosa devi fare tu.** Scegli una delle due strade.
+- «ok 227»: riparo solo questo difetto prima del 15/11, in una richiesta di unione piccola, con la sua prova.
+- Oppure lasci tutto com'è, e il bonifico del lunedì lo conti dalla pagina dei guadagni del sito, non dal Pannello.
+
+**Cosa non ho verificato.** Non ho visto la scheda accesa coi dati veri. Il conto è ricostruito applicando il codice all'unico ordine del database, quello di prova annullato a luglio.
+
+Cosa cambia: il conto del bonifico del lunedì a Pane Quotidiano torna giusto dal primo ordine in contanti.
+Se va bene: riparo una sola funzione con la sua prova; gli altri 122 difetti restano per dopo il marketplace.
+
+Referto: `consegne/audit/2026-11-05-pannello-pagine-approfondisci.md` · scheda del registro: AR-1035 · codice: `pannello/src/lib/marketplace-db.ts` (riconciliazione dei payout)
+
 ### 🔴 #226 — Metti le tre chiavi su Vercel e premi il pulsante del database, poi scegli il «fatto» del rimborso · ⏳ accodata 2026-11-05 12:20
 
 **In parole semplici.** La radiografia del 5/11 ha letto tutto il sito. Oggi il sito vero non prende ordini, e la causa sta in tre passi che solo tu puoi fare.
