@@ -16,6 +16,7 @@ export type RigaLista = {
   colore?: "verde" | "giallo" | "rosso";
   dettaglio?: string; // seconda riga, va a capo: l'esito di un concorrente, la testata di una notizia
   link?: string; // se c'è, il titolo si apre in una scheda nuova (le notizie)
+  punti?: string[]; // sotto-voci intere, in elenco sotto la riga (la roadmap: «Restano tue: …»)
 };
 export type ModuloDef = {
   area: AreaModulo;

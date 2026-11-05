@@ -5,6 +5,7 @@ import { ChevronDown, ChevronRight, Loader2 } from "lucide-react";
 import { formatta, type Tipo } from "@/lib/format";
 import type { ModuloDef, RigaLista } from "@/lib/moduli";
 import type { Fonte } from "@/lib/moduli-memoria";
+import { etichettaBadge } from "@/lib/badge-modulo";
 import { usePanelSync } from "@/lib/panel-sync";
 import Aggiornato from "@/components/Aggiornato";
 import ParlaCasella from "@/components/ParlaCasella";
@@ -92,8 +93,8 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
   const kpis = def.kpis || [];
   const collegate = kpis.filter((k) => acceso(k.chiave, k.tipo)).length;
   const statoLabel = def.stato === "live" ? "live" : def.stato === "parziale" ? "parziale" : "da collegare";
-  // Il numero accanto al titolo conta le COSE (58 difetti), non le righe (8): se la rotta lo dà, vince.
-  const badge = info?.conta != null ? String(info.conta) : righe ? String(righe.length) : kpis.length ? `${collegate}/${kpis.length}` : statoLabel;
+  // Il numero accanto al titolo: le COSE (58 difetti) e non le righe (8); «—» se la fonte non si è letta.
+  const badge = etichettaBadge({ righe, collegato: listaColl, conta: info?.conta ?? null, kpiAccesi: collegate, kpiTotali: kpis.length, statoLabel });
   const haDati = (righe && righe.length > 0) || collegate > 0;
 
   return (
@@ -136,7 +137,14 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
                 <ul className="mb-1.5 space-y-0.5">
                   {info.fonti.map((f, i) => (
                     <li key={i} className="t-eti">
-                      {f.nome}: {!f.letta ? `non letto${f.motivo ? ` (${f.motivo})` : ""}` : f.data ? `dato del ${dataIt(f.data)}${quanto(f.giorni)}` : "letto"}
+                      {f.nome}:{" "}
+                      {!f.letta
+                        ? `non letto${f.motivo ? ` (${f.motivo})` : ""}`
+                        : f.motivo
+                          ? `letto in parte (${f.motivo})`
+                          : f.data
+                            ? `dato del ${dataIt(f.data)}${quanto(f.giorni)}`
+                            : "letto"}
                     </li>
                   ))}
                 </ul>
@@ -150,8 +158,8 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
               {righe && righe.length > 0 && (
                 <div className="space-y-1">
                   {(mostraTutte ? righe : righe.slice(0, 8)).map((r, i) => (
-                    <div key={i} className={`flex ${r.dettaglio ? "items-start" : "items-center"} gap-2 rounded-lg border border-black/[0.06] bg-paper/40 px-2.5 py-1.5`}>
-                      {r.colore && <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${r.dettaglio ? "mt-[7px]" : ""} ${dotCls(r.colore)}`} />}
+                    <div key={i} className={`flex ${r.dettaglio || r.punti?.length ? "items-start" : "items-center"} gap-2 rounded-lg border border-black/[0.06] bg-paper/40 px-2.5 py-1.5`}>
+                      {r.colore && <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${r.dettaglio || r.punti?.length ? "mt-[7px]" : ""} ${dotCls(r.colore)}`} />}
                       <div className="flex-1 min-w-0">
                         {r.link ? (
                           <a href={r.link} target="_blank" rel="noopener noreferrer" className="text-[12.5px] text-ink/85 line-clamp-2 break-words hover:text-brand">
@@ -160,7 +168,18 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
                         ) : (
                           <div className="text-[12.5px] text-ink/85 line-clamp-2 break-words">{r.titolo}</div>
                         )}
-                        {r.dettaglio && <div className="text-[11px] text-black/50 leading-snug line-clamp-3 break-words mt-0.5">{r.dettaglio}</div>}
+                        {/* Il dettaglio lo accorcia già il server: niente taglio a schermo, che nascondeva la fine. */}
+                        {r.dettaglio && <div className="text-[11px] text-black/50 leading-snug break-words mt-0.5">{r.dettaglio}</div>}
+                        {r.punti && r.punti.length > 0 && (
+                          <ul className="mt-1 space-y-0.5">
+                            {r.punti.map((pt, k) => (
+                              <li key={k} className="text-[11px] text-black/60 leading-snug break-words flex gap-1">
+                                <span className="shrink-0">–</span>
+                                <span>{pt}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                       </div>
                       {r.sottotitolo && <span className="text-[11px] text-black/50 shrink-0">{r.sottotitolo}</span>}
                       {r.meta && <span className="badge badge-off shrink-0">{r.meta}</span>}

@@ -101,29 +101,51 @@ function celle(riga: string): string[] {
   return riga.trim().replace(/^\|/, "").replace(/\|$/, "").split(/(?<!\\)\|/).map((c) => c.trim());
 }
 
+/** Un paragrafo-novità: «**① …**» oppure «**1. …**» in grassetto all'inizio della riga. */
+const NOVITA = /^\*\*\s*(?:[\u2460-\u2473]|\d{1,2}[.)])\s*(.+?)\*\*\s*(.*)$/;
+/** La stessa novità scritta come titolo: «### ① …» (il collaudo del 5/11 l'ha vista sparire senza avviso). */
+const NOVITA_TITOLO = /^#{3,4}\s*(?:[\u2460-\u2473]|\d{1,2}[.)])\s*(.+?)()$/;
+
 /**
- * Le NOVITÀ del radar: i paragrafi «**① …**» della prima sezione «## … Novità …». Sono le cose che
- * contano (Glovo, Treatwell, Everli, CompraPiacenza il 10/10): in giallo, in cima. Il paragrafo che
- * comincia con «Nessuna novità» è il titolo della tabella sotto, non una novità.
+ * Le NOVITÀ del radar: i paragrafi «**① …**» (o «**1. …**») della prima sezione «## … Novità …».
+ * Sono le cose che contano (Glovo, Treatwell, Everli, CompraPiacenza il 10/10): in giallo, in cima.
+ * Il paragrafo che comincia con «Nessuna novità» è il titolo della tabella sotto, non una novità.
+ * Dice anche se la sezione c'è e se c'era testo che non ho saputo leggere: il formato del radar è
+ * cambiato a ogni edizione, e «nessuna novità letta» non è «nessuna novità».
  */
-export function novitaRadar(md: string | null): RigaLista[] {
+export function leggiNovita(md: string | null): { righe: RigaLista[]; sezione: boolean; illeggibile: boolean } {
   const righe = righeDi(md);
   const i = righe.findIndex((r) => /^##\s/.test(r) && /novit/i.test(r));
-  if (i < 0) return [];
+  if (i < 0) return { righe: [], sezione: false, illeggibile: false };
   const out: RigaLista[] = [];
+  let altroTesto = 0;
+  let tabellaControlli = false; // dentro la tabella «Concorrente | Esito»: quella la legge righeTabellaConcorrenti
   for (let j = i + 1; j < righe.length && !/^##\s/.test(righe[j]); j++) {
-    const m = righe[j].match(/^\*\*\s*([①-⑳])\s*(.+?)\*\*\s*(.*)$/);
-    if (!m) continue;
-    const titolo = testoSemplice(m[2]).replace(/[.:;,]$/, "");
+    const m = righe[j].match(NOVITA) ?? righe[j].match(NOVITA_TITOLO);
+    if (!m) {
+      const t = righe[j].trim();
+      if (!t) tabellaControlli = false;
+      else if (t.startsWith("|")) {
+        if (/^\|\s*(Concorrente|Competitor)\s*\|/i.test(t)) tabellaControlli = true;
+        // Una tabella che NON è quella dei controlli può essere un elenco di novità: è testo da leggere.
+        if (!tabellaControlli) altroTesto++;
+      } else if (!t.startsWith("#")) altroTesto++;
+      continue;
+    }
+    const titolo = testoSemplice(m[1]).replace(/[.:;,]$/, "");
     if (!titolo || /^nessuna novit/i.test(titolo)) continue;
     // Il dettaglio è il resto della riga; se è vuoto, la prima riga sotto (spesso un elenco).
-    let resto = m[3];
-    for (let k = j + 1; !resto.trim() && k < righe.length && !/^(##|\*\*\s*[①-⑳])/.test(righe[k]); k++) {
+    let resto = m[2];
+    for (let k = j + 1; !resto.trim() && k < righe.length && !/^##/.test(righe[k]) && !NOVITA.test(righe[k]) && !NOVITA_TITOLO.test(righe[k]); k++) {
       resto = righe[k].replace(/^\s*-\s+/, "");
     }
     out.push({ titolo: accorcia(titolo, 140), dettaglio: resto.trim() ? accorcia(resto) : undefined, colore: "giallo", meta: "novità" });
   }
-  return out;
+  return { righe: out, sezione: true, illeggibile: out.length === 0 && altroTesto > 0 };
+}
+
+export function novitaRadar(md: string | null): RigaLista[] {
+  return leggiNovita(md).righe;
 }
 
 /**
@@ -132,7 +154,7 @@ export function novitaRadar(md: string | null): RigaLista[] {
  */
 export function righeTabellaConcorrenti(md: string | null): RigaLista[] {
   const righe = righeDi(md);
-  const inizio = righe.findIndex((r) => /^\|\s*Concorrente\s*\|/i.test(r.trim()));
+  const inizio = righe.findIndex((r) => /^\|\s*(Concorrente|Competitor)\s*\|/i.test(r.trim()));
   if (inizio < 0) return [];
   const out: RigaLista[] = [];
   for (let i = inizio + 1; i < righe.length; i++) {
@@ -159,13 +181,18 @@ export function rispostaConcorrenti(md: string | null, data: string | null, oggi
   if (md == null) {
     return { collegato: false, righe: [], fonti: [], nota: "Il radar dei concorrenti non si legge: lo scrive l'intelligence dalla scheda Intelligence." };
   }
-  const righe = righeConcorrenti(md);
-  return {
-    collegato: true,
-    righe,
-    fonti: [fonte("radar concorrenti", data, oggi)],
-    nota: righe.length ? undefined : "Il radar c'è, ma non ha né novità numerate né la tabella dei concorrenti: il testo intero è nella scheda Intelligence.",
-  };
+  const nov = leggiNovita(md);
+  const righe = [...nov.righe, ...righeTabellaConcorrenti(md)];
+  let nota: string | undefined;
+  if (!righe.length) nota = "Il radar c'è, ma non ha né novità numerate né la tabella dei concorrenti: il testo intero è nella scheda Intelligence.";
+  else if (!nov.sezione) nota = "Nel radar non trovo la sezione delle novità: qui sotto ci sono solo i controlli. Il testo intero è nella scheda Intelligence.";
+  // Frase vera in tutti e due i casi: novità scritte in un'altra forma, o settimana senza novità
+  // raccontata in prosa. «Non riesco a leggere» era un falso allarme nel secondo caso.
+  else if (nov.illeggibile) nota = "Nella sezione delle novità non trovo un elenco numerato: se ci sono novità, sono nel testo intero (scheda Intelligence). Qui sotto ci sono i controlli.";
+  // Il numero accanto al titolo conta le NOVITÀ: «13» leggeva come tredici novità, erano quattro.
+  // Se le novità non le ho trovate o non le so leggere, nessun numero: «0» direbbe «zero novità».
+  const conta = nov.sezione && !nov.illeggibile ? nov.righe.length : undefined;
+  return { collegato: true, righe, fonti: [fonte("radar concorrenti", data, oggi)], conta, nota };
 }
 
 // ───────────────────────────── 📄 documenti ─────────────────────────────
@@ -186,6 +213,10 @@ export function righeDocumenti(docs: Documento[]): RigaLista[] {
   return docs
     .map((d) => {
       const file = d.percorso.split("/").pop() || d.percorso;
+      if (d.testo == null) {
+        const r: RigaLista = { titolo: nomeUmano(file), dettaglio: "Non sono riuscita ad aprirlo.", meta: "non letto", colore: "giallo" };
+        return { data: "", riga: r };
+      }
       const h1 = righeDi(d.testo).find((r) => /^#\s+/.test(r));
       const nome = nomeUmano(file);
       const titolo = h1 ? testoSemplice(h1.replace(/^#\s+/, "")) : nome;
@@ -326,15 +357,21 @@ export function rispostaLegale(
   oggi: string,
 ): RispostaModulo {
   const d = difettiDaRadiografia(rad, DIMENSIONI_LEGALE, "privacy e testi legali", oggi);
-  const fDocs = docs.length
-    ? fonte("documenti legali", null, oggi)
-    : fonte("documenti legali", null, oggi, false, "nessun file trovato in consegne/legale: cartella vuota o non leggibile");
-  const fReg = reg.dati
-    ? fonte("registro rischi", giorno(reg.dati?.aggiornato), oggi)
-    : fonte("registro rischi", null, oggi, false, reg.motivo ?? "il registro rischi non c'è");
+  const chiusi = docs.filter((x) => x.testo == null).length;
+  const fDocs = !docs.length
+    ? fonte("documenti legali", null, oggi, false, "nessun file trovato in consegne/legale: cartella vuota o non leggibile")
+    : chiusi === docs.length
+      ? fonte("documenti legali", null, oggi, false, `nessuno dei ${docs.length} documenti si è aperto`)
+      : fonte("documenti legali", null, oggi, true, chiusi ? `${chiusi} ${chiusi === 1 ? "documento" : "documenti"} su ${docs.length} non ${chiusi === 1 ? "si è aperto" : "si sono aperti"}` : null);
+  const listaRischi = Array.isArray(reg.dati?.rischi);
+  const fReg = !reg.dati
+    ? fonte("registro rischi", null, oggi, false, reg.motivo ?? "il registro rischi non c'è")
+    : !listaRischi
+      ? fonte("registro rischi", giorno(reg.dati?.aggiornato), oggi, false, "il registro non ha la lista «rischi»: non so leggerlo")
+      : fonte("registro rischi", giorno(reg.dati?.aggiornato), oggi);
   const fonti = [d.fonte, fDocs, fReg];
 
-  const rischi = reg.dati ? righeRischi(reg.dati.rischi, "normativo") : [];
+  const rischi = listaRischi ? righeRischi(reg.dati.rischi, "normativo") : [];
   const righe = [...(d.ok ? d.serie : []), ...righeDocumenti(docs), ...rischi, ...(d.ok ? d.resto : [])];
   const nonLette = fonti.filter((f) => !f.letta);
   if (nonLette.length === fonti.length) {
@@ -342,7 +379,7 @@ export function rispostaLegale(
   }
   const vuote: string[] = [];
   if (d.ok && d.totale === 0) vuote.push("nessun difetto legale aperto sul sito");
-  if (reg.dati && rischi.length === 0) vuote.push("nessun rischio normativo aperto");
+  if (fReg.letta && rischi.length === 0) vuote.push("nessun rischio normativo aperto");
   const pezzi = [
     nonLette.length ? `Non letti: ${nonLette.map((f) => f.nome).join(", ")}.` : "",
     vuote.length ? `Fra le fonti lette: ${vuote.join("; ")}.` : "",
@@ -351,35 +388,52 @@ export function rispostaLegale(
     collegato: true,
     righe,
     fonti,
-    conta: (d.ok ? d.totale : 0) + docs.length + rischi.length,
+    // I PROBLEMI: difetti del sito + rischi normativi. I documenti (contratti, domande al
+    // commercialista) sono materiale, non problemi: «81» leggeva come 81 problemi legali.
+    // Senza la radiografia i soli rischi non sono il totale: nessun numero, la nota dice cosa manca.
+    conta: d.ok ? d.totale + rischi.length : undefined,
     nota: pezzi.length ? pezzi.join(" ") : undefined,
   };
 }
 
 // ───────────────────────────── 🗺️ lavoro aperto ─────────────────────────────
 
+const VOCE = /^(?:[-*]|\d{1,2}[.)])\s+(.+)$/;
+const SOTTO_VOCE = /^\s+(?:[-*]|\d{1,2}[.)])\s+(.+)$/;
+
 /**
- * Le voci di primo livello («- …») fra la riga `i` e la prossima intestazione di livello ≤ `livello`.
- * Le sotto-voci («  - …») non si perdono: entrano nel dettaglio della voce madre.
+ * Le voci di primo livello («- …», «* …» o «1. …», senza rientro) fra la riga `i` e la prossima
+ * intestazione di livello ≤ `livello`. Le sotto-voci restano INTERE, in `punti`: dentro il
+ * dettaglio venivano tagliate, e la prima a sparire era «Restano tue: …», cioè il lavoro di Nicola.
+ * `testo` dice se fra le righe c'era altro testo: voci zero con testo = «non so leggerla».
  */
-function vociFra(righe: string[], i: number, livello: number): RigaLista[] {
+function vociFra(righe: string[], i: number, livello: number): { voci: RigaLista[]; testo: boolean } {
   const stop = new RegExp(`^#{1,${livello}}\\s`);
-  const voci: { titolo: string; parti: string[] }[] = [];
+  const voci: { titolo: string; resto: string; punti: string[] }[] = [];
+  let testo = false;
   for (let j = i + 1; j < righe.length && !stop.test(righe[j]); j++) {
-    const top = righe[j].match(/^-\s+(.+)$/);
+    const top = righe[j].match(VOCE);
     if (top) {
       const g = top[1].match(/^\*\*(.+?)\*\*[\s:,.;—-]*(.*)$/);
       const titolo = testoSemplice(g ? g[1] : top[1]).replace(/[.:;,]$/, "");
-      if (titolo) voci.push({ titolo, parti: g && g[2].trim() ? [g[2]] : [] });
+      if (titolo) voci.push({ titolo, resto: g ? g[2] : "", punti: [] });
       continue;
     }
-    const sotto = righe[j].match(/^\s+-\s+(.+)$/);
-    if (sotto && voci.length) voci[voci.length - 1].parti.push(sotto[1]);
+    const sotto = righe[j].match(SOTTO_VOCE);
+    if (sotto && voci.length) {
+      voci[voci.length - 1].punti.push(sotto[1]);
+      continue;
+    }
+    if (righe[j].trim() && !righe[j].trim().startsWith("#")) testo = true;
   }
-  return voci.map((v) => ({
-    titolo: accorcia(v.titolo, 140),
-    dettaglio: v.parti.length ? accorcia(v.parti.map((p) => testoSemplice(p).replace(/[.;]$/, "")).join(" · "), 260) : undefined,
-  }));
+  return {
+    testo,
+    voci: voci.map((v) => {
+      const resto = testoSemplice(v.resto).replace(/[.:;,]$/, "");
+      const punti = v.punti.map((p) => accorcia(testoSemplice(p).replace(/[.;]$/, ""), 300)).filter(Boolean);
+      return { titolo: accorcia(v.titolo, 140), dettaglio: resto ? accorcia(resto, 300) : undefined, ...(punti.length ? { punti } : {}) };
+    }),
+  };
 }
 
 /** Le voci della sezione «## …» il cui titolo contiene `chiave` (sotto-voci comprese). */
@@ -387,7 +441,7 @@ export function vociSezione(md: string | null, chiave: string): RigaLista[] {
   const righe = righeDi(md);
   const k = chiave.toLowerCase();
   const i = righe.findIndex((r) => /^##\s/.test(r) && r.toLowerCase().includes(k));
-  return i < 0 ? [] : vociFra(righe, i, 2);
+  return i < 0 ? [] : vociFra(righe, i, 2).voci;
 }
 
 /**
@@ -395,28 +449,34 @@ export function vociSezione(md: string | null, chiave: string): RigaLista[] {
  * in LAVORO-APERTO.md. Senza quella sotto-sezione la casella non sa separare il fatto dal da fare,
  * e lo dice invece di mostrare come «da costruire» cose già online.
  */
-export function lavoroSitoDaFare(md: string | null): { voci: RigaLista[]; separato: boolean } {
+export function lavoroSitoDaFare(md: string | null): { voci: RigaLista[]; separato: boolean; testo: boolean; trovata: boolean } {
   const righe = righeDi(md);
   const i = righe.findIndex((r) => /^##\s/.test(r) && /lavoro sul sito/i.test(r));
-  if (i < 0) return { voci: [], separato: false };
+  if (i < 0) return { voci: [], separato: false, testo: false, trovata: false };
   for (let j = i + 1; j < righe.length && !/^##\s/.test(righe[j]); j++) {
-    if (/^###\s/.test(righe[j]) && /da fare/i.test(righe[j])) return { voci: vociFra(righe, j, 3), separato: true };
+    if (/^###\s/.test(righe[j]) && /da fare/i.test(righe[j])) return { ...vociFra(righe, j, 3), separato: true, trovata: true };
   }
-  return { voci: vociFra(righe, i, 2), separato: false };
+  return { ...vociFra(righe, i, 2), separato: false, trovata: true };
 }
 
 export function rispostaRoadmap(md: string | null, oggi: string): RispostaModulo {
   if (md == null) return { collegato: false, righe: [], fonti: [], nota: "La pagina del lavoro aperto non si legge in questo momento." };
-  const { voci, separato } = lavoroSitoDaFare(md);
+  const { voci, separato, testo, trovata } = lavoroSitoDaFare(md);
+  const fonti = [fonte("lavoro aperto", giorno(frontmatter(md, "aggiornato")), oggi)];
+  // Non trovata o illeggibile = «non letta» (numero «—»), mai «nessun lavoro» né «qui sotto c'è tutto» sul vuoto.
+  if (!trovata) return { collegato: false, righe: [], fonti, nota: "Non trovo la sezione del lavoro sul sito nella pagina del lavoro aperto." };
+  if (!voci.length && testo) {
+    return { collegato: false, righe: [], fonti, nota: "C'è del testo sul lavoro del sito, ma non riesco a leggerne le voci: guardalo nella pagina del lavoro aperto." };
+  }
   return {
     collegato: true,
     righe: voci,
-    fonti: [fonte("lavoro aperto", giorno(frontmatter(md, "aggiornato")), oggi)],
-    nota: !separato
-      ? "La pagina del lavoro aperto non separa il fatto dal da fare: qui sotto c'è tutto, anche il lavoro già concluso."
-      : voci.length
-        ? undefined
-        : "Nessun lavoro ancora da fare sul sito nella pagina del lavoro aperto.",
+    fonti,
+    nota: !voci.length
+      ? "Nessun lavoro ancora da fare sul sito nella pagina del lavoro aperto."
+      : !separato
+        ? "La pagina del lavoro aperto non separa il fatto dal da fare: qui sotto c'è tutto, anche il lavoro già concluso."
+        : undefined,
   };
 }
 
@@ -439,6 +499,7 @@ const ORDINE_STATO = ["in_corso", "pronto", "concluso"];
 export function righeEsperimenti(lista: Esperimento[] | null | undefined): RigaLista[] {
   const norm = (s: unknown) => String(s ?? "").trim().toLowerCase().replace(/\s+/g, "_");
   return (Array.isArray(lista) ? lista : [])
+    .map((e) => ({ ...e, titolo: e?.titolo ?? (e as { nome?: string })?.nome }))
     .filter((e) => testoSemplice(e?.titolo))
     .map((e) => {
       const esito = norm(e.esito);
@@ -470,13 +531,34 @@ export function rispostaEsperimenti(l: LetturaJson<any>, oggi: string): Risposta
       nota: "Il registro degli esperimenti non si legge: non so dire se ce ne sono in corso.",
     };
   }
+  if (!Array.isArray(l.dati.esperimenti)) {
+    return {
+      collegato: false,
+      righe: [],
+      fonti: [fonte("registro esperimenti", giorno(l.dati.aggiornato), oggi, false, "il registro non ha la lista «esperimenti»: non so leggerlo")],
+      nota: "Il registro degli esperimenti ha una forma che non so leggere: non so dire se ce ne sono in corso.",
+    };
+  }
   const righe = righeEsperimenti(l.dati.esperimenti);
+  const illeggibili = l.dati.esperimenti.length - righe.length;
+  if (illeggibili && !righe.length) {
+    return {
+      collegato: false,
+      righe: [],
+      fonti: [fonte("registro esperimenti", giorno(l.dati.aggiornato), oggi, false, `${illeggibili} voci senza «titolo»: non so leggerle`)],
+      nota: "Nel registro ci sono esperimenti che non so leggere: non so dire se ce ne sono in corso.",
+    };
+  }
   return {
     collegato: true,
     righe,
     fonti: [fonte("registro esperimenti", giorno(l.dati.aggiornato), oggi)],
     conta: righe.length,
-    nota: righe.length ? undefined : "Nessun esperimento di crescita in corso. Il registro è pronto: ogni esperimento nuovo si scrive lì.",
+    nota: illeggibili
+      ? `${illeggibili} ${illeggibili === 1 ? "voce del registro non si legge" : "voci del registro non si leggono"} (manca il «titolo»).`
+      : righe.length
+        ? undefined
+        : "Nessun esperimento di crescita in corso. Il registro è pronto: ogni esperimento nuovo si scrive lì.",
   };
 }
 

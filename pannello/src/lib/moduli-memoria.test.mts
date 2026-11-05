@@ -193,7 +193,7 @@ const DOCS = [
   { percorso: "consegne/legale/contratto-pane-quotidiano-bozza.md", testo: "---\ndata: 2026-07-01\nstato: BOZZA — da far validare da un legale abilitato prima dell'uso\n---\n# CONTRATTO DI ADESIONE VENDITORE — MyCity\n" },
 ];
 
-test("legale: tre fonti, ognuna con la sua data; il numero conta difetti + documenti + rischi", () => {
+test("legale: tre fonti, ognuna con la sua data; il numero conta i problemi (difetti + rischi)", () => {
   const r = rispostaLegale(letto({ problemi: PROBLEMI, sync_scan: { aggiornato: "2026-11-05 06:39" } }), DOCS, letto(REGISTRO), OGGI);
   assert.equal(r.collegato, true);
   assert.deepEqual(r.fonti.map((f) => [f.nome, f.data, f.letta]), [
@@ -202,7 +202,7 @@ test("legale: tre fonti, ognuna con la sua data; il numero conta difetti + docum
     ["registro rischi", "2026-08-22", true],
   ]);
   assert.equal(r.fonti[2].giorni, 75, "il registro è fermo al 22/08: la casella non può dire «oggi» per tutto");
-  assert.equal(r.conta, 1 + 3 + 1);
+  assert.equal(r.conta, 1 + 1);
   assert.equal(r.righe[0].titolo, "Il sito non dice chi c'è dietro");
   assert.equal(r.nota, undefined);
 });
@@ -238,7 +238,7 @@ test("documenti: la data in cima vale se il nome non ce l'ha; lo stato BOZZA si 
   assert.deepEqual(r.map((x) => x.meta), ["01/11/2026", "01/07/2026", "24/06/2026"]);
   assert.ok(r[1].dettaglio?.startsWith("BOZZA — da far validare da un legale"));
   assert.ok(r[1].dettaglio?.includes("pane quotidiano") && r[2].dettaglio?.includes("contratto venditore bozza"));
-  assert.equal(righeDocumenti([{ percorso: "x/senza.md", testo: null }])[0].meta, "senza data");
+  assert.equal(righeDocumenti([{ percorso: "x/senza.md", testo: "# Senza data\n" }])[0].meta, "senza data");
 });
 
 // ── ⚠️ rischi ──
@@ -287,10 +287,11 @@ aggiornato: 2026-11-05 07:20
 - Non deve entrare neanche questa.
 `;
 
-test("roadmap: solo il lavoro ANCORA DA FARE, e le sotto-voci entrano nel dettaglio invece di sparire", () => {
+test("roadmap: solo il lavoro ANCORA DA FARE, e le sotto-voci restano invece di sparire", () => {
   const r = rispostaRoadmap(LAVORO, OGGI);
   assert.deepEqual(r.righe.map((x) => x.titolo), ["Il piano per aprire è partito il 31/10", "Prima di accendere la carta"]);
-  assert.equal(r.righe[1].dettaglio, "quattro cose: · Non pagare due volte i contanti già pagati · La data della fascia quando si paga dopo mezzanotte");
+  assert.equal(r.righe[1].dettaglio, "quattro cose");
+  assert.deepEqual(r.righe[1].punti, ["Non pagare due volte i contanti già pagati", "La data della fascia quando si paga dopo mezzanotte"]);
   assert.equal(r.nota, undefined);
   assert.equal(r.fonti[0].data, "2026-11-05");
 });
@@ -369,4 +370,145 @@ test("rassegna: le due ricerche senza doppioni; le note dicono cosa manca e cosa
   assert.equal(giu.collegato, false);
   assert.ok(giu.nota?.includes("non so dire") && giu.nota.includes("01/09/2026"));
   assert.equal(righeNotizie([]).length, 0);
+});
+
+// ════════ Terzo giro (collaudo 2, 2026-11-05): «non so leggerlo» non è «nessuno» ════════
+import { etichettaBadge } from "./badge-modulo.ts";
+
+const RADAR_NUMERATO = RADAR.replace("①", "1.").replace("②", "2.").replace("③", "3.").replace("④", "4.").replace("⑤", "5.");
+
+test("radar: novità numerate 1. 2. 3. si leggono come ①②③", () => {
+  const r = righeConcorrenti(RADAR_NUMERATO);
+  assert.equal(r.filter((x) => x.meta === "novità").length, 4);
+  assert.equal(r[0].titolo, "Glovo (la società italiana si chiama Foodinho): il controllo giudiziario resta");
+});
+
+test("radar: sezione Novità scritta in un modo che non so leggere = lo dice, non mostra solo «nessuna novità»", () => {
+  const strano = RADAR.replace(/\*\*[①②③④]\s*([^*]+)\*\*/g, "### $1");
+  const r = rispostaConcorrenti(strano, "2026-10-10", OGGI);
+  assert.match(String(r.nota), /non trovo un elenco numerato/i);
+});
+
+test("radar: senza sezione Novità lo dice; la tabella «Competitor» si legge come «Concorrente»", () => {
+  const vecchio = RADAR.replace(/## 🆕 Novità del 10\/10[\s\S]*?(?=\| Concorrente)/, "## Controllo del 1/9\n\n").replace("| Concorrente |", "| Competitor |");
+  const r = rispostaConcorrenti(vecchio, "2026-09-01", OGGI);
+  assert.equal(r.righe.length, 3);
+  assert.ok(r.nota?.includes("non trovo la sezione delle novità"), String(r.nota));
+});
+
+test("concorrenti: il numero accanto al titolo conta le NOVITÀ, non le righe", () => {
+  assert.equal(rispostaConcorrenti(RADAR, "2026-10-10", OGGI).conta, 4);
+});
+
+test("roadmap: anche un elenco numerato si legge; testo senza voci = «non riesco a leggerle», non «nessun lavoro»", () => {
+  const numerato = LAVORO.replace("- **Il piano per aprire", "1. **Il piano per aprire").replace("- **Prima di accendere", "2. **Prima di accendere");
+  assert.equal(rispostaRoadmap(numerato, OGGI).righe.length, 2);
+  const prosa = LAVORO.replace(/### Ancora da fare\n\n[\s\S]*?(?=### Fatto)/, "### Ancora da fare\n\nIl piano per aprire è partito, e prima della carta servono quattro cose.\n\n");
+  const r = rispostaRoadmap(prosa, OGGI);
+  assert.equal(r.righe.length, 0);
+  assert.ok(r.nota?.includes("non riesco a leggerne le voci"), String(r.nota));
+});
+
+test("roadmap: le sotto-voci restano intere, in un elenco a parte, non tagliate dentro il dettaglio", () => {
+  const lungo = LAVORO.replace("  - La data della fascia quando si paga dopo mezzanotte.", "  - La data della fascia quando si paga dopo mezzanotte.\n  - Restano tue: la cancellazione del negozio di prova, con «Trending ora» spento lo stesso giorno, e la foto del titolare col suo consenso.");
+  const r = rispostaRoadmap(lungo, OGGI).righe[1];
+  assert.equal(r.dettaglio, "quattro cose");
+  assert.deepEqual(r.punti, [
+    "Non pagare due volte i contanti già pagati",
+    "La data della fascia quando si paga dopo mezzanotte",
+    "Restano tue: la cancellazione del negozio di prova, con «Trending ora» spento lo stesso giorno, e la foto del titolare col suo consenso",
+  ]);
+});
+
+test("esperimenti: registro senza la lista «esperimenti» = non letto, non «nessun esperimento»", () => {
+  const r = rispostaEsperimenti(letto({ aggiornato: "2026-11-05", prove: [] }), OGGI);
+  assert.equal(r.collegato, false);
+  assert.ok(!r.nota?.startsWith("Nessun esperimento"));
+});
+
+test("legale: registro senza la lista «rischi» = non letto, mai «nessun rischio»; il numero non conta i documenti", () => {
+  const r = rispostaLegale(letto({ problemi: PROBLEMI }), DOCS, letto({ aggiornato: "2026-08-22", elenco: [] }), OGGI);
+  assert.equal(r.fonti[2].letta, false);
+  assert.ok(r.nota?.includes("Non letti: registro rischi") && !r.nota.includes("nessun rischio"));
+  const pieno = rispostaLegale(letto({ problemi: PROBLEMI }), DOCS, letto(REGISTRO), OGGI);
+  assert.equal(pieno.conta, 1 + 1, "1 difetto legale + 1 rischio normativo: i 3 documenti non sono problemi");
+});
+
+test("legale: un documento che non si apre non risulta letto", () => {
+  const uno = rispostaLegale(letto({ problemi: PROBLEMI }), [DOCS[0], { percorso: "consegne/legale/contratto-x-bozza.md", testo: null }], letto(REGISTRO), OGGI);
+  assert.equal(uno.fonti[1].letta, true);
+  assert.equal(uno.fonti[1].motivo, "1 documento su 2 non si è aperto");
+  const riga = uno.righe.find((x) => x.titolo === "contratto x bozza");
+  assert.equal(riga?.meta, "non letto");
+  const nessuno = rispostaLegale(letto({ problemi: PROBLEMI }), [{ percorso: "a/b.md", testo: null }], letto(REGISTRO), OGGI);
+  assert.equal(nessuno.fonti[1].letta, false);
+});
+
+test("numero accanto al titolo: fonte non letta = «—», mai «0»", () => {
+  const base = { kpiAccesi: 0, kpiTotali: 0, statoLabel: "live" };
+  assert.equal(etichettaBadge({ ...base, righe: [], collegato: false, conta: null }), "—");
+  assert.equal(etichettaBadge({ ...base, righe: [], collegato: true, conta: 0 }), "0", "letto e vuoto: lo zero è vero");
+  assert.equal(etichettaBadge({ ...base, righe: [1, 2, 3], collegato: true, conta: 58 }), "58");
+  assert.equal(etichettaBadge({ ...base, righe: [1, 2], collegato: true, conta: null }), "2");
+  assert.equal(etichettaBadge({ ...base, righe: null, collegato: true, conta: null }), "live");
+  assert.equal(etichettaBadge({ righe: null, collegato: true, conta: null, kpiAccesi: 1, kpiTotali: 2, statoLabel: "live" }), "1/2");
+});
+
+// ════════ Dopo il terzo collaudo (2026-11-05): il numero non dice «0» su ciò che non ho letto ════════
+
+test("concorrenti: novità illeggibili o sezione assente = nessun numero di novità (mai «0» falso)", () => {
+  const strano = RADAR.replace(/\*\*[①②③④]\s*([^*]+)\*\*/g, "### $1");
+  assert.equal(rispostaConcorrenti(strano, "2026-10-10", OGGI).conta, undefined);
+  const senza = RADAR.replace(/## 🆕 Novità del 10\/10[\s\S]*?(?=\| Concorrente)/, "## Controllo\n\n");
+  assert.equal(rispostaConcorrenti(senza, "2026-10-10", OGGI).conta, undefined);
+});
+
+test("roadmap: sezione del sito assente, o in prosa senza «Ancora da fare» = non letta, mai «qui sotto c'è tutto» sul vuoto", () => {
+  const rinominata = LAVORO.replace("## 2 · Il mio lavoro sul sito", "## 2 · Il sito");
+  const a = rispostaRoadmap(rinominata, OGGI);
+  assert.equal(a.collegato, false);
+  assert.match(String(a.nota), /non trovo la sezione del lavoro sul sito/i);
+  const prosa = LAVORO.replace(/### Ancora da fare\n\n[\s\S]*?(?=## 3)/, "Tutto in prosa, senza elenco.\n\n");
+  const b = rispostaRoadmap(prosa, OGGI);
+  assert.equal(b.collegato, false);
+  assert.match(String(b.nota), /non riesco a leggerne le voci/i);
+});
+
+test("roadmap: il dettaglio di una voce tiene fino a 300 caratteri (la data del primo cliente non sparisce)", () => {
+  const coda = "primo cliente in contanti giovedì 5/11 sera o venerdì 6/11";
+  const lungo = LAVORO.replace("Si apre con zero bloccanti.", "Ho ricontrollato sul codice tutte le 1.213 voci aperte o dette riparate. Si apre con zero bloccanti e zero gravi del lancio, carta compresa: 7 ondate su due binari, " + coda + ".");
+  assert.ok(rispostaRoadmap(lungo, OGGI).righe[0].dettaglio?.includes(coda));
+});
+
+test("legale: radiografia non letta = nessun numero di problemi (i soli rischi non sono il totale)", () => {
+  assert.equal(rispostaLegale(nonLetto("x"), DOCS, letto(REGISTRO), OGGI).conta, undefined);
+});
+
+test("esperimenti: «nome» vale come «titolo»; voci che non so leggere non diventano «nessun esperimento»", () => {
+  const conNome = rispostaEsperimenti(letto({ esperimenti: [{ nome: "Volantino", stato: "in_corso" }] }), OGGI);
+  assert.deepEqual(conNome.righe.map((x) => x.titolo), ["Volantino"]);
+  const muto = rispostaEsperimenti(letto({ esperimenti: [{ stato: "in_corso" }] }), OGGI);
+  assert.equal(muto.collegato, false);
+  assert.ok(!muto.nota?.startsWith("Nessun esperimento"));
+});
+
+test("radar: novità in una tabella con un'altra intestazione = lo dice, non resta zero in silenzio", () => {
+  const tab = RADAR.replace(/\*\*①[\s\S]*?(?=\*\*⑤)/, "| Novità | Dettaglio |\n|---|---|\n| Glovo | il controllo resta |\n\n");
+  const r = rispostaConcorrenti(tab, "2026-10-10", OGGI);
+  assert.match(String(r.nota), /non trovo un elenco numerato/i);
+  assert.equal(r.conta, undefined);
+});
+
+test("radar: settimana senza novità scritta in prosa = nota vera, non «non riesco a leggere»", () => {
+  const prosa = RADAR.replace(/\*\*①[\s\S]*?(?=\*\*⑤)/, "Nessuna novità questa settimana: nessun concorrente si è mosso a Piacenza.\n\n");
+  const r = rispostaConcorrenti(prosa, "2026-10-10", OGGI);
+  assert.ok(!/non riesco/i.test(String(r.nota)), String(r.nota));
+  assert.match(String(r.nota), /se ci sono novità, sono nel testo intero/i);
+});
+
+test("radar: novità scritte come titoli «### ① …» si leggono come le altre", () => {
+  const titoli = RADAR.replace(/\*\*([①②③④])\s*([^*]+)\*\*.*$/gm, "### $1 $2");
+  const r = rispostaConcorrenti(titoli, "2026-10-10", OGGI);
+  assert.equal(r.conta, 4);
+  assert.equal(r.righe[0].titolo, "Glovo (la società italiana si chiama Foodinho): il controllo giudiziario resta");
 });
