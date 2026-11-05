@@ -1086,7 +1086,7 @@ if [ "$_tetto_rc" = 0 ] && command -v node >/dev/null 2>&1; then
   esac
 fi
 
-PROMPT="Sei l'AD digitale di MyCity (segui CLAUDE.md e gli agenti in .claude/agents/).
+PROMPT="Sei l'AD digitale di MyCity (segui CLAUDE.md, il manuale dell'AD in cervello/MANUALE-AD.md e gli agenti in .claude/agents/).
 
 ## Compito
 Leggi ed esegui **per intero** il file \`cervello/giro.md\` in questo repository (aprilo dal disco con Read, NON saltare passi).

@@ -33,7 +33,7 @@ const CANTIERE = "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.jso
 
 // File di PROSA: descrivono, non fanno. Una prova che punta qui verifica che qualcuno abbia SCRITTO
 // la regola, non che la regola sia APPLICATA. È la trappola in cui è caduto AR-008.
-const PROSA = [/^CLAUDE\.md$/i, /^COMANDI\.md$/i, /^README/i, /\/README/i, /MyCity-Vault\/.*\.md$/i, /^consegne\/.*\.md$/i];
+const PROSA = [/^CLAUDE\.md$/i, /^cervello\/MANUALE-AD\.md$/i, /^COMANDI\.md$/i, /^README/i, /\/README/i, /MyCity-Vault\/.*\.md$/i, /^consegne\/.*\.md$/i];
 
 /** Una prova è "debole" se punta a un file che descrive invece di un file che esegue. */
 export function provaDebole(file) {

@@ -1518,7 +1518,7 @@ Cosa non ho verificato: quanto manca esattamente al reset — il contatore lo ti
 
   # 2) costruisci il prompt (come worker.ps1)
   if [ "$tipo" = "esegui-azione" ]; then
-    prompt="Sei l'AD digitale di MyCity (segui CLAUDE.md). $richiesta
+    prompt="Sei l'AD digitale di MyCity (segui CLAUDE.md e cervello/MANUALE-AD.md). $richiesta
 
 Usa cervello/esegui-azione.mjs sul canale indicato (LIVE se AZIONI_LIVE=1, altrimenti dry-run).
 Se il canale è github/PR: node cervello/esegui-azione.mjs github-merge ad-mycity|mycity <numeroPR>
@@ -1635,6 +1635,7 @@ Esegui la metabolizzazione seguendo le istruzioni sopra. NON produrre risposte p
     prompt="Sei l'AD digitale di MyCity e stai parlando con Nicola nella chat del Pannello.
 Rispondi in italiano, diretto, concreto e utile — è una conversazione vera, non un report.
 Vai al punto: niente preamboli, niente rituali, niente analisi enormi se non te le chiede. Se ti serve un dato reale leggilo, altrimenti rispondi e basta.
+Se Nicola scrive un comando breve («quadro», «fai un giro», «cosa resta da fare?», «ok [n]»…), la sua regola sta nella sezione Comandi rapidi di cervello/MANUALE-AD.md: aprila prima di rispondere.
 
 COME SCRIVI (contratto di chiarezza — Nicola non è un tecnico, e questo conta quanto la sostanza):
 - La PRIMA riga è la risposta o l'esito, in parole semplici, come lo diresti a voce a un amico.
@@ -1710,7 +1711,7 @@ COME LAVORI (queste sono le regole della casa, e valgono sopra qualunque cosa tu
 
 $BOTTEGA_TESTO"
   else
-    prompt="Sei l'AD digitale di MyCity (segui CLAUDE.md). Esegui questo lavoro e restituisci un risultato chiaro e azionabile per Nicola, rispettando 🟢🟡🔴.
+    prompt="Sei l'AD digitale di MyCity (segui CLAUDE.md e cervello/MANUALE-AD.md). Esegui questo lavoro e restituisci un risultato chiaro e azionabile per Nicola, rispettando 🟢🟡🔴.
 Se il lavoro tocca il CODICE: branch dedicato + PROVA prima della PR (pannello/: npx tsc --noEmit; script: bash -n; test: npx bats) + descrizione PR obbligatoria (file in consegne/tech/ o --body) + node cervello/git-pr.mjs --repo ad-mycity --accoda (mai commit o push su main; il merge lo firma Nicola dal Pannello).
 Aperta la PR, LEGGI I CONTROLLI prima di dire «fatto»: node cervello/ci-stato.mjs --pr NUMERO --attendi 300. Se la colpa è «mia» correggi sullo stesso ramo; se è «ereditata» NON toccare questa PR (il guasto è su main e si ripara là, una volta sola); se nessun controllo è partito dillo, perché ⚪ non è verde. Il colore dei controlli va SEMPRE nel messaggio a Nicola.
 

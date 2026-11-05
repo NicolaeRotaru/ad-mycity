@@ -44,6 +44,7 @@ test("riverifica(): senza prova o con file sparito lo dice, non inventa", () => 
 test("provaDebole(): riconosce le prove puntate a un file che DESCRIVE", () => {
   // È l'errore di AR-008: verificato contro la prosa invece che contro l'artefatto che fa la cosa.
   assert.equal(provaDebole("CLAUDE.md"), true);
+  assert.equal(provaDebole("cervello/MANUALE-AD.md"), true, "il manuale dell'AD è prosa come CLAUDE.md (5/11)");
   assert.equal(provaDebole("COMANDI.md"), true);
   assert.equal(provaDebole("MyCity-Vault/90-Memoria-AI/STATO.md"), true);
   assert.equal(provaDebole("consegne/audit/2026-07-16-radiografia.md"), true);

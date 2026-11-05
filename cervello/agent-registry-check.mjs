@@ -171,8 +171,12 @@ export function rosterNelManuale(testoClaudeMd = "", nomiReali = null) {
  * a 35.377 byte; il roster da solo ne pesa 41.675, quindi reincollarlo in qualunque forma sfonda il
  * tetto. Il tetto si alza solo con una scelta scritta qui, col suo perché: ogni byte in più lo paga
  * ogni agente a ogni turno.
+ * 5/11/2026 (firma di Nicola: «alleggerisci le istruzioni che ogni agente rilegge»): le parti che
+ * servono solo all'AD sono passate in `cervello/MANUALE-AD.md` e il manuale è sceso da 30.415 a
+ * ~16.500 byte. Il tetto scende con lui, da 40.000 a 18.000: rimettere qui il manuale dell'AD
+ * (~16.000 byte) lo sfonda, e così ogni aggiunta deve chiedersi se serve davvero a TUTTI gli agenti.
  */
-export const TETTO_MANUALE_BYTE = 40000;
+export const TETTO_MANUALE_BYTE = 18000;
 
 /**
  * @param {string} testoClaudeMd
@@ -243,6 +247,65 @@ export function estraiName(testo) {
   const fm = m ? m[1] : "";
   const n = fm.match(/^name:\s*(.+?)\s*$/m);
   return n ? n[1].replace(/^["']|["']$/g, "").trim() : "";
+}
+
+/** Estrae `model:` dal frontmatter YAML di un mansionario. "" se manca. */
+export function estraiModel(testo) {
+  return righeModel(testo)[0] || "";
+}
+
+/** Tutti i valori di `model:` nel frontmatter, uno per riga (senza commento in coda, senza virgolette). */
+function righeModel(testo) {
+  const m = String(testo || "").match(/^---\s*[\r\n]([\s\S]*?)[\r\n]---/);
+  const fm = m ? m[1] : "";
+  return [...fm.matchAll(/^model:[ \t]*(.*?)[ \t]*\r?$/gm)].map((r) =>
+    r[1].replace(/\s+#.*$/, "").replace(/^["']|["']$/g, "").trim(),
+  );
+}
+
+/** I modelli che un senior può dichiarare: il piccolo per produrre, il grande per ciò che deve reggere. */
+export const MODELLI_AMMESSI = ["sonnet", "opus", "haiku"];
+
+/**
+ * IL MODELLO SCRITTO NELLA SCHEDA (5/11/2026, firmato da Nicola: «ok, prepara le due modifiche sui
+ * modelli dei senior»). Senza `model:` un senior gira sul modello della sessione, cioè sempre il
+ * più grande: la regola «modello piccolo per i lavori semplici» (registro-fatti, ad.uso-e-crediti)
+ * esisteva, ma niente la faceva rispettare. Il 5/11 lo smistamento di 432 schede sul modello grande
+ * ha riletto ~9.900 token a scheda; sul piccolo, con una lettura sola, ~460.
+ * La regola per scegliere: GRANDE (opus) per ciò che deve reggere senza un secondo controllo —
+ * diagnosi e codice che tocca soldi, dati o permessi, collaudi, sicurezza, soldi veri, diritto e
+ * fisco, strategia e numeri su cui Nicola decide, governo della macchina. PICCOLO (sonnet) per il
+ * resto: testi, grafiche, operazioni, ricerca, vendite, marketing, cura clienti, che passano
+ * comunque da un cancello (direttore-creativo, qa, collaudo, firma di Nicola). Sul grande anche chi
+ * collega le mani verso i clienti (builder-automazioni), chi banna e sospende (trust-safety) e i
+ * cancelli finali (direttore-creativo, qa-designer). frontend-dev resta sul piccolo: le sue schermate
+ * passano sempre dal collaudo di qa e da `npm run verify`, e la logica dei soldi sta nel backend.
+ * L'elenco esatto dei senior sul grande è fissato in cervello/test/il-senior-dichiara-il-modello.test.mjs.
+ * Pura: prende [{file, testo}], nessun I/O.
+ */
+export function analizzaModelli(schede = [], ammessi = MODELLI_AMMESSI) {
+  const senzaModel = [];
+  const modelSconosciuto = [];
+  const conteggio = {};
+  for (const { file, testo } of schede) {
+    const righe = righeModel(testo);
+    if (righe.length > 1) {
+      // due righe `model:`: il router ne legge una, la prova un'altra — opus sopra sonnet inganna tutti
+      modelSconosciuto.push({ file, model: `${righe.length} righe model: ${righe.join(" / ")}` });
+      continue;
+    }
+    const model = righe[0] || "";
+    if (!model) {
+      senzaModel.push(file);
+      continue;
+    }
+    if (!ammessi.includes(model)) {
+      modelSconosciuto.push({ file, model });
+      continue;
+    }
+    conteggio[model] = (conteggio[model] || 0) + 1;
+  }
+  return { senzaModel, modelSconosciuto, conteggio, problemi: senzaModel.length + modelSconosciuto.length };
 }
 
 /**
@@ -430,6 +493,7 @@ async function main() {
   }
   const { collisioniCoppie, deferralMancante } = analizzaCollisioniDescription(descriptions);
   const nomi = analizzaNomi(schedePerNome); // AR-619: name ≠ filename, name mancante, name doppio
+  const modelli = analizzaModelli(schedePerNome); // 5/11: ogni senior dichiara il suo modello
   const nCollisioni = collisioniCoppie.length + deferralMancante.length;
 
   // 7. Copertura KPI: ogni agente deve possiedere un KPI in OKR-Squadra (o deroga esplicita).
@@ -533,6 +597,7 @@ async function main() {
     senzaKpi.length +
     conteggiOltreIlTetto +
     nomi.problemi + // AR-619: un name incoerente rompe il routing anche con 120 file = 120 dichiarati
+    modelli.problemi + // 5/11: senza `model:` il senior gira sempre sul modello più grande
     percorsiRotti.length + // AR-349
     canaliOrfani.length + // AR-188 / AR-585
     generalistiMuti.length + // AR-130
@@ -561,6 +626,7 @@ async function main() {
           senza_kpi_okr: senzaKpi,
           conteggi_sbagliati: conteggiSbagliati,
           nomi_frontmatter: nomi, // AR-619
+          modelli_frontmatter: modelli, // 5/11
           percorsi_morti: percorsiRotti, // AR-349
           canali_senza_owner: canaliOrfani, // AR-188 / AR-585
           generalisti_muti: generalistiMuti, // AR-130
@@ -675,6 +741,12 @@ async function main() {
         for (const f of nomi.senzaName) console.log(`  • ${f}.md: name MANCANTE`);
         for (const x of nomi.nomeDiverso) console.log(`  • ${x.file}.md: name "${x.name}" ≠ nome-file — la delega andrebbe a un senior che non esiste nel registro`);
         for (const x of nomi.nameDoppi) console.log(`  • name "${x.name}" DOPPIO in: ${x.files.map((f) => `${f}.md`).join(", ")}`);
+      }
+
+      if (modelli.problemi) {
+        console.log(`\n🧮 ${modelli.problemi} senior senza un modello valido (senza, girano sempre sul più grande):`);
+        for (const f of modelli.senzaModel) console.log(`  • ${f}.md: model MANCANTE — scrivi sonnet o opus (regola in analizzaModelli)`);
+        for (const x of modelli.modelSconosciuto) console.log(`  • ${x.file}.md: model "${x.model}" non ammesso (${MODELLI_AMMESSI.join(", ")})`);
       }
     }
     console.log(`\nDrift totale: ${driftTotale}`);
