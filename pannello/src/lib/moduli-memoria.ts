@@ -21,10 +21,13 @@
 import type { RigaLista } from "./moduli.ts";
 import type { LetturaJson } from "./esito-lettura.ts";
 import { eAperto, problemiDelReferto, severitaDi } from "./radiografia-marketplace-conti.ts";
-import { giorniFra } from "./freschezza-intelligence.ts";
 
 /** Le caselle collegate qui. Unica casa: il catalogo (moduli.ts) e la rotta la leggono entrambi. */
-export const TIPI_MODULI = ["concorrenti", "rassegna", "sicurezza", "legale", "esperimenti", "roadmap"] as const;
+export const TIPI_MODULI = [
+  "concorrenti", "rassegna", "sicurezza", "legale", "esperimenti", "roadmap",
+  // 2026-11-05, «Fai le due cose»: le sei caselle delle schede «Negozi & clienti» e «Operazioni».
+  "rider", "contatti", "lead", "catalogo", "campagne", "calendario",
+] as const;
 export type TipoModulo = (typeof TIPI_MODULI)[number];
 
 export function eTipoModulo(t: string): t is TipoModulo {
@@ -41,12 +44,38 @@ export const MAX_DETTAGLIO = 180;
 export type Fonte = { nome: string; data: string | null; giorni: number | null; letta: boolean; motivo?: string | null };
 
 /** La risposta della rotta. `conta` = quante COSE ci sono (58 difetti), non quante righe (8). */
-export type RispostaModulo = { collegato: boolean; righe: RigaLista[]; fonti: Fonte[]; conta?: number; nota?: string };
+export type RispostaModulo = { collegato: boolean; righe: RigaLista[]; fonti: Fonte[]; conta?: number; almeno?: number; nota?: string };
+
+/**
+ * Giorni di CALENDARIO da `a` a `b` (aaaa-mm-gg), con segno: niente ore, niente fuso, quindi niente
+ * cambio d'ora. Il collaudo del 5/11 l'ha visto due volte: misurando da mezzogiorno a mezzogiorno
+ * con l'ora locale e arrotondando, un intervallo che scavalca il 25/10 o il 28/3 sbagliava di uno.
+ */
+export function giorniTra(a: string | null, b: string | null): number | null {
+  const x = String(a ?? "").match(/^(\d{4})-(\d{2})-(\d{2})/);
+  const y = String(b ?? "").match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (!x || !y) return null;
+  const ux = Date.UTC(+x[1], +x[2] - 1, +x[3]);
+  const uy = Date.UTC(+y[1], +y[2] - 1, +y[3]);
+  // Una data impossibile («2026-13-01», «2026-11-31») non diventa in silenzio un'altra: null.
+  const vera = (u: number, m: RegExpMatchArray) => new Date(u).toISOString().slice(0, 10) === m[0];
+  if (!vera(ux, x) || !vera(uy, y)) return null;
+  return Math.round((uy - ux) / 86_400_000);
+}
+
+/**
+ * Nessuna riga e una fonte non letta = «non so», non «zero». Si segna la risposta come non
+ * collegata, così il numero accanto al titolo è «—» (etichettaBadge) e la casella mostra la nota.
+ * Nato il 2026-11-05: «Campagne» diceva «0» col registro vuoto e i messaggi del sito non letti.
+ */
+export function senzaZeroFalso(r: RispostaModulo): RispostaModulo {
+  return !r.righe.length && r.conta == null && r.fonti.some((f) => !f.letta) ? { ...r, collegato: false } : r;
+}
 
 // ───────────────────────────── testo ─────────────────────────────
 
 /** I file salvati da Windows hanno «\r\n»: senza questa riga, zero voci e nessuna data. */
-function righeDi(md: string | null | undefined): string[] {
+export function righeDi(md: string | null | undefined): string[] {
   return String(md ?? "").replace(/\r\n?/g, "\n").split("\n");
 }
 
@@ -90,14 +119,16 @@ export function frontmatter(md: string | null, chiave: string): string | null {
   return null;
 }
 
-function fonte(nome: string, data: string | null, oggi: string, letta = true, motivo: string | null = null): Fonte {
-  return { nome, data, giorni: data ? giorniFra(data, oggi) : null, letta, motivo };
+export function fonte(nome: string, data: string | null, oggi: string, letta = true, motivo: string | null = null): Fonte {
+  // Una data nel futuro non è «fresca»: è una data sbagliata. Giorni null = data che non so leggere.
+  const g = data ? giorniTra(data, oggi) : null;
+  return { nome, data, giorni: g != null && g >= 0 ? g : null, letta, motivo };
 }
 
 // ───────────────────────────── 🔎 concorrenti ─────────────────────────────
 
 /** Le celle di una riga di tabella markdown; un «\|» dentro il testo non taglia la cella. */
-function celle(riga: string): string[] {
+export function celle(riga: string): string[] {
   return riga.trim().replace(/^\|/, "").replace(/\|$/, "").split(/(?<!\\)\|/).map((c) => c.trim());
 }
 
@@ -325,7 +356,11 @@ export function difettiDaRadiografia(
 ): { ok: true; serie: RigaLista[]; resto: RigaLista[]; totale: number; fonte: Fonte } | { ok: false; fonte: Fonte } {
   const nome = "difetti del sito";
   if (!l.dati) return { ok: false, fonte: fonte(nome, null, oggi, false, l.motivo ?? "la radiografia del sito non c'è") };
-  const data = giorno(l.dati?.sync_scan?.aggiornato) ?? giorno(l.dati?.data);
+  // Il registro porta due date: quella della radiografia («data») e quella dell'ultimo allineamento
+  // col codice («sync_scan.aggiornato»). Il dato è fresco quanto la PIÙ RECENTE delle due: la
+  // radiografia del 5/11 (richiesta #927) lascia l'allineamento all'1/11, e la casella diceva
+  // «dato del 01/11» su difetti trovati il 5.
+  const data = [giorno(l.dati?.sync_scan?.aggiornato), giorno(l.dati?.data)].filter((x): x is string => Boolean(x)).sort().pop() ?? null;
   const e = problemiDelReferto(l.dati);
   if (e.problemi == null) return { ok: false, fonte: fonte(nome, data, oggi, false, e.motivo ?? "la radiografia del sito non si sa contare") };
   const d = righeDifettiSito(e.problemi as ProblemaSito[], dimensioni, cosa);
@@ -333,17 +368,123 @@ export function difettiDaRadiografia(
   return { ok: true, serie: d.serie, resto: d.resto, totale, fonte: fonte(nome, data, oggi) };
 }
 
-export function rispostaSicurezza(rad: LetturaJson<any>, oggi: string): RispostaModulo {
+// ───────────────────────────── 🛡️ controllo di sicurezza di Supabase ─────────────────────────────
+
+/**
+ * Il controllo di sicurezza di Supabase («advisors»), come la macchina lo salva in memoria
+ * (`90-Memoria-AI/sicurezza-supabase.json`, scritto da `cervello/sicurezza-supabase.mjs`).
+ * Nato il 2026-11-05: Nicola pensava servisse una chiave di gestione nuova; non serve, perché la
+ * sessione dell'AD lo legge già e lo salva con la sua data.
+ */
+export type AvvisoSupabase = { nome?: string; titolo?: string; livello?: string; quanti?: number; esempi?: string[]; link?: string };
+
+/** I nomi dei controlli di Supabase, detti in italiano. Un nome sconosciuto tiene il titolo inglese. */
+export const AVVISI_SUPABASE_IT: Record<string, string> = {
+  security_definer_view: "Viste che girano coi permessi di chi le ha create, non di chi le legge",
+  anon_security_definer_function_executable: "Funzioni con permessi speciali che può chiamare anche chi non ha fatto l'accesso",
+  authenticated_security_definer_function_executable: "Funzioni con permessi speciali che può chiamare qualunque utente con accesso",
+  extension_in_public: "Un'estensione installata nello spazio pubblico del database",
+  rls_enabled_no_policy: "Tabelle protette senza nessuna regola d'accesso: le legge solo il server",
+  rls_disabled_in_public: "Tabelle pubbliche senza protezione delle righe",
+  function_search_path_mutable: "Funzioni senza un percorso di ricerca fisso",
+  auth_leaked_password_protection: "Controllo delle password rubate spento",
+  policy_exists_rls_disabled: "Regole d'accesso scritte ma protezione spenta",
+};
+
+const PESO_LIVELLO: Record<string, number> = { ERROR: 0, WARN: 1, INFO: 2 };
+const LIVELLO_IT: Record<string, string> = { ERROR: "errore", WARN: "avviso", INFO: "informazione" };
+
+/** Una riga per tipo di avviso: errori in rosso, avvisi in giallo, informazioni senza colore. */
+export function righeAvvisiSupabase(avvisi: AvvisoSupabase[]): RigaLista[] {
+  return avvisi
+    .filter((a) => a && (a.nome || a.titolo))
+    .map((a) => {
+      const liv = String(a.livello ?? "").toUpperCase();
+      const n = Number(a.quanti) || 0;
+      const nome = AVVISI_SUPABASE_IT[String(a.nome ?? "")] ?? testoSemplice(a.titolo ?? a.nome);
+      const esempi = Array.isArray(a.esempi) ? a.esempi.filter(Boolean).slice(0, 4) : [];
+      return {
+        peso: PESO_LIVELLO[liv] ?? 3,
+        riga: {
+          titolo: `${nome} (${Math.max(1, n)})`,
+          dettaglio: esempi.length ? accorcia(`per esempio: ${esempi.join(", ")}${n > esempi.length ? "…" : ""}`) : undefined,
+          meta: LIVELLO_IT[liv] ?? (liv.toLowerCase() || "da pesare"),
+          colore: liv === "ERROR" ? "rosso" : liv === "WARN" ? "giallo" : undefined,
+          link: typeof a.link === "string" && /^https:\/\//.test(a.link) ? a.link : undefined,
+        } as RigaLista,
+        n,
+      };
+    })
+    .sort((x, y) => x.peso - y.peso)
+    .map((x) => x.riga);
+}
+
+/**
+ * Il controllo di Supabase salvato: «non letto» se il file manca, è illeggibile o non ha la lista
+ * `avvisi` — mai «nessun avviso». Il totale è la somma dei `quanti`.
+ */
+/** Oltre quanti giorni il controllo di Supabase salvato è vecchio: resta visibile ma non entra nel numero. */
+export const SUPABASE_VECCHIO_GIORNI = 7;
+
+export function avvisiDaSupabase(
+  l: LetturaJson<any>,
+  oggi: string,
+): { ok: true; righe: RigaLista[]; totale: number; distinti: boolean; fonte: Fonte } | { ok: false; fonte: Fonte } {
+  const nome = "controllo di Supabase sul database del sito";
+  if (!l.dati) return { ok: false, fonte: fonte(nome, null, oggi, false, l.motivo ?? "non ancora salvato in memoria") };
+  const data = giorno(l.dati.aggiornato);
+  if (!Array.isArray(l.dati.avvisi)) return { ok: false, fonte: fonte(nome, data, oggi, false, "il file non ha la lista «avvisi»: non so leggerlo") };
+  const avvisi = l.dati.avvisi as AvvisoSupabase[];
+  // Nel totale gli ERRORI e gli AVVISI, non le «informazioni»: le 12 tabelle chiuse a tutti tranne il
+  // server sono lo stato voluto (collaudo del 5/11). Un avviso elencato vale almeno 1, mai 0.
+  const somma = avvisi
+    .filter((a) => a && String(a.livello ?? "").toUpperCase() !== "INFO")
+    .reduce((t, a) => t + Math.max(1, Number(a?.quanti) || 0), 0);
+  // Gli oggetti DIVERSI, se lo script li ha potuti contare: la stessa funzione sta in due controlli
+  // (chiamabile da chi non ha l'accesso E da chi ce l'ha). Il collaudo del 5/11: 62 erano 47.
+  const d = l.dati.oggetti_distinti;
+  const distinti = typeof d === "number" && Number.isFinite(d) && d >= 0;
+  return { ok: true, righe: righeAvvisiSupabase(avvisi), totale: distinti ? d : somma, distinti, fonte: fonte(nome, data, oggi) };
+}
+
+/**
+ * Sicurezza: i difetti del sito (radiografia) più, se c'è, il controllo di Supabase. Con una fonte
+ * su due non letta la casella lo dice e non dà il totale: i soli difetti non sono «tutto».
+ */
+export function rispostaSicurezza(rad: LetturaJson<any>, oggi: string, supa?: LetturaJson<any>): RispostaModulo {
   const d = difettiDaRadiografia(rad, DIMENSIONI_SICUREZZA, "accessi e permessi", oggi);
-  if (!d.ok) return { collegato: false, righe: [], fonti: [d.fonte], nota: `Non ho letto i difetti del sito: ${d.fonte.motivo}. Non vuol dire che non ce ne siano.` };
-  const righe = [...d.serie, ...d.resto];
-  return {
+  const s = supa ? avvisiDaSupabase(supa, oggi) : null;
+  const fonti = [d.fonte, ...(s ? [s.fonte] : [])];
+  if (!d.ok && (!s || !s.ok)) {
+    return { collegato: false, righe: [], fonti, nota: `Non ho letto i difetti del sito: ${d.fonte.motivo}. Non vuol dire che non ce ne siano.` };
+  }
+  const righe = [...(d.ok ? d.serie : []), ...(s?.ok ? s.righe : []), ...(d.ok ? d.resto : [])];
+  const nonLette = fonti.filter((f) => !f.letta);
+  const tutteLette = nonLette.length === 0;
+  // Un controllo di Supabase vecchio si vede, ma non entra nel numero (come gli eventi del calendario).
+  const supaVecchio = Boolean(s?.ok && (s.fonte.giorni == null || s.fonte.giorni > SUPABASE_VECCHIO_GIORNI));
+  const totSupa = s?.ok && !supaVecchio ? s.totale : 0;
+  const vuote: string[] = [];
+  if (d.ok && d.totale === 0) vuote.push("nessun difetto aperto di accessi e permessi nella radiografia del sito");
+  if (s?.ok && s.totale === 0) vuote.push("nessun errore o avviso nel controllo di Supabase");
+  const pezzi = [
+    nonLette.length ? `Non letti: ${nonLette.map((f) => f.nome).join(", ")}.` : "",
+    vuote.length ? `${vuote.join("; ")}.`.replace(/^n/, "N") : "",
+    supaVecchio ? `Il controllo di Supabase è ${s!.fonte.giorni == null ? "di una data che non so leggere" : `di ${s!.fonte.giorni} giorni fa`}: si vede ma non entra nel numero. Si rifà con «controlla la sicurezza di Supabase».` : "",
+    // Il numero somma due misure diverse: lo si dice, così «120» non sembra un conto solo.
+    tutteLette && d.ok && totSupa && s?.ok
+      ? s.distinti
+        ? `Il numero somma ${d.totale} difetti del sito e ${totSupa} oggetti con errori o avvisi di Supabase (la stessa funzione può stare in più righe); le informazioni restano fuori.`
+        : `Il numero somma ${d.totale} difetti del sito e ${totSupa} fra errori e avvisi di Supabase, e lo stesso oggetto può essere contato più volte; le informazioni restano fuori.`
+      : "",
+  ].filter(Boolean);
+  return senzaZeroFalso({
     collegato: true,
     righe,
-    fonti: [d.fonte],
-    conta: d.totale,
-    nota: righe.length ? undefined : "Nessun difetto aperto di accessi e permessi nella radiografia del sito.",
-  };
+    fonti,
+    conta: tutteLette ? (d.ok ? d.totale : 0) + totSupa : undefined,
+    nota: pezzi.length ? pezzi.join(" ") : undefined,
+  });
 }
 
 /**
@@ -384,16 +525,17 @@ export function rispostaLegale(
     nonLette.length ? `Non letti: ${nonLette.map((f) => f.nome).join(", ")}.` : "",
     vuote.length ? `Fra le fonti lette: ${vuote.join("; ")}.` : "",
   ].filter(Boolean);
-  return {
+  return senzaZeroFalso({
     collegato: true,
     righe,
     fonti,
     // I PROBLEMI: difetti del sito + rischi normativi. I documenti (contratti, domande al
     // commercialista) sono materiale, non problemi: «81» leggeva come 81 problemi legali.
     // Senza la radiografia i soli rischi non sono il totale: nessun numero, la nota dice cosa manca.
-    conta: d.ok ? d.totale + rischi.length : undefined,
+    // Solo con TUTTE le fonti lette: un registro non letto non è «zero rischi» (collaudo del 5/11).
+    conta: nonLette.length === 0 && d.ok ? d.totale + rischi.length : undefined,
     nota: pezzi.length ? pezzi.join(" ") : undefined,
-  };
+  });
 }
 
 // ───────────────────────────── 🗺️ lavoro aperto ─────────────────────────────

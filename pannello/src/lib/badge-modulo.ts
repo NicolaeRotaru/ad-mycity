@@ -8,6 +8,8 @@ export type DatiBadge = {
   righe: unknown[] | null; // null = elenco non ancora caricato (o la casella non ha elenco)
   collegato: boolean; // la fonte dell'elenco è stata letta?
   conta: number | null; // quante COSE ci sono, se la fonte lo dice (58 difetti in 8 righe)
+  parziale?: boolean; // almeno una fonte non letta: senza «conta» le righe NON sono il totale
+  almeno?: number | null; // lettura arrivata al limite: il vero è almeno questo («1000+»)
   kpiAccesi: number;
   kpiTotali: number;
   statoLabel: string; // «live» / «parziale» / «da collegare», prima di aprire la casella
@@ -16,7 +18,11 @@ export type DatiBadge = {
 export function etichettaBadge(d: DatiBadge): string {
   if (d.righe) {
     if (!d.collegato && d.righe.length === 0) return "—";
-    return String(d.conta ?? d.righe.length);
+    if (d.conta != null) return String(d.conta);
+    if (d.almeno != null) return `${d.almeno}+`;
+    // Collaudo del 5/11: con una fonte su due non letta, contare le righe mostrava «8» al posto
+    // di 58 difetti. Un numero più piccolo del vero è uno zero falso a metà: meglio «—».
+    return d.parziale ? "—" : String(d.righe.length);
   }
   return d.kpiTotali ? `${d.kpiAccesi}/${d.kpiTotali}` : d.statoLabel;
 }

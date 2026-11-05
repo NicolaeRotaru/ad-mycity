@@ -975,14 +975,14 @@ Solo con questo, i 2 pallini della Cabina diventano verdi (o rossi veri, se un g
 
 ---
 
-### 🟡 #42 — Togli alla macchina il permesso di eseguire qualunque programma si scriva da sola · ⏳ accodata 2026-07-29 18:50 · aggiornata 2026-10-25 16:32
+### 🟡 #42 — Togli alla macchina il permesso di eseguire qualunque programma si scriva da sola · ⏳ accodata 2026-07-29 18:50 · aggiornata 2026-11-05 11:47
 
 **Cosa cambia:** nel foglio dei permessi (`.claude/settings.json`) ci sono due righe col jolly: `node cervello/*.mjs` e `bash cervello/*.sh`. Queste righe non dicono «può lanciare questi programmi». Dicono «può lanciare qualunque programma finisca in quella cartella» — e quella cartella la scrive la macchina stessa. I freni veri (la pausa, la tua firma, il controllo su chi riceve un messaggio) stanno dentro ai singoli programmi. Con il jolly si può arrivare a un programma senza passare dal freno che contiene. Non sto dicendo che sia già successo. Sto dicendo che oggi nessuno lo impedirebbe. **Novità 13/8:** il jolly non è solo un rischio — è anche il motivo per cui `test-cervello.mjs`, `gate-veri.mjs`, `pota-apprendimento.mjs` e altri restano bloccati da un'approvazione che in sessione chat non arriva mai (documentato ~16 volte in [[STATO]] dal 4/8). Applicare questa card li sblocca anche per questo.
 **Se va bene:** sostituisci le due righe col jolly con i due blocchi qui sotto. Poi lanci `node cervello/permessi-check.mjs` e quella segnalazione sparisce. Da lì in avanti, se serve un programma nuovo, aggiungi il permesso a mano. Aggiungere una riga si vede. Il jolly no.
 
 **⚠️ Aggiornato il 25/10: l'elenco qui sotto era indietro di 19 programmi** (il 23/8 lo era di 51). Dieci erano entrati nel documento ma non in questa card. Nove non li vedeva lo strumento che rifà l'elenco. Adesso una prova diventa rossa se questa card resta indietro rispetto a chi lancia.
 
-Al posto di `"Bash(node cervello/*.mjs:*)"` — 137 righe:
+Al posto di `"Bash(node cervello/*.mjs:*)"` — 138 righe:
 
 ```json
       "Bash(node cervello/adozione-medicine.mjs:*)",
@@ -1095,6 +1095,7 @@ Al posto di `"Bash(node cervello/*.mjs:*)"` — 137 righe:
       "Bash(node cervello/sentinella-fonti.mjs:*)",
       "Bash(node cervello/serratura-ramo.mjs:*)",
       "Bash(node cervello/si-capisce.mjs:*)",
+      "Bash(node cervello/sicurezza-supabase.mjs:*)",
       "Bash(node cervello/sincronizza-proposte.mjs:*)",
       "Bash(node cervello/sistema-immunitario.mjs:*)",
       "Bash(node cervello/sonda-volano.mjs:*)",

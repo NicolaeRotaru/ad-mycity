@@ -6535,3 +6535,13 @@ L'avanzo più serio è un grave dei soldi: il reso ripreso in un carrello di due
 **Per tornare indietro:** non unire la richiesta del ramo `ccr-fb638afc-uqf9u7`, oppure annullarne i commit. Il registro `90-Memoria-AI/esperimenti-crescita.json` si può cancellare senza effetti su altro.
 
 **Colore:** 🟡 codice del Pannello su un ramo, con la richiesta di unione da firmare. Niente sul sito, niente sul database.
+
+## 2026-11-05 10:44 — 🟡 Le ultime sei caselle del Pannello leggono i loro dati, e il controllo di sicurezza di Supabase entra senza chiave nuova
+
+**Cosa:** le sei caselle che dicevano ancora «da collegare» ora leggono una fonte ciascuna. Rider, prodotti e negozi da contattare li leggono dal database del sito. Le campagne dal registro nuovo `90-Memoria-AI/campagne.json`, più i messaggi mandati ai negozi. Il calendario legge le scadenze dello scadenzario vivo, più eventi e meteo dell'intelligence. I contatti leggono la mappa dei giornali. Dopo questa richiesta nessuna casella del Pannello dice più «da collegare». Il controllo di sicurezza di Supabase non ha bisogno della chiave di gestione: la sessione dell'AD lo legge e `cervello/sicurezza-supabase.mjs` lo salva in memoria. Salva solo tipi e conteggi: niente nomi delle falle aperte, perché il repository è pubblico. La casella «Sicurezza & accessi» lo mostra con la sua data. Quattro giri e tre collaudi, ognuno con due lenti (correttezza e sicurezza). Il primo collaudo ha bocciato (17 rilievi), il secondo e il terzo hanno detto «regge con riserve». Il terzo giro l'ha scelto Nicola («Correggi + collaudo»). Anche il quarto («Correggi e apri la PR»): ha chiuso i rilievi minori del terzo collaudo senza un quarto collaudo, ognuno con la sua prova e la sua mutazione.
+
+**Perché:** Nicola, 5/11 alle 09:44: «Fai le due cose», cioè le sei caselle rimaste e il controllo di Supabase.
+
+**Per tornare indietro:** non unire la richiesta del ramo `ccr-fb638afc-uqf9u7`, oppure annullarne i commit. I file `90-Memoria-AI/campagne.json` e `90-Memoria-AI/sicurezza-supabase.json` si possono cancellare senza effetti su altro.
+
+**Colore:** 🟡 codice del Pannello e della macchina su un ramo, con la richiesta di unione da firmare. Sul database del sito solo letture (SELECT e controllo di sicurezza), nessuna scrittura.
