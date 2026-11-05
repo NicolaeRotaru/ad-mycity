@@ -1,0 +1,16 @@
+{
+ "aperte_il": "2026-11-05 16:03",
+ "sessione_ad": "session_015BmpnYc6Lwwvbi6eTWT4qm",
+ "sessioni": {
+  "S01": {"id": "session_015BmpnWp292e7yb2xqQXdhM", "ramo": "claude/youthful-gates-blkxmk-m01", "gruppo": "soldi, carta e guadagni"},
+  "S02": {"id": "session_015BmpnYgDeBMK78wTNZjJUn", "ramo": "claude/youthful-gates-blkxmk-m02", "gruppo": "ordini e fattorino"},
+  "S03": {"id": "session_015BmpnYonZPfaKA2ULcK6m4", "ramo": "claude/youthful-gates-blkxmk-m03", "gruppo": "lavori a orario, email e rilascio"},
+  "S04": {"id": "session_015BmpnWt3VJ7Zz5Fpc5tG47", "ramo": "claude/youthful-gates-blkxmk-m04", "gruppo": "database, prove e pagine secondarie"},
+  "S05": {"id": "session_015BmpnYzcRvVfB7dSG2KBtg", "ramo": "claude/youthful-gates-blkxmk-m05", "gruppo": "amministrazione e segnalazioni"},
+  "S06": {"id": "session_015BmpnXm7HvoboGzWsUtW6N", "ramo": "claude/youthful-gates-blkxmk-m06", "gruppo": "pannello del negozio e catalogo"},
+  "S07": {"id": "session_015BmpnZbvhJKGcnTomTPtwd", "ramo": "claude/youthful-gates-blkxmk-m07", "gruppo": "carrello, cassa e consegna"},
+  "S08": {"id": "session_015BmpnW1fbDXRPAaHGs4nsm", "ramo": "claude/youthful-gates-blkxmk-m08", "gruppo": "legale, privacy e account"},
+  "S09": {"id": "session_015BmpnV7mfs1bR6XV7PM3ZS", "ramo": "claude/youthful-gates-blkxmk-m09", "gruppo": "vetrina, prodotto e home"},
+  "S10": {"id": "session_015BmpnWJUPDMhdcKnwMFmgT", "ramo": "claude/youthful-gates-blkxmk-m10", "gruppo": "accessi, AI e interfaccia comune"}
+ }
+}
