@@ -1,0 +1,5 @@
+{
+  "_cosa_e": "Il registro degli esperimenti di CRESCITA di MyCity (prezzi, offerte, carrello, messaggi ai clienti). Non sono gli esperimenti della macchina su se stessa: quelli stanno in auto-coscienza/auto-miglioramento.json. Lo legge la casella «Esperimenti» del Pannello (scheda Mercato). Un esperimento per voce: titolo, stato (pronto | in_corso | concluso), ipotesi, metrica, negozio, inizio e fine (AAAA-MM-GG HH:MM), esito (riuscito | fallito | pari, con il numero). Si aggiorna «aggiornato» a ogni modifica.",
+  "aggiornato": "2026-11-05 06:30",
+  "esperimenti": []
+}

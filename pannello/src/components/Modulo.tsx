@@ -4,10 +4,24 @@ import { useState, useEffect } from "react";
 import { ChevronDown, ChevronRight, Loader2 } from "lucide-react";
 import { formatta, type Tipo } from "@/lib/format";
 import type { ModuloDef, RigaLista } from "@/lib/moduli";
+import type { Fonte } from "@/lib/moduli-memoria";
+import { etichettaBadge } from "@/lib/badge-modulo";
 import { usePanelSync } from "@/lib/panel-sync";
 import Aggiornato from "@/components/Aggiornato";
 import ParlaCasella from "@/components/ParlaCasella";
 import { classeComando, classeComandoSommario } from "@/lib/tocco-bersaglio";
+
+/** «2026-10-10» → «10/10/2026». */
+function dataIt(iso: string): string {
+  const m = iso.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  return m ? `${m[3]}/${m[2]}/${m[1]}` : iso;
+}
+
+/** « · 26 giorni fa», « · ieri», « · oggi». */
+function quanto(giorni: number | null | undefined): string {
+  if (giorni == null) return "";
+  return giorni <= 0 ? " · oggi" : giorni === 1 ? " · ieri" : ` · ${giorni} giorni fa`;
+}
 
 function dotCls(c?: string) {
   return c === "rosso" ? "bg-red-500" : c === "giallo" ? "bg-amber-500" : c === "verde" ? "bg-green-500" : "bg-black/25";
@@ -23,6 +37,9 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
   const [caricando, setCaricando] = useState(false);
   const [mostraTutte, setMostraTutte] = useState(false);
   const [aggAt, setAggAt] = useState<number | null>(null);
+  // Le caselle che leggono la memoria (/api/moduli/lista) dicono anche DI QUANDO è il dato e,
+  // se serve, una frase: «nessun esperimento in corso» è un dato, non una casella spenta.
+  const [info, setInfo] = useState<{ fonti: Fonte[]; conta: number | null; nota?: string } | null>(null);
   const [syncTick, setSyncTick] = useState(0);
   usePanelSync(["memoria", "all"], () => setSyncTick((t) => t + 1));
 
@@ -40,11 +57,19 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
           if (!vivo) return;
           setRighe(Array.isArray(d.righe) ? d.righe : []);
           setListaColl(Boolean(d.collegato));
+          setInfo({
+            fonti: Array.isArray(d.fonti) ? d.fonti : [],
+            conta: typeof d.conta === "number" ? d.conta : null,
+            nota: typeof d.nota === "string" ? d.nota : undefined,
+          });
         })
         .catch(() => {
           if (!vivo) return;
           setRighe((prev) => prev ?? []); // una fetch fallita NON svuota l'elenco già mostrato
           setListaColl(false);
+          // Senza questa riga, una rete caduta alla prima apertura faceva dire «Marketplace non
+          // collegato» anche alle caselle che leggono la memoria: falso. Se avevo già un dato lo tengo.
+          setInfo((prev) => prev ?? { fonti: [], conta: null, nota: "Non sono riuscita a caricare l'elenco: riprovo fra un minuto." });
         })
         .finally(() => {
           if (!vivo) return;
@@ -68,7 +93,8 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
   const kpis = def.kpis || [];
   const collegate = kpis.filter((k) => acceso(k.chiave, k.tipo)).length;
   const statoLabel = def.stato === "live" ? "live" : def.stato === "parziale" ? "parziale" : "da collegare";
-  const badge = righe ? String(righe.length) : kpis.length ? `${collegate}/${kpis.length}` : statoLabel;
+  // Il numero accanto al titolo: le COSE (58 difetti) e non le righe (8); «—» se la fonte non si è letta.
+  const badge = etichettaBadge({ righe, collegato: listaColl, conta: info?.conta ?? null, kpiAccesi: collegate, kpiTotali: kpis.length, statoLabel });
   const haDati = (righe && righe.length > 0) || collegate > 0;
 
   return (
@@ -104,6 +130,26 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
           {/* Elenco reale (fetch lazy) */}
           {def.lista && (
             <div className="mb-1">
+              {info && info.fonti.length === 1 && info.fonti[0].letta && info.fonti[0].data && (
+                <p className="t-eti mb-1.5">Dato del {dataIt(info.fonti[0].data)}{quanto(info.fonti[0].giorni)}</p>
+              )}
+              {info && info.fonti.length > 1 && (
+                <ul className="mb-1.5 space-y-0.5">
+                  {info.fonti.map((f, i) => (
+                    <li key={i} className="t-eti">
+                      {f.nome}:{" "}
+                      {!f.letta
+                        ? `non letto${f.motivo ? ` (${f.motivo})` : ""}`
+                        : f.motivo
+                          ? `letto in parte (${f.motivo})`
+                          : f.data
+                            ? `dato del ${dataIt(f.data)}${quanto(f.giorni)}`
+                            : "letto"}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {info?.nota && righe && righe.length > 0 && <p className="t-eti mb-1.5">{info.nota}</p>}
               {caricando && (
                 <div className="flex items-center gap-2 text-black/45 text-[12px] py-2">
                   <Loader2 size={13} className="animate-spin" /> Carico l'elenco…
@@ -112,9 +158,29 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
               {righe && righe.length > 0 && (
                 <div className="space-y-1">
                   {(mostraTutte ? righe : righe.slice(0, 8)).map((r, i) => (
-                    <div key={i} className="flex items-center gap-2 rounded-lg border border-black/[0.06] bg-paper/40 px-2.5 py-1.5">
-                      {r.colore && <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${dotCls(r.colore)}`} />}
-                      <span className="text-[12.5px] text-ink/85 truncate flex-1">{r.titolo}</span>
+                    <div key={i} className={`flex ${r.dettaglio || r.punti?.length ? "items-start" : "items-center"} gap-2 rounded-lg border border-black/[0.06] bg-paper/40 px-2.5 py-1.5`}>
+                      {r.colore && <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${r.dettaglio || r.punti?.length ? "mt-[7px]" : ""} ${dotCls(r.colore)}`} />}
+                      <div className="flex-1 min-w-0">
+                        {r.link ? (
+                          <a href={r.link} target="_blank" rel="noopener noreferrer" className="text-[12.5px] text-ink/85 line-clamp-2 break-words hover:text-brand">
+                            {r.titolo}
+                          </a>
+                        ) : (
+                          <div className="text-[12.5px] text-ink/85 line-clamp-2 break-words">{r.titolo}</div>
+                        )}
+                        {/* Il dettaglio lo accorcia già il server: niente taglio a schermo, che nascondeva la fine. */}
+                        {r.dettaglio && <div className="text-[11px] text-black/50 leading-snug break-words mt-0.5">{r.dettaglio}</div>}
+                        {r.punti && r.punti.length > 0 && (
+                          <ul className="mt-1 space-y-0.5">
+                            {r.punti.map((pt, k) => (
+                              <li key={k} className="text-[11px] text-black/60 leading-snug break-words flex gap-1">
+                                <span className="shrink-0">–</span>
+                                <span>{pt}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
                       {r.sottotitolo && <span className="text-[11px] text-black/50 shrink-0">{r.sottotitolo}</span>}
                       {r.meta && <span className="badge badge-off shrink-0">{r.meta}</span>}
                     </div>
@@ -127,7 +193,7 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
                 </div>
               )}
               {righe && righe.length === 0 && !caricando && (
-                <p className="t-eti py-1">{listaColl ? "Nessun elemento per ora." : "Marketplace non collegato: l'elenco si accende in produzione."}</p>
+                <p className="t-eti py-1">{info?.nota ?? (listaColl ? "Nessun elemento per ora." : "Marketplace non collegato: l'elenco si accende in produzione.")}</p>
               )}
             </div>
           )}

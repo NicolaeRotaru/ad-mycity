@@ -6525,3 +6525,13 @@ L'avanzo più serio è un grave dei soldi: il reso ripreso in un carrello di due
 **Perché:** Nicola, 5/11: «voglio dividere la macchina dal marketplace, come faccio a chiederti in una sola parola tutte quelle cose che c'entrano con la macchina?».
 
 **Colore:** 🟡 auto-modifica, nella richiesta di unione. La firma è di Nicola.
+
+## 2026-11-05 07:16 — 🟡 Le sei caselle della scheda «Mercato» del Pannello leggono la memoria, su richiesta di Nicola
+
+**Cosa:** sei caselle della scheda «Mercato» dicevano «da collegare» per una scritta fissa nel catalogo. Il dato invece c'era quasi sempre già. Ora ognuna legge la sua fonte e dice di quando è il dato. Concorrenti legge il radar dell'intelligence. Rassegna legge Google Notizie in diretta. Sicurezza e Legale leggono la radiografia del sito, le bozze dei contratti e il registro rischi. Esperimenti legge un registro nuovo, ancora vuoto. Roadmap legge il lavoro ancora da fare sul sito. Nella pagina del lavoro aperto, la sezione del sito è divisa in «Ancora da fare» e «Fatto di recente», senza togliere nessuna frase. Tre giri, ognuno col suo collaudo indipendente. Il primo collaudo ha bocciato (13 difetti), il secondo ha detto «regge con riserve» (5 difetti). Il terzo giro l'ha scelto Nicola: «Correggi i 5».
+
+**Perché:** Nicola, 5/11 alle 06:21: «Vedi che ci sono questi da collegare, come si fa?», poi «Collegali».
+
+**Per tornare indietro:** non unire la richiesta del ramo `ccr-fb638afc-uqf9u7`, oppure annullarne i commit. Il registro `90-Memoria-AI/esperimenti-crescita.json` si può cancellare senza effetti su altro.
+
+**Colore:** 🟡 codice del Pannello su un ramo, con la richiesta di unione da firmare. Niente sul sito, niente sul database.

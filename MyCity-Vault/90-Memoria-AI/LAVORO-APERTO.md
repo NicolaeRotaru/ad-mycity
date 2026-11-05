@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-04 23:43
+aggiornato: 2026-11-05 07:00
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -100,18 +100,16 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
 
 ## 2 · Il mio lavoro sul sito
 
-- **Il registro del sito è senza doppioni** (1/11 alle 11:46). I difetti aperti veri sono 980: 4 bloccanti, 80 gravi e 896 minori. Ho tolto 73 doppioni e chiuso 54 difetti già riparati nel codice unito; i 21 gravi chiusi hanno tutti una prova verde. Elenco: `consegne/audit/2026-11-01-difetti-veri.md`, più il foglio di calcolo `.csv` con tutti.
-- **Le cinque sessioni in parallelo hanno lavorato il 1/11** (Nicola ha scelto «subito» alle 13:10 circa e «riparti adesso» alle 14:20 circa). Cinque costruttrici, due ondate a testa; la sesta sessione ha collaudato e riunito. Risultato: la richiesta unica NicolaeRotaru/mycity#280, unita da te alle 18:17. Nel registro del sito, alle 20:01, ho chiuso 46 difetti seri su 84 e ho scritto 80 voci nuove. I dati delle sessioni stanno nei file `consegne/audit/2026-11-01-sessione-S1…S5-referto.json`.
+### Ancora da fare
 
-- **Le fasce nuove della cassa sono unite**, il 31/10 alle 01:36. Sono sette fasce, con la regola del ritiro e la scadenza giusta per il negozio. Le schede 1948 e 1949 sono chiuse nel registro. Da guardare: il sito pubblicato dopo il rilascio su Vercel. Referto: `consegne/audit/2026-10-31-ondate-21-24-fasce-nuove.md`.
-- **L'ondata 15 è cucita** (strada A, scelta tua del 30/10 alle 07:45). Il caso raro col codice sconto resta aperto, e i codici restano spenti finché non è chiuso.
-- **Il prezzo nuovo è online**: hai unito la #264 il 30/10 alle 14:40. Ho chiuso nel registro 51 voci, ognuna con la sua prova.
 - **Il piano per aprire è partito il 31/10.** Ho ricontrollato sul codice tutte le 1.213 voci aperte o dette riparate. Si apre con zero bloccanti e zero gravi del lancio, carta compresa: 7 ondate su due binari, primo cliente in contanti giovedì 5/11 sera o venerdì 6/11. Piano: `consegne/audit/2026-10-31-piano-difetti-sito.md`; verdetti per voce: `consegne/audit/2026-10-31-verifica-1213-schede.json`. Le email di annullo e l'ondata 2 di prima entrano nelle sue ondate. Nel registro restano dai giri 21-24 le voci 2007-2029: una grave, la carta che controlla la fascia quando nasce il pagamento, che è nell'ondata 5, e 22 minori.
-- **Il freno della veloce è online**: hai unito la #265 il 30/10 alle 18:04. Un collaudatore ha rifatto le 8 prove sul codice unito: 5 reggono e le ho chiuse.
+- **Tre pezzi del freno della veloce restano aperti** (il freno è unito con la #265 il 30/10 alle 18:04):
   - Resta aperta la 1826: il freno che non trova una fascia tiene l'euro.
   - Resta aperta la 1981: la frase sbaglia con più negozi.
   - Resta aperta la 1986: il suo resto è la 1990.
   - Il controllo ogni 5 minuti parte, ma si ferma come tutti gli altri lavori a orario: su Vercel manca la chiave di servizio del database. È la voce del giorno della chiave nella tua lista. Dopo la chiave guardo che il freno giri davvero.
+- **Il caso raro col codice sconto dell'ondata 15** resta aperto, e i codici restano spenti finché non è chiuso.
+- **Da guardare: il sito pubblicato dopo il rilascio delle fasce nuove della cassa** su Vercel. Referto: `consegne/audit/2026-10-31-ondate-21-24-fasce-nuove.md`.
 - **Più avanti, le email di annullo.** Hanno le cifre sotto il piè di pagina e l'oggetto «non devi pagare niente» (voci 1851-1868). Al lancio non possono succedere: c'è un negozio solo.
 - **Poi l'ondata 2:** il pannello, i resi, la vetrina e gli orari dei negozi.
 - **Prima di accendere la carta**, quattro cose:
@@ -125,8 +123,20 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
   - Le promesse false di sconti e resi sono già nel registro (254, 1532, 1533, 50).
   - Restano tue: la cancellazione del negozio di prova, con «Trending ora» spento lo stesso giorno, e la foto del titolare col suo consenso.
 
+### Fatto di recente
+
+- **Il registro del sito è senza doppioni** (1/11 alle 11:46). I difetti aperti veri sono 980: 4 bloccanti, 80 gravi e 896 minori. Ho tolto 73 doppioni e chiuso 54 difetti già riparati nel codice unito; i 21 gravi chiusi hanno tutti una prova verde. Elenco: `consegne/audit/2026-11-01-difetti-veri.md`, più il foglio di calcolo `.csv` con tutti.
+- **Le cinque sessioni in parallelo hanno lavorato il 1/11** (Nicola ha scelto «subito» alle 13:10 circa e «riparti adesso» alle 14:20 circa). Cinque costruttrici, due ondate a testa; la sesta sessione ha collaudato e riunito. Risultato: la richiesta unica NicolaeRotaru/mycity#280, unita da te alle 18:17. Nel registro del sito, alle 20:01, ho chiuso 46 difetti seri su 84 e ho scritto 80 voci nuove. I dati delle sessioni stanno nei file `consegne/audit/2026-11-01-sessione-S1…S5-referto.json`.
+- **Le fasce nuove della cassa sono unite**, il 31/10 alle 01:36. Sono sette fasce, con la regola del ritiro e la scadenza giusta per il negozio. Le schede 1948 e 1949 sono chiuse nel registro.
+- **L'ondata 15 è cucita** (strada A, scelta tua del 30/10 alle 07:45).
+- **Il prezzo nuovo è online**: hai unito la #264 il 30/10 alle 14:40. Ho chiuso nel registro 51 voci, ognuna con la sua prova.
+- **Il freno della veloce è online**: hai unito la #265 il 30/10 alle 18:04. Un collaudatore ha rifatto le 8 prove sul codice unito: 5 reggono e le ho chiuse.
+
 ## 3 · La macchina
 
+- **Le sei caselle della scheda «Mercato» del Pannello leggono la memoria** (05/11 alle 07:00). Sono concorrenti, rassegna stampa, sicurezza, legale, esperimenti e roadmap; prima dicevano «da collegare». Aspetta la tua unione: richiesta NicolaeRotaru/ad-mycity#925, tre giri e tre collaudi. Restano due cose:
+  - Altre 6 caselle dicono ancora «da collegare», nelle schede «Negozi & clienti» e «Operazioni».
+  - Il controllo automatico di sicurezza di Supabase aspetta una chiave di gestione: solo tu puoi crearla.
 - Il server che la fa lavorare da sola è fermo; l'ultimo controllo di salute è del 1° settembre.
 - Il 15 novembre all'01:00 scadono due date, e ogni controllo automatico diventa rosso. Lo sistemo entro il 14.
 - Il voto su me stessa a ottobre è 0,09: chiudo prima di aprire ricerche nuove.
