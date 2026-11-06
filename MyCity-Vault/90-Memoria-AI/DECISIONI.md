@@ -6718,3 +6718,15 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 **Perché:** «chiudere un difetto vero lo nasconde» (§7.3): nel dubbio una voce resta aperta, e una falla trovata non si toglie dal registro per un limite dello strumento.
 
 **Colore:** 🟡 lavoro della macchina sul registro del sito, nessuna scrittura sul sito vero. Vale con la firma di Nicola sulla richiesta NicolaeRotaru/ad-mycity#936.
+
+## 2026-11-07 00:34 — 🟡 Il quarto giro della radiografia, firmato da Nicola (carta 231)
+
+**Cosa:** Nicola ha scritto «facciamo la carta 229 e 231». Per la 231 l'AD ha preso la strada consigliata: un quarto giro con 4 verificatori sugli 8 difetti del terzo giro rimasti senza verifica. Sono veri tutti e 8, con prove che diventano rosse.
+
+**Le scelte dell'AD:**
+- **Il grave sulla privacy diventa la falla riservata R310:** i dettagli restano in chat finché non è chiusa.
+- **L'altro grave scende a minore,** come dice il verificatore del peso: al lancio la carta è spenta.
+- **Le 8 voci entrano in coda al grezzo del 6/11 e al registro.** Il digest è rifatto su una copia del deposito: 2.899 + 8 = 2.907 voci, 0 voci vecchie cambiate. Il confronto col 5/11, che un secondo digest avrebbe azzerato, è rimesso com'era.
+- **La verifica esterna delle falle riservate** resta da decidere: serve una sessione nuova.
+
+**Colore:** 🟡 lavoro della macchina sul registro del sito, nessuna scrittura sul sito vero. Vale con la firma di Nicola sulla richiesta.

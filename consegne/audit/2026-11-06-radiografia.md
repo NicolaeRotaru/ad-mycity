@@ -10,6 +10,8 @@ richiesta: radiografia in 12 sessioni (prompt versione 5), lanciata da Nicola il
 
 **In due righe.** Il problema più grave trovato oggi era una chiave del database leggibile da chiunque, e l'hai già spenta. Dei difetti nuovi nessuno è bloccante, ma il rimborso di un ordine in contanti va ancora fatto a mano, fuori dal sito.
 
+> **Aggiornamento del 7/11.** Con la tua firma, un quarto giro ha rifatto gli 8 difetti rimasti senza verificatore. Sono veri tutti e 8. Entrano nel registro come una falla riservata grave, la R310, e 7 minori. Le voci aperte passano da 688 a 696, e le falle riservate aperte da 67 a 68.
+
 ## In parole semplici
 
 La radiografia è il controllo completo del sito. Questa volta l'hanno fatta dodici sessioni, ognuna su un tema: i soldi, la carta, il database, il cliente, il negozio, l'aspetto e gli altri. Poi ogni difetto l'ha rifatto da capo un verificatore che non l'aveva trovato, con il compito di smentirlo.
@@ -39,7 +41,7 @@ Il caso più grave della giornata era un altro. Una chiave del database, quella 
 ## Cosa devi fare
 
 - **Leggere il referto privato** delle falle riservate, che ti mando in chat.
-- **Decidere se fare un quarto giro piccolo.** Servirebbe per verificare 8 difetti trovati alla fine e le falle riservate, che nessun verificatore esterno ha potuto rifare. Senza la tua firma non parte.
+- **Decidere la verifica esterna delle falle riservate.** Il quarto giro del 7/11 ha già rifatto gli 8 difetti trovati alla fine; per le falle riservate serve una sessione nuova.
 - **Rispondere alle domande delle sessioni:** sono 33, raccolte in un file solo. Quelle che chiedono una decisione sono nella coda «Da approvare».
 - **Firmare, se vuoi, il piano della palestra**, la copia del sito per le prove, con i suoi costi. Anche questo è nella coda.
 - **Firmare l'unione** della richiesta con questo lavoro, quando l'hai guardata.
@@ -49,7 +51,7 @@ Il caso più grave della giornata era un altro. Una chiave del database, quella 
 - **Le 16 falle riservate nuove e i 37 ricontrolli delle falle vecchie.** Le ha verificate solo un agente dentro la sessione che le ha trovate. Il filtro di sicurezza del modello ha fermato l'agente che doveva passarle ai verificatori esterni.
 - **Le 14 falle riservate dell'11 ottobre.** I loro dettagli non si trovano più, quindi oggi nessuno sa se sono ancora vere.
 - **Due bloccanti vecchi che una sessione vorrebbe riaprire,** sui rimborsi della carta. Non li ho riaperti: manca la verifica esterna. La carta però è spenta al lancio.
-- **8 difetti trovati alla fine, nel terzo giro, sono rimasti senza verificatore.** Due sono gravi: uno tocca la privacy dei clienti, e lo descrivo solo in chat finché non è verificato. Restano fuori dal registro finché qualcuno non li rifà.
+- **2 sospetti di sicurezza del terzo giro sono rimasti solo contati.** Nessuno li ha descritti né rifatti. Gli altri 8 difetti del terzo giro li ha verificati il quarto giro, il 7/11.
 - **482 file di codice su 1.088, quasi la metà, non li ha dichiarati letti nessuno.** Di questi, 146 sono aggiornamenti del database: le sessioni li hanno applicati tutti a una copia, ma non li hanno letti uno per uno.
 - **Le 533 prove della palestra sono scritte, ma nessuna è stata eseguita.** Nessuno ha fatto un ordine da capo a fondo da utente collegato.
 - **Le impostazioni vere di Supabase, Vercel, della posta e il conto Stripe vero.** Le ho guardate solo per i nomi, mai per i valori.
@@ -74,12 +76,14 @@ Il caso più grave della giornata era un altro. Una chiave del database, quella 
 | S11 | Il sito vero, dal vivo | 1 | `claude/serene-wright-7l023n-r11` | `c811a3d` | 9 |
 | S12 | Il codice dentro | 2 | `claude/serene-wright-7l023n-r12` | `6ad9b03` | 18 |
 | terzo giro | Dati personali; cifre dello schermo e del server | — | — | — | 1 |
+| quarto giro (7/11) | Verifica degli 8 difetti del terzo giro | — | — | — | 8 |
 
 **Il controllo finale (§7 del prompt).**
 - **Doppioni (7.2):** un programma su chiave e su file a meno di 10 righe, poi due giudici leggeri indipendenti (`wf_33f226ee-541`). 5 difetti escono dal grezzo perché uguali a voci aperte, con la prova più forte scritta nella nota della voce (59, 2384, 2525, 15, 394). Nessuna coppia uguale fra sessioni.
 - **Verifica indipendente (7.3):** `wf_cb60977a-9e3`, 109 verificatori `qa` su 109, due alla volta, circa 6 ore. Gravi in chiaro: 8 su 8 riprodotti con una prova che diventa rossa; il verificatore del peso ne ha lasciati 4 gravi e 4 minori. Minori: 156 confermati, 3 smentiti, 2 dubbi scartati. Esiti in `consegne/audit/2026-11-06-radiografia-12-sessioni/verifica/esiti-in-chiaro.json`.
 - **Ricontrolli di S01:** 482 voci, ognuna con `riverifica_6_11`. Chiuse per chiave 28 (5 gravi, 23 minori), come `gia_riparato_prima`. Restano aperte le 9 che il verificatore ha smentito o non ha potuto confermare. Le altre: 305 ancora vere, 108 cambiate, 32 non verificabili.
-- **Critico e terzo giro (7.4):** `wf_4a6d98fc-b38`, 5 agenti. 23 buchi elencati, 5 non fattibili su una copia. Due giri: chi vede i dati personali di chi (4 difetti) e se lo schermo e il server dicono la stessa cifra (5 difetti), più 2 sospetti di sicurezza solo contati. Verificato e confermato solo il primo grave; gli altri 8 restano fuori dal grezzo.
+- **Critico e terzo giro (7.4):** `wf_4a6d98fc-b38`, 5 agenti. 23 buchi elencati, 5 non fattibili su una copia. Due giri: i dati personali (4 difetti) e se lo schermo e il server dicono la stessa cifra (5 difetti), più 2 sospetti di sicurezza solo contati. Verificato e confermato solo il primo grave; gli altri 8 restano fuori dal grezzo.
+- **Quarto giro (7/11, carta 231 firmata da Nicola):** `wf_f680fe06-680`, 4 verificatori `qa`. Gli 8 difetti del terzo giro sono confermati tutti, con prove che diventano rosse. Il grave sulla privacy entra come falla riservata R310; l'altro grave scende a minore secondo il verificatore del peso, perché al lancio la carta è spenta. Le voci si aggiungono in coda al grezzo e al registro: digest rifatto su una copia, 0 voci vecchie cambiate, confronto col 5/11 rimesso com'era.
 - **Main unita** prima di scrivere il registro (`03eba78`, porta NicolaeRotaru/ad-mycity#937).
 
 **Copertura** (`controlli.mjs copertura-dopo`, mappa di 2.587 file):
@@ -92,7 +96,7 @@ Il caso più grave della giornata era un altro. Una chiave del database, quella 
 - Sessioni figlie: 154 agenti; circa 793 milioni di token in entrata e 3,5 milioni in uscita (dai `conto` dei 12 referti, misurati con `cervello/conto-token.mjs`).
 - Controllo finale: 116 agenti nei tre workflow; circa 12 milioni di token dei subagenti, dalla somma dichiarata dai workflow.
 
-**Falle riservate.** Nuove: da R295 a R309, 15 voci (6 gravi, 9 minori), verificate solo dentro le sessioni. Quella bloccante del sito dal vivo è chiusa e non entra. Le 37 ricontrollate da S04 restano come sono nel registro: 31 ancora vere, 1 non più vera, 2 cambiate, 3 non verificabili da una copia; nessuna chiusura applicata senza verifica esterna.
+**Falle riservate.** Nuove: da R295 a R309, 15 voci (6 gravi, 9 minori), verificate solo dentro le sessioni; il 7/11 la R310 (grave, privacy), verificata dal quarto giro. Quella bloccante del sito dal vivo è chiusa e non entra. Le 37 ricontrollate da S04 restano come sono nel registro: 31 ancora vere, 1 non più vera, 2 cambiate, 3 non verificabili da una copia; nessuna chiusura applicata senza verifica esterna.
 
 **Voci non toccate di proposito.** La 0 (chiave di servizio del database) ha una nota col fatto del 6/11, ma resta aperta. Le 1144 e 1386 (rimborsi della carta) restano chiuse finché la riapertura proposta da S05 non è verificata.
 
@@ -115,24 +119,25 @@ Nessun bloccante nuovo entra nel registro. L'unico trovato, una falla riservata 
 | 9 | regole del database | Falla di sicurezza R298 da chiudere (regole del database): i dettagli restano fuori dal deposito pubblico finché non è chiusa | `(nel referto privato)` | S05 |
 | 10 | API | Falla di sicurezza R304 da chiudere (pagamenti): i dettagli restano fuori dal deposito pubblico finché non è chiusa | `(nel referto privato)` | S06 |
 | 11 | API | Falla di sicurezza R305 da chiudere (flussi): i dettagli restano fuori dal deposito pubblico finché non è chiusa | `(nel referto privato)` | S06 |
+| 12 | privacy | Falla di sicurezza R310 da chiudere (privacy): i dettagli restano fuori dal deposito pubblico finché non è chiusa | `(nel referto privato)` | quarto giro, 7/11 |
 
 ### Minori per area
 
 | Area | Minori in chiaro | Falle riservate minori |
 |---|---|---|
-| flussi | 37 | 1 |
-| interfaccia | 22 | 0 |
+| flussi | 39 | 1 |
+| interfaccia | 23 | 0 |
 | API | 20 | 1 |
-| privacy | 15 | 0 |
-| pagamenti | 14 | 0 |
+| pagamenti | 16 | 0 |
+| privacy | 16 | 0 |
 | architettura | 11 | 1 |
 | rilascio | 10 | 0 |
 | AI | 8 | 0 |
 | regole del database | 3 | 5 |
+| dati | 4 | 0 |
 | accessibilità | 4 | 0 |
 | testi | 4 | 0 |
 | accessi | 2 | 1 |
-| dati | 3 | 0 |
 | telefono | 1 | 0 |
 | velocità | 1 | 0 |
 

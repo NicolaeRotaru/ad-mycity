@@ -48,6 +48,8 @@ Il piano completo, con le variabili per nome, i costi e cosa non si può provare
 
 ### 🟡 #231 — Decidi se fare un quarto giro per i difetti rimasti senza verifica · ⏳ accodata 2026-11-06 19:17
 
+> ✅ FATTO 2026-11-07 00:34 — Il quarto giro ha rifatto gli 8 difetti, e sono veri tutti e 8. Entrano nel registro come una falla riservata grave (R310) e 7 minori. Le voci aperte passano da 688 a 696.
+
 **In parole semplici.** Nella radiografia ogni difetto va rifatto da un verificatore che non l'ha trovato. Per due gruppi non è stato possibile. Il prompt vieta un quarto giro senza di te.
 
 **Cosa cambia per te.** Esempio: un difetto trovato alla fine dice che un negozio con Stripe a metà legge «pagamenti pronti». Il server però non gli manda i soldi. Oggi non è nel registro, perché nessuno l'ha rifatto.
@@ -81,6 +83,8 @@ Se va bene: scrivo le risposte nel registro dei fatti e aggiorno i difetti che d
 Fonte: `consegne/audit/2026-11-06-radiografia-12-sessioni/domande-per-nicola.md`.
 
 ### 🔴 #229 — Revoca i token vecchi su GitHub, poi lancia la radiografia in 12 sessioni · ⏳ accodata 2026-11-06 02:30
+
+> ✅ FATTO 2026-11-07 00:37 — Il token pubblicato l'11/7 non c'è più. Resta solo quello del Pannello, nato il 23/7. Fra i token classic non c'è niente. La protezione dei salvataggi è accesa sull'account di Nicola.
 
 > **Aggiornamento del 06/11 alle 19:17.** La radiografia in 12 sessioni è finita: referto `consegne/audit/2026-11-06-radiografia.md`, carte #230, #231 e #232.
 
@@ -1392,6 +1396,8 @@ _(302 = Claude 200 + Vercel 30 + Supabase 50 + VPS 20 + dominio ~2 — fonte uni
 ---
 
 ### 🔴 #7 — Ruota i token GitHub trovati in chiaro nel config git del VPS · ⏳ accodata 2026-07-17 03:30
+
+> ✅ FATTO 2026-11-07 00:37 — Chiusa con la carta #229: i token vecchi non ci sono più.
 
 > **Aggiornamento del 6/11 alle 02:35.** Questa carta è ancora aperta, e ora è più urgente. Uno dei token è scritto anche nella storia pubblica del repository della macchina, dall'11/7. Vedi la #229.
 
