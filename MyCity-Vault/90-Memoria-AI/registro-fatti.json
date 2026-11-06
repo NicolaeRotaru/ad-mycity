@@ -1098,7 +1098,9 @@
       ],
       "esenzioni": [
         "consegne/audit/2026-10-31-verifica-1213-schede.json",
-        "consegne/audit/2026-10-31-piano-difetti-sito.json"
+        "consegne/audit/2026-10-31-piano-difetti-sito.json",
+        "consegne/audit/2026-11-06-radiografia-12-sessioni/registro-compatto.txt",
+        "consegne/audit/2026-11-06-radiografia-12-sessioni/da-ricontrollare.txt"
       ]
     },
     {

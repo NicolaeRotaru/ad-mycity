@@ -1,0 +1,128 @@
+{
+  "radiografia": "in 12 sessioni, prompt v5",
+  "base_sito": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
+  "sessione_ad": "session_015BmpnX3prh5pipxFGzQEeK",
+  "ramo_ad": "claude/serene-wright-7l023n",
+  "sessioni": [
+    {
+      "sessione": "S01",
+      "nome": "Ricontrollo dei difetti aperti",
+      "id": null,
+      "ramo": "claude/serene-wright-7l023n-r01",
+      "ondata": 1,
+      "stato": "da aprire",
+      "partenza": null,
+      "commit_finale": null
+    },
+    {
+      "sessione": "S02",
+      "nome": "I soldi senza carta",
+      "id": null,
+      "ramo": "claude/serene-wright-7l023n-r02",
+      "ondata": 2,
+      "stato": "da aprire",
+      "partenza": null,
+      "commit_finale": null
+    },
+    {
+      "sessione": "S03",
+      "nome": "La carta e Stripe",
+      "id": null,
+      "ramo": "claude/serene-wright-7l023n-r03",
+      "ondata": 1,
+      "stato": "da aprire",
+      "partenza": null,
+      "commit_finale": null
+    },
+    {
+      "sessione": "S04",
+      "nome": "L'attaccante",
+      "id": null,
+      "ramo": "claude/serene-wright-7l023n-r04",
+      "ondata": 2,
+      "stato": "da aprire",
+      "partenza": null,
+      "commit_finale": null
+    },
+    {
+      "sessione": "S05",
+      "nome": "Il database",
+      "id": null,
+      "ramo": "claude/serene-wright-7l023n-r05",
+      "ondata": 2,
+      "stato": "da aprire",
+      "partenza": null,
+      "commit_finale": null
+    },
+    {
+      "sessione": "S06",
+      "nome": "Il viaggio del cliente",
+      "id": null,
+      "ramo": "claude/serene-wright-7l023n-r06",
+      "ondata": 1,
+      "stato": "da aprire",
+      "partenza": null,
+      "commit_finale": null
+    },
+    {
+      "sessione": "S07",
+      "nome": "Chi lavora: negozio e fattorino",
+      "id": null,
+      "ramo": "claude/serene-wright-7l023n-r07",
+      "ondata": 2,
+      "stato": "da aprire",
+      "partenza": null,
+      "commit_finale": null
+    },
+    {
+      "sessione": "S08",
+      "nome": "La cabina di Nicola, gli avvisi, gli errori silenziosi",
+      "id": null,
+      "ramo": "claude/serene-wright-7l023n-r08",
+      "ondata": 2,
+      "stato": "da aprire",
+      "partenza": null,
+      "commit_finale": null
+    },
+    {
+      "sessione": "S09",
+      "nome": "Privacy, leggi e promesse",
+      "id": null,
+      "ramo": "claude/serene-wright-7l023n-r09",
+      "ondata": 2,
+      "stato": "da aprire",
+      "partenza": null,
+      "commit_finale": null
+    },
+    {
+      "sessione": "S10",
+      "nome": "L'aspetto",
+      "id": null,
+      "ramo": "claude/serene-wright-7l023n-r10",
+      "ondata": 1,
+      "stato": "da aprire",
+      "partenza": null,
+      "commit_finale": null
+    },
+    {
+      "sessione": "S11",
+      "nome": "Il sito vero, dal vivo",
+      "id": null,
+      "ramo": "claude/serene-wright-7l023n-r11",
+      "ondata": 1,
+      "stato": "da aprire",
+      "partenza": null,
+      "commit_finale": null
+    },
+    {
+      "sessione": "S12",
+      "nome": "Il codice dentro",
+      "id": null,
+      "ramo": "claude/serene-wright-7l023n-r12",
+      "ondata": 2,
+      "stato": "da aprire",
+      "partenza": null,
+      "commit_finale": null
+    }
+  ]
+}

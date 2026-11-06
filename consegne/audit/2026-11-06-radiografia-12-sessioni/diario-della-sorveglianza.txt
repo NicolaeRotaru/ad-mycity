@@ -1,0 +1,4 @@
+# Diario della sorveglianza — radiografia in 12 sessioni
+# Una riga per controllo, con l'ora di Piacenza. Le falle si contano, non si descrivono: per i dettagli riservati solo sessione e uuid dell'evento.
+2026-11-06 08:34 · fase 0 · BASE_SITO db5164c52e856c0e3eab1c02197ae755fca76eb3 · limite settimanale allowed_warning, niente overage, si azzera il 12/11 alle 10:00 · decisioni di Nicola: D0 prima ondata subito, D7 cerca l'AD, D8 lavori spenti finché ci sono difetti, D10 aperta
+2026-11-06 08:34 · fase 0 · registro: 2.724 voci, 534 aperte (5 bloccanti, 69 gravi, 460 minori), 52 riservate aperte · mappa: 2.587 file, 0 senza proprietario · copertura-prima verde · segnaposti verde

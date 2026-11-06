@@ -6668,3 +6668,15 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 **Cosa resta a Nicola (🔴):** la storia di git è pubblica, e i testi vecchi si leggono ancora nei commit passati. Per toglierli davvero c'è da rendere privato il repository oppure da riscrivere la storia. È già fra le promesse aperte («I costi per rendere privati i due repository»).
 
 **Colore:** 🟡 modifica della memoria dell'AD, con avviso a Nicola.
+
+## 2026-11-06 08:36 — 🟡 La radiografia del sito in 12 sessioni parte: le quattro decisioni di Nicola
+
+**Cosa:** Nicola ha scritto «fai partire la nuova strategia di radiografia del marketplace». È la radiografia in 12 sessioni della NicolaeRotaru/ad-mycity#935. Alle quattro domande ancora aperte ha risposto così, in chat:
+- **D0, quando:** «questa settimana non preoccuparti della regola dei limiti». La prima ondata parte appena finita la preparazione. Il limite settimanale in allarme (`allowed_warning`) non ferma il lavoro. Lo fermano solo due cose: i costi extra oltre l'abbonamento (`isUsingOverage`, sono soldi veri) o il blocco del limite. Questa scelta supera «niente radiografie larghe fino al 15/11» (5/11 alle 14:27) e il freno del tasso di chiusura, perché è un ordine esplicito. La seconda ondata aspetta comunque il suo «via la seconda».
+- **D7, le falle riservate già aperte:** «cercale tu». L'AD cerca i referti privati nelle trascrizioni delle sessioni che le hanno trovate. Nei file scrive solo dove stanno, mai i dettagli.
+- **D8, i lavori a orario:** «li riaccendo quando il marketplace non ha più difetti». Nessuna data. Gli 11 lavori restano spenti dal freno del 31/10. La sessione degli avvisi (S08) controlla cosa non funziona al lancio finché restano spenti.
+- **D10, la palestra:** ancora aperta. Nicola ha chiesto da dove viene il costo. Risposta data in chat, dalla documentazione di Supabase: un ramo di prova del database costa 0,01344 $ l'ora (0,32 $ al giorno, circa 10 $ al mese se resta acceso), solo finché esiste. Il tetto di spesa non lo copre.
+
+**Perché:** sono le decisioni che il prompt (`consegne/audit/PROMPT-radiografia-12-sessioni.md`, §0) chiede a Nicola prima di aprire le sessioni.
+
+**Colore:** 🟡 lavoro della macchina sul sito in sola lettura, con le decisioni di Nicola. Nessuna spesa e nessuna scrittura sul sito vero.
