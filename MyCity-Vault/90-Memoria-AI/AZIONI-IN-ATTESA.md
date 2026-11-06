@@ -31,6 +31,24 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🔴 #229 — Revoca i token vecchi su GitHub, poi lancia la radiografia in 12 sessioni · ⏳ accodata 2026-11-06 02:30
+
+**In parole semplici.** La radiografia del sito in 12 sessioni è pronta: un prompt controllato tre volte e quattro parti corte da incollare, una per fase. Prima però c'è una cosa urgente: un token GitHub è rimasto scritto nella storia pubblica della memoria, l'11/7.
+
+**Cosa cambia per te.** Esempio: se quel token è ancora valido e può scrivere, uno sconosciuto può cambiare il codice del sito. La pagina della cassa potrebbe arrivare sul sito vero col rilascio automatico. Revocarlo costa dieci minuti.
+
+**Cosa devi fare tu.**
+- Fai la carta #7, aperta dal 17/7 e mai chiusa: revocare i token vecchi. Oggi c'è un motivo in più, perché uno di quei token sta anche nella storia pubblica. Dopo, accendi «Secret scanning» nei due repository.
+- Leggere i dodici controlli prima dell'apertura: quasi tutti tuoi, quasi tutti sotto la mezz'ora.
+- Quando vuoi lanciare la radiografia: scegli D0, D7, D8 e D10 nella parte 1, e incollala in una sessione nuova nell'ambiente «mycity».
+
+**Cosa non ho verificato.** Se quel token è ancora valido: per saperlo bisognerebbe usarlo, e non l'ho fatto. Il prompt non l'ha ancora eseguito nessuno.
+
+Cosa cambia: chiudi l'accesso al codice del sito rimasto nella storia pubblica, e hai pronto il lancio della radiografia più completa fatta finora, con la palestra dentro.
+Se va bene: incolli la parte 1, la sessione prepara il lavoro e si ferma a mostrarti il collaudo dei controlli.
+
+Il token: commit `1f0c01267` e `bfd749929` dell'11/7, tolto dai file con `f54dd5068` il 16/7. I controlli: `consegne/ad/2026-11-06-controlli-prima-dell-apertura.md`. Le parti: `consegne/audit/PROMPT-radiografia-12-sessioni-PARTI.md`. Il prompt: `consegne/audit/PROMPT-radiografia-12-sessioni.md`. Richiesta: NicolaeRotaru/ad-mycity#935.
+
 ### 🔴 #228 — Rileggi i testi legali e unisci il lavoro delle dieci sessioni sui difetti piccoli · ⏳ accodata 2026-11-05 18:30
 
 > ✅ FATTO 2026-11-06 00:16 — col tuo «ok migrazioni» ho fatto partire io il pulsante delle migrazioni. Ne mancavano 21, non 6: c'erano anche le 15 delle settimane scorse. Sono entrate tutte, e il catalogo si vede come prima. Resta da guardare il primo rilascio.
@@ -1321,6 +1339,8 @@ _(302 = Claude 200 + Vercel 30 + Supabase 50 + VPS 20 + dominio ~2 — fonte uni
 ---
 
 ### 🔴 #7 — Ruota i token GitHub trovati in chiaro nel config git del VPS · ⏳ accodata 2026-07-17 03:30
+
+> **Aggiornamento del 6/11 alle 02:35.** Questa carta è ancora aperta, e ora è più urgente. Uno dei token è scritto anche nella storia pubblica del repository della macchina, dall'11/7. Vedi la #229.
 
 **Cosa fare:** vai su GitHub → Settings → Developer settings → Personal access tokens → revoca i PAT attuali e crea uno nuovo se necessario.
 

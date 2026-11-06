@@ -3,14 +3,36 @@ tipo: prompt
 data: 2026-11-06 01:40
 per: la sessione che dirige la radiografia del marketplace in 12 sessioni
 come si usa: non si incolla intero. Nicola incolla in una sessione nuova, una alla volta, le parti di `consegne/audit/PROMPT-radiografia-12-sessioni-PARTI.md`: la prima porta le sue decisioni e fa leggere questo file alla sessione
-versione: 5 — collaudo finale a due lenti applicato (19 critiche confermate su 31, run wf_d0dd58c9-411); prima: corretta con le 74 critiche confermate (run wf_b1588ce9-06c), con lo stato del sito vero del 6/11 notte, col collaudo indipendente della versione 3 (51 applicate, 19 a metà, 4 sbagliate, 20 difetti nuovi: tutti sistemati) e con la palestra decisa da Nicola
+versione: 5. Tre giri di controllo applicati: 74, poi 43, poi 19 correzioni confermate (run wf_b1588ce9-06c e wf_d0dd58c9-411)
 ---
 
-# Prompt — la radiografia del marketplace in 12 sessioni, più la sintesi
+# Il prompt della radiografia del sito in 12 sessioni
 
-Copia da qui in giù.
+**In due righe.** Questo è il testo che legge la sessione che dirige la radiografia. Tu non lo incolli: incolli le quattro parti corte del file accanto, e la sessione legge questo da sola.
+
+## In parole semplici
+
+Il file dice alla sessione tutto quello che deve fare, passo per passo: preparare il lavoro, aprire 12 sessioni in due ondate, sorvegliarle, verificare ogni difetto con un agente che non l'ha trovato, e unire tutto in una sola PR. Alla fine c'è la palestra, che parte solo con la tua firma.
+
+Un esempio di regola che contiene. Un difetto grave entra nel registro solo con una prova che gira: un comando che diventa rosso se il difetto c'è.
+
+## Cosa cambia per te
+
+Non devi leggerlo: è scritto per la sessione, con i nomi dei file e dei comandi. Le tue decisioni stanno nella parte 1 del file con le parti da incollare.
+
+## Cosa devi fare
+
+Niente, su questo file. Le cose tue stanno nella carta #229 della coda delle azioni.
+
+## Cosa non ho verificato
+
+Il testo è passato da tre giri di controllo, ma nessuno l'ha ancora eseguito.
 
 ---
+
+## Dettagli tecnici
+
+Il testo per la sessione che dirige comincia qui sotto.
 
 Sei l'AD digitale di MyCity. Leggi `cervello/MANUALE-AD.md` prima di agire, comprese le regole del lavoro snello (①-⑫) e del lavoro veloce (⑬-⑰).
 

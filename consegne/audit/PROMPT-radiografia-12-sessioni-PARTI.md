@@ -7,9 +7,32 @@ come si usa: apri una sessione nuova sul repo NicolaeRotaru/ad-mycity, nell'ambi
 
 # La radiografia in 12 sessioni: le parti da incollare
 
-Il testo lungo con tutte le regole sta in `consegne/audit/PROMPT-radiografia-12-sessioni.md`, e la sessione lo legge da sola. Tu incolli solo queste quattro parti, una alla volta. Ognuna finisce con la sessione che si ferma e ti aspetta.
+**In due righe.** Sono quattro messaggi corti da incollare in una sessione nuova, uno per fase. La sessione legge da sola il testo lungo con tutte le regole.
+
+## In parole semplici
+
+Ogni parte avvia una fase e finisce con la sessione che si ferma e ti aspetta. Così decidi tu quando passare alla fase dopo.
+
+Un esempio: incolli la parte 1, la sessione prepara il lavoro e ti mostra il collaudo dei suoi controlli. Solo dopo incolli la parte 2, che apre le prime cinque sessioni.
+
+## Cosa cambia per te
+
+Il testo lungo resta nel repository, e non rischi di perderne un pezzo copiandolo dal telefono.
+
+## Cosa devi fare
+
+- Nella parte 1 scegli le righe D0, D7, D8 e D10: in ognuna la prima scelta è quella che ti consiglio.
+- Incolla la parte 1 in una sessione nuova sul repository `ad-mycity`, nell'ambiente «mycity», che vede il sito vero. Le altre parti, una alla volta, quando la sessione si ferma.
+
+## Cosa non ho verificato
+
+Nessuno ha ancora eseguito queste parti. Non so se l'approvazione dei piani compare anche nell'app del telefono.
 
 ---
+
+## Dettagli tecnici
+
+Le quattro parti, da copiare così come sono.
 
 ## Parte 1 — l'avvio e la preparazione
 
