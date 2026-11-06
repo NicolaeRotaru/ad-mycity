@@ -50,7 +50,7 @@
       "id": "session_015BmpnVbamAnAevicKnimC4",
       "ramo": "claude/serene-wright-7l023n-r05",
       "ondata": 2,
-      "stato": "piano in preparazione",
+      "stato": "approvata a posteriori: al lavoro",
       "partenza": "c51f005523b6fdd0390e291f2f5cd5dd56a3bce9",
       "commit_finale": null
     },
@@ -70,7 +70,7 @@
       "id": "session_015BmpnWooFW8XRWban8obh7",
       "ramo": "claude/serene-wright-7l023n-r07",
       "ondata": 2,
-      "stato": "piano in preparazione",
+      "stato": "approvata a posteriori: al lavoro",
       "partenza": "c51f005523b6fdd0390e291f2f5cd5dd56a3bce9",
       "commit_finale": null
     },
