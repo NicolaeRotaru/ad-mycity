@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-11-05 15:16",
+ "aggiornato": "2026-11-06 08:17",
  "mutanti": [
   {
    "lotto": 30,
@@ -6159,9 +6159,10 @@
    "difetto": "AR-793",
    "nome": "la fusione smette di conservare lo stato: rifare il referto cancella le riparazioni",
    "file": "cervello/referti-sito.mjs",
-   "cerca": "    for (const campo of CAMPI_DELLA_RIPARAZIONE) {",
-   "sostituisci": "    for (const campo of []) {",
-   "test": "cervello/test/il-referto-che-nessuno-legge.test.mjs"
+   "cerca": "    const voce = { ...vecchio };",
+   "sostituisci": "    const voce = { ...n };",
+   "test": "cervello/test/il-referto-che-nessuno-legge.test.mjs",
+   "nota_riaggancio": "Riagganciata il 2026-11-06 (AR-1158): la fusione non salva piu sei campi scelti, parte dalla voce intera della casa. Il comportamento che difende e lo stesso (lo stato di una riparazione sopravvive al digest), il puntatore era rimasto sulla riga vecchia."
   },
   {
    "lotto": 49,
@@ -10901,6 +10902,51 @@
    "cerca": "    modelli.problemi + // 5/11: senza `model:` il senior gira sempre sul modello più grande\n",
    "sostituisci": "",
    "test": "cervello/test/due-elenchi-un-solo-metro.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1158",
+   "nome": "il grezzo torna a scrivere sopra la casa: la prova vera, la gravita riclassificata e la riverifica scritte dopo il referto tornano quelle del cercatore",
+   "file": "cervello/referti-sito.mjs",
+   "cerca": "      if (!(campo in voce) || (vuoto(voce[campo]) && !vuoto(valore))) voce[campo] = valore;",
+   "sostituisci": "      voce[campo] = valore;",
+   "test": "cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1158",
+   "nome": "una voce ritrovata nel referto si porta dietro «fuori_dal_referto»: il Pannello la conta fra quelle sparite",
+   "file": "cervello/referti-sito.mjs",
+   "cerca": "    delete voce.fuori_dal_referto;\n",
+   "sostituisci": "",
+   "test": "cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1158",
+   "nome": "la riverifica di prima si butta invece di finire in «riverifiche_precedenti»",
+   "file": "cervello/referti-sito.mjs",
+   "cerca": "          voce[storia] = prima.some((r) => uguali(r, voce[campo])) ? prima : [...prima, voce[campo]];",
+   "sostituisci": "          void prima;",
+   "test": "cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1158",
+   "nome": "il digest non dice piu quale referto e nuovo: la riverifica di una radiografia nuova si perde e il registro mostra il controllo di prima",
+   "file": "cervello/radiografia-marketplace-digest.mjs",
+   "cerca": "  const refertiNuovi = fonti.filter((f) => giaLetti.get(f.id) !== f.raw).map((f) => f.id);",
+   "sostituisci": "  const refertiNuovi = [];",
+   "test": "cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1158",
+   "nome": "il digest prende per nuovo anche il referto gia letto: rileggere il design dell 11/10 riscrive la riverifica scritta dopo dalle riparazioni",
+   "file": "cervello/radiografia-marketplace-digest.mjs",
+   "cerca": "  const refertiNuovi = fonti.filter((f) => giaLetti.get(f.id) !== f.raw).map((f) => f.id);",
+   "sostituisci": "  const refertiNuovi = fonti.map((f) => f.id);",
+   "test": "cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",

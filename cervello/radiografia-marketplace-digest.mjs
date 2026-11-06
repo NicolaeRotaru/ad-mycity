@@ -19,6 +19,9 @@
 //    riportava ad aperti i 199 problemi riparati quel giorno (provato, non dedotto: e' il caso ③ di
 //    cervello/test/il-referto-che-nessuno-legge.test.mjs). Oggi i problemi si fondono per chiave con
 //    quelli gia' in casa, e il lavoro delle riparazioni sopravvive al rifacimento del referto.
+//    Fino al 6/11/2026 sopravvivevano solo sei campi: il resto (`riparato_il`, la prova vera, le note,
+//    le riverifiche scritte dopo) tornava quello del grezzo su 357 voci. Adesso vince la casa su tutto,
+//    salvo la `riverifica` di un referto NUOVO (cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs).
 //
 // Uso: node cervello/radiografia-marketplace-digest.mjs   (🟢 legge i grezzi, scrive la memoria AI)
 import { readFileSync, writeFileSync, readdirSync, existsSync } from "fs";
@@ -114,8 +117,12 @@ export function scriviDigest() {
     });
   }
 
-  // 4) La fusione con la casa: il referto e' la verita' sul problema, la casa quella sul lavoro fatto.
-  const { problemi, conservati, orfani } = fondiConLaCasa(problemiNuovi, casaVecchia?.problemi);
+  // 4) La fusione con la casa: per una voce gia' in casa vince la casa, campo per campo. Un referto che la
+  //    casa ha gia' letto (lo stesso `raw` in `fonti[]`) non porta niente di piu' nuovo di lei; solo quello
+  //    di una radiografia nuova puo' aggiornare la riverifica (CAMPI_CHE_IL_REFERTO_NUOVO_AGGIORNA).
+  const giaLetti = new Map((Array.isArray(casaVecchia?.fonti) ? casaVecchia.fonti : []).map((f) => [f?.id, f?.raw]));
+  const refertiNuovi = fonti.filter((f) => giaLetti.get(f.id) !== f.raw).map((f) => f.id);
+  const { problemi, conservati, orfani } = fondiConLaCasa(problemiNuovi, casaVecchia?.problemi, { refertiNuovi });
   // Un'area che ha solo schede vecchie non perde il nome: senza, la scheda del Pannello la disegna vuota.
   dimensioni.push(...dimensioniDegliOrfani(problemi, dimensioni));
 
@@ -159,7 +166,8 @@ export function scriviDigest() {
     _cosa_e:
       "Casa canonica dei difetti del SITO: l'ultimo referto di ogni audit dichiarato in cervello/referti-sito.mjs " +
       "(radiografia del codice + radiografia del design), fuso in un elenco unico. L'elenco vivo sta in `problemi[]`: " +
-      "i lotti di riparazione ci scrivono dentro lo stato, e rifare il digest NON lo cancella. `dimensioni[]` porta i " +
+      "i lotti di riparazione ci scrivono dentro lo stato e il resto del lavoro, e rifare il digest NON lo cancella " +
+      "(su una voce gia' in casa vince la casa, campo per campo). `dimensioni[]` porta i " +
       "contatori, `fonti[]` dice da quali referti viene, `fonti_non_lette[]` quali audit esistono ma nessuno sa leggere " +
       "— e finche' quell'elenco non e' vuoto i conti restano ⚪ invece di dire uno zero. " +
       "Generato da cervello/radiografia-marketplace-digest.mjs. Il Pannello lo legge in Macchina → Radiografia marketplace.",
@@ -186,6 +194,7 @@ export function scriviDigest() {
     `${dimensioni.length} dimensioni · ${meta.findings} problemi ` +
     `(${meta.bloccanti} bloccanti · ${meta.gravi} gravi · ${meta.minori} minori)` +
     `${conservati ? ` · ${conservati} stati di riparazione conservati` : ""}` +
+    `${refertiNuovi.length ? ` · referto nuovo: ${refertiNuovi.join(", ")}` : ""}` +
     `${orfani ? ` · ${orfani} fuori dal referto tenuti in casa` : ""}` +
     `${nonLetti.length ? ` · ⚠️ ${nonLetti.length} referti NON letti` : ""}`,
   );

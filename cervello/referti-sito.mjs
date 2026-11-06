@@ -21,8 +21,9 @@
 //      Cioe' la prossima famiglia di audit che nasce fara' diventare la Cabina ⚪, non verde.
 //   ② **la casa ha memoria.** Il digest ricostruiva l'elenco da zero e riscriveva `stato: "aperto"`
 //      su tutto: rilanciarlo il 22/8 riportava ad «aperti» i 199 problemi riparati quel giorno
-//      (misurato, non dedotto). Qui i problemi si fondono con quelli gia' in casa per CHIAVE, e lo
-//      stato scritto dalle riparazioni sopravvive al rifacimento del referto.
+//      (misurato, non dedotto). Qui i problemi si fondono con quelli gia' in casa per CHIAVE, e per
+//      una voce gia' in casa vince la casa, campo per campo (dal 6/11: prima si salvavano sei campi
+//      e cadevano `riparato_il`, la prova vera, le note e le riverifiche scritte dopo il referto).
 //
 // 🟢 Modulo PURO: nessun file, nessuna rete, nessun orologio. Il disco lo tocca chi lo chiama, e gli
 // passa gli elenchi — cosi' una prova puo' ESEGUIRE queste decisioni sui referti veri.
@@ -307,30 +308,55 @@ export function chiaveProblema(p) {
   return `${norm(p?.dimensione)}|${norm(p?.titolo)}`;
 }
 
-/** I campi che appartengono alla RIPARAZIONE, non al referto: sono quelli che devono sopravvivere. */
-export const CAMPI_DELLA_RIPARAZIONE = Object.freeze([
-  "stato",
-  "nota_riparazione",
-  "chiuso_il",
-  "chiuso_da",
-  "riaperto_il",
-  "riaperto_da",
-]);
+/**
+ * I campi che un referto NUOVO della stessa famiglia scrive anche sopra la casa, e dove finisce il valore di
+ * prima. Uno solo: `riverifica`, che finisce in `riverifiche_precedenti`.
+ *
+ * PERCHE' SOLO QUESTO. La regola della fusione e' «vince la casa»: dopo il referto, la voce la scrivono le
+ * riparazioni (stato, `riparato_il`, la `prova` vera che gira al posto di quella del cercatore, una gravita'
+ * riclassificata con `nota_severita`, `riverifica_1_11`, `nota_5_11`…), e nessun cercatore ne sa di piu'. Tutti
+ * gli altri campi del referto descrivono il problema come l'ha visto CHI L'HA TROVATO: titolo, gravita',
+ * descrizione, dove, prova del cercatore, `giro`, `fonte_radiografia`. Se la casa li ha gia', o li ha
+ * scritti la stessa radiografia o li ha corretti qualcuno dopo: in tutti e due i casi il grezzo non porta
+ * niente di piu' nuovo. `riverifica` invece e' per costruzione il giudizio di QUESTA radiografia su un
+ * problema gia' noto («ancora presente il 20/11»): se vincesse la casa, il registro direbbe la data e il
+ * verdetto del controllo di prima, cioe' una cosa vecchia spacciata per l'ultima. Il valore di prima non si
+ * butta: va in coda a `riverifiche_precedenti`, il campo che le riverifiche scritte a mano usano gia'.
+ *
+ * QUANDO E' «NUOVO». Solo quando il referto di quella famiglia non e' quello che la casa ha gia' letto
+ * (`fonti[].raw` del registro). Lo stesso referto riletto — il caso del design dell'11/10, ancora l'ultimo della
+ * sua famiglia il 6/11 — e' piu' vecchio di tutto quello che la casa ci ha scritto sopra: li' vince la casa
+ * anche sulla riverifica, e rifare il digest non cambia una virgola.
+ */
+export const CAMPI_CHE_IL_REFERTO_NUOVO_AGGIORNA = Object.freeze({ riverifica: "riverifiche_precedenti" });
+
+/** «La casa non ha questo campo»: assente, null o stringa vuota. Un elenco o un oggetto vuoti sono un valore. */
+const vuoto = (v) => v === undefined || v === null || v === "";
+const uguali = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 
 /**
  * Fonde i problemi appena letti dai referti con quelli GIA' in casa.
  *
- * Il referto e' la verita' sul PROBLEMA (titolo, gravita', descrizione, dove): quella si riscrive.
- * La casa e' la verita' sul LAVORO fatto sopra (stato, note, chi e quando l'ha chiuso): quella si
- * conserva. Prima di questa funzione il digest riscriveva `stato: "aperto"` su tutto — cioe' un
- * comando di manutenzione, quello che il messaggio d'errore del Pannello suggerisce di lanciare,
+ * LA REGOLA: per una voce gia' in casa, **vince la casa, campo per campo**. Dal grezzo si prendono solo i campi
+ * che la casa non ha (o ha vuoti); l'unica eccezione e' `CAMPI_CHE_IL_REFERTO_NUOVO_AGGIORNA`, e solo per le
+ * famiglie in `refertiNuovi`. L'ordine dei campi resta quello della casa, cosi' rifare il digest non sposta righe.
+ *
+ * LA MALATTIA CHE CURA. Fino al 6/11/2026 la voce si ricostruiva dal grezzo e dalla casa si tenevano sei campi
+ * (stato, nota_riparazione, chiuso_il, chiuso_da, riaperto_il, riaperto_da). Tutto il resto scritto dopo il
+ * referto cadeva: misurato il 6/11 sulla casa vera, 357 voci su 444 ritrovate nei referti perdevano campi
+ * (`riparato_il`, `riparato_da`, `nota_5_11`, `collaudo_5_11`…) e su 262 la `prova` e la `prova_tipo` tornavano
+ * quelle del cercatore. Prima ancora (22/8) si riscriveva `stato: "aperto"` su tutto: rilanciare il digest
  * cancellava in silenzio 199 riparazioni.
  *
- * I problemi che stanno in casa e non stanno piu' in nessun referto NON si buttano: restano, con
- * `fuori_dal_referto: true`. Sparire e' l'altro modo di far calare un numero senza aver riparato
- * niente.
+ * `fuori_dal_referto` lo calcola questa funzione: una voce ritrovata nel referto lo perde, anche se la casa ce
+ * l'aveva. I problemi che stanno in casa e non stanno piu' in nessun referto NON si buttano: restano, con
+ * `fuori_dal_referto: true`. Sparire e' l'altro modo di far calare un numero senza aver riparato niente.
+ *
+ * @param refertiNuovi gli id delle famiglie (`fonte` della voce) il cui referto la casa non ha ancora letto.
+ *                     Senza, nessuna famiglia e' nuova: la casa vince su tutto, che e' il lato sicuro.
  */
-export function fondiConLaCasa(nuovi, vecchi) {
+export function fondiConLaCasa(nuovi, vecchi, { refertiNuovi = [] } = {}) {
+  const famiglieNuove = new Set(refertiNuovi ?? []);
   const perChiave = new Map();
   for (const v of vecchi ?? []) if (v) perChiave.set(chiaveProblema(v), v);
 
@@ -346,9 +372,21 @@ export function fondiConLaCasa(nuovi, vecchi) {
       continue;
     }
     usate.add(k);
-    const voce = { ...n };
-    for (const campo of CAMPI_DELLA_RIPARAZIONE) {
-      if (vecchio[campo] != null) voce[campo] = vecchio[campo];
+    const voce = { ...vecchio };
+    delete voce.fuori_dal_referto;
+    for (const [campo, valore] of Object.entries(n)) {
+      if (!(campo in voce) || (vuoto(voce[campo]) && !vuoto(valore))) voce[campo] = valore;
+    }
+    if (famiglieNuove.has(n.fonte)) {
+      for (const [campo, storia] of Object.entries(CAMPI_CHE_IL_REFERTO_NUOVO_AGGIORNA)) {
+        const dalReferto = n[campo];
+        if (vuoto(dalReferto) || uguali(dalReferto, voce[campo])) continue;
+        if (!vuoto(voce[campo])) {
+          const prima = Array.isArray(voce[storia]) ? voce[storia] : vuoto(voce[storia]) ? [] : [voce[storia]];
+          voce[storia] = prima.some((r) => uguali(r, voce[campo])) ? prima : [...prima, voce[campo]];
+        }
+        voce[campo] = dalReferto;
+      }
     }
     if (voce.stato !== n.stato) conservati += 1;
     fusi.push(voce);
