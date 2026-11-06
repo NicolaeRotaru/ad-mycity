@@ -6643,6 +6643,7 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 **Precisazione delle 01:35:** vale per tutto quello che esiste già, non solo per le funzioni nuove. Il prodotto inserito con l'AI, il negozio e tutto il resto vanno provati al massimo.
 
 **Colore:** 🟡 rete dell'ambiente cambiata con la firma di Nicola; la copia di prova è da proporre, con i costi.
+
 ## 2026-11-06 01:27 — 🟡 Le falle di sicurezza aperte non portano più dettagli nei file pubblici
 
 **Cosa:** il controllo del 6/11 aveva trovato nomi di file e di tecniche nel testo libero di alcune falle di sicurezza ancora aperte. Stavano soprattutto nel verdetto della seconda lente. Ho sostituito con «nel referto privato» ogni campo di testo libero di quelle voci. Ho lasciato com'erano titolo, area, gravità, stato e date. La correzione vale in due file: il registro dei difetti del sito (51 voci su 52, 162 campi) e il grezzo della radiografia del 5/11, che il digest rilegge (33 voci su 33, 115 campi).
