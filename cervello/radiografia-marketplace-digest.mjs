@@ -23,7 +23,13 @@
 //    le riverifiche scritte dopo) tornava quello del grezzo su 357 voci. Adesso vince la casa su tutto,
 //    salvo la `riverifica` di un referto NUOVO (cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs).
 //
+// ③ Dal 6/11 vince la casa: una correzione fatta SOLO nel grezzo, dopo la lettura, non entra piu'. Non resta
+//    muta: il registro tiene le impronte di ogni campo letto (`fonti[].impronte`) e il digest nomina le voci
+//    corrette nel grezzo che la casa non ha recepito (referti-sito.mjs, ③-bis).
+//
 // Uso: node cervello/radiografia-marketplace-digest.mjs   (🟢 legge i grezzi, scrive la memoria AI)
+// Uscita: 0 scritto · 1 nessun referto, OPPURE scritto ma con correzioni del grezzo rimaste fuori dalla casa
+//         (le nomina una per una: o vanno anche nel registro, o si tolgono dal grezzo).
 import { readFileSync, writeFileSync, readdirSync, existsSync } from "fs";
 import path from "path";
 import { fileURLToPath, pathToFileURL } from "url";
@@ -37,6 +43,7 @@ import {
   fondiConLaCasa,
   dimensioniDaProblemi,
   dimensioniDegliOrfani,
+  correzioniDelGrezzo,
 } from "./referti-sito.mjs";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -84,6 +91,9 @@ export function scriviDigest() {
   const problemiNuovi = [];
   const dimensioni = [];
   const fonti = [];
+  const correzioniFuori = [];
+  const senzaImpronte = [];
+  const fontiLette = Array.isArray(casaVecchia?.fonti) ? casaVecchia.fonti : [];
 
   for (const fonte of FONTI_SITO) {
     const referto = ultimi.get(fonte.id);
@@ -103,6 +113,12 @@ export function scriviDigest() {
       });
       continue;
     }
+    // Lo stesso referto gia' letto: qualcuno ci ha corretto qualcosa dopo, che la casa non ha? (③-bis)
+    const letta = fontiLette.find((f) => f?.id === fonte.id);
+    const stessoReferto = letta?.raw === referto.file;
+    const correzioni = correzioniDelGrezzo(problemi, casaVecchia?.problemi, stessoReferto ? letta?.impronte : null);
+    if (stessoReferto && !correzioni.confrontato) senzaImpronte.push(referto.file);
+    for (const c of correzioni.fuori) correzioniFuori.push({ ...c, file: referto.file });
     problemiNuovi.push(...problemi);
     dimensioni.push(...dimensioniDaProblemi(problemi, fonte));
     const reportRel = fonte.reportDi(referto.data);
@@ -114,6 +130,7 @@ export function scriviDigest() {
       report: existsSync(path.join(ROOT, reportRel)) ? reportRel : null,
       findings: problemi.length,
       agenti: Number(raw.agentCount) || null,
+      impronte: correzioni.impronte,
     });
   }
 
@@ -122,7 +139,7 @@ export function scriviDigest() {
   //    di una radiografia nuova puo' aggiornare la riverifica (CAMPI_CHE_IL_REFERTO_NUOVO_AGGIORNA).
   const giaLetti = new Map((Array.isArray(casaVecchia?.fonti) ? casaVecchia.fonti : []).map((f) => [f?.id, f?.raw]));
   const refertiNuovi = fonti.filter((f) => giaLetti.get(f.id) !== f.raw).map((f) => f.id);
-  const { problemi, conservati, orfani } = fondiConLaCasa(problemiNuovi, casaVecchia?.problemi, { refertiNuovi });
+  const { problemi, conservati, orfani, ignorati } = fondiConLaCasa(problemiNuovi, casaVecchia?.problemi, { refertiNuovi });
   // Un'area che ha solo schede vecchie non perde il nome: senza, la scheda del Pannello la disegna vuota.
   dimensioni.push(...dimensioniDegliOrfani(problemi, dimensioni));
 
@@ -195,9 +212,35 @@ export function scriviDigest() {
     `(${meta.bloccanti} bloccanti · ${meta.gravi} gravi · ${meta.minori} minori)` +
     `${conservati ? ` · ${conservati} stati di riparazione conservati` : ""}` +
     `${refertiNuovi.length ? ` · referto nuovo: ${refertiNuovi.join(", ")}` : ""}` +
+    // Il prezzo della regola «vince la casa», detto ad alta voce: cosa del referto nuovo NON e' entrato.
+    `${ignorati ? ` · ${ignorati} campi del referto nuovo diversi dalla casa: tenuta la casa` : ""}` +
     `${orfani ? ` · ${orfani} fuori dal referto tenuti in casa` : ""}` +
     `${nonLetti.length ? ` · ⚠️ ${nonLetti.length} referti NON letti` : ""}`,
   );
+
+  // Il prezzo della regola «vince la casa», dall'altro lato: le correzioni fatte solo nel grezzo.
+  if (senzaImpronte.length) {
+    console.log(
+      `⚪ ${senzaImpronte.join(", ")}: la casa non aveva le impronte di questo referto, quindi le correzioni fatte ` +
+      "nel grezzo PRIMA di questo digest non le posso vedere. Da adesso le impronte ci sono.",
+    );
+  }
+  if (correzioniFuori.length) {
+    const campi = correzioniFuori.reduce((s, c) => s + c.campi.length, 0);
+    console.error(
+      `⚠️  ${correzioniFuori.length} voci corrette nel grezzo DOPO l'ultima lettura non sono entrate in casa ` +
+      `(${campi} campi): in casa vince la casa.`,
+    );
+    for (const c of correzioniFuori.slice(0, 15)) {
+      console.error(`   · ${c.file} · «${String(c.titolo).slice(0, 90)}» → ${c.campi.join(", ")}`);
+    }
+    if (correzioniFuori.length > 15) console.error(`   · … e altre ${correzioniFuori.length - 15}`);
+    console.error(
+      "   Se la correzione deve valere, scrivila anche nel registro, voce per voce; se no, toglila dal grezzo. " +
+      "Finche' grezzo e casa non dicono la stessa cosa, questo avviso torna a ogni digest.",
+    );
+    process.exitCode = 1;
+  }
 
 }
 
