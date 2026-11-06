@@ -33,6 +33,8 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ### 🔴 #229 — Revoca i token vecchi su GitHub, poi lancia la radiografia in 12 sessioni · ⏳ accodata 2026-11-06 02:30
 
+> **Aggiornamento del 06/11 alle 09:51.** La seconda metà della carta è partita. Col tuo «via la prima ondata» ho aperto 5 sessioni su 12: il ricontrollo dei difetti aperti, la carta, il viaggio del cliente, l'aspetto e il sito dal vivo. Aspettano la tua approvazione dei piani. Resta aperta la prima metà: revocare i token vecchi su GitHub (carta #7). La radiografia è nella bozza NicolaeRotaru/ad-mycity#936.
+
 **In parole semplici.** La radiografia del sito in 12 sessioni è pronta: un prompt controllato tre volte e quattro parti corte da incollare, una per fase. Prima però c'è una cosa urgente: un token GitHub è rimasto scritto nella storia pubblica della memoria, l'11/7.
 
 **Cosa cambia per te.** Esempio: se quel token è ancora valido e può scrivere, uno sconosciuto può cambiare il codice del sito. La pagina della cassa potrebbe arrivare sul sito vero col rilascio automatico. Revocarlo costa dieci minuti.
