@@ -6624,7 +6624,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - dalle 00:49 non c'è nessun errore nei log;
 - lo stato «degradato» viene solo dai lavori automatici fermi, e sono fermi apposta.
 
-**Non verificato:** che Resend spedisca e che Upstash risponda. Servirebbe un'email vera o il segreto del controllo interno.
+**Upstash, provato alle 01:10:** il controllo interno passa dal freno a ogni chiamata da fuori, e se Upstash non risponde lo scrive nei log («[freno] Upstash non risponde»). L'ho chiamato due volte sulla pubblicazione nuova, alle 01:01 e alle 01:09, e nei log non c'è nessun avviso: Upstash ha risposto.
+
+**Resend, non provato:** da qui nessuna strada fa partire un'email senza toccare persone vere. La newsletter è spenta, il modulo contatti scrive a una casella che non c'è ancora, e gli altri invii partono da ordini e resi veri. La prova naturale è il primo messaggio dal modulo contatti, quando ci sarà la casella dell'assistenza.
 
 **Scelta di Nicola:** l'email dell'assistenza e quella per le risposte dei clienti andranno su una casella apposta, separata dalle sue email personali. Le mettiamo dopo, insieme a Stripe.
 
