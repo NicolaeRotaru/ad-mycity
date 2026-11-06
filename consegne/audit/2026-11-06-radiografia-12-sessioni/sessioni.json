@@ -20,9 +20,9 @@
       "id": "session_015BmpnWw91tpZcmBuzzGA3c",
       "ramo": "claude/serene-wright-7l023n-r02",
       "ondata": 2,
-      "stato": "approvata: al lavoro",
+      "stato": "finita",
       "partenza": "c51f005523b6fdd0390e291f2f5cd5dd56a3bce9",
-      "commit_finale": null
+      "commit_finale": "a825a54"
     },
     {
       "sessione": "S03",
@@ -40,9 +40,9 @@
       "id": "session_015BmpnUsGYNdxKuFk6ZCXbZ",
       "ramo": "claude/serene-wright-7l023n-r04",
       "ondata": 2,
-      "stato": "approvata: al lavoro",
+      "stato": "finita",
       "partenza": "c51f005523b6fdd0390e291f2f5cd5dd56a3bce9",
-      "commit_finale": null
+      "commit_finale": "d7e7fe6"
     },
     {
       "sessione": "S05",
@@ -70,9 +70,9 @@
       "id": "session_015BmpnWooFW8XRWban8obh7",
       "ramo": "claude/serene-wright-7l023n-r07",
       "ondata": 2,
-      "stato": "approvata a posteriori: al lavoro",
+      "stato": "finita",
       "partenza": "c51f005523b6fdd0390e291f2f5cd5dd56a3bce9",
-      "commit_finale": null
+      "commit_finale": "55c24ae"
     },
     {
       "sessione": "S08",
@@ -80,9 +80,9 @@
       "id": "session_015BmpnZJNGPKZewegjiMPkX",
       "ramo": "claude/serene-wright-7l023n-r08",
       "ondata": 2,
-      "stato": "approvata: al lavoro",
+      "stato": "finita",
       "partenza": "c51f005523b6fdd0390e291f2f5cd5dd56a3bce9",
-      "commit_finale": null
+      "commit_finale": "36ae695"
     },
     {
       "sessione": "S09",
@@ -90,9 +90,9 @@
       "id": "session_015BmpnY9pYCQGVJvZEeeTxg",
       "ramo": "claude/serene-wright-7l023n-r09",
       "ondata": 2,
-      "stato": "approvata: al lavoro",
+      "stato": "finita",
       "partenza": "c51f005523b6fdd0390e291f2f5cd5dd56a3bce9",
-      "commit_finale": null
+      "commit_finale": "b347ac6"
     },
     {
       "sessione": "S10",
