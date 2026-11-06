@@ -6680,3 +6680,13 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 **Perché:** sono le decisioni che il prompt (`consegne/audit/PROMPT-radiografia-12-sessioni.md`, §0) chiede a Nicola prima di aprire le sessioni.
 
 **Colore:** 🟡 lavoro della macchina sul sito in sola lettura, con le decisioni di Nicola. Nessuna spesa e nessuna scrittura sul sito vero.
+
+## 2026-11-06 10:11 — 🟡 I piani della prima ondata li approva l'AD, su richiesta di Nicola
+
+**Cosa:** Nicola ha chiesto in chat «riesci ad approvarli tu?». L'AD ha approvato a nome suo, con un messaggio a ogni sessione, i piani di S01, S03, S06, S10 e S11 della radiografia in 12 sessioni. Prima li aveva letti e confrontati con le schede.
+
+**Perché:** in queste sessioni lo strumento del piano rispondeva «approvato» da solo, e un riavvio aveva chiuso la modalità piano. Quindi l'unico via che conta è un messaggio scritto, e Nicola l'ha delegato all'AD. La D2 del prompt voleva l'approvazione di Nicola nella sessione: da oggi vale anche il via dell'AD, se Nicola lo chiede.
+
+**Cosa resta a Nicola:** la modalità automatica di ogni sessione. Una sessione non può cambiare i permessi di un'altra.
+
+**Colore:** 🟡 lavoro in sola lettura sul sito, deciso da Nicola.

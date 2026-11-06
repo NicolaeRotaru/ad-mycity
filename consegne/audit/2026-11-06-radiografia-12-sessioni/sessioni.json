@@ -10,7 +10,7 @@
       "id": "session_015BmpnXbX6VZwivvy7fbRF2",
       "ramo": "claude/serene-wright-7l023n-r01",
       "ondata": 1,
-      "stato": "piano aggiornato: approvare (9 agenti su 30 già usati, 199 voci su 482)",
+      "stato": "approvata dall'AD a nome di Nicola: al lavoro",
       "partenza": "d3a644b82d6af9a7cb43933164e4804b2725d5db",
       "commit_finale": null
     },
@@ -30,7 +30,7 @@
       "id": "session_015BmpnXSYbZy8cNBrQ8hME9",
       "ramo": "claude/serene-wright-7l023n-r03",
       "ondata": 1,
-      "stato": "piano pronto: approvare",
+      "stato": "approvata dall'AD a nome di Nicola: al lavoro",
       "partenza": "d3a644b82d6af9a7cb43933164e4804b2725d5db",
       "commit_finale": null
     },
@@ -60,7 +60,7 @@
       "id": "session_015BmpnXk2K7NypRwpNVPaJf",
       "ramo": "claude/serene-wright-7l023n-r06",
       "ondata": 1,
-      "stato": "piano pronto: approvare",
+      "stato": "approvata dall'AD a nome di Nicola: al lavoro",
       "partenza": "d3a644b82d6af9a7cb43933164e4804b2725d5db",
       "commit_finale": null
     },
@@ -100,7 +100,7 @@
       "id": "session_015BmpnYszKaEayhAzDXRxtf",
       "ramo": "claude/serene-wright-7l023n-r10",
       "ondata": 1,
-      "stato": "piano pronto: approvare",
+      "stato": "approvata dall'AD a nome di Nicola: al lavoro",
       "partenza": "d3a644b82d6af9a7cb43933164e4804b2725d5db",
       "commit_finale": null
     },
@@ -110,7 +110,7 @@
       "id": "session_015BmpnVfA4KcGq3ED1dSNFP",
       "ramo": "claude/serene-wright-7l023n-r11",
       "ondata": 1,
-      "stato": "piano pronto: approvare",
+      "stato": "approvata dall'AD a nome di Nicola: al lavoro",
       "partenza": "d3a644b82d6af9a7cb43933164e4804b2725d5db",
       "commit_finale": null
     },
