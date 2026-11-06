@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-11-05 14:22",
+  "aggiornato": "2026-11-06 08:54",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -26159,6 +26159,50 @@
       "id_analisi": "P928-15",
       "owner": "ux-designer",
       "scadenza_nota": "data da fissare con Nicola: si riprende dopo aver finito di risolvere il marketplace"
+    },
+    {
+      "id": "AR-1159",
+      "titolo": "Rifare il registro del sito butta le note scritte a mano fuori dalle voci: la nota del 5/11 nei contatori sparisce",
+      "dimensione": "integrita-memoria",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-06 08:54",
+      "nato_come": "scoperta",
+      "nato_da": "collaudo del 6/11 sulla riparazione AR-1158 (le due lenti, lo stesso rilievo)",
+      "origine": "collaudo",
+      "dove": "cervello/radiografia-marketplace-digest.mjs: `meta` si ricostruisce da zero; fuori da `problemi` resta solo `sync_scan`",
+      "sintomo": "Lanciato il digest su una copia dei dati veri del 6/11, `meta.nota_5_11` («dieci sessioni sui minori: 50 voci nuove viste strada facendo… contate qui») sparisce, col codice di prima e con quello nuovo. Al secondo digest di fila `confronto_precedente` torna null (il prompt delle 12 sessioni lo sa e lo avverte).",
+      "causa_radice": "La regola «vince la casa» vale per le voci; i campi di testa del registro (meta, confronto_precedente) si riscrivono da capo, tranne `sync_scan`, salvato a mano.",
+      "fix_proposto": "Decidere quali campi di testa sono del digest (i contatori) e quali di chi scrive dopo (le note): i secondi si riportano come `sync_scan`, oppure le note vanno in un campo apposta. È minore: la nota del 5/11 dopo una radiografia nuova sarebbe comunque vecchia.",
+      "verifica": {
+        "tipo": "umano",
+        "come": "Si chiude con una prova a comando che lancia il digest su una copia con una nota in `meta` e la ritrova dopo."
+      },
+      "owner": "builder-automazioni"
+    },
+    {
+      "id": "AR-1160",
+      "titolo": "Una prova del banco riscrive il registro vero dei difetti del sito mentre gira",
+      "dimensione": "integrita-memoria",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-06 08:54",
+      "nato_come": "scoperta",
+      "nato_da": "collaudo del 6/11 sulla riparazione AR-1158 (lente B)",
+      "origine": "collaudo",
+      "dove": "cervello/test/il-freno-non-era-sulla-strada.test.mjs:276 lancia cervello/allinea-scan-cantiere.mjs; lì `MKP` (riga 55) è fisso sul registro vero e si scrive alla riga 379",
+      "sintomo": "La prova devia `RADIOGRAFIA_FILE` e `CANTIERE_FILE`, ma non il registro del sito: su una copia del repo il collaudatore ha visto `sync_scan.aggiornato` passare da «2026-11-05 23:47» a «2026-11-06 08:25» lanciando il banco. Una prova che controlla l’ora del registro vero (come faceva la prima versione di il-digest-tiene-il-lavoro-della-casa) accusa a torto.",
+      "causa_radice": "Lo strumento ricava uno dei suoi tre registri da dove sta, senza un modo di deviarlo: è la scorciatoia 35 (la prova che scrive nei file veri), su un percorso solo.",
+      "fix_proposto": "Rendere deviabile `MKP` con una variabile (come gli altri due) e deviarla nella prova; poi una prova che controlla che il registro vero non cambi lanciando quella prova.",
+      "verifica": {
+        "tipo": "umano",
+        "come": "Si chiude con una prova a comando: impronta del registro vero prima e dopo `node --test cervello/test/il-freno-non-era-sulla-strada.test.mjs`, uguali."
+      },
+      "owner": "builder-automazioni"
     }
   ],
   "meta": {
