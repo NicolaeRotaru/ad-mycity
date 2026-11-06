@@ -6609,3 +6609,49 @@ L'avanzo più serio è un grave dei soldi: il reso ripreso in un carrello di due
 Gli unici due errori del sito nell'ultima ora sono di prima: manca la chiave di servizio su Vercel.
 
 **Colore:** 🔴 scrittura sul database vero, firmata da Nicola in chat («ok migrazioni», 5/11 alle 23:59).
+
+## 2026-11-06 01:05 — 🟡 Cinque chiavi del sito su Vercel; l'email dell'assistenza avrà una casella sua
+
+**Cosa:** Nicola ha messo su Vercel cinque chiavi seguendo i passi in chat:
+- quella nuova del database, fra quelle «segrete» e non quella vecchia di «Legacy», alle 00:45;
+- la chiave di Resend alle 00:48 e il mittente alle 00:49;
+- l'indirizzo di Upstash alle 00:52 e il token alle 00:53.
+
+Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicazione, l'unica con tutte e cinque, è online dalle 00:59.
+
+**Verificato:**
+- il controllo interno del sito legge la tabella dei lavori automatici, che senza la chiave nuova nessuno può aprire;
+- dalle 00:49 non c'è nessun errore nei log;
+- lo stato «degradato» viene solo dai lavori automatici fermi, e sono fermi apposta.
+
+**Upstash, provato alle 01:10:** il controllo interno passa dal freno a ogni chiamata da fuori, e se Upstash non risponde lo scrive nei log («[freno] Upstash non risponde»). L'ho chiamato due volte sulla pubblicazione nuova, alle 01:01 e alle 01:09, e nei log non c'è nessun avviso: Upstash ha risposto.
+
+**Resend, non provato:** da qui nessuna strada fa partire un'email senza toccare persone vere. La newsletter è spenta, il modulo contatti scrive a una casella che non c'è ancora, e gli altri invii partono da ordini e resi veri. La prova naturale è il primo messaggio dal modulo contatti, quando ci sarà la casella dell'assistenza.
+
+**Scelta di Nicola:** l'email dell'assistenza e quella per le risposte dei clienti andranno su una casella apposta, separata dalle sue email personali. Le mettiamo dopo, insieme a Stripe.
+
+**Colore:** 🟡 configurazione del sito fatta da Nicola, controllata dall'AD in sola lettura.
+
+## 2026-11-06 01:25 — 🟡 Il sito vero si apre dalla rete dell'AD, e le prove da cliente avranno una copia apposta
+
+**Cosa:** alle 01:20 Nicola ha approvato l'aggiunta di `www.mycity-marketplace.com` e `mycity-marketplace.com` agli indirizzi permessi dell'ambiente cloud «mycity». Da qui la home risponde 200 in 1,9 secondi. Su sua richiesta l'ho detto alla sessione della radiografia.
+
+**Il limite di oggi:** sul sito vero si guarda solo da visitatore. Ci sono pagine, tempi, errori, foto e link. Niente ordini, moduli o accessi: arriverebbero al fornaio e a persone vere, e il controllo anti-robot va rispettato.
+
+**La direzione di Nicola, per dopo:** l'AD deve usare il sito come tanti clienti, fattorini e negozianti insieme. Deve provare ogni funzione fino al limite. Gli esempi sono l'ordine di prova di un negozio nuovo con un conto Stripe di prova, e l'inserimento di un prodotto con l'AI. Per farlo senza toccare persone e soldi veri serve una copia del sito con un database di prova. Nella copia Stripe gira in prova, le email vanno a una casella di prova e il controllo anti-robot usa le chiavi di prova. Quando partire lo decide Nicola.
+
+**Precisazione delle 01:35:** vale per tutto quello che esiste già, non solo per le funzioni nuove. Il prodotto inserito con l'AI, il negozio e tutto il resto vanno provati al massimo.
+
+**Colore:** 🟡 rete dell'ambiente cambiata con la firma di Nicola; la copia di prova è da proporre, con i costi.
+
+## 2026-11-06 01:27 — 🟡 Le falle di sicurezza aperte non portano più dettagli nei file pubblici
+
+**Cosa:** il controllo del 6/11 aveva trovato nomi di file e di tecniche nel testo libero di alcune falle di sicurezza ancora aperte. Stavano soprattutto nel verdetto della seconda lente. Ho sostituito con «nel referto privato» ogni campo di testo libero di quelle voci. Ho lasciato com'erano titolo, area, gravità, stato e date. La correzione vale in due file: il registro dei difetti del sito (51 voci su 52, 162 campi) e il grezzo della radiografia del 5/11, che il digest rilegge (33 voci su 33, 115 campi).
+
+**Perché tutti e due:** il digest rifà il registro dal grezzo. Provato su una copia: se correggo solo il registro, le 6 voci con nomi di file tornano.
+
+**Verificato:** su una copia, digest compreso, le voci aperte con nomi di file passano da 6 a 0. Le voci totali (2.724) e gli stati non cambiano. Le 9 falle già chiuse e tutte le altre voci restano identiche: l'impronta di controllo è la stessa prima e dopo.
+
+**Cosa resta a Nicola (🔴):** la storia di git è pubblica, e i testi vecchi si leggono ancora nei commit passati. Per toglierli davvero c'è da rendere privato il repository oppure da riscrivere la storia. È già fra le promesse aperte («I costi per rendere privati i due repository»).
+
+**Colore:** 🟡 modifica della memoria dell'AD, con avviso a Nicola.

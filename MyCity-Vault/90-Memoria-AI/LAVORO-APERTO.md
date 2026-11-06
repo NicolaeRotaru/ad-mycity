@@ -47,14 +47,16 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 **La richiesta unica delle cinque sessioni è unita** (NicolaeRotaru/mycity#280, il 1/11 alle 18:17). Nel registro ho chiuso 46 difetti seri su 84, ognuno con una prova, e 1 era già a posto prima. Prima dell'unione avevo scritto 51: il ricontrollo dopo l'unione ne ha trovati alcuni chiusi solo in parte.
 - **Adesso, in ordine:**
   - completa allergeni e ingredienti dei 7 alimenti del fornaio: oggi 7 prodotti in vendita su 9 non li hanno, e la legge li chiede;
-  - ~~premi il pulsante delle migrazioni~~: fatto il 6/11 alle 00:16, tutte le 21 che mancavano;
-  - su Supabase accendi «Secure password change», poi cambia i due modelli email;
-  - su GitHub metti i segreti di Vercel e accendi la regola «Main», poi dimmelo e preparo l'ultimo passo;
-  - su Vercel metti la chiave di servizio del database, che serve anche alla copia delle foto.
+  - ~~premi il pulsante delle migrazioni~~. Fatto il 6/11 alle 00:16: sono entrate tutte le 21 che mancavano.
+  - Su Supabase accendi «Secure password change». Poi cambia i due modelli email.
+  - Su GitHub metti i segreti di Vercel e accendi la regola «Main». Poi dimmelo, e preparo l'ultimo passo.
+  - ~~su Vercel metti la chiave di servizio del database~~. Fatto il 6/11 fra le 00:45 e le 00:53. Sono entrate cinque chiavi: quella nuova del database, due di Resend e due di Upstash. Sono online dalle 00:59. La chiave del database funziona: il sito legge una tabella che solo lei apre. Mancano le due chiavi delle email dell'assistenza. Nicola vuole una casella apposta, separata dalle sue email personali. Le mettiamo insieme a quelle di Stripe.
 - **Da non fare:** non riattivare il fattorino sospeso: non ha nessun documento.
 - **Dati che mi servono:** indirizzo e telefono del titolare, poi partita IVA e PEC.
 - **Le scelte** sui soldi, sui fattorini e sulle regole, col mio consiglio accanto, stanno in un documento solo: `consegne/audit/2026-11-01-cinque-sessioni-referto.md`.
 - **La radiografia del 5/11 è fatta** (12:10): 372 difetti nuovi nel registro del sito, 1 bloccante e 34 gravi, di cui 7 falle riservate (R262-R268, dettagli solo in chat). Tocca a te la carta #226. Referto: `consegne/audit/2026-11-05-radiografia.md`.
+
+**Le prove da cliente vero, da costruire quando lo dice Nicola** (6/11 alle 01:25). Nicola vuole che l'AD usi il sito come tanti clienti, fattorini e negozianti insieme. Deve provare ogni funzione fino al limite, con ogni variabile. Gli esempi suoi: l'ordine di prova quando entra un negozio nuovo, con un conto Stripe di prova. Oppure l'inserimento di un prodotto con l'AI. Alle 01:35 ha precisato che vale per tutto quello che esiste già, non solo per le cose nuove. Va provato al massimo il prodotto inserito con l'AI, il negozio, la cassa, il fattorino: tutto. Oggi il sito ha 118 pagine e 107 indirizzi interni. Il posto giusto è una copia del sito con un database di prova, non il sito vero. Nella copia, Stripe gira in modalità prova e le email vanno a una casella di prova. Anche il controllo anti-robot usa le chiavi di prova di Cloudflare. Sul sito vero, intanto, l'AD guarda solo da visitatore. Le prove vere sul sito vero si fanno una per una, con la firma di Nicola. Per Nicola fa parte della radiografia nuova, quella che prepara la sessione «Radiografia marketplace: pianificazione sessioni». La copia e la batteria di prove nascono lì, quando lui decide di partire.
 
 **La base dei prossimi mesi.** È la conversazione del 1/11, finita alle 12:18. Il documento intero è `consegne/strategia/2026-11-01-conversazione-base.md`.
 - Pronto entro il 15/11, aperto alla città, **solo con la carta accesa**: lunedì 2/11 (partita IVA, chiave del database, chiavi di Vercel, conto Stripe) decide la data.
