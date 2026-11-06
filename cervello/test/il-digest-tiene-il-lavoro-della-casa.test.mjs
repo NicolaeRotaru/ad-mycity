@@ -33,8 +33,8 @@
 //
 // NON-VACUITÀ: sul codice di prima ① ④ ⑤ ⑥ sono rossi; togliendo dal digest il passaggio del referto nuovo
 // diventa rosso ⑤; togliendo l'avviso, o salvando l'impronta nuova sopra quella vecchia, diventa rosso ⑦;
-// le altre rotture di ⑦ ⑧ ⑨ stanno in cervello/mutanti.json (difetto AR-1158). La risposta attesa non passa mai dalla funzione sotto esame: è la casa com'era scritta
-// prima, letta dal file o dal caso.
+// le altre rotture di ⑦ ⑧ ⑨ stanno in cervello/mutanti.json (difetto AR-1158). La risposta attesa non
+// passa mai dalla funzione sotto esame: è la casa com'era scritta prima, letta dal file o dal caso.
 //
 // I PERCORSI. Il digest ricava il registro da dove sta il suo file: si prova da una COPIA in una cartella
 // temporanea (scorciatoia 35). Il digest scrive un file solo: il caso controlla che sia quello della copia.
