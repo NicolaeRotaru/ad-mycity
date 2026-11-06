@@ -50,9 +50,9 @@
       "id": "session_015BmpnVbamAnAevicKnimC4",
       "ramo": "claude/serene-wright-7l023n-r05",
       "ondata": 2,
-      "stato": "approvata a posteriori: al lavoro",
+      "stato": "finita",
       "partenza": "c51f005523b6fdd0390e291f2f5cd5dd56a3bce9",
-      "commit_finale": null
+      "commit_finale": "90b5fca"
     },
     {
       "sessione": "S06",
@@ -120,9 +120,9 @@
       "id": "session_015BmpnW2m5y1tP5grz7W14g",
       "ramo": "claude/serene-wright-7l023n-r12",
       "ondata": 2,
-      "stato": "approvata: al lavoro",
+      "stato": "finita",
       "partenza": "c51f005523b6fdd0390e291f2f5cd5dd56a3bce9",
-      "commit_finale": null
+      "commit_finale": "6ad9b03"
     }
   ]
 }
