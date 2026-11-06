@@ -100,6 +100,10 @@
   "quadro.mjs": {
    "motivo": "decisione",
    "perche": "4/11: è la parola «quadro» di Nicola — si lancia a mano quando lui chiede di guardare tutti i difetti in una volta. Non è un cancello: mostra e non boccia, e il suo esito 2 vuol dire «quadro parziale», non «fermati». I giudizi che mette in pagina vengono da strumenti già di guardia (salute.mjs, che il VPS lancia mattina e sera; tasso-chiusura.mjs e cantiere-prove.mjs nel giro). Metterlo in un processo automatico conterebbe due volte gli stessi rossi."
+  },
+  "radiografia-marketplace-digest.mjs": {
+   "motivo": "decisione",
+   "perche": "Riscrive il registro dei difetti del sito nella memoria dell AD: si lancia a mano di proposito, dopo una radiografia del sito (consegne/audit/PROMPT-radiografia-12-sessioni.md, passo 7.5 punto 6) o dopo un lavoro sul registro. Un processo che lo lanciasse da solo riscriverebbe la memoria vera senza nessuno a guardare l esito. Dal 6/11/2026 (AR-1158) esce 1 quando una correzione fatta solo nel referto grezzo, dopo l ultima lettura, resta fuori dalla casa: quell uscita e per chi lo lancia, che deve fermarsi e scegliere se la correzione va anche nel registro. Il comportamento, uscita compresa, lo prova cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs su copie in una cartella temporanea, mai sul registro vero."
   }
  },
  "verdetti_morti_dichiarati": {},

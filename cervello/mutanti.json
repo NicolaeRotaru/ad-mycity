@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-11-05 15:16",
+ "aggiornato": "2026-11-06 09:25",
  "mutanti": [
   {
    "lotto": 30,
@@ -6159,9 +6159,10 @@
    "difetto": "AR-793",
    "nome": "la fusione smette di conservare lo stato: rifare il referto cancella le riparazioni",
    "file": "cervello/referti-sito.mjs",
-   "cerca": "    for (const campo of CAMPI_DELLA_RIPARAZIONE) {",
-   "sostituisci": "    for (const campo of []) {",
-   "test": "cervello/test/il-referto-che-nessuno-legge.test.mjs"
+   "cerca": "    const voce = { ...vecchio };",
+   "sostituisci": "    const voce = { ...n };",
+   "test": "cervello/test/il-referto-che-nessuno-legge.test.mjs",
+   "nota_riaggancio": "Riagganciata il 2026-11-06 (AR-1158): la fusione non salva piu sei campi scelti, parte dalla voce intera della casa. Il comportamento che difende e lo stesso (lo stato di una riparazione sopravvive al digest), il puntatore era rimasto sulla riga vecchia."
   },
   {
    "lotto": 49,
@@ -10901,6 +10902,159 @@
    "cerca": "    modelli.problemi + // 5/11: senza `model:` il senior gira sempre sul modello più grande\n",
    "sostituisci": "",
    "test": "cervello/test/due-elenchi-un-solo-metro.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1158",
+   "nome": "il grezzo torna a scrivere sopra la casa: la prova vera, la gravita riclassificata e la riverifica scritte dopo il referto tornano quelle del cercatore",
+   "file": "cervello/referti-sito.mjs",
+   "cerca": "      if (manca(voce[campo])) voce[campo] = valore;",
+   "sostituisci": "      if (true) voce[campo] = valore;",
+   "test": "cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1158",
+   "nome": "una voce ritrovata nel referto si porta dietro «fuori_dal_referto»: il registro la dà per sparita dal referto mentre c è",
+   "file": "cervello/referti-sito.mjs",
+   "cerca": "    delete voce.fuori_dal_referto;\n",
+   "sostituisci": "",
+   "test": "cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1158",
+   "nome": "la riverifica di prima si butta invece di finire in «riverifiche_precedenti»",
+   "file": "cervello/referti-sito.mjs",
+   "cerca": "          voce[storia] = prima.some((r) => uguali(r, voce[campo])) ? prima : [...prima, voce[campo]];",
+   "sostituisci": "          void prima;",
+   "test": "cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1158",
+   "nome": "il digest non dice piu quale referto e nuovo: la riverifica di una radiografia nuova si perde e il registro mostra il controllo di prima",
+   "file": "cervello/radiografia-marketplace-digest.mjs",
+   "cerca": "  const refertiNuovi = fonti.filter((f) => giaLetti.get(f.id) !== f.raw).map((f) => f.id);",
+   "sostituisci": "  const refertiNuovi = [];",
+   "test": "cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1158",
+   "nome": "il digest prende per nuovo anche il referto gia letto: rileggere il design dell 11/10 riscrive la riverifica scritta dopo dalle riparazioni",
+   "file": "cervello/radiografia-marketplace-digest.mjs",
+   "cerca": "  const refertiNuovi = fonti.filter((f) => giaLetti.get(f.id) !== f.raw).map((f) => f.id);",
+   "sostituisci": "  const refertiNuovi = fonti.map((f) => f.id);",
+   "test": "cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1158",
+   "nome": "la stringa vuota torna a contare come «la casa non ce l ha»: un campo coperto a mano si riempie di nuovo dal grezzo",
+   "file": "cervello/referti-sito.mjs",
+   "cerca": "const manca = (v) => v === undefined || v === null;",
+   "sostituisci": "const manca = (v) => v === undefined || v === null || v === \"\";",
+   "test": "cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1158",
+   "nome": "il digest torna muto su quello che il referto nuovo dice di diverso: una gravita cambiata da una radiografia nuova sparisce senza una riga",
+   "file": "cervello/referti-sito.mjs",
+   "cerca": "      else if (nuova && daNotare(campo) && !uguali(voce[campo], valore) && diPrima.get(campo) !== improntaCampo(valore)) ignorati += 1;\n",
+   "sostituisci": "",
+   "test": "cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1158",
+   "file": "cervello/radiografia-marketplace-digest.mjs",
+   "nome": "il digest torna verde quando una correzione fatta solo nel grezzo resta fuori dalla casa: chi copre una falla riservata nel grezzo crede di averla coperta anche nel registro",
+   "cerca": "    process.exitCode = 1;\n",
+   "sostituisci": "",
+   "test": "cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1158",
+   "file": "cervello/radiografia-marketplace-digest.mjs",
+   "nome": "il digest non confronta piu il grezzo con quello che aveva letto: le correzioni del grezzo restano fuori dalla casa in silenzio",
+   "cerca": "stessoReferto ? letta?.impronte : null",
+   "sostituisci": "null",
+   "test": "cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1158",
+   "file": "cervello/referti-sito.mjs",
+   "nome": "l impronta nuova si salva sopra quella vecchia anche se la correzione e rimasta fuori: basta rilanciare il digest per zittire l avviso",
+   "cerca": "      daSalvare.set(k, vecchie.get(k));\n",
+   "sostituisci": "",
+   "test": "cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1158",
+   "file": "cervello/referti-sito.mjs",
+   "nome": "l avviso non si spegne piu nemmeno quando la correzione e entrata anche in casa: un allarme che suona sempre insegna a ignorarlo",
+   "cerca": "      if (manca(c[k]) || improntaCampo(c[k]) !== vecchie.get(k)) continue;",
+   "sostituisci": "      if (manca(c[k])) continue;",
+   "test": "cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1158",
+   "nome": "l avviso delle correzioni torna a guardare anche i campi che scrive il codice: un area rinominata accusa tutte le sue voci di essere state corrette nel grezzo",
+   "file": "cervello/referti-sito.mjs",
+   "cerca": "      if (CAMPI_DELLA_PORTA.has(k) || !vecchie.has(k)) continue;",
+   "sostituisci": "      if (!vecchie.has(k)) continue;",
+   "test": "cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1158",
+   "file": "cervello/referti-sito.mjs",
+   "nome": "l avviso guarda solo i campi che il grezzo ha ancora: una copertura fatta togliendo o svuotando un campo passa muta",
+   "cerca": "    for (const k of new Set([...vecchie.keys(), ...Object.keys(n)])) {",
+   "sostituisci": "    for (const k of Object.keys(n)) {",
+   "test": "cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1158",
+   "file": "cervello/referti-sito.mjs",
+   "nome": "il contatore del referto nuovo torna a contare come notizie le prove vere delle riparazioni: la novita vera sparisce nel rumore",
+   "cerca": " && diPrima.get(campo) !== improntaCampo(valore)",
+   "sostituisci": "",
+   "test": "cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1158",
+   "file": "cervello/radiografia-marketplace-digest.mjs",
+   "nome": "un referto nuovo si confronta con le impronte del vecchio: a ogni radiografia nuova l avviso accusa correzioni del grezzo che nessuno ha fatto",
+   "cerca": "    const stessoReferto = letta?.raw === referto.file;",
+   "sostituisci": "    const stessoReferto = !!letta;",
+   "test": "cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1158",
+   "file": "cervello/radiografia-marketplace-digest.mjs",
+   "nome": "la riga gia letta si prende per posizione: il design si confronta con le impronte del codice e le sue coperture passano mute",
+   "cerca": "    const letta = rigaLetta(fonte.id);",
+   "sostituisci": "    const letta = fontiLette[0];",
+   "test": "cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1158",
+   "file": "cervello/radiografia-marketplace-digest.mjs",
+   "nome": "un referto che non si apre per una virgola perde le sue impronte: al giro dopo sembra nuovo e l avviso tace per tutta la famiglia",
+   "cerca": "i suoi problemi non sono nel conto` });\n      tieni(fonte.id);\n",
+   "sostituisci": "i suoi problemi non sono nel conto` });\n",
+   "test": "cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",
