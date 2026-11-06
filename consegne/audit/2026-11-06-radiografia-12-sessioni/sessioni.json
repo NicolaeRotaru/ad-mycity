@@ -17,11 +17,11 @@
     {
       "sessione": "S02",
       "nome": "I soldi senza carta",
-      "id": null,
+      "id": "session_015BmpnWw91tpZcmBuzzGA3c",
       "ramo": "claude/serene-wright-7l023n-r02",
       "ondata": 2,
-      "stato": "da aprire",
-      "partenza": null,
+      "stato": "piano in preparazione",
+      "partenza": "c51f005523b6fdd0390e291f2f5cd5dd56a3bce9",
       "commit_finale": null
     },
     {
@@ -37,21 +37,21 @@
     {
       "sessione": "S04",
       "nome": "L'attaccante",
-      "id": null,
+      "id": "session_015BmpnUsGYNdxKuFk6ZCXbZ",
       "ramo": "claude/serene-wright-7l023n-r04",
       "ondata": 2,
-      "stato": "da aprire",
-      "partenza": null,
+      "stato": "piano in preparazione",
+      "partenza": "c51f005523b6fdd0390e291f2f5cd5dd56a3bce9",
       "commit_finale": null
     },
     {
       "sessione": "S05",
       "nome": "Il database",
-      "id": null,
+      "id": "session_015BmpnVbamAnAevicKnimC4",
       "ramo": "claude/serene-wright-7l023n-r05",
       "ondata": 2,
-      "stato": "da aprire",
-      "partenza": null,
+      "stato": "piano in preparazione",
+      "partenza": "c51f005523b6fdd0390e291f2f5cd5dd56a3bce9",
       "commit_finale": null
     },
     {
@@ -67,31 +67,31 @@
     {
       "sessione": "S07",
       "nome": "Chi lavora: negozio e fattorino",
-      "id": null,
+      "id": "session_015BmpnWooFW8XRWban8obh7",
       "ramo": "claude/serene-wright-7l023n-r07",
       "ondata": 2,
-      "stato": "da aprire",
-      "partenza": null,
+      "stato": "piano in preparazione",
+      "partenza": "c51f005523b6fdd0390e291f2f5cd5dd56a3bce9",
       "commit_finale": null
     },
     {
       "sessione": "S08",
       "nome": "La cabina di Nicola, gli avvisi, gli errori silenziosi",
-      "id": null,
+      "id": "session_015BmpnZJNGPKZewegjiMPkX",
       "ramo": "claude/serene-wright-7l023n-r08",
       "ondata": 2,
-      "stato": "da aprire",
-      "partenza": null,
+      "stato": "piano in preparazione",
+      "partenza": "c51f005523b6fdd0390e291f2f5cd5dd56a3bce9",
       "commit_finale": null
     },
     {
       "sessione": "S09",
       "nome": "Privacy, leggi e promesse",
-      "id": null,
+      "id": "session_015BmpnY9pYCQGVJvZEeeTxg",
       "ramo": "claude/serene-wright-7l023n-r09",
       "ondata": 2,
-      "stato": "da aprire",
-      "partenza": null,
+      "stato": "piano in preparazione",
+      "partenza": "c51f005523b6fdd0390e291f2f5cd5dd56a3bce9",
       "commit_finale": null
     },
     {
@@ -117,11 +117,11 @@
     {
       "sessione": "S12",
       "nome": "Il codice dentro",
-      "id": null,
+      "id": "session_015BmpnW2m5y1tP5grz7W14g",
       "ramo": "claude/serene-wright-7l023n-r12",
       "ondata": 2,
-      "stato": "da aprire",
-      "partenza": null,
+      "stato": "piano in preparazione",
+      "partenza": "c51f005523b6fdd0390e291f2f5cd5dd56a3bce9",
       "commit_finale": null
     }
   ]
