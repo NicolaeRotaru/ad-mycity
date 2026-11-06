@@ -3,7 +3,7 @@ tipo: prompt
 data: 2026-11-06 01:40
 per: la sessione che dirige la radiografia del marketplace in 12 sessioni
 come si usa: Nicola sceglie la riga D0 del blocco «Le decisioni» (e, se vuole, cambia le altre), poi incolla tutto il testo sotto la riga in una sessione nuova sul repo NicolaeRotaru/ad-mycity
-versione: 2 — corretta con le 74 critiche confermate da cinque revisori e cinque verificatori (run wf_b1588ce9-06c)
+versione: 3 — corretta con le 74 critiche confermate da cinque revisori e cinque verificatori (run wf_b1588ce9-06c), più lo stato del sito vero del 6/11 notte
 ---
 
 # Prompt — la radiografia del marketplace in 12 sessioni, più la sintesi
@@ -32,11 +32,12 @@ Le ha prese Nicola scrivendo questo messaggio. Valgono così come sono scritte. 
   - (c) tutto dopo l'apertura.
 - **D1 · Ondate.** Due. Prima ondata S01, S03, S06, S10, S11. Seconda ondata S02, S04, S05, S07, S08, S09, S12. La seconda parte solo dopo che Nicola ha letto il riassunto della prima e ti ha scritto «via la seconda».
 - **D2 · Piani.** Ogni sessione parte in **modalità piano**. Tu leggi ogni piano per primo e dici a Nicola se approvarlo o cosa correggere. L'approvazione la dà Nicola nella sessione, scegliendo l'opzione che mette la sessione in modalità **automatica**, non «accetta le modifiche».
-- **D3 · Il sito vero.** Sì. Prima di creare la prima ondata, proponi di aprire alla rete di questa sessione `mycity-marketplace.com` e `www.mycity-marketplace.com` (passo 3.7). Nella stessa richiesta chiedi se aprire anche l'indirizzo del Supabase delle foto, `js.stripe.com` e `challenges.cloudflare.com`, così la pagina si vede intera.
+- **D3 · Il sito vero.** Sì, ma solo da visitatore: pagine, tempi, errori, foto, link rotti. Niente ordini, moduli, account o accessi sul sito vero, perché arriverebbero al fornaio e a persone vere. Il controllo anti-robot si rispetta, non si aggira. Il 6/11 alle 01:20 Nicola ha aperto `mycity-marketplace.com` e `www.mycity-marketplace.com` all'ambiente cloud «mycity», e da lì `www` rispondeva 200. Al passo 3.7 lo ricontrolli e proponi solo gli indirizzi che mancano: il Supabase delle foto, `js.stripe.com` e `challenges.cloudflare.com`, così la pagina si vede intera.
 - **D4 · Stripe.** S03 controlla da sola se il collegamento Stripe c'è. Se non c'è, legge solo il codice e lo dichiara.
 - **D5 · Rami.** Ogni sessione figlia spinge solo sul suo ramo, `<il tuo ramo>-r01` … `-r12`. I rami figli non si uniscono. Alla fine porti i loro referti sul tuo ramo (7.1) e costruisci lì i file finali. Una sola PR, dal tuo ramo verso `main`. L'unione è di Nicola, e anche la cancellazione dei rami figli.
 - **D6 · Workflow.** Nicola autorizza l'uso del Workflow, in questa sessione e in ogni sessione figlia, per questo lavoro.
 - **D7 · Le falle riservate già aperte.** DA DECIDERE. Nicola ti incolla in chat i referti privati delle falle riservate ancora aperte (le riconosci al 3.1; quelle del 5/11 sono R262-R294)? Li tieni solo nello scratchpad. Le falle per cui il referto non c'è restano non ricontrollate, e lo scrivi col numero esatto.
+- **D8 · I lavori a orario spenti.** DA DECIDERE. Il 6/11 `LAVORI_A_ORARIO` non era impostata su Vercel: i lavori a orario erano fermi e `/api/health` rispondeva «degraded». L'altra sessione dell'AD lo riferisce come una scelta di Nicola, ma nel registro dei fatti non c'è. È una scelta, e fino a quando? Se sì, registrala con `node cervello/coerenza-fatti.mjs registra …`, e S08 e S11 non la contano come difetto: guardano cosa succede il giorno che si accendono.
 
 ## 1. Le regole che valgono per tutto il lavoro
 
@@ -201,7 +202,8 @@ Apri la prima sessione solo quando il collaudo è passato.
 **3.6 Pubblica la fase 0.** Fai commit e push sul tuo ramo. Apri la PR come **bozza** verso `main`, con un titolo detto a voce e i quattro blocchi (la creazione chiede un clic). Ogni push sulla bozza fa ripartire la CI. Se diventa rossa su file che non hai toccato, scrivilo nel diario e nella PR e non ripararlo: è fuori mandato. A `subscribe_pr_activity` ti iscrivi al 7.6.
 
 **3.7 La rete.** Le sessioni figlie ereditano la rete di questa sessione nel momento in cui le crei, quindi questo passo va fatto prima della prima ondata.
-- Chiama `get_environment` e segui le sue regole per proporre gli indirizzi della D3. La proposta chiede un clic a Nicola.
+- Prima prova: `curl -sS -o /dev/null -w '%{http_code}' https://www.mycity-marketplace.com/`. Un 200 vuol dire che il sito è già aperto.
+- Chiama `get_environment` e segui le sue regole per proporre solo gli indirizzi della D3 che mancano. La proposta chiede un clic a Nicola.
 - Se dice no, S11 lavora su un server locale e sui registri di Vercel, e lo dichiara.
 - Annota la scelta in `DECISIONI.md` (7.5).
 
@@ -215,7 +217,7 @@ Ogni sessione segue **una cosa** attraverso tutto il sito, non una cartella di f
 | S02 · I soldi senza carta | 2 | Un euro dal prezzo al bonifico del lunedì, sconti, credito, il compenso del fattorino | `pagamenti-stripe`, `qa-flussi` | 12 |
 | S03 · La carta e Stripe | 1 | Tutto quello che si accende col pagamento con carta | `pagamenti-stripe` | 12 |
 | S04 · L'attaccante | 2 | Chi prova a vedere o cambiare cose non sue, interruttori, account di prova | `sicurezza-auth`, `ai-endpoints` | 12 |
-| S05 · Il database | 2 | Regole di accesso, aggiornamenti in attesa, dati veri che non tornano | `rls-database` | 12 |
+| S05 · Il database | 2 | Regole di accesso, migrazioni in produzione, dati veri che non tornano | `rls-database` | 12 |
 | S06 · Il viaggio del cliente | 1 | Dalla ricerca alla porta di casa e dopo, con le date e la consegna veloce | `qa-flussi`, `api-backend`, `frontend-ux` | 20 |
 | S07 · Chi lavora: negozio e fattorino | 2 | Dall'iscrizione al lavoro di ogni giorno, e le regole di MyCity verso di loro | `frontend-ux`, `qa-flussi` | 12 |
 | S08 · La cabina di Nicola, gli avvisi, gli errori silenziosi | 2 | Pagine admin, avvisi, email, notifiche, lavori a orario, errori inghiottiti | `api-backend`, `dati-analytics` | 12 |
@@ -267,7 +269,7 @@ Il tetto conta **tutti** gli agenti della sessione: cercatori, verificatori e ag
 - **S03.** Collegamento a Stripe dei negozi e dei fattorini (`app/api/stripe/connect/onboarding`, `app/api/stripe/connect/rider-onboarding`, `components/rider/RiderConnectButton.tsx`).
   - Addebiti e trasferimenti, commissione della piattaforma, firma e ordine dei messaggi di Stripe, idempotenza.
   - Rimborsi parziali, contestazioni, bonifici automatici, autenticazione forte del cliente, chiavi di prova e chiavi vere.
-  - L'interruttore che accende la carta, e cosa succede il primo giorno dopo.
+  - L'interruttore che accende la carta, e cosa succede il primo giorno dopo. Il 6/11 su Vercel non c'era nessuna chiave Stripe: scrivi cosa serve, nel codice e nelle variabili, perché la carta si possa accendere.
   - **I tre pagamenti con carta che non sono un ordine:**
     - i buoni regalo (`app/api/gift-cards/checkout`, `lib/stripe/webhook/giftcard.ts`, `lib/stripe/recupero-pagamento-buoni.ts`);
     - le sponsorizzate (`app/api/sponsored/checkout`, `lib/stripe/webhook/sponsorizzati.ts`);
@@ -286,6 +288,7 @@ Il tetto conta **tutti** gli agenti della sessione: cercatori, verificatori e ag
 - **S05.**
   - Le regole di accesso di ogni tabella, e le funzioni che girano con permessi alti.
   - Le migrazioni in ordine e coerenti, e gli script delle migrazioni con le loro protezioni (`scripts/applica-migrazioni-mancanti.sh`, `scripts/conta-migrazioni-mancanti.sh`, `scripts/check-migration-drift.mjs`).
+  - **Le migrazioni in produzione.** Il 6/11 alle 00:15, secondo l'altra sessione dell'AD, la produzione aveva tutte le 178 migrazioni, l'ultima la 245. Verificalo in sola lettura (`list_migrations`). La copia ferma qui sotto serve solo se la produzione è indietro.
   - **La copia ferma dove è ferma la produzione.** `apply.sh` applica sempre tutte le migrazioni. Per la copia ferma applica `tests/sql/harness/00_shim_supabase.sql` e poi solo le migrazioni fino all'ultima che la produzione ha (leggila in sola lettura), nello stesso ordine `LC_ALL=C sort`. Per le migrazioni su tabelle piene usa `tests/sql/harness/migrazione-su-database-pieno.sh`.
   - Vincoli, integrità, indici, avvisi di Supabase.
   - Sul database vero solo letture e conteggi, mai dati personali. Per esempio: quanti account, negozi e prodotti di prova esistono, e quanti si vedono al pubblico.
@@ -332,7 +335,8 @@ Il tetto conta **tutti** gli agenti della sessione: cercatori, verificatori e ag
     - i **nomi** delle variabili confrontati con quelle che il codice pretende, mai i valori (anche `SENTRY_DSN` per S08);
     - l'esito dei lavori a orario.
   - **Le cinque automazioni GitHub del sito** (`.github/workflows/`: `ci.yml`, `deploy-dopo-ci.yml`, `backup-db.yml`, `deriva-migrazioni-produzione.yml`, `migrazioni-a-mano.yml`): cosa fanno e gli esiti veri. Si leggono solo con `mcp__github__actions_list` (`list_workflows`, `list_workflow_runs`, `list_workflow_jobs`, `list_workflow_run_artifacts`), `mcp__github__actions_get` (`get_workflow_run`) e `mcp__github__get_job_logs`. Il backup di ogni notte c'è? La prova di ripristino del primo del mese è verde? Un rilascio può partire con la CI rossa?
-  - **Mai** un ordine, un modulo inviato, un accesso con un account vero, un'automazione lanciata.
+  - **Mai** un ordine, un modulo inviato, un accesso con un account vero, un'automazione lanciata. Il controllo anti-robot si rispetta: se una pagina lo chiede, ti fermi lì e lo scrivi in `non_guardato`.
+  - **Il punto di partenza del 6/11**, riferito dall'altra sessione dell'AD, da ricontrollare: chiave di servizio del database, `RESEND_API_KEY`, `RESEND_FROM` e Upstash su Vercel dalle 00:59 (codice `db5164c`); mancano `SUPPORT_EMAIL`, `RESEND_REPLY_TO` e le chiavi Stripe; nessun errore di esecuzione dalle 00:49.
 - **S12.**
   - Struttura del codice, pezzi doppi, codice mai usato, dipendenze circolari.
   - **Le prove automatiche:** `npm run verify` a BASE_SITO, col Postgres acceso (§1). Quali prove non possono fallire. Quali percorsi dei soldi non hanno prove. Se `tests/unit/ogni-interruttore-del-lancio-lo-legge-qualcuno.test.ts` può fallire davvero: provalo togliendo la lettura di un interruttore, in una copia.
