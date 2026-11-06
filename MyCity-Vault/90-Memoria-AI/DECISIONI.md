@@ -6585,3 +6585,17 @@ L'avanzo più serio è un grave dei soldi: il reso ripreso in un carrello di due
 **Per tornare indietro:** non unire la #287; il registro torna allo stato di prima ripristinando `radiografia-marketplace.json` dal commit fe45c52.
 
 **Colore:** 🟡 codice del sito in un ramo, richiesta aperta e non unita, nessun deploy, nessuna scrittura sul database vero.
+
+## 2026-11-06 01:03 — 🟡 La regola del lavoro veloce entra nel manuale dell'AD
+
+**Cosa:** cinque regole nuove nel manuale dell'AD (`cervello/MANUALE-AD.md`, paragrafo «Il lavoro veloce», ⑬-⑰). Prima il programma per i controlli meccanici. Meno agenti con domande chiuse. I fatti già pronti in un file compatto. Il verificatore parte dalla prova citata. Il modello piccolo per i controlli semplici.
+
+**Perché:** il controllo del prompt della radiografia in 12 sessioni ha richiesto 47 minuti (6/11 dalle 00:11 alle 00:58) e 418 turni per 10 agenti, perché qui girano due agenti alla volta e ho dato agli agenti anche controlli da programma. Nicola ha chiesto come andare più veloci senza consumare di più, e ha firmato in chat: «regola del lavoro veloce».
+
+**Cosa non è:** non toglie il controllo. Quel giro ha trovato 74 problemi veri su 89 segnalati: serviva, era lento nella forma.
+
+**Il freno:** non ancora scritto. Nessun guardiano conta oggi i turni per agente. Debito dichiarato in `LAVORO-APERTO.md`.
+
+**Per tornare indietro:** togliere il paragrafo «Il lavoro veloce» dal manuale.
+
+**Colore:** 🟡 modifica alla macchina, con la firma di Nicola.

@@ -58,6 +58,22 @@ fonte: le parti di CLAUDE.md che servono solo all'AD, spostate parola per parola
 > **riusare** un lavoro fermato, si leggono i risultati dal `journal.jsonl` e si lancia un workflow nuovo solo sul
 > mancante: cambiare la forma dello script fa ripartire da capo anche le chiamate rimaste uguali. Il conto del 5/11:
 > 432 schede sul modello grande lette a fette = ~9.900 token riletti a scheda; 862 sul piccolo con una lettura = ~460.
+>
+> ⏱️ **Il lavoro veloce (6/11/2026 01:03, firma di Nicola: «regola del lavoro veloce»).** Il tempo e i token si
+> spendono negli stessi passi: un agente che fa meno passi finisce prima **e** costa meno. Qui girano due agenti alla
+> volta, quindi ogni passo risparmiato si vede due volte sull'orologio. Le regole:
+> ⑬ **prima il programma**: i controlli meccanici — un file esiste, un numero torna, uno strumento ha quel parametro,
+> una lista ha N voci — li fa un comando in pochi secondi, mai un agente. Agli agenti restano le domande che chiedono
+> giudizio · ⑭ **meno agenti, domande chiuse**: ogni agente riceve un elenco preciso di domande, non un mandato
+> largo; il numero di lenti si sceglie dal rischio del lavoro, non dal massimo possibile · ⑮ **i fatti già pronti**:
+> quello che il programma ha già controllato arriva all'agente in un file compatto, letto una volta (è la ⑩) ·
+> ⑯ **il verificatore parte dalla prova**: ricontrolla la riga o il comando citati da chi ha trovato, non rifà la
+> ricerca da capo · ⑰ **il modello piccolo per i controlli semplici** (è la ⑨). Il conto che l'ha decisa: il controllo
+> del prompt della radiografia in 12 sessioni, il 6/11 dalle 00:11 alle 00:58. 10 agenti, due alla volta, 47 minuti e
+> 418 turni, 101 del solo revisore degli strumenti; 64,6 milioni di token con le riletture, 1,8 milioni senza. Ha
+> trovato 74 problemi veri su 89 segnalati: il controllo serviva, era la forma a essere lenta. Stima col metodo nuovo:
+> 15-20 minuti e un terzo dei passi, da misurare al prossimo lavoro simile. *Freno non ancora scritto: oggi nessun
+> guardiano conta i turni per agente. È debito dichiarato in `LAVORO-APERTO.md`.*
 
 ---
 
