@@ -142,6 +142,7 @@ function voci(righe) {
     if (r.trim() === "") continue;
     const m = r.match(VOCE_ESATTA);
     if (!m) break;
+    if (/\bnon\b/i.test(m[2] ?? "")) break; // «- `x` (NON la guardo …)» chiude l'elenco, come una riga estranea
     fuori.push(m[1]);
   }
   return fuori;
@@ -516,8 +517,9 @@ function trovatiOndata1(opz) {
   const m = new Map();
   for (const r of readFileSync(p, "utf8").split(/\r?\n/)) {
     if (!r || r.startsWith("#")) continue;
-    const c = r.split("\t");
-    m.set(c[0].trim(), c[c.length - 1] ?? "");
+    const c = r.split("\t").map((x) => x.trim());
+    // la riservata si riconosce in qualsiasi colonna: una colonna in più o uno spazio non la nascondono (quarto collaudo)
+    m.set(c[0], c.some((x) => /^falla di sicurezza/i.test(x)) ? "Falla di sicurezza" : (c[4] ?? c.at(-1) ?? ""));
   }
   return m;
 }
@@ -540,7 +542,9 @@ export function chiaviDoppie(testo) {
     else if (ch === "}" || ch === "]") { pila.pop(); attesaChiave = false; i++; }
     else if (ch === ",") { attesaChiave = pila.at(-1) instanceof Set; i++; }
     else if (ch === '"') {
-      const s = leggiStringa();
+      const grezza = leggiStringa();
+      let s = grezza;
+      try { s = JSON.parse(`"${grezza}"`); } catch { /* una chiave che non si decodifica resta com'è scritta */ }
       if (attesaChiave && pila.at(-1) instanceof Set) {
         if (pila.at(-1).has(s)) doppie.push(s);
         pila.at(-1).add(s);
