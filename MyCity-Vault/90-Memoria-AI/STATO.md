@@ -4,9 +4,9 @@ aggiornato: 2026-11-06 18:55
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
-> 🩻 **2026-11-06 18:55 — La radiografia in 12 sessioni è al controllo finale.**
+> 🩻 **2026-11-06 18:55 — La radiografia del sito è al controllo finale**
 >
-> Le dodici sessioni hanno finito, e ogni difetto in chiaro è stato rifatto da un verificatore che non l'aveva trovato. Adesso si scrive il referto finale con il registro aggiornato, nella richiesta NicolaeRotaru/ad-mycity#936. Questo blocco lo sostituisce il referto, quando è pronto.
+> Tutte e dodici le sessioni hanno finito. Ogni difetto in chiaro l'ha rifatto un verificatore che non l'aveva trovato. Adesso scrivo il referto finale e il registro aggiornato. Questo blocco lo sostituisce il referto.
 
 > 🩻 **2026-11-05 12:10 — La radiografia del marketplace è finita. Ha trovato 372 difetti nuovi.**
 >
