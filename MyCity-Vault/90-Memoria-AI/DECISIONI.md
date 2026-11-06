@@ -6609,3 +6609,23 @@ L'avanzo più serio è un grave dei soldi: il reso ripreso in un carrello di due
 Gli unici due errori del sito nell'ultima ora sono di prima: manca la chiave di servizio su Vercel.
 
 **Colore:** 🔴 scrittura sul database vero, firmata da Nicola in chat («ok migrazioni», 5/11 alle 23:59).
+
+## 2026-11-06 01:05 — 🟡 Cinque chiavi del sito su Vercel; l'email dell'assistenza avrà una casella sua
+
+**Cosa:** Nicola ha messo su Vercel cinque chiavi seguendo i passi in chat:
+- quella nuova del database, fra quelle «segrete» e non quella vecchia di «Legacy», alle 00:45;
+- la chiave di Resend alle 00:48 e il mittente alle 00:49;
+- l'indirizzo di Upstash alle 00:52 e il token alle 00:53.
+
+Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicazione, l'unica con tutte e cinque, è online dalle 00:59.
+
+**Verificato:**
+- il controllo interno del sito legge la tabella dei lavori automatici, che senza la chiave nuova nessuno può aprire;
+- dalle 00:49 non c'è nessun errore nei log;
+- lo stato «degradato» viene solo dai lavori automatici fermi, e sono fermi apposta.
+
+**Non verificato:** che Resend spedisca e che Upstash risponda. Servirebbe un'email vera o il segreto del controllo interno.
+
+**Scelta di Nicola:** l'email dell'assistenza e quella per le risposte dei clienti andranno su una casella apposta, separata dalle sue email personali. Le mettiamo dopo, insieme a Stripe.
+
+**Colore:** 🟡 configurazione del sito fatta da Nicola, controllata dall'AD in sola lettura.

@@ -50,7 +50,7 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
   - ~~premi il pulsante delle migrazioni~~: fatto il 6/11 alle 00:16, tutte le 21 che mancavano;
   - su Supabase accendi «Secure password change», poi cambia i due modelli email;
   - su GitHub metti i segreti di Vercel e accendi la regola «Main», poi dimmelo e preparo l'ultimo passo;
-  - su Vercel metti la chiave di servizio del database, che serve anche alla copia delle foto.
+  - ~~su Vercel metti la chiave di servizio del database~~: fatto il 6/11 fra le 00:45 e le 00:53, con la chiave nuova del database, Resend (chiave e mittente) e Upstash (indirizzo e token). Online dalle 00:59. La chiave del database l'ho vista funzionare: il controllo interno del sito legge una tabella che apre solo lei. Restano l'email dell'assistenza e quella per le risposte dei clienti: Nicola le vuole su una casella apposta, separata dalle sue email personali, da creare su Netsons. Le mettiamo insieme a quelle di Stripe.
 - **Da non fare:** non riattivare il fattorino sospeso: non ha nessun documento.
 - **Dati che mi servono:** indirizzo e telefono del titolare, poi partita IVA e PEC.
 - **Le scelte** sui soldi, sui fattorini e sulle regole, col mio consiglio accanto, stanno in un documento solo: `consegne/audit/2026-11-01-cinque-sessioni-referto.md`.
