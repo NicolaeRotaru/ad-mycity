@@ -374,8 +374,10 @@ const daNotare = (campo) => !CAMPI_DELLA_PORTA.has(campo) && !Object.hasOwn(CAMP
  *
  * @param refertiNuovi gli id delle famiglie (`fonte` della voce) il cui referto la casa non ha ancora letto.
  *                     Senza, nessuna famiglia e' nuova: la casa vince su tutto, che e' il lato sicuro.
+ * @param impronteDiPrima per famiglia nuova, le impronte del referto che la casa aveva letto prima: servono solo
+ *                     a non contare in `ignorati` quello che la radiografia nuova ripete uguale.
  */
-export function fondiConLaCasa(nuovi, vecchi, { refertiNuovi = [] } = {}) {
+export function fondiConLaCasa(nuovi, vecchi, { refertiNuovi = [], impronteDiPrima = {} } = {}) {
   const famiglieNuove = new Set(refertiNuovi ?? []);
   const perChiave = new Map();
   for (const v of vecchi ?? []) if (v) perChiave.set(chiaveProblema(v), v);
@@ -396,9 +398,13 @@ export function fondiConLaCasa(nuovi, vecchi, { refertiNuovi = [] } = {}) {
     const voce = { ...vecchio };
     delete voce.fuori_dal_referto;
     const nuova = famiglieNuove.has(n.fonte);
+    // Cosa diceva di questa voce il referto di prima della stessa famiglia: un campo uguale ad allora non e'
+    // una notizia della radiografia nuova, anche se la casa lo ha cambiato dopo (secondo collaudo, rilievo 3:
+    // senza, una radiografia rifatta identica contava 462 «diversi», tutte le prove vere delle riparazioni).
+    const diPrima = nuova ? mappaDi(impronteDiPrima?.[n.fonte]?.[improntaDi(k)]) : null;
     for (const [campo, valore] of Object.entries(n)) {
       if (manca(voce[campo])) voce[campo] = valore;
-      else if (nuova && daNotare(campo) && !uguali(voce[campo], valore)) ignorati += 1;
+      else if (nuova && daNotare(campo) && !uguali(voce[campo], valore) && diPrima.get(campo) !== improntaCampo(valore)) ignorati += 1;
     }
     if (nuova) {
       for (const [campo, storia] of Object.entries(CAMPI_CHE_IL_REFERTO_NUOVO_AGGIORNA)) {
@@ -478,10 +484,19 @@ export function impronteDelReferto(problemi) {
  * lascia fuori. Va chiamata solo sullo stesso referto gia' letto (con un referto nuovo le differenze le conta
  * `ignorati` della fusione).
  *
+ * LA REGOLA, UNA SOLA (terzo giro, 6/11, scelto da Nicola dopo due collaudi bocciati): un campo suona quando
+ *   ① nel grezzo e' cambiato dall'ultima lettura — riscritto, svuotato o TOLTO: una copertura si fa anche
+ *      cancellando (il 6/11 la copertura ha toccato `prova` su 33 voci su 33, e la porta scarta i campi extra
+ *      vuoti, quindi un campo svuotato nel grezzo sparisce dalla voce letta) — e
+ *   ② la casa tiene ancora il valore che il grezzo aveva PRIMA.
+ * Se la casa dice gia' un'altra cosa — la correzione e' stata copiata, oppure una riparazione aveva gia'
+ * scritto la sua prova vera — non c'e' niente di vecchio da togliere, e l'avviso tace. Cosi' non resta acceso
+ * per sempre su una voce riparata (secondo collaudo, rilievo 4), e non serve rovinare la prova per zittirlo.
+ *
  * @param impronteLette `fonti[].impronte` della casa per quel referto; senza (casa scritta prima del 6/11)
  *                      non c'e' niente con cui confrontare: `confrontato: false`, e chi chiama lo deve dire.
  * @returns {fuori: [{titolo, fonte, campi}], impronte, confrontato} — `impronte` sono quelle da salvare: per un
- *          campo fuori casa resta l'impronta vecchia.
+ *          campo fuori casa resta l'impronta vecchia, cosi' l'avviso torna finche' la casa tiene il valore vecchio.
  */
 export function correzioniDelGrezzo(problemi, vecchi, impronteLette) {
   const impronte = impronteDelReferto(problemi);
@@ -499,11 +514,15 @@ export function correzioniDelGrezzo(problemi, vecchi, impronteLette) {
     const vecchie = mappaDi(prima);
     const daSalvare = mappaDi(impronte[kc]);
     const campi = [];
-    for (const k of Object.keys(n)) {
-      // Un campo che scrive il codice, che allora non c'era, o che non e' cambiato: non e' una correzione del grezzo.
-      if (CAMPI_DELLA_PORTA.has(k) || !vecchie.has(k) || vecchie.get(k) === improntaCampo(n[k])) continue;
-      // La casa non l'ha (la fusione lo prende adesso), o dice gia' la stessa cosa: la correzione e' dentro.
-      if (manca(c[k]) || uguali(c[k], n[k])) continue;
+    // I campi di allora E quelli di adesso: un campo tolto dal grezzo c'e' solo fra quelli di allora.
+    for (const k of new Set([...vecchie.keys(), ...Object.keys(n)])) {
+      // Un campo che scrive il codice, o che all'ultima lettura non c'era: non e' una correzione del grezzo.
+      if (CAMPI_DELLA_PORTA.has(k) || !vecchie.has(k)) continue;
+      const ora = Object.hasOwn(n, k) ? improntaCampo(n[k]) : null;
+      // ① il grezzo non e' cambiato su questo campo.
+      if (ora === vecchie.get(k)) continue;
+      // ② la casa non tiene piu' il valore di prima (o non l'ha mai avuto): la correzione e' dentro, o non serve.
+      if (manca(c[k]) || improntaCampo(c[k]) !== vecchie.get(k)) continue;
       campi.push(k);
       daSalvare.set(k, vecchie.get(k));
     }

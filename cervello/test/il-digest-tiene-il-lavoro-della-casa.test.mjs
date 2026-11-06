@@ -25,11 +25,15 @@
 //   ⑥ sui dati VERI (sola lettura): con gli ultimi referti e la casa di oggi, nessuna voce perde o cambia
 //      un campo — è la misura del collaudatore, rifatta a ogni giro
 //   ⑦ il rovescio della regola: una correzione fatta SOLO nel grezzo dopo la lettura (le coperture delle
-//      falle riservate del 6/11 alle 01:45) non entra in casa, ma il digest la nomina, esce 1, e lo ridice a
-//      ogni giro finché grezzo e casa non dicono la stessa cosa — collaudo del 6/11, lente A
+//      falle riservate del 6/11 alle 01:45), anche fatta TOGLIENDO o svuotando un campo, non entra in casa:
+//      il digest la nomina, esce 1, e lo ridice finché la casa tiene il valore vecchio — collaudi del 6/11
+//   ⑧ un referto NUOVO dopo le impronte non fa suonare l'avviso, e il contatore dei campi lasciati fuori
+//      conta solo quello che la radiografia nuova dice di diverso dalla vecchia
+//   ⑨ un referto che un giro non riesce a leggere (un JSON rotto) non perde le sue impronte
 //
 // NON-VACUITÀ: sul codice di prima ① ④ ⑤ ⑥ sono rossi; togliendo dal digest il passaggio del referto nuovo
-// diventa rosso ⑤; togliendo l'avviso, o salvando l'impronta nuova sopra quella vecchia, diventa rosso ⑦. La risposta attesa non passa mai dalla funzione sotto esame: è la casa com'era scritta
+// diventa rosso ⑤; togliendo l'avviso, o salvando l'impronta nuova sopra quella vecchia, diventa rosso ⑦;
+// le altre rotture di ⑦ ⑧ ⑨ stanno in cervello/mutanti.json (difetto AR-1158). La risposta attesa non passa mai dalla funzione sotto esame: è la casa com'era scritta
 // prima, letta dal file o dal caso.
 //
 // I PERCORSI. Il digest ricava il registro da dove sta il suo file: si prova da una COPIA in una cartella
@@ -226,6 +230,7 @@ function copiaDelDigest({ referti, casa }) {
       writeFileSync(f, t.replace(da, a));
     },
     leggi: (rel) => JSON.parse(readFileSync(join(radice, rel), "utf8")),
+    percorso: (rel) => join(radice, rel),
     smonta: () => rmSync(radice, { recursive: true, force: true }),
   };
 }
@@ -363,53 +368,147 @@ test("⑥ sui dati veri: con gli ultimi referti e la casa di oggi, nessuna voce 
 });
 
 // ── Il rovescio della regola: la correzione fatta solo nel grezzo ────────────────────────────────────
-test("⑦ una correzione fatta solo nel grezzo dopo la lettura non entra in casa, ma il digest la nomina finché non torna", () => {
-  const vecchi = casaDopoLeRiparazioni(problemiDaRaw(GREZZO_DESIGN, DESIGN));
+const MKT = FONTI_SITO.find((f) => f.id === "marketplace");
+const RAW_MKT_1105 = "consegne/audit/2026-11-05-radiografia-marketplace-raw.json";
+const GREZZO_MKT = {
+  data: "2026-11-05",
+  problemi: [{ dimensione: "api-backend", titolo: "Una rotta risponde in due forme", severita: "minore", dove: "app/api/x.ts:1", descrizione: "d", fix: "f" }],
+};
+// Una falla riservata APERTA, letta com'era: in casa ha esattamente il testo del grezzo.
+const FALLA = {
+  dimensione: "stati-ui",
+  titolo: "Falla di sicurezza R7 da chiudere (accessi): i dettagli restano fuori dal deposito pubblico",
+  severita: "grave",
+  dove: "app/negozio/[id]/page.tsx:40",
+  descrizione: "il dettaglio che non doveva uscire: il percorso e la tecnica",
+  fix: "f",
+  prova: "curl -s https://esempio.invalid/percorso-riservato",
+  prova_tipo: "comando",
+  causa_radice: "il controllo dei permessi manca sulla rotta",
+  riverifica: { verdetto: "ancora_presente", data: "2026-11-05 10:00", prova: "curl", nota: "client.ts:70-98" },
+};
+const GREZZO_DESIGN_FALLA = { data: "2026-10-11", problemi: [FALLA, GREZZO_DESIGN.problemi[0]] };
+
+function casaConDueFamiglie() {
+  const [falla, copertina] = problemiDaRaw(GREZZO_DESIGN_FALLA, DESIGN);
+  const [riparata] = casaDopoLeRiparazioni([copertina, problemiDaRaw(GREZZO_DESIGN, DESIGN)[1]]);
+  return {
+    data: "2026-11-05",
+    // L'ordine è quello che scrive il digest: prima il codice, poi il design.
+    fonti: [
+      { id: "marketplace", raw: RAW_MKT_1105, data: "2026-11-05", findings: 1 },
+      { id: "design", raw: RAW_DESIGN_1011, data: "2026-10-11", findings: 2 },
+    ],
+    problemi: [...problemiDaRaw(GREZZO_MKT, MKT), { ...falla, stato: "aperto" }, riparata],
+  };
+}
+const rigaDi = (errori, titolo) => errori.split("\n").find((r) => r.includes(titolo.slice(0, 40))) ?? "";
+
+test("⑦ una copertura fatta solo nel grezzo, anche togliendo o svuotando campi, il digest la nomina finché la casa tiene il valore vecchio", () => {
   const copia = copiaDelDigest({
-    referti: { [RAW_DESIGN_1011]: GREZZO_DESIGN },
-    casa: casaConFonti(vecchi, RAW_DESIGN_1011),
+    referti: { [RAW_MKT_1105]: GREZZO_MKT, [RAW_DESIGN_1011]: GREZZO_DESIGN_FALLA },
+    casa: casaConDueFamiglie(),
   });
   try {
-    // Primo digest: la casa non ha ancora le impronte di questo referto. Lo dice, e le salva.
+    // Primo digest: la casa non ha ancora le impronte. Lo dice, e le salva.
     const primo = copia.lancia();
     assert.equal(primo._codice, 0, primo._errori);
     assert.match(primo._uscita, /non aveva le impronte di questo referto/, "senza impronte da confrontare il digest deve dirlo, non tacere");
     assert.ok(primo.fonti.find((f) => f.id === "design")?.impronte, "il digest non ha salvato le impronte del referto letto");
 
-    // Qualcuno copre nel GREZZO il testo della voce della copertina, come per le falle riservate del 6/11.
+    // La copertura, nel GREZZO soltanto, come il 6/11: un testo riscritto, una prova tolta, un campo svuotato,
+    // una riverifica azzerata. Sulla voce riparata della copertina si copre anche la prova del cercatore.
+    const { prova: _tolta, ...senzaProva } = FALLA;
     const coperta = "(nel referto privato)";
     const grezzoCoperto = {
-      ...GREZZO_DESIGN,
-      problemi: [{ ...GREZZO_DESIGN.problemi[0], descrizione: coperta, causa_radice: "aggiunta dopo nel grezzo" }, GREZZO_DESIGN.problemi[1]],
+      ...GREZZO_DESIGN_FALLA,
+      problemi: [
+        { ...senzaProva, descrizione: coperta, causa_radice: "", riverifica: null },
+        { ...GREZZO_DESIGN.problemi[0], prova: coperta },
+      ],
     };
     copia.scrivi(RAW_DESIGN_1011, grezzoCoperto);
     const secondo = copia.lancia();
-    const [cop] = vecchi;
-    const v = secondo.problemi.find((p) => chiaveProblema(p) === chiaveProblema(cop));
-    assert.equal(v.descrizione, cop.descrizione, "vince la casa: la descrizione non deve cambiare da sola");
-    assert.equal(v.causa_radice, "aggiunta dopo nel grezzo", "un campo che la casa non aveva deve arrivare dal grezzo, senza avvisi");
-    assert.equal(secondo._codice, 1, `il digest deve uscire 1 quando una correzione del grezzo resta fuori: ${secondo._errori}`);
-    assert.match(secondo._errori, /1 voci corrette nel grezzo DOPO l'ultima lettura non sono entrate in casa/);
-    assert.match(secondo._errori, /La copertina del link condiviso in chat non compare» → descrizione$/m, secondo._errori);
+    assert.equal(secondo._codice, 1, `il digest deve uscire 1 quando una copertura del grezzo resta fuori: ${secondo._errori}`);
+    const riga = rigaDi(secondo._errori, FALLA.titolo);
+    for (const campo of ["descrizione", "prova", "causa_radice", "riverifica"]) {
+      assert.match(riga, new RegExp(`\\b${campo}\\b`), `la copertura di «${campo}» non è nominata: ${secondo._errori}`);
+    }
+    // La copertina è riparata: in casa la prova è già quella vera, non c'è niente di vecchio da togliere.
+    assert.equal(rigaDi(secondo._errori, "La copertina del link"), "", `l'avviso accusa una voce riparata: ${secondo._errori}`);
+    // Vince la casa: il testo vecchio è ancora lì, ed è proprio questo che l'avviso deve dire.
+    const v = secondo.problemi.find((p) => p.titolo === FALLA.titolo);
+    assert.equal(v.descrizione, FALLA.descrizione);
+    assert.equal(v.prova, FALLA.prova);
 
     // Rilanciare non basta a zittirlo.
     const terzo = copia.lancia();
     assert.equal(terzo._codice, 1, "al secondo digest di fila l'avviso è sparito senza che nessuno abbia scelto");
 
-    // La correzione va anche nel registro: grezzo e casa dicono la stessa cosa, l'avviso tace.
+    // La copertura va anche nel registro: la casa non tiene più i valori vecchi, l'avviso tace.
     const casa = copia.leggi(CASA_REL);
-    casa.problemi = casa.problemi.map((p) => (chiaveProblema(p) === chiaveProblema(cop) ? { ...p, descrizione: coperta } : p));
+    casa.problemi = casa.problemi.map((p) => {
+      if (p.titolo !== FALLA.titolo) return p;
+      const { prova: _p, ...resto } = p;
+      return { ...resto, descrizione: coperta, causa_radice: "", riverifica: null };
+    });
     copia.scrivi(CASA_REL, casa);
     const quarto = copia.lancia();
-    assert.equal(quarto._codice, 0, `con la correzione anche in casa il digest deve tornare a 0: ${quarto._errori}`);
+    assert.equal(quarto._codice, 0, `con la copertura anche in casa il digest deve tornare a 0: ${quarto._errori}`);
     assert.doesNotMatch(quarto._errori, /corrette nel grezzo/);
-    assert.equal(quarto.problemi.find((p) => chiaveProblema(p) === chiaveProblema(cop)).descrizione, coperta);
 
     // Un'area rinominata nel CODICE cambia il campo `reparto` di ogni voce letta: non è una correzione del
     // grezzo, e l'avviso non deve accusarla (sarebbe un allarme che suona a ogni manutenzione).
     copia.ritocca("cervello/referti-sito.mjs", 'microcopy: "Microcopy",', 'microcopy: "Testi brevi",');
+    copia.ritocca("cervello/referti-sito.mjs", '"immagini-media": "Immagini e media",', '"immagini-media": "Foto",');
     const quinto = copia.lancia();
     assert.equal(quinto._codice, 0, `un'area rinominata nel codice ha fatto suonare l'avviso: ${quinto._errori}`);
+  } finally {
+    copia.smonta();
+  }
+});
+
+test("⑧ un referto NUOVO dopo le impronte non fa suonare l'avviso, e il contatore dice solo le novità vere", () => {
+  const copia = copiaDelDigest({
+    referti: { [RAW_DESIGN_1011]: GREZZO_DESIGN },
+    casa: casaConFonti(casaDopoLeRiparazioni(problemiDaRaw(GREZZO_DESIGN, DESIGN)), RAW_DESIGN_1011),
+  });
+  try {
+    assert.equal(copia.lancia()._codice, 0);
+    // La radiografia del 20/11 ripete tutto uguale, tranne il rimedio della copertina. In casa il rimedio è
+    // ancora quello vecchio; prova, gravità e descrizione la casa le ha cambiate dopo, e il referto nuovo le
+    // ripete come il vecchio: non sono notizie.
+    const nuovo = { ...GREZZO_DESIGN, data: "2026-11-20", problemi: [{ ...GREZZO_DESIGN.problemi[0], fix: "un rimedio diverso" }, GREZZO_DESIGN.problemi[1]] };
+    copia.scrivi("consegne/design/2026-11-20-radiografia-design-raw.json", nuovo);
+    const dopo = copia.lancia();
+    assert.equal(dopo._codice, 0, `un referto nuovo ha fatto suonare l'avviso delle correzioni del grezzo: ${dopo._errori}`);
+    assert.match(dopo._uscita, /referto nuovo: design/);
+    assert.match(dopo._uscita, / 1 campi del referto nuovo diversi dalla casa/, `il contatore non dice la sola novità vera: ${dopo._uscita}`);
+  } finally {
+    copia.smonta();
+  }
+});
+
+test("⑨ un referto che un giro non riesce a leggere non perde le sue impronte", () => {
+  const copia = copiaDelDigest({
+    referti: { [RAW_DESIGN_1011]: GREZZO_DESIGN },
+    casa: casaConFonti(casaDopoLeRiparazioni(problemiDaRaw(GREZZO_DESIGN, DESIGN)), RAW_DESIGN_1011),
+  });
+  try {
+    assert.equal(copia.lancia()._codice, 0);
+    // Una copertura che lascia una virgola di troppo: il JSON non si apre.
+    const percorso = copia.percorso(RAW_DESIGN_1011);
+    writeFileSync(percorso, readFileSync(percorso, "utf8").replace(/\}\s*$/, ",}"));
+    const giroRotto = copia.lancia();
+    assert.match(giroRotto._uscita, /il referto non si e' riletto/, `il digest non dice che le impronte sono tenute: ${giroRotto._uscita}`);
+    assert.ok(giroRotto.impronte_tenute?.design?.impronte, "le impronte del referto illeggibile sono andate perse");
+
+    // Il JSON torna a posto, con la copertura del rimedio dentro: la casa ha ancora il rimedio vecchio.
+    copia.scrivi(RAW_DESIGN_1011, { ...GREZZO_DESIGN, problemi: [{ ...GREZZO_DESIGN.problemi[0], fix: "(nel referto privato)" }, GREZZO_DESIGN.problemi[1]] });
+    const riparato = copia.lancia();
+    assert.equal(riparato._codice, 1, `dopo il JSON rotto la copertura del grezzo è passata muta: ${riparato._uscita}`);
+    assert.match(riparato._errori, /La copertina del link condiviso in chat non compare» → fix$/m, riparato._errori);
+    assert.ok(!riparato.impronte_tenute, "le impronte tenute restano anche dopo che il referto è tornato leggibile");
   } finally {
     copia.smonta();
   }
