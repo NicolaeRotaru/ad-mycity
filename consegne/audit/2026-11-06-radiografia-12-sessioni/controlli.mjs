@@ -23,7 +23,7 @@
 //   --base <sha>       il commit del sito (predefinito: BASE_SITO qui sotto)
 //   --registro <file>  il registro del sito (predefinito: quello del vault)
 //   --git <dir>        il deposito git dove stanno i rami figli (predefinito: la radice)
-//   --ad-ref <ref>     il ramo dell'AD da cui partono i figli (predefinito: HEAD del deposito git)
+//   --ad-ref <ref>     il ramo dell'AD da cui partono i figli (predefinito: origin/<RAMO_AD>)
 //   --json             stampa l'esito anche in JSON sull'ultima riga
 
 import { execFileSync } from "node:child_process";
@@ -78,7 +78,7 @@ function leggiOpzioni(argv) {
   opz.registro = resolve(opz.registro ?? join(opz.radice, "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-marketplace.json"));
   opz.dimensioni = resolve(opz.dimensioni ?? join(opz.radice, "cervello/dimensioni-radiografia.json"));
   opz.git = resolve(opz.git ?? opz.radice);
-  opz["ad-ref"] = opz["ad-ref"] ?? "HEAD";
+  opz["ad-ref"] = opz["ad-ref"] ?? `origin/${RAMO_AD}`;
   return opz;
 }
 
@@ -101,6 +101,9 @@ function fileDelSito(opz) {
 const righeCache = new Map();
 function righeDi(opz, percorso) {
   if (righeCache.has(percorso)) return righeCache.get(percorso);
+  // solo un file vero (blob): una cartella risponde anche lei a `git show` (collaudo del 6/11)
+  const tipo = (gitOk(opz.sito, ["cat-file", "-t", `${opz.base}:${percorso}`]) ?? "").trim();
+  if (tipo !== "blob") { righeCache.set(percorso, null); return null; }
   const testo = gitOk(opz.sito, ["show", `${opz.base}:${percorso}`]);
   const n = testo === null ? null : testo.split("\n").length - (testo.endsWith("\n") ? 1 : 0);
   righeCache.set(percorso, n);
@@ -109,13 +112,16 @@ function righeDi(opz, percorso) {
 const vuoto = (v) => v === undefined || v === null || (typeof v === "string" && v.trim() === "");
 const piatto = (v) => String(v ?? "").replace(/[\t\r\n]+/g, " ").trim();
 function sezione(testo, titolo) {
-  // le righe sotto «## <titolo>» fino alla prossima intestazione ## o #
-  const righe = testo.split("\n");
+  // le righe sotto «## <titolo>» fino alla prossima intestazione di QUALSIASI livello (anche ###):
+  // una voce sotto «### Lenti che NON guardo» non conta. I commenti HTML si tolgono prima di leggere:
+  // è il modo normale di spegnere una riga in markdown (collaudo del 6/11, buco 5).
+  const pulito = testo.replace(/<!--[\s\S]*?-->/g, "");
+  const righe = pulito.split("\n");
   const i = righe.findIndex((r) => r.trim().toLowerCase() === `## ${titolo}`.toLowerCase());
   if (i < 0) return [];
   const fuori = [];
   for (let j = i + 1; j < righe.length; j++) {
-    if (/^#{1,2}\s/.test(righe[j])) break;
+    if (/^\s*#{1,6}\s/.test(righe[j])) break;
     fuori.push(righe[j]);
   }
   return fuori;
@@ -401,15 +407,21 @@ function coperturaPrima(opz) {
   else {
     const nominatiS12 = new Set(voci(sezione(schede.S12 ?? "", "File che guardo da sola")));
     const visti = new Set();
-    for (const r of readFileSync(mappaP, "utf8").split("\n")) {
+    for (const r of readFileSync(mappaP, "utf8").split(/\r?\n/)) {
       if (!r || r.startsWith("#")) continue;
-      const [f, chiTesto = ""] = r.split("\t");
+      const [f, chiTesto = "", segno = ""] = r.split("\t");
+      if (visti.has(f)) rossi.push(`(b) riga ripetuta nella mappa: ${f}`);
       visti.add(f);
       const chi = chiTesto.split(",").map((x) => x.trim()).filter((x) => x && x !== "-");
       if (!veri.has(f)) rossi.push(`(b) la mappa nomina un file che a ${opz.base.slice(0, 12)} non esiste: ${f}`);
       if (chi.length === 0) rossi.push(`(b) senza proprietario: ${f}`);
+      if (new Set(chi).size !== chi.length) rossi.push(`(b) proprietario ripetuto per ${f}: ${chiTesto}`);
       for (const x of chi) if (!SESSIONI.includes(x)) rossi.push(`(b) proprietario sconosciuto «${x}» per ${f}`);
-      if (chi.length === 1 && chi[0] === "S12" && !soloS12Ammesso(f) && !nominatiS12.has(f)) rossi.push(`(b) solo S12, fuori dalle cartelle ammesse e non nominato nella scheda di S12: ${f}`);
+      const unici = [...new Set(chi)];
+      // S01 non cerca difetti nuovi: un file che ha solo lei non lo guarda nessuno
+      if (unici.length === 1 && unici[0] === "S01") rossi.push(`(b) solo S01, che non cerca difetti nuovi: ${f}`);
+      if (unici.length === 1 && unici[0] === "S12" && !soloS12Ammesso(f) && !nominatiS12.has(f)) rossi.push(`(b) solo S12, fuori dalle cartelle ammesse e non nominato nella scheda di S12: ${f}`);
+      if (veri.has(f) && segno !== segnoDi(f)) rossi.push(`(b) segno «${segno}» sbagliato per ${f}: è «${segnoDi(f)}»`);
     }
     for (const f of veri) if (!visti.has(f)) rossi.push(`(b) manca dalla mappa: ${f}`);
   }
@@ -424,9 +436,17 @@ function coperturaPrima(opz) {
 }
 
 // ── guardia-ramo ─────────────────────────────────────────────────────────────────────────────
+// Guarda la STORIA del ramo, commit per commit, non solo la differenza netta: un file scritto e poi
+// cancellato resta nella storia pubblica, e una rinomina nasconde una cancellazione (collaudo del 6/11,
+// buco 2). I commit del ramo dell'AD (la sua catena di primi genitori dalla partenza) non contano:
+// così un ramo partito da un commit dell'AD successivo, o un ramo che l'AD ha già unito, si giudica giusto.
+function revList(dir, args) {
+  return (gitOk(dir, ["rev-list", ...args]) ?? "").split("\n").filter(Boolean);
+}
 function guardiaRamo(opz) {
-  const [ramo, s] = opz.posizionali;
+  let [ramo, s] = opz.posizionali;
   if (!ramo || !SESSIONI.includes(s)) return uso("guardia-ramo <ramo> <SNN>");
+  ramo = ramo.replace(/^origin\//, "");
   const ref = `origin/${ramo}`;
   if (gitOk(opz.git, ["rev-parse", "--verify", "--quiet", `${ref}^{commit}`]) === null) {
     return chiudi("guardia-ramo", [], [`${ref} non esiste ancora`], opz);
@@ -435,45 +455,70 @@ function guardiaRamo(opz) {
   const sessioniP = join(opz.cartella, "sessioni.json");
   const sess = existsSync(sessioniP) ? JSON.parse(readFileSync(sessioniP, "utf8")) : null;
   const partenza = (Array.isArray(sess?.sessioni) ? sess.sessioni : []).find((x) => x.sessione === s)?.partenza;
-  if (vuoto(partenza)) rossi.push(`${s}: in sessioni.json manca la «partenza»`);
-  else if (gitOk(opz.git, ["merge-base", "--is-ancestor", partenza, ref]) === null) rossi.push(`${s}: ${ref} non parte da ${partenza.slice(0, 12)}, la partenza scritta in sessioni.json`);
-  // la base è l'ultimo commit dell'AD che il ramo contiene: così un ramo partito da un commit dell'AD
-  // successivo alla partenza non si vede addosso i file dell'AD
-  const base = (gitOk(opz.git, ["merge-base", ref, opz["ad-ref"]]) ?? "").trim() || partenza;
-  if (!vuoto(base)) {
-    const cambiati = (gitOk(opz.git, ["diff", "--name-only", `${base}...${ref}`]) ?? "").split("\n").filter(Boolean);
-    const ammesso = `consegne/audit/${NOME_CARTELLA}/referti/${s}.json`;
-    const altri = cambiati.filter((f) => f !== ammesso);
-    if (altri.length) rossi.push(`${s}: il ramo cambia ${altri.length} file oltre al referto: ${altri.slice(0, 10).join(", ")}`);
-    if (cambiati.length === 0) attese.push(`${s}: il ramo non ha ancora cambiato nessun file`);
+  if (vuoto(partenza)) return chiudi("guardia-ramo", [`${s}: in sessioni.json manca la «partenza»`], [], opz);
+  if (gitOk(opz.git, ["merge-base", "--is-ancestor", partenza, ref]) === null) {
+    return chiudi("guardia-ramo", [`${s}: ${ref} non parte da ${partenza.slice(0, 12)}, la partenza scritta in sessioni.json`], [], opz);
   }
-  return chiudi("guardia-ramo", rossi, attese, opz);
+  const adRef = opz["ad-ref"];
+  if (gitOk(opz.git, ["rev-parse", "--verify", "--quiet", `${adRef}^{commit}`]) === null) rossi.push(`il ramo dell'AD «${adRef}» non esiste: passa --ad-ref`);
+  const testaRamo = (gitOk(opz.git, ["rev-parse", ref]) ?? "").trim();
+  const testaAd = (gitOk(opz.git, ["rev-parse", adRef]) ?? "").trim();
+  if (testaAd && testaAd === testaRamo) rossi.push(`«${adRef}» è lo stesso commit del ramo figlio: il ramo dell'AD è sbagliato`);
+  const dellAd = new Set(testaAd ? revList(opz.git, ["--first-parent", `${partenza}..${adRef}`]) : []);
+  const delFiglio = revList(opz.git, [`${partenza}..${ref}`]).filter((c) => !dellAd.has(c));
+  const toccati = new Set();
+  for (const c of delFiglio) {
+    const genitori = (gitOk(opz.git, ["rev-list", "--parents", "-n", "1", c]) ?? "").trim().split(/\s+/).slice(1);
+    // un'unione conta solo per quello che cambia rispetto a TUTTI i genitori (le sue correzioni a mano)
+    const args = genitori.length > 1 ? ["diff-tree", "-r", "--cc", "--name-only", "--no-renames", "--no-commit-id", c] : ["diff-tree", "-r", "--root", "--name-only", "--no-renames", "--no-commit-id", c];
+    for (const f of (gitOk(opz.git, args) ?? "").split("\n").filter(Boolean)) if (f !== c) toccati.add(f);
+  }
+  const ammesso = `consegne/audit/${NOME_CARTELLA}/referti/${s}.json`;
+  const altri = [...toccati].filter((f) => f !== ammesso);
+  if (altri.length) rossi.push(`${s}: nella storia del ramo ci sono ${altri.length} file oltre al referto: ${altri.slice(0, 10).join(", ")}`);
+  if (delFiglio.length === 0) attese.push(`${s}: il ramo non ha ancora nessun commit suo`);
+  return chiudi("guardia-ramo", rossi, attese, opz, { commit_del_figlio: delFiglio.length, file_toccati: toccati.size });
 }
 
 // ── valida-referto ───────────────────────────────────────────────────────────────────────────
+const CAMPI_DIFETTO = ["id", "dimensione", "titolo", "severita", "file", "descrizione", "impatto", "fix", "causa_radice", "prova", "prova_tipo", "prova_eseguita", "esito_prova", "perche_umano", "verificato", "verificato_da", "gia_noto", "perimetro_altrui", "riservato"];
+const CAMPI_REGRESSIONE = ["chiave", "indice", "prova", "esito_prova"];
 function leggiTabella(p, colChiave, colGravita) {
   const m = new Map();
   if (!existsSync(p)) return null;
-  for (const r of readFileSync(p, "utf8").split("\n")) {
+  for (const r of readFileSync(p, "utf8").split(/\r?\n/)) {
     if (!r || r.startsWith("#")) continue;
     const c = r.split("\t");
-    m.set(c[colChiave], { gravita: c[colGravita], stato: c[2], righe: c });
+    m.set(c[colChiave], { gravita: c[colGravita], stato: c[2], titolo: c[c.length - 1] ?? "", righe: c });
   }
   return m;
 }
-function controllaPosto(opz, posto, ctx, rossi, permessi) {
+function controllaPosto(opz, posto, ctx, rossi) {
   const p = posto.trim();
-  const m = p.match(/^([^\s:]+):(\d+)(?:-(\d+))?$/);
-  if (!m) return rossi.push(`${ctx}: «${p}» non è percorso:riga né percorso:inizio-fine${permessi ? " né uno dei prefissi ammessi" : ""}`);
+  const m = p.match(/^(.+):(\d+)(?:-(\d+))?$/);
+  if (!m) return rossi.push(`${ctx}: «${p}» non è percorso:riga né percorso:inizio-fine né uno dei prefissi ammessi`);
   const [, perc, a, b] = m;
   const n = righeDi(opz, perc);
-  if (n === null) return rossi.push(`${ctx}: ${perc} non esiste a ${opz.base.slice(0, 12)}`);
+  if (n === null) return rossi.push(`${ctx}: ${perc} non è un file a ${opz.base.slice(0, 12)}`);
   const ini = Number(a), fin = b === undefined ? ini : Number(b);
   if (ini < 1 || fin < ini || fin > n) rossi.push(`${ctx}: righe ${a}${b ? "-" + b : ""} fuori da ${perc} (${n} righe)`);
 }
 function percorsoEsiste(opz, perc) {
   return righeDi(opz, perc) !== null;
 }
+function dataVera(t) {
+  const m = String(t ?? "").match(/^(\d{4})-(\d\d)-(\d\d) (\d\d):(\d\d)$/);
+  if (!m) return false;
+  const [, , mm, gg, hh, mi] = m.map(Number);
+  return mm >= 1 && mm <= 12 && gg >= 1 && gg <= 31 && hh <= 23 && mi <= 59;
+}
+function valori(o, fuori = []) {
+  if (typeof o === "string") fuori.push(o);
+  else if (Array.isArray(o)) o.forEach((x) => valori(x, fuori));
+  else if (o && typeof o === "object") Object.values(o).forEach((x) => valori(x, fuori));
+  return fuori;
+}
+const AREA_RISERVATA = /^[A-Za-zÀ-ÿ' ,-]{2,40}$/;
 function validaReferto(opz) {
   const [file] = opz.posizionali;
   if (!file) return uso("valida-referto <file>");
@@ -481,29 +526,36 @@ function validaReferto(opz) {
   let testo, r;
   try { testo = readFileSync(file, "utf8"); r = JSON.parse(testo); } catch (e) { return chiudi("valida-referto", [`${file}: non si legge come JSON (${e.message})`], [], opz); }
   const tutteLenti = new Set(lenti(opz));
-  for (const sp of SEGNAPOSTI_REFERTO) if (testo.includes(sp)) rossi.push(`segnaposto del modello rimasto: ${sp}`);
+  // i segnaposti del modello: nel testo grezzo E nei valori già letti (un «…» scritto … si vede solo qui)
+  const tuttiIValori = valori(r);
+  for (const sp of SEGNAPOSTI_REFERTO) {
+    const nudo = sp.startsWith('"') ? sp.slice(1, -1) : null;
+    if (testo.includes(sp) || tuttiIValori.some((v) => (nudo !== null ? v === nudo : v.includes(sp)))) rossi.push(`segnaposto del modello rimasto: ${sp}`);
+  }
   const s = r.sessione;
   if (!SESSIONI.includes(s)) rossi.push(`«sessione» non valida: ${s}`);
   const dalNome = basename(file).match(/^(S\d\d)\.json$/)?.[1];
   if (dalNome && dalNome !== s) rossi.push(`il file si chiama ${dalNome}.json ma il referto dice ${s}`);
   if (r.base_sito !== opz.base) rossi.push(`base_sito ${r.base_sito} diversa da ${opz.base}`);
-  if (!/^\d{4}-\d\d-\d\d \d\d:\d\d$/.test(r.aggiornato ?? "")) rossi.push(`«aggiornato» non è AAAA-MM-GG HH:MM: ${r.aggiornato}`);
+  if (!dataVera(r.aggiornato)) rossi.push(`«aggiornato» non è una data vera AAAA-MM-GG HH:MM: ${r.aggiornato}`);
   if (typeof r.finita !== "boolean") rossi.push("«finita» deve essere true o false");
   const finita = r.finita === true;
   for (const campo of ["difetti", "regressioni", "ricontrolli", "prove_per_la_palestra", "domande_per_nicola"]) if (!Array.isArray(r[campo])) rossi.push(`«${campo}» deve essere un elenco`);
   if (typeof r.copertura !== "object" || r.copertura === null) rossi.push("manca «copertura»");
   if (typeof r.conto !== "object" || r.conto === null) rossi.push("manca «conto»");
   const cop = r.copertura ?? {};
-  for (const f of cop.file_letti_interi ?? []) if (!percorsoEsiste(opz, f)) rossi.push(`copertura.file_letti_interi: ${f} non esiste`);
+  for (const f of cop.file_letti_interi ?? []) if (!percorsoEsiste(opz, f)) rossi.push(`copertura.file_letti_interi: ${f} non è un file a ${opz.base.slice(0, 12)}`);
   for (const x of cop.file_letti_in_parte ?? []) {
     if (!/^\d+-\d+$/.test(String(x?.righe ?? ""))) { rossi.push(`copertura.file_letti_in_parte: righe «${x?.righe}» per ${x?.file}`); continue; }
-    controllaPosto(opz, `${x.file}:${x.righe}`, "copertura.file_letti_in_parte", rossi, false);
+    controllaPosto(opz, `${x.file}:${x.righe}`, "copertura.file_letti_in_parte", rossi);
   }
   for (const x of cop.file_eseguiti ?? []) {
-    if (!percorsoEsiste(opz, x?.file ?? "")) rossi.push(`copertura.file_eseguiti: ${x?.file} non esiste`);
+    if (!percorsoEsiste(opz, x?.file ?? "")) rossi.push(`copertura.file_eseguiti: ${x?.file} non è un file a ${opz.base.slice(0, 12)}`);
     if (vuoto(x?.comando) || vuoto(x?.esito)) rossi.push(`copertura.file_eseguiti: ${x?.file} senza comando o esito`);
   }
   for (const x of cop.non_guardato ?? []) if (vuoto(x?.cosa) || vuoto(x?.perche)) rossi.push("copertura.non_guardato: ogni voce vuole «cosa» e «perche»");
+  const nCoperti = (cop.file_letti_interi ?? []).length + (cop.file_letti_in_parte ?? []).length + (cop.file_eseguiti ?? []).length;
+  if (finita && nCoperti === 0) rossi.push("referto finito senza nessun file letto o eseguito: una sessione che non ha guardato niente non è finita");
 
   const ids = new Set();
   for (const d of Array.isArray(r.difetti) ? r.difetti : []) {
@@ -517,6 +569,8 @@ function validaReferto(opz) {
     if (typeof d?.prova_eseguita !== "boolean") rossi.push(`${ctx}: prova_eseguita deve essere true o false`);
     if (typeof d?.riservato !== "boolean") rossi.push(`${ctx}: riservato deve essere true o false`);
     const riservato = d?.riservato === true;
+    // il titolo «Falla di sicurezza…» è il segno con cui il registro riconosce le riservate (3.1)
+    if (/^\s*falla di sicurezza/i.test(d?.titolo ?? "") && !riservato) rossi.push(`${ctx}: un titolo «Falla di sicurezza…» vuole riservato: true`);
     const posti = String(d?.file ?? "").split(SEP).map((x) => x.trim()).filter(Boolean);
     if (posti.length === 0) rossi.push(`${ctx}: «file» vuoto`);
     const provaAComando = d?.prova_tipo === "comando" && d?.prova_eseguita === true && !vuoto(d?.esito_prova);
@@ -530,10 +584,14 @@ function validaReferto(opz) {
         if (!provaAComando) rossi.push(`${ctx}: «${tipo}:» vuole prova_tipo «comando», prova_eseguita true ed esito_prova`);
         continue;
       }
-      controllaPosto(opz, posto, ctx, rossi, true);
+      controllaPosto(opz, posto, ctx, rossi);
     }
     if (riservato) {
-      if (!TITOLO_RISERVATO.test(d?.titolo ?? "") || /R\d+/.test(d?.titolo ?? "")) rossi.push(`${ctx}: il titolo di una riservata è «Falla di sicurezza da chiudere (<area>): i dettagli restano fuori dal deposito pubblico finché non è chiusa», senza numero R`);
+      // un elenco chiuso di campi: un campo in più («nota», «dettagli») porterebbe la falla in chiaro
+      const extra = Object.keys(d ?? {}).filter((k) => !CAMPI_DIFETTO.includes(k));
+      if (extra.length) rossi.push(`${ctx}: una riservata ha solo i campi del 5.6; in più: ${extra.join(", ")}`);
+      const area = (d?.titolo ?? "").match(TITOLO_RISERVATO)?.[1];
+      if (!area || !AREA_RISERVATA.test(area.trim())) rossi.push(`${ctx}: il titolo di una riservata è «Falla di sicurezza da chiudere (<area>): i dettagli restano fuori dal deposito pubblico finché non è chiusa», con un'area corta (al massimo 40 lettere, senza cifre, «/» o «:») e senza numero R`);
       if (d?.file !== FILE_PRIVATO) rossi.push(`${ctx}: una riservata ha file «${FILE_PRIVATO}» e nient'altro`);
       for (const c of ["descrizione", "impatto", "fix", "causa_radice", "prova", "esito_prova", "verificato_da"]) if (d?.[c] !== PRIVATO) rossi.push(`${ctx}: in una riservata «${c}» vale «${PRIVATO}»`);
       const pu = d?.prova_tipo === "umano" ? PRIVATO : null;
@@ -546,8 +604,8 @@ function validaReferto(opz) {
     if (d?.perimetro_altrui != null && !SESSIONI.includes(d.perimetro_altrui)) rossi.push(`${ctx}: perimetro_altrui «${d.perimetro_altrui}» non è una sessione`);
     // l'asticella
     if (d?.severita === "grave" || d?.severita === "bloccante") {
-      const umano = d?.prova_tipo === "umano" && !vuoto(d?.perche_umano);
-      if (!provaAComando && !umano) (finita ? rossi : attese).push(`${ctx}: un ${d.severita} vuole una prova a comando eseguita con esito, oppure «umano» col perché`);
+      const umano = d?.prova_tipo === "umano" && String(d?.perche_umano ?? "").trim().length >= 15;
+      if (!provaAComando && !umano) (finita ? rossi : attese).push(`${ctx}: un ${d.severita} vuole una prova a comando eseguita con esito, oppure «umano» col perché (almeno una frase)`);
     }
     if (finita && (d?.verificato !== true || vuoto(d?.verificato_da))) rossi.push(`${ctx}: a referto finito ogni difetto è verificato da un altro (verificato true e verificato_da)`);
   }
@@ -556,17 +614,35 @@ function validaReferto(opz) {
   for (const g of Array.isArray(r.regressioni) ? r.regressioni : []) {
     const ctx = `regressione ${g?.chiave ?? "(senza chiave)"}`;
     if (vuoto(g?.chiave) || vuoto(g?.prova) || vuoto(g?.esito_prova)) { rossi.push(`${ctx}: servono chiave, prova ed esito_prova`); continue; }
+    const extra = Object.keys(g).filter((k) => !CAMPI_REGRESSIONE.includes(k));
+    if (extra.length) rossi.push(`${ctx}: una regressione ha solo chiave, indice, prova ed esito_prova; in più: ${extra.join(", ")}`);
     const v = reg?.get(g.chiave);
-    if (!reg) attese.push("manca registro-compatto.txt: le regressioni non si possono controllare");
-    else if (!v) rossi.push(`${ctx}: la chiave non è nel registro`);
-    else if (!STATI_CHIUSI.has(v.stato)) rossi.push(`${ctx}: la voce è «${v.stato}», una regressione riguarda solo voci riparate o chiuse`);
+    if (!reg) { attese.push("manca registro-compatto.txt: le regressioni non si possono controllare"); continue; }
+    if (!v) { rossi.push(`${ctx}: la chiave non è nel registro`); continue; }
+    if (!STATI_CHIUSI.has(v.stato)) rossi.push(`${ctx}: la voce è «${v.stato}», una regressione riguarda solo voci riparate o chiuse`);
+    // la regressione di una falla riservata: prova ed esito restano privati (5.5), come l'indice
+    if (/^falla di sicurezza/i.test(v.titolo) || /^falla di sicurezza/i.test(String(g.chiave).split("|")[1] ?? "")) {
+      if (g.prova !== PRIVATO || g.esito_prova !== PRIVATO) rossi.push(`${ctx}: è una falla riservata: «prova» ed «esito_prova» valgono «${PRIVATO}», i dettagli vanno in chat`);
+      if (g.indice !== undefined && g.indice !== null) rossi.push(`${ctx}: è una falla riservata: niente «indice», basta la chiave`);
+    }
+  }
+
+  // l'id di una riservata non si nomina in nessun altro campo: chi lo legge accanto a una frase
+  // («S03-001: la rotta … si apre a tutti») ha la falla in chiaro (collaudo del 6/11)
+  const idRiservate = (Array.isArray(r.difetti) ? r.difetti : []).filter((d) => d?.riservato === true && !vuoto(d?.id)).map((d) => d.id);
+  if (idRiservate.length) {
+    const fuoriDalleRiservate = { ...r, difetti: (r.difetti ?? []).filter((d) => d?.riservato !== true) };
+    for (const v of valori(fuoriDalleRiservate)) for (const id of idRiservate) if (new RegExp(`\\b${id}\\b`).test(v)) rossi.push(`l'id della riservata ${id} compare in un altro campo: «${v.slice(0, 60)}…» va tolto`);
   }
 
   const daRic = leggiTabella(join(opz.cartella, "da-ricontrollare.txt"), 1, 2);
   const ric = Array.isArray(r.ricontrolli) ? r.ricontrolli : [];
   if (s !== "S01" && ric.length) rossi.push(`«ricontrolli» lo compila solo S01 (${ric.length} voci in ${s})`);
+  const chiaviViste = new Set();
   for (const k of ric) {
     const ctx = `ricontrollo ${k?.chiave ?? "(senza chiave)"}`;
+    if (chiaviViste.has(k?.chiave)) rossi.push(`${ctx}: la stessa voce ricontrollata due volte`);
+    chiaviViste.add(k?.chiave);
     if (!ESITI_RICONTROLLO.has(k?.esito)) rossi.push(`${ctx}: esito «${k?.esito}»`);
     const v = daRic?.get(k?.chiave);
     if (!daRic) { attese.push("manca da-ricontrollare.txt: i ricontrolli non si possono controllare"); continue; }
@@ -583,8 +659,8 @@ function validaReferto(opz) {
     for (const c of ["chi", "file", "passi", "atteso"]) if (vuoto(pv?.[c])) rossi.push(`${ctx}: «${c}» vuoto`);
     if (!vuoto(pv?.chi) && !CHI.has(pv.chi)) rossi.push(`${ctx}: chi «${pv.chi}»`);
     for (const perc of String(pv?.file ?? "").split(SEP).map((x) => x.trim()).filter(Boolean)) {
-      if (/:\d/.test(perc)) rossi.push(`${ctx}: «${perc}» porta una riga, qui vanno percorsi senza riga`);
-      else if (!percorsoEsiste(opz, perc)) rossi.push(`${ctx}: ${perc} non esiste a ${opz.base.slice(0, 12)}`);
+      if (/:\d+(-\d+)?$/.test(perc)) rossi.push(`${ctx}: «${perc}» porta una riga, qui vanno percorsi senza riga`);
+      else if (!percorsoEsiste(opz, perc)) rossi.push(`${ctx}: ${perc} non è un file a ${opz.base.slice(0, 12)}`);
     }
   }
   return chiudi("valida-referto", rossi, [...new Set(attese)], opz, { difetti: (r.difetti ?? []).length, finita });
@@ -599,7 +675,7 @@ function referti(opz) {
 function leggiMappa(opz) {
   const p = join(opz.cartella, "mappa-file.txt");
   if (!existsSync(p)) throw new Error("manca mappa-file.txt");
-  return readFileSync(p, "utf8").split("\n").filter((r) => r && !r.startsWith("#")).map((r) => { const [f, chi, segno] = r.split("\t"); return { f, chi, segno }; });
+  return readFileSync(p, "utf8").split(/\r?\n/).filter((r) => r && !r.startsWith("#")).map((r) => { const [f, chi, segno] = r.split("\t"); return { f, chi, segno }; });
 }
 function coperturaDopo(opz) {
   const elenco = referti(opz);
@@ -622,7 +698,9 @@ function coperturaDopo(opz) {
   console.log(`codice: ${conta("codice")} file, ${conta("codice") - scoperti.length} coperti, ${scoperti.length} scoperti`);
   console.log(`documento: ${conta("documento")} file, ${docScoperti} non letti · strumento: ${conta("strumento")} file, ${strumentiEseguiti} letti o eseguiti · binario: ${conta("binario")} file (a parte)`);
   if (scoperti.length) console.log(`file di codice che nessuno ha coperto (percorso<TAB>proprietari):\n${scoperti.join("\n")}`);
-  return chiudi("copertura-dopo", [], [], opz, { scoperti: scoperti.length });
+  // verde solo a copertura piena: un buco è lavoro per il terzo giro (7.4), non un verde (scorciatoia 10)
+  const attese = scoperti.length ? [`${scoperti.length} file di codice su ${conta("codice")} non li ha coperti nessuno`] : [];
+  return chiudi("copertura-dopo", [], attese, opz, { scoperti: scoperti.length });
 }
 function coperturaPalestra(opz) {
   const elenco = referti(opz);
@@ -633,9 +711,10 @@ function coperturaPalestra(opz) {
   }
   const files = fileDelSito(opz);
   const pagine = files.filter((f) => /^app\/(.+\/)?page\.tsx$/.test(f));
-  const indirizzi = files.filter((f) => /^app\/api\/(.+\/)?route\.ts$/.test(f));
+  // gli indirizzi interni sono tutti i route.ts di app/: i 107 di app/api più quelli dell'accesso fuori da app/api
+  const indirizzi = files.filter((f) => /^app\/(.+\/)?route\.ts$/.test(f));
   const senza = [...pagine, ...indirizzi].filter((f) => !conProva.has(f));
-  console.log(`pagine: ${pagine.length} · indirizzi interni: ${indirizzi.length} · senza prova da palestra: ${senza.length}`);
+  console.log(`pagine: ${pagine.length} · indirizzi interni: ${indirizzi.length} (di cui in app/api: ${indirizzi.filter((f) => f.startsWith("app/api/")).length}) · senza prova da palestra: ${senza.length}`);
   if (senza.length) console.log(senza.join("\n"));
   return chiudi("copertura-palestra", senza.length ? [`${senza.length} fra pagine e indirizzi senza nessuna prova da palestra`] : [], [], opz, { pagine: pagine.length, indirizzi: indirizzi.length, senza: senza.length });
 }
@@ -643,16 +722,14 @@ function coperturaPalestra(opz) {
 // ── segnaposti ───────────────────────────────────────────────────────────────────────────────
 function segnaposti(opz) {
   const rossi = [];
+  if (!existsSync(opz.cartella)) return chiudi("segnaposti", [`la cartella ${opz.cartella} non esiste`], [], opz);
   const testi = [join(opz.cartella, "LEGGIMI.md"), ...SESSIONI.map((s) => join(opz.cartella, "schede", `${s}.md`))];
-  let letti = 0;
   for (const p of testi) {
     if (!existsSync(p)) { rossi.push(`manca ${p.slice(opz.cartella.length + 1)}`); continue; }
-    letti++;
     const t = readFileSync(p, "utf8");
     for (const sp of SEGNAPOSTI_AD) if (t.includes(sp)) rossi.push(`${p.slice(opz.cartella.length + 1)}: resta ${sp}`);
   }
-  if (letti === 0) return chiudi("segnaposti", [], ["nessun testo da leggere"], opz);
-  return chiudi("segnaposti", rossi, [], opz, { testi: letti });
+  return chiudi("segnaposti", rossi, [], opz, { testi: testi.length });
 }
 
 // ── uscita ───────────────────────────────────────────────────────────────────────────────────
