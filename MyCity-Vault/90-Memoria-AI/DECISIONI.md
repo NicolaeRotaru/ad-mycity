@@ -6730,3 +6730,13 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **La verifica esterna delle falle riservate** resta da decidere: serve una sessione nuova.
 
 **Colore:** 🟡 lavoro della macchina sul registro del sito, nessuna scrittura sul sito vero. Vale con la firma di Nicola sulla richiesta.
+
+## 2026-11-07 00:55 — 🔴 Nicola firma la palestra (carta 232)
+
+**Cosa:** Nicola ha scelto, una per una: il sito di prova in un progetto Vercel separato; l'intelligenza artificiale finta, a costo zero; anche la carta, in modalità test di Stripe. Sulla durata: «se costa 32 centesimi al giorno fallo per tutti i giorni che ti servono per tutti i controlli e ricontrolli finché non sei sicuro che tutto funzioni correttamente».
+
+**Una correzione dell'AD:** il piano diceva «acceso solo durante le prove, tre giorni da 8 ore, circa 0,32 $». La documentazione di Supabase dice che una copia del database si paga a ore finché esiste e non si spegne: si ferma solo cancellandola. Il costo giusto è 0,01344 $ l'ora, circa 0,32 $ al giorno, sulla fattura mensile di Supabase. Corretto nel piano e nella carta.
+
+**Le regole che restano:** il sito vero non si tocca; nessuna variabile della palestra vale per Production; nessuna chiave vera, a parte quelle di prova che mette Nicola; la palestra non può scrivere sul database vero né mandare email a persone vere. La copia del database si cancella appena le prove sono finite.
+
+**Colore:** 🔴 spesa vera, piccola, firmata da Nicola.

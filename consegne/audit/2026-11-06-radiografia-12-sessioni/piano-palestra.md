@@ -14,9 +14,9 @@ Un esempio. Un cliente finto ordina pane in contanti, il negozio finto accetta, 
 
 ## Cosa cambia per te
 
-- Le 533 prove scritte dalla radiografia diventano prove fatte, a lotti, in circa tre giorni.
-- Il costo principale è il database di prova: circa 0,32 $ al giorno, solo mentre è acceso.
-- Tre giorni da 8 ore costano circa 0,32 $ in tutto, più l'uso di Vercel.
+- Le 533 prove scritte dalla radiografia diventano prove fatte, a lotti.
+- Il costo principale è il database di prova: circa 0,32 $ al giorno, finché esiste. Non si può spegnere: il conto si ferma solo cancellandolo.
+- Nicola ha firmato il 7/11: la palestra resta per tutti i giorni che servono a fare e rifare le prove.
 
 ## Cosa devi fare
 
@@ -54,8 +54,8 @@ Firmare o correggere questo piano, con la carta 232. Senza la tua firma non si c
 - una chiave `ANTHROPIC_API_KEY` creata solo per la palestra, con un tetto di spesa in euro scritto qui prima di partire.
 
 **Quanto costa.**
-- Ramo del database Micro: 0,01344 $ l'ora. Ogni ora iniziata conta intera.
-- Va sulla fattura Supabase come «Branching Compute Hours», e il tetto di spesa non lo copre.
+- Ramo del database Micro: 0,01344 $ l'ora finché esiste, cioè circa 0,32 $ al giorno. Ogni ora iniziata conta intera. Il conto si ferma cancellandolo.
+- Va sulla fattura mensile di Supabase, sulla stessa carta del piano Pro, come «Branching Compute Hours». Il tetto di spesa non lo copre, e nemmeno i 10 $ di crediti del piano.
 - Vercel: le anteprime sotto carico pesano sul piano Pro del sito vero, da misurare il primo giorno.
 - Stripe di test, Turnstile di prova e la casella di prova: 0 €.
 

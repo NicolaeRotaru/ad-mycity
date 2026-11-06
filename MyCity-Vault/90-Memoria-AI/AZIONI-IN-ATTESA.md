@@ -33,6 +33,8 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ### 🔴 #232 — Firma il piano della palestra, la copia del sito per le prove · ⏳ accodata 2026-11-06 19:17
 
+> ✍️ FIRMATA 2026-11-07 00:55 — Nicola: «fallo per tutti i giorni che ti servono per tutti i controlli e ricontrolli finché non sei sicuro che tutto funzioni». Scelte: progetto Vercel separato, intelligenza artificiale finta, anche la carta in modalità test. La palestra è in costruzione.
+
 **In parole semplici.** La palestra è una copia del sito fatta solo per le prove. Lì si usa il sito come tanti clienti, negozi e fattorini insieme. Il sito vero non si tocca mai. La radiografia ha scritto 533 prove da fare lì.
 
 **Cosa cambia per te.** Esempio: oggi nessuno ha mai fatto un ordine in contanti da capo a fondo, da utente collegato. In palestra si fa con un cliente, un negozio e un fattorino finti. Così escono i difetti che leggendo il codice non si vedono.
@@ -41,7 +43,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 **Cosa non ho verificato.** Il prezzo del ramo l'ho letto il 6/11 nella documentazione di Supabase: va ricontrollato il giorno che parte. Il consumo di Vercel sotto carico non l'ho misurato.
 
-Cosa cambia: nasce una copia del sito con dati finti, accesa solo durante le prove; il database costa circa 0,32 $ al giorno, più l'uso di Vercel.
+Cosa cambia: nasce una copia del sito con dati finti; il database costa circa 0,32 $ al giorno finché esiste, più l'uso di Vercel.
 Se va bene: costruisco la palestra e controllo che non possa toccare il sito vero; poi faccio girare le prove a lotti e ti porto i difetti.
 
 Il piano completo, con le variabili per nome, i costi e cosa non si può provare: `consegne/audit/2026-11-06-radiografia-12-sessioni/piano-palestra.md`.
