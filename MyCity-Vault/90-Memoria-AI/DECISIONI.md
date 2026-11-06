@@ -6631,3 +6631,13 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 **Scelta di Nicola:** l'email dell'assistenza e quella per le risposte dei clienti andranno su una casella apposta, separata dalle sue email personali. Le mettiamo dopo, insieme a Stripe.
 
 **Colore:** 🟡 configurazione del sito fatta da Nicola, controllata dall'AD in sola lettura.
+
+## 2026-11-06 01:25 — 🟡 Il sito vero si apre dalla rete dell'AD, e le prove da cliente avranno una copia apposta
+
+**Cosa:** alle 01:20 Nicola ha approvato l'aggiunta di `www.mycity-marketplace.com` e `mycity-marketplace.com` agli indirizzi permessi dell'ambiente cloud «mycity». Da qui la home risponde 200 in 1,9 secondi. Su sua richiesta l'ho detto alla sessione della radiografia.
+
+**Il limite di oggi:** sul sito vero si guarda solo da visitatore. Ci sono pagine, tempi, errori, foto e link. Niente ordini, moduli o accessi: arriverebbero al fornaio e a persone vere, e il controllo anti-robot va rispettato.
+
+**La direzione di Nicola, per dopo:** l'AD deve usare il sito come tanti clienti, fattorini e negozianti insieme. Deve provare ogni funzione fino al limite. Gli esempi sono l'ordine di prova di un negozio nuovo con un conto Stripe di prova, e l'inserimento di un prodotto con l'AI. Per farlo senza toccare persone e soldi veri serve una copia del sito con un database di prova. Nella copia Stripe gira in prova, le email vanno a una casella di prova e il controllo anti-robot usa le chiavi di prova. Quando partire lo decide Nicola.
+
+**Colore:** 🟡 rete dell'ambiente cambiata con la firma di Nicola; la copia di prova è da proporre, con i costi.
