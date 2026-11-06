@@ -3,7 +3,7 @@ tipo: prompt
 data: 2026-11-06 01:40
 per: la sessione che dirige la radiografia del marketplace in 12 sessioni
 come si usa: non si incolla intero. Nicola incolla in una sessione nuova, una alla volta, le parti di `consegne/audit/PROMPT-radiografia-12-sessioni-PARTI.md`: la prima porta le sue decisioni e fa leggere questo file alla sessione
-versione: 4 — corretta con le 74 critiche confermate (run wf_b1588ce9-06c), con lo stato del sito vero del 6/11 notte, col collaudo indipendente della versione 3 (51 applicate, 19 a metà, 4 sbagliate, 20 difetti nuovi: tutti sistemati) e con la palestra decisa da Nicola
+versione: 5 — collaudo finale a due lenti applicato (19 critiche confermate su 31, run wf_d0dd58c9-411); prima: corretta con le 74 critiche confermate (run wf_b1588ce9-06c), con lo stato del sito vero del 6/11 notte, col collaudo indipendente della versione 3 (51 applicate, 19 a metà, 4 sbagliate, 20 difetti nuovi: tutti sistemati) e con la palestra decisa da Nicola
 ---
 
 # Prompt — la radiografia del marketplace in 12 sessioni, più la sintesi
@@ -36,8 +36,8 @@ Valgono così come sono scritte qui, salvo quelle che Nicola ti ha scritto nel m
 - **D4 · Stripe.** S03 controlla da sola se il collegamento Stripe c'è. Se non c'è, legge solo il codice e lo dichiara.
 - **D5 · Rami.** Ogni sessione figlia spinge solo sul suo ramo, `<il tuo ramo>-r01` … `-r12`. I rami figli non si uniscono. Alla fine porti i loro referti sul tuo ramo (7.1) e costruisci lì i file finali. Una sola PR, dal tuo ramo verso `main`. L'unione è di Nicola, e anche la cancellazione dei rami figli.
 - **D6 · Workflow.** Nicola autorizza l'uso del Workflow, in questa sessione e in ogni sessione figlia, per questo lavoro.
-- **D7 · Le falle riservate già aperte.** DA DECIDERE. Nicola ti incolla in chat i referti privati delle falle riservate ancora aperte (le riconosci al 3.1; quelle del 5/11 sono R262-R294)? Li tieni solo nello scratchpad. Le falle per cui il referto non c'è restano non ricontrollate, e lo scrivi col numero esatto.
-- **D8 · I lavori a orario spenti.** DA DECIDERE: quando si accendono. Il freno è nel codice dal 31/10 (`lib/cron/fermo-dei-lavori.ts`): gli 11 lavori di `vercel.json` non fanno niente finché `LAVORI_A_ORARIO` non vale «accesi», e prima si lancia a mano ognuno, una volta, con `?a_mano=1`. Il 6/11 la variabile non era impostata e `/api/health` rispondeva «degraded». Finché i lavori sono spenti da questo freno, S08 e S11 non lo contano come difetto: guardano se il primo giro a mano è possibile, lavoro per lavoro, e cosa succede il giorno che si accendono. Quando Nicola dà la data, registrala con `node cervello/coerenza-fatti.mjs registra …`.
+- **D7 · Le falle riservate già aperte.** DA DECIDERE. Nicola ti incolla in chat i referti privati delle falle riservate ancora aperte (le riconosci al 3.1; quelle del 5/11 sono R262-R294)? Non li scrivi in nessun file del deposito. La loro fonte è il messaggio di Nicola: subito annota nel diario l'uuid di quell'evento (`list_events` sulla tua sessione, `kinds: ["user"]`, `limit: 100`), e quando servono, a S04 o al 7.3, li rileggi con `get_event`. Lo scratchpad è solo una copia di lavoro. Le falle per cui il referto non c'è restano non ricontrollate, e lo scrivi col numero esatto.
+- **D8 · I lavori a orario spenti.** DA DECIDERE: quando si accendono. Il freno è nel codice dal 31/10 (`lib/cron/fermo-dei-lavori.ts`): gli 11 lavori di `vercel.json` non fanno niente finché `LAVORI_A_ORARIO` non vale «accesi», e prima si lancia a mano ognuno, una volta, con `?a_mano=1`. Il 6/11 la variabile non era impostata e `/api/health` rispondeva «degraded». Finché i lavori sono spenti da questo freno, S08 e S11 non lo contano come difetto: guardano se il primo giro a mano è possibile, lavoro per lavoro, nel codice e su un server locale, mai chiamando il sito vero, e cosa succede il giorno che si accendono. Quando Nicola dà la data, registrala con `node cervello/coerenza-fatti.mjs registra …`.
 - **D9 · I dettagli già pubblici.** DA DECIDERE. Nel grezzo del 5/11 e nel registro, alcune falle riservate aperte hanno ancora nel campo `riverifica` nomi di file o di tecniche: il 6/11 un programma ne contava circa 6, i revisori 8. Oscurarli è un lavoro 🟡 a parte, già proposto a Nicola il 6/11 come scheda separata: va fatto prima di questa radiografia? La storia di git resta pubblica comunque: rendere privato il repo è una decisione 🔴 di Nicola.
 - **D10 · La palestra.** DA DECIDERE: quando. Il 6/11 fra le 01:25 e le 01:40 Nicola ha deciso che la radiografia fatta bene comprende le prove come tanti clienti, negozianti, fattorini e amministratori insieme, su **tutto** quello che esiste già, fino al limite. Il 6/11 il sito aveva 118 pagine e 107 indirizzi interni. Le prove si fanno solo su una copia per le prove, la «palestra», mai sul sito vero (`LAVORO-APERTO.md`, «Le prove da cliente vero»; `DECISIONI.md`, 6/11 01:25). Il costo riferito il 6/11: l'organizzazione Supabase è sul piano Pro, e un ramo di prova Micro costa circa 0,32 $ al giorno se resta acceso, fuori dal tetto di spesa. Le 12 sessioni scrivono la batteria delle prove (5.6). La palestra la crei solo dopo la firma di Nicola sul piano con i costi (§10).
 
@@ -49,7 +49,8 @@ Valgono così come sono scritte qui, salvo quelle che Nicola ti ha scritto nel m
 - un ordine vero, un modulo inviato, un accesso con un account vero;
 - un messaggio a una persona;
 - una variabile cambiata su Vercel;
-- un'automazione GitHub lanciata (`actions_run_trigger` mai: `migrazioni-a-mano` scrive sul database vero).
+- un'automazione GitHub lanciata (`actions_run_trigger` mai: `migrazioni-a-mano` scrive sul database vero);
+- una chiamata a un indirizzo interno del sito vero (`/api/…`, compresi i lavori a orario, con o senza `?a_mano=1`): se è aperto a chiunque, il lavoro parte davvero.
 
 Le prove girano su copie: Postgres locale, server locale, cartelle temporanee nello scratchpad.
 
@@ -125,6 +126,7 @@ Prima di costruire i controlli della fase 0 leggi `cervello/scorciatoie-note.md`
 **3.2 Il codice.**
 - Lancia `node cervello/collega-marketplace.mjs`. Scarica solo l'ultimo commit di `main`, con profondità 1.
 - Scrivi lo SHA intero, 40 caratteri, con `git -C marketplace rev-parse HEAD`: è la **BASE_SITO**. Un hash corto non si può scaricare. Tutte le sessioni analizzano quel commit e nessun altro.
+- Se la D0 non è (a): al via della prima ondata, se `main` del sito è andato avanti, rifai i passi da 3.1 a 3.6 sul commit nuovo (mappa, registro compatto, schede, controlli, collaudo, push) prima di aprire. La seconda ondata resta sulla stessa BASE_SITO.
 - Ogni volta che serve il codice a BASE_SITO su una macchina che non ce l'ha, per te o per una sessione, si fa così, e non si rilancia `collega-marketplace.mjs` dopo:
 ```bash
 git -C marketplace fetch --depth 1 origin <BASE_SITO> && git -C marketplace checkout -q --detach FETCH_HEAD && test "$(git -C marketplace rev-parse HEAD)" = "<BASE_SITO>"
@@ -142,7 +144,7 @@ Il controllo si fa al 7.5. Se `consegne/audit/<data>-radiografia.md` o `consegne
 
 La cartella è `consegne/audit/<data di oggi>-radiografia-12-sessioni/`. In ogni file che scrivi lì sostituisci ogni segnaposto (`<BASE_SITO>`, `<cartella>`, `<il tuo ramo>`, l'id della sessione dell'AD) con il valore vero. Dentro ci va:
 
-- **`LEGGIMI.md`.** Le regole per le sessioni figlie: tutto il passo 5, per intero, con la stessa numerazione da 5.1 a 5.10, più tutto il §1 tranne «Le conferme» e l'ultima riga sulla fase 0.
+- **`LEGGIMI.md`.** Le regole per le sessioni figlie: tutto il passo 5, per intero, con la stessa numerazione da 5.1 a 5.10, più tutto il §1 tranne «Le conferme» e l'ultima riga sulla fase 0, più l'elenco dei nomi esatti delle 24 lenti della casa `marketplace` di `cervello/dimensioni-radiografia.json`, con la sessione che possiede ognuna (la tabella del passo 4).
 - **`schede/S01.md` … `schede/S12.md`.** Per ogni sessione:
   - cosa guarda;
   - le lenti, elencate per nome;
@@ -178,12 +180,13 @@ La cartella è `consegne/audit/<data di oggi>-radiografia-12-sessioni/`. In ogni
 - **`guardia-ramo <ramo> <SNN>`.** Se `origin/<ramo>` non esiste ancora, l'esito è «in attesa», non rosso. Altrimenti `git diff --name-only <partenza della SNN>...origin/<ramo>` (tre punti) contiene solo `consegne/audit/<cartella>/referti/SNN.json`.
 - **`valida-referto <file>`.** Il formato del 5.6. In particolare:
   - ogni `dimensione` è una delle 24 lenti, ogni `severita` è bloccante, grave o minore;
-  - ogni posto in `file` ha una forma ammessa (5.6), e ogni `percorso:riga` o `percorso:inizio-fine` esiste a BASE_SITO, con le righe dentro il file;
+  - ogni posto nel `file` dei difetti ha una forma ammessa (5.6), e ogni `percorso:riga` o `percorso:inizio-fine` esiste a BASE_SITO, con le righe dentro il file;
   - `live:` e `vercel:` solo in S11, `produzione:` solo in S05 e S11, `stripe:` solo in S03, e sempre con `prova_tipo: "comando"` ed `esito_prova` non vuoto;
   - ogni grave o bloccante rispetta l'asticella del §1, ma solo su un referto con `"finita": true`: su un referto parziale un grave non ancora provato è «in attesa», non rosso;
   - ogni scheda con `riservato: true` ha i valori fissi del 5.9 nei campi che il 5.9 fissa (`id`, `dimensione`, `severita`, `prova_tipo`, `prova_eseguita`, `verificato` e `riservato` restano liberi), e `(nel referto privato)` compare solo con `riservato: true`;
   - nessuno dei segnaposti del modello del 5.6: `<BASE_SITO>`, `"…"`, `"una delle 24 lenti"`, `"come lo diresti a voce"`, `AAAA-MM-GG HH:MM`;
-  - ogni prova di `prove_per_la_palestra` ha `chi`, `file`, `passi` e `atteso`.
+  - ogni prova di `prove_per_la_palestra` ha `chi`, `file`, `passi` e `atteso`;
+  - ogni ricontrollo `non_piu_vero` di una voce grave o bloccante (la gravità si legge per chiave in `da-ricontrollare.txt`) ha `prova_tipo: "comando"`, `prova_eseguita: true` ed `esito_prova` non vuoto, solo su un referto con `"finita": true`: su un referto parziale l'esito è «in attesa».
 - **`copertura-dopo`.** L'unione di `file_letti_interi`, `file_letti_in_parte` e `file_eseguiti` dei referti, confrontata con la mappa. Dà i tre conti separati, conta a parte i file `strumento` e `binario`, e restituisce l'elenco dei file di codice che non ha coperto nessuno.
 - **`copertura-palestra`.** Ogni pagina (`app/**/page.tsx`) e ogni indirizzo interno (`app/api/**/route.ts`) a BASE_SITO compare nel campo `file` di almeno una prova di `prove_per_la_palestra`. Restituisce l'elenco di quelli senza prova. Il 6/11 erano 118 pagine e 107 indirizzi.
 - **`segnaposti`.** In `LEGGIMI.md` e nelle schede non resta nessuno di questi: `<BASE_SITO>`, `<cartella>`, `<il tuo ramo>`, `<id>`, `<data di oggi>`. Gli altri, come `<area>` o `<oggetto>`, li riempie la sessione.
@@ -202,11 +205,13 @@ La cartella è `consegne/audit/<data di oggi>-radiografia-12-sessioni/`. In ogni
 - un `(nel referto privato)` con `riservato: false`;
 - una pagina di `app/` senza nessuna prova da palestra;
 - una riservata con un percorso in `verificato_da`;
-- un `<BASE_SITO>` rimasto nel LEGGIMI.
+- un `<BASE_SITO>` rimasto nel LEGGIMI;
+- un bloccante chiuso `non_piu_vero` con `lettura-codice`.
 
 E questi devono restare verdi:
 - un ramo partito da un commit dell'AD successivo, che cambia solo il referto;
 - un referto con due file e un intervallo di righe;
+- un referto con una prova da palestra che ha due percorsi senza riga;
 - un `live:` di S11 con la prova a comando e l'esito;
 - una riservata in regola;
 - un referto parziale con un grave non ancora provato.
@@ -353,7 +358,7 @@ Il tetto conta **tutti** gli agenti della sessione: cercatori, verificatori e ag
     - i **nomi** delle variabili confrontati con quelle che il codice pretende, mai i valori (anche `SENTRY_DSN` per S08);
     - l'esito dei lavori a orario.
   - **Le cinque automazioni GitHub del sito** (`.github/workflows/`: `ci.yml`, `deploy-dopo-ci.yml`, `backup-db.yml`, `deriva-migrazioni-produzione.yml`, `migrazioni-a-mano.yml`): cosa fanno e gli esiti veri. Si leggono solo con `mcp__github__actions_list` (`list_workflows`, `list_workflow_runs`, `list_workflow_jobs`, `list_workflow_run_artifacts`), `mcp__github__actions_get` (`get_workflow_run`) e `mcp__github__get_job_logs`. Il backup di ogni notte c'è? La prova di ripristino del primo del mese è verde? Un rilascio può partire con la CI rossa?
-  - **Mai** un ordine, un modulo inviato, un accesso con un account vero, un'automazione lanciata. Il controllo anti-robot si rispetta: se una pagina lo chiede, ti fermi lì e lo scrivi in `non_guardato`.
+  - **Mai** un ordine, un modulo inviato, un accesso con un account vero, un'automazione lanciata, una chiamata a un indirizzo `/api/…` del sito vero. Il controllo anti-robot si rispetta: se una pagina lo chiede, ti fermi lì e lo scrivi in `non_guardato`.
   - **Il punto di partenza del 6/11**, riferito dall'altra sessione dell'AD, da ricontrollare: chiave di servizio del database, `RESEND_API_KEY`, `RESEND_FROM` e Upstash su Vercel dalle 00:59 (codice `db5164c`); mancano `SUPPORT_EMAIL`, `RESEND_REPLY_TO` e le chiavi Stripe; nessun errore di esecuzione dalle 00:49.
 - **S12.**
   - Struttura del codice, pezzi doppi, codice mai usato, dipendenze circolari.
@@ -394,7 +399,7 @@ Sul repo del sito: mai un commit, un ramo o un push.
 - Nel tuo ramo cambi un solo file: `consegne/audit/<cartella>/referti/SNN.json`.
 - I file di prova, le copie, le foto e gli appunti stanno nel tuo scratchpad.
 - Salva e spingi il referto ogni 10 difetti o ogni ora, quello che arriva prima, con `"finita": false`. Così uno stop per i limiti non fa perdere niente.
-- Il tuo ramo è pubblico appena lo spingi. Prima di ogni push rileggi tutto il referto tranne le schede riservate: i difetti non riservati, `regressioni`, `ricontrolli`, `copertura.non_guardato`, `domande_per_nicola`, `prove_per_la_palestra` e `conto.nota`. Se uno ripete una frase di una tua falla riservata, o nomina una rotta, una tabella, una funzione o una riga che compare solo in quella falla, togli quel pezzo oppure segna riservato anche quel difetto.
+- Il tuo ramo è pubblico appena lo spingi. Prima di ogni push rileggi tutto il referto tranne le schede riservate: i difetti non riservati, `regressioni`, `ricontrolli`, `copertura.non_guardato`, `copertura.file_eseguiti` (anche `comando` ed `esito`), `copertura.file_letti_in_parte`, `domande_per_nicola`, `prove_per_la_palestra` e `conto.nota`. Una prova lanciata per una falla riservata non va in `file_eseguiti` con il suo comando: lì va solo il file, con `comando` ed `esito` uguali a `"nel referto privato"`, e il comando vero va in chat come al 5.9. Se uno ripete una frase di una tua falla riservata, o nomina una rotta, una tabella, una funzione o una riga che compare solo in quella falla, togli quel pezzo oppure segna riservato anche quel difetto.
 
 **5.5 Solo il nuovo.** Prima di scrivere un difetto cercalo in `registro-compatto.txt`, con grep e mai con Read: prima per ogni percorso che citi, poi per due o tre parole del titolo. Se sei nella seconda ondata cercalo anche in `trovati-ondata-1.txt`.
 - Se c'è ed è aperto, non è nuovo. Puoi scriverlo solo se porti una prova più forte, con `gia_noto` che cita la chiave.
@@ -436,20 +441,20 @@ Sul repo del sito: mai un commit, un ramo o un push.
     "riservato": false
   }],
   "regressioni": [{ "chiave": "dimensione|titolo", "indice": 123, "prova": "…", "esito_prova": "…" }],
-  "ricontrolli": [{ "chiave": "dimensione|titolo", "indice": 123, "esito": "ancora_vero | non_piu_vero | cambiato | non_verificabile", "prova": "…", "nota": "…" }],
+  "ricontrolli": [{ "chiave": "dimensione|titolo", "indice": 123, "esito": "ancora_vero | non_piu_vero | cambiato | non_verificabile", "prova": "…", "prova_tipo": "comando | lettura-codice", "prova_eseguita": true, "esito_prova": "…", "nota": "…" }],
   "prove_per_la_palestra": [{ "id": "S03-P001", "funzione": "…", "chi": "cliente | negozio | fattorino | admin | estraneo", "file": "app/…/page.tsx · app/api/…/route.ts", "dati_di_prova": "…", "passi": "…", "atteso": "…", "limite": "…" }],
   "domande_per_nicola": [],
   "conto": { "agenti": 0, "token_sessione": {}, "token_subagenti": {}, "token_workflow": [], "nota": "" }
 }
 ```
-- `file` è uno o più posti separati da « · ». Ogni posto è `percorso:riga` o `percorso:inizio-fine`. Ci sono cinque eccezioni:
+- `file` di un **difetto** è uno o più posti separati da « · ». Ogni posto è `percorso:riga` o `percorso:inizio-fine`. Ci sono cinque eccezioni:
   - `live:<indirizzo pubblico>` e `vercel:<rilascio o lavoro>`, solo in S11;
   - `produzione:<oggetto>`, solo in S05 e S11;
   - `stripe:<oggetto>`, solo in S03;
   - `(nel referto privato)`, solo per le riservate.
 - `ricontrolli` lo compila solo S01. `indice` serve solo a leggere: la voce si ritrova per `chiave`.
 - `conto` lo riempi alla fine con le uscite di `conto-token.mjs` (§1).
-- `prove_per_la_palestra`: per ogni pagina e ogni indirizzo interno del tuo perimetro, almeno una prova da fare nella palestra, come un cliente, un negozio, un fattorino, un amministratore o un estraneo. `file` è la pagina o l'indirizzo. `limite` dice dove la prova spinge: tanti utenti insieme, quantità, date, doppio clic, rete lenta, un fornitore che non risponde. Non la fai: la scrivi.
+- `prove_per_la_palestra`: per ogni pagina e ogni indirizzo interno del tuo perimetro, almeno una prova da fare nella palestra, come un cliente, un negozio, un fattorino, un amministratore o un estraneo. `file` è la pagina o l'indirizzo. `limite` dice dove la prova spinge: tanti utenti insieme, quantità, date, doppio clic, rete lenta, un fornitore che non risponde. Non la fai: la scrivi. In `prove_per_la_palestra`, `file` è uno o più percorsi senza riga, separati da « · », che esistono a BASE_SITO.
 
 **5.7 La verifica dentro la sessione.**
 - Chi trova un difetto non lo conferma. Ogni difetto passa da un subagente diverso, del tipo `qa`, che ha il compito di smentirlo e rilancia la prova. Nel dubbio il difetto si scarta.
@@ -494,7 +499,7 @@ Scrivi ogni sessione in `sessioni.json` con la sua `partenza`, e manda a Nicola 
 
 **6.2 I piani.**
 - Programma con `send_later` un controllo dopo 15 minuti.
-- Leggi ogni piano con `list_events`, `kinds: ["assistant"]`: è la chiamata di uscita dalla modalità piano. Se un piano non è ancora pronto, riprogramma il controllo fra 15 minuti.
+- Leggi ogni piano con `list_events`, `kinds: ["assistant"]`, `limit: 100`: è la chiamata di uscita dalla modalità piano. Il filtro si applica dopo aver letto la pagina: se il piano non c'è e `has_more` è vero, leggi la pagina prima (`before_id` = `first_id`), finché lo trovi o `has_more` è falso. Se un piano non è ancora pronto, riprogramma il controllo fra 15 minuti.
 - Confronta il piano con la scheda: perimetro, prove su copie, tetto degli agenti, sola lettura, un solo file nel ramo, riservato, salvataggi a pezzi.
 - Poi scrivi a Nicola, per ogni sessione:
   - «✅ approva la SNN», oppure
@@ -505,7 +510,7 @@ Scrivi ogni sessione in `sessioni.json` con la sua `partenza`, e manda a Nicola 
 - **La catena.** Alla fine di ogni controllo programma il successivo con `send_later` (`delay_minutes: 30`), e scrivi il `trigger_id` nel diario. `send_later` suona una volta sola. Se ti svegli per un altro motivo (un messaggio di una sessione, un evento della PR), guarda prima nel diario o con `list_triggers` se il prossimo controllo è già in coda, e non programmarne un secondo. La catena parte quando hai mandato a Nicola il giudizio sull'ultimo piano dell'ondata: fino ad allora c'è solo il controllo del 6.2, ogni 15 minuti, che sorveglia anche le sessioni già approvate. Mai `sleep`, mai giri di attesa. Mentre le sessioni lavorano, non fare turni più lunghi di 30 minuti.
 - **A ogni controllo, per ogni sessione attiva:**
   - `get_session` per `status_bucket` e `permission_mode`. Se dopo l'approvazione il modo non è automatico, avvisa Nicola subito. Se è `blocked`, guarda con `list_events` se è ferma su un clic e avvisa Nicola.
-  - `list_events` con `kinds: ["assistant","result"]` e `limit: 20`. Il lavoro lo giudichi dal referto nel ramo, non dalla trascrizione.
+  - `list_events` con `kinds: ["assistant","result"]` e `limit: 100`; se `data` è vuoto e `has_more` è vero, la pagina prima con `before_id` = `first_id`. Il lavoro lo giudichi dal referto nel ramo, non dalla trascrizione.
   - `git fetch` del suo ramo, poi `guardia-ramo` e `valida-referto` sul referto parziale.
   - Su `NicolaeRotaru/mycity` nessun ramo o commit nuovo delle sessioni (`mcp__github__list_branches`).
   - Una riga nel diario: ora, sessione, cosa hai visto (le falle solo contate), cosa hai fatto.
@@ -518,7 +523,7 @@ Scrivi ogni sessione in `sessioni.json` con la sua `partenza`, e manda a Nicola 
 
 **6.4 Fine ondata.** Quando tutte le sessioni dell'ondata hanno `"finita": true`:
 - Smetti di programmare controlli. Non cancellarli: `delete_trigger` chiede un clic.
-- **I dettagli riservati** restano nelle trascrizioni delle sessioni. Nel diario scrivi solo dove stanno (sessione e uuid dell'evento), e li rileggi da lì in 7.3 e 7.8, con `list_events`, `kinds: ["assistant"]`, partendo da quegli uuid. Mai senza `kinds`. Non archiviare nessuna sessione figlia prima del 7.8.
+- **I dettagli riservati** restano nelle trascrizioni delle sessioni. Nel diario scrivi solo dove stanno (sessione e uuid dell'evento), e li rileggi da lì in 7.3 e 7.8 con `get_event` (il `session_id` e l'`event_uuid` annotati nel diario): `list_events` con `after_id` partirebbe dall'evento dopo. Se serve il contesto intorno, `list_events` con `kinds: ["assistant"]` e `limit: 100`, mai senza `kinds`. Non archiviare nessuna sessione figlia prima del 7.8.
 - **Scrivi `trovati-ondata-1.txt`** (solo dopo la prima ondata): una riga per ogni difetto della prima ondata, anche quelli con `perimetro_altrui`, con id, sessione, gravità, file e titolo. Le riservate solo con id e titolo generico. Nella scheda di S08 scrivi cosa ha visto S11 su `SENTRY_DSN`. Fai commit e push: la seconda ondata parte da quel commit.
 - **Il riassunto a Nicola,** breve: quanti difetti per sessione e per gravità, quante `domande_per_nicola`, cosa è andato storto, il conto. Per la prima ondata aspetta il suo «via la seconda», e prima di partire rifai il 3.0.
 
@@ -537,20 +542,21 @@ L'ordine conta: prima i programmi, poi gli agenti.
 **7.2 I doppioni, prima della verifica.**
 - Prima un programma: stessa chiave, oppure stesso file a meno di 10 righe e titoli simili, contro il registro, contro `trovati-ondata-1.txt` e fra le sessioni.
 - Poi un agente leggero (`model: 'sonnet'`) unisce i doppioni scritti con parole diverse. Di ogni gruppo tieni la versione con la prova più forte, e scrivi da chi altro è stato visto.
+- Quelli che il programma o l'agente trova uguali a una voce del registro già chiusa (`riparato`, `chiuso`, `gia_riparato_prima`) non vanno nel grezzo: diventano regressioni, con la chiave della voce vecchia, passano dal 7.3 come le regressioni e si applicano al passo 4. Se la voce uguale è un `doppione`, vale la voce di cui è il doppione: aperta, il difetto esce dal grezzo; chiusa, è una regressione di quella. Un `doppione` non si riapre mai.
 - Quelli già nel registro e ancora aperti escono dal grezzo. Se hanno `gia_noto` con una prova più forte, confermata al 7.3, la prova va sulla voce vecchia, trovata per chiave, in `nota_<G>_<M>` (7.5, passo 4).
 - **Le falle riservate non passano dal programma:** hanno tutte lo stesso `file` e titoli quasi uguali. I loro doppioni li cerchi nello scratchpad, sui dettagli privati, fra le sessioni e con i referti privati della D7 se Nicola li ha dati. Senza quei referti ognuna resta nuova, e lo scrivi in «Cosa non ho verificato».
 
 **7.3 La verifica indipendente.** Un workflow con verificatori `agentType: 'qa'` che non hanno mai visto quei difetti, con il mandato di smentirli. Ognuno parte dalla prova citata (regola ⑯) e la rilancia sulla copia.
 - **Prima di lanciare:**
   - rifai il 3.0;
-  - conta gli agenti: gravi e bloccanti × 2, più minori ÷ 6, più (ricontrolli `non_piu_vero` e `cambiato` + regressioni + ricontrolli delle riservate di S04) ÷ 6, contando gruppo per gruppo (stesso file o flusso) e arrotondando per eccesso.
+  - conta gli agenti: gravi e bloccanti × 2, più minori ÷ 6, più le chiusure `non_piu_vero` di gravi e bloccanti × 1, più (gli altri ricontrolli `non_piu_vero` e `cambiato` + regressioni + ricontrolli delle riservate di S04) ÷ 6, contando gruppo per gruppo (stesso file o flusso) e arrotondando per eccesso.
 
   Se il conto supera 150, o il limite non è `allowed`, fermati e porta a Nicola il conto e le opzioni. Girano due agenti alla volta.
-- **Gravi e bloccanti:** due agenti per ognuno. Uno rifà la prova: è vero e si riproduce? L'altro ne giudica il peso. Si verificano per primi.
+- **Gravi e bloccanti:** due agenti per ognuno. Uno rifà la prova: è vero e si riproduce? L'altro ne giudica il peso. Si verificano per primi. Chi rifà la prova guarda anche l'ultimo `main` del sito: se lì il difetto non c'è più, lo segna «già riparato dopo BASE_SITO», non entra aperto nel grezzo, e lo dici nel referto.
 - **Minori:** un verificatore per gruppo, al massimo 6 difetti dello stesso file o flusso. Nel dubbio si scarta.
-- **I ricontrolli di S01** (`non_piu_vero` e `cambiato`) e **le regressioni:** a gruppi di 6. Chiudere un difetto vero lo nasconde, quindi qui nel dubbio **resta aperto**.
+- **I ricontrolli di S01** (`non_piu_vero` e `cambiato`) e **le regressioni:** a gruppi di 6, tranne le chiusure `non_piu_vero` di gravi e bloccanti, che hanno un verificatore ciascuno. Chiudere un difetto vero lo nasconde, quindi qui nel dubbio **resta aperto**.
 - **Le falle riservate**, e i ricontrolli delle riservate fatti da S04: stessa regola, ma dentro lo scratchpad, coi dettagli riletti dalle trascrizioni. Lo script del workflow e i suoi argomenti per le riservate stanno nello scratchpad, mai in `.claude/workflows/` né nella cartella del lavoro.
-- **I salvataggi.** Gli esiti si salvano a pezzi in `consegne/audit/<cartella>/verifica/` e si spingono. Lì solo id, esito e comando della prova: nessun testo libero dei verificatori. Dopo una ripresa su una macchina nuova si legge quello e si verifica solo il mancante.
+- **I salvataggi.** Gli esiti si salvano a pezzi in `consegne/audit/<cartella>/verifica/` e si spingono. Lì solo id, esito e comando della prova: nessun testo libero dei verificatori. Per le falle riservate e per i ricontrolli delle riservate fatti da S04, in `verifica/` vanno solo il numero (R o SNN-0xx) e l'esito, mai il comando: il comando resta nelle trascrizioni, e dopo una ripresa quelle verifiche si rifanno. Dopo una ripresa su una macchina nuova si legge quello e si verifica solo il mancante.
 
 **7.4 Il critico di completezza.** Un agente legge:
 - `copertura-dopo`;
@@ -559,7 +565,7 @@ L'ordine conta: prima i programmi, poi gli agenti.
 - i cinque buchi dichiarati il 5/11: il sito vero nel browser, Stripe, l'aspetto, la consegna veloce, i difetti vecchi mai ricontrollati;
 - le falle riservate aperte: quante ricontrollate, quante no e perché.
 
-Elenca cosa manca ancora. Se un buco conta, fai un terzo giro piccolo, al massimo 4 agenti, poi ti fermi. Quello che resta va in «Cosa non ho verificato». Le riservate non ricontrollate ci vanno col numero esatto e con quante sono bloccanti o gravi. I difetti del terzo giro passano dal 7.3 con un verificatore `qa` nuovo, dentro i 4 agenti, e nel grezzo hanno `fonte_radiografia: "radiografia <data> · terzo giro"`. Non c'è un quarto giro senza Nicola.
+Elenca cosa manca ancora. Se un buco conta, fai un terzo giro piccolo, al massimo 4 agenti, poi ti fermi. Quello che resta va in «Cosa non ho verificato». Le riservate non ricontrollate ci vanno col numero esatto e con quante sono bloccanti o gravi. I difetti del terzo giro si scrivono in un file nello scratchpad, nel formato del 5.6 e con `"finita": true`. Su quel file gira `valida-referto` senza la regola che lega `live:`, `vercel:`, `produzione:` e `stripe:` a una sessione: quei posti restano ammessi solo con `prova_tipo: "comando"` ed `esito_prova` non vuoto. Poi passano dal 7.3 con le sue regole, due agenti nuovi per ogni grave o bloccante, contati dentro i 4, e nel grezzo hanno `fonte_radiografia: "radiografia <data> · terzo giro"`. Non c'è un quarto giro senza Nicola.
 
 **7.5 Scrivere, in quest'ordine.** I passi da 3 a 8 si scrivono nella copia locale, senza commit né push, finché la rilettura del passo 9 non è tornata.
 
@@ -587,10 +593,11 @@ Elenca cosa manca ancora. Se un buco conta, fai un terzo giro piccolo, al massim
    - ogni difetto con i campi di quel file, più `fonte_radiografia: "radiografia <data> · SNN"` (e «vista anche da …») e `giro`;
    - le riservate col numero R, senza `riverifica` né `gia_noto`.
 
-   Prima di scriverlo, un programma controlla che ogni chiave `dimensione|titolo` del grezzo sia unica e non sia già nel registro.
+   Prima di scriverlo, un programma controlla che ogni chiave `dimensione|titolo` del grezzo sia unica e non sia già nel registro, e che ogni grave o bloccante del terzo giro abbia passato l'asticella sul suo file. Se uno non la passa, fermati.
 6. **Il digest, una volta sola.** Conta il registro, lancia `node cervello/radiografia-marketplace-digest.mjs`, conta di nuovo. Un secondo giro azzera `confronto_precedente`. I controlli:
    - le voci nuove devono essere esattamente quelle del grezzo;
-   - le voci vecchie, confrontate per chiave, devono avere lo stato del passo 4.
+   - subito prima del digest, dopo il passo 4, copia il registro nello scratchpad. Il digest ricostruisce da capo anche le voci che vengono dall'ultimo referto del design, quello dell'11/10, e di quelle tiene solo `stato`, `nota_riparazione`, `chiuso_il`, `chiuso_da`, `riaperto_il` e `riaperto_da`: il 6/11 avrebbe tolto campi a 47 voci, riportato `prova` e `prova_tipo` al valore vecchio su 31, e tolto i `riverifica_<G>_<M>` e i `nota_<G>_<M>` del passo 4. Dopo il digest, un programma rimette ogni voce che era già nel registro uguale alla copia, campo per campo, trovandola per chiave; l'unico campo in più ammesso è `fuori_dal_referto`. Se rimetterle cambia `severita` o `stato` di una voce, i contatori di `meta` non tornano più: fermati;
+   - poi il programma controlla tre cose: ogni voce vecchia è uguale alla copia, salvo `fuori_dal_referto`; le voci nuove sono esattamente quelle del grezzo; voci prima più voci nuove fa voci dopo.
    - Se non torna, fermati.
 
    Poi scrivi a mano `sintesi` con le due righe «In parole semplici» del referto, e controlla due cose: che `report` sia `consegne/audit/<data>-radiografia.md`, e che `confronto_precedente.data` sia `2026-11-05`.
@@ -603,9 +610,11 @@ Elenca cosa manca ancora. Se un buco conta, fai un terzo giro piccolo, al massim
    - `DECISIONI.md` per la rete aperta e per le chiusure.
    - Una riga ESITO: `node cervello/chiusura-loop.mjs registra <reparto> "<contesto>" "<scorecard>" "<atteso>" "<reale>" "#radiografia"`.
 9. **La rilettura della riservatezza, prima del primo commit dei passi 3-8.** Due agenti `security`, che non hanno né trovato né verificato le falle, leggono i dettagli dallo scratchpad. Poi leggono tutto il testo che sta per diventare pubblico:
-   - il grezzo, il referto, le voci del registro che cambi, `batteria-palestra.*`, `domande-per-nicola.md`, `verifica/`, `trovati-ondata-1.txt`, il diario;
+   - il grezzo, il referto, le voci del registro che cambi, `batteria-palestra.*`, `domande-per-nicola.md`;
    - i referti delle sessioni che stai per portare sul ramo;
    - le righe nuove di STATO.md, LAVORO-APERTO.md, AZIONI-IN-ATTESA.md e DECISIONI.md, la riga ESITO, il corpo della PR in bozza nello scratchpad.
+
+   `verifica/`, `trovati-ondata-1.txt` e il diario sono già pubblici: li rileggono lo stesso, ma se vi trovano un segno è una falla esposta (§8), da dire subito a Nicola, non un'oscuratura.
 
    Segnano ogni campo che ripete una frase di otto parole di una falla, o che nomina qualcosa che sta solo nelle falle. Ogni segno si oscura, oppure si dichiara «già pubblico» col perché. È lo stesso metodo di `cervello/lotto-a-pacchetti.md`. Solo quando sono tornati tutti e due:
    - porta i 12 referti sul tuo ramo, uno per ramo: `git checkout origin/<il tuo ramo>-rNN -- consegne/audit/<cartella>/referti/SNN.json`;
@@ -666,9 +675,12 @@ Solo dopo questo messaggio le sessioni figlie si possono archiviare, e solo se N
 
 La palestra è una copia del sito fatta per le prove. Lì si usa il sito come tanti clienti, negozianti, fattorini e amministratori insieme, su tutto quello che esiste, fino al limite. Il sito vero non si tocca mai. Questa fase parte solo con la D10 decisa e il piano firmato.
 
+Con la firma, e solo per la palestra, due regole del §1 hanno un'eccezione: si crea un rilascio di **anteprima** su Vercel, mai di produzione, e si impostano le sue variabili solo per l'ambiente Preview del ramo di prova (o in un progetto Vercel separato), mai per Production né per tutte le anteprime. Tutte le altre regole del §1 restano.
+
 **10.1 Il piano, con i costi (prima della firma).** In `AZIONI-IN-ATTESA.md`, con i quattro blocchi:
 - cosa si crea: un rilascio di prova su Vercel, un ramo di prova del database (Micro, circa 0,32 $ al giorno se acceso, riferito il 6/11: ricontrollalo), Stripe in modalità test, una casella email di prova, le chiavi di prova di Cloudflare Turnstile;
-- quanto costa, al giorno e in tutto, e che il ramo si accende solo durante le prove;
+- le variabili del rilascio di prova, una per una, solo per nome: in un progetto Vercel separato, oppure sul progetto vero solo per l'ambiente Preview di un ramo dedicato, mai per Production;
+- quanto costa, al giorno e in tutto, compreso ogni servizio che le prove consumano, e che il ramo si accende solo durante le prove. Il fornitore di intelligenza artificiale non ha chiavi di prova: o una chiave a parte, creata solo per la palestra, con un tetto di spesa in euro, o le prove con un fornitore finto. Conta anche l'uso di Vercel sotto carico, che pesa sul piano dell'account del sito vero;
 - quante prove ci sono nella batteria, per chi e per area, e in quanti giorni girano;
 - cosa non si può provare nemmeno lì, e perché.
 
@@ -676,8 +688,8 @@ Creare il ramo del database costa soldi veri: è 🔴, e senza la firma non part
 
 **10.2 La costruzione (dopo la firma).**
 - Il ramo di prova del database, con le stesse migrazioni del sito vero e dati di prova: negozi, prodotti, clienti, fattorini e un amministratore finti, mai dati veri copiati.
-- Il rilascio di prova su Vercel, con le variabili che puntano al ramo di prova, alle chiavi di test di Stripe, alla casella di prova e alle chiavi di prova di Turnstile. Nessuna chiave vera.
-- Un controllo prima di partire: il rilascio di prova non deve poter scrivere sul database vero né mandare email a persone vere. Se non lo puoi provare, non si parte.
+- Il rilascio di prova su Vercel, con le variabili che puntano al ramo di prova, alle chiavi di test di Stripe, alla casella di prova e alle chiavi di prova di Turnstile. Nessuna chiave vera. L'unica eccezione è una chiave del fornitore di intelligenza artificiale creata a parte per la palestra, mai quella del sito vero, e solo se il piano firmato la nomina con il suo tetto.
+- Un controllo prima di partire, per nomi e ambiente, mai per valori. Nessuna variabile del rilascio di prova vale anche per Production o è condivisa con il sito vero, comprese PostHog, Upstash, Sentry, le notifiche e il fornitore di intelligenza artificiale. Il rilascio di prova non deve poter scrivere sul database vero né mandare email a persone vere. Se una di queste cose non la puoi provare, non si parte.
 
 **10.3 Le prove.**
 - La batteria di `batteria-palestra.json`, con script Playwright nello scratchpad (il browser di sistema, §4 S11). Tanti utenti finti insieme, ognuno col suo ruolo.
