@@ -69,7 +69,7 @@ fonte: le parti di CLAUDE.md che servono solo all'AD, spostate parola per parola
 > quello che il programma ha già controllato arriva all'agente in un file compatto, letto una volta (è la ⑩) ·
 > ⑯ **il verificatore parte dalla prova**: ricontrolla la riga o il comando citati da chi ha trovato, non rifà la
 > ricerca da capo · ⑰ **il modello piccolo per i controlli semplici** (è la ⑨). Il conto che l'ha decisa: il controllo
-> del prompt della radiografia in 12 sessioni, il 6/11 dalle 00:11 alle 00:58. 10 agenti, due alla volta, 47 minuti e
+> del prompt della radiografia in 12 sessioni, il 6/11 dalle 00:11 alle 00:58: cinque revisori e cinque verificatori, due alla volta, 47 minuti e
 > 418 turni, 101 del solo revisore degli strumenti; 64,6 milioni di token con le riletture, 1,8 milioni senza. Ha
 > trovato 74 problemi veri su 89 segnalati: il controllo serviva, era la forma a essere lenta. Stima col metodo nuovo:
 > 15-20 minuti e un terzo dei passi, da misurare al prossimo lavoro simile. *Freno non ancora scritto: oggi nessun
