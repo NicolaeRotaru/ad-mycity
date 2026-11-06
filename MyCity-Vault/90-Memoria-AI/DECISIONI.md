@@ -6640,4 +6640,6 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 
 **La direzione di Nicola, per dopo:** l'AD deve usare il sito come tanti clienti, fattorini e negozianti insieme. Deve provare ogni funzione fino al limite. Gli esempi sono l'ordine di prova di un negozio nuovo con un conto Stripe di prova, e l'inserimento di un prodotto con l'AI. Per farlo senza toccare persone e soldi veri serve una copia del sito con un database di prova. Nella copia Stripe gira in prova, le email vanno a una casella di prova e il controllo anti-robot usa le chiavi di prova. Quando partire lo decide Nicola.
 
+**Precisazione delle 01:35:** vale per tutto quello che esiste già, non solo per le funzioni nuove. Il prodotto inserito con l'AI, il negozio e tutto il resto vanno provati al massimo.
+
 **Colore:** 🟡 rete dell'ambiente cambiata con la firma di Nicola; la copia di prova è da proporre, con i costi.
