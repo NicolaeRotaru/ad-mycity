@@ -126,7 +126,21 @@ function sezione(testo, titolo) {
   }
   return fuori;
 }
-const voci = (righe) => righe.map((r) => r.match(/^\s*-\s+`([^`]+)`/)?.[1]).filter(Boolean);
+// Le voci di un elenco: solo righe «- `nome`». Il testo prima dell'elenco è ammesso; dopo la prima voce,
+// qualsiasi riga che non è una voce né vuota chiude l'elenco (un titoletto in grassetto «**Passate a S04:**»
+// non può tenere sotto di sé lenti che contano). Un blocco di codice o una sottolineatura chiudono sempre.
+function voci(righe) {
+  const fuori = [];
+  let iniziato = false;
+  for (const r of righe) {
+    if (/^\s*(```|~~~|[-=]{3,}\s*$)/.test(r)) break;
+    const m = r.match(/^\s*-\s+`([^`]+)`/);
+    if (m) { fuori.push(m[1]); iniziato = true; continue; }
+    if (r.trim() === "") continue;
+    if (iniziato) break;
+  }
+  return fuori;
+}
 function leggiScheda(opz, s) {
   const p = join(opz.cartella, "schede", `${s}.md`);
   return existsSync(p) ? readFileSync(p, "utf8") : null;
@@ -438,8 +452,8 @@ function coperturaPrima(opz) {
 // ── guardia-ramo ─────────────────────────────────────────────────────────────────────────────
 // Guarda la STORIA del ramo, commit per commit, non solo la differenza netta: un file scritto e poi
 // cancellato resta nella storia pubblica, e una rinomina nasconde una cancellazione (collaudo del 6/11,
-// buco 2). I commit del ramo dell'AD (la sua catena di primi genitori dalla partenza) non contano:
-// così un ramo partito da un commit dell'AD successivo, o un ramo che l'AD ha già unito, si giudica giusto.
+// buco 2). I commit che il ramo dell'AD raggiunge non contano: così un ramo partito da un commit dell'AD
+// successivo, o un ramo che riporta dentro il ramo dell'AD (anche dopo un'unione di main), si giudica giusto.
 function revList(dir, args) {
   return (gitOk(dir, ["rev-list", ...args]) ?? "").split("\n").filter(Boolean);
 }
@@ -464,8 +478,11 @@ function guardiaRamo(opz) {
   const testaRamo = (gitOk(opz.git, ["rev-parse", ref]) ?? "").trim();
   const testaAd = (gitOk(opz.git, ["rev-parse", adRef]) ?? "").trim();
   if (testaAd && testaAd === testaRamo) rossi.push(`«${adRef}» è lo stesso commit del ramo figlio: il ramo dell'AD è sbagliato`);
-  const dellAd = new Set(testaAd ? revList(opz.git, ["--first-parent", `${partenza}..${adRef}`]) : []);
-  const delFiglio = revList(opz.git, [`${partenza}..${ref}`]).filter((c) => !dellAd.has(c));
+  // per la D5 i rami figli non si uniscono mai nel ramo dell'AD: un figlio già tutto dentro è un errore
+  if (testaAd && testaAd !== testaRamo && gitOk(opz.git, ["merge-base", "--is-ancestor", ref, adRef]) !== null) rossi.push(`${ref} è già tutto dentro «${adRef}»: i rami figli non si uniscono nel ramo dell'AD (D5), i referti si portano con git checkout … -- file`);
+  // del figlio sono i commit che il ramo dell'AD non raggiunge: così un'unione di main nel ramo dell'AD,
+  // o un figlio partito dopo quell'unione, non mette sul conto del figlio i file di main (ricollaudo del 6/11)
+  const delFiglio = revList(opz.git, [`${partenza}..${ref}`, ...(testaAd ? ["--not", adRef] : [])]);
   const toccati = new Set();
   for (const c of delFiglio) {
     const genitori = (gitOk(opz.git, ["rev-list", "--parents", "-n", "1", c]) ?? "").trim().split(/\s+/).slice(1);
@@ -509,8 +526,14 @@ function percorsoEsiste(opz, perc) {
 function dataVera(t) {
   const m = String(t ?? "").match(/^(\d{4})-(\d\d)-(\d\d) (\d\d):(\d\d)$/);
   if (!m) return false;
-  const [, , mm, gg, hh, mi] = m.map(Number);
-  return mm >= 1 && mm <= 12 && gg >= 1 && gg <= 31 && hh <= 23 && mi <= 59;
+  const [, aa, mm, gg, hh, mi] = m.map(Number);
+  const d = new Date(Date.UTC(aa, mm - 1, gg, hh, mi));
+  return d.getUTCFullYear() === aa && d.getUTCMonth() === mm - 1 && d.getUTCDate() === gg && hh <= 23 && mi <= 59;
+}
+function chiavi(o, fuori = []) {
+  if (Array.isArray(o)) o.forEach((x) => chiavi(x, fuori));
+  else if (o && typeof o === "object") for (const [k, v] of Object.entries(o)) { fuori.push(k); chiavi(v, fuori); }
+  return fuori;
 }
 function valori(o, fuori = []) {
   if (typeof o === "string") fuori.push(o);
@@ -518,7 +541,10 @@ function valori(o, fuori = []) {
   else if (o && typeof o === "object") Object.values(o).forEach((x) => valori(x, fuori));
   return fuori;
 }
-const AREA_RISERVATA = /^[A-Za-zÀ-ÿ' ,-]{2,40}$/;
+// Le aree ammesse nel titolo di una riservata: le 11 già usate nel registro più le 24 lenti. Un elenco chiuso,
+// perché un'area libera può raccontare la falla anche in poche parole (ricollaudo del 6/11).
+const AREE_DEL_REGISTRO = ["rilascio", "API", "pagamenti", "privacy", "flussi", "regole del database", "accessi", "dati", "regole d'accesso al database", "sicurezza degli accessi", "intelligenza artificiale"];
+const normaArea = (a) => String(a ?? "").replace(/[\u2018\u2019\u02BC]/g, "'").trim().toLowerCase();
 function validaReferto(opz) {
   const [file] = opz.posizionali;
   if (!file) return uso("valida-referto <file>");
@@ -557,6 +583,7 @@ function validaReferto(opz) {
   const nCoperti = (cop.file_letti_interi ?? []).length + (cop.file_letti_in_parte ?? []).length + (cop.file_eseguiti ?? []).length;
   if (finita && nCoperti === 0) rossi.push("referto finito senza nessun file letto o eseguito: una sessione che non ha guardato niente non è finita");
 
+  const reg = leggiTabella(join(opz.cartella, "registro-compatto.txt"), 1, 3);
   const ids = new Set();
   for (const d of Array.isArray(r.difetti) ? r.difetti : []) {
     const ctx = `difetto ${d?.id ?? "(senza id)"}`;
@@ -568,6 +595,7 @@ function validaReferto(opz) {
     if (!PROVE.has(d?.prova_tipo)) rossi.push(`${ctx}: prova_tipo «${d?.prova_tipo}»`);
     if (typeof d?.prova_eseguita !== "boolean") rossi.push(`${ctx}: prova_eseguita deve essere true o false`);
     if (typeof d?.riservato !== "boolean") rossi.push(`${ctx}: riservato deve essere true o false`);
+    if (typeof d?.verificato !== "boolean") rossi.push(`${ctx}: verificato deve essere true o false`);
     const riservato = d?.riservato === true;
     // il titolo «Falla di sicurezza…» è il segno con cui il registro riconosce le riservate (3.1)
     if (/^\s*falla di sicurezza/i.test(d?.titolo ?? "") && !riservato) rossi.push(`${ctx}: un titolo «Falla di sicurezza…» vuole riservato: true`);
@@ -591,7 +619,8 @@ function validaReferto(opz) {
       const extra = Object.keys(d ?? {}).filter((k) => !CAMPI_DIFETTO.includes(k));
       if (extra.length) rossi.push(`${ctx}: una riservata ha solo i campi del 5.6; in più: ${extra.join(", ")}`);
       const area = (d?.titolo ?? "").match(TITOLO_RISERVATO)?.[1];
-      if (!area || !AREA_RISERVATA.test(area.trim())) rossi.push(`${ctx}: il titolo di una riservata è «Falla di sicurezza da chiudere (<area>): i dettagli restano fuori dal deposito pubblico finché non è chiusa», con un'area corta (al massimo 40 lettere, senza cifre, «/» o «:») e senza numero R`);
+      const areeAmmesse = new Set([...AREE_DEL_REGISTRO, ...tutteLenti].map(normaArea));
+      if (!area || !areeAmmesse.has(normaArea(area))) rossi.push(`${ctx}: il titolo di una riservata è «Falla di sicurezza da chiudere (<area>): i dettagli restano fuori dal deposito pubblico finché non è chiusa», senza numero R, e l'area è una di queste: ${AREE_DEL_REGISTRO.join(", ")}, oppure il nome di una lente (l'area scritta era «${area ?? ""}»)`);
       if (d?.file !== FILE_PRIVATO) rossi.push(`${ctx}: una riservata ha file «${FILE_PRIVATO}» e nient'altro`);
       for (const c of ["descrizione", "impatto", "fix", "causa_radice", "prova", "esito_prova", "verificato_da"]) if (d?.[c] !== PRIVATO) rossi.push(`${ctx}: in una riservata «${c}» vale «${PRIVATO}»`);
       const pu = d?.prova_tipo === "umano" ? PRIVATO : null;
@@ -600,6 +629,13 @@ function validaReferto(opz) {
       if (d?.perimetro_altrui !== null) rossi.push(`${ctx}: in una riservata «perimetro_altrui» è null`);
     } else {
       for (const c of ["titolo", "descrizione", "impatto", "fix", "causa_radice", "prova"]) if (vuoto(d?.[c])) rossi.push(`${ctx}: «${c}» vuoto`);
+    }
+    // un difetto che rimanda a una falla riservata già nota la porterebbe in chiaro: quei dettagli vanno in chat
+    if (!vuoto(d?.gia_noto)) {
+      const v = reg?.get(d.gia_noto);
+      const versoRiservata = /^falla di sicurezza/i.test(v?.titolo ?? "") || /\|\s*falla di sicurezza/i.test(String(d.gia_noto));
+      if (versoRiservata) rossi.push(`${ctx}: «gia_noto» punta a una falla riservata: un difetto così si scrive riservato, e i dettagli vanno in chat`);
+      else if (reg && !v && !/^S\d\d-\d{3,}$/.test(d.gia_noto)) rossi.push(`${ctx}: «gia_noto» non è una chiave del registro né l'id di un difetto della prima ondata`);
     }
     if (d?.perimetro_altrui != null && !SESSIONI.includes(d.perimetro_altrui)) rossi.push(`${ctx}: perimetro_altrui «${d.perimetro_altrui}» non è una sessione`);
     // l'asticella
@@ -610,7 +646,6 @@ function validaReferto(opz) {
     if (finita && (d?.verificato !== true || vuoto(d?.verificato_da))) rossi.push(`${ctx}: a referto finito ogni difetto è verificato da un altro (verificato true e verificato_da)`);
   }
 
-  const reg = leggiTabella(join(opz.cartella, "registro-compatto.txt"), 1, 3);
   for (const g of Array.isArray(r.regressioni) ? r.regressioni : []) {
     const ctx = `regressione ${g?.chiave ?? "(senza chiave)"}`;
     if (vuoto(g?.chiave) || vuoto(g?.prova) || vuoto(g?.esito_prova)) { rossi.push(`${ctx}: servono chiave, prova ed esito_prova`); continue; }
@@ -632,7 +667,7 @@ function validaReferto(opz) {
   const idRiservate = (Array.isArray(r.difetti) ? r.difetti : []).filter((d) => d?.riservato === true && !vuoto(d?.id)).map((d) => d.id);
   if (idRiservate.length) {
     const fuoriDalleRiservate = { ...r, difetti: (r.difetti ?? []).filter((d) => d?.riservato !== true) };
-    for (const v of valori(fuoriDalleRiservate)) for (const id of idRiservate) if (new RegExp(`\\b${id}\\b`).test(v)) rossi.push(`l'id della riservata ${id} compare in un altro campo: «${v.slice(0, 60)}…» va tolto`);
+    for (const v of [...valori(fuoriDalleRiservate), ...chiavi(fuoriDalleRiservate)]) for (const id of idRiservate) if (new RegExp(`\\b${id}\\b`, "i").test(v)) rossi.push(`l'id della riservata ${id} compare in un altro campo: «${v.slice(0, 60)}…» va tolto`);
   }
 
   const daRic = leggiTabella(join(opz.cartella, "da-ricontrollare.txt"), 1, 2);
@@ -728,6 +763,8 @@ function segnaposti(opz) {
     if (!existsSync(p)) { rossi.push(`manca ${p.slice(opz.cartella.length + 1)}`); continue; }
     const t = readFileSync(p, "utf8");
     for (const sp of SEGNAPOSTI_AD) if (t.includes(sp)) rossi.push(`${p.slice(opz.cartella.length + 1)}: resta ${sp}`);
+    const base = t.match(/^base_sito:\s*(\S+)/m)?.[1];
+    if (base !== opz.base) rossi.push(`${p.slice(opz.cartella.length + 1)}: base_sito «${base ?? "assente"}» diversa da ${opz.base}`);
   }
   return chiudi("segnaposti", rossi, [], opz, { testi: testi.length });
 }
