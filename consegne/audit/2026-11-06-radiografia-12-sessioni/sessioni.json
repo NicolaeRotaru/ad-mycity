@@ -7,11 +7,11 @@
     {
       "sessione": "S01",
       "nome": "Ricontrollo dei difetti aperti",
-      "id": null,
+      "id": "session_015BmpnXbX6VZwivvy7fbRF2",
       "ramo": "claude/serene-wright-7l023n-r01",
       "ondata": 1,
-      "stato": "da aprire",
-      "partenza": null,
+      "stato": "piano in preparazione",
+      "partenza": "d3a644b82d6af9a7cb43933164e4804b2725d5db",
       "commit_finale": null
     },
     {
@@ -27,11 +27,11 @@
     {
       "sessione": "S03",
       "nome": "La carta e Stripe",
-      "id": null,
+      "id": "session_015BmpnXSYbZy8cNBrQ8hME9",
       "ramo": "claude/serene-wright-7l023n-r03",
       "ondata": 1,
-      "stato": "da aprire",
-      "partenza": null,
+      "stato": "piano in preparazione",
+      "partenza": "d3a644b82d6af9a7cb43933164e4804b2725d5db",
       "commit_finale": null
     },
     {
@@ -57,11 +57,11 @@
     {
       "sessione": "S06",
       "nome": "Il viaggio del cliente",
-      "id": null,
+      "id": "session_015BmpnXk2K7NypRwpNVPaJf",
       "ramo": "claude/serene-wright-7l023n-r06",
       "ondata": 1,
-      "stato": "da aprire",
-      "partenza": null,
+      "stato": "piano in preparazione",
+      "partenza": "d3a644b82d6af9a7cb43933164e4804b2725d5db",
       "commit_finale": null
     },
     {
@@ -97,21 +97,21 @@
     {
       "sessione": "S10",
       "nome": "L'aspetto",
-      "id": null,
+      "id": "session_015BmpnYszKaEayhAzDXRxtf",
       "ramo": "claude/serene-wright-7l023n-r10",
       "ondata": 1,
-      "stato": "da aprire",
-      "partenza": null,
+      "stato": "piano in preparazione",
+      "partenza": "d3a644b82d6af9a7cb43933164e4804b2725d5db",
       "commit_finale": null
     },
     {
       "sessione": "S11",
       "nome": "Il sito vero, dal vivo",
-      "id": null,
+      "id": "session_015BmpnVfA4KcGq3ED1dSNFP",
       "ramo": "claude/serene-wright-7l023n-r11",
       "ondata": 1,
-      "stato": "da aprire",
-      "partenza": null,
+      "stato": "piano in preparazione",
+      "partenza": "d3a644b82d6af9a7cb43933164e4804b2725d5db",
       "commit_finale": null
     },
     {
