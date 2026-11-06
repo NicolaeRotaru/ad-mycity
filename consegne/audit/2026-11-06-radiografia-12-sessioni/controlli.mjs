@@ -26,10 +26,11 @@
 //   --ad-ref <ref>     il ramo dell'AD da cui partono i figli (predefinito: origin/<RAMO_AD>)
 //   --json             stampa l'esito anche in JSON sull'ultima riga
 
-import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+// L'unico esecutore di git della casa (malattia «git-letto-senza-tetto»): il tetto di maxBuffer sta lì, una volta sola.
+import { gitEsegui } from "../../../cervello/git-github.mjs";
 
 // ── I valori veri di questa radiografia ──────────────────────────────────────────────────────
 export const BASE_SITO = "db5164c52e856c0e3eab1c02197ae755fca76eb3";
@@ -83,7 +84,8 @@ function leggiOpzioni(argv) {
 }
 
 // ── Aiutanti ─────────────────────────────────────────────────────────────────────────────────
-const git = (dir, args) => execFileSync("git", ["-C", dir, ...args], { encoding: "utf8", maxBuffer: 256 * 1024 * 1024 });
+// `grezzo`: i byte esatti, senza .trim(), perché il conto delle righe di un file deve restare quello vero
+const git = (dir, args) => gitEsegui(["-C", dir, ...args], undefined, {}, { grezzo: true }).toString("utf8");
 function gitOk(dir, args) {
   try { return git(dir, args); } catch { return null; }
 }

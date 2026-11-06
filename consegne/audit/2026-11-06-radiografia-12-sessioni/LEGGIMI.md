@@ -9,7 +9,31 @@ ramo_ad: claude/serene-wright-7l023n
 
 # Le regole per le 12 sessioni della radiografia
 
-**In due righe.** Questo file lo legge ogni sessione figlia prima di fare il piano. Dentro ci sono le regole di tutto il lavoro (§1), le regole di ogni sessione (§5) e le 24 lenti con la sessione che possiede ognuna.
+**In due righe.** Questo file lo legge ogni sessione della radiografia prima di fare il suo piano. Tu non devi leggerlo: è scritto per le sessioni, con i nomi dei file e dei comandi.
+
+## In parole semplici
+
+Sono le regole che valgono per tutte le 12 sessioni: cosa possono toccare, come si scrive un difetto, come si tiene segreta una falla di sicurezza.
+
+Un esempio: ogni sessione cambia un solo file nel suo ramo, il suo referto, e sul sito vero guarda solo da visitatore, senza ordini né accessi.
+
+## Cosa cambia per te
+
+Niente di nuovo da fare. Il testo viene dal prompt che hai già (`consegne/audit/PROMPT-radiografia-12-sessioni.md`), con i valori veri al posto dei segnaposti.
+
+## Cosa devi fare
+
+Niente su questo file.
+
+## Cosa non ho verificato
+
+Nessuna sessione l'ha ancora letto: il primo vero banco di prova sono i loro piani.
+
+---
+
+## Dettagli tecnici
+
+Il file dice, per le sessioni: ogni sessione figlia lo legge prima di fare il piano; dentro ci sono le regole di tutto il lavoro (§1), le regole di ogni sessione (§5) e le 24 lenti con la sessione che possiede ognuna.
 
 - Il commit del sito da analizzare: `db5164c52e856c0e3eab1c02197ae755fca76eb3`, e nessun altro.
 - La cartella di lavoro: `consegne/audit/2026-11-06-radiografia-12-sessioni/`. La tua scheda: `schede/SNN.md`. Il tuo referto: `referti/SNN.json`.
