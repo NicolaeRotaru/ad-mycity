@@ -13,7 +13,7 @@ Il testo lungo con tutte le regole sta in `consegne/audit/PROMPT-radiografia-12-
 
 ## Parte 1 — l'avvio e la preparazione
 
-Prima di incollarla, scegli le cinque righe delle decisioni. In ogni riga la prima scelta è quella che ti consiglio.
+Prima di incollarla, scegli le righe D0, D7, D8 e D10. In ogni riga la prima scelta è quella che ti consiglio; la D9 è già fatta.
 
 ```text
 Sei l'AD digitale di MyCity. Questa sessione dirige la radiografia del marketplace in 12 sessioni, più la sintesi finale.
@@ -27,7 +27,7 @@ Le mie decisioni, che vincono su quelle scritte nel file:
 - D0 · Quando: la prima ondata dal 12/11 alle 10:00, la seconda dopo l'apertura del 15/11. (Oppure: la prima ondata subito. Oppure: tutto dopo l'apertura.)
 - D7 · I referti privati delle falle riservate: te li incollo qui sotto. (Oppure: non li ho più, e quelle falle restano non ricontrollate.)
 - D8 · I lavori a orario: non li ho ancora accesi; la data te la dico io. (Oppure: li accendo il ….)
-- D9 · I dettagli già pubblici di alcune falle: oscurali prima della radiografia, come lavoro a parte. (Oppure: dopo.)
+- D9 · I dettagli già pubblici di alcune falle: già tolti dal registro con la #934; la storia di git la decido io a parte.
 - D10 · La palestra: preparami il piano con i costi alla fine della radiografia. (Oppure: non ora.)
 Le altre decisioni, da D1 a D6, valgono come sono scritte nel file.
 
