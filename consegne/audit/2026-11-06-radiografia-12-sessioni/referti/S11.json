@@ -1,0 +1,619 @@
+{
+  "sessione": "S11",
+  "base_sito": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
+  "aggiornato": "2026-11-06 10:46",
+  "finita": true,
+  "copertura": {
+    "file_letti_interi": [
+      "vercel.json",
+      "lib/cron/fermo-dei-lavori.ts",
+      "public/manifest.json"
+    ],
+    "file_letti_in_parte": [
+      {
+        "file": "lib/env.ts",
+        "righe": "1-250"
+      },
+      {
+        "file": "lib/health/checks.ts",
+        "righe": "75-215"
+      },
+      {
+        "file": "app/api/health/route.ts",
+        "righe": "94-330"
+      },
+      {
+        "file": "next.config.js",
+        "righe": "1-126"
+      },
+      {
+        "file": "lib/ordini/veloce-non-confermata.ts",
+        "righe": "124-135"
+      },
+      {
+        "file": "lib/ordini/veloce-non-confermata.ts",
+        "righe": "266-285"
+      },
+      {
+        "file": "lib/ordini/veloce-non-confermata.ts",
+        "righe": "380-390"
+      },
+      {
+        "file": "lib/ordini/veloce-non-confermata.ts",
+        "righe": "650-662"
+      },
+      {
+        "file": "migrations/165_la_coda_email_ha_un_eta_massima.sql",
+        "righe": "70-100"
+      },
+      {
+        "file": "app/api/cron/send-emails/route.ts",
+        "righe": "300-350"
+      },
+      {
+        "file": "app/api/cron/send-push/route.ts",
+        "righe": "70-100"
+      },
+      {
+        "file": "lib/api/middleware.ts",
+        "righe": "565-660"
+      },
+      {
+        "file": "migrations/040_account_deletion_cooldown.sql",
+        "righe": "38-57"
+      },
+      {
+        "file": "app/api/cron/process-deletions/route.ts",
+        "righe": "160-190"
+      },
+      {
+        "file": "app/api/cron/expire-checkouts/route.ts",
+        "righe": "56-120"
+      },
+      {
+        "file": "app/api/cron/expire-stale-orders/route.ts",
+        "righe": "380-405"
+      },
+      {
+        "file": "app/api/cron/abandoned-carts/route.ts",
+        "righe": "50-70"
+      },
+      {
+        "file": "middleware.ts",
+        "righe": "274-307"
+      },
+      {
+        "file": "app/layout.tsx",
+        "righe": "37-49"
+      },
+      {
+        "file": "app/layout.tsx",
+        "righe": "236-271"
+      },
+      {
+        "file": "lib/analytics/posthog.tsx",
+        "righe": "436-609"
+      },
+      {
+        "file": "app/sitemap.ts",
+        "righe": "1-40"
+      },
+      {
+        "file": ".github/workflows/deploy-dopo-ci.yml",
+        "righe": "171-271"
+      }
+    ],
+    "file_eseguiti": [
+      {
+        "file": "tests/sql/harness/apply.sh",
+        "comando": "tests/sql/harness/apply.sh mycity_s11_cron (e mycity_s11_v2, mycity_s11_v3)",
+        "esito": "applicate 178 · fallite 0"
+      },
+      {
+        "file": "app/api/cron/veloce-non-confermata/route.ts",
+        "comando": "npx vitest run con la rotta vera e il database finto (prova S11-002)",
+        "esito": "rosso: scadenza passata scritta al cliente"
+      }
+    ],
+    "non_guardato": [
+      {
+        "cosa": "La velocità dei clienti veri (Speed Insights, Web Analytics di Vercel)",
+        "perche": "non ancora letta; le misure fatte sono dal container, via proxy"
+      },
+      {
+        "cosa": "Login, carrello, checkout, moduli sul sito vero",
+        "perche": "vietati dalle regole: vanno nelle prove da palestra"
+      },
+      {
+        "cosa": "Le rotte dei lavori a orario guidate da next dev",
+        "perche": "nel container non c'è un Supabase REST locale: guidate con vitest (withCronAuth vero, database finto) e con SQL sul Postgres locale"
+      },
+      {
+        "cosa": "Gli esiti delle cinque automazioni GitHub del sito letti da me",
+        "perche": "gli strumenti GitHub di questa sessione non arrivano al deposito del sito: li ha letti l AD il 6/11 con mcp__github__actions_list in sola lettura (backup 336712947: 5 notti rosse dal 2/11 al 6/11 sul passo delle foto, giri 41421078538…42194646201; ripristino del 1/11 verde, 41298951731; rilascio 336712948: 2 saltati e 8 falliti, il 54 del 5/11 42126074803 per i segreti di Vercel mancanti; CI 8 verdi e 2 rossi, 41330697739 su next/font; deriva 338590773 rossa dal 31/10 al 5/11, 42049884297). Tutti già nel registro, tranne la deriva, passata a S05 nelle domande."
+      },
+      {
+        "cosa": "La chiamata a api.resend.com",
+        "perche": "il proxy della sessione la rifiuta (CONNECT 403): la causa di S11-011 resta da guardare su Resend"
+      },
+      {
+        "cosa": "La velocità dei clienti veri",
+        "perche": "non esiste: vedi S11-008. Le misure fatte sono dal container, via proxy, e non vanno lette come quelle dei clienti"
+      }
+    ]
+  },
+  "difetti": [
+    {
+      "id": "S11-001",
+      "dimensione": "deploy-sre",
+      "titolo": "Falla di sicurezza da chiudere (rilascio): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+      "severita": "bloccante",
+      "file": "(nel referto privato)",
+      "descrizione": "nel referto privato",
+      "impatto": "nel referto privato",
+      "fix": "nel referto privato",
+      "causa_radice": "nel referto privato",
+      "prova": "nel referto privato",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "nel referto privato",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "nel referto privato",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": true
+    },
+    {
+      "id": "S11-002",
+      "dimensione": "deploy-sre",
+      "titolo": "Il giorno che si riaccendono i lavori, il cliente di un ordine veloce vecchio riceve una scadenza già passata",
+      "severita": "minore",
+      "file": "lib/ordini/veloce-non-confermata.ts:653-660 · lib/ordini/veloce-non-confermata.ts:387-388 · lib/ordini/veloce-non-confermata.ts:266-285",
+      "descrizione": "frenoDellaVeloce cerca gli ordini veloci NEW più vecchi di 10 minuti senza limite d'età. Per un ordine nato da 2 giorni o più fasciaDalGiornoDellOrdine restituisce null e si finisce in nonSiSposta, che calcola la scadenza dalla nascita dell'ordine e la scrive al cliente (campanella ed email) e agli amministratori senza controllare se è già passata. Il motivo dato agli amministratori («né oggi né domani c'è una fascia…») è falso: la fascia manca perché l'ordine è vecchio.",
+      "impatto": "Con i lavori spenti dal 31/10, un ordine «Adesso» in contanti nato venerdì 30/10 resta NEW. Il 20/11, alla riaccensione, la cliente legge «Se non conferma entro le 13:00 di venerdì 30/10, l'ordine si annulla e non paghi niente». Nessun euro perso: l'ordine si annulla al giro dopo di expire-stale-orders.",
+      "fix": "In frenoDellaVeloce saltare gli ordini la cui scadenzaAccettazione è già passata e lasciarli a expire-stale-orders; oppure in nonSiSposta non scrivere quando la scadenza è minore o uguale ad adesso. Per il primo giro a mano: lanciare prima expire-stale-orders.",
+      "causa_radice": "Il freno è stato pensato per i lavori accesi, dove vede l'ordine fra il 10° e il 15° minuto: nessuno ha previsto un arretrato di settimane.",
+      "prova": "cd marketplace && npx vitest run --config <scratchpad>/s11-verifica-1/vitest.config.ts -t \"riaccensione\" (rotta vera app/api/cron/veloce-non-confermata, database finto, orologio finto al 20/11, negozio 8-21)",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO. CAMPANELLA ed EMAIL: «Il negozio non ha ancora confermato. Se non conferma entro le 13:00 di venerdì 30/10, l'ordine si annulla e non paghi niente.» Caso a regime nello stesso file: «entro le 21:12 di oggi», vero.",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "qa indipendente: rilanciata la prova del cercatore e scritta una sua dall'inizio alla fine sulla rotta vera; nessuna protezione trovata (limit 100 senza filtro d'età, nessun confronto con adesso prima di scrivere, expire-stale-orders non gira prima per forza). Peso: minore, frase sbagliata e non soldi.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S11-003",
+      "dimensione": "deploy-sre",
+      "titolo": "Alla riaccensione della posta, le email ormai scadute fanno la fila davanti a quelle nuove",
+      "severita": "minore",
+      "file": "migrations/165_la_coda_email_ha_un_eta_massima.sql:79-84 · app/api/cron/send-emails/route.ts:343-347 · lib/email/ritmo-della-coda.ts:45",
+      "descrizione": "claim_pending_emails (ultima definizione, migrazione 165) ordina per send_at e non filtra scade_at. Le scadute vengono chiuse solo dopo essere state prese, e ognuna occupa uno dei 15 posti del giro, che passa ogni 10 minuti.",
+      "impatto": "Il giorno della riaccensione, con 100 email scadute in coda, l'email «il tuo ordine è pronto» di un cliente di Piacenza parte al 7° giro, circa 60 minuti dopo. Le scadute non partono e non si perde niente; a regime non succede.",
+      "fix": "Aggiungere AND (q.scade_at IS NULL OR q.scade_at > now()) al filtro di claim_pending_emails e chiudere le scadute in blocco all'inizio del giro, o una volta sola prima della riaccensione.",
+      "causa_radice": "La scadenza decide se una riga parte, non quando viene presa: la presa è rimasta quella di prima della migrazione 165.",
+      "prova": "tests/sql/harness/apply.sh mycity_s11_v2 && psql -d mycity_s11_v2 -f <scratchpad>/s11-verifica-2/prova.sql (100 scadute + 1 fresca, simula annullaRiga, ROLLBACK)",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "gia_scadute 100 | in_coda 101 · NOTICE GIRO_IN_CUI_ESCE_LA_FRESCA=7 · ERROR: ROSSO: la email fresca aspetta 7 giri dietro alle scadute",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "qa indipendente: controllate le 7 definizioni della funzione (036…165, vince la 165, riletta con pg_get_functiondef), nessuna pulizia altrove, nessuna priorità per tipo; prova rilanciata sul suo database. Peso minore: transitorio, nessun soldo.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S11-004",
+      "dimensione": "deploy-sre",
+      "titolo": "Senza le chiavi delle notifiche, il lavoro delle notifiche risulta vivo anche se non manda niente",
+      "severita": "minore",
+      "file": "app/api/cron/send-push/route.ts:74-76 · lib/api/middleware.ts:645-658",
+      "descrizione": "send-push senza VAPID risponde 200 «skipped» senza l'intestazione del giro non fatto (segnaGiroNonFatto), quindi withCronAuth scrive il battito in cron_heartbeats come se il giro fosse avvenuto.",
+      "impatto": "Se un giorno le chiavi VAPID mancano, il semaforo dei lavori dice «send-push vivo» mentre nessun negozio riceve la notifica del nuovo ordine. Attenuante: /api/health mette le VAPID fra le variabili vitali.",
+      "fix": "In send-push, senza VAPID marcare la risposta con segnaGiroNonFatto(…) oppure rispondere 503.",
+      "causa_radice": "Il segno «giro non fatto» è stato messo sul freno e su solo_conta, non sugli altri salti.",
+      "prova": "cd marketplace && npx vitest run --config <scratchpad>/s11-cron/vitest.s11.config.ts -t \"send-push senza VAPID\"",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO: expected [ Array(1) ] to have a length of +0 but got 1 (battito scritto)",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "qa indipendente: confermato per send-push; smentito per abandoned-carts (ore di silenzio: il battito evita falsi allarmi) e external-price-alerts (AI spenta per scelta).",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S11-005",
+      "dimensione": "deploy-sre",
+      "titolo": "La cancellazione notturna degli account non ha un tetto per giro",
+      "severita": "minore",
+      "file": "migrations/040_account_deletion_cooldown.sql:38-57 · app/api/cron/process-deletions/route.ts:165-187 · vercel.json:13",
+      "descrizione": "process_expired_deletions non ha né LIMIT né ORDER BY e la rotta lavora tutte le righe in un solo ciclo, dentro un giro da 300 secondi.",
+      "impatto": "Se si accumulano centinaia di richieste (per esempio dopo settimane di fermo), il giro si tronca a 300 s: mancano battito, sveglia e gli avvisi che partono dopo il ciclo. Il giro dopo riprende, perché i cancellati spariscono dalla lista. Coi volumi di Piacenza è improbabile.",
+      "fix": "ORDER BY deletion_requested_at LIMIT 50 nella funzione, oppure .limit() nella rotta.",
+      "causa_radice": "La funzione del 040 è nata quando le richieste erano poche e nessuno l'ha più ripresa.",
+      "prova": "tests/sql/harness/apply.sh mycity_s11_v3 && psql -d mycity_s11_v3 -f <scratchpad>/s11-cron/prova-cancellazioni-senza-tetto.sql",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "NOTICE ACCOUNT_IN_UN_SOLO_GIRO=500 · ERROR: ROSSO: … non ha tetto",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "qa indipendente: unica definizione (059, 063, 064 cambiano solo i permessi), riletta con pg_get_functiondef. Nota: PostgREST taglia a max_rows, ma resta oltre i 300 s.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S11-006",
+      "dimensione": "deploy-sre",
+      "titolo": "Duecento carrelli pagati a metà bastano a fermare per sempre la pulizia dei carrelli scaduti",
+      "severita": "minore",
+      "file": "app/api/cron/expire-checkouts/route.ts:56-67 · app/api/cron/expire-checkouts/route.ts:96-99",
+      "descrizione": "La rotta legge i pending_checkouts PENDING scaduti con limit(200) senza ORDER BY. Quelli che hanno già ordini (daSalvare) non vengono toccati e restano PENDING, quindi tornano a ogni giro.",
+      "impatto": "Con 200 carrelli pagati a metà nella lista, il lotto è sempre pieno di quelli e gli altri carrelli scaduti non liberano mai merce e codici sconto. Servono 200 webhook rotti: molto improbabile oggi.",
+      "fix": "Escludere dalla query i carrelli già segnalati con uno stato dedicato, oppure ordinare per expires_at e paginare dopo il filtro.",
+      "causa_radice": "Il filtro dei carrelli da salvare sta dopo il limite, non dentro la query.",
+      "prova": "lettura del codice delle righe indicate",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "qa indipendente: confermato nel codice, minore e molto improbabile.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S11-007",
+      "dimensione": "deploy-sre",
+      "titolo": "Se il segreto dei lavori su Vercel finisce con un «a capo», anche il primo giro a mano risponde «non autorizzato»",
+      "severita": "minore",
+      "file": "lib/api/middleware.ts:569-583 · app/api/health/route.ts:214-221 · app/api/health/ready/route.ts:166-169",
+      "descrizione": "withCronAuth legge process.env.CRON_SECRET grezzo, mentre ripulisce con trim() il gettone in arrivo; a lunghezze diverse il confronto dà falso. readEnv in lib/env.ts toglie gli spazi, ma CRON_SECRET non ci passa.",
+      "impatto": "Il giorno del primo giro a mano, se il segreto è stato incollato con un a capo finale, ogni chiamata risponde 401 e si perde tempo a capire perché. Non apre niente: si ferma dalla parte sicura.",
+      "fix": "Leggere il segreto con trim in un posto solo e riusarlo in middleware, health e ready.",
+      "causa_radice": "Il segreto si legge in tre punti con process.env diretto invece che con readEnv.",
+      "prova": "cd marketplace && npx vitest run --config <scratchpad>/s11-cron/vitest.s11.config.ts -t \"CRON_SECRET con a capo finale\"",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO: expected 401 not to be 401 (CRON_SECRET='segreto-finto\\n', Bearer segreto-finto, ?a_mano=1)",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "qa indipendente: confermato; non verificato se Vercel salva l'a capo quando si incolla la variabile.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S11-008",
+      "dimensione": "performance",
+      "titolo": "La velocità del sito vista dai clienti veri non la misura nessuno",
+      "severita": "minore",
+      "file": "lib/analytics/posthog.tsx:593-609 · lib/analytics/posthog.tsx:436-440 · package.json:49-61 · vercel:variabili Production del progetto mycity",
+      "descrizione": "Le misure di velocità dei browser (CLS, LCP, INP, FCP, TTFB, con web-vitals) partono solo se c è la chiave di PostHog e vanno solo a PostHog. Sul sito vero NEXT_PUBLIC_POSTHOG_KEY non c è; Speed Insights e Web Analytics di Vercel non sono installati; Google Analytics (ID assente) manda solo le pagine viste; Sentry (DSN assente) è spento; /api/track accetta solo page_view, login e logout.",
+      "impatto": "Se un giorno la scheda prodotto diventa lenta su un telefono vecchio di un cliente di Piacenza, lo si scopre solo dalle lamentele: oggi l unica misura è quella fatta dal container, che non è quella dei clienti.",
+      "fix": "Installare @vercel/speed-insights con <SpeedInsights/> nel layout, oppure far passare le web-vitals anche da /api/track quando PostHog è spento.",
+      "causa_radice": "La misura è stata agganciata a PostHog, che al lancio è spento per scelta, senza una strada di riserva.",
+      "prova": "node <scratchpad>/s11-verifica-6/pw2.js (Playwright di sistema sul sito vero, solo GET da visitatore, home e /negozi con e senza consenso: elenco host e variabili globali); più i nomi delle variabili Production letti da Vercel",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "host contattati solo www.mycity-marketplace.com e il database; gtag, posthog, __SENTRY__, si, va undefined; nessun /_vercel/insights; POST solo /api/consent e /api/track (page_view).",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "qa indipendente: controllate una per una GA, Sentry, /api/track e Vercel; confermato, peso minore. Non visto dal pannello di Vercel se Speed Insights è acceso a livello di progetto (senza pacchetto i dati non arrivano comunque).",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S11-009",
+      "dimensione": "performance-percepita",
+      "titolo": "Circa una visita su sei alla home, React butta via la pagina e la ridisegna da capo",
+      "severita": "minore",
+      "file": "live:/ · app/layout.tsx:236-271",
+      "descrizione": "Sul sito vero la console mostra «Minified React error #418 … args[]=HTML» (l HTML del server non combacia con quello del browser) in 6 caricamenti su 37. Quando scatta, a circa 1,3-1,6 s React rimuove nello stesso millisecondo header, main, footer e barra in basso e li ridisegna nel browser. Il confronto della struttura non trova testi diversi: l unica differenza è l ordine dei figli di <body> (metadati in streaming e segnaposto S:0, S:1, S:3), quindi probabilmente una gara di tempi fra streaming e idratazione.",
+      "impatto": "Su un telefono a Piacenza, una visita su sei alla home ha un lampo e un tocco o una lettera digitata nella ricerca in quel secondo si perde.",
+      "fix": "Riprodurlo in locale con next build senza compressione, o raccogliere onRecoverableError, per leggere il punto esatto; poi togliere la differenza dalla cornice di app/layout.tsx.",
+      "causa_radice": "Non trovata con certezza: ipotesi a bassa confidenza su metadati in streaming di Next 15.5 dentro il body.",
+      "prova": "node <scratchpad>/s11-verifica-5/h418.js e mo.js (Playwright di sistema, home, desktop e iPhone, 10 caricamenti ciascuno)",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "#418 in 6 caricamenti su 37 (home.js 1/5, h418.js 1/10, mo.js 2/10, diff.js 2/12); HEADER 137, MAIN 303, FOOTER 170, NAV 40 nodi rimossi insieme",
+      "verificato_da": "qa indipendente: confermato, ma la frequenza del cercatore («3 su 3») era sbagliata; componente non trovato; Date, Math.random e chiavi delle categorie scartati.",
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S11-010",
+      "dimensione": "deploy-sre",
+      "titolo": "Le violazioni delle regole di sicurezza del browser non le vede nessuno",
+      "severita": "minore",
+      "file": "middleware.ts:274-307 · live:/",
+      "descrizione": "La Content-Security-Policy costruita in buildCsp e servita su tutte le pagine non ha report-uri né report-to, e non c è un header Reporting-Endpoints. Nel codice non c è nessuna occorrenza di questi nomi.",
+      "impatto": "Se domani uno script di terzi viene bloccato e il checkout smette di funzionare per un cliente, o qualcuno prova a iniettare uno script, nessuno lo viene a sapere: la politica protegge ma tace.",
+      "fix": "Aggiungere report-uri e report-to verso un indirizzo che raccoglie le segnalazioni (per esempio quello di Sentry, quando acceso) più l header Reporting-Endpoints.",
+      "causa_radice": "La CSP è stata scritta per proteggere, non per osservare.",
+      "prova": "curl -sSI https://www.mycity-marketplace.com/ | grep -i content-security-policy; grep -rn \"report-uri\\|report-to\\|Reporting-Endpoints\" --exclude-dir=node_modules marketplace",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "la CSP finisce con «object-src none; upgrade-insecure-requests», nessun report-uri o report-to; grep vuoto",
+      "verificato_da": "qa indipendente: confermato sull intestazione vera e nel codice, peso minore.",
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S11-011",
+      "dimensione": "deploy-sre",
+      "titolo": "La pagina pubblica «Stato servizi» dice anche che le email non partono, e non dice perché",
+      "severita": "minore",
+      "file": "lib/health/checks.ts:133-153 · lib/health/checks.ts:43 · live:/status",
+      "descrizione": "Da stanotte la chiave della posta è su Vercel, ma /status mostra «Email transazionali — Non disponibile, API non raggiungibile» in tre letture (10:30, 10:42, 10:44). Il controllo chiama GET api.resend.com/domains con la chiave e un tempo massimo di 3,5 s; il motivo vero (HTTP 401, timeout) viene raccolto da timed() ma buttato: la riga mostra una frase fissa e non scrive niente nei log. La voce già nota parla di database e accesso; qui la prova più forte è la riga della posta, con la chiave presente, e il motivo buttato.",
+      "impatto": "Oggi non si sa se le conferme d ordine e il recupero password partono: con una chiave di solo invio è un falso allarme pubblico; con una chiave sbagliata il fornaio non riceve l email del nuovo ordine. Nella stessa lettura il database risulta lento a 9.803 ms, quindi è plausibile anche un guasto comune dell ambiente.",
+      "fix": "Scrivere nei log e nella riga il motivo vero (r.error) e trattare il 401 restricted_api_key come operativo; poi una email di prova vera.",
+      "causa_radice": "Il controllo riduce ogni errore a una frase sola e chiede a Resend una cosa che una chiave di solo invio non può leggere.",
+      "prova": "curl -sS https://www.mycity-marketplace.com/status | sed \"s/<[^>]*>/\\n/g\" | grep -A2 \"Email transazionali\"",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "Email transazionali · Resend (conferme ordine, recupero password) · Non disponibile · API non raggiungibile (alle 10:30, 10:42 e 10:44 del 6/11)",
+      "verificato_da": "qa indipendente: sintomo confermato; causa non decidibile da qui (api.resend.com rifiutato dal proxy della sessione): serve guardare il tipo di chiave su Resend.",
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": "deploy-sre|la pagina pubblica «stato servizi» annuncia a tutti un guasto del database e dell'accesso che non c'è",
+      "perimetro_altrui": null,
+      "riservato": false
+    }
+  ],
+  "regressioni": [
+    {
+      "chiave": "performance-percepita|la home e la scheda prodotto partono senza il preload dei caratteri: il testo cambia faccia a metà caricamento",
+      "indice": 1031,
+      "prova": "node <scratchpad>/s11-verifica-5/font.js (home desktop 1366x900, PerformanceObserver layout-shift, con e senza i file woff2 bloccati)",
+      "esito_prova": "CLS 0,175 in 5 prove su 5 desktop, quasi tutto (0,1718) in un evento fra 634 e 1014 ms, a 5 ms dal caricamento di Fraunces 700/800 e Inter; con i woff2 bloccati CLS 0,023; iPhone 13 0,001. File: app/layout.tsx:37-49 (display swap)."
+    }
+  ],
+  "ricontrolli": [],
+  "prove_per_la_palestra": [
+    {
+      "id": "S11-P001",
+      "funzione": "Home e pagine pubbliche da visitatore",
+      "chi": "estraneo",
+      "file": "app/page.tsx · app/stores/page.tsx · app/product/[id]/page.tsx · app/store/[id]/page.tsx",
+      "dati_di_prova": "palestra con 1 negozio vero e 5 prodotti, rete 3G lenta emulata, desktop 1366x900 e telefono",
+      "passi": "aprire la home, /stores, un negozio, un prodotto; leggere console, CLS, LCP; ripetere 3 volte",
+      "atteso": "nessun errore React in console, CLS sotto 0,1, LCP sotto 2,5 s",
+      "limite": "rete lenta, prima visita senza cache"
+    },
+    {
+      "id": "S11-P002",
+      "funzione": "Pagina pubblica Stato servizi",
+      "chi": "estraneo",
+      "file": "app/status/page.tsx",
+      "dati_di_prova": "palestra con database, accesso e posta funzionanti; poi una chiave di posta di solo invio",
+      "passi": "aprire /status; ripetere con la posta di solo invio; poi con il database spento davvero",
+      "atteso": "dice «Operativo» quando tutto funziona e «Disservizio» solo col guasto vero, senza mostrare nomi di variabili interne",
+      "limite": "tante richieste insieme alla pagina, servizio esterno lento"
+    },
+    {
+      "id": "S11-P003",
+      "funzione": "Controllo di salute",
+      "chi": "estraneo",
+      "file": "app/api/health/route.ts",
+      "dati_di_prova": "palestra con tutte le variabili; poi senza una variabile vitale e senza una importante",
+      "passi": "chiamare /api/health 50 volte in un minuto da un estraneo; poi togliere una variabile alla volta",
+      "atteso": "risponde senza esporre valori, segna degradato o 503 solo nei casi giusti, regge il carico",
+      "limite": "tanti utenti insieme, fornitore che non risponde"
+    },
+    {
+      "id": "S11-P004",
+      "funzione": "Controllo di prontezza",
+      "chi": "estraneo",
+      "file": "app/api/health/ready/route.ts",
+      "dati_di_prova": "palestra con database acceso e poi spento, CRON_SECRET con e senza a capo",
+      "passi": "chiamare /api/health/ready nei due stati",
+      "atteso": "200 col database acceso, 503 spento; un segreto con a capo viene segnalato",
+      "limite": "database lento oltre il tempo massimo"
+    },
+    {
+      "id": "S11-P005",
+      "funzione": "File dei robot",
+      "chi": "estraneo",
+      "file": "app/robots.ts",
+      "dati_di_prova": "palestra pubblicata su un dominio di anteprima e su quello vero",
+      "passi": "leggere /robots.txt nei due ambienti",
+      "atteso": "l'anteprima chiude tutto, il dominio vero apre le pagine pubbliche e chiude quelle personali",
+      "limite": "dominio di anteprima"
+    },
+    {
+      "id": "S11-P006",
+      "funzione": "Mappa del sito",
+      "chi": "estraneo",
+      "file": "app/sitemap.ts",
+      "dati_di_prova": "palestra con un negozio di prova, uno vero, prodotti e pagine personali",
+      "passi": "leggere /sitemap.xml e aprire ogni indirizzo",
+      "atteso": "solo pagine pubbliche che rispondono 200; niente negozio di prova né pagine personali come /lists",
+      "limite": "migliaia di prodotti"
+    },
+    {
+      "id": "S11-P007",
+      "funzione": "Immagine di anteprima per i social",
+      "chi": "estraneo",
+      "file": "app/opengraph-image.tsx",
+      "dati_di_prova": "palestra con e senza caratteri disponibili",
+      "passi": "chiedere l'immagine 20 volte in parallelo",
+      "atteso": "sempre 200 con un PNG 1200x630, stessa immagine",
+      "limite": "tante richieste insieme"
+    },
+    {
+      "id": "S11-P008",
+      "funzione": "App installabile e funzionamento offline",
+      "chi": "cliente",
+      "file": "public/manifest.json · public/sw.js · public/offline.html",
+      "dati_di_prova": "telefono Android con Chrome, palestra pubblicata",
+      "passi": "visitare la home, poi togliere la rete e ricaricare home e un prodotto; poi pubblicare una versione nuova",
+      "atteso": "offline la home si apre e le altre pagine mostrano la pagina offline; la versione nuova sostituisce la vecchia senza restare bloccati",
+      "limite": "rete che va e viene, aggiornamento del service worker"
+    },
+    {
+      "id": "S11-P009",
+      "funzione": "Iscrizione alle notifiche sul telefono",
+      "chi": "cliente",
+      "file": "components/PushNotificationOptIn.tsx",
+      "dati_di_prova": "cliente di prova con browser che nega il permesso, poi lo concede",
+      "passi": "premere «Attiva», negare; riprovare e concedere; far scadere la sessione",
+      "atteso": "un rifiuto si spiega senza errori; dopo il consenso arriva una notifica di prova; la sessione scaduta non toglie le notifiche in silenzio",
+      "limite": "permesso negato, sessione scaduta"
+    },
+    {
+      "id": "S11-P010",
+      "funzione": "Lavoro a orario send-push: primo giro a mano e accensione",
+      "chi": "admin",
+      "file": "app/api/cron/send-push/route.ts",
+      "dati_di_prova": "palestra con CRON_SECRET finto, LAVORI_A_ORARIO assente, arretrato seminato di 3 settimane (ordini, email, carrelli secondo il lavoro), orologio finto",
+      "passi": "1) chiamata del calendario senza parametri → 200 «fermo», nessun battito; 2) stessa chiamata senza segreto → 401; 3) ?a_mano=1 col segreto → il giro lavora; 4) due ?a_mano=1 insieme; 5) LAVORI_A_ORARIO=accesi e chiamata del calendario. Due giri sovrapposti della stessa notifica.",
+      "atteso": "1) e 2) non toccano niente; 3) lavora solo l'arretrato atteso e scrive un battito; 4) nessun invio, rimborso o cancellazione doppia; 5) il giro riparte senza raffiche verso clienti e negozi",
+      "limite": "doppio lancio, arretrato di settimane, giro vicino ai 300 s, segreto incollato con a capo"
+    },
+    {
+      "id": "S11-P011",
+      "funzione": "Lavoro a orario send-emails: primo giro a mano e accensione",
+      "chi": "admin",
+      "file": "app/api/cron/send-emails/route.ts",
+      "dati_di_prova": "palestra con CRON_SECRET finto, LAVORI_A_ORARIO assente, arretrato seminato di 3 settimane (ordini, email, carrelli secondo il lavoro), orologio finto",
+      "passi": "1) chiamata del calendario senza parametri → 200 «fermo», nessun battito; 2) stessa chiamata senza segreto → 401; 3) ?a_mano=1 col segreto → il giro lavora; 4) due ?a_mano=1 insieme; 5) LAVORI_A_ORARIO=accesi e chiamata del calendario. Coda con 100 email scadute davanti a una fresca.",
+      "atteso": "1) e 2) non toccano niente; 3) lavora solo l'arretrato atteso e scrive un battito; 4) nessun invio, rimborso o cancellazione doppia; 5) il giro riparte senza raffiche verso clienti e negozi",
+      "limite": "doppio lancio, arretrato di settimane, giro vicino ai 300 s, segreto incollato con a capo"
+    },
+    {
+      "id": "S11-P012",
+      "funzione": "Lavoro a orario release-payouts: primo giro a mano e accensione",
+      "chi": "admin",
+      "file": "app/api/cron/release-payouts/route.ts",
+      "dati_di_prova": "palestra con CRON_SECRET finto, LAVORI_A_ORARIO assente, arretrato seminato di 3 settimane (ordini, email, carrelli secondo il lavoro), orologio finto",
+      "passi": "1) chiamata del calendario senza parametri → 200 «fermo», nessun battito; 2) stessa chiamata senza segreto → 401; 3) ?a_mano=1 col segreto → il giro lavora; 4) due ?a_mano=1 insieme; 5) LAVORI_A_ORARIO=accesi e chiamata del calendario. Bonifici trattenuti da settimane.",
+      "atteso": "1) e 2) non toccano niente; 3) lavora solo l'arretrato atteso e scrive un battito; 4) nessun invio, rimborso o cancellazione doppia; 5) il giro riparte senza raffiche verso clienti e negozi",
+      "limite": "doppio lancio, arretrato di settimane, giro vicino ai 300 s, segreto incollato con a capo"
+    },
+    {
+      "id": "S11-P013",
+      "funzione": "Lavoro a orario operational-alerts: primo giro a mano e accensione",
+      "chi": "admin",
+      "file": "app/api/cron/operational-alerts/route.ts",
+      "dati_di_prova": "palestra con CRON_SECRET finto, LAVORI_A_ORARIO assente, arretrato seminato di 3 settimane (ordini, email, carrelli secondo il lavoro), orologio finto",
+      "passi": "1) chiamata del calendario senza parametri → 200 «fermo», nessun battito; 2) stessa chiamata senza segreto → 401; 3) ?a_mano=1 col segreto → il giro lavora; 4) due ?a_mano=1 insieme; 5) LAVORI_A_ORARIO=accesi e chiamata del calendario. Raffica di avvisi «lavoro fermo» al primo giorno.",
+      "atteso": "1) e 2) non toccano niente; 3) lavora solo l'arretrato atteso e scrive un battito; 4) nessun invio, rimborso o cancellazione doppia; 5) il giro riparte senza raffiche verso clienti e negozi",
+      "limite": "doppio lancio, arretrato di settimane, giro vicino ai 300 s, segreto incollato con a capo"
+    },
+    {
+      "id": "S11-P014",
+      "funzione": "Lavoro a orario expire-checkouts: primo giro a mano e accensione",
+      "chi": "admin",
+      "file": "app/api/cron/expire-checkouts/route.ts",
+      "dati_di_prova": "palestra con CRON_SECRET finto, LAVORI_A_ORARIO assente, arretrato seminato di 3 settimane (ordini, email, carrelli secondo il lavoro), orologio finto",
+      "passi": "1) chiamata del calendario senza parametri → 200 «fermo», nessun battito; 2) stessa chiamata senza segreto → 401; 3) ?a_mano=1 col segreto → il giro lavora; 4) due ?a_mano=1 insieme; 5) LAVORI_A_ORARIO=accesi e chiamata del calendario. 200 carrelli pagati a metà nella lista.",
+      "atteso": "1) e 2) non toccano niente; 3) lavora solo l'arretrato atteso e scrive un battito; 4) nessun invio, rimborso o cancellazione doppia; 5) il giro riparte senza raffiche verso clienti e negozi",
+      "limite": "doppio lancio, arretrato di settimane, giro vicino ai 300 s, segreto incollato con a capo"
+    },
+    {
+      "id": "S11-P015",
+      "funzione": "Lavoro a orario expire-stale-orders: primo giro a mano e accensione",
+      "chi": "admin",
+      "file": "app/api/cron/expire-stale-orders/route.ts",
+      "dati_di_prova": "palestra con CRON_SECRET finto, LAVORI_A_ORARIO assente, arretrato seminato di 3 settimane (ordini, email, carrelli secondo il lavoro), orologio finto",
+      "passi": "1) chiamata del calendario senza parametri → 200 «fermo», nessun battito; 2) stessa chiamata senza segreto → 401; 3) ?a_mano=1 col segreto → il giro lavora; 4) due ?a_mano=1 insieme; 5) LAVORI_A_ORARIO=accesi e chiamata del calendario. Ordini mai accettati da settimane: annullo e rimborso.",
+      "atteso": "1) e 2) non toccano niente; 3) lavora solo l'arretrato atteso e scrive un battito; 4) nessun invio, rimborso o cancellazione doppia; 5) il giro riparte senza raffiche verso clienti e negozi",
+      "limite": "doppio lancio, arretrato di settimane, giro vicino ai 300 s, segreto incollato con a capo"
+    },
+    {
+      "id": "S11-P016",
+      "funzione": "Lavoro a orario veloce-non-confermata: primo giro a mano e accensione",
+      "chi": "admin",
+      "file": "app/api/cron/veloce-non-confermata/route.ts",
+      "dati_di_prova": "palestra con CRON_SECRET finto, LAVORI_A_ORARIO assente, arretrato seminato di 3 settimane (ordini, email, carrelli secondo il lavoro), orologio finto",
+      "passi": "1) chiamata del calendario senza parametri → 200 «fermo», nessun battito; 2) stessa chiamata senza segreto → 401; 3) ?a_mano=1 col segreto → il giro lavora; 4) due ?a_mano=1 insieme; 5) LAVORI_A_ORARIO=accesi e chiamata del calendario. Ordine veloce di 3 settimane fa: lanciare prima e dopo expire-stale-orders.",
+      "atteso": "1) e 2) non toccano niente; 3) lavora solo l'arretrato atteso e scrive un battito; 4) nessun invio, rimborso o cancellazione doppia; 5) il giro riparte senza raffiche verso clienti e negozi",
+      "limite": "doppio lancio, arretrato di settimane, giro vicino ai 300 s, segreto incollato con a capo"
+    },
+    {
+      "id": "S11-P017",
+      "funzione": "Lavoro a orario abandoned-carts: primo giro a mano e accensione",
+      "chi": "admin",
+      "file": "app/api/cron/abandoned-carts/route.ts",
+      "dati_di_prova": "palestra con CRON_SECRET finto, LAVORI_A_ORARIO assente, arretrato seminato di 3 settimane (ordini, email, carrelli secondo il lavoro), orologio finto",
+      "passi": "1) chiamata del calendario senza parametri → 200 «fermo», nessun battito; 2) stessa chiamata senza segreto → 401; 3) ?a_mano=1 col segreto → il giro lavora; 4) due ?a_mano=1 insieme; 5) LAVORI_A_ORARIO=accesi e chiamata del calendario. Giro di notte e carrelli più vecchi di 48 ore.",
+      "atteso": "1) e 2) non toccano niente; 3) lavora solo l'arretrato atteso e scrive un battito; 4) nessun invio, rimborso o cancellazione doppia; 5) il giro riparte senza raffiche verso clienti e negozi",
+      "limite": "doppio lancio, arretrato di settimane, giro vicino ai 300 s, segreto incollato con a capo"
+    },
+    {
+      "id": "S11-P018",
+      "funzione": "Lavoro a orario external-price-alerts: primo giro a mano e accensione",
+      "chi": "admin",
+      "file": "app/api/cron/external-price-alerts/route.ts",
+      "dati_di_prova": "palestra con CRON_SECRET finto, LAVORI_A_ORARIO assente, arretrato seminato di 3 settimane (ordini, email, carrelli secondo il lavoro), orologio finto",
+      "passi": "1) chiamata del calendario senza parametri → 200 «fermo», nessun battito; 2) stessa chiamata senza segreto → 401; 3) ?a_mano=1 col segreto → il giro lavora; 4) due ?a_mano=1 insieme; 5) LAVORI_A_ORARIO=accesi e chiamata del calendario. AI dei negozi spenta e poi accesa.",
+      "atteso": "1) e 2) non toccano niente; 3) lavora solo l'arretrato atteso e scrive un battito; 4) nessun invio, rimborso o cancellazione doppia; 5) il giro riparte senza raffiche verso clienti e negozi",
+      "limite": "doppio lancio, arretrato di settimane, giro vicino ai 300 s, segreto incollato con a capo"
+    },
+    {
+      "id": "S11-P019",
+      "funzione": "Lavoro a orario process-deletions: primo giro a mano e accensione",
+      "chi": "admin",
+      "file": "app/api/cron/process-deletions/route.ts",
+      "dati_di_prova": "palestra con CRON_SECRET finto, LAVORI_A_ORARIO assente, arretrato seminato di 3 settimane (ordini, email, carrelli secondo il lavoro), orologio finto",
+      "passi": "1) chiamata del calendario senza parametri → 200 «fermo», nessun battito; 2) stessa chiamata senza segreto → 401; 3) ?a_mano=1 col segreto → il giro lavora; 4) due ?a_mano=1 insieme; 5) LAVORI_A_ORARIO=accesi e chiamata del calendario. 500 richieste scadute; senza cancella=1 deve solo contare.",
+      "atteso": "1) e 2) non toccano niente; 3) lavora solo l'arretrato atteso e scrive un battito; 4) nessun invio, rimborso o cancellazione doppia; 5) il giro riparte senza raffiche verso clienti e negozi",
+      "limite": "doppio lancio, arretrato di settimane, giro vicino ai 300 s, segreto incollato con a capo"
+    },
+    {
+      "id": "S11-P020",
+      "funzione": "Lavoro a orario riquadra-casse: primo giro a mano e accensione",
+      "chi": "admin",
+      "file": "app/api/cron/riquadra-casse/route.ts",
+      "dati_di_prova": "palestra con CRON_SECRET finto, LAVORI_A_ORARIO assente, arretrato seminato di 3 settimane (ordini, email, carrelli secondo il lavoro), orologio finto",
+      "passi": "1) chiamata del calendario senza parametri → 200 «fermo», nessun battito; 2) stessa chiamata senza segreto → 401; 3) ?a_mano=1 col segreto → il giro lavora; 4) due ?a_mano=1 insieme; 5) LAVORI_A_ORARIO=accesi e chiamata del calendario. Casse dei fattorini con contanti non dichiarati.",
+      "atteso": "1) e 2) non toccano niente; 3) lavora solo l'arretrato atteso e scrive un battito; 4) nessun invio, rimborso o cancellazione doppia; 5) il giro riparte senza raffiche verso clienti e negozi",
+      "limite": "doppio lancio, arretrato di settimane, giro vicino ai 300 s, segreto incollato con a capo"
+    }
+  ],
+  "domande_per_nicola": [
+    "La chiave della posta messa stanotte su Vercel è di «solo invio» o completa? La pagina Stato servizi dice che la posta non risponde (S11-011): se la chiave è sbagliata, il fornaio non riceve l email del nuovo ordine. Basta guardarla nel pannello di Resend o mandare un email di prova.",
+    "Il giorno che riaccendi i lavori a orario, va bene questo ordine per il primo giro a mano? Prima expire-stale-orders, poi veloce-non-confermata (S11-002), e il segreto incollato senza «a capo» (S11-007).",
+    "Il controllo delle migrazioni mancanti in produzione è rosso dal 31/10 al 5/11 (mancano fra le altre la 186, la 191 e la 195, letto dall AD); dopo c è stato il giro a mano del 5/11 alle 22:59 ma il controllo non è più girato. Il database vero ora è allineato? Lo verifica S05."
+  ],
+  "conto": {
+    "agenti": 8,
+    "token_sessione": {
+      "agenti": 1,
+      "agenti_misurati": 1,
+      "turni": 78,
+      "input": 164,
+      "scritti_cache": 313605,
+      "letti_cache": 21592255,
+      "uscita": 62393,
+      "entrata_totale": 21906024
+    },
+    "token_subagenti": {
+      "agenti": 8,
+      "agenti_misurati": 8,
+      "turni": 200,
+      "input": 400,
+      "scritti_cache": 541696,
+      "letti_cache": 19074641,
+      "uscita": 151486,
+      "entrata_totale": 19616737
+    },
+    "token_workflow": [],
+    "nota": "8 subagenti su un tetto di 12: 2 cercatori (sito vero, lavori a orario) e 6 verificatori qa. Nessun workflow. Misurato con cervello/conto-token.mjs --sessione e --dir sulla trascrizione di questa sessione."
+  }
+}

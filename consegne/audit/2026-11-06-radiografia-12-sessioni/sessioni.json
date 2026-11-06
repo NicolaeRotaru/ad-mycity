@@ -1,0 +1,128 @@
+{
+  "radiografia": "in 12 sessioni, prompt v5",
+  "base_sito": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
+  "sessione_ad": "session_015BmpnX3prh5pipxFGzQEeK",
+  "ramo_ad": "claude/serene-wright-7l023n",
+  "sessioni": [
+    {
+      "sessione": "S01",
+      "nome": "Ricontrollo dei difetti aperti",
+      "id": "session_015BmpnXbX6VZwivvy7fbRF2",
+      "ramo": "claude/serene-wright-7l023n-r01",
+      "ondata": 1,
+      "stato": "finita",
+      "partenza": "d3a644b82d6af9a7cb43933164e4804b2725d5db",
+      "commit_finale": "8973b5d"
+    },
+    {
+      "sessione": "S02",
+      "nome": "I soldi senza carta",
+      "id": "session_015BmpnWw91tpZcmBuzzGA3c",
+      "ramo": "claude/serene-wright-7l023n-r02",
+      "ondata": 2,
+      "stato": "finita",
+      "partenza": "c51f005523b6fdd0390e291f2f5cd5dd56a3bce9",
+      "commit_finale": "a825a54"
+    },
+    {
+      "sessione": "S03",
+      "nome": "La carta e Stripe",
+      "id": "session_015BmpnXSYbZy8cNBrQ8hME9",
+      "ramo": "claude/serene-wright-7l023n-r03",
+      "ondata": 1,
+      "stato": "finita",
+      "partenza": "d3a644b82d6af9a7cb43933164e4804b2725d5db",
+      "commit_finale": "7120bc3"
+    },
+    {
+      "sessione": "S04",
+      "nome": "L'attaccante",
+      "id": "session_015BmpnUsGYNdxKuFk6ZCXbZ",
+      "ramo": "claude/serene-wright-7l023n-r04",
+      "ondata": 2,
+      "stato": "finita",
+      "partenza": "c51f005523b6fdd0390e291f2f5cd5dd56a3bce9",
+      "commit_finale": "d7e7fe6"
+    },
+    {
+      "sessione": "S05",
+      "nome": "Il database",
+      "id": "session_015BmpnVbamAnAevicKnimC4",
+      "ramo": "claude/serene-wright-7l023n-r05",
+      "ondata": 2,
+      "stato": "finita",
+      "partenza": "c51f005523b6fdd0390e291f2f5cd5dd56a3bce9",
+      "commit_finale": "90b5fca"
+    },
+    {
+      "sessione": "S06",
+      "nome": "Il viaggio del cliente",
+      "id": "session_015BmpnXk2K7NypRwpNVPaJf",
+      "ramo": "claude/serene-wright-7l023n-r06",
+      "ondata": 1,
+      "stato": "finita",
+      "partenza": "d3a644b82d6af9a7cb43933164e4804b2725d5db",
+      "commit_finale": "9cd6727"
+    },
+    {
+      "sessione": "S07",
+      "nome": "Chi lavora: negozio e fattorino",
+      "id": "session_015BmpnWooFW8XRWban8obh7",
+      "ramo": "claude/serene-wright-7l023n-r07",
+      "ondata": 2,
+      "stato": "finita",
+      "partenza": "c51f005523b6fdd0390e291f2f5cd5dd56a3bce9",
+      "commit_finale": "55c24ae"
+    },
+    {
+      "sessione": "S08",
+      "nome": "La cabina di Nicola, gli avvisi, gli errori silenziosi",
+      "id": "session_015BmpnZJNGPKZewegjiMPkX",
+      "ramo": "claude/serene-wright-7l023n-r08",
+      "ondata": 2,
+      "stato": "finita",
+      "partenza": "c51f005523b6fdd0390e291f2f5cd5dd56a3bce9",
+      "commit_finale": "36ae695"
+    },
+    {
+      "sessione": "S09",
+      "nome": "Privacy, leggi e promesse",
+      "id": "session_015BmpnY9pYCQGVJvZEeeTxg",
+      "ramo": "claude/serene-wright-7l023n-r09",
+      "ondata": 2,
+      "stato": "finita",
+      "partenza": "c51f005523b6fdd0390e291f2f5cd5dd56a3bce9",
+      "commit_finale": "b347ac6"
+    },
+    {
+      "sessione": "S10",
+      "nome": "L'aspetto",
+      "id": "session_015BmpnYszKaEayhAzDXRxtf",
+      "ramo": "claude/serene-wright-7l023n-r10",
+      "ondata": 1,
+      "stato": "finita",
+      "partenza": "d3a644b82d6af9a7cb43933164e4804b2725d5db",
+      "commit_finale": "9dfe182"
+    },
+    {
+      "sessione": "S11",
+      "nome": "Il sito vero, dal vivo",
+      "id": "session_015BmpnVfA4KcGq3ED1dSNFP",
+      "ramo": "claude/serene-wright-7l023n-r11",
+      "ondata": 1,
+      "stato": "finita",
+      "partenza": "d3a644b82d6af9a7cb43933164e4804b2725d5db",
+      "commit_finale": "c811a3d"
+    },
+    {
+      "sessione": "S12",
+      "nome": "Il codice dentro",
+      "id": "session_015BmpnW2m5y1tP5grz7W14g",
+      "ramo": "claude/serene-wright-7l023n-r12",
+      "ondata": 2,
+      "stato": "finita",
+      "partenza": "c51f005523b6fdd0390e291f2f5cd5dd56a3bce9",
+      "commit_finale": "6ad9b03"
+    }
+  ]
+}

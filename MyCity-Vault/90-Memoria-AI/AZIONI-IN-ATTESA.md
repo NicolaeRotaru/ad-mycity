@@ -31,7 +31,60 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🔴 #232 — Firma il piano della palestra, la copia del sito per le prove · ⏳ accodata 2026-11-06 19:17
+
+**In parole semplici.** La palestra è una copia del sito fatta solo per le prove. Lì si usa il sito come tanti clienti, negozi e fattorini insieme. Il sito vero non si tocca mai. La radiografia ha scritto 533 prove da fare lì.
+
+**Cosa cambia per te.** Esempio: oggi nessuno ha mai fatto un ordine in contanti da capo a fondo, da utente collegato. In palestra si fa con un cliente, un negozio e un fattorino finti. Così escono i difetti che leggendo il codice non si vedono.
+
+**Cosa devi fare tu.** Decidere la domanda aperta sulla palestra, poi firmare o correggere il piano. Senza la tua firma non parte niente, perché il ramo del database costa soldi veri.
+
+**Cosa non ho verificato.** Il prezzo del ramo l'ho letto il 6/11 nella documentazione di Supabase: va ricontrollato il giorno che parte. Il consumo di Vercel sotto carico non l'ho misurato.
+
+Cosa cambia: nasce una copia del sito con dati finti, accesa solo durante le prove; il database costa circa 0,32 $ al giorno, più l'uso di Vercel.
+Se va bene: costruisco la palestra e controllo che non possa toccare il sito vero; poi faccio girare le prove a lotti e ti porto i difetti.
+
+Il piano completo, con le variabili per nome, i costi e cosa non si può provare: `consegne/audit/2026-11-06-radiografia-12-sessioni/piano-palestra.md`.
+
+### 🟡 #231 — Decidi se fare un quarto giro per i difetti rimasti senza verifica · ⏳ accodata 2026-11-06 19:17
+
+**In parole semplici.** Nella radiografia ogni difetto va rifatto da un verificatore che non l'ha trovato. Per due gruppi non è stato possibile. Il prompt vieta un quarto giro senza di te.
+
+**Cosa cambia per te.** Esempio: un difetto trovato alla fine dice che un negozio con Stripe a metà legge «pagamenti pronti». Il server però non gli manda i soldi. Oggi non è nel registro, perché nessuno l'ha rifatto.
+
+**Cosa devi fare tu.** Scegliere una di tre strade. Un quarto giro piccolo per gli 8 difetti in chiaro. Una sessione nuova per le falle riservate. Oppure niente, e restano scritti come «non verificati».
+
+**Cosa non ho verificato.** Proprio questi difetti: per questo esiste la carta.
+
+Cosa cambia: col quarto giro, 8 difetti in chiaro entrano nel registro o vengono scartati; con la sessione nuova, le falle riservate hanno una seconda verifica.
+Se va bene: lancio i verificatori, al massimo 4 agenti per il quarto giro, e aggiorno registro e referto.
+
+**I due gruppi.**
+- Il terzo giro ha lasciato 8 difetti senza verificatore: 2 gravi e 6 minori. Uno dei gravi tocca la privacy dei clienti, e lo descrivo solo in chat. Ci sono anche 2 sospetti di sicurezza, solo contati.
+- Le 16 falle riservate nuove e i 37 ricontrolli delle vecchie. Il filtro di sicurezza del modello ha fermato l'agente che doveva passarle ai verificatori.
+
+Fonti: `consegne/audit/2026-11-06-radiografia.md` e il diario della radiografia.
+
+### 🟡 #230 — Rispondi alle domande delle dodici sessioni della radiografia · ⏳ accodata 2026-11-06 19:17
+
+**In parole semplici.** Le dodici sessioni hanno lasciato 33 domande per te, tolti i doppioni. Sono raccolte in un file solo, con la sessione che le ha fatte.
+
+**Cosa cambia per te.** Esempio: il 29/10 hai deciso che il sito apre da solo il reclamo per un rimborso in contanti. Oggi non lo fa. Una domanda ti chiede cosa fare finché non è riparato.
+
+**Cosa devi fare tu.** Rispondere quando vuoi, anche una alla volta: «domanda 6: …». Le più urgenti per il lancio sono la 5, la 6, la 21, la 25 e la 31.
+
+**Cosa non ho verificato.** I doppioni li ha uniti un programma, sulle parole. Due domande simili scritte in modo diverso possono essere rimaste separate.
+
+Cosa cambia: ogni risposta chiude un dubbio del referto, e alcune decidono se un difetto è grave o si chiude.
+Se va bene: scrivo le risposte nel registro dei fatti e aggiorno i difetti che dipendono da loro.
+
+Fonte: `consegne/audit/2026-11-06-radiografia-12-sessioni/domande-per-nicola.md`.
+
 ### 🔴 #229 — Revoca i token vecchi su GitHub, poi lancia la radiografia in 12 sessioni · ⏳ accodata 2026-11-06 02:30
+
+> **Aggiornamento del 06/11 alle 19:17.** La radiografia in 12 sessioni è finita: referto `consegne/audit/2026-11-06-radiografia.md`, carte #230, #231 e #232.
+
+> **Aggiornamento del 06/11 alle 09:51.** La seconda metà della carta è partita. Col tuo «via la prima ondata» ho aperto 5 sessioni su 12: il ricontrollo dei difetti aperti, la carta, il viaggio del cliente, l'aspetto e il sito dal vivo. Aspettano la tua approvazione dei piani. Resta aperta la prima metà: revocare i token vecchi su GitHub (carta #7). La radiografia è nella bozza NicolaeRotaru/ad-mycity#936.
 
 **In parole semplici.** La radiografia del sito in 12 sessioni è pronta: un prompt controllato tre volte e quattro parti corte da incollare, una per fase. Prima però c'è una cosa urgente: un token GitHub è rimasto scritto nella storia pubblica della memoria, l'11/7.
 

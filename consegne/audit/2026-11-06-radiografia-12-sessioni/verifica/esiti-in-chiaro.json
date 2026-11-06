@@ -1,0 +1,1809 @@
+{
+ "_cosa": "7.3 della radiografia del 6/11: esiti dei verificatori indipendenti (qa) sui difetti in chiaro, sulle chiusure e sui ricontrolli di S01 e sulle regressioni. Solo id, esito e comando della prova. I comandi citano file di prova nello scratchpad della sessione AD, che sparisce col container.",
+ "gravi_prova": [
+  {
+   "id": "P-S03-002",
+   "esito": "confermato",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/P-S03-002-riprova; cp -r $W/prova marketplace/.verifica-P-S03-002-riprova && (cd marketplace && npx vitest run --config .verifica-P-S03-002-riprova/vitest.config.ts --reporter=verbose; VARIANTE=riparata npx vitest run --config .verifica-P-S03-002-riprova/vitest.config.ts --reporter=verbose); rm -rf marketplace/.verifica-P-S03-002-riprova"
+  },
+  {
+   "id": "P-S03-003",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/P-S03-003-riprova; mkdir -p marketplace/.verifica-P-S03-003-riprova && cp $S/vitest.config.ts $S/abbonamento-paletto.test.tsx marketplace/.verifica-P-S03-003-riprova/ && (cd marketplace && npx vitest run --config .verifica-P-S03-003-riprova/vitest.config.ts); rc=$?; rm -rf marketplace/.verifica-P-S03-003-riprova; echo \"exit=$rc\""
+  },
+  {
+   "id": "P-S06-002",
+   "esito": "confermato",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/P-S06-002-riprova; mkdir -p marketplace/.verifica-P-S06-002-riprova && cp $W/{rubrica-coordinate-vecchie.test.tsx,pagina-riparata.tsx,vitest.config.mts} marketplace/.verifica-P-S06-002-riprova/ && (cd marketplace && npx vitest run --config .verifica-P-S06-002-riprova/vitest.config.mts); rc=$?; rm -rf marketplace/.verifica-P-S06-002-riprova; exit $rc"
+  },
+  {
+   "id": "P-S09-001",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/P-S09-001-riprova && (cd marketplace && tests/sql/harness/apply.sh mycity_v_p_s09_001_riprova) && psql -X -d mycity_v_p_s09_001_riprova -v ON_ERROR_STOP=1 -f $S/maglione-escluso.sql; echo SQL_EXIT=$?; mkdir -p marketplace/.verifica-P-S09-001-riprova && cp $S/vitest/* marketplace/.verifica-P-S09-001-riprova/ && (cd marketplace && npx vitest run --config .verifica-P-S09-001-riprova/vitest.config.ts); echo VITEST_EXIT=$?; rm -rf marketplace/.verifica-P-S09-001-riprova; dropdb mycity_v_p_s09_001_riprova"
+  },
+  {
+   "id": "S02-005",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && SP=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/P-S02-005-riprova; (cd marketplace && tests/sql/harness/apply.sh mycity_v_p_s02_005_riprova >/dev/null 2>&1 && psql -X -q -d mycity_v_p_s02_005_riprova -v out=$SP/riga-ritiro.json -f $SP/ritiro-banco.sql && mkdir -p .verifica-P-S02-005-riprova && cp $SP/vitest.config.ts $SP/ritiro-al-banco.test.ts .verifica-P-S02-005-riprova/ && RIGA_RITIRO=$SP/riga-ritiro.json node_modules/.bin/vitest run --config .verifica-P-S02-005-riprova/vitest.config.ts; rc=$?; rm -rf .verifica-P-S02-005-riprova; dropdb mycity_v_p_s02_005_riprova; exit $rc)"
+  },
+  {
+   "id": "S02-007",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/P-S02-007-riprova; V=marketplace/.verifica-P-S02-007-riprova; mkdir -p $V && cp $W/vitest.config.ts $W/contanti-incassati-apre-il-reclamo.test.ts $V/ && (cd marketplace && npx vitest run --config .verifica-P-S02-007-riprova/vitest.config.ts 2>&1 | grep -E \"\\[S02-007\\]|✓|×|Tests \") ; rm -rf $V; bash marketplace/tests/sql/harness/apply.sh mycity_v_p_s02_007_riprova 2>&1 | grep applicate; psql -X -q -d mycity_v_p_s02_007_riprova -f $W/l-amministratore-non-apre-il-reclamo.sql 2>&1 | grep -E \"INFO|ERROR\"; echo \"psql exit=${PIPESTATUS[0]}\"; dropdb mycity_v_p_s02_007_riprova"
+  },
+  {
+   "id": "S03-001",
+   "esito": "confermato",
+   "comando": "S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/P-S03-001-riprova; V=marketplace/.verifica-P-S03-001-riprova; mkdir -p $V && cp $S/vitest.config.ts $S/rimborso-prima-dell-ordine.test.ts $S/ordini-riparato.ts $V/ && (cd marketplace && npx vitest run --config .verifica-P-S03-001-riprova/vitest.config.ts > $S/ultimo-giro.log 2>&1); E=$?; rm -rf $V; echo \"EXIT=$E\""
+  },
+  {
+   "id": "S07-001",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/P-S07-001-riprova/prova-rossa.sh; echo \"exit=$?\""
+  }
+ ],
+ "gravi_peso": [
+  {
+   "id": "S02-005",
+   "peso": "grave"
+  },
+  {
+   "id": "S02-007",
+   "peso": "grave"
+  },
+  {
+   "id": "S03-001",
+   "peso": "grave"
+  },
+  {
+   "id": "S03-002",
+   "peso": "minore"
+  },
+  {
+   "id": "S03-003",
+   "peso": "minore"
+  },
+  {
+   "id": "S06-002",
+   "peso": "minore"
+  },
+  {
+   "id": "S07-001",
+   "peso": "minore"
+  },
+  {
+   "id": "S09-001",
+   "peso": "grave"
+  }
+ ],
+ "chiusure_gravi_S01": [
+  {
+   "indice": 467,
+   "esito": "confermato_non_piu_vero",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/C01/verifica.sh"
+  },
+  {
+   "indice": 134,
+   "esito": "confermato_non_piu_vero",
+   "comando": "cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-C02 && cp -r /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/C02/prova/. marketplace/.verifica-C02/ && (cd marketplace && timeout 300 npx vitest run --config .verifica-C02/vitest.config.ts --reporter=verbose 2>&1 | grep -E \"oggi\\]|prima\\]|Tests |✓|×\"); rm -rf marketplace/.verifica-C02"
+  },
+  {
+   "indice": 715,
+   "esito": "confermato_non_piu_vero",
+   "comando": "cd /home/user/ad-mycity && bash marketplace/tests/sql/harness/apply.sh mycity_v_c03 && psql -q -d mycity_v_c03 -At -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/C03/eta.sql && (cd marketplace && npx vitest run tests/unit/nessuno-approva-un-fattorino-minorenne.test.ts tests/unit/un-minorenne-non-si-iscrive-come-fattorino.test.ts tests/unit/nessun-documento-di-minorenne-entra-nell-archivio.test.ts); dropdb mycity_v_c03"
+  },
+  {
+   "indice": 493,
+   "esito": "confermato_non_piu_vero",
+   "comando": "cd marketplace && npx vitest run tests/unit/i-link-della-cabina-admin-portano-a-una-pagina-vera.test.tsx tests/unit/l-esito-di-una-segnalazione-arriva-a-chi-ha-segnalato-e-al-venditore.test.ts tests/unit/la-decisione-sulla-segnalazione-manda-l-esito.test.tsx tests/unit/la-rotta-segnalazioni-manda-l-esito-deciso.test.ts tests/unit/minori-s05-segnalazioni.test.tsx tests/unit/il-modulo-segnala-non-promette-un-esito-che-non-parte.test.tsx && tests/sql/harness/apply.sh mycity_v_c04 && bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/C04/prova-segnalazioni-db.sh mycity_v_c04 && npx tsc --noEmit --incremental false -p tsconfig.json; dropdb mycity_v_c04"
+  },
+  {
+   "indice": 466,
+   "esito": "confermato_non_piu_vero",
+   "comando": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/il-negozio-sa-quando-un-cliente-gli-scrive.test.ts tests/unit/minori-s10-campanella.test.ts tests/unit/il-pannello-negozio-ha-la-voce-messaggi.test.tsx tests/unit/la-campanella-del-negozio-non-si-perde.test.ts; cd /home/user/ad-mycity && bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/C05/prova.sh"
+  },
+  {
+   "indice": 923,
+   "esito": "dubbio",
+   "comando": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/la-foto-della-categoria-la-decide-il-dato-non-il-codice.test.ts ; cp -r /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/C06/probe-copia .verifica-C06 && npx vitest run --config .verifica-C06/vitest.config.ts --reporter=verbose --silent=false ; C06_VARIANTE=mutante npx vitest run --config .verifica-C06/vitest.config.ts --reporter=verbose --silent=false ; rm -rf .verifica-C06 ; tests/sql/harness/apply.sh mycity_v_c06 && psql -d mycity_v_c06 -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/C06/db-probe.sql ; dropdb mycity_v_c06"
+  },
+  {
+   "indice": 1509,
+   "esito": "ancora_vero",
+   "comando": "C=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/C07; cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-C07 && cp $C/portiere-libreria-vera.test.ts $C/vitest.config.ts marketplace/.verifica-C07/ && (cd marketplace && npx vitest run --config .verifica-C07/vitest.config.ts --reporter=verbose) > $C/esito.txt 2>&1; rm -rf marketplace/.verifica-C07"
+  },
+  {
+   "indice": 1594,
+   "esito": "ancora_vero",
+   "comando": "cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-C08 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/C08/prove/* marketplace/.verifica-C08/ && (cd marketplace && timeout 300 npx vitest run --config .verifica-C08/vitest.config.ts > /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/C08/uscita-vitest.txt 2>&1; echo \"exit=$?\"); rm -rf marketplace/.verifica-C08"
+  }
+ ],
+ "minori": [
+  {
+   "id": "S01-001",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-M01 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M01/campanella-fascia.test.ts /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M01/vitest.config.ts marketplace/.verifica-M01/ && (cd marketplace && npx vitest run --config .verifica-M01/vitest.config.ts); rm -rf marketplace/.verifica-M01"
+  },
+  {
+   "id": "S02-001",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-M02 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M02/prove-vitest/* marketplace/.verifica-M02/ && cd marketplace && node_modules/.bin/vitest run --config .verifica-M02/vitest.config.mts .verifica-M02/s02-001 ; rm -rf .verifica-M02 ; node /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M02/conti-001.mjs"
+  },
+  {
+   "id": "S02-002",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-M02 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M02/prove-vitest/* marketplace/.verifica-M02/ && cd marketplace && node_modules/.bin/vitest run --config .verifica-M02/vitest.config.mts .verifica-M02/s02-002 --reporter=verbose ; rm -rf .verifica-M02 ; tests/sql/harness/apply.sh mycity_v_m02 && psql -d mycity_v_m02 -c \"SET mycity.allow_profile_write='1'; INSERT INTO auth.users (id,email,raw_user_meta_data) VALUES ('44444444-4444-4444-4444-444444444444','anna@test.it','{\\\"role\\\":\\\"buyer\\\"}'); SELECT public.wallet_credit('44444444-4444-4444-4444-444444444444',1800,'refund','r1'); SELECT public.wallet_debit('44444444-4444-4444-4444-444444444444',1800,'order_cod','s1'); SELECT public.wallet_debit('44444444-4444-4444-4444-444444444444',1300,'order_cod','s2');\" ; dropdb mycity_v_m02"
+  },
+  {
+   "id": "S02-003",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M04/prova.sh"
+  },
+  {
+   "id": "S02-004",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-M02 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M02/prove-vitest/* marketplace/.verifica-M02/ && cd marketplace && TZ=UTC node_modules/.bin/vitest run --config .verifica-M02/vitest.config.mts .verifica-M02/s02-004 ; TZ=Europe/Rome node_modules/.bin/vitest run --config .verifica-M02/vitest.config.mts .verifica-M02/s02-004 ; rm -rf .verifica-M02"
+  },
+  {
+   "id": "S02-006",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-M02 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M02/prove-vitest/* marketplace/.verifica-M02/ && cd marketplace && TZ=Europe/Rome node_modules/.bin/vitest run --config .verifica-M02/vitest.config.mts .verifica-M02/s02-006 ; rm -rf .verifica-M02"
+  },
+  {
+   "id": "S02-008",
+   "esito": "confermato",
+   "comando": "cd marketplace && tests/sql/harness/apply.sh mycity_v_m02 && /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M02/s02-008-corsa.sh mycity_v_m02 ; dropdb mycity_v_m02"
+  },
+  {
+   "id": "S02-009",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-M02 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M02/prove-vitest/* marketplace/.verifica-M02/ && cd marketplace && node_modules/.bin/vitest run --config .verifica-M02/vitest.config.mts .verifica-M02/s02-009 ; rm -rf .verifica-M02"
+  },
+  {
+   "id": "S02-010",
+   "esito": "confermato",
+   "comando": "S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M03; mkdir -p marketplace/.verifica-M03 && cp $S/s02-010.test.ts $S/vitest.config.ts marketplace/.verifica-M03/ && (cd marketplace && npx vitest run --config .verifica-M03/vitest.config.ts --reporter=verbose); rm -rf marketplace/.verifica-M03"
+  },
+  {
+   "id": "S03-004",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && mkdir -p .verifica-M05 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M05/prove/* .verifica-M05/ && npx vitest run --config .verifica-M05/vitest.m05.config.ts .verifica-M05/m05-s03-004 --reporter=verbose; rm -rf .verifica-M05"
+  },
+  {
+   "id": "S03-005",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && mkdir -p .verifica-M05 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M05/prove/* .verifica-M05/ && npx vitest run --config .verifica-M05/vitest.m05.config.ts .verifica-M05/m05-s03-005 --reporter=verbose; rm -rf .verifica-M05"
+  },
+  {
+   "id": "S03-006",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && mkdir -p .verifica-M05 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M05/prove/* .verifica-M05/ && npx vitest run --config .verifica-M05/vitest.m05.config.ts .verifica-M05/m05-s03-006 --reporter=verbose; rm -rf .verifica-M05"
+  },
+  {
+   "id": "S03-007",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && mkdir -p .verifica-M05 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M05/prove/* .verifica-M05/ && npx vitest run --config .verifica-M05/vitest.m05.config.ts .verifica-M05/m05-s03-007 --reporter=verbose; rm -rf .verifica-M05"
+  },
+  {
+   "id": "S03-008",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && mkdir -p .verifica-M05 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M05/prove/* .verifica-M05/ && npx vitest run --config .verifica-M05/vitest.m05.config.ts .verifica-M05/m05-s03-008 --reporter=verbose; rm -rf .verifica-M05"
+  },
+  {
+   "id": "S03-009",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && mkdir -p .verifica-M05 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M05/prove/* .verifica-M05/ && npx vitest run --config .verifica-M05/vitest.m05.config.ts .verifica-M05/m05-s03-009 --reporter=verbose; rm -rf .verifica-M05; bash tests/sql/harness/apply.sh mycity_v_m05 && psql -d mycity_v_m05 -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M05/s03-009-buono.sql; dropdb mycity_v_m05"
+  },
+  {
+   "id": "S03-010",
+   "esito": "confermato",
+   "comando": "cd marketplace && grep -n \"stripe_account\\|payouts_enabled\\|charges_enabled\" app/api/stripe/checkout/route.ts lib/ordini/valida-carrello.ts lib/stripe/client.ts; echo \"exit=$?\""
+  },
+  {
+   "id": "S03-011",
+   "esito": "confermato",
+   "comando": "D=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M06; mkdir -p marketplace/.verifica-M06 && cp $D/vitest.config.ts $D/s03-011-rider.test.tsx marketplace/.verifica-M06/ && (cd marketplace && npx vitest run --config .verifica-M06/vitest.config.ts .verifica-M06/s03-011-rider.test.tsx); rm -rf marketplace/.verifica-M06"
+  },
+  {
+   "id": "S03-012",
+   "esito": "confermato",
+   "comando": "D=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M06; mkdir -p marketplace/.verifica-M06 && cp $D/vitest.config.ts $D/s03-012-abbonamento.test.tsx marketplace/.verifica-M06/ && (cd marketplace && npx vitest run --config .verifica-M06/vitest.config.ts .verifica-M06/s03-012-abbonamento.test.tsx); rm -rf marketplace/.verifica-M06"
+  },
+  {
+   "id": "S03-013",
+   "esito": "confermato",
+   "comando": "D=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M06; mkdir -p marketplace/.verifica-M06 && cp $D/vitest.config.ts $D/s03-013-sponsorizzata.test.ts marketplace/.verifica-M06/ && (cd marketplace && npx vitest run --config .verifica-M06/vitest.config.ts .verifica-M06/s03-013-sponsorizzata.test.ts); rm -rf marketplace/.verifica-M06"
+  },
+  {
+   "id": "S03-014",
+   "esito": "confermato",
+   "comando": "cd marketplace && grep -rn \"'ended'\" app lib migrations --include=*.ts --include=*.tsx --include=*.sql | grep -iv \"events\\|ai/\\|batch\"; bash tests/sql/harness/apply.sh mycity_v_m06 && psql -d mycity_v_m06 -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M06/s03-014.sql; dropdb mycity_v_m06"
+  },
+  {
+   "id": "S03-015",
+   "esito": "confermato",
+   "comando": "D=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M06; mkdir -p marketplace/.verifica-M06 && cp $D/vitest.config.ts $D/s03-015-buoni.test.tsx marketplace/.verifica-M06/ && (cd marketplace && npx vitest run --config .verifica-M06/vitest.config.ts .verifica-M06/s03-015-buoni.test.tsx); rm -rf marketplace/.verifica-M06"
+  },
+  {
+   "id": "S04-001",
+   "esito": "confermato",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M07; mkdir -p marketplace/.verifica-M07 && cp $W/*.ts marketplace/.verifica-M07/ && (cd marketplace && node_modules/.bin/vitest run --config .verifica-M07/vitest.m07.config.ts --reporter=verbose copilot-storia); rm -rf marketplace/.verifica-M07"
+  },
+  {
+   "id": "S04-002",
+   "esito": "confermato",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M07; mkdir -p marketplace/.verifica-M07 && cp $W/*.ts marketplace/.verifica-M07/ && (cd marketplace && node_modules/.bin/vitest run --config .verifica-M07/vitest.m07.config.ts --reporter=verbose chat-turno); rm -rf marketplace/.verifica-M07"
+  },
+  {
+   "id": "S04-003",
+   "esito": "confermato",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M07; mkdir -p marketplace/.verifica-M07 && cp $W/*.ts marketplace/.verifica-M07/ && (cd marketplace && node_modules/.bin/vitest run --config .verifica-M07/vitest.m07.config.ts --reporter=verbose external-refresh); rm -rf marketplace/.verifica-M07"
+  },
+  {
+   "id": "S04-004",
+   "esito": "confermato",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M08 && mkdir -p marketplace/.verifica-M08 && cp $W/vitest.config.ts $W/a-moderazione-cliente.test.ts marketplace/.verifica-M08/ && (cd marketplace && npx vitest run --config .verifica-M08/vitest.config.ts .verifica-M08/a-moderazione-cliente.test.ts --reporter=verbose --silent=false); rm -rf marketplace/.verifica-M08; grep -rnE 'banned_until|is_banned|is_blocked|suspended_at|is_suspended|no_show|cod_blocked|ban_duration' marketplace/app marketplace/lib marketplace/migrations; bash marketplace/tests/sql/harness/apply.sh mycity_v_m08 && (cd marketplace && psql -q -d mycity_v_m08 -At -f $W/rls-probe.sql -f $W/cambio-ruolo.sql && psql -d mycity_v_m08 -Atc \"select column_name from information_schema.columns where table_schema='public' and table_name='profiles' and column_name ~* '(ban|block|suspen|no_show|cod_|disabled|locked|frozen)'\"); dropdb mycity_v_m08"
+  },
+  {
+   "id": "S04-005",
+   "esito": "confermato",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M08 && mkdir -p marketplace/.verifica-M08 && cp $W/vitest.config.ts $W/b-gettone-senza-cookie.test.ts $W/c-interruttore-acceso.test.ts marketplace/.verifica-M08/ && (cd marketplace && npx vitest run --config .verifica-M08/vitest.config.ts .verifica-M08/b-gettone-senza-cookie.test.ts .verifica-M08/c-interruttore-acceso.test.ts --reporter=verbose --silent=false); rm -rf marketplace/.verifica-M08; bash marketplace/tests/sql/harness/apply.sh mycity_v_m08 && (cd marketplace && psql -q -d mycity_v_m08 -At -f $W/rls-probe.sql && psql -d mycity_v_m08 -Atc \"select tablename, policyname, qual from pg_policies where tablename in ('profiles','orders','products') and cmd in ('SELECT','ALL')\"); dropdb mycity_v_m08"
+  },
+  {
+   "id": "S05-008",
+   "esito": "confermato",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M09; M=/home/user/ad-mycity/marketplace; U='postgresql://root@/mycity_v_m09?host=/var/run/postgresql'; bash $M/tests/sql/harness/apply.sh mycity_v_m09 && mkdir -p $W/copia/scripts $W/copia/migrations && cp $M/migrations/*.sql $W/copia/migrations/ && cp $M/scripts/applica-migrazioni-mancanti.sh $M/scripts/conta-migrazioni-mancanti.sh $W/copia/scripts/ && echo 'CREATE TABLE public.v5_primo (id int);' > $W/copia/migrations/246_sistema_i_permessi.sql && echo 'CREATE TABLE public.v5_secondo (id int);' > $W/copia/migrations/247_sistema_i_permessi.sql && cd $W/copia && SUPABASE_DB_URL=$U bash scripts/applica-migrazioni-mancanti.sh; SUPABASE_DB_URL=$U node $M/scripts/check-migration-drift.mjs; echo drift=$?; SUPABASE_DB_URL=$U QUANTE=0 ULTIMA=247 bash scripts/conta-migrazioni-mancanti.sh; psql -d mycity_v_m09 -Atc \"select to_regclass('public.v5_primo'), to_regclass('public.v5_secondo')\"  # prova 2 sullo stesso db ripulito: insert into supabase_migrations.schema_migrations values ('20260601120000','seller_storefronts_rls') + file 246_seller_storefronts_rls.sql (CREATE TABLE public.v5_storico), stessi tre script; controprova con 248_controllo_nome_nuovo.sql; poi $M/node_modules/.bin/vitest run --root $W/copia tests/unit/migrations-integrity.test.ts con i due file 246/247 doppi; alla fine dropdb mycity_v_m09"
+  },
+  {
+   "id": "S05-009",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && diff <(ls migrations/*.sql | sort -V) <(ls migrations/*.sql | LC_ALL=C sort); grep -n 'sort -V' tests/sql/harness/migrazione-su-database-pieno.sh; grep -rn 'sort -V' --include=*.sh --include=*.ts . | grep -v node_modules"
+  },
+  {
+   "id": "S05-010",
+   "esito": "confermato",
+   "comando": "PGUSER=root bash marketplace/tests/sql/harness/apply.sh mycity_v_m10 && psql -d mycity_v_m10 -f marketplace/tests/sql/harness/seed-ordine-vero.sql && psql -d mycity_v_m10 -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M10/s05-010.sql"
+  },
+  {
+   "id": "S05-011",
+   "esito": "confermato",
+   "comando": "PGUSER=root bash marketplace/tests/sql/harness/apply.sh mycity_v_m10 && psql -d mycity_v_m10 -f marketplace/tests/sql/harness/seed-ordine-vero.sql && psql -d mycity_v_m10 -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M10/s05-011.sql"
+  },
+  {
+   "id": "S05-012",
+   "esito": "confermato",
+   "comando": "marketplace/tests/sql/harness/apply.sh mycity_v_m11 && W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M11 && mkdir -p $W/gen/scripts $W/gen/lib && cp marketplace/scripts/gen-db-types.mjs $W/gen/scripts/ && ln -sfn /home/user/ad-mycity/marketplace/migrations $W/gen/migrations && node $W/gen/scripts/gen-db-types.mjs && diff -q $W/gen/lib/database.types.ts marketplace/lib/database.types.ts && node $W/confronta.mjs $W/gen/lib/database.types.ts mycity_v_m11; dropdb mycity_v_m11"
+  },
+  {
+   "id": "S05-013",
+   "esito": "smentito",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M12/prova-seed.sh"
+  },
+  {
+   "id": "S05-014",
+   "esito": "confermato",
+   "comando": "PGUSER=root bash marketplace/tests/sql/harness/apply.sh mycity_v_m10 && psql -d mycity_v_m10 -f marketplace/tests/sql/harness/seed-ordine-vero.sql && psql -d mycity_v_m10 -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M10/s05-014.sql"
+  },
+  {
+   "id": "S05-015",
+   "esito": "smentito",
+   "comando": "PGUSER=root bash marketplace/tests/sql/harness/apply.sh mycity_v_m10 && psql -d mycity_v_m10 -f marketplace/tests/sql/harness/seed-ordine-vero.sql && psql -d mycity_v_m10 -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M10/s05-015.sql"
+  },
+  {
+   "id": "S06-003",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-M13 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M13/vitest.config.ts /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M13/annullo-carta-in-gara.test.ts marketplace/.verifica-M13/ && (cd marketplace && npx vitest run --config .verifica-M13/vitest.config.ts .verifica-M13/annullo-carta-in-gara.test.ts); rm -rf marketplace/.verifica-M13"
+  },
+  {
+   "id": "S06-004",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-M13 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M13/vitest.config.ts /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M13/recesso-ultimo-giorno.test.ts marketplace/.verifica-M13/ && (cd marketplace && TZ=Europe/Rome npx vitest run --config .verifica-M13/vitest.config.ts .verifica-M13/recesso-ultimo-giorno.test.ts); rm -rf marketplace/.verifica-M13"
+  },
+  {
+   "id": "S06-005",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-M15 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M15/vitest.config.ts /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M15/password.test.ts marketplace/.verifica-M15/ && cd marketplace && npx vitest run --config .verifica-M15/vitest.config.ts .verifica-M15/password.test.ts --reporter=verbose"
+  },
+  {
+   "id": "S06-006",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-M15 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M15/vitest.config.ts /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M15/password.test.ts marketplace/.verifica-M15/ && cd marketplace && npx vitest run --config .verifica-M15/vitest.config.ts .verifica-M15/password.test.ts --reporter=verbose"
+  },
+  {
+   "id": "S06-007",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-M13 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M13/vitest.config.ts /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M13/secondo-reso.test.ts marketplace/.verifica-M13/ && (cd marketplace && npx vitest run --config .verifica-M13/vitest.config.ts .verifica-M13/secondo-reso.test.ts); rm -rf marketplace/.verifica-M13 && bash marketplace/tests/sql/harness/apply.sh mycity_v_m13 && (cd marketplace && psql -d mycity_v_m13 -X -q -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M13/s06-007-db.sql); dropdb mycity_v_m13"
+  },
+  {
+   "id": "S06-008",
+   "esito": "confermato",
+   "comando": "S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M16; bash marketplace/tests/sql/harness/apply.sh mycity_v_m16 && psql -d mycity_v_m16 -At -f $S/prova-db.sql; dropdb mycity_v_m16; mkdir -p marketplace/.verifica-M16 && cp $S/prove/* marketplace/.verifica-M16/ && (cd marketplace && npx vitest run --config .verifica-M16/vitest.config.ts .verifica-M16/s06-008-recensione.test.tsx --reporter=verbose --silent=false); rm -rf marketplace/.verifica-M16"
+  },
+  {
+   "id": "S06-009",
+   "esito": "confermato",
+   "comando": "S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M16; mkdir -p marketplace/.verifica-M16 && cp $S/prove/* marketplace/.verifica-M16/ && (cd marketplace && npx vitest run --config .verifica-M16/vitest.config.ts .verifica-M16/s06-009-preferenze.test.tsx --reporter=verbose --silent=false); rm -rf marketplace/.verifica-M16"
+  },
+  {
+   "id": "S06-010",
+   "esito": "confermato",
+   "comando": "S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M16; mkdir -p marketplace/.verifica-M16 && cp $S/prove/* marketplace/.verifica-M16/ && (cd marketplace && npx vitest run --config .verifica-M16/vitest.config.ts .verifica-M16/s06-010-ordini.test.tsx --reporter=verbose --silent=false); rm -rf marketplace/.verifica-M16"
+  },
+  {
+   "id": "S06-011",
+   "esito": "confermato",
+   "comando": "S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M16; mkdir -p marketplace/.verifica-M16 && cp $S/prove/* marketplace/.verifica-M16/ && (cd marketplace && npx vitest run --config .verifica-M16/vitest.config.ts .verifica-M16/s06-011-pagina-nascosta.test.tsx --reporter=verbose --silent=false); rm -rf marketplace/.verifica-M16"
+  },
+  {
+   "id": "S06-012",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-M13 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M13/vitest.config.ts /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M13/varianti.test.ts marketplace/.verifica-M13/ && (cd marketplace && npx vitest run --config .verifica-M13/vitest.config.ts .verifica-M13/varianti.test.ts); rm -rf marketplace/.verifica-M13"
+  },
+  {
+   "id": "S06-013",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && bash marketplace/tests/sql/harness/apply.sh mycity_v_m13 && bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M13/s06-013.sh; rm -rf marketplace/.verifica-M13; dropdb mycity_v_m13"
+  },
+  {
+   "id": "S06-014",
+   "esito": "confermato",
+   "comando": "S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M16; bash marketplace/tests/sql/harness/apply.sh mycity_v_m16 && psql -d mycity_v_m16 -At -f $S/prova-db.sql; dropdb mycity_v_m16; mkdir -p marketplace/.verifica-M16 && cp $S/prove/* marketplace/.verifica-M16/ && (cd marketplace && npx vitest run --config .verifica-M16/vitest.config.ts .verifica-M16/s06-014-liste.test.tsx --reporter=verbose --silent=false); rm -rf marketplace/.verifica-M16"
+  },
+  {
+   "id": "S06-015",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-M15 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M15/vitest.config.ts /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M15/home.test.ts marketplace/.verifica-M15/ && cd marketplace && npx vitest run --config .verifica-M15/vitest.config.ts .verifica-M15/home.test.ts --reporter=verbose"
+  },
+  {
+   "id": "S06-016",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-M13 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M13/vitest.config.ts /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M13/prezzo-cambiato-cod.test.ts marketplace/.verifica-M13/ && (cd marketplace && npx vitest run --config .verifica-M13/vitest.config.ts .verifica-M13/prezzo-cambiato-cod.test.ts); rm -rf marketplace/.verifica-M13"
+  },
+  {
+   "id": "S06-017",
+   "esito": "confermato",
+   "comando": "bash marketplace/tests/sql/harness/apply.sh mycity_v_m15 && mkdir -p marketplace/.verifica-M15 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M15/vitest.config.ts /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M15/primo-ordine.test.ts marketplace/.verifica-M15/ && cd marketplace && npx vitest run --config .verifica-M15/vitest.config.ts .verifica-M15/primo-ordine.test.ts --reporter=verbose"
+  },
+  {
+   "id": "S06-018",
+   "esito": "confermato",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M14; mkdir -p marketplace/.verifica-M14 && cp $W/*.ts marketplace/.verifica-M14/ && (cd marketplace && TZ=UTC npx vitest run --config .verifica-M14/vitest.config.ts .verifica-M14/m14-tempo.test.ts -t C-01 --silent=false); rm -rf marketplace/.verifica-M14"
+  },
+  {
+   "id": "S06-020",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-M15 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M15/vitest.config.ts /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M15/senza-fascia.test.ts marketplace/.verifica-M15/ && cd marketplace && TZ=UTC npx vitest run --config .verifica-M15/vitest.config.ts .verifica-M15/senza-fascia.test.ts --reporter=verbose"
+  },
+  {
+   "id": "S06-021",
+   "esito": "confermato",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M14; mkdir -p marketplace/.verifica-M14 && cp $W/*.ts marketplace/.verifica-M14/ && (cd marketplace && TZ=UTC npx vitest run --config .verifica-M14/vitest.config.ts .verifica-M14/m14-tempo.test.ts -t C-02 --silent=false; grep -rn -i 'festiv\\|holiday\\|closed_dates\\|vacation\\|is_paused\\|accepting_orders' --include=*.ts --include=*.tsx --include=*.sql lib app components migrations | grep -v tests/); rm -rf marketplace/.verifica-M14"
+  },
+  {
+   "id": "S06-022",
+   "esito": "confermato",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M14; mkdir -p marketplace/.verifica-M14 && cp $W/*.ts marketplace/.verifica-M14/ && (cd marketplace && TZ=UTC npx vitest run --config .verifica-M14/vitest.config.ts .verifica-M14/m14-tempo.test.ts -t C-03 --silent=false; grep -rn rider_is_online --include=*.ts --include=*.tsx app lib components | grep -v test); rm -rf marketplace/.verifica-M14"
+  },
+  {
+   "id": "S06-023",
+   "esito": "confermato",
+   "comando": "bash marketplace/tests/sql/harness/apply.sh mycity_v_m15 && psql -d mycity_v_m15 -v ON_ERROR_STOP=1 -q -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M15/seed-giro.sql && mkdir -p marketplace/.verifica-M15 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M15/vitest.config.ts /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M15/giro-100.test.ts marketplace/.verifica-M15/ && cd marketplace && npx vitest run --config .verifica-M15/vitest.config.ts .verifica-M15/giro-100.test.ts --reporter=verbose"
+  },
+  {
+   "id": "S06-024",
+   "esito": "confermato",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M14; mkdir -p marketplace/.verifica-M14 && cp $W/*.ts marketplace/.verifica-M14/ && (cd marketplace && TZ=UTC npx vitest run --config .verifica-M14/vitest.config.ts .verifica-M14/m14-etichetta.test.ts --silent=false); rm -rf marketplace/.verifica-M14"
+  },
+  {
+   "id": "S07-002",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-M17 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M17/vitest/* marketplace/.verifica-M17/ && cd marketplace && npx vitest run --config .verifica-M17/vitest.config.ts --silent=false .verifica-M17/s07-002-orari.test.ts"
+  },
+  {
+   "id": "S07-003",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-M17 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M17/vitest/* marketplace/.verifica-M17/ && cd marketplace && npx vitest run --config .verifica-M17/vitest.config.ts --silent=false .verifica-M17/s07-003-vetrina.test.ts"
+  },
+  {
+   "id": "S07-004",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M20/esegui.sh a-vetrina.test.tsx"
+  },
+  {
+   "id": "S07-005",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M20/esegui.sh a-vetrina.test.tsx"
+  },
+  {
+   "id": "S07-006",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M20/esegui.sh b-moduli.test.tsx"
+  },
+  {
+   "id": "S07-007",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M20/esegui.sh"
+  },
+  {
+   "id": "S07-008",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-M17 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M17/vitest/* marketplace/.verifica-M17/ && cd marketplace && npx vitest run --config .verifica-M17/vitest.config.ts --silent=false .verifica-M17/s07-008-storie.test.ts"
+  },
+  {
+   "id": "S07-009",
+   "esito": "confermato",
+   "comando": "bash marketplace/tests/sql/harness/apply.sh mycity_v_m17 && psql -d mycity_v_m17 -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M17/s07-009-link-storia.sql; dropdb mycity_v_m17"
+  },
+  {
+   "id": "S07-010",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M20/esegui.sh d-prodotto.test.ts"
+  },
+  {
+   "id": "S07-011",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-M17 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M17/vitest/* marketplace/.verifica-M17/ && cd marketplace && npx vitest run --config .verifica-M17/vitest.config.ts --silent=false .verifica-M17/s07-011-import.test.tsx"
+  },
+  {
+   "id": "S07-012",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-M17 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M17/vitest/* marketplace/.verifica-M17/ && cd marketplace && npx vitest run --config .verifica-M17/vitest.config.ts --silent=false .verifica-M17/s07-012-chat.test.ts"
+  },
+  {
+   "id": "S07-013",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-M18 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M18/prove-vitest/* marketplace/.verifica-M18/ && (cd marketplace && npx vitest run --config .verifica-M18/vitest.config.ts .verifica-M18/chat-nascosta.test.tsx --reporter=verbose); rm -rf marketplace/.verifica-M18"
+  },
+  {
+   "id": "S07-014",
+   "esito": "confermato",
+   "comando": "marketplace/tests/sql/harness/apply.sh mycity_v_m18 && psql -d mycity_v_m18 -At -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M18/p-giri.sql; dropdb mycity_v_m18"
+  },
+  {
+   "id": "S07-015",
+   "esito": "confermato",
+   "comando": "for tz in Europe/Rome America/New_York Asia/Tokyo; do TZ=$tz node /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M18/promo-oggi.cjs marketplace/app/seller/promotions/page.tsx; done"
+  },
+  {
+   "id": "S07-016",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M20/esegui.sh e-promo.test.tsx"
+  },
+  {
+   "id": "S07-017",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-M18 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M18/prove-vitest/* marketplace/.verifica-M18/ && (cd marketplace && npx vitest run --config .verifica-M18/vitest.config.ts .verifica-M18/analisi-7-giorni.test.ts --reporter=verbose); rm -rf marketplace/.verifica-M18"
+  },
+  {
+   "id": "S07-018",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && mkdir -p .verifica-M21 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M21/vitest.config.ts /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M21/s07-018.test.tsx .verifica-M21/ && npx vitest run --config .verifica-M21/vitest.config.ts .verifica-M21/s07-018.test.tsx --reporter=verbose --silent=false; rm -rf .verifica-M21"
+  },
+  {
+   "id": "S07-019",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && for tz in UTC Europe/Rome; do mkdir -p .verifica-M21 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M21/vitest.config.ts /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M21/s07-019.test.ts .verifica-M21/ && TZ=$tz npx vitest run --config .verifica-M21/vitest.config.ts .verifica-M21/s07-019.test.ts --reporter=verbose --silent=false | grep 'TZ='; rm -rf .verifica-M21; done"
+  },
+  {
+   "id": "S07-020",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && mkdir -p .verifica-M21 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M21/vitest.config.ts /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M21/s07-020.test.tsx .verifica-M21/ && npx vitest run --config .verifica-M21/vitest.config.ts .verifica-M21/s07-020.test.tsx --reporter=verbose --silent=false; rm -rf .verifica-M21"
+  },
+  {
+   "id": "S07-021",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-M18 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M18/prove-vitest/* marketplace/.verifica-M18/ && (cd marketplace && npx vitest run --config .verifica-M18/vitest.config.ts .verifica-M18/lotto-ai.test.ts --reporter=verbose); rm -rf marketplace/.verifica-M18"
+  },
+  {
+   "id": "S07-022",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-M18 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M18/prove-vitest/* marketplace/.verifica-M18/ && (cd marketplace && npx vitest run --config .verifica-M18/vitest.config.ts .verifica-M18/foto-allergeni.test.ts --reporter=verbose); rm -rf marketplace/.verifica-M18"
+  },
+  {
+   "id": "S07-023",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && mkdir -p .verifica-M21 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M21/vitest.config.ts /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M21/s07-023.test.tsx .verifica-M21/ && npx vitest run --config .verifica-M21/vitest.config.ts .verifica-M21/s07-023.test.tsx --reporter=verbose --silent=false; rm -rf .verifica-M21"
+  },
+  {
+   "id": "S07-024",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && mkdir -p .verifica-M21 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M21/vitest.config.ts /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M21/s07-024.test.tsx .verifica-M21/ && npx vitest run --config .verifica-M21/vitest.config.ts .verifica-M21/s07-024.test.tsx --reporter=verbose --silent=false; rm -rf .verifica-M21"
+  },
+  {
+   "id": "S07-025",
+   "esito": "confermato",
+   "comando": "bash marketplace/tests/sql/harness/apply.sh mycity_v_m19 && psql -d mycity_v_m19 -Atc \"select tgname, p.proname from pg_trigger t join pg_proc p on p.oid=t.tgfoid where tgrelid='public.profiles'::regclass and not tgisinternal\" && psql -d mycity_v_m19 -At -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M19/s07-025.sql; dropdb mycity_v_m19"
+  },
+  {
+   "id": "S07-026",
+   "esito": "confermato",
+   "comando": "bash marketplace/tests/sql/harness/apply.sh mycity_v_m19 && psql -d mycity_v_m19 -At -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M19/s07-026.sql; dropdb mycity_v_m19; cp -r /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M19/verifica-M19-copia marketplace/.verifica-M19 && (cd marketplace && ./node_modules/.bin/vitest run --config .verifica-M19/vitest.config.ts .verifica-M19/s07-026.test.tsx); rm -rf marketplace/.verifica-M19"
+  },
+  {
+   "id": "S07-027",
+   "esito": "confermato",
+   "comando": "cp -r /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M19/verifica-M19-copia marketplace/.verifica-M19 && (cd marketplace && ./node_modules/.bin/vitest run --config .verifica-M19/vitest.config.ts .verifica-M19/s07-027.test.tsx); rm -rf marketplace/.verifica-M19"
+  },
+  {
+   "id": "S07-028",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && mkdir -p .verifica-M21 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M21/vitest.config.ts /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M21/s07-028.test.tsx .verifica-M21/ && npx vitest run --config .verifica-M21/vitest.config.ts .verifica-M21/s07-028.test.tsx --reporter=verbose --silent=false; rm -rf .verifica-M21; cd /home/user/ad-mycity && bash marketplace/tests/sql/harness/apply.sh mycity_v_m21 && psql -d mycity_v_m21 -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M21/s07-028-db.sql; dropdb mycity_v_m21"
+  },
+  {
+   "id": "S07-029",
+   "esito": "confermato",
+   "comando": "cp -r /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M19/verifica-M19-copia marketplace/.verifica-M19 && (cd marketplace && ./node_modules/.bin/vitest run --config .verifica-M19/vitest.config.ts .verifica-M19/s07-029.test.ts); rm -rf marketplace/.verifica-M19"
+  },
+  {
+   "id": "S07-030",
+   "esito": "confermato",
+   "comando": "TZ=UTC node /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M19/eta.cjs && bash marketplace/tests/sql/harness/apply.sh mycity_v_m19 && psql -d mycity_v_m19 -At -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M19/eta.sql; dropdb mycity_v_m19; cp -r /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M19/verifica-M19-copia marketplace/.verifica-M19 && (cd marketplace && ./node_modules/.bin/vitest run --config .verifica-M19/vitest.config.ts .verifica-M19/s07-030.test.ts); rm -rf marketplace/.verifica-M19"
+  },
+  {
+   "id": "S08-001",
+   "esito": "confermato",
+   "comando": "S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M22; mkdir -p marketplace/.verifica-M22 && cp $S/vitest.config.mts $S/battito.test.ts marketplace/.verifica-M22/ && (cd marketplace && npx vitest run --config .verifica-M22/vitest.config.mts --reporter=verbose --silent=false battito); rm -rf marketplace/.verifica-M22"
+  },
+  {
+   "id": "S08-002",
+   "esito": "confermato",
+   "comando": "S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M22; mkdir -p marketplace/.verifica-M22 && cp $S/vitest.config.mts $S/ricerca-email.test.ts marketplace/.verifica-M22/ && (cd marketplace && npx vitest run --config .verifica-M22/vitest.config.mts --reporter=verbose --silent=false ricerca-email); rm -rf marketplace/.verifica-M22"
+  },
+  {
+   "id": "S08-003",
+   "esito": "confermato",
+   "comando": "bash marketplace/tests/sql/harness/apply.sh mycity_v_m25 && node /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M25/prova-tetto-1000.mjs mycity_v_m25; dropdb mycity_v_m25"
+  },
+  {
+   "id": "S08-004",
+   "esito": "confermato",
+   "comando": "bash marketplace/tests/sql/harness/apply.sh mycity_v_m25 && psql -X -q -d mycity_v_m25 -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M25/prova-admin-kpi.sql; dropdb mycity_v_m25"
+  },
+  {
+   "id": "S08-005",
+   "esito": "confermato",
+   "comando": "S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M22; mkdir -p marketplace/.verifica-M22 && cp $S/vitest.config.mts $S/moderate-gara.test.ts marketplace/.verifica-M22/ && (cd marketplace && npx vitest run --config .verifica-M22/vitest.config.mts --reporter=verbose --silent=false moderate-gara); rm -rf marketplace/.verifica-M22"
+  },
+  {
+   "id": "S08-006",
+   "esito": "confermato",
+   "comando": "S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M22; mkdir -p marketplace/.verifica-M22 && cp $S/vitest.config.mts $S/errori-letture.test.ts marketplace/.verifica-M22/ && (cd marketplace && npx vitest run --config .verifica-M22/vitest.config.mts --reporter=verbose --silent=false errori-letture -t S08-006); rm -rf marketplace/.verifica-M22"
+  },
+  {
+   "id": "S08-007",
+   "esito": "confermato",
+   "comando": "S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M22; mkdir -p marketplace/.verifica-M22 && cp $S/vitest.config.mts $S/errori-letture.test.ts marketplace/.verifica-M22/ && (cd marketplace && npx vitest run --config .verifica-M22/vitest.config.mts --reporter=verbose --silent=false errori-letture -t S08-007); rm -rf marketplace/.verifica-M22"
+  },
+  {
+   "id": "S08-008",
+   "esito": "confermato",
+   "comando": "S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M22; mkdir -p marketplace/.verifica-M22 && cp $S/vitest.config.mts $S/errori-letture.test.ts marketplace/.verifica-M22/ && (cd marketplace && npx vitest run --config .verifica-M22/vitest.config.mts --reporter=verbose --silent=false errori-letture -t S08-008); rm -rf marketplace/.verifica-M22"
+  },
+  {
+   "id": "S08-009",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-M23 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M23/*.test.ts* marketplace/.verifica-M23/ && (cd marketplace && npx vitest run --config /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M23/vitest.config.mts errore-browser); rm -rf marketplace/.verifica-M23"
+  },
+  {
+   "id": "S08-010",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-M23 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M23/*.test.ts* marketplace/.verifica-M23/ && (cd marketplace && npx vitest run --config /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M23/vitest.config.mts battito); rm -rf marketplace/.verifica-M23"
+  },
+  {
+   "id": "S08-011",
+   "esito": "confermato",
+   "comando": "node /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M25/prova-rider-oggi.mjs /home/user/ad-mycity/marketplace"
+  },
+  {
+   "id": "S08-012",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-M23 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M23/*.test.ts* marketplace/.verifica-M23/ && (cd marketplace && npx vitest run --config /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M23/vitest.config.mts recesso-spunta); rm -rf marketplace/.verifica-M23"
+  },
+  {
+   "id": "S08-013",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-M23 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M23/*.test.ts* marketplace/.verifica-M23/ && (cd marketplace && npx vitest run --config /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M23/vitest.config.mts cash-avvisi); rm -rf marketplace/.verifica-M23"
+  },
+  {
+   "id": "S08-014",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && grep -n \"if (error) return 0\" 'app/product/[id]/page.tsx' components/ActivePromoBadge.tsx; cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-M23 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M23/*.test.ts* marketplace/.verifica-M23/ && (cd marketplace && npx vitest run --config /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M23/vitest.config.mts promo-zero); rm -rf marketplace/.verifica-M23"
+  },
+  {
+   "id": "S08-015",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-M23 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M23/*.test.ts* marketplace/.verifica-M23/ && (cd marketplace && npx vitest run --config /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M23/vitest.config.mts admin-cancella-admin); rm -rf marketplace/.verifica-M23"
+  },
+  {
+   "id": "S08-016",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M24; mkdir -p marketplace/.verifica-M24 && cp $S/*.ts $S/vitest.config.mts marketplace/.verifica-M24/ && (cd marketplace && npx vitest run --config .verifica-M24/vitest.config.mts .verifica-M24/c1-push-col-freno.test.ts); rm -rf marketplace/.verifica-M24"
+  },
+  {
+   "id": "S08-017",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M24; mkdir -p marketplace/.verifica-M24 && cp $S/*.ts $S/vitest.config.mts marketplace/.verifica-M24/ && (cd marketplace && npx vitest run --config .verifica-M24/vitest.config.mts .verifica-M24/c2-conferma-carta.test.ts); rm -rf marketplace/.verifica-M24"
+  },
+  {
+   "id": "S08-018",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M24; mkdir -p marketplace/.verifica-M24 && cp $S/*.ts $S/vitest.config.mts marketplace/.verifica-M24/ && (cd marketplace && npx vitest run --config .verifica-M24/vitest.config.mts .verifica-M24/c4-allarme-push.test.ts); rm -rf marketplace/.verifica-M24"
+  },
+  {
+   "id": "S08-019",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M24; mkdir -p marketplace/.verifica-M24 && cp $S/*.ts $S/vitest.config.mts marketplace/.verifica-M24/ && (cd marketplace && npx vitest run --config .verifica-M24/vitest.config.mts .verifica-M24/c5-timeout-coda.test.ts); rm -rf marketplace/.verifica-M24"
+  },
+  {
+   "id": "S08-020",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M24; bash marketplace/tests/sql/harness/apply.sh mycity_v_m24 && psql -d mycity_v_m24 -X -f $S/c10-ribasso.sql; mkdir -p marketplace/.verifica-M24 && cp $S/*.ts $S/vitest.config.mts marketplace/.verifica-M24/ && (cd marketplace && npx vitest run --config .verifica-M24/vitest.config.mts .verifica-M24/c10-push-in-fila-dietro-promo.test.ts); rm -rf marketplace/.verifica-M24; dropdb mycity_v_m24"
+  },
+  {
+   "id": "S09-002",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-M26 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M26/*.ts* marketplace/.verifica-M26/ && cd marketplace && npx vitest run --config .verifica-M26/vitest.m26.config.ts .verifica-M26/iva-e-reso.test.tsx; rm -rf .verifica-M26"
+  },
+  {
+   "id": "S09-003",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-M26 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M26/*.ts* marketplace/.verifica-M26/ && cd marketplace && npx vitest run --config .verifica-M26/vitest.m26.config.ts .verifica-M26/faq-recesso.test.tsx; rm -rf .verifica-M26"
+  },
+  {
+   "id": "S09-004",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-M26 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M26/*.ts* marketplace/.verifica-M26/ && cd marketplace && npx vitest run --config .verifica-M26/vitest.m26.config.ts .verifica-M26/iva-e-reso.test.tsx; rm -rf .verifica-M26"
+  },
+  {
+   "id": "S09-005",
+   "esito": "confermato",
+   "comando": "grep -nE '8%|€15|Free tier|Tip rider' marketplace/docs/business-plan.md marketplace/docs/unit-economics.md"
+  },
+  {
+   "id": "S09-006",
+   "esito": "dubbio",
+   "comando": ""
+  },
+  {
+   "id": "S09-007",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-M26 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M26/*.ts* marketplace/.verifica-M26/ && cd marketplace && npx vitest run --config .verifica-M26/vitest.m26.config.ts .verifica-M26/segnalazione-conferma-ricezione.test.ts; rm -rf .verifica-M26"
+  },
+  {
+   "id": "S09-008",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M27/rilancia-vitest.sh"
+  },
+  {
+   "id": "S09-009",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && grep -rn 'tipo=\"recensione\"' app components; grep -n Segnala components/store-sections/ReviewsSection.tsx; grep -rn \"<Segnala \" app components; grep -rln -i \"recension\\|from('reviews')\" app/admin app/api/admin"
+  },
+  {
+   "id": "S09-010",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M27/rilancia-db.sh; cd /home/user/ad-mycity/marketplace && grep -rn -i \"mailto:\\|store_email\\|business_email\\|contact_email\\|seller_email\\|email_negozio\\|email del negozio\" app/store app/cart app/checkout app/orders app/product components/store-sections components/products components/checkout lib/queries"
+  },
+  {
+   "id": "S09-011",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && grep -noiE 'data di nascita|nascita|targa|veicol|mezzo' app/privacy/page.tsx; grep -noE \"legal_birth_date: ''|legal_fiscal_code: ''|rider_vehicle_type: 'BIKE'|rider_vehicle_plate: ''|rider_license_expires_on: ''|rider_insurance_expires_on: ''\" app/rider/onboarding/page.tsx; grep -n \"legalBirthDate: z\" app/api/seller/apply/route.ts"
+  },
+  {
+   "id": "S09-012",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && grep -n \"stimati e non vincolanti\" lib/legal/promessa-cliente-assente.ts; grep -n \"nella fascia oraria che scegli\" lib/promesse-pubbliche.ts; grep -n \"scegli quando ricevere\" components/checkout/DeliverySlotPicker.tsx; grep -rln \"DeliverySlotPicker\" app; grep -rn -icE \"vincolant\" lib/legal app/terms lib/promesse-pubbliche.ts components/checkout | grep -v \":0$\""
+  },
+  {
+   "id": "S09-013",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M27/rilancia-vitest.sh"
+  },
+  {
+   "id": "S09-014",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && tests/sql/harness/apply.sh mycity_v_m28 && mkdir -p .verifica-M28 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M28/* .verifica-M28/ && npx vitest run --config .verifica-M28/vitest.m28.config.ts .verifica-M28/secchi.test.ts; rm -rf .verifica-M28; dropdb mycity_v_m28"
+  },
+  {
+   "id": "S09-015",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && mkdir -p .verifica-M28 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M28/* .verifica-M28/ && npx vitest run --config .verifica-M28/vitest.m28.config.ts .verifica-M28/privacy-minori.test.ts --reporter=verbose --silent=false; rm -rf .verifica-M28"
+  },
+  {
+   "id": "S09-016",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && mkdir -p .verifica-M28 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M28/* .verifica-M28/ && npx vitest run --config .verifica-M28/vitest.m28.config.ts .verifica-M28/privacy-minori.test.ts --reporter=verbose --silent=false; rm -rf .verifica-M28"
+  },
+  {
+   "id": "S09-017",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && mkdir -p .verifica-M28 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M28/* .verifica-M28/ && npx vitest run --config .verifica-M28/vitest.m28.config.ts .verifica-M28/privacy-minori.test.ts --reporter=verbose --silent=false; rm -rf .verifica-M28"
+  },
+  {
+   "id": "S10-001",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && grep -rn 'onError=' --include=*.tsx marketplace/app marketplace/components ; mkdir -p marketplace/.verifica-M30 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M30/foto-rotta.test.tsx /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M30/vitest.config.ts marketplace/.verifica-M30/ && (cd marketplace && npx vitest run --config .verifica-M30/vitest.config.ts --reporter=verbose --silent=false); rm -rf marketplace/.verifica-M30"
+  },
+  {
+   "id": "S10-002",
+   "esito": "confermato",
+   "comando": "cd /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M31/sito && npx next dev -p 3731 & cd /home/user/ad-mycity && node /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M31/axe-status.mjs http://localhost:3731 /status"
+  },
+  {
+   "id": "S10-003",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && grep -n 'h-9 w-9' 'app/rider/orders/[id]/page.tsx' app/rider/help/page.tsx app/rider/onboarding/page.tsx && printf '@tailwind utilities;\\n' > /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M32/in.css && ./node_modules/.bin/tailwindcss -c tailwind.config.ts -i /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M32/in.css --content './app/rider/orders/[[]id[]]/page.tsx,./app/rider/help/page.tsx,./app/rider/onboarding/page.tsx' -o /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M32/out.css && grep -A1 '^\\.h-9 \\|^\\.w-9 ' /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M32/out.css"
+  },
+  {
+   "id": "S10-004",
+   "esito": "confermato",
+   "comando": "node /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M33/verif-a11y.mjs"
+  },
+  {
+   "id": "S10-005",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && grep -cE 'aria-live|role=\"log\"' 'app/messages/[id]/page.tsx'; grep -cE 'aria-live|role=\"(log|status)\"' app/layout.tsx app/messages/layout.tsx components/account/AccountShell.tsx; grep -rnE \"table: '(messages|conversations)'\" --include=*.ts --include=*.tsx app components lib; grep -n 'toast\\|aria\\|announce' components/hooks/useMessagesUnread.ts"
+  },
+  {
+   "id": "S10-006",
+   "esito": "confermato",
+   "comando": "D=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M34; cd /home/user/ad-mycity && grep -nE '<h[1-6]' marketplace/app/notifications/page.tsx marketplace/app/messages/page.tsx && mkdir -p marketplace/.verifica-M34 && cp $D/titoli.test.tsx $D/vitest.config.ts marketplace/.verifica-M34/ && (cd marketplace && npx vitest run --config .verifica-M34/vitest.config.ts --reporter=verbose --silent=false 2>&1 | grep -E 'NOTIFICHE|MESSAGGI|FOOTER|Tests '); rm -rf marketplace/.verifica-M34"
+  },
+  {
+   "id": "S10-007",
+   "esito": "confermato",
+   "comando": "node /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M33/toast-durata.mjs /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M33 && node /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M33/conta-toast.mjs /home/user/ad-mycity/marketplace"
+  },
+  {
+   "id": "S10-008",
+   "esito": "confermato",
+   "comando": "cp -r /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M35/prova marketplace/.verifica-M35 && (cd marketplace && npx vitest run --config .verifica-M35/vitest.m35.config.mts --reporter=verbose --silent=false -t 'S10-008'); rm -rf marketplace/.verifica-M35; (cd marketplace && tests/sql/harness/apply.sh mycity_v_m35 && psql -d mycity_v_m35 -Atc \"select tier, target_role, count(*) from public.achievements group by 1,2 order by 2,1\"; dropdb mycity_v_m35)"
+  },
+  {
+   "id": "S10-009",
+   "esito": "smentito",
+   "comando": "cd /home/user/ad-mycity && (cd marketplace && grep -nE '(rose|red)-[0-9]{2,3}' app/sign-in/page.tsx app/sign-up/page.tsx app/auth/verify-email/page.tsx components/ui/Button.tsx; for f in rose red; do echo \"$f: $(grep -rlE \"\\b(text|bg|border)-$f-[0-9]{2,3}\" app components | wc -l)\"; done; grep -n -- '--danger' app/globals.css; npx vitest run tests/unit/il-pericolo-ha-un-rosso-solo.test.ts 2>&1 | grep -E 'Tests ') && bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M36/simula-fix-S10-009.sh"
+  },
+  {
+   "id": "S10-010",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M36 && mkdir -p marketplace/.verifica-M36 && cp $S/probe/* marketplace/.verifica-M36/ && (cd marketplace && OUT=$S npx vitest run --config .verifica-M36/vitest.config.ts 2>&1 | grep -E 'Tests '); rm -rf marketplace/.verifica-M36; for t in signup recovery; do echo \"$t: $(grep -oE \"font-family:[^;]*|background:#[0-9a-f]+|cosi'|<img\" $S/pagina-$t.html | tr '\\n' ' ') | MyCity nel corpo: $(sed -n '/<body/,$p' $S/pagina-$t.html | grep -c MyCity)\"; done"
+  },
+  {
+   "id": "S10-011",
+   "esito": "confermato",
+   "comando": "cp -r /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M35/prova marketplace/.verifica-M35 && (cd marketplace && npx vitest run --config .verifica-M35/vitest.m35.config.mts --reporter=verbose --silent=false -t 'S10-011'); rm -rf marketplace/.verifica-M35"
+  },
+  {
+   "id": "S10-012",
+   "esito": "confermato",
+   "comando": "D=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M37; mkdir -p marketplace/.verifica-M37 && cp $D/vitest.config.ts $D/storie-anteprima.test.tsx marketplace/.verifica-M37/ && (cd marketplace && npx vitest run --config .verifica-M37/vitest.config.ts); rm -rf marketplace/.verifica-M37"
+  },
+  {
+   "id": "S10-013",
+   "esito": "confermato",
+   "comando": "cp -r /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M35/prova marketplace/.verifica-M35 && (cd marketplace && npx vitest run --config .verifica-M35/vitest.m35.config.mts --reporter=verbose --silent=false -t 'Storie'); rm -rf marketplace/.verifica-M35"
+  },
+  {
+   "id": "S10-014",
+   "esito": "confermato",
+   "comando": "cp -r /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M35/prova marketplace/.verifica-M35 && (cd marketplace && npx vitest run --config .verifica-M35/vitest.m35.config.mts --reporter=verbose --silent=false -t 'S10-014'); rm -rf marketplace/.verifica-M35; grep -rli academy MyCity-Vault | wc -l"
+  },
+  {
+   "id": "S10-015",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M29/prova-completa.sh"
+  },
+  {
+   "id": "S11-002",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-M38 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M38/vitest.config.ts /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M38/s11-002-riaccensione.test.ts marketplace/.verifica-M38/ && cd marketplace && npx vitest run --config .verifica-M38/vitest.config.ts -t \"riaccensione\""
+  },
+  {
+   "id": "S11-003",
+   "esito": "confermato",
+   "comando": "marketplace/tests/sql/harness/apply.sh mycity_v_m38 && psql -d mycity_v_m38 -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M38/s11-003-prova.sql; dropdb mycity_v_m38"
+  },
+  {
+   "id": "S11-004",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-M38 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M38/vitest.config.ts /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M38/s11-cron.test.ts marketplace/.verifica-M38/ && cd marketplace && npx vitest run --config .verifica-M38/vitest.config.ts -t \"send-push\""
+  },
+  {
+   "id": "S11-005",
+   "esito": "confermato",
+   "comando": "marketplace/tests/sql/harness/apply.sh mycity_v_m38 && psql -d mycity_v_m38 -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M38/s11-005-prova.sql; dropdb mycity_v_m38"
+  },
+  {
+   "id": "S11-006",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-M38 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M38/vitest.config.ts /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M38/s11-006-route.test.ts marketplace/.verifica-M38/ && (cd marketplace && npx vitest run --config .verifica-M38/vitest.config.ts s11-006) ; marketplace/tests/sql/harness/apply.sh mycity_v_m38 && psql -d mycity_v_m38 -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M38/s11-006-prova.sql; dropdb mycity_v_m38"
+  },
+  {
+   "id": "S11-007",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-M38 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M38/vitest.config.ts /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M38/s11-cron.test.ts marketplace/.verifica-M38/ && cd marketplace && npx vitest run --config .verifica-M38/vitest.config.ts -t \"CRON_SECRET\""
+  },
+  {
+   "id": "S11-008",
+   "esito": "confermato",
+   "comando": "S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M40; cd /home/user/ad-mycity && rm -f $S/esito.txt && mkdir -p marketplace/.verifica-M40 && cp $S/velocita-clienti.test.tsx $S/vitest.config.ts marketplace/.verifica-M40/ && (cd marketplace && M40_OUT=$S/esito.txt npx vitest run --config .verifica-M40/vitest.config.ts); rm -rf marketplace/.verifica-M40; cat $S/esito.txt"
+  },
+  {
+   "id": "S11-009",
+   "esito": "dubbio",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M41; (cd $W/sito && NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_OPTIONS=--max-old-space-size=4096 npx next build) && (cd $W && TLS=1 RITARDO_MIN=80 RITARDO_MAX=400 node finto-supabase.js 54399 &) && (cd $W/sito && NODE_TLS_REJECT_UNAUTHORIZED=0 npx next start -p 3141 -H 127.0.0.1 &) && (node $W/proxy-lento.js 3142 3141 8 400 &) && node $W/h418.js http://127.0.0.1:3141/ 15 iphone && node $W/h418.js http://127.0.0.1:3142/ 15 iphone && node $W/h418.js http://127.0.0.1:3142/ 10 iphone lento && node $W/h418.js http://127.0.0.1:3142/ 10 desktop && node $W/h418.js http://127.0.0.1:3142/ 15 iphone veloce stesso && node $W/h418.js http://127.0.0.1:3141/ 15 desktop veloce stesso; (MANOMETTI=1 node $W/proxy-controllo.js 3143 3141 2 50 &) ; node $W/h418.js http://127.0.0.1:3143/ 3 iphone"
+  },
+  {
+   "id": "S11-010",
+   "esito": "confermato",
+   "comando": "L=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M39; mkdir -p marketplace/.verifica-M39 && cp $L/*.ts marketplace/.verifica-M39/ && (cd marketplace && npx vitest run --config .verifica-M39/vitest.config.ts .verifica-M39/csp.test.ts); rm -rf marketplace/.verifica-M39; grep -rniE \"report-uri|report-to|reporting-endpoints\" --exclude-dir=node_modules --exclude-dir=.next --exclude-dir=.git marketplace"
+  },
+  {
+   "id": "S11-011",
+   "esito": "confermato",
+   "comando": "L=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M39; mkdir -p marketplace/.verifica-M39 && cp $L/*.ts marketplace/.verifica-M39/ && (cd marketplace && npx vitest run --config .verifica-M39/vitest.config.ts .verifica-M39/email.test.ts); rm -rf marketplace/.verifica-M39"
+  },
+  {
+   "id": "S12-001",
+   "esito": "confermato",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M42; mkdir -p marketplace/.verifica-M42 && cp $W/*.ts marketplace/.verifica-M42/ && (cd marketplace && npx vitest run --config .verifica-M42/vitest.config.ts .verifica-M42/s12-001-tempo-oltre-la-rotta.test.ts); rm -rf marketplace/.verifica-M42"
+  },
+  {
+   "id": "S12-002",
+   "esito": "confermato",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M42; mkdir -p marketplace/.verifica-M42 && cp $W/*.ts marketplace/.verifica-M42/ && (cd marketplace && npx vitest run --config .verifica-M42/vitest.config.ts .verifica-M42/s12-002-003-lotto.test.ts -t S12-002); rm -rf marketplace/.verifica-M42"
+  },
+  {
+   "id": "S12-003",
+   "esito": "confermato",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M42; mkdir -p marketplace/.verifica-M42 && cp $W/*.ts marketplace/.verifica-M42/ && (cd marketplace && npx vitest run --config .verifica-M42/vitest.config.ts .verifica-M42/s12-002-003-lotto.test.ts -t S12-003); rm -rf marketplace/.verifica-M42"
+  },
+  {
+   "id": "S12-004",
+   "esito": "confermato",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M42; mkdir -p marketplace/.verifica-M42 && cp $W/*.ts marketplace/.verifica-M42/ && (cd marketplace && npx vitest run --config .verifica-M42/vitest.config.ts .verifica-M42/s12-004-tetto-in-parallelo.test.ts); rm -rf marketplace/.verifica-M42"
+  },
+  {
+   "id": "S12-005",
+   "esito": "confermato",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M42; mkdir -p marketplace/.verifica-M42 && cp $W/*.ts marketplace/.verifica-M42/ && (cd marketplace && npx vitest run --config .verifica-M42/vitest.config.ts .verifica-M42/s12-005-foto-verdetto-storto.test.ts); rm -rf marketplace/.verifica-M42"
+  },
+  {
+   "id": "S12-006",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M43/mut-prezzo.sh /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M43/copia ; grep -rnE \"SELLER_SUBSCRIPTION_CENTS = |PREZZO_ABBONAMENTO_MESE = |€50/mese\" marketplace/app marketplace/components marketplace/lib"
+  },
+  {
+   "id": "S12-007",
+   "esito": "confermato",
+   "comando": "grep -n \"Views:\" marketplace/scripts/gen-db-types.mjs marketplace/lib/database.types.ts; bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M43/gen-viste.sh /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M43/copia"
+  },
+  {
+   "id": "S12-008",
+   "esito": "confermato",
+   "comando": "grep -n \"ADR-006\\|ADR-007\\|Stato\" marketplace/docs/decisions.md; grep -n MARKETPLACE_FEE_BPS marketplace/lib/constants.ts; grep -rln \"docs/decisions\\|ADR-006\" --exclude-dir=node_modules --exclude-dir=.git marketplace"
+  },
+  {
+   "id": "S12-010",
+   "esito": "confermato",
+   "comando": "node /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M43/giri.mjs /home/user/ad-mycity/marketplace app lib components; bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M43/prove-primo-import.sh /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M43/copia /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M43/primo-import.txt; bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M43/mut-giro.sh /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M43/copia"
+  },
+  {
+   "id": "S12-011",
+   "esito": "confermato",
+   "comando": "cd /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M43/copia && npx eslint --print-config lib/cart.ts | grep -c no-explicit-any; npx eslint --report-unused-disable-directives lib app components --ext .ts,.tsx -f unix | grep -c \"Unused eslint-disable\"; npx eslint --no-inline-config --rule '{\"@typescript-eslint/no-explicit-any\":\"error\"}' lib app components --ext .ts,.tsx -f unix | grep -c no-explicit-any"
+  },
+  {
+   "id": "S12-012",
+   "esito": "confermato",
+   "comando": "ls marketplace/node_modules/server-only; grep -n server-only marketplace/package.json; bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M43/prove-primo-import.sh /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M43/copia /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M43/primo-import.txt"
+  },
+  {
+   "id": "S12-013",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && grep -rn \"iconv-lite\" app lib components scripts tests | wc -l; grep -n \"eslint-plugin\" package.json; grep -n \"@typescript-eslint\" .eslintrc.json; npm ls @typescript-eslint/eslint-plugin iconv-lite; npm run lint 2>&1 | grep -i deprecated   (poi cancellati .next/ e next-env.d.ts creati dal lint)"
+  },
+  {
+   "id": "S12-014",
+   "esito": "confermato",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M44/copia; (cd /home/user/ad-mycity/marketplace && git archive HEAD | tar -x -C $W) && ln -s /home/user/ad-mycity/marketplace/node_modules $W/node_modules && cd $W && python3 -c \"p='app/api/stripe/webhook/route.ts';s=open(p).read();n='  try {\\n    switch (event.type) {';s=s.replace(n,\\\"  await admin.from('stripe_event_log').update({ processed:true, processed_at: new Date().toISOString() }).eq('event_id', event.id);\\n\\\"+n);open(p,'w').write(s)\" && node node_modules/vitest/vitest.mjs run tests/unit/webhook-diviso-per-mestiere.test.ts && node node_modules/vitest/vitest.mjs run tests/unit/se-il-database-sbaglia-stripe-riprova.test.ts   (poi stessa cosa con 'processed: true', e una variante avvolta in scritturaSenzaRipetere(...) passata anche a node node_modules/eslint/bin/eslint.js -c .eslintrc.json)"
+  },
+  {
+   "id": "S12-015",
+   "esito": "confermato",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M44/copia; cd $W && sed -i \"s#const base = '/usr/lib/postgresql';#const base = '/nonesiste/postgresql';#\" tests/unit/postgres-usa-e-getta.ts && timeout 300 env -u PG_BIN PATH=/opt/node22/bin node node_modules/vitest/vitest.mjs run tests/unit/il-buono-regalo-segue-il-suo-pagamento.test.ts; echo exit=$?; git -C /home/user/ad-mycity/marketplace show HEAD:tests/unit/postgres-usa-e-getta.ts > tests/unit/postgres-usa-e-getta.ts && node node_modules/vitest/vitest.mjs run tests/unit/il-buono-regalo-segue-il-suo-pagamento.test.ts"
+  },
+  {
+   "id": "S12-016",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M45/rifai.sh   (lavora su una copia di db5164c in .../M45/copia con node_modules collegati; in più, una volta sola con la sonda: cd .../M45/copia && npx vitest run --reporter=dot)"
+  },
+  {
+   "id": "S12-017",
+   "esito": "confermato",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/M44/copia; cd $W && python3 -c \"p='app/profile/settings/page.tsx';s=open(p).read();h=s.index('const handleChangePassword');a=s.index(\\\"\\n      const { data: { session } } = await supabase.auth.getSession();\\n      const res = await fetch('/api/account/cambia-password'\\\",h)+1;b=s.index('    } catch (err) {\\n      toast.error(friendlyError(err));',a);s=s[:a]+\\\"      // vecchio percorso: fetch('/api/account/cambia-password', { body: { passwordAttuale } })\\n      const { error } = await supabase.auth.updateUser({password: newPassword});\\n      if (error) {\\n        toast.error(friendlyError(error));\\n        return;\\n      }\\n\\\"+s[b:];open(p,'w').write(s)\" && node node_modules/vitest/vitest.mjs run tests/unit/la-password-attuale-si-controlla-davvero.test.ts && node node_modules/vitest/vitest.mjs run $(grep -rl 'profile/settings' tests/unit) && node node_modules/vitest/vitest.mjs run tests/unit/la-password-si-cambia-solo-col-link-di-recupero.test.ts tests/unit/minori-s08-cambia-password.test.ts tests/unit/il-link-di-recupero-passato-dalla-conferma-porta-al-modulo.test.ts && node node_modules/eslint/bin/eslint.js -c .eslintrc.json app/profile/settings/page.tsx"
+  }
+ ],
+ "ricontrolli_S01": [
+  {
+   "indice": 58,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "R=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R01; mkdir -p marketplace/.verifica-R01 && cp $R/vitest.config.ts $R/v58-scaffale.test.ts marketplace/.verifica-R01/ && (cd marketplace && npx vitest run --config .verifica-R01/vitest.config.ts .verifica-R01/v58-scaffale.test.ts --reporter=verbose); rm -rf marketplace/.verifica-R01; (cd marketplace && npx vitest run tests/unit/minori-s01-email-del-rimborso.test.ts)"
+  },
+  {
+   "indice": 633,
+   "esito_S01": "non_piu_vero",
+   "esito": "confermato",
+   "comando": "R=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R01; mkdir -p marketplace/.verifica-R01 && cp $R/vitest.config.ts $R/v633-conto-sconosciuto.test.ts marketplace/.verifica-R01/ && (cd marketplace && npx vitest run --config .verifica-R01/vitest.config.ts .verifica-R01/v633-conto-sconosciuto.test.ts --reporter=verbose); rm -rf marketplace/.verifica-R01; (cd marketplace && npx vitest run tests/unit/minori-s01-collegamento-stripe.test.ts)"
+  },
+  {
+   "indice": 1610,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "R=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R01; mkdir -p marketplace/.verifica-R01 && cp $R/vitest.config.ts $R/v1610-pulizia-prima-dei-rifiuti.test.ts marketplace/.verifica-R01/ && (cd marketplace && npx vitest run --config .verifica-R01/vitest.config.ts .verifica-R01/v1610-pulizia-prima-dei-rifiuti.test.ts --reporter=verbose); rm -rf marketplace/.verifica-R01"
+  },
+  {
+   "indice": 1976,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "R=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R01; mkdir -p marketplace/.verifica-R01 && cp $R/vitest.config.ts $R/v1976-nomi-consegna.test.ts marketplace/.verifica-R01/ && (cd marketplace && npx vitest run --config .verifica-R01/vitest.config.ts .verifica-R01/v1976-nomi-consegna.test.ts --reporter=verbose); rm -rf marketplace/.verifica-R01"
+  },
+  {
+   "indice": 2067,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "R=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R01; mkdir -p marketplace/.verifica-R01 && cp $R/vitest.config.ts $R/v2067-chiave-fissa.test.ts marketplace/.verifica-R01/ && (cd marketplace && npx vitest run --config .verifica-R01/vitest.config.ts .verifica-R01/v2067-chiave-fissa.test.ts --reporter=verbose); rm -rf marketplace/.verifica-R01"
+  },
+  {
+   "indice": 2528,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "R=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R01; mkdir -p marketplace/.verifica-R01 && cp $R/vitest.config.ts $R/v2528-canceled-riconsegna.test.ts marketplace/.verifica-R01/ && (cd marketplace && npx vitest run --config .verifica-R01/vitest.config.ts .verifica-R01/v2528-canceled-riconsegna.test.ts --reporter=verbose); rm -rf marketplace/.verifica-R01"
+  },
+  {
+   "indice": 2564,
+   "esito_S01": "non_piu_vero",
+   "esito": "confermato",
+   "comando": "marketplace/tests/sql/harness/apply.sh mycity_v_r02 && psql -d mycity_v_r02 -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R02/prova-2564-2593.sql && dropdb mycity_v_r02"
+  },
+  {
+   "indice": 2593,
+   "esito_S01": "non_piu_vero",
+   "esito": "confermato",
+   "comando": "marketplace/tests/sql/harness/apply.sh mycity_v_r02 && psql -d mycity_v_r02 -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R02/prova-2564-2593.sql && dropdb mycity_v_r02; mkdir -p marketplace/.verifica-R02 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R02/{vitest.config.ts,r2593-won-e-reclamo-app.test.ts} marketplace/.verifica-R02/ && cd marketplace && npx vitest run --config .verifica-R02/vitest.config.ts .verifica-R02/r2593-won-e-reclamo-app.test.ts --silent=false; npx vitest run tests/unit/il-giro-dei-bonifici-non-lascia-indietro-nessuno.test.ts tests/unit/la-contestazione-restituisce-solo-quello-che-ha-tolto.test.ts; rm -rf .verifica-R02"
+  },
+  {
+   "indice": 630,
+   "esito_S01": "non_piu_vero",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-R02 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R02/{vitest.config.ts,r630-rimborso-silenzioso.test.ts} marketplace/.verifica-R02/ && cd marketplace && npx vitest run --config .verifica-R02/vitest.config.ts .verifica-R02/r630-rimborso-silenzioso.test.ts --reporter=verbose --silent=false; grep -c 'Il tuo ordine è confermato' app/orders/page.tsx; grep -n 'Pagamento ricevuto: stiamo confermando' app/orders/page.tsx; rm -rf .verifica-R02"
+  },
+  {
+   "indice": 2510,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-R02 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R02/{vitest.config.ts,r2510-cliente-assente.test.ts} marketplace/.verifica-R02/ && cd marketplace && npx vitest run --config .verifica-R02/vitest.config.ts .verifica-R02/r2510-cliente-assente.test.ts --reporter=verbose --silent=false; rm -rf .verifica-R02"
+  },
+  {
+   "indice": 59,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-R02 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R02/{vitest.config.ts,r59-abbonamento.test.ts} marketplace/.verifica-R02/ && cd marketplace && npx vitest run --config .verifica-R02/vitest.config.ts .verifica-R02/r59-abbonamento.test.ts --reporter=verbose --silent=false; grep -n \"solo dopo che l'admin avrà approvato\\|all'approvazione, mi venga richiesto\" components/SellerApplicationForm.tsx; grep -n 'PREZZO_ABBONAMENTO_MESE = \\|SELLER_SUBSCRIPTION_CENTS = ' components/SellerApplicationForm.tsx app/seller/earnings/commissione.ts app/api/seller/subscription/checkout/route.ts; rm -rf .verifica-R02"
+  },
+  {
+   "indice": 479,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "grep -rlnE 'stripe/connect|api/stripe/payout|connect/login|rider-onboarding' /home/user/ad-mycity/marketplace/tests/ ; grep -cE '401|403' /home/user/ad-mycity/marketplace/tests/unit/minori-s01-collegamento-stripe.test.ts /home/user/ad-mycity/marketplace/tests/unit/minori-s01-bonifico-a-mano.test.ts ; /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R03/muta-479.sh"
+  },
+  {
+   "indice": 485,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "for m in A B B1 B2 C; do /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R03/muta-rider.sh $m; done; /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R03/muta-rider.sh A intera"
+  },
+  {
+   "indice": 2676,
+   "esito_S01": "non_piu_vero",
+   "esito": "confermato",
+   "comando": "/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R03/muta-2676.sh"
+  },
+  {
+   "indice": 180,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R03/copia && npx vitest run tests/unit/verifica-r03/v180-annullo-negozio.test.ts --reporter=verbose"
+  },
+  {
+   "indice": 475,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R03/copia && npx vitest run tests/unit/verifica-r03/v475-sorvegliante-ritirato.test.ts --reporter=verbose; grep -rln PICKED_UP /home/user/ad-mycity/marketplace/app/api/cron; grep -rn order_delivery_codes /home/user/ad-mycity/marketplace/app /home/user/ad-mycity/marketplace/components /home/user/ad-mycity/marketplace/lib --include=*.ts --include=*.tsx"
+  },
+  {
+   "indice": 477,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R03/copia && npx vitest run tests/unit/verifica-r03/v477-annullo-admin-scaffale.test.ts --reporter=verbose"
+  },
+  {
+   "indice": 154,
+   "esito_S01": "non_piu_vero",
+   "esito": "smentito",
+   "comando": "cd /home/user/ad-mycity && marketplace/node_modules/.bin/esbuild /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R04/p154.ts --bundle --platform=node --alias:@=./marketplace --outfile=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R04/p154.cjs --log-level=warning && node /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R04/p154.cjs; bash marketplace/tests/sql/harness/apply.sh mycity_v_r04 && psql -d mycity_v_r04 -At -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R04/p154.sql; dropdb mycity_v_r04"
+  },
+  {
+   "indice": 2695,
+   "esito_S01": "non_piu_vero",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && marketplace/node_modules/.bin/esbuild /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R04/p2695.ts --bundle --platform=node --alias:@=./marketplace --outfile=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R04/p2695.cjs --log-level=warning && node /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R04/p2695.cjs"
+  },
+  {
+   "indice": 186,
+   "esito_S01": "non_piu_vero",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-R04 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R04/vitest.config.ts /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R04/p186.test.ts marketplace/.verifica-R04/ && (cd marketplace && npx vitest run --config .verifica-R04/vitest.config.ts .verifica-R04/p186.test.ts --reporter=verbose --silent=false); rm -rf marketplace/.verifica-R04"
+  },
+  {
+   "indice": 469,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && E2E_DATI_DI_PROVA=1 CI=1 E2E_BASE_URL=http://localhost:3100 npx playwright test tests/e2e/12-la-cassa-dal-carrello-al-pagamento.spec.ts --project=chromium --retries=0 -g \"nasce e il negozio|il rimborso esiste|il bonifico al negozio\" --reporter=list --output=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R04/pw-out; npx vitest run tests/unit/le-prove-della-cassa-non-passano-senza-aver-guardato.test.ts tests/unit/nessuna-prova-nel-browser-e-un-guscio-vuoto.test.ts; rm -rf test-results"
+  },
+  {
+   "indice": 151,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && bash marketplace/tests/sql/harness/apply.sh mycity_v_r04 && psql -d mycity_v_r04 -At -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R04/p151.sql; dropdb mycity_v_r04; grep -rln product_questions marketplace/app/api marketplace/lib marketplace/app/seller | grep -v database.types"
+  },
+  {
+   "indice": 160,
+   "esito_S01": "non_piu_vero",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-R04 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R04/vitest.config.ts /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R04/p160.test.ts marketplace/.verifica-R04/ && (cd marketplace && npx vitest run --config .verifica-R04/vitest.config.ts .verifica-R04/p160.test.ts --reporter=verbose --silent=false); rm -rf marketplace/.verifica-R04; bash marketplace/tests/sql/harness/apply.sh mycity_v_r04 && psql -d mycity_v_r04 -Atc \"SELECT has_column_privilege('authenticated','public.order_items','variant_id','SELECT'), has_column_privilege('authenticated','public.order_items','variant_label','SELECT')\"; dropdb mycity_v_r04"
+  },
+  {
+   "indice": 471,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-R05 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R05/prove/* marketplace/.verifica-R05/ && (cd marketplace && npx vitest run --config .verifica-R05/vitest.config.ts .verifica-R05/carrello-due-dispositivi.test.tsx); rm -rf marketplace/.verifica-R05"
+  },
+  {
+   "indice": 473,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "marketplace/tests/sql/harness/apply.sh mycity_v_r05 && psql -d mycity_v_r05 -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R05/473-avvisi-fattorini.sql; dropdb mycity_v_r05; (cd marketplace && npx vitest run tests/unit/la-consegna-veloce-si-vende-solo-se-c-e-un-fattorino.test.ts)"
+  },
+  {
+   "indice": 2674,
+   "esito_S01": "cambiato",
+   "esito": "smentito",
+   "comando": "mkdir -p marketplace/.verifica-R05 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R05/prove/* marketplace/.verifica-R05/ && (cd marketplace && npx vitest run --config .verifica-R05/vitest.config.ts .verifica-R05/griglia-categoryids.test.ts); rm -rf marketplace/.verifica-R05"
+  },
+  {
+   "indice": 2696,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-R05 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R05/prove/* marketplace/.verifica-R05/ && (cd marketplace && npx vitest run --config .verifica-R05/vitest.config.ts .verifica-R05/liste-col-prezzo-pieno.test.tsx); rm -rf marketplace/.verifica-R05"
+  },
+  {
+   "indice": 1734,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-R05 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R05/prove/* marketplace/.verifica-R05/ && (cd marketplace && npx vitest run --config .verifica-R05/vitest.config.ts .verifica-R05/cassa-carrello-non-letto.test.ts && npx vitest run tests/unit/minori-s07-cassa-vuota.test.tsx); rm -rf marketplace/.verifica-R05"
+  },
+  {
+   "indice": 2680,
+   "esito_S01": "non_piu_vero",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-R05 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R05/prove/* marketplace/.verifica-R05/ && (cd marketplace && npx vitest run --config .verifica-R05/vitest.config.ts .verifica-R05/veloce-motivo.test.ts); rm -rf marketplace/.verifica-R05"
+  },
+  {
+   "indice": 668,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && timeout 180 npm audit --omit=dev --json > /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R06/audit.json; grep -n 'tunnelRoute' next.config.*"
+  },
+  {
+   "indice": 2145,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && D=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R06 && mkdir -p marketplace/.verifica-R06 && cp $D/*.ts marketplace/.verifica-R06/ && (cd marketplace && npx vitest run --config .verifica-R06/vitest.config.ts .verifica-R06/r06-2145-chiave.test.ts --silent=false --reporter=verbose); rm -rf marketplace/.verifica-R06"
+  },
+  {
+   "indice": 2368,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && D=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R06 && mkdir -p marketplace/.verifica-R06 && cp $D/*.ts marketplace/.verifica-R06/ && (cd marketplace && R06_T1=2026-10-30T17:25:00.000Z R06_T2=2026-10-30T17:35:00.000Z npx vitest run --config .verifica-R06/vitest.config.ts .verifica-R06/r06-2368-veloce.test.ts --silent=false --reporter=verbose); rm -rf marketplace/.verifica-R06"
+  },
+  {
+   "indice": 2007,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && D=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R06 && mkdir -p marketplace/.verifica-R06 && cp $D/*.ts marketplace/.verifica-R06/ && (cd marketplace && npx vitest run --config .verifica-R06/vitest.config.ts .verifica-R06/r06-2007-2008-avvisi.test.ts --silent=false --reporter=verbose); rm -rf marketplace/.verifica-R06"
+  },
+  {
+   "indice": 2008,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && D=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R06 && mkdir -p marketplace/.verifica-R06 && cp $D/*.ts marketplace/.verifica-R06/ && (cd marketplace && npx vitest run --config .verifica-R06/vitest.config.ts .verifica-R06/r06-2007-2008-avvisi.test.ts --silent=false --reporter=verbose); wc -l marketplace/lib/privacy/avvisi-a-chi-aspetta.ts; rm -rf marketplace/.verifica-R06"
+  },
+  {
+   "indice": 1651,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && D=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R06 && mkdir -p marketplace/.verifica-R06 && cp $D/*.ts marketplace/.verifica-R06/ && (cd marketplace && npx vitest run --config .verifica-R06/vitest.config.ts .verifica-R06/r06-1651-gemelli.test.ts --silent=false --reporter=verbose); rm -rf marketplace/.verifica-R06"
+  },
+  {
+   "indice": 2282,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && R=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R07 && mkdir -p marketplace/.verifica-R07 && cp $R/v16-eco.ts $R/b1-ricostruito.test.ts $R/vitest.config.ts marketplace/.verifica-R07/ && (cd marketplace && npx tsx .verifica-R07/v16-eco.ts && timeout 110 npx vitest run --config .verifica-R07/vitest.config.ts 2>&1 | grep -E \"✓|×|Tests|expected\"); rm -rf marketplace/.verifica-R07; (cd marketplace && git status --short)"
+  },
+  {
+   "indice": 575,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && P=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R08/prove && mkdir -p marketplace/.verifica-R08 && cp $P/* marketplace/.verifica-R08/ && (cd marketplace && npx vitest run tests/unit/minori-s02-recensione.test.tsx 2>&1 | grep -E \"Tests \"; node_modules/.bin/esbuild .verifica-R08/s575-mail.ts --bundle --platform=node --format=esm --alias:@=/home/user/ad-mycity/marketplace --outfile=$P/../s575-mail.mjs --log-level=error && node $P/../s575-mail.mjs; grep -n \"useState(5)\\|setReviewRating(5)\" \"app/product/[id]/page.tsx\"); rm -rf marketplace/.verifica-R08"
+  },
+  {
+   "indice": 2461,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && P=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R08/prove && mkdir -p marketplace/.verifica-R08 && cp $P/* marketplace/.verifica-R08/ && (cd marketplace && npx vitest run tests/unit/sui-freschi-il-cambio-idea-non-diventa-un-reso.test.ts 2>&1 | grep -E \"Tests \"; npx vitest run --config .verifica-R08/vitest.config.ts .verifica-R08/r08-2461 --reporter=verbose --silent=false 2>&1 | grep -E \"^\\[2461|Tests \"); rm -rf marketplace/.verifica-R08; (cd marketplace && bash tests/sql/harness/apply.sh mycity_v_r08) && psql -d mycity_v_r08 -At -f $P/../s343.sql; dropdb mycity_v_r08"
+  },
+  {
+   "indice": 295,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && P=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R08/prove && mkdir -p marketplace/.verifica-R08 && cp $P/* marketplace/.verifica-R08/ && (cd marketplace && node_modules/.bin/esbuild .verifica-R08/s295.ts --bundle --platform=node --format=esm --alias:@=/home/user/ad-mycity/marketplace --outfile=$P/../s295.mjs --log-level=error && node $P/../s295.mjs; npx vitest run --config .verifica-R08/vitest.config.ts .verifica-R08/r08-343 .verifica-R08/r08-361 .verifica-R08/r08-581 --reporter=verbose --silent=false 2>&1 | grep -E \"^\\[|Tests \"; grep -n 'placeholder=\"Cerca' components/seller/SellerShell.tsx); rm -rf marketplace/.verifica-R08"
+  },
+  {
+   "indice": 343,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && P=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R08/prove && mkdir -p marketplace/.verifica-R08 && cp $P/* marketplace/.verifica-R08/ && (cd marketplace && node_modules/.bin/esbuild .verifica-R08/s295.ts --bundle --platform=node --format=esm --alias:@=/home/user/ad-mycity/marketplace --outfile=$P/../s295.mjs --log-level=error && node $P/../s295.mjs; npx vitest run --config .verifica-R08/vitest.config.ts .verifica-R08/r08-343 .verifica-R08/r08-361 .verifica-R08/r08-581 --reporter=verbose --silent=false 2>&1 | grep -E \"^\\[|Tests \"; grep -n 'placeholder=\"Cerca' components/seller/SellerShell.tsx); rm -rf marketplace/.verifica-R08; (cd marketplace && bash tests/sql/harness/apply.sh mycity_v_r08) && psql -d mycity_v_r08 -At -f $P/../s343.sql; dropdb mycity_v_r08"
+  },
+  {
+   "indice": 361,
+   "esito_S01": "non_piu_vero",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && P=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R08/prove && mkdir -p marketplace/.verifica-R08 && cp $P/* marketplace/.verifica-R08/ && (cd marketplace && node_modules/.bin/esbuild .verifica-R08/s295.ts --bundle --platform=node --format=esm --alias:@=/home/user/ad-mycity/marketplace --outfile=$P/../s295.mjs --log-level=error && node $P/../s295.mjs; npx vitest run --config .verifica-R08/vitest.config.ts .verifica-R08/r08-343 .verifica-R08/r08-361 .verifica-R08/r08-581 --reporter=verbose --silent=false 2>&1 | grep -E \"^\\[|Tests \"; grep -n 'placeholder=\"Cerca' components/seller/SellerShell.tsx); rm -rf marketplace/.verifica-R08"
+  },
+  {
+   "indice": 581,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && P=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R08/prove && mkdir -p marketplace/.verifica-R08 && cp $P/* marketplace/.verifica-R08/ && (cd marketplace && node_modules/.bin/esbuild .verifica-R08/s295.ts --bundle --platform=node --format=esm --alias:@=/home/user/ad-mycity/marketplace --outfile=$P/../s295.mjs --log-level=error && node $P/../s295.mjs; npx vitest run --config .verifica-R08/vitest.config.ts .verifica-R08/r08-343 .verifica-R08/r08-361 .verifica-R08/r08-581 --reporter=verbose --silent=false 2>&1 | grep -E \"^\\[|Tests \"; grep -n 'placeholder=\"Cerca' components/seller/SellerShell.tsx); rm -rf marketplace/.verifica-R08"
+  },
+  {
+   "indice": 2608,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R09; cd /home/user/ad-mycity && cp -r $S/verifica-R09-copia marketplace/.verifica-R09 && (cd marketplace && npx vitest run --config .verifica-R09/vitest.config.ts --silent=false --reporter=verbose -t 2608); rm -rf marketplace/.verifica-R09"
+  },
+  {
+   "indice": 273,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R09; cd /home/user/ad-mycity/marketplace && node_modules/.bin/esbuild $S/p273.ts --bundle --platform=node --alias:@=/home/user/ad-mycity/marketplace --outfile=$S/p273.cjs --log-level=error && node $S/p273.cjs && node_modules/.bin/esbuild $S/p273b.ts --bundle --platform=node --alias:@=/home/user/ad-mycity/marketplace --outfile=$S/p273b.cjs --log-level=error && node $S/p273b.cjs"
+  },
+  {
+   "indice": 274,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R09; cd /home/user/ad-mycity/marketplace && node $S/p274/build.mjs $S/p274 && node $S/p274/prova.mjs && grep -n \"typeof window\\|url: \\|aggregateRating\" 'app/store/[id]/page.tsx'"
+  },
+  {
+   "indice": 280,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R09; cd /home/user/ad-mycity && marketplace/tests/sql/harness/apply.sh mycity_v_r09 && psql -q -d mycity_v_r09 -f $S/seme.sql && psql -d mycity_v_r09 -At -f $S/letture.sql; dropdb mycity_v_r09; cp -r $S/verifica-R09-copia marketplace/.verifica-R09 && (cd marketplace && npx vitest run --config .verifica-R09/vitest.config.ts --silent=false --reporter=verbose -t 280); rm -rf marketplace/.verifica-R09"
+  },
+  {
+   "indice": 288,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R09; cd /home/user/ad-mycity/marketplace && node_modules/.bin/esbuild $S/p288.ts --bundle --platform=node --alias:@=/home/user/ad-mycity/marketplace --outfile=$S/p288.cjs --log-level=error && node $S/p288.cjs && grep -n \"Stato ordine, modifica\\|Più di 25\\|risposte alle domande\" app/help/page.tsx && sed -n 99,105p app/faq/page.tsx && ls 'app/api/orders/[id]'"
+  },
+  {
+   "indice": 325,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R09; cd /home/user/ad-mycity && marketplace/tests/sql/harness/apply.sh mycity_v_r09 && psql -q -d mycity_v_r09 -f $S/seme.sql && psql -d mycity_v_r09 -At -f $S/letture.sql; dropdb mycity_v_r09; cp -r $S/verifica-R09-copia marketplace/.verifica-R09 && (cd marketplace && npx vitest run --config .verifica-R09/vitest.config.ts --silent=false --reporter=verbose -t 325); rm -rf marketplace/.verifica-R09"
+  },
+  {
+   "indice": 330,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-R10 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R10/prove/* marketplace/.verifica-R10/ && (cd marketplace && npx vitest run --config .verifica-R10/vitest.config.ts .verifica-R10/r330.test.tsx --reporter=verbose); rm -rf marketplace/.verifica-R10"
+  },
+  {
+   "indice": 336,
+   "esito_S01": "non_piu_vero",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-R10 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R10/prove/* marketplace/.verifica-R10/ && (cd marketplace && TZ=UTC npx vitest run --config .verifica-R10/vitest.config.ts .verifica-R10/r336-580.test.ts -t 336 --reporter=verbose); rm -rf marketplace/.verifica-R10"
+  },
+  {
+   "indice": 567,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R10/prova-567-completa.sh"
+  },
+  {
+   "indice": 569,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-R10 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R10/prove/* marketplace/.verifica-R10/ && (cd marketplace && npx vitest run --config .verifica-R10/vitest.config.ts .verifica-R10/r569.test.tsx .verifica-R10/r569b.test.tsx --reporter=verbose); rm -rf marketplace/.verifica-R10"
+  },
+  {
+   "indice": 580,
+   "esito_S01": "non_piu_vero",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-R10 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R10/prove/* marketplace/.verifica-R10/ && (cd marketplace && npx vitest run --config .verifica-R10/vitest.config.ts .verifica-R10/r336-580.test.ts -t 580 --reporter=verbose); rm -rf marketplace/.verifica-R10"
+  },
+  {
+   "indice": 1604,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-R10 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R10/prove/* marketplace/.verifica-R10/ && (cd marketplace && npx vitest run --config .verifica-R10/vitest.config.ts .verifica-R10/r1604.test.tsx --reporter=verbose); rm -rf marketplace/.verifica-R10"
+  },
+  {
+   "indice": 1708,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R11; cd marketplace && bash tests/sql/harness/apply.sh mycity_v_r11 && psql -q -X -d mycity_v_r11 -v ON_ERROR_STOP=1 -f tests/sql/rls/49-i-nomi-che-ognuno-vede.test.sql && npx vitest run tests/unit/i-nomi-dei-clienti-che-il-negozio-vede.test.ts && psql -X -q -d mycity_v_r11 -v ON_ERROR_STOP=1 -f $W/seed-chat.sql && mkdir -p .verifica-R11 && cp $W/chat-nomi.ts .verifica-R11/ && npx tsx --tsconfig tsconfig.json .verifica-R11/chat-nomi.ts; grep -n 'Conversazioni con i negozi' app/messages/page.tsx; dropdb mycity_v_r11; rm -rf .verifica-R11"
+  },
+  {
+   "indice": 1825,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R11; cd marketplace && mkdir -p .verifica-R11 && cp $W/vitest.config.ts $W/classifica-e-drop.test.tsx .verifica-R11/ && npx vitest run --config .verifica-R11/vitest.config.ts .verifica-R11/classifica-e-drop.test.tsx --silent=false --reporter=verbose; rm -rf .verifica-R11"
+  },
+  {
+   "indice": 2261,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R11; cd marketplace && mkdir -p .verifica-R11 && cp $W/condizione.ts .verifica-R11/ && npx tsx --tsconfig tsconfig.json .verifica-R11/condizione.ts; rm -rf .verifica-R11"
+  },
+  {
+   "indice": 739,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R11; cd marketplace && grep -rn unoptimized app components && mkdir -p .verifica-R11 && cp $W/vitest.config.ts $W/foto.test.tsx .verifica-R11/ && npx vitest run --config .verifica-R11/vitest.config.ts .verifica-R11/foto.test.tsx --silent=false --reporter=verbose; rm -rf .verifica-R11"
+  },
+  {
+   "indice": 848,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R12; mkdir -p marketplace/.verifica-R12 && cp $W/r12.test.tsx $W/vitest.config.ts marketplace/.verifica-R12/ && (cd marketplace && npx vitest run --config .verifica-R12/vitest.config.ts --reporter=verbose); rm -rf marketplace/.verifica-R12"
+  },
+  {
+   "indice": 850,
+   "esito_S01": "non_piu_vero",
+   "esito": "confermato",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R12; mkdir -p marketplace/.verifica-R12 && cp $W/r12.test.tsx $W/vitest.config.ts marketplace/.verifica-R12/ && (cd marketplace && npx vitest run --config .verifica-R12/vitest.config.ts --reporter=verbose); rm -rf marketplace/.verifica-R12"
+  },
+  {
+   "indice": 1886,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "D=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R13; mkdir -p marketplace/.verifica-R13 && cp $D/*.ts marketplace/.verifica-R13/ && (cd marketplace && npx vitest run --config .verifica-R13/vitest.config.ts --reporter=verbose --silent=false .verifica-R13/r13-1886-confine.test.ts); rm -rf marketplace/.verifica-R13; grep -n \"linea d'aria o per strada\" MyCity-Vault/90-Memoria-AI/LAVORO-APERTO.md"
+  },
+  {
+   "indice": 965,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "D=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R13; mkdir -p marketplace/.verifica-R13 && cp $D/*.ts marketplace/.verifica-R13/ && (cd marketplace && npx vitest run --config .verifica-R13/vitest.config.ts --reporter=verbose --silent=false .verifica-R13/r13-ritiro-spento.test.ts .verifica-R13/r13-ritiro-acceso.test.ts); rm -rf marketplace/.verifica-R13; grep -n '\"Il ritiro in negozio è acceso dal lancio' MyCity-Vault/90-Memoria-AI/registro-fatti.json"
+  },
+  {
+   "indice": 2594,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "D=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R13; mkdir -p marketplace/.verifica-R13 && cp $D/*.ts marketplace/.verifica-R13/ && (cd marketplace && npx vitest run --config .verifica-R13/vitest.config.ts --reporter=verbose --silent=false .verifica-R13/r13-ritiro-spento.test.ts .verifica-R13/r13-ritiro-acceso.test.ts); rm -rf marketplace/.verifica-R13; sed -n 591,596p marketplace/app/cart/page.tsx"
+  },
+  {
+   "indice": 2353,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "R=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R14; mkdir -p marketplace/.verifica-R14 && cp $R/vitest.config.ts $R/r14-1-freno-multinegozio.test.ts marketplace/.verifica-R14/ && (cd marketplace && npx vitest run --config .verifica-R14/vitest.config.ts .verifica-R14/r14-1-freno-multinegozio.test.ts --reporter=verbose); rm -rf marketplace/.verifica-R14"
+  },
+  {
+   "indice": 2365,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "R=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R14; mkdir -p marketplace/.verifica-R14 && cp $R/vitest.config.ts $R/r14-2-fermo-a-meta.test.ts marketplace/.verifica-R14/ && (cd marketplace && npx vitest run --config .verifica-R14/vitest.config.ts .verifica-R14/r14-2-fermo-a-meta.test.ts --reporter=verbose); rm -rf marketplace/.verifica-R14"
+  },
+  {
+   "indice": 405,
+   "esito_S01": "non_piu_vero",
+   "esito": "confermato",
+   "comando": "R=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R14; mkdir -p marketplace/.verifica-R14 && cp $R/vitest.config.ts $R/r14-3-pagine.test.tsx $R/r14-4-faq-aperta.test.tsx marketplace/.verifica-R14/ && (cd marketplace && npx vitest run --config .verifica-R14/vitest.config.ts .verifica-R14/r14-3-pagine.test.tsx .verifica-R14/r14-4-faq-aperta.test.tsx -t \"405\" --reporter=verbose); rm -rf marketplace/.verifica-R14; grep -rn -i \"venduto e consegnato\\|consegnato dal negozio\\|a cura del negozio\\|consegna MyCity\" marketplace/app marketplace/components marketplace/lib --include=*.ts --include=*.tsx"
+  },
+  {
+   "indice": 406,
+   "esito_S01": "non_piu_vero",
+   "esito": "confermato",
+   "comando": "R=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R14; mkdir -p marketplace/.verifica-R14 && cp $R/vitest.config.ts $R/r14-3-pagine.test.tsx marketplace/.verifica-R14/ && (cd marketplace && npx vitest run --config .verifica-R14/vitest.config.ts .verifica-R14/r14-3-pagine.test.tsx -t \"406\" --reporter=verbose); rm -rf marketplace/.verifica-R14; grep -rn -i \"più venduti\\|best.seller\\|va forte\\|vanno forte\" marketplace/app marketplace/components marketplace/lib marketplace/messages --include=*.ts --include=*.tsx --include=*.json"
+  },
+  {
+   "indice": 410,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "R=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R14; mkdir -p marketplace/.verifica-R14 && cp $R/vitest.config.ts $R/r14-5-fuso.test.tsx marketplace/.verifica-R14/ && (cd marketplace && TZ=UTC npx vitest run --config .verifica-R14/vitest.config.ts .verifica-R14/r14-5-fuso.test.tsx --reporter=verbose); rm -rf marketplace/.verifica-R14"
+  },
+  {
+   "indice": 413,
+   "esito_S01": "non_piu_vero",
+   "esito": "confermato",
+   "comando": "R=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R14; bash marketplace/tests/sql/harness/apply.sh mycity_v_r14 && psql -d mycity_v_r14 -tA -v ON_ERROR_STOP=1 -f $R/413-sold-invisibile.sql; dropdb mycity_v_r14; mkdir -p marketplace/.verifica-R14 && cp $R/vitest.config.ts $R/r14-3-pagine.test.tsx marketplace/.verifica-R14/ && (cd marketplace && npx vitest run --config .verifica-R14/vitest.config.ts .verifica-R14/r14-3-pagine.test.tsx -t \"413\" --reporter=verbose); rm -rf marketplace/.verifica-R14"
+  },
+  {
+   "indice": 982,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R15/prova-982.sh"
+  },
+  {
+   "indice": 2034,
+   "esito_S01": "cambiato",
+   "esito": "smentito",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R15/prova-vitest.sh r15-2034-newsletter.test.tsx"
+  },
+  {
+   "indice": 394,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R15/prova-vitest.sh r15-394-conferma.test.ts"
+  },
+  {
+   "indice": 2525,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R16/lancia-vitest.sh r16-2525-cento-ordini.test.ts"
+  },
+  {
+   "indice": 24,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R16/lancia-vitest.sh r16-0024-segnalazioni.test.ts && bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R16/lancia-sql.sh r16-0024-anon.sql; grep -niE 'turnstile|captcha' marketplace/app/api/segnalazioni/route.ts marketplace/components/Segnala.tsx"
+  },
+  {
+   "indice": 48,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R16/lancia-vitest.sh r16-0048-resi-guasto.test.ts"
+  },
+  {
+   "indice": 2569,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R16/lancia-vitest.sh r16-2569-due-schede.test.ts"
+  },
+  {
+   "indice": 540,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R16/lancia-sql.sh r16-0540-sos.sql; grep -n \"alert immediato\\|avvisata\\|nel loro pannello\" marketplace/components/rider/SOSButton.tsx; grep -n \"SOSButton />\" marketplace/components/rider/RiderShell.tsx"
+  },
+  {
+   "indice": 544,
+   "esito_S01": "non_piu_vero",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R16/lancia-sql.sh tests/sql/rls/48-i-difetti-minori-del-database.test.sql | grep 544; bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R16/lancia-sql.sh r16-0544-winback.sql; grep -rn RITORNO10 marketplace/lib marketplace/migrations marketplace/app"
+  },
+  {
+   "indice": 80,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && (cd marketplace && grep -rln marketplace_events app lib components) && bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R17/rilancia.sh v80-sconto-evento.test.tsx"
+  },
+  {
+   "indice": 106,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R17/rilancia.sh v106-rider-senza-inail.test.ts"
+  },
+  {
+   "indice": 88,
+   "esito_S01": "non_piu_vero",
+   "esito": "smentito",
+   "comando": "cd /home/user/ad-mycity && bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R17/rilancia.sh v88-esito-segnalazione.test.ts"
+  },
+  {
+   "indice": 108,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R17/rilancia.sh v108-buono-metadati-stripe.test.ts"
+  },
+  {
+   "indice": 113,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R17/rilancia.sh v113-registro-azioni.test.ts && (cd marketplace && npx vitest run tests/unit/minori-s05-moderazione.test.ts)"
+  },
+  {
+   "indice": 118,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R17/rilancia.sh v118-annullo-durante-cancellazione.test.ts"
+  },
+  {
+   "indice": 125,
+   "esito_S01": "non_piu_vero",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && cp -r /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R18/prove marketplace/.verifica-R18 && (cd marketplace && npx vitest run --config .verifica-R18/vitest.config.ts .verifica-R18/t125-cancellazione-registro.test.ts --reporter=verbose --silent=false); rm -rf marketplace/.verifica-R18 ; bash marketplace/tests/sql/harness/apply.sh mycity_v_r18 && psql -d mycity_v_r18 -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R18/t125-trigger.sql; dropdb mycity_v_r18"
+  },
+  {
+   "indice": 503,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && cp -r /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R18/prove marketplace/.verifica-R18 && (cd marketplace && npx vitest run --config .verifica-R18/vitest.config.ts .verifica-R18/t503-disiscrizione.test.ts --reporter=verbose --silent=false); rm -rf marketplace/.verifica-R18"
+  },
+  {
+   "indice": 102,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && cp -r /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R18/prove marketplace/.verifica-R18 && (cd marketplace && npx vitest run --config .verifica-R18/vitest.config.ts .verifica-R18/t102-sentry.test.ts --reporter=verbose --silent=false); rm -rf marketplace/.verifica-R18"
+  },
+  {
+   "indice": 105,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && cp -r /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R18/prove marketplace/.verifica-R18 && (cd marketplace && npx vitest run --config .verifica-R18/vitest.config.ts .verifica-R18/t-pagine-legali.test.tsx --reporter=verbose --silent=false); rm -rf marketplace/.verifica-R18 ; bash marketplace/tests/sql/harness/apply.sh mycity_v_r18 && psql -d mycity_v_r18 -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R18/t105-kyc.sql; dropdb mycity_v_r18"
+  },
+  {
+   "indice": 115,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && cp -r /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R18/prove marketplace/.verifica-R18 && (cd marketplace && npx vitest run --config .verifica-R18/vitest.config.ts .verifica-R18/t115-video.test.tsx .verifica-R18/t-pagine-legali.test.tsx --reporter=verbose --silent=false); rm -rf marketplace/.verifica-R18"
+  },
+  {
+   "indice": 121,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && cp -r /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R18/prove marketplace/.verifica-R18 && (cd marketplace && npx vitest run --config .verifica-R18/vitest.config.ts .verifica-R18/t-pagine-legali.test.tsx --reporter=verbose --silent=false); rm -rf marketplace/.verifica-R18 ; grep -n \"cosa: '\" marketplace/lib/privacy/potature-ritenzione.ts"
+  },
+  {
+   "indice": 123,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-R19 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R19/prove/* marketplace/.verifica-R19/ && (cd marketplace && npx vitest run --config .verifica-R19/vitest.config.ts .verifica-R19/v123-conto-collegato.test.ts); rm -rf marketplace/.verifica-R19; grep R19-123 /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R19/esiti.log; grep -rnE 'accounts\\.(del|reject)\\(' marketplace/lib marketplace/app | wc -l; grep -rn conto_stripe_da_chiudere marketplace/lib marketplace/app | wc -l"
+  },
+  {
+   "indice": 490,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-R19 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R19/prove/* marketplace/.verifica-R19/ && (cd marketplace && npx vitest run --config .verifica-R19/vitest.config.ts .verifica-R19/v-pagine.test.tsx -t '490'); rm -rf marketplace/.verifica-R19; grep R19-490 /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R19/esiti.log"
+  },
+  {
+   "indice": 506,
+   "esito_S01": "non_piu_vero",
+   "esito": "smentito",
+   "comando": "cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-R19 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R19/prove/* marketplace/.verifica-R19/ && (cd marketplace && npx vitest run --config .verifica-R19/vitest.config.ts .verifica-R19/v-pagine.test.tsx -t '506'); rm -rf marketplace/.verifica-R19; grep R19-506 /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R19/esiti.log"
+  },
+  {
+   "indice": 510,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-R19 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R19/prove/* marketplace/.verifica-R19/ && (cd marketplace && npx vitest run --config .verifica-R19/vitest.config.ts .verifica-R19/v-pagine.test.tsx -t '510'); rm -rf marketplace/.verifica-R19; grep R19-510 /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R19/esiti.log"
+  },
+  {
+   "indice": 512,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-R19 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R19/prove/* marketplace/.verifica-R19/ && (cd marketplace && npx vitest run --config .verifica-R19/vitest.config.ts .verifica-R19/v-pagine.test.tsx -t 'commissione'); rm -rf marketplace/.verifica-R19; grep R19-512 /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R19/esiti.log; grep -rniE 'invoices\\.(create|finalize|send)|invoiceItems|invoice_creation|FatturaPA' marketplace/lib marketplace/app | wc -l"
+  },
+  {
+   "indice": 514,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-R19 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R19/prove/* marketplace/.verifica-R19/ && (cd marketplace && npx vitest run --config .verifica-R19/vitest.config.ts .verifica-R19/v-pagine.test.tsx .verifica-R19/v514-ordine.test.ts -t '514|carosello'); rm -rf marketplace/.verifica-R19; grep R19-514 /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R19/esiti.log"
+  },
+  {
+   "indice": 516,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "marketplace/tests/sql/harness/apply.sh mycity_v_r20 && psql -X -q -d mycity_v_r20 -At -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R20/r20-db.sql; dropdb mycity_v_r20; grep -rn -iE 'ordine consegnato|Pubblicano recensioni|come verifichiamo' marketplace/app/product marketplace/app/store marketplace/app/terms marketplace/app/faq marketplace/app/help marketplace/app/how-it-works marketplace/components/store-sections; grep -c 'Acquisto verificato' marketplace/components/store-sections/ReviewsSection.tsx; grep -n -i recension marketplace/app/terms/page.tsx"
+  },
+  {
+   "indice": 517,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "grep -n 'const POPULAR' marketplace/components/SearchBar.tsx; grep -rlnE -i 'maggiorenn|age_restrict|min_age|eta_minima|solo_maggiorenn|over ?18|contiene alcol|alcolic' marketplace/app marketplace/lib marketplace/components marketplace/migrations; grep -n \"'vino'\" marketplace/app/regali/RegaliClient.tsx; grep -n enoteca marketplace/app/about/page.tsx; marketplace/tests/sql/harness/apply.sh mycity_v_r20 && psql -X -d mycity_v_r20 -At -c \"select column_name from information_schema.columns where table_schema='public' and table_name='products' and column_name ~* '(alcol|alcoh|age|eta|adult|maggior)'\" -c \"select slug||' = '||name from public.categories where name ~* '(bevand|vin|birr|liquor)'\"; dropdb mycity_v_r20"
+  },
+  {
+   "indice": 1864,
+   "esito_S01": "cambiato",
+   "esito": "smentito",
+   "comando": "mkdir -p marketplace/.verifica-R20 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R20/vitest/* marketplace/.verifica-R20/ && (cd marketplace && npx vitest run -c .verifica-R20/vitest.config.mts --reporter=verbose --silent=false .verifica-R20/onfido-1864.test.ts); rm -rf marketplace/.verifica-R20; grep -c -i onfido marketplace/lib/account/cancellazione.ts"
+  },
+  {
+   "indice": 2058,
+   "esito_S01": "non_piu_vero",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-R20 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R20/vitest/* marketplace/.verifica-R20/ && (cd marketplace && npx vitest run -c .verifica-R20/vitest.config.mts --reporter=verbose --silent=false .verifica-R20/modulo-2058.test.ts); rm -rf marketplace/.verifica-R20; grep -n 'SUPPORT_EMAIL\\|RESEND_FROM' marketplace/.env.example"
+  },
+  {
+   "indice": 2571,
+   "esito_S01": "non_piu_vero",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-R20 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R20/vitest/* marketplace/.verifica-R20/ && (cd marketplace && npx vitest run -c .verifica-R20/vitest.config.mts --reporter=verbose --silent=false .verifica-R20/recesso-2571.test.ts); rm -rf marketplace/.verifica-R20; marketplace/tests/sql/harness/apply.sh mycity_v_r20 && psql -X -q -d mycity_v_r20 -At -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R20/r20-db.sql; dropdb mycity_v_r20"
+  },
+  {
+   "indice": 264,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && bash tests/sql/harness/apply.sh mycity_v_r21 && psql -d mycity_v_r21 -X -At -c \"select pg_get_viewdef('public.shop_of_month_leaderboard'::regclass)\" && psql -d mycity_v_r21 -X -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R21/264-negozio-del-mese.sql && mkdir -p .verifica-R21 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R21/r21.test.tsx /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R21/vitest.config.ts .verifica-R21/ && npx vitest run --config .verifica-R21/vitest.config.ts --silent=false --reporter=verbose; rm -rf .verifica-R21; dropdb mycity_v_r21"
+  },
+  {
+   "indice": 652,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && bash tests/sql/harness/apply.sh mycity_v_r21 && psql -d mycity_v_r21 -X -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R21/652-visite.sql && mkdir -p .verifica-R21 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R21/r21.test.tsx /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R21/vitest.config.ts .verifica-R21/ && npx vitest run --config .verifica-R21/vitest.config.ts --silent=false --reporter=verbose; rm -rf .verifica-R21; dropdb mycity_v_r21"
+  },
+  {
+   "indice": 615,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "P=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R22/prove; mkdir -p marketplace/.verifica-R22 && cp $P/* marketplace/.verifica-R22/ && (cd marketplace && npx vitest run --config .verifica-R22/vitest.r22.config.mts --reporter=verbose .verifica-R22/r22-615-lotto.test.ts); rm -rf marketplace/.verifica-R22"
+  },
+  {
+   "indice": 250,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "P=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R22/prove; mkdir -p marketplace/.verifica-R22 && cp $P/* marketplace/.verifica-R22/ && (cd marketplace && npx vitest run --config .verifica-R22/vitest.r22.config.mts --reporter=verbose .verifica-R22/r22-250-copilot.test.ts); rm -rf marketplace/.verifica-R22"
+  },
+  {
+   "indice": 617,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "P=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R22/prove; mkdir -p marketplace/.verifica-R22 && cp $P/* marketplace/.verifica-R22/ && (cd marketplace && npx vitest run --config .verifica-R22/vitest.r22.config.mts --reporter=verbose .verifica-R22/r22-617-descrizione.test.ts); rm -rf marketplace/.verifica-R22"
+  },
+  {
+   "indice": 1697,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "P=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R22/prove; (cd marketplace && npx vitest run tests/unit/al-primo-messaggio-la-chat-non-propone-quello-che-non-ha-letto.test.ts); mkdir -p marketplace/.verifica-R22 && cp $P/* marketplace/.verifica-R22/ && (cd marketplace && npx vitest run --config .verifica-R22/vitest.r22.config.mts --reporter=verbose .verifica-R22/r22-1697-chat.test.ts); rm -rf marketplace/.verifica-R22"
+  },
+  {
+   "indice": 603,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "P=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R22/prove; mkdir -p marketplace/.verifica-R22 && cp $P/* marketplace/.verifica-R22/ && (cd marketplace && npx vitest run --config .verifica-R22/vitest.r22.config.mts --reporter=verbose .verifica-R22/r22-603-modello.test.ts; grep -rn \"claude-sonnet\\|claude-haiku\\|claude-opus\" app lib components --include=*.ts --include=*.tsx | grep -v '^lib/ai/client.ts' | wc -l; grep -rn 'MODELS\\.\\(smart\\|vision\\)' app lib | wc -l); rm -rf marketplace/.verifica-R22"
+  },
+  {
+   "indice": 226,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "bash marketplace/tests/sql/harness/apply.sh mycity_v_r23 && psql -d mycity_v_r23 -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R23/rider-sospeso.sql && psql -d mycity_v_r23 -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R23/rider-sospeso-cod.sql && (cd marketplace && npx vitest run tests/unit/minori-s05-moderazione.test.ts tests/unit/la-moderazione-dice-il-vero.test.ts --reporter=verbose); dropdb mycity_v_r23"
+  },
+  {
+   "indice": 687,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-R23 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R23/prove-vitest/* marketplace/.verifica-R23/ && cd marketplace && for f in $(grep -rlE 'getServerSupabase|getCurrentUser' app/api --include=route.ts); do grep -qE 'with[A-Za-z]*Auth[A-Za-z]*\\(' $f || echo \"$f prov=$(grep -c arrivaDaUnAltroSito $f)\"; done && npx vitest run --config .verifica-R23/vitest.config.mts .verifica-R23/accetta-condizioni.test.ts --reporter=verbose; rm -rf .verifica-R23"
+  },
+  {
+   "indice": 1627,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-R23 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R23/prove-vitest/* marketplace/.verifica-R23/ && cd marketplace && npx vitest run --config .verifica-R23/vitest.config.mts .verifica-R23/moderate-tre-passi.test.ts --reporter=verbose; rm -rf .verifica-R23"
+  },
+  {
+   "indice": 1836,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-R23 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R23/prove-vitest/* marketplace/.verifica-R23/ && cd marketplace && npx vitest run --config .verifica-R23/vitest.config.mts .verifica-R23/drop-senza-chiave.test.ts --reporter=verbose && npx vitest run tests/unit/le-funzioni-spente-al-lancio-le-rifiuta-il-server.test.ts -t 'anche senza chiave di servizio' --reporter=verbose; rm -rf .verifica-R23"
+  },
+  {
+   "indice": 529,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-R23 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R23/prove-vitest/* marketplace/.verifica-R23/ && cd marketplace && npx vitest run --config .verifica-R23/vitest.config.mts .verifica-R23/portiere-giro.test.ts --reporter=verbose && npx vitest run tests/unit/il-portiere-non-chiude-fuori-chi-aspetta-e-non-perde-il-rinnovo.test.ts --reporter=verbose; rm -rf .verifica-R23"
+  },
+  {
+   "indice": 526,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd marketplace && npx vitest run tests/unit/il-link-della-password-si-apre-da-qualunque-dispositivo.test.ts tests/unit/il-link-di-recupero-passato-dalla-conferma-porta-al-modulo.test.ts --reporter=verbose && grep -rln 'TokenHash' --include=*.html --include=*.toml --include=*.ts . | grep -v node_modules; grep -n 'resetPasswordForEmail' app/sign-in/page.tsx app/reset-password/page.tsx; grep -n 'flowType' node_modules/@supabase/ssr/dist/main/createBrowserClient.js"
+  },
+  {
+   "indice": 796,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && node -e \"import('./scripts/check-migration-drift.mjs').then(m=>{const r=m.esitoDelConfronto([{prefix:'200',name:'x',file:'200_x.sql',impronta:'NUOVA'}],[{version:'200',name:'x'}]);console.log(r.codice, JSON.stringify(r.righe))})\"; bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R24/sim796/prova.sh; dropdb --if-exists mycity_v_r24"
+  },
+  {
+   "indice": 808,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "node /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R24/sim808/prova-808.cjs; awk '/^const ENV_IMPORTANTI/,/^\\];/' /home/user/ad-mycity/marketplace/app/api/health/route.ts | grep -c -i sentry"
+  },
+  {
+   "indice": 1448,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && node -e 'const fs=require(\"fs\");const v=JSON.parse(fs.readFileSync(\"vercel.json\",\"utf8\"));const p=JSON.parse(fs.readFileSync(\"package.json\",\"utf8\"));console.log(\"render.yaml esiste:\",fs.existsSync(\"render.yaml\"));console.log(\"vercel.json git.deploymentEnabled.main:\",v.git&&v.git.deploymentEnabled&&v.git.deploymentEnabled.main,\"| buildCommand:\",v.buildCommand??\"(nessuno: next build di default)\");console.log(\"package.json build:\",p.scripts.build,\"| prebuild:\",p.scripts.prebuild??\"-\",\"| vercel-build:\",p.scripts[\"vercel-build\"]??\"-\");console.log(\"script che applicano migrazioni nel build:\",Object.entries(p.scripts).filter(([k,s])=>/build/.test(k)&&/migra|psql|applica/.test(s)).length);console.log(\"migrazioni in cartella:\",fs.readdirSync(\"migrations\").filter(f=>/\\.sql$/.test(f)).length);'; grep -n \"if: steps.chiavi.outputs.pronto\" .github/workflows/deploy-dopo-ci.yml"
+  },
+  {
+   "indice": 1514,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R24/sim1514/prova-1514.sh"
+  },
+  {
+   "indice": 1740,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "bash marketplace/tests/sql/harness/apply.sh mycity_v_r25 && psql -d mycity_v_r25 -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R25/storie-carosello.sql && dropdb mycity_v_r25"
+  },
+  {
+   "indice": 2493,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/si-approva-solo-con-partita-iva-e-documenti.test.ts --reporter=verbose && npx vitest run --config .verifica-R25/vitest.config.ts --reporter=verbose && grep -rn \"business_vat_number\\|businessVatNumber\" app lib components | grep -v '\\.test\\.'"
+  },
+  {
+   "indice": 228,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R26/rilancia.sh 228"
+  },
+  {
+   "indice": 658,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R26/rilancia.sh 658"
+  },
+  {
+   "indice": 663,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R26/rilancia.sh 663"
+  },
+  {
+   "indice": 2101,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R26/rilancia.sh 2101"
+  },
+  {
+   "indice": 375,
+   "esito_S01": "non_piu_vero",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R27/strumenti/prova-r27.sh 375"
+  },
+  {
+   "indice": 924,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R27/strumenti/prova-r27.sh 924"
+  },
+  {
+   "indice": 925,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R27/strumenti/prova-r27.sh 925"
+  },
+  {
+   "indice": 376,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R28; (cd marketplace && tar --exclude=./node_modules --exclude=./.git --exclude=./.next -cf - .) | (cd $W/full && tar -xf -); ln -sfn /home/user/ad-mycity/marketplace/node_modules $W/full/node_modules; sed -i 's/APP_INSTALLABILE_ACCESA: boolean = false/APP_INSTALLABILE_ACCESA: boolean = true/' $W/full/lib/funzioni-al-lancio.ts; [nella sola copia: typescript.ignoreBuildErrors + eslint.ignoreDuringBuilds in next.config.js, perché il controllo tipi andava in OOM]; . $W/env-finto.sh; cd $W/full && NODE_OPTIONS=--max-old-space-size=6144 node node_modules/next/dist/bin/next build && node node_modules/next/dist/bin/next start -p 3130 & ; $W/pos.sh http://localhost:3130/ 'Mozilla/5.0 (Linux; Android 14; Pixel 7) ... Chrome/153 Mobile Safari/537.36'; node $W/cdp-installabile.cjs http://localhost:3130/; node $W/idratazione.cjs http://localhost:3130/; poi l'interruttore torna a false nella copia e: next dev -p 3131 + grep -c 'rel=\"manifest\"' sulla home + node $W/cdp-installabile.cjs http://localhost:3131/"
+  },
+  {
+   "indice": 951,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity/marketplace && node -e \"const m=require('./public/manifest.json');console.log(JSON.stringify({orientation:m.orientation,id:m.id,display_override:m.display_override,screenshots:m.screenshots,display:m.display}))\"; grep -c screenshots public/manifest.json"
+  },
+  {
+   "indice": 432,
+   "esito_S01": "non_piu_vero",
+   "esito": "confermato",
+   "comando": "mkdir -p marketplace/.verifica-R29 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R29/{vitest.config.ts,bottone-segui.test.tsx} marketplace/.verifica-R29/ && cd marketplace && npx vitest run --config .verifica-R29/vitest.config.ts --reporter=verbose --silent=false; cd /home/user/ad-mycity && rm -rf marketplace/.verifica-R29 && grep -rn 'Non lo so' marketplace/components marketplace/app marketplace/lib"
+  },
+  {
+   "indice": 437,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-R30 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R30/{vitest.config.ts,v437-html-server.test.tsx} marketplace/.verifica-R30/ && (cd marketplace && npx vitest run --config .verifica-R30/vitest.config.ts .verifica-R30/v437-html-server.test.tsx; npx vitest run tests/unit/la-mappa-del-sito-non-manda-a-google-categorie-vuote.test.ts tests/unit/le-categorie-vuote-non-si-mostrano-in-home-nel-piede-ne-a-google.test.tsx); cat /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R30/v437.txt; rm -rf marketplace/.verifica-R30"
+  },
+  {
+   "indice": 439,
+   "esito_S01": "non_piu_vero",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-R30 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R30/{vitest.config.ts,v437-html-server.test.tsx} marketplace/.verifica-R30/ && (cd marketplace && npx vitest run --config .verifica-R30/vitest.config.ts .verifica-R30/v437-html-server.test.tsx -t V439); grep V439 /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R30/v437.txt; rm -rf marketplace/.verifica-R30; grep -n \"'/events'\\|'/shop-of-month'\\|'/lists'\" marketplace/app/sitemap.ts"
+  },
+  {
+   "indice": 1021,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-R30 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R30/v1021-larghezze.cjs marketplace/.verifica-R30/ && (cd marketplace && node .verifica-R30/v1021-larghezze.cjs); rm -rf marketplace/.verifica-R30"
+  },
+  {
+   "indice": 1022,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-R30 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R30/{vitest.config.ts,v1022-card.test.tsx} marketplace/.verifica-R30/ && (cd marketplace && npx vitest run --config .verifica-R30/vitest.config.ts .verifica-R30/v1022-card.test.tsx); cat /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R30/v1022.txt; rm -rf marketplace/.verifica-R30"
+  },
+  {
+   "indice": 670,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "timeout 120 node /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R31/img.cjs /home/user/ad-mycity/marketplace && (cd /home/user/ad-mycity/marketplace && NODE_ENV=production node /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R31/next-src.cjs)"
+  },
+  {
+   "indice": 674,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "R=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R31; cd /home/user/ad-mycity && mkdir -p marketplace/.verifica-R31 && cp $R/letture.test.tsx $R/vitest.config.ts marketplace/.verifica-R31/ && (cd marketplace && timeout 180 npx vitest run --config .verifica-R31/vitest.config.ts --reporter=verbose --silent=false 2>&1 | grep -E 'PRODOTTO|NEGOZIO|Tests'); rm -rf marketplace/.verifica-R31; (cd marketplace && node $R/segmenti.cjs)"
+  },
+  {
+   "indice": 1032,
+   "esito_S01": "cambiato",
+   "esito": "confermato",
+   "comando": "mkdir -p /home/user/ad-mycity/marketplace/.verifica-R32 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R32/foto-home.test.tsx /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/R32/vitest.config.ts /home/user/ad-mycity/marketplace/.verifica-R32/ && (cd /home/user/ad-mycity/marketplace && npx vitest run --config .verifica-R32/vitest.config.ts --reporter verbose); rm -rf /home/user/ad-mycity/marketplace/.verifica-R32 ; grep -c \"priority\" /home/user/ad-mycity/marketplace/components/home/HeroStoreCard.tsx ; grep -n \"loading=\" /home/user/ad-mycity/marketplace/components/CategoryShowcase.tsx"
+  }
+ ],
+ "regressioni": [
+  {
+   "indice": 476,
+   "esito": "smentita",
+   "comando": "mkdir -p /home/user/ad-mycity/marketplace/.verifica-G01 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/G01/regressione.test.ts /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/G01/vitest.config.ts /home/user/ad-mycity/marketplace/.verifica-G01/ && (cd /home/user/ad-mycity/marketplace && npx vitest run --config .verifica-G01/vitest.config.ts; npx vitest run tests/unit/minori-s07-orari.test.ts tests/unit/minori-s06-orari-del-negozio.test.tsx tests/unit/la-cassa-passa-gli-orari-dei-negozi-al-selettore-e-al-freno.test.ts tests/unit/le-sette-fasce-seguono-gli-orari-del-negozio.test.tsx); rm -rf /home/user/ad-mycity/marketplace/.verifica-G01; /home/user/ad-mycity/marketplace/tests/sql/harness/apply.sh mycity_v_g01 && psql -d mycity_v_g01 -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/G01/aperti-ora.sql; dropdb mycity_v_g01"
+  },
+  {
+   "indice": 1692,
+   "esito": "confermata",
+   "comando": "marketplace/tests/sql/harness/apply.sh mycity_v_g02 && psql -X -d mycity_v_g02 -v ON_ERROR_STOP=1 -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/G02/l-amministratore-non-apre-il-reclamo.sql && (cd marketplace && npx vitest run tests/unit/minori-s05-annullo-admin.test.ts && grep -rn -A3 \"from('disputes')\" app lib components | grep -n 'insert\\|upsert') ; dropdb mycity_v_g02"
+  },
+  {
+   "indice": 2126,
+   "esito": "confermata",
+   "comando": "marketplace/tests/sql/harness/apply.sh mycity_v_g03 && psql -q -d mycity_v_g03 -At -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/G03/prova-sospeso-si-rimette-in-coda.sql && dropdb mycity_v_g03"
+  },
+  {
+   "indice": 2126,
+   "esito": "confermata",
+   "comando": "marketplace/tests/sql/harness/apply.sh mycity_v_g03 && psql -q -d mycity_v_g03 -At -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/G03/prova-sospeso-si-rimette-in-coda.sql && psql -d mycity_v_g03 -At -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/G03/prova-s05-begin-rollback.sql && dropdb mycity_v_g03"
+  },
+  {
+   "indice": 713,
+   "esito": "confermata",
+   "comando": "node /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/G04/e.cjs ; cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/al-negozio-non-promettiamo-la-banca-un-ora-dopo.test.ts"
+  },
+  {
+   "indice": 1801,
+   "esito": "smentita",
+   "comando": "mkdir -p marketplace/.verifica-G05 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/G05/tetto-1000.test.tsx /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/G05/vitest.config.ts marketplace/.verifica-G05/ && (cd marketplace && npx vitest run --config .verifica-G05/vitest.config.ts); rm -rf marketplace/.verifica-G05"
+  },
+  {
+   "indice": 1799,
+   "esito": "confermata",
+   "comando": "mkdir -p marketplace/.verifica-G05 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/G05/tetto-1000.test.tsx /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/G05/vitest.config.ts marketplace/.verifica-G05/ && (cd marketplace && npx vitest run --config .verifica-G05/vitest.config.ts); rm -rf marketplace/.verifica-G05"
+  },
+  {
+   "indice": 1802,
+   "esito": "confermata",
+   "comando": "mkdir -p marketplace/.verifica-G05 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/G05/tetto-1000.test.tsx /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/G05/vitest.config.ts marketplace/.verifica-G05/ && (cd marketplace && npx vitest run --config .verifica-G05/vitest.config.ts); rm -rf marketplace/.verifica-G05"
+  },
+  {
+   "indice": 1191,
+   "esito": "confermata",
+   "comando": "node /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/G06/prova-tetto-1000.mjs /home/user/ad-mycity/marketplace ; mkdir -p marketplace/.verifica-G06 && cp /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/G06/sintesi-24h-tetto.test.tsx /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/G06/vitest.config.ts marketplace/.verifica-G06/ && (cd marketplace && npx vitest run --config .verifica-G06/vitest.config.ts); rm -rf marketplace/.verifica-G06"
+  },
+  {
+   "indice": 716,
+   "esito": "smentita",
+   "comando": "cd /home/user/ad-mycity && bash marketplace/tests/sql/harness/apply.sh mycity_v_g07 && W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/G07 && psql -d mycity_v_g07 -At -f $W/tabelle-non-lette.sql | wc -l && node $W/colonne-filtro-esistono.mjs marketplace/app/api/account/export/route.ts mycity_v_g07 ; node $W/export-completo.mjs marketplace/app/api/account/export/route.ts marketplace/tests/unit/scarica-i-miei-dati-non-salta-nessuna-tabella.test.ts mycity_v_g07 ; (cd marketplace && npx vitest run tests/unit/scarica-i-miei-dati-non-salta-nessuna-tabella.test.ts) ; dropdb mycity_v_g07"
+  },
+  {
+   "indice": 1031,
+   "esito": "confermata",
+   "comando": "bash /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/verifica-lavoro/G08/prova-g08.sh"
+  }
+ ]
+}

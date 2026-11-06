@@ -1,0 +1,2085 @@
+{
+ "sessione": "S10",
+ "base_sito": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
+ "aggiornato": "2026-11-06 10:41",
+ "finita": true,
+ "copertura": {
+  "file_letti_interi": [
+   "app/loading.tsx",
+   "app/error.tsx",
+   "app/accessibility/page.tsx",
+   "app/status/page.tsx",
+   "app/notifications/page.tsx",
+   "components/ui/Modal.tsx",
+   "components/ui/Field.tsx",
+   "components/providers/ToastProvider.tsx",
+   "components/hooks/useBottomSheetA11y.ts",
+   "public/manifest.json",
+   "public/offline.html",
+   "app/opengraph-image.tsx",
+   "components/seller/ProductImagesField.tsx",
+   "components/seller/SubscriptionBanner.tsx",
+   "messages/it.json",
+   "messages/en.json",
+   "app/global-error.tsx",
+   "components/admin/RimborsiDaDividere.tsx",
+   "app/profile/achievements/page.tsx",
+   "public/sw.js"
+  ],
+  "file_letti_in_parte": [
+   {
+    "file": "app/cart/page.tsx",
+    "righe": "440-470"
+   },
+   {
+    "file": "app/cart/page.tsx",
+    "righe": "895-925"
+   },
+   {
+    "file": "app/product/[id]/page.tsx",
+    "righe": "405-445"
+   },
+   {
+    "file": "app/product/[id]/page.tsx",
+    "righe": "480-490"
+   },
+   {
+    "file": "app/product/[id]/page.tsx",
+    "righe": "860-880"
+   },
+   {
+    "file": "components/ProductCard.tsx",
+    "righe": "60-70"
+   },
+   {
+    "file": "components/ProductCard.tsx",
+    "righe": "160-190"
+   },
+   {
+    "file": "components/checkout/CartGroupsList.tsx",
+    "righe": "30-50"
+   },
+   {
+    "file": "components/cart/CartUpsell.tsx",
+    "righe": "100-122"
+   },
+   {
+    "file": "components/home-sections/HomeSectionRenderer.tsx",
+    "righe": "105-130"
+   },
+   {
+    "file": "components/StorePreviewCard.tsx",
+    "righe": "90-110"
+   },
+   {
+    "file": "components/StoreListRow.tsx",
+    "righe": "45-60"
+   },
+   {
+    "file": "app/layout.tsx",
+    "righe": "137-199"
+   },
+   {
+    "file": "app/globals.css",
+    "righe": "100-125"
+   },
+   {
+    "file": "app/globals.css",
+    "righe": "210-235"
+   },
+   {
+    "file": "app/globals.css",
+    "righe": "280-290"
+   },
+   {
+    "file": "app/globals.css",
+    "righe": "395-430"
+   },
+   {
+    "file": "app/globals.css",
+    "righe": "540-585"
+   },
+   {
+    "file": "tailwind.config.ts",
+    "righe": "40-156"
+   },
+   {
+    "file": "app/sign-in/page.tsx",
+    "righe": "262-345"
+   },
+   {
+    "file": "app/sign-up/page.tsx",
+    "righe": "205-330"
+   },
+   {
+    "file": "app/messages/[id]/page.tsx",
+    "righe": "161-392"
+   },
+   {
+    "file": "app/messages/page.tsx",
+    "righe": "160-245"
+   },
+   {
+    "file": "app/orders/page.tsx",
+    "righe": "380-423"
+   },
+   {
+    "file": "app/profile/addresses/page.tsx",
+    "righe": "228-250"
+   },
+   {
+    "file": "app/orders/[id]/return/page.tsx",
+    "righe": "320-390"
+   },
+   {
+    "file": "app/lists/page.tsx",
+    "righe": "292-328"
+   },
+   {
+    "file": "app/lists/[id]/page.tsx",
+    "righe": "236-262"
+   },
+   {
+    "file": "app/auth/verify-email/page.tsx",
+    "righe": "105-135"
+   },
+   {
+    "file": "app/accetta-condizioni/page.tsx",
+    "righe": "55-90"
+   },
+   {
+    "file": "components/orders/ContactSheet.tsx",
+    "righe": "95-112"
+   },
+   {
+    "file": "components/ui/Button.tsx",
+    "righe": "28-36"
+   },
+   {
+    "file": "components/account/AccountShell.tsx",
+    "righe": "52-112"
+   },
+   {
+    "file": "components/account/AccountSidebar.tsx",
+    "righe": "135-150"
+   },
+   {
+    "file": "components/seller/SellerShell.tsx",
+    "righe": "25-60"
+   },
+   {
+    "file": "components/seller/SellerShell.tsx",
+    "righe": "515-541"
+   },
+   {
+    "file": "app/seller/stories/page.tsx",
+    "righe": "56-287"
+   },
+   {
+    "file": "app/seller/promotions/page.tsx",
+    "righe": "236-262"
+   },
+   {
+    "file": "app/seller/promote/page.tsx",
+    "righe": "205-235"
+   },
+   {
+    "file": "app/seller/customers/page.tsx",
+    "righe": "100-125"
+   },
+   {
+    "file": "app/seller/products/page.tsx",
+    "righe": "405-425"
+   },
+   {
+    "file": "app/seller/products/import/page.tsx",
+    "righe": "210-330"
+   },
+   {
+    "file": "app/seller/products/ai-batch/page.tsx",
+    "righe": "400-510"
+   },
+   {
+    "file": "app/seller/help/page.tsx",
+    "righe": "55-67"
+   },
+   {
+    "file": "app/admin/layout.tsx",
+    "righe": "30-49"
+   },
+   {
+    "file": "components/rider/RiderShell.tsx",
+    "righe": "50-103"
+   },
+   {
+    "file": "app/rider/orders/[id]/page.tsx",
+    "righe": "488-500"
+   },
+   {
+    "file": "app/rider/help/page.tsx",
+    "righe": "100-108"
+   },
+   {
+    "file": "app/rider/onboarding/page.tsx",
+    "righe": "210-220"
+   },
+   {
+    "file": "app/seller/layout.tsx",
+    "righe": "225-236"
+   },
+   {
+    "file": "app/store/[id]/[slug]/page.tsx",
+    "righe": "20-60"
+   },
+   {
+    "file": "app/auth/confirm/route.ts",
+    "righe": "37-115"
+   },
+   {
+    "file": "lib/promesse-pubbliche.ts",
+    "righe": "1-80"
+   },
+   {
+    "file": "lib/errors.ts",
+    "righe": "117-260"
+   },
+   {
+    "file": "lib/loyalty.ts",
+    "righe": "15-30"
+   },
+   {
+    "file": "components/SellerApplicationForm.tsx",
+    "righe": "46-80"
+   },
+   {
+    "file": "app/api/seller/apply/route.ts",
+    "righe": "80-90"
+   },
+   {
+    "file": "components/NearbyStoresMap.tsx",
+    "righe": "15-140"
+   },
+   {
+    "file": "app/contact/page.tsx",
+    "righe": "55-115"
+   }
+  ],
+  "file_eseguiti": [
+   {
+    "file": "app/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> / (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Ordini dai negozi di Piacenza.Paghi in contanti alla consegn\"], violazioni axe: nessuna, errori in console: 6"
+   },
+   {
+    "file": "app/categorie/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /categorie (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [], violazioni axe: nessuna, errori in console: 6"
+   },
+   {
+    "file": "app/category/[slug]/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /category/alimentari (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Alimentari\"], violazioni axe: nessuna, errori in console: 0"
+   },
+   {
+    "file": "app/store/[id]/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /store/11111111-1111-4111-8111-111111111111 (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Forno di Prova con un nome molto lungo da bottega storicaNeg\"], violazioni axe: nessuna, errori in console: 0"
+   },
+   {
+    "file": "app/product/[id]/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /product/p0000000-0000-4000-8000-000000000001 (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Torta di prova con un nome lunghissimo per vedere se il tito\"], violazioni axe: nessuna, errori in console: 0"
+   },
+   {
+    "file": "app/about/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /about (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Il quartiere, a portata di mano.\"], violazioni axe: nessuna, errori in console: 0"
+   },
+   {
+    "file": "app/accessibility/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /accessibility (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Dichiarazione di accessibilità\"], violazioni axe: nessuna, errori in console: 0"
+   },
+   {
+    "file": "app/come-funziona/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /come-funziona (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"I negozi veri di Piacenza, ora a casa tua\"], violazioni axe: nessuna, errori in console: 0"
+   },
+   {
+    "file": "app/contact/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /contact (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Contattaci\"], violazioni axe: nessuna, errori in console: 0"
+   },
+   {
+    "file": "app/cookies/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /cookies (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Cookie policy\"], violazioni axe: nessuna, errori in console: 0"
+   },
+   {
+    "file": "app/faq/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /faq (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Domande frequenti\"], violazioni axe: nessuna, errori in console: 0"
+   },
+   {
+    "file": "app/help/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /help (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Centro assistenza\"], violazioni axe: nessuna, errori in console: 2"
+   },
+   {
+    "file": "app/lavora-con-noi/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /lavora-con-noi (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Costruiamo il commercio di quartiere del futuro.\"], violazioni axe: nessuna, errori in console: 0"
+   },
+   {
+    "file": "app/privacy/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /privacy (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Informativa sulla privacy\"], violazioni axe: nessuna, errori in console: 0"
+   },
+   {
+    "file": "app/returns/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /returns (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Resi e rimborsi\"], violazioni axe: nessuna, errori in console: 0"
+   },
+   {
+    "file": "app/sell/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /sell (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Diventa venditore\"], violazioni axe: nessuna, errori in console: 0"
+   },
+   {
+    "file": "app/shipping/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /shipping (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Spedizioni e consegne\"], violazioni axe: nessuna, errori in console: 0"
+   },
+   {
+    "file": "app/status/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /status (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Stato dei servizi\"], violazioni axe: link-in-text-block, errori in console: 0"
+   },
+   {
+    "file": "app/terms/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /terms (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Termini di servizio\"], violazioni axe: nessuna, errori in console: 0"
+   },
+   {
+    "file": "app/disiscrizione/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /disiscrizione (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Questo link non è valido\"], violazioni axe: nessuna, errori in console: 0"
+   },
+   {
+    "file": "app/reset-password/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /reset-password (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Reimposta la password\"], violazioni axe: nessuna, errori in console: 0"
+   },
+   {
+    "file": "app/shared-cart/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /shared-cart (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Link non valido\"], violazioni axe: nessuna, errori in console: 0"
+   },
+   {
+    "file": "app/u/[handle]/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /u/prova (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Pagina non trovata\"], violazioni axe: nessuna, errori in console: 0"
+   },
+   {
+    "file": "app/auth/verify-email/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /auth/verify-email (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Verifica la tua email\"], violazioni axe: nessuna, errori in console: 0"
+   },
+   {
+    "file": "app/accetta-condizioni/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /accetta-condizioni (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Ancora una cosa\"], violazioni axe: nessuna, errori in console: 0"
+   },
+   {
+    "file": "app/store/[id]/[slug]/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /store/11111111-1111-4111-8111-111111111111/prova (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [], violazioni axe: nessuna, errori in console: 0"
+   },
+   {
+    "file": "app/lists/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /lists (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Cosa comprano i piacentini\"], violazioni axe: nessuna, errori in console: 0"
+   },
+   {
+    "file": "app/not-found.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /no-esiste-404 (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 404, larghezza pagina 390px su 390px, h1 [\"Pagina non trovata\"], violazioni axe: nessuna, errori in console: 1"
+   },
+   {
+    "file": "app/product/[id]/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /product/p0000000-0000-4000-8000-000000000004 (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Prodotto di prova 4\"], violazioni axe: nessuna, errori in console: 0"
+   },
+   {
+    "file": "app/product/[id]/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /product/p0000000-0000-4000-8000-000000000002 (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Prodotto di prova 2\"], violazioni axe: nessuna, errori in console: 0"
+   },
+   {
+    "file": "app/stores/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /stores (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Negozi di Piacenza\"], violazioni axe: nessuna, errori in console: 6"
+   },
+   {
+    "file": "app/search/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /search (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Tutti i prodotti\"], violazioni axe: nessuna, errori in console: 6"
+   },
+   {
+    "file": "app/cart/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /cart (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Il tuo carrello\"], violazioni axe: nessuna, errori in console: 6"
+   },
+   {
+    "file": "app/checkout/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /checkout (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Conferma il tuo ordine\"], violazioni axe: nessuna, errori in console: 6"
+   },
+   {
+    "file": "app/sign-in/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /sign-in (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Bentornato su MyCity\"], violazioni axe: nessuna, errori in console: 6"
+   },
+   {
+    "file": "app/sign-up/page.tsx",
+    "comando": "node scratchpad/foto.mjs <etichetta> /sign-up (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Crea il tuo account\"], violazioni axe: nessuna, errori in console: 6"
+   },
+   {
+    "file": "public/offline.html",
+    "comando": "node scratchpad/foto.mjs <etichetta> /offline.html (Playwright di sistema, copia locale su localhost:3010 con dati finti, telefono 390x844 e computer 1440x900, axe wcag2a/2aa/21aa/22aa)",
+    "esito": "stato 200, larghezza pagina 390px su 390px, h1 [\"Sei offline\"], violazioni axe: nessuna, errori in console: 0"
+   },
+   {
+    "file": "components/StorePreviewCard.tsx",
+    "comando": "node scratchpad/prova-nome-lungo.mjs / e /stores con NOME da 15 a 80 caratteri",
+    "esito": "verde fino a ~48 caratteri, ROSSO da ~50 (58 → 470px, 80 → 610px)"
+   },
+   {
+    "file": "components/StoreListRow.tsx",
+    "comando": "node scratchpad/prova-nome-lungo.mjs /near con NOME da 15 a 80 caratteri",
+    "esito": "verde fino a 33, ROSSO da ~35 (37 → 406px, 80 → 710px)"
+   },
+   {
+    "file": "app/auth/confirm/route.ts",
+    "comando": "curl -sk 'http://localhost:3010/auth/confirm?token_hash=xxxxxxxxxxxx&type=signup' (copia locale; la GET non verifica il codice)",
+    "esito": "200; font-family:system-ui; background:#1f6f43"
+   },
+   {
+    "file": "components/providers/ToastProvider.tsx",
+    "comando": "lettura del default di sonner 1.7.4 in node_modules + conteggio toast.error",
+    "esito": "4000 ms, nessun closeButton; 288 toast.error, 1 con duration"
+   }
+  ],
+  "non_guardato": [
+   {
+    "cosa": "Foto delle schermate di negozio, fattorino e amministrazione (64 file sotto app/seller, app/rider, app/admin)",
+    "perche": "Chiedono un accesso: niente accessi veri, e la copia locale non ha un sistema di accesso finto. Guardate solo nel codice; le prove sono nella palestra."
+   },
+   {
+    "cosa": "Foto dell'area cliente con dati (ordini, messaggi, notifiche, profilo, liste piene)",
+    "perche": "Pagine protette dall'accesso: guardate nel codice e da un verificatore che ha montato il markup in Chromium; prove scritte per la palestra."
+   },
+   {
+    "cosa": "Carrello e cassa con prodotti dentro",
+    "perche": "Il carrello vive nel browser in un formato che non ho ricostruito: fotografati solo vuoti. Prove nella palestra."
+   },
+   {
+    "cosa": "Testo ingrandito al 200% (caratteri grandi del telefono)",
+    "perche": "Provato alzando il carattere di base della pagina, ma così crescono anche le larghezze dei riquadri e il risultato non somiglia allo zoom vero: prova scartata. Il riadattamento a 320px (zoom 400%) è invece verde su 15 pagine."
+   },
+   {
+    "cosa": "Foto vere dei prodotti e dei negozi",
+    "perche": "I dati finti non hanno foto (le immagini remote passano solo da *.supabase.co): viste solo le immagini di ripiego."
+   },
+   {
+    "cosa": "Tema scuro, contrasto elevato di Windows, lettori di schermo veri (VoiceOver, TalkBack, NVDA)",
+    "perche": "Non disponibili qui; l'albero di accessibilità è stato letto da Chromium e axe gira su ogni foto."
+   },
+   {
+    "cosa": "Il sito pubblicato, il manifest e il service worker serviti",
+    "perche": "Perimetro di S11."
+   },
+   {
+    "cosa": "Lettura riga per riga dei file più grandi: app/checkout/page.tsx (1769 righe), app/product/[id]/page.tsx (1486), components/seller/ProductForm.tsx (1200+), components/store-sections/*, components/seller/site/*",
+    "perche": "Zone già molto controllate nel registro; guardate con le foto, axe e ricerche mirate (colori fuori palette, titoli, stati vuoti), non lette per intero."
+   },
+   {
+    "cosa": "Le stringhe italiane scritte a mano fuori da messages/ (migliaia)",
+    "perche": "Cercate per schemi (Lei, segnaposti, promesse su prezzi e commissioni, parole inglesi), non lette una a una."
+   }
+  ]
+ },
+ "difetti": [
+  {
+   "id": "S10-015",
+   "dimensione": "layout-responsive",
+   "severita": "minore",
+   "titolo": "Basta un negozio col nome lungo e sul telefono la home, l'elenco negozi e «vicino a te» diventano più larghe dello schermo",
+   "file": "components/StorePreviewCard.tsx:100-101 · components/StoreListRow.tsx:53-54 · components/StoreShowcase.tsx:80 · app/stores/page.tsx:379 · app/near/page.tsx:363 · app/api/seller/apply/route.ts:86",
+   "descrizione": "Il nome del negozio sta in `<h3 className=\"inline-flex items-center gap-1.5 truncate …\"><span className=\"truncate\">{store.store_name}</span>`. Uno span dentro un inline-flex ha min-width:auto: non si restringe mai, quindi i puntini di truncate non scattano e l'h3 prende la larghezza di tutto il nome. Né la griglia né i contenitori tagliano lo sbordo, e la pagina intera diventa più larga dello schermo. Misurato sulla copia locale a 390px con dati finti: «vicino a te» da circa 35 caratteri (37 → 406px, 45 → 463, 80 → 710); home ed elenco negozi da circa 50 caratteri (58 → 453, 80 → 610). Il modulo di iscrizione accetta nomi fino a 80 caratteri.",
+   "impatto": "Un negozio si iscrive come «Macelleria Salumeria Fratelli Bianchi» (37 caratteri): da quel giorno chiunque apra «vicino a te» sul telefono vede la pagina rimpicciolita o che scorre di lato, con tutti i testi più piccoli. Con un nome da 50 caratteri succede anche sulla home, a tutti i visitatori. Oggi è latente: l'unico negozio vero si chiama «Pane Quotidiano».",
+   "fix": "Nei due componenti: h3 `flex min-w-0 max-w-full items-center gap-1.5` e span `min-w-0 truncate`. Provata iniettando il CSS: con 80 caratteri le tre pagine tornano a 390px e compaiono i puntini.",
+   "causa_radice": "truncate messo su un elemento inline-flex, che si allarga col contenuto; manca una prova che misuri la pagina con nomi lunghi.",
+   "prova": "scratchpad/prova-nome-lungo.mjs: con il database finto che restituisce un negozio di nome lungo (variabile NOME), apre la pagina a 390x844 come telefono e misura document.documentElement.scrollWidth; esce 1 (ROSSO) se supera lo schermo. `NOME=\"<58 caratteri>\" node finto-supabase.mjs & ; node prova-nome-lungo.mjs / ; node prova-nome-lungo.mjs /stores ; node prova-nome-lungo.mjs /near`",
+   "prova_tipo": "comando",
+   "prova_eseguita": true,
+   "esito_prova": "Con 58 caratteri: «/ larghezza 470 ROSSO», «/stores larghezza 470 ROSSO», «/near larghezza 570 ROSSO» (exit 1). Con «Pane Quotidiano»: 390 verde su tutte e tre. Verificatore: 33 caratteri → 390/390/390; 37 → near 406; 50 → home 398, stores 398, near 498; 80 → 610/610/710; con la correzione iniettata 390/390/390.",
+   "perche_umano": null,
+   "verificato": true,
+   "verificato_da": "verificatore qa indipendente: ha rifatto le misure da 30 a 80 caratteri su /, /stores e /near, letto il CSS calcolato (span min-width auto, puntini mai applicati) e provato la correzione iniettata (tutto a 390px); lo proponeva grave. Seconda lente (ux-designer) sul peso: minore, perché oggi è latente (unico negozio reale di 15 caratteri), la pagina resta usabile e la correzione costa poche classi; va promosso a grave appena entra un negozio con nome di 35+ caratteri. Tenuto minore per la regola «nel dubbio si scende».",
+   "gia_noto": null,
+   "perimetro_altrui": null,
+   "riservato": false
+  },
+  {
+   "id": "S10-001",
+   "dimensione": "immagini-media",
+   "titolo": "Se la foto di un prodotto è stata cancellata, la scheda resta un riquadro bianco invece della foto di ripiego",
+   "severita": "minore",
+   "file": "components/ProductCard.tsx:65-66 · components/ProductCard.tsx:169-181 · components/checkout/CartGroupsList.tsx:43-50 · components/home/TrendingNow.tsx:89-95",
+   "descrizione": "La foto di ripiego (FOTO_MANCANTE) si usa solo quando l'elenco delle foto è vuoto (`images?.[0] ?? FOTO_MANCANTE`, ProductCard.tsx:65). Se l'indirizzo c'è ma il file non risponde più, nessuna <Image> ha un onError: la scheda prodotto resta un riquadro bianco con alt vuoto, e in cassa e in «di tendenza» compare l'icona della foto rotta. Nel sito onError esiste solo in CategoryShowcase.tsx:298 e ImageUrlField.tsx:119.",
+   "impatto": "Un negoziante cancella una foto dallo spazio delle foto ma la scheda la cita ancora: chi apre la home sul telefono vede un buco bianco sopra nome e prezzo, e in cassa una miniatura rotta. Sembra un sito rotto proprio dove si decide di comprare.",
+   "fix": "Un piccolo componente FotoConRipiego con onError che passa a FOTO_MANCANTE, usato in ProductCard, TrendingNow, CartGroupsList e nella riga del carrello.",
+   "causa_radice": "Il ripiego copre il dato assente, non il dato presente ma irraggiungibile.",
+   "prova": "cd marketplace && grep -rn 'onError=' --include=*.tsx app components ; sed -n 60,67p components/ProductCard.tsx",
+   "prova_tipo": "comando",
+   "prova_eseguita": true,
+   "esito_prova": "onError= compare solo in components/CategoryShowcase.tsx:298, components/seller/ImageUrlField.tsx:119 e nei captcha; ProductCard.tsx:65 usa `images?.[0] ?? FOTO_MANCANTE` (copre solo l'elenco vuoto).",
+   "perche_umano": null,
+   "verificato": true,
+   "verificato_da": "verificatore qa indipendente (lotto vetrina): ha rilanciato le grep e controllato che né next/image né il caricatore delle foto abbiano un ripiego sull'errore; confermato minore, non riprodotto con un 404 vero (avrebbe dovuto scrivere nel database finto), confidenza 80%",
+   "gia_noto": null,
+   "perimetro_altrui": null,
+   "riservato": false
+  },
+  {
+   "id": "S10-002",
+   "dimensione": "accessibilita-visiva",
+   "titolo": "Nella pagina «stato dei servizi» il link «Contattaci» si distingue dal testo solo per il colore",
+   "severita": "minore",
+   "file": "app/status/page.tsx:131",
+   "descrizione": "`Hai un problema? <Link href=\"/contact\" className=\"text-primary-700 hover:underline\">Contattaci</Link>`: il link non è sottolineato finché non ci si passa sopra col mouse, e il suo colore ha un contrasto di 1,35:1 col testo intorno (servirebbe 3:1). axe lo segnala come link-in-text-block, gravità serious, su telefono e computer.",
+   "impatto": "Chi vede poco i colori o usa il telefono al sole non capisce che «Contattaci» si tocca: proprio chi è arrivato lì perché qualcosa non funziona non trova la strada per chiedere aiuto.",
+   "fix": "Aggiungere `underline underline-offset-2` al link (come già fatto sulla pagina di accessibilità, voce 416 del registro).",
+   "causa_radice": "Lo stesso schema riparato in un'altra pagina (registro 416) non è stato applicato qui.",
+   "prova": "cd scratchpad && node foto.mjs b /status (axe dentro, risultati in foto/b.json)",
+   "prova_tipo": "comando",
+   "prova_eseguita": true,
+   "esito_prova": "/status tel e pc: axe=link-in-text-block(serious,1) — «The link has insufficient color contrast of 1.35:1 with the surrounding text. (Minimum contrast is 3:1, link text: #a03b25 …»",
+   "perche_umano": null,
+   "verificato": true,
+   "verificato_da": "verificatore qa indipendente (lotto vetrina): ha rilanciato axe a 1440x900 e ottenuto lo stesso link-in-text-block 1,35:1; non è una regressione della 416 (pagina diversa); confermato minore",
+   "gia_noto": null,
+   "perimetro_altrui": null,
+   "riservato": false
+  },
+  {
+   "id": "S10-003",
+   "dimensione": "mobile-pwa",
+   "titolo": "I tasti «indietro» del fattorino sono cerchi da 36 pixel, piccoli per un pollice in strada",
+   "severita": "minore",
+   "file": "app/rider/orders/[id]/page.tsx:491-494 · app/rider/help/page.tsx:105 · app/rider/onboarding/page.tsx:215",
+   "descrizione": "I tre tasti indietro delle pagine del fattorino hanno `inline-flex h-9 w-9` (36x36px), sotto i 44px usati nel resto del sito. Nella schermata della consegna il tasto è anche flottante sopra la foto (`absolute left-3 top-3`). Sono gli unici tre Link indietro sotto /rider e nessuna regola in globals.css allarga l'area di tocco.",
+   "impatto": "Il fattorino che apre una consegna in strada, con una mano sola o coi guanti, tocca il bordo della foto invece del tasto e deve riprovare.",
+   "fix": "Portare i tre tasti a h-11 w-11 (44px) lasciando l'icona a 20px, o un componente TastoIndietro unico.",
+   "causa_radice": "Misura copiata a mano in tre pagine invece di un componente con il minimo di 44px; lo stesso difetto è già stato chiuso sul percorso del cliente (registro 740 e 953).",
+   "prova": "cd marketplace && grep -n 'h-9 w-9' 'app/rider/orders/[id]/page.tsx' app/rider/help/page.tsx app/rider/onboarding/page.tsx",
+   "prova_tipo": "comando",
+   "prova_eseguita": true,
+   "esito_prova": "3 righe: rider/orders/[id]/page.tsx:494, rider/help/page.tsx:105, rider/onboarding/page.tsx:215, tutte con `inline-flex h-9 w-9`.",
+   "perche_umano": null,
+   "verificato": true,
+   "verificato_da": "verificatore qa indipendente (lotto fattorino e marchio): ha riletto le righe a db5164c e cercato regole che allarghino il tocco (nessuna); confermato minore, non misurato nel browser perché /rider chiede l'accesso",
+   "gia_noto": null,
+   "perimetro_altrui": null,
+   "riservato": false
+  },
+  {
+   "id": "S10-004",
+   "severita": "minore",
+   "prova_tipo": "comando",
+   "prova_eseguita": true,
+   "perche_umano": null,
+   "verificato": true,
+   "gia_noto": null,
+   "perimetro_altrui": null,
+   "riservato": false,
+   "dimensione": "accessibilita",
+   "titolo": "Chi usa il lettore di schermo sente «3» accanto a una conversazione, senza sapere che sono messaggi da leggere",
+   "file": "app/messages/page.tsx:194-198 · app/messages/page.tsx:232-236 · app/notifications/page.tsx:225-230 · app/notifications/page.tsx:240-241",
+   "descrizione": "Nella lista dei messaggi il numero dei non letti è uno <span> col solo {unread} dentro il link: il nome letto è «Negozio X … 3». Nelle notifiche lo stato «non letta» è uno <span aria-label=\"Non letta\"> senza ruolo: dentro un link Chromium lo legge, ma nelle notifiche senza link (ramo `inner`, righe 240-241) resta un nodo generico con aria-label, che ARIA 1.2 vieta e i lettori ignorano.",
+   "impatto": "Una cliente non vedente apre i messaggi per sapere se il fornaio ha risposto: sente il nome del negozio e «3», e non capisce che sono tre messaggi nuovi. Le notifiche senza link le sente tutte uguali.",
+   "fix": "Messaggi: aggiungere <span className=\"sr-only\"> messaggi non letti</span> accanto al numero. Notifiche: sostituire lo span con <span className=\"sr-only\">Non letta. </span> dentro il titolo e il pallino aria-hidden.",
+   "causa_radice": "aria-label usato su elementi generici e numeri senza testo per chi non vede.",
+   "prova": "node scratchpad/verif-B1.mjs (monta il markup della notifica con e senza link e legge l'albero di accessibilità via CDP); sed -n 225,236p app/notifications/page.tsx app/messages/page.tsx",
+   "esito_prova": "con link: «link | Ordine spedito corpo Non letta»; senza link: «generic | Non letta» (aria-label su nodo generico); nei messaggi il badge è uno span col solo numero.",
+   "verificato_da": "verificatore qa indipendente (lotto area cliente 1): ha montato il markup in Chromium e letto l'albero di accessibilità: confermato, ma ristretto alle notifiche senza link e al numero nudo dei messaggi; non nel registro"
+  },
+  {
+   "id": "S10-005",
+   "severita": "minore",
+   "prova_tipo": "comando",
+   "prova_eseguita": true,
+   "perche_umano": null,
+   "verificato": true,
+   "gia_noto": null,
+   "perimetro_altrui": null,
+   "riservato": false,
+   "dimensione": "accessibilita",
+   "titolo": "Nella chat col negozio i messaggi nuovi arrivano in silenzio per chi usa il lettore di schermo",
+   "file": "app/messages/[id]/page.tsx:327 · app/messages/[id]/page.tsx:161-182",
+   "descrizione": "Il contenitore del filo dei messaggi non ha role=\"log\" né aria-live. La pagina riceve i messaggi in tempo reale (iscrizione INSERT alle righe 161-182, che aggiunge alla cache con setQueryData) ma niente li annuncia; nessun provider globale lo fa. Il role=\"alert\" a :331 copre solo l'errore di lettura.",
+   "impatto": "Un cliente non vedente chiede al negozio «è pronto il pane?» e aspetta: la risposta compare sullo schermo ma il lettore non dice niente, deve rileggere tutta la pagina a mano per scoprirla.",
+   "fix": "Sul contenitore: role=\"log\" aria-live=\"polite\" aria-relevant=\"additions\" aria-label=\"Messaggi della conversazione\"; in ogni bolla uno <span className=\"sr-only\"> col mittente.",
+   "causa_radice": "Chat costruita per chi guarda lo schermo; l'arrivo in tempo reale non ha un annuncio.",
+   "prova": "cd marketplace && grep -cE 'aria-live|role=\"log\"' 'app/messages/[id]/page.tsx' ; grep -rnE 'aria-live' app/layout.tsx components/providers",
+   "esito_prova": "0 nella pagina; nessun aria-live nel layout né nei provider (aria-live esiste solo in LoadingState, StickyAddToCart, ImageUrlField, VoiceProductButton, SellerApplicationForm).",
+   "verificato_da": "verificatore qa indipendente (lotto area cliente 1): ha cercato difese altrove (provider, hook dei non letti, toast): nessuna; non nel registro (la 661 riguarda la pagina dell'ordine)"
+  },
+  {
+   "id": "S10-006",
+   "severita": "minore",
+   "prova_tipo": "comando",
+   "prova_eseguita": true,
+   "perche_umano": null,
+   "verificato": true,
+   "gia_noto": null,
+   "perimetro_altrui": null,
+   "riservato": false,
+   "dimensione": "navigazione-gerarchia",
+   "titolo": "Su notifiche e messaggi i titoli saltano dal titolo principale al terzo livello",
+   "file": "app/notifications/page.tsx:171 · app/notifications/page.tsx:216 · app/messages/page.tsx:165 · app/messages/page.tsx:212",
+   "descrizione": "Le due pagine hanno un <h1> e poi solo <h3> per ogni voce, nessun <h2> né contenitore che lo fornisca.",
+   "impatto": "Chi scorre per titoli col lettore di schermo sente «livello 3» venti volte e pensa che manchi una sezione.",
+   "fix": "Cambiare gli <h3> delle voci in <h2>: lo stile è già scritto con classi esplicite e non cambia.",
+   "causa_radice": "Livello del titolo scelto per la misura del carattere, non per la struttura.",
+   "prova": "cd marketplace && grep -nE '<h[1-6]' app/notifications/page.tsx app/messages/page.tsx",
+   "esito_prova": "solo h1 a :171 e :165, h3 a :216 e :212; nessun h2.",
+   "verificato_da": "verificatore qa indipendente (lotto area cliente 1): confermato come buona pratica (axe heading-order, impatto moderato), non un criterio WCAG che fallisce; minore; non nel registro"
+  },
+  {
+   "id": "S10-007",
+   "severita": "minore",
+   "prova_tipo": "comando",
+   "prova_eseguita": true,
+   "perche_umano": null,
+   "verificato": true,
+   "gia_noto": null,
+   "perimetro_altrui": null,
+   "riservato": false,
+   "dimensione": "accessibilita",
+   "titolo": "I messaggi di errore del sito spariscono da soli dopo 4 secondi e non hanno la X per chiuderli",
+   "file": "components/providers/ToastProvider.tsx:51-61",
+   "descrizione": "Il <Toaster> ha solo position e classNames: nessun duration né closeButton. sonner 1.7.4 tiene ogni avviso 4.000 ms (TOAST_LIFETIME). Su 288 toast.error del sito uno solo ha una durata propria.",
+   "impatto": "Un cliente anziano sbaglia il codice sconto in cassa: l'avviso rosso compare e dopo 4 secondi è sparito, prima di finire di leggerlo, senza modo di riaprirlo.",
+   "fix": "<Toaster closeButton toastOptions={{ duration: 6000, … }} /> e duration di 10 secondi per gli errori.",
+   "causa_radice": "La durata non è stata decisa in un posto solo: vale quella predefinita della libreria. La voce 662 ha messo l'errore accanto al campo in accesso e iscrizione, ma non ha toccato i toast delle altre pagine.",
+   "prova": "cd marketplace && cat -n components/providers/ToastProvider.tsx ; grep '\"version\"' node_modules/sonner/package.json ; grep -rn 'toast\\.error(' app components lib | wc -l",
+   "esito_prova": "<Toaster position=\"top-right\" toastOptions={{classNames:…}}/> senza duration né closeButton; sonner \"1.7.4\" (4e3 ms nel pacchetto); 288 toast.error, 1 con duration.",
+   "verificato_da": "verificatore qa indipendente (lotto area cliente 2): ha letto il default nel pacchetto sonner e contato le chiamate; confermato minore (il conto si ferma passandoci sopra e accesso/iscrizione hanno l'errore fisso); non è regressione della 662"
+  },
+  {
+   "id": "S10-008",
+   "severita": "minore",
+   "prova_tipo": "comando",
+   "prova_eseguita": true,
+   "perche_umano": null,
+   "verificato": true,
+   "gia_noto": null,
+   "perimetro_altrui": null,
+   "riservato": false,
+   "dimensione": "microcopy",
+   "titolo": "Nella pagina dei traguardi il livello compare in inglese («GOLD») e se la lettura fallisce dice «0 su 0»",
+   "file": "app/profile/achievements/page.tsx:134-136 · app/profile/achievements/page.tsx:48-73 · app/profile/achievements/page.tsx:92-99 · lib/loyalty.ts:21-26",
+   "descrizione": "Il livello stampa {a.tier}, cioè il codice del database (bronze/silver/gold/platinum, migrazione 030) in maiuscolo; la traduzione Bronzo/Argento/Oro/Platino esiste già in lib/loyalty.ts (TIER_META) ma qui non si usa. Le due useQuery leggono solo data: se la lettura fallisce la pagina mostra «0 / 0 sbloccati» e «0% completato» senza errore. La voce è sempre nel menu del cliente.",
+   "impatto": "Una cliente piacentina apre «Obiettivi» e legge «GOLD» in un sito tutto in italiano; se la rete cade crede di non aver sbloccato niente.",
+   "fix": "Usare TIER_META[a.tier].label e aggiungere isError con <ErrorState onRetry>.",
+   "causa_radice": "Il codice del database arriva a schermo; pagina senza stato di errore.",
+   "prova": "cd marketplace && grep -n '{a.tier}' app/profile/achievements/page.tsx ; grep -c 'isError' app/profile/achievements/page.tsx ; grep -n \"label: '\" lib/loyalty.ts",
+   "esito_prova": "135: {a.tier} ; 0 isError ; lib/loyalty.ts ha le etichette Bronzo/Argento/Oro/Platino.",
+   "verificato_da": "verificatore qa indipendente (lotto area cliente 2): ha controllato la migrazione 030 e che nessun interruttore nasconda la pagina al lancio; confermato minore"
+  },
+  {
+   "id": "S10-009",
+   "severita": "minore",
+   "prova_tipo": "comando",
+   "prova_eseguita": true,
+   "perche_umano": null,
+   "verificato": true,
+   "gia_noto": null,
+   "perimetro_altrui": null,
+   "riservato": false,
+   "dimensione": "coerenza-brand",
+   "titolo": "Accesso, iscrizione, ordine annullato e liste usano rosa e rosso qualsiasi invece del bordeaux del marchio",
+   "file": "app/sign-in/page.tsx:278 · app/sign-up/page.tsx:323 · app/auth/verify-email/page.tsx:134 · components/ui/Button.tsx:29 · app/orders/[id]/page.tsx:483 · app/orders/[id]/page.tsx:549 · app/orders/[id]/page.tsx:590 · app/orders/[id]/page.tsx:648 · app/lists/[id]/page.tsx:291 · app/lists/[id]/page.tsx:360",
+   "descrizione": "I riquadri di errore di accesso e iscrizione usano border-rose-200 bg-rose-50 text-rose-800; la verifica email text-rose-700; l'ordine annullato red-50/red-300/red-700; il Button «danger» bg-red-600. La palette ha il bordeaux (secondary, #B82A28) e Field.tsx lo usa per gli errori dei campi: nella stessa schermata di accesso convivono due rossi diversi. In tutto 43 file di app e components usano rose-/red-.",
+   "impatto": "Il primo errore che vede un nuovo cliente all'iscrizione ha un rosa, l'errore sotto la password un bordeaux: sembra un sito messo insieme a pezzi, proprio quando deve fidarsi.",
+   "fix": "Sostituire rose-*/red-* con secondary-* e il danger del Button con bg-secondary-600; aggiungere un guardiano che blocchi rose-/red- nelle classi.",
+   "causa_radice": "Il design system ha il bordeaux ma non vieta i rossi di Tailwind; la voce 832 ha corretto solo gli errori accanto ai campi in altri file.",
+   "prova": "cd marketplace && grep -nE '(rose|red)-[0-9]{2,3}' app/sign-in/page.tsx app/sign-up/page.tsx app/auth/verify-email/page.tsx components/ui/Button.tsx ; grep -rlE '\\b(text|bg|border)-(rose|red)-[0-9]{2,3}' app components | wc -l",
+   "esito_prova": "sign-in:278 e sign-up:323 «border-rose-200 bg-rose-50 text-rose-800»; verify-email:134 «text-rose-700»; Button:29 «bg-red-600»; 43 file.",
+   "verificato_da": "verificatore qa indipendente (lotto area cliente 2): ha letto la voce 832 del registro: stessa classe ma file diversi, quindi difetto nuovo e non regressione; confermato minore"
+  },
+  {
+   "id": "S10-010",
+   "severita": "minore",
+   "prova_tipo": "comando",
+   "prova_eseguita": true,
+   "perche_umano": null,
+   "verificato": true,
+   "gia_noto": null,
+   "perimetro_altrui": null,
+   "riservato": false,
+   "dimensione": "coerenza-brand",
+   "titolo": "La pagina che si apre dal link di conferma email non sembra MyCity: niente logo, carattere di sistema, bottone verde",
+   "file": "app/auth/confirm/route.ts:37-56 · app/auth/confirm/route.ts:104 · app/auth/confirm/route.ts:106 · app/auth/confirm/route.ts:111",
+   "descrizione": "La GET produce una pagina HTML scritta a mano: font-family:system-ui, nessun logo, bottone «Continua» con background:#1f6f43 (un verde che non è né l'oliva #5A7C42 né la terracotta), e «cosi'» con l'apostrofo al posto dell'accento (riga 106).",
+   "impatto": "È la prima pagina di MyCity che vede ogni nuovo iscritto, e chi recupera la password: arriva su una pagina bianca con un bottone verde bosco che sembra di un altro sito, nel momento in cui deve fidarsi a cliccare.",
+   "fix": "Nome MyCity in testata, sfondo panna #FBF7F0, testo inchiostro #2C2A28, bottone terracotta #C0492C, «così» con l'accento.",
+   "causa_radice": "Pagina intermedia nata come difesa tecnica (contro i filtri della posta) e mai passata dal design.",
+   "prova": "curl -sk -o d2.html 'http://localhost:3010/auth/confirm?token_hash=xxxxxxxxxxxx&type=signup' (copia locale) && grep -oE \"font-family:[^;]*|background:#[0-9a-f]+|cosi'\" d2.html",
+   "esito_prova": "200; font-family:system-ui,sans-serif; background:#1f6f43; cosi'. Foto: pagina bianca senza logo, bottone verde «Continua».",
+   "verificato_da": "verificatore qa indipendente (lotto area cliente 2): ha aperto la pagina sulla copia locale (la GET non verifica il codice, non scrive niente) e l'ha fotografata a 390px; confermato minore; il registro ha la rotta solo per sicurezza (1669, 1670)"
+  },
+  {
+   "id": "S10-011",
+   "severita": "minore",
+   "prova_tipo": "comando",
+   "prova_eseguita": true,
+   "perche_umano": null,
+   "verificato": true,
+   "gia_noto": null,
+   "perimetro_altrui": null,
+   "riservato": false,
+   "dimensione": "microcopy",
+   "titolo": "Se il caricamento di una storia fallisce, il negoziante legge «Applica la migration 035»",
+   "file": "app/seller/stories/page.tsx:112-117 · app/seller/stories/page.tsx:138 · lib/errors.ts:232-260",
+   "descrizione": "Nel ramo di errore del caricamento: throw new Error('Bucket \"stories\" non configurato. Applica la migration 035.'); onError fa toast.error(friendlyError(err)), ma il testo non tocca nessun ramo di friendlyError e arriva così com'è nel toast. Il ramo scatta per qualunque errore che contenga «not found» o «bucket».",
+   "impatto": "Il fornaio prova a pubblicare la storia del pane del giorno, qualcosa va storto, e legge una frase da programmatore che non può eseguire: pensa di aver sbagliato lui.",
+   "fix": "«Non riesco a salvare la foto adesso. Riprova tra poco; se succede ancora scrivici dall'Aiuto.» Il dettaglio tecnico nel log.",
+   "causa_radice": "Messaggio scritto per lo sviluppatore che passa intatto dal traduttore degli errori.",
+   "prova": "cd marketplace && grep -n 'Applica la migration' app/seller/stories/page.tsx ; sed -n 232,260p lib/errors.ts",
+   "esito_prova": "115: throw new Error('Bucket \"stories\" non configurato. Applica la migration 035.'); l'ultimo ramo di friendlyError restituisce il testo così com'è (inizia con una lettera, meno di 200 caratteri).",
+   "verificato_da": "verificatore qa indipendente (lotto negozio): ha seguito il testo dentro friendlyError fino al toast; confermato minore (lo spazio delle storie esiste per le migrazioni 035 e 070, quindi è raro)"
+  },
+  {
+   "id": "S10-012",
+   "severita": "minore",
+   "prova_tipo": "comando",
+   "prova_eseguita": true,
+   "perche_umano": null,
+   "verificato": true,
+   "gia_noto": null,
+   "perimetro_altrui": null,
+   "riservato": false,
+   "dimensione": "stati-ui",
+   "titolo": "Creando una storia il negoziante non vede la foto scelta, solo il nome del file e il peso",
+   "file": "app/seller/stories/page.tsx:250-259 · app/seller/stories/page.tsx:261-265 · components/seller/SellerShell.tsx:42",
+   "descrizione": "Dopo la scelta del file il modulo mostra solo {image.name} ({KB} KB): nessuna miniatura, nessun URL.createObjectURL, anche se chiede una foto verticale 3:4. La voce «Storie» è sempre nel menu del negozio, senza interruttore.",
+   "impatto": "Il negoziante sceglie «IMG_4821.jpg» dal telefono e pubblica per 24 ore una storia senza aver visto quale foto ha preso né come viene tagliata.",
+   "fix": "Mostrare una miniatura 3:4 con URL.createObjectURL, revocata alla chiusura, come fa BulkPhotoCreate.",
+   "causa_radice": "Il campo è un input file nudo, mentre il resto del pannello usa componenti con anteprima.",
+   "prova": "cd marketplace && sed -n 240,290p app/seller/stories/page.tsx | grep -nE 'createObjectURL|<img|image.name'",
+   "esito_prova": "solo la riga con {image.name} ({(image.size / 1024).toFixed(0)} KB); nessun createObjectURL né <img>.",
+   "verificato_da": "verificatore qa indipendente (lotto negozio): ha controllato che le Storie siano raggiungibili al lancio e che nel registro non ci sia l'anteprima; confermato minore (la storia si può cancellare)"
+  },
+  {
+   "id": "S10-013",
+   "severita": "minore",
+   "prova_tipo": "comando",
+   "prova_eseguita": true,
+   "perche_umano": null,
+   "verificato": true,
+   "gia_noto": null,
+   "perimetro_altrui": null,
+   "riservato": false,
+   "dimensione": "microcopy",
+   "titolo": "Nella schermata delle storie il negoziante trova «Caption» e un indirizzo da programmatore come esempio",
+   "file": "app/seller/stories/page.tsx:268 · app/seller/stories/page.tsx:280",
+   "descrizione": "L'etichetta del testo è «Caption (1 frase)» e il segnaposto del link è «/category/alimentari», un percorso interno. (Le stesse parole tecniche in ai-batch e import non contano: quelle schermate sono spente al lancio.)",
+   "impatto": "Il negoziante di Piacenza, che parla italiano e non conosce i percorsi del sito, non capisce cosa scrivere nei due campi.",
+   "fix": "«Scritta sotto la foto (una frase)»; link: «Pagina del sito (facoltativo)» con un esempio leggibile.",
+   "causa_radice": "Testi scritti dagli sviluppatori e mai riletti con gli occhi del negoziante.",
+   "prova": "cd marketplace && grep -n -i 'caption\\|/category/alimentari' app/seller/stories/page.tsx",
+   "esito_prova": "268: Caption (1 frase) ; 280: placeholder «/category/alimentari».",
+   "verificato_da": "verificatore qa indipendente (lotto negozio): ha tolto le schermate spente (AI_NEGOZI_ACCESA e CARICAMENTO_DA_FILE_ACCESO a false); non è doppione della 412 né della 996 (parole e righe diverse)"
+  },
+  {
+   "id": "S10-014",
+   "severita": "minore",
+   "prova_tipo": "comando",
+   "prova_eseguita": true,
+   "perche_umano": null,
+   "verificato": true,
+   "gia_noto": null,
+   "perimetro_altrui": null,
+   "riservato": false,
+   "dimensione": "microcopy",
+   "titolo": "L'aiuto per i negozi promette un'«academy con video tutorial» che nessun piano prevede",
+   "file": "app/seller/help/page.tsx:62-63",
+   "descrizione": "Riquadro fisso: «Guide approfondite (prossimamente)» e «Stiamo preparando una academy con video tutorial per ogni funzionalità.» Nessuna academy in LAVORO-APERTO.md né in registro-fatti.json.",
+   "impatto": "Un fornaio che apre «Aiuto» dal pannello per capire come accettare un ordine legge una promessa senza data e senza niente dietro, nella pagina dove cerca risposte vere.",
+   "fix": "Togliere il riquadro o sostituirlo con «Per qualunque dubbio scrivi all'assistenza».",
+   "causa_radice": "Testo di riempimento della prima versione; la voce 1829 ha tolto la newsletter dalla stessa riga ma ha lasciato l'academy.",
+   "prova": "cd marketplace && grep -n 'prossimamente\\|academy' app/seller/help/page.tsx ; grep -c -i 'academy' ../MyCity-Vault/90-Memoria-AI/LAVORO-APERTO.md",
+   "esito_prova": "62: Guide approfondite (prossimamente) · 63: Stiamo preparando una academy con video tutorial…; 0 in LAVORO-APERTO.",
+   "verificato_da": "verificatore qa indipendente (lotto negozio): ha cercato l'academy in LAVORO-APERTO e registro-fatti (zero) e letto la 1829 (riparata, altro perimetro); confermato minore"
+  }
+ ],
+ "regressioni": [],
+ "ricontrolli": [],
+ "prove_per_la_palestra": [
+  {
+   "id": "S10-P001",
+   "funzione": "Home su telefono con negozi veri",
+   "chi": "cliente",
+   "file": "app/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire la home senza accesso con 6 negozi in vetrina, di cui uno col nome di 60 caratteri; scorrere tutta la pagina; toccare una scheda negozio e un prodotto.",
+   "atteso": "La pagina resta larga quanto lo schermo, il nome lungo si accorcia coi puntini, nessun riquadro vuoto mentre carica, il banner dei cookie non copre il bottone principale.",
+   "limite": "nomi di negozio e prodotto da 80 caratteri, prezzi a 4 cifre; rete «3G lenta» e processore rallentato x4: guardare scheletri e salti di pagina"
+  },
+  {
+   "id": "S10-P002",
+   "funzione": "Elenco delle categorie",
+   "chi": "cliente",
+   "file": "app/categorie/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire tutte le categorie, toccarne una con nome lungo («Panetteria e dolci tipici piacentini»).",
+   "atteso": "Le tessere vanno a capo senza tagliare il nome; il tocco porta alla categoria giusta.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nomi di negozio e prodotto da 80 caratteri, prezzi a 4 cifre"
+  },
+  {
+   "id": "S10-P003",
+   "funzione": "Pagina di una categoria",
+   "chi": "cliente",
+   "file": "app/category/[slug]/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire una categoria con 40 prodotti, una vuota e una che non esiste; usare i filtri e tornare indietro.",
+   "atteso": "Griglia ordinata a 2 colonne sul telefono; categoria vuota con messaggio e via d’uscita; categoria inesistente con «non trovata» e codice 404.",
+   "limite": "nessun dato (stato vuoto) e lettura che fallisce (stato di errore); rete «3G lenta» e processore rallentato x4: guardare scheletri e salti di pagina"
+  },
+  {
+   "id": "S10-P004",
+   "funzione": "Ricerca e filtri",
+   "chi": "cliente",
+   "file": "app/search/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Cercare «pane», poi «xyzzy» (nessun risultato), poi un refuso «focacca»; aprire i filtri sul telefono e chiuderli.",
+   "atteso": "Risultati senza salti; zero risultati con suggerimenti; i filtri si aprono in un pannello che si chiude con Esc e col tasto indietro.",
+   "limite": "rete «3G lenta» e processore rallentato x4: guardare scheletri e salti di pagina; nessun dato (stato vuoto) e lettura che fallisce (stato di errore)"
+  },
+  {
+   "id": "S10-P005",
+   "funzione": "Vetrina di un negozio",
+   "chi": "cliente",
+   "file": "app/store/[id]/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire la vetrina di un negozio aperto, di uno chiuso e di uno sospeso; cambiare scheda (prodotti, recensioni, info).",
+   "atteso": "Logo, nome e orari leggibili; negozio chiuso detto chiaramente; nome lungo che non allarga la pagina.",
+   "limite": "nomi di negozio e prodotto da 80 caratteri, prezzi a 4 cifre; telefono 360x740 e 390x844, poi computer 1440x900"
+  },
+  {
+   "id": "S10-P006",
+   "funzione": "Pagina in più di un negozio",
+   "chi": "cliente",
+   "file": "app/store/[id]/[slug]/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire una pagina creata dal negozio, poi un indirizzo con una pagina che non esiste.",
+   "atteso": "Pagina esistente con titolo principale; pagina inesistente con titolo principale «Pagina non trovata» e codice 404.",
+   "limite": "nessun dato (stato vuoto) e lettura che fallisce (stato di errore)"
+  },
+  {
+   "id": "S10-P007",
+   "funzione": "Elenco dei negozi",
+   "chi": "cliente",
+   "file": "app/stores/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire l’elenco con 30 negozi, uno col nome di 80 caratteri; filtrare per categoria.",
+   "atteso": "L’elenco resta largo quanto lo schermo; nomi lunghi accorciati coi puntini.",
+   "limite": "nomi di negozio e prodotto da 80 caratteri, prezzi a 4 cifre; rete «3G lenta» e processore rallentato x4: guardare scheletri e salti di pagina"
+  },
+  {
+   "id": "S10-P008",
+   "funzione": "Negozi vicino a te con la mappa",
+   "chi": "cliente",
+   "file": "app/near/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire «vicino a te» negando la posizione, poi concedendola; trascinare la mappa; toccare un negozio della lista.",
+   "atteso": "Senza posizione un messaggio chiaro e la lista per quartiere; con posizione il pallino «sei qui» nei colori del marchio; la pagina non scorre di lato.",
+   "limite": "nomi di negozio e prodotto da 80 caratteri, prezzi a 4 cifre; telefono 360x740 e 390x844, poi computer 1440x900"
+  },
+  {
+   "id": "S10-P009",
+   "funzione": "Scheda prodotto",
+   "chi": "cliente",
+   "file": "app/product/[id]/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire un prodotto normale, uno esaurito, uno scontato, uno con varianti e uno senza foto; aggiungere al carrello due volte di fila.",
+   "atteso": "Prezzo e bottone visibili senza scorrere sul telefono; esaurito detto chiaramente e bottone spento; foto mancante con immagine di ripiego; nessun doppio inserimento.",
+   "limite": "doppio clic veloce sul bottone principale; nomi di negozio e prodotto da 80 caratteri, prezzi a 4 cifre"
+  },
+  {
+   "id": "S10-P010",
+   "funzione": "Carrello con più negozi",
+   "chi": "cliente",
+   "file": "app/cart/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Mettere nel carrello 3 prodotti di 2 negozi, cambiare quantità, togliere un prodotto, svuotare il carrello.",
+   "atteso": "Totale e barra in basso sempre visibili sul telefono; il segno del negozio leggibile; carrello vuoto con invito a continuare.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; doppio clic veloce sul bottone principale"
+  },
+  {
+   "id": "S10-P011",
+   "funzione": "Cassa: dati di consegna e conferma",
+   "chi": "cliente",
+   "file": "app/checkout/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Arrivare alla cassa con un carrello di 2 negozi, sbagliare l’indirizzo, scegliere una fascia oraria, confermare.",
+   "atteso": "Errori accanto al campo e annunciati al lettore di schermo; il bottone di conferma non si preme due volte; niente scorrimento di lato.",
+   "limite": "doppio clic veloce sul bottone principale; testo del telefono al massimo (Android «caratteri grandi») e zoom 200% su computer"
+  },
+  {
+   "id": "S10-P012",
+   "funzione": "Carrello condiviso",
+   "chi": "estraneo",
+   "file": "app/shared-cart/page.tsx",
+   "dati_di_prova": "nessun accesso",
+   "passi": "Aprire un link di carrello condiviso valido, poi uno scaduto, poi uno senza codice.",
+   "atteso": "Con link valido i prodotti e il bottone per copiarli; con link non valido un messaggio chiaro e una via d’uscita.",
+   "limite": "nessun dato (stato vuoto) e lettura che fallisce (stato di errore)"
+  },
+  {
+   "id": "S10-P013",
+   "funzione": "Novità dai negozi",
+   "chi": "cliente",
+   "file": "app/novita/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire la pagina con 0, 3 e 50 prodotti nuovi.",
+   "atteso": "Griglia ordinata; stato vuoto con messaggio; caricamento senza salti.",
+   "limite": "nessun dato (stato vuoto) e lettura che fallisce (stato di errore); rete «3G lenta» e processore rallentato x4: guardare scheletri e salti di pagina"
+  },
+  {
+   "id": "S10-P014",
+   "funzione": "Promozioni",
+   "chi": "cliente",
+   "file": "app/promozioni/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire la pagina con promozioni attive, scadute e nessuna.",
+   "atteso": "Prezzo barrato e risparmio leggibili; nessuna promozione: messaggio chiaro.",
+   "limite": "nessun dato (stato vuoto) e lettura che fallisce (stato di errore)"
+  },
+  {
+   "id": "S10-P015",
+   "funzione": "Idee regalo",
+   "chi": "cliente",
+   "file": "app/regali/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire la pagina sul telefono e scorrere tutte le sezioni.",
+   "atteso": "Sezioni con titoli in ordine; nessuna sezione vuota mostrata come riquadro bianco.",
+   "limite": "nessun dato (stato vuoto) e lettura che fallisce (stato di errore); telefono 360x740 e 390x844, poi computer 1440x900"
+  },
+  {
+   "id": "S10-P016",
+   "funzione": "I più recensiti",
+   "chi": "cliente",
+   "file": "app/piu-venduti/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire la pagina con prodotti senza recensioni e con recensioni.",
+   "atteso": "Il titolo dice quello che la lista mostra; voti scritti con la virgola.",
+   "limite": "nessun dato (stato vuoto) e lettura che fallisce (stato di errore)"
+  },
+  {
+   "id": "S10-P017",
+   "funzione": "Piccoli prezzi",
+   "chi": "cliente",
+   "file": "app/piccoli-prezzi/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire la pagina con prezzi da 0,50 € a 9,99 €.",
+   "atteso": "Prezzi allineati e leggibili, formato italiano.",
+   "limite": "nomi di negozio e prodotto da 80 caratteri, prezzi a 4 cifre"
+  },
+  {
+   "id": "S10-P018",
+   "funzione": "Il volto del mese",
+   "chi": "cliente",
+   "file": "app/shop-of-month/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire la pagina con un negozio scelto e senza negozio scelto.",
+   "atteso": "Con negozio: foto e storia; senza: messaggio chiaro, nessun riquadro vuoto.",
+   "limite": "nessun dato (stato vuoto) e lettura che fallisce (stato di errore)"
+  },
+  {
+   "id": "S10-P019",
+   "funzione": "Cosa succede in città",
+   "chi": "cliente",
+   "file": "app/events/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire gli eventi con date passate, di oggi e future (orologio fissato a un sabato sera).",
+   "atteso": "Le date sono nel fuso di Piacenza; gli eventi passati non compaiono come futuri.",
+   "limite": "orologio finto: 31/12 alle 23:59 e 1/1 alle 00:01"
+  },
+  {
+   "id": "S10-P020",
+   "funzione": "Profilo pubblico di un cliente",
+   "chi": "estraneo",
+   "file": "app/u/[handle]/page.tsx",
+   "dati_di_prova": "nessun accesso",
+   "passi": "Aprire un profilo esistente e uno inesistente.",
+   "atteso": "Profilo inesistente: «non trovata» con titolo principale e codice 404.",
+   "limite": "nessun dato (stato vuoto) e lettura che fallisce (stato di errore)"
+  },
+  {
+   "id": "S10-P021",
+   "funzione": "Liste della spesa",
+   "chi": "cliente",
+   "file": "app/lists/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire le liste senza accesso, con accesso e zero liste, con 10 liste; crearne una nuova dalla finestra.",
+   "atteso": "Un titolo principale; la finestra «nuova lista» mette il cursore sul campo del nome.",
+   "limite": "nessun dato (stato vuoto) e lettura che fallisce (stato di errore); doppio clic veloce sul bottone principale"
+  },
+  {
+   "id": "S10-P022",
+   "funzione": "Dettaglio di una lista",
+   "chi": "cliente",
+   "file": "app/lists/[id]/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire una lista propria, una condivisa e una cancellata; togliere un prodotto.",
+   "atteso": "Errori nei colori del marchio; lista cancellata con messaggio chiaro.",
+   "limite": "nessun dato (stato vuoto) e lettura che fallisce (stato di errore)"
+  },
+  {
+   "id": "S10-P023",
+   "funzione": "Preferiti",
+   "chi": "cliente",
+   "file": "app/favorites/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire i preferiti con 0 e 20 prodotti, togliere un cuore.",
+   "atteso": "Stato vuoto con invito; il cuore cambia subito e annuncia lo stato al lettore di schermo.",
+   "limite": "nessun dato (stato vuoto) e lettura che fallisce (stato di errore); doppio clic veloce sul bottone principale"
+  },
+  {
+   "id": "S10-P024",
+   "funzione": "Accesso",
+   "chi": "cliente",
+   "file": "app/sign-in/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Accedere con password sbagliata, poi toccare «Password dimenticata?» col pollice sul telefono.",
+   "atteso": "L’errore resta finché non si corregge; il link «Password dimenticata?» ha un’area di tocco di almeno 44px.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; doppio clic veloce sul bottone principale"
+  },
+  {
+   "id": "S10-P025",
+   "funzione": "Iscrizione",
+   "chi": "cliente",
+   "file": "app/sign-up/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Iscriversi lasciando vuoti i campi, poi con email già usata, poi corretta.",
+   "atteso": "Errori accanto ai campi, nei colori del marchio, annunciati al lettore di schermo.",
+   "limite": "doppio clic veloce sul bottone principale; testo del telefono al massimo (Android «caratteri grandi») e zoom 200% su computer"
+  },
+  {
+   "id": "S10-P026",
+   "funzione": "Nuova password",
+   "chi": "cliente",
+   "file": "app/reset-password/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire il link di recupero valido, uno scaduto, poi scegliere una password debole.",
+   "atteso": "Link scaduto spiegato con via d’uscita; regole della password visibili prima dell’errore.",
+   "limite": "nessun dato (stato vuoto) e lettura che fallisce (stato di errore)"
+  },
+  {
+   "id": "S10-P027",
+   "funzione": "Verifica dell’email",
+   "chi": "cliente",
+   "file": "app/auth/verify-email/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Arrivare alla pagina dopo l’iscrizione; chiedere di nuovo l’email due volte.",
+   "atteso": "Messaggio chiaro su cosa fare; il secondo invio mostra l’attesa invece di un errore.",
+   "limite": "doppio clic veloce sul bottone principale"
+  },
+  {
+   "id": "S10-P028",
+   "funzione": "Accettare le condizioni",
+   "chi": "cliente",
+   "file": "app/accetta-condizioni/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Arrivare con un accesso Google senza condizioni accettate; provare a proseguire senza spuntare.",
+   "atteso": "Il bottone spiega perché non si può proseguire; i link alle condizioni si aprono.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900"
+  },
+  {
+   "id": "S10-P029",
+   "funzione": "Il mio profilo",
+   "chi": "cliente",
+   "file": "app/profile/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire il profilo con nome di 60 caratteri e senza foto.",
+   "atteso": "Nome accorciato senza allargare la pagina; iniziale al posto della foto.",
+   "limite": "nomi di negozio e prodotto da 80 caratteri, prezzi a 4 cifre"
+  },
+  {
+   "id": "S10-P030",
+   "funzione": "Impostazioni dell’account",
+   "chi": "cliente",
+   "file": "app/profile/settings/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Cambiare nome, togliere il consenso alle email, chiedere di cancellare l’account.",
+   "atteso": "Ogni salvataggio conferma a voce e a schermo; la cancellazione chiede conferma con un bottone nei colori del marchio.",
+   "limite": "doppio clic veloce sul bottone principale; testo del telefono al massimo (Android «caratteri grandi») e zoom 200% su computer"
+  },
+  {
+   "id": "S10-P031",
+   "funzione": "Indirizzi salvati",
+   "chi": "cliente",
+   "file": "app/profile/addresses/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aggiungere 3 indirizzi, modificarne uno, eliminarne uno col pollice.",
+   "atteso": "«Modifica» ed «Elimina» abbastanza grandi e distanti da non toccare quello sbagliato.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900"
+  },
+  {
+   "id": "S10-P032",
+   "funzione": "Traguardi",
+   "chi": "cliente",
+   "file": "app/profile/achievements/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire i traguardi con livelli bronzo, oro e platino, poi con la lettura che fallisce.",
+   "atteso": "Livelli scritti in italiano; errore di lettura con «riprova», mai «0 su 0».",
+   "limite": "nessun dato (stato vuoto) e lettura che fallisce (stato di errore)"
+  },
+  {
+   "id": "S10-P033",
+   "funzione": "Carte regalo",
+   "chi": "cliente",
+   "file": "app/profile/gift-cards/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire la pagina con la funzione spenta e accesa; inserire un codice sbagliato.",
+   "atteso": "Funzione spenta: nessun bottone che porta a un vicolo cieco; codice sbagliato con errore chiaro.",
+   "limite": "nessun dato (stato vuoto) e lettura che fallisce (stato di errore)"
+  },
+  {
+   "id": "S10-P034",
+   "funzione": "Punti fedeltà",
+   "chi": "cliente",
+   "file": "app/profile/loyalty/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire i punti con 0 e 1.250 punti.",
+   "atteso": "Numeri col punto delle migliaia; stato a zero con spiegazione.",
+   "limite": "nessun dato (stato vuoto) e lettura che fallisce (stato di errore)"
+  },
+  {
+   "id": "S10-P035",
+   "funzione": "Invita un amico",
+   "chi": "cliente",
+   "file": "app/profile/referral/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Copiare il link di invito due volte, condividerlo dal telefono.",
+   "atteso": "Conferma di copia visibile e annunciata; nessuna promessa di premio se la funzione è spenta.",
+   "limite": "doppio clic veloce sul bottone principale"
+  },
+  {
+   "id": "S10-P036",
+   "funzione": "Classifica degli inviti",
+   "chi": "cliente",
+   "file": "app/profile/referral/leaderboard/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire la classifica con 0, 3 e 100 persone.",
+   "atteso": "Tabella leggibile sul telefono senza scorrimento di lato.",
+   "limite": "nessun dato (stato vuoto) e lettura che fallisce (stato di errore); telefono 360x740 e 390x844, poi computer 1440x900"
+  },
+  {
+   "id": "S10-P037",
+   "funzione": "I miei resi",
+   "chi": "cliente",
+   "file": "app/profile/returns/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire i resi con un reso in corso, uno chiuso e nessuno.",
+   "atteso": "Stato del reso scritto a parole, non come codice.",
+   "limite": "nessun dato (stato vuoto) e lettura che fallisce (stato di errore)"
+  },
+  {
+   "id": "S10-P038",
+   "funzione": "I miei ordini",
+   "chi": "cliente",
+   "file": "app/orders/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire 15 ordini in stati diversi; toccare «Traccia» e «Riordina» col pollice.",
+   "atteso": "Bottoni abbastanza grandi; stati a parole; quantità sulle miniature leggibile.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; testo del telefono al massimo (Android «caratteri grandi») e zoom 200% su computer"
+  },
+  {
+   "id": "S10-P039",
+   "funzione": "Dettaglio di un ordine",
+   "chi": "cliente",
+   "file": "app/orders/[id]/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire un ordine in consegna, uno consegnato, uno annullato.",
+   "atteso": "Ordine annullato nei colori del marchio; contatto col fattorino raggiungibile; tempi nel fuso di Piacenza.",
+   "limite": "orologio finto alle 23:50 con consegna dopo mezzanotte"
+  },
+  {
+   "id": "S10-P040",
+   "funzione": "Chiedere un reso",
+   "chi": "cliente",
+   "file": "app/orders/[id]/return/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Allegare 3 foto, toglierne una col pollice, inviare due volte.",
+   "atteso": "Il tasto per togliere la foto è largo almeno 44px; un solo invio.",
+   "limite": "doppio clic veloce sul bottone principale; telefono 360x740 e 390x844, poi computer 1440x900"
+  },
+  {
+   "id": "S10-P041",
+   "funzione": "Lasciare una recensione",
+   "chi": "cliente",
+   "file": "app/orders/[id]/review/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Scegliere le stelle con la tastiera, scrivere 2.000 caratteri, inviare.",
+   "atteso": "Stelle usabili con le frecce; contatore dei caratteri; conferma dopo l’invio.",
+   "limite": "doppio clic veloce sul bottone principale"
+  },
+  {
+   "id": "S10-P042",
+   "funzione": "Aprire una contestazione",
+   "chi": "cliente",
+   "file": "app/orders/[id]/dispute/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire una contestazione su un ordine consegnato, inviando senza motivo e poi con motivo.",
+   "atteso": "Errore accanto al campo; conferma chiara di cosa succede dopo.",
+   "limite": "doppio clic veloce sul bottone principale"
+  },
+  {
+   "id": "S10-P043",
+   "funzione": "Elenco delle conversazioni",
+   "chi": "cliente",
+   "file": "app/messages/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire i messaggi con 3 conversazioni non lette, usando il lettore di schermo.",
+   "atteso": "Il lettore dice «messaggi non letti» e non solo il numero.",
+   "limite": "nessun dato (stato vuoto) e lettura che fallisce (stato di errore)"
+  },
+  {
+   "id": "S10-P044",
+   "funzione": "Chat col negozio",
+   "chi": "cliente",
+   "file": "app/messages/[id]/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Tenere aperta la chat mentre il negozio risponde, con il lettore di schermo acceso.",
+   "atteso": "Il messaggio nuovo viene annunciato; l’ora sotto la bolla è leggibile.",
+   "limite": "rete che cade e torna durante la chat"
+  },
+  {
+   "id": "S10-P045",
+   "funzione": "Notifiche",
+   "chi": "cliente",
+   "file": "app/notifications/page.tsx",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire 20 notifiche di cui 5 non lette, segnarle tutte come lette.",
+   "atteso": "Le non lette si distinguono anche col lettore di schermo; titoli in ordine.",
+   "limite": "nessun dato (stato vuoto) e lettura che fallisce (stato di errore)"
+  },
+  {
+   "id": "S10-P046",
+   "funzione": "Disiscrizione dalle email",
+   "chi": "estraneo",
+   "file": "app/disiscrizione/page.tsx",
+   "dati_di_prova": "nessun accesso",
+   "passi": "Aprire il link di disiscrizione valido, già usato e rovinato.",
+   "atteso": "Ogni caso ha un messaggio chiaro; nessun accesso richiesto.",
+   "limite": "nessun dato (stato vuoto) e lettura che fallisce (stato di errore)"
+  },
+  {
+   "id": "S10-P047",
+   "funzione": "Aspetto della pagina «Chi siamo»",
+   "chi": "estraneo",
+   "file": "app/about/page.tsx",
+   "dati_di_prova": "nessun accesso",
+   "passi": "Aprire la pagina senza accesso, prima su telefono poi su computer; scorrere fino al piede; passare tutta la pagina col tasto Tab.",
+   "atteso": "Un solo titolo principale; niente scorrimento di lato; testi leggibili (almeno 12px); colori e caratteri del marchio (Fraunces per i titoli, Inter per il testo); ogni elemento cliccabile si raggiunge col Tab con il contorno visibile.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; testo del telefono al massimo (Android «caratteri grandi») e zoom 200% su computer"
+  },
+  {
+   "id": "S10-P048",
+   "funzione": "Aspetto della pagina «Dichiarazione di accessibilità»",
+   "chi": "estraneo",
+   "file": "app/accessibility/page.tsx",
+   "dati_di_prova": "nessun accesso",
+   "passi": "Aprire la pagina senza accesso, prima su telefono poi su computer; scorrere fino al piede; passare tutta la pagina col tasto Tab.",
+   "atteso": "Un solo titolo principale; niente scorrimento di lato; testi leggibili (almeno 12px); colori e caratteri del marchio (Fraunces per i titoli, Inter per il testo); ogni elemento cliccabile si raggiunge col Tab con il contorno visibile.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; testo del telefono al massimo (Android «caratteri grandi») e zoom 200% su computer"
+  },
+  {
+   "id": "S10-P049",
+   "funzione": "Aspetto della pagina «Come funziona»",
+   "chi": "estraneo",
+   "file": "app/come-funziona/page.tsx",
+   "dati_di_prova": "nessun accesso",
+   "passi": "Aprire la pagina senza accesso, prima su telefono poi su computer; scorrere fino al piede; passare tutta la pagina col tasto Tab.",
+   "atteso": "Un solo titolo principale; niente scorrimento di lato; testi leggibili (almeno 12px); colori e caratteri del marchio (Fraunces per i titoli, Inter per il testo); ogni elemento cliccabile si raggiunge col Tab con il contorno visibile.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; testo del telefono al massimo (Android «caratteri grandi») e zoom 200% su computer"
+  },
+  {
+   "id": "S10-P050",
+   "funzione": "Aspetto della pagina «Contattaci»",
+   "chi": "estraneo",
+   "file": "app/contact/page.tsx",
+   "dati_di_prova": "nessun accesso",
+   "passi": "Aprire la pagina senza accesso, prima su telefono poi su computer; scorrere fino al piede; passare tutta la pagina col tasto Tab.",
+   "atteso": "Un solo titolo principale; niente scorrimento di lato; testi leggibili (almeno 12px); colori e caratteri del marchio (Fraunces per i titoli, Inter per il testo); ogni elemento cliccabile si raggiunge col Tab con il contorno visibile.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; testo del telefono al massimo (Android «caratteri grandi») e zoom 200% su computer"
+  },
+  {
+   "id": "S10-P051",
+   "funzione": "Aspetto della pagina «Cookie policy»",
+   "chi": "estraneo",
+   "file": "app/cookies/page.tsx",
+   "dati_di_prova": "nessun accesso",
+   "passi": "Aprire la pagina senza accesso, prima su telefono poi su computer; scorrere fino al piede; passare tutta la pagina col tasto Tab.",
+   "atteso": "Un solo titolo principale; niente scorrimento di lato; testi leggibili (almeno 12px); colori e caratteri del marchio (Fraunces per i titoli, Inter per il testo); ogni elemento cliccabile si raggiunge col Tab con il contorno visibile.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; testo del telefono al massimo (Android «caratteri grandi») e zoom 200% su computer"
+  },
+  {
+   "id": "S10-P052",
+   "funzione": "Aspetto della pagina «Domande frequenti»",
+   "chi": "estraneo",
+   "file": "app/faq/page.tsx",
+   "dati_di_prova": "nessun accesso",
+   "passi": "Aprire la pagina senza accesso, prima su telefono poi su computer; scorrere fino al piede; passare tutta la pagina col tasto Tab.",
+   "atteso": "Un solo titolo principale; niente scorrimento di lato; testi leggibili (almeno 12px); colori e caratteri del marchio (Fraunces per i titoli, Inter per il testo); ogni elemento cliccabile si raggiunge col Tab con il contorno visibile.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; testo del telefono al massimo (Android «caratteri grandi») e zoom 200% su computer"
+  },
+  {
+   "id": "S10-P053",
+   "funzione": "Aspetto della pagina «Centro assistenza»",
+   "chi": "estraneo",
+   "file": "app/help/page.tsx",
+   "dati_di_prova": "nessun accesso",
+   "passi": "Aprire la pagina senza accesso, prima su telefono poi su computer; scorrere fino al piede; passare tutta la pagina col tasto Tab.",
+   "atteso": "Un solo titolo principale; niente scorrimento di lato; testi leggibili (almeno 12px); colori e caratteri del marchio (Fraunces per i titoli, Inter per il testo); ogni elemento cliccabile si raggiunge col Tab con il contorno visibile.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; testo del telefono al massimo (Android «caratteri grandi») e zoom 200% su computer"
+  },
+  {
+   "id": "S10-P054",
+   "funzione": "Aspetto della pagina «Lavora con noi»",
+   "chi": "estraneo",
+   "file": "app/lavora-con-noi/page.tsx",
+   "dati_di_prova": "nessun accesso",
+   "passi": "Aprire la pagina senza accesso, prima su telefono poi su computer; scorrere fino al piede; passare tutta la pagina col tasto Tab.",
+   "atteso": "Un solo titolo principale; niente scorrimento di lato; testi leggibili (almeno 12px); colori e caratteri del marchio (Fraunces per i titoli, Inter per il testo); ogni elemento cliccabile si raggiunge col Tab con il contorno visibile.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; testo del telefono al massimo (Android «caratteri grandi») e zoom 200% su computer"
+  },
+  {
+   "id": "S10-P055",
+   "funzione": "Aspetto della pagina «Informativa privacy»",
+   "chi": "estraneo",
+   "file": "app/privacy/page.tsx",
+   "dati_di_prova": "nessun accesso",
+   "passi": "Aprire la pagina senza accesso, prima su telefono poi su computer; scorrere fino al piede; passare tutta la pagina col tasto Tab.",
+   "atteso": "Un solo titolo principale; niente scorrimento di lato; testi leggibili (almeno 12px); colori e caratteri del marchio (Fraunces per i titoli, Inter per il testo); ogni elemento cliccabile si raggiunge col Tab con il contorno visibile.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; testo del telefono al massimo (Android «caratteri grandi») e zoom 200% su computer"
+  },
+  {
+   "id": "S10-P056",
+   "funzione": "Aspetto della pagina «Resi e rimborsi»",
+   "chi": "estraneo",
+   "file": "app/returns/page.tsx",
+   "dati_di_prova": "nessun accesso",
+   "passi": "Aprire la pagina senza accesso, prima su telefono poi su computer; scorrere fino al piede; passare tutta la pagina col tasto Tab.",
+   "atteso": "Un solo titolo principale; niente scorrimento di lato; testi leggibili (almeno 12px); colori e caratteri del marchio (Fraunces per i titoli, Inter per il testo); ogni elemento cliccabile si raggiunge col Tab con il contorno visibile.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; testo del telefono al massimo (Android «caratteri grandi») e zoom 200% su computer"
+  },
+  {
+   "id": "S10-P057",
+   "funzione": "Aspetto della pagina «Diventa venditore»",
+   "chi": "estraneo",
+   "file": "app/sell/page.tsx",
+   "dati_di_prova": "nessun accesso",
+   "passi": "Aprire la pagina senza accesso, prima su telefono poi su computer; scorrere fino al piede; passare tutta la pagina col tasto Tab.",
+   "atteso": "Un solo titolo principale; niente scorrimento di lato; testi leggibili (almeno 12px); colori e caratteri del marchio (Fraunces per i titoli, Inter per il testo); ogni elemento cliccabile si raggiunge col Tab con il contorno visibile.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; testo del telefono al massimo (Android «caratteri grandi») e zoom 200% su computer"
+  },
+  {
+   "id": "S10-P058",
+   "funzione": "Aspetto della pagina «Spedizioni e consegne»",
+   "chi": "estraneo",
+   "file": "app/shipping/page.tsx",
+   "dati_di_prova": "nessun accesso",
+   "passi": "Aprire la pagina senza accesso, prima su telefono poi su computer; scorrere fino al piede; passare tutta la pagina col tasto Tab.",
+   "atteso": "Un solo titolo principale; niente scorrimento di lato; testi leggibili (almeno 12px); colori e caratteri del marchio (Fraunces per i titoli, Inter per il testo); ogni elemento cliccabile si raggiunge col Tab con il contorno visibile.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; testo del telefono al massimo (Android «caratteri grandi») e zoom 200% su computer"
+  },
+  {
+   "id": "S10-P059",
+   "funzione": "Aspetto della pagina «Termini di servizio»",
+   "chi": "estraneo",
+   "file": "app/terms/page.tsx",
+   "dati_di_prova": "nessun accesso",
+   "passi": "Aprire la pagina senza accesso, prima su telefono poi su computer; scorrere fino al piede; passare tutta la pagina col tasto Tab.",
+   "atteso": "Un solo titolo principale; niente scorrimento di lato; testi leggibili (almeno 12px); colori e caratteri del marchio (Fraunces per i titoli, Inter per il testo); ogni elemento cliccabile si raggiunge col Tab con il contorno visibile.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; testo del telefono al massimo (Android «caratteri grandi») e zoom 200% su computer"
+  },
+  {
+   "id": "S10-P060",
+   "funzione": "Stato dei servizi",
+   "chi": "estraneo",
+   "file": "app/status/page.tsx",
+   "dati_di_prova": "nessun accesso",
+   "passi": "Aprire la pagina con tutti i servizi verdi e con uno spento; cercare il link «Contattaci» senza mouse.",
+   "atteso": "Il link si riconosce anche senza vedere i colori (sottolineato); orari nel fuso di Piacenza.",
+   "limite": "tema scuro del telefono e contrasto elevato di Windows"
+  },
+  {
+   "id": "S10-P061",
+   "funzione": "Ingresso del pannello negozio",
+   "chi": "negozio",
+   "file": "app/seller/page.tsx",
+   "dati_di_prova": "account di prova «negozio» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come negozio approvato, aprire la pagina sul telefono, provare l’azione principale e poi aprirla con la lettura che fallisce.",
+   "atteso": "Tabelle e moduli restano larghi quanto lo schermo; azione principale raggiungibile col pollice; errore di lettura con «riprova»; testi senza parole tecniche.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); doppio clic veloce sul bottone principale"
+  },
+  {
+   "id": "S10-P062",
+   "funzione": "Cruscotto del negozio",
+   "chi": "negozio",
+   "file": "app/seller/dashboard/page.tsx",
+   "dati_di_prova": "account di prova «negozio» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come negozio approvato, aprire la pagina sul telefono, provare l’azione principale e poi aprirla con la lettura che fallisce.",
+   "atteso": "Tabelle e moduli restano larghi quanto lo schermo; azione principale raggiungibile col pollice; errore di lettura con «riprova»; testi senza parole tecniche.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); doppio clic veloce sul bottone principale"
+  },
+  {
+   "id": "S10-P063",
+   "funzione": "Ordini del negozio",
+   "chi": "negozio",
+   "file": "app/seller/orders/page.tsx",
+   "dati_di_prova": "account di prova «negozio» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Ricevere 3 ordini nuovi mentre la pagina è aperta sul telefono; accettarne uno.",
+   "atteso": "Gli ordini nuovi compaiono senza ricaricare; il bottone «Accetto» è grande e non si preme due volte.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); doppio clic veloce sul bottone principale"
+  },
+  {
+   "id": "S10-P064",
+   "funzione": "Dettaglio ordine per il negozio",
+   "chi": "negozio",
+   "file": "app/seller/orders/[id]/page.tsx",
+   "dati_di_prova": "account di prova «negozio» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come negozio approvato, aprire la pagina sul telefono, provare l’azione principale e poi aprirla con la lettura che fallisce.",
+   "atteso": "Tabelle e moduli restano larghi quanto lo schermo; azione principale raggiungibile col pollice; errore di lettura con «riprova»; testi senza parole tecniche.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); doppio clic veloce sul bottone principale"
+  },
+  {
+   "id": "S10-P065",
+   "funzione": "Prodotti del negozio",
+   "chi": "negozio",
+   "file": "app/seller/products/page.tsx",
+   "dati_di_prova": "account di prova «negozio» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come negozio approvato, aprire la pagina sul telefono, provare l’azione principale e poi aprirla con la lettura che fallisce.",
+   "atteso": "Tabelle e moduli restano larghi quanto lo schermo; azione principale raggiungibile col pollice; errore di lettura con «riprova»; testi senza parole tecniche.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); doppio clic veloce sul bottone principale"
+  },
+  {
+   "id": "S10-P066",
+   "funzione": "Nuovo prodotto",
+   "chi": "negozio",
+   "file": "app/seller/products/new/page.tsx",
+   "dati_di_prova": "account di prova «negozio» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Creare un prodotto dal telefono con una foto scattata (HEIC da 8 MB), nome di 80 caratteri e prezzo 1.250,00; salvare due volte.",
+   "atteso": "Anteprima della foto, avviso chiaro se è troppo grande, un solo prodotto creato, errori in italiano.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); doppio clic veloce sul bottone principale"
+  },
+  {
+   "id": "S10-P067",
+   "funzione": "Modifica prodotto",
+   "chi": "negozio",
+   "file": "app/seller/products/[id]/edit/page.tsx",
+   "dati_di_prova": "account di prova «negozio» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come negozio approvato, aprire la pagina sul telefono, provare l’azione principale e poi aprirla con la lettura che fallisce.",
+   "atteso": "Tabelle e moduli restano larghi quanto lo schermo; azione principale raggiungibile col pollice; errore di lettura con «riprova»; testi senza parole tecniche.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); doppio clic veloce sul bottone principale"
+  },
+  {
+   "id": "S10-P068",
+   "funzione": "Importazione prodotti da file",
+   "chi": "negozio",
+   "file": "app/seller/products/import/page.tsx",
+   "dati_di_prova": "account di prova «negozio» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Caricare un file con 200 righe, 3 sbagliate.",
+   "atteso": "Le righe sbagliate sono indicate a parole; la categoria è mostrata col nome e non col codice.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); doppio clic veloce sul bottone principale"
+  },
+  {
+   "id": "S10-P069",
+   "funzione": "Prodotti in blocco con l’assistente",
+   "chi": "negozio",
+   "file": "app/seller/products/ai-batch/page.tsx",
+   "dati_di_prova": "account di prova «negozio» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come negozio approvato, aprire la pagina sul telefono, provare l’azione principale e poi aprirla con la lettura che fallisce.",
+   "atteso": "Tabelle e moduli restano larghi quanto lo schermo; azione principale raggiungibile col pollice; errore di lettura con «riprova»; testi senza parole tecniche.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); doppio clic veloce sul bottone principale"
+  },
+  {
+   "id": "S10-P070",
+   "funzione": "Promozioni del negozio",
+   "chi": "negozio",
+   "file": "app/seller/promotions/page.tsx",
+   "dati_di_prova": "account di prova «negozio» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Creare uno sconto dal telefono toccando «-25%» col pollice.",
+   "atteso": "I 6 bottoni dello sconto sono larghi almeno 44px e non si prende la percentuale vicina.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); doppio clic veloce sul bottone principale"
+  },
+  {
+   "id": "S10-P071",
+   "funzione": "Sponsorizza",
+   "chi": "negozio",
+   "file": "app/seller/promote/page.tsx",
+   "dati_di_prova": "account di prova «negozio» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come negozio approvato, aprire la pagina sul telefono, provare l’azione principale e poi aprirla con la lettura che fallisce.",
+   "atteso": "Tabelle e moduli restano larghi quanto lo schermo; azione principale raggiungibile col pollice; errore di lettura con «riprova»; testi senza parole tecniche.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); doppio clic veloce sul bottone principale"
+  },
+  {
+   "id": "S10-P072",
+   "funzione": "Storie del negozio",
+   "chi": "negozio",
+   "file": "app/seller/stories/page.tsx",
+   "dati_di_prova": "account di prova «negozio» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Creare una storia scegliendo una foto orizzontale, con lo spazio delle storie non configurato.",
+   "atteso": "Si vede l’anteprima tagliata 3:4 prima di pubblicare; l’errore è scritto per il negoziante, senza parole tecniche.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); doppio clic veloce sul bottone principale"
+  },
+  {
+   "id": "S10-P073",
+   "funzione": "Analisi delle vendite",
+   "chi": "negozio",
+   "file": "app/seller/analytics/page.tsx",
+   "dati_di_prova": "account di prova «negozio» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come negozio approvato, aprire la pagina sul telefono, provare l’azione principale e poi aprirla con la lettura che fallisce.",
+   "atteso": "Tabelle e moduli restano larghi quanto lo schermo; azione principale raggiungibile col pollice; errore di lettura con «riprova»; testi senza parole tecniche.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); doppio clic veloce sul bottone principale"
+  },
+  {
+   "id": "S10-P074",
+   "funzione": "Clienti del negozio",
+   "chi": "negozio",
+   "file": "app/seller/customers/page.tsx",
+   "dati_di_prova": "account di prova «negozio» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come negozio approvato, aprire la pagina sul telefono, provare l’azione principale e poi aprirla con la lettura che fallisce.",
+   "atteso": "Tabelle e moduli restano larghi quanto lo schermo; azione principale raggiungibile col pollice; errore di lettura con «riprova»; testi senza parole tecniche.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); doppio clic veloce sul bottone principale"
+  },
+  {
+   "id": "S10-P075",
+   "funzione": "Recensioni ricevute",
+   "chi": "negozio",
+   "file": "app/seller/reviews/page.tsx",
+   "dati_di_prova": "account di prova «negozio» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come negozio approvato, aprire la pagina sul telefono, provare l’azione principale e poi aprirla con la lettura che fallisce.",
+   "atteso": "Tabelle e moduli restano larghi quanto lo schermo; azione principale raggiungibile col pollice; errore di lettura con «riprova»; testi senza parole tecniche.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); doppio clic veloce sul bottone principale"
+  },
+  {
+   "id": "S10-P076",
+   "funzione": "Guadagni e pagamenti",
+   "chi": "negozio",
+   "file": "app/seller/earnings/page.tsx",
+   "dati_di_prova": "account di prova «negozio» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come negozio approvato, aprire la pagina sul telefono, provare l’azione principale e poi aprirla con la lettura che fallisce.",
+   "atteso": "Tabelle e moduli restano larghi quanto lo schermo; azione principale raggiungibile col pollice; errore di lettura con «riprova»; testi senza parole tecniche.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); doppio clic veloce sul bottone principale"
+  },
+  {
+   "id": "S10-P077",
+   "funzione": "La tua vetrina",
+   "chi": "negozio",
+   "file": "app/seller/site/page.tsx",
+   "dati_di_prova": "account di prova «negozio» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come negozio approvato, aprire la pagina sul telefono, provare l’azione principale e poi aprirla con la lettura che fallisce.",
+   "atteso": "Tabelle e moduli restano larghi quanto lo schermo; azione principale raggiungibile col pollice; errore di lettura con «riprova»; testi senza parole tecniche.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); doppio clic veloce sul bottone principale"
+  },
+  {
+   "id": "S10-P078",
+   "funzione": "Profilo del negozio",
+   "chi": "negozio",
+   "file": "app/seller/profile/page.tsx",
+   "dati_di_prova": "account di prova «negozio» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come negozio approvato, aprire la pagina sul telefono, provare l’azione principale e poi aprirla con la lettura che fallisce.",
+   "atteso": "Tabelle e moduli restano larghi quanto lo schermo; azione principale raggiungibile col pollice; errore di lettura con «riprova»; testi senza parole tecniche.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); doppio clic veloce sul bottone principale"
+  },
+  {
+   "id": "S10-P079",
+   "funzione": "Aiuto per i negozi",
+   "chi": "negozio",
+   "file": "app/seller/help/page.tsx",
+   "dati_di_prova": "account di prova «negozio» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come negozio approvato, aprire la pagina sul telefono, provare l’azione principale e poi aprirla con la lettura che fallisce.",
+   "atteso": "Tabelle e moduli restano larghi quanto lo schermo; azione principale raggiungibile col pollice; errore di lettura con «riprova»; testi senza parole tecniche.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); doppio clic veloce sul bottone principale"
+  },
+  {
+   "id": "S10-P080",
+   "funzione": "Approvare le anteprime dal sito",
+   "chi": "negozio",
+   "file": "app/seller/page.tsx",
+   "dati_di_prova": "account di prova «negozio» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Ricevere l’avviso (app ed email) di un’anteprima da approvare, aprire il pannello del negozio e cercare dove approvarla.",
+   "atteso": "Esiste una voce chiara («Da approvare») con l’anteprima grande e i bottoni «Approva» e «Cambia».",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900"
+  },
+  {
+   "id": "S10-P081",
+   "funzione": "Ingresso del fattorino",
+   "chi": "fattorino",
+   "file": "app/rider/page.tsx",
+   "dati_di_prova": "account di prova «fattorino» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come fattorino approvato e usare la pagina sul telefono con una mano, con guanti leggeri.",
+   "atteso": "Tasti principali e «indietro» almeno 44px; testi leggibili al sole (contrasto alto); nessuno scorrimento di lato.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; luce forte (contrasto) e rete che cade"
+  },
+  {
+   "id": "S10-P082",
+   "funzione": "Disponibilità del fattorino",
+   "chi": "fattorino",
+   "file": "app/rider/availability/page.tsx",
+   "dati_di_prova": "account di prova «fattorino» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come fattorino approvato e usare la pagina sul telefono con una mano, con guanti leggeri.",
+   "atteso": "Tasti principali e «indietro» almeno 44px; testi leggibili al sole (contrasto alto); nessuno scorrimento di lato.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; luce forte (contrasto) e rete che cade"
+  },
+  {
+   "id": "S10-P083",
+   "funzione": "Consegna in corso",
+   "chi": "fattorino",
+   "file": "app/rider/orders/[id]/page.tsx",
+   "dati_di_prova": "account di prova «fattorino» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Aprire una consegna in strada con una mano sola: tornare indietro, chiamare il cliente, segnare consegnato.",
+   "atteso": "Tasti principali e «indietro» almeno 44px; testi leggibili al sole (contrasto alto); nessuno scorrimento di lato.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; luce forte (contrasto) e rete che cade"
+  },
+  {
+   "id": "S10-P084",
+   "funzione": "Storico consegne",
+   "chi": "fattorino",
+   "file": "app/rider/history/page.tsx",
+   "dati_di_prova": "account di prova «fattorino» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come fattorino approvato e usare la pagina sul telefono con una mano, con guanti leggeri.",
+   "atteso": "Tasti principali e «indietro» almeno 44px; testi leggibili al sole (contrasto alto); nessuno scorrimento di lato.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; luce forte (contrasto) e rete che cade"
+  },
+  {
+   "id": "S10-P085",
+   "funzione": "Guadagni del fattorino",
+   "chi": "fattorino",
+   "file": "app/rider/earnings/page.tsx",
+   "dati_di_prova": "account di prova «fattorino» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come fattorino approvato e usare la pagina sul telefono con una mano, con guanti leggeri.",
+   "atteso": "Tasti principali e «indietro» almeno 44px; testi leggibili al sole (contrasto alto); nessuno scorrimento di lato.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; luce forte (contrasto) e rete che cade"
+  },
+  {
+   "id": "S10-P086",
+   "funzione": "Recensioni del fattorino",
+   "chi": "fattorino",
+   "file": "app/rider/reviews/page.tsx",
+   "dati_di_prova": "account di prova «fattorino» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come fattorino approvato e usare la pagina sul telefono con una mano, con guanti leggeri.",
+   "atteso": "Tasti principali e «indietro» almeno 44px; testi leggibili al sole (contrasto alto); nessuno scorrimento di lato.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; luce forte (contrasto) e rete che cade"
+  },
+  {
+   "id": "S10-P087",
+   "funzione": "Profilo del fattorino",
+   "chi": "fattorino",
+   "file": "app/rider/profile/page.tsx",
+   "dati_di_prova": "account di prova «fattorino» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come fattorino approvato e usare la pagina sul telefono con una mano, con guanti leggeri.",
+   "atteso": "Tasti principali e «indietro» almeno 44px; testi leggibili al sole (contrasto alto); nessuno scorrimento di lato.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; luce forte (contrasto) e rete che cade"
+  },
+  {
+   "id": "S10-P088",
+   "funzione": "Iscrizione del fattorino",
+   "chi": "fattorino",
+   "file": "app/rider/onboarding/page.tsx",
+   "dati_di_prova": "account di prova «fattorino» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come fattorino approvato e usare la pagina sul telefono con una mano, con guanti leggeri.",
+   "atteso": "Tasti principali e «indietro» almeno 44px; testi leggibili al sole (contrasto alto); nessuno scorrimento di lato.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; luce forte (contrasto) e rete che cade"
+  },
+  {
+   "id": "S10-P089",
+   "funzione": "Aiuto per i fattorini",
+   "chi": "fattorino",
+   "file": "app/rider/help/page.tsx",
+   "dati_di_prova": "account di prova «fattorino» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come fattorino approvato e usare la pagina sul telefono con una mano, con guanti leggeri.",
+   "atteso": "Tasti principali e «indietro» almeno 44px; testi leggibili al sole (contrasto alto); nessuno scorrimento di lato.",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; luce forte (contrasto) e rete che cade"
+  },
+  {
+   "id": "S10-P090",
+   "funzione": "Amministrazione: activity",
+   "chi": "admin",
+   "file": "app/admin/activity/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P091",
+   "funzione": "Amministrazione: audit",
+   "chi": "admin",
+   "file": "app/admin/audit/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P092",
+   "funzione": "Amministrazione: branding",
+   "chi": "admin",
+   "file": "app/admin/branding/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P093",
+   "funzione": "Amministrazione: categories",
+   "chi": "admin",
+   "file": "app/admin/categories/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P094",
+   "funzione": "Amministrazione: cod-remittance",
+   "chi": "admin",
+   "file": "app/admin/cod-remittance/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P095",
+   "funzione": "Amministrazione: coupons",
+   "chi": "admin",
+   "file": "app/admin/coupons/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P096",
+   "funzione": "Amministrazione: credito-del-rimborso",
+   "chi": "admin",
+   "file": "app/admin/credito-del-rimborso/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P097",
+   "funzione": "Amministrazione: daily-drops",
+   "chi": "admin",
+   "file": "app/admin/daily-drops/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P098",
+   "funzione": "Amministrazione: delivery",
+   "chi": "admin",
+   "file": "app/admin/delivery/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P099",
+   "funzione": "Amministrazione: disputes",
+   "chi": "admin",
+   "file": "app/admin/disputes/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P100",
+   "funzione": "Amministrazione: events",
+   "chi": "admin",
+   "file": "app/admin/events/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P101",
+   "funzione": "Amministrazione: funnel",
+   "chi": "admin",
+   "file": "app/admin/funnel/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P102",
+   "funzione": "Amministrazione: home",
+   "chi": "admin",
+   "file": "app/admin/home/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P103",
+   "funzione": "Amministrazione: orders/[id]",
+   "chi": "admin",
+   "file": "app/admin/orders/[id]/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P104",
+   "funzione": "Amministrazione: orders",
+   "chi": "admin",
+   "file": "app/admin/orders/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P105",
+   "funzione": "Amministrazione: ingresso",
+   "chi": "admin",
+   "file": "app/admin/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P106",
+   "funzione": "Amministrazione: pages/[slug]",
+   "chi": "admin",
+   "file": "app/admin/pages/[slug]/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P107",
+   "funzione": "Amministrazione: pages",
+   "chi": "admin",
+   "file": "app/admin/pages/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P108",
+   "funzione": "Amministrazione: payouts",
+   "chi": "admin",
+   "file": "app/admin/payouts/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P109",
+   "funzione": "Amministrazione: products/[id]/edit",
+   "chi": "admin",
+   "file": "app/admin/products/[id]/edit/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P110",
+   "funzione": "Amministrazione: products/new",
+   "chi": "admin",
+   "file": "app/admin/products/new/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P111",
+   "funzione": "Amministrazione: products",
+   "chi": "admin",
+   "file": "app/admin/products/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P112",
+   "funzione": "Amministrazione: segnalazioni",
+   "chi": "admin",
+   "file": "app/admin/segnalazioni/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P113",
+   "funzione": "Amministrazione: shop-of-month",
+   "chi": "admin",
+   "file": "app/admin/shop-of-month/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P114",
+   "funzione": "Amministrazione: sos",
+   "chi": "admin",
+   "file": "app/admin/sos/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P115",
+   "funzione": "Amministrazione: sponsored",
+   "chi": "admin",
+   "file": "app/admin/sponsored/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P116",
+   "funzione": "Amministrazione: support-chat",
+   "chi": "admin",
+   "file": "app/admin/support-chat/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P117",
+   "funzione": "Amministrazione: support",
+   "chi": "admin",
+   "file": "app/admin/support/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P118",
+   "funzione": "Amministrazione: today",
+   "chi": "admin",
+   "file": "app/admin/today/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P119",
+   "funzione": "Amministrazione: users",
+   "chi": "admin",
+   "file": "app/admin/users/page.tsx",
+   "dati_di_prova": "account di prova «admin» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Entrare come amministratore, aprire la pagina su computer e poi sul telefono, con molti dati (500 righe) e con nessun dato.",
+   "atteso": "Tabelle con scorrimento interno e non della pagina; stato vuoto con messaggio; intestazioni chiare («Parte del negozio», non «Sua parte»).",
+   "limite": "telefono 360x740 e 390x844, poi computer 1440x900; nessun dato (stato vuoto) e lettura che fallisce (stato di errore); 500 righe"
+  },
+  {
+   "id": "S10-P120",
+   "funzione": "Togliere lo sfondo alla foto del prodotto",
+   "chi": "negozio",
+   "file": "app/api/image/remove-bg/route.ts",
+   "dati_di_prova": "account di prova «negozio» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Dal modulo prodotto, chiedere di togliere lo sfondo a una foto da 8 MB, poi con il servizio esterno che non risponde.",
+   "atteso": "Il negoziante vede l’attesa e poi un messaggio chiaro; la foto originale resta utilizzabile.",
+   "limite": "fornitore che non risponde per 30 secondi; due richieste insieme"
+  },
+  {
+   "id": "S10-P121",
+   "funzione": "Cambio della lingua",
+   "chi": "cliente",
+   "file": "app/api/locale/route.ts",
+   "dati_di_prova": "account di prova «cliente» della palestra, dati finti (negozio «Forno di Prova», 4 prodotti)",
+   "passi": "Cambiare lingua dal piede del sito (se il selettore è acceso) e ricaricare.",
+   "atteso": "La lingua scelta resta; se la lingua è spenta il selettore non compare.",
+   "limite": "doppio clic sul selettore"
+  }
+ ],
+ "domande_per_nicola": [
+  "Il paletto riscritto il 1/11 dice che il negozio approva le anteprime sul sito, dopo un avviso via app ed email. Oggi nel pannello del negozio non c'è nessuna pagina «Da approvare», e nessuna funzione del sito prepara anteprime da approvare. Non l'ho scritto come difetto della radiografia perché non c'è niente di rotto, manca una funzione: vuoi che diventi un lavoro aperto di prodotto?",
+  "Il difetto del nome lungo che allarga la pagina sul telefono l'ho tenuto minore perché oggi l'unico negozio vero si chiama «Pane Quotidiano». Diventa grave il giorno in cui si iscrive un negozio con un nome di 35 caratteri o più: conviene correggerlo prima di aprire le iscrizioni ad altri negozi?"
+ ],
+ "conto": {
+  "agenti": 11,
+  "token_sessione": {
+   "totali": {
+    "agenti": 1,
+    "agenti_misurati": 1,
+    "turni": 110,
+    "input": 212,
+    "scritti_cache": 352300,
+    "letti_cache": 30691565,
+    "uscita": 95310,
+    "entrata_totale": 31044077
+   },
+   "contatori": {
+    "con_letture_cache": 31139387,
+    "senza_letture_cache": 447822
+   }
+  },
+  "token_subagenti": {
+   "totali": {
+    "agenti": 11,
+    "agenti_misurati": 11,
+    "turni": 234,
+    "input": 468,
+    "scritti_cache": 665404,
+    "letti_cache": 13926705,
+    "uscita": 130339,
+    "entrata_totale": 14592577
+   },
+   "contatori": {
+    "con_letture_cache": 14722916,
+    "senza_letture_cache": 796211
+   }
+  },
+  "token_workflow": [],
+  "nota": "11 agenti su un tetto di 12: 4 cercatori (vetrina, area cliente, negozio/fattorino/admin, testi), 6 verificatori qa, 1 seconda lente sul peso del difetto più serio. Nessun workflow. Misurato con cervello/conto-token.mjs (--sessione e --dir subagents) prima del salvataggio finale; la sessione prosegue di poco dopo la misura."
+ }
+}

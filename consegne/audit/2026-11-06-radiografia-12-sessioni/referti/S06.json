@@ -1,0 +1,1954 @@
+{
+  "sessione": "S06",
+  "base_sito": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
+  "aggiornato": "2026-11-06 10:32",
+  "finita": true,
+  "copertura": {
+    "file_letti_interi": [
+      "app/api/account/cambia-password/route.ts",
+      "app/api/catalogo/categorie/route.ts",
+      "app/api/consegna/veloce/route.ts",
+      "app/api/cron/expire-checkouts/route.ts",
+      "app/api/cron/expire-stale-orders/route.ts",
+      "app/api/cron/veloce-non-confermata/route.ts",
+      "app/api/geocode/route.ts",
+      "app/api/marketplace/import-fetch/route.ts",
+      "app/api/orders/[id]/cancel/route.ts",
+      "app/api/products/[id]/external-refresh/route.ts",
+      "app/api/products/rehost-images/route.ts",
+      "app/api/profili-pubblici/route.ts",
+      "app/api/returns/chi-comanda-il-reso.ts",
+      "app/api/returns/create/route.ts",
+      "app/orders/[id]/stato-del-reso.ts",
+      "app/page.tsx",
+      "app/piccoli-prezzi/page.tsx",
+      "app/profile/returns/page.tsx",
+      "app/store/[id]/[slug]/page.tsx",
+      "app/u/[handle]/handle.ts",
+      "components/home/ExperimentExposure.tsx",
+      "components/home/orari-di-oggi.ts",
+      "components/hooks/useCartCount.ts",
+      "components/hooks/useFavorites.ts",
+      "components/hooks/useShoppingMode.ts",
+      "components/products/FrequentlyBoughtTogether.tsx",
+      "components/store-sections/FeaturedSection.tsx",
+      "components/store-sections/HoursSection.tsx",
+      "components/store-sections/ProductGridSection.tsx",
+      "components/store-sections/PromotionsSection.tsx",
+      "components/store-sections/StoreNav.tsx",
+      "components/store-sections/riepilogo-recensioni.ts",
+      "lib/account/cambio-password.ts",
+      "lib/geocodifica.ts",
+      "lib/liste/chiave-di-riga.ts",
+      "lib/ordini/annullo-del-cliente.ts",
+      "lib/ordini/che-fine-ha-fatto-la-pagina-di-pagamento.ts",
+      "lib/ordini/consegna-veloce.ts",
+      "lib/ordini/fascia-consegna.ts",
+      "lib/ordini/fascia-leggibile.ts",
+      "lib/ordini/ordine-in-contanti-puo-nascere.ts",
+      "lib/ordini/recesso.ts",
+      "lib/ordini/riserve-abbandonate.ts",
+      "lib/ordini/scadenza-accettazione.ts",
+      "lib/ordini/tentativi-aperti-da-liberare.ts",
+      "lib/ordini/tetto-dei-contanti.ts",
+      "lib/ordini/valida-carrello.ts",
+      "lib/ordini/veloce-non-confermata.ts",
+      "lib/ordini/zona-di-consegna.ts",
+      "lib/preferiti/tocco-del-cuore.ts",
+      "lib/products/express.ts",
+      "lib/products/nascondi.ts",
+      "lib/products/variants.ts",
+      "lib/queries/cache-pubblica.ts",
+      "lib/queries/griglia-prodotti.ts",
+      "lib/queries/negozio-del-mese.ts",
+      "lib/queries/precarico.ts",
+      "lib/queries/profili-pubblici.ts",
+      "lib/queries/promo-attive.ts",
+      "lib/queries/suggerimenti-ricerca.ts",
+      "lib/queries/venduto-da.ts",
+      "lib/ricerca/riquadro-suggerimenti.ts",
+      "lib/supabase/lettura-per-metadati.ts",
+      "lib/tempo-piacenza.ts",
+      "lib/tempo/giorno-locale.ts",
+      "migrations/160_la_merce_torna_a_scaffale_una_volta_sola.sql"
+    ],
+    "file_letti_in_parte": [
+      {
+        "file": "app/search/page.tsx",
+        "righe": "1-140"
+      },
+      {
+        "file": "app/search/page.tsx",
+        "righe": "196-220"
+      },
+      {
+        "file": "app/search/page.tsx",
+        "righe": "579-616"
+      },
+      {
+        "file": "components/ProductGrid.tsx",
+        "righe": "83-407"
+      },
+      {
+        "file": "app/product/[id]/page.tsx",
+        "righe": "155-185"
+      },
+      {
+        "file": "app/product/[id]/page.tsx",
+        "righe": "300-340"
+      },
+      {
+        "file": "app/product/[id]/page.tsx",
+        "righe": "465-615"
+      },
+      {
+        "file": "app/product/[id]/page.tsx",
+        "righe": "940-1000"
+      },
+      {
+        "file": "app/shared-cart/page.tsx",
+        "righe": "1-200"
+      },
+      {
+        "file": "app/events/page.tsx",
+        "righe": "40-160"
+      },
+      {
+        "file": "app/lists/[id]/page.tsx",
+        "righe": "60-200"
+      },
+      {
+        "file": "app/lists/[id]/page.tsx",
+        "righe": "300-372"
+      },
+      {
+        "file": "app/lists/page.tsx",
+        "righe": "36-173"
+      },
+      {
+        "file": "app/shop-of-month/page.tsx",
+        "righe": "40-112"
+      },
+      {
+        "file": "app/promozioni/page.tsx",
+        "righe": "1-110"
+      },
+      {
+        "file": "app/store/[id]/layout.tsx",
+        "righe": "1-80"
+      },
+      {
+        "file": "app/u/[handle]/page.tsx",
+        "righe": "30-110"
+      },
+      {
+        "file": "app/category/[slug]/page.tsx",
+        "righe": "42-70"
+      },
+      {
+        "file": "components/home/DropOfDay.tsx",
+        "righe": "1-140"
+      },
+      {
+        "file": "components/store-sections/useStorePageData.ts",
+        "righe": "20-112"
+      },
+      {
+        "file": "lib/queries/fasce-prodotti.ts",
+        "righe": "160-338"
+      },
+      {
+        "file": "lib/queries/catalogo.ts",
+        "righe": "95-135"
+      },
+      {
+        "file": "lib/queries/catalogo.ts",
+        "righe": "211-243"
+      },
+      {
+        "file": "lib/products/rehostImages.ts",
+        "righe": "1-130"
+      },
+      {
+        "file": "lib/products/externalSyncShared.ts",
+        "righe": "47-52"
+      },
+      {
+        "file": "migrations/129_il_catalogo_si_vede_senza_account.sql",
+        "righe": "34-71"
+      },
+      {
+        "file": "migrations/129_il_catalogo_si_vede_senza_account.sql",
+        "righe": "101-221"
+      },
+      {
+        "file": "migrations/122_radiografia_20_agosto.sql",
+        "righe": "268-291"
+      },
+      {
+        "file": "migrations/034_shop_of_month_events_and_admin_data.sql",
+        "righe": "45-68"
+      },
+      {
+        "file": "migrations/034_shop_of_month_events_and_admin_data.sql",
+        "righe": "102-113"
+      },
+      {
+        "file": "lib/store-hours.ts",
+        "righe": "36-102"
+      },
+      {
+        "file": "lib/store-site.ts",
+        "righe": "109-135"
+      },
+      {
+        "file": "lib/store-site.ts",
+        "righe": "246-246"
+      },
+      {
+        "file": "lib/store-site.ts",
+        "righe": "354-410"
+      },
+      {
+        "file": "app/api/cron/external-price-alerts/route.ts",
+        "righe": "30-80"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "40-92"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "373-470"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "1086-1092"
+      },
+      {
+        "file": "lib/ordini/annulla.ts",
+        "righe": "116-175"
+      },
+      {
+        "file": "lib/ordini/annulla.ts",
+        "righe": "200-440"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "1425-1440"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "1930-1990"
+      },
+      {
+        "file": "app/orders/[id]/page.tsx",
+        "righe": "256-300"
+      },
+      {
+        "file": "app/orders/[id]/page.tsx",
+        "righe": "346-346"
+      },
+      {
+        "file": "app/orders/[id]/page.tsx",
+        "righe": "550-590"
+      },
+      {
+        "file": "app/checkout/page.tsx",
+        "righe": "926-1010"
+      },
+      {
+        "file": "components/checkout/useTotaliCarrello.ts",
+        "righe": "1-111"
+      },
+      {
+        "file": "migrations/161_quello_che_il_ripasso_del_9_settembre_aveva_riportato_indietro.sql",
+        "righe": "225-300"
+      },
+      {
+        "file": "migrations/200_il_codice_sconto_torna_una_volta_per_ordine.sql",
+        "righe": "1-69"
+      },
+      {
+        "file": "lib/store-hours.ts",
+        "righe": "40-425"
+      },
+      {
+        "file": "lib/quando-arriva.ts",
+        "righe": "40-300"
+      },
+      {
+        "file": "components/checkout/DeliverySlotPicker.tsx",
+        "righe": "40-365"
+      },
+      {
+        "file": "app/checkout/page.tsx",
+        "righe": "500-600"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "45-100"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "880-960"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "1000-1035"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "1235-1252"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "1478-1492"
+      },
+      {
+        "file": "app/api/stripe/checkout/route.ts",
+        "righe": "850-900"
+      },
+      {
+        "file": "lib/stripe/webhook/ordini.ts",
+        "righe": "125-175"
+      },
+      {
+        "file": "migrations/161_quello_che_il_ripasso_del_9_settembre_aveva_riportato_indietro.sql",
+        "righe": "236-296"
+      },
+      {
+        "file": "lib/shipping-etichetta/label.ts",
+        "righe": "1-60"
+      },
+      {
+        "file": "lib/shipping-etichetta/label.ts",
+        "righe": "115-115"
+      },
+      {
+        "file": "app/api/seller/orders/[id]/label/route.ts",
+        "righe": "16-50"
+      },
+      {
+        "file": "app/seller/orders/[id]/page.tsx",
+        "righe": "320-360"
+      },
+      {
+        "file": "lib/cart.ts",
+        "righe": "150-185"
+      },
+      {
+        "file": "vercel.json",
+        "righe": "24-29"
+      },
+      {
+        "file": "tests/unit/i-contanti-misurano-il-confine-in-ogni-direzione-e-da-ogni-fonte.test.ts",
+        "righe": "1-230"
+      },
+      {
+        "file": "app/api/returns/[id]/avanza/route.ts",
+        "righe": "40-175"
+      },
+      {
+        "file": "app/orders/[id]/review/page.tsx",
+        "righe": "56-167"
+      },
+      {
+        "file": "app/orders/[id]/dispute/page.tsx",
+        "righe": "30-140"
+      },
+      {
+        "file": "app/orders/[id]/return/page.tsx",
+        "righe": "14-14"
+      },
+      {
+        "file": "app/orders/[id]/return/page.tsx",
+        "righe": "250-316"
+      },
+      {
+        "file": "app/profile/addresses/page.tsx",
+        "righe": "1-140"
+      },
+      {
+        "file": "app/profile/addresses/page.tsx",
+        "righe": "232-240"
+      },
+      {
+        "file": "app/profile/settings/page.tsx",
+        "righe": "40-58"
+      },
+      {
+        "file": "app/profile/settings/page.tsx",
+        "righe": "200-305"
+      },
+      {
+        "file": "app/profile/settings/page.tsx",
+        "righe": "505-520"
+      },
+      {
+        "file": "app/orders/page.tsx",
+        "righe": "56-100"
+      },
+      {
+        "file": "app/orders/page.tsx",
+        "righe": "325-423"
+      },
+      {
+        "file": "lib/shipping-coordinate.ts",
+        "righe": "1-71"
+      },
+      {
+        "file": "app/checkout/page.tsx",
+        "righe": "420-450"
+      },
+      {
+        "file": "app/api/geocode/route.ts",
+        "righe": "10-57"
+      },
+      {
+        "file": "app/api/support/conversation/route.ts",
+        "righe": "1-156"
+      },
+      {
+        "file": "app/api/account/accetta-condizioni/route.ts",
+        "righe": "1-96"
+      },
+      {
+        "file": "lib/auth/accettazione-testi.ts",
+        "righe": "130-175"
+      },
+      {
+        "file": "app/api/cron/release-payouts/route.ts",
+        "righe": "83-83"
+      },
+      {
+        "file": "app/api/cron/release-payouts/route.ts",
+        "righe": "231-243"
+      },
+      {
+        "file": "components/ui/ErrorState.tsx",
+        "righe": "27-104"
+      }
+    ],
+    "file_eseguiti": [
+      {
+        "file": "lib/products/variants.ts",
+        "comando": "cd marketplace && cp /tmp/claude-0/-home-user-ad-mycity/f4fef1a6-4433-5b5a-8f00-fe4866b54526/scratchpad/S06/A/zz-s06-a-varianti.test.ts tests/unit/ && npx vitest run tests/unit/zz-s06-a-varianti.test.ts; rm tests/unit/zz-s06-a-varianti.test.ts",
+        "esito": "ROSSO: combinazioni attese 102, create 100; scelte possibili senza variante: XXL+Colore16, XXL+Colore17 (expected 100 to be 102)"
+      },
+      {
+        "file": "app/shop-of-month/page.tsx",
+        "comando": "cd marketplace && cp /tmp/claude-0/-home-user-ad-mycity/f4fef1a6-4433-5b5a-8f00-fe4866b54526/scratchpad/S06/A/zz-s06-a-mese-voto.test.ts tests/unit/ && TZ=Europe/Rome npx vitest run tests/unit/zz-s06-a-mese-voto.test.ts; rm tests/unit/zz-s06-a-mese-voto.test.ts",
+        "esito": "ROSSO 2 su 3: 1/12 00:30 Piacenza voto scritto per 2026-12-01, classifica conta 2026-11-01; 1/6/2027 01:30 voto 2027-06-01, classifica 2027-05-01. Verde il caso 1/11 01:30 (ora solare, UTC già novembre)."
+      },
+      {
+        "file": "tests/sql/harness/apply.sh",
+        "comando": "tests/sql/harness/apply.sh mycity_s06_b",
+        "esito": "applicate 178 · fallite 0"
+      },
+      {
+        "file": "migrations/161_quello_che_il_ripasso_del_9_settembre_aveva_riportato_indietro.sql",
+        "comando": "TMPDIR=<scratchpad>/S06/B bash <scratchpad>/S06/B/gare-sql.sh mycity_s06_b (gara 1)",
+        "esito": "Due prenotazioni in parallelo dell'ultimo pezzo: una sola riuscita, scorta 0. Verde."
+      },
+      {
+        "file": "migrations/108_atomic_coupon_claim.sql",
+        "comando": "TMPDIR=<scratchpad>/S06/B bash <scratchpad>/S06/B/gara-codice.sh mycity_s06_b",
+        "esito": "gara 3 (codice a uso unico, due claim in parallelo): f / t, usi=1 — VERDE. gara 4 (codice solo-primo-ordine, stesso cliente, due schede): t / t, usi=2"
+      },
+      {
+        "file": "lib/ordini/annulla.ts",
+        "comando": "cp <scratchpad>/S06/B/zz-s06-b-annullo-carta-in-gara.test.ts tests/unit/ && npx vitest run tests/unit/zz-s06-b-annullo-carta-in-gara.test.ts ; rm tests/unit/zz-s06-b-annullo-carta-in-gara.test.ts",
+        "esito": "2 test su 2 ROSSI: (a) rimborso emesso su ordine già ACCEPTED, esito {ok:true, refundId:re_1}; (b) contanti: motivo GIA_ANNULLATO su ordine ACCEPTED. File cancellato subito dopo, git status pulito"
+      },
+      {
+        "file": "tests/unit/annullare-restituisce-i-soldi.test.ts",
+        "comando": "npx vitest run <i quattro file>",
+        "esito": "4 file, 24 test verdi"
+      },
+      {
+        "file": "tests/unit/minori-s02-annullo-del-cliente.test.ts",
+        "comando": "npx vitest run <i quattro file>",
+        "esito": "4 file, 24 test verdi"
+      },
+      {
+        "file": "tests/unit/in-cassa-il-totale-mostrato-e-quello-addebitato.test.ts",
+        "comando": "npx vitest run <i quattro file>",
+        "esito": "4 file, 24 test verdi"
+      },
+      {
+        "file": "tests/unit/la-merce-non-torna-a-scaffale-due-volte.test.ts",
+        "comando": "npx vitest run <i quattro file>",
+        "esito": "4 file, 24 test verdi"
+      },
+      {
+        "file": "tests/sql/harness/apply.sh",
+        "comando": "cd marketplace && tests/sql/harness/apply.sh mycity_s06_c",
+        "esito": "applicate 178 · fallite 0"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "comando": "cp scratchpad/S06/C/zz-s06-c-tempo.test.ts marketplace/tests/unit/ && (cd marketplace && TZ=UTC npx vitest run tests/unit/zz-s06-c-tempo.test.ts; TZ=Europe/Rome npx vitest run tests/unit/zz-s06-c-tempo.test.ts) ; rm marketplace/tests/unit/zz-s06-c-tempo.test.ts",
+        "esito": "1 rosso (C-01: promesso 'sab 7/11', ordine 'dom 8/11 · 9:00–11:00', annullo 2026-11-08T09:00:59Z), 1 verde (C-02: il 25/12 vale come un venerdì qualunque) — identico in UTC e Europe/Rome"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "comando": "cp scratchpad/S06/C/zz-s06-c-senza-fascia.test.ts marketplace/tests/unit/ && (cd marketplace && TZ=UTC npx vitest run tests/unit/zz-s06-c-senza-fascia.test.ts) ; rm marketplace/tests/unit/zz-s06-c-senza-fascia.test.ts",
+        "esito": "controllo verde (veloce 409 alle 22:30 senza fattorini), prova ROSSA: senza fascia 200, ordine nato con delivery_slot null e consegna 300 cent (diventato il difetto in chiaro S06-020)"
+      },
+      {
+        "file": "app/api/returns/create/route.ts",
+        "comando": "TZ=Europe/Rome cp /tmp/claude-0/-home-user-ad-mycity/f4fef1a6-4433-5b5a-8f00-fe4866b54526/scratchpad/S06/D/zz-s06-d-recesso-ultimo-giorno.test.ts tests/unit/ && npx vitest run tests/unit/zz-s06-d-recesso-ultimo-giorno.test.ts; rm tests/unit/zz-s06-d-recesso-ultimo-giorno.test.ts  (da /home/user/ad-mycity/marketplace)",
+        "esito": "2 rossi su 3: 3/11 17:30 e 21:00 (giorno 14) -> 400 «Termine scaduto»; il controllo del 4/11 00:30 -> 400 verde"
+      },
+      {
+        "file": "app/api/account/cambia-password/route.ts",
+        "comando": "cp /tmp/claude-0/-home-user-ad-mycity/f4fef1a6-4433-5b5a-8f00-fe4866b54526/scratchpad/S06/D/zz-s06-d-password.test.ts tests/unit/ && npx vitest run tests/unit/zz-s06-d-password.test.ts; rm tests/unit/zz-s06-d-password.test.ts  (da /home/user/ad-mycity/marketplace)",
+        "esito": "2 rossi: 429 e 500 del servizio di accesso -> 401 «Password attuale non corretta»; nuova uguale alla vecchia -> 200, scritta"
+      },
+      {
+        "file": "app/profile/addresses/page.tsx",
+        "comando": "cp /tmp/claude-0/-home-user-ad-mycity/f4fef1a6-4433-5b5a-8f00-fe4866b54526/scratchpad/S06/D/zz-s06-d-indirizzo-coordinate.test.tsx tests/unit/ && npx vitest run tests/unit/zz-s06-d-indirizzo-coordinate.test.tsx; rm tests/unit/zz-s06-d-indirizzo-coordinate.test.tsx  (da /home/user/ad-mycity/marketplace)",
+        "esito": "rosso: scritto {address:'Strada Agazzana 120', lat:45.0526, lng:9.6929} = coordinate di Via Roma 1"
+      },
+      {
+        "file": "app/api/returns/create/route.ts",
+        "comando": "cp /tmp/claude-0/-home-user-ad-mycity/f4fef1a6-4433-5b5a-8f00-fe4866b54526/scratchpad/S06/D/zz-s06-d-secondo-reso.test.ts tests/unit/ && npx vitest run tests/unit/zz-s06-d-secondo-reso.test.ts; rm tests/unit/zz-s06-d-secondo-reso.test.ts  (da /home/user/ad-mycity/marketplace)",
+        "esito": "1 rosso 1 verde: statoDelReso dice sePuoChiederne=false; la rotta create risponde 201 con un reso REFUNDED gia' sull'ordine"
+      },
+      {
+        "file": "app/api/returns/create/route.ts",
+        "comando": "cd marketplace && TZ=Europe/Rome npx vitest run tests/unit/zz-s06-v-d01.test.ts (copiato da <scratchpad>/S06/verifica-v-d01, poi cancellato)",
+        "esito": "consegna 20/10 18:00: 201 il 3/11 alle 16:59, 400 «Termine per il recesso scaduto» alle 17:01, 17:30, 21:00, 23:59"
+      },
+      {
+        "file": "lib/ordini/fascia-consegna.ts",
+        "comando": "cd marketplace && npx vitest run tests/unit/zz-s06-v-d02.test.ts (copiato da <scratchpad>/S06/verifica-v-d02, poi cancellato)",
+        "esito": "rosso: casa a 10,8 km giudicata dentro la zona con le coordinate rimaste della via vecchia"
+      },
+      {
+        "file": "app/page.tsx",
+        "comando": "cd marketplace && npx vitest run tests/unit/zz-s06-v-amin-home.test.ts (copiato da <scratchpad>/S06/verifica-v-amin, poi cancellato)",
+        "esito": "rosso: con data=null home di fabbrica (11 sezioni) e 0 righe di log"
+      },
+      {
+        "file": "lib/ordini/rivendica-il-codice-sconto.ts",
+        "comando": "cd marketplace && npx vitest run tests/unit/zz-s06-v-bmin-primo-ordine.test.ts (copiato da <scratchpad>/S06/verifica-v-bmin, poi cancellato)",
+        "esito": "2 su 2: in parallelo entrambe ok e usi=2; in sequenza la seconda rifiutata"
+      },
+      {
+        "file": "lib/store-hours.ts",
+        "comando": "cd marketplace && npx vitest run tests/unit/zz-s06-v-cmin.test.ts (scritto dal verificatore, poi cancellato)",
+        "esito": "4 su 4: il 25/12 vale come un venerdì qualunque, il controllo negativo regge"
+      },
+      {
+        "file": "lib/ordini/consegna-veloce.ts",
+        "comando": "cd marketplace && npx vitest run tests/unit/zz-s06-v-cmin2.test.ts (scritto dal verificatore, poi cancellato)",
+        "esito": "10 veloci di fila concesse con un solo fattorino acceso; con zero no"
+      },
+      {
+        "file": "app/api/stripe/checkout/route.ts",
+        "comando": "cd marketplace && TZ=UTC npx vitest run tests/unit/zz-s06-v-cr2.test.ts (copiato da <scratchpad>/S06/verifica-v-cr2, poi cancellato)",
+        "esito": "2 su 2: alle 22:30 senza fascia e con «Domani · 7:30–9:00» entrambe 200 con consegna 300 centesimi; a negozio chiuso 409"
+      },
+      {
+        "file": "app/api/returns/create/route.ts",
+        "comando": "cd marketplace && npx vitest run tests/unit/zz-s06-v-dpost-difettoso-30gg.test.ts (copiato da <scratchpad>/S06/verifica-v-dpost, poi cancellato)",
+        "esito": "5 su 5: a 30 giorni ogni motivo riceve 400, a 13 giorni 201; smentito come difetto perché la pagina rimanda alla garanzia e il reclamo non ha termine"
+      }
+    ],
+    "non_guardato": [
+      {
+        "cosa": "app/near/page.tsx, app/stores/page.tsx, app/categorie/page.tsx, app/novita, app/piu-venduti, app/regali in dettaglio",
+        "perche": "Il registro ha 24 voci su near e 23 su stores, quasi tutte riparate: ho dato priorità ai file con 0 voci"
+      },
+      {
+        "cosa": "lib/products/aiPatch.ts, prontoPerLaVendita.ts, salvataggio-tracciato.ts, draftFromVision.ts, persistVariants*.ts, schema.ts",
+        "perche": "Lato negoziante/AI (già 9-22 voci nel registro), fuori dal tratto 'prima del carrello' del cliente"
+      },
+      {
+        "cosa": "components/home-sections/HomeSectionRenderer.tsx, HeroStoreCard, StoriesCarousel, ReorderRail, TrendingNow",
+        "perche": "41/15/5/7/3 voci già nel registro; tempo speso sui file non coperti"
+      },
+      {
+        "cosa": "comportamento reale di RLS e delle funzioni SQL (search_products_smart, active_promo_products, viste)",
+        "perche": "Niente database per il cercatore A: letto solo il testo delle migrazioni"
+      },
+      {
+        "cosa": "components/ProductGrid.tsx nel dettaglio (filtri lato browser e paginazione)",
+        "perche": "Non nel mio elenco di file; letto solo per capire cosa passa a griglia-prodotti"
+      },
+      {
+        "cosa": "app/cart/page.tsx, components/cart/*, components/orders/*, app/orders/page.tsx, app/orders/[id]/{dispute,review,return} lette solo per elenco",
+        "perche": "tempo speso sulle gare dello stato e della merce, che erano il cuore del tratto; molte righe del carrello hanno già difetti chiusi nel registro"
+      },
+      {
+        "cosa": "lib/ordini/{prezzi,riepilogo-cassa,riepilogo-ordine,riga-ordine,tentativo,riuso-della-cassa-aperta,che-fine-ha-fatto-la-pagina-di-pagamento,chiave-dopo-l-errore,merce-che-tengo-io,rimessa-a-scaffale,partenza,posizione-rider,campanella}.ts e lib/ordini-recenti.ts",
+        "perche": "non letti: coperti da molte prove già verdi (es. in-cassa-il-totale-mostrato-e-quello-addebitato); priorità alle gare"
+      },
+      {
+        "cosa": "doppio annullo del cliente sul ramo carta (due rimborsi in parallelo)",
+        "perche": "è dentro refundOrder/accumula_rimborso: perimetro S02/S03"
+      },
+      {
+        "cosa": "orologio finto / cambio d'ora / festivi",
+        "perche": "nel mio tratto le date toccano solo fasce e scadenze, già coperte da altri difetti nel registro (2273, 960); non rifatto"
+      },
+      {
+        "cosa": "app/admin/{orders,delivery} lato cliente",
+        "perche": "non letto; l'annullo dell'amministratore in viaggio è già noto (registro 477)"
+      },
+      {
+        "cosa": "refundOrder / rimborsi sulla carta nei tre lavori (ripetizione del rimborso, chiavi Stripe)",
+        "perche": "perimetro S02/S03; la carta è spenta al lancio"
+      },
+      {
+        "cosa": "orario e permessi dei tre lavori programmati",
+        "perche": "perimetro S08 per mandato"
+      },
+      {
+        "cosa": "trigger del database che governa il passaggio NEW→ACCEPTED fatto dal browser del negozio",
+        "perche": "RLS/trigger: S05"
+      },
+      {
+        "cosa": "components/checkout diversi da DeliverySlotPicker (OrderSummary, PaymentMethodSelector, CouponInput, ShippingAddressForm, useTotaliCarrello)",
+        "perche": "tempo: ho dato priorità alla scelta della fascia e alla veloce"
+      },
+      {
+        "cosa": "browser con fuso diverso nel giorno del cambio d'ora (romeNow costruisce l'ora nel fuso del telefono)",
+        "perche": "caso estremo, non provato"
+      },
+      {
+        "cosa": "app/api/returns/[id]/decide/route.ts",
+        "perche": "gia' coperto da decine di voci (S02/S03 soldi); tempo dedicato a flussi cliente"
+      },
+      {
+        "cosa": "app/profile/gift-cards, loyalty, referral, achievements",
+        "perche": "non letti per tempo; solo prove da palestra"
+      },
+      {
+        "cosa": "app/reset-password, sign-in, sign-up, auth/verify-email",
+        "perche": "autenticazione e' di S04; solo prove da palestra"
+      },
+      {
+        "cosa": "app/api/account/delete e export in profondita'",
+        "perche": "di S09"
+      },
+      {
+        "cosa": "app/admin/disputes/page.tsx, lib/assistenza/porta.ts, components/account",
+        "perche": "non letti per tempo"
+      },
+      {
+        "cosa": "rider/mappa dell'ordine che usa le coordinate di consegna",
+        "perche": "supposto dall'uso di coordinateDaIndirizziSalvati in cod/route.ts:967 e stripe/checkout/route.ts:592; non seguito fino alla mappa"
+      },
+      {
+        "cosa": "npm run verify sull'intera suite del sito",
+        "perche": "Il piano lo prevedeva al massimo una volta; non l'ho lanciato per stare nel tempo e nelle due prove pesanti alla volta. Hanno girato solo i test esistenti del perimetro (24 verdi) e le prove mirate."
+      },
+      {
+        "cosa": "Le pagine dell'amministratore app/admin/delivery, app/admin/disputes, app/admin/orders",
+        "perche": "Per S06 solo il lato che vede il cliente; il resto appartiene ad altre sessioni."
+      },
+      {
+        "cosa": "Due difetti candidati scartati dopo la verifica",
+        "perche": "Il messaggio «Ordine già annullato» quando il negozio accetta nello stesso istante è già la voce aperta 2673; il reso di un prodotto difettoso oltre 14 giorni è smentito, perché la pagina rimanda alla garanzia di due anni e il reclamo non ha termine."
+      },
+      {
+        "cosa": "Il cambio d'ora visto da un telefono con un fuso diverso da quello di Piacenza",
+        "perche": "Le prove usano l'orologio finto del server (UTC e Europe/Rome), non il browser del cliente."
+      }
+    ]
+  },
+  "difetti": [
+    {
+      "id": "S06-001",
+      "dimensione": "api-backend",
+      "titolo": "Falla di sicurezza da chiudere (pagamenti): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+      "severita": "grave",
+      "file": "(nel referto privato)",
+      "descrizione": "nel referto privato",
+      "impatto": "nel referto privato",
+      "fix": "nel referto privato",
+      "causa_radice": "nel referto privato",
+      "prova": "nel referto privato",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "nel referto privato",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "nel referto privato",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": true
+    },
+    {
+      "id": "S06-002",
+      "dimensione": "qa-flussi",
+      "titolo": "Cambiando la via di un indirizzo salvato, se la ricerca della posizione non risponde restano le coordinate della via vecchia",
+      "severita": "grave",
+      "file": "app/profile/addresses/page.tsx:63-81 · app/profile/addresses/page.tsx:126-130 · lib/shipping-coordinate.ts:38-70 · app/api/orders/cod/route.ts:991-995 · app/api/stripe/checkout/route.ts:598-602 · app/rider/orders/[id]/page.tsx:439-450",
+      "descrizione": "Nel salvataggio della rubrica lat/lng partono da form.lat/form.lng (righe 64-65), che in modifica sono quelle dell'indirizzo di prima (startEdit, righe 126-130). Se /api/geocode risponde {lat:null,lng:null} (Nominatim giù, lento oltre 5 s, freno a 30 richieste al minuto, oppure nessun risultato per una via nuova o scritta male) o la fetch fallisce (catch vuoto, riga 78), si scrive la via nuova con le coordinate vecchie e il cliente vede solo «Indirizzo salvato». Poi le rotte d'ordine prendono quelle coordinate come affidabili perché via, città e CAP combaciano (coordinateDaIndirizziSalvati), e il ricalcolo lato server parte solo se nella rubrica non c'è un indirizzo che combacia: con la riga sporca non parte mai.",
+      "impatto": "Anna aveva «Via Roma 1, Piacenza» e trasloca in «Strada Agazzana 120» a Podenzano, 10,8 km dal negozio. La ricerca della posizione non trova la via e la rubrica tiene le coordinate di Via Roma. Da quel momento ogni suo ordine passa il controllo della zona (raggio di 5 km, lib/constants.ts:71) anche se casa sua è fuori, l'ordine nasce con la posizione della casa vecchia e il pulsante di navigazione del fattorino lo porta in Via Roma. Il prezzo della consegna non cambia (è fisso: 3 €, 4 € sotto i 10 €). Il guasto resta su tutti gli ordini futuri finché il cliente non modifica di nuovo l'indirizzo.",
+      "fix": "In modifica, se cambiano via, città o CAP azzerare lat/lng prima della ricerca della posizione (tenerle solo se il testo è identico). Trattare anche «nessun risultato» come «posizione non trovata»: salvare null e dirlo al cliente. Stessa classe della voce 133 (posizione del negozio).",
+      "causa_radice": "Le coordinate sono trattate come un campo del modulo invece che come derivate dal testo dell'indirizzo.",
+      "prova": "vitest jsdom su /tmp/claude-0/-home-user-ad-mycity/f4fef1a6-4433-5b5a-8f00-fe4866b54526/scratchpad/S06/D/zz-s06-d-indirizzo-coordinate.test.tsx: monta AddressesPage con un indirizzo a 45.0526/9.6929, preme «edit», cambia la via, /api/geocode -> {lat:null,lng:null}, invia; guarda il payload di update.",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "scritto: {\"address\":\"Strada Agazzana 120\",\"lat\":45.0526,\"lng\":9.6929} — «expected 45.0526 not to be 45.0526», 1 failed",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "v-d02 (qa), 2026-11-06: rilanciata la prova jsdom del cercatore (rossa, payload con via nuova e lat 45.0526) più una prova sulla catena coordinateDaIndirizziSalvati → fuoriZonaDiConsegna (rossa: casa a 10,8 km giudicata dentro la zona). Smentito l'impatto sul prezzo (consegna fissa), raggio corretto a 5 km, nessuna difesa a valle. Seconda lente: grave, perché silenzioso e permanente, anche se la probabilità è bassa.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S06-003",
+      "dimensione": "qa-flussi",
+      "titolo": "Se il cliente annulla un ordine pagato con carta proprio mentre il negozio lo accetta, parte il rimborso e l'ordine accettato si annulla lo stesso",
+      "severita": "minore",
+      "file": "lib/ordini/annulla.ts:268-345 · lib/stripe/payout.ts:1955-1960 · app/api/orders/[id]/cancel/route.ts:46-51 · app/api/admin/orders/[id]/cancel/route.ts:57",
+      "descrizione": "La rotta controlla che l'ordine sia NEW (route.ts:48) e passa la foto a annullaERimborsa. Sul ramo contanti il turno si prende con una scrittura condizionata sullo stato letto (annulla.ts:364-377). Sul ramo carta no: si chiama subito refundOrder (annulla.ts:300), che rimborsa su Stripe e poi scrive delivery_status CANCELED filtrando solo per id (payout.ts:1955-1960). Fra la lettura della rotta e quella scrittura passano la chiamata a Stripe e il ricalcolo del carrello: se in quei secondi il negozio accetta, l'ordine passa ACCEPTED→CANCELED, transizione che la regola del cliente (solo da NEW) vieta.",
+      "impatto": "Sabato alle 10:00 un cliente paga 24 € di torte con la carta da Pane Quotidiano e preme «Annulla» mentre il fornaio preme «Accetta». Il fornaio legge «Stato aggiornato» e comincia a preparare; due secondi dopo Stripe rimborsa i 24 € e l'ordine diventa annullato, senza che al negozio arrivi un avviso (voce 180). Nessuno perde soldi: il danno è qualche minuto di preparazione sprecata e una transizione vietata (da accettato ad annullato). La finestra è di 1-3 secondi e vale solo dal giorno in cui si accende la carta. Lo stesso buco vale per l'annullo dell'amministratore.",
+      "fix": "Sul ramo carta prendere il turno prima del rimborso, come fa già il giro notturno (app/api/cron/expire-stale-orders/route.ts:172-183): una scrittura condizionata sullo stato letto, e solo se tocca una riga chiamare refundOrder. Chiude anche l'annullo dell'amministratore.",
+      "causa_radice": "La protezione del turno (R131 e 5/11/2026) è stata messa solo sul ramo contanti; il ramo carta delega la scrittura dello stato a refundOrder, che non conosce lo stato che il chiamante ha controllato.",
+      "prova": "cp <scratchpad>/S06/B/zz-s06-b-annullo-carta-in-gara.test.ts marketplace/tests/unit/ && npx vitest run tests/unit/zz-s06-b-annullo-carta-in-gara.test.ts (poi cancellare). Il finto database ha lo stato ACCEPTED, la rotta ha letto NEW.",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO: «rimborso emesso su un ordine ACCEPTED (esito {\"ok\":true,\"refundId\":\"re_1\"})»: il finto refundOrder viene chiamato 1 volta.",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "v-b01 (qa), 2026-11-06: rilanciato il test vitest del cercatore (rosso); letti annulla.ts, payout.ts, la rotta e enforce_order_update_rules (migrazione 179: esce subito per service_role, quindi nessuna difesa nel database). Seconda lente: minore, nessun soldo perso e finestra di pochi secondi.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S06-004",
+      "dimensione": "qa-flussi",
+      "titolo": "L'ultimo giorno del recesso il sito rifiuta il reso dal pomeriggio, e col cambio d'ora anche prima dell'ora della consegna",
+      "severita": "minore",
+      "file": "app/api/returns/create/route.ts:99-102 · app/orders/[id]/return/page.tsx:252-255",
+      "descrizione": "Il termine si conta in millisecondi: (Date.now() - delivered_at)/86.400.000 > 14 (riga 101-102). Per l'art. 52 Cod. Cons. con il Reg. 1182/71 il giorno della consegna non conta e il termine scade alle 24:00 del quattordicesimo giorno. Il server invece chiude il diritto all'ora esatta della consegna del giorno 14, e siccome conta ore di 24 e non giorni di calendario, dopo il 25/10 (fine dell'ora legale) lo chiude un'ora prima dell'ora della consegna sull'orologio di Piacenza. La pagina (riga 253, Math.floor) intanto lascia compilare tutto.",
+      "impatto": "Pane Quotidiano consegna martedì 20/10/2026 alle 18:00. Martedì 3/11 il server rifiuta il reso già dalle 17:01 («Termine per il recesso scaduto»), un'ora prima dell'ora della consegna per via del cambio d'ora del 25/10. Per legge il cliente aveva tempo fino alle 23:59 del 3/11. Il diritto non si perde (il cliente può scrivere una mail), si perdono alcune ore di finestra sul sito.",
+      "fix": "Calcolare la scadenza come fine del giorno di calendario (Europe/Rome) consegna+14: dataLocale(delivered_at)+14 giorni alle 23:59:59 ora di Piacenza; stessa funzione condivisa con la pagina (risolve anche la voce aperta 1652 invece di allineare la pagina all'errore del server).",
+      "causa_radice": "Termine legale in giorni di calendario misurato come durata in millisecondi, senza fuso.",
+      "prova": "TZ=Europe/Rome vitest su /tmp/claude-0/-home-user-ad-mycity/f4fef1a6-4433-5b5a-8f00-fe4866b54526/scratchpad/S06/D/zz-s06-d-recesso-ultimo-giorno.test.ts (copiato in tests/unit, poi cancellato): orologio finto al 3/11/2026 16:30Z e 20:00Z con delivered_at 2026-10-20T16:00Z, atteso 201.",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "Con consegna il 20/10 alle 18:00: 201 il 3/11 alle 16:59 di Piacenza, 400 «Termine per il recesso scaduto» alle 17:01, 17:30, 21:00 e 23:59.",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "v-d01 (qa), 2026-11-06: rilanciato con TZ=Europe/Rome e orologio finto sul gestore vero della rotta, anche leggendo il messaggio d'errore. Errore del server confermato rispetto ad art. 52 Cod. Cons. e Reg. 1182/71. Prova più forte della voce 1652, che incolpa la pagina e porterebbe ad allineare la pagina all'errore. Seconda lente: minore.",
+      "gia_noto": "qa-flussi|nell'ultimo giorno di recesso e nel giorno dopo, la pagina fa compilare tutto il reso, iban compreso, e poi il server lo rifiuta come scaduto",
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S06-005",
+      "dimensione": "api-backend",
+      "titolo": "Se il servizio di accesso frena o e' guasto, il cambio password dice «password attuale non corretta»",
+      "severita": "minore",
+      "file": "app/api/account/cambia-password/route.ts:79-91 · app/profile/settings/page.tsx:278-281",
+      "descrizione": "Qualunque errore di signInWithPassword (riga 79-91) diventa 401 «Password attuale non corretta»: anche il 429 del freno di Supabase Auth o un 500. In piu' la pagina usa la stessa frase come ripiego per ogni risposta non JSON (riga 280).",
+      "impatto": "Un cliente scrive la password giusta mentre Supabase Auth frena: legge che e' sbagliata, la riprova (bruciando i 5 tentativi del quarto d'ora) e finisce a fare il recupero password che non serviva.",
+      "fix": "Riusare esitoErroreDiAccesso come fa già app/api/auth/signin/route.ts:84-91 (troppi tentativi → rateLimited, servizio giù → unavailable, il resto → 401). Stessa classe della voce 27, riparata solo sull'accesso.",
+      "causa_radice": "Ogni errore della verifica letto come «credenziali sbagliate».",
+      "prova": "vitest su /tmp/claude-0/-home-user-ad-mycity/f4fef1a6-4433-5b5a-8f00-fe4866b54526/scratchpad/S06/D/zz-s06-d-password.test.ts, primo caso.",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "429 -> 401 {message:'Password attuale non corretta'} | 500 -> 401 stesso messaggio",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "v-dacc (qa), 2026-11-06: rilanciato il test del cercatore: 429 → 401 «Password attuale non corretta» e 500 → 401 identico. La difesa esitoErroreDiAccesso c'è in signin e manca qui.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S06-006",
+      "dimensione": "api-backend",
+      "titolo": "Si puo' «cambiare» la password con la stessa di prima e il sito dice «aggiornata»",
+      "severita": "minore",
+      "file": "app/api/account/cambia-password/route.ts:36-39 · app/api/account/cambia-password/route.ts:93-101 · lib/account/cambio-password.ts:37-44",
+      "descrizione": "Ne' la rotta ne' perchePasswordNonCambiabile confrontano nuova e attuale: con passwordAttuale === nuovaPassword la rotta riscrive la stessa e risponde 200, la pagina mostra «Password aggiornata con successo».",
+      "impatto": "Chi teme che la password sia stata rubata e la «cambia» rimettendo la stessa crede di essersi messo al sicuro.",
+      "fix": "Rispondere 400 quando la nuova password è uguale all'attuale, sia nella rotta sia in perchePasswordNonCambiabile.",
+      "causa_radice": "Quando la scrittura della password è passata dal browser (updateUser, che rifiuta la password uguale) al client di servizio (admin.updateUserById, che non la rifiuta), quel controllo si è perso e nessuno l'ha rimesso nella rotta.",
+      "prova": "vitest su /tmp/claude-0/-home-user-ad-mycity/f4fef1a6-4433-5b5a-8f00-fe4866b54526/scratchpad/S06/D/zz-s06-d-password.test.ts, secondo caso.",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "uguale -> 200, scritte 1",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "v-dacc (qa), 2026-11-06: test vitest: password uguale → 200 con 1 scrittura. Nel sorgente di Supabase Auth il controllo «New password should be different» sta solo su PUT /user, non sull'endpoint amministrativo usato dalla rotta.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S06-007",
+      "dimensione": "qa-flussi",
+      "titolo": "Dopo un reso già rimborsato il server ne accetta un altro sullo stesso ordine, mentre la pagina dice che non si può",
+      "severita": "minore",
+      "file": "app/api/returns/create/route.ts:160-167 · app/orders/[id]/stato-del-reso.ts:39-43 · app/api/cron/release-payouts/route.ts:208",
+      "descrizione": "La rotta blocca solo i resi APERTI (riga 164). La pagina dell'ordine (statoDelReso) dice invece che dopo un REFUNDED non se ne chiede un altro; ma il modulo /orders/[id]/return guarda solo gli aperti e il server accetta. Lo stesso vale dopo un REJECTED: si puo' richiedere subito, fino a 10 volte l'ora. Ogni reso aperto ferma il bonifico (release-payouts riga 231-235).",
+      "impatto": "Un cliente ha già avuto il rimborso di un reso; dalla pagina non può chiederne un altro, ma una richiesta al server viene accettata (201). Il negozio riceve una richiesta inutile su un ordine già rimborsato. Se il primo rimborso era parziale, il bonifico del resto al negozio torna fermo.",
+      "fix": "Un'unica regola server+pagina: niente nuovo reso se l'ordine e' REFUNDED per intero o se lo stesso articolo ha gia' un reso rimborsato/rifiutato; sul modulo leggere tutti i resi, non solo gli aperti.",
+      "causa_radice": "La regola «si puo' chiedere un altro reso?» vive solo nella pagina dell'ordine; server e modulo ne usano un'altra.",
+      "prova": "vitest su /tmp/claude-0/-home-user-ad-mycity/f4fef1a6-4433-5b5a-8f00-fe4866b54526/scratchpad/S06/D/zz-s06-d-secondo-reso.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "statoDelReso -> sePuoChiederne false (verde); create con REFUNDED esistente -> 201 «expected 201 to be 400» (rosso)",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "v-dpost (qa), 2026-11-06: rilanciata la prova del cercatore (201 invece di 400, rossa per il motivo giusto). L'indice returns_un_solo_reso_aperto copre solo i resi aperti. Corretto l'impatto: dopo un rimborso pieno payout_status è già REFUNDED/REVERSED, il fermo vale solo dopo un rimborso parziale.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S06-008",
+      "dimensione": "frontend-ux",
+      "titolo": "Se la recensione al negozio entra e quella al fattorino no, il fattorino non si puo' piu' recensire",
+      "severita": "minore",
+      "file": "app/orders/[id]/review/page.tsx:100-101 · app/orders/[id]/review/page.tsx:113-138 · app/orders/[id]/review/page.tsx:167-174",
+      "descrizione": "Le due scritture sono separate: se store_reviews entra e rider_reviews fallisce (rete, regola) la pagina mostra l'errore; al ritorno giaRecensito guarda solo store_reviews (riga 100) e mostra «hai gia' recensito» (riga 167): il modulo del fattorino non torna. Se invece si riprova subito, il negozio da' 23505 e il messaggio e' «Avevi gia' recensito… la recensione di prima resta quella valida» anche se il fattorino e' stato recensito ora per la prima volta.",
+      "impatto": "Un cliente recensisce negozio e fattorino; la recensione al negozio entra, quella al fattorino no. Se esce e torna, il fattorino non è più recensibile. Se riprova subito il voto entra, ma il messaggio dice che aveva già recensito.",
+      "fix": "giaRecensito per parte (negozio e fattorino separati), mostrare il modulo solo per la parte mancante.",
+      "causa_radice": "Lo stato «recensito» e' uno solo per due recensioni distinte.",
+      "prova": "lettura righe citate",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "v-dpost (qa), 2026-11-06: letto review/page.tsx:100-174 e cercato ogni scrittura di rider_reviews in app, lib e components: l'unica è questa pagina. Impatto corretto: riprovare subito funziona.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S06-009",
+      "dimensione": "frontend-ux",
+      "titolo": "Se un'impostazione delle notifiche non si salva, l'interruttore resta nella posizione nuova",
+      "severita": "minore",
+      "file": "app/profile/settings/page.tsx:231-242",
+      "descrizione": "updatePref cambia subito lo stato (riga 232) e su errore mostra solo «Errore nel salvataggio» (riga 237) senza rimettere il valore: l'interruttore dice «spento» mentre nel database e' acceso.",
+      "impatto": "Un cliente spegne le promozioni con la rete instabile, vede l'avviso di errore sparire e l'interruttore spento: continua a ricevere promozioni convinto di averle spente.",
+      "fix": "Su errore ripristinare il valore precedente (setPrefs(prev)).",
+      "causa_radice": "Aggiornamento ottimistico senza ritorno indietro.",
+      "prova": "lettura righe citate",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "v-dacc (qa), 2026-11-06: letto page.tsx:231-242: lo stato cambia subito (riga 232), in errore solo un avviso (riga 237) senza tornare al valore di prima, nessuna rilettura successiva. Non è un doppione della voce 983 (lingua mai salvata) né della 329 (altro file, riparata).",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S06-010",
+      "dimensione": "frontend-ux",
+      "titolo": "Nella pagina dei miei ordini, dopo il centesimo gli ordini vecchi spariscono senza avviso",
+      "severita": "minore",
+      "file": "app/orders/page.tsx:70-77 · app/orders/page.tsx:319-329",
+      "descrizione": "La lettura ha .limit(100) e il commento dice che il tetto e' «mostrato a chi guarda», ma il titolo scrive solo «100 ordini» e non c'e' ne' un avviso ne' un «carica altri».",
+      "impatto": "Un cliente fedele con 130 ordini cerca quello di marzo per chiedere una fattura o un reclamo: non c'e', e la pagina dice «100 ordini» come se fossero tutti.",
+      "fix": "Paginazione (range) con «mostra altri», o almeno la frase «ultimi 100 ordini».",
+      "causa_radice": "Tetto introdotto senza la parte visibile promessa.",
+      "prova": "lettura righe citate",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "v-dpost (qa), 2026-11-06: letto app/orders/page.tsx: .limit(100) con il commento che promette il tetto «mostrato a chi guarda», ma a schermo solo «N ordini», senza avviso né «carica altri». È l'unica pagina con l'elenco ordini del cliente.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S06-011",
+      "dimensione": "frontend-ux",
+      "titolo": "La casella «pagina nascosta» promette che si apre col link diretto, ma chi riceve il link vede «non trovato»",
+      "severita": "minore",
+      "file": "components/seller/site/PageEditor.tsx:104 · app/store/[id]/[slug]/page.tsx:73-75 · app/store/[id]/[slug]/page.tsx:92-96",
+      "descrizione": "Nell'editor del sito del negozio la casella dice «Pagina nascosta (raggiungibile solo con il link diretto, non nel menu)» (PageEditor.tsx:104). La pagina pubblica invece risponde notFound a chiunque non sia il proprietario in anteprima (page.tsx:74-75), e il banner dell'anteprima dice «questa pagina è nascosta e non è visibile al pubblico» (riga 95). Tre testi, due promesse diverse.",
+      "impatto": "Il fornaio prepara una pagina «Ordini per le feste», la segna nascosta e manda il link a dieci clienti fedeli su WhatsApp, come gli ha detto la casella. Tutti e dieci vedono «pagina non trovata».",
+      "fix": "Decidere una sola cosa: o la pagina nascosta si apre col link (togliere il notFound per i visitatori e cambiare il banner), o è una bozza privata (cambiare il testo della casella e togliere le pagine nascoste dai dati pubblici del negozio).",
+      "causa_radice": "Il significato di «nascosta» è scritto in tre posti diversi che nessuno confronta.",
+      "prova": "Lettura di components/seller/site/PageEditor.tsx:104 e app/store/[id]/[slug]/page.tsx:70-96 a db5164c.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "La casella promette l'apertura col link; la riga 75 risponde notFound se hidden e chi guarda non è il proprietario in anteprima; il banner (riga 95) dice «non visibile al pubblico».",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "Visto da v-ar1 (qa) mentre smentiva un sospetto di sicurezza sulle stesse pagine; confermato dalla sessione S06 rileggendo le tre righe a db5164c. Nel registro non c'è nessuna voce sul testo della casella.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S06-012",
+      "dimensione": "qa-flussi",
+      "titolo": "Un capo con più di cento combinazioni di taglia e colore perde le ultime in silenzio, e il cliente che le sceglie non può comprarle",
+      "severita": "minore",
+      "file": "lib/products/variants.ts:24 · lib/products/variants.ts:88 · app/product/[id]/page.tsx:490-493 · app/product/[id]/page.tsx:558",
+      "descrizione": "buildCombinations taglia le combinazioni a MAX_VARIANTS=100 (riga 88) senza avvisare chi le crea: il modulo del negozio (components/seller/ProductForm.tsx:298 via reconcileVariants) salva solo le prime 100. Sulla scheda i pulsanti nascono da deriveOptionGroups, che elenca TUTTI i valori presenti (la XXL e i colori 16-17 ci sono, perché esistono in altre combinazioni), ma findVariant non trova la coppia mancante: needsVariantChoice resta vero anche con tutte le opzioni scelte, e il cliente legge «Scegli taglia e colore prima di aggiungere» dopo averle scelte.",
+      "impatto": "Una boutique di via XX Settembre mette una maglia in 6 taglie e 17 colori (102 combinazioni): XXL+Colore16 e XXL+Colore17 non esistono. Un cliente sceglie XXL e il colore 17, preme Aggiungi e riceve «Scegli taglia e colore»: non può comprare, e il negozio non sa di aver perso due varianti.",
+      "fix": "Nel modulo del negozio bloccare o avvisare quando le combinazioni superano 100 (mostrare il conto prima di salvare); sulla scheda distinguere «combinazione non disponibile» da «scegli le opzioni» e spegnere i valori che, con le scelte già fatte, non hanno una variante.",
+      "causa_radice": "Il tetto è applicato con uno slice silenzioso in una funzione pura, e la scheda deriva i pulsanti dai singoli valori invece che dalle combinazioni esistenti.",
+      "prova": "cd /home/user/ad-mycity/marketplace && cp /tmp/claude-0/-home-user-ad-mycity/f4fef1a6-4433-5b5a-8f00-fe4866b54526/scratchpad/S06/A/zz-s06-a-varianti.test.ts tests/unit/ && npx vitest run tests/unit/zz-s06-a-varianti.test.ts; rm tests/unit/zz-s06-a-varianti.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO: expected 100 to be 102; il log elenca 'scelte possibili senza variante: [XXL+Colore16, XXL+Colore17]'",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "v-amin (qa), 2026-11-06: prova del cercatore rilanciata, rossa (100 combinazioni invece di 102: mancano XXL+Colore16 e XXL+Colore17). Cercato un tetto a monte in AttributesFields, ProductForm, persistVariants e nelle migrazioni: non c'è (solo 30 valori per opzione e 3 opzioni, cioè fino a 900 combinazioni).",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S06-013",
+      "dimensione": "qa-flussi",
+      "titolo": "Il voto per il negozio del mese dato nelle prime ore del primo giorno non entra nella classifica che si vede",
+      "severita": "minore",
+      "file": "app/shop-of-month/page.tsx:53 · app/shop-of-month/page.tsx:97 · migrations/034_shop_of_month_events_and_admin_data.sql:58-62",
+      "descrizione": "La pagina scrive il voto con month = primoDelMesePiacenza() (riga 53, usata alla 97). La vista shop_of_month_leaderboard conta solo v.month = DATE_TRUNC('month', now())::date, cioè il mese nel fuso del database (UTC). Fra mezzanotte e l'1:00 (ora solare) o le 2:00 (ora legale) del primo del mese i due mesi differiscono: il voto finisce nel mese nuovo, la classifica mostra ancora il mese vecchio. La riparazione #211 ha girato il fuso solo dal lato del browser.",
+      "impatto": "Martedì 1 dicembre 2026 alle 00:30 una cliente vota la Panetteria: la pagina le dice «Hai già votato questo mese» ma la classifica (che conta novembre) non cambia fino all'1:00. Per 1-2 ore al mese la classifica e il voto non si parlano; nessun voto si perde, ma sembra che il voto non sia stato contato.",
+      "fix": "Nella vista usare DATE_TRUNC('month', now() AT TIME ZONE 'Europe/Rome')::date (o passare il mese come parametro di una funzione), così mese scritto e mese contato sono lo stesso.",
+      "causa_radice": "Due orologi diversi per la stessa chiave: Piacenza nel browser, UTC nella vista.",
+      "prova": "cd /home/user/ad-mycity/marketplace && cp /tmp/claude-0/-home-user-ad-mycity/f4fef1a6-4433-5b5a-8f00-fe4866b54526/scratchpad/S06/A/zz-s06-a-mese-voto.test.ts tests/unit/ && TZ=Europe/Rome npx vitest run tests/unit/zz-s06-a-mese-voto.test.ts; rm tests/unit/zz-s06-a-mese-voto.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO 2 casi su 3: '1 dicembre 00:30 a Piacenza voto scritto per 2026-12-01 · classifica conta 2026-11-01' e '1 giugno 01:30 voto 2027-06-01 · classifica 2027-05-01'. Limite della prova: il lato SQL è ricostruito in JS assumendo il database in UTC (default Supabase), non eseguito su Postgres.",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "v-amin (qa), 2026-11-06: prova rilanciata con TZ=Europe/Rome, rossa in 2 casi su 3 (1/12 00:30 e 1/6 01:30); il terzo verde è giusto (il 1/11 l'ora legale è già finita). La vista non è ridefinita dopo la 034 e nessuna migrazione imposta il fuso del database. Limite: il fuso UTC del database di produzione è dedotto (predefinito di Supabase), non letto. Nelle 1-2 ore la classifica mostra il mese prima; i voti nuovi non si perdono.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S06-014",
+      "dimensione": "frontend-ux",
+      "titolo": "In una lista, i prodotti che il negozio ha tolto dalla vetrina restano contati ma non si vedono e non si possono togliere",
+      "severita": "minore",
+      "file": "app/lists/page.tsx:60 · app/lists/page.tsx:84 · app/lists/page.tsx:104 · app/lists/page.tsx:157 · app/lists/[id]/page.tsx:310 · app/lists/[id]/page.tsx:323 · app/lists/[id]/page.tsx:355-363",
+      "descrizione": "La pagina delle liste conta le righe con items_count:product_list_items(count) (riga 60): conta anche i prodotti nascosti o di un negozio non approvato. Nella lista, per quelle righe l'aggancio al prodotto torna vuoto (la regola sui prodotti non li mostra) e la riga 323 fa 'if (!p) return null': niente nome, niente «non più disponibile», e niente pulsante cestino, che sta dentro la stessa riga. Se tutti i prodotti sono stati nascosti, items.length > 0 salta lo stato vuoto (riga 310) e si vede un elenco bianco.",
+      "impatto": "Una cliente ha la lista «Regali di Natale» con 5 prodotti; il 20 novembre la Bottega nasconde 2 articoli (nascondiProdotto li mette in bozza). L'elenco delle liste dice ancora «5 prodotti», la lista ne mostra 3, e i 2 fantasmi non si possono togliere: il conteggio resta sbagliato per sempre.",
+      "fix": "Disegnare le righe con prodotto non leggibile come «Non più disponibile» col cestino; contare solo i prodotti leggibili (o mostrare «3 di 5 disponibili»); trattare come vuota una lista senza prodotti leggibili.",
+      "causa_radice": "Il conteggio legge la tabella delle righe, l'elenco legge il prodotto agganciato: due fonti, e la seconda scarta in silenzio.",
+      "prova": "Lettura di app/lists/[id]/page.tsx:320-366: il return null della riga 323 precede il pulsante Rimuovi (righe 355-363); app/lists/page.tsx:60 e :157 contano le righe senza guardare il prodotto.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "v-amin (qa), 2026-11-06: lettura confermata; la regola di lettura dei prodotti (migrazione 129, righe 78-83) mostra solo i disponibili e lib/products/nascondi.ts:31 cambia lo stato, quindi l'aggancio torna nullo; nessun trigger di pulizia su product_list_items e nessun'altra interfaccia per togliere la riga.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S06-015",
+      "dimensione": "api-backend",
+      "titolo": "Se il database ha un singhiozzo, la home torna per un minuto alla versione di fabbrica per tutti",
+      "severita": "minore",
+      "file": "app/page.tsx:92-96 · app/page.tsx:124-128 · app/page.tsx:182",
+      "descrizione": "leggiConfigurazioneHome legge site_settings.home_site con 'const { data } = await …' e non guarda error: supabase-js non lancia, quindi un guasto diventa data=null e normalizeHomeSite(null), cioè le sezioni di fabbrica. Il risultato passa da unstable_cache con revalidate 60 s: la home sbagliata viene servita a tutti i visitatori per un minuto, e nei registri non resta niente. Il try/catch intorno copre solo le eccezioni, non l'errore restituito.",
+      "impatto": "Un sabato mattina alle 10 il database risponde 503 per due secondi: per i 60 secondi successivi tutti i clienti vedono la home di fabbrica invece di quella sistemata dall'admin (sezioni, testi dell'eroe, negozio in evidenza), e nessuno sa perché.",
+      "fix": "Se error è presente, lanciare (così unstable_cache non salva) e ripiegare sulla configurazione di fabbrica solo per quella richiesta, scrivendo un avviso nei registri.",
+      "causa_radice": "Errore restituito di supabase-js trattato come risposta vuota, dentro una cache condivisa.",
+      "prova": "cd marketplace && cp <scratchpad>/S06/verifica-v-amin/zz-s06-v-amin-home.test.ts tests/unit/ && npx vitest run tests/unit/zz-s06-v-amin-home.test.ts; rm tests/unit/zz-s06-v-amin-home.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "normalizeHomeSite(undefined) (cosa succede con data=null) restituisce le 11 sezioni di fabbrica, uguali a defaultHomeSite(); righe di log scritte: 0 («expected 0 to be greater than 0»).",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "v-amin (qa), 2026-11-06: scritta una prova nuova, rossa (home di fabbrica e nessun log). Corretto il testo: anche il ramo catch restituisce un valore normale, quindi anche un'eccezione finisce in cache per 60 secondi come home di fabbrica.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S06-016",
+      "dimensione": "qa-flussi",
+      "titolo": "Se il negozio alza un prezzo mentre il cliente è in cassa, l'ordine in contanti nasce col prezzo nuovo senza che nessuno glielo dica",
+      "severita": "minore",
+      "file": "app/api/orders/cod/route.ts:78-97 · app/api/orders/cod/route.ts:776-804 · app/checkout/page.tsx:298-305 · app/checkout/page.tsx:926-955",
+      "descrizione": "Il browser manda al server solo prodotti e quantità (page.tsx:929-933), non il totale che ha mostrato. Il server ricalcola con i prezzi e le promozioni del momento e crea l'ordine. La risposta porta il totale vero di ogni ordine (totalCents), ma la cassa lo usa solo per i conti di analytics (page.tsx:991) e non lo confronta con quello mostrato. L'avviso «prezzo cambiato» della cassa scatta solo al caricamento della pagina.",
+      "impatto": "Alle 19:55 la promozione -30% sulle torte scade mentre il cliente compila l'indirizzo: in cassa legge 14 €, l'ordine nasce a 20 € e alla porta gli chiedono 20 €.",
+      "fix": "Mandare il totale visto (in centesimi) nel corpo della richiesta; se il server calcola un totale diverso, rispondere 409 con le cifre nuove senza creare l'ordine (stessa porta dell'avviso prezzi già esistente).",
+      "causa_radice": "Il controllo «prezzo cambiato» vive solo nel browser e solo all'ingresso in cassa.",
+      "prova": "lettura del codice: grep -n \"expected\\|totaleVisto\" app/api/orders/cod/route.ts non trova nessun confronto",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "v-bmin (qa), 2026-11-06: letto a db5164c: il browser non manda nessun importo, lo schema non ha un campo per il totale visto, il server ricalcola e crea l'ordine senza confronto; l'avviso «prezzo cambiato» si calcola solo quando arriva la lettura del carrello, che non si ripete mentre il cliente resta sulla pagina. Il ramo carta non ha il difetto (la pagina di Stripe mostra l'importo prima di pagare). Dopo l'ordine il cliente vede il totale nuovo su /orders/<id> e può annullare: per questo resta minore.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S06-017",
+      "dimensione": "api-backend",
+      "titolo": "Lo stesso cliente può usare il codice «solo primo ordine» due volte, aprendo la cassa in due schede",
+      "severita": "minore",
+      "file": "lib/ordini/rivendica-il-codice-sconto.ts:133-151 · lib/coupons.ts:87-125",
+      "descrizione": "Il controllo «solo primo ordine» si fa in validateCoupon contando gli ordini del cliente; poi claim_coupon scala il contatore senza sapere chi usa il codice. Due invii paralleli con chiavi diverse (due schede) trovano entrambi zero ordini e rivendicano entrambi. Oggi i codici in cassa sono spenti (CODICI_SCONTO_IN_CASSA), quindi minore.",
+      "impatto": "Quando si riaccende il benvenuto da 5 €, un cliente apre due schede con due carrelli e prende 10 € di benvenuto.",
+      "fix": "Legare la rivendicazione al cliente (tabella coupon_redemptions con unique(coupon, user) per i codici first_order_only o con tetto per cliente) dentro claim_coupon.",
+      "causa_radice": "Il vincolo per cliente è un controllo letto-poi-scritto fuori dal database.",
+      "prova": "cp <scratchpad>/S06/verifica-v-bmin/zz-s06-v-bmin-primo-ordine.test.ts marketplace/tests/unit/ && cd marketplace && npx vitest run tests/unit/zz-s06-v-bmin-primo-ordine.test.ts (poi cancellato); più la gara SQL del cercatore gara-codice.sh su mycity_s06_b",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "In parallelo, stesso cliente senza ordini precedenti: tutte e due le rivendicazioni ok, usi del codice = 2, claim_coupon riceve solo {p_code}. In sequenza la seconda è rifiutata. Gara SQL del cercatore (gara 4): t / t, usi = 2.",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "v-bmin (qa), 2026-11-06: prova vitest sua più la gara SQL del cercatore. Dormiente: i codici in cassa sono spenti (CODICI_SCONTO_IN_CASSA=false, lib/funzioni-al-lancio.ts:111) e il registro dei fatti chiede di riparare prima di riaccendere. Corretto l'impatto: il benvenuto da 5 € è stato tolto per decisione.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S06-018",
+      "dimensione": "qa-flussi",
+      "titolo": "Chi sceglie «Domani sabato 7/11» alle 23:59 e conferma dopo mezzanotte riceve l'ordine per domenica, e l'email dice solo «Domani»",
+      "severita": "minore",
+      "file": "app/api/orders/cod/route.ts:897-909 · app/api/orders/cod/route.ts:1340 · lib/ordini/fascia-leggibile.ts:74-84 · app/api/stripe/checkout/route.ts:204 · lib/email/templates.ts:148",
+      "descrizione": "Dal 5/11 la mattonella «Domani» mostra la data (DeliverySlotPicker.tsx:178-179). Ma sull'ordine viaggia solo la stringa «Domani · 9:00–11:00» (quando-arriva.ts:75), senza il giorno. La rotta dei contanti la giudica sull'ora in cui arriva (motivoFasciaRifiutata, route.ts:903-907) e la salva così (route.ts:1340); poi negozio, fattorino, cliente e scadenza la contano da created_at (fascia-leggibile.ts:74-84). Il selettore ridisegna ogni 30 secondi e a mezzanotte cambia la data della mattonella in silenzio: nessun avviso, la fascia resta segnata. La rotta della carta registra il giorno (stripe/checkout/route.ts:204) e il webhook lo riporta (fasciaAlGiornoDellOrdine); i contanti no.",
+      "impatto": "Venerdì 6/11 Maria sceglie «Domani sab 7/11 · 9:00–11:00» alle 23:55 e conferma alle 00:03. L'ordine nasce per domenica 8/11: la pagina dell'ordine lo scrive, ma l'email dice solo «Domani · 9:00–11:00», che a mezzanotte si legge come sabato. Se Pane Quotidiano è aperto la domenica il pane arriva un giorno dopo; se è aperto ma non accetta, l'ordine si annulla da solo domenica. Nessun soldo perso: si paga alla consegna. Lo stesso vale per la carta.",
+      "fix": "La cassa manda anche il giorno a cui si riferisce la fascia (AAAA-MM-GG di Piacenza, come già fa la rotta della carta alla riga 204); la rotta dei contanti, se il giorno non coincide con quello che l'etichetta indica adesso, risponde 409 «è passata la mezzanotte: ricontrolla il giorno» invece di spostare la consegna. In alternativa il selettore, quando cambia la data, mostra un avviso come avvisoFasciaScaduta.",
+      "causa_radice": "La fascia è un'etichetta relativa («Domani») senza data, interpretata due volte con due orologi diversi (cassa e rotta).",
+      "prova": "cp scratchpad/S06/C/zz-s06-c-tempo.test.ts marketplace/tests/unit/ && cd marketplace && TZ=UTC npx vitest run tests/unit/zz-s06-c-tempo.test.ts -t C-01",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO: 'promesso in cassa: sab 7/11 · scritto sull ordine: dom 8/11 · 9:00–11:00 · si annulla da solo: 2026-11-08T09:00:59.999Z'; la rotta non rifiuta (motivoFasciaRifiutata = null). Stesso esito con TZ=Europe/Rome.",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "v-c01 (qa), 2026-11-06: rilanciata la prova con TZ=UTC (come il server su Vercel): rossa (promesso sabato 7/11, scritto domenica 8/11). Stessa causa della voce aperta 2384, con una prova che gira in più. Corretto il testo: anche la carta ha lo stesso difetto (stripe/checkout/route.ts:204 usa l'ora del server), la pagina dell'ordine mostra la data giusta (orders/[id]/page.tsx:868-870) ma l'email dice solo «Domani» (lib/email/templates.ts:148), e l'annullo automatico arriva solo se il negozio è aperto la domenica e non accetta. Seconda lente: minore.",
+      "gia_noto": "architettura|una fascia «domani» inviata alle 23:59 e arrivata alla rotta dopo mezzanotte si giudica sul giorno dopo",
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S06-019",
+      "dimensione": "api-backend",
+      "titolo": "Falla di sicurezza da chiudere (flussi): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+      "severita": "grave",
+      "file": "(nel referto privato)",
+      "descrizione": "nel referto privato",
+      "impatto": "nel referto privato",
+      "fix": "nel referto privato",
+      "causa_radice": "nel referto privato",
+      "prova": "nel referto privato",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "nel referto privato",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "nel referto privato",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": true
+    },
+    {
+      "id": "S06-020",
+      "dimensione": "api-backend",
+      "titolo": "Le rotte accettano una consegna a domicilio senza fascia: l'ordine nasce senza orario, mentre la cassa ne manda sempre una",
+      "severita": "minore",
+      "file": "lib/ordini/fascia-consegna.ts:1-38 · app/api/orders/cod/route.ts:89 · app/api/orders/cod/route.ts:897-907 · app/api/orders/cod/route.ts:1340 · app/api/stripe/checkout/route.ts:81",
+      "descrizione": "Nello schema delle due rotte d'ordine la fascia è facoltativa (campoFasciaConsegna .optional().nullable(), pensata per il ritiro in negozio), ma l'obbligo non è legato a pickupInStore. Senza fascia eConsegnaVeloce è falso (riga 897), quindi non scattano i controlli della veloce; motivoFasciaRifiutata con fascia nulla controlla solo che il negozio sia aperto adesso (riga 904, lib/store-hours.ts:313). L'ordine nasce con delivery_slot nullo (riga 1340): negozio, fattorino e cliente non vedono nessun orario, e l'email al negozio dice solo «accettalo appena puoi». La cassa del sito manda sempre una fascia (app/checkout/page.tsx:579): il caso nasce solo da una richiesta scritta a mano o da un client vecchio.",
+      "impatto": "Un venerdì alle 22:30 arriva al bar di via Calzolai un ordine a domicilio senza orario. Il barista non sa se il cliente lo aspetta stasera o domattina e deve telefonare per chiederlo. Non c'è un prezzo aggirato: la stessa spesa con «Domani · 7:30–9:00» paga la stessa consegna da 3 €.",
+      "fix": "Nelle due rotte rendere la fascia obbligatoria quando non c'è ritiro (refine: pickupInStore oppure deliverySlot), con 400 «Scegli quando vuoi ricevere l'ordine». Nella rotta dei contanti il controllo va rifatto dopo la riga 357, dove un ritiro spento viene forzato a consegna e arriverebbe senza fascia.",
+      "causa_radice": "La fascia è stata resa facoltativa per il ritiro, ma l'obbligo per la consegna non è mai stato scritto nello schema.",
+      "prova": "cp <scratchpad>/S06/C/zz-s06-c-senza-fascia.test.ts marketplace/tests/unit/ && cd marketplace && TZ=UTC npx vitest run tests/unit/zz-s06-c-senza-fascia.test.ts (poi cancellato)",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "Controllo verde: la veloce alle 22:30 con zero fattorini riceve 409. Rossa: senza fascia → 200, ordine creato con slot null e consegna 300 centesimi.",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "v-cr2 (qa), 2026-11-06: prova del cercatore rilanciata (rossa) e prova di confronto sua: senza fascia e con «Domani · 7:30–9:00» passano entrambe con la stessa consegna da 3 €, a negozio chiuso 409. A valle l'ordine è «quando capita», con tre ore per l'accettazione e nessuna promessa di veloce. Tolto il segno riservato: nessun prezzo o servizio aggirato, va trattato in chiaro come minore.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S06-021",
+      "dimensione": "qa-flussi",
+      "titolo": "Gli orari dei negozi non conoscono i festivi: a Natale e al patrono la cassa vende consegne come in un giorno qualunque",
+      "severita": "minore",
+      "file": "lib/store-hours.ts:303-321 · lib/store-hours.ts:112-118 · lib/store-hours.ts:229-243",
+      "descrizione": "Gli orari sono solo settimanali (DAY_KEYS). Non esiste una chiusura per data: il 25/12, l'1/1, il 15/8 e il 4/7 (Sant'Antonino) valgono come il giorno della settimana. L'unico modo per chiudere un giorno è togliere le ore del venerdì e ricordarsi di rimetterle (StoreHoursEditor). Anche la veloce (veloceSiPuo) e il freno usano le stesse ore.",
+      "impatto": "Giovedì 24/12 alle 20:00 la cassa vende «Domani · 9:00–11:00» per venerdì 25/12 a un forno con l'orario del venerdì 8-13. Se il forno è chiuso per Natale, nessuno accetta: Maria aspetta la mattina di Natale e l'ordine si annulla da solo verso le 10.",
+      "fix": "Una tabella (o un campo jsonb) di chiusure straordinarie per data, letta da negozioPuoServire/isStoreClosedForOrder col giorno di Piacenza; nell'editor degli orari «Chiuso il…». Decisione di Nicola se farlo prima di Natale.",
+      "causa_radice": "Il modello degli orari è solo per giorno della settimana.",
+      "prova": "cp scratchpad/S06/C/zz-s06-c-tempo.test.ts marketplace/tests/unit/ && cd marketplace && npx vitest run tests/unit/zz-s06-c-tempo.test.ts -t C-02",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "verde come constatazione: negozioPuoServire(orari giovedì-venerdì 8-13, 'Domani · 9:00–11:00', 24/12 20:00) = true; nel codice non c'è nessun concetto di festivo (grep festiv/holiday: solo commenti sulle ferie).",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "v-cmin (qa), 2026-11-06: vitest con orologio finto: giovedì 24/12 alle 20:00 «Domani · 9:00–11:00» è servibile come giovedì 17/12; il 25/12 alle 10:00 il negozio risulta aperto; controllo negativo (mercoledì chiuso → no) giusto. Cercata una chiusura per data in migrazioni e codice: non esiste; il banner «Chiusi per ferie» (components/seller/AnnouncementEditor.tsx) è solo testo e non lo legge la cassa.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S06-022",
+      "dimensione": "qa-flussi",
+      "titolo": "La consegna veloce si vende a tutti insieme anche con un solo fattorino: nessuno conta quante veloci ha già in mano",
+      "severita": "minore",
+      "file": "lib/ordini/consegna-veloce.ts:63-65 · lib/ordini/consegna-veloce.ts:75-88",
+      "descrizione": "La veloce si concede se c'è almeno un fattorino acceso. Non si guarda quante consegne veloci (o in fascia vicina) ha già in corso: con un fattorino solo, dieci clienti alle 12:00 ricevono tutti «arrivo in 30-60 minuti».",
+      "impatto": "Al lancio il fattorino è uno (Nicola in bici, registro-fatti). Sabato alle 12:00 tre clienti di zone diverse scelgono «Adesso» e pagano 1 € in più: il terzo riceve la spesa ben oltre i 60 minuti promessi.",
+      "fix": "In veloceSiPuo un tetto: veloci NEW/ACCEPTED/READY/ASSIGNED delle ultime 60 minuti per fattorino online (es. 2), oltre il quale la veloce non si offre. Il numero lo decide Nicola.",
+      "causa_radice": "La condizione è «esiste un fattorino», non «c'è un fattorino libero».",
+      "prova": "lettura di lib/ordini/consegna-veloce.ts:63-88",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "v-cmin (qa), 2026-11-06: vitest: sabato alle 12:00 con un fattorino acceso 10 richieste di veloce di fila sono tutte concesse, con zero fattorini no. La funzione non ha nessun ingresso per il carico. Il messaggio di rifiuto dice «fattorino libero» ma il codice misura solo «acceso». Collegata alla voce 166 (fattorino che resta online), causa diversa.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S06-023",
+      "dimensione": "api-backend",
+      "titolo": "Il giro che annulla gli ordini non accettati guarda solo i 100 più vecchi: quelli per domani possono nascondere quelli già scaduti",
+      "severita": "minore",
+      "file": "app/api/cron/expire-stale-orders/route.ts:92-109 · app/api/cron/expire-stale-orders/route.ts:133-140 · lib/ordini/veloce-non-confermata.ts:651-660",
+      "descrizione": "Il giro prende i 100 ordini NEW più vecchi e salta quelli ancora nei tempi (rinviati). Gli ordini «Domani» fatti la sera restano NEW fino al mattino e sono i più vecchi: se sono 100 o più, un ordine nato dopo e già scaduto (una veloce delle 10 col negozio chiuso alle 13) non viene mai guardato. Lo stesso nel freno: limit 100 senza ordine, e i carrelli che il freno non sa spostare restano dentro a ogni giro.",
+      "impatto": "Una sera arrivano più di 100 ordini nuovi per il giorno dopo, ancora nei tempi. Un ordine «Oggi · 13:00–16:30» scaduto alle 12:45 resta «nuovo» perché il lavoro ogni 30 minuti rilegge sempre gli stessi 100 più vecchi e li salta come «rinviati». Il freno della veloce ha lo stesso tetto, ma pesa meno: le veloci escono comunque entro 3 ore. Oggi, con un negozio solo, servirebbero molti più ordini.",
+      "fix": "Filtrare nel database i candidati già scaduti (colonna scadenza scritta alla nascita, o almeno ordinare per scadenza) oppure paginare fino a esaurire i candidati.",
+      "causa_radice": "Il tetto si applica prima del filtro «scaduto», che sta in JavaScript.",
+      "prova": "lettura del codice delle due query",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "v-cmin (qa), 2026-11-06: letta la query (filtra solo NEW e created_at, dal più vecchio, 100) e il salto dei «rinviati» in JavaScript: sì, gli ordini ancora nei tempi entrano nei 100. Esempio dell'impatto corretto (la veloce viene spostata dopo 10 minuti) e freno ridimensionato. Solo lettura: una prova che gira richiederebbe il database. Stessa famiglia della voce 1800 (tetto applicato prima del filtro).",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S06-024",
+      "dimensione": "qa-flussi",
+      "titolo": "L'etichetta da attaccare alla busta non dice quando consegnare: né «veloce» né la fascia",
+      "severita": "minore",
+      "file": "lib/shipping-etichetta/label.ts:19-30 · app/api/seller/orders/[id]/label/route.ts:20-48",
+      "descrizione": "L'etichetta stampa nome, indirizzo, telefono, note, negozio e contrassegno, ma non la fascia né se è una consegna veloce. Le buste di oggi pomeriggio, di domani mattina e quella veloce escono uguali.",
+      "impatto": "Sabato mattina il forno prepara tre buste: una veloce (30-60 min), una «Oggi · 18:00–19:30», una «Domani · 9:00–11:00». Sull'etichetta non c'è differenza: la busta veloce può aspettare sul bancone.",
+      "fix": "Aggiungere a LabelData la riga fasciaLeggibile(ordine) (es. «VELOCE» in grande, oppure «sab 7/11 · 9:00–11:00») leggendo delivery_slot, created_at e pickup_in_store nella rotta.",
+      "causa_radice": "L'etichetta è nata prima delle fasce.",
+      "prova": "lettura di label.ts e della rotta label",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "v-cmin (qa), 2026-11-06: letti label.ts:19-30 e la rotta dell'etichetta: il tipo dei dati non ha un campo per la fascia e la rotta non legge delivery_slot. Attenuante: la pagina dell'ordine del negozio mostra già «Consegna: …» (app/seller/orders/[id]/page.tsx:444-446) accanto al pulsante di stampa; tocca solo la busta stampata. Collegata alla voce 467, che a db5164c sembra in parte superata (la pagina del negozio legge e mostra la fascia).",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S06-025",
+      "dimensione": "api-backend",
+      "titolo": "Falla di sicurezza da chiudere (regole d'accesso al database): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+      "severita": "minore",
+      "file": "(nel referto privato)",
+      "descrizione": "nel referto privato",
+      "impatto": "nel referto privato",
+      "fix": "nel referto privato",
+      "causa_radice": "nel referto privato",
+      "prova": "nel referto privato",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "nel referto privato",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "nel referto privato",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": true
+    }
+  ],
+  "regressioni": [],
+  "ricontrolli": [],
+  "prove_per_la_palestra": [
+    {
+      "id": "S06-P001",
+      "funzione": "Ricerca prodotti con filtri dall'indirizzo",
+      "chi": "cliente",
+      "file": "app/search/page.tsx",
+      "dati_di_prova": "3 prodotti 'Pane' (uno a scorta 0, uno di negozio non approvato, uno in bozza)",
+      "passi": "Aprire /search?q=pane, poi /search?q=pane&disponibili=1, poi /search?q=pane&max=&stelle=9&ordine=boh",
+      "atteso": "Solo il pane del negozio approvato e in vendita; con disponibili=1 sparisce quello a scorta 0; parametri strani non svuotano la pagina in silenzio",
+      "limite": "parametri vuoti o fuori scala nell'indirizzo, parola tagliata a metà"
+    },
+    {
+      "id": "S06-P002",
+      "funzione": "Elenco delle categorie",
+      "chi": "estraneo",
+      "file": "app/categorie/page.tsx",
+      "dati_di_prova": "9 categorie madri, 2 senza prodotti",
+      "passi": "Aprire /categorie senza account",
+      "atteso": "Tutte le madri, quelle vuote segnalate o nascoste",
+      "limite": "database che non risponde"
+    },
+    {
+      "id": "S06-P003",
+      "funzione": "Pagina di una categoria",
+      "chi": "cliente",
+      "file": "app/category/[slug]/page.tsx",
+      "dati_di_prova": "Alimentari con figlia Panificio (pane dentro)",
+      "passi": "Aprire /category/alimentari, poi /category/non-esiste, poi /category/%E2%82%AC",
+      "atteso": "Il pane compare nella madre; slug inesistente → 404; nessun crash",
+      "limite": "slug inesistente o con caratteri strani"
+    },
+    {
+      "id": "S06-P004",
+      "funzione": "Partecipare a un evento",
+      "chi": "cliente",
+      "file": "app/events/page.tsx",
+      "dati_di_prova": "Un evento che finisce fra 1 minuto, uno già iscritto",
+      "passi": "Doppio clic su Partecipa; aspettare la fine dell'evento con la pagina aperta; ripremere",
+      "atteso": "Una sola iscrizione, il contatore sale di 1, l'evento finito sparisce",
+      "limite": "doppio clic, evento che scade mentre si guarda, lettura delle proprie iscrizioni che fallisce"
+    },
+    {
+      "id": "S06-P005",
+      "funzione": "Preferiti",
+      "chi": "cliente",
+      "file": "app/favorites/page.tsx",
+      "dati_di_prova": "2 preferiti, uno poi nascosto dal negozio",
+      "passi": "Da non loggato aprire /favorites; poi loggato toccare il cuore 3 volte veloce su rete lenta",
+      "atteso": "Da ospite invito ad accedere; il cuore finisce nello stato dell'ultimo tocco e coincide col database",
+      "limite": "tocchi ripetuti su rete lenta, prodotto nascosto"
+    },
+    {
+      "id": "S06-P006",
+      "funzione": "Le mie liste",
+      "chi": "cliente",
+      "file": "app/lists/page.tsx",
+      "dati_di_prova": "Lista con 5 prodotti di cui 2 nascosti dal negozio",
+      "passi": "Aprire /lists",
+      "atteso": "Il conteggio coincide con i prodotti che si vedono o lo dice",
+      "limite": "prodotti nascosti dopo l'aggiunta"
+    },
+    {
+      "id": "S06-P007",
+      "funzione": "Dettaglio di una lista",
+      "chi": "estraneo",
+      "file": "app/lists/[id]/page.tsx",
+      "dati_di_prova": "Lista privata di un altro, lista pubblica con prodotti tutti nascosti",
+      "passi": "Aprire /lists/<id privata altrui>, /lists/abc, /lists/<id pubblica>",
+      "atteso": "Privata altrui → non trovata; id non valido → non trovata; prodotti nascosti segnalati e togliibili dal proprietario",
+      "limite": "lista di un altro, id malformato"
+    },
+    {
+      "id": "S06-P008",
+      "funzione": "Negozi vicino a me",
+      "chi": "cliente",
+      "file": "app/near/page.tsx",
+      "dati_di_prova": "3 negozi a 1, 8, 15 km",
+      "passi": "Negare la posizione; poi simulare posizione a Milano",
+      "atteso": "Senza posizione elenco senza distanze; fuori Piacenza avviso «nessun negozio nel raggio di consegna»",
+      "limite": "posizione negata, assente, fuori città"
+    },
+    {
+      "id": "S06-P009",
+      "funzione": "Novità",
+      "chi": "estraneo",
+      "file": "app/novita/page.tsx",
+      "dati_di_prova": "Catalogo vuoto",
+      "passi": "Aprire /novita",
+      "atteso": "Stato vuoto con via d'uscita, non errore",
+      "limite": "dati vuoti"
+    },
+    {
+      "id": "S06-P010",
+      "funzione": "Home",
+      "chi": "estraneo",
+      "file": "app/page.tsx",
+      "dati_di_prova": "home_site salvata dall'admin con 3 sezioni",
+      "passi": "Far fallire per 2 secondi la lettura di site_settings e ricaricare la home più volte nel minuto successivo",
+      "atteso": "La home configurata (o un errore registrato), non la versione di fabbrica in cache per un minuto",
+      "limite": "database che singhiozza, cache condivisa"
+    },
+    {
+      "id": "S06-P011",
+      "funzione": "Piccoli prezzi",
+      "chi": "cliente",
+      "file": "app/piccoli-prezzi/page.tsx",
+      "dati_di_prova": "Prodotto a 12 € con promo -25% (9 €) e prodotto a 10,00 €",
+      "passi": "Aprire /piccoli-prezzi",
+      "atteso": "Chiarito se vale il prezzo pieno o quello scontato; «sotto i 10 €» coerente con il 10,00",
+      "limite": "prezzo in promozione vicino alla soglia"
+    },
+    {
+      "id": "S06-P012",
+      "funzione": "Più venduti",
+      "chi": "estraneo",
+      "file": "app/piu-venduti/page.tsx",
+      "dati_di_prova": "Nessun ordine consegnato",
+      "passi": "Aprire /piu-venduti",
+      "atteso": "Nessuna classifica inventata, stato vuoto onesto",
+      "limite": "dati vuoti"
+    },
+    {
+      "id": "S06-P013",
+      "funzione": "Scheda prodotto con varianti e promozione",
+      "chi": "cliente",
+      "file": "app/product/[id]/page.tsx",
+      "dati_di_prova": "Maglia 6 taglie x 17 colori, promo -20% che scade alle 23:59",
+      "passi": "Scegliere XXL+Colore17; aggiungere al carrello alle 23:59:30 e aprire il carrello alle 00:00:30; aprire /product/abc",
+      "atteso": "Combinazione inesistente detta chiaramente; il prezzo del carrello segue la promo ancora valida o avvisa; id non valido → non trovato",
+      "limite": "mezzanotte, combinazione mancante, id malformato"
+    },
+    {
+      "id": "S06-P014",
+      "funzione": "Promozioni",
+      "chi": "cliente",
+      "file": "app/promozioni/page.tsx",
+      "dati_di_prova": "Promo di negozio che finisce a mezzanotte",
+      "passi": "Aprire /promozioni alle 23:58 e restare fino alle 00:01, poi aggiungere al carrello",
+      "atteso": "Il prezzo mostrato coincide con quello del carrello e della cassa",
+      "limite": "promozione che scade a mezzanotte"
+    },
+    {
+      "id": "S06-P015",
+      "funzione": "Regali",
+      "chi": "estraneo",
+      "file": "app/regali/page.tsx",
+      "dati_di_prova": "Categorie regalabili senza prodotti",
+      "passi": "Aprire /regali",
+      "atteso": "Stato vuoto, nessun crash",
+      "limite": "dati vuoti"
+    },
+    {
+      "id": "S06-P016",
+      "funzione": "Carrello condiviso",
+      "chi": "cliente",
+      "file": "app/shared-cart/page.tsx",
+      "dati_di_prova": "Link con 3 prodotti: uno cancellato, uno a scorta 2 chiesto in 5, uno con varianti",
+      "passi": "Aprire /shared-cart?cart=<id1>:1,<id2>:5,<id3>:1, poi ?cart=xx, poi 60 voci",
+      "atteso": "Cancellato fra i non disponibili, quantità ridotta a 2 e detta, varianti → link alla scheda; link rotto → «Link non valido»",
+      "limite": "link manomesso, troppe voci, prodotto sparito"
+    },
+    {
+      "id": "S06-P017",
+      "funzione": "Negozio del mese e voto",
+      "chi": "cliente",
+      "file": "app/shop-of-month/page.tsx",
+      "dati_di_prova": "Due negozi, data finta 1/12/2026 00:30 Piacenza",
+      "passi": "Votare e guardare la classifica subito",
+      "atteso": "Il voto si vede nella classifica del mese giusto",
+      "limite": "cambio mese a mezzanotte, fuso orario"
+    },
+    {
+      "id": "S06-P018",
+      "funzione": "Vetrina del negozio",
+      "chi": "estraneo",
+      "file": "app/store/[id]/page.tsx",
+      "dati_di_prova": "Negozio sospeso, negozio approvato senza insegna",
+      "passi": "Aprire /store/<sospeso>, /store/abc, /store/<senza insegna>",
+      "atteso": "Non trovato per sospeso e id non valido, nessun errore 500",
+      "limite": "id non valido, negozio non approvato"
+    },
+    {
+      "id": "S06-P019",
+      "funzione": "Pagina personalizzata del negozio",
+      "chi": "estraneo",
+      "file": "app/store/[id]/[slug]/page.tsx",
+      "dati_di_prova": "Pagina 'saldi-segreti' nascosta",
+      "passi": "Aprire /store/<id>/saldi-segreti da estraneo, poi da proprietario con ?preview=1",
+      "atteso": "Estraneo: non trovata e contenuto non scaricabile; proprietario: anteprima",
+      "limite": "pagina nascosta, preview da estraneo"
+    },
+    {
+      "id": "S06-P020",
+      "funzione": "Elenco negozi",
+      "chi": "estraneo",
+      "file": "app/stores/page.tsx",
+      "dati_di_prova": "Nessun negozio approvato",
+      "passi": "Aprire /stores col filtro «Aperti ora» alle 23:59 di domenica",
+      "atteso": "Stato vuoto onesto, nessun negozio chiuso dato per aperto",
+      "limite": "orari a cavallo della mezzanotte, festivo"
+    },
+    {
+      "id": "S06-P021",
+      "funzione": "Profilo pubblico",
+      "chi": "estraneo",
+      "file": "app/u/[handle]/page.tsx",
+      "dati_di_prova": "Handle 'mario_r' acceso, 'luigi' spento",
+      "passi": "Aprire /u/mario_r, /u/MARIO_R, /u/mario%r, /u/luigi",
+      "atteso": "Le prime due trovano Mario; il jolly e lo spento → non trovato",
+      "limite": "maiuscole, caratteri jolly, profilo spento"
+    },
+    {
+      "id": "S06-P022",
+      "funzione": "Categorie della home per tutti",
+      "chi": "estraneo",
+      "file": "app/api/catalogo/categorie/route.ts",
+      "dati_di_prova": "Database che risponde errore",
+      "passi": "GET /api/catalogo/categorie con database giù, poi su",
+      "atteso": "503 no-store quando cade (non messo in cache), 200 con s-maxage=60 quando va",
+      "limite": "guasto del database, cache condivisa"
+    },
+    {
+      "id": "S06-P023",
+      "funzione": "Geocodifica indirizzo",
+      "chi": "cliente",
+      "file": "app/api/geocode/route.ts",
+      "dati_di_prova": "q='Via Roma 1, 29121 Piacenza'",
+      "passi": "POST con corpo valido, poi corpo non JSON, poi 31 richieste in un minuto dallo stesso indirizzo, poi 10 clienti diversi in un secondo",
+      "atteso": "Coordinate; 400; 429 alla 31esima; il servizio esterno non viene chiamato più di una volta al secondo in tutto",
+      "limite": "tanti utenti insieme, fornitore che non risponde"
+    },
+    {
+      "id": "S06-P024",
+      "funzione": "Import prodotto da link",
+      "chi": "negozio",
+      "file": "app/api/marketplace/import-fetch/route.ts",
+      "dati_di_prova": "Link Amazon valido, testo di 2 lettere",
+      "passi": "POST da negoziante, poi da cliente, poi 16 volte in 5 minuti",
+      "atteso": "Bozza del prodotto; 401/403 al cliente; 400 sotto 3 caratteri; 429 alla sedicesima",
+      "limite": "AI spenta, budget finito, chiamata da non negoziante"
+    },
+    {
+      "id": "S06-P025",
+      "funzione": "Aggiornamento dati esterni del prodotto",
+      "chi": "estraneo",
+      "file": "app/api/products/[id]/external-refresh/route.ts",
+      "dati_di_prova": "Prodotto importato con dati vecchi; prodotto in bozza",
+      "passi": "GET su id valido 31 volte in un minuto; GET su id 'abc'; GET su bozza; POST da cliente",
+      "atteso": "Risposta subito con la cache e un solo aggiornamento in sottofondo; 400 su id non valido; bozza → external null; POST solo admin",
+      "limite": "stato 'pending' rimasto appeso se il processo si chiude, tanti tocchi"
+    },
+    {
+      "id": "S06-P026",
+      "funzione": "Copia delle foto sul nostro archivio",
+      "chi": "negozio",
+      "file": "app/api/products/rehost-images/route.ts",
+      "dati_di_prova": "un elenco di indirizzi di foto, validi e non validi",
+      "passi": "chiamare la rotta come negozio e come estraneo",
+      "atteso": "accetta solo quello che deve, e solo per il negozio giusto",
+      "limite": "molte richieste insieme"
+    },
+    {
+      "id": "S06-P027",
+      "funzione": "Handle pubblici degli autori delle liste",
+      "chi": "estraneo",
+      "file": "app/api/profili-pubblici/route.ts",
+      "dati_di_prova": "51 id, un id non UUID, un id con profilo spento",
+      "passi": "GET ?id=... nei tre casi, poi 121 richieste in un minuto",
+      "atteso": "400 oltre 50 e su id non valido; profilo spento non restituito; solo id e handle nella risposta; 429 alla 121esima",
+      "limite": "raffica di richieste, enumerazione di id"
+    },
+    {
+      "id": "S06-P028",
+      "funzione": "ultimo pezzo",
+      "chi": "cliente",
+      "file": "app/checkout/page.tsx · app/api/orders/cod/route.ts",
+      "dati_di_prova": "prodotto con scorta 1, due clienti",
+      "passi": "Due clienti con lo stesso prodotto nel carrello premono «Ordina» in contanti nello stesso secondo",
+      "atteso": "Un ordine nasce, l'altro legge «Stock insufficiente», scorta 0",
+      "limite": "tanti utenti insieme"
+    },
+    {
+      "id": "S06-P029",
+      "funzione": "doppio clic su paga in contanti",
+      "chi": "cliente",
+      "file": "app/checkout/page.tsx · app/api/orders/cod/route.ts",
+      "dati_di_prova": "carrello di un negozio",
+      "passi": "Doppio clic rapidissimo su «Ordina» con rete lenta (throttling 3G)",
+      "atteso": "Un solo ordine, la seconda risposta restituisce gli stessi id",
+      "limite": "doppio clic, rete lenta"
+    },
+    {
+      "id": "S06-P030",
+      "funzione": "annullo contro accettazione",
+      "chi": "cliente",
+      "file": "app/orders/[id]/page.tsx · app/api/orders/[id]/cancel/route.ts",
+      "dati_di_prova": "ordine NEW in contanti e uno con carta",
+      "passi": "Cliente preme «Annulla» e negozio preme «Accetta» nello stesso istante (due browser)",
+      "atteso": "Uno solo vince; se vince il negozio il cliente legge «il negozio ha già accettato», nessun rimborso",
+      "limite": "due attori nello stesso secondo"
+    },
+    {
+      "id": "S06-P031",
+      "funzione": "carrello",
+      "chi": "cliente",
+      "file": "app/cart/page.tsx",
+      "dati_di_prova": "carrello con un prodotto poi nascosto dal negozio e uno esaurito",
+      "passi": "Aprire il carrello dopo che il negozio ha nascosto un prodotto e azzerato la scorta di un altro",
+      "atteso": "Le due righe segnalate e non ordinabili, totale senza di loro",
+      "limite": "dato cambiato nel frattempo"
+    },
+    {
+      "id": "S06-P032",
+      "funzione": "cassa con prezzo cambiato",
+      "chi": "cliente",
+      "file": "app/checkout/page.tsx · app/api/orders/cod/route.ts",
+      "dati_di_prova": "promozione che scade fra un minuto",
+      "passi": "Entrare in cassa, aspettare la scadenza della promo, premere «Ordina» in contanti",
+      "atteso": "Il sito avvisa del totale nuovo prima di creare l'ordine",
+      "limite": "orologio, scadenza a cavallo"
+    },
+    {
+      "id": "S06-P033",
+      "funzione": "elenco ordini",
+      "chi": "cliente",
+      "file": "app/orders/page.tsx",
+      "dati_di_prova": "cliente con 30 ordini in stati diversi, uno annullato",
+      "passi": "Aprire «I miei ordini»",
+      "atteso": "Tutti gli ordini con stato e totale coerenti con la pagina di dettaglio",
+      "limite": "tanti ordini"
+    },
+    {
+      "id": "S06-P034",
+      "funzione": "dettaglio ordine",
+      "chi": "estraneo",
+      "file": "app/orders/[id]/page.tsx",
+      "dati_di_prova": "id di un ordine di un altro cliente",
+      "passi": "Aprire /orders/<id altrui> e premere annulla con una richiesta fatta a mano",
+      "atteso": "«Ordine non trovato», niente dati",
+      "limite": "accesso altrui"
+    },
+    {
+      "id": "S06-P035",
+      "funzione": "reso",
+      "chi": "cliente",
+      "file": "app/orders/[id]/return/page.tsx",
+      "dati_di_prova": "ordine consegnato ieri",
+      "passi": "Aprire il reso, scegliere un articolo, inviare due volte",
+      "atteso": "Un solo reso aperto",
+      "limite": "doppio clic"
+    },
+    {
+      "id": "S06-P036",
+      "funzione": "reclamo",
+      "chi": "cliente",
+      "file": "app/orders/[id]/dispute/page.tsx",
+      "dati_di_prova": "ordine in contanti consegnato",
+      "passi": "Aprire un reclamo con foto",
+      "atteso": "Reclamo creato e visibile all'assistenza",
+      "limite": "rete lenta"
+    },
+    {
+      "id": "S06-P037",
+      "funzione": "recensione",
+      "chi": "cliente",
+      "file": "app/orders/[id]/review/page.tsx",
+      "dati_di_prova": "ordine annullato",
+      "passi": "Aprire la pagina di recensione di un ordine annullato",
+      "atteso": "Recensione non permessa",
+      "limite": "stato sbagliato"
+    },
+    {
+      "id": "S06-P038",
+      "funzione": "annullo carta in un carrello a due negozi",
+      "chi": "cliente",
+      "file": "app/api/orders/[id]/cancel/route.ts",
+      "dati_di_prova": "carrello carta da due negozi, 18 € + 6 €",
+      "passi": "Annullare l'ordine da 6 €",
+      "atteso": "Rimborso del residuo giusto, consegna del negozio rimasto ricalcolata, email con le cifre",
+      "limite": "fornitore (Stripe) lento"
+    },
+    {
+      "id": "S06-P039",
+      "funzione": "domanda «la veloce si può?»",
+      "chi": "estraneo",
+      "file": "app/api/consegna/veloce/route.ts",
+      "dati_di_prova": "un negozio approvato aperto 8-19:30, un fattorino approvato con rider_is_online=true",
+      "passi": "GET ?negozi=<id> alle 07:59, 08:00, 19:14, 19:16, 20:59, 21:00 (orologio finto Europe/Rome); poi con il fattorino spento; poi con 21 id; poi con un id non uuid; poi 31 richieste in un minuto",
+      "atteso": "sì solo a 08:00 e 19:14 (19:16 chiude fra meno di 15 minuti); no col motivo giusto negli altri casi; 400 per 21 id o id storto; 429 alla 31esima con Retry-After; mai 200 se la lettura cade (503)",
+      "limite": "date e confini dei minuti, raffica di richieste"
+    },
+    {
+      "id": "S06-P040",
+      "funzione": "freno della veloce non confermata",
+      "chi": "admin",
+      "file": "app/api/cron/veloce-non-confermata/route.ts",
+      "dati_di_prova": "ordine contanti «Adesso» da 15 € (consegna 4 €) nato alle 18:05 a Pane Quotidiano (9-13, 16:30-19:30), stato NEW",
+      "passi": "chiamare il lavoro alle 18:14 (niente), alle 18:16 (sposta), di nuovo alle 18:21; poi un secondo ordine uguale accettato dal negozio alle 18:15:59 e il lavoro alle 18:16",
+      "atteso": "alle 18:16 fascia di oggi che finisce almeno 60 minuti dopo, consegna 3 €, una campanella e un'email al cliente, avviso al negozio; il secondo giro non cambia niente e non riscrive; l'ordine accettato resta veloce a 4 €",
+      "limite": "doppio giro, gara col negozio che accetta, mezzanotte"
+    },
+    {
+      "id": "S06-P041",
+      "funzione": "annullo degli ordini non accettati in tempo",
+      "chi": "admin",
+      "file": "app/api/cron/expire-stale-orders/route.ts",
+      "dati_di_prova": "ordine contanti «Oggi · 18:00–19:30» nato alle 10:00 con 2 pani (scorta 10→8) e 3 € di credito usato; un secondo ordine identico accettato alle 18:29:59",
+      "passi": "chiamare il lavoro alle 18:30:30 due volte di fila",
+      "atteso": "il primo annullato una volta: scorta torna a 10 una volta sola, credito 3 € reso una volta, cliente e negozio avvisati una volta; il secondo (accettato un secondo prima) intatto",
+      "limite": "doppio giro, accettazione all'ultimo secondo, 25/10/2026 con l'ora ripetuta"
+    },
+    {
+      "id": "S06-P042",
+      "funzione": "scadenza delle casse con carta abbandonate",
+      "chi": "admin",
+      "file": "app/api/cron/expire-checkouts/route.ts",
+      "dati_di_prova": "pending_checkout PENDING scaduto con 2 pezzi riservati e un codice sconto; un secondo con un ordine già nato sulla stessa sessione",
+      "passi": "chiamare il lavoro due volte; in parallelo far arrivare l'evento Stripe checkout.session.expired sul primo",
+      "atteso": "merce e codice tornano una volta sola; il secondo non si tocca e gli amministratori ricevono un avviso solo (non uno ogni 30 minuti per 24 ore)",
+      "limite": "doppio giro, webhook in gara"
+    },
+    {
+      "id": "S06-P043",
+      "funzione": "scelta della fascia in cassa a cavallo della mezzanotte",
+      "chi": "cliente",
+      "file": "app/checkout/page.tsx",
+      "dati_di_prova": "carrello di Pane Quotidiano, orologio del telefono e del server su venerdì 6/11 23:59:30",
+      "passi": "scegliere «Domani · 9:00–11:00» (mattonella «sab 7/11»), aspettare 60 secondi, premere Ordina",
+      "atteso": "la cassa avvisa che è cambiato il giorno o l'ordine resta per sabato 7/11; mai un ordine per domenica senza dirlo",
+      "limite": "date: 23:59→00:00"
+    },
+    {
+      "id": "S06-P044",
+      "funzione": "scelta della fascia nei giorni del cambio d'ora e nei festivi",
+      "chi": "cliente",
+      "file": "app/checkout/page.tsx",
+      "dati_di_prova": "orologio finto: 25/10/2026 02:30 (ora ripetuta), 28/3/2027 02:30 (ora che non esiste), 24/12/2026 20:00, 3/7/2027 20:00",
+      "passi": "aprire la cassa e leggere le mattonelle Oggi/Domani e le fasce; ordinare per domani",
+      "atteso": "date e fasce giuste, nessuna fascia fantasma, scadenza mostrata al negozio all'ora giusta di Piacenza; per 25/12 e 4/7 il negozio chiuso non deve ricevere ordini (oggi li riceve)",
+      "limite": "date: cambio d'ora e festivi"
+    },
+    {
+      "id": "S06-P045",
+      "funzione": "etichetta della busta",
+      "chi": "negozio",
+      "file": "app/api/seller/orders/[id]/label/route.ts",
+      "dati_di_prova": "tre ordini dello stesso negozio: veloce, «Oggi · 18:00–19:30», «Domani · 9:00–11:00»; uno di un altro negozio",
+      "passi": "scaricare le tre etichette; provare l'id dell'altro negozio",
+      "atteso": "su ogni etichetta si legge quando consegnare; 403 sull'ordine altrui",
+      "limite": "dati mancanti sull'etichetta, accesso altrui"
+    },
+    {
+      "id": "S06-P046",
+      "funzione": "ordine in contanti con la veloce",
+      "chi": "cliente",
+      "file": "app/api/orders/cod/route.ts",
+      "dati_di_prova": "un fattorino online, negozio aperto, spesa 15 €",
+      "passi": "inviare due volte la stessa richiesta con la stessa idempotency-key e fascia «Adesso»; poi una richiesta senza fascia alle 22:30; poi la veloce alle 20:59:59 e alle 21:00:00",
+      "atteso": "un solo ordine a 19 €; senza fascia la rotta rifiuta (oggi accetta: vedi S06-020); 20:59:59 sì, 21:00 no",
+      "limite": "doppio invio, confine delle 21, dato mancante"
+    },
+    {
+      "id": "S06-P047",
+      "funzione": "app/orders/[id]/review/page.tsx",
+      "chi": "cliente",
+      "file": "app/orders/[id]/review/page.tsx",
+      "dati_di_prova": "ordine DELIVERED con fattorino; rete che cade alla seconda scrittura",
+      "passi": "vota negozio e fattorino, invia; ricarica",
+      "atteso": "entrambe le recensioni salvate o il modulo per quella mancante",
+      "limite": "scrittura a meta', doppio clic su Invia"
+    },
+    {
+      "id": "S06-P048",
+      "funzione": "app/orders/[id]/dispute/page.tsx",
+      "chi": "cliente",
+      "file": "app/orders/[id]/dispute/page.tsx",
+      "dati_di_prova": "ordine DELIVERED; sessione scaduta mentre si scrive",
+      "passi": "scrivi il reclamo (20+ caratteri), invia dopo la scadenza della sessione",
+      "atteso": "messaggio «rientra» e testo non perso",
+      "limite": "sessione scaduta, doppio clic, reclamo gia' aperto"
+    },
+    {
+      "id": "S06-P049",
+      "funzione": "app/orders/[id]/return/page.tsx",
+      "chi": "cliente",
+      "file": "app/orders/[id]/return/page.tsx",
+      "dati_di_prova": "consegna 20/10/2026 18:00",
+      "passi": "apri il modulo il 3/11 alle 21:00 e invia «Cambio idea»",
+      "atteso": "modulo accettato (ultimo giorno)",
+      "limite": "date: giorno 14 sera, cambio d'ora 25/10, mezzanotte"
+    },
+    {
+      "id": "S06-P050",
+      "funzione": "create",
+      "chi": "cliente",
+      "file": "app/api/returns/create/route.ts",
+      "dati_di_prova": "ordine gia' REFUNDED per intero",
+      "passi": "POST create con reason DAMAGED",
+      "atteso": "400 coerente con la pagina dell'ordine",
+      "limite": "doppio invio, reso dopo rimborso, dopo rifiuto"
+    },
+    {
+      "id": "S06-P051",
+      "funzione": "avanza",
+      "chi": "cliente",
+      "file": "app/api/returns/[id]/avanza/route.ts",
+      "dati_di_prova": "reso APPROVED di CHANGED_MIND",
+      "passi": "CANCELED dal cliente, poi di nuovo CANCELED da un'altra scheda",
+      "atteso": "prima 200, seconda 409",
+      "limite": "due schede, negozio che avanza nello stesso istante"
+    },
+    {
+      "id": "S06-P052",
+      "funzione": "decide",
+      "chi": "estraneo",
+      "file": "app/api/returns/[id]/decide/route.ts",
+      "dati_di_prova": "reso di un altro cliente",
+      "passi": "POST decide con approve:true",
+      "atteso": "403, nessun rimborso",
+      "limite": "utente non del negozio, admin finto"
+    },
+    {
+      "id": "S06-P053",
+      "funzione": "app/profile/page.tsx",
+      "chi": "cliente",
+      "file": "app/profile/page.tsx",
+      "dati_di_prova": "profilo con nome vuoto",
+      "passi": "apri la pagina con rete lenta",
+      "atteso": "stato di caricamento e poi dati, nessun «undefined»",
+      "limite": "rete lenta, profilo mancante"
+    },
+    {
+      "id": "S06-P054",
+      "funzione": "app/profile/addresses/page.tsx",
+      "chi": "cliente",
+      "file": "app/profile/addresses/page.tsx",
+      "dati_di_prova": "indirizzo salvato con coordinate; geocoding giu'",
+      "passi": "modifica la via e salva",
+      "atteso": "coordinate azzerate o ricalcolate, mai quelle vecchie",
+      "limite": "fornitore che non risponde; cancellare l'indirizzo di un ordine in corso"
+    },
+    {
+      "id": "S06-P055",
+      "funzione": "app/profile/settings/page.tsx",
+      "chi": "cliente",
+      "file": "app/profile/settings/page.tsx",
+      "dati_di_prova": "rete che rifiuta l'update del profilo",
+      "passi": "spegni «promozioni»",
+      "atteso": "interruttore torna acceso con l'errore",
+      "limite": "rete instabile, doppio tocco"
+    },
+    {
+      "id": "S06-P056",
+      "funzione": "app/profile/returns/page.tsx",
+      "chi": "cliente",
+      "file": "app/profile/returns/page.tsx",
+      "dati_di_prova": "3 resi: REFUNDED, REJECTED, REQUESTED",
+      "passi": "apri «I miei resi»",
+      "atteso": "tre righe con stato giusto e link all'ordine",
+      "limite": "lettura caduta -> Riprova"
+    },
+    {
+      "id": "S06-P057",
+      "funzione": "app/profile/gift-cards/page.tsx",
+      "chi": "cliente",
+      "file": "app/profile/gift-cards/page.tsx",
+      "dati_di_prova": "buono regalo gia' riscattato",
+      "passi": "riscatta lo stesso codice due volte",
+      "atteso": "seconda volta rifiutata con frase chiara",
+      "limite": "doppio clic, codice scaduto"
+    },
+    {
+      "id": "S06-P058",
+      "funzione": "app/profile/loyalty/page.tsx",
+      "chi": "cliente",
+      "file": "app/profile/loyalty/page.tsx",
+      "dati_di_prova": "saldo punti 0 e punti spenti",
+      "passi": "apri la pagina",
+      "atteso": "nessuna promessa di euro inesistenti",
+      "limite": "funzione spenta"
+    },
+    {
+      "id": "S06-P059",
+      "funzione": "app/profile/referral/page.tsx",
+      "chi": "cliente",
+      "file": "app/profile/referral/page.tsx",
+      "dati_di_prova": "inviti spenti",
+      "passi": "apri la pagina e copia il link",
+      "atteso": "nessuna promessa di 5 euro",
+      "limite": "funzione spenta"
+    },
+    {
+      "id": "S06-P060",
+      "funzione": "app/profile/referral/leaderboard/page.tsx",
+      "chi": "cliente",
+      "file": "app/profile/referral/leaderboard/page.tsx",
+      "dati_di_prova": "lettura classifica caduta",
+      "passi": "apri la classifica",
+      "atteso": "errore con Riprova, non «classifica vuota»",
+      "limite": "rete caduta"
+    },
+    {
+      "id": "S06-P061",
+      "funzione": "app/profile/achievements/page.tsx",
+      "chi": "cliente",
+      "file": "app/profile/achievements/page.tsx",
+      "dati_di_prova": "nessun traguardo",
+      "passi": "apri la pagina",
+      "atteso": "stato vuoto chiaro",
+      "limite": "utente nuovo"
+    },
+    {
+      "id": "S06-P062",
+      "funzione": "app/reset-password/page.tsx",
+      "chi": "cliente",
+      "file": "app/reset-password/page.tsx",
+      "dati_di_prova": "link di recupero gia' usato",
+      "passi": "apri il link due volte",
+      "atteso": "seconda volta «link scaduto» con strada per richiederne un altro",
+      "limite": "link aperto da un altro dispositivo"
+    },
+    {
+      "id": "S06-P063",
+      "funzione": "app/sign-in/page.tsx",
+      "chi": "cliente",
+      "file": "app/sign-in/page.tsx",
+      "dati_di_prova": "password sbagliata 6 volte",
+      "passi": "accedi",
+      "atteso": "freno con tempo d'attesa detto",
+      "limite": "tanti tentativi"
+    },
+    {
+      "id": "S06-P064",
+      "funzione": "app/sign-up/page.tsx",
+      "chi": "estraneo",
+      "file": "app/sign-up/page.tsx",
+      "dati_di_prova": "email gia' registrata",
+      "passi": "registrati con la stessa email",
+      "atteso": "frase che non rivela l'account ma indica il recupero",
+      "limite": "doppio clic su Registrati"
+    },
+    {
+      "id": "S06-P065",
+      "funzione": "app/auth/verify-email/page.tsx",
+      "chi": "cliente",
+      "file": "app/auth/verify-email/page.tsx",
+      "dati_di_prova": "email di conferma non arrivata",
+      "passi": "premi «reinvia» tre volte",
+      "atteso": "freno e messaggio chiaro",
+      "limite": "fornitore email che non risponde"
+    },
+    {
+      "id": "S06-P066",
+      "funzione": "app/accetta-condizioni/page.tsx",
+      "chi": "cliente",
+      "file": "app/accetta-condizioni/page.tsx",
+      "dati_di_prova": "testi cambiati di versione",
+      "passi": "accetta e torna alla pagina di partenza",
+      "atteso": "ritorno al percorso giusto, nessun ciclo",
+      "limite": "database lento"
+    },
+    {
+      "id": "S06-P067",
+      "funzione": "accetta-condizioni",
+      "chi": "estraneo",
+      "file": "app/api/account/accetta-condizioni/route.ts",
+      "dati_di_prova": "richiesta da altro sito",
+      "passi": "POST con Origin estraneo",
+      "atteso": "403",
+      "limite": "origine falsa"
+    },
+    {
+      "id": "S06-P068",
+      "funzione": "cambia-password",
+      "chi": "cliente",
+      "file": "app/api/account/cambia-password/route.ts",
+      "dati_di_prova": "Supabase Auth che risponde 429",
+      "passi": "cambia password con quella attuale giusta",
+      "atteso": "«riprova fra poco», non «password non corretta»",
+      "limite": "fornitore che frena; nuova uguale alla vecchia"
+    },
+    {
+      "id": "S06-P069",
+      "funzione": "delete",
+      "chi": "cliente",
+      "file": "app/api/account/delete/route.ts",
+      "dati_di_prova": "ordine in consegna in corso",
+      "passi": "chiedi la cancellazione",
+      "atteso": "frase chiara su cosa succede all'ordine",
+      "limite": "ordine aperto"
+    },
+    {
+      "id": "S06-P070",
+      "funzione": "export",
+      "chi": "cliente",
+      "file": "app/api/account/export/route.ts",
+      "dati_di_prova": "200 ordini e 5 indirizzi",
+      "passi": "scarica i miei dati",
+      "atteso": "file completo o dichiarato parziale",
+      "limite": "tanti dati, rete lenta"
+    },
+    {
+      "id": "S06-P071",
+      "funzione": "app/notifications/page.tsx",
+      "chi": "cliente",
+      "file": "app/notifications/page.tsx",
+      "dati_di_prova": "60 notifiche",
+      "passi": "apri, segna tutte lette",
+      "atteso": "tutte lette, anche oltre le prime 50 o detto",
+      "limite": "tante righe, rete caduta"
+    },
+    {
+      "id": "S06-P072",
+      "funzione": "conversation",
+      "chi": "cliente",
+      "file": "app/api/support/conversation/route.ts",
+      "dati_di_prova": "conversazione gia' esistente",
+      "passi": "POST due volte lo stesso primo messaggio (doppio clic)",
+      "atteso": "un solo messaggio",
+      "limite": "doppio clic, account assistenza mancante"
+    },
+    {
+      "id": "S06-P073",
+      "funzione": "app/admin/disputes/page.tsx",
+      "chi": "admin",
+      "file": "app/admin/disputes/page.tsx",
+      "dati_di_prova": "reclamo aperto da un cliente",
+      "passi": "chiudi a favore del cliente",
+      "atteso": "il cliente vede l'esito sulla sua pagina dell'ordine",
+      "limite": "decisione doppia da due schede"
+    }
+  ],
+  "domande_per_nicola": [
+    "Festivi: i negozi devono poter dire «chiuso il 25/12, l'1/1, il 15/8, il 4/7» senza toccare l'orario settimanale? Serve prima di Natale?",
+    "Veloce con un solo fattorino: quante consegne veloci in contemporanea accettiamo prima di smettere di offrirla (proposta: 2)?",
+    "Il termine del recesso va contato come dice la legge (fino alle 23:59 del 14esimo giorno dopo la consegna) o volete un margine piu' largo? Oggi il sito lo chiude all'ora esatta della consegna."
+  ],
+  "conto": {
+    "agenti": 19,
+    "token_sessione": {
+      "agenti": 1,
+      "agenti_misurati": 1,
+      "turni": 59,
+      "input": 125,
+      "scritti_cache": 323600,
+      "letti_cache": 14547468,
+      "uscita": 70829,
+      "entrata_totale": 14871193
+    },
+    "token_subagenti": {
+      "agenti": 19,
+      "agenti_misurati": 19,
+      "turni": 551,
+      "input": 1102,
+      "scritti_cache": 1436201,
+      "letti_cache": 65415020,
+      "uscita": 323933,
+      "entrata_totale": 66852323
+    },
+    "token_workflow": [],
+    "nota": "Misurati con node cervello/conto-token.mjs --sessione <trascrizione>.jsonl --json e --dir <trascrizione>/subagents --json, prima dell'ultimo salvataggio: le ultime chiamate del ciclo principale non sono contate. 19 aiutanti su 20: 4 cercatori e 15 verificatori (la seconda lente dei gravi l'hanno fatta i loro verificatori). Nessun workflow."
+  }
+}

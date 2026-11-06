@@ -1,0 +1,737 @@
+{
+  "sessione": "S03",
+  "base_sito": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
+  "aggiornato": "2026-11-06 10:29",
+  "finita": true,
+  "copertura": {
+    "file_letti_interi": [
+      "lib/funzioni-al-lancio.ts",
+      "app/api/stripe/webhook/route.ts",
+      "lib/stripe/webhook/firma.ts",
+      "lib/stripe/webhook/registro-eventi.ts",
+      "lib/stripe/webhook/esito.ts",
+      "lib/stripe/webhook/ordini.ts",
+      "lib/stripe/webhook/pagamenti.ts",
+      "lib/stripe/webhook/carrello-scaduto.ts",
+      "lib/stripe/webhook/quadratura.ts",
+      "lib/stripe/webhook/fascia-al-pagamento.ts",
+      "lib/stripe/webhook/dispute.ts",
+      "lib/stripe/webhook/rimborsi.ts",
+      "lib/stripe/webhook/rimborsi-da-fuori.ts",
+      "lib/stripe/elenco-dei-rimborsi.ts",
+      "lib/stripe/storno-senza-esito.ts",
+      "lib/stripe/rimborso-respinto.ts",
+      "lib/pagamenti/tasso-autorizzazione.ts",
+      "lib/rimborsi/divisione-del-rimborso.ts",
+      "app/api/stripe/checkout/route.ts",
+      "app/api/stripe/connect/onboarding/route.ts",
+      "app/api/stripe/connect/rider-onboarding/route.ts",
+      "app/api/stripe/connect/login/route.ts",
+      "app/api/stripe/connect/refresh-status/route.ts",
+      "lib/stripe/salva-conto.ts",
+      "lib/stripe/ripartizione.ts",
+      "lib/stripe/tempi-bonifico.ts",
+      "app/api/stripe/payout/route.ts",
+      "lib/stripe/webhook/trasferimenti.ts",
+      "components/rider/RiderConnectButton.tsx",
+      "app/api/gift-cards/checkout/route.ts",
+      "lib/stripe/webhook/giftcard.ts",
+      "lib/stripe/recupero-pagamento-buoni.ts",
+      "app/api/sponsored/checkout/route.ts",
+      "lib/stripe/webhook/sponsorizzati.ts",
+      "app/seller/promote/data-campagna.ts",
+      "app/api/seller/subscription/checkout/route.ts",
+      "app/api/seller/subscription/portal/route.ts",
+      "lib/stripe/webhook/abbonamenti.ts"
+    ],
+    "file_letti_in_parte": [
+      {
+        "file": "lib/stripe/client.ts",
+        "righe": "1-505"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "50-720"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "905-1000"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "1640-1700"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "1880-1930"
+      },
+      {
+        "file": "lib/stripe/webhook/comune.ts",
+        "righe": "57-106"
+      },
+      {
+        "file": "lib/stripe/rimborsi-da-dividere.ts",
+        "righe": "1-80"
+      },
+      {
+        "file": "lib/rimborsi/regole-del-rimborso.ts",
+        "righe": "40-172"
+      },
+      {
+        "file": "lib/promesse-pubbliche.ts",
+        "righe": "250-290"
+      },
+      {
+        "file": "app/profile/gift-cards/page.tsx",
+        "righe": "1-140"
+      },
+      {
+        "file": "app/profile/gift-cards/page.tsx",
+        "righe": "340-385"
+      },
+      {
+        "file": "app/seller/promote/page.tsx",
+        "righe": "260-280"
+      },
+      {
+        "file": "app/admin/sponsored/page.tsx",
+        "righe": "75-220"
+      },
+      {
+        "file": "app/api/cron/release-payouts/route.ts",
+        "righe": "128-320"
+      },
+      {
+        "file": "components/seller/SubscriptionBanner.tsx",
+        "righe": "25-70"
+      },
+      {
+        "file": "lib/queries/fasce-prodotti.ts",
+        "righe": "170-203"
+      },
+      {
+        "file": "migrations/178_falla_r83.sql",
+        "righe": "60-226"
+      },
+      {
+        "file": "app/checkout/page.tsx",
+        "righe": "640-660"
+      }
+    ],
+    "file_eseguiti": [
+      {
+        "file": "lib/stripe/webhook/ordini.ts",
+        "comando": "vitest con il test di prova zz-s03-g2-rimborso-prima-dell-ordine (nello scratchpad della sessione, copiato in tests/unit e cancellato)",
+        "esito": "rosso 1/1, rilanciato dal verificatore"
+      },
+      {
+        "file": "lib/stripe/webhook/rimborsi.ts",
+        "comando": "vitest con il test di prova zz-s03-g2-rimborso-pieno-bonifico-in-corso",
+        "esito": "rosso 1/1, rilanciato dal verificatore"
+      },
+      {
+        "file": "lib/stripe/webhook/dispute.ts",
+        "comando": "vitest con i test di prova zz-s03-g2-contestazione-parziale-persa e zz-s03-g3-buono-contestazione",
+        "esito": "rosso 1/1 e 2/2, rilanciati dal verificatore"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "comando": "vitest --config con i test di prova zz-s03-conto-di-prova e zz-s03-chiave-24-ore",
+        "esito": "rosso 2/2; rosso 1 e verde 1 (entro 24 ore un solo bonifico)"
+      },
+      {
+        "file": "app/api/stripe/connect/refresh-status/route.ts",
+        "comando": "vitest --config con il test di prova zz-s03-conto-di-prova",
+        "esito": "rosso: 500 «Errore Stripe», flag non azzerati"
+      },
+      {
+        "file": "lib/stripe/webhook/firma.ts",
+        "comando": "vitest --config con il test di prova zz-s03-livemode (firma HMAC vera, eventi livemode false)",
+        "esito": "rosso 2/2"
+      },
+      {
+        "file": "app/api/seller/subscription/checkout/route.ts",
+        "comando": "vitest con il test di prova zz-s03-g3-abbonamento",
+        "esito": "rosso 4/4 (paletto, due schede, orfano, insoluto)"
+      },
+      {
+        "file": "lib/stripe/webhook/sponsorizzati.ts",
+        "comando": "vitest con il test di prova zz-s03-g3-sponsorizzata, orologio finto 2026-11-16T10:00+01:00",
+        "esito": "rosso: 8 giorni invece di 7"
+      }
+    ],
+    "non_guardato": [
+      {
+        "cosa": "Il conto Stripe vero di MyCity e la sua configurazione (indirizzi webhook, eventi iscritti, impostazioni Connect)",
+        "perche": "Il collegamento Stripe della sessione vede un solo conto, di prova (livemode false, nome «boh»): 0 indirizzi webhook, 0 conti collegati, 0 sessioni di pagamento. La configurazione vera non si legge da qui"
+      },
+      {
+        "cosa": "Il comportamento di Stripe su tre punti che decidono il peso di alcuni minori: eventi di prova dei conti Express consegnati all'indirizzo vero, tetto dei bonifici legati alla stessa carta (source_transaction), due clienti creati da due sessioni d'abbonamento",
+        "perche": "docs.stripe.com non è raggiungibile dalla rete della sessione e Stripe di prova si usa solo in lettura; restano ragionamenti dichiarati con la confidenza"
+      },
+      {
+        "cosa": "Le variabili Stripe su Vercel",
+        "perche": "Vercel è di S11; le variabili che servono sono ricavate dal codice e scritte nelle domande per Nicola"
+      },
+      {
+        "cosa": "lib/stripe/rimborsi-da-dividere.ts oltre le righe 1-80, lib/stripe/payout.ts righe 1000-1640 e 1930-2074",
+        "perche": "Rami già coperti da molti test esistenti e parte contanti (S02); letto solo dove i difetti li toccavano"
+      },
+      {
+        "cosa": "lib/rimborsi/bonifici-da-fare.ts, credito-da-controllare.ts, email-dei-resi.ts",
+        "perche": "Lato contanti dei rimborsi, perimetro S02"
+      },
+      {
+        "cosa": "app/regali/RegaliClient.tsx e app/regali/categorie-regalabili.ts a fondo",
+        "perche": "Sono la vetrina dei prodotti da regalare, non i buoni pagati con la carta: guardati solo con grep; la grafica è di S10"
+      },
+      {
+        "cosa": "Postgres locale",
+        "perche": "Acceso e funzionante, ma nessun difetto dipendeva da una funzione SQL da eseguire: le funzioni della migrazione 178 sono state lette"
+      },
+      {
+        "cosa": "La suite completa di vitest della copia",
+        "perche": "Girate solo le prove dei difetti, per stare nel tetto di tempo e di processori"
+      }
+    ]
+  },
+  "difetti": [
+    {
+      "dimensione": "pagamenti-stripe",
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "id": "S03-001",
+      "severita": "grave",
+      "titolo": "Se il cliente viene rimborsato prima che il suo ordine nasca, l'ordine nasce lo stesso come pagato e il negozio viene pagato",
+      "file": "lib/stripe/webhook/ordini.ts:121-180 · lib/stripe/webhook/ordini.ts:258-280 · lib/stripe/webhook/ordini.ts:339-348 · lib/stripe/webhook/rimborsi.ts:57-80 · lib/stripe/payout.ts:164-330",
+      "descrizione": "Quando l'avviso «pagamento completato» (checkout.session.completed) fallisce, Stripe lo ripete per ore. Se nel frattempo arriva «rimborso fatto» (charge.refunded), il gestore non trova ordini, prova ad annullare un buono regalo che non c'è (rimborsi.ts:57-80) ed esce senza errore: l'avviso risulta lavorato. Poi l'avviso del pagamento passa: handleCheckoutCompleted rilegge il pagamento con la carta (ordini.ts:258-280) ma ne usa solo l'id, senza guardare refunded, amount_refunded o disputed, e crea l'ordine con payment_status PAID e payout_status HELD (ordini.ts:339-348). Fermano il gestore solo i carrelli COMPLETED ed EXPIRED (121, 133). Il giro dei bonifici (payout.ts:164-330) non ricontrolla la carta su Stripe e versa il netto pieno.",
+      "impatto": "Sabato 21/11 il gestore degli ordini è in errore per due ore. Una cliente paga 30 € da Pane Quotidiano e non vede l'ordine; chiama, e Nicola la rimborsa dal cruscotto Stripe. Quando il gestore riparte nasce l'ordine «pagato»: il forno prepara e consegna, e il giro dei bonifici gli versa 27 €. La cliente ha la merce e i soldi indietro: MyCity perde 30 €, e nessun controllo se ne accorge.",
+      "fix": "In handleCheckoutCompleted, dopo la rilettura, se la carta risulta rimborsata o contestata non creare l'ordine pagato: crearlo annullato o non crearlo, e avvisare l'amministratore. Trattare come finali anche i carrelli CANCELED e MISMATCH. Quando un rimborso o una contestazione arriva senza ordine ma con metadata.pending_checkout_id di un carrello ancora PENDING, lasciare un segno sul carrello oppure rispondere 500 perché Stripe ripeta.",
+      "causa_radice": "Il gestore suppone che gli avvisi di Stripe arrivino in ordine: prima il pagamento e l'ordine, poi rimborsi e contestazioni.",
+      "prova": "cd marketplace && cp <scratchpad>/s03/g2/zz-s03-g2-rimborso-prima-dell-ordine.test.ts tests/unit/ && npx vitest run tests/unit/zz-s03-g2-rimborso-prima-dell-ordine.test.ts; rm -f tests/unit/zz-s03-g2-rimborso-prima-dell-ordine.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO, 1 test fallito su 1: «ordini PAID/HELD creati su charge gia rimborsata: 1» (Stripe finto con refunded:true; il percorso dal carrello in attesa all'inserimento è quello reale)",
+      "verificato_da": "Un verificatore qa ha cercato tre difese (rilettura della carta nel giro dei bonifici, quadratura, rifiuto di Stripe): nessuna regge; CONFERMATO grave. La variante con la contestazione è attenuata, perché la chiusura della contestazione trova l'ordine; quella col rimborso dal cruscotto no. Non verificato: se Stripe rifiuta un bonifico legato a una carta interamente rimborsata; anche così la merce esce. Seconda lente (qa, indipendente): GRAVE, non bloccante — probabilità bassa (serve un avviso fallito e un rimborso nelle 2 ore di vita del carrello) ma è proprio la reazione naturale a «ho pagato e non vedo l’ordine», con la carta accesa dal 15/11; nessun sensore lo segnala."
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "id": "S03-002",
+      "severita": "grave",
+      "titolo": "Con l'abbonamento acceso, due schede aperte creano due abbonamenti da 50 euro, e il primo resta orfano e non si disdice dal sito",
+      "file": "app/api/seller/subscription/checkout/route.ts:62-83 · app/api/seller/subscription/checkout/route.ts:85-116 · lib/stripe/webhook/abbonamenti.ts:122-132 · app/api/seller/subscription/portal/route.ts:47",
+      "descrizione": "Il controllo «hai già un abbonamento?» chiede a Stripe solo se il profilo ha già stripe_customer_id (route.ts:62-83), che al primo abbonamento è vuoto fino all'arrivo dell'avviso. La sessione di pagamento (route.ts:85-116) non ha chiave di idempotenza, a differenza di buoni e sponsorizzate, e usa customer_email: ogni sessione crea un cliente Stripe diverso. All'avviso, handleSellerSubscription (abbonamenti.ts:122-132) sovrascrive stripe_customer_id e stripe_subscription_id col secondo; gli avvisi del primo abbonamento non trovano più nessun profilo, e il portale (portal/route.ts:47) apre solo il secondo cliente.",
+      "impatto": "Il giorno in cui l'abbonamento si accende, Pane Quotidiano preme «Attiva» sul telefono e sul computer e paga tutte e due le volte: 100 € al mese. Dal sito può disdire solo il secondo abbonamento; il primo continua ad addebitare 50 € al mese senza che il pannello lo mostri.",
+      "fix": "Creare e salvare il cliente Stripe del negozio prima della sessione, così il controllo di route.ts:62 scatta anche al primo abbonamento; in più una chiave di idempotenza stabile per negozio (per esempio negozio + giorno), non una per tentativo. Nel webhook, se il profilo ha già un abbonamento attivo diverso, avvisare l'amministratore invece di sovrascrivere.",
+      "causa_radice": "La difesa contro le «due schede» copre solo gli abbonamenti già pagati, non le sessioni aperte.",
+      "prova": "cd marketplace && cp <scratchpad>/s03/g3/zz-s03-g3-abbonamento.test.ts tests/unit/ && npx vitest run tests/unit/zz-s03-g3-abbonamento.test.ts; rm -f tests/unit/zz-s03-g3-abbonamento.test.ts  (test «due schede»)",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO: { sessioni: 2, chiavi: [null, null], protetto: false }; il test «secondo abbonamento copre il primo» conferma la sovrascrittura del profilo",
+      "verificato_da": "Un verificatore qa ha cercato lucchetti nel database e limiti di frequenza: nessuno ferma due schede; CONFERMATO grave quando si accende, nuovo. Non verificato su Stripe di prova: che Checkout in modalità abbonamento con customer_email crei due clienti (confidenza dichiarata 90%). Seconda lente (qa, indipendente): GRAVE dormiente — blocca la riaccensione dell’abbonamento, non il lancio; il danno si ripete ogni mese e lo scopre il negoziante sull’estratto conto."
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": "pagamenti-stripe|quando si accenderà l'abbonamento, il negozio pagherà 50 euro subito dopo l'approvazione invece che dopo i primi incassi",
+      "perimetro_altrui": null,
+      "riservato": false,
+      "id": "S03-003",
+      "severita": "grave",
+      "titolo": "Accesa, la rotta dell'abbonamento fa pagare 50 euro a un negozio appena approvato, prima di qualunque incasso portato da MyCity",
+      "file": "app/api/seller/subscription/checkout/route.ts:36-49 · app/api/seller/subscription/checkout/route.ts:111-113 · components/seller/SubscriptionBanner.tsx:60-65 · app/seller/earnings/commissione.ts:99-102",
+      "descrizione": "La regola firmata (pricing.abbonamento) dice: 50 € al mese, sospeso finché il negozio non incassa. La rotta controlla solo ruolo, approvazione e stato dell'abbonamento (route.ts:36-49) e non legge mai ordini o incassi; la sessione non ha prova gratuita né coupon (111-113). Il banner del pannello (SubscriptionBanner.tsx:60-65) invita ogni negozio approvato ad attivarlo, mentre la pagina dei guadagni (commissione.ts:99-102) promette che parte solo dopo il primo incasso: il sito si contraddice. La voce 59 del registro descrive lo stesso difetto con una prova che legge un testo; qui la prova esegue la rotta.",
+      "impatto": "Il giorno in cui Nicola accende l'abbonamento, Pane Quotidiano senza nessun incasso con la carta vede il banner «Attiva», preme e paga 50 € subito. L'interruttore vale per tutti i negozi insieme, quindi la regola è rotta per tutti: così com'è l'abbonamento non si può accendere.",
+      "fix": "Nella rotta e nel banner, rifiutare (403) finché il negozio non ha almeno un ordine portato da MyCity pagato e incassato; la definizione di «primo incasso» va fatta firmare a Nicola. In alternativa una prova gratuita Stripe che finisce al primo incasso.",
+      "causa_radice": "Una regola che vale negozio per negozio è affidata a un interruttore unico per tutto il sito.",
+      "prova": "cd marketplace && cp <scratchpad>/s03/g3/zz-s03-g3-abbonamento.test.ts tests/unit/ && npx vitest run tests/unit/zz-s03-g3-abbonamento.test.ts; rm -f tests/unit/zz-s03-g3-abbonamento.test.ts  (test «paletto»)",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO: { status: 200, ordiniLetti: 0 }, atteso 403",
+      "verificato_da": "Un verificatore qa ha cercato prova gratuita, coupon o altri freni: nessuno; CONFERMATO, con la nota che è la voce 59 del registro e propone di alzarla da minore a grave con questa prova. Seconda lente (qa, indipendente): GRAVE dormiente, dissente dal «minore» della voce 59 — acceso succede a ogni negozio approvato, perché l’interruttore è unico e la regola è negozio per negozio; blocca la riaccensione dell’abbonamento."
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "id": "S03-004",
+      "severita": "minore",
+      "titolo": "Il sito vero lavora anche gli avvisi Stripe «di prova»",
+      "file": "lib/stripe/webhook/firma.ts:62-84 · app/api/stripe/webhook/route.ts:43-62 · lib/stripe/webhook/trasferimenti.ts:80-81 · lib/stripe/client.ts:60-72",
+      "descrizione": "verificaFirma (firma.ts:62-84) controlla la firma e il conto collegato, mai il campo livemode dell'avviso; in app/ e lib/ livemode non si legge da nessuna parte. Il controllo dell'ambiente aggiunto il 5/11 (client.ts:60-72) copre la chiave segreta, non i segreti del webhook, che non dicono se sono di prova. Un account.updated di prova con la chiave vera fa fallire accounts.retrieve (trasferimenti.ts:80-81): la rotta risponde 500 e Stripe ritenta per giorni.",
+      "impatto": "Se a dicembre un segreto del webhook di prova viene incollato per sbaglio sul sito vero, oppure se Stripe consegna all'indirizzo vero eventi di prova dei conti collegati, il sito lavora avvisi finti sul database vero o accumula errori 500 finché Stripe non disattiva l'indirizzo.",
+      "fix": "In verificaFirma, o all'inizio della rotta: se la chiave è vera e evento.livemode è false, rispondere 200 «ignorato»; nell'anteprima l'inverso.",
+      "causa_radice": "La regola «chiavi di prova solo in anteprima» copre la chiave segreta ma non gli avvisi.",
+      "prova": "cd marketplace && npx vitest run --config <scratchpad>/s03/g1/vitest.s03.config.ts <scratchpad>/s03/g1/zz-s03-livemode.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO 2/2: handlePayoutFailed e handleAccountUpdated chiamati 1 volta ciascuno con un evento livemode:false, atteso 0",
+      "verificato_da": "Un verificatore qa: RIDIMENSIONATO da grave a minore. L'avviso falso al negozio vero richiede un id di conto di prova sul profilo vero, che coi conti Express non coincide; il test prova lo smistamento, non il danno. Non verificato: se Stripe consegna davvero all'indirizzo vero gli eventi di prova dei conti Express (docs.stripe.com irraggiungibile dalla sessione)."
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": "pagamenti-stripe|il forno ha già un conto stripe aperto con le chiavi di prima: se le chiavi nuove sono di un altro conto o modalità, non riuscirà mai a collegarsi",
+      "perimetro_altrui": null,
+      "riservato": false,
+      "id": "S03-005",
+      "severita": "minore",
+      "titolo": "Un conto Stripe non più valido sul profilo fa ritentare il bonifico ogni 15 minuti e «Aggiorna stato» risponde «Errore Stripe»",
+      "file": "app/api/stripe/connect/refresh-status/route.ts:41-65 · lib/stripe/payout.ts:206-214 · lib/stripe/payout.ts:366-371 · lib/stripe/client.ts:357-372",
+      "descrizione": "Se il conto collegato non esiste per le chiavi in uso, accounts.retrieve lancia e refresh-status risponde 500 senza azzerare i flag (route.ts:41-65). Il bonifico guarda solo stripe_payouts_enabled nel database (payout.ts:206-214) e il catch rimette HELD per qualunque errore, anche «No such destination» (366-371), senza tetto di tentativi. La riparazione automatica esiste solo premendo «Collega Stripe» (client.ts:357-372), che il negozio con i flag accesi non vede.",
+      "impatto": "Se un collaudo con le chiavi di prova lascia sul profilo di Pane Quotidiano un conto di prova con bonifici attivi, dal 15/11 ogni ordine consegnato (per esempio 22,50 € di netto) tenta il bonifico ogni 15 minuti e fallisce; il forno legge «collegato» e non riceve niente, e «Aggiorna stato» dice «Errore Stripe». L'allarme dei bonifici fermi lo segnala entro 3 ore.",
+      "fix": "In refresh-status e nel giro dei bonifici: su conto inesistente o non valido azzerare i flag (e l'id del conto), così torna il tasto «Collega»; nel bonifico, su errore permanente di destinazione mettere PENDING_SELLER_ONBOARDING invece di HELD.",
+      "causa_radice": "La riparazione «conto sconosciuto a queste chiavi» è stata messa solo nel percorso del collegamento, non in quelli che leggono lo stato o pagano.",
+      "prova": "cd marketplace && npx vitest run --config <scratchpad>/s03/g1/vitest.s03.config.ts <scratchpad>/s03/g1/zz-s03-conto-di-prova.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO 2/2: (A) 500 «Errore Stripe» e il profilo resta payouts_enabled=true; (B) dopo 3 giri 3 chiamate a transfers.create e l'ordine è ancora HELD",
+      "verificato_da": "Un verificatore qa: RIDIMENSIONATO da grave a minore e accodato alla voce 633. Pane Quotidiano oggi ha i bonifici spenti sul profilo, quindi finisce in attesa di collegamento e non nel giro infinito; l'allarme operativo dei bonifici fermi lo vede entro 3 ore; nessun soldo esce due volte."
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "id": "S03-006",
+      "severita": "minore",
+      "titolo": "La protezione dal doppio bonifico al negozio e al fattorino dura solo 24 ore",
+      "file": "lib/stripe/payout.ts:296-350 · lib/stripe/payout.ts:366-371 · lib/stripe/payout.ts:512-527 · app/api/cron/release-payouts/route.ts:143-156",
+      "descrizione": "Il controllo «esiste già un bonifico per questo ordine?» (transfers.list, payout.ts:296-322) gira solo se seller_payout_reversed_cents è maggiore di zero. Nel caso comune l'unica difesa è la chiave di idempotenza (323-350), che Stripe tiene 24 ore; il fattorino (512-527) non ha nessun controllo sull'elenco. Se la risposta di transfers.create si perde, l'ordine torna HELD (366-371); se il giro successivo arriva dopo 24 ore, la chiave è scaduta.",
+      "impatto": "Lunedì 16/11 alle 10 parte il bonifico da 22,50 € a Pane Quotidiano e la risposta si perde; un reso aperto ferma l'ordine fino a mercoledì; il giro di mercoledì crea un secondo bonifico. Per il negozio Stripe probabilmente lo respinge (due netti superano l'addebito); per il fattorino su un ordine da 100 € passerebbero circa 3,90 € in più.",
+      "fix": "Rendere sempre attivo il controllo transfers.list sul gruppo dell'ordine prima di ogni transfers.create, per negozio e fattorino, e aggiungere il numero di tentativo ai dati del bonifico del fattorino.",
+      "causa_radice": "La chiave di idempotenza è stata trattata come una difesa permanente, ma scade dopo 24 ore (stessa classe della voce 2516, riparata sui rimborsi).",
+      "prova": "cd marketplace && npx vitest run --config <scratchpad>/s03/g1/vitest.s03.config.ts <scratchpad>/s03/g1/zz-s03-chiave-24-ore.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "1 rosso e 1 verde: oltre le 24 ore «expected [2250, 2250] to deeply equal [2250]»; entro le 24 ore un solo bonifico",
+      "verificato_da": "Un verificatore qa: RIDIMENSIONATO a minore. Il giro ritenta dopo 15 minuti con la stessa chiave e l'SDK ritenta due volte da solo; servono due eventi rari insieme; il finto Stripe non modella il tetto della carta di origine (source_transaction), che probabilmente ferma il secondo bonifico al negozio. Da rialzare a grave se quel tetto non esiste."
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "id": "S03-007",
+      "severita": "minore",
+      "titolo": "Un rimborso pieno che arriva mentre parte il bonifico lascia al negozio la sua quota",
+      "file": "lib/stripe/webhook/rimborsi.ts:118-128 · lib/stripe/webhook/rimborsi.ts:197-225 · lib/stripe/payout.ts:351-371 · lib/stripe/payout.ts:1676-1686 · lib/stripe/webhook/rimborsi-da-fuori.ts:196",
+      "descrizione": "Nel rimborso pieno dal cruscotto lo storno al negozio parte solo se payout_status è TRANSFERRED (rimborsi.ts:118-128); su PROCESSING scrive REFUNDED (197-203), filtrando solo per id (221-225). Poi payout.ts:351 scrive TRANSFERRED sopra, anche lui solo per id. Il rimborso parziale invece riconosce il «bonifico in corso» e lascia ripetere l'avviso (rimborsi-da-fuori.ts:196). Lo stesso succede in refundOrder (payout.ts:1676-1686). Nessun controllo cerca ordini rimborsati con bonifico fatto.",
+      "impatto": "Il 20/11 Nicola rimborsa per intero dal cruscotto un ordine da 30 € negli stessi secondi in cui il giro versa 27 € a Pane Quotidiano: la cliente riprende 30 €, il forno tiene 27 €, e MyCity li perde senza un avviso.",
+      "fix": "Nel rimborso pieno trattare PROCESSING come il rimborso parziale (errore, così Stripe ripete); in payout.ts scrivere TRANSFERRED e HELD solo se lo stato è ancora PROCESSING, e stornare se la scrittura non trova la riga.",
+      "causa_radice": "Lo stato «bonifico in corso» è riconosciuto in uno solo dei due rami del rimborso, e la scrittura finale del bonifico non controlla lo stato.",
+      "prova": "cd marketplace && cp <scratchpad>/s03/g2/zz-s03-g2-rimborso-pieno-bonifico-in-corso.test.ts tests/unit/ && npx vitest run tests/unit/zz-s03-g2-rimborso-pieno-bonifico-in-corso.test.ts; rm -f tests/unit/zz-s03-g2-rimborso-pieno-bonifico-in-corso.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO 1/1: «payout_status=REFUNDED storni=0 lanciato=false»",
+      "verificato_da": "Un verificatore qa: meccanismo CONFERMATO, nessun lucchetto e nessun controllo lo rileva; RIDIMENSIONATO a minore perché la finestra normale è di pochi secondi (15 minuti solo con un guasto). Ha visto anche una variante non eseguita: se transfers.create fallisce dopo il REFUNDED, il catch rimette HELD e il giro dopo versa il netto pieno."
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "id": "S03-008",
+      "severita": "minore",
+      "titolo": "Una contestazione persa su una parte del carrello segna persi anche gli ordini degli altri negozi",
+      "file": "lib/stripe/webhook/dispute.ts:511-556 · lib/stripe/webhook/dispute.ts:183-190 · app/api/cron/release-payouts/route.ts:93",
+      "descrizione": "Il ramo della contestazione persa scrive dispute_status LOST e payment_status REFUNDED su tutti gli ordini del pagamento (e annulla i non consegnati rimettendo la merce a magazzino), senza guardare dispute.amount (dispute.ts:511-556); il ramo che apre la contestazione invece calcola la fetta (183-190). Il giro dei bonifici paga solo gli ordini senza contestazione o vinti (route.ts:93).",
+      "impatto": "Carrello da 50 €: 30 € di Pane Quotidiano e 20 € di un secondo negozio, il cui bonifico è ancora fermo perché non ha finito la verifica Stripe. La cliente contesta 20 € e MyCity perde: anche l'ordine di Pane Quotidiano, se non ancora pagato, diventa «perso e rimborsato» e i suoi 27 € non partono più.",
+      "fix": "Se dispute.amount è minore dell'addebito, segnare solo la quota persa (rimborso parziale proporzionale), fermare i bonifici del carrello da dividere e avvisare Nicola; correggere insieme alla voce 1639, stessa radice.",
+      "causa_radice": "La logica della contestazione parziale c'è solo nel ramo che la apre, non in quelli che la chiudono.",
+      "prova": "cd marketplace && cp <scratchpad>/s03/g2/zz-s03-g2-contestazione-parziale-persa.test.ts tests/unit/ && npx vitest run tests/unit/zz-s03-g2-contestazione-parziale-persa.test.ts; rm -f tests/unit/zz-s03-g2-contestazione-parziale-persa.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO 1/1: entrambi gli ordini LOST su 20 € persi su 50 €",
+      "verificato_da": "Un verificatore qa: RIDIMENSIONATO a minore. Nel caso normale gli ordini sono già pagati al negozio e lo storno proporzionale è già stato fatto all'apertura: LOST/REFUNDED resta un'etichetta sbagliata; il danno in soldi c'è solo con un ordine non ancora pagato. Nuovo; vicino alla 1639."
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "id": "S03-009",
+      "severita": "minore",
+      "titolo": "Sui buoni regalo la contestazione va in una sola direzione: una richiesta di informazioni della banca annulla il buono, e se MyCity vince non torna",
+      "file": "lib/stripe/webhook/dispute.ts:115-153 · lib/stripe/webhook/dispute.ts:362-363 · migrations/178_falla_r83.sql:69-72 · migrations/178_falla_r83.sql:139-148",
+      "descrizione": "Nel ramo «nessun ordine» (dispute.ts:115-140) si annulla subito il buono con gift_card_void_for_payment; il controllo sulla semplice richiesta di informazioni (eUnaRichiestaDiInformazioni, 151-153) arriva dopo e vale solo per gli ordini. La funzione azzera il buono e, se già riscattato, scala il credito del cliente (178:139-148). Nessuna funzione lo riattiva: il vincolo 178:69-72 lo impedisce, e handleDisputeClosed esce subito senza ordini (dispute.ts:362-363), quindi né una vittoria né la chiusura della richiesta restituiscono il buono.",
+      "impatto": "Il giorno in cui si riaccende la vendita dei buoni: una cliente compra un buono da 50 € e lo riscatta; la sua banca chiede solo informazioni; il buono si annulla e le spariscono 50 € di credito, e anche se MyCity vince non le tornano.",
+      "fix": "Nel ramo senza ordini, se è una richiesta di informazioni solo avvisare l'amministratore; aggiungere una funzione che riattiva il buono annullato per contestazione, da chiamare su vittoria e su chiusura della richiesta. Da scrivere nel «Per riaccendere» di BUONI_REGALO_IN_VENDITA.",
+      "causa_radice": "L'annullo del buono è stato aggiunto prima della distinzione fra richiesta di informazioni e contestazione vera, e non è stato riallineato; il ciclo della contestazione è modellato solo sugli ordini.",
+      "prova": "cd marketplace && cp <scratchpad>/s03/g3/zz-s03-g3-buono-contestazione.test.ts tests/unit/ && npx vitest run tests/unit/zz-s03-g3-buono-contestazione.test.ts; rm -f tests/unit/zz-s03-g3-buono-contestazione.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO 2/2: annullo chiamato con stato warning_needs_response; alla vittoria 0 scritture sui buoni",
+      "verificato_da": "Un verificatore qa: RIDIMENSIONATO a minore dormiente, perché la vendita dei buoni è spenta e i buoni colpibili sono probabilmente zero; da trattare come bloccante prima di riaccenderla. Nuovo."
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "id": "S03-010",
+      "severita": "minore",
+      "titolo": "Con la carta accesa si può pagare anche un negozio che non ha finito la verifica Stripe",
+      "file": "app/api/stripe/checkout/route.ts:258-261 · app/api/stripe/checkout/route.ts:428-468 · lib/stripe/payout.ts:210-214",
+      "descrizione": "La cassa con carta legge del negozio solo nome, posizione e orari (route.ts:258-261, 428-468); non controlla stripe_account_id né stripe_payouts_enabled. L'interruttore CARTA_ACCESA vale per tutto il sito, mentre la regola viva dice che la carta si accende dopo la verifica Stripe del conto del negozio. Il bonifico resta PENDING_SELLER_ONBOARDING (payout.ts:210-214) finché il negozio non completa la verifica.",
+      "impatto": "A dicembre entra un secondo negozio che non ha finito la verifica: i clienti pagano con la carta, MyCity tiene i soldi e il negozio non vede bonifici finché non la completa; se non la completa va pagato a mano.",
+      "fix": "Nella cassa, se un negozio del carrello non ha i bonifici Stripe attivi, rispondere 409 «questo negozio accetta solo contanti» e mostrare lo stesso nella pagina.",
+      "causa_radice": "L'interruttore della carta è uno per tutto il sito, la condizione è negozio per negozio.",
+      "prova": "cd marketplace && grep -n \"stripe_account\\|payouts_enabled\\|charges_enabled\" app/api/stripe/checkout/route.ts lib/ordini/valida-carrello.ts lib/stripe/client.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "0 righe nella cassa e nella convalida del carrello",
+      "verificato_da": "Un verificatore qa: CONFERMATO minore, nuovo; i soldi non si perdono, restano sul conto della piattaforma."
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "id": "S03-011",
+      "severita": "minore",
+      "titolo": "Il fattorino preme «Aggiorna stato», il server risponde errore e lui legge «Stato aggiornato»",
+      "file": "components/rider/RiderConnectButton.tsx:50-60",
+      "descrizione": "Il pulsante non legge mai res.ok: su una risposta 500 o 503 il corpo è un errore, data.payouts_enabled è vuoto e compare il messaggio neutro «Stato aggiornato. Se risulta in attesa, completa la verifica.». È il gemello lato fattorino della voce 902, chiusa lato negozio.",
+      "impatto": "Il 18/11 Stripe non risponde; un fattorino preme «Aggiorna stato» per vedere se il suo IBAN è attivo, legge «Stato aggiornato» e pensa che sia tutto a posto, mentre il compenso resta fermo.",
+      "fix": "Se !res.ok, mostrare un errore col messaggio del server.",
+      "causa_radice": "La correzione della 902 è stata fatta solo sul pulsante del negozio.",
+      "prova": "Lettura di components/rider/RiderConnectButton.tsx:50-60",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "res.ok non compare nel gestore della risposta",
+      "verificato_da": "Un verificatore qa: CONFERMATO minore, nuovo (la 902 è il gemello lato negozio, la 74 riguarda altre righe dello stesso file)."
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "id": "S03-012",
+      "severita": "minore",
+      "titolo": "Quando il pagamento dell'abbonamento non va a buon fine, il tasto «Aggiorna pagamento» risponde con un errore invece di aprire il portale",
+      "file": "components/seller/SubscriptionBanner.tsx:36-65 · app/api/seller/subscription/checkout/route.ts:69-79",
+      "descrizione": "In insoluto il banner chiama la rotta di attivazione (SubscriptionBanner.tsx:36), che trova l'abbonamento past_due e risponde 409 (route.ts:69-79). Il portale giusto si apre solo da /seller/profile. La frase «per non perdere visibilità» (59) è falsa: subscription_status non governa niente oltre al banner e al profilo.",
+      "impatto": "Con l'abbonamento acceso, Pane Quotidiano ha la carta scaduta, preme «Aggiorna pagamento» e legge «Risulta già un abbonamento su questo account…», senza capire dove si cambia la carta.",
+      "fix": "Se lo stato è past_due il banner chiama /api/seller/subscription/portal; togliere «per non perdere visibilità» o decidere cosa si perde davvero.",
+      "causa_radice": "Il banner usa la stessa rotta per attivare e per riparare un pagamento fallito.",
+      "prova": "cd marketplace && cp <scratchpad>/s03/g3/zz-s03-g3-abbonamento.test.ts tests/unit/ && npx vitest run tests/unit/zz-s03-g3-abbonamento.test.ts; rm -f tests/unit/zz-s03-g3-abbonamento.test.ts  (test «insoluto»)",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO: «expected 409 to be less than 400»",
+      "verificato_da": "Un verificatore qa: CONFERMATO minore, nuovo."
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "id": "S03-013",
+      "severita": "minore",
+      "titolo": "La vetrina sponsorizzata di una settimana resta in vetrina 8 giorni",
+      "file": "lib/stripe/webhook/sponsorizzati.ts:54-57 · lib/queries/fasce-prodotti.ts:184-185",
+      "descrizione": "La fine è calcolata come oggi più 7 giorni (sponsorizzati.ts:54-57) e la vetrina comprende entrambi gli estremi (fasce-prodotti.ts:184-185): 8 giorni di calendario per 1 settimana, 29 per 4.",
+      "impatto": "Comprata lunedì 16/11 alle 10, la vetrina dura fino a lunedì 23/11 compreso: 8 giorni. L'avviso dice «fino al 23», e negozio e Nicola leggono durate diverse da quelle vendute (è un giorno regalato al negozio).",
+      "fix": "Fine = oggi + (giorni − 1), oppure filtro con fine esclusa; usare la stessa scelta anche nell'avviso.",
+      "causa_radice": "Due convenzioni diverse sull'ultimo giorno, una nel webhook e una nella query.",
+      "prova": "cd marketplace && cp <scratchpad>/s03/g3/zz-s03-g3-sponsorizzata.test.ts tests/unit/ && npx vitest run tests/unit/zz-s03-g3-sponsorizzata.test.ts; rm -f tests/unit/zz-s03-g3-sponsorizzata.test.ts  (orologio finto 2026-11-16T10:00+01:00)",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO: giorni 8, attesi 7",
+      "verificato_da": "Un verificatore qa: CONFERMATO minore, nuovo (la 710 riguardava il fuso orario, è chiusa)."
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "id": "S03-014",
+      "severita": "minore",
+      "titolo": "Le campagne sponsorizzate scadute restano «Attiva» per sempre, e il filtro «finite» dell'amministrazione è sempre vuoto",
+      "file": "app/seller/promote/page.tsx:271-272 · app/admin/sponsored/page.tsx:80 · app/admin/sponsored/page.tsx:217 · lib/admin/vista-delle-campagne.ts:41",
+      "descrizione": "Nessun codice né migrazione scrive status='ended' sulle campagne. La vetrina pubblica filtra per date e non le mostra, ma la pagina del negozio (promote/page.tsx:271-272) e quella dell'amministrazione (sponsored/page.tsx:80, 217) leggono lo stato salvato.",
+      "impatto": "A dicembre Pane Quotidiano legge «16 novembre → 23 novembre · Attiva» su una campagna finita, e il filtro «Attive» dell'amministrazione conta anche le campagne scadute.",
+      "fix": "Derivare lo stato a video dalla data di fine nel fuso di Piacenza, oppure un passaggio giornaliero che scrive ended.",
+      "causa_radice": "Lo stato «finita» è previsto nei tipi ma nessuno lo scrive.",
+      "prova": "cd marketplace && grep -rn \"'ended'\" app lib migrations --include=*.ts --include=*.tsx --include=*.sql | grep -iv \"events\\|ai/\\|batch\"",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "Solo dichiarazioni di tipo e filtri, nessuna scrittura dello stato ended",
+      "verificato_da": "Un verificatore qa: CONFERMATO minore, nuovo; il carosello è protetto dal filtro sulle date, resta un'etichetta."
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "id": "S03-015",
+      "severita": "minore",
+      "titolo": "Un buono regalo annullato o scaduto si legge «Disponibile», col codice in chiaro",
+      "file": "app/profile/gift-cards/page.tsx:25-36 · app/profile/gift-cards/page.tsx:347 · app/profile/gift-cards/page.tsx:370",
+      "descrizione": "Il tipo dei buoni nella pagina non ha voided_at (25-36) e l'etichetta dice «Disponibile» quando redeemed_at è vuoto (347, 370); expires_at non viene mai mostrato. Il server rifiuta comunque il riscatto di buoni annullati o scaduti.",
+      "impatto": "Una cliente compra un buono da 25 €, poi se lo fa rimborsare: la pagina mostra «0,00 € di 25,00 € · Disponibile», lei gira il codice a un'amica, che prova a riscattarlo e legge «Gift card non più valida».",
+      "fix": "Etichette «Annullato» e «Scaduto il …» da voided_at ed expires_at.",
+      "causa_radice": "La pagina è nata prima dell'annullo dei buoni (migrazione 178) e non è stata aggiornata.",
+      "prova": "Lettura di app/profile/gift-cards/page.tsx:25-36, 347, 370",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "voided_at ed expires_at non compaiono nell'etichetta",
+      "verificato_da": "Un verificatore qa: CONFERMATO minore, solo visualizzazione; nessun soldo perso."
+    }
+  ],
+  "regressioni": [],
+  "ricontrolli": [],
+  "prove_per_la_palestra": [
+    {
+      "id": "S03-P001",
+      "funzione": "Pagare con la carta un carrello di un negozio solo",
+      "chi": "cliente",
+      "file": "app/api/stripe/checkout/route.ts · app/checkout/page.tsx",
+      "dati_di_prova": "Anteprima con chiavi di prova e CARTA_ACCESA=true in un ramo; Pane Quotidiano con conto Connect di prova verificato; carta 4242 4242 4242 4242",
+      "passi": "Metti 2 prodotti nel carrello, scegli la carta, premi Paga due volte di fila, completa su Stripe",
+      "atteso": "Una sola pagina di pagamento, un solo ordine pagato con lo stesso importo del carrello, commissione 10% sul subtotale",
+      "limite": "Doppio clic e due schede aperte sullo stesso carrello"
+    },
+    {
+      "id": "S03-P002",
+      "funzione": "Pagare con una carta che chiede la conferma della banca (3D Secure)",
+      "chi": "cliente",
+      "file": "app/api/stripe/checkout/route.ts · app/api/stripe/webhook/route.ts",
+      "dati_di_prova": "Carta di prova 4000 0027 6000 3184",
+      "passi": "Paga con la carta, lascia scadere la richiesta della banca senza confermare, poi riprova",
+      "atteso": "Nessun ordine nato dal primo tentativo, merce di nuovo disponibile alla scadenza, il secondo tentativo crea un solo ordine",
+      "limite": "Pagamento lasciato a metà e sessione Stripe scaduta"
+    },
+    {
+      "id": "S03-P003",
+      "funzione": "Pagare un carrello con due negozi",
+      "chi": "cliente",
+      "file": "app/api/stripe/checkout/route.ts · app/api/stripe/payout/route.ts",
+      "dati_di_prova": "Due negozi di prova con conto Connect verificato, carrello 30 € + 20 €",
+      "passi": "Paga con la carta, fai consegnare entrambi gli ordini, aspetta il giro dei bonifici",
+      "atteso": "Due bonifici al 90% di ciascun negozio, somma mai superiore all'addebito",
+      "limite": "Arrotondamenti al centesimo con importi dispari"
+    },
+    {
+      "id": "S03-P004",
+      "funzione": "Ricevere un messaggio Stripe con la firma sbagliata",
+      "chi": "estraneo",
+      "file": "app/api/stripe/webhook/route.ts",
+      "dati_di_prova": "Copia locale o anteprima, segreto del webhook di prova",
+      "passi": "Manda all'indirizzo del webhook un checkout.session.completed firmato con un segreto diverso, poi lo stesso evento firmato bene due volte",
+      "atteso": "Il primo è respinto senza effetti; il secondo crea l'ordine una volta sola",
+      "limite": "Stesso evento consegnato due volte e in ritardo"
+    },
+    {
+      "id": "S03-P005",
+      "funzione": "Ricevere un messaggio Stripe di prova sul sito vero",
+      "chi": "admin",
+      "file": "app/api/stripe/webhook/route.ts",
+      "dati_di_prova": "Evento payout.failed con livemode=false su un conto collegato",
+      "passi": "Dal cruscotto Stripe di prova manda un evento di prova all'indirizzo del sito vero",
+      "atteso": "Ignorato con risposta 200, nessun avviso al negozio",
+      "limite": "Confine fra modalità di prova e modalità vera"
+    },
+    {
+      "id": "S03-P006",
+      "funzione": "Collegare il conto Stripe del negozio",
+      "chi": "negozio",
+      "file": "app/api/stripe/connect/onboarding/route.ts · app/api/stripe/connect/refresh-status/route.ts · app/api/stripe/connect/login/route.ts",
+      "dati_di_prova": "Negozio approvato senza conto; dati di prova Stripe Express (IBAN di prova IT)",
+      "passi": "Premi Collega, lascia scadere il link e riaprilo, completa la verifica, premi Aggiorna stato, apri il cruscotto Stripe",
+      "atteso": "Un solo conto creato, stato aggiornato a bonifici attivi, il cruscotto si apre sul proprio conto",
+      "limite": "Link scaduto e Stripe che non risponde"
+    },
+    {
+      "id": "S03-P007",
+      "funzione": "Aprire il collegamento Stripe di un altro negozio",
+      "chi": "negozio",
+      "file": "app/api/stripe/connect/onboarding/route.ts · app/api/stripe/connect/login/route.ts",
+      "dati_di_prova": "Due negozi di prova, il secondo con conto collegato",
+      "passi": "Dal primo negozio chiama le rotte del collegamento cambiando i dati inviati",
+      "atteso": "Si apre sempre e solo il proprio conto, mai quello dell'altro",
+      "limite": "Richieste costruite a mano"
+    },
+    {
+      "id": "S03-P008",
+      "funzione": "Collegare il conto Stripe del fattorino",
+      "chi": "fattorino",
+      "file": "app/api/stripe/connect/rider-onboarding/route.ts · components/rider/RiderConnectButton.tsx",
+      "dati_di_prova": "Fattorino di prova senza IBAN",
+      "passi": "Premi Collega, completa la verifica, poi premi Aggiorna stato con Stripe irraggiungibile",
+      "atteso": "Con Stripe giù il fattorino legge un errore, non «Stato aggiornato»",
+      "limite": "Fornitore che non risponde"
+    },
+    {
+      "id": "S03-P009",
+      "funzione": "Il bonifico al negozio con un conto non più valido",
+      "chi": "admin",
+      "file": "app/api/stripe/payout/route.ts · app/api/stripe/connect/refresh-status/route.ts",
+      "dati_di_prova": "Profilo del negozio con un conto creato con chiavi diverse da quelle in uso",
+      "passi": "Consegna un ordine pagato con la carta e lascia girare il giro dei bonifici per un'ora",
+      "atteso": "Il negozio torna a «da collegare» e l'admin vede un avviso preciso, niente tentativi ogni 15 minuti",
+      "limite": "Chiavi di prova e chiavi vere mescolate"
+    },
+    {
+      "id": "S03-P010",
+      "funzione": "Rimborsare un ordine pagato con la carta mentre parte il bonifico",
+      "chi": "admin",
+      "file": "app/api/stripe/payout/route.ts · app/api/stripe/webhook/route.ts",
+      "dati_di_prova": "Ordine consegnato da 30 €, giro dei bonifici in corso",
+      "passi": "Avvia il giro dei bonifici e nello stesso minuto rimborsa per intero dal cruscotto Stripe",
+      "atteso": "Il bonifico al negozio viene stornato oppure non parte; il registro dice dove sono i 27 €",
+      "limite": "Due lavori che si incrociano nello stesso minuto"
+    },
+    {
+      "id": "S03-P011",
+      "funzione": "Rimborso parziale dal cruscotto, fatto due volte",
+      "chi": "admin",
+      "file": "app/api/stripe/webhook/route.ts",
+      "dati_di_prova": "Ordine pagato con la carta da 30 €",
+      "passi": "Rimborsa 5 € dal cruscotto Stripe, poi altri 5 €",
+      "atteso": "Il netto del negozio scende di 4,50 € a ogni rimborso, mai due volte per lo stesso",
+      "limite": "Rimborsi ripetuti e messaggio duplicato"
+    },
+    {
+      "id": "S03-P012",
+      "funzione": "Contestazione della carta su una parte del carrello",
+      "chi": "cliente",
+      "file": "app/api/stripe/webhook/route.ts",
+      "dati_di_prova": "Carrello di due negozi 30 € + 20 €, carta di prova per contestazione (4000 0000 0000 0259)",
+      "passi": "Apri una contestazione per 20 € e chiudila persa con le prove di prova",
+      "atteso": "Solo la quota contestata viene tolta; il bonifico dell'altro negozio parte",
+      "limite": "Contestazione parziale"
+    },
+    {
+      "id": "S03-P013",
+      "funzione": "Comprare un buono regalo",
+      "chi": "cliente",
+      "file": "app/api/gift-cards/checkout/route.ts · app/profile/gift-cards/page.tsx",
+      "dati_di_prova": "BUONI_REGALO_IN_VENDITA=true in un ramo di anteprima; buono da 25 €",
+      "passi": "Compra il buono, apri una richiesta di informazioni con la carta di prova 4000 0000 0000 1976, poi guarda la pagina dei buoni",
+      "atteso": "Il buono resta valido durante la richiesta; un buono annullato si legge «Annullato», non «Disponibile»",
+      "limite": "Contestazione dopo il riscatto"
+    },
+    {
+      "id": "S03-P014",
+      "funzione": "Vedere la vetrina dei regali con i buoni spenti",
+      "chi": "cliente",
+      "file": "app/regali/page.tsx",
+      "dati_di_prova": "Configurazione del lancio (buoni spenti)",
+      "passi": "Apri /regali e prova a chiamare a mano la rotta di acquisto del buono",
+      "atteso": "Nessuna offerta di buono visibile, la rotta risponde che il servizio non è disponibile",
+      "limite": "Interruttore spento letto due volte (pagina e rotta)"
+    },
+    {
+      "id": "S03-P015",
+      "funzione": "Comprare una vetrina sponsorizzata di una settimana",
+      "chi": "negozio",
+      "file": "app/api/sponsored/checkout/route.ts · app/seller/promote/page.tsx",
+      "dati_di_prova": "ABBONAMENTO_NEGOZI_ACCESO=true in un ramo di anteprima; orologio spostato",
+      "passi": "Compra 1 settimana lunedì 16/11 alle 10, poi sposta l'orologio a +7 e +8 giorni",
+      "atteso": "Il prodotto esce dalla vetrina dopo 7 giorni e la campagna si legge «Finita»",
+      "limite": "Date a cavallo della mezzanotte di Piacenza"
+    },
+    {
+      "id": "S03-P016",
+      "funzione": "Guardare le campagne sponsorizzate dall'amministrazione",
+      "chi": "admin",
+      "file": "app/admin/sponsored/page.tsx",
+      "dati_di_prova": "Una campagna in corso e una scaduta",
+      "passi": "Apri l'elenco e usa i filtri «Attive» e «Finite»",
+      "atteso": "La scaduta compare fra le finite",
+      "limite": "Campagne scadute da giorni"
+    },
+    {
+      "id": "S03-P017",
+      "funzione": "Attivare l'abbonamento del negozio",
+      "chi": "negozio",
+      "file": "app/api/seller/subscription/checkout/route.ts",
+      "dati_di_prova": "ABBONAMENTO_NEGOZI_ACCESO=true in un ramo di anteprima; negozio approvato con 0 ordini pagati",
+      "passi": "Apri il pannello del negozio, premi «Attiva» in due schede e paga entrambe con 4242",
+      "atteso": "Nessun canone prima del primo incasso portato da MyCity; in ogni caso mai due abbonamenti",
+      "limite": "Due schede aperte"
+    },
+    {
+      "id": "S03-P018",
+      "funzione": "Aggiornare la carta dell'abbonamento in insoluto",
+      "chi": "negozio",
+      "file": "app/api/seller/subscription/portal/route.ts · app/api/seller/subscription/checkout/route.ts",
+      "dati_di_prova": "Abbonamento di prova con carta 4000 0000 0000 0341 e orologio di prova Stripe avanzato di un mese",
+      "passi": "Premi «Aggiorna pagamento» nel banner",
+      "atteso": "Si apre il portale Stripe del proprio negozio",
+      "limite": "Pagamento ricorrente fallito"
+    },
+    {
+      "id": "S03-P019",
+      "funzione": "Pagare con la carta un negozio senza conto Stripe verificato",
+      "chi": "cliente",
+      "file": "app/api/stripe/checkout/route.ts",
+      "dati_di_prova": "Negozio di prova approvato ma senza conto Connect",
+      "passi": "Metti un suo prodotto nel carrello e scegli la carta",
+      "atteso": "La cassa propone solo i contanti per quel negozio",
+      "limite": "Negozi in stati di verifica diversi nello stesso carrello"
+    }
+  ],
+  "domande_per_nicola": [
+    "Per accendere la carta servono, nel codice: CARTA_ACCESA da false a true in lib/funzioni-al-lancio.ts con una richiesta di unione firmata; prima, la correzione del difetto S03-001 (l'ordine che nasce pagato dopo un rimborso), che è l'unico grave acceso dal primo giorno. Nelle variabili di produzione: STRIPE_SECRET_KEY vera (sk_live_ o rk_live_: una di prova viene rifiutata dal codice), NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY vera (si fissa quando il sito viene costruito, quindi serve un nuovo rilascio dopo averla messa), STRIPE_WEBHOOK_SECRET dell'indirizzo /api/stripe/webhook e STRIPE_CONNECT_WEBHOOK_SECRET del secondo indirizzo per gli avvisi dei conti collegati. Su Stripe: i due indirizzi iscritti almeno a checkout.session.completed, async_payment_succeeded/failed, expired, charge.refunded, charge.refund.updated, charge.dispute.created/closed, payment_intent.succeeded/payment_failed, account.updated, payout.failed, transfer.reversed. STRIPE_CONNECT_CLIENT_ID non serve: il codice la legge ma non la usa. Confermi questo elenco come lista di controllo del giorno dell'accensione?",
+    "Il conto Stripe che questa sessione vede è un conto di prova vuoto (nome «boh»: nessun indirizzo webhook, nessun conto collegato, nessun pagamento). Il «pagamento vero provato fino al bonifico del negozio» richiesto per accendere la carta non risulta fatto su questo conto: è stato fatto su un altro conto di prova, o è ancora da fare?",
+    "Abbonamento: cosa vuol dire «primo incasso portato da MyCity» (il primo ordine pagato, il primo ordine consegnato, o il primo bonifico partito)? Serve per correggere S03-003 prima di riaccendere l'abbonamento."
+  ],
+  "conto": {
+    "agenti": 11,
+    "token_sessione": {
+      "agenti": 1,
+      "turni": 56,
+      "input": 123,
+      "scritti_cache": 348791,
+      "letti_cache": 12794530,
+      "uscita": 65453,
+      "entrata_totale": 13143444
+    },
+    "token_subagenti": {
+      "agenti": 11,
+      "turni": 242,
+      "input": 484,
+      "scritti_cache": 790765,
+      "letti_cache": 20612211,
+      "uscita": 169993,
+      "entrata_totale": 21403460
+    },
+    "token_workflow": [],
+    "nota": "Misurato con cervello/conto-token.mjs (--sessione sul transcript principale, --dir sulla cartella subagents), prima dell'ultimo salvataggio: gli ultimi turni del ciclo principale non sono contati. Undici agenti su un tetto di 12: tre cercatori (backend-dev), sette verificatori qa e una seconda lente qa. Nessun workflow. Per stare nel tetto, i verificatori di B, F/G e I/J hanno preso più di un difetto ciascuno, ognuno con un verdetto separato."
+  }
+}

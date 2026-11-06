@@ -6669,6 +6669,27 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 
 **Colore:** 🟡 modifica della memoria dell'AD, con avviso a Nicola.
 
+## 2026-11-06 08:36 — 🟡 La radiografia del sito in 12 sessioni parte: le quattro decisioni di Nicola
+
+**Cosa:** Nicola ha scritto «fai partire la nuova strategia di radiografia del marketplace». È la radiografia in 12 sessioni della NicolaeRotaru/ad-mycity#935. Alle quattro domande ancora aperte ha risposto così, in chat:
+- **D0, quando:** «questa settimana non preoccuparti della regola dei limiti». La prima ondata parte appena finita la preparazione. Il limite settimanale in allarme (`allowed_warning`) non ferma il lavoro. Lo fermano solo due cose: i costi extra oltre l'abbonamento (`isUsingOverage`, sono soldi veri) o il blocco del limite. Questa scelta supera «niente radiografie larghe fino al 15/11» (5/11 alle 14:27) e il freno del tasso di chiusura, perché è un ordine esplicito. La seconda ondata aspetta comunque il suo «via la seconda».
+- **D7, le falle riservate già aperte:** «cercale tu». L'AD cerca i referti privati nelle trascrizioni delle sessioni che le hanno trovate. Nei file scrive solo dove stanno, mai i dettagli.
+- **D8, i lavori a orario:** «li riaccendo quando il marketplace non ha più difetti». Nessuna data. Gli 11 lavori restano spenti dal freno del 31/10. La sessione degli avvisi (S08) controlla cosa non funziona al lancio finché restano spenti.
+- **D10, la palestra:** ancora aperta. Nicola ha chiesto da dove viene il costo. Risposta data in chat, dalla documentazione di Supabase: un ramo di prova del database costa 0,01344 $ l'ora (0,32 $ al giorno, circa 10 $ al mese se resta acceso), solo finché esiste. Il tetto di spesa non lo copre.
+
+**Perché:** sono le decisioni che il prompt (`consegne/audit/PROMPT-radiografia-12-sessioni.md`, §0) chiede a Nicola prima di aprire le sessioni.
+
+**Colore:** 🟡 lavoro della macchina sul sito in sola lettura, con le decisioni di Nicola. Nessuna spesa e nessuna scrittura sul sito vero.
+
+## 2026-11-06 10:11 — 🟡 I piani della prima ondata li approva l'AD, su richiesta di Nicola
+
+**Cosa:** Nicola ha chiesto in chat «riesci ad approvarli tu?». L'AD ha approvato a nome suo, con un messaggio a ogni sessione, i piani di S01, S03, S06, S10 e S11 della radiografia in 12 sessioni. Prima li aveva letti e confrontati con le schede.
+
+**Perché:** in queste sessioni lo strumento del piano rispondeva «approvato» da solo, e un riavvio aveva chiuso la modalità piano. Quindi l'unico via che conta è un messaggio scritto, e Nicola l'ha delegato all'AD. La D2 del prompt voleva l'approvazione di Nicola nella sessione: da oggi vale anche il via dell'AD, se Nicola lo chiede.
+
+**Cosa resta a Nicola:** la modalità automatica di ogni sessione. Una sessione non può cambiare i permessi di un'altra.
+
+**Colore:** 🟡 lavoro in sola lettura sul sito, deciso da Nicola.
 ## 2026-11-06 09:54 — 🟡 Rifare il registro dei difetti del sito non cancella più il lavoro scritto dopo il referto
 
 **Cosa:** il digest del sito (`cervello/radiografia-marketplace-digest.mjs`) rifà il registro dall'ultimo referto di ogni famiglia. Per le voci che ritrovava teneva dalla casa sei campi, e il resto tornava quello del grezzo. Sul registro del 6/11, 357 voci su 444 perdevano campi (`riparato_il`, `nota_5_11`…) e su 262 la prova tornava quella del cercatore. Adesso per una voce già in casa vince la casa, campo per campo. Il grezzo riempie solo i campi che mancano. Una radiografia nuova aggiorna soltanto la riverifica, e quella di prima resta in `riverifiche_precedenti`.
@@ -6680,3 +6701,20 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 **Cosa resta a Nicola:** la firma sulla richiesta di unione. Limiti dichiarati: le correzioni fatte nel grezzo prima di oggi non si vedono, perché le impronte nascono col primo digest dopo l'unione. L'avviso guarda solo il referto che il digest rilegge, non quello che un referto nuovo sostituisce (cantiere, scheda sulla copertura che resta muta con una radiografia nuova). Restano aperte quattro minori nel cantiere: le note in testa al registro, una prova che riscrive il registro vero, e i due lasciati dal terzo collaudo.
 
 **Colore:** 🟡 auto-modifica della macchina, vale con la firma di Nicola.
+
+## 2026-11-06 19:17 — 🟡 La radiografia in 12 sessioni chiude il controllo finale: cosa entra nel registro e cosa no
+
+**Cosa:** il controllo finale (§7 del prompt) ha scritto il registro del sito per chiave, poi il digest una volta sola. 175 voci nuove (0 bloccanti, 11 gravi, 164 minori), 28 chiusure dei ricontrolli di S01 confermate da un verificatore, 7 regressioni confermate riaperte, 5 prove più forti scritte nelle note di voci aperte. Voci aperte: da 534 a 688.
+
+**Le scelte dell'AD, una per una:**
+- **La rete dell'ambiente «mycity»:** i tre indirizzi della D3 (foto di Supabase, Stripe, Cloudflare) li ha approvati Nicola il 6/11 alle 08:53, all'apertura della prima ondata.
+- **Le 15 falle riservate nuove entrano nel registro** (da R295 a R309) anche senza la verifica esterna, perché il filtro di sicurezza del modello l'ha fermata. Le ha verificate un agente dentro ogni sessione. Lasciarle fuori le avrebbe nascoste. Ognuna porta «verificata dentro la sessione, non dal controllo finale».
+- **La falla bloccante del sito dal vivo non entra:** è chiusa dal 6/11 alle 12:01, quando Nicola ha disattivato le chiavi vecchie.
+- **Le voci 1144 e 1386 restano chiuse:** S05 propone di riaprirle, ma senza verifica esterna non si riapre niente.
+- **La voce 0 resta aperta, con una nota:** la chiave di servizio su Vercel c'è da stanotte, ma per chiuderla serve la prova sul sito vero.
+- **8 difetti del terzo giro restano fuori:** nessun verificatore. Il quarto giro lo decide Nicola (carta #231).
+- **Due difetti tornano voci nuove:** le voci 466 e 467 si sono chiuse come già riparate, quindi i due difetti che sembravano loro doppioni sono residui veri.
+
+**Perché:** «chiudere un difetto vero lo nasconde» (§7.3): nel dubbio una voce resta aperta, e una falla trovata non si toglie dal registro per un limite dello strumento.
+
+**Colore:** 🟡 lavoro della macchina sul registro del sito, nessuna scrittura sul sito vero. Vale con la firma di Nicola sulla richiesta NicolaeRotaru/ad-mycity#936.

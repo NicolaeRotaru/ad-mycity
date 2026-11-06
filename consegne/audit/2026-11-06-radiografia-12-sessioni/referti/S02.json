@@ -1,0 +1,1110 @@
+{
+  "sessione": "S02",
+  "base_sito": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
+  "aggiornato": "2026-11-06 12:13",
+  "finita": true,
+  "copertura": {
+    "file_letti_interi": [
+      "lib/ordini/prezzi.ts",
+      "lib/ordini/riepilogo-cassa.ts",
+      "lib/ordini/riepilogo-ordine.ts",
+      "lib/ordini/riga-ordine.ts",
+      "lib/ordini/valida-carrello.ts",
+      "lib/ordini/tetto-dei-contanti.ts",
+      "lib/ordini/ordine-in-contanti-puo-nascere.ts",
+      "lib/ordini/chiave-dopo-l-errore.ts",
+      "lib/ordini/tentativo.ts",
+      "lib/ordini/consegna-veloce.ts",
+      "lib/ordini/riserve-abbandonate.ts",
+      "components/checkout/useTotaliCarrello.ts",
+      "lib/promotions.ts",
+      "lib/coupons.ts",
+      "lib/loyalty.ts",
+      "lib/ritiro-in-negozio.ts",
+      "lib/shipping.ts",
+      "lib/stripe/ripartizione.ts",
+      "components/WelcomeCreditBanner.tsx",
+      "components/ActivePromoBadge.tsx",
+      "lib/guadagni/negozio.ts",
+      "lib/guadagni/fattorino.ts",
+      "lib/guadagni/giorni.ts",
+      "lib/guadagni/tetto-ordini.ts",
+      "lib/cassa/quadratura.ts",
+      "lib/cassa/registra-incasso.ts",
+      "lib/cassa/prova-incasso.ts",
+      "app/api/cron/riquadra-casse/route.ts",
+      "app/api/cron/release-payouts/route.ts",
+      "app/admin/payouts/page.tsx",
+      "app/api/rider/cash-confirm/route.ts",
+      "app/api/rider/incassi-da-dichiarare/route.ts",
+      "app/api/rider/orders/[id]/cliente-assente/route.ts",
+      "lib/rider/incasso-alla-consegna.ts",
+      "lib/rider/leggi-incassi-da-dichiarare.ts",
+      "lib/rider/consegne-del-fattorino.ts",
+      "app/seller/earnings/commissione.ts",
+      "lib/pagamenti/tasso-autorizzazione.ts",
+      "lib/ordini/esporta-ordini.ts",
+      "lib/ordini/soldi-sulla-carta.ts",
+      "lib/rimborsi/regole-del-rimborso.ts",
+      "lib/rimborsi/bonifici-da-fare.ts",
+      "lib/rimborsi/credito-da-controllare.ts",
+      "lib/rimborsi/email-dei-resi.ts",
+      "lib/ordini/recesso.ts",
+      "lib/ordini/annullo-del-cliente.ts",
+      "lib/ordini/rimessa-a-scaffale.ts",
+      "lib/ordini/merce-che-tengo-io.ts",
+      "app/api/orders/[id]/cancel/route.ts",
+      "app/api/returns/create/route.ts",
+      "app/api/returns/[id]/decide/route.ts",
+      "app/api/returns/[id]/avanza/route.ts",
+      "app/api/returns/chi-comanda-il-reso.ts",
+      "app/admin/credito-del-rimborso/page.tsx",
+      "app/api/admin/credito-del-rimborso/route.ts"
+    ],
+    "file_letti_in_parte": [
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "1-200"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "340-700"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "700-1130"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "1130-1530"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "1530-1680"
+      },
+      {
+        "file": "lib/ordini/annulla.ts",
+        "righe": "120-200"
+      },
+      {
+        "file": "lib/ordini/annulla.ts",
+        "righe": "540-927"
+      },
+      {
+        "file": "app/checkout/page.tsx",
+        "righe": "190-312"
+      },
+      {
+        "file": "app/checkout/page.tsx",
+        "righe": "440-450"
+      },
+      {
+        "file": "app/checkout/page.tsx",
+        "righe": "640-640"
+      },
+      {
+        "file": "app/checkout/page.tsx",
+        "righe": "700-830"
+      },
+      {
+        "file": "app/checkout/page.tsx",
+        "righe": "905-1010"
+      },
+      {
+        "file": "app/checkout/page.tsx",
+        "righe": "1451-1515"
+      },
+      {
+        "file": "app/checkout/page.tsx",
+        "righe": "1677-1700"
+      },
+      {
+        "file": "components/checkout/OrderSummary.tsx",
+        "righe": "70-175"
+      },
+      {
+        "file": "app/cart/page.tsx",
+        "righe": "267-267"
+      },
+      {
+        "file": "app/cart/page.tsx",
+        "righe": "310-325"
+      },
+      {
+        "file": "app/cart/page.tsx",
+        "righe": "414-434"
+      },
+      {
+        "file": "app/cart/page.tsx",
+        "righe": "483-515"
+      },
+      {
+        "file": "lib/cart.ts",
+        "righe": "285-293"
+      },
+      {
+        "file": "components/ProductCard.tsx",
+        "righe": "1-110"
+      },
+      {
+        "file": "components/ProductCard.tsx",
+        "righe": "260-275"
+      },
+      {
+        "file": "app/product/[id]/page.tsx",
+        "righe": "470-480"
+      },
+      {
+        "file": "app/product/[id]/page.tsx",
+        "righe": "870-885"
+      },
+      {
+        "file": "lib/stripe/client.ts",
+        "righe": "452-505"
+      },
+      {
+        "file": "lib/constants.ts",
+        "righe": "90-171"
+      },
+      {
+        "file": "migrations/143_wallet_credit_idempotente.sql",
+        "righe": "1-133"
+      },
+      {
+        "file": "migrations/168_niente_regali_in_euro_e_punti_spenti.sql",
+        "righe": "1-120"
+      },
+      {
+        "file": "migrations/087_wallet_and_redemption.sql",
+        "righe": "136-152"
+      },
+      {
+        "file": "migrations/178_falla_r83.sql",
+        "righe": "195-225"
+      },
+      {
+        "file": "migrations/215_minori_s04_database.sql",
+        "righe": "515-560"
+      },
+      {
+        "file": "migrations/122_radiografia_20_agosto.sql",
+        "righe": "267-296"
+      },
+      {
+        "file": "app/profile/loyalty/page.tsx",
+        "righe": "23-268"
+      },
+      {
+        "file": "app/profile/referral/page.tsx",
+        "righe": "14-197"
+      },
+      {
+        "file": "app/seller/earnings/page.tsx",
+        "righe": "1-300"
+      },
+      {
+        "file": "app/rider/earnings/page.tsx",
+        "righe": "1-190"
+      },
+      {
+        "file": "app/admin/cod-remittance/page.tsx",
+        "righe": "1-250"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "100-560"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "1640-1960"
+      },
+      {
+        "file": "lib/stripe/client.ts",
+        "righe": "440-505"
+      },
+      {
+        "file": "lib/tempo-piacenza.ts",
+        "righe": "55-87"
+      },
+      {
+        "file": "lib/tempo/giorno-locale.ts",
+        "righe": "1-20"
+      },
+      {
+        "file": "components/rider/CashConfirmDialog.tsx",
+        "righe": "61-61"
+      },
+      {
+        "file": "components/rider/CashConfirmDialog.tsx",
+        "righe": "153-160"
+      },
+      {
+        "file": "components/rider/CashConfirmDialog.tsx",
+        "righe": "241-242"
+      },
+      {
+        "file": "migrations/127_minori_22_agosto.sql",
+        "righe": "643-685"
+      },
+      {
+        "file": "migrations/179_l_interruttore_sull_ordine_non_si_accende_da_fuori.sql",
+        "righe": "180-225"
+      },
+      {
+        "file": "app/api/cron/operational-alerts/route.ts",
+        "righe": "296-312"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "1285-1335"
+      },
+      {
+        "file": "lib/rimborsi/divisione-del-rimborso.ts",
+        "righe": "1-131"
+      },
+      {
+        "file": "lib/ordini/annulla.ts",
+        "righe": "1-140"
+      },
+      {
+        "file": "lib/ordini/annulla.ts",
+        "righe": "255-460"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "140-215"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "601-646"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "843-877"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "935-975"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "1425-2074"
+      },
+      {
+        "file": "lib/stripe/client.ts",
+        "righe": "470-505"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "1236-1335"
+      },
+      {
+        "file": "app/api/admin/orders/[id]/cancel/route.ts",
+        "righe": "1-80"
+      },
+      {
+        "file": "app/orders/[id]/dispute/page.tsx",
+        "righe": "55-120"
+      },
+      {
+        "file": "migrations/161_quello_che_il_ripasso_del_9_settembre_aveva_riportato_indietro.sql",
+        "righe": "296-330"
+      },
+      {
+        "file": "migrations/215_minori_s04_database.sql",
+        "righe": "265-290"
+      },
+      {
+        "file": "migrations/063_p1_db_hardening.sql",
+        "righe": "69-82"
+      }
+    ],
+    "file_eseguiti": [
+      {
+        "file": "components/ProductCard.tsx",
+        "comando": "cd marketplace && node_modules/.bin/vitest run tests/unit/s02-tmp-A/ [prova nello scratchpad: SP/A/vetrina-e-cassa-stesso-centesimo.test.tsx (copiato temporaneamente in tests/unit/s02-tmp-A/ e poi cancellato)]",
+        "esito": "ROSSO 2/2. ProductCard: «1.15 -10%: la cassa addebita 1,03 €, la scheda no», «0.5 -33%: la cassa addebita 0,34 €, la scheda no» (1,39 -20% invece coincide). ActivePromoBadge con 1,15 € e -10%: scrive «1,04 €» e «Risparmi 0,11 €», la cassa addebita 1,03 €."
+      },
+      {
+        "file": "components/ActivePromoBadge.tsx",
+        "comando": "cd marketplace && node_modules/.bin/vitest run tests/unit/s02-tmp-A/ [prova nello scratchpad: SP/A/vetrina-e-cassa-stesso-centesimo.test.tsx (copiato temporaneamente in tests/unit/s02-tmp-A/ e poi cancellato)]",
+        "esito": "ROSSO 2/2. ProductCard: «1.15 -10%: la cassa addebita 1,03 €, la scheda no», «0.5 -33%: la cassa addebita 0,34 €, la scheda no» (1,39 -20% invece coincide). ActivePromoBadge con 1,15 € e -10%: scrive «1,04 €» e «Risparmi 0,11 €», la cassa addebita 1,03 €."
+      },
+      {
+        "file": "lib/promotions.ts",
+        "comando": "node -e '...per prezzi 0,01-30,00 € e sconti 5/10/15/20/25/30/33/40/50%...' [prova nello scratchpad: script node in linea (confronto formatPrice(prezzo*(1-sconto)) vs discountedUnitCents)]",
+        "esito": "224 combinazioni su 27.000 (circa 1 su 120) in cui la vetrina scrive un centesimo diverso da quello addebitato; es. 0,29 € -50%: 0,15 mostrato, 0,14 addebitato; 0,50 € -33%: 0,33 mostrato, 0,34 addebitato."
+      },
+      {
+        "file": "app/cart/page.tsx",
+        "comando": "node -e '...cerca prezzo, sconto, quantità con carrello >= 10,00 € e cassa < 10,00 €...' [prova nello scratchpad: script node in linea (soglia dei 10 € per negozio)]",
+        "esito": "Esempi: 9 pezzi da 1,39 € con -20% → carrello 10,01 €, cassa 9,99 €; 14 pezzi da 0,84 € con -15% → carrello 10,00 €, cassa 9,94 €."
+      },
+      {
+        "file": "lib/cassa/quadratura.ts",
+        "comando": "cp SP/B/flusso-b.test.ts SITO/tests/unit/s02-tmp-B/ && node_modules/.bin/vitest run tests/unit/s02-tmp-B/flusso-b.test.ts (poi rm -rf tests/unit/s02-tmp-B) [prova nello scratchpad: SP/B/flusso-b.test.ts]",
+        "esito": "Tests 6 failed | 4 passed (10). ROSSI: B-1 autunno (consegna 25/10/2026 23:30 fuori dalla giornata del 25: 'expected false to be true'); B-1 primavera (fine giornata 28/3/2027 = '2027-03-28T23:00:00.000Z' invece di '2027-03-28T22:00:00.000Z'); B-2 netto ritiro al banco 'expected 1800 to be +0'; B-2 contante del fattorino 'expected 2000 to be +0'; B-2 commissione 'expected +0 to be 200' (questa parte e' il gia noto #53); B-4 «ieri» alle 00:30 del 29/3/2027 = '2027-03-27' invece di '2027-03-28'. VERDI: autunno la consegna non entra nemmeno nel 26 (quindi in nessuna giornata); 10% di 12,35 = 1,24 e negozio 11,11 (somma esatta); contrassegno 15,35 → fattorino tiene 3,00 e rimette 12,35; contrassegno con 2 € in mano → 2 tenuti + 1 versato, totale 3, nessun doppio conto."
+      },
+      {
+        "file": "lib/guadagni/negozio.ts",
+        "comando": "cp SP/B/flusso-b.test.ts SITO/tests/unit/s02-tmp-B/ && node_modules/.bin/vitest run tests/unit/s02-tmp-B/flusso-b.test.ts (poi rm -rf tests/unit/s02-tmp-B) [prova nello scratchpad: SP/B/flusso-b.test.ts]",
+        "esito": "Tests 6 failed | 4 passed (10). ROSSI: B-1 autunno (consegna 25/10/2026 23:30 fuori dalla giornata del 25: 'expected false to be true'); B-1 primavera (fine giornata 28/3/2027 = '2027-03-28T23:00:00.000Z' invece di '2027-03-28T22:00:00.000Z'); B-2 netto ritiro al banco 'expected 1800 to be +0'; B-2 contante del fattorino 'expected 2000 to be +0'; B-2 commissione 'expected +0 to be 200' (questa parte e' il gia noto #53); B-4 «ieri» alle 00:30 del 29/3/2027 = '2027-03-27' invece di '2027-03-28'. VERDI: autunno la consegna non entra nemmeno nel 26 (quindi in nessuna giornata); 10% di 12,35 = 1,24 e negozio 11,11 (somma esatta); contrassegno 15,35 → fattorino tiene 3,00 e rimette 12,35; contrassegno con 2 € in mano → 2 tenuti + 1 versato, totale 3, nessun doppio conto."
+      },
+      {
+        "file": "migrations/127_minori_22_agosto.sql",
+        "comando": "tests/sql/harness/apply.sh mycity_s02_b && psql -X -q -d mycity_s02_b -At -f SP/B/flusso-b-cassa.test.sql [prova nello scratchpad: SP/B/flusso-b-cassa.test.sql]",
+        "esito": "apply: applicate 178 · fallite 0. 5 VERDI: rimessa di domenica 25/10 rilascia 2 (10:00 e 23:30), non lunedi 00:10; seconda conferma rilascia 0; ritiro chiuso col codice; lunedi 00:10 resta AWAITING_REMITTANCE; ritiro al banco = CASH_IN_STORE con seller_payout_cents 1800 e payment_method cod (cioe' il dato che la pagina Guadagni somma). Il database assegna il giorno giusto: e' solo la quadratura in JS a sbagliare la finestra."
+      },
+      {
+        "file": "migrations/179_l_interruttore_sull_ordine_non_si_accende_da_fuori.sql",
+        "comando": "tests/sql/harness/apply.sh mycity_s02_b && psql -X -q -d mycity_s02_b -At -f SP/B/flusso-b-cassa.test.sql [prova nello scratchpad: SP/B/flusso-b-cassa.test.sql]",
+        "esito": "apply: applicate 178 · fallite 0. 5 VERDI: rimessa di domenica 25/10 rilascia 2 (10:00 e 23:30), non lunedi 00:10; seconda conferma rilascia 0; ritiro chiuso col codice; lunedi 00:10 resta AWAITING_REMITTANCE; ritiro al banco = CASH_IN_STORE con seller_payout_cents 1800 e payment_method cod (cioe' il dato che la pagina Guadagni somma). Il database assegna il giorno giusto: e' solo la quadratura in JS a sbagliare la finestra."
+      },
+      {
+        "file": "tests/unit/guadagni-che-tornano.test.ts",
+        "comando": "node_modules/.bin/vitest run <i 10 file>",
+        "esito": "Test Files 10 passed (10) · Tests 69 passed (69): nessuno prova il cambio d'ora nella quadratura ne' il ritiro al banco nei Guadagni."
+      },
+      {
+        "file": "tests/unit/api-cron-release-payouts-cod.test.ts",
+        "comando": "node_modules/.bin/vitest run <i 10 file>",
+        "esito": "Test Files 10 passed (10) · Tests 69 passed (69): nessuno prova il cambio d'ora nella quadratura ne' il ritiro al banco nei Guadagni."
+      },
+      {
+        "file": "tests/unit/api-admin-cod-remittance.test.ts",
+        "comando": "node_modules/.bin/vitest run <i 10 file>",
+        "esito": "Test Files 10 passed (10) · Tests 69 passed (69): nessuno prova il cambio d'ora nella quadratura ne' il ritiro al banco nei Guadagni."
+      },
+      {
+        "file": "tests/unit/minori-s01-cassa.test.ts",
+        "comando": "node_modules/.bin/vitest run <i 10 file>",
+        "esito": "Test Files 10 passed (10) · Tests 69 passed (69): nessuno prova il cambio d'ora nella quadratura ne' il ritiro al banco nei Guadagni."
+      },
+      {
+        "file": "tests/unit/minori-s01-guadagni-fattorino.test.ts",
+        "comando": "node_modules/.bin/vitest run <i 10 file>",
+        "esito": "Test Files 10 passed (10) · Tests 69 passed (69): nessuno prova il cambio d'ora nella quadratura ne' il ritiro al banco nei Guadagni."
+      },
+      {
+        "file": "tests/unit/il-grafico-dei-guadagni-usa-i-giorni-di-piacenza.test.ts",
+        "comando": "node_modules/.bin/vitest run <i 10 file>",
+        "esito": "Test Files 10 passed (10) · Tests 69 passed (69): nessuno prova il cambio d'ora nella quadratura ne' il ritiro al banco nei Guadagni."
+      },
+      {
+        "file": "tests/unit/stripe-payout-split.test.ts",
+        "comando": "node_modules/.bin/vitest run <i 10 file>",
+        "esito": "Test Files 10 passed (10) · Tests 69 passed (69): nessuno prova il cambio d'ora nella quadratura ne' il ritiro al banco nei Guadagni."
+      },
+      {
+        "file": "tests/unit/la-cassa-fa-lo-stesso-conto.test.ts",
+        "comando": "node_modules/.bin/vitest run <i 10 file>",
+        "esito": "Test Files 10 passed (10) · Tests 69 passed (69): nessuno prova il cambio d'ora nella quadratura ne' il ritiro al banco nei Guadagni."
+      },
+      {
+        "file": "tests/unit/il-pannello-dei-contanti-dice-il-compenso-tenuto-davvero.test.ts",
+        "comando": "node_modules/.bin/vitest run <i 10 file>",
+        "esito": "Test Files 10 passed (10) · Tests 69 passed (69): nessuno prova il cambio d'ora nella quadratura ne' il ritiro al banco nei Guadagni."
+      },
+      {
+        "file": "tests/unit/col-credito-il-fattorino-non-consegna-gratis.test.ts",
+        "comando": "node_modules/.bin/vitest run <i 10 file>",
+        "esito": "Test Files 10 passed (10) · Tests 69 passed (69): nessuno prova il cambio d'ora nella quadratura ne' il ritiro al banco nei Guadagni."
+      },
+      {
+        "file": "tests/unit/le-regole-del-rimborso.test.ts",
+        "comando": "npx vitest run <i 7 file>",
+        "esito": "7 file, 75 prove verdi"
+      },
+      {
+        "file": "tests/unit/rimborso-diviso-per-il-lordo.test.ts",
+        "comando": "npx vitest run <i 7 file>",
+        "esito": "7 file, 75 prove verdi"
+      },
+      {
+        "file": "tests/unit/il-recesso-si-rimborsa-per-intero-anche-approvando.test.tsx",
+        "comando": "npx vitest run <i 7 file>",
+        "esito": "7 file, 75 prove verdi"
+      },
+      {
+        "file": "tests/unit/il-rimborso-dei-contanti-arriva-col-bonifico.test.ts",
+        "comando": "npx vitest run <i 7 file>",
+        "esito": "7 file, 75 prove verdi"
+      },
+      {
+        "file": "tests/unit/minori-s02-annullo-del-cliente.test.ts",
+        "comando": "npx vitest run <i 7 file>",
+        "esito": "7 file, 75 prove verdi"
+      },
+      {
+        "file": "tests/unit/il-rimborso-del-reso-con-la-carta-non-esce-due-volte.test.ts",
+        "comando": "npx vitest run <i 7 file>",
+        "esito": "7 file, 75 prove verdi"
+      },
+      {
+        "file": "tests/unit/annullare-restituisce-i-soldi.test.ts",
+        "comando": "npx vitest run <i 7 file>",
+        "esito": "7 file, 75 prove verdi"
+      },
+      {
+        "file": "tests/sql/harness/apply.sh",
+        "comando": "tests/sql/harness/apply.sh mycity_s02_c && tests/sql/harness/run.sh mycity_s02_c [prova nello scratchpad: tests/sql/harness/apply.sh + run.sh]",
+        "esito": "applicate 178 migrazioni, fallite 0; tutti i controlli verdi (compresi 11, 24, 28, 34, 43)"
+      },
+      {
+        "file": "tests/sql/harness/run.sh",
+        "comando": "tests/sql/harness/apply.sh mycity_s02_c && tests/sql/harness/run.sh mycity_s02_c [prova nello scratchpad: tests/sql/harness/apply.sh + run.sh]",
+        "esito": "applicate 178 migrazioni, fallite 0; tutti i controlli verdi (compresi 11, 24, 28, 34, 43)"
+      },
+      {
+        "file": "lib/cassa/registra-incasso.ts",
+        "comando": "SP/C/corsa-annullo-incasso.sh mycity_s02_c [prova nello scratchpad: SP/C/corsa-annullo-incasso.sh]",
+        "esito": "ROSSO (exit 1): righe prese dall'annullo 1; ordine alla fine CANCELED|PAID|contanti incassati=true"
+      },
+      {
+        "file": "lib/ordini/annulla.ts",
+        "comando": "SP/C/corsa-annullo-incasso.sh mycity_s02_c [prova nello scratchpad: SP/C/corsa-annullo-incasso.sh]",
+        "esito": "ROSSO (exit 1): righe prese dall'annullo 1; ordine alla fine CANCELED|PAID|contanti incassati=true"
+      },
+      {
+        "file": "lib/ordini/annulla.ts",
+        "comando": "copiato in tests/unit/s02-tmp-C/ e lanciato con npx vitest run tests/unit/s02-tmp-C (poi cancellato) [prova nello scratchpad: SP/C/annullo-contanti-incassati-apre-il-reclamo.test.ts]",
+        "esito": "ROSSO: 1 failed — reclamoAperto atteso true, ricevuto false; esito {ok:false, motivo:'CONTANTI_INCASSATI'}"
+      },
+      {
+        "file": "migrations/215_minori_s04_database.sql",
+        "comando": "psql -X -d mycity_s02_c -v ON_ERROR_STOP=1 -f SP/C/l-amministratore-non-apre-il-reclamo.sql [prova nello scratchpad: SP/C/l-amministratore-non-apre-il-reclamo.sql]",
+        "esito": "ROSSO: 42501 new row violates row-level security policy for table \"disputes\""
+      },
+      {
+        "file": "lib/cassa/quadratura.ts",
+        "comando": "(verificatore qa) cp in tests/unit/s02-tmp-V2/ e TZ=Europe/Rome node_modules/.bin/vitest run tests/unit/s02-tmp-V2/flusso-b.test.ts, poi cancellato [prova nello scratchpad: SP/B/flusso-b.test.ts]",
+        "esito": "Tests 6 failed | 4 passed (10): il rosso del cambio d ora si ripete"
+      },
+      {
+        "file": "lib/guadagni/negozio.ts",
+        "comando": "(verificatore qa) cp in tests/unit/s02-tmp-V2/ e TZ=Europe/Rome node_modules/.bin/vitest run tests/unit/s02-tmp-V2/flusso-b.test.ts, poi cancellato [prova nello scratchpad: SP/B/flusso-b.test.ts]",
+        "esito": "Tests 6 failed | 4 passed (10): il rosso del cambio d ora si ripete"
+      },
+      {
+        "file": "components/ProductCard.tsx",
+        "comando": "(verificatore qa) cp in tests/unit/s02-tmp-V3/ e node_modules/.bin/vitest run tests/unit/s02-tmp-V3/, poi cancellato [prova nello scratchpad: SP/A/vetrina-e-cassa-stesso-centesimo.test.tsx]",
+        "esito": "2 failed su 2"
+      },
+      {
+        "file": "components/ActivePromoBadge.tsx",
+        "comando": "(verificatore qa) cp in tests/unit/s02-tmp-V3/ e node_modules/.bin/vitest run tests/unit/s02-tmp-V3/, poi cancellato [prova nello scratchpad: SP/A/vetrina-e-cassa-stesso-centesimo.test.tsx]",
+        "esito": "2 failed su 2"
+      },
+      {
+        "file": "lib/ordini/annulla.ts",
+        "comando": "(verificatore qa) cp in tests/unit/s02-tmp-V4/ e npx vitest run tests/unit/s02-tmp-V4, poi cancellato [prova nello scratchpad: SP/C/annullo-contanti-incassati-apre-il-reclamo.test.ts]",
+        "esito": "1 failed su 1: reclamoAperto false"
+      },
+      {
+        "file": "migrations/215_minori_s04_database.sql",
+        "comando": "(verificatore qa) tests/sql/harness/apply.sh mycity_s02_v4 && psql -X -d mycity_s02_v4 -v ON_ERROR_STOP=1 -f SP/C/l-amministratore-non-apre-il-reclamo.sql [prova nello scratchpad: SP/C/l-amministratore-non-apre-il-reclamo.sql]",
+        "esito": "178 applicate, 0 fallite; ERROR 42501 new row violates row-level security policy for table disputes"
+      },
+      {
+        "file": "lib/guadagni/negozio.ts",
+        "comando": "(verificatore qa) prova propria SP/V-B1/v1-ritiro.test.ts copiata in tests/unit/s02-tmp-V1/ e node_modules/.bin/vitest run, poi cancellata",
+        "esito": "Tests 2 failed | 1 passed (3): in arrivo 1800 invece di 0, raccolti dal fattorino 2000 invece di 0"
+      },
+      {
+        "file": "app/rider/earnings/page.tsx",
+        "comando": "(verificatore qa) TZ=Europe/Rome node SP/V-B2/grafico.mjs (copia fedele delle righe 67-83 con orologio finto)",
+        "esito": "la consegna delle 00:40 del 7/11 finisce nella colonna del 6/11"
+      }
+    ],
+    "non_guardato": [
+      {
+        "cosa": "lib/ordini/rimessa-a-scaffale.ts, tentativi-aperti-da-liberare.ts, riuso-della-cassa-aperta.ts, risposta-ordini-cod.ts, zona-di-consegna.ts, fascia-consegna.ts",
+        "perche": "letti solo dove la rotta li usa; riguardano soprattutto merce e pagine della carta (S03) e già molto battuti nel registro"
+      },
+      {
+        "cosa": "components/checkout/CouponInput.tsx, PaymentMethodSelector.tsx, app/admin/coupons/page.tsx nel dettaglio",
+        "perche": "codici sconto spenti lato server (route.ts:1035-1041, stripe/checkout:651): verificato lo spegnimento, non la pagina admin"
+      },
+      {
+        "cosa": "Funzioni SQL claim_coupon/release_coupon nel Postgres mycity_s02_a",
+        "perche": "con i codici spenti il server non le chiama dalla cassa e i permessi sono chiusi (108:24-27, 116:70-71, 200:64-65); preferito spendere il tempo sul credito e sul prezzo"
+      },
+      {
+        "cosa": "Punti e inviti accreditati su ordini poi resi",
+        "perche": "interruttore punti_fedelta_accesi() a false (168) e trigger dell'invito fermo (215:531): oggi non entra niente; da riguardare prima di riaccendere"
+      },
+      {
+        "cosa": "useTotaliCarrello.ts",
+        "perche": "nessuno lo importa più (grep): codice morto, non cambia soldi"
+      },
+      {
+        "cosa": "«Segnato come fatto» del bonifico del lunedi e settimana del lunedi",
+        "perche": "nel codice non esiste: nessun raggruppamento per settimana ne' un tasto per segnare il bonifico a mano (gia' aperti #51 e #55). Domenica 23:30: per la rimessa vale il giorno di Piacenza (verde in SQL), per il bonifico non c'e' una settimana nel codice."
+      },
+      {
+        "cosa": "Rimborso dopo il bonifico a mano del lunedi",
+        "perche": "senza stato TRANSFERRED sui contanti (#55) lo storno resta un numero sull'ordine e nessuno lo scala dal lunedi dopo: conseguenza di #55/#51, non proposto a parte; il caso Stripe e' S03-007"
+      },
+      {
+        "cosa": "Orario dei cron e chi li lancia",
+        "perche": "perimetro S08"
+      },
+      {
+        "cosa": "Testi e leggibilita' delle pagine Guadagni e del riquadro contanti",
+        "perche": "perimetro S07/S10"
+      },
+      {
+        "cosa": "components/rider/CashConfirmDialog.tsx per intero",
+        "perche": "letto solo il campo importo (type=number, step 0.01: la virgola non arriva a parseFloat); grafica di S10"
+      },
+      {
+        "cosa": "Compenso del fattorino quando il cliente e' assente",
+        "perche": "l'ordine si annulla e il compenso non si paga: e' una regola di business, non verificata contro registro-fatti"
+      },
+      {
+        "cosa": "lib/ordini/scadenza-accettazione.ts",
+        "perche": "scadenze ordini sono perimetro S06; letto solo l'elenco del registro (2399, 2508)"
+      },
+      {
+        "cosa": "calcolo del bonifico del lunedì e pagina payout",
+        "perche": "flusso B; l'effetto del rimborso dopo il lunedì è già aperto (registro 54, 55, 51)"
+      },
+      {
+        "cosa": "quota del negozio sui rimborsi parziali (commissione in proporzione)",
+        "perche": "già aperto (registro 63 e 635): non riproposto"
+      },
+      {
+        "cosa": "ramo carta dell'annullo e del rimborso",
+        "perche": "perimetro S03; doppio annullo carta già noto (2462, 2215, S06-003)"
+      },
+      {
+        "cosa": "app/api/admin/disputes/[id]/resolve/route.ts",
+        "perche": "letto solo dal registro; fuori dalla lista del flusso"
+      },
+      {
+        "cosa": "ricevute / note di credito dei rimborsi",
+        "perche": "nessun file della lista le produce; non cercato oltre per tempo"
+      },
+      {
+        "cosa": "Il collaudo con la skill collaudo dei guardiani-prova",
+        "perche": "Non ho scritto guardiani miei: le prove le hanno scritte i cercatori e le hanno rilanciate verificatori diversi. Il dodicesimo agente previsto per il collaudo non è servito."
+      },
+      {
+        "cosa": "Le due rotte vere lanciate in parallelo per la corsa annullo contro incasso",
+        "perche": "La corsa è riprodotta in SQL con le stesse condizioni delle due scritture, non con due richieste HTTP vere."
+      }
+    ]
+  },
+  "difetti": [
+    {
+      "id": "S02-001",
+      "dimensione": "qa-flussi",
+      "titolo": "Con una promozione del negozio la vetrina scrive un prezzo e la cassa ne fa pagare un altro, di un centesimo per pezzo",
+      "severita": "minore",
+      "file": "components/ProductCard.tsx:56 · components/ProductCard.tsx:101 · components/ProductCard.tsx:267 · components/ActivePromoBadge.tsx:41-55 · app/cart/page.tsx:419-422 · lib/cart.ts:288-289 · lib/promotions.ts:77-80",
+      "descrizione": "Il server e la cassa contano il prezzo scontato con discountedUnitCents (lib/promotions.ts:77-80: arrotondato al centesimo). La scheda del catalogo (ProductCard.tsx:56) e il riquadro «In promo» della pagina prodotto (ActivePromoBadge.tsx:41) fanno invece price * (1 - sconto/100) e lo stampano con formatPrice, che arrotonda in modo diverso: circa una combinazione prezzo/sconto su 120 esce di un centesimo diversa, a volte più bassa di quella addebitata. In più ProductCard.tsx:101 mette nel carrello quel numero NON arrotondato (es. 1,112): il carrello lo sostituisce col prezzo di oggi solo se la differenza è >= 0,01 (app/cart/page.tsx:419-422), quindi tiene 1,112 e somma i pezzi su quel numero (lib/cart.ts:288-289), mentre la cassa (app/checkout/page.tsx:290-293) usa 1,11. Sulla pagina prodotto convivono due prezzi diversi per la stessa cosa: quello grande (app/product/[id]/page.tsx:477, giusto) e quello del riquadro promo (sbagliato).",
+      "impatto": "Venerdì 13/11 Pane Quotidiano mette le brioche da 0,50 € a -33%: la vetrina scrive 0,33 €, la cassa ne addebita 0,34 € (il cliente paga più del prezzo esposto). Con 9 brioche da 1,39 € a -20% il carrello dice 10,01 € e consegna 3 €; in cassa diventano 9,99 € e la consegna 4 € (il supplemento sotto i 10 € per negozio), senza nessun avviso «il prezzo è cambiato» perché la differenza per pezzo è sotto il centesimo.",
+      "fix": "Una sola formula: in ProductCard e ActivePromoBadge usare discountedUnitCents(price, sconto)/100 sia per il prezzo mostrato sia per quello messo nel carrello (come fa già app/product/[id]/page.tsx:477); nel carrello confrontare i centesimi interi (Math.round(x*100) !== ...) invece della soglia >= 0,01.",
+      "causa_radice": "Il prezzo scontato si calcola in tre posti con due formule: quella della cassa arrotonda i centesimi prima, quella della vetrina no; la tolleranza di un centesimo nel carrello nasconde la differenza invece di correggerla.",
+      "prova": "cd marketplace && mkdir -p tests/unit/s02-tmp-A && cp SP/A/vetrina-e-cassa-stesso-centesimo.test.tsx tests/unit/s02-tmp-A/ && node_modules/.bin/vitest run tests/unit/s02-tmp-A/ ; rm -rf tests/unit/s02-tmp-A",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "Tests 2 failed (2). ProductCard: [\"1.15 -10%: la cassa addebita 1,03 €, la scheda no\", \"0.5 -33%: la cassa addebita 0,34 €, la scheda no\"]. ActivePromoBadge: expected html to contain '1,03 €', received «In promo -10% · 1,15 € · 1,04 € · Risparmi 0,11 €».",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "Verificatore qa indipendente (flusso A): ha rilanciato la prova vitest, 2 rossi su 2; ha trovato che la pagina prodotto mostra i due prezzi insieme (prezzo grande giusto a app/product/[id]/page.tsx:477, riquadro ActivePromoBadge alla riga 882 sbagliato) e ha rifatto il conto delle 9 brioche (carrello 1001 centesimi e consegna 3 €, cassa 9,99 € e consegna 4 €, nessun avviso perché la soglia è >= 0,01 a app/checkout/page.tsx:303). Verdetto: confermato, minore. Nessuna voce uguale nel registro (vicine ma diverse: 280, 117, 433).",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S02-002",
+      "dimensione": "qa-flussi",
+      "titolo": "Con due schede aperte il credito MyCity si spende nella prima, e la seconda ordina mostrando ancora lo sconto del credito",
+      "severita": "minore",
+      "file": "app/checkout/page.tsx:444-450 · app/checkout/page.tsx:763-764 · app/checkout/page.tsx:948 · lib/ordini/riepilogo-cassa.ts:73-75 · app/api/orders/cod/route.ts:1272-1285",
+      "descrizione": "La cassa legge il saldo del credito una volta (page.tsx:444-450) e da lì scrive «Applicati X €» e il totale (riepilogo-cassa.ts:73-75). Il server spende il credito che c'è DAVVERO al momento (route.ts:1272-1285, wallet_debit fino al saldo) e non confronta col totale che il cliente ha visto: se nel frattempo il credito è stato speso da un'altra scheda, l'ordine nasce col totale pieno. Nessuna risposta dice al cliente che il credito non c'era più: la cassa svuota il carrello e va avanti. Correzione del verificatore: il cliente non lo scopre dal fattorino. Subito dopo la conferma la pagina dell'ordine e l'email gli mostrano il totale vero (app/orders/[id]/page.tsx:815). Manca solo un avviso prima di confermare: «il tuo credito non c'è più».",
+      "impatto": "Un cliente con 18 € di credito (un rimborso) ha due schede: ordina il pane di Pane Quotidiano da 18 € nella prima (credito usato, alla porta 0 €). Nella seconda, aperta prima, ordina la frutta da 13 €: lo schermo dice «Credito MyCity −13,00 € · Totale 0,00 €», l'ordine nasce con 13,00 € da pagare in contanti, e lo scopre dal fattorino.",
+      "fix": "Il browser manda il credito che ha mostrato (creditoMostratoCents); se il server ne applica meno, risponde 409 con la cifra nuova invece di creare l'ordine (come per il prezzo cambiato), oppure la risposta di successo riporta il totale vero e la cassa lo mostra prima di chiudere.",
+      "causa_radice": "Il totale mostrato e quello addebitato nascono da due letture del credito in momenti diversi, e nessuno controlla che coincidano.",
+      "prova": "Lettura del codice alle righe indicate; passi: due schede, stesso utente con credito, ordinare nella prima, poi nella seconda senza ricaricare.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": null,
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "Verificatore qa indipendente (flusso A): confermato che la cassa legge il credito una volta (app/checkout/page.tsx:444-450, nessuna rilettura al ritorno sulla scheda: refetchOnWindowFocus false) e che la rotta scala il credito presente senza confrontarlo con quello mostrato. Smentita la parte «lo scopre dal fattorino»: la rotta risponde col totale vero, la cassa porta subito alla pagina dell'ordine che scrive «Paghi 13,00 € in contanti al rider» (app/orders/[id]/page.tsx:815) e l'email porta lo stesso totale. Verdetto: cambiato, resta minore: manca solo l'avviso prima della conferma.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S02-003",
+      "dimensione": "pagamenti-stripe",
+      "titolo": "Se l'addebito del credito risponde con un errore, la cassa lo considera mai avvenuto: l'ordine si paga per intero e il credito, se era già stato tolto, non torna",
+      "severita": "minore",
+      "file": "app/api/orders/cod/route.ts:1270-1285 · migrations/143_wallet_credit_idempotente.sql:118-131",
+      "descrizione": "Su un errore di wallet_debit (route.ts:1279-1280) si scrive solo un avviso nel registro e walletAppliedCents resta 0: l'ordine nasce con wallet_applied_cents 0 e il totale pieno. Ma un errore di rete o un timeout possono arrivare DOPO che la funzione ha già scalato il saldo e scritto la riga order_cod nel diario (143:118-131). In quel caso il credito è tolto, l'ordine non lo sa, e nessuno storno parte (gli storni usano walletAppliedCents, che è 0). Per la merce e il codice sconto il file distingue già «non so se è stato scritto» (route.ts:1428-1450); per il credito no. Voce vicina nel registro: la 2502 (la funzione muore dopo l'addebito e prima di creare l'ordine). Il meccanismo è diverso, il rimedio è lo stesso: rileggere il diario del credito con lo stesso riferimento. Conviene ripararle insieme.",
+      "impatto": "Un cliente con 20 € di credito ordina da Pane Quotidiano per 20 €: la chiamata del credito va in timeout dopo aver scritto. Paga 20 € al fattorino e il suo saldo è sceso a 0; nel diario c'è una spesa «order_cod» senza nessun ordine che la usi.",
+      "fix": "Su errore di wallet_debit rileggere il diario per (order_cod, walletRef): se la riga c'è usare quell'importo; se la lettura non riesce, fermarsi (come per la merce) invece di proseguire a credito zero.",
+      "causa_radice": "L'esito di una scrittura di soldi viene letto come «non fatto» quando in realtà è «non so».",
+      "prova": "Lettura del codice alle righe indicate.",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": null,
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "Verificatore qa indipendente (flusso A): l'idempotenza della migrazione 143 non copre il caso perché il riferimento contiene un randomUUID nuovo a ogni tentativo e la rotta non riprova; lo storno all'annullo restituisce wallet_applied_cents, che qui vale 0; nessun lavoro a orario confronta il diario del credito con gli ordini. Verdetto: confermato, minore, probabilità bassa. Parente della voce 2502 del registro (funzione che muore fra wallet_debit e la creazione dell'ordine): meccanismo diverso, stesso rimedio.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S02-004",
+      "dimensione": "qa-flussi",
+      "titolo": "Nelle domeniche del cambio d'ora la quadratura della cassa del fattorino sbaglia la giornata: in autunno le consegne dalle 23 a mezzanotte non entrano in nessun conto",
+      "severita": "minore",
+      "file": "lib/cassa/quadratura.ts:58-59 · lib/cassa/quadratura.ts:35-41 · app/api/cron/riquadra-casse/route.ts:66 · app/api/cron/operational-alerts/route.ts:296-312",
+      "descrizione": "aggiornaQuadratura calcola la fine della giornata come inizio + 24 ore (righe 58-59). Le domeniche del cambio d'ora a Piacenza durano 25 o 23 ore. Autunno (25/10/2026, prossima 31/10/2027): la finestra del 25 finisce alle 23:00 ora solare e quella del 26 comincia a mezzanotte, quindi un contrassegno consegnato alle 23:30 non entra in nessuna riga di cod_reconciliations. Primavera (28/3/2027): la finestra del 28 arriva fino all'1:00 del 29, quindi le consegne di lunedi fra mezzanotte e l'una contano in due giornate. Intanto confirm_cod_remittance (SQL, Europe/Rome) assegna la consegna delle 23:30 alla domenica: il conto della cassa e lo sblocco dei bonifici non parlano dello stesso insieme di ordini. In piu' riquadra-casse calcola «ieri» come adesso − 24 ore (riga 32): alle 00:30 di lunedi 29/3/2027 «ieri» risulta sabato 27, e la domenica non viene ricalcolata in quel giro. Correzione del verificatore: la parte su «ieri» calcolato come adesso meno 24 ore non vale, perché il giro notturno gira alle 02:15 o 03:15 di Piacenza e a quell'ora il giorno torna. Resta la fine della giornata calcolata come inizio più 24 ore, usata da tutti e tre i chiamanti, compreso il giro notturno.",
+      "impatto": "Domenica 31/10/2027 alle 23:30 il fattorino consegna un contrassegno di Pane Quotidiano da 15,35 € e dichiara 2,35 € invece di 12,35 €. Nessuna giornata di cod_reconciliations contiene quell'ordine, quindi l'allarme «COD_MISMATCH» (operational-alerts) non parte mai: l'ammanco di 10 € resta invisibile. In primavera succede il contrario: un ammanco delle 00:30 di lunedi compare in due giornate e l'atteso della domenica e' gonfiato.",
+      "fix": "Fine giornata = inizio del giorno dopo: end = inizioGiornoLocale(giorno+1) (o inizioGiornoPiacenza del giorno successivo), non start + 24h. In riquadra-casse calcolare «ieri» per giorno di calendario (es. ultimiGiorniPiacenza(2)) invece di now − 24h.",
+      "causa_radice": "Si somma una durata fissa di 24 ore a un istante invece di passare per il calendario: lo stesso errore gia' corretto in ultimiGiorniPiacenza (lib/tempo-piacenza.ts:77-83, difetto 254) ma non qui.",
+      "prova": "cp SP/B/flusso-b.test.ts SITO/tests/unit/s02-tmp-B/ && node_modules/.bin/vitest run tests/unit/s02-tmp-B/flusso-b.test.ts (poi rm -rf tests/unit/s02-tmp-B) — describe 'B-1' e 'B-4'",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO: autunno 'expected false to be true' (23:30 del 25/10/2026 fuori dalla finestra del 25), e VERDE il controllo che non entra nemmeno nel 26; primavera: fine finestra '2027-03-28T23:00:00.000Z' invece di '2027-03-28T22:00:00.000Z'; riquadra-casse alle 00:30 del 29/3/2027: ieri '2027-03-27' invece di '2027-03-28'. SQL su mycity_s02_b: confirm_cod_remittance('2026-10-25') rilascia la consegna delle 23:30 (verde): il database la mette nella domenica, la quadratura no.",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "Verificatore qa indipendente (flusso B): ha rilanciato la prova, 6 rossi su 10 (autunno «expected false to be true», primavera «expected 2027-03-28T23:00:00.000Z to be 2027-03-28T22:00:00.000Z»); ha controllato che tutti e tre i chiamanti (cash-confirm, admin cod-incasso-dichiarato, riquadra-casse:66) passano solo il giorno e la finestra la costruisce quadratura.ts:59. Ha smentito la parte su «ieri» calcolato come adesso meno 24 ore: il giro notturno gira alle 01:15 UTC (vercel.json:31), cioè alle 02:15 o 03:15 di Piacenza, e a quell'ora il giorno torna giusto. Verdetto: cambiato, minore.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S02-005",
+      "dimensione": "pagamenti-stripe",
+      "titolo": "Sul ritiro in negozio pagato in contanti al banco, la pagina Guadagni dice al negozio che gli arriveranno i 18 euro che ha già in cassa, e che li ha raccolti un fattorino",
+      "severita": "grave",
+      "file": "lib/guadagni/negozio.ts:114-122 · app/seller/earnings/page.tsx:118 · app/seller/earnings/page.tsx:168-171 · app/seller/earnings/page.tsx:270-290 · migrations/179_l_interruttore_sull_ordine_non_si_accende_da_fuori.sql:200-209",
+      "descrizione": "Il ritiro al banco pagato in contanti nasce payment_method='cod' con seller_payout_cents = 90% della merce (app/api/orders/cod/route.ts:1292-1331) e alla consegna confirm_pickup_by_seller lo porta a payout_status='CASH_IN_STORE' lasciando il netto scritto (migrazione 179:200-209). riepilogoContanti (negozio.ts:114-122) filtra solo payment_method==='cod' e consegnato: non guarda pickup_in_store ne' CASH_IN_STORE. Quindi il riquadro «Contanti (COD)» della pagina Guadagni somma quel netto sotto «è quello che arriva a te (già tolte consegna e commissione)» e il totale sotto «Contante raccolto dal fattorino». E' il contrario del vero: il negozio ha gia' incassato tutto al banco, nessun bonifico partira', e il 10% lo deve lui a MyCity (registro-fatti ritiro.in-negozio: «sui contanti al banco il 10% si compensa sul bonifico del lunedi»). Stessa radice nel pannello bonifici dell'amministratore: payoutTone non conosce CASH_IN_STORE e lo mette nel ramo default «Pronto», cioe' fra i «Da pagare» e nel «Da liquidare» del negozio. Il riepilogo dei bonifici (riepilogoNegozio, lib/guadagni/negozio.ts:68-72) esclude già CASH_IN_STORE: la regola era nota ma non è arrivata al riquadro dei contanti. Vedi anche la voce aperta 51 del registro: nel pannello dei bonifici payoutTone mette CASH_IN_STORE fra i «Pronto» da liquidare.",
+      "impatto": "Un cliente ritira da Pane Quotidiano (Via Calzolai) 20 € di pane e paga al banco. La pagina Guadagni del forno mostra «18,00 € è quello che arriva a te» e «Contante raccolto dal fattorino: 20,00 €». Il lunedi il forno aspetta 18 € che non arriveranno mai, invece di sapere che ne deve 2. Se Nicola paga guardando /admin/payouts, quell'ordine e' «Pronto · 18,00 €» da pagare: un bonifico di 18 € su soldi che il negozio ha gia' in mano, e i 2 € di commissione persi. Oggi il difetto dorme, perché il ritiro in negozio è spento nel codice. Scatta il giorno in cui si accende, cioè al lancio secondo il registro dei fatti (voce aperta 146).",
+      "fix": "In riepilogoContanti escludere pickup_in_store / payout_status 'CASH_IN_STORE' dal netto in arrivo e dal contante del fattorino, e mostrarli a parte come «incassati al banco: commissione dovuta X €» (application_fee_cents). In app/admin/payouts payoutTone: CASH_IN_STORE (e gli stati senza bonifico) fuori da «Pronto», con la commissione da scalare dal bonifico del lunedi.",
+      "causa_radice": "Il riepilogo dei contanti tratta ogni 'cod' come contrassegno portato dal fattorino; il ritiro al banco usa lo stesso payment_method ma ha un percorso dei soldi opposto (il negozio incassa, MyCity e' creditore).",
+      "prova": "cp SP/B/flusso-b.test.ts SITO/tests/unit/s02-tmp-B/ && node_modules/.bin/vitest run tests/unit/s02-tmp-B/flusso-b.test.ts (poi rm -rf tests/unit/s02-tmp-B) — describe 'B-2'; conferma del dato reale: tests/sql/harness/apply.sh mycity_s02_b && psql -X -q -d mycity_s02_b -At -f SP/B/flusso-b-cassa.test.sql",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO: nettoAlNegozioCents 'expected 1800 to be +0'; incassatoDalFattorinoCents 'expected 2000 to be +0'. SQL su mycity_s02_b VERDE: dopo confirm_pickup_by_seller l'ordine e' CASH_IN_STORE · netto 1800 · metodo cod, cioe' proprio la riga che riepilogoContanti somma. (Il terzo rosso, commissione 0 invece di 200, e' il gia' noto #53 e non lo propongo.) Nota: oggi RITIRO_IN_NEGOZIO_ATTIVO=false (lib/ritiro-in-negozio.ts:22, difetto aperto #146), ma registro-fatti dice che al lancio e' acceso: il difetto scatta il giorno che si accende.",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "Verificatore qa indipendente (flusso B): prova sua scritta da zero, 2 rossi su 3 («in arrivo» expected 1800 to be +0, «raccolti dal fattorino» expected 2000 to be +0; verde di controllo riepilogoNegozio().inArrivoCents = 0); prova SQL rilanciata su database proprio, 178 migrazioni, 5 verdi, fra cui CASH_IN_STORE con netto 1800 dopo confirm_pickup_by_seller. Nessun filtro altrove: la pagina non legge pickup_in_store. Seconda lente sul peso (altro verificatore qa): grave e non bloccante. Oggi il ritiro è spento (lib/ritiro-in-negozio.ts:22 e app/api/orders/cod/route.ts:357), ma il registro dei fatti lo dà acceso dal lancio; nessun bonifico automatico parte, perché release-payouts prende solo HELD e PENDING_SELLER_ONBOARDING. Se il ritiro resta spento al lancio, scende a minore. La metà sul pannello dei bonifici ricade nella voce aperta 51.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S02-006",
+      "dimensione": "qa-flussi",
+      "titolo": "Il grafico della settimana nei Guadagni del fattorino taglia i giorni all'ora di Greenwich: le consegne dopo mezzanotte finiscono nel giorno prima",
+      "severita": "minore",
+      "file": "app/rider/earnings/page.tsx:67-83",
+      "descrizione": "Le colonne del grafico sono d.toISOString().slice(0,10) (riga 73) e ogni consegna va nella colonna (o.delivered_at).slice(0,10) (riga 76): due giorni UTC, non di Piacenza. Fra mezzanotte e l'1 (inverno) o le 2 (estate) la consegna cade nella colonna del giorno prima; nella stessa fascia anche la colonna di oggi manca, perche' toISOString di adesso e' ancora ieri. E' lo stesso difetto gia' riparato nel grafico del negozio (#1194, lib/guadagni/giorni.ts con giornoPiacenza), mai portato alla pagina del fattorino.",
+      "impatto": "Il fattorino consegna una spesa alle 00:40 di sabato 7/11/2026: nel grafico i 3 € compaiono su venerdi 6. Chi apre la pagina alle 00:30 vede sette colonne che finiscono a ieri.",
+      "fix": "Usare incassoPerGiorno-like con ultimiGiorniPiacenza(7) e giornoPiacenza(o.delivered_at), come lib/guadagni/giorni.ts.",
+      "causa_radice": "La regola dei giorni di Piacenza (lib/tempo-piacenza.ts) e' stata applicata alla pagina del negozio ma il conto del fattorino e' rimasto inline nel componente.",
+      "prova": "TZ=Europe/Rome node scratchpad/V-B2/grafico.mjs (copia fedele delle righe 67-83 di app/rider/earnings/page.tsx con orologio finto al 7/11/2026 00:30 di Piacenza)",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "La consegna delle 00:40 del 7/11 finisce nella colonna 2026-11-06; le sette colonne vanno dal 31/10 al 6/11, senza il giorno di oggi.",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "Verificatore qa indipendente (flusso B): copia fedele delle righe 67-83 di app/rider/earnings/page.tsx lanciata con l'orologio finto e TZ=Europe/Rome (scratchpad V-B2/grafico.mjs): la consegna di sabato 7/11 alle 00:40 di Piacenza finisce nella colonna del 6/11, e aprendo la pagina alle 00:30 del 7/11 le colonne vanno dal 31/10 al 6/11. Verdetto: confermato, minore. Nel registro c'è la stessa classe sul negozio (254), riparata solo lì.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S02-007",
+      "dimensione": "qa-flussi",
+      "titolo": "Un ordine in contanti già incassato non si rimborsa dall’amministrazione: il sito non apre da solo il reclamo come deciso il 29/10, e il pannello dice di aprirlo a chi non può",
+      "severita": "grave",
+      "file": "lib/ordini/annulla.ts:258-266 · app/api/admin/orders/[id]/cancel/route.ts:45-47 · app/api/admin/orders/[id]/cancel/route.ts:64-70 · app/api/orders/[id]/cancel/route.ts:64-66 · migrations/215_minori_s04_database.sql:276-290 · app/orders/[id]/dispute/page.tsx:92-98",
+      "descrizione": "Il fatto firmato pagamenti.rimborso-contanti (29/10) dice: il rimborso di un ordine in contanti già pagato e poi annullato «passa sempre dal reclamo, mezzo automatico: il sito apre da solo il reclamo con la cifra» e manda a Nicola l'avviso del bonifico. Nel codice: annullaERimborsa (annulla.ts:264-266) si ferma con CONTANTI_INCASSATI senza scrivere niente; la rotta dell'amministratore (cancel/route.ts:45-47 e 64-70) risponde «apri un reclamo: il bonifico si fa a mano»; la rotta del cliente (orders/[id]/cancel:64-66) risponde «scrivi all'assistenza». Ma nessuna rotta del server inserisce in disputes (l'unico insert è la pagina del cliente, dispute/page.tsx:92), e la regola disputes_open_insert (215:276-290) ammette solo il cliente o il negozio dell'ordine: l'amministratore che segue l'istruzione viene respinto dal database. Il giro si chiude solo se il cliente stesso apre il reclamo dal suo telefono. Correzione della seconda lente: il rimborso non è impossibile in assoluto. Il cliente può aprire il reclamo da solo dalla pagina dell’ordine (app/orders/[id]/dispute/page.tsx:92) o chiedere un reso; fuori dal sito Nicola può restituire a mano. Ma senza reclamo né reso il bonifico del lunedì libera comunque il 90% al negozio, e nell’amministrazione non c’è uno strumento per sospenderlo.",
+      "impatto": "Sabato 7/11 alle 18:40 il fattorino incassa 24 € da Anna per il pane di Pane Quotidiano (Via Calzolai); Anna telefona: pane sbagliato, vuole i soldi. Nicola preme «Annulla» e legge «apri un reclamo»; dal pannello non c'è un tasto per farlo e il database lo rifiuta. Anna, che ha già chiamato perché il sito non lo sa usare, dovrebbe aprirlo lei: finché non lo fa i 24 € non tornano, non parte l'avviso con IBAN e causale, e al negozio non si toglie il 90%.",
+      "fix": "Su CONTANTI_INCASSATI, annullaERimborsa (o la rotta admin) apre col client di servizio il reclamo con la cifra incassata (stato open, against_id = negozio, descrizione con il motivo dell'annullo), rispettando l'indice disputes_one_open_per_order; la rotta risponde con il link al reclamo creato. Il messaggio al cliente dice che il reclamo è già aperto.",
+      "causa_radice": "La decisione del 29/10 («il sito apre da solo il reclamo») non è mai stata tradotta in codice: l'annullo bloccato rimanda a un passo manuale che solo il cliente può fare, e la riparazione del messaggio (1692) ha sostituito un'istruzione impossibile con un'altra.",
+      "prova": "1) copia SP/C/annullo-contanti-incassati-apre-il-reclamo.test.ts in tests/unit/s02-tmp-C/ e npx vitest run tests/unit/s02-tmp-C ; 2) tests/sql/harness/apply.sh mycity_s02_c && psql -X -d mycity_s02_c -v ON_ERROR_STOP=1 -f SP/C/l-amministratore-non-apre-il-reclamo.sql",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "1) FAIL: expected reclamoAperto true, received false; esito {ok:false, motivo:'CONTANTI_INCASSATI'}, nessuna scrittura su disputes. 2) ERROR: ROSSO: l amministratore non puo aprire il reclamo (42501: new row violates row-level security policy for table \"disputes\")",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "Verificatore qa indipendente (flusso C): ha rilanciato la prova vitest (1 rosso su 1, reclamoAperto false invece di true) e la prova SQL su database proprio (178 migrazioni, ERROR 42501 new row violates row-level security policy for table disputes). Ha cercato tutte le vie d'uscita: nessuna funzione SQL che inserisce in disputes, nessuna scrittura service-role, admin/credito-del-rimborso è in sola lettura, refundOrder non parte mai da un annullo con contanti incassati. Ha trovato la decisione in registro-fatti (pagamenti.rimborso-contanti) e in DECISIONI.md (2026-10-29 00:15). Seconda lente sul peso (altro verificatore qa): grave, non bloccante; resta la scappatoia del cliente che apre il reclamo da solo (app/orders/[id]/dispute/page.tsx:92).",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S02-008",
+      "dimensione": "qa-flussi",
+      "titolo": "Se l'amministratore annulla mentre il fattorino conferma i contanti alla porta, l'ordine resta annullato con i soldi già incassati",
+      "severita": "minore",
+      "file": "lib/ordini/annulla.ts:264-266 · lib/ordini/annulla.ts:361-377 · app/api/admin/orders/[id]/cancel/route.ts:33-47 · lib/cassa/registra-incasso.ts:166-180",
+      "descrizione": "Il controllo «contanti incassati» (annulla.ts:264) guarda l'ordine letto dalla rotta (admin cancel:33-38). La presa del turno (annulla.ts:361-377) controlla solo delivery_status <> CANCELED e = stato letto, non cash_confirmed_at IS NULL. La conferma del fattorino (scriviIncasso, registra-incasso.ts:166-180) scrive cash_confirmed_at e PAID lasciando lo stato OUT_FOR_DELIVERY. Se le due scritture si incrociano, la seconda passa: l'ordine diventa CANCELED con PAID e i contanti incassati; subito dopo annulla.ts rimette la merce a scaffale e restituisce il credito. Diverso da 477 (annullo su ordine in viaggio in generale): qui la guardia esiste ma non sta nella scrittura.",
+      "impatto": "Ordine in contanti da 24 € di Pane Quotidiano: alle 18:40:00 Nicola preme «Annulla» (Anna ha telefonato), alle 18:40:00,3 il fattorino conferma i 24 € alla porta. L'ordine risulta annullato, i 24 € sono in tasca al fattorino ma non entrano nella rimessa della sera (che conta i consegnati), il pane torna «disponibile» a scaffale.",
+      "fix": "Nel ramo contanti di annullaERimborsa aggiungere .is('cash_confirmed_at', null) (e payment_status <> 'PAID') alla UPDATE che prende il turno; con zero righe rileggere e rispondere CONTANTI_INCASSATI.",
+      "causa_radice": "Guardia di stato nel codice e non nella scrittura (TOCTOU), mentre la conferma dell'incasso non cambia delivery_status.",
+      "prova": "tests/sql/harness/apply.sh mycity_s02_c && SP/C/corsa-annullo-incasso.sh mycity_s02_c (due sessioni psql con le stesse WHERE delle due scritture)",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "Corsa del cercatore: righe prese dall’annullo 1, ordine alla fine CANCELED|PAID|true, ROSSO (exit 1). Variante fedele del verificatore (scrive anche payment_status FAILED come annulla.ts:368): ordine alla fine CANCELED|FAILED|true, ROSSO (exit 1): annullato, segnato non pagato, coi contanti già incassati.",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "Verificatore qa indipendente (flusso C): ha rilanciato la corsa del cercatore (exit 1, CANCELED|PAID|true) e una variante più fedele al codice (SP/V-C2/corsa-fedele.sh, che scrive anche payment_status FAILED come annulla.ts:368): exit 1, CANCELED|FAILED|true. Nessun blocco lo impedisce: la presa del turno controlla solo neq CANCELED e lo stato letto, e l’incasso non cambia delivery_status. Nell’ordine inverso è sicuro. Verdetto: confermato, minore (finestra di millisecondi).",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S02-009",
+      "dimensione": "qa-flussi",
+      "titolo": "Il negozio può riprendersi la merce difettosa e chiudere il reso senza rimborso, senza scrivere perché, e il cliente non riceve nessuna email",
+      "severita": "minore",
+      "file": "app/api/returns/[id]/avanza/route.ts:76-81 · app/api/returns/[id]/avanza/route.ts:174-177 · app/api/returns/[id]/avanza/route.ts:417-438 · app/api/returns/[id]/decide/route.ts:334-348",
+      "descrizione": "Per i motivi diversi dal recesso (DAMAGED, WRONG_ITEM, NOT_AS_DESCRIBED) avanza ammette CANCELED da RECEIVED (righe 76-81) e percheIlRecessoNonSiChiude restituisce null (174-177): il negozio, con la merce già tornata in negozio, chiude il reso «senza rimborso» senza nota obbligatoria. Al cliente arriva solo la campanella «✕ Reso chiuso senza rimborso» (417-438): la rotta non manda email, mentre il rifiuto da decide (334-348) la manda, col motivo. È una porta laterale al rifiuto: niente motivo, niente email, merce e soldi restano entrambi al negozio.",
+      "impatto": "Anna rimanda a Pane Quotidiano un barattolo di miele da 12 € arrivato rotto (motivo «danneggiato»); il negozio segna «ricevuto» il 9/11 e poi «chiudi senza rimborso». Anna non ha più il miele né i 12 €, nessuna email gliel'ha detto, e il bonifico al negozio riparte.",
+      "fix": "Da RECEIVED (merce tornata) CANCELED solo con una nota minima (come il recesso sotto l'intero) e con l'email al cliente (riusare resoRifiutatoAlClienteTemplate); oppure vietarlo e lasciare solo REFUNDED o il reclamo.",
+      "causa_radice": "La protezione «non si chiude senza rimborso» è stata scritta solo per il recesso; gli altri motivi ereditano la chiusura libera pensata per la merce mai partita.",
+      "prova": "lettura delle righe citate",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "Verificatore qa indipendente (flusso C): avanza/route.ts:80 ammette CANCELED da RECEIVED; regole-del-rimborso.ts:378 non chiede nota se il reso non è un recesso; in avanza nessuna email (solo campanella); email-dei-resi.ts è usata solo da create e decide; nessun trigger su returns o notifications mette email in coda; solo il push parte se il cliente è iscritto. Verdetto: confermato, minore. È il residuo della voce 488, riparata solo per il recesso.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S02-010",
+      "dimensione": "qa-flussi",
+      "titolo": "Quando il negozio approva un recesso, il cliente lo sa solo dalla campanella, ma da quel momento corrono i suoi 14 giorni per rispedire",
+      "severita": "minore",
+      "file": "app/api/returns/[id]/decide/route.ts:326-348 · lib/rimborsi/regole-del-rimborso.ts:365-386",
+      "descrizione": "decide manda l'email solo per REJECTED (336-348); per APPROVED scrive la campanella «✓ Reso approvato» (327-332) e basta. Ma inizioDeiGiorni (regole:365-370) fa partire i 14 giorni per rispedire dall'approvazione, e passati quelli percheIlRecessoNonSiChiude (379-381) lascia al negozio chiudere il recesso senza rimborso. Chi non apre il sito non sa che il conto alla rovescia è partito. (Diverso da 79, dove il cliente non può dire di aver spedito: qui non sa nemmeno di dover spedire.)",
+      "impatto": "Il 2/11 Anna chiede il recesso su una tovaglia da 30 € di un negozio di Via Calzolai; il negozio approva il 3/11. Anna non ha le notifiche push e non riapre il sito; il 18/11 il negozio chiude il reso senza rimborso e il bonifico gli riparte.",
+      "fix": "All'APPROVED di un reso mandare un'email transazionale con cosa rispedire, dove e la data limite (giorno di approvazione + 14, fuso Europe/Rome).",
+      "causa_radice": "L'email dei resi (5/11) è stata aggiunta solo ai due estremi (richiesta al negozio, rifiuto al cliente), non al passo che fa partire un termine a carico del cliente.",
+      "prova": "lettura delle righe citate",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": false,
+      "esito_prova": "",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "Verificatore qa indipendente (flusso C): decide/route.ts:336 manda l’email solo con REJECTED; con APPROVED solo la campanella (327-332); inizioDeiGiorni (regole:365-370) fa partire i 14 giorni dal più tardi fra created_at e decided_at. Verdetto: confermato, minore: il cliente sa di dover rendere, ma non sa che è approvato né dove spedire.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    }
+  ],
+  "regressioni": [
+    {
+      "chiave": "sicurezza-auth|annullando un ordine già pagato in contanti, chi amministra legge una frase mozzata e un'istruzione che non si può eseguire",
+      "indice": 1692,
+      "prova": "psql -X -d mycity_s02_c -v ON_ERROR_STOP=1 -f SP/C/l-amministratore-non-apre-il-reclamo.sql (dopo tests/sql/harness/apply.sh mycity_s02_c). Il messaggio riparato (app/api/admin/orders/[id]/cancel/route.ts:67-70) dice all'amministratore «apri un reclamo», passo che la regola disputes_open_insert gli vieta.",
+      "esito_prova": "ERROR: ROSSO: l amministratore non puo aprire il reclamo (42501: new row violates row-level security policy for table \"disputes\")"
+    }
+  ],
+  "ricontrolli": [],
+  "prove_per_la_palestra": [
+    {
+      "id": "S02-P001",
+      "funzione": "Ordine in contanti con il credito MyCity che copre tutto",
+      "chi": "cliente",
+      "file": "app/checkout/page.tsx · app/api/orders/cod/route.ts",
+      "dati_di_prova": "Cliente con 20,00 € di credito; carrello Pane Quotidiano: 2 pagnotte da 2,50 € + 1 focaccia da 3,00 € (8,00 €), fascia oraria di domani",
+      "passi": "Aprire la cassa, lasciare spuntato «Usa il mio credito MyCity», ordinare. Poi aprire l'ordine e il saldo del credito.",
+      "atteso": "Cassa: subtotale 8,00 €, consegna 4,00 € (3 € + 1 € sotto i 10 €), credito −12,00 €, totale 0,00 €. Ordine salvato: totale 0,00 €, credito usato 12,00 €; saldo rimasto 8,00 €. Il negozio riceve la quota sui 8,00 € di merce (7,20 €).",
+      "limite": "centesimi / credito più grande del totale"
+    },
+    {
+      "id": "S02-P002",
+      "funzione": "Stesso credito speso da due schede",
+      "chi": "cliente",
+      "file": "app/checkout/page.tsx · app/api/orders/cod/route.ts",
+      "dati_di_prova": "Cliente con 18,00 € di credito; scheda 1 carrello pane 15,00 €; scheda 2 aperta prima con frutta 13,00 € (secondo negozio o stesso, dopo aver svuotato)",
+      "passi": "Ordinare nella scheda 1; senza ricaricare, ordinare nella scheda 2.",
+      "atteso": "La scheda 2 NON deve chiudere un ordine con «Totale 0,00 €» a schermo e 13,00 € (o più) da pagare alla porta: deve avvisare che il credito è cambiato e mostrare il totale vero prima di confermare.",
+      "limite": "due schede"
+    },
+    {
+      "id": "S02-P003",
+      "funzione": "Doppio clic su «Ordina» con credito",
+      "chi": "cliente",
+      "file": "app/checkout/page.tsx · app/api/orders/cod/route.ts",
+      "dati_di_prova": "Cliente con 10,00 € di credito, carrello 12,00 € da un negozio",
+      "passi": "Toccare «Ordina e paga alla consegna» due volte di fila (anche con rete lenta simulata).",
+      "atteso": "Un solo ordine; credito scalato una volta sola (saldo 0, ordine con 10,00 € di credito e 5,00 € in contanti: 12 + 3 consegna − 10).",
+      "limite": "doppio clic / rete lenta"
+    },
+    {
+      "id": "S02-P004",
+      "funzione": "Prezzo in promozione: vetrina, carrello e cassa allo stesso centesimo",
+      "chi": "cliente",
+      "file": "app/checkout/page.tsx · app/api/orders/cod/route.ts",
+      "dati_di_prova": "Promozione del negozio -33% su un prodotto da 0,50 €; altra -20% su un prodotto da 1,39 €",
+      "passi": "Leggere il prezzo sulla scheda in catalogo e nella pagina prodotto, aggiungere 9 pezzi da 1,39 € al carrello, leggere carrello e cassa, ordinare.",
+      "atteso": "Stesso prezzo unitario ovunque (0,34 € e 1,11 €); il carrello dice 9,99 € e consegna 4 € come la cassa; l'ordine salvato ha 9,99 € di merce.",
+      "limite": "centesimi / soglia dei 10 € per negozio"
+    },
+    {
+      "id": "S02-P005",
+      "funzione": "Ordine fallito a metà restituisce il credito",
+      "chi": "cliente",
+      "file": "app/checkout/page.tsx · app/api/orders/cod/route.ts",
+      "dati_di_prova": "Carrello con due negozi; credito 30,00 €; l'ultimo pezzo del secondo negozio comprato da un altro cliente un attimo prima",
+      "passi": "Ordinare.",
+      "atteso": "Messaggio «non più disponibili», nessun ordine al primo negozio, saldo credito tornato a 30,00 €, merce del primo negozio di nuovo in vendita.",
+      "limite": "concorrenza sullo stock"
+    },
+    {
+      "id": "S02-P006",
+      "funzione": "Sopra il tetto dei contanti",
+      "chi": "cliente",
+      "file": "app/checkout/page.tsx · app/api/orders/cod/route.ts",
+      "dati_di_prova": "Carrello da 5.000,00 € di merce",
+      "passi": "Scegliere il pagamento alla consegna e ordinare.",
+      "atteso": "Rifiuto con «Sopra 4.999,99 € non si può pagare in contanti», nessun ordine, nessun credito toccato, merce non riservata.",
+      "limite": "tetto di legge 4.999,99 €"
+    },
+    {
+      "id": "S02-P007",
+      "funzione": "Codice sconto spento anche se mandato a mano",
+      "chi": "estraneo",
+      "file": "app/api/orders/cod/route.ts · app/admin/coupons/page.tsx",
+      "dati_di_prova": "Un codice attivo creato dall'admin (es. BENVENUTO, 5 € fissi); interruttore codici sconto spento",
+      "passi": "Admin: verificare che la pagina dica «Attivo (spento in cassa)». Cliente: richiesta d'ordine con couponCode=BENVENUTO costruita a mano.",
+      "atteso": "La rotta risponde «I codici sconto non sono attivi», nessun ordine nasce, il contatore usi del codice non cambia.",
+      "limite": "richiesta costruita a mano"
+    },
+    {
+      "id": "S02-P008",
+      "funzione": "Pagina punti con i punti spenti",
+      "chi": "cliente",
+      "file": "app/profile/loyalty/page.tsx",
+      "dati_di_prova": "Cliente con 250 punti vecchi e 5,00 € di credito",
+      "passi": "Aprire la pagina punti e provare a convertire 100 punti.",
+      "atteso": "Nessuna promessa «100 punti = 5 €» utilizzabile; la conversione non toglie punti né crea credito; si legge il credito vero (5,00 €), e se la lettura cade non si scrive 0,00 €.",
+      "limite": "funzione spenta"
+    },
+    {
+      "id": "S02-P009",
+      "funzione": "Pagina inviti con gli inviti spenti",
+      "chi": "cliente",
+      "file": "app/profile/referral/page.tsx",
+      "dati_di_prova": "Cliente qualsiasi",
+      "passi": "Aprire la pagina inviti.",
+      "atteso": "Nessun link da condividere che prometta 5 €, nessun «€ guadagnati» inventato; la pagina dice che gli inviti non sono attivi.",
+      "limite": "funzione spenta"
+    },
+    {
+      "id": "S02-P010",
+      "funzione": "Classifica inviti",
+      "chi": "cliente",
+      "file": "app/profile/referral/leaderboard/page.tsx",
+      "dati_di_prova": "Nessun invito premiato nel database",
+      "passi": "Aprire la classifica.",
+      "atteso": "Non promette credito per ogni amico invitato; con la lettura fallita non mostra una classifica vuota come se fosse vera.",
+      "limite": "funzione spenta / lettura caduta"
+    },
+    {
+      "id": "S02-P011",
+      "funzione": "Admin crea un codice sconto mentre la cassa li rifiuta",
+      "chi": "admin",
+      "file": "app/admin/coupons/page.tsx",
+      "dati_di_prova": "Nuovo codice PERCENT 150 e uno FIXED -5",
+      "passi": "Provare a salvarli.",
+      "atteso": "Valori fuori misura rifiutati con un messaggio chiaro; i codici salvati si vedono «Attivo (spento in cassa)».",
+      "limite": "valori assurdi"
+    },
+    {
+      "id": "S02-P012",
+      "funzione": "Dichiarare i contanti alla porta",
+      "chi": "fattorino",
+      "file": "app/api/rider/cash-confirm/route.ts",
+      "dati_di_prova": "contrassegno Pane Quotidiano 15,35 € (compenso 3 €), stato OUT_FOR_DELIVERY, fattorino assegnato",
+      "passi": "Apri l'ordine, «Sto andando dal cliente», nel riquadro contanti scrivi 12,35 e conferma; poi ripremi conferma subito (doppio clic) e da una seconda scheda",
+      "atteso": "una sola registrazione (cash_collected_cents 1235, rider_payout_status CASH_WITHHELD), la seconda risponde «Incasso già confermato»; nessun allarme «non quadra»",
+      "limite": "doppio clic / due schede"
+    },
+    {
+      "id": "S02-P013",
+      "funzione": "Contanti sopra i 50 € senza foto",
+      "chi": "fattorino",
+      "file": "app/api/rider/cash-confirm/route.ts",
+      "dati_di_prova": "contrassegno da 58 € (da rimettere 55 €)",
+      "passi": "Conferma senza foto e senza nota, poi con nota di 5 lettere, poi con nota di 12 lettere",
+      "atteso": "rifiutato due volte col messaggio della foto; alla terza entra e l'admin riceve «Incasso senza foto»",
+      "limite": "soglia 50,00 € esatta"
+    },
+    {
+      "id": "S02-P014",
+      "funzione": "Incassi rimasti indietro",
+      "chi": "fattorino",
+      "file": "app/api/rider/incassi-da-dichiarare/route.ts",
+      "dati_di_prova": "due contrassegni DELIVERED senza cash_confirmed_at, uno di un altro fattorino, un ritiro in negozio",
+      "passi": "Apri la bacheca del fattorino",
+      "atteso": "compaiono solo i suoi due, dal piu' vecchio, con cifra da rimettere e compenso tenuto; niente ritiro, niente ordini altrui",
+      "limite": "rete lenta: la lettura fallita dice «non so», non «nessuno»"
+    },
+    {
+      "id": "S02-P015",
+      "funzione": "Cliente assente",
+      "chi": "fattorino",
+      "file": "app/api/rider/orders/[id]/cliente-assente/route.ts",
+      "dati_di_prova": "contrassegno OUT_FOR_DELIVERY con 5 € di credito MyCity usato",
+      "passi": "Segna «cliente assente» prima di dichiarare i contanti; poi riprova su un ordine con contanti gia' dichiarati",
+      "atteso": "il primo si annulla e il credito torna al cliente, negozio avvisato; il secondo risponde «Hai già registrato l'incasso»",
+      "limite": "doppio clic"
+    },
+    {
+      "id": "S02-P016",
+      "funzione": "Ricalcolo notturno delle casse",
+      "chi": "admin",
+      "file": "app/api/cron/riquadra-casse/route.ts",
+      "dati_di_prova": "contrassegno consegnato domenica alle 23:30 nella notte del cambio d'ora (orologio finto 31/10/2027) e uno lunedi alle 00:10",
+      "passi": "Lancia il ricalcolo alle 00:30 e alle 01:30 del lunedi; leggi cod_reconciliations",
+      "atteso": "la domenica contiene l'ordine delle 23:30, il lunedi quello delle 00:10, nessuno in due giornate",
+      "limite": "mezzanotte / cambio d'ora"
+    },
+    {
+      "id": "S02-P017",
+      "funzione": "Giro dei bonifici con contanti",
+      "chi": "admin",
+      "file": "app/api/cron/release-payouts/route.ts",
+      "dati_di_prova": "PAGAMENTI_CONTANTI_DA_STRIPE_DAL non messa; un contrassegno HELD dopo la rimessa; un ritiro al banco CASH_IN_STORE",
+      "passi": "Lancia il giro due volte di seguito",
+      "atteso": "nessun bonifico Stripe per i contanti (restano a mano), nessun bonifico per il ritiro al banco, risposta ok; il compenso residuo del fattorino parte una volta sola",
+      "limite": "doppio lancio"
+    },
+    {
+      "id": "S02-P018",
+      "funzione": "Pagina Guadagni del negozio",
+      "chi": "negozio",
+      "file": "app/seller/earnings/page.tsx",
+      "dati_di_prova": "Pane Quotidiano: contrassegno 15,35 € consegnato e rimesso, contrassegno rimborsato a meta', ritiro al banco 20 € in contanti",
+      "passi": "Apri Guadagni su «7 giorni» e «Tutto»",
+      "atteso": "netto in arrivo = 11,11 + quota non stornata del secondo; il ritiro al banco NON fra «arriva a te» ma come commissione dovuta 2 €; commissione 10% visibile",
+      "limite": "centesimi (12,35 → 1,24)"
+    },
+    {
+      "id": "S02-P019",
+      "funzione": "Pagina Guadagni del fattorino",
+      "chi": "fattorino",
+      "file": "app/rider/earnings/page.tsx",
+      "dati_di_prova": "una consegna con carta (3 €), un contrassegno normale (3 € tenuti), un contrassegno con solo 2 € in mano (2 tenuti + 1 col bonifico), una consegna alle 00:40",
+      "passi": "Apri Guadagni su «Oggi» e «7 giorni» alle 00:45",
+      "atteso": "totale 12 €, in contanti 8 €, in arrivo/versati 4 €; la consegna delle 00:40 nella colonna di oggi",
+      "limite": "mezzanotte / centesimi"
+    },
+    {
+      "id": "S02-P020",
+      "funzione": "Conferma rimessa contanti",
+      "chi": "admin",
+      "file": "app/admin/cod-remittance/page.tsx",
+      "dati_di_prova": "fattorino con 3 contrassegni di domenica (uno alle 23:30) e 1 di lunedi 00:10, uno senza incasso dichiarato",
+      "passi": "Conferma la rimessa di domenica scrivendo la cifra contata; ripremi conferma; riapri la pagina",
+      "atteso": "rilasciati solo quelli di domenica dichiarati, avviso per quello senza incasso, il lunedi resta; la seconda conferma non rilascia nulla",
+      "limite": "doppio clic / mezzanotte"
+    },
+    {
+      "id": "S02-P021",
+      "funzione": "Pannello bonifici ai negozi",
+      "chi": "admin",
+      "file": "app/admin/payouts/page.tsx",
+      "dati_di_prova": "negozio con un contrassegno in attesa di rimessa, uno HELD, uno stornato in parte, un ritiro al banco CASH_IN_STORE",
+      "passi": "Apri il pannello e leggi «Da pagare», «In sospeso», «Da liquidare» del negozio",
+      "atteso": "in «Da pagare» solo quanto si deve davvero bonificare (al netto degli storni), niente ritiro al banco, contrassegni non rimessi non «pronti»",
+      "limite": "centesimi / storni"
+    },
+    {
+      "id": "S02-P022",
+      "funzione": "Annullare un ordine non ancora accettato",
+      "chi": "cliente",
+      "file": "app/api/orders/[id]/cancel/route.ts · app/orders/[id]/page.tsx",
+      "dati_di_prova": "Ordine in contanti NEW da 24 € di Pane Quotidiano con 5 € di credito MyCity usato; secondo ordine pagato con carta da 18 €",
+      "passi": "Aprire l'ordine in due schede; premere «Annulla ordine» quasi insieme nelle due schede (e un doppio clic nella stessa)",
+      "atteso": "Una scheda dice annullato, l'altra «Ordine già annullato»; il credito torna una volta sola (saldo +5,00 €, una riga nel diario), merce rimessa a scaffale una volta; sulla carta un solo rimborso da 18,00 €",
+      "limite": "doppio clic / due schede"
+    },
+    {
+      "id": "S02-P023",
+      "funzione": "Chiedere il reso di un ordine consegnato",
+      "chi": "cliente",
+      "file": "app/api/returns/create/route.ts · app/orders/[id]/return/page.tsx",
+      "dati_di_prova": "Ordine consegnato il 23/10 alle 10:00 (prima del cambio d'ora del 25/10), una torta segnata esclusa e un miele",
+      "passi": "Il 6/11 alle 09:30 e poi alle 11:00 chiedere «Cambio idea» su tutto l'ordine; ripetere con doppio clic su «Invia»",
+      "atteso": "Alle 09:30 il reso nasce con la nota «torta esclusa»; ne nasce uno solo anche col doppio clic (il secondo dice che c'è già una richiesta aperta); dopo il termine il messaggio dice la data vera di scadenza",
+      "limite": "doppio clic / cambio d'ora / ultimo giorno"
+    },
+    {
+      "id": "S02-P024",
+      "funzione": "Decidere un reso con rimborso subito",
+      "chi": "negozio",
+      "file": "app/api/returns/[id]/decide/route.ts · app/seller/orders/[id]/page.tsx",
+      "dati_di_prova": "Ordine in contanti consegnato da 50 €: 20 € di credito MyCity e 30 € in contanti incassati; reso «danneggiato»",
+      "passi": "Approvare con rimborso 10,00 € in due schede aperte, premendo quasi insieme; poi rileggere saldo del credito e avvisi",
+      "atteso": "Una sola decisione passa (l'altra «già deciso»); al cliente tornano 4,00 € di credito una volta (una riga nel diario con riferimento return_<id>) e parte un solo avviso «Bonifico di rimborso da fare» da 6,00 €; refunded_amount_cents = 1000",
+      "limite": "due schede / centesimi"
+    },
+    {
+      "id": "S02-P025",
+      "funzione": "Portare un reso da ricevuto a rimborsato",
+      "chi": "negozio",
+      "file": "app/api/returns/[id]/avanza/route.ts · app/seller/orders/[id]/page.tsx",
+      "dati_di_prova": "Recesso su un ordine in contanti da 30 € (3 righe da 10 €), stato RECEIVED",
+      "passi": "Premere «Rimborsato» con 0,01 € senza nota; poi con 30,00 €, doppio clic; provare anche «Chiudi senza rimborso» da RECEIVED",
+      "atteso": "0,01 € rifiutato (serve l'intero o una nota di almeno 10 caratteri); con 30,00 € un solo rimborso e un solo avviso di bonifico; la chiusura senza rimborso di un recesso è rifiutata",
+      "limite": "doppio clic / centesimi"
+    },
+    {
+      "id": "S02-P026",
+      "funzione": "Controllare il credito di un rimborso",
+      "chi": "admin",
+      "file": "app/admin/credito-del-rimborso/page.tsx · app/api/admin/credito-del-rimborso/route.ts",
+      "dati_di_prova": "Rimborso in contanti con chiave return_<id> e 4,00 € di credito scritti nel diario; un secondo link con atteso=500",
+      "passi": "Aprire la pagina dal link dell'avviso (?ref=return_<id>&atteso=400), poi con atteso=500, poi senza ref, poi da utente non amministratore",
+      "atteso": "Con 400 «Torna»; con 500 «Non torna: il diario dice 4,00 €»; senza ref la frase che spiega da dove aprirla; un non amministratore riceve un rifiuto, non i dati",
+      "limite": "centesimi / rete lenta"
+    }
+  ],
+  "domande_per_nicola": [
+    "Il ritiro in negozio: il registro dei fatti lo dà acceso dal lancio, il codice lo tiene spento (lib/ritiro-in-negozio.ts:22). Si accende davvero al lancio del 15/11? Il difetto S02-005 sulle cifre dei Guadagni pesa grave solo se si accende.",
+    "Il rimborso di un ordine in contanti già incassato: il 29/10 hai deciso che il sito apre da solo il reclamo con la cifra. Oggi non lo fa (S02-007). Finché non è riparato, vuoi che l’amministratore guidi il cliente ad aprirlo dalla sua pagina dell’ordine?"
+  ],
+  "conto": {
+    "agenti": 8,
+    "token_sessione": {
+      "agenti": 1,
+      "agenti_misurati": 1,
+      "turni": 41,
+      "input": 97,
+      "scritti_cache": 207693,
+      "letti_cache": 8358844,
+      "uscita": 38519,
+      "entrata_totale": 8566634
+    },
+    "token_subagenti": {
+      "agenti": 8,
+      "agenti_misurati": 8,
+      "turni": 314,
+      "input": 628,
+      "scritti_cache": 907803,
+      "letti_cache": 47084944,
+      "uscita": 188880,
+      "entrata_totale": 47993375
+    },
+    "token_workflow": [],
+    "nota": "Misurato con cervello/conto-token.mjs (--sessione sulla trascrizione principale e --dir sulla cartella subagents) prima dell’ultimo push: il ciclo principale cresce ancora di poco dopo la misura. 8 agenti su 12 di tetto: 3 cercatori e 5 verificatori qa. Nessun workflow."
+  }
+}
