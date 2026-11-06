@@ -1,0 +1,656 @@
+{
+  "sessione": "S05",
+  "base_sito": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
+  "aggiornato": "2026-11-06 12:20",
+  "finita": true,
+  "copertura": {
+    "file_letti_interi": [
+      "scripts/applica-migrazioni-mancanti.sh",
+      "scripts/conta-migrazioni-mancanti.sh",
+      "tests/sql/harness/apply.sh",
+      "tests/sql/harness/migrazione-su-database-pieno.sh",
+      "tests/unit/migrations-integrity.test.ts",
+      "tests/sql/harness/seed-ordine-vero.sql",
+      "lib/supabase/anonimo.ts",
+      "lib/supabase/auth-server.ts"
+    ],
+    "file_letti_in_parte": [
+      {
+        "file": "scripts/check-migration-drift.mjs",
+        "righe": "1-410"
+      },
+      {
+        "file": "scripts/gen-db-types.mjs",
+        "righe": "1-170"
+      },
+      {
+        "file": "tests/sql/harness/00_shim_supabase.sql",
+        "righe": "1-130"
+      },
+      {
+        "file": "seeds/005_admin_and_rider.sql",
+        "righe": "1-90"
+      },
+      {
+        "file": "seeds/006_admin_swap.sql",
+        "righe": "1-102"
+      },
+      {
+        "file": "seeds/007_mycity_seller.sql",
+        "righe": "1-64"
+      },
+      {
+        "file": "docs/migrazioni-baseline-produzione.md",
+        "righe": "1-150"
+      },
+      {
+        "file": "scripts/controlla-regola-main.mjs",
+        "righe": "1-30"
+      },
+      {
+        "file": "migrations/027_growth_engagement_foundations.sql",
+        "righe": "325-351"
+      },
+      {
+        "file": "migrations/063_p1_db_hardening.sql",
+        "righe": "10-45"
+      },
+      {
+        "file": "migrations/127_minori_22_agosto.sql",
+        "righe": "20-70"
+      },
+      {
+        "file": "migrations/122_radiografia_20_agosto.sql",
+        "righe": "340-360"
+      },
+      {
+        "file": "migrations/145_revoca_scritture_sulle_tabelle_esistenti.sql",
+        "righe": "40-89"
+      },
+      {
+        "file": "migrations/200_il_codice_sconto_torna_una_volta_per_ordine.sql",
+        "righe": "1-22"
+      },
+      {
+        "file": "migrations/215_minori_s04_database.sql",
+        "righe": "1040-1090"
+      },
+      {
+        "file": "lib/coupons.ts",
+        "righe": "130-150"
+      },
+      {
+        "file": "app/admin/coupons/page.tsx",
+        "righe": "185-197"
+      },
+      {
+        "file": "lib/storage/percorso-caricamento.ts",
+        "righe": "36-98"
+      },
+      {
+        "file": "lib/supabase/server.ts",
+        "righe": "1-80"
+      },
+      {
+        "file": "lib/database.types.ts",
+        "righe": "1-30"
+      },
+      {
+        "file": "lib/shipping.ts",
+        "righe": "36-66"
+      },
+      {
+        "file": "lib/stripe/ripartizione.ts",
+        "righe": "54-68"
+      },
+      {
+        "file": "app/api/seller/apply/route.ts",
+        "righe": "140-160"
+      }
+    ],
+    "file_eseguiti": [
+      {
+        "file": "tests/sql/harness/apply.sh",
+        "comando": "tests/sql/harness/apply.sh mycity_s05_0 (e _1 … _4, una copia per cercatore; Postgres 16 locale)",
+        "esito": "applicate 178 · fallite 0, in 14 secondi, cinque volte"
+      },
+      {
+        "file": "tests/sql/harness/migrazione-su-database-pieno.sh",
+        "comando": "tests/sql/harness/migrazione-su-database-pieno.sh mycity_s05_3_pieno; più copie con un ordine dentro tagliate prima della 125, della 164 e della 191",
+        "esito": "verde; nessuna migrazione fallisce su tabelle piene"
+      },
+      {
+        "file": "scripts/applica-migrazioni-mancanti.sh",
+        "comando": "su copie locali con un registro finto che imita quello di produzione (32 versioni-data), lanciato due volte; poi con due file omonimi 246/247 (vedi S05-008)",
+        "esito": "registro finto: applica 0 e non riapplica niente, anche al secondo lancio; omonimi: la 247 saltata"
+      },
+      {
+        "file": "scripts/check-migration-drift.mjs",
+        "comando": "SUPABASE_DB_URL verso le stesse copie locali",
+        "esito": "d'accordo con lo script di applicazione: exit 0 sul registro finto e anche sugli omonimi (vedi S05-008)"
+      },
+      {
+        "file": "scripts/conta-migrazioni-mancanti.sh",
+        "comando": "QUANTE=0 ULTIMA=247 sulle stesse copie",
+        "esito": "«ne mancano 0» in tutti e due i casi"
+      },
+      {
+        "file": "scripts/gen-db-types.mjs",
+        "comando": "lanciato in una cartella temporanea e confrontato con information_schema della copia",
+        "esito": "nomi di tabelle e colonne allineati; 7 differenze di nullabilità (S05-012)"
+      }
+    ],
+    "non_guardato": [
+      {
+        "cosa": "Le rotte /api che usano la chiave di servizio e scavalcano le regole del database",
+        "perche": "sono di S04 per la scheda"
+      },
+      {
+        "cosa": "Stripe e il sito dal vivo",
+        "perche": "sono di S03 e S11; sul sito vero nessuna chiamata"
+      },
+      {
+        "cosa": "Righe con dati personali in produzione, e dal messaggio dell'AD anche gli hash delle password",
+        "perche": "in produzione solo conteggi e catalogo. Un confronto degli hash con le due password scritte nei seed (solo conteggi, 0 corrispondenze) è stato fatto prima che arrivasse quel limite, ed è dichiarato all'AD"
+      },
+      {
+        "cosa": "I trigger con permessi alti che nessuno può chiamare direttamente, e le funzioni fuori dallo schema public",
+        "perche": "fuori dalla priorità: nessuno li chiama dall'esterno; guardati solo quelli incrociati dalle prove"
+      },
+      {
+        "cosa": "Le regole di cancellazione (DELETE) delle tabelle public una per una e le 14 tabelle con RLS senza regole",
+        "perche": "per le 14 tabelle senza regole nessun ruolo esterno ha accesso (avvisi Supabase di livello informativo); le DELETE solo dove incrociate"
+      },
+      {
+        "cosa": "Una parte delle regole delle chat (dettaglio fuori dal deposito pubblico)",
+        "perche": "visto nel codice, non provato per mancanza di tempo nel tetto degli agenti"
+      },
+      {
+        "cosa": "Vincoli di stato incrociati sugli ordini (per esempio consegnato senza data, bonifico fatto senza id del bonifico)",
+        "perche": "non provati; in produzione l'unico ordine non li viola (0 consegnati senza data)"
+      },
+      {
+        "cosa": "scripts/prova-di-fumo.mjs, scripts/backup-db.sh e docs/backup-restore.md per intero, e due lanci in parallelo dello script delle migrazioni",
+        "perche": "già molto coperti nel registro; il lancio parallelo lo mette in fila il workflow"
+      },
+      {
+        "cosa": "Il comportamento vero dell'API Storage di Supabase (spostare o sovrascrivere un file)",
+        "perche": "provate solo le regole sulla copia locale, che hanno retto; l'API vera non si chiama"
+      },
+      {
+        "cosa": "Le 178 migrazioni riga per riga",
+        "perche": "giudicate dal catalogo che ne risulta (regole, permessi, funzioni, vincoli) e lette a pezzi dove una prova lo chiedeva"
+      }
+    ]
+  },
+  "difetti": [
+    {
+      "id": "S05-001",
+      "dimensione": "rls-database",
+      "titolo": "Falla di sicurezza da chiudere (pagamenti): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+      "severita": "grave",
+      "file": "(nel referto privato)",
+      "descrizione": "nel referto privato",
+      "impatto": "nel referto privato",
+      "fix": "nel referto privato",
+      "causa_radice": "nel referto privato",
+      "prova": "nel referto privato",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "nel referto privato",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "nel referto privato",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": true
+    },
+    {
+      "id": "S05-002",
+      "dimensione": "rls-database",
+      "titolo": "Falla di sicurezza da chiudere (regole del database): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+      "severita": "grave",
+      "file": "(nel referto privato)",
+      "descrizione": "nel referto privato",
+      "impatto": "nel referto privato",
+      "fix": "nel referto privato",
+      "causa_radice": "nel referto privato",
+      "prova": "nel referto privato",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "nel referto privato",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "nel referto privato",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": true
+    },
+    {
+      "id": "S05-003",
+      "dimensione": "rls-database",
+      "titolo": "Falla di sicurezza da chiudere (regole del database): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+      "severita": "minore",
+      "file": "(nel referto privato)",
+      "descrizione": "nel referto privato",
+      "impatto": "nel referto privato",
+      "fix": "nel referto privato",
+      "causa_radice": "nel referto privato",
+      "prova": "nel referto privato",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "nel referto privato",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "nel referto privato",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": true
+    },
+    {
+      "id": "S05-004",
+      "dimensione": "rls-database",
+      "titolo": "Falla di sicurezza da chiudere (regole del database): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+      "severita": "minore",
+      "file": "(nel referto privato)",
+      "descrizione": "nel referto privato",
+      "impatto": "nel referto privato",
+      "fix": "nel referto privato",
+      "causa_radice": "nel referto privato",
+      "prova": "nel referto privato",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "nel referto privato",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "nel referto privato",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": true
+    },
+    {
+      "id": "S05-005",
+      "dimensione": "rls-database",
+      "titolo": "Falla di sicurezza da chiudere (regole del database): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+      "severita": "minore",
+      "file": "(nel referto privato)",
+      "descrizione": "nel referto privato",
+      "impatto": "nel referto privato",
+      "fix": "nel referto privato",
+      "causa_radice": "nel referto privato",
+      "prova": "nel referto privato",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "nel referto privato",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "nel referto privato",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": true
+    },
+    {
+      "id": "S05-006",
+      "dimensione": "rls-database",
+      "titolo": "Falla di sicurezza da chiudere (regole del database): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+      "severita": "minore",
+      "file": "(nel referto privato)",
+      "descrizione": "nel referto privato",
+      "impatto": "nel referto privato",
+      "fix": "nel referto privato",
+      "causa_radice": "nel referto privato",
+      "prova": "nel referto privato",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "nel referto privato",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "nel referto privato",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": true
+    },
+    {
+      "id": "S05-007",
+      "dimensione": "rls-database",
+      "titolo": "Falla di sicurezza da chiudere (regole del database): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+      "severita": "minore",
+      "file": "(nel referto privato)",
+      "descrizione": "nel referto privato",
+      "impatto": "nel referto privato",
+      "fix": "nel referto privato",
+      "causa_radice": "nel referto privato",
+      "prova": "nel referto privato",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "nel referto privato",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "nel referto privato",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": true
+    },
+    {
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "id": "S05-008",
+      "dimensione": "deploy-sre",
+      "titolo": "Una migrazione nuova con lo stesso nome di una vecchia non arriva mai in produzione, e tutti e tre i controlli dicono verde",
+      "severita": "minore",
+      "file": "scripts/applica-migrazioni-mancanti.sh:213-215 · scripts/applica-migrazioni-mancanti.sh:285-287 · scripts/check-migration-drift.mjs:264-270 · scripts/conta-migrazioni-mancanti.sh:48 · tests/unit/migrations-integrity.test.ts:38-50",
+      "descrizione": "Lo script che applica le migrazioni considera «già fatta» una migrazione se il registro della produzione ha lo stesso numero OPPURE lo stesso nome (`WHERE version = '$versione' OR name = '$descrizione'`, righe 213-215 e 285-287). Il controllo di deriva fa lo stesso (`!perNome.has(m.name) && !perVersione.has(m.prefix)`, righe 264-270) e il conteggio riusa il primo script (riga 48). La prova d'integrità del repo vieta solo i numeri doppi, non i nomi doppi. Il registro di produzione contiene anche una quarantina di nomi storici che non sono file del repo (per esempio seller_storefronts_rls, rls_initplan_optimization_v2, radiografia_18_agosto_01): una migrazione futura con uno di quei nomi verrebbe saltata.",
+      "impatto": "Esempio: una sessione scrive la 246 «sistema_i_permessi» e più avanti un'altra scrive la 247 con lo stesso nome per correggere un permesso. Il rilascio applica la 246, salta la 247, e applica, deriva e conteggio escono tutti verdi: il permesso resta aperto in produzione senza che nessuno lo sappia. Oggi i 178 file non hanno nomi doppi, quindi oggi non si perde niente.",
+      "fix": "Confrontare solo per numero (o numero+nome insieme, mai nome da solo) nei due script; aggiungere a tests/unit/migrations-integrity.test.ts un controllo che vieta i nomi doppi fra i file e i nomi già presenti nel registro storico di produzione (elenco esportato una volta in docs/migrazioni-baseline-produzione.md).",
+      "causa_radice": "L'«OR name» serviva a riconoscere le 32 migrazioni che in produzione sono registrate con un numero-data invece del numero del file: la scorciatoia per quel caso vecchio vale per tutti i casi futuri.",
+      "prova": "Su una copia locale piena (178 migrazioni) e una cartella di migrazioni copiata nello scratchpad: aggiunti 246_sistema_i_permessi.sql (CREATE TABLE public.v5_primo) e 247_sistema_i_permessi.sql (CREATE TABLE public.v5_secondo); lanciati `SUPABASE_DB_URL=postgresql:///<copia>?host=/var/run/postgresql bash scripts/applica-migrazioni-mancanti.sh`, `node scripts/check-migration-drift.mjs`, `QUANTE=0 ULTIMA=247 bash scripts/conta-migrazioni-mancanti.sh`, poi `select to_regclass('public.v5_secondo')`. Seconda prova: una riga con uno dei nomi storici reali del registro di produzione, aggiunta al registro della copia, più un file 246 con lo stesso nome.",
+      "esito_prova": "Prima prova: «applicate 1 · gia' presenti 179» (exit 0), deriva exit 0, «Il conto torna: ne mancano 0, l'ultima e' la 247», v5_secondo = NULL. Seconda prova: «applicate 0 · gia' presenti 179», deriva exit 0, tabella non creata. Controprova: nomi doppi oggi fra i 178 file = 0 (`sed 's#.*/[0-9]*[a-z]*_##' | sort | uniq -d` vuoto).",
+      "verificato_da": "Verificatore qa indipendente (V5): ha riletto i tre script e rifatto le due prove su copie sue; meccanismo confermato, gravità abbassata da grave a minore perché oggi nessun nome è doppio e serve che una sessione futura ripeta un nome. Non coperto dalla voce 796 del registro (che parla del contenuto dei file)."
+    },
+    {
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "id": "S05-009",
+      "dimensione": "deploy-sre",
+      "titolo": "La prova «migrazione su database pieno» mette ancora i file nell'ordine vecchio",
+      "severita": "minore",
+      "file": "tests/sql/harness/migrazione-su-database-pieno.sh:42 · tests/sql/harness/migrazione-su-database-pieno.sh:50",
+      "descrizione": "Lo script ordina le migrazioni con `sort -V` (righe 42 e 50), mentre il rilascio, apply.sh e il generatore dei tipi usano `LC_ALL=C sort` dopo la riparazione della voce 18 del registro. Con `sort -V` la 052b passa prima della 052 e la 108b prima della 108.",
+      "impatto": "Oggi innocuo: le due coppie non dipendono l'una dall'altra. Se domani una migrazione «b» dipende dalla sua sorella senza lettera, questa prova la applica nell'ordine sbagliato e dà un rosso (o un verde) che il rilascio vero non vedrebbe.",
+      "fix": "Sostituire `sort -V` con `LC_ALL=C sort` alle righe 42 e 50, come negli altri tre posti.",
+      "causa_radice": "La riparazione della voce 18 ha elencato tre file (applica, apply.sh, gen-db-types) e non ha cercato gli altri `sort -V`.",
+      "prova": "`cd marketplace && diff <(ls migrations/*.sql | sort -V) <(ls migrations/*.sql | LC_ALL=C sort)` e `grep -n 'sort -V' tests/sql/harness/migrazione-su-database-pieno.sh`",
+      "esito_prova": "diff diverso su 2 coppie su 178 file (052b/052 e 108b/108); grep: righe 42 e 50.",
+      "verificato_da": "Verificatore qa indipendente (V5): confermato, minore; riparazione incompleta della voce 18 (riparato), non regressione."
+    },
+    {
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "id": "S05-010",
+      "dimensione": "rls-database",
+      "titolo": "Il database accetta un codice sconto del 150% e importi in soldi negativi",
+      "severita": "minore",
+      "file": "migrations/014_mvp_sprint.sql:130 · lib/coupons.ts:137-138 · app/admin/coupons/page.tsx:188-194",
+      "descrizione": "La tabella coupons ha un controllo solo sul tipo (014:130), non sul valore: uno sconto PERCENT con value 150 entra, e così uses_count oltre max_uses o negativo. Il modulo dell'amministrazione mette `min={0}` ma nessun massimo (188-194). Anche su orders mancano i controlli per shipping_cost, discount_amount, application_fee_cents, cash_collected_cents negativi e per payment_method (testo libero); su disputes manca per refund_cents, su gift_cards per voided_cents. La cassa taglia lo sconto a «carrello meno un centesimo» (lib/coupons.ts:137-138 e lib/stripe/ripartizione.ts:54-68).",
+      "impatto": "Esempio: l'amministratore crea un codice «150» invece di «15». Un cliente con 20 € di spesa si vede uno sconto di 30 € e paga 1 centesimo: il negozio incassa quasi niente fino a quando qualcuno se ne accorge. Gli altri importi li scrive solo la chiave di servizio, quindi servono un errore nel codice del sito per riempirli male.",
+      "fix": "Aggiungere CHECK: coupons.value tra 0 e 100 per PERCENT e > 0 per FIXED; uses_count tra 0 e max_uses; importi in soldi ≥ 0 sulle colonne citate; payment_method in un elenco chiuso. Nel modulo admin `max={100}` per le percentuali.",
+      "causa_radice": "I «paletti sui soldi» (146 e voce 696 del registro) hanno coperto solo alcune colonne; i codici sconto e le colonne aggiunte dopo sono rimasti senza.",
+      "prova": "Su una copia locale piena, da superuser, in BEGIN…ROLLBACK: insert in coupons di un codice PERCENT value 150, uno con value -5, uno con uses_count 7 e max_uses 1, uno con uses_count -3; poi come cliente `select check_coupon('P150', 20)`; insert in orders con shipping_cost -50, discount_amount -20, application_fee_cents -500, cash_collected_cents -100, payment_method 'bitcoin'.",
+      "esito_prova": "`INSERT 0 2` due volte sui codici; check_coupon → {\"ok\": true, … \"discount\": 30.00}; l'ordine impossibile → `INSERT 0 1`.",
+      "verificato_da": "Verificatore qa indipendente (V7): confermato, minore, estensione della voce 696 (riparata, altre colonne) e non regressione."
+    },
+    {
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "id": "S05-011",
+      "dimensione": "rls-database",
+      "titolo": "Un reclamo può restare legato a un ordine che non esiste",
+      "severita": "minore",
+      "file": "migrations/027_growth_engagement_foundations.sql:330",
+      "descrizione": "disputes.order_id è `uuid NOT NULL` senza REFERENCES orders (027:330) e nessuna migrazione successiva aggiunge il legame. Lo stesso vale per loyalty_transactions.order_id e zone_code_uses.order_id. La regola di inserimento obbliga l'utente a scegliere un ordine suo, quindi l'orfano nasce solo se l'ordine viene cancellato dopo.",
+      "impatto": "Esempio: un ordine viene cancellato a mano dall'amministrazione mentre c'è un reclamo aperto. Il reclamo resta nel pannello senza ordine, il blocco del bonifico non trova più l'ordine e nessuno sa a chi restituire i soldi.",
+      "fix": "Aggiungere `FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE RESTRICT` alle tre tabelle, dopo aver controllato che non ci siano orfani (in produzione oggi c'è un solo ordine).",
+      "causa_radice": "La tabella è nata nella 027 senza chiavi esterne; le revisioni successive hanno messo gli indici sulle chiavi esistenti ma non hanno cercato le colonne *_id senza chiave.",
+      "prova": "Su una copia locale piena, da superuser, in BEGIN…ROLLBACK: `INSERT INTO disputes(order_id, reason, description) VALUES ('11111111-0000-0000-0000-000000000000','x','y')`; poi la query delle colonne order_id senza chiave esterna su information_schema.",
+      "esito_prova": "`INSERT 0 1`; colonne order_id senza chiave esterna: 4 (fra cui disputes, loyalty_transactions, zone_code_uses).",
+      "verificato_da": "Verificatore qa indipendente (V7): confermato, minore e latente; nessuna voce del registro (la 765 parla di opener_id)."
+    },
+    {
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "id": "S05-012",
+      "dimensione": "architettura",
+      "titolo": "I tipi generati dal database sbagliano su 7 colonne che possono restare vuote",
+      "severita": "minore",
+      "file": "scripts/gen-db-types.mjs:78 · lib/database.types.ts:1-30",
+      "descrizione": "Il generatore decide «mai vuoto» solo da `NOT NULL` o `PRIMARY KEY` nella CREATE TABLE (gen-db-types.mjs:78) e non legge gli `ALTER COLUMN … DROP/SET NOT NULL` delle migrazioni successive (per esempio 215:156, 122:354-357, 030:203). Risultato: conversations.buyer_id e seller_id, disputes.opener_id, referrals.referred_id, returns.buyer_id e seller_id risultano `string` ma possono essere vuote; orders.shipping_cost risulta `number | null` ma è obbligatoria.",
+      "impatto": "Oggi nessun file usa i tipi di quelle tabelle, quindi il danno è solo potenziale. Domani chi scrive una pagina dei resi si fida del tipo «sempre un id» e il sito si rompe sul primo reso di un account cancellato.",
+      "fix": "Nel generatore applicare anche gli ALTER COLUMN DROP/SET NOT NULL, oppure generare i tipi dalla copia ricostruita (information_schema) invece che dal testo delle migrazioni; aggiungere una prova che confronta la nullabilità generata con la copia.",
+      "causa_radice": "Il generatore legge il testo delle migrazioni invece dello schema che ne risulta.",
+      "prova": "Su una copia locale piena: query su information_schema.columns per le 7 colonne (is_nullable) e confronto con le righe Row di lib/database.types.ts generate da `node scripts/gen-db-types.mjs` in una cartella temporanea.",
+      "esito_prova": "6 colonne YES nel database ma `string` nei tipi; orders.shipping_cost NO nel database ma `number | null` nei tipi: 7 su 7.",
+      "verificato_da": "Verificatore qa indipendente (V7): confermato, minore e latente; trovato da due cercatori separati in modo identico; nessuna voce del registro sulla nullabilità."
+    },
+    {
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": "S04",
+      "riservato": false,
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "id": "S05-013",
+      "dimensione": "sicurezza-auth",
+      "titolo": "I file di dati di esempio nel deposito pubblico creano un amministratore e dei negozi con password scritte in chiaro",
+      "severita": "minore",
+      "file": "seeds/006_admin_swap.sql:4-10 · seeds/007_mycity_seller.sql:13-15 · seeds/005_admin_and_rider.sql:9 · seeds/001_piacenza_stores.sql:16",
+      "descrizione": "I seed creano utenti con password fisse scritte nel file (`crypt('«password dei dati di esempio»'…)` e `crypt('«password dei dati di esempio»'…)`), con email già confermata: un amministratore admin@piacenza-demo.local, un fattorino, sedici negozi demo e il negozio di sistema. Nessun controllo impedisce di lanciarli sul database di produzione, e il dominio @piacenza-demo.local non è bloccato da nessuna parte del sito.",
+      "impatto": "Oggi in produzione non è sfruttabile: dei seed restano 2 account (un cliente e un fattorino sospeso), nessun amministratore, e nessuno con la password dei seed ancora valida. Se qualcuno rilancia il 006 o il 007 sulla produzione, nasce un amministratore con una password che chiunque legge su GitHub.",
+      "fix": "Togliere le password dai seed (generarle a caso al lancio e stamparle una volta) e mettere in testa a ogni seed un controllo che si ferma se il database ha già ordini veri o se il progetto è quello di produzione.",
+      "causa_radice": "I seed sono nati per la demo locale e sono rimasti nel deposito quando è diventato pubblico.",
+      "prova": "`grep -n \"crypt('\" seeds/*.sql` nel codice del sito; in produzione, in sola lettura, conteggi su auth.users e profiles per gli account con email @piacenza-demo.local o @mycity-system.local, per ruolo e stato.",
+      "esito_prova": "grep: 3 seed con «password dei dati di esempio», 1 con «password dei dati di esempio». Produzione: 2 account dei seed (ruolo buyer, e ruolo rider con stato suspended), 0 amministratori dei seed.",
+      "verificato_da": "Verificatore qa indipendente (V7): confermato il fatto nel deposito, gravità abbassata da critico a minore perché in produzione nessun account dei seed ha più quella password e nessuno è amministratore."
+    },
+    {
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "id": "S05-014",
+      "dimensione": "rls-database",
+      "titolo": "Chi apre un reclamo può indirizzarlo a un negozio qualunque, e il negozio giusto non lo vede",
+      "severita": "minore",
+      "file": "migrations/215_minori_s04_database.sql:276-277 · migrations/027_growth_engagement_foundations.sql:350-351 · app/orders/[id]/dispute/page.tsx:92-95",
+      "descrizione": "La regola di inserimento dei reclami (215:276-277) controlla che l'ordine sia di chi lo apre, ma non che against_id sia il negozio di quell'ordine. La lettura (027:350-351) si basa su against_id. Il sito scrive against_id = seller dell'ordine (dispute/page.tsx:92-95), ma chi chiama il database direttamente può metterci chi vuole.",
+      "impatto": "Esempio: un cliente apre un reclamo sul suo ordine del Pane Quotidiano ma lo indirizza a un altro negozio. In amministrazione il reclamo risulta «contro» il negozio sbagliato. Il blocco del bonifico scatta comunque sull'ordine giusto, quindi i soldi non si spostano.",
+      "fix": "Nel WITH CHECK aggiungere `against_id = (select seller_id from orders where id = order_id)` per il cliente, e viceversa per il negozio, oppure un trigger che lo calcola dall'ordine.",
+      "causa_radice": "Il campo è scritto dal client invece di essere calcolato dal database.",
+      "prova": "Su una copia locale piena, in BEGIN…ROLLBACK, come cliente con un ordine consegnato del negozio 1111: insert in disputes con against_id = negozio 2222; poi lettura come 2222 e come 1111.",
+      "esito_prova": "`INSERT 0 1`; il negozio 2222 legge il reclamo, il negozio 1111 ne vede 0.",
+      "verificato_da": "Verificatore qa indipendente (V6): meccanismo confermato, ridimensionato a difetto di integrità del dato (non falla: chi apre il reclamo mostra solo un suo testo sul proprio ordine); nessuna voce nel registro."
+    },
+    {
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "id": "S05-015",
+      "dimensione": "rls-database",
+      "titolo": "Un negozio o un fattorino già approvato può cancellare da solo i propri documenti d'identità",
+      "severita": "minore",
+      "file": "migrations/041_kyc_invoices_buckets.sql:41-42 · app/api/kyc/upload-document/route.ts:72",
+      "descrizione": "La regola «kyc-docs delete owner» (041:41-42) lascia al titolare cancellare i file della propria cartella nello spazio dei documenti, senza guardare se è già stato approvato. Il sito cancella solo lato server (upload-document/route.ts:72), quindi la regola per il browser non serve a nessuna pagina.",
+      "impatto": "Esempio: un negozio approvato il 10/11 cancella la carta d'identità il giorno dopo. Al primo reclamo o controllo antiriciclaggio MyCity non ha più la prova di chi ha approvato.",
+      "fix": "Togliere la regola di cancellazione per gli utenti (le cancellazioni le fa già il server) oppure limitarla a chi è ancora in attesa di approvazione.",
+      "causa_radice": "La regola è nata per permettere di rifare il caricamento durante l'iscrizione e non è stata ristretta dopo l'approvazione.",
+      "prova": "Su una copia locale piena, in BEGIN…ROLLBACK, come negozio 1111 approvato con un file 1111/carta-identita.jpg nello spazio kyc-docs: `delete from storage.objects where bucket_id='kyc-docs' and name='1111/carta-identita.jpg'`.",
+      "esito_prova": "`DELETE 1`.",
+      "verificato_da": "Verificatore qa indipendente (V6): confermato, minore, non falla (dato proprio); le voci 105, 122 e 1096 del registro parlano d'altro."
+    }
+  ],
+  "regressioni": [
+    {
+      "chiave": "rls-database|un negozio sospeso può rimettersi da solo in coda per l'approvazione rimandando il modulo da /sell",
+      "indice": 2126,
+      "prova": "Su una copia locale piena (178 migrazioni), in BEGIN…ROLLBACK, come negozio 2222 con approval_status = 'suspended': `update profiles set approval_status = 'pending' where id = '2222…'`. La funzione di guardia enforce_profile_update_rules (ultima versione in migrations/119_radiografia_18_agosto.sql:117-121) accetta 'pending' da qualunque stato.",
+      "esito_prova": "`UPDATE 1`, riga 2222 | pending | is_approved f. Il blocco esiste solo nell'app (app/sell, rotta seller/apply); la voce 2126 è segnata gia_riparato_prima e cita proprio la 119. Gravità minore: is_approved resta falso, si perde solo il segno «sospeso»."
+    }
+  ],
+  "ricontrolli": [],
+  "prove_per_la_palestra": [
+    {
+      "id": "S05-P001",
+      "funzione": "codice sconto in cassa",
+      "chi": "admin",
+      "file": "app/admin/coupons/page.tsx · lib/coupons.ts",
+      "dati_di_prova": "un codice percentuale 150 e uno 15; carrello da 20 €",
+      "passi": "creare il codice 150 dal pannello; poi da cliente applicarlo al carrello",
+      "atteso": "il pannello rifiuta 150; se passa, la cassa non scende sotto il prezzo minimo deciso",
+      "limite": "valori sbagliati di battitura, codici usati più volte di max_uses da due clienti nello stesso secondo"
+    },
+    {
+      "id": "S05-P002",
+      "funzione": "aprire un reclamo",
+      "chi": "cliente",
+      "file": "app/orders/[id]/dispute/page.tsx",
+      "dati_di_prova": "un ordine consegnato del negozio A; un secondo negozio B",
+      "passi": "aprire un reclamo dalla pagina dell'ordine; controllare in amministrazione contro chi risulta e che il bonifico ad A sia bloccato",
+      "atteso": "il reclamo è contro A, il bonifico di A è fermo, B non lo vede",
+      "limite": "doppio clic su «Invia reclamo», ordine poi annullato dall'amministrazione"
+    },
+    {
+      "id": "S05-P003",
+      "funzione": "negozio sospeso che rimanda la domanda",
+      "chi": "negozio",
+      "file": "app/sell/page.tsx · app/api/seller/apply/route.ts",
+      "dati_di_prova": "un negozio con stato sospeso",
+      "passi": "aprire /sell e rimandare il modulo di iscrizione",
+      "atteso": "il sito rifiuta e lo stato resta «sospeso»",
+      "limite": "modulo mandato due volte di fila; sessione scaduta a metà"
+    },
+    {
+      "id": "S05-P004",
+      "funzione": "caricare e cancellare i documenti d'identità",
+      "chi": "negozio",
+      "file": "app/api/kyc/upload-document/route.ts · lib/storage/percorso-caricamento.ts",
+      "dati_di_prova": "un negozio approvato con i documenti caricati",
+      "passi": "provare a sostituire o cancellare la carta d'identità dall'area negozio",
+      "atteso": "dopo l'approvazione i documenti non si tolgono senza l'amministrazione",
+      "limite": "file grande (oltre 10 MB), rete lenta durante il caricamento"
+    },
+    {
+      "id": "S05-P005",
+      "funzione": "foto dei prodotti nella cartella giusta",
+      "chi": "negozio",
+      "file": "lib/storage/percorso-caricamento.ts · app/seller/products/new/page.tsx",
+      "dati_di_prova": "due negozi A e B",
+      "passi": "da A caricare la foto di un prodotto",
+      "atteso": "la foto finisce fra quelle del negozio A",
+      "limite": "due negozi insieme"
+    },
+    {
+      "id": "S05-P006",
+      "funzione": "vetrina pubblica dei prodotti",
+      "chi": "estraneo",
+      "file": "app/product/[id]/page.tsx",
+      "dati_di_prova": "un prodotto di un negozio approvato e uno di un negozio non approvato",
+      "passi": "aprire le due schede senza account",
+      "atteso": "si vede solo il prodotto del negozio approvato; nessun dato del negoziante oltre il nome pubblico",
+      "limite": "id inventato nella barra dell'indirizzo"
+    },
+    {
+      "id": "S05-P007",
+      "funzione": "ordine in contanti e importi",
+      "chi": "cliente",
+      "file": "app/api/orders/cod/route.ts · app/checkout/page.tsx",
+      "dati_di_prova": "carrello da 12,95 € con consegna",
+      "passi": "fare un ordine in contanti e confrontare totale, righe e consegna nel riepilogo e nel pannello del negozio",
+      "atteso": "totale = righe + consegna − sconto, al centesimo, uguale ovunque",
+      "limite": "due ordini dallo stesso carrello in due schede insieme"
+    },
+    {
+      "id": "S05-P008",
+      "funzione": "profilo del cliente",
+      "chi": "cliente",
+      "file": "app/profile/page.tsx",
+      "dati_di_prova": "due clienti A e B",
+      "passi": "da A aprire il profilo e cambiare nome e indirizzo",
+      "atteso": "A cambia solo i suoi dati",
+      "limite": "due clienti insieme"
+    },
+    {
+      "id": "S05-P009",
+      "funzione": "guadagni del fattorino",
+      "chi": "fattorino",
+      "file": "app/rider/earnings/page.tsx",
+      "dati_di_prova": "due fattorini con consegne diverse",
+      "passi": "aprire i guadagni da tutti e due",
+      "atteso": "ognuno vede solo le sue consegne e i suoi importi",
+      "limite": "più di sette giorni di consegne; fattorino sospeso"
+    },
+    {
+      "id": "S05-P010",
+      "funzione": "prodotti del negozio",
+      "chi": "negozio",
+      "file": "app/seller/products/page.tsx",
+      "dati_di_prova": "due negozi A e B con un prodotto ciascuno",
+      "passi": "da A aprire l'elenco prodotti e cambiare il prezzo di un suo prodotto",
+      "atteso": "A cambia solo i suoi prodotti",
+      "limite": "due negozi insieme"
+    }
+  ],
+  "domande_per_nicola": [
+    "In produzione esistono 5 tabelle del Pannello (telegram_chats, uptime_checks, kpi_snapshots, merchants_leads, outreach_events) e una funzione che non nascono da nessuna migrazione del sito: un database ricostruito dal deposito non le ha. Vanno portate in una migrazione, o spostate nel database del Pannello?",
+    "Nel database vero restano 2 account creati dai dati di esempio (un cliente e un fattorino sospeso), più 2 email da prova su 8 account in tutto: si cancellano prima dell'apertura?"
+  ],
+  "conto": {
+    "agenti": 12,
+    "token_sessione": {
+      "totali": {
+        "agenti": 1,
+        "agenti_misurati": 1,
+        "turni": 88,
+        "input": 184,
+        "scritti_cache": 340303,
+        "letti_cache": 24608422,
+        "uscita": 82716,
+        "entrata_totale": 24948909
+      },
+      "contatori": {
+        "con_letture_cache": 25031625,
+        "senza_letture_cache": 423203
+      }
+    },
+    "token_subagenti": {
+      "agenti": 12,
+      "totali": {
+        "agenti": 12,
+        "agenti_misurati": 12,
+        "turni": 315,
+        "input": 630,
+        "scritti_cache": 803912,
+        "letti_cache": 31712701,
+        "uscita": 197506,
+        "entrata_totale": 32517243
+      },
+      "contatori": {
+        "con_letture_cache": 32714749,
+        "senza_letture_cache": 1002048
+      }
+    },
+    "token_workflow": [],
+    "nota": "Misurato con cervello/conto-token.mjs (--sessione sul transcript principale, --dir sui subagenti). 12 agenti: 4 cercatori, 7 verificatori qa, 1 seconda lente. Nessun workflow."
+  }
+}

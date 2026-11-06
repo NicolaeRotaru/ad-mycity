@@ -1,0 +1,2034 @@
+{
+  "sessione": "S07",
+  "base_sito": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
+  "aggiornato": "2026-11-06 12:09",
+  "finita": true,
+  "copertura": {
+    "file_letti_interi": [
+      "components/seller/orari-validi.ts",
+      "app/seller/products/import/csv.ts"
+    ],
+    "file_letti_in_parte": [
+      {
+        "file": "app/admin/users/page.tsx",
+        "righe": "414-549"
+      },
+      {
+        "file": "app/api/ai/catalog-batch/apply/route.ts",
+        "righe": "73-98"
+      },
+      {
+        "file": "app/api/ai/catalog-batch/start/route.ts",
+        "righe": "33-33"
+      },
+      {
+        "file": "app/api/chat/mark-read/route.ts",
+        "righe": "40-51"
+      },
+      {
+        "file": "app/api/chat/messages/route.ts",
+        "righe": "59-127"
+      },
+      {
+        "file": "app/api/geocode/route.ts",
+        "righe": "23-57"
+      },
+      {
+        "file": "app/api/kyc/start-check/route.ts",
+        "righe": "154-161"
+      },
+      {
+        "file": "app/api/kyc/upload-document/route.ts",
+        "righe": "244-284"
+      },
+      {
+        "file": "app/api/rider/orders/[id]/cliente-assente/route.ts",
+        "righe": "55-68"
+      },
+      {
+        "file": "app/messages/[id]/page.tsx",
+        "righe": "161-200"
+      },
+      {
+        "file": "app/notifications/page.tsx",
+        "righe": "108-125"
+      },
+      {
+        "file": "app/rider/availability/page.tsx",
+        "righe": "81-101"
+      },
+      {
+        "file": "app/rider/onboarding/page.tsx",
+        "righe": "176-179"
+      },
+      {
+        "file": "app/rider/orders/[id]/page.tsx",
+        "righe": "722-727"
+      },
+      {
+        "file": "app/rider/page.tsx",
+        "righe": "179-597"
+      },
+      {
+        "file": "app/rider/profile/page.tsx",
+        "righe": "121-155"
+      },
+      {
+        "file": "app/seller/analytics/letture-dell-andamento.ts",
+        "righe": "45-48"
+      },
+      {
+        "file": "app/seller/analytics/page.tsx",
+        "righe": "42-384"
+      },
+      {
+        "file": "app/seller/orders/[id]/page.tsx",
+        "righe": "621-632"
+      },
+      {
+        "file": "app/seller/products/ai-batch/page.tsx",
+        "righe": "376-470"
+      },
+      {
+        "file": "app/seller/products/import/page.tsx",
+        "righe": "110-123"
+      },
+      {
+        "file": "app/seller/products/new/page.tsx",
+        "righe": "63-67"
+      },
+      {
+        "file": "app/seller/products/page.tsx",
+        "righe": "185-454"
+      },
+      {
+        "file": "app/seller/profile/page.tsx",
+        "righe": "143-181"
+      },
+      {
+        "file": "app/seller/promotions/page.tsx",
+        "righe": "39-292"
+      },
+      {
+        "file": "app/seller/promotions/stato-promo.ts",
+        "righe": "5-10"
+      },
+      {
+        "file": "app/seller/reviews/page.tsx",
+        "righe": "169-197"
+      },
+      {
+        "file": "app/seller/stories/page.tsx",
+        "righe": "121-281"
+      },
+      {
+        "file": "app/store/[id]/layout.tsx",
+        "righe": "93-95"
+      },
+      {
+        "file": "app/store/[id]/page.tsx",
+        "righe": "77-77"
+      },
+      {
+        "file": "components/StoreLocationPicker.tsx",
+        "righe": "165-174"
+      },
+      {
+        "file": "components/StoryViewer.tsx",
+        "righe": "255-270"
+      },
+      {
+        "file": "components/VendorForm.tsx",
+        "righe": "80-213"
+      },
+      {
+        "file": "components/home/StoriesCarousel.tsx",
+        "righe": "73-73"
+      },
+      {
+        "file": "components/providers/QueryProvider.tsx",
+        "righe": "15-17"
+      },
+      {
+        "file": "components/seller/ProductForm.tsx",
+        "righe": "359-916"
+      },
+      {
+        "file": "components/seller/SellerOnboardingChecklist.tsx",
+        "righe": "73-84"
+      },
+      {
+        "file": "components/seller/StoreHoursEditor.tsx",
+        "righe": "61-75"
+      },
+      {
+        "file": "components/seller/site/MenuEditor.tsx",
+        "righe": "21-48"
+      },
+      {
+        "file": "components/seller/site/PageListEditor.tsx",
+        "righe": "44-48"
+      },
+      {
+        "file": "components/seller/site/StoreDetailsEditor.tsx",
+        "righe": "48-68"
+      },
+      {
+        "file": "components/seller/site/ThemePicker.tsx",
+        "righe": "64-69"
+      },
+      {
+        "file": "lib/analytics/visita-prodotto.ts",
+        "righe": "35-35"
+      },
+      {
+        "file": "lib/email/avviso-messaggio-negozio.ts",
+        "righe": "65-151"
+      },
+      {
+        "file": "lib/email/templates.ts",
+        "righe": "311-311"
+      },
+      {
+        "file": "lib/errors.ts",
+        "righe": "17-17"
+      },
+      {
+        "file": "lib/funzioni-al-lancio.ts",
+        "righe": "79-79"
+      },
+      {
+        "file": "lib/maggiore-eta.ts",
+        "righe": "82-120"
+      },
+      {
+        "file": "lib/ordini/annulla.ts",
+        "righe": "363-384"
+      },
+      {
+        "file": "lib/products/draftFromVision.ts",
+        "righe": "139-162"
+      },
+      {
+        "file": "lib/products/schema.ts",
+        "righe": "111-119"
+      },
+      {
+        "file": "lib/store-customization.ts",
+        "righe": "50-265"
+      },
+      {
+        "file": "lib/store-hours.ts",
+        "righe": "30-45"
+      },
+      {
+        "file": "lib/store-site.ts",
+        "righe": "258-394"
+      },
+      {
+        "file": "middleware.ts",
+        "righe": "270-292"
+      },
+      {
+        "file": "migrations/035_seller_stories_cashback.sql",
+        "righe": "23-23"
+      },
+      {
+        "file": "migrations/119_radiografia_18_agosto.sql",
+        "righe": "80-96"
+      },
+      {
+        "file": "migrations/123_presa_ordine_dal_fattorino.sql",
+        "righe": "44-62"
+      },
+      {
+        "file": "migrations/135_le_prove_scadono.sql",
+        "righe": "30-60"
+      },
+      {
+        "file": "migrations/149_la_scheda_prodotto_ha_una_misura.sql",
+        "righe": "65-78"
+      },
+      {
+        "file": "migrations/156_niente_fattorini_minorenni.sql",
+        "righe": "81-86"
+      },
+      {
+        "file": "migrations/215_minori_s04_database.sql",
+        "righe": "670-720"
+      }
+    ],
+    "file_eseguiti": [
+      {
+        "file": "app/seller/products/import/csv.ts",
+        "comando": "node <scratchpad>/prove/p-prezzo.cjs (leggiPrezzo importata con jiti)",
+        "esito": "\"1.500\" -> 1.5, \"€ 1.250\" -> 1.25, \"1.500,00\" -> 1500, \"12,50\" -> 12.5"
+      },
+      {
+        "file": "components/seller/orari-validi.ts",
+        "comando": "node <scratchpad>/prove/p-orari.cjs",
+        "esito": "18:00-00:00 -> errore «L'orario di chiusura deve venire dopo quello di apertura.»; 18:00-23:59 -> null; prossimaFascia dopo 19-23 -> 22:00-23:59"
+      },
+      {
+        "file": "components/StoryViewer.tsx",
+        "comando": "node <scratchpad>/prove/p-link.cjs (renderToString di next/link con href javascript:)",
+        "esito": "<a href=\"javascript:...\"> reso con solo un avviso di React 18; in produzione la CSP con nonce e strict-dynamic (middleware.ts:274-284) blocca l'esecuzione: non è una falla"
+      },
+      {
+        "file": "tests/sql/harness/apply.sh",
+        "comando": "tests/sql/harness/apply.sh mycity_s07_1",
+        "esito": "applicate 178 migrazioni, fallite 0"
+      },
+      {
+        "file": "tests/unit/ai-catalog-batch.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/ai-lotto-non-tocca-i-soldi.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/ai-negozi-diciamo-un-prezzo-solo.test.tsx",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/aiuti/cruscotto-del-negozio.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/al-negozio-diciamo-la-commissione-che-tratteniamo-davvero.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/al-negozio-non-promettiamo-la-banca-un-ora-dopo.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/allergeni-letti-dalle-foto-entrano-solo-con-la-spunta.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/attiva-dall-elenco-non-mette-in-vendita-un-alimento-senza-allergeni.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/chi-corregge-la-descrizione-non-rimette-in-magazzino-la-merce-venduta.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/chiuso-per-ferie-ferma-gli-ordini-e-il-ritiro-spento-non-si-offre.test.tsx",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/con-proposte-aperte-il-modulo-non-dice-gia-a-posto.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/dalla-chat-un-alimento-non-va-in-vendita-senza-i-controlli-del-modulo.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/dopo-la-dettatura-il-negoziante-sa-cosa-scrivere-lui.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/dopo-una-scorta-cambiata-lista-e-modulo-ripartono-dalla-banca-dati.test.tsx",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/i-lavori-a-orario-si-fermano-finche-nicola-non-li-accende.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/il-cancello-dei-totali-non-si-apre-per-una-colonna-in-piu.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/il-copilot-dice-cosa-non-e-entrato.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/il-credito-mycity-conta-nell-incasso-del-negozio.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/il-modulo-dice-aggiornato-solo-se-ha-scritto-qualcosa.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/il-negoziante-legge-perche-il-prezzo-non-e-entrato.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/il-negoziante-vede-il-fatturato-anche-quando-le-visite-non-si-leggono.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/il-negozio-non-mette-una-formula-nel-foglio-del-commercialista.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/il-nome-che-scrive-l-assistente-ha-una-misura.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/il-numero-whatsapp-che-non-esiste.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/il-pannello-dei-contanti-dice-il-compenso-tenuto-davvero.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/il-prezzo-che-esce-dalla-foto-non-scavalca-quello-del-negozio.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/il-prezzo-che-propone-l-assistente-passa-sempre-dalla-stessa-banda.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/il-rimborso-al-cliente-scende-dai-guadagni-del-negozio.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/il-riquadro-della-bozza-dice-solo-quello-che-e-entrato.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/il-si-no-dice-la-stessa-cosa-in-tutti-i-punti.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/il-testo-di-terzi-e-un-dato-non-un-ordine.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/il-tuo-netto-dice-che-periodo-copre.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/in-amministrazione-il-modulo-non-si-apre-senza-le-varianti.test.tsx",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/intestazione-falsa-e-immagini-enormi.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/l-ai-non-mette-un-prezzo-pieno-barrato.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/l-alt-della-foto-non-entra-senza-tetto-nella-bozza.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/l-andamento-del-negozio-non-scarica-ventimila-righe.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/l-incasso-in-contanti-si-dichiara-prima-e-si-recupera-dopo.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/l-usato-non-entra-da-nessuna-porta.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/la-bacheca-dice-quando-non-sa-gli-incassi.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/la-chat-con-l-assistenza-si-chiama-assistenza-mycity.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/la-chat-del-prodotto-dice-quello-che-il-modulo-ha-scritto.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/la-chat-dice-cosa-non-e-entrato-al-posto-di-salvate.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/la-chat-mostra-la-proposta-che-il-server-applica.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/la-foto-piccola-avvisa-il-negoziante.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/la-foto-rifiutata-lo-dice-in-italiano.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/la-modifica-del-prodotto-non-si-apre-senza-le-varianti.test.tsx",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/la-porta-del-catalogo-non-promette-piu-di-quello-che-fa.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/la-porta-del-catalogo-non-scrive-una-scorta-che-nel-frattempo-e-cambiata.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/la-scheda-della-chat-dice-quello-che-entra-davvero.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/la-scheda-in-chat-non-dice-salvate-se-il-prezzo-non-e-entrato.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/la-scorta-si-confronta-con-quella-vista-non-con-quella-scritta.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/la-spunta-del-recesso-si-salva-anche-in-modifica.test.tsx",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/la-variante-mai-vista-non-si-cancella.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/la-vetrina-del-negozio-resta-nei-colori-del-sito.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/le-dichiarazioni-di-un-alimento-le-scrive-il-negoziante.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/le-parole-dell-assistente-non-fanno-da-conferma.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/le-proposte-dell-assistente-restano-finche-decidi-tu.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s01-netto-del-cruscotto.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s01-numeri-del-negozio.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s02-cliente-assente.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s02-consegna-del-fattorino.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s02-pagine-del-fattorino.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s03-prezzi-esterni.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s05-esame-fattorino.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s05-nuovo-prodotto.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s05-prodotto-admin.test.tsx",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s06-ai-studio.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s06-bacheca-del-negozio.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s06-candidatura-del-negozio.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s06-caricamento-da-file.test.tsx",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s06-centro-venditori.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s06-chat-del-prodotto.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s06-condizione-del-prodotto.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s06-date-delle-campagne.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s06-dettatura-senza-categoria.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s06-duplica-prodotto.test.tsx",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s06-economia-del-prodotto.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s06-fascia-banner.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s06-formati-delle-foto.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s06-foto-del-prodotto.test.tsx",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s06-fotocamera.test.tsx",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s06-modifica-in-blocco.test.tsx",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s06-pagina-clienti.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s06-promozioni.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s06-proposte-dell-assistente.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s06-riepiloghi-della-chat.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s06-salvataggio-del-prodotto.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s06-scorta-in-modifica.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s06-social-del-negozio.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s06-vetrina-del-catalogo.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s06-vetrina-non-salvata.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s10-ai.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s10-import-da-link.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/minori-s10-vision.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/ogni-modifica-al-prodotto-lascia-scritto-cosa-cera-prima.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/products-ai-patch.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/products-draft-from-vision.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/products-economics.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/products-express.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/products-external-alert.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/products-external-sync.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/products-schema.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/products-variants.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/qualityMarks.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/store-customization.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/su-ogni-pagina-il-negozio-legge-la-commissione-che-tratteniamo.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/tornando-da-stripe-il-negozio-legge-lo-stato-vero.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/un-minorenne-non-si-iscrive-come-fattorino.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/un-ordine-vecchio-sa-ancora-cosa-hai-comprato.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/una-dichiarazione-che-la-scheda-non-ha-non-si-chiede.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/una-proposta-scritta-male-non-fa-cadere-la-chat.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/una-sola-definizione-di-fatturato.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      },
+      {
+        "file": "tests/unit/una-voce-scritta-male-non-ferma-le-modifiche-in-massa.test.ts",
+        "comando": "cd marketplace && npx vitest run <i 114 file di tests/unit che nominano un file di S07>",
+        "esito": "113 file e 1031 prove passate, exit 0 (2026-11-06 11:55)"
+      }
+    ],
+    "non_guardato": [
+      {
+        "cosa": "Le cifre dei Guadagni di negozio e fattorino (app/seller/earnings, app/rider/earnings, lib/guadagni/*)",
+        "perche": "sono di S02: qui solo come si leggono"
+      },
+      {
+        "cosa": "Soldi e Stripe dell'abbonamento del negozio",
+        "perche": "sono di S03 (già noti S03-002 e S03-003)"
+      },
+      {
+        "cosa": "Tetti di spesa, modelli e fornitore muto dell'intelligenza artificiale; abuso, prompt injection e chiavi",
+        "perche": "sono di S12 e S04; qui solo cosa fanno gli strumenti per il negozio"
+      },
+      {
+        "cosa": "AttributesFields, BarcodeScanner, BackgroundRemovalPreview, CameraCapture e lib/bg-removal",
+        "perche": "non letti a fondo per tempo: nessun cercatore li ha aperti oltre la superficie"
+      },
+      {
+        "cosa": "Le pagine guidate nel browser (Playwright)",
+        "perche": "il server locale avrebbe chiesto il database e gli accessi di prova: le prove di flusso sono scritte per la palestra"
+      },
+      {
+        "cosa": "L'app del negozio",
+        "perche": "arriva dopo il 15/11 e non sta nel codice del sito: non è un difetto (registro-fatti, avvisi.negozio)"
+      }
+    ]
+  },
+  "difetti": [
+    {
+      "id": "S07-001",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "qa-flussi",
+      "titolo": "Nella modifica veloce dei prezzi «1.500» diventa 1,50 euro, e il sito dice «aggiornato»",
+      "severita": "grave",
+      "file": "app/seller/products/import/csv.ts:92-96 · app/seller/products/page.tsx:186-261 · app/seller/products/page.tsx:449-454 · migrations/215_minori_s04_database.sql:670-720",
+      "descrizione": "leggiPrezzo tratta il punto come separatore delle migliaia solo se nella stessa stringa c'è anche una virgola (csv.ts:95: s.includes(',') ? … : s), altrimenti passa la stringa a Number(): «1.500» diventa 1.5. La modifica veloce dell'elenco prodotti (page.tsx:186-261, bulkSave) usa questa funzione su un campo di testo libero (input senza type, inputMode=\"decimal\", :449-454): il controllo (:193-198) ferma solo i valori illeggibili o minori o uguali a zero, poi scrive patch.price = n (:207-209) e mostra «N prodotti aggiornati» (:261). Il server (lib/products/salvataggio-tracciato.ts:461-466) controlla solo price > 0, il database solo price >= 0 (migrations/001:19). In più il trigger notify_favorite_price_drop (migrations/215:670-720) avvisa chi ha il prodotto nei preferiti «sceso del 100%: da 1500,00 a 1,50».",
+      "impatto": "Un negozio di bici scrive «1.500» per la bici da 1500 euro e salva: il prezzo diventa 1,50 euro, il prodotto resta in vendita, i clienti che l'avevano nei preferiti ricevono l'avviso di calo e un ordine con pagamento alla consegna nasce a 1,50 euro (app/api/orders/cod/route.ts legge il prezzo dal database). Lo stesso per «2.000» → 2 euro. L'import da file (spento al lancio) usa la stessa funzione.",
+      "fix": "In leggiPrezzo, un solo punto seguito da esattamente tre cifre e senza virgola va letto come migliaia o rifiutato con «scrivi 1500 o 1,50»; nella modifica veloce chiedere conferma quando il prezzo nuovo è sotto il 30% di quello vecchio.",
+      "causa_radice": "La scrittura «1.500» è ambigua e la funzione la risolve in silenzio all'inglese; nella modifica veloce non c'è nessun freno sui salti di prezzo enormi (la banda del 30% vale solo per l'AI, page.tsx:223-227).",
+      "prova": "cd marketplace && node <scratchpad>/verifica/v-grave1/prova-rossa.cjs; echo exit=$? (importa app/seller/products/import/csv.ts con jiti ed esce 1 se leggiPrezzo('1.500') !== 1500)",
+      "prova_tipo": "comando",
+      "esito_prova": "\"1.500\" -> 1.5 · \"€ 1.250\" -> 1.25 · \"2.000\" -> 2 · \"1.500,00\" -> 1500 · ROSSO: leggiPrezzo(\"1.500\") = 1.5 atteso 1500 · exit=1",
+      "verificato_da": "Verificatore qa (v-grave1): CONFERMATO, rilanciata la prova (exit 1), nessuna conferma né freno né vincolo nel database, trovata l'aggravante dell'avviso ai preferiti. Seconda lente qa (v-lente): pesa MINORE perché nei dati di prova il prezzo più alto è 189 euro e il campo si presenta già scritto senza punti; l'ho tenuto grave per l'avviso automatico ai clienti e per l'ordine che nasce al prezzo sbagliato."
+    },
+    {
+      "id": "S07-002",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "qa-flussi",
+      "titolo": "Il negozio aperto fino a mezzanotte non riesce a salvare 18:00–00:00, e il messaggio non dice di scrivere 23:59",
+      "severita": "minore",
+      "file": "components/seller/orari-validi.ts:29 · components/seller/orari-validi.ts:47-52 · components/seller/StoreHoursEditor.tsx:61-75 · lib/store-hours.ts:39-45",
+      "descrizione": "erroreDelleFasce rifiuta ogni fascia con chiusura <= apertura (orari-validi.ts:29), quindi 18:00–00:00 dà «L'orario di chiusura deve venire dopo quello di apertura.». Il resto del sito legge 00:00 come mezzanotte (store-hours.ts:39-45, migrazione 231). I campi sono type=time (StoreHoursEditor.tsx:61-75), che non permettono 24:00. In più prossimaFascia dopo una fascia 19:00–23:00 propone 22:00–23:59, che si sovrappone e poi viene rifiutata.",
+      "impatto": "Una pizzeria che apre alle 18 e chiude a mezzanotte prova a salvare 18:00–00:00 e viene fermata con un messaggio che non spiega l'alternativa (23:59).",
+      "fix": "In erroreDelleFasce trattare chiusura 00:00 con apertura > 0 come 1440, la stessa regola di intervalloInMinuti; in prossimaFascia non proporre una fascia se l'ultima finisce dopo le 21.",
+      "causa_radice": "La regola «00:00 = mezzanotte» è stata messa nella lettura degli orari ma non nel controllo dell'editor.",
+      "prova": "cd marketplace && node <scratchpad>/verifica/v-vetrina/a.cjs",
+      "prova_tipo": "comando",
+      "esito_prova": "[[\"18:00\",\"00:00\"]] editor-> \"L'orario di chiusura deve venire dopo quello di apertura.\" · [[\"18:00\",\"23:59\"]] -> null · isOpenNow 18-00 alle 23:30 -> true · prossima [\"22:00\",\"23:59\"] errore insieme: Due fasce si sovrappongono.",
+      "verificato_da": "Verificatore qa (v-vetrina): CONFERMATO"
+    },
+    {
+      "id": "S07-003",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "qa-flussi",
+      "titolo": "Basta un solo campo fuori regola e tutta la personalizzazione della vetrina sparisce, e il salvataggio dopo la cancella",
+      "severita": "minore",
+      "file": "lib/store-customization.ts:217-220 · components/seller/site/ThemePicker.tsx:64-69 · components/seller/site/StoreDetailsEditor.tsx:48",
+      "descrizione": "normalizeCustomization fa safeParse dell'intero oggetto e, se anche un solo campo non passa, torna {} (store-customization.ts:217-220). L'editor si apre vuoto e ThemePicker riscrive {theme:{accent}} sopra il resto. Oggi le due strade di scrittura passano dallo schema, quindi il caso nasce solo se lo schema in futuro diventa più severo (si toglie una copertina o un badge, si abbassa MAX_TAGLINE) o con una scrittura diretta: è latente.",
+      "impatto": "Se domani si toglie dalla tavolozza la copertina «lino», ogni negozio che la usa perde in vetrina motto, social e annuncio, e al primo cambio di colore li perde per sempre dal database.",
+      "fix": "Controllare ogni campo per conto suo e scartare solo quello invalido, tenendo gli altri.",
+      "causa_radice": "La lettura è tutto-o-niente: lo stesso pericolo era già stato visto per i colori ritirati (commento a :52-69) ma risolto solo per quel campo.",
+      "prova": "cd marketplace && node <scratchpad>/verifica/v-vetrina/b.cjs",
+      "prova_tipo": "comando",
+      "esito_prova": "valido -> {tagline, socials, announcement} · tagline di 81 caratteri -> {} · instagram con ? -> {} · cover sconosciuta -> {}",
+      "verificato_da": "Verificatore qa (v-vetrina): CAMBIATO, vero nel codice ma oggi raggiungibile solo con uno schema futuro più severo o una scrittura diretta; tenuto come minore latente"
+    },
+    {
+      "id": "S07-004",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "frontend-ux",
+      "titolo": "Un link del menu lasciato vuoto blocca «Salva sito» anche quando il menu è spento e il campo non si vede",
+      "severita": "minore",
+      "file": "components/seller/site/MenuEditor.tsx:21 · components/seller/site/MenuEditor.tsx:48 · lib/store-site.ts:258-276",
+      "descrizione": "Un link nuovo nasce con nome vuoto (MenuEditor.tsx:21); i link si mostrano solo con il menu acceso (:48), ma lo schema li controlla sempre (store-site.ts:258-276). Spegnendo il menu con un link a metà, il salvataggio viene rifiutato con «Menu, link 1, nome…» su un campo nascosto.",
+      "impatto": "Il negoziante preme «Aggiungi link», cambia idea, toglie «Mostra un menu» e preme Salva: il sito non si salva finché non riaccende il menu per trovare il campo.",
+      "fix": "Con il menu spento scartare i link incompleti prima del controllo, oppure mostrarli lo stesso con l'avviso.",
+      "causa_radice": "Lo schema controlla i link del menu senza guardare se il menu è acceso.",
+      "prova": "cd marketplace && node <scratchpad>/verifica/v-vetrina/cd.cjs",
+      "prova_tipo": "comando",
+      "esito_prova": "menu spento + link vuoto -> success false [\"menu\",\"links\",0,\"label\"] | messaggio: Menu, link 1, nome",
+      "verificato_da": "Verificatore qa (v-vetrina): CONFERMATO"
+    },
+    {
+      "id": "S07-005",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "frontend-ux",
+      "titolo": "Eliminando una pagina della vetrina, la voce del menu che la apriva sparisce senza avviso",
+      "severita": "minore",
+      "file": "components/seller/site/PageListEditor.tsx:44-48 · lib/store-site.ts:385-394",
+      "descrizione": "remove toglie solo la pagina (PageListEditor.tsx:44-48); i link del menu che puntano al suo pageId restano salvati e resolveMenu li salta in silenzio (store-site.ts:385-394). Nell'editor il link appare con «Pagina: Seleziona…».",
+      "impatto": "Il fornaio elimina la pagina «Chi siamo» che era nel menu: il cliente non vede più la voce, il negoziante non sa che il menu è cambiato.",
+      "fix": "In remove togliere o segnalare i link con quel pageId, e dirlo nella conferma.",
+      "causa_radice": "Cancellare una pagina non ripulisce i riferimenti che la puntano.",
+      "prova": "cd marketplace && node <scratchpad>/verifica/v-vetrina/cd.cjs",
+      "prova_tipo": "comando",
+      "esito_prova": "prima: [\"Home\",\"Chi siamo\"] · dopo eliminazione pagina: schema success true | link salvati 2 | menu pubblico [\"Home\"]",
+      "verificato_da": "Verificatore qa (v-vetrina): CONFERMATO"
+    },
+    {
+      "id": "S07-006",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "frontend-ux",
+      "titolo": "Le modifiche ai dettagli del negozio e al profilo si perdono uscendo, senza nessun avviso",
+      "severita": "minore",
+      "file": "components/seller/site/StoreDetailsEditor.tsx:62-68 · components/VendorForm.tsx:175-213 · app/seller/profile/page.tsx:143-181",
+      "descrizione": "La protezione delle modifiche non salvate (beforeunload e clic fermati) c'è solo nell'editor del sito (SiteEditor.tsx:78). «Dettagli negozio» e il profilo usano VendorForm, che non ha nessuno stato di modifica né avviso: «Tutte le impostazioni» (StoreDetailsEditor.tsx:62-68) smonta il modulo, i link del profilo escono senza chiedere. Diverso dalla voce 324, che riguardava solo SiteEditor.",
+      "impatto": "Il negoziante cambia orari, descrizione e social, poi preme «Tutte le impostazioni» o una voce del menu laterale: tutto perso senza nessuna domanda.",
+      "fix": "Spostare la guardia (stato modificato, beforeunload, clic fermati) dentro VendorForm, che usano tutte e due le schermate.",
+      "causa_radice": "La protezione è stata messa su una schermata sola, non sul modulo condiviso.",
+      "prova": "grep -n 'beforeunload\\|useBlocker\\|isDirty\\|dirty' components/VendorForm.tsx components/seller/site/StoreDetailsEditor.tsx app/seller/profile/page.tsx components/seller/StoreHoursEditor.tsx",
+      "prova_tipo": "lettura-codice",
+      "esito_prova": "nessuna corrispondenza; beforeunload solo in components/seller/site/SiteEditor.tsx:78 e nelle pagine admin",
+      "verificato_da": "Verificatore qa (v-vetrina): CONFERMATO per lettura del codice, diverso dalla voce 324"
+    },
+    {
+      "id": "S07-007",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "frontend-ux",
+      "titolo": "La lista dei primi passi manda al Profilo per mettere nome e logo, ma lì quei campi non ci sono",
+      "severita": "minore",
+      "file": "components/seller/SellerOnboardingChecklist.tsx:73-84 · app/seller/profile/page.tsx:143-181 · components/VendorForm.tsx:80",
+      "descrizione": "I passi «Imposta nome e descrizione» e «Carica logo del negozio» hanno href /seller/profile (Checklist.tsx:73-84). Il profilo mostra VendorForm mode=\"contact\" con showBranding falso (VendorForm.tsx:80): solo telefono, indirizzo e orari. Il rimando a /seller/site?details=1 c'è più in basso (profile/page.tsx:165-181).",
+      "impatto": "Il primo giorno il fornaio preme «Continua: Carica logo del negozio» e arriva su una pagina senza il campo del logo.",
+      "fix": "Href /seller/site?details=1 per i passi nome e logo.",
+      "causa_radice": "La lista non è stata aggiornata quando nome e logo si sono spostati in «Costruisci il sito».",
+      "prova": "lettura di SellerOnboardingChecklist.tsx:73-84 e VendorForm.tsx:80",
+      "prova_tipo": "lettura-codice",
+      "esito_prova": "href /seller/profile; mode contact → showBranding false",
+      "verificato_da": "Verificatore qa (v-vetrina): CONFERMATO"
+    },
+    {
+      "id": "S07-008",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "qa-flussi",
+      "titolo": "Una storia a meno di mezz'ora dalla scadenza risulta «scaduta» al negozio, mentre i clienti la vedono ancora",
+      "severita": "minore",
+      "file": "app/seller/stories/page.tsx:155-158 · app/seller/stories/page.tsx:193-206 · components/home/StoriesCarousel.tsx:73",
+      "descrizione": "Le ore rimaste si calcolano con Math.round(ms/3600000) (page.tsx:155-158) e active = hours > 0 (:193-194): sotto i 30 minuti la storia diventa grigia con «scaduta» (:203-206). Il carosello dei clienti filtra expires_at > now (StoriesCarousel.tsx:73) e la mostra ancora.",
+      "impatto": "Alle 9:35 il negozio vede «scaduta» la storia che scade alle 10:00 e magari ne pubblica un'altra uguale, mentre i clienti vedono ancora la prima.",
+      "fix": "Decidere attiva o scaduta con ms > 0 e usare Math.ceil (o «meno di un'ora») per l'etichetta.",
+      "causa_radice": "Lo stato è dedotto da un numero arrotondato invece che dallo stesso confronto usato per i clienti.",
+      "prova": "cd marketplace && node <scratchpad>/verifica/v-catalogo/b.cjs (orologio finto 2026-11-10T10:00Z)",
+      "prova_tipo": "comando",
+      "esito_prova": "1 min -> hours=0 negozio:scaduta cliente:true · 25 min -> hours=0 negozio:scaduta cliente:true · 29 min -> scaduta · 30 min -> 1h",
+      "verificato_da": "Verificatore qa (v-catalogo): CONFERMATO"
+    },
+    {
+      "id": "S07-009",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "qa-flussi",
+      "titolo": "Il link «Scopri di più» delle storie accetta qualunque indirizzo, anche un sito esterno, senza nessun controllo",
+      "severita": "minore",
+      "file": "app/seller/stories/page.tsx:121-126 · app/seller/stories/page.tsx:275-281 · components/StoryViewer.tsx:262-268 · migrations/035_seller_stories_cashback.sql:23",
+      "descrizione": "Il modulo salva link_url così com'è (page.tsx:125), il campo è testo libero (:275-281), il database ha link_url text senza vincoli (035:23) e il visore lo apre con <Link href> (StoryViewer.tsx:262-268). Il campo è pensato per percorsi interni (il segnaposto è /category/alimentari). I link javascript: in produzione li ferma la regola di sicurezza delle pagine (middleware.ts:274-284).",
+      "impatto": "Una storia della vetrina MyCity può portare il cliente su un sito qualunque, senza nessun avviso che sta uscendo da MyCity.",
+      "fix": "Accettare solo percorsi interni (che cominciano con / ma non con //), nel modulo e con un CHECK nel database.",
+      "causa_radice": "Un campo pensato per link interni non ha nessuna regola che lo obblighi a esserlo.",
+      "prova": "grep -rn seller_stories migrations | grep -iE 'check|constraint|trigger' e lettura di page.tsx:121-126",
+      "prova_tipo": "lettura-codice",
+      "esito_prova": "solo ENABLE ROW LEVEL SECURITY, nessun CHECK su link_url",
+      "verificato_da": "Verificatore qa (v-catalogo): CONFERMATO"
+    },
+    {
+      "id": "S07-010",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "frontend-ux",
+      "titolo": "Il modulo del prodotto non dice che il nome ha al massimo 120 caratteri: il negozio legge solo «Il valore inserito non è valido»",
+      "severita": "minore",
+      "file": "lib/products/schema.ts:111-119 · components/seller/ProductForm.tsx:899-916 · migrations/149_la_scheda_prodotto_ha_una_misura.sql:65-78 · lib/errors.ts:17 · app/seller/products/new/page.tsx:63-67",
+      "descrizione": "Lo schema del modulo ha per il nome solo min(3) e per la descrizione solo il minimo (schema.ts:111-119), i campi non hanno maxLength (ProductForm.tsx:899-916), mentre il database rifiuta nome > 120 e descrizione > 4000 (149:65-78). L'inserimento diretto (new/page.tsx:63-67) riceve 23514, che lib/errors.ts:17 traduce in «Il valore inserito non è valido.» senza dire il campo. Anche l'import da file (spento) ammette 200 caratteri.",
+      "impatto": "Il pasticcere scrive «Torta di compleanno personalizzata…» di 130 caratteri, compila tutto, preme Pubblica e riceve un errore che non dice cosa correggere.",
+      "fix": "Aggiungere .max(120) al nome e .max(4000) alla descrizione nello schema, con maxLength sui campi, da una costante condivisa con la migrazione 149.",
+      "causa_radice": "Il limite vive solo nel database; la stessa correzione è già stata fatta per l'assistente e per il lotto dalle foto, non per il modulo a mano.",
+      "prova": "cd marketplace && node <scratchpad>/verifica/v-catalogo/d.cjs (createProductSchema con nomi di 120, 121, 130, 500 caratteri)",
+      "prova_tipo": "comando",
+      "esito_prova": "nome 120 -> PASSA · nome 121 -> PASSA · nome 130 -> PASSA · nome 500 -> PASSA · descrizione 4500 -> PASSA",
+      "verificato_da": "Verificatore qa (v-catalogo): CONFERMATO"
+    },
+    {
+      "id": "S07-011",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "qa-flussi",
+      "titolo": "Nell'import da file la quantità scritta male diventa un numero sbagliato senza nessun errore (oggi spento)",
+      "severita": "minore",
+      "file": "app/seller/products/import/page.tsx:110 · app/seller/products/import/page.tsx:123 · lib/funzioni-al-lancio.ts:79",
+      "descrizione": "La scorta si legge con parseInt(get('stock'),10) || 0 (import/page.tsx:110) e il controllo guarda solo < 0 e > 99999 (:123): «1.000» diventa 1, «12,5» diventa 12, «abc» e vuoto diventano 0, senza segnalarlo in anteprima. Latente: CARICAMENTO_DA_FILE_ACCESO=false (funzioni-al-lancio.ts:79).",
+      "impatto": "Quando l'import sarà acceso, un negozio carica 1.000 pezzi di farina scritti «1.000»: ne risulta 1, e dopo il primo ordine il prodotto è esaurito.",
+      "fix": "Una leggiQuantita sul modello di leggiPrezzo che accetti solo interi puliti e dia «Quantità non valida».",
+      "causa_radice": "parseInt(...) || 0 trasforma in silenzio un valore sbagliato in un numero valido.",
+      "prova": "cd marketplace && node <scratchpad>/verifica/v-catalogo/f.cjs",
+      "prova_tipo": "comando",
+      "esito_prova": "\"1.000\" -> 1 nessun errore · \"12,5\" -> 12 nessun errore · \"abc\" -> 0 nessun errore · \"\" -> 0 · \"-3\" -> Stock non valido",
+      "verificato_da": "Verificatore qa (v-catalogo): CONFERMATO, latente"
+    },
+    {
+      "id": "S07-012",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "qa-flussi",
+      "titolo": "Quando un cliente scrive al negozio, l'email al negozio non parte: la funzione è pronta ma nessuno la chiama",
+      "severita": "minore",
+      "file": "app/api/chat/messages/route.ts:59-127 · lib/email/avviso-messaggio-negozio.ts:65-151 · lib/email/templates.ts:311",
+      "descrizione": "avvisaNegozioMessaggioNuovo (lib/email/avviso-messaggio-negozio.ts:65-151) è scritta e ha la sua prova, ma nessuna rotta la chiama: la rotta dei messaggi crea solo la voce nella campanella (route.ts:121-127), che il giro send-push trasforma in push solo se il negozio ha attivato le notifiche nel browser. Nessun trigger SQL, giro o automazione manda l'email. Il paletto vuole che il negozio lavori sul sito dopo un avviso email.",
+      "impatto": "Un cliente scrive alle 10 a Pane Quotidiano «avete il pane senza glutine?»: se il fornaio non ha attivato le notifiche del browser, lo scopre solo la prossima volta che apre il sito, magari giorni dopo.",
+      "fix": "Chiamare avvisaNegozioMessaggioNuovo(getAdminSupabase(), {conversationId, senderId}) dentro avvisaChiRiceve della rotta dei messaggi.",
+      "causa_radice": "La funzione email è stata costruita e provata ma non è mai stata collegata alla rotta di invio.",
+      "prova": "grep -rn 'avvisaNegozio\\|messaggioNuovoAlNegozio\\|chat_messaggio_nuovo' app lib --include=*.ts | grep -v tests/",
+      "prova_tipo": "lettura-codice",
+      "esito_prova": "trovate solo la definizione in lib/email/avviso-messaggio-negozio.ts e il modello in lib/email/templates.ts:311: nessuna chiamata",
+      "verificato_da": "Verificatore qa (v-chat): CAMBIATO, il push parte dal giro send-push (vercel.json, ogni 5 minuti), l'email no"
+    },
+    {
+      "id": "S07-013",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "qa-flussi",
+      "titolo": "Una chat lasciata aperta in sottofondo sul computer del negozio segna come letti i messaggi appena arrivano",
+      "severita": "minore",
+      "file": "app/messages/[id]/page.tsx:161-200 · app/api/chat/mark-read/route.ts:48-51",
+      "descrizione": "L'effetto che chiama mark-read dipende da messages.length (page.tsx:191-200) e non guarda document.visibilityState né hasFocus; i messaggi in tempo reale (:161-183) allungano la lista anche con la scheda nascosta. In mark-read l'azzeramento del contatore non controlla l'errore e risponde sempre ok (route.ts:48-51).",
+      "impatto": "Il fornaio lascia la chat aperta sul PC del negozio e va in laboratorio: il cliente scrive, il contatore torna a zero e sul telefono del fornaio non c'è nessun «non letto».",
+      "fix": "Chiamare mark-read solo con la pagina visibile e di nuovo all'evento visibilitychange; controllare l'errore dell'aggiornamento.",
+      "causa_radice": "Il codice tratta «messaggio arrivato» come «messaggio visto».",
+      "prova": "grep -n 'visibility\\|hasFocus' 'app/messages/[id]/page.tsx'",
+      "prova_tipo": "lettura-codice",
+      "esito_prova": "zero corrispondenze; effetto con dipendenza [messages.length]",
+      "verificato_da": "Verificatore qa (v-chat): CONFERMATO per lettura del codice"
+    },
+    {
+      "id": "S07-014",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "qa-flussi",
+      "titolo": "La campanella del negozio accumula una voce a ogni giro di messaggi, anche per una chat già letta",
+      "severita": "minore",
+      "file": "app/api/chat/messages/route.ts:96-127 · app/api/chat/mark-read/route.ts:40-51 · app/notifications/page.tsx:108-125",
+      "descrizione": "La voce nella campanella si salta solo se il contatore è sopra 1 e c'è una voce non letta (route.ts:107). mark-read azzera il contatore della chat ma non segna lette le voci con link /messages/<id>, che si segnano lette solo dalla pagina delle notifiche (notifications/page.tsx:108-125). Ogni nuovo giro di messaggi riparte dal contatore 1 e aggiunge una voce.",
+      "impatto": "Con cinque scambi in una mattina su una chat che il negozio legge subito, la campanella mostra cinque voci non lette per una conversazione già letta.",
+      "fix": "In mark-read segnare is_read=true sulle notifiche del chiamante con link /messages/<id>.",
+      "causa_radice": "Il «letto» ha due segni (contatore della chat e voce in campanella) e mark-read ne azzera solo uno.",
+      "prova": "psql -d mycity_s07_1 -At -f <scratchpad>/verifica/v-chat/p-giri.sql (giro 1, lettura con mark_conversation_read, giro 2, tutto in ROLLBACK)",
+      "prova_tipo": "comando",
+      "esito_prova": "giro1 contatore negozio: 1 · dopo lettura: contatore 0, voci campanella non lette 1 · giro2 contatore negozio: 1 -> condizione salto (nonLetti>1) = false",
+      "verificato_da": "Verificatore qa (v-chat): CONFERMATO"
+    },
+    {
+      "id": "S07-015",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "qa-flussi",
+      "titolo": "La promo «Oggi, fino a mezzanotte» finisce a mezzanotte del fuso del telefono, non di Piacenza",
+      "severita": "minore",
+      "file": "app/seller/promotions/page.tsx:39-44 · app/seller/promotions/page.tsx:103 · app/seller/promotions/page.tsx:184 · app/seller/promotions/page.tsx:213 · app/seller/promotions/page.tsx:292",
+      "descrizione": "endDateFor('today') fa d.setHours(23,59,59,999) nel fuso del browser (page.tsx:39-44) e salva l'istante in ISO (:103); le date mostrate (:184, :213, :292) usano toLocaleDateString senza timeZone. La regola giusta esiste già in app/seller/promote/data-campagna.ts (Europe/Rome) ma qui non è usata.",
+      "impatto": "Il negoziante in viaggio a New York crea il 6/11 una promo «Oggi»: lo sconto a Piacenza dura fino alle 5:59 del 7/11, sei ore in più; da Tokyo finisce alle 15:59 del 6/11.",
+      "fix": "Calcolare la fine con l'inizio del giorno dopo nel fuso di Piacenza e formattare le date con timeZone 'Europe/Rome'.",
+      "causa_radice": "Date costruite e mostrate nel fuso del dispositivo invece che in quello del negozio.",
+      "prova": "cd marketplace && TZ=<fuso> node <scratchpad>/verifica/v-date/a.cjs (copia di endDateFor, adesso fisso 2026-11-06T10:00Z)",
+      "prova_tipo": "comando",
+      "esito_prova": "Europe/Rome -> fine 06/11/2026 23:59:59 · America/New_York -> fine a Piacenza 07/11/2026 05:59:59 · Asia/Tokyo -> 06/11/2026 15:59:59",
+      "verificato_da": "Verificatore qa (v-date): CONFERMATO con orologio finto"
+    },
+    {
+      "id": "S07-016",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "frontend-ux",
+      "titolo": "Nello storico delle promo una promo annullata si legge «Terminata» con una data che deve ancora venire",
+      "severita": "minore",
+      "file": "app/seller/promotions/page.tsx:117 · app/seller/promotions/page.tsx:151 · app/seller/promotions/page.tsx:213 · app/seller/promotions/stato-promo.ts:5-10",
+      "descrizione": "L'annullamento cambia solo status (page.tsx:117) e lascia ends_at; lo storico (:151) scrive sempre «Terminata <ends_at>» (:213) accanto allo stato letto da statoDellaPromo, che dice «Annullata».",
+      "impatto": "Il 6/11 il negoziante annulla una promo che durava fino al 6/12 e nello storico legge «-15% · Terminata 06/12/2026 · Annullata».",
+      "fix": "Con status 'cancelled' scrivere solo «Annullata», o salvare l'ora dell'annullamento e mostrare quella.",
+      "causa_radice": "L'etichetta della data ignora lo stato che la riga accanto già legge.",
+      "prova": "cd marketplace && node <scratchpad>/verifica/v-date/b.cjs",
+      "prova_tipo": "comando",
+      "esito_prova": "stato: Annullata | riga storico: Terminata 06/12/2026",
+      "verificato_da": "Verificatore qa (v-date): CONFERMATO con orologio finto"
+    },
+    {
+      "id": "S07-017",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "qa-flussi",
+      "titolo": "Nell'Analisi la cifra «Ultimi 7 giorni» e le sette barre del grafico contano giorni diversi, anche se il commento dice che tornano",
+      "severita": "minore",
+      "file": "app/seller/analytics/page.tsx:42 · app/seller/analytics/page.tsx:147-155 · app/seller/analytics/page.tsx:197-217 · app/seller/analytics/page.tsx:384",
+      "descrizione": "since7 = now - 7*86400000, cioè 168 ore (page.tsx:42), usato per orders7 e revenue7 (:147-155) e per la cifra (:384); le barre usano ultimiGiorniPiacenza(7), oggi più sei giorni interi (:205-217). Il commento a :197-202 promette che la somma delle barre torna col numero sopra.",
+      "impatto": "Venerdì 6/11 alle 10 un ordine da 50 euro del 30/10 alle 15 entra nella cifra degli ultimi 7 giorni ma in nessuna barra: il negoziante vede 45 euro sopra e zero nel grafico.",
+      "fix": "Derivare since7 dall'inizio del primo giorno di ultimiGiorniPiacenza(7).",
+      "causa_radice": "Due definizioni di «7 giorni» nella stessa pagina.",
+      "prova": "cd marketplace && node <scratchpad>/verifica/v-date/c.cjs (metricheVenditore e ultimiGiorniPiacenza veri, adesso 6/11 10:00 Piacenza)",
+      "prova_tipo": "comando",
+      "esito_prova": "since7 2026-10-30T09:00:00.000Z giorni 2026-10-31…2026-11-06 · cifra Ultimi 7 giorni: 45 | somma barre: 0",
+      "verificato_da": "Verificatore qa (v-date): CONFERMATO con orologio finto"
+    },
+    {
+      "id": "S07-018",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "frontend-ux",
+      "titolo": "Il «Conversion rate» del negozio può superare il 100% e viene colorato di verde",
+      "severita": "minore",
+      "file": "app/seller/analytics/letture-dell-andamento.ts:45-48 · app/seller/analytics/page.tsx:345-361 · lib/analytics/visita-prodotto.ts:35",
+      "descrizione": "tassoDiConversione divide gli ordini (di tutti) per le visite misurate (solo di chi accetta i cookie, visita-prodotto.ts:35) senza tetto (letture-dell-andamento.ts:45-48); la scheda lo mostra in verde sopra il 2% (page.tsx:345-361). In più l'etichetta è in inglese.",
+      "impatto": "Al lancio, con 5 ordini e 2 visite misurate, il fornaio legge «Conversion rate 250,0%» in verde.",
+      "fix": "Se gli ordini superano le visite misurate mostrare «campione troppo piccolo» invece di un valore oltre il 100%, e scrivere «Visite che diventano ordini».",
+      "causa_radice": "Numeratore e denominatore vengono da popolazioni diverse.",
+      "prova": "cd marketplace && node <scratchpad>/verifica/v-date/d.cjs",
+      "prova_tipo": "comando",
+      "esito_prova": "tassoDiConversione(5,2) -> 250 | card: 250,0% colore olive (verde) · (3,1) -> 300",
+      "verificato_da": "Verificatore qa (v-date): CONFERMATO con orologio finto"
+    },
+    {
+      "id": "S07-019",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "frontend-ux",
+      "titolo": "L'annuncio della vetrina scade a mezzanotte nel browser ma all'una nella pagina preparata dal server",
+      "severita": "minore",
+      "file": "lib/store-customization.ts:239-247 · app/store/[id]/page.tsx:77 · app/store/[id]/layout.tsx:93-95",
+      "descrizione": "announcementActive costruisce new Date(`${until}T23:59:59`) nel fuso di chi esegue (store-customization.ts:243-245). La vetrina precarica i dati sul server (layout.tsx:93-95), che gira in UTC: fra mezzanotte e l'una (le due d'estate) del giorno dopo la scadenza il server mostra l'annuncio e il browser lo toglie, con un errore di idratazione e l'annuncio scaduto visibile a chi non esegue JavaScript (motori di ricerca, anteprime).",
+      "impatto": "Il negozio mette «Chiusi per ferie fino al 6/11»: alle 00:30 del 7/11 l'anteprima del link condiviso su WhatsApp mostra ancora l'annuncio scaduto.",
+      "fix": "Confrontare il giorno di Piacenza di adesso con until, invece di costruire una data nel fuso del processo.",
+      "causa_radice": "Una data senza fuso viene interpretata nel fuso del processo.",
+      "prova": "cd marketplace && TZ=UTC node <scratchpad>/verifica/v-date/e.cjs; TZ=Europe/Rome node <scratchpad>/verifica/v-date/e.cjs (until 2026-11-06)",
+      "prova_tipo": "comando",
+      "esito_prova": "TZ UTC: ora Piacenza 07/11/2026 00:30 attivo: true · TZ Europe/Rome: stessa ora attivo: false",
+      "verificato_da": "Verificatore qa (v-date): CAMBIATO, il cliente nel browser vede la scadenza giusta; resta la differenza fra server e browser nella prima ora"
+    },
+    {
+      "id": "S07-020",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "frontend-ux",
+      "titolo": "Se il servizio degli indirizzi è giù o limitato, il negozio legge «Indirizzo non trovato, prova ad essere più specifico»",
+      "severita": "minore",
+      "file": "components/StoreLocationPicker.tsx:165-174 · app/api/geocode/route.ts:23 · app/api/geocode/route.ts:46-57",
+      "descrizione": "La rotta del geocoding risponde 200 con {lat:null} anche quando il servizio esterno risponde male o va in errore (route.ts:46-57), e 429 con {lat:null} al limite di 30 richieste al minuto per IP (:23); il selettore non guarda res.ok (StoreLocationPicker.tsx:165-174). Tre esiti diversi diventano «Indirizzo non trovato». Diverso dalla voce 133, che riguarda una posizione sbagliata salvata.",
+      "impatto": "Con il servizio esterno fermo, il negoziante riscrive tre volte un indirizzo giusto credendo di averlo scritto male.",
+      "fix": "La rotta restituisca un errore «non disponibile» distinto da «nessun risultato», e il selettore dica «Ricerca momentaneamente non disponibile: riprova o sposta il punto sulla mappa».",
+      "causa_radice": "Rotta e selettore riducono «non trovato», «limite raggiunto» e «servizio giù» a un solo lat:null.",
+      "prova": "lettura di app/api/geocode/route.ts:23-57 e components/StoreLocationPicker.tsx:165-174",
+      "prova_tipo": "lettura-codice",
+      "esito_prova": "nessun controllo di res.ok; il ramo !res.ok e il catch della rotta tornano 200 {lat:null}",
+      "verificato_da": "Verificatore qa (v-date): CAMBIATO, il limite 429 è quasi irraggiungibile, il caso vero è il servizio esterno giù; non è dentro la voce 133"
+    },
+    {
+      "id": "S07-021",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "qa-flussi",
+      "titolo": "«Migliora tutto il catalogo» fa vedere 50 prodotti e con «Applica» ne riscrive fino a 200 (oggi spento)",
+      "severita": "minore",
+      "file": "app/seller/products/ai-batch/page.tsx:376-398 · app/seller/products/ai-batch/page.tsx:466-470 · app/api/ai/catalog-batch/apply/route.ts:73-98 · app/api/ai/catalog-batch/start/route.ts:33",
+      "descrizione": "L'anteprima mostra job.results.slice(0, 50) (page.tsx:470) e «Applica» manda solo {jobId} senza conferma (:376-398); la rotta, senza productIds, applica tutti i risultati (apply/route.ts:73-98), fino a 200 prodotti (start/route.ts:33). Lo stesso per «Metti in bozza i segnalati». Latente: AI_NEGOZI_ACCESA=false.",
+      "impatto": "Quando l'AI sarà accesa, un negozio con 180 prodotti controlla e approva le 50 proposte che vede, preme Applica e se ne trova riscritti 180: 130 cambiati senza averli visti, contro la regola che il negozio approva l'anteprima.",
+      "fix": "Mandare alla rotta i productIds delle righe mostrate e approvate, oppure mostrare tutti i risultati (al massimo 200).",
+      "causa_radice": "Anteprima e applicazione leggono due insiemi diversi.",
+      "prova": "lettura di ai-batch/page.tsx:376-470 e catalog-batch/apply/route.ts:73-98",
+      "prova_tipo": "lettura-codice",
+      "esito_prova": "slice(0, 50) in anteprima; body {jobId}; onlyIds null → tutti i risultati",
+      "verificato_da": "Verificatore qa (v-ordini): CONFERMATO, latente"
+    },
+    {
+      "id": "S07-022",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "qa-flussi",
+      "titolo": "«Compila con una foto» scrive allergeni e ingredienti letti dall'etichetta dritti nel modulo, anche sopra quelli scritti a mano (oggi spento)",
+      "severita": "minore",
+      "file": "components/seller/ProductForm.tsx:359-443 · components/seller/ProductForm.tsx:498-502 · components/seller/ProductForm.tsx:820-821 · lib/products/draftFromVision.ts:139-162",
+      "descrizione": "handleExtracted scrive nome e descrizione senza guardare se erano pieni (ProductForm.tsx:360-361) e passa ogni attributo, allergeni e ingredienti compresi, a setAttribute (:413-438), senza il riquadro «Da controllare» che usa applyPatch (:498-502) e senza la conferma delle dichiarazioni di draftFromVision (:139-162). Il pulsante c'è anche in modifica (:820-821). Diverso dalle voci 602 e 607, che riguardano altre strade. Latente: AI spenta.",
+      "impatto": "Il fornaio rifotografa la focaccia per cambiare la foto e gli allergeni che aveva scritto a mano, «glutine, sesamo», diventano quelli letti male dall'etichetta.",
+      "fix": "Far passare handleExtracted dallo stesso piano di applyPatch: le dichiarazioni in «Da controllare» e nessun campo già pieno sovrascritto.",
+      "causa_radice": "Le porte d'ingresso dell'AI nel modulo sono tre e solo due usano il filtro comune.",
+      "prova": "lettura di ProductForm.tsx:359-443 e confronto con :498-502",
+      "prova_tipo": "lettura-codice",
+      "esito_prova": "setAttribute su allergeni e ingredienti senza eCampoDichiarativo",
+      "verificato_da": "Verificatore qa (v-ordini): CONFERMATO, latente"
+    },
+    {
+      "id": "S07-023",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "frontend-ux",
+      "titolo": "Dopo aver risposto a una recensione, tornando sulla pagina il negozio rivede la risposta vecchia",
+      "severita": "minore",
+      "file": "app/seller/reviews/page.tsx:169-197 · components/providers/QueryProvider.tsx:15-17",
+      "descrizione": "Dopo l'invio la risposta si salva solo nello stato locale (setSavedReply, page.tsx:194-197), senza invalidare né aggiornare la cache delle recensioni; lo stato parte da useState(review.seller_reply) al primo disegno (:180-181). Con staleTime 30 secondi e gcTime 5 minuti (QueryProvider.tsx:15-17), chi torna sulla pagina entro 5 minuti rivede la risposta vecchia o nessuna risposta.",
+      "impatto": "Il fornaio risponde a una recensione da 2 stelle, va sugli ordini e torna dopo un minuto: la recensione sembra senza risposta e lui la riscrive.",
+      "fix": "Dopo l'invio invalidare la chiave delle recensioni del negozio (o aggiornarla con setQueryData) e leggere seller_reply dalla prop.",
+      "causa_radice": "Il dato del server viene copiato in uno stato locale che non si risincronizza.",
+      "prova": "lettura di reviews/page.tsx:169-197 e grep di queryKeys.seller.reviews",
+      "prova_tipo": "lettura-codice",
+      "esito_prova": "nessun invalidateQueries né setQueryData sulla chiave delle recensioni",
+      "verificato_da": "Verificatore qa (v-ordini): CONFERMATO"
+    },
+    {
+      "id": "S07-024",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "frontend-ux",
+      "titolo": "Nella scheda ordine del negozio compaiono «Il rider sta gestendo la consegna» su un ordine annullato e «Il rider incassa» su uno già consegnato",
+      "severita": "minore",
+      "file": "app/seller/orders/[id]/page.tsx:621-632 · lib/ordini/annulla.ts:363-371",
+      "descrizione": "Il riquadro del fattorino esclude solo DELIVERED (page.tsx:621), quindi resta su un ordine annullato che aveva un fattorino (annulla.ts:363-371 non toglie rider_id); quello dei contanti esclude solo CANCELED (:627), quindi dice «Il rider incassa X in contanti alla consegna» anche dopo la consegna e sul ritiro in negozio (oggi spento).",
+      "impatto": "Un ordine annullato dall'assistenza dopo l'assegnazione mostra al fornaio «Rider Marco sta gestendo la consegna», e lui aspetta un fattorino che non arriverà.",
+      "fix": "Mostrare il riquadro del fattorino solo negli stati in corso e quello dei contanti solo per consegne a domicilio non ancora consegnate.",
+      "causa_radice": "Ogni avviso esclude a mano uno stato solo invece di dire quando vale.",
+      "prova": "lettura di orders/[id]/page.tsx:621-632 e lib/ordini/annulla.ts:363-371",
+      "prova_tipo": "lettura-codice",
+      "esito_prova": "condizioni rider_id && != DELIVERED e cod && != CANCELED",
+      "verificato_da": "Verificatore qa (v-ordini): CONFERMATO"
+    },
+    {
+      "id": "S07-025",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "qa-flussi",
+      "titolo": "Il fattorino respinto che ricarica i documenti non torna nella coda dello staff, e la pulizia dei 90 giorni gli cancella i documenti nuovi",
+      "severita": "minore",
+      "file": "app/api/kyc/start-check/route.ts:154-161 · app/api/kyc/upload-document/route.ts:244-284 · app/admin/users/page.tsx:414-424 · app/admin/users/page.tsx:549 · migrations/135_le_prove_scadono.sql:30-60",
+      "descrizione": "Quando un fattorino respinto ricarica i documenti e riavvia il controllo, start-check scrive solo i campi del fornitore (route.ts:154-161) e upload-document solo la colonna del file (:244-284): approval_status resta 'rejected'. La coda dello staff legge solo 'pending' (users/page.tsx:414-424, :549). Nessun trigger lo rimette in coda. In più la pulizia dei respinti prende chi ha approved_at (l'ora del rifiuto) più vecchio di 90 giorni (migrazione 135:30-60) e cancella anche i documenti nuovi.",
+      "impatto": "Luca viene respinto l'1/8 per la polizza scaduta, carica quella nuova il 25/10 e aspetta: nessuno lo riesamina, e a fine ottobre i documenti nuovi vengono cancellati.",
+      "fix": "In start-check, per un fattorino 'rejected' riportare approval_status a 'pending' e scrivere approval_requested_at = now(), così la pulizia lo esclude.",
+      "causa_radice": "Per il fattorino «ho inviato di nuovo» non è uno stato: esiste solo per il negozio, attraverso la rotta di iscrizione.",
+      "prova": "psql -d mycity_s07_2 -Atc \"select tgname, p.proname from pg_trigger t join pg_proc p on p.oid=t.tgfoid where tgrelid='public.profiles'::regclass and not tgisinternal\"",
+      "prova_tipo": "comando",
+      "esito_prova": "trg_enqueue_lifecycle|enqueue_lifecycle_emails · trg_activity_log|log_activity_change · trg_enforce_profile_update_rules|enforce_profile_update_rules: nessuno riassegna approval_status",
+      "verificato_da": "Verificatore qa (v-rider): CONFERMATO, con l'aggravante della pulizia dei 90 giorni"
+    },
+    {
+      "id": "S07-026",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "qa-flussi",
+      "titolo": "Sulla bacheca del fattorino un «Accetta» perso lascia l'ordine in elenco fino a un minuto, e fa girare tutti i pulsanti insieme",
+      "severita": "minore",
+      "file": "app/rider/page.tsx:179 · app/rider/page.tsx:304-346 · app/rider/page.tsx:597 · migrations/123_presa_ordine_dal_fattorino.sql:44-62",
+      "descrizione": "prendi_ordine è atomica (migrazione 123:44-62), ma in pagina l'aggiornamento dell'elenco c'è solo in onSuccess (page.tsx:343): con onError (:346) resta il toast e l'ordine perso resta visibile fino al giro successivo (refetchInterval 60 secondi, :179). loading={claim.isPending} è condiviso da tutti i pulsanti (:597). GIA_PRESO copre anche «non è più pronto» (annullato o tornato indietro), e il testo dice sempre «già preso da un altro rider».",
+      "impatto": "Due fattorini toccano lo stesso ordine: il secondo legge «già preso», lo vede ancora in elenco e lo ritocca; se il negozio l'ha annullato, gli si dice che l'ha preso un altro.",
+      "fix": "In onError aggiornare l'elenco dei fattorini, tenere il caricamento per singolo ordine e distinguere «non più disponibile» da «già preso».",
+      "causa_radice": "L'esito negativo è trattato come un messaggio, non come un dato vecchio da ricaricare.",
+      "prova": "lettura di app/rider/page.tsx:304-346 e :597 e di migrations/123:44-62",
+      "prova_tipo": "lettura-codice",
+      "esito_prova": "invalidate solo in onSuccess; due soli motivi NON_FATTORINO e GIA_PRESO",
+      "verificato_da": "Verificatore qa (v-rider): CONFERMATO"
+    },
+    {
+      "id": "S07-027",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "qa-flussi",
+      "titolo": "Salvando i turni il fattorino può tornare offline senza saperlo, e «Preferenze salvate» compare prima di sapere se il salvataggio è riuscito",
+      "severita": "minore",
+      "file": "app/rider/availability/page.tsx:81-101 · app/rider/page.tsx:355",
+      "descrizione": "save() scrive insieme rider_is_online, preso dallo stato letto all'apertura (availability/page.tsx:81-84), e rider_schedule, senza await (:99), e subito dopo mostra «Preferenze salvate» (:100); se la scrittura fallisce arriva un secondo avviso d'errore (:94). Con la pagina dei turni aperta in un'altra scheda, il salvataggio sovrascrive l'interruttore online della bacheca (page.tsx:355). Diverso dalle voci 166 e 473, che riguardano l'online che non scade.",
+      "impatto": "Anna apre i Turni alle 9 da offline, alle 9:05 va online dalla bacheca, alle 9:10 cambia un turno nella scheda rimasta aperta e torna offline: non riceve più consegne e non lo sa.",
+      "fix": "Il salvataggio dei turni mandi solo rider_schedule, e il messaggio parta dopo il salvataggio riuscito.",
+      "causa_radice": "Un'unica scrittura di tutto lo stato della pagina, lanciata senza aspettarne l'esito.",
+      "prova": "lettura di app/rider/availability/page.tsx:81-101",
+      "prova_tipo": "lettura-codice",
+      "esito_prova": "persist({ rider_is_online: next.online, rider_schedule }) senza await, toast.success subito dopo",
+      "verificato_da": "Verificatore qa (v-rider): CONFERMATO"
+    },
+    {
+      "id": "S07-028",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "frontend-ux",
+      "titolo": "Nel profilo del fattorino il documento risulta «Verificato» appena caricato, e l'attestato HACCP resta «Mancante» anche dopo il caricamento",
+      "severita": "minore",
+      "file": "app/rider/profile/page.tsx:121-155 · migrations/119_radiografia_18_agosto.sql:80-96",
+      "descrizione": "Il documento d'identità è «Verificato» se esiste il file (profile/page.tsx:124, :146-148), senza guardare lo stato del controllo né l'approvazione. L'HACCP è «Mancante» quando rider_haccp_expires_on è vuoto (:153), ma quella colonna non la scrive nessuno: non è nell'onboarding né fra le colonne modificabili (migrazione 119:80-96); il sottotitolo dice intanto «Facoltativo». La voce 465 copre solo «In scadenza» su un documento scaduto.",
+      "impatto": "Marco carica la carta d'identità la sera e legge «Verificato» anche se nessuno l'ha guardata; Giulia carica l'attestato HACCP e continua a vedere «Mancante» col pulsante rosso «Carica».",
+      "fix": "Documento: «Caricato · in verifica» finché il profilo non è approvato. HACCP: stato da rider_haccp_url, o un campo scadenza fra le colonne modificabili.",
+      "causa_radice": "La pagina deduce lo stato da colonne che vogliono dire solo «caricato», o che non si compilano mai.",
+      "prova": "grep -rn rider_haccp_expires_on app lib migrations",
+      "prova_tipo": "lettura-codice",
+      "esito_prova": "letto in app/rider/profile/page.tsx e in api/kyc/documenti-rider; creato in migrations/024; nessuna scrittura",
+      "verificato_da": "Verificatore qa (v-rider): CAMBIATO, confermato con la precisazione sul sottotitolo «Facoltativo»"
+    },
+    {
+      "id": "S07-029",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "qa-flussi",
+      "titolo": "Con «Cliente assente» la merce torna subito in vendita sul sito mentre è ancora nello zaino del fattorino",
+      "severita": "minore",
+      "file": "app/api/rider/orders/[id]/cliente-assente/route.ts:55-68 · lib/ordini/annulla.ts:384 · app/rider/orders/[id]/page.tsx:722-727",
+      "descrizione": "La rotta annulla l'ordine con i soli controlli fattorino, stato PICKED_UP o OUT_FOR_DELIVERY (route.ts:55-68), e annullaERimborsa rimette subito la scorta (annulla.ts:384) senza che il negozio confermi che la merce è tornata. Il tasto si può premere 10 secondi dopo il ritiro (in pagina c'è solo un confirm, :722-727). Il fatto che non si registrino i tentativi di contatto è una scelta di Nicola del 31/10 e non è contato qui.",
+      "impatto": "Alle 12:10 il fattorino segna «cliente assente» sull'ultima torta: alle 12:11 la torta è di nuovo comprabile sul sito, ma è ancora con lui, e un altro cliente la ordina.",
+      "fix": "Rimettere la scorta solo quando il negozio conferma il rientro della merce, e permettere «cliente assente» solo dopo un'attesa minima dal ritiro.",
+      "causa_radice": "Il rientro della merce è dato per fatto nel momento dell'annullamento.",
+      "prova": "lettura di cliente-assente/route.ts:55-68 e lib/ordini/annulla.ts:384",
+      "prova_tipo": "lettura-codice",
+      "esito_prova": "restore_stock_for_order chiamata dentro annullaERimborsa, senza passo del negozio",
+      "verificato_da": "Verificatore qa (v-rider): CONFERMATO, peso minore; la parte sui tentativi è una scelta di prodotto"
+    },
+    {
+      "id": "S07-030",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "qa-flussi",
+      "titolo": "Nel giorno dei 18 anni, fra mezzanotte e l'una, il modulo del fattorino dice sì e il database lo rifiuta con un errore generico",
+      "severita": "minore",
+      "file": "lib/maggiore-eta.ts:82-120 · migrations/156_niente_fattorini_minorenni.sql:81-86 · app/rider/onboarding/page.tsx:176-179 · lib/errors.ts:17",
+      "descrizione": "motivoEta conta i 18 anni col giorno di Piacenza (maggiore-eta.ts), il vincolo profiles_maggiore_eta usa CURRENT_DATE della sessione del database (migrazione 156:81-86), che su Supabase parte in UTC. Fra mezzanotte e l'una d'inverno (le due d'estate) del 18° compleanno il salvataggio fallisce, e l'errore 23514 diventa «Il valore inserito non è valido.» (errors.ts:17).",
+      "impatto": "Marco, nato il 6/11/2008, alle 00:30 del 6/11/2026 si iscrive: il modulo lo accetta, il salvataggio dice «Il valore inserito non è valido» senza spiegare perché.",
+      "fix": "Nel vincolo usare il giorno di Europe/Rome, e tradurre la violazione di profiles_maggiore_eta in una frase chiara.",
+      "causa_radice": "La stessa regola ha due orologi: Piacenza nel codice, la sessione del database nel vincolo.",
+      "prova": "TZ=UTC node <scratchpad>/verifica/v-rider/eta.cjs (orologio finto 2026-11-05T23:30Z) e psql -d mycity_s07_2 -f <scratchpad>/verifica/v-rider/eta.sql (SET TIME ZONE 'UTC', in ROLLBACK)",
+      "prova_tipo": "comando",
+      "esito_prova": "motivoEta('2008-11-06','2026-11-06') = ok · giorno UTC 2026-11-05 → minorenne · vincolo_con_giorno_utc f | vincolo_con_giorno_piacenza t · ERROR: new row for relation \"profiles\" violates check constraint \"profiles_maggiore_eta\"",
+      "verificato_da": "Verificatore qa (v-rider): CONFERMATO"
+    },
+    {
+      "id": "S07-031",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": true,
+      "dimensione": "qa-flussi",
+      "titolo": "Falla di sicurezza da chiudere (flussi): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+      "severita": "minore",
+      "file": "(nel referto privato)",
+      "descrizione": "nel referto privato",
+      "impatto": "nel referto privato",
+      "fix": "nel referto privato",
+      "causa_radice": "nel referto privato",
+      "prova": "nel referto privato",
+      "prova_tipo": "comando",
+      "esito_prova": "nel referto privato",
+      "verificato_da": "nel referto privato"
+    }
+  ],
+  "regressioni": [
+    {
+      "chiave": "pagamenti-stripe|tre tempi diversi per lo stesso bonifico nel codice — e un quarto nelle faq del venditore",
+      "indice": 713,
+      "prova": "node <scratchpad>/verifica/v-ordini/e.cjs (stampa paragrafoBonifico di app/seller/earnings/commissione.ts) e lettura di app/seller/earnings/page.tsx:276-277",
+      "esito_prova": "Nella stessa pagina Guadagni il riquadro Contanti (page.tsx:276-277) dice «Il bonifico parte dopo la verifica della sua cassa: non è a fine giornata, è quando la cassa torna e viene controllata», mentre il paragrafo di commissione.ts:136-145, mostrato a page.tsx:311 e :365, dice «il bonifico sul tuo IBAN te lo facciamo ogni lunedì, per le consegne della settimana prima». Una copia scritta a mano è rimasta fuori dalla riparazione della voce 713."
+    }
+  ],
+  "ricontrolli": [],
+  "prove_per_la_palestra": [
+    {
+      "id": "S07-P001",
+      "funzione": "Iscrizione di un negozio nuovo",
+      "chi": "cliente",
+      "file": "app/sell/page.tsx · app/api/seller/apply/route.ts",
+      "dati_di_prova": "Account cliente «Mario Bianchi», negozio «Forno Bianchi», P.IVA di prova valida, IBAN IT60X0542811101000000123456 scritto con gli spazi, indirizzo Via Calzolai 12 Piacenza",
+      "passi": "Compila il modulo, premi «Invia richiesta» due volte di fila, poi ricarica la pagina",
+      "atteso": "Una sola richiesta in attesa; la pagina dice che è in attesa di approvazione; l'IBAN salvato senza spazi",
+      "limite": "doppio clic sull'invio; nome del negozio di 81 caratteri; nome « A» con lo spazio davanti"
+    },
+    {
+      "id": "S07-P002",
+      "funzione": "La pagina «Vendi su MyCity» senza accesso",
+      "chi": "estraneo",
+      "file": "app/sell/page.tsx",
+      "dati_di_prova": "Nessun accesso",
+      "passi": "Apri /sell da visitatore",
+      "atteso": "Si capisce cosa costa (10% sul venduto) e chi contattare prima del muro di accesso",
+      "limite": "rete lenta 3G: il modulo non appare a metà"
+    },
+    {
+      "id": "S07-P003",
+      "funzione": "Prima schermata del negozio appena approvato",
+      "chi": "negozio",
+      "file": "app/seller/page.tsx · app/seller/dashboard/page.tsx",
+      "dati_di_prova": "Negozio «Forno Bianchi» approvato, 0 prodotti, pagamenti non attivi",
+      "passi": "Entra e segui la lista «Completa il tuo negozio» passo per passo",
+      "atteso": "Ogni passo porta a una pagina dove quel campo c'è davvero (logo, nome, descrizione, orari)",
+      "limite": "negozio con 1000 ordini: la bacheca si apre entro 3 secondi"
+    },
+    {
+      "id": "S07-P004",
+      "funzione": "Cambio indirizzo e orari",
+      "chi": "negozio",
+      "file": "app/seller/profile/page.tsx",
+      "dati_di_prova": "Negozio con sede in Via Roma 1; nuova sede Via Emilia Pavese 50",
+      "passi": "Cambia solo il testo dell'indirizzo senza premere «Cerca», salva; poi orari 18:00–00:00 il sabato",
+      "atteso": "Il punto sulla mappa segue l'indirizzo nuovo o il salvataggio si ferma con un avviso; 18:00–00:00 si salva come «fino a mezzanotte»",
+      "limite": "servizio di ricerca indirizzi che risponde «troppe richieste»; uscire dalla pagina senza salvare"
+    },
+    {
+      "id": "S07-P005",
+      "funzione": "Costruire la vetrina (pagine, menu, sezioni)",
+      "chi": "negozio",
+      "file": "app/seller/site/page.tsx · app/api/seller/site/route.ts",
+      "dati_di_prova": "Negozio con 3 pagine e menu di 4 link",
+      "passi": "Elimina la pagina «Chi siamo» che è nel menu; spegni il menu con un link vuoto dentro; salva",
+      "atteso": "Il negozio è avvisato del link che punta alla pagina tolta; un link vuoto a menu spento non blocca il salvataggio",
+      "limite": "due schede aperte sulla stessa vetrina che salvano a 1 secondo di distanza; vetrina vicina al tetto di 64 KB"
+    },
+    {
+      "id": "S07-P006",
+      "funzione": "Dettagli negozio: logo, motto, social, annuncio",
+      "chi": "negozio",
+      "file": "app/seller/site/page.tsx",
+      "dati_di_prova": "Motto «Dal 1962», Instagram copiato dall'app con «?igsh=…», annuncio fino al 10/11",
+      "passi": "Compila, poi premi «Tutte le impostazioni» senza salvare",
+      "atteso": "Avviso «modifiche non salvate»; il link Instagram copiato dall'app viene accettato; l'annuncio sparisce dopo le 23:59 del 10/11 ora di Piacenza",
+      "limite": "orologio finto alle 23:30 UTC del 10/11"
+    },
+    {
+      "id": "S07-P007",
+      "funzione": "Pubblicare una storia",
+      "chi": "negozio",
+      "file": "app/seller/stories/page.tsx",
+      "dati_di_prova": "Foto 2 MB, didascalia, link «https://esempio.it/offerta»",
+      "passi": "Pubblica; con l'orologio finto porta il tempo a 23 ore e 40 minuti dopo",
+      "atteso": "La storia risulta ancora attiva finché i clienti la vedono; un link a un sito esterno viene segnalato o rifiutato",
+      "limite": "caricamento che fallisce: il messaggio non parla di migrazioni"
+    },
+    {
+      "id": "S07-P008",
+      "funzione": "Modifica veloce di prezzo e scorta nell'elenco",
+      "chi": "negozio",
+      "file": "app/seller/products/page.tsx",
+      "dati_di_prova": "Bici a 1500 €, pane a 3,50 €, scorta 10",
+      "passi": "Scrivi «1.500» nel prezzo della bici, «3,5» nel pane, salva",
+      "atteso": "La bici resta a 1500 € (o il sito chiede conferma); il pane a 3,50 €",
+      "limite": "un ordine arriva sulla scorta tra la lettura e il salvataggio; 200 righe modificate in un colpo"
+    },
+    {
+      "id": "S07-P009",
+      "funzione": "Nuovo prodotto a mano",
+      "chi": "negozio",
+      "file": "app/seller/products/new/page.tsx",
+      "dati_di_prova": "Nome di 130 caratteri, descrizione di 4100, nessuna foto",
+      "passi": "Premi «Salva bozza», poi «Pubblica» due volte di fila",
+      "atteso": "La bozza si salva senza foto; il modulo dice quale campo è troppo lungo; nasce un solo prodotto",
+      "limite": "doppio clic e Invio insieme"
+    },
+    {
+      "id": "S07-P010",
+      "funzione": "Modifica di un prodotto con taglie",
+      "chi": "negozio",
+      "file": "app/seller/products/[id]/edit/page.tsx · app/api/seller/products/[id]/route.ts",
+      "dati_di_prova": "Maglia con taglie S, M, L; si toglie la S e si cambia il prezzo",
+      "passi": "Salva mentre un cliente compra l'ultima M",
+      "atteso": "O tutto salvato o niente, con un messaggio che dice cosa è entrato",
+      "limite": "scorta cambiata durante il salvataggio; rete che cade a metà"
+    },
+    {
+      "id": "S07-P011",
+      "funzione": "Importare il catalogo da file (quando sarà acceso)",
+      "chi": "negozio",
+      "file": "app/seller/products/import/page.tsx",
+      "dati_di_prova": "File Excel italiano con 620 righe, scorte «1.000», «12,5», «abc», un nome di 150 caratteri",
+      "passi": "Carica il file, guarda l'anteprima, conferma",
+      "atteso": "L'anteprima segna in rosso le righe sbagliate e dice che oltre 500 non entrano; un nome lungo non fa fallire tutto il file",
+      "limite": "ricaricare due volte lo stesso file non raddoppia il catalogo"
+    },
+    {
+      "id": "S07-P012",
+      "funzione": "«Migliora tutto il catalogo» (quando l'AI sarà accesa)",
+      "chi": "negozio",
+      "file": "app/seller/products/ai-batch/page.tsx · app/api/ai/catalog-batch/start/route.ts · app/api/ai/catalog-batch/status/route.ts · app/api/ai/catalog-batch/apply/route.ts",
+      "dati_di_prova": "Negozio con 180 prodotti, 3 descrizioni corrette a mano durante il lavoro",
+      "passi": "Avvia, aspetta, guarda l'anteprima, premi «Applica»",
+      "atteso": "Si applicano solo i prodotti visti e approvati; le descrizioni corrette a mano nel frattempo non si sovrascrivono",
+      "limite": "lavoro che resta «submitting» o «failed»: la pagina lo dice e permette di ripartire"
+    },
+    {
+      "id": "S07-P013",
+      "funzione": "Copilot del catalogo: proposta e applicazione",
+      "chi": "negozio",
+      "file": "app/api/ai/catalog-apply/route.ts · app/api/ai/catalog-apply-bulk/route.ts · app/api/ai/copilot/route.ts · app/api/ai/catalog-chat/route.ts",
+      "dati_di_prova": "Richiesta «sconta del 10% le maglie», prodotto cancellato fra proposta e applicazione",
+      "passi": "Guarda l'anteprima (caratteristiche, prezzo prima e dopo), applica",
+      "atteso": "L'anteprima mostra il prezzo di prima e le caratteristiche leggibili; il conteggio «applicate» esclude il prodotto cancellato; il prezzo barrato scelto dal negozio non sparisce",
+      "limite": "tetto orario di applicazioni raggiunto"
+    },
+    {
+      "id": "S07-P014",
+      "funzione": "Creare più bozze dalle foto",
+      "chi": "negozio",
+      "file": "app/api/ai/catalog-create/route.ts · app/api/ai/catalog-create-bulk/route.ts · app/api/vision/extract-products/route.ts",
+      "dati_di_prova": "12 foto di prodotti alimentari",
+      "passi": "Carica, controlla le bozze, conferma allergeni",
+      "atteso": "Nessuna bozza alimentare va in vendita senza allergeni confermati",
+      "limite": "fornitore AI che non risponde a metà lotto"
+    },
+    {
+      "id": "S07-P015",
+      "funzione": "«Compila con una foto» su un prodotto già scritto a mano",
+      "chi": "negozio",
+      "file": "app/api/vision/extract-product/route.ts · app/api/ai/description/route.ts · app/api/ai/improve-product/route.ts",
+      "dati_di_prova": "Focaccia con allergeni scritti a mano «glutine, sesamo»",
+      "passi": "In modifica, premi «Compila con una foto» con una foto nuova",
+      "atteso": "Gli allergeni scritti a mano restano o la proposta va in «da controllare»; nome e descrizione non si sovrascrivono senza conferma",
+      "limite": "foto illeggibile"
+    },
+    {
+      "id": "S07-P016",
+      "funzione": "Strumenti AI veloci nella scheda prodotto",
+      "chi": "negozio",
+      "file": "app/api/ai/seo/route.ts · app/api/ai/diagnose/route.ts · app/api/ai/variants/route.ts · app/api/ai/voice-product/route.ts · app/api/ai/product-chat/route.ts",
+      "dati_di_prova": "Prodotto «Torta della nonna» a 20 €",
+      "passi": "Premi SEO, poi due suggerimenti di prezzo di fila",
+      "atteso": "Ogni proposta si può annullare; il freno sul prezzo confronta col prezzo salvato (20 €), non con quello già cambiato",
+      "limite": "dettatura vocale in una stanza rumorosa"
+    },
+    {
+      "id": "S07-P017",
+      "funzione": "Traduzione del prodotto (quando accesa)",
+      "chi": "negozio",
+      "file": "app/api/ai/translate/route.ts",
+      "dati_di_prova": "Prodotto in italiano",
+      "passi": "Traduci in inglese",
+      "atteso": "L'italiano resta; l'inglese si aggiunge",
+      "limite": "testo di 4000 caratteri"
+    },
+    {
+      "id": "S07-P018",
+      "funzione": "Bozza di risposta e riassunto recensioni",
+      "chi": "negozio",
+      "file": "app/api/ai/answer-qa/route.ts · app/api/ai/reviews-summary/route.ts",
+      "dati_di_prova": "Prodotto con 3 domande e 12 recensioni",
+      "passi": "Chiedi la bozza di risposta e il riassunto",
+      "atteso": "Il testo resta una bozza che il negozio approva",
+      "limite": "zero recensioni"
+    },
+    {
+      "id": "S07-P019",
+      "funzione": "Cerca prodotto dal codice a barre",
+      "chi": "negozio",
+      "file": "app/api/ai/barcode-lookup/route.ts",
+      "dati_di_prova": "Codice EAN 8001234567890 inesistente",
+      "passi": "Scansiona",
+      "atteso": "Messaggio chiaro «non trovato», nessun dato inventato",
+      "limite": "servizio esterno lento 10 secondi"
+    },
+    {
+      "id": "S07-P020",
+      "funzione": "Elenco categorie nel modulo prodotto",
+      "chi": "negozio",
+      "file": "app/api/catalogo/categorie/route.ts",
+      "dati_di_prova": "Categorie alimentari e casa",
+      "passi": "Apri «Nuovo prodotto» e scegli la categoria",
+      "atteso": "Elenco completo e ordinato",
+      "limite": "lettura che fallisce: il modulo lo dice, non mostra un elenco vuoto"
+    },
+    {
+      "id": "S07-P021",
+      "funzione": "Foto e dati presi da un sito esterno",
+      "chi": "negozio",
+      "file": "app/api/products/[id]/external-refresh/route.ts · app/api/products/rehost-images/route.ts",
+      "dati_di_prova": "Prodotto con 3 foto da un indirizzo esterno",
+      "passi": "Il negozio prova a ricopiare le foto; un estraneo prova a chiamare la rotta",
+      "atteso": "Solo il negozio sulle sue foto; l'estraneo riceve 401",
+      "limite": "una foto da 15 MB"
+    },
+    {
+      "id": "S07-P022",
+      "funzione": "Elenco ordini del giorno",
+      "chi": "negozio",
+      "file": "app/seller/orders/page.tsx",
+      "dati_di_prova": "6 ordini: 2 contanti, 1 ritiro in negozio, 1 annullato, 2 fascia domani",
+      "passi": "Apri la pagina e filtra per «da preparare»",
+      "atteso": "Gli stati e le fasce sono giusti; l'annullato non chiede azioni",
+      "limite": "pagina aperta tutto il giorno; ordine nato a cavallo della mezzanotte"
+    },
+    {
+      "id": "S07-P023",
+      "funzione": "Rifiutare un ordine",
+      "chi": "negozio",
+      "file": "app/seller/orders/[id]/page.tsx · app/api/seller/orders/[id]/reject/route.ts",
+      "dati_di_prova": "Ordine contanti NEW da 18 €",
+      "passi": "Premi «Rifiuta» senza motivo, due volte di fila",
+      "atteso": "Una sola cancellazione; il cliente avvisato; la pagina d'aiuto dice la stessa cosa del pulsante",
+      "limite": "doppio clic; ordine che il fattorino ha appena preso"
+    },
+    {
+      "id": "S07-P024",
+      "funzione": "Dettaglio di un ritiro in negozio pagato in contanti",
+      "chi": "negozio",
+      "file": "app/seller/orders/[id]/page.tsx",
+      "dati_di_prova": "Ordine pickup_in_store, contanti, 12 €",
+      "passi": "Apri il dettaglio",
+      "atteso": "Non compare «Il rider incassa»; dice che i contanti restano in negozio",
+      "limite": "ordine annullato dopo che un fattorino era assegnato"
+    },
+    {
+      "id": "S07-P025",
+      "funzione": "Stampare l'etichetta dell'ordine",
+      "chi": "negozio",
+      "file": "app/api/seller/orders/[id]/label/route.ts",
+      "dati_di_prova": "Ordine di un altro negozio e ordine proprio",
+      "passi": "Chiedi l'etichetta di entrambi",
+      "atteso": "Solo il proprio; l'altro risponde 403 o 404",
+      "limite": "50 etichette di fila"
+    },
+    {
+      "id": "S07-P026",
+      "funzione": "I clienti del negozio, con contatti ed esportazione",
+      "chi": "negozio",
+      "file": "app/seller/customers/page.tsx",
+      "dati_di_prova": "Negozio con 40 clienti, uno con un ordine contanti ancora NEW",
+      "passi": "Apri Clienti, cerca il telefono, esporta",
+      "atteso": "Contatti visibili ed esportabili (paletto «i clienti sono del negozio»); il cliente con ordine in corso compare",
+      "limite": "oltre 500 ordini"
+    },
+    {
+      "id": "S07-P027",
+      "funzione": "Rispondere a una recensione",
+      "chi": "negozio",
+      "file": "app/seller/reviews/page.tsx · app/api/seller/reviews/[id]/reply/route.ts",
+      "dati_di_prova": "Recensione da 2 stelle",
+      "passi": "Rispondi, cambia pagina, torna entro un minuto",
+      "atteso": "La risposta resta visibile; non si può rispondere a recensioni di altri negozi",
+      "limite": "doppio invio; risposta di 2000 caratteri"
+    },
+    {
+      "id": "S07-P028",
+      "funzione": "Creare e annullare una promo",
+      "chi": "negozio",
+      "file": "app/seller/promotions/page.tsx",
+      "dati_di_prova": "Promo -20% «Oggi (fino a mezzanotte)» e una promo su una categoria",
+      "passi": "Crea dal telefono con fuso orario di Londra; annulla la seconda",
+      "atteso": "«Oggi» finisce alle 23:59 di Piacenza; la promo su categoria sconta davvero; lo storico dice «Annullata» senza «Terminata» con data futura",
+      "limite": "due promo sovrapposte sullo stesso prodotto"
+    },
+    {
+      "id": "S07-P029",
+      "funzione": "Promuovere il negozio e gestire l'abbonamento (quando acceso)",
+      "chi": "negozio",
+      "file": "app/seller/promote/page.tsx · app/api/seller/subscription/checkout/route.ts · app/api/seller/subscription/portal/route.ts",
+      "dati_di_prova": "Campagna di 7 giorni; abbonamento spento al lancio",
+      "passi": "Apri la pagina con l'interruttore spento, poi acceso in palestra",
+      "atteso": "Con l'interruttore spento la pagina lo dice; a fine campagna lo stato diventa «terminata»",
+      "limite": "due schede che avviano il pagamento insieme"
+    },
+    {
+      "id": "S07-P030",
+      "funzione": "Leggere l'andamento",
+      "chi": "negozio",
+      "file": "app/seller/analytics/page.tsx",
+      "dati_di_prova": "Ordine pagato 7 giorni e mezzo fa, 5 ordini e 2 visite tracciate",
+      "passi": "Apri Analisi alle 22:00 di un venerdì (orologio finto)",
+      "atteso": "La cifra «ultimi 7 giorni» coincide con la somma delle barre; la conversione non supera il 100% o spiega perché",
+      "limite": "negozio con un solo prodotto: non è insieme «il più visto» e «da migliorare»"
+    },
+    {
+      "id": "S07-P031",
+      "funzione": "Leggere Guadagni con i soli contanti",
+      "chi": "negozio",
+      "file": "app/seller/earnings/page.tsx",
+      "dati_di_prova": "Negozio con 8 ordini contanti consegnati questa settimana",
+      "passi": "Apri Guadagni",
+      "atteso": "Una sola risposta su quando arriva il bonifico; niente inviti a Stripe con la carta spenta",
+      "limite": "lettura che fallisce"
+    },
+    {
+      "id": "S07-P032",
+      "funzione": "Le risposte dell'aiuto",
+      "chi": "negozio",
+      "file": "app/seller/help/page.tsx",
+      "dati_di_prova": "Nessuno",
+      "passi": "Leggi le risposte su rifiuto ordine, commissione, clienti",
+      "atteso": "Dicono la stessa cosa del sito: commissione 10% su tutti gli ordini, motivo del rifiuto facoltativo, contatti dei clienti visibili",
+      "limite": "telefono piccolo 320 px"
+    },
+    {
+      "id": "S07-P033",
+      "funzione": "Scrivere a un negozio",
+      "chi": "cliente",
+      "file": "app/messages/page.tsx · app/api/chat/conversations/route.ts",
+      "dati_di_prova": "Cliente Anna e negozio «Pane Quotidiano»",
+      "passi": "Premi «Contatta il negozio» due volte da due schede",
+      "atteso": "Una sola conversazione; il negozio riceve un avviso (email) oltre alla campanella",
+      "limite": "negozio A che scrive a negozio B e B ad A"
+    },
+    {
+      "id": "S07-P034",
+      "funzione": "Letto e non letto da due dispositivi",
+      "chi": "negozio",
+      "file": "app/messages/[id]/page.tsx · app/api/chat/messages/route.ts · app/api/chat/mark-read/route.ts",
+      "dati_di_prova": "Chat aperta sul PC del negozio in una scheda nascosta, telefono del negozio in mano",
+      "passi": "Il cliente scrive 3 messaggi",
+      "atteso": "I messaggi restano «non letti» finché il negozio non guarda davvero; la campanella non accumula voci per una chat già letta",
+      "limite": "tre messaggi in dieci secondi con la rete lenta"
+    },
+    {
+      "id": "S07-P035",
+      "funzione": "Aprire la chat di altri",
+      "chi": "estraneo",
+      "file": "app/messages/[id]/page.tsx",
+      "dati_di_prova": "Conversazione fra Anna e il fornaio",
+      "passi": "Un terzo account apre /messages/<id> di quella chat",
+      "atteso": "Pagina vuota o errore, nessun messaggio visibile",
+      "limite": "id inventato"
+    },
+    {
+      "id": "S07-P036",
+      "funzione": "Candidatura del fattorino",
+      "chi": "fattorino",
+      "file": "app/rider/onboarding/page.tsx · app/api/kyc/upload-document/route.ts · app/api/kyc/start-check/route.ts",
+      "dati_di_prova": "Marco, nato il 7/11/2008, in bici, senza patente",
+      "passi": "Salva il passo 1 senza scadenze, carica documento e polizza, avvia il controllo alle 00:30 del 7/11 (orologio finto)",
+      "atteso": "Il passo 1 si salva; il compleanno dei 18 anni vale da mezzanotte di Piacenza anche nel database; in bici la patente non è chiesta (o il sito dice perché)",
+      "limite": "documento da 12 MB; rete che cade durante il caricamento"
+    },
+    {
+      "id": "S07-P037",
+      "funzione": "Fattorino respinto che ricarica i documenti",
+      "chi": "fattorino",
+      "file": "app/api/kyc/start-check/route.ts",
+      "dati_di_prova": "Luca respinto per polizza scaduta",
+      "passi": "Carica la polizza nuova e avvia",
+      "atteso": "Torna nella coda «in attesa» dello staff e il fattorino vede il motivo del rifiuto",
+      "limite": "avvio premuto tre volte"
+    },
+    {
+      "id": "S07-P038",
+      "funzione": "Lo staff guarda i documenti del fattorino",
+      "chi": "admin",
+      "file": "app/api/kyc/documenti-rider/[id]/route.ts",
+      "dati_di_prova": "Fattorino con documento, patente e polizza",
+      "passi": "Un admin apre i link; un fattorino prova a aprire quelli di un altro",
+      "atteso": "L'admin li vede per poco tempo con traccia nel registro; il fattorino riceve 403",
+      "limite": "link riaperto dopo 3 minuti"
+    },
+    {
+      "id": "S07-P039",
+      "funzione": "La bacheca con più consegne",
+      "chi": "fattorino",
+      "file": "app/rider/page.tsx",
+      "dati_di_prova": "Due fattorini approvati, un ordine READY",
+      "passi": "Entrambi premono «Accetta» nello stesso secondo",
+      "atteso": "Uno solo lo prende; all'altro l'ordine sparisce dall'elenco subito con il motivo giusto",
+      "limite": "fattorino in attesa di approvazione: la bacheca gli dice che è in attesa"
+    },
+    {
+      "id": "S07-P040",
+      "funzione": "Turni e online",
+      "chi": "fattorino",
+      "file": "app/rider/availability/page.tsx",
+      "dati_di_prova": "Anna offline alle 9:00 con i Turni aperti",
+      "passi": "Va online dalla bacheca, poi salva un turno dalla scheda rimasta aperta",
+      "atteso": "Resta online; il messaggio «salvato» arriva solo se il salvataggio è riuscito",
+      "limite": "scrittura che fallisce"
+    },
+    {
+      "id": "S07-P041",
+      "funzione": "Profilo e documenti",
+      "chi": "fattorino",
+      "file": "app/rider/profile/page.tsx",
+      "dati_di_prova": "Polizza scaduta il 1/10, documento caricato ma non ancora visto dallo staff, attestato HACCP caricato",
+      "passi": "Apri il profilo il 6/11",
+      "atteso": "Documento «in verifica», polizza «scaduta», HACCP con la sua scadenza",
+      "limite": "cambio del solo nome: il telefono resta"
+    },
+    {
+      "id": "S07-P042",
+      "funzione": "Consegna con cliente assente",
+      "chi": "fattorino",
+      "file": "app/rider/orders/[id]/page.tsx · app/api/rider/orders/[id]/cliente-assente/route.ts",
+      "dati_di_prova": "Ordine contanti 25 € OUT_FOR_DELIVERY",
+      "passi": "Premi «Cliente assente» appena ritirato",
+      "atteso": "Il sito chiede chiamate o un'attesa minima e lo registra; il negozio sa che la merce torna",
+      "limite": "premuto 20 volte in un'ora"
+    },
+    {
+      "id": "S07-P043",
+      "funzione": "Dichiarare i contanti incassati",
+      "chi": "fattorino",
+      "file": "app/rider/orders/[id]/page.tsx · app/api/rider/cash-confirm/route.ts · app/api/rider/incassi-da-dichiarare/route.ts",
+      "dati_di_prova": "3 consegne contanti da 12, 18 e 25 €",
+      "passi": "Conferma l'incasso due volte di fila, poi apri «da dichiarare»",
+      "atteso": "Una sola conferma per consegna; il totale da dichiarare è 55 €",
+      "limite": "rete lenta: il pulsante non conferma due volte"
+    },
+    {
+      "id": "S07-P044",
+      "funzione": "Storico e recensioni",
+      "chi": "fattorino",
+      "file": "app/rider/history/page.tsx · app/rider/reviews/page.tsx",
+      "dati_di_prova": "Fattorino con 300 consegne e 40 voti",
+      "passi": "Apri storico e recensioni",
+      "atteso": "Si caricano a pagine; se la lettura fallisce lo dice invece di mostrare zero",
+      "limite": "fattorino nuovo con zero consegne"
+    },
+    {
+      "id": "S07-P045",
+      "funzione": "Leggere i guadagni (solo come si legge)",
+      "chi": "fattorino",
+      "file": "app/rider/earnings/page.tsx",
+      "dati_di_prova": "Fattorino con 10 consegne",
+      "passi": "Apri con «7 giorni», «30 giorni», «Tutto»",
+      "atteso": "Il periodo scelto è quello mostrato e si capisce quando arriva il bonifico",
+      "limite": "lettura che fallisce"
+    },
+    {
+      "id": "S07-P046",
+      "funzione": "Aiuto del fattorino e SOS",
+      "chi": "fattorino",
+      "file": "app/rider/help/page.tsx",
+      "dati_di_prova": "Nessuno",
+      "passi": "Leggi l'aiuto; premi SOS",
+      "atteso": "Le promesse coincidono col sito; la finestra SOS non promette una chiamata che non parte da sola",
+      "limite": "telefono piccolo, una mano sola"
+    }
+  ],
+  "domande_per_nicola": [
+    "Il prezzo «1.500» letto come 1,50 euro: lo segno grave perché un ordine nasce al prezzo sbagliato e parte l'avviso ai preferiti, ma la seconda lente lo pesa minore perché oggi nessun prodotto supera i 189 euro. Lo vuoi davanti agli altri gravi o in coda?",
+    "Il fattorino in bici deve avere per forza patente e polizza RC? Il codice le chiede sempre (voce già aperta nel registro, la 131): se è una regola voluta, la voce si chiude; se no, resta da riparare.",
+    "Quando il fattorino segna «cliente assente», la merce va rimessa in vendita subito o solo dopo che il negozio conferma di averla ripresa?"
+  ],
+  "conto": {
+    "agenti": 12,
+    "token_sessione": {
+      "agenti": 1,
+      "agenti_misurati": 1,
+      "turni": 62,
+      "input": 121,
+      "scritti_cache": 335698,
+      "letti_cache": 16127329,
+      "uscita": 78558,
+      "entrata_totale": 16463148
+    },
+    "token_subagenti": {
+      "agenti": 12,
+      "agenti_misurati": 12,
+      "turni": 393,
+      "input": 786,
+      "scritti_cache": 1149340,
+      "letti_cache": 37984685,
+      "uscita": 188515,
+      "entrata_totale": 39134811
+    },
+    "token_workflow": [],
+    "nota": "Misurato con node cervello/conto-token.mjs --sessione (ciclo principale) e --dir (12 subagenti: 4 cercatori Explore, 8 verificatori qa). Nessun workflow. La sessione è stata misurata prima del messaggio finale: gli ultimi turni non sono contati."
+  }
+}

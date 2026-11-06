@@ -6701,3 +6701,20 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 **Cosa resta a Nicola:** la firma sulla richiesta di unione. Limiti dichiarati: le correzioni fatte nel grezzo prima di oggi non si vedono, perché le impronte nascono col primo digest dopo l'unione. L'avviso guarda solo il referto che il digest rilegge, non quello che un referto nuovo sostituisce (cantiere, scheda sulla copertura che resta muta con una radiografia nuova). Restano aperte quattro minori nel cantiere: le note in testa al registro, una prova che riscrive il registro vero, e i due lasciati dal terzo collaudo.
 
 **Colore:** 🟡 auto-modifica della macchina, vale con la firma di Nicola.
+
+## 2026-11-06 19:17 — 🟡 La radiografia in 12 sessioni chiude il controllo finale: cosa entra nel registro e cosa no
+
+**Cosa:** il controllo finale (§7 del prompt) ha scritto il registro del sito per chiave, poi il digest una volta sola. 175 voci nuove (0 bloccanti, 11 gravi, 164 minori), 28 chiusure dei ricontrolli di S01 confermate da un verificatore, 7 regressioni confermate riaperte, 5 prove più forti scritte nelle note di voci aperte. Voci aperte: da 534 a 688.
+
+**Le scelte dell'AD, una per una:**
+- **La rete dell'ambiente «mycity»:** i tre indirizzi della D3 (foto di Supabase, Stripe, Cloudflare) li ha approvati Nicola il 6/11 alle 08:53, all'apertura della prima ondata.
+- **Le 15 falle riservate nuove entrano nel registro** (da R295 a R309) anche senza la verifica esterna, perché il filtro di sicurezza del modello l'ha fermata. Le ha verificate un agente dentro ogni sessione. Lasciarle fuori le avrebbe nascoste. Ognuna porta «verificata dentro la sessione, non dal controllo finale».
+- **La falla bloccante del sito dal vivo non entra:** è chiusa dal 6/11 alle 12:01, quando Nicola ha disattivato le chiavi vecchie.
+- **Le voci 1144 e 1386 restano chiuse:** S05 propone di riaprirle, ma senza verifica esterna non si riapre niente.
+- **La voce 0 resta aperta, con una nota:** la chiave di servizio su Vercel c'è da stanotte, ma per chiuderla serve la prova sul sito vero.
+- **8 difetti del terzo giro restano fuori:** nessun verificatore. Il quarto giro lo decide Nicola (carta #231).
+- **Due difetti tornano voci nuove:** le voci 466 e 467 si sono chiuse come già riparate, quindi i due difetti che sembravano loro doppioni sono residui veri.
+
+**Perché:** «chiudere un difetto vero lo nasconde» (§7.3): nel dubbio una voce resta aperta, e una falla trovata non si toglie dal registro per un limite dello strumento.
+
+**Colore:** 🟡 lavoro della macchina sul registro del sito, nessuna scrittura sul sito vero. Vale con la firma di Nicola sulla richiesta NicolaeRotaru/ad-mycity#936.

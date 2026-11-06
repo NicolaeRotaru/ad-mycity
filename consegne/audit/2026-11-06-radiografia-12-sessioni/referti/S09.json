@@ -1,0 +1,1106 @@
+{
+  "sessione": "S09",
+  "base_sito": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
+  "aggiornato": "2026-11-06 12:14",
+  "finita": true,
+  "copertura": {
+    "file_letti_interi": [
+      "lib/consent.ts",
+      "app/api/consent/route.ts",
+      "app/api/track/route.ts",
+      "app/api/newsletter/route.ts",
+      "app/api/newsletter/confirm/route.ts",
+      "app/api/unsubscribe/route.ts",
+      "lib/email/unsubscribe.ts",
+      "app/disiscrizione/page.tsx",
+      "app/api/account/accetta-condizioni/route.ts",
+      "lib/privacy/iban-per-email.ts",
+      "lib/privacy/colonne-personali.ts",
+      "app/api/account/export/route.ts",
+      "lib/promesse-pubbliche.ts",
+      "app/seller/help/domande.ts",
+      "app/faq/layout.tsx",
+      "app/come-funziona/page.tsx",
+      "app/shipping/page.tsx",
+      "lib/quando-arriva.ts",
+      "lib/promessa-consegna.ts",
+      "lib/ordini/consegna-veloce.ts",
+      "lib/maggiore-eta.ts",
+      "app/api/segnalazioni/route.ts",
+      "app/api/segnalazioni/esito/comunica.ts",
+      "lib/legal/versione.ts",
+      "lib/analytics/riconcilia-consenso.ts",
+      "lib/storage/percorso-caricamento.ts",
+      "components/GoogleAnalytics.tsx",
+      "app/api/account/delete/route.ts",
+      "app/api/kyc/upload-document/route.ts",
+      "components/products/VendutoDa.tsx"
+    ],
+    "file_letti_in_parte": [
+      {
+        "file": "components/CookieBanner.tsx",
+        "righe": "85-246"
+      },
+      {
+        "file": "lib/account/cancellazione.ts",
+        "righe": "1-340"
+      },
+      {
+        "file": "lib/account/cancellazione.ts",
+        "righe": "495-600"
+      },
+      {
+        "file": "lib/account/cancellazione.ts",
+        "righe": "839-960"
+      },
+      {
+        "file": "lib/privacy/potature-ritenzione.ts",
+        "righe": "200-440"
+      },
+      {
+        "file": "lib/analytics/server.ts",
+        "righe": "150-260"
+      },
+      {
+        "file": "app/privacy/page.tsx",
+        "righe": "75-330"
+      },
+      {
+        "file": "app/cookies/page.tsx",
+        "righe": "35-114"
+      },
+      {
+        "file": "app/terms/page.tsx",
+        "righe": "140-335"
+      },
+      {
+        "file": "app/terms/page.tsx",
+        "righe": "425-520"
+      },
+      {
+        "file": "app/faq/page.tsx",
+        "righe": "1-160"
+      },
+      {
+        "file": "app/faq/page.tsx",
+        "righe": "205-271"
+      },
+      {
+        "file": "app/returns/page.tsx",
+        "righe": "38-90"
+      },
+      {
+        "file": "app/about/page.tsx",
+        "righe": "20-45"
+      },
+      {
+        "file": "app/about/page.tsx",
+        "righe": "110-125"
+      },
+      {
+        "file": "app/lavora-con-noi/page.tsx",
+        "righe": "20-80"
+      },
+      {
+        "file": "app/help/page.tsx",
+        "righe": "110-125"
+      },
+      {
+        "file": "app/rider/help/page.tsx",
+        "righe": "55-90"
+      },
+      {
+        "file": "lib/email/templates.ts",
+        "righe": "725-845"
+      },
+      {
+        "file": "lib/email/templates.ts",
+        "righe": "1000-1022"
+      },
+      {
+        "file": "app/seller/earnings/commissione.ts",
+        "righe": "1-176"
+      },
+      {
+        "file": "lib/legal/promessa-cliente-assente.ts",
+        "righe": "225-260"
+      },
+      {
+        "file": "lib/legal/titolare.ts",
+        "righe": "190-200"
+      },
+      {
+        "file": "app/admin/segnalazioni/page.tsx",
+        "righe": "60-165"
+      },
+      {
+        "file": "components/Segnala.tsx",
+        "righe": "15-168"
+      },
+      {
+        "file": "app/accessibility/page.tsx",
+        "righe": "150-200"
+      },
+      {
+        "file": "app/rider/onboarding/page.tsx",
+        "righe": "17-60"
+      },
+      {
+        "file": "app/rider/onboarding/page.tsx",
+        "righe": "225-285"
+      },
+      {
+        "file": "lib/queries/venduto-da.ts",
+        "righe": "40-175"
+      },
+      {
+        "file": "lib/ordini/recesso.ts",
+        "righe": "20-60"
+      },
+      {
+        "file": "app/api/returns/create/route.ts",
+        "righe": "118-165"
+      },
+      {
+        "file": "app/api/seller/apply/route.ts",
+        "righe": "51-125"
+      },
+      {
+        "file": "components/seller/ProductForm.tsx",
+        "righe": "985-1010"
+      },
+      {
+        "file": "lib/products/salvataggio-tracciato.ts",
+        "righe": "120-135"
+      },
+      {
+        "file": "docs/business-plan.md",
+        "righe": "1-75"
+      },
+      {
+        "file": "migrations/126_radiografia_22_agosto.sql",
+        "righe": "355-475"
+      },
+      {
+        "file": "migrations/215_minori_s04_database.sql",
+        "righe": "135-175"
+      },
+      {
+        "file": "lib/funzioni-al-lancio.ts",
+        "righe": "55-65"
+      },
+      {
+        "file": "lib/email/client.ts",
+        "righe": "150-165"
+      }
+    ],
+    "file_eseguiti": [
+      {
+        "file": "tests/sql/harness/apply.sh",
+        "comando": "tests/sql/harness/apply.sh mycity_s09_a (poi mycity_s09_va e mycity_s09_vc1)",
+        "esito": "178 migrazioni applicate, 0 fallite, su ognuno dei tre database locali"
+      },
+      {
+        "file": "tests/unit/consent.test.ts",
+        "comando": "npx vitest run con consent, disiscrizione-la-rotta-che-gira, chi-rifiuta-i-cookie-non-viene-schedato, cancellare-l-account-porta-via-anche-le-foto",
+        "esito": "31 su 31 verdi (base di partenza)"
+      },
+      {
+        "file": "tests/unit/scarica-i-miei-dati-non-salta-nessuna-tabella.test.ts",
+        "comando": "npx vitest run tests/unit/scarica-i-miei-dati-non-salta-nessuna-tabella.test.ts",
+        "esito": "4 su 4 verdi: il guardiano guarda le tabelle, non le colonne"
+      },
+      {
+        "file": "lib/analytics/server.ts",
+        "comando": "npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/A/vitest.s09a.config.ts consenso-scaduto",
+        "esito": "2 rossi, 1 verde (controllo)"
+      },
+      {
+        "file": "lib/account/cancellazione.ts",
+        "comando": "npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/VA/vitest.va.config.ts",
+        "esito": "rosso: products e stories non svuotati; reclamo conservato (voluto, scartato)"
+      },
+      {
+        "file": "app/api/account/export/route.ts",
+        "comando": "node /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/A/export-completo.mjs",
+        "esito": "exit 1: 15 colonne fuori, di cui 10 escluse con motivo e 5 restanti"
+      },
+      {
+        "file": "app/api/unsubscribe/route.ts",
+        "comando": "npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/VA2/vitest.va2.config.ts",
+        "esito": "3 su 3 verdi con asserzioni che descrivono il difetto (disiscrizione, conferma newsletter, revoca)"
+      },
+      {
+        "file": "app/seller/earnings/commissione.ts",
+        "comando": "npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/B/vitest.s09b.config.ts",
+        "esito": "4 rossi su 5 (IVA, FAQ, Come funziona, veloce); verde il caso delle fasce di Pane Quotidiano"
+      },
+      {
+        "file": "lib/ordini/recesso.ts",
+        "comando": "npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/C/vitest.s09c.config.ts",
+        "esito": "rossi: rifiuto del maglione, conferma di ricezione assente, campi del modulo"
+      },
+      {
+        "file": "migrations/180_i_prodotti_non_recedibili.sql",
+        "comando": "psql -X -d mycity_s09_vc1 -v ON_ERROR_STOP=1 -f /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/VC1/maglione.sql e attivo.sql",
+        "esito": "INSERT 0 1 e UPDATE 1 accettati per un maglione escluso dal recesso, poi ROLLBACK"
+      },
+      {
+        "file": "components/Segnala.tsx",
+        "comando": "npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/VCS/vitest.vcs.config.ts /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/VCS/segnala-campi-16-2.test.tsx",
+        "esito": "rosso: nessun campo per il nome"
+      }
+    ],
+    "non_guardato": [
+      {
+        "cosa": "Orario, chiamante e doppio giro dei lavori a orario, compreso il giro delle cancellazioni",
+        "perche": "perimetro di S08; di process-deletions ho guardato solo il contenuto"
+      },
+      {
+        "cosa": "Permessi delle rotte account e documenti d'identità, regole d'accesso del database",
+        "perche": "perimetro di S04 e S05; nessun permesso aggirabile visto di passaggio"
+      },
+      {
+        "cosa": "app/api/kyc/start-check/route.ts e app/api/cron/process-deletions/route.ts per intero",
+        "perche": "guardati solo con ricerche mirate (le chiamate di cancellazione e potatura, i fornitori esterni); il contenuto delle cancellazioni l'ho letto in lib/account/cancellazione.ts"
+      },
+      {
+        "cosa": "app/api/account/cambia-password/route.ts",
+        "perche": "già due voci aperte di S06 nella prima ondata"
+      },
+      {
+        "cosa": "app/api/kyc/documenti-rider/[id]/route.ts e docs/dpa-vendors.md",
+        "perche": "non letti per tempo; resta la prova da palestra sui documenti di un altro fattorino"
+      },
+      {
+        "cosa": "lib/privacy/avvisi-a-chi-aspetta.ts, lib/privacy/cancellazioni-in-sospeso.ts, lib/privacy/orfani-kyc.ts",
+        "perche": "letti solo per nome: cruscotti e conteggi con voci già riparate"
+      },
+      {
+        "cosa": "app/contact/page.tsx e app/contact/layout.tsx per intero",
+        "perche": "il punto di contatto nei Termini è già riparato; guardati solo modulo e rotta"
+      },
+      {
+        "cosa": "Calcolo dei soldi in cassa, bonifici, invio vero delle email del ciclo di vita",
+        "perche": "perimetro di S06, S02, S03 e S08"
+      },
+      {
+        "cosa": "Sito vero, database di produzione, Stripe, Vercel",
+        "perche": "regola del §1: si guarda solo su copie locali"
+      },
+      {
+        "cosa": "Giudizio legale definitivo su recesso, tempi di consegna e peso del grave",
+        "perche": "serve un avvocato abilitato: segnato come umano dove serve"
+      }
+    ]
+  },
+  "difetti": [
+    {
+      "id": "S09-001",
+      "dimensione": "privacy-legale",
+      "titolo": "Il negozio può togliere il diritto di ripensamento a qualunque prodotto, anche a un maglione, e il sito rifiuta il reso dicendo al cliente che è la legge",
+      "severita": "grave",
+      "file": "components/seller/ProductForm.tsx:989-995 · lib/products/salvataggio-tracciato.ts:128-129 · lib/ordini/recesso.ts:22-24 · lib/ordini/recesso.ts:35-41 · app/api/returns/create/route.ts:131-155 · migrations/180_i_prodotti_non_recedibili.sql:28 · app/terms/page.tsx:227-228 · lib/promesse-pubbliche.ts:343-344",
+      "descrizione": "La spunta «Escluso dal recesso» compare nel modulo prodotto con la sola condizione `recessoSegnabile`, che dice solo se la colonna esiste (ProductForm.tsx:989-995), non guarda categoria, deperibilità o «su ordinazione». Il salvataggio accetta qualunque booleano (salvataggio-tracciato.ts:128-129: `if (typeof recesso === 'boolean') pulito[COLONNA_DEL_RECESSO] = recesso`). Nel database `non_recedibile boolean NOT NULL DEFAULT false` non ha CHECK né trigger (migrazione 180:28, nessuna migrazione dopo la tocca). L'admin che approva non vede la spunta e, su un prodotto già in vendita, la spunta accesa dopo non lo rimanda in approvazione. Al reso «Cambio idea» `esclusoDalRecesso` guarda solo la spunta (recesso.ts:22-24) e `rifiutoDelRecesso` (35-41) risponde con un testo fisso: «è fresco o fatto su ordinazione, e la legge non permette il reso (art. 59)»; la rotta lo restituisce come errore (route.ts:154-155). La scheda prodotto mostra la stessa frase (promesse-pubbliche.ts:343-344).",
+      "impatto": "Il primo negozio non alimentare, per esempio una merceria, spunta «escluso» su un maglione da 60 €. Il cliente lo riceve martedì, giovedì chiede il reso per ripensamento entro i 14 giorni e il sito lo rifiuta, scrivendo a nome di MyCity che il maglione «è fresco» e che la legge lo esclude. L'elenco dell'art. 59 è chiuso: la piattaforma toglie un diritto di legge con una frase falsa, e MyCity si espone per pratica commerciale scorretta.",
+      "fix": "Legare la spunta alle categorie deperibili o al «su ordinazione»: nel modulo, nell'elenco delle colonne ammesse del salvataggio e con un CHECK o un trigger nel database. Mostrare la spunta all'admin e rimandare in approvazione chi la accende dopo. Il testo del rifiuto non deve dire «è fresco» per un prodotto che non lo è. Da riparare insieme alla voce 93 (stessa spunta, tolta dopo la vendita). Seconda lente: la spunta diventa un motivo da elenco chiuso (deperibile, su ordinazione o misura, sigillato per igiene) permesso solo per categorie coerenti; il testo del rifiuto nasce dal motivo; per i sigillati niente rifiuto automatico (il cliente dichiara se la confezione è aperta); se il motivo manca o è incoerente il reso passa e il negozio valuta. Va chiuso prima dell'ingresso del primo negozio non alimentare.",
+      "causa_radice": "L'eccezione di legge è diventata un interruttore libero del venditore, senza nessun legame col tipo di bene in nessuno strato (modulo, server, database, revisione).",
+      "prova": "cd marketplace && tests/sql/harness/apply.sh mycity_s09_vc1 && psql -X -d mycity_s09_vc1 -v ON_ERROR_STOP=1 -f /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/VC1/maglione.sql && psql -X -d mycity_s09_vc1 -v ON_ERROR_STOP=1 -f /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/VC1/attivo.sql ; poi npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/C/vitest.s09c.config.ts /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/C/recesso-tolto-a-qualunque-prodotto.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "apply.sh: 178 migrazioni applicate, 0 fallite. maglione.sql (ruolo authenticated del negozio, categoria abbigliamento): INSERT 0 1 → «Maglione di lana merino | t | abbigliamento | pending_approval». attivo.sql: UPDATE 1 → «Maglione di lana merino | available | t», il prodotto resta in vetrina. Vitest: 2 rossi su 2; il rifiuto del maglione dice «Questo prodotto (Maglione di lana merino) è escluso dal recesso: è fresco o fatto su ordinazione, e la legge non permette il reso per «Cambio idea» (art. 59…)». Tutto in ROLLBACK, solo sul Postgres locale.",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "qa (verificatore del grave): CONFERMATO grave dopo quattro tentativi di smentita (condizione della spunta, controllo lato server, vincoli e trigger del database, revisione admin); prova più forte scritta da lui sul Postgres locale. Contro dichiarati: segnare l'esclusione è una scelta di Nicola (fatto legale.recesso-esclusi), oggi l'unico negozio reale è un forno. Seconda lente (legale-privacy): GRAVE, non bloccante oggi perché l'unico negozio è un forno i cui prodotti sono davvero esclusi; diventa BLOCCANTE il giorno in cui entra il primo negozio non alimentare (art. 59 elenco chiuso, art. 143 irrinunciabilità, artt. 21-23 pratica ingannevole col testo firmato dalla piattaforma). Aggiunge che anche le esclusioni legittime diverse dal fresco (sigillati per igiene, su misura) ricevono la motivazione sbagliata. Valutazione da bozza: la conferma finale spetta a un legale abilitato.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S09-002",
+      "dimensione": "privacy-legale",
+      "titolo": "Ai negozi scriviamo «IVA inclusa» sulla commissione, mentre la regola decisa sospende quella dicitura finché il commercialista non conferma il regime",
+      "severita": "minore",
+      "file": "app/seller/earnings/commissione.ts:92-96 · app/seller/earnings/commissione.ts:107 · app/seller/earnings/commissione.ts:169 · app/terms/page.tsx:319-322 · components/SellerApplicationForm.tsx:286 · lib/stripe/client.ts:443-444",
+      "descrizione": "`export const IVA_SULLA_COMMISSIONE = 'IVA inclusa'` (commissione.ts:92-96, col commento ancora fermo alla versione del 26/10 del fatto) finisce nella frase del prezzo ai negozi (home, /sell, FAQ, aiuto venditori, Come funziona), nella pagina Guadagni, nel modulo di candidatura e nel §9 dei Termini. Il fatto `pricing.commissione` dice invece: la dicitura «IVA inclusa» resta sospesa finché il commercialista non conferma il regime; col forfettario la commissione non ha IVA.",
+      "impatto": "Pane Quotidiano legge nei Termini «10% del subtotale, IVA inclusa». Se il regime è forfettario, su 100 € di pane MyCity fattura 10 € senza IVA, e il contratto dice una cosa che la fattura non mostra. L'importo trattenuto non cambia.",
+      "fix": "Finché il fatto resta sospeso, rendere neutra la costante (per esempio «IVA secondo il regime fiscale di MyCity») e riallineare il commento; quando il commercialista risponde, aggiornare costante e versione dei Termini.",
+      "causa_radice": "Il fatto è cambiato dopo che il codice l'aveva copiato: la prova deve leggere il registro, non una stringa fissa.",
+      "prova": "cd marketplace && npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/B/vitest.s09b.config.ts /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/B/iva-e-reso.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO: AssertionError «expected true to be false» (il fatto risulta sospeso e le frasi vere contengono «IVA inclusa»).",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "qa: CONFERMATO minore. Non è un doppione della voce 512, che dice «i Termini scrivono IVA esclusa»: al commit quella frase non c'è più, e questo difetto va nella direzione opposta.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S09-003",
+      "dimensione": "privacy-legale",
+      "titolo": "Nelle domande frequenti la risposta sul reso dice due volte «fatti su ordinazione»",
+      "severita": "minore",
+      "file": "app/faq/page.tsx:118 · lib/promesse-pubbliche.ts:332",
+      "descrizione": "La FAQ compone `${RESO_ESCLUSI} e quelli fatti su ordinazione`, ma dal 5/11 `RESO_ESCLUSI` contiene già «o fatti su ordinazione». A schermo: «…esclusi i prodotti freschi, deperibili o fatti su ordinazione e quelli fatti su ordinazione».",
+      "impatto": "È la risposta sul diritto di recesso: chi la legge pensa a un refuso e si fida meno della pagina legale.",
+      "fix": "Togliere « e quelli fatti su ordinazione» dalla riga 118.",
+      "causa_radice": "Frase composta a mano attorno a una costante allungata dopo (residuo della riparazione della voce 87).",
+      "prova": "cd marketplace && npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/B/vitest.s09b.config.ts /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/B/faq-recesso.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO: «expected 2 to be 1» sul testo a schermo, dopo aver aperto la domanda nella pagina disegnata in jsdom.",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "qa: CONFERMATO minore, nessuna voce simile nel registro.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S09-004",
+      "dimensione": "privacy-legale",
+      "titolo": "La descrizione di «Come funziona» che esce su Google promette il reso senza escludere i prodotti fatti su ordinazione",
+      "severita": "minore",
+      "file": "app/come-funziona/page.tsx:11",
+      "descrizione": "La `metadata.description` è scritta a mano («reso sui prodotti non deperibili») e non presa da `FRASE_RESO`/`RESO_ESCLUSI`; il fatto `legale.recesso-esclusi` esclude anche i prodotti su ordinazione.",
+      "impatto": "Chi trova la pagina su Google o la riceve su WhatsApp e poi ordina una torta su ordinazione ha letto «reso entro 14 giorni».",
+      "fix": "Costruire la descrizione da `FRASE_RESO` o da `RESO_ESCLUSI`.",
+      "causa_radice": "I metadati restano fuori dalla fonte unica delle promesse.",
+      "prova": "cd marketplace && npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/B/vitest.s09b.config.ts /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/B/iva-e-reso.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO, secondo caso: «expected false to be true» (la descrizione non contiene «ordinazione»).",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "qa: CONFERMATO minore; la voce 87 (riparata) ha corretto cassa, piede e home ma non questa stringa.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S09-005",
+      "dimensione": "privacy-legale",
+      "titolo": "Il business plan e i conti unitari nei documenti del sito dicono ancora commissione all'8%, abbonamento a 15 €, piano gratis e mancia al fattorino",
+      "severita": "minore",
+      "file": "docs/business-plan.md:60 · docs/business-plan.md:64 · docs/business-plan.md:71-72 · docs/unit-economics.md:14-16",
+      "descrizione": "I due documenti (README.md li presenta come «il business plan») riportano 8% di commissione, un PRO a 15 €, un livello gratuito e la mancia del 10% al fattorino, contro i fatti `pricing.commissione` (10% su tutto), `pricing.abbonamento` (50 € al mese, sospeso) e la pagina d'aiuto del fattorino che vieta la mancia.",
+      "impatto": "Un senior che prepara un'offerta per un negozio leggendo la copia del sito, o un investitore, costruisce su «8%».",
+      "fix": "In testa ai due file un avviso «superato: i numeri vivi stanno nel registro dei fatti», oppure aggiornare le righe.",
+      "causa_radice": "Documenti di maggio mai riallineati ai fatti decisi dopo.",
+      "prova": "grep -nE '8%|15 ?€|gratuit|mancia' docs/business-plan.md docs/unit-economics.md",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Le righe citate contengono 8%, PRO a 15 €, livello gratuito e mancia del 10%.",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "qa: CONFERMATO minore (nessun utente lo vede), righe allargate a docs/unit-economics.md.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S09-006",
+      "dimensione": "privacy-legale",
+      "titolo": "I Termini escludono dal reso salumi e latticini senza dire «freschi», così sembrano esclusi anche quelli stagionati",
+      "severita": "minore",
+      "file": "app/terms/page.tsx:227-229",
+      "descrizione": "Testo: «Sono esclusi dal recesso, ai sensi dell'art. 59 Cod. Cons.: prodotti deperibili (pane, dolci, salumi, latticini e gli altri freschi)…». Il fatto `legale.recesso-esclusi` (Nicola, 31/10) dice lo stesso. Un prosciutto o un formaggio stagionato non si deteriora in fretta, quindi l'art. 59 lettera d potrebbe non coprirlo. Nel codice l'esclusione è per prodotto, e l'etichetta per il negozio è corretta («fresco che si deteriora in fretta», ProductForm.tsx:991).",
+      "impatto": "Un cliente compra un Grana 24 mesi sottovuoto, cambia idea il giorno dopo e legge nei Termini che non può renderlo; un negoziante prende i Termini come guida e spunta gli stagionati.",
+      "fix": "Chiedere all'avvocato se scrivere «salumi e formaggi freschi»; poi correggere prima il fatto nel registro, poi la pagina.",
+      "causa_radice": "L'elenco degli esempi è più largo della norma.",
+      "prova": "Lettura di app/terms/page.tsx:227-229 e del fatto legale.recesso-esclusi in registro-fatti.json.",
+      "prova_tipo": "umano",
+      "prova_eseguita": false,
+      "esito_prova": "",
+      "perche_umano": "Dire se l'esclusione generale di salumi e latticini regge davanti all'art. 59 lettera d è un giudizio legale: serve un avvocato.",
+      "verificato": true,
+      "verificato_da": "qa: CONFERMATO minore, umano; il testo ricopia il fatto deciso da Nicola, quindi va formulato come domanda per l'avvocato.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S09-007",
+      "dimensione": "privacy-legale",
+      "titolo": "Chi segnala un contenuto illecito lasciando l'email non riceve nessuna conferma che la segnalazione è arrivata",
+      "severita": "minore",
+      "file": "app/api/segnalazioni/route.ts:86-153 · components/Segnala.tsx:90",
+      "descrizione": "Dopo l'inserimento la rotta scrive solo gli avvisi agli amministratori (125-151) e risponde 201; non importa nessun modulo email. L'unico riscontro è un avviso a schermo che sparisce («Segnalazione ricevuta: la esaminiamo.», Segnala.tsx:90). Nessun trigger sulla tabella, nessun lavoro a orario, e `email_contatto` è usato solo per l'esito finale (esito/comunica.ts). Il regolamento europeo sui servizi digitali (art. 16.4) chiede una conferma di ricezione al recapito elettronico lasciato.",
+      "impatto": "Il titolare di un marchio segnala una borsa contraffatta, chiude la pagina e resta senza nessuna prova né numero della segnalazione.",
+      "fix": "Se c'è l'email, mandare una email transazionale con numero, oggetto, motivo e data, e leggerne l'esito.",
+      "causa_radice": "Il canale è stato costruito pensando all'esito finale (art. 16.5) e ha saltato la ricevuta (16.4).",
+      "prova": "cd marketplace && npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/C/vitest.s09c.config.ts /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/C/segnalazione-conferma-ricezione.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO, primo caso: «nessuna email di conferma partita verso chi ha segnalato: expected [] to include 'titolare.marchio@example.com'»; la rotta risponde comunque 201.",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "qa: CONFERMATO minore; voci 24, 81, 88, 493, 722, 2440, 2625 parlano d'altro.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S09-008",
+      "dimensione": "privacy-legale",
+      "titolo": "Il modulo di segnalazione non permette di dare il nome di chi segnala né di dichiarare la buona fede",
+      "severita": "minore",
+      "file": "components/Segnala.tsx:130-168 · app/api/segnalazioni/route.ts:29-38",
+      "descrizione": "Il modulo ha solo motivo, dettaglio ed email; lo schema `Corpo` della rotta non ha campi per il nome né per la dichiarazione di buona fede. L'art. 16.2 del regolamento sui servizi digitali chiede che il meccanismo consenta questi elementi (lettere c e d). Non chiede di rifiutare le segnalazioni incomplete.",
+      "impatto": "Un titolare di diritti non può fare una segnalazione completa che produca «conoscenza effettiva», e l'admin riceve segnalazioni senza sapere chi le manda.",
+      "fix": "Aggiungere un campo nome facoltativo e una casella di dichiarazione di buona fede, salvo i casi esonerati dalla norma.",
+      "causa_radice": "Il modulo è stato disegnato per la minima fatica, non sugli elementi dell'art. 16.2.",
+      "prova": "cd marketplace && npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/VCS/vitest.vcs.config.ts /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/VCS/segnala-campi-16-2.test.tsx",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO: il modulo si apre (campo «Motivo» trovato), poi «nessun campo per il nome: expected null not to be null». La mancanza della casella di buona fede risulta dalla lettura del file.",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "qa: CAMBIA → tesi corretta. La parte «la rotta accetta senza spiegazione» è scartata (non è un obbligo); resta la mancanza di nome e buona fede, con una prova nuova scritta dal verificatore.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S09-009",
+      "dimensione": "privacy-legale",
+      "titolo": "Le recensioni dei clienti non si possono segnalare, mentre i Termini promettono di togliere quelle non genuine",
+      "severita": "minore",
+      "file": "app/product/[id]/page.tsx:1385-1400 · components/store-sections/ReviewsSection.tsx:112 · components/Segnala.tsx:43 · app/api/segnalazioni/route.ts:30 · app/terms/page.tsx:515-518",
+      "descrizione": "`<Segnala>` è montato solo come `tipo=\"prodotto\"` (product page:1070) e `tipo=\"negozio\"` (store page:160). Il tipo `recensione` è accettato da componente e rotta ma nessuna pagina lo usa; la lista recensioni (prodotto e vetrina) non ha nessun comando di segnalazione. In app/admin non c'è una pagina per togliere una recensione.",
+      "impatto": "Una recensione diffamatoria contro un forno, o con la foto di una persona, si può segnalare solo «segnalando il prodotto» con un motivo che non c'entra, senza indicare la singola recensione (art. 16.2 lettera b).",
+      "fix": "Aggiungere «Segnala» su ogni recensione (tipo recensione) e un modo per l'admin di toglierla e avvisarne l'autore.",
+      "causa_radice": "Il canale copre i contenuti dei negozi, non quelli dei clienti.",
+      "prova": "grep -rn 'tipo=\"recensione\"' app components ; grep -n Segnala components/store-sections/ReviewsSection.tsx",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Nessuna occorrenza in entrambi i grep; <Segnala> compare solo in app/product/[id]/page.tsx:1070 e app/store/[id]/page.tsx:160.",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "qa: CONFERMATO minore; la voce 104 è il fratello per le domande sotto i prodotti.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S09-010",
+      "dimensione": "privacy-legale",
+      "titolo": "Nel riquadro «Venduto da» il cliente non trova l'email del negozio",
+      "severita": "minore",
+      "file": "components/products/VendutoDa.tsx:58-69 · lib/queries/venduto-da.ts:50-72 · migrations/126_radiografia_22_agosto.sql:359-361 · migrations/126_radiografia_22_agosto.sql:366-393",
+      "descrizione": "Il riquadro mostra nome, sede, partita IVA e telefono; tipo e colonne lette non hanno email; la vista pubblica dei negozi non ha email e un commento dice che PEC e SDI «restano fuori». Nessuna migrazione dopo la 126 aggiunge un'email; nel database esiste solo `business_pec`, fuori dalla vista. In negozio, carrello, cassa e ordini non c'è nessun indirizzo email del venditore. L'art. 49 c.1 lettera c del Codice del Consumo, dopo la direttiva Omnibus, chiede l'indirizzo email del professionista prima dell'acquisto, e il riquadro stesso dice che il contratto è col negozio.",
+      "impatto": "Il cliente che vuole contestare per iscritto una consegna al forno non ha un indirizzo email a cui scrivere.",
+      "fix": "Aggiungere un'email pubblica di contatto del negozio (o la PEC) alla vista e al riquadro.",
+      "causa_radice": "La vista è stata disegnata per non esporre dati personali e l'email è rimasta fuori.",
+      "prova": "grep sulle colonne email in migrations/ e su mailto/email del venditore in app/store, cart, checkout, orders",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Nessuna colonna store_email, business_email o contact_email; solo business_pec (migrazione 021), fuori dalla vista; nessun mailto del venditore.",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "qa: CONFERMATO minore; voci 590, 626, 2622 riguardano altro.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S09-011",
+      "dimensione": "privacy-legale",
+      "titolo": "L'informativa privacy non dice che chiediamo la data di nascita, il codice fiscale, il mezzo e la targa al fattorino, e la data di nascita al negozio",
+      "severita": "minore",
+      "file": "app/privacy/page.tsx:86-89 · app/rider/onboarding/page.tsx:42-51 · app/rider/onboarding/page.tsx:229-280 · app/api/seller/apply/route.ts:74",
+      "descrizione": "L'informativa elenca anagrafica e contatti (86), il codice fiscale solo fra i «Dati fiscali (Venditori)» (88) e i documenti caricati (89). Il modulo del fattorino raccoglie anche data di nascita, codice fiscale, tipo di mezzo, targa e scadenze di patente e polizza; la candidatura del negozio chiede la data di nascita (apply:74). L'art. 13 del GDPR chiede di dichiarare le categorie di dati raccolte.",
+      "impatto": "Un fattorino che chiede «cosa avete di me» trova un'informativa che non elenca metà dei dati che ha dato.",
+      "fix": "Aggiungere una riga «Dati del Rider» (data di nascita per i 18 anni, codice fiscale, mezzo, targa, scadenze) e la data di nascita fra i dati dei venditori, coi tempi di conservazione.",
+      "causa_radice": "L'informativa è scritta sui documenti caricati, non sui campi dei moduli (stessa classe della voce 1811, riparata).",
+      "prova": "grep -noiE 'data di nascita|nascita|targa|veicol|mezzo' app/privacy/page.tsx",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Nessuna occorrenza di data di nascita, targa, veicolo o mezzo nell'informativa.",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "qa: CONFERMATO minore, allargato al negozio.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S09-012",
+      "dimensione": "privacy-legale",
+      "titolo": "I Termini chiamano i tempi di consegna «stimati e non vincolanti», mentre in cassa il cliente sceglie la sua fascia oraria",
+      "severita": "minore",
+      "file": "lib/legal/promessa-cliente-assente.ts:240-243 · lib/promesse-pubbliche.ts:175 · components/checkout/DeliverySlotPicker.tsx:314",
+      "descrizione": "Il §6 dei Termini apre con «I tempi indicati sono stimati e non vincolanti, salvo diversa garanzia espressa». Il sito promette «in giornata, nella fascia oraria che scegli» e in cassa il cliente sceglie la fascia («scegli quando ricevere»). Nessuna garanzia espressa altrove. Una fascia scelta somiglia a un termine pattuito (art. 61 Cod. Cons.).",
+      "impatto": "Il pane scelto per la fascia 17-19 arriva alle 21: il cliente ha scelto un orario, e i Termini dicono che non era un impegno.",
+      "fix": "Chiedere all'avvocato se la clausola regge; se no, rendere vincolante la fascia scelta e dire cosa succede se viene superata (annullamento e rimborso).",
+      "causa_radice": "Clausola generica rimasta da una versione dei Termini precedente alle fasce.",
+      "prova": "Lettura di lib/legal/promessa-cliente-assente.ts:240-243, lib/promesse-pubbliche.ts:175 e components/checkout/DeliverySlotPicker.tsx:314; grep di garant/vincolant/puntualit senza risultati utili.",
+      "prova_tipo": "umano",
+      "prova_eseguita": false,
+      "esito_prova": "",
+      "perche_umano": "Dire se la fascia scelta in cassa è un termine pattuito e se «non vincolanti» regge verso il consumatore è un giudizio legale: serve un avvocato.",
+      "verificato": true,
+      "verificato_da": "qa: CAMBIA → il punto forte è la fascia scelta in cassa, più che lo slogan «in giornata»; resta minore, umano.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S09-013",
+      "dimensione": "privacy-legale",
+      "titolo": "Il server manda l'acquisto a Google e a PostHog anche quando il sì alle statistiche è scaduto da più di sei mesi o era per un'informativa vecchia",
+      "severita": "minore",
+      "file": "lib/analytics/server.ts:193-216 · lib/analytics/server.ts:220-221 · app/api/orders/cod/route.ts:1706 · lib/stripe/webhook/ordini.ts:506 · lib/consent.ts:31-34 · lib/consent.ts:51-55",
+      "descrizione": "`analyticsConsentita` prende l'ultima riga di `consent_log` per persona e categoria statistiche e guarda solo `valore === true`: non guarda `created_at` né `versione_testo`. Il browser invece dà il sì per scaduto dopo 180 giorni e scarta una versione diversa da 2 (consent.ts:31-34, 51-55). Il risultato decide `contaAcquisto`, chiamato alla nascita dell'ordine in contanti e dal webhook dei pagamenti, che manda l'acquisto a PostHog col codice del cliente e a Google. Nessuna vista, regola d'accesso o potatura esclude le righe vecchie.",
+      "impatto": "Maria accetta le statistiche il 20/3/2026. Il 6/11/2026, 231 giorni dopo, il banner le richiede il consenso e lei lo ignora: il browser non traccia più. Ordina 23 € di pane da Pane Quotidiano e il server manda lo stesso l'acquisto a Google e a PostHog col suo codice, contro il fatto `privacy.consenso-cookie-durata` («dura 6 mesi: dopo, il sito la richiede»).",
+      "fix": "In `analyticsConsentita` filtrare `created_at` maggiore di adesso meno CONSENT_MAX_AGE_DAYS e `versione_testo` uguale a CONSENT_VERSION, usando le costanti di lib/consent.ts.",
+      "causa_radice": "La regola «scaduto o versione diversa vale come no» è scritta due volte nel browser e mai nella lettura del registro lato server.",
+      "prova": "cd marketplace && npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/A/vitest.s09a.config.ts consenso-scaduto",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO: «Tests 2 failed | 1 passed (3)», «expected true to be false» sul sì di 231 giorni (orologio finto al 6/11/2026) e sul sì di versione '1'; il caso di controllo (sì fresco, versione 2) passa. Il finto client applica davvero i filtri, quindi la prova diventa verde col fix.",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "qa: CONFERMATO minore (la voce 86, stessa classe lato browser, era minore; il sì era stato dato; probabilmente oggi non esistono ancora righe di versione 2 più vecchie di 180 giorni, non verificato sui dati veri).",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S09-014",
+      "dimensione": "privacy-legale",
+      "titolo": "Quando un negozio cancella l'account, logo, foto della vetrina e dei prodotti e storie restano nei secchi pubblici: la prova che gira per la voce delle foto dei resi, e il pezzo che quella voce non nomina",
+      "severita": "minore",
+      "file": "lib/account/cancellazione.ts:91 · lib/account/cancellazione.ts:296-340 · lib/storage/percorso-caricamento.ts:1 · app/seller/stories/page.tsx:25 · app/seller/stories/page.tsx:107-111",
+      "descrizione": "`SECCHI_CON_FILE_PERSONALI = ['kyc-docs','cod-proof','reviews']` (cancellazione.ts:91) e `cancellaFilePersonali` (296-340) svuota solo quei tre. Le regole dello storage obbligano a caricare nella cartella `<userId>/` anche nei secchi pubblici `products` (logo, foto vetrina, sito del negozio, foto prodotto, foto dei resi) e `stories` (storie del negozio). La voce 78 copre le foto dei resi nel secchio products; questa porta la prova che gira e allarga il perimetro al resto del materiale del negozio e al secchio stories.",
+      "impatto": "Un fornaio cancella l'account: il logo con la sua faccia e le foto del banco restano raggiungibili all'indirizzo pubblico del secchio products, già indicizzabili da Google Immagini.",
+      "fix": "Aggiungere `products` e `stories` a `SECCHI_CON_FILE_PERSONALI` (la cartella `<userId>/` è già quella giusta) e far confrontare l'elenco con le regole dello storage da un guardiano. È lo stesso fix della voce 78, allargato.",
+      "causa_radice": "L'elenco dei secchi è scritto a mano e nessun controllo lo confronta con le regole dello storage che danno una cartella a persona.",
+      "prova": "cd marketplace && tests/sql/harness/apply.sh mycity_s09_va && npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/VA/vitest.va.config.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO: «secchi con cartella per persona che la cancellazione non svuota: products, stories: expected [ 'products', 'stories' ] to deeply equal []». La prova legge le regole vere di storage.objects dal Postgres locale (178 migrazioni applicate, 0 fallite).",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "qa: CAMBIA → stessa causa della voce 78 (grave, aperta), con prova più forte; il solo pezzo nuovo (secchio stories, contenuti di 24 ore) da solo sarebbe minore. Registrato come minore col rimando alla 78, che resta la voce del peso.",
+      "gia_noto": "privacy-legale|le foto dei resi restano pubbliche su internet per sempre, anche dopo che il cliente cancella l'account",
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S09-015",
+      "dimensione": "privacy-legale",
+      "titolo": "L'annulla iscrizione con un clic da Gmail si perde senza traccia dopo 30 richieste in dieci minuti dallo stesso indirizzo",
+      "severita": "minore",
+      "file": "app/api/unsubscribe/route.ts:74-81 · app/api/unsubscribe/route.ts:83 · lib/email/client.ts:156-161",
+      "descrizione": "Le email promozionali portano `List-Unsubscribe-Post: One-Click` (client.ts:156-161), quindi è il server di posta a fare la richiesta. La rotta frena con chiave `disiscrizione:<IP>` a 30 richieste ogni 10 minuti (74-81), prima ancora di controllare il gettone firmato (83). Oltre la soglia risponde 303 verso `?disiscrizione=non-riuscita` e non scrive nessun log. Oggi è latente: l'unica email promozionale parte dal lavoro dei carrelli abbandonati, che è fermo.",
+      "impatto": "Il giorno in cui ripartono le email promozionali, 40 persone premono «Annulla iscrizione» in Gmail nello stesso quarto d'ora e le richieste arrivano da pochi server Google: dalla 31ª l'iscrizione resta attiva e nessuno lo sa, e quelle persone ricevono ancora email commerciali dopo averle rifiutate.",
+      "fix": "Sulla richiesta con corpo `List-Unsubscribe=One-Click` niente freno per IP (il gettone firmato basta) oppure freno per gettone o email; registrare nei log ogni disiscrizione non riuscita.",
+      "causa_radice": "La rotta tratta la richiesta automatica del server di posta come un clic umano dal browser.",
+      "prova": "cd marketplace && npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/VA2/vitest.va2.config.ts /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/VA2/privacy-minori.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "3 su 3 verdi: qui le asserzioni descrivono il comportamento difettoso e diventano rosse quando viene riparato. Caso disiscrizione: 31 richieste One-Click dallo stesso IP → la funzione di disiscrizione è chiamata 30 volte, la 31ª riceve 303 non-riuscita e il logger d'errore non viene mai chiamato.",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "qa: CAMBIA → resta minore e latente; corretto il pezzo sul database (quel ramo un log lo scrive) e sul codice di risposta (un 5xx non cambierebbe niente per chi clicca).",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S09-016",
+      "dimensione": "privacy-legale",
+      "titolo": "La conferma della newsletter scatta appena il link viene aperto, anche da un antivirus, e funziona anche con la newsletter spenta",
+      "severita": "minore",
+      "file": "app/api/newsletter/confirm/route.ts:15-53 · lib/funzioni-al-lancio.ts:59-61",
+      "descrizione": "La conferma è una GET che scrive subito `active: true` e `confirmed_at` (route.ts:43-48). Non legge l'interruttore `NEWSLETTER_ACCESA` (funzioni-al-lancio.ts:61, oggi false; il commento dice apposta che conferma e disiscrizione restano vive). Il doppio consenso serve a dimostrare che il titolare dell'email ha voluto iscriversi, ma i filtri antispam e le anteprime aprono i link da soli. La disiscrizione invece è già stata portata a pagina più pulsante (GET mostra, POST scrive).",
+      "impatto": "Qualcuno iscrive ufficio@studio-piacenza.it; il filtro antivirus dello studio apre il link e il registro mostra un consenso confermato che nessuno ha dato. Oggi con la newsletter spenta non nascono gettoni nuovi: restano solo quelli creati prima, che la potatura toglie dopo 30 giorni.",
+      "fix": "Come per la disiscrizione: la GET porta a una pagina con un pulsante e la POST conferma.",
+      "causa_radice": "La protezione contro le aperture automatiche è stata data alla disiscrizione e non alla conferma.",
+      "prova": "cd marketplace && npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/VA2/vitest.va2.config.ts /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/VA2/privacy-minori.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "3 su 3 verdi: le asserzioni descrivono il comportamento difettoso. Caso conferma: con l'interruttore a false, la GET col gettone scrive active=true e rimanda a ?newsletter=confermata.",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "qa: CONFERMATO minore, latente; stessa famiglia della voce 1670 (riparata) e della 503.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S09-017",
+      "dimensione": "privacy-legale",
+      "titolo": "Chi rifiuta le statistiche dopo averle accettate si tiene l'identificativo di un anno, e al sì successivo le visite nuove si riattaccano a quelle di prima",
+      "severita": "minore",
+      "file": "app/api/consent/route.ts:79-142 · app/api/track/route.ts:27 · app/api/track/route.ts:181-184 · app/api/track/route.ts:244-254 · lib/consent.ts:62-119",
+      "descrizione": "Il cookie `mc_vid` è httpOnly e dura 365 giorni (track/route.ts:27, creato a 244-254): solo il server può toglierlo. La rotta dei consensi lo legge ma non lo cancella mai al rifiuto (consent/route.ts:79-142), e lib/consent.ts riscrive solo il cookie del consenso. In tutto app, lib, components e middleware non c'è nessuna cancellazione di mc_vid. Quando il consenso torna, track riusa il mc_vid esistente invece di crearne uno nuovo (181-184).",
+      "impatto": "Luca accetta a marzo, revoca a maggio, riaccetta a novembre: in activity_events le visite di marzo e quelle di novembre portano lo stesso codice anonimo, come se la revoca non ci fosse stata.",
+      "fix": "Nella rotta dei consensi, se le statistiche sono negate, rispondere togliendo mc_vid (valore vuoto, durata 0); lato browser togliere i cookie _ga* e ph_* alla revoca.",
+      "causa_radice": "La revoca ferma la raccolta ma non toglie gli identificativi già messi.",
+      "prova": "cd marketplace && npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/VA2/vitest.va2.config.ts /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/VA2/privacy-minori.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "3 su 3 verdi: le asserzioni descrivono il comportamento difettoso. Caso revoca: POST con tutto negato e cookie mc_vid=VECCHIO-ID → 200 e nessun Set-Cookie per mc_vid. Grep di mc_vid con maxAge 0, delete o expires in app, lib, components e middleware.ts: nessuna occorrenza.",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "qa: CONFERMATO minore; voci 1101 e 1331 chiuse e diverse, 128 aperta su un altro dato.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    }
+  ],
+  "regressioni": [
+    {
+      "chiave": "privacy-legale|«scarica i miei dati» salta 25 tabelle dove ci sono dati della persona: portafoglio, punti, buoni regalo, domande sui prodotti, sos del rider",
+      "indice": 716,
+      "prova": "cd marketplace && node /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/A/export-completo.mjs ; npx vitest run tests/unit/scarica-i-miei-dati-non-salta-nessuna-tabella.test.ts",
+      "esito_prova": "Riparazione incompleta: lo script esce 1 con 15 colonne che puntano alla persona fuori dal file; 10 sono escluse con motivo scritto nella prova lasciata dalla riparazione (4 su 4 verdi), ne restano 5 nate prima della chiusura del 6/9/2026 (store_reviews e rider_reviews dalla migrazione 014, returns dalla 024, shop_of_month_votes dalla 034, follows dalla 100). Contano davvero le recensioni ricevute dal fattorino (rider_reviews.rider_id) e dal negozio ditta individuale (store_reviews.store_id); il guardiano guarda le tabelle e non le colonne (app/api/account/export/route.ts:109-139 e 161-195)."
+    }
+  ],
+  "ricontrolli": [],
+  "prove_per_la_palestra": [
+    {
+      "id": "S09-P001",
+      "funzione": "Banner dei cookie: rifiutare tutto",
+      "chi": "estraneo",
+      "file": "components/CookieBanner.tsx",
+      "dati_di_prova": "browser pulito",
+      "passi": "apri la home, premi «Rifiuta tutto», naviga 3 pagine",
+      "atteso": "nessuna richiesta a Google Tag Manager né a PostHog, nessun cookie _ga, ph_* o mc_vid",
+      "limite": "estensioni del browser che bloccano o iniettano script"
+    },
+    {
+      "id": "S09-P002",
+      "funzione": "Google Analytics con consenso scaduto",
+      "chi": "cliente",
+      "file": "components/GoogleAnalytics.tsx",
+      "dati_di_prova": "consenso salvato 181 giorni fa nell'archivio del browser",
+      "passi": "ricarica la pagina",
+      "atteso": "il banner ricompare e gtag.js non viene caricato",
+      "limite": "orologio finto nel browser, cambio d'ora"
+    },
+    {
+      "id": "S09-P003",
+      "funzione": "Revoca del consenso statistiche",
+      "chi": "estraneo",
+      "file": "app/api/consent/route.ts",
+      "dati_di_prova": "cookie mc_vid=abc già presente",
+      "passi": "POST con analytics:false",
+      "atteso": "riga nel registro dei consensi senza IP, e la risposta toglie mc_vid",
+      "limite": "doppio clic su Rifiuta"
+    },
+    {
+      "id": "S09-P004",
+      "funzione": "Visita registrata senza consenso",
+      "chi": "estraneo",
+      "file": "app/api/track/route.ts",
+      "dati_di_prova": "cookie mc_consent con statistiche negate",
+      "passi": "POST page_view",
+      "atteso": "204, nessuna riga in activity_events, nessun cookie nuovo",
+      "limite": "freno a 120 richieste al minuto"
+    },
+    {
+      "id": "S09-P005",
+      "funzione": "Scarica i miei dati da fattorino",
+      "chi": "fattorino",
+      "file": "app/api/account/export/route.ts",
+      "dati_di_prova": "un fattorino con 2 giornate di cassa contanti e 1 recensione ricevuta",
+      "passi": "premi «Scarica i miei dati»",
+      "atteso": "il file contiene le giornate di cassa e la recensione, oppure dice export_completo:false",
+      "limite": "3 download al giorno, account con migliaia di ordini"
+    },
+    {
+      "id": "S09-P006",
+      "funzione": "Cancellazione dell'account di un negozio",
+      "chi": "negozio",
+      "file": "app/api/account/delete/route.ts · lib/account/cancellazione.ts · app/api/cron/process-deletions/route.ts",
+      "dati_di_prova": "un negozio con logo nella sua cartella del secchio products e una storia nel secchio stories",
+      "passi": "chiedi la cancellazione, avanza l'orologio di 8 giorni, lancia il giro delle cancellazioni",
+      "atteso": "logo, foto e storie non sono più raggiungibili dal loro indirizzo pubblico",
+      "limite": "storage finto in locale, ordine ancora aperto al momento della richiesta"
+    },
+    {
+      "id": "S09-P007",
+      "funzione": "Giro delle cancellazioni con un reclamo aperto",
+      "chi": "admin",
+      "file": "app/api/cron/process-deletions/route.ts",
+      "dati_di_prova": "un cliente con un reclamo scritto e richiesta di cancellazione di 8 giorni fa",
+      "passi": "lancia il giro",
+      "atteso": "il testo del reclamo è trattato come deciso da Nicola (tenuto o azzerato) e i dati dell'ordine sono azzerati",
+      "limite": "contenzioso aperto, giro lanciato due volte"
+    },
+    {
+      "id": "S09-P008",
+      "funzione": "Riaccettazione dei Termini",
+      "chi": "cliente",
+      "file": "app/api/account/accetta-condizioni/route.ts",
+      "dati_di_prova": "un utente iscritto con i Termini vecchi",
+      "passi": "POST da un'altra origine, poi dalla stessa, poi di nuovo",
+      "atteso": "403, poi 200 con riga nel registro dei consensi e versione nuova, poi gia:true",
+      "limite": "doppio clic"
+    },
+    {
+      "id": "S09-P009",
+      "funzione": "Cambio password con quella vecchia sbagliata",
+      "chi": "cliente",
+      "file": "app/api/account/cambia-password/route.ts",
+      "dati_di_prova": "password vecchia errata",
+      "passi": "POST",
+      "atteso": "rifiuto, nessuna sessione chiusa, nessun dato cambiato",
+      "limite": "servizio di accesso lento o che non risponde"
+    },
+    {
+      "id": "S09-P010",
+      "funzione": "Caricamento di un documento falso",
+      "chi": "fattorino",
+      "file": "app/api/kyc/upload-document/route.ts",
+      "dati_di_prova": "un PNG rinominato .pdf",
+      "passi": "carica come documento d'identità",
+      "atteso": "400 «non è del formato che dichiara», nessun file nel secchio",
+      "limite": "file da 20 MB, rete lenta"
+    },
+    {
+      "id": "S09-P011",
+      "funzione": "Avvio della verifica del negozio",
+      "chi": "negozio",
+      "file": "app/api/kyc/start-check/route.ts",
+      "dati_di_prova": "profilo con documenti caricati e partita IVA",
+      "passi": "avvia la verifica",
+      "atteso": "stato in attesa o manuale, nessun invio a fornitori esterni non dichiarati nell'informativa",
+      "limite": "servizio VIES che non risponde"
+    },
+    {
+      "id": "S09-P012",
+      "funzione": "Documenti di un altro fattorino",
+      "chi": "estraneo",
+      "file": "app/api/kyc/documenti-rider/[id]/route.ts",
+      "dati_di_prova": "id di un fattorino diverso",
+      "passi": "GET senza ruolo admin",
+      "atteso": "403 e nessun documento",
+      "limite": "id inesistente o malformato"
+    },
+    {
+      "id": "S09-P013",
+      "funzione": "Reiscrizione alla newsletter",
+      "chi": "estraneo",
+      "file": "app/api/newsletter/route.ts",
+      "dati_di_prova": "un'email già disiscritta",
+      "passi": "reiscriviti e conferma",
+      "atteso": "active=true e unsubscribed_at vuoto",
+      "limite": "interruttore della newsletter acceso a mano"
+    },
+    {
+      "id": "S09-P014",
+      "funzione": "Conferma della newsletter aperta da un antivirus",
+      "chi": "estraneo",
+      "file": "app/api/newsletter/confirm/route.ts",
+      "dati_di_prova": "un token di conferma valido",
+      "passi": "apri il link con una GET senza clic, come fa un filtro antispam",
+      "atteso": "nessuna conferma finché una persona non preme un pulsante",
+      "limite": "link aperto più volte"
+    },
+    {
+      "id": "S09-P015",
+      "funzione": "Annulla iscrizione con un clic da Gmail",
+      "chi": "cliente",
+      "file": "app/api/unsubscribe/route.ts",
+      "dati_di_prova": "31 token validi inviati dallo stesso IP",
+      "passi": "31 POST con corpo List-Unsubscribe=One-Click",
+      "atteso": "31 disiscrizioni, oppure un errore non 3xx sulle fallite",
+      "limite": "tanti utenti insieme dallo stesso server di posta"
+    },
+    {
+      "id": "S09-P016",
+      "funzione": "Pagina di disiscrizione",
+      "chi": "cliente",
+      "file": "app/disiscrizione/page.tsx",
+      "dati_di_prova": "un token valido",
+      "passi": "apri il link, premi «Conferma»",
+      "atteso": "pagina «Fatto» e consenso marketing spento",
+      "limite": "token scaduto o manomesso"
+    },
+    {
+      "id": "S09-P017",
+      "funzione": "Informativa privacy contro i tempi veri",
+      "chi": "estraneo",
+      "file": "app/privacy/page.tsx",
+      "dati_di_prova": "nessuno",
+      "passi": "confronta ogni tempo di conservazione scritto con le potature nel codice e con i campi dei moduli rider e negozio",
+      "atteso": "ogni tempo ha la sua potatura e ogni dato raccolto è nominato",
+      "limite": "lettura umana"
+    },
+    {
+      "id": "S09-P018",
+      "funzione": "Cookie policy contro i cookie presenti",
+      "chi": "estraneo",
+      "file": "app/cookies/page.tsx",
+      "dati_di_prova": "un browser dopo «Accetta tutto»",
+      "passi": "elenca i cookie presenti",
+      "atteso": "ogni cookie è in tabella con la durata vera",
+      "limite": "cookie di terze parti che dipendono dalla configurazione"
+    },
+    {
+      "id": "S09-P019",
+      "funzione": "Termini: prezzi, resi e commissione",
+      "chi": "cliente",
+      "file": "app/terms/page.tsx",
+      "dati_di_prova": "un carrello pane 15 € e frutta 12 €, pagamento con carta spento",
+      "passi": "apri /terms, leggi §4, §6 e §9",
+      "atteso": "l'esempio dei costi torna, solo contanti, la commissione senza «IVA inclusa» finché il regime è sospeso",
+      "limite": "il testo legale lo giudica un avvocato"
+    },
+    {
+      "id": "S09-P020",
+      "funzione": "Domanda frequente sul reso",
+      "chi": "cliente",
+      "file": "app/faq/page.tsx",
+      "dati_di_prova": "nessuno",
+      "passi": "apri «Posso restituire un prodotto?»",
+      "atteso": "«su ordinazione» compare una sola volta",
+      "limite": "il testo cambia con la costante dei prodotti esclusi"
+    },
+    {
+      "id": "S09-P021",
+      "funzione": "Descrizione delle domande frequenti per Google",
+      "chi": "estraneo",
+      "file": "app/faq/layout.tsx",
+      "dati_di_prova": "nessuno",
+      "passi": "leggi i meta della pagina",
+      "atteso": "nessuna promessa di tempi o costi diversa dalle pagine",
+      "limite": "solo testo"
+    },
+    {
+      "id": "S09-P022",
+      "funzione": "Come funziona: anteprima su Google",
+      "chi": "estraneo",
+      "file": "app/come-funziona/page.tsx",
+      "dati_di_prova": "nessuno",
+      "passi": "leggi la description",
+      "atteso": "esclude dal reso i freschi e i prodotti su ordinazione",
+      "limite": "solo i metadati"
+    },
+    {
+      "id": "S09-P023",
+      "funzione": "Spedizioni: costo della consegna",
+      "chi": "cliente",
+      "file": "app/shipping/page.tsx",
+      "dati_di_prova": "carrelli da 15 €, da 8 € e da 15+12 € su due negozi",
+      "passi": "confronta la frase della pagina col costo calcolato in cassa",
+      "atteso": "3 €, 4 €, 4 € come dice la pagina",
+      "limite": "carrello sotto la soglia, tanti negozi nello stesso carrello"
+    },
+    {
+      "id": "S09-P024",
+      "funzione": "Resi: reso per ripensamento",
+      "chi": "cliente",
+      "file": "app/returns/page.tsx",
+      "dati_di_prova": "un ordine consegnato con un prodotto fresco escluso e uno normale",
+      "passi": "chiedi il reso per «cambio idea» su entrambi",
+      "atteso": "rifiutato il fresco con la garanzia ancora valida, accettato il normale",
+      "limite": "ultimo giorno dei 14, cambio d'ora"
+    },
+    {
+      "id": "S09-P025",
+      "funzione": "Chi siamo",
+      "chi": "cliente",
+      "file": "app/about/page.tsx",
+      "dati_di_prova": "0 negozi oppure conteggio fallito",
+      "passi": "apri la pagina",
+      "atteso": "nessuna affermazione non vera tipo «100% verificati»",
+      "limite": "database che non risponde"
+    },
+    {
+      "id": "S09-P026",
+      "funzione": "Lavora con noi",
+      "chi": "fattorino",
+      "file": "app/lavora-con-noi/page.tsx",
+      "dati_di_prova": "nessuno",
+      "passi": "premi «Candidati come rider» e confronta i requisiti promessi con il modulo",
+      "atteso": "arriva all'iscrizione rider e i requisiti coincidono con quelli chiesti",
+      "limite": "solo testo"
+    },
+    {
+      "id": "S09-P027",
+      "funzione": "Aiuto per i clienti",
+      "chi": "cliente",
+      "file": "app/help/page.tsx",
+      "dati_di_prova": "ritiro in negozio spento",
+      "passi": "leggi la scheda sulle spedizioni",
+      "atteso": "nessuna menzione del ritiro in negozio",
+      "limite": "funzioni accese o spente al lancio"
+    },
+    {
+      "id": "S09-P028",
+      "funzione": "Aiuto per i negozi: quando arrivano i soldi",
+      "chi": "negozio",
+      "file": "app/seller/help/domande.ts · app/seller/help/page.tsx",
+      "dati_di_prova": "pagamento con carta spento",
+      "passi": "apri «Quando ricevo i soldi?»",
+      "atteso": "«ogni lunedì, per la settimana prima», coerente col bonifico vero",
+      "limite": "settimana con festivo"
+    },
+    {
+      "id": "S09-P029",
+      "funzione": "Aiuto per il fattorino",
+      "chi": "fattorino",
+      "file": "app/rider/help/page.tsx",
+      "dati_di_prova": "un fattorino appena approvato",
+      "passi": "leggi le risposte su mancia e INAIL e confrontale con ciò che il sito fa",
+      "atteso": "le risposte dicono chi controlla cosa (l'INAIL la apre MyCity, il controllo è dell'admin)",
+      "limite": "solo testo"
+    },
+    {
+      "id": "S09-P030",
+      "funzione": "Email del secondo giorno al cliente",
+      "chi": "cliente",
+      "file": "lib/email/templates.ts",
+      "dati_di_prova": "carta e ritiro spenti",
+      "passi": "prepara l'email del ciclo di vita del secondo giorno",
+      "atteso": "«Paghi in contanti», nessun ritiro in negozio",
+      "limite": "non prova l'invio vero"
+    },
+    {
+      "id": "S09-P031",
+      "funzione": "Frase pubblica della consegna e fasce",
+      "chi": "cliente",
+      "file": "lib/promesse-pubbliche.ts · lib/quando-arriva.ts · lib/promessa-consegna.ts",
+      "dati_di_prova": "Pane Quotidiano, martedì alle 12:00 e alle 14:00, orologio finto",
+      "passi": "leggi la frase di consegna e le fasce offerte",
+      "atteso": "alle 12:00 c'è la fascia 13-16:30, alle 14:00 no; la frase coincide col calcolo",
+      "limite": "negozio che chiude alle 23:30, veloce ordinata alle 20:58"
+    },
+    {
+      "id": "S09-P032",
+      "funzione": "Segnalare un prodotto",
+      "chi": "estraneo",
+      "file": "app/api/segnalazioni/route.ts · components/Segnala.tsx",
+      "dati_di_prova": "un prodotto esistente, email prova@example.com",
+      "passi": "apri la scheda, «Segnala questo contenuto», motivo «Contraffatto», lascia l'email, invia",
+      "atteso": "201, avviso agli admin, email di conferma di ricezione con numero, possibilità di dare nome e buona fede",
+      "limite": "servizio di posta finto che non risponde, doppio invio"
+    },
+    {
+      "id": "S09-P033",
+      "funzione": "Decisione su una segnalazione",
+      "chi": "admin",
+      "file": "app/admin/segnalazioni/page.tsx · app/api/segnalazioni/esito/comunica.ts",
+      "dati_di_prova": "una segnalazione ricevuta",
+      "passi": "scegli «Accolta» con una motivazione di 25 caratteri e salva",
+      "atteso": "il contenuto non è più visibile; chi ha segnalato e il venditore ricevono l'esito con il percorso per contestarlo",
+      "limite": "due admin che decidono insieme"
+    },
+    {
+      "id": "S09-P034",
+      "funzione": "Reso per ripensamento su un prodotto escluso a torto",
+      "chi": "cliente",
+      "file": "app/api/returns/create/route.ts · lib/ordini/recesso.ts · components/seller/ProductForm.tsx",
+      "dati_di_prova": "un ordine consegnato ieri con un maglione spuntato «escluso dal recesso»",
+      "passi": "chiedi il reso con motivo «Cambio idea»",
+      "atteso": "il reso nasce, oppure il negozio non ha potuto spuntare il maglione",
+      "limite": "spunta accesa dopo la vendita"
+    },
+    {
+      "id": "S09-P035",
+      "funzione": "Iscrizione di un fattorino minorenne",
+      "chi": "fattorino",
+      "file": "app/rider/onboarding/page.tsx · lib/maggiore-eta.ts",
+      "dati_di_prova": "data di nascita di 15 anni fa, va in bici",
+      "passi": "compila il primo passo e salva, poi scrivi il profilo direttamente",
+      "atteso": "rifiuto «servono 18 anni compiuti» in entrambi i casi",
+      "limite": "compleanno oggi, fuso orario"
+    },
+    {
+      "id": "S09-P036",
+      "funzione": "Riquadro «Venduto da»",
+      "chi": "cliente",
+      "file": "components/products/VendutoDa.tsx · lib/queries/venduto-da.ts",
+      "dati_di_prova": "un negozio approvato con ragione sociale, partita IVA, sede, telefono ed email",
+      "passi": "apri un suo prodotto",
+      "atteso": "si vedono nome, sede, partita IVA, telefono ed email",
+      "limite": "negozio senza partita IVA"
+    },
+    {
+      "id": "S09-P037",
+      "funzione": "Dichiarazione di accessibilità",
+      "chi": "cliente",
+      "file": "app/accessibility/page.tsx",
+      "dati_di_prova": "nessuno",
+      "passi": "apri la pagina",
+      "atteso": "data di revisione, email e modulo per segnalare, risposta in 30 giorni, reclamo ad AgID",
+      "limite": "solo contenuto, non l'aspetto"
+    },
+    {
+      "id": "S09-P038",
+      "funzione": "Contatti",
+      "chi": "estraneo",
+      "file": "app/contact/page.tsx · app/api/contact/route.ts · lib/contatti-pubblici.ts",
+      "dati_di_prova": "un messaggio di 20 caratteri",
+      "passi": "invia il modulo",
+      "atteso": "salvato e avviso al supporto; se il database non risponde, inoltro segnato come non salvato",
+      "limite": "database che non risponde, tanti invii insieme"
+    },
+    {
+      "id": "S09-P039",
+      "funzione": "Raccolta dati alla candidatura del negozio",
+      "chi": "negozio",
+      "file": "app/api/seller/apply/route.ts · components/SellerApplicationForm.tsx",
+      "dati_di_prova": "una candidatura completa con data di nascita",
+      "passi": "invia e poi apri l'informativa",
+      "atteso": "ogni dato chiesto (data di nascita compresa) è nominato nell'informativa; la commissione non dice «IVA inclusa» finché è sospesa",
+      "limite": "candidatura inviata due volte"
+    },
+    {
+      "id": "S09-P040",
+      "funzione": "Fascia scelta in cassa e Termini",
+      "chi": "cliente",
+      "file": "components/checkout/DeliverySlotPicker.tsx · lib/legal/promessa-cliente-assente.ts",
+      "dati_di_prova": "fascia 17-19 scelta in cassa",
+      "passi": "completa l'ordine e leggi il §6 dei Termini",
+      "atteso": "i Termini dicono cosa succede se la fascia scelta non viene rispettata",
+      "limite": "consegna oltre la fascia"
+    },
+    {
+      "id": "S09-P041",
+      "funzione": "Segnalare una recensione",
+      "chi": "cliente",
+      "file": "app/product/[id]/page.tsx · components/store-sections/ReviewsSection.tsx",
+      "dati_di_prova": "un prodotto con una recensione offensiva",
+      "passi": "cerca il comando per segnalare quella recensione",
+      "atteso": "c'è un «Segnala» sulla singola recensione e l'admin la può togliere",
+      "limite": "recensione con foto di una persona"
+    }
+  ],
+  "domande_per_nicola": [
+    "IVA sulla commissione: finché il commercialista non conferma il regime, che parola scriviamo ai negozi e nei Termini al posto di «IVA inclusa»? Quando arriva la risposta cambia anche la versione dei Termini.",
+    "Consegna veloce: oggi si può ordinare fino alle 20:59 e, con un negozio aperto la sera, arriva verso le 22. Vuoi fermare l'ultima vendita della veloce alle 20, così l'arrivo resta dentro l'ultima fascia che finisce alle 21?",
+    "Per l'avvocato, recesso: l'elenco «salumi, latticini» senza «freschi» nella regola del 31/10 va oltre l'art. 59 lettera d? Va scritto «salumi e formaggi freschi»? (si cambia prima il fatto, poi i Termini)",
+    "Per l'avvocato, tempi di consegna: la fascia scelta in cassa è un termine pattuito, e la clausola «tempi stimati e non vincolanti» regge verso il consumatore?",
+    "Per l'avvocato, esclusione dal recesso decisa dal negozio: la seconda lente la pesa grave oggi e bloccante al primo negozio non alimentare. Vuoi chiudere il fix prima di far entrare negozi non alimentari?"
+  ],
+  "conto": {
+    "agenti": 11,
+    "token_sessione": {
+      "turni": 56,
+      "input": 124,
+      "scritti_cache": 265647,
+      "letti_cache": 12935427,
+      "uscita": 68184,
+      "entrata_totale": 13201198
+    },
+    "token_subagenti": {
+      "agenti_misurati": 10,
+      "turni": 352,
+      "input": 704,
+      "scritti_cache": 914683,
+      "letti_cache": 48780933,
+      "uscita": 197371,
+      "entrata_totale": 49696320
+    },
+    "token_workflow": [],
+    "nota": "Misurato con node cervello/conto-token.mjs (--sessione sul transcript principale, --dir sulla cartella subagents). 11 agenti in tutto su un tetto di 12: 3 cercatori, 7 verificatori qa, 1 seconda lente legale; nessun workflow. Il conto dei subagenti ne misura 10 su 11 anche rimisurato a lavoro chiuso: il transcript di uno degli agenti non è nella cartella subagents, quindi il numero dei subagenti è per difetto."
+  }
+}

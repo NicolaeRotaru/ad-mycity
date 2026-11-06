@@ -1,0 +1,1278 @@
+{
+  "sessione": "S08",
+  "base_sito": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
+  "aggiornato": "2026-11-06 12:13",
+  "finita": true,
+  "copertura": {
+    "file_letti_interi": [
+      "vercel.json",
+      "lib/cron/fermo-dei-lavori.ts",
+      "docs/crons.json",
+      "lib/logger.ts",
+      "lib/analytics/sentry.tsx",
+      "lib/analytics/server.ts",
+      "sentry.server.config.ts",
+      "instrumentation.ts",
+      "app/error.tsx",
+      "lib/email/client.ts",
+      "lib/email/unsubscribe.ts",
+      "lib/email/sentinella-posta-ordini.ts",
+      "lib/email/ritmo-della-coda.ts",
+      "lib/push/send.ts",
+      "app/api/cron/send-push/route.ts",
+      "app/api/cron/send-emails/route.ts",
+      "app/api/unsubscribe/route.ts",
+      "app/api/cron/abandoned-carts/route.ts",
+      "app/api/cron/external-price-alerts/route.ts",
+      "app/api/newsletter/route.ts",
+      "app/api/newsletter/confirm/route.ts",
+      "lib/email/avviso-messaggio-negozio.ts",
+      "lib/email/annullo-nel-carrello.ts",
+      "lib/carrelli-abbandonati.ts",
+      "app/api/admin/orders/rimborsi-da-dividere/route.ts",
+      "app/api/admin/credito-del-rimborso/route.ts",
+      "app/api/admin/cod-remittance/route.ts",
+      "app/api/admin/users/[id]/kyc/route.ts",
+      "app/api/admin/users/[id]/delete/route.ts",
+      "app/api/admin/orders/[id]/cancel/route.ts",
+      "app/api/admin/cod-incasso-dichiarato/route.ts",
+      "components/admin/LoadError.tsx",
+      "lib/admin/scritture-delle-campagne.ts",
+      "lib/admin/spese-del-cliente.ts",
+      "lib/admin/account-assistenza.ts"
+    ],
+    "file_letti_in_parte": [
+      {
+        "file": "lib/api/middleware.ts",
+        "righe": "531-680"
+      },
+      {
+        "file": "app/api/cron/operational-alerts/route.ts",
+        "righe": "53-130"
+      },
+      {
+        "file": "app/api/cron/operational-alerts/route.ts",
+        "righe": "300-445"
+      },
+      {
+        "file": "app/api/cron/operational-alerts/route.ts",
+        "righe": "600-760"
+      },
+      {
+        "file": "app/api/cron/abandoned-carts/route.ts",
+        "righe": "55-80"
+      },
+      {
+        "file": "lib/cron-health.ts",
+        "righe": "40-110"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "1495-1735"
+      },
+      {
+        "file": "lib/stripe/webhook/ordini.ts",
+        "righe": "470-597"
+      },
+      {
+        "file": "lib/stripe/webhook/comune.ts",
+        "righe": "100-330"
+      },
+      {
+        "file": "lib/email/templates.ts",
+        "righe": "30-266"
+      },
+      {
+        "file": "lib/email/templates.ts",
+        "righe": "720-1022"
+      },
+      {
+        "file": "lib/health/checks.ts",
+        "righe": "40-206"
+      },
+      {
+        "file": "lib/salute-marketplace.ts",
+        "righe": "1-40"
+      },
+      {
+        "file": "lib/analytics/registro-accessi.ts",
+        "righe": "20-87"
+      },
+      {
+        "file": "app/api/track/route.ts",
+        "righe": "186-261"
+      },
+      {
+        "file": "lib/analytics/events.ts",
+        "righe": "231-262"
+      },
+      {
+        "file": "app/admin/funnel/page.tsx",
+        "righe": "60-200"
+      },
+      {
+        "file": "app/admin/events/page.tsx",
+        "righe": "55-160"
+      },
+      {
+        "file": "app/admin/page.tsx",
+        "righe": "60-170"
+      },
+      {
+        "file": "app/admin/activity/page.tsx",
+        "righe": "85-200"
+      },
+      {
+        "file": "app/admin/payouts/page.tsx",
+        "righe": "90-192"
+      },
+      {
+        "file": "app/admin/cod-remittance/page.tsx",
+        "righe": "70-230"
+      },
+      {
+        "file": "app/admin/products/page.tsx",
+        "righe": "35-131"
+      },
+      {
+        "file": "app/admin/users/page.tsx",
+        "righe": "150-280"
+      },
+      {
+        "file": "app/admin/users/page.tsx",
+        "righe": "466-575"
+      },
+      {
+        "file": "app/admin/users/page.tsx",
+        "righe": "712-870"
+      },
+      {
+        "file": "app/admin/sos/page.tsx",
+        "righe": "28-80"
+      },
+      {
+        "file": "app/admin/sos/lettura-degli-sos.ts",
+        "righe": "30-83"
+      },
+      {
+        "file": "app/admin/support/page.tsx",
+        "righe": "36-80"
+      },
+      {
+        "file": "app/admin/segnalazioni/page.tsx",
+        "righe": "60-110"
+      },
+      {
+        "file": "app/admin/shop-of-month/page.tsx",
+        "righe": "35-125"
+      },
+      {
+        "file": "app/admin/disputes/page.tsx",
+        "righe": "60-200"
+      },
+      {
+        "file": "app/admin/audit/page.tsx",
+        "righe": "30-80"
+      },
+      {
+        "file": "app/admin/sponsored/page.tsx",
+        "righe": "64-90"
+      },
+      {
+        "file": "app/admin/credito-del-rimborso/page.tsx",
+        "righe": "1-88"
+      },
+      {
+        "file": "app/api/admin/disputes/[id]/resolve/route.ts",
+        "righe": "30-300"
+      },
+      {
+        "file": "app/api/admin/users/[id]/moderate/route.ts",
+        "righe": "60-285"
+      },
+      {
+        "file": "app/api/admin/categories/route.ts",
+        "righe": "80-118"
+      },
+      {
+        "file": "app/api/admin/products/route.ts",
+        "righe": "80-234"
+      },
+      {
+        "file": "components/admin/AdminSidebar.tsx",
+        "righe": "96-140"
+      },
+      {
+        "file": "lib/admin/vista-delle-campagne.ts",
+        "righe": "150-200"
+      },
+      {
+        "file": "lib/admin/elenco-utenti.ts",
+        "righe": "100-255"
+      },
+      {
+        "file": "lib/admin/esporta-csv.ts",
+        "righe": "50-70"
+      },
+      {
+        "file": "app/api/cron/release-payouts/route.ts",
+        "righe": "120-411"
+      },
+      {
+        "file": "app/api/cron/expire-checkouts/route.ts",
+        "righe": "30-99"
+      },
+      {
+        "file": "app/rider/page.tsx",
+        "righe": "183-446"
+      },
+      {
+        "file": "app/seller/products/new/page.tsx",
+        "righe": "88-100"
+      },
+      {
+        "file": "app/api/rider/cash-confirm/route.ts",
+        "righe": "212-300"
+      },
+      {
+        "file": "lib/stripe/payout.ts",
+        "righe": "200-470"
+      },
+      {
+        "file": "components/seller/SellerShell.tsx",
+        "righe": "85-122"
+      },
+      {
+        "file": "app/orders/page.tsx",
+        "righe": "112-175"
+      },
+      {
+        "file": "app/profile/settings/page.tsx",
+        "righe": "530-600"
+      },
+      {
+        "file": "app/api/chat/messages/route.ts",
+        "righe": "1-132"
+      }
+    ],
+    "file_eseguiti": [
+      {
+        "file": "tests/unit/i-lavori-a-orario-si-fermano-finche-nicola-non-li-accende.test.ts",
+        "comando": "npx vitest run tests/unit/i-lavori-a-orario-si-fermano-finche-nicola-non-li-accende.test.ts",
+        "esito": "76 prove su 76 passate: per ognuno degli 11 lavori il fermo risponde 200 senza toccare il database, ?a_mano=1 arriva al lavoro vero, senza segreto resta 401"
+      },
+      {
+        "file": "lib/api/middleware.ts",
+        "comando": "npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/C/vitest.config.mts battito",
+        "esito": "2 test rossi su 2 (battito scritto anche con risposta 500; upsert fallito senza nessuna riga di log)"
+      },
+      {
+        "file": "app/error.tsx",
+        "comando": "npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/C/vitest.config.mts errore-browser",
+        "esito": "rosso: 0 richieste dal browser, 1 riga in console"
+      },
+      {
+        "file": "app/admin/payouts/page.tsx",
+        "comando": "node /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/A/prova-tetto-1000.mjs",
+        "esito": "exit 1: avviso tagliato sempre falso su payouts, products, cod-remittance; soglia «campione» irraggiungibile in activity"
+      },
+      {
+        "file": "migrations/215_minori_s04_database.sql",
+        "comando": "psql -X -q -d mycity_s08_v5 -f /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/A/prova-admin-kpi.sql",
+        "esito": "ERROR: field name must not be null con un ordine senza stato"
+      },
+      {
+        "file": "app/api/admin/users/[id]/moderate/route.ts",
+        "comando": "node /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/A/prova-moderate-gara.mjs",
+        "esito": "exit 1: due email opposte, stato finale rejected"
+      },
+      {
+        "file": "app/admin/sos/lettura-degli-sos.ts",
+        "comando": "node /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/A/prova-sos-50.mjs",
+        "esito": "exit 1: 1 SOS aperto, 0 attivi, tutto tranquillo"
+      },
+      {
+        "file": "app/admin/users/page.tsx",
+        "comando": "node /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/V3/p.mjs",
+        "esito": "exit 1: ricerca vuota con la lettura caduta; utente oltre il millesimo non trovato"
+      },
+      {
+        "file": "app/api/cron/send-push/route.ts",
+        "comando": "npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/B/vitest.config.mts /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/B/c1-push-col-freno.test.ts /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/B/c1b-controprova.test.ts /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/B/c4-allarme-push.test.ts /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/B/c10-push-in-fila-dietro-promo.test.ts",
+        "esito": "c1 rossa (nessuna push col freno), c1b verde (freno spento), c4 rossa, c10 rossa"
+      },
+      {
+        "file": "lib/stripe/webhook/ordini.ts",
+        "comando": "npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/B/vitest.config.mts /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/B/c2-conferma-carta.test.ts",
+        "esito": "rossa: la conferma carta non ha fascia né pagamento"
+      },
+      {
+        "file": "app/api/cron/send-emails/route.ts",
+        "comando": "npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/B/vitest.config.mts /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/B/c5-timeout-coda.test.ts",
+        "esito": "rossa: timeout rimesso in coda dopo 5 minuti"
+      },
+      {
+        "file": "app/rider/page.tsx",
+        "comando": "node /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/C/minori-statici.mjs",
+        "esito": "exit 1: ROSSO rider-oggi, recesso-spunta, cash-avvisi"
+      }
+    ],
+    "non_guardato": [
+      {
+        "cosa": "Il contenuto di release-payouts, riquadra-casse, veloce-non-confermata, expire-stale-orders, expire-checkouts, process-deletions",
+        "perche": "Assegnato a S02, S06 e S09 dalla scheda; S08 ha guardato solo orario, chi lancia, doppio giro, fallimento e primo giro a mano."
+      },
+      {
+        "cosa": "Permessi a fondo delle rotte admin, regole del database, aspetto delle pagine admin",
+        "perche": "Perimetri di S04, S05 e S10."
+      },
+      {
+        "cosa": "Il valore di max_rows del progetto Supabase vero e le variabili di Vercel (LAVORI_A_ORARIO, GA_API_SECRET, chiavi VAPID)",
+        "perche": "Sola lettura del codice: niente database vero né Vercel da questa sessione."
+      },
+      {
+        "cosa": "Due giri dello stesso lavoro davvero in parallelo",
+        "perche": "Il doppio giro è ragionato sul codice e sulle funzioni SQL (claim atomici), non lanciato con due processi insieme."
+      },
+      {
+        "cosa": "Una prova reale con PostgREST del taglio a 1000 righe",
+        "perche": "PostgREST non è installato nel container: il taglio è simulato e confermato dai commenti e dai test del repo."
+      },
+      {
+        "cosa": "Un server locale con ?a_mano=1",
+        "perche": "Non servito: la prova unitaria esistente chiama le 11 rotte vere col freno acceso, a mano e senza segreto (76 su 76)."
+      }
+    ]
+  },
+  "difetti": [
+    {
+      "id": "S08-001",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "titolo": "Un lavoro a orario che va in errore a ogni giro risulta vivo, e per alcuni lavori nessuno viene avvisato",
+      "file": "lib/api/middleware.ts:601-659 · app/api/cron/release-payouts/route.ts:122-126 · app/api/cron/release-payouts/route.ts:215-221 · app/api/cron/expire-checkouts/route.ts:56-71 · app/api/cron/operational-alerts/route.ts:313-345 · app/api/cron/operational-alerts/route.ts:353-382 · lib/cron-health.ts:79-107",
+      "descrizione": "withCronAuth (middleware.ts:631-634) scrive solo una riga logger.error quando il lavoro risponde >= 400, poi alla riga 659 scrive comunque il battito in cron_heartbeats. Il sorvegliante segnala un lavoro solo se il battito è vecchio (lavoriFermi in lib/cron-health.ts). Con Sentry spento la riga d'errore finisce solo nei log di Vercel. Per send-emails, expire-stale-orders e process-deletions altri controlli di stato coprono il caso (EMAIL_BACKLOG, ORDER_STUCK_NEW, sveglia). Per release-payouts no: la lettura degli ordini caduta risponde 500 (riga ~221), Stripe non configurato risponde 503 (riga 126), e PAYOUT_STUCK guarda solo i bonifici già PROCESSING o FAILED, non gli ordini consegnati per cui il bonifico non è mai partito. Stesso buco per expire-checkouts (500 alle righe ~71, 86, 208, 266). La seconda lente ha trovato che per i bonifici con carta un controllo di stato c'è (PAYOUT_TRATTENUTO, operational-alerts:353-382, dopo 3 ore; PAYOUT_ONBOARDING_FERMO 219-234; RIMESSA_NON_CONFERMATA 236-253): restano scoperti il compenso del fattorino sui contanti (release-payouts:345-375), send-push, riquadra-casse e veloce-non-confermata, e gli ordini in contanti trattenuti il giorno che i contanti passeranno da Stripe (PAYOUT_TRATTENUTO filtra solo 'card', riga 368). Il commento del middleware (626-630) dice che il segnale giusto («last_success_at») è «registrato come difetto a parte»: nel registro non c'è e nessuna migrazione crea quella colonna.",
+      "impatto": "Il giorno in cui Nicola riaccende i lavori, riquadra-casse risponde 500 ogni notte per un errore di lettura: il battito resta verde, il pannello dice «vivo», e la quadratura dei contanti dei fattorini non si rifà senza che nessuno lo sappia. Torna grave il giorno in cui si accende la carta o i contanti passano da Stripe.",
+      "fix": "Aggiungere a cron_heartbeats una colonna last_success_at scritta solo con status < 400, e nel sorvegliante un controllo «fallisce da N giri». In più un controllo di stato in operational-alerts: ordini consegnati da oltre N ore senza bonifico partito.",
+      "causa_radice": "Un segnale solo (il battito) porta due fatti diversi, «il giro è avvenuto» e «il giro è andato bene», e il secondo canale previsto (Sentry) è spento. La riparazione dell'8/9 (voce chiusa 1479) ha scelto di scrivere il battito anche sugli errori, sapendo di lasciare questo buco.",
+      "prova": "cd marketplace && npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/C/vitest.config.mts battito",
+      "esito_prova": "Rossa (2 test falliti su 2). Test 2: «risposta 500 | scritture [\"cron_heartbeats:upsert\"] | righe error 1» e «qualcuno viene avvisato: expected false to be true». La prova importa il withCronAuth vero e finge solo Supabase e il logger.",
+      "verificato_da": "Un verificatore qa: confermato ma ridotto. Il meccanismo è vero per tutti gli 11 lavori, ma la mancanza di avvisi pesa davvero solo su release-payouts ed expire-checkouts (e su send-push, riquadra-casse e veloce-non-confermata); gli altri hanno controlli di stato. Seconda lente (qa): peso abbassato a minore, perché i bonifici con carta hanno PAYOUT_TRATTENUTO dopo 3 ore e al lancio i contanti si pagano a mano; torna grave con la carta accesa."
+    },
+    {
+      "id": "S08-002",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "titolo": "Se la lettura delle email cade, la ricerca utenti dice «nessuno, ho cercato su tutti», e oltre mille iscritti l'email non si trova",
+      "file": "app/admin/users/page.tsx:155-158 · app/admin/users/page.tsx:245-246 · app/admin/users/page.tsx:536-555 · lib/admin/esporta-utenti.ts:115 · migrations/074_admin_user_emails.sql:12-37",
+      "descrizione": "leggiContattiAuth (users/page.tsx:155-158) fa `if (error || !Array.isArray(data)) return [];`: un errore della funzione admin_list_user_emails diventa un elenco vuoto, e la ricerca vale come fatta («Ho cercato su tutti i N utenti registrati»). La stessa funzione serve elenco (199), ricerca (245) ed esportazione (536). La funzione (074, mai ridefinita) restituisce tutto auth.users senza ordine, e PostgREST la taglia a max_rows = 1000 righe (supabase/config.toml:55): oltre il millesimo account l'email non si trova e nell'esportazione resta vuota. Il segno «completo» dell'esportazione (esporta-utenti.ts:115) guarda solo i profili, non le email.",
+      "impatto": "Mario Rossi scrive per farsi cancellare i dati. La lettura delle email va in timeout, Nicola cerca mario.rossi@gmail.com e legge «nessun utente, ho cercato su tutti»: potrebbe rispondere «non risulta iscritto».",
+      "fix": "Far risalire l'errore (throw) come le altre letture della pagina; cercare l'email sul server con un parametro alla funzione invece di scaricare l'elenco; segnare l'esportazione come parziale se le email non sono state lette.",
+      "causa_radice": "L'email sta solo in auth.users e si legge scaricando tutta la tabella, con un ripiego silenzioso sull'errore.",
+      "prova": "npx esbuild /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/A/prova-ricerca-email.ts --bundle --platform=node --format=esm --outfile=/tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/V3/p.mjs && node /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/V3/p.mjs",
+      "esito_prova": "Exit 1, «ROSSO»: con la lettura caduta i trovati sono []; a schermo «Ho cercato su tutti i 1.342 gli utenti registrati»; utente1200@x.it con 1342 iscritti non trovato. leggiContattiAuth è ricopiata (identica alle righe 155-158), il taglio a 1000 è simulato.",
+      "verificato_da": "Un verificatore qa: confermato, peso abbassato da grave a minore (oggi gli iscritti sono pochi e la funzione cade di rado). Nessuna altra via per cercare per email."
+    },
+    {
+      "id": "S08-003",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "dati-analytics",
+      "severita": "minore",
+      "titolo": "La percentuale dei pagamenti con carta nel cruscotto si calcola su mille tentativi qualsiasi, non sugli ultimi trenta giorni",
+      "file": "app/admin/page.tsx:120-139",
+      "descrizione": "La lettura di payment_attempts chiede .limit(5000) senza ordinamento: PostgREST ne restituisce al massimo 1000 (max_rows), scelte senza criterio, e la percentuale si presenta come quella dei 30 giorni.",
+      "impatto": "Quando la carta sarà accesa e i tentativi supereranno mille in un mese, il tasso di successo mostrato può salire o scendere a caso da un caricamento all'altro.",
+      "fix": "Contare sul database (count per esito) o leggere a pagine con leggiTutteLeRighe di lib/supabase/blocchi.ts.",
+      "causa_radice": "Il tetto di mille righe del database non è nel conto della lettura.",
+      "prova": "node /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/A/prova-tetto-1000.mjs",
+      "esito_prova": "Exit 1: la lettura con limit 5000 torna 1000 righe; manca .order. Rilanciata dal verificatore.",
+      "verificato_da": "Un verificatore qa: confermato, minore; non era noto (la voce 1191 riguardava l'attività, non i pagamenti)."
+    },
+    {
+      "id": "S08-004",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "dati-analytics",
+      "severita": "minore",
+      "titolo": "Un solo ordine senza stato spegne tutta la panoramica dell'amministrazione",
+      "file": "migrations/215_minori_s04_database.sql:593-600 · app/admin/page.tsx:75-76",
+      "descrizione": "admin_kpi usa jsonb_object_agg(role, n) e jsonb_object_agg(delivery_status, n). Le due colonne possono essere vuote (001_create_tables.sql:5 e :32, nessun NOT NULL dopo). Con una chiave NULL Postgres risponde «field name must not be null», cade l'intera funzione e la pagina mostra «Non sono riuscito a leggere i numeri».",
+      "impatto": "Un ordine importato a mano senza stato: da quel momento Nicola non vede più nessun numero del cruscotto, finché qualcuno non trova la riga.",
+      "fix": "coalesce(delivery_status, 'SENZA_STATO') e coalesce(role, 'senza_ruolo'), oppure FILTER (WHERE … IS NOT NULL).",
+      "causa_radice": "Colonne senza NOT NULL lette con una funzione che non accetta chiavi vuote.",
+      "prova": "createdb mycity_s08_v5 && psql -X -q -d mycity_s08_v5 -f /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/A/prova-admin-kpi.sql",
+      "esito_prova": "Prima {\"NEW\": 1, \"DELIVERED\": 1}; dopo un ordine con stato NULL: «ERROR: field name must not be null» (admin_kpi line 9). Lo script usa la funzione vera estratta dalla 215.",
+      "verificato_da": "Un verificatore qa: confermato, minore e poco probabile (nessun punto del codice scrive stato o ruolo vuoti)."
+    },
+    {
+      "id": "S08-005",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "titolo": "Approvare e rifiutare un negozio non controllano lo stato di partenza: due amministratori, o una scheda vecchia, mandano due esiti opposti",
+      "file": "app/api/admin/users/[id]/moderate/route.ts:148-154 · app/api/admin/users/[id]/moderate/route.ts:215-238 · app/api/admin/users/[id]/moderate/route.ts:243-252",
+      "descrizione": "I controlli sullo stato ci sono solo per suspend (215, 218) e reactivate (227). Per approve e reject l'update della riga 238 filtra solo .eq('id'), poi partono notifica, email e registro (243-252).",
+      "impatto": "Nicola approva la panetteria dal telefono mentre sul computer resta aperta la scheda di ieri e preme «Rifiuta»: il negozio riceve «Sei stato approvato» e «Richiesta rifiutata», e resta rifiutato.",
+      "fix": "Update condizionato allo stato letto (.eq('approval_status', statoLetto).select('id')) e 409 se le righe toccate sono 0; approve e reject ammessi solo da pending.",
+      "causa_radice": "La guardia sullo stato è stata aggiunta solo alle azioni che avevano già dato un problema.",
+      "prova": "node /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/A/prova-moderate-gara.mjs",
+      "esito_prova": "Exit 1: «scrittura condizionata: false · guardia approve: false · reject: false · stato finale: rejected · email partite: [approvato, rifiutato]». Prova strutturale più simulazione, ricontrollata sulle righe.",
+      "verificato_da": "Un verificatore qa: confermato, minore; la gara non era nota (la voce 2119 copriva solo «Riattiva»)."
+    },
+    {
+      "id": "S08-006",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "titolo": "La consolle degli SOS può dire «tutto tranquillo» con un'emergenza ancora aperta",
+      "file": "app/admin/sos/page.tsx:38-39 · app/admin/sos/page.tsx:51-58 · app/admin/sos/lettura-degli-sos.ts:73-82",
+      "descrizione": "La pagina legge gli ultimi 50 SOS per data (.order desc .limit(50)) e calcola gli «attivi» solo fra quelli. Un SOS non chiuso più vecchio dei 50 esce dalla lettura e la pagina dice «tutto tranquillo». «Risolvi» non ha .is('resolved_at', null): un secondo amministratore sovrascrive nota e responsabile.",
+      "impatto": "Con la flotta cresciuta, un SOS di martedì rimasto aperto sparisce dalla consolle dopo cinquanta SOS più recenti; il pallino del menu dice 1 e la consolle dice 0.",
+      "fix": "Due letture: tutti gli SOS non risolti, più gli ultimi N risolti; sulla risoluzione .is('resolved_at', null).select('id').",
+      "causa_radice": "Un solo elenco con tetto serve sia la storia sia le emergenze aperte.",
+      "prova": "npx esbuild /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/A/prova-sos-50.ts --bundle --platform=node --format=esm --outfile=/tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/A/prova-sos-50.mjs && node /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/A/prova-sos-50.mjs",
+      "esito_prova": "Exit 1: «SOS aperti nel database: 1 · Attivi nella consolle: 0 · tutto tranquillo: true».",
+      "verificato_da": "Un verificatore qa: confermato, minore; lib/queries/cruscotto-oggi.ts:160 conta giusto, quindi il buco è solo nella consolle."
+    },
+    {
+      "id": "S08-007",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "titolo": "Se il conteggio delle consegne di un fattorino sospeso fallisce, l'avviso «riassegnale» non compare",
+      "file": "app/api/admin/users/[id]/moderate/route.ts:263-281",
+      "descrizione": "Con un errore nel conteggio (eConta) si scrive solo nel log, poi consegneInCorso = count ?? 0: l'avviso della riga 281 non scatta e la risposta è ok.",
+      "impatto": "Nicola sospende un fattorino che ha 3 consegne in mano; il conteggio cade e Nicola non viene avvisato di riassegnarle (e la voce aperta 226 dice che restano a lui).",
+      "fix": "Se eConta, rispondere con l'avviso «non ho potuto contare le consegne in corso: controllale in Ordini».",
+      "causa_radice": "Un errore di lettura trattato come zero.",
+      "prova": "sed -n 263,281p app/api/admin/users/[id]/moderate/route.ts",
+      "esito_prova": "Righe lette: eConta va solo in log, count ?? 0, nessun avviso.",
+      "verificato_da": "Un verificatore qa: confermato, minore; diverso dalla voce 226, che è il difetto a monte."
+    },
+    {
+      "id": "S08-008",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "titolo": "Nelle azioni dell'amministrazione un guasto del database diventa «non trovato», e nei dati del negozio un trattino",
+      "file": "app/api/admin/users/[id]/moderate/route.ts:149-154 · app/api/admin/users/[id]/delete/route.ts:41-46 · app/api/admin/orders/[id]/cancel/route.ts:38 · app/api/admin/disputes/[id]/resolve/route.ts:70 · app/admin/users/page.tsx:476",
+      "descrizione": "moderate e delete non leggono error e rispondono «Utente non trovato»; cancel e resolve fanno `if (error || !riga)` → 404; la pagina utenti con la lettura dei dati fiscali fallita mostra «—» per codice fiscale e partita IVA.",
+      "impatto": "Durante un singhiozzo del database Nicola annulla un ordine e legge «ordine non trovato», e pensa che l'ordine non esista più.",
+      "fix": "Separare l'errore (500/503 con «riprova») dall'assenza (404); nella pagina, throw e stato d'errore.",
+      "causa_radice": "Stesso schema della voce aperta 48 (resi), qui su altre rotte.",
+      "prova": "grep -n \"const { data: target } = await admin\\|if (!targetProfile)\\|if (error || !riga)\\|if (error || !dispute)\" -r app/api/admin && grep -n \"if (!res.ok) return { legal_fiscal_code: null\" app/admin/users/page.tsx",
+      "esito_prova": "6 righe trovate nei punti citati.",
+      "verificato_da": "Un verificatore qa: confermato, minore; l'approvazione resta protetta lato server (motivoPerNonApprovare, riga 232), il trattino inganna solo chi legge."
+    },
+    {
+      "id": "S08-009",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": "deploy-sre|il giorno del lancio un errore del sito non lo vede nessuno: il registratore degli errori è spento e l'unico allarme dipende dalla chiave che manca",
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "titolo": "La pagina d'errore dice «Abbiamo registrato il problema», ma un errore nel telefono del cliente non lo registra nessuno",
+      "file": "app/error.tsx:25-33 · app/global-error.tsx:20-21 · app/admin/error.tsx:19-20 · lib/analytics/sentry.tsx:43-47",
+      "descrizione": "Senza SENTRY_DSN, captureError fa solo console.error nel browser. Non c'è altro canale (nessuna rotta che raccolga gli errori del browser). La frase della riga 33 è vera solo per gli errori dei componenti server, che Next scrive nei log di Vercel.",
+      "impatto": "A un cliente si rompe la pagina dell'ordine; chiama e legge il codice d'errore: quel codice non corrisponde a nessuna riga da nessuna parte.",
+      "fix": "Senza DSN, mandare l'errore a una piccola rotta che fa logger.error (così arriva almeno ai log di Vercel), oppure togliere «Abbiamo registrato».",
+      "causa_radice": "Il ripiego senza Sentry porta solo alla console del browser.",
+      "prova": "cd marketplace && npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/C/vitest.config.mts errore-browser",
+      "esito_prova": "Rossa: «richieste uscite dal browser: 0 | righe nella console del cliente: 1».",
+      "verificato_da": "Un verificatore qa: confermato, minore; stessa causa della voce aperta 596, che copre il lato server: questo aggiunge il lato browser e la frase falsa."
+    },
+    {
+      "id": "S08-010",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "titolo": "Se il battito di un lavoro non si scrive, nessuna riga lo dice, e l'allarme che segue ha la diagnosi sbagliata",
+      "file": "lib/api/middleware.ts:544-561",
+      "descrizione": "recordCronHeartbeat fa await …upsert(…) senza leggere { error }: supabase-js non lancia, quindi il catch (552-560) non scatta. Il commento lì sopra promette che il fallimento «non deve sparire in silenzio».",
+      "impatto": "Un permesso sbagliato su cron_heartbeats: i lavori girano bene, il sorvegliante annuncia «lavoro fermo: scheduler o deploy down?» e nessun log dice perché.",
+      "fix": "const { error } = await …; if (error) logger.warn(…).",
+      "causa_radice": "Il client del database restituisce l'errore invece di lanciarlo, e il codice si aspetta un'eccezione.",
+      "prova": "cd marketplace && npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/C/vitest.config.mts battito",
+      "esito_prova": "Test 1 rosso: «upsert tentati 1 | warn 0 | error 0» («battito fallito senza nessuna riga di log»).",
+      "verificato_da": "Due verificatori qa (il primo sul lavoro a orario, il secondo sugli errori silenziosi): confermato, minore; la voce 1198 riguardava altro."
+    },
+    {
+      "id": "S08-011",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": "S07",
+      "riservato": false,
+      "dimensione": "dati-analytics",
+      "severita": "minore",
+      "titolo": "La bacheca del fattorino mostra «Oggi 0,00 € e 0 consegne» quando la lettura cade e mentre carica",
+      "file": "app/rider/page.tsx:247-268 · app/rider/page.tsx:439-440",
+      "descrizione": "La lettura degli incassi di oggi legge solo data e fa data ?? []: un errore dà { count: 0, earned: 0 }. Durante il caricamento il riquadro mostra today?.earned ?? 0.",
+      "impatto": "Il fattorino a fine turno vede 0,00 € invece di 46 € per una lettura caduta: è il numero su cui decide se continuare.",
+      "fix": "Leggere error e lanciare; mostrare «—» finché non c'è un numero.",
+      "causa_radice": "Errore di lettura trattato come zero.",
+      "prova": "node /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/C/minori-statici.mjs",
+      "esito_prova": "Exit 1, «ROSSO rider-oggi».",
+      "verificato_da": "Un verificatore qa: confermato, minore; si corregge al nuovo tentativo dopo 30 secondi."
+    },
+    {
+      "id": "S08-012",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": "S06",
+      "riservato": false,
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "titolo": "Nel nuovo prodotto la spunta «escluso dal recesso» sparisce per tutta la sessione dopo una lettura caduta",
+      "file": "app/seller/products/new/page.tsx:91-100 · lib/ordini/recesso.ts:89-91",
+      "descrizione": "`if (error) return false;` con staleTime: Infinity: React Query tiene «no» in memoria per tutta la sessione, e il negozio non può distinguere «non lo so» da «no».",
+      "impatto": "La panetteria carica il pane fresco dopo un singhiozzo di rete: il prodotto viene salvato come recedibile.",
+      "fix": "throw error e niente staleTime: Infinity.",
+      "causa_radice": "Il ripiego «vale no» è dichiarato voluto (riga 91), ma non lascia un modo di riprovare.",
+      "prova": "node /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/C/minori-statici.mjs",
+      "esito_prova": "Exit 1, «ROSSO recesso-spunta».",
+      "verificato_da": "Un verificatore qa: confermato, minore; diverso dalle voci 2571 e 2578."
+    },
+    {
+      "id": "S08-013",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": "S02",
+      "riservato": false,
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "titolo": "Gli avvisi «incasso in contanti che non quadra» e «incasso senza foto» si scrivono senza guardare se sono partiti",
+      "file": "app/api/rider/cash-confirm/route.ts:264-272 · app/api/rider/cash-confirm/route.ts:278-296",
+      "descrizione": "La lettura degli amministratori non legge error e i due insert su notifications non controllano l'esito; la risposta è comunque { ok: true }.",
+      "impatto": "Un fattorino dichiara 30 € su un ordine da 42 €: se l'avviso non si scrive, nessun amministratore lo sa, e il controllo di riserva del sorvegliante oggi non gira.",
+      "fix": "Usare scritturaObbligatoria o avvisaGliAmministratori di lib/stripe/webhook/comune.ts.",
+      "causa_radice": "Scritture di avviso senza esito.",
+      "prova": "node /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/C/minori-statici.mjs",
+      "esito_prova": "Exit 1, «ROSSO cash-avvisi» (2 insert senza esito).",
+      "verificato_da": "Un verificatore qa: confermato, minore che tende al grave (controllo dei contanti); l'importo resta comunque registrato sull'ordine."
+    },
+    {
+      "id": "S08-014",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": "S06",
+      "riservato": false,
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "titolo": "Sulla scheda prodotto lo sconto della promozione vale zero se la lettura cade, poi la cassa lo applica",
+      "file": "app/product/[id]/page.tsx:311-318 · components/ActivePromoBadge.tsx:29-37",
+      "descrizione": "`if (error) return 0;` in tutte e due le letture, che condividono la chiave per 60 secondi: la scheda mostra il prezzo pieno, la cassa sul server applica lo sconto.",
+      "impatto": "Il cliente legge 12 € e paga 10,80 €: nessun danno in soldi, ma un prezzo incoerente.",
+      "fix": "throw error.",
+      "causa_radice": "Errore di lettura trattato come zero.",
+      "prova": "grep -n \"if (error) return 0\" app/product/[id]/page.tsx components/ActivePromoBadge.tsx",
+      "esito_prova": "Una riga per file, nei punti citati.",
+      "verificato_da": "Un verificatore qa: confermato, minore; diverso dalle voci 117 e 1038."
+    },
+    {
+      "id": "S08-015",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": "S04",
+      "riservato": false,
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "titolo": "La rotta che cancella un utente accetta anche un amministratore, mentre la pagina nasconde il bottone",
+      "file": "app/api/admin/users/[id]/delete/route.ts:41-46 · app/admin/users/page.tsx:759 · app/admin/users/page.tsx:861",
+      "descrizione": "La pagina nasconde «Elimina» se p.role === 'admin', ma la rotta controlla solo che chi chiama non cancelli sé stesso: il ruolo del bersaglio lo legge solo per il registro. Serve già il ruolo di amministratore, e un amministratore può comunque togliere il ruolo a un altro (migrations/012_admin_role.sql:41-43): non è un'escalation, è un rinforzo che manca su un'azione irreversibile.",
+      "impatto": "Con due amministratori, un clic dal registro o una chiamata diretta cancella per sempre l'account dell'altro; resta solo la riga nel registro.",
+      "fix": "Rifiutare in rotta un bersaglio con ruolo admin.",
+      "causa_radice": "La regola sta solo nell'interfaccia.",
+      "prova": "grep -n \"role\" app/api/admin/users/[id]/delete/route.ts && grep -n \"role === 'admin'\" app/admin/users/page.tsx",
+      "esito_prova": "La rotta legge role solo per il registro; la pagina lo usa per nascondere il bottone alle righe 759 e 861.",
+      "verificato_da": "Un verificatore qa: fatto confermato, falla di sicurezza smentita (nessuna escalation: serve già il ruolo admin); minore."
+    },
+    {
+      "id": "S08-016",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": "deploy-sre|la notifica sul telefono per un nuovo ordine arriva fino a 5 minuti dopo, non in pochi secondi",
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "titolo": "Con i lavori fermi il telefono non suona mai: la notifica del nuovo ordine parte solo dal lavoro delle notifiche",
+      "file": "app/api/cron/send-push/route.ts:69-71 · app/api/cron/send-push/route.ts:209 · lib/stripe/webhook/comune.ts:275-276 · lib/cron/fermo-dei-lavori.ts:58-64",
+      "descrizione": "L'unico chiamante di sendPushToUser in app/ e lib/ è il lavoro send-push (riga 209), che col freno risponde «fermo» (riga 71). Ordini in contanti e con carta scrivono campanella ed email diretta, ma nessuna push; anche gli avvisi agli amministratori e gli SOS arrivano al telefono solo da lì. Nessuna edge function né pg_net. È la voce aperta 15 («fino a 5 minuti»): con il freno il ritardo è senza fine.",
+      "impatto": "Sabato alle 10 la panetteria riceve un ordine: l'email parte, il telefono di nessuno suona, nemmeno quello di Nicola per un ordine bloccato.",
+      "fix": "Mandare la push del nuovo ordine e degli avvisi di sistema subito, nel momento in cui nasce l'ordine (dentro after()), lasciando send-push come rete di recupero.",
+      "causa_radice": "La notifica è legata al calendario e non all'evento.",
+      "prova": "cd marketplace && npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/B/vitest.config.mts /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/B/c1-push-col-freno.test.ts /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/B/c1b-controprova.test.ts",
+      "esito_prova": "c1 rossa: «campanella «Nuovo ordine» scritta, nessuna push partita»; c1b verde con LAVORI_A_ORARIO=accesi.",
+      "verificato_da": "Un verificatore qa: fatti confermati, ma non è un difetto nuovo: è la voce 15 con una prova più forte, e resta minore (al lancio l'avviso deciso è l'email, che parte diretta)."
+    },
+    {
+      "id": "S08-017",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "titolo": "La conferma d'ordine di chi paga con la carta non dice la fascia di consegna né come ha pagato",
+      "file": "lib/stripe/webhook/ordini.ts:537-542 · lib/email/templates.ts:137-146 · app/api/orders/cod/route.ts:1657-1665",
+      "descrizione": "La strada dei contanti passa deliverySlot, pickupInStore e paymentMethod al template; quella della carta solo nome, ordine, totale e negozio.",
+      "impatto": "Quando la carta sarà accesa, Maria paga 18 € per «Oggi 13:00–16:30» e riceve solo «Ordine ricevuto. Totale 18,00 €».",
+      "fix": "Passare fascia, ritiro in negozio e 'card' anche dal webhook.",
+      "causa_radice": "Il template è stato arricchito il 5/11 e solo una delle due chiamate è stata aggiornata.",
+      "prova": "cd marketplace && npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/B/vitest.config.mts /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/B/c2-conferma-carta.test.ts",
+      "esito_prova": "Rossa: testo visto «Ordine ricevuto. Totale 18,00 €…» senza fascia né pagamento. Passa dal webhook vero.",
+      "verificato_da": "Un verificatore qa: confermato, minore e dormiente (carta spenta al lancio)."
+    },
+    {
+      "id": "S08-018",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "titolo": "Se il lavoro delle notifiche si ferma, l'allarme arriva dopo due ore, ma le notifiche più vecchie di un'ora sono già perse",
+      "file": "lib/cron-health.ts:46 · app/api/cron/send-push/route.ts:90",
+      "descrizione": "La soglia del sorvegliante per send-push è 120 minuti; il lavoro legge solo le notifiche dell'ultima ora. Nessun altro legge pushed_at.",
+      "impatto": "send-push resta fermo 90 minuti: le push dei primi 30 minuti non partiranno mai e nessun allarme è ancora scattato.",
+      "fix": "Soglia di 30-45 minuti per send-push, o finestra di lettura più lunga della soglia.",
+      "causa_radice": "Due numeri legati che non si conoscono.",
+      "prova": "cd marketplace && npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/B/vitest.config.mts /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/B/c4-allarme-push.test.ts",
+      "esito_prova": "Rossa: «soglia 120 min > finestra 60 min» (usa staleCrons vero, la finestra letta dal sorgente).",
+      "verificato_da": "Un verificatore qa: confermato, minore."
+    },
+    {
+      "id": "S08-019",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "titolo": "Se il servizio di posta risponde oltre dieci secondi, la coda rimanda la stessa email cinque minuti dopo",
+      "file": "lib/email/client.ts:189-194 · app/api/cron/send-emails/route.ts:434-470",
+      "descrizione": "sendEmail dopo un timeout non ritenta apposta (l'email potrebbe essere già partita) e torna { ok: false }; send-emails tratta quel risultato come un errore qualunque: tentativi + 1 e nuovo invio dopo 5 minuti. Nessuna chiave di idempotenza.",
+      "impatto": "Giulia riceve due volte «Il tuo ordine è pronto».",
+      "fix": "Se l'errore è il timeout, chiudere la riga come «esito ignoto» o ritentare con una chiave di idempotenza.",
+      "causa_radice": "La riparazione della voce 39 vale solo dentro la richiesta, non nella coda.",
+      "prova": "cd marketplace && npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/B/vitest.config.mts /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/B/c5-timeout-coda.test.ts",
+      "esito_prova": "Rossa: scrittura vista {\"claimed_at\":null,\"attempts\":1,\"last_error\":\"invio email oltre i 10 secondi\",\"send_at\":\"+5min\"}.",
+      "verificato_da": "Un verificatore qa: confermato, minore; parente della voce 39 (riparata), qui su una strada che quella riparazione non copriva."
+    },
+    {
+      "id": "S08-020",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "perche_umano": null,
+      "verificato": true,
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false,
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "titolo": "La notifica del nuovo ordine fa la fila dietro le promozioni",
+      "file": "app/api/cron/send-push/route.ts:90-97",
+      "descrizione": "send-push prende le 100 notifiche più vecchie dell'ultima ora, senza priorità per categoria; notify_favorite_price_drop scrive una riga per ogni persona che ha il prodotto fra i preferiti.",
+      "impatto": "Un ribasso su un prodotto preferito da 300 persone: il «Nuovo ordine» della panetteria parte dopo circa 15 minuti.",
+      "fix": "Prima 'order' e 'system', poi il resto; o due giri separati.",
+      "causa_radice": "Un solo ordinamento per data per avvisi urgenti e promozioni.",
+      "prova": "cd marketplace && npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/B/vitest.config.mts /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/B/c10-push-in-fila-dietro-promo.test.ts",
+      "esito_prova": "Rossa: {\"sent\":100}, tutte «Prezzo abbassato», il nuovo ordine resta dietro.",
+      "verificato_da": "Un verificatore qa: confermato come meccanismo, minore a bassa probabilità al lancio."
+    }
+  ],
+  "regressioni": [
+    {
+      "chiave": "frontend-ux|avviso «elenco tagliato» e «1000+» compaiono anche quando le righe sono esattamente 1000, non di più",
+      "indice": 1801,
+      "prova": "node /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/A/prova-tetto-1000.mjs",
+      "esito_prova": "Exit 1 per payouts, products e cod-remittance: «tetto=1000 chiede=1001 max_rows=1000 → tornano 1000 su 1500; avviso tagliato = false». Le pagine chiedono .limit(TETTO + 1) e controllano length > TETTO (payouts/page.tsx:118, products/page.tsx:80, cod-remittance/page.tsx:112), ma il database consegna al massimo max_rows = 1000 righe (supabase/config.toml:55): l'avviso non scatta mai. La riparazione della 1801 ha spento l'avviso su cui poggiavano 1799 e 1802. Verificatore qa: confermato (PostgREST non installato qui: il taglio è simulato, confermato dal repo in app/seller/dashboard/page.tsx:37 e lib/admin/esporta-csv.ts:56). Seconda lente: minore con scadenza, grave prima di circa 700 ordini consegnati in tutto (fra fine dicembre e inizio gennaio con 20-30 consegne al giorno), perché i bonifici a mano dei contanti si leggono da quella pagina."
+    },
+    {
+      "chiave": "frontend-ux|le rimesse contanti hanno ancora un tetto di 1000 righe senza avviso, mentre bonifici e prodotti adesso lo dicono",
+      "indice": 1799,
+      "prova": "node /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/A/prova-tetto-1000.mjs",
+      "esito_prova": "Exit 1 per payouts, products e cod-remittance: «tetto=1000 chiede=1001 max_rows=1000 → tornano 1000 su 1500; avviso tagliato = false». Le pagine chiedono .limit(TETTO + 1) e controllano length > TETTO (payouts/page.tsx:118, products/page.tsx:80, cod-remittance/page.tsx:112), ma il database consegna al massimo max_rows = 1000 righe (supabase/config.toml:55): l'avviso non scatta mai. La riparazione della 1801 ha spento l'avviso su cui poggiavano 1799 e 1802. Verificatore qa: confermato (PostgREST non installato qui: il taglio è simulato, confermato dal repo in app/seller/dashboard/page.tsx:37 e lib/admin/esporta-csv.ts:56). Seconda lente: minore con scadenza, grave prima di circa 700 ordini consegnati in tutto (fra fine dicembre e inizio gennaio con 20-30 consegne al giorno), perché i bonifici a mano dei contanti si leggono da quella pagina."
+    },
+    {
+      "chiave": "frontend-ux|payout: i riquadri «da pagare / già pagato» mostrano un totale parziale come cifra esatta, e l'avviso sta sotto",
+      "indice": 1802,
+      "prova": "node /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/A/prova-tetto-1000.mjs",
+      "esito_prova": "Exit 1 per payouts, products e cod-remittance: «tetto=1000 chiede=1001 max_rows=1000 → tornano 1000 su 1500; avviso tagliato = false». Le pagine chiedono .limit(TETTO + 1) e controllano length > TETTO (payouts/page.tsx:118, products/page.tsx:80, cod-remittance/page.tsx:112), ma il database consegna al massimo max_rows = 1000 righe (supabase/config.toml:55): l'avviso non scatta mai. La riparazione della 1801 ha spento l'avviso su cui poggiavano 1799 e 1802. Verificatore qa: confermato (PostgREST non installato qui: il taglio è simulato, confermato dal repo in app/seller/dashboard/page.tsx:37 e lib/admin/esporta-csv.ts:56). Seconda lente: minore con scadenza, grave prima di circa 700 ordini consegnati in tutto (fra fine dicembre e inizio gennaio con 20-30 consegne al giorno), perché i bonifici a mano dei contanti si leggono da quella pagina."
+    },
+    {
+      "chiave": "dati-analytics|quando un cruscotto legge un campione invece del totale, lo dice solo alla console",
+      "indice": 1191,
+      "prova": "node /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/A/prova-tetto-1000.mjs",
+      "esito_prova": "Exit 1: app/admin/activity/page.tsx:123 chiede .limit(3000) e alla riga 281 mostra «campione» solo con almeno 3000 righe, ma il database ne consegna al massimo 1000: «Visitatori 24h» si calcola sugli ultimi 1000 eventi e l'etichetta del campione non compare mai. Verificatore qa: confermato, minore."
+    }
+  ],
+  "ricontrolli": [],
+  "prove_per_la_palestra": [
+    {
+      "id": "S08-P001",
+      "funzione": "Il cruscotto dell'amministrazione mostra i numeri veri",
+      "chi": "admin",
+      "file": "app/admin/page.tsx · lib/letture-cruscotto.ts",
+      "dati_di_prova": "un account amministratore di prova nella palestra; 1.200 ordini di prova su 3 negozi, 40 di oggi",
+      "passi": "Apri /admin. Confronta ordini di oggi, incasso e negozi attivi con un conteggio SQL fatto a mano sulla stessa palestra.",
+      "atteso": "Ogni numero coincide col conteggio SQL; se una lettura fallisce compare il riquadro d'errore, non uno zero.",
+      "limite": "oltre 1.000 righe: il tetto di PostgREST non deve tagliare i conteggi"
+    },
+    {
+      "id": "S08-P002",
+      "funzione": "La pagina «Today» dice cosa c'è da fare oggi",
+      "chi": "admin",
+      "file": "app/admin/today/page.tsx",
+      "dati_di_prova": "un account amministratore di prova nella palestra; ordini NEW, in consegna e consegnati a cavallo della mezzanotte",
+      "passi": "Apri /admin/today alle 23:55 e alle 00:05 (orologio finto).",
+      "atteso": "Gli ordini di «oggi» sono quelli del giorno di Piacenza, non di Londra.",
+      "limite": "date a cavallo di mezzanotte, ora legale"
+    },
+    {
+      "id": "S08-P003",
+      "funzione": "L'elenco ordini e il dettaglio dell'ordine",
+      "chi": "admin",
+      "file": "app/admin/orders/page.tsx · app/admin/orders/[id]/page.tsx",
+      "dati_di_prova": "un account amministratore di prova nella palestra; 150 ordini di prova, uno con rimborso da dividere",
+      "passi": "Apri /admin/orders, filtra per stato, apri un ordine, torna indietro.",
+      "atteso": "Il totale filtrato coincide col database; il dettaglio mostra righe, negozio, fattorino e storico.",
+      "limite": "più di 100 ordini: nessuno sparisce in silenzio dopo il centesimo"
+    },
+    {
+      "id": "S08-P004",
+      "funzione": "Annullare un ordine dall'amministrazione",
+      "chi": "admin",
+      "file": "app/admin/orders/[id]/page.tsx · app/api/admin/orders/[id]/cancel/route.ts",
+      "dati_di_prova": "un account amministratore di prova nella palestra; un ordine pagato con carta di prova Stripe e uno in contanti",
+      "passi": "Premi «Annulla» due volte di fila e, in un'altra scheda, con un secondo admin nello stesso secondo.",
+      "atteso": "Un solo annullo, un solo rimborso, un solo avviso al cliente e al negozio.",
+      "limite": "doppio clic, due amministratori insieme"
+    },
+    {
+      "id": "S08-P005",
+      "funzione": "Dividere un rimborso fra i negozi del carrello",
+      "chi": "admin",
+      "file": "components/admin/RimborsiDaDividere.tsx · app/api/admin/orders/rimborsi-da-dividere/route.ts",
+      "dati_di_prova": "un account amministratore di prova nella palestra; un carrello con 2 negozi e un rimborso parziale di 7,50 €",
+      "passi": "Apri l'elenco dei rimborsi da dividere, assegna le quote, salva due volte.",
+      "atteso": "Le quote sommano al rimborso; il secondo salvataggio non crea una seconda divisione.",
+      "limite": "doppio clic, centesimi dispari"
+    },
+    {
+      "id": "S08-P006",
+      "funzione": "Le rimesse dei contanti dei fattorini",
+      "chi": "admin",
+      "file": "app/admin/cod-remittance/page.tsx · app/api/admin/cod-remittance/route.ts · app/api/admin/cod-incasso-dichiarato/route.ts",
+      "dati_di_prova": "un account amministratore di prova nella palestra; un fattorino con 3 consegne in contanti da 12, 18 e 23,40 €",
+      "passi": "Segna la rimessa e l'incasso dichiarato; ricarica la pagina.",
+      "atteso": "Il residuo da versare torna a zero solo per le consegne versate; ripetere la registrazione non la raddoppia.",
+      "limite": "doppio clic, cifre con centesimi"
+    },
+    {
+      "id": "S08-P007",
+      "funzione": "Il credito di un rimborso",
+      "chi": "admin",
+      "file": "app/admin/credito-del-rimborso/page.tsx · app/api/admin/credito-del-rimborso/route.ts",
+      "dati_di_prova": "un account amministratore di prova nella palestra; un cliente con un rimborso finito in credito",
+      "passi": "Cerca il cliente e leggi il credito.",
+      "atteso": "Il credito mostrato coincide col database; un errore di lettura mostra un errore, non 0 €.",
+      "limite": "database lento o che non risponde"
+    },
+    {
+      "id": "S08-P008",
+      "funzione": "Le contestazioni dei clienti",
+      "chi": "admin",
+      "file": "app/admin/disputes/page.tsx · app/api/admin/disputes/[id]/resolve/route.ts",
+      "dati_di_prova": "un account amministratore di prova nella palestra; una contestazione aperta su un ordine di 35 €",
+      "passi": "Risolvi la contestazione a favore del cliente, poi premi di nuovo.",
+      "atteso": "Una sola risoluzione e un solo movimento di soldi; la seconda pressione risponde «già risolta».",
+      "limite": "doppio clic, due amministratori insieme"
+    },
+    {
+      "id": "S08-P009",
+      "funzione": "I payout ai venditori",
+      "chi": "admin",
+      "file": "app/admin/payouts/page.tsx",
+      "dati_di_prova": "un account amministratore di prova nella palestra; 5 negozi con payout in attesa, pagati, falliti",
+      "passi": "Apri /admin/payouts e confronta con la tabella dei trasferimenti.",
+      "atteso": "Stati e somme coincidono; un payout fallito si vede come fallito.",
+      "limite": "più di 100 payout"
+    },
+    {
+      "id": "S08-P010",
+      "funzione": "Gli utenti: elenco, moderazione, verifica identità, cancellazione",
+      "chi": "admin",
+      "file": "app/admin/users/page.tsx · app/api/admin/users/[id]/moderate/route.ts · app/api/admin/users/[id]/kyc/route.ts · app/api/admin/users/[id]/delete/route.ts · lib/admin/elenco-utenti.ts",
+      "dati_di_prova": "un account amministratore di prova nella palestra; 1.500 utenti di prova, un negozio con verifica in corso",
+      "passi": "Cerca un utente, sospendilo, leggi la verifica, cancella un account di prova due volte.",
+      "atteso": "Il conteggio utenti è giusto oltre i 1.000; la cancellazione avviene una volta e la seconda risponde «già cancellato».",
+      "limite": "oltre 1.000 utenti, doppio clic"
+    },
+    {
+      "id": "S08-P011",
+      "funzione": "Esportare utenti e spese in CSV",
+      "chi": "admin",
+      "file": "app/admin/users/page.tsx · lib/admin/esporta-utenti.ts · lib/admin/esporta-csv.ts",
+      "dati_di_prova": "un account amministratore di prova nella palestra; 2.000 utenti, nomi con virgole, accenti e «=» iniziale",
+      "passi": "Esporta il CSV e aprilo in un foglio di calcolo.",
+      "atteso": "Tutte le 2.000 righe, colonne al loro posto, nessuna formula eseguita.",
+      "limite": "quantità, caratteri speciali"
+    },
+    {
+      "id": "S08-P012",
+      "funzione": "Prodotti: elenco, nuovo, modifica",
+      "chi": "admin",
+      "file": "app/admin/products/page.tsx · app/admin/products/new/page.tsx · app/admin/products/[id]/edit/page.tsx · app/api/admin/products/route.ts",
+      "dati_di_prova": "un account amministratore di prova nella palestra; un prodotto importato da fonte esterna",
+      "passi": "Crea un prodotto, modificalo, salva due volte.",
+      "atteso": "Un solo prodotto creato; la modifica si vede nella scheda pubblica.",
+      "limite": "doppio clic sul salva"
+    },
+    {
+      "id": "S08-P013",
+      "funzione": "Le categorie",
+      "chi": "admin",
+      "file": "app/admin/categories/page.tsx · app/api/admin/categories/route.ts",
+      "dati_di_prova": "un account amministratore di prova nella palestra; una categoria con 30 prodotti",
+      "passi": "Rinomina e prova a cancellare la categoria piena.",
+      "atteso": "La cancellazione di una categoria piena è rifiutata con un messaggio chiaro.",
+      "limite": "categoria con prodotti"
+    },
+    {
+      "id": "S08-P014",
+      "funzione": "I coupon",
+      "chi": "admin",
+      "file": "app/admin/coupons/page.tsx · lib/admin/vista-dei-coupon.ts",
+      "dati_di_prova": "un account amministratore di prova nella palestra; un coupon scaduto ieri e uno esaurito",
+      "passi": "Apri /admin/coupons e guarda gli stati.",
+      "atteso": "Scaduto ed esaurito non risultano «attivi».",
+      "limite": "date a cavallo di mezzanotte"
+    },
+    {
+      "id": "S08-P015",
+      "funzione": "Le campagne sponsorizzate",
+      "chi": "admin",
+      "file": "app/admin/sponsored/page.tsx · lib/admin/vista-delle-campagne.ts · lib/admin/scritture-delle-campagne.ts",
+      "dati_di_prova": "un account amministratore di prova nella palestra; una campagna finita ieri",
+      "passi": "Apri /admin/sponsored, filtro «finite».",
+      "atteso": "La campagna finita compare tra le finite.",
+      "limite": "date"
+    },
+    {
+      "id": "S08-P016",
+      "funzione": "Le offerte del giorno",
+      "chi": "admin",
+      "file": "app/admin/daily-drops/page.tsx · app/api/admin/daily-drops/route.ts",
+      "dati_di_prova": "un account amministratore di prova nella palestra; un prodotto di prova",
+      "passi": "Crea un'offerta per domani, poi cancellala due volte.",
+      "atteso": "Una sola offerta, una sola cancellazione.",
+      "limite": "doppio clic, date"
+    },
+    {
+      "id": "S08-P017",
+      "funzione": "Zone e tariffe di consegna",
+      "chi": "admin",
+      "file": "app/admin/delivery/page.tsx",
+      "dati_di_prova": "un account amministratore di prova nella palestra",
+      "passi": "Apri /admin/delivery e cambia una tariffa di prova.",
+      "atteso": "La tariffa nuova si vede al checkout di prova.",
+      "limite": "valori a zero o negativi"
+    },
+    {
+      "id": "S08-P018",
+      "funzione": "La costruzione della home",
+      "chi": "admin",
+      "file": "app/admin/home/page.tsx · app/api/admin/home/route.ts · components/admin/home/HomeSectionsEditor.tsx · components/admin/home/HomeSectionConfigForm.tsx · lib/admin/editor-della-home.ts",
+      "dati_di_prova": "un account amministratore di prova nella palestra",
+      "passi": "Sposta una sezione, salva da due schede insieme.",
+      "atteso": "Vince l'ultimo salvataggio senza perdere sezioni; la home pubblica cambia.",
+      "limite": "due amministratori insieme"
+    },
+    {
+      "id": "S08-P019",
+      "funzione": "Le pagine di contenuto",
+      "chi": "admin",
+      "file": "app/admin/pages/page.tsx · app/admin/pages/[slug]/page.tsx · app/api/admin/cms/[slug]/route.ts",
+      "dati_di_prova": "un account amministratore di prova nella palestra",
+      "passi": "Modifica la pagina «chi siamo» e salva.",
+      "atteso": "Il testo nuovo si vede sulla pagina pubblica.",
+      "limite": "testo molto lungo"
+    },
+    {
+      "id": "S08-P020",
+      "funzione": "Il marchio",
+      "chi": "admin",
+      "file": "app/admin/branding/page.tsx · app/api/admin/branding/route.ts",
+      "dati_di_prova": "un account amministratore di prova nella palestra",
+      "passi": "Cambia un colore e salva.",
+      "atteso": "Il colore si vede sul sito; un errore di salvataggio si dice.",
+      "limite": "valore non valido"
+    },
+    {
+      "id": "S08-P021",
+      "funzione": "Le segnalazioni",
+      "chi": "admin",
+      "file": "app/admin/segnalazioni/page.tsx · lib/admin/segnalazioni-testi.ts",
+      "dati_di_prova": "un account amministratore di prova nella palestra; 3 segnalazioni di clienti",
+      "passi": "Apri /admin/segnalazioni e chiudine una.",
+      "atteso": "L'elenco coincide col database; un errore di lettura non mostra «nessuna segnalazione».",
+      "limite": "database che non risponde"
+    },
+    {
+      "id": "S08-P022",
+      "funzione": "Il negozio del mese",
+      "chi": "admin",
+      "file": "app/admin/shop-of-month/page.tsx",
+      "dati_di_prova": "un account amministratore di prova nella palestra; voti di prova del mese",
+      "passi": "Apri la classifica.",
+      "atteso": "I voti coincidono col database.",
+      "limite": "voti nelle prime ore del primo del mese"
+    },
+    {
+      "id": "S08-P023",
+      "funzione": "Gli SOS dei fattorini",
+      "chi": "admin",
+      "file": "app/admin/sos/page.tsx · app/admin/sos/lettura-degli-sos.ts",
+      "dati_di_prova": "un account amministratore di prova nella palestra; un fattorino di prova che preme SOS",
+      "passi": "Apri /admin/sos.",
+      "atteso": "L'SOS compare subito; se la lettura fallisce compare un errore, non «nessun SOS».",
+      "limite": "lettura che fallisce"
+    },
+    {
+      "id": "S08-P024",
+      "funzione": "Supporto e chat di assistenza",
+      "chi": "admin",
+      "file": "app/admin/support/page.tsx · app/admin/support-chat/page.tsx · app/api/admin/assistenza/route.ts · lib/admin/account-assistenza.ts",
+      "dati_di_prova": "un account amministratore di prova nella palestra; un cliente di prova che apre una chat",
+      "passi": "Rispondi dalla chat di assistenza.",
+      "atteso": "Il cliente vede la risposta; la conversazione non si duplica.",
+      "limite": "due messaggi nello stesso secondo"
+    },
+    {
+      "id": "S08-P025",
+      "funzione": "Il registro delle attività e delle visite",
+      "chi": "admin",
+      "file": "app/admin/activity/page.tsx · app/api/admin/registro-visite/route.ts · lib/activity.ts",
+      "dati_di_prova": "un account amministratore di prova nella palestra",
+      "passi": "Apri /admin/activity.",
+      "atteso": "Le visite e le azioni coincidono col database.",
+      "limite": "oltre 1.000 righe"
+    },
+    {
+      "id": "S08-P026",
+      "funzione": "Il registro delle azioni degli amministratori",
+      "chi": "admin",
+      "file": "app/admin/audit/page.tsx · lib/audit.ts · lib/audit-azioni.ts",
+      "dati_di_prova": "un account amministratore di prova nella palestra",
+      "passi": "Fai un'azione (sospendi un utente), poi apri /admin/audit.",
+      "atteso": "L'azione compare con chi, quando e cosa.",
+      "limite": "azione fallita: non deve risultare fatta"
+    },
+    {
+      "id": "S08-P027",
+      "funzione": "Il funnel e gli eventi",
+      "chi": "admin",
+      "file": "app/admin/funnel/page.tsx · app/admin/events/page.tsx",
+      "dati_di_prova": "un account amministratore di prova nella palestra; 20 visite, 8 carrelli, 3 ordini di prova (2 contanti, 1 carta)",
+      "passi": "Apri /admin/funnel e /admin/events.",
+      "atteso": "I passi del funnel coincidono con gli eventi e gli ordini veri; senza PostHog compare un avviso, non zeri.",
+      "limite": "analitica spenta"
+    },
+    {
+      "id": "S08-P028",
+      "funzione": "Il menu e la cornice dell'amministrazione",
+      "chi": "admin",
+      "file": "app/admin/layout.tsx · components/admin/AdminSidebar.tsx · app/admin/error.tsx",
+      "dati_di_prova": "un account amministratore di prova nella palestra e un cliente normale",
+      "passi": "Apri /admin come admin e come cliente; forza un errore in una pagina.",
+      "atteso": "Il cliente non entra; l'errore mostra la pagina d'errore e viene registrato.",
+      "limite": "errore in una pagina figlia"
+    },
+    {
+      "id": "S08-P029",
+      "funzione": "Il lavoro send-emails: chi può lanciarlo, primo giro a mano, doppio giro",
+      "chi": "estraneo",
+      "file": "app/api/cron/send-emails/route.ts · lib/cron/fermo-dei-lavori.ts",
+      "dati_di_prova": "CRON_SECRET di prova; LAVORI_A_ORARIO assente e poi «accesi»; 30 email in coda, 5 con send_at di una settimana fa",
+      "passi": "1) Chiama senza intestazione: atteso 401. 2) Con il segreto, senza parametri e LAVORI_A_ORARIO assente: 200 «fermo», nessuna scrittura, nessun battito. 3) Con ?a_mano=1: il lavoro gira davvero. 4) Lancia due giri insieme. 5) Fai rispondere 500 al finto Resend a metà giro.",
+      "atteso": "Nessun estraneo lo lancia; il fermo tiene; due giri insieme non fanno la cosa due volte; un fallimento si vede nel battito o negli avvisi.",
+      "limite": "due giri nello stesso secondo, fornitore che non risponde"
+    },
+    {
+      "id": "S08-P030",
+      "funzione": "Il lavoro send-push: chi può lanciarlo, primo giro a mano, doppio giro",
+      "chi": "estraneo",
+      "file": "app/api/cron/send-push/route.ts · lib/cron/fermo-dei-lavori.ts",
+      "dati_di_prova": "CRON_SECRET di prova; LAVORI_A_ORARIO assente e poi «accesi»; 20 notifiche in coda, chiavi VAPID di prova e poi assenti",
+      "passi": "1) Chiama senza intestazione: atteso 401. 2) Con il segreto, senza parametri e LAVORI_A_ORARIO assente: 200 «fermo», nessuna scrittura, nessun battito. 3) Con ?a_mano=1: il lavoro gira davvero. 4) Lancia due giri insieme. 5) Togli le chiavi: il giro deve dirlo.",
+      "atteso": "Nessun estraneo lo lancia; il fermo tiene; due giri insieme non fanno la cosa due volte; un fallimento si vede nel battito o negli avvisi.",
+      "limite": "due giri nello stesso secondo, fornitore che non risponde"
+    },
+    {
+      "id": "S08-P031",
+      "funzione": "Il lavoro operational-alerts: chi può lanciarlo, primo giro a mano, doppio giro",
+      "chi": "estraneo",
+      "file": "app/api/cron/operational-alerts/route.ts · lib/cron/fermo-dei-lavori.ts",
+      "dati_di_prova": "CRON_SECRET di prova; LAVORI_A_ORARIO assente e poi «accesi»; un ordine NEW vecchio, un battito fermo da 3 ore",
+      "passi": "1) Chiama senza intestazione: atteso 401. 2) Con il segreto, senza parametri e LAVORI_A_ORARIO assente: 200 «fermo», nessuna scrittura, nessun battito. 3) Con ?a_mano=1: il lavoro gira davvero. 4) Lancia due giri insieme. 5) Fai fallire una lettura: il giro deve rispondere errore, non «nessuna anomalia».",
+      "atteso": "Nessun estraneo lo lancia; il fermo tiene; due giri insieme non fanno la cosa due volte; un fallimento si vede nel battito o negli avvisi.",
+      "limite": "due giri nello stesso secondo, fornitore che non risponde"
+    },
+    {
+      "id": "S08-P032",
+      "funzione": "Il lavoro abandoned-carts: chi può lanciarlo, primo giro a mano, doppio giro",
+      "chi": "estraneo",
+      "file": "app/api/cron/abandoned-carts/route.ts · lib/cron/fermo-dei-lavori.ts",
+      "dati_di_prova": "CRON_SECRET di prova; LAVORI_A_ORARIO assente e poi «accesi»; 3 carrelli abbandonati da 5 ore",
+      "passi": "1) Chiama senza intestazione: atteso 401. 2) Con il segreto, senza parametri e LAVORI_A_ORARIO assente: 200 «fermo», nessuna scrittura, nessun battito. 3) Con ?a_mano=1: il lavoro gira davvero. 4) Lancia due giri insieme. 5) Chiama alle 22:00 di Piacenza (orologio finto): niente invii.",
+      "atteso": "Nessun estraneo lo lancia; il fermo tiene; due giri insieme non fanno la cosa due volte; un fallimento si vede nel battito o negli avvisi.",
+      "limite": "due giri nello stesso secondo, fornitore che non risponde"
+    },
+    {
+      "id": "S08-P033",
+      "funzione": "Il lavoro external-price-alerts: chi può lanciarlo, primo giro a mano, doppio giro",
+      "chi": "estraneo",
+      "file": "app/api/cron/external-price-alerts/route.ts · lib/cron/fermo-dei-lavori.ts",
+      "dati_di_prova": "CRON_SECRET di prova; LAVORI_A_ORARIO assente e poi «accesi»; 2 prodotti importati con prezzo cambiato alla fonte",
+      "passi": "1) Chiama senza intestazione: atteso 401. 2) Con il segreto, senza parametri e LAVORI_A_ORARIO assente: 200 «fermo», nessuna scrittura, nessun battito. 3) Con ?a_mano=1: il lavoro gira davvero. 4) Lancia due giri insieme. 5) Fai non rispondere la fonte esterna.",
+      "atteso": "Nessun estraneo lo lancia; il fermo tiene; due giri insieme non fanno la cosa due volte; un fallimento si vede nel battito o negli avvisi.",
+      "limite": "due giri nello stesso secondo, fornitore che non risponde"
+    },
+    {
+      "id": "S08-P034",
+      "funzione": "Il lavoro release-payouts: chi può lanciarlo, primo giro a mano, doppio giro",
+      "chi": "estraneo",
+      "file": "app/api/cron/release-payouts/route.ts · lib/cron/fermo-dei-lavori.ts",
+      "dati_di_prova": "CRON_SECRET di prova; LAVORI_A_ORARIO assente e poi «accesi»; un ordine consegnato da 2 ore",
+      "passi": "1) Chiama senza intestazione: atteso 401. 2) Con il segreto, senza parametri e LAVORI_A_ORARIO assente: 200 «fermo», nessuna scrittura, nessun battito. 3) Con ?a_mano=1: il lavoro gira davvero. 4) Lancia due giri insieme. (contenuto: S02)",
+      "atteso": "Nessun estraneo lo lancia; il fermo tiene; due giri insieme non fanno la cosa due volte; un fallimento si vede nel battito o negli avvisi.",
+      "limite": "due giri nello stesso secondo, fornitore che non risponde"
+    },
+    {
+      "id": "S08-P035",
+      "funzione": "Il lavoro riquadra-casse: chi può lanciarlo, primo giro a mano, doppio giro",
+      "chi": "estraneo",
+      "file": "app/api/cron/riquadra-casse/route.ts · lib/cron/fermo-dei-lavori.ts",
+      "dati_di_prova": "CRON_SECRET di prova; LAVORI_A_ORARIO assente e poi «accesi»; un fattorino con contanti di ieri",
+      "passi": "1) Chiama senza intestazione: atteso 401. 2) Con il segreto, senza parametri e LAVORI_A_ORARIO assente: 200 «fermo», nessuna scrittura, nessun battito. 3) Con ?a_mano=1: il lavoro gira davvero. 4) Lancia due giri insieme. (contenuto: S02)",
+      "atteso": "Nessun estraneo lo lancia; il fermo tiene; due giri insieme non fanno la cosa due volte; un fallimento si vede nel battito o negli avvisi.",
+      "limite": "due giri nello stesso secondo, fornitore che non risponde"
+    },
+    {
+      "id": "S08-P036",
+      "funzione": "Il lavoro veloce-non-confermata: chi può lanciarlo, primo giro a mano, doppio giro",
+      "chi": "estraneo",
+      "file": "app/api/cron/veloce-non-confermata/route.ts · lib/cron/fermo-dei-lavori.ts",
+      "dati_di_prova": "CRON_SECRET di prova; LAVORI_A_ORARIO assente e poi «accesi»; un ordine «Adesso» non confermato da 12 minuti",
+      "passi": "1) Chiama senza intestazione: atteso 401. 2) Con il segreto, senza parametri e LAVORI_A_ORARIO assente: 200 «fermo», nessuna scrittura, nessun battito. 3) Con ?a_mano=1: il lavoro gira davvero. 4) Lancia due giri insieme. (contenuto: S06)",
+      "atteso": "Nessun estraneo lo lancia; il fermo tiene; due giri insieme non fanno la cosa due volte; un fallimento si vede nel battito o negli avvisi.",
+      "limite": "due giri nello stesso secondo, fornitore che non risponde"
+    },
+    {
+      "id": "S08-P037",
+      "funzione": "Il lavoro expire-stale-orders: chi può lanciarlo, primo giro a mano, doppio giro",
+      "chi": "estraneo",
+      "file": "app/api/cron/expire-stale-orders/route.ts · lib/cron/fermo-dei-lavori.ts",
+      "dati_di_prova": "CRON_SECRET di prova; LAVORI_A_ORARIO assente e poi «accesi»; un ordine NEW oltre la scadenza",
+      "passi": "1) Chiama senza intestazione: atteso 401. 2) Con il segreto, senza parametri e LAVORI_A_ORARIO assente: 200 «fermo», nessuna scrittura, nessun battito. 3) Con ?a_mano=1: il lavoro gira davvero. 4) Lancia due giri insieme. (contenuto: S06)",
+      "atteso": "Nessun estraneo lo lancia; il fermo tiene; due giri insieme non fanno la cosa due volte; un fallimento si vede nel battito o negli avvisi.",
+      "limite": "due giri nello stesso secondo, fornitore che non risponde"
+    },
+    {
+      "id": "S08-P038",
+      "funzione": "Il lavoro expire-checkouts: chi può lanciarlo, primo giro a mano, doppio giro",
+      "chi": "estraneo",
+      "file": "app/api/cron/expire-checkouts/route.ts · lib/cron/fermo-dei-lavori.ts",
+      "dati_di_prova": "CRON_SECRET di prova; LAVORI_A_ORARIO assente e poi «accesi»; una sessione di checkout scaduta",
+      "passi": "1) Chiama senza intestazione: atteso 401. 2) Con il segreto, senza parametri e LAVORI_A_ORARIO assente: 200 «fermo», nessuna scrittura, nessun battito. 3) Con ?a_mano=1: il lavoro gira davvero. 4) Lancia due giri insieme. (contenuto: S06)",
+      "atteso": "Nessun estraneo lo lancia; il fermo tiene; due giri insieme non fanno la cosa due volte; un fallimento si vede nel battito o negli avvisi.",
+      "limite": "due giri nello stesso secondo, fornitore che non risponde"
+    },
+    {
+      "id": "S08-P039",
+      "funzione": "Il lavoro process-deletions: chi può lanciarlo, primo giro a mano, doppio giro",
+      "chi": "estraneo",
+      "file": "app/api/cron/process-deletions/route.ts · lib/cron/fermo-dei-lavori.ts",
+      "dati_di_prova": "CRON_SECRET di prova; LAVORI_A_ORARIO assente e poi «accesi»; un account con cancellazione chiesta 31 giorni fa",
+      "passi": "1) Chiama senza intestazione: atteso 401. 2) Con il segreto, senza parametri e LAVORI_A_ORARIO assente: 200 «fermo», nessuna scrittura, nessun battito. 3) Con ?a_mano=1: il lavoro gira davvero. 4) Lancia due giri insieme. 5) Solo con ?a_mano=1&solo_conta=1: deve contare e non cancellare. (contenuto: S09)",
+      "atteso": "Nessun estraneo lo lancia; il fermo tiene; due giri insieme non fanno la cosa due volte; un fallimento si vede nel battito o negli avvisi.",
+      "limite": "due giri nello stesso secondo, fornitore che non risponde"
+    },
+    {
+      "id": "S08-P040",
+      "funzione": "Lo stato dei servizi e la salute del sito",
+      "chi": "estraneo",
+      "file": "app/status/page.tsx · app/api/health/route.ts · app/api/health/ready/route.ts · lib/health/checks.ts",
+      "dati_di_prova": "palestra con Resend spento e un lavoro fermo da 3 ore",
+      "passi": "Apri /status, chiama /api/health e /api/health/ready.",
+      "atteso": "Il pezzo spento risulta spento; «pronto» non risponde ok se il database non risponde.",
+      "limite": "database lento, fornitore spento"
+    },
+    {
+      "id": "S08-P041",
+      "funzione": "Iscriversi e confermare la newsletter",
+      "chi": "cliente",
+      "file": "app/api/newsletter/route.ts · app/api/newsletter/confirm/route.ts",
+      "dati_di_prova": "un indirizzo email di prova della palestra",
+      "passi": "Iscriviti due volte, apri il link di conferma due volte.",
+      "atteso": "Una sola iscrizione, una sola email di conferma; il secondo clic dice «già confermato».",
+      "limite": "doppio invio del modulo"
+    },
+    {
+      "id": "S08-P042",
+      "funzione": "Disiscriversi dalle email",
+      "chi": "cliente",
+      "file": "app/api/unsubscribe/route.ts · lib/email/unsubscribe.ts",
+      "dati_di_prova": "un cliente di prova con email di marketing",
+      "passi": "Apri il link di disiscrizione di un'email, poi un link con la firma cambiata di un carattere.",
+      "atteso": "Il primo disiscrive davvero; il secondo è rifiutato; le email di servizio dell'ordine continuano.",
+      "limite": "link vecchio, firma alterata"
+    },
+    {
+      "id": "S08-P043",
+      "funzione": "Il tracciamento degli eventi",
+      "chi": "estraneo",
+      "file": "app/api/track/route.ts · lib/analytics/server.ts",
+      "dati_di_prova": "una visita di prova senza consenso e una con consenso",
+      "passi": "Manda 50 eventi in un secondo e un evento con corpo malformato.",
+      "atteso": "Senza consenso non si registra niente di personale; troppi eventi sono limitati; il corpo malformato risponde 400.",
+      "limite": "raffica di richieste, corpo malformato"
+    },
+    {
+      "id": "S08-P044",
+      "funzione": "Aprire una conversazione con l'assistenza",
+      "chi": "cliente",
+      "file": "app/api/support/conversation/route.ts · components/SupportChatButton.tsx · components/SupportChatModal.tsx",
+      "dati_di_prova": "un cliente di prova",
+      "passi": "Apri la chat dell'assistenza due volte da due schede.",
+      "atteso": "Una sola conversazione; il messaggio arriva in /admin/support-chat.",
+      "limite": "due schede insieme, rete lenta"
+    },
+    {
+      "id": "S08-P045",
+      "funzione": "L'avviso del nuovo ordine al negozio",
+      "chi": "negozio",
+      "file": "app/api/orders/cod/route.ts · lib/stripe/webhook/ordini.ts · lib/email/templates.ts · lib/push/send.ts",
+      "dati_di_prova": "un negozio di prova con email e telefono registrati; un ordine in contanti e uno con carta di prova",
+      "passi": "Fai un ordine di ciascun tipo con i lavori fermi (LAVORI_A_ORARIO assente).",
+      "atteso": "Il negozio riceve l'email entro un minuto e vede la campanella; se un avviso non parte, l'amministratore lo sa.",
+      "limite": "lavori fermi, Resend che non risponde"
+    }
+  ],
+  "domande_per_nicola": [
+    "Vuoi che la notifica del nuovo ordine parta nel momento in cui nasce l'ordine, invece di aspettare il lavoro delle notifiche? Oggi, con i lavori fermi, nessun telefono suona; il negozio ha comunque l'email.",
+    "Quando il negozio accetta un ordine, al cliente arriva solo la campanella, non l'email: le email partono alla conferma, a «pronto» e a «consegnato». Va bene così, o «il cliente riceve gli avvisi per email» vuol dire ogni passaggio?",
+    "Il giorno della riaccensione la notifica sul telefono ha bisogno di tre cose insieme: LAVORI_A_ORARIO=accesi, la chiave di servizio del database e le chiavi delle notifiche (VAPID). Le mettiamo nella lista di controllo della riaccensione?"
+  ],
+  "conto": {
+    "agenti": 12,
+    "token_sessione": {
+      "agenti": 1,
+      "agenti_misurati": 1,
+      "turni": 54,
+      "input": 116,
+      "scritti_cache": 283522,
+      "letti_cache": 12753529,
+      "uscita": 75505,
+      "entrata_totale": 13037167
+    },
+    "token_subagenti": {
+      "agenti": 12,
+      "agenti_misurati": 12,
+      "turni": 393,
+      "input": 786,
+      "scritti_cache": 1068180,
+      "letti_cache": 56200692,
+      "uscita": 193132,
+      "entrata_totale": 57269658
+    },
+    "token_workflow": [],
+    "nota": "Misurato con node cervello/conto-token.mjs (--sessione sul transcript principale e --dir sulla cartella subagents) prima del commit finale: 12 subagenti (3 cercatori, 8 verificatori qa, 1 seconda lente). Il ciclo principale continua dopo questa misura per il push e i messaggi finali. Nessun workflow."
+  }
+}

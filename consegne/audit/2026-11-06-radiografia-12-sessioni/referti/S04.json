@@ -1,0 +1,1647 @@
+{
+  "sessione": "S04",
+  "base_sito": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
+  "aggiornato": "2026-11-06 12:07",
+  "finita": true,
+  "copertura": {
+    "file_letti_interi": [
+      "app/api/auth/signin/route.ts",
+      "app/api/auth/signup/route.ts",
+      "app/api/profili-pubblici/route.ts",
+      "app/api/segnalazioni/route.ts",
+      "app/api/unsubscribe/route.ts",
+      "app/api/newsletter/confirm/route.ts",
+      "app/api/consent/route.ts",
+      "app/api/geocode/route.ts",
+      "app/api/locale/route.ts",
+      "app/api/contact/route.ts",
+      "app/auth/callback/route.ts",
+      "app/auth/confirm/route.ts",
+      "app/auth/recupero/route.ts",
+      "app/api/account/cambia-password/route.ts",
+      "app/api/orders/[id]/cancel/route.ts",
+      "app/api/returns/create/route.ts",
+      "app/api/returns/chi-comanda-il-reso.ts",
+      "app/api/chat/conversations/route.ts",
+      "app/api/chat/messages/route.ts",
+      "app/api/chat/mark-read/route.ts",
+      "app/api/support/conversation/route.ts",
+      "app/api/consegna/veloce/route.ts",
+      "app/api/catalogo/categorie/route.ts",
+      "lib/safe-redirect.ts",
+      "lib/captcha.ts",
+      "lib/api/provenienza.ts",
+      "lib/api/segreti.ts",
+      "lib/auth/segno-recupero.ts",
+      "lib/supabase/auth-server.ts",
+      "lib/api/middleware.ts",
+      "app/api/seller/orders/[id]/label/route.ts",
+      "app/api/seller/orders/[id]/reject/route.ts",
+      "app/api/seller/reviews/[id]/reply/route.ts",
+      "app/api/seller/products/[id]/route.ts",
+      "app/api/seller/site/route.ts",
+      "app/api/seller/apply/route.ts",
+      "app/api/seller/subscription/checkout/route.ts",
+      "app/api/seller/subscription/portal/route.ts",
+      "app/api/sponsored/checkout/route.ts",
+      "app/api/stripe/connect/login/route.ts",
+      "app/api/stripe/connect/onboarding/route.ts",
+      "app/api/stripe/connect/refresh-status/route.ts",
+      "app/api/stripe/connect/rider-onboarding/route.ts",
+      "app/api/stripe/payout/route.ts",
+      "app/api/rider/cash-confirm/route.ts",
+      "app/api/rider/incassi-da-dichiarare/route.ts",
+      "app/api/rider/orders/[id]/cliente-assente/route.ts",
+      "app/api/kyc/documenti-rider/[id]/route.ts",
+      "app/api/kyc/upload-document/route.ts",
+      "app/api/products/[id]/external-refresh/route.ts",
+      "app/api/products/rehost-images/route.ts",
+      "app/api/admin/users/[id]/moderate/route.ts",
+      "app/api/admin/users/[id]/delete/route.ts",
+      "app/api/ai/catalog-apply/route.ts",
+      "app/api/marketplace/import-fetch/route.ts",
+      "app/api/ai/answer-qa/route.ts",
+      "lib/sanitize-html.ts",
+      "lib/html-escape.ts",
+      "lib/csv-sicuro.ts",
+      "lib/net/ssrf-guard.ts",
+      "lib/funzioni-al-lancio.ts",
+      "lib/stato-interruttore.ts",
+      "lib/indirizzo-immagine-ammesso.ts",
+      "lib/upload/firma-del-file.ts",
+      "lib/storage/carica-immagine.ts",
+      "lib/storage/percorso-caricamento.ts",
+      "lib/storage/regole-secchi.ts"
+    ],
+    "file_letti_in_parte": [
+      {
+        "file": "lib/rate-limit.ts",
+        "righe": "1-290"
+      },
+      {
+        "file": "app/api/newsletter/route.ts",
+        "righe": "40-160"
+      },
+      {
+        "file": "app/api/account/accetta-condizioni/route.ts",
+        "righe": "15-96"
+      },
+      {
+        "file": "app/api/account/delete/route.ts",
+        "righe": "1-170"
+      },
+      {
+        "file": "app/api/returns/[id]/avanza/route.ts",
+        "righe": "1-150"
+      },
+      {
+        "file": "app/api/orders/cod/route.ts",
+        "righe": "49-96"
+      },
+      {
+        "file": "app/api/track/route.ts",
+        "righe": "100-261"
+      },
+      {
+        "file": "app/api/gift-cards/checkout/route.ts",
+        "righe": "1-90"
+      },
+      {
+        "file": "middleware.ts",
+        "righe": "85-260"
+      },
+      {
+        "file": "lib/auth/accettazione-testi.ts",
+        "righe": "50-90"
+      },
+      {
+        "file": "app/sign-in/page.tsx",
+        "righe": "136-262"
+      },
+      {
+        "file": "app/sign-up/page.tsx",
+        "righe": "120-190"
+      },
+      {
+        "file": "app/reset-password/page.tsx",
+        "righe": "85-262"
+      },
+      {
+        "file": "lib/shopping-access.ts",
+        "righe": "78-86"
+      },
+      {
+        "file": "lib/supabase/server.ts",
+        "righe": "50-95"
+      },
+      {
+        "file": "app/api/kyc/start-check/route.ts",
+        "righe": "20-177"
+      },
+      {
+        "file": "lib/kyc/providers.ts",
+        "righe": "140-155"
+      },
+      {
+        "file": "app/admin/users/page.tsx",
+        "righe": "372-400"
+      },
+      {
+        "file": "app/api/ai/copilot/route.ts",
+        "righe": "86-276"
+      },
+      {
+        "file": "app/api/ai/catalog-apply-bulk/route.ts",
+        "righe": "59-130"
+      },
+      {
+        "file": "app/api/ai/catalog-batch/status/route.ts",
+        "righe": "30-138"
+      },
+      {
+        "file": "app/api/ai/catalog-batch/apply/route.ts",
+        "righe": "62-135"
+      },
+      {
+        "file": "app/api/image/remove-bg/route.ts",
+        "righe": "36-102"
+      },
+      {
+        "file": "app/api/ai/reviews-summary/route.ts",
+        "righe": "55-139"
+      },
+      {
+        "file": "app/api/ai/catalog-chat/route.ts",
+        "righe": "196-250"
+      },
+      {
+        "file": "app/api/ai/product-chat/route.ts",
+        "righe": "175-240"
+      },
+      {
+        "file": "app/api/vision/extract-product/route.ts",
+        "righe": "235-258"
+      },
+      {
+        "file": "app/api/vision/photo-order/route.ts",
+        "righe": "60-95"
+      },
+      {
+        "file": "app/api/ai/improve-product/route.ts",
+        "righe": "300-312"
+      },
+      {
+        "file": "app/api/ai/catalog-create/route.ts",
+        "righe": "95-140"
+      },
+      {
+        "file": "lib/ai/client.ts",
+        "righe": "150-204"
+      },
+      {
+        "file": "lib/ai/productContext.ts",
+        "righe": "50-100"
+      },
+      {
+        "file": "lib/ai/run.ts",
+        "righe": "344-360"
+      },
+      {
+        "file": "lib/ai/moderation.ts",
+        "righe": "110-132"
+      },
+      {
+        "file": "app/api/ai/catalog-create-bulk/route.ts",
+        "righe": "150-200"
+      },
+      {
+        "file": "lib/admin/esporta-csv.ts",
+        "righe": "115-125"
+      }
+    ],
+    "file_eseguiti": [
+      {
+        "file": "app/api/ai/copilot/route.ts",
+        "comando": "cd marketplace && node_modules/.bin/vitest run --config /tmp/claude-0/-home-user-ad-mycity/e7ac7503-8f90-5ce4-bc63-4d99c41a54c4/scratchpad/finderC/vitest.finderC.config.ts copilot-storia",
+        "esito": "rosso: 1 fallito (testo vietato nella cronologia arriva al modello), 1 passato (controllo)"
+      },
+      {
+        "file": "app/api/ai/product-chat/route.ts",
+        "comando": "cd marketplace && node_modules/.bin/vitest run --config /tmp/claude-0/-home-user-ad-mycity/e7ac7503-8f90-5ce4-bc63-4d99c41a54c4/scratchpad/finderC/vitest.finderC.config.ts chat-turno",
+        "esito": "rosso: 1 fallito (turno assistant non filtrato), 1 passato"
+      },
+      {
+        "file": "app/api/ai/catalog-chat/route.ts",
+        "comando": "cd marketplace && node_modules/.bin/vitest run --config /tmp/claude-0/-home-user-ad-mycity/e7ac7503-8f90-5ce4-bc63-4d99c41a54c4/scratchpad/verifica1/vitest.v1.config.ts catalog-chat",
+        "esito": "rosso: 1 fallito, 1 passato"
+      },
+      {
+        "file": "app/api/products/[id]/external-refresh/route.ts",
+        "comando": "cd marketplace && node_modules/.bin/vitest run --config /tmp/claude-0/-home-user-ad-mycity/e7ac7503-8f90-5ce4-bc63-4d99c41a54c4/scratchpad/verifica1/vitest.v1.config.ts external-refresh",
+        "esito": "rosso: due scritture con AI spenta"
+      },
+      {
+        "file": "lib/sanitize-html.ts",
+        "comando": "cd marketplace && node_modules/.bin/vitest run --config /tmp/claude-0/-home-user-ad-mycity/e7ac7503-8f90-5ce4-bc63-4d99c41a54c4/scratchpad/finderD/vitest.config.mts misc",
+        "esito": "verde: img onerror, svg, javascript: anche codificato, data:, mXSS neutralizzati"
+      },
+      {
+        "file": "lib/csv-sicuro.ts",
+        "comando": "cd marketplace && node_modules/.bin/vitest run --config /tmp/claude-0/-home-user-ad-mycity/e7ac7503-8f90-5ce4-bc63-4d99c41a54c4/scratchpad/finderD/vitest.config.mts misc",
+        "esito": "verde: = + - @ anche dopo TAB, CR, LF, NBSP ricevono l'apostrofo"
+      },
+      {
+        "file": "lib/safe-redirect.ts",
+        "comando": "cd marketplace && node_modules/.bin/vitest run --config /tmp/claude-0/-home-user-ad-mycity/e7ac7503-8f90-5ce4-bc63-4d99c41a54c4/scratchpad/finderD/vitest.config.mts misc",
+        "esito": "verde: //, /\\, https:evil, /javascript: respinti"
+      },
+      {
+        "file": "tests/sql/harness/apply.sh",
+        "comando": "tests/sql/harness/apply.sh mycity_s04_b (e mycity_s04_d7, mycity_s04_v3)",
+        "esito": "178 migrazioni applicate, 0 fallite"
+      }
+    ],
+    "non_guardato": [
+      {
+        "cosa": "Regole di accesso del database, funzioni con permessi alti e permessi delle tabelle",
+        "perche": "Sono di S05; le ho toccate solo per ricontrollare le falle riservate già aperte e per la regressione 2126"
+      },
+      {
+        "cosa": "Interruttore della carta, Stripe e webhook",
+        "perche": "Sono di S02 e S03"
+      },
+      {
+        "cosa": "Tetti di spesa dell'AI, modelli ritirati, fornitore che non risponde, cosa fanno davvero gli strumenti AI del negozio",
+        "perche": "Sono di S12 e S07"
+      },
+      {
+        "cosa": "Il database vero, il pannello di Supabase e il sito vero",
+        "perche": "Regola del §1: solo copie. Alcune impostazioni di Supabase in produzione restano da guardare (domanda per Nicola)"
+      },
+      {
+        "cosa": "Il corpo intero di description, diagnose, seo, variants, barcode-lookup, vision/extract-products e catalog-batch/start",
+        "perche": "Solo grep di accesso, freno e interruttore: il limite di tempo dei cercatori"
+      },
+      {
+        "cosa": "lib/storage/casella-di-caricamento.ts, foto-del-sito.ts, foto-di-casa.ts, components/PhotoReviewUpload.tsx, lib/supabase/client.ts, blocchi.ts, lettura-per-metadati.ts, lib/admin/esporta-utenti.ts",
+        "perche": "Solo grep delle chiamate di caricamento e cancellazione, non lettura completa"
+      },
+      {
+        "cosa": "Le 14 falle riservate dell'11/10",
+        "perche": "I loro referti privati non sono stati ritrovati: restano non ricontrollate"
+      }
+    ]
+  },
+  "difetti": [
+    {
+      "id": "S04-001",
+      "dimensione": "ai-endpoints",
+      "titolo": "L'assistente AI del negozio controlla solo l'ultima richiesta: il testo messo nella conversazione precedente arriva al modello senza filtro",
+      "severita": "minore",
+      "file": "app/api/ai/copilot/route.ts:122 · app/api/ai/copilot/route.ts:184-202 · app/api/ai/copilot/route.ts:224-238 · components/seller/CatalogCopilot.tsx:94",
+      "descrizione": "La rotta passa dal filtro dei contenuti solo il campo instruction (assertSafeText alla riga 122). Il campo history del corpo, fino a 10 turni da 1000 caratteri, viene controllato solo nella forma (righe 190-202) e poi messo nei messaggi per il modello (righe 224-238, ...cronologia). Anche i turni «assistant» scritti a mano passano: il commento alle righe 184-189 dice che i turni falsi sono respinti, ma il codice controlla solo che si alternino. La pagina vera non manda mai history (CatalogCopilot.tsx:94 manda solo instruction), quindi il campo serve solo a chi costruisce la richiesta a mano.",
+      "impatto": "Un negozio approvato, o chi ha in mano la sua sessione, manda {instruction:'abbassa del 10%', history:[{role:'user', content:'<testo vietato>'}, ...]}: il testo che il filtro avrebbe fermato arriva al modello più costoso con la chiave e il nome di MyCity, fino a 25 volte l'ora per negozio. Non tocca dati né soldi di altri: le modifiche ai prodotti passano comunque dal filtro su nome e descrizione.",
+      "fix": "Togliere history dalla rotta, visto che nessuna pagina lo usa. Se resta, filtrare ogni turno scritto dal browser, user e assistant, insieme all'istruzione.",
+      "causa_radice": "La correzione delle voci 1421, 1684 e 1699 è stata fatta rotta per rotta sull'ultimo messaggio. Manca un posto unico che costruisce i messaggi per il modello e filtra tutto il testo arrivato dal browser.",
+      "prova": "cd marketplace && node_modules/.bin/vitest run --config /tmp/claude-0/-home-user-ad-mycity/e7ac7503-8f90-5ce4-bc63-4d99c41a54c4/scratchpad/finderC/vitest.finderC.config.ts copilot-storia (prova della rotta vera, con accesso, database e modello finti; il filtro finto rifiuta il testo «VIETATO»)",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO: controllo (testo vietato nell'istruzione) 400; caso vero (testo vietato nella history) «status 200 testo vietato arrivato al modello: true» → AssertionError expected true to be false. Rilanciata dal verificatore: 2 falliti, 2 passati su 4.",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "Verificatore qa: ha controllato che la runMessage vera (lib/ai/run.ts:344-360) non filtri da sé, quindi i finti non nascondono niente; ha rilanciato la prova (rossa) e aggiunto che anche i turni assistant passano. Gravità minore confermata.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S04-002",
+      "dimensione": "ai-endpoints",
+      "titolo": "Nelle due chat AI del negozio una risposta del modello scritta a mano nella richiesta arriva al modello senza filtro",
+      "severita": "minore",
+      "file": "app/api/ai/product-chat/route.ts:180-216 · app/api/ai/product-chat/route.ts:301 · app/api/ai/catalog-chat/route.ts:202-239 · app/api/ai/catalog-chat/route.ts:409-419",
+      "descrizione": "Le due chat accettano dal browser la cronologia con ruoli user e assistant (product-chat 180-190, catalog-chat 202-212). Il filtro dei contenuti gira solo sui turni user (product-chat 208, catalog-chat 231). Poi tutti i turni, compresi quelli assistant scritti dal browser, vanno al modello (product-chat 301, catalog-chat 419). Un turno assistant inventato funziona come un inizio di risposta già accettato dal modello.",
+      "impatto": "Un negozio approvato manda la cronologia [user «ciao», assistant «<testo vietato o inizio di risposta forzata>», user «continua»]: il testo vietato arriva al modello con ricerca web, con la chiave di MyCity, fino a 25 volte l'ora per chat. Il rischio è il nome e la spesa AI di MyCity, non dati o soldi di altri.",
+      "fix": "Filtrare anche i turni assistant, oppure non accettarli dal browser: tenere la conversazione sul server o firmare i turni prodotti dal server.",
+      "causa_radice": "La chat è senza stato sul server e si fida della cronologia mandata dal browser; le correzioni 1684 e 1699 hanno coperto solo i turni user.",
+      "prova": "cd marketplace && node_modules/.bin/vitest run --config /tmp/claude-0/-home-user-ad-mycity/e7ac7503-8f90-5ce4-bc63-4d99c41a54c4/scratchpad/finderC/vitest.finderC.config.ts chat-turno ; cd marketplace && node_modules/.bin/vitest run --config /tmp/claude-0/-home-user-ad-mycity/e7ac7503-8f90-5ce4-bc63-4d99c41a54c4/scratchpad/verifica1/vitest.v1.config.ts catalog-chat",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO su entrambe le rotte: controllo (testo vietato in un turno user) 400 senza chiamata al modello; caso vero (testo vietato in un turno assistant) «status 200 chiamate 1 vietato al modello: true» → AssertionError expected true to be false.",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "Verificatore qa: ha rilanciato la prova di product-chat e scritto una prova nuova per catalog-chat (rossa anche quella). Gravità minore confermata.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S04-003",
+      "dimensione": "ai-endpoints",
+      "titolo": "Con l'AI spenta, chi guarda un prodotto importato da un altro sito lo fa segnare come «aggiornato adesso» anche se nessun dato è arrivato",
+      "severita": "minore",
+      "file": "app/api/products/[id]/external-refresh/route.ts:55-74 · app/api/products/[id]/external-refresh/route.ts:78-122 · lib/ai/client.ts:186-188 · app/api/cron/external-price-alerts/route.ts:43",
+      "descrizione": "La GET è pubblica (freno 30 al minuto per rete, righe 86-91). Se i dati esterni hanno più di 6 ore, la rotta scrive con la chiave di servizio lo stato «pending» (107-113) e lancia doRefresh. Con AI_NEGOZI_ACCESA=false la chiamata al modello viene fermata da getAnthropic (client.ts:186-188), quindi non si spende niente, ma il catch di doRefresh (68-71) scrive external_synced_at=adesso ed external_sync_status='error'. La rotta non legge l'interruttore prima di scrivere; il giro a orario gemello invece lo legge (external-price-alerts:43).",
+      "impatto": "Ogni visitatore anonimo di un prodotto con fonte esterna lo fa passare a «pending» e poi a «error» con la data di adesso, ogni 6 ore. Il pannello admin del prodotto mostra la data senza guardare lo stato, quindi l'amministratore legge «aggiornato adesso» su dati vecchi. Quando l'AI si accende, ogni visita a un prodotto vecchio avvia una chiamata a pagamento (una ogni 6 ore per prodotto). Quanti prodotti con fonte esterna ci sono in produzione non l'ho visto.",
+      "fix": "In testa al GET: se AI_NEGOZI_ACCESA è spento, restituire i dati salvati senza scrivere. Nel catch non aggiornare external_synced_at.",
+      "causa_radice": "La voce 42 (riparata) ha messo l'interruttore solo nel giro a orario: la stessa logica copiata nella rotta pubblica non è stata toccata.",
+      "prova": "cd marketplace && node_modules/.bin/vitest run --config /tmp/claude-0/-home-user-ad-mycity/e7ac7503-8f90-5ce4-bc63-4d99c41a54c4/scratchpad/verifica1/vitest.v1.config.ts external-refresh (rotta vera con AI_NEGOZI_ACCESA=false, runMessage vero spiato, client admin finto che registra le scritture)",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "ROSSO: «status 200 runMessage chiamato 1 updates [{external_sync_status:'pending'},{external_synced_at:'2026-11-06T11:02:39Z', external_sync_status:'error'}]» → expected [ …(2) ] to deeply equal [].",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "Verificatore qa: ha corretto il meccanismo (l'interruttore ferma la spesa, non la scrittura) e scritto la prova, rossa. Gravità minore.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S04-004",
+      "dimensione": "sicurezza-auth",
+      "titolo": "Un cliente che abusa del sito non si può sospendere: l'unica strada è cancellargli l'account",
+      "severita": "minore",
+      "file": "app/api/admin/users/[id]/moderate/route.ts:166-171 · lib/api/middleware.ts:265 · lib/shopping-access.ts:78-86",
+      "descrizione": "La rotta di moderazione rifiuta chi non è negozio o fattorino (moderate 166-171, scelta voluta del 28/10). Il portiere delle rotte legge solo id, ruolo e is_approved (middleware.ts:265), e purchaseBlockReason guarda solo il ruolo (shopping-access.ts:78-86). I clienti nascono già con is_approved=false, quindi quel campo non li può fermare. In app, lib e migrazioni non c'è nessun campo di blocco per i clienti (cercati banned_until, is_banned, is_blocked, suspended_at, no_show, cod_blocked): nelle pagine admin restano solo moderazione, cambio ruolo e cancellazione.",
+      "impatto": "Un cliente che fa ordini finti in contanti al fornaio, o che scrive messaggi molesti in chat (fino a 30 al minuto), resta operativo. L'amministratore può solo cancellare l'account, che è irreversibile, oppure bloccarlo a mano dal pannello di Supabase.",
+      "fix": "Uno stato «sospeso» valido per ogni ruolo, letto dal portiere delle rotte e dalla cassa, oppure auth.admin.updateUserById(id, { ban_duration }) dalla rotta di moderazione; poi aprire la moderazione anche ai clienti.",
+      "causa_radice": "La moderazione è nata per approvare negozi e fattorini, non per fermare gli abusi dei clienti.",
+      "prova": "Lettura di moderate/route.ts:166-171, lib/api/middleware.ts:265 e lib/shopping-access.ts:78-86; grep -rnE 'banned_until|is_banned|is_blocked|suspended_at|is_suspended|no_show|cod_blocked' app lib migrations",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "La moderazione risponde invalidRequest per i clienti; il grep trova banned_until solo nei seed, mai nel codice.",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "Verificatore qa: confermato; vicino alla voce 2442 (l'aiuto fattorini prometteva il blocco del cliente, promessa tolta, funzione mai fatta). Minore.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S04-005",
+      "dimensione": "sicurezza-auth",
+      "titolo": "Sette rotte di negozio e fattorino leggono il profilo dal cookie invece che dal gettone: chi entra solo col gettone riceve «Profilo non trovato»",
+      "severita": "minore",
+      "file": "app/api/seller/orders/[id]/label/route.ts:19 · app/api/stripe/connect/login/route.ts:24 · app/api/stripe/connect/onboarding/route.ts:25 · app/api/stripe/connect/refresh-status/route.ts:25 · app/api/stripe/connect/rider-onboarding/route.ts:27 · app/api/seller/subscription/checkout/route.ts:36 · app/api/seller/subscription/portal/route.ts:28 · app/api/sponsored/checkout/route.ts:47 · lib/api/middleware.ts:192-223",
+      "descrizione": "Il portiere (middleware.ts:192-211) prova prima il gettone Bearer e costruisce supaUtente con quel gettone; il cookie serve solo se il gettone manca. Queste rotte però leggono il profilo o l'ordine con getServerSupabase(), che usa solo i cookie: chi chiama col gettone e senza cookie diventa anonimo per le regole del database e il profilo non si trova. Non c'è scalata di permessi: ogni query filtra comunque sull'id del gettone.",
+      "impatto": "Oggi il browser manda i cookie e funziona. Un'app mobile futura, un'integrazione o una prova automatica che usa solo il gettone riceve 404 «Profilo non trovato» sul collegamento del conto Stripe, sull'etichetta di spedizione e sull'abbonamento.",
+      "fix": "Usare in queste rotte il supaUtente che il portiere già fornisce, come le altre rotte sistemate il 22/8.",
+      "causa_radice": "Debito rimasto dalla migrazione del 22/8 a supaUtente (descritta in testa a lib/api/middleware.ts): queste rotte non sono state convertite.",
+      "prova": "Lettura di lib/api/middleware.ts:28-46 e 192-223 e delle rotte elencate; regole SELECT di profiles e orders lette su un database locale ricostruito con le 178 migrazioni (pg_policies)",
+      "prova_tipo": "lettura-codice",
+      "prova_eseguita": true,
+      "esito_prova": "Tutte e otto usano getServerSupabase(); le regole SELECT di profiles ammettono solo is_admin() e auth.uid()=id, quindi senza cookie la riga non si vede.",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "Verificatore qa: ha provato a smentirlo sostenendo che il gettone non fosse una strada supportata; il portiere invece la supporta per primo. Confermato, minore, nessuna scalata.",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": false
+    },
+    {
+      "id": "S04-006",
+      "dimensione": "sicurezza-auth",
+      "titolo": "Falla di sicurezza da chiudere (sicurezza degli accessi): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+      "severita": "minore",
+      "file": "(nel referto privato)",
+      "descrizione": "nel referto privato",
+      "impatto": "nel referto privato",
+      "fix": "nel referto privato",
+      "causa_radice": "nel referto privato",
+      "prova": "nel referto privato",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "esito_prova": "nel referto privato",
+      "perche_umano": null,
+      "verificato": true,
+      "verificato_da": "nel referto privato",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": true
+    },
+    {
+      "id": "S04-007",
+      "dimensione": "sicurezza-auth",
+      "titolo": "Falla di sicurezza da chiudere (sicurezza degli accessi): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+      "severita": "grave",
+      "file": "(nel referto privato)",
+      "descrizione": "nel referto privato",
+      "impatto": "nel referto privato",
+      "fix": "nel referto privato",
+      "causa_radice": "nel referto privato",
+      "prova": "nel referto privato",
+      "prova_tipo": "umano",
+      "prova_eseguita": false,
+      "esito_prova": "nel referto privato",
+      "perche_umano": "nel referto privato",
+      "verificato": true,
+      "verificato_da": "nel referto privato",
+      "gia_noto": null,
+      "perimetro_altrui": null,
+      "riservato": true
+    }
+  ],
+  "regressioni": [
+    {
+      "chiave": "rls-database|un negozio sospeso può rimettersi da solo in coda per l'approvazione rimandando il modulo da /sell",
+      "indice": 2126,
+      "prova": "psql -q -d mycity_s04_v3 -At -f /tmp/claude-0/-home-user-ad-mycity/e7ac7503-8f90-5ce4-bc63-4d99c41a54c4/scratchpad/finderB/prova-sospeso-si-rimette-in-coda.sql (database locale ricostruito con tests/sql/harness/apply.sh, 178 migrazioni, 0 fallite; il negozio agisce come authenticated col suo sub, flag di servizio azzerati) e /tmp/claude-0/-home-user-ad-mycity/e7ac7503-8f90-5ce4-bc63-4d99c41a54c4/scratchpad/verifica3/sospeso-varianti.sql",
+      "esito_prova": "ROSSO: «il negozio sospeso si e' rimesso in coda da solo (stato=pending)». In più sospeso → NULL passa (la sospensione si cancella), sospeso → approved è respinto. La regola di enforce_profile_update_rules è identica in 061, 107 e 119 (l'ultima) e non guarda mai OLD.approval_status='suspended': la voce era segnata già riparata, ma il blocco c'è solo nella pagina /sell e in app/api/seller/apply/route.ts:149, non nel database."
+    }
+  ],
+  "ricontrolli": [],
+  "prove_per_la_palestra": [
+    {
+      "id": "S04-P001",
+      "funzione": "accetta-condizioni",
+      "chi": "estraneo",
+      "file": "app/accetta-condizioni/page.tsx",
+      "dati_di_prova": "un account di prova nuovo e uno esistente",
+      "passi": "Compilare il modulo della pagina con dati validi, con dati sbagliati e con un indirizzo di ritorno esterno nella barra",
+      "atteso": "Messaggi chiari in italiano, nessun ritorno verso altri siti, il pulsante non parte due volte",
+      "limite": "rete lenta 3G; doppio clic sul pulsante"
+    },
+    {
+      "id": "S04-P002",
+      "funzione": "admin/users",
+      "chi": "admin",
+      "file": "app/admin/users/page.tsx",
+      "dati_di_prova": "amministratore, cliente, negozio",
+      "passi": "Aprire la pagina come cliente e come negozio, poi come amministratore, cambiare il ruolo di un utente e cercarlo",
+      "atteso": "Cliente e negozio sono rimandati fuori; l'amministratore vede l'elenco e il cambio lascia traccia",
+      "limite": "elenco con 5.000 utenti; due amministratori che cambiano lo stesso utente"
+    },
+    {
+      "id": "S04-P003",
+      "funzione": "api/account/accetta-condizioni",
+      "chi": "cliente",
+      "file": "app/api/account/accetta-condizioni/route.ts",
+      "dati_di_prova": "cliente C con un ordine, cliente D",
+      "passi": "C esporta i suoi dati, accetta le condizioni, cambia la password e chiede la cancellazione; D prova le stesse chiamate senza accesso",
+      "atteso": "C riceve solo i suoi dati; senza accesso 401; dall'altro sito 403; la cancellazione parte dopo i giorni previsti",
+      "limite": "tre richieste di cancellazione in un'ora; cambio password con la password attuale sbagliata 6 volte"
+    },
+    {
+      "id": "S04-P004",
+      "funzione": "api/account/cambia-password",
+      "chi": "cliente",
+      "file": "app/api/account/cambia-password/route.ts",
+      "dati_di_prova": "cliente C con un ordine, cliente D",
+      "passi": "C esporta i suoi dati, accetta le condizioni, cambia la password e chiede la cancellazione; D prova le stesse chiamate senza accesso",
+      "atteso": "C riceve solo i suoi dati; senza accesso 401; dall'altro sito 403; la cancellazione parte dopo i giorni previsti",
+      "limite": "tre richieste di cancellazione in un'ora; cambio password con la password attuale sbagliata 6 volte"
+    },
+    {
+      "id": "S04-P005",
+      "funzione": "api/account/delete",
+      "chi": "cliente",
+      "file": "app/api/account/delete/route.ts",
+      "dati_di_prova": "cliente C con un ordine, cliente D",
+      "passi": "C esporta i suoi dati, accetta le condizioni, cambia la password e chiede la cancellazione; D prova le stesse chiamate senza accesso",
+      "atteso": "C riceve solo i suoi dati; senza accesso 401; dall'altro sito 403; la cancellazione parte dopo i giorni previsti",
+      "limite": "tre richieste di cancellazione in un'ora; cambio password con la password attuale sbagliata 6 volte"
+    },
+    {
+      "id": "S04-P006",
+      "funzione": "api/account/export",
+      "chi": "cliente",
+      "file": "app/api/account/export/route.ts",
+      "dati_di_prova": "cliente C con un ordine, cliente D",
+      "passi": "C esporta i suoi dati, accetta le condizioni, cambia la password e chiede la cancellazione; D prova le stesse chiamate senza accesso",
+      "atteso": "C riceve solo i suoi dati; senza accesso 401; dall'altro sito 403; la cancellazione parte dopo i giorni previsti",
+      "limite": "tre richieste di cancellazione in un'ora; cambio password con la password attuale sbagliata 6 volte"
+    },
+    {
+      "id": "S04-P007",
+      "funzione": "api/admin/assistenza",
+      "chi": "admin",
+      "file": "app/api/admin/assistenza/route.ts",
+      "dati_di_prova": "un account amministratore di prova e un secondo account cliente di prova",
+      "passi": "Chiamare l'indirizzo prima da estraneo senza accesso, poi da cliente con accesso, poi da amministratore con dati validi",
+      "atteso": "Estraneo e cliente ricevono 401/403 e nel database non cambia nulla; l'amministratore riceve 200 e la riga di registro amministrativo nasce con il suo id",
+      "limite": "doppio clic e due schede insieme sulla stessa azione: una sola scrittura; 301 chiamate in un minuto dalla stessa rete: freno"
+    },
+    {
+      "id": "S04-P008",
+      "funzione": "api/admin/branding",
+      "chi": "admin",
+      "file": "app/api/admin/branding/route.ts",
+      "dati_di_prova": "un account amministratore di prova e un secondo account cliente di prova",
+      "passi": "Chiamare l'indirizzo prima da estraneo senza accesso, poi da cliente con accesso, poi da amministratore con dati validi",
+      "atteso": "Estraneo e cliente ricevono 401/403 e nel database non cambia nulla; l'amministratore riceve 200 e la riga di registro amministrativo nasce con il suo id",
+      "limite": "doppio clic e due schede insieme sulla stessa azione: una sola scrittura; 301 chiamate in un minuto dalla stessa rete: freno"
+    },
+    {
+      "id": "S04-P009",
+      "funzione": "api/admin/categories",
+      "chi": "admin",
+      "file": "app/api/admin/categories/route.ts",
+      "dati_di_prova": "un account amministratore di prova e un secondo account cliente di prova",
+      "passi": "Chiamare l'indirizzo prima da estraneo senza accesso, poi da cliente con accesso, poi da amministratore con dati validi",
+      "atteso": "Estraneo e cliente ricevono 401/403 e nel database non cambia nulla; l'amministratore riceve 200 e la riga di registro amministrativo nasce con il suo id",
+      "limite": "doppio clic e due schede insieme sulla stessa azione: una sola scrittura; 301 chiamate in un minuto dalla stessa rete: freno"
+    },
+    {
+      "id": "S04-P010",
+      "funzione": "api/admin/cms/[slug]",
+      "chi": "admin",
+      "file": "app/api/admin/cms/[slug]/route.ts",
+      "dati_di_prova": "un account amministratore di prova e un secondo account cliente di prova",
+      "passi": "Chiamare l'indirizzo prima da estraneo senza accesso, poi da cliente con accesso, poi da amministratore con dati validi",
+      "atteso": "Estraneo e cliente ricevono 401/403 e nel database non cambia nulla; l'amministratore riceve 200 e la riga di registro amministrativo nasce con il suo id",
+      "limite": "doppio clic e due schede insieme sulla stessa azione: una sola scrittura; 301 chiamate in un minuto dalla stessa rete: freno"
+    },
+    {
+      "id": "S04-P011",
+      "funzione": "api/admin/cod-incasso-dichiarato",
+      "chi": "admin",
+      "file": "app/api/admin/cod-incasso-dichiarato/route.ts",
+      "dati_di_prova": "un account amministratore di prova e un secondo account cliente di prova",
+      "passi": "Chiamare l'indirizzo prima da estraneo senza accesso, poi da cliente con accesso, poi da amministratore con dati validi",
+      "atteso": "Estraneo e cliente ricevono 401/403 e nel database non cambia nulla; l'amministratore riceve 200 e la riga di registro amministrativo nasce con il suo id",
+      "limite": "doppio clic e due schede insieme sulla stessa azione: una sola scrittura; 301 chiamate in un minuto dalla stessa rete: freno"
+    },
+    {
+      "id": "S04-P012",
+      "funzione": "api/admin/cod-remittance",
+      "chi": "admin",
+      "file": "app/api/admin/cod-remittance/route.ts",
+      "dati_di_prova": "un account amministratore di prova e un secondo account cliente di prova",
+      "passi": "Chiamare l'indirizzo prima da estraneo senza accesso, poi da cliente con accesso, poi da amministratore con dati validi",
+      "atteso": "Estraneo e cliente ricevono 401/403 e nel database non cambia nulla; l'amministratore riceve 200 e la riga di registro amministrativo nasce con il suo id",
+      "limite": "doppio clic e due schede insieme sulla stessa azione: una sola scrittura; 301 chiamate in un minuto dalla stessa rete: freno"
+    },
+    {
+      "id": "S04-P013",
+      "funzione": "api/admin/credito-del-rimborso",
+      "chi": "admin",
+      "file": "app/api/admin/credito-del-rimborso/route.ts",
+      "dati_di_prova": "un account amministratore di prova e un secondo account cliente di prova",
+      "passi": "Chiamare l'indirizzo prima da estraneo senza accesso, poi da cliente con accesso, poi da amministratore con dati validi",
+      "atteso": "Estraneo e cliente ricevono 401/403 e nel database non cambia nulla; l'amministratore riceve 200 e la riga di registro amministrativo nasce con il suo id",
+      "limite": "doppio clic e due schede insieme sulla stessa azione: una sola scrittura; 301 chiamate in un minuto dalla stessa rete: freno"
+    },
+    {
+      "id": "S04-P014",
+      "funzione": "api/admin/daily-drops",
+      "chi": "admin",
+      "file": "app/api/admin/daily-drops/route.ts",
+      "dati_di_prova": "un account amministratore di prova e un secondo account cliente di prova",
+      "passi": "Chiamare l'indirizzo prima da estraneo senza accesso, poi da cliente con accesso, poi da amministratore con dati validi",
+      "atteso": "Estraneo e cliente ricevono 401/403 e nel database non cambia nulla; l'amministratore riceve 200 e la riga di registro amministrativo nasce con il suo id",
+      "limite": "doppio clic e due schede insieme sulla stessa azione: una sola scrittura; 301 chiamate in un minuto dalla stessa rete: freno"
+    },
+    {
+      "id": "S04-P015",
+      "funzione": "api/admin/disputes/[id]/resolve",
+      "chi": "admin",
+      "file": "app/api/admin/disputes/[id]/resolve/route.ts",
+      "dati_di_prova": "un account amministratore di prova e un secondo account cliente di prova",
+      "passi": "Chiamare l'indirizzo prima da estraneo senza accesso, poi da cliente con accesso, poi da amministratore con dati validi",
+      "atteso": "Estraneo e cliente ricevono 401/403 e nel database non cambia nulla; l'amministratore riceve 200 e la riga di registro amministrativo nasce con il suo id",
+      "limite": "doppio clic e due schede insieme sulla stessa azione: una sola scrittura; 301 chiamate in un minuto dalla stessa rete: freno"
+    },
+    {
+      "id": "S04-P016",
+      "funzione": "api/admin/home",
+      "chi": "admin",
+      "file": "app/api/admin/home/route.ts",
+      "dati_di_prova": "un account amministratore di prova e un secondo account cliente di prova",
+      "passi": "Chiamare l'indirizzo prima da estraneo senza accesso, poi da cliente con accesso, poi da amministratore con dati validi",
+      "atteso": "Estraneo e cliente ricevono 401/403 e nel database non cambia nulla; l'amministratore riceve 200 e la riga di registro amministrativo nasce con il suo id",
+      "limite": "doppio clic e due schede insieme sulla stessa azione: una sola scrittura; 301 chiamate in un minuto dalla stessa rete: freno"
+    },
+    {
+      "id": "S04-P017",
+      "funzione": "api/admin/orders/[id]/cancel",
+      "chi": "admin",
+      "file": "app/api/admin/orders/[id]/cancel/route.ts",
+      "dati_di_prova": "un account amministratore di prova e un secondo account cliente di prova",
+      "passi": "Chiamare l'indirizzo prima da estraneo senza accesso, poi da cliente con accesso, poi da amministratore con dati validi",
+      "atteso": "Estraneo e cliente ricevono 401/403 e nel database non cambia nulla; l'amministratore riceve 200 e la riga di registro amministrativo nasce con il suo id",
+      "limite": "doppio clic e due schede insieme sulla stessa azione: una sola scrittura; 301 chiamate in un minuto dalla stessa rete: freno"
+    },
+    {
+      "id": "S04-P018",
+      "funzione": "api/admin/orders/rimborsi-da-dividere",
+      "chi": "admin",
+      "file": "app/api/admin/orders/rimborsi-da-dividere/route.ts",
+      "dati_di_prova": "un account amministratore di prova e un secondo account cliente di prova",
+      "passi": "Chiamare l'indirizzo prima da estraneo senza accesso, poi da cliente con accesso, poi da amministratore con dati validi",
+      "atteso": "Estraneo e cliente ricevono 401/403 e nel database non cambia nulla; l'amministratore riceve 200 e la riga di registro amministrativo nasce con il suo id",
+      "limite": "doppio clic e due schede insieme sulla stessa azione: una sola scrittura; 301 chiamate in un minuto dalla stessa rete: freno"
+    },
+    {
+      "id": "S04-P019",
+      "funzione": "api/admin/products",
+      "chi": "admin",
+      "file": "app/api/admin/products/route.ts",
+      "dati_di_prova": "un account amministratore di prova e un secondo account cliente di prova",
+      "passi": "Chiamare l'indirizzo prima da estraneo senza accesso, poi da cliente con accesso, poi da amministratore con dati validi",
+      "atteso": "Estraneo e cliente ricevono 401/403 e nel database non cambia nulla; l'amministratore riceve 200 e la riga di registro amministrativo nasce con il suo id",
+      "limite": "doppio clic e due schede insieme sulla stessa azione: una sola scrittura; 301 chiamate in un minuto dalla stessa rete: freno"
+    },
+    {
+      "id": "S04-P020",
+      "funzione": "api/admin/registro-visite",
+      "chi": "admin",
+      "file": "app/api/admin/registro-visite/route.ts",
+      "dati_di_prova": "un account amministratore di prova e un secondo account cliente di prova",
+      "passi": "Chiamare l'indirizzo prima da estraneo senza accesso, poi da cliente con accesso, poi da amministratore con dati validi",
+      "atteso": "Estraneo e cliente ricevono 401/403 e nel database non cambia nulla; l'amministratore riceve 200 e la riga di registro amministrativo nasce con il suo id",
+      "limite": "doppio clic e due schede insieme sulla stessa azione: una sola scrittura; 301 chiamate in un minuto dalla stessa rete: freno"
+    },
+    {
+      "id": "S04-P021",
+      "funzione": "api/admin/users/[id]/delete",
+      "chi": "admin",
+      "file": "app/api/admin/users/[id]/delete/route.ts",
+      "dati_di_prova": "un account amministratore di prova e un secondo account cliente di prova",
+      "passi": "Chiamare l'indirizzo prima da estraneo senza accesso, poi da cliente con accesso, poi da amministratore con dati validi",
+      "atteso": "Estraneo e cliente ricevono 401/403 e nel database non cambia nulla; l'amministratore riceve 200 e la riga di registro amministrativo nasce con il suo id",
+      "limite": "doppio clic e due schede insieme sulla stessa azione: una sola scrittura; 301 chiamate in un minuto dalla stessa rete: freno"
+    },
+    {
+      "id": "S04-P022",
+      "funzione": "api/admin/users/[id]/kyc",
+      "chi": "admin",
+      "file": "app/api/admin/users/[id]/kyc/route.ts",
+      "dati_di_prova": "un account amministratore di prova e un secondo account cliente di prova",
+      "passi": "Chiamare l'indirizzo prima da estraneo senza accesso, poi da cliente con accesso, poi da amministratore con dati validi",
+      "atteso": "Estraneo e cliente ricevono 401/403 e nel database non cambia nulla; l'amministratore riceve 200 e la riga di registro amministrativo nasce con il suo id",
+      "limite": "doppio clic e due schede insieme sulla stessa azione: una sola scrittura; 301 chiamate in un minuto dalla stessa rete: freno"
+    },
+    {
+      "id": "S04-P023",
+      "funzione": "api/admin/users/[id]/moderate",
+      "chi": "admin",
+      "file": "app/api/admin/users/[id]/moderate/route.ts",
+      "dati_di_prova": "un account amministratore di prova e un secondo account cliente di prova",
+      "passi": "Chiamare l'indirizzo prima da estraneo senza accesso, poi da cliente con accesso, poi da amministratore con dati validi",
+      "atteso": "Estraneo e cliente ricevono 401/403 e nel database non cambia nulla; l'amministratore riceve 200 e la riga di registro amministrativo nasce con il suo id",
+      "limite": "doppio clic e due schede insieme sulla stessa azione: una sola scrittura; 301 chiamate in un minuto dalla stessa rete: freno"
+    },
+    {
+      "id": "S04-P024",
+      "funzione": "api/ai/answer-qa",
+      "chi": "negozio",
+      "file": "app/api/ai/answer-qa/route.ts",
+      "dati_di_prova": "negozio approvato A con 3 prodotti, negozio B con 1 prodotto, cliente C; interruttore AI spento e poi acceso",
+      "passi": "Con l'interruttore spento chiamare a mano come negozio A; poi accenderlo e chiamare come cliente C, come negozio A su un prodotto di B, e come A su un suo prodotto, anche mandando a mano campi che la pagina non manda",
+      "atteso": "Spento: 503 e nessuna chiamata al modello né scrittura; cliente: 403; prodotto di B: rifiutato; prodotto proprio: risposta valida e nessun testo vietato arriva al modello",
+      "limite": "oltre il tetto orario per utente (26a chiamata): 429; testi lunghi al limite dei caratteri; immagini grandi"
+    },
+    {
+      "id": "S04-P025",
+      "funzione": "api/ai/barcode-lookup",
+      "chi": "negozio",
+      "file": "app/api/ai/barcode-lookup/route.ts",
+      "dati_di_prova": "negozio approvato A con 3 prodotti, negozio B con 1 prodotto, cliente C; interruttore AI spento e poi acceso",
+      "passi": "Con l'interruttore spento chiamare a mano come negozio A; poi accenderlo e chiamare come cliente C, come negozio A su un prodotto di B, e come A su un suo prodotto, anche mandando a mano campi che la pagina non manda",
+      "atteso": "Spento: 503 e nessuna chiamata al modello né scrittura; cliente: 403; prodotto di B: rifiutato; prodotto proprio: risposta valida e nessun testo vietato arriva al modello",
+      "limite": "oltre il tetto orario per utente (26a chiamata): 429; testi lunghi al limite dei caratteri; immagini grandi"
+    },
+    {
+      "id": "S04-P026",
+      "funzione": "api/ai/catalog-apply-bulk",
+      "chi": "negozio",
+      "file": "app/api/ai/catalog-apply-bulk/route.ts",
+      "dati_di_prova": "negozio approvato A con 3 prodotti, negozio B con 1 prodotto, cliente C; interruttore AI spento e poi acceso",
+      "passi": "Con l'interruttore spento chiamare a mano come negozio A; poi accenderlo e chiamare come cliente C, come negozio A su un prodotto di B, e come A su un suo prodotto, anche mandando a mano campi che la pagina non manda",
+      "atteso": "Spento: 503 e nessuna chiamata al modello né scrittura; cliente: 403; prodotto di B: rifiutato; prodotto proprio: risposta valida e nessun testo vietato arriva al modello",
+      "limite": "oltre il tetto orario per utente (26a chiamata): 429; testi lunghi al limite dei caratteri; immagini grandi"
+    },
+    {
+      "id": "S04-P027",
+      "funzione": "api/ai/catalog-apply",
+      "chi": "negozio",
+      "file": "app/api/ai/catalog-apply/route.ts",
+      "dati_di_prova": "negozio approvato A con 3 prodotti, negozio B con 1 prodotto, cliente C; interruttore AI spento e poi acceso",
+      "passi": "Con l'interruttore spento chiamare a mano come negozio A; poi accenderlo e chiamare come cliente C, come negozio A su un prodotto di B, e come A su un suo prodotto, anche mandando a mano campi che la pagina non manda",
+      "atteso": "Spento: 503 e nessuna chiamata al modello né scrittura; cliente: 403; prodotto di B: rifiutato; prodotto proprio: risposta valida e nessun testo vietato arriva al modello",
+      "limite": "oltre il tetto orario per utente (26a chiamata): 429; testi lunghi al limite dei caratteri; immagini grandi"
+    },
+    {
+      "id": "S04-P028",
+      "funzione": "api/ai/catalog-batch/apply",
+      "chi": "negozio",
+      "file": "app/api/ai/catalog-batch/apply/route.ts",
+      "dati_di_prova": "negozio approvato A con 3 prodotti, negozio B con 1 prodotto, cliente C; interruttore AI spento e poi acceso",
+      "passi": "Con l'interruttore spento chiamare a mano come negozio A; poi accenderlo e chiamare come cliente C, come negozio A su un prodotto di B, e come A su un suo prodotto, anche mandando a mano campi che la pagina non manda",
+      "atteso": "Spento: 503 e nessuna chiamata al modello né scrittura; cliente: 403; prodotto di B: rifiutato; prodotto proprio: risposta valida e nessun testo vietato arriva al modello",
+      "limite": "oltre il tetto orario per utente (26a chiamata): 429; testi lunghi al limite dei caratteri; immagini grandi"
+    },
+    {
+      "id": "S04-P029",
+      "funzione": "api/ai/catalog-batch/start",
+      "chi": "negozio",
+      "file": "app/api/ai/catalog-batch/start/route.ts",
+      "dati_di_prova": "negozio approvato A con 3 prodotti, negozio B con 1 prodotto, cliente C; interruttore AI spento e poi acceso",
+      "passi": "Con l'interruttore spento chiamare a mano come negozio A; poi accenderlo e chiamare come cliente C, come negozio A su un prodotto di B, e come A su un suo prodotto, anche mandando a mano campi che la pagina non manda",
+      "atteso": "Spento: 503 e nessuna chiamata al modello né scrittura; cliente: 403; prodotto di B: rifiutato; prodotto proprio: risposta valida e nessun testo vietato arriva al modello",
+      "limite": "oltre il tetto orario per utente (26a chiamata): 429; testi lunghi al limite dei caratteri; immagini grandi"
+    },
+    {
+      "id": "S04-P030",
+      "funzione": "api/ai/catalog-batch/status",
+      "chi": "negozio",
+      "file": "app/api/ai/catalog-batch/status/route.ts",
+      "dati_di_prova": "negozio approvato A con 3 prodotti, negozio B con 1 prodotto, cliente C; interruttore AI spento e poi acceso",
+      "passi": "Con l'interruttore spento chiamare a mano come negozio A; poi accenderlo e chiamare come cliente C, come negozio A su un prodotto di B, e come A su un suo prodotto, anche mandando a mano campi che la pagina non manda",
+      "atteso": "Spento: 503 e nessuna chiamata al modello né scrittura; cliente: 403; prodotto di B: rifiutato; prodotto proprio: risposta valida e nessun testo vietato arriva al modello",
+      "limite": "oltre il tetto orario per utente (26a chiamata): 429; testi lunghi al limite dei caratteri; immagini grandi"
+    },
+    {
+      "id": "S04-P031",
+      "funzione": "api/ai/catalog-chat",
+      "chi": "negozio",
+      "file": "app/api/ai/catalog-chat/route.ts",
+      "dati_di_prova": "negozio approvato A con 3 prodotti, negozio B con 1 prodotto, cliente C; interruttore AI spento e poi acceso",
+      "passi": "Con l'interruttore spento chiamare a mano come negozio A; poi accenderlo e chiamare come cliente C, come negozio A su un prodotto di B, e come A su un suo prodotto, anche mandando a mano campi che la pagina non manda",
+      "atteso": "Spento: 503 e nessuna chiamata al modello né scrittura; cliente: 403; prodotto di B: rifiutato; prodotto proprio: risposta valida e nessun testo vietato arriva al modello",
+      "limite": "oltre il tetto orario per utente (26a chiamata): 429; testi lunghi al limite dei caratteri; immagini grandi"
+    },
+    {
+      "id": "S04-P032",
+      "funzione": "api/ai/catalog-create-bulk",
+      "chi": "negozio",
+      "file": "app/api/ai/catalog-create-bulk/route.ts",
+      "dati_di_prova": "negozio approvato A con 3 prodotti, negozio B con 1 prodotto, cliente C; interruttore AI spento e poi acceso",
+      "passi": "Con l'interruttore spento chiamare a mano come negozio A; poi accenderlo e chiamare come cliente C, come negozio A su un prodotto di B, e come A su un suo prodotto, anche mandando a mano campi che la pagina non manda",
+      "atteso": "Spento: 503 e nessuna chiamata al modello né scrittura; cliente: 403; prodotto di B: rifiutato; prodotto proprio: risposta valida e nessun testo vietato arriva al modello",
+      "limite": "oltre il tetto orario per utente (26a chiamata): 429; testi lunghi al limite dei caratteri; immagini grandi"
+    },
+    {
+      "id": "S04-P033",
+      "funzione": "api/ai/catalog-create",
+      "chi": "negozio",
+      "file": "app/api/ai/catalog-create/route.ts",
+      "dati_di_prova": "negozio approvato A con 3 prodotti, negozio B con 1 prodotto, cliente C; interruttore AI spento e poi acceso",
+      "passi": "Con l'interruttore spento chiamare a mano come negozio A; poi accenderlo e chiamare come cliente C, come negozio A su un prodotto di B, e come A su un suo prodotto, anche mandando a mano campi che la pagina non manda",
+      "atteso": "Spento: 503 e nessuna chiamata al modello né scrittura; cliente: 403; prodotto di B: rifiutato; prodotto proprio: risposta valida e nessun testo vietato arriva al modello",
+      "limite": "oltre il tetto orario per utente (26a chiamata): 429; testi lunghi al limite dei caratteri; immagini grandi"
+    },
+    {
+      "id": "S04-P034",
+      "funzione": "api/ai/copilot",
+      "chi": "negozio",
+      "file": "app/api/ai/copilot/route.ts",
+      "dati_di_prova": "negozio approvato A con 3 prodotti, negozio B con 1 prodotto, cliente C; interruttore AI spento e poi acceso",
+      "passi": "Con l'interruttore spento chiamare a mano come negozio A; poi accenderlo e chiamare come cliente C, come negozio A su un prodotto di B, e come A su un suo prodotto, anche mandando a mano campi che la pagina non manda",
+      "atteso": "Spento: 503 e nessuna chiamata al modello né scrittura; cliente: 403; prodotto di B: rifiutato; prodotto proprio: risposta valida e nessun testo vietato arriva al modello",
+      "limite": "oltre il tetto orario per utente (26a chiamata): 429; testi lunghi al limite dei caratteri; immagini grandi"
+    },
+    {
+      "id": "S04-P035",
+      "funzione": "api/ai/description",
+      "chi": "negozio",
+      "file": "app/api/ai/description/route.ts",
+      "dati_di_prova": "negozio approvato A con 3 prodotti, negozio B con 1 prodotto, cliente C; interruttore AI spento e poi acceso",
+      "passi": "Con l'interruttore spento chiamare a mano come negozio A; poi accenderlo e chiamare come cliente C, come negozio A su un prodotto di B, e come A su un suo prodotto, anche mandando a mano campi che la pagina non manda",
+      "atteso": "Spento: 503 e nessuna chiamata al modello né scrittura; cliente: 403; prodotto di B: rifiutato; prodotto proprio: risposta valida e nessun testo vietato arriva al modello",
+      "limite": "oltre il tetto orario per utente (26a chiamata): 429; testi lunghi al limite dei caratteri; immagini grandi"
+    },
+    {
+      "id": "S04-P036",
+      "funzione": "api/ai/diagnose",
+      "chi": "negozio",
+      "file": "app/api/ai/diagnose/route.ts",
+      "dati_di_prova": "negozio approvato A con 3 prodotti, negozio B con 1 prodotto, cliente C; interruttore AI spento e poi acceso",
+      "passi": "Con l'interruttore spento chiamare a mano come negozio A; poi accenderlo e chiamare come cliente C, come negozio A su un prodotto di B, e come A su un suo prodotto, anche mandando a mano campi che la pagina non manda",
+      "atteso": "Spento: 503 e nessuna chiamata al modello né scrittura; cliente: 403; prodotto di B: rifiutato; prodotto proprio: risposta valida e nessun testo vietato arriva al modello",
+      "limite": "oltre il tetto orario per utente (26a chiamata): 429; testi lunghi al limite dei caratteri; immagini grandi"
+    },
+    {
+      "id": "S04-P037",
+      "funzione": "api/ai/improve-product",
+      "chi": "negozio",
+      "file": "app/api/ai/improve-product/route.ts",
+      "dati_di_prova": "negozio approvato A con 3 prodotti, negozio B con 1 prodotto, cliente C; interruttore AI spento e poi acceso",
+      "passi": "Con l'interruttore spento chiamare a mano come negozio A; poi accenderlo e chiamare come cliente C, come negozio A su un prodotto di B, e come A su un suo prodotto, anche mandando a mano campi che la pagina non manda",
+      "atteso": "Spento: 503 e nessuna chiamata al modello né scrittura; cliente: 403; prodotto di B: rifiutato; prodotto proprio: risposta valida e nessun testo vietato arriva al modello",
+      "limite": "oltre il tetto orario per utente (26a chiamata): 429; testi lunghi al limite dei caratteri; immagini grandi"
+    },
+    {
+      "id": "S04-P038",
+      "funzione": "api/ai/product-chat",
+      "chi": "negozio",
+      "file": "app/api/ai/product-chat/route.ts",
+      "dati_di_prova": "negozio approvato A con 3 prodotti, negozio B con 1 prodotto, cliente C; interruttore AI spento e poi acceso",
+      "passi": "Con l'interruttore spento chiamare a mano come negozio A; poi accenderlo e chiamare come cliente C, come negozio A su un prodotto di B, e come A su un suo prodotto, anche mandando a mano campi che la pagina non manda",
+      "atteso": "Spento: 503 e nessuna chiamata al modello né scrittura; cliente: 403; prodotto di B: rifiutato; prodotto proprio: risposta valida e nessun testo vietato arriva al modello",
+      "limite": "oltre il tetto orario per utente (26a chiamata): 429; testi lunghi al limite dei caratteri; immagini grandi"
+    },
+    {
+      "id": "S04-P039",
+      "funzione": "api/ai/reviews-summary",
+      "chi": "negozio",
+      "file": "app/api/ai/reviews-summary/route.ts",
+      "dati_di_prova": "negozio approvato A con 3 prodotti, negozio B con 1 prodotto, cliente C; interruttore AI spento e poi acceso",
+      "passi": "Con l'interruttore spento chiamare a mano come negozio A; poi accenderlo e chiamare come cliente C, come negozio A su un prodotto di B, e come A su un suo prodotto, anche mandando a mano campi che la pagina non manda",
+      "atteso": "Spento: 503 e nessuna chiamata al modello né scrittura; cliente: 403; prodotto di B: rifiutato; prodotto proprio: risposta valida e nessun testo vietato arriva al modello",
+      "limite": "oltre il tetto orario per utente (26a chiamata): 429; testi lunghi al limite dei caratteri; immagini grandi"
+    },
+    {
+      "id": "S04-P040",
+      "funzione": "api/ai/seo",
+      "chi": "negozio",
+      "file": "app/api/ai/seo/route.ts",
+      "dati_di_prova": "negozio approvato A con 3 prodotti, negozio B con 1 prodotto, cliente C; interruttore AI spento e poi acceso",
+      "passi": "Con l'interruttore spento chiamare a mano come negozio A; poi accenderlo e chiamare come cliente C, come negozio A su un prodotto di B, e come A su un suo prodotto, anche mandando a mano campi che la pagina non manda",
+      "atteso": "Spento: 503 e nessuna chiamata al modello né scrittura; cliente: 403; prodotto di B: rifiutato; prodotto proprio: risposta valida e nessun testo vietato arriva al modello",
+      "limite": "oltre il tetto orario per utente (26a chiamata): 429; testi lunghi al limite dei caratteri; immagini grandi"
+    },
+    {
+      "id": "S04-P041",
+      "funzione": "api/ai/translate",
+      "chi": "negozio",
+      "file": "app/api/ai/translate/route.ts",
+      "dati_di_prova": "negozio approvato A con 3 prodotti, negozio B con 1 prodotto, cliente C; interruttore AI spento e poi acceso",
+      "passi": "Con l'interruttore spento chiamare a mano come negozio A; poi accenderlo e chiamare come cliente C, come negozio A su un prodotto di B, e come A su un suo prodotto, anche mandando a mano campi che la pagina non manda",
+      "atteso": "Spento: 503 e nessuna chiamata al modello né scrittura; cliente: 403; prodotto di B: rifiutato; prodotto proprio: risposta valida e nessun testo vietato arriva al modello",
+      "limite": "oltre il tetto orario per utente (26a chiamata): 429; testi lunghi al limite dei caratteri; immagini grandi"
+    },
+    {
+      "id": "S04-P042",
+      "funzione": "api/ai/variants",
+      "chi": "negozio",
+      "file": "app/api/ai/variants/route.ts",
+      "dati_di_prova": "negozio approvato A con 3 prodotti, negozio B con 1 prodotto, cliente C; interruttore AI spento e poi acceso",
+      "passi": "Con l'interruttore spento chiamare a mano come negozio A; poi accenderlo e chiamare come cliente C, come negozio A su un prodotto di B, e come A su un suo prodotto, anche mandando a mano campi che la pagina non manda",
+      "atteso": "Spento: 503 e nessuna chiamata al modello né scrittura; cliente: 403; prodotto di B: rifiutato; prodotto proprio: risposta valida e nessun testo vietato arriva al modello",
+      "limite": "oltre il tetto orario per utente (26a chiamata): 429; testi lunghi al limite dei caratteri; immagini grandi"
+    },
+    {
+      "id": "S04-P043",
+      "funzione": "api/ai/voice-product",
+      "chi": "negozio",
+      "file": "app/api/ai/voice-product/route.ts",
+      "dati_di_prova": "negozio approvato A con 3 prodotti, negozio B con 1 prodotto, cliente C; interruttore AI spento e poi acceso",
+      "passi": "Con l'interruttore spento chiamare a mano come negozio A; poi accenderlo e chiamare come cliente C, come negozio A su un prodotto di B, e come A su un suo prodotto, anche mandando a mano campi che la pagina non manda",
+      "atteso": "Spento: 503 e nessuna chiamata al modello né scrittura; cliente: 403; prodotto di B: rifiutato; prodotto proprio: risposta valida e nessun testo vietato arriva al modello",
+      "limite": "oltre il tetto orario per utente (26a chiamata): 429; testi lunghi al limite dei caratteri; immagini grandi"
+    },
+    {
+      "id": "S04-P044",
+      "funzione": "api/auth/signin",
+      "chi": "estraneo",
+      "file": "app/api/auth/signin/route.ts",
+      "dati_di_prova": "un account di prova con email confermata, un account non confermato, il widget anti-robot di prova",
+      "passi": "Accesso, registrazione, conferma email e recupero password dal modulo, con link vecchi, link già usati e indirizzi di ritorno esterni",
+      "atteso": "Accesso riuscito con i dati giusti; link usato due volte rifiutato; un ritorno verso un altro sito finisce sulla home",
+      "limite": "dieci tentativi sbagliati poi quello giusto da un'altra rete; due schede che aprono lo stesso link"
+    },
+    {
+      "id": "S04-P045",
+      "funzione": "api/auth/signup",
+      "chi": "estraneo",
+      "file": "app/api/auth/signup/route.ts",
+      "dati_di_prova": "un account di prova con email confermata, un account non confermato, il widget anti-robot di prova",
+      "passi": "Accesso, registrazione, conferma email e recupero password dal modulo, con link vecchi, link già usati e indirizzi di ritorno esterni",
+      "atteso": "Accesso riuscito con i dati giusti; link usato due volte rifiutato; un ritorno verso un altro sito finisce sulla home",
+      "limite": "dieci tentativi sbagliati poi quello giusto da un'altra rete; due schede che aprono lo stesso link"
+    },
+    {
+      "id": "S04-P046",
+      "funzione": "api/catalogo/categorie",
+      "chi": "estraneo",
+      "file": "app/api/catalogo/categorie/route.ts",
+      "dati_di_prova": "nessun account, poi un cliente di prova",
+      "passi": "Chiamare l'indirizzo da estraneo con dati validi, con dati malformati e con id inesistenti, poi da cliente",
+      "atteso": "Dati validi: risposta prevista senza dati di altri; dati malformati: 400; nessuna risposta rivela email, telefoni o indirizzi di altri",
+      "limite": "raffica oltre il freno per rete; corpo vuoto o enorme"
+    },
+    {
+      "id": "S04-P047",
+      "funzione": "api/chat/conversations",
+      "chi": "cliente",
+      "file": "app/api/chat/conversations/route.ts",
+      "dati_di_prova": "cliente C, cliente D, negozio approvato N, negozio sospeso S",
+      "passi": "C apre una conversazione con N, scrive, segna come letta; poi prova con S, con D e su una conversazione di D",
+      "atteso": "Solo la conversazione con N nasce; le altre sono rifiutate; D non vede i messaggi di C",
+      "limite": "31 messaggi in un minuto: freno"
+    },
+    {
+      "id": "S04-P048",
+      "funzione": "api/chat/mark-read",
+      "chi": "cliente",
+      "file": "app/api/chat/mark-read/route.ts",
+      "dati_di_prova": "cliente C, cliente D, negozio approvato N, negozio sospeso S",
+      "passi": "C apre una conversazione con N, scrive, segna come letta; poi prova con S, con D e su una conversazione di D",
+      "atteso": "Solo la conversazione con N nasce; le altre sono rifiutate; D non vede i messaggi di C",
+      "limite": "31 messaggi in un minuto: freno"
+    },
+    {
+      "id": "S04-P049",
+      "funzione": "api/chat/messages",
+      "chi": "cliente",
+      "file": "app/api/chat/messages/route.ts",
+      "dati_di_prova": "cliente C, cliente D, negozio approvato N, negozio sospeso S",
+      "passi": "C apre una conversazione con N, scrive, segna come letta; poi prova con S, con D e su una conversazione di D",
+      "atteso": "Solo la conversazione con N nasce; le altre sono rifiutate; D non vede i messaggi di C",
+      "limite": "31 messaggi in un minuto: freno"
+    },
+    {
+      "id": "S04-P050",
+      "funzione": "api/consegna/veloce",
+      "chi": "estraneo",
+      "file": "app/api/consegna/veloce/route.ts",
+      "dati_di_prova": "nessun account, poi un cliente di prova",
+      "passi": "Chiamare l'indirizzo da estraneo con dati validi, con dati malformati e con id inesistenti, poi da cliente",
+      "atteso": "Dati validi: risposta prevista senza dati di altri; dati malformati: 400; nessuna risposta rivela email, telefoni o indirizzi di altri",
+      "limite": "raffica oltre il freno per rete; corpo vuoto o enorme"
+    },
+    {
+      "id": "S04-P051",
+      "funzione": "api/consent",
+      "chi": "estraneo",
+      "file": "app/api/consent/route.ts",
+      "dati_di_prova": "nessun account, poi un cliente di prova",
+      "passi": "Chiamare l'indirizzo da estraneo con dati validi, con dati malformati e con id inesistenti, poi da cliente",
+      "atteso": "Dati validi: risposta prevista senza dati di altri; dati malformati: 400; nessuna risposta rivela email, telefoni o indirizzi di altri",
+      "limite": "raffica oltre il freno per rete; corpo vuoto o enorme"
+    },
+    {
+      "id": "S04-P052",
+      "funzione": "api/contact",
+      "chi": "estraneo",
+      "file": "app/api/contact/route.ts",
+      "dati_di_prova": "nessun account, poi un cliente di prova",
+      "passi": "Chiamare l'indirizzo da estraneo con dati validi, con dati malformati e con id inesistenti, poi da cliente",
+      "atteso": "Dati validi: risposta prevista senza dati di altri; dati malformati: 400; nessuna risposta rivela email, telefoni o indirizzi di altri",
+      "limite": "raffica oltre il freno per rete; corpo vuoto o enorme"
+    },
+    {
+      "id": "S04-P053",
+      "funzione": "api/cron/abandoned-carts",
+      "chi": "estraneo",
+      "file": "app/api/cron/abandoned-carts/route.ts",
+      "dati_di_prova": "nessun account; il segreto dei lavori a orario della palestra",
+      "passi": "Chiamare l'indirizzo in GET e POST senza intestazione, con un segreto sbagliato, con il segreto nella query e infine con il segreto giusto nell'intestazione",
+      "atteso": "Senza segreto o con segreto sbagliato o in query: 401 e nessun lavoro parte; con il segreto giusto: 200 e una riga di battito del lavoro",
+      "limite": "due lanci giusti a un secondo di distanza: il lavoro non deve girare due volte sugli stessi ordini"
+    },
+    {
+      "id": "S04-P054",
+      "funzione": "api/cron/expire-checkouts",
+      "chi": "estraneo",
+      "file": "app/api/cron/expire-checkouts/route.ts",
+      "dati_di_prova": "nessun account; il segreto dei lavori a orario della palestra",
+      "passi": "Chiamare l'indirizzo in GET e POST senza intestazione, con un segreto sbagliato, con il segreto nella query e infine con il segreto giusto nell'intestazione",
+      "atteso": "Senza segreto o con segreto sbagliato o in query: 401 e nessun lavoro parte; con il segreto giusto: 200 e una riga di battito del lavoro",
+      "limite": "due lanci giusti a un secondo di distanza: il lavoro non deve girare due volte sugli stessi ordini"
+    },
+    {
+      "id": "S04-P055",
+      "funzione": "api/cron/expire-stale-orders",
+      "chi": "estraneo",
+      "file": "app/api/cron/expire-stale-orders/route.ts",
+      "dati_di_prova": "nessun account; il segreto dei lavori a orario della palestra",
+      "passi": "Chiamare l'indirizzo in GET e POST senza intestazione, con un segreto sbagliato, con il segreto nella query e infine con il segreto giusto nell'intestazione",
+      "atteso": "Senza segreto o con segreto sbagliato o in query: 401 e nessun lavoro parte; con il segreto giusto: 200 e una riga di battito del lavoro",
+      "limite": "due lanci giusti a un secondo di distanza: il lavoro non deve girare due volte sugli stessi ordini"
+    },
+    {
+      "id": "S04-P056",
+      "funzione": "api/cron/external-price-alerts",
+      "chi": "estraneo",
+      "file": "app/api/cron/external-price-alerts/route.ts",
+      "dati_di_prova": "nessun account; il segreto dei lavori a orario della palestra",
+      "passi": "Chiamare l'indirizzo in GET e POST senza intestazione, con un segreto sbagliato, con il segreto nella query e infine con il segreto giusto nell'intestazione",
+      "atteso": "Senza segreto o con segreto sbagliato o in query: 401 e nessun lavoro parte; con il segreto giusto: 200 e una riga di battito del lavoro",
+      "limite": "due lanci giusti a un secondo di distanza: il lavoro non deve girare due volte sugli stessi ordini"
+    },
+    {
+      "id": "S04-P057",
+      "funzione": "api/cron/operational-alerts",
+      "chi": "estraneo",
+      "file": "app/api/cron/operational-alerts/route.ts",
+      "dati_di_prova": "nessun account; il segreto dei lavori a orario della palestra",
+      "passi": "Chiamare l'indirizzo in GET e POST senza intestazione, con un segreto sbagliato, con il segreto nella query e infine con il segreto giusto nell'intestazione",
+      "atteso": "Senza segreto o con segreto sbagliato o in query: 401 e nessun lavoro parte; con il segreto giusto: 200 e una riga di battito del lavoro",
+      "limite": "due lanci giusti a un secondo di distanza: il lavoro non deve girare due volte sugli stessi ordini"
+    },
+    {
+      "id": "S04-P058",
+      "funzione": "api/cron/process-deletions",
+      "chi": "estraneo",
+      "file": "app/api/cron/process-deletions/route.ts",
+      "dati_di_prova": "nessun account; il segreto dei lavori a orario della palestra",
+      "passi": "Chiamare l'indirizzo in GET e POST senza intestazione, con un segreto sbagliato, con il segreto nella query e infine con il segreto giusto nell'intestazione",
+      "atteso": "Senza segreto o con segreto sbagliato o in query: 401 e nessun lavoro parte; con il segreto giusto: 200 e una riga di battito del lavoro",
+      "limite": "due lanci giusti a un secondo di distanza: il lavoro non deve girare due volte sugli stessi ordini"
+    },
+    {
+      "id": "S04-P059",
+      "funzione": "api/cron/release-payouts",
+      "chi": "estraneo",
+      "file": "app/api/cron/release-payouts/route.ts",
+      "dati_di_prova": "nessun account; il segreto dei lavori a orario della palestra",
+      "passi": "Chiamare l'indirizzo in GET e POST senza intestazione, con un segreto sbagliato, con il segreto nella query e infine con il segreto giusto nell'intestazione",
+      "atteso": "Senza segreto o con segreto sbagliato o in query: 401 e nessun lavoro parte; con il segreto giusto: 200 e una riga di battito del lavoro",
+      "limite": "due lanci giusti a un secondo di distanza: il lavoro non deve girare due volte sugli stessi ordini"
+    },
+    {
+      "id": "S04-P060",
+      "funzione": "api/cron/riquadra-casse",
+      "chi": "estraneo",
+      "file": "app/api/cron/riquadra-casse/route.ts",
+      "dati_di_prova": "nessun account; il segreto dei lavori a orario della palestra",
+      "passi": "Chiamare l'indirizzo in GET e POST senza intestazione, con un segreto sbagliato, con il segreto nella query e infine con il segreto giusto nell'intestazione",
+      "atteso": "Senza segreto o con segreto sbagliato o in query: 401 e nessun lavoro parte; con il segreto giusto: 200 e una riga di battito del lavoro",
+      "limite": "due lanci giusti a un secondo di distanza: il lavoro non deve girare due volte sugli stessi ordini"
+    },
+    {
+      "id": "S04-P061",
+      "funzione": "api/cron/send-emails",
+      "chi": "estraneo",
+      "file": "app/api/cron/send-emails/route.ts",
+      "dati_di_prova": "nessun account; il segreto dei lavori a orario della palestra",
+      "passi": "Chiamare l'indirizzo in GET e POST senza intestazione, con un segreto sbagliato, con il segreto nella query e infine con il segreto giusto nell'intestazione",
+      "atteso": "Senza segreto o con segreto sbagliato o in query: 401 e nessun lavoro parte; con il segreto giusto: 200 e una riga di battito del lavoro",
+      "limite": "due lanci giusti a un secondo di distanza: il lavoro non deve girare due volte sugli stessi ordini"
+    },
+    {
+      "id": "S04-P062",
+      "funzione": "api/cron/send-push",
+      "chi": "estraneo",
+      "file": "app/api/cron/send-push/route.ts",
+      "dati_di_prova": "nessun account; il segreto dei lavori a orario della palestra",
+      "passi": "Chiamare l'indirizzo in GET e POST senza intestazione, con un segreto sbagliato, con il segreto nella query e infine con il segreto giusto nell'intestazione",
+      "atteso": "Senza segreto o con segreto sbagliato o in query: 401 e nessun lavoro parte; con il segreto giusto: 200 e una riga di battito del lavoro",
+      "limite": "due lanci giusti a un secondo di distanza: il lavoro non deve girare due volte sugli stessi ordini"
+    },
+    {
+      "id": "S04-P063",
+      "funzione": "api/cron/veloce-non-confermata",
+      "chi": "estraneo",
+      "file": "app/api/cron/veloce-non-confermata/route.ts",
+      "dati_di_prova": "nessun account; il segreto dei lavori a orario della palestra",
+      "passi": "Chiamare l'indirizzo in GET e POST senza intestazione, con un segreto sbagliato, con il segreto nella query e infine con il segreto giusto nell'intestazione",
+      "atteso": "Senza segreto o con segreto sbagliato o in query: 401 e nessun lavoro parte; con il segreto giusto: 200 e una riga di battito del lavoro",
+      "limite": "due lanci giusti a un secondo di distanza: il lavoro non deve girare due volte sugli stessi ordini"
+    },
+    {
+      "id": "S04-P064",
+      "funzione": "api/geocode",
+      "chi": "estraneo",
+      "file": "app/api/geocode/route.ts",
+      "dati_di_prova": "nessun account, poi un cliente di prova",
+      "passi": "Chiamare l'indirizzo da estraneo con dati validi, con dati malformati e con id inesistenti, poi da cliente",
+      "atteso": "Dati validi: risposta prevista senza dati di altri; dati malformati: 400; nessuna risposta rivela email, telefoni o indirizzi di altri",
+      "limite": "raffica oltre il freno per rete; corpo vuoto o enorme"
+    },
+    {
+      "id": "S04-P065",
+      "funzione": "api/gift-cards/checkout",
+      "chi": "estraneo",
+      "file": "app/api/gift-cards/checkout/route.ts",
+      "dati_di_prova": "nessun account, poi un cliente di prova",
+      "passi": "Chiamare l'indirizzo da estraneo con dati validi, con dati malformati e con id inesistenti, poi da cliente",
+      "atteso": "Dati validi: risposta prevista senza dati di altri; dati malformati: 400; nessuna risposta rivela email, telefoni o indirizzi di altri",
+      "limite": "raffica oltre il freno per rete; corpo vuoto o enorme"
+    },
+    {
+      "id": "S04-P066",
+      "funzione": "api/health/ready",
+      "chi": "estraneo",
+      "file": "app/api/health/ready/route.ts",
+      "dati_di_prova": "nessun account, poi un cliente di prova",
+      "passi": "Chiamare l'indirizzo da estraneo con dati validi, con dati malformati e con id inesistenti, poi da cliente",
+      "atteso": "Dati validi: risposta prevista senza dati di altri; dati malformati: 400; nessuna risposta rivela email, telefoni o indirizzi di altri",
+      "limite": "raffica oltre il freno per rete; corpo vuoto o enorme"
+    },
+    {
+      "id": "S04-P067",
+      "funzione": "api/health",
+      "chi": "estraneo",
+      "file": "app/api/health/route.ts",
+      "dati_di_prova": "nessun account, poi un cliente di prova",
+      "passi": "Chiamare l'indirizzo da estraneo con dati validi, con dati malformati e con id inesistenti, poi da cliente",
+      "atteso": "Dati validi: risposta prevista senza dati di altri; dati malformati: 400; nessuna risposta rivela email, telefoni o indirizzi di altri",
+      "limite": "raffica oltre il freno per rete; corpo vuoto o enorme"
+    },
+    {
+      "id": "S04-P068",
+      "funzione": "api/image/remove-bg",
+      "chi": "negozio",
+      "file": "app/api/image/remove-bg/route.ts",
+      "dati_di_prova": "negozio approvato A con 3 prodotti, negozio B con 1 prodotto, cliente C; interruttore AI spento e poi acceso",
+      "passi": "Con l'interruttore spento chiamare a mano come negozio A; poi accenderlo e chiamare come cliente C, come negozio A su un prodotto di B, e come A su un suo prodotto, anche mandando a mano campi che la pagina non manda",
+      "atteso": "Spento: 503 e nessuna chiamata al modello né scrittura; cliente: 403; prodotto di B: rifiutato; prodotto proprio: risposta valida e nessun testo vietato arriva al modello",
+      "limite": "oltre il tetto orario per utente (26a chiamata): 429; testi lunghi al limite dei caratteri; immagini grandi"
+    },
+    {
+      "id": "S04-P069",
+      "funzione": "api/kyc/documenti-rider/[id]",
+      "chi": "fattorino",
+      "file": "app/api/kyc/documenti-rider/[id]/route.ts",
+      "dati_di_prova": "fattorino F1, fattorino F2, amministratore, un documento PDF e un file finto rinominato .jpg",
+      "passi": "F1 carica il suo documento, F2 prova a leggere quello di F1, un cliente prova ad avviare il controllo, l'amministratore apre il documento",
+      "atteso": "Solo l'amministratore ottiene il link firmato a scadenza breve; il file finto è rifiutato dalla firma del file; F2 e cliente: 403",
+      "limite": "file da 11 MB; 21 caricamenti in 10 minuti"
+    },
+    {
+      "id": "S04-P070",
+      "funzione": "api/kyc/start-check",
+      "chi": "fattorino",
+      "file": "app/api/kyc/start-check/route.ts",
+      "dati_di_prova": "fattorino F1, fattorino F2, amministratore, un documento PDF e un file finto rinominato .jpg",
+      "passi": "F1 carica il suo documento, F2 prova a leggere quello di F1, un cliente prova ad avviare il controllo, l'amministratore apre il documento",
+      "atteso": "Solo l'amministratore ottiene il link firmato a scadenza breve; il file finto è rifiutato dalla firma del file; F2 e cliente: 403",
+      "limite": "file da 11 MB; 21 caricamenti in 10 minuti"
+    },
+    {
+      "id": "S04-P071",
+      "funzione": "api/kyc/upload-document",
+      "chi": "fattorino",
+      "file": "app/api/kyc/upload-document/route.ts",
+      "dati_di_prova": "fattorino F1, fattorino F2, amministratore, un documento PDF e un file finto rinominato .jpg",
+      "passi": "F1 carica il suo documento, F2 prova a leggere quello di F1, un cliente prova ad avviare il controllo, l'amministratore apre il documento",
+      "atteso": "Solo l'amministratore ottiene il link firmato a scadenza breve; il file finto è rifiutato dalla firma del file; F2 e cliente: 403",
+      "limite": "file da 11 MB; 21 caricamenti in 10 minuti"
+    },
+    {
+      "id": "S04-P072",
+      "funzione": "api/locale",
+      "chi": "estraneo",
+      "file": "app/api/locale/route.ts",
+      "dati_di_prova": "nessun account, poi un cliente di prova",
+      "passi": "Chiamare l'indirizzo da estraneo con dati validi, con dati malformati e con id inesistenti, poi da cliente",
+      "atteso": "Dati validi: risposta prevista senza dati di altri; dati malformati: 400; nessuna risposta rivela email, telefoni o indirizzi di altri",
+      "limite": "raffica oltre il freno per rete; corpo vuoto o enorme"
+    },
+    {
+      "id": "S04-P073",
+      "funzione": "api/marketplace/import-fetch",
+      "chi": "negozio",
+      "file": "app/api/marketplace/import-fetch/route.ts",
+      "dati_di_prova": "negozio approvato A con 3 prodotti, negozio B con 1 prodotto, cliente C; interruttore AI spento e poi acceso",
+      "passi": "Con l'interruttore spento chiamare a mano come negozio A; poi accenderlo e chiamare come cliente C, come negozio A su un prodotto di B, e come A su un suo prodotto, anche mandando a mano campi che la pagina non manda",
+      "atteso": "Spento: 503 e nessuna chiamata al modello né scrittura; cliente: 403; prodotto di B: rifiutato; prodotto proprio: risposta valida e nessun testo vietato arriva al modello",
+      "limite": "oltre il tetto orario per utente (26a chiamata): 429; testi lunghi al limite dei caratteri; immagini grandi"
+    },
+    {
+      "id": "S04-P074",
+      "funzione": "api/newsletter/confirm",
+      "chi": "estraneo",
+      "file": "app/api/newsletter/confirm/route.ts",
+      "dati_di_prova": "nessun account, poi un cliente di prova",
+      "passi": "Chiamare l'indirizzo da estraneo con dati validi, con dati malformati e con id inesistenti, poi da cliente",
+      "atteso": "Dati validi: risposta prevista senza dati di altri; dati malformati: 400; nessuna risposta rivela email, telefoni o indirizzi di altri",
+      "limite": "raffica oltre il freno per rete; corpo vuoto o enorme"
+    },
+    {
+      "id": "S04-P075",
+      "funzione": "api/newsletter",
+      "chi": "estraneo",
+      "file": "app/api/newsletter/route.ts",
+      "dati_di_prova": "nessun account, poi un cliente di prova",
+      "passi": "Chiamare l'indirizzo da estraneo con dati validi, con dati malformati e con id inesistenti, poi da cliente",
+      "atteso": "Dati validi: risposta prevista senza dati di altri; dati malformati: 400; nessuna risposta rivela email, telefoni o indirizzi di altri",
+      "limite": "raffica oltre il freno per rete; corpo vuoto o enorme"
+    },
+    {
+      "id": "S04-P076",
+      "funzione": "api/orders/[id]/cancel",
+      "chi": "cliente",
+      "file": "app/api/orders/[id]/cancel/route.ts",
+      "dati_di_prova": "cliente C con un ordine consegnato e uno nuovo, cliente D, negozio del prodotto",
+      "passi": "C annulla il suo ordine nuovo, apre un reso su quello consegnato; D prova a fare lo stesso sugli ordini di C; il negozio decide il reso",
+      "atteso": "D riceve 403/404 e nulla cambia; C e il negozio vedono lo stato giusto e il rimborso solo una volta",
+      "limite": "doppio clic su annulla; due resi sulla stessa riga"
+    },
+    {
+      "id": "S04-P077",
+      "funzione": "api/orders/cod",
+      "chi": "cliente",
+      "file": "app/api/orders/cod/route.ts",
+      "dati_di_prova": "cliente C con un ordine consegnato e uno nuovo, cliente D, negozio del prodotto",
+      "passi": "C annulla il suo ordine nuovo, apre un reso su quello consegnato; D prova a fare lo stesso sugli ordini di C; il negozio decide il reso",
+      "atteso": "D riceve 403/404 e nulla cambia; C e il negozio vedono lo stato giusto e il rimborso solo una volta",
+      "limite": "doppio clic su annulla; due resi sulla stessa riga"
+    },
+    {
+      "id": "S04-P078",
+      "funzione": "api/products/[id]/external-refresh",
+      "chi": "estraneo",
+      "file": "app/api/products/[id]/external-refresh/route.ts",
+      "dati_di_prova": "nessun account, poi un cliente di prova",
+      "passi": "Chiamare l'indirizzo da estraneo con dati validi, con dati malformati e con id inesistenti, poi da cliente",
+      "atteso": "Dati validi: risposta prevista senza dati di altri; dati malformati: 400; nessuna risposta rivela email, telefoni o indirizzi di altri",
+      "limite": "raffica oltre il freno per rete; corpo vuoto o enorme"
+    },
+    {
+      "id": "S04-P079",
+      "funzione": "api/products/rehost-images",
+      "chi": "estraneo",
+      "file": "app/api/products/rehost-images/route.ts",
+      "dati_di_prova": "nessun account, poi un cliente di prova",
+      "passi": "Chiamare l'indirizzo da estraneo con dati validi, con dati malformati e con id inesistenti, poi da cliente",
+      "atteso": "Dati validi: risposta prevista senza dati di altri; dati malformati: 400; nessuna risposta rivela email, telefoni o indirizzi di altri",
+      "limite": "raffica oltre il freno per rete; corpo vuoto o enorme"
+    },
+    {
+      "id": "S04-P080",
+      "funzione": "api/profili-pubblici",
+      "chi": "estraneo",
+      "file": "app/api/profili-pubblici/route.ts",
+      "dati_di_prova": "nessun account, poi un cliente di prova",
+      "passi": "Chiamare l'indirizzo da estraneo con dati validi, con dati malformati e con id inesistenti, poi da cliente",
+      "atteso": "Dati validi: risposta prevista senza dati di altri; dati malformati: 400; nessuna risposta rivela email, telefoni o indirizzi di altri",
+      "limite": "raffica oltre il freno per rete; corpo vuoto o enorme"
+    },
+    {
+      "id": "S04-P081",
+      "funzione": "api/returns/[id]/avanza",
+      "chi": "cliente",
+      "file": "app/api/returns/[id]/avanza/route.ts",
+      "dati_di_prova": "cliente C con un ordine consegnato e uno nuovo, cliente D, negozio del prodotto",
+      "passi": "C annulla il suo ordine nuovo, apre un reso su quello consegnato; D prova a fare lo stesso sugli ordini di C; il negozio decide il reso",
+      "atteso": "D riceve 403/404 e nulla cambia; C e il negozio vedono lo stato giusto e il rimborso solo una volta",
+      "limite": "doppio clic su annulla; due resi sulla stessa riga"
+    },
+    {
+      "id": "S04-P082",
+      "funzione": "api/returns/[id]/decide",
+      "chi": "cliente",
+      "file": "app/api/returns/[id]/decide/route.ts",
+      "dati_di_prova": "cliente C con un ordine consegnato e uno nuovo, cliente D, negozio del prodotto",
+      "passi": "C annulla il suo ordine nuovo, apre un reso su quello consegnato; D prova a fare lo stesso sugli ordini di C; il negozio decide il reso",
+      "atteso": "D riceve 403/404 e nulla cambia; C e il negozio vedono lo stato giusto e il rimborso solo una volta",
+      "limite": "doppio clic su annulla; due resi sulla stessa riga"
+    },
+    {
+      "id": "S04-P083",
+      "funzione": "api/returns/create",
+      "chi": "cliente",
+      "file": "app/api/returns/create/route.ts",
+      "dati_di_prova": "cliente C con un ordine consegnato e uno nuovo, cliente D, negozio del prodotto",
+      "passi": "C annulla il suo ordine nuovo, apre un reso su quello consegnato; D prova a fare lo stesso sugli ordini di C; il negozio decide il reso",
+      "atteso": "D riceve 403/404 e nulla cambia; C e il negozio vedono lo stato giusto e il rimborso solo una volta",
+      "limite": "doppio clic su annulla; due resi sulla stessa riga"
+    },
+    {
+      "id": "S04-P084",
+      "funzione": "api/rider/cash-confirm",
+      "chi": "fattorino",
+      "file": "app/api/rider/cash-confirm/route.ts",
+      "dati_di_prova": "fattorino approvato F1, fattorino F2, fattorino sospeso a metà consegna, un ordine assegnato a F1",
+      "passi": "Chiamare come F2 sull'ordine di F1, come cliente, come F1 sul suo ordine, poi sospendere F1 e ripetere",
+      "atteso": "F2 e cliente: 403/404; F1: 200 e l'amministratore vede la traccia; dopo la sospensione l'azione è rifiutata o riassegnata",
+      "limite": "stesso ordine segnato due volte di fila; 21 chiamate in un'ora"
+    },
+    {
+      "id": "S04-P085",
+      "funzione": "api/rider/incassi-da-dichiarare",
+      "chi": "fattorino",
+      "file": "app/api/rider/incassi-da-dichiarare/route.ts",
+      "dati_di_prova": "fattorino approvato F1, fattorino F2, fattorino sospeso a metà consegna, un ordine assegnato a F1",
+      "passi": "Chiamare come F2 sull'ordine di F1, come cliente, come F1 sul suo ordine, poi sospendere F1 e ripetere",
+      "atteso": "F2 e cliente: 403/404; F1: 200 e l'amministratore vede la traccia; dopo la sospensione l'azione è rifiutata o riassegnata",
+      "limite": "stesso ordine segnato due volte di fila; 21 chiamate in un'ora"
+    },
+    {
+      "id": "S04-P086",
+      "funzione": "api/rider/orders/[id]/cliente-assente",
+      "chi": "fattorino",
+      "file": "app/api/rider/orders/[id]/cliente-assente/route.ts",
+      "dati_di_prova": "fattorino approvato F1, fattorino F2, fattorino sospeso a metà consegna, un ordine assegnato a F1",
+      "passi": "Chiamare come F2 sull'ordine di F1, come cliente, come F1 sul suo ordine, poi sospendere F1 e ripetere",
+      "atteso": "F2 e cliente: 403/404; F1: 200 e l'amministratore vede la traccia; dopo la sospensione l'azione è rifiutata o riassegnata",
+      "limite": "stesso ordine segnato due volte di fila; 21 chiamate in un'ora"
+    },
+    {
+      "id": "S04-P087",
+      "funzione": "api/segnalazioni",
+      "chi": "estraneo",
+      "file": "app/api/segnalazioni/route.ts",
+      "dati_di_prova": "nessun account, poi un cliente di prova",
+      "passi": "Chiamare l'indirizzo da estraneo con dati validi, con dati malformati e con id inesistenti, poi da cliente",
+      "atteso": "Dati validi: risposta prevista senza dati di altri; dati malformati: 400; nessuna risposta rivela email, telefoni o indirizzi di altri",
+      "limite": "raffica oltre il freno per rete; corpo vuoto o enorme"
+    },
+    {
+      "id": "S04-P088",
+      "funzione": "api/seller/apply",
+      "chi": "negozio",
+      "file": "app/api/seller/apply/route.ts",
+      "dati_di_prova": "negozio approvato A, negozio B, negozio sospeso S, cliente C, un ordine di B",
+      "passi": "Chiamare come cliente, come negozio S sospeso, come A su un oggetto di B (ordine, prodotto, recensione) e come A sul suo",
+      "atteso": "Cliente e A sugli oggetti di B: 403/404 senza scritture; A sul suo: 200; nessun campo riservato (ruolo, stato approvazione, negozio) cambiabile dal corpo",
+      "limite": "doppio clic sulla stessa azione; con l'abbonamento spento la rotta risponde non disponibile"
+    },
+    {
+      "id": "S04-P089",
+      "funzione": "api/seller/orders/[id]/label",
+      "chi": "negozio",
+      "file": "app/api/seller/orders/[id]/label/route.ts",
+      "dati_di_prova": "negozio approvato A, negozio B, negozio sospeso S, cliente C, un ordine di B",
+      "passi": "Chiamare come cliente, come negozio S sospeso, come A su un oggetto di B (ordine, prodotto, recensione) e come A sul suo",
+      "atteso": "Cliente e A sugli oggetti di B: 403/404 senza scritture; A sul suo: 200; nessun campo riservato (ruolo, stato approvazione, negozio) cambiabile dal corpo",
+      "limite": "doppio clic sulla stessa azione; con l'abbonamento spento la rotta risponde non disponibile"
+    },
+    {
+      "id": "S04-P090",
+      "funzione": "api/seller/orders/[id]/reject",
+      "chi": "negozio",
+      "file": "app/api/seller/orders/[id]/reject/route.ts",
+      "dati_di_prova": "negozio approvato A, negozio B, negozio sospeso S, cliente C, un ordine di B",
+      "passi": "Chiamare come cliente, come negozio S sospeso, come A su un oggetto di B (ordine, prodotto, recensione) e come A sul suo",
+      "atteso": "Cliente e A sugli oggetti di B: 403/404 senza scritture; A sul suo: 200; nessun campo riservato (ruolo, stato approvazione, negozio) cambiabile dal corpo",
+      "limite": "doppio clic sulla stessa azione; con l'abbonamento spento la rotta risponde non disponibile"
+    },
+    {
+      "id": "S04-P091",
+      "funzione": "api/seller/products/[id]",
+      "chi": "negozio",
+      "file": "app/api/seller/products/[id]/route.ts",
+      "dati_di_prova": "negozio approvato A, negozio B, negozio sospeso S, cliente C, un ordine di B",
+      "passi": "Chiamare come cliente, come negozio S sospeso, come A su un oggetto di B (ordine, prodotto, recensione) e come A sul suo",
+      "atteso": "Cliente e A sugli oggetti di B: 403/404 senza scritture; A sul suo: 200; nessun campo riservato (ruolo, stato approvazione, negozio) cambiabile dal corpo",
+      "limite": "doppio clic sulla stessa azione; con l'abbonamento spento la rotta risponde non disponibile"
+    },
+    {
+      "id": "S04-P092",
+      "funzione": "api/seller/reviews/[id]/reply",
+      "chi": "negozio",
+      "file": "app/api/seller/reviews/[id]/reply/route.ts",
+      "dati_di_prova": "negozio approvato A, negozio B, negozio sospeso S, cliente C, un ordine di B",
+      "passi": "Chiamare come cliente, come negozio S sospeso, come A su un oggetto di B (ordine, prodotto, recensione) e come A sul suo",
+      "atteso": "Cliente e A sugli oggetti di B: 403/404 senza scritture; A sul suo: 200; nessun campo riservato (ruolo, stato approvazione, negozio) cambiabile dal corpo",
+      "limite": "doppio clic sulla stessa azione; con l'abbonamento spento la rotta risponde non disponibile"
+    },
+    {
+      "id": "S04-P093",
+      "funzione": "api/seller/site",
+      "chi": "negozio",
+      "file": "app/api/seller/site/route.ts",
+      "dati_di_prova": "negozio approvato A, negozio B, negozio sospeso S, cliente C, un ordine di B",
+      "passi": "Chiamare come cliente, come negozio S sospeso, come A su un oggetto di B (ordine, prodotto, recensione) e come A sul suo",
+      "atteso": "Cliente e A sugli oggetti di B: 403/404 senza scritture; A sul suo: 200; nessun campo riservato (ruolo, stato approvazione, negozio) cambiabile dal corpo",
+      "limite": "doppio clic sulla stessa azione; con l'abbonamento spento la rotta risponde non disponibile"
+    },
+    {
+      "id": "S04-P094",
+      "funzione": "api/seller/subscription/checkout",
+      "chi": "negozio",
+      "file": "app/api/seller/subscription/checkout/route.ts",
+      "dati_di_prova": "negozio approvato A, negozio B, negozio sospeso S, cliente C, un ordine di B",
+      "passi": "Chiamare come cliente, come negozio S sospeso, come A su un oggetto di B (ordine, prodotto, recensione) e come A sul suo",
+      "atteso": "Cliente e A sugli oggetti di B: 403/404 senza scritture; A sul suo: 200; nessun campo riservato (ruolo, stato approvazione, negozio) cambiabile dal corpo",
+      "limite": "doppio clic sulla stessa azione; con l'abbonamento spento la rotta risponde non disponibile"
+    },
+    {
+      "id": "S04-P095",
+      "funzione": "api/seller/subscription/portal",
+      "chi": "negozio",
+      "file": "app/api/seller/subscription/portal/route.ts",
+      "dati_di_prova": "negozio approvato A, negozio B, negozio sospeso S, cliente C, un ordine di B",
+      "passi": "Chiamare come cliente, come negozio S sospeso, come A su un oggetto di B (ordine, prodotto, recensione) e come A sul suo",
+      "atteso": "Cliente e A sugli oggetti di B: 403/404 senza scritture; A sul suo: 200; nessun campo riservato (ruolo, stato approvazione, negozio) cambiabile dal corpo",
+      "limite": "doppio clic sulla stessa azione; con l'abbonamento spento la rotta risponde non disponibile"
+    },
+    {
+      "id": "S04-P096",
+      "funzione": "api/sponsored/checkout",
+      "chi": "negozio",
+      "file": "app/api/sponsored/checkout/route.ts",
+      "dati_di_prova": "negozio approvato A, negozio B, negozio sospeso S, cliente C, un ordine di B",
+      "passi": "Chiamare come cliente, come negozio S sospeso, come A su un oggetto di B (ordine, prodotto, recensione) e come A sul suo",
+      "atteso": "Cliente e A sugli oggetti di B: 403/404 senza scritture; A sul suo: 200; nessun campo riservato (ruolo, stato approvazione, negozio) cambiabile dal corpo",
+      "limite": "doppio clic sulla stessa azione; con l'abbonamento spento la rotta risponde non disponibile"
+    },
+    {
+      "id": "S04-P097",
+      "funzione": "api/stripe/checkout",
+      "chi": "negozio",
+      "file": "app/api/stripe/checkout/route.ts",
+      "dati_di_prova": "negozio A, fattorino F, cliente C, in modalità di prova Stripe",
+      "passi": "Chiamare come cliente, come A e come F le rotte di collegamento al conto; la rotta interna dei pagamenti senza e con il segreto interno",
+      "atteso": "Il cliente riceve 403; A e F vedono solo il loro conto; la rotta interna senza segreto risponde 401/503",
+      "limite": "chiamata senza cookie ma con gettone Bearer: deve funzionare come dal browser"
+    },
+    {
+      "id": "S04-P098",
+      "funzione": "api/stripe/connect/login",
+      "chi": "negozio",
+      "file": "app/api/stripe/connect/login/route.ts",
+      "dati_di_prova": "negozio A, fattorino F, cliente C, in modalità di prova Stripe",
+      "passi": "Chiamare come cliente, come A e come F le rotte di collegamento al conto; la rotta interna dei pagamenti senza e con il segreto interno",
+      "atteso": "Il cliente riceve 403; A e F vedono solo il loro conto; la rotta interna senza segreto risponde 401/503",
+      "limite": "chiamata senza cookie ma con gettone Bearer: deve funzionare come dal browser"
+    },
+    {
+      "id": "S04-P099",
+      "funzione": "api/stripe/connect/onboarding",
+      "chi": "negozio",
+      "file": "app/api/stripe/connect/onboarding/route.ts",
+      "dati_di_prova": "negozio A, fattorino F, cliente C, in modalità di prova Stripe",
+      "passi": "Chiamare come cliente, come A e come F le rotte di collegamento al conto; la rotta interna dei pagamenti senza e con il segreto interno",
+      "atteso": "Il cliente riceve 403; A e F vedono solo il loro conto; la rotta interna senza segreto risponde 401/503",
+      "limite": "chiamata senza cookie ma con gettone Bearer: deve funzionare come dal browser"
+    },
+    {
+      "id": "S04-P100",
+      "funzione": "api/stripe/connect/refresh-status",
+      "chi": "negozio",
+      "file": "app/api/stripe/connect/refresh-status/route.ts",
+      "dati_di_prova": "negozio A, fattorino F, cliente C, in modalità di prova Stripe",
+      "passi": "Chiamare come cliente, come A e come F le rotte di collegamento al conto; la rotta interna dei pagamenti senza e con il segreto interno",
+      "atteso": "Il cliente riceve 403; A e F vedono solo il loro conto; la rotta interna senza segreto risponde 401/503",
+      "limite": "chiamata senza cookie ma con gettone Bearer: deve funzionare come dal browser"
+    },
+    {
+      "id": "S04-P101",
+      "funzione": "api/stripe/connect/rider-onboarding",
+      "chi": "negozio",
+      "file": "app/api/stripe/connect/rider-onboarding/route.ts",
+      "dati_di_prova": "negozio A, fattorino F, cliente C, in modalità di prova Stripe",
+      "passi": "Chiamare come cliente, come A e come F le rotte di collegamento al conto; la rotta interna dei pagamenti senza e con il segreto interno",
+      "atteso": "Il cliente riceve 403; A e F vedono solo il loro conto; la rotta interna senza segreto risponde 401/503",
+      "limite": "chiamata senza cookie ma con gettone Bearer: deve funzionare come dal browser"
+    },
+    {
+      "id": "S04-P102",
+      "funzione": "api/stripe/payout",
+      "chi": "negozio",
+      "file": "app/api/stripe/payout/route.ts",
+      "dati_di_prova": "negozio A, fattorino F, cliente C, in modalità di prova Stripe",
+      "passi": "Chiamare come cliente, come A e come F le rotte di collegamento al conto; la rotta interna dei pagamenti senza e con il segreto interno",
+      "atteso": "Il cliente riceve 403; A e F vedono solo il loro conto; la rotta interna senza segreto risponde 401/503",
+      "limite": "chiamata senza cookie ma con gettone Bearer: deve funzionare come dal browser"
+    },
+    {
+      "id": "S04-P103",
+      "funzione": "api/stripe/webhook",
+      "chi": "negozio",
+      "file": "app/api/stripe/webhook/route.ts",
+      "dati_di_prova": "negozio A, fattorino F, cliente C, in modalità di prova Stripe",
+      "passi": "Chiamare come cliente, come A e come F le rotte di collegamento al conto; la rotta interna dei pagamenti senza e con il segreto interno",
+      "atteso": "Il cliente riceve 403; A e F vedono solo il loro conto; la rotta interna senza segreto risponde 401/503",
+      "limite": "chiamata senza cookie ma con gettone Bearer: deve funzionare come dal browser"
+    },
+    {
+      "id": "S04-P104",
+      "funzione": "api/support/conversation",
+      "chi": "cliente",
+      "file": "app/api/support/conversation/route.ts",
+      "dati_di_prova": "cliente C, cliente D, negozio approvato N, negozio sospeso S",
+      "passi": "C apre una conversazione con N, scrive, segna come letta; poi prova con S, con D e su una conversazione di D",
+      "atteso": "Solo la conversazione con N nasce; le altre sono rifiutate; D non vede i messaggi di C",
+      "limite": "31 messaggi in un minuto: freno"
+    },
+    {
+      "id": "S04-P105",
+      "funzione": "api/track",
+      "chi": "estraneo",
+      "file": "app/api/track/route.ts",
+      "dati_di_prova": "nessun account, poi un cliente di prova",
+      "passi": "Chiamare l'indirizzo da estraneo con dati validi, con dati malformati e con id inesistenti, poi da cliente",
+      "atteso": "Dati validi: risposta prevista senza dati di altri; dati malformati: 400; nessuna risposta rivela email, telefoni o indirizzi di altri",
+      "limite": "raffica oltre il freno per rete; corpo vuoto o enorme"
+    },
+    {
+      "id": "S04-P106",
+      "funzione": "api/unsubscribe",
+      "chi": "estraneo",
+      "file": "app/api/unsubscribe/route.ts",
+      "dati_di_prova": "nessun account, poi un cliente di prova",
+      "passi": "Chiamare l'indirizzo da estraneo con dati validi, con dati malformati e con id inesistenti, poi da cliente",
+      "atteso": "Dati validi: risposta prevista senza dati di altri; dati malformati: 400; nessuna risposta rivela email, telefoni o indirizzi di altri",
+      "limite": "raffica oltre il freno per rete; corpo vuoto o enorme"
+    },
+    {
+      "id": "S04-P107",
+      "funzione": "api/vision/extract-product",
+      "chi": "negozio",
+      "file": "app/api/vision/extract-product/route.ts",
+      "dati_di_prova": "negozio approvato A con 3 prodotti, negozio B con 1 prodotto, cliente C; interruttore AI spento e poi acceso",
+      "passi": "Con l'interruttore spento chiamare a mano come negozio A; poi accenderlo e chiamare come cliente C, come negozio A su un prodotto di B, e come A su un suo prodotto, anche mandando a mano campi che la pagina non manda",
+      "atteso": "Spento: 503 e nessuna chiamata al modello né scrittura; cliente: 403; prodotto di B: rifiutato; prodotto proprio: risposta valida e nessun testo vietato arriva al modello",
+      "limite": "oltre il tetto orario per utente (26a chiamata): 429; testi lunghi al limite dei caratteri; immagini grandi"
+    },
+    {
+      "id": "S04-P108",
+      "funzione": "api/vision/extract-products",
+      "chi": "negozio",
+      "file": "app/api/vision/extract-products/route.ts",
+      "dati_di_prova": "negozio approvato A con 3 prodotti, negozio B con 1 prodotto, cliente C; interruttore AI spento e poi acceso",
+      "passi": "Con l'interruttore spento chiamare a mano come negozio A; poi accenderlo e chiamare come cliente C, come negozio A su un prodotto di B, e come A su un suo prodotto, anche mandando a mano campi che la pagina non manda",
+      "atteso": "Spento: 503 e nessuna chiamata al modello né scrittura; cliente: 403; prodotto di B: rifiutato; prodotto proprio: risposta valida e nessun testo vietato arriva al modello",
+      "limite": "oltre il tetto orario per utente (26a chiamata): 429; testi lunghi al limite dei caratteri; immagini grandi"
+    },
+    {
+      "id": "S04-P109",
+      "funzione": "api/vision/photo-order",
+      "chi": "negozio",
+      "file": "app/api/vision/photo-order/route.ts",
+      "dati_di_prova": "negozio approvato A con 3 prodotti, negozio B con 1 prodotto, cliente C; interruttore AI spento e poi acceso",
+      "passi": "Con l'interruttore spento chiamare a mano come negozio A; poi accenderlo e chiamare come cliente C, come negozio A su un prodotto di B, e come A su un suo prodotto, anche mandando a mano campi che la pagina non manda",
+      "atteso": "Spento: 503 e nessuna chiamata al modello né scrittura; cliente: 403; prodotto di B: rifiutato; prodotto proprio: risposta valida e nessun testo vietato arriva al modello",
+      "limite": "oltre il tetto orario per utente (26a chiamata): 429; testi lunghi al limite dei caratteri; immagini grandi"
+    },
+    {
+      "id": "S04-P110",
+      "funzione": "auth/callback",
+      "chi": "estraneo",
+      "file": "app/auth/callback/route.ts",
+      "dati_di_prova": "un account di prova con email confermata, un account non confermato, il widget anti-robot di prova",
+      "passi": "Accesso, registrazione, conferma email e recupero password dal modulo, con link vecchi, link già usati e indirizzi di ritorno esterni",
+      "atteso": "Accesso riuscito con i dati giusti; link usato due volte rifiutato; un ritorno verso un altro sito finisce sulla home",
+      "limite": "dieci tentativi sbagliati poi quello giusto da un'altra rete; due schede che aprono lo stesso link"
+    },
+    {
+      "id": "S04-P111",
+      "funzione": "auth/confirm",
+      "chi": "estraneo",
+      "file": "app/auth/confirm/route.ts",
+      "dati_di_prova": "un account di prova con email confermata, un account non confermato, il widget anti-robot di prova",
+      "passi": "Accesso, registrazione, conferma email e recupero password dal modulo, con link vecchi, link già usati e indirizzi di ritorno esterni",
+      "atteso": "Accesso riuscito con i dati giusti; link usato due volte rifiutato; un ritorno verso un altro sito finisce sulla home",
+      "limite": "dieci tentativi sbagliati poi quello giusto da un'altra rete; due schede che aprono lo stesso link"
+    },
+    {
+      "id": "S04-P112",
+      "funzione": "auth/recupero",
+      "chi": "estraneo",
+      "file": "app/auth/recupero/route.ts",
+      "dati_di_prova": "un account di prova con email confermata, un account non confermato, il widget anti-robot di prova",
+      "passi": "Accesso, registrazione, conferma email e recupero password dal modulo, con link vecchi, link già usati e indirizzi di ritorno esterni",
+      "atteso": "Accesso riuscito con i dati giusti; link usato due volte rifiutato; un ritorno verso un altro sito finisce sulla home",
+      "limite": "dieci tentativi sbagliati poi quello giusto da un'altra rete; due schede che aprono lo stesso link"
+    },
+    {
+      "id": "S04-P113",
+      "funzione": "auth/verify-email",
+      "chi": "estraneo",
+      "file": "app/auth/verify-email/page.tsx",
+      "dati_di_prova": "un account di prova con email confermata, un account non confermato, il widget anti-robot di prova",
+      "passi": "Accesso, registrazione, conferma email e recupero password dal modulo, con link vecchi, link già usati e indirizzi di ritorno esterni",
+      "atteso": "Accesso riuscito con i dati giusti; link usato due volte rifiutato; un ritorno verso un altro sito finisce sulla home",
+      "limite": "dieci tentativi sbagliati poi quello giusto da un'altra rete; due schede che aprono lo stesso link"
+    },
+    {
+      "id": "S04-P114",
+      "funzione": "reset-password",
+      "chi": "estraneo",
+      "file": "app/reset-password/page.tsx",
+      "dati_di_prova": "un account di prova nuovo e uno esistente",
+      "passi": "Compilare il modulo della pagina con dati validi, con dati sbagliati e con un indirizzo di ritorno esterno nella barra",
+      "atteso": "Messaggi chiari in italiano, nessun ritorno verso altri siti, il pulsante non parte due volte",
+      "limite": "rete lenta 3G; doppio clic sul pulsante"
+    },
+    {
+      "id": "S04-P115",
+      "funzione": "sign-in",
+      "chi": "estraneo",
+      "file": "app/sign-in/page.tsx",
+      "dati_di_prova": "un account di prova nuovo e uno esistente",
+      "passi": "Compilare il modulo della pagina con dati validi, con dati sbagliati e con un indirizzo di ritorno esterno nella barra",
+      "atteso": "Messaggi chiari in italiano, nessun ritorno verso altri siti, il pulsante non parte due volte",
+      "limite": "rete lenta 3G; doppio clic sul pulsante"
+    },
+    {
+      "id": "S04-P116",
+      "funzione": "sign-up",
+      "chi": "estraneo",
+      "file": "app/sign-up/page.tsx",
+      "dati_di_prova": "un account di prova nuovo e uno esistente",
+      "passi": "Compilare il modulo della pagina con dati validi, con dati sbagliati e con un indirizzo di ritorno esterno nella barra",
+      "atteso": "Messaggi chiari in italiano, nessun ritorno verso altri siti, il pulsante non parte due volte",
+      "limite": "rete lenta 3G; doppio clic sul pulsante"
+    }
+  ],
+  "domande_per_nicola": [
+    "L'uscita dalla modalità piano non è sorvegliata da nessun freno: per agganciarlo va cambiato .claude/settings.json, che puoi cambiare solo tu (l'aveva già chiesto S01).",
+    "Per una falla riservata grave di questo referto serve un controllo fuori dal codice: quale, te lo dico in chat.",
+    "La voce 2126 del registro è segnata «già riparata prima», ma il database lascia ancora a un negozio sospeso togliersi la sospensione: va riaperta.",
+    "La voce 687 del registro (accetta-condizioni senza controllo di provenienza) è aperta, ma nel codice a db5164c il controllo c'è (app/api/account/accetta-condizioni/route.ts:25-30): va ricollaudata e chiusa."
+  ],
+  "conto": {
+    "agenti": 10,
+    "token_sessione": {
+      "turni": 61,
+      "input": 130,
+      "scritti_cache": 319175,
+      "letti_cache": 15915725,
+      "uscita": 58957,
+      "entrata_totale": 16235030,
+      "con_letture_cache": 16293987,
+      "senza_letture_cache": 378262
+    },
+    "token_subagenti": {
+      "agenti": 10,
+      "turni": 430,
+      "input": 860,
+      "scritti_cache": 1015862,
+      "letti_cache": 38604357,
+      "uscita": 240642,
+      "entrata_totale": 39621079,
+      "con_letture_cache": 39861721,
+      "senza_letture_cache": 1257364
+    },
+    "token_workflow": [],
+    "nota": "Agenti 10 su 12: 4 cercatori, 2 ricontrollori delle falle riservate già aperte, 3 verificatori qa, 1 seconda lente sulla gravità della riservata grave. Nessun workflow. Token misurati con node cervello/conto-token.mjs --sessione <trascrizione>.jsonl --json e --dir <trascrizione>/subagents --json (misura prima della consegna finale: gli ultimi turni del ciclo principale non sono contati). Ricontrollo delle falle riservate già aperte (D7), 37 ritrovate e ricontrollate su copie: ancora vere 31, non più vere 1, cambiate 2, non verificabili da una copia 3; non ritrovate e quindi non ricontrollate 14 (quelle dell'11/10). Il sospetto di sicurezza passato da S01 è stato verificato: coincide con una falla riservata già aperta, non è una voce nuova."
+  }
+}
