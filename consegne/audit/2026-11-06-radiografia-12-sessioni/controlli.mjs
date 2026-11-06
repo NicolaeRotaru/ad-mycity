@@ -55,7 +55,7 @@ const PRIVATO = "nel referto privato";
 const FILE_PRIVATO = "(nel referto privato)";
 const SEGNAPOSTI_REFERTO = ["<BASE_SITO>", '"…"', '"una delle 24 lenti"', '"come lo diresti a voce"', "AAAA-MM-GG HH:MM"];
 const SEGNAPOSTI_AD = ["<BASE_SITO>", "<cartella>", "<il tuo ramo>", "<id>", "<data di oggi>"];
-const TITOLO_RISERVATO = /^Falla di sicurezza da chiudere \((?!\s*\))([^()]+)\): i dettagli restano fuori dal deposito pubblico finché non è chiusa$/;
+const TITOLO_RISERVATO = /^Falla di sicurezza da chiudere \((?!\s*\))([^()]+)\): i dettagli restano fuori dal deposito pubblico finché non è chiusa\.?$/;
 const SEP = " · ";
 
 // ── Opzioni ──────────────────────────────────────────────────────────────────────────────────
@@ -131,15 +131,18 @@ function sezione(testo, titolo) {
 // Le voci di un elenco: solo righe «- `nome`». Il testo prima dell'elenco è ammesso; dopo la prima voce,
 // qualsiasi riga che non è una voce né vuota chiude l'elenco (un titoletto in grassetto «**Passate a S04:**»
 // non può tenere sotto di sé lenti che contano). Un blocco di codice o una sottolineatura chiudono sempre.
+// Terzo collaudo del 6/11: un titoletto PRIMA della prima voce («**Passate a S04, non le guardo:**») e una voce
+// con una coda («- `x` — NON la guardo») facevano contare la lente. Ora l'elenco deve essere la prima cosa
+// della sezione, e ogni voce è esattamente «- `nome`», al più con una nota fra parentesi. Il testo che
+// spiega va dopo l'elenco, dove lo chiude.
+const VOCE_ESATTA = /^-\s+`([^`]+)`(\s+\([^()]*\))?\s*$/;
 function voci(righe) {
   const fuori = [];
-  let iniziato = false;
   for (const r of righe) {
-    if (/^\s*(```|~~~|[-=]{3,}\s*$)/.test(r)) break;
-    const m = r.match(/^\s*-\s+`([^`]+)`/);
-    if (m) { fuori.push(m[1]); iniziato = true; continue; }
     if (r.trim() === "") continue;
-    if (iniziato) break;
+    const m = r.match(VOCE_ESATTA);
+    if (!m) break;
+    fuori.push(m[1]);
   }
   return fuori;
 }
@@ -479,9 +482,12 @@ function guardiaRamo(opz) {
   if (gitOk(opz.git, ["rev-parse", "--verify", "--quiet", `${adRef}^{commit}`]) === null) rossi.push(`il ramo dell'AD «${adRef}» non esiste: passa --ad-ref`);
   const testaRamo = (gitOk(opz.git, ["rev-parse", ref]) ?? "").trim();
   const testaAd = (gitOk(opz.git, ["rev-parse", adRef]) ?? "").trim();
-  if (testaAd && testaAd === testaRamo) rossi.push(`«${adRef}» è lo stesso commit del ramo figlio: il ramo dell'AD è sbagliato`);
-  // per la D5 i rami figli non si uniscono mai nel ramo dell'AD: un figlio già tutto dentro è un errore
-  if (testaAd && testaAd !== testaRamo && gitOk(opz.git, ["merge-base", "--is-ancestor", ref, adRef]) !== null) rossi.push(`${ref} è già tutto dentro «${adRef}»: i rami figli non si uniscono nel ramo dell'AD (D5), i referti si portano con git checkout … -- file`);
+  // Un figlio ancora vuoto sta fermo su un commit della storia principale dell'AD (la catena dei primi
+  // genitori): è «in attesa», anche se l'AD è andato avanti o ha unito main (terzo collaudo del 6/11).
+  // Per la D5 i figli non si uniscono mai nel ramo dell'AD: un figlio con commit suoi già dentro è un errore.
+  if (adRef.replace(/^origin\//, "") === ramo) rossi.push(`«--ad-ref ${adRef}» è il ramo figlio stesso: il ramo dell'AD è sbagliato`);
+  const fermoSullAd = testaAd ? revList(opz.git, ["--first-parent", adRef]).includes(testaRamo) : false;
+  if (testaAd && !fermoSullAd && gitOk(opz.git, ["merge-base", "--is-ancestor", ref, adRef]) !== null) rossi.push(`${ref} è già tutto dentro «${adRef}»: i rami figli non si uniscono nel ramo dell'AD (D5), i referti si portano con git checkout … -- file`);
   // del figlio sono i commit che il ramo dell'AD non raggiunge: così un'unione di main nel ramo dell'AD,
   // o un figlio partito dopo quell'unione, non mette sul conto del figlio i file di main (ricollaudo del 6/11)
   const delFiglio = revList(opz.git, [`${partenza}..${ref}`, ...(testaAd ? ["--not", adRef] : [])]);
@@ -502,6 +508,48 @@ function guardiaRamo(opz) {
 // ── valida-referto ───────────────────────────────────────────────────────────────────────────
 const CAMPI_DIFETTO = ["id", "dimensione", "titolo", "severita", "file", "descrizione", "impatto", "fix", "causa_radice", "prova", "prova_tipo", "prova_eseguita", "esito_prova", "perche_umano", "verificato", "verificato_da", "gia_noto", "perimetro_altrui", "riservato"];
 const CAMPI_REGRESSIONE = ["chiave", "indice", "prova", "esito_prova"];
+// trovati-ondata-1.txt (passo 6.4): una riga per difetto della prima ondata, separata da TAB:
+// id, sessione, gravità, file, titolo. Le riservate: id, sessione, -, -, titolo generico «Falla di sicurezza…».
+function trovatiOndata1(opz) {
+  const p = join(opz.cartella, "trovati-ondata-1.txt");
+  if (!existsSync(p)) return null;
+  const m = new Map();
+  for (const r of readFileSync(p, "utf8").split(/\r?\n/)) {
+    if (!r || r.startsWith("#")) continue;
+    const c = r.split("\t");
+    m.set(c[0].trim(), c[c.length - 1] ?? "");
+  }
+  return m;
+}
+// Una chiave scritta due volte nello stesso oggetto: JSON.parse tiene l'ultima, ma il ramo pubblico mostra il
+// testo intero, quindi anche la prima (terzo collaudo del 6/11). Un lettore minimo, solo per contare le chiavi.
+export function chiaviDoppie(testo) {
+  const doppie = [];
+  const pila = [];
+  let i = 0, attesaChiave = false;
+  const leggiStringa = () => {
+    let j = i + 1, fuori = "";
+    while (j < testo.length && testo[j] !== '"') { if (testo[j] === "\\") { fuori += testo[j] + testo[j + 1]; j += 2; } else fuori += testo[j++]; }
+    i = j + 1;
+    return fuori;
+  };
+  while (i < testo.length) {
+    const ch = testo[i];
+    if (ch === "{") { pila.push(new Set()); attesaChiave = true; i++; }
+    else if (ch === "[") { pila.push(null); attesaChiave = false; i++; }
+    else if (ch === "}" || ch === "]") { pila.pop(); attesaChiave = false; i++; }
+    else if (ch === ",") { attesaChiave = pila.at(-1) instanceof Set; i++; }
+    else if (ch === '"') {
+      const s = leggiStringa();
+      if (attesaChiave && pila.at(-1) instanceof Set) {
+        if (pila.at(-1).has(s)) doppie.push(s);
+        pila.at(-1).add(s);
+        attesaChiave = false;
+      }
+    } else i++;
+  }
+  return doppie;
+}
 function leggiTabella(p, colChiave, colGravita) {
   const m = new Map();
   if (!existsSync(p)) return null;
@@ -546,13 +594,15 @@ function valori(o, fuori = []) {
 // Le aree ammesse nel titolo di una riservata: le 11 già usate nel registro più le 24 lenti. Un elenco chiuso,
 // perché un'area libera può raccontare la falla anche in poche parole (ricollaudo del 6/11).
 const AREE_DEL_REGISTRO = ["rilascio", "API", "pagamenti", "privacy", "flussi", "regole del database", "accessi", "dati", "regole d'accesso al database", "sicurezza degli accessi", "intelligenza artificiale"];
-const normaArea = (a) => String(a ?? "").replace(/[\u2018\u2019\u02BC]/g, "'").trim().toLowerCase();
+const normaArea = (a) => String(a ?? "").replace(/[\u2018\u2019\u02BC]/g, "'").replace(/[\s\u00a0]+/g, " ").trim().toLowerCase();
 function validaReferto(opz) {
   const [file] = opz.posizionali;
   if (!file) return uso("valida-referto <file>");
   const rossi = [], attese = [];
   let testo, r;
   try { testo = readFileSync(file, "utf8"); r = JSON.parse(testo); } catch (e) { return chiudi("valida-referto", [`${file}: non si legge come JSON (${e.message})`], [], opz); }
+  const doppie = chiaviDoppie(testo);
+  if (doppie.length) rossi.push(`chiavi scritte due volte nello stesso oggetto (il ramo pubblico mostra anche la prima): ${[...new Set(doppie)].join(", ")}`);
   const tutteLenti = new Set(lenti(opz));
   // i segnaposti del modello: nel testo grezzo E nei valori già letti (un «…» scritto … si vede solo qui)
   const tuttiIValori = valori(r);
@@ -637,7 +687,14 @@ function validaReferto(opz) {
       const v = reg?.get(d.gia_noto);
       const versoRiservata = /^falla di sicurezza/i.test(v?.titolo ?? "") || /\|\s*falla di sicurezza/i.test(String(d.gia_noto));
       if (versoRiservata) rossi.push(`${ctx}: «gia_noto» punta a una falla riservata: un difetto così si scrive riservato, e i dettagli vanno in chat`);
-      else if (reg && !v && !/^S\d\d-\d{3,}$/.test(d.gia_noto)) rossi.push(`${ctx}: «gia_noto» non è una chiave del registro né l'id di un difetto della prima ondata`);
+      else if (/^S\d\d-\d{3,}$/.test(String(d.gia_noto).trim())) {
+        // un id della prima ondata: si cerca in trovati-ondata-1.txt, dove le riservate stanno con il titolo generico
+        const t1 = trovatiOndata1(opz);
+        const voce = t1?.get(String(d.gia_noto).trim());
+        if (!t1) rossi.push(`${ctx}: «gia_noto» è un id della prima ondata, ma trovati-ondata-1.txt non c'è ancora`);
+        else if (!voce) rossi.push(`${ctx}: «gia_noto» ${d.gia_noto} non è in trovati-ondata-1.txt`);
+        else if (/^falla di sicurezza/i.test(voce)) rossi.push(`${ctx}: «gia_noto» punta a una falla riservata della prima ondata: un difetto così si scrive riservato, e i dettagli vanno in chat`);
+      } else if (reg && !v) rossi.push(`${ctx}: «gia_noto» non è una chiave del registro né l'id di un difetto della prima ondata`);
     }
     if (d?.perimetro_altrui != null && !SESSIONI.includes(d.perimetro_altrui)) rossi.push(`${ctx}: perimetro_altrui «${d.perimetro_altrui}» non è una sessione`);
     // l'asticella
@@ -765,7 +822,7 @@ function segnaposti(opz) {
     if (!existsSync(p)) { rossi.push(`manca ${p.slice(opz.cartella.length + 1)}`); continue; }
     const t = readFileSync(p, "utf8");
     for (const sp of SEGNAPOSTI_AD) if (t.includes(sp)) rossi.push(`${p.slice(opz.cartella.length + 1)}: resta ${sp}`);
-    const base = t.match(/^base_sito:\s*(\S+)/m)?.[1];
+    const base = t.match(/^base_sito:\s*["']?([0-9a-f]+)["']?\s*$/m)?.[1];
     if (base !== opz.base) rossi.push(`${p.slice(opz.cartella.length + 1)}: base_sito «${base ?? "assente"}» diversa da ${opz.base}`);
   }
   return chiudi("segnaposti", rossi, [], opz, { testi: testi.length });
