@@ -21,8 +21,9 @@
 //      Cioe' la prossima famiglia di audit che nasce fara' diventare la Cabina ⚪, non verde.
 //   ② **la casa ha memoria.** Il digest ricostruiva l'elenco da zero e riscriveva `stato: "aperto"`
 //      su tutto: rilanciarlo il 22/8 riportava ad «aperti» i 199 problemi riparati quel giorno
-//      (misurato, non dedotto). Qui i problemi si fondono con quelli gia' in casa per CHIAVE, e lo
-//      stato scritto dalle riparazioni sopravvive al rifacimento del referto.
+//      (misurato, non dedotto). Qui i problemi si fondono con quelli gia' in casa per CHIAVE, e per
+//      una voce gia' in casa vince la casa, campo per campo (dal 6/11: prima si salvavano sei campi
+//      e cadevano `riparato_il`, la prova vera, le note e le riverifiche scritte dopo il referto).
 //
 // 🟢 Modulo PURO: nessun file, nessuna rete, nessun orologio. Il disco lo tocca chi lo chiama, e gli
 // passa gli elenchi — cosi' una prova puo' ESEGUIRE queste decisioni sui referti veri.
@@ -307,36 +308,84 @@ export function chiaveProblema(p) {
   return `${norm(p?.dimensione)}|${norm(p?.titolo)}`;
 }
 
-/** I campi che appartengono alla RIPARAZIONE, non al referto: sono quelli che devono sopravvivere. */
-export const CAMPI_DELLA_RIPARAZIONE = Object.freeze([
-  "stato",
-  "nota_riparazione",
-  "chiuso_il",
-  "chiuso_da",
-  "riaperto_il",
-  "riaperto_da",
-]);
+/**
+ * I campi che un referto NUOVO della stessa famiglia scrive anche sopra la casa, e dove finisce il valore di
+ * prima. Uno solo: `riverifica`, che finisce in `riverifiche_precedenti`.
+ *
+ * PERCHE' SOLO QUESTO. La regola della fusione e' «vince la casa»: dopo il referto, la voce la scrivono le
+ * riparazioni (stato, `riparato_il`, la `prova` vera che gira al posto di quella del cercatore, una gravita'
+ * riclassificata con `nota_severita`, `riverifica_1_11`, `nota_5_11`…), e nessun cercatore ne sa di piu'. Tutti
+ * gli altri campi del referto descrivono il problema come l'ha visto CHI L'HA TROVATO: titolo, gravita',
+ * descrizione, dove, prova del cercatore, `giro`, `fonte_radiografia`. Se la casa li ha gia', o li ha
+ * scritti la stessa radiografia o li ha corretti qualcuno dopo: in tutti e due i casi il grezzo non porta
+ * niente di piu' nuovo. `riverifica` invece e' per costruzione il giudizio di QUESTA radiografia su un
+ * problema gia' noto («ancora presente il 20/11»): se vincesse la casa, il registro direbbe la data e il
+ * verdetto del controllo di prima, cioe' una cosa vecchia spacciata per l'ultima. Il valore di prima non si
+ * butta: va in coda a `riverifiche_precedenti`, il campo che le riverifiche scritte a mano usano gia'.
+ *
+ * QUANDO E' «NUOVO». Solo quando il referto di quella famiglia non e' quello che la casa ha gia' letto
+ * (`fonti[].raw` del registro). Lo stesso referto riletto — il caso del design dell'11/10, ancora l'ultimo della
+ * sua famiglia il 6/11 — e' piu' vecchio di tutto quello che la casa ci ha scritto sopra: li' vince la casa
+ * anche sulla riverifica, e rifare il digest non cambia una virgola nelle voci che il referto ritrova.
+ *
+ * IL PREZZO, DICHIARATO. Una radiografia nuova che ritrova un problema noto con una gravita', un punto del
+ * codice o una descrizione diversi NON li scrive sopra la casa. E' voluto (una gravita' riclassificata da Nicola
+ * non deve tornare quella del cercatore), ma non deve essere muto: la fusione conta questi campi in `ignorati`
+ * e il digest li stampa. Nella storia non e' mai successo: su 9 coppie di referti consecutivi, 0 differenze
+ * sulle chiavi in comune (conto del collaudo del 6/11).
+ */
+export const CAMPI_CHE_IL_REFERTO_NUOVO_AGGIORNA = Object.freeze({ riverifica: "riverifiche_precedenti" });
+
+/**
+ * «La casa non ha questo campo»: assente o null. La stringa vuota invece e' un valore, e vince: un campo
+ * svuotato a mano puo' essere una copertura voluta (il 6/11 i testi liberi di alcune falle riservate sono stati
+ * riscritti perche' non nominassero file e tecniche). Riempirlo dal grezzo riaprirebbe quello che si e' chiuso:
+ * largo quando si chiude, esatto quando si apre (cervello/scorciatoie-note.md, 26).
+ */
+const manca = (v) => v === undefined || v === null;
+const uguali = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+
+/**
+ * I campi che la porta (`problemiDaRaw`) scrive dal CODICE, non da quello che dice il referto: lo stato di
+ * partenza, il nome leggibile dell'area, l'id della famiglia. Un loro cambio fra due letture e' un cambio del
+ * codice (un'area rinominata in REPARTI_DESIGN), non una correzione del grezzo ne' un giudizio della radiografia:
+ * non si contano fra gli `ignorati` e non fanno suonare l'avviso delle correzioni. In casa vince la casa anche qui.
+ */
+const CAMPI_DELLA_PORTA = new Set(["stato", "reparto", "fonte"]);
+const daNotare = (campo) => !CAMPI_DELLA_PORTA.has(campo) && !Object.hasOwn(CAMPI_CHE_IL_REFERTO_NUOVO_AGGIORNA, campo);
 
 /**
  * Fonde i problemi appena letti dai referti con quelli GIA' in casa.
  *
- * Il referto e' la verita' sul PROBLEMA (titolo, gravita', descrizione, dove): quella si riscrive.
- * La casa e' la verita' sul LAVORO fatto sopra (stato, note, chi e quando l'ha chiuso): quella si
- * conserva. Prima di questa funzione il digest riscriveva `stato: "aperto"` su tutto — cioe' un
- * comando di manutenzione, quello che il messaggio d'errore del Pannello suggerisce di lanciare,
+ * LA REGOLA: per una voce gia' in casa, **vince la casa, campo per campo**. Dal grezzo si prendono solo i campi
+ * che la casa non ha (assenti o null); l'unica eccezione e' `CAMPI_CHE_IL_REFERTO_NUOVO_AGGIORNA`, e solo per le
+ * famiglie in `refertiNuovi`. L'ordine dei campi resta quello della casa, cosi' rifare il digest non sposta righe.
+ *
+ * LA MALATTIA CHE CURA. Fino al 6/11/2026 la voce si ricostruiva dal grezzo e dalla casa si tenevano sei campi
+ * (stato, nota_riparazione, chiuso_il, chiuso_da, riaperto_il, riaperto_da). Tutto il resto scritto dopo il
+ * referto cadeva: misurato il 6/11 sulla casa vera, 357 voci su 444 ritrovate nei referti perdevano campi
+ * (`riparato_il`, `riparato_da`, `nota_5_11`, `collaudo_5_11`…) e su 262 la `prova` e la `prova_tipo` tornavano
+ * quelle del cercatore. Prima ancora (22/8) si riscriveva `stato: "aperto"` su tutto: rilanciare il digest
  * cancellava in silenzio 199 riparazioni.
  *
- * I problemi che stanno in casa e non stanno piu' in nessun referto NON si buttano: restano, con
- * `fuori_dal_referto: true`. Sparire e' l'altro modo di far calare un numero senza aver riparato
- * niente.
+ * `fuori_dal_referto` lo calcola questa funzione: una voce ritrovata nel referto lo perde, anche se la casa ce
+ * l'aveva. I problemi che stanno in casa e non stanno piu' in nessun referto NON si buttano: restano, con
+ * `fuori_dal_referto: true`. Sparire e' l'altro modo di far calare un numero senza aver riparato niente.
+ *
+ * @param refertiNuovi gli id delle famiglie (`fonte` della voce) il cui referto la casa non ha ancora letto.
+ *                     Senza, nessuna famiglia e' nuova: la casa vince su tutto, che e' il lato sicuro.
+ * @param impronteDiPrima per famiglia nuova, le impronte del referto che la casa aveva letto prima: servono solo
+ *                     a non contare in `ignorati` quello che la radiografia nuova ripete uguale.
  */
-export function fondiConLaCasa(nuovi, vecchi) {
+export function fondiConLaCasa(nuovi, vecchi, { refertiNuovi = [], impronteDiPrima = {} } = {}) {
+  const famiglieNuove = new Set(refertiNuovi ?? []);
   const perChiave = new Map();
   for (const v of vecchi ?? []) if (v) perChiave.set(chiaveProblema(v), v);
 
   const fusi = [];
   const usate = new Set();
   let conservati = 0;
+  let ignorati = 0;
 
   for (const n of nuovi ?? []) {
     const k = chiaveProblema(n);
@@ -346,9 +395,27 @@ export function fondiConLaCasa(nuovi, vecchi) {
       continue;
     }
     usate.add(k);
-    const voce = { ...n };
-    for (const campo of CAMPI_DELLA_RIPARAZIONE) {
-      if (vecchio[campo] != null) voce[campo] = vecchio[campo];
+    const voce = { ...vecchio };
+    delete voce.fuori_dal_referto;
+    const nuova = famiglieNuove.has(n.fonte);
+    // Cosa diceva di questa voce il referto di prima della stessa famiglia: un campo uguale ad allora non e'
+    // una notizia della radiografia nuova, anche se la casa lo ha cambiato dopo (secondo collaudo, rilievo 3:
+    // senza, una radiografia rifatta identica contava 462 «diversi», tutte le prove vere delle riparazioni).
+    const diPrima = nuova ? mappaDi(impronteDiPrima?.[n.fonte]?.[improntaDi(k)]) : null;
+    for (const [campo, valore] of Object.entries(n)) {
+      if (manca(voce[campo])) voce[campo] = valore;
+      else if (nuova && daNotare(campo) && !uguali(voce[campo], valore) && diPrima.get(campo) !== improntaCampo(valore)) ignorati += 1;
+    }
+    if (nuova) {
+      for (const [campo, storia] of Object.entries(CAMPI_CHE_IL_REFERTO_NUOVO_AGGIORNA)) {
+        const dalReferto = n[campo];
+        if (manca(dalReferto) || dalReferto === "" || uguali(dalReferto, voce[campo])) continue;
+        if (!manca(voce[campo]) && voce[campo] !== "") {
+          const prima = Array.isArray(voce[storia]) ? voce[storia] : manca(voce[storia]) ? [] : [voce[storia]];
+          voce[storia] = prima.some((r) => uguali(r, voce[campo])) ? prima : [...prima, voce[campo]];
+        }
+        voce[campo] = dalReferto;
+      }
     }
     if (voce.stato !== n.stato) conservati += 1;
     fusi.push(voce);
@@ -360,7 +427,110 @@ export function fondiConLaCasa(nuovi, vecchi) {
     orfani.push({ ...v, fuori_dal_referto: true });
   }
 
-  return { problemi: [...fusi, ...orfani], conservati, orfani: orfani.length };
+  return { problemi: [...fusi, ...orfani], conservati, orfani: orfani.length, ignorati };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ③-bis LE CORREZIONI DEL GREZZO — vince la casa, ma non in silenzio
+// ═══════════════════════════════════════════════════════════════════════════
+//
+// Il rovescio della regola «vince la casa». Fino al 6/11 chi correggeva il GREZZO dopo il digest vedeva la
+// correzione arrivare in casa al digest dopo, perche' il grezzo vinceva. E' il lavoro vero del 6/11 alle 01:45:
+// il testo libero delle falle riservate e' stato coperto nel grezzo del 5/11 e nel registro, «perche' il digest
+// rifa' il registro dal grezzo» (DECISIONI). Con la casa che vince, una correzione fatta SOLO nel grezzo resta
+// fuori: misurato dal collaudo del 6/11 sul registro di prima di quel lavoro, 51 falle aperte con 161 campi non
+// arrivati, 6 con nomi di file nel testo rimasto, e il digest stampava il verde di sempre.
+//
+// La cura non e' far rivincere il grezzo (tornerebbero indietro 262 prove vere): e' saperlo. Il registro tiene,
+// per ogni referto letto, l'impronta di ogni campo di ogni voce come l'ha letta (`fonti[].impronte`). Al digest
+// dopo, sullo STESSO file, un campo la cui impronta e' cambiata e' una correzione del grezzo; se la casa ha quel
+// campo con un altro valore, la correzione non e' entrata, e il digest lo dice per nome ed esce 1. L'impronta
+// vecchia di quel campo resta salvata: l'avviso torna a ogni digest finche' grezzo e casa non dicono la stessa
+// cosa — o la correzione va anche nel registro, o si toglie dal grezzo. Rilanciare non basta a zittirlo.
+
+/** Impronta corta di un valore (FNV-1a su JSON): serve a vedere che un campo e' cambiato, non a proteggerlo. */
+function fnv(testo) {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < testo.length; i++) {
+    h ^= testo.charCodeAt(i);
+    h = Math.imul(h, 0x01000193) >>> 0;
+  }
+  return h.toString(16).padStart(8, "0");
+}
+const improntaDi = (v) => fnv(JSON.stringify(v ?? null));
+const improntaCampo = (v) => improntaDi(v).slice(0, 6);
+
+/** Una voce in una riga: «campo:impronta» in ordine di nome. Una riga per voce tiene il registro corto (~90 KB su 444 voci). */
+const rigaDi = (mappa) => [...mappa].sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0)).map(([k, h]) => `${k}:${h}`).join(" ");
+const mappaDi = (riga) =>
+  new Map(
+    String(riga ?? "").split(" ").filter(Boolean).map((x) => {
+      const i = x.lastIndexOf(":");
+      return [x.slice(0, i), x.slice(i + 1)];
+    }),
+  );
+
+/** Le impronte di un referto letto: {impronta della chiave → riga dei campi}. Vanno in `fonti[].impronte`. */
+export function impronteDelReferto(problemi) {
+  const out = {};
+  for (const n of problemi ?? []) {
+    out[improntaDi(chiaveProblema(n))] = rigaDi(new Map(Object.keys(n).map((k) => [k, improntaCampo(n[k])])));
+  }
+  return out;
+}
+
+/**
+ * Le correzioni fatte nel GREZZO dopo l'ultima lettura che la casa non ha: quelle che la regola «vince la casa»
+ * lascia fuori. Va chiamata solo sullo stesso referto gia' letto (con un referto nuovo le differenze le conta
+ * `ignorati` della fusione).
+ *
+ * LA REGOLA, UNA SOLA (terzo giro, 6/11, scelto da Nicola dopo due collaudi bocciati): un campo suona quando
+ *   ① nel grezzo e' cambiato dall'ultima lettura — riscritto, svuotato o TOLTO: una copertura si fa anche
+ *      cancellando (il 6/11 la copertura ha toccato `prova` su 33 voci su 33, e la porta scarta i campi extra
+ *      vuoti, quindi un campo svuotato nel grezzo sparisce dalla voce letta) — e
+ *   ② la casa tiene ancora il valore che il grezzo aveva PRIMA.
+ * Se la casa dice gia' un'altra cosa — la correzione e' stata copiata, oppure una riparazione aveva gia'
+ * scritto la sua prova vera — non c'e' niente di vecchio da togliere, e l'avviso tace. Cosi' non resta acceso
+ * per sempre su una voce riparata (secondo collaudo, rilievo 4), e non serve rovinare la prova per zittirlo.
+ *
+ * @param impronteLette `fonti[].impronte` della casa per quel referto; senza (casa scritta prima del 6/11)
+ *                      non c'e' niente con cui confrontare: `confrontato: false`, e chi chiama lo deve dire.
+ * @returns {fuori: [{titolo, fonte, campi}], impronte, confrontato} — `impronte` sono quelle da salvare: per un
+ *          campo fuori casa resta l'impronta vecchia, cosi' l'avviso torna finche' la casa tiene il valore vecchio.
+ */
+export function correzioniDelGrezzo(problemi, vecchi, impronteLette) {
+  const impronte = impronteDelReferto(problemi);
+  if (!impronteLette || typeof impronteLette !== "object") return { fuori: [], impronte, confrontato: false };
+  const casa = new Map();
+  for (const v of vecchi ?? []) if (v) casa.set(chiaveProblema(v), v);
+  const fuori = [];
+  for (const n of problemi ?? []) {
+    const kc = improntaDi(chiaveProblema(n));
+    const prima = impronteLette[kc];
+    // Una voce che all'ultima lettura non c'era, o identica a allora: niente da dire.
+    if (typeof prima !== "string" || prima === impronte[kc]) continue;
+    const c = casa.get(chiaveProblema(n));
+    if (!c) continue;
+    const vecchie = mappaDi(prima);
+    const daSalvare = mappaDi(impronte[kc]);
+    const campi = [];
+    // I campi di allora E quelli di adesso: un campo tolto dal grezzo c'e' solo fra quelli di allora.
+    for (const k of new Set([...vecchie.keys(), ...Object.keys(n)])) {
+      // Un campo che scrive il codice, o che all'ultima lettura non c'era: non e' una correzione del grezzo.
+      if (CAMPI_DELLA_PORTA.has(k) || !vecchie.has(k)) continue;
+      const ora = Object.hasOwn(n, k) ? improntaCampo(n[k]) : null;
+      // ① il grezzo non e' cambiato su questo campo.
+      if (ora === vecchie.get(k)) continue;
+      // ② la casa non tiene piu' il valore di prima (o non l'ha mai avuto): la correzione e' dentro, o non serve.
+      if (manca(c[k]) || improntaCampo(c[k]) !== vecchie.get(k)) continue;
+      campi.push(k);
+      daSalvare.set(k, vecchie.get(k));
+    }
+    if (!campi.length) continue;
+    fuori.push({ titolo: n.titolo, fonte: n.fonte ?? null, campi });
+    impronte[kc] = rigaDi(daSalvare);
+  }
+  return { fuori, impronte, confrontato: true };
 }
 
 /** I contatori di una famiglia di problemi, nella forma che la scheda del Pannello disegna. */

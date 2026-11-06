@@ -32,6 +32,13 @@
 7. **L'ancoraggio che non ancora.** Appendere ` --ar-131` a un campo comando, o scrivere `// AR-131`
    in un file dove quel caso non c'è più: forma valida, ancoraggio finto.
 
+37. **La guardia sul ramo che il lavoro normale non prende.** *(Aggiunta del 6/11, terzo collaudo del
+    digest del sito.)* L'avviso sulle correzioni fatte solo nel referto grezzo guardava il caso «rileggo lo
+    stesso file»: lì era provato e verde. Ma una radiografia vera passa sempre dall'altro ramo, «arriva un
+    file nuovo della stessa famiglia», e lì il grezzo vecchio non lo guardava nessuno. Misurato sul flusso
+    delle 12 sessioni: 33 falle coperte solo nel grezzo vecchio, uscita 0. *Cura: prima di provare la
+    guardia, chiedi da quale ramo passa il lavoro di tutti i giorni, e provala lì.*
+
 ## C. Il numero mente
 
 8. **Il numero dichiarato dalla parte comoda.** Il pezzo dichiara «sono cieco sul 40%»: ricontato,

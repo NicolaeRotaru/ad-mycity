@@ -6690,3 +6690,14 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 **Cosa resta a Nicola:** la modalità automatica di ogni sessione. Una sessione non può cambiare i permessi di un'altra.
 
 **Colore:** 🟡 lavoro in sola lettura sul sito, deciso da Nicola.
+## 2026-11-06 09:54 — 🟡 Rifare il registro dei difetti del sito non cancella più il lavoro scritto dopo il referto
+
+**Cosa:** il digest del sito (`cervello/radiografia-marketplace-digest.mjs`) rifà il registro dall'ultimo referto di ogni famiglia. Per le voci che ritrovava teneva dalla casa sei campi, e il resto tornava quello del grezzo. Sul registro del 6/11, 357 voci su 444 perdevano campi (`riparato_il`, `nota_5_11`…) e su 262 la prova tornava quella del cercatore. Adesso per una voce già in casa vince la casa, campo per campo. Il grezzo riempie solo i campi che mancano. Una radiografia nuova aggiorna soltanto la riverifica, e quella di prima resta in `riverifiche_precedenti`.
+
+**Il rovescio, trovato dal collaudo:** con la casa che vince, una correzione fatta solo nel grezzo dopo la lettura non arriva più in casa. Il 6/11 alle 01:45 le coperture delle falle riservate si facevano così. Il registro adesso tiene l'impronta di ogni campo letto. Il digest nomina le voci corrette nel grezzo che la casa non ha, esce 1, e lo ridice finché grezzo e casa non dicono la stessa cosa. **Da oggi le correzioni si fanno nel registro;** il grezzo da solo non basta più.
+
+**Verificato:** prova `cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs`, rossa sul codice di main e verde sul nuovo. Torna rossa togliendo ciascuno dei due file (`prova-rimessa`), e 12 mutazioni su 12 la fanno diventare rossa. Il digest vero su copie dei dati veri: tocca solo la bandiera «fuori dal referto» su 51 voci scritte a mano, come prima; il secondo giro è identico byte per byte; la copertura vera del 6/11 rifatta solo nel grezzo viene nominata (33 voci, 115 campi). Collaudo in tre giri: la lente B regge al primo; la lente A boccia al primo (la correzione solo nel grezzo passava muta) e al secondo (coperture fatte togliendo un campo), e regge al terzo. Il terzo giro l'ha scelto Nicola («Continua»).
+
+**Cosa resta a Nicola:** la firma sulla richiesta di unione. Limiti dichiarati: le correzioni fatte nel grezzo prima di oggi non si vedono, perché le impronte nascono col primo digest dopo l'unione. L'avviso guarda solo il referto che il digest rilegge, non quello che un referto nuovo sostituisce (cantiere, scheda sulla copertura che resta muta con una radiografia nuova). Restano aperte quattro minori nel cantiere: le note in testa al registro, una prova che riscrive il registro vero, e i due lasciati dal terzo collaudo.
+
+**Colore:** 🟡 auto-modifica della macchina, vale con la firma di Nicola.
