@@ -23,9 +23,12 @@
 //    le riverifiche scritte dopo) tornava quello del grezzo su 357 voci. Adesso vince la casa su tutto,
 //    salvo la `riverifica` di un referto NUOVO (cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs).
 //
-// ③ Dal 6/11 vince la casa: una correzione fatta SOLO nel grezzo, dopo la lettura, non entra piu'. Non resta
-//    muta: il registro tiene le impronte di ogni campo letto (`fonti[].impronte`) e il digest nomina le voci
-//    corrette nel grezzo che la casa non ha recepito (referti-sito.mjs, ③-bis).
+// ③ Dal 6/11 vince la casa: una correzione fatta SOLO nel grezzo, dopo la lettura, non entra piu'. Il registro
+//    tiene le impronte di ogni campo letto (`fonti[].impronte`) e il digest nomina le voci corrette nel grezzo
+//    che la casa non ha recepito (referti-sito.mjs, ③-bis). LIMITE DICHIARATO (terzo collaudo del 6/11): lo
+//    vede solo sul referto che RILEGGE. Se nello stesso giro arriva un referto nuovo della famiglia, il grezzo
+//    di prima non si confronta piu', e una copertura fatta solo li' resta muta (uguale su main): AR-1161.
+//    Le coperture si fanno nel registro.
 //
 // Uso: node cervello/radiografia-marketplace-digest.mjs   (🟢 legge i grezzi, scrive la memoria AI)
 // Uscita: 0 scritto · 1 nessun referto, OPPURE scritto ma con correzioni del grezzo rimaste fuori dalla casa

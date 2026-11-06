@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-11-06 08:54",
+  "aggiornato": "2026-11-06 09:54",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -26195,7 +26195,7 @@
       "nato_da": "collaudo del 6/11 sulla riparazione AR-1158 (lente B)",
       "origine": "collaudo",
       "dove": "cervello/test/il-freno-non-era-sulla-strada.test.mjs:276 lancia cervello/allinea-scan-cantiere.mjs; lì `MKP` (riga 55) è fisso sul registro vero e si scrive alla riga 379",
-      "sintomo": "La prova devia `RADIOGRAFIA_FILE` e `CANTIERE_FILE`, ma non il registro del sito: su una copia del repo il collaudatore ha visto `sync_scan.aggiornato` passare da «2026-11-05 23:47» a «2026-11-06 08:25» lanciando il banco. Una prova che controlla l’ora del registro vero (come faceva la prima versione di il-digest-tiene-il-lavoro-della-casa) accusa a torto.",
+      "sintomo": "La prova devia `RADIOGRAFIA_FILE` e `CANTIERE_FILE`, ma non il registro del sito: su una copia del repo il collaudatore ha visto `sync_scan.aggiornato` passare da «2026-11-05 23:47» a «2026-11-06 08:25» lanciando il banco. Una prova che controlla l’ora del registro vero (come faceva la prima versione di il-digest-tiene-il-lavoro-della-casa) accusa a torto. Rivisto il 6/11 su due corse del banco intero (node cervello/test-cervello.mjs) lanciate nel repo vero: la prima ha portato sync_scan.aggiornato a «2026-11-06 08:57»; tutte e due cambiano solo sync_scan del registro, che si rimette com era con git checkout.",
       "causa_radice": "Lo strumento ricava uno dei suoi tre registri da dove sta, senza un modo di deviarlo: è la scorciatoia 35 (la prova che scrive nei file veri), su un percorso solo.",
       "fix_proposto": "Rendere deviabile `MKP` con una variabile (come gli altri due) e deviarla nella prova; poi una prova che controlla che il registro vero non cambi lanciando quella prova.",
       "verifica": {
@@ -26203,6 +26203,76 @@
         "come": "Si chiude con una prova a comando: impronta del registro vero prima e dopo `node --test cervello/test/il-freno-non-era-sulla-strada.test.mjs`, uguali."
       },
       "owner": "builder-automazioni"
+    },
+    {
+      "id": "AR-1158",
+      "titolo": "Rifare il registro dei difetti del sito toglieva il lavoro scritto dopo il referto: le date di riparazione, le prove vere, le note e le riverifiche",
+      "dimensione": "integrita-memoria",
+      "dove": "cervello/referti-sito.mjs fondiConLaCasa (CAMPI_DELLA_RIPARAZIONE, sei campi) · cervello/radiografia-marketplace-digest.mjs, passo 4",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "sintomo": "Per una voce ritrovata nell'ultimo referto grezzo della sua famiglia, il digest teneva dalla casa sei campi (stato, nota_riparazione, chiuso_il, chiuso_da, riaperto_il, riaperto_da) e riprendeva il resto dal grezzo. Misurato il 6/11 da un collaudatore sul design dell'11/10: 47 voci perdevano campi, su 31 prova e prova_tipo tornavano quelle del cercatore. Ricontato sulla stessa casa con tutte e due le famiglie: 357 voci su 444 ritrovate perdevano campi (riparato_il e riparato_da su 262, nota_5_11 su 92, riparazione_parziale_5_11 su 43, collaudo_5_11 su 25, domanda_per_nicola su 19) e su 262 la prova tornava quella del cercatore. Il prompt della radiografia in 12 sessioni lo aggirava con una copia del registro prima del digest e un ripristino dopo.",
+      "causa_radice": "La fusione era scritta a elenco di permessi: «la casa possiede questi sei campi, il referto tutto il resto». Ma dopo il referto la voce la scrivono le riparazioni con campi nuovi a ogni giro (riparato_il, riverifica_1_11, nota_5_11, nota_severita…): un elenco fisso di campi da salvare resta sempre indietro di un giro.",
+      "fix_proposto": "Fatto. Per una voce gia in casa vince la casa, campo per campo: il grezzo riempie solo i campi assenti o null (la stringa vuota e un valore). Un referto NUOVO della famiglia (file diverso da fonti[].raw) aggiorna solo la riverifica, e quella di prima va in riverifiche_precedenti. Una voce ritrovata perde fuori_dal_referto. Il rovescio (una correzione fatta solo nel grezzo non entra piu) non resta muto: impronte per campo in fonti[].impronte, e il digest nomina le voci, esce 1 e lo ripete finche la casa tiene il valore vecchio.",
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-11-06 08:10",
+      "nato_come": "scoperta",
+      "nato_da": "misura di un collaudatore del 6/11 sul prompt della radiografia in 12 sessioni (consegne/audit/PROMPT-radiografia-12-sessioni.md, passo 7.5 punto 6), presa in carico alle 08:10",
+      "origine": "collaudo",
+      "fonte": "misura del collaudatore del 6/11, ricontata nel lavoro di riparazione sullo stesso registro",
+      "owner": "builder-automazioni",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs",
+        "nota": "9 casi: fusione, riempimento, bandiera, digest vero su copia (stesso referto e referto nuovo), dati veri in sola lettura, correzione solo nel grezzo (riscritta, svuotata, tolta), referto nuovo dopo le impronte, JSON rotto. Rossa sul codice di main (59f1f96) e verde qui; prova-rimessa regge su referti-sito.mjs e sul digest. 18 mutazioni AR-1158 in cervello/mutanti.json, tutte rosse, piu la mutazione di AR-793 riagganciata. Collaudo in tre giri: lente B regge al primo; lente A boccia al primo (la correzione fatta solo nel grezzo non entrava piu, in silenzio) e al secondo (coperture fatte togliendo o svuotando un campo); al terzo regge, scelto da Nicola. Montaggio sui dati veri, su copie: il digest tocca solo la bandiera fuori_dal_referto su 51 voci scritte a mano, il secondo giro e identico byte per byte, la copertura vera del 6/11 rifatta solo nel grezzo viene nominata (33 voci, 115 campi). I minori del terzo collaudo stanno in AR-1161 e AR-1162."
+      },
+      "chiuso_il": "2026-11-06 09:54",
+      "chiuso_da": "riparazione del digest del 6/11 sul ramo claude/sleepy-hypatia-hlw4q7, in attesa della firma di Nicola sulla richiesta di unione (vale solo da unita)"
+    },
+    {
+      "id": "AR-1161",
+      "dimensione": "integrita-memoria",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-06 09:54",
+      "nato_come": "scoperta",
+      "origine": "collaudo",
+      "owner": "builder-automazioni",
+      "titolo": "Una copertura fatta solo nel grezzo resta muta se nello stesso giro arriva una radiografia nuova della stessa famiglia",
+      "gravita": "minore",
+      "impatto_crescita": "medio",
+      "nato_da": "terzo collaudo del 6/11 sulla riparazione AR-1158 (lente A, rilievi R1 e R2)",
+      "dove": "cervello/radiografia-marketplace-digest.mjs: correzioniDelGrezzo si chiama solo quando il referto letto e lo stesso di fonti[].raw",
+      "sintomo": "Nel flusso delle 12 sessioni (passi 5-6): il grezzo del 5/11 viene coperto solo nel grezzo, poi arriva il grezzo nuovo del 7/11 con sole chiavi nuove, poi il digest: «referto nuovo: marketplace», uscita 0, e 33 falle restano in casa col testo non coperto. Su main e uguale (33). Seconda faccia: il primo digest dopo l unione, con un referto nuovo che ha chiavi in comune col vecchio e senza impronte di prima, stampa «462 campi del referto nuovo diversi dalla casa» senza nessun ⚪.",
+      "causa_radice": "La guardia sorveglia solo il ramo «stesso file», mentre il flusso normale di una radiografia passa sempre dal ramo «file nuovo».",
+      "fix_proposto": "Quando il referto e nuovo e il fonti[].raw di prima e ancora su disco con le impronte, passare anche quello a correzioniDelGrezzo (le sue voci sono in casa come orfane). Se no, una riga ⚪ che lo dichiara. Per il contatore: senza impronteDiPrima, ⚪ al posto del numero. Intanto il prompt delle 12 sessioni dice che le coperture si fanno nel registro.",
+      "verifica": {
+        "tipo": "umano",
+        "come": "Si chiude con una prova a comando sulla copia: grezzo vecchio coperto solo nel grezzo + grezzo nuovo con chiavi nuove → il digest nomina le voci ed esce 1."
+      }
+    },
+    {
+      "id": "AR-1162",
+      "dimensione": "integrita-memoria",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-06 09:54",
+      "nato_come": "scoperta",
+      "origine": "collaudo",
+      "owner": "builder-automazioni",
+      "titolo": "L avviso delle correzioni del grezzo suona a torto se cambia l elenco dei campi che la porta fa entrare, e tre rotture della sua prova restano verdi",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "nato_da": "terzo collaudo del 6/11 sulla riparazione AR-1158 (lente A, rilievi R3 e R4)",
+      "dove": "cervello/referti-sito.mjs impronteDelReferto (impronta calcolata dopo problemiDaRaw) · cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs caso ⑨",
+      "sintomo": "Tolto «giro» da CAMPI_EXTRA_DEL_REFERTO su una copia: «⚠️ 444 voci corrette nel grezzo… (444 campi)», uscita 1, senza che nessuno abbia toccato il grezzo. Raro: quella lista e cambiata una volta sola (f58b6224d), per aggiungere campi. In piu tre mutazioni restano verdi: togliere tieni() nel ramo «nessun referto», togliere tieni() nel ramo «forma cambiata», e far leggere a tieni solo fontiLette (un secondo giro rotto di fila perde le impronte). Il comportamento di oggi e giusto: il collaudatore l ha eseguito.",
+      "causa_radice": "L impronta si calcola sulla voce dopo la porta, quindi un cambio del codice della porta somiglia a una correzione del grezzo; il caso ⑨ prova un solo giro rotto, con un JSON rotto.",
+      "fix_proposto": "Calcolare l impronta sul referto grezzo prima della porta, oppure salvare in fonti[] l elenco dei campi della porta e ignorare quelli entrati o usciti. Estendere ⑨ a due giri rotti di fila e alla forma cambiata, con le tre mutazioni in mutanti.json.",
+      "verifica": {
+        "tipo": "umano",
+        "come": "Si chiude con una prova a comando: un campo tolto da CAMPI_EXTRA_DEL_REFERTO non fa uscire 1 il digest; e le tre mutazioni sopra diventano rosse."
+      }
     }
   ],
   "meta": {

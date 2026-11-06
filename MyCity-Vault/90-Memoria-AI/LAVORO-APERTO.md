@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-06 01:03
+aggiornato: 2026-11-06 09:54
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -145,6 +145,7 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
 
 ## 3 · La macchina
 
+- **Rifare il registro dei difetti del sito non cancella più il lavoro scritto dopo la radiografia** (06/11 alle 09:54, aspetta la tua firma sulla richiesta di unione). Il digest teneva sei campi e il resto tornava quello della radiografia: 357 voci su 444 perdevano campi. Adesso vince il registro, e una correzione fatta solo nel referto viene nominata. Da fare dopo: quattro minori nel cantiere, il più serio è la copertura che resta muta quando arriva una radiografia nuova.
 - **La regola del lavoro veloce è nel manuale dell'AD, ma il suo freno no** (6/11 alle 01:03, su tua firma). Le regole ⑬-⑰: prima il programma, domande chiuse, fatti pronti, verificatore che parte dalla prova, modello piccolo per i controlli semplici. Manca un guardiano che conti i turni di ogni agente e segnali quelli troppo pesanti: è debito dichiarato. La prima misura vera arriva al prossimo lavoro simile, contro i 47 minuti del controllo del prompt.
 - **Ogni senior dice il suo modello, e il manuale che tutti rileggono pesa la metà** (5/11, su tua firma: «consumare il meno possibile, fare il lavoro migliore e corretto»). 47 senior sul modello grande, 73 sul piccolo; prima giravano tutti sul grande. `CLAUDE.md` è sceso da 30.415 a circa 16.800 byte: le parti solo dell'AD stanno in `cervello/MANUALE-AD.md`, che i prompt del server ora nominano. Il guardiano del registro agenti diventa rosso se un senior perde il modello. Collaudo indipendente fatto: 3 difetti medi trovati e chiusi nello stesso lavoro. Nella richiesta NicolaeRotaru/ad-mycity#930, da unire.
 - **I difetti delle sei pagine «Approfondisci» del Pannello sono salvati, da riprendere dopo il marketplace** (05/11 alle 14:27). Le pagine sono Numeri, Analisi & report, Negozi & clienti, Operazioni, Mercato e Intelligence. Tua scelta: «li riprendiamo dopo aver finito di risolvere il marketplace». Sono 123 schede nel registro della macchina: 1 bloccante, 13 gravi, il resto medi e minori. Il più urgente conta già dal lancio: la scheda dei soldi al negozio legge «già pagato» i contanti ancora in mano al fattorino. Fino alla riparazione, quanto dare al negozio il lunedì si conta dal sito. Se ripararlo prima del lancio lo scegli tu nella carta #227. Alla ripresa servono due tue scelte: quali account sono di prova, e cosa mettere in cima alla pagina Numeri. Referto: `consegne/audit/2026-11-05-pannello-pagine-approfondisci.md`.
