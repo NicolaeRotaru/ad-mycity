@@ -218,6 +218,13 @@ function copiaDelDigest({ referti, casa }) {
   return {
     lancia,
     scrivi,
+    /** Cambia il CODICE della copia (non il referto): come quando qualcuno rinomina un'area in referti-sito.mjs. */
+    ritocca: (rel, da, a) => {
+      const f = join(radice, rel);
+      const t = readFileSync(f, "utf8");
+      assert.equal(t.split(da).length, 2, `«${da}» non compare una volta sola in ${rel}`);
+      writeFileSync(f, t.replace(da, a));
+    },
     leggi: (rel) => JSON.parse(readFileSync(join(radice, rel), "utf8")),
     smonta: () => rmSync(radice, { recursive: true, force: true }),
   };
@@ -397,6 +404,12 @@ test("⑦ una correzione fatta solo nel grezzo dopo la lettura non entra in casa
     assert.equal(quarto._codice, 0, `con la correzione anche in casa il digest deve tornare a 0: ${quarto._errori}`);
     assert.doesNotMatch(quarto._errori, /corrette nel grezzo/);
     assert.equal(quarto.problemi.find((p) => chiaveProblema(p) === chiaveProblema(cop)).descrizione, coperta);
+
+    // Un'area rinominata nel CODICE cambia il campo `reparto` di ogni voce letta: non è una correzione del
+    // grezzo, e l'avviso non deve accusarla (sarebbe un allarme che suona a ogni manutenzione).
+    copia.ritocca("cervello/referti-sito.mjs", 'microcopy: "Microcopy",', 'microcopy: "Testi brevi",');
+    const quinto = copia.lancia();
+    assert.equal(quinto._codice, 0, `un'area rinominata nel codice ha fatto suonare l'avviso: ${quinto._errori}`);
   } finally {
     copia.smonta();
   }

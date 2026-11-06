@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-11-06 08:48",
+ "aggiornato": "2026-11-06 08:56",
  "mutanti": [
   {
    "lotto": 30,
@@ -10962,7 +10962,7 @@
    "difetto": "AR-1158",
    "nome": "il digest torna muto su quello che il referto nuovo dice di diverso: una gravita cambiata da una radiografia nuova sparisce senza una riga",
    "file": "cervello/referti-sito.mjs",
-   "cerca": "      else if (nuova && campo !== \"stato\" && !(campo in CAMPI_CHE_IL_REFERTO_NUOVO_AGGIORNA) && !uguali(voce[campo], valore)) ignorati += 1;\n",
+   "cerca": "      else if (nuova && daNotare(campo) && !uguali(voce[campo], valore)) ignorati += 1;\n",
    "sostituisci": "",
    "test": "cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs"
   },
@@ -11000,6 +11000,15 @@
    "nome": "l avviso non si spegne piu nemmeno quando la correzione e entrata anche in casa: un allarme che suona sempre insegna a ignorarlo",
    "cerca": "      if (manca(c[k]) || uguali(c[k], n[k])) continue;",
    "sostituisci": "      if (manca(c[k])) continue;",
+   "test": "cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1158",
+   "nome": "l avviso delle correzioni torna a guardare anche i campi che scrive il codice: un area rinominata accusa tutte le sue voci di essere state corrette nel grezzo",
+   "file": "cervello/referti-sito.mjs",
+   "cerca": "      if (CAMPI_DELLA_PORTA.has(k) || !vecchie.has(k) || vecchie.get(k) === improntaCampo(n[k])) continue;",
+   "sostituisci": "      if (!vecchie.has(k) || vecchie.get(k) === improntaCampo(n[k])) continue;",
    "test": "cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs"
   }
  ],

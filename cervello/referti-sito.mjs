@@ -346,6 +346,15 @@ const manca = (v) => v === undefined || v === null;
 const uguali = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 
 /**
+ * I campi che la porta (`problemiDaRaw`) scrive dal CODICE, non da quello che dice il referto: lo stato di
+ * partenza, il nome leggibile dell'area, l'id della famiglia. Un loro cambio fra due letture e' un cambio del
+ * codice (un'area rinominata in REPARTI_DESIGN), non una correzione del grezzo ne' un giudizio della radiografia:
+ * non si contano fra gli `ignorati` e non fanno suonare l'avviso delle correzioni. In casa vince la casa anche qui.
+ */
+const CAMPI_DELLA_PORTA = new Set(["stato", "reparto", "fonte"]);
+const daNotare = (campo) => !CAMPI_DELLA_PORTA.has(campo) && !Object.hasOwn(CAMPI_CHE_IL_REFERTO_NUOVO_AGGIORNA, campo);
+
+/**
  * Fonde i problemi appena letti dai referti con quelli GIA' in casa.
  *
  * LA REGOLA: per una voce gia' in casa, **vince la casa, campo per campo**. Dal grezzo si prendono solo i campi
@@ -389,7 +398,7 @@ export function fondiConLaCasa(nuovi, vecchi, { refertiNuovi = [] } = {}) {
     const nuova = famiglieNuove.has(n.fonte);
     for (const [campo, valore] of Object.entries(n)) {
       if (manca(voce[campo])) voce[campo] = valore;
-      else if (nuova && campo !== "stato" && !(campo in CAMPI_CHE_IL_REFERTO_NUOVO_AGGIORNA) && !uguali(voce[campo], valore)) ignorati += 1;
+      else if (nuova && daNotare(campo) && !uguali(voce[campo], valore)) ignorati += 1;
     }
     if (nuova) {
       for (const [campo, storia] of Object.entries(CAMPI_CHE_IL_REFERTO_NUOVO_AGGIORNA)) {
@@ -491,8 +500,8 @@ export function correzioniDelGrezzo(problemi, vecchi, impronteLette) {
     const daSalvare = mappaDi(impronte[kc]);
     const campi = [];
     for (const k of Object.keys(n)) {
-      // Un campo che allora non c'era, o che non e' cambiato: non e' una correzione del grezzo.
-      if (!vecchie.has(k) || vecchie.get(k) === improntaCampo(n[k])) continue;
+      // Un campo che scrive il codice, che allora non c'era, o che non e' cambiato: non e' una correzione del grezzo.
+      if (CAMPI_DELLA_PORTA.has(k) || !vecchie.has(k) || vecchie.get(k) === improntaCampo(n[k])) continue;
       // La casa non l'ha (la fusione lo prende adesso), o dice gia' la stessa cosa: la correzione e' dentro.
       if (manca(c[k]) || uguali(c[k], n[k])) continue;
       campi.push(k);
