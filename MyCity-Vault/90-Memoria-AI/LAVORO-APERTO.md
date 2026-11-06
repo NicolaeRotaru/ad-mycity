@@ -30,6 +30,10 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 
 ## 1 · Cose che toccano a te
 
+**Dodici controlli prima di aprire, fuori dal codice** (6/11 alle 02:10). Pannelli dei fornitori, posta, banco del fornaio: quasi tutti tuoi, quasi tutti sotto la mezz'ora. Il più urgente è spegnere su GitHub i token vecchi (dettagli dati in chat, non nel repository pubblico). Poi la posta di Supabase per le iscrizioni, i conti Stripe verificati, il fattorino approvato, la posta che non finisce nello spam. Elenco: `consegne/ad/2026-11-06-controlli-prima-dell-apertura.md`.
+
+**Il prompt della radiografia in 12 sessioni è pronto da incollare** (6/11). Quattro parti corte, una per fase: `consegne/audit/PROMPT-radiografia-12-sessioni-PARTI.md`. La prima porta le tue decisioni D0 e da D7 a D10, compresa la palestra.
+
 **L'analisi «pronto prima possibile» è fatta** (5/11 alle 14:27). Dei 74 difetti seri del sito, 32 vanno riparati nel codice prima di aprire: due ondate. Altri 11 non sono codice e toccano a te, in una seduta di un'ora: chiavi di Vercel, aggiornamenti del database, falla del 31/10, indirizzo. Letto dal vivo verso le 14:25: su Vercel mancano ancora le chiavi del database, della posta e di Stripe; il database è fermo al 163. La data del 15/11 dipende anche da Stripe e dalla partita IVA, che da qui non vedo. Mi servono tre risposte: partita IVA, conti Stripe, «fatto» sul rimborso. Documento: `consegne/ad/2026-11-05-pronto-prima-possibile.md`.
 
 **La parola «quadro» aspetta la tua firma** (4/11 alle 21:10). Con una parola sola ti mostro organi, difetti della macchina casa per casa, sito, ritmo e bloccanti. È nella richiesta di unione #921. Il quadro del 4/11 dice questo: sulla macchina restano 238 difetti aperti, e 10 su 238 sono bloccanti. Sul sito ne restano 996, e 39 su 996 sono seri. Il server è fermo dal 25/9.
