@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "quando": "2026-11-01 11:57",
+  "quando": "2026-11-07 09:59",
   "fonti_dovute": 18,
   "fonti_totali": 18,
   "agenda": [
@@ -130,7 +130,7 @@
       "url": "https://www.comune.piacenza.it/it/page/imprese-e-commercio-139",
       "url_websearch": "https://www.google.com/search?q=comune+piacenza+bandi+imprese+commercio+2026",
       "skip_check": true,
-      "motivo": "settimanale_stale_61g"
+      "motivo": "settimanale_stale_67g"
     },
     {
       "id": "unionecommercianti-bandi",
@@ -226,7 +226,7 @@
       "url": "https://www.vitaincentroapiacenza.com/category/news/",
       "url_websearch": null,
       "skip_check": false,
-      "motivo": "settimanale_stale_61g"
+      "motivo": "settimanale_stale_67g"
     },
     {
       "id": "unionecommercianti",
@@ -242,7 +242,7 @@
       "url": "https://www.unionecommerciantipc.it/",
       "url_websearch": null,
       "skip_check": false,
-      "motivo": "settimanale_stale_61g"
+      "motivo": "settimanale_stale_67g"
     },
     {
       "id": "cortilia",
@@ -290,7 +290,7 @@
       "url": "https://www.google.com/search?q=MyCity+Piacenza",
       "url_websearch": null,
       "skip_check": false,
-      "motivo": "settimanale_stale_61g"
+      "motivo": "settimanale_stale_67g"
     }
   ],
   "stale": [
@@ -316,13 +316,13 @@
       "file": "leve-uscita",
       "path": "leve-uscita.md",
       "ultimo": "2026-09-01",
-      "giorni": 61
+      "giorni": 67
     },
     {
       "file": "reputazione",
       "path": "reputazione.md",
       "ultimo": "2026-09-01",
-      "giorni": 61
+      "giorni": 67
     }
   ],
   "prossimo_passo": "Esegui monitora.md sulle fonti in agenda (WebSearch se 403)"

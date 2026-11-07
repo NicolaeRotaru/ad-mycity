@@ -55,7 +55,7 @@ test("il perimetro: riservata, domanda, senza percorso e lavorabile sono quattro
 // ── dividi ───────────────────────────────────────────────────────────────────────────────────────────
 const voce = (chiave, gravita, file, dimensione = "pagamenti") => ({ chiave, gravita, file, dimensione, titolo: chiave });
 
-test("dividi: nella stessa onda un file ha un padrone solo; chi si scontra con due sessioni passa all'onda dopo", () => {
+test("AR-1163 · dividi: nella stessa onda un file ha un padrone solo; chi si scontra con due sessioni passa all'onda dopo", () => {
   const r = assegnaOnda([
     voce("a", "grave", ["lib/a.ts"], "x"),
     voce("b", "grave", ["lib/b.ts"], "y"),
@@ -123,7 +123,7 @@ test("guardia: i percorsi ammessi passano", () => {
   }
 });
 
-test("guardia: i percorsi vietati si fermano, ognuno col suo perché", () => {
+test("AR-1163 · guardia: i percorsi vietati si fermano, ognuno col suo perché", () => {
   const ctx = ctxBase();
   const casi = {
     "lib/altrui.ts": /altra sessione o di nessuno/,
@@ -168,7 +168,7 @@ test("referto: un referto finito e onesto è verde", () => {
   assert.deepEqual(rossi, []);
 });
 
-test("referto: riparato senza la prova rimessa che regge è rosso", () => {
+test("AR-1163 · referto: riparato senza la prova rimessa che regge è rosso", () => {
   const { rossi } = regoleReferto(referto([riparata({ rimessa: { esito: "non_decide", uscita: 3, comando: "x" } }), nonFatta]), ctxReferto);
   assert.match(rossi.join("\n"), /prova rimessa che regge/);
 });
@@ -229,7 +229,7 @@ test("collaudo: cinque minori su dieci guardati che reggono, campione accettato 
   assert.equal(campioni.R03.accettato, true);
 });
 
-test("collaudo: il campione dichiarato accettato sotto il 90% è rosso", () => {
+test("AR-1163 · collaudo: il campione dichiarato accettato sotto il 90% è rosso", () => {
   const voci = schedaMinori.map((v, i) => voceCollaudo(v, i < 5 ? { giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"], verdetto: i === 0 ? "non_regge" : "regge" } : {}));
   const { rossi } = regoleCollaudo(collaudo(voci, { campione: { R03: { accettato: true } } }), ctxCollaudo);
   assert.match(rossi.join("\n"), /dichiarato accettato ma non lo è/);
@@ -301,7 +301,7 @@ function cartellaCampagna(base) {
 }
 const lancia = (...args) => spawnSync(process.execPath, [PROGRAMMA, ...args], { encoding: "utf8" });
 
-test("guardia-ramo: un file altrui toccato e poi rimesso resta nella STORIA, e la guardia lo vede", () => {
+test("AR-1163 · guardia-ramo: un file altrui toccato e poi rimesso resta nella STORIA, e la guardia lo vede", () => {
   const { dir, g, scrivi, base } = depositoFinto();
   const c = cartellaCampagna(base);
   try {
@@ -344,7 +344,7 @@ test("guardia-ramo: un commit di codice senza l'id della voce è rosso", () => {
   } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
 });
 
-test("prova-unione: due rami sullo stesso file sono rossi, e l'unione che litiga lo dice; rami disgiunti verdi", () => {
+test("AR-1163 · prova-unione: due rami sullo stesso file sono rossi, e l'unione che litiga lo dice; rami disgiunti verdi", () => {
   const { dir, g, scrivi, base } = depositoFinto();
   const c = cartellaCampagna(base);
   try {
@@ -390,7 +390,7 @@ test("un comando senza niente da esaminare non è mai un verde muto", () => {
 });
 
 // ── i buchi trovati dal collaudo del 7/11 (lente A), uno per uno ─────────────────────────────────────
-test("collaudo A #1: il «regge» di un collaudatore che non guarda quel riparatore non chiude niente; fra due vince il più severo", () => {
+test("AR-1163 · collaudo A #1: il «regge» di un collaudatore che non guarda quel riparatore non chiude niente; fra due vince il più severo", () => {
   const piano = { onde: [{ sessioni: { R01: { voci: [{ id: "R01-001", chiave: "g|1", gravita: "grave", file: ["lib/g.ts"] }] } } }] };
   const referti = { R01: { voci: [{ id: "R01-001", chiave: "g|1", esito: "riparato", prova_comando: "x", rimessa: { uscita: 0, comando: "x" } }] } };
   const giusto = { collaudatore: "K01", riparatori: ["R01"], voci: [{ id: "R01-001", chiave: "g|1", verdetto: "non_regge", giudizio: "pieno", rimessa: { uscita: 0, comando: "x" } }] };
@@ -485,7 +485,7 @@ test("collaudo A #10 e #11: rami senza file toccati non sono un verde; il nome d
   } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
 });
 
-test("collaudo A #2: applica rilancia i controlli su referti e collaudi, e un referto non finito ferma tutto senza scrivere", () => {
+test("AR-1163 · collaudo A #2: applica rilancia i controlli su referti e collaudi, e un referto non finito ferma tutto senza scrivere", () => {
   const c = mkdtempSync(join(tmpdir(), "riparazione-applica-"));
   try {
     const voci = [{ id: "R01-001", chiave: "pagamenti|il payout salta", gravita: "grave", file: ["lib/a.ts"] }];

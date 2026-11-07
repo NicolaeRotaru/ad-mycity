@@ -47,7 +47,7 @@
 // 🟢 Legge e scrive solo nella cartella della campagna. `applica --scrivi` scrive nei registri (🟡): lo
 // lancia la regista, una volta, a fine campagna.
 
-import { existsSync, mkdirSync, readFileSync, readdirSync, realpathSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, realpathSync } from "node:fs";
 import { basename, dirname, join, posix, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
@@ -56,7 +56,7 @@ import { fileURLToPath } from "node:url";
 import { gitEsegui } from "./git-github.mjs";
 import { chiaveProblema, REPARTI_MARKETPLACE } from "./referti-sito.mjs";
 import { timbroOra } from "./ora-piacenza.mjs";
-import { scriviJsonAtomico } from "./scrivi-json.mjs";
+import { scriviJsonAtomico, scriviTestoAtomico } from "./scrivi-json.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const veroPercorso = (p) => { try { return realpathSync(p); } catch { return resolve(p); } };
@@ -150,7 +150,12 @@ function gitOk(dir, args, env = {}) {
 }
 const vuoto = (v) => v === undefined || v === null || (typeof v === "string" && v.trim() === "") || (Array.isArray(v) && v.length === 0);
 const leggiJson = (p) => JSON.parse(readFileSync(p, "utf8"));
-const scriviJson = (p, dati) => { mkdirSync(dirname(p), { recursive: true }); writeFileSync(p, JSON.stringify(dati, null, 2) + "\n", "utf8"); };
+// Ogni file passa dalla porta di scrittura della casa: fuori dalla memoria scrive dov'era, dentro rispetta la
+// sola lettura e la sabbiera (misura-che-non-sporca, AR-639). Una scrittura fermata non è un verde muto: si dice.
+function scriviTesto(p, testo) {
+  if (scriviTestoAtomico(p, testo) === null) throw new Error(`la scrittura di ${p} è stata fermata dal freno della memoria (sola lettura)`);
+}
+const scriviJson = (p, dati) => scriviTesto(p, JSON.stringify(dati, null, 2) + "\n");
 const tre = (n) => String(n).padStart(3, "0");
 const due = (n) => String(n).padStart(2, "0");
 export const nomeSessione = (n) => `R${due(n)}`;
@@ -598,7 +603,7 @@ function schede(opz) {
   const relCartella = cartella.startsWith(opz.radice + "/") ? cartella.slice(opz.radice.length + 1) : basename(cartella);
   let reg;
   try { reg = leggiRegistro(per.casa, opz); } catch (e) { return cieco("schede", e.message, opz); }
-  writeFileSync(join(cartella, "registro-compatto.txt"), reg.elenco.map((d) => rigaCompatta(per.casa, d)).join("\n") + "\n", "utf8");
+  scriviTesto(join(cartella, "registro-compatto.txt"), reg.elenco.map((d) => rigaCompatta(per.casa, d)).join("\n") + "\n");
   mkdirSync(join(cartella, "schede"), { recursive: true });
   const ramoRegista = opz.ramo ?? "<ramo>";
   for (const [nome, s] of Object.entries(o.sessioni)) {
@@ -606,7 +611,7 @@ function schede(opz) {
       nome, onda, casa: per.casa, deposito: per.deposito, base: o.base,
       ramo: `${ramoRegista}-m${due(numeroSessione(nome))}`, regista: opz.regista ?? "<regista>", cartella: relCartella, sessione: s,
     });
-    writeFileSync(join(cartella, "schede", `${nome}.md`), testo, "utf8");
+    scriviTesto(join(cartella, "schede", `${nome}.md`), testo);
   }
   console.log(`📝 onda ${onda}: ${Object.keys(o.sessioni).length} schede e il registro compatto (${reg.elenco.length} righe)`);
   return chiudi("schede", [], [], opz);

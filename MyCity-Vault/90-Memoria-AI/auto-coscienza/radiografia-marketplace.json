@@ -65133,22 +65133,22 @@
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-11-05 23:47",
+    "aggiornato": "2026-11-07 09:55",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 534,
-    "findings_chiusi": 2190,
-    "findings_tot": 2724,
+    "findings_aperti": 688,
+    "findings_chiusi": 2211,
+    "findings_tot": 2899,
     "aperti_per_severita": {
       "bloccante": 5,
-      "grave": 69,
-      "minore": 460,
+      "grave": 75,
+      "minore": 608,
       "altre": 0
     },
-    "dichiarati_dal_referto": 2724,
+    "dichiarati_dal_referto": 2899,
     "divergenza_dal_dichiarato": 0,
-    "data_scan": "2026-11-05",
+    "data_scan": "2026-11-06",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."
   }
 }
