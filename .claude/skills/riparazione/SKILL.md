@@ -1,21 +1,25 @@
 ---
 name: riparazione
 description: >-
-  La riparazione in sessioni parallele, costruita sullo stampo della radiografia in 12 sessioni: una
-  regista che divide, sorveglia e unisce, fino a 12 sessioni che riparano e fino a 4 che collaudano, con
-  i controlli fatti da un programma. Vale per il marketplace e per la macchina, e cambia misura secondo la
-  richiesta. Aprila ogni volta che Nicola — in qualunque forma, anche detta male o a voce — chiede di
-  riparare, risolvere, sistemare o chiudere i difetti del sito o del marketplace; di riparare «in N
-  sessioni» o «in parallelo»; di chiudere «tutti i difetti» del sito o della macchina; di riparare
-  «subito» o «prima possibile» quello che tiene spento il sito o la macchina; di sistemare i difetti
-  nati da una funzione nuova, da un ramo o da una PR; di fare una campagna di riparazione; oppure quando
-  il cantiere della macchina passa di mano una richiesta da più di 15 voci. NON è la frase generica
-  «risolvi i difetti» né un codice AR (quelli aprono `cantiere`, che smista qui se serve), non è la
-  radiografia (quella TROVA i difetti), non è il collaudo di un pezzo solo, e non è la diagnosi di un
-  guasto in corso (il sito è giù, il worker è fermo: prima `salute` e `worker`).
+  Aprila PRIMA di leggere il manuale, di contare i difetti o di aprire un registro: è il manuale della
+  regista per RIPARARE i difetti in sessioni parallele, sullo stampo della radiografia in 12 sessioni —
+  una regista che divide, sorveglia e unisce, fino a 12 sessioni che riparano e fino a 4 che collaudano,
+  con i controlli fatti da un programma. Vale per il marketplace e per la macchina, e cambia misura
+  secondo la richiesta. Vale ogni volta che Nicola — in qualunque forma, anche detta male o a voce —
+  chiede di riparare, risolvere, sistemare o chiudere i difetti del sito o del marketplace; di riparare
+  «in N sessioni», «in parallelo» o con una campagna; di chiudere «tutti i difetti» del sito o della
+  macchina; di riparare «subito» o «prima possibile» quello che tiene spento il sito o la macchina; di
+  sistemare i difetti nati da una funzione nuova, da un ramo o da una PR. NON è la frase generica
+  «risolvi i difetti», né un codice AR, né un lotto della macchina (quelli aprono `cantiere`, che smista
+  qui il sito, le sessioni parallele e più di 60 voci), non è la radiografia (quella TROVA i difetti),
+  non è il collaudo di un pezzo solo, e non è la diagnosi di un guasto in corso (il sito è giù, il
+  worker è fermo: prima `salute` e `worker`).
 ---
 
 # La riparazione in sessioni — il manuale della regista
+
+> Se sei l'AD e in questa sessione non hai ancora letto `cervello/MANUALE-AD.md`, leggilo adesso: questa
+> skill non lo sostituisce, lo usa.
 
 > Nata il 7/11/2026 da Nicola: *«crea una strategia per risolvere i difetti usando come esempio la
 > strategia per fare la radiografia, perché funziona molto bene questo metodo»*. E poi: *«deve essere
@@ -54,7 +58,7 @@ Dalla frase si ricavano tre cose. Se una manca e non si deduce, si fa **una** do
 | Profilo | Frasi tipo | Perimetro (`perimetro`) | Sessioni | Onde · fermate |
 |---|---|---|---|---|
 | urgente | «ripara subito», «prima possibile quello che tiene spento X» | `--profilo urgente` (i bloccanti) o `--chiavi`/`--file-chiavi` | 1-3 riparatori + 1 collaudatore | 1 onda · 1 fermata (piano in 5 righe) · PR di emergenza da sola |
-| funzione | «i difetti della funzione X», «del PR N», «nati dal…» | `--profilo funzione --diff <base>..<testa>` oppure `--nati-dal AAAA-MM-GG` | in base al numero | 1 onda · 1 fermata |
+| funzione | «i difetti della funzione X», «del PR N», «nati dal…» | `--profilo funzione --diff <base>..<testa>`, e per i difetti NATI dalla funzione anche `--nati-dal <giorno dell'unione>` (il solo diff prende anche i difetti vecchi di quei file: sulla PR #287 erano 544) | in base al numero | 1 onda · 1 fermata |
 | tutto | «ripara i difetti del sito / della macchina» | `--profilo tutto` | fino a 12 riparatori, ceil(K/3) collaudatori (max 4) | 2 onde + cucitura · 2 fermate |
 | scelta | chiavi, codici AR, area, gravità | `--profilo scelta` con i filtri | in base al numero | in base al numero |
 
@@ -125,7 +129,8 @@ Una catena sola di `send_later` (mai `sleep`, mai due catene). A ogni giro, per 
 - `get_session` (stato, modello) e `git fetch` del deposito bersaglio;
 - `guardia-ramo <ramo> RNN --cartella <C> --git <deposito>`: la **storia** del ramo, commit per commit;
 - `valida-referto <referto> --cartella <C> --git <deposito> --ramo <ramo>` sul referto parziale
-  (`git show origin/<ramo>:.riparazione/referto-RNN.json > /tmp/…`);
+  (`git show origin/<ramo>:.riparazione/referto-RNN.json > /tmp/referto-RNN.json`: il nome del file deve
+  essere quello della sessione);
 - `prova-unione --cartella <C> --git <deposito> --onda N`: ogni file toccato da due rami è rosso, e
   l'unione di prova dice dove litiga, senza toccare l'albero di lavoro;
 - una riga in `<C>/diario-della-sorveglianza.txt`.
@@ -142,10 +147,12 @@ collaudatore libero (fino a 3 riparatori ciascuno; i collaudatori sono ceil(K/3)
   `prova-rimessa.mjs` è una copia fissata, non quella che un riparatore può aver toccato),
   `outcome_branch` = `<ramo della regista>-kNN`;
 - il prompt, una riga: *«Sei il collaudatore KNN. Leggi cervello/riparazione/LEGGIMI-collaudo.md e collauda
-  i riparatori R…, R… della cartella <C>. La loro testa è nei loro referti.»*;
+  i riparatori R… (ramo …, testa …) e R… (ramo …, testa …) della cartella <C>. BASE è ….»*: rami e teste li
+  prende dai referti finiti;
 - la guardia sul suo ramo: `guardia-ramo <ramo> KNN --cartella <C>` (solo il file `collaudi/KNN.json`);
-- il referto: `valida-collaudo <C>/collaudi/KNN.json --cartella <C>`. La regola del campione la
-  **ricalcola il programma**: la parola «accettato» del collaudatore non conta.
+- il referto: `valida-collaudo <C>/collaudi/KNN.json --cartella <C> --git <deposito bersaglio>` (i referti dei
+  riparatori li legge dai rami scritti in `sessioni.json`; il collaudatore usa `--referti <cartella sua>`). La
+  regola del campione la **ricalcola il programma**: la parola «accettato» del collaudatore non conta.
 
 Le voci bocciate tornano allo **stesso** riparatore per **un** giro di correzione, poi allo stesso
 collaudatore. Se cadono di nuovo, restano aperte con la nota. Il terzo giro sulla stessa voce non esiste
