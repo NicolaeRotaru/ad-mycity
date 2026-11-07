@@ -77,11 +77,13 @@ Riparti quando la regista risponde «approvato», o correggi come ti dice.
    controllata con l'orologio vero è diventata rossa da sola, il 5/11.
 8. **La prova rimessa**, su ogni `riparato`, dopo il commit della voce (C):
    `timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base C^ --file <i file corretti> --prove <i file di prova> --json`
-   (sulla macchina: `node cervello/prova-rimessa.mjs … --comando "node --test {prove}"`). L'albero deve essere
-   pulito, a parte `node_modules`. Uscita 0 = regge. 1 = la prova non torna rossa togliendo la correzione: non
+   (sulla macchina: `node cervello/prova-rimessa.mjs … --comando "node --test {prove}"`). Più file vanno separati
+   da una **virgola**, senza spazi: `--file lib/a.ts,lib/b.ts`. L'albero deve essere **pulito**, a parte
+   `node_modules`: per questo il referto non si tiene dentro l'albero mentre lavori (vedi «I commit»). Uscita 0 = regge. 1 = la prova non torna rossa togliendo la correzione: non
    è una riparazione. 3 = la prova è rossa per la struttura (un nome che manca), non per il comportamento:
    rimetti il difetto com'è scritto nella voce e guarda. 2 o 4 = condizione sbagliata: sistemala e riprova.
-9. Scrivi la voce nel referto **appena finita**, non alla fine.
+9. Scrivi la voce nel referto **appena finita**, non alla fine: nel file di lavoro `../referto-RNN.json`, fuori
+   dall'albero.
 
 ### I tuoi file
 
@@ -106,8 +108,9 @@ Riparti quando la regista risponde «approvato», o correggi come ti dice.
   Così ogni voce si prova da sola e, se rompe qualcosa, si toglie da sola. Due voci che vivono nella stessa
   riga vanno insieme solo dichiarandolo: `insieme_a` su tutte e due.
 - I commit che non sono di una voce (formattazione, lint) portano `RNN-varie`.
-- Il referto si salva in `.riparazione/referto-RNN.json`, nel tuo ramo, ogni 10 voci o ogni ora, quello che
-  arriva prima, con `"finita": false`.
+- **Il referto.** Mentre lavori lo tieni in `../referto-RNN.json`, **fuori** dall'albero: la prova rimessa vuole
+  l'albero pulito. Ogni 10 voci o ogni ora, quello che arriva prima, lo copi in `.riparazione/referto-RNN.json`,
+  fai un commit con **solo** il referto (il messaggio è libero) e spingi, con `"finita": false`.
 
 ### Il controllo prima di dire «finito»
 
@@ -116,11 +119,14 @@ Riparti quando la regista risponde «approvato», o correggi come ti dice.
    rompe qualcosa accanto. Nel dubbio la voce torna `parziale` o `non_fatto`. Scrivi chi l'ha guardata in
    `verificato_da`.
 2. **Sito:** `npm run verify` verde. **Macchina:** `node cervello/cancello-lotto.mjs` verde.
-3. Il controllo del programma sul tuo referto, dalla copia di `ad-mycity`:
+3. Nel referto metti `"finita": true` e `testa` = il tuo **ultimo commit di codice** (quello dopo il quale ci sono
+   solo commit del referto). Copialo in `.riparazione/`, fai il commit del solo referto, spingi.
+4. Il controllo del programma sul tuo referto, dalla copia di `ad-mycity`:
    `node ../ad-mycity/cervello/riparazione-sessioni.mjs valida-referto .riparazione/referto-RNN.json --cartella ../ad-mycity/<cartella> --git . --ramo HEAD`
-   (sulla macchina, senza `../ad-mycity/`). Deve essere verde.
-4. `"finita": true`, `testa` = l'ultimo commit, spingi, e manda alla regista con `send_message` una riga
-   per esito («31 riparati, 4 parziali, 2 serve_file_altrui, 1 scelta di Nicola»).
+   (sulla macchina, senza `../ad-mycity/`). Deve essere **verde** (uscita 0). Finché il referto non è finito il
+   controllo esce ⚪ «in attesa» (uscita 3): è normale, ma non basta per dire «finito».
+5. Manda alla regista con `send_message` una riga per esito («31 riparati, 4 parziali, 2 serve_file_altrui,
+   1 scelta di Nicola»).
 
 ### Il referto `.riparazione/referto-RNN.json`
 

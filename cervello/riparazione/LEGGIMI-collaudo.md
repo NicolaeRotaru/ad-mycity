@@ -39,8 +39,10 @@ campagna (`<cartella>`). Sei nel deposito `ad-mycity` al commit della regista: �
 `cervello/prova-rimessa.mjs`, che nessun riparatore ha potuto toccare. **Non hai mai riparato niente di
 quello che guardi**, e non lo ripari adesso: tu giudichi.
 
-- I referti dei riparatori: `<cartella>/referti/RNN.json` se la regista li ha già copiati, altrimenti
-  `git show origin/<ramo del riparatore>:.riparazione/referto-RNN.json` nella copia del deposito bersaglio.
+- I referti dei riparatori te li copi in una cartella tua, fermati sulla testa che ti ha dato la regista:
+  `mkdir -p ../referti && git -C ../marketplace show <testa del riparatore>:.riparazione/referto-RNN.json > ../referti/RNN.json`
+  (macchina: `git show <testa>:.riparazione/referto-RNN.json > ../referti/RNN.json`). Il programma li legge con
+  `--referti ../referti`.
 - **Sito:** cloni il sito accanto e lo fermi sui due commit che servono, mai sul nome di un ramo:
   `git clone --filter=blob:none https://github.com/NicolaeRotaru/mycity ../marketplace && git -C ../marketplace fetch origin <BASE> <testa del riparatore>`,
   poi una volta `cd ../marketplace && npm ci`.
@@ -56,6 +58,7 @@ Per ogni voce `riparato` o `parziale` del referto, con C = il suo commit:
 
 1. `git -C ../wt-RNN checkout --quiet --detach C` (l'albero deve essere pulito, a parte `node_modules`);
 2. `timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-RNN --base C^ --file <i file della voce> --prove <le sue prove> --json`
+   (più file separati da una virgola, senza spazi)
    (macchina: aggiungi `--comando "node --test {prove}"`; voci SQL: `tests/sql/harness/apply.sh` e `run.sh`
    su un Postgres locale);
 3. l'uscita va nel collaudo, col comando esatto:
@@ -82,7 +85,7 @@ Chi ha un giudizio pieno:
   30% degli altri (minimo 5; tutti se sono 5 o meno). I minori a gruppi di 6 al massimo per subagente.
 
 Quanti ne mancano te lo dice il programma: lancia
-`node cervello/riparazione-sessioni.mjs valida-collaudo <cartella>/collaudi/KNN.json --cartella <cartella> --json`
+`node cervello/riparazione-sessioni.mjs valida-collaudo <cartella>/collaudi/KNN.json --cartella <cartella> --referti ../referti --json`
 sulla tua bozza. Nella riga `campioni` trovi per ogni riparatore quanti ne servono, quanti ne hai guardati e quali
 minori sui file che legano non hai ancora guardato (`hub_mancanti`). **La regola del campione la ricalcola il
 programma**: la tua parola «accettato» non conta, e se scrivi accettato quando non lo è il controllo è rosso.
@@ -117,7 +120,7 @@ I verdetti: `regge | parziale | non_regge | rompe_altro`. Ogni voce `riparato`, 
 
 ### Prima di dire «finito»
 
-1. `valida-collaudo` verde sulla versione finale.
+1. `valida-collaudo … --referti ../referti` verde (uscita 0) sulla versione finale, con `"finita": true`.
 2. `"finita": true`, spingi, e manda alla regista con `send_message` una riga per riparatore («R01: 28
    reggono, 3 non reggono, campione accettato»), più le voci `rompe_altro` con il perché.
 3. Spegni quello che hai acceso (un server di prova, un Postgres) e togli le copie di lavoro

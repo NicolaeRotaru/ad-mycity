@@ -47,7 +47,7 @@
 // 🟢 Legge e scrive solo nella cartella della campagna. `applica --scrivi` scrive nei registri (🟡): lo
 // lancia la regista, una volta, a fine campagna.
 
-import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, realpathSync, writeFileSync } from "node:fs";
 import { basename, dirname, join, posix, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 // L'unico esecutore di git della casa: il tetto di maxBuffer sta lì, una volta sola. Il 6/11 la CI della
@@ -75,6 +75,7 @@ export const QUOTA_CAMPIONE = 0.3;
 export const MINIMO_CAMPIONE = 5;
 export const SOGLIA_HUB = 3; // un file citato da almeno tre voci del perimetro è un file che lega
 export const FASCIA_MIGRAZIONI = 10;
+export const TETTO_RIGHE = 40;
 export const PRIVATO = "(nel referto privato)";
 export const REFERTO_DIR = ".riparazione";
 // I file della macchina che nessuna sessione tocca mai: i registri condivisi li scrive solo la regista
@@ -91,10 +92,13 @@ export const CONDIVISI_MACCHINA = Object.freeze([
   "CLAUDE.md",
   ".claude/settings.json",
 ]);
+export const CAMPI_RISERVATA = Object.freeze(["riservato", "titolo", "file", "severita", "dimensione"]);
+export const TITOLO_RISERVATO = /^Falla di sicurezza da chiudere \(([A-Za-zÀ-ÿ' ]{1,40})\): i dettagli restano fuori dal deposito pubblico finché non è chiusa\.?$/;
 const PREFISSI_NON_DEPOSITO = /^(live|vercel|produzione|stripe|supabase|github|posthog|resend|dns):/i;
+const SHA = /^[0-9a-f]{7,40}$/;
 const SEGNAPOSTI = ["{{", "}}", "<sha>", "<ramo>", "<id>", "<regista>", "AAAA-MM-GG HH:MM", "<data>"];
 const TEMPORANEI = [
-  /(^|\/)\.(?!riparazione\/|github\/|gitignore$|eslintrc|prettierrc|editorconfig|nvmrc|env\.example$)[^/]+(\/|$)/,
+  /(^|\/)\.(?!riparazione\/|github\/workflows\/[^/]+\.ya?ml$|gitignore$|eslintrc|prettierrc|editorconfig|nvmrc|env\.example$)[^/]+(\/|$)/,
   /\.(tmp|bak|orig|rej|swp)$/i,
   /~$/,
   /(^|\/)(node_modules|coverage|\.next|dist|out)\//,
@@ -150,8 +154,11 @@ const numeroSessione = (s) => Number(String(s).slice(1));
 function chiudi(nome, rossi, attese, opz, extra = {}) {
   const esito = rossi.length ? "rosso" : attese.length ? "in attesa" : "verde";
   const segno = { rosso: "🔴", "in attesa": "⚪", verde: "✅" }[esito];
-  for (const r of rossi) console.log(`🔴 ${r}`);
-  for (const a of attese) console.log(`⚪ ${a}`);
+  // Il tetto di stampa: la sorveglianza legge le prime righe, il JSON le porta tutte.
+  for (const r of rossi.slice(0, TETTO_RIGHE)) console.log(`🔴 ${r}`);
+  if (rossi.length > TETTO_RIGHE) console.log(`🔴 … e altri ${rossi.length - TETTO_RIGHE} (tutti in --json)`);
+  for (const a of attese.slice(0, TETTO_RIGHE)) console.log(`⚪ ${a}`);
+  if (attese.length > TETTO_RIGHE) console.log(`⚪ … e altre ${attese.length - TETTO_RIGHE} attese`);
   console.log(`${segno} ${nome}: ${esito}${rossi.length ? ` (${rossi.length} problemi)` : ""}`);
   if (opz.json) console.log(JSON.stringify({ controllo: nome, esito, rossi, attese, ...extra }));
   return rossi.length ? 1 : attese.length ? 3 : 0;
@@ -269,15 +276,19 @@ export function fileDaCampoSito(campo) {
   }
   return { file: [...fuori], privato, scartati };
 }
-const RE_FILE_MACCHINA = /[\w./@[\]-]+\.(tsx?|jsx?|sql|json|css|mjs|js|sh|md|ya?ml|svg|bats)/g;
+// Le estensioni dalla più lunga, chiuse da un confine: con «jsx?» prima di «json» il collaudo del 7/11 ha visto
+// «cervello/mutanti.json» diventare «cervello/mutanti.js», e un registro condiviso finire a una sessione.
+const RE_FILE_MACCHINA = /[\w./@[\]-]+\.(?:tsx|ts|jsx|json|mjs|cjs|js|sql|css|sh|md|yaml|yml|svg|bats)(?![\w])/g;
 /** I percorsi citati da una scheda della macchina. PURA. I nomi nudi («page.tsx») non indirizzano: fuori. */
-export function fileDaSchedaMacchina(d, radice = "") {
+export function fileDaSchedaMacchina(d, radice = "", radiceNoti = null) {
   const testo = [d?.dove, d?.causa_radice, d?.fix_proposto, d?.verifica?.comando, d?.verifica?.file]
     .filter(Boolean).join(" ").slice(0, 20_000);
   const fuori = new Set();
   for (const f of testo.match(RE_FILE_MACCHINA) || []) {
     const n = f.replace(radice ? radice.replace(/\/?$/, "/") : "\u0000", "").replace(/^\.?\//, "");
-    if (!n.includes("/")) continue;
+    // Un nome nudo («page.tsx») indirizza a decine di file, quindi non vale; ma un file che esiste nella RADICE
+    // alla base sì: senza, CLAUDE.md e COMANDI.md (file condivisi) finivano ai riparatori (collaudo B del 7/11).
+    if (!n.includes("/") && !(radiceNoti && radiceNoti.has(n))) continue;
     fuori.add(n);
   }
   return [...fuori];
@@ -285,8 +296,10 @@ export function fileDaSchedaMacchina(d, radice = "") {
 export const eProva = (p) => /(^|\/)(tests?|__tests__)\//.test(p) || /\.(test|spec)\.[cm]?[jt]sx?$/.test(p) || p.endsWith(".bats");
 export const eMigrazione = (p) => /^(supabase\/)?migrations\/\d+_[^/]+\.sql$/.test(p);
 export const numeroMigrazione = (p) => Number((p.match(/migrations\/(\d+)_/) || [])[1] ?? NaN);
+/** Una forma sola per un percorso: «./lib/a.ts», «marketplace/lib/a.ts» e «lib/x/../a.ts» sono lo stesso file. PURA. */
+export const normPerc = (p) => posix.normalize(String(p)).replace(/^(\.\/)+/, "").replace(/^marketplace\//, "");
 /** I file di una voce che decidono di chi è il lavoro: le migrazioni vecchie e le prove non decidono. PURA. */
-export const fileCheDecidono = (file) => file.filter((f) => !eMigrazione(f) && !eProva(f));
+export const fileCheDecidono = (file) => file.map(normPerc).filter((f) => !eMigrazione(f) && !eProva(f));
 
 // ── I registri ───────────────────────────────────────────────────────────────────────────────────
 function leggiRegistro(casa, opz) {
@@ -326,8 +339,11 @@ export function classifica(casa, elenco, { filtri = {}, fileDelDeposito = null, 
     if (!passaIFiltri(casa, d, filtri, chiave)) continue;
     nelFiltro++;
     if (sospesa) { fuori.sospese.push(chiave); continue; }
-    const estratti = casa === "macchina" ? { file: fileDaSchedaMacchina(d, radice), privato: false } : fileDaCampoSito(d.file);
-    const riservata = casa === "sito" && (estratti.privato || /^falla di sicurezza/i.test(String(d.titolo ?? "")));
+    const estratti = casa === "macchina" ? { file: fileDaSchedaMacchina(d, radice, fileDelDeposito), privato: false } : fileDaCampoSito(d.file);
+    // Riservata anche quando il rimando al referto privato sta in una riverifica o in una nota: 5 voci del 7/11
+    // toccavano una falla ancora aperta e sarebbero andate nel deposito pubblico come lavoro normale (collaudo B).
+    // Largo quando si chiude: nel dubbio, la voce resta fuori dal lavoro pubblico.
+    const riservata = casa === "sito" && (estratti.privato || /^falla di sicurezza/i.test(String(d.titolo ?? "")) || valori(d).some((v) => /referto privato/i.test(v)));
     if (riservata) { fuori.riservate.push(chiave); continue; }
     if (casa === "sito" && !vuoto(d.domanda_per_nicola) && !risposte.has(chiave)) { fuori.domande.push(chiave); continue; }
     if (casa === "macchina" && !vuoto(d.ripresa) && !filtri.ancheRimandati) { fuori.rimandati.push(chiave); continue; }
@@ -339,7 +355,7 @@ export function classifica(casa, elenco, { filtri = {}, fileDelDeposito = null, 
       file = file.filter((f) => fileDelDeposito.has(f));
     }
     if (file.length === 0) { fuori.senza_percorso.push(chiave); continue; }
-    lavorabili.push({ chiave, titolo: String(d.titolo ?? ""), gravita: gravitaDi(casa, d), dimensione: String(d.dimensione ?? "(senza dimensione)"), file });
+    lavorabili.push({ chiave, titolo: String(d.titolo ?? ""), gravita: gravitaDi(casa, d), dimensione: String(d.dimensione ?? "(senza dimensione)"), file: [...new Set(file.map(normPerc))] });
   }
   return { aperti, nel_filtro: nelFiltro, lavorabili, fuori, spariti };
 }
@@ -395,7 +411,7 @@ function perimetro(opz) {
   let reg;
   try { reg = leggiRegistro(casa, opz); } catch (e) { return cieco("perimetro", e.message, opz); }
   let fileDelDeposito = null;
-  const base = opz.base ?? (gitOk(repo, ["rev-parse", "HEAD"]) ?? "").trim();
+  const base = (gitOk(repo, ["rev-parse", "--verify", "--quiet", `${opz.base ?? "HEAD"}^{commit}`]) ?? "").trim();
   if (base) {
     const out = gitOk(repo, ["ls-tree", "-r", "--name-only", base]);
     if (out === null) return cieco("perimetro", `il commit ${base} non c'è in ${repo}`, opz);
@@ -447,7 +463,7 @@ export function assegnaOnda(voci, { sessioni: k, perSessione = PER_SESSIONE, pri
   const padrone = new Map();
   const rimandate = [], regia = [];
   for (const v of ordinate) {
-    if (v.file.some((f) => vietati.has(f))) { regia.push(v.chiave); continue; }
+    if (v.file.some((f) => vietati.has(normPerc(f)))) { regia.push(v.chiave); continue; }
     const decidono = fileCheDecidono(v.file);
     const loro = new Set(decidono.filter((f) => padrone.has(f)).map((f) => padrone.get(f)));
     let i;
@@ -465,7 +481,7 @@ export function assegnaOnda(voci, { sessioni: k, perSessione = PER_SESSIONE, pri
     }
     const s = sess[i];
     if (s.tema === null) s.tema = v.dimensione;
-    s.voci.push({ id: `${s.nome}-${tre(s.voci.length + 1)}`, chiave: v.chiave, gravita: v.gravita, titolo: v.titolo, file: v.file });
+    s.voci.push({ id: `${s.nome}-${tre(s.voci.length + 1)}`, chiave: v.chiave, gravita: v.gravita, titolo: v.titolo, file: [...new Set(v.file.map(normPerc))] });
     for (const f of decidono) { padrone.set(f, i); s.file.add(f); }
   }
   const usate = sess.filter((s) => s.voci.length > 0);
@@ -489,10 +505,11 @@ function dividi(opz) {
   const onda = Number(opz.onda ?? piano.onde.length + 1);
   if (!Number.isInteger(onda) || onda < 1 || onda > piano.onde.length + 1) return uso(`dividi --onda <1..${piano.onde.length + 1}>`);
   if (onda <= piano.onde.length) return chiudi("dividi", [`l'onda ${onda} è già divisa: le schede sono partite da lì, non si riscrive (le voci si trovano per id)`], [], opz);
-  const base = opz.base;
-  if (!base) return uso("dividi --base <sha>: all'onda 1 il commit di base, dall'onda 2 lo SHA del ramo di integrazione già unito");
+  if (!opz.base) return uso("dividi --base <sha>: all'onda 1 il commit di base, dall'onda 2 lo SHA del ramo di integrazione già unito");
   const repo = repoDi(casa, opz);
-  if (gitOk(repo, ["cat-file", "-e", `${base}^{commit}`]) === null) return cieco("dividi", `il commit ${base} non c'è in ${repo}`, opz);
+  // «--base HEAD» o un nome di ramo si risolvono subito nello SHA completo: una base che si sposta non è una base.
+  const base = (gitOk(repo, ["rev-parse", "--verify", "--quiet", `${opz.base}^{commit}`]) ?? "").trim();
+  if (!base) return cieco("dividi", `il commit ${opz.base} non c'è in ${repo}`, opz);
   const perChiave = new Map(per.lavorabili.map((v) => [v.chiave, v]));
   let candidate;
   if (onda === 1) candidate = per.lavorabili;
@@ -614,8 +631,8 @@ export function controllaOnda(o, { candidate, casa, maxMigrazione = null, vietat
   if (nomi.length > MAX_SESSIONI) rossi.push(`onda ${o.onda}: ${nomi.length} sessioni, oltre il tetto di ${MAX_SESSIONI}`);
   for (const [nome, s] of Object.entries(o.sessioni ?? {})) {
     if (!s.voci?.length) rossi.push(`${nome}: nessuna voce`);
-    const suoi = new Set(s.file ?? []);
-    for (const f of s.file ?? []) {
+    const suoi = new Set((s.file ?? []).map(normPerc));
+    for (const f of [...suoi]) {
       if (padrone.has(f)) rossi.push(`il file ${f} ha due padroni nella stessa onda: ${padrone.get(f)} e ${nome}`);
       else padrone.set(f, nome);
       if (vietati.has(f)) rossi.push(`${nome} possiede ${f}, che nessuna sessione può toccare`);
@@ -703,7 +720,7 @@ function segnaposti(opz) {
     for (const s of SEGNAPOSTI) if (t.includes(s)) rossi.push(`${n}: resta il segnaposto «${s}»`);
     if (!attese.has(n)) rossi.push(`${n}: non è la scheda di nessuna sessione del piano`);
   }
-  return chiudi("segnaposti", rossi, mancano, opz, { schede: presenti.length, attese: attese.size });
+  return chiudi("segnaposti", rossi, mancano, opz, { schede: presenti.length, schede_attese: attese.size });
 }
 
 // ── guardia-ramo ─────────────────────────────────────────────────────────────────────────────────
@@ -740,20 +757,24 @@ const RE_IMPORT = /(?:import|export)\s[^'"]*?from\s*['"]([^'"]+)['"]|import\s*\(
 /** I percorsi del deposito che un file importa (relativi e con l'alias «@/»). PURA. */
 export function importDi(percorso, testo) {
   const fuori = new Set();
-  for (const m of String(testo).matchAll(RE_IMPORT)) {
+  // Un import scritto in un commento («// prima era: import { a } from …») non importa niente: il collaudo
+  // del 7/11 l'ha usato per far passare una prova altrui. I commenti si tolgono prima di cercare.
+  const senzaCommenti = String(testo).replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:\\])\/\/.*$/gm, "$1");
+  for (const m of senzaCommenti.matchAll(RE_IMPORT)) {
     const spec = m.slice(1).find(Boolean);
     if (!spec) continue;
     let radice;
     if (spec.startsWith("@/")) radice = spec.slice(2);
     else if (spec.startsWith(".")) radice = posix.normalize(posix.join(posix.dirname(percorso), spec));
     else continue;
-    for (const coda of ["", ".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs", "/index.ts", "/index.tsx", "/index.js"]) fuori.add(radice + coda);
+    for (const coda of ["", ".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs", "/index.ts", "/index.tsx", "/index.js", "/index.jsx", "/index.mjs"]) fuori.add(radice + coda);
   }
   return fuori;
 }
 function storiaDelRamo(dir, partenza, ref) {
   const commit = (gitOk(dir, ["rev-list", "--reverse", `${partenza}..${ref}`]) ?? "").split("\n").filter(Boolean);
   const toccati = new Set();
+  const cancellati = new Set();
   const unioni = [];
   const perCommit = [];
   for (const c of commit) {
@@ -761,13 +782,19 @@ function storiaDelRamo(dir, partenza, ref) {
     if (genitori.length > 1) unioni.push(c);
     const args = genitori.length > 1
       ? ["diff-tree", "-r", "--cc", "--name-only", "--no-renames", "--no-commit-id", c]
-      : ["diff-tree", "-r", "--root", "--name-only", "--no-renames", "--no-commit-id", c];
-    const file = (gitOk(dir, args) ?? "").split("\n").filter((f) => f && f !== c);
-    file.forEach((f) => toccati.add(f));
+      : ["diff-tree", "-r", "--root", "--name-status", "--no-renames", "--no-commit-id", c];
+    const file = [];
+    for (const riga of (gitOk(dir, args) ?? "").split("\n").filter((f) => f && f !== c)) {
+      const m = genitori.length > 1 ? null : riga.match(/^([ACDMRTUX])\d*\t(.+)$/);
+      const f = m ? m[2] : riga;
+      if (m?.[1] === "D") cancellati.add(f);
+      file.push(f);
+      toccati.add(f);
+    }
     const messaggio = (gitOk(dir, ["log", "-1", "--format=%B", c]) ?? "").trim();
     perCommit.push({ commit: c, file, messaggio });
   }
-  return { commit, toccati, unioni, perCommit };
+  return { commit, toccati, cancellati, unioni, perCommit };
 }
 function risolviRef(dir, ramo) {
   const pulito = String(ramo).replace(/^origin\//, "");
@@ -794,7 +821,10 @@ function guardiaRamo(opz) {
   const partenza = dove.onda.base;
   if (gitOk(dir, ["merge-base", "--is-ancestor", partenza, ref]) === null) return chiudi("guardia-ramo", [`${nome}: ${ref} non parte dalla base dell'onda ${dove.onda.onda} (${partenza.slice(0, 12)})`], [], opz);
   const storia = storiaDelRamo(dir, partenza, ref);
-  const suoi = new Set(dove.sessione.file);
+  // Un ramo che ha unito main porta dentro la storia di tutti: giudicarne i file darebbe migliaia di rossi
+  // non suoi (collaudo B del 7/11: 3.445 righe, 25 secondi). Le unioni sono già il rosso: si tolgono prima.
+  if (storia.unioni.length) return chiudi("guardia-ramo", [`${nome}: il ramo ha ${storia.unioni.length} unioni (${storia.unioni.slice(0, 3).map((u) => u.slice(0, 12)).join(", ")}): il ramo riparatore parte dalla base e non unisce niente. Si giudica di nuovo quando le unioni sono tolte`], [], opz, { commit: storia.commit.length });
+  const suoi = new Set(dove.sessione.file.map(normPerc));
   const allaBase = new Map();
   const esisteAllaBase = (p) => {
     if (!allaBase.has(p)) allaBase.set(p, gitOk(dir, ["cat-file", "-e", `${partenza}:${p}`]) !== null);
@@ -813,9 +843,20 @@ function guardiaRamo(opz) {
     if (perche) rossi.push(perche);
   }
   for (const u of storia.unioni) rossi.push(`${u.slice(0, 12)}: un'unione nel ramo riparatore (il ramo parte dalla base e non unisce niente)`);
+  // Una prova che c'era non si cancella e non si spegne: è il modo più corto per far tornare verde una
+  // riparazione sbagliata, e il collaudo del 7/11 l'ha fatto passare finché la guardia guardava solo i nomi.
+  for (const p of [...storia.cancellati].sort()) if (eProva(p) && esisteAllaBase(p)) rossi.push(`${p}: una prova esistente non si cancella`);
+  const RE_SPENTA = /\b(?:it|test|describe)\.(?:skip|only|todo)\s*\(|\bx(?:it|test|describe)\s*\(/;
+  for (const p of [...storia.toccati].filter((f) => eProva(f) && !storia.cancellati.has(f)).sort()) {
+    const diff = gitOk(dir, ["diff", partenza, ref, "--", p]) ?? "";
+    if (diff.split("\n").some((r) => r.startsWith("+") && !r.startsWith("+++") && RE_SPENTA.test(r))) rossi.push(`${p}: aggiunge una prova spenta (.skip, .only, .todo, xit): una prova non si spegne per farla passare`);
+  }
   const ids = new Set(dove.sessione.voci.map((v) => v.id));
-  const senzaVoce = storia.perCommit.filter((c) => c.file.some((f) => !f.startsWith(`${REFERTO_DIR}/`)) && !(c.messaggio.match(/\b[A-Z]\d{2}-(\d{3}|varie)\b/g) || []).length);
-  for (const c of senzaVoce) rossi.push(`${c.commit.slice(0, 12)}: un commit di codice senza l'id della voce nel messaggio («${nome}-NNN», oppure «${nome}-varie»)`);
+  // L'id sta sul PRIMO rigo e deve essere di questa sessione: un «Z99-varie» in fondo al corpo, o il «varie»
+  // di un'altra sessione, non attribuisce il commit a nessuno (collaudo del 7/11).
+  const primoRigoGiusto = new RegExp(`^${nome}-(?:\\d{3}|varie)\\b`);
+  const senzaVoce = storia.perCommit.filter((c) => c.file.some((f) => !f.startsWith(`${REFERTO_DIR}/`)) && !primoRigoGiusto.test(c.messaggio.split("\n")[0].trim()));
+  for (const c of senzaVoce) rossi.push(`${c.commit.slice(0, 12)}: un commit di codice che non comincia con l'id di una voce di ${nome} («${nome}-NNN …», oppure «${nome}-varie …»)`);
   for (const c of storia.perCommit) for (const id of c.messaggio.match(/\b[A-Z]\d{2}-\d{3}\b/g) || []) if (!ids.has(id)) rossi.push(`${c.commit.slice(0, 12)}: il messaggio cita ${id}, che non è una voce di ${nome}`);
   const attese = storia.commit.length ? [] : [`${nome}: il ramo non ha ancora nessun commit suo`];
   return chiudi("guardia-ramo", rossi, attese, opz, { commit: storia.commit.length, file_toccati: storia.toccati.size });
@@ -867,6 +908,7 @@ export function regoleReferto(testo, ctx) {
     const grave = GRAVI.has(attesa.gravita);
     if (v.esito === "riparato") {
       if (vuoto(v.commit)) rossi.push(`${dove}: riparato senza il commit`);
+      else if (!SHA.test(String(v.commit))) rossi.push(`${dove}: «${v.commit}» non è un commit (da 7 a 40 cifre esadecimali)`);
       if (vuoto(v.file_toccati)) rossi.push(`${dove}: riparato senza i file toccati`);
       if (vuoto(v.prova_comando)) rossi.push(`${dove}: riparato senza il comando della prova`);
       if (!PROVE.includes(v.prova_tipo)) rossi.push(`${dove}: prova_tipo «${v.prova_tipo}» non è uno di ${PROVE.join("|")}`);
@@ -879,8 +921,10 @@ export function regoleReferto(testo, ctx) {
         perCommit.get(v.commit).push(v);
       }
       if (ctx.commitDelRamo && !vuoto(v.commit)) {
-        const pieno = [...ctx.commitDelRamo.keys()].find((c) => c.startsWith(String(v.commit)));
-        if (!pieno) rossi.push(`${dove}: il commit ${v.commit} non è nella storia del ramo`);
+        const tutti = [...ctx.commitDelRamo.keys()].filter((c) => c.startsWith(String(v.commit)));
+        const pieno = tutti.length === 1 ? tutti[0] : null;
+        if (tutti.length > 1) rossi.push(`${dove}: il commit ${v.commit} è ambiguo nella storia del ramo`);
+        else if (!pieno) rossi.push(`${dove}: il commit ${v.commit} non è nella storia del ramo`);
         else if (!ctx.commitDelRamo.get(pieno).includes(v.id)) rossi.push(`${dove}: il messaggio del commit ${String(v.commit).slice(0, 12)} non cita ${v.id}`);
       }
     }
@@ -897,16 +941,22 @@ export function regoleReferto(testo, ctx) {
     if (!dichiarati) rossi.push(`il commit ${String(c).slice(0, 12)} porta ${ids.join(", ")}: una voce per commit, oppure «insieme_a» dichiarato su ognuna`);
   }
   for (const n of r.nuovi_difetti_visti ?? []) {
+    // Il deposito è pubblico: una riservata si scrive in UNA forma sola. Il collaudo del 7/11 ha fatto passare
+    // il dettaglio nel titolo («Falla di sicurezza: …route.ts:42…»), nel NOME di una chiave e in una parola sola.
     if (n?.riservato === true) {
-      const extra = valori({ ...n, riservato: undefined, severita: undefined }).filter((x) => x && x !== PRIVATO && !/^Falla di sicurezza/.test(x) && !/^[\w-]+$/.test(x));
+      const chiaviIn = Object.keys(n ?? {}).filter((k) => !CAMPI_RISERVATA.includes(k));
+      if (chiaviIn.length) rossi.push(`un difetto nuovo riservato porta campi in più (${chiaviIn.join(", ")}): solo ${CAMPI_RISERVATA.join(", ")}`);
       if (n.file !== PRIVATO) rossi.push(`un difetto nuovo riservato ha il file in chiaro: va «${PRIVATO}»`);
-      if (extra.length) rossi.push("un difetto nuovo riservato porta dettagli in chiaro: titolo generico, file e descrizione nel referto privato");
-    } else if (vuoto(n?.titolo) || vuoto(n?.file) || !["bloccante", "grave", "minore"].includes(n?.severita)) rossi.push(`un difetto nuovo senza titolo, file o gravità valida: «${n?.titolo ?? ""}»`);
+      if (!TITOLO_RISERVATO.test(String(n.titolo ?? ""))) rossi.push("un difetto nuovo riservato ha il titolo fuori forma: «Falla di sicurezza da chiudere (<area, al massimo 40 lettere>): i dettagli restano fuori dal deposito pubblico finché non è chiusa»");
+      if (n.dimensione !== undefined && !/^[a-z-]{1,40}$/.test(String(n.dimensione))) rossi.push("un difetto nuovo riservato ha una dimensione fuori forma");
+    } else if (/falla di sicurezza/i.test(String(n?.titolo ?? ""))) rossi.push(`«${String(n?.titolo).slice(0, 60)}…»: una falla di sicurezza si scrive con «riservato: true», mai in chiaro`);
+    else if (vuoto(n?.titolo) || vuoto(n?.file) || !["bloccante", "grave", "minore"].includes(n?.severita)) rossi.push(`un difetto nuovo senza titolo, file o gravità valida: «${n?.titolo ?? ""}»`);
   }
   if (r.finita === true) {
     for (const v of ctx.voci) if (!viste.has(v.id)) rossi.push(`${v.id}: a referto finito ogni voce della scheda deve comparire, anche quelle non fatte`);
     if (r.verifica?.esito !== "verde") rossi.push("a referto finito la verifica (npm run verify, o il cancello della macchina) deve essere verde");
     if (vuoto(r.testa)) rossi.push("a referto finito manca «testa», l'ultimo commit del ramo");
+    else if (!SHA.test(String(r.testa))) rossi.push(`«testa» «${r.testa}» non è un commit (da 7 a 40 cifre esadecimali)`);
     else if (ctx.testaDelRamo && !String(ctx.testaDelRamo).startsWith(String(r.testa)) && !String(r.testa).startsWith(String(ctx.testaDelRamo))) rossi.push(`«testa» ${String(r.testa).slice(0, 12)} non è la testa del ramo (${String(ctx.testaDelRamo).slice(0, 12)})`);
   } else attese.push(`${ctx.nome}: referto non ancora finito (${viste.size} voci su ${ctx.voci.length})`);
   return { rossi, attese };
@@ -922,6 +972,9 @@ function validaReferto(opz) {
   try { nome = JSON.parse(testo).sessione; } catch { nome = (basename(file).match(/R\d{2}/) || [])[0]; }
   const dove = nome ? sessioneNelPiano(piano, nome) : null;
   if (!dove) return chiudi("valida-referto", [`la sessione «${nome}» del referto non è nel piano`], [], opz);
+  // Il nome del file e la sessione scritta dentro devono dire la stessa cosa: un referto che si dichiara R02
+  // non si controlla al posto di quello di R01 (collaudo del 7/11).
+  if (![`referto-${nome}.json`, `${nome}.json`].includes(basename(file))) return chiudi("valida-referto", [`il file ${basename(file)} dice una sessione, il referto un'altra («${nome}»)`], [], opz);
   let chiaviDelRegistro = null;
   try { chiaviDelRegistro = new Set(leggiRegistro(per.casa, opz).elenco.map((d) => chiaveDi(per.casa, d))); } catch { /* detto sotto */ }
   let commitDelRamo = null, testaDelRamo = null;
@@ -932,6 +985,18 @@ function validaReferto(opz) {
     const storia = storiaDelRamo(dir, dove.onda.base, ref);
     commitDelRamo = new Map(storia.perCommit.map((c) => [c.commit, c.messaggio]));
     testaDelRamo = (gitOk(dir, ["rev-parse", ref]) ?? "").trim();
+    // Il referto vive nel ramo che descrive: committarlo sposta la punta. La «testa» scritta resta vera se è un
+    // antenato della punta e dopo di lei ci sono solo commit del referto (collaudo B del 7/11: ogni referto
+    // finito e spinto usciva rosso).
+    let dichiarata = null;
+    try { dichiarata = String(JSON.parse(testo).testa ?? ""); } catch { /* lo dice regoleReferto */ }
+    if (dichiarata && SHA.test(dichiarata)) {
+      const piena = (gitOk(dir, ["rev-parse", "--verify", "--quiet", `${dichiarata}^{commit}`]) ?? "").trim();
+      if (piena && piena !== testaDelRamo && gitOk(dir, ["merge-base", "--is-ancestor", piena, ref]) !== null) {
+        const dopo = (gitOk(dir, ["diff", "--name-only", "--no-renames", piena, ref]) ?? "").split("\n").filter(Boolean);
+        if (dopo.every((f) => f.startsWith(`${REFERTO_DIR}/`))) testaDelRamo = piena;
+      }
+    }
   }
   const { rossi, attese } = regoleReferto(testo, { nome, voci: dove.sessione.voci, chiaviDelRegistro, commitDelRamo, testaDelRamo });
   if (!chiaviDelRegistro) attese.push("il registro non si legge: non ho controllato che le chiavi ci siano");
@@ -953,8 +1018,11 @@ export function fileHub(lavorabili) {
 export function campioneDi(minori, perId, hub) {
   const tot = minori.length;
   const servono = tot <= MINIMO_CAMPIONE ? tot : Math.max(MINIMO_CAMPIONE, Math.ceil(QUOTA_CAMPIONE * tot));
-  const pieni = minori.filter((v) => perId.get(v.id)?.giudizio === "pieno");
-  const hubMancanti = minori.filter((v) => v.file.some((f) => hub.has(f)) && perId.get(v.id)?.giudizio !== "pieno").map((v) => v.id);
+  // Guardata = giudicata con giudizio pieno, OPPURE caduta (un «non regge» è un esito anche senza giudizio):
+  // il collaudo del 7/11 ha tolto dal conto due cadute scrivendole «giudizio: nessuno», e il 71% è diventato 100%.
+  const guardata = (v) => { const c = perId.get(v.id); return !!c && (c.giudizio === "pieno" || c.verdetto !== "regge"); };
+  const pieni = minori.filter(guardata);
+  const hubMancanti = minori.filter((v) => v.file.some((f) => hub.has(normPerc(f))) && !guardata(v)).map((v) => v.id);
   const reggono = pieni.filter((v) => perId.get(v.id)?.verdetto === "regge").length;
   const accettato = pieni.length >= servono && hubMancanti.length === 0 && (pieni.length === 0 || reggono / pieni.length >= SOGLIA_CAMPIONE);
   return { minori: tot, servono, nel_campione: pieni.length, reggono, hub_mancanti: hubMancanti, accettato };
@@ -969,8 +1037,10 @@ export function regoleCollaudo(testo, ctx) {
   if (!dataVera(c.aggiornato)) rossi.push(`«aggiornato» non è una data AAAA-MM-GG HH:MM vera: «${c.aggiornato}»`);
   if (!Array.isArray(c.voci)) { rossi.push("manca l'elenco «voci»"); return { rossi, attese, campioni: {} }; }
   const perId = new Map();
+  const elencati = new Set(Object.keys(ctx.riparatori));
   for (const v of c.voci) {
     if (perId.has(v?.id)) rossi.push(`${v?.id}: compare due volte`);
+    if (!elencati.has(String(v?.id ?? "").slice(0, 3))) rossi.push(`${v?.id}: è una voce di un riparatore che questo collaudo non elenca`);
     perId.set(v?.id, v);
   }
   const campioni = {};
@@ -1006,11 +1076,23 @@ export function regoleCollaudo(testo, ctx) {
   return { rossi, attese, campioni };
 }
 function riparatoriDi(opz, piano, elenco) {
+  // Dove sta il referto di un riparatore, in quest'ordine: la cartella data con --referti (il collaudatore se
+  // li copia), <cartella>/referti/ (la regista all'unione), il ramo scritto in sessioni.json (con --git).
+  // Prima c'era solo il secondo, che si riempie all'unione: durante il collaudo il campione restava muto.
   const fuori = {};
+  const sess = leggiSessioni(opz);
   for (const r of elenco) {
     const dove = sessioneNelPiano(piano, r);
-    const p = join(serveCartella(opz), "referti", `${r}.json`);
-    fuori[r] = { voci: dove?.sessione.voci ?? [], referto: existsSync(p) ? leggiJson(p) : null, inPiano: !!dove };
+    const candidati = [opz.referti && join(resolve(opz.referti), `${r}.json`), opz.referti && join(resolve(opz.referti), `referto-${r}.json`), join(serveCartella(opz), "referti", `${r}.json`)].filter(Boolean);
+    let referto = null;
+    const p = candidati.find((x) => existsSync(x));
+    if (p) referto = leggiJson(p);
+    else if (opz.git && sess?.sessioni?.[r]?.ramo) {
+      const ref = risolviRef(resolve(opz.git), sess.sessioni[r].ramo);
+      const t = ref ? gitOk(resolve(opz.git), ["show", `${ref}:${REFERTO_DIR}/referto-${r}.json`]) : null;
+      try { referto = t ? JSON.parse(t) : null; } catch { referto = null; }
+    }
+    fuori[r] = { voci: dove?.sessione.voci ?? [], referto, inPiano: !!dove };
   }
   return fuori;
 }
@@ -1067,6 +1149,7 @@ function provaUnione(opz) {
       chiTocca.get(f).push(n);
     }
   }
+  if (chiTocca.size === 0) attese.push("i rami presenti non toccano ancora nessun file: niente da unire, non è un verde");
   for (const [f, chi] of [...chiTocca].sort()) if (chi.length > 1) rossi.push(`${f}: toccato da ${chi.length} rami della stessa onda (${chi.join(", ")})`);
   // L'unione di prova non tocca nessun albero di lavoro: merge-tree scrive solo oggetti, che restano sciolti.
   const env = { GIT_AUTHOR_NAME: "prova-unione", GIT_AUTHOR_EMAIL: "prova@unione.invalid", GIT_COMMITTER_NAME: "prova-unione", GIT_COMMITTER_EMAIL: "prova@unione.invalid" };
@@ -1097,7 +1180,16 @@ function provaUnione(opz) {
 export function decidi({ piano, referti, collaudi, hub }) {
   const decisioni = [];
   const verdetti = new Map();
-  for (const c of collaudi) for (const v of c.voci ?? []) verdetti.set(v.id, { ...v, collaudatore: c.collaudatore });
+  // Un collaudatore giudica solo i riparatori che elenca: il collaudo del 7/11 ha fatto chiudere un grave di R01
+  // con il «regge» di K02, che guardava R02, sopra il «non regge» di K01. Fra due verdetti vince il più severo.
+  const SEVERITA_VERDETTO = { rompe_altro: 3, non_regge: 2, parziale: 1, regge: 0 };
+  for (const c of collaudi) for (const v of c.voci ?? []) {
+    const suo = String(v?.id ?? "").slice(0, 3);
+    if (!Array.isArray(c.riparatori) || !c.riparatori.includes(suo)) continue;
+    const prima = verdetti.get(v.id);
+    const peso = SEVERITA_VERDETTO[v.verdetto] ?? 3;
+    if (!prima || peso > (SEVERITA_VERDETTO[prima.verdetto] ?? 3)) verdetti.set(v.id, { ...v, collaudatore: c.collaudatore });
+  }
   for (const o of piano.onde) {
     for (const [nome, s] of Object.entries(o.sessioni)) {
       const ref = referti[nome];
@@ -1134,17 +1226,63 @@ export function decidi({ piano, referti, collaudi, hub }) {
   return decisioni;
 }
 function leggiCartellaJson(dir, re) {
+  return leggiCartellaTesti(dir, re).map((x) => x.dati).filter(Boolean);
+}
+/** I file della cartella col loro testo: chi giudica un referto guarda il testo (chiavi doppie), non solo il JSON. */
+function leggiCartellaTesti(dir, re) {
   if (!existsSync(dir)) return [];
-  return readdirSync(dir).filter((n) => re.test(n)).sort().map((n) => leggiJson(join(dir, n)));
+  return readdirSync(dir).filter((n) => re.test(n)).sort().map((nome) => {
+    const testo = readFileSync(join(dir, nome), "utf8");
+    let dati = null;
+    try { dati = JSON.parse(testo); } catch { /* lo dice chi chiama */ }
+    return { nome, testo, dati };
+  });
 }
 function applica(opz) {
   let per, piano;
   try { per = leggiPerimetro(opz); piano = leggiPiano(opz); } catch (e) { return cieco("applica", e.message, opz); }
   const cartella = serveCartella(opz);
-  const referti = Object.fromEntries(leggiCartellaJson(join(cartella, "referti"), /^R\d{2}\.json$/).map((r) => [r.sessione, r]));
-  const collaudi = leggiCartellaJson(join(cartella, "collaudi"), /^K\d{2}\.json$/);
-  if (!Object.keys(referti).length) return chiudi("applica", [], ["nessun referto in referti/: niente da applicare"], opz);
-  const decisioni = decidi({ piano, referti, collaudi, hub: fileHub(per.lavorabili) });
+  // IL CONTROLLO STA DENTRO CHI SCRIVE. Il collaudo del 7/11 ha fatto chiudere un grave da un referto non finito,
+  // con una prova a lettura del codice: `applica` si fidava che `valida-referto` e `valida-collaudo` fossero
+  // già stati lanciati. Qui si rilanciano tutti, sui file che stanno per decidere, e un rosso ferma tutto.
+  const lettiR = leggiCartellaTesti(join(cartella, "referti"), /^R\d{2}\.json$/);
+  const lettiK = leggiCartellaTesti(join(cartella, "collaudi"), /^K\d{2}\.json$/);
+  if (!lettiR.length) return chiudi("applica", [], ["nessun referto in referti/: niente da applicare"], opz);
+  let chiaviDelRegistro;
+  try { chiaviDelRegistro = new Set(leggiRegistro(per.casa, opz).elenco.map((d) => chiaveDi(per.casa, d))); } catch (e) { return cieco("applica", e.message, opz); }
+  const ferma = [];
+  // Un file con un nome che non è di nessuna sessione non si ignora in silenzio: è un referto che nessuno legge.
+  for (const [sotto, re] of [["referti", /^R\d{2}\.json$/], ["collaudi", /^K\d{2}\.json$/]]) {
+    const d = join(cartella, sotto);
+    if (existsSync(d)) for (const n of readdirSync(d)) if (!re.test(n)) ferma.push(`${sotto}/${n}: il nome non è quello di una sessione (${sotto === "referti" ? "RNN" : "KNN"}.json)`);
+  }
+  const referti = {};
+  for (const { nome: file, testo, dati } of lettiR) {
+    const nome = file.replace(/\.json$/, "");
+    if (!dati) { ferma.push(`referti/${file}: non è JSON`); continue; }
+    if (dati.sessione !== nome) { ferma.push(`referti/${file}: dice di essere «${dati.sessione}»`); continue; }
+    const dove = sessioneNelPiano(piano, nome);
+    if (!dove) { ferma.push(`referti/${file}: ${nome} non è nel piano`); continue; }
+    const { rossi } = regoleReferto(testo, { nome, voci: dove.sessione.voci, chiaviDelRegistro, commitDelRamo: null, testaDelRamo: null });
+    for (const r of rossi) ferma.push(`referti/${file}: ${r}`);
+    if (dati.finita !== true) ferma.push(`referti/${file}: il referto non è finito`);
+    referti[nome] = dati;
+  }
+  const hub = fileHub(per.lavorabili);
+  const collaudi = [];
+  for (const { nome: file, testo, dati } of lettiK) {
+    if (!dati) { ferma.push(`collaudi/${file}: non è JSON`); continue; }
+    if (dati.collaudatore !== file.replace(/\.json$/, "")) { ferma.push(`collaudi/${file}: dice di essere «${dati.collaudatore}»`); continue; }
+    const elenco = Array.isArray(dati.riparatori) ? dati.riparatori : [];
+    if (!elenco.length) ferma.push(`collaudi/${file}: non dice quali riparatori guarda`);
+    const riparatori = Object.fromEntries(elenco.map((r) => [r, { voci: sessioneNelPiano(piano, r)?.sessione.voci ?? [], referto: referti[r] ?? null }]));
+    const { rossi } = regoleCollaudo(testo, { nome: dati.collaudatore, riparatori, hub });
+    for (const r of rossi) ferma.push(`collaudi/${file}: ${r}`);
+    if (dati.finita !== true) ferma.push(`collaudi/${file}: il collaudo non è finito`);
+    collaudi.push(dati);
+  }
+  if (ferma.length) return chiudi("applica", ferma, [], opz);
+  const decisioni = decidi({ piano, referti, collaudi, hub });
   const quando = opz.quando ?? timbroOra();
   const [g, m] = [quando.slice(8, 10), quando.slice(5, 7)];
   const campo = `riparazione_${g}_${m}`;
@@ -1257,6 +1395,9 @@ export function esegui(argv) {
   try { opz = leggiOpzioni(resto); } catch (e) { return uso(`${comando}: ${e.message}`); }
   try { return COMANDI[comando](opz); } catch (e) { return cieco(comando, e.message, opz); }
 }
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+// Il confronto passa dai percorsi VERI: lanciato da un collegamento simbolico (../ad-mycity → la copia) il
+// programma usciva 0 senza fare niente (collaudo B del 7/11).
+const veroPercorso = (p) => { try { return realpathSync(p); } catch { return resolve(p); } };
+if (process.argv[1] && veroPercorso(process.argv[1]) === veroPercorso(fileURLToPath(import.meta.url))) {
   process.exitCode = esegui(process.argv.slice(2));
 }
