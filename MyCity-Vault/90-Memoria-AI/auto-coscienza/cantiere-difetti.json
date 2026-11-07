@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-11-07 09:49",
+  "aggiornato": "2026-11-07 09:52",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -26342,6 +26342,52 @@
       "verifica": {
         "tipo": "umano",
         "nota": "Minore: lo copre in parte la prova rimessa del collaudatore, che è per voce."
+      }
+    },
+    {
+      "id": "AR-1166",
+      "dimensione": "cadenza-esecuzione",
+      "gravita": "minore",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-07 09:52",
+      "nato_come": "trovato-riparando",
+      "origine": "radiografia-in-corsa",
+      "fonte": "lente cadenza-esecuzione sui file della skill riparazione, 2026-11-07",
+      "owner": "prompt-engineer",
+      "titolo": "Su tre frasi vere su quattro la prima mossa della sessione è leggere il manuale, non aprire la skill riparazione",
+      "dove": ".claude/skills/riparazione/SKILL.md (description) · CLAUDE.md («se sei l’AD, leggi cervello/MANUALE-AD.md prima di agire»)",
+      "nato_da": "misura del trigger del 7/11: prova-trigger --skill riparazione (11 mancati su 11 col comando finto) e due misure dirette sulla skill vera",
+      "sintomo": "Misura diretta sulla skill vera, 7/11: «ripara i difetti del sito» apre subito la skill; «apri 10 sessioni e risolvi…», «ripara subito quello che tiene spento il marketplace» e «ci sono difetti nuovi nati dalla funzione dei resi» leggono prima il manuale (Read o Bash su MANUALE-AD.md). Le trappole vanno tutte dove devono (cantiere, radiografia, guasto). Con la clausola «Aprila PRIMA di…» il quadro non è cambiato.",
+      "causa_radice": "CLAUDE.md dice all’AD di leggere il manuale prima di agire e che una frase breve di Nicola è un comando da cercare lì: per le frasi che sembrano comandi la sessione va prima al manuale, che oggi la rimanda alla skill. La misura della casa guarda solo la prima mossa.",
+      "fix_proposto": "Misurare se la skill si apre entro le prime tre mosse (il manuale la nomina nei comandi rapidi). Se sì, la misura di prova-trigger va allargata alle prime mosse per le skill che il manuale nomina; se no, rafforzare la description con le parole di quelle frasi.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si chiude con una misura (prova-trigger --skill riparazione) che mostra le frasi vere aperte dalla skill."
+      }
+    },
+    {
+      "id": "AR-1167",
+      "dimensione": "cadenza-esecuzione",
+      "gravita": "minore",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-07 09:52",
+      "nato_come": "trovato-riparando",
+      "origine": "radiografia-in-corsa",
+      "fonte": "lente cadenza-esecuzione sui file della skill riparazione, 2026-11-07",
+      "owner": "prompt-engineer",
+      "titolo": "La procedura della riparazione in sessioni lasciava tre passi senza comando o senza fine: la sorveglianza, la soglia fra cantiere e riparazione, la copia dei referti",
+      "dove": ".claude/skills/riparazione/SKILL.md (sorveglianza, F3, fermata 2) · .claude/skills/cantiere/SKILL.md (riga di smistamento)",
+      "nato_da": "lente cadenza-esecuzione del 7/11 sui file della skill, durante la costruzione",
+      "sintomo": "La sorveglianza non diceva come parte né quando smette; il cantiere mandava il sito alla riparazione «qualunque sia il numero» mentre la riparazione usava le ondate sotto le 15 voci; la copia dei referti e i numeri della fermata 2 non avevano un comando.",
+      "causa_radice": "Il testo descriveva cosa fare, non con quale comando e fino a quando: un passo affidato alla memoria della regista non si esegue sempre allo stesso modo.",
+      "fix_proposto": "Fatto nello stesso lotto (AR-1163): la catena di send_later parte all’apertura dell’onda e smette quando tutti hanno finito, con la quota a ogni giro e il diario in una forma sola; il cantiere passa il sito alla riparazione lasciandole la scelta; la copia dei referti e i numeri della fermata 2 hanno il loro comando.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Testo di procedura: si chiude quando la prima campagna vera la esegue senza passi improvvisati (diario della sorveglianza)."
       }
     }
   ],

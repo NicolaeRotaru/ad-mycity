@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-06 09:54",
+  "aggiornato": "2026-11-07 09:52",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -6764,6 +6764,43 @@
       "file": {
         "cervello/radiografia-marketplace-digest.mjs": "0cf7dd249373",
         "cervello/referti-sito.mjs": "ffc6c9563873"
+      }
+    },
+    {
+      "quando": "2026-11-07 09:51",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-1163"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/prova-trigger.mjs": "5ca703e3b001",
+        "cervello/riparazione-sessioni.mjs": "79467db0b75c"
+      }
+    },
+    {
+      "quando": "2026-11-07 09:52",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 2,
+      "schede": [
+        "AR-1166",
+        "AR-1167"
+      ],
+      "nota": "",
+      "file": {
+        ".claude/skills/cantiere/SKILL.md": "be489c8bb110",
+        ".claude/skills/riparazione/SKILL.md": "2177ef312e37",
+        ".claude/skills/riparazione/evals/frasi-di-nicola.json": "7e92eeaec0be",
+        ".claude/skills/riparazione/evals/ultima-misura.json": "60e0fd92f441"
       }
     }
   ]

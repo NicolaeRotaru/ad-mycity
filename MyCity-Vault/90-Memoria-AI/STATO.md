@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-11-06 19:17
+aggiornato: 2026-11-07 09:53
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🔧 **2026-11-07 09:53 — La riparazione in sessioni è pronta: con una frase i difetti si riparano come la radiografia li ha trovati.**
+>
+> Una regista divide, sorveglia e unisce; fino a 12 sessioni riparano e fino a 4 collaudano. Un programma decide chi tocca quale file e controlla i rami ogni 30 minuti. Prova a vuoto sui registri veri: sul sito si possono riparare 534 voci delle 688 aperte, e 368 di queste 534 entrano già nella prima onda; sulla macchina se ne possono riparare 74 su 348, divise fra 2 sessioni. Sui dieci rami del 5/11 trova da solo i file temporanei e gli sconfinamenti di quel giorno. Aspetta la tua firma; nessuna campagna è partita.
 
 > 🩻 **2026-11-06 19:17 — La radiografia in 12 sessioni è finita: nessun bloccante nuovo, 11 gravi**
 >
