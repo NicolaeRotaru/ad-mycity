@@ -36,6 +36,8 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 > ✍️ FIRMATA 2026-11-07 00:55 — Nicola: «fallo per tutti i giorni che ti servono per tutti i controlli e ricontrolli finché non sei sicuro che tutto funzioni». Scelte: progetto Vercel separato, intelligenza artificiale finta, anche la carta in modalità test. La palestra è in costruzione.
 >
 > 🔨 2026-11-07 01:22 — Il database di prova è pronto. Ha 178 migrazioni su 178 e 76 tabelle protette. Dentro ci sono 16 negozi finti, 240 prodotti, 4 clienti, 2 fattorini e un amministratore. Sono pronti anche l'intelligenza artificiale finta e il ramo del sito per la palestra. **Aspetta Nicola.** Vercel non mi lascia creare il progetto. Gli ho chiesto quattro passi: il progetto, la regola di costruzione e due tipi di chiavi.
+>
+> 🏋️ 2026-11-07 02:16 — La palestra è accesa. Nicola ha creato il progetto e messo le chiavi. Il database di prova ha gli stessi permessi del sito vero. I controlli di sicurezza sono verdi: il sito della palestra parla solo col database di prova e usa Stripe di prova. Partiti il giro completo del pane e lo smistamento delle 533 prove.
 
 **In parole semplici.** La palestra è una copia del sito fatta solo per le prove. Lì si usa il sito come tanti clienti, negozi e fattorini insieme. Il sito vero non si tocca mai. La radiografia ha scritto 533 prove da fare lì.
 
