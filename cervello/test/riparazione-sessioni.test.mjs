@@ -661,7 +661,9 @@ test("secondo collaudo #6 e A11: commit inventati e commit troppo corti non pass
     r = lancia("applica", "--cartella", c, "--registro", registro, "--scrivi", "--git", dir);
     assert.equal(r.status, 1, r.stdout);
     assert.match(r.stdout, /il commit abcdef1 non è nella storia del ramo/);
-    r = lancia("applica", "--cartella", c, "--registro", join(QUI, "..", "un-registro-qualunque.json"), "--scrivi", "--git", dir);
+    // Un percorso che non sta né nel vault né in una cartella temporanea, dovunque sia clonato il deposito:
+    // dentro il deposito non andava bene, perché un deposito clonato in /tmp sta già in una cartella temporanea.
+    r = lancia("applica", "--cartella", c, "--registro", "/registro-fuori-posto/un-registro-qualunque.json", "--scrivi", "--git", dir);
     assert.equal(r.status, 1, r.stdout);
     assert.match(r.stdout, /il registro deve stare in MyCity-Vault/);
   } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
