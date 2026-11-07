@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-07 11:59",
+  "aggiornato": "2026-11-07 12:11",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -6767,6 +6767,20 @@
       }
     },
     {
+      "quando": "2026-11-07 02:54",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/allocazione-check.mjs": "82fa837f2a5e"
+      }
+    },
+    {
       "quando": "2026-11-07 09:51",
       "casa": "macchina",
       "dimensione": "rischio-sicurezza-se",
@@ -6831,6 +6845,23 @@
       "nota": "",
       "file": {
         "cervello/allocazione-check.mjs": "4a603730c433",
+        "cervello/censimento-macchina.mjs": "abdc84828160",
+        "cervello/prova-trigger.mjs": "5ca703e3b001",
+        "cervello/riparazione-sessioni.mjs": "8d9967959769"
+      }
+    },
+    {
+      "quando": "2026-11-07 12:11",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/allocazione-check.mjs": "7c7dd9237cdb",
         "cervello/censimento-macchina.mjs": "abdc84828160",
         "cervello/prova-trigger.mjs": "5ca703e3b001",
         "cervello/riparazione-sessioni.mjs": "8d9967959769"

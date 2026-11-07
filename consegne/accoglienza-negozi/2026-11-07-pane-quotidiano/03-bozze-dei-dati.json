@@ -1,0 +1,196 @@
+{
+  "_meta": {
+    "data": "2026-11-07 05:00",
+    "autore": "ai-copywriter",
+    "stato": "BOZZA da approvare: nulla è stato caricato sul sito",
+    "negozio_id": "c0b240c0-2a86-4218-9d0f-5154f08ff929",
+    "fonte_dati_database": "lettura in sola lettura del 2026-11-07 ~02:30 (pane-quotidiano-dati.json)",
+    "fonte_foto": "13 foto JPEG 1200x1600 dalle pagine pubbliche dei prodotti, caricate il 16-17/6; lette una per una, 4 zone ingrandite",
+    "legenda_confidenza": {"alta": "letto chiaro", "media": "letto con fatica", "bassa": "intravisto", "non_letto": "non leggibile, non indovinato"},
+    "legenda_fonte": ["foto dell'etichetta", "database", "codice", "da chiedere al negozio", "scelta mia da confermare"],
+    "da_caricare_da": "il negozio, dopo il via di Nicola; l'AD non scrive nei dati"
+  },
+  "negozio": {
+    "descrizione_oggi": {
+      "testo": "specializzata nella vendita di prodotti alimentari, tra cui pane, miele biologico (acacia, tiglio, castagno, propoli) e altri generi.",
+      "fonte": "database",
+      "problema": "nel catalogo non c'è né pane né miele"
+    },
+    "descrizione_versione_A": {
+      "quando": "solo se il negozio vende davvero pane e miele e li carica a catalogo",
+      "testo": "Pane Quotidiano è un negozio di alimentari di Via Calzolai, a Piacenza. Trovi il pane, il miele biologico (acacia, tiglio, castagno, propoli) e una scelta di prodotti freschi bio: kefir, hummus, pesto, dolci al cucchiaio. Ordini online, paghi in contanti alla consegna oppure passi a ritirare in negozio.",
+      "fonte": "database (via, città, prodotti) + regola di lancio (contanti alla consegna)",
+      "confidenza": "media: dipende da pane/miele e dal ritiro in negozio (da chiedere)"
+    },
+    "descrizione_versione_B": {
+      "quando": "solo quello che c'è a catalogo oggi",
+      "consigliata": true,
+      "motivo_consiglio": "è l'unica che oggi è vera al 100% fino a quando il catalogo non cambia",
+      "testo": "Pane Quotidiano è un negozio di alimentari di Via Calzolai, a Piacenza. Oggi trovi qui una selezione di prodotti freschi biologici: kefir di latte vaccino e di capra, hummus di ceci, pesto genovese e pudding alla vaniglia. Ordini online e paghi in contanti alla consegna, oppure passi a ritirare in negozio.",
+      "fonte": "database (via, città) + catalogo (5 prodotti) + regola di lancio (carta spenta)",
+      "confidenza": "alta, tranne «ritirare in negozio» (da chiedere, badge ritiro_in_negozio)"
+    },
+    "controlli_di_verita": "«Via Calzolai» e «Piacenza» dal database; «contanti alla consegna» è la regola di lancio. Tolti «prodotti locali» e «sostenibile»: nessun prodotto è di Piacenza e non c'è nulla dietro «sostenibile».",
+    "orari": {
+      "fonte": "database (store_hours), letto il 7/11; non dal negozio",
+      "confidenza": "media: da confermare col negozio (domanda 11)",
+      "giorni": {
+        "lunedi": "9:00-13:00 e 16:30-19:30",
+        "martedi": "9:00-13:00 e 16:30-19:30",
+        "mercoledi": "9:00-13:00 e 16:30-19:30",
+        "giovedi": "9:00-13:00 (pomeriggio chiuso)",
+        "venerdi": "9:00-13:00 e 16:30-19:00",
+        "sabato": "9:00-13:00 e 16:30-19:30",
+        "domenica": "chiuso"
+      },
+      "frase_per_la_pagina": "Aperto dal lunedì al sabato la mattina dalle 9 alle 13; il pomeriggio dalle 16:30 (alle 19:30; il venerdì alle 19:00), tranne il giovedì. Domenica chiuso.",
+      "conto": "6 giorni su 7 aperti; 5 pomeriggi su 6 aperti (il giovedì no)",
+      "nota": "una scheda precedente attribuisce gli orari a PagineGialle"
+    },
+    "badge_oggi": ["consegna_rapida", "prodotti_locali", "bio", "ritiro_in_negozio", "sostenibile"],
+    "badge_proposta": "togliere prodotti_locali e sostenibile (domanda 13); consegna_rapida e ritiro_in_negozio da confermare (domanda 12)"
+  },
+  "categorie_sito": {
+    "fonte": "codice, migrazione 078",
+    "madre": "alimentari",
+    "figlie": ["alimentari-latticini", "alimentari-pasta-fresca", "alimentari-bevande", "alimentari-dispensa", "alimentari-dolci"],
+    "oggi": "4 prodotti su `alimentari` generico, solo il kefir di capra su `alimentari-latticini`; la proposta li mette tutti in una figlia",
+    "campi_sito_alimentari": "marca, peso, confezione, origine, bio, senza_glutine, senza_lattosio, vegano, allergeni (obbligatorio), ingredienti (obbligatorio), valori_nutrizionali, conservazione, scadenza, ean (fonte: lib/category-attributes.ts)",
+    "valore_se_nessun_allergene": "Nessuno dei 14 allergeni"
+  },
+  "prodotti": [
+    {
+      "id": "418b20af-8a08-4bec-8924-1acc40e8f6fb",
+      "prezzo_database": 2.05,
+      "foto_n": 2,
+      "campi": {
+        "nome": {"valore": "Kefir biologico parzialmente scremato 400 g (Berchtesgadener Land)", "fonte": "foto frontale + database", "confidenza": "alta"},
+        "descrizione_breve": {"valore": "Kefir bio da latte parzialmente scremato (1,5% di grassi), in brick da 400 g, con fermenti lattici vivi. Da bere freddo.", "fonte": "foto dell'etichetta («Kefir, latte fermentato, 1,5% di grassi»); «da bere freddo» è un consiglio mio da confermare", "confidenza": "alta, tranne «freddo»"},
+        "categoria": {"valore": "alimentari-latticini", "oggi": "alimentari", "fonte": "codice", "confidenza": "alta"},
+        "peso": {"valore": "400 g", "fonte": "foto dell'etichetta", "confidenza": "alta"},
+        "marca": {"valore": "Berchtesgadener Land", "fonte": "foto dell'etichetta", "confidenza": "alta"},
+        "produttore": {"valore": "Milchwerke Berchtesgadener Land Chiemgau eG, 83451 Piding (Germania)", "fonte": "foto dell'etichetta (retro, «D-83451 Piding»); «Germania» già in scheda", "confidenza": "alta"},
+        "ingredienti": {"valore": "Latte parzialmente scremato, fermenti lattici. Da agricoltura biologica.", "fonte": "foto dell'etichetta", "confidenza": "alta"},
+        "allergeni": {"valore": "Latte e derivati", "fonte": "foto dell'etichetta (latte in grassetto); coincide col database", "confidenza": "alta"},
+        "conservazione": {"valore": "Frigorifero, a massimo +8 °C", "fonte": "foto dell'etichetta", "confidenza": "alta"},
+        "valori_per_100g": {"valore": "195 kJ / 46 kcal; grassi 1,6 g (saturi 1,0 g); carboidrati 4,3 g (zuccheri 4,3 g); proteine 3,2 g; sale 0,10 g; calcio 120 mg", "fonte": "foto dell'etichetta", "confidenza": "media (cifre piccole)"},
+        "alt_foto_1": {"valore": "Brick di kefir biologico Berchtesgadener Land da 400 g, parzialmente scremato, con marchio Demeter", "fonte": "foto frontale", "confidenza": "alta"},
+        "alt_foto_2": {"valore": "Retro del brick di kefir Berchtesgadener Land con ingredienti e valori nutrizionali", "fonte": "foto retro", "confidenza": "alta"}
+      },
+      "note": "Il bollo «scadenza» sul tappo («05 07») non è usato: va letto sul pezzo in vendita."
+    },
+    {
+      "id": "e6ba0473-1f7b-4213-a98b-856fd3b12929",
+      "prezzo_database": 2.05,
+      "foto_n": 2,
+      "campi": {
+        "nome": {"valore": "Pudding alla vaniglia biologico (Andechser Natur)", "fonte": "foto frontale: «Bio-Sahne Pudding Vanille»", "confidenza": "alta"},
+        "descrizione_breve": {"valore": "Pudding bio alla vaniglia, cremoso, in vasetto: un dolce al cucchiaio pronto da mangiare.", "fonte": "foto («Bio-Sahne» = crema di panna bio, traduzione mia); «pronto» è deduzione", "confidenza": "media"},
+        "categoria": {"valore": "alimentari-dolci", "oggi": "alimentari", "fonte": "codice", "confidenza": "alta"},
+        "peso": {"valore": null, "fonte": "da chiedere al negozio (sul vasetto si intravede un numero + «g», illeggibile)", "confidenza": "non_letto"},
+        "marca": {"valore": "Andechser Natur", "fonte": "foto dell'etichetta", "confidenza": "alta"},
+        "produttore": {"valore": null, "fonte": "da chiedere al negozio (etichetta in tedesco e francese; marchio Bioland e logo bio UE visibili sul retro)", "confidenza": "bassa"},
+        "ingredienti": {"valore": null, "fonte": "da chiedere al negozio (stampati sul bordo curvo, illeggibili anche ingranditi)", "confidenza": "non_letto"},
+        "allergeni": {"valore": null, "fonte": "da chiedere al negozio (è un dolce con panna: quasi certamente latte, ma non lo scrivo senza etichetta)", "confidenza": "non_letto"},
+        "conservazione": {"valore": null, "fonte": "da chiedere al negozio (prodotto fresco, ma la dicitura non si legge)", "confidenza": "non_letto"},
+        "valori_per_100g": {"valore": "632 kJ / 151 kcal; grassi 8,8 g (saturi 6,1 g); carboidrati 15,1 g (zuccheri 11,8 g); proteine 2,8 g; sale 0,09 g", "fonte": "foto dell'etichetta (retro)", "confidenza": "media"},
+        "codice_a_barre": {"valore": "4104060025631", "fonte": "foto dell'etichetta (retro)", "confidenza": "media"},
+        "alt_foto_1": {"valore": "Vasetto di pudding alla vaniglia biologico Andechser Natur con fiori di vaniglia sull'etichetta", "fonte": "foto frontale", "confidenza": "alta"},
+        "alt_foto_2": {"valore": "Lato del vasetto Andechser Natur con valori nutrizionali, codice a barre e marchio Bioland", "fonte": "foto retro", "confidenza": "alta"}
+      }
+    },
+    {
+      "id": "faa5f3ac-b696-4b79-96c1-c08814708008",
+      "prezzo_database": 2.95,
+      "foto_n": 3,
+      "campi": {
+        "nome": {"valore": "Hummus di ceci senza aglio biologico (Baule Volante)", "fonte": "foto frontale", "confidenza": "alta"},
+        "descrizione_breve": {"valore": "Crema di ceci bio senza aglio, pronta all'uso. Sul pane tostato, con una pita o con verdure crude di stagione.", "fonte": "foto dell'etichetta, «Come si usa»: «crema delicata e versatile pronta all'uso… pita… pane tostato… verdure crude di stagione»; «fonte di fibre» in etichetta", "confidenza": "alta"},
+        "categoria": {"valore": "alimentari-dispensa", "oggi": "alimentari", "fonte": "codice; scelta mia: è un prodotto da frigo ma non esiste una figlia «sughi e creme»", "confidenza": "media"},
+        "peso": {"valore": null, "fonte": "da chiedere al negozio (non fotografato)", "confidenza": "non_letto"},
+        "marca": {"valore": "Baule Volante", "fonte": "foto dell'etichetta", "confidenza": "alta"},
+        "produttore": {"valore": "Prodotto per Baule Volante, Calenzano (FI); stabilimento a Verona", "fonte": "foto dell'etichetta (lato)", "confidenza": "alta per i luoghi"},
+        "ingredienti": {"valore": null, "fonte": "da chiedere al negozio (faccia con l'elenco non fotografata: serve una foto)", "confidenza": "non_letto"},
+        "allergeni": {"valore": null, "fonte": "da chiedere al negozio (non si deducono dalle foto: chiedere in particolare se c'è sesamo)", "confidenza": "non_letto"},
+        "conservazione": {"valore": "In frigorifero tra 0 °C e +4 °C. Dopo l'apertura, in frigorifero e da consumare entro 2 giorni. Confezionato in atmosfera protettiva.", "fonte": "foto dell'etichetta (lato)", "confidenza": "alta"},
+        "origine_ceci": {"valore": null, "fonte": "da chiedere al negozio", "confidenza": "non_letto"},
+        "valori_per_100g": {"valore": "1028 kJ / 247 kcal; grassi 14 g (saturi 1,8 g); carboidrati 19 g (zuccheri 1,4 g); fibre 6,4 g; proteine 8 g; sale 1,7 g", "fonte": "foto dell'etichetta", "confidenza": "media"},
+        "alt_foto_1": {"valore": "Vaschetta di hummus di ceci biologico senza aglio Baule Volante, con ceci e rosmarino illustrati", "fonte": "foto frontale", "confidenza": "alta"},
+        "alt_foto_2": {"valore": "Lato della vaschetta di hummus Baule Volante con i suggerimenti d'uso", "fonte": "foto 2", "confidenza": "alta"},
+        "alt_foto_3": {"valore": "Lato della vaschetta di hummus Baule Volante con valori nutrizionali e modo di conservazione", "fonte": "foto 3", "confidenza": "alta"}
+      }
+    },
+    {
+      "id": "90386a8f-f342-479b-8588-7583a4c2ef27",
+      "prezzo_database": 2.95,
+      "foto_n": 4,
+      "campi": {
+        "nome": {"valore": "Kefir di capra magro biologico da bere 200 g (Biobruni)", "fonte": "foto frontale: «Kefir magro biologico di capra da bere»", "confidenza": "alta"},
+        "descrizione_breve": {"valore": "Kefir bio da latte scremato di capra, in bottiglietta di vetro da 200 g. Da bere: si agita prima dell'uso. Latte di origine italiana.", "fonte": "foto dell'etichetta («Origine del latte: Italia», «agitare prima dell'uso»)", "confidenza": "alta"},
+        "categoria": {"valore": "alimentari-latticini", "oggi": "alimentari-latticini (già giusta)", "fonte": "database + codice", "confidenza": "alta"},
+        "peso": {"valore": "200 g", "fonte": "foto dell'etichetta; coincide col database", "confidenza": "alta"},
+        "marca": {"valore": "Biobruni", "fonte": "foto dell'etichetta", "confidenza": "alta"},
+        "produttore": {"valore": null, "fonte": "non letto: l'etichetta riporta l'origine del latte (Italia), non il produttore; da chiedere al negozio se serve", "confidenza": "non_letto"},
+        "ingredienti": {"valore": "Latte scremato pastorizzato di capra*; fermenti lattici vivi (Lactococcus lactis, Leuconostoc mesenteroides, Streptococcus thermophilus, Lactobacillus acidophilus, Debaryomyces hansenii, Saccharomyces spp. unisporus ed exigus). *ingredienti biologici", "fonte": "foto dell'etichetta (ingrandita)", "confidenza": "alta; il database scrive «fermenti lattici vivi» senza i nomi, che invece ci sono"},
+        "allergeni": {"valore": "Latte e derivati", "fonte": "foto dell'etichetta (in grassetto nell'elenco)", "confidenza": "alta; oggi manca nel database"},
+        "conservazione": {"valore": "Frigorifero", "fonte": "database (la dicitura sull'etichetta non si legge)", "confidenza": "media"},
+        "origine": {"valore": "Latte: Italia", "fonte": "foto dell'etichetta", "confidenza": "alta"},
+        "valori_per_100g": {"valore": "169 kJ / 40 kcal; grassi 0,9 g (saturi 0,6 g); carboidrati 4,3 g (zuccheri 4,2 g); proteine 3,5 g; sale 0,10 g", "fonte": "foto dell'etichetta", "confidenza": "alta"},
+        "alt_foto_1": {"valore": "Bottiglietta di vetro di kefir magro biologico di capra da bere Biobruni, 200 g", "fonte": "foto frontale", "confidenza": "alta"},
+        "alt_foto_2": {"valore": "Retro della bottiglietta Biobruni con ingredienti, valori nutrizionali e origine del latte", "fonte": "foto retro", "confidenza": "alta"}
+      },
+      "note": "Le foto 3 e 4 sono le stesse della 1 e della 2 (stessa dimensione e stessi dettagli): se il negozio le ha caricate due volte, se ne può togliere una coppia."
+    },
+    {
+      "id": "034d599d-fdef-4ecb-9cb3-9e7bcdb9e0e0",
+      "prezzo_database": 5.0,
+      "foto_n": 2,
+      "campi": {
+        "nome": {"valore": "Pesto genovese biologico classico 120 g", "fonte": "foto frontale: «Pesto Genovese BIO, Classico»", "confidenza": "alta"},
+        "descrizione_breve": {"valore": "Pesto genovese bio con basilico genovese DOP (25%), olio extravergine, Parmigiano Reggiano DOP e pinoli. Senza glutine. Vasetto di carta da 120 g.", "fonte": "foto dell'etichetta (retro, ingrandita)", "confidenza": "alta"},
+        "categoria": {"valore": "alimentari-dispensa", "oggi": "alimentari", "fonte": "codice; scelta mia: è da frigo, vedi hummus", "confidenza": "media"},
+        "peso": {"valore": "120 g", "fonte": "foto dell'etichetta; coincide col testo alternativo del database", "confidenza": "alta"},
+        "marca": {"valore": "Artigiana Amadori", "oggi_nel_database": "Artigiani del Madouri (sbagliato)", "fonte": "foto dell'etichetta (logo sul fronte)", "confidenza": "alta"},
+        "produttore": {"valore": "Artigiana Genovese S.r.l., via Ungaretti 6/L, Genova Prà", "fonte": "foto dell'etichetta", "confidenza": "alta"},
+        "ingredienti": {"valore": "Olio extravergine di oliva*, basilico genovese DOP* 25%, Parmigiano Reggiano DOP* (latte*, sale, caglio), siero di latte in polvere*, sale, pinoli*, aglio*, antiossidante: acido ascorbico. (*ingredienti biologici). Senza glutine.", "fonte": "foto dell'etichetta (ingrandita)", "confidenza": "alta"},
+        "allergeni": {"valore": "Latte (in grassetto nell'etichetta). Può contenere tracce di frutta a guscio e soia.", "fonte": "foto dell'etichetta", "confidenza": "alta"},
+        "conservazione": {"valore": "In frigorifero a +4 °C. Dopo l'apertura, consumare entro 3 giorni.", "fonte": "foto dell'etichetta", "confidenza": "alta"},
+        "origine": {"valore": "Prodotto e confezionato a Genova (Prà)", "fonte": "foto dell'etichetta", "confidenza": "alta per il luogo di confezionamento"},
+        "origine_ingredienti": {"valore": null, "fonte": "da chiedere al negozio", "confidenza": "non_letto"},
+        "valori_per_100g": {"valore": "2178 kJ / 528 kcal; grassi 53 g (saturi 10 g); carboidrati 6,1 g (zuccheri 5,4 g); proteine 7 g; sale 2,8 g", "fonte": "foto dell'etichetta", "confidenza": "media"},
+        "alt_foto_1": {"valore": "Vasetto di carta di pesto genovese biologico classico Artigiana Amadori, 120 g", "fonte": "foto frontale", "confidenza": "alta"},
+        "alt_foto_2": {"valore": "Retro del vasetto di pesto genovese bio con ingredienti, allergeni e valori nutrizionali", "fonte": "foto retro", "confidenza": "alta"}
+      },
+      "note": "Il testo alternativo di oggi dice «Artigiani del Madouri»: va corretto anche lì. Un cliente che cerca il marchio non lo troverebbe e vedrebbe due nomi fra scheda e vasetto."
+    }
+  ],
+  "attributi_spuntabili": {
+    "bio": "letto su pesto, hummus, pudding, kefir",
+    "senza_glutine": "letto solo sul pesto (scritto in etichetta)",
+    "altri": "il resto non si spunta senza etichetta",
+    "pinoli": "non trattati come allergene a sé: la dicitura letta è «può contenere frutta a guscio, soia» e va riportata così; la qualifica giuridica spetta a chi ha competenza legale"
+  },
+  "differenze_database_vs_etichetta": [
+    {"n": 1, "prodotto": "Pesto genovese", "campo": "marca", "database": "Artigiani del Madouri (scheda e testo alternativo)", "etichetta": "Artigiana Amadori; produttore Artigiana Genovese S.r.l.", "gravita": "alta"},
+    {"n": 2, "prodotto": "Kefir di capra", "campo": "allergeni", "database": "campo vuoto", "etichetta": "latte (in grassetto); il campo è obbligatorio per gli alimentari", "gravita": "alta"},
+    {"n": 3, "prodotto": "Kefir 400 g", "campo": "ingredienti", "database": "«colture kefir»", "etichetta": "«fermenti lattici»", "gravita": "media"},
+    {"n": 4, "prodotto": "Kefir 400 g", "campo": "ingredienti (agricoltura)", "database": "«agricoltura biodinamica Demeter»", "etichetta": "«agricoltura biologica»; marchio Demeter solo sul fronte", "gravita": "media"},
+    {"n": 5, "prodotto": "Negozio", "campo": "descrizione", "database": "promette pane e miele biologico", "etichetta": "nel catalogo non c'è né pane né miele", "gravita": "alta"}
+  ],
+  "da_chiedere_al_negozio": [
+    {"n": 1, "domanda": "Vendete anche pane e miele? Sì o no", "prodotto": "negozio", "perche": "decide la versione A o B della descrizione", "urgente": true},
+    {"n": 2, "domanda": "Foto dell'elenco ingredienti", "prodotto": "hummus", "perche": "faccia non fotografata", "urgente": true},
+    {"n": 3, "domanda": "Foto dell'elenco ingredienti (bordo del vasetto)", "prodotto": "pudding", "perche": "illeggibile", "urgente": true},
+    {"n": 4, "domanda": "Allergeni (c'è sesamo? latte?)", "prodotto": "hummus, pudding", "perche": "non deducibili", "urgente": true},
+    {"n": 5, "domanda": "Peso in grammi", "prodotto": "hummus, pudding", "perche": "non letto", "urgente": true},
+    {"n": 6, "domanda": "Dicitura di conservazione", "prodotto": "pudding", "perche": "illeggibile", "urgente": false},
+    {"n": 7, "domanda": "Origine dei ceci / degli ingredienti", "prodotto": "hummus, pesto", "perche": "non scritta nelle foto", "urgente": false},
+    {"n": 8, "domanda": "Origine del pudding", "prodotto": "pudding", "perche": "etichetta in tedesco", "urgente": false},
+    {"n": 9, "domanda": "Scadenza dei pezzi in vendita (prima del 15/11)", "prodotto": "tutti", "perche": "si legge solo sul pezzo", "urgente": false},
+    {"n": 10, "domanda": "Perché le scorte sono tutte a 20? Sono davvero 20 pezzi?", "prodotto": "tutti", "perche": "sembra un numero messo a mano", "urgente": false},
+    {"n": 11, "domanda": "Orari corretti? (il giovedì pomeriggio è chiuso?)", "prodotto": "negozio", "perche": "solo database", "urgente": true},
+    {"n": 12, "domanda": "Ritiro in negozio: lo fate davvero? Consegna rapida: la fate?", "prodotto": "negozio", "perche": "badge attivi nel database", "urgente": false},
+    {"n": 13, "domanda": "Il bollino «prodotti locali» e «sostenibile»: toglierli?", "prodotto": "negozio", "perche": "nessun prodotto è di Piacenza", "urgente": false},
+    {"n": 14, "domanda": "Conferma la marca del pesto: «Artigiana Amadori»", "prodotto": "pesto", "perche": "database in contrasto con etichetta", "urgente": false}
+  ]
+}

@@ -6736,3 +6736,28 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 
 **Colore:** 🟡 auto-modifica della macchina, vale con la firma di Nicola sulla richiesta di unione. Nessuna campagna è partita.
 
+## 2026-11-07 00:34 — 🟡 Il quarto giro della radiografia, firmato da Nicola (carta 231)
+
+**Cosa:** Nicola ha scritto «facciamo la carta 229 e 231». Per la 231 l'AD ha preso la strada consigliata: un quarto giro con 4 verificatori sugli 8 difetti del terzo giro rimasti senza verifica. Sono veri tutti e 8, con prove che diventano rosse.
+
+**Le scelte dell'AD:**
+- **Il grave sulla privacy diventa la falla riservata R310:** i dettagli restano in chat finché non è chiusa.
+- **L'altro grave scende a minore,** come dice il verificatore del peso: al lancio la carta è spenta.
+- **Le 8 voci entrano in coda al grezzo del 6/11 e al registro.** Il digest è rifatto su una copia del deposito: 2.899 + 8 = 2.907 voci, 0 voci vecchie cambiate. Il confronto col 5/11, che un secondo digest avrebbe azzerato, è rimesso com'era.
+- **La verifica esterna delle falle riservate** resta da decidere: serve una sessione nuova.
+
+**Colore:** 🟡 lavoro della macchina sul registro del sito, nessuna scrittura sul sito vero. Vale con la firma di Nicola sulla richiesta.
+
+## 2026-11-07 00:55 — 🔴 Nicola firma la palestra (carta 232)
+
+**Cosa:** Nicola ha scelto, una per una: il sito di prova in un progetto Vercel separato; l'intelligenza artificiale finta, a costo zero; anche la carta, in modalità test di Stripe. Sulla durata: «se costa 32 centesimi al giorno fallo per tutti i giorni che ti servono per tutti i controlli e ricontrolli finché non sei sicuro che tutto funzioni correttamente».
+
+**Una correzione dell'AD:** il piano diceva «acceso solo durante le prove, tre giorni da 8 ore, circa 0,32 $». La documentazione di Supabase dice che una copia del database si paga a ore finché esiste e non si spegne: si ferma solo cancellandola. Il costo giusto è 0,01344 $ l'ora, circa 0,32 $ al giorno, sulla fattura mensile di Supabase. Corretto nel piano e nella carta.
+
+**Le regole che restano:** il sito vero non si tocca; nessuna variabile della palestra vale per Production; nessuna chiave vera, a parte quelle di prova che mette Nicola; la palestra non può scrivere sul database vero né mandare email a persone vere. La copia del database si cancella appena le prove sono finite.
+
+**Colore:** 🔴 spesa vera, piccola, firmata da Nicola.
+
+- **2026-11-07 01:22 · 🟡 Palestra: costruito il database di prova, chiesti a Nicola quattro passi su Vercel.** Cosa: aggiunto all'ambiente «mycity» solo l'indirizzo del database di prova (`yilfozxodylguhcjdqvy.supabase.co`, approvato da Nicola nel riquadro); applicate le 178 migrazioni e le semine del sito adattate; due funzioni sul ramo di prova (una per l'SQL, protetta da gettone; una che fa da intelligenza artificiale finta); commit `c9eb7493` sul ramo `claude/serene-wright-7l023n` del sito, che accende la carta solo con una variabile della palestra e non si unisce mai. Perché: carta 232 firmata alle 00:55. Vercel ha rifiutato la creazione del progetto (403): non ho cercato strade di lato.
+
+- **2026-11-07 03:41 · 🟡 Accoglienza dei negozi provata su Pane Quotidiano, carta #233 accodata.** Cosa: Nicola ha chiesto «prepara la carta dell'accoglienza e fai tutte le cose che puoi già fare su Pane Quotidiano». Fatto in sola lettura sul sito vero: vetrina vista da cliente, obblighi, bozze dei dati lette dalle etichette, piano delle 4 settimane, locandina con QR, Google e ricerca. In palestra: copia del negozio e primo ordine riuscito due volte. Il post social resta fermo per la regola negozi.ingresso. I consigli al negoziante passano dall'avviso via app ed email, non da WhatsApp, per il paletto 3 del 1/11. Una riga aggiunta alla mappa di allocazione-check (consegne/accoglienza-negozi → business), perché la CI era rossa: modifica alla macchina, 🟡, da confermare.
