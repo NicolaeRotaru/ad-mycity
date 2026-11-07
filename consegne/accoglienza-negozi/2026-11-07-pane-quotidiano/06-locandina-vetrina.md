@@ -1,38 +1,57 @@
 # Locandina A5 per la vetrina e la cassa di Pane Quotidiano
 
+> Aggiornata il 2026-11-07 02:50 dal direttore creativo: la prima versione è stata rifatta. Il giudizio completo, con il prima e dopo, è nel file `06b-giudizio-locandina.md` accanto a questo.
+
 ## In parole semplici
-Ho preparato un foglio A5 (mezzo A4) da attaccare in vetrina e alla cassa. Dice che dal 15 novembre i prodotti del negozio sono anche online. C'è un codice QR: chi lo inquadra col telefono arriva alla pagina di Pane Quotidiano su MyCity.
+Questo documento parla del foglio A5 (mezzo A4) da attaccare in vetrina e alla cassa di Pane Quotidiano, e serve a stamparlo bene. Il titolo dice «Non riesci a passare? Passiamo noi.». Sotto c'è un codice QR: chi lo inquadra col telefono arriva alla pagina del negozio su MyCity e ordina la consegna a casa.
+
+Per esempio: una cliente al banco legge il cartello il martedì. Il giovedì pomeriggio il negozio è chiuso e lei ha bisogno di qualcosa: si ricorda del cartello e ordina da casa.
 
 ## Cosa cambia per te
-Il negozio ha un modo gratuito per far sapere ai clienti già presenti in negozio che esiste la pagina online. Nessuno ha ancora stampato nulla: i file sono pronti, la stampa la decidi tu.
+Il negozio ha un modo gratuito per dire ai suoi clienti che, quando non possono venire, la spesa arriva da loro. Il cartello non parla di «online», che non dice al cliente cosa ci guadagna: parla del giorno in cui non riesce a passare. Nessuno ha ancora stampato nulla: i file sono pronti, la stampa la decidi tu.
 
 ## Cosa devi fare
-1. Guarda l'anteprima: `creativi/pane-quotidiano/locandina-A5.png`.
-2. Approva il testo qui sotto (o dimmi cosa cambiare), soprattutto la data «Dal 15 novembre».
-3. Se va bene, stampa 2 copie a colori su carta normale 120-170 g (una per la vetrina, una per la cassa). Tipografia o stampante di casa: costa pochi euro. L'ordine in tipografia lo decidi tu, io non lo faccio.
+- Guarda l'anteprima: `creativi/pane-quotidiano/locandina-A5.png`.
+- Non stamparla finché la pagina online del negozio non mostra il pane: oggi ha 5 prodotti (kefir, budino, hummus, pesto) e nessun pane.
+- Falla vedere al fornaio: il titolo parla con la sua voce.
+- Quando è il momento, stampa 2 copie a colori: una A5 per la cassa e una A4 per la vetrina (stesso PDF, scala 141%). Carta normale da 120-170 grammi, tipografia o stampante di casa: costa pochi euro. L'ordine in tipografia lo decidi tu, io non lo faccio.
+- Attaccala il giorno in cui il sito apre davvero, non prima.
 
 ## Cosa non ho verificato
-- Ho decodificato il QR con un programma (jsQR) sul PNG: porta esattamente a `https://www.mycity-marketplace.com/store/c0b240c0-2a86-4218-9d0f-5154f08ff929`. Letto bene anche in bianco e nero ridotto al 25% (simula fotocopia). Non l'ho provato con un telefono vero né da stampa su carta.
-- La pagina risponde (codice 200, controllato con una richiesta pubblica), ma non ho guardato come appare: la pagina ha solo 5 prodotti (kefir, budino, hummus, pesto) e nessun logo. Se il QR porta lì prima di aver sistemato la vetrina online, il cliente vede poco.
-- La data del 15 novembre me l'hai data tu; non ho riletto il registro dei fatti. Il testo non parla di consegna né di pagamento, perché non li ho verificati per questo negozio.
-- Colori da schermo (RGB): sulla stampa possono venire un po' diversi. Il font Fraunces dei titoli non è installato qui: ho usato Inter anche per i titoli. Il logo ufficiale non è usato, c'è solo la scritta «MyCity» in terracotta.
-
-## Cosa ho fatto
-Layout scelto: un solo messaggio, titolo grande sulla banda terracotta, QR grande al centro. Ho scartato due alternative: una con l'elenco dei prodotti (troppo testo, e i prodotti sono pochi) e una con orari e telefono (distrae dalla scansione; orari e telefono sono già sulla pagina).
-
-Testo della locandina:
-- Riga in alto: PANE QUOTIDIANO · VIA CALZOLAI 25
-- Titolo: «La nostra spesa ora anche online»
-- Sotto: «Dal 15 novembre. Inquadra con il telefono e guarda i nostri prodotti.»
-- Piede: «MyCity · La spesa che tiene viva la città.»
-
-QR: correzione errori livello Q, margine bianco (zona di quiete) di 4 moduli, 230 pt (circa 8 cm) di lato, scuro `#2C2A28` su bianco, cornice senape.
-
-File:
-- `/home/user/ad-mycity/creativi/pane-quotidiano/locandina-A5.pdf` (da stampare, 419,5 x 595,3 pt = A5, font incorporati)
-- `/home/user/ad-mycity/creativi/pane-quotidiano/locandina-A5.png` (300 dpi, per anteprima o WhatsApp)
-
-Come stamparla: PDF, formato A5 o «adatta alla pagina» su A4 con 2 copie affiancate non è consigliato (il QR rimpicciolisce). Scala 100%, a colori, senza margini aggiunti dalla stampante. Il testo è lontano dal bordo, quindi nessun rischio di taglio. In vetrina: a metà altezza, lato interno del vetro, dove il QR sta all'altezza degli occhi.
+- Il QR l'ho letto con un programma in quattro condizioni via via peggiori, e porta sempre alla pagina giusta. Non l'ho provato con un telefono vero né su carta stampata.
+- Non ho provato carrello, cassa e consegna: consegna a casa e contanti alla consegna vengono dal registro dei fatti.
+- Due frasi vanno fatte guardare al legale prima della stampa: «Paghi in contanti alla consegna» e «Passiamo noi» (al lancio consegna Nicola per MyCity, non il negozio).
+- Colori da schermo: sulla stampa possono venire un po' diversi. Il marchio MyCity è ricostruito dal file ufficiale del sito, con uno spessore di carattere un po' più leggero dell'originale.
 
 ## Dettagli tecnici
-Script usato: pdfkit + qrcode, fuori dalla cartella `creativi` (lì mancano le dipendenze installate, e `genera-locandina.mjs` ha layout generico e testo da iscrizione alla lista d'attesa, non adatto). Font: Inter Bold/Medium. Decodifica: jsQR su PNG 300 dpi e su versione grigia ridotta al 25%, soglia 50%.
+
+### Testo della locandina
+- Riga in alto: PANE QUOTIDIANO · VIA CALZOLAI 25
+- Domanda: «Non riesci a passare?»
+- Titolo grande: «Passiamo noi.»
+- Sotto: «Scegli dal telefono i nostri prodotti: te li portiamo a casa.»
+- Sopra il QR: «Apri la fotocamera e inquadra il codice ↓»
+- Sotto il QR: «Paghi in contanti alla consegna.»
+- Piede: marchio MyCity e «La spesa che tiene viva la città.»
+
+Niente data sul foglio: il 15/11 è domenica e il negozio è chiuso, e il registro dice che la data si sposta se Stripe non ha verificato i conti. Niente prezzi della consegna né raggio dei 5 km: sono numeri che sono già cambiati, e sulla carta resterebbero vecchi. Li mostra il sito.
+
+### Scelte scartate
+- «La nostra spesa ora anche online» (la prima versione): frase da qualunque negozio, e spinge online chi già compra al banco.
+- «Via Calzolai 25, adesso anche a casa tua»: onesta ma senza tensione; al banco l'indirizzo non serve.
+- «Saracinesca giù? La bottega resta aperta.»: promessa falsa, a negozio chiuso nessuno prepara né consegna.
+- Elenco dei prodotti, orari e telefono sul foglio: troppo testo, e distraggono dalla scansione.
+
+### Grafica
+Banda terracotta in alto con domanda e titolo in Fraunces SemiBold (il carattere dei titoli del marchio), testi in Inter. QR: correzione errori livello Q, margine bianco di 4 moduli, 222 punti di lato (circa 7,8 cm su A5, circa 11 cm su A4), scuro `#2C2A28` su bianco, cornice senape `#E8A33D`. Marchio: «My» senape e «City» inchiostro, come `wordmark-light.svg` del sito.
+
+### File
+- `/home/user/ad-mycity/creativi/pane-quotidiano/locandina-A5.pdf` (da stampare, 419,5 x 595,3 punti = A5, caratteri incorporati)
+- `/home/user/ad-mycity/creativi/pane-quotidiano/locandina-A5.png` (300 dpi, per anteprima o WhatsApp)
+- `/home/user/ad-mycity/creativi/pane-quotidiano/locandina-A5-v1-scartata.png` (la prima versione, solo per confronto)
+
+### Come stamparla
+PDF a scala 100% per A5, a colori, senza margini aggiunti dalla stampante. Per la vetrina, stesso PDF su A4 a scala 141%: cresce tutto, QR compreso. Non mettere 2 copie affiancate su un A4: il QR rimpicciolisce. Una stampante di casa lascia un bordino bianco intorno alla banda: va bene così. In vetrina: lato interno del vetro, a metà altezza, col QR all'altezza degli occhi.
+
+### Come è fatta
+Programma: pdfkit + qrcode, fuori dalla cartella `creativi` (`/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/pq/mk2.mjs`). Il generatore del progetto `genera-locandina.mjs` ha un testo da lista d'attesa, non adatto. Decodifica con jsQR: PNG a 300 dpi; grigio al 25% con soglia al 50%; ridotto a 210 pixel; sfocato e ridotto al 40%. Pagina di arrivo: codice 200, richiesta pubblica del 2026-11-07 02:46.

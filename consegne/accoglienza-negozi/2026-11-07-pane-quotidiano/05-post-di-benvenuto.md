@@ -1,6 +1,7 @@
 ---
-data: 2026-11-07 09:30
+data: 2026-11-07 02:39
 autore: content-social
+rivisto: direttore-creativo, 2026-11-07 02:55 (giudizio e motivi nel file 05b)
 oggetto: Pane Quotidiano, materiale di benvenuto per i social (bozza, nulla è stato pubblicato né mandato)
 colore: bozza 🟢 · pubblicare 🔴 (serve il via di Nicola e l'ok del negoziante per nome e foto)
 ---
@@ -8,6 +9,8 @@ colore: bozza 🟢 · pubblicare 🔴 (serve il via di Nicola e l'ok del negozia
 # Pane Quotidiano: il materiale di benvenuto per i social
 
 **In due righe:** bozze pronte per il lancio del 15/11 (post, 3 storie, messaggio WhatsApp). Si pubblicano solo dopo il sì del negoziante e le correzioni alla vetrina.
+
+**Rivisto dal direttore creativo il 7/11 alle 02:55.** Il post ora apre con la stessa frase della locandina in vetrina: «Non riesci a passare? Passiamo noi.» Il carosello non usa più le foto grigie dei prodotti. Il prezzo della consegna è detto per intero. Motivi e voto nel file del giudizio (05b).
 
 ## In parole semplici
 
@@ -34,7 +37,7 @@ Un esempio. Oggi il sito mostra 5 prodotti: due kefir, hummus, budino alla vanig
 - Non ho visto una sola foto del negoziante né una sua frase. Non c'è un volto nel post.
 - Le foto dei prodotti le ho solo come indirizzi pubblici sul sito: le ho guardate nella pagina, non le ho scaricate una a una. Hanno sfondo grigio e prodotto piccolo.
 - Orari, telefono e indirizzo vengono dal database (gli orari da PagineGialle). Nessuno confermato dal negozio. Per questo gli orari non compaiono nei testi.
-- La frase sulla consegna da 3 euro viene dal registro dei fatti del 1/11, non dal sito provato. La promessa «30-60 minuti» non è mai stata mantenuta in pratica: non la uso.
+- La regola della consegna (3 euro, 4 se la spesa sta sotto i 10 euro) viene dal registro dei fatti del 29/10, non dal sito provato. La promessa «30-60 minuti» non è mai stata mantenuta in pratica: non la uso.
 - Se il negozio accetterà i Termini e chi gestirà le consegne il 15/11: non lo so.
 - Non ho testato come viene mostrato il link nei social né le misure delle grafiche.
 
@@ -46,42 +49,53 @@ Un esempio. Oggi il sito mostra 5 prodotti: due kefir, hummus, budino alla vanig
 
 Domanda-ghigliottina: «Poteva farlo Amazon?». L'angolo A, da solo, quasi sì. Lo rende nostro la riga della causa e la domanda finale, che chiede al quartiere cosa manca (e a noi dice se il pane serve).
 
+**Revisione del direttore creativo.** L'angolo A resta, ma cambia l'inizio. «Sotto casa, in Via Calzolai 25» è vero solo per chi abita in Via Calzolai, e non ferma nessuno. Ora il post apre con la frase della locandina, adattata con l'indirizzo (la trovi nel testo qui sotto). Chi vede il foglio in vetrina e poi il post ritrova la stessa voce. Il «contro», cioè il magazzino fuori città, sale dal quinto paragrafo al terzo. La domanda finale non chiede più cosa manca nel negozio: chiede cosa compri sempre lì. Dà la stessa informazione, ma come un complimento.
+
 ## 1. Il post principale (Instagram e Facebook, stesso testo)
 
-**Un solo lavoro:** far arrivare commenti. Su Facebook il link non va nel testo ma nel primo commento, per non perdere visibilità. KPI atteso (mia stima, tiro a indovinare): 10-20 commenti e 100-300 persone raggiunte sul primo post con un account nuovo. Non è misurato.
+**Un solo lavoro:** far arrivare commenti, prima di tutto dai clienti che il negozio ha già. Il link alla pagina del negozio (lo stesso del messaggio WhatsApp, sezione 3): su Facebook nel primo commento, per non perdere visibilità; su Instagram nella bio del profilo, perché nei commenti di Instagram un link non si apre. KPI atteso (mia stima, tiro a indovinare): 10-20 commenti e 100-300 persone raggiunte sul primo post con un account nuovo. Non è misurato.
 
-**Formato:** carosello Instagram da 4 immagini; su Facebook lo stesso carosello o la sola prima immagine.
+**Formato:** carosello Instagram da 4 immagini 1080x1350; su Facebook lo stesso carosello o la sola prima immagine.
 
 **Testo:**
 
-> Sotto casa, in Via Calzolai 25, c'è Pane Quotidiano.
+> Non riesci a passare da Via Calzolai 25? Passiamo noi.
 >
-> Dal 15 novembre lo puoi ordinare anche da casa, su MyCity.
+> Pane Quotidiano, bottega del centro di Piacenza, dal 15 novembre è anche su MyCity. Scegli i prodotti dal telefono, scegli la fascia oraria, paghi in contanti alla consegna.
 >
-> Sugli scaffali, oggi: kefir, hummus, pesto, budini. Roba da frigo e da dispensa, quella di tutti i giorni.
+> La spesa parte dalla bottega, non da un magazzino fuori città. Te la portiamo in bici, fino a 5 km dal negozio. Consegna 3 euro, 4 se spendi meno di 10: il totale lo vedi prima di confermare.
 >
-> Come funziona: scegli i prodotti sul sito, scegli la fascia in cui vuoi la consegna, paghi in contanti a chi te li porta. La consegna parte da 3 euro e il prezzo lo vedi prima di ordinare. Niente carta, niente registrazioni lunghe.
+> Online, per ora, ci sono i primi cinque prodotti: due kefir, hummus, pesto e un pudding alla vaniglia. Il resto è sugli scaffali.
 >
-> Perché lo facciamo: perché il centro di Piacenza non diventi un posto dove si passa e basta. Ogni ordine a una bottega vera è una saracinesca che resta su. Piacenza non è in vendita.
+> Se ci sei già entrato: cosa prendi sempre, lì? Scrivilo qui sotto, lo giriamo al negozio.
 >
-> Dimmi tu: cosa vorresti trovare da Pane Quotidiano che ancora non c'è?
->
-> [Primo commento: Il link per guardare il negozio: https://www.mycity-marketplace.com/store/c0b240c0-2a86-4218-9d0f-5154f08ff929]
+> MyCity · La spesa che tiene viva la città.
 
 **Hashtag (3, locali):** #Piacenza #BottegheDiPiacenza #MyCityPiacenza
 
 **Le frasi che ho tolto e perché:** «prodotti locali» (il kefir è tedesco), «sostenibile», «bio» nel titolo (il bollino del negozio è ancora da chiarire), «fresco di giornata», qualsiasi frase di salute, «consegna rapida», «30-60 minuti», «pane», «miele», gli orari.
 
-**Foto, solo vere:**
+**Tolte nella revisione del direttore creativo:**
+- «Niente carta»: il registro dice che la carta entra nel lancio, spenta all'inizio. Il giorno che si accende, la frase diventa falsa. «Paghi in contanti alla consegna» resta vero anche dopo.
+- «Niente registrazioni lunghe»: per confermare l'ordine il sito chiede un account con email e password. Non è una promessa che possiamo fare.
+- «La consegna parte da 3 euro» da sola: i prodotti costano da 2 a 5 euro, quindi quasi ogni primo ordine sta sotto i 10 euro e paga 4. Va detto subito.
+- «Sugli scaffali, oggi: kefir…»: sugli scaffali del negozio c'è molto di più (si vede nella foto). Quei cinque sono quelli online.
+- «Piacenza non è in vendita»: al suo posto la frase ufficiale del marchio, la stessa della locandina. Una campagna, una voce.
 
-| Immagine | Cosa | Stato |
+**Le immagini del carosello (riviste: niente foto grigie dei prodotti):**
+
+| Immagine | Cosa | Perché |
 |---|---|---|
-| 1 (copertina) | La foto del negozio già sul sito: scaffali con barattoli e farine. Sopra, in grande, «Via Calzolai 25» | Vera, ma scura e un po' sfocata. Da tenere solo se non arriva di meglio. |
-| 2 | Kefir di capra Biobruni, foto 1 sul sito | Vera, sfondo grigio. Non usare le foto 3 e 4: sono doppioni |
-| 3 | Hummus di ceci Baule Volante, foto 1 sul sito | Vera, sfondo grigio |
-| 4 | Pesto Genovese Artigiani del Madouri, foto 1 sul sito | Vera, sfondo grigio |
+| 1 (copertina) | La foto vera del negozio (scaffali, barattoli, farine). Sopra, piccolo: «PANE QUOTIDIANO · VIA CALZOLAI 25». Grande: «Non riesci a passare? Passiamo noi.» | È la frase della locandina in vetrina. La foto è scura: schiarire poco, non ritoccare il contenuto. |
+| 2 | «Come arriva a casa tua»: i tre passi del testo, su fondo panna, uno per riga. Sotto: «Consegna 3 € · 4 € sotto i 10 € di spesa» | È l'informazione che uno salva per quando ordina. Una sola idea. |
+| 3 | «Online, per ora»: uno scontrino con i 5 prodotti e i prezzi del sito. Kefir 400 g 2,05 € · Pudding alla vaniglia 2,05 € · Hummus di ceci senza aglio 2,95 € · Kefir di capra 200 g 2,95 € · Pesto genovese 5,00 €. In fondo, la stessa riga del testo sul resto della merce. | Le foto vere dei prodotti mostrano un barattolo piccolo su un muro grigio: fanno sembrare il negozio più povero di com'è. Lo scontrino è vero e si legge anche piccolo. Prezzi letti dal database il 7/11: da ricontrollare il giorno dell'uscita. |
+| 4 (chiusura) | «Ci sei già entrato? Scrivi nei commenti cosa prendi sempre.» Sotto: MyCity, la frase del marchio, @mycity.piacenza | L'ultima immagine è la richiesta. Firma del marchio come da regole. |
 
-**Quello che alzerebbe il post (non c'è ancora):** una foto del negoziante davanti al banco, di giorno, come immagine 1, con una sua frase tra virgolette sopra. In quel caso il hook diventa la sua voce e questa versione passa a seconda scelta. Finché non c'è, non uso foto da archivio: sarebbe una bugia sul negozio.
+**Quello che alzerebbe il post da «pronto» a «da salvare» (non c'è ancora): un volto.** Due strade, in quest'ordine.
+- **Il negoziante**, foto di giorno davanti al banco, con una sua frase tra virgolette come prima immagine. Il suo sì per nome e foto del negozio va chiesto comunque: nella stessa visita si chiedono anche foto e frase, e non costa niente in più.
+- **Nicola in bici davanti alla porta del negozio**, se il negoziante non vuole comparire. È vero, perché al lancio consegna lui in bici, e serve solo il suo sì. Nessun magazzino può mostrare la stessa foto.
+
+Finché non c'è un volto, niente foto d'archivio: sarebbe una bugia sul negozio.
 
 **Prima di pubblicare, tutte e cinque devono essere vere:**
 - Il negoziante ha detto sì a nome, indirizzo e foto.
@@ -94,32 +108,35 @@ Domanda-ghigliottina: «Poteva farlo Amazon?». L'angolo A, da solo, quasi sì. 
 
 Ogni storia è verticale 1080x1920, una sola idea, un solo gesto richiesto.
 
-**Storia 1, «Dove».** Foto vera del negozio (la copertina) a tutto schermo, sfondo scurito leggermente dal designer. Testo grande: «Via Calzolai 25». Sotto, piccolo: «Dal 15 novembre, anche a casa tua». Adesivo: nessuno. Lavoro: far riconoscere il posto.
+**Storia 1, «Dove».** Foto vera del negozio (la copertina) a tutto schermo, sfondo scurito leggermente dal designer. Testo grande: «Non riesci a passare?» e sotto «Passiamo noi.». In piccolo: «Via Calzolai 25 · dal 15 novembre». Adesivo: nessuno. Lavoro: far riconoscere il posto e la frase della vetrina.
 
-**Storia 2, «Cosa c'è».** Quattro foto vere dei prodotti (kefir di capra, hummus, pesto, budino alla vaniglia) in griglia 2x2 su sfondo pulito. Testo: «Oggi sugli scaffali». Adesivo «Quiz»: «Quale mancava nel tuo frigo?» con le quattro opzioni. Lavoro: interazione, che fa vedere la storia a più gente.
+**Storia 2, «Cosa c'è».** Lo scontrino dell'immagine 3 del carosello, in verticale, su fondo panna. Testo: «Online, per ora». Adesivo «Sondaggio», non «Quiz»: il quiz vuole una risposta giusta, qui non c'è. Domanda: «Quale prendi per primo?», con quattro opzioni (kefir, hummus, pesto, pudding). Lavoro: interazione, che fa vedere la storia a più gente.
 
-**Storia 3, «Dimmi tu».** Sfondo del colore del negozio (accento caldo #C4801F dal sito), testo bianco: «Cosa vorresti trovare da Pane Quotidiano?». Adesivo «Domande» attivo. Lavoro: portare le risposte che servono a noi e al negoziante. Link: adesivo con l'indirizzo della pagina del negozio, solo dopo le cinque condizioni sopra.
+**Storia 3, «Dimmi tu».** Fondo terracotta del marchio (#C0492C), testo bianco: «Cosa prendi sempre da Pane Quotidiano?». Il colore del negozio (#C4801F) non è nella tavolozza del marchio e il controllo del grafico lo boccerebbe. Adesivo «Domande» attivo. Lavoro: portare le risposte che servono a noi e al negoziante. Link: adesivo con l'indirizzo della pagina del negozio, solo dopo le cinque condizioni sopra.
 
-## 3. Messaggio per i gruppi WhatsApp di quartiere
+## 3. Il messaggio da mandare su WhatsApp
 
 Brevi, in prima persona, senza foto grandi e senza volantini. Prima di mandarlo a un gruppo serve il permesso dell'amministratore del gruppo: nei gruppi di quartiere la pubblicità fa litigare.
 
-> Buongiorno a tutti. Vi segnalo una cosa di Piacenza: Pane Quotidiano, in Via Calzolai 25, dal 15 novembre si può ordinare anche da casa sul sito MyCity. Scegli i prodotti e la fascia di consegna, paghi in contanti a chi te li porta. La consegna parte da 3 euro. Se vi serve o se mi dite cosa vorreste trovarci, sono qui. Link: https://www.mycity-marketplace.com/store/c0b240c0-2a86-4218-9d0f-5154f08ff929
+> Buongiorno a tutti. Vi segnalo una cosa a cui lavoro io, così è chiaro da subito: Pane Quotidiano, la bottega di Via Calzolai 25, dal 15 novembre si può ordinare anche da casa, sul sito MyCity. Scegliete i prodotti e la fascia oraria, pagate in contanti alla consegna, e la spesa ve la porto io, in bici. La consegna costa 3 euro, 4 se spendete meno di 10. Sul sito, per adesso, ci sono cinque prodotti: se mi dite cosa prendete di solito lì, lo giro al negozio. Il link: https://www.mycity-marketplace.com/store/c0b240c0-2a86-4218-9d0f-5154f08ff929
+
+**Perché «a cui lavoro io» (aggiunto nella revisione):** chi scrive nel gruppo è il fondatore di MyCity. Presentarsi come un vicino qualunque sarebbe pubblicità travestita, e in una città dove ci si conosce si scopre in un giorno.
 
 **Versione per i gruppi di una zona precisa** (per esempio il quartiere del negozio): sostituire la prima frase con «Chi abita da queste parti conosce Via Calzolai: …». Non so quali gruppi esistano né chi li gestisce: la lista va fatta da Nicola.
 
 ## Cosa passo agli altri
 
-- PASSO-A @designer (il grafico della squadra): copertina del carosello, griglia dei prodotti della storia 2, sfondo della storia 3. File descrittivo in `/home/user/ad-mycity/creativi/pane-quotidiano/` (sotto, nella riga Dettagli tecnici).
-- PASSO-A @legale-privacy: la frase «paghi in contanti a chi te li porta». Chi incassa per conto del negozio è scritto in una clausola del contratto che ancora manca. Da guardare anche lo slogan «Piacenza non è in vendita».
+- PASSO-A @designer (il grafico della squadra): le 4 immagini del carosello (copertina, tre passi, scontrino, chiusura) e le 3 storie, con lo scontrino riusato nella storia 2. File descrittivo in `/home/user/ad-mycity/creativi/pane-quotidiano/` (sotto, nella riga Dettagli tecnici).
+- PASSO-A @legale-privacy: la frase «paghi in contanti alla consegna». Chi incassa per conto del negozio è scritto in una clausola del contratto che ancora manca. Lo slogan «Piacenza non è in vendita» non c'è più: tolto nella revisione. Da guardare invece la frase di trasparenza del messaggio WhatsApp.
 - PASSO-A @account-negozi: le quattro cose da chiedere al negoziante sono già nel piano delle 4 settimane; vanno ripetute con la foto e la frase.
-- PASSO-A @direttore-creativo e @qa-designer: peer review del post prima dell'uscita.
+- @direttore-creativo: revisione fatta il 7/11 alle 02:55, verdetto «pronto con riserve» (file 05b).
+- PASSO-A @qa-designer: controllo tecnico delle grafiche prima dell'uscita.
 
 ## Dettagli tecnici
 
 **Fonti dei fatti nel testo.**
 - Indirizzo e prodotti: dati letti dal database il 7/11 alle 02:30 circa (`pane-quotidiano-dati.json`). I 5 prodotti e i prezzi coincidono con la pagina del negozio vista da visitatore (vedi `01-vetrina-vista-da-cliente.md`).
-- Contanti, fascia scelta, consegna da 3 euro: registro dei fatti, voci `consegna.promessa`, `consegna.fasce-orarie`, decise da Nicola il 30/10 e il 1/11. Da riconfermare con il registro prima di pubblicare: un numero è un fatto che cambia.
+- Contanti, fascia scelta, consegna 3 euro (4 sotto i 10 euro di spesa per negozio): registro dei fatti, voci `consegna.promessa` (29/10, schema confermato alle 22:21) e `consegna.fasce-orarie` (30/10). Bici e 5 km: `consegna.raggio` (28/10). Carta nel lancio ma spenta: `pagamenti.al-lancio` (31/10). Account obbligatorio per confermare: `app/checkout/page.tsx` del sito, redirezione a `/sign-in` prima di creare l'ordine. Da riconfermare con il registro prima di pubblicare: un numero è un fatto che cambia.
 - Orari: PagineGialle, non confermati dal negozio (`consegne/intelligence/2026-10-30-orari-negozi-piacenza.md`).
 - Il 15/11/2026 è domenica: controllato con il comando `date`.
 
@@ -134,6 +151,6 @@ Brevi, in prima persona, senza foto grandi e senza volantini. Prima di mandarlo 
 
 **Cose che ho scartato e la lezione.** Nella cartella `consegne/content/` ci sono i post di luglio su Pane Quotidiano (esempio `2026-07-03-post-lancio-pane-quotidiano.md`). Parlano di «profumo di pane», «mani del fornaio», «pane appena sfornato»: nel database di oggi non c'è nessun pane. Non li riuso e li segnalo a Nicola come testi da non pubblicare.
 
-**Il metro dei numeri.** 5 prodotti (2 kefir, hummus, budino, pesto). 3 euro di consegna, base per tutto il carrello (1 euro in più per ogni negozio in più e per ogni negozio sotto i 10 euro: nel testo non l'ho scritto, per brevità, e la cassa lo mostra). 3 storie, 4 immagini nel carosello. Stima di commenti e reach: ipotesi mia, nessun dato reale con cui calcolarla.
+**Il metro dei numeri.** 5 prodotti (2 kefir, hummus, budino, pesto). 3 euro di consegna, base per tutto il carrello (1 euro in più per ogni negozio in più e per ogni negozio sotto i 10 euro). Dopo la revisione il testo dice il caso di un negozio solo: 3 euro, 4 sotto i 10 euro. 3 storie, 4 immagini nel carosello. Stima di commenti e reach: ipotesi mia, nessun dato reale con cui calcolarla.
 
 **Regole che ho seguito.** Nessuna pubblicazione, nessun messaggio mandato, nessuna visita oltre la lettura delle pagine pubbliche, nessun commit.
