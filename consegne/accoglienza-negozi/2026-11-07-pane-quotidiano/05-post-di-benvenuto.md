@@ -16,7 +16,7 @@ colore: bozza 🟢 · pubblicare 🔴 (serve il via di Nicola e l'ok del negozia
 
 Ho scritto il materiale per annunciare Pane Quotidiano su MyCity: un post per Instagram e Facebook, tre storie, un messaggio corto per i gruppi WhatsApp di quartiere. Sono tutte bozze. Non è uscito niente.
 
-Un esempio. Oggi il sito mostra 5 prodotti: due kefir, hummus, budino alla vaniglia e pesto. Nessun pane, nessun miele, anche se la descrizione del negozio li promette. Per questo il post parla di quello che c'è davvero e non nomina mai il pane.
+Un esempio. Oggi il sito mostra 5 prodotti: il kefir in due versioni (mucca e capra), l'hummus, il pesto e il pudding. Nessun pane, nessun miele, anche se la descrizione del negozio li promette. Per questo il post parla di quello che c'è davvero e non nomina mai il pane.
 
 ## Cosa cambia per te
 
@@ -98,11 +98,17 @@ Domanda-ghigliottina: «Poteva farlo Amazon?». L'angolo A, da solo, quasi sì. 
 Finché non c'è un volto, niente foto d'archivio: sarebbe una bugia sul negozio.
 
 **Prima di pubblicare, tutte e cinque devono essere vere:**
-- Il negoziante ha detto sì a nome, indirizzo e foto.
+- Il negoziante ha detto sì a nome, indirizzo e foto. Nella stessa domanda: chi ha scattato la foto di copertina (se viene da Google Maps o da un altro sito, non si usa).
 - La descrizione del negozio sul sito non parla più di miele e pane (o li ha davvero).
 - I bollini «Prodotti locali» e «Sostenibile» sono stati tolti dal negozio.
 - Gli allergeni dei prodotti sono scritti dalle etichette.
 - Un fattorino è pronto e Nicola ha scelto la data della prima consegna.
+
+**Aggiunte dal controllo tecnico (7/11 alle 02:57, motivi nel file 05c): devono essere vere anche queste quattro.**
+- Il negozio ha accettato i Termini e ha firmato il permesso a incassare i contanti per suo conto. Oggi il database dice no a tutti e due. Il post porta ordini in contanti: senza quel permesso, il primo ordine parte scoperto.
+- Nicola ha confermato che si apre il 15/11. Il registro dice che si apre solo con la carta accesa, e il conto Stripe del negozio oggi non incassa. Se la data si sposta, «dal 15 novembre» va cambiato nel post, nella storia 1 e nel messaggio WhatsApp.
+- L'anteprima del link è stata ricontrollata dopo la correzione della descrizione. Oggi WhatsApp e Facebook, sotto il messaggio, mostrano «tra cui pane, miele biologico». Prova: mandare il link a sé stessi su WhatsApp e passarlo nel Debugger di condivisione di Facebook («Recupera di nuovo»).
+- Si sa qual è il profilo Instagram vero. Il marchio dice @mycity.piacenza, col punto. Il piè di pagina del sito porta a mycitypiacenza, senza punto. Il link «nella bio» funziona solo sul profilo che esiste.
 
 ## 2. Le tre storie (Instagram e Facebook, 24 ore)
 
@@ -145,12 +151,12 @@ Brevi, in prima persona, senza foto grandi e senza volantini. Prima di mandarlo 
 - Kefir di capra, foto 1: `.../products/c0b240c0-2a86-4218-9d0f-5154f08ff929/1781623482327-vgqw90-1000062973.jpg`
 - Hummus, foto 1: `.../products/c0b240c0-2a86-4218-9d0f-5154f08ff929/1781623103474-e6h77r-1000062970.jpg`
 - Pesto, foto 1: `.../products/c0b240c0-2a86-4218-9d0f-5154f08ff929/1781623587957-av1sz6-1000062975.jpg`
-- Budino alla vaniglia, foto 1: `.../products/c0b240c0-2a86-4218-9d0f-5154f08ff929/1781623054531-xp3hjf-1000062965.jpg`
+- Pudding alla vaniglia, foto 1: `.../products/c0b240c0-2a86-4218-9d0f-5154f08ff929/1781623054531-xp3hjf-1000062965.jpg`
 - Kefir 400 g, foto 1: `.../products/c0b240c0-2a86-4218-9d0f-5154f08ff929/1781622989848-vrs0i1-1000062964.jpg`
 - Gli indirizzi con «...» si completano così: `https://clmpyfvpvfjgeviworth.supabase.co/storage/v1/object/public` seguito da `/products/…`.
 
 **Cose che ho scartato e la lezione.** Nella cartella `consegne/content/` ci sono i post di luglio su Pane Quotidiano (esempio `2026-07-03-post-lancio-pane-quotidiano.md`). Parlano di «profumo di pane», «mani del fornaio», «pane appena sfornato»: nel database di oggi non c'è nessun pane. Non li riuso e li segnalo a Nicola come testi da non pubblicare.
 
-**Il metro dei numeri.** 5 prodotti (2 kefir, hummus, budino, pesto). 3 euro di consegna, base per tutto il carrello (1 euro in più per ogni negozio in più e per ogni negozio sotto i 10 euro). Dopo la revisione il testo dice il caso di un negozio solo: 3 euro, 4 sotto i 10 euro. 3 storie, 4 immagini nel carosello. Stima di commenti e reach: ipotesi mia, nessun dato reale con cui calcolarla.
+**Il metro dei numeri.** 5 prodotti (2 kefir, hummus, pudding, pesto). 3 euro di consegna, base per tutto il carrello (1 euro in più per ogni negozio in più e per ogni negozio sotto i 10 euro). Dopo la revisione il testo dice il caso di un negozio solo: 3 euro, 4 sotto i 10 euro. 3 storie, 4 immagini nel carosello. Stima di commenti e reach: ipotesi mia, nessun dato reale con cui calcolarla.
 
 **Regole che ho seguito.** Nessuna pubblicazione, nessun messaggio mandato, nessuna visita oltre la lettura delle pagine pubbliche, nessun commit.
