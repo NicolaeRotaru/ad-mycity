@@ -31,6 +31,21 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🔴 #234 — Prima di far partire il risolutore, di' dove sta il difetto dei contanti e scegli sugli allergeni · ⏳ accodata 2026-11-07 14:37
+
+**In parole semplici.** Il risolutore è la macchina che ripara i difetti in sessioni parallele. Lavora solo sui difetti scritti nel registro. Oggi la palestra ha anticipato cinque difetti, e io li ho fatti verificare a due agenti per voce. Quattro sono nel registro. Il quinto, il registro dei contanti, non c'è.
+
+**Cosa cambia per te.** Esempio: un fattorino consegna in contanti alle 12, versa alle 13, poi consegna di nuovo alle 14. Il registro segna già versati anche i soldi delle 14, che ha ancora in tasca. I pagamenti ai negozi restano giusti. Però il controllo che blocca la cancellazione di un fattorino con contanti da restituire si fida di quel registro. Se il difetto non entra nel registro, il risolutore non lo ripara.
+
+**Cosa devi fare tu.** Due scelte. Uno: dimmi se questo difetto è una delle tre falle riservate che la palestra ti ha raccontato in chat. Se non lo è, lo aggiungo io al registro. Due: gli allergeni. Quattro alimenti di Pane Quotidiano si comprano senza allergeni, e il cliente non vede nessun avviso. Puoi toglierli dalla vendita finché il negozio non li compila. Oppure lasciarli in vendita e sbloccare solo il ritocco della scheda. È una scelta legale, quindi tua.
+
+**Cosa non ho verificato.** Il database vero non l'ho letto. Nessuna prova del sito è stata eseguita: nella copia del sito mancavano le dipendenze.
+
+Cosa cambia: il risolutore parte con tutti i difetti verificati dentro il registro, compreso quello dei contanti, e sa quale strada prendere sugli allergeni.
+Se va bene: aggiungo il difetto dei contanti al registro, se serve, e alla tua frase «ripara subito i difetti del lancio» la regista prepara il piano e si ferma a chiederti «via?».
+
+La verifica dei cinque difetti, con causa, correzione e prova per ognuno: `consegne/audit/2026-11-07-verifica-difetti-palestra/referto.md`. Il registro scritto dalla palestra è nella richiesta NicolaeRotaru/ad-mycity#940.
+
 ### 🔴 #233 — Firma l'accoglienza dei negozi nuovi, provata su Pane Quotidiano · ⏳ accodata 2026-11-07 03:41
 
 **In parole semplici.** L'accoglienza è il lavoro che faccio quando entra un negozio. Lo guardo come un cliente e controllo gli obblighi. Preparo i suoi dati e provo il primo ordine in palestra. Poi lo seguo per 4 settimane. L'ho provata su Pane Quotidiano il 7/11.
