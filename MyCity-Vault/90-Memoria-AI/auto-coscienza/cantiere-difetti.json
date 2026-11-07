@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-11-07 08:51",
+  "aggiornato": "2026-11-07 09:49",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -26295,7 +26295,53 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/riparazione-sessioni.test.mjs",
-        "nota": "30 casi; 24 mutazioni a mano sul programma, tutte rosse (le principali in cervello/mutanti.json, difetto AR-1163). Replay sui dieci rami veri del 5/11: trova da solo i 6 file temporanei e gli sconfinamenti che il diario aveva segnato a mano. Si chiude con auto-fix dopo l’unione della PR."
+        "nota": "55 casi in cervello/test/riparazione-sessioni.test.mjs; circa 66 mutazioni a mano su quattro giri (costruzione, collaudo lente A, collaudo lente B, secondo collaudo), nessuna viva; le 12 principali in cervello/mutanti.json col difetto AR-1163. Due giri di collaudo indipendenti: il primo ha trovato 22 difetti, il secondo 8, tutti corretti con la loro prova; un terzo giro non c’è stato (regola delle due onde: lo decide Nicola). Replay sui dieci rami veri del 5/11: trova da solo i 6 file temporanei, 89 sconfinamenti, 28 prove vecchie toccate senza possederne il codice e i 65 file toccati da due rami. Si chiude con auto-fix dopo l’unione della PR."
+      }
+    },
+    {
+      "id": "AR-1164",
+      "titolo": "I pacchetti della macchina leggono «cervello/mutanti.json» come «cervello/mutanti.js»: due schede che toccano lo stesso registro possono finire in pacchetti diversi della stessa ondata",
+      "dimensione": "guardiani-e-guardrail",
+      "dove": "cervello/pacchetti-lotto.mjs:113 (RE_FILE: «jsx?» prima di «json», senza confine dopo l’estensione)",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-07 09:43",
+      "nato_come": "trovato-riparando",
+      "nato_da": "collaudo del 7/11 sulla riparazione in sessioni (lente «nasce rotto?»): lo stesso errore stava in riparazione-sessioni.mjs, copiato da qui; là è corretto",
+      "origine": "collaudo",
+      "fonte": "collaudo della riparazione in sessioni, 2026-11-07",
+      "owner": "builder-automazioni",
+      "sintomo": "Misurato il 7/11: «cervello/mutanti.json».match(RE_FILE) dà «cervello/mutanti.js». Sul cantiere vero 52 schede aperte su 346 citano un .json, 21 un registro condiviso: per pacchetti-lotto quei file non esistono con quel nome e il controllo delle collisioni non li vede.",
+      "causa_radice": "Un’alternanza di espressione regolare prova le alternative in ordine: «jsx?» (con la x facoltativa) prende «js» prima che «json» sia provato, e senza un confine dopo l’estensione il resto del nome viene lasciato fuori.",
+      "fix_proposto": "Le estensioni dalla più lunga, chiuse da un confine: /…\\.(?:tsx|ts|jsx|json|mjs|cjs|js|sql|css|sh|md|yaml|yml|svg|bats)(?![\\w])/g, come RE_FILE_MACCHINA in cervello/riparazione-sessioni.mjs; più un caso di prova con un percorso .json in cervello/test/pacchetti-che-si-pestano.test.mjs.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Da chiudere con una prova comando nel lotto che lo ripara: oggi nessuna prova di pacchetti-lotto usa un percorso .json."
+      }
+    },
+    {
+      "id": "AR-1165",
+      "titolo": "La guardia dei rami riparatori non vede una prova esistente spenta con un «return» in testa o resa vuota senza togliere le asserzioni dal testo",
+      "dimensione": "guardiani-e-guardrail",
+      "dove": "cervello/riparazione-sessioni.mjs, guardia-ramo: RE_SPENTA e contaAsserzioni",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-07 09:43",
+      "nato_come": "trovato-riparando",
+      "nato_da": "secondo collaudo del 7/11 sulla riparazione in sessioni",
+      "origine": "collaudo",
+      "fonte": "collaudo della riparazione in sessioni, 2026-11-07",
+      "owner": "builder-automazioni",
+      "sintomo": "La guardia ferma le prove cancellate, le forme di spegnimento (.skip, .only, .todo, .fails, .skipIf, { skip: }, t.skip, xit) e le asserzioni tolte. Non ferma un «return;» messo in testa alla prova né un’asserzione resa vuota (expect(true).toBe(true)), che lasciano il conto delle asserzioni uguale.",
+      "causa_radice": "Il controllo legge il testo della prova, non il suo comportamento: una prova svuotata in modo creativo ha lo stesso testo-forma di una prova vera.",
+      "fix_proposto": "Nel collaudo della campagna, la prova rimessa della voce già lo scopre (togliendo la correzione la prova non torna rossa). In più: lanciare le prove esistenti modificate sulla base con la correzione tolta, oppure cercare «return» come prima istruzione del corpo di it/test.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Minore: lo copre in parte la prova rimessa del collaudatore, che è per voce."
       }
     }
   ],

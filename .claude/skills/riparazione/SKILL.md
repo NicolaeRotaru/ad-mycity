@@ -154,8 +154,9 @@ collaudatore libero (fino a 3 riparatori ciascuno; i collaudatori sono ceil(K/3)
   `prova-rimessa.mjs` è una copia fissata, non quella che un riparatore può aver toccato),
   `outcome_branch` = `<ramo della regista>-kNN`;
 - il prompt, una riga: *«Sei il collaudatore KNN. Leggi cervello/riparazione/LEGGIMI-collaudo.md e collauda
-  i riparatori R… (ramo …, testa …) e R… (ramo …, testa …) della cartella <C>. BASE è ….»*: rami e teste li
-  prende dai referti finiti;
+  i riparatori R… (ramo …, punta …, testa …) e R… (ramo …, punta …, testa …) della cartella <C>. BASE è ….»*.
+  La **punta** è l'ultimo commit del ramo (`git rev-parse origin/<ramo>`), dove sta il referto finito; la
+  **testa** è quella scritta nel referto, l'ultimo commit di codice. Il collaudatore legge il referto alla punta;
 - la guardia sul suo ramo: `guardia-ramo <ramo> KNN --cartella <C>` (solo il file `collaudi/KNN.json`);
 - il referto: `valida-collaudo <C>/collaudi/KNN.json --cartella <C> --git <deposito bersaglio>` (i referti dei
   riparatori li legge dai rami scritti in `sessioni.json`; il collaudatore usa `--referti <cartella sua>`). La

@@ -39,12 +39,14 @@ campagna (`<cartella>`). Sei nel deposito `ad-mycity` al commit della regista: �
 `cervello/prova-rimessa.mjs`, che nessun riparatore ha potuto toccare. **Non hai mai riparato niente di
 quello che guardi**, e non lo ripari adesso: tu giudichi.
 
-- I referti dei riparatori te li copi in una cartella tua, fermati sulla testa che ti ha dato la regista:
-  `mkdir -p ../referti && git -C ../marketplace show <testa del riparatore>:.riparazione/referto-RNN.json > ../referti/RNN.json`
-  (macchina: `git show <testa>:.riparazione/referto-RNN.json > ../referti/RNN.json`). Il programma li legge con
-  `--referti ../referti`.
+- I referti dei riparatori te li copi in una cartella tua, letti alla **punta** del ramo del riparatore, che la
+  regista ti dà insieme alla testa. La testa è l'ultimo commit di **codice**: il referto finito sta sempre
+  **dopo** di lei, quindi alla testa troveresti un referto vecchio o nessun referto.
+  `git -C ../marketplace fetch origin <ramo del riparatore> && mkdir -p ../referti && git -C ../marketplace show <punta>:.riparazione/referto-RNN.json > ../referti/RNN.json`
+  (macchina: lo stesso, senza `-C ../marketplace`). Il programma li legge con `--referti ../referti`, e dà rosso se
+  un referto non è finito: si collauda solo il referto finito.
 - **Sito:** cloni il sito accanto e lo fermi sui due commit che servono, mai sul nome di un ramo:
-  `git clone --filter=blob:none https://github.com/NicolaeRotaru/mycity ../marketplace && git -C ../marketplace fetch origin <BASE> <testa del riparatore>`,
+  `git clone --filter=blob:none https://github.com/NicolaeRotaru/mycity ../marketplace && git -C ../marketplace fetch origin <BASE> <punta del riparatore>`,
   poi una volta `cd ../marketplace && npm ci`.
 - **Macchina:** il bersaglio è `ad-mycity` stesso: `git fetch origin <ramo del riparatore>`, e lavori in
   una copia separata (worktree), mai nella tua.

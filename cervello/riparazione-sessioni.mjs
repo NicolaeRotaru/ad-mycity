@@ -49,6 +49,7 @@
 
 import { existsSync, mkdirSync, readFileSync, readdirSync, realpathSync, writeFileSync } from "node:fs";
 import { basename, dirname, join, posix, resolve } from "node:path";
+import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 // L'unico esecutore di git della casa: il tetto di maxBuffer sta lì, una volta sola. Il 6/11 la CI della
 // radiografia era rossa proprio perché i suoi controlli chiamavano git per conto loro.
@@ -58,6 +59,7 @@ import { timbroOra } from "./ora-piacenza.mjs";
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
+const veroPercorso = (p) => { try { return realpathSync(p); } catch { return resolve(p); } };
 
 // ── Le costanti del metodo ───────────────────────────────────────────────────────────────────────
 export const RANGO = Object.freeze({ bloccante: 0, grave: 1, medio: 2, minore: 3 });
@@ -93,7 +95,10 @@ export const CONDIVISI_MACCHINA = Object.freeze([
   ".claude/settings.json",
 ]);
 export const CAMPI_RISERVATA = Object.freeze(["riservato", "titolo", "file", "severita", "dimensione"]);
-export const TITOLO_RISERVATO = /^Falla di sicurezza da chiudere \(([A-Za-zÀ-ÿ' ]{1,40})\): i dettagli restano fuori dal deposito pubblico finché non è chiusa\.?$/;
+// L'area è presa da un elenco CHIUSO: un'area libera racconta la falla anche in poche parole («webhook Stripe
+// senza firma», secondo collaudo del 7/11). Stesso motivo per la gravità.
+export const AREE_RISERVATE = Object.freeze(["pagamenti", "accessi", "dati", "permessi", "API", "rilascio", "privacy", "altro"]);
+export const TITOLO_RISERVATO = new RegExp(`^Falla di sicurezza da chiudere \\((${AREE_RISERVATE.join("|")})\\): i dettagli restano fuori dal deposito pubblico finché non è chiusa\\.?$`);
 const PREFISSI_NON_DEPOSITO = /^(live|vercel|produzione|stripe|supabase|github|posthog|resend|dns):/i;
 const SHA = /^[0-9a-f]{7,40}$/;
 const SEGNAPOSTI = ["{{", "}}", "<sha>", "<ramo>", "<id>", "<regista>", "AAAA-MM-GG HH:MM", "<data>"];
@@ -343,12 +348,12 @@ export function classifica(casa, elenco, { filtri = {}, fileDelDeposito = null, 
     // Riservata anche quando il rimando al referto privato sta in una riverifica o in una nota: 5 voci del 7/11
     // toccavano una falla ancora aperta e sarebbero andate nel deposito pubblico come lavoro normale (collaudo B).
     // Largo quando si chiude: nel dubbio, la voce resta fuori dal lavoro pubblico.
-    const riservata = casa === "sito" && (estratti.privato || /^falla di sicurezza/i.test(String(d.titolo ?? "")) || valori(d).some((v) => /referto privato/i.test(v)));
+    const riservata = casa === "sito" && (estratti.privato || /^falla di sicurezza/i.test(String(d.titolo ?? "")) || valori(d).some((v) => /referto privato|fuori dal deposito pubblico|falla riservata/i.test(v)));
     if (riservata) { fuori.riservate.push(chiave); continue; }
     if (casa === "sito" && !vuoto(d.domanda_per_nicola) && !risposte.has(chiave)) { fuori.domande.push(chiave); continue; }
     if (casa === "macchina" && !vuoto(d.ripresa) && !filtri.ancheRimandati) { fuori.rimandati.push(chiave); continue; }
     if (casa === "macchina" && d.verifica?.tipo === "umano" && !filtri.ancheUmani) { fuori.umani.push(chiave); continue; }
-    let file = estratti.file;
+    let file = [...new Set(estratti.file.map(normPerc))];
     if (fileDelDeposito) {
       const via = file.filter((f) => !fileDelDeposito.has(f));
       if (via.length) spariti.push({ chiave, file: via });
@@ -724,6 +729,11 @@ function segnaposti(opz) {
 }
 
 // ── guardia-ramo ─────────────────────────────────────────────────────────────────────────────────
+// Le forme in cui una prova si spegne, tutte quelle che esistono nel sito e nel cervello (secondo collaudo del
+// 7/11: 21 `.skipIf(` nei test del sito, 31 `{ skip:` / `t.skip(` in cervello/test).
+export const RE_SPENTA = /\b(?:it|test|describe)(?:\.\w+)*\.(?:skip|only|todo|fails|skipIf|runIf)\s*\(|\bx(?:it|test|describe)\s*\(|\{\s*(?:skip|todo)\s*:|\bt\.(?:skip|todo)\s*\(/;
+/** Quante asserzioni porta il testo di una prova (vitest, node:test, assert). PURA. */
+export const contaAsserzioni = (testo) => (String(testo).match(/\bexpect\s*\(|\bassert(?:\.\w+)?\s*\(|\bt\.(?:assert|equal|deepEqual|ok|throws)\b/g) || []).length;
 /**
  * Il giudizio su UN percorso toccato dalla storia di un ramo riparatore. PURA.
  * `ctx`: { nome, suoi:Set, esisteAllaBase(p), importaDaSuoi(p), fascia:[a,b]|null, casa }
@@ -803,6 +813,30 @@ function risolviRef(dir, ramo) {
   for (const r of prove) if (gitOk(dir, ["rev-parse", "--verify", "--quiet", `${r}^{commit}`]) !== null) return r;
   return null;
 }
+/**
+ * Quello che la storia vera del ramo dice di un referto: i commit (con il messaggio) e la testa che vale.
+ * La «testa» scritta vale se è un antenato della punta e OGNI commit dopo di lei tocca solo `.riparazione/`
+ * (commit per commit, non il diff netto: un codice cambiato e poi rimesso dopo la testa resta un commit di
+ * codice, secondo collaudo del 7/11). Torna null se il ramo non esiste.
+ */
+function controlliDelRamo(dir, base, ramo, testoReferto) {
+  const ref = risolviRef(dir, ramo);
+  if (!ref) return null;
+  const storia = storiaDelRamo(dir, base, ref);
+  const commitDelRamo = new Map(storia.perCommit.map((c) => [c.commit, c.messaggio]));
+  let testaDelRamo = (gitOk(dir, ["rev-parse", ref]) ?? "").trim();
+  let dichiarata = null;
+  try { dichiarata = String(JSON.parse(testoReferto).testa ?? ""); } catch { /* lo dice regoleReferto */ }
+  if (dichiarata && SHA.test(dichiarata)) {
+    const piena = (gitOk(dir, ["rev-parse", "--verify", "--quiet", `${dichiarata}^{commit}`]) ?? "").trim();
+    if (piena && piena !== testaDelRamo && gitOk(dir, ["merge-base", "--is-ancestor", piena, ref]) !== null) {
+      const dopo = storia.perCommit.slice(storia.perCommit.findIndex((c) => c.commit === piena) + 1);
+      const soloReferto = storia.perCommit.some((c) => c.commit === piena) && dopo.every((c) => c.file.every((f) => f.startsWith(`${REFERTO_DIR}/`)));
+      if (soloReferto) testaDelRamo = piena;
+    }
+  }
+  return { ref, commitDelRamo, testaDelRamo };
+}
 function sessioneNelPiano(piano, nome) {
   for (const o of piano.onde) if (o.sessioni[nome]) return { onda: o, sessione: o.sessioni[nome] };
   return null;
@@ -846,10 +880,15 @@ function guardiaRamo(opz) {
   // Una prova che c'era non si cancella e non si spegne: è il modo più corto per far tornare verde una
   // riparazione sbagliata, e il collaudo del 7/11 l'ha fatto passare finché la guardia guardava solo i nomi.
   for (const p of [...storia.cancellati].sort()) if (eProva(p) && esisteAllaBase(p)) rossi.push(`${p}: una prova esistente non si cancella`);
-  const RE_SPENTA = /\b(?:it|test|describe)\.(?:skip|only|todo)\s*\(|\bx(?:it|test|describe)\s*\(/;
   for (const p of [...storia.toccati].filter((f) => eProva(f) && !storia.cancellati.has(f)).sort()) {
     const diff = gitOk(dir, ["diff", partenza, ref, "--", p]) ?? "";
-    if (diff.split("\n").some((r) => r.startsWith("+") && !r.startsWith("+++") && RE_SPENTA.test(r))) rossi.push(`${p}: aggiunge una prova spenta (.skip, .only, .todo, xit): una prova non si spegne per farla passare`);
+    if (diff.split("\n").some((r) => r.startsWith("+") && !r.startsWith("+++") && RE_SPENTA.test(r))) rossi.push(`${p}: aggiunge una prova spenta (.skip, .only, .todo, .fails, .skipIf, { skip: }, xit): una prova non si spegne per farla passare`);
+    // Una prova svuotata non porta nessun «.skip»: le si tolgono le asserzioni. Si contano alla base e alla punta.
+    if (esisteAllaBase(p)) {
+      const prima = contaAsserzioni(gitOk(dir, ["show", `${partenza}:${p}`]) ?? "");
+      const dopo = contaAsserzioni(gitOk(dir, ["show", `${ref}:${p}`]) ?? "");
+      if (dopo < prima) rossi.push(`${p}: ha ${prima - dopo} asserzioni in meno di prima (${prima} → ${dopo}): una prova esistente non si svuota`);
+    }
   }
   const ids = new Set(dove.sessione.voci.map((v) => v.id));
   // L'id sta sul PRIMO rigo e deve essere di questa sessione: un «Z99-varie» in fondo al corpo, o il «varie»
@@ -943,11 +982,13 @@ export function regoleReferto(testo, ctx) {
   for (const n of r.nuovi_difetti_visti ?? []) {
     // Il deposito è pubblico: una riservata si scrive in UNA forma sola. Il collaudo del 7/11 ha fatto passare
     // il dettaglio nel titolo («Falla di sicurezza: …route.ts:42…»), nel NOME di una chiave e in una parola sola.
+    if (n && "riservato" in n && typeof n.riservato !== "boolean") rossi.push(`«riservato» deve essere true o false, non ${JSON.stringify(n.riservato)}: un valore ambiguo fa sparire un difetto o pubblica una falla`);
     if (n?.riservato === true) {
+      if (!["bloccante", "grave", "minore"].includes(n.severita)) rossi.push("un difetto nuovo riservato ha la gravità fuori elenco (bloccante, grave o minore)");
       const chiaviIn = Object.keys(n ?? {}).filter((k) => !CAMPI_RISERVATA.includes(k));
       if (chiaviIn.length) rossi.push(`un difetto nuovo riservato porta campi in più (${chiaviIn.join(", ")}): solo ${CAMPI_RISERVATA.join(", ")}`);
       if (n.file !== PRIVATO) rossi.push(`un difetto nuovo riservato ha il file in chiaro: va «${PRIVATO}»`);
-      if (!TITOLO_RISERVATO.test(String(n.titolo ?? ""))) rossi.push("un difetto nuovo riservato ha il titolo fuori forma: «Falla di sicurezza da chiudere (<area, al massimo 40 lettere>): i dettagli restano fuori dal deposito pubblico finché non è chiusa»");
+      if (!TITOLO_RISERVATO.test(String(n.titolo ?? ""))) rossi.push(`un difetto nuovo riservato ha il titolo fuori forma: «Falla di sicurezza da chiudere (<${AREE_RISERVATE.join("|")}>): i dettagli restano fuori dal deposito pubblico finché non è chiusa»`);
       if (n.dimensione !== undefined && !/^[a-z-]{1,40}$/.test(String(n.dimensione))) rossi.push("un difetto nuovo riservato ha una dimensione fuori forma");
     } else if (/falla di sicurezza/i.test(String(n?.titolo ?? ""))) rossi.push(`«${String(n?.titolo).slice(0, 60)}…»: una falla di sicurezza si scrive con «riservato: true», mai in chiaro`);
     else if (vuoto(n?.titolo) || vuoto(n?.file) || !["bloccante", "grave", "minore"].includes(n?.severita)) rossi.push(`un difetto nuovo senza titolo, file o gravità valida: «${n?.titolo ?? ""}»`);
@@ -980,23 +1021,9 @@ function validaReferto(opz) {
   let commitDelRamo = null, testaDelRamo = null;
   if (opz.ramo) {
     const dir = resolve(opz.git ?? repoDi(per.casa, opz));
-    const ref = risolviRef(dir, opz.ramo);
-    if (!ref) return chiudi("valida-referto", [], [`il ramo ${opz.ramo} non esiste ancora`], opz);
-    const storia = storiaDelRamo(dir, dove.onda.base, ref);
-    commitDelRamo = new Map(storia.perCommit.map((c) => [c.commit, c.messaggio]));
-    testaDelRamo = (gitOk(dir, ["rev-parse", ref]) ?? "").trim();
-    // Il referto vive nel ramo che descrive: committarlo sposta la punta. La «testa» scritta resta vera se è un
-    // antenato della punta e dopo di lei ci sono solo commit del referto (collaudo B del 7/11: ogni referto
-    // finito e spinto usciva rosso).
-    let dichiarata = null;
-    try { dichiarata = String(JSON.parse(testo).testa ?? ""); } catch { /* lo dice regoleReferto */ }
-    if (dichiarata && SHA.test(dichiarata)) {
-      const piena = (gitOk(dir, ["rev-parse", "--verify", "--quiet", `${dichiarata}^{commit}`]) ?? "").trim();
-      if (piena && piena !== testaDelRamo && gitOk(dir, ["merge-base", "--is-ancestor", piena, ref]) !== null) {
-        const dopo = (gitOk(dir, ["diff", "--name-only", "--no-renames", piena, ref]) ?? "").split("\n").filter(Boolean);
-        if (dopo.every((f) => f.startsWith(`${REFERTO_DIR}/`))) testaDelRamo = piena;
-      }
-    }
+    const visti = controlliDelRamo(dir, dove.onda.base, opz.ramo, testo);
+    if (!visti) return chiudi("valida-referto", [], [`il ramo ${opz.ramo} non esiste ancora`], opz);
+    ({ commitDelRamo, testaDelRamo } = visti);
   }
   const { rossi, attese } = regoleReferto(testo, { nome, voci: dove.sessione.voci, chiaviDelRegistro, commitDelRamo, testaDelRamo });
   if (!chiaviDelRegistro) attese.push("il registro non si legge: non ho controllato che le chiavi ci siano");
@@ -1046,6 +1073,9 @@ export function regoleCollaudo(testo, ctx) {
   const campioni = {};
   for (const [r, info] of Object.entries(ctx.riparatori)) {
     if (!info.referto) { attese.push(`${r}: il referto del riparatore non c'è ancora`); continue; }
+    // Un referto non finito è una fotografia di metà lavoro: collaudarlo dà un verde su voci che cambieranno
+    // (secondo collaudo del 7/11: letto alla «testa», il referto era quello intermedio, 1 voce su 2).
+    if (info.referto.finita !== true) { rossi.push(`${r}: il referto del riparatore non è finito; si collauda il referto finito, letto alla PUNTA del suo ramo`); continue; }
     const scheda = new Map(info.voci.map((v) => [v.id, v]));
     const daCollaudare = info.referto.voci.filter((v) => ["riparato", "parziale", "gia_riparato_prima"].includes(v.esito));
     const minori = [];
@@ -1142,8 +1172,12 @@ function provaUnione(opz) {
   }
   if (!presenti.length) return chiudi("prova-unione", [], attese.length ? attese : ["nessun ramo da unire"], opz);
   const chiTocca = new Map();
+  const conUnioni = new Set();
   for (const { n, ref } of presenti) {
-    for (const f of storiaDelRamo(dir, o.base, ref).toccati) {
+    const st = storiaDelRamo(dir, o.base, ref);
+    // Un ramo che ha unito altro porta i file di tutti: un rosso solo, e fuori dalla prova (secondo collaudo).
+    if (st.unioni.length) { conUnioni.add(n); rossi.push(`${n}: il ramo ha ${st.unioni.length} unioni; prima si tolgono, poi si prova l'unione`); continue; }
+    for (const f of st.toccati) {
       if (f.startsWith(`${REFERTO_DIR}/`)) continue;
       if (!chiTocca.has(f)) chiTocca.set(f, []);
       chiTocca.get(f).push(n);
@@ -1154,7 +1188,7 @@ function provaUnione(opz) {
   // L'unione di prova non tocca nessun albero di lavoro: merge-tree scrive solo oggetti, che restano sciolti.
   const env = { GIT_AUTHOR_NAME: "prova-unione", GIT_AUTHOR_EMAIL: "prova@unione.invalid", GIT_COMMITTER_NAME: "prova-unione", GIT_COMMITTER_EMAIL: "prova@unione.invalid" };
   let corrente = (gitOk(dir, ["rev-parse", o.base]) ?? "").trim();
-  for (const { n, ref } of presenti) {
+  for (const { n, ref } of presenti.filter((x) => !conUnioni.has(x.n))) {
     let uscita;
     try {
       uscita = git(dir, ["merge-tree", "--write-tree", "--name-only", "--no-messages", corrente, ref], env);
@@ -1188,7 +1222,8 @@ export function decidi({ piano, referti, collaudi, hub }) {
     if (!Array.isArray(c.riparatori) || !c.riparatori.includes(suo)) continue;
     const prima = verdetti.get(v.id);
     const peso = SEVERITA_VERDETTO[v.verdetto] ?? 3;
-    if (!prima || peso > (SEVERITA_VERDETTO[prima.verdetto] ?? 3)) verdetti.set(v.id, { ...v, collaudatore: c.collaudatore });
+    const pesoPrima = prima ? (SEVERITA_VERDETTO[prima.verdetto] ?? 3) : -1;
+    if (!prima || peso > pesoPrima || (peso === pesoPrima && prima.giudizio !== "pieno" && v.giudizio === "pieno")) verdetti.set(v.id, { ...v, collaudatore: c.collaudatore });
   }
   for (const o of piano.onde) {
     for (const [nome, s] of Object.entries(o.sessioni)) {
@@ -1242,6 +1277,13 @@ function applica(opz) {
   let per, piano;
   try { per = leggiPerimetro(opz); piano = leggiPiano(opz); } catch (e) { return cieco("applica", e.message, opz); }
   const cartella = serveCartella(opz);
+  // Il registro si scrive solo dove vive (il vault) o in una cartella temporanea di prova: un --registro
+  // sbagliato non riscrive un file qualunque (revisione «rischio-sicurezza» del 7/11).
+  if (opz.scrivi && opz.registro) {
+    const r = resolve(opz.registro);
+    const ammessi = [join(opz.radice, "MyCity-Vault/90-Memoria-AI/auto-coscienza"), realpathSync(tmpdir())];
+    if (!ammessi.some((a) => veroPercorso(dirname(r)).startsWith(veroPercorso(a)))) return chiudi("applica", [`--registro ${r}: con --scrivi il registro deve stare in MyCity-Vault/90-Memoria-AI/auto-coscienza/ o in una cartella temporanea`], [], opz);
+  }
   // IL CONTROLLO STA DENTRO CHI SCRIVE. Il collaudo del 7/11 ha fatto chiudere un grave da un referto non finito,
   // con una prova a lettura del codice: `applica` si fidava che `valida-referto` e `valida-collaudo` fossero
   // già stati lanciati. Qui si rilanciano tutti, sui file che stanno per decidere, e un rosso ferma tutto.
@@ -1257,13 +1299,22 @@ function applica(opz) {
     if (existsSync(d)) for (const n of readdirSync(d)) if (!re.test(n)) ferma.push(`${sotto}/${n}: il nome non è quello di una sessione (${sotto === "referti" ? "RNN" : "KNN"}.json)`);
   }
   const referti = {};
+  const sess = leggiSessioni(opz);
+  const senzaStoria = [];
   for (const { nome: file, testo, dati } of lettiR) {
     const nome = file.replace(/\.json$/, "");
     if (!dati) { ferma.push(`referti/${file}: non è JSON`); continue; }
     if (dati.sessione !== nome) { ferma.push(`referti/${file}: dice di essere «${dati.sessione}»`); continue; }
     const dove = sessioneNelPiano(piano, nome);
     if (!dove) { ferma.push(`referti/${file}: ${nome} non è nel piano`); continue; }
-    const { rossi } = regoleReferto(testo, { nome, voci: dove.sessione.voci, chiaviDelRegistro, commitDelRamo: null, testaDelRamo: null });
+    // I commit e la testa si guardano sulla storia vera del ramo: senza, un commit inventato si chiudeva
+    // (secondo collaudo del 7/11). Con --scrivi è obbligatorio; a vuoto, se manca, lo si dice.
+    let visti = null;
+    const ramo = sess?.sessioni?.[nome]?.ramo;
+    if (opz.git && ramo) visti = controlliDelRamo(resolve(opz.git), dove.onda.base, ramo, testo);
+    if (!visti && opz.scrivi) ferma.push(`referti/${file}: con --scrivi servono --git e il ramo di ${nome} in sessioni.json, per controllare commit e testa sulla storia vera`);
+    if (!visti && !opz.scrivi) senzaStoria.push(nome);
+    const { rossi } = regoleReferto(testo, { nome, voci: dove.sessione.voci, chiaviDelRegistro, commitDelRamo: visti?.commitDelRamo ?? null, testaDelRamo: visti?.testaDelRamo ?? null });
     for (const r of rossi) ferma.push(`referti/${file}: ${r}`);
     if (dati.finita !== true) ferma.push(`referti/${file}: il referto non è finito`);
     referti[nome] = dati;
@@ -1302,7 +1353,8 @@ function applica(opz) {
   scriviJson(join(cartella, "decisioni.json"), { campagna: nomeCampagna, quando, decisioni });
   if (!opz.scrivi) {
     console.log("   (a vuoto: ho scritto solo decisioni.json. Con --scrivi scrivo i frammenti e il registro.)");
-    return chiudi("applica", [], [], opz, { si_chiudono: chiude.length, gia: gia.length, restano: restano.length, nati: nati.length });
+    const attese = senzaStoria.length ? [`commit e testa non controllati sulla storia del ramo per ${senzaStoria.join(", ")} (servono --git e sessioni.json)`] : [];
+    return chiudi("applica", [], attese, opz, { si_chiudono: chiude.length, gia: gia.length, restano: restano.length, nati: nati.length });
   }
   for (const f of frammenti) scriviJson(join(cartella, "frammenti", `esito-${f.corsia}.json`), f);
   let reg;
@@ -1337,7 +1389,7 @@ function applica(opz) {
   }
   const scritti = [], gianoti = [], riservati = [];
   for (const n of nati) {
-    if (n.riservato) { riservati.push(n); continue; }
+    if (n.riservato === true) { riservati.push(n); continue; }
     if (per.casa === "macchina") continue; // gli id AR nuovi li dà prossimo-ar.mjs: la regista li registra a mano
     const voce = { dimensione: n.dimensione ?? "qa-flussi", reparto: REPARTI_MARKETPLACE[n.dimensione] ?? undefined, titolo: n.titolo, severita: n.severita, file: n.file, descrizione: n.descrizione ?? "", impatto: n.impatto ?? "", fix: n.fix ?? "", fonte: `nato dalla riparazione ${nomeCampagna} · ${n.sessione}`, stato: "aperto" };
     if (perChiave.has(chiaveProblema(voce))) { gianoti.push(n); continue; }
@@ -1345,7 +1397,7 @@ function applica(opz) {
     perChiave.set(chiaveProblema(voce), voce);
     scritti.push(n);
   }
-  if (per.casa === "macchina" && nati.length) scriviJson(join(cartella, "nati-macchina.json"), nati.filter((n) => !n.riservato));
+  if (per.casa === "macchina" && nati.length) scriviJson(join(cartella, "nati-macchina.json"), nati.filter((n) => n.riservato !== true));
   scriviJsonAtomico(reg.percorso, reg.grezzo);
   console.log(`   frammenti: ${frammenti.length} · nati scritti: ${scritti.length} (già noti ${gianoti.length}, riservati fuori ${riservati.length})${per.casa === "macchina" ? ` · prove a pattern tolte: ${tolte}` : ""}`);
   console.log(per.casa === "sito"
@@ -1397,7 +1449,6 @@ export function esegui(argv) {
 }
 // Il confronto passa dai percorsi VERI: lanciato da un collegamento simbolico (../ad-mycity → la copia) il
 // programma usciva 0 senza fare niente (collaudo B del 7/11).
-const veroPercorso = (p) => { try { return realpathSync(p); } catch { return resolve(p); } };
 if (process.argv[1] && veroPercorso(process.argv[1]) === veroPercorso(fileURLToPath(import.meta.url))) {
   process.exitCode = esegui(process.argv.slice(2));
 }

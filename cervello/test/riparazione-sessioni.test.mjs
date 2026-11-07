@@ -17,7 +17,7 @@ import { fileURLToPath } from "node:url";
 import { symlinkSync } from "node:fs";
 import {
   fileDaCampoSito, fileDaSchedaMacchina, assegnaOnda, controllaOnda, giudicaPercorso, importDi,
-  regoleReferto, regoleCollaudo, campioneDi, decidi, chiaviDoppie, classifica, CONDIVISI_MACCHINA,
+  regoleReferto, regoleCollaudo, campioneDi, decidi, chiaviDoppie, classifica, CONDIVISI_MACCHINA, RE_SPENTA,
 } from "../riparazione-sessioni.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
@@ -217,7 +217,7 @@ test("referto: il commit deve stare nella storia del ramo e citare la voce", () 
 
 // ── valida-collaudo e la regola del campione ─────────────────────────────────────────────────────────
 const schedaMinori = Array.from({ length: 10 }, (_, i) => ({ id: `R03-${String(i + 1).padStart(3, "0")}`, chiave: `k|${i}`, gravita: "minore", file: [`lib/m${i}.ts`] }));
-const refertoMinori = { sessione: "R03", voci: schedaMinori.map((v) => ({ id: v.id, chiave: v.chiave, esito: "riparato", rimessa: { uscita: 0, comando: "x" } })) };
+const refertoMinori = { sessione: "R03", finita: true, voci: schedaMinori.map((v) => ({ id: v.id, chiave: v.chiave, esito: "riparato", rimessa: { uscita: 0, comando: "x" } })) };
 const voceCollaudo = (v, extra = {}) => ({ id: v.id, chiave: v.chiave, verdetto: "regge", giudizio: "nessuno", rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs …" }, ...extra });
 const collaudo = (voci, extra = {}) => JSON.stringify({ collaudatore: "K01", riparatori: ["R03"], aggiornato: "2026-11-08 12:00", finita: true, voci, ...extra });
 const ctxCollaudo = { nome: "K01", riparatori: { R03: { voci: schedaMinori, referto: refertoMinori } }, hub: new Set() };
@@ -249,7 +249,7 @@ test("collaudo: «regge» senza il comando della prova rimessa, o con l'uscita s
 
 test("collaudo: un grave regge solo con un giudizio pieno", () => {
   const scheda = [{ id: "R03-001", chiave: "g|1", gravita: "grave", file: ["lib/g.ts"] }];
-  const ctx = { nome: "K01", riparatori: { R03: { voci: scheda, referto: { voci: [{ id: "R03-001", chiave: "g|1", esito: "riparato", rimessa: { uscita: 0, comando: "x" } }] } } }, hub: new Set() };
+  const ctx = { nome: "K01", riparatori: { R03: { voci: scheda, referto: { finita: true, voci: [{ id: "R03-001", chiave: "g|1", esito: "riparato", rimessa: { uscita: 0, comando: "x" } }] } } }, hub: new Set() };
   assert.match(regoleCollaudo(collaudo([voceCollaudo(scheda[0])]), ctx).rossi.join("\n"), /regge solo con un giudizio pieno/);
 });
 
@@ -400,7 +400,7 @@ test("collaudo A #1: il «regge» di un collaudatore che non guarda quel riparat
   const indulgente = { ...intruso, collaudatore: "K03", riparatori: ["R01"] };
   assert.equal(decidi({ piano, referti, collaudi: [indulgente, giusto], hub: new Set() })[0].verdetto, "non_regge", "vince il verdetto più severo, in qualunque ordine");
   assert.equal(decidi({ piano, referti, collaudi: [giusto, indulgente], hub: new Set() })[0].verdetto, "non_regge", "anche quando il più indulgente arriva per ultimo");
-  const t = regoleCollaudo(JSON.stringify({ collaudatore: "K02", riparatori: ["R02"], aggiornato: "2026-11-08 12:00", finita: true, voci: intruso.voci }), { nome: "K02", riparatori: { R02: { voci: [], referto: { voci: [] } } }, hub: new Set() }).rossi.join("\n");
+  const t = regoleCollaudo(JSON.stringify({ collaudatore: "K02", riparatori: ["R02"], aggiornato: "2026-11-08 12:00", finita: true, voci: intruso.voci }), { nome: "K02", riparatori: { R02: { voci: [], referto: { finita: true, voci: [] } } }, hub: new Set() }).rossi.join("\n");
   assert.match(t, /riparatore che questo collaudo non elenca/);
 });
 
@@ -584,4 +584,123 @@ test("collaudo B #4: il collaudatore trova i referti con --referti o dal ramo sc
     assert.equal(lancia("valida-collaudo", join(c, "collaudi", "K01.json"), "--cartella", c, "--git", dir).status, 0);
     rmSync(mia, { recursive: true, force: true });
   } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
+});
+
+// ── i buchi trovati dal secondo collaudo del 7/11 ────────────────────────────────────────────────────
+test("secondo collaudo #1: si collauda solo un referto finito", () => {
+  const ctx = { nome: "K01", riparatori: { R03: { voci: schedaMinori, referto: { ...refertoMinori, finita: false } } }, hub: new Set() };
+  const voci = schedaMinori.map((v) => voceCollaudo(v, { giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"] }));
+  assert.match(regoleCollaudo(collaudo(voci), ctx).rossi.join("\n"), /il referto del riparatore non è finito/);
+});
+
+test("secondo collaudo #2: le prove spente in ogni forma, e una prova svuotata, sono rosse", () => {
+  for (const riga of ["it.skipIf(true)('a', () => {})", "it('a', { skip: true }, () => {})", "it.fails('a', () => {})", "it.concurrent.skip('a', () => {})", "t.skip('dopo')", "test.only('a', () => {})"]) assert.ok(RE_SPENTA.test(riga), riga);
+  for (const riga of ["it('salta il controllo', () => {})", "const skip = 1;", "expect(skipped).toBe(0)"]) assert.ok(!RE_SPENTA.test(riga), riga);
+  const { dir, g, scrivi, base: _ } = depositoFinto();
+  scrivi("tests/unit/vecchia.test.ts", "import { a } from '@/lib/a';\nit('a', () => { expect(a).toBe(1); expect(a).not.toBe(2); });\n");
+  g("add", "-A"); g("commit", "-qm", "prova vecchia");
+  const base = g("rev-parse", "HEAD");
+  const c = cartellaCampagna(base);
+  try {
+    g("checkout", "-q", "-b", "r01", base);
+    scrivi("tests/unit/vecchia.test.ts", "import { a } from '@/lib/a';\nit('a', () => { expect(a).toBe(1); });\n"); g("commit", "-qam", "R01-001 tolgo un'asserzione");
+    const r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.equal(r.status, 1);
+    assert.match(r.stdout, /1 asserzioni in meno di prima \(2 → 1\)/);
+  } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
+});
+
+test("secondo collaudo #3 e #4: area e gravità della riservata da elenchi chiusi, «riservato» solo booleano", () => {
+  const ok = { riservato: true, titolo: "Falla di sicurezza da chiudere (pagamenti): i dettagli restano fuori dal deposito pubblico finché non è chiusa", file: "(nel referto privato)", severita: "grave" };
+  const casi = [
+    [{ ...ok, titolo: "Falla di sicurezza da chiudere (webhook Stripe senza firma): i dettagli restano fuori dal deposito pubblico finché non è chiusa" }, /titolo fuori forma/],
+    [{ ...ok, severita: "bloccante: app/api/orders/route.ts:42 non filtra store_id" }, /gravità fuori elenco/],
+    [{ ...ok, riservato: "true" }, /deve essere true o false/],
+    [{ titolo: "un difetto normale", file: "lib/a.ts:1", severita: "minore", riservato: "false" }, /deve essere true o false/],
+  ];
+  for (const [n, re] of casi) assert.match(regoleReferto(referto([riparata(), nonFatta], { nuovi_difetti_visti: [n] }), ctxReferto).rossi.join("\n"), re);
+});
+
+test("secondo collaudo #5: «fuori dal deposito pubblico» e «falla riservata» rendono riservata una voce", () => {
+  const voci = [
+    { dimensione: "a", titolo: "t1", stato: "aperto", severita: "minore", file: "lib/a.ts:1", nota_6_11: "il resto del dettaglio resta fuori dal deposito pubblico" },
+    { dimensione: "a", titolo: "t2", stato: "aperto", severita: "minore", file: "lib/b.ts:1", nota: "tocca una falla riservata" },
+  ];
+  assert.equal(classifica("sito", voci, {}).fuori.riservate.length, 2);
+});
+
+test("secondo collaudo #8: la forma unica del percorso viene prima del controllo dei file alla base", () => {
+  const r = classifica("sito", [{ dimensione: "a", titolo: "t", stato: "aperto", severita: "minore", file: "lib/x/../a.ts:3" }], { fileDelDeposito: new Set(["lib/a.ts"]) });
+  assert.deepEqual(r.lavorabili.map((v) => v.file), [["lib/a.ts"]]);
+});
+
+test("secondo collaudo #8: fra due «regge» vince quello col giudizio pieno", () => {
+  const piano = { onde: [{ sessioni: { R01: { voci: [{ id: "R01-001", chiave: "g|1", gravita: "grave", file: ["lib/g.ts"] }] } } }] };
+  const referti = { R01: { voci: [{ id: "R01-001", chiave: "g|1", esito: "riparato", prova_comando: "x", rimessa: { uscita: 0, comando: "x" } }] } };
+  const rapido = { collaudatore: "K01", riparatori: ["R01"], voci: [{ id: "R01-001", chiave: "g|1", verdetto: "regge", giudizio: "nessuno", rimessa: { uscita: 0, comando: "x" } }] };
+  const pieno = { collaudatore: "K02", riparatori: ["R01"], voci: [{ id: "R01-001", chiave: "g|1", verdetto: "regge", giudizio: "pieno", rimessa: { uscita: 0, comando: "x" } }] };
+  assert.equal(decidi({ piano, referti, collaudi: [rapido, pieno], hub: new Set() })[0].decisione, "si_chiude");
+});
+
+test("secondo collaudo #6 e A11: commit inventati e commit troppo corti non passano, e --scrivi pretende la storia del ramo", () => {
+  assert.match(regoleReferto(referto([riparata({ commit: "abcdef" }), nonFatta]), ctxReferto).rossi.join("\n"), /«abcdef» non è un commit/);
+  const { dir, g, scrivi, base } = depositoFinto();
+  const c = cartellaCampagna(base);
+  try {
+    g("checkout", "-q", "-b", "r01", base); scrivi("lib/a.ts", "export const a = 4;\n"); g("commit", "-qam", "R01-001 a");
+    const testa = g("rev-parse", "HEAD");
+    const voce = { id: "R01-001", chiave: "x|a", esito: "riparato", commit: "abcdef1", file_toccati: ["lib/a.ts"], prova_comando: "x", prova_tipo: "comando", prova_eseguita: true, rimessa: { esito: "regge", uscita: 0, comando: "x" }, copre_tutta_la_voce: true, verificato_da: "qa" };
+    mkdirSync(join(c, "referti"));
+    writeFileSync(join(c, "referti", "R01.json"), JSON.stringify({ sessione: "R01", aggiornato: "2026-11-08 10:00", finita: true, testa, verifica: { esito: "verde" }, voci: [voce] }));
+    writeFileSync(join(c, "sessioni.json"), JSON.stringify({ sessioni: { R01: { ramo: "r01" } } }));
+    const registro = join(c, "registro.json");
+    writeFileSync(registro, JSON.stringify({ problemi: [{ dimensione: "x", titolo: "a", stato: "aperto", severita: "minore", file: "lib/a.ts:1" }, { dimensione: "y", titolo: "b", stato: "aperto", severita: "minore", file: "lib/b.ts:1" }] }));
+    let r = lancia("applica", "--cartella", c, "--registro", registro, "--scrivi");
+    assert.equal(r.status, 1, r.stdout);
+    assert.match(r.stdout, /con --scrivi servono --git/);
+    r = lancia("applica", "--cartella", c, "--registro", registro, "--scrivi", "--git", dir);
+    assert.equal(r.status, 1, r.stdout);
+    assert.match(r.stdout, /il commit abcdef1 non è nella storia del ramo/);
+    r = lancia("applica", "--cartella", c, "--registro", join(QUI, "..", "un-registro-qualunque.json"), "--scrivi", "--git", dir);
+    assert.equal(r.status, 1, r.stdout);
+    assert.match(r.stdout, /il registro deve stare in MyCity-Vault/);
+  } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
+});
+
+test("secondo collaudo #8: prova-unione mette da parte un ramo con unioni, con un rosso solo", () => {
+  const { dir, g, scrivi, base } = depositoFinto();
+  const c = cartellaCampagna(base);
+  try {
+    g("checkout", "-q", "-b", "laterale", base); scrivi("lib/c.ts", "export const c = 1;\n"); g("add", "-A"); g("commit", "-qm", "altro");
+    g("checkout", "-q", "-b", "r01", base); scrivi("lib/a.ts", "export const a = 11;\n"); g("commit", "-qam", "R01-001 a");
+    g("merge", "-q", "--no-ff", "-m", "unisco", "laterale");
+    g("checkout", "-q", "-b", "r02", base); scrivi("lib/b.ts", "export const b = 11;\n"); g("commit", "-qam", "R02-001 b");
+    const r = lancia("prova-unione", "--cartella", c, "--git", dir, "--onda", "1", "--refs", "R01=r01,R02=r02");
+    assert.equal(r.status, 1);
+    assert.equal((r.stdout.match(/^🔴/gm) || []).length, 2, r.stdout);
+    assert.match(r.stdout, /R01: il ramo ha 1 unioni/);
+  } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
+});
+
+test("secondo collaudo #7: applica rilancia anche i controlli del collaudo (un giudizio pieno senza lenti la ferma)", () => {
+  const c = mkdtempSync(join(tmpdir(), "riparazione-applica-k-"));
+  try {
+    const voci = [{ id: "R01-001", chiave: "pagamenti|il payout salta", gravita: "grave", file: ["lib/a.ts"] }];
+    writeFileSync(join(c, "perimetro.json"), JSON.stringify({ casa: "sito", lavorabili: voci }));
+    writeFileSync(join(c, "piano.json"), JSON.stringify({ casa: "sito", onde: [{ onda: 1, base: "0".repeat(40), candidate: [voci[0].chiave], sessioni: { R01: { voci, file: ["lib/a.ts"] } }, rimandate: [], regia: [] }] }));
+    const registro = join(c, "registro.json");
+    writeFileSync(registro, JSON.stringify({ problemi: [{ dimensione: "pagamenti", titolo: "il payout salta", stato: "aperto", severita: "grave", file: "lib/a.ts:1" }] }));
+    mkdirSync(join(c, "referti")); mkdirSync(join(c, "collaudi"));
+    const rip = riparata({ id: "R01-001" });
+    writeFileSync(join(c, "referti", "R01.json"), JSON.stringify({ sessione: "R01", aggiornato: "2026-11-08 10:00", finita: true, testa: "fff0000", verifica: { esito: "verde" }, voci: [rip] }));
+    const k = (lenti) => JSON.stringify({ collaudatore: "K01", riparatori: ["R01"], aggiornato: "2026-11-08 12:00", finita: true, voci: [{ id: "R01-001", chiave: rip.chiave, verdetto: "regge", giudizio: "pieno", ...(lenti ? { lenti } : {}), rimessa: { uscita: 0, comando: "x" } }] });
+    writeFileSync(join(c, "collaudi", "K01.json"), k(["chiude_tutta", "nata_rotta"]));
+    let r = lancia("applica", "--cartella", c, "--registro", registro);
+    assert.equal(r.status, 3, r.stdout);
+    assert.match(r.stdout, /1 si chiudono/);
+    writeFileSync(join(c, "collaudi", "K01.json"), k(null));
+    r = lancia("applica", "--cartella", c, "--registro", registro);
+    assert.equal(r.status, 1, r.stdout);
+    assert.match(r.stdout, /collaudi\/K01\.json: R01-001: un giudizio pieno porta tutte e due le lenti/);
+  } finally { rmSync(c, { recursive: true, force: true }); }
 });
