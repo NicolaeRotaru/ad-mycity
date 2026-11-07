@@ -31,6 +31,21 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🔴 #233 — Firma l'accoglienza dei negozi nuovi, provata su Pane Quotidiano · ⏳ accodata 2026-11-07 03:41
+
+**In parole semplici.** L'accoglienza è il lavoro che faccio quando entra un negozio. Lo guardo come un cliente e controllo gli obblighi. Preparo i suoi dati e provo il primo ordine in palestra. Poi lo seguo per 4 settimane. L'ho provata su Pane Quotidiano il 7/11.
+
+**Cosa cambia per te.** Esempio vero: la vetrina di Pane Quotidiano promette pane e miele, ma vende kefir, hummus, pudding e pesto. Chi cerca «pane» trova l'hummus. 4 alimenti su 5 si comprano senza allergeni. Se il fornaio cambia anche solo un prezzo, il sito non salva finché non li scrive. E manca l'IBAN, ma il sito non ha una pagina dove scriverlo. Così il bonifico resterebbe fermo. In palestra il primo ordine in contanti è andato fino in fondo due volte, con i conti giusti.
+
+**Cosa devi fare tu.** Tre scelte. Uno: firmare la procedura, nella versione leggera per i prossimi negozi. Due: dire chi scrive dati della ditta e IBAN di Pane Quotidiano. Tre: lasciarmi preparare l'avviso al fornaio con le correzioni da approvare.
+
+**Cosa non ho verificato.** L'ho provata su un negozio solo, con 5 prodotti. Le norme le ho lette su fonti web, non le ha lette un legale. Hummus e pudding hanno l'etichetta illeggibile: lì ingredienti e allergeni vanno chiesti al negozio.
+
+Cosa cambia: ogni negozio nuovo arriva al primo cliente con vetrina vera, obblighi in ordine e un ordine già provato; per Pane Quotidiano, 14 domande pronte da fargli.
+Se va bene: preparo l'avviso a Pane Quotidiano con le correzioni e, alla tua firma, un controllo programmato che lancia l'accoglienza da solo quando entra un negozio.
+
+La procedura: `consegne/accoglienza-negozi/00-come-funziona-l-accoglienza.md`. Il lavoro su Pane Quotidiano: `consegne/accoglienza-negozi/2026-11-07-pane-quotidiano/`.
+
 ### 🔴 #232 — Firma il piano della palestra, la copia del sito per le prove · ⏳ accodata 2026-11-06 19:17
 
 > ✍️ FIRMATA 2026-11-07 00:55 — Nicola: «fallo per tutti i giorni che ti servono per tutti i controlli e ricontrolli finché non sei sicuro che tutto funzioni». Scelte: progetto Vercel separato, intelligenza artificiale finta, anche la carta in modalità test. La palestra è in costruzione.
