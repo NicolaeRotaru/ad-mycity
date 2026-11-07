@@ -1,12 +1,12 @@
 {
   "data": "2026-11-06 19:13",
   "tipo": "radiografia-marketplace",
-  "fonte": "radiografia in 12 sessioni (prompt v5): 12 sessioni a tema sui 2.587 file, ogni difetto in chiaro verificato da un agente qa che non l'aveva trovato (gravi: due agenti, prova e peso), un terzo giro piccolo dopo il critico di completezza; le falle riservate verificate solo dentro le sessioni e pubblicate col titolo generico; il 7/11, con la firma di Nicola, un quarto giro ha verificato gli 8 difetti del terzo giro",
+  "fonte": "radiografia in 12 sessioni (prompt v5): 12 sessioni a tema sui 2.587 file, ogni difetto in chiaro verificato da un agente qa che non l'aveva trovato (gravi: due agenti, prova e peso), un terzo giro piccolo dopo il critico di completezza; le falle riservate verificate solo dentro le sessioni e pubblicate col titolo generico; il 7/11, con la firma di Nicola, un quarto giro ha verificato gli 8 difetti del terzo giro; il 7/11 la palestra (copia del sito per le prove) ha rifatto 114 prove e la prova generale di Pane Quotidiano: i difetti confermati da verificatori indipendenti e non già nel registro entrano col giro 5",
   "codice_analizzato": "NicolaeRotaru/mycity @ db5164c (main)",
-  "totale": 183,
-  "bloccanti": 0,
-  "gravi": 12,
-  "minori": 171,
+  "totale": 211,
+  "bloccanti": 1,
+  "gravi": 15,
+  "minori": 195,
   "dimensioni": [
     {
       "dimensione": "qa-flussi",
@@ -691,6 +691,23 @@
           "verificato": true,
           "giro": 4,
           "fonte_radiografia": "radiografia 2026-11-06 · quarto giro (7/11)"
+        },
+        {
+          "dimensione": "qa-flussi",
+          "titolo": "La cassa dice «troppo lontano» a chi abita in Via Roma o in Via Cavour, in pieno centro, e l'ordine non parte",
+          "severita": "bloccante",
+          "file": "lib/geocodifica.ts:28-32 · app/api/geocode/route.ts:36 · app/api/orders/cod/route.ts:991-1029 · app/api/stripe/checkout/route.ts:599 · lib/ordini/zona-di-consegna.ts",
+          "descrizione": "Il server trova le coordinate dell'indirizzo con una ricerca a testo libero su Nominatim: q=«via, CAP città, Italia», limit=1, solo countrycodes=it. Non mette confini su Piacenza e non controlla in che comune cade il risultato. Per molte vie dal nome comune il primo risultato è una via omonima fuori città, e il controllo dei 5 km (fuoriZonaDiConsegna in app/api/orders/cod/route.ts) rifiuta l'ordine. Passi in palestra: ① cliente.uno mette nel carrello Coppa e Salame della Salumeria del Borgo e va in cassa; ② scrive l'indirizzo «Via Roma 10», Piacenza, CAP 29121, sceglie la fascia Oggi 11:00–13:00 e i contanti; ③ preme «Ordina e paga alla consegna». POST /api/orders/cod risponde 400: «Per ora consegniamo fino a 5 km dal negozio: il tuo indirizzo è troppo lontano da Salumeria del Borgo». L'indirizzo era finito a 44.9583, 9.6815, cioè a 10,2 km dal negozio. Riprodotto 2 volte, dalla cassa e da /api/geocode, con coordinate identiche. Misura su 8 vie del centro, cercate nella forma che usa il server: 5 finiscono fuori zona (Via Roma 10,2 km, Via XX Settembre 19,5 km, Via Garibaldi 10,3 km, Via Mazzini 7,0 km, Via Cavour 19,0 km). Le altre 3 sono giuste: Corso Vittorio Emanuele II 0,4 km, Via Calzolai 0,5 km, Via Scalabrini 0,1 km. Anche togliendo il CAP, Via Roma finisce a circa 7 km: il cliente non ha modo di rimediare. La stessa funzione serve anche la strada della carta.",
+          "impatto": "Chi abita nelle vie più comuni del centro di Piacenza non può ordinare da nessun negozio, e il messaggio dà la colpa al suo indirizzo. Delle 8 vie del centro provate, 5 sono bloccate; nella verifica dell'AD, 3 indirizzi su 10. Il primo cliente che scrive «Via Roma 10» il giorno del lancio non compra e non sa perché. Si ferma proprio il percorso che porta incassi.",
+          "fix": "Una funzione sola in lib/geocodifica.ts, usata anche da /api/geocode e dal modulo della cassa, che fa quattro cose. ① Cerca in forma strutturata (street, city, postalcode, countrycodes=it) invece che a testo libero. ② Limita la ricerca al riquadro del comune di Piacenza e dintorni (viewbox + bounded=1). ③ Chiede più risultati (limit=5) e scarta quelli con comune o CAP diversi da quelli scritti. ④ Se nessun risultato è affidabile restituisce null: l'ordine passa senza coordinate, come il codice prevede già, invece di essere bloccato con «troppo lontano». Il controllo dei 5 km resta com'è.",
+          "prova": "Prova vitest proposta, tests/unit/via-roma-in-centro-non-e-fuori-zona.test.ts. Sostituire global fetch con un finto Nominatim che fa quello che la palestra ha misurato: alla ricerca a testo libero «Via Roma 10, 29121 Piacenza, Italia» risponde col punto 44.9583, 9.6815; alla ricerca strutturata, o limitata al riquadro di Piacenza, risponde con un punto della cerchia (circa 45.05, 9.69). Chiamare coordinateDiUnIndirizzo({ address:'Via Roma 10', city:'Piacenza', zip:'29121' }) e pretendere che fuoriZonaDiConsegna, col negozio in centro (45.0526, 9.6930), risponda false. Stesso controllo sulla rotta POST /api/geocode. Comando: npx vitest run tests/unit/via-roma-in-centro-non-e-fuori-zona.test.ts. Oggi è rossa: 10,2 km, fuori zona. Complemento con la rete vera: uno script che manda a Nominatim le 8 vie del centro nella forma del server e fallisce se una supera i 5 km da Piazza Cavalli.",
+          "prova_tipo": "vitest",
+          "esito_prova": "Per Via Roma 10, 29121 Piacenza, POST /api/orders/cod risponde 400 «troppo lontano»: l'indirizzo finisce a 44.9583, 9.6815, a 10,2 km dal negozio. Riprodotto 2 volte, dalla cassa e da /api/geocode. Fuori zona 5 vie del centro su 8. Nella verifica indipendente dell'AD, 3 indirizzi su 10: Via Roma 10, Via Garibaldi 18, Via Cavour 27.",
+          "causa_radice": "La ricerca dell'indirizzo è a testo libero, con un solo risultato e nessun confine geografico. Il controllo della zona prende per buono un risultato sbagliato come uno giusto, e blocca.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
         }
       ]
     },
@@ -1003,6 +1020,40 @@
           "verificato": true,
           "giro": 4,
           "fonte_radiografia": "radiografia 2026-11-06 · quarto giro (7/11)"
+        },
+        {
+          "dimensione": "pagamenti-stripe",
+          "titolo": "Falla di sicurezza R312 da chiudere (pagamenti): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+          "severita": "grave",
+          "file": "(nel referto privato)",
+          "descrizione": "nel referto privato",
+          "impatto": "nel referto privato",
+          "fix": "nel referto privato",
+          "causa_radice": "nel referto privato",
+          "prova": "nel referto privato",
+          "prova_tipo": "comando",
+          "prova_eseguita": true,
+          "esito_prova": "nel referto privato",
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
+        },
+        {
+          "dimensione": "pagamenti-stripe",
+          "titolo": "Un negozio già approvato non ha nessuna pagina dove scrivere IBAN e dati della ditta, e il suo bonifico non può partire",
+          "severita": "grave",
+          "file": "app/seller/profile/page.tsx (nessun campo billing_iban né business_*) · app/sell/page.tsx:57-62 (chi è approvato viene rimandato a /seller/profile) · app/api/seller/apply/route.ts:154-156 (agli approvati risponde «già approvato») · app/admin/payouts/page.tsx:232",
+          "descrizione": "IBAN, ragione sociale, partita IVA, sede, PEC e SDI si scrivono solo dal modulo d'iscrizione /sell, che salva tramite la rotta /api/seller/apply. Chi è già approvato lì non arriva più: /sell lo rimanda a /seller/profile, e la rotta gli risponde 409 «Il tuo negozio è già approvato». Nel pannello del negozio (/seller/profile, /seller/earnings) non c'è nessun campo per questi dati. Caso vero: Pane Quotidiano, approvato il 15/6, prima che il modulo chiedesse questi dati. In palestra, su una copia del negozio, dopo un ordine consegnato e il versamento confermato, la pagina dei bonifici dell'amministrazione mostra «IBAN non impostato · In sospeso». Nel pannello del negozio non c'è un posto dove scriverlo.",
+          "impatto": "Tocca Pane Quotidiano, che è l'unico negozio reale, e ogni negozio approvato prima del modulo nuovo o che cambia banca. Il lunedì Nicola non sa su quale conto mandare il bonifico dei contanti. Il negozio non può né scrivere né correggere l'IBAN da solo: o resta senza soldi, o i dati passano a voce o per email, fuori dal sito. In più il riquadro «Venduto da» resta senza partita IVA e ragione sociale.",
+          "fix": "Una sezione «Dati per i bonifici» in /seller/profile (o in /seller/earnings) con IBAN, intestatario, ragione sociale, forma, partita IVA, sede, PEC o SDI. Si salva solo con una rotta server dedicata, aperta anche al negozio approvato. La rotta usa gli stessi controlli di /api/seller/apply (normalizzaIban, ibanValido, partita IVA). Ogni cambio di IBAN lascia una traccia nel registro attività e manda un avviso via email al negozio. In più, nella pagina Guadagni, un avviso «IBAN mancante» porta a quella sezione.",
+          "prova": "Prova vitest proposta, tests/unit/il-negozio-approvato-scrive-l-iban.test.tsx. Montare app/seller/profile/page.tsx con l'aiuto tests/unit/aiuti/monta-componente.ts e un profilo finto da negozio approvato (approval_status 'approved', billing_iban null, business_vat_number null). Pretendere un campo con etichetta «IBAN» e uno con etichetta «Partita IVA». Compilarli, premere salva e controllare che parta la scrittura con billing_iban. Comando: npx vitest run tests/unit/il-negozio-approvato-scrive-l-iban.test.tsx. Oggi è rossa, perché il campo non c'è. Seconda prova: sulla rotta che salva i dati, un negozio approvato deve ricevere 200 e non 409.",
+          "prova_tipo": "vitest",
+          "esito_prova": "Su un negozio approvato prima del modulo nuovo (copia di Pane Quotidiano), dopo un ordine consegnato e il versamento confermato, compare «IBAN non impostato · In sospeso». Nel pannello del negozio non c'è nessun campo per IBAN, ragione sociale, partita IVA, sede, PEC o SDI.",
+          "causa_radice": "La riparazione della voce 809 ha rimesso dati fiscali e IBAN solo nel modulo d'iscrizione, che è chiuso a chi è già approvato. Per i negozi esistenti non è nata nessuna strada.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
         }
       ]
     },
@@ -1234,6 +1285,23 @@
           "verificato": true,
           "giro": 1,
           "fonte_radiografia": "radiografia 2026-11-06 · S12 · verificata dentro la sessione, non dal controllo finale"
+        },
+        {
+          "dimensione": "sicurezza-auth",
+          "titolo": "Falla di sicurezza R311 da chiudere (sicurezza degli accessi): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+          "severita": "minore",
+          "file": "(nel referto privato)",
+          "descrizione": "nel referto privato",
+          "impatto": "nel referto privato",
+          "fix": "nel referto privato",
+          "causa_radice": "nel referto privato",
+          "prova": "nel referto privato",
+          "prova_tipo": "comando",
+          "prova_eseguita": true,
+          "esito_prova": "nel referto privato",
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
         }
       ]
     },
@@ -1410,6 +1478,23 @@
           "giro": 1,
           "fonte_radiografia": "radiografia 2026-11-06 · S11",
           "gia_noto": "deploy-sre|la pagina pubblica «stato servizi» annuncia a tutti un guasto del database e dell'accesso che non c'è"
+        },
+        {
+          "dimensione": "deploy-sre",
+          "titolo": "Sulle anteprime il file per i motori di ricerca apre tutto il sito invece di chiuderlo",
+          "severita": "minore",
+          "file": "app/robots.ts:9-45",
+          "descrizione": "app/robots.ts restituisce sempre le stesse regole e non guarda se gira sul sito vero o su un'anteprima. Le regole sono «User-Agent: * · Allow: /» più 18 Disallow (/api/, /admin/, /seller/, /checkout…). Host e Sitemap vengono da env.appUrl(), cioè dall'indirizzo dell'anteprima. In palestra (anteprima Vercel su un indirizzo *.vercel.app) /robots.txt risponde 200 text/plain con lo stesso testo del sito vero e con la Sitemap dell'anteprima. Oggi Google resta fuori solo per due protezioni di Vercel: l'intestazione X-Robots-Tag: noindex e il muro di accesso (302 «Protected by Vercel Authentication»). Secondo la documentazione di Vercel quel noindex manca quando a un ramo non di produzione si assegna un dominio proprio, per esempio uno staging: lì il robots.txt inviterebbe a indicizzare un doppione del sito coi negozi di prova. Passi: aprire /robots.txt sull'anteprima e leggere il testo, poi confrontarlo con app/robots.ts, dove non c'è nessun ramo per VERCEL_ENV === 'preview'.",
+          "impatto": "Oggi nessuno, perché l'anteprima sta dietro il muro di Vercel. Il giorno in cui si apre uno staging con dominio proprio, Google può indicizzare una copia del sito con negozi e prodotti di prova. Quella copia farebbe concorrenza al sito vero sulle stesse ricerche (per esempio «pane Piacenza»), e qualche cliente potrebbe finire a ordinare lì.",
+          "fix": "In app/robots.ts: se process.env.VERCEL_ENV non è 'production', oppure se env.appUrl() non è il dominio canonico del sito, restituire { rules: [{ userAgent: '*', disallow: '/' }] } senza sitemap. Si può applicare la stessa regola in app/sitemap.ts.",
+          "prova": "Prova vitest proposta, tests/unit/l-anteprima-chiude-la-porta-ai-motori.test.ts. Primo caso: vi.stubEnv('VERCEL_ENV','preview'), importare il default di app/robots.ts, chiamarlo e pretendere tre cose: la prima regola ha disallow '/' (o ['/']), non c'è nessun allow, non c'è la sitemap. Secondo caso: con VERCEL_ENV='production' pretendere le regole di oggi. Comando: npx vitest run tests/unit/l-anteprima-chiude-la-porta-ai-motori.test.ts. Oggi è rossa sul primo caso.",
+          "prova_tipo": "vitest",
+          "esito_prova": "Sulla palestra (anteprima *.vercel.app) /robots.txt risponde 200 con «User-Agent: * / Allow: /» più 18 Disallow. Host e Sitemap puntano all'anteprima e il testo è identico a quello del sito vero. A chiudere ci pensano solo l'intestazione X-Robots-Tag: noindex e il muro di Vercel (script p005_robots.mjs).",
+          "causa_radice": "robots.ts decide le regole senza sapere in che ambiente gira. L'unico dato che riceve è env.appUrl(), che cambia l'indirizzo ma non dice se il sito è quello vero.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
         }
       ]
     },
@@ -1585,6 +1670,57 @@
           "verificato": true,
           "giro": 1,
           "fonte_radiografia": "radiografia 2026-11-06 · S05 · verificata dentro la sessione, non dal controllo finale"
+        },
+        {
+          "dimensione": "rls-database",
+          "titolo": "Su un progetto Supabase nuovo le migrazioni girano, ma i visitatori non leggono quasi nessuna tabella: i permessi non sono scritti",
+          "severita": "minore",
+          "file": "migrations/ (nessun GRANT iniziale sulle tabelle) · migrations/114_hardening_radiografia.sql:442 · migrations/119_radiografia_18_agosto.sql:375-381 · migrations/145_revoca_scritture_sulle_tabelle_esistenti.sql · migrations/151_revoca_esecuzione_agli_anonimi.sql · tests/sql/harness/00_shim_supabase.sql:157-162",
+          "descrizione": "Le migrazioni contano sul vecchio permesso di partenza di Supabase, cioè GRANT ALL ad anon e authenticated su ogni tabella nuova. Da sole non concedono mai SELECT, e la 114, la 119, la 145 e la 151 restringono permessi che danno per già concessi. Anche l'impalcatura delle prove SQL riproduce quella regola (00_shim_supabase.sql, righe 157-162), quindi le prove non se ne accorgono. L'AD l'ha visto costruendo la palestra su un ramo Supabase nuovo, con le regole di novembre 2026: lì pg_default_acl del ruolo postgres dà ad anon solo pochi diritti. Le 178 migrazioni girano senza errori. Poi la query select count(*) from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relkind='r' and not has_table_privilege('anon', c.oid, 'SELECT') dà 75 tabelle su 76, products compresa. Il sito ricostruito da zero non mostra niente.",
+          "impatto": "Chi ricostruisce il sito da zero ottiene un catalogo vuoto per tutti i visitatori, senza nessun errore: succede con un ambiente di prova, un ripristino dopo un disastro o uno spostamento di progetto. Il perché si scopre solo confrontando i permessi a mano. Il sito vero oggi non è toccato, perché è nato coi permessi di una volta.",
+          "fix": "Una migrazione che dichiara i permessi invece di presumerli. Per ogni tabella di public concede SELECT ad anon e authenticated solo dove c'è una regola di lettura per quel ruolo, e le scritture solo dove una regola le copre (il criterio della 145); più i GRANT EXECUTE sulle funzioni pubbliche. Dev'essere idempotente, così sul sito vero non cambia niente. Poi togliere dall'impalcatura delle prove le righe ALTER DEFAULT PRIVILEGES … GRANT ALL, così le prove girano come su un progetto nuovo.",
+          "prova": "Script proposto, tests/sql/harness/su-un-progetto-nuovo-il-catalogo-si-legge.sh. Crea un database e applica 00_shim_supabase.sql. Poi revoca i permessi di partenza (ALTER DEFAULT PRIVILEGES IN SCHEMA public REVOKE ALL ON TABLES, SEQUENCES e FUNCTIONS FROM anon, authenticated). Poi applica tutte le migrazioni nell'ordine LC_ALL=C, come apply.sh. Infine conta le tabelle di public che hanno una regola di lettura per anon o public ma dove has_table_privilege('anon', tabella, 'SELECT') è falso, ed esce 1 se il conteggio è sopra zero. Comando: bash tests/sql/harness/su-un-progetto-nuovo-il-catalogo-si-legge.sh. Oggi è rosso.",
+          "prova_tipo": "comando",
+          "esito_prova": "Su un ramo Supabase nuovo le 178 migrazioni girano senza errori. Dopo, anon non ha SELECT su 75 delle 76 tabelle di public, products compresa.",
+          "causa_radice": "I permessi sulle tabelle non sono scritti nelle migrazioni: vengono ereditati dal permesso di partenza del progetto, che Supabase ha cambiato. L'impalcatura delle prove SQL riproduce la regola vecchia e non se ne accorge.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
+        },
+        {
+          "dimensione": "rls-database",
+          "titolo": "Sul sito vero i visitatori non possono leggere la tabella dei profili, ma nessuna migrazione lo dice",
+          "severita": "minore",
+          "file": "migrations/ (nessun REVOKE SELECT ON public.profiles FROM anon) · tests/sql/harness/00_shim_supabase.sql:157-158",
+          "descrizione": "Confronto dei permessi fra la produzione e un database ricostruito dalle migrazioni, coi permessi di partenza di una volta. has_table_privilege('anon','public.profiles','SELECT') vale false in produzione e true sul database ricostruito. Nessuna migrazione revoca SELECT su profiles ad anon: le revoche scritte riguardano seller_public_profiles, coupons e zone_codes. Quindi la differenza è stata fatta a mano in produzione. Oggi, comunque, le regole per riga non danno ai visitatori nessuna riga di profiles.",
+          "impatto": "Oggi nessun danno. Però il sito ricostruito dalle migrazioni non è uguale a quello vero, e le prove SQL certificano un permesso diverso da quello reale. Se un giorno una regola di lettura su profiles si allarga, sul sito vero non succede niente, mentre sulle copie i dati personali diventano leggibili; o viceversa.",
+          "fix": "Una migrazione idempotente REVOKE SELECT ON public.profiles FROM anon, che scrive lo stato già presente in produzione, con accanto una prova SQL che lo pretende. Aggiungere il confronto dei permessi fra produzione e repo al controllo di deriva.",
+          "prova": "Prova SQL sul database ricostruito: bash tests/sql/harness/apply.sh mycity_ci && psql -X -d mycity_ci -v ON_ERROR_STOP=1 -c \"DO \\$\\$ BEGIN IF has_table_privilege('anon','public.profiles','SELECT') THEN RAISE EXCEPTION 'anon legge profiles sul database delle migrazioni, in produzione no'; END IF; END \\$\\$;\". Oggi è rossa.",
+          "prova_tipo": "sql",
+          "esito_prova": "has_table_privilege('anon','public.profiles','SELECT') vale false in produzione e true sul database ricostruito dalle migrazioni.",
+          "causa_radice": "Un permesso cambiato a mano in produzione senza il file nel repo. È lo stesso meccanismo della voce 884, su un altro oggetto.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
+        },
+        {
+          "dimensione": "rls-database",
+          "titolo": "Falla di sicurezza R313 da chiudere (regole del database): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+          "severita": "grave",
+          "file": "(nel referto privato)",
+          "descrizione": "nel referto privato",
+          "impatto": "nel referto privato",
+          "fix": "nel referto privato",
+          "causa_radice": "nel referto privato",
+          "prova": "nel referto privato",
+          "prova_tipo": "comando",
+          "prova_eseguita": true,
+          "esito_prova": "nel referto privato",
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
         }
       ]
     },
@@ -1796,6 +1932,40 @@
           "verificato": true,
           "giro": 1,
           "fonte_radiografia": "radiografia 2026-11-06 · S12 · verificata dentro la sessione, non dal controllo finale"
+        },
+        {
+          "dimensione": "architettura",
+          "titolo": "Oltre i mille prodotti la mappa per Google perde i più vecchi senza dirlo",
+          "severita": "minore",
+          "file": "app/sitemap.ts:90-120 · lib/supabase/blocchi.ts:37-49 (leggiInBlocchi) e :70-88 (leggiTutteLeRighe, che qui non si usa)",
+          "descrizione": "La sitemap legge i prodotti con leggiInBlocchi: un blocco ogni 100 negozi, e per ogni blocco una sola richiesta .order('created_at', desc).limit(5000). PostgREST però non restituisce più di 1000 righe per richiesta: risponde 206, e supabase-js non lo tratta come errore. Quindi, oltre i 1000 prodotti disponibili nei primi 100 negozi, la mappa si ferma a 1000 e lascia fuori i più vecchi senza dire niente. Sui negozi c'è lo stesso tetto nascosto: .limit(2000) su seller_public_profiles restituisce al massimo 1000 righe. Passi in palestra: ① creare un negozio di prova e inserirgli 800 prodotti disponibili non alimentari, per 1059 prodotti in tutto nei negozi approvati; ② rifare con la chiave anonima la lettura di app/sitemap.ts (status=eq.available, seller_id=in.(…), order=created_at.desc, limit=5000, Prefer: count=exact); ③ contare le righe; ④ cancellare i prodotti finti.",
+          "impatto": "Oggi nessuno, perché il catalogo vero ha meno di mille prodotti. Quando li supera, i prodotti caricati per primi spariscono dalla mappa uno dopo l'altro, e Google smette di ritrovarli senza nessun errore né avviso. Sono quelli dei primi negozi, come Pane Quotidiano.",
+          "fix": "Dentro ogni blocco di negozi, leggere tutte le righe a finestre di 1000 con leggiTutteLeRighe al posto di .limit(5000). Va tenuto il tetto di 5000 indirizzi, con una riga di log quando scatta troncato. Stessa lettura a finestre per seller_public_profiles.",
+          "prova": "Prova vitest proposta, tests/unit/la-mappa-non-si-ferma-a-mille-prodotti.test.ts. Serve un finto client Supabase (vi.mock di @/lib/supabase/anonimo) che si comporta come PostgREST: ogni richiesta restituisce al massimo 1000 righe, rispetta .range() e ignora un .limit() più alto. Dentro, 1 negozio e 1059 prodotti disponibili. Con NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY impostate, chiamare sitemap() e pretendere 1059 indirizzi /product/. Comando: npx vitest run tests/unit/la-mappa-non-si-ferma-a-mille-prodotti.test.ts. Oggi ne escono 1000.",
+          "prova_tipo": "vitest",
+          "esito_prova": "Con 1059 prodotti disponibili la lettura della sitemap restituisce 1000 righe (HTTP 206, Content-Range 0-999/1059). Ripetuta con 750 prodotti aggiunti: 1000 su 1009. La sitemap rigenerata della palestra, sotto il tetto, era giusta: 321 indirizzi (20 statiche, 10 categorie, 32 negozi, 259 prodotti, tutti con risposta 200).",
+          "causa_radice": "Il tetto di 1000 righe di PostgREST non compare nel codice, così .limit(5000) sembra una lettura completa. Lo strumento giusto, leggiTutteLeRighe, esiste dal 22/8, ma la sitemap usa solo leggiInBlocchi, che spezza l'elenco dei negozi e non le righe.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
+        },
+        {
+          "dimensione": "architettura",
+          "titolo": "I dati demo del sito non si caricano più sul database di oggi: tutte e quattro le semine si fermano",
+          "severita": "minore",
+          "file": "seeds/001_piacenza_stores.sql · seeds/005_admin_and_rider.sql · seeds/006_admin_swap.sql · seeds/007_mycity_seller.sql",
+          "descrizione": "Le semine sono i file che creano i negozi demo, l'amministratore, il fattorino e il negozio di sistema «MyCity». Non sono state aggiornate quando lo schema si è stretto. Visto costruendo il database della palestra: seeds/001_piacenza_stores.sql, applicato dopo le migrazioni, si ferma su due cose. La prima è «profiles: approvazione riservata allo staff», il guardiano dei profili della migrazione 119; la seconda sono gli allergeni obbligatori degli alimenti. La 005, la 006 e la 007 si fermano sul vincolo chk_approvazione_coerente.",
+          "impatto": "Chi prepara un ambiente di prova o una demo (la palestra, uno staging, un nuovo collaboratore) non ottiene i negozi demo e deve scriverli a mano. Le prove che si aspettano quei dati non hanno su cosa girare. Il sito vero non è toccato.",
+          "fix": "Aggiornare le semine allo schema di oggi. Scriverle con la stessa scrittura privilegiata che usano già le prove SQL (vedi tests/sql/harness), mai dal ruolo authenticated. Dare valori coerenti a is_approved e approval_status, e aggiungere allergeni e ingredienti ai prodotti alimentari. Poi farle girare nella CI dopo apply.sh, così si rompono il giorno in cui lo schema cambia e non mesi dopo.",
+          "prova": "Comando: bash tests/sql/harness/apply.sh mycity_ci && for f in seeds/00*.sql; do psql -X -d mycity_ci -v ON_ERROR_STOP=1 -f \"$f\" || exit 1; done. Oggi si ferma su 001.",
+          "prova_tipo": "comando",
+          "esito_prova": "La 001 si ferma su «profiles: approvazione riservata allo staff» e sugli allergeni obbligatori. La 005, la 006 e la 007 si fermano sul vincolo chk_approvazione_coerente.",
+          "causa_radice": "Nessuno prova le semine. Le migrazioni hanno aggiunto guardiani e vincoli, e nessun controllo ha fatto girare i dati demo contro lo schema nuovo.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
         }
       ]
     },
@@ -2193,6 +2363,91 @@
           "verificato": true,
           "giro": 1,
           "fonte_radiografia": "radiografia 2026-11-06 · S06 · verificata dentro la sessione, non dal controllo finale"
+        },
+        {
+          "dimensione": "api-backend",
+          "titolo": "Se due giri del sorvegliante partono nello stesso istante, l'amministratore riceve due volte la stessa campanella",
+          "severita": "minore",
+          "file": "app/api/cron/operational-alerts/route.ts:621-716 (lettura di operational_alert_log alle righe 625-629, insert in notifications alla 696, upsert della memoria CAMPANELLA|… alle 704-709; l'email segue lo stesso ordine con l'upsert alle 823-826)",
+          "descrizione": "In palestra il 7/11 ho creato un'anomalia fresca per ogni tentativo: un ordine in consegna da 60 minuti col fattorino (RIDER_STUCK) oppure un ordine in contanti fermo in NEW da 4 ore. Poi ho lanciato insieme (Promise.all) due chiamate a /api/cron/operational-alerts?a_mano=1 col segreto dei lavori. In 4 coppie su 5 (ordini 8f6a6583, 92021694, db788d50, 95665184) e in 6 coppie su 7 (es. ordine 1dccb3e1) l'unico amministratore riceve due campanelle identiche «⚠️ 1 alert operativi», a 17-74 ms l'una dall'altra: 02:15:18.684 e 02:15:18.719 per 8f6a6583, 02:09:41.998 e 02:09:42.038 per 1dccb3e1. Con 1 secondo di distanza ne arriva una sola. Quindi l'attesa di sei ore regge fra giri in fila ma non fra giri contemporanei. Nel codice tutti e due i giri leggono operational_alert_log prima che l'altro abbia scritto, tutti e due inseriscono le notifiche, e solo dopo fanno l'upsert della memoria. L'email segue lo stesso schema: lettura, invio, upsert. Con SUPPORT_EMAIL impostata partirebbero anche due email: l'ho letto nel codice, non provato, perché in palestra la casella non c'è.",
+          "impatto": "Rumore per gli amministratori: due avvisi identici per la stessa anomalia, e domani anche due push (quando saranno accese) e due email. Succede quando il calendario di Vercel e un cron esterno battono nello stesso momento (c'è già il precedente di Vercel e cron-job.org alla stessa ora), oppure con un giro a mano durante quello del calendario. Non tocca soldi né dati.",
+          "fix": "Rivendicare la chiave prima di suonare. Una funzione SQL fa insert in operational_alert_log … ON CONFLICT (alert_key) DO UPDATE SET last_sent_at = now() WHERE operational_alert_log.last_sent_at < cutoff RETURNING alert_key. Campanella ed email partono solo per le chiavi restituite, e se poi la scrittura della campanella cade la chiave si libera. In alternativa, la notifica prende un identificativo fisso ricavato dalla chiave e dalla finestra di sei ore, come fa già notifyAdmins con unaVoltaPer: così il secondo insert sbatte sulla chiave primaria.",
+          "causa_radice": "L'attesa di sei ore funziona a «leggi, poi suona, poi scrivi», senza rivendicare la chiave prima: protegge dai giri in fila, non da quelli sovrapposti.",
+          "prova": "vitest proposto: tests/unit/due-giri-insieme-del-sorvegliante-suonano-una-volta.test.ts. Si parte dal finto database con memoria di tests/unit/la-campanella-degli-allarmi-suona-una-volta-anche-senza-posta.test.ts, con ogni risposta ritardata da un setTimeout(0) perché le due chiamate si intreccino. Con un'anomalia fresca: await Promise.all([POST(req), POST(req)]); expect(campanelle).toBe(1). Comando: cd /home/user/mycity && npx vitest run tests/unit/due-giri-insieme-del-sorvegliante-suonano-una-volta.test.ts — oggi rosso (2 campanelle).",
+          "prova_tipo": "vitest",
+          "esito_prova": "Palestra 7/11: due campanelle identiche in 4 coppie su 5 (S04-P057) e in 6 coppie su 7 (S08-P031), a 17-74 ms l'una dall'altra; con 1 s di distanza una sola. Una lettura fallita (lock di 20 s su cron_heartbeats) risponde correttamente 500 con controlliSaltati.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
+        },
+        {
+          "dimensione": "api-backend",
+          "titolo": "Se due giri della cancellazione account partono insieme, l'account sparisce ma agli amministratori arriva un falso allarme di cancellazione fallita",
+          "severita": "minore",
+          "file": "app/api/cron/process-deletions/route.ts:187-226 (ciclo sulle scadute: nessuna presa del turno sull'account) · lib/account/cancellazione.ts:939-947 (deleteUser che risponde «utente non trovato» diventa ok:false)",
+          "descrizione": "In palestra il 7/11 ho preso due clienti finti con la cancellazione chiesta 31 giorni fa, ed erano gli unici restituiti da process_expired_deletions(). Per ciascuno ho lanciato insieme due GET /api/cron/process-deletions?a_mano=1&cancella=1 col segreto dei lavori. L'account sparisce davvero: 0 righe in auth.users, profilo sparito. Però un giro risponde {processed:1} e l'altro 500 {processed:0, failed:1, errors:1}, e agli amministratori arriva «Cancellazioni account non eseguite — Stanotte 1 richiesta di cancellazione account non è andata a buon fine. Sono richieste fatte per legge: vanno guardate una per una.». Riprodotto 2 volte su 2, alle 02:18:31 e alle 02:18:40. Il secondo giro rifà da capo anonimizzazione e rimozione dei file; poi deleteUser non trova più l'utente e l'esito viene contato come guasto. Un terzo giro da solo risponde «No accounts to process». Il conto senza cancellare (solo_conta in tutte le varianti) funziona e non tocca il battito.",
+          "impatto": "Un amministratore viene avvisato di un obbligo di legge mancato che invece è stato rispettato, e perde tempo a cercare una cancellazione che non esiste. La notte risulta rossa e il battito non si scrive, quindi anche il sorvegliante può dare il lavoro per guasto. Succede solo con due giri sovrapposti: calendario più cron esterno, oppure un giro a mano durante quello del calendario. Nessun dato perso.",
+          "fix": "Due correzioni insieme. (1) Prendere il turno sull'account prima di lavorarlo: un update condizionato sul profilo (es. un segno «in cancellazione» scritto solo se vuoto o più vecchio di un'ora, con RETURNING) oppure pg_try_advisory_xact_lock dentro una funzione; chi non prende il turno salta l'account. (2) In cancellaAccount trattare l'errore «utente non trovato» di deleteUser (status 404, code user_not_found) come «già cancellato», cioè ok:true, e procedere con anonimizzaProfilo.",
+          "causa_radice": "process_expired_deletions restituisce l'elenco senza riservarlo a chi lo lavora, e l'esito di deleteUser non distingue «già cancellato» da «non riuscito».",
+          "prova": "vitest proposto: tests/unit/la-cancellazione-gia-fatta-da-un-altro-giro-non-e-un-guasto.test.ts. Finto admin come in tests/unit/minori-s03-cancellazioni.test.ts: process_expired_deletions restituisce un utente, le potature riescono e auth.admin.deleteUser risponde { error: { message: 'User not found', status: 404, code: 'user_not_found' } }. Chiamare la GET con ?a_mano=1&cancella=1 e Bearer CRON_SECRET, con l'interruttore dei lavori acceso. expect(res.status).toBe(200) e nessun insert in notifications con titolo 'Cancellazioni account non eseguite'. Comando: cd /home/user/mycity && npx vitest run tests/unit/la-cancellazione-gia-fatta-da-un-altro-giro-non-e-un-guasto.test.ts — oggi rosso (500 e allarme).",
+          "prova_tipo": "vitest",
+          "esito_prova": "Palestra 7/11: 2 volte su 2 (02:18:31 e 02:18:40) un giro {processed:1} e l'altro 500 {processed:0, failed:1, errors:1}, con l'allarme «Cancellazioni account non eseguite» all'amministratore; account davvero cancellato in tutti e due i casi.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
+        },
+        {
+          "dimensione": "api-backend",
+          "titolo": "La rotta che registra le visite va in errore del server se riceve un corpo vuoto o rotto, o un cookie dei consensi storto",
+          "severita": "minore",
+          "file": "app/api/track/route.ts:129-149 (dopo jsonConTetto manca il controllo su null; parseConsentCookie è fuori dal try) · lib/api/corpo.ts:48-56 (jsonConTetto restituisce null sul JSON non valido) · lib/consent.ts:157 (decodeURIComponent senza protezione)",
+          "descrizione": "In palestra, su due giri, ho mandato POST /api/track con Content-Type application/json. Corpo troncato `{\"event_type\":`, corpo vuoto, corpo `null`: tutti e tre rispondono 500 Internal Server Error. Poi un corpo valido {\"event_type\":\"page_view\",\"path\":\"/\"} con l'intestazione Cookie: mc_consent=%25ZZ: anche questo 500. Le cause sono due. Prima: jsonConTetto restituisce null quando il JSON non è valido (e quindi anche per '' e 'null'); la rotta assegna body = null e legge body.event_type fuori dal try, alla riga 139. Seconda: readCookie decodifica il cookie in modo protetto, poi parseConsentCookie lo decodifica una seconda volta senza try, e su «%ZZ» lancia URIError. Il resto della rotta regge: risposte 204 vuote, path e referrer ripuliti, user_id inventati ignorati, freno per indirizzo attivo.",
+          "impatto": "Nessun dato esposto né perso, e il sito non manda mai questi corpi. Però questi 500 finiscono nei registri e in Sentry insieme agli errori veri e li confondono con i guasti reali. Un browser con un cookie dei consensi rovinato non registra più nessuna visita.",
+          "fix": "Subito dopo jsonConTetto: `if (!letto || typeof letto !== 'object' || Array.isArray(letto)) return noContent();`, cioè lo scarto silenzioso che il commento della rotta già promette. In parseConsentCookie mettere decodeURIComponent dentro un try e restituire nessunConsenso se lancia.",
+          "causa_radice": "jsonConTetto ha due ritorni speciali (undefined per il corpo troppo grande, null per il JSON rotto) e la rotta ne gestisce uno solo; il cookie viene decodificato due volte, e solo la prima è protetta.",
+          "prova": "vitest proposto: tests/unit/il-registro-delle-visite-non-cade-sul-corpo-rotto.test.ts, con freno e Supabase finti come in tests/unit/minori-s09-registro-visite.test.ts. Chiamare POST di app/api/track/route.ts con new Request('http://x/api/track', { method: 'POST', headers: { 'content-type': 'application/json' }, body }) per body '{\"event_type\":', '' e 'null', più una richiesta valida con header cookie 'mc_consent=%25ZZ'. expect(res.status).toBe(204) in tutti e quattro i casi, e in più expect(() => parseConsentCookie('%ZZ')).not.toThrow(). Comando: cd /home/user/mycity && npx vitest run tests/unit/il-registro-delle-visite-non-cade-sul-corpo-rotto.test.ts — oggi rosso (la rotta lancia).",
+          "prova_tipo": "vitest",
+          "esito_prova": "Palestra 7/11: i quattro casi rispondono sempre 500, su due giri. Corpi validi, troppo grandi (40 KB e 1,2 MB) o di tipo non ammesso rispondono 204 senza righe.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
+        },
+        {
+          "dimensione": "api-backend",
+          "titolo": "Se l'amministratore apre i documenti di un fattorino con un codice storto, la rotta risponde con un guasto invece di dire che il codice non è valido",
+          "severita": "minore",
+          "file": "app/api/kyc/documenti-rider/[id]/route.ts:26 (la stessa regex larga sta anche in app/api/admin/users/[id]/kyc/route.ts:25 e app/api/ai/reviews-summary/route.ts:79)",
+          "descrizione": "Il controllo dell'id è /^[0-9a-f-]{36}$/i. Guarda solo i caratteri e la lunghezza, quindi accetta qualunque miscuglio di 36 cifre esadecimali e trattini. In palestra, entrando come admin: GET /api/kyc/documenti-rider/ con 36 trattini, con 36 zeri o con 36 cifre esadecimali senza trattini risponde 500 «Lettura non riuscita». Riprodotto una seconda volta: 500, 500, 500. Postgres rifiuta il valore come uuid (errore 22P02) e la rotta lo tratta come un guasto: il ramo if (error) va su ApiErrors.internal. Controprove: con 'abc' risponde 400, con un uuid inesistente 404, con l'id di un cliente 400 «non è un fattorino». Il controllo d'accesso invece regge. Senza sessione la rotta risponde 401. Cliente, fattorino, negozio e finto admin ricevono 403 e nessun link nel corpo. Da admin vero arrivano 200 con i 3 link e una riga kyc.view in audit_logs.",
+          "impatto": "Ci arriva solo un amministratore e nessun dato esce. Però ogni link copiato male o troncato finisce fra gli errori 500 del registro. È un falso allarme che sporca il monitoraggio dei guasti e fa perdere tempo a chi lo guarda.",
+          "fix": "Usare la forma completa dell'uuid (8-4-4-4-12), come fa già app/api/consegna/veloce/route.ts:20: /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i. Meglio metterla in un solo posto in lib/ e usarla anche nelle altre due rotte con la stessa regex larga, app/api/admin/users/[id]/kyc/route.ts:25 e app/api/ai/reviews-summary/route.ts:79. Per prudenza, trattare l'errore 22P02 della lettura come un 400 e non come un 500.",
+          "causa_radice": "La regex dell'id controlla i caratteri e la lunghezza ma non la forma dell'uuid. Ogni rotta se ne scrive una sua invece di usarne una comune.",
+          "prova": "Test vitest proposto: tests/unit/l-id-storto-dei-documenti-del-fattorino-risponde-400.test.ts. Usa gli stessi mock di tests/unit/i-documenti-del-fattorino-arrivano-all-amministratore-con-link-brevi.test.ts: un withAdminAuth finto e un getAdminSupabase che conta le chiamate a from(). Per ogni id in ['-'.repeat(36), '0'.repeat(36), 'a'.repeat(36)] controlla expect(res.status).toBe(400) ed expect(chiamateAlDatabase).toBe(0). Oggi la regex lascia passare questi id e la lettura parte, quindi il test è rosso. Comando: cd /home/user/mycity && npx vitest run tests/unit/l-id-storto-dei-documenti-del-fattorino-risponde-400.test.ts",
+          "prova_tipo": "vitest",
+          "esito_prova": "In palestra, da admin: 36 trattini, 36 zeri e 36 caratteri esadecimali senza trattini danno 500 «Lettura non riuscita», anche alla seconda riproduzione (500, 500, 500). Con 'abc' 400, con un uuid inesistente 404.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
+        },
+        {
+          "dimensione": "api-backend",
+          "titolo": "Al quarto messaggio in un'ora con la stessa email, il modulo Contatti dice che il sito è guasto invece di dire di aspettare",
+          "severita": "minore",
+          "file": "app/api/contact/route.ts:86-96 (ramo if (error) dopo l'insert in contact_messages, che finisce in moduloNonArrivato alla riga 137) · migrations/038_security_hardening_rate_limits.sql",
+          "descrizione": "Il database ha un freno sui messaggi ripetuti con la stessa email. Quando scatta, rifiuta l'inserimento con un errore di vincolo (check_violation) e il testo «Hai inviato troppi messaggi. Riprova tra un'ora.». La rotta non distingue questo rifiuto da un guasto. Ogni errore dell'insert prova l'inoltro per email e, se non parte, risponde 503: «Il modulo dei contatti non funziona in questo momento e il tuo messaggio non è arrivato. Non abbiamo ancora una casella email attiva a cui scrivere: è un guasto nostro, non tuo.». In palestra, quando il freno del database scatta, la rotta e il modulo a schermo mostrano il 503, con avviso e riquadro rosso. Nello stesso momento un'email nuova passa con 200.",
+          "impatto": "Chi scrive all'assistenza più volte di fila, per esempio un cliente con un ordine non arrivato che insiste, legge che il sito è rotto e che il messaggio è perso. Forse riprova altrove o lascia perdere, invece di aspettare. Con la posta del supporto attiva, l'assistenza riceve inoltri «non salvato nel database» che sembrano un guasto e non lo sono.",
+          "fix": "Nel ramo if (error) di app/api/contact/route.ts, riconoscere il rifiuto del freno prima di tentare l'inoltro. Se il codice è 23514 (check_violation) e il messaggio parla di troppi messaggi, rispondere con ApiErrors.rateLimited e il testo «Hai inviato troppi messaggi, riprova tra un'ora.». Gli altri rifiuti di vincolo del trigger diventano un 400. Solo gli errori veri vanno all'inoltro e al 503. Il secondo intervento sul freno è nel referto privato.",
+          "causa_radice": "La riparazione del 5/11 tratta ogni errore dell'insert come «database guasto». Il freno del database, però, comunica proprio con un errore, e nessuno lo distingue.",
+          "prova": "Test vitest proposto in tests/unit/api-contact.test.ts (stessi mock del file): insertMock.mockResolvedValue({ error: { code: '23514', message: \"Hai inviato troppi messaggi. Riprova tra un'ora.\" } }); const res = await POST(makeReq(validBody, '5.0.9.1')); expect(res.status).toBe(429); expect(sendEmailMock).not.toHaveBeenCalled(). Oggi risponde 503 (o 200 con inoltro se c'è SUPPORT_EMAIL), quindi il test è rosso. Comando: cd /home/user/mycity && npx vitest run tests/unit/api-contact.test.ts",
+          "prova_tipo": "vitest",
+          "esito_prova": "In palestra, con il freno del database scattato: 503 «Il modulo dei contatti non funziona…», sulla rotta e a schermo. Un'email nuova nello stesso momento passa con 200.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
         }
       ]
     },
@@ -2487,6 +2742,40 @@
           "verificato": true,
           "giro": 1,
           "fonte_radiografia": "radiografia 2026-11-06 · S07"
+        },
+        {
+          "dimensione": "frontend-ux",
+          "titolo": "Il link a un negozio tagliato a metà dice «problema di collegamento, riprova» invece di «negozio non trovato»",
+          "severita": "minore",
+          "file": "lib/queries/catalogo.ts:234-255 (domandaNegozio: `if (error) throw error` anche sul 22P02) · components/store-sections/useStorePageData.ts:25 · app/store/[id]/page.tsx · app/store/[id]/[slug]/page.tsx · confronto: lib/queries/catalogo.ts:133-141 (leggiRigaDelProdotto tratta già il 22P02) e lib/supabase/lettura-per-metadati.ts:62-64",
+          "descrizione": "Visto in palestra il 7/11 da visitatore. Si apre /store/abc (stesso esito con /store/123 e /store/abc/chi-siamo) e si aspettano circa 6 secondi, il tempo del secondo tentativo. Compare «Non riesco a caricare il negozio · Sembra un problema di collegamento. Riprova.», con un pulsante Riprova che non potrà mai funzionare. Sulla pagina in più compare «Non riesco a caricare questa pagina». Il titolo della scheda del browser dice invece «Negozio non trovato · MyCity», con noindex: titolo e testo si contraddicono. La lettura seller_public_profiles?id=eq.abc risponde 400 due volte (errore 22P02 più il ritentativo). Gli altri casi sono giusti: negozio sospeso, negozio senza insegna e id inesistente ben scritto danno «Negozio non trovato» con «Vedi tutti i negozi». Nessun 500. La causa: domandaNegozio rilancia ogni errore, mentre la lettura dei metadati e quella del prodotto trattano il 22P02 come «non esiste».",
+          "impatto": "Lo subisce chi riceve il link di una vetrina spezzato, per esempio da WhatsApp o da un messaggio copiato male. È il canale con cui i negozi condividono la vetrina. Pensa che il sito sia rotto, preme Riprova inutilmente e se ne va invece di cercare il negozio dall'elenco.",
+          "fix": "In domandaNegozio, dopo conRipiegoSchema e prima del throw, aggiungere `if (error && (error as { code?: string }).code === TESTO_NON_VALIDO_PER_IL_TIPO) return null;`. È la stessa riga di leggiRigaDelProdotto. Così la vetrina e le sue pagine (/store/<id>/<pagina>) vanno nel ramo «Negozio non trovato» con «Vedi tutti i negozi», d'accordo col titolo della scheda.",
+          "causa_radice": "La correzione del 5/11 per i link tagliati è stata fatta solo sulla lettura del prodotto. La lettura del negozio è rimasta con il throw su qualunque errore.",
+          "prova": "Test vitest proposto: tests/unit/il-link-tagliato-a-un-negozio-e-non-trovato.test.ts, sullo stampo di tests/unit/minori-s09-scheda-prodotto.test.ts (clienteCheRisponde con select, eq e maybeSingle finti; mock di @/lib/logger). `await domandaNegozio(supa, 'abc').queryFn()` con risposta {data: null, error: {code: '22P02', message: 'invalid input syntax for type uuid'}} deve risolversi a null. Con {code: '08006'} deve invece restare un errore. Comando: cd /home/user/mycity && npx vitest run tests/unit/il-link-tagliato-a-un-negozio-e-non-trovato.test.ts. Oggi è rosso: la promessa viene rifiutata con l'errore 22P02.",
+          "prova_tipo": "vitest",
+          "esito_prova": "Palestra: /store/abc ha il titolo «Negozio non trovato · MyCity» con noindex, ma a schermo dice «Non riesco a caricare il negozio · Sembra un problema di collegamento. Riprova.». seller_public_profiles?id=eq.abc risponde 400 due volte (22P02). Riprodotto con /store/123 e /store/abc/chi-siamo («Non riesco a caricare questa pagina»). Sospeso, senza insegna e id inesistente danno «Negozio non trovato». Tutte le risposte sono HTTP 200, mai 500.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
+        },
+        {
+          "dimensione": "frontend-ux",
+          "titolo": "Con «Aperti ora» acceso, l'elenco dei negozi non si aggiorna all'orario di chiusura e tiene in lista negozi con scritto «Chiuso ora»",
+          "severita": "minore",
+          "file": "app/stores/page.tsx:212-240 (useMemo `filtered`: chiaveDiOggi() e isOpenNow() si ricalcolano solo quando cambiano dati o filtri) · components/StorePreviewCard.tsx:60-70 (la scheda invece si ridisegna ogni minuto con useOraDiPiacenza) · components/ui/DeliveryCutoff.tsx:24-46 · lib/store-hours.ts:56 e :100 (isOpenNow e chiaveDiOggi accettano già l'ora come parametro)",
+          "descrizione": "Visto in palestra il 7/11, con l'orologio del browser finto (page.clock). 1) Domenica alle 21:58 di Piacenza si apre /stores e si preme «Aperti ora»: compaiono 11 negozi. 2) Si lascia la pagina aperta senza toccare niente fino alle 22:03. L'elenco «Aperti ora» ha ancora 11 negozi, ma 8 schede ora dicono «Chiuso ora». 3) Seconda riproduzione a cavallo della mezzanotte, da domenica 23:58 a lunedì 00:01: il negozio di prova aperto la domenica 18:00-00:00 resta nell'elenco «Aperti ora», col pulsante ancora premuto, ma con l'etichetta «Chiuso ora». Si corregge solo spegnendo e riaccendendo il filtro. L'etichetta della scheda è giusta perché si aggiorna ogni minuto. Il filtro no, perché il suo useMemo legge l'ora una volta sola. Vanno invece bene: alle 23:59 il filtro appena premuto mostra solo il negozio serale, e con la risposta vuota simulata compare «Nessun negozio trovato con questi filtri.».",
+          "impatto": "Lo subisce chi tiene aperta la pagina dei negozi la sera, per esempio per decidere dove ordinare la cena verso l'ora di chiusura. Vede in «Aperti ora» negozi già chiusi, ci entra e scopre che non può ordinare. Il danno è piccolo, perché l'etichetta della scheda dice il vero, ma il filtro contraddice la scheda.",
+          "fix": "In StoresPage leggere `const adesso = useOraDiPiacenza()` e usarlo nel useMemo: `chiaveDiOggi(adesso ?? undefined)` e `isOpenNow(hours[todayKey], adesso ?? undefined)`, con `adesso` fra le dipendenze. Così filtro e schede usano lo stesso orologio, che scatta ogni minuto e si ferma quando la scheda è nascosta.",
+          "causa_radice": "Due orologi diversi per la stessa domanda: la scheda ne ha uno che scatta ogni minuto (useOraDiPiacenza). Il filtro chiede l'ora solo quando cambiano dati o filtri.",
+          "prova": "Test vitest proposto: tests/unit/aperti-ora-segue-l-orologio.test.tsx (jsdom). `vi.useFakeTimers({ now: new Date('2026-11-08T20:58:00Z') })`, cioè domenica 21:58 a Piacenza. useQuery finto che restituisce un negozio aperto la domenica 07:00-22:00. Si monta StoresPage, si clicca il pulsante «Aperti ora», poi `act(() => vi.advanceTimersByTime(5 * 60_000))`. Infine `expect` che nessuna scheda rimasta nell'elenco contenga «Chiuso ora». Comando: cd /home/user/mycity && npx vitest run tests/unit/aperti-ora-segue-l-orologio.test.tsx. Oggi è rosso: la scheda resta nell'elenco con «Chiuso ora». In alternativa, un controllo Playwright su una pagina locale con page.clock.install alle 21:58 di domenica, clic su «Aperti ora», page.clock.runFor('05:00'), e nessuna scheda con «Chiuso ora».",
+          "prova_tipo": "vitest",
+          "esito_prova": "Palestra: domenica 21:58, «Aperti ora» mostra 11 negozi. Alle 22:03, senza toccare la pagina, l'elenco ha ancora 11 negozi e 8 dicono «Chiuso ora». Seconda riproduzione da domenica 23:58 a lunedì 00:01: il negozio serale resta in «Aperti ora» con «Chiuso ora». Alle 23:59 il filtro appena premuto dà 1 solo negozio, giusto.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
         }
       ]
     },
@@ -2889,6 +3178,23 @@
           "verificato": true,
           "giro": 4,
           "fonte_radiografia": "radiografia 2026-11-06 · quarto giro (7/11)"
+        },
+        {
+          "dimensione": "privacy-legale",
+          "titolo": "Chi si disiscrive dalla newsletter e poi si iscrive di nuovo resta segnato come disiscritto anche dopo aver confermato",
+          "severita": "minore",
+          "file": "app/api/newsletter/confirm/route.ts:45 (l'update scrive active, confirmed_at e confirm_token ma non unsubscribed_at) · app/api/newsletter/route.ts:116-130 (riscrive la riga del disiscritto senza toccare unsubscribed_at)",
+          "descrizione": "Quando una persona si disiscrive, la migrazione 118 mette active=false e scrive unsubscribed_at. Se poi la persona si iscrive di nuovo, la POST riscrive la riga con active=false, un gettone nuovo e created_at=adesso. Quando conferma, la GET di conferma mette active=true e confirmed_at=adesso, ma lascia unsubscribed_at com'era. In palestra, con sql, ho creato una riga con active=false, confirmed_at di 30 giorni fa e unsubscribed_at di 5 giorni fa. La POST risponde 503, come previsto, perché l'interruttore della newsletter è spento. Allora ho scritto a mano quello che la POST scriverebbe a interruttore acceso. La GET di conferma risponde 307 verso /?newsletter=confermata. Nel database: active=true, confirmed_at=adesso, confirm_token=null, unsubscribed_at ancora 2026-11-02. La stessa riga dice «iscritto» e «disiscritto». Lo stesso link aperto una seconda volta porta a link-non-valido, che è corretto. La conferma funziona anche a interruttore spento: quel punto è già nel registro.",
+          "impatto": "Oggi non tocca nessuno: la newsletter è spenta e nessun invio legge la tabella. Si sveglia il giorno della riaccensione. Chi si è reiscritto ha una riga contraddittoria. «Scarica i miei dati» gli mostra una data di disiscrizione falsa. Ogni invio o pulizia che legge unsubscribed_at come «non scrivermi più» lo tratta in modo sbagliato: per esempio la potatura in lib/privacy/potature-ritenzione.ts usa quella colonna per tenere la riga come prova del rifiuto. Va sistemato prima di riaccendere la newsletter.",
+          "fix": "Nella conferma, scrivere unsubscribed_at: null insieme ad active: true (app/api/newsletter/confirm/route.ts:45). È il punto giusto: la disiscrizione resta vera finché la persona non conferma davvero la nuova iscrizione. In alternativa si può farlo nella POST (app/api/newsletter/route.ts) quando riscrive la riga di un disiscritto. Ma così la data di disiscrizione si perderebbe anche se la persona poi non conferma.",
+          "causa_radice": "La riparazione del 5/11 ha riaperto la strada della reiscrizione. La conferma però è rimasta scritta pensando a un indirizzo mai disiscritto, e nessuno azzera la data di disiscrizione.",
+          "prova": "Test vitest proposto: tests/unit/la-conferma-della-newsletter-cancella-la-vecchia-disiscrizione.test.ts. Mock di @/lib/supabase/server: un getAdminSupabase che salva l'oggetto passato a update() e risponde {data:{id:'x'}, error:null} a eq().select().maybeSingle(). Mock di @/lib/rate-limit: rateLimitAsync risponde {allowed:true} e getClientIp risponde '1.2.3.4'. Il test chiama GET(new Request('http://x/api/newsletter/confirm?token=t')) e controlla expect(aggiornamento).toHaveProperty('unsubscribed_at', null). Oggi l'update porta solo active, confirmed_at e confirm_token, quindi il test è rosso. Comando: cd /home/user/mycity && npx vitest run tests/unit/la-conferma-della-newsletter-cancella-la-vecchia-disiscrizione.test.ts",
+          "prova_tipo": "vitest",
+          "esito_prova": "In palestra, dopo la conferma: active=true, confirmed_at=adesso, confirm_token=null, unsubscribed_at ancora 2026-11-02. Riprodotto con una seconda email: active=true e unsubscribed_at=2026-11-05.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
         }
       ]
     },
@@ -2911,6 +3217,40 @@
           "verificato": true,
           "giro": 1,
           "fonte_radiografia": "radiografia 2026-11-06 · S10"
+        },
+        {
+          "dimensione": "layout-responsive",
+          "titolo": "In Chi siamo, coi caratteri del telefono un po' più grandi, la scritta «Alla consegna» esce dal suo riquadro e la pagina scorre di lato",
+          "severita": "minore",
+          "file": "app/about/page.tsx:36 (valore «Alla consegna») e :117-126 (griglia grid-cols-2 delle statistiche, valore in font-serif text-2xl extrabold senza a capo)",
+          "descrizione": "/about, senza accesso, a 360x740. A testo normale va tutto bene: un solo h1, nessuno scorrimento di lato a 360, 390 e 1440, e il Tab raggiunge tutti gli elementi cliccabili (56 su 56 a 1440, 59 su 59 a 360) col contorno visibile. Poi ho alzato la grandezza base del testo a 130% (html{font-size:130%}), come quando il sito segue i caratteri grandi del telefono. A quel punto document.documentElement.scrollWidth vale 366 su 360. La parola «consegna» del riquadro «Alla consegna» non sta nella sua colonna (griglia a due colonne, valore in serif grande e grassetto) ed esce dal bordo: controllato sulla schermata. Con l'ingrandimento tipo Chrome Android al 130% (finestra di 277 px) la pagina misura 282 su 277. Al 200% arriva a 466 su 360: escono titolo, statistiche e colonna «Categorie» del piede. Col computer allo zoom 200% non scorre.",
+          "impatto": "Chi tiene i caratteri del telefono grandi, spesso una persona anziana (il pubblico dei negozi di quartiere), apre «Chi siamo» e la pagina balla di lato al primo tocco. La statistica sul pagamento alla consegna, uno dei motivi per fidarsi, si legge tagliata. Tocca una pagina sola e non blocca l'acquisto.",
+          "fix": "Sul div del valore (app/about/page.tsx:123) rimpicciolire il testo sul telefono e permettere l'a capo: per esempio text-xl sm:text-2xl md:text-3xl, con break-words (oppure hyphens-auto, con la pagina in lang it). Aggiungere min-w-0 sulle celle della griglia. In alternativa, una colonna sola sotto i 400 px. Il piede al 200% va sistemato a parte, insieme agli altri casi di caratteri al massimo.",
+          "causa_radice": "I valori delle statistiche sono pensati come numeri brevi («5 km», «100%»). Una parola lunga in serif grande dentro una colonna stretta non ha né un a capo né una misura più piccola per il telefono.",
+          "prova": "Test Playwright proposto, su un server locale e non sulla palestra: tests/e2e/chi-siamo-regge-i-caratteri-grandi.spec.ts. Passi: page.setViewportSize({ width: 360, height: 740 }); await page.goto('/about'); await page.addStyleTag({ content: 'html{font-size:130%}' }); const sw = await page.evaluate(() => document.documentElement.scrollWidth); expect(sw).toBeLessThanOrEqual(360). Oggi vale 366, quindi il test è rosso. Comando: cd /home/user/mycity && npx playwright test tests/e2e/chi-siamo-regge-i-caratteri-grandi.spec.ts (con E2E_BASE_URL sul server locale)",
+          "prova_tipo": "comando",
+          "esito_prova": "Al 130%: scrollWidth 366 su 360, con «Alla consegna» oltre il bordo del riquadro (visto sulla schermata). A 277 px di finestra: 282 su 277. Al 200%: 466 su 360. Metodo: emulazione in Playwright, non un vero telefono Android.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
+        },
+        {
+          "dimensione": "layout-responsive",
+          "titolo": "Col testo ingrandito al massimo sul telefono, le pagine pubbliche scorrono di lato per colpa del piè di pagina",
+          "severita": "minore",
+          "file": "components/Footer.tsx:188 (griglia grid-cols-2 con gap-8, fissa sul telefono) · app/lavora-con-noi/page.tsx:128 (i tre riquadri) · app/returns/page.tsx:33-43 (riquadro «14 giorni di diritto di recesso») · app/faq/page.tsx:265 · app/help (riquadro Email) · app/contact (Turnstile largo 300px) · app/terms («sponsorizzati»)",
+          "descrizione": "Visto nella palestra il 7/11, senza accesso, con telefono a 360x740 e carattere della pagina portato al 200% (html{font-size:200%}). Simula il testo al massimo del sistema; è un po' più severa del telefono vero, perché crescono anche i margini. Su tutte le 11 pagine pubbliche provate la pagina diventa larga 432px su 360. Nel piede «Abbigliamento» e gli altri link delle categorie non vanno a capo nelle due colonne fisse (crop_shipping_footer200.png). La pagina peggiore è /lavora-con-noi, 473px: i tre riquadri «Porta il tuo negozio», «Diventa rider» ed «Entra nel team» sono larghi 321px e arrivano a 369px. Altri colpevoli pagina per pagina: /contact 429px (Turnstile da 300px fissi), /help 391px (l'indirizzo email non va a capo), /returns 394px, /faq 405px (bottone «Contattaci»), /terms 393px. Al 130%, e col computer a zoom 200%, nessuna pagina scorre.",
+          "impatto": "Lo subisce chi usa i caratteri grandi sul telefono, spesso persone anziane, cioè proprio il pubblico dei negozi di quartiere. Per leggere il fondo di ogni pagina deve spostare la pagina di lato. Il contenuto principale resta quasi tutto leggibile, quindi il danno è piccolo.",
+          "fix": "In Footer.tsx:188 usare una griglia che si adatta al testo, per esempio grid-cols-[repeat(auto-fit,minmax(min(100%,10rem),1fr))] oppure grid-cols-1 min-[420px]:grid-cols-2. Mettere min-w-0 e break-words sulle colonne. Sulle singole pagine: [overflow-wrap:anywhere] sull'email di /help e sulle parole lunghe, min-w-0 sui figli dei riquadri di /lavora-con-noi e /returns, contenitore del Turnstile con max-w-full.",
+          "causa_radice": "Le griglie del telefono sono pensate a testo di 16px. Colonne fisse e figli senza min-w-0 non lasciano andare a capo le parole, e nessuna prova guarda la pagina col testo ingrandito.",
+          "prova": "Prova Playwright proposta tests/e2e/il-testo-grande-non-allarga-la-pagina.spec.ts. Viewport 360x740 e page.addStyleTag({content:'html{font-size:200%}'}); per /lavora-con-noi, /returns, /shipping, /help, /faq, /terms e /contact controlla che document.documentElement.scrollWidth sia al massimo 360. Comando: npx playwright test tests/e2e/il-testo-grande-non-allarga-la-pagina.spec.ts --project=chromium contro il sito locale (npm run dev). Oggi diventa rosso, con larghezze da 432 a 473px.",
+          "prova_tipo": "comando",
+          "esito_prova": "Nella palestra la pagina è larga 432px su 360 su tutte le 11 pagine (colpa del piede) e 473px su /lavora-con-noi. Al 130% e col computer a zoom 200% non succede (lavora_esito.json, crop_shipping_footer200.png).",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
         }
       ]
     },
@@ -2955,6 +3295,23 @@
           "verificato": true,
           "giro": 1,
           "fonte_radiografia": "radiografia 2026-11-06 · S10"
+        },
+        {
+          "dimensione": "accessibilita-visiva",
+          "titolo": "In fondo alle domande frequenti, chi usa la tastiera non vede quando è sul bottone «Contattaci»",
+          "severita": "minore",
+          "file": "app/faq/page.tsx:262-267 (riquadro bg-gradient-to-r from-primary-600 to-secondary-600; il Link a /contact non ha un anello suo) · app/globals.css:115 e :288-290 (--focus-outline: 2px solid var(--primary-600), outline-offset 2px)",
+          "descrizione": "Visto nella palestra il 7/11 su /faq senza accesso, a 1440x900. Passi: premere Tab fino al bottone bianco «Contattaci» dentro il riquadro rosso «Non hai trovato la risposta?», poi confrontare le schermate col fuoco e a riposo (faq_contattaci_fuoco.png e faq_contattaci_riposo.png). Il contorno di fuoco è di 2px nel colore #C0492C, staccato di 2px dal bottone. Viene quindi disegnato sopra la sfumatura del riquadro, che va da #C0492C a #B82A28: contrasto di circa 1:1, cioè lo stesso colore. Col fuoco il bottone sembra identico a riposo. Fra le 11 pagine pubbliche provate è l'unico caso; le barre in alto usano già il contorno bianco.",
+          "impatto": "Lo subisce chi naviga solo con la tastiera o con un sensore. Arriva sul bottone che porta all'assistenza, l'ultima uscita della pagina, e non vede di esserci. È un solo bottone su una pagina poco frequentata.",
+          "fix": "Aggiungere focus-visible:outline-white al Link in app/faq/page.tsx:265. Il bianco stacca circa 5:1 su #C0492C e circa 6:1 su #B82A28. Per una soluzione che duri, serve una regola sola in globals.css (o una classe di utilità) che dia l'anello bianco ai comandi su fondi terracotta e vino, sfumature comprese, come già proposto nella voce 1760.",
+          "causa_radice": "L'anello di sistema è terracotta e si disegna fuori dal comando. Ogni comando appoggiato su un fondo terracotta deve chiederne uno bianco a mano, e la prova esistente guarda solo la barra in alto.",
+          "prova": "Test vitest proposto tests/unit/i-bottoni-sui-riquadri-colorati-si-vedono-col-tab.test.ts, sul modello di tests/unit/la-barra-in-alto-si-vede-anche-navigando-col-tasto-tab.test.ts. Monta app/faq/page.tsx e per ogni <a> e <button> risale ai genitori finché trova un fondo pieno (bg-*) o una sfumatura (from-* / to-*). Ricava l'anello: quello dichiarato con focus-visible:outline-*, oppure quello di sistema letto in globals.css seguendo i var(). Chiede un contrasto di almeno 3 contro tutti e due i colori della sfumatura. Comando: npx vitest run tests/unit/i-bottoni-sui-riquadri-colorati-si-vedono-col-tab.test.ts, che oggi diventa rosso (1,0:1 su «Contattaci»).",
+          "prova_tipo": "vitest",
+          "esito_prova": "Nella palestra il contorno #C0492C cade su un fondo che va da #C0492C a #B82A28: contrasto 1:1, e il bottone col fuoco è uguale a quello a riposo (faq_contattaci_fuoco.png contro faq_contattaci_riposo.png, contorno.mjs).",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
         }
       ]
     },
@@ -3055,6 +3412,23 @@
           "verificato": true,
           "giro": 1,
           "fonte_radiografia": "radiografia 2026-11-06 · S10"
+        },
+        {
+          "dimensione": "navigazione-gerarchia",
+          "titolo": "L'indice delle categorie mostra Giocattoli come le altre anche se non ha nessun prodotto, e cliccandola si trova il vuoto",
+          "severita": "minore",
+          "file": "app/categorie/page.tsx:19-28 e :55-56 (legge solo la tabella categories, nessun filtro sulle piene) · components/CategoryShowcase.tsx:61-63 e :102 (domandaCategoriePiene e soloLePiene, già usate da components/Footer.tsx:179-182 e components/CategoryBar.tsx:140-141) · messages/it.json:102 (noResultsDescription «Non abbiamo trovato questo prodotto», mostrato da app/category/[slug]/page.tsx:355-356)",
+          "descrizione": "Visto in palestra il 7/11, da visitatore senza account. 1) Apri /categorie: compaiono le 9 categorie madri (Abbigliamento, Alimentari, Bellezza, Casa & Cucina, Elettronica, Giardino, Giocattoli, Libri, Sport), tutte con la stessa scheda e le loro sottocategorie. 2) Giocattoli ha 0 prodotti, anche contando le sue 5 figlie (verificato con sql), ma è disegnata uguale alle altre: 5 chip e nessun segnale. 3) Cliccandola, /category/giocattoli dice «Nessun prodotto trovato · Non abbiamo trovato questo prodotto». È una frase pensata per la ricerca, che su una categoria non ha senso. 4) Il piè di pagina dello stesso sito, nella sezione CATEGORIE, elenca 8 madri e Giocattoli non c'è: due parti della stessa pagina non sono d'accordo. Nel codice la pagina legge solo `categories` (righe 19-28) e disegna tutte le madri (riga 55). Non chiede quali sono piene, mentre piè di pagina e menu filtrano con soloLePiene. Lo stato «database giù» invece regge: 503 e 500 portano a «Non riesco a caricare le categorie» col pulsante Riprova, e il Riprova funziona.",
+          "impatto": "Lo subisce chi sfoglia per reparto, partendo dal pulsante «Inizia a esplorare» della home o da Google. Clicca una categoria, trova una pagina vuota con una frase sbagliata e pensa che il catalogo sia più povero di quello che è. In palestra la madre vuota è 1 su 9. In produzione, alla misura della voce sulle categorie vuote in home (11/10), le madri senza prodotti erano 8 su 9: su /categorie quasi ogni scheda porterebbe al vuoto.",
+          "fix": "In CategoriePage aggiungere `const piene = useQuery(domandaCategoriePiene(supabase))`, con la stessa chiave di home, piede e menu, quindi senza letture in più quando è già in memoria. Poi filtrare madri e figlie con `soloLePiene(cats, piene.isError ? null : piene.data)`, come Footer.tsx:179-182. Se si preferisce non nasconderle, mostrare le vuote con l'etichetta «In arrivo» e senza link. A parte, nella pagina di una categoria madre vuota usare un testo da categoria («In questa categoria non ci sono ancora prodotti») al posto di noResultsDescription, che parla di «questo prodotto».",
+          "causa_radice": "La regola «le categorie vuote non si mettono in mostra» è stata applicata un pezzo alla volta (home, piede, menu, mappa per Google). L'indice /categorie fa una lettura sua ed è rimasto fuori.",
+          "prova": "Test vitest proposto: tests/unit/l-indice-delle-categorie-non-mette-in-mostra-le-vuote.test.tsx, sullo stampo di tests/unit/le-categorie-vuote-non-si-mostrano-in-home-nel-piede-ne-a-google.test.tsx. useQuery finto per chiave: 'all-categories-tree' restituisce Alimentari (c-ali) con la figlia Forno (c-forno) e Giocattoli (c-gio) con la figlia Peluche (c-pel); 'categories/con-prodotti' restituisce solo gli id di Alimentari e Forno. Poi `renderToStaticMarkup(createElement(CategoriePage))` e `expect(html).not.toContain('Giocattoli')` (oppure `toContain('In arrivo')`, se si sceglie l'etichetta). Comando: cd /home/user/mycity && npx vitest run tests/unit/l-indice-delle-categorie-non-mette-in-mostra-le-vuote.test.tsx. Oggi è rosso: la pagina non chiede le piene e disegna Giocattoli.",
+          "prova_tipo": "vitest",
+          "esito_prova": "Palestra: /categorie mostra 9 madri uguali, compresa Giocattoli con 0 prodotti (sql: 0 anche nelle 5 figlie). /category/giocattoli dice «Nessun prodotto trovato · Non abbiamo trovato questo prodotto». Il piè di pagina elenca 8 madri, senza Giocattoli. Con il database che risponde 503 o 500 compaiono l'errore e il Riprova, che funziona: quella parte passa.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
         }
       ]
     },
@@ -3128,6 +3502,74 @@
           "verificato": true,
           "giro": 1,
           "fonte_radiografia": "radiografia 2026-11-06 · S10"
+        },
+        {
+          "dimensione": "microcopy",
+          "titolo": "Chi arriva alla pagina dei Termini senza essere entrato legge «Registrazione non riuscita» e non trova la strada per accedere",
+          "severita": "minore",
+          "file": "app/accetta-condizioni/page.tsx:30-40 (throw new Error('Registrazione non riuscita') per ogni risposta non ok) · app/api/account/accetta-condizioni/route.ts:24-37 (403 per l'origine, 401 senza sessione, 429 del freno)",
+          "descrizione": "In palestra, senza aver fatto l'accesso: aprire /accetta-condizioni, spuntare «Ho letto e accetto…» e premere «Continua». La rotta risponde 401. La pagina mostra l'avviso «Registrazione non riuscita» e resta lì, senza nessun collegamento all'accesso. Lo stesso testo esce per qualunque risposta non buona: 401, 403 per l'origine, 429 del freno, 500 (simulati in palestra). Il percorso normale invece regge. Con un account nuovo e doppio clic parte una sola chiamata e nasce 1 verbale in consent_log. Con next verso un altro sito (//esempio-esterno.test, javascript:…) si torna sempre a una pagina del sito.",
+          "impatto": "Chi perde la sessione mentre è sulla pagina (sessione scaduta, cookie cancellati, link aperto su un altro telefono) resta davanti al passo obbligatorio per usare il sito. Il messaggio gli parla di una registrazione che non sta facendo, e non gli dice che deve rientrare. Caso raro, ma è un vicolo cieco proprio sul muro che blocca tutto il resto.",
+          "fix": "Leggere lo stato della risposta. Con 401: «La sessione è scaduta: accedi di nuovo», e portare a /sign-in con returnTo=/accetta-condizioni?next=<dove>. Con 429: «Troppi tentativi, riprova fra un minuto». Per il resto: «Non siamo riusciti a salvare la tua accettazione. Riprova.», usando apiErrorMessage sul corpo della risposta come fanno le altre pagine.",
+          "causa_radice": "Il testo di ripiego della registrazione è stato riusato per tutti gli esiti della rotta, senza guardare lo stato della risposta.",
+          "prova": "vitest proposto: tests/unit/i-termini-senza-sessione-mandano-all-accesso.test.tsx. Renderizzare la pagina in jsdom con fetch finto che risponde 401, vi.mock di 'sonner' e di next/navigation, spuntare la casella e premere «Continua». Expect: il testo passato a toast.error non è 'Registrazione non riuscita' e contiene «accedi», oppure il router va verso /sign-in. Comando: cd /home/user/mycity && npx vitest run tests/unit/i-termini-senza-sessione-mandano-all-accesso.test.tsx — oggi rosso.",
+          "prova_tipo": "vitest",
+          "esito_prova": "Palestra 7/11: senza sessione la rotta risponde 401 e la pagina mostra «Registrazione non riuscita», senza collegamento all'accesso. Con 429 e 500 simulati esce lo stesso testo.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
+        },
+        {
+          "dimensione": "microcopy",
+          "titolo": "Chi si registra con una password troppo comune legge l'avviso in inglese e non capisce cosa cambiare",
+          "severita": "minore",
+          "file": "lib/errors.ts:73-111 (traduciErroreAuth non conosce weak_password) e :117-215 (friendlyError lascia passare il testo grezzo) · app/sign-up/page.tsx:146-188 (friendlyError sull'errore di signUp) · app/reset-password/page.tsx:48-53 (lo traduce già, con un traduttore suo)",
+          "descrizione": "In palestra ho aperto /sign-up senza account. Nome «Anna Bianchi», email nuova, password «Password123!» oppure «qwerty123»: tutte e due rispettano il suggerimento «Almeno 8 caratteri». Termini spuntati, anti-robot di prova, invio. Supabase risponde 422 con code weak_password e reasons [pwned], e nessun utente nasce. Sotto il campo e nell'avviso compare «Password is known to be weak and easy to guess, please choose a different one.». Visto 4 volte: 2 password, 2 giri. Il codice non è nella mappa di friendlyError e traduciErroreAuth non riconosce la frase, quindi il testo inglese esce dal ramo finale così com'è. La pagina /reset-password invece lo traduce già con la sua translateError: due traduttori diversi per lo stesso errore di Supabase.",
+          "impatto": "Chi sceglie una password comune resta fermo alla registrazione senza capire perché, e può andarsene prima del primo ordine: capita soprattutto ai clienti meno pratici. Il testo inglese compare ogni volta che Supabase Auth rifiuta una password debole: in palestra succede già.",
+          "fix": "In traduciErroreAuth riconoscere «known to be weak», «weak password» e «password is too weak», e aggiungere il codice 'weak_password' alla mappa di friendlyError. Testo: «Questa password è troppo comune o è già finita in rete: scegline un'altra, più lunga e meno prevedibile.». Poi far usare la stessa funzione anche a /reset-password, al posto della sua translateError.",
+          "causa_radice": "Gli errori di Supabase Auth si traducono in due posti diversi, e quello condiviso conosce solo i casi elencati il 27/8.",
+          "prova": "vitest proposto: tests/unit/la-password-comune-si-spiega-in-italiano.test.ts. expect(traduciErroreAuth('Password is known to be weak and easy to guess, please choose a different one.')).not.toBeNull() e expect(friendlyError({ code: 'weak_password', status: 422, message: 'Password is known to be weak and easy to guess, please choose a different one.' })).not.toMatch(/weak|guess/i). Comando: cd /home/user/mycity && npx vitest run tests/unit/la-password-comune-si-spiega-in-italiano.test.ts — oggi rosso.",
+          "prova_tipo": "vitest",
+          "esito_prova": "Palestra 7/11: 4 volte su 4 Supabase risponde 422 weak_password (reasons [pwned]) e a schermo compare «Password is known to be weak and easy to guess, please choose a different one.»; nessun utente creato.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
+        },
+        {
+          "dimensione": "microcopy",
+          "titolo": "La pagina dei più recensiti presenta 40 prodotti come «scelti dai clienti» anche quando nessuno ha una recensione",
+          "severita": "minore",
+          "file": "app/piu-venduti/page.tsx:27-29 (occhiello «Scelti dai clienti», titolo «I più recensiti») e :50 (ProductGrid limit 40, sort rating) · components/ProductGrid.tsx:289-306 (product_rating_stats) e :394-400 (ordina per numero di recensioni ma tiene anche chi ne ha 0) · lib/queries/griglia-prodotti.ts:165-168 (con sort rating il database ordina per data)",
+          "descrizione": "Visto in palestra il 7/11 da visitatore. Il catalogo ha 257 prodotti disponibili e `select count(*) from reviews` dà 0. Si apre /piu-venduti, la voce «Più recensiti» del menu in alto. La pagina mostra l'occhiello «Scelti dai clienti», il titolo «I più recensiti», «40 prodotti» e 40 schede. Sono gli ultimi 40 pubblicati, tutti con 0 recensioni: product_rating_stats risponde 200 con []. Chi guarda vede una classifica scelta dai clienti che non esiste. Col catalogo vuoto simulato invece la pagina mostra «0 prodotti» e lo stato vuoto: quella parte passa. Visto nel codice e non in palestra: con sort 'rating' il database ordina per data (griglia-prodotti.ts:165-168, ramo default) e taglia a 40. Poi il browser riordina per numero di recensioni solo quei 40. Un prodotto con molte recensioni ma pubblicato prima degli ultimi 40 non compare mai.",
+          "impatto": "Lo subisce ogni visitatore che apre la voce del menu principale. Finché le recensioni sono poche (oggi in palestra 0), la pagina fa vedere prodotti presentati come preferiti dai clienti senza che nessuno li abbia giudicati. È la stessa classifica finta che la riparazione del «Trending ora» in home ha già tolto. La frase «Scelti dai clienti» va fatta rivedere anche a chi segue l'area legale.",
+          "fix": "Nella pagina dei più recensiti mostrare solo i prodotti con almeno una recensione: filtrare `ratings[p.id]?.count > 0` quando sort è 'rating' e la pagina lo chiede (una prop come `soloConRecensioni`). Se non ne resta nessuno, mostrare uno stato vuoto onesto («Ancora nessuna recensione: le prime arriveranno con i primi ordini») con il link a /novita. Togliere l'occhiello «Scelti dai clienti» finché non c'è una soglia minima. Per il limite dei 40: ordinare per numero di recensioni nel database (una funzione che restituisce gli id per conteggio) invece di rimescolare nel browser gli ultimi 40.",
+          "causa_radice": "Il 5/11 la pagina è stata rinominata da «più venduti» a «più recensiti» per dire quello che la griglia fa. Ma la griglia ordina senza escludere chi ha zero recensioni, e ordina solo nel browser la pagina già tagliata per data.",
+          "prova": "Test vitest proposto: tests/unit/i-piu-recensiti-non-inventano-la-classifica.test.tsx, sullo stampo di tests/unit/la-pagina-promozioni-vuota-non-va-in-errore.test.tsx (jsdom, QueryClientProvider). Mock: `supabase.rpc` restituisce {data: [], error: null} (product_rating_stats senza righe); `leggiProdottiDellaGriglia` restituisce 3 prodotti (Focaccia, Coppa, Tortelli); ProductCard finto che stampa il nome; next-intl finto. Si monta PiuVendutiPage e, dopo i giri di act, `expect(radice.textContent).not.toContain('Focaccia')`. Dopo la correzione si aggiunge `toContain('Ancora nessuna recensione')`. Comando: cd /home/user/mycity && npx vitest run tests/unit/i-piu-recensiti-non-inventano-la-classifica.test.tsx. Oggi è rosso: le 3 schede compaiono sotto «Scelti dai clienti».",
+          "prova_tipo": "vitest",
+          "esito_prova": "Palestra: 257 prodotti disponibili, 0 righe in reviews, product_rating_stats risponde 200 []. /piu-venduti mostra «Scelti dai clienti · I più recensiti · 40 prodotti» con 40 schede: gli ultimi pubblicati, tutti con 0 recensioni. Col catalogo vuoto simulato: «0 prodotti», stato vuoto, nessun errore.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
+        },
+        {
+          "dimensione": "microcopy",
+          "titolo": "La campanella «Ordine pronto» promette il fattorino «a breve» anche quando la consegna è fissata ore dopo",
+          "severita": "minore",
+          "file": "migrations/215_minori_s04_database.sql:353-366 (notify_buyer_on_order_status, ramo READY a domicilio)",
+          "descrizione": "Quando il negozio segna l'ordine come pronto, il trigger notify_buyer_on_order_status scrive nella campanella un testo fisso: «Il tuo ordine #… è pronto: un rider passa a prenderlo a breve e te lo porta a casa». Non guarda delivery_slot. L'email e la pagina dell'ordine sono già passate a «nella fascia che hai scelto»; la campanella no, e neppure la notifica push che nasce da quella riga. Visto in palestra: il negozio ha segnato l'ordine come pronto alle 02:25 ora di Piacenza, per la fascia 11:00–13:00. La cliente ha ricevuto «Il tuo ordine #CFC678 è pronto: un rider passa a prenderlo a breve e te lo porta a casa»; la riga in notifications è stata creata alle 01:25:50 UTC. Nello stesso momento la pagina dell'ordine diceva «arriva nella tua fascia».",
+          "impatto": "Prendiamo un cliente che ha scelto la fascia 11:00–13:00 di sabato e alle 9 riceve «a breve». Aspetta alla porta per ore, oppure chiama il negozio e l'assistenza per sapere dov'è il fattorino. E lo stesso ordine dice due cose diverse fra campanella e pagina.",
+          "fix": "Una nuova migrazione che riscrive il ramo READY di notify_buyer_on_order_status. Se delivery_slot è valorizzato e non si tratta della consegna veloce, il testo diventa «è pronto: arriva nella fascia che hai scelto (11:00–13:00)», con le stesse parole dell'email; altrimenti resta la frase di oggi. Sul database vero la migrazione va firmata a parte.",
+          "prova": "Prova SQL proposta, tests/sql/rls/NN-l-ordine-pronto-dice-la-fascia.test.sql, sul database ricostruito e in una transazione con ROLLBACK. Creare un ordine a domicilio (pickup_in_store false) con delivery_slot '11:00-13:00' e portarlo a READY. Poi leggere il body in notifications con link = '/orders/'||id, e fare RAISE EXCEPTION se il testo contiene «a breve». Comando: bash tests/sql/harness/apply.sh mycity_ci && psql -X -d mycity_ci -v ON_ERROR_STOP=1 -f tests/sql/rls/NN-l-ordine-pronto-dice-la-fascia.test.sql. Oggi è rossa.",
+          "prova_tipo": "sql",
+          "esito_prova": "Ordine #CFC678, segnato pronto alle 02:25 ora di Piacenza per la fascia 11:00–13:00. In notifications, alle 01:25:50 UTC, c'è «…è pronto: un rider passa a prenderlo a breve e te lo porta a casa». La pagina dell'ordine diceva «arriva nella tua fascia».",
+          "causa_radice": "Il testo dello stato «pronto» vive in tre posti: email, pagina dell'ordine e trigger della campanella. La correzione della fascia è arrivata ai primi due e non al terzo.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
         }
       ]
     },
@@ -3189,6 +3631,23 @@
           "verificato": true,
           "giro": 4,
           "fonte_radiografia": "radiografia 2026-11-06 · quarto giro (7/11)"
+        },
+        {
+          "dimensione": "stati-ui",
+          "titolo": "La pagina Novità vuota dice di cambiare filtri che non ci sono e non offre nessuna strada per uscire",
+          "severita": "minore",
+          "file": "app/novita/page.tsx:47 (ProductGrid senza emptyTitle, emptyDescription ed emptySuggestions) · components/ProductGrid.tsx:575-582 (stato vuoto storico «Nessun prodotto trovato · Prova a modificare i filtri o cerca qualcos'altro», senza pulsanti né link) · app/piu-venduti/page.tsx:50 e app/regali/RegaliClient.tsx:82-89 (stesso riquadro)",
+          "descrizione": "Visto in palestra il 7/11 da visitatore. Il catalogo vuoto è stato simulato facendo rispondere [] alle letture /rest/v1/products (2 letture intercettate). Poi si è aperta /novita. La pagina risponde 200 senza errori e il conteggio «0 prodotti» è giusto. Sotto compare però il riquadro «Nessun prodotto trovato · Prova a modificare i filtri o cerca qualcos'altro». Su /novita non c'è nessun filtro, solo il menu «Ordina per», e il riquadro non ha né pulsanti né link. L'unico link nel contenuto è la briciola «Home» in alto. Succede perché NovitaPage non passa a ProductGrid nessuna delle prop dello stato vuoto «arricchito», e la griglia ricade sul ramo storico (righe 575-582), scritto per la ricerca. Lo stesso riquadro generico compare su /regali e /piu-venduti.",
+          "impatto": "Lo subisce chi apre Novità, Regali o Più recensiti quando la griglia è vuota: per esempio quando il catalogo è vuoto o quando i negozi approvati sono zero. Cerca dei filtri che non esistono e non trova una strada per continuare. Oggi capita di rado, perché il catalogo ha prodotti. Ma è il riquadro di tre pagine del menu principale, e su un catalogo piccolo come quello di oggi la probabilità non è zero.",
+          "fix": "In app/novita/page.tsx (e allo stesso modo in piu-venduti e regali) passare a ProductGrid emptyTitle («Ancora nessuna novità»), una emptyDescription che non parli di filtri ed emptySuggestions con due link: «Vedi tutti i negozi» (/stores) ed «Esplora le categorie» (/categorie). Meglio ancora correggere il ramo storico di ProductGrid: senza filtri attivi non deve parlare di filtri e deve offrire sempre almeno un link.",
+          "causa_radice": "Lo stato vuoto «arricchito» è opt-in, cioè si accende solo passando le prop. Le pagine collezione non le passano e ricadono su un testo pensato per la ricerca coi filtri.",
+          "prova": "Test vitest proposto: tests/unit/la-pagina-novita-vuota-ha-una-via-d-uscita.test.tsx, sullo stampo di tests/unit/la-pagina-promozioni-vuota-non-va-in-errore.test.tsx (jsdom, QueryClientProvider, `leggiProdottiDellaGriglia` finto che restituisce []). In più next-intl finto (useTranslations restituisce la chiave). Si monta NovitaPage, si aspettano i giri di act, poi `expect(radice.textContent).not.toContain('modificare i filtri')` e `expect(radice.querySelector('a[href=\"/stores\"], a[href=\"/categorie\"]')).not.toBeNull()`. Comando: cd /home/user/mycity && npx vitest run tests/unit/la-pagina-novita-vuota-ha-una-via-d-uscita.test.tsx. Oggi è rosso: compare «Prova a modificare i filtri…» e il riquadro non ha nessun link.",
+          "prova_tipo": "vitest",
+          "esito_prova": "Palestra: /novita col catalogo vuoto simulato (2 letture intercettate) risponde 200 senza errori e mostra «0 prodotti». Il riquadro dice «Nessun prodotto trovato · Prova a modificare i filtri o cerca qualcos'altro», ma sulla pagina non c'è nessun filtro e nel riquadro non c'è nessun link. Unico link nel contenuto: la briciola «Home». In console solo ERR_TUNNEL_CONNECTION_FAILED, una risorsa esterna bloccata dalla sandbox. Stesso riquadro su /regali e /piu-venduti.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
         }
       ]
     },
@@ -3233,6 +3692,23 @@
           "verificato": true,
           "giro": 4,
           "fonte_radiografia": "radiografia 2026-11-06 · quarto giro (7/11)"
+        },
+        {
+          "dimensione": "flussi-conversione",
+          "titolo": "Chi si registra con un'email che ha già un account legge che gli è arrivato un link che non arriverà mai, e nessuno gli indica il recupero della password",
+          "severita": "minore",
+          "file": "app/sign-up/page.tsx:146-185 (dopo signUp senza errore manda sempre a /auth/verify-email con «Registrazione completata!») · app/auth/verify-email/page.tsx:88-99 («Ti abbiamo inviato un link di conferma a …») e :103-130 (Reinvia, nessun collegamento a /reset-password) · lib/errors.ts (il 429 «email rate limit exceeded» tradotto come «troppe email a questo indirizzo»)",
+          "descrizione": "Visto in palestra il 7/11, due volte con lo stesso testo. 1) Da un browser pulito si apre /sign-up e si rifiutano i cookie. 2) Si scrive cliente.uno@palestra-demo.local, un'email già registrata e confermata, una password di almeno 8 caratteri, e si spuntano i Termini. 3) Si aspetta il controllo anti-bot e si preme Registrati, anche due volte. Parte una sola richiesta /auth/v1/signup. Supabase risponde 200 con un utente finto, per non rivelare chi è iscritto, e nel database resta un solo utente con updated_at invariato: questa parte regge. 4) Si arriva su /auth/verify-email, che dice «Ti abbiamo inviato un link di conferma a cliente.uno@… Cliccalo per attivare l'account». Non è vero: confirmation_sent_at resta null prima e dopo, quindi nessuna email è partita. 5) «Reinvia email di verifica» risponde «…Se l'avevi già confermata, puoi accedere», senza nessun cenno alla password dimenticata. Di passaggio: con un'email mai usata Supabase ha risposto 429 «email rate limit exceeded». Il sito l'ha mostrato come «Abbiamo già inviato troppe email a questo indirizzo», frase sbagliata, perché il tetto vale per tutto il progetto e non per l'indirizzo.",
+          "impatto": "Lo subisce chi ha già un account e non se lo ricorda, caso comune per chi torna dopo mesi o per i clienti meno esperti. Aspetta un'email che non arriva. Se ha dimenticato la password deve indovinare da solo la strada: Accedi, poi Password dimenticata. Molti si fermano lì, prima del primo ordine.",
+          "fix": "Nella pagina di verifica usare un testo che valga in tutti e due i casi e non riveli se l'account esiste: «Se l'indirizzo è nuovo ti abbiamo mandato un link di conferma. Se hai già un account con questa email non ti arriverà nulla: accedi o recupera la password». Aggiungere i collegamenti a /sign-in e a /reset-password, portando l'email già scritta. Non mostrare a schermo testi diversi in base alla risposta di Supabase, per non rivelare a terzi chi è iscritto. In lib/errors.ts tradurre il 429 «email rate limit exceeded» con una frase che non parli di «questo indirizzo» («In questo momento non riusciamo a mandare email, riprova fra qualche minuto»).",
+          "causa_radice": "La pagina di verifica dà per certo l'invio. Supabase, per proteggere gli iscritti, risponde «ok» anche quando l'email esiste già e non manda niente: il testo deve coprire anche quel caso.",
+          "prova": "Test vitest proposto: tests/unit/la-verifica-email-indica-il-recupero-password.test.tsx (jsdom). `supabase.auth.getUser` finto restituisce {data: {user: null}}; next/navigation finto; sessionStorage con l'email ricordata, scritta con ricordaEmailDaConfermare di lib/auth/conferma-email.ts. Si monta la pagina di app/auth/verify-email e `expect(radice.querySelector('a[href^=\"/reset-password\"]')).not.toBeNull()`. Comando: cd /home/user/mycity && npx vitest run tests/unit/la-verifica-email-indica-il-recupero-password.test.tsx. Oggi è rosso: la pagina afferma «Ti abbiamo inviato un link di conferma a …» e non ha nessun collegamento al recupero della password.",
+          "prova_tipo": "vitest",
+          "esito_prova": "Palestra: con un'email già confermata parte una sola richiesta di registrazione (200, utente finto) e nel database resta un solo utente. /auth/verify-email dice «Ti abbiamo inviato un link di conferma…», ma confirmation_sent_at resta null, quindi nessuna email. «Reinvia» dice «Se l'avevi già confermata, puoi accedere», senza recupero password. Riprodotto due volte, stesso testo. Il 429 su un'email nuova è mostrato come «troppe email a questo indirizzo».",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07 · prova di fumo, lotto 1 e prova generale di Pane Quotidiano"
         }
       ]
     }
