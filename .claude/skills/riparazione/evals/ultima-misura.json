@@ -1,0 +1,25 @@
+{
+ "_cosa_e": "🎯 L'ultima misura del trigger. La rifà `node cervello/prova-trigger.mjs`. Se l'impronta non è quella della description di adesso, quel verde parla di un altro testo.",
+ "quando": "2026-11-07 08:59",
+ "modello": "claude-opus-5",
+ "giri": 1,
+ "impronta_description": "a05a17cf5f57",
+ "impronta_banco": "03fba038fff7",
+ "frasi_vere": 11,
+ "trappole": 11,
+ "mancati": [
+  "crea un strategia per risolvere i difetti usando come esempio la strategia per fare la radiografia",
+  "apri 10 sessioni e risolvi almeno 600 difetti minori del marketplace",
+  "risolvi in 5 sessioni in parallelo 2 ondate a testa ed una sesta sessione servirà a controllare tutto il lavoro fatto",
+  "ripara i difetti del sito",
+  "risolvi tutti i difetti del marketplace prima del 15",
+  "ripara subito quello che tiene spento il marketplace",
+  "sistema prima possibile i bloccanti del sito, non posso tenerlo spento ancora",
+  "ci sono difetti nuovi nati dalla funzione dei resi, sistemali",
+  "ripara i difetti che ha creato la PR 287",
+  "chiudi tutti i difetti della macchina in parallelo",
+  "fai una campagna di riparazione sui gravi del sito"
+ ],
+ "falsi": [],
+ "mai_misurate": []
+}

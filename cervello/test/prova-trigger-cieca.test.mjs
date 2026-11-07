@@ -72,6 +72,20 @@ prova("un banco con una frase sola non basta per una misura", () => {
   assert.equal(lancia(["--frasi", f]).codice, 2, "una frase sola non è un banco");
 });
 
+prova("--skill con un nome che esce dalla cartella delle skill esce 2, e non sposta niente", () => {
+  const { codice, uscita } = lancia(["--skill", "../cantiere", "--giri", "1"]);
+  assert.equal(codice, 2, `doveva rifiutare il nome, invece è uscito ${codice}`);
+  assert.match(uscita, /non è un nome di skill/);
+  assert.ok(existsSync(join(SKILL, "SKILL.md")), "la skill cantiere deve essere ancora al suo posto");
+});
+
+prova("--skill di una skill che non c'è esce 2 (cieco), non misura un'altra skill al suo posto", () => {
+  const { codice, uscita } = lancia(["--skill", "skill-che-non-esiste", "--giri", "1"], "/nonesiste");
+  assert.equal(codice, 2);
+  assert.match(uscita, /non posso misurare/);
+  assert.ok(existsSync(join(SKILL, "SKILL.md")));
+});
+
 prova("dopo una resa, la skill VERA è ancora al suo posto", () => {
   lancia(["--giri", "1"], "/nonesiste");
   assert.ok(existsSync(join(SKILL, "SKILL.md")), "la skill spostata deve tornare sempre dov'era");

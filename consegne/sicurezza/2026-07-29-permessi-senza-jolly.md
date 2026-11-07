@@ -8,7 +8,7 @@
 
 Oggi due righe del foglio dei permessi dicono «puoi lanciare qualunque programma finisca in quella
 cartella», e quella cartella la scrive la macchina stessa.
-Qui sotto c'è l'elenco esplicito che le sostituisce: **138 programmi e 17 script di avvio.**
+Qui sotto c'è l'elenco esplicito che le sostituisce: **140 programmi e 17 script di avvio.**
 
 ## In parole semplici
 
@@ -29,7 +29,7 @@ Non sto dicendo che sia successo. Sto dicendo che oggi nessuno lo impedirebbe.
 ## Cosa cambia per te
 
 Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.mjs:*)"` con queste
-138:
+140:
 
 ```json
       "Bash(node cervello/adozione-medicine.mjs:*)",
@@ -118,6 +118,7 @@ Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.m
       "Bash(node cervello/pota-memoria.mjs:*)",
       "Bash(node cervello/prediagnosi.mjs:*)",
       "Bash(node cervello/prossima-card.mjs:*)",
+      "Bash(node cervello/prossimo-ar.mjs:*)",
       "Bash(node cervello/prova-rimessa.mjs:*)",
       "Bash(node cervello/prova-sito.mjs:*)",
       "Bash(node cervello/prova-trigger.mjs:*)",
@@ -128,6 +129,7 @@ Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.m
       "Bash(node cervello/registro-scelte-check.mjs:*)",
       "Bash(node cervello/retry-policy.mjs:*)",
       "Bash(node cervello/riconcilia-perimetro.mjs:*)",
+      "Bash(node cervello/riparazione-sessioni.mjs:*)",
       "Bash(node cervello/rotte-scriventi-check.mjs:*)",
       "Bash(node cervello/salute.mjs:*)",
       "Bash(node cervello/sblocco-capacita.mjs:*)",

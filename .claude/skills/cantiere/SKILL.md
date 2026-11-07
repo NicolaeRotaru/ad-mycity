@@ -23,6 +23,23 @@ description: >-
 
 ---
 
+## Prima di cominciare: è lavoro per il cantiere, o per la riparazione in sessioni?
+
+Dal 7/11 esiste la skill `riparazione`: la campagna in sessioni parallele, sullo stampo della
+radiografia in 12 sessioni. Si passa lì, aprendo quella skill, quando la richiesta è:
+- sui difetti del **sito** (il registro `radiografia-marketplace.json`), qualunque sia il numero: è la skill
+  `riparazione` a scegliere se bastano le ondate (15 voci o meno) o servono le sessioni;
+- in **sessioni parallele** («in 5 sessioni», «in parallelo», «una campagna»);
+- sulla macchina con **più di 60 voci lavorabili**: fino a 60 restano qui, in corsie dentro una
+  sessione sola, che è il metodo misurato;
+- **urgente** su ciò che tiene spento il sito o la macchina, con qualunque numero di voci;
+- sui difetti nati da una funzione, da un ramo o da una PR, quando le voci sono più di 15.
+
+Il conto lo fa un comando, a zero agenti:
+`node cervello/riparazione-sessioni.mjs perimetro --casa macchina --cartella <una cartella di prova>`.
+Tutto il resto, cioè un lotto della macchina scelto per malattia, resta qui ed è il resto di questa
+pagina.
+
 ## La regola che sta sotto a tutto
 
 **Un difetto non è chiuso quando quel punto guarisce: è chiuso quando la malattia smette di potersi

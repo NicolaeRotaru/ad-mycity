@@ -123,6 +123,7 @@ export const DESCRIZIONI = {
     cantiere: "La riparazione dei difetti che le radiografie hanno trovato: si sceglie per malattia, non per conteggio.",
     verify: "La prova sul campo: guida il Pannello vero con un browser e i test del worker, per dimostrare che un fix funziona.",
     collaudo: "Il collaudo di ciò che deve reggere: chi ha costruito non collauda, e chi collauda ha il mandato di distruggere.",
+    riparazione: "La riparazione in sessioni parallele, sullo stampo della radiografia in 12 sessioni: una regista divide, sorveglia e unisce, fino a 12 sessioni riparano e fino a 4 collaudano, per il sito e per la macchina.",
     // Qui si descrive solo ciò che sta in `.claude/skills/`: le skill di un pacchetto plugin
     // entrano quando il pacchetto le mette in quella cartella, non prima (il censimento segna
     // «fantasma» ogni riga rimasta per un pezzo assente — è successo con 67 skill di un pack rimosso).

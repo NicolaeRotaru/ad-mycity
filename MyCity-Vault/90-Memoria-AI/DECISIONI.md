@@ -6719,6 +6719,23 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 
 **Colore:** 🟡 lavoro della macchina sul registro del sito, nessuna scrittura sul sito vero. Vale con la firma di Nicola sulla richiesta NicolaeRotaru/ad-mycity#936.
 
+## 2026-11-07 09:53 — 🟡 La riparazione in sessioni: lo stampo della radiografia in 12 sessioni, per riparare i difetti del sito e della macchina
+
+**Cosa:** Nicola ha chiesto «una strategia per risolvere i difetti usando come esempio la strategia per fare la radiografia». Poi: «deve essere capace di risolvere sia quelli del marketplace sia quelli della macchina, poi deve adattarsi anche in base alle mie esigenze». Costruiti la skill `riparazione` (il manuale della regista), il programma `cervello/riparazione-sessioni.mjs` (undici comandi, uscite 0/1/2/3), i fogli per chi ripara e per chi collauda, il comando nel manuale e in `COMANDI.md`. Si avvia con una frase, senza incollare niente.
+
+**Le scelte dell'AD, una per una:**
+- **La proprietà dei file si decide onda per onda, non con zone fisse.** Sui 688 aperti del sito, 254 (37%) citano file di zone diverse e 536 voci su 590 sono legate da pochi file. Prova a vuoto: 534 lavorabili, 368 nella prima onda di 12 sessioni.
+- **I collaudatori sono sessioni separate**, scelta di Nicola del 7/11. Per i minori vale un campione (tutti quelli sui file che legano più il 30%, soglia 90%), che il programma ricalcola senza fidarsi della parola del collaudatore.
+- **Le sessioni figlie non nascono in modalità piano:** il 6/11 il piano si approvava da solo. Il piano passa dalla regista con `send_message`, come Nicola ha delegato il 6/11.
+- **La frase secca «risolvi i difetti» resta al cantiere**, misurato verde. La riga che smista verso la riparazione sta nel corpo del cantiere, non nella description: cambiarla avrebbe reso rosso il test della sua ultima misura.
+- **Due giri di collaudo, non tre.** Il primo (due lenti) ha trovato 22 difetti, il secondo 8: tutti corretti, ognuno con la sua prova e la sua mutazione (55 casi, circa 66 mutazioni, nessuna viva). Per la regola delle due onde un terzo giro lo decide Nicola.
+- **Il trigger della skill non è ancora dimostrato** (AR-1166): su tre frasi vere su quattro la sessione legge prima il manuale.
+- **La radiografia in 12 sessioni non parte ancora da una frase:** il comando «radiografia» del manuale ora dice quale radiografia parte. Portarla sullo stesso schema è lavoro aperto.
+
+**Perché:** le tre campagne in parallelo del 31/10, 1/11 e 5/11 hanno riscritto le regole ogni volta e dichiarato più riparazioni di quante ne reggessero (5/11: 844 dichiarate, circa 690 solide). Il replay dei dieci rami del 5/11 col programma nuovo trova da solo i 6 file temporanei, 89 sconfinamenti e i 65 file toccati da due rami, che quel giorno aveva visto una persona a mano.
+
+**Colore:** 🟡 auto-modifica della macchina, vale con la firma di Nicola sulla richiesta di unione. Nessuna campagna è partita.
+
 ## 2026-11-07 00:34 — 🟡 Il quarto giro della radiografia, firmato da Nicola (carta 231)
 
 **Cosa:** Nicola ha scritto «facciamo la carta 229 e 231». Per la 231 l'AD ha preso la strada consigliata: un quarto giro con 4 verificatori sugli 8 difetti del terzo giro rimasti senza verifica. Sono veri tutti e 8, con prove che diventano rosse.

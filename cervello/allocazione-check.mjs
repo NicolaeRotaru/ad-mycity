@@ -88,6 +88,10 @@ const DESTINAZIONE = [
   ["pannello/", "macchina"],
   ["consegne/tech/", "macchina"],
   ["consegne/audit/", "macchina"],
+  // 7/11/2026 — le cartelle delle campagne della skill `riparazione` (perimetro, piano, schede, referti,
+  // collaudi): come consegne/audit è lavoro tecnico sul sito e sulla macchina. Mappata prima della prima
+  // campagna, perché la #938 è diventata rossa proprio per una cartella nuova lasciata senza mappa.
+  ["consegne/riparazioni/", "macchina"],
   ["consegne/automazioni/", "macchina"],
   ["consegne/bonifica/", "macchina"],
   ["consegne/devops/", "macchina"],
