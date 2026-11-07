@@ -62,7 +62,8 @@ Dalla frase si ricavano tre cose. Se una manca e non si deduce, si fa **una** do
 | tutto | «ripara i difetti del sito / della macchina» | `--profilo tutto` | fino a 12 riparatori, ceil(K/3) collaudatori (max 4) | 2 onde + cucitura · 2 fermate |
 | scelta | chiavi, codici AR, area, gravità | `--profilo scelta` con i filtri | in base al numero | in base al numero |
 
-**La misura.** Con **15 voci lavorabili o meno** (e non urgente) le sessioni non convengono: sul sito il
+**La misura.** Il profilo urgente usa sempre le sessioni (da 1 a 3), anche con poche voci: serve la
+velocità e un collaudatore separato. Negli altri profili, con **15 voci lavorabili o meno** le sessioni non convengono: sul sito il
 motore è `.claude/workflows/ondata-snella.js` (comando «lancia l'ondata N del sito» in `COMANDI.md`),
 sulla macchina la skill `cantiere`. Sulla macchina anche **fino a 60** voci vanno in corsie dentro una
 sessione sola (skill `cantiere`): è il metodo misurato. Oltre, sessioni divise per **dimensione**.
@@ -123,9 +124,14 @@ oppure corregge, con `send_message`. Nicola il 6/11 ha delegato alla regista l'a
 **L'onda 1 prende i temi a rischio più alto** (soldi, cassa, pagamenti, accessi). Le regole del riparatore
 stanno tutte in `cervello/riparazione/LEGGIMI-riparatore.md`: non si ripetono nel prompt.
 
-## La sorveglianza (ogni 30 minuti, finché ci sono sessioni vive)
+## La sorveglianza (ogni 30 minuti, dall'apertura dell'onda alla sua unione)
 
-Una catena sola di `send_later` (mai `sleep`, mai due catene). A ogni giro, per ogni sessione dell'onda:
+**Quando parte:** subito dopo aver aperto l'ultima sessione dell'onda, la regista manda il primo `send_later`
+a 30 minuti col testo «sorveglianza riparazione <C>, onda N». **Ogni giro**, finiti i controlli, manda il
+successivo. Una catena sola (mai `sleep`, mai due catene). **Quando smette:** quando tutti i riparatori e i
+collaudatori dell'onda hanno `finita: true` e i loro controlli sono verdi, oppure a una fermata. All'onda
+dopo riparte da capo. A ogni giro, prima di tutto, `get_session` della regista: se `isUsingOverage` o un
+blocco, si ferma tutto e si avvisa Nicola. Poi, per ogni sessione dell'onda:
 - `get_session` (stato, modello) e `git fetch` del deposito bersaglio;
 - `guardia-ramo <ramo> RNN --cartella <C> --git <deposito>`: la **storia** del ramo, commit per commit;
 - `valida-referto <referto> --cartella <C> --git <deposito> --ramo <ramo>` sul referto parziale
@@ -133,7 +139,8 @@ Una catena sola di `send_later` (mai `sleep`, mai due catene). A ogni giro, per 
   essere quello della sessione);
 - `prova-unione --cartella <C> --git <deposito> --onda N`: ogni file toccato da due rami è rosso, e
   l'unione di prova dice dove litiga, senza toccare l'albero di lavoro;
-- una riga in `<C>/diario-della-sorveglianza.txt`.
+- una riga in `<C>/diario-della-sorveglianza.txt`, sempre in questa forma:
+  `AAAA-MM-GG HH:MM · RNN · stato · guardia ✅/🔴 · referto N voci di M · unione ✅/🔴 · azione fatta`.
 
 Un rosso si corregge con `send_message` alla sessione (cosa, quale file, cosa fare). Una scrittura nel
 mondo vero (database vero, deploy, messaggi a persone) si ferma con `interrupt_session`, poi si avvisa
@@ -160,8 +167,10 @@ senza Nicola.
 
 ## F3 — L'unione (a ogni onda)
 
-1. I referti si copiano in `<C>/referti/RNN.json` (`git show origin/<ramo>:.riparazione/referto-RNN.json`),
-   i collaudi in `<C>/collaudi/`. Poi, tutti verdi: `guardia-ramo`, `valida-referto`, `valida-collaudo`.
+1. I referti e i collaudi si copiano nella cartella, uno per sessione:
+   `for R in R01 R02 …; do git -C <deposito> show origin/<ramo>-m${R#R}:.riparazione/referto-$R.json > <C>/referti/$R.json; done`
+   e `git show origin/<ramo>-kNN:<C>/collaudi/KNN.json > <C>/collaudi/KNN.json`. Poi, tutti verdi: `guardia-ramo`,
+   `valida-referto`, `valida-collaudo`. `applica` li rilancia comunque da sé: un file rosso o non finito la ferma.
 2. I rami si uniscono nel ramo di integrazione `<ramo della regista>` del deposito bersaglio, in ordine di
    numero. Dentro un'onda i conflitti attesi sono **zero**: un conflitto vuol dire che un guardiano ha
    fallito. Ci si ferma e si capisce perché, prima di ricucire.
@@ -171,8 +180,10 @@ senza Nicola.
    - macchina: `node cervello/cancello-lotto.mjs` e `node cervello/radiografia-in-corsa.mjs`.
    Sono le prove che il 5/11 diventavano rosse solo dopo l'unione (8). Una voce `rompe_altro`, o rossa
    dopo l'unione, si toglie da sola col suo commit (`git revert`): per questo una voce per commit.
-4. **FERMATA 2** (dopo l'onda 1): i numeri veri — quante reggono, quante no, quante passano all'onda 2 —
-   e il costo misurato. Si va avanti con «via la seconda».
+4. **FERMATA 2** (dopo l'onda 1), nei quattro blocchi: i numeri veri da `conti --cartella <C>` e da
+   `applica --cartella <C>` a vuoto (quante reggono, quante no, quante passano all'onda 2), il costo misurato
+   (`node cervello/conto-token.mjs` per i workflow della regista; per le sessioni figlie il loro `conto` nei
+   referti) e la quota da `get_session`. Si va avanti solo con «via la seconda».
 5. **L'onda 2:** `dividi --cartella <C> --base <SHA dell'integrazione> --ultima` (più
    `--file-chiavi` con le voci `serve_file_altrui` e `non_fatto` da rifare), `schede`, `copertura-prima`,
    e di nuovo F1-F3.
@@ -190,8 +201,9 @@ senza Nicola.
      pattern dalle voci che non reggono (AR-444: altrimenti `auto-fix` le richiuderebbe da sole).
    I nati della macchina (`<C>/nati-macchina.json`) prendono l'id da `node cervello/prossimo-ar.mjs`.
 9. `conti --cartella <C>`: prima e dopo, incrociando le chiavi. «N chiusi» si dice solo dopo questo.
-10. **Il messaggio finale**, nei quattro blocchi, più tre riparazioni scelte a caso con la prova lanciata
-    davanti a Nicola, più il conto da `node cervello/conto-token.mjs`. La memoria: `STATO.md`,
+10. **Il messaggio finale**, nei quattro blocchi, più tre riparazioni scelte a caso fra le `si_chiude` di
+    `<C>/decisioni.json`, con il loro `verifica_comando` rilanciato sul ramo di integrazione e l'uscita copiata,
+    più il conto da `node cervello/conto-token.mjs`. La memoria: `STATO.md`,
     `LAVORO-APERTO.md`, `DECISIONI.md`, l'ESITO con `node cervello/chiusura-loop.mjs registra …`, il
     voto in `memoria-squadra/ad.md`.
 
@@ -202,6 +214,9 @@ messaggi di commit generici e, nel deposito pubblico, solo il numero R. Se il fi
 il passaggio dei dettagli, la voce resta aperta e va nella lista per Nicola. Mai un dettaglio nel deposito.
 
 ## Quando ti fermi e chiedi a Nicola
+
+A ogni fermata di questa lista mostri, nei quattro blocchi, cosa è successo, cosa proponi e cosa resta fermo
+intanto. Riparti solo con la sua risposta, scritta: «via», «togli RNN», «continua senza», o quello che dice.
 
 - extra a pagamento (`isUsingOverage`) o un blocco della quota;
 - la terza bocciatura sulla stessa voce;

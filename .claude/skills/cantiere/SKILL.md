@@ -27,12 +27,13 @@ description: >-
 
 Dal 7/11 esiste la skill `riparazione`: la campagna in sessioni parallele, sullo stampo della
 radiografia in 12 sessioni. Si passa lì, aprendo quella skill, quando la richiesta è:
-- sui difetti del **sito** (il registro `radiografia-marketplace.json`), qualunque sia il numero;
+- sui difetti del **sito** (il registro `radiografia-marketplace.json`), qualunque sia il numero: è la skill
+  `riparazione` a scegliere se bastano le ondate (15 voci o meno) o servono le sessioni;
 - in **sessioni parallele** («in 5 sessioni», «in parallelo», «una campagna»);
 - sulla macchina con **più di 60 voci lavorabili**: fino a 60 restano qui, in corsie dentro una
   sessione sola, che è il metodo misurato;
-- **urgente** su ciò che tiene spento il sito o la macchina, oppure sui difetti nati da una funzione,
-  da un ramo o da una PR, quando le voci sono più di 15.
+- **urgente** su ciò che tiene spento il sito o la macchina, con qualunque numero di voci;
+- sui difetti nati da una funzione, da un ramo o da una PR, quando le voci sono più di 15.
 
 Il conto lo fa un comando, a zero agenti:
 `node cervello/riparazione-sessioni.mjs perimetro --casa macchina --cartella <una cartella di prova>`.
