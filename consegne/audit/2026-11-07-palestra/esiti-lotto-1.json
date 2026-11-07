@@ -1,0 +1,618 @@
+{
+ "lotto": 1,
+ "data": "2026-11-07",
+ "prove": [
+  {
+   "id": "S02-P007",
+   "esito": "passa"
+  },
+  {
+   "id": "S02-P008",
+   "esito": "passa"
+  },
+  {
+   "id": "S02-P011",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Il pannello dei codici sconto salva uno sconto del 150 per cento senza avvisare, e il database accetta anche sconti negativi"
+  },
+  {
+   "id": "S04-P001",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Chi accetta le condizioni senza essere entrato legge «Registrazione non riuscita» e resta fermo"
+  },
+  {
+   "id": "S04-P044",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P045",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Falla di sicurezza da chiudere (dettagli nel referto privato)"
+  },
+  {
+   "id": "S04-P046",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P050",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P051",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P052",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P053",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P054",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P055",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P056",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P057",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Due giri insieme degli allarmi operativi fanno suonare due volte la stessa campanella all'amministratore"
+  },
+  {
+   "id": "S04-P058",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "grave",
+   "titolo": "La cancellazione degli account riesce, ma ogni giro finisce in errore e avvisa due volte l'amministratore per una pulizia dei dati vecchi che non va"
+  },
+  {
+   "id": "S04-P059",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P060",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P061",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P062",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P063",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P064",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P066",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P067",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P072",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P074",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P075",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P078",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P079",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P080",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P087",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Quando l'email dell'esito di una segnalazione non parte, ogni nuovo tentativo manda di nuovo la stessa notifica al negozio"
+  },
+  {
+   "id": "S04-P105",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Il tracciamento delle visite va in errore se riceve un corpo rotto o vuoto"
+  },
+  {
+   "id": "S04-P106",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P110",
+   "esito": "bloccata"
+  },
+  {
+   "id": "S04-P111",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P112",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P113",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P114",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P115",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P116",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "La registrazione rifiuta le password comuni con un messaggio in inglese"
+  },
+  {
+   "id": "S05-P001",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Il pannello accetta un codice sconto del 150 per cento, e anche negativo"
+  },
+  {
+   "id": "S05-P002",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Falla di sicurezza da chiudere (dettagli nel referto privato)"
+  },
+  {
+   "id": "S05-P006",
+   "esito": "passa"
+  },
+  {
+   "id": "S05-P008",
+   "esito": "passa"
+  },
+  {
+   "id": "S05-P009",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P002",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "La pagina delle categorie mostra Giocattoli come le altre anche se non ha nessun prodotto"
+  },
+  {
+   "id": "S06-P007",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "In una lista i prodotti nascosti spariscono senza avviso e il proprietario non li può togliere"
+  },
+  {
+   "id": "S06-P009",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "La pagina Novità vuota invita a cambiare filtri che non esistono e non offre nessun pulsante per uscire"
+  },
+  {
+   "id": "S06-P010",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Un guasto di due secondi del database fa tornare la home alla versione di fabbrica per più di un minuto, per tutti i visitatori e senza lasciare traccia"
+  },
+  {
+   "id": "S06-P012",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "La pagina dei più recensiti mostra una classifica di 40 prodotti scelti dai clienti anche quando nessun prodotto ha una recensione"
+  },
+  {
+   "id": "S06-P015",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P018",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "La vetrina aperta con un indirizzo non valido dice «problema di collegamento, riprova» invece di «negozio non trovato»"
+  },
+  {
+   "id": "S06-P019",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Falla di sicurezza da chiudere (dettagli nel referto privato)"
+  },
+  {
+   "id": "S06-P020",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Con il filtro Aperti ora acceso, l'elenco dei negozi non si aggiorna quando un negozio chiude: restano in lista negozi con scritto Chiuso ora"
+  },
+  {
+   "id": "S06-P021",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P022",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P025",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P027",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P034",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P039",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P052",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P064",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Chi si registra con un'email che ha già un account legge che gli è arrivato un link che non arriverà mai"
+  },
+  {
+   "id": "S06-P067",
+   "esito": "passa"
+  },
+  {
+   "id": "S07-P002",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Sulla pagina «Vendi su MyCity» il negoziante non vede quanto costa né chi chiamare: trova subito il muro dell'accesso"
+  },
+  {
+   "id": "S07-P014",
+   "esito": "passa"
+  },
+  {
+   "id": "S07-P035",
+   "esito": "passa"
+  },
+  {
+   "id": "S08-P029",
+   "esito": "fallisce",
+   "verifica": "scartato",
+   "gravita": null,
+   "titolo": "Quando la posta non parte, il lavoro delle email risponde «tutto bene» e spegne da solo l'allarme della coda"
+  },
+  {
+   "id": "S08-P030",
+   "esito": "passa"
+  },
+  {
+   "id": "S08-P031",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Due giri insieme del sorvegliante mandano due volte la stessa campanella agli amministratori"
+  },
+  {
+   "id": "S08-P032",
+   "esito": "passa"
+  },
+  {
+   "id": "S08-P033",
+   "esito": "non_eseguibile"
+  },
+  {
+   "id": "S08-P034",
+   "esito": "passa"
+  },
+  {
+   "id": "S08-P035",
+   "esito": "passa"
+  },
+  {
+   "id": "S08-P036",
+   "esito": "passa"
+  },
+  {
+   "id": "S08-P037",
+   "esito": "passa"
+  },
+  {
+   "id": "S08-P038",
+   "esito": "passa"
+  },
+  {
+   "id": "S08-P039",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Se due giri di cancellazione account partono insieme, l'account viene cancellato ma agli amministratori arriva un falso allarme di cancellazione fallita"
+  },
+  {
+   "id": "S08-P040",
+   "esito": "passa"
+  },
+  {
+   "id": "S08-P043",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "La rotta che registra le visite va in errore 500 se le arriva un corpo storto"
+  },
+  {
+   "id": "S09-P001",
+   "esito": "passa"
+  },
+  {
+   "id": "S09-P003",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Chi ritira il consenso alle statistiche si tiene per un anno il cookie che lo identifica"
+  },
+  {
+   "id": "S09-P004",
+   "esito": "passa"
+  },
+  {
+   "id": "S09-P012",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Il pannello admin dei documenti del fattorino va in errore con un codice fattorino storto, invece di rispondere «non valido»"
+  },
+  {
+   "id": "S09-P013",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Chi si reiscrive alla newsletter risulta insieme iscritto e disiscritto"
+  },
+  {
+   "id": "S09-P014",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Il link di conferma della newsletter iscrive appena viene aperto, anche da un antivirus, senza che la persona prema nulla"
+  },
+  {
+   "id": "S09-P017",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "L'informativa privacy non nomina la data di nascita e la targa che chiediamo ai fattorini, e per IBAN e segnalazioni non dice per quanto li teniamo"
+  },
+  {
+   "id": "S09-P018",
+   "esito": "passa"
+  },
+  {
+   "id": "S09-P021",
+   "esito": "passa"
+  },
+  {
+   "id": "S09-P022",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "L'anteprima di Come funziona su Google promette il reso senza dire che i prodotti su ordinazione sono esclusi"
+  },
+  {
+   "id": "S09-P032",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Chi segnala un prodotto contraffatto non riceve né una ricevuta né un numero, e il modulo non chiede nome e buona fede"
+  },
+  {
+   "id": "S09-P038",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Al quarto messaggio in un'ora il modulo Contatti dice che il sito è guasto, invece di dire di aspettare"
+  },
+  {
+   "id": "S10-P020",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Un profilo, un prodotto o un negozio che non esistono mostrano «non trovata» ma rispondono come pagine valide"
+  },
+  {
+   "id": "S10-P046",
+   "esito": "passa"
+  },
+  {
+   "id": "S10-P047",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "In Chi siamo le scritte della barra in basso sono sotto i 12 pixel e coi caratteri grandi «Alla consegna» esce dallo schermo"
+  },
+  {
+   "id": "S10-P048",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Proprio nella pagina sull'accessibilità l'indice è scritto a 10 pixel e coi caratteri al massimo la pagina scorre di lato"
+  },
+  {
+   "id": "S10-P049",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "In Come funziona le scritte della barra in basso sono sotto i 12 pixel e coi caratteri al massimo la pagina scorre di lato"
+  },
+  {
+   "id": "S10-P050",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Il riquadro dei suggerimenti di ricerca resta aperto dopo il Tab e copre i link col fuoco"
+  },
+  {
+   "id": "S10-P051",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Il titoletto «In questa pagina» delle pagine legali è a 10 pixel"
+  },
+  {
+   "id": "S10-P052",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Sul bottone «Contattaci» in fondo alle domande frequenti il contorno del fuoco non si vede"
+  },
+  {
+   "id": "S10-P053",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Le scritte della barra in basso sul telefono sono a 11 pixel, sotto il minimo di 12"
+  },
+  {
+   "id": "S10-P054",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Con i caratteri al massimo sul telefono le pagine scorrono di lato"
+  },
+  {
+   "id": "S10-P055",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Il titoletto «In questa pagina» delle pagine legali è a 10 pixel"
+  },
+  {
+   "id": "S10-P056",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Con i caratteri al massimo sul telefono le pagine scorrono di lato"
+  },
+  {
+   "id": "S10-P057",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Il riquadro dei suggerimenti di ricerca resta aperto dopo il Tab e copre i link col fuoco"
+  },
+  {
+   "id": "S10-P058",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Il riquadro dei suggerimenti di ricerca resta aperto dopo il Tab e copre i link col fuoco"
+  },
+  {
+   "id": "S10-P059",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Il titoletto «In questa pagina» delle pagine legali è a 10 pixel"
+  },
+  {
+   "id": "S10-P060",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Nella pagina di stato il link «Contattaci» non è sottolineato e si distingue solo dal colore"
+  },
+  {
+   "id": "S11-P001",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "La lista dei negozi e i prodotti della bottega arrivano dopo 4-5 secondi su rete mobile lenta"
+  },
+  {
+   "id": "S11-P002",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "La pagina pubblica Stato servizi annuncia un disservizio che non c'è"
+  },
+  {
+   "id": "S11-P003",
+   "esito": "passa"
+  },
+  {
+   "id": "S11-P004",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Se il segreto dei lavori periodici ha un a capo nessuno lo segnala, e i lavori si fermano tutti"
+  },
+  {
+   "id": "S11-P005",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Il file per i motori di ricerca dell'anteprima apre tutto invece di chiudere"
+  },
+  {
+   "id": "S11-P006",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "gravita": "minore",
+   "titolo": "Oltre i mille prodotti la mappa del sito ne perde una parte senza dirlo"
+  },
+  {
+   "id": "S11-P007",
+   "esito": "passa"
+  }
+ ]
+}
