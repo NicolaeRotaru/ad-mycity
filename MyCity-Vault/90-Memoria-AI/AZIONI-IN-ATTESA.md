@@ -31,7 +31,28 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🔴 #233 — Firma l'accoglienza dei negozi nuovi, provata su Pane Quotidiano · ⏳ accodata 2026-11-07 03:41
+
+**In parole semplici.** L'accoglienza è il lavoro che faccio quando entra un negozio. Lo guardo come un cliente e controllo gli obblighi. Preparo i suoi dati e provo il primo ordine in palestra. Poi lo seguo per 4 settimane. L'ho provata su Pane Quotidiano il 7/11.
+
+**Cosa cambia per te.** Esempio vero: la vetrina di Pane Quotidiano promette pane e miele, ma vende kefir, hummus, pudding e pesto. Chi cerca «pane» trova l'hummus. 4 alimenti su 5 si comprano senza allergeni. Se il fornaio cambia anche solo un prezzo, il sito non salva finché non li scrive. E manca l'IBAN, ma il sito non ha una pagina dove scriverlo. Così il bonifico resterebbe fermo. In palestra il primo ordine in contanti è andato fino in fondo due volte, con i conti giusti.
+
+**Cosa devi fare tu.** Tre scelte. Uno: firmare la procedura, nella versione leggera per i prossimi negozi. Due: dire chi scrive dati della ditta e IBAN di Pane Quotidiano. Tre: lasciarmi preparare l'avviso al fornaio con le correzioni da approvare.
+
+**Cosa non ho verificato.** L'ho provata su un negozio solo, con 5 prodotti. Le norme le ho lette su fonti web, non le ha lette un legale. Hummus e pudding hanno l'etichetta illeggibile: lì ingredienti e allergeni vanno chiesti al negozio.
+
+Cosa cambia: ogni negozio nuovo arriva al primo cliente con vetrina vera, obblighi in ordine e un ordine già provato; per Pane Quotidiano, 14 domande pronte da fargli.
+Se va bene: preparo l'avviso a Pane Quotidiano con le correzioni e, alla tua firma, un controllo programmato che lancia l'accoglienza da solo quando entra un negozio.
+
+La procedura: `consegne/accoglienza-negozi/00-come-funziona-l-accoglienza.md`. Il lavoro su Pane Quotidiano: `consegne/accoglienza-negozi/2026-11-07-pane-quotidiano/`.
+
 ### 🔴 #232 — Firma il piano della palestra, la copia del sito per le prove · ⏳ accodata 2026-11-06 19:17
+
+> ✍️ FIRMATA 2026-11-07 00:55 — Nicola: «fallo per tutti i giorni che ti servono per tutti i controlli e ricontrolli finché non sei sicuro che tutto funzioni». Scelte: progetto Vercel separato, intelligenza artificiale finta, anche la carta in modalità test. La palestra è in costruzione.
+>
+> 🔨 2026-11-07 01:22 — Il database di prova è pronto. Ha 178 migrazioni su 178 e 76 tabelle protette. Dentro ci sono 16 negozi finti, 240 prodotti, 4 clienti, 2 fattorini e un amministratore. Sono pronti anche l'intelligenza artificiale finta e il ramo del sito per la palestra. **Aspetta Nicola.** Vercel non mi lascia creare il progetto. Gli ho chiesto quattro passi: il progetto, la regola di costruzione e due tipi di chiavi.
+>
+> 🏋️ 2026-11-07 02:16 — La palestra è accesa. Nicola ha creato il progetto e messo le chiavi. Il database di prova ha gli stessi permessi del sito vero. I controlli di sicurezza sono verdi: il sito della palestra parla solo col database di prova e usa Stripe di prova. Partiti il giro completo del pane e lo smistamento delle 533 prove.
 
 **In parole semplici.** La palestra è una copia del sito fatta solo per le prove. Lì si usa il sito come tanti clienti, negozi e fattorini insieme. Il sito vero non si tocca mai. La radiografia ha scritto 533 prove da fare lì.
 
@@ -41,12 +62,14 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 **Cosa non ho verificato.** Il prezzo del ramo l'ho letto il 6/11 nella documentazione di Supabase: va ricontrollato il giorno che parte. Il consumo di Vercel sotto carico non l'ho misurato.
 
-Cosa cambia: nasce una copia del sito con dati finti, accesa solo durante le prove; il database costa circa 0,32 $ al giorno, più l'uso di Vercel.
+Cosa cambia: nasce una copia del sito con dati finti; il database costa circa 0,32 $ al giorno finché esiste, più l'uso di Vercel.
 Se va bene: costruisco la palestra e controllo che non possa toccare il sito vero; poi faccio girare le prove a lotti e ti porto i difetti.
 
 Il piano completo, con le variabili per nome, i costi e cosa non si può provare: `consegne/audit/2026-11-06-radiografia-12-sessioni/piano-palestra.md`.
 
 ### 🟡 #231 — Decidi se fare un quarto giro per i difetti rimasti senza verifica · ⏳ accodata 2026-11-06 19:17
+
+> ✅ FATTO 2026-11-07 00:34 — Il quarto giro ha rifatto gli 8 difetti, e sono veri tutti e 8. Entrano nel registro come una falla riservata grave (R310) e 7 minori. Le voci aperte passano da 688 a 696.
 
 **In parole semplici.** Nella radiografia ogni difetto va rifatto da un verificatore che non l'ha trovato. Per due gruppi non è stato possibile. Il prompt vieta un quarto giro senza di te.
 
@@ -81,6 +104,8 @@ Se va bene: scrivo le risposte nel registro dei fatti e aggiorno i difetti che d
 Fonte: `consegne/audit/2026-11-06-radiografia-12-sessioni/domande-per-nicola.md`.
 
 ### 🔴 #229 — Revoca i token vecchi su GitHub, poi lancia la radiografia in 12 sessioni · ⏳ accodata 2026-11-06 02:30
+
+> ✅ FATTO 2026-11-07 00:37 — Il token pubblicato l'11/7 non c'è più. Resta solo quello del Pannello, nato il 23/7. Fra i token classic non c'è niente. La protezione dei salvataggi è accesa sull'account di Nicola.
 
 > **Aggiornamento del 06/11 alle 19:17.** La radiografia in 12 sessioni è finita: referto `consegne/audit/2026-11-06-radiografia.md`, carte #230, #231 e #232.
 
@@ -1392,6 +1417,8 @@ _(302 = Claude 200 + Vercel 30 + Supabase 50 + VPS 20 + dominio ~2 — fonte uni
 ---
 
 ### 🔴 #7 — Ruota i token GitHub trovati in chiaro nel config git del VPS · ⏳ accodata 2026-07-17 03:30
+
+> ✅ FATTO 2026-11-07 00:37 — Chiusa con la carta #229: i token vecchi non ci sono più.
 
 > **Aggiornamento del 6/11 alle 02:35.** Questa carta è ancora aperta, e ora è più urgente. Uno dei token è scritto anche nella storia pubblica del repository della macchina, dall'11/7. Vedi la #229.
 

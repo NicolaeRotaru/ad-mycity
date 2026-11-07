@@ -10,7 +10,7 @@
       "raw": "consegne/audit/2026-11-06-radiografia-marketplace-raw.json",
       "data": "2026-11-06",
       "report": "consegne/audit/2026-11-06-radiografia.md",
-      "findings": 175,
+      "findings": 183,
       "agenti": null,
       "impronte": {
         "19826623": "causa_radice:87c19f descrizione:cb6814 dimensione:4b3bdc file:e502ca fix:63084d fonte:647fef fonte_radiografia:ce5550 giro:340ca7 impatto:05c96c prova:7f89e8 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:902ae2 severita:5a2b0a stato:e2974e titolo:b31429 verificato:4db211",
@@ -55,6 +55,7 @@
         "61dc969e": "causa_radice:70ef60 descrizione:3e8424 dimensione:49940d file:91697e fix:5674e9 fonte:647fef fonte_radiografia:83d1c4 giro:340ca7 impatto:f06c38 prova:a9a941 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:c8efe7 severita:5a2b0a stato:e2974e titolo:6752ed verificato:4db211",
         "fd4012fc": "causa_radice:2b1f25 descrizione:40884e dimensione:49940d file:ea4b4b fix:0a4053 fonte:647fef fonte_radiografia:e8533b giro:340ca7 impatto:a34141 prova:909ed9 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:c8efe7 severita:5a2b0a stato:e2974e titolo:4d4932 verificato:4db211",
         "3894aab5": "causa_radice:db5f03 descrizione:db5f03 dimensione:49940d file:922f17 fix:db5f03 fonte:647fef fonte_radiografia:cd91fe giro:340ca7 impatto:db5f03 prova:db5f03 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:c8efe7 severita:5a2b0a stato:e2974e titolo:ba62bf verificato:4db211",
+        "0699897d": "causa_radice:858bb3 descrizione:036fb8 dimensione:49940d file:778e8e fix:1e707c fonte:647fef fonte_radiografia:46c6ab giro:310ca2 impatto:d53bb0 prova:deefe7 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:c8efe7 severita:5a2b0a stato:e2974e titolo:380db6 verificato:4db211",
         "82736fae": "causa_radice:79fd1e descrizione:edc73c dimensione:018daf file:19a7c3 fix:c51de6 fonte:647fef fonte_radiografia:01c5be giro:340ca7 impatto:f58b67 prova:bad6b7 prova_eseguita:0b0699 prova_tipo:ac8292 reparto:17fb3e severita:5a2b0a stato:e2974e titolo:2072bd verificato:4db211",
         "042fe2c9": "causa_radice:c65f05 descrizione:dad21f dimensione:018daf file:156944 fix:28d3e1 fonte:647fef fonte_radiografia:01c5be giro:340ca7 impatto:03808e prova:af4a99 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:17fb3e severita:900c79 stato:e2974e titolo:bcf17a verificato:4db211",
         "4fd1cc57": "causa_radice:6208d3 descrizione:ae43cb dimensione:018daf file:e40dfc fix:838276 fonte:647fef fonte_radiografia:ebc7da giro:340ca7 impatto:f8ade0 prova:b782d3 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:17fb3e severita:900c79 stato:e2974e titolo:b76061 verificato:4db211",
@@ -71,6 +72,8 @@
         "caced6a2": "causa_radice:59c9bc descrizione:824f94 dimensione:018daf file:d60a7d fix:030e16 fonte:647fef fonte_radiografia:ebc7da giro:340ca7 impatto:076371 prova:bd382b prova_eseguita:4db211 prova_tipo:cf59f4 reparto:17fb3e severita:5a2b0a stato:e2974e titolo:aec7df verificato:4db211",
         "08a12ae2": "causa_radice:b70046 descrizione:08b7e9 dimensione:018daf file:b4f582 fix:4317f2 fonte:647fef fonte_radiografia:ebc7da giro:340ca7 impatto:eae282 prova:eefab5 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:17fb3e severita:5a2b0a stato:e2974e titolo:75741e verificato:4db211",
         "f720d659": "causa_radice:ddb27b descrizione:8844df dimensione:018daf file:721a99 fix:f2b15f fonte:647fef fonte_radiografia:ebc7da giro:340ca7 impatto:978d09 prova:82dd3b prova_eseguita:4db211 prova_tipo:ac8292 reparto:17fb3e severita:5a2b0a stato:e2974e titolo:facbbb verificato:4db211",
+        "17bd69eb": "causa_radice:37ee6e descrizione:994e8c dimensione:018daf file:6779e2 fix:cbb47c fonte:647fef fonte_radiografia:46c6ab giro:310ca2 impatto:53c32b prova:4531bb prova_eseguita:4db211 prova_tipo:cf59f4 reparto:17fb3e severita:5a2b0a stato:e2974e titolo:170e52 verificato:4db211",
+        "97833abe": "causa_radice:e9d214 descrizione:d19e3f dimensione:018daf file:2c352c fix:cc420a fonte:647fef fonte_radiografia:46c6ab giro:310ca2 impatto:fb9c4f prova:39aa71 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:17fb3e severita:5a2b0a stato:e2974e titolo:95c263 verificato:4db211",
         "99aa4583": "causa_radice:7c04db descrizione:e3ded7 dimensione:b9cca8 file:833846 fix:413d0c fonte:647fef fonte_radiografia:51cab9 giro:340ca7 impatto:f523a2 prova:1aa24d prova_eseguita:4db211 prova_tipo:cf59f4 reparto:be1dd6 severita:5a2b0a stato:e2974e titolo:06a2a2 verificato:4db211",
         "f219505f": "causa_radice:d96c0f descrizione:fc362a dimensione:b9cca8 file:138af0 fix:9e2257 fonte:647fef fonte_radiografia:51cab9 giro:340ca7 impatto:442914 prova:69d5d3 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:be1dd6 severita:5a2b0a stato:e2974e titolo:478f4a verificato:4db211",
         "3e046f6a": "causa_radice:08fc58 descrizione:0414ef dimensione:b9cca8 file:be621a fix:84e16a fonte:647fef fonte_radiografia:51cab9 giro:340ca7 impatto:abde60 prova:5b3219 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:be1dd6 severita:5a2b0a stato:e2974e titolo:11f19e verificato:4db211",
@@ -157,6 +160,7 @@
         "5989043c": "causa_radice:7770f6 descrizione:e95cda dimensione:6c645d file:8e18dc fix:6cf946 fonte:647fef fonte_radiografia:49ac98 giro:340ca7 impatto:98f05c prova:ba93d0 prova_eseguita:4db211 prova_tipo:ac8292 reparto:2f5628 severita:5a2b0a stato:e2974e titolo:237783 verificato:4db211",
         "2f89115d": "causa_radice:6600ef descrizione:ff1ba9 dimensione:6c645d file:196345 fix:143966 fonte:647fef fonte_radiografia:49ac98 giro:340ca7 impatto:0c9bb0 prova:b10250 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:2f5628 severita:5a2b0a stato:e2974e titolo:5a3798 verificato:4db211",
         "4541c9ea": "causa_radice:80a7b7 descrizione:3377e7 dimensione:6c645d file:5e3bcc fix:27f321 fonte:647fef fonte_radiografia:49ac98 giro:340ca7 impatto:b1015a prova:1ce210 prova_eseguita:4db211 prova_tipo:ac8292 reparto:2f5628 severita:5a2b0a stato:e2974e titolo:35b97c verificato:4db211",
+        "2925b132": "causa_radice:d7479a descrizione:3979c3 dimensione:6c645d file:de6e21 fix:c838b7 fonte:647fef fonte_radiografia:46c6ab giro:310ca2 impatto:1ab486 prova:446635 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:2f5628 severita:5a2b0a stato:e2974e titolo:e01e4a verificato:4db211",
         "2294e647": "causa_radice:2f59f9 descrizione:c20e13 dimensione:0313da file:534343 fix:3a7522 fonte:647fef fonte_radiografia:6baf0c giro:340ca7 impatto:a84bfe prova:58965d prova_eseguita:4db211 prova_tipo:cf59f4 reparto:1b9b5b severita:900c79 stato:e2974e titolo:0d0834 verificato:4db211",
         "c35676f5": "causa_radice:a8ea78 descrizione:c66c21 dimensione:0313da file:f249cb fix:d6c392 fonte:647fef fonte_radiografia:6baf0c giro:340ca7 impatto:c004cf prova:f324d9 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:1b9b5b severita:5a2b0a stato:e2974e titolo:c7ea07 verificato:4db211",
         "c22dbd5d": "causa_radice:e5643a descrizione:8d0a6b dimensione:0313da file:363888 fix:2ca60c fonte:647fef fonte_radiografia:6baf0c giro:340ca7 impatto:650080 prova:1e8bff prova_eseguita:4db211 prova_tipo:cf59f4 reparto:1b9b5b severita:5a2b0a stato:e2974e titolo:44693a verificato:4db211",
@@ -174,6 +178,8 @@
         "7d993ec6": "causa_radice:2d6d0e descrizione:c01916 dimensione:0313da file:a616bc fix:dd0aa7 fonte:647fef fonte_radiografia:6baf0c giro:340ca7 impatto:9d73a6 prova:7db753 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:1b9b5b severita:5a2b0a stato:e2974e titolo:c93f66 verificato:4db211",
         "e5b05ed7": "causa_radice:363911 descrizione:6fba38 dimensione:0313da file:d4ce83 fix:a8aa6e fonte:647fef fonte_radiografia:6baf0c giro:340ca7 impatto:b4717d prova:7db753 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:1b9b5b severita:5a2b0a stato:e2974e titolo:c7630b verificato:4db211",
         "f8b5443b": "causa_radice:94e051 descrizione:1852ee dimensione:0313da file:af4841 fix:baf06c fonte:647fef fonte_radiografia:a49f45 giro:360caa impatto:d65ea8 prova:4606ed prova_eseguita:4db211 prova_tipo:cf59f4 reparto:1b9b5b severita:900c79 stato:e2974e titolo:4433d8 verificato:4db211",
+        "6ef9da4f": "causa_radice:db5f03 descrizione:db5f03 dimensione:0313da file:922f17 fix:db5f03 fonte:647fef fonte_radiografia:46c6ab giro:310ca2 impatto:db5f03 prova:db5f03 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:1b9b5b severita:900c79 stato:e2974e titolo:6571ad verificato:4db211",
+        "60cafa66": "causa_radice:8567f0 descrizione:d310bd dimensione:0313da file:7eafe8 fix:71e31e fonte:647fef fonte_radiografia:46c6ab giro:310ca2 impatto:e9215e prova:688d16 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:1b9b5b severita:5a2b0a stato:e2974e titolo:f25c0c verificato:4db211",
         "4f4a552a": "causa_radice:4ffc48 descrizione:7e334a dimensione:40485b file:dac49a fix:c6845a fonte:647fef fonte_radiografia:385836 giro:340ca7 impatto:a1a9bd prova:0a6b73 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:40485b severita:5a2b0a stato:e2974e titolo:f94a75 verificato:4db211",
         "47c7cddc": "causa_radice:ae8190 descrizione:e26b65 dimensione:d3507b file:09da2d fix:e19206 fonte:647fef fonte_radiografia:385836 giro:340ca7 impatto:6f6e23 prova:da2795 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:d3507b severita:5a2b0a stato:e2974e titolo:14892f verificato:4db211",
         "9f6cbc29": "causa_radice:bbafcc descrizione:0aab39 dimensione:6a6ee0 file:daffe3 fix:482666 fonte:647fef fonte_radiografia:385836 giro:340ca7 impatto:de3b38 prova:636c1b prova_eseguita:4db211 prova_tipo:cf59f4 reparto:6a6ee0 severita:5a2b0a stato:e2974e titolo:d76c52 verificato:4db211",
@@ -187,7 +193,9 @@
         "a4d331c4": "causa_radice:f0914d descrizione:5f390d dimensione:fe7b3d file:4e2778 fix:7cd6c5 fonte:647fef fonte_radiografia:385836 giro:340ca7 impatto:b285ef prova:38221d prova_eseguita:4db211 prova_tipo:cf59f4 reparto:fe7b3d severita:5a2b0a stato:e2974e titolo:92556e verificato:4db211",
         "1438c93d": "causa_radice:8b9930 descrizione:ba7fe7 dimensione:37ac98 file:9beee9 fix:076738 fonte:647fef fonte_radiografia:385836 giro:340ca7 impatto:98170d prova:379dca prova_eseguita:4db211 prova_tipo:cf59f4 reparto:37ac98 severita:5a2b0a stato:e2974e titolo:e3b64b verificato:4db211",
         "9c87352b": "causa_radice:04e1de descrizione:14073c dimensione:d49054 file:11d5ce fix:a6df49 fonte:647fef fonte_radiografia:385836 giro:340ca7 impatto:6582f6 prova:714c76 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:d49054 severita:5a2b0a stato:e2974e titolo:ba4a2a verificato:4db211",
-        "2b221cad": "causa_radice:d8a372 descrizione:c8ed60 dimensione:2fd886 file:efe622 fix:64ddd6 fonte:647fef fonte_radiografia:ce5550 giro:340ca7 impatto:5e14e2 prova:e8d89e prova_eseguita:4db211 prova_tipo:cf59f4 reparto:a6282e severita:5a2b0a stato:e2974e titolo:1c2049 verificato:4db211"
+        "6b5b944d": "causa_radice:c6db8d descrizione:52f037 dimensione:d49054 file:96cc12 fix:5e3de6 fonte:647fef fonte_radiografia:46c6ab giro:310ca2 impatto:db877c prova:53bd9b prova_eseguita:4db211 prova_tipo:cf59f4 reparto:d49054 severita:5a2b0a stato:e2974e titolo:9a1e99 verificato:4db211",
+        "2b221cad": "causa_radice:d8a372 descrizione:c8ed60 dimensione:2fd886 file:efe622 fix:64ddd6 fonte:647fef fonte_radiografia:ce5550 giro:340ca7 impatto:5e14e2 prova:e8d89e prova_eseguita:4db211 prova_tipo:cf59f4 reparto:a6282e severita:5a2b0a stato:e2974e titolo:1c2049 verificato:4db211",
+        "e6d7e23b": "causa_radice:c2d40d descrizione:a6f834 dimensione:98261b file:43d34a fix:90217b fonte:647fef fonte_radiografia:46c6ab giro:310ca2 impatto:1ba99b prova:07a92b prova_eseguita:4db211 prova_tipo:cf59f4 reparto:98261b severita:5a2b0a stato:e2974e titolo:9c58c3 verificato:4db211"
       }
     },
     {
@@ -277,10 +285,10 @@
   "fonti_non_lette": [],
   "sintesi": "Il problema più grave trovato oggi era una chiave del database leggibile da chiunque, e Nicola l'ha già spenta. Dei difetti nuovi nessuno è bloccante, ma il rimborso di un ordine in contanti va ancora fatto a mano, fuori dal sito.",
   "meta": {
-    "findings": 2899,
+    "findings": 2907,
     "bloccanti": 36,
-    "gravi": 656,
-    "minori": 2207,
+    "gravi": 657,
+    "minori": 2214,
     "agenti": null
   },
   "confronto_precedente": {
@@ -295,19 +303,19 @@
       "chiave": "qa-flussi",
       "nome": "Flussi critici",
       "fonte": "marketplace",
-      "totale": 39,
+      "totale": 40,
       "bloccanti": 0,
       "gravi": 1,
-      "minori": 38
+      "minori": 39
     },
     {
       "chiave": "pagamenti-stripe",
       "nome": "Pagamenti",
       "fonte": "marketplace",
-      "totale": 16,
+      "totale": 18,
       "bloccanti": 0,
       "gravi": 2,
-      "minori": 14
+      "minori": 16
     },
     {
       "chiave": "ai-endpoints",
@@ -376,19 +384,19 @@
       "chiave": "dati-analytics",
       "nome": "Dati e analitica",
       "fonte": "marketplace",
-      "totale": 3,
+      "totale": 4,
       "bloccanti": 0,
       "gravi": 0,
-      "minori": 3
+      "minori": 4
     },
     {
       "chiave": "privacy-legale",
       "nome": "Privacy e legale",
       "fonte": "marketplace",
-      "totale": 17,
+      "totale": 19,
       "bloccanti": 0,
-      "gravi": 2,
-      "minori": 15
+      "gravi": 3,
+      "minori": 16
     },
     {
       "chiave": "layout-responsive",
@@ -466,14 +474,23 @@
       "chiave": "stati-ui",
       "nome": "stati-ui",
       "fonte": "marketplace",
+      "totale": 2,
+      "bloccanti": 0,
+      "gravi": 0,
+      "minori": 2
+    },
+    {
+      "chiave": "performance",
+      "nome": "Velocita'",
+      "fonte": "marketplace",
       "totale": 1,
       "bloccanti": 0,
       "gravi": 0,
       "minori": 1
     },
     {
-      "chiave": "performance",
-      "nome": "Velocita'",
+      "chiave": "flussi-conversione",
+      "nome": "flussi-conversione",
       "fonte": "marketplace",
       "totale": 1,
       "bloccanti": 0,
@@ -1315,6 +1332,25 @@
       "fonte_radiografia": "radiografia 2026-11-06 · S07 · verificata dentro la sessione, non dal controllo finale"
     },
     {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "Salvando le taglie, se la scorta cambia a metà il negozio legge «riapri e salva di nuovo», ma le taglie tolte sono già cancellate",
+      "severita": "minore",
+      "file": "lib/products/persistVariantsServer.ts:123-127 (cancellazione) · :129-142 (aggiornamenti condizionati sulla scorta) · :144-147 (nuove taglie)",
+      "descrizione": "saveProductVariantsServer fa tre scritture separate, senza transazione. Prima cancella le taglie tolte, poi aggiorna quelle cambiate con la condizione «la scorta è ancora quella che avevi davanti», infine inserisce le nuove. Se un cliente compra fra la lettura e l'aggiornamento condizionato, l'aggiornamento non tocca nessuna riga e lancia «La scorta di M è cambiata mentre modificavi… salva di nuovo». A quel punto le taglie tolte sono già sparite, gli aggiornamenti precedenti sono già scritti e le nuove taglie non ci sono. Le righe d'ordine che puntavano alla taglia cancellata perdono il collegamento, perché la chiave esterna è ON DELETE SET NULL.",
+      "impatto": "Il negoziante legge che non è stato salvato niente, riapre e trova la L sparita e la XL mancante. La finestra è stretta: serve un ordine durante il salvataggio. Per questo è minore.",
+      "fix": "Tutto in una funzione del database con una transazione sola. Oppure: prima gli aggiornamenti condizionati, e solo se passano tutti la cancellazione e gli inserimenti.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "cd /home/user/ad-mycity && W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/quarto-giro/lavoro-Q-minori; S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/terzo-giro; mkdir -p marketplace/.verifica-Q-minori && cp $W/vitest.c2.config.mts $S/cercatore-2/varianti-a-meta.test.ts marketplace/.verifica-Q-minori/ && (cd marketplace && npx vitest run --config .verifica-Q-minori/vitest.c2.config.mts .verifica-Q-minori/varianti-a-meta.test.ts); rm -rf marketplace/.verifica-Q-minori",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "causa_radice": "Tre scritture indipendenti, e il controllo che può dire di no arriva dopo quella che non si può disfare.",
+      "giro": 4,
+      "verificato": true,
+      "fonte_radiografia": "radiografia 2026-11-06 · quarto giro (7/11)"
+    },
+    {
       "dimensione": "pagamenti-stripe",
       "reparto": "Pagamenti",
       "titolo": "Se l'addebito del credito risponde con un errore, la cassa lo considera mai avvenuto: l'ordine si paga per intero e il credito, se era già stato tolto, non torna",
@@ -1618,6 +1654,44 @@
       "giro": 1,
       "verificato": true,
       "fonte_radiografia": "radiografia 2026-11-06 · S03"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "Pagamenti",
+      "titolo": "Un negozio con Stripe a metà legge «pagamenti pronti» e la lista delle cose da fare sparisce, ma il server non gli manda il bonifico",
+      "severita": "minore",
+      "file": "components/seller/pronto-a-incassare.ts:17-20 · components/seller/SellerOnboardingChecklist.tsx:105 e :135 · components/seller/SellerHealthScore.tsx:104 · components/seller/StripeConnectButton.tsx:109 e :117 · app/seller/dashboard/esito-stripe.ts:90 · lib/stripe/payout.ts:210-215 · app/admin/payouts/page.tsx:130",
+      "descrizione": "La domanda «questo negozio può ricevere i soldi?» ha quattro risposte diverse. ① La lista «Completa il tuo negozio» e il punteggio della bacheca usano pagamentiPronti(): basta UNA cosa fra versamenti Stripe accesi, incassi Stripe accesi o IBAN scritto. ② Il server (releaseOrderPayout) paga solo con conto Stripe E versamenti accesi (payouts_enabled), altrimenti mette l'ordine in PENDING_SELLER_ONBOARDING. ③ Il pulsante della pagina Guadagni vuole incassi E versamenti accesi. ④ Il messaggio al ritorno da Stripe guarda solo i versamenti. Un caso concreto. Stripe accende gli incassi ma non ancora i versamenti, come succede quando deve verificare il conto in banca. Il negozio non ha messo l'IBAN, che nell'iscrizione è facoltativo. Allora la voce «Dati per ricevere i pagamenti» risulta fatta. Se era l'ultima voce aperta, la lista intera sparisce (riga 135, «hide when 100%»). Il punteggio dà i suoi 10 punti, e intanto il server ferma ogni bonifico. Anche al lancio, con la carta spenta, il bonifico dei contanti lo fa Nicola a mano sull'IBAN letto da billing_iban (pagina bonifici dell'amministratore). Un negozio con solo Stripe e senza IBAN appare «pronto» sullo schermo, mentre nella pagina di Nicola l'IBAN manca.",
+      "impatto": "Il negoziante crede di aver finito e di incassare. I soldi delle vendite con carta restano fermi, e quelli in contanti non hanno un IBAN su cui arrivare. Sulla bacheca nessuno glielo dice: lo legge, contraddetto, solo aprendo la pagina Guadagni. Oggi il difetto dorme, perché in produzione non ci sono le chiavi Stripe. Si sveglia il giorno in cui Nicola accende la carta. (Il cercatore lo dava grave; il verificatore indipendente del peso lo giudica minore: Al lancio CARTA_ACCESA vale false e in produzione non ci sono le chiavi Stripe, quindi la pagina d'iscrizione a Stripe risponde «Stripe non configurato» e i campi stripe_* restano tutti falsi. In quella situazione pagamentiPronti() guarda solo l'IBAN, cioè proprio quello che serve a Nicola per il bonifico dei contanti, e il difetto non si può incontrare. Il giorno in cui la carta si accende il danno resta limitato: il server trattiene i soldi in PENDING_SELLER_ONBOARDING e riprova da solo quando arriva l'aggiornamento del conto da Stripe, quindi non si perde nulla, la pagina dei bonifici di Nicola segnala già «IBAN non impostato», e per regola la carta si accende solo dopo che Stripe ha verificato il conto del negozio faro.)",
+      "fix": "Una regola sola in pronto-a-incassare.ts, che legge l'interruttore della carta. Con la carta accesa: conto Stripe e payouts_enabled, la stessa condizione di lib/stripe/payout.ts. Con la carta spenta: IBAN valido, quello che usa Nicola. StripeConnectButton ed esito-stripe chiamano la stessa funzione. Una prova che passa lo stesso profilo sia a releaseOrderPayout sia a pagamentiPronti, ed esige che diano la stessa risposta.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "cd /home/user/ad-mycity && L=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/quarto-giro/lavoro-Q-T3-201-riprova && cd marketplace && mkdir -p .verifica-Q-T3-201-riprova && cp $L/vitest.config.mts $L/pronto-a-incassare.test.ts .verifica-Q-T3-201-riprova/ && npx vitest run --config .verifica-Q-T3-201-riprova/vitest.config.mts .verifica-Q-T3-201-riprova/pronto-a-incassare.test.ts; rm -rf .verifica-Q-T3-201-riprova",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "causa_radice": "La regola «pronto a incassare» è scritta in quattro posti: lista, pulsante, messaggio al ritorno, server. Quella della lista è stata allargata con un «oppure» per mettere d'accordo due riquadri dello schermo, senza confrontarla con quello che chiede il server che paga.",
+      "giro": 4,
+      "verificato": true,
+      "fonte_radiografia": "radiografia 2026-11-06 · quarto giro (7/11)"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "Pagamenti",
+      "titolo": "Un negozio con l'abbonamento disdetto vede ancora «Gestisci l'abbonamento», e il tasto risponde che l'abbonamento non è attivo",
+      "severita": "minore",
+      "file": "components/seller/GestisciAbbonamento.tsx:29 · app/api/seller/subscription/portal/route.ts:35-38 · lib/stripe/webhook/abbonamenti.ts:56-59",
+      "descrizione": "Il riquadro si nasconde solo con lo stato vuoto, «none» o «inactive». Il webhook però scrive «canceled» quando l'abbonamento finisce. Con l'abbonamento dei negozi spento (ABBONAMENTO_NEGOZI_ACCESO falso), la rotta apre il portale solo per active, past_due, trialing o unpaid. Per «canceled» risponde 503: «L'abbonamento dei negozi non è attivo al momento».",
+      "impatto": "Il negoziante preme il tasto per scaricare le vecchie fatture e riceve un errore che non c'entra con quello che ha chiesto. È una richiesta di assistenza in più.",
+      "fix": "Il riquadro usa la stessa lista di stati della rotta. Oppure la rotta lascia aprire il portale anche a «canceled», quando esiste lo stripe_customer_id, per vedere le fatture.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "cd /home/user/ad-mycity && W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/quarto-giro/lavoro-Q-minori; mkdir -p marketplace/.verifica-Q-minori && cp $W/vitest.q.config.mts $W/abbonamento-disdetto.test.tsx marketplace/.verifica-Q-minori/ && (cd marketplace && npx vitest run --config .verifica-Q-minori/vitest.q.config.mts); rm -rf marketplace/.verifica-Q-minori",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "causa_radice": "Gli stati con cui «c'è qualcosa da gestire» sono scritti due volte, in modo diverso, nel componente e nella rotta.",
+      "giro": 4,
+      "verificato": true,
+      "fonte_radiografia": "radiografia 2026-11-06 · quarto giro (7/11)"
     },
     {
       "dimensione": "ai-endpoints",
@@ -3296,6 +3370,25 @@
       "fonte_radiografia": "radiografia 2026-11-06 · S08"
     },
     {
+      "dimensione": "dati-analytics",
+      "reparto": "Dati e analitica",
+      "titolo": "Il filtro del filmato si ferma alla prima parentesi: il resto della ricerca esce in chiaro verso PostHog",
+      "severita": "minore",
+      "file": "lib/analytics/filmato-senza-dati-personali.ts:61 (espressione UN_INDIRIZZO_DENTRO_IL_TESTO) e :76-85 · components/SearchBar.tsx:114, :220, :288, :308 (encodeURIComponent lascia ( e ) in chiaro)",
+      "descrizione": "La rete che toglie i dati personali dal filmato dello schermo e dagli elementi cliccati cerca gli indirizzi dentro i testi con un'espressione che considera «(» e «)» un confine. La barra di ricerca costruisce /search?q= con encodeURIComponent, che le parentesi non le codifica, e il browser le lascia così anche in location.href. Risultato: per la ricerca «pane (mario.rossi@gmail.com)» la targa del filmato esce come «https://mycity.it/search?q=***(mario.rossi%40gmail.com)» e il link cliccato fra le ricerche recenti come «/search?q=***(mario.rossi%40gmail.com)».",
+      "impatto": "Oggi nullo perché PostHog è spento al lancio (POSTHOG_ACCESO = false). Il giorno in cui si accende, per chi ha dato il consenso, quello che segue una parentesi nella ricerca (email, nome, telefono) parte verso PostHog nonostante il filtro «senza dati personali».",
+      "fix": "Non fermare la ricerca dell'indirizzo alle parentesi: prendere tutto fino al primo spazio o virgolette, oppure, trovato un «?», nascondere tutto fino alla fine del pezzo. Aggiungere alla prova esistente (tests/unit/il-filmato-non-porta-fuori-la-ricerca.test.ts) i casi con ( ) ! * ~.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "cd /home/user/ad-mycity && W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/quarto-giro/lavoro-Q-minori; S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/terzo-giro; mkdir -p marketplace/.verifica-Q-minori && cp $W/vitest.q.config.mts $S/cercatore-1/filmato-parentesi.test.ts $W/catena-reale.test.ts marketplace/.verifica-Q-minori/ && (cd marketplace && npx vitest run --config .verifica-Q-minori/vitest.q.config.mts); rm -rf marketplace/.verifica-Q-minori",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "causa_radice": "Due regole diverse su cosa può stare dentro un indirizzo: quella dell'espressione regolare e quella di encodeURIComponent e del browser, che lasciano le parentesi in chiaro.",
+      "giro": 4,
+      "verificato": true,
+      "fonte_radiografia": "radiografia 2026-11-06 · quarto giro (7/11)"
+    },
+    {
       "dimensione": "privacy-legale",
       "reparto": "Privacy e legale",
       "titolo": "Il negozio può togliere il diritto di ripensamento a qualunque prodotto, anche a un maglione, e il sito rifiuta il reso dicendo al cliente che è la legge",
@@ -3620,6 +3713,44 @@
       "fonte_radiografia": "radiografia 2026-11-06 · terzo giro"
     },
     {
+      "dimensione": "privacy-legale",
+      "reparto": "Privacy e legale",
+      "titolo": "Falla di sicurezza R310 da chiudere (privacy): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+      "severita": "grave",
+      "file": "(nel referto privato)",
+      "descrizione": "nel referto privato",
+      "impatto": "nel referto privato",
+      "fix": "nel referto privato",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "nel referto privato",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "causa_radice": "nel referto privato",
+      "giro": 4,
+      "verificato": true,
+      "fonte_radiografia": "radiografia 2026-11-06 · quarto giro (7/11)"
+    },
+    {
+      "dimensione": "privacy-legale",
+      "reparto": "Privacy e legale",
+      "titolo": "Se la persona toglie il consenso ai cookie statistici, Sentry continua a misurare le sue pagine fino alla ricarica",
+      "severita": "minore",
+      "file": "lib/analytics/sentry-config.ts:21-33 (tracesSampleRate fisso calcolato una volta) · instrumentation-client.ts:68-70 (opzioniSentry() chiamata solo all'avvio)",
+      "descrizione": "Il 5/11 le misure di velocità di Sentry sono state legate al consenso statistico, ma il consenso si legge una volta sola: opzioniSentry() trasforma «ha detto sì» in un numero fisso (0.1) passato a Sentry.init. Non c'è un tracesSampler che richieda il consenso a ogni misura, e Sentry non ascolta l'evento mc:consent-change (lo ascoltano PostHog, Google Analytics e il contatore dei prodotti, non Sentry). La prova accetta i cookie, prende le opzioni dell'avvio, toglie il consenso e chiede la quota: resta 0.1.",
+      "impatto": "Oggi nullo perché il DSN di Sentry non è configurato. Quando lo sarà, chi toglie il consenso dal banner continua a essere misurato su un decimo delle pagine finché non ricarica, e il sito è a pagina singola: si naviga a lungo senza ricaricare. La revoca del consenso deve valere subito (art. 7.3 GDPR).",
+      "fix": "Al posto di tracesSampleRate usare tracesSampler: () => (hasConsent('analytics') ? 0.1 : 0), che Sentry chiama a ogni misura; se un giorno si aggiunge la registrazione dello schermo, fermarla su mc:consent-change. La prova qui sotto va nel set unitario.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "cd /home/user/ad-mycity && W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/quarto-giro/lavoro-Q-minori; S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/terzo-giro; mkdir -p marketplace/.verifica-Q-minori && cp $W/vitest.q.config.mts $S/cercatore-1/sentry-dopo-il-no.test.ts marketplace/.verifica-Q-minori/ && (cd marketplace && npx vitest run --config .verifica-Q-minori/vitest.q.config.mts); rm -rf marketplace/.verifica-Q-minori",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "causa_radice": "Il consenso viene letto all'avvio e congelato in un numero, invece di essere chiesto nel momento in cui la misura parte.",
+      "giro": 4,
+      "verificato": true,
+      "fonte_radiografia": "radiografia 2026-11-06 · quarto giro (7/11)"
+    },
+    {
       "dimensione": "layout-responsive",
       "reparto": "layout-responsive",
       "titolo": "Basta un negozio col nome lungo e sul telefono la home, l'elenco negozi e «vicino a te» diventano più larghe dello schermo",
@@ -3886,6 +4017,25 @@
       "fonte_radiografia": "radiografia 2026-11-06 · S10"
     },
     {
+      "dimensione": "stati-ui",
+      "reparto": "stati-ui",
+      "titolo": "Nella scheda ordine dell'amministratore un reclamo aperto non si vede: c'è scritto «Contestazione: —» e il bonifico resta «trattenuto» senza un motivo",
+      "severita": "minore",
+      "file": "app/admin/orders/[id]/page.tsx:216-217 · lib/admin/etichette.ts (STATO_CONTESTAZIONE) · migrations/184_il_reclamo_chiuso_libera_il_bonifico.sql:31-37",
+      "descrizione": "La riga «Contestazione» legge solo orders.dispute_status, cioè la contestazione aperta in banca, che con la carta spenta resta sempre vuota. Dalla migrazione 184, aprire un reclamo non scrive più niente sull'ordine. Il reclamo vive solo nella tabella disputes (status «open»), ed è lì che lo legge il giro dei bonifici per fermare il pagamento. La scheda non guarda nemmeno internal_dispute_status, anche se la mappa delle etichette conosce i suoi valori: chiusa a favore del negozio, del cliente, rimborso da ripartire.",
+      "impatto": "Il negozio chiede a Nicola «perché non mi pagate quell'ordine?». Nella scheda Nicola vede «Bonifico al negozio: trattenuto» e «Contestazione: —», cioè nessun motivo.",
+      "fix": "Insieme all'ordine si leggono i reclami aperti da disputes e internal_dispute_status. «Contestazione» li mostra tutti e due, con un link al reclamo.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "cd /home/user/ad-mycity/marketplace && bash tests/sql/harness/apply.sh mycity_q_q_minori >/dev/null 2>&1 && psql -d mycity_q_q_minori -At -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/terzo-giro/cercatore-2/reclamo-aperto-scheda-admin.sql; dropdb mycity_q_q_minori",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "causa_radice": "La 184 ha spostato il reclamo aperto fuori dall'ordine. La scheda dell'amministratore, nata prima, ha continuato a guardare la vecchia colonna.",
+      "giro": 4,
+      "verificato": true,
+      "fonte_radiografia": "radiografia 2026-11-06 · quarto giro (7/11)"
+    },
+    {
       "dimensione": "performance",
       "reparto": "Velocita'",
       "titolo": "La velocità del sito vista dai clienti veri non la misura nessuno",
@@ -3903,6 +4053,25 @@
       "giro": 1,
       "verificato": true,
       "fonte_radiografia": "radiografia 2026-11-06 · S11"
+    },
+    {
+      "dimensione": "flussi-conversione",
+      "reparto": "flussi-conversione",
+      "titolo": "«Ripeti ordine» rimette nel carrello anche i prodotti finiti o tolti dalla vendita, col prezzo di allora, e dice «aggiunti al carrello»",
+      "severita": "minore",
+      "file": "lib/riordino.ts:44 (lettura dei prezzi) · lib/riordino.ts:180-195 (addToCart senza controlli) · lib/riordino.ts:205-210 (messaggio)",
+      "descrizione": "prezziDiAdesso legge products con le regole del cliente. Un cliente vede solo i prodotti «available» di un negozio approvato (regola «Products visible to public if seller approved»). Se un prodotto è esaurito, in bozza o venduto, la lettura non lo restituisce. Il riordino lo mette comunque nel carrello al prezzo pagato allora. Non guarda nemmeno la scorta a zero. Il messaggio dice «N articoli aggiunti al carrello!». La frase «non è più disponibile» compare solo per le righe senza id, mai per i prodotti finiti.",
+      "impatto": "Il cliente vede il carrello pieno e un totale col prezzo vecchio. Lo scopre in cassa, che blocca con «non più disponibile»: un passo in più proprio dove si abbandona.",
+      "fix": "Il riordino legge anche status e stock. Tiene fuori quello che non è in vendita e lo conta in «non più disponibili» nel messaggio, come fa già la pagina della lista condivisa (app/shared-cart).",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "cd /home/user/ad-mycity && W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/quarto-giro/lavoro-Q-minori; (cd marketplace && bash tests/sql/harness/apply.sh mycity_q_q_minori >/dev/null 2>&1 && psql -d mycity_q_q_minori -At -f $W/riordino-rls.sql | tail -2; dropdb mycity_q_q_minori); mkdir -p marketplace/.verifica-Q-minori && cp $W/vitest.q.config.mts $W/riordino-finiti.test.ts marketplace/.verifica-Q-minori/ && (cd marketplace && npx vitest run --config .verifica-Q-minori/vitest.q.config.mts); rm -rf marketplace/.verifica-Q-minori",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "causa_radice": "Il ripiego «senza rete uso il prezzo storico» tratta allo stesso modo la rete caduta e il prodotto che la regola del database nasconde perché non è più in vendita.",
+      "giro": 4,
+      "verificato": true,
+      "fonte_radiografia": "radiografia 2026-11-06 · quarto giro (7/11)"
     },
     {
       "dimensione": "immagini-media",

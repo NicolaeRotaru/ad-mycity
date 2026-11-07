@@ -126,6 +126,10 @@ const DESTINAZIONE = [
   ["consegne/account-negozi/", "business"],
   ["consegne/customer-success/", "business"],
   ["consegne/onboarding/", "business"],
+  // 7/11/2026 — l'accoglienza di un negozio appena entrato (vetrina vista da cliente, obblighi, bozze
+  // dei dati, piano delle prime 4 settimane, materiale): è onboarding fatto dalla piattaforma, cioè
+  // lavoro sul negozio che incassa, non sulla macchina.
+  ["consegne/accoglienza-negozi/", "business"],
   ["consegne/supervisione/", "business"],
   ["consegne/operations/", "business"],
   ["consegne/intelligence/", "business"],

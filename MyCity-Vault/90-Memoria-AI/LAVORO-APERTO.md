@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-06 19:17
+aggiornato: 2026-11-07 00:34
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -32,7 +32,11 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 
 **Dodici controlli prima di aprire, fuori dal codice** (6/11 alle 02:10). Pannelli dei fornitori, posta, banco del fornaio: quasi tutti tuoi, quasi tutti sotto la mezz'ora. Il più urgente è spegnere su GitHub i token vecchi (dettagli dati in chat, non nel repository pubblico). Poi la posta di Supabase per le iscrizioni, i conti Stripe verificati, il fattorino approvato, la posta che non finisce nello spam. Elenco: `consegne/ad/2026-11-06-controlli-prima-dell-apertura.md`.
 
-**La radiografia del sito in 12 sessioni è finita** (6/11 alle 19:17). Entrano nel registro 175 difetti nuovi: nessun bloccante, 11 gravi, 164 minori. Se ne chiudono 28 già riparati e 7 tornano aperti; le voci aperte passano da 534 a 688. Restano a te quattro carte. La #230 sono le 33 domande delle sessioni. La #231 è un quarto giro per quello che è rimasto senza verifica esterna. La #232 è il piano della palestra con i costi. La #229 sono i token vecchi su GitHub. Il referto privato delle falle riservate è solo in chat. Referto: `consegne/audit/2026-11-06-radiografia.md`. Richiesta: NicolaeRotaru/ad-mycity#936.
+**La palestra è accesa** (7/11 alle 02:16). È la copia del sito per le prove, carta #232 firmata. Il giro intero del pane è riuscito. Ha trovato un difetto bloccante: il sito legge male vie del centro come Via Roma e le rifiuta come «troppo lontane». Gira il primo lotto: 114 prove su 533. Le prove con la carta aspettano gli avvisi di Stripe, che deve creare Nicola. Difetti trovati: `scratchpad/palestra/difetti-palestra.md`, da portare nel registro a fine lotti.
+
+**L'accoglienza dei negozi è pronta da firmare** (carta #233, 7/11 alle 03:41). È stata provata su Pane Quotidiano. Aspetta Nicola su tre cose: la procedura, chi scrive IBAN e dati della ditta, e il via all'avviso al fornaio.
+
+**La radiografia del sito in 12 sessioni è finita** (6/11 alle 19:17). Entrano nel registro 175 difetti nuovi: nessun bloccante, 11 gravi, 164 minori. Se ne chiudono 28 già riparati e 7 tornano aperti; le voci aperte passano da 534 a 688. Restano a te quattro carte. La #230 sono le 33 domande delle sessioni. La #231, il quarto giro, è fatta il 7/11: 8 difetti su 8 veri, voci aperte 696; resta la verifica esterna delle falle riservate. La #232 è il piano della palestra con i costi. La #229 sono i token vecchi su GitHub. Il referto privato delle falle riservate è solo in chat. Referto: `consegne/audit/2026-11-06-radiografia.md`. Richiesta: NicolaeRotaru/ad-mycity#936.
 
 **L'analisi «pronto prima possibile» è fatta** (5/11 alle 14:27). Dei 74 difetti seri del sito, 32 vanno riparati nel codice prima di aprire: due ondate. Altri 11 non sono codice e toccano a te, in una seduta di un'ora: chiavi di Vercel, aggiornamenti del database, falla del 31/10, indirizzo. Letto dal vivo verso le 14:25: su Vercel mancano ancora le chiavi del database, della posta e di Stripe; il database è fermo al 163. La data del 15/11 dipende anche da Stripe e dalla partita IVA, che da qui non vedo. Mi servono tre risposte: partita IVA, conti Stripe, «fatto» sul rimborso. Documento: `consegne/ad/2026-11-05-pronto-prima-possibile.md`.
 

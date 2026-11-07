@@ -1,12 +1,12 @@
 {
   "data": "2026-11-06 19:13",
   "tipo": "radiografia-marketplace",
-  "fonte": "radiografia in 12 sessioni (prompt v5): 12 sessioni a tema sui 2.587 file, ogni difetto in chiaro verificato da un agente qa che non l'aveva trovato (gravi: due agenti, prova e peso), un terzo giro piccolo dopo il critico di completezza; le falle riservate verificate solo dentro le sessioni e pubblicate col titolo generico",
+  "fonte": "radiografia in 12 sessioni (prompt v5): 12 sessioni a tema sui 2.587 file, ogni difetto in chiaro verificato da un agente qa che non l'aveva trovato (gravi: due agenti, prova e peso), un terzo giro piccolo dopo il critico di completezza; le falle riservate verificate solo dentro le sessioni e pubblicate col titolo generico; il 7/11, con la firma di Nicola, un quarto giro ha verificato gli 8 difetti del terzo giro",
   "codice_analizzato": "NicolaeRotaru/mycity @ db5164c (main)",
-  "totale": 175,
+  "totale": 183,
   "bloccanti": 0,
-  "gravi": 11,
-  "minori": 164,
+  "gravi": 12,
+  "minori": 171,
   "dimensioni": [
     {
       "dimensione": "qa-flussi",
@@ -674,6 +674,23 @@
           "verificato": true,
           "giro": 1,
           "fonte_radiografia": "radiografia 2026-11-06 · S07 · verificata dentro la sessione, non dal controllo finale"
+        },
+        {
+          "dimensione": "qa-flussi",
+          "titolo": "Salvando le taglie, se la scorta cambia a metà il negozio legge «riapri e salva di nuovo», ma le taglie tolte sono già cancellate",
+          "severita": "minore",
+          "file": "lib/products/persistVariantsServer.ts:123-127 (cancellazione) · :129-142 (aggiornamenti condizionati sulla scorta) · :144-147 (nuove taglie)",
+          "descrizione": "saveProductVariantsServer fa tre scritture separate, senza transazione. Prima cancella le taglie tolte, poi aggiorna quelle cambiate con la condizione «la scorta è ancora quella che avevi davanti», infine inserisce le nuove. Se un cliente compra fra la lettura e l'aggiornamento condizionato, l'aggiornamento non tocca nessuna riga e lancia «La scorta di M è cambiata mentre modificavi… salva di nuovo». A quel punto le taglie tolte sono già sparite, gli aggiornamenti precedenti sono già scritti e le nuove taglie non ci sono. Le righe d'ordine che puntavano alla taglia cancellata perdono il collegamento, perché la chiave esterna è ON DELETE SET NULL.",
+          "impatto": "Il negoziante legge che non è stato salvato niente, riapre e trova la L sparita e la XL mancante. La finestra è stretta: serve un ordine durante il salvataggio. Per questo è minore.",
+          "fix": "Tutto in una funzione del database con una transazione sola. Oppure: prima gli aggiornamenti condizionati, e solo se passano tutti la cancellazione e gli inserimenti.",
+          "causa_radice": "Tre scritture indipendenti, e il controllo che può dire di no arriva dopo quella che non si può disfare.",
+          "prova": "cd /home/user/ad-mycity && W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/quarto-giro/lavoro-Q-minori; S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/terzo-giro; mkdir -p marketplace/.verifica-Q-minori && cp $W/vitest.c2.config.mts $S/cercatore-2/varianti-a-meta.test.ts marketplace/.verifica-Q-minori/ && (cd marketplace && npx vitest run --config .verifica-Q-minori/vitest.c2.config.mts .verifica-Q-minori/varianti-a-meta.test.ts); rm -rf marketplace/.verifica-Q-minori",
+          "prova_tipo": "comando",
+          "prova_eseguita": true,
+          "esito_prova": "1 prova rossa su 1. Il messaggio 'è cambiata mentre modificavi' arriva, ma 'la taglia L è già stata cancellata: expected [ M, S ] to deeply equal [ L, M, S ]'. La gara fra lettura e scrittura è reale. La migrazione 161 (riga 251) scala la scorta della taglia a ogni ordine. In persistVariantsServer.ts la cancellazione (riga 125) viene prima dell'aggiornamento condizionato (righe 134-142), senza una transazione. Le righe d'ordine perdono la taglia per via di ON DELETE SET NULL (migrazione 080, riga 36). La funzione è chiamata dalla rotta admin dei prodotti e da persistVariants.ts.",
+          "verificato": true,
+          "giro": 4,
+          "fonte_radiografia": "radiografia 2026-11-06 · quarto giro (7/11)"
         }
       ]
     },
@@ -952,6 +969,40 @@
           "verificato": true,
           "giro": 1,
           "fonte_radiografia": "radiografia 2026-11-06 · S03"
+        },
+        {
+          "dimensione": "pagamenti-stripe",
+          "titolo": "Un negozio con Stripe a metà legge «pagamenti pronti» e la lista delle cose da fare sparisce, ma il server non gli manda il bonifico",
+          "severita": "minore",
+          "file": "components/seller/pronto-a-incassare.ts:17-20 · components/seller/SellerOnboardingChecklist.tsx:105 e :135 · components/seller/SellerHealthScore.tsx:104 · components/seller/StripeConnectButton.tsx:109 e :117 · app/seller/dashboard/esito-stripe.ts:90 · lib/stripe/payout.ts:210-215 · app/admin/payouts/page.tsx:130",
+          "descrizione": "La domanda «questo negozio può ricevere i soldi?» ha quattro risposte diverse. ① La lista «Completa il tuo negozio» e il punteggio della bacheca usano pagamentiPronti(): basta UNA cosa fra versamenti Stripe accesi, incassi Stripe accesi o IBAN scritto. ② Il server (releaseOrderPayout) paga solo con conto Stripe E versamenti accesi (payouts_enabled), altrimenti mette l'ordine in PENDING_SELLER_ONBOARDING. ③ Il pulsante della pagina Guadagni vuole incassi E versamenti accesi. ④ Il messaggio al ritorno da Stripe guarda solo i versamenti. Un caso concreto. Stripe accende gli incassi ma non ancora i versamenti, come succede quando deve verificare il conto in banca. Il negozio non ha messo l'IBAN, che nell'iscrizione è facoltativo. Allora la voce «Dati per ricevere i pagamenti» risulta fatta. Se era l'ultima voce aperta, la lista intera sparisce (riga 135, «hide when 100%»). Il punteggio dà i suoi 10 punti, e intanto il server ferma ogni bonifico. Anche al lancio, con la carta spenta, il bonifico dei contanti lo fa Nicola a mano sull'IBAN letto da billing_iban (pagina bonifici dell'amministratore). Un negozio con solo Stripe e senza IBAN appare «pronto» sullo schermo, mentre nella pagina di Nicola l'IBAN manca.",
+          "impatto": "Il negoziante crede di aver finito e di incassare. I soldi delle vendite con carta restano fermi, e quelli in contanti non hanno un IBAN su cui arrivare. Sulla bacheca nessuno glielo dice: lo legge, contraddetto, solo aprendo la pagina Guadagni. Oggi il difetto dorme, perché in produzione non ci sono le chiavi Stripe. Si sveglia il giorno in cui Nicola accende la carta. (Il cercatore lo dava grave; il verificatore indipendente del peso lo giudica minore: Al lancio CARTA_ACCESA vale false e in produzione non ci sono le chiavi Stripe, quindi la pagina d'iscrizione a Stripe risponde «Stripe non configurato» e i campi stripe_* restano tutti falsi. In quella situazione pagamentiPronti() guarda solo l'IBAN, cioè proprio quello che serve a Nicola per il bonifico dei contanti, e il difetto non si può incontrare. Il giorno in cui la carta si accende il danno resta limitato: il server trattiene i soldi in PENDING_SELLER_ONBOARDING e riprova da solo quando arriva l'aggiornamento del conto da Stripe, quindi non si perde nulla, la pagina dei bonifici di Nicola segnala già «IBAN non impostato», e per regola la carta si accende solo dopo che Stripe ha verificato il conto del negozio faro.)",
+          "fix": "Una regola sola in pronto-a-incassare.ts, che legge l'interruttore della carta. Con la carta accesa: conto Stripe e payouts_enabled, la stessa condizione di lib/stripe/payout.ts. Con la carta spenta: IBAN valido, quello che usa Nicola. StripeConnectButton ed esito-stripe chiamano la stessa funzione. Una prova che passa lo stesso profilo sia a releaseOrderPayout sia a pagamentiPronti, ed esige che diano la stessa risposta.",
+          "causa_radice": "La regola «pronto a incassare» è scritta in quattro posti: lista, pulsante, messaggio al ritorno, server. Quella della lista è stata allargata con un «oppure» per mettere d'accordo due riquadri dello schermo, senza confrontarla con quello che chiede il server che paga.",
+          "prova": "cd /home/user/ad-mycity && L=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/quarto-giro/lavoro-Q-T3-201-riprova && cd marketplace && mkdir -p .verifica-Q-T3-201-riprova && cp $L/vitest.config.mts $L/pronto-a-incassare.test.ts .verifica-Q-T3-201-riprova/ && npx vitest run --config .verifica-Q-T3-201-riprova/vitest.config.mts .verifica-Q-T3-201-riprova/pronto-a-incassare.test.ts; rm -rf .verifica-Q-T3-201-riprova",
+          "prova_tipo": "comando",
+          "prova_eseguita": true,
+          "esito_prova": "Rosso, uguale nei due lanci. Tests 1 failed | 1 passed (2). La prova del server passa: con incassi Stripe accesi, versamenti spenti e nessun IBAN, releaseOrderPayout risponde SELLER_NOT_READY, l'ordine va in PENDING_SELLER_ONBOARDING e il messaggio al ritorno da Stripe ha tono «attesa». La prova della lista fallisce: «la lista segna «fatto» un negozio che il server non paga (resta PENDING_SELLER_ONBOARDING): expected true to be false», in pronto-a-incassare.test.ts:84. Alla fine la cartella di prova è stata cancellata e git status è pulito.",
+          "verificato": true,
+          "giro": 4,
+          "fonte_radiografia": "radiografia 2026-11-06 · quarto giro (7/11)"
+        },
+        {
+          "dimensione": "pagamenti-stripe",
+          "titolo": "Un negozio con l'abbonamento disdetto vede ancora «Gestisci l'abbonamento», e il tasto risponde che l'abbonamento non è attivo",
+          "severita": "minore",
+          "file": "components/seller/GestisciAbbonamento.tsx:29 · app/api/seller/subscription/portal/route.ts:35-38 · lib/stripe/webhook/abbonamenti.ts:56-59",
+          "descrizione": "Il riquadro si nasconde solo con lo stato vuoto, «none» o «inactive». Il webhook però scrive «canceled» quando l'abbonamento finisce. Con l'abbonamento dei negozi spento (ABBONAMENTO_NEGOZI_ACCESO falso), la rotta apre il portale solo per active, past_due, trialing o unpaid. Per «canceled» risponde 503: «L'abbonamento dei negozi non è attivo al momento».",
+          "impatto": "Il negoziante preme il tasto per scaricare le vecchie fatture e riceve un errore che non c'entra con quello che ha chiesto. È una richiesta di assistenza in più.",
+          "fix": "Il riquadro usa la stessa lista di stati della rotta. Oppure la rotta lascia aprire il portale anche a «canceled», quando esiste lo stripe_customer_id, per vedere le fatture.",
+          "causa_radice": "Gli stati con cui «c'è qualcosa da gestire» sono scritti due volte, in modo diverso, nel componente e nella rotta.",
+          "prova": "cd /home/user/ad-mycity && W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/quarto-giro/lavoro-Q-minori; mkdir -p marketplace/.verifica-Q-minori && cp $W/vitest.q.config.mts $W/abbonamento-disdetto.test.tsx marketplace/.verifica-Q-minori/ && (cd marketplace && npx vitest run --config .verifica-Q-minori/vitest.q.config.mts); rm -rf marketplace/.verifica-Q-minori",
+          "prova_tipo": "comando",
+          "prova_eseguita": true,
+          "esito_prova": "La prova citata era solo una lettura del codice, quindi ne ho scritta una che si esegue. Con subscription_status='canceled' il componente vero GestisciAbbonamento produce 1599 caratteri di HTML con dentro un <button>. Con ABBONAMENTO_NEGOZI_ACCESO=false (Stripe e Supabase finti) la rotta vera POST /api/seller/subscription/portal risponde 503 'L’abbonamento dei negozi non è attivo al momento.'. Il webhook scrive davvero 'canceled' (abbonamenti.ts:34-35). Si arriva al difetto solo se un negozio con un abbonamento ancora in corso lo disdice: la rotta lascia aprire il portale finché lo stato è 'in corso'. Il difetto è minore.",
+          "verificato": true,
+          "giro": 4,
+          "fonte_radiografia": "radiografia 2026-11-06 · quarto giro (7/11)"
         }
       ]
     },
@@ -2492,6 +2543,23 @@
           "verificato": true,
           "giro": 1,
           "fonte_radiografia": "radiografia 2026-11-06 · S08"
+        },
+        {
+          "dimensione": "dati-analytics",
+          "titolo": "Il filtro del filmato si ferma alla prima parentesi: il resto della ricerca esce in chiaro verso PostHog",
+          "severita": "minore",
+          "file": "lib/analytics/filmato-senza-dati-personali.ts:61 (espressione UN_INDIRIZZO_DENTRO_IL_TESTO) e :76-85 · components/SearchBar.tsx:114, :220, :288, :308 (encodeURIComponent lascia ( e ) in chiaro)",
+          "descrizione": "La rete che toglie i dati personali dal filmato dello schermo e dagli elementi cliccati cerca gli indirizzi dentro i testi con un'espressione che considera «(» e «)» un confine. La barra di ricerca costruisce /search?q= con encodeURIComponent, che le parentesi non le codifica, e il browser le lascia così anche in location.href. Risultato: per la ricerca «pane (mario.rossi@gmail.com)» la targa del filmato esce come «https://mycity.it/search?q=***(mario.rossi%40gmail.com)» e il link cliccato fra le ricerche recenti come «/search?q=***(mario.rossi%40gmail.com)».",
+          "impatto": "Oggi nullo perché PostHog è spento al lancio (POSTHOG_ACCESO = false). Il giorno in cui si accende, per chi ha dato il consenso, quello che segue una parentesi nella ricerca (email, nome, telefono) parte verso PostHog nonostante il filtro «senza dati personali».",
+          "fix": "Non fermare la ricerca dell'indirizzo alle parentesi: prendere tutto fino al primo spazio o virgolette, oppure, trovato un «?», nascondere tutto fino alla fine del pezzo. Aggiungere alla prova esistente (tests/unit/il-filmato-non-porta-fuori-la-ricerca.test.ts) i casi con ( ) ! * ~.",
+          "causa_radice": "Due regole diverse su cosa può stare dentro un indirizzo: quella dell'espressione regolare e quella di encodeURIComponent e del browser, che lasciano le parentesi in chiaro.",
+          "prova": "cd /home/user/ad-mycity && W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/quarto-giro/lavoro-Q-minori; S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/terzo-giro; mkdir -p marketplace/.verifica-Q-minori && cp $W/vitest.q.config.mts $S/cercatore-1/filmato-parentesi.test.ts $W/catena-reale.test.ts marketplace/.verifica-Q-minori/ && (cd marketplace && npx vitest run --config .verifica-Q-minori/vitest.q.config.mts); rm -rf marketplace/.verifica-Q-minori",
+          "prova_tipo": "comando",
+          "prova_eseguita": true,
+          "esito_prova": "3 prove rosse su 3. Le 2 prove originali danno 'https://mycity.it/search?q=***(mario.rossi%40gmail.com)' e '/search?q=***(mario.rossi%40gmail.com)'. La mia prova aggiunta passa dal filtro vero di PostHog (proprietaSenzaDatiPersonali, agganciato a before_send): $current_url esce pulito ('search?q=***'), ma $elements_chain, $elements e la targa del filmato ($snapshot_data, tipo 4) portano ancora 'mario.rossi%40gmail.com'. La regex alla riga 61 tratta '(' e ')' come un confine. Correzione alla descrizione: non esistono 'ricerche recenti'. I link che portano il testo cercato sono 'Cerca comunque' e 'Vedi tutti i risultati' (SearchBar.tsx:220 e :288); le righe 114 e 308 sono router.push, non link. Oggi l'impatto è nullo perché POSTHOG_ACCESO = false (funzioni-al-lancio.ts:132). Il difetto è minore, come dichiarato.",
+          "verificato": true,
+          "giro": 4,
+          "fonte_radiografia": "radiografia 2026-11-06 · quarto giro (7/11)"
         }
       ]
     },
@@ -2787,6 +2855,40 @@
           "esito_prova": "Il difetto si riproduce. Ho rifatto la prova sul commit db5164c: 178 migrazioni applicate, nessuna fallita. Il visitatore senza account (ruolo anon) legge «Farmacia del Corso / Quarto, via Verdi 10 citofono Rossi» e psql esce con codice 3, cioè rosso.\n\nHo poi cercato di smentirlo da cinque lati, senza riuscirci.\n(1) La vista viva, pg_get_viewdef dopo tutte le migrazioni, espone o.delivery_city grezza. Ha security_invoker=off e il permesso di lettura (GRANT SELECT) per anon e authenticated.\n(2) Il componente components/LiveActivityFeed.tsx:22-24 e :171 stampa «Qualcuno a ${citta}» senza filtro. La classe CSS «truncate» accorcia solo quello che si vede: il testo intero arriva comunque nella risposta REST e nella pagina.\n(3) Nessuna normalizzazione della città, né nella cassa in contanti né in quella con carta: z.string().min(1).max(120) in app/api/orders/cod/route.ts:63 e in app/api/stripe/checkout/route.ts:57. Il controllo di zona (fuoriZonaDiConsegna, route.ts:1012-1029) lascia passare gli indirizzi che il geocodificatore non riconosce. La prova inserisce l'ordine passando dai trigger del database, quindi nessun trigger lo corregge.\n(4) Il riquadro 'liveActivity' è nell'ordine predefinito della home (lib/home-site.ts:279-282).\n(5) Una seconda riproduzione, con permessi più vicini a quelli di produzione, dà lo stesso risultato.\n\nPerché grave e non bloccante: il campo parte già compilato con «Piacenza» (app/checkout/page.tsx:454). La via o il cognome finiscono in vetrina solo se il cliente cancella «Piacenza» e scrive altro: succede, ma non a tutti. L'ordine annullato esce dalla vista. Non ci sono soldi in gioco e nessun flusso si ferma.\n\nCosa non ho verificato: il database vero (vietato). Non so quindi se site_settings.home_site in produzione tiene il riquadro attivo, né cosa contengono oggi i delivery_city reali. Il commento della migrazione 152 dice però che in produzione la vista dà righe: «1 → 0» con invoker acceso.\n\nPulizia: database di prova cancellato, ruolo finto_postgres annullato insieme alla transazione (ROLLBACK), nessuna cartella creata in marketplace/, git status pulito. Le mie due prove SQL stanno nella cartella verificatore-prova dello scratchpad.",
           "giro": 3,
           "fonte_radiografia": "radiografia 2026-11-06 · terzo giro"
+        },
+        {
+          "dimensione": "privacy-legale",
+          "titolo": "Falla di sicurezza R310 da chiudere (privacy): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+          "severita": "grave",
+          "file": "(nel referto privato)",
+          "descrizione": "nel referto privato",
+          "impatto": "nel referto privato",
+          "fix": "nel referto privato",
+          "causa_radice": "nel referto privato",
+          "prova": "nel referto privato",
+          "prova_tipo": "comando",
+          "prova_eseguita": true,
+          "esito_prova": "nel referto privato",
+          "verificato": true,
+          "giro": 4,
+          "fonte_radiografia": "radiografia 2026-11-06 · quarto giro (7/11)"
+        },
+        {
+          "dimensione": "privacy-legale",
+          "titolo": "Se la persona toglie il consenso ai cookie statistici, Sentry continua a misurare le sue pagine fino alla ricarica",
+          "severita": "minore",
+          "file": "lib/analytics/sentry-config.ts:21-33 (tracesSampleRate fisso calcolato una volta) · instrumentation-client.ts:68-70 (opzioniSentry() chiamata solo all'avvio)",
+          "descrizione": "Il 5/11 le misure di velocità di Sentry sono state legate al consenso statistico, ma il consenso si legge una volta sola: opzioniSentry() trasforma «ha detto sì» in un numero fisso (0.1) passato a Sentry.init. Non c'è un tracesSampler che richieda il consenso a ogni misura, e Sentry non ascolta l'evento mc:consent-change (lo ascoltano PostHog, Google Analytics e il contatore dei prodotti, non Sentry). La prova accetta i cookie, prende le opzioni dell'avvio, toglie il consenso e chiede la quota: resta 0.1.",
+          "impatto": "Oggi nullo perché il DSN di Sentry non è configurato. Quando lo sarà, chi toglie il consenso dal banner continua a essere misurato su un decimo delle pagine finché non ricarica, e il sito è a pagina singola: si naviga a lungo senza ricaricare. La revoca del consenso deve valere subito (art. 7.3 GDPR).",
+          "fix": "Al posto di tracesSampleRate usare tracesSampler: () => (hasConsent('analytics') ? 0.1 : 0), che Sentry chiama a ogni misura; se un giorno si aggiunge la registrazione dello schermo, fermarla su mc:consent-change. La prova qui sotto va nel set unitario.",
+          "causa_radice": "Il consenso viene letto all'avvio e congelato in un numero, invece di essere chiesto nel momento in cui la misura parte.",
+          "prova": "cd /home/user/ad-mycity && W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/quarto-giro/lavoro-Q-minori; S=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/terzo-giro; mkdir -p marketplace/.verifica-Q-minori && cp $W/vitest.q.config.mts $S/cercatore-1/sentry-dopo-il-no.test.ts marketplace/.verifica-Q-minori/ && (cd marketplace && npx vitest run --config .verifica-Q-minori/vitest.q.config.mts); rm -rf marketplace/.verifica-Q-minori",
+          "prova_tipo": "comando",
+          "prova_eseguita": true,
+          "esito_prova": "1 prova rossa su 1: 'Sentry continua a campionare le pagine dopo il «no»: expected 0.1 to be +0'. Ho cercato una difesa altrove e non c'è. sentry-config.ts:31 fissa tracesSampleRate a 0.1 una volta sola. instrumentation-client.ts:69 chiama opzioniSentry() solo dentro S.init. Nel codice non c'è nessun tracesSampler. beforeSendTransaction pulisce gli eventi ma non guarda il consenso. L'evento mc:consent-change lo ascoltano solo GoogleAnalytics, ProductViewTracker, RecentlyViewed e ActivityTracker, non Sentry. Oggi l'impatto è nullo perché senza DSN Sentry non parte.",
+          "verificato": true,
+          "giro": 4,
+          "fonte_radiografia": "radiografia 2026-11-06 · quarto giro (7/11)"
         }
       ]
     },
@@ -3070,6 +3172,23 @@
           "verificato": true,
           "giro": 1,
           "fonte_radiografia": "radiografia 2026-11-06 · S10"
+        },
+        {
+          "dimensione": "stati-ui",
+          "titolo": "Nella scheda ordine dell'amministratore un reclamo aperto non si vede: c'è scritto «Contestazione: —» e il bonifico resta «trattenuto» senza un motivo",
+          "severita": "minore",
+          "file": "app/admin/orders/[id]/page.tsx:216-217 · lib/admin/etichette.ts (STATO_CONTESTAZIONE) · migrations/184_il_reclamo_chiuso_libera_il_bonifico.sql:31-37",
+          "descrizione": "La riga «Contestazione» legge solo orders.dispute_status, cioè la contestazione aperta in banca, che con la carta spenta resta sempre vuota. Dalla migrazione 184, aprire un reclamo non scrive più niente sull'ordine. Il reclamo vive solo nella tabella disputes (status «open»), ed è lì che lo legge il giro dei bonifici per fermare il pagamento. La scheda non guarda nemmeno internal_dispute_status, anche se la mappa delle etichette conosce i suoi valori: chiusa a favore del negozio, del cliente, rimborso da ripartire.",
+          "impatto": "Il negozio chiede a Nicola «perché non mi pagate quell'ordine?». Nella scheda Nicola vede «Bonifico al negozio: trattenuto» e «Contestazione: —», cioè nessun motivo.",
+          "fix": "Insieme all'ordine si leggono i reclami aperti da disputes e internal_dispute_status. «Contestazione» li mostra tutti e due, con un link al reclamo.",
+          "causa_radice": "La 184 ha spostato il reclamo aperto fuori dall'ordine. La scheda dell'amministratore, nata prima, ha continuato a guardare la vecchia colonna.",
+          "prova": "cd /home/user/ad-mycity/marketplace && bash tests/sql/harness/apply.sh mycity_q_q_minori >/dev/null 2>&1 && psql -d mycity_q_q_minori -At -f /tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/terzo-giro/cercatore-2/reclamo-aperto-scheda-admin.sql; dropdb mycity_q_q_minori",
+          "prova_tipo": "comando",
+          "prova_eseguita": true,
+          "esito_prova": "Il database di prova si costruisce: 178 migrazioni applicate, 0 fallite. La prova stampa 'reclamo aperto in disputes: 1' e, sullo stesso ordine, 'dispute_status=(vuoto, mostra «—») · internal_dispute_status=(vuoto) · payout_status=HELD', poi ROLLBACK. Precisazione: HELD lo scrive a mano la prova stessa. È però lo stato normale di un ordine pagato in attesa (migrazione 042), e l'etichetta dice 'trattenuto'. La scheda ([id]/page.tsx:52 e :217) legge solo dispute_status. La migrazione 184 ha svuotato il trigger, che ora fa solo RETURN NEW. Il giro dei bonifici legge i reclami aperti dalla tabella disputes (release-payouts/route.ts:233 e :491). Quindi il motivo del blocco non si vede nella scheda dell'ordine.",
+          "verificato": true,
+          "giro": 4,
+          "fonte_radiografia": "radiografia 2026-11-06 · quarto giro (7/11)"
         }
       ]
     },
@@ -3092,6 +3211,28 @@
           "verificato": true,
           "giro": 1,
           "fonte_radiografia": "radiografia 2026-11-06 · S11"
+        }
+      ]
+    },
+    {
+      "dimensione": "flussi-conversione",
+      "findings": [
+        {
+          "dimensione": "flussi-conversione",
+          "titolo": "«Ripeti ordine» rimette nel carrello anche i prodotti finiti o tolti dalla vendita, col prezzo di allora, e dice «aggiunti al carrello»",
+          "severita": "minore",
+          "file": "lib/riordino.ts:44 (lettura dei prezzi) · lib/riordino.ts:180-195 (addToCart senza controlli) · lib/riordino.ts:205-210 (messaggio)",
+          "descrizione": "prezziDiAdesso legge products con le regole del cliente. Un cliente vede solo i prodotti «available» di un negozio approvato (regola «Products visible to public if seller approved»). Se un prodotto è esaurito, in bozza o venduto, la lettura non lo restituisce. Il riordino lo mette comunque nel carrello al prezzo pagato allora. Non guarda nemmeno la scorta a zero. Il messaggio dice «N articoli aggiunti al carrello!». La frase «non è più disponibile» compare solo per le righe senza id, mai per i prodotti finiti.",
+          "impatto": "Il cliente vede il carrello pieno e un totale col prezzo vecchio. Lo scopre in cassa, che blocca con «non più disponibile»: un passo in più proprio dove si abbandona.",
+          "fix": "Il riordino legge anche status e stock. Tiene fuori quello che non è in vendita e lo conta in «non più disponibili» nel messaggio, come fa già la pagina della lista condivisa (app/shared-cart).",
+          "causa_radice": "Il ripiego «senza rete uso il prezzo storico» tratta allo stesso modo la rete caduta e il prodotto che la regola del database nasconde perché non è più in vendita.",
+          "prova": "cd /home/user/ad-mycity && W=/tmp/claude-0/-home-user/528441c4-587c-512c-8da8-547598174a58/scratchpad/finale/quarto-giro/lavoro-Q-minori; (cd marketplace && bash tests/sql/harness/apply.sh mycity_q_q_minori >/dev/null 2>&1 && psql -d mycity_q_q_minori -At -f $W/riordino-rls.sql | tail -2; dropdb mycity_q_q_minori); mkdir -p marketplace/.verifica-Q-minori && cp $W/vitest.q.config.mts $W/riordino-finiti.test.ts marketplace/.verifica-Q-minori/ && (cd marketplace && npx vitest run --config .verifica-Q-minori/vitest.q.config.mts); rm -rf marketplace/.verifica-Q-minori",
+          "prova_tipo": "comando",
+          "prova_eseguita": true,
+          "esito_prova": "La query su Postgres è fatta come cliente autenticato su 4 prodotti di un negozio approvato. Tornano 2 righe su 4, 'Disponibile ma scorta 0, Focaccia'. Restano fuori le righe out_of_stock e draft. Nella prova vitest il riordino vero mette nel carrello [Focaccia 3.5, Torta finita 12], cioè anche il prodotto finito al prezzo di allora. Il messaggio è 'OK: 2 articoli aggiunti al carrello!' e la funzione ritorna 2. La prova è rossa. Correzione all'impatto: non lo si scopre solo in cassa. Dal 5/11 il carrello (app/cart/page.tsx:309-310 e :544-558) mette a scorta 0 i prodotti che non riesce a leggere. La riga diventa 'esaurito' e 'Togli l’articolo esaurito per continuare' blocca il passo in cassa. Il messaggio sbagliato del riordino resta vero. Il difetto è minore.",
+          "verificato": true,
+          "giro": 4,
+          "fonte_radiografia": "radiografia 2026-11-06 · quarto giro (7/11)"
         }
       ]
     }
