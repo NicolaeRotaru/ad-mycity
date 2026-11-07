@@ -1,0 +1,129 @@
+---
+tipo: istruzioni
+per: le sessioni che collaudano in una campagna della skill `riparazione` (K01…K04)
+data: 2026-11-07 09:20
+---
+
+# Le regole di chi collauda
+
+## In parole semplici
+
+Questo è il foglio che ogni sessione collaudatrice legge prima di cominciare. Il suo compito è provare a
+dimostrare che le riparazioni di altre sessioni **non** reggono. Se non ci riesce, la riparazione conta.
+
+Un esempio: per ogni riparazione un programma rimette il difetto e guarda se la prova diventa rossa. Poi,
+su tutti i gravi e su un campione dei minori, un agente guarda se la voce è chiusa davvero tutta e se la
+correzione ha rotto qualcosa accanto.
+
+## Cosa cambia per te
+
+Niente da fare: il foglio lo leggono le sessioni. Serve perché la verifica non stia più tutta sulla regista,
+due agenti alla volta: il 6/11 quella strada è costata circa 6 ore.
+
+## Cosa devi fare
+
+Niente. Le scelte le hai già fatte alla prima fermata della campagna.
+
+## Cosa non ho verificato
+
+Le sessioni di collaudo nascono il 7/11: il loro costo e il loro tempo li misura la prima campagna vera.
+
+---
+
+## Dettagli tecnici
+
+### Chi sei e dove lavori
+
+Sei il collaudatore `KNN`. La regista ti ha detto quali riparatori guardi (`R…`) e la cartella della
+campagna (`<cartella>`). Sei nel deposito `ad-mycity` al commit della regista: è la copia **fissata** di
+`cervello/prova-rimessa.mjs`, che nessun riparatore ha potuto toccare. **Non hai mai riparato niente di
+quello che guardi**, e non lo ripari adesso: tu giudichi.
+
+- I referti dei riparatori: `<cartella>/referti/RNN.json` se la regista li ha già copiati, altrimenti
+  `git show origin/<ramo del riparatore>:.riparazione/referto-RNN.json` nella copia del deposito bersaglio.
+- **Sito:** cloni il sito accanto e lo fermi sui due commit che servono, mai sul nome di un ramo:
+  `git clone --filter=blob:none https://github.com/NicolaeRotaru/mycity ../marketplace && git -C ../marketplace fetch origin <BASE> <testa del riparatore>`,
+  poi una volta `cd ../marketplace && npm ci`.
+- **Macchina:** il bersaglio è `ad-mycity` stesso: `git fetch origin <ramo del riparatore>`, e lavori in
+  una copia separata (worktree), mai nella tua.
+- **Una copia di lavoro per ogni esecutore in parallelo**, mai la stessa (lezione del 1/11: due collaudatori
+  nella stessa cartella si sovrascrivono): `git -C ../marketplace worktree add ../wt-RNN --detach <testa> && ln -s "$(cd ../marketplace && pwd)/node_modules" ../wt-RNN/node_modules`.
+- Spingi **solo** il tuo referto, `<cartella>/collaudi/KNN.json`, sul tuo ramo. Nient'altro.
+
+### Passo 1 — Su ogni voce, il programma
+
+Per ogni voce `riparato` o `parziale` del referto, con C = il suo commit:
+
+1. `git -C ../wt-RNN checkout --quiet --detach C` (l'albero deve essere pulito, a parte `node_modules`);
+2. `timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-RNN --base C^ --file <i file della voce> --prove <le sue prove> --json`
+   (macchina: aggiungi `--comando "node --test {prove}"`; voci SQL: `tests/sql/harness/apply.sh` e `run.sh`
+   su un Postgres locale);
+3. l'uscita va nel collaudo, col comando esatto:
+   - 0 → si passa al giudizio;
+   - 1 → `non_regge`: togliendo la correzione la prova non diventa rossa;
+   - 2 → sistema la condizione (albero sporco, commit che manca) e riprova **una** volta, poi `non_regge` col perché;
+   - 3 → la prova è rossa per la struttura: rimetti il difetto com'è scritto nella voce e guarda. Se non diventa
+     rossa, `non_regge`;
+   - 4 → fermati, `git checkout HEAD -- <file>`, scrivi cosa è successo.
+
+### Passo 2 — Il giudizio
+
+Il giudizio lo danno subagenti del tipo `qa`, con il mandato di **smentire**. Le due lenti della skill
+`collaudo`:
+- **chiude_tutta** — la voce, così com'è scritta nel registro, è chiusa tutta? O solo un pezzo?
+- **nata_rotta** — la correzione rompe qualcosa accanto? Gira davvero sul sito, o solo nella prova?
+
+Chi ha un giudizio pieno:
+- **tutti** i gravi e i bloccanti, uno per uno. Dove ci sono soldi, dati o permessi, due subagenti diversi,
+  uno per lente;
+- **tutti** i `gia_riparato_prima`: chiudono una voce senza cambiare codice, quindi la riga citata deve
+  mostrare il difetto assente **alla base**;
+- un **campione** dei minori di ogni riparatore: tutti quelli sui file che legano molte voci, più almeno il
+  30% degli altri (minimo 5; tutti se sono 5 o meno). I minori a gruppi di 6 al massimo per subagente.
+
+Quanti ne mancano te lo dice il programma: lancia
+`node cervello/riparazione-sessioni.mjs valida-collaudo <cartella>/collaudi/KNN.json --cartella <cartella> --json`
+sulla tua bozza. Nella riga `campioni` trovi per ogni riparatore quanti ne servono, quanti ne hai guardati e quali
+minori sui file che legano non hai ancora guardato (`hub_mancanti`). **La regola del campione la ricalcola il
+programma**: la tua parola «accettato» non conta, e se scrivi accettato quando non lo è il controllo è rosso.
+
+**Nel dubbio la voce non regge.** Chiudere un difetto vero lo nasconde; lasciarne aperto uno riparato costa
+solo un altro sguardo.
+
+### Il collaudo `<cartella>/collaudi/KNN.json`
+
+```json
+{
+  "collaudatore": "K01",
+  "riparatori": ["R01", "R02", "R03"],
+  "aggiornato": "2026-11-08 12:00",
+  "finita": false,
+  "voci": [
+    { "id": "R01-001", "chiave": "<la chiave della scheda>", "verdetto": "regge", "giudizio": "pieno",
+      "lenti": ["chiude_tutta", "nata_rotta"], "rimessa": { "uscita": 0, "comando": "timeout 540 node cervello/prova-rimessa.mjs …" },
+      "nota": "cosa ho provato a rompere" },
+    { "id": "R01-014", "chiave": "…", "verdetto": "regge", "giudizio": "nessuno",
+      "rimessa": { "uscita": 0, "comando": "…" } },
+    { "id": "R01-020", "chiave": "…", "verdetto": "non_regge", "giudizio": "pieno",
+      "lenti": ["chiude_tutta", "nata_rotta"], "rimessa": { "uscita": 0, "comando": "…" },
+      "nota": "chiude il caso del contante ma non quello della carta, che la voce nomina" }
+  ],
+  "campione": { "R01": { "accettato": true } }
+}
+```
+
+I verdetti: `regge | parziale | non_regge | rompe_altro`. Ogni voce `riparato`, `parziale` o
+`gia_riparato_prima` dei tuoi riparatori deve comparire. Salva e spingi ogni 20 voci, con `"finita": false`.
+
+### Prima di dire «finito»
+
+1. `valida-collaudo` verde sulla versione finale.
+2. `"finita": true`, spingi, e manda alla regista con `send_message` una riga per riparatore («R01: 28
+   reggono, 3 non reggono, campione accettato»), più le voci `rompe_altro` con il perché.
+3. Spegni quello che hai acceso (un server di prova, un Postgres) e togli le copie di lavoro
+   (`git worktree remove`).
+
+### Cosa non fai mai
+
+Riparare tu una voce, toccare i rami dei riparatori, mettere il sito online, scrivere sul database vero.
+I dettagli di una falla riservata non vanno nel collaudo: solo nel messaggio alla regista.

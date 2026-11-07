@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-11-06 09:54",
+  "aggiornato": "2026-11-07 08:51",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -26272,6 +26272,30 @@
       "verifica": {
         "tipo": "umano",
         "come": "Si chiude con una prova a comando: un campo tolto da CAMPI_EXTRA_DEL_REFERTO non fa uscire 1 il digest; e le tre mutazioni sopra diventano rosse."
+      }
+    },
+    {
+      "id": "AR-1163",
+      "titolo": "Le riparazioni in più sessioni non avevano un controllo che fermasse chi tocca i file degli altri: il 5/11 i file fuori territorio e i file temporanei li ha visti una persona a mano",
+      "dimensione": "guardiani-e-guardrail",
+      "dove": "consegne/audit/2026-11-05-dieci-sessioni-minori/LEGGIMI.md («Un file di un’altra sessione lo tocchi solo se… L’AD ricuce») · nessun programma guardava i rami: il diario della sorveglianza li controllava a mano ogni tre minuti",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-07 08:51",
+      "nato_come": "scoperta",
+      "nato_da": "replay del 7/11 sui dieci rami del 5/11 (claude/youthful-gates-blkxmk-m01…m10, base 21212f9a), fatto per costruire la riparazione in sessioni chiesta da Nicola",
+      "origine": "replay",
+      "fonte": "strategia della riparazione in sessioni del 7/11 (skill riparazione)",
+      "owner": "builder-automazioni",
+      "sintomo": "Rimessi sotto un controllo meccanico con i territori di allora, i dieci rami del 5/11 toccano 89 file di altre sessioni o di nessuno, 28 prove esistenti che non importano nessun file della sessione, 6 file temporanei (.montati, .prova-colonna-sparita) e 65 file toccati da due rami o più, con conflitti veri su 12 file in 6 sessioni. Il 5/11 erano stati ricuciti a mano 16 file e 8 prove erano rosse solo dopo l’unione.",
+      "causa_radice": "Le regole delle campagne in parallelo erano scritte in un testo che ogni sessione leggeva (e una regola permetteva di sconfinare: «l’AD ricuce»), ma nessun programma le misurava sulla storia dei rami. Un testo non diventa rosso quando una sessione lo disattende.",
+      "fix_proposto": "Fatto: cervello/riparazione-sessioni.mjs. guardia-ramo cammina nella storia del ramo commit per commit (non nel diff netto); la proprietà dei file si decide onda per onda da dividi; prova-unione segna ogni file toccato da due rami e prova l’unione senza toccare l’albero di lavoro. La skill riparazione lo mette nella sorveglianza ogni 30 minuti.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/riparazione-sessioni.test.mjs",
+        "nota": "30 casi; 24 mutazioni a mano sul programma, tutte rosse (le principali in cervello/mutanti.json, difetto AR-1163). Replay sui dieci rami veri del 5/11: trova da solo i 6 file temporanei e gli sconfinamenti che il diario aveva segnato a mano. Si chiude con auto-fix dopo l’unione della PR."
       }
     }
   ],
