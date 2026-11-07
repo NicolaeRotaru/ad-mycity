@@ -6740,3 +6740,5 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 **Le regole che restano:** il sito vero non si tocca; nessuna variabile della palestra vale per Production; nessuna chiave vera, a parte quelle di prova che mette Nicola; la palestra non può scrivere sul database vero né mandare email a persone vere. La copia del database si cancella appena le prove sono finite.
 
 **Colore:** 🔴 spesa vera, piccola, firmata da Nicola.
+
+- **2026-11-07 01:22 · 🟡 Palestra: costruito il database di prova, chiesti a Nicola quattro passi su Vercel.** Cosa: aggiunto all'ambiente «mycity» solo l'indirizzo del database di prova (`yilfozxodylguhcjdqvy.supabase.co`, approvato da Nicola nel riquadro); applicate le 178 migrazioni e le semine del sito adattate; due funzioni sul ramo di prova (una per l'SQL, protetta da gettone; una che fa da intelligenza artificiale finta); commit `c9eb7493` sul ramo `claude/serene-wright-7l023n` del sito, che accende la carta solo con una variabile della palestra e non si unisce mai. Perché: carta 232 firmata alle 00:55. Vercel ha rifiutato la creazione del progetto (403): non ho cercato strade di lato.
