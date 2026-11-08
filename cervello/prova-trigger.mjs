@@ -34,6 +34,7 @@
 //   node cervello/prova-trigger.mjs                     # il banco versionato, 3 giri a frase
 //   node cervello/prova-trigger.mjs --giri 1            # sweep veloce mentre si lavora al testo
 //   node cervello/prova-trigger.mjs --descrizione f.txt # misura una description CANDIDATA
+//   node cervello/prova-trigger.mjs --skill riparazione # un'altra skill: il suo banco, la sua misura
 //   node cervello/prova-trigger.mjs --json
 //
 // Uscita (contratto guardiani, AR-322):
@@ -55,7 +56,16 @@ const arg = (nome, def) => {
   return i !== -1 && process.argv[i + 1] ? process.argv[i + 1] : def;
 };
 
-const SKILL_DIR = join(AD_ROOT, ".claude/skills/cantiere");
+// `--skill <nome>` (7/11): lo strumento nasceva per `cantiere` soltanto. Lanciato con `--frasi` di
+// un'altra skill avrebbe spostato `cantiere`, misurato la SUA description sulle frasi sbagliate e
+// sovrascritto la sua ultima misura. Da qui la skill si nomina una volta, e tutto il resto (la
+// cartella spostata, il comando finto, il banco, il file della misura) discende dal nome.
+const NOME_SKILL = arg("--skill", "cantiere");
+if (!/^[a-z0-9-]+$/.test(NOME_SKILL)) {
+  console.log(`prova-trigger: «${NOME_SKILL}» non è un nome di skill (solo lettere minuscole, cifre e trattini) → non posso misurare`);
+  process.exit(2);
+}
+const SKILL_DIR = join(AD_ROOT, ".claude/skills", NOME_SKILL);
 const COMANDI = join(AD_ROOT, ".claude/commands");
 const BANCO = arg("--frasi", join(SKILL_DIR, "evals/frasi-di-nicola.json"));
 const GIRI = Number(arg("--giri", "3"));
@@ -185,7 +195,7 @@ async function main() {
     esci(2, "prova-trigger: la CLI `claude` non risponde → non posso misurare");
   }
   if (!existsSync(BANCO)) esci(2, `prova-trigger: banco assente (${BANCO}) → non posso misurare`);
-  if (!existsSync(join(SKILL_DIR, "SKILL.md"))) esci(2, "prova-trigger: la skill cantiere non è installata → non posso misurare");
+  if (!existsSync(join(SKILL_DIR, "SKILL.md"))) esci(2, `prova-trigger: la skill ${NOME_SKILL} non è installata → non posso misurare`);
 
   let frasi;
   try {
@@ -207,8 +217,8 @@ async function main() {
   // macchina si spegne a metà, la skill spostata resta DENTRO il repo, dove la si ritrova. Rete di
   // sicurezza finale: `git checkout -- .claude/skills/cantiere` la rimette com'era sul ramo.
   const lavoro = mkdtempSync(join(AD_ROOT, ".git", "prova-trigger-"));
-  const spostata = join(lavoro, "cantiere-da-parte");
-  const nomeFinto = `cantiere-prova-${process.pid.toString(36)}`;
+  const spostata = join(lavoro, `${NOME_SKILL}-da-parte`);
+  const nomeFinto = `${NOME_SKILL}-prova-${process.pid.toString(36)}`;
   const fileComando = join(COMANDI, `${nomeFinto}.md`);
   let daRimettere = false;
   let comandiCreata = false;
@@ -248,7 +258,7 @@ async function main() {
       mkdirSync(COMANDI, { recursive: true });
       comandiCreata = true;
     }
-    writeFileSync(fileComando, `---\ndescription: |\n  ${descrizione}\n---\n\n# cantiere\n\n${descrizione}\n`);
+    writeFileSync(fileComando, `---\ndescription: |\n  ${descrizione}\n---\n\n# ${NOME_SKILL}\n\n${descrizione}\n`);
     // AR-345 — il marcatore nasce PRIMA dello spostamento: se nascesse dopo esisterebbe una
     // finestra, corta ma vera, in cui la skill è già via e il cancello non lo sa ancora.
     writeFileSync(marcatore, `${spostata}\n`);

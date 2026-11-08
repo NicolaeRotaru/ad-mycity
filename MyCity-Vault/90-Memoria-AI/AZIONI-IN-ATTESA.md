@@ -31,6 +31,21 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🔴 #234 — Prima di far partire il risolutore, di' dove sta il difetto dei contanti e scegli sugli allergeni · ⏳ accodata 2026-11-07 14:37
+
+**In parole semplici.** Il risolutore è la macchina che ripara i difetti in sessioni parallele. Lavora solo sui difetti scritti nel registro. Oggi la palestra ha anticipato cinque difetti, e io li ho fatti verificare a due agenti per voce. Quattro sono nel registro. Il quinto, il registro dei contanti, non c'è.
+
+**Cosa cambia per te.** Esempio: un fattorino consegna in contanti alle 12, versa alle 13, poi consegna di nuovo alle 14. Il registro segna già versati anche i soldi delle 14, che ha ancora in tasca. I pagamenti ai negozi restano giusti. Però il controllo che blocca la cancellazione di un fattorino con contanti da restituire si fida di quel registro. Se il difetto non entra nel registro, il risolutore non lo ripara.
+
+**Cosa devi fare tu.** Due scelte. Uno: dimmi se questo difetto è una delle tre falle riservate che la palestra ti ha raccontato in chat. Se non lo è, lo aggiungo io al registro. Due: gli allergeni. Quattro alimenti di Pane Quotidiano si comprano senza allergeni, e il cliente non vede nessun avviso. Puoi toglierli dalla vendita finché il negozio non li compila. Oppure lasciarli in vendita e sbloccare solo il ritocco della scheda. È una scelta legale, quindi tua.
+
+**Cosa non ho verificato.** Il database vero non l'ho letto. Nessuna prova del sito è stata eseguita: nella copia del sito mancavano le dipendenze.
+
+Cosa cambia: il risolutore parte con tutti i difetti verificati dentro il registro, compreso quello dei contanti, e sa quale strada prendere sugli allergeni.
+Se va bene: aggiungo il difetto dei contanti al registro, se serve, e alla tua frase «ripara subito i difetti del lancio» la regista prepara il piano e si ferma a chiederti «via?».
+
+La verifica dei cinque difetti, con causa, correzione e prova per ognuno: `consegne/audit/2026-11-07-verifica-difetti-palestra/referto.md`. Il registro scritto dalla palestra è nella richiesta NicolaeRotaru/ad-mycity#940.
+
 ### 🔴 #233 — Firma l'accoglienza dei negozi nuovi, provata su Pane Quotidiano · ⏳ accodata 2026-11-07 03:41
 
 **In parole semplici.** L'accoglienza è il lavoro che faccio quando entra un negozio. Lo guardo come un cliente e controllo gli obblighi. Preparo i suoi dati e provo il primo ordine in palestra. Poi lo seguo per 4 settimane. L'ho provata su Pane Quotidiano il 7/11.
@@ -1113,14 +1128,14 @@ Solo con questo, i 2 pallini della Cabina diventano verdi (o rossi veri, se un g
 
 ---
 
-### 🟡 #42 — Togli alla macchina il permesso di eseguire qualunque programma si scriva da sola · ⏳ accodata 2026-07-29 18:50 · aggiornata 2026-11-05 11:47
+### 🟡 #42 — Togli alla macchina il permesso di eseguire qualunque programma si scriva da sola · ⏳ accodata 2026-07-29 18:50 · aggiornata 2026-11-07 10:04
 
 **Cosa cambia:** nel foglio dei permessi (`.claude/settings.json`) ci sono due righe col jolly: `node cervello/*.mjs` e `bash cervello/*.sh`. Queste righe non dicono «può lanciare questi programmi». Dicono «può lanciare qualunque programma finisca in quella cartella» — e quella cartella la scrive la macchina stessa. I freni veri (la pausa, la tua firma, il controllo su chi riceve un messaggio) stanno dentro ai singoli programmi. Con il jolly si può arrivare a un programma senza passare dal freno che contiene. Non sto dicendo che sia già successo. Sto dicendo che oggi nessuno lo impedirebbe. **Novità 13/8:** il jolly non è solo un rischio — è anche il motivo per cui `test-cervello.mjs`, `gate-veri.mjs`, `pota-apprendimento.mjs` e altri restano bloccati da un'approvazione che in sessione chat non arriva mai (documentato ~16 volte in [[STATO]] dal 4/8). Applicare questa card li sblocca anche per questo.
 **Se va bene:** sostituisci le due righe col jolly con i due blocchi qui sotto. Poi lanci `node cervello/permessi-check.mjs` e quella segnalazione sparisce. Da lì in avanti, se serve un programma nuovo, aggiungi il permesso a mano. Aggiungere una riga si vede. Il jolly no.
 
 **⚠️ Aggiornato il 25/10: l'elenco qui sotto era indietro di 19 programmi** (il 23/8 lo era di 51). Dieci erano entrati nel documento ma non in questa card. Nove non li vedeva lo strumento che rifà l'elenco. Adesso una prova diventa rossa se questa card resta indietro rispetto a chi lancia.
 
-Al posto di `"Bash(node cervello/*.mjs:*)"` — 138 righe:
+Al posto di `"Bash(node cervello/*.mjs:*)"` — 140 righe:
 
 ```json
       "Bash(node cervello/adozione-medicine.mjs:*)",
@@ -1209,6 +1224,7 @@ Al posto di `"Bash(node cervello/*.mjs:*)"` — 138 righe:
       "Bash(node cervello/pota-memoria.mjs:*)",
       "Bash(node cervello/prediagnosi.mjs:*)",
       "Bash(node cervello/prossima-card.mjs:*)",
+      "Bash(node cervello/prossimo-ar.mjs:*)",
       "Bash(node cervello/prova-rimessa.mjs:*)",
       "Bash(node cervello/prova-sito.mjs:*)",
       "Bash(node cervello/prova-trigger.mjs:*)",
@@ -1219,6 +1235,7 @@ Al posto di `"Bash(node cervello/*.mjs:*)"` — 138 righe:
       "Bash(node cervello/registro-scelte-check.mjs:*)",
       "Bash(node cervello/retry-policy.mjs:*)",
       "Bash(node cervello/riconcilia-perimetro.mjs:*)",
+      "Bash(node cervello/riparazione-sessioni.mjs:*)",
       "Bash(node cervello/rotte-scriventi-check.mjs:*)",
       "Bash(node cervello/salute.mjs:*)",
       "Bash(node cervello/sblocco-capacita.mjs:*)",

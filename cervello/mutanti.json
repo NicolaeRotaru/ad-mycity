@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-11-06 09:25",
+ "aggiornato": "2026-11-07 09:49",
  "mutanti": [
   {
    "lotto": 30,
@@ -11055,6 +11055,114 @@
    "cerca": "i suoi problemi non sono nel conto` });\n      tieni(fonte.id);\n",
    "sostituisci": "i suoi problemi non sono nel conto` });\n",
    "test": "cervello/test/il-digest-tiene-il-lavoro-della-casa.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "la guardia guarda solo la testa del ramo e non la storia: un file altrui toccato e poi rimesso sparisce",
+   "cerca": "const commit = (gitOk(dir, [\"rev-list\", \"--reverse\", `${partenza}..${ref}`]) ?? \"\").split(\"\\n\").filter(Boolean);",
+   "sostituisci": "const commit = (gitOk(dir, [\"rev-list\", \"-n\", \"1\", ref]) ?? \"\").split(\"\\n\").filter(Boolean);",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "un file di un altra sessione passa la guardia come quelli della sessione (lo sconfinamento del 5/11)",
+   "cerca": "  return `${p}: è un file di un'altra sessione o di nessuno in quest'onda`;",
+   "sostituisci": "  return null;",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "i file temporanei delle prove entrano nel ramo senza che nessuno lo dica (.montati del 5/11)",
+   "cerca": "if (!allaBase && TEMPORANEI.some((re) => re.test(p))) return",
+   "sostituisci": "if (false) return",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "una riparazione conta anche senza la prova rimessa che torna rossa togliendo la correzione",
+   "cerca": "if (v.rimessa?.esito !== \"regge\" || v.rimessa?.uscita !== 0 || vuoto(v.rimessa?.comando))",
+   "sostituisci": "if (false)",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "il campione del collaudo vale anche sotto il 90 per cento: i minori non guardati si chiudono lo stesso",
+   "cerca": "(pieni.length === 0 || reggono / pieni.length >= SOGLIA_CAMPIONE)",
+   "sostituisci": "true",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "due rami della stessa onda sullo stesso file non fanno rosso prima dell unione",
+   "cerca": "if (chi.length > 1) rossi.push",
+   "sostituisci": "if (false) rossi.push",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "il verdetto di un collaudatore che non elenca quel riparatore torna a chiudere le sue voci",
+   "cerca": "if (!Array.isArray(c.riparatori) || !c.riparatori.includes(suo)) continue;",
+   "sostituisci": "if (false) continue;",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "applica torna a scrivere senza ricontrollare referti e collaudi",
+   "cerca": "if (ferma.length) return chiudi(\"applica\", ferma, [], opz);",
+   "sostituisci": "if (false) return chiudi(\"applica\", ferma, [], opz);",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "un collaudo si fa anche su un referto non finito, letto a metà lavoro",
+   "cerca": "if (info.referto.finita !== true) { rossi.push(",
+   "sostituisci": "if (false) { rossi.push(",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "una prova esistente svuotata (asserzioni tolte) passa la guardia",
+   "cerca": "if (dopo < prima) rossi.push(",
+   "sostituisci": "if (false) rossi.push(",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "la testa del referto vale anche con commit di codice dopo di lei",
+   "cerca": "&& dopo.every((c) => c.file.every((f) => f.startsWith(`${REFERTO_DIR}/`)));",
+   "sostituisci": "&& true;",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "applica --scrivi riscrive un registro in un posto qualunque",
+   "cerca": "if (!ammessi.some((a) => veroPercorso(dirname(r)).startsWith(veroPercorso(a)))) return chiudi(",
+   "sostituisci": "if (false) return chiudi(",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",

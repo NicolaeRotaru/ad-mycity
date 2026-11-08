@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-11-06 09:54",
+  "aggiornato": "2026-11-07 09:52",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -26272,6 +26272,122 @@
       "verifica": {
         "tipo": "umano",
         "come": "Si chiude con una prova a comando: un campo tolto da CAMPI_EXTRA_DEL_REFERTO non fa uscire 1 il digest; e le tre mutazioni sopra diventano rosse."
+      }
+    },
+    {
+      "id": "AR-1163",
+      "titolo": "Le riparazioni in più sessioni non avevano un controllo che fermasse chi tocca i file degli altri: il 5/11 i file fuori territorio e i file temporanei li ha visti una persona a mano",
+      "dimensione": "guardiani-e-guardrail",
+      "dove": "consegne/audit/2026-11-05-dieci-sessioni-minori/LEGGIMI.md («Un file di un’altra sessione lo tocchi solo se… L’AD ricuce») · nessun programma guardava i rami: il diario della sorveglianza li controllava a mano ogni tre minuti",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-07 08:51",
+      "nato_come": "scoperta",
+      "nato_da": "replay del 7/11 sui dieci rami del 5/11 (claude/youthful-gates-blkxmk-m01…m10, base 21212f9a), fatto per costruire la riparazione in sessioni chiesta da Nicola",
+      "origine": "replay",
+      "fonte": "strategia della riparazione in sessioni del 7/11 (skill riparazione)",
+      "owner": "builder-automazioni",
+      "sintomo": "Rimessi sotto un controllo meccanico con i territori di allora, i dieci rami del 5/11 toccano 89 file di altre sessioni o di nessuno, 28 prove esistenti che non importano nessun file della sessione, 6 file temporanei (.montati, .prova-colonna-sparita) e 65 file toccati da due rami o più, con conflitti veri su 12 file in 6 sessioni. Il 5/11 erano stati ricuciti a mano 16 file e 8 prove erano rosse solo dopo l’unione.",
+      "causa_radice": "Le regole delle campagne in parallelo erano scritte in un testo che ogni sessione leggeva (e una regola permetteva di sconfinare: «l’AD ricuce»), ma nessun programma le misurava sulla storia dei rami. Un testo non diventa rosso quando una sessione lo disattende.",
+      "fix_proposto": "Fatto: cervello/riparazione-sessioni.mjs. guardia-ramo cammina nella storia del ramo commit per commit (non nel diff netto); la proprietà dei file si decide onda per onda da dividi; prova-unione segna ogni file toccato da due rami e prova l’unione senza toccare l’albero di lavoro. La skill riparazione lo mette nella sorveglianza ogni 30 minuti.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/riparazione-sessioni.test.mjs",
+        "nota": "55 casi in cervello/test/riparazione-sessioni.test.mjs; circa 66 mutazioni a mano su quattro giri (costruzione, collaudo lente A, collaudo lente B, secondo collaudo), nessuna viva; le 12 principali in cervello/mutanti.json col difetto AR-1163. Due giri di collaudo indipendenti: il primo ha trovato 22 difetti, il secondo 8, tutti corretti con la loro prova; un terzo giro non c’è stato (regola delle due onde: lo decide Nicola). Replay sui dieci rami veri del 5/11: trova da solo i 6 file temporanei, 89 sconfinamenti, 28 prove vecchie toccate senza possederne il codice e i 65 file toccati da due rami. Si chiude con auto-fix dopo l’unione della PR."
+      }
+    },
+    {
+      "id": "AR-1164",
+      "titolo": "I pacchetti della macchina leggono «cervello/mutanti.json» come «cervello/mutanti.js»: due schede che toccano lo stesso registro possono finire in pacchetti diversi della stessa ondata",
+      "dimensione": "guardiani-e-guardrail",
+      "dove": "cervello/pacchetti-lotto.mjs:113 (RE_FILE: «jsx?» prima di «json», senza confine dopo l’estensione)",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-07 09:43",
+      "nato_come": "scoperta",
+      "nato_da": "collaudo del 7/11 sulla riparazione in sessioni (lente «nasce rotto?»): lo stesso errore stava in riparazione-sessioni.mjs, copiato da qui; là è corretto",
+      "origine": "collaudo",
+      "fonte": "collaudo della riparazione in sessioni, 2026-11-07",
+      "owner": "builder-automazioni",
+      "sintomo": "Misurato il 7/11: «cervello/mutanti.json».match(RE_FILE) dà «cervello/mutanti.js». Sul cantiere vero 52 schede aperte su 346 citano un .json, 21 un registro condiviso: per pacchetti-lotto quei file non esistono con quel nome e il controllo delle collisioni non li vede.",
+      "causa_radice": "Un’alternanza di espressione regolare prova le alternative in ordine: «jsx?» (con la x facoltativa) prende «js» prima che «json» sia provato, e senza un confine dopo l’estensione il resto del nome viene lasciato fuori.",
+      "fix_proposto": "Le estensioni dalla più lunga, chiuse da un confine: /…\\.(?:tsx|ts|jsx|json|mjs|cjs|js|sql|css|sh|md|yaml|yml|svg|bats)(?![\\w])/g, come RE_FILE_MACCHINA in cervello/riparazione-sessioni.mjs; più un caso di prova con un percorso .json in cervello/test/pacchetti-che-si-pestano.test.mjs.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Da chiudere con una prova comando nel lotto che lo ripara: oggi nessuna prova di pacchetti-lotto usa un percorso .json."
+      }
+    },
+    {
+      "id": "AR-1165",
+      "titolo": "La guardia dei rami riparatori non vede una prova esistente spenta con un «return» in testa o resa vuota senza togliere le asserzioni dal testo",
+      "dimensione": "guardiani-e-guardrail",
+      "dove": "cervello/riparazione-sessioni.mjs, guardia-ramo: RE_SPENTA e contaAsserzioni",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-07 09:43",
+      "nato_come": "nuovo-lavoro",
+      "nato_da": "secondo collaudo del 7/11 sulla riparazione in sessioni",
+      "origine": "collaudo",
+      "fonte": "collaudo della riparazione in sessioni, 2026-11-07",
+      "owner": "builder-automazioni",
+      "sintomo": "La guardia ferma le prove cancellate, le forme di spegnimento (.skip, .only, .todo, .fails, .skipIf, { skip: }, t.skip, xit) e le asserzioni tolte. Non ferma un «return;» messo in testa alla prova né un’asserzione resa vuota (expect(true).toBe(true)), che lasciano il conto delle asserzioni uguale.",
+      "causa_radice": "Il controllo legge il testo della prova, non il suo comportamento: una prova svuotata in modo creativo ha lo stesso testo-forma di una prova vera.",
+      "fix_proposto": "Nel collaudo della campagna, la prova rimessa della voce già lo scopre (togliendo la correzione la prova non torna rossa). In più: lanciare le prove esistenti modificate sulla base con la correzione tolta, oppure cercare «return» come prima istruzione del corpo di it/test.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Minore: lo copre in parte la prova rimessa del collaudatore, che è per voce."
+      }
+    },
+    {
+      "id": "AR-1166",
+      "dimensione": "cadenza-esecuzione",
+      "gravita": "minore",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-07 09:52",
+      "nato_come": "nuovo-lavoro",
+      "origine": "radiografia-in-corsa",
+      "fonte": "lente cadenza-esecuzione sui file della skill riparazione, 2026-11-07",
+      "owner": "prompt-engineer",
+      "titolo": "Su tre frasi vere su quattro la prima mossa della sessione è leggere il manuale, non aprire la skill riparazione",
+      "dove": ".claude/skills/riparazione/SKILL.md (description) · CLAUDE.md («se sei l’AD, leggi cervello/MANUALE-AD.md prima di agire»)",
+      "nato_da": "misura del trigger del 7/11: prova-trigger --skill riparazione (11 mancati su 11 col comando finto) e due misure dirette sulla skill vera",
+      "sintomo": "Misura diretta sulla skill vera, 7/11: «ripara i difetti del sito» apre subito la skill; «apri 10 sessioni e risolvi…», «ripara subito quello che tiene spento il marketplace» e «ci sono difetti nuovi nati dalla funzione dei resi» leggono prima il manuale (Read o Bash su MANUALE-AD.md). Le trappole vanno tutte dove devono (cantiere, radiografia, guasto). Con la clausola «Aprila PRIMA di…» il quadro non è cambiato. Terza misura, 7/11 alle 10:05, sulle prime quattro mosse: «ripara subito quello che tiene spento il marketplace» e «ci sono difetti nuovi nati dalla funzione dei resi» aprono la skill come prima mossa; «apri 10 sessioni…» la apre alla terza, dopo il manuale. Quindi entro tre mosse si apre su 4 frasi vere su 4; come prima mossa varia da una corsa all’altra (1 su 4, poi 2 su 3).",
+      "causa_radice": "CLAUDE.md dice all’AD di leggere il manuale prima di agire e che una frase breve di Nicola è un comando da cercare lì: per le frasi che sembrano comandi la sessione va prima al manuale, che oggi la rimanda alla skill. La misura della casa guarda solo la prima mossa.",
+      "fix_proposto": "Misurare se la skill si apre entro le prime tre mosse (il manuale la nomina nei comandi rapidi). Se sì, la misura di prova-trigger va allargata alle prime mosse per le skill che il manuale nomina; se no, rafforzare la description con le parole di quelle frasi.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si chiude con una misura (prova-trigger --skill riparazione) che mostra le frasi vere aperte dalla skill."
+      }
+    },
+    {
+      "id": "AR-1167",
+      "dimensione": "cadenza-esecuzione",
+      "gravita": "minore",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-07 09:52",
+      "nato_come": "nuovo-lavoro",
+      "origine": "radiografia-in-corsa",
+      "fonte": "lente cadenza-esecuzione sui file della skill riparazione, 2026-11-07",
+      "owner": "prompt-engineer",
+      "titolo": "La procedura della riparazione in sessioni lasciava tre passi senza comando o senza fine: la sorveglianza, la soglia fra cantiere e riparazione, la copia dei referti",
+      "dove": ".claude/skills/riparazione/SKILL.md (sorveglianza, F3, fermata 2) · .claude/skills/cantiere/SKILL.md (riga di smistamento)",
+      "nato_da": "lente cadenza-esecuzione del 7/11 sui file della skill, durante la costruzione",
+      "sintomo": "La sorveglianza non diceva come parte né quando smette; il cantiere mandava il sito alla riparazione «qualunque sia il numero» mentre la riparazione usava le ondate sotto le 15 voci; la copia dei referti e i numeri della fermata 2 non avevano un comando.",
+      "causa_radice": "Il testo descriveva cosa fare, non con quale comando e fino a quando: un passo affidato alla memoria della regista non si esegue sempre allo stesso modo.",
+      "fix_proposto": "Fatto nello stesso lotto (AR-1163): la catena di send_later parte all’apertura dell’onda e smette quando tutti hanno finito, con la quota a ogni giro e il diario in una forma sola; il cantiere passa il sito alla riparazione lasciandole la scelta; la copia dei referti e i numeri della fermata 2 hanno il loro comando.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Testo di procedura: si chiude quando la prima campagna vera la esegue senza passi improvvisati (diario della sorveglianza)."
       }
     }
   ],

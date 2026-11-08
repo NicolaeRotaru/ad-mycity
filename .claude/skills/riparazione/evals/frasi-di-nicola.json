@@ -1,0 +1,27 @@
+[
+ {"_cosa_e": "🎯 IL BANCO DEL TRIGGER — le frasi con cui Nicola chiede (o NON chiede) una campagna di riparazione in sessioni. Lo esegue `node cervello/prova-trigger.mjs --skill riparazione`: ogni frase va davvero a `claude -p` dentro questo repo e si guarda se la prima mossa è aprire la skill `riparazione`. Le frasi con `should_trigger: false` sono le TRAPPOLE: parlano di difetti o di riparare ma vogliono un'altra capacità (il cantiere della macchina, la radiografia, la diagnosi di un guasto, il giro). Le frasi marcate `fonte: nicola` sono trascritte da DECISIONI.md o dalla chat del 7/11, non inventate.", "should_trigger": null, "query": null},
+
+ {"query": "crea un strategia per risolvere i difetti usando come esempio la strategia per fare la radiografia", "should_trigger": true, "fonte": "nicola", "nota": "la frase che l'ha fatta nascere, 7/11"},
+ {"query": "apri 10 sessioni e risolvi almeno 600 difetti minori del marketplace", "should_trigger": true, "fonte": "nicola", "nota": "5/11, la campagna delle dieci sessioni"},
+ {"query": "risolvi in 5 sessioni in parallelo 2 ondate a testa ed una sesta sessione servirà a controllare tutto il lavoro fatto", "should_trigger": true, "fonte": "nicola", "nota": "1/11"},
+ {"query": "ripara i difetti del sito", "should_trigger": true},
+ {"query": "risolvi tutti i difetti del marketplace prima del 15", "should_trigger": true},
+ {"query": "ripara subito quello che tiene spento il marketplace", "should_trigger": true, "nota": "il profilo urgente, come l'ha descritto Nicola il 7/11"},
+ {"query": "sistema prima possibile i bloccanti del sito, non posso tenerlo spento ancora", "should_trigger": true},
+ {"query": "ci sono difetti nuovi nati dalla funzione dei resi, sistemali", "should_trigger": true, "nota": "il profilo funzione"},
+ {"query": "ripara i difetti che ha creato la PR 287", "should_trigger": true},
+ {"query": "chiudi tutti i difetti della macchina in parallelo", "should_trigger": true},
+ {"query": "fai una campagna di riparazione sui gravi del sito", "should_trigger": true},
+ {"query": "via la seconda", "should_trigger": false, "nota": "è una risposta dentro una campagna già aperta, non un'apertura"},
+
+ {"query": "risolvi i difetti", "should_trigger": false, "fonte": "nicola", "nota": "la frase secca resta al cantiere, che smista qui se il lavoro è grande o è il sito"},
+ {"query": "chiudi AR-006", "should_trigger": false, "nota": "un codice della macchina: cantiere"},
+ {"query": "fai un lotto", "should_trigger": false, "nota": "cantiere"},
+ {"query": "fai la radiografia", "should_trigger": false, "nota": "la radiografia TROVA i difetti, non li ripara"},
+ {"query": "trova tutti i bug del sito", "should_trigger": false, "nota": "radiografia"},
+ {"query": "il sito è giù, cosa succede?", "should_trigger": false, "nota": "un guasto in corso si diagnostica prima: salute, log, devops-sre"},
+ {"query": "il worker è fermo", "should_trigger": false, "nota": "skill worker"},
+ {"query": "fai un giro", "should_trigger": false, "nota": "il giro"},
+ {"query": "controlla bene quello che hai fatto prima di consegnare", "should_trigger": false, "nota": "skill collaudo"},
+ {"query": "cosa resta da fare?", "should_trigger": false, "nota": "LAVORO-APERTO.md"}
+]
