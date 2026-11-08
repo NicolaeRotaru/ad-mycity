@@ -10,7 +10,7 @@
       "raw": "consegne/audit/2026-11-06-radiografia-marketplace-raw.json",
       "data": "2026-11-06",
       "report": "consegne/audit/2026-11-06-radiografia.md",
-      "findings": 255,
+      "findings": 256,
       "agenti": null,
       "impronte": {
         "19826623": "causa_radice:87c19f descrizione:cb6814 dimensione:4b3bdc file:e502ca fix:63084d fonte:647fef fonte_radiografia:ce5550 giro:340ca7 impatto:05c96c prova:7f89e8 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:902ae2 severita:5a2b0a stato:e2974e titolo:b31429 verificato:4db211",
@@ -172,6 +172,7 @@
         "4deca351": "causa_radice:6681ac descrizione:f603d4 dimensione:a69c16 file:ea19ec fix:c9ecd1 fonte:647fef fonte_radiografia:e9719c giro:300ca0 impatto:a2fd8f prova:75491a prova_eseguita:4db211 prova_tipo:9b465a reparto:576221 severita:5a2b0a stato:e2974e titolo:9498c3 verificato:4db211",
         "efedd170": "causa_radice:332bd8 descrizione:1ba852 dimensione:a69c16 file:fd8db9 fix:3e38a4 fonte:647fef fonte_radiografia:a15087 giro:300ca0 impatto:9152f7 prova:723f06 prova_eseguita:4db211 prova_tipo:9b465a reparto:576221 severita:5a2b0a stato:e2974e titolo:2e3b25 verificato:4db211",
         "5f91a061": "descrizione:2a97e9 dimensione:a69c16 file:20ad2f fix:e57b33 fonte:647fef fonte_radiografia:a15087 giro:300ca0 impatto:48f0a7 prova:b9a703 prova_eseguita:4db211 prova_tipo:9b465a reparto:576221 severita:5a2b0a stato:e2974e titolo:cbd9e8 verificato:4db211",
+        "6fd368b6": "causa_radice:38dc65 descrizione:f1074d dimensione:a69c16 file:237d76 fix:04f961 fonte:647fef fonte_radiografia:66075c giro:300ca0 impatto:b096c0 prova:13e85a prova_eseguita:4db211 prova_tipo:a89774 reparto:576221 severita:900c79 stato:e2974e titolo:98d814 verificato:4db211",
         "761efb66": "causa_radice:9bcd2d descrizione:b0ed3b dimensione:3c8a92 file:b47a29 fix:60050b fonte:647fef fonte_radiografia:59cf43 giro:340ca7 impatto:af1423 prova:7be733 prova_eseguita:0b0699 prova_tipo:ac8292 reparto:dded07 severita:5a2b0a stato:e2974e titolo:861b16 verificato:4db211",
         "6eebcdc2": "causa_radice:26f190 descrizione:af3009 dimensione:3c8a92 file:468e81 fix:add74c fonte:647fef fonte_radiografia:59cf43 giro:340ca7 impatto:569447 prova:7be733 prova_eseguita:0b0699 prova_tipo:ac8292 reparto:dded07 severita:5a2b0a stato:e2974e titolo:1eb356 verificato:4db211",
         "8d5a13e5": "causa_radice:308ce7 descrizione:2b69d7 dimensione:3c8a92 file:3c5fb4 fix:fd0b22 fonte:647fef fonte_radiografia:59cf43 giro:340ca7 impatto:8c565b prova:7be733 prova_eseguita:0b0699 prova_tipo:ac8292 reparto:dded07 severita:5a2b0a stato:e2974e titolo:2d9ae6 verificato:4db211",
@@ -357,9 +358,9 @@
   "fonti_non_lette": [],
   "sintesi": "Il problema più grave trovato oggi era una chiave del database leggibile da chiunque, e Nicola l'ha già spenta. Dei difetti nuovi nessuno è bloccante, ma il rimborso di un ordine in contanti va ancora fatto a mano, fuori dal sito.",
   "meta": {
-    "findings": 2979,
+    "findings": 2980,
     "bloccanti": 37,
-    "gravi": 669,
+    "gravi": 670,
     "minori": 2273,
     "agenti": null
   },
@@ -438,9 +439,9 @@
       "chiave": "api-backend",
       "nome": "API",
       "fonte": "marketplace",
-      "totale": 30,
+      "totale": 31,
       "bloccanti": 0,
-      "gravi": 2,
+      "gravi": 3,
       "minori": 28
     },
     {
@@ -3739,6 +3740,25 @@
       "giro": 5,
       "verificato": true,
       "fonte_radiografia": "palestra 2026-11-07/08 · lotto 2, prove da cliente (wf_f4377721-1cd)"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "titolo": "Confermata una rimessa, la giornata del fattorino risulta versata anche per i contanti che incassa dopo, e la guardia della cancellazione lo lascia andare",
+      "severita": "grave",
+      "file": "migrations/127_minori_22_agosto.sql:643-683 (confirm_cod_remittance, righe 676-679: remitted_at = now() senza condizioni) · lib/cassa/quadratura.ts:65-96 (conta solo i DELIVERED e non tocca mai remitted_at) · app/api/admin/cod-remittance/route.ts (dopo la rpc non ricalcola) · lib/account/cancellazione.ts:639-687 (contantiAncoraDaVersare si fida di remitted_at) · lib/privacy/cancellazioni-in-sospeso.ts:88-90 · app/api/cron/operational-alerts/route.ts:519-526",
+      "descrizione": "Il registro dei contanti (cod_reconciliations) ha una riga per fattorino e per giorno, con un solo «versato» (remitted_at). Palestra, 8/11, due giri con utenti nuovi e un terzo su un database ricostruito dalle migrazioni. L'ordine A in contanti è consegnato e incassato; l'amministratore conferma la rimessa con confirm_cod_remittance, chiamata col suo accesso come fa la rotta: risposta {rilasciati:1}, A passa a HELD e la riga prende remitted_at. Poco dopo lo stesso fattorino incassa e consegna B, 20,50 €, nello stesso giorno: B resta AWAITING_REMITTANCE, ma la riga resta «versata» all'ora della prima rimessa, anche dopo il ricalcolo della quadratura e quello notturno (atteso 4100, incassato 4100, OK). La guardia della cancellazione legge la giornata come chiusa. Variante: una giornata in MISMATCH per un ordine consegnato senza incasso; la rpc risponde {rilasciati:0, saltati_senza_incasso:1} e scrive comunque remitted_at. La definizione viva della funzione (pg_get_functiondef) è identica alla 127. Ritrovato nella prova di fumo del 7/11, verificato dalla sessione di riparazione (verificatore e scettico, referto consegne/audit/2026-11-07-verifica-difetti-palestra) e poi rifatto in Postgres.",
+      "impatto": "Il negozio viene pagato lo stesso: la pagina delle rimesse legge gli ordini, quindi B ricompare fra le giornate da confermare. Il danno è sulla cancellazione: un fattorino con contanti ancora in tasca può farsi cancellare l'account, anche da un amministratore, perché la guardia vede la giornata chiusa. Con l'account se ne vanno la riga del registro, il legame con l'ordine e le prove di consegna e dei contanti: il denaro e le prove per recuperarlo. Anche l'avviso operativo sulle cancellazioni in attesa guarda la stessa colonna, quindi nessuno se ne accorge.",
+      "fix": "Una sola regola: una giornata è versata solo se non restano ordini del fattorino in quel giorno ancora AWAITING_REMITTANCE (consegnati, oppure in consegna con incasso dichiarato). Strada con migrazione: confirm_cod_remittance scrive remitted_at solo in quel caso, altrimenti NULL, e un grilletto sugli ordini riapre la giornata quando arriva un ordine in contanti consegnato e da versare. Strada solo TypeScript (proposta dalla sessione di riparazione): aggiornaQuadratura conta anche gli ordini in consegna con incasso dichiarato e rimette remitted_at a null se resta qualcosa da versare, e la rotta della rimessa ricalcola subito dopo la rpc; lo scettico ha trovato due casi limite di questa strada (mezzanotte e corsa con la rpc). In tutti e due i casi la guardia contantiAncoraDaVersare va provata direttamente.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Test SQL nel formato di tests/sql/rls, da far girare col database ricostruito da tests/sql/harness/apply.sh: «la rimessa non chiude una giornata con contanti ancora in mano». Passa dalle porte vere: rimessa come amministratore, codice di consegna come fattorino, e controlla le premesse, così non può risultare verde per finta. Il contratto è questa query, rossa se restituisce righe (va bene anche come sensore in sola lettura): SELECT c.rider_id, c.for_date, c.remitted_at, count(o.id) FROM public.cod_reconciliations c JOIN public.orders o ON o.rider_id = c.rider_id AND o.payment_method = 'cod' AND o.delivery_status = 'DELIVERED' AND o.payout_status = 'AWAITING_REMITTANCE' AND (o.delivered_at AT TIME ZONE 'Europe/Rome')::date = c.for_date WHERE c.remitted_at IS NOT NULL GROUP BY 1, 2, 3. Il test 11 esistente prepara il caso dell'ordine saltato ma non controlla mai remitted_at, quindi oggi è verde col difetto presente.",
+      "prova_tipo": "sql",
+      "prova_eseguita": true,
+      "causa_radice": "Un registro riassunto per giornata, con una sola bandierina, che copia uno stato che vive ordine per ordine; nessuno lo ricalcola quando quello stato cambia.",
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-07/08 · prova di fumo, verificato dalla sessione di riparazione (#941) e rifatto in Postgres"
     },
     {
       "dimensione": "frontend-ux",
@@ -67069,20 +67089,20 @@
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-11-08 01:58",
+    "aggiornato": "2026-11-08 07:55",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 770,
+    "findings_aperti": 771,
     "findings_chiusi": 2209,
-    "findings_tot": 2979,
+    "findings_tot": 2980,
     "aperti_per_severita": {
       "bloccante": 6,
-      "grave": 89,
+      "grave": 90,
       "minore": 675,
       "altre": 0
     },
-    "dichiarati_dal_referto": 2979,
+    "dichiarati_dal_referto": 2980,
     "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-11-06",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."

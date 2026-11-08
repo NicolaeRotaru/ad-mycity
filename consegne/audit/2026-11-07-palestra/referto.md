@@ -18,7 +18,8 @@ L'esempio del primo lotto resta il più urgente. Chi abita in Via Roma, Via Gari
 
 - Il secondo lotto porta **44 difetti nuovi** nel registro: 4 gravi e 40 minori. Uno è una falla riservata, R314, con il solo titolo generico.
 - **30 difetti già noti** ricevono la conferma della palestra. Quattro passano da minori a gravi: il reso rifiutato nell'ultimo giorno, il prezzo che cambia con la cassa aperta, le coordinate vecchie dell'indirizzo e le recensioni offensive che non si possono segnalare.
-- I difetti aperti passano da **726 a 770**: 6 bloccanti, 89 gravi e 675 minori.
+- Entra anche il difetto del **registro dei contanti**, grave. L'ha visto la prova di fumo, l'ha verificato la sessione di riparazione e la palestra lo ha rifatto davvero sul suo database.
+- I difetti aperti passano da **726 a 771**: 6 bloccanti, 90 gravi e 675 minori.
 - Il sito vero non è stato toccato, e dalla palestra non è partita nessuna email.
 
 ## Cosa devi fare
@@ -61,6 +62,7 @@ L'esempio del primo lotto resta il più urgente. Chi abita in Via Roma, Via Gari
 - **Grave, lotto 2: lo scarico dei dati si ferma a 1.000 righe per sezione e dice «completo»** (S06-P070). Il problema è `app/api/account/export/route.ts` contro il massimo di righe dell'API.
 - **Grave, lotto 2: dopo «Invia» all'assistenza la chat non si apre** (S08-P044). In `components/SupportChatModal.tsx`, `useCloseOnBack` scatta prima di `router.push`.
 - **Grave, lotto 2: toccare la scheda di un prodotto in home e in ricerca non apre niente** (S10-P001). Il file è `components/ProductCard.tsx`.
+- **Grave, prova di fumo: confermata una rimessa, la giornata del fattorino risulta versata anche per i contanti che incassa dopo.** `confirm_cod_remittance` (migrazione 127) scrive `remitted_at` senza condizioni, e `contantiAncoraDaVersare` in `lib/account/cancellazione.ts` se ne fida. Rifatto in Postgres l'8/11: due giri in palestra e uno con `tests/sql/harness/apply.sh`, rosso senza riparazione e verde con una riparazione candidata.
 
 ### Riaperti e gravità riviste
 
@@ -74,8 +76,8 @@ L'esempio del primo lotto resta il più urgente. Chi abita in Via Roma, Via Gari
 
 ### File e lavori
 
-- **Registro:** `MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-marketplace.json` passa da 2.935 a 2.979 voci.
-- **Grezzo:** `consegne/audit/2026-11-06-radiografia-marketplace-raw.json` passa da 211 a 255 voci, giro 5.
+- **Registro:** `MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-marketplace.json` passa da 2.935 a 2.979 voci col lotto 2, poi a 2.980 col difetto dei contanti.
+- **Grezzo:** `consegne/audit/2026-11-06-radiografia-marketplace-raw.json` passa da 211 a 256 voci, giro 5.
 - **Digest del lotto 2,** rifatto su una copia del deposito:
   - 0 voci sparite;
   - le 30 voci vecchie cambiano solo in `riverifica_7_11`, e 4 anche nei tre campi della gravità;

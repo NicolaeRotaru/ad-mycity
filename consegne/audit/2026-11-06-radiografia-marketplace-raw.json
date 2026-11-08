@@ -3,9 +3,9 @@
   "tipo": "radiografia-marketplace",
   "fonte": "radiografia in 12 sessioni (prompt v5): 12 sessioni a tema sui 2.587 file, ogni difetto in chiaro verificato da un agente qa che non l'aveva trovato (gravi: due agenti, prova e peso), un terzo giro piccolo dopo il critico di completezza; le falle riservate verificate solo dentro le sessioni e pubblicate col titolo generico; il 7/11, con la firma di Nicola, un quarto giro ha verificato gli 8 difetti del terzo giro; il 7/11 la palestra (copia del sito per le prove) ha rifatto 114 prove e la prova generale di Pane Quotidiano: i difetti confermati da verificatori indipendenti e non già nel registro entrano col giro 5; l'8/11 il lotto 2 della palestra (134 prove da cliente) aggiunge i suoi difetti confermati e ricontrollati, sempre col giro 5",
   "codice_analizzato": "NicolaeRotaru/mycity @ db5164c (main)",
-  "totale": 255,
+  "totale": 256,
   "bloccanti": 1,
-  "gravi": 19,
+  "gravi": 20,
   "minori": 235,
   "dimensioni": [
     {
@@ -2702,6 +2702,23 @@
           "verificato": true,
           "giro": 5,
           "fonte_radiografia": "palestra 2026-11-07/08 · lotto 2, prove da cliente (wf_f4377721-1cd)"
+        },
+        {
+          "dimensione": "api-backend",
+          "titolo": "Confermata una rimessa, la giornata del fattorino risulta versata anche per i contanti che incassa dopo, e la guardia della cancellazione lo lascia andare",
+          "severita": "grave",
+          "file": "migrations/127_minori_22_agosto.sql:643-683 (confirm_cod_remittance, righe 676-679: remitted_at = now() senza condizioni) · lib/cassa/quadratura.ts:65-96 (conta solo i DELIVERED e non tocca mai remitted_at) · app/api/admin/cod-remittance/route.ts (dopo la rpc non ricalcola) · lib/account/cancellazione.ts:639-687 (contantiAncoraDaVersare si fida di remitted_at) · lib/privacy/cancellazioni-in-sospeso.ts:88-90 · app/api/cron/operational-alerts/route.ts:519-526",
+          "descrizione": "Il registro dei contanti (cod_reconciliations) ha una riga per fattorino e per giorno, con un solo «versato» (remitted_at). Palestra, 8/11, due giri con utenti nuovi e un terzo su un database ricostruito dalle migrazioni. L'ordine A in contanti è consegnato e incassato; l'amministratore conferma la rimessa con confirm_cod_remittance, chiamata col suo accesso come fa la rotta: risposta {rilasciati:1}, A passa a HELD e la riga prende remitted_at. Poco dopo lo stesso fattorino incassa e consegna B, 20,50 €, nello stesso giorno: B resta AWAITING_REMITTANCE, ma la riga resta «versata» all'ora della prima rimessa, anche dopo il ricalcolo della quadratura e quello notturno (atteso 4100, incassato 4100, OK). La guardia della cancellazione legge la giornata come chiusa. Variante: una giornata in MISMATCH per un ordine consegnato senza incasso; la rpc risponde {rilasciati:0, saltati_senza_incasso:1} e scrive comunque remitted_at. La definizione viva della funzione (pg_get_functiondef) è identica alla 127. Ritrovato nella prova di fumo del 7/11, verificato dalla sessione di riparazione (verificatore e scettico, referto consegne/audit/2026-11-07-verifica-difetti-palestra) e poi rifatto in Postgres.",
+          "impatto": "Il negozio viene pagato lo stesso: la pagina delle rimesse legge gli ordini, quindi B ricompare fra le giornate da confermare. Il danno è sulla cancellazione: un fattorino con contanti ancora in tasca può farsi cancellare l'account, anche da un amministratore, perché la guardia vede la giornata chiusa. Con l'account se ne vanno la riga del registro, il legame con l'ordine e le prove di consegna e dei contanti: il denaro e le prove per recuperarlo. Anche l'avviso operativo sulle cancellazioni in attesa guarda la stessa colonna, quindi nessuno se ne accorge.",
+          "fix": "Una sola regola: una giornata è versata solo se non restano ordini del fattorino in quel giorno ancora AWAITING_REMITTANCE (consegnati, oppure in consegna con incasso dichiarato). Strada con migrazione: confirm_cod_remittance scrive remitted_at solo in quel caso, altrimenti NULL, e un grilletto sugli ordini riapre la giornata quando arriva un ordine in contanti consegnato e da versare. Strada solo TypeScript (proposta dalla sessione di riparazione): aggiornaQuadratura conta anche gli ordini in consegna con incasso dichiarato e rimette remitted_at a null se resta qualcosa da versare, e la rotta della rimessa ricalcola subito dopo la rpc; lo scettico ha trovato due casi limite di questa strada (mezzanotte e corsa con la rpc). In tutti e due i casi la guardia contantiAncoraDaVersare va provata direttamente.",
+          "causa_radice": "Un registro riassunto per giornata, con una sola bandierina, che copia uno stato che vive ordine per ordine; nessuno lo ricalcola quando quello stato cambia.",
+          "prova": "Test SQL nel formato di tests/sql/rls, da far girare col database ricostruito da tests/sql/harness/apply.sh: «la rimessa non chiude una giornata con contanti ancora in mano». Passa dalle porte vere: rimessa come amministratore, codice di consegna come fattorino, e controlla le premesse, così non può risultare verde per finta. Il contratto è questa query, rossa se restituisce righe (va bene anche come sensore in sola lettura): SELECT c.rider_id, c.for_date, c.remitted_at, count(o.id) FROM public.cod_reconciliations c JOIN public.orders o ON o.rider_id = c.rider_id AND o.payment_method = 'cod' AND o.delivery_status = 'DELIVERED' AND o.payout_status = 'AWAITING_REMITTANCE' AND (o.delivered_at AT TIME ZONE 'Europe/Rome')::date = c.for_date WHERE c.remitted_at IS NOT NULL GROUP BY 1, 2, 3. Il test 11 esistente prepara il caso dell'ordine saltato ma non controlla mai remitted_at, quindi oggi è verde col difetto presente.",
+          "prova_tipo": "sql",
+          "esito_prova": "Su Postgres 16 locale con le 178 migrazioni applicate da apply.sh: rosso senza riparazione («2 controlli rossi», premesse tutte ok), verde con una riparazione candidata (rpc condizionata più grilletto), e run.sh tutto verde, test 11 compreso. In palestra, due giri: dopo la rimessa delle 01:55 e la consegna di B, la riga resta remitted_at 01:55:40 con 2050 centesimi da versare.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-07/08 · prova di fumo, verificato dalla sessione di riparazione (#941) e rifatto in Postgres"
         }
       ]
     },
