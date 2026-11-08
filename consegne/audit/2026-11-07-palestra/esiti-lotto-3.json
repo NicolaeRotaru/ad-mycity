@@ -1,0 +1,671 @@
+{
+ "lotto": "3",
+ "data": "2026-11-08",
+ "prove": [
+  {
+   "id": "S02-P018",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "La pagina Guadagni conta i soldi del ritiro al banco come se dovessero ancora arrivare al negozio, e la commissione sui contanti risulta zero",
+   "gravita": "grave"
+  },
+  {
+   "id": "S02-P024",
+   "esito": "passa"
+  },
+  {
+   "id": "S02-P025",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P024",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P025",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P026",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Con l'intelligenza artificiale spenta, la rotta che applica in blocco le proposte del catalogo cambia lo stesso i prezzi dei prodotti",
+   "gravita": "minore"
+  },
+  {
+   "id": "S04-P027",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Con l'intelligenza artificiale spenta, la rotta che applica le proposte dell'assistente cambia lo stesso prezzo, scorta ed etichette di un prodotto",
+   "gravita": "minore"
+  },
+  {
+   "id": "S04-P028",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P029",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P030",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P031",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P032",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Con l'intelligenza artificiale spenta, la creazione di prodotti in blocco risponde «riprova fra poco» invece di dire che il servizio è spento",
+   "gravita": "minore"
+  },
+  {
+   "id": "S04-P033",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P034",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P035",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P036",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Falla di sicurezza da chiudere (dettagli nel referto privato)",
+   "gravita": "minore"
+  },
+  {
+   "id": "S04-P037",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Falla di sicurezza da chiudere (dettagli nel referto privato)",
+   "gravita": "minore"
+  },
+  {
+   "id": "S04-P038",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Il filtro dei testi vietati guarda solo nome, descrizione e tag: il resto di quello che manda il browser arriva all'intelligenza artificiale senza controllo",
+   "gravita": "minore"
+  },
+  {
+   "id": "S04-P039",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P040",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Il filtro dei testi vietati guarda solo nome, descrizione e tag: il resto di quello che manda il browser arriva all'intelligenza artificiale senza controllo",
+   "gravita": "minore"
+  },
+  {
+   "id": "S04-P041",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Il filtro dei testi vietati guarda solo nome, descrizione e tag: il resto di quello che manda il browser arriva all'intelligenza artificiale senza controllo",
+   "gravita": "minore"
+  },
+  {
+   "id": "S04-P042",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Il filtro dei testi vietati guarda solo nome, descrizione e tag: il resto di quello che manda il browser arriva all'intelligenza artificiale senza controllo",
+   "gravita": "minore"
+  },
+  {
+   "id": "S04-P043",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Il filtro dei testi vietati guarda solo nome, descrizione e tag: il resto di quello che manda il browser arriva all'intelligenza artificiale senza controllo",
+   "gravita": "minore"
+  },
+  {
+   "id": "S04-P068",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P073",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P088",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Se la domanda per diventare negozio parte due volte insieme, viene registrata due volte e gli amministratori ricevono l'avviso due volte",
+   "gravita": "minore"
+  },
+  {
+   "id": "S04-P089",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P090",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P091",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P092",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P093",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P094",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P096",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P107",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P108",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P109",
+   "esito": "passa"
+  },
+  {
+   "id": "S05-P003",
+   "esito": "passa"
+  },
+  {
+   "id": "S05-P004",
+   "esito": "fallisce",
+   "verifica": "scartato",
+   "titolo": "Falla di sicurezza da chiudere (dettagli nel referto privato)"
+  },
+  {
+   "id": "S05-P005",
+   "esito": "passa"
+  },
+  {
+   "id": "S05-P010",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P024",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P026",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Falla di sicurezza da chiudere (dettagli nel referto privato)",
+   "gravita": "minore"
+  },
+  {
+   "id": "S06-P045",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "L'etichetta della busta non dice quando consegnare",
+   "gravita": "minore"
+  },
+  {
+   "id": "S07-P003",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nella lista «Completa il tuo negozio» le voci del nome e del logo portano a una pagina dove quei campi non ci sono",
+   "gravita": "minore"
+  },
+  {
+   "id": "S07-P004",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Cambiando l'indirizzo del negozio senza premere «Cerca», il punto sulla mappa resta alla sede vecchia",
+   "gravita": "grave"
+  },
+  {
+   "id": "S07-P005",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Con il menu spento, un link vuoto rimasto dentro blocca il salvataggio della vetrina, e il link non si vede più",
+   "gravita": "minore"
+  },
+  {
+   "id": "S07-P006",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "In «Dettagli negozio» il tasto «Tutte le impostazioni» butta le modifiche senza avvisare, e il link Instagram copiato dall'app viene rifiutato",
+   "gravita": "minore"
+  },
+  {
+   "id": "S07-P007",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "La storia accetta link a siti esterni senza avvisare, e il negozio la vede «scaduta» mentre i clienti la vedono ancora",
+   "gravita": "minore"
+  },
+  {
+   "id": "S07-P008",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nella modifica veloce dell'elenco, scrivere «1.500» mette la bici a 1,50 euro senza chiedere conferma",
+   "gravita": "grave"
+  },
+  {
+   "id": "S07-P009",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Un doppio clic su «Pubblica prodotto» crea due o tre prodotti uguali in vendita",
+   "gravita": "minore"
+  },
+  {
+   "id": "S07-P010",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Se il salvataggio di un prodotto con taglie si interrompe, il prezzo entra ma le taglie no, e il messaggio non lo dice",
+   "gravita": "minore"
+  },
+  {
+   "id": "S07-P011",
+   "esito": "passa"
+  },
+  {
+   "id": "S07-P012",
+   "esito": "passa"
+  },
+  {
+   "id": "S07-P013",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Con l'intelligenza artificiale spenta, le rotte che applicano le proposte del copilota cambiano ancora i prezzi",
+   "gravita": "minore"
+  },
+  {
+   "id": "S07-P015",
+   "esito": "passa"
+  },
+  {
+   "id": "S07-P016",
+   "esito": "passa"
+  },
+  {
+   "id": "S07-P017",
+   "esito": "passa"
+  },
+  {
+   "id": "S07-P018",
+   "esito": "passa"
+  },
+  {
+   "id": "S07-P019",
+   "esito": "passa"
+  },
+  {
+   "id": "S07-P020",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Se le categorie non si caricano, il modulo «Nuovo prodotto» mostra un elenco vuoto senza dirlo",
+   "gravita": "minore"
+  },
+  {
+   "id": "S07-P021",
+   "esito": "passa"
+  },
+  {
+   "id": "S07-P022",
+   "esito": "passa"
+  },
+  {
+   "id": "S07-P023",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Rifiutare un ordine: l'aiuto contraddice il pulsante, e il doppio clic mostra anche «Rifiuto fallito»",
+   "gravita": "minore"
+  },
+  {
+   "id": "S07-P024",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Sul ritiro in negozio pagato in contanti la pagina dice che il rider incassa, e su un ordine annullato dice che il rider sta consegnando",
+   "gravita": "minore"
+  },
+  {
+   "id": "S07-P025",
+   "esito": "passa"
+  },
+  {
+   "id": "S07-P026",
+   "esito": "fallisce",
+   "verifica": "scartato",
+   "titolo": "La pagina Clienti non mostra né esporta i contatti, e non vede chi ha un ordine in contanti ancora da consegnare"
+  },
+  {
+   "id": "S07-P027",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "La risposta a una recensione sparisce se cambi pagina e torni, finché non ricarichi",
+   "gravita": "minore"
+  },
+  {
+   "id": "S07-P028",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "La promo su una categoria non sconta niente ma dice che è attiva; «Oggi» finisce un'ora dopo su un telefono con il fuso di Londra",
+   "gravita": "grave"
+  },
+  {
+   "id": "S07-P029",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Una campagna sponsorizzata finita resta «attiva» e, ad abbonamento acceso, il negozio la vedrà come «Attiva»",
+   "gravita": "minore"
+  },
+  {
+   "id": "S07-P030",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "In Analisi la cifra degli ultimi 7 giorni non è la somma delle barre, e la conversione arriva al 250% senza spiegazione",
+   "gravita": "minore"
+  },
+  {
+   "id": "S07-P031",
+   "esito": "fallisce",
+   "verifica": "scartato",
+   "titolo": "Con la carta spenta, Guadagni manda il negozio a iscriversi a Stripe e dà due tempi e due importi diversi per il bonifico"
+  },
+  {
+   "id": "S07-P032",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nell'aiuto per i negozi il motivo del rifiuto sembra obbligatorio e si promette un rimborso che con i contanti non c'è",
+   "gravita": "minore"
+  },
+  {
+   "id": "S07-P034",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Se il negozio tiene la chat aperta in una scheda dietro, i messaggi del cliente risultano letti subito e la campanella si riempie di voci che non si spengono",
+   "gravita": "minore"
+  },
+  {
+   "id": "S09-P011",
+   "esito": "passa"
+  },
+  {
+   "id": "S09-P028",
+   "esito": "passa"
+  },
+  {
+   "id": "S09-P039",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Il modulo per aprire un negozio chiede la data di nascita come obbligatoria, ma l'informativa privacy non la nomina",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P061",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Se la lettura del profilo non riesce, all'ingresso del pannello il negoziante legge che il suo account non è da venditore e gli viene proposto di iscriversi di nuovo",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P062",
+   "esito": "passa"
+  },
+  {
+   "id": "S10-P063",
+   "esito": "passa"
+  },
+  {
+   "id": "S10-P064",
+   "esito": "passa"
+  },
+  {
+   "id": "S10-P066",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Se il negoziante scrive il prezzo all'italiana con il punto delle migliaia, «1.250,00», il prodotto va in vendita a 1,25 euro senza nessun avviso",
+   "gravita": "grave"
+  },
+  {
+   "id": "S10-P067",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Se la lettura del prodotto non riesce, la pagina di modifica dice «Prodotto non trovato» e non offre «Riprova»",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P068",
+   "esito": "passa"
+  },
+  {
+   "id": "S10-P069",
+   "esito": "passa"
+  },
+  {
+   "id": "S10-P070",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Col doppio clic su «Crea promo» nascono due promozioni uguali",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P071",
+   "esito": "passa"
+  },
+  {
+   "id": "S10-P072",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Creando una storia non si vede l'anteprima della foto, e un doppio clic la pubblica due volte",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P073",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "La pagina Analisi dice «Nessuna recensione» a un negozio che ne ha tre, e usa etichette in inglese",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P074",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Sul telefono la tabella dei clienti esce dallo schermo: spesa, ultimo ordine e targhetta VIP si vedono solo scorrendo di lato",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P075",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Il tasto «Rispondi» alle recensioni è alto 20 pixel, e se il server non risponde compare un errore tecnico in inglese",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P076",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "In Guadagni il grafico dei sette giorni resta vuoto e sul telefono lo stato del bonifico esce dallo schermo",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P077",
+   "esito": "passa"
+  },
+  {
+   "id": "S10-P078",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Se la lettura del profilo non riesce, il pannello dice al negoziante che il suo account non è da venditore e gli propone di diventarlo",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P079",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nell'Aiuto per i negozi restano parole inglesi come «payout», «academy» e «tutorial», e si parla di prodotti sponsorizzati che oggi sono sospesi",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P080",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nel pannello del negozio non esiste un posto dove approvare le anteprime",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P120",
+   "esito": "passa"
+  },
+  {
+   "id": "S12-P001",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Se il fornitore dell'intelligenza artificiale non risponde, la bozza di risposta al cliente fallisce dopo due minuti con un errore generico",
+   "gravita": "minore"
+  },
+  {
+   "id": "S12-P002",
+   "esito": "passa"
+  },
+  {
+   "id": "S12-P003",
+   "esito": "passa"
+  },
+  {
+   "id": "S12-P004",
+   "esito": "passa"
+  },
+  {
+   "id": "S12-P005",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Se la risposta del fornitore si perde, l'avvio del lavoro sul catalogo crea due lotti a pagamento invece di uno",
+   "gravita": "minore"
+  },
+  {
+   "id": "S12-P006",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Un lavoro sul catalogo rimasto bloccato o fallito lascia la pagina senza stato e senza un pulsante per riprovare",
+   "gravita": "minore"
+  },
+  {
+   "id": "S12-P007",
+   "esito": "passa"
+  },
+  {
+   "id": "S12-P008",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Se il controllo dei contenuti è lento e il modello non risponde, la chat del catalogo dà «Il server non ha risposto correttamente» dopo due minuti",
+   "gravita": "minore"
+  },
+  {
+   "id": "S12-P009",
+   "esito": "passa"
+  },
+  {
+   "id": "S12-P010",
+   "esito": "passa"
+  },
+  {
+   "id": "S12-P011",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Una risposta lunga del copilota con un fornitore lento non arriva mai: scade dopo due minuti senza avviso",
+   "gravita": "minore"
+  },
+  {
+   "id": "S12-P012",
+   "esito": "passa"
+  },
+  {
+   "id": "S12-P013",
+   "esito": "passa"
+  },
+  {
+   "id": "S12-P014",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Quando l'AI è accesa e il fornitore non risponde, la richiesta resta appesa due minuti e finisce con un errore che dice solo di riprovare",
+   "gravita": "minore"
+  },
+  {
+   "id": "S12-P015",
+   "esito": "passa"
+  },
+  {
+   "id": "S12-P016",
+   "esito": "passa"
+  },
+  {
+   "id": "S12-P017",
+   "esito": "passa"
+  },
+  {
+   "id": "S12-P018",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Se si riaccende la traduzione, una descrizione lunga torna tradotta solo per un quinto e senza avviso",
+   "gravita": "minore"
+  },
+  {
+   "id": "S12-P019",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Oltre cento combinazioni di taglia e colore, le ultime taglie spariscono senza avviso",
+   "gravita": "minore"
+  },
+  {
+   "id": "S12-P020",
+   "esito": "passa"
+  },
+  {
+   "id": "S12-P021",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Se il fornitore scrive il motivo del rifiuto come numero, la lettura da foto va in errore 500",
+   "gravita": "minore"
+  },
+  {
+   "id": "S12-P022",
+   "esito": "passa"
+  },
+  {
+   "id": "S12-P023",
+   "esito": "passa"
+  },
+  {
+   "id": "S12-P024",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Con l'AI accesa, la pagina dei lotti resta senza scritta e senza pulsanti se il lotto è fallito, annullato o in errore",
+   "gravita": "minore"
+  },
+  {
+   "id": "S12-P025",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Dopo l'invio all'assistenza la finestra si chiude senza conferma e la chat non si apre",
+   "gravita": "grave"
+  },
+  {
+   "id": "S09-P006",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Dopo la cancellazione di un negozio logo, foto dei prodotti e storie restano online",
+   "gravita": "minore"
+  }
+ ]
+}

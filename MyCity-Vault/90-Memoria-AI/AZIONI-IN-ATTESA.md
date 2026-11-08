@@ -33,6 +33,8 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ### 🔴 #234 — Prima di far partire il risolutore, di' dove sta il difetto dei contanti e scegli sugli allergeni · ⏳ accodata 2026-11-07 14:37
 
+> ✅ 2026-11-08 07:55 — La prima domanda ha una risposta: il difetto dei contanti non è una delle falle riservate. La palestra lo ha rifatto davvero sul suo database, due volte, ed è entrato nel registro come grave. Resta a te solo la scelta sugli allergeni.
+
 **In parole semplici.** Il risolutore è la macchina che ripara i difetti in sessioni parallele. Lavora solo sui difetti scritti nel registro. Oggi la palestra ha anticipato cinque difetti, e io li ho fatti verificare a due agenti per voce. Quattro sono nel registro. Il quinto, il registro dei contanti, non c'è.
 
 **Cosa cambia per te.** Esempio: un fattorino consegna in contanti alle 12, versa alle 13, poi consegna di nuovo alle 14. Il registro segna già versati anche i soldi delle 14, che ha ancora in tasca. I pagamenti ai negozi restano giusti. Però il controllo che blocca la cancellazione di un fattorino con contanti da restituire si fida di quel registro. Se il difetto non entra nel registro, il risolutore non lo ripara.
@@ -68,6 +70,12 @@ La procedura: `consegne/accoglienza-negozi/00-come-funziona-l-accoglienza.md`. I
 > 🔨 2026-11-07 01:22 — Il database di prova è pronto. Ha 178 migrazioni su 178 e 76 tabelle protette. Dentro ci sono 16 negozi finti, 240 prodotti, 4 clienti, 2 fattorini e un amministratore. Sono pronti anche l'intelligenza artificiale finta e il ramo del sito per la palestra. **Aspetta Nicola.** Vercel non mi lascia creare il progetto. Gli ho chiesto quattro passi: il progetto, la regola di costruzione e due tipi di chiavi.
 >
 > 🏋️ 2026-11-07 02:16 — La palestra è accesa. Nicola ha creato il progetto e messo le chiavi. Il database di prova ha gli stessi permessi del sito vero. I controlli di sicurezza sono verdi: il sito della palestra parla solo col database di prova e usa Stripe di prova. Partiti il giro completo del pane e lo smistamento delle 533 prove.
+>
+> 📋 2026-11-07 12:55 — Primi risultati nel registro: 28 difetti nuovi, fra cui un bloccante sugli indirizzi del centro, e 20 già noti confermati. Il racconto sta nella cartella `consegne/audit/2026-11-07-palestra/`. Gira il lotto del cliente.
+
+> 📋 2026-11-08 01:57 — Il lotto del cliente è nel registro: 44 difetti nuovi, 4 gravi, e 30 già noti confermati, 4 dei quali alzati a gravi. Il primo grave è il buono regalo valido che non si riscatta. Voci aperte 770. Gira il lotto del negozio.
+
+> 📋 2026-11-08 08:35 — Il lotto del negozio è nel registro: 20 difetti nuovi, 1 grave, e 38 già noti confermati. Il grave: chi scrive il prezzo all'italiana, «1.250,00», mette in vendita a 1,25 €. Quattro voci date per riparate tornano aperte. Voci aperte 795. Gira il lotto di amministratore e fattorino.
 
 **In parole semplici.** La palestra è una copia del sito fatta solo per le prove. Lì si usa il sito come tanti clienti, negozi e fattorini insieme. Il sito vero non si tocca mai. La radiografia ha scritto 533 prove da fare lì.
 
