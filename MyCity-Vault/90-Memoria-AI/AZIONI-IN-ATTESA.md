@@ -33,6 +33,8 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ### 🔴 #234 — Prima di far partire il risolutore, di' dove sta il difetto dei contanti e scegli sugli allergeni · ⏳ accodata 2026-11-07 14:37
 
+> ✅ 2026-11-08 07:51 — La prima scelta è risolta. La palestra ha rifatto il difetto dei contanti in un database vero: è grave e non è una falla riservata. Entra nel registro con la richiesta #940. Resta a te solo la scelta sugli allergeni.
+
 **In parole semplici.** Il risolutore è la macchina che ripara i difetti in sessioni parallele. Lavora solo sui difetti scritti nel registro. Oggi la palestra ha anticipato cinque difetti, e io li ho fatti verificare a due agenti per voce. Quattro sono nel registro. Il quinto, il registro dei contanti, non c'è.
 
 **Cosa cambia per te.** Esempio: un fattorino consegna in contanti alle 12, versa alle 13, poi consegna di nuovo alle 14. Il registro segna già versati anche i soldi delle 14, che ha ancora in tasca. I pagamenti ai negozi restano giusti. Però il controllo che blocca la cancellazione di un fattorino con contanti da restituire si fida di quel registro. Se il difetto non entra nel registro, il risolutore non lo ripara.
