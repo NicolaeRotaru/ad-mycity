@@ -69,7 +69,9 @@ La procedura: `consegne/accoglienza-negozi/00-come-funziona-l-accoglienza.md`. I
 >
 > 🏋️ 2026-11-07 02:16 — La palestra è accesa. Nicola ha creato il progetto e messo le chiavi. Il database di prova ha gli stessi permessi del sito vero. I controlli di sicurezza sono verdi: il sito della palestra parla solo col database di prova e usa Stripe di prova. Partiti il giro completo del pane e lo smistamento delle 533 prove.
 >
-> 📋 2026-11-07 12:55 — Primi risultati nel registro: 28 difetti nuovi, fra cui un bloccante sugli indirizzi del centro, e 20 già noti confermati. Referto: `consegne/audit/2026-11-07-palestra/referto.md`. Gira il lotto del cliente.
+> 📋 2026-11-07 12:55 — Primi risultati nel registro: 28 difetti nuovi, fra cui un bloccante sugli indirizzi del centro, e 20 già noti confermati. Il racconto sta nella cartella `consegne/audit/2026-11-07-palestra/`. Gira il lotto del cliente.
+
+> 📋 2026-11-08 01:57 — Il lotto del cliente è nel registro: 44 difetti nuovi, 4 gravi, e 30 già noti confermati, 4 dei quali alzati a gravi. Il primo grave è il buono regalo valido che non si riscatta. Voci aperte 770. Gira il lotto del negozio.
 
 **In parole semplici.** La palestra è una copia del sito fatta solo per le prove. Lì si usa il sito come tanti clienti, negozi e fattorini insieme. Il sito vero non si tocca mai. La radiografia ha scritto 533 prove da fare lì.
 

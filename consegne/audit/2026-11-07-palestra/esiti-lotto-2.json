@@ -1,0 +1,780 @@
+{
+ "lotto": "2",
+ "data": "2026-11-07",
+ "prove": [
+  {
+   "id": "S02-P001",
+   "esito": "passa"
+  },
+  {
+   "id": "S02-P002",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Con due schede aperte la cassa mostra «Totale 0,00 €» e poi fa pagare 16 € in contanti alla porta",
+   "gravita": "minore"
+  },
+  {
+   "id": "S02-P003",
+   "esito": "passa"
+  },
+  {
+   "id": "S02-P004",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Il prodotto da 0,50 € col 33% di sconto costa 0,33 € in vetrina e 0,34 € in cassa",
+   "gravita": "minore"
+  },
+  {
+   "id": "S02-P005",
+   "esito": "passa"
+  },
+  {
+   "id": "S02-P006",
+   "esito": "passa"
+  },
+  {
+   "id": "S02-P009",
+   "esito": "passa"
+  },
+  {
+   "id": "S02-P010",
+   "esito": "passa"
+  },
+  {
+   "id": "S02-P022",
+   "esito": "passa"
+  },
+  {
+   "id": "S02-P023",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Il reso per ripensamento viene rifiutato prima della scadenza, perché si perde l'ora del cambio d'ora, e il messaggio non dice quando scadeva",
+   "gravita": "grave"
+  },
+  {
+   "id": "S03-P014",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P003",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P004",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Dopo il cambio password il sito ti fa uscire senza dirtelo",
+   "gravita": "minore"
+  },
+  {
+   "id": "S04-P005",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P006",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P047",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Falla di sicurezza da chiudere (dettagli nel referto privato)",
+   "gravita": "minore"
+  },
+  {
+   "id": "S04-P048",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P049",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P076",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P077",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P081",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P082",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P083",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P104",
+   "esito": "passa"
+  },
+  {
+   "id": "S05-P007",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P001",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P003",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P004",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Il doppio tocco su Partecipa dà un messaggio d'errore, e un evento finito resta premibile per quasi un minuto",
+   "gravita": "minore"
+  },
+  {
+   "id": "S06-P005",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Con tre tocchi veloci sul cuore e una rete che consegna le richieste in disordine, il preferito resta tolto anche se l'ultimo tocco era aggiungi",
+   "gravita": "minore"
+  },
+  {
+   "id": "S06-P006",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "La lista dice cinque prodotti ma ne mostra tre, senza dire che due sono stati tolti dal negozio",
+   "gravita": "minore"
+  },
+  {
+   "id": "S06-P008",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P011",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "La pagina Sotto i dieci euro mostra prodotti da dieci euro e nasconde quelli che in promozione costano meno di dieci",
+   "gravita": "minore"
+  },
+  {
+   "id": "S06-P013",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Scegliendo una taglia e un colore che non esistono insieme, la scheda chiede di scegliere le opzioni invece di dire che quella combinazione non c'è",
+   "gravita": "minore"
+  },
+  {
+   "id": "S06-P014",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Se la promozione scade mentre la cassa è aperta, l'ordine in contanti nasce a un prezzo più alto di quello scritto sul pulsante, senza chiedere conferma",
+   "gravita": "grave"
+  },
+  {
+   "id": "S06-P016",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Un carrello condiviso con più di cinquanta voci perde le ultime in silenzio, anche quelle disponibili",
+   "gravita": "minore"
+  },
+  {
+   "id": "S06-P017",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nella prima ora di ogni mese il voto per il negozio del mese viene salvato ma non compare in classifica",
+   "gravita": "minore"
+  },
+  {
+   "id": "S06-P023",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "La geocodifica chiama il servizio esterno più volte al secondo, senza un freno complessivo",
+   "gravita": "minore"
+  },
+  {
+   "id": "S06-P028",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P029",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P030",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Se il negozio accetta mentre il cliente annulla, il cliente legge «Ordine già annullato» ma l'ordine resta accettato",
+   "gravita": "minore"
+  },
+  {
+   "id": "S06-P031",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nel carrello il totale conta anche gli articoli nascosti o esauriti",
+   "gravita": "minore"
+  },
+  {
+   "id": "S06-P032",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Se la promozione scade con la cassa aperta, l'ordine nasce al prezzo pieno senza avviso",
+   "gravita": "grave"
+  },
+  {
+   "id": "S06-P033",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P035",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P036",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nel reclamo non si può allegare una foto",
+   "gravita": "minore"
+  },
+  {
+   "id": "S06-P037",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P043",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "A cavallo della mezzanotte la fascia «Domani» passa da sabato a domenica senza avviso",
+   "gravita": "minore"
+  },
+  {
+   "id": "S06-P044",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nei giorni di festa la cassa propone le consegne come in un giorno qualunque",
+   "gravita": "minore"
+  },
+  {
+   "id": "S06-P046",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "La cassa in contanti accetta un ordine senza l'ora di consegna",
+   "gravita": "minore"
+  },
+  {
+   "id": "S06-P047",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Se la seconda recensione non parte, il voto al fattorino si perde per sempre",
+   "gravita": "minore"
+  },
+  {
+   "id": "S06-P048",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Con la sessione scaduta il pulsante Apri reclamo non fa niente e non dice di rientrare",
+   "gravita": "minore"
+  },
+  {
+   "id": "S06-P049",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Il reso per ripensamento viene rifiutato nell'ultimo giorno utile, dopo l'ora della consegna",
+   "gravita": "grave"
+  },
+  {
+   "id": "S06-P050",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Si può chiedere un reso su un ordine già rimborsato per intero",
+   "gravita": "minore"
+  },
+  {
+   "id": "S06-P051",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P053",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P054",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Cambiando la via di un indirizzo salvato restano le coordinate vecchie, e il fattorino viene mandato al posto sbagliato",
+   "gravita": "grave"
+  },
+  {
+   "id": "S06-P055",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Se il salvataggio fallisce, l'interruttore delle promozioni resta spento anche se non è cambiato niente",
+   "gravita": "minore"
+  },
+  {
+   "id": "S06-P056",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P057",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Un buono regalo valido non si riesce a riscattare: il sito dice che non hai i permessi",
+   "gravita": "grave"
+  },
+  {
+   "id": "S06-P058",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P059",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P060",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P061",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P062",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P063",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Dopo troppi tentativi di accesso la pagina dice «qualche minuto» invece di quanto aspettare",
+   "gravita": "minore"
+  },
+  {
+   "id": "S06-P065",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Il reinvio dell'email di conferma dà messaggi che si contraddicono",
+   "gravita": "minore"
+  },
+  {
+   "id": "S06-P066",
+   "esito": "passa"
+  },
+  {
+   "id": "S06-P068",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Il cambio password dice «password attuale non corretta» anche quando è giusta e il problema è del servizio di accesso",
+   "gravita": "minore"
+  },
+  {
+   "id": "S06-P069",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Chi chiede di cancellare l'account con un ordine in consegna non legge niente su quell'ordine",
+   "gravita": "minore"
+  },
+  {
+   "id": "S06-P070",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Lo scarico dei miei dati si ferma a mille righe e dice comunque che il file è completo",
+   "gravita": "grave"
+  },
+  {
+   "id": "S06-P071",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Le notifiche non lette oltre le ultime cinquanta restano sul campanello e non si possono né vedere né segnare",
+   "gravita": "minore"
+  },
+  {
+   "id": "S06-P072",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Due invii uguali all'assistenza nello stesso istante creano due messaggi e due avvisi",
+   "gravita": "minore"
+  },
+  {
+   "id": "S07-P001",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Se il nome del negozio è troppo lungo, l'avviso dice solo «Nome del negozio» e non spiega cosa correggere",
+   "gravita": "minore"
+  },
+  {
+   "id": "S07-P033",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Quando un cliente scrive a un negozio, il negozio non riceve nessuna email: c'è solo la campanella dentro il sito",
+   "gravita": "minore"
+  },
+  {
+   "id": "S08-P041",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Chi apre due volte il link di conferma della newsletter non legge «già confermato»: la pagina non dice niente, né la prima né la seconda volta",
+   "gravita": "minore"
+  },
+  {
+   "id": "S08-P042",
+   "esito": "passa"
+  },
+  {
+   "id": "S08-P044",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Dopo aver scritto all'assistenza la chat non si apre: il riquadro si chiude e il cliente resta sulla pagina senza nessuna conferma",
+   "gravita": "grave"
+  },
+  {
+   "id": "S09-P002",
+   "esito": "passa"
+  },
+  {
+   "id": "S09-P008",
+   "esito": "passa"
+  },
+  {
+   "id": "S09-P009",
+   "esito": "passa"
+  },
+  {
+   "id": "S09-P015",
+   "esito": "fallisce",
+   "verifica": "scartato",
+   "titolo": "Quando scatta il freno anti-raffica, la disiscrizione con un clic dei programmi di posta risponde come se fosse andata bene, e la persona resta iscritta"
+  },
+  {
+   "id": "S09-P016",
+   "esito": "passa"
+  },
+  {
+   "id": "S09-P019",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "I Termini dicono ancora che la commissione del 10% è «IVA inclusa», mentre Nicola ha sospeso quella dicitura finché il commercialista non conferma il regime fiscale",
+   "gravita": "minore"
+  },
+  {
+   "id": "S09-P020",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nella domanda frequente sul reso «fatti su ordinazione» è scritto due volte",
+   "gravita": "minore"
+  },
+  {
+   "id": "S09-P023",
+   "esito": "passa"
+  },
+  {
+   "id": "S09-P024",
+   "esito": "passa"
+  },
+  {
+   "id": "S09-P025",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Se il conteggio dei negozi non riesce, la pagina Chi siamo torna a dire «100% venditori locali verificati»",
+   "gravita": "minore"
+  },
+  {
+   "id": "S09-P027",
+   "esito": "passa"
+  },
+  {
+   "id": "S09-P031",
+   "esito": "passa"
+  },
+  {
+   "id": "S09-P034",
+   "esito": "fallisce",
+   "verifica": "scartato",
+   "titolo": "Un negozio può segnare un maglione «escluso dal recesso» e il cliente perde il reso, anche su un acquisto già fatto"
+  },
+  {
+   "id": "S09-P036",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Il riquadro «Venduto da» non mostra l'email del negozio",
+   "gravita": "minore"
+  },
+  {
+   "id": "S09-P037",
+   "esito": "passa"
+  },
+  {
+   "id": "S09-P040",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "I Termini non dicono cosa succede se la consegna non arriva nella fascia scelta in cassa",
+   "gravita": "minore"
+  },
+  {
+   "id": "S09-P041",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Una recensione offensiva non si può segnalare e l'amministratore non la può togliere",
+   "gravita": "grave"
+  },
+  {
+   "id": "S10-P001",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Toccando la scheda di un prodotto in home e nella ricerca non si apre niente",
+   "gravita": "grave"
+  },
+  {
+   "id": "S10-P004",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Col pannello dei filtri aperto, il tasto Indietro fa uscire dalla ricerca invece di chiudere il pannello",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P005",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nella vetrina del negozio, sul telefono il logo resta coperto dal tasto Indietro e la scheda Recensioni mostra gli orari",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P006",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Le pagine in più dei negozi non hanno un titolo principale, e un indirizzo sbagliato risponde 200 invece di 404",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P007",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nell'elenco dei negozi un nome lungo viene tagliato di netto, senza i puntini",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P008",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nella mappa «Vicino a te» il pallino «sei qui» è blu, fuori dai colori del marchio",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P009",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Sulla scheda prodotto al telefono prezzo e «Aggiungi al carrello» non si vedono senza scorrere, e un doppio tocco aggiunge due pezzi",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P010",
+   "esito": "passa"
+  },
+  {
+   "id": "S10-P011",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Alla cassa, con il testo del telefono al massimo la pagina scorre di lato e la scheda «Contanti alla consegna» esce dallo schermo",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P013",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "La pagina Novità mostra tutto il catalogo, anche un prodotto di tre mesi fa, e il contatore conta solo le pagine caricate",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P015",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nella pagina Regali i titoli saltano dal primo al terzo livello",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P016",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "La pagina «I più recensiti» non mostra il prodotto con più recensioni: guarda solo gli ultimi 40 pubblicati",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P018",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "La pagina del volto del mese, senza un negozio scelto, non dice niente: manca il messaggio",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P019",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Chi non ha fatto l'accesso non vede gli eventi: la pagina dice «Non riesco a leggere gli eventi»",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P021",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Un doppio tocco su «Crea lista» crea due liste uguali",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P024",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Il link «Password dimenticata?» è alto 16 pixel, troppo piccolo per il pollice",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P025",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Chi si iscrive con un'email già registrata legge «Registrazione completata» invece di un errore",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P026",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "La pagina della nuova password non dice prima la regola che il server applica, e l'errore sparisce in pochi secondi",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P027",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Al secondo «Reinvia» la pagina di verifica dà un errore invece di dire quanto aspettare",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P028",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Sulla pagina delle condizioni il bottone «Continua» è spento senza dire perché",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P029",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Un nome lungo senza spazi allarga la pagina del profilo sul telefono",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P030",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Il bottone «Richiedi eliminazione» usa un rosso fuori dai colori del marchio, e con i caratteri grandi la pagina si allarga",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P031",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "«Modifica» ed «Elimina» degli indirizzi sono alti 32 pixel e distano solo 8",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P032",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "I traguardi mostrano i livelli in inglese e, se la lettura cade, «0 / 0 sbloccati» senza «Riprova»",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P033",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Un buono regalo valido non si riscatta: esce «Non hai i permessi per questa azione»",
+   "gravita": "grave"
+  },
+  {
+   "id": "S10-P034",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "I punti si leggono «1250» senza il punto delle migliaia e, se la lettura cade, la pagina mostra 0 punti",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P035",
+   "esito": "passa"
+  },
+  {
+   "id": "S10-P036",
+   "esito": "passa"
+  },
+  {
+   "id": "S10-P037",
+   "esito": "passa"
+  },
+  {
+   "id": "S10-P038",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nella lista ordini i bottoni Traccia e Riordina sono troppo piccoli per il pollice",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P039",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nel dettaglio dell'ordine gli orari delle tappe seguono il fuso del telefono, non quello di Piacenza",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P040",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Il tasto per togliere una foto dal reso è grande la metà del minimo",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P041",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Col doppio clic la recensione parte due volte e il cliente legge «avevi già recensito»",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P042",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nella contestazione il bottone si spegne senza dire cosa manca",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P043",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nell'elenco messaggi il lettore di schermo dice solo «2», non «2 messaggi non letti»",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P044",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nella chat il messaggio nuovo del negozio non viene annunciato al lettore di schermo",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P045",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Una notifica non letta senza collegamento sembra letta a chi usa il lettore di schermo",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P121",
+   "esito": "passa"
+  },
+  {
+   "id": "S11-P008",
+   "esito": "bloccata"
+  },
+  {
+   "id": "S11-P009",
+   "esito": "non_eseguibile"
+  }
+ ]
+}
