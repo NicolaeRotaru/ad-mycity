@@ -75,6 +75,8 @@ La procedura: `consegne/accoglienza-negozi/00-come-funziona-l-accoglienza.md`. I
 
 > 📋 2026-11-08 01:57 — Il lotto del cliente è nel registro: 44 difetti nuovi, 4 gravi, e 30 già noti confermati, 4 dei quali alzati a gravi. Il primo grave è il buono regalo valido che non si riscatta. Voci aperte 770. Gira il lotto del negozio.
 
+> 📋 2026-11-08 08:35 — Il lotto del negozio è nel registro: 20 difetti nuovi, 1 grave, e 38 già noti confermati. Il grave: chi scrive il prezzo all'italiana, «1.250,00», mette in vendita a 1,25 €. Quattro voci date per riparate tornano aperte. Voci aperte 795. Gira il lotto di amministratore e fattorino.
+
 **In parole semplici.** La palestra è una copia del sito fatta solo per le prove. Lì si usa il sito come tanti clienti, negozi e fattorini insieme. Il sito vero non si tocca mai. La radiografia ha scritto 533 prove da fare lì.
 
 **Cosa cambia per te.** Esempio: oggi nessuno ha mai fatto un ordine in contanti da capo a fondo, da utente collegato. In palestra si fa con un cliente, un negozio e un fattorino finti. Così escono i difetti che leggendo il codice non si vedono.

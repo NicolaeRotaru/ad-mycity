@@ -1,12 +1,12 @@
 {
   "data": "2026-11-06 19:13",
   "tipo": "radiografia-marketplace",
-  "fonte": "radiografia in 12 sessioni (prompt v5): 12 sessioni a tema sui 2.587 file, ogni difetto in chiaro verificato da un agente qa che non l'aveva trovato (gravi: due agenti, prova e peso), un terzo giro piccolo dopo il critico di completezza; le falle riservate verificate solo dentro le sessioni e pubblicate col titolo generico; il 7/11, con la firma di Nicola, un quarto giro ha verificato gli 8 difetti del terzo giro; il 7/11 la palestra (copia del sito per le prove) ha rifatto 114 prove e la prova generale di Pane Quotidiano: i difetti confermati da verificatori indipendenti e non già nel registro entrano col giro 5; l'8/11 il lotto 2 della palestra (134 prove da cliente) aggiunge i suoi difetti confermati e ricontrollati, sempre col giro 5",
+  "fonte": "radiografia in 12 sessioni (prompt v5): 12 sessioni a tema sui 2.587 file, ogni difetto in chiaro verificato da un agente qa che non l'aveva trovato (gravi: due agenti, prova e peso), un terzo giro piccolo dopo il critico di completezza; le falle riservate verificate solo dentro le sessioni e pubblicate col titolo generico; il 7/11, con la firma di Nicola, un quarto giro ha verificato gli 8 difetti del terzo giro; il 7/11 la palestra (copia del sito per le prove) ha rifatto 114 prove e la prova generale di Pane Quotidiano: i difetti confermati da verificatori indipendenti e non già nel registro entrano col giro 5; l'8/11 il lotto 2 della palestra (134 prove da cliente) aggiunge i suoi difetti confermati e ricontrollati, sempre col giro 5; l'8/11 il lotto 3 della palestra (122 prove da negozio) aggiunge i suoi difetti confermati e ricontrollati, sempre col giro 5",
   "codice_analizzato": "NicolaeRotaru/mycity @ db5164c (main)",
-  "totale": 256,
+  "totale": 276,
   "bloccanti": 1,
-  "gravi": 20,
-  "minori": 235,
+  "gravi": 21,
+  "minori": 254,
   "dimensioni": [
     {
       "dimensione": "qa-flussi",
@@ -861,6 +861,91 @@
           "verificato": true,
           "giro": 5,
           "fonte_radiografia": "palestra 2026-11-07/08 · lotto 2, prove da cliente (wf_f4377721-1cd)"
+        },
+        {
+          "dimensione": "qa-flussi",
+          "titolo": "Un doppio clic su «Pubblica prodotto» mette in vendita due o tre prodotti uguali",
+          "severita": "minore",
+          "file": "components/seller/ProductForm.tsx:687-688 (makeSubmit dentro handleSubmit: convalida asincrona prima dell'invio) e :1231 (il pulsante si spegne solo con busy = submitting) · app/seller/products/new/page.tsx:190-216 (insert in products dal browser, senza chiave contro i doppioni) e :284-289 (submitting={create.isPending})",
+          "descrizione": "Visto in palestra l'8/11 col negozio nuovo qas07b-p009. In /seller/products/new il modulo era valido: nome «QA doppio clic A», descrizione oltre i 30 caratteri, prezzo 12, categoria Libri, una foto. Un doppio clic su «Pubblica prodotto» fa nascere 2 prodotti identici, tutti e due available, a 3 millesimi di secondo l'uno dall'altro (00:24:01.273 e .276), con due avvisi «Prodotto pubblicato!». Due clic più Invio nello stesso istante ne fanno nascere 3 (00:24:19.072, .085 e .222). Con Invio premuto prima del doppio clic ne nasce uno solo, perché il pulsante era già spento. Il pulsante si spegne solo quando create.isPending diventa vero. Prima però c'è la convalida di react-hook-form, che è asincrona: i clic che arrivano in quella finestra passano tutti. E l'insert dal browser non ha nessuna chiave che fermi il secondo. Nella stessa prova ci sono due difetti minori a parte. «Salva come bozza» senza foto viene bloccato da «Aggiungi almeno una foto», perché makeSubmit guarda le foto prima di guardare se è una bozza. Il nome oltre i 120 caratteri dà solo «Il valore inserito non è valido», e questo è già nel registro. Misura della palestra (prova S10-P066): due clic a 0 ms fanno due prodotti; a 40, 120 e 200 ms ne nasce uno solo, anche col processore rallentato 6 volte. Il doppione nasce solo col doppio tocco quasi simultaneo.",
+          "impatto": "Il negoziante che tocca due volte si ritrova doppioni in vetrina e deve cancellarli a mano. Se non se ne accorge, un pezzo unico (scorta 1) pubblicato due volte si può vendere due volte, e uno dei due clienti riceve poi un annullo.",
+          "fix": "In ProductForm serve un freno sincrono: un useRef invioInCorso, controllato e messo a true all'inizio del gestore del submit, prima di handleSubmit, e rimesso a false quando la pagina segnala un errore. In alternativa, spegnere il pulsante anche con formState.isSubmitting. Sul dato, la pagina genera l'id del prodotto una volta sola, all'apertura del modulo (crypto.randomUUID), e lo manda nell'insert. Così il secondo insert cade sulla chiave primaria (errore 23505) e si tratta come «già pubblicato». In makeSubmit, controllare le foto solo se l'intento non è 'draft'.",
+          "causa_radice": "Lo stato di attesa di react-query arriva al pulsante solo al disegno successivo, e qui prima della mutazione c'è anche la convalida asincrona del modulo. È lo stesso schema di liste e recensioni, un pulsante protetto solo da isPending, e manca una chiave che renda l'inserimento ripetibile senza doppioni.",
+          "prova": "Test vitest proposto: tests/unit/il-doppio-clic-pubblica-un-prodotto-solo.test.tsx, montato come tests/unit/minori-s06-modulo-prodotto-ai.test.tsx (jsdom, createRoot, sonner e next/navigation finti). Monta ProductForm in mode 'create' con initialValues validi (nome, descrizione lunga, prezzo 12, category_id 'c1', una foto) e una spia come onSubmit. Lancia due click di seguito sul pulsante «Pubblica prodotto», nello stesso act e senza attese, poi aspetta la convalida. Pretende onSubmit chiamato una volta sola. Comando: cd /home/user/mycity && npx vitest run tests/unit/il-doppio-clic-pubblica-un-prodotto-solo.test.tsx. Oggi è rosso: 2 chiamate.",
+          "prova_tipo": "vitest",
+          "esito_prova": "In palestra: 2 prodotti identici available a 3 ms di distanza col doppio clic, 3 con clic, clic e Invio. Riprodotto due volte. Script: prove/lotto3/qa-s07b/p009.mjs, p009b.mjs e p009c.mjs. Schermata: esiti/qa-l3-s07p009-doppio-istante.png.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
+        },
+        {
+          "dimensione": "qa-flussi",
+          "titolo": "Col doppio clic su «Rifiuta ordine» compare anche un avviso rosso di errore, e l'aiuto dice che il motivo è obbligatorio e promette un rimborso che coi contanti non esiste",
+          "severita": "minore",
+          "file": "app/seller/orders/[id]/page.tsx:119-181 e :286-303 (RejectDialog e mutazione reject, freno solo su isPending) · app/api/seller/orders/[id]/reject/route.ts:65 e :70-91 (GIA_ANNULLATO non tradotto, finisce in «Rifiuto fallito») · app/seller/help/domande.ts:49-50",
+          "descrizione": "Palestra, 8/11: ordine in contanti «Ordine ricevuto» da 18 € sul Negozio A. «Rifiuta» apre il riquadro «Motivo del rifiuto (opzionale)»; motivo vuoto, doppio clic su «Rifiuta ordine». Prima prova: partono 2 richieste, 200 e 409, e a schermo compaiono insieme «Ordine rifiutato» (verde) e «Ordine già annullato» (rosso). Ripetizione su un ordine nuovo: 500 e 200, avvisi «Ordine rifiutato» e «Rifiuto fallito». Nel database va tutto bene: una sola cancellazione, merce rimessa a magazzino, una sola notifica al cliente («Nessun addebito è andato a buon fine»). Le cause sono due. Il pulsante si spegne con pending={reject.isPending}, che arriva al secondo clic troppo tardi. La rotta, se le due richieste leggono tutte e due NEW, riceve GIA_ANNULLATO da annullaERimborsa e non lo traduce: risponde 500 «Rifiuto fallito» invece di 409. In più l'aiuto per i negozi (/seller/help, «Posso rifiutare un ordine?») dice «Fornisci sempre un motivo… Il cliente riceve rimborso automatico»: il pulsante dice che il motivo è facoltativo, e coi contanti, l'unico pagamento al lancio, non c'è niente da rimborsare. Nello stesso file delle domande frequenti la palestra (S07-P032) ha visto altre due frasi false: «Come segnalo l'ordine pronto?» propone il cliente che passa in negozio, ma il ritiro in negozio è spento al lancio; «Quando ricevo i soldi» rimanda al prossimo importo previsto in Guadagni, che la pagina non mostra.",
+          "impatto": "Il negoziante che rifiuta un ordine con un doppio tocco (frequente sul telefono) vede un avviso rosso accanto a quello verde e può credere che il rifiuto non sia passato: riprova, chiama l'assistenza o lascia l'ordine in sospeso nella testa. L'aiuto gli fa credere che il motivo sia obbligatorio e che al cliente parta un rimborso, cosa falsa coi contanti. Nessun dato si rovina.",
+          "fix": "Nel riquadro: un freno sincrono con useRef in onConfirm (se è già partito, il secondo clic non fa niente) oltre a isPending. Nella rotta: tradurre GIA_ANNULLATO in 409 «Ordine già annullato», come il controllo a :65, e nella pagina trattare il 409 «già annullato» dopo un successo come esito già raggiunto, senza avviso rosso. In domande.ts riscrivere la risposta: «Sì, se non puoi evaderlo. Il motivo è facoltativo ma aiuta il cliente. Se aveva pagato online gli torna il rimborso; coi contanti non c'è niente da restituire.»",
+          "causa_radice": "Il freno contro il secondo clic si appoggia allo stato di react-query, che arriva al pulsante dopo un giro di disegno; la rotta conosce un solo modo di dire «già fatto» (il controllo iniziale) e non quello che arriva da annullaERimborsa; il testo d'aiuto è scritto a mano e non segue né il pulsante né il tipo di pagamento.",
+          "prova": "Proposta: tests/unit/il-rifiuto-del-negozio-dice-una-cosa-sola.test.ts, sul modello di tests/unit/il-rifiuto-del-negozio-restituisce-i-soldi.test.ts (stessi finti di middleware, logger e supabase). Caso 1: ordine NEW letto dalla rotta, update di orders che restituisce zero righe (annullaERimborsa → GIA_ANNULLATO): expect(res.status).toBe(409). Caso 2: import { TOPICS } from '@/app/seller/help/domande'; la risposta a «Posso rifiutare un ordine?» non deve contenere /Fornisci sempre un motivo/ né /riceve rimborso automatico/. Comando: cd /home/user/mycity && npx vitest run tests/unit/il-rifiuto-del-negozio-dice-una-cosa-sola.test.ts — oggi rosso su tutti e due i casi (500 invece di 409; testo vecchio).",
+          "prova_tipo": "vitest",
+          "esito_prova": "Palestra 8/11, script p023.mjs e p024.mjs: doppio clic → 200+409 con avvisi «Ordine rifiutato» e «Ordine già annullato»; ripetizione → 500+200 con «Ordine rifiutato» e «Rifiuto fallito». Database corretto (una cancellazione, una notifica, nessuna email). Due rifiuti nello stesso istante sulla rotta su un ordine ACCEPTED → 200 e 409. Pagina d'aiuto letta: «Fornisci sempre un motivo… rimborso automatico». Schermate qa-l3-s07p023-dialogo.png, -dopo-doppio-clic.png, -ripetizione-doppio-clic.png.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
+        },
+        {
+          "dimensione": "qa-flussi",
+          "titolo": "Se il negoziante scrive il prezzo all'italiana col punto delle migliaia, «1.250,00», il prodotto va in vendita a 1,25 euro senza nessun avviso",
+          "severita": "grave",
+          "file": "components/seller/ProductForm.tsx:924-931 (campo «Prezzo (€)» type=\"number\"; uguale il «Prezzo pieno» poco sotto) · lib/products/schema.ts:120 (z.coerce.number) · app/seller/products/import/csv.ts:92-96 (leggiPrezzo, da riusare e correggere)",
+          "descrizione": "Palestra, 8/11 tra le 02:16 e le 02:20, negozio nuovo qa710-prodotti, /seller/products/new a 390×844. Foto JPG, nome, descrizione, categoria «Casa & Cucina», disponibilità 3; nel campo «Prezzo (€)» si scrive 1.250,00 tasto per tasto. Il campo numerico vale «1.25000», l'anteprima «come la vede il cliente» dice 1,25 €, e «Pubblica prodotto» mette il prodotto in vendita a 1,25 € (products.price = 1.25, status available) senza nessun avviso. Riprodotto 2 volte. Rifatto fuori dalla palestra su una pagina vuota con Chromium e lingua del sistema italiana: «1.250,00» → «1.25000», stesso errore; «12,50» → «12.50», giusto. Il campo è type=\"number\": il browser legge il punto come virgola dei decimali e scarta il resto; lo schema poi fa z.coerce.number e accetta qualunque numero positivo. Il sito ha già un lettore dei prezzi all'italiana (leggiPrezzo) ma il modulo non lo usa. Lo stesso campo serve anche la modifica del prodotto.",
+          "impatto": "Un negozio di arredamento o elettronica che mette una poltrona da 1.250 € la pubblica a 1,25 €: i clienti la vedono e la possono ordinare a quel prezzo, e il negoziante se ne accorge solo dall'ordine, quando deve rifiutarlo davanti al cliente. Con la [19] è la seconda porta da cui un prezzo mille volte più basso entra in vetrina senza conferma.",
+          "fix": "Campo prezzo (e prezzo pieno) di tipo testo con inputMode=\"decimal\"; nello schema sostituire z.coerce.number con un preprocess che usa leggiPrezzo corretto per i prezzi col solo punto delle migliaia (es. «1.250» con tre cifre dopo il punto → 1250; «1.250,00» → 1250; «12,50» → 12.5). Se la lettura è ambigua o il prezzo cambia di oltre 10 volte rispetto al precedente, chiedere conferma con un messaggio in italiano («Hai scritto 1.250,00 €: confermi?»). Anteprima e salvataggio leggono lo stesso numero.",
+          "causa_radice": "Il prezzo entra da un campo numerico del browser, che segue la regola inglese del punto decimale, e lo schema si fida di qualunque numero positivo; la regola italiana esiste solo nell'import da file.",
+          "prova": "Proposta: tests/unit/il-prezzo-all-italiana-non-diventa-mille-volte-piu-basso.test.tsx (ambiente jsdom, stessi finti di tests/unit/minori-s06-modulo-prodotto-ai.test.tsx). Caso 1: createProductSchema().safeParse({ name: 'Poltrona', description: 'Poltrona in velluto verde', price: '1.250,00', category_id: 'c1' }) → expect(r.success).toBe(true) e expect(r.data.price).toBe(1250). Caso 2: montare ProductForm (mode 'create') e prendere l'input con etichetta «Prezzo (€)»: expect(input.getAttribute('type')).not.toBe('number'), perché un campo numerico del browser trasforma «1.250,00» in 1.25 prima dello schema. Comando: cd /home/user/mycity && npx vitest run tests/unit/il-prezzo-all-italiana-non-diventa-mille-volte-piu-basso.test.tsx — oggi rosso su tutti e due (lo schema rifiuta «1.250,00» come NaN; il campo è type=number). Conferma del comportamento del browser, facoltativa: con Playwright, page.setContent('<input type=number id=p>'), page.type('#p','1.250,00'), il valore letto è «1.25000».",
+          "prova_tipo": "vitest",
+          "esito_prova": "Palestra 8/11, script p066.mjs–p066d.mjs: «1.250,00» → campo «1.25000», anteprima 1,25 €, products.price = 1.25 in vendita, nessun avviso, 2 volte su 2. Fuori dalla palestra (Chromium, lingua italiana) stesso risultato; «12,50» corretto. Schermate qa-l3-s10p066-compilato.png, -anteprima-prezzo.png, -dopo-pubblica-1.png.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
+        },
+        {
+          "dimensione": "qa-flussi",
+          "titolo": "Un doppio clic su «Crea promo» crea due promozioni uguali, e se se ne cancella una l'altra resta attiva",
+          "severita": "minore",
+          "file": "app/seller/promotions/page.tsx:95-113 (mutazione create, insert in seller_promotions) e :295-297 (bottone «Crea promo» protetto solo da loading={create.isPending}) · tabella seller_promotions senza nessun vincolo contro le righe uguali",
+          "descrizione": "Visto in palestra l'8/11 (lotto 3, prove da negozio) col negozio vuoto qal3p070-vuoto. Passi: aperta /seller/promotions, premuto «Nuova promo (30 sec)», scritto il titolo «P070c dblclick 1440», scelto -25%, poi doppio clic veloce su «Crea promo». Il conteggio select count(*) from seller_promotions where seller_id=… and title='P070c dblclick 1440' dà 2: due righe identiche, tutte e due attive. L'elenco «Attive» le mostra entrambe. Riprodotto 3 volte su 3: col tocco a 360x740 e 390x844, col mouse a 1440x900. Il prezzo non si raddoppia: la funzione delle promo attive prende lo sconto migliore (letto in migrations/056 e 128, non provato in cassa). Il bottone si spegne solo quando create.isPending arriva al disegno successivo, cioè dopo il secondo clic. Il resto della pagina è a posto: niente scorrimento laterale, stato vuoto e lettura fallita con Riprova corretti.",
+          "impatto": "Lo subisce il negoziante che tocca due volte: vede la stessa promo due volte. Se ne cancella una convinto di aver chiuso lo sconto, l'altra continua a scontare fino alla scadenza. Il cliente non paga meno del dovuto, perché vale lo sconto migliore. Però il negozio perde il controllo su quando finisce la promo. Non costa soldi in più, ma c'è il rischio di uno sconto lasciato acceso per sbaglio.",
+          "fix": "In app/seller/promotions/page.tsx serve un freno sincrono, come quello proposto per «Crea lista»: un useRef inCorso messo a true prima di create.mutate() e rimesso a false in onSettled, e il clic si ignora se vale già true. Meglio ancora una regola comune nel componente Button (o un hook useInvioUnico) per tutti i bottoni del pannello che scrivono nel database. Facoltativo, nel database: un indice unico parziale su (seller_id, title, discount_percent, scope) per le promo attive non annullate.",
+          "prova": "Test vitest proposto: tests/unit/un-doppio-clic-crea-una-promo-sola.test.tsx, sullo schema di tests/unit/la-pagina-promozioni-vuota-non-va-in-errore.test.tsx. Monta app/seller/promotions/page con un supabase finto: from('seller_promotions').select risponde [], insert conta le chiamate e risponde {error:null} dopo un microtask. Apre «Nuova promo», sceglie -25% e, dentro un solo act, chiama due volte click() su «Crea promo». Pretende una sola chiamata a insert. Comando: cd /home/user/mycity && npx vitest run tests/unit/un-doppio-clic-crea-una-promo-sola.test.tsx. Oggi è rosso: le chiamate a insert sono 2.",
+          "prova_tipo": "vitest",
+          "esito_prova": "In palestra: 2 righe identiche in seller_promotions per lo stesso titolo, 3 volte su 3 (a 360, 390 e 1440). Schermata qa-l3-s10p070-due-promo-uguali-1440.png.",
+          "causa_radice": "Lo stato di attesa di react-query arriva al bottone solo al disegno successivo, così due clic nello stesso istante passano tutti e due a mutate(). La tabella non ha nessun freno contro le righe uguali.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
+        },
+        {
+          "dimensione": "qa-flussi",
+          "titolo": "Un doppio clic su «Pubblica (24h)» pubblica la stessa storia due volte, e i clienti le vedono tutte e due",
+          "severita": "minore",
+          "file": "app/seller/stories/page.tsx:79-140 (mutazione create: setUploading(true) solo dopo await supabase.auth.getUser(), riga 85) e :241 (bottone disabled={uploading || !image}, senza create.isPending)",
+          "descrizione": "Visto in palestra l'8/11 col negozio qal3p077-vetrina a 390x844, e rifatto su un secondo negozio. Passi: scelta una foto orizzontale da 1600x900 (33 KB), poi doppio clic su «Pubblica (24h)». Nascono 2 righe in seller_stories a 2 ms di distanza e 2 file nel deposito delle storie, e la pagina mostra 2 storie. Riprodotto 2 volte su 2 negozi. Con lo spazio delle storie che risponde 400 «Bucket not found», lo stesso doppio clic fa due tentativi e l'avviso compare due volte. Il bottone guarda solo «uploading», che si accende dentro la funzione dopo la lettura dell'utente: al secondo clic il bottone è ancora attivo. Nella stessa prova la palestra ha visto anche tre cose che sono già nel registro con voci proprie: manca l'anteprima della foto, c'è l'avviso «Applica la migration 035» e c'è l'etichetta «Caption».",
+          "impatto": "Lo subisce il negoziante che tocca due volte dal telefono. I clienti vedono la stessa storia due volte di fila nel carosello, e lui deve cancellarne una a mano. Le due foto uguali occupano spazio nel deposito. Non tocca soldi, ma fa sembrare la vetrina trascurata.",
+          "fix": "Serve un freno sincrono: un useRef inCorso, controllato e messo a true all'inizio dell'onClick prima di create.mutate(), e rimesso a false in onSettled. In più disabled={create.isPending || uploading || !image}. setUploading(true) va spostato in cima, prima di ogni await.",
+          "prova": "Test vitest proposto: tests/unit/un-doppio-clic-pubblica-una-storia-sola.test.tsx. Monta app/seller/stories/page con un supabase finto: auth.getUser risolve dopo un microtask con un utente, from('seller_stories').insert conta le chiamate. Anche caricaImmagine è finto e conta i caricamenti. Il test sceglie un File immagine nel campo e poi, dentro un solo act, chiama due volte click() su «Pubblica (24h)». Pretende un solo caricamento e un solo insert. Comando: cd /home/user/mycity && npx vitest run tests/unit/un-doppio-clic-pubblica-una-storia-sola.test.tsx. Oggi è rosso: i caricamenti sono 2 e gli insert pure.",
+          "prova_tipo": "vitest",
+          "esito_prova": "In palestra: 2 righe in seller_stories a 2 ms di distanza e 2 file nel deposito, su 2 negozi su 2. Schermata qa-l3-s10p072-due-storie-390.png.",
+          "causa_radice": "Il freno del bottone è uno stato acceso dentro la funzione asincrona, dopo il primo await: arriva tardi e non ferma il secondo clic.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
         }
       ]
     },
@@ -1348,6 +1433,74 @@
           "verificato": true,
           "giro": 1,
           "fonte_radiografia": "radiografia 2026-11-06 · S12"
+        },
+        {
+          "dimensione": "ai-endpoints",
+          "titolo": "Con l'intelligenza artificiale spenta, la creazione di prodotti in blocco risponde «riprova fra poco» invece di dire che il servizio è spento",
+          "severita": "minore",
+          "file": "app/api/ai/catalog-create-bulk/route.ts:88-91 (in testa alla rotta nessun controllo di AI_NEGOZI_ACCESA) · :162-183 (il filtro che cade diventa il motivo «controllo non disponibile in questo momento: riprova fra poco») · :194-198 (risposta 400 «Nessun prodotto pubblicabile») · lib/ai/client.ts:187-189 (con l'interruttore spento lancia AiConfigError) · confronto: app/api/ai/catalog-batch/start/route.ts:39",
+          "descrizione": "In palestra l'interruttore era spento come su main (AI_NEGOZI_ACCESA=false, lib/funzioni-al-lancio.ts:68). Un negozio approvato manda POST /api/ai/catalog-create-bulk con due bozze. Le foto vengono da images.pexels.com, che è un host ammesso. Risponde 400: «Nessun prodotto pubblicabile. L3Q Bozza 1: controllo non disponibile in questo momento: riprova fra poco · L3Q Bozza 2: …». Succede uguale con due invii in parallelo. Le altre porte tengono: un estraneo riceve 401, un cliente 403, una foto da un host estraneo dà 400 «foto non caricate su MyCity», e il freno risponde 429 all'undicesima chiamata (tetto di 10 all'ora). Nel database non si scrive niente: A resta con 3 prodotti, B con 1. Perché succede: la rotta non legge l'interruttore. Ogni bozza passa dal filtro di conformità (classifyProductPolicy), che a interruttore spento lancia AiConfigError (lib/ai/client.ts:187). Promise.allSettled trasforma quell'errore nel motivo «riprova fra poco», come se fosse un guasto passeggero. La rotta sorella catalog-batch/start invece risponde 503 «Gli strumenti AI per i negozi non sono ancora attivi.».",
+          "impatto": "Oggi lo vede solo chi chiama la rotta a mano, o una pagina rimasta aperta da prima, perché con l'AI spenta la pagina che la chiama è nascosta. Chi legge «riprova fra poco» riprova: dieci tentativi consumano il freno orario senza risultato. L'assistenza cerca un guasto che non c'è, mentre la funzione resta spenta finché non si cambia il codice. Non si toccano soldi né dati.",
+          "fix": "In testa alla rotta, prima del freno e della lettura del corpo, rispondere 503 «Gli strumenti AI per i negozi non sono ancora attivi.» quando AI_NEGOZI_ACCESA è falso, come fa catalog-batch/start/route.ts:39. Meglio ancora: un controllo unico, per esempio un avvolgitore o una funzione aiNegoziSpenta(), usato da tutte le rotte /api/ai dei negozi. Così si chiudono insieme anche catalog-apply e catalog-apply-bulk, che a interruttore spento scrivono prezzi. Dentro il ciclo, poi, va distinto l'AiConfigError (servizio spento o non configurato: 503 per tutta la richiesta) dall'errore passeggero del modello, l'unico caso in cui «riprova fra poco» è vero.",
+          "causa_radice": "L'interruttore lo legge il client del modello, non la rotta. La rotta vede soltanto «il filtro è caduto» e non sa distinguere uno spegnimento voluto da un guasto.",
+          "prova": "Prova vitest proposta, tests/unit/con-l-ai-spenta-le-rotte-del-catalogo-dicono-spento.test.ts. Si fingono '@/lib/api/middleware' (withSellerAuth passa un utente negozio), '@/lib/supabase/server' (categorie e prodotti finti) e '@/lib/rate-limit' (sempre ammesso). Restano veri lib/funzioni-al-lancio.ts (AI_NEGOZI_ACCESA=false) e lib/ai/client.ts. Si chiama POST con una bozza con foto https://images.pexels.com/photos/14657386/pexels-photo-14657386.jpeg. La prova pretende tre cose: stato 503, corpo che contiene «non sono ancora attivi», e classifyProductPolicy (spiata con vi.spyOn) mai chiamata. Comando: cd /home/user/mycity && npx vitest run tests/unit/con-l-ai-spenta-le-rotte-del-catalogo-dicono-spento.test.ts. Oggi è rossa: risponde 400 con «controllo non disponibile in questo momento: riprova fra poco».",
+          "prova_tipo": "vitest",
+          "esito_prova": "Palestra lotto 3, prova S04-P032, con l'interruttore AI spento come su main. Un negozio approvato con due bozze ha ricevuto 400 «Nessun prodotto pubblicabile. L3Q Bozza 1: controllo non disponibile in questo momento: riprova fra poco · L3Q Bozza 2: …», anche con due invii in parallelo. Nessuna scrittura: lo dice l'sql prima e dopo. Le porte invece tengono: 401, 403, 400 per l'host estraneo e 429 all'undicesima chiamata. Confidenza dei verificatori: 90%.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
+        },
+        {
+          "dimensione": "ai-endpoints",
+          "titolo": "Falla di sicurezza R315 da chiudere (controlli dell'AI per i negozi): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+          "severita": "minore",
+          "file": "(nel referto privato)",
+          "descrizione": "nel referto privato",
+          "impatto": "nel referto privato",
+          "fix": "nel referto privato",
+          "causa_radice": "nel referto privato",
+          "prova": "nel referto privato",
+          "prova_tipo": "comando",
+          "prova_eseguita": true,
+          "esito_prova": "nel referto privato",
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
+        },
+        {
+          "dimensione": "ai-endpoints",
+          "titolo": "Con un fornitore lento la risposta lunga del Copilot non arriva mai: dopo due minuti il negozio legge solo «riprova»",
+          "severita": "minore",
+          "file": "lib/ai/regole-copilot.ts:17-22 (tettoTokenCopilot: tetto 6000 e commento sui 60 s) · app/api/ai/copilot/route.ts:247 · lib/ai/client.ts:197 (timeout 60_000, maxRetries 1) · lib/ai/run.ts:355 (messages.create senza streaming) · vercel.json:14 (app/api/ai/** maxDuration 120)",
+          "descrizione": "Il Copilot chiede al modello fino a min(6000, 1024 + 60 × prodotti) token, quindi da 83 prodotti in su il tetto è 6000. Il commento in regole-copilot.ts dice che 6000 token stanno nei 60 s del client. Vale solo se il fornitore scrive almeno 100 token al secondo. runMessage usa messages.create senza streaming, quindi la risposta arriva solo a generazione finita. La palestra l'8/11 ha rifatto il caso in locale con lo stesso SDK 0.100.1 e la stessa configurazione di client.ts. Ha usato un fornitore finto a 40 token/s e una risposta di circa 6000 token. Servirebbero 150 s. Il client scade a 60,5 s, riprova e scade di nuovo: APIConnectionTimeoutError a 120,5 s, con 2 tentativi arrivati al fornitore. È oltre i 120 s della rotta. Il negozio riceverebbe la pagina 504 di Vercel. lib/errors.ts la mostra come «Il server non ha risposto correttamente. Riprova fra qualche secondo.», senza la risposta e senza un avviso di taglio. Oggi sulla palestra, con l'AI spenta, la parte che si può eseguire è a posto. POST /api/ai/copilot dal negozio risponde 503 «Servizio AI non configurato.» in 0,4 s, un estraneo riceve 401, ai_spend_daily resta vuota. Nel pannello del negozio il Copilot non compare.",
+          "impatto": "Oggi nessuno, perché l'AI dei negozi è spenta. Quando si riaccende, lo subisce un negozio con più di circa 80 prodotti che chiede una modifica su tutto il catalogo mentre il fornitore è lento, per esempio nelle ore di punta. Aspetta due minuti e legge «riprova». Riprova e aspetta di nuovo. Per ogni tentativo MyCity paga due generazioni lunghe del modello grande, e il negozio non vede niente.",
+          "fix": "Togliere l'ipotesi dei 100 token/s, in uno di due modi. Primo modo: lo streaming nel Copilot (client.messages.stream), con una scadenza comune ricavata dal tempo che resta alla rotta. Se il tempo finisce, si restituisce il piano parziale con l'avviso «entrato fino al prodotto N». Secondo modo: abbassare il tetto a quanto arriva in un tentativo alla velocità peggiore, circa 40 token/s × 45 s, cioè circa 1800 token, e dividere il piano in pezzi. In alternativa, il modello restituisce la regola (filtro più operazione) e il server calcola le modifiche, come già propone la voce 577. In ogni caso, nessun ritentativo automatico su una chiamata lunga che non ha più tempo.",
+          "prova": "Test vitest proposto: tests/unit/il-copilot-risponde-in-tempo-anche-col-fornitore-lento.test.ts. Usa gli stessi finti di tests/unit/minori-s10-catalogo-chat.test.ts: withSellerAuth finto, database finto con 200 prodotti, AI_NEGOZI_ACCESA true, ANTHROPIC_API_KEY finta, runMessage finto che registra gli argomenti. Chiama POST /api/ai/copilot con l'istruzione «abbassa del 10% tutto». Pretende una delle due: args.stream === true, oppure args.max_tokens / 40 ≤ 45. La seconda vuol dire che la risposta più lunga arriva in un tentativo solo anche a 40 token/s, con margine sui 60 s del client e sui 120 s della rotta. Comando: `npx vitest run tests/unit/il-copilot-risponde-in-tempo-anche-col-fornitore-lento.test.ts`. Oggi è rosso: max_tokens vale 6000, cioè 150 s a 40 token/s, e non c'è streaming.",
+          "prova_tipo": "vitest",
+          "esito_prova": "Palestra, riproduzione locale prove/lotto3/qa-s12a/sdk/copilota.mjs (SDK 0.100.1, timeout 60_000, maxRetries 1, fornitore finto a 40 token/s). Senza streaming la risposta arriverebbe dopo 150 s. Il client scade a 60,5 s, ritenta e va in APIConnectionTimeoutError a 120,5 s; il fornitore ha ricevuto 2 tentativi. Sulla palestra vera, con l'AI spenta: 503 in 0,4 s, 401 da estraneo, ai_spend_daily vuota, Copilot assente dal pannello (foto esiti/qa-l3-s12a-p011-pannello.png).",
+          "causa_radice": "Il tetto di 6000 token conta su un fornitore veloce (almeno 100 token/s) e su un tentativo solo. Nessuno ha confrontato il caso peggiore col timeout del client e col maxDuration della rotta, e senza streaming non arriva nemmeno un pezzo della risposta.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
+        },
+        {
+          "dimensione": "ai-endpoints",
+          "titolo": "Se si riaccende «Traduci», una descrizione lunga torna tradotta solo all'inizio e il modulo la presenta come intera",
+          "severita": "minore",
+          "file": "lib/ai/productContext.ts:108-114 (MAX_PRODUCT_JSON = 4000, il taglio lo sa solo il modello) · app/api/ai/translate/route.ts:94-128 (max_tokens 1024, risposta 200 senza avviso) · components/seller/QuickAiTools.tsx:107-113 («Annuncio tradotto nel form — controlla e salva»)",
+          "descrizione": "buildProductContext mette la scheda nel prompt come JSON e la taglia a 4000 caratteri. Il taglio lo segnala con «…(troncato per limite di lunghezza)», ma solo al modello. La rotta di traduzione non lo sa: chiede la traduzione con max_tokens 1024 e risponde 200 con {patch, lang}, senza nessun segno del taglio. QuickAiTools applica la patch al modulo e scrive «Annuncio tradotto nel form — controlla e salva». La palestra l'8/11 l'ha provato col codice vero della rotta, in una prova automatica: file identici a main, traduzione e AI accese per finta, finta solo la risposta del fornitore. Riprodotto due volte. Con una descrizione di 20 000 caratteri in 200 frasi, al modello arrivano 40 frasi, cioè 4 165 caratteri di contenuto. La rotta risponde 200 senza avviso. Salvando, i 20 000 caratteri in italiano diventano la traduzione dei primi ~4 000. Oggi sulla palestra il rifiuto è chiaro: POST /api/ai/translate risponde 503 «La traduzione dei prodotti non è ancora attiva.» in 425 ms, perché TRADUCI_ACCESO è false. Un estraneo riceve 401, ai_spend_daily resta vuota.",
+          "impatto": "Oggi nessuno: la traduzione è spenta e già segnata come da ripensare. Quando si riaccende, lo subisce un negozio con una scheda lunga, per esempio un'enoteca con molte note tecniche. Preme «Traduci», controlla l'inizio, salva, e perde senza saperlo quattro quinti della descrizione. I clienti stranieri leggono una scheda monca.",
+          "fix": "Nella rotta di traduzione non usare la scheda tagliata in silenzio. Se nome e descrizione superano quanto si traduce in una chiamata, la rotta rifiuta con un messaggio chiaro (per esempio «Descrizione troppo lunga per la traduzione automatica: massimo N caratteri») oppure traduce a pezzi. Il limite conta anche in uscita: oggi max_tokens 1024 vale circa 4000 caratteri. In più, buildProductContext deve dire a chi la chiama se ha tagliato, per esempio restituendo {content, troncato}. Se ha tagliato, la rotta risponde con un avviso, e QuickAiTools mostra quello invece di «Annuncio tradotto». Va messo fra i requisiti della traduzione ripensata.",
+          "prova": "Test vitest proposto: un caso nuovo in tests/unit/api-ai-translate.test.ts, con gli stessi finti già presenti (interruttori accesi, withSellerAuth finto, filtro finto, runMessage finto). Fa POST con product.description di 200 frasi numerate, circa 20 000 caratteri, e targetLang 'en'. Pretende che la risposta non sia un 200 muto, in uno di tre modi: status diverso da 200; json con un avviso di taglio; il content passato a runMessage contiene l'ultima frase («Frase 200»). Comando: `npx vitest run tests/unit/api-ai-translate.test.ts`. Oggi è rosso: la rotta risponde 200 {patch, lang} e nel content arrivano solo le prime ~40 frasi.",
+          "prova_tipo": "vitest",
+          "esito_prova": "Palestra, prova automatica col codice vero della rotta (prove/lotto3/qa-s12b/vt), riprodotta due volte. Delle 200 frasi ne arrivano al modello 40 (4 165 caratteri). La risposta è 200 {patch, lang} senza avviso. QuickAiTools mostra «Annuncio tradotto nel form — controlla e salva». Sulla palestra vera: 503 in 425 ms con la traduzione spenta, 401 da estraneo.",
+          "causa_radice": "Il taglio a 4000 caratteri è nato come freno al costo per le rotte che leggono la scheda (SEO, diagnosi, varianti): lì un taglio non fa danni. La traduzione invece restituisce il testo stesso. Il taglio resta muto perché buildProductContext lo dice al modello e non a chi la chiama.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
         }
       ]
     },
@@ -1472,6 +1625,23 @@
           "verificato": true,
           "giro": 5,
           "fonte_radiografia": "palestra 2026-11-07/08 · lotto 2, prove da cliente (wf_f4377721-1cd)"
+        },
+        {
+          "dimensione": "sicurezza-auth",
+          "titolo": "Falla di sicurezza R316 da chiudere (caricamento dei file dei negozi): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+          "severita": "minore",
+          "file": "(nel referto privato)",
+          "descrizione": "nel referto privato",
+          "impatto": "nel referto privato",
+          "fix": "nel referto privato",
+          "causa_radice": "nel referto privato",
+          "prova": "nel referto privato",
+          "prova_tipo": "comando",
+          "prova_eseguita": true,
+          "esito_prova": "nel referto privato",
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
         }
       ]
     },
@@ -2719,6 +2889,23 @@
           "verificato": true,
           "giro": 5,
           "fonte_radiografia": "palestra 2026-11-07/08 · prova di fumo, verificato dalla sessione di riparazione (#941) e rifatto in Postgres"
+        },
+        {
+          "dimensione": "api-backend",
+          "titolo": "Se la domanda per diventare negozio parte due volte insieme, viene registrata due volte e gli amministratori ricevono l'avviso due volte",
+          "severita": "minore",
+          "file": "app/api/seller/apply/route.ts:163-210 (l'aggiornamento del profilo non distingue il primo invio da uno parallelo) · :216-232 (l'inserimento in consent_log non ha condizioni) · :236-247 (eraGiaInAttesa calcolato sulla lettura fatta prima della scrittura, poi notifyAdmins)",
+          "descrizione": "Palestra lotto 3. Si crea un cliente nuovo e si prepara un modulo valido: partita IVA con la cifra di controllo giusta, Termini, Privacy e conferma dei dati a true, storeName 'QAS04B Triplo Clic'. Dalla stessa sessione partono 3 POST /api/seller/apply identiche in parallelo. Tutte e 3 rispondono 200 {ok:true}. In consent_log ci sono 3 righe per lo stesso utente, scritte nello stesso decimo di secondo: 00:06:08.036, .101 e .134. In notifications ci sono 30 avvisi «Nuovo negozio da approvare» per quel negozio: i 15 amministratori sono stati avvisati due volte. Riprodotto 3 volte: con 2 invii, 2 righe; con 2 invii, 2 righe e 15 avvisi; con 3 invii, 3 righe e 30 avvisi. Con due invii a 2 secondi di distanza il secondo avviso non parte, ed è giusto: la richiesta in attesa si può correggere. La riga del verbale invece si aggiunge lo stesso. Il resto della rotta tiene. I campi riservati mandati nel corpo restano fermi (role=seller, approval_status=pending, is_approved=false, approved_by e stripe_account_id vuoti). Il negozio sospeso riceve 403, quello già approvato 409, il fattorino 409. Perché succede: eraGiaInAttesa si calcola su `attuale`, letto prima dell'aggiornamento. Le richieste parallele leggono tutte «non ancora in attesa» e mandano ognuna l'avviso. L'inserimento in consent_log è senza condizioni.",
+          "impatto": "Gli amministratori (15 nella palestra) ricevono due o tre campanelle per lo stesso negozio. Il registro dei consensi ha righe doppie per la stessa accettazione. È rumore per chi approva, e il verbale è meno pulito. Non si spostano soldi e non escono dati. Succede solo con un nuovo tentativo della rete o con chiamate a mano: la pagina /sell manda un invio solo (useMutation).",
+          "fix": "Far decidere al database qual è il primo invio. Un aggiornamento condizionato scrive approval_requested_at solo se è ancora vuoto, oppure se approval_status non è già 'pending', con .select('id'). Così una sola delle richieste parallele riceve la riga indietro, e solo quella manda notifyAdmins e scrive la riga in consent_log. Le altre aggiornano i dati della domanda e rispondono 200 senza effetti doppi. In alternativa, per il solo verbale: un indice unico su consent_log (user_id, categoria, versione_testo) per la categoria privacy_terms, con insert ... on conflict do nothing.",
+          "causa_radice": "La rotta decide «è un negozio nuovo» su una lettura fatta prima della propria scrittura (leggi poi scrivi, senza presa del turno). Il verbale si scrive a ogni invio.",
+          "prova": "Prova vitest proposta, tests/unit/la-domanda-del-negozio-mandata-due-volte-avvisa-una-volta.test.ts, sullo stampo di tests/unit/minori-s06-candidatura-del-negozio.test.ts. Si fingono withAuthRateLimit e notifyAdmins, che conta gli avvisi. Si finge anche getAdminSupabase, con un profilo condiviso fra le richieste (role 'buyer', approval_status null, approval_requested_at null). Il profilo finto applica gli aggiornamenti in ordine e rispetta i filtri .eq/.is/.in/.or sulle colonne di stato. Per simulare la corsa, la lettura iniziale (maybeSingle) risponde a tutte e due le richieste prima che una delle due scriva: si aspetta una promessa comune. Due POST validi partono con Promise.all. La prova pretende 1 solo avviso e 1 solo inserimento in consent_log. Comando: cd /home/user/mycity && npx vitest run tests/unit/la-domanda-del-negozio-mandata-due-volte-avvisa-una-volta.test.ts. Oggi è rossa: 2 avvisi e 2 righe.",
+          "prova_tipo": "vitest",
+          "esito_prova": "Palestra lotto 3, prova S04-P088, sul database della palestra. Tre invii paralleli, tutti 200: 3 righe in consent_log nello stesso decimo di secondo e 30 avvisi «Nuovo negozio da approvare», cioè 15 amministratori avvisati due volte. Riprodotto 3 volte con 2 e 3 invii. Gli script sono p088.mjs, p088b.mjs e p088c.mjs nella cartella delle prove della palestra.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
         }
       ]
     },
@@ -3098,6 +3285,23 @@
           "verificato": true,
           "giro": 5,
           "fonte_radiografia": "palestra 2026-11-07/08 · lotto 2, prove da cliente (wf_f4377721-1cd)"
+        },
+        {
+          "dimensione": "frontend-ux",
+          "titolo": "In Guadagni le barre del grafico dei sette giorni restano a zero, e sul telefono lo stato del bonifico esce dallo schermo o compare come codice",
+          "severita": "minore",
+          "file": "app/seller/earnings/page.tsx:251-266 (grafico: la colonna flex-1 non ha un'altezza dentro una riga items-end, quindi l'altezza in % della barra non ha riferimento) · :50-89 (payoutBadge: il caso di riserva mostra o.payout_status grezzo, manca REVERSAL_FAILED, c'è «Completa onboarding») · :331-360 (Storico pagamenti: tabella w-full a 4 colonne senza versione per il telefono)",
+          "descrizione": "Visto in palestra l'8/11 col negozio qal3p070-dati. Il negozio ha ordini carta del 6/11 con stato del bonifico HELD, TRANSFERRED, REVERSED, PENDING_SELLER_ONBOARDING, FAILED e REVERSAL_FAILED, più 5 ordini in contanti. A 360, 390 e 1440 il testo per i lettori di schermo dice «venerdì: 63,00 €», ma le 7 barre di «Andamento ultimi 7 giorni» sono alte 0 px e il grafico sembra vuoto. A 360 e 390 lo «Storico pagamenti» è largo 449 px in un riquadro di 356: la colonna «Stato» è fuori schermo in tutte e 6 le righe. Le targhette sono «REVERSAL_FAILED» (il codice grezzo), «Completa onboarding», «Verifica IBAN», «Stornato», «Pagato 7 nov» e «In attesa». Altre parole tecniche: «Commissione marketplace», «Contanti (COD)», «apri la dashboard Stripe». Grafico e Storico contano solo gli ordini con carta: al lancio, coi soli contanti, restano vuoti comunque.",
+          "impatto": "Oggi pesa poco: al lancio si paga solo in contanti e queste due parti restano vuote. Il giorno che si accende la carta, ogni negoziante vede un grafico piatto anche con incassi veri. Sul telefono non vede se il suo bonifico è partito, fallito o stornato, e quando lo vede può leggere un codice come «REVERSAL_FAILED». Sono proprio le informazioni sui suoi soldi.",
+          "fix": "Grafico: dare alla colonna h-full (oppure togliere items-end dalla riga e usare self-stretch), così il contenitore flex-1 ha un'altezza e la percentuale funziona; in alternativa calcolare l'altezza in pixel. payoutBadge: aggiungere REVERSAL_FAILED («Storno da sistemare: ci pensiamo noi»), scrivere «Collega il conto» al posto di «Completa onboarding», e come ripiego una parola («Da verificare») invece del codice. Tabella: sotto sm una riga su due livelli (ordine e data sopra, netto e stato sotto), oppure togliere la colonna Data. Parole: «Commissione MyCity», «Contanti alla consegna», «il tuo conto Stripe».",
+          "prova": "Prova Playwright proposta su un sito locale con la carta accesa (NEXT_PUBLIC_PALESTRA_CARTA_ACCESA=1) e il database ricostruito da tests/sql/harness/apply.sh. Serve un negozio con un ordine carta pagato oggi e uno in REVERSAL_FAILED. A 1440x900, su /seller/earnings, pretende che almeno una barra del grafico abbia un boundingBox alto più di 0. A 390x844 pretende che ogni targhetta dello Storico stia dentro 0-390 px e che nessuna targhetta corrisponda a /^[A-Z_]{6,}$/. Comando: E2E_BASE_URL=http://localhost:3000 npx playwright test tests/e2e/NN-i-guadagni-si-leggono-dal-telefono.spec.ts. Oggi è rosso.",
+          "prova_tipo": "comando",
+          "esito_prova": "In palestra: 7 barre alte 0 px a 360, 390 e 1440 con il venerdì a 63,00 €. Tabella da 449 px in un riquadro di 356, colonna Stato fuori schermo in 6 righe su 6. Targhetta «REVERSAL_FAILED». Schermate qa-l3-s10p076-grafico-1440x900.png e qa-l3-s10p076-storico-390x844.png.",
+          "causa_radice": "La barra ha un'altezza in percentuale dentro un contenitore che non ha un'altezza propria. La targhetta, quando non conosce lo stato, mostra il codice interno. La tabella è pensata solo per il computer.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
         }
       ]
     },
@@ -3171,6 +3375,23 @@
           "verificato": true,
           "giro": 4,
           "fonte_radiografia": "radiografia 2026-11-06 · quarto giro (7/11)"
+        },
+        {
+          "dimensione": "dati-analytics",
+          "titolo": "In Analisi il voto medio guarda solo le recensioni ai prodotti: un negozio con tre recensioni legge «Nessuna recensione», e le etichette sono in inglese",
+          "severita": "minore",
+          "file": "migrations/141_i_conti_del_venditore_li_fa_il_database.sql:100-101 (andamento_del_negozio: voto_medio e recensioni presi da public.reviews unita ai prodotti) · app/seller/analytics/page.tsx:365-375 (riquadro «Rating medio»), :305 («Insight»), :347 («Conversion rate»), :335 e :344 («30gg»), :466 («stock pronto»)",
+          "descrizione": "Visto in palestra l'8/11 col negozio qal3p070-dati. Il negozio ha 3 recensioni in store_reviews (5, 2 e 4 stelle, media 3,7) e nessuna recensione ai prodotti. /seller/reviews mostra «3,7 · 3 recensioni». Nello stesso momento, /seller/analytics (a 360, 390 e 1440) mostra nel riquadro «RATING MEDIO» «— · Nessuna recensione». La funzione andamento_del_negozio calcola media e conteggio solo da public.reviews sui prodotti del negozio (righe 100-101), mentre la pagina Recensioni legge store_reviews. Le altre cifre della pagina tornano: 10 ordini, 124,20 € netti (81 € in contanti e 43,20 € con carta, escluso lo stornato). Le etichette sono «INSIGHT», «CONVERSION RATE», «RATING MEDIO», «30GG», e fra i consigli c'è «stock pronto». La parte sull'etichetta «Conversion rate» è la voce aperta «Il Conversion rate del negozio può superare il 100% e viene colorato di verde»: si ripara lì.",
+          "impatto": "Lo subisce ogni negoziante che riceve recensioni. Oggi i clienti recensiscono il negozio e non il singolo prodotto: così la pagina Analisi dirà quasi sempre «Nessuna recensione», mentre la pagina accanto ne conta tre. Due numeri diversi per la stessa cosa tolgono fiducia a tutte le cifre del pannello. In più, un fornaio capisce poco le parole inglesi.",
+          "fix": "Con una nuova migrazione, la funzione andamento_del_negozio prende voto_medio e recensioni da store_reviews where store_id = auth.uid(), come fa la pagina Recensioni. Se si vogliono contare anche i voti ai prodotti, si sommano e lo si dice nell'etichetta. Nella pagina: «Voto medio» al posto di «Rating medio», «Visite che diventano ordini» al posto di «Conversion rate», «Consigli» al posto di «Insight», «30 giorni» al posto di «30gg», «tieni pronta la merce» al posto di «stock pronto».",
+          "prova": "Controllo SQL proposto sul database ricostruito: tests/sql/rls/NN-l-analisi-conta-le-recensioni-del-negozio.test.sql. Dentro una transazione con ROLLBACK crea un negozio, un prodotto e tre store_reviews col suo store_id (5, 2 e 4 stelle), senza nessuna riga in reviews. Poi fa SET LOCAL request.jwt.claims col sub del negozio e role authenticated, esegue select * from public.andamento_del_negozio() e fa RAISE EXCEPTION se recensioni è diverso da 3 o se voto_medio non vale 3,67. Comando: cd /home/user/mycity && tests/sql/harness/apply.sh && tests/sql/harness/run.sh. Oggi è rosso: recensioni = 0 e voto_medio nullo.",
+          "prova_tipo": "sql",
+          "esito_prova": "In palestra, per lo stesso negozio: Analisi mostra «— · Nessuna recensione», Recensioni mostra «3,7 · 3 recensioni». Nel database store_reviews = 3 e recensioni dei prodotti = 0. Schermate qa-l3-s10-analytics-*.png.",
+          "causa_radice": "La funzione del database legge la tabella delle recensioni ai prodotti, mentre i clienti scrivono le recensioni nella tabella del negozio.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
         }
       ]
     },
@@ -3658,6 +3879,23 @@
           "verificato": true,
           "giro": 5,
           "fonte_radiografia": "palestra 2026-11-07/08 · lotto 2, prove da cliente (wf_f4377721-1cd)"
+        },
+        {
+          "dimensione": "layout-responsive",
+          "titolo": "Sul telefono la tabella dei clienti esce dallo schermo: spesa, ultimo ordine e targhetta VIP si vedono solo trascinandola di lato",
+          "severita": "minore",
+          "file": "app/seller/customers/page.tsx:145-146 (tabella min-w-[700px] dentro overflow-x-auto) · :128 e :141 (filtri e ricerca con px-3 py-1.5) · :168 (riga «ID: {c.userId.slice(0, 8)}…»)",
+          "descrizione": "Visto in palestra l'8/11 col negozio qal3p070-dati, che ha 3 clienti: Cliente Uno con 5 ordini (105 €), Cliente Due con 5 ordini (63 €, il sesto rimborsato giustamente escluso), Cliente Tre con 1 ordine di 45 giorni fa. I conti sono giusti: 3 clienti, 180,00 €, ordine medio 16,36 €, targhette VIP e Inattivo al posto giusto. A 360x740 e 390x844 la pagina non scorre di lato, ma la tabella ha una larghezza minima di 700 px dentro un riquadro di 358. Si vedono solo «Cliente» e «Ordini», «TOTALE SP…» è tagliato, e «Ultimo ordine» e «Tag» compaiono solo trascinando la tabella. Il pulsante tondo dell'assistenza copre la terza riga. I filtri sono alti 32 px, la ricerca 34, il link «Punto 9 delle condizioni» 15. Sotto ogni nome compare «ID: 6f784816…». A 1440 si vede tutto.",
+          "impatto": "Lo subisce il negoziante che guarda i clienti dal telefono, cioè quasi sempre. Non vede chi spende di più né chi non ordina da tempo, che sono proprio il motivo della pagina. Col pollice sbaglia facilmente i filtri piccoli. Il codice «ID:» non gli dice niente.",
+          "fix": "Sotto sm mostrare una scheda per cliente (nome, ordini, speso, ultimo ordine, targhetta) e tenere la tabella da sm in su. Togliere la riga «ID:». Dare a filtri e ricerca un'altezza minima di 44 px (min-h-11). Lasciare spazio in fondo alla lista per il pulsante dell'assistenza.",
+          "prova": "Prova Playwright proposta su un sito locale: npm run dev col database ricostruito da tests/sql/harness/apply.sh e un negozio con tre clienti, uno VIP. Viewport 390x844, accesso come negozio, pagina /seller/customers. Pretende che il totale speso e la targhetta di ogni cliente abbiano il boundingBox dentro 0-390 px senza scorrere, che i filtri siano alti almeno 44 px e che nessun testo corrisponda a /ID: [0-9a-f]{8}/. Comando: E2E_BASE_URL=http://localhost:3000 npx playwright test tests/e2e/NN-i-clienti-del-negozio-stanno-nel-telefono.spec.ts. Oggi è rosso.",
+          "prova_tipo": "comando",
+          "esito_prova": "In palestra, a 360 e a 390: tabella da 700 px in un riquadro di 358, «Ultimo ordine» e «Tag» fuori schermo, filtri alti 32 px e ricerca 34. Schermata qa-l3-s10-customers-390x844.png.",
+          "causa_radice": "La pagina usa una tabella da computer con una larghezza minima fissa, senza una versione per il telefono.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
         }
       ]
     },
@@ -4196,6 +4434,23 @@
           "verificato": true,
           "giro": 5,
           "fonte_radiografia": "palestra 2026-11-07/08 · lotto 2, prove da cliente (wf_f4377721-1cd)"
+        },
+        {
+          "dimensione": "microcopy",
+          "titolo": "Nell'Aiuto per i negozi restano «payout» ed «evaderlo», e una risposta parla di prodotti sponsorizzati che oggi sono sospesi",
+          "severita": "minore",
+          "file": "app/seller/help/domande.ts:50 («se non puoi evaderlo»), :80 («compensato sul payout successivo»), :103 («i prodotti sponsorizzati sono segnalati») · app/seller/help/page.tsx:48-52 (le domande sono <summary> senza altezza minima, alte 24 px)",
+          "descrizione": "Visto in palestra l'8/11 da negozio approvato, a 360, 390 e 1440. Ho aperto e letto tutte le 13 risposte. Ci sono «Non viene calcolato nel netto. Se è già stato pagato, viene compensato sul payout successivo.», «Sì, se non puoi evaderlo…» e «Riceverai una notifica quando un rider…». C'è anche «i prodotti sponsorizzati sono segnalati», mentre la pagina Sponsorizza dice che le sponsorizzate sono sospese. Le righe delle domande sono alte 24 px. La tastiera funziona: Tab arriva a ogni domanda e Invio la apre. Il riquadro «academy con video tutorial» è già nel registro con una voce sua.",
+          "impatto": "Lo subisce il negoziante che apre l'Aiuto per capire un rimborso o la classifica. Trova parole che non usa e una promessa su una funzione che oggi non c'è, e si fida meno anche delle altre risposte. Dal telefono le righe basse si toccano male.",
+          "fix": "Riscrivere le frasi: «viene tolto dal prossimo pagamento che ti facciamo», «se non puoi prepararlo», «fattorino» al posto di «rider». La frase sulle sponsorizzate va mostrata solo con ABBONAMENTO_NEGOZI_ACCESO. Nella pagina, dare a <summary> min-h-11 e un po' di padding verticale.",
+          "prova": "Test vitest proposto: tests/unit/l-aiuto-dei-negozi-parla-come-il-negoziante.test.ts. Importa TOPICS da app/seller/help/domande e ABBONAMENTO_NEGOZI_ACCESO da lib/funzioni-al-lancio. Pretende che nessuna risposta contenga /payout|evader/i e che, con l'abbonamento spento, nessuna contenga /sponsorizzat/i. Comando: cd /home/user/mycity && npx vitest run tests/unit/l-aiuto-dei-negozi-parla-come-il-negoziante.test.ts. Oggi è rosso su tre risposte.",
+          "prova_tipo": "vitest",
+          "esito_prova": "In palestra le tre frasi si leggono nelle risposte aperte a 390x844, e le righe delle domande sono alte 24 px. Schermata qa-l3-s10p079-aiuto-aperto-390.png.",
+          "causa_radice": "Le risposte dell'Aiuto sono testi scritti a mano: non leggono gli interruttori delle funzioni spente e nessuno controlla le parole.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
         }
       ]
     },
@@ -4391,6 +4646,74 @@
           "verificato": true,
           "giro": 5,
           "fonte_radiografia": "palestra 2026-11-07/08 · lotto 2, prove da cliente (wf_f4377721-1cd)"
+        },
+        {
+          "dimensione": "stati-ui",
+          "titolo": "Se le categorie non arrivano, il modulo «Nuovo prodotto» mostra un elenco vuoto e poi chiede di scegliere una categoria che non c'è",
+          "severita": "minore",
+          "file": "app/seller/products/new/page.tsx:73-83 (const { data: categories = [] } = useQuery(...), senza isError) · confronto: app/seller/products/[id]/edit/page.tsx:85 e :190-201 (avviso «Non riesco a leggere le categorie» con Riprova)",
+          "descrizione": "Visto in palestra l'8/11 da negozio approvato. Il percorso normale è giusto: 72 categorie nel database, le 9 principali in ordine nel campo Categoria, sottocategorie corrette. Poi la lettura è stata bloccata con page.route su /rest/v1/categories e /api/catalogo/categorie: 7 richieste fermate, compresi i nuovi tentativi. Dopo 15 secondi il campo Categoria ha solo «Seleziona...» e nessun avviso. Premendo «Pubblica prodotto» compare «Seleziona una categoria», che il negoziante non può fare. Ripetuto due volte. Il `= []` fa passare una lettura fallita per «non ci sono categorie». La pagina di modifica ha già l'avviso con Riprova, la pagina nuova no.",
+          "impatto": "Con una rete che singhiozza, il negoziante che sta caricando un prodotto crede di sbagliare lui: compila tutto e non riesce a pubblicare. Nessuno gli dice che basta riprovare, quindi rischia di abbandonare o di scrivere all'assistenza.",
+          "fix": "Copiare la soluzione della pagina di modifica. Leggere isError, isLoading e refetch della query delle categorie. Finché carica, mostrare LoadingState. Se la lettura è fallita e l'elenco è vuoto, al posto del modulo mettere un riquadro role=alert «Non riesco a leggere le categorie», con un «Riprova» che chiama refetch. Meglio ancora un solo hook per le categorie del modulo, usato da tutte e due le pagine.",
+          "causa_radice": "Le due pagine gemelle, nuovo e modifica, leggono le categorie ciascuna con la sua query: la correzione fatta sulla modifica non è arrivata alla pagina nuova.",
+          "prova": "Test vitest proposto: tests/unit/il-nuovo-prodotto-dice-che-le-categorie-non-sono-arrivate.test.tsx, gemello di tests/unit/minori-s06-modifica-prodotto-categorie.test.tsx. Finge useQuery in modo che la chiave queryKeys.categories.form torni { data: undefined, isError: true, isLoading: false, refetch }. Finge ProductForm con <p>MODULO</p>, più i finti di navigazione che servono alla pagina. Poi disegna app/seller/products/new/page con renderToStaticMarkup. Pretende «Non riesco a leggere le categorie» e «Riprova», e nessun MODULO. Comando: cd /home/user/mycity && npx vitest run tests/unit/il-nuovo-prodotto-dice-che-le-categorie-non-sono-arrivate.test.tsx. Oggi è rosso: si disegna il modulo con l'elenco vuoto.",
+          "prova_tipo": "vitest",
+          "esito_prova": "In palestra, con la lettura bloccata: campo Categoria con la sola voce «Seleziona...», nessun avviso dopo 15 secondi, e «Seleziona una categoria» alla pubblicazione. Due ripetizioni. Script: prove/lotto3/qa-s07b/p020.mjs e p020b.mjs. Schermate: esiti/qa-l3-s07p020-lettura-caduta-nuovo.png e qa-l3-s07p020-lettura-caduta-pubblica.png.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
+        },
+        {
+          "dimensione": "stati-ui",
+          "titolo": "Se la lettura del profilo non riesce, il negoziante approvato legge che il suo account non è da venditore e gli viene proposto di iscriversi di nuovo",
+          "severita": "minore",
+          "file": "app/seller/layout.tsx:72 e :91-115 (wrongRole = isAuthenticated && !isSeller && !isAdmin) · components/hooks/useProfile.ts:113-145 (la lettura lancia ma l'aggancio non restituisce isError)",
+          "descrizione": "Palestra, 8/11 verso le 02:27, negozi nuovi e approvati qa710-ordini e qa710-vuoto. Con la sola lettura del profilo fatta rispondere 500 (rest/v1/profiles), dopo 5 secondi /seller dice «Quest'area è per i venditori · Il tuo account è di altro tipo, quindi non vedi la dashboard venditori» col pulsante «Diventa venditore», che porta al modulo /sell. Senza rete compare lo stesso dopo 19 secondi; uguale con tutto il database a 500. Ripetuto 3 volte. Nessun «Riprova». Il percorso normale invece passa: da estraneo 307 verso /sign-in?returnTo=%2Fseller, da negozio /seller → /seller/dashboard a 360, 390 e 1440 px. La causa: useProfile, quando la lettura fallisce, espone profile=null senza dire che è un errore; il layout calcola wrongRole solo da isSeller e isAdmin e tratta il «non letto» come «ruolo diverso». Il server non lascerebbe ricandidare (409 «già approvato»), quindi i dati non si rompono.",
+          "impatto": "Il fornaio che alle 7 apre il pannello con la rete del negozio che va e viene legge che il suo account non è da venditore e si vede proporre l'iscrizione: pensa di aver perso il negozio, chiama l'assistenza o compila di nuovo il modulo. Si risolve ricaricando, ma lui non lo sa.",
+          "fix": "In useProfile restituire anche isError (query.isError) e refetch. Nel layout calcolare wrongRole solo quando il profilo è stato letto davvero (isAuthenticated && profiloLetto && !isSeller && !isAdmin); se la lettura è fallita mostrare l'ErrorState già usato dal cruscotto («Non riesco a leggere i dati del tuo negozio» con «Riprova» che chiama refetch). Lo stesso vale per pending.",
+          "causa_radice": "Il layout conosce due stati del profilo, «letto» e «in caricamento», e non il terzo, «non letto per un guasto»: un profilo assente viene preso come ruolo diverso.",
+          "prova": "Proposta: tests/unit/il-negozio-col-profilo-non-letto-non-legge-altro-tipo.test.tsx (ambiente jsdom). Monta app/seller/layout.tsx dentro un QueryClientProvider con retry:false; supabase finto con auth.getUser → { user: { id: 's1' } } e from('profiles')...single() → { data: null, error: { message: 'boom', code: '500' } }. Attende la fine della lettura e controlla: il testo non contiene «altro tipo» né «Diventa venditore», e c'è un pulsante «Riprova». Comando: cd /home/user/mycity && npx vitest run tests/unit/il-negozio-col-profilo-non-letto-non-legge-altro-tipo.test.tsx — oggi rosso (compare «Il tuo account è di altro tipo»).",
+          "prova_tipo": "vitest",
+          "esito_prova": "Palestra 8/11, script p061_062.mjs e p061b.mjs: con rest/v1/profiles a 500 → «Il tuo account è di altro tipo» + «Diventa venditore» dopo 5 s; senza rete dopo 19 s; con tutto il database a 500 uguale; «Diventa venditore» porta a /sell. Ripetuto 3 volte. Schermate qa-l3-s10p061-solo-profilo-500.png, -solo-profilo-rete-caduta.png, -tutto-500.png.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
+        },
+        {
+          "dimensione": "stati-ui",
+          "titolo": "Se la lettura del prodotto non riesce, la pagina di modifica dice «Prodotto non trovato» e non offre «Riprova»",
+          "severita": "minore",
+          "file": "app/seller/products/[id]/edit/page.tsx:32-44 (lettura che lancia l'errore del database) e :209-225 (ramo «if (error || erroreVarianti || !product)»)",
+          "descrizione": "Palestra, 8/11 verso le 02:22, prodotto «QA710 Quaderno da modificare» del negozio qa710-prodotti. Con GET rest/v1/products fatto rispondere 500, dopo 6 secondi /seller/products/<id>/edit mostra «Errore · Prodotto non trovato · ← Torna ai miei prodotti», senza «Riprova». Senza rete, stesso testo dopo 21 secondi. Ripetuto 2 volte. Il prodotto esiste: la pagina dice una cosa falsa. Il ramo d'errore mostra error.message solo se l'errore è un Error di JavaScript; l'errore di Supabase (PostgrestError) non lo è, quindi si ricade su «Prodotto non trovato». Il resto passa: a 360, 390 e 1440 px nessuno scorrimento di lato, doppio clic su «Salva modifiche» con prezzo da 4 a 4,50 → una sola modifica e «Modifiche salvate».",
+          "impatto": "Il negoziante che apre un prodotto con la rete instabile crede che sia sparito e rischia di ricrearlo, con un doppione in vetrina. Per riprovare deve sapere che basta ricaricare la pagina.",
+          "fix": "Distinguere i tre casi: prodotto davvero assente (data null senza errore, o PGRST116) → «Prodotto non trovato»; prodotto di un altro negozio → il messaggio attuale; ogni altro errore → ErrorState senza parole tecniche («Non riesco a leggere il prodotto, controlla la connessione») con «Riprova» che chiama refetch, come la pagina dell'ordine e il cruscotto.",
+          "causa_radice": "Il ramo d'errore riconosce solo gli Error di JavaScript e mette ogni altro guasto sotto «non trovato».",
+          "prova": "Proposta: tests/unit/la-modifica-prodotto-non-dice-non-trovato-su-un-guasto.test.tsx (ambiente jsdom). Monta app/seller/products/[id]/edit/page.tsx con QueryClientProvider (retry:false); supabase finto con auth.getUser → { user: { id: 's1' } } e from('products').select().eq().single() → { data: null, error: { message: 'boom', code: '500' } } (oggetto semplice, non Error). Controlla: il testo non contiene «Prodotto non trovato» e c'è un pulsante «Riprova». Comando: cd /home/user/mycity && npx vitest run tests/unit/la-modifica-prodotto-non-dice-non-trovato-su-un-guasto.test.tsx — oggi rosso.",
+          "prova_tipo": "vitest",
+          "esito_prova": "Palestra 8/11, script p067.mjs: rest/v1/products a 500 → «Errore · Prodotto non trovato · ← Torna ai miei prodotti» dopo 6 s; rete caduta → stesso testo dopo 21 s; nessun «Riprova»; ripetuto 2 volte. Schermate qa-l3-s10p067-lettura-500.png e qa-l3-s10p067-rete-caduta.png.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
+        },
+        {
+          "dimensione": "stati-ui",
+          "titolo": "Se la risposta a una recensione non parte, il negozio legge un errore tecnico in inglese, e il tasto «Rispondi» è alto 20 pixel",
+          "severita": "minore",
+          "file": "app/seller/reviews/page.tsx:184-203 (sendReply: res.json() senza protezione e toast.error(e.message) senza friendlyError) · :236-242 (bottone «Rispondi» fatto solo di testo, senza altezza minima) · :266-274 («Annulla» e «Pubblica risposta» in size sm, 32 px)",
+          "descrizione": "Visto in palestra l'8/11 col negozio qal3p070-dati (3 recensioni, media 3,7) a 390x844. Misure: «Rispondi» 81x20 px, «Pubblica risposta» 125x32, «Annulla» 73x32, righe del filtro per stelle alte 24 px. La risposta normale funziona: anche col doppio clic parte una sola chiamata, e compare «Risposta pubblicata». Per simulare il tempo scaduto di Vercel, /api/seller/reviews/*/reply risponde 504 con una pagina HTML: l'avviso è «Unexpected token '<', \"<html>504</html>\" is not valid JSON». Con una risposta 500, l'avviso ripete il testo grezzo del server («Internal Server Error», simulato). Il codice passa e.message al toast senza farlo passare da friendlyError. Stato vuoto e lettura fallita con Riprova sono corretti.",
+          "impatto": "Lo subisce il negoziante che risponde dal telefono a una recensione negativa mentre il server è lento. Legge una frase da programmatore e non sa se la risposta è partita: riprova o lascia perdere, proprio col cliente scontento. Col pollice il tasto da 20 px si manca facilmente.",
+          "fix": "In sendReply: const json = await res.json().catch(() => null), e nel catch toast.error(friendlyError(e)), con il ripiego «La risposta non è partita. Riprova tra poco.». Il bottone «Rispondi» con min-h-11 e padding (almeno 44 px); «Annulla» e «Pubblica risposta» in size md.",
+          "prova": "Test vitest proposto: tests/unit/la-risposta-alla-recensione-che-non-parte-parla-italiano.test.tsx. Monta app/seller/reviews/page con una recensione finta senza risposta e un fetch finto che risponde 504 con il testo '<html>504</html>' e content-type text/html. Fa clic su «Rispondi», scrive un testo nella casella e fa clic su «Pubblica risposta». Pretende che toast.error riceva un testo senza «Unexpected token», «JSON» e «Internal Server Error», e che il bottone «Rispondi» abbia la classe min-h-11. Comando: cd /home/user/mycity && npx vitest run tests/unit/la-risposta-alla-recensione-che-non-parte-parla-italiano.test.tsx. Oggi è rosso.",
+          "prova_tipo": "vitest",
+          "esito_prova": "In palestra: col 504 in HTML l'avviso è «Unexpected token '<', \"<html>504</html>\" is not valid JSON»; «Rispondi» misura 81x20 px a 390x844. Schermata qa-l3-s10p075-risposta-390.png.",
+          "causa_radice": "La pagina legge la risposta come JSON anche quando il server manda HTML, e mostra al negoziante il messaggio tecnico così com'è.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
         }
       ]
     },
@@ -4469,6 +4792,23 @@
           "verificato": true,
           "giro": 5,
           "fonte_radiografia": "palestra 2026-11-07/08 · lotto 2, prove da cliente (wf_f4377721-1cd)"
+        },
+        {
+          "dimensione": "flussi-conversione",
+          "titolo": "Nel pannello del negozio non c'è un posto dove vedere e approvare le anteprime",
+          "severita": "minore",
+          "file": "components/seller/SellerShell.tsx:30-56 (voci del menu) · app/seller/dashboard/page.tsx (cruscotto) — nessuna rotta, tabella o componente per le anteprime da approvare",
+          "descrizione": "Visto in palestra l'8/11 col negozio qal3p080-extra, a 360x740, 390x844 e 1440x900. /seller porta a /seller/dashboard. Il menu (sul telefono si apre con «Apri menu») contiene Dashboard, Ordini, Prodotti, Promozioni, Sponsorizza, Storie, Analisi, Clienti, Messaggi, Recensioni, Guadagni, La tua vetrina, Profilo, Aiuto, Vai al marketplace. Nel menu e nel cruscotto non c'è nessuna frase con «Da approvare», «Approva», «Cambia» o «anteprima», e i bottoni «Approva» o «Cambia» sono 0. /seller/da-approvare, /seller/approvals, /seller/anteprime e /seller/preview danno 404. Nel codice (app, components, lib, migrations) non esiste nessuna funzione per le anteprime da approvare. Non è un guasto: la funzione non è mai stata costruita. L'email non si è potuta provare, perché in palestra le email sono spente.",
+          "impatto": "Oggi nessun negoziante riceve un'anteprima da approvare, quindi nessuno resta bloccato. Manca però un pezzo che il modello di MyCity promette al negozio: si lavora su WhatsApp, con l'anteprima da approvare. Quando partiranno contenuti preparati per lui, il negoziante non avrà un posto dove vederli in grande e dire «sì» o «cambia», a parte la chat.",
+          "fix": "È una decisione di prodotto da portare a Nicola, con due strade. La prima: una voce «Da approvare» nel pannello, con l'elenco delle anteprime in attesa, l'anteprima grande, i bottoni «Approva» e «Cambia» con una riga di motivo, e il link dal messaggio WhatsApp. La seconda: la scelta scritta che l'approvazione resta solo su WhatsApp, e il pannello mostra solo lo storico.",
+          "prova": "Prova Playwright proposta su un sito locale, col database ricostruito da tests/sql/harness/apply.sh e, quando la tabella esisterà, un negozio approvato con un'anteprima in attesa. A 390x844, accesso come negozio, «Apri menu». Pretende un link «Da approvare»; una volta aperto, pretende un'anteprima e i bottoni «Approva» e «Cambia». Comando: E2E_BASE_URL=http://localhost:3000 npx playwright test tests/e2e/NN-il-negozio-approva-le-anteprime.spec.ts. Oggi è rosso perché il link non c'è. Se Nicola decide che l'approvazione resta solo su WhatsApp, la voce si chiude con quella decisione scritta.",
+          "prova_tipo": "comando",
+          "esito_prova": "In palestra: alle tre misure, 0 voci e 0 bottoni «Da approvare», «Approva» o «Cambia» nel menu e nel cruscotto; i quattro indirizzi possibili danno 404. Schermate qa-l3-s10p080-menu-*.png e qa-l3-s10p080-cruscotto-*.png.",
+          "causa_radice": "L'approvazione delle anteprime è nel modello di business ma non è mai entrata nel sito.",
+          "prova_eseguita": true,
+          "verificato": true,
+          "giro": 5,
+          "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
         }
       ]
     }
