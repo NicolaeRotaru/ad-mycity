@@ -11,8 +11,9 @@
 //   ②   UN file corretto alla volta riportato com'era sul commit di base, gli altri restano corretti, e le
 //       prove devono essere ROSSE: un file che da solo non le fa cadere non e' provato (collaudo del
 //       30/10: due file tolti insieme davano «regge» anche se la prova guardava solo il primo);
-//   ②b  se la correzione ha file NUOVI (una migrazione, un aiutante): tutta la correzione alla base insieme,
-//       cioe' il codice di partenza senza i file nuovi, e le prove devono essere ROSSE sul comportamento
+//   ②b  se la correzione ha file NUOVI (una migrazione, un aiutante): tutti i file nuovi tolti insieme, gli
+//       esistenti restano corretti, e le prove devono essere ROSSE sul comportamento; una prova che nomina o
+//       importa il file nuovo non decide
 //       (12/11 sera: prima un file nuovo dava sempre «la macchina non decide», e una riparazione fatta solo
 //       con una migrazione non poteva mai chiudersi);
 //   ③   tutto rimesso come l'ho trovato (byte e permessi), e le prove di nuovo VERDI.
@@ -72,12 +73,14 @@ const TOTALE_MS = numero(process.env.PROVA_RIMESSA_TOTALE_MS, 480_000);
 export const ASSERZIONE = /AssertionError|expected [^\n]{0,160} to (?:be|equal|deeply|strictly|have|include|match|throw|contain|satisfy)\b|ERROR:\s+P0001:/;
 /** Un rosso di struttura: manca un nome, un modulo, o il file non si compila. */
 // Per SQL: funzione, tabella, colonna, tipo o schema che non esistono (42883, 42P01, 42703, 42704, 3F000).
-export const STRUTTURA = /SyntaxError|does not provide an export named|Cannot find module|ERR_MODULE_NOT_FOUND|Failed to (load|resolve)|Transform failed|is not a function|is not defined|is not a constructor|ERROR:\s+(?:42883|42P01|42703|42704|3F000):/;
+export const STRUTTURA = /SyntaxError|does not provide an export named|Cannot find module|ERR_MODULE_NOT_FOUND|Failed to (load|resolve)|Transform failed|is not a function|is not defined|is not a constructor|ERROR:\s+(?:42883|42P01|42703|42704|3F000):|MIGRAZIONI_NON_APPLICATE/;
 
 /** Il comando per le prove SQL: il database si ricostruisce da tutte le migrazioni sul disco, poi ogni prova. */
 export function comandoSql(db) {
   if (!/^[a-z_][a-z0-9_]{0,40}$/.test(String(db))) throw new Error("--sql vuole il nome di un database di prova (lettere minuscole, cifre, _): " + db);
-  return "bash tests/sql/harness/apply.sh " + db + " >/dev/null && n=0 && for f in {prove}; do psql -q -X -d " + db + " -v ON_ERROR_STOP=1 -v VERBOSITY=verbose -f \"$f\" || exit 1; n=$((n+1)); done && echo \"# pass $n\"";
+  // Se il database non si ricostruisce, l'uscita di apply.sh non arriva qui (un RAISE dentro una migrazione
+  // sembrerebbe un'asserzione P0001): arriva solo un segno di struttura (collaudo del 12/11 sera).
+  return "{ bash tests/sql/harness/apply.sh " + db + " >/dev/null 2>&1 || { echo 'MIGRAZIONI_NON_APPLICATE: il database di prova non si ricostruisce'; exit 1; }; } && n=0 && for f in {prove}; do psql -q -X -d " + db + " -v ON_ERROR_STOP=1 -v VERBOSITY=verbose -f \"$f\" || exit 1; n=$((n+1)); done && echo \"# pass $n\"";
 }
 
 /** I percorsi del deposito che una prova importa (relativi o con «@/»), senza i commenti. */
@@ -313,29 +316,28 @@ async function corpo(a, ctx) {
       if (tipo !== "comportamento") dubbi.push({ tipo, testo: f + (nuoviNomi.length ? " (le prove usano nomi nuovi: " + nuoviNomi.join(", ") + ")" : "") });
       passi.push("② " + f + " alla base: rossa, " + (tipo === "comportamento" ? "sul comportamento" : tipo === "strutturale" ? "ma solo per la struttura" : "per un motivo che non riconosco"));
     }
-    // I file NUOVI (una migrazione, un aiutante): da soli non si possono «riportare alla base» senza rompere chi
-    // li usa. Si prova al contrario (12/11 sera, regola firmata da Nicola): TUTTA la correzione alla base insieme,
-    // cioe' il codice di partenza, dove il file nuovo non c'e'. La prova deve cadere sul comportamento. Se la prova
-    // importa direttamente un file nuovo, il rosso e' solo «modulo mancante»: la macchina non decide.
+    // I file NUOVI (una migrazione, un aiutante): da soli non c'erano alla base, quindi «riportarli alla base»
+    // vuol dire toglierli (12/11 sera, regola firmata da Nicola). Si tolgono TUTTI i file nuovi insieme e gli
+    // esistenti restano corretti: così il rosso viene solo dai file nuovi (collaudo del 12/11 sera: togliendo
+    // anche gli esistenti, una migrazione estranea accanto a una correzione vera risultava «provata»).
+    // Se la prova nomina o importa un file nuovo, il rosso dice solo «manca il file»: la macchina non decide.
     if (nuovi.length) {
       toccato = true;
-      for (const f of a.file) {
-        const b = base.get(f), p = join(repo, f);
-        if (b === null) { if (existsSync(p)) unlinkSync(p); }
-        else { mkdirSync(dirname(p), { recursive: true }); writeFileSync(p, b); }
-      }
-      const g2 = await lancia("② tutta la correzione alla base (file nuovi tolti: " + nuovi.join(", ") + ")");
+      for (const f of nuovi) { const p = join(repo, f); if (existsSync(p)) unlinkSync(p); }
+      const g2 = await lancia("② file nuovi tolti insieme: " + nuovi.join(", "));
       const nonRimessi = a.file.filter((f) => !rimettiUno(f));
       if (nonRimessi.length) { r = { esito: "non_ripristinato", uscita: 4, motivo: "NON tornati com'erano: " + nonRimessi.join(", ") }; return r; }
       if (g2.scaduto) { r = no("tempo scaduto al passo ② con la correzione tolta"); return r; }
       const etichetta = nuovi.join(", ");
-      if (verde(g2)) { nonMordono.push(...nuovi); passi.push("② tutta la correzione alla base: ancora verde"); }
+      if (verde(g2)) { nonMordono.push(...nuovi); passi.push("② file nuovi tolti: ancora verde"); }
       else {
         const importatiDalleProve = new Set(a.prove.flatMap((p) => [...importati(p, readFileSync(join(repo, p), "utf8"))]));
-        const diretti = nuovi.filter((f) => importatiDalleProve.has(f));
+        // Diretto anche se la prova ne scrive solo il nome (un import dinamico, un readFileSync, un esiste?):
+        // una prova che guarda il file e non il comportamento non prova niente (collaudo del 12/11 sera).
+        const diretti = nuovi.filter((f) => importatiDalleProve.has(f) || testoProve.includes(f.split("/").pop()));
         const tipo = diretti.length ? "strutturale" : tipoDiRosso(g2.uscita);
-        if (tipo !== "comportamento") dubbi.push({ tipo, testo: etichetta + (diretti.length ? " (le prove importano direttamente un file nuovo: " + diretti.join(", ") + ")" : " (alla base non c'era)") });
-        passi.push("② tutta la correzione alla base: rossa, " + (tipo === "comportamento" ? "sul comportamento" : tipo === "strutturale" ? "ma solo per la struttura" : "per un motivo che non riconosco"));
+        if (tipo !== "comportamento") dubbi.push({ tipo, testo: etichetta + (diretti.length ? " (le prove importano o nominano direttamente un file nuovo: " + diretti.join(", ") + ")" : " (alla base non c'era)") });
+        passi.push("② file nuovi tolti: rossa, " + (tipo === "comportamento" ? "sul comportamento" : tipo === "strutturale" ? "ma solo per la struttura" : "per un motivo che non riconosco"));
       }
     }
     const diversi = rimettiTutto();

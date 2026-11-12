@@ -109,18 +109,17 @@ test("un file nuovo della correzione: tolto al passo ②, rimesso alla fine", ()
   assert.ok(existsSync(join(r.d, "lib/nuovo.mjs")));
 });
 
-test("regola del 12/11 sera · un aiutante NUOVO usato da un file corretto: si prova tutta la correzione alla base insieme, e regge", () => {
+test("regola del 12/11 sera · un aiutante NUOVO usato da un file corretto: tolto da solo rompe l'import, e la macchina non decide (3)", () => {
   const prova = testa + "import { somma } from '../lib/somma.mjs';\ntest('somma', () => assert.equal(somma(2, 2), 4));\n";
   const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": "import { aiuto } from './aiuto.mjs';\nexport const somma = (a, b) => aiuto(a, b);\n", "lib/aiuto.mjs": "export const aiuto = (a, b) => a + b;\n", "tests/somma.test.mjs": prova });
   const o = lancia(r, "lib/somma.mjs,lib/aiuto.mjs", "tests/somma.test.mjs");
-  assert.equal(o.uscita, 0, JSON.stringify(o.j) + o.err);
-  assert.equal(o.j.esito, "regge");
-  assert.match(JSON.stringify(o.j.passi), /tutta la correzione alla base: rossa, sul comportamento/);
-  assert.ok(existsSync(join(r.d, "lib/aiuto.mjs")));
+  assert.equal(o.uscita, 3, JSON.stringify(o.j) + o.err);
+  assert.equal(o.j.esito, "rosso_strutturale");
+  assert.ok(existsSync(join(r.d, "lib/aiuto.mjs")), "il file nuovo torna al suo posto");
 });
 
-test("regola del 12/11 sera · un file NUOVO che la prova legge dal disco (come una migrazione): tolta tutta la correzione la prova cade sul comportamento, e regge (0)", () => {
-  const prova = testa + "import { readdirSync } from 'node:fs';\ntest('c\\'e\\' la regola del limite', () => assert.ok(readdirSync('regole').includes('limite.txt'), 'expected regole to include limite.txt'));\n";
+test("regola del 12/11 sera · un file NUOVO che la prova non nomina (come una migrazione letta da chi ricostruisce il database): tolto, la prova cade sul comportamento, e regge (0)", () => {
+  const prova = testa + "import { readdirSync, readFileSync } from 'node:fs';\nconst tetto = Math.max(0, ...readdirSync('regole').map((f) => Number(readFileSync('regole/' + f, 'utf8')) || 0));\ntest('il tetto c\\'e\\'', () => assert.equal(tetto, 10));\n";
   const r = repo({ "regole/base.txt": "x\n" }, { "regole/limite.txt": "10\n", "tests/regole.test.mjs": prova });
   const o = lancia(r, "regole/limite.txt", "tests/regole.test.mjs");
   assert.equal(o.uscita, 0, JSON.stringify(o.j) + o.err);
@@ -128,8 +127,15 @@ test("regola del 12/11 sera · un file NUOVO che la prova legge dal disco (come 
   assert.ok(existsSync(join(r.d, "regole/limite.txt")), "il file nuovo torna al suo posto");
 });
 
+test("regola del 12/11 sera · una prova che nomina il file nuovo guarda il file, non il comportamento: la macchina non decide (3)", () => {
+  const prova = testa + "import { existsSync } from 'node:fs';\ntest('c\\'e\\'', () => assert.ok(existsSync('regole/limite.txt'), 'expected file to exist'));\n";
+  const r = repo({ "regole/base.txt": "x\n" }, { "regole/limite.txt": "10\n", "tests/regole.test.mjs": prova });
+  assert.equal(lancia(r, "regole/limite.txt", "tests/regole.test.mjs").uscita, 3);
+});
+
 test("regola del 12/11 sera · --sql scrive lui il comando: nome del database controllato, e insieme a --comando no (2)", () => {
-  assert.match(comandoSql("mycity_rimessa"), /apply\.sh mycity_rimessa .*VERBOSITY=verbose/);
+  assert.match(comandoSql("mycity_rimessa"), /apply\.sh mycity_rimessa .*MIGRAZIONI_NON_APPLICATE.*VERBOSITY=verbose/);
+  assert.equal(tipoDiRosso("MIGRAZIONI_NON_APPLICATE: il database di prova non si ricostruisce"), "strutturale");
   assert.throws(() => comandoSql("x; rm -rf /"), /nome di un database/);
   const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": GIUSTA, "tests/somma.test.mjs": PROVA });
   const p = spawnSync("node", [ATTREZZO, "--repo", r.d, "--base", r.base, "--file", "lib/somma.mjs", "--prove", "tests/somma.test.mjs", "--comando", "x {prove}", "--sql", "db"], { encoding: "utf8", env: ambiente() });

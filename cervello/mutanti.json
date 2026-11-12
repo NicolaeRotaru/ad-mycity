@@ -11070,8 +11070,8 @@
    "difetto": "AR-1163",
    "file": "cervello/riparazione-sessioni.mjs",
    "nome": "una prova esistente che legge per nome un file della sessione torna «altrui» (R04, R08, R11 del 12/11)",
-   "cerca": "    for (const x of percorsiNominati(p, testo)) if (suoi.has(x)) return true;\n",
-   "sostituisci": "",
+   "cerca": "    const usati = new Set([...importDi(p, testo), ...percorsiNominati(p, testo)]);",
+   "sostituisci": "    const usati = new Set([...importDi(p, testo)]);",
    "test": "cervello/test/riparazione-sessioni.test.mjs"
   },
   {
@@ -11082,6 +11082,24 @@
    "cerca": "        const tipo = diretti.length ? \"strutturale\" : tipoDiRosso(g2.uscita);",
    "sostituisci": "        const tipo = \"strutturale\";",
    "test": "cervello/test/la-correzione-tolta-deve-far-cadere-la-prova.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "una prova comune a più sessioni diventa di chi la tocca per primo, e può togliere i controlli sugli altri (collaudo del 12/11 sera)",
+   "cerca": "    return [...usati].some((x) => altrui.has(x)) ? \"condivisa\" : true;",
+   "sostituisci": "    return true;",
+   "test": "cervello/test/riparazione-collaudo-12-11-guardia.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/prova-rimessa.mjs",
+   "nome": "un file nuovo estraneo accanto a una correzione vera risulta provato: si torna a togliere anche gli esistenti (collaudo del 12/11 sera)",
+   "cerca": "      for (const f of nuovi) { const p = join(repo, f); if (existsSync(p)) unlinkSync(p); }",
+   "sostituisci": "      for (const f of a.file) { const b = base.get(f), p = join(repo, f); if (b === null) { if (existsSync(p)) unlinkSync(p); } else writeFileSync(p, b); }",
+   "test": "cervello/test/riparazione-collaudo-12-11-rimessa.test.mjs"
   },
   {
    "lotto": null,

@@ -83,7 +83,8 @@ Riparti quando la regista risponde «approvato», o correggi come ti dice.
    è una riparazione. 3 = la prova è rossa per la struttura (un nome che manca), non per il comportamento:
    rimetti il difetto com'è scritto nella voce e guarda. 2 o 4 = condizione sbagliata: sistemala e riprova.
    **Se la correzione ha file nuovi** (una migrazione, un aiutante) mettili in `--file` insieme agli altri: la
-   prova li toglie tutti insieme e rimette il codice di partenza, e deve cadere sul comportamento. **Una
+   prova toglie tutti i file nuovi insieme, lascia corretti gli altri, e deve cadere sul comportamento. Una
+   prova che nomina o importa il file nuovo dà 3: guarda il file, non quello che fa. **Una
    migrazione si prova con le prove SQL:** `--sql mycity_rimessa` al posto di `--comando` (ricostruisce il
    database dalle migrazioni sul disco, con e senza la tua). Così anche una voce chiusa solo con una migrazione
    può essere `riparato`, non più `parziale` per forza (regola del 12/11 sera).
@@ -99,7 +100,8 @@ Riparti quando la regista risponde «approvato», o correggi come ti dice.
   `cervello/test/riparazione-rNN-<tema>.test.mjs` (macchina).
 - **Una prova esistente** la modifichi solo se importa **o legge per nome** uno dei tuoi file (per esempio
   `readFileSync(join(ROOT, "app", "x", "page.tsx"))`), e lo dichiari. Un percorso scritto solo in un commento
-  non conta. Mai spegnerla, saltarla (`.skip`) o indebolirla per farla passare.
+  non conta. Se la prova usa anche file di altre sessioni dell'onda è comune: non la tocchi, scrivi
+  `serve_file_altrui`. Mai spegnerla, saltarla (`.skip`) o indebolirla per farla passare.
 - La guardia guarda **il risultato del ramo**: un file toccato per sbaglio e rimesso com'era non ti fa rosso,
   te lo elenca e basta. Un file altrui cambiato davvero resta rosso.
 - **Le migrazioni:** mai modificare una migrazione esistente. Se serve, una nuova nella tua fascia

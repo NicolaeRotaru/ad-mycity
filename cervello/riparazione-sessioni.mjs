@@ -765,7 +765,9 @@ export function giudicaPercorso(p, ctx) {
   if (ctx.suoi.has(p)) return null;
   if (eProva(p)) {
     if (!allaBase) return basename(p).toLowerCase().includes(`riparazione-${ctx.nome.toLowerCase()}`) ? null : `${p}: una prova nuova porta il nome della sessione (riparazione-${ctx.nome.toLowerCase()}-…)`;
-    return ctx.importaDaSuoi(p) ? null : `${p}: è una prova esistente che non importa e non nomina nessuno dei file di ${ctx.nome}`;
+    const di = ctx.importaDaSuoi(p);
+    if (di === "condivisa") return `${p}: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista`;
+    return di ? null : `${p}: è una prova esistente che non importa e non nomina nessuno dei file di ${ctx.nome}`;
   }
   if (!allaBase) return null; // un file nuovo: lo controlla prova-unione, che vede se un altro ramo lo crea
   return `${p}: è un file di un'altra sessione o di nessuno in quest'onda`;
@@ -821,6 +823,14 @@ export function percorsiNominati(percorso, testo) {
   }
   return fuori;
 }
+/** L'uscita di git con -z: coppie [stato, percorso] (o [null, percorso] senza stato). PURA. */
+export function voci0(testo, conStato) {
+  const pezzi = String(testo).split("\0").filter((x) => x !== "");
+  const fuori = [];
+  if (!conStato) { for (const f of pezzi) fuori.push([null, f]); return fuori; }
+  for (let i = 0; i + 1 < pezzi.length; i += 2) fuori.push([pezzi[i].trim().charAt(0), pezzi[i + 1]]);
+  return fuori;
+}
 function storiaDelRamo(dir, partenza, ref) {
   const commit = (gitOk(dir, ["rev-list", "--reverse", `${partenza}..${ref}`]) ?? "").split("\n").filter(Boolean);
   const toccati = new Set();
@@ -830,14 +840,15 @@ function storiaDelRamo(dir, partenza, ref) {
   for (const c of commit) {
     const genitori = (gitOk(dir, ["rev-list", "--parents", "-n", "1", c]) ?? "").trim().split(/\s+/).slice(1);
     if (genitori.length > 1) unioni.push(c);
+    // -z: senza, git mette tra virgolette i nomi con accenti, «"» o «\\», e la guardia li crederebbe file nuovi
+    // (collaudo del 12/11 sera).
     const args = genitori.length > 1
-      ? ["diff-tree", "-r", "--cc", "--name-only", "--no-renames", "--no-commit-id", c]
-      : ["diff-tree", "-r", "--root", "--name-status", "--no-renames", "--no-commit-id", c];
+      ? ["diff-tree", "-z", "-r", "--cc", "--name-only", "--no-renames", "--no-commit-id", c]
+      : ["diff-tree", "-z", "-r", "--root", "--name-status", "--no-renames", "--no-commit-id", c];
     const file = [];
-    for (const riga of (gitOk(dir, args) ?? "").split("\n").filter((f) => f && f !== c)) {
-      const m = genitori.length > 1 ? null : riga.match(/^([ACDMRTUX])\d*\t(.+)$/);
-      const f = m ? m[2] : riga;
-      if (m?.[1] === "D") cancellati.add(f);
+    for (const [st, f] of voci0(gitOk(dir, args) ?? "", genitori.length <= 1)) {
+      if (f === c) continue;
+      if (st === "D") cancellati.add(f);
       file.push(f);
       toccati.add(f);
     }
@@ -904,22 +915,22 @@ function guardiaRamo(opz) {
     if (!allaBase.has(p)) allaBase.set(p, gitOk(dir, ["cat-file", "-e", `${partenza}:${p}`]) !== null);
     return allaBase.get(p);
   };
+  // I file delle ALTRE sessioni dell'onda: una prova che li usa insieme ai propri è comune, e chi la tocca
+  // potrebbe togliere i controlli sugli altri senza cambiare il numero di asserzioni (collaudo del 12/11 sera).
+  const altrui = new Set(Object.entries(dove.onda.sessioni).filter(([n]) => n !== nome).flatMap(([, x]) => (x.file ?? []).map(normPerc)));
   const importaDaSuoi = (p) => {
     const testo = gitOk(dir, ["show", `${partenza}:${p}`]);
     if (testo === null) return false;
-    for (const x of importDi(p, testo)) if (suoi.has(x)) return true;
-    for (const x of percorsiNominati(p, testo)) if (suoi.has(x)) return true;
-    return false;
+    const usati = new Set([...importDi(p, testo), ...percorsiNominati(p, testo)]);
+    if (![...usati].some((x) => suoi.has(x))) return false;
+    return [...usati].some((x) => altrui.has(x)) ? "condivisa" : true;
   };
   const ctx = { nome, suoi, esisteAllaBase, importaDaSuoi, fascia: dove.sessione.migrazioni ?? null, casa: per.casa };
   // Si giudica il RISULTATO del ramo, non ogni passo della storia (12/11 sera, regola firmata da Nicola): è il
   // diff netto quello che entra nell'unione. Nell'onda del 12/11 R01 e R07 sono rimasti rossi per sempre su file
   // toccati per sbaglio e rimessi com'erano. Un file toccato e rimesso si elenca, ma non è un rosso.
   const netto = new Map();
-  for (const riga of (gitOk(dir, ["diff", "--name-status", "--no-renames", partenza, ref]) ?? "").split("\n").filter(Boolean)) {
-    const m = riga.match(/^([ACDMRTUX])\d*\t(.+)$/);
-    if (m) netto.set(m[2], m[1]);
-  }
+  for (const [st, f] of voci0(gitOk(dir, ["diff", "-z", "--name-status", "--no-renames", partenza, ref]) ?? "", true)) netto.set(f, st);
   const daGiudicare = [...netto.keys()];
   const rimessi = [...storia.toccati].filter((f) => !netto.has(f)).sort();
   const cancellati = new Set([...netto].filter(([, st]) => st === "D").map(([f]) => f));
@@ -949,7 +960,8 @@ function guardiaRamo(opz) {
   const senzaVoce = storia.perCommit.filter((c) => c.file.some((f) => !f.startsWith(`${REFERTO_DIR}/`)) && !primoRigoGiusto.test(c.messaggio.split("\n")[0].trim()));
   for (const c of senzaVoce) rossi.push(`${c.commit.slice(0, 12)}: un commit di codice che non comincia con l'id di una voce di ${nome} («${nome}-NNN …», oppure «${nome}-varie …»)`);
   for (const c of storia.perCommit) for (const id of c.messaggio.match(/\b[A-Z]\d{2}-\d{3}\b/g) || []) if (!ids.has(id)) rossi.push(`${c.commit.slice(0, 12)}: il messaggio cita ${id}, che non è una voce di ${nome}`);
-  const attese = storia.commit.length ? [] : [`${nome}: il ramo non ha ancora nessun commit suo`];
+  const attese = !storia.commit.length ? [`${nome}: il ramo non ha ancora nessun commit suo`]
+    : !netto.size ? [`${nome}: il ramo ha ${storia.commit.length} commit ma alla fine non cambia nessun file: non c'è niente da giudicare, non è un verde`] : [];
   if (rimessi.length) console.log(`ℹ️ toccati nella storia e rimessi com'erano (non entrano nell'unione, non sono un rosso): ${rimessi.slice(0, TETTO_RIGHE).join(", ")}`);
   return chiudi("guardia-ramo", rossi, attese, opz, { commit: storia.commit.length, file_toccati: netto.size, ...(rimessi.length ? { toccati_e_rimessi_com_erano: rimessi } : {}) });
 }
