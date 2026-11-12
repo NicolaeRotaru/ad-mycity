@@ -1,0 +1,192 @@
+{
+ "controllore": "C01",
+ "onda": 1,
+ "finita": true,
+ "testa": "b144746992176ae554d48376a00d972f5210a49f",
+ "verify": {
+  "comando": "npm run verify && tests/sql/harness/apply.sh && tests/sql/harness/run.sh",
+  "esito": "verde",
+  "nota": "1417 file di prova, 9647 prove passate; apply.sh: 193 migrazioni applicate, 0 fallite; run.sh: tutti i controlli verdi. Il primo giro di verify è caduto per memoria (tsc OOM, limite della macchina): rilanciato con NODE_OPTIONS=--max-old-space-size=8192."
+ },
+ "voci_rosse": [
+  {
+   "chiave": "qa-flussi|la cassa dice «troppo lontano» a chi abita in via roma o in via cavour, in pieno centro, e l'ordine non parte",
+   "perche": "Tolta con git revert sull'integrazione (commit 4cad6fe4): la riparazione non è sull'albero unito b144746."
+  },
+  {
+   "chiave": "pagamenti-stripe|se il cliente viene rimborsato prima che il suo ordine nasca, l'ordine nasce lo stesso come pagato e il negozio viene pagato",
+   "perche": "Tolta con git revert sull'integrazione (85f82968): non è sull'albero unito."
+  },
+  {
+   "chiave": "frontend-ux|le modifiche ai dettagli del negozio e al profilo si perdono uscendo, senza nessun avviso",
+   "perche": "Tolta con git revert sull'integrazione (ea80d5b1): non è sull'albero unito."
+  },
+  {
+   "chiave": "frontend-ux|incollare il link di instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non dice dove",
+   "perche": "Tolta con git revert sull'integrazione (ac071635): non è sull'albero unito."
+  },
+  {
+   "chiave": "frontend-ux|se il nome del negozio comincia con un numero, un apostrofo, le virgolette o contiene una parola inglese come «table», il cliente in cassa legge «qualcosa non ha funzionato» invece del motivo vero",
+   "perche": "Tolta con git revert sull'integrazione (d1592b16): non è sull'albero unito."
+  },
+  {
+   "chiave": "frontend-ux|il salvataggio fa due passi: se una variante è cambiata, nome e prezzo del prodotto restano salvati e le varianti no",
+   "perche": "Tolta dopo l'unione (308669ba): si scontra col salvataggio delle varianti di R08-008. Il collaudo diceva regge sul ramo separato."
+  },
+  {
+   "chiave": "privacy-legale|l'obbligo di dichiarare allergeni e ingredienti vale solo finché la categoria principale si chiama esattamente «alimentari», e dal pannello quel nome si può cambiare",
+   "perche": "Tolta dopo l'unione (0597c926): si scontra con un'altra voce, non è sull'albero unito."
+  },
+  {
+   "chiave": "dati-analytics|negozio del mese: la classifica dei voti mostra tutti i negozi a zero voti in fila, e «nessun voto» non compare mai",
+   "perche": "Tolta dopo l'unione (bb63d880): la sua migrazione 301 riscriveva la stessa funzione di R08-025/323."
+  },
+  {
+   "chiave": "dati-analytics|in analisi il voto medio guarda solo le recensioni ai prodotti: un negozio con tre recensioni legge «nessuna recensione», e le etichette sono in inglese",
+   "perche": "Tolta dopo l'unione (b1447469): la sua migrazione 302 riscriveva la stessa funzione di R02-014/260."
+  },
+  {
+   "chiave": "pagamenti-stripe|con l'abbonamento acceso, due schede aperte creano due abbonamenti da 50 euro, e il primo resta orfano e non si disdice dal sito",
+   "perche": "lib/stripe/webhook/abbonamenti.ts:145-151 inghiotte ogni errore di subscriptions.retrieve(precedente): con un errore di rete il nuovo abbonamento si scrive sopra al vecchio ancora pagato, e restano due abbonamenti (collaudo K03: rompe_altro). Il rischio oggi dorme: ABBONAMENTO_NEGOZI_ACCESO=false (lib/funzioni-al-lancio.ts:103) e la cassa rifiuta (app/api/seller/subscription/checkout/route.ts:40). Diventa vero il giorno che si riaccende."
+  },
+  {
+   "chiave": "pagamenti-stripe|un rimborso arrivato dopo il bonifico del lunedì non viene mai ripreso al negozio",
+   "perche": "lib/stripe/payout.ts:2057: l'avviso «togli la quota dal prossimo bonifico» parte solo con payout_status HELD. La migrazione 350 di R11-004 porta i contanti pagati a mano a PAID_MANUALLY, quindi proprio nel caso «rimborso dopo il bonifico a mano» l'avviso non parte più, e la quota del negozio si perde in silenzio (incrocio fra due sessioni)."
+  },
+  {
+   "chiave": "pagamenti-stripe|un reclamo chiuso mentre un reso sullo stesso ordine sta per tornare indietro segna l'ordine come perso, e il negozio non riceve più il resto che gli spetta",
+   "perche": "app/api/admin/disputes/[id]/resolve/route.ts:212-217: il percorso di ripresa (rimborso e avviso già fatti) segna ancora l'ordine LOST con un reso in corso; il controllo dei resi aperti c'è solo nel percorso normale (righe 393-408)."
+  },
+  {
+   "chiave": "flussi-conversione|«ripeti ordine» rimette nel carrello anche i prodotti finiti o tolti dalla vendita, col prezzo di allora, e dice «aggiunti al carrello»",
+   "perche": "lib/riordino.ts:60 legge solo products.stock, che è la somma delle varianti: una taglia esaurita dell'ordine vecchio rientra nel carrello con «aggiunti al carrello» e si scopre solo in cassa. product_variants non è letta."
+  },
+  {
+   "chiave": "deploy-sre|il giorno che si riaccendono i lavori, il cliente di un ordine veloce vecchio riceve una scadenza già passata",
+   "perche": "lib/ordini/veloce-non-confermata.ts: la scadenza è controllata solo in nonSiSposta (278-282). La ricerca (695-703) non ha limite su created_at e spostaIlCarrello (376, chiamata alla 728) sposta lo stesso un ordine veloce già scaduto: il cliente riceve la fascia nuova e poi l'annullo."
+  }
+ ],
+ "nuovi_difetti_visti": [
+  {
+   "titolo": "I contanti vecchi ancora da versare spariscono dal pannello dei bonifici quando gli ordini consegnati superano mille",
+   "dimensione": "pagamenti-stripe",
+   "severita": "grave",
+   "file": "app/admin/payouts/page.tsx:176-180",
+   "descrizione": "La lettura prende gli ultimi 1000 ordini consegnati per created_at decrescente, compresi quelli già pagati (TRANSFERRED/PAID_MANUALLY), che crescono sempre. ordiniDaVersareLunedi e BonificoFatto (righe 113-127) lavorano solo su queste righe: un contante HELD più vecchio della millesima riga non entra mai in «Da versare lunedì» né nel bonifico. Il filtro va messo sui bonifici aperti. Verificato una seconda volta sul codice dal controllore."
+  },
+  {
+   "titolo": "La percentuale dei pagamenti con carta oltre ventimila tentativi diventa un campione senza dirlo",
+   "dimensione": "dati-analytics",
+   "severita": "minore",
+   "file": "app/admin/page.tsx:138-148",
+   "descrizione": "leggiTutteLeRighe restituisce troncato ma qui si legge solo {data,error}: oltre il tetto di 20.000 righe tassoAutorizzazione si calcola su un troncone. Stesso difetto chiuso da R06-021 in activity e funnel."
+  },
+  {
+   "titolo": "Tra 768 e 1023 px i tasti Ordini, Consegne e Admin della testata sono solo un'icona senza nome per chi vede",
+   "dimensione": "accessibilita",
+   "severita": "minore",
+   "file": "components/Navbar.tsx:195-210",
+   "descrizione": "Il testo è sr-only fino a lg e manca title; solo «Registrati» (riga 168) ha title."
+  },
+  {
+   "titolo": "Sulla scheda prodotto un secondo «Aggiungi al carrello» entro un secondo viene ignorato senza dire niente",
+   "dimensione": "flussi-conversione",
+   "severita": "minore",
+   "file": "app/product/[id]/page.tsx:578",
+   "descrizione": "Il freno di R02-016 scarta le aggiunte entro 1 s senza nessun messaggio."
+  },
+  {
+   "titolo": "Accogliendo la segnalazione di un negozio, se la lettura del negozio cade, il negozio resta online ma la decisione «accolta» si registra",
+   "dimensione": "privacy-legale",
+   "severita": "minore",
+   "file": "app/admin/segnalazioni/page.tsx:94-99",
+   "descrizione": "L'errore della lettura di approval_status è ignorato: negozio null, il ramo che sospende si salta e parte l'esito «rimosso». Stesso difetto di R02-003, ramo negozio."
+  },
+  {
+   "titolo": "Una recensione segnalata come falsa non si può accogliere né togliere",
+   "dimensione": "privacy-legale",
+   "severita": "minore",
+   "file": "app/api/segnalazioni/route.ts:204",
+   "descrizione": "contenutoAncoraOnline risponde 409 per ogni tipo diverso da prodotto e negozio, e la pagina admin disabilita «Accolta» (page.tsx:74). È il blocco voluto da R02-003: probabilmente è il pezzo che R02-005 (parziale) dichiara mancante. Il revisore l'aveva detto grave: riletto dal controllore, abbassato a minore e possibile doppione."
+  },
+  {
+   "titolo": "Falla di sicurezza (nel referto privato)",
+   "dimensione": "privacy-legale",
+   "severita": "minore",
+   "file": "(nel referto privato)",
+   "descrizione": "(nel referto privato)",
+   "riservato": true
+  },
+  {
+   "titolo": "Falla di sicurezza (nel referto privato)",
+   "dimensione": "api-backend",
+   "severita": "grave",
+   "file": "(nel referto privato)",
+   "descrizione": "(nel referto privato)",
+   "riservato": true
+  },
+  {
+   "titolo": "Il conto dei rimborsi divisi legge tutto il registro senza filtro e si ferma a mille righe",
+   "dimensione": "api-backend",
+   "severita": "minore",
+   "file": "lib/stripe/payout.ts:1419",
+   "descrizione": "laParteDeiRimborsiSenzaOrdine (R03-006) legge audit_logs action='order.refund' senza filtro su metadata->>pagamento né ordine; con max_rows=1000 la divisione giusta può restare fuori e il rimborso si conta per intero (doppio addebito al negozio). Oggi lontano dai volumi."
+  },
+  {
+   "titolo": "Dopo un ritorno indietro il riepilogo del rilascio rassicura a torto se una migrazione ha tolto una funzione o una vista",
+   "dimensione": "deploy-sre",
+   "severita": "minore",
+   "file": ".github/workflows/deploy-dopo-ci.yml:788",
+   "descrizione": "Il controllo cerca solo DROP COLUMN, DROP TABLE e RENAME: non vede DROP FUNCTION, DROP VIEW o ALTER TABLE ... DROP senza COLUMN (es. migrations/105_remove_invoicing.sql:17). Non è fra i pezzi mancanti dichiarati di R01-015."
+  },
+  {
+   "titolo": "Se lo script delle migrazioni cade fra un file e il successivo, il riepilogo accusa una migrazione sana",
+   "dimensione": "deploy-sre",
+   "severita": "minore",
+   "file": ".github/workflows/deploy-dopo-ci.yml:563",
+   "descrizione": "ROTTA è l'ultima riga «▶ applico»; se cade la psql di scripts/applica-migrazioni-mancanti.sh:308 (dopo l'INSERT di registrazione), l'ultima migrazione registrata viene indicata come rotta e manca dall'elenco delle applicate."
+  },
+  {
+   "titolo": "La frase per l'assistente scrive a mano la soglia dei 10 euro della consegna",
+   "dimensione": "architettura",
+   "severita": "minore",
+   "file": "lib/products/economics.ts:80",
+   "descrizione": "regolaConsegnaPerAi usa 999/1000 e «10 €» scritti a mano invece di SPESA_SENZA_SUPPLEMENTO_CENTS (lib/constants.ts:140): stessa classe di difetto di R04-021."
+  },
+  {
+   "titolo": "Quando il tetto di spesa AI blocca un lavoro sul catalogo il negoziante legge «Riprova» e il lavoro risulta fallito",
+   "dimensione": "ai-endpoints",
+   "severita": "minore",
+   "file": "app/api/ai/catalog-batch/start/route.ts:221",
+   "descrizione": "AiCallError.perTettoSpesa finisce nel catch generico (badGateway, riga 'failed'); con R04-017 la stima intera del lotto lo fa scattare più spesso."
+  },
+  {
+   "titolo": "Un lotto AI partito e pagato ma non agganciato alla sua riga si chiude come fallito dopo 15 minuti e se ne può pagare un secondo",
+   "dimensione": "ai-endpoints",
+   "severita": "minore",
+   "file": "app/api/ai/catalog-batch/start/route.ts:203",
+   "descrizione": "La riga resta submitting con error null; status/route.ts:95 le dà la scadenza di 15 minuti invece delle 24 ore di R04-014."
+  },
+  {
+   "titolo": "Il freno di sei ore sui prodotti importati in errore regge solo con Upstash: senza, ogni copia del sito ripaga le chiamate AI",
+   "dimensione": "ai-endpoints",
+   "severita": "minore",
+   "file": "lib/products/externalSync.ts:290",
+   "descrizione": "R04-011 ha tolto il freno nel database; rateLimitAsync senza Upstash ripiega sulla memoria della singola copia (lib/rate-limit.ts:219-234). Non verificato se Upstash è configurato in produzione."
+  },
+  {
+   "titolo": "Il modulo prodotto non passa i due campi nuovi alle regole comuni delle proposte dell'assistente",
+   "dimensione": "architettura",
+   "severita": "minore",
+   "file": "components/seller/ProductForm.tsx:499",
+   "descrizione": "pianoPatchPerIlModulo ha haVarianti e attributiAttuali (lib/products/aiPatch.ts:836-839) ma l'unico chiamante non li passa: nel modulo R04-020 non cambia nulla. Possibile doppione del pezzo mancante dichiarato (R04-020 parziale)."
+  }
+ ],
+ "file_toccati": 566,
+ "file_guardati": 243,
+ "file_non_guardati": "323 file non guardati dagli occhi: 298 di prova (tests/unit 282, tests/sql 16), 11 .riparazione/referto-*.json, 4 docs/mockup e 4 file di codice rimasti fuori dalle letture dei revisori (247 assegnati, 243 dichiarati letti). Le prove le copre verify, che è verde.",
+ "conto": {
+  "subagenti": 11,
+  "token_stimati": 1113000
+ }
+}
