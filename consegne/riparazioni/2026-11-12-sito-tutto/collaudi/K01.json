@@ -5,7 +5,7 @@
   "R02",
   "R09"
  ],
- "aggiornato": "2026-11-12 17:20",
+ "aggiornato": "2026-11-12 18:30",
  "finita": true,
  "voci": [
   {
@@ -324,28 +324,28 @@
   {
    "id": "R01-004",
    "chiave": "api-backend|l'sos del fattorino non arriva davvero a nessuno: solo una notifica nel pannello, mentre a lui diciamo «alert immediato»",
-   "verdetto": "rompe_altro",
+   "verdetto": "regge",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "Chiude la voce (push ad alta urgenza agli admin, SOS letto dal server, riscrittura senza ordine). Ma la rotta nuova controlla solo role='rider', non is_approved, e rimanda il push dello stesso SOS a ogni chiamata (renotify, nessun «già avvisato»): nasce un canale per far suonare a raffica i telefoni admin. Dettagli alla regista. Rimessa senza la rotta nuova: 0; mutazione a mano nella rotta (niente push): prova rossa. La prova finge auth e push.",
+   "nota": "Ricollaudo sulla testa 87819070 (due qa, uno per lente). La rotta ora vuole role='rider' e is_approved (il profilo del middleware lo legge davvero: lib/api/middleware.ts:265) e manda un solo push per SOS col segno in operational_alert_log (migrazione 084, chiave primaria: il secondo dà 23505, provato su Postgres 16); un SOS vero successivo ha id nuovo e suona. 37 prove SOS vicine verdi. Rimessa sul commit nuovo: 0. Restano, fuori dalla voce: un rider approvato può creare SOS nuovi via REST (policy 037) fino a 5 push al minuto; un SOS scritto a mano con triggered_at nel futuro fa rispondere giaAvvisato agli SOS veri dello stesso rider; il segno si scrive prima dell'invio.",
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R0X --base 2bc80f4858e1776ebca229f38de770f03ffb5148^ --file components/rider/RiderShell.tsx,components/rider/SOSButton.tsx --prove tests/unit/riparazione-r01-sos-avviso.test.tsx,tests/unit/riparazione-r01-sos-guscio.test.tsx --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base 8781907018ebaa1cc1b1654b236bdf74d78b9c42^ --file app/api/rider/sos/avvisa/route.ts --prove tests/unit/riparazione-r01-sos-avviso.test.tsx --json"
    }
   },
   {
    "id": "R01-006",
    "chiave": "frontend-ux|la consolle sos non mostra da quale consegna parte l'allarme: l'order_id ora scritto non si vede da nessuna parte",
-   "verdetto": "parziale",
+   "verdetto": "non_regge",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "La consolle mostra «Consegna #…» con link, ma l'ordine si ricava solo dall'indirizzo (/rider/orders/<id>): premuto dalla home /rider con una consegna attiva, order_id resta vuoto e la consolle scrive «Fuori da una consegna», falso. Rimessa senza lettura-degli-sos.ts: 0; mutazione a mano su consegnaDellSOS: prova rossa.",
+   "nota": "Ricollaudo: nessun codice nuovo, ora dichiarata parziale. Il cosa_resta nomina solo «la consegna c'è ma non appare» e tace il caso opposto, più pericoloso: RiderShell.tsx:55 prende qualunque id da /rider/orders/<id> e la policy 037 non controlla che l'ordine sia del rider e aperto; dallo storico (app/rider/history/page.tsx:125, visto di persona) il rider apre una consegna già fatta, preme SOS, e consolle e push indicano quella consegna chiusa. Non è un parziale onesto. Primo collaudo: la consolle mostra «Consegna #…» con link, ma l'ordine si ricava solo dall'indirizzo (/rider/orders/<id>): premuto dalla home /rider con una consegna attiva, order_id resta vuoto e la consolle scrive «Fuori da una consegna», falso. Rimessa senza lettura-degli-sos.ts: 0; mutazione a mano su consegnaDellSOS: prova rossa.",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R0X --base efe6604723ad686d71da243057a95a015a9116fe^ --file app/admin/sos/page.tsx --prove tests/unit/riparazione-r01-sos-consegna.test.tsx,tests/unit/riparazione-r01-sos-guscio.test.tsx --json"
@@ -565,10 +565,10 @@
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "Mutazione a mano rifatta da me: in spostaIlCarrello (veloce-non-confermata.ts:648) giaConfermati sostituito con 0 → la prova della voce resta verde (4 su 4), e anche 167 prove «freno». La prova controlla solo fraseDelFreno, non che il freno le passi il numero vero. In più, dopo un giro caduto a metà, gli ordini confermati spostati prima non vengono nominati.",
+   "nota": "Ricollaudo sulla testa 0a116efb. Il caso del primo collaudo è chiuso: la prova nuova dal giro vero lega il numero alla frase (mutazione a mano giaConfermati: 0 → 2 prove su 3 rosse) e dopo un giro caduto a metà nomina l'ordine confermato. Solo testo, niente cambia in annulli o rimborsi (228 prove verdi, tsc pulito). Buco nuovo, visto di persona: confermatiSpostati (riga 365-369) conta un fratello confermato con una fascia «Oggi/Domani ·» qualunque, senza confrontarla con la fascia nuova; dopo un guasto lungo il freno sceglie una fascia nuova e la frase dice «arriva anche lui nella fascia X» mentre quell'ordine resta nella fascia vecchia già scaduta. Frase falsa al cliente, nessuna prova lo copre.",
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R0X --base 60d898958e527c4d600103f1e8f0ac3601ba400c^ --file lib/ordini/veloce-non-confermata.ts --prove tests/unit/riparazione-r09-freno-annullo.test.ts --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R09 --base 80020a75^ --file lib/ordini/veloce-non-confermata.ts --prove tests/unit/riparazione-r09-freno-annullo.test.ts,tests/unit/riparazione-r09-freno-annullo-dal-giro.test.ts --json"
    }
   },
   {
@@ -625,7 +625,7 @@
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "seller_id e status dal server, solo colonne di rigaPulita, 503 a interruttore spento, limiti e freno di frequenza. Mutazione a mano: tolto il controllo delle righe → prova rossa; tolto il tetto di 500 righe → prova verde (tetto senza prova). Rimessa sul primo commit senza i file nuovi: 0; sul secondo la pagina non ha prova sua. Resta R09-002 (regola di scrittura larga), separata.",
+   "nota": "seller_id e status dal server, solo colonne di rigaPulita, 503 a interruttore spento, limiti e freno di frequenza. Mutazione a mano: tolto il controllo delle righe → prova rossa. Ricollaudo: con la prova nuova 0a116efb, tolto il tetto di 500 righe sulla testa → la prova è ROSSA (501 righe: 400 e niente scritto); stabile su 3 giri. Rimessa sul primo commit senza i file nuovi: 0; sul secondo la pagina non ha prova sua. Resta R09-002 (regola di scrittura larga), separata.",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R0X --base 346e8147896b2bb4680a92a521d9404a4308110a^ --file app/seller/products/import/page.tsx --prove tests/unit/riparazione-r09-caricamento-da-file-passa-dal-server.test.ts --json"
@@ -634,13 +634,13 @@
   {
    "id": "R09-008",
    "chiave": "architettura|carrello di più negozi: se cade la scrittura del secondo ordine, il primo resta spostato in silenzio",
-   "verdetto": "parziale",
+   "verdetto": "non_regge",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "Dichiarata. In più: se l'ordine rimasto «Adesso» è già confermato il cliente non è mai avvisato, e nel giro di ripresa giaConfermati vale 0 (carrello [NEW, ACCEPTED, NEW] caduto a metà).",
+   "nota": "Ricollaudo: il cosa_resta nuovo copre i due punti del primo collaudo (il giaConfermati a 0 lo corregge R09-001), ma tace uno di sostanza: dopo un guasto lungo il freno sceglie da capo la fascia solo per gli ordini rimasti «Adesso»; quelli spostati prima restano nella fascia vecchia già finita, il carrello si spacca su due fasce, il cliente legge solo la nuova e nessun avviso agli admin lo segnala (righe 396, 413-421). Non è un parziale onesto. Primo collaudo: se l'ordine rimasto «Adesso» è già confermato il cliente non è mai avvisato, e nel giro di ripresa giaConfermati valeva 0.",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R0X --base c19a4acbcc9e17d183977f054653166097e9c025^ --file lib/ordini/veloce-non-confermata.ts --prove tests/unit/riparazione-r09-carrello-spostato-a-meta.test.ts --json"
@@ -829,13 +829,13 @@
   {
    "id": "R09-024",
    "chiave": "microcopy|in tanti punti l'euro è ancora scritto all'inglese: «€12.50», «€0 – €500+», «€ 2,50»",
-   "verdetto": "parziale",
+   "verdetto": "non_regge",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "Il campione del titolo «€0 – €500+» è ancora vivo in app/category/[slug]/page.tsx:220 e cosa_resta non lo nomina; ~46 righe scritte a mano.",
+   "nota": "Ricollaudo: il cosa_resta ora nomina category:220 e search, ma la ricerca che dà a chi continua (€ ?[0-9]|€${) non trova la forma JSX €{…}: resta fuori components/StoreProductExplorer.tsx:163, la stessa scritta «€0 – €500+» della voce nel filtro della pagina negozio (visto di persona), e app/seller/products/ai-batch/page.tsx:299. Il conto «circa 48» non torna (42 con quella ricerca, senza i 7 casi €{). Non è un parziale onesto.",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R0X --base 6f467414eb205c710f49e1de53c12c0d5f2c1a31^ --file app/product/[id]/opengraph-image.tsx,app/profile/loyalty/page.tsx,components/ShareCartButton.tsx,messages/it.json --prove tests/unit/riparazione-r09-euro-all-italiana.test.ts --json"
@@ -844,13 +844,13 @@
   {
    "id": "R09-025",
    "chiave": "microcopy|l avviso «freno fermo a metà» elenca cosa ha fatto quel giro e non lo stato vero: un rimborso di un altra causa compare come «già reso sulla carta», e al secondo guasto può dire «niente» con l euro già reso",
-   "verdetto": "parziale",
+   "verdetto": "non_regge",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "Il secondo guasto legge refunded_amount_cents; ma «Lo stato adesso:» elenca ancora solo ciò che ha toccato quel giro.",
+   "nota": "Ricollaudo: il cosa_resta nuovo descrive solo l'avviso «fermo prima di cominciare» e tace il punto del primo collaudo, ancora vero: nell'avviso «fermo a metà» «Lo stato adesso:» elenca solo `fatto` (ciò che ha toccato questo giro); gli ordini spostati da un giro prima e il credito reso su di loro non compaiono, e quell'avviso non manda a guardare il carrello. Il secondo guasto legge refunded_amount_cents (questo regge).",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R0X --base bb9ba8849975207a24b4d0a997467aaefc8106bd^ --file lib/ordini/veloce-non-confermata.ts --prove tests/unit/riparazione-r09-freno-fermo-stato-vero.test.ts --json"
@@ -865,7 +865,7 @@
    "accettato": true
   },
   "R09": {
-   "accettato": false
+   "accettato": true
   }
  }
 }
