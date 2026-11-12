@@ -5,7 +5,7 @@
   "R07",
   "R08"
  ],
- "aggiornato": "2026-11-12 18:40",
+ "aggiornato": "2026-11-12 17:15",
  "finita": true,
  "voci": [
   {
@@ -165,9 +165,9 @@
     "uscita": 3,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 61c6e995^ --file app/api/vision/extract-product/route.ts --prove tests/unit/riparazione-r04-foto-uscita-modello.test.ts --json"
    },
-   "verdetto": "regge",
+   "verdetto": "parziale",
    "giudizio": "pieno",
-   "nota": "Rimessa a mano: app/api/vision/extract-product/route.ts:415 rimesso policy_reason?.trim() senza controllo di tipo -> 1 rosso su 2 (TypeError, il 500 della voce); a parte, name senza controllo -> 1 rosso su 2. L'uscita 3 del programma veniva proprio da quel TypeError, che e' il difetto policy_reason solo se testo (extract-product/route.ts:415) -> 400 invece di 500; nome, descrizione, categoria e prezzo solo col tipo giusto (:482-492); ProductForm regge null e stringa vuota. Rimessa a mano: policy_reason?.trim() senza controllo -> 1 rosso su 2, il 500 della voce.",
+   "nota": "Regge alla rimessa a mano (mutazione nel resto di questa nota); il programma accetta la chiusura solo con uscita 0 — regola della campagna per file nuovi e SQL, decisa dalla regista il 2026-11-12 17:11. Rimessa a mano: app/api/vision/extract-product/route.ts:415 rimesso policy_reason?.trim() senza controllo di tipo -> 1 rosso su 2 (TypeError, il 500 della voce); a parte, name senza controllo -> 1 rosso su 2. L'uscita 3 del programma veniva proprio da quel TypeError, che e' il difetto policy_reason solo se testo (extract-product/route.ts:415) -> 400 invece di 500; nome, descrizione, categoria e prezzo solo col tipo giusto (:482-492); ProductForm regge null e stringa vuota. Rimessa a mano: policy_reason?.trim() senza controllo -> 1 rosso su 2, il 500 della voce.",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
@@ -210,13 +210,13 @@
     "uscita": 3,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 7482bc60^ --file app/api/ai/improve-product/route.ts,app/api/ai/product-chat/route.ts,app/api/ai/barcode-lookup/route.ts,lib/ai/productContext.ts --prove tests/unit/riparazione-r04-elenchi-con-tetto.test.ts --json"
    },
-   "verdetto": "regge",
+   "verdetto": "parziale",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "Rimessa a mano: il «motivo che non riconosco» alla base e' TypeError reading null.options: alla base un elemento non oggetto faceva cadere la rotta (meta' del difetto). Mutazione sul comportamento, una rotta alla volta: tolto voceCorta su slug/nome categoria (e opzioniCorte in improve-product) -> improve-product 1 rosso su 4, product-chat 1 rosso su 4, barcode-lookup 1 rosso su 4 voceCorta/opzioniCorte su improve-product, product-chat e barcode-lookup; i tetti di productContext c'erano già; nessuna regressione sui file condivisi; suite intera 8977 verdi."
+   "nota": "Regge alla rimessa a mano (mutazione nel resto di questa nota); il programma accetta la chiusura solo con uscita 0 — regola della campagna per file nuovi e SQL, decisa dalla regista il 2026-11-12 17:11. Rimessa a mano: il «motivo che non riconosco» alla base e' TypeError reading null.options: alla base un elemento non oggetto faceva cadere la rotta (meta' del difetto). Mutazione sul comportamento, una rotta alla volta: tolto voceCorta su slug/nome categoria (e opzioniCorte in improve-product) -> improve-product 1 rosso su 4, product-chat 1 rosso su 4, barcode-lookup 1 rosso su 4 voceCorta/opzioniCorte su improve-product, product-chat e barcode-lookup; i tetti di productContext c'erano già; nessuna regressione sui file condivisi; suite intera 8977 verdi."
   },
   {
    "id": "R04-016",
@@ -300,13 +300,13 @@
     "uscita": 3,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 89a69345^ --file lib/products/economics.ts,app/api/ai/improve-product/route.ts --prove tests/unit/riparazione-r04-consegna-nel-prompt.test.ts --json"
    },
-   "verdetto": "regge",
+   "verdetto": "parziale",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "Rimessa a mano: lib/products/economics.ts regolaConsegnaPerAi torna «consegna €4.00» per prodotto -> 2 rossi su 2. Solo funzione nuova aggiunta: nessun numero esistente di economics.ts cambiato Aggiunta solo regolaConsegnaPerAi (economics.ts:79-87), usata solo da improve-product; nessun numero visto da cliente o negozio cambia. Fragile: «10 €» scritto a mano invece di SPESA_SENZA_SUPPLEMENTO_CENTS."
+   "nota": "Regge alla rimessa a mano (mutazione nel resto di questa nota); il programma accetta la chiusura solo con uscita 0 — regola della campagna per file nuovi e SQL, decisa dalla regista il 2026-11-12 17:11. Rimessa a mano: lib/products/economics.ts regolaConsegnaPerAi torna «consegna €4.00» per prodotto -> 2 rossi su 2. Solo funzione nuova aggiunta: nessun numero esistente di economics.ts cambiato Aggiunta solo regolaConsegnaPerAi (economics.ts:79-87), usata solo da improve-product; nessun numero visto da cliente o negozio cambia. Fragile: «10 €» scritto a mano invece di SPESA_SENZA_SUPPLEMENTO_CENTS."
   },
   {
    "id": "R04-022",
@@ -377,13 +377,13 @@
     "uscita": 3,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 955c95e4^ --file app/api/returns/ripensamento/route.ts,app/orders/[id]/return/page.tsx --prove tests/unit/riparazione-r07-reso-pane-server.test.ts,tests/unit/riparazione-r07-reso-pane.test.tsx --json"
    },
-   "verdetto": "regge",
+   "verdetto": "parziale",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "rimesso a mano: prodotti letti col client del cliente -> 2 rossi su 4. chiude_tutta: regge. Pagina chiede GET /api/returns/ripensamento (page.tsx:94-112) e spegne il motivo; prodotti letti col client di servizio come create; ordine misto coerente con rifiutoDelRecesso. Fuori voce: esclusione letta sul valore di oggi di non_recedibile. nata_rotta: regge. tsc 0, 41 file di prove sui resi verdi; RLS order_items del cliente ok; select('*') non si rompe senza la colonna della 180; ordine misto non bloccato; errore di rete non blocca, decide il server."
+   "nota": "Regge alla rimessa a mano (mutazione nel resto di questa nota); il programma accetta la chiusura solo con uscita 0 — regola della campagna per file nuovi e SQL, decisa dalla regista il 2026-11-12 17:11. rimesso a mano: prodotti letti col client del cliente -> 2 rossi su 4. chiude_tutta: regge. Pagina chiede GET /api/returns/ripensamento (page.tsx:94-112) e spegne il motivo; prodotti letti col client di servizio come create; ordine misto coerente con rifiutoDelRecesso. Fuori voce: esclusione letta sul valore di oggi di non_recedibile. nata_rotta: regge. tsc 0, 41 file di prove sui resi verdi; RLS order_items del cliente ok; select('*') non si rompe senza la colonna della 180; ordine misto non bloccato; errore di rete non blocca, decide il server."
   },
   {
    "id": "R07-004",
@@ -407,13 +407,13 @@
     "uscita": 3,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base ed8cab30^ --file app/api/returns/create/route.ts,lib/ordini/termine-del-recesso.ts --prove tests/unit/riparazione-r07-termine-recesso-server.test.ts --json"
    },
-   "verdetto": "regge",
+   "verdetto": "parziale",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "rimesso a mano: conto a blocchi di 24 ore -> 4 rossi su 5. chiude_tutta: regge, eseguito su 9 casi vicino ai cambi d'ora 25/10 e 29/3 con TZ server diverso. Fuori voce: lib/rimborsi/regole-del-rimborso.ts:381 conta ancora 14x24h per la rispedizione (gia tra i nuovi difetti). nata_rotta: regge. Confronto su tutte le consegne 2026 ogni 15 minuti: la nuova regola e quasi sempre piu larga; 42 casi la sera del 15/3 chiudono a mezzanotte del 14o giorno (giusto per legge). Nessun altro chiamante; payout con recupero se arriva il reso."
+   "nota": "Regge alla rimessa a mano (mutazione nel resto di questa nota); il programma accetta la chiusura solo con uscita 0 — regola della campagna per file nuovi e SQL, decisa dalla regista il 2026-11-12 17:11. rimesso a mano: conto a blocchi di 24 ore -> 4 rossi su 5. chiude_tutta: regge, eseguito su 9 casi vicino ai cambi d'ora 25/10 e 29/3 con TZ server diverso. Fuori voce: lib/rimborsi/regole-del-rimborso.ts:381 conta ancora 14x24h per la rispedizione (gia tra i nuovi difetti). nata_rotta: regge. Confronto su tutte le consegne 2026 ogni 15 minuti: la nuova regola e quasi sempre piu larga; 42 casi la sera del 15/3 chiudono a mezzanotte del 14o giorno (giusto per legge). Nessun altro chiamante; payout con recupero se arriva il reso."
   },
   {
    "id": "R07-006",
@@ -598,13 +598,13 @@
     "uscita": 3,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base c38145e8^ --file lib/queries/precarico.ts,lib/queries/riepilogo-recensioni-negozio.ts --prove tests/unit/riparazione-r07-vetrina-stelle-dal-server.test.ts --json"
    },
-   "verdetto": "regge",
+   "verdetto": "parziale",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "rimesso a mano: chiave diversa fra server e browser -> 2 rossi su 2. store_review_stats concessa ad anon (052:56-59), la 151 non la tocca, prova RLS 19 lo controlla; il precarico usa allSettled, una lettura caduta non fa cadere la pagina (torna il comportamento di prima). url già alla base. Le due copie della domanda restano duplicate a mano."
+   "nota": "Regge alla rimessa a mano (mutazione nel resto di questa nota); il programma accetta la chiusura solo con uscita 0 — regola della campagna per file nuovi e SQL, decisa dalla regista il 2026-11-12 17:11. rimesso a mano: chiave diversa fra server e browser -> 2 rossi su 2. store_review_stats concessa ad anon (052:56-59), la 151 non la tocca, prova RLS 19 lo controlla; il precarico usa allSettled, una lettura caduta non fa cadere la pagina (torna il comportamento di prima). url già alla base. Le due copie della domanda restano duplicate a mano."
   },
   {
    "id": "R07-022",
@@ -613,13 +613,13 @@
     "uscita": 3,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 9f9fe6ec^ --file app/store/[id]/page.tsx,components/store-sections/orari-schema.ts --prove tests/unit/riparazione-r07-vetrina-orari-schema.test.tsx --json"
    },
-   "verdetto": "regge",
+   "verdetto": "parziale",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "rimesso a mano: orari fuori dallo schema -> 2 rossi su 3. openingHoursSpecification in store/[id]/page.tsx:104 dai dati del precarico; orari scritti male, fasce invertite, giorni chiusi e negozio senza orari gestiti (orari-schema.ts:26-64). Suite intera 8945 prove verdi, tsc 0."
+   "nota": "Regge alla rimessa a mano (mutazione nel resto di questa nota); il programma accetta la chiusura solo con uscita 0 — regola della campagna per file nuovi e SQL, decisa dalla regista il 2026-11-12 17:11. rimesso a mano: orari fuori dallo schema -> 2 rossi su 3. openingHoursSpecification in store/[id]/page.tsx:104 dai dati del precarico; orari scritti male, fasce invertite, giorni chiusi e negozio senza orari gestiti (orari-schema.ts:26-64). Suite intera 8945 prove verdi, tsc 0."
   },
   {
    "id": "R07-023",
@@ -798,13 +798,13 @@
     "uscita": 3,
     "comando": "timeout 540 bash tests/sql/harness/apply.sh k02b (senza migrations/321) && psql -d k02b -f tests/sql/rls/riparazione-r08-l-ordine-pronto-dice-la-fascia.test.sql"
    },
-   "verdetto": "regge",
+   "verdetto": "parziale",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "rimesso a mano: database senza la 321 -> 2 controlli rossi; con la 321 verde. 321 cambia solo il calcolo della fascia rispetto alla 215; senza fascia, consegna veloce e ritiro restano «a breve»; formato come lib/quando-arriva.ts. Rimessa a mano: senza la 321 il test SQL dà 2 controlli rossi."
+   "nota": "Regge alla rimessa a mano (mutazione nel resto di questa nota); il programma accetta la chiusura solo con uscita 0 — regola della campagna per file nuovi e SQL, decisa dalla regista il 2026-11-12 17:11. rimesso a mano: database senza la 321 -> 2 controlli rossi; con la 321 verde. 321 cambia solo il calcolo della fascia rispetto alla 215; senza fascia, consegna veloce e ritiro restano «a breve»; formato come lib/quando-arriva.ts. Rimessa a mano: senza la 321 il test SQL dà 2 controlli rossi."
   },
   {
    "id": "R08-017",
@@ -858,13 +858,13 @@
     "uscita": 3,
     "comando": "timeout 540 bash tests/sql/harness/apply.sh k02b (322 con mese_di_piacenza in UTC) && psql -d k02b -f tests/sql/rls/riparazione-r08-la-classifica-conta-il-mese-di-piacenza.test.sql"
    },
-   "verdetto": "regge",
+   "verdetto": "parziale",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "rimesso a mano: mese in UTC -> 2 controlli rossi; con la 322 verde. La pagina scrive il voto col mese di Piacenza (shop-of-month/page.tsx:53,64,97); vista con le stesse opzioni e permessi di 121/161. Rimessa a mano: mese_di_piacenza in UTC -> 2 controlli rossi (00:30 del 1/12 e del 1/7)."
+   "nota": "Regge alla rimessa a mano (mutazione nel resto di questa nota); il programma accetta la chiusura solo con uscita 0 — regola della campagna per file nuovi e SQL, decisa dalla regista il 2026-11-12 17:11. rimesso a mano: mese in UTC -> 2 controlli rossi; con la 322 verde. La pagina scrive il voto col mese di Piacenza (shop-of-month/page.tsx:53,64,97); vista con le stesse opzioni e permessi di 121/161. Rimessa a mano: mese_di_piacenza in UTC -> 2 controlli rossi (00:30 del 1/12 e del 1/7)."
   }
  ],
  "campione": {
@@ -872,7 +872,7 @@
    "accettato": false
   },
   "R07": {
-   "accettato": true
+   "accettato": false
   },
   "R08": {
    "accettato": false
