@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-11-07 09:53
+aggiornato: 2026-11-12 14:48
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🏋️ **2026-11-12 14:48 — La palestra ha finito i giri larghi: 125 difetti nuovi, fra cui il bloccante degli indirizzi.**
+>
+> La palestra è la copia del sito per le prove. Ha fatto 484 prove su 533 come cliente, negozio, fattorino e amministratore. Il difetto più urgente: chi abita in Via Roma, Garibaldi o Cavour non riesce a ordinare, perché il sito mette l'indirizzo a 10 km. Fra i gravi ci sono il prezzo «1.250,00» che diventa 1,25 €, il buono regalo che non si riscatta e i contanti segnati come versati. Nel registro del sito restano aperte 828 voci: 6 bloccanti, 96 gravi e 726 minori. La palestra ha speso circa 40 milioni di token: da adesso valgono le regole del conto dei token, con il preventivo prima di ogni lavoro grosso. Le richieste #940 e #943 sono unite. Ti aspettano i dettagli di R317 e R318 in chat, la modalità ultracode da spegnere e il preventivo del risolutore. Referto: `consegne/audit/2026-11-07-palestra/referto.md`.
 
 > 🔧 **2026-11-07 09:53 — La riparazione in sessioni è pronta: con una frase i difetti si riparano come la radiografia li ha trovati.**
 >
