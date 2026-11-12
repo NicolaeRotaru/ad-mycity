@@ -40,3 +40,4 @@
 2026-11-12 16:42 · R07 · finita · guardia 🔴 solo storia di 1 aiuto altrui (netto vuoto) · referto 25 di 25 ✅ · — · dato a K02 (aperto); un qa ha letto in sola lettura la produzione
 2026-11-12 16:43 · K01 · R02 collaudato · 9 reggono, 10 parziali, 1 non regge, 1 rompe altro; campione minori 8 su 13, non accettato · — · — · un giro di correzione a R02 (003, 023, 008, 011, 015 + esiti); 1 difetto nato riservato tenuto fuori dal deposito
 2026-11-12 16:44 · R08 · dice finito · — · referto ✅ · — · 016/025 da riportare a parziale; 1 falla riservata tenuta fuori dal deposito
+2026-11-12 16:45 · R08 · finita · guardia 🔴 (2 prove esistenti che leggono i suoi file, non li importano) · referto 25 di 25 ✅ · — · dato a K02; la regola va a Nicola
