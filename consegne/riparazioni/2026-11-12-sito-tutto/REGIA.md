@@ -19,7 +19,7 @@ L'AD li mostra a Nicola e riporta la sua risposta. Il «via» arriva sempre da l
 Finire la preparazione, aspettare il «via», poi guidare tre onde, la cucitura e i controllori.
 
 ## Cosa non ho verificato
-Non ho provato ad aprire le sessioni figlie. La sessione dell'AD era ancora in modalità «plan» alle 15:25.
+Non ho provato ad aprire le sessioni figlie. La regista è in modalità «auto» (controllato alle 15:45): le figlie nascono in «auto».
 
 ---
 
@@ -39,13 +39,11 @@ Non ho provato ad aprire le sessioni figlie. La sessione dell'AD era ancora in m
 - `piano.json`: l'onda 1 è divisa, con 12 sessioni e 300 voci. Ne restano 362 per le onde dopo.
 - La simulazione delle onde dopo: 12 sessioni con 233 voci, poi 6 con 85, poi la cucitura e circa 4 voci in eccedenza.
 
-**Resta della preparazione.**
-1. `add_repo` di `NicolaeRotaru/mycity`, accesso `push`. Clona in `../mycity` e lancia `npm ci`.
-2. Il ramo di integrazione del sito è quello che ti è permesso spingere. Chiamalo RAMO_SITO.
-3. `node cervello/riparazione-sessioni.mjs schede --cartella <C> --ramo <RAMO_SITO> --regista <il tuo id>`.
-4. Poi `copertura-prima` e `segnaposti`. Tutti e due devono essere verdi.
-5. Commit e push su `claude/sweet-galileo-0skkay` di `ad-mycity`, cioè la PR #944. Quello SHA è `SHA_REGISTA`.
-6. Manda all'AD «preparazione verde» con lo SHA. Se il «via» è già arrivato, parti con le figlie.
+**Preparazione finita (12/11 alle 15:50, regista `session_015BmpnXsL6Y7tP3BhawauHw`).**
+- Sito clonato in `/home/user/mycity` alla base `db5164c`, `npm ci` lanciato. RAMO_SITO = `claude/sweet-galileo-0skkay`.
+- Schede R01-R12 e `registro-compatto.txt` scritti; `copertura-prima` e `segnaposti` verdi.
+- Il «via» di Nicola è arrivato alle 15:34: l'onda 1 parte subito dopo il push di questo commit (SHA_REGISTA).
+- Gli id delle figlie stanno in `sessioni.json`, il diario in `diario-della-sorveglianza.txt`.
 
 **Le onde dopo.** `dividi --base <SHA di integrazione>`, con `--ultima` sull'onda 3. Il default è già 25 voci.
 
