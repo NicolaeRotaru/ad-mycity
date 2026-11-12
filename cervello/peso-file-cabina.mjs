@@ -58,6 +58,9 @@ const SORVEGLIATI = [
   "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json",
   "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json",
   "MyCity-Vault/90-Memoria-AI/auto-coscienza/registro-realta.json",
+  // 12/11/2026: il registro del sito ha superato il tetto di lettura del Pannello senza che nessuno
+  // lo vedesse, perché non stava qui. Lo legge la pagina «Salute sito».
+  "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-marketplace.json",
   "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
   "MyCity-Vault/90-Memoria-AI/STATO.md",
 ];
