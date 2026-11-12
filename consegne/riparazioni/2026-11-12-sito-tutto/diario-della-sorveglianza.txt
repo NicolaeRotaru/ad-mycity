@@ -3,3 +3,4 @@
 2026-11-12 15:42 · R01 · piano · — · — · — · approvato (R01-002 solo con l'esecuzione del rilascio verificata; R01-025 alternativa a Nicola)
 2026-11-12 15:42 · R02 · piano · — · — · — · approvato (R02-001/006 scelta di Nicola, niente testo)
 2026-11-12 15:42 · R04 · piano · — · — · — · approvato (niente add_repo su ad-mycity; modello 4-6 come riparazione)
+2026-11-12 15:43 · R03 · piano · — · — · — · approvato (RC con fonte o domanda; 008 nasce CANCELLED; payout.ts tre commit; qa ≤12)
