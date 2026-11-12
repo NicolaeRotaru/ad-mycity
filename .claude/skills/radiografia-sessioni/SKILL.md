@@ -70,10 +70,10 @@ la regia va in una sessione sua (regola ㉔). Oltre 18 sessioni (`prepara` è ro
 - **La partenza controllata**: le figlie lavorano su `ad-mycity`, quindi leggono LEGGIMI e scheda dalla loro copia;
   a 10 minuti dall'apertura una `list_sessions` (limit 20) e ogni figlia `BLOCKED` si sblocca in quel turno; quello
   che solo Nicola può cliccare si dice all'AD alla prima volta, col nome della sessione.
-- **I lucchetti**: ogni figlia prova a scrivere nella sua copia `.claude/settings.local.json` col divieto di
-  Supabase, Vercel e Stripe. La cartella `.claude/` è protetta e la scrittura viene negata (provato il 12/11 in
-  questa sessione): il divieto resta scritto nel LEGGIMI e nel mandato di ogni subagente. Il lucchetto vero, togliere
-  i permessi in `ad-mycity`, è una scelta di Nicola.
+- **I lucchetti**: `ad-mycity` vieta di scrivere `.claude/settings.local.json`, anche per chiudere permessi (provato il
+  12/11: la scrittura viene negata). Nessuna figlia ci prova: il divieto di Supabase, Vercel e Stripe resta scritto nel
+  LEGGIMI e nel mandato di ogni subagente. Il lucchetto vero, togliere quei permessi in `ad-mycity`, è una scelta di
+  Nicola (card #236).
 
 ---
 
@@ -118,7 +118,7 @@ modalità Auto: una figlia nasce nella modalità di chi la apre, e in «plan» s
 - nessun `permission_mode: "plan"`; `effort: "xhigh"`, poi il controllo di Ultra Code Extra;
 - `title` «Radiografia SNN — <nome>», mai un dettaglio di una falla; tag `radiografia-<profilo>`;
 - il prompt, una riga: *«Sei la sessione SNN della radiografia. Leggi cervello/radiografia/LEGGIMI-cercatore.md e
-  <C>/schede/SNN.md, poi lavora: il primo passo è il lucchetto del §1. La regista è <id>.»*
+  <C>/schede/SNN.md, poi lavora: il divieto del §1 vale per te e per ogni subagente. La regista è <id>.»*
 
 Gli id, i rami e le partenze vanno in `<C>/sessioni.json`:
 `{"regista": "<id>", "sessioni": {"S02": {"id": "…", "ramo": "…-s02", "onda": 1, "partenza": "<SHA_REGISTA>"}}}`.

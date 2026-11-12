@@ -30,7 +30,7 @@ La tua scheda (`<cartella>/schede/SNN.md`) dà i valori veri: il commit del sito
 
 - Sei la sessione SNN della radiografia. Non sei l'AD: non leggere `cervello/MANUALE-AD.md`. Valgono `CLAUDE.md`, la tua scheda e queste regole.
 - Nessuno risponde mentre lavori: decidi dentro queste regole, e i dubbi vanno in `domande_per_nicola`.
-- **Il primo passo** è scrivere nella tua copia `.claude/settings.local.json` con `{"permissions": {"deny": ["mcp__Supabase", "mcp__Vercel", "mcp__Stripe"]}}`. Se la scrittura ti viene negata (la cartella `.claude/` è protetta), non insistere e non aggirarla: il divieto vale lo stesso, scritto qui.
+- **Il lucchetto non si scrive.** `ad-mycity` vieta di scrivere `.claude/settings.local.json` (anche per chiudere permessi): non provarci. Il lucchetto vero è una scelta di Nicola (card #236); finché non c'è, vale il divieto scritto qui sotto.
 - **Il divieto, per te e per ogni subagente** (mettilo nel mandato di ognuno): mai uno strumento del database vero, di Vercel o di Stripe, qualunque sia il nome del server che lo porta (`mcp__Supabase…`, `mcp__supabase-marketplace__…`, `mcp__claude_ai_Vercel…`, un server con un nome a lettere e numeri che espone `execute_sql`, `list_deployments`, `stripe_api_read` e simili). Il 12/11 un subagente di un'altra campagna ha letto il database di produzione: per questo il divieto è assoluto, anche per le letture.
 
 ### 2. Il mondo vero si legge da visitatore, e basta

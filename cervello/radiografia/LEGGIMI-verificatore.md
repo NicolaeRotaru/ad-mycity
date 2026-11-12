@@ -37,7 +37,7 @@ Lo lancia il capo della sessione per ogni **bloccante, grave o riservata**, e pe
 
 ### Parte B — il controllore finale (CF, una sessione nuova a fine radiografia)
 
-La apre la regista quando tutte le sessioni sono finite e verdi, dopo `doppioni` e `grezzo`. Lavora su `ad-mycity`, al commit che la regista le dà, e spinge un solo file: `<cartella>/controllo-finale.json`. Il primo passo è il lucchetto del §1 del LEGGIMI del cercatore.
+La apre la regista quando tutte le sessioni sono finite e verdi, dopo `doppioni` e `grezzo`. Lavora su `ad-mycity`, al commit che la regista le dà, e spinge un solo file: `<cartella>/controllo-finale.json`. Vale il divieto del §1 del LEGGIMI del cercatore, per lei e per ogni suo subagente.
 
 Il controllore non rifà la ricerca e non riverifica uno per uno: guarda solo quello che gli altri non potevano vedere.
 
