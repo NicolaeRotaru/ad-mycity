@@ -39,7 +39,7 @@ Non ho provato ad aprire le sessioni figlie. La regista è in modalità «auto»
 - `piano.json`: l'onda 1 è divisa, con 12 sessioni e 300 voci. Ne restano 362 per le onde dopo.
 - La simulazione delle onde dopo: 12 sessioni con 233 voci, poi 6 con 85, poi la cucitura e circa 4 voci in eccedenza.
 
-**Preparazione finita (12/11 alle 15:50, regista `session_015BmpnXsL6Y7tP3BhawauHw`).**
+**Preparazione finita (12/11 alle 15:36, regista `session_015BmpnXsL6Y7tP3BhawauHw`).**
 - Sito clonato in `/home/user/mycity` alla base `db5164c`, `npm ci` lanciato. RAMO_SITO = `claude/sweet-galileo-0skkay`.
 - Schede R01-R12 e `registro-compatto.txt` scritti; `copertura-prima` e `segnaposti` verdi.
 - Il «via» di Nicola è arrivato alle 15:34: l'onda 1 parte subito dopo il push di questo commit (SHA_REGISTA).
