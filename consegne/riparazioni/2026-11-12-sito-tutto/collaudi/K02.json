@@ -1,1 +1,275 @@
-{"collaudatore":"K02","riparatori":["R07"],"aggiornato":"2026-11-12 16:30","finita":false,"voci":[],"campione":{"R07":{"accettato":false}}}
+{
+ "collaudatore": "K02",
+ "riparatori": [
+  "R07",
+  "R08"
+ ],
+ "aggiornato": "2026-11-12 17:20",
+ "finita": false,
+ "voci": [
+  {
+   "id": "R07-001",
+   "chiave": "frontend-ux|in chat il negoziante vede «utente» al posto del nome di ogni cliente",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Alla base: messages/page.tsx:98-102 e controparte-della-chat.ts:44-91,201; migrazione 181 SECURITY DEFINER con grant ad authenticated e prova RLS 49; anche la testata conversazione. Dipende dalla 181 applicata nel database vero (non verificato)."
+  },
+  {
+   "id": "R07-002",
+   "chiave": "frontend-ux|la pagina di richiesta reso accetta il ripensamento anche su ordini di pane",
+   "rimessa": {
+    "uscita": 3,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 955c95e4^ --file app/api/returns/ripensamento/route.ts,app/orders/[id]/return/page.tsx --prove tests/unit/riparazione-r07-reso-pane-server.test.ts,tests/unit/riparazione-r07-reso-pane.test.tsx --json"
+   },
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "prova-rimessa uscita 3 (route.ts nuovo): rimesso a mano il difetto (prodotti letti col client del cliente invece di quello di servizio) -> 2 rossi su 4 in riparazione-r07-reso-pane-server.test.ts. Base = genitore del PRIMO commit della voce (voce in piu commit). chiude_tutta: regge. Pagina chiede GET /api/returns/ripensamento (page.tsx:94-112) e spegne il motivo; prodotti letti col client di servizio come create; ordine misto coerente con rifiutoDelRecesso. Fuori voce: esclusione letta sul valore di oggi di non_recedibile. nata_rotta: regge. tsc 0, 41 file di prove sui resi verdi; RLS order_items del cliente ok; select('*') non si rompe senza la colonna della 180; ordine misto non bloccato; errore di rete non blocca, decide il server."
+  },
+  {
+   "id": "R07-004",
+   "chiave": "frontend-ux|toccando la scheda di un prodotto in home e nella ricerca non si apre niente",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 353b8f2f^ --file components/ProductCard.tsx --prove tests/unit/riparazione-r07-scheda-cliccabile.test.tsx --json"
+   },
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "pointer-events-none su foto/corpo, auto su cuore e +; copre home (ProductGrid, PromoDeals) e ricerca; niente a dentro a, stopPropagation sui bottoni. Nei minori: il + disabilitato su esaurito non apre la scheda; testo non selezionabile. La prova guarda le classi, non lo strato del tocco."
+  },
+  {
+   "id": "R07-005",
+   "chiave": "qa-flussi|l'ultimo giorno del recesso il sito rifiuta il reso dal pomeriggio, e col cambio d'ora anche prima dell'ora della consegna",
+   "rimessa": {
+    "uscita": 3,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base ed8cab30^ --file app/api/returns/create/route.ts,lib/ordini/termine-del-recesso.ts --prove tests/unit/riparazione-r07-termine-recesso-server.test.ts --json"
+   },
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "prova-rimessa uscita 3 (termine-del-recesso.ts nuovo): rimesso a mano il conto a blocchi di 24 ore -> 4 rossi su 5. chiude_tutta: regge, eseguito su 9 casi vicino ai cambi d'ora 25/10 e 29/3 con TZ server diverso. Fuori voce: lib/rimborsi/regole-del-rimborso.ts:381 conta ancora 14x24h per la rispedizione (gia tra i nuovi difetti). nata_rotta: regge. Confronto su tutte le consegne 2026 ogni 15 minuti: la nuova regola e quasi sempre piu larga; 42 casi la sera del 15/3 chiudono a mezzanotte del 14o giorno (giusto per legge). Nessun altro chiamante; payout con recupero se arriva il reso."
+  },
+  {
+   "id": "R07-006",
+   "chiave": "qa-flussi|nell'ultimo giorno di recesso e nel giorno dopo, la pagina fa compilare tutto il reso, iban compreso, e poi il server lo rifiuta come scaduto",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base afb25d44^ --file app/orders/[id]/return/page.tsx --prove tests/unit/riparazione-r07-termine-recesso-pagina.test.tsx --json"
+   },
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Base = genitore del PRIMO commit della voce (voce in piu commit). chiude_tutta: regge. Stessa recessoAperto in pagina (page.tsx:287) e server, stessa base delivered_at ?? created_at, data scritta col fuso di Roma. Residuo minore: modulo aperto alle 23:50 e inviato dopo mezzanotte viene rifiutato. nata_rotta: regge. Stessa recessoAperto, created_at letto in pagina, data dell'ultimo giorno a mezzogiorno col fuso di Roma."
+  },
+  {
+   "id": "R07-007",
+   "chiave": "accessibilita|chi usa il lettore di schermo sente «3» accanto a una conversazione, senza sapere che sono messaggi da leggere",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base de9ae007^ --file app/messages/page.tsx,app/notifications/page.tsx --prove tests/unit/riparazione-r07-non-letti-a11y.test.ts --json"
+   },
+   "verdetto": "regge",
+   "giudizio": "nessuno"
+  },
+  {
+   "id": "R07-008",
+   "chiave": "accessibilita|il tasto per togliere una foto dal reso è grande la metà del minimo",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base a516b88d^ --file app/orders/[id]/return/page.tsx --prove tests/unit/riparazione-r07-togli-foto-reso.test.ts --json"
+   },
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Base = genitore del PRIMO commit della voce (voce in piu commit). Tasto 44x44 con pallino 24px; geometria: tocca senza coprire la foto accanto; nessun overflow-hidden. Prova controlla solo le classi."
+  },
+  {
+   "id": "R07-009",
+   "chiave": "accessibilita|nelle pagine regali, novità e i più recensiti i titoli saltano dal primo al terzo livello",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 81a4c190^ --file app/novita/page.tsx,app/piu-venduti/page.tsx,app/regali/RegaliClient.tsx,components/ProductGrid.tsx --prove tests/unit/riparazione-r07-titoli-collezioni-pagine.test.tsx,tests/unit/riparazione-r07-titoli-collezioni.test.tsx --json"
+   },
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Base = genitore del PRIMO commit della voce (voce in piu commit). h2 solo con titoloNascosto, passato solo da novita/piu-venduti/regali; nessun doppio h2 altrove; fuori voce: piccoli-prezzi e promozioni hanno lo stesso salto (voce nuova)."
+  },
+  {
+   "id": "R07-010",
+   "chiave": "coerenza-brand|la pagina che si apre dal link di conferma email non sembra mycity: niente logo, carattere di sistema, bottone verde",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base b4184549^ --file app/auth/confirm/route.ts --prove tests/unit/riparazione-r07-conferma-email-marchio.test.ts --json"
+   },
+   "verdetto": "regge",
+   "giudizio": "nessuno"
+  },
+  {
+   "id": "R07-011",
+   "chiave": "deploy-sre|il ritorno indietro può ancora scegliere il rilascio sbagliato in due casi rari: un solo altro commit negli ultimi 20 rilasci, o un dominio che non dice il suo commit",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 1baa071f^ --file scripts/prova-di-fumo.mjs --prove tests/unit/riparazione-r07-ritorno-dominio-senza-commit.test.ts --json"
+   },
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Pezzo chiuso regge (prova-di-fumo.mjs:323-329: dominio senza commit non vale come risposta). Caso A aperto come dichiarato; stesso ramo: unico candidato senza commit restituito (preesistente). Da verificare che i rilasci CI portino il commit su Vercel, altrimenti ritorno sempre a mano."
+  },
+  {
+   "id": "R07-013",
+   "chiave": "frontend-ux|una categoria principale senza prodotti mostra solo titolo e bottoni, senza nessun messaggio",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Alla base category/[slug]/page.tsx:353-367 stato vuoto con onCount(0) da ProductGrid:419-422. Resta aperto il caso lettura in errore (onCount non chiamato), gia tra i nuovi difetti del referto."
+  },
+  {
+   "id": "R07-014",
+   "chiave": "frontend-ux|in una lista, i prodotti che il negozio ha tolto dalla vetrina restano contati ma non si vedono e non si possono togliere",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 43d1a381^ --file app/lists/[id]/page.tsx --prove tests/unit/riparazione-r07-lista-prodotto-nascosto.test.tsx --json"
+   },
+   "verdetto": "regge",
+   "giudizio": "nessuno"
+  },
+  {
+   "id": "R07-015",
+   "chiave": "frontend-ux|se la recensione al negozio entra e quella al fattorino no, il fattorino non si puo' piu' recensire",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 65d38e05^ --file app/orders/[id]/review/page.tsx --prove tests/unit/riparazione-r07-recensione-fattorino.test.tsx --json"
+   },
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Base = genitore del PRIMO commit della voce (voce in piu commit). Letture separate per negozio e fattorino (review/page.tsx:105-119), rilettura dopo invio a meta, vincolo unico (order_id,user_id) e RLS user_id=auth.uid. Caso minore preesistente: negozio sospeso dopo la consegna."
+  },
+  {
+   "id": "R07-016",
+   "chiave": "frontend-ux|la pagina «sotto i 10 €» mostra prodotti da 10 € e nasconde quelli che in promozione costano meno di 10",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base b64fda54^ --file app/piccoli-prezzi/page.tsx,components/ProductGrid.tsx --prove tests/unit/riparazione-r07-piccoli-prezzi-pagina.test.tsx,tests/unit/riparazione-r07-piccoli-prezzi.test.tsx --json"
+   },
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Base = genitore del PRIMO commit della voce (voce in piu commit). Pezzo chiuso regge: maxPrice 9.995 => 9,99 dentro 10,00 fuori, chiave cache inclusa, altre pagine invariate. Restano aperti i prodotti sotto 10 solo in promozione e il contatore onCount; il commento in app/piccoli-prezzi/page.tsx:45 dice promozione compresa ma non lo fa."
+  },
+  {
+   "id": "R07-017",
+   "chiave": "frontend-ux|funzioni spente, da sistemare prima di riaccenderle. classifica inviti e drop leggono senza guardare l'errore, quindi mostrano «classifica vuota · sii il primo…» e «nessun drop per oggi» anche quando la lettura è caduta. il drop usa il giorno di greenwich: fra mezzanotte e l'1-2 di notte, ora di piacenza, la data minima e l'elenco sono su ieri",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 83658a41^ --file app/admin/daily-drops/page.tsx --prove tests/unit/riparazione-r07-drop-giorno-piacenza.test.tsx --json"
+   },
+   "verdetto": "regge",
+   "giudizio": "nessuno"
+  },
+  {
+   "id": "R07-019",
+   "chiave": "frontend-ux|il salvataggio fa due passi: se una variante è cambiata, nome e prezzo del prodotto restano salvati e le varianti no",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base a20eb622^ --file app/api/admin/products/route.ts --prove tests/unit/riparazione-r07-varianti-admin.test.ts --json"
+   },
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "withAdminAuth avvolge la PATCH; controllo scorte prima di ogni scrittura (route.ts:195-207), il modulo admin manda le scorte viste; percorso negozio gia coperto. Resta la finestra di millisecondi non atomica, gia tra i nuovi difetti."
+  },
+  {
+   "id": "R07-020",
+   "chiave": "frontend-ux|dopo aver risposto a una recensione, tornando sulla pagina il negozio rivede la risposta vecchia",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 970cd432^ --file app/seller/reviews/page.tsx --prove tests/unit/riparazione-r07-risposta-recensione.test.tsx --json"
+   },
+   "verdetto": "regge",
+   "giudizio": "nessuno"
+  },
+  {
+   "id": "R07-021",
+   "chiave": "frontend-ux|la vetrina di ogni negozio manda a google i suoi dati senza l'indirizzo della pagina, e nel browser va in conflitto con quello che ha disegnato il server",
+   "rimessa": {
+    "uscita": 3,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base c38145e8^ --file lib/queries/precarico.ts,lib/queries/riepilogo-recensioni-negozio.ts --prove tests/unit/riparazione-r07-vetrina-stelle-dal-server.test.ts --json"
+   },
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "nota": "prova-rimessa uscita 3 (riepilogo-recensioni-negozio.ts nuovo): rimesso a mano chiave diversa fra server e browser -> 2 rossi su 2; senza la lettura delle stelle -> 1 rosso su 2."
+  },
+  {
+   "id": "R07-022",
+   "chiave": "frontend-ux|orari, stelle e indirizzo web del negozio non arrivano a google nella prima lettura",
+   "rimessa": {
+    "uscita": 3,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 9f9fe6ec^ --file app/store/[id]/page.tsx,components/store-sections/orari-schema.ts --prove tests/unit/riparazione-r07-vetrina-orari-schema.test.tsx --json"
+   },
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "nota": "prova-rimessa uscita 3 (orari-schema.ts nuovo): rimesso a mano gli orari che non entrano nello schema -> 2 rossi su 3. Base = genitore del PRIMO commit della voce (voce in piu commit)."
+  },
+  {
+   "id": "R07-023",
+   "chiave": "frontend-ux|il pulsante del banner della vetrina può puntare a un prodotto in bozza, che il cliente non riesce ad aprire",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 9d603e8f^ --file components/seller/site/BannerFields.tsx,components/store-sections/BannerSection.tsx --prove tests/unit/riparazione-r07-banner-bozza.test.tsx --json"
+   },
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Base = genitore del PRIMO commit della voce (voce in piu commit). prodotto_in_vetrina aperta ad anon (129, 151:269); pulsante solo dopo il si del database, HTML server e browser coincidono. Costi: se la richiesta cade il pulsante ricompare."
+  }
+ ],
+ "campione": {
+  "R07": {
+   "accettato": true
+  }
+ }
+}
