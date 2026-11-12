@@ -11293,6 +11293,15 @@
   {
    "lotto": null,
    "difetto": "radiografia-in-sessioni",
+   "nome": "⑲ un verificatore scritto false, 0 o {} torna a contare",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "      if (d?.verificato !== true || !testo(d?.verificato_da)) rossi.push(",
+   "sostituisci": "      if (d?.verificato !== true || vuoto(d?.verificato_da)) rossi.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
    "nome": "un id sparito fra difetti e scartati non viene più visto",
    "file": "cervello/radiografia-sessioni.mjs",
    "cerca": "  if (buchi.length) rossi.push(`id spariti",
@@ -11304,8 +11313,17 @@
    "difetto": "radiografia-in-sessioni",
    "nome": "⑱ oltre il tetto dei subagenti senza permesso della regista passa",
    "file": "cervello/radiografia-sessioni.mjs",
-   "cerca": "    else if (agenti > x.tetto && vuoto(r.conto?.permesso_regista)) rossi.push(",
+   "cerca": "    else if (agenti > x.tetto && !testo(r.conto?.permesso_regista)) rossi.push(",
    "sostituisci": "    else if (false) rossi.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "⑱ un numero di subagenti non intero torna a passare",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    if (!Number.isInteger(agenti) || agenti < 0) rossi.push(",
+   "sostituisci": "    if (typeof agenti !== \"number\" || agenti < 0) rossi.push(",
    "test": "cervello/test/radiografia-sessioni.test.mjs"
   },
   {
@@ -11315,6 +11333,60 @@
    "file": "cervello/radiografia-sessioni.mjs",
    "cerca": "  if (mancanti.length) (finita ? rossi : attese).push(",
    "sostituisci": "  if (false) (finita ? rossi : attese).push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "una riservata con verificato_da in chiaro passa su un referto parziale",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "      if (d?.verificato_da != null && d?.verificato_da !== PRIVATO) rossi.push(",
+   "sostituisci": "      if (false) rossi.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "un campo in più in cima al referto torna a passare",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "  if (extraCima.length) rossi.push(",
+   "sostituisci": "  if (false) rossi.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "una riservata con un campo in più (la falla in chiaro) passa",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "      if (extra.length) rossi.push(`${cx}: una riservata porta campi in più",
+   "sostituisci": "      if (false) rossi.push(`${cx}: una riservata porta campi in più",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "l'id di una riservata nominato in un altro campo torna a passare",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "for (const id of idRiservate) if (new RegExp(",
+   "sostituisci": "for (const id of idRiservate) if (false && new RegExp(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "una chiave scritta due volte nel referto torna a passare",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "  if (doppie.length) rossi.unshift(",
+   "sostituisci": "  if (false) rossi.unshift(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "S01 chiude un grave senza verificatore",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "      if (finita && (k?.verificato !== true || !testo(k?.verificato_da))) rossi.push(",
+   "sostituisci": "      if (false) rossi.push(",
    "test": "cervello/test/radiografia-sessioni.test.mjs"
   },
   {
@@ -11338,10 +11410,10 @@
   {
    "lotto": null,
    "difetto": "radiografia-in-sessioni",
-   "nome": "conti non vede più un difetto trovato e sparito dal grezzo",
+   "nome": "una mappa dei file ritoccata non viene più confrontata col sito",
    "file": "cervello/radiografia-sessioni.mjs",
-   "cerca": "      if (!dentro && !via) rossi.push(",
-   "sostituisci": "      if (false) rossi.push(",
+   "cerca": "  for (const [f, v] of attesa) if (scritta.get(f) !== v) rossi.push(",
+   "sostituisci": "  for (const [f, v] of attesa) if (false) rossi.push(",
    "test": "cervello/test/radiografia-sessioni.test.mjs"
   },
   {
@@ -11356,10 +11428,109 @@
   {
    "lotto": null,
    "difetto": "radiografia-in-sessioni",
-   "nome": "una riservata con un campo in più (la falla in chiaro) passa",
+   "nome": "la guardia del ramo non vede più un difetto spinto e poi sparito",
    "file": "cervello/radiografia-sessioni.mjs",
-   "cerca": "      if (extra.length) rossi.push(`${cx}: una riservata porta campi in più",
-   "sostituisci": "      if (false) rossi.push(`${cx}: una riservata porta campi in più",
+   "cerca": "  for (const [id, c] of persi) rossi.push(",
+   "sostituisci": "  for (const [id, c] of []) rossi.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "i doppioni contro il registro non escono più",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    const uguale = registro.find((v) => v.chiave === chiave);",
+   "sostituisci": "    const uguale = undefined;",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "una voce chiusa del registro non diventa più una regressione",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    if (uguale) { (STATI_CHIUSI.has(uguale.stato) ? regressioni : nelRegistro).push(",
+   "sostituisci": "    if (uguale) { (nelRegistro).push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "i doppioni tornano a unire due difetti diversi dello stesso file",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "  for (const x of restano) { const k = chiaveProblema(x.d);",
+   "sostituisci": "  for (const x of restano) { const k = fileCitati(x.d.file)[0]?.f ?? chiaveProblema(x.d);",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "un grave con la prova più forte torna a sostituire un bloccante",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "const forza = (d) => (3 - SEVERITA.indexOf(d.severita)) * 10 + (d.prova_tipo === \"comando\" && d.prova_eseguita ? 3 : d.prova_tipo === \"umano\" ? 2 : 1);",
+   "sostituisci": "const forza = (d) => (d.prova_tipo === \"comando\" && d.prova_eseguita ? 3 : d.prova_tipo === \"umano\" ? 2 : 1) * 10 + (3 - SEVERITA.indexOf(d.severita));",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "le riservate tornano a essere confrontate e unite",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    if (d?.riservato === true) continue;",
+   "sostituisci": "    if (false) continue;",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "il grezzo copia i dettagli di una riservata",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "  for (const c of SEI_PRIVATI) f[c] = \"nel referto privato\";",
+   "sostituisci": "  for (const c of SEI_PRIVATI) f[c] = d[c];",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "il grezzo legge un referto finito ma rosso",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    if (r.finita !== true || rr.length) rossi.push(`${nome}: referto ${r.finita !== true ? \"non finito\" : `rosso (${rr.length} problemi)`}: il grezzo non lo legge`);",
+   "sostituisci": "    if (r.finita !== true) rossi.push(`${nome}: referto non finito: il grezzo non lo legge`);",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "il grezzo toglie un difetto a mano che doppioni non ha segnato",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "  for (const id of togli) if (!ammessiTogli.has(id)) rossi.push(",
+   "sostituisci": "  for (const id of togli) if (false) rossi.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "la falla nuova riprende il numero R più alto del registro",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "?.[1] ?? 0))) + 1;",
+   "sostituisci": "?.[1] ?? 0)));",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "conti non vede più un difetto trovato e sparito dal grezzo",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "      if (!dentro && !via) rossi.push(",
+   "sostituisci": "      if (false) rossi.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "conti si fida di un doppioni.json ritoccato",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    if (!stessiDoppioni(dop, calcolaDoppioni(opz, referti).esito)) rossi.push(\"doppioni.json non è quello che il programma calcola su referti e registro",
+   "sostituisci": "    if (false) rossi.push(\"doppioni.json non è quello che il programma calcola su referti e registro",
    "test": "cervello/test/radiografia-sessioni.test.mjs"
   },
   {
@@ -11374,10 +11545,28 @@
   {
    "lotto": null,
    "difetto": "radiografia-in-sessioni",
-   "nome": "i doppioni contro il registro non escono più",
+   "nome": "applica non riapre più le regressioni trovate dai doppioni",
    "file": "cervello/radiografia-sessioni.mjs",
-   "cerca": "    if (!uguale) { restano.push({ sessione, d }); continue; }",
-   "sostituisci": "    { restano.push({ sessione, d }); continue; }",
+   "cerca": "  for (const g of regressioniDoppioni) {",
+   "sostituisci": "  for (const g of []) {",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "applica scrive il registro anche coi rossi",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "  if (opz.scrivi && !rossi.length) {",
+   "sostituisci": "  if (opz.scrivi) {",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "sorveglia esce verde su un'onda che non c'è",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "  const onda = piano.onde[Number(opz.onda) - 1];",
+   "sostituisci": "  const onda = piano.onde[Number(opz.onda) - 1] ?? [];",
    "test": "cervello/test/radiografia-sessioni.test.mjs"
   }
  ],

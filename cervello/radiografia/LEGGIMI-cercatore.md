@@ -31,7 +31,7 @@ La tua scheda (`<cartella>/schede/SNN.md`) dà i valori veri: il commit del sito
 - Sei la sessione SNN della radiografia. Non sei l'AD: non leggere `cervello/MANUALE-AD.md`. Valgono `CLAUDE.md`, la tua scheda e queste regole.
 - Nessuno risponde mentre lavori: decidi dentro queste regole, e i dubbi vanno in `domande_per_nicola`.
 - **Il lucchetto non si scrive.** `ad-mycity` vieta di scrivere `.claude/settings.local.json` (anche per chiudere permessi): non provarci. Il lucchetto vero è una scelta di Nicola (card #236); finché non c'è, vale il divieto scritto qui sotto.
-- **Il divieto, per te e per ogni subagente** (mettilo nel mandato di ognuno): mai uno strumento del database vero, di Vercel o di Stripe, qualunque sia il nome del server che lo porta (`mcp__Supabase…`, `mcp__supabase-marketplace__…`, `mcp__claude_ai_Vercel…`, un server con un nome a lettere e numeri che espone `execute_sql`, `list_deployments`, `stripe_api_read` e simili). Il 12/11 un subagente di un'altra campagna ha letto il database di produzione: per questo il divieto è assoluto, anche per le letture.
+- **Il divieto, per te e per ogni subagente** (mettilo nel mandato di ognuno): mai uno strumento del database vero, di Vercel o di Stripe, qualunque sia il nome del server che lo porta (`mcp__Supabase…`, `mcp__supabase-marketplace__…`, `mcp__supabase-memoria__…`, `mcp__claude_ai_Vercel…`, un server con un nome a lettere e numeri che espone `execute_sql`, `list_deployments`, `stripe_api_read` e simili). Il 12/11 un subagente di un'altra campagna ha letto il database di produzione: per questo il divieto è assoluto, anche per le letture.
 
 ### 2. Il mondo vero si legge da visitatore, e basta
 
@@ -75,7 +75,7 @@ Il 6/11 ogni sessione ha letto il codice da sola: le storie sono arrivate a 277-
   ```bash
   node cervello/radiografia-sessioni.mjs doppioni --cartella <cartella> --uscita <il tuo scratchpad>
   ```
-  Legge il tuo referto, lo confronta col registro e dentro la sessione, e scrive `doppioni.json` nello scratchpad. Togli i doppioni e passa le regressioni nel loro elenco.
+  Legge il tuo referto, lo confronta col registro e dentro la sessione, e scrive `doppioni.json` nello scratchpad. Da solo segna solo i difetti con la **stessa chiave**: quelli già aperti nel registro escono, quelli uguali a una voce chiusa passano in `regressioni`. Le coppie solo **simili** (stesso file a meno di 10 righe, titoli vicini) le guardi tu: se sono davvero lo stesso difetto ne tieni uno, e l'altro va in `scartati` col perché («doppione di S02-004»); se no restano tutti e due. I simili fra sessioni diverse li decide il controllore finale.
 - **Chi verifica.** Un secondo agente solo per **bloccanti, gravi e riservate**, e per la chiusura (`non_piu_vero`) di un grave o bloccante in S01. Uno per difetto, un subagente `qa` nuovo, col mandato di `cervello/radiografia/LEGGIMI-verificatore.md` (parte A). Parte dalla prova citata, non rifà la ricerca.
   - confermato: `verificato: true` e in `verificato_da` chi l'ha visto e cosa ha detto, in una riga (per le riservate `"(nel referto privato)"`);
   - smentito: il difetto esce da `difetti` e va in `scartati`, con l'id e il perché in una riga. Un id non sparisce mai: il programma controlla che ogni numero da 1 al più alto sia un difetto o uno scartato.

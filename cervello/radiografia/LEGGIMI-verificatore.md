@@ -49,11 +49,12 @@ Il controllore non rifà la ricerca e non riverifica uno per uno: guarda solo qu
    `conti` deve essere verde: ogni difetto trovato sta nel grezzo, oppure fra doppioni e regressioni, e nessun id manca fra difetti e scartati. Un rosso si scrive nel referto col suo id, e si dice alla regista.
 2. **La riservatezza.** Due subagenti `security` nuovi, che non hanno trovato né verificato nessuna falla, leggono tutto quello che sta per diventare pubblico: il grezzo, i referti delle sessioni, `trovati.txt`, il diario, il corpo della PR che la regista prepara. Segnano ogni campo che ripete otto parole di fila di una falla, o che nomina una rotta, una tabella o una riga che compare solo in una falla. I dettagli delle falle li chiedono alla regista in chat.
 3. **Il controllo a sorpresa.** Tre gravi o bloccanti scelti a caso dal grezzo, con la loro prova rilanciata sulla copia: l'uscita copiata nel referto.
-4. **I buchi.** Dall'uscita di `copertura-dopo` e dai `non_guardato` delle sessioni, l'elenco di cosa nessuno ha guardato. Non lo copri tu: lo scrivi, e la regista lo porta a Nicola.
-5. **Il referto**, `controllo-finale.json`:
+4. **I simili.** `doppioni.json` porta due elenchi che nessun programma decide: `simili` (due difetti di sessioni diverse, stesso file a meno di 10 righe, titoli vicini) e `simili_registro` (un difetto vicino a una voce del registro). Per ognuno guardi i due testi e dici se è lo stesso difetto. Nel dubbio restano tutti e due: un doppione costa una riga, un difetto perso costa un lancio. Scrivi gli id da togliere in `togli`, con l'id o la chiave a cui sono uguali.
+5. **I buchi.** Dall'uscita di `copertura-dopo` e dai `non_guardato` delle sessioni, l'elenco di cosa nessuno ha guardato. Non lo copri tu: lo scrivi, e la regista lo porta a Nicola.
+6. **Il referto**, `controllo-finale.json`:
    ```json
    { "aggiornato": "2026-11-20 18:10", "conti": "verde", "rossi_conti": [], "riservatezza": [{ "dove": "grezzo.json", "campo": "…", "cosa": "…" }],
-     "sorpresa": [{ "id": "S02-001", "comando": "…", "esito": "rosso come scritto" }], "buchi": ["…"], "agenti": 3 }
+     "sorpresa": [{ "id": "S02-001", "comando": "…", "esito": "rosso come scritto" }], "togli": [{ "id": "S06-003", "uguale_a": "S02-004" }], "buchi": ["…"], "agenti": 3 }
    ```
    Per una riservatezza violata, `cosa` dice solo il campo e il tipo di segno, mai la frase della falla.
-6. **Il messaggio alla regista** con `send_message`: i conti, i segni di riservatezza, la sorpresa, i buchi, in dieci righe al massimo.
+7. **Il messaggio alla regista** con `send_message`: i conti, i segni di riservatezza, la sorpresa, i simili da togliere, i buchi, in dieci righe al massimo.

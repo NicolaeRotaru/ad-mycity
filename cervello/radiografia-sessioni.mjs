@@ -75,6 +75,7 @@ export const CHI = Object.freeze(["cliente", "negozio", "fattorino", "admin", "e
 export const RE_SESSIONE = /^S\d{2}[b-z]?$/;
 export const SEP = " · ";
 // I campi di una riservata: un elenco chiuso. Un campo in più («nota», «dettagli») porterebbe la falla in chiaro.
+export const CAMPI_REFERTO = Object.freeze(["sessione", "base_sito", "aggiornato", "finita", "lotti", "copertura", "difetti", "scartati", "regressioni", "ricontrolli", "prove_per_la_palestra", "domande_per_nicola", "conto"]);
 export const CAMPI_RISERVATA_RADIOGRAFIA = Object.freeze(["id", "trovato_da", "riservato", "titolo", "file", "severita", "dimensione", "prova_tipo", "prova_eseguita", "verificato", "verificato_da"]);
 const SEGNAPOSTI_REFERTO = ['"…"', '"una delle 24 lenti"', '"come lo diresti a voce"', "AAAA-MM-GG HH:MM"];
 const SEGNAPOSTI_SCHEDA = ["<sha>", "<ramo>", "<id>", "<regista>", "<cartella>", "{{", "}}", "AAAA-MM-GG HH:MM"];
@@ -111,6 +112,9 @@ export function leggiOpzioni(argv) {
 const git = (dir, args) => gitEsegui(["-C", dir, ...args], undefined, {}, { grezzo: true }).toString("utf8");
 function gitOk(dir, args) { try { return git(dir, args); } catch { return null; } }
 const vuoto = (v) => v === undefined || v === null || (typeof v === "string" && v.trim() === "") || (Array.isArray(v) && v.length === 0);
+// Un campo che dice CHI (un verificatore, un permesso) è pieno solo se è un testo: false, 0 o {} non sono nessuno
+// (collaudo del 12/11: con vuoto() un «verificato_da: false» valeva come verificatore).
+const testo = (v) => typeof v === "string" && v.trim() !== "";
 const piatto = (v) => String(v ?? "").replace(/[\t\r\n]+/g, " ").trim();
 const leggiJson = (p) => JSON.parse(readFileSync(p, "utf8"));
 function scriviTesto(p, t) {
@@ -521,6 +525,18 @@ function coperturaPrima(opz) {
   if (ids.length > M.max_sessioni) rossi.push(`${ids.length} sessioni, oltre il massimo di ${M.max_sessioni}`);
   // (b) ogni file di codice del perimetro: un proprietario, e dentro un lotto di ogni sessione del suo tema scelto
   const mappa = leggiMappa(opz);
+  // La mappa non si prende sulla parola: si rifà dal sito al commit del piano e si confronta. Un segno cambiato o una
+  // riga tolta da mappa-file.txt facevano sparire un file da tutti i lotti col verde (collaudo del 12/11, A6).
+  const regole = compilaRegole(T);
+  let dalSito = fileDelSito(opz, piano.base).map((x) => x.f);
+  if (piano.diff) {
+    const cambiati = new Set((gitOk(opz.sito, ["diff", "--name-only", "--no-renames", piano.diff]) ?? "").split("\n").filter(Boolean));
+    dalSito = dalSito.filter((f) => cambiati.has(f));
+  }
+  const attesa = new Map(dalSito.map((f) => [f, `${proprietariDi(f, regole).join(",") || "-"}\t${segnoDi(f)}`]));
+  const scritta = new Map(mappa.map((m) => [m.f, `${m.chi.join(",") || "-"}\t${m.segno}`]));
+  for (const [f, v] of attesa) if (scritta.get(f) !== v) rossi.push(`mappa-file.txt: ${f} ${scritta.has(f) ? `dice «${scritta.get(f).replace("\t", " ")}», dal sito viene «${v.replace("\t", " ")}»` : "manca"}`);
+  for (const f of scritta.keys()) if (!attesa.has(f)) rossi.push(`mappa-file.txt: ${f} non è un file del perimetro`);
   const nelLotto = new Map(); // tema → Set(file)
   const vociNelLotto = new Map(); // chiave → n volte
   for (const s of ids) {
@@ -531,7 +547,11 @@ function coperturaPrima(opz) {
     for (const r of righe) {
       if (!idLotti.has(r[0])) { rossi.push(`${s}: in lotti/${s}.txt c'è il lotto ${r[0]}, che il piano non ha`); continue; }
       if (t === "S01") vociNelLotto.set(r[1], (vociNelLotto.get(r[1]) ?? 0) + 1);
-      else { if (!nelLotto.has(t)) nelLotto.set(t, new Set()); nelLotto.get(t).add(r[1]); }
+      else {
+        if (!nelLotto.has(t)) nelLotto.set(t, new Set());
+        if (nelLotto.get(t).has(r[1])) rossi.push(`${r[1]}: sta due volte nei lotti del tema ${t}`);
+        nelLotto.get(t).add(r[1]);
+      }
     }
     const conti = {};
     for (const r of righe) conti[r[0]] = (conti[r[0]] ?? 0) + 1;
@@ -613,8 +633,19 @@ function guardiaRamo(opz) {
   const ammesso = `${rel(opz, opz.cartella)}/referti/${s}.json`;
   const altri = [...toccati].filter((f) => f !== ammesso);
   const rossi = altri.length ? [`${s}: nella storia del ramo ci sono ${altri.length} file oltre al referto: ${altri.slice(0, 10).join(", ")}`] : [];
+  // Nessun id sparito, nemmeno nella storia: un difetto già spinto (il ramo è pubblico) che il referto in cima non
+  // porta più né fra i difetti né fra gli scartati è un difetto perso. Il controllo del referto da solo guarda solo i
+  // numeri fino al più alto di OGGI, e non vede sparire l'ultimo (collaudo del 12/11, A4).
+  const idsDi = (testo) => { try { const r = JSON.parse(testo); return new Set([...(r.difetti ?? []), ...(r.scartati ?? [])].map((d) => d?.id).filter(Boolean)); } catch { return null; } };
+  const inCima = idsDi(gitOk(opz.git, ["show", `${ref}:${ammesso}`]) ?? "");
+  const persi = new Map();
+  if (inCima) for (const c of commit) {
+    const prima = idsDi(gitOk(opz.git, ["show", `${c}:${ammesso}`]) ?? "");
+    for (const id of prima ?? []) if (!inCima.has(id) && !persi.has(id)) persi.set(id, c.slice(0, 7));
+  }
+  for (const [id, c] of persi) rossi.push(`${s}: ${id} era nel referto al commit ${c} e ora non è né fra i difetti né fra gli scartati`);
   const attese = commit.length === 0 ? [`${s}: il ramo non ha ancora nessun commit suo`] : [];
-  return chiudi("guardia-ramo", rossi, attese, opz, { commit: commit.length, file_toccati: toccati.size });
+  return chiudi("guardia-ramo", rossi, attese, opz, { commit: commit.length, file_toccati: toccati.size, id_persi: persi.size });
 }
 
 // ── valida-referto ───────────────────────────────────────────────────────────────────────────────
@@ -657,6 +688,9 @@ export function regoleReferto(r, ctx) {
   if (typeof r.finita !== "boolean") rossi.push("«finita» deve essere true o false");
   const finita = r.finita === true;
   for (const c of ["lotti", "difetti", "scartati", "regressioni", "ricontrolli", "prove_per_la_palestra", "domande_per_nicola"]) if (!Array.isArray(r[c])) rossi.push(`«${c}» deve essere un elenco`);
+  // un elenco chiuso anche in cima: un campo in più («note», «dettagli») è un posto dove una falla finisce in chiaro
+  const extraCima = Object.keys(r ?? {}).filter((k) => !CAMPI_REFERTO.includes(k));
+  if (extraCima.length) rossi.push(`campi in più nel referto (${extraCima.join(", ")}): solo ${CAMPI_REFERTO.join(", ")}`);
   for (const c of ["copertura", "conto"]) if (typeof r[c] !== "object" || r[c] === null || Array.isArray(r[c])) rossi.push(`manca «${c}»`);
   const tuttiIValori = valori(r);
   for (const sp of SEGNAPOSTI_REFERTO) {
@@ -739,7 +773,8 @@ export function regoleReferto(r, ctx) {
       if (extra.length) rossi.push(`${cx}: una riservata porta campi in più (${extra.join(", ")}): solo ${CAMPI_RISERVATA_RADIOGRAFIA.join(", ")}`);
       if (!TITOLO_RISERVATO.test(String(d?.titolo ?? ""))) rossi.push(`${cx}: il titolo di una riservata è «Falla di sicurezza da chiudere (<${AREE_RISERVATE.join("|")}>): i dettagli restano fuori dal deposito pubblico finché non è chiusa», senza numero`);
       if (d?.file !== PRIVATO) rossi.push(`${cx}: una riservata ha file «${PRIVATO}» e nient'altro`);
-      if (d?.verificato === true && d?.verificato_da !== PRIVATO) rossi.push(`${cx}: in una riservata «verificato_da» vale «${PRIVATO}»`);
+      // anche su un referto parziale: il ramo è pubblico appena spinto (collaudo del 12/11, caso 5a)
+      if (d?.verificato_da != null && d?.verificato_da !== PRIVATO) rossi.push(`${cx}: in una riservata «verificato_da» vale «${PRIVATO}» (o null prima della verifica)`);
     } else {
       for (const c of ["titolo", "file", "descrizione", "impatto", "fix", "causa_radice", "prova"]) if (vuoto(d?.[c])) rossi.push(`${cx}: «${c}» vuoto`);
       for (const p of String(d?.file ?? "").split(SEP).map((y) => y.trim()).filter(Boolean)) {
@@ -767,8 +802,8 @@ export function regoleReferto(r, ctx) {
     // ⑲ la verifica proporzionata: un secondo agente per gravi, bloccanti e riservate; un minore entra visto una volta
     const daVerificare = GRAVI.has(d?.severita) || riservato;
     if (daVerificare && finita) {
-      if (d?.verificato !== true || vuoto(d?.verificato_da)) rossi.push(`${cx}: a referto finito un ${riservato ? "difetto riservato" : d.severita} è verificato da un altro agente (verificato true e verificato_da)`);
-      else if (!riservato && String(d.verificato_da).trim().toLowerCase().startsWith(String(d.trovato_da ?? "").toLowerCase())) rossi.push(`${cx}: l'ha verificato chi l'ha trovato (${d.trovato_da}): chi trova non conferma`);
+      if (d?.verificato !== true || !testo(d?.verificato_da)) rossi.push(`${cx}: a referto finito un ${riservato ? "difetto riservato" : d.severita} è verificato da un altro agente (verificato true e verificato_da scritto)`);
+      else if (!riservato && (d.verificato_da.trim().toLowerCase().startsWith(String(d.trovato_da ?? "").toLowerCase()) || /^(capo|l\d\d)\b/i.test(d.verificato_da.trim()))) rossi.push(`${cx}: «verificato_da» comincia con un lotto o col capo (${d.verificato_da.trim().slice(0, 20)}…): chi verifica è un agente nuovo, e chi trova non conferma`);
     }
     if (!daVerificare && d?.severita === "minore" && d?.verificato === true) rossi.push(`${cx}: un minore non si verifica con un secondo agente: entra visto una volta, con verificato false (regola ⑲)`);
   }
@@ -804,7 +839,7 @@ export function regoleReferto(r, ctx) {
     if (k.esito === "non_piu_vero" && GRAVI.has(v.gravita)) {
       const ok = k?.prova_tipo === "comando" && k?.prova_eseguita === true && !vuoto(k?.esito_prova);
       if (!ok) (finita ? rossi : attese).push(`${cx}: chiudere un ${v.gravita} vuole una prova a comando eseguita con esito`);
-      if (finita && (k?.verificato !== true || vuoto(k?.verificato_da))) rossi.push(`${cx}: chiudere un ${v.gravita} vuole un verificatore (verificato true e verificato_da): nel dubbio resta aperto`);
+      if (finita && (k?.verificato !== true || !testo(k?.verificato_da))) rossi.push(`${cx}: chiudere un ${v.gravita} vuole un verificatore (verificato true e verificato_da): nel dubbio resta aperto`);
     }
   }
   if (ric && finita && ctx.daRicontrollare) {
@@ -835,8 +870,8 @@ export function regoleReferto(r, ctx) {
   // ⑱ il tetto: a referto finito il conto degli agenti c'è, e sta nel tetto o porta il permesso della regista
   const agenti = r.conto?.agenti;
   if (finita) {
-    if (typeof agenti !== "number" || agenti < 0) rossi.push("a referto finito «conto.agenti» è il numero di subagenti usati");
-    else if (agenti > x.tetto && vuoto(r.conto?.permesso_regista)) rossi.push(`${agenti} subagenti, oltre il tetto di ${x.tetto}, senza «conto.permesso_regista» (regola ⑱)`);
+    if (!Number.isInteger(agenti) || agenti < 0) rossi.push("a referto finito «conto.agenti» è il numero intero di subagenti usati");
+    else if (agenti > x.tetto && !testo(r.conto?.permesso_regista)) rossi.push(`${agenti} subagenti, oltre il tetto di ${x.tetto}, senza «conto.permesso_regista» (regola ⑱)`);
   }
   return { rossi, attese: [...new Set(attese)] };
 }
@@ -871,7 +906,9 @@ function sorveglia(opz) {
   const piano = leggiPiano(opz);
   const sess = leggiSessioni(opz);
   if (!sess?.sessioni) return chiudi("sorveglia", [], ["sessioni.json non c'è: nessuna sessione da sorvegliare"], opz);
-  const onda = piano.onde[Number(opz.onda) - 1] ?? [];
+  const onda = piano.onde[Number(opz.onda) - 1];
+  // un'onda che non c'è non è un verde: la skill smette di sorvegliare proprio sull'uscita 0 (collaudo del 12/11)
+  if (!Array.isArray(onda) || !/^\d+$/.test(String(opz.onda))) return uso(`sorveglia --onda 1..${piano.onde.length} --cartella <dir>`);
   const rami = onda.map((s) => sess.sessioni[s]?.ramo).filter(Boolean);
   if (rami.length) gitOk(opz.git, ["fetch", "-q", "origin", ...rami]);
   const rossi = [], attese = [], righe = [];
@@ -922,41 +959,47 @@ export function vicini(campoA, campoB, righe) {
   const A = fileCitati(campoA), B = fileCitati(campoB);
   return A.some((a) => B.some((b) => a.f === b.f && (a.da === null || b.da === null || (a.da <= b.a + righe && b.da <= a.a + righe))));
 }
-const forza = (d) => (d.prova_tipo === "comando" && d.prova_eseguita ? 3 : d.prova_tipo === "umano" ? 2 : 1) * 10 + (3 - SEVERITA.indexOf(d.severita));
+// Si tiene il più grave, poi la prova più forte: un bloccante non si sostituisce mai con un grave (collaudo del 12/11, B4).
+const forza = (d) => (3 - SEVERITA.indexOf(d.severita)) * 10 + (d.prova_tipo === "comando" && d.prova_eseguita ? 3 : d.prova_tipo === "umano" ? 2 : 1);
 /**
- * I doppioni, PURA: contro il registro (stessa chiave, o stesso file a meno di N righe e titoli simili) e fra le
- * sessioni. Le riservate non passano di qui: hanno tutte lo stesso file e titoli quasi uguali.
+ * I doppioni, PURA. Da soli si tolgono solo i difetti con la STESSA chiave dimensione|titolo: contro il registro
+ * (voce aperta → nel_registro, voce chiusa → regressioni_candidate) e fra le sessioni (gruppi). Un confronto
+ * approssimato (stesso file a meno di N righe e titoli simili) non toglie niente: finisce in «simili» o in
+ * «simili_registro», e lo decide il controllore finale. Il collaudo del 12/11 ha fatto unire così un bloccante con un
+ * grave diverso, e il bloccante spariva. Le riservate non passano di qui: hanno tutte lo stesso file e titoli quasi uguali.
  * difetti: [{sessione, d}] · registro: [{chiave, stato, titolo, file}]
  */
 export function trovaDoppioni(difetti, registro, { righe = 10, soglia = 0.4 } = {}) {
-  const nelRegistro = [], regressioni = [], gruppi = [];
+  const nelRegistro = [], regressioni = [], gruppi = [], simili = [], similiRegistro = [];
   const restano = [];
   for (const { sessione, d } of difetti) {
-    if (d.riservato === true) { restano.push({ sessione, d }); continue; }
+    if (d?.riservato === true) continue;
     const chiave = chiaveProblema(d);
-    const uguale = registro.find((v) => v.chiave === chiave)
-      ?? registro.find((v) => !eRiservataTitolo(v.titolo) && vicini(d.file, v.file, righe) && somiglianza(d.titolo, v.titolo) >= soglia);
-    if (!uguale) { restano.push({ sessione, d }); continue; }
-    const voce = { id: d.id, sessione, chiave: uguale.chiave, stato: uguale.stato, come: uguale.chiave === chiave ? "stessa chiave" : "stesso file vicino e titolo simile" };
-    (STATI_CHIUSI.has(uguale.stato) ? regressioni : nelRegistro).push(voce);
+    const uguale = registro.find((v) => v.chiave === chiave);
+    if (uguale) { (STATI_CHIUSI.has(uguale.stato) ? regressioni : nelRegistro).push({ id: d.id, sessione, chiave, stato: uguale.stato }); continue; }
+    const vicina = registro.find((v) => !eRiservataTitolo(v.titolo) && vicini(d.file, v.file, righe) && somiglianza(d.titolo, v.titolo) >= soglia);
+    if (vicina) similiRegistro.push({ id: d.id, sessione, chiave: vicina.chiave, stato: vicina.stato });
+    restano.push({ sessione, d });
   }
-  const presi = new Set();
-  for (let i = 0; i < restano.length; i++) {
-    const a = restano[i];
-    if (presi.has(a.d.id) || a.d.riservato === true) continue;
-    const gruppo = [a];
-    for (let j = i + 1; j < restano.length; j++) {
-      const b = restano[j];
-      if (presi.has(b.d.id) || b.d.riservato === true) continue;
-      if (chiaveProblema(a.d) === chiaveProblema(b.d) || (vicini(a.d.file, b.d.file, righe) && somiglianza(a.d.titolo, b.d.titolo) >= soglia)) gruppo.push(b);
-    }
-    if (gruppo.length < 2) continue;
-    const tenuto = [...gruppo].sort((x, y) => forza(y.d) - forza(x.d) || x.d.id.localeCompare(y.d.id))[0];
-    gruppo.forEach((g) => presi.add(g.d.id));
-    gruppi.push({ tenuto: tenuto.d.id, uniti: gruppo.map((g) => g.d.id).filter((id) => id !== tenuto.d.id), visto_da: [...new Set(gruppo.map((g) => g.sessione))] });
+  const perChiave = new Map();
+  for (const x of restano) { const k = chiaveProblema(x.d); if (!perChiave.has(k)) perChiave.set(k, []); perChiave.get(k).push(x); }
+  const uniti = new Set();
+  for (const g of perChiave.values()) {
+    if (g.length < 2) continue;
+    const tenuto = [...g].sort((x, y) => forza(y.d) - forza(x.d) || x.d.id.localeCompare(y.d.id))[0];
+    const altri = g.filter((x) => x !== tenuto).map((x) => x.d.id);
+    altri.forEach((id) => uniti.add(id));
+    gruppi.push({ tenuto: tenuto.d.id, uniti: altri, visto_da: [...new Set(g.map((x) => x.sessione))] });
   }
-  return { nel_registro: nelRegistro, regressioni_candidate: regressioni, gruppi };
+  const tenuti = restano.filter((x) => !uniti.has(x.d.id));
+  for (let i = 0; i < tenuti.length; i++) for (let k = i + 1; k < tenuti.length; k++) {
+    const a = tenuti[i].d, b = tenuti[k].d;
+    if (vicini(a.file, b.file, righe) && somiglianza(a.titolo, b.titolo) >= soglia) simili.push({ a: a.id, b: b.id });
+  }
+  return { nel_registro: nelRegistro, regressioni_candidate: regressioni, gruppi, simili, simili_registro: similiRegistro };
 }
+const CAMPI_DOPPIONI = ["nel_registro", "regressioni_candidate", "gruppi", "simili", "simili_registro"];
+const stessiDoppioni = (a, b) => CAMPI_DOPPIONI.every((c) => JSON.stringify(a?.[c] ?? null) === JSON.stringify(b?.[c] ?? null));
 function leggiReferti(opz) {
   const d = opz.referti ? resolve(opz.referti) : join(opz.cartella, "referti");
   if (!existsSync(d)) return [];
@@ -966,55 +1009,77 @@ function leggiRegistroVoci(opz) {
   const reg = leggiJson(opz.registro);
   return (reg.problemi ?? []).map((p) => ({ chiave: chiaveProblema(p), stato: p.stato, titolo: p.titolo, file: p.file }));
 }
+function calcolaDoppioni(opz, referti) {
+  const T = caricaTemi(opz);
+  const difetti = referti.flatMap(({ nome, r }) => (r.difetti ?? []).map((d) => ({ sessione: nome, d })));
+  return { difetti, esito: trovaDoppioni(difetti, leggiRegistroVoci(opz), { righe: T.misure.righe_vicine, soglia: T.misure.somiglianza_titoli }) };
+}
+const idFuoriDaiDoppioni = (dop) => new Map([
+  ...(dop.nel_registro ?? []).map((v) => [v.id, "nel registro"]),
+  ...(dop.regressioni_candidate ?? []).map((v) => [v.id, "regressione"]),
+  ...(dop.gruppi ?? []).flatMap((g) => g.uniti.map((id) => [id, `unito a ${g.tenuto}`])),
+]);
 function doppioni(opz) {
   if (!opz.cartella) return uso("doppioni --cartella <dir> [--uscita <dir>] [--referti <dir>]");
   const piano = leggiPiano(opz);
-  const T = caricaTemi(opz);
   const referti = leggiReferti(opz);
   if (referti.length === 0) return chiudi("doppioni", [], ["nessun referto in referti/"], opz);
-  const difetti = referti.flatMap(({ nome, r }) => (r.difetti ?? []).map((d) => ({ sessione: nome, d })));
-  const esito = trovaDoppioni(difetti, leggiRegistroVoci(opz), { righe: T.misure.righe_vicine, soglia: T.misure.somiglianza_titoli });
+  const { difetti, esito } = calcolaDoppioni(opz, referti);
   // dentro una sessione si lancia con --uscita <scratchpad>: il ramo della sessione cambia solo il suo referto
   const uscita = opz.uscita ? resolve(opz.uscita) : opz.cartella;
   scriviJson(join(uscita, "doppioni.json"), { calcolato: timbroOra(), base: piano.base, ...esito });
-  const tenuti = new Set(difetti.map((x) => x.d.id));
-  esito.nel_registro.forEach((v) => tenuti.delete(v.id));
-  esito.regressioni_candidate.forEach((v) => tenuti.delete(v.id));
-  esito.gruppi.forEach((g) => g.uniti.forEach((id) => tenuti.delete(id)));
-  const righe = difetti.filter((x) => tenuti.has(x.d.id)).map(({ sessione, d }) => d.riservato ? [d.id, sessione, d.severita, PRIVATO, "Falla di sicurezza da chiudere: i dettagli restano fuori dal deposito pubblico"].join("\t") : [d.id, sessione, d.severita, piatto(d.file), piatto(d.titolo)].join("\t"));
+  const fuori = idFuoriDaiDoppioni(esito);
+  const righe = difetti.filter((x) => !fuori.has(x.d.id)).map(({ sessione, d }) => d.riservato ? [d.id, sessione, d.severita, PRIVATO, "Falla di sicurezza da chiudere: i dettagli restano fuori dal deposito pubblico"].join("\t") : [d.id, sessione, d.severita, piatto(d.file), piatto(d.titolo)].join("\t"));
   scriviTesto(join(uscita, "trovati.txt"), ["# id\tsessione\tgravita\tfile\ttitolo  (i difetti tenuti dopo i doppioni: la seconda onda li cerca con grep prima di scrivere)", ...righe].join("\n") + "\n");
-  console.log(`difetti letti: ${difetti.length} · uguali a voci aperte del registro: ${esito.nel_registro.length} · uguali a voci chiuse (regressioni da verificare): ${esito.regressioni_candidate.length} · gruppi fra sessioni: ${esito.gruppi.length} · tenuti: ${tenuti.size}`);
-  return chiudi("doppioni", [], [], opz, { letti: difetti.length, tenuti: tenuti.size });
+  console.log(`difetti letti: ${difetti.length} · uguali a voci aperte del registro: ${esito.nel_registro.length} · uguali a voci chiuse (regressioni): ${esito.regressioni_candidate.length} · uguali fra sessioni: ${esito.gruppi.length} gruppi · tenuti: ${righe.length}`);
+  if (esito.simili.length || esito.simili_registro.length) console.log(`simili da decidere al controllo finale (restano dentro finché nessuno li toglie): ${esito.simili.length} coppie fra sessioni, ${esito.simili_registro.length} vicini a voci del registro`);
+  return chiudi("doppioni", [], [], opz, { letti: difetti.length, tenuti: righe.length, simili: esito.simili.length, simili_registro: esito.simili_registro.length });
 }
 
 // ── grezzo ───────────────────────────────────────────────────────────────────────────────────────
 const CAMPI_GREZZO = ["dimensione", "titolo", "severita", "file", "descrizione", "impatto", "fix", "causa_radice", "prova", "prova_tipo", "prova_eseguita", "esito_prova", "perche_umano", "verificato", "verificato_da"];
+const SEI_PRIVATI = ["descrizione", "impatto", "fix", "causa_radice", "prova", "esito_prova"];
 export function prossimoR(problemi) {
   return Math.max(0, ...problemi.map((p) => Number(String(p.titolo ?? "").match(/^Falla di sicurezza R(\d+)/)?.[1] ?? 0))) + 1;
 }
+/** Una riservata nel grezzo: campi da un elenco CHIUSO, mai copiati dal referto (collaudo del 12/11, B2). PURA. */
+export function riservataNelGrezzo(d, numeroR) {
+  const f = { dimensione: d.dimensione, titolo: String(d.titolo).replace(/^Falla di sicurezza /, `Falla di sicurezza R${numeroR} `), severita: d.severita, file: PRIVATO };
+  for (const c of SEI_PRIVATI) f[c] = "nel referto privato";
+  Object.assign(f, { prova_tipo: d.prova_tipo, prova_eseguita: d.prova_eseguita, verificato: d.verificato, verificato_da: PRIVATO });
+  return f;
+}
 function grezzo(opz) {
-  if (!opz.cartella || !/^\d{4}-\d\d-\d\d$/.test(opz.data ?? "")) return uso("grezzo --cartella <dir> --data AAAA-MM-GG");
+  if (!opz.cartella || !/^\d{4}-\d\d-\d\d$/.test(opz.data ?? "")) return uso("grezzo --cartella <dir> --data AAAA-MM-GG [--togli S06-001,S02-004]");
   const piano = leggiPiano(opz);
   const dp = join(opz.cartella, "doppioni.json");
   if (!existsSync(dp)) return chiudi("grezzo", ["manca doppioni.json: prima «doppioni»"], [], opz);
   const dop = leggiJson(dp);
   const referti = leggiReferti(opz);
   const rossi = [];
-  for (const { nome, r } of referti) if (r.finita !== true) rossi.push(`${nome}: referto non finito`);
-  const fuori = new Set([...dop.nel_registro.map((v) => v.id), ...dop.regressioni_candidate.map((v) => v.id), ...dop.gruppi.flatMap((g) => g.uniti)]);
-  const visto = new Map(dop.gruppi.map((g) => [g.tenuto, g.visto_da]));
-  let r = prossimoR(leggiJson(opz.registro).problemi ?? []);
+  // un referto rosso non entra: il grezzo diventa pubblico e poi registro (collaudo del 12/11, B2)
+  for (const { nome, r } of referti) {
+    if (!piano.sessioni[nome]) { rossi.push(`referti/${nome}.json non è una sessione del piano`); continue; }
+    const { rossi: rr } = regoleReferto(r, contestoReferto(opz, piano, nome));
+    if (r.finita !== true || rr.length) rossi.push(`${nome}: referto ${r.finita !== true ? "non finito" : `rosso (${rr.length} problemi)`}: il grezzo non lo legge`);
+  }
+  if (!stessiDoppioni(dop, calcolaDoppioni(opz, referti).esito)) rossi.push("doppioni.json non è quello che il programma calcola oggi su referti e registro: rilancia «doppioni»");
+  // i simili decisi dal controllore finale: si tolgono solo quelli che doppioni ha segnato come simili
+  const ammessiTogli = new Map([...(dop.simili ?? []).flatMap((c) => [[c.a, c.b], [c.b, c.a]]), ...(dop.simili_registro ?? []).map((v) => [v.id, v.chiave])]);
+  const togli = String(opz.togli ?? "").split(",").map((x) => x.trim()).filter(Boolean);
+  for (const id of togli) if (!ammessiTogli.has(id)) rossi.push(`--togli ${id}: non è fra i simili di doppioni.json, e un difetto non si toglie a mano`);
+  const fuori = new Set([...idFuoriDaiDoppioni(dop).keys(), ...togli]);
+  const visto = new Map((dop.gruppi ?? []).map((g) => [g.tenuto, g.visto_da]));
+  let numeroR = prossimoR(leggiJson(opz.registro).problemi ?? []);
   const perDim = new Map();
   for (const { nome, r: ref } of referti) for (const d of ref.difetti ?? []) {
     if (fuori.has(d.id)) continue;
-    const f = {};
-    for (const c of CAMPI_GREZZO) if (d[c] !== undefined) f[c] = d[c];
-    if (d.riservato === true) {
-      f.titolo = String(d.titolo).replace(/^Falla di sicurezza /, `Falla di sicurezza R${r++} `);
-      for (const c of ["descrizione", "impatto", "fix", "causa_radice", "prova", "esito_prova"]) f[c] = "nel referto privato";
-    }
+    let f;
+    if (d.riservato === true) f = riservataNelGrezzo(d, numeroR++);
+    else { f = {}; for (const c of CAMPI_GREZZO) if (d[c] !== undefined) f[c] = d[c]; }
+    const anche = (visto.get(d.id) ?? []).filter((x) => x !== nome);
     f.giro = 1;
-    f.fonte_radiografia = `radiografia ${opz.data} · ${nome}${(visto.get(d.id) ?? []).filter((s) => s !== nome).length ? ` (vista anche da ${visto.get(d.id).filter((s) => s !== nome).join(", ")})` : ""}`;
+    f.fonte_radiografia = `radiografia ${opz.data} · ${nome}${anche.length ? ` (vista anche da ${anche.join(", ")})` : ""}`;
     f.id_sessione = d.id;
     if (!perDim.has(d.dimensione)) perDim.set(d.dimensione, []);
     perDim.get(d.dimensione).push(f);
@@ -1029,10 +1094,11 @@ function grezzo(opz) {
     data: opz.data, tipo: "radiografia-marketplace", fonte: `radiografia in sessioni (${piano.profilo}), ${Object.keys(piano.sessioni).length} sessioni`,
     codice_analizzato: piano.base, totale: tutti.length,
     bloccanti: tutti.filter((f) => f.severita === "bloccante").length, gravi: tutti.filter((f) => f.severita === "grave").length, minori: tutti.filter((f) => f.severita === "minore").length,
+    tolti: togli.map((id) => ({ id, simile_a: ammessiTogli.get(id) ?? null })),
     dimensioni: [...perDim.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([dimensione, findings]) => ({ dimensione, findings })),
   };
   if (!rossi.length) scriviJson(join(opz.cartella, "grezzo.json"), out);
-  console.log(`grezzo: ${out.totale} difetti (bloccanti ${out.bloccanti}, gravi ${out.gravi}, minori ${out.minori})${rossi.length ? " — NON scritto" : ` in ${rel(opz, join(opz.cartella, "grezzo.json"))}`}`);
+  console.log(`grezzo: ${out.totale} difetti (bloccanti ${out.bloccanti}, gravi ${out.gravi}, minori ${out.minori}), tolti come simili: ${togli.length}${rossi.length ? " — NON scritto" : ` in ${rel(opz, join(opz.cartella, "grezzo.json"))}`}`);
   return chiudi("grezzo", rossi, [], opz, { totale: out.totale });
 }
 
@@ -1042,38 +1108,43 @@ function conti(opz) {
   const piano = leggiPiano(opz);
   const referti = leggiReferti(opz);
   const rossi = [], attese = [];
-  const attese_sessioni = Object.keys(piano.sessioni);
-  for (const s of attese_sessioni) if (!referti.some((x) => x.nome === s)) attese.push(`${s}: referto non ancora in referti/`);
+  const sessioniAttese = Object.keys(piano.sessioni);
+  for (const s of sessioniAttese) if (!referti.some((x) => x.nome === s)) attese.push(`${s}: referto non ancora in referti/`);
   for (const { nome, r } of referti) {
     if (!piano.sessioni[nome]) { rossi.push(`referti/${nome}.json: non è una sessione del piano`); continue; }
     const { rossi: rr } = regoleReferto(r, contestoReferto(opz, piano, nome));
-    const spariti = rr.filter((x) => x.startsWith("id spariti"));
-    spariti.forEach((x) => rossi.push(`${nome}: ${x}`));
+    rr.filter((x) => x.startsWith("id spariti")).forEach((x) => rossi.push(`${nome}: ${x}`));
   }
   const tuttiId = referti.flatMap(({ nome, r }) => (r.difetti ?? []).map((d) => ({ nome, d })));
   const dp = join(opz.cartella, "doppioni.json"), gp = join(opz.cartella, "grezzo.json");
-  const fuori = new Map();
+  let fuori = new Map();
   if (existsSync(dp)) {
     const dop = leggiJson(dp);
-    dop.nel_registro.forEach((v) => fuori.set(v.id, "nel registro"));
-    dop.regressioni_candidate.forEach((v) => fuori.set(v.id, "regressione"));
-    dop.gruppi.forEach((g) => g.uniti.forEach((id) => fuori.set(id, `unito a ${g.tenuto}`)));
+    // il conto non si fida del file: lo rifà, e un doppioni.json ritoccato a mano è rosso (collaudo del 12/11, A7)
+    if (!stessiDoppioni(dop, calcolaDoppioni(opz, referti).esito)) rossi.push("doppioni.json non è quello che il programma calcola su referti e registro: è stato ritoccato, o i referti sono cambiati dopo");
+    fuori = idFuoriDaiDoppioni(dop);
   } else attese.push("doppioni.json non c'è ancora");
-  const nelGrezzo = new Set();
-  if (existsSync(gp)) for (const dim of leggiJson(gp).dimensioni ?? []) for (const f of dim.findings ?? []) nelGrezzo.add(f.id_sessione);
-  else attese.push("grezzo.json non c'è ancora");
+  const nelGrezzo = new Map();
+  if (existsSync(gp)) {
+    const g = leggiJson(gp);
+    for (const t of g.tolti ?? []) if (!fuori.has(t.id)) fuori.set(t.id, `tolto come simile di ${t.simile_a}`);
+    for (const dim of g.dimensioni ?? []) for (const f of dim.findings ?? []) nelGrezzo.set(f.id_sessione, (nelGrezzo.get(f.id_sessione) ?? 0) + 1);
+  } else attese.push("grezzo.json non c'è ancora");
   if (existsSync(dp) && existsSync(gp)) {
     for (const { d } of tuttiId) {
       const dentro = nelGrezzo.has(d.id), via = fuori.has(d.id);
       if (!dentro && !via) rossi.push(`${d.id}: trovato, ma non è né nel grezzo né fra doppioni e regressioni — è sparito`);
       if (dentro && via) rossi.push(`${d.id}: è nel grezzo e insieme ${fuori.get(d.id)}`);
     }
-    for (const id of nelGrezzo) if (!tuttiId.some((x) => x.d.id === id)) rossi.push(`${id}: è nel grezzo ma in nessun referto`);
+    for (const [id, n] of nelGrezzo) {
+      if (!tuttiId.some((x) => x.d.id === id)) rossi.push(`${id}: è nel grezzo ma in nessun referto`);
+      if (n > 1) rossi.push(`${id}: è nel grezzo ${n} volte`);
+    }
   }
   const per = (g) => tuttiId.filter((x) => x.d.severita === g).length;
   const scartati = referti.reduce((n, { r }) => n + (r.scartati ?? []).length, 0);
-  console.log(`referti: ${referti.length} di ${attese_sessioni.length} · difetti trovati: ${tuttiId.length} (bloccanti ${per("bloccante")}, gravi ${per("grave")}, minori ${per("minore")}) · scartati dai verificatori: ${scartati}`);
-  if (existsSync(gp)) console.log(`nel grezzo: ${nelGrezzo.size} · fuori dal grezzo per doppione o regressione: ${fuori.size}`);
+  console.log(`referti: ${referti.length} di ${sessioniAttese.length} · difetti trovati: ${tuttiId.length} (bloccanti ${per("bloccante")}, gravi ${per("grave")}, minori ${per("minore")}) · scartati dai verificatori: ${scartati}`);
+  if (existsSync(gp)) console.log(`nel grezzo: ${nelGrezzo.size} · fuori dal grezzo per doppione, regressione o simile tolto: ${fuori.size}`);
   return chiudi("conti", rossi, attese, opz, { trovati: tuttiId.length, nel_grezzo: nelGrezzo.size, fuori: fuori.size, scartati });
 }
 
@@ -1083,7 +1154,7 @@ function conti(opz) {
  * riceve i problemi e i referti, torna { problemi nuovi, conti, rossi }. Solo quello che regge le regole del
  * referto: un grave chiuso senza verificatore resta aperto (lo dice già valida-referto, qui si ricontrolla).
  */
-export function applicaAlRegistro(problemi, referti, { data, base, ora }) {
+export function applicaAlRegistro(problemi, referti, { data, base, ora, regressioniDoppioni = [] }) {
   const [aa, mm, gg] = data.split("-");
   const campo = `riverifica_${Number(gg)}_${Number(mm)}`;
   const perChiave = new Map();
@@ -1125,6 +1196,19 @@ export function applicaAlRegistro(problemi, referti, { data, base, ora }) {
       conti.riaperti++;
     }
   }
+  // le regressioni che ha trovato «doppioni» (stessa chiave di una voce chiusa): fuori dal grezzo, quindi si
+  // riaprono qui, o sparirebbero fra il grezzo e il registro
+  for (const g of regressioniDoppioni) {
+    const i = trova(g.chiave, `regressione di ${g.id}`);
+    if (i === null) continue;
+    const v = nuovi[i];
+    if (!STATI_CHIUSI.has(v.stato)) continue;
+    v.stato = "aperto";
+    v.riaperto_il = ora;
+    v.riaperto_da = `radiografia ${data} · ${g.sessione} (${g.id})`;
+    v[`nota_${Number(gg)}_${Number(mm)}`] = eRiservataTitolo(v.titolo) ? `riaperta dalla radiografia del ${data}: dettagli nel referto privato` : `riaperta: la radiografia del ${data} l'ha ritrovata (${g.id}, ${g.sessione})`;
+    conti.riaperti++;
+  }
   if (nuovi.length !== problemi.length) rossi.push("il numero delle voci è cambiato: applica non toglie e non aggiunge voci");
   return { problemi: nuovi, conti, rossi };
 }
@@ -1138,7 +1222,10 @@ function applica(opz) {
     if (rr.length || r.finita !== true) rossi.push(`${nome}: referto ${r.finita !== true ? "non finito" : `rosso (${rr.length} problemi)`}: applica non lo legge`);
   }
   const reg = leggiJson(opz.registro);
-  const esito = applicaAlRegistro(reg.problemi ?? [], referti.filter(({ nome, r }) => !rossi.some((x) => x.startsWith(`${nome}:`)) && r.finita === true), { data: opz.data, base: piano.base, ora: timbroOra() });
+  const dp = join(opz.cartella, "doppioni.json");
+  const regressioniDoppioni = existsSync(dp) ? leggiJson(dp).regressioni_candidate ?? [] : [];
+  if (!existsSync(dp)) rossi.push("manca doppioni.json: le regressioni trovate dai doppioni andrebbero perse (prima «doppioni»)");
+  const esito = applicaAlRegistro(reg.problemi ?? [], referti.filter(({ nome, r }) => !rossi.some((x) => x.startsWith(`${nome}:`)) && r.finita === true), { data: opz.data, base: piano.base, ora: timbroOra(), regressioniDoppioni });
   rossi.push(...esito.rossi);
   console.log(`ricontrolli applicati: ${esito.conti.riverificati} · chiusi come già riparati: ${esito.conti.chiusi} · regressioni riaperte: ${esito.conti.riaperti}${opz.scrivi ? "" : " (a vuoto: aggiungi --scrivi)"}`);
   if (opz.scrivi && !rossi.length) {

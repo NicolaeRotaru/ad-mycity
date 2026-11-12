@@ -138,14 +138,19 @@ sessione e gravità, il costo misurato (`usage.cost_usd` di ogni figlia), la quo
 ## F2 — Il controllo finale e la chiusura
 
 1. `doppioni --cartella <C>` su tutti i referti, poi `grezzo --cartella <C> --data <giorno>`: i difetti tenuti, senza
-   doppioni né regressioni, con le riservate numerate (R dopo la più alta del registro).
+   doppioni né regressioni, con le riservate numerate (R dopo la più alta del registro). Da solo il programma toglie
+   solo i difetti con la stessa chiave; le coppie soltanto simili restano dentro, in `doppioni.json` (`simili`,
+   `simili_registro`), finché il controllore finale non le decide. Un referto rosso non entra nel grezzo.
 2. **Il controllore finale** (`CF`): una sessione nuova su `ad-mycity`, ramo `<ramo della regista>-cf`, col prompt
    *«Sei il controllore finale della radiografia <C>. Leggi cervello/radiografia/LEGGIMI-verificatore.md (parte B) e
    controlla la cartella al commit <sha>.»* Rifà `conti` e `copertura-dopo`, fa rileggere la riservatezza a due
-   `security`, rilancia tre prove a sorpresa e scrive `controllo-finale.json` (solo quel file sul suo ramo).
-3. `conti --cartella <C>` verde: nessun difetto trovato è sparito. Con `conti` rosso non si scrive niente nel registro.
+   `security`, rilancia tre prove a sorpresa, decide i simili e scrive `controllo-finale.json` (solo quel file sul suo
+   ramo). Se toglie dei simili, si rifà `grezzo --cartella <C> --data <giorno> --togli <id,id>`: il programma accetta
+   solo id che `doppioni` ha segnato come simili, e li scrive in `tolti`.
+3. `conti --cartella <C>` verde: nessun difetto trovato è sparito, e `doppioni.json` è quello che il programma rifà da
+   referti e registro. Con `conti` rosso non si scrive niente nel registro.
 4. **Il registro**, nell'ordine: `git merge origin/main`; `applica --cartella <C> --data <giorno>` a vuoto, poi con
-   `--scrivi` (i ricontrolli e le regressioni, per chiave); il grezzo copiato in
+   `--scrivi` (i ricontrolli, le regressioni dei referti e quelle trovate da `doppioni`, per chiave); il grezzo copiato in
    `consegne/audit/<giorno>-radiografia-marketplace-raw.json` e `node cervello/radiografia-marketplace-digest.mjs`
    una volta sola, contando le voci prima e dopo; il referto `consegne/audit/<giorno>-radiografia.md` con
    `node cervello/si-capisce.mjs` verde.
@@ -180,15 +185,15 @@ dettaglio finisce in un ramo pubblico, si avvisa Nicola subito: cancellare o ris
 | `prepara` | profilo → piano, mappa, registro compatto, lotti; minori ammessi o no (⑳); tetto delle sessioni | 0 · 1 |
 | `preventivo` | agenti, token e dollari stimati; se serve la firma (⑱) | 0 |
 | `schede` | le schede dal piano, deterministiche | 0 |
-| `copertura-prima` | ogni file e voce in un lotto, lenti e angoli dentro o dichiarati fuori, schede uguali al piano, partenza corta | 0 · 1 · 3 |
+| `copertura-prima` | la mappa rifatta dal sito, ogni file e voce in un lotto, lenti e angoli dentro o fuori, schede uguali al piano, partenza corta | 0 · 1 · 2 · 3 |
 | `segnaposti` | nessun segnaposto nelle schede | 0 · 1 |
-| `guardia-ramo` | il ramo cambia solo il suo referto | 0 · 1 · 3 |
+| `guardia-ramo` | il ramo cambia solo il suo referto, e nessun difetto già spinto sparisce dalla sua storia | 0 · 1 · 3 |
 | `valida-referto` | formato, asticella, minori (⑳), verifica (⑲), tetto (⑱), lotti dichiarati, nessun id sparito, riservate | 0 · 1 · 3 |
 | `sorveglia` | guardia e referto per ogni sessione dell'onda, una riga di diario | 0 · 1 · 3 |
-| `doppioni` | contro il registro e fra le sessioni, prima della verifica finale | 0 · 3 |
-| `grezzo` | il grezzo per il digest, chiavi uniche e nuove | 0 · 1 |
-| `conti` | ogni difetto trovato è nel grezzo, nei doppioni o negli scartati | 0 · 1 · 3 |
-| `applica` | ricontrolli e regressioni sul registro, per chiave (`--scrivi`) | 0 · 1 |
+| `doppioni` | stessa chiave contro il registro e fra le sessioni; i soli simili restano da decidere | 0 · 3 |
+| `grezzo` | solo referti verdi, riservate a campi chiusi, chiavi uniche e nuove, `--togli` solo fra i simili | 0 · 1 |
+| `conti` | ogni difetto trovato è nel grezzo, nei doppioni o fra i simili tolti; doppioni.json rifatto e confrontato | 0 · 1 · 3 |
+| `applica` | ricontrolli e regressioni (dei referti e dei doppioni) sul registro, per chiave; mai coi rossi (`--scrivi`) | 0 · 1 |
 | `copertura-dopo` | i file del perimetro letti o eseguiti | 0 · 3 |
 
 L'uscita 2 vuol dire «non ho potuto misurare»: non è mai un verde. Le prove del programma:

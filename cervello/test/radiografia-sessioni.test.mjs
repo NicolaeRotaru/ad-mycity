@@ -8,7 +8,7 @@ import { join, dirname } from "node:path";
 import { tmpdir } from "node:os";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { esegui, regoleReferto, trovaDoppioni, applicaAlRegistro, calcolaPreventivo, lottiDiFile, spezza } from "../radiografia-sessioni.mjs";
+import { esegui, regoleReferto, trovaDoppioni, applicaAlRegistro, calcolaPreventivo, lottiDiFile, spezza, prossimoR, riservataNelGrezzo } from "../radiografia-sessioni.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const RADICE_VERA = join(QUI, "..", "..");
@@ -204,6 +204,67 @@ test("un prefisso non ammesso dal tema è rosso (live: in S02)", () => {
   assert.ok(rossiDi(referto({ difetti: [g] })).rossi.some((x) => x.includes("«live:» non è ammesso in S02")));
 });
 
+test("⑲ un verificatore che non è un testo (false, 0, {}) non conta, e nemmeno uno che comincia col capo o con un lotto", () => {
+  for (const v of [false, 0, {}, true]) assert.ok(rossiDi(referto({ difetti: [grave({ verificato_da: v })] })).rossi.some((x) => x.includes("verificato da un altro agente")), `verificato_da ${JSON.stringify(v)}`);
+  for (const v of ["capo: rilanciata", "L02 ha riguardato"]) assert.ok(rossiDi(referto({ difetti: [grave({ verificato_da: v })] })).rossi.some((x) => x.includes("chi trova non conferma")), v);
+});
+test("⑱ un permesso che non è un testo non vale, e gli agenti sono un numero intero", () => {
+  for (const p of [false, 0, {}]) assert.ok(rossiDi(referto({ conto: { agenti: 13, permesso_regista: p } })).rossi.some((x) => x.includes("regola ⑱")), `permesso ${JSON.stringify(p)}`);
+  assert.ok(rossiDi(referto({ conto: { agenti: 3.5, permesso_regista: null } })).rossi.some((x) => x.includes("numero intero")));
+});
+test("una riservata con verificato_da in chiaro è rossa anche su un referto parziale", () => {
+  const ris = { id: "S02-001", trovato_da: "L01", riservato: true, titolo: "Falla di sicurezza da chiudere (pagamenti): i dettagli restano fuori dal deposito pubblico finché non è chiusa", file: "(nel referto privato)", severita: "grave", dimensione: "pagamenti-stripe", prova_tipo: "comando", prova_eseguita: true, verificato: false, verificato_da: "il webhook in app/api/stripe/webhook/route.ts:40 accetta eventi senza firma" };
+  assert.ok(rossiDi(referto({ finita: false, difetti: [ris] })).rossi.some((x) => x.includes("«verificato_da» vale")));
+  assert.deepEqual(rossiDi(referto({ finita: false, difetti: [{ ...ris, verificato_da: null }] })).rossi, []);
+});
+test("un campo in più in cima al referto è rosso: è un posto dove una falla finisce in chiaro", () => {
+  assert.ok(rossiDi(referto({ note: "la rotta /api/x si apre a tutti" })).rossi.some((x) => x.includes("campi in più nel referto (note)")));
+});
+test("l'id di una riservata nominato in un altro campo è rosso", () => {
+  const ris = { id: "S02-002", trovato_da: "L02", riservato: true, titolo: "Falla di sicurezza da chiudere (pagamenti): i dettagli restano fuori dal deposito pubblico finché non è chiusa", file: "(nel referto privato)", severita: "grave", dimensione: "pagamenti-stripe", prova_tipo: "comando", prova_eseguita: true, verificato: true, verificato_da: "(nel referto privato)" };
+  const { rossi } = rossiDi(referto({ difetti: [grave(), ris], domande_per_nicola: ["S02-002: la chiudiamo prima del 15?"] }));
+  assert.ok(rossi.some((x) => x.includes("compare in un altro campo")), rossi.join("\n"));
+});
+test("S01: chiudere un grave senza verificatore è rosso a referto finito", () => {
+  const piano = { ...pianoFinto(), sessioni: { S01: { tema: "S01", lenti: [], prefissi: [], tetto: 12, lotti: [{ id: "L01" }] } } };
+  const k = { chiave: "pagamenti-stripe|la cassa perde", esito: "non_piu_vero", prova: "npx vitest run x", prova_tipo: "comando", prova_eseguita: true, esito_prova: "verde", nota: null };
+  const daRic = new Map([["pagamenti-stripe|la cassa perde", { gravita: "grave", righe: [] }]]);
+  const r = referto({ sessione: "S01", lotti: [{ id: "L01", esito: "fatto", perche: null }], difetti: [], ricontrolli: [k], copertura: { file_letti_interi: [], file_letti_in_parte: [], file_eseguiti: [], non_guardato: [] } });
+  const ctx = ctxDi(piano, "S01", { daRicontrollare: daRic, lottiS01: [["L01", "pagamenti-stripe|la cassa perde"]] });
+  assert.ok(regoleReferto(r, ctx).rossi.some((x) => x.includes("vuole un verificatore")));
+  r.ricontrolli = [{ ...k, verificato: true, verificato_da: "qa nuovo: rilanciata, verde" }];
+  assert.deepEqual(regoleReferto(r, ctx).rossi, []);
+});
+test("valida-referto: una chiave scritta due volte nello stesso oggetto è rossa", () => {
+  const b = banco();
+  try {
+    const piano = prontoConSchede(b);
+    const r = refertoBanco(b, piano, "S02", [grave()]);
+    const testo = JSON.stringify(r).replace('"severita":"grave"', '"severita":"minore","severita":"grave"');
+    mkdirSync(join(b.cartella, "referti"), { recursive: true });
+    writeFileSync(join(b.cartella, "referti/S02.json"), testo);
+    const { codice, out } = b.lancia("valida-referto", join(b.cartella, "referti/S02.json"));
+    assert.equal(codice, 1);
+    assert.match(out, /chiavi scritte due volte/);
+  } finally { b.pulisci(); }
+});
+test("copertura-prima: una mappa ritoccata (un segno cambiato, una riga tolta) è rossa", () => {
+  const b = banco();
+  try {
+    prontoConSchede(b);
+    const p = join(b.cartella, "mappa-file.txt");
+    const orig = readFileSync(p, "utf8");
+    writeFileSync(p, orig.replace(/^(lib\/cassa\/riquadro\.ts\t[^\t]+\t)codice$/m, "$1documento"));
+    let e = b.lancia("copertura-prima");
+    assert.equal(e.codice, 1);
+    assert.match(e.out, /mappa-file\.txt: lib\/cassa\/riquadro\.ts dice/);
+    writeFileSync(p, orig.split("\n").filter((r) => !r.startsWith("lib/cassa/riquadro.ts\t")).join("\n"));
+    e = b.lancia("copertura-prima");
+    assert.equal(e.codice, 1);
+    assert.match(e.out, /mappa-file\.txt: lib\/cassa\/riquadro\.ts manca/);
+  } finally { b.pulisci(); }
+});
+
 // ── guardia-ramo ─────────────────────────────────────────────────────────────────────────────────
 test("guardia-ramo: verde col solo referto, rossa con un file in più", () => {
   const b = banco();
@@ -228,30 +289,67 @@ test("guardia-ramo: verde col solo referto, rossa con un file in più", () => {
 });
 
 // ── doppioni, grezzo, conti ──────────────────────────────────────────────────────────────────────
-test("doppioni: stessa chiave del registro esce, due sessioni sullo stesso punto diventano un gruppo", () => {
-  const registro = [{ chiave: "pagamenti-stripe|la cassa perde un centesimo negli arrotondamenti", stato: "aperto", titolo: "La cassa perde un centesimo negli arrotondamenti", file: "lib/cassa/riquadro.ts:10-12" }];
+const REG_CENT = [{ chiave: "pagamenti-stripe|la cassa perde un centesimo negli arrotondamenti", stato: "aperto", titolo: "La cassa perde un centesimo negli arrotondamenti", file: "lib/cassa/riquadro.ts:10-12" }];
+test("doppioni: la stessa chiave esce da sola; un confronto approssimato non toglie niente, va fra i simili", () => {
   const difetti = [
     { sessione: "S02", d: grave({ id: "S02-001", titolo: "La cassa perde un centesimo negli arrotondamenti" }) },
     { sessione: "S02", d: grave({ id: "S02-002", titolo: "Il reso parziale viene contato due volte nel riquadro", file: "lib/cassa/riquadro.ts:80-90" }) },
     { sessione: "S06", d: grave({ id: "S06-001", titolo: "Reso parziale contato due volte nel riquadro della cassa", file: "lib/cassa/riquadro.ts:85", prova_tipo: "lettura-codice" }) },
+    { sessione: "S06", d: grave({ id: "S06-002", titolo: "Il riquadro conta due volte il reso" }) },
   ];
-  const e = trovaDoppioni(difetti, registro);
+  const e = trovaDoppioni(difetti, REG_CENT);
   assert.deepEqual(e.nel_registro.map((x) => x.id), ["S02-001"]);
-  assert.equal(e.gruppi.length, 1);
-  assert.equal(e.gruppi[0].tenuto, "S02-002", "si tiene la prova più forte");
-  assert.deepEqual(e.gruppi[0].uniti, ["S06-001"]);
+  assert.deepEqual(e.gruppi, [], "nessuna chiave uguale fra sessioni: nessun gruppo");
+  assert.deepEqual(e.simili, [{ a: "S02-002", b: "S06-001" }]);
+  const due = trovaDoppioni([{ sessione: "S02", d: grave() }, { sessione: "S03", d: grave({ id: "S03-001" }) }], []);
+  assert.deepEqual(due.gruppi.map((g) => [g.tenuto, g.uniti]), [["S02-001", ["S03-001"]]]);
 });
+test("doppioni: un bloccante non viene mai sostituito da un grave con la stessa chiave", () => {
+  const e = trovaDoppioni([
+    { sessione: "S02", d: grave({ id: "S02-001", severita: "bloccante", prova_tipo: "umano", perche_umano: "serve un ordine vero per vederlo" }) },
+    { sessione: "S03", d: grave({ id: "S03-001" }) },
+  ], []);
+  assert.equal(e.gruppi[0].tenuto, "S02-001");
+});
+test("doppioni: le riservate non si confrontano mai, nemmeno con la stessa chiave", () => {
+  const ris = (id) => ({ id, riservato: true, titolo: "Falla di sicurezza da chiudere (pagamenti): i dettagli restano fuori dal deposito pubblico finché non è chiusa", file: "(nel referto privato)", severita: "grave", dimensione: "pagamenti-stripe" });
+  const reg = [{ chiave: "pagamenti-stripe|falla di sicurezza da chiudere (pagamenti): i dettagli restano fuori dal deposito pubblico finché non è chiusa", stato: "riparato", titolo: "x", file: "(nel referto privato)" }];
+  const e = trovaDoppioni([{ sessione: "S02", d: ris("S02-001") }, { sessione: "S03", d: ris("S03-001") }], reg);
+  assert.deepEqual([e.nel_registro, e.regressioni_candidate, e.gruppi, e.simili, e.simili_registro], [[], [], [], [], []]);
+});
+test("doppioni: una voce chiusa con la stessa chiave è una regressione, una aperta esce come già nel registro", () => {
+  const e = trovaDoppioni([{ sessione: "S02", d: grave({ titolo: "La cassa perde un centesimo negli arrotondamenti" }) }], [{ ...REG_CENT[0], stato: "riparato" }]);
+  assert.deepEqual(e.regressioni_candidate.map((x) => x.id), ["S02-001"]);
+  assert.deepEqual(e.nel_registro, []);
+});
+test("prossimoR: la falla nuova prende il numero dopo il più alto del registro", () => {
+  assert.equal(prossimoR([{ titolo: "Falla di sicurezza R300 da chiudere (accessi): …" }, { titolo: "Falla di sicurezza R7 da chiudere (dati): …" }]), 301);
+});
+test("grezzo: una riservata entra con i campi di un elenco chiuso, mai copiati dal referto", () => {
+  const f = riservataNelGrezzo({ dimensione: "pagamenti-stripe", titolo: "Falla di sicurezza da chiudere (pagamenti): i dettagli restano fuori dal deposito pubblico finché non è chiusa", severita: "grave", file: "app/api/x/route.ts:40", perche_umano: "curl -X POST /api/x", esito_prova: "200", prova_tipo: "comando", prova_eseguita: true, verificato: true, verificato_da: "qa: curl" }, 301);
+  assert.match(f.titolo, /^Falla di sicurezza R301 da chiudere/);
+  assert.equal(f.file, "(nel referto privato)");
+  assert.equal(f.verificato_da, "(nel referto privato)");
+  assert.equal(f.esito_prova, "nel referto privato");
+  assert.equal(f.perche_umano, undefined);
+  assert.ok(!JSON.stringify(f).includes("curl") && !JSON.stringify(f).includes("route.ts"));
+});
+
+function refertoBanco(b, piano, nome, difetti, extra = {}) {
+  const x = piano.sessioni[nome];
+  return referto({ sessione: nome, base_sito: b.base, lotti: x.lotti.map((l) => ({ id: l.id, esito: "fatto", perche: null })), difetti, ...extra });
+}
 test("conti: verde quando ogni difetto è nel grezzo o fra i doppioni, rosso se uno sparisce", () => {
   const b = banco();
   try {
-    prontoConSchede(b);
+    const piano = prontoConSchede(b);
     mkdirSync(join(b.cartella, "referti"), { recursive: true });
-    const r2 = referto({ base_sito: b.base, difetti: [grave(), grave({ id: "S02-002", titolo: "La cassa perde un centesimo negli arrotondamenti" })] });
-    writeFileSync(join(b.cartella, "referti/S02.json"), JSON.stringify(r2));
+    writeFileSync(join(b.cartella, "referti/S02.json"), JSON.stringify(refertoBanco(b, piano, "S02", [grave(), grave({ id: "S02-002", titolo: "La cassa perde un centesimo negli arrotondamenti" })])));
     assert.equal(b.lancia("doppioni").codice, 0);
-    assert.equal(b.lancia("grezzo", "--data", "2026-11-20").codice, 0);
+    const gz = b.lancia("grezzo", "--data", "2026-11-20");
+    assert.equal(gz.codice, 0, gz.out);
     const c1 = b.lancia("conti");
-    assert.ok(!/sparito/.test(c1.out), c1.out);
+    assert.ok(!/sparito|ritoccato/.test(c1.out), c1.out);
     const gp = join(b.cartella, "grezzo.json");
     const g = JSON.parse(readFileSync(gp, "utf8"));
     g.dimensioni.forEach((d) => { d.findings = d.findings.filter((f) => f.id_sessione !== "S02-001"); });
@@ -259,6 +357,57 @@ test("conti: verde quando ogni difetto è nel grezzo o fra i doppioni, rosso se 
     const c2 = b.lancia("conti");
     assert.equal(c2.codice, 1);
     assert.match(c2.out, /S02-001: trovato, ma non è né nel grezzo/);
+  } finally { b.pulisci(); }
+});
+test("conti: un doppioni.json ritoccato a mano per far sparire un difetto è rosso", () => {
+  const b = banco();
+  try {
+    const piano = prontoConSchede(b);
+    mkdirSync(join(b.cartella, "referti"), { recursive: true });
+    writeFileSync(join(b.cartella, "referti/S02.json"), JSON.stringify(refertoBanco(b, piano, "S02", [grave(), grave({ id: "S02-002", titolo: "Un altro difetto del riquadro, diverso" })])));
+    assert.equal(b.lancia("doppioni").codice, 0);
+    const dp = join(b.cartella, "doppioni.json");
+    const d = JSON.parse(readFileSync(dp, "utf8"));
+    d.gruppi.push({ tenuto: "S02-999", uniti: ["S02-001"], visto_da: ["S02"] });
+    writeFileSync(dp, JSON.stringify(d));
+    const gz = b.lancia("grezzo", "--data", "2026-11-20");
+    assert.equal(gz.codice, 1, "il grezzo non parte da un doppioni.json ritoccato");
+    const c = b.lancia("conti");
+    assert.equal(c.codice, 1);
+    assert.match(c.out, /ritoccato/);
+  } finally { b.pulisci(); }
+});
+test("grezzo: un referto finito ma rosso non entra nel grezzo", () => {
+  const b = banco();
+  try {
+    const piano = prontoConSchede(b);
+    mkdirSync(join(b.cartella, "referti"), { recursive: true });
+    writeFileSync(join(b.cartella, "referti/S02.json"), JSON.stringify(refertoBanco(b, piano, "S02", [grave({ verificato: false })])));
+    assert.equal(b.lancia("doppioni").codice, 0);
+    const gz = b.lancia("grezzo", "--data", "2026-11-20");
+    assert.equal(gz.codice, 1);
+    assert.match(gz.out, /S02: referto rosso/);
+    assert.equal(existsSync(join(b.cartella, "grezzo.json")), false);
+  } finally { b.pulisci(); }
+});
+test("grezzo: --togli accetta solo un simile segnato da doppioni", () => {
+  const b = banco();
+  try {
+    const piano = prontoConSchede(b);
+    mkdirSync(join(b.cartella, "referti"), { recursive: true });
+    writeFileSync(join(b.cartella, "referti/S02.json"), JSON.stringify(refertoBanco(b, piano, "S02", [grave()])));
+    assert.equal(b.lancia("doppioni").codice, 0);
+    const gz = b.lancia("grezzo", "--data", "2026-11-20", "--togli", "S02-001");
+    assert.equal(gz.codice, 1);
+    assert.match(gz.out, /non è fra i simili/);
+  } finally { b.pulisci(); }
+});
+test("sorveglia: un'onda che non c'è non è un verde", () => {
+  const b = banco();
+  try {
+    prontoConSchede(b);
+    writeFileSync(join(b.cartella, "sessioni.json"), JSON.stringify({ regista: "x", sessioni: {} }));
+    for (const o of ["9", "0", "abc"]) assert.equal(b.lancia("sorveglia", "--onda", o).codice, 2, `onda ${o}`);
   } finally { b.pulisci(); }
 });
 
@@ -281,4 +430,42 @@ test("preventivo: oltre 2 milioni di token serve la firma", () => {
   assert.equal(p.lotti, 3);
   assert.equal(p.serve_firma, p.token > 2000000);
   assert.ok(p.usd > 0);
+});
+
+test("guardia-ramo: un difetto già spinto che sparisce dal referto in cima è rosso", () => {
+  const b = banco();
+  try {
+    prontoConSchede(b);
+    sh(b.ad, "add", "-A"); sh(b.ad, "commit", "-q", "-m", "regista");
+    const partenza = sh(b.ad, "rev-parse", "HEAD");
+    writeFileSync(join(b.cartella, "sessioni.json"), JSON.stringify({ regista: "x", sessioni: { S02: { ramo: "claude/prova-s02", onda: 1, partenza } } }));
+    sh(b.ad, "checkout", "-q", "-b", "claude/prova-s02", partenza);
+    mkdirSync(join(b.cartella, "referti"), { recursive: true });
+    const rp = join(b.cartella, "referti/S02.json");
+    writeFileSync(rp, JSON.stringify({ difetti: [{ id: "S02-001" }, { id: "S02-002" }, { id: "S02-003" }], scartati: [] }));
+    sh(b.ad, "add", rp); sh(b.ad, "commit", "-q", "-m", "parziale");
+    writeFileSync(rp, JSON.stringify({ difetti: [{ id: "S02-001" }, { id: "S02-002" }], scartati: [] }));
+    sh(b.ad, "add", rp); sh(b.ad, "commit", "-q", "-m", "finito");
+    sh(b.ad, "update-ref", "refs/remotes/origin/claude/prova-s02", sh(b.ad, "rev-parse", "HEAD"));
+    const { codice, out } = b.lancia("guardia-ramo", "claude/prova-s02", "S02");
+    assert.equal(codice, 1);
+    assert.match(out, /S02-003 era nel referto al commit/);
+  } finally { b.pulisci(); }
+});
+test("applica: riapre le regressioni trovate dai doppioni, e con un rosso non scrive il registro", () => {
+  const problemi = [{ dimensione: "qa-flussi", titolo: "Il riepilogo sbaglia lo stato", severita: "grave", stato: "riparato" }];
+  const e = applicaAlRegistro(problemi, [], { data: "2026-11-20", base: "b", ora: "2026-11-20 10:00", regressioniDoppioni: [{ id: "S06-004", sessione: "S06", chiave: "qa-flussi|il riepilogo sbaglia lo stato" }] });
+  assert.equal(e.problemi[0].stato, "aperto");
+  assert.match(e.problemi[0].riaperto_da, /S06-004/);
+  const b = banco();
+  try {
+    const piano = prontoConSchede(b);
+    mkdirSync(join(b.cartella, "referti"), { recursive: true });
+    writeFileSync(join(b.cartella, "referti/S02.json"), JSON.stringify(refertoBanco(b, piano, "S02", [grave({ verificato: false })])));
+    assert.equal(b.lancia("doppioni").codice, 0);
+    const prima = readFileSync(b.registro, "utf8");
+    const a = b.lancia("applica", "--data", "2026-11-20", "--scrivi");
+    assert.equal(a.codice, 1);
+    assert.equal(readFileSync(b.registro, "utf8"), prima, "con un referto rosso il registro non si tocca");
+  } finally { b.pulisci(); }
 });
