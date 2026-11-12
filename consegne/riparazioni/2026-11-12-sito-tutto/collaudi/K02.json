@@ -5,8 +5,8 @@
   "R07",
   "R08"
  ],
- "aggiornato": "2026-11-12 18:10",
- "finita": false,
+ "aggiornato": "2026-11-12 18:40",
+ "finita": true,
  "voci": [
   {
    "id": "R04-001",
@@ -46,7 +46,12 @@
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base baaf53be^ --file app/faq/page.tsx --prove tests/unit/riparazione-r04-faq-fuoco.test.ts --json"
    },
    "verdetto": "regge",
-   "giudizio": "nessuno"
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "focus-visible:outline-white sul Link «Contattaci» (faq/page.tsx:266) batte la regola globale; contorno bianco sul fondo scuro; nessun altro elemento col Tab nel riquadro. Prova a parole (minore, ammesso)."
   },
   {
    "id": "R04-005",
@@ -71,7 +76,12 @@
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 4c5d5bf3^ --file app/api/ai/catalog-create-bulk/route.ts --prove tests/unit/riparazione-r04-bulk-ai-spenta.test.ts --json"
    },
    "verdetto": "regge",
-   "giudizio": "nessuno"
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "503 prima del freno (catalog-create-bulk/route.ts:94), AiConfigError rende 503 l'intera richiesta senza scrivere (:182-191, :207-209). Le 5 prove esistenti modificate sono adeguate: aggiungono solo il mock AI_NEGOZI_ACCESA true, nessuna asserzione tolta. 10 file, 65 test verdi."
   },
   {
    "id": "R04-007",
@@ -140,9 +150,13 @@
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 988f306f^ --file app/api/cron/external-price-alerts/route.ts,app/api/products/[id]/external-refresh/route.ts --prove tests/unit/riparazione-r04-prezzo-esterno-ai-spenta.test.ts,tests/unit/riparazione-r04-cron-prezzi-esterni-errore.test.ts --json"
    },
-   "verdetto": "regge",
-   "giudizio": "nessuno",
-   "nota": "Prima corsa uscita 1: lib/products/externalSync.ts non ha una prova che morde (tolto da --file)."
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "nota": "La parte della voce regge (GET con AI spenta non scrive, external-refresh/route.ts:105-107; data di aggiornamento ferma se fallisce, :66-76). Ma il giro orario si inceppa: external-price-alerts/route.ts:67-72 prende i 10 più vecchi, :117 non sposta più la data dei falliti, :79 li salta senza liberare il posto. Con 10 prodotti che falliscono sempre, i sani non si controllano più e gli avvisi prezzo si fermano. Riprodotto dal revisore: 24 giri, 0 controlli sui sani dopo il fix contro 5 alla base. Il nuovo freno di 6 ore (externalSync.ts:288-293) è un contatore in memoria per istanza senza Upstash. Dormiente finché l'AI è spenta (:46). Rimedio: togliere falliti e frenati prima del taglio a 10, oppure un campo external_retry_after.",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
   },
   {
    "id": "R04-012",
@@ -152,8 +166,12 @@
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 61c6e995^ --file app/api/vision/extract-product/route.ts --prove tests/unit/riparazione-r04-foto-uscita-modello.test.ts --json"
    },
    "verdetto": "regge",
-   "giudizio": "nessuno",
-   "nota": "Rimessa a mano: app/api/vision/extract-product/route.ts:415 rimesso policy_reason?.trim() senza controllo di tipo -> 1 rosso su 2 (TypeError, il 500 della voce); a parte, name senza controllo -> 1 rosso su 2. L'uscita 3 del programma veniva proprio da quel TypeError, che e' il difetto"
+   "giudizio": "pieno",
+   "nota": "Rimessa a mano: app/api/vision/extract-product/route.ts:415 rimesso policy_reason?.trim() senza controllo di tipo -> 1 rosso su 2 (TypeError, il 500 della voce); a parte, name senza controllo -> 1 rosso su 2. L'uscita 3 del programma veniva proprio da quel TypeError, che e' il difetto policy_reason solo se testo (extract-product/route.ts:415) -> 400 invece di 500; nome, descrizione, categoria e prezzo solo col tipo giusto (:482-492); ProductForm regge null e stringa vuota. Rimessa a mano: policy_reason?.trim() senza controllo -> 1 rosso su 2, il 500 della voce.",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
   },
   {
    "id": "R04-013",
@@ -796,7 +814,12 @@
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base 2f9e4db5^ --file components/home/HeroStoreCard.tsx --prove tests/unit/riparazione-r08-sul-telefono-il-riquadro-nascosto-non-chiede-dati.test.tsx --json"
    },
    "verdetto": "regge",
-   "giudizio": "nessuno"
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Lo schermo entra nella chiave della lettura (HeroStoreCard.tsx:88), la lettura ricontrolla lo schermo (:111), staleTime 0 sul salto (:92). Prove del revisore: idratazione vera su 390 px con 0 letture, rotazione 390->844 legge una volta, desktop 1280->600->1280 una lettura sola; 9 prove esistenti, 114 test verdi. Resta acceso l'orologio di useOraDiPiacenza (non è una lettura)."
   },
   {
    "id": "R08-018",
@@ -852,7 +875,7 @@
    "accettato": true
   },
   "R08": {
-   "accettato": true
+   "accettato": false
   }
  }
 }
