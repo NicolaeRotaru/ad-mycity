@@ -45,6 +45,14 @@ Non ho provato ad aprire le sessioni figlie. La regista è in modalità «auto»
 - Il «via» di Nicola è arrivato alle 15:34: l'onda 1 parte subito dopo il push di questo commit (SHA_REGISTA).
 - Gli id delle figlie stanno in `sessioni.json`, il diario in `diario-della-sorveglianza.txt`.
 
+**Onda 1 chiusa (12/11 alle 19:45) — FERMATA 2 mandata all'AD, si aspetta «via la seconda».**
+- Integrazione sito `claude/sweet-galileo-0skkay` @ `b144746`: 11 rami uniti (R05 mai partito), verify ✅ 9646, SQL ✅.
+- Tolte con revert: R03-001, R03-008, R11-015, R11-016, R12-012, R07-019, R06-014, R06-017. R10-019 lasciata (latente, abbonamento spento).
+- `applica` a vuoto verde: 300 voci → 115 si chiudono, 7 già riparate, 178 aperte, 62 nati. `controlli/C01.json` copiato (forma delle riservate normalizzata).
+- Costo misurato onda 1: 583 $ di listino (riparatori 399, collaudatori 137, C01 15, regia 32).
+- Le falle riservate stanno SOLO nel messaggio all'AD della fermata 2, non qui.
+- Al «via la seconda»: `dividi --base b144746…` con `--file-chiavi` (le 25 di R05 + serve_file_altrui + tolte), poi schede, copertura-prima, F1.
+
 **Le onde dopo.** `dividi --base <SHA di integrazione>`, con `--ultima` sull'onda 3. Il default è già 25 voci.
 
 **La sorveglianza.** `bash cervello/riparazione/sorveglia.sh <C> <onda>` ogni 30 minuti, più `get_session`.

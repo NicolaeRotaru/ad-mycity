@@ -1,6 +1,6 @@
 {
   "campagna": "2026-11-12-sito-tutto",
-  "quando": "2026-11-12 18:43",
+  "quando": "2026-11-12 19:39",
   "decisioni": [
     {
       "id": "R01-001",
@@ -1749,14 +1749,15 @@
       "chiave": "dati-analytics|in analisi il voto medio guarda solo le recensioni ai prodotti: un negozio con tre recensioni legge «nessuna recensione», e le etichette sono in inglese",
       "gravita": "minore",
       "esito": "riparato",
-      "verdetto": "regge",
+      "verdetto": "rossa_al_controllo",
       "collaudatore": "K03",
-      "decisione": "si_chiude",
-      "perche": "",
+      "decisione": "resta_aperta",
+      "perche": "rossa al controllo sul ramo unito (C01: Tolta dopo l'unione (b1447469): la sua migrazione 302 riscriveva la stessa funzione di R02-014/260.)",
       "come": "collaudo pieno",
       "verifica_comando": "tests/sql/harness/apply.sh mycity_r06 && psql -q -X -d mycity_r06 -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r06-analisi-recensioni.test.sql ; npx vitest run tests/unit/riparazione-r06-analisi-in-italiano.test.ts",
       "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 289d683889d9ec4452bcc15757ca1537f6cd6f26^ --file app/seller/analytics/page.tsx --prove tests/unit/riparazione-r06-analisi-in-italiano.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 289d683889d9^ --file app/seller/analytics/page.tsx --prove tests/unit/riparazione-r06-analisi-in-italiano.test.ts --json → uscita 0 (K03)",
-      "nota_fix": "Migrazione 302 (non applicata): andamento_del_negozio conta voto medio e recensioni su store_reviews del negozio (store_id = auth.uid(), come la pagina Recensioni) INSIEME ai voti ai prodotti che contava gia' la 141: la prima versione contava solo store_reviews e faceva diventare rossa la prova SQL esistente 22-i-conti-del-venditore (che pretende i voti ai prodotti); corretto nel commit 2cb8eea4649f68a96397b0b6501f5f88bce91c73, come prevede la voce («si sommano e lo si dice nell'etichetta»). Le visite restano come nella 141. Pagina: «Voto medio» con sotto «N recensioni del negozio e dei prodotti», «Consigli», «30 giorni» (5 punti), «la merce pronta». «Conversion rate» non toccato: la voce dice che si ripara nella sua voce. Tutte le prove SQL verdi (tests/sql/harness/run.sh)."
+      "nota_fix": "Migrazione 302 (non applicata): andamento_del_negozio conta voto medio e recensioni su store_reviews del negozio (store_id = auth.uid(), come la pagina Recensioni) INSIEME ai voti ai prodotti che contava gia' la 141: la prima versione contava solo store_reviews e faceva diventare rossa la prova SQL esistente 22-i-conti-del-venditore (che pretende i voti ai prodotti); corretto nel commit 2cb8eea4649f68a96397b0b6501f5f88bce91c73, come prevede la voce («si sommano e lo si dice nell'etichetta»). Le visite restano come nella 141. Pagina: «Voto medio» con sotto «N recensioni del negozio e dei prodotti», «Consigli», «30 giorni» (5 punti), «la merce pronta». «Conversion rate» non toccato: la voce dice che si ripara nella sua voce. Tutte le prove SQL verdi (tests/sql/harness/run.sh).",
+      "controllo": "C01: Tolta dopo l'unione (b1447469): la sua migrazione 302 riscriveva la stessa funzione di R02-014/260."
     },
     {
       "id": "R06-018",
@@ -2084,14 +2085,15 @@
       "chiave": "frontend-ux|il salvataggio fa due passi: se una variante è cambiata, nome e prezzo del prodotto restano salvati e le varianti no",
       "gravita": "minore",
       "esito": "riparato",
-      "verdetto": "regge",
+      "verdetto": "rossa_al_controllo",
       "collaudatore": "K02",
-      "decisione": "si_chiude",
-      "perche": "",
+      "decisione": "resta_aperta",
+      "perche": "rossa al controllo sul ramo unito (C01: Tolta dopo l'unione (308669ba): si scontra col salvataggio delle varianti di R08-008. Il collaudo diceva regge sul ramo separato.)",
       "come": "collaudo pieno",
       "verifica_comando": "npx vitest run tests/unit/riparazione-r07-varianti-admin.test.ts",
       "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base a20eb622^ --file app/api/admin/products/route.ts --prove tests/unit/riparazione-r07-varianti-admin.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base a20eb622^ --file app/api/admin/products/route.ts --prove tests/unit/riparazione-r07-varianti-admin.test.ts --json → uscita 0 (K02)",
-      "nota_fix": "La PATCH di app/api/admin/products chiama controllaScorteVarianti (già in lib/products/persistVariantsServer.ts) prima di products.update: una variante venduta mentre la scheda era aperta dà 409 senza scrivere niente. La pagina del negozio (app/seller/products/[id]/edit/page.tsx:146) faceva già il controllo prima di salvare."
+      "nota_fix": "La PATCH di app/api/admin/products chiama controllaScorteVarianti (già in lib/products/persistVariantsServer.ts) prima di products.update: una variante venduta mentre la scheda era aperta dà 409 senza scrivere niente. La pagina del negozio (app/seller/products/[id]/edit/page.tsx:146) faceva già il controllo prima di salvare.",
+      "controllo": "C01: Tolta dopo l'unione (308669ba): si scontra col salvataggio delle varianti di R08-008. Il collaudo diceva regge sul ramo separato."
     },
     {
       "id": "R07-020",
@@ -2322,14 +2324,15 @@
       "chiave": "flussi-conversione|«ripeti ordine» rimette nel carrello anche i prodotti finiti o tolti dalla vendita, col prezzo di allora, e dice «aggiunti al carrello»",
       "gravita": "minore",
       "esito": "riparato",
-      "verdetto": "regge",
+      "verdetto": "rossa_al_controllo",
       "collaudatore": "K02",
-      "decisione": "si_chiude",
-      "perche": "",
+      "decisione": "resta_aperta",
+      "perche": "rossa al controllo sul ramo unito (C01: lib/riordino.ts:60 legge solo products.stock, che è la somma delle varianti: una taglia esaurita dell'ordine vecchio rientra nel carrello con «aggiunti al carrello» e si scopre solo in cassa. product_variants non è letta.)",
       "come": "campione",
       "verifica_comando": "npx vitest run tests/unit/riparazione-r08-ripeti-ordine-lascia-fuori-i-finiti.test.ts",
       "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base c65715b540e2fdf31ca24792f705590429754042^ --file lib/riordino.ts --prove tests/unit/riparazione-r08-ripeti-ordine-lascia-fuori-i-finiti.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base c65715b5^ --file lib/riordino.ts --prove tests/unit/riparazione-r08-ripeti-ordine-lascia-fuori-i-finiti.test.ts --json → uscita 0 (K02)",
-      "nota_fix": "La lettura chiede anche status e stock e guarda l'errore. Se la lettura riesce, un prodotto non restituito (nascosto dalle regole: esaurito, bozza, venduto), con status diverso da available o con stock ≤ 0 non entra nel carrello e si conta in «N articoli non sono più disponibili». Se la lettura fallisce resta il ripiego coi prezzi storici. In più il carrello si svuota per «Sostituisci» solo se resta qualcosa da aggiungere."
+      "nota_fix": "La lettura chiede anche status e stock e guarda l'errore. Se la lettura riesce, un prodotto non restituito (nascosto dalle regole: esaurito, bozza, venduto), con status diverso da available o con stock ≤ 0 non entra nel carrello e si conta in «N articoli non sono più disponibili». Se la lettura fallisce resta il ripiego coi prezzi storici. In più il carrello si svuota per «Sostituisci» solo se resta qualcosa da aggiungere.",
+      "controllo": "C01: lib/riordino.ts:60 legge solo products.stock, che è la somma delle varianti: una taglia esaurita dell'ordine vecchio rientra nel carrello con «aggiunti al carrello» e si scopre solo in cassa. product_variants non è letta."
     },
     {
       "id": "R08-013",
@@ -2652,14 +2655,15 @@
       "chiave": "deploy-sre|il giorno che si riaccendono i lavori, il cliente di un ordine veloce vecchio riceve una scadenza già passata",
       "gravita": "minore",
       "esito": "riparato",
-      "verdetto": "regge",
+      "verdetto": "rossa_al_controllo",
       "collaudatore": "K01",
-      "decisione": "si_chiude",
-      "perche": "",
+      "decisione": "resta_aperta",
+      "perche": "rossa al controllo sul ramo unito (C01: lib/ordini/veloce-non-confermata.ts: la scadenza è controllata solo in nonSiSposta (278-282). La ricerca (695-703) non ha limite su created_at e spostaIlCarrello (376, chiamata alla 728) sposta lo stesso un ordine veloce già scaduto: il cliente riceve la fascia nuova e poi l'annullo.)",
       "come": "collaudo pieno",
       "verifica_comando": "npx vitest run tests/unit/riparazione-r09-freno-scadenza-passata.test.ts",
       "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 5aec7511cb27cd7cbf53fbe6dff875af3882ef84^ --file lib/ordini/veloce-non-confermata.ts --prove tests/unit/riparazione-r09-freno-scadenza-passata.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R0X --base 5aec7511cb27cd7cbf53fbe6dff875af3882ef84^ --file lib/ordini/veloce-non-confermata.ts --prove tests/unit/riparazione-r09-freno-scadenza-passata.test.ts --json → uscita 0 (K01)",
-      "nota_fix": "In nonSiSposta, se la scadenza dell'ordine è già passata il freno non scrive né al cliente né agli amministratori e restituisce 'scaduto' (contato in giaScaduti): l'ordine lo annulla expire-stale-orders (ogni 30 minuti), che avvisa lui."
+      "nota_fix": "In nonSiSposta, se la scadenza dell'ordine è già passata il freno non scrive né al cliente né agli amministratori e restituisce 'scaduto' (contato in giaScaduti): l'ordine lo annulla expire-stale-orders (ogni 30 minuti), che avvisa lui.",
+      "controllo": "C01: lib/ordini/veloce-non-confermata.ts: la scadenza è controllata solo in nonSiSposta (278-282). La ricerca (695-703) non ha limite su created_at e spostaIlCarrello (376, chiamata alla 728) sposta lo stesso un ordine veloce già scaduto: il cliente riceve la fascia nuova e poi l'annullo."
     },
     {
       "id": "R09-014",
@@ -3352,14 +3356,15 @@
       "chiave": "pagamenti-stripe|un reclamo chiuso mentre un reso sullo stesso ordine sta per tornare indietro segna l'ordine come perso, e il negozio non riceve più il resto che gli spetta",
       "gravita": "minore",
       "esito": "riparato",
-      "verdetto": "regge",
+      "verdetto": "rossa_al_controllo",
       "collaudatore": "K04",
-      "decisione": "si_chiude",
-      "perche": "",
+      "decisione": "resta_aperta",
+      "perche": "rossa al controllo sul ramo unito (C01: app/api/admin/disputes/[id]/resolve/route.ts:212-217: il percorso di ripresa (rimborso e avviso già fatti) segna ancora l'ordine LOST con un reso in corso; il controllo dei resi aperti c'è solo nel percorso normale (righe 393-408).)",
       "come": "collaudo pieno",
       "verifica_comando": "npx vitest run tests/unit/riparazione-r11-reclamo-con-reso-aperto.test.ts",
       "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 7a057b14656a8693052775b2f579fdebca6ff55a^ --file app/api/admin/disputes/[id]/resolve/route.ts --prove tests/unit/riparazione-r11-reclamo-con-reso-aperto.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R11-1 --base 7a057b14656a8693052775b2f579fdebca6ff55a^ --file app/api/admin/disputes/[id]/resolve/route.ts --prove tests/unit/riparazione-r11-reclamo-con-reso-aperto.test.ts --json → uscita 0 (K04)",
-      "nota_fix": "Se refundOrder dice «pieno» ma sullo stesso ordine c è un reso ancora aperto (REQUESTED/APPROVED/SHIPPED_BACK/RECEIVED), o la lettura dei resi cade, sull ordine si scrive RESOLVED invece di LOST: il giro aspetta comunque il reso e un ordine rimborsato per intero non lo paga. Prova esistente il-negozio-viene-pagato-anche-dopo-un-reclamo (importa la rotta) aggiornata solo nel finto database: risponde anche alla tabella returns (vuota). Collaudo K04: conta come reso in corso anche quello già REFUNDED senza refund_id (avanza lo segna REFUNDED prima di chiamare il rimborso, e usa lo stesso segno per la ripresa); il finto database della prova ora rispetta il filtro sugli stati."
+      "nota_fix": "Se refundOrder dice «pieno» ma sullo stesso ordine c è un reso ancora aperto (REQUESTED/APPROVED/SHIPPED_BACK/RECEIVED), o la lettura dei resi cade, sull ordine si scrive RESOLVED invece di LOST: il giro aspetta comunque il reso e un ordine rimborsato per intero non lo paga. Prova esistente il-negozio-viene-pagato-anche-dopo-un-reclamo (importa la rotta) aggiornata solo nel finto database: risponde anche alla tabella returns (vuota). Collaudo K04: conta come reso in corso anche quello già REFUNDED senza refund_id (avanza lo segna REFUNDED prima di chiamare il rimborso, e usa lo stesso segno per la ripresa); il finto database della prova ora rispetta il filtro sugli stati.",
+      "controllo": "C01: app/api/admin/disputes/[id]/resolve/route.ts:212-217: il percorso di ripresa (rimborso e avviso già fatti) segna ancora l'ordine LOST con un reso in corso; il controllo dei resi aperti c'è solo nel percorso normale (righe 393-408)."
     },
     {
       "id": "R11-018",
