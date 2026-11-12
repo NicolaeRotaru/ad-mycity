@@ -1,0 +1,26 @@
+{
+ "collaudatore": "K03",
+ "riparatori": [
+  "R10"
+ ],
+ "aggiornato": "2026-11-12 16:55",
+ "finita": false,
+ "voci": [
+  {
+   "id": "R10-001",
+   "chiave": "mobile-pwa|chrome non trova il file che rende mycity installabile: su android l'app non si può mettere in home",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 36814a6ebfcbceb9aee9c4f5520414095d029695^ --file app/layout.tsx --prove tests/unit/riparazione-r10-manifest-nel-head.test.tsx --json"
+   },
+   "nota": "next dev con l'interruttore acceso solo in locale: manifest e apple-touch-icon una volta sola nel <head> per Chrome Android e Googlebot, risorse a 200, CSP e middleware non bloccano; spento, il manifest sparisce. In produzione resta non installabile finché l'interruttore è spento (decisione, non difetto)."
+  }
+ ],
+ "campione": {}
+}
