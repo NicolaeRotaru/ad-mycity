@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-11-07 09:53
+aggiornato: 2026-11-12 14:30
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🔧 **2026-11-12 14:30 — Le prove della macchina non dipendono più dal giorno.**
+>
+> Dall'8/11 la suite del cervello era rossa su ogni richiesta. Anche su quelle che non toccavano niente, come la #943. Il motivo era una copia del deposito usata dalle prove: schiacciava tutta la storia in un commit solo, datato all'ora in cui la prova girava. Il guardiano della Cabina leggeva quel commit come un lavoro consegnato oggi, e STATO.md risultava fermo da 5 giorni. Sulla storia vera l'ultimo lavoro era del 7/11 alle 12:24: zero giorni. Adesso la copia porta i commit veri, con le loro date, e il risultato è lo stesso in qualunque giorno. Strada facendo ho sistemato una seconda svista: da una sessione cloud, la macchina giudicava «storia tagliata» anche i depositi che non lo erano. Aspetta la tua firma sulla richiesta.
 
 > 🔧 **2026-11-07 09:53 — La riparazione in sessioni è pronta: con una frase i difetti si riparano come la radiografia li ha trovati.**
 >
