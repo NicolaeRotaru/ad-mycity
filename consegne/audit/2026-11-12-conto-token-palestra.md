@@ -83,3 +83,12 @@ Ci sono anche costi che nessuna regola copriva:
 ### Le regole nuove
 
 In `cervello/MANUALE-AD.md`, dopo la ⑰: ⑱ il preventivo, ⑲ la verifica proporzionata, ⑳ il valore prima del volume, ㉑ ultracode non sospende le regole, ㉒ il quaderno di bordo, ㉓ le attese mute, ㉔ i lavori lunghi in sessioni separate.
+
+### La seconda lettura (12/11, su richiesta di Nicola)
+
+- **Quanto era evitabile:** circa metà, non di più. I verificatori dei minori sono stati circa 200, da 60-90 mila token l'uno. Insieme al ricontrollo e al confronto troppo largo fanno 18-24 milioni su 40.
+- **Lettura del codice contro giro vero:** la radiografia in 12 sessioni del 6/11 ha letto il codice e ha portato 175 difetti, ma nessun bloccante. Il giro di prova della palestra, con un agente solo e 1,3 milioni di token, ha trovato il bloccante degli indirizzi. Per il lancio rende di più provare i flussi che incassano. Ora sta nella regola ⑳.
+- **Un errore di qualità mio:** nel referto citavo le voci col numero di posizione nel registro, ma il digest le riordina e quei numeri puntavano a voci sbagliate. Corretto: adesso le voci si citano per titolo.
+- **Il registro è troppo grande per essere usato:** 828 aperte, di cui 726 minori. Per il 15/11 serve la lista corta dei 6 bloccanti e dei gravi che toccano soldi, ordini e consegne, non l'elenco intero.
+- **Il costo delle 12 sessioni della radiografia del 6/11 non l'ho misurato:** ognuna ha speso dai 12 ai 50 $. Va contato prima di rifare un lavoro simile.
+

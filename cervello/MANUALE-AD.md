@@ -83,7 +83,9 @@ fonte: le parti di CLAUDE.md che servono solo all'AD, spostate parola per parola
 > 2 milioni di token si chiede prima · ⑲ **la verifica è proporzionata**: un secondo agente solo per bloccanti, gravi e
 > sicurezza, e parte dalla prova (⑯); un minore entra come visto una volta, con `verificato: false`; mai il controllo
 > di un controllo · ⑳ **il valore prima del volume**: con più di 100 minori aperti nel registro non si cercano minori
-> nuovi · ㉑ **ultracode o una firma larga** («fallo per tutti i giorni che ti servono») non sospendono queste regole:
+> nuovi. Per trovare quello che blocca il lancio si fa prima un giro intero dei flussi che incassano su una copia del sito:
+> il bloccante degli indirizzi l'ha trovato il giro di prova della palestra (1,3 milioni di token), non la lettura del
+> codice in 12 sessioni · ㉑ **ultracode o una firma larga** («fallo per tutti i giorni che ti servono») non sospendono queste regole:
 > il tetto di spesa lo dà Nicola · ㉒ **il quaderno di bordo**: il file del piano tiene solo lo stato di adesso, al
 > massimo 80 righe. Dentro ci sono cosa è fatto, il prossimo passo, i comandi esatti, i file e gli ID; la storia va in
 > `DECISIONI.md`. Dopo una compattazione o un riavvio si riparte da lì, senza rileggere la trascrizione e senza

@@ -81,19 +81,22 @@ L'esempio del primo lotto resta il più urgente. Chi abita in Via Roma, Via Gari
 
 ### Riaperti e gravità riviste
 
-- Lotto 1: la **2077** riaperta e alzata da minore a grave, la **1518** riaperta e abbassata da grave a minore, la **377** alzata da minore a grave.
+Le voci si nominano per titolo: il digest riordina il registro, quindi il numero di posizione di una voce cambia a ogni giro.
+
+- Lotto 1: riaperta e alzata a grave la voce degli alimenti in vendita senza allergeni; riaperta e abbassata a minore quella della pagina dei negozi lenta su rete lenta; alzata a grave quella della pulizia dei documenti d'identità.
 - Lotto 2, nessuna riapertura, perché tutte le 30 voci erano ancora aperte. Quattro passano da minore a grave, con la nota in `nota_severita_7_11`:
-  - la **11**, il reso rifiutato nell'ultimo giorno;
-  - la **15**, il prezzo che cambia con la cassa aperta;
-  - la **9**, le coordinate vecchie dell'indirizzo;
-  - la **171**, le recensioni che non si possono segnalare.
-- La **114**, la password uguale a quella di prima, riceve la conferma da S06-P068.
+  - il reso rifiutato nell'ultimo giorno;
+  - il prezzo che cambia con la cassa aperta;
+  - le coordinate vecchie dell'indirizzo;
+  - le recensioni che non si possono segnalare.
+- La voce della password uguale a quella di prima riceve la conferma da S06-P068.
 - Lotto 3: tornano aperte quattro voci date per riparate. Le riparazioni non sono arrivate dappertutto:
   - l'interruttore dell'intelligenza artificiale non è letto da due rotte del catalogo, che scrivono prezzi anche a funzione spenta;
   - i tetti per voce mancano nella rotta che migliora la scheda;
   - il filtro della dettatura vale solo per la frase dettata;
   - il salvataggio di prodotto e varianti non è ancora in un passo solo.
 - Lotto 3: passa da minore a grave «1.500 diventa 1,50 euro» nella modifica veloce.
+- Lotto 4: passano a grave la ricerca utenti oltre i mille iscritti e i turni del fattorino che lo rimettono offline senza dirlo; torna aperta la voce chiusa sul SOS del fattorino.
 
 ### File e lavori
 
