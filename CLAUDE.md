@@ -142,7 +142,9 @@ Quando metti un senior al lavoro, pretendi il **risultato fatto**, non un'analis
   - **✍️ Scrivi il TITOLO come lo diresti a voce** (regola completa: `cervello/scrittura-umana.md` — vale
     anche per **la chat con Nicola, i titoli e i corpi delle PR, i messaggi di commit**: AR-478 — e vale
     su **qualunque argomento**, non solo la macchina: soldi, vendite, contratti, contenuti, e per ognuno
-    dei 120 senior quando delego, perché il testo esce comunque dagli occhi di Nicola — AR-480). Ogni testo
+    dei 120 senior quando delego, perché il testo esce comunque dagli occhi di Nicola — AR-480). Ogni messaggio a
+    Nicola apre con **Il punto adesso** (✅ fatto · ⏳ in corso · 👉 tocca a te · 🕐 quando vuoi: Regola 3-ter, 12/11),
+    che vale per i primi tre blocchi; poi *Cosa non ho verificato*. Ogni altro testo
     lungo apre con i **quattro blocchi** — *In parole semplici* · *Cosa cambia per te* · *Cosa devi fare* ·
     *Cosa non ho verificato* (di quanto fidarsi: cosa NON ho provato da qui — è il blocco che sparisce più
     spesso: misurato l'11/8, mancava nel 100% dei 26 messaggi del VPS mentre gli altri tre c'erano sempre) —

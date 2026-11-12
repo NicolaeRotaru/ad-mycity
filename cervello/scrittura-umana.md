@@ -258,6 +258,40 @@ node cervello/conta-blocco-mancante.mjs        # conta: quante volte è mancato,
 
 ---
 
+## Regola 3-ter — «Il punto adesso» in cima a ogni messaggio a Nicola (12/11 notte)
+
+> Nicola, 12/11: *«alle volte faccio ancora fatica a capire quello che devo fare, anche se spieghi molto bene…
+> che mi fai un bel riassunto che non tralasci nulla, così non devo ogni volta leggere ogni cosa»*. Poi: «sì, regola».
+
+Ogni messaggio a Nicola che racconta un lavoro o gli chiede qualcosa apre con un riassunto corto. Vale per
+la chat, le fermate, i messaggi della regista e le lettere. Deve bastare da solo: chi legge solo quello sa tutto
+quello che gli serve.
+
+```
+## Il punto adesso
+- ✅ Fatto: <cosa è finito, coi numeri veri>
+- ⏳ In corso: <cosa sta girando, e chi lo fa>
+- 👉 Tocca a te: <ogni cosa da fare, con un verbo e il posto dove farla>
+- 🕐 Quando vuoi: <le cose che non hanno fretta>
+```
+
+Esempio vero, 12/11:
+- ✅ Fatto: la prima onda ha lavorato 300 difetti e ne ha chiusi davvero 115, per circa 610 $.
+- ⏳ In corso: la regista rilegge i file toccati, poi i controlli automatici tornano verdi.
+- 👉 Tocca a te: riprovare la migrazione 361 nella chat della regista; dire «via la seconda» quando vuoi.
+- 🕐 Quando vuoi: unire le due richieste di unione.
+
+Le regole del punto:
+- **Niente numeri davanti alle righe del punto**, solo trattini: i numeri sopra i blocchi li ferma la Regola 3-bis.
+- **Una riga per cosa da fare**, col verbo e il posto: «nella chat della regista», «nella richiesta di unione».
+  Mai «decidi tu» senza dire cosa.
+- **Se non c'è niente da fare:** «👉 Tocca a te: niente». Lo si scrive comunque, perché è la riga che cerca per prima.
+- **Il punto vale al posto dei primi tre blocchi** (In parole semplici, Cosa cambia per te, Cosa devi fare). Sotto
+  si spiega solo quello che il punto non dice, senza ripeterlo (Regola 0-bis). **«Cosa non ho verificato» resta
+  sempre**, perché è il blocco che sparisce più spesso. Poi la riga dei Dettagli tecnici, come prima.
+- I quattro blocchi restano validi: un testo che li ha non sbaglia. `si-capisce.mjs` accetta tutte e due le forme
+  (`puntoPresente`), e un «punto» senza la riga «Tocca a te» non conta come punto.
+
 ## Le 6 mosse (falle sempre, in quest'ordine)
 
 1. **Attacca con un verbo e una persona/cosa vera.** «Chiama il fornaio per confermare l'ordine», non «Accetta `58094956…`». Chi legge deve capire *cosa deve succedere* dalla prima parola.

@@ -165,6 +165,21 @@ prova("un testo lungo senza le quattro risposte viene bocciato quattro volte", (
   assert.equal(tipi(t).filter((x) => x === "manca-una-risposta").length, 4);
 });
 
+prova("«Il punto adesso» vale per i primi tre blocchi, ma «Cosa non ho verificato» resta preteso (Nicola, 12/11)", () => {
+  const corpo = Array.from({ length: 18 }, (_, i) => `Riga ${i} di spiegazione normale e corta, con 3 negozi.`);
+  const punto = ["## Il punto adesso", "- ✅ Fatto: la prima onda è chiusa.", "- ⏳ In corso: la rilettura dei file.", "- 👉 Tocca a te: dire «via la seconda» nella chat della regista."];
+  const conTutto = [...punto, ...corpo, "## Cosa non ho verificato", "Il costo vero lo misuro alla fine."].join("\n");
+  assert.equal(tipi(conTutto).filter((x) => x === "manca-una-risposta").length, 0);
+  const senzaVerificato = [...punto, ...corpo].join("\n");
+  const mancano = misura(senzaVerificato).problemi.filter((p) => p.tipo === "manca-una-risposta").map((p) => p.trovato);
+  assert.deepEqual(mancano, ["Cosa non ho verificato"]);
+  // un «punto» senza quello che tocca a Nicola non è il punto: i blocchi restano pretesi
+  const senzaTocca = ["## Il punto adesso", "- ✅ Fatto: la prima onda è chiusa.", ...corpo].join("\n");
+  assert.equal(tipi(senzaTocca).filter((x) => x === "manca-una-risposta").length, 4);
+  // su un messaggio corto il punto non è impalcatura
+  assert.ok(!tipi(punto.join("\n")).includes("blocchi-su-testo-corto"));
+});
+
 prova("un messaggio breve non deve avere né struttura né esempio", () => {
   const m = misura("Fatto, il sito è di nuovo online.");
   assert.equal(m.problemi.length, 0);
