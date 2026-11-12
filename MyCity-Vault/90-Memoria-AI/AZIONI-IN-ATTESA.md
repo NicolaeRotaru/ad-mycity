@@ -31,6 +31,58 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🔴 #238 — Riprova le tre migrazioni del sito rimaste, ma non la 350 · ⏳ accodata 2026-11-12 23:55
+
+**In parole semplici.** Le migrazioni cambiano il database vero del sito. Delle 15 nate nella prima onda del risolutore, 12 sono già applicate col tuo ok. Ne restano tre: la 361, la 363 e la 364. La conferma del database è scaduta due volte prima della tua risposta.
+
+**Cosa cambia per te.** Esempio: la 361 crea la tabella dei codici sconto usati, che oggi non esiste. Senza, il sito usa ancora la strada vecchia.
+
+**Cosa devi fare tu.** Scrivi «riprova» nella chat della regista e approva la conferma del database. La 350, quella del bonifico del lunedì, non va applicata: in un caso fa pagare due volte lo stesso ordine.
+
+**Cosa non ho verificato.** Le tre migrazioni contengono comandi che cancellano: la conferma del database lo dice, e va letta.
+
+Cosa cambia: sul database vero arrivano le ultime tre migrazioni della prima onda; la 350 resta fuori finché non è riparata.
+Se va bene: la regista controlla le tabelle sul database e scrive l'esito nella richiesta del sito.
+
+### 🔴 #237 — Di' alla regista se parte la seconda onda del risolutore · ⏳ accodata 2026-11-12 23:55
+
+**In parole semplici.** La prima onda ha lavorato 300 difetti del sito e ne ha chiusi davvero 115, per circa 610 $ di consumo. La seconda onda parte solo col tuo «via la seconda». Ora i riparatori lavorano a lotti piccoli, e la stima scende a circa 435 $ per onda.
+
+**Cosa cambia per te.** Esempio: dentro ci sono anche i 25 difetti di R05, il riparatore che non è mai partito.
+
+**Cosa devi fare tu.** Scrivi alla regista «via la seconda», oppure «fermati».
+
+**Cosa non ho verificato.** Il risparmio dei lotti piccoli è una stima: lo misuriamo alla fine della seconda onda.
+
+Cosa cambia: si lavora il prossimo blocco di difetti del sito, a lotti piccoli e con un controllore alla fine.
+Se va bene: alla fine della seconda onda la regista ti porta i numeri veri e il costo misurato.
+
+### 🟡 #236 — Scegli se togliere alla macchina il permesso di usare il database vero senza chiedere · ⏳ accodata 2026-11-12 23:55
+
+**In parole semplici.** Nel foglio dei permessi della macchina c'è una riga che lascia usare lo strumento del database vero senza chiedere. Nella prima onda un aiutante l'ha usato per leggere il database di produzione.
+
+**Cosa cambia per te.** Esempio: oggi collaudatori e controllori si mettono da soli un divieto all'inizio. Togliendo la riga, il divieto vale per tutte le sessioni della macchina, comprese le mie quando leggo i dati da lì.
+
+**Cosa devi fare tu.** Rispondi «ok 236» per toglierla, oppure «no 236» per lasciarla.
+
+**Cosa non ho verificato.** Non ho contato quante volte le mie sessioni usano quello strumento per leggere i numeri.
+
+Cosa cambia: nessuna sessione della macchina può più interrogare il database vero senza chiedere.
+Se va bene: i numeri si leggono dal canale ufficiale, che è già il primo, e il divieto vale per tutti.
+
+### 🟡 #235 — Unisci le due richieste del risolutore quando ti va · ⏳ accodata 2026-11-12 23:55
+
+**In parole semplici.** Il lavoro di oggi sta in due richieste di unione. Quella della macchina porta il risolutore migliorato e la radiografia in sessioni. Quella del sito porta le riparazioni della prima onda.
+
+**Cosa cambia per te.** Esempio: unita la richiesta del sito, l'allarme d'emergenza dei fattorini arriva agli amministratori una sola volta.
+
+**Cosa devi fare tu.** Unisci le due richieste quando vuoi. La pubblicazione del sito resta un passo a parte.
+
+**Cosa non ho verificato.** La richiesta del sito resta in bozza fino al controllore finale della campagna.
+
+Cosa cambia: le regole nuove del risolutore e le riparazioni della prima onda entrano nei rami principali.
+Se va bene: chi ripara dopo lavora sul codice già unito, senza ricucire niente a mano.
+
 ### 🔴 #234 — Prima di far partire il risolutore, di' dove sta il difetto dei contanti e scegli sugli allergeni · ⏳ accodata 2026-11-07 14:37
 
 > ✅ 2026-11-08 07:55 — La prima domanda ha una risposta: il difetto dei contanti non è una delle falle riservate. La palestra lo ha rifatto davvero sul suo database, due volte, ed è entrato nel registro come grave. Resta a te solo la scelta sugli allergeni.

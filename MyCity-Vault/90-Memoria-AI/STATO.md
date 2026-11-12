@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-11-12 15:30
+aggiornato: 2026-11-12 23:55
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🔧 **2026-11-12 23:55 — La prima onda del risolutore è chiusa: 115 difetti chiusi davvero su 300, e il risolutore ora consuma meno.**
+>
+> La prima onda ha lavorato 300 difetti del sito: ne chiude davvero 115, più 7 già a posto, per circa 610 $ di consumo, circa il 20% del limite settimanale. Sei dollari su dieci erano rilettura: ora i riparatori lavorano a lotti piccoli, e la stima scende a circa 435 $ per onda senza togliere controlli. La falla dell'IBAN è chiusa e 12 migrazioni sono sul database vero col tuo ok. Restano quattro cose da fare con te, nelle card dalla 235 alla 238. Una è riprovare tre migrazioni, lasciando fuori la 350. Le altre sono il «via la seconda», il permesso del database nella macchina e l'unione delle due richieste. La radiografia del sito è in una sessione sua, che la porta sullo stesso schema. Richieste di unione: ad-mycity#944 e mycity#288.
 
 > 🔧 **2026-11-12 15:30 — Il risolutore del sito è pronto a partire: 662 difetti, in attesa del tuo «via».**
 >
