@@ -72,3 +72,4 @@
 2026-11-12 17:13 · K04 · R03 collaudato · 11 reggono, 6 parziali, 1 non regge (003), 4 rompe altro (001, 007, 008, 022) · — · — · correzione a R03
 2026-11-12 17:14 · K02 · aggiornato · 9 voci a parziale (rimessa uscita 3): R07 campione scende a 7 su 9 e non è più accettato, solo per la regola del programma · — · — · da portare a Nicola con la regola sui file nuovi
 2026-11-12 17:15 · K03 · R06 R10 R12 collaudati · R06 15 reggono, 3 non reggono; R10 14 reggono, 1 non regge, 3 rompe altro; R12 15 reggono, 3 non reggono, 1 rompe altro; campioni non accettati · — · — · correzione a R06, R10, R12; 1 difetto riservato annotato fuori
+2026-11-12 17:20 · R08 · correzione finita · guardia 🔴 (2 prove esistenti note + aiuto nuovo senza il nome riparazione-r08: rinominarlo non toglie il rosso dalla storia) · referto ✅ · — · torna a K02 sulla 008; nome dell'aiuto a Nicola con le altre regole
