@@ -1,0 +1,345 @@
+{
+ "collaudatore": "K04",
+ "riparatori": [
+  "R03"
+ ],
+ "aggiornato": "2026-11-12 17:40",
+ "finita": true,
+ "voci": [
+  {
+   "id": "R03-001",
+   "chiave": "qa-flussi|la cassa dice «troppo lontano» a chi abita in via roma o in via cavour, in pieno centro, e l'ordine non parte",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-1 --base e3bd7a388c2763c12710564f10bda608358d1def^ --file lib/geocodifica.ts --prove tests/unit/riparazione-r03-via-roma-in-centro.test.ts --json"
+   },
+   "nota": "Rimessa sul file che porta la correzione (lib/geocodifica.ts): 0; i tre file di collegamento (rotta geocode, rubrica, modulo cassa) non li morde la prova (prima corsa uscita 1, non_morde). Parziale dichiarato con onestà (righe vecchie della rubrica). Rompe: chi scrive come città una frazione (Montale, Borgotrebbia, «S. Nicolò») vede il risultato scartato perché il filtro guarda solo city/town/village/municipality → coordinate null → il controllo dei 5 km lascia passare l'ordine senza posizione, anche per frazioni lontane che prima venivano rifiutate (lib/geocodifica.ts:68-71, cod/route.ts:1040-1052). Confidenza media: Nominatim vero non interrogato. Anche: riga vecchia risalvata identica tiene le coordinate sbagliate se la nuova ricerca torna null."
+  },
+  {
+   "id": "R03-003",
+   "chiave": "api-backend|se l'email «nuovo ordine» al negozio non parte, nessuno se ne accorge e nessuno la rimanda",
+   "verdetto": "non_regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-2 --base 260658c7a696062497df0f26b8f6c1a7cba42abd^ --file lib/stripe/webhook/comune.ts --prove tests/unit/riparazione-r03-email-rifiutata-si-vede.test.ts --json"
+   },
+   "nota": "Rimessa su comune.ts: 0 (gli altri chiamanti non sono morsi dalla prova). La voce dice «nessuno se ne accorge E nessuno la rimanda»: c'è solo l'avviso in campanella all'admin, nessun nuovo tentativo né ingresso in email_queue, ma il referto dichiara copre_tutta_la_voce=true. Inoltre chi chiama provaAMandare con solo accountId (trasferimenti.ts:131/142) finisce sulla chiave 'senza-riferimento' e dal secondo rifiuto non avvisa più; rimborsi.ts:345 avvisa una volta per ordine anche con più rimborsi parziali."
+  },
+  {
+   "id": "R03-005",
+   "chiave": "pagamenti-stripe|dopo un guasto, chiudere il reso con i passi normali registra due volte lo stesso rimborso, e al negozio la sua parte viene tolta due volte",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-3 --base b0cb2f4fa7806c23678cf6b816196466ddb4ef18^ --file lib/stripe/payout.ts --prove tests/unit/riparazione-r03-reso-ripreso-non-rimborsa-due-volte.test.ts --json"
+   },
+   "nota": "Rimessa a C e alla testa: 0. Lo scenario della voce (contanti in credito, decide 500 poi avanza) regge; cosa_resta onesto (finestra fra credito e segno; se la scrittura del segno cade a payout.ts:2053 c'è solo un log, stesso effetto). Nessun doppio conteggio nuovo trovato."
+  },
+  {
+   "id": "R03-006",
+   "chiave": "pagamenti-stripe|reso con la carta in un carrello di due negozi: se un rimborso dal cruscotto è già stato diviso fra i due ordini, il reso ripreso dopo un guasto toglie di nuovo la quota al negozio",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-2 --base 90bb88ad5c1a08d27fe9361e8676dc69265482b5^ --file lib/stripe/payout.ts --prove tests/unit/riparazione-r03-reso-carta-dopo-rimborso-diviso.test.ts --json"
+   },
+   "nota": "Rimessa: 0. Scenario 40/60 € con 30 € divisi 5/25 rifatto: niente doppio storno; divisioni multiple e rimborsi mai divisi senza regressioni. Riserva: la lettura di audit_logs (payout.ts:1417-1421) non filtra per pagamento né ordina: oltre le 1000 righe 'order.refund' la divisione può restare fuori e il difetto tornare in silenzio."
+  },
+  {
+   "id": "R03-007",
+   "chiave": "pagamenti-stripe|un rimborso arrivato dopo il bonifico del lunedì non viene mai ripreso al negozio",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-3 --base c1d01145575a20efbfb559c87a3bdb98cf3fde3a^ --file lib/stripe/payout.ts --prove tests/unit/riparazione-r03-quota-dopo-il-bonifico-a-mano.test.ts --json"
+   },
+   "nota": "Rimessa: 0. Chiude_tutta: cosa_resta tace la promessa «trattenuta o recuperata» (app/seller/earnings/commissione.ts:137) e il fatto nel registro; se l'avviso cade c'è solo un log (payout.ts:1482) e nessuna ripresa; l'avviso usa sellerShare e non i centesimi davvero addebitati. Rompe: l'avviso «Togli X € dal prossimo bonifico» parte per ogni contanti HELD senza guardare contantiPagabiliDaStripe (payout.ts:154-162, 2041): quando i contanti passano da Stripe releaseOrderPayout versa già il netto meno seller_payout_reversed_cents, e chi segue l'avviso toglie la quota due volte."
+  },
+  {
+   "id": "R03-008",
+   "chiave": "pagamenti-stripe|se il cliente viene rimborsato prima che il suo ordine nasca, l'ordine nasce lo stesso come pagato e il negozio viene pagato",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-3 --base d022b765221810e4e147d3abcd33e0bbf4954478^ --file lib/stripe/webhook/ordini.ts --prove tests/unit/riparazione-r03-carta-tornata-prima-dell-ordine.test.ts --json"
+   },
+   "nota": "Rimessa su ordini.ts: 0 (carta-gia-tornata.ts nuovo: strutturale). Rompe (riprodotto dal giudice in scratch): cartaGiaTornata scatta su qualunque amount_refunded>0 senza chiedersi chi ha rimborsato (carta-gia-tornata.ts:34-38) e l'allineamento annulla gli ordini HELD del tentativo di prima (93-98): carrello di 2 negozi, A nasce, B cade, il sito rimborsa A (freno della veloce, annullo del negozio), Stripe ritenta → B nasce annullato e A, magari consegnato, diventa CANCELED senza pagamento al negozio; il cliente può aver pagato B senza merce né rimborso. Inoltre se l'allineamento cade c'è solo un log e il carrello si chiude COMPLETED (riga 119): l'ordine vecchio resta PAID/HELD e viene pagato, e l'avviso admin dice il falso («nati annullati»)."
+  },
+  {
+   "id": "R03-009",
+   "chiave": "privacy-legale|quello che il cliente scrive nel campo «città» compare a tutti nel riquadro dal vivo della home, accanto al nome del negozio",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 3,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-sql --base 09ca536a^ --file migrations/271_la_vetrina_dal_vivo_non_scrive_la_citta_del_cliente.sql --prove tests/sql/rls/riparazione-r03-vetrina-senza-citta-del-cliente.test.sql --comando \"<apply.sh k04 + psql -f {prove}>\" --json ; e timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-1 --base 09ca536a033fa45f91008e0e3b56d8e7af6fd415^ --file components/LiveActivityFeed.tsx --prove tests/unit/riparazione-r03-vetrina-dal-vivo-senza-citta.test.ts --json"
+   },
+   "nota": "Le due lenti reggono e il difetto rimesso a mano diventa rosso sul comportamento, ma la macchina non decide (uscita 3: nome nuovo nel componente, migrazione nuova), e «regge» vuole uscita 0: la lascio aperta per un altro sguardo della regista. Rimessa: componente uscita 3 (nome nuovo chiHaOrdinato), migrazione 271 uscita 3 (file nuovo). Difetto rimesso a mano dal programma: database ricostruito senza la 271 → 2 controlli ROTTI sul comportamento («città lette: Quarto, via Verdi 10 citofono Rossi»), con la 271 → 3 verdi. Vista ricreata con stessi filtri, tipo text, security_barrier e solo SELECT; il componente scrive sempre «Piacenza». Due lenti: reggono."
+  },
+  {
+   "id": "R03-011",
+   "chiave": "qa-flussi|se il negozio alza un prezzo mentre il cliente è in cassa, l'ordine in contanti nasce col prezzo nuovo senza che nessuno glielo dica",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-3 --base 0620a2ac8c5c922061d8f2f788c4e320567b2bc5^ --file app/api/orders/cod/route.ts --prove tests/unit/riparazione-r03-prezzo-cambiato-in-cassa.test.ts --json"
+   },
+   "nota": "Rimessa su cod/route.ts: 0 (il collegamento della cassa non è morso dalla prova). Stesso calcolo browser/server (discountedUnitCents), stesso ordine dei gruppi, 409 prima di consegna e sconto; dopo il 409 la cassa rilegge. Residuo transitorio: sconti caduti nel browser → un 409 in più, al secondo tentativo passa. La rotta carta non ha il controllo (fuori voce: la voce parla di contanti)."
+  },
+  {
+   "id": "R03-012",
+   "chiave": "qa-flussi|la cassa può ordinare la quantità o la taglia vecchia se torni al carrello, la cambi e rientri entro mezzo minuto",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-3 --base 88ca1ff541144eaf7a53057825ec04841a18f80f^ --file app/checkout/page.tsx --prove tests/unit/riparazione-r03-cassa-rilegge-il-carrello-cambiato.test.ts --json"
+   },
+   "nota": "Rimessa: 0. La chiave della cache include quantità e variante, unica strada verso cod e carta; 51 prove vicine verdi."
+  },
+  {
+   "id": "R03-013",
+   "chiave": "qa-flussi|il reclamo del cliente non arriva a nessuno, e intanto ferma il bonifico al negozio senza dirglielo",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-4 --base b700b91d3b421dee4f48fe3b497b3c759f97e927^ --file app/orders/[id]/dispute/page.tsx --prove tests/unit/riparazione-r03-il-reclamo-arriva-a-qualcuno.test.ts,tests/unit/riparazione-r03-pagina-del-reclamo.test.tsx --json"
+   },
+   "nota": "Rimessa sulla pagina: 0 (rotta nuova: strutturale). Rotta /api/disputes: proprietà, against_id dall'ordine, doppione 409. Cosa_resta onesto (INSERT diretto ancora permesso). Minori non dichiarati: la conferma dice sempre «ti abbiamo mandato una ricevuta» anche se l'email cade (route.ts:139); la campanella dice «il bonifico resta fermo» anche dopo il bonifico."
+  },
+  {
+   "id": "R03-014",
+   "chiave": "qa-flussi|cambiando la via di un indirizzo salvato, se la ricerca della posizione non risponde restano le coordinate della via vecchia",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-1 --base 83837299aa37dcd0edc36a7a230d0a7ee00ba60d^ --file app/profile/addresses/page.tsx --prove tests/unit/riparazione-r03-rubrica-via-nuova.test.tsx --json"
+   },
+   "nota": "Rimessa: 0. Via/città/CAP cambiati → coordinate null, la rotta d'ordine ricalcola; risposta assente → null e avviso. Il caso testo identico appartiene a R03-001."
+  },
+  {
+   "id": "R03-015",
+   "chiave": "qa-flussi|salvando i turni il fattorino può tornare offline senza saperlo, e «preferenze salvate» compare prima di sapere se il salvataggio è riuscito",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-2 --base aca036f7d53697ea84ccdb53b80fa54531668370^ --file app/rider/availability/page.tsx --prove tests/unit/riparazione-r03-turni-non-spengono-l-online.test.tsx --json"
+   },
+   "nota": "Rimessa: 0. Il turno scrive solo rider_schedule, «salvate» dopo l'esito. Caso limite raro con doppio errore di rete sull'interruttore, non contato."
+  },
+  {
+   "id": "R03-016",
+   "chiave": "qa-flussi|un fattorino nuovo non riesce a salvare i dati del primo passo se non ha già scritto le scadenze di patente e polizza",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-3 --base 93c84c787ed44b4657a96808de000174b1957da3^ --file app/rider/onboarding/page.tsx --prove tests/unit/riparazione-r03-iscrizione-fattorino-senza-scadenze.test.ts --json"
+   },
+   "nota": "Rimessa: 0. Il primo passo scrive solo l'anagrafica, date vuote → null anche all'invio finale."
+  },
+  {
+   "id": "R03-017",
+   "chiave": "qa-flussi|se il fattorino cambia solo il nome nel profilo, il suo telefono si cancella (e viceversa)",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-4 --base f31e857c23f817024f3ee4fcb03256325b1cae0f^ --file app/rider/profile/page.tsx --prove tests/unit/riparazione-r03-profilo-fattorino-nome-e-telefono.test.tsx --json"
+   },
+   "nota": "Rimessa: 0. La patch porta solo i campi cambiati; nome vuoto rifiutato."
+  },
+  {
+   "id": "R03-018",
+   "chiave": "qa-flussi|un fattorino con patente o assicurazione scaduta continua a prendere consegne, e il profilo gli dice solo «in scadenza»",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-2 --base 78cc20ef8a00cd07f52559f8940408748db108be^ --file app/rider/profile/page.tsx --prove tests/unit/riparazione-r03-profilo-documento-scaduto.test.tsx --json"
+   },
+   "nota": "Rimessa sul profilo alla testa: 0; migrazione 270: uscita 3 (file nuovo), difetto rimesso a mano → 2 ROTTI sul comportamento (polizza scaduta e auto senza patente prendono l'ordine). Cosa_resta onesto sulle date riscrivibili. Non dichiarati: il trigger della 179 (108-125) accetta ancora la presa diretta col solo is_rider_approvato; il documento d'identità in attesa mostra ancora «In scadenza»; scooter/auto approvati senza date ora bloccati con la scritta «scadute»."
+  },
+  {
+   "id": "R03-019",
+   "chiave": "qa-flussi|nella modifica veloce dei prezzi «1.500» diventa 1,50 euro, e il sito dice «aggiornato»",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-4 --base 87c0a88a87d5e736e8ba15fae4edd2314f70b1e1^ --file app/seller/products/import/csv.ts --prove tests/unit/riparazione-r03-prezzo-con-il-punto-delle-migliaia.test.ts --json"
+   },
+   "nota": "Rimessa su csv.ts: 0 (la conferma in page.tsx non è morsa dalla prova). «1,5» «1.5» «0,99» «1.234,56» «1.500» letti giusti. Minori: «1,234.56»→1,23; nessun freno sugli aumenti ×1000 («9.990»→9990)."
+  },
+  {
+   "id": "R03-020",
+   "chiave": "qa-flussi|la promo su una categoria non sconta niente, ma al negozio e ai clienti diciamo che è attiva",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-3 --base 9a5436adf5e4e21a72d9b8668ab9f7fb11371495^ --file app/seller/promotions/page.tsx --prove tests/unit/riparazione-r03-promo-sceglie-la-categoria.test.tsx --json"
+   },
+   "nota": "Rimessa sul modulo alla testa: 0; migrazione 272: uscita 3 (file nuovo), difetto rimesso a mano → 2 ROTTI (promo senza bersaglio nascono). CHECK solo su active/draft. Minori: product_ids '{NULL}' passa; promo su categoria svuotata resta annunciata; 272 da applicare."
+  },
+  {
+   "id": "R03-021",
+   "chiave": "qa-flussi|dentro il pannello dell'amministratore non c'è la campanella: gli avvisi sui soldi da sistemare a mano si vedono solo uscendo dal pannello",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-4 --base f9f44757d30dd924745e12679e294f2008680d8b^ --file components/admin/AdminSidebar.tsx --prove tests/unit/riparazione-r03-campanella-nel-pannello.test.ts --json"
+   },
+   "nota": "Rimessa: 0. Campanella nella barra dell'admin; cosa_resta onesto (riquadro in /admin/today). Due campanelle su telefono col menu aperto, solo estetico."
+  },
+  {
+   "id": "R03-022",
+   "chiave": "qa-flussi|se il negoziante scrive il prezzo all'italiana col punto delle migliaia, «1.250,00», il prodotto va in vendita a 1,25 euro senza nessun avviso",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-1 --base 7069b37049a66f06685b9285732fa2981b8d6fe2^ --file lib/products/schema.ts,components/seller/ProductForm.tsx --prove tests/unit/riparazione-r03-il-prezzo-all-italiana-nel-modulo.test.tsx --json"
+   },
+   "nota": "Rimessa a C e alla testa: 0. Rompe (verificato nel codice): il prezzo ora è testo, e ProductForm.tsx:384 e :500 passano getValues('price') grezzo («12,50») a patchAiPerIlForm; prezzoAiFuoriBanda fa Number('12,50')=NaN e la banda del 30% si spegne (lib/products/aiPatch.ts:536-537): la stima dell'AI sostituisce il prezzo del negoziante senza avviso. Va passato prezzoDelCampo(...). Cosa_resta sulla conferma mancante onesto."
+  },
+  {
+   "id": "R03-023",
+   "chiave": "qa-flussi|dopo aver scritto all'assistenza la chat non si apre: il riquadro si chiude e il cliente resta sulla pagina senza nessuna conferma",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-2 --base b56e824128651ec26356cd919ec400acf7b83ecd^ --file components/SupportChatModal.tsx --prove tests/unit/riparazione-r03-assistenza-apre-la-chat.test.ts --json"
+   },
+   "nota": "Rimessa: 0. navigatingRef alzato solo nel ramo riuscito; fetch caduta e doppio clic coperti."
+  },
+  {
+   "id": "R03-024",
+   "chiave": "qa-flussi|il fattorino in bici non può essere approvato senza patente di guida e polizza rc",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-1 --base d536463f4d38efa3a64d372e452f960165985114^ --file lib/admin/regole-approvazione.ts --prove tests/unit/riparazione-r03-fattorino-in-bici-si-approva.test.ts --json"
+   },
+   "nota": "Rimessa sulla regola: 0 (il collegamento dell'iscrizione non è morso dalla prova). La regola regge, ma sul sito vero nessun fattorino in bici si approva ancora: start-check:79 rifiuta senza patente ed esame-rider:60-61 tiene spento «Approva». Cosa_resta nomina i file ma sottovaluta l'effetto: per l'utente non cambia niente."
+  },
+  {
+   "id": "R03-025",
+   "chiave": "qa-flussi|chi ordina la sera per domani e conferma l'email la mattina dopo si ritrova la consegna spostata di un giorno",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-2 --base e344a745b5821adbd8a59d21b9c7f38f56dd24c2^ --file lib/bozza-checkout.ts --prove tests/unit/riparazione-r03-bozza-della-sera-per-domani.test.ts --json"
+   },
+   "nota": "Rimessa su lib/bozza-checkout.ts: 0 (la pagina passa solo l'orologio). Scenario 22:30→08:15 su 7 fasce e cambio dell'ora legale: regge."
+  }
+ ],
+ "campione": {
+  "R03": {
+   "accettato": true
+  }
+ }
+}
