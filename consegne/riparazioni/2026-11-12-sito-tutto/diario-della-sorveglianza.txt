@@ -58,3 +58,5 @@
 2026-11-12 16:46 · onda 1 · prova-unione ⏳
 2026-11-12 16:47 · giro · quota allowed, regista 10,49 $ · R04 🔴 guardia (1 prova esistente) + 2 prova_tipo · R12 🔴 guardia (5 prove con meno asserzioni) + referto · R06 in corso · corrette con messaggio
 2026-11-12 16:49 · R05 · bloccato (non può leggere ad-mycity) · — · — · — · mandate regole e scheda nel messaggio
+2026-11-12 16:49 · R04 · finita · guardia 🔴 (1 prova esistente che legge un suo file) · referto ✅ · — · dato a K02 (pieno: R04 R07 R08)
+2026-11-12 16:49 · R10 · finita · guardia ✅ · referto ✅ · — · dato a K03 (aperto)
