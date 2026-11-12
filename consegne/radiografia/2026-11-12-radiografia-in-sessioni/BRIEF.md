@@ -50,7 +50,7 @@ Non ho riletto la radiografia del 6/11. So solo dove stanno i suoi file, e che i
   - rapporti corti, con i log su file.
 - **Il valore prima del volume** (regola ⑳): con più di 100 minori aperti nel registro non si cercano minori nuovi.
   Serve un profilo «lancio», che cerca solo bloccanti e gravi. Prima ancora, un giro dei flussi che incassano sulla
-  palestra (copia del sito): il bloccante degli indirizzi l'ha trovato quel giro, non la lettura del codice.
+  palestra (copia del sito): il difetto degli indirizzi che fermava gli ordini l'ha trovato quel giro, non la lettura del codice.
 - **La verifica proporzionata** (regola ⑲): un secondo agente solo per bloccanti, gravi e sicurezza, e parte dalla
   prova (regola ⑯). Un minore entra visto una volta, con `verificato: false`. I doppioni contro il registro li toglie
   un programma prima della verifica, e il controllo di un controllo non si fa.
