@@ -87,3 +87,4 @@
 2026-11-12 18:11 · R11 · finita · guardia 🔴 (3 prove esistenti montate per percorso) · referto ✅ · — · dato a K04; 1 falla grave riservata (IBAN) tenuta fuori dal deposito
 2026-11-12 18:21 · K04 · R11 collaudato · 5 reggono, 6 parziali, 9 non reggono, 4 rompono altro (004/001 bonifico pagabile due volte; 023 contestazione col credito); campione no · — · — · un giro di correzione a R11; K04 finito per R03
 2026-11-12 18:24 · giro · quota allowed, regista 24,56 $ · K01 fermo da 1 h su una richiesta di permesso (comando python): interrotto e rimesso in moto con strumenti di file · R11 in correzione · R05 fermo
+2026-11-12 18:27 · K01 · ricollaudo R01 R09 · R01 11 reggono, 4 parziali, 1 non regge (006: dall'elenco storico l'SOS punta a una consegna chiusa — da valutare il revert della parte RiderShell); R09 13 reggono, 3 parziali, 4 non reggono (001, 008, 024, 025: restano aperte); campioni accettati R01 R02 R09 · — · — · niente terzo giro
