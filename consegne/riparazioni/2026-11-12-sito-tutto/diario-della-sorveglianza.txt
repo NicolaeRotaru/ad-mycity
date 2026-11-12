@@ -32,3 +32,5 @@
 2026-11-12 16:13 · R02 R03 R04 R08 R09 R11 R12 · lavorano · ✅ · — · ✅ · nessuna azione
 2026-11-12 16:27 · R01 · dice finito · guardia 🔴 (6 prove con skipIf, 1 prova altrui toccata) · referto 25 di 25 ✅ · — · ultimo giro di correzione mandato
 2026-11-12 16:29 · R01 · conflitto prova altrui · guardia 🔴 (storia di 1 prova altrui, toccata e rimessa) · — · — · scelta B: frase e prova all'onda 2; il rosso della storia va a Nicola alla fermata 2
+2026-11-12 16:33 · R02 · finita · guardia ✅ · referto 25 di 25 ✅ · — · dato a K01 (aperto)
+2026-11-12 16:33 · R07 · lavora · guardia 🔴 (aiuto di prova altrui toccato) · referto vecchio sul ramo · — · correzione mandata
