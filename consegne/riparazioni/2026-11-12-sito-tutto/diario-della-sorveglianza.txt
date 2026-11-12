@@ -81,3 +81,4 @@
 2026-11-12 17:27 · R03 · correzione finita · guardia ✅ · referto ✅ (lanciato dalla regista) · — · torna a K04 sulle voci rimandate
 2026-11-12 17:30 · K02 · finito · R04 7 reggono, 17 parziali; R07 14 reggono, 6 parziali; R08 14 reggono, 3 parziali; nessuna bocciata · — · — · R04-025: rischio non dichiarato (lotto finito chiuso come fallito dopo 25 ore → riavvio pagato due volte) da mettere nel registro come nato; R04-011: falliti oltre il 30° mai ritentati (minore nato)
 2026-11-12 17:31 · R12 · correzione finita · guardia ✅ · referto ✅ · — · torna a K03 sulle voci rimandate
+2026-11-12 17:32 · K04 · ricollaudo R03 · 11 reggono, 8 parziali, 1 non regge (007), 2 rompono altro (001, 008: seconda caduta) · — · — · niente terzo giro: all'unione si tolgono con git revert i commit di R03-001 e R03-008 (008 regressione soldi: rimborso pieno ma ordine B nasce PAID); 007 resta aperta (il fatto pagamenti.rimborso-contanti è falso)
