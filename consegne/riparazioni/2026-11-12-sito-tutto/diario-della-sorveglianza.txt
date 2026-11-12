@@ -4,3 +4,5 @@
 2026-11-12 15:42 · R02 · piano · — · — · — · approvato (R02-001/006 scelta di Nicola, niente testo)
 2026-11-12 15:42 · R04 · piano · — · — · — · approvato (niente add_repo su ad-mycity; modello 4-6 come riparazione)
 2026-11-12 15:43 · R03 · piano · — · — · — · approvato (RC con fonte o domanda; 008 nasce CANCELLED; payout.ts tre commit; qa ≤12)
+2026-11-12 15:44 · R07 · piano · — · — · — · approvato (R07-003 HEIC resta scelta di Nicola, niente codice)
+2026-11-12 15:44 · R08 · piano · — · — · — · approvato (014 con prova che era già pubblico; domanda P.IVA a Nicola; prove dei ripieghi)
