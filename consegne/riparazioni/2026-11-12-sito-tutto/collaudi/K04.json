@@ -4,7 +4,7 @@
   "R03",
   "R11"
  ],
- "aggiornato": "2026-11-12 18:40",
+ "aggiornato": "2026-11-12 19:30",
  "finita": true,
  "voci": [
   {
@@ -346,10 +346,10 @@
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "Rimessa sulla pagina contro la base: 0 (lib/guadagni/negozio.ts strutturale). Due lenti, d'accordo: «Da versare lunedì» ferma un ordine solo per dispute_status/internal_dispute_status/REFUNDED (negozio.ts:184), mentre la funzione 350 che segna il bonifico scarta anche resi e reclami aperti nelle tabelle (350:85-88). Un contrassegno HELD con un reso aperto compare fra i «Da versare» e nel totale (riprodotto dal giudice: 36 € su 2 ordini, uno col reso), Nicola lo bonifica, l'ordine resta HELD e ricompare il lunedì dopo: pagato due volte. Cosa_resta non lo nomina.",
+   "nota": "Ricollaudo (testa ae97c11e), due lenti. Rimessa del commit 7c1ebdab: 0. Rifatto lo scenario dei 36 €: col reso già aperto quando si apre la pagina, il pannello mostra 18 €, il tasto segna solo l'ordine senza reso, e quello col reso torna una volta sola il lunedì dopo. Regge. Non regge la corsa che la voce nomina («paga due volte»). Nicola legge 36 €, versa 36 € in banca, e intanto si apre un reso. L'aggiornamento ogni 60 secondi (page.tsx:164) porta il tasto a 18 € senza avviso; al clic la pagina dice «Segnati 1 ordini come pagati» senza nessun avviso, perché avvisa solo se segna meno di quelli chiesti (page.tsx:131-137). Il lunedì dopo l'ordine col reso chiede di nuovo 18 €: pagato due volte. Il tasto non sa quanto Nicola ha versato davvero, e la 350 riceve solo gli id. Cosa_resta non lo dice (riprodotto da tutti e due i giudici).",
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R11-1 --base db5164c52e856c0e3eab1c02197ae755fca76eb3 --file app/admin/payouts/page.tsx --prove tests/unit/riparazione-r11-pannello-bonifici.test.tsx,tests/unit/riparazione-r11-da-versare-lunedi.test.ts --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R11-1 --base 7c1ebdabb6ac467a7f7c26083accd51eb65e75ae^ --file app/admin/payouts/page.tsx,lib/guadagni/negozio.ts --prove tests/unit/riparazione-r11-bonifico-non-due-volte.test.tsx --json"
    }
   },
   {
@@ -370,13 +370,13 @@
   {
    "id": "R11-003",
    "chiave": "pagamenti-stripe|un negozio già approvato non ha nessuna pagina dove scrivere iban e dati della ditta, e il suo bonifico non può partire",
-   "verdetto": "non_regge",
+   "verdetto": "parziale",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "Rimessa: uscita 1. La rotta nuova esce strutturale, e le pagine non sono morse da nessuna prova. Due lenti d'accordo: la voce chiede che IBAN e dati si salvino SOLO dalla rotta del server, con verifica e avviso agli admin. Ma il negozio può ancora scrivere il proprio billing_iban dal browser con la chiave pubblica (profiles_owner_update 001:71, colonna permessa in enforce_profile_update_rules 119:94, mai ridefinita), saltando verifica, avviso e blocco dei sospesi. Cosa_resta lo tace (il referto parla solo di «una falla riservata»). Minore: .neq('approval_status','suspended') dà 409 ai profili con approval_status NULL.",
+   "nota": "Ricollaudo: nessun codice nuovo; ora dichiarata parziale. Cosa_resta nomina registro attività ed email al negozio. Il pezzo più serio della voce («solo dalla rotta del server») resta aperto ed è segnalato in forma riservata alla regista: i dettagli non stanno qui. La voce resta aperta.",
    "rimessa": {
     "uscita": 1,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R11-5 --base db5164c52e856c0e3eab1c02197ae755fca76eb3 --file app/api/seller/apply/route.ts,app/seller/profile/page.tsx,app/seller/earnings/page.tsx,components/seller/DatiPerIBonifici.tsx --prove tests/unit/riparazione-r11-dati-per-i-bonifici.test.ts --json"
@@ -385,13 +385,13 @@
   {
    "id": "R11-004",
    "chiave": "pagamenti-stripe|il bonifico del lunedì al negozio non si può segnare: i soldi dei contanti restano «in attesa» per sempre, sia per il negozio sia per nicola",
-   "verdetto": "rompe_altro",
+   "verdetto": "non_regge",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "Rimessa su lib/guadagni/negozio.ts contro la base: 0. Migrazione 350: uscita 3 perché il file è nuovo; rimessa a mano su Postgres 16 dà 2 controlli ROTTI sul comportamento. Rompe: ① il tasto «Bonifico fatto» guarda solo l'errore e non quanti ordini la 350 ha segnato davvero (payouts/page.tsx:120-130, RETURN v_segnati): gli ordini con reso o reclamo aperto vengono saltati in silenzio ma contati nel «X € per N ordini», e ricompaiono il lunedì dopo, quindi vengono pagati due volte; ② refundOrder conosce solo TRANSFERRED (payout.ts:1676): un rimborso pieno riscrive PAID_MANUALLY in REFUNDED, uno parziale (:941) scala la quota come se il bonifico non fosse partito, così il versato a mano sparisce dai conti e da nessuna parte risulta che il negozio deve restituirlo (verificato nel codice).",
+   "nota": "Ricollaudo, due lenti. Stato PAID_MANUALLY, funzione 350 coi cancelli e conteggio come versato ci sono; cosa_resta su refundOrder (payout.ts:941 e 1676 conoscono solo TRANSFERRED) è onesto. Ma il referto dichiara chiuso «col commit di R11-001» il doppio pagamento dal tasto, e non è vero: vedi R11-001, la corsa fra il bonifico in banca e il clic fa pagare due volte lo stesso ordine senza nessun avviso.",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R11-2 --base db5164c52e856c0e3eab1c02197ae755fca76eb3 --file lib/guadagni/negozio.ts --prove tests/unit/riparazione-r11-bonifico-del-lunedi.test.ts --json"
@@ -430,16 +430,16 @@
   {
    "id": "R11-008",
    "chiave": "api-backend|se la domanda per diventare negozio parte due volte insieme, viene registrata due volte e gli amministratori ricevono l'avviso due volte",
-   "verdetto": "non_regge",
+   "verdetto": "parziale",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "Rimessa: 0. Il caso dei due invii in parallelo è chiuso (seconda UPDATE a 0 righe; il doppio .or() in AND è dedotto da postgrest-js, non provato). La voce nomina anche il secondo invio dopo 2 secondi, dove la riga del verbale si aggiunge lo stesso: l'insert in consent_log (route.ts:233-240) resta senza condizioni e senza indice unico. Il referto dice copre_tutta=true senza cosa_resta; inoltre il secondo invio in parallelo risponde 200 perdendo i suoi dati.",
+   "nota": "Ricollaudo, due lenti. Rimessa: 0. La scrittura condizionata chiude il doppio avviso e il doppio consenso; chiuso anche il secondo invio dopo 2 secondi (giaAVerbale). Cosa_resta onesto (dati del secondo invio persi, nessun indice unico). Minore taciuto: con giaAVerbale, dopo un cambio della versione dei testi legali, una correzione mentre la domanda è in attesa non registra la nuova accettazione.",
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R11-3 --base f2596486c946b4636db6e9ba4094a9e65b9a5f3c^ --file app/api/seller/apply/route.ts --prove tests/unit/riparazione-r11-domanda-negozio-doppia.test.ts --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R11-2 --base 8363a60f6e37b765e8c8bce1ff39b89708899343^ --file app/api/seller/apply/route.ts --prove tests/unit/riparazione-r11-domanda-negozio-doppia.test.ts --json"
    }
   },
   {
@@ -490,13 +490,17 @@
   {
    "id": "R11-012",
    "chiave": "frontend-ux|payout: i riquadri «da pagare / già pagato» mostrano un totale parziale come cifra esatta, e l'avviso sta sotto",
-   "verdetto": "non_regge",
+   "verdetto": "regge",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "Già riparato prima? No. Alla base l'avviso e «almeno» dipendevano da letti.length > TETTO_PAYOUT con limit TETTO+1 (payouts:118), ma il server non dà mai più di 1000 righe (supabase/config.toml:55 max_rows=1000): nella realtà alla base l'avviso non compariva mai e i riquadri mostravano la cifra parziale come esatta. La prova citata finge 1001 righe. Il difetto alla base c'era; si chiude solo alla testa col count exact di R11-011, e «già pagati» per negozio (payouts:314) resta senza «almeno»."
+   "nota": "Ricollaudo, due lenti. Ora «riparato» col commit bf9dc941. La rimessa al commit esce 1 (la parte sulle cifre del singolo negozio non è morsa); alla testa contro la base vera della campagna esce 0, rossa sul comportamento. Il conteggio esatto rende vero il taglio anche col limite server di mille righe; l'avviso sta sopra i riquadri e «almeno» compare sui 3 riquadri e sulle 4 cifre del singolo negozio. L'unica cifra senza «almeno» è il tasto «Bonifico fatto», che è la somma esatta degli ordini che segna.",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R11-1 --base db5164c52e856c0e3eab1c02197ae755fca76eb3 --file app/admin/payouts/page.tsx --prove tests/unit/riparazione-r11-elenchi-admin-oltre-mille.test.tsx --json"
+   }
   },
   {
    "id": "R11-013",
@@ -537,10 +541,10 @@
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "Rimessa su VendorForm.tsx: 0. Rompe (provato dal giudice): dopo un salvataggio riuscito l'avviso «modifiche non salvate» resta acceso se si scrive prima il Sito e poi Instagram, perché il punto di partenza si calcola con JSON.stringify sull'oggetto di zod (ordine dello schema) contro lo stato in ordine di scrittura (VendorForm.tsx:186-191, 268). Cosa_resta stretto: anche il tasto indietro dentro Dettagli negozio perde le modifiche in silenzio (SiteEditor.tsx:143).",
+   "nota": "Ricollaudo, due lenti. Rimessa: 0. L'ordine dei campi è sistemato (fotografiaStabile), ma la classe del difetto resta. La fotografia di partenza si rifà sui dati ripuliti da zod (VendorForm.tsx:291: trim di slogan e annuncio, store-customization.ts:182/195; colore ritirato :147), mentre quella corrente legge lo stato non ripulito. Provato due volte dal giudice: slogan «Pane fresco » con lo spazio finale, salvataggio riuscito, e uscendo il browser chiede ancora conferma per modifiche già salvate.",
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R11-1 --base 1cf3c48f0f173194c8f56274260ed2ea30f23213^ --file components/VendorForm.tsx --prove tests/unit/riparazione-r11-modifiche-non-salvate.test.tsx,tests/unit/riparazione-r11-modifiche-non-salvate-mappa.test.tsx --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R11-4 --base 63a2b7424022e2797423fd0775a96cc1e6be8c10^ --file components/VendorForm.tsx --prove tests/unit/riparazione-r11-modifiche-non-salvate.test.tsx --json"
    }
   },
   {
@@ -552,40 +556,40 @@
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "Rimessa: 0. Rompe (provato dal giudice su normalizzaSocials vecchia e nuova): l'aggancio \\/?$ in lib/store-customization.ts:262 fa scartare link che alla base si correggevano da soli: facebook.com/panequotidiano/about, m.facebook.com/panequotidiano/photos, instagram.com/panequotidiano/reels/. Il social non si salva.",
+   "nota": "Ricollaudo, due lenti. Rimessa: 0. /about, /photos e /reels/ tornano a correggersi da soli. Ma tagliare tutto quello che segue «?» (store-customization.ts:261) e prendere il primo pezzo del percorso fa salvare in silenzio un nome sbagliato. facebook.com/story.php?story_fbid=… diventa «story.php» e facebook.com/photo/?fbid=123 diventa «photo», tutti e due accettati: la vetrina linka una pagina che non è il negozio. Alla base questi link venivano fermati. La lista di esclusione (riga 265) è incompleta.",
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R11-2 --base 40f91fc5fb70ad5847dae69816ffec60d20fca17^ --file components/VendorForm.tsx --prove tests/unit/riparazione-r11-social-non-fermano-la-vetrina.test.tsx --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R11-3 --base d7ab8db82291b8330704339ac19dc176e1fff978^ --file lib/store-customization.ts --prove tests/unit/riparazione-r11-social-non-fermano-la-vetrina.test.tsx --json"
    }
   },
   {
    "id": "R11-017",
    "chiave": "pagamenti-stripe|un reclamo chiuso mentre un reso sullo stesso ordine sta per tornare indietro segna l'ordine come perso, e il negozio non riceve più il resto che gli spetta",
-   "verdetto": "non_regge",
+   "verdetto": "regge",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "Rimessa: 0. Due lenti d'accordo: il controllo cerca il reso aperto solo in REQUESTED/APPROVED/SHIPPED_BACK/RECEIVED (resolve/route.ts:388-399), ma il percorso avanza segna il reso REFUNDED PRIMA di chiamare il rimborso (returns/[id]/avanza/route.ts:308-318): proprio nella finestra che la voce descrive il reso non si vede e si scrive ancora LOST. La prova non se ne accorge perché il database finto restituisce i resi ignorando il filtro .in().",
+   "nota": "Ricollaudo, due lenti. Rimessa: 0. Il reso REFUNDED senza refund_id ora conta come in corso (resolve/route.ts:395-406), e il finto database della prova filtra davvero sugli stati. In ogni ordine di eventi la lettura dopo il rimborso vede il reso e scrive RESOLVED. Un refund_id che non si riesce a scrivere sbaglia dalla parte sicura: l'ordine è rimborsato e nessuno lo paga.",
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R11-3 --base 7caff9982f2941ca09d0fabbecf9d74d23ec94dd^ --file app/api/admin/disputes/[id]/resolve/route.ts --prove tests/unit/riparazione-r11-reclamo-con-reso-aperto.test.ts --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R11-1 --base 7a057b14656a8693052775b2f579fdebca6ff55a^ --file app/api/admin/disputes/[id]/resolve/route.ts --prove tests/unit/riparazione-r11-reclamo-con-reso-aperto.test.ts --json"
    }
   },
   {
    "id": "R11-018",
    "chiave": "pagamenti-stripe|un buono regalo annullato o scaduto si legge «disponibile», col codice in chiaro",
-   "verdetto": "non_regge",
+   "verdetto": "regge",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "Rimessa: 0. Il cuore regge (annullato/scaduto, codice mascherato, niente Copia), ma la voce chiede anche la data di scadenza («Scaduto il …»; expires_at non viene mai mostrato) e alla testa la data non si vede da nessuna parte. Il referto dice copre_tutta=true senza cosa_resta.",
+   "nota": "Ricollaudo, due lenti. Rimessa: 0. Compaiono «Scaduta il …» e «Scade il …» con la data (page.tsx:394-401): il caso rimandato è chiuso. Riscattato più scaduto resta «Riscattata»; annullato dopo il riscatto mostra «Annullata» col codice nascosto. Nessuna rottura trovata.",
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R11-4 --base 4b8fbb2c158d19bf7f49c1f9d491f5cea574a592^ --file app/profile/gift-cards/page.tsx --prove tests/unit/riparazione-r11-buono-annullato-non-disponibile.test.tsx --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R11-3 --base f73733294870dbcbc5fc0e215edb35d36a3b8419^ --file app/profile/gift-cards/page.tsx --prove tests/unit/riparazione-r11-buono-annullato-non-disponibile.test.tsx --json"
    }
   },
   {
@@ -606,13 +610,13 @@
   {
    "id": "R11-020",
    "chiave": "pagamenti-stripe|se il primo collegamento a stripe si interrompe e poi cambiano email o ruolo, negozio e fattorino leggono «errore stripe» a ogni nuovo tentativo per 24 ore",
-   "verdetto": "non_regge",
+   "verdetto": "parziale",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "Rimessa: 0. La voce chiede che al secondo tentativo con email o ruolo diversi torni lo STESSO conto. Con la chiave connect_<id>_<ruolo>_<impronta email> (lib/stripe/client.ts:333-336, 423), se il salvataggio dell'id fallisce e poi cambia l'email, nasce subito un SECONDO conto Express e il primo resta orfano su Stripe senza avviso. Il referto lo tace.",
+   "nota": "Ricollaudo: nessun codice nuovo, ora dichiarata parziale. Cosa_resta dice in modo onesto il conto doppio orfano su Stripe quando il salvataggio dell'id fallisce e poi cambia l'email.",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R11-2 --base d7f6b8befcdb56616eac9811802c476dd81af159^ --file lib/stripe/client.ts --prove tests/unit/riparazione-r11-chiave-del-conto-connect.test.ts --json"
@@ -651,43 +655,43 @@
   {
    "id": "R11-023",
    "chiave": "pagamenti-stripe|una contestazione persa su una parte del carrello segna persi anche gli ordini degli altri negozi",
-   "verdetto": "rompe_altro",
+   "verdetto": "parziale",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "Rimessa su quanto-restituire.ts: 0. Rompe (provato dal giudice, confronto verificato nel codice): contestazioneDiUnaParte confronta l'importo conteso con gross_total_cents (quanto-restituire.ts:79-84), che comprende il credito usato, mentre Stripe addebita solo il pagato. Carrello da 50 € con 5 € di credito, contestazione persa per tutti i 45 € → «una parte»: niente annullo, niente merce a magazzino, PARTIALLY_REFUNDED. Il negozio può consegnare merce che la banca ha già rimborsato (alla base si annullava). In più LOST non si sblocca da nessuno strumento (release-payouts:93, stripe/payout/route.ts:32): «Nicola divide a mano» vuol dire toccare il database.",
+   "nota": "Ricollaudo, due lenti. Rimessa su quanto-restituire.ts: 0. Il confronto ora toglie il credito MyCity. Ma oggi un ordine pagato con la carta non porta mai credito (webhook/ordini.ts:324-328: lordo uguale al pagato), e solo la carta si contesta: il caso col credito non si raggiunge. Vale sia per quello segnato nel collaudo precedente sia per quello di adesso: un giudice ha mostrato che con credito più un rimborso parziale il credito si toglie due volte (quanto-restituire.ts:86-89), e una perdita parziale sembra intera. Rischio latente, da riguardare se un giorno carta e credito si uniscono. Cosa_resta onesto: LOST parziali si sbloccano solo a mano sul database.",
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R11-4 --base 47c2974f80709b055ce4020923f0aca171f035ea^ --file lib/stripe/webhook/quanto-restituire.ts --prove tests/unit/riparazione-r11-contestazione-persa-in-parte.test.ts --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R11-1 --base 8e9b45adbef4a487ffd3110dd4ebc6606f005885^ --file lib/stripe/webhook/quanto-restituire.ts --prove tests/unit/riparazione-r11-contestazione-persa-in-parte.test.ts --json"
    }
   },
   {
    "id": "R11-024",
    "chiave": "qa-flussi|il collegamento del negozio a stripe e il bonifico manuale non hanno nessuna prova",
-   "verdetto": "non_regge",
+   "verdetto": "parziale",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "Il commit de8f21fd tocca solo prove, nessun file del sito: la prova rimessa non si applica. La voce nomina un cambio all'involucro di autenticazione e chiede 401 senza sessione, 403 per ruolo sbagliato, 401 senza x-internal-secret e la mappatura dei codici del bonifico. La prova sostituisce withSellerAuthRateLimit, withAuthRateLimit e withInternalAuth con un passacarte che fa entrare tutti, finge applyConnectAccountStatus e prova solo ok:true (le mappature 404/400/409/500 di stripe/payout/route.ts:82-98 non sono provate). Cosa_resta dice che la copertura chiesta «ora c'è»: falso.",
+   "nota": "Ricollaudo. Le nuove prove della mappatura dei codici del bonifico mordono: chiedono lo stato HTTP esatto. Cosa_resta ora è onesto e completo: involucri di autenticazione e applyConnectAccountStatus sono finti, quindi niente 401/403, niente x-internal-secret e niente aggiornamento di stripe_payouts_enabled provati. RIDER_NOT_READY cade nel 500 di ripiego e non è provato da solo.",
    "rimessa": {
     "uscita": 2,
-    "comando": "nessun file del sito nel commit de8f21fdebc76c10f95676e2791a756923c1fff6 (solo tests/unit/riparazione-r11-rotte-stripe-connect.test.ts): prova-rimessa.mjs non applicabile, --file vuoto"
+    "comando": "nessun file del sito nei commit de8f21fdebc76c10f95676e2791a756923c1fff6 e ae97c11ea7e9f390b55cb83ed4bd80ca5951328a (solo tests/unit/riparazione-r11-rotte-stripe-connect.test.ts): prova-rimessa.mjs non applicabile, --file vuoto"
    }
   },
   {
    "id": "R11-025",
    "chiave": "qa-flussi|le pagine cms caricano ancora youtube/vimeo senza clic",
-   "verdetto": "non_regge",
+   "verdetto": "parziale",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "Rimessa: 0. L'iframe è sostituito da VideoAlClic e non ce ne sono altri. La voce ha però un secondo caso: la cookie policy non nomina YouTube e Vimeo, e alla testa app/cookies e app/privacy ancora non li nominano. Il referto dice riparato e copre_tutta=true, e il buco sta solo dentro cosa_ho_fatto.",
+   "nota": "Ricollaudo: nessun codice nuovo, ora dichiarata parziale. Cosa_resta dice in modo onesto che cookie policy e privacy non nominano ancora YouTube e Vimeo.",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R11-2 --base 224b727c0711934510fe95704c7100cc3e36780b^ --file components/cms/CmsBlockRenderer.tsx --prove tests/unit/riparazione-r11-video-cms-al-clic.test.tsx --json"

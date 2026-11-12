@@ -139,5 +139,31 @@
    ],
    "onda": 1
   }
+ },
+ "controllori": {
+  "C01": {
+   "id": "session_015BmpnVabUhyJW9h8MggNoh",
+   "ramo": "claude/sweet-galileo-0skkay-c01",
+   "onda": 1,
+   "integrazione": "b144746992176ae554d48376a00d972f5210a49f"
+  }
+ },
+ "integrazione_onda1": "b144746992176ae554d48376a00d972f5210a49f",
+ "tolte_onda1": {
+  "rompe_altro_due_volte": [
+   "R03-001",
+   "R03-008",
+   "R11-015",
+   "R11-016",
+   "R12-012"
+  ],
+  "rosse_dopo_unione": [
+   "R07-019",
+   "R06-014",
+   "R06-017"
+  ],
+  "non_tolta_latente": [
+   "R10-019"
+  ]
  }
 }
