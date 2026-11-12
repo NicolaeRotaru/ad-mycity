@@ -243,9 +243,16 @@ function fileDaScansionare() {
   return out;
 }
 
-function esente(relPath, esenzioniFatto) {
+// Le copie del registro del sito che il risolutore scrive per i riparatori (skill `riparazione`, comando
+// `schede`): una riga per difetto, titoli compresi, presi da auto-coscienza/radiografia-marketplace.json.
+// Il registro è esente perché è storia; la sua fotocopia lo è per la stessa ragione. Il 12/11 la prima
+// campagna ha fatto diventare rossa la CI di ad-mycity#944 con due titoli di difetti vecchi («al lancio
+// si paga solo in contanti», «fino a 10 km dal negozio»). Solo quel file: le schede restano vive.
+const ESENZIONI_FORMA = [/^consegne\/riparazioni\/[^/]+\/registro-compatto\.txt$/];
+
+export function esente(relPath, esenzioniFatto) {
   const tutte = [...ESENZIONI_DEFAULT, ...(esenzioniFatto || [])];
-  return tutte.some((e) => relPath === e || relPath.startsWith(e));
+  return tutte.some((e) => relPath === e || relPath.startsWith(e)) || ESENZIONI_FORMA.some((r) => r.test(relPath));
 }
 
 // ---------- CHECK ----------
