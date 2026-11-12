@@ -73,14 +73,45 @@ const TOTALE_MS = numero(process.env.PROVA_RIMESSA_TOTALE_MS, 480_000);
 export const ASSERZIONE = /AssertionError|expected [^\n]{0,160} to (?:be|equal|deeply|strictly|have|include|match|throw|contain|satisfy)\b|ERROR:\s+P0001:/;
 /** Un rosso di struttura: manca un nome, un modulo, o il file non si compila. */
 // Per SQL: funzione, tabella, colonna, tipo o schema che non esistono (42883, 42P01, 42703, 42704, 3F000).
-export const STRUTTURA = /SyntaxError|does not provide an export named|Cannot find module|ERR_MODULE_NOT_FOUND|Failed to (load|resolve)|Transform failed|is not a function|is not defined|is not a constructor|ERROR:\s+(?:42883|42P01|42703|42704|3F000):|MIGRAZIONI_NON_APPLICATE/;
+export const STRUTTURA = /SyntaxError|does not provide an export named|Cannot find module|ERR_MODULE_NOT_FOUND|Failed to (load|resolve)|Transform failed|is not a function|is not defined|is not a constructor|ERROR:\s+(?:42883|42P01|42703|42704|3F000):|MIGRAZIONI_NON_APPLICATE|\b(?:function|relation|column|type|schema|table|view|procedure)\s[^\n]{0,200}?\bdoes not exist\b/;
+// L'ultima: le prove SQL del sito avvolgono gli errori (EXCEPTION WHEN OTHERS) e li riscrivono come P0001, e il
+// «function … does not exist» resta in una riga INFO: la struttura si legge anche lì (radiografia del 12/11 notte).
 
 /** Il comando per le prove SQL: il database si ricostruisce da tutte le migrazioni sul disco, poi ogni prova. */
-export function comandoSql(db) {
+export function comandoSql(db, env = process.env) {
   if (!/^[a-z_][a-z0-9_]{0,40}$/.test(String(db))) throw new Error("--sql vuole il nome di un database di prova (lettere minuscole, cifre, _): " + db);
+  // apply.sh fa DROP DATABASE … WITH (FORCE): solo un database di prova, e solo su un Postgres locale
+  // (radiografia del 12/11 notte). Il nome dice «rimessa», «prova» o «test»; l'host è un socket o localhost.
+  if (!/rimessa|prova|test/.test(db) || /^(postgres|template\d*)$/.test(db)) throw new Error("--sql: il nome del database deve dire che è di prova (contenere «rimessa», «prova» o «test»): " + db);
+  const host = String(env.PGHOST ?? "");
+  if (host && !host.startsWith("/") && !/^(localhost|127\.0\.0\.1|::1)$/.test(host)) throw new Error("--sql gira solo su un Postgres locale (PGHOST socket o localhost), non su " + host);
   // Se il database non si ricostruisce, l'uscita di apply.sh non arriva qui (un RAISE dentro una migrazione
   // sembrerebbe un'asserzione P0001): arriva solo un segno di struttura (collaudo del 12/11 sera).
   return "{ bash tests/sql/harness/apply.sh " + db + " >/dev/null 2>&1 || { echo 'MIGRAZIONI_NON_APPLICATE: il database di prova non si ricostruisce'; exit 1; }; } && n=0 && for f in {prove}; do psql -q -X -d " + db + " -v ON_ERROR_STOP=1 -v VERBOSITY=verbose -f \"$f\" || exit 1; n=$((n+1)); done && echo \"# pass $n\"";
+}
+
+/** I nomi che una migrazione CREA (funzione, tabella, vista, tipo), senza lo schema public., che alla base non crea nessuno.
+ * `esisteAllaBase` torna true, false, o null se non lo sa: null conta come nome nuovo (la scelta prudente). */
+export function nomiCreatiNuovi(sql, esisteAllaBase = () => false) {
+  const t = String(sql).replace(/--.*$/gm, "");
+  const nomi = new Set();
+  for (const m of t.matchAll(/\bcreate\s+(?:or\s+replace\s+)?(?:materialized\s+)?(?:function|table|view|type|procedure)\s+(?:if\s+not\s+exists\s+)?((?:"?[a-z_][\w$]*"?\.)?"?[a-z_][\w$]*"?)/gi)) {
+    const nome = m[1].replace(/"/g, "").replace(/^public\./i, "");
+    if (!esisteAllaBase(nome)) nomi.add(nome);
+  }
+  return [...nomi];
+}
+/** Una migrazione della base crea già quel nome? (git grep sulla base, nelle cartelle delle migrazioni) */
+function creatoAllaBase(repo, base, nome) {
+  const corto = nome.replace(/^.*\./, "");
+  try {
+    const fuori = gitEsegui(["grep", "-l", "-i", "-E", "create\\s+(or\\s+replace\\s+)?(materialized\\s+)?(function|table|view|type|procedure)\\s+(if\\s+not\\s+exists\\s+)?(\"?public\"?\\.)?\"?" + corto.replace(/[.$]/g, "\\$&") + "\"?\\b", base, "--", "migrations", "supabase/migrations"], repo);
+    return !!String(fuori).trim();
+  } catch (e) {
+    // git grep esce 1 quando non trova niente: quello è un «no» vero. Ogni altro errore è «non lo so» (null), e chi
+    // chiama lo tratta come un nome nuovo: la macchina non decide, invece di dire «regge» su una fonte non letta.
+    return e?.status === 1 ? false : null;
+  }
 }
 
 /** Il testo senza commenti: blocchi e righe «//» per il codice, «--» per l SQL. */
@@ -328,6 +359,18 @@ async function corpo(a, ctx) {
     // esistenti restano corretti: così il rosso viene solo dai file nuovi (collaudo del 12/11 sera: togliendo
     // anche gli esistenti, una migrazione estranea accanto a una correzione vera risultava «provata»).
     // Se la prova nomina o importa un file nuovo, il rosso dice solo «manca il file»: la macchina non decide.
+    // Ogni file nuovo anche DA SOLO: tolto lui e basta, gli altri restano. Un file nuovo estraneo (una migrazione che
+    // apre una tabella) accanto alla riparazione vera dava «regge» col solo passo insieme (radiografia del 12/11 notte).
+    if (nuovi.length > 1) for (const f of nuovi) {
+      const p = join(repo, f);
+      toccato = true;
+      if (existsSync(p)) unlinkSync(p);
+      const g1 = await lancia("② " + f + " tolto da solo");
+      if (!rimettiUno(f)) { r = { esito: "non_ripristinato", uscita: 4, motivo: "NON tornato com'era: " + f }; return r; }
+      if (g1.scaduto) { r = no("tempo scaduto al passo ② su " + f); return r; }
+      if (verde(g1)) { nonMordono.push(f); passi.push("② " + f + " tolto da solo: ancora verde"); }
+      else passi.push("② " + f + " tolto da solo: rossa");
+    }
     if (nuovi.length) {
       toccato = true;
       for (const f of nuovi) { const p = join(repo, f); if (existsSync(p)) unlinkSync(p); }
@@ -347,8 +390,16 @@ async function corpo(a, ctx) {
         const usatiDaiVecchi = new Set(a.file.filter((f) => base.get(f) !== null && oggi.get(f)).flatMap((f) => [...importati(f, oggi.get(f).dati.toString("utf8"))]));
         const eCodice = (f) => /\.(?:[cm]?[jt]sx?)$/.test(f);
         const diretti = nuovi.filter((f) => importatiDalleProve.has(f) || senzaCommenti.includes(f) || senzaCommenti.includes(f.replace(/\.[^./]+$/, "")) || (eCodice(f) && !usatiDaiVecchi.has(f)));
-        const tipo = diretti.length ? "strutturale" : tipoDiRosso(g2.uscita);
-        if (tipo !== "comportamento") dubbi.push({ tipo, testo: etichetta + (diretti.length ? " (un file nuovo è importato o nominato dalle prove, o è codice che nessun file della correzione usa: " + diretti.join(", ") + ")" : " (alla base non c'era)") });
+        // SQL: una migrazione nuova si prova ricostruendo il database (--sql); e se le prove nominano una funzione,
+        // tabella o vista che solo lei crea, il rosso dice solo «il nome manca» (radiografia del 12/11 notte).
+        const migrazioni = nuovi.filter((f) => /\.sql$/i.test(f));
+        const senzaSql = a.sql === undefined ? migrazioni : [];
+        const nomiSql = a.sql !== undefined ? migrazioni.flatMap((f) => nomiCreatiNuovi(oggi.get(f)?.dati.toString("utf8") ?? "", (nome) => creatoAllaBase(repo, a.base, nome)).filter((n) => new RegExp("\\b" + n.replace(/[.$]/g, "\\$&") + "\\b", "i").test(senzaCommenti)).map((n) => f + " crea " + n)) : [];
+        const tipo = diretti.length || senzaSql.length || nomiSql.length ? "strutturale" : tipoDiRosso(g2.uscita);
+        const perche = diretti.length ? " (un file nuovo è importato o nominato dalle prove, o è codice che nessun file della correzione usa: " + diretti.join(", ") + ")"
+          : senzaSql.length ? " (una migrazione si prova con --sql, ricostruendo il database con e senza: " + senzaSql.join(", ") + ")"
+          : nomiSql.length ? " (le prove nominano oggetti che solo la migrazione nuova crea: " + nomiSql.join(", ") + ")" : " (alla base non c'era)";
+        if (tipo !== "comportamento") dubbi.push({ tipo, testo: etichetta + perche });
         passi.push("② file nuovi tolti: rossa, " + (tipo === "comportamento" ? "sul comportamento" : tipo === "strutturale" ? "ma solo per la struttura" : "per un motivo che non riconosco"));
       }
     }
@@ -359,7 +410,7 @@ async function corpo(a, ctx) {
     passi.push("③ correzione rimessa: verde · file identici a prima (byte e permessi)");
     if (nonMordono.length) r = { esito: "non_morde", uscita: 1, motivo: "con solo questi file alla base la prova resta verde: " + nonMordono.join(", ") + ". O il file non porta la correzione (toglilo da --file e dillo in nota), o gli serve una prova sua" };
     else if (dubbi.length) r = { esito: dubbi.some((d) => d.tipo === "strutturale") ? "rosso_strutturale" : "rosso_sconosciuto", uscita: 3, motivo: "la macchina non decide su: " + dubbi.map((d) => d.testo).join("; ") + ". Decide il collaudo, rimettendo il difetto com'e' scritto nella scheda" };
-    else r = { esito: "regge", uscita: 0, motivo: "la prova morde: cade togliendo ognuno dei file corretti, e torna verde con la correzione" };
+    else r = { esito: "regge", uscita: 0, motivo: "la prova morde: cade togliendo ognuno dei file corretti (i nuovi anche da soli e tutti insieme), e torna verde con la correzione" };
     return r;
   } finally {
     const diversi = rimettiTutto();

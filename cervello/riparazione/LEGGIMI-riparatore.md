@@ -69,17 +69,23 @@ andati in rilettura, non in lavoro. Quindi:
    sotto, fa le prove e la prova rimessa, un commit per voce, e ti restituisce solo le righe JSON del referto e i
    problemi in poche righe. Nel deposito del sito i tipi `tech` e `qa` non esistono: usa il subagente generico, con
    un mandato chiuso («ripara queste voci con queste regole» oppure «prova a smentire queste riparazioni»).
-3. **Tu copi le righe nel referto**, lanci i controlli del lotto e passi al lotto dopo. Così la tua storia resta
+3. **Un lotto alla volta.** I lotti lavorano nella stessa copia del sito: due insieme si rubano i file a vicenda
+   (il commit di uno cattura i file che la prova rimessa dell'altro ha riportato alla base, e la prova rimessa trova
+   l'albero sporco). Il lotto dopo parte solo quando quello prima ha fatto i suoi commit.
+   **Tu copi le righe nel referto**, lanci i controlli del lotto e passi al lotto dopo. Così la tua storia resta
    sotto i 150 mila token. Un giro di correzione chiesto dal collaudo lo fa un subagente nuovo, che riceve solo il
    referto, il diff della voce e il rapporto del collaudo.
 4. **I rapporti sono corti:** il verdetto, più ogni difetto con file e riga. Le uscite lunghe (prove, log) restano in
    un file in `/tmp`, e nella storia entra solo il comando con l'esito. Le prove si lanciano con il reporter corto
    (`--reporter=dot`), non con quello che stampa ogni caso.
 5. **Un turno, un esito.** Un comando lungo (`npm run verify`) si aspetta nello stesso turno: in primo piano fino a
-   10 minuti, oltre in sottofondo con l'attesa sul comando. Non si chiude il turno con «verify in corso». I subagenti
-   si lanciano tutti insieme in primo piano, nello stesso messaggio, così non ti svegliano uno alla volta.
-6. **Se la regista ti scrive che hai superato i 300 mila token**, chiudi il lotto in corso, aggiorna il referto e
-   spingi: il resto lo fa una sessione nuova, che riparte dal referto.
+   10 minuti, oltre in sottofondo con l'attesa sul comando. Non si chiude il turno con «verify in corso». Insieme, in
+   primo piano e nello stesso messaggio, si lanciano solo i subagenti che **leggono** (i revisori di un lotto), così
+   non ti svegliano uno alla volta. Quelli che riparano vanno uno alla volta (punto 3).
+6. **Se la regista ti scrive che hai superato i 300 mila token**, chiudi il lotto in corso, aggiorna il referto,
+   copialo in `.riparazione/referto-RNN.json`, fai il commit e spingi. Il resto lo fa una sessione nuova, che parte
+   dalla **testa del tuo ramo** (non dalla base), legge il referto dal ramo e riprende solo le voci che non hanno
+   ancora un esito. Scrivi alla regista lo SHA spinto, preso con `git rev-parse HEAD` nello stesso comando.
 
 ### Il metodo, voce per voce
 
@@ -112,9 +118,11 @@ andati in rilettura, non in lavoro. Quindi:
    **Se la correzione ha file nuovi** (una migrazione, un aiutante) mettili in `--file` insieme agli altri: la
    prova toglie tutti i file nuovi insieme, lascia corretti gli altri, e deve cadere sul comportamento. Una
    prova che nomina o importa il file nuovo dà 3: guarda il file, non quello che fa. **Una
-   migrazione si prova con le prove SQL:** `--sql mycity_rimessa` al posto di `--comando` (ricostruisce il
-   database dalle migrazioni sul disco, con e senza la tua). Così anche una voce chiusa solo con una migrazione
-   può essere `riparato`, non più `parziale` per forza (regola del 12/11 sera).
+   migrazione si prova con le prove SQL:** `--sql rNN_rimessa` al posto di `--comando` (ricostruisce il
+   database dalle migrazioni sul disco, con e senza la tua; il nome deve dire «rimessa», «prova» o «test», e il
+   Postgres deve essere locale). Senza `--sql` una migrazione nuova dà 3. Se la correzione ha più file nuovi, ognuno
+   si toglie anche da solo: uno che da solo lascia la prova verde dà 1. Così anche una voce chiusa solo con una
+   migrazione può essere `riparato`, non più `parziale` per forza (regola del 12/11 sera).
 9. Scrivi la voce nel referto **appena finita**, non alla fine: nel file di lavoro `../referto-RNN.json`, fuori
    dall'albero.
 
@@ -123,7 +131,8 @@ andati in rilettura, non in lavoro. Quindi:
 - Tocchi solo **i tuoi file** (sezione «I miei file» della scheda). Un file nuovo lo puoi creare: se un
   altro ramo crea lo stesso file, la regista lo vede subito.
 - **Le prove nuove** portano il tuo nome: `tests/unit/riparazione-rNN-<tema>.test.ts` (sito),
-  `tests/sql/rls/riparazione-rNN-<tema>.sql` (prove SQL: è l'unica cartella che leggono `run.sh` e la CI),
+  `tests/sql/rls/riparazione-rNN-<tema>.test.sql` (prove SQL: `run.sh` e la CI leggono solo `tests/sql/rls/*.test.sql`;
+  con un altro nome la guardia è rossa),
   `cervello/test/riparazione-rNN-<tema>.test.mjs` (macchina).
 - **Una prova esistente** la modifichi solo se importa **o legge per nome** uno dei tuoi file (per esempio
   `readFileSync(join(ROOT, "app", "x", "page.tsx"))`), e lo dichiari. Un percorso scritto solo in un commento
@@ -159,8 +168,8 @@ andati in rilettura, non in lavoro. Quindi:
    commit di codice, aspettato nello stesso turno. **Macchina:** `node cervello/cancello-lotto.mjs` verde.
 3. Nel referto metti `"finita": true`, `testa` = il tuo **ultimo commit di codice** (quello dopo il quale ci sono
    solo commit del referto) e `verifica.testa` = lo SHA su cui è girato il verify, preso con `git rev-parse HEAD`
-   nello stesso comando. Deve essere uguale a `testa`: se no il programma è rosso (nell'onda 1 R07 ha spinto 8
-   commit con un verify lanciato e mai aspettato). Copia il referto in `.riparazione/`, fai il commit del solo
+   nello stesso comando. Deve essere `testa`, oppure un commit dopo `testa` che tocca solo il referto: se no il
+   programma è rosso (nell'onda 1 R07 ha spinto 8 commit con un verify lanciato e mai aspettato). Copia il referto in `.riparazione/`, fai il commit del solo
    referto, spingi.
 4. Il controllo del programma sul tuo referto, dalla copia di `ad-mycity`:
    `node ../ad-mycity/cervello/riparazione-sessioni.mjs valida-referto .riparazione/referto-RNN.json --cartella ../ad-mycity/<cartella> --git . --ramo HEAD`

@@ -9,7 +9,7 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, writeFileSync, mkdirSync, rmSync, readFileSync, existsSync } from "node:fs";
+import { mkdtempSync, writeFileSync, mkdirSync, rmSync, readFileSync, existsSync, realpathSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
 import { execFileSync, spawnSync } from "node:child_process";
@@ -17,7 +17,7 @@ import { fileURLToPath } from "node:url";
 import { symlinkSync } from "node:fs";
 import {
   fileDaCampoSito, fileDaSchedaMacchina, assegnaOnda, controllaOnda, giudicaPercorso, importDi, percorsiNominati,
-  regoleReferto, regoleCollaudo, campioneDi, decidi, chiaviDoppie, classifica, CONDIVISI_MACCHINA, RE_SPENTA,
+  regoleReferto, regoleCollaudo, campioneDi, decidi, chiaviDoppie, classifica, CONDIVISI_MACCHINA, RE_SPENTA, contaAsserzioni,
 } from "../riparazione-sessioni.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
@@ -266,7 +266,7 @@ test("applica: un minore fuori campione si chiude solo se il campione è accetta
   const piano = { onde: [{ sessioni: { R03: { voci: [...schedaMinori, { id: "R03-011", chiave: "g|1", gravita: "grave", file: ["lib/g.ts"] }] } } }] };
   const referti = { R03: { voci: [...refertoMinori.voci.map((v) => ({ ...v, prova_comando: "npx vitest run x" })), { id: "R03-011", chiave: "g|1", esito: "riparato", prova_comando: "x", rimessa: { uscita: 0, comando: "x" } }] } };
   const pieni = (quanti, regge = () => true) => schedaMinori.map((v, i) => voceCollaudo(v, i < quanti ? { giudizio: "pieno", verdetto: regge(i) ? "regge" : "non_regge" } : {}));
-  const conGrave = (voci, giudizioGrave) => ({ collaudatore: "K01", riparatori: ["R03"], voci: [...voci, { id: "R03-011", chiave: "g|1", verdetto: "regge", giudizio: giudizioGrave, rimessa: { uscita: 0, comando: "x" } }] });
+  const conGrave = (voci, giudizioGrave) => ({ collaudatore: "K01", riparatori: ["R03"], voci: [...voci, { id: "R03-011", chiave: "g|1", verdetto: "regge", giudizio: giudizioGrave, rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] });
   let d = decidi({ piano, referti, collaudi: [conGrave(pieni(5), "nessuno")], hub: new Set() });
   assert.equal(d.find((x) => x.id === "R03-010").decisione, "si_chiude");
   assert.equal(d.find((x) => x.id === "R03-011").decisione, "resta_aperta");
@@ -441,7 +441,7 @@ test("AR-1163 · collaudo A #1: il «regge» di un collaudatore che non guarda q
   const piano = { onde: [{ sessioni: { R01: { voci: [{ id: "R01-001", chiave: "g|1", gravita: "grave", file: ["lib/g.ts"] }] } } }] };
   const referti = { R01: { voci: [{ id: "R01-001", chiave: "g|1", esito: "riparato", prova_comando: "x", rimessa: { uscita: 0, comando: "x" } }] } };
   const giusto = { collaudatore: "K01", riparatori: ["R01"], voci: [{ id: "R01-001", chiave: "g|1", verdetto: "non_regge", giudizio: "pieno", rimessa: { uscita: 0, comando: "x" } }] };
-  const intruso = { collaudatore: "K02", riparatori: ["R02"], voci: [{ id: "R01-001", chiave: "g|1", verdetto: "regge", giudizio: "pieno", rimessa: { uscita: 0, comando: "x" } }] };
+  const intruso = { collaudatore: "K02", riparatori: ["R02"], voci: [{ id: "R01-001", chiave: "g|1", verdetto: "regge", giudizio: "pieno", rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] };
   assert.equal(decidi({ piano, referti, collaudi: [giusto, intruso], hub: new Set() })[0].decisione, "resta_aperta");
   assert.equal(decidi({ piano, referti, collaudi: [intruso], hub: new Set() })[0].decisione, "resta_aperta", "senza il collaudatore giusto non si chiude");
   const indulgente = { ...intruso, collaudatore: "K03", riparatori: ["R01"] };
@@ -543,7 +543,7 @@ test("AR-1163 · collaudo A #2: applica rilancia i controlli su referti e collau
     mkdirSync(join(c, "referti")); mkdirSync(join(c, "collaudi"));
     const rip = riparata({ id: "R01-001", prova_tipo: "lettura-codice", prova_eseguita: false });
     writeFileSync(join(c, "referti", "R01.json"), JSON.stringify({ sessione: "R01", aggiornato: "2026-11-08 10:00", finita: false, voci: [rip] }));
-    writeFileSync(join(c, "collaudi", "K01.json"), JSON.stringify({ collaudatore: "K01", riparatori: ["R01"], aggiornato: "2026-11-08 12:00", finita: true, voci: [{ id: "R01-001", chiave: rip.chiave, verdetto: "regge", giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"], rimessa: { uscita: 0, comando: "x" } }] }));
+    writeFileSync(join(c, "collaudi", "K01.json"), JSON.stringify({ collaudatore: "K01", riparatori: ["R01"], aggiornato: "2026-11-08 12:00", finita: true, voci: [{ id: "R01-001", chiave: rip.chiave, verdetto: "regge", giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"], rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] }));
     writeFileSync(join(c, "collaudi", "appunti.json"), "{}");
     const prima = readFileSync(registro, "utf8");
     const r = lancia("applica", "--cartella", c, "--registro", registro, "--scrivi");
@@ -621,7 +621,7 @@ test("collaudo B #4: il collaudatore trova i referti con --referti o dal ramo sc
   const c = cartellaCampagna(base);
   try {
     const rif = { sessione: "R01", aggiornato: "2026-11-08 10:00", finita: true, voci: [{ id: "R01-001", chiave: "x|a", esito: "riparato", rimessa: { uscita: 0, comando: "x" } }] };
-    const col = { collaudatore: "K01", riparatori: ["R01"], aggiornato: "2026-11-08 12:00", finita: true, voci: [{ id: "R01-001", chiave: "x|a", verdetto: "regge", giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"], rimessa: { uscita: 0, comando: "x" } }] };
+    const col = { collaudatore: "K01", riparatori: ["R01"], aggiornato: "2026-11-08 12:00", finita: true, voci: [{ id: "R01-001", chiave: "x|a", verdetto: "regge", giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"], rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] };
     mkdirSync(join(c, "collaudi")); writeFileSync(join(c, "collaudi", "K01.json"), JSON.stringify(col));
     assert.equal(lancia("valida-collaudo", join(c, "collaudi", "K01.json"), "--cartella", c).status, 3, "senza referti: in attesa");
     const mia = mkdtempSync(join(tmpdir(), "referti-")); writeFileSync(join(mia, "R01.json"), JSON.stringify(rif));
@@ -684,8 +684,8 @@ test("secondo collaudo #8: la forma unica del percorso viene prima del controllo
 test("secondo collaudo #8: fra due «regge» vince quello col giudizio pieno", () => {
   const piano = { onde: [{ sessioni: { R01: { voci: [{ id: "R01-001", chiave: "g|1", gravita: "grave", file: ["lib/g.ts"] }] } } }] };
   const referti = { R01: { voci: [{ id: "R01-001", chiave: "g|1", esito: "riparato", prova_comando: "x", rimessa: { uscita: 0, comando: "x" } }] } };
-  const rapido = { collaudatore: "K01", riparatori: ["R01"], voci: [{ id: "R01-001", chiave: "g|1", verdetto: "regge", giudizio: "nessuno", rimessa: { uscita: 0, comando: "x" } }] };
-  const pieno = { collaudatore: "K02", riparatori: ["R01"], voci: [{ id: "R01-001", chiave: "g|1", verdetto: "regge", giudizio: "pieno", rimessa: { uscita: 0, comando: "x" } }] };
+  const rapido = { collaudatore: "K01", riparatori: ["R01"], voci: [{ id: "R01-001", chiave: "g|1", verdetto: "regge", giudizio: "nessuno", rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] };
+  const pieno = { collaudatore: "K02", riparatori: ["R01"], voci: [{ id: "R01-001", chiave: "g|1", verdetto: "regge", giudizio: "pieno", rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] };
   assert.equal(decidi({ piano, referti, collaudi: [rapido, pieno], hub: new Set() })[0].decisione, "si_chiude");
 });
 
@@ -741,8 +741,8 @@ test("secondo collaudo #7: applica rilancia anche i controlli del collaudo (un g
     writeFileSync(registro, JSON.stringify({ problemi: [{ dimensione: "pagamenti", titolo: "il payout salta", stato: "aperto", severita: "grave", file: "lib/a.ts:1" }] }));
     mkdirSync(join(c, "referti")); mkdirSync(join(c, "collaudi"));
     const rip = riparata({ id: "R01-001" });
-    writeFileSync(join(c, "referti", "R01.json"), JSON.stringify({ sessione: "R01", aggiornato: "2026-11-08 10:00", finita: true, testa: "fff0000", verifica: { esito: "verde" }, voci: [rip] }));
-    const k = (lenti) => JSON.stringify({ collaudatore: "K01", riparatori: ["R01"], aggiornato: "2026-11-08 12:00", finita: true, voci: [{ id: "R01-001", chiave: rip.chiave, verdetto: "regge", giudizio: "pieno", ...(lenti ? { lenti } : {}), rimessa: { uscita: 0, comando: "x" } }] });
+    writeFileSync(join(c, "referti", "R01.json"), JSON.stringify({ sessione: "R01", aggiornato: "2026-11-08 10:00", finita: true, testa: "fff0000", verifica: { esito: "verde", testa: "fff0000" }, voci: [rip] }));
+    const k = (lenti) => JSON.stringify({ collaudatore: "K01", riparatori: ["R01"], aggiornato: "2026-11-08 12:00", finita: true, voci: [{ id: "R01-001", chiave: rip.chiave, verdetto: "regge", giudizio: "pieno", ...(lenti ? { lenti } : {}), rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] });
     writeFileSync(join(c, "collaudi", "K01.json"), k(["chiude_tutta", "nata_rotta"]));
     let r = lancia("applica", "--cartella", c, "--registro", registro);
     assert.equal(r.status, 3, r.stdout);
@@ -765,8 +765,8 @@ test("il controllore: una voce che trova rossa sul ramo unito non si chiude, e i
     writeFileSync(registro, JSON.stringify({ problemi: [{ dimensione: "pagamenti", titolo: "il payout salta", stato: "aperto", severita: "grave", file: "lib/a.ts:1" }] }));
     mkdirSync(join(c, "referti")); mkdirSync(join(c, "collaudi")); mkdirSync(join(c, "controlli"));
     const rip = riparata({ id: "R01-001" });
-    writeFileSync(join(c, "referti", "R01.json"), JSON.stringify({ sessione: "R01", aggiornato: "2026-11-08 10:00", finita: true, testa: "fff0000", verifica: { esito: "verde" }, voci: [rip] }));
-    writeFileSync(join(c, "collaudi", "K01.json"), JSON.stringify({ collaudatore: "K01", riparatori: ["R01"], aggiornato: "2026-11-08 12:00", finita: true, voci: [{ id: "R01-001", chiave: rip.chiave, verdetto: "regge", giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"], rimessa: { uscita: 0, comando: "x" } }] }));
+    writeFileSync(join(c, "referti", "R01.json"), JSON.stringify({ sessione: "R01", aggiornato: "2026-11-08 10:00", finita: true, testa: "fff0000", verifica: { esito: "verde", testa: "fff0000" }, voci: [rip] }));
+    writeFileSync(join(c, "collaudi", "K01.json"), JSON.stringify({ collaudatore: "K01", riparatori: ["R01"], aggiornato: "2026-11-08 12:00", finita: true, voci: [{ id: "R01-001", chiave: rip.chiave, verdetto: "regge", giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"], rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] }));
     const controllo = (extra) => JSON.stringify({ controllore: "C01", onda: 1, finita: true, testa: "abc1234", verify: { comando: "npm run verify", esito: "verde" }, voci_rosse: [], nuovi_difetti_visti: [], ...extra });
     // senza controllo, o con un controllo che non trova niente, la voce si chiude
     writeFileSync(join(c, "controlli", "C01.json"), controllo({}));
@@ -871,7 +871,7 @@ test("12/11 notte, collaudo: la verifica su un commit del solo referto vale, uno
   assert.match(r.rossi.join(" "), /«verifica\.testa» \["fff0000"\] non è un commit/);
 });
 
-test("12/11 notte, collaudo: dall'onda 2 applica ferma un referto finito senza verifica.testa", () => {
+test("12/11 notte, collaudo: applica ferma un referto finito senza verifica.testa (dall'onda scritta nel piano)", () => {
   const c = mkdtempSync(join(tmpdir(), "riparazione-applica-o2-"));
   try {
     const v1 = [{ id: "R01-001", chiave: "pagamenti|il payout salta", gravita: "grave", file: ["lib/a.ts"] }];
@@ -886,16 +886,47 @@ test("12/11 notte, collaudo: dall'onda 2 applica ferma un referto finito senza v
     mkdirSync(join(c, "referti")); mkdirSync(join(c, "collaudi"));
     const rip = riparata({ id: "R02-001" });
     const ref = (verifica) => JSON.stringify({ sessione: "R02", aggiornato: "2026-11-13 10:00", finita: true, testa: "fff0000", verifica, voci: [rip] });
-    writeFileSync(join(c, "collaudi", "K01.json"), JSON.stringify({ collaudatore: "K01", riparatori: ["R02"], aggiornato: "2026-11-13 12:00", finita: true, voci: [{ id: "R02-001", chiave: rip.chiave, verdetto: "regge", giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"], rimessa: { uscita: 0, comando: "x" } }] }));
+    writeFileSync(join(c, "collaudi", "K01.json"), JSON.stringify({ collaudatore: "K01", riparatori: ["R02"], aggiornato: "2026-11-13 12:00", finita: true, voci: [{ id: "R02-001", chiave: rip.chiave, verdetto: "regge", giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"], rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] }));
     writeFileSync(join(c, "referti", "R02.json"), ref({ comando: "npm run verify", esito: "verde" }));
     let r = lancia("applica", "--cartella", c, "--registro", registro);
     assert.equal(r.status, 1, r.stdout);
-    assert.match(r.stdout, /dall'onda 2 un referto finito dice su quale commit è girata la verifica/);
+    assert.match(r.stdout, /un referto finito dice su quale commit è girata la verifica/);
     writeFileSync(join(c, "referti", "R02.json"), ref({ comando: "npm run verify", esito: "verde", testa: "fff0000" }));
     r = lancia("applica", "--cartella", c, "--registro", registro);
     assert.equal(r.status, 3, r.stdout);
     assert.match(r.stdout, /1 si chiudono/);
   } finally { rmSync(c, { recursive: true, force: true }); }
+});
+
+test("radiografia 12/11 notte · la verifica legata al commit vale anche nell'onda 1 di una campagna nuova; la campagna del 12/11 la esenta col piano", () => {
+  const c = mkdtempSync(join(tmpdir(), "riparazione-applica-o1-"));
+  try {
+    const v1 = [{ id: "R01-001", chiave: "pagamenti|il payout salta", gravita: "grave", file: ["lib/a.ts"] }];
+    const piano = (extra) => JSON.stringify({ casa: "sito", ...extra, onde: [{ onda: 1, base: "0".repeat(40), candidate: [v1[0].chiave], sessioni: { R01: { voci: v1, file: ["lib/a.ts"] } }, rimandate: [], regia: [] }] });
+    writeFileSync(join(c, "perimetro.json"), JSON.stringify({ casa: "sito", lavorabili: v1 }));
+    const registro = join(c, "registro.json");
+    writeFileSync(registro, JSON.stringify({ problemi: [{ dimensione: "pagamenti", titolo: "il payout salta", stato: "aperto", severita: "grave", file: "lib/a.ts:1" }] }));
+    mkdirSync(join(c, "referti")); mkdirSync(join(c, "collaudi"));
+    const rip = riparata({ id: "R01-001" });
+    writeFileSync(join(c, "referti", "R01.json"), JSON.stringify({ sessione: "R01", aggiornato: "2026-11-13 10:00", finita: true, testa: "fff0000", verifica: { comando: "npm run verify", esito: "verde" }, voci: [rip] }));
+    writeFileSync(join(c, "collaudi", "K01.json"), JSON.stringify({ collaudatore: "K01", riparatori: ["R01"], aggiornato: "2026-11-13 12:00", finita: true, voci: [{ id: "R01-001", chiave: rip.chiave, verdetto: "regge", giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"], rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] }));
+    writeFileSync(join(c, "piano.json"), piano({}));
+    let r = lancia("applica", "--cartella", c, "--registro", registro);
+    assert.equal(r.status, 1, r.stdout);
+    assert.match(r.stdout, /un referto finito dice su quale commit è girata la verifica/);
+    writeFileSync(join(c, "piano.json"), piano({ verifica_testa_dall_onda: 2 }));
+    r = lancia("applica", "--cartella", c, "--registro", registro);
+    assert.equal(r.status, 3, r.stdout);
+  } finally { rmSync(c, { recursive: true, force: true }); }
+});
+
+test("radiografia 12/11 notte · il collaudo che dice «regge» deve aver tolto la correzione con prova-rimessa, e con --sql se il riparatore l'ha usato", () => {
+  const scheda = [{ id: "R03-001", chiave: "g|1", gravita: "grave", file: ["migrations/251_x.sql"] }];
+  const ctxSql = (comandoRiparatore) => ({ nome: "K01", riparatori: { R03: { voci: scheda, referto: { finita: true, voci: [{ id: "R03-001", chiave: "g|1", esito: "riparato", rimessa: { uscita: 0, comando: comandoRiparatore } }] } } }, hub: new Set() });
+  const col = (comando) => collaudo([voceCollaudo(scheda[0], { giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"], rimessa: { uscita: 0, comando } })]);
+  assert.match(regoleCollaudo(col("bash tests/sql/harness/apply.sh && bash tests/sql/harness/run.sh"), ctxSql("node cervello/prova-rimessa.mjs --sql db")).rossi.join("\n"), /non è prova-rimessa\.mjs/);
+  assert.match(regoleCollaudo(col("node cervello/prova-rimessa.mjs --comando 'x {prove}'"), ctxSql("node cervello/prova-rimessa.mjs --sql db")).rossi.join("\n"), /provata con --sql e il collaudo no/);
+  assert.doesNotMatch(regoleCollaudo(col("node cervello/prova-rimessa.mjs --sql k01_rimessa"), ctxSql("node cervello/prova-rimessa.mjs --sql db")).rossi.join("\n"), /prova-rimessa|--sql/);
 });
 
 test("il controllo finale non dimentica nulla: conti è rosso per una voce senza decisione o aperta senza perché", () => {
@@ -917,5 +948,111 @@ test("il controllo finale non dimentica nulla: conti è rosso per una voce senza
     ] }));
     r = lancia("conti", "--cartella", c, "--registro", registro);
     assert.equal(r.status, 0, r.stdout);
+    // radiografia 12/11 notte: senza decisioni.json il controllo non è fatto, e conti non è verde
+    rmSync(join(c, "decisioni.json"));
+    r = lancia("conti", "--cartella", c, "--registro", registro);
+    assert.equal(r.status, 3, r.stdout);
+    assert.match(r.stdout, /decisioni\.json non c'è o è vuoto/);
   } finally { rmSync(c, { recursive: true, force: true }); }
+});
+
+// ── radiografia del 12/11 notte: i buchi trovati sulla guardia, sull'unione di prova e su applica ──────────
+test("radiografia 12/11 notte · una prova che passa al setaccio una cartella non è di chi possiede un file nominato", () => {
+  const { dir, g, scrivi } = depositoFinto();
+  scrivi("tests/unit/setaccio.test.ts", "import { readdirSync, readFileSync } from 'node:fs';\nconst tipi = readFileSync('lib/a.ts', 'utf8');\nfor (const f of readdirSync('lib')) it(f, () => { expect(tipi).toBeTruthy(); });\n");
+  g("add", "-A"); g("commit", "-qm", "prova che setaccia");
+  const base = g("rev-parse", "HEAD");
+  const c = cartellaCampagna(base);
+  try {
+    g("checkout", "-q", "-b", "r01", base);
+    scrivi("lib/a.ts", "export const a = 2;\n");
+    scrivi("tests/unit/setaccio.test.ts", "import { readdirSync, readFileSync } from 'node:fs';\nconst tipi = readFileSync('lib/a.ts', 'utf8');\nfor (const f of readdirSync('lib').filter((x) => x !== 'b.ts')) it(f, () => { expect(tipi).toBeTruthy(); });\n");
+    g("add", "-A"); g("commit", "-qm", "R01-001 tolgo dal giro il file di R02");
+    const r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.equal(r.status, 1, r.stdout);
+    assert.match(r.stdout, /setaccio\.test\.ts: è una prova esistente che usa anche file di altre sessioni/);
+  } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
+});
+
+test("radiografia 12/11 notte · un aiutante delle prove importato da altre prove è comune, anche se nomina solo un file della sessione", () => {
+  const { dir, g, scrivi } = depositoFinto();
+  scrivi("tests/unit/aiuti/tavolozza.ts", "import { readFileSync } from 'node:fs';\nexport const contrastoOk = () => readFileSync('lib/a.ts', 'utf8').length > 0;\n");
+  scrivi("tests/unit/usa-tavolozza.test.ts", "import { contrastoOk } from './aiuti/tavolozza';\nimport { b } from '../../lib/b';\nit('b', () => { expect(contrastoOk() && b).toBeTruthy(); });\n");
+  g("add", "-A"); g("commit", "-qm", "aiutante e prova di R02");
+  const base = g("rev-parse", "HEAD");
+  const c = cartellaCampagna(base);
+  try {
+    g("checkout", "-q", "-b", "r01", base);
+    scrivi("lib/a.ts", "export const a = 2;\n");
+    scrivi("tests/unit/aiuti/tavolozza.ts", "export const contrastoOk = () => true;\n");
+    g("add", "-A"); g("commit", "-qm", "R01-001 svuoto l'aiutante");
+    const r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.equal(r.status, 1, r.stdout);
+    assert.match(r.stdout, /tavolozza\.ts: è una prova esistente che usa anche file di altre sessioni/);
+  } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
+});
+
+test("radiografia 12/11 notte · una prova SQL nuova che non finisce in .test.sql è rossa: run.sh e la CI non la lanciano", () => {
+  const ctx = ctxBase();
+  assert.match(String(giudicaPercorso("tests/sql/rls/riparazione-r03-tetto.sql", ctx)), /finisce in \.test\.sql/);
+  assert.equal(giudicaPercorso("tests/sql/rls/riparazione-r03-tetto.test.sql", ctx), null);
+});
+
+test("radiografia 12/11 notte · le prove spente con .skip.each, describe.skip.each e ctx.skip() si vedono", () => {
+  for (const r of ["it.skip.each([[1]])('x', () => {})", "describe.skip.each`a`('x', () => {})", "test.only.each([1])('x', () => {})", "it('x', (ctx) => { ctx.skip(); })", "it('x', (context) => { context.skip() })"]) assert.ok(RE_SPENTA.test(r), r);
+  for (const r of ["it.each([[1]])('x', () => {})", "skipList.push(1)"]) assert.ok(!RE_SPENTA.test(r), r);
+});
+
+test("radiografia 12/11 notte · un'asserzione commentata non si conta: la prova svuotata così resta rossa", () => {
+  assert.equal(contaAsserzioni("expect(a).toBe(1);\n// expect(b).toBe(2);\n/* assert.equal(c, 3) */\nconst u = 'http://x'; expect(u).toBeTruthy();"), 2);
+});
+
+test("radiografia 12/11 notte · prova-unione guarda il diff netto: un file toccato e rimesso non fa rosso per due rami", () => {
+  const { dir, g, scrivi, base } = depositoFinto();
+  const c = cartellaCampagna(base);
+  try {
+    g("checkout", "-q", "-b", "r01", base);
+    scrivi("lib/b.ts", "export const b = 9;\n"); g("commit", "-qam", "R01-001 tocco b per sbaglio");
+    scrivi("lib/b.ts", "export const b = 1;\n"); g("commit", "-qam", "R01-001 lo rimetto");
+    scrivi("lib/a.ts", "export const a = 2;\n"); g("commit", "-qam", "R01-001 la riparazione");
+    g("checkout", "-q", "-b", "r02", base);
+    scrivi("lib/b.ts", "export const b = 2;\n"); g("commit", "-qam", "R02-001 la riparazione");
+    const r = lancia("prova-unione", "--cartella", c, "--git", dir, "--onda", "1", "--refs", "R01=r01,R02=r02");
+    assert.equal(r.status, 0, r.stdout);
+  } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
+});
+
+test("radiografia 12/11 notte · applica rilancia la guardia del ramo: un ramo che tocca il file di un'altra sessione ferma tutto", () => {
+  const { dir, g, scrivi, base } = depositoFinto();
+  const c = cartellaCampagna(base);
+  try {
+    g("checkout", "-q", "-b", "r01", base);
+    scrivi("lib/a.ts", "export const a = 2;\n"); scrivi("lib/b.ts", "export const b = 7;\n");
+    g("add", "-A"); g("commit", "-qm", "R01-001 la riparazione, e il file di R02");
+    const testa = g("rev-parse", "HEAD");
+    writeFileSync(join(c, "sessioni.json"), JSON.stringify({ sessioni: { R01: { onda: 1, ramo: "r01" } } }));
+    const registro = join(c, "registro.json");
+    writeFileSync(registro, JSON.stringify({ problemi: [{ dimensione: "x", titolo: "a", stato: "aperto", severita: "minore", file: "lib/a.ts:1" }] }));
+    mkdirSync(join(c, "referti"));
+    writeFileSync(join(c, "referti", "R01.json"), JSON.stringify({ sessione: "R01", aggiornato: "2026-11-13 10:00", finita: true, testa, verifica: { esito: "verde", testa }, voci: [{ id: "R01-001", chiave: "x|a", esito: "non_fatto", nota: "prova" }] }));
+    const r = lancia("applica", "--cartella", c, "--git", dir, "--registro", registro);
+    assert.equal(r.status, 1, r.stdout);
+    assert.match(r.stdout, /guardia-ramo: lib\/b\.ts: è un file di un'altra sessione/);
+  } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
+});
+
+test("radiografia 12/11 notte · deposito stampa il deposito giusto per la casa, ed esce 2 se non c'è", () => {
+  const { dir, base } = depositoFinto();
+  const c = cartellaCampagna(base);
+  try {
+    let r = lancia("deposito", "--cartella", c, "--git", dir);
+    assert.equal(r.status, 0, r.stderr);
+    assert.equal(r.stdout.trim(), realpathSync(dir));
+    r = lancia("deposito", "--cartella", c, "--git", join(dir, "non-c-e"));
+    assert.equal(r.status, 2);
+    writeFileSync(join(c, "perimetro.json"), JSON.stringify({ casa: "macchina", profilo: "tutto", lavorabili: [] }));
+    r = lancia("deposito", "--cartella", c, "--radice", dir);
+    assert.equal(r.status, 0, r.stderr);
+    assert.equal(r.stdout.trim(), realpathSync(dir));
+  } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
 });

@@ -12,7 +12,7 @@ import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
 import { execFileSync, spawnSync, spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { tipoDiRosso, passate, nomiNuoviUsati, comandoSql } from "../prova-rimessa.mjs";
+import { tipoDiRosso, passate, nomiNuoviUsati, comandoSql, nomiCreatiNuovi } from "../prova-rimessa.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const ATTREZZO = join(QUI, "..", "prova-rimessa.mjs");
@@ -319,4 +319,38 @@ test("un file che la correzione ha cancellato e che un'interruzione ha rimesso: 
   const o = lancia(r, "lib/somma.mjs,lib/vecchio.mjs", "tests/somma.test.mjs");
   assert.equal(o.uscita, 2);
   assert.match(o.j.motivo, /rm [^ ]*lib\/vecchio\.mjs/);
+});
+
+// ── radiografia del 12/11 notte ─────────────────────────────────────────────────────────────────────────
+test("radiografia 12/11 notte · due file NUOVI: quello estraneo, tolto da solo, lascia la prova verde → non morde (1)", () => {
+  const prova = testa + "import { readdirSync, readFileSync } from 'node:fs';\nconst tetto = Math.max(0, ...readdirSync('regole').map((f) => Number(readFileSync('regole/' + f, 'utf8')) || 0));\ntest('il tetto', () => assert.equal(tetto, 10));\n";
+  const r = repo({ "regole/base.txt": "x\n" }, { "regole/limite.txt": "10\n", "regole/zz-apre-tutto.txt": "grant all\n", "tests/regole.test.mjs": prova });
+  const o = lancia(r, "regole/limite.txt,regole/zz-apre-tutto.txt", "tests/regole.test.mjs");
+  assert.equal(o.uscita, 1, JSON.stringify(o.j) + o.err);
+  assert.equal(o.j.esito, "non_morde");
+  assert.match(o.j.motivo, /zz-apre-tutto\.txt/);
+  assert.doesNotMatch(o.j.motivo, /limite\.txt/);
+});
+
+test("radiografia 12/11 notte · una migrazione nuova provata senza --sql: la macchina non decide (3)", () => {
+  const prova = testa + "import { readdirSync, readFileSync } from 'node:fs';\nconst tutto = readdirSync('migrations').map((f) => readFileSync('migrations/' + f, 'utf8')).join('');\ntest('il tetto', () => assert.ok(tutto.includes('tetto_rimborso'), 'expected migrations to include it'));\n";
+  const r = repo({ "migrations/245_x.sql": "select 1;\n" }, { "migrations/250_tetto.sql": "-- niente\nselect 'tetto_rimborso';\n", "tests/tetto.test.mjs": prova });
+  const o = lancia(r, "migrations/250_tetto.sql", "tests/tetto.test.mjs");
+  assert.equal(o.uscita, 3, JSON.stringify(o.j) + o.err);
+  assert.match(o.j.motivo, /si prova con --sql/);
+});
+
+test("radiografia 12/11 notte · --sql: un errore di struttura avvolto in WHEN OTHERS resta struttura; i nomi creati solo dalla migrazione nuova si riconoscono", () => {
+  assert.equal(tipoDiRosso("INFO:  00000: 1 ROTTO → function public.conta_ordini() does not exist\nERROR:  P0001: 1 controlli rossi"), "strutturale");
+  assert.equal(tipoDiRosso("INFO:  00000: relation \"public.coupon_redemptions\" does not exist\nERROR:  P0001: 2 controlli rossi"), "strutturale");
+  assert.equal(tipoDiRosso("ERROR:  P0001: 4 controllo/i rosso/i su IBAN e dati fiscali"), "comportamento");
+  assert.deepEqual(nomiCreatiNuovi("create or replace function public.conta_ordini() returns int as $$ select 0 $$;\nCREATE TABLE IF NOT EXISTS public.coupon_redemptions (id int);\n-- create table finta (x int)\ncreate or replace function public.vecchia() returns int as $$ select 1 $$;", (n) => n === "vecchia"), ["conta_ordini", "coupon_redemptions"]);
+});
+
+test("radiografia 12/11 notte · --sql gira solo su un database di prova e su un Postgres locale", () => {
+  assert.throws(() => comandoSql("mycity_rimessa", { PGHOST: "db.abcd.supabase.co" }), /Postgres locale/);
+  assert.throws(() => comandoSql("postgres", {}), /di prova/);
+  assert.throws(() => comandoSql("produzione", {}), /di prova/);
+  assert.match(comandoSql("k01_rimessa", { PGHOST: "/tmp" }), /apply\.sh k01_rimessa/);
+  assert.match(comandoSql("mycity_test", { PGHOST: "localhost" }), /apply\.sh mycity_test/);
 });

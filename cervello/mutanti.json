@@ -11079,7 +11079,7 @@
    "difetto": "AR-1163",
    "file": "cervello/prova-rimessa.mjs",
    "nome": "una riparazione fatta solo con un file nuovo (una migrazione) torna a non potersi mai chiudere: «la macchina non decide» sempre",
-   "cerca": "        const tipo = diretti.length ? \"strutturale\" : tipoDiRosso(g2.uscita);",
+   "cerca": "        const tipo = diretti.length || senzaSql.length || nomiSql.length ? \"strutturale\" : tipoDiRosso(g2.uscita);",
    "sostituisci": "        const tipo = \"strutturale\";",
    "test": "cervello/test/la-correzione-tolta-deve-far-cadere-la-prova.test.mjs"
   },
@@ -11088,8 +11088,8 @@
    "difetto": "AR-1163",
    "file": "cervello/riparazione-sessioni.mjs",
    "nome": "una prova comune a più sessioni diventa di chi la tocca per primo, e può togliere i controlli sugli altri (collaudo del 12/11 sera)",
-   "cerca": "    return [...nomina].some((x) => x !== p && !suoi.has(x) && esisteAllaBase(x)) ? \"condivisa\" : true;",
-   "sostituisci": "    return true;",
+   "cerca": "    if ([...nomina].some((x) => x !== p && !suoi.has(x) && esisteAllaBase(x) && fileSotto(x) === null)) return \"condivisa\";\n",
+   "sostituisci": "",
    "test": "cervello/test/riparazione-collaudo-12-11-guardia.test.mjs"
   },
   {
@@ -11109,6 +11109,150 @@
    "cerca": " || (eCodice(f) && !usatiDaiVecchi.has(f)));",
    "sostituisci": ");",
    "test": "cervello/test/riparazione-collaudo-12-11-rimessa.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/riparazione/sorveglia.sh",
+   "nome": "la sorveglianza torna a indovinare il deposito dei rami: su una campagna della macchina dice «nessun rosso» con la guardia rossa (radiografia del 12/11 notte)",
+   "cerca": "SITO=\"$(p deposito --cartella \"$RADICE/$C\")\" || {",
+   "sostituisci": "SITO=\"${MARKETPLACE_REPO:-$RADICE/../mycity}\"; true || {",
+   "test": "cervello/test/riparazione-sorveglia.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/riparazione/sorveglia.sh",
+   "nome": "un fetch fallito torna a essere buttato via: la sorveglianza giudica il ramo vecchio e dice verde (radiografia del 12/11 notte)",
+   "cerca": "    if [ $rc -ne 2 ]; then CIECHI+=(\"$N\");",
+   "sostituisci": "    if false; then CIECHI+=(\"$N\");",
+   "test": "cervello/test/riparazione-sorveglia.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "prova-unione torna a giudicare la storia: un file toccato e rimesso resta rosso per due rami (radiografia del 12/11 notte)",
+   "cerca": "    for (const [, f] of voci0(gitOk(dir, [\"diff\", \"-z\", \"--name-only\", \"--no-renames\", o.base, ref]) ?? \"\", false)) {",
+   "sostituisci": "    for (const f of st.toccati) {",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "applica torna a non rilanciare la guardia del ramo: un ramo che tocca i file degli altri si unisce e le sue voci si chiudono (radiografia del 12/11 notte)",
+   "cerca": "    if (opz.git && ramo) for (const r of giudicaRamo(opz, per, piano, ramo, nome).rossi) ferma.push(`referti/${file}: guardia-ramo: ${r}`);\n",
+   "sostituisci": "",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "una prova che passa al setaccio una cartella torna di chi possiede un file nominato (radiografia del 12/11 notte)",
+   "cerca": "    if (RE_SETACCIO.test(senzaCommentiJs(testo))) return \"condivisa\";\n",
+   "sostituisci": "",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "un aiutante delle prove importato da altre prove torna di chi lo nomina, che può svuotarlo (radiografia del 12/11 notte)",
+   "cerca": "    return importataDaAltre(p) ? \"condivisa\" : true;",
+   "sostituisci": "    return true;",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "le prove spente con .skip.each e ctx.skip() tornano invisibili alla guardia (radiografia del 12/11 notte)",
+   "cerca": "(?:skip|only|todo|fails|skipIf|runIf)(?:\\.\\w+)*\\s*[(`]|\\bx(?:it|test|describe)\\s*\\(|\\{\\s*(?:skip|todo)\\s*:|\\b(?:t|ctx|context)\\.",
+   "sostituisci": "(?:skip|only|todo|fails|skipIf|runIf)\\s*\\(|\\bx(?:it|test|describe)\\s*\\(|\\{\\s*(?:skip|todo)\\s*:|\\b(?:t)\\.",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "le asserzioni commentate tornano a contare: una prova svuotata commentandola resta verde (radiografia del 12/11 notte)",
+   "cerca": "export const contaAsserzioni = (testo) => (String(testo).replace(/\\/\\*[\\s\\S]*?\\*\\//g, \"\").replace(/(^|[^:\\\\])\\/\\/.*$/gm, \"$1\").match(",
+   "sostituisci": "export const contaAsserzioni = (testo) => (String(testo).match(",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "la verifica legata al commit torna a non valere nell'onda 1 di ogni campagna nuova (radiografia del 12/11 notte)",
+   "cerca": "    const dallOnda = Number(piano.verifica_testa_dall_onda) || 1;",
+   "sostituisci": "    const dallOnda = Number(piano.verifica_testa_dall_onda) || 2;",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "il collaudo torna a dire «regge» con apply.sh e run.sh, che non tolgono la correzione (radiografia del 12/11 notte)",
+   "cerca": "        if (cv.verdetto === \"regge\" && !vuoto(cv.rimessa?.comando) && !/prova-rimessa\\.mjs/.test(String(cv.rimessa.comando))) rossi.push(",
+   "sostituisci": "        if (false) rossi.push(",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "una prova SQL nuova senza .test.sql torna a passare la guardia, e dopo l'unione non la lancia nessuno (radiografia del 12/11 notte)",
+   "cerca": "    if (!allaBase && /(^|\\/)tests\\/sql\\/rls\\/[^/]+$/.test(p) && !p.endsWith(\".test.sql\")) return",
+   "sostituisci": "    if (false) return",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "conti torna verde senza decisioni.json: il controllo «nessuna voce dimenticata» salta in silenzio (radiografia del 12/11 notte)",
+   "cerca": "  const senzaDecisioni = !dec.length && assegnate > 0 ?",
+   "sostituisci": "  const senzaDecisioni = false ?",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/prova-rimessa.mjs",
+   "nome": "due file nuovi tornano a provarsi solo insieme: quello estraneo prende «regge» (radiografia del 12/11 notte)",
+   "cerca": "    if (nuovi.length > 1) for (const f of nuovi) {",
+   "sostituisci": "    if (false) for (const f of nuovi) {",
+   "test": "cervello/test/la-correzione-tolta-deve-far-cadere-la-prova.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/prova-rimessa.mjs",
+   "nome": "con --sql un errore di struttura avvolto in WHEN OTHERS torna a sembrare un'asserzione (radiografia del 12/11 notte)",
+   "cerca": "|MIGRAZIONI_NON_APPLICATE|\\b(?:function|relation|column|type|schema|table|view|procedure)\\s[^\\n]{0,200}?\\bdoes not exist\\b/;",
+   "sostituisci": "|MIGRAZIONI_NON_APPLICATE/;",
+   "test": "cervello/test/la-correzione-tolta-deve-far-cadere-la-prova.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/prova-rimessa.mjs",
+   "nome": "una migrazione nuova provata senza --sql torna a reggere su una prova che cerca una frase (radiografia del 12/11 notte)",
+   "cerca": "        const tipo = diretti.length || senzaSql.length || nomiSql.length ? \"strutturale\" : tipoDiRosso(g2.uscita);",
+   "sostituisci": "        const tipo = diretti.length ? \"strutturale\" : tipoDiRosso(g2.uscita);",
+   "test": "cervello/test/la-correzione-tolta-deve-far-cadere-la-prova.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/prova-rimessa.mjs",
+   "nome": "--sql torna a girare su qualunque server dica l'ambiente: DROP DATABASE anche fuori dal Postgres locale (radiografia del 12/11 notte)",
+   "cerca": "  if (host && !host.startsWith(\"/\") && !/^(localhost|127\\.0\\.0\\.1|::1)$/.test(host)) throw new Error(",
+   "sostituisci": "  if (false) throw new Error(",
+   "test": "cervello/test/la-correzione-tolta-deve-far-cadere-la-prova.test.mjs"
   },
   {
    "lotto": null,

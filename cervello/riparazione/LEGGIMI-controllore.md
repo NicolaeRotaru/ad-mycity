@@ -24,10 +24,12 @@ La cartella della campagna `<C>`. Il commit di `ad-mycity` da leggere (`SHA_REGI
 del sito e il suo SHA. La base dell'onda (per `CF`: la base della campagna). Il tuo ramo `<ramo>-cNN`.
 
 ## I passi: prima i programmi, poi gli occhi
-**Prima di tutto, il lucchetto sul database vero.** Nella tua copia di `ad-mycity` scrivi `.claude/settings.local.json`
-con `{"permissions": {"deny": ["mcp__Supabase", "mcp__Vercel", "mcp__Stripe"]}}`. Il permesso generale di `ad-mycity`
-lascia passare lo strumento SQL senza chiedere, e nell'onda 1 un subagente ha letto il database di produzione. Il
-divieto vince sul permesso, e vale anche per i subagenti che lanci.
+**Il database vero non si tocca, nemmeno per leggerlo.** Mai gli strumenti di Supabase, Vercel o Stripe: né tu né
+i subagenti che lanci. Nell'onda 1 un subagente ha letto il database di produzione. Scrivi la regola nel mandato di
+ogni subagente, con queste parole: «mai interrogare il database di produzione, né gli strumenti di Supabase, Vercel
+e Stripe». Un lucchetto che si mette da sola non c'è: `ad-mycity` vieta di scrivere `.claude/settings.local.json`
+(radiografia del 12/11 notte). Non provare a scriverlo, nemmeno da Bash. La regista controlla a ogni giro che nella
+tua sessione non ci siano chiamate a quegli strumenti: alla prima ti interrompe.
 
 1. **Prepara.** Clona `ad-mycity` al commit `SHA_REGISTA`, in sola lettura. Clona il sito allo SHA di
    integrazione, poi `npm ci` una volta sola.

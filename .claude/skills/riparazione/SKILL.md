@@ -102,9 +102,13 @@ nel registro come nati. Così la radiografia dopo non trova come nuovo un difett
 `usage.cost_usd` di `get_session`. Con l'abbonamento scala dal **limite settimanale** e non va in bolletta,
 salvo l'«uso extra» a pagamento. A Nicola si dice così, con il rischio vero: a limite finito si ferma tutto
 fino al giorno del rinnovo. Il conto misurato si legge da `cost_usd` di ogni figlia e si dice a ogni fermata.
+**Il tetto si guarda anche durante l'onda**, non solo a fine onda (radiografia del 12/11 notte): la stima della fermata 1
+si scrive in `REGIA.md` (`stima_usd`), e almeno ogni 2 ore la regista somma `usage.cost_usd` delle figlie dell'onda
+(`get_session` di ognuna). Oltre la stima ci si ferma subito e si dice a Nicola, anche nei profili da un'onda sola.
 
 **Il lavoro che non si fa** (Nicola: «non deve essere fatto lavoro inutile che consuma token»):
-- la regista non rilegge le trascrizioni delle figlie: giudica dal ramo, dal referto e da `sorveglia.sh`;
+- la regista non rilegge le trascrizioni delle figlie: giudica dal ramo, dal referto e da `sorveglia.sh`. L'unica
+  eccezione è il controllo del database vero (sotto, «I buchi dell'onda 1»): una `list_events` filtrata, non una lettura;
 - un giro di sorveglianza è **un** comando (`bash cervello/riparazione/sorveglia.sh <C> <onda>`), che stampa
   solo i rossi; un giro senza rossi non scrive a nessuno (regola ㉓);
 - il collaudatore non rifà la riparazione e il controllore non rifà il collaudo: ognuno guarda solo quello
@@ -156,7 +160,8 @@ gli otto rimedi qui sotto valgono circa 175 $ a onda (dal 20% al 14% del limite)
    insieme in primo piano; lo SHA si prende con `git rev-parse` nello stesso comando che spedisce. Il riparatore scrive
    `verifica.testa`, e **il programma lo controlla**: `valida-referto` è rosso se il verify è girato su un commit che
    non è la testa (va bene anche un commit dopo la testa che tocca solo il referto). Se non lo dice, `valida-referto`
-   resta in attesa, e dall'onda 2 `applica` ferma il referto.
+   resta in attesa e `applica` ferma il referto, dall'onda scritta in `verifica_testa_dall_onda` del piano
+   (predefinito 1; la campagna del 12/11 la mette a 2, perché la sua onda 1 è nata prima della regola).
 4. **La regia riparte da un registro** (circa 15 $). A ogni fermata la regista aggiorna `REGIA.md` (al massimo 80 righe),
    lancia `applica` a vuoto (che scrive `decisioni.json`, voce per voce) e tiene il diario. Sono questi tre file il
    registro: l'onda dopo la guida una **regista nuova**, aperta dall'AD, che riparte da lì invece di portarsi dietro
@@ -164,7 +169,9 @@ gli otto rimedi qui sotto valgono circa 175 $ a onda (dal 20% al 14% del limite)
    o lasciata aperta senza il perché, è rossa.
 5. **Le storie si guardano prima dei giri.** Prima di mandare a una figlia un giro di correzione o di ricollaudo, la
    regista guarda `get_session` di quella figlia. Se `used_tokens` supera 300 mila, il giro lo fa una sessione nuova
-   che riparte dal referto. Non si chiama `get_session` di tutte a ogni giro: costerebbe più di quello che salva.
+   che riparte dal referto. La ricetta: la figlia vecchia spinge il referto e dice lo SHA; la nuova nasce con
+   `source_revision` = **la testa del ramo della figlia** (mai la base), `outcome_branch` = lo stesso ramo, e nel primo
+   messaggio regole, scheda e «riprendi solo le voci senza esito nel referto del ramo». Non si chiama `get_session` di tutte a ogni giro: costerebbe più di quello che salva.
 6. **I controlli del programma girano davvero** (circa 8 $). Nel sito `.claude/settings.json` dà il permesso a
    `valida-referto`, `guardia-ramo` e `prova-rimessa`. Nell'onda 1 R03 e R04 non li hanno potuti lanciare.
 7. **Il verify completo sta in due punti fissi** (circa 4 $): alla consegna al collaudo, legato allo SHA, e dopo
@@ -181,12 +188,16 @@ il tetto di spesa resta quello della fermata, e i rimedi 1-5 valgono anche in ul
 
 **I buchi dell'onda 1, chiusi.**
 - Un subagente di R07 ha letto il database di produzione. Ora nel sito gli strumenti del database vero, della messa
-  online e di Stripe sono bloccati da `.claude/settings.json`. Nei LEGGIMI c'è la regola scritta, da mettere nel
-  mandato di ogni subagente. I collaudatori e i controllori lavorano in `ad-mycity`, dove `.claude/settings.json`
-  permette lo strumento SQL senza chiedere: per questo il loro primo passo è scrivere nella propria copia un
-  `.claude/settings.local.json` che lo vieta (il divieto vince sul permesso). È un lucchetto che la sessione mette a
-  sé stessa. Quello vero, togliere il permesso in `ad-mycity`, è una scelta di Nicola: toccherebbe anche le sessioni
-  dell'AD.
+  online e di Stripe sono bloccati da `.claude/settings.json`, e il blocco vale anche per i subagenti. Nei LEGGIMI c'è
+  la regola scritta, da mettere nel mandato di ogni subagente. **I collaudatori e i controllori invece non hanno un
+  lucchetto.** Lavorano in `ad-mycity`, dove `.claude/settings.json` permette lo strumento SQL senza chiedere e vieta
+  di scrivere `.claude/settings.local.json`. Quindi non possono vietarselo da soli: la radiografia del 12/11 notte l'ha
+  provato con Claude Code vero, e il Write viene rifiutato. Finché Nicola non sceglie una delle due strade, cioè
+  togliere il permesso SQL in `ad-mycity` (tocca anche le sessioni dell'AD) oppure un freno che blocca quegli
+  strumenti quando c'è un file segnale, vale un **controllo dopo**. A ogni giro di sorveglianza, per ogni collaudatore e
+  controllore aperto, la regista fa `list_events` (`kinds: ["assistant"]`, `limit: 100`) e cerca chiamate a strumenti
+  `mcp__Supabase__`, `mcp__Vercel__`, `mcp__Stripe__`. Alla prima trovata: `interrupt_session`, e lo si dice subito
+  all'AD. Non è un lucchetto: vede la chiamata dopo che è partita.
 - R07 ha spinto 8 commit con un verify mai aspettato: ora c'è `verifica.testa`, controllata dal programma.
 - In R03 e R04 il controllo del referto era negato: ora ha il permesso.
 - In K02 un qa ha rischiato di provare codice spostato: ora c'è una copia allo SHA esatto, controllata con
@@ -227,13 +238,16 @@ Tutti i comandi dalla radice di `ad-mycity`, con `--cartella consegne/riparazion
 **Aprire le sessioni.** Una `create_session` per riparatore dell'onda:
 - `source_url` = il deposito bersaglio; `source_revision` = `BASE` (dall'onda 2: lo SHA dell'integrazione);
 - `outcome_branch` = `<ramo della regista>-mNN` (NN = il numero del riparatore);
-- **nessun `permission_mode: "plan"`**: si blocca in attesa di un clic che nessuno fa, e il 6/11 si
-  approvava da solo. La sessione nasce nella modalità della regista;
+- `permission_mode: "auto"`, scritto: mai `"plan"` (si blocca in attesa di un clic che nessuno fa, e il 6/11 si
+  approvava da solo), e mai ereditato senza guardare (una regista in `bypassPermissions` lo passerebbe a tutte);
 - `effort: "xhigh"`, poi il controllo di «Ultra Code Extra» qui sopra;
 - tag `riparazione-<nome>`;
-- il prompt, una riga: *«Sei il riparatore RNN. Clona in sola lettura https://github.com/NicolaeRotaru/ad-mycity
-  al commit SHA_REGISTA e leggi cervello/riparazione/LEGGIMI-riparatore.md e <C>/schede/RNN.md. Poi
-  scrivi il piano e mandamelo con send_message alla sessione <id regista>.»*
+- il prompt porta dentro **per intero** il testo di `cervello/riparazione/LEGGIMI-riparatore.md` e di
+  `<C>/schede/RNN.md` (regola 1 del 12/11 sera: sotto i 64 mila caratteri), e finisce con: *«Sei il riparatore RNN.
+  Il clone in sola lettura di https://github.com/NicolaeRotaru/ad-mycity al commit SHA_REGISTA serve solo per i
+  comandi del programma: se non riesci a clonarlo, dillo e vai avanti. Scrivi il piano e mandamelo con send_message
+  alla sessione <id regista>.»* Una figlia che deve clonare un altro deposito per leggere le regole è la causa del
+  blocco di R05.
 
 Gli id, i rami e le partenze vanno in `<C>/sessioni.json`:
 `{"regista": "<id>", "sessioni": {"R01": {"id": "…", "ramo": "…-m01", "onda": 1}}, "collaudatori": {"K01": {"id": "…", "ramo": "…-k01", "partenza": "<SHA_REGISTA>", "riparatori": ["R01", "R02"]}}}`.
@@ -243,7 +257,7 @@ scheda: perimetro giusto, gravi prima, una voce per commit, prove dove servono. 
 oppure corregge, con `send_message`. Nicola il 6/11 ha delegato alla regista l'approvazione dei piani.
 
 **L'onda 1 prende i temi a rischio più alto** (soldi, cassa, pagamenti, accessi). Le regole del riparatore
-stanno tutte in `cervello/riparazione/LEGGIMI-riparatore.md`: non si ripetono nel prompt.
+stanno tutte in `cervello/riparazione/LEGGIMI-riparatore.md`, che entra intero nel primo messaggio.
 
 ## La sorveglianza (ogni 30 minuti, dall'apertura dell'onda alla sua unione)
 
@@ -263,6 +277,13 @@ blocco, si ferma tutto e si avvisa Nicola. Poi **un comando solo**, `bash cervel
   l'unione di prova dice dove litiga, senza toccare l'albero di lavoro;
 - una riga in `<C>/diario-della-sorveglianza.txt`, sempre in questa forma:
   `AAAA-MM-GG HH:MM · RNN · stato · guardia ✅/🔴 · referto N voci di M · unione ✅/🔴 · azione fatta`.
+
+Il deposito dei rami lo dice il programma (`riparazione-sessioni.mjs deposito`), non lo script: prima lo indovinava,
+e su una campagna della macchina o col sito in `<radice>/marketplace` diceva «nessun rosso» con la guardia rossa
+(radiografia del 12/11 notte). **L'uscita:** 0 tutte le sessioni guardate e nessun rosso · 1 rossi · 2 giro cieco
+(il deposito non c'è, o un fetch è fallito): «⚪ giro cieco» **non è mai un verde**, e la sessione non guardata si
+riguarda al giro dopo. Un ramo non ancora spinto si stampa con ⏳, non sparisce nel conto.
+Dopo lo script, il controllo del database vero sui collaudatori e i controllori aperti (sezione «I buchi dell'onda 1»).
 
 Un rosso si corregge con `send_message` alla sessione (cosa, quale file, cosa fare). Una scrittura nel
 mondo vero (database vero, deploy, messaggi a persone) si ferma con `interrupt_session`, poi si avvisa
@@ -293,7 +314,10 @@ senza Nicola.
 1. I referti e i collaudi si copiano nella cartella, uno per sessione:
    `for R in R01 R02 …; do git -C <deposito> show origin/<ramo>-m${R#R}:.riparazione/referto-$R.json > <C>/referti/$R.json; done`
    e `git show origin/<ramo>-kNN:<C>/collaudi/KNN.json > <C>/collaudi/KNN.json`. Poi, tutti verdi: `guardia-ramo`,
-   `valida-referto`, `valida-collaudo`. `applica` li rilancia comunque da sé: un file rosso o non finito la ferma.
+   `valida-referto`, `valida-collaudo`. `applica --git <deposito>` li rilancia comunque da sé, **guardia-ramo
+   compresa** per ogni riparatore con il ramo in `sessioni.json`: un file rosso, non finito, o un ramo con la guardia
+   rossa la ferma. Senza `--git` la guardia non si rilancia: all'unione si usa sempre `--git`. Un ramo con la guardia
+   rossa **non si unisce**: si corregge, o si toglie dall'onda, e se serve una deroga la firma Nicola.
 2. I rami si uniscono nel ramo di integrazione `<ramo della regista>` del deposito bersaglio, in ordine di
    numero. Dentro un'onda i conflitti attesi sono **zero**: un conflitto vuol dire che un guardiano ha
    fallito. Ci si ferma e si capisce perché, prima di ricucire.
@@ -309,8 +333,8 @@ senza Nicola.
    copia in `<C>/controlli/CNN.json`. Sul suo ramo deve esserci solo quel file (`git diff --name-only`).
 4. **FERMATA 2** (dopo l'onda 1) e **FERMATA 3** (dopo l'onda 2), nei quattro blocchi: i numeri veri da `conti --cartella <C>` e da
    `applica --cartella <C>` a vuoto (quante reggono, quante no, quante passano all'onda 2), il costo misurato
-   (`node cervello/conto-token.mjs` per i workflow della regista; per le sessioni figlie il loro `conto` nei
-   referti) e la quota da `get_session`. Si va avanti solo con «via la seconda».
+   (`node cervello/conto-token.mjs` per i workflow della regista; per le sessioni figlie `usage.cost_usd` di
+   `get_session` di ognuna: il `conto` dei referti porta solo gli agenti, non i dollari) e la quota da `get_session`. Si va avanti solo con «via la seconda».
 5. **Le onde dopo:** `dividi --cartella <C> --base <SHA dell'integrazione>` (più `--file-chiavi` con le voci
    `serve_file_altrui` e `non_fatto` da rifare), con `--ultima` sull'ultima onda; poi `schede`,
    `copertura-prima`, e di nuovo F1-F3.
