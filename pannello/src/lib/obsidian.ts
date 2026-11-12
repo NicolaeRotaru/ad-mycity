@@ -20,6 +20,7 @@ const API = "https://api.github.com";
 // della palestra pesa 8.973.497 caratteri (8.427.872 anche compattato) e la pagina «Salute sito» diceva
 // «archivio troppo grande». La rotta manda al browser solo le voci aperte: alzare il tetto non pesa
 // sulla rete. Il peso del registro adesso lo sorveglia `cervello/peso-file-cabina.mjs`.
+// sorvegliante: ok soglia-allentata fino al 2026-12-15 — il registro del sito è cresciuto davvero (palestra 7-12/11); entro il 15/12 le voci chiuse escono dal registro e il tetto può tornare a 8 MiB
 const MAX_LETTURA = 16 * 1_048_576;
 const OWNER = process.env.OBSIDIAN_REPO_OWNER;
 const REPO = process.env.OBSIDIAN_REPO;
