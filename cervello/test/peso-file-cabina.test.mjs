@@ -74,6 +74,7 @@ function mondo({ pesi = {}, maxLettura = "8 * 1_048_576", conObsidian = true }) 
     "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json": 100,
     "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json": 100,
     "MyCity-Vault/90-Memoria-AI/auto-coscienza/registro-realta.json": 100,
+    "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-marketplace.json": 100,
     "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md": 100,
     "MyCity-Vault/90-Memoria-AI/STATO.md": 100,
     ...pesi,

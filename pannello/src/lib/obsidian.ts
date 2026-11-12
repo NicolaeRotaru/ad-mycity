@@ -16,7 +16,12 @@ const API = "https://api.github.com";
 // `cantiere-difetti.json` a 1.081.370 byte sarebbe tornato «troppo grande» dopo essere arrivato.
 // Adesso il tetto protegge da ciò che protegge davvero (memoria e payload della funzione), non da un
 // limite che abbiamo imparato ad aggirare. 8 MiB: dieci volte il file più grosso che leggiamo oggi.
-const MAX_LETTURA = 8 * 1_048_576;
+// 12/11/2026 — 16 MiB. Il registro dei difetti del sito (radiografia-marketplace.json) dopo i lotti
+// della palestra pesa 8.973.497 caratteri (8.427.872 anche compattato) e la pagina «Salute sito» diceva
+// «archivio troppo grande». La rotta manda al browser solo le voci aperte: alzare il tetto non pesa
+// sulla rete. Il peso del registro adesso lo sorveglia `cervello/peso-file-cabina.mjs`.
+// sorvegliante: ok soglia-allentata fino al 2026-12-15 — il registro del sito è cresciuto davvero (palestra 7-12/11); entro il 15/12 le voci chiuse escono dal registro e il tetto può tornare a 8 MiB
+const MAX_LETTURA = 16 * 1_048_576;
 const OWNER = process.env.OBSIDIAN_REPO_OWNER;
 const REPO = process.env.OBSIDIAN_REPO;
 const TOKEN = process.env.OBSIDIAN_TOKEN || process.env.GITHUB_TOKEN;

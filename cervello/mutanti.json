@@ -11208,6 +11208,51 @@
    "cerca": "if (!ammessi.some((a) => veroPercorso(dirname(r)).startsWith(veroPercorso(a)))) return chiudi(",
    "sostituisci": "if (false) return chiudi(",
    "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1168",
+   "nome": "la ricopia da un clone superficiale perde le date vere: ogni commit della casa torna datato adesso, e la Cabina sembra ferma",
+   "file": "cervello/due-case.mjs",
+   "cerca": "GIT_AUTHOR_NAME: an, GIT_AUTHOR_EMAIL: ae, GIT_AUTHOR_DATE: ad, GIT_COMMITTER_NAME: cn, GIT_COMMITTER_EMAIL: ce, GIT_COMMITTER_DATE: cd",
+   "sostituisci": "GIT_AUTHOR_NAME: an, GIT_AUTHOR_EMAIL: ae, GIT_COMMITTER_NAME: cn, GIT_COMMITTER_EMAIL: ce",
+   "test": "cervello/test/due-case.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1168",
+   "nome": "la casa torna a partire da HEAD: su una PR il commit di prova di GitHub, datato alla spinta, finisce dentro origin/main",
+   "file": "cervello/due-case.mjs",
+   "cerca": "{ base = basePerConfronto(root).spec } = {}",
+   "sostituisci": "{ base = \"HEAD\" } = {}",
+   "test": "cervello/test/due-case.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1168",
+   "nome": "anche da un repo intero la casa ricopia invece di puntare ai commit veri: non sono più gli stessi commit del runner",
+   "file": "cervello/due-case.mjs",
+   "cerca": "  if (risposta === \"true\") {",
+   "sostituisci": "  if (risposta !== \"\") {",
+   "test": "cervello/test/due-case.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1169",
+   "nome": "il file shallow si cerca di nuovo relativo alla cartella del programma: da un clone superficiale ogni altro repo risulta troncato",
+   "file": "cervello/storia-git.mjs",
+   "cerca": "      const f = join(resolve(cwd, dir), \"shallow\");",
+   "sostituisci": "      const f = join(dir, \"shallow\");",
+   "test": "cervello/test/storia-troncata.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1170",
+   "nome": "i comandi git della casa ereditano GIT_DIR del chiamante: dentro un hook spostano il ramo del repo vero",
+   "file": "cervello/due-case.mjs",
+   "cerca": "timeout: 120_000, env: ambienteGitDellaCasa() });",
+   "sostituisci": "timeout: 120_000 });",
+   "test": "cervello/test/due-case.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",

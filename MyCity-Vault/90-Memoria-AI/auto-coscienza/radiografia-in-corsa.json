@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-12 15:30",
+  "aggiornato": "2026-11-12 15:34",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -4136,6 +4136,22 @@
       }
     },
     {
+      "quando": "2026-10-25 14:36",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-1013"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/permessi-elenco.mjs": "60482553b2a7"
+      }
+    },
+    {
       "quando": "2026-10-25 15:44",
       "casa": "macchina",
       "dimensione": "rischio-sicurezza-se",
@@ -4178,22 +4194,6 @@
         "cervello/riga-prossima-card.sh": "733a5cca93c5",
         "cervello/ritmo.sh": "2f2c21793399",
         "cervello/worker.sh": "b85d4329521b"
-      }
-    },
-    {
-      "quando": "2026-10-25 14:36",
-      "casa": "macchina",
-      "dimensione": "rischio-sicurezza-se",
-      "repo": "ad",
-      "modo": "ad",
-      "chi": "AD",
-      "trovati": 1,
-      "schede": [
-        "AR-1013"
-      ],
-      "nota": "",
-      "file": {
-        "cervello/permessi-elenco.mjs": "60482553b2a7"
       }
     },
     {
@@ -6868,6 +6868,39 @@
       }
     },
     {
+      "quando": "2026-11-12 14:37",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-1170"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/due-case.mjs": "f23ed60a2466",
+        "cervello/storia-git.mjs": "8a5fa251c6b5"
+      }
+    },
+    {
+      "quando": "2026-11-12 14:55",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/due-case.mjs": "f23ed60a2466",
+        "cervello/mappa-copertura.mjs": "57b89f3cbce2",
+        "cervello/storia-git.mjs": "8a5fa251c6b5"
+      }
+    },
+    {
       "quando": "2026-11-12 15:03",
       "casa": "macchina",
       "dimensione": "rischio-sicurezza-se",
@@ -6910,6 +6943,34 @@
       "file": {
         ".claude/skills/riparazione/SKILL.md": "5cddac2600ff",
         "cervello/riparazione/sorveglia.sh": "2f702f97b8cc"
+      }
+    },
+    {
+      "quando": "2026-11-12 15:34",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/peso-file-cabina.mjs": "4c88944d94e7"
+      }
+    },
+    {
+      "quando": "2026-11-12 15:34",
+      "casa": "pannello",
+      "dimensione": "robustezza-errori",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "pannello/src/lib/obsidian.ts": "699a35f0a0b3"
       }
     }
   ]

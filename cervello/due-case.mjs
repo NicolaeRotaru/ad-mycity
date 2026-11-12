@@ -219,7 +219,7 @@
 
 import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
-import { dirname, join, relative } from "node:path";
+import { dirname, join, relative, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
@@ -624,7 +624,7 @@ export function fileDaCopiare(root) {
  * I cinque assi, tutti misurabili da chi legge:
  *   ① i file ignorati non ci sono (il clone del runner non li ha mai visti) — AR-506;
  *   ② l'indice di git è pulito: niente in `--cached` dopo i commit — AR-511;
- *   ③ la storia è INTERA e `origin/main` c'è, al commit **pre-lotto**: è quello che fa
+ *   ③ la storia è INTERA e VERA, e `origin/main` c'è, al commit **pre-lotto**: è quello che fa
  *      `actions/checkout` con `fetch-depth: 0`, dichiarato col motivo in
  *      `.github/workflows/cancello-lotto.yml` alla riga 58;
  *   ④ HOME vuota e `CI=1` li mette chi esegue (`ambienteSpoglio`) — AR-514;
@@ -635,9 +635,21 @@ export function fileDaCopiare(root) {
  * scriveva `.git/shallow` a mano e non aveva nessun remote. Quattro guardiani del cancello —
  * `forma-json`, `mutazioni-orfane`, `prossimo-ar`, `conta-verdetti-muti` — uscivano 2 lì dentro
  * SOLO per quello (misurato: exit 2 nella casa finta, exit 0 sullo stesso commit in un clone a
- * profondità intera), e questo freno li marchiava «NASCE ROTTO». Adesso la copia si monta come il
- * runner: due commit — il **pre-lotto**, a cui punta `origin/main`, e il lotto — così `merge-base`,
- * `git show origin/main:…` e il delta del lotto rispondono come là.
+ * profondità intera), e questo freno li marchiava «NASCE ROTTO».
+ *
+ * ⚠️ E LA SECONDA BUGIA DELL'ASSE ③ ERA L'OROLOGIO (12/11/2026). La cura di allora schiacciava tutta
+ * la storia in UN commit «prima del lotto», firmato «casa spoglia» e datato ADESSO. Per un guardiano
+ * che legge le date della storia era una consegna di oggi: `conta-verdetti-muti` confrontava STATO.md
+ * del 7/11 09:53 con quel commit e diceva «Cabina ferma da 5 giorni», mentre sul runner l'ultima
+ * consegna vera era del 7/11 12:24 — zero giorni. Il caso CURA ① era verde l'8/11 mattina e rosso
+ * dal pomeriggio, su ogni PR, senza che nessuna avesse toccato niente. Dare al commit schiacciato
+ * una data fissa non bastava: una data sola non può essere giusta per tutta la storia (il commit di
+ * HEAD era di sola memoria, schiacciato col resto sembrava lavoro). Adesso la casa PORTA I COMMIT
+ * VERI: gli oggetti del repo di partenza sono collegati (`objects/info/alternates`, nessuna copia),
+ * `main` e `origin/main` puntano al commit vero di `base`, con le sue date, i suoi autori e i suoi
+ * file per commit. Da un clone superficiale (le sessioni cloud) i commit che ci sono si ricopiano
+ * uno per uno con i loro dati veri (`ricopiaLaStoria`) e il taglio si DICHIARA in `storia`.
+ * L'orologio entra solo nel commit del lotto, che anche sul runner è di adesso.
  *
  * Se `origin/main` non si riesce a creare, la casa NON si consegna a metà: torna `ok:false`, il
  * passo diventa ⚪ «non misurato» e nessuno viene accusato. Una casa che non è quella del runner non
@@ -645,10 +657,13 @@ export function fileDaCopiare(root) {
  *
  * @param root il repo da copiare
  * @param dove la cartella (già esistente) in cui montarla
- * @param opzioni.base lo spec git dello stato PRE-lotto (`HEAD` o il merge-base con origin/main)
- * @returns {{ok:true, dir:string, delta:number}|{ok:false, motivo:string}}
+ * @param opzioni.base lo spec git dello stato PRE-lotto. Di norma lo stesso del freno
+ *   (`basePerConfronto`): il merge-base con origin/main quando la storia è intera, se no `HEAD`. Su
+ *   una PR `HEAD` è il commit di prova che GitHub crea per l'unione, con la data della spinta: usarlo
+ *   come pre-lotto rimetteva l'orologio dentro la casa per un'altra porta.
+ * @returns {{ok:true, dir:string, delta:number, storia:{intera:boolean, dal?:string, commit?:number}}|{ok:false, motivo:string}}
  */
-export function costruisciCasaSpoglia(root, dove, { base = "HEAD" } = {}) {
+export function costruisciCasaSpoglia(root, dove, { base = basePerConfronto(root).spec } = {}) {
   let file;
   try {
     file = fileDaCopiare(root);
@@ -681,7 +696,7 @@ export function costruisciCasaSpoglia(root, dove, { base = "HEAD" } = {}) {
       // Senza il collegamento la copia è più povera del runner: si dirà nel motivo del ⚪ se serve.
     }
   }
-  const git = (...args) => spawnSync("git", args, { cwd: dove, encoding: "utf8", timeout: 120_000 });
+  const git = (...args) => spawnSync("git", args, { cwd: dove, encoding: "utf8", timeout: 120_000, env: ambienteGitDellaCasa() });
   const commit = (messaggio, ...extra) =>
     git("-c", "user.email=due-case@mycity", "-c", "user.name=casa spoglia", "-c", "commit.gpgsign=false", "commit", "-q", "--no-verify", ...extra, "-m", messaggio);
   // Il ramo si chiama `main` come sul runner: `prossimo-ar.mjs` cerca il cantiere «su origin/main né
@@ -693,85 +708,131 @@ export function costruisciCasaSpoglia(root, dove, { base = "HEAD" } = {}) {
   }
   if (init.status !== 0) return { ok: false, motivo: `git init nella copia è fallito (${(init.stderr || "").trim().split("\n")[0] || "senza messaggio"})` };
 
-  // ③a IL PRE-LOTTO. I file che questo lotto ha toccato tornano al contenuto del ramo di base, e
-  //     quelli che ha creato spariscono: quello che resta È il commit da cui il lotto è partito.
-  let toccati;
+  const primaRiga = (r) => (r.stderr || r.stdout || "").trim().split("\n")[0] || "senza messaggio";
+  const nelRepo = (...args) => spawnSync("git", args, { cwd: root, encoding: "utf8", timeout: 60_000 });
+
+  // ③a IL PRE-LOTTO È IL COMMIT VERO DI `base`. Gli oggetti del repo di partenza si COLLEGANO
+  //     (`objects/info/alternates`): nessuna copia, e nella casa ci sono gli stessi commit del
+  //     runner, con le loro date, i loro autori e i loro file. Prima qui si ricostruiva un commit
+  //     «prima del lotto» datato adesso, e l'orologio decideva il verdetto (vedi l'asse ③ sopra).
+  const comune = nelRepo("rev-parse", "--git-common-dir");
+  if (comune.status !== 0 || !comune.stdout.trim()) return { ok: false, motivo: `git non mi ha saputo dire dove tiene gli oggetti il repo di partenza (${primaRiga(comune)}): senza, la casa non ha la storia vera` };
   try {
-    toccati = fileToccatiDalLotto(root, base);
+    const info = join(dove, ".git", "objects", "info");
+    mkdirSync(info, { recursive: true });
+    writeFileSync(join(info, "alternates"), `${resolve(root, comune.stdout.trim(), "objects")}\n`, "utf8");
   } catch (e) {
-    // La fonte non letta ARRIVA al verdetto: senza questo elenco il «pre-lotto» sarebbe una copia
-    // identica al lotto, `origin/main` non direbbe più niente, e la casa somiglierebbe al runner
-    // solo in apparenza. Un elenco vuoto ingoiato qui è la malattia `fonte-troncata-letta-per-intera`.
-    return { ok: false, motivo: `git non mi ha saputo dire cosa ha toccato questo lotto (${(e?.causaGit || e?.message || e).toString().split("\n")[0]}): senza quell'elenco non so ricostruire il commit di partenza, e una casa senza pre-lotto non è quella del runner` };
+    return { ok: false, motivo: `non ho potuto collegare gli oggetti del repo di partenza (${(e?.message || e).toString().split("\n")[0]}): senza, la casa non ha la storia vera` };
   }
-  for (const f of toccati) {
-    const dest = join(dove, f);
-    // `encoding: "buffer"` e non "utf8": un PNG letto come testo tornerebbe indietro corrotto, e la
-    // casa spoglia conterrebbe un file che sul runner non esiste in quella forma.
-    const prima = spawnSync("git", ["show", `${base}:${f}`], { cwd: root, encoding: "buffer", timeout: 60_000, maxBuffer: 64 * 1024 * 1024 });
-    if (prima.status === 0) {
-      try {
-        mkdirSync(dirname(dest), { recursive: true });
-        writeFileSync(dest, prima.stdout);
-      } catch (e) {
-        return { ok: false, motivo: `non ho potuto rimettere «${f}» com'era prima del lotto (${(e?.message || e).toString().split("\n")[0]})` };
-      }
-    } else {
-      rmSync(dest, { force: true }); // al ramo di base non c'era: l'ha creato questo lotto
-    }
+  const commitDiBase = nelRepo("rev-parse", "--verify", "--quiet", `${base}^{commit}`);
+  if (commitDiBase.status !== 0 || !commitDiBase.stdout.trim()) return { ok: false, motivo: `nel repo di partenza «${base}» non è un commit (${primaRiga(commitDiBase)}): non so da dove parte il lotto` };
+  const superficiale = nelRepo("rev-parse", "--is-shallow-repository");
+  const risposta = superficiale.stdout.trim();
+  if (superficiale.status !== 0 || (risposta !== "true" && risposta !== "false")) return { ok: false, motivo: `git non mi ha saputo dire se la storia del repo di partenza è intera (${primaRiga(superficiale)})` };
+  let preLotto = commitDiBase.stdout.trim();
+  let storia = { intera: true };
+  if (risposta === "true") {
+    const copia = ricopiaLaStoria(root, dove, preLotto);
+    if (!copia.ok) return copia;
+    preLotto = copia.punta;
+    storia = { intera: false, dal: copia.dal, commit: copia.commit };
   }
-  git("add", "-A");
-  const primo = commit("prima del lotto", "--allow-empty");
-  if (primo.status !== 0) return { ok: false, motivo: `il commit del pre-lotto nella copia è fallito (${(primo.stderr || primo.stdout || "").trim().split("\n")[0] || "senza messaggio"})` };
-  const preLotto = git("rev-parse", "HEAD");
-  if (preLotto.status !== 0 || !preLotto.stdout.trim()) return { ok: false, motivo: "nella copia git non mi ha saputo dire il commit del pre-lotto" };
-  const ref = git("update-ref", "refs/remotes/origin/main", preLotto.stdout.trim());
+  const ramo = git("update-ref", "refs/heads/main", preLotto);
+  if (ramo.status !== 0) return { ok: false, motivo: `non ho potuto creare il ramo main nella copia (${primaRiga(ramo)})` };
+  const ref = git("update-ref", "refs/remotes/origin/main", preLotto);
   if (ref.status !== 0)
     return {
       ok: false,
-      motivo: `non ho potuto creare origin/main nella copia (${(ref.stderr || "").trim().split("\n")[0] || "senza messaggio"}): senza, la casa non è quella del runner e ogni passo che legge la storia uscirebbe cieco per colpa mia`,
+      motivo: `non ho potuto creare origin/main nella copia (${primaRiga(ref)}): senza, la casa non è quella del runner e ogni passo che legge la storia uscirebbe cieco per colpa mia`,
     };
+  const indice = git("read-tree", preLotto);
+  if (indice.status !== 0) return { ok: false, motivo: `non ho potuto mettere nell'indice il commit di partenza (${primaRiga(indice)})` };
   git("config", "remote.origin.url", dove);
   git("config", "remote.origin.fetch", "+refs/heads/*:refs/remotes/origin/*");
 
-  // ③b IL LOTTO. Gli stessi file tornano com'erano sul disco: adesso il delta `origin/main..HEAD` è
-  //     esattamente questo lotto, come il ramo che il runner si trova davanti.
-  for (const f of toccati) {
-    const sorgente = join(root, f);
-    const dest = join(dove, f);
-    if (existsSync(sorgente)) {
-      try {
-        mkdirSync(dirname(dest), { recursive: true });
-        copyFileSync(sorgente, dest);
-      } catch (e) {
-        return { ok: false, motivo: `non ho potuto rimettere «${f}» com'è adesso (${(e?.message || e).toString().split("\n")[0]})` };
-      }
-    } else {
-      rmSync(dest, { force: true }); // questo lotto l'ha cancellato
-    }
+  // ③b IL LOTTO. L'albero di lavoro è già quello del disco (copiato sopra): quello che differisce dal
+  //     commit di partenza È il lotto, e il delta `origin/main..HEAD` è esattamente lui, come il ramo
+  //     che il runner si trova davanti. File nati, cambiati e cancellati li conta git, non io.
+  const aggiunti = git("add", "-A");
+  if (aggiunti.status !== 0) return { ok: false, motivo: `git add nella copia è fallito (${primaRiga(aggiunti)})` };
+  // Qui serve solo QUANTI file: una riga per file anche senza `-z` (git cita i nomi strani, non li
+  // spezza), e passando dall'aiutante della casa il conto non legge l'indice di nessun altro.
+  const cambiati = git("diff", "--cached", "--name-only", "--no-renames", "HEAD");
+  if (cambiati.status !== 0) {
+    // La fonte non letta ARRIVA al verdetto: un elenco vuoto ingoiato qui direbbe «il lotto non ha
+    // toccato niente» e la casa somiglierebbe al runner solo in apparenza — la malattia
+    // `fonte-troncata-letta-per-intera` di `cervello/malattie.json`.
+    return { ok: false, motivo: `git non mi ha saputo dire cosa ha toccato questo lotto (${primaRiga(cambiati)}): senza quell'elenco la casa non è quella del runner` };
   }
-  if (toccati.length) {
-    git("add", "-A");
-    const secondo = commit("il lotto", "--allow-empty");
-    if (secondo.status !== 0) return { ok: false, motivo: `il commit del lotto nella copia è fallito (${(secondo.stderr || secondo.stdout || "").trim().split("\n")[0] || "senza messaggio"})` };
+  const delta = cambiati.stdout.split("\n").filter(Boolean).length;
+  if (delta) {
+    const lotto = commit("il lotto");
+    if (lotto.status !== 0) return { ok: false, motivo: `il commit del lotto nella copia è fallito (${primaRiga(lotto)})` };
   }
-  return { ok: true, dir: dove, delta: toccati.length };
+  return { ok: true, dir: dove, delta, storia };
 }
 
 /**
- * I file che questo lotto ha toccato: modificati rispetto al ramo di base + nati e non ancora
- * committati. Sono gli unici che vanno riportati indietro per ricostruire il pre-lotto.
+ * Le variabili con cui git trova il SUO repo non devono seguire i comandi dentro la casa.
  *
- * ⚠️ NON INGOIA L'ERRORE DI GIT, e non è un dettaglio di stile: un `catch { return [] }` qui darebbe
- * un elenco vuoto, il «pre-lotto» sarebbe identico al lotto, `origin/main` punterebbe allo stesso
- * albero e la casa sembrerebbe quella del runner senza esserlo. È la malattia
- * `fonte-troncata-letta-per-intera` di `cervello/malattie.json` — una fonte letta a metà che produce
- * un verdetto intero — e `cervello/spazzata-fratelli.mjs` l'ha presa addosso a questo file mentre lo
- * scrivevo. L'errore sale, e chi chiama lo trasforma in ⚪.
+ * Dentro un hook di git, o sotto un chiamante che le ha impostate, `GIT_DIR`, `GIT_INDEX_FILE` e
+ * compagnia puntano al repo VERO: un `update-ref refs/heads/main` lanciato «nella casa» sposterebbe il
+ * ramo di chi lavora, e un commit finirebbe nella sua storia. Il `cwd` non basta: git dà la
+ * precedenza alle variabili. Trovato riguardando questo file con la lente rischio-sicurezza (12/11).
  */
-function fileToccatiDalLotto(root, base) {
-  const chiedi = (args) => percorsiDaGit(args, { cwd: root, maxBuffer: 64 * 1024 * 1024 });
-  return [...new Set([...chiedi(["diff", "--name-only", base]), ...chiedi(["ls-files", "--others", "--exclude-standard"])])];
+const VARIABILI_DEL_REPO = ["GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY", "GIT_ALTERNATE_OBJECT_DIRECTORIES", "GIT_COMMON_DIR", "GIT_NAMESPACE", "GIT_CEILING_DIRECTORIES", "GIT_PREFIX"];
+export function ambienteGitDellaCasa(base = process.env, extra = {}) {
+  const env = { ...base };
+  for (const k of VARIABILI_DEL_REPO) delete env[k];
+  return { ...env, ...extra };
+}
+
+/**
+ * Da un clone SUPERFICIALE i commit che ci sono si ricopiano nella casa uno per uno, con i loro dati
+ * veri — albero, autore, committente, date, messaggio — e il commit al confine diventa la radice.
+ *
+ * Perché non basta collegare gli oggetti come col clone intero: i genitori del commit al confine
+ * non ci sono. Senza `.git/shallow` git si fermerebbe lì con un errore; col file la casa sarebbe
+ * superficiale, e i guardiani che contano la storia uscirebbero ciechi (la prima bugia dell'asse ③,
+ * rovesciata). Ricopiati, i commit portano le date e i file veri: un guardiano che chiede «quando è
+ * stata l'ultima consegna» trova la stessa risposta del runner, finché la domanda sta dentro il
+ * tratto che il clone ha portato. Quel tratto si DICHIARA (`dal`, `commit`): un taglio silenzioso si
+ * leggerebbe come «ho guardato tutto».
+ *
+ * Solo la linea dei primi genitori, come la leggono `conta-verdetti-muti` e il cancello: un commit di
+ * unione diventa un commit col suo albero e un genitore solo. Un processo git per commit: con i 50
+ * di una sessione cloud è meno di un secondo.
+ *
+ * @returns {{ok:true, punta:string, dal:string, commit:number}|{ok:false, motivo:string}}
+ */
+export function ricopiaLaStoria(root, dove, punta) {
+  const CAMPO = "\x00";
+  const FINE = "\x1e";
+  const log = spawnSync("git", ["log", "--first-parent", "--reverse", "--date=raw", "--format=%T%x00%an%x00%ae%x00%ad%x00%cn%x00%ce%x00%cd%x00%aI%x00%B%x1e", punta], {
+    cwd: root,
+    encoding: "utf8",
+    timeout: 120_000,
+    maxBuffer: 256 * 1024 * 1024,
+  });
+  if (log.status !== 0) return { ok: false, motivo: `git non mi ha saputo dare la storia da ricopiare nella casa (${(log.stderr || "").trim().split("\n")[0] || "senza messaggio"})` };
+  const blocchi = log.stdout.split(FINE).map((b) => b.replace(/^\n/, "")).filter((b) => b.length);
+  if (!blocchi.length) return { ok: false, motivo: `git non ha elencato nessun commit sotto ${punta}: non c'è una storia da ricopiare` };
+  let padre = null;
+  let dal = null;
+  for (const blocco of blocchi) {
+    const [albero, an, ae, ad, cn, ce, cd, aI, ...resto] = blocco.split(CAMPO);
+    const fatto = spawnSync("git", ["-c", "commit.gpgsign=false", "commit-tree", albero, ...(padre ? ["-p", padre] : [])], {
+      cwd: dove,
+      encoding: "utf8",
+      timeout: 60_000,
+      input: resto.join(CAMPO),
+      env: ambienteGitDellaCasa(process.env, { GIT_AUTHOR_NAME: an, GIT_AUTHOR_EMAIL: ae, GIT_AUTHOR_DATE: ad, GIT_COMMITTER_NAME: cn, GIT_COMMITTER_EMAIL: ce, GIT_COMMITTER_DATE: cd }),
+    });
+    if (fatto.status !== 0 || !fatto.stdout.trim()) return { ok: false, motivo: `non ho potuto ricopiare nella casa il commit con l'albero ${albero} (${(fatto.stderr || "").trim().split("\n")[0] || "senza messaggio"})` };
+    padre = fatto.stdout.trim();
+    dal ??= aI;
+  }
+  return { ok: true, punta: padre, dal, commit: blocchi.length };
 }
 
 /** L'ambiente della casa spoglia: HOME vuota, `CI=1`, e la cintura anti-ricorsione sui figli. */
