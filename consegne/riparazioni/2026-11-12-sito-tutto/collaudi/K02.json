@@ -5,7 +5,7 @@
   "R07",
   "R08"
  ],
- "aggiornato": "2026-11-12 17:15",
+ "aggiornato": "2026-11-12 17:30",
  "finita": true,
  "voci": [
   {
@@ -733,13 +733,13 @@
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base 6e0a23a0^ --file lib/products/persistVariantsServer.ts --prove tests/unit/riparazione-r08-le-varianti-tutte-o-nessuna.test.ts --json"
    },
-   "verdetto": "rompe_altro",
+   "verdetto": "regge",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "La funzione salva_varianti regge (SECURITY INVOKER, grant solo authenticated/service_role, RLS per seller, conflitto di scorta dentro la scrittura, test SQL verde; ripiego solo per PGRST202/42883 su salva_varianti). Ma 6 prove esistenti sono indebolite: una riga fa rispondere PGRST202 a rpc, quindi provano solo il ripiego (la-pagina-di-modifica-salva-le-varianti...:92, chi-corregge-la-descrizione...:134, la-porta-del-catalogo...:35, la-scorta-si-confronta...:37,176, la-variante-mai-vista-non-si-cancella:24, minori-s06-scorta-in-modifica:133-136). Dimostrato con due mutazioni sulla strada vera (persistVariantsServer.ts:136 p_delete senza filtro sulle viste; :141 p_update con lo stock non cambiato): 44 prove su 44 restano verdi. Due difetti già riparati (variante mai vista cancellata, venduto rimesso in magazzino) non sono più sorvegliati. Rimedio: il finto rpc applichi p_delete/p_update/p_insert, un solo caso PGRST202, e due asserzioni sul contenuto della chiamata. Adeguate: due-tocchi-su-ripeti-ordine (R08-012) e minori-s10-sentry (R08-023)."
+   "nota": "Ricollaudo 2026-11-12 17:25 sulla testa e157fa56: le sei prove esistenti ora usano tests/unit/aiuti/salva-varianti-finta.ts, che esegue il carico di salva_varianti sulla banca dati finta. Mutazioni rifatte dal collaudo: A) persistVariantsServer.ts:121 senza il filtro sulle varianti viste -> 2 rossi su 44 (la-variante-mai-vista-non-si-cancella); B) :96 senza togliere la scorta non cambiata -> 4 rossi su 44 (chi-corregge-la-descrizione, la-pagina-di-modifica-salva-le-varianti, la-porta-del-catalogo, minori-s06). Senza mutazioni 44 su 44 verdi. Finta contro 323: stesse scritture (cancella per id, aggiorna condizionato alla scorta vista con errore scorta_cambiata, inserisce). Non è più permissiva sui due difetti; differenze minori: non filtra product_id su delete/update e non fa coalesce di options/label né greatest(stock,0), irrilevanti per queste prove perché il codice manda solo id del prodotto. Resto invariato dal primo giudizio: funzione SECURITY INVOKER, grant authenticated/service_role, RLS per seller, test SQL verde, ripiego solo per PGRST202/42883 con la sua prova. Prima: rompe_altro per le prove indebolite."
   },
   {
    "id": "R08-010",
@@ -875,7 +875,7 @@
    "accettato": false
   },
   "R08": {
-   "accettato": false
+   "accettato": true
   }
  }
 }
