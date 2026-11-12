@@ -6,3 +6,5 @@
 2026-11-12 15:43 · R03 · piano · — · — · — · approvato (RC con fonte o domanda; 008 nasce CANCELLED; payout.ts tre commit; qa ≤12)
 2026-11-12 15:44 · R07 · piano · — · — · — · approvato (R07-003 HEIC resta scelta di Nicola, niente codice)
 2026-11-12 15:44 · R08 · piano · — · — · — · approvato (014 con prova che era già pubblico; domanda P.IVA a Nicola; prove dei ripieghi)
+2026-11-12 15:45 · R06 · piano · — · — · — · approvato (007 senza difetto = gia_riparato_prima; 014 prova leggera; 005 parziale)
+2026-11-12 15:45 · R09 · piano · — · — · — · approvato (002 solo documentata, parole generiche; 006 pagina solo se sua; 007 non_fatto)
