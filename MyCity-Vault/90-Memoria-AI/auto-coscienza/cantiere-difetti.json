@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-11-07 09:52",
+  "aggiornato": "2026-11-12 14:34",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -26389,6 +26389,84 @@
         "tipo": "umano",
         "nota": "Testo di procedura: si chiude quando la prima campagna vera la esegue senza passi improvvisati (diario della sorveglianza)."
       }
+    },
+    {
+      "id": "AR-1168",
+      "titolo": "Le prove della casa spoglia dipendevano dal giorno: la copia del repo datava tutta la storia all'ora della prova, e la suite del cervello era rossa su ogni PR",
+      "dimensione": "guardiani-e-guardrail",
+      "dove": "cervello/due-case.mjs costruisciCasaSpoglia (asse ③, il commit «prima del lotto») · caso CURA ① di cervello/test/due-case.test.mjs",
+      "gravita": "grave",
+      "impatto_crescita": "indiretto: è debito della macchina, ma una suite rossa su ogni PR blocca ogni unione e insegna a ignorare il rosso",
+      "sintomo": "Dall'8/11 pomeriggio `node --test cervello/test/due-case.test.mjs` usciva 30 pass / 2 fail anche su main pulito (664403b): CURA ① e «il banco non si avvelena da solo». In CI il job «suite del cervello + typecheck del Pannello» era rosso su ogni richiesta, per esempio la #943, che non toccava né il test né i guardiani. Nella casa spoglia `conta-verdetti-muti.mjs` usciva 1: «la Cabina è ferma da 5 giorni rispetto all'ultima consegna (tetto 0): STATO.md dice 2026-11-07 09:53, l'ultimo lavoro è del 2026-11-12 13:11».",
+      "causa_radice": "La casa spoglia schiacciava tutta la storia in UN commit «prima del lotto», firmato «casa spoglia» e datato ADESSO. Il guardiano della Cabina lo leggeva come una consegna di oggi. Sulla storia vera l'ultima consegna su main era 429dc17 del 7/11 12:24, cioè 0 giorni dopo STATO.md: il guardiano era verde sul runner e rosso solo nella copia, appena passate 24 ore dall'ultimo STATO.md. Una data fissa non bastava: HEAD (664403b, 8/11 15:30) era un commit di sola memoria che, schiacciato col resto, sembrava lavoro. E su una PR il caso partiva da HEAD, cioè dal commit di prova che GitHub crea per l'unione, datato alla spinta: una seconda porta per l'orologio.",
+      "fix_proposto": "Fatto. La casa collega gli oggetti del repo di partenza (objects/info/alternates, nessuna copia) e punta main e origin/main al commit VERO di base: stessi commit del runner, con date, autori e file per commit. Da un clone superficiale ricopia i commit presenti coi loro dati veri (ricopiaLaStoria) e dichiara il taglio in `storia`. La base di default è quella del freno (basePerConfronto: il merge-base con origin/main se la storia è intera). L'orologio entra solo nel commit del lotto, che anche sul runner è di adesso.",
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-11-12 13:05",
+      "nato_come": "scoperta",
+      "nato_da": "richiesta di Nicola del 12/11: il test è rosso in due casi anche su main, fa diventare rossa la CI su ogni richiesta (es. #943)",
+      "origine": "richiesta di Nicola 2026-11-12",
+      "fonte": "riprodotto il 12/11 con node --test cervello/test/due-case.test.mjs su 664403b; log del job CI 131202274887 della #943",
+      "owner": "builder-automazioni",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test --test-name-pattern=\"storia VERA|clone superficiale la casa|antenato comune|CURA\" cervello/test/due-case.test.mjs",
+        "nota": "Rossi tutti e quattro sul codice di main (664403b), verdi qui; il banco intero 36/36. A mano, nella casa costruita dal repo vero e da un suo clone superficiale a 50 commit, i quattro guardiani del caso CURA ① escono 0, e la Cabina dice «ultima consegna 2026-11-07 12:24 → 0 giorni indietro». Tre mutazioni AR-1168 in cervello/mutanti.json. Niente collaudatore separato: Nicola ha chiesto una sessione sola."
+      },
+      "chiuso_il": "2026-11-12 14:34",
+      "chiuso_da": "riparazione della suite del cervello del 12/11 sul ramo claude/happy-tesla-3c87mc, in attesa della firma di Nicola sulla richiesta di unione (vale solo da unita)"
+    },
+    {
+      "id": "AR-1169",
+      "titolo": "Da una sessione cloud la porta della storia dichiarava «troncato» qualunque altro repo: cercava il file shallow nella cartella del programma, non del repo da giudicare",
+      "dimensione": "sensori-verita",
+      "dove": "cervello/storia-git.mjs storiaDelRepo (lettura di .git/shallow)",
+      "gravita": "minore",
+      "impatto_crescita": "indiretto: è debito della macchina, ma una misura sulla storia diventa cieca o cambia base senza motivo",
+      "sintomo": "Misurato il 12/11 da una sessione cloud (clone superficiale): un repo di prova intero, con due commit, risultava «clone superficiale (1 commit di innesto: d096470)», che è il confine del clone dell'AD. Di conseguenza basePerConfronto sceglieva HEAD invece del merge-base con origin/main.",
+      "causa_radice": "`git rev-parse --git-dir` torna `.git` relativo nei repo normali. Il primo tentativo usava `join(cwd, dir)`; il secondo usava `dir` così com'era, cioè relativo alla cartella da cui girava il programma. Se lì c'era un `.git/shallow`, il repo giudicato si prendeva gli innesti di chi lanciava.",
+      "fix_proposto": "Fatto. Un solo percorso: `join(resolve(cwd, dir), \"shallow\")`, giusto sia per il `.git` relativo sia per il percorso assoluto dei worktree.",
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-11-12 14:10",
+      "nato_come": "scoperta",
+      "nato_da": "trovato riparando AR-1168: la prova dell'antenato comune era rossa solo da una sessione cloud",
+      "origine": "trovato-riparando",
+      "fonte": "misura del 12/11 con storiaDelRepo su un repo di prova, lanciata dalla cartella dell'AD quando era un clone superficiale",
+      "owner": "builder-automazioni",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test --test-name-pattern=\"giudica il repo che gli passi\" cervello/test/storia-troncata.test.mjs",
+        "nota": "Il programma gira dentro un clone superficiale che la prova si costruisce da sola e giudica un repo intero: rosso col codice di main, verde qui, in CI come in cloud. Mutazione AR-1169 in cervello/mutanti.json."
+      },
+      "chiuso_il": "2026-11-12 14:34",
+      "chiuso_da": "riparazione della suite del cervello del 12/11 sul ramo claude/happy-tesla-3c87mc, in attesa della firma di Nicola sulla richiesta di unione (vale solo da unita)"
+    },
+    {
+      "id": "AR-1170",
+      "titolo": "Dentro un hook di git la casa spoglia avrebbe scritto nel repo vero: i suoi comandi git ereditavano GIT_DIR e GIT_INDEX_FILE di chi la lanciava",
+      "dimensione": "rischio-sicurezza-se",
+      "dove": "cervello/due-case.mjs costruisciCasaSpoglia (aiutante git della casa) e ricopiaLaStoria",
+      "gravita": "medio",
+      "impatto_crescita": "indiretto: è debito della macchina, ma il danno sarebbe il ramo di chi lavora spostato senza avviso",
+      "sintomo": "Prova del 12/11: con GIT_DIR e GIT_INDEX_FILE del repo di prova nell'ambiente, costruire la casa spostava la punta del repo vero e ci aggiungeva il commit «il lotto». Git dà la precedenza alle variabili sul cwd. Nessun caso visto dal vivo: il rischio era latente.",
+      "causa_radice": "I comandi git nella casa giravano con `cwd: dove` ma con l'ambiente intero del chiamante. Il rischio c'era già per i commit della casa; la riparazione di AR-1168 aggiungeva un `update-ref refs/heads/main` che lo rendeva più grave.",
+      "fix_proposto": "Fatto. ambienteGitDellaCasa toglie le variabili con cui git trova il suo repo (GIT_DIR, GIT_WORK_TREE, GIT_INDEX_FILE, GIT_OBJECT_DIRECTORY, GIT_ALTERNATE_OBJECT_DIRECTORIES, GIT_COMMON_DIR e simili) da ogni comando lanciato nella casa.",
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-11-12 14:25",
+      "nato_come": "scoperta",
+      "nato_da": "radiografia in corsa del lotto di AR-1168, lente rischio-sicurezza-se su cervello/due-case.mjs",
+      "origine": "radiografia-in-corsa",
+      "fonte": "prova del 12/11 con GIT_DIR impostato, rossa senza il riparo e verde con",
+      "owner": "builder-automazioni",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test --test-name-pattern=\"GIT_DIR del repo vero\" cervello/test/due-case.test.mjs",
+        "nota": "Rossa togliendo l'ambiente ripulito dall'aiutante della casa, verde col riparo. Mutazione AR-1170 in cervello/mutanti.json."
+      },
+      "chiuso_il": "2026-11-12 14:34",
+      "chiuso_da": "riparazione della suite del cervello del 12/11 sul ramo claude/happy-tesla-3c87mc, in attesa della firma di Nicola sulla richiesta di unione (vale solo da unita)"
     }
   ],
   "meta": {

@@ -17,6 +17,11 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { dirname, join } from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import {
   cambiatoDallaNascita,
   chiamateSenzaStato,
@@ -47,6 +52,34 @@ test("statoStoria: se git NON risponde, la storia si tratta come troncata", () =
   // Il verso prudente qui è l'unico onesto: al buio non si emettono numeri.
   const s = statoStoria({ shallow: null });
   assert.equal(s.intera, false);
+});
+
+test("storiaDelRepo giudica il repo che gli passi, non quello da cui gira il programma", () => {
+  // Il caso vero, 12/11/2026: da una sessione cloud (clone superficiale) un repo di prova intero, con
+  // due commit, risultava «1 commit di innesto: d096470» — il confine del clone dell'AD. Il file
+  // `shallow` si cercava col percorso relativo alla cartella di chi lanciava. Qui il programma gira
+  // DENTRO un clone superficiale e giudica un repo intero: deve dire «intera» in CI e in cloud.
+  const base = mkdtempSync(join(tmpdir(), "storia-porta-"));
+  const intero = join(base, "intero");
+  const clone = join(base, "clone");
+  mkdirSync(intero);
+  const git = (cwd, ...a) => spawnSync("git", a, { cwd, encoding: "utf8", timeout: 60_000 });
+  git(intero, "init", "-q", ".");
+  for (const n of ["uno", "due"]) {
+    writeFileSync(join(intero, n), `${n}\n`, "utf8");
+    git(intero, "add", "-A");
+    git(intero, "-c", "user.name=banco", "-c", "user.email=banco@mycity", "-c", "commit.gpgsign=false", "commit", "-q", "-m", n);
+  }
+  const clonato = spawnSync("git", ["clone", "-q", "--depth", "1", `file://${intero}`, clone], { encoding: "utf8", timeout: 60_000 });
+  assert.equal(clonato.status, 0, `il clone superficiale del banco deve riuscire: ${clonato.stderr}`);
+  assert.equal(git(clone, "rev-parse", "--is-shallow-repository").stdout.trim(), "true", "premessa: chi lancia sta in un clone superficiale");
+  const porta = pathToFileURL(join(dirname(fileURLToPath(import.meta.url)), "..", "storia-git.mjs")).href;
+  const figlio = spawnSync(process.execPath, ["--input-type=module", "-e", `const m = await import(${JSON.stringify(porta)}); console.log(JSON.stringify(m.storiaDelRepo(${JSON.stringify(intero)})));`], { cwd: clone, encoding: "utf8", timeout: 60_000 });
+  assert.equal(figlio.status, 0, `la porta deve rispondere: ${figlio.stderr}`);
+  const s = JSON.parse(figlio.stdout.trim());
+  assert.equal(s.intera, true, `il repo intero è intero anche se chi chiede sta in un clone superficiale: ${s.motivo}`);
+  assert.deepEqual(s.innesti, [], "e non si prende gli innesti di nessun altro");
+  rmSync(base, { recursive: true, force: true });
 });
 
 test("statoStoria: il file .git/shallow da solo basta a dichiarare il troncamento", () => {
