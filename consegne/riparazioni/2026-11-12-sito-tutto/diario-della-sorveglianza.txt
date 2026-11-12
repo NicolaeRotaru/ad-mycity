@@ -64,3 +64,4 @@
 2026-11-12 16:54 · R12 · dice finito · guardia 🔴 (asserzioni tolte da prove esistenti, non corretto) · referto ✅ · — · ultimo giro di correzione
 2026-11-12 16:56 · R12 · finita · guardia ✅ · referto ✅ · — · dato a K03 (pieno: R06 R10 R12)
 2026-11-12 16:58 · K01 · R01 R02 R09 collaudati · R01 10 reggono, 5 parziali, 1 rompe altro (004); R09 13 reggono, 6 parziali, 1 non regge (001), campione non accettato · — · — · giro di correzione a R01 e R09; R02 corretto torna a K01; 1 falla riservata tenuta fuori dal deposito
+2026-11-12 17:03 · R03 · finita · guardia ✅ · referto ✅ · — · dato a K04 (aperto)
