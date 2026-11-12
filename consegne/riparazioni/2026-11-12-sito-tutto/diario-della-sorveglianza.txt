@@ -30,3 +30,4 @@
 2026-11-12 16:13 · R10 · lavora · guardia ✅ · referto 10 di 25 · unione ✅ · corretto: «{{» nel referto
 2026-11-12 16:13 · R05 · fermo senza piano · — · — · — · sollecitato col clone pubblico
 2026-11-12 16:13 · R02 R03 R04 R08 R09 R11 R12 · lavorano · ✅ · — · ✅ · nessuna azione
+2026-11-12 16:27 · R01 · dice finito · guardia 🔴 (6 prove con skipIf, 1 prova altrui toccata) · referto 25 di 25 ✅ · — · ultimo giro di correzione mandato
