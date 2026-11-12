@@ -47,7 +47,7 @@
 // 🟢 Legge il sito e il registro, scrive solo nella cartella della radiografia. Il registro lo cambiano due passi
 // della regista a fine lavoro: `applica --scrivi` (ricontrolli e regressioni, per chiave) e il digest sul grezzo.
 
-import { existsSync, mkdirSync, readFileSync, readdirSync, realpathSync, writeFileSync, mkdtempSync, rmSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, realpathSync, mkdtempSync, rmSync } from "node:fs";
 import { basename, dirname, join, relative, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
@@ -55,6 +55,9 @@ import { fileURLToPath } from "node:url";
 import { gitEsegui } from "./git-github.mjs";
 import { chiaveProblema } from "./referti-sito.mjs";
 import { timbroOra } from "./ora-piacenza.mjs";
+// Ogni scrittura passa dalla porta della casa: fuori dalla memoria scrive dov'era, dentro rispetta la sola lettura e
+// la sabbiera (misura-che-non-sporca, AR-639). Una scrittura fermata non è un verde muto: si dice.
+import { scriviJsonAtomico, scriviTestoAtomico } from "./scrivi-json.mjs";
 // La forma delle falle riservate è UNA sola per la casa: la stessa del risolutore (regoleNuoviDifetti). Se cambia lì,
 // cambia qui: una riservata scritta bene per uno è scritta bene per l'altro.
 import { chiaviDoppie, dataVera, TITOLO_RISERVATO, AREE_RISERVATE, PRIVATO } from "./riparazione-sessioni.mjs";
@@ -110,8 +113,10 @@ function gitOk(dir, args) { try { return git(dir, args); } catch { return null; 
 const vuoto = (v) => v === undefined || v === null || (typeof v === "string" && v.trim() === "") || (Array.isArray(v) && v.length === 0);
 const piatto = (v) => String(v ?? "").replace(/[\t\r\n]+/g, " ").trim();
 const leggiJson = (p) => JSON.parse(readFileSync(p, "utf8"));
-const scriviJson = (p, d) => { mkdirSync(dirname(p), { recursive: true }); writeFileSync(p, JSON.stringify(d, null, 2) + "\n"); };
-const scriviTesto = (p, t) => { mkdirSync(dirname(p), { recursive: true }); writeFileSync(p, t); };
+function scriviTesto(p, t) {
+  if (scriviTestoAtomico(p, t) === null) throw new Error(`la scrittura di ${p} è stata fermata dal freno della memoria (sola lettura)`);
+}
+const scriviJson = (p, d) => scriviTesto(p, JSON.stringify(d, null, 2) + "\n");
 const due = (n) => String(n).padStart(2, "0");
 const tre = (n) => String(n).padStart(3, "0");
 export const eRiservataTitolo = (t) => /^\s*falla di sicurezza/i.test(String(t ?? ""));
@@ -884,7 +889,7 @@ function sorveglia(opz) {
         const testo = gitOk(opz.git, ["show", `origin/${v.ramo}:${relCart}/referti/${s}.json`]);
         if (testo !== null) {
           const p = join(tmp, `${s}.json`);
-          writeFileSync(p, testo);
+          scriviTesto(p, testo);
           rv = validaReferto({ ...silenzio, posizionali: [p] });
           try { const r = JSON.parse(testo); finita = r.finita === true; n = (r.difetti ?? []).length; } catch { /* il rosso lo dice già valida-referto */ }
         }
@@ -1136,7 +1141,10 @@ function applica(opz) {
   const esito = applicaAlRegistro(reg.problemi ?? [], referti.filter(({ nome, r }) => !rossi.some((x) => x.startsWith(`${nome}:`)) && r.finita === true), { data: opz.data, base: piano.base, ora: timbroOra() });
   rossi.push(...esito.rossi);
   console.log(`ricontrolli applicati: ${esito.conti.riverificati} · chiusi come già riparati: ${esito.conti.chiusi} · regressioni riaperte: ${esito.conti.riaperti}${opz.scrivi ? "" : " (a vuoto: aggiungi --scrivi)"}`);
-  if (opz.scrivi && !rossi.length) { writeFileSync(opz.registro, JSON.stringify({ ...reg, problemi: esito.problemi }, null, 2) + "\n"); console.log(`registro scritto: ${rel(opz, opz.registro)}`); }
+  if (opz.scrivi && !rossi.length) {
+    if (scriviJsonAtomico(opz.registro, { ...reg, problemi: esito.problemi }) === null) rossi.push(`la scrittura del registro ${rel(opz, opz.registro)} è stata fermata dal freno della memoria: niente è cambiato`);
+    else console.log(`registro scritto: ${rel(opz, opz.registro)}`);
+  }
   return chiudi("applica", rossi, [], opz, esito.conti);
 }
 
