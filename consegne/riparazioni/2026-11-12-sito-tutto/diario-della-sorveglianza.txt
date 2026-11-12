@@ -67,3 +67,4 @@
 2026-11-12 17:03 · R03 · finita · guardia ✅ · referto ✅ · — · dato a K04 (aperto)
 2026-11-12 17:04 · K01 · ricollaudo R02 · 11 reggono, 9 parziali, 1 non regge (003, seconda volta: resta aperta con la nota, niente terzo giro senza Nicola); campione accettato · — · — · R02 chiuso per l'onda 1
 2026-11-12 17:07 · R01 · correzione finita · guardia 🔴 solo storia nota · referto ✅ · — · torna a K01 per le voci rimandate
+2026-11-12 17:08 · R09 · correzione finita · guardia ✅ · referto ✅ · — · torna a K01 per le voci rimandate
