@@ -1,1 +1,2 @@
 2026-11-12 15:38 · R01-R12 · aperte · onda 1 partita (12 sessioni, 300 voci) · aspetto i piani
+2026-11-12 15:41 · R11 · piano · — · — · — · approvato con 3 precisazioni (tipi DB, prova R11-024, tetto qa)
