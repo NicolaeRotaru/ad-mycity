@@ -77,6 +77,8 @@ La procedura: `consegne/accoglienza-negozi/00-come-funziona-l-accoglienza.md`. I
 
 > 📋 2026-11-08 08:35 — Il lotto del negozio è nel registro: 20 difetti nuovi, 1 grave, e 38 già noti confermati. Il grave: chi scrive il prezzo all'italiana, «1.250,00», mette in vendita a 1,25 €. Quattro voci date per riparate tornano aperte. Voci aperte 795. Gira il lotto di amministratore e fattorino.
 
+> 📋 2026-11-12 13:55 — Il lotto di amministratore e fattorino è nel registro: 32 difetti nuovi, 1 grave (il funnel conta meno della metà dei clienti). Voci aperte 828. Entrato con 4 agenti e mezzo milione di token: da adesso vale il conto dei token. Niente più lotti larghi.
+
 **In parole semplici.** La palestra è una copia del sito fatta solo per le prove. Lì si usa il sito come tanti clienti, negozi e fattorini insieme. Il sito vero non si tocca mai. La radiografia ha scritto 533 prove da fare lì.
 
 **Cosa cambia per te.** Esempio: oggi nessuno ha mai fatto un ordine in contanti da capo a fondo, da utente collegato. In palestra si fa con un cliente, un negozio e un fattorino finti. Così escono i difetti che leggendo il codice non si vedono.

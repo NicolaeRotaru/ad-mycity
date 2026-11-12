@@ -1,0 +1,638 @@
+{
+ "lotto": "4",
+ "data": "2026-11-08",
+ "prove": [
+  {
+   "id": "S02-P020",
+   "esito": "passa"
+  },
+  {
+   "id": "S02-P021",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Il pannello dei bonifici conta come da pagare i contanti non ancora versati e i ritiri già pagati al banco",
+   "gravita": "grave"
+  },
+  {
+   "id": "S02-P026",
+   "esito": "passa"
+  },
+  {
+   "id": "S03-P016",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Una campagna sponsorizzata scaduta resta fra le attive e non compare mai fra le finite",
+   "gravita": "minore"
+  },
+  {
+   "id": "S04-P002",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Il cambio di ruolo di un utente non finisce nel registro delle azioni amministrative",
+   "gravita": "minore"
+  },
+  {
+   "id": "S04-P007",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P008",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P009",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P010",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P011",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P012",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P013",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P014",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P015",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P016",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P017",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P019",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P020",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P021",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Due cancellazioni dello stesso account partite insieme danno un errore falso o una riga doppia nel registro",
+   "gravita": "minore"
+  },
+  {
+   "id": "S04-P022",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P023",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Due sospensioni dello stesso negozio partite insieme passano tutte e due e il negozio riceve l'avviso due volte",
+   "gravita": "minore"
+  },
+  {
+   "id": "S06-P073",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Il cliente non trova l'esito del reclamo nella pagina del suo ordine",
+   "gravita": "minore"
+  },
+  {
+   "id": "S07-P038",
+   "esito": "passa"
+  },
+  {
+   "id": "S08-P001",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nel cruscotto di oggi i negozi «in attesa» comprendono anche quelli sospesi",
+   "gravita": "minore"
+  },
+  {
+   "id": "S08-P002",
+   "esito": "passa"
+  },
+  {
+   "id": "S08-P003",
+   "esito": "passa"
+  },
+  {
+   "id": "S08-P006",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Un doppio clic su «Conferma i contanti ricevuti» registra due rimesse invece di una",
+   "gravita": "minore"
+  },
+  {
+   "id": "S08-P007",
+   "esito": "passa"
+  },
+  {
+   "id": "S08-P008",
+   "esito": "passa"
+  },
+  {
+   "id": "S08-P009",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "La pagina dei pagamenti ai negozi conta come «da pagare» anche soldi che il negozio ha già incassato o che il fattorino non ha ancora portato",
+   "gravita": "grave"
+  },
+  {
+   "id": "S08-P010",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Oltre i mille iscritti, la ricerca per email nel pannello utenti non trova persone che ci sono e dice che non esistono",
+   "gravita": "grave"
+  },
+  {
+   "id": "S08-P011",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Oltre i mille iscritti, l'elenco utenti esportato ha l'email vuota per tutti gli altri, e il file dice di essere completo",
+   "gravita": "minore"
+  },
+  {
+   "id": "S08-P012",
+   "esito": "passa"
+  },
+  {
+   "id": "S08-P013",
+   "esito": "passa"
+  },
+  {
+   "id": "S08-P014",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nel pannello dei coupon un codice scaduto o esaurito risulta ancora «Attivo»",
+   "gravita": "minore"
+  },
+  {
+   "id": "S08-P015",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Una campagna sponsorizzata finita ieri non compare fra le «Finite» e resta fra le «Attive»",
+   "gravita": "minore"
+  },
+  {
+   "id": "S08-P016",
+   "esito": "passa"
+  },
+  {
+   "id": "S08-P017",
+   "esito": "non_eseguibile"
+  },
+  {
+   "id": "S08-P018",
+   "esito": "passa"
+  },
+  {
+   "id": "S08-P019",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Un testo lungo incollato in una pagina del sito viene tagliato a 4.000 caratteri senza avvisare, e la pagina pubblicata resta monca",
+   "gravita": "minore"
+  },
+  {
+   "id": "S08-P020",
+   "esito": "passa"
+  },
+  {
+   "id": "S08-P021",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Col doppio clic su «Registra la decisione» la segnalazione si salva due volte, e chi ha segnalato e il negozio ricevono due avvisi",
+   "gravita": "minore"
+  },
+  {
+   "id": "S08-P022",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nella prima ora del primo del mese la classifica del negozio del mese mostra i voti del mese prima e non conta quelli nuovi",
+   "gravita": "minore"
+  },
+  {
+   "id": "S08-P023",
+   "esito": "passa"
+  },
+  {
+   "id": "S08-P024",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "In chat, se l'assistenza scrive il secondo messaggio mentre il primo sta partendo, il secondo sparisce senza essere inviato",
+   "gravita": "minore"
+  },
+  {
+   "id": "S08-P025",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "La pagina Attività mostra i visitatori delle 24 ore contando solo le ultime mille righe, e non dice che è un campione",
+   "gravita": "minore"
+  },
+  {
+   "id": "S08-P026",
+   "esito": "passa"
+  },
+  {
+   "id": "S08-P027",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Il funnel conta meno della metà dei clienti che hanno comprato, perché legge al massimo mille ordini ogni cento clienti e non lo dice",
+   "gravita": "grave"
+  },
+  {
+   "id": "S08-P028",
+   "esito": "passa"
+  },
+  {
+   "id": "S09-P033",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Una segnalazione accolta non toglie il prodotto dal sito, ma a chi ha segnalato e al venditore scriviamo che è stato rimosso",
+   "gravita": "grave"
+  },
+  {
+   "id": "S10-P090",
+   "esito": "passa"
+  },
+  {
+   "id": "S10-P091",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Sul telefono piccolo la pagina del registro delle azioni scorre di lato, e l'elenco si ferma a 200 righe senza dirlo",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P092",
+   "esito": "passa"
+  },
+  {
+   "id": "S10-P093",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "La pagina delle categorie, quando non ce n'è nessuna, resta bianca senza un messaggio",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P094",
+   "esito": "passa"
+  },
+  {
+   "id": "S10-P095",
+   "esito": "passa"
+  },
+  {
+   "id": "S10-P096",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Se la rete cade, la pagina del controllo del credito di un rimborso mostra «Failed to fetch» e nessun modo di riprovare",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P097",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Se la lettura delle offerte del giorno fallisce, la pagina dice che non ce n'è nessuna",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P098",
+   "esito": "passa"
+  },
+  {
+   "id": "S10-P099",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nei reclami, un link incollato dal cliente fa scorrere di lato tutta la pagina sul telefono, e oltre 100 reclami il conteggio si ferma a 100 senza dirlo",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P100",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nella pagina Eventi gli stati sono in inglese, e un titolo lungo senza spazi allarga la pagina sul telefono",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P101",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Il funnel senza iscritti mostra zero virgola zero per cento in rosso invece di dire che non c'è niente da misurare",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P102",
+   "esito": "passa"
+  },
+  {
+   "id": "S10-P103",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Il dettaglio ordine sul telefono scorre di lato se il cliente incolla un link nelle note di consegna",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P104",
+   "esito": "passa"
+  },
+  {
+   "id": "S10-P105",
+   "esito": "passa"
+  },
+  {
+   "id": "S10-P106",
+   "esito": "passa"
+  },
+  {
+   "id": "S10-P107",
+   "esito": "passa"
+  },
+  {
+   "id": "S10-P108",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "La pagina dei pagamenti ai negozi conta come «da pagare» soldi che il negozio ha già in cassa o che vanno recuperati",
+   "gravita": "grave"
+  },
+  {
+   "id": "S10-P109",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Se la lettura del prodotto non va, la pagina di modifica dice che il prodotto non esiste",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P110",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nel nuovo prodotto, se l'elenco dei negozi non arriva, la tendina resta vuota senza spiegazioni",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P111",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "L'elenco prodotti dell'amministratore si ferma a mille senza dirlo, e la ricerca non trova i prodotti più vecchi",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P112",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nelle segnalazioni, un link lungo incollato da chi segnala esce dalla scheda e fa scorrere la pagina di lato sul telefono",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P113",
+   "esito": "passa"
+  },
+  {
+   "id": "S10-P114",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "La pagina degli SOS dice «tutto tranquillo» mentre un fattorino ha ancora un SOS aperto, se dopo il suo ne sono arrivati più di cinquanta",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P115",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nella pagina delle sponsorizzazioni colonne e valori sono in inglese e in codici del database",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P116",
+   "esito": "passa"
+  },
+  {
+   "id": "S10-P117",
+   "esito": "passa"
+  },
+  {
+   "id": "S10-P118",
+   "esito": "passa"
+  },
+  {
+   "id": "S10-P119",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "La pagina Utenti perde email e ultimo accesso degli iscritti oltre il millesimo, e la ricerca per email dice «0 risultati» su persone che esistono",
+   "gravita": "minore"
+  },
+  {
+   "id": "S02-P012",
+   "esito": "passa"
+  },
+  {
+   "id": "S02-P013",
+   "esito": "passa"
+  },
+  {
+   "id": "S02-P014",
+   "esito": "passa"
+  },
+  {
+   "id": "S02-P015",
+   "esito": "passa"
+  },
+  {
+   "id": "S02-P019",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nel grafico dei guadagni del fattorino una consegna fatta dopo mezzanotte finisce nel giorno prima",
+   "gravita": "minore"
+  },
+  {
+   "id": "S04-P069",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P070",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P071",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Un documento del fattorino fra 4,4 e 8 MB viene rifiutato con un messaggio tecnico in inglese, anche se la pagina promette fino a 8 MB",
+   "gravita": "minore"
+  },
+  {
+   "id": "S04-P084",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Falla di sicurezza da chiudere (dettagli nel referto privato)",
+   "gravita": "minore"
+  },
+  {
+   "id": "S04-P085",
+   "esito": "passa"
+  },
+  {
+   "id": "S04-P086",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Falla di sicurezza da chiudere (dettagli nel referto privato)",
+   "gravita": "minore"
+  },
+  {
+   "id": "S07-P036",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Un fattorino in bici e senza patente non riesce a completare la pagina dei suoi documenti",
+   "gravita": "grave"
+  },
+  {
+   "id": "S07-P037",
+   "esito": "fallisce",
+   "verifica": "scartato",
+   "titolo": "Il fattorino respinto non può ricaricare la polizza dal sito e, anche se la ricarica, non torna mai nella coda dello staff"
+  },
+  {
+   "id": "S07-P039",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Chi perde la gara per un ordine continua a vederlo con «Accetta», e il fattorino in attesa finisce sulla home senza spiegazione",
+   "gravita": "minore"
+  },
+  {
+   "id": "S07-P040",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Salvare un turno da una pagina Turni rimasta aperta rimette il fattorino offline senza dirlo",
+   "gravita": "grave"
+  },
+  {
+   "id": "S07-P041",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nel profilo del fattorino cambiare solo il nome cancella il telefono; la polizza scaduta risulta «in scadenza» e il documento mai visto risulta «verificato»",
+   "gravita": "grave"
+  },
+  {
+   "id": "S07-P042",
+   "esito": "fallisce",
+   "verifica": "scartato",
+   "titolo": "Il fattorino può annullare una consegna come «cliente assente» pochi secondi dopo il ritiro, senza chiamate né attesa registrate"
+  },
+  {
+   "id": "S07-P043",
+   "esito": "passa"
+  },
+  {
+   "id": "S07-P044",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Storico e recensioni del fattorino si caricano tutti in una volta, senza pagine, e le consegne vecchie aprono «Ordine non trovato»",
+   "gravita": "minore"
+  },
+  {
+   "id": "S07-P045",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "La pagina Guadagni del fattorino non dice quando arriva il bonifico",
+   "gravita": "minore"
+  },
+  {
+   "id": "S07-P046",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "La finestra SOS promette che la chiamata al 112 parte da sola, e l'Aiuto promette un obbligo INAIL che il sito non controlla",
+   "gravita": "minore"
+  },
+  {
+   "id": "S09-P005",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Lo scarico dei dati del fattorino si dichiara completo ma non contiene le sue giornate di cassa né le recensioni ricevute",
+   "gravita": "minore"
+  },
+  {
+   "id": "S09-P010",
+   "esito": "passa"
+  },
+  {
+   "id": "S09-P026",
+   "esito": "fallisce",
+   "verifica": "scartato",
+   "titolo": "Il fattorino appena iscritto non arriva mai al modulo dei documenti, quindi nessuno può approvarlo"
+  },
+  {
+   "id": "S09-P029",
+   "esito": "fallisce",
+   "verifica": "scartato",
+   "titolo": "L'aiuto del fattorino dice che senza INAIL non si consegna, ma non dice chi la apre né chi la controlla, e il sito non la controlla da nessuna parte"
+  },
+  {
+   "id": "S09-P035",
+   "esito": "passa"
+  },
+  {
+   "id": "S10-P081",
+   "esito": "fallisce",
+   "verifica": "visto_una_volta",
+   "titolo": "Nella bacheca del fattorino l'interruttore online è alto 32 pixel e le consegne in preparazione hanno il compenso poco leggibile",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P082",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nella pagina Turni, se la rete cade, l'interruttore dice online (o offline) e scrive «Preferenze salvate» anche quando non è stato salvato niente",
+   "gravita": "grave"
+  },
+  {
+   "id": "S10-P083",
+   "esito": "fallisce",
+   "verifica": "visto_una_volta",
+   "titolo": "Nella consegna in corso la freccia indietro e i tasti Chiama, Naviga e SMS sono sotto i 44 pixel, e senza rete un codice giusto risulta «Verifica fallita»",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P084",
+   "esito": "fallisce",
+   "verifica": "visto_una_volta",
+   "titolo": "Nello storico consegne compaiono due gruppi «Oggi»: le consegne fatte dopo mezzanotte finiscono in un gruppo a parte e il totale del giorno si spezza",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P086",
+   "esito": "fallisce",
+   "verifica": "visto_una_volta",
+   "titolo": "Nelle recensioni del fattorino un commento con una parola lunga fa scorrere la pagina di lato sul telefono piccolo, e i filtri per stelle sono alti 24 pixel",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P087",
+   "esito": "fallisce",
+   "verifica": "confermato",
+   "titolo": "Nel profilo del fattorino, salvando dopo aver cambiato solo il nome si cancella il telefono, e salvando senza toccare niente si cancellano nome e telefono",
+   "gravita": "grave"
+  },
+  {
+   "id": "S10-P088",
+   "esito": "fallisce",
+   "verifica": "visto_una_volta",
+   "titolo": "Nell'iscrizione del fattorino il passo 1 non si salva se non scrivi anche le scadenze di patente e polizza del passo 2, e i messaggi non dicono quale campo manca",
+   "gravita": "minore"
+  },
+  {
+   "id": "S10-P089",
+   "esito": "fallisce",
+   "verifica": "visto_una_volta",
+   "titolo": "Nella pagina Aiuto del fattorino la freccia per tornare indietro è di 36 pixel",
+   "gravita": "minore"
+  }
+ ]
+}

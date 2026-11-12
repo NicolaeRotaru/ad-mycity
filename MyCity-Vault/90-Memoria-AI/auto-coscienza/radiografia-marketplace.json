@@ -10,7 +10,7 @@
       "raw": "consegne/audit/2026-11-06-radiografia-marketplace-raw.json",
       "data": "2026-11-06",
       "report": "consegne/audit/2026-11-06-radiografia.md",
-      "findings": 276,
+      "findings": 308,
       "agenti": null,
       "impronte": {
         "19826623": "causa_radice:87c19f descrizione:cb6814 dimensione:4b3bdc file:e502ca fix:63084d fonte:647fef fonte_radiografia:ce5550 giro:340ca7 impatto:05c96c prova:7f89e8 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:902ae2 severita:5a2b0a stato:e2974e titolo:b31429 verificato:4db211",
@@ -73,6 +73,7 @@
         "847a53f4": "causa_radice:ee8fc8 descrizione:491d67 dimensione:49940d file:634bb3 fix:127dbb fonte:647fef fonte_radiografia:95bc42 giro:300ca0 impatto:429a8e prova:f12ebe prova_eseguita:4db211 prova_tipo:9b465a reparto:c8efe7 severita:900c79 stato:e2974e titolo:ca9194 verificato:4db211",
         "91fec503": "causa_radice:2b67b5 descrizione:2949b5 dimensione:49940d file:72ac9c fix:c3c430 fonte:647fef fonte_radiografia:95bc42 giro:300ca0 impatto:5eb1f4 prova:d7e0ed prova_eseguita:4db211 prova_tipo:9b465a reparto:c8efe7 severita:5a2b0a stato:e2974e titolo:520e65 verificato:4db211",
         "d7959f5b": "causa_radice:f652a5 descrizione:235050 dimensione:49940d file:d4495f fix:bcf3b9 fonte:647fef fonte_radiografia:95bc42 giro:300ca0 impatto:0f9591 prova:ced7f9 prova_eseguita:4db211 prova_tipo:9b465a reparto:c8efe7 severita:5a2b0a stato:e2974e titolo:97fa76 verificato:4db211",
+        "45974e04": "descrizione:7f4ee2 dimensione:49940d file:9e61b8 fix:54b2a0 fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:403445 prova:acec3f prova_eseguita:4db211 prova_tipo:e6ac21 reparto:c8efe7 severita:5a2b0a stato:e2974e titolo:e1f4de verificato:4db211",
         "82736fae": "causa_radice:79fd1e descrizione:edc73c dimensione:018daf file:19a7c3 fix:c51de6 fonte:647fef fonte_radiografia:01c5be giro:340ca7 impatto:f58b67 prova:bad6b7 prova_eseguita:0b0699 prova_tipo:ac8292 reparto:17fb3e severita:5a2b0a stato:e2974e titolo:2072bd verificato:4db211",
         "042fe2c9": "causa_radice:c65f05 descrizione:dad21f dimensione:018daf file:156944 fix:28d3e1 fonte:647fef fonte_radiografia:01c5be giro:340ca7 impatto:03808e prova:af4a99 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:17fb3e severita:900c79 stato:e2974e titolo:bcf17a verificato:4db211",
         "4fd1cc57": "causa_radice:6208d3 descrizione:ae43cb dimensione:018daf file:e40dfc fix:838276 fonte:647fef fonte_radiografia:ebc7da giro:340ca7 impatto:f8ade0 prova:b782d3 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:17fb3e severita:900c79 stato:e2974e titolo:b76061 verificato:4db211",
@@ -113,6 +114,9 @@
         "ad19983e": "causa_radice:db5f03 descrizione:db5f03 dimensione:f2e91f file:922f17 fix:db5f03 fonte:647fef fonte_radiografia:e9719c giro:300ca0 impatto:db5f03 prova:db5f03 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:1f976b severita:5a2b0a stato:e2974e titolo:c8c79b verificato:4db211",
         "e2235b4e": "causa_radice:867be0 descrizione:4d6396 dimensione:f2e91f file:0bcd48 fix:e5c113 fonte:647fef fonte_radiografia:a15087 giro:300ca0 impatto:422d67 prova:118767 prova_eseguita:4db211 prova_tipo:9b465a reparto:1f976b severita:5a2b0a stato:e2974e titolo:6e332a verificato:4db211",
         "84f1d3ed": "causa_radice:db5f03 descrizione:db5f03 dimensione:f2e91f file:922f17 fix:db5f03 fonte:647fef fonte_radiografia:95bc42 giro:300ca0 impatto:db5f03 prova:db5f03 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:1f976b severita:5a2b0a stato:e2974e titolo:4d392d verificato:4db211",
+        "06573c50": "descrizione:1afc3c dimensione:f2e91f file:d2f764 fix:eae0b1 fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:b92b68 prova:fdb813 prova_eseguita:4db211 prova_tipo:a89774 reparto:1f976b severita:5a2b0a stato:e2974e titolo:42b11d verificato:4db211",
+        "1ee78158": "causa_radice:db5f03 descrizione:db5f03 dimensione:f2e91f file:922f17 fix:db5f03 fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:db5f03 prova:db5f03 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:1f976b severita:5a2b0a stato:e2974e titolo:1f5dd4 verificato:4db211",
+        "5bba7c2b": "causa_radice:db5f03 descrizione:db5f03 dimensione:f2e91f file:922f17 fix:db5f03 fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:db5f03 prova:db5f03 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:1f976b severita:5a2b0a stato:e2974e titolo:60e0f9 verificato:4db211",
         "72c0e201": "causa_radice:8ce68c descrizione:181d1f dimensione:4b3bdc file:06fc9e fix:00f6e1 fonte:647fef fonte_radiografia:73cd2d giro:340ca7 impatto:7d7c9a prova:8a2afb prova_eseguita:4db211 prova_tipo:cf59f4 reparto:902ae2 severita:5a2b0a stato:e2974e titolo:de6ac8 verificato:4db211",
         "7f525ac7": "causa_radice:1d61a7 descrizione:fa8020 dimensione:4b3bdc file:af471b fix:358952 fonte:647fef fonte_radiografia:73cd2d giro:340ca7 impatto:b609e2 prova:45645a prova_eseguita:4db211 prova_tipo:cf59f4 reparto:902ae2 severita:5a2b0a stato:e2974e titolo:cb743c verificato:4db211",
         "fa4b482a": "causa_radice:e3b695 descrizione:2e5960 dimensione:4b3bdc file:95c343 fix:8e1299 fonte:647fef fonte_radiografia:ce5550 giro:340ca7 impatto:62eed7 prova:69f385 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:902ae2 severita:5a2b0a stato:e2974e titolo:adef35 verificato:4db211",
@@ -184,6 +188,10 @@
         "5f91a061": "descrizione:2a97e9 dimensione:a69c16 file:20ad2f fix:e57b33 fonte:647fef fonte_radiografia:a15087 giro:300ca0 impatto:48f0a7 prova:b9a703 prova_eseguita:4db211 prova_tipo:9b465a reparto:576221 severita:5a2b0a stato:e2974e titolo:cbd9e8 verificato:4db211",
         "6fd368b6": "causa_radice:38dc65 descrizione:f1074d dimensione:a69c16 file:237d76 fix:04f961 fonte:647fef fonte_radiografia:66075c giro:300ca0 impatto:b096c0 prova:13e85a prova_eseguita:4db211 prova_tipo:a89774 reparto:576221 severita:900c79 stato:e2974e titolo:98d814 verificato:4db211",
         "7b61c684": "causa_radice:c03602 descrizione:55be66 dimensione:a69c16 file:b32f21 fix:dacdc3 fonte:647fef fonte_radiografia:95bc42 giro:300ca0 impatto:372953 prova:40e4ed prova_eseguita:4db211 prova_tipo:9b465a reparto:576221 severita:5a2b0a stato:e2974e titolo:ff87de verificato:4db211",
+        "a30942b1": "descrizione:c643be dimensione:a69c16 file:61540c fix:c8084c fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:2f39bc prova:5e3116 prova_eseguita:4db211 prova_tipo:9b465a reparto:576221 severita:5a2b0a stato:e2974e titolo:e7209e verificato:4db211",
+        "fbd007c7": "descrizione:b1e13c dimensione:a69c16 file:23201c fix:41649a fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:66c50b prova:6cea35 prova_eseguita:4db211 prova_tipo:9b465a reparto:576221 severita:5a2b0a stato:e2974e titolo:6dbde5 verificato:4db211",
+        "f1414d5e": "descrizione:2b7428 dimensione:a69c16 file:efb72e fix:474545 fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:5fbad6 prova:485113 prova_eseguita:4db211 prova_tipo:9b465a reparto:576221 severita:5a2b0a stato:e2974e titolo:317440 verificato:4db211",
+        "24b56b1e": "descrizione:a8ec78 dimensione:a69c16 file:f7056d fix:9b8430 fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:1fe95e prova:f4321c prova_eseguita:4db211 prova_tipo:9b465a reparto:576221 severita:5a2b0a stato:e2974e titolo:1bbbcc verificato:4db211",
         "761efb66": "causa_radice:9bcd2d descrizione:b0ed3b dimensione:3c8a92 file:b47a29 fix:60050b fonte:647fef fonte_radiografia:59cf43 giro:340ca7 impatto:af1423 prova:7be733 prova_eseguita:0b0699 prova_tipo:ac8292 reparto:dded07 severita:5a2b0a stato:e2974e titolo:861b16 verificato:4db211",
         "6eebcdc2": "causa_radice:26f190 descrizione:af3009 dimensione:3c8a92 file:468e81 fix:add74c fonte:647fef fonte_radiografia:59cf43 giro:340ca7 impatto:569447 prova:7be733 prova_eseguita:0b0699 prova_tipo:ac8292 reparto:dded07 severita:5a2b0a stato:e2974e titolo:1eb356 verificato:4db211",
         "8d5a13e5": "causa_radice:308ce7 descrizione:2b69d7 dimensione:3c8a92 file:3c5fb4 fix:fd0b22 fonte:647fef fonte_radiografia:59cf43 giro:340ca7 impatto:8c565b prova:7be733 prova_eseguita:0b0699 prova_tipo:ac8292 reparto:dded07 severita:5a2b0a stato:e2974e titolo:2d9ae6 verificato:4db211",
@@ -207,11 +215,19 @@
         "56915dc4": "causa_radice:25155e descrizione:48e5d9 dimensione:3c8a92 file:1e1746 fix:804b1d fonte:647fef fonte_radiografia:a15087 giro:300ca0 impatto:de5486 prova:bbc595 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:dded07 severita:900c79 stato:e2974e titolo:79ca85 verificato:4db211",
         "5504f09c": "causa_radice:10b461 descrizione:d62b2d dimensione:3c8a92 file:2c321e fix:8516d6 fonte:647fef fonte_radiografia:a15087 giro:300ca0 impatto:46a8d4 prova:754d52 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:dded07 severita:5a2b0a stato:e2974e titolo:fb4407 verificato:4db211",
         "104ccbc8": "causa_radice:94f636 descrizione:a6c27d dimensione:3c8a92 file:ab0589 fix:26b759 fonte:647fef fonte_radiografia:95bc42 giro:300ca0 impatto:3fa0e9 prova:e6000c prova_eseguita:4db211 prova_tipo:cf59f4 reparto:dded07 severita:5a2b0a stato:e2974e titolo:4e751e verificato:4db211",
+        "78d67b0a": "descrizione:82c7e7 dimensione:3c8a92 file:37d285 fix:bd85b9 fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:78ff6e prova:cd29fa prova_eseguita:4db211 prova_tipo:e6ac21 reparto:dded07 severita:5a2b0a stato:e2974e titolo:828457 verificato:4db211",
+        "b8b512cb": "descrizione:d47007 dimensione:3c8a92 file:02a359 fix:abe3c0 fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:c70484 prova:c66c7a prova_eseguita:4db211 prova_tipo:9b465a reparto:dded07 severita:5a2b0a stato:e2974e titolo:5b79ed verificato:4db211",
         "5989043c": "causa_radice:7770f6 descrizione:e95cda dimensione:6c645d file:8e18dc fix:6cf946 fonte:647fef fonte_radiografia:49ac98 giro:340ca7 impatto:98f05c prova:ba93d0 prova_eseguita:4db211 prova_tipo:ac8292 reparto:2f5628 severita:5a2b0a stato:e2974e titolo:237783 verificato:4db211",
         "2f89115d": "causa_radice:6600ef descrizione:ff1ba9 dimensione:6c645d file:196345 fix:143966 fonte:647fef fonte_radiografia:49ac98 giro:340ca7 impatto:0c9bb0 prova:b10250 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:2f5628 severita:5a2b0a stato:e2974e titolo:5a3798 verificato:4db211",
         "4541c9ea": "causa_radice:80a7b7 descrizione:3377e7 dimensione:6c645d file:5e3bcc fix:27f321 fonte:647fef fonte_radiografia:49ac98 giro:340ca7 impatto:b1015a prova:1ce210 prova_eseguita:4db211 prova_tipo:ac8292 reparto:2f5628 severita:5a2b0a stato:e2974e titolo:35b97c verificato:4db211",
         "2925b132": "causa_radice:d7479a descrizione:3979c3 dimensione:6c645d file:de6e21 fix:c838b7 fonte:647fef fonte_radiografia:46c6ab giro:310ca2 impatto:1ab486 prova:446635 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:2f5628 severita:5a2b0a stato:e2974e titolo:e01e4a verificato:4db211",
         "bb28bc81": "causa_radice:7a9f54 descrizione:ee59c1 dimensione:6c645d file:cb2cfc fix:ed1879 fonte:647fef fonte_radiografia:95bc42 giro:300ca0 impatto:b102d8 prova:3da9f2 prova_eseguita:4db211 prova_tipo:a89774 reparto:2f5628 severita:5a2b0a stato:e2974e titolo:b5da84 verificato:4db211",
+        "e9bb79ba": "causa_radice:243fae descrizione:7eaa94 dimensione:6c645d file:bb3acb fix:f0c56f fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:4bb3f5 prova:5406f7 prova_eseguita:4db211 prova_tipo:9b465a reparto:2f5628 severita:900c79 stato:e2974e titolo:3fcda7 verificato:4db211",
+        "d2d9c179": "descrizione:341469 dimensione:6c645d file:c85a36 fix:2470ae fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:fd1fe4 prova:7cea88 prova_eseguita:4db211 prova_tipo:9b465a reparto:2f5628 severita:5a2b0a stato:e2974e titolo:a6a6ef verificato:4db211",
+        "285a9ac2": "descrizione:eb6d6d dimensione:6c645d file:31dfdf fix:96b942 fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:92d0f3 prova:329519 prova_eseguita:4db211 prova_tipo:9b465a reparto:2f5628 severita:5a2b0a stato:e2974e titolo:072656 verificato:4db211",
+        "c52000d3": "descrizione:a6f2ad dimensione:6c645d file:05ce4b fix:7fa656 fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:990f0e prova:85fda3 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:2f5628 severita:5a2b0a stato:e2974e titolo:9a3d75 verificato:4db211",
+        "7549e723": "descrizione:f2c588 dimensione:6c645d file:6df1df fix:7c0d59 fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:74c792 prova:8893b2 prova_eseguita:4db211 prova_tipo:9b465a reparto:2f5628 severita:5a2b0a stato:e2974e titolo:db9528 verificato:4db211",
+        "f9577484": "descrizione:d5e239 dimensione:6c645d file:456599 fix:3bdd8c fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:4bbbf2 prova:6e80e9 prova_eseguita:4db211 prova_tipo:9b465a reparto:2f5628 severita:5a2b0a stato:e2974e titolo:31d308 verificato:0b0699",
         "2294e647": "causa_radice:2f59f9 descrizione:c20e13 dimensione:0313da file:534343 fix:3a7522 fonte:647fef fonte_radiografia:6baf0c giro:340ca7 impatto:a84bfe prova:58965d prova_eseguita:4db211 prova_tipo:cf59f4 reparto:1b9b5b severita:900c79 stato:e2974e titolo:0d0834 verificato:4db211",
         "c35676f5": "causa_radice:a8ea78 descrizione:c66c21 dimensione:0313da file:f249cb fix:d6c392 fonte:647fef fonte_radiografia:6baf0c giro:340ca7 impatto:c004cf prova:f324d9 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:1b9b5b severita:5a2b0a stato:e2974e titolo:c7ea07 verificato:4db211",
         "c22dbd5d": "causa_radice:e5643a descrizione:8d0a6b dimensione:0313da file:363888 fix:2ca60c fonte:647fef fonte_radiografia:6baf0c giro:340ca7 impatto:650080 prova:1e8bff prova_eseguita:4db211 prova_tipo:cf59f4 reparto:1b9b5b severita:5a2b0a stato:e2974e titolo:44693a verificato:4db211",
@@ -233,6 +249,7 @@
         "60cafa66": "causa_radice:8567f0 descrizione:d310bd dimensione:0313da file:7eafe8 fix:71e31e fonte:647fef fonte_radiografia:46c6ab giro:310ca2 impatto:e9215e prova:688d16 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:1b9b5b severita:5a2b0a stato:e2974e titolo:f25c0c verificato:4db211",
         "9a48718a": "causa_radice:c00a9f descrizione:f2d23a dimensione:0313da file:188a1d fix:458638 fonte:647fef fonte_radiografia:e9719c giro:300ca0 impatto:b90ccb prova:80afb1 prova_eseguita:4db211 prova_tipo:9b465a reparto:1b9b5b severita:5a2b0a stato:e2974e titolo:7bd604 verificato:4db211",
         "d2da43da": "causa_radice:04c166 descrizione:e6ea2e dimensione:0313da file:8b50e4 fix:f5ff52 fonte:647fef fonte_radiografia:a15087 giro:300ca0 impatto:e7a29d prova:a1ea94 prova_eseguita:4db211 prova_tipo:9b465a reparto:1b9b5b severita:900c79 stato:e2974e titolo:2c452e verificato:4db211",
+        "a5807601": "descrizione:cfdcf6 dimensione:0313da file:4ccf40 fix:028d27 fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:cc8c45 prova:552f9b prova_eseguita:4db211 prova_tipo:9b465a reparto:1b9b5b severita:5a2b0a stato:e2974e titolo:7c3ead verificato:4db211",
         "4f4a552a": "causa_radice:4ffc48 descrizione:7e334a dimensione:40485b file:dac49a fix:c6845a fonte:647fef fonte_radiografia:385836 giro:340ca7 impatto:a1a9bd prova:0a6b73 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:40485b severita:5a2b0a stato:e2974e titolo:f94a75 verificato:4db211",
         "94fac4ae": "causa_radice:d582e5 descrizione:74c907 dimensione:40485b file:f041af fix:eaa9e7 fonte:647fef fonte_radiografia:e9719c giro:300ca0 impatto:89f56a prova:3cbb12 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:40485b severita:5a2b0a stato:e2974e titolo:93bf71 verificato:4db211",
         "ef4dfcfc": "causa_radice:deff5e descrizione:3a3fb0 dimensione:40485b file:a49024 fix:0d8c6f fonte:647fef fonte_radiografia:e9719c giro:300ca0 impatto:6e5142 prova:99bc82 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:40485b severita:5a2b0a stato:e2974e titolo:7eb7e2 verificato:4db211",
@@ -241,6 +258,12 @@
         "2e44d6e1": "causa_radice:37b593 descrizione:bd4f1f dimensione:40485b file:c8ee90 fix:b42275 fonte:647fef fonte_radiografia:a15087 giro:300ca0 impatto:cab8d6 prova:f9fe0f prova_eseguita:4db211 prova_tipo:cf59f4 reparto:40485b severita:5a2b0a stato:e2974e titolo:536b0c verificato:4db211",
         "9ae31c2a": "causa_radice:6da097 descrizione:2c88cb dimensione:40485b file:005215 fix:09d55c fonte:647fef fonte_radiografia:a15087 giro:300ca0 impatto:4e0c97 prova:c3f214 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:40485b severita:5a2b0a stato:e2974e titolo:8435a6 verificato:4db211",
         "aed38f76": "causa_radice:56b2e4 descrizione:afe73f dimensione:40485b file:7be4f3 fix:d000ba fonte:647fef fonte_radiografia:95bc42 giro:300ca0 impatto:307753 prova:317d61 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:40485b severita:5a2b0a stato:e2974e titolo:dae4bd verificato:4db211",
+        "3dbecda3": "descrizione:cd35fc dimensione:40485b file:f7c7d7 fix:2b8c56 fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:01016c prova:9afa4a prova_eseguita:4db211 prova_tipo:cf59f4 reparto:40485b severita:5a2b0a stato:e2974e titolo:eaaa33 verificato:4db211",
+        "5ba40e9d": "descrizione:35f4aa dimensione:40485b file:a43554 fix:c34c29 fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:96dcaa prova:62c502 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:40485b severita:5a2b0a stato:e2974e titolo:3925ca verificato:4db211",
+        "81ad1956": "descrizione:69188f dimensione:40485b file:533c16 fix:39d4e7 fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:0d2189 prova:cd19b8 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:40485b severita:5a2b0a stato:e2974e titolo:551afa verificato:4db211",
+        "7fba2a21": "descrizione:707f89 dimensione:40485b file:f5aafa fix:96af4d fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:95f09e prova:9df620 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:40485b severita:5a2b0a stato:e2974e titolo:1d8cbe verificato:4db211",
+        "76b04a26": "descrizione:a9d7b6 dimensione:40485b file:51edec fix:8eca9c fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:285389 prova:d72ffc prova_eseguita:4db211 prova_tipo:cf59f4 reparto:40485b severita:5a2b0a stato:e2974e titolo:b3229c verificato:4db211",
+        "c2519441": "descrizione:44ffa6 dimensione:40485b file:780ae6 fix:ba0bcd fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:d01db3 prova:8a7afe prova_eseguita:4db211 prova_tipo:cf59f4 reparto:40485b severita:5a2b0a stato:e2974e titolo:3e4df7 verificato:0b0699",
         "47c7cddc": "causa_radice:ae8190 descrizione:e26b65 dimensione:d3507b file:09da2d fix:e19206 fonte:647fef fonte_radiografia:385836 giro:340ca7 impatto:6f6e23 prova:da2795 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:d3507b severita:5a2b0a stato:e2974e titolo:14892f verificato:4db211",
         "9f6cbc29": "causa_radice:bbafcc descrizione:0aab39 dimensione:6a6ee0 file:daffe3 fix:482666 fonte:647fef fonte_radiografia:385836 giro:340ca7 impatto:de3b38 prova:636c1b prova_eseguita:4db211 prova_tipo:cf59f4 reparto:6a6ee0 severita:5a2b0a stato:e2974e titolo:d76c52 verificato:4db211",
         "3a0e3cdb": "causa_radice:43fb2e descrizione:ec82f9 dimensione:6a6ee0 file:b76648 fix:3f678f fonte:647fef fonte_radiografia:e9719c giro:300ca0 impatto:8b2019 prova:0efa6b prova_eseguita:4db211 prova_tipo:9b465a reparto:6a6ee0 severita:5a2b0a stato:e2974e titolo:c24597 verificato:4db211",
@@ -256,6 +279,8 @@
         "34b760cf": "causa_radice:acb24d descrizione:edead4 dimensione:39c0d7 file:12bb7e fix:3ec2ab fonte:647fef fonte_radiografia:a15087 giro:300ca0 impatto:9d65a1 prova:5e085e prova_eseguita:4db211 prova_tipo:cf59f4 reparto:bc80f5 severita:5a2b0a stato:e2974e titolo:574413 verificato:4db211",
         "b1ca3b21": "causa_radice:86a54e descrizione:e43b9d dimensione:39c0d7 file:511ce4 fix:dfbb43 fonte:647fef fonte_radiografia:a15087 giro:300ca0 impatto:32e98c prova:b31a3a prova_eseguita:4db211 prova_tipo:9b465a reparto:bc80f5 severita:5a2b0a stato:e2974e titolo:16818c verificato:4db211",
         "694dd14c": "causa_radice:352706 descrizione:68ceb9 dimensione:39c0d7 file:eace82 fix:6bcad6 fonte:647fef fonte_radiografia:a15087 giro:300ca0 impatto:9a3370 prova:befb97 prova_eseguita:4db211 prova_tipo:9b465a reparto:bc80f5 severita:5a2b0a stato:e2974e titolo:b95573 verificato:4db211",
+        "a61d3ff0": "descrizione:b3d919 dimensione:39c0d7 file:54fcaf fix:9533b4 fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:cb7403 prova:dfa2ab prova_eseguita:4db211 prova_tipo:cf59f4 reparto:bc80f5 severita:5a2b0a stato:e2974e titolo:b00f94 verificato:0b0699",
+        "af558a59": "descrizione:1a96c2 dimensione:39c0d7 file:59dd9b fix:eb5c49 fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:065c20 prova:ce8c37 prova_eseguita:4db211 prova_tipo:9b465a reparto:bc80f5 severita:5a2b0a stato:e2974e titolo:4c1fb4 verificato:0b0699",
         "53466f28": "causa_radice:6efbda descrizione:dd1e2d dimensione:84c3d8 file:6347dc fix:b16681 fonte:647fef fonte_radiografia:385836 giro:340ca7 impatto:0dfe33 prova:06dd67 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:84c3d8 severita:5a2b0a stato:e2974e titolo:b66046 verificato:4db211",
         "6e35eee7": "causa_radice:81ff0f descrizione:088825 dimensione:84c3d8 file:51e894 fix:5ffe25 fonte:647fef fonte_radiografia:e9719c giro:300ca0 impatto:2c2ee2 prova:5ee534 prova_eseguita:4db211 prova_tipo:9b465a reparto:84c3d8 severita:5a2b0a stato:e2974e titolo:989398 verificato:4db211",
         "6ca957d0": "causa_radice:471798 descrizione:54e1c9 dimensione:84c3d8 file:3ed5d7 fix:2693fa fonte:647fef fonte_radiografia:a15087 giro:300ca0 impatto:191bd9 prova:e57ad1 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:84c3d8 severita:5a2b0a stato:e2974e titolo:5201e4 verificato:4db211",
@@ -271,6 +296,9 @@
         "2b2558d3": "causa_radice:a107f0 descrizione:4d345b dimensione:fe7b3d file:661f33 fix:b62214 fonte:647fef fonte_radiografia:a15087 giro:300ca0 impatto:34a545 prova:5f667b prova_eseguita:4db211 prova_tipo:cf59f4 reparto:fe7b3d severita:5a2b0a stato:e2974e titolo:fe3218 verificato:4db211",
         "d9ef949a": "causa_radice:c4b81a descrizione:d51478 dimensione:fe7b3d file:f5ec72 fix:ec8969 fonte:647fef fonte_radiografia:a15087 giro:300ca0 impatto:afd5f9 prova:7bd863 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:fe7b3d severita:5a2b0a stato:e2974e titolo:5f5fd3 verificato:4db211",
         "e3fc7dff": "causa_radice:ad8f6c descrizione:4bbce9 dimensione:fe7b3d file:f9a7dc fix:3202df fonte:647fef fonte_radiografia:95bc42 giro:300ca0 impatto:bc928b prova:e14625 prova_eseguita:4db211 prova_tipo:9b465a reparto:fe7b3d severita:5a2b0a stato:e2974e titolo:30dc8b verificato:4db211",
+        "8da51bad": "descrizione:e83e7e dimensione:fe7b3d file:9693e8 fix:6f22a7 fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:b66e7d prova:43489a prova_eseguita:4db211 prova_tipo:e6ac21 reparto:fe7b3d severita:5a2b0a stato:e2974e titolo:b53916 verificato:4db211",
+        "1c1bf121": "descrizione:b26dfb dimensione:fe7b3d file:5dff25 fix:cbc23e fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:f67787 prova:3dbccc prova_eseguita:4db211 prova_tipo:e6ac21 reparto:fe7b3d severita:5a2b0a stato:e2974e titolo:7f888a verificato:4db211",
+        "7bfa80dd": "descrizione:963985 dimensione:fe7b3d file:7fcb15 fix:e1eedb fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:260220 prova:8c6f25 prova_eseguita:4db211 prova_tipo:e6ac21 reparto:fe7b3d severita:5a2b0a stato:e2974e titolo:40d2ee verificato:4db211",
         "1438c93d": "causa_radice:8b9930 descrizione:ba7fe7 dimensione:37ac98 file:9beee9 fix:076738 fonte:647fef fonte_radiografia:385836 giro:340ca7 impatto:98170d prova:379dca prova_eseguita:4db211 prova_tipo:cf59f4 reparto:37ac98 severita:5a2b0a stato:e2974e titolo:e3b64b verificato:4db211",
         "39e5ed4b": "causa_radice:98e337 descrizione:cd8bd2 dimensione:37ac98 file:79b6e0 fix:4e91cf fonte:647fef fonte_radiografia:a15087 giro:300ca0 impatto:8ebaab prova:efec38 prova_eseguita:4db211 prova_tipo:9b465a reparto:37ac98 severita:5a2b0a stato:e2974e titolo:22bfb5 verificato:4db211",
         "9c87352b": "causa_radice:04e1de descrizione:14073c dimensione:d49054 file:11d5ce fix:a6df49 fonte:647fef fonte_radiografia:385836 giro:340ca7 impatto:6582f6 prova:714c76 prova_eseguita:4db211 prova_tipo:cf59f4 reparto:d49054 severita:5a2b0a stato:e2974e titolo:ba4a2a verificato:4db211",
@@ -285,6 +313,10 @@
         "bb8dd65f": "causa_radice:4b92d5 descrizione:28ccbd dimensione:d49054 file:252c1d fix:2afd24 fonte:647fef fonte_radiografia:95bc42 giro:300ca0 impatto:d6848e prova:288c6b prova_eseguita:4db211 prova_tipo:9b465a reparto:d49054 severita:5a2b0a stato:e2974e titolo:0781ca verificato:4db211",
         "60c41502": "causa_radice:c03afa descrizione:713332 dimensione:d49054 file:571485 fix:0a5be2 fonte:647fef fonte_radiografia:95bc42 giro:300ca0 impatto:43040e prova:1c5ba0 prova_eseguita:4db211 prova_tipo:9b465a reparto:d49054 severita:5a2b0a stato:e2974e titolo:65ede4 verificato:4db211",
         "f81202d2": "causa_radice:58725d descrizione:4022f7 dimensione:d49054 file:cfbcb2 fix:3452a7 fonte:647fef fonte_radiografia:95bc42 giro:300ca0 impatto:6805b4 prova:311873 prova_eseguita:4db211 prova_tipo:9b465a reparto:d49054 severita:5a2b0a stato:e2974e titolo:a07732 verificato:4db211",
+        "1816ab04": "descrizione:9041f4 dimensione:d49054 file:729894 fix:e56f71 fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:5c3c96 prova:721cf9 prova_eseguita:4db211 prova_tipo:9b465a reparto:d49054 severita:5a2b0a stato:e2974e titolo:b4ad36 verificato:4db211",
+        "d17165de": "descrizione:f0a8d3 dimensione:d49054 file:afd0bf fix:809964 fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:b7a62a prova:494772 prova_eseguita:4db211 prova_tipo:9b465a reparto:d49054 severita:5a2b0a stato:e2974e titolo:0c9da6 verificato:4db211",
+        "9d7aba52": "descrizione:d37d26 dimensione:d49054 file:932d97 fix:698be9 fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:a44a0a prova:b64e94 prova_eseguita:4db211 prova_tipo:9b465a reparto:d49054 severita:5a2b0a stato:e2974e titolo:c3804c verificato:4db211",
+        "61bfac7e": "descrizione:cd9c42 dimensione:d49054 file:ec9526 fix:100946 fonte:647fef fonte_radiografia:1e85b6 giro:300ca0 impatto:9024f3 prova:6dc378 prova_eseguita:4db211 prova_tipo:9b465a reparto:d49054 severita:5a2b0a stato:e2974e titolo:3d59b5 verificato:4db211",
         "2b221cad": "causa_radice:d8a372 descrizione:c8ed60 dimensione:2fd886 file:efe622 fix:64ddd6 fonte:647fef fonte_radiografia:ce5550 giro:340ca7 impatto:5e14e2 prova:e8d89e prova_eseguita:4db211 prova_tipo:cf59f4 reparto:a6282e severita:5a2b0a stato:e2974e titolo:1c2049 verificato:4db211",
         "e6d7e23b": "causa_radice:c2d40d descrizione:a6f834 dimensione:98261b file:43d34a fix:90217b fonte:647fef fonte_radiografia:46c6ab giro:310ca2 impatto:1ba99b prova:07a92b prova_eseguita:4db211 prova_tipo:cf59f4 reparto:98261b severita:5a2b0a stato:e2974e titolo:9c58c3 verificato:4db211",
         "80e8d5b7": "causa_radice:d8f052 descrizione:06f5ff dimensione:98261b file:e1ba5a fix:aed2ab fonte:647fef fonte_radiografia:a15087 giro:300ca0 impatto:d749c9 prova:8cbc85 prova_eseguita:4db211 prova_tipo:9b465a reparto:98261b severita:5a2b0a stato:e2974e titolo:45a18c verificato:4db211",
@@ -378,10 +410,10 @@
   "fonti_non_lette": [],
   "sintesi": "Il problema più grave trovato oggi era una chiave del database leggibile da chiunque, e Nicola l'ha già spenta. Dei difetti nuovi nessuno è bloccante, ma il rimborso di un ordine in contanti va ancora fatto a mano, fuori dal sito.",
   "meta": {
-    "findings": 3000,
+    "findings": 3032,
     "bloccanti": 37,
-    "gravi": 672,
-    "minori": 2291,
+    "gravi": 675,
+    "minori": 2320,
     "agenti": null
   },
   "confronto_precedente": {
@@ -396,10 +428,10 @@
       "chiave": "qa-flussi",
       "nome": "Flussi critici",
       "fonte": "marketplace",
-      "totale": 55,
+      "totale": 56,
       "bloccanti": 1,
       "gravi": 3,
-      "minori": 51
+      "minori": 52
     },
     {
       "chiave": "pagamenti-stripe",
@@ -423,10 +455,10 @@
       "chiave": "sicurezza-auth",
       "nome": "Sicurezza e accessi",
       "fonte": "marketplace",
-      "totale": 8,
+      "totale": 11,
       "bloccanti": 0,
       "gravi": 2,
-      "minori": 6
+      "minori": 9
     },
     {
       "chiave": "deploy-sre",
@@ -459,46 +491,46 @@
       "chiave": "api-backend",
       "nome": "API",
       "fonte": "marketplace",
-      "totale": 32,
+      "totale": 36,
       "bloccanti": 0,
       "gravi": 3,
-      "minori": 29
+      "minori": 33
     },
     {
       "chiave": "frontend-ux",
       "nome": "Interfaccia",
       "fonte": "marketplace",
-      "totale": 23,
+      "totale": 25,
       "bloccanti": 0,
       "gravi": 1,
-      "minori": 22
+      "minori": 24
     },
     {
       "chiave": "dati-analytics",
       "nome": "Dati e analitica",
       "fonte": "marketplace",
-      "totale": 5,
+      "totale": 11,
       "bloccanti": 0,
-      "gravi": 0,
-      "minori": 5
+      "gravi": 1,
+      "minori": 10
     },
     {
       "chiave": "privacy-legale",
       "nome": "Privacy e legale",
       "fonte": "marketplace",
-      "totale": 21,
+      "totale": 22,
       "bloccanti": 0,
       "gravi": 4,
-      "minori": 17
+      "minori": 18
     },
     {
       "chiave": "layout-responsive",
       "nome": "layout-responsive",
       "fonte": "marketplace",
-      "totale": 8,
+      "totale": 14,
       "bloccanti": 0,
       "gravi": 0,
-      "minori": 8
+      "minori": 14
     },
     {
       "chiave": "immagini-media",
@@ -531,10 +563,10 @@
       "chiave": "accessibilita",
       "nome": "Accessibilita'",
       "fonte": "marketplace",
-      "totale": 9,
+      "totale": 11,
       "bloccanti": 0,
       "gravi": 0,
-      "minori": 9
+      "minori": 11
     },
     {
       "chiave": "navigazione-gerarchia",
@@ -549,10 +581,10 @@
       "chiave": "microcopy",
       "nome": "microcopy",
       "fonte": "marketplace",
-      "totale": 13,
+      "totale": 16,
       "bloccanti": 0,
       "gravi": 0,
-      "minori": 13
+      "minori": 16
     },
     {
       "chiave": "coerenza-brand",
@@ -567,10 +599,10 @@
       "chiave": "stati-ui",
       "nome": "stati-ui",
       "fonte": "marketplace",
-      "totale": 13,
+      "totale": 17,
       "bloccanti": 0,
       "gravi": 0,
-      "minori": 13
+      "minori": 17
     },
     {
       "chiave": "performance",
@@ -787,7 +819,13 @@
       "causa_radice": "La regola dei giorni di Piacenza (lib/tempo-piacenza.ts) e' stata applicata alla pagina del negozio ma il conto del fattorino e' rimasto inline nel componente.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-11-06 · S02"
+      "fonte_radiografia": "radiografia 2026-11-06 · S02",
+      "riverifica_7_11": {
+        "data": "2026-11-12 13:48",
+        "esito": "confermato_in_palestra",
+        "prova": "confermato in palestra (S02-P019): Stesso file, stesse righe e stessa causa: toISOString().slice(0,10) dà il giorno di Greenwich. Stesso punto da correggere.",
+        "run": "palestra, lotto 4 (wf_236a009c-b2d), doppioni dal prefiltro (wf_971dc016-c32)"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -1021,7 +1059,15 @@
         "data": "2026-11-08 01:44",
         "esito": "confermato_in_palestra",
         "prova": "confermato in palestra (S06-P017): È lo stesso difetto. La vista shop_of_month_leaderboard (migrations/034) conta il mese con DATE_TRUNC('month', now()) nel fuso del database, mentre la pagina scrive il voto col mese di Piacenza (#211 sistemata solo nel browser). Il comportamento è identico: fra le 00:00 e l'01:00 (le 02:00 con l'ora legale) del primo del mese il voto c'è ma la classifica non lo conta. La voce 547 (aperta, riparata in parte) cita la stessa causa come resto. La nota a margine del candidato non fa parte di questo difetto e non risulta nel registro: la vista mostra al massimo 50 negozi, in palestra 61 approvati, e quelli in fondo non si possono votare. Va valutata a parte.",
-        "run": "palestra, lotto 2 (wf_f4377721-1cd), verificatori indipendenti e ricontrollo (wf_287a2540-933)"
+        "run": "palestra, lotto 2 (wf_f4377721-1cd), verificatori indipendenti e ricontrollo (wf_287a2540-933)",
+        "altre": [
+          {
+            "data": "2026-11-12 13:48",
+            "esito": "confermato_in_palestra",
+            "prova": "confermato in palestra (S08-P022): Stessa causa: la vista usa DATE_TRUNC('month', now()) in UTC e fra mezzanotte e l'una la classifica mostra il mese vecchio. Stesso punto da correggere.",
+            "run": "palestra, lotto 4 (wf_236a009c-b2d), doppioni dal prefiltro (wf_971dc016-c32)"
+          }
+        ]
       }
     },
     {
@@ -1466,13 +1512,19 @@
       "causa_radice": "L'esito negativo è trattato come un messaggio, non come un dato vecchio da ricaricare.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-11-06 · S07"
+      "fonte_radiografia": "radiografia 2026-11-06 · S07",
+      "riverifica_7_11": {
+        "data": "2026-11-12 13:48",
+        "esito": "confermato_in_palestra",
+        "prova": "confermato in palestra (S07-P039): Stesso comportamento: claim.onError non rilegge l'elenco e l'ordine perso resta con «Accetta» fino al giro successivo. La voce 33 cita già app/rider/page.tsx:346.",
+        "run": "palestra, lotto 4 (wf_236a009c-b2d), doppioni dal prefiltro (wf_971dc016-c32)"
+      }
     },
     {
       "dimensione": "qa-flussi",
       "reparto": "Flussi critici",
       "titolo": "Salvando i turni il fattorino può tornare offline senza saperlo, e «Preferenze salvate» compare prima di sapere se il salvataggio è riuscito",
-      "severita": "minore",
+      "severita": "grave",
       "file": "app/rider/availability/page.tsx:81-101 · app/rider/page.tsx:355",
       "descrizione": "save() scrive insieme rider_is_online, preso dallo stato letto all'apertura (availability/page.tsx:81-84), e rider_schedule, senza await (:99), e subito dopo mostra «Preferenze salvate» (:100); se la scrittura fallisce arriva un secondo avviso d'errore (:94). Con la pagina dei turni aperta in un'altra scheda, il salvataggio sovrascrive l'interruttore online della bacheca (page.tsx:355). Diverso dalle voci 166 e 473, che riguardano l'online che non scade.",
       "impatto": "Anna apre i Turni alle 9 da offline, alle 9:05 va online dalla bacheca, alle 9:10 cambia un turno nella scheda rimasta aperta e torna offline: non riceve più consegne e non lo sa.",
@@ -1485,7 +1537,15 @@
       "causa_radice": "Un'unica scrittura di tutto lo stato della pagina, lanciata senza aspettarne l'esito.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-11-06 · S07"
+      "fonte_radiografia": "radiografia 2026-11-06 · S07",
+      "riverifica_7_11": {
+        "data": "2026-11-12 13:48",
+        "esito": "confermato_in_palestra",
+        "prova": "confermato in palestra (S07-P040, S10-P082): Nella voce 34 save() riscrive rider_is_online con il valore letto quando la pagina è stata aperta e mostra il successo prima dell'esito: è lo stesso comportamento, nello stesso punto. Nel registro la gravità è minore, mentre la palestra la porta a grave.",
+        "run": "palestra, lotto 4 (wf_236a009c-b2d), doppioni dal prefiltro (wf_971dc016-c32)"
+      },
+      "severita_prima_7_11": "minore",
+      "nota_severita_7_11": "Palestra 8/11 (S07-P040 e S10-P082), confermato dai verificatori: salvando i turni da una pagina rimasta aperta, o con la rete che cade, il fattorino torna offline senza saperlo mentre la pagina dice «salvato»; gli ordini non gli vengono assegnati."
     },
     {
       "dimensione": "qa-flussi",
@@ -1874,6 +1934,24 @@
       "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
     },
     {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "Il cliente non trova l'esito del reclamo nella pagina del suo ordine",
+      "severita": "minore",
+      "file": "app/orders/[id]/page.tsx · app/orders/[id]/dispute/page.tsx",
+      "descrizione": "La pagina dell'ordine non legge la tabella dei reclami. Senza importo non compare niente; con importo compare solo la frase del bonifico a mano, senza dire che viene dal reclamo. In entrambi i casi resta il pulsante «Apri reclamo» e la pagina del reclamo ripropone il modulo per aprirne un altro sullo stesso ordine.",
+      "impatto": "Il cliente che arriva dalla campanella non trova ciò che la campanella annunciava e può aprire un secondo reclamo.",
+      "fix": "Leggere il reclamo dell'ordine e mostrare stato ed esito; nascondere «Apri reclamo» quando ne esiste già uno.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Con un ordine che ha un reclamo risolto, aprire la pagina ordine da cliente: deve esserci l'esito e non il pulsante «Apri reclamo».",
+      "prova_tipo": "umano",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+    },
+    {
       "dimensione": "pagamenti-stripe",
       "reparto": "Pagamenti",
       "titolo": "Se l'addebito del credito risponde con un errore, la cassa lo considera mai avvenuto: l'ordine si paga per intero e il credito, se era già stato tolto, non torna",
@@ -2169,7 +2247,15 @@
         "data": "2026-11-08 08:28",
         "esito": "confermato_in_palestra",
         "prova": "confermato in palestra (S07-P029): Stesso file (app/seller/promote/page.tsx, etichetta letta da c.status) e stesso comportamento: nessun codice né lavoro periodico scrive status='ended' su sponsored_listings, la vetrina pubblica filtra per data ma il negozio vedrà «Attiva». La palestra conferma la riga ancora 'active' 3 giorni dopo la fine.",
-        "run": "palestra, lotto 3 (wf_7c0f812f-fe9), verificatori indipendenti e ricontrollo (wf_7eed37ec-d10)"
+        "run": "palestra, lotto 3 (wf_7c0f812f-fe9), verificatori indipendenti e ricontrollo (wf_7eed37ec-d10)",
+        "altre": [
+          {
+            "data": "2026-11-12 13:48",
+            "esito": "confermato_in_palestra",
+            "prova": "confermato in palestra (S03-P016, S08-P015): Stesso comportamento: nessun codice porta lo stato a 'ended' e il filtro di app/admin/sponsored/page.tsx legge solo la colonna status. Stesso punto da correggere.",
+            "run": "palestra, lotto 4 (wf_236a009c-b2d), doppioni dal prefiltro (wf_971dc016-c32)"
+          }
+        ]
       }
     },
     {
@@ -2670,6 +2756,62 @@
       "giro": 5,
       "verificato": true,
       "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
+    },
+    {
+      "dimensione": "sicurezza-auth",
+      "reparto": "Sicurezza e accessi",
+      "titolo": "Il cambio di ruolo di un utente non finisce nel registro delle azioni amministrative",
+      "severita": "minore",
+      "file": "app/admin/users/page.tsx",
+      "descrizione": "Cambiando il ruolo di un utente dal pannello, compresa la promozione ad amministratore, non nasce nessuna riga in audit_logs e la pagina Audit log non mostra nulla. Il cambio si ritrova solo fra gli eventi generici della pagina Attività (activity_events). Con due amministratori sullo stesso utente vince l'ultimo salvataggio, senza avviso.",
+      "impatto": "Una promozione ad amministratore non lascia traccia dove si controllano le azioni sensibili; chi indaga non la trova.",
+      "fix": "Scrivere una riga di audit_logs (vecchio e nuovo ruolo, chi l'ha fatto) a ogni cambio di ruolo e controllare che il ruolo di partenza non sia cambiato nel frattempo.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Cambiare il ruolo di un utente di prova da admin e contare le righe di audit_logs prima e dopo: devono aumentare di una.",
+      "prova_tipo": "sql",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+    },
+    {
+      "dimensione": "sicurezza-auth",
+      "reparto": "Sicurezza e accessi",
+      "titolo": "Falla di sicurezza R317 da chiudere (fattorino sospeso): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+      "severita": "minore",
+      "file": "(nel referto privato)",
+      "descrizione": "nel referto privato",
+      "impatto": "nel referto privato",
+      "fix": "nel referto privato",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "nel referto privato",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "causa_radice": "nel referto privato",
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+    },
+    {
+      "dimensione": "sicurezza-auth",
+      "reparto": "Sicurezza e accessi",
+      "titolo": "Falla di sicurezza R318 da chiudere (fattorino sospeso): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+      "severita": "minore",
+      "file": "(nel referto privato)",
+      "descrizione": "nel referto privato",
+      "impatto": "nel referto privato",
+      "fix": "nel referto privato",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "nel referto privato",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "causa_radice": "nel referto privato",
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
     },
     {
       "dimensione": "deploy-sre",
@@ -3613,7 +3755,7 @@
       "dimensione": "api-backend",
       "reparto": "API",
       "titolo": "Se la lettura delle email cade, la ricerca utenti dice «nessuno, ho cercato su tutti», e oltre mille iscritti l'email non si trova",
-      "severita": "minore",
+      "severita": "grave",
       "file": "app/admin/users/page.tsx:155-158 · app/admin/users/page.tsx:245-246 · app/admin/users/page.tsx:536-555 · lib/admin/esporta-utenti.ts:115 · migrations/074_admin_user_emails.sql:12-37",
       "descrizione": "leggiContattiAuth (users/page.tsx:155-158) fa `if (error || !Array.isArray(data)) return [];`: un errore della funzione admin_list_user_emails diventa un elenco vuoto, e la ricerca vale come fatta («Ho cercato su tutti i N utenti registrati»). La stessa funzione serve elenco (199), ricerca (245) ed esportazione (536). La funzione (074, mai ridefinita) restituisce tutto auth.users senza ordine, e PostgREST la taglia a max_rows = 1000 righe (supabase/config.toml:55): oltre il millesimo account l'email non si trova e nell'esportazione resta vuota. Il segno «completo» dell'esportazione (esporta-utenti.ts:115) guarda solo i profili, non le email.",
       "impatto": "Mario Rossi scrive per farsi cancellare i dati. La lettura delle email va in timeout, Nicola cerca mario.rossi@gmail.com e legge «nessun utente, ho cercato su tutti»: potrebbe rispondere «non risulta iscritto».",
@@ -3626,7 +3768,15 @@
       "causa_radice": "L'email sta solo in auth.users e si legge scaricando tutta la tabella, con un ripiego silenzioso sull'errore.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-11-06 · S08"
+      "fonte_radiografia": "radiografia 2026-11-06 · S08",
+      "riverifica_7_11": {
+        "data": "2026-11-12 13:48",
+        "esito": "confermato_in_palestra",
+        "prova": "confermato in palestra (S08-P010, S08-P011, S10-P119): La voce 142 dice già che admin_list_user_emails viene tagliata a 1.000 righe e che oltre il millesimo iscritto la ricerca per email non trova la persona. Il punto da correggere è lo stesso (leggiContattiAuth e la funzione SQL).",
+        "run": "palestra, lotto 4 (wf_236a009c-b2d), doppioni dal prefiltro (wf_971dc016-c32)"
+      },
+      "severita_prima_7_11": "minore",
+      "nota_severita_7_11": "Palestra 8/11 (S08-P010), confermato dai verificatori: oltre i mille iscritti la ricerca per email nel pannello utenti non trova persone che ci sono e dice che non esistono; con l'assistenza al lancio è un flusso importante sbagliato."
     },
     {
       "dimensione": "api-backend",
@@ -3664,7 +3814,13 @@
       "causa_radice": "Un solo elenco con tetto serve sia la storia sia le emergenze aperte.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-11-06 · S08"
+      "fonte_radiografia": "radiografia 2026-11-06 · S08",
+      "riverifica_7_11": {
+        "data": "2026-11-12 13:48",
+        "esito": "confermato_in_palestra",
+        "prova": "confermato in palestra (S10-P114): Stesso comportamento: la pagina legge gli ultimi 50 SOS e un SOS aperto più vecchio sparisce. La voce 144 cita già .limit(50) in app/admin/sos/page.tsx.",
+        "run": "palestra, lotto 4 (wf_236a009c-b2d), doppioni dal prefiltro (wf_971dc016-c32)"
+      }
     },
     {
       "dimensione": "api-backend",
@@ -4102,6 +4258,78 @@
       "giro": 5,
       "verificato": true,
       "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "titolo": "Due cancellazioni dello stesso account partite insieme danno un errore falso o una riga doppia nel registro",
+      "severita": "minore",
+      "file": "app/api/admin/users/[id]/delete/route.ts · lib/account/cancellazione.ts",
+      "descrizione": "Su 6 prove con due cancellazioni simultanee: 2 volte tutte e due 200 «deleted» con 2 righe user.delete per una sola cancellazione; 3 volte 200 e 500 «L'account non è stato cancellato: User not found» (falso, l'account non c'è più); 1 volta 200 e 404. La rotta non prende il turno sull'account.",
+      "impatto": "L'amministratore della seconda scheda legge che la cancellazione è fallita, oppure il registro dice che lo stesso account è stato cancellato due volte.",
+      "fix": "Trattare «utente già sparito» come 404 o successo senza scrivere il registro, e scrivere la riga di audit una sola volta.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Lanciare due DELETE contemporanee sullo stesso utente di prova e verificare un solo 200, un solo user.delete in registro, nessun 500.",
+      "prova_tipo": "vitest",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "titolo": "Due sospensioni dello stesso negozio partite insieme passano tutte e due e il negozio riceve l'avviso due volte",
+      "severita": "minore",
+      "file": "app/api/admin/users/[id]/moderate/route.ts",
+      "descrizione": "Con due richieste di sospensione contemporanee rispondono tutte e due 200 {ok:true}: due righe user.suspend nel registro e due campanelle «Negozio sospeso» al negozio; con Resend partirebbero anche due email. La rotta legge lo stato e poi scrive con .eq('id') soltanto, senza condizione sullo stato letto. Quando il controllo funziona risponde 400 invece di 409.",
+      "impatto": "Il negozio riceve avvisi doppi e il registro azioni mostra due sospensioni per una sola.",
+      "fix": "Aggiornare con condizione sullo stato di partenza e inviare avviso e registro solo se l'aggiornamento ha toccato una riga; rispondere 409.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Due POST suspend in parallelo su un negozio di prova: attesa una sola riga user.suspend e una sola notifica.",
+      "prova_tipo": "vitest",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "titolo": "Un doppio clic su «Conferma i contanti ricevuti» registra due rimesse invece di una",
+      "severita": "minore",
+      "file": "app/admin/cod-remittance/page.tsx · app/api/admin/cod-remittance/route.ts · funzione confirm_cod_remittance",
+      "descrizione": "Il pulsante non si spegne al primo clic. Partono due richieste: 200 «rilasciati 1» e 200 «rilasciati 0». Nel registro restano due rimesse da 19,90 € ciascuna. Il pagamento ai negozi non raddoppia (HELD una volta sola), ma la rotta scrive il registro anche con 0 ordini rilasciati e remitted_at viene riscritto a ogni chiamata.",
+      "impatto": "Chi somma il registro legge 39,80 € invece di 19,90 € di contanti contati.",
+      "fix": "Spegnere il pulsante subito, non scrivere il registro se gli ordini rilasciati sono 0 e non riscrivere remitted_at.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Due POST simultanei sulla rotta con un ordine contanti: un solo record di rimessa.",
+      "prova_tipo": "vitest",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "titolo": "Un documento del fattorino fra 4,4 e 8 MB viene rifiutato con un messaggio tecnico in inglese, anche se la pagina promette fino a 8 MB",
+      "severita": "minore",
+      "file": "app/api/kyc/upload-document/route.ts · app/rider/onboarding/page.tsx",
+      "descrizione": "Da circa 4,4 MB Vercel risponde prima del codice con 413 in testo semplice «FUNCTION_PAYLOAD_TOO_LARGE». uploadDoc fa r.json() su quel testo e mostra «Unexpected token 'R', \"Request En\"... is not valid JSON». La pagina dice «max 8 MB» e non controlla file.size. Una foto col telefono supera spesso i 4,4 MB.",
+      "impatto": "Il fattorino resta fermo senza capire che basta una foto più leggera e il documento non arriva.",
+      "fix": "Tetto vero a 4 MB scritto nella pagina e controllato nel browser, oppure caricamento diretto nello storage.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Caricare un file da 5 MB: deve comparire «File troppo grande, massimo 4 MB» in italiano.",
+      "prova_tipo": "vitest",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
     },
     {
       "dimensione": "frontend-ux",
@@ -4629,6 +4857,42 @@
       "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
     },
     {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "titolo": "Un testo lungo incollato in una pagina del sito viene tagliato a 4.000 caratteri senza avvisare, e la pagina pubblicata resta monca",
+      "severita": "minore",
+      "file": "components/admin/home/HomeSectionConfigForm.tsx · lib/home-site.ts · app/api/admin/cms/[slug]/route.ts",
+      "descrizione": "Il campo Testo tiene solo i primi 4.000 caratteri, senza contatore e senza avviso. Il salvataggio dice «Pagina pubblicata!», ma nel database il corpo si ferma a metà parola e la pagina pubblica non contiene la fine. Successo 2 volte su 2 (5.000 e 6.204 caratteri). Dalla rotta lo stesso rifiuto arriva in inglese: «String must contain at most 4000 character».",
+      "impatto": "Chi pubblica crede di aver messo il testo intero e la pagina esce incompleta.",
+      "fix": "Mostrare un contatore, avvisare al superamento e rifiutare in italiano invece di tagliare.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Incollare 5.000 caratteri nel campo e salvare: deve comparire un avviso, non «Pagina pubblicata!» con testo tagliato.",
+      "prova_tipo": "umano",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "titolo": "In chat, se l'assistenza scrive il secondo messaggio mentre il primo sta partendo, il secondo sparisce senza essere inviato",
+      "severita": "minore",
+      "file": "app/messages/[id]/page.tsx",
+      "descrizione": "handleSend esce senza inviare se un invio è in corso, e onSuccess fa setText('') cancellando ciò che è stato scritto nel frattempo. Parte solo «Ciao», con una sola chiamata a /api/chat/messages; quando arriva la risposta il campo si svuota e « arrivo subito» sparisce, senza avviso. Nel database e nella chat del cliente c'è un messaggio solo. Riprodotto 2 volte su 2.",
+      "impatto": "Chi scrive in chat perde un messaggio senza accorgersene e il cliente non lo riceve.",
+      "fix": "Svuotare il campo solo del testo realmente inviato (o accodare il secondo messaggio) e avvisare se non parte.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Scrivere «Ciao», inviare e subito scrivere un secondo testo: dopo la risposta il secondo deve restare nel campo o partire.",
+      "prova_tipo": "vitest",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+    },
+    {
       "dimensione": "dati-analytics",
       "reparto": "Dati e analitica",
       "titolo": "La percentuale dei pagamenti con carta nel cruscotto si calcola su mille tentativi qualsiasi, non sugli ultimi trenta giorni",
@@ -4722,6 +4986,115 @@
       "giro": 5,
       "verificato": true,
       "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
+    },
+    {
+      "dimensione": "dati-analytics",
+      "reparto": "Dati e analitica",
+      "titolo": "Il funnel conta molti meno clienti che comprano di quelli veri, perché per ogni cento clienti legge al massimo mille ordini e non lo dice",
+      "severita": "grave",
+      "file": "app/admin/funnel/page.tsx · lib/supabase/blocchi.ts (leggiInBlocchi)",
+      "descrizione": "Il funnel legge gli ordini con leggiInBlocchi: un blocco ogni 100 clienti e una sola richiesta per blocco. Il servizio dati ne restituisce al massimo 1.000 (content-range 0-999) e il resto si perde senza errore né avviso. In palestra, con blocchi da 1.680 e 1.264 ordini, «1° ordine mai» dice 72 contro 164 veri e «Multi-buyer» 23 contro 36; aggiunti 3 ordini, la pagina segna +1 primo ordine invece di +2 e +0 multi-buyer invece di +1. Nessuna scritta «campione». Diverso dalla voce chiusa sugli iscritti: qui si tagliano gli ordini.",
+      "impatto": "Oggi non scatta, perché gli ordini sono pochi. Scatta quando 100 clienti di fila superano i 1.000 ordini in 90 giorni, circa 10 a testa. Da lì attivazione e clienti che tornano sembrano crollare proprio mentre il marketplace cresce, e Nicola decide su numeri dimezzati.",
+      "fix": "Dentro ogni blocco leggere a finestre di 1.000 righe (range) finché tornano righe piene, oppure usare leggiTutteLeRighe per ogni blocco. Meglio ancora contare primi ordini e multi-buyer nel database con una funzione. Se un tetto resta, va scritto a schermo accanto al numero.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Test vitest su lib/supabase/blocchi.ts: un client finto restituisce al massimo 1.000 righe per richiesta e 1.500 ordini per 100 id. leggiInBlocchi deve tornarne 1.500 (oggi ne torna 1.000). In più lo script di palestra prove/lotto4/s08c/p027.mjs confronta i numeri del funnel con il database.",
+      "prova_tipo": "vitest",
+      "prova_eseguita": true,
+      "causa_radice": "leggiInBlocchi spezza l'elenco degli id solo per non allungare troppo l'indirizzo, ma fa una sola richiesta per blocco. Il tetto di 1.000 righe del servizio dati taglia quindi in silenzio.",
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+    },
+    {
+      "dimensione": "dati-analytics",
+      "reparto": "Dati e analitica",
+      "titolo": "Nel cruscotto di oggi i negozi «in attesa» comprendono anche quelli sospesi",
+      "severita": "minore",
+      "file": "lib/queries/cruscotto-oggi.ts · app/admin/today/page.tsx",
+      "descrizione": "Il riquadro mostra 25 = 16 in attesa + 9 sospesi, perché conta role='seller' e is_approved=false. La pagina a cui porta il riquadro ne mostra un numero diverso.",
+      "impatto": "Chi amministra può credere di avere 9 negozi da approvare che invece sono sospesi.",
+      "fix": "Filtrare .eq('approval_status','pending') in sellersPending, oppure cambiare l'etichetta in «Negozi non attivi».",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Con 16 negozi pending e 9 sospesi, il riquadro deve dire 16.",
+      "prova_tipo": "vitest",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+    },
+    {
+      "dimensione": "dati-analytics",
+      "reparto": "Dati e analitica",
+      "titolo": "Il funnel senza iscritti mostra zero virgola zero per cento in rosso invece di dire che non c'è niente da misurare",
+      "severita": "minore",
+      "file": "app/admin/funnel/page.tsx",
+      "descrizione": "activation7d, activationEver e repeatBuyer valgono 0 quando il denominatore è 0. Si legge «0 / 0 (0.0%)» su quattro righe e «Activation 7gg 0.0%» in rosso col bersaglio 35-40%: sembra un'attivazione disastrosa, invece non c'è nulla da misurare.",
+      "impatto": "Un funnel vuoto sembra un allarme e porta a decisioni sbagliate.",
+      "fix": "Con denominatore 0 mostrare «n.d.» in grigio e non colorare contro il bersaglio.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Con zero iscritti, il funnel deve mostrare «n.d.» e nessun rosso.",
+      "prova_tipo": "vitest",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+    },
+    {
+      "dimensione": "dati-analytics",
+      "reparto": "Dati e analitica",
+      "titolo": "L'elenco prodotti dell'amministratore si ferma a mille senza dirlo, e la ricerca non trova i prodotti più vecchi",
+      "severita": "minore",
+      "file": "app/admin/products/page.tsx · app/admin/payouts/page.tsx",
+      "descrizione": "TETTO_PRODOTTI + 1 contro il massimo di 1.000 righe del server: la riga in più non arriva mai, quindi l'avviso non scatta. Si legge «1000 di 1000» con 1.233 prodotti veri e la ricerca dice zero risultati per un prodotto che esiste. Stessa logica in payouts con TETTO_PAYOUT. A 360 px la testata sporge di 14 px.",
+      "impatto": "Chi amministra crede di vedere tutto il catalogo e non trova prodotti che esistono.",
+      "fix": "Chiedere un conteggio esatto o leggere a blocchi; mostrare l'avviso quando il totale supera il tetto.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Con 1.233 prodotti, la pagina deve mostrare «1000 di 1233» e la ricerca trovare i vecchi.",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+    },
+    {
+      "dimensione": "dati-analytics",
+      "reparto": "Dati e analitica",
+      "titolo": "Storico e recensioni del fattorino si caricano tutti in una volta, senza pagine, e le consegne vecchie aprono «Ordine non trovato»",
+      "severita": "minore",
+      "file": "app/rider/history/page.tsx · app/rider/reviews/page.tsx",
+      "descrizione": "Nessun range né paginazione: tutto in una sola lettura. Con 300 voci regge; oltre il tetto di righe di Supabase (di norma 1000) conto e totale guadagnato sarebbero sbagliati in silenzio (dedotto dal codice, non provato). Le voci con più di 7 giorni portano a «Ordine non trovato».",
+      "impatto": "Un fattorino con molto storico vedrebbe totali errati e link rotti sulle consegne vecchie.",
+      "fix": "Paginare o leggere a blocchi con avviso di taglio, e non linkare le consegne non più apribili.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Con 1.200 consegne, il totale dello storico deve coincidere con la somma reale.",
+      "prova_tipo": "vitest",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+    },
+    {
+      "dimensione": "dati-analytics",
+      "reparto": "Dati e analitica",
+      "titolo": "Nello storico consegne compaiono due gruppi «Oggi»: le consegne fatte dopo mezzanotte finiscono in un gruppo a parte e il totale del giorno si spezza",
+      "severita": "minore",
+      "file": "app/rider/history/page.tsx",
+      "descrizione": "La chiave del gruppo è delivered_at.slice(0,10), cioè la data UTC, mentre dayLabel usa l'ora locale; inoltre key={g.label} si ripete. Compaiono due gruppi «OGGI»: uno da 2 consegne e 6,00 €, uno da 1 consegna e 3,00 €. Succede ogni notte fra mezzanotte e l'una (le due d'estate).",
+      "impatto": "Il fattorino del turno di notte vede il totale del giorno spezzato in due.",
+      "fix": "Raggruppare per giornoPiacenza (lib/tempo-piacenza.ts) e usare una chiave unica.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Tre consegne fra 00:00 e 01:00 di Piacenza: un solo gruppo «Oggi» da 3 consegne.",
+      "prova_tipo": "vitest",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": false,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
     },
     {
       "dimensione": "privacy-legale",
@@ -5201,6 +5574,24 @@
       "fonte_radiografia": "palestra 2026-11-07/08 · lotto 2, prove da cliente (wf_f4377721-1cd)"
     },
     {
+      "dimensione": "privacy-legale",
+      "reparto": "Privacy e legale",
+      "titolo": "Lo scarico dei dati del fattorino si dichiara completo ma non contiene le sue giornate di cassa né le recensioni ricevute",
+      "severita": "minore",
+      "file": "app/api/account/export/route.ts",
+      "descrizione": "rider_reviews è filtrato su user_id invece di rider_id e cod_reconciliations non viene letta. Le giornate di cassa e la recensione ricevuta mancano, eppure export_completo vale true e il nome del file non dice «INCOMPLETO».",
+      "impatto": "Per una richiesta di portabilità (articoli 15 e 20 del GDPR) il file afferma di essere completo e non lo è.",
+      "fix": "Filtrare le recensioni su rider_id, aggiungere cod_reconciliations e calcolare export_completo sulle sezioni davvero lette.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Esportare i dati di un fattorino con una giornata di cassa e una recensione: devono comparire nel file.",
+      "prova_tipo": "vitest",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+    },
+    {
       "dimensione": "layout-responsive",
       "reparto": "layout-responsive",
       "titolo": "Basta un negozio col nome lungo e sul telefono la home, l'elenco negozi e «vicino a te» diventano più larghe dello schermo",
@@ -5360,6 +5751,114 @@
       "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
     },
     {
+      "dimensione": "layout-responsive",
+      "reparto": "layout-responsive",
+      "titolo": "Sul telefono piccolo la pagina del registro delle azioni scorre di lato, e l'elenco si ferma a 200 righe senza dirlo",
+      "severita": "minore",
+      "file": "app/admin/audit/page.tsx",
+      "descrizione": "A 360 px la pagina scorre di lato di 16 px per colpa del menu del filtro, privo di larghezza massima (scrollWidth 376 contro 360). A 390 e a 1440 è a posto. Con 669 righe se ne vedono 200 (.limit(200)), senza alcun avviso.",
+      "impatto": "Chi controlla il registro dal telefono vede la pagina muoversi e crede di aver letto tutto quando ne ha visto un terzo.",
+      "fix": "Dare al select max-w-full e mostrare «200 di N» quando l'elenco è tagliato.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Aprire la pagina a 360 px: scrollWidth uguale a 360; con più di 200 righe compare l'avviso.",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+    },
+    {
+      "dimensione": "layout-responsive",
+      "reparto": "layout-responsive",
+      "titolo": "Nei reclami, un link incollato dal cliente fa scorrere di lato tutta la pagina sul telefono, e oltre 100 reclami il conteggio si ferma a 100 senza dirlo",
+      "severita": "minore",
+      "file": "app/admin/disputes/page.tsx",
+      "descrizione": "Il paragrafo della descrizione ha whitespace-pre-line senza a-capo forzato: appena un cliente incolla un link la pagina scorre di lato. Inoltre .limit(100) senza avviso, quindi oltre 100 reclami il numero mostrato è sbagliato per difetto e i segnali di rischio contano solo il caricato. Le etichette mescolano buyer e seller.",
+      "impatto": "Dal telefono la pagina diventa difficile da usare e i conteggi dei reclami sono sottostimati senza dirlo.",
+      "fix": "Aggiungere break-words al paragrafo, avvisare quando l'elenco è tagliato e tradurre le etichette.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Reclamo con link di 120 caratteri a 360 px: scrollWidth uguale a 360.",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+    },
+    {
+      "dimensione": "layout-responsive",
+      "reparto": "layout-responsive",
+      "titolo": "Nella pagina Eventi gli stati sono in inglese, e un titolo lungo senza spazi allarga la pagina sul telefono",
+      "severita": "minore",
+      "file": "app/admin/events/page.tsx",
+      "descrizione": "Il badge {ev.status} mostra lo stato in inglese grezzo. Sul telefono un hashtag di 33 caratteri fa scorrere la pagina di lato (h3 senza min-w-0/break-words). Sul computer un titolo lunghissimo nasconde i pulsanti Modifica ed Elimina di tutti gli eventi, perché il contenitore della tabella ha overflow-hidden invece di overflow-x-auto.",
+      "impatto": "Un titolo lungo rende ineditabili tutti gli eventi dal computer e rompe la pagina dal telefono.",
+      "fix": "Tradurre gli stati, aggiungere min-w-0 e break-words, usare overflow-x-auto.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Evento con titolo di 33 caratteri senza spazi a 360 px: scrollWidth uguale a 360 e pulsanti visibili.",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+    },
+    {
+      "dimensione": "layout-responsive",
+      "reparto": "layout-responsive",
+      "titolo": "Il dettaglio ordine sul telefono scorre di lato se il cliente incolla un link nelle note di consegna",
+      "severita": "minore",
+      "file": "app/admin/orders/[id]/page.tsx",
+      "descrizione": "Nel componente Riga il dd non ha min-w-0 né break-words/[overflow-wrap:anywhere] e le celle della griglia hanno larghezza minima automatica. La pagina diventa larga 412 px su uno schermo da 360 e 413 su uno da 390; le quattro schede si allargano tutte.",
+      "impatto": "Dal telefono la scheda ordine dell'amministrazione scorre di lato e si legge male.",
+      "fix": "Aggiungere min-w-0 e break-words al dd.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Ordine con link lungo nelle note a 360 px: scrollWidth uguale a 360.",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+    },
+    {
+      "dimensione": "layout-responsive",
+      "reparto": "layout-responsive",
+      "titolo": "Nelle segnalazioni, un link lungo incollato da chi segnala esce dalla scheda e fa scorrere la pagina di lato sul telefono",
+      "severita": "minore",
+      "file": "app/admin/segnalazioni/page.tsx",
+      "descrizione": "Il paragrafo del dettaglio ha whitespace-pre-line ma nessuna regola che spezzi le parole lunghe (manca break-words o [overflow-wrap:anywhere]). Il link supera il bordo della scheda e dello schermo: pagina larga 937 px su schermi di 360 e di 390, 2 giri su 2. A 1440 non succede. Capita anche con un'email lunga di 51 caratteri.",
+      "impatto": "Dal telefono la pagina delle segnalazioni scorre di lato e si legge male.",
+      "fix": "Aggiungere break-words al paragrafo del dettaglio.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Segnalazione con link lungo a 360 px: scrollWidth uguale a 360.",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+    },
+    {
+      "dimensione": "layout-responsive",
+      "reparto": "layout-responsive",
+      "titolo": "Nelle recensioni del fattorino un commento con una parola lunga fa scorrere la pagina di lato sul telefono piccolo, e i filtri per stelle sono alti 24 pixel",
+      "severita": "minore",
+      "file": "app/rider/reviews/page.tsx",
+      "descrizione": "Il paragrafo del commento (text-[13px] leading-relaxed) non ha break-words: la pagina è larga 384 px su 360 e scorre di 24 px, col link fuori dalla scheda. Le righe del filtro (py-1) sono alte 24 px e «Mostra tutte» 20 px.",
+      "impatto": "Dal telefono la pagina si sposta di lato e i filtri sono difficili da toccare.",
+      "fix": "Aggiungere break-words al commento e portare i tocchi a 44 px.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Recensione con link lungo a 360 px: scrollWidth uguale a 360.",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": false,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+    },
+    {
       "dimensione": "immagini-media",
       "reparto": "immagini-media",
       "titolo": "Se la foto di un prodotto è stata cancellata, la scheda resta un riquadro bianco invece della foto di ripiego",
@@ -5439,7 +5938,13 @@
       "causa_radice": "Misura copiata a mano in tre pagine invece di un componente con il minimo di 44px; lo stesso difetto è già stato chiuso sul percorso del cliente (registro 740 e 953).",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-11-06 · S10"
+      "fonte_radiografia": "radiografia 2026-11-06 · S10",
+      "riverifica_7_11": {
+        "data": "2026-11-12 13:48",
+        "esito": "confermato_in_palestra",
+        "prova": "confermato in palestra (S10-P089): Stesso difetto: la voce 228 cita già i tre tasti indietro h-9 w-9 in rider/help, onboarding e orders/[id].",
+        "run": "palestra, lotto 4 (wf_236a009c-b2d), doppioni dal prefiltro (wf_971dc016-c32)"
+      }
     },
     {
       "dimensione": "mobile-pwa",
@@ -5663,6 +6168,42 @@
       "giro": 5,
       "verificato": true,
       "fonte_radiografia": "palestra 2026-11-07/08 · lotto 2, prove da cliente (wf_f4377721-1cd)"
+    },
+    {
+      "dimensione": "accessibilita",
+      "reparto": "Accessibilita'",
+      "titolo": "Nella bacheca del fattorino l'interruttore online è alto 32 pixel e le consegne in preparazione hanno il compenso poco leggibile",
+      "severita": "minore",
+      "file": "app/rider/page.tsx",
+      "descrizione": "L'interruttore h-8 w-[58px] misura 58x32. Le schede inPrep hanno opacity-75: la targhetta risulta a 3,71:1 e il compenso a 3,8:1. Senza rete toggleOnline resta in attesa, l'interruttore diventa grigio senza messaggio e poi si accende da solo quando la rete torna.",
+      "impatto": "Un pollice in strada sbaglia il tocco, il compenso si legge male e il fattorino non sa se è online.",
+      "fix": "Portare l'interruttore a 44 px, togliere l'opacity-75 dal testo e avvisare quando la richiesta non parte.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Misurare l'interruttore (almeno 44 px) e il contrasto del compenso (almeno 4,5:1).",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": false,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+    },
+    {
+      "dimensione": "accessibilita",
+      "reparto": "Accessibilita'",
+      "titolo": "Nella consegna in corso i tasti Chiama, Naviga e SMS sono sotto i 44 pixel, e senza rete un codice giusto risulta «Verifica fallita»",
+      "severita": "minore",
+      "file": "app/rider/orders/[id]/page.tsx · components/VerifyCodeDialog.tsx",
+      "descrizione": "Naviga, Chiama e SMS (Button size=sm) sono alti 32 px a tutte le misure; la freccia indietro è 36x36. ERROR_LABELS non distingue l'errore di rete: con la rete staccata e il codice giusto compare «Verifica fallita». La chiusura della consegna invece è corretta e avviene una volta sola.",
+      "impatto": "Il fattorino pensa che il codice sia sbagliato e lo richiede al cliente; i tasti sono difficili da premere in strada.",
+      "fix": "Portare i tasti a 44 px e aggiungere l'etichetta «Niente rete, riprova» per gli errori di connessione.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Con rete staccata il dialogo deve dire «niente rete»; i tasti devono misurare almeno 44 px.",
+      "prova_tipo": "vitest",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": false,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
     },
     {
       "dimensione": "navigazione-gerarchia",
@@ -5987,6 +6528,60 @@
       "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
     },
     {
+      "dimensione": "microcopy",
+      "reparto": "microcopy",
+      "titolo": "Se la rete cade, la pagina del controllo del credito di un rimborso mostra «Failed to fetch» e nessun modo di riprovare",
+      "severita": "minore",
+      "file": "app/admin/credito-del-rimborso/page.tsx",
+      "descrizione": "Con la rete caduta compare il messaggio tecnico del browser, «Failed to fetch», perché la pagina mostra error.message grezzo, e non c'è un pulsante per riprovare se non ricaricare. Con un errore 500 della rotta il testo è invece corretto.",
+      "impatto": "L'amministratore legge un testo inglese incomprensibile e non sa che basta riprovare.",
+      "fix": "Tradurre l'errore di rete in italiano («Non riesco a collegarmi, riprova») e aggiungere «Riprova».",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Staccare la rete e aprire la pagina: deve apparire un messaggio in italiano con «Riprova».",
+      "prova_tipo": "umano",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "microcopy",
+      "titolo": "Nella pagina delle sponsorizzazioni colonne e valori sono in inglese e in codici del database",
+      "severita": "minore",
+      "file": "app/admin/sponsored/page.tsx",
+      "descrizione": "Le intestazioni sono «Prodotto / Seller», «Placement», «Budget/g», «Impressions», «CTR». I riquadri dicono «Impressions» e «CTR medio 3.55%», con il punto mentre gli euro hanno la virgola. Nella colonna compaiono i codici grezzi «home_top», «search_top», «category_top».",
+      "impatto": "Testi poco chiari e formati incoerenti in una pagina che mostra soldi.",
+      "fix": "Tradurre intestazioni e posizioni, usare la virgola nelle percentuali.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Aprire la pagina con una campagna: nessun codice grezzo né parola inglese, percentuale con la virgola.",
+      "prova_tipo": "umano",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "microcopy",
+      "titolo": "La pagina Guadagni del fattorino non dice quando arriva il bonifico",
+      "severita": "minore",
+      "file": "app/rider/earnings/page.tsx",
+      "descrizione": "Il riquadro «Compensi sul tuo IBAN» dice «in arrivo» senza data né tempo e non spiega che senza IBAN collegato non arriva niente. fraseAttesaBonifico di lib/stripe/tempi-bonifico.ts non viene usata qui; il tempo («circa un'ora dopo la consegna») è scritto solo nella pagina Aiuto.",
+      "impatto": "Il fattorino non sa quando aspettarsi i soldi né che deve collegare l'IBAN.",
+      "fix": "Usare fraseAttesaBonifico nel riquadro e dire che serve l'IBAN collegato.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Aprire Guadagni con un compenso in arrivo: deve comparire il tempo di attesa.",
+      "prova_tipo": "umano",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+    },
+    {
       "dimensione": "coerenza-brand",
       "reparto": "coerenza-brand",
       "titolo": "La pagina che si apre dal link di conferma email non sembra MyCity: niente logo, carattere di sistema, bottone verde",
@@ -6268,6 +6863,78 @@
       "giro": 5,
       "verificato": true,
       "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
+    },
+    {
+      "dimensione": "stati-ui",
+      "reparto": "stati-ui",
+      "titolo": "Nel pannello dei coupon un codice scaduto o esaurito risulta ancora «Attivo»",
+      "severita": "minore",
+      "file": "app/admin/coupons/page.tsx · lib/admin/vista-dei-coupon.ts",
+      "descrizione": "Un codice scaduto, uno esaurito e uno a scadenza passata risultano tutti «Attivo (spento in cassa)». La pagina guarda solo il campo active: il tipo Coupon non legge nemmeno expires_at e la scadenza non è mostrata da nessuna parte.",
+      "impatto": "Oggi basso, perché al lancio i codici sono spenti in cassa. Quando si accenderanno, l'amministratore vedrà «Attivo» un codice che la cassa rifiuta e potrebbe darlo ai clienti.",
+      "fix": "Leggere expires_at e usage_limit, calcolare lo stato («Scaduto», «Esaurito») e mostrare la scadenza.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Con un coupon scaduto e uno esaurito, la pagina deve scrivere «Scaduto» ed «Esaurito», non «Attivo».",
+      "prova_tipo": "vitest",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+    },
+    {
+      "dimensione": "stati-ui",
+      "reparto": "stati-ui",
+      "titolo": "La pagina delle categorie, quando non ce n'è nessuna, resta bianca senza un messaggio",
+      "severita": "minore",
+      "file": "app/admin/categories/page.tsx",
+      "descrizione": "Dopo il ramo isError non c'è nessun caso per cats.length === 0: sotto il modulo c'è spazio bianco. Non si capisce se le categorie non ci sono o se la pagina non ha finito di caricare.",
+      "impatto": "Chi amministra non sa se deve creare la prima categoria o aspettare.",
+      "fix": "Aggiungere uno stato vuoto «Nessuna categoria ancora» con invito a crearne una.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Con zero categorie, la pagina deve mostrare un testo di stato vuoto.",
+      "prova_tipo": "vitest",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+    },
+    {
+      "dimensione": "stati-ui",
+      "reparto": "stati-ui",
+      "titolo": "Se la lettura del prodotto non va, la pagina di modifica dell'amministrazione dice che il prodotto non esiste",
+      "severita": "minore",
+      "file": "app/admin/products/[id]/edit/page.tsx",
+      "descrizione": "Il ramo error instanceof Error ? … : 'Prodotto non trovato' non riconosce l'errore del client del database (non è un Error) e .single() non distingue riga mancante da guasto. Compare «Errore · Prodotto non trovato» in entrambi i casi. Con un codice storto (abc) il messaggio parla invece di taglie e varianti da ricaricare.",
+      "impatto": "Un guasto passeggero sembra un prodotto cancellato e non offre «Riprova».",
+      "fix": "Distinguere riga mancante da errore di lettura, e offrire «Riprova»; validare l'id prima di leggere.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Simulare un errore di lettura: la pagina deve dire che la lettura è fallita, con «Riprova».",
+      "prova_tipo": "vitest",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+    },
+    {
+      "dimensione": "stati-ui",
+      "reparto": "stati-ui",
+      "titolo": "Nel nuovo prodotto dell'amministrazione, se l'elenco dei negozi non arriva, la tendina resta vuota senza spiegazioni",
+      "severita": "minore",
+      "file": "app/admin/products/new/page.tsx",
+      "descrizione": "La lettura di negozi e categorie non guarda mai isError. La tendina resta attiva con la sola voce «— scegli il negozio —» e nessun avviso, sia con elenco vuoto sia con lettura caduta.",
+      "impatto": "Chi crea il prodotto non sa se mancano i negozi o se la lettura è fallita e non può procedere.",
+      "fix": "Leggere isError, mostrare un avviso con «Riprova» e disabilitare la tendina.",
+      "fonte": "marketplace",
+      "stato": "aperto",
+      "prova": "Con la lettura dei negozi fallita deve apparire un avviso, non una tendina vuota attiva.",
+      "prova_tipo": "vitest",
+      "prova_eseguita": true,
+      "giro": 5,
+      "verificato": true,
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
     },
     {
       "dimensione": "performance",
@@ -9437,7 +10104,13 @@
         "codice": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
         "nota": "Il pannello bonifici classifica ancora male i contanti e non ha un modo per segnare il bonifico a mano."
       },
-      "fuori_dal_referto": true
+      "fuori_dal_referto": true,
+      "riverifica_7_11": {
+        "data": "2026-11-12 13:48",
+        "esito": "confermato_in_palestra",
+        "prova": "confermato in palestra (S02-P021, S08-P009, S10-P108): La voce 399 descrive lo stesso errore in payoutTone, dove il ramo di default dà «Pronto» e conta come da pagare i contanti ancora dal fattorino, e descrive anche le quote rimborsate che non vengono tolte. Il ritiro pagato al banco (CASH_IN_STORE) è un caso in più dello stesso ramo e si corregge nello stesso punto.",
+        "run": "palestra, lotto 4 (wf_236a009c-b2d), doppioni dal prefiltro (wf_971dc016-c32)"
+      }
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -10264,7 +10937,13 @@
         "codice": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
         "nota": "Accogliere una segnalazione continua a non togliere niente, mentre al segnalante si scrive che è stato rimosso."
       },
-      "fuori_dal_referto": true
+      "fuori_dal_referto": true,
+      "riverifica_7_11": {
+        "data": "2026-11-12 13:48",
+        "esito": "confermato_in_palestra",
+        "prova": "confermato in palestra (S09-P033): È lo stesso comportamento della voce 429: la decisione aggiorna solo la segnalazione e comunicaEsito scrive «rimosso o corretto» mentre il prodotto resta in vendita. Il punto da correggere è lo stesso.",
+        "run": "palestra, lotto 4 (wf_236a009c-b2d), doppioni dal prefiltro (wf_971dc016-c32)"
+      }
     },
     {
       "dimensione": "privacy-legale",
@@ -11653,7 +12332,13 @@
         "codice": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
         "nota": "Il fattorino in bici non può ancora essere approvato senza patente e polizza RC."
       },
-      "fuori_dal_referto": true
+      "fuori_dal_referto": true,
+      "riverifica_7_11": {
+        "data": "2026-11-12 13:48",
+        "esito": "confermato_in_palestra",
+        "prova": "confermato in palestra (S07-P036): La voce 479 descrive la patente obbligatoria per ogni mezzo in tutti i punti segnalati: la pagina d'iscrizione, la rotta start-check e le regole di approvazione. Le date vuote rifiutate dal database sono già la voce 485.",
+        "run": "palestra, lotto 4 (wf_236a009c-b2d), doppioni dal prefiltro (wf_971dc016-c32)"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -11836,7 +12521,13 @@
         "codice": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
         "nota": "Il passo 1 dell'iscrizione del fattorino fallisce ancora se le scadenze non sono già compilate."
       },
-      "fuori_dal_referto": true
+      "fuori_dal_referto": true,
+      "riverifica_7_11": {
+        "data": "2026-11-12 13:48",
+        "esito": "confermato_in_palestra",
+        "prova": "confermato in palestra (S10-P088): Stesso comportamento: salvaAnagrafica manda l'intero modulo con le date vuote come '' e il passo 1 non si salva. La voce 485 cita già app/rider/onboarding/page.tsx:142.",
+        "run": "palestra, lotto 4 (wf_236a009c-b2d), doppioni dal prefiltro (wf_971dc016-c32)"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -11930,7 +12621,13 @@
         "codice": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
         "nota": "Cambiare solo il nome cancella ancora il telefono, e viceversa."
       },
-      "fuori_dal_referto": true
+      "fuori_dal_referto": true,
+      "riverifica_7_11": {
+        "data": "2026-11-12 13:48",
+        "esito": "confermato_in_palestra",
+        "prova": "confermato in palestra (S07-P041, S10-P087): Il difetto principale, il telefono cancellato, è la voce 488 (useState('') con defaultValue nello stesso punto). Le altre due parti sono già registrate: la polizza scaduta mostrata «In scadenza» è la 741, il documento «Verificato» appena caricato è la 184.",
+        "run": "palestra, lotto 4 (wf_236a009c-b2d), doppioni dal prefiltro (wf_971dc016-c32)"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -36513,7 +37210,13 @@
       "fuori_dal_referto": true,
       "riaperto_il": "2026-11-06 19:13",
       "riaperto_da": "radiografia 2026-11-06 · S08, verificato",
-      "nota_6_11": "Riaperta dalla radiografia del 6/11 (S08; verificatore: confermata). Prova: node /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/A/prova-tetto-1000.mjs → Exit 1: app/admin/activity/page.tsx:123 chiede .limit(3000) e alla riga 281 mostra «campione» solo con almeno 3000 righe, ma il database ne consegna al massimo 1000: «Visitatori 24h» si calcola sugli ultimi 1000 eventi e l'etichetta del campione non compare mai. Verificatore qa: confermato, minore."
+      "nota_6_11": "Riaperta dalla radiografia del 6/11 (S08; verificatore: confermata). Prova: node /tmp/claude-0/-home-user-ad-mycity/bbd6929a-5604-5f4b-aab1-309aac030050/scratchpad/A/prova-tetto-1000.mjs → Exit 1: app/admin/activity/page.tsx:123 chiede .limit(3000) e alla riga 281 mostra «campione» solo con almeno 3000 righe, ma il database ne consegna al massimo 1000: «Visitatori 24h» si calcola sugli ultimi 1000 eventi e l'etichetta del campione non compare mai. Verificatore qa: confermato, minore.",
+      "riverifica_7_11": {
+        "data": "2026-11-12 13:48",
+        "esito": "confermato_in_palestra",
+        "prova": "confermato in palestra (S08-P025): La voce 1467 cita già app/admin/activity/page.tsx:113-124: un campione al posto del totale non è dichiarato a schermo. Qui il tetto è di mille righe ma stesso comportamento.",
+        "run": "palestra, lotto 4 (wf_236a009c-b2d), doppioni dal prefiltro (wf_971dc016-c32)"
+      }
     },
     {
       "dimensione": "dati-analytics",
@@ -37466,10 +38169,19 @@
       "impatto": "",
       "fix": "«SOS registrato, MyCity è stata avvisata. Ora premi CHIAMA sul telefono per parlare col 112». Stessa correzione al ramo di ripiego a riga 79.",
       "fonte": "design",
-      "stato": "chiuso",
+      "stato": "aperto",
       "chiuso_il": "2026-08-27 10:23",
       "chiuso_da": "richiesta #243 del marketplace, unita su main il 2026-08-27 10:23 (commit f4c3c22)",
-      "fuori_dal_referto": true
+      "fuori_dal_referto": true,
+      "riverifica_7_11": {
+        "data": "2026-11-12 13:48",
+        "esito": "confermato_in_palestra",
+        "prova": "confermato in palestra (S07-P046): La finestra SOS promette ancora la chiamata al 112 mentre il telefono apre solo il tastierino: è il difetto della voce 1532, che risulta chiusa ma si ripresenta. La parte INAIL dell'Aiuto si lega alla [454].",
+        "run": "palestra, lotto 4 (wf_236a009c-b2d), doppioni dal prefiltro (wf_971dc016-c32)"
+      },
+      "stato_prima_7_11": "chiuso",
+      "riaperto_il": "2026-11-12 13:48",
+      "riaperto_da": "palestra (S07-P046): il difetto si ripete sulla copia del sito costruita dal codice di main"
     },
     {
       "dimensione": "microcopy",
@@ -65835,7 +66547,15 @@
         "data": "2026-11-07 12:55",
         "esito": "confermato_in_palestra",
         "prova": "confermato in palestra (S04-P087): Stesso file (app/api/segnalazioni/esito/comunica.ts, comunicaEsito) e stesso comportamento: ogni nuovo invio dell'esito riscrive anche le notifiche già consegnate, e dopo un errore dell'email ritenta anche i canali già riusciti. La palestra lo conferma coi numeri: la notifica al negozio passa a 3, poi 4, poi 5 sulla stessa segnalazione, mentre la pagina admin invita a «registrare di nuovo la decisione». Da annotare sulla 2808: anche il messaggio della pagina admin va corretto.",
-        "run": "palestra, lotto 1 (wf_4d902b34-f87), verificatori indipendenti"
+        "run": "palestra, lotto 1 (wf_4d902b34-f87), verificatori indipendenti",
+        "altre": [
+          {
+            "data": "2026-11-12 13:48",
+            "esito": "confermato_in_palestra",
+            "prova": "confermato in palestra (S08-P021): Stesso effetto: due invii dell'esito producono notifiche ed email doppie perché comunica.ts non ha guardia contro un secondo invio. Il doppio clic è solo il modo di scatenarlo.",
+            "run": "palestra, lotto 4 (wf_236a009c-b2d), doppioni dal prefiltro (wf_971dc016-c32)"
+          }
+        ]
       }
     },
     {
@@ -67464,7 +68184,13 @@
         "codice": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
         "nota": "L'errore ora si vede, ma il giorno resta quello di Greenwich. · Verifica qa: smentito — Le letture ora fanno throw dell'errore, ma la pagina non usa isError e non c'e' un gestore globale nel QueryClient: con la lettura fallita drops resta [] e la pagina dice 'Nessun drop per oggi o per i prossimi giorni.' Per chi guarda l'errore non si vede, come prima; e todayIso e' ancora il giorno di Greenwich. [verificatore qa V14]"
       },
-      "fuori_dal_referto": true
+      "fuori_dal_referto": true,
+      "riverifica_7_11": {
+        "data": "2026-11-12 13:48",
+        "esito": "confermato_in_palestra",
+        "prova": "confermato in palestra (S10-P097): La voce 2984 (e 2101) segnala già che app/admin/daily-drops/page.tsx legge drop e prodotti senza guardare l'errore, quindi mostra «nessuno». Stesso punto da correggere.",
+        "run": "palestra, lotto 4 (wf_236a009c-b2d), doppioni dal prefiltro (wf_971dc016-c32)"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -67759,20 +68485,20 @@
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-11-12 14:56",
+    "aggiornato": "2026-11-12 13:50",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 795,
-    "findings_chiusi": 2205,
-    "findings_tot": 3000,
+    "findings_aperti": 828,
+    "findings_chiusi": 2204,
+    "findings_tot": 3032,
     "aperti_per_severita": {
       "bloccante": 6,
-      "grave": 92,
-      "minore": 697,
+      "grave": 96,
+      "minore": 726,
       "altre": 0
     },
-    "dichiarati_dal_referto": 3000,
+    "dichiarati_dal_referto": 3032,
     "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-11-06",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."
