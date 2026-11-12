@@ -7,34 +7,32 @@ per: la sessione che porta la radiografia del sito sullo schema della riparazion
 # La radiografia in sessioni — il quaderno di bordo
 
 ## In parole semplici
-Nicola, 12/11 notte: «abbiamo migliorato notevolmente il risolutore, ora facciamo un bel lavoro anche sulla
-radiografia… risolvi, migliora, rendila più efficiente». La radiografia trova i difetti del sito; il risolutore li
-ripara. Il risolutore oggi ha regia a parte, controlli a strati e regole sul consumo. La radiografia no: quella in 12
-sessioni del 6/11 è partita incollando quattro testi legati a quel giorno.
+Questo foglio serve alla sessione che rifà la radiografia del sito. La radiografia trova i difetti; il risolutore li
+ripara. Nicola, 12/11 notte: «ora facciamo un bel lavoro anche sulla radiografia». Il risolutore oggi ha la regia a
+parte, i controlli a strati e le regole sul consumo. La radiografia no. Un esempio: quella del 6/11 è partita
+incollando quattro testi legati a quel giorno, e ha usato 12 sessioni su 12 possibili.
 
 ## Cosa cambia per te
-Lavori sul ramo `claude/sweet-galileo-0skkay` di `ad-mycity`, la PR #944. Sullo stesso ramo lavora la regista del
-risolutore: fai sempre `git pull` prima di spingere, e non toccare la skill `riparazione`, i suoi LEGGIMI e la
-cartella `consegne/riparazioni/`.
+Lavori sul ramo `claude/sweet-galileo-0skkay` di `ad-mycity`, cioè la PR #944. Sullo stesso ramo lavora la regista del
+risolutore. Prima di spingere fai sempre `git pull`. Non toccare la skill `riparazione`, i suoi LEGGIMI e la cartella
+`consegne/riparazioni/`.
 
 ## Cosa devi fare
-1. **Misura prima** quanto è costata la radiografia del 6/11 e dove. Gli id delle sue sessioni sono in
-   `consegne/audit/2026-11-06-radiografia-12-sessioni/sessioni.json`; leggi `get_session` (campo `usage.cost_usd`) e gli
-   eventi `result`. Tieni questa misura sotto i 3 agenti leggeri.
-2. **Costruisci** la radiografia in sessioni avviabile con una frase:
-   - una skill `radiografia`;
-   - un programma salvato in `cervello/`, generalizzando `consegne/audit/2026-11-06-radiografia-12-sessioni/controlli.mjs`;
-   - i LEGGIMI di cercatori e verificatori;
-   - il comando in `COMANDI.md` e in `cervello/MANUALE-AD.md`.
-   Guarda come è fatta la riparazione: `.claude/skills/riparazione/SKILL.md`, `cervello/riparazione-sessioni.mjs`,
-   `cervello/riparazione/`.
-3. **Collaudo indipendente** (un agente `qa`, domande chiuse, mutazioni sulle prove), correggi, poi `cancello-stop` e
-   radiografia in corsa. Rispetta l'asticella: ogni regola che deve reggere ha una prova che diventa rossa senza di lei.
-4. **Non lanciare una radiografia vera**: costa. La prima corsa parte solo col «via» di Nicola, dopo un preventivo.
-5. A fine lavoro manda all'AD (`session_015BmpnWWfcmEfYEhQ25M7s2`) un messaggio che apre con «Il punto adesso».
+- **Misura prima** quanto è costata la radiografia del 6/11, e dove. Gli id delle sue sessioni stanno in
+  `consegne/audit/2026-11-06-radiografia-12-sessioni/sessioni.json`. Leggi `get_session` (il campo `usage.cost_usd`) e
+  gli eventi `result`. Per questa misura bastano al massimo 3 agenti leggeri.
+- **Costruisci** la radiografia in sessioni, da avviare con una frase. Servono una skill `radiografia` e un programma in
+  `cervello/`. Il programma nasce da `consegne/audit/2026-11-06-radiografia-12-sessioni/controlli.mjs`, reso generale.
+  Servono anche i LEGGIMI di chi cerca e di chi verifica, e il comando in `COMANDI.md` e in `cervello/MANUALE-AD.md`.
+  Il modello da guardare è la riparazione: la sua skill, `cervello/riparazione-sessioni.mjs` e `cervello/riparazione/`.
+- **Fai collaudare** il lavoro da un agente `qa` che non l'ha costruito, con domande chiuse e mutazioni sulle prove.
+  Poi correggi, e lancia `cancello-stop` e la radiografia in corsa. Ogni regola che deve reggere ha una prova che
+  diventa rossa senza di lei.
+- **Non lanciare una radiografia vera**, perché costa. La prima corsa parte solo col «via» di Nicola, dopo il preventivo.
+- **A fine lavoro** manda all'AD (`session_015BmpnWWfcmEfYEhQ25M7s2`) un messaggio che apre con «Il punto adesso».
 
 ## Cosa non ho verificato
-Non ho riletto la radiografia del 6/11: so solo dove stanno i suoi file e che il suo testo è legato a quel giorno.
+Non ho riletto la radiografia del 6/11. So solo dove stanno i suoi file, e che il suo testo è legato a quel giorno.
 
 ---
 
