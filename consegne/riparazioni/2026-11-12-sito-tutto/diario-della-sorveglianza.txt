@@ -8,3 +8,4 @@
 2026-11-12 15:44 · R08 · piano · — · — · — · approvato (014 con prova che era già pubblico; domanda P.IVA a Nicola; prove dei ripieghi)
 2026-11-12 15:45 · R06 · piano · — · — · — · approvato (007 senza difetto = gia_riparato_prima; 014 prova leggera; 005 parziale)
 2026-11-12 15:45 · R09 · piano · — · — · — · approvato (002 solo documentata, parole generiche; 006 pagina solo se sua; 007 non_fatto)
+2026-11-12 15:46 · R12 · piano · — · — · — · approvato (004 regola 2 ore in domande + prova; 007 togli VALUE_PROPS; 001 due lenti)
