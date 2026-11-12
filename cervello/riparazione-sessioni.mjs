@@ -925,6 +925,30 @@ function guardiaCollaudatore(opz, ramo, nome) {
 
 // ── valida-referto ───────────────────────────────────────────────────────────────────────────────
 /**
+ * I difetti nuovi visti da un riparatore o da un controllore. PURA: torna i rossi. Una regola sola per tutti e
+ * due: il 12/11 il controllore ne aveva una copia più corta, e una falla riservata con la «descrizione» in
+ * chiaro passava nel deposito pubblico (collaudo del 12/11).
+ */
+export function regoleNuoviDifetti(lista) {
+  const rossi = [];
+  for (const n of lista ?? []) {
+    // Il deposito è pubblico: una riservata si scrive in UNA forma sola. Il collaudo del 7/11 ha fatto passare
+    // il dettaglio nel titolo («Falla di sicurezza: …route.ts:42…»), nel NOME di una chiave e in una parola sola.
+    if (n && "riservato" in n && typeof n.riservato !== "boolean") rossi.push(`«riservato» deve essere true o false, non ${JSON.stringify(n.riservato)}: un valore ambiguo fa sparire un difetto o pubblica una falla`);
+    if (n?.riservato === true) {
+      if (!["bloccante", "grave", "minore"].includes(n.severita)) rossi.push("un difetto nuovo riservato ha la gravità fuori elenco (bloccante, grave o minore)");
+      const chiaviIn = Object.keys(n ?? {}).filter((k) => !CAMPI_RISERVATA.includes(k));
+      if (chiaviIn.length) rossi.push(`un difetto nuovo riservato porta campi in più (${chiaviIn.join(", ")}): solo ${CAMPI_RISERVATA.join(", ")}`);
+      if (n.file !== PRIVATO) rossi.push(`un difetto nuovo riservato ha il file in chiaro: va «${PRIVATO}»`);
+      if (!TITOLO_RISERVATO.test(String(n.titolo ?? ""))) rossi.push(`un difetto nuovo riservato ha il titolo fuori forma: «Falla di sicurezza da chiudere (<${AREE_RISERVATE.join("|")}>): i dettagli restano fuori dal deposito pubblico finché non è chiusa»`);
+      if (n.dimensione !== undefined && !/^[a-z-]{1,40}$/.test(String(n.dimensione))) rossi.push("un difetto nuovo riservato ha una dimensione fuori forma");
+    } else if (/falla di sicurezza/i.test(String(n?.titolo ?? ""))) rossi.push(`«${String(n?.titolo).slice(0, 60)}…»: una falla di sicurezza si scrive con «riservato: true», mai in chiaro`);
+    else if (vuoto(n?.titolo) || vuoto(n?.file) || !["bloccante", "grave", "minore"].includes(n?.severita)) rossi.push(`un difetto nuovo senza titolo, file o gravità valida: «${n?.titolo ?? ""}»`);
+  }
+  return rossi;
+}
+
+/**
  * Le regole del referto di un riparatore. PURA: riceve il testo e il contesto, torna {rossi, attese}.
  * ctx: { nome, voci: [{id, chiave, gravita}], chiaviDelRegistro: Set|null, commitDelRamo: Map(sha→messaggio)|null, testaDelRamo }
  */
@@ -986,20 +1010,7 @@ export function regoleReferto(testo, ctx) {
     const dichiarati = insieme.every((v) => Array.isArray(v.insieme_a) && ids.filter((x) => x !== v.id).every((x) => v.insieme_a.includes(x)));
     if (!dichiarati) rossi.push(`il commit ${String(c).slice(0, 12)} porta ${ids.join(", ")}: una voce per commit, oppure «insieme_a» dichiarato su ognuna`);
   }
-  for (const n of r.nuovi_difetti_visti ?? []) {
-    // Il deposito è pubblico: una riservata si scrive in UNA forma sola. Il collaudo del 7/11 ha fatto passare
-    // il dettaglio nel titolo («Falla di sicurezza: …route.ts:42…»), nel NOME di una chiave e in una parola sola.
-    if (n && "riservato" in n && typeof n.riservato !== "boolean") rossi.push(`«riservato» deve essere true o false, non ${JSON.stringify(n.riservato)}: un valore ambiguo fa sparire un difetto o pubblica una falla`);
-    if (n?.riservato === true) {
-      if (!["bloccante", "grave", "minore"].includes(n.severita)) rossi.push("un difetto nuovo riservato ha la gravità fuori elenco (bloccante, grave o minore)");
-      const chiaviIn = Object.keys(n ?? {}).filter((k) => !CAMPI_RISERVATA.includes(k));
-      if (chiaviIn.length) rossi.push(`un difetto nuovo riservato porta campi in più (${chiaviIn.join(", ")}): solo ${CAMPI_RISERVATA.join(", ")}`);
-      if (n.file !== PRIVATO) rossi.push(`un difetto nuovo riservato ha il file in chiaro: va «${PRIVATO}»`);
-      if (!TITOLO_RISERVATO.test(String(n.titolo ?? ""))) rossi.push(`un difetto nuovo riservato ha il titolo fuori forma: «Falla di sicurezza da chiudere (<${AREE_RISERVATE.join("|")}>): i dettagli restano fuori dal deposito pubblico finché non è chiusa»`);
-      if (n.dimensione !== undefined && !/^[a-z-]{1,40}$/.test(String(n.dimensione))) rossi.push("un difetto nuovo riservato ha una dimensione fuori forma");
-    } else if (/falla di sicurezza/i.test(String(n?.titolo ?? ""))) rossi.push(`«${String(n?.titolo).slice(0, 60)}…»: una falla di sicurezza si scrive con «riservato: true», mai in chiaro`);
-    else if (vuoto(n?.titolo) || vuoto(n?.file) || !["bloccante", "grave", "minore"].includes(n?.severita)) rossi.push(`un difetto nuovo senza titolo, file o gravità valida: «${n?.titolo ?? ""}»`);
-  }
+  rossi.push(...regoleNuoviDifetti(r.nuovi_difetti_visti));
   if (r.finita === true) {
     for (const v of ctx.voci) if (!viste.has(v.id)) rossi.push(`${v.id}: a referto finito ogni voce della scheda deve comparire, anche quelle non fatte`);
     if (r.verifica?.esito !== "verde") rossi.push("a referto finito la verifica (npm run verify, o il cancello della macchina) deve essere verde");
@@ -1287,22 +1298,25 @@ function leggiCartellaTesti(dir, re) {
 // anche se riparatore e collaudatore dicevano «regge»; i difetti nuovi che vede entrano nel registro come nati.
 export const RE_CONTROLLO = /^C(\d{2}|F)\.json$/;
 /** Le regole di un referto di controllo. PURA: torna i rossi. */
-export function regoleControllo(dati, { nome, chiaviDelRegistro = null } = {}) {
+export function regoleControllo(dati, { nome, chiaviDelRegistro = null, testo = null } = {}) {
   const rossi = [];
+  // Una chiave scritta due volte: JSON.parse tiene l'ultima, e un «voci_rosse» pieno spariva sotto uno vuoto.
+  if (testo) for (const k of chiaviDoppie(testo)) rossi.push(`la chiave «${k}» è scritta due volte nello stesso oggetto`);
   if (dati?.controllore !== nome) rossi.push(`dice di essere «${dati?.controllore}», il file è ${nome}`);
   if (dati?.finita !== true) rossi.push("il controllo non è finito");
-  if (!Array.isArray(dati?.voci_rosse)) rossi.push("manca «voci_rosse» (anche vuota: [] vuol dire che ha guardato e reggono tutte)");
+  if (!SHA.test(String(dati?.testa ?? ""))) rossi.push("manca «testa»: lo SHA del ramo unito che il controllore ha guardato");
+  const listaRosse = Array.isArray(dati?.voci_rosse);
+  if (!listaRosse) rossi.push("manca «voci_rosse» (anche vuota: [] vuol dire che ha guardato e reggono tutte)");
   if (vuoto(dati?.verify?.comando) || !["verde", "rosso"].includes(dati?.verify?.esito)) rossi.push("manca la prova sull'albero unito («verify»: comando ed esito verde o rosso)");
-  for (const v of dati?.voci_rosse ?? []) {
+  // Un albero unito rosso che il controllore non attribuisce a nessuna voce non chiude niente in silenzio:
+  // nel dubbio si capisce prima di chiudere (collaudo del 12/11).
+  else if (dati.verify.esito === "rosso" && listaRosse && dati.voci_rosse.length === 0) rossi.push("«verify» è rosso ma nessuna voce è rossa: di chi è il rosso? Si capisce prima di chiudere");
+  for (const v of listaRosse ? dati.voci_rosse : []) {
     if (vuoto(v?.chiave) || vuoto(v?.perche)) rossi.push(`una voce rossa senza chiave o senza perché: «${v?.chiave ?? ""}»`);
     else if (chiaviDelRegistro && !chiaviDelRegistro.has(v.chiave)) rossi.push(`la voce rossa «${v.chiave}» non è nel registro`);
   }
-  for (const n of dati?.nuovi_difetti_visti ?? []) {
-    if (n?.riservato === true) {
-      if (n.file !== PRIVATO || !TITOLO_RISERVATO.test(String(n.titolo ?? ""))) rossi.push(`un difetto nuovo riservato fuori forma: file «${PRIVATO}» e il titolo fisso, nient'altro`);
-    } else if (/falla di sicurezza/i.test(String(n?.titolo ?? ""))) rossi.push(`«${String(n?.titolo).slice(0, 60)}…»: una falla di sicurezza si scrive con «riservato: true», mai in chiaro`);
-    else if (vuoto(n?.titolo) || vuoto(n?.file) || !["bloccante", "grave", "minore"].includes(n?.severita)) rossi.push(`un difetto nuovo senza titolo, file o gravità valida: «${n?.titolo ?? ""}»`);
-  }
+  if (dati?.nuovi_difetti_visti !== undefined && !Array.isArray(dati.nuovi_difetti_visti)) rossi.push("«nuovi_difetti_visti» deve essere un elenco");
+  else rossi.push(...regoleNuoviDifetti(dati?.nuovi_difetti_visti));
   return rossi;
 }
 /** Le voci che un controllore ha trovato rosse non si chiudono. PURA: torna le decisioni nuove. */
@@ -1311,7 +1325,7 @@ export function conIControlli(decisioni, controlli = []) {
   for (const c of controlli) for (const v of c?.voci_rosse ?? []) if (!rosse.has(v.chiave)) rosse.set(v.chiave, `${c.controllore}: ${v.perche}`);
   // Anche un «già riparato prima» si riapre: se sul ramo unito il difetto c'è, non era riparato.
   return decisioni.map((d) => (["si_chiude", "gia_riparato_prima"].includes(d.decisione) && rosse.has(d.chiave)
-    ? { ...d, decisione: "resta_aperta", perche: `rossa al controllo sul ramo unito (${rosse.get(d.chiave)})`, controllo: rosse.get(d.chiave) }
+    ? { ...d, decisione: "resta_aperta", verdetto: "rossa_al_controllo", perche: `rossa al controllo sul ramo unito (${rosse.get(d.chiave)})`, controllo: rosse.get(d.chiave) }
     : d));
 }
 /** Le voci rosse di un controllore che non sono di questa campagna: non si ignorano in silenzio. PURA. */
@@ -1346,10 +1360,10 @@ function applica(opz) {
     if (existsSync(d)) for (const n of readdirSync(d)) if (!re.test(n)) ferma.push(`${sotto}/${n}: il nome non è quello di una sessione (${forma}.json)`);
   }
   const controlli = [];
-  for (const { nome: file, dati } of leggiCartellaTesti(join(cartella, "controlli"), RE_CONTROLLO)) {
+  for (const { nome: file, testo, dati } of leggiCartellaTesti(join(cartella, "controlli"), RE_CONTROLLO)) {
     const nome = file.replace(/\.json$/, "");
     if (!dati) { ferma.push(`controlli/${file}: non è JSON`); continue; }
-    for (const r of regoleControllo(dati, { nome, chiaviDelRegistro })) ferma.push(`controlli/${file}: ${r}`);
+    for (const r of regoleControllo(dati, { nome, chiaviDelRegistro, testo })) ferma.push(`controlli/${file}: ${r}`);
     controlli.push(dati);
   }
   const referti = {};
@@ -1407,10 +1421,11 @@ function applica(opz) {
     corsia: numeroSessione(s), territorio: s,
     difetti: ds.map((d) => ({ chiave: d.chiave, esito: "riparato", verifica_comando: d.verifica_comando, non_vacuita: d.non_vacuita, nota_fix: d.nota_fix })),
   }));
-  scriviJson(join(cartella, "decisioni.json"), { campagna: nomeCampagna, quando, decisioni });
+  scriviJson(join(cartella, "decisioni.json"), { campagna: nomeCampagna, quando, decisioni, ...(fuoriCampagna.length ? { rosse_fuori_campagna: fuoriCampagna } : {}) });
   if (!opz.scrivi) {
     console.log("   (a vuoto: ho scritto solo decisioni.json. Con --scrivi scrivo i frammenti e il registro.)");
     const attese = senzaStoria.length ? [`commit e testa non controllati sulla storia del ramo per ${senzaStoria.join(", ")} (servono --git e sessioni.json)`] : [];
+    if (fuoriCampagna.length) attese.push(`${fuoriCampagna.length} voci rosse dei controllori non sono di questa campagna: vanno dette a Nicola (in decisioni.json, rosse_fuori_campagna)`);
     return chiudi("applica", [], attese, opz, { si_chiudono: chiude.length, gia: gia.length, restano: restano.length, nati: nati.length });
   }
   for (const f of frammenti) scriviJson(join(cartella, "frammenti", `esito-${f.corsia}.json`), f);

@@ -14,7 +14,8 @@ const DIFFICILE = "## In parole semplici\n\nPer esempio la prima voce è «Il fu
 
 test("la scheda del risolutore si riconosce, e solo lei", () => {
   assert.equal(eSchedaRisolutore(SCHEDA), true);
-  assert.equal(eSchedaRisolutore("consegne/riparazioni/2026-11-12-sito-tutto/schede/K02.md"), true);
+  assert.equal(eSchedaRisolutore("consegne/riparazioni/2026-11-12-sito-tutto/schede/R12.md"), true);
+  assert.equal(eSchedaRisolutore("consegne/riparazioni/2026-11-12-sito-tutto/schede/K02.md"), false, "il comando schede scrive solo le schede dei riparatori");
   assert.equal(eSchedaRisolutore("consegne/riparazioni/2026-11-12-sito-tutto/REGIA.md"), false);
   assert.equal(eSchedaRisolutore("consegne/riparazioni/2026-11-12-sito-tutto/schede/note.md"), false);
   assert.equal(eSchedaRisolutore("consegne/audit/schede/R01.md"), false);

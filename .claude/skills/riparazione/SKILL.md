@@ -77,7 +77,7 @@ Un rollback o un deploy sono 🔴: si propongono a Nicola.
 ## Le regole del 12/11 (Nicola: riparatori più piccoli, la regia a parte, un controllore, niente lavoro inutile)
 
 **I riparatori da 25.** `PER_SESSIONE` vale 25: un riparatore finisce in circa metà tempo. Sul profilo
-«tutto» le onde diventano tre (sul sito, il 12/11: 12 + 12 + 6 sessioni, poi la cucitura).
+«tutto» le onde diventano tre (sul sito, nella simulazione del 12/11: 12 + 12 + 6 sessioni, poi la cucitura; i file in comune spezzano le sessioni, quindi il conto vero esce da `dividi` onda per onda).
 
 **La regia in una sessione sua.** Quando la campagna dura ore (il profilo «tutto», o più di un'onda), la
 sessione che parla con Nicola non fa la regista: resta leggera e legge solo gli esiti (regola ㉔ del manuale).

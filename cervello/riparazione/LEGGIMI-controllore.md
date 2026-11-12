@@ -62,6 +62,9 @@ del sito e il suo SHA. La base dell'onda (per `CF`: la base della campagna). Il 
 }
 ```
 - `voci_rosse` vuota vuol dire «ho guardato e reggono tutte». Non la ometti mai.
+- `testa` è lo SHA del ramo unito che hai guardato davvero. Se `verify` è rosso, almeno una voce va in
+  `voci_rosse`. Se non sai a chi dare il rosso, lo scrivi alla regista: `applica` non chiude niente su un
+  albero rosso senza un responsabile.
 - Una falla di sicurezza nuova segue le regole del deposito pubblico di `LEGGIMI-riparatore.md`: `"riservato":
   true`, il titolo fisso, il file `(nel referto privato)`. I dettagli vanno solo nel messaggio alla regista.
 - `file_guardati` minore di `file_toccati` va detto, con il perché. Un buco detto non è un errore, uno nascosto sì.

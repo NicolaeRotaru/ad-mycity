@@ -97,7 +97,7 @@ const ePrDocSoltanto = (file) => /^consegne\/tech\/pr-[^/]+-\d+\.md$/.test(file)
  * da Nicola. È la stessa malattia dei referti di PR qui sopra. Trovato il 12/11 sulla prima campagna
  * (ad-mycity#944): R01-R03 accusate di «allarme non accodato», R06 di «testo difficile per Nicola».
  */
-export const eSchedaRisolutore = (file) => /^consegne\/riparazioni\/[^/]+\/schede\/[RK]\d{2}\.md$/.test(file);
+export const eSchedaRisolutore = (file) => /^consegne\/riparazioni\/[^/]+\/schede\/R\d{2}\.md$/.test(file);
 const ePrDoc = (file) => ePrDocSoltanto(file) || eSchedaRisolutore(file);
 
 // ─────────────────────────────────────────────────────────────────────────────

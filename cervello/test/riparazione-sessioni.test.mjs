@@ -720,7 +720,7 @@ test("il controllore: una voce che trova rossa sul ramo unito non si chiude, e i
     const rip = riparata({ id: "R01-001" });
     writeFileSync(join(c, "referti", "R01.json"), JSON.stringify({ sessione: "R01", aggiornato: "2026-11-08 10:00", finita: true, testa: "fff0000", verifica: { esito: "verde" }, voci: [rip] }));
     writeFileSync(join(c, "collaudi", "K01.json"), JSON.stringify({ collaudatore: "K01", riparatori: ["R01"], aggiornato: "2026-11-08 12:00", finita: true, voci: [{ id: "R01-001", chiave: rip.chiave, verdetto: "regge", giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"], rimessa: { uscita: 0, comando: "x" } }] }));
-    const controllo = (extra) => JSON.stringify({ controllore: "C01", onda: 1, finita: true, verify: { comando: "npm run verify", esito: "rosso" }, voci_rosse: [], nuovi_difetti_visti: [], ...extra });
+    const controllo = (extra) => JSON.stringify({ controllore: "C01", onda: 1, finita: true, testa: "abc1234", verify: { comando: "npm run verify", esito: "verde" }, voci_rosse: [], nuovi_difetti_visti: [], ...extra });
     // senza controllo, o con un controllo che non trova niente, la voce si chiude
     writeFileSync(join(c, "controlli", "C01.json"), controllo({}));
     let r = lancia("applica", "--cartella", c, "--registro", registro);
@@ -728,6 +728,7 @@ test("il controllore: una voce che trova rossa sul ramo unito non si chiude, e i
     assert.match(r.stdout, /1 si chiudono/);
     // il controllore la trova rossa sul ramo unito: resta aperta, col perché
     writeFileSync(join(c, "controlli", "C01.json"), controllo({
+      verify: { comando: "npm run verify", esito: "rosso" },
       voci_rosse: [{ chiave: rip.chiave, perche: "tests/unit/riparazione-r03-payout.test.ts rosso dopo l'unione con R02" }],
       nuovi_difetti_visti: [{ titolo: "Il bonifico parte due volte se si preme due volte", dimensione: "pagamenti-stripe", severita: "grave", file: "lib/a.ts:9", descrizione: "nato dall'unione" }],
     }));
@@ -763,4 +764,29 @@ test("il controllore: anche un «già riparato prima» rosso sul ramo unito rest
   assert.match(dopo[1].perche, /CF: la riga 12/);
   assert.equal(dopo[2].perche, "parziale", "una voce già aperta resta col suo perché");
   assert.deepEqual(rosseFuoriCampagna(decisioni, controlli), ["z|altrui"]);
+});
+
+test("il controllore ha le stesse regole del riparatore sui difetti nuovi, e non chiude niente su un controllo dubbio", async () => {
+  const { regoleControllo, PER_SESSIONE } = await import("../riparazione-sessioni.mjs");
+  const buono = { controllore: "C01", finita: true, testa: "abc1234", verify: { comando: "npm run verify", esito: "verde" }, voci_rosse: [], nuovi_difetti_visti: [] };
+  assert.deepEqual(regoleControllo(buono, { nome: "C01" }), []);
+  const rossiDi = (extra, testo = null) => regoleControllo({ ...buono, ...extra }, { nome: "C01", testo });
+  assert.match(rossiDi({ finita: false }).join(" "), /non è finito/);
+  assert.match(rossiDi({ testa: undefined }).join(" "), /manca «testa»/);
+  assert.match(rossiDi({ voci_rosse: "nessuna" }).join(" "), /manca «voci_rosse»/);
+  assert.match(rossiDi({ verify: { comando: "npm run verify", esito: "rosso" } }).join(" "), /di chi è il rosso/);
+  // una riservata con il dettaglio in un campo in più, o scritta come stringa, non passa nel deposito pubblico
+  const titolo = "Falla di sicurezza da chiudere (accessi): i dettagli restano fuori dal deposito pubblico finché non è chiusa.";
+  assert.match(rossiDi({ nuovi_difetti_visti: [{ riservato: true, titolo, file: "(nel referto privato)", severita: "bloccante", descrizione: "app/api/admin/route.ts:42" }] }).join(" "), /campi in più/);
+  assert.match(rossiDi({ nuovi_difetti_visti: [{ riservato: "true", titolo: "Il token passa nella query", file: "app/api/admin/route.ts:42", severita: "bloccante" }] }).join(" "), /deve essere true o false/);
+  assert.match(rossiDi({ nuovi_difetti_visti: [{ titolo: "x", file: "a.ts:1", severita: "altissima" }] }).join(" "), /gravità valida/);
+  // una chiave scritta due volte: «voci_rosse» pieno non sparisce sotto uno vuoto
+  const testo = '{"controllore":"C01","voci_rosse":[{"chiave":"a|b","perche":"x"}],"voci_rosse":[]}';
+  assert.match(rossiDi({}, testo).join(" "), /«voci_rosse» è scritta due volte/);
+  // 25 voci a riparatore (Nicola, 12/11): 30 voci senza numero di sessioni sono due riparatori, il più carico a 25
+  assert.equal(PER_SESSIONE, 25);
+  const voci = Array.from({ length: 30 }, (_, i) => ({ chiave: `x|v${i}`, gravita: "minore", dimensione: "d", file: [`lib/f${i}.ts`] }));
+  const o = assegnaOnda(voci, {});
+  assert.equal(Object.keys(o.sessioni).length, 2);
+  assert.equal(Math.max(...Object.values(o.sessioni).map((s) => s.voci.length)), 25);
 });
