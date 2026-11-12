@@ -11253,6 +11253,132 @@
    "cerca": "timeout: 120_000, env: ambienteGitDellaCasa() });",
    "sostituisci": "timeout: 120_000 });",
    "test": "cervello/test/due-case.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "⑳ un minore nuovo torna a entrare anche quando la radiografia non ammette minori",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    if (d?.severita === \"minore\" && !piano.minori_ammessi && !riservato) rossi.push(",
+   "sostituisci": "    if (false) rossi.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "⑳ il piano ammette i minori anche con più di 100 minori aperti nel registro",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "  const minoriAmmessi = profilo.minori === true && minoriAperti <= M.soglia_minori;",
+   "sostituisci": "  const minoriAmmessi = profilo.minori === true;",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "⑲ un minore verificato da un secondo agente torna a passare",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    if (!daVerificare && d?.severita === \"minore\" && d?.verificato === true) rossi.push(",
+   "sostituisci": "    if (false) rossi.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "⑲ un grave a referto finito passa senza verificatore",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    if (daVerificare && finita) {",
+   "sostituisci": "    if (false) {",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "un id sparito fra difetti e scartati non viene più visto",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "  if (buchi.length) rossi.push(`id spariti",
+   "sostituisci": "  if (false) rossi.push(`id spariti",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "⑱ oltre il tetto dei subagenti senza permesso della regista passa",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    else if (agenti > x.tetto && vuoto(r.conto?.permesso_regista)) rossi.push(",
+   "sostituisci": "    else if (false) rossi.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "un lotto saltato in silenzio passa a referto finito",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "  if (mancanti.length) (finita ? rossi : attese).push(",
+   "sostituisci": "  if (false) (finita ? rossi : attese).push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "una scheda ritoccata a mano non viene più confrontata col piano",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "      if (scritta !== attesa) rossi.push(",
+   "sostituisci": "      if (false) rossi.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "un file del tema fuori da tutti i suoi lotti passa",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    for (const t of m.chi.filter((c) => temiInPiano.has(c))) if (!nelLotto.get(t)?.has(m.f)) rossi.push(",
+   "sostituisci": "    for (const t of m.chi.filter((c) => temiInPiano.has(c))) if (false) rossi.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "conti non vede più un difetto trovato e sparito dal grezzo",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "      if (!dentro && !via) rossi.push(",
+   "sostituisci": "      if (false) rossi.push(",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "la guardia del ramo non vede più i file oltre il referto",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "  const altri = [...toccati].filter((f) => f !== ammesso);",
+   "sostituisci": "  const altri = [];",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "una riservata con un campo in più (la falla in chiaro) passa",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "      if (extra.length) rossi.push(`${cx}: una riservata porta campi in più",
+   "sostituisci": "      if (false) rossi.push(`${cx}: una riservata porta campi in più",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "applica chiude un grave senza verificatore",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "      const chiude = k.esito === \"non_piu_vero\" && (!grave || (provata && k.verificato === true && !vuoto(k.verificato_da)));",
+   "sostituisci": "      const chiude = k.esito === \"non_piu_vero\";",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "radiografia-in-sessioni",
+   "nome": "i doppioni contro il registro non escono più",
+   "file": "cervello/radiografia-sessioni.mjs",
+   "cerca": "    if (!uguale) { restano.push({ sessione, d }); continue; }",
+   "sostituisci": "    { restano.push({ sessione, d }); continue; }",
+   "test": "cervello/test/radiografia-sessioni.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",
