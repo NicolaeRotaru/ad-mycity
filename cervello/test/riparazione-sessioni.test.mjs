@@ -852,3 +852,70 @@ test("12/11 notte: la verifica finale si lega alla testa (R07 ha spinto 8 commit
   assert.deepEqual(r.rossi, []);
   assert.ok(!r.attese.some((a) => /verifica/.test(a)));
 });
+
+test("12/11 notte, collaudo: la verifica su un commit del solo referto vale, uno SHA simile ma diverso no", async () => {
+  const { verificaSullaTesta } = await import("../riparazione-sessioni.mjs");
+  const C = "c0de" + "1".repeat(36), P = "f00d" + "2".repeat(36);
+  // con la storia del ramo: la testa di codice, o un commit dopo di lei che tocca solo il referto
+  assert.equal(verificaSullaTesta(C.slice(0, 7), C.slice(0, 7), { testaDelRamo: C, soloRefertoDopo: [P] }), true);
+  assert.equal(verificaSullaTesta(P.slice(0, 9), C.slice(0, 7), { testaDelRamo: C, soloRefertoDopo: [P] }), true);
+  // stesso prefisso della testa dichiarata, ma non è il commit vero: rosso
+  assert.equal(verificaSullaTesta("c0de111bbbb", "c0de111", { testaDelRamo: C, soloRefertoDopo: [] }), false);
+  // senza storia: a prefisso, nei due versi, mai su una testa troppo corta
+  assert.equal(verificaSullaTesta("abc1234", "abc1234def", {}), true);
+  assert.equal(verificaSullaTesta("abc1234def", "abc1234", {}), true);
+  assert.equal(verificaSullaTesta("abc1234", "abc9999", {}), false);
+  assert.equal(verificaSullaTesta("abc1234", "", {}), false);
+  // un numero o un elenco al posto dello SHA: rosso
+  const r = regoleReferto(referto([riparata(), nonFatta], { verifica: { comando: "npm run verify", esito: "verde", testa: ["fff0000"] } }), ctxReferto);
+  assert.match(r.rossi.join(" "), /«verifica\.testa» \["fff0000"\] non è un commit/);
+});
+
+test("12/11 notte, collaudo: dall'onda 2 applica ferma un referto finito senza verifica.testa", () => {
+  const c = mkdtempSync(join(tmpdir(), "riparazione-applica-o2-"));
+  try {
+    const v1 = [{ id: "R01-001", chiave: "pagamenti|il payout salta", gravita: "grave", file: ["lib/a.ts"] }];
+    const v2 = [{ id: "R02-001", chiave: "pagamenti|il payout salta", gravita: "grave", file: ["lib/a.ts"] }];
+    writeFileSync(join(c, "perimetro.json"), JSON.stringify({ casa: "sito", lavorabili: v1 }));
+    writeFileSync(join(c, "piano.json"), JSON.stringify({ casa: "sito", onde: [
+      { onda: 1, base: "0".repeat(40), candidate: [], sessioni: {}, rimandate: [v1[0].chiave], regia: [] },
+      { onda: 2, base: "1".repeat(40), candidate: [v2[0].chiave], sessioni: { R02: { voci: v2, file: ["lib/a.ts"] } }, rimandate: [], regia: [] },
+    ] }));
+    const registro = join(c, "registro.json");
+    writeFileSync(registro, JSON.stringify({ problemi: [{ dimensione: "pagamenti", titolo: "il payout salta", stato: "aperto", severita: "grave", file: "lib/a.ts:1" }] }));
+    mkdirSync(join(c, "referti")); mkdirSync(join(c, "collaudi"));
+    const rip = riparata({ id: "R02-001" });
+    const ref = (verifica) => JSON.stringify({ sessione: "R02", aggiornato: "2026-11-13 10:00", finita: true, testa: "fff0000", verifica, voci: [rip] });
+    writeFileSync(join(c, "collaudi", "K01.json"), JSON.stringify({ collaudatore: "K01", riparatori: ["R02"], aggiornato: "2026-11-13 12:00", finita: true, voci: [{ id: "R02-001", chiave: rip.chiave, verdetto: "regge", giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"], rimessa: { uscita: 0, comando: "x" } }] }));
+    writeFileSync(join(c, "referti", "R02.json"), ref({ comando: "npm run verify", esito: "verde" }));
+    let r = lancia("applica", "--cartella", c, "--registro", registro);
+    assert.equal(r.status, 1, r.stdout);
+    assert.match(r.stdout, /dall'onda 2 un referto finito dice su quale commit è girata la verifica/);
+    writeFileSync(join(c, "referti", "R02.json"), ref({ comando: "npm run verify", esito: "verde", testa: "fff0000" }));
+    r = lancia("applica", "--cartella", c, "--registro", registro);
+    assert.equal(r.status, 3, r.stdout);
+    assert.match(r.stdout, /1 si chiudono/);
+  } finally { rmSync(c, { recursive: true, force: true }); }
+});
+
+test("il controllo finale non dimentica nulla: conti è rosso per una voce senza decisione o aperta senza perché", () => {
+  const c = mkdtempSync(join(tmpdir(), "riparazione-conti-"));
+  try {
+    const voci = [{ id: "R01-001", chiave: "a|uno", gravita: "minore", file: ["lib/a.ts"] }, { id: "R01-002", chiave: "a|due", gravita: "minore", file: ["lib/b.ts"] }];
+    writeFileSync(join(c, "perimetro.json"), JSON.stringify({ casa: "sito", lavorabili: voci }));
+    writeFileSync(join(c, "piano.json"), JSON.stringify({ casa: "sito", onde: [{ onda: 1, base: "0".repeat(40), candidate: voci.map((v) => v.chiave), sessioni: { R01: { voci, file: ["lib/a.ts", "lib/b.ts"] } }, rimandate: [], regia: [] }] }));
+    const registro = join(c, "registro.json");
+    writeFileSync(registro, JSON.stringify({ problemi: [{ dimensione: "a", titolo: "uno", stato: "aperto", severita: "minore", file: "lib/a.ts" }, { dimensione: "a", titolo: "due", stato: "aperto", severita: "minore", file: "lib/b.ts" }] }));
+    writeFileSync(join(c, "decisioni.json"), JSON.stringify({ decisioni: [{ id: "R01-001", chiave: "a|uno", esito: "parziale", decisione: "resta_aperta", perche: "" }] }));
+    let r = lancia("conti", "--cartella", c, "--registro", registro);
+    assert.equal(r.status, 1, r.stdout);
+    assert.match(r.stdout, /R01-002 \(R01, onda 1\): nessuna decisione/);
+    assert.match(r.stdout, /R01-001: resta aperta senza il perché/);
+    writeFileSync(join(c, "decisioni.json"), JSON.stringify({ decisioni: [
+      { id: "R01-001", chiave: "a|uno", esito: "parziale", decisione: "resta_aperta", perche: "parziale: manca la carta" },
+      { id: "R01-002", chiave: "a|due", esito: "riparato", decisione: "si_chiude", perche: "regge" },
+    ] }));
+    r = lancia("conti", "--cartella", c, "--registro", registro);
+    assert.equal(r.status, 0, r.stdout);
+  } finally { rmSync(c, { recursive: true, force: true }); }
+});

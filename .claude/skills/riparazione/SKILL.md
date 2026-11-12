@@ -155,11 +155,13 @@ gli otto rimedi qui sotto valgono circa 175 $ a onda (dal 20% al 14% del limite)
 3. **Un turno, un esito** (circa 15 $). I comandi lunghi si aspettano nello stesso turno; i subagenti si lanciano tutti
    insieme in primo piano; lo SHA si prende con `git rev-parse` nello stesso comando che spedisce. Il riparatore scrive
    `verifica.testa`, e **il programma lo controlla**: `valida-referto` è rosso se il verify è girato su un commit che
-   non è la testa, e resta in attesa (niente collaudo) se non lo dice.
+   non è la testa (va bene anche un commit dopo la testa che tocca solo il referto). Se non lo dice, `valida-referto`
+   resta in attesa, e dall'onda 2 `applica` ferma il referto.
 4. **La regia riparte da un registro** (circa 15 $). A ogni fermata la regista aggiorna `REGIA.md` (al massimo 80 righe),
    lancia `applica` a vuoto (che scrive `decisioni.json`, voce per voce) e tiene il diario. Sono questi tre file il
    registro: l'onda dopo la guida una **regista nuova**, aperta dall'AD, che riparte da lì invece di portarsi dietro
-   775 mila token. Il controllo finale legge `decisioni.json`: una voce senza decisione, senza SHA o senza verdetto è rossa.
+   775 mila token. Il controllo finale lancia `conti`: una voce data a una sessione senza decisione in `decisioni.json`,
+   o lasciata aperta senza il perché, è rossa.
 5. **Le storie si guardano prima dei giri.** Prima di mandare a una figlia un giro di correzione o di ricollaudo, la
    regista guarda `get_session` di quella figlia. Se `used_tokens` supera 300 mila, il giro lo fa una sessione nuova
    che riparte dal referto. Non si chiama `get_session` di tutte a ogni giro: costerebbe più di quello che salva.
@@ -180,8 +182,11 @@ il tetto di spesa resta quello della fermata, e i rimedi 1-5 valgono anche in ul
 **I buchi dell'onda 1, chiusi.**
 - Un subagente di R07 ha letto il database di produzione. Ora nel sito gli strumenti del database vero, della messa
   online e di Stripe sono bloccati da `.claude/settings.json`. Nei LEGGIMI c'è la regola scritta, da mettere nel
-  mandato di ogni subagente: i collaudatori lavorano in `ad-mycity` e lì il blocco non arriva, quindi per loro vale
-  la regola, non un lucchetto.
+  mandato di ogni subagente. I collaudatori e i controllori lavorano in `ad-mycity`, dove `.claude/settings.json`
+  permette lo strumento SQL senza chiedere: per questo il loro primo passo è scrivere nella propria copia un
+  `.claude/settings.local.json` che lo vieta (il divieto vince sul permesso). È un lucchetto che la sessione mette a
+  sé stessa. Quello vero, togliere il permesso in `ad-mycity`, è una scelta di Nicola: toccherebbe anche le sessioni
+  dell'AD.
 - R07 ha spinto 8 commit con un verify mai aspettato: ora c'è `verifica.testa`, controllata dal programma.
 - In R03 e R04 il controllo del referto era negato: ora ha il permesso.
 - In K02 un qa ha rischiato di provare codice spostato: ora c'è una copia allo SHA esatto, controllata con
@@ -249,7 +254,7 @@ collaudatori dell'onda hanno `finita: true` e i loro controlli sono verdi, oppur
 dopo riparte da capo. A ogni giro, prima di tutto, `get_session` della regista: se `isUsingOverage` o un
 blocco, si ferma tutto e si avvisa Nicola. Poi **un comando solo**, `bash cervello/riparazione/sorveglia.sh
 <C> <onda>`, che per ogni sessione dell'onda fa quello che segue e stampa solo i rossi:
-- `get_session` (stato, modello) e `git fetch` del deposito bersaglio;
+- lo stato di tutte le figlie con una `list_sessions` (regole del 12/11 sera) e `git fetch` del deposito bersaglio;
 - `guardia-ramo <ramo> RNN --cartella <C> --git <deposito>`: il **risultato** del ramo (diff netto), e gli id nei commit uno per uno;
 - `valida-referto <referto> --cartella <C> --git <deposito> --ramo <ramo>` sul referto parziale
   (`git show origin/<ramo>:.riparazione/referto-RNN.json > /tmp/referto-RNN.json`: il nome del file deve
@@ -298,7 +303,7 @@ senza Nicola.
    - macchina: `node cervello/cancello-lotto.mjs` e `node cervello/radiografia-in-corsa.mjs`.
    Sono le prove che il 5/11 diventavano rosse solo dopo l'unione (8). Una voce `rompe_altro`, o rossa
    dopo l'unione, si toglie da sola col suo commit (`git revert`): per questo una voce per commit.
-   **Il controllore d'onda** (`CNN`, sessione nuova, ramo `<ramo della regista>-cNN`) parte appena il ramo
+   **Il controllore d'onda** (`CNN`, sessione nuova su `ad-mycity`, dove ci sono i senior, ramo `<ramo della regista>-cNN`) parte appena il ramo
    unito è spinto. Il prompt è una riga: *«Sei il controllore CNN. Leggi cervello/riparazione/LEGGIMI-controllore.md
    e controlla l'onda N della cartella <C>: integrazione <ramo> @ <sha>, base <sha>.»* Il suo referto si
    copia in `<C>/controlli/CNN.json`. Sul suo ramo deve esserci solo quel file (`git diff --name-only`).

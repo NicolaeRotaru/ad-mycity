@@ -24,6 +24,11 @@ La cartella della campagna `<C>`. Il commit di `ad-mycity` da leggere (`SHA_REGI
 del sito e il suo SHA. La base dell'onda (per `CF`: la base della campagna). Il tuo ramo `<ramo>-cNN`.
 
 ## I passi: prima i programmi, poi gli occhi
+**Prima di tutto, il lucchetto sul database vero.** Nella tua copia di `ad-mycity` scrivi `.claude/settings.local.json`
+con `{"permissions": {"deny": ["mcp__Supabase", "mcp__Vercel", "mcp__Stripe"]}}`. Il permesso generale di `ad-mycity`
+lascia passare lo strumento SQL senza chiedere, e nell'onda 1 un subagente ha letto il database di produzione. Il
+divieto vince sul permesso, e vale anche per i subagenti che lanci.
+
 1. **Prepara.** Clona `ad-mycity` al commit `SHA_REGISTA`, in sola lettura. Clona il sito allo SHA di
    integrazione, poi `npm ci` una volta sola.
 2. **Le prove sull'albero unito, una volta sola:** `npm run verify`, poi `tests/sql/harness/apply.sh` e

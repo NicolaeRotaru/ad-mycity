@@ -50,8 +50,10 @@ regole, e scrivi i dubbi nel referto (`domande_per_nicola`).
 
 ### Prima il piano
 
-Prima di toccare il codice scrivi il piano: per ogni voce, il file e la riga da cambiare, la prova che
-diventerà rossa, l'ordine (i gravi prima). Mandalo alla regista con `send_message` e **chiudi il turno**.
+Prima di toccare il codice scrivi il piano, **senza aprire il codice del sito**: lo ricavi dalla scheda e dal registro
+compatto. Per ogni lotto: le voci, l'ordine (i gravi prima), e per ogni voce il file della scheda e il tipo di prova
+che ti aspetti. Il dettaglio riga per riga lo scrive il subagente del lotto, prima di riparare, e lo trovi nel suo
+rapporto. Manda il piano alla regista con `send_message` e **chiudi il turno**.
 Riparti quando la regista risponde «approvato», o correggi come ti dice.
 
 ### A lotti, con la storia piccola (regola del 12/11 notte)

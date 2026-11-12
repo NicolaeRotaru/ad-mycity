@@ -56,6 +56,11 @@ quello che guardi**, e non lo ripari adesso: tu giudichi.
 
 ### Giri brevi, codice giusto (regola del 12/11 notte)
 
+**Il primo passo, il lucchetto sul database vero.** Nella tua copia di `ad-mycity` scrivi `.claude/settings.local.json`
+con `{"permissions": {"deny": ["mcp__Supabase", "mcp__Vercel", "mcp__Stripe"]}}`. Il permesso generale di `ad-mycity`
+lascia passare lo strumento SQL senza chiedere, e nell'onda 1 un subagente ha letto il database di produzione. Il
+divieto vince sul permesso, e vale anche per i subagenti che lanci.
+
 Il conto dell'onda 1: i collaudatori sono costati da 28 a 41 $. Gran parte era la loro storia (440-480 mila token)
 riletta a ogni passo e riscritta dopo ogni attesa. Inoltre in K02 un qa ha rischiato di provare codice spostato nel
 frattempo da altri. Quindi:
@@ -75,7 +80,8 @@ frattempo da altri. Quindi:
    `mycity_k01_r03`), creato da zero dalle migrazioni o copiato da un modello pulito. Mai un database che un altro
    sta usando: dà prove false.
 5. **Il verify completo** lo rilancia chi consegna, legato allo SHA (`verifica.testa` nel referto). Tu rilanci le
-   prove delle voci e la prova rimessa. Il verify completo lo rifai solo se `verifica.testa` manca, o non è la testa.
+   prove delle voci e la prova rimessa. Il verify completo lo rifai solo se `verifica.testa` manca, o non è la testa:
+   dall'onda 2 il programma non lascia chiudere un referto così, ma se ti arriva il paracadute sei tu.
 
 ### Passo 1 — Su ogni voce, il programma
 

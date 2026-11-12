@@ -877,16 +877,17 @@ function controlliDelRamo(dir, base, ramo, testoReferto) {
   const commitDelRamo = new Map(storia.perCommit.map((c) => [c.commit, c.messaggio]));
   let testaDelRamo = (gitOk(dir, ["rev-parse", ref]) ?? "").trim();
   let dichiarata = null;
+  let soloRefertoDopo = [];
   try { dichiarata = String(JSON.parse(testoReferto).testa ?? ""); } catch { /* lo dice regoleReferto */ }
   if (dichiarata && SHA.test(dichiarata)) {
     const piena = (gitOk(dir, ["rev-parse", "--verify", "--quiet", `${dichiarata}^{commit}`]) ?? "").trim();
     if (piena && piena !== testaDelRamo && gitOk(dir, ["merge-base", "--is-ancestor", piena, ref]) !== null) {
       const dopo = storia.perCommit.slice(storia.perCommit.findIndex((c) => c.commit === piena) + 1);
       const soloReferto = storia.perCommit.some((c) => c.commit === piena) && dopo.every((c) => c.file.every((f) => f.startsWith(`${REFERTO_DIR}/`)));
-      if (soloReferto) testaDelRamo = piena;
+      if (soloReferto) { testaDelRamo = piena; soloRefertoDopo = dopo.map((c) => c.commit); }
     }
   }
-  return { ref, commitDelRamo, testaDelRamo };
+  return { ref, commitDelRamo, testaDelRamo, soloRefertoDopo };
 }
 function sessioneNelPiano(piano, nome) {
   for (const o of piano.onde) if (o.sessioni[nome]) return { onda: o, sessione: o.sessioni[nome] };
@@ -1015,6 +1016,18 @@ export function regoleNuoviDifetti(lista) {
  * Le regole del referto di un riparatore. PURA: riceve il testo e il contesto, torna {rossi, attese}.
  * ctx: { nome, voci: [{id, chiave, gravita}], chiaviDelRegistro: Set|null, commitDelRamo: Map(sha→messaggio)|null, testaDelRamo }
  */
+/**
+ * La verifica finale è girata sull'ultimo codice? PURA. Va bene la testa, o un commit dopo di lei che tocca solo
+ * il referto (il referto parziale si committa ogni 10 voci: collaudo del 12/11 notte). Con la storia del ramo
+ * il confronto si fa sugli SHA pieni; senza, a prefisso con la testa dichiarata.
+ */
+export function verificaSullaTesta(verificata, testa, ctx = {}) {
+  const v = String(verificata);
+  const pieni = [ctx.testaDelRamo, ...(ctx.soloRefertoDopo ?? [])].filter((x) => typeof x === "string" && x.length >= 7);
+  if (pieni.length) return pieni.some((c) => c.startsWith(v));
+  const t = String(testa ?? "");
+  return t.length >= 7 && (t.startsWith(v) || v.startsWith(t));
+}
 export function regoleReferto(testo, ctx) {
   const rossi = [], attese = [];
   let r;
@@ -1082,8 +1095,8 @@ export function regoleReferto(testo, ctx) {
     // dalla testa è un rosso: la verifica va rifatta sull'ultimo codice. I referti vecchi senza il campo restano
     // leggibili da `applica`, che guarda solo i rossi.
     else if (vuoto(r.verifica?.testa)) attese.push("la verifica non dice su quale commit è girata: scrivi «verifica.testa» = lo SHA su cui hai lanciato npm run verify (deve essere la testa)");
-    else if (!SHA.test(String(r.verifica.testa))) rossi.push(`«verifica.testa» «${r.verifica.testa}» non è un commit (da 7 a 40 cifre esadecimali)`);
-    else if (!vuoto(r.testa) && !String(r.testa).startsWith(String(r.verifica.testa)) && !String(r.verifica.testa).startsWith(String(r.testa))) rossi.push(`la verifica è girata su ${String(r.verifica.testa).slice(0, 12)}, non sulla testa ${String(r.testa).slice(0, 12)}: va rifatta sull'ultimo codice`);
+    else if (typeof r.verifica.testa !== "string" || !SHA.test(r.verifica.testa)) rossi.push(`«verifica.testa» ${JSON.stringify(r.verifica.testa)} non è un commit (da 7 a 40 cifre esadecimali)`);
+    else if (!verificaSullaTesta(r.verifica.testa, r.testa, ctx)) rossi.push(`la verifica è girata su ${r.verifica.testa.slice(0, 12)}, non sulla testa ${String(r.testa ?? "").slice(0, 12)}: va rifatta sull'ultimo codice`);
     if (vuoto(r.testa)) rossi.push("a referto finito manca «testa», l'ultimo commit del ramo");
     else if (!SHA.test(String(r.testa))) rossi.push(`«testa» «${r.testa}» non è un commit (da 7 a 40 cifre esadecimali)`);
     else if (ctx.testaDelRamo && !String(ctx.testaDelRamo).startsWith(String(r.testa)) && !String(r.testa).startsWith(String(ctx.testaDelRamo))) rossi.push(`«testa» ${String(r.testa).slice(0, 12)} non è la testa del ramo (${String(ctx.testaDelRamo).slice(0, 12)})`);
@@ -1106,14 +1119,14 @@ function validaReferto(opz) {
   if (![`referto-${nome}.json`, `${nome}.json`].includes(basename(file))) return chiudi("valida-referto", [`il file ${basename(file)} dice una sessione, il referto un'altra («${nome}»)`], [], opz);
   let chiaviDelRegistro = null;
   try { chiaviDelRegistro = new Set(leggiRegistro(per.casa, opz).elenco.map((d) => chiaveDi(per.casa, d))); } catch { /* detto sotto */ }
-  let commitDelRamo = null, testaDelRamo = null;
+  let commitDelRamo = null, testaDelRamo = null, soloRefertoDopo = [];
   if (opz.ramo) {
     const dir = resolve(opz.git ?? repoDi(per.casa, opz));
     const visti = controlliDelRamo(dir, dove.onda.base, opz.ramo, testo);
     if (!visti) return chiudi("valida-referto", [], [`il ramo ${opz.ramo} non esiste ancora`], opz);
-    ({ commitDelRamo, testaDelRamo } = visti);
+    ({ commitDelRamo, testaDelRamo, soloRefertoDopo } = visti);
   }
-  const { rossi, attese } = regoleReferto(testo, { nome, voci: dove.sessione.voci, chiaviDelRegistro, commitDelRamo, testaDelRamo });
+  const { rossi, attese } = regoleReferto(testo, { nome, voci: dove.sessione.voci, chiaviDelRegistro, commitDelRamo, testaDelRamo, soloRefertoDopo });
   if (!chiaviDelRegistro) attese.push("il registro non si legge: non ho controllato che le chiavi ci siano");
   if (!opz.ramo) attese.push("senza --ramo non ho controllato i commit nella storia del ramo");
   return chiudi("valida-referto", rossi, attese, opz, { sessione: nome });
@@ -1452,8 +1465,11 @@ function applica(opz) {
     if (opz.git && ramo) visti = controlliDelRamo(resolve(opz.git), dove.onda.base, ramo, testo);
     if (!visti && opz.scrivi) ferma.push(`referti/${file}: con --scrivi servono --git e il ramo di ${nome} in sessioni.json, per controllare commit e testa sulla storia vera`);
     if (!visti && !opz.scrivi) senzaStoria.push(nome);
-    const { rossi } = regoleReferto(testo, { nome, voci: dove.sessione.voci, chiaviDelRegistro, commitDelRamo: visti?.commitDelRamo ?? null, testaDelRamo: visti?.testaDelRamo ?? null });
+    const { rossi } = regoleReferto(testo, { nome, voci: dove.sessione.voci, chiaviDelRegistro, commitDelRamo: visti?.commitDelRamo ?? null, testaDelRamo: visti?.testaDelRamo ?? null, soloRefertoDopo: visti?.soloRefertoDopo ?? [] });
     for (const r of rossi) ferma.push(`referti/${file}: ${r}`);
+    // Dall'onda 2 la verifica legata allo SHA è obbligatoria anche qui: l'attesa di valida-referto da sola non
+    // fermava niente (collaudo del 12/11 notte). I referti dell'onda 1, scritti prima della regola, restano validi.
+    if (dove.onda.onda >= 2 && dati.finita === true && vuoto(dati.verifica?.testa)) ferma.push(`referti/${file}: dall'onda 2 un referto finito dice su quale commit è girata la verifica («verifica.testa»)`);
     if (dati.finita !== true) ferma.push(`referti/${file}: il referto non è finito`);
     referti[nome] = dati;
   }
@@ -1570,6 +1586,15 @@ function conti(opz) {
   const dec = existsSync(join(cartella, "decisioni.json")) ? leggiJson(join(cartella, "decisioni.json")).decisioni : [];
   const perDec = {};
   for (const d of dec) perDec[d.decisione] = (perDec[d.decisione] ?? 0) + 1;
+  // Il controllo finale non dimentica nessuna voce (Nicola, 12/11: «che non si dimentichi nulla»): ogni voce data a
+  // una sessione ha la sua decisione in decisioni.json, e ogni decisione dice perché resta aperta.
+  if (dec.length) {
+    const conDecisione = new Set(dec.map((d) => d.chiave));
+    for (const o of piano.onde) for (const [n, sess] of Object.entries(o.sessioni)) for (const v of sess.voci) {
+      if (!conDecisione.has(v.chiave)) rossi.push(`${v.id} (${n}, onda ${o.onda}): nessuna decisione in decisioni.json`);
+    }
+    for (const d of dec) if (d.decisione === "resta_aperta" && vuoto(d.perche) && d.esito !== "senza_referto") rossi.push(`${d.id}: resta aperta senza il perché`);
+  }
   console.log(`📊 perimetro ${per.lavorabili.length} lavorabili · assegnate ${assegnate} in ${piano.onde.length} onde · cucitura ${piano.cucitura?.length ?? 0} · eccedenza ${piano.eccedenza?.length ?? 0}`);
   console.log(`   esiti dei riparatori: ${Object.entries(esiti).map(([k, v]) => `${v} ${k}`).join(", ") || "nessun referto"}`);
   if (dec.length) console.log(`   decisioni: ${Object.entries(perDec).map(([k, v]) => `${v} ${k}`).join(", ")}`);
