@@ -909,8 +909,9 @@ function sorveglia(opz) {
   const onda = piano.onde[Number(opz.onda) - 1];
   // un'onda che non c'è non è un verde: la skill smette di sorvegliare proprio sull'uscita 0 (collaudo del 12/11)
   if (!Array.isArray(onda) || !/^\d+$/.test(String(opz.onda))) return uso(`sorveglia --onda 1..${piano.onde.length} --cartella <dir>`);
-  const rami = onda.map((s) => sess.sessioni[s]?.ramo).filter(Boolean);
-  if (rami.length) gitOk(opz.git, ["fetch", "-q", "origin", ...rami]);
+  // un nome di ramo che comincia con «-» git lo leggerebbe come un'opzione: si passano solo nomi di ramo veri
+  const rami = onda.map((s) => sess.sessioni[s]?.ramo).filter((r) => typeof r === "string" && /^[A-Za-z0-9][\w./-]*$/.test(r));
+  if (rami.length) gitOk(opz.git, ["fetch", "-q", "origin", "--", ...rami]);
   const rossi = [], attese = [], righe = [];
   const tmp = mkdtempSync(join(tmpdir(), "radiografia-"));
   const relCart = rel(opz, opz.cartella);

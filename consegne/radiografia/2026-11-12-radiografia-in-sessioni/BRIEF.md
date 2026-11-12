@@ -61,3 +61,15 @@ Non ho riletto la radiografia del 6/11. So solo dove stanno i suoi file, e che i
 - **I lucchetti:** nel sito `.claude/settings.json` vieta Supabase, Vercel e Stripe. In `ad-mycity` scrivi un
   `.claude/settings.local.json` con lo stesso divieto, nella tua copia e in quella di ogni figlia.
 - **La scrittura:** messaggi a Nicola con «Il punto adesso» (Regola 3-ter di `cervello/scrittura-umana.md`).
+
+---
+
+## Stato adesso (2026-11-13 01:00)
+
+- ✅ **Misura del 6/11:** `costo-6-11.json` — 327 $ le 12 sessioni, regista 1.108 $ ma con sei giorni di altro lavoro dentro; 97% dei token in riletture.
+- ✅ **Costruito:** skill `.claude/skills/radiografia-sessioni/`, programma `cervello/radiografia-sessioni.mjs`, `cervello/radiografia/` (temi.json, LEGGIMI-cercatore, LEGGIMI-verificatore), riga in `COMANDI.md`, `cervello/MANUALE-AD.md` e nel censimento.
+- ✅ **Collaudo:** due qa, 8 cadute su 16 e 7 regole senza prova, tutte corrette. Prove: `node --test cervello/test/radiografia-sessioni.test.mjs` (41 verdi); 35 mutazioni (`difetto: radiografia-in-sessioni` in `cervello/mutanti.json`), tutte fermate.
+- ✅ **Cancelli:** `radiografia-in-corsa.mjs --base 4bfc450` verde; `cancello-stop` verde.
+- ⏳ **Non fatto apposta:** nessuna radiografia vera (serve il via di Nicola sul preventivo: profilo lancio, 9 sessioni, circa 251 $); nessun secondo giro di collaudo (tetto di 3 agenti dell'AD).
+- 👉 **Per Nicola:** il lucchetto vero (card #236); il via alla prima radiografia dopo il preventivo.
+- Il prossimo passo di chi riprende: niente, finché Nicola non dà il via. Poi la skill, «F0 — Preparazione».

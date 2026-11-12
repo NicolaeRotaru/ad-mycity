@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-12 15:34",
+  "aggiornato": "2026-11-13 00:58",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -6971,6 +6971,35 @@
       "nota": "",
       "file": {
         "pannello/src/lib/obsidian.ts": "699a35f0a0b3"
+      }
+    },
+    {
+      "quando": "2026-11-13 00:58",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "collaudo indipendente del 12/11 (due qa, lenti regole e dati/riservatezza): 15 difetti trovati nel programma prima della consegna, tutti corretti nello stesso lavoro con 41 prove e 35 mutazioni fermate; al riesame finale chiuso anche il nome di ramo passato a git fetch senza filtro",
+      "file": {
+        "cervello/censimento-macchina.mjs": "248d7f2e887a",
+        "cervello/radiografia-sessioni.mjs": "7d392665f079"
+      }
+    },
+    {
+      "quando": "2026-11-13 00:58",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "riletta la skill con la lente della cadenza: la sorveglianza ha una catena sola di send_later ogni 30 minuti con la condizione di fine, le fermate sono tre, la chiusura scrive ESITO con chiusura-loop e la memoria",
+      "file": {
+        ".claude/skills/radiografia-sessioni/SKILL.md": "25e1419c05a1"
       }
     }
   ]
