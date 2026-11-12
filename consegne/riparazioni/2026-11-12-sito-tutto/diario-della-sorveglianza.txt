@@ -79,3 +79,4 @@
 2026-11-12 17:25 · R10 · correzione finita · guardia ✅ · referto ✅ · — · torna a K03 sulle voci rimandate
 2026-11-12 17:26 · R04 · correzione finita · guardia 🔴 solo la prova esistente nota · referto ✅ (lanciato dalla regista) · — · torna a K02 sulle voci rimandate
 2026-11-12 17:27 · R03 · correzione finita · guardia ✅ · referto ✅ (lanciato dalla regista) · — · torna a K04 sulle voci rimandate
+2026-11-12 17:30 · K02 · finito · R04 7 reggono, 17 parziali; R07 14 reggono, 6 parziali; R08 14 reggono, 3 parziali; nessuna bocciata · — · — · R04-025: rischio non dichiarato (lotto finito chiuso come fallito dopo 25 ore → riavvio pagato due volte) da mettere nel registro come nato; R04-011: falliti oltre il 30° mai ritentati (minore nato)
