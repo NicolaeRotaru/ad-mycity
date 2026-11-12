@@ -83,6 +83,13 @@ export function comandoSql(db) {
   return "{ bash tests/sql/harness/apply.sh " + db + " >/dev/null 2>&1 || { echo 'MIGRAZIONI_NON_APPLICATE: il database di prova non si ricostruisce'; exit 1; }; } && n=0 && for f in {prove}; do psql -q -X -d " + db + " -v ON_ERROR_STOP=1 -v VERBOSITY=verbose -f \"$f\" || exit 1; n=$((n+1)); done && echo \"# pass $n\"";
 }
 
+/** Il testo senza commenti: blocchi e righe «//» per il codice, «--» per l SQL. */
+export function senzaCommentiDi(percorso, testo) {
+  let t = String(testo || "").replace(/\/\*[\s\S]*?\*\//g, "");
+  t = /\.sql$/i.test(percorso) ? t.replace(/--.*$/gm, "") : t.replace(/(^|[^:\\])\/\/.*$/gm, "$1");
+  return t;
+}
+
 /** I percorsi del deposito che una prova importa (relativi o con «@/»), senza i commenti. */
 export function importati(percorso, testo) {
   const fuori = new Set();
@@ -332,11 +339,16 @@ async function corpo(a, ctx) {
       if (verde(g2)) { nonMordono.push(...nuovi); passi.push("② file nuovi tolti: ancora verde"); }
       else {
         const importatiDalleProve = new Set(a.prove.flatMap((p) => [...importati(p, readFileSync(join(repo, p), "utf8"))]));
-        // Diretto anche se la prova ne scrive solo il nome (un import dinamico, un readFileSync, un esiste?):
-        // una prova che guarda il file e non il comportamento non prova niente (collaudo del 12/11 sera).
-        const diretti = nuovi.filter((f) => importatiDalleProve.has(f) || testoProve.includes(f.split("/").pop()));
+        // Diretto: la prova lo importa, o ne scrive il percorso fuori dai commenti (un import dinamico, un
+        // readFileSync, un «esiste?»): guarda il file, non il comportamento (collaudo del 12/11 sera). Un file nuovo
+        // di CODICE regge solo se lo usa un file della correzione che c'era già: un aiutante che il sito non usa
+        // non cambia niente, e nessuna ricerca nel testo ferma chi spezza il nome (secondo collaudo del 12/11).
+        const senzaCommenti = a.prove.map((p) => senzaCommentiDi(p, readFileSync(join(repo, p), "utf8"))).join("\n");
+        const usatiDaiVecchi = new Set(a.file.filter((f) => base.get(f) !== null && oggi.get(f)).flatMap((f) => [...importati(f, oggi.get(f).dati.toString("utf8"))]));
+        const eCodice = (f) => /\.(?:[cm]?[jt]sx?)$/.test(f);
+        const diretti = nuovi.filter((f) => importatiDalleProve.has(f) || senzaCommenti.includes(f) || senzaCommenti.includes(f.replace(/\.[^./]+$/, "")) || (eCodice(f) && !usatiDaiVecchi.has(f)));
         const tipo = diretti.length ? "strutturale" : tipoDiRosso(g2.uscita);
-        if (tipo !== "comportamento") dubbi.push({ tipo, testo: etichetta + (diretti.length ? " (le prove importano o nominano direttamente un file nuovo: " + diretti.join(", ") + ")" : " (alla base non c'era)") });
+        if (tipo !== "comportamento") dubbi.push({ tipo, testo: etichetta + (diretti.length ? " (un file nuovo è importato o nominato dalle prove, o è codice che nessun file della correzione usa: " + diretti.join(", ") + ")" : " (alla base non c'era)") });
         passi.push("② file nuovi tolti: rossa, " + (tipo === "comportamento" ? "sul comportamento" : tipo === "strutturale" ? "ma solo per la struttura" : "per un motivo che non riconosco"));
       }
     }

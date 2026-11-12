@@ -921,9 +921,14 @@ function guardiaRamo(opz) {
   const importaDaSuoi = (p) => {
     const testo = gitOk(dir, ["show", `${partenza}:${p}`]);
     if (testo === null) return false;
-    const usati = new Set([...importDi(p, testo), ...percorsiNominati(p, testo)]);
+    const importa = importDi(p, testo), nomina = percorsiNominati(p, testo);
+    const usati = new Set([...importa, ...nomina]);
     if (![...usati].some((x) => suoi.has(x))) return false;
-    return [...usati].some((x) => altrui.has(x)) ? "condivisa" : true;
+    // Condivisa: importa un file d'un'altra sessione, o NOMINA un file che esiste e non è suo (una prova che
+    // gira su una lista di file: chi la tocca può togliere dal giro quelli degli altri, secondo collaudo del
+    // 12/11). Un aiutante comune solo importato e di nessuno (lib/supabase.ts) non la rende condivisa.
+    if ([...importa].some((x) => altrui.has(x))) return "condivisa";
+    return [...nomina].some((x) => x !== p && !suoi.has(x) && esisteAllaBase(x)) ? "condivisa" : true;
   };
   const ctx = { nome, suoi, esisteAllaBase, importaDaSuoi, fascia: dove.sessione.migrazioni ?? null, casa: per.casa };
   // Si giudica il RISULTATO del ramo, non ogni passo della storia (12/11 sera, regola firmata da Nicola): è il

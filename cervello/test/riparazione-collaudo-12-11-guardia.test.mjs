@@ -1,5 +1,5 @@
-// I buchi trovati dal collaudo indipendente del 12/11 sera sulle due regole firmate da Nicola: ognuno era rosso
-// prima della correzione. Scritti dal collaudatore, non da chi ha costruito.
+// I buchi trovati dai due giri di collaudo indipendente del 12/11 sera sulle due regole firmate da Nicola:
+// ognuno era rosso prima della sua correzione. Scritti dal collaudatore, non da chi ha costruito.
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { mkdtempSync, writeFileSync, mkdirSync, rmSync } from "node:fs";
@@ -68,4 +68,13 @@ test("SHARED: prova comune che nomina file di R01 e R02; R01 toglie dal giro il 
   g("commit", "-qam", "R01-001 riparo");
   const r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
   assert.equal(r.status, 1, "R01 ha tolto lib/b.ts (di R02) da una prova di sicurezza ed e' verde");
+});
+test("UNOWNED: prova comune con un file di nessuno; R01 lo toglie dal giro -> deve essere rosso", () => {
+  const t0 = "import { readFileSync } from 'node:fs';\nfor (const f of ['lib/a.ts', 'lib/c.ts']) it(f, () => { expect(readFileSync(f, 'utf8')).not.toMatch(/eval/); });\n";
+  const { dir, g, scrivi, base } = depositoFinto({ "lib/c.ts": "export const c=1;\n", "tests/unit/sic.test.ts": t0 });
+  const c = campagna(base);
+  g("checkout", "-q", "-b", "r01", base);
+  scrivi("lib/a.ts", "export const a = 2;\n"); scrivi("tests/unit/sic.test.ts", t0.replace(", 'lib/c.ts'", ""));
+  g("commit", "-qam", "R01-001 riparo");
+  assert.equal(lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir).status, 1);
 });

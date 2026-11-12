@@ -1,5 +1,5 @@
-// I buchi trovati dal collaudo indipendente del 12/11 sera sulle due regole firmate da Nicola: ognuno era rosso
-// prima della correzione. Scritti dal collaudatore, non da chi ha costruito.
+// I buchi trovati dai due giri di collaudo indipendente del 12/11 sera sulle due regole firmate da Nicola:
+// ognuno era rosso prima della sua correzione. Scritti dal collaudatore, non da chi ha costruito.
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { mkdtempSync, writeFileSync, mkdirSync } from "node:fs";
@@ -38,4 +38,18 @@ test("H: aiutante nuovo NON collegato al sito, prova che lo carica con import(ne
   const j = lancia(r, "lib/aiuto.mjs", "tests/aiuto.test.mjs");
   console.log(JSON.stringify(j.passi));
   assert.notEqual(j.esito, "regge", "il sito non e' cambiato di un byte (aiutante orfano) ma l'esito e' regge");
+});
+test("H2: aiutante orfano, nome spezzato in due stringhe -> non deve dare regge", () => {
+  const r = repo({ "lib/x.mjs": "export const x=1;\n" },
+    { "lib/aiuto.mjs": "export const aiuto=(a,b)=>a+b;\n",
+      "tests/aiuto.test.mjs": testa + "test('a', async ()=>{ let m={}; try { m = await import(new URL('../lib/aiu'+'to.mjs', import.meta.url)); } catch {} assert.equal(m.aiuto?.(2,2), 4); });\n" });
+  const j = lancia(r, "lib/aiuto.mjs", "tests/aiuto.test.mjs");
+  assert.notEqual(j.esito, "regge");
+});
+test("REGR: migrazione onesta citata nel commento di testa della prova -> deve poter reggere", () => {
+  const r = repo({ "regole/base.txt": "x\n" },
+    { "regole/limite.txt": "10\n",
+      "tests/regole.test.mjs": "// prova della regola limite.txt (migrazione 250)\n" + testa + "import { readdirSync } from 'node:fs';\ntest('r',()=>assert.ok(readdirSync('regole').length===2,'expected regole to include 2'));\n" });
+  const j = lancia(r, "regole/limite.txt", "tests/regole.test.mjs");
+  console.log("REGR", j.esito, JSON.stringify(j.passi));
 });

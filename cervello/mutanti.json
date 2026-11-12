@@ -11070,8 +11070,8 @@
    "difetto": "AR-1163",
    "file": "cervello/riparazione-sessioni.mjs",
    "nome": "una prova esistente che legge per nome un file della sessione torna «altrui» (R04, R08, R11 del 12/11)",
-   "cerca": "    const usati = new Set([...importDi(p, testo), ...percorsiNominati(p, testo)]);",
-   "sostituisci": "    const usati = new Set([...importDi(p, testo)]);",
+   "cerca": "    const usati = new Set([...importa, ...nomina]);",
+   "sostituisci": "    const usati = new Set([...importa]);",
    "test": "cervello/test/riparazione-sessioni.test.mjs"
   },
   {
@@ -11088,7 +11088,7 @@
    "difetto": "AR-1163",
    "file": "cervello/riparazione-sessioni.mjs",
    "nome": "una prova comune a più sessioni diventa di chi la tocca per primo, e può togliere i controlli sugli altri (collaudo del 12/11 sera)",
-   "cerca": "    return [...usati].some((x) => altrui.has(x)) ? \"condivisa\" : true;",
+   "cerca": "    return [...nomina].some((x) => x !== p && !suoi.has(x) && esisteAllaBase(x)) ? \"condivisa\" : true;",
    "sostituisci": "    return true;",
    "test": "cervello/test/riparazione-collaudo-12-11-guardia.test.mjs"
   },
@@ -11099,6 +11099,15 @@
    "nome": "un file nuovo estraneo accanto a una correzione vera risulta provato: si torna a togliere anche gli esistenti (collaudo del 12/11 sera)",
    "cerca": "      for (const f of nuovi) { const p = join(repo, f); if (existsSync(p)) unlinkSync(p); }",
    "sostituisci": "      for (const f of a.file) { const b = base.get(f), p = join(repo, f); if (b === null) { if (existsSync(p)) unlinkSync(p); } else writeFileSync(p, b); }",
+   "test": "cervello/test/riparazione-collaudo-12-11-rimessa.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/prova-rimessa.mjs",
+   "nome": "un aiutante nuovo che nessun file della correzione usa torna a reggere se la prova spezza il suo nome (secondo collaudo del 12/11)",
+   "cerca": " || (eCodice(f) && !usatiDaiVecchi.has(f)));",
+   "sostituisci": ");",
    "test": "cervello/test/riparazione-collaudo-12-11-rimessa.test.mjs"
   },
   {
