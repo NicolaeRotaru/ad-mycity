@@ -5,7 +5,7 @@
   "R02",
   "R09"
  ],
- "aggiornato": "2026-11-12 17:40",
+ "aggiornato": "2026-11-12 17:20",
  "finita": true,
  "voci": [
   {
@@ -30,13 +30,13 @@
    "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 73a0f45f6b842c0308afc311c3934ddd951f2aed^ --file app/admin/segnalazioni/page.tsx,app/api/admin/segnalazioni/accogli/route.ts,app/api/segnalazioni/route.ts --prove tests/unit/riparazione-r02-segnalazione-accolta-pagina.test.tsx,tests/unit/riparazione-r02-segnalazione-accolta.test.ts,tests/unit/riparazione-r02-segnalazione-esito-solo-se-tolto.test.ts,tests/unit/riparazione-r02-segnalazione-accolta-negozio.test.tsx --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 1b787f44f546d6e9ca6c4003f297cf4978bafe57^ --file app/api/segnalazioni/route.ts --prove tests/unit/riparazione-r02-segnalazione-esito-solo-se-tolto.test.ts --json"
    },
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "Due qa concordi. «Accolta» mette il prodotto in draft, ma il negoziante lo rimette available con «Attiva» (app/seller/products/page.tsx:173-177): nessun segno «tolto dall'admin», e chi ha segnalato ha già ricevuto «rimosso». Inoltre contenutoAncoraOnline non guarda l'errore di lettura: a lettura caduta l'esito «rimosso» parte lo stesso. Rimessa: alla d0e1e9d0 uscita 3 (accogli/route.ts nuovo), alla 73a0f45f uscita 0."
+   "nota": "Ricollaudo sulla testa 855e7eda. Il punto della lettura caduta è chiuso: ogni lettura che cade (segnalazione, products, profiles) dà 409 e «rimosso» non parte; non blocca per sempre «respinta»/«in esame» (secondo qa). Ma cosa_resta nomina solo «Attiva» (app/seller/products/page.tsx:173-177): il negoziante ha una seconda porta, la tendina «Stato» → «In vendita» di components/seller/ProductForm.tsx:1255 (modifica prodotto), visto di persona. Il prodotto torna online e chi ha segnalato ha già «rimosso»; cosa_resta incompleto, quindi non è un parziale onesto. Il rimedio vero è un vincolo nel database."
   },
   {
    "id": "R02-004",
@@ -86,17 +86,17 @@
   {
    "id": "R02-008",
    "chiave": "accessibilita|se scegli una variante esaurita il lettore di schermo non dice niente, e il pulsante d'acquisto sparisce dal giro del tab",
-   "verdetto": "parziale",
+   "verdetto": "regge",
    "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 114d9a9ffc9053508ba16e08db045c63e49906a9^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r02-variante-esaurita-a11y.test.ts --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base caa58d261b794ff41456caa6747cca820c4b3b7f^ --file app/product/[id]/page.tsx,components/StickyAddToCart.tsx --prove tests/unit/riparazione-r02-variante-esaurita-a11y.test.ts --json"
    },
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "Il pulsante principale ha aria-disabled e resta nel giro del Tab, ma «Compra ora» (app/product/[id]/page.tsx:1177, disabled={!canAdd||inPartenza}, disabled:opacity-50) e il pulsante della barra (StickyAddToCart.tsx:184) restano disabled: con una variante esaurita un pulsante d'acquisto esce ancora dal Tab. Visto di persona sulla testa."
+   "nota": "Ricollaudo: «Compra ora» e il pulsante della barra ora usano aria-disabled e restano nel giro del Tab; premuti da spenti non comprano (handleBuyNow/handleAdd ricontrollano mayPurchase, variante, esaurito) e il doppio tocco resta frenato. minori-s09-aspetto.test.ts cambia una riga sola sulla stessa condizione: non indebolita. Rimessa sulla correzione caa58d26: 0. L'ultimo ritocco 855e7eda (solo colore del testo spento) non ha prova sua: rimessa uscita 1."
   },
   {
    "id": "R02-009",
@@ -135,13 +135,13 @@
    "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 6b97d01ae5e4b9168d3b2b125a2f048a919431cf^ --file components/ActivePromoBadge.tsx --prove tests/unit/riparazione-r02-sconto-promo-lettura.test.tsx --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 10fc3d59c6ecb2b3117f8cee672b588bfa418bd3^ --file app/product/[id]/page.tsx,components/ActivePromoBadge.tsx --prove tests/unit/riparazione-r02-sconto-promo-lettura.test.tsx,tests/unit/riparazione-r02-sconto-non-verificato.test.tsx --json"
    },
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "throw error toglie lo zero salvato, ma dopo retry:1 la pagina ricade su scontoPromo = 0 (page.tsx:314) e mostra il prezzo pieno mentre la cassa applica lo sconto: due letture cadute rifanno la voce. La lettura in page.tsx non ha prova (rimessa con page.tsx: uscita 1; col solo ActivePromoBadge.tsx: 0)."
+   "nota": "Ricollaudo: con retry 3 la lettura caduta due volte si recupera e a errore definitivo compare «Non riusciamo a verificare le promozioni». Ma durante i tentativi (~7 s) e dopo l'errore il prezzo grande e la barra in fondo mostrano ancora il pieno mentre la cassa applica lo sconto; l'avviso sta solo nella colonna informazioni. Lo scarto è a favore del cliente."
   },
   {
    "id": "R02-012",
@@ -171,7 +171,7 @@
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "Il blocco nel browser c'è, ma «più visti in home» e Andamento dipendono dalla 260, non applicata; per l'admin isAdmin arriva dalla rete dopo idUtenteInMemoria(): aprendo la scheda diretta la visita probabilmente parte (dedotto dal codice). Parte SQL non provata da me (niente Postgres). Rimessa sul commit dopo il qa: 0; sul primo (5bb38d8e) page.tsx senza prova (uscita 1)."
+   "nota": "Il blocco nel browser c'è, ma «più visti in home» e Andamento dipendono dalla 260, non applicata; per l'admin isAdmin arriva dalla rete dopo idUtenteInMemoria(): aprendo la scheda diretta la visita probabilmente parte (dedotto dal codice). Parte SQL non provata da me (niente Postgres). Rimessa sul commit dopo il qa: 0; sul primo (5bb38d8e) page.tsx senza prova (uscita 1). Ricollaudo: nessun codice nuovo; il referto ora la dichiara parziale e cosa_resta è coerente col difetto trovato."
   },
   {
    "id": "R02-015",
@@ -186,7 +186,7 @@
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "Una nuova scheda ora non conta due volte (mutazioni a mano su frenoOrario e improntaOraria: prova rossa). Ma la voce dice «una per persona all'ora»: PostHog resta una per browser (stesso utente su due dispositivi = 1 vs 2) e mc_viewed_* non è legato all'utente. Rimessa sul commit dopo il qa col solo visita-prodotto.ts: 0 (app/cookies/page.tsx è testo, senza prova)."
+   "nota": "Una nuova scheda ora non conta due volte (mutazioni a mano su frenoOrario e improntaOraria: prova rossa). Ma la voce dice «una per persona all'ora»: PostHog resta una per browser (stesso utente su due dispositivi = 1 vs 2) e mc_viewed_* non è legato all'utente. Rimessa sul commit dopo il qa col solo visita-prodotto.ts: 0 (app/cookies/page.tsx è testo, senza prova). Ricollaudo: nessun codice nuovo; il referto ora la dichiara parziale e cosa_resta è coerente col difetto trovato."
   },
   {
    "id": "R02-016",
@@ -226,7 +226,11 @@
    "lenti": [
     "chiude_tutta"
    ],
-   "nota": "Alla base il caso scritto (20 recensioni, se ne leggono 6) è risolto, ma useStorePageData.ts:40 legge al massimo 20 con .limit(20) mentre la linguetta mostra il totale vero: con 35 recensioni se ne leggono 20 e le altre 15 no. È lo stesso difetto con un numero più alto."
+   "nota": "Alla base il caso scritto (20 recensioni, se ne leggono 6) è risolto, ma useStorePageData.ts:40 legge al massimo 20 con .limit(20) mentre la linguetta mostra il totale vero: con 35 recensioni se ne leggono 20 e le altre 15 no. È lo stesso difetto con un numero più alto. Ricollaudo: nessun codice nuovo; il referto ora la dichiara parziale e cosa_resta è coerente col difetto trovato.",
+   "rimessa": {
+    "uscita": 2,
+    "comando": "non lanciabile: nel referto la voce è «parziale» senza commit né file toccati (nessun codice da togliere); giudicata alla base e alla testa leggendo il codice"
+   }
   },
   {
    "id": "R02-020",
@@ -276,17 +280,17 @@
   {
    "id": "R02-023",
    "chiave": "layout-responsive|nella vetrina del negozio, sul telefono il logo resta coperto dal tasto indietro e la scheda recensioni mostra gli orari",
-   "verdetto": "rompe_altro",
+   "verdetto": "regge",
    "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 941948d9e37e3577ed00a386abbf8f14c287ce6b^ --file components/store-sections/SectionRenderer.tsx,components/store-sections/ReviewsSection.tsx,components/store-sections/HeroSection.tsx --prove tests/unit/riparazione-r02-vetrina-negozio.test.tsx --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 40ed044bba533881efcc9f745f1d505d748e37ab^ --file components/store-sections/ReviewsSection.tsx --prove tests/unit/riparazione-r02-vetrina-negozio.test.tsx --json"
    },
    "lenti": [
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "Le tre parti sono chiuse, ma il messaggio nuovo «Ancora nessuna recensione» compare anche mentre le recensioni caricano e durante i tentativi automatici dopo un guasto (reviews = reviewsQ.data ?? [], recensioniInErrore vero solo a errore definitivo): sulle pagine personalizzate un negozio con 50 recensioni dice «nessuna» per qualche secondo."
+   "nota": "Ricollaudo: «Ancora nessuna recensione» solo quando store_review_stats è letto e dice 0; durante caricamento e tentativi la sezione tace, anche su app/store/[id]/[slug]. Se il totale non si legge e l'elenco è vuoto, la sezione resta vuota: niente di falso."
   },
   {
    "id": "R02-024",
@@ -296,7 +300,11 @@
    "lenti": [
     "chiude_tutta"
    ],
-   "nota": "Alla base Footer.tsx filtra con soloLePiene solo quando la lettura «piene» è arrivata: mentre è in corsa o se fallisce il piede mostra tutte le categorie attive, Abbigliamento compresa. Il riparatore stesso lo lascia in cosa_resta; il database non l'ho guardato."
+   "nota": "Alla base Footer.tsx filtra con soloLePiene solo quando la lettura «piene» è arrivata: mentre è in corsa o se fallisce il piede mostra tutte le categorie attive, Abbigliamento compresa. Il riparatore stesso lo lascia in cosa_resta; il database non l'ho guardato. Ricollaudo: nessun codice nuovo; il referto ora la dichiara parziale e cosa_resta è coerente col difetto trovato.",
+   "rimessa": {
+    "uscita": 2,
+    "comando": "non lanciabile: nel referto la voce è «parziale» senza commit né file toccati (nessun codice da togliere); giudicata alla base e alla testa leggendo il codice"
+   }
   },
   {
    "id": "R02-025",
@@ -854,7 +862,7 @@
    "accettato": true
   },
   "R02": {
-   "accettato": false
+   "accettato": true
   },
   "R09": {
    "accettato": false
