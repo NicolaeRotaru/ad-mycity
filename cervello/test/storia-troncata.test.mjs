@@ -54,7 +54,7 @@ test("statoStoria: se git NON risponde, la storia si tratta come troncata", () =
   assert.equal(s.intera, false);
 });
 
-test("storiaDelRepo giudica il repo che gli passi, non quello da cui gira il programma", () => {
+test("AR-1169 — storiaDelRepo giudica il repo che gli passi, non quello da cui gira il programma", () => {
   // Il caso vero, 12/11/2026: da una sessione cloud (clone superficiale) un repo di prova intero, con
   // due commit, risultava «1 commit di innesto: d096470» — il confine del clone dell'AD. Il file
   // `shallow` si cercava col percorso relativo alla cartella di chi lanciava. Qui il programma gira

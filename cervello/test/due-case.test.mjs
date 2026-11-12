@@ -671,7 +671,7 @@ function storiaDatata() {
   return r;
 }
 
-test("la casa spoglia porta la storia VERA: stessi commit, date e autori del repo, non un commit di adesso", () => {
+test("AR-1168 — la casa spoglia porta la storia VERA: stessi commit, date e autori del repo, non un commit di adesso", () => {
   const r = storiaDatata();
   const dove = mkdtempSync(join(tmpdir(), "due-case-spoglia-"));
   const esito = costruisciCasaSpoglia(r, dove);
@@ -695,7 +695,7 @@ test("la casa spoglia porta la storia VERA: stessi commit, date e autori del rep
   rmSync(dove, { recursive: true, force: true });
 });
 
-test("da un clone superficiale la casa ricopia la storia che c'è, con le sue date, e dichiara il taglio", () => {
+test("AR-1168 — da un clone superficiale la casa ricopia la storia che c'è, con le sue date, e dichiara il taglio", () => {
   // Le sessioni cloud lavorano su un clone superficiale (il 12/11 la storia arrivava al 25/10). La
   // casa non può inventare la storia che manca, ma non può nemmeno nascere superficiale: i guardiani
   // che contano la storia uscirebbero ciechi. Ricopia quello che c'è, coi dati veri, e lo dichiara.
@@ -722,7 +722,7 @@ test("da un clone superficiale la casa ricopia la storia che c'è, con le sue da
   rmSync(dove, { recursive: true, force: true });
 });
 
-test("con GIT_DIR del repo vero addosso, la casa non sposta il ramo di chi lavora e non committa nella sua storia", () => {
+test("AR-1170 — con GIT_DIR del repo vero addosso, la casa non sposta il ramo di chi lavora e non committa nella sua storia", () => {
   // Dentro un hook di git le variabili `GIT_DIR` / `GIT_INDEX_FILE` puntano al repo VERO, e git le
   // preferisce al `cwd`: l'`update-ref refs/heads/main` e il commit del lotto lanciati «nella casa»
   // sarebbero finiti nel repo di chi lavora. Trovato riguardando il file con la lente rischio-sicurezza.
@@ -751,7 +751,7 @@ test("con GIT_DIR del repo vero addosso, la casa non sposta il ramo di chi lavor
   rmSync(dove, { recursive: true, force: true });
 });
 
-test("con origin/main la casa parte dall'antenato comune, come il freno, non dalla punta del ramo", () => {
+test("AR-1168 — con origin/main la casa parte dall'antenato comune, come il freno, non dalla punta del ramo", () => {
   // Su una PR il runner ha HEAD = il commit di prova che GitHub crea per l'unione, con la data della
   // spinta. Il freno parte dall'antenato comune con origin/main (`basePerConfronto`); la casa di
   // default partiva da HEAD, e il lavoro della PR finiva dentro «origin/main» con la data di adesso.
