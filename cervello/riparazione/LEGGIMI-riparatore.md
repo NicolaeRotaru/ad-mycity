@@ -170,6 +170,13 @@ referto né nei commit. Nel referto: `"riservato": true`, titolo generico «Fall
 (<area>): i dettagli restano fuori dal deposito pubblico finché non è chiusa», `"file": "(nel referto
 privato)"`, nessuna descrizione. I dettagli li scrivi solo nel messaggio finale alla regista.
 
+### Se qualcosa ti blocca
+
+Se un permesso, un controllo della sessione o un accesso negato ti ferma (un comando rifiutato, `ad-mycity` che non
+si legge, una richiesta di approvazione), non aspettare: nessuno la vede. Manda subito alla regista con `send_message`
+l'errore esatto, e intanto vai avanti per un'altra strada. Un comando che non puoi lanciare lo lancia la regista. Il
+12/11 una sessione è rimasta ferma quattro ore in attesa di un clic che nessuno poteva dare.
+
 ### Cosa non fai mai
 
 Mettere il sito online, scrivere sul database vero, applicare migrazioni, cambiare prezzi o commissioni,

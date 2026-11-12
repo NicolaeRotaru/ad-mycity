@@ -68,5 +68,6 @@ done
 U="✅"; $P prova-unione --cartella "$C" --git "$SITO" --onda "$ONDA" > "$TMP/u.txt" 2>&1 || { rc=$?; [ $rc -eq 3 ] && U="⏳" || { U="🔴"; ROSSI=1; }; }
 echo "$ORA · onda $ONDA · prova-unione $U" >> "$DIARIO"
 [ "$U" = "🔴" ] && { echo "🔴 prova-unione:"; grep -v '^✅' "$TMP/u.txt" | head -20; }
+echo "👀 ora list_sessions (limit 20): ogni figlia BLOCKED si sblocca in questo giro; un clic che solo Nicola può dare va subito all'AD (SKILL riparazione, regole del 12/11 sera)"
 [ $ROSSI -eq 0 ] && echo "✅ giro $ORA: nessun rosso (${#RIGHE[@]} sessioni, unione $U)"
 exit $ROSSI

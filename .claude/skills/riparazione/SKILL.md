@@ -115,6 +115,30 @@ fino al giorno del rinnovo. Il conto misurato si legge da `cost_usd` di ogni fig
 
 ---
 
+## Le regole del 12/11 sera (Nicola: «R05 non è partita ma io non ho visto nessuna richiesta: che non ricada»)
+
+Il conto: il 12/11 R05 è rimasta ferma dalle 15:38 alle 19:45 senza fare niente. La sua sessione non leggeva
+`ad-mycity` («codice da fuori») e aspettava il via di una persona, dentro la sessione figlia, dove Nicola non guarda
+mai. La regista l'ha vista ferma solo dopo 35 minuti, le ha mandato il testo dopo 70 e non l'ha mai detto a Nicola mentre
+succedeva. Lo stesso giorno K01 è rimasto 70 minuti fermo su un permesso che nessuno poteva dare. R03 e R04 non hanno
+potuto lanciare i controlli del programma.
+
+1. **La figlia non deve leggere `ad-mycity` per partire.** Il primo messaggio porta dentro le regole e la scheda per
+   intero (sono circa 20 mila caratteri, il messaggio ne regge 64 mila). Il clone di `ad-mycity` serve solo per i
+   comandi del programma; se la sessione lo rifiuta, i controlli li lancia la regista sul ramo.
+2. **A 10 minuti dall'apertura, un controllo solo:** `list_sessions` (limit 20) mostra in una chiamata il
+   `status_bucket` di tutte le figlie. Ogni figlia `BLOCKED`, o senza piano arrivato, si sblocca subito, in quel turno.
+3. **A ogni giro di sorveglianza**, la stessa `list_sessions`. Una figlia `BLOCKED` su un permesso si interrompe
+   (`interrupt_session`) e si rimette in moto per un'altra strada nello stesso giro, mai al giro dopo.
+4. **Quello che solo una persona può sbloccare** (un clic dentro la sessione figlia) va detto all'AD alla prima volta
+   che si vede, con il nome della sessione e cosa deve cliccare Nicola. Non si aspetta la fermata: una figlia che
+   aspetta un clic non è una notizia da fine onda.
+5. Nel conto della fermata, una figlia ferma si chiama col suo nome: «R05 non è partita perché la sua sessione
+   aspettava un tuo clic che non hai mai visto», non «aspettava il clic di una persona».
+
+*Freno: `cervello/riparazione/sorveglia.sh` chiude ogni giro ricordando il controllo delle figlie ferme. Un programma
+che conti da solo le figlie BLOCKED non esiste ancora, perché lo stato delle sessioni da bash non si vede: è debito dichiarato.*
+
 ## F0 — Preparazione (programmi, 20-30 minuti)
 
 Tutti i comandi dalla radice di `ad-mycity`, con `--cartella consegne/riparazioni/AAAA-MM-GG-<nome>`.

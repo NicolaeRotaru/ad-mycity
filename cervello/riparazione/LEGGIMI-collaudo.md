@@ -128,6 +128,13 @@ I verdetti: `regge | parziale | non_regge | rompe_altro`. Ogni voce `riparato`, 
 3. Spegni quello che hai acceso (un server di prova, un Postgres) e togli le copie di lavoro
    (`git worktree remove`).
 
+### Se qualcosa ti blocca
+
+Se un permesso, un controllo della sessione o un accesso negato ti ferma (un comando rifiutato, `ad-mycity` che non
+si legge, una richiesta di approvazione), non aspettare: nessuno la vede. Manda subito alla regista con `send_message`
+l'errore esatto, e intanto vai avanti per un'altra strada. Un comando che non puoi lanciare lo lancia la regista. Il
+12/11 una sessione è rimasta ferma quattro ore in attesa di un clic che nessuno poteva dare.
+
 ### Cosa non fai mai
 
 Riparare tu una voce, toccare i rami dei riparatori, mettere il sito online, scrivere sul database vero.
