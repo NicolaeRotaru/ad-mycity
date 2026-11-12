@@ -12,7 +12,7 @@ import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
 import { execFileSync, spawnSync, spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { tipoDiRosso, passate, nomiNuoviUsati } from "../prova-rimessa.mjs";
+import { tipoDiRosso, passate, nomiNuoviUsati, comandoSql } from "../prova-rimessa.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const ATTREZZO = join(QUI, "..", "prova-rimessa.mjs");
@@ -107,6 +107,35 @@ test("un file nuovo della correzione: tolto al passo ②, rimesso alla fine", ()
   const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/nuovo.mjs": "export const uno = () => 1;\n", "tests/nuovo.test.mjs": prova });
   assert.equal(lancia(r, "lib/nuovo.mjs", "tests/nuovo.test.mjs").uscita, 3);
   assert.ok(existsSync(join(r.d, "lib/nuovo.mjs")));
+});
+
+test("regola del 12/11 sera · un aiutante NUOVO usato da un file corretto: si prova tutta la correzione alla base insieme, e regge", () => {
+  const prova = testa + "import { somma } from '../lib/somma.mjs';\ntest('somma', () => assert.equal(somma(2, 2), 4));\n";
+  const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": "import { aiuto } from './aiuto.mjs';\nexport const somma = (a, b) => aiuto(a, b);\n", "lib/aiuto.mjs": "export const aiuto = (a, b) => a + b;\n", "tests/somma.test.mjs": prova });
+  const o = lancia(r, "lib/somma.mjs,lib/aiuto.mjs", "tests/somma.test.mjs");
+  assert.equal(o.uscita, 0, JSON.stringify(o.j) + o.err);
+  assert.equal(o.j.esito, "regge");
+  assert.match(JSON.stringify(o.j.passi), /tutta la correzione alla base: rossa, sul comportamento/);
+  assert.ok(existsSync(join(r.d, "lib/aiuto.mjs")));
+});
+
+test("regola del 12/11 sera · un file NUOVO che la prova legge dal disco (come una migrazione): tolta tutta la correzione la prova cade sul comportamento, e regge (0)", () => {
+  const prova = testa + "import { readdirSync } from 'node:fs';\ntest('c\\'e\\' la regola del limite', () => assert.ok(readdirSync('regole').includes('limite.txt'), 'expected regole to include limite.txt'));\n";
+  const r = repo({ "regole/base.txt": "x\n" }, { "regole/limite.txt": "10\n", "tests/regole.test.mjs": prova });
+  const o = lancia(r, "regole/limite.txt", "tests/regole.test.mjs");
+  assert.equal(o.uscita, 0, JSON.stringify(o.j) + o.err);
+  assert.equal(o.j.esito, "regge");
+  assert.ok(existsSync(join(r.d, "regole/limite.txt")), "il file nuovo torna al suo posto");
+});
+
+test("regola del 12/11 sera · --sql scrive lui il comando: nome del database controllato, e insieme a --comando no (2)", () => {
+  assert.match(comandoSql("mycity_rimessa"), /apply\.sh mycity_rimessa .*VERBOSITY=verbose/);
+  assert.throws(() => comandoSql("x; rm -rf /"), /nome di un database/);
+  const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": GIUSTA, "tests/somma.test.mjs": PROVA });
+  const p = spawnSync("node", [ATTREZZO, "--repo", r.d, "--base", r.base, "--file", "lib/somma.mjs", "--prove", "tests/somma.test.mjs", "--comando", "x {prove}", "--sql", "db"], { encoding: "utf8", env: ambiente() });
+  assert.equal(p.status, 2);
+  assert.equal(tipoDiRosso("psql:x.sql:70: ERROR:  P0001: 4 controllo/i rosso/i"), "comportamento");
+  assert.equal(tipoDiRosso("psql:x.sql:9: ERROR:  42883: function public.nuova(uuid) does not exist"), "strutturale");
 });
 
 test("i permessi tornano com'erano: un file eseguibile resta eseguibile", () => {

@@ -11060,10 +11060,28 @@
    "lotto": null,
    "difetto": "AR-1163",
    "file": "cervello/riparazione-sessioni.mjs",
-   "nome": "la guardia guarda solo la testa del ramo e non la storia: un file altrui toccato e poi rimesso sparisce",
-   "cerca": "const commit = (gitOk(dir, [\"rev-list\", \"--reverse\", `${partenza}..${ref}`]) ?? \"\").split(\"\\n\").filter(Boolean);",
-   "sostituisci": "const commit = (gitOk(dir, [\"rev-list\", \"-n\", \"1\", ref]) ?? \"\").split(\"\\n\").filter(Boolean);",
+   "nome": "la guardia torna a giudicare ogni passo della storia: un file altrui toccato e rimesso com'era resta rosso per sempre (R01 e R07 del 12/11)",
+   "cerca": "  const daGiudicare = [...netto.keys()];",
+   "sostituisci": "  const daGiudicare = [...storia.toccati];",
    "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "una prova esistente che legge per nome un file della sessione torna «altrui» (R04, R08, R11 del 12/11)",
+   "cerca": "    for (const x of percorsiNominati(p, testo)) if (suoi.has(x)) return true;\n",
+   "sostituisci": "",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1163",
+   "file": "cervello/prova-rimessa.mjs",
+   "nome": "una riparazione fatta solo con un file nuovo (una migrazione) torna a non potersi mai chiudere: «la macchina non decide» sempre",
+   "cerca": "        const tipo = diretti.length ? \"strutturale\" : tipoDiRosso(g2.uscita);",
+   "sostituisci": "        const tipo = \"strutturale\";",
+   "test": "cervello/test/la-correzione-tolta-deve-far-cadere-la-prova.test.mjs"
   },
   {
    "lotto": null,

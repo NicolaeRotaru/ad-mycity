@@ -25,7 +25,7 @@
 //   schede                    scrive schede/RNN.md dell'onda e registro-compatto.txt
 //   copertura-prima           ogni voce dell'onda sta in un posto solo, ogni file ha un padrone solo
 //   segnaposti                nelle schede non resta nessun segnaposto
-//   guardia-ramo <ramo> <ID>  la STORIA del ramo (commit per commit) tocca solo quello che la sessione può
+//   guardia-ramo <ramo> <ID>  il RISULTATO del ramo (diff netto) tocca solo quello che la sessione può
 //   valida-referto <file>     il referto di un riparatore rispetta formato e regole
 //   valida-collaudo <file>    il referto di un collaudatore rispetta formato e regola del campione
 //   prova-unione              i rami dell'onda non si pestano: nessun file in due rami, l'unione non litiga
@@ -765,7 +765,7 @@ export function giudicaPercorso(p, ctx) {
   if (ctx.suoi.has(p)) return null;
   if (eProva(p)) {
     if (!allaBase) return basename(p).toLowerCase().includes(`riparazione-${ctx.nome.toLowerCase()}`) ? null : `${p}: una prova nuova porta il nome della sessione (riparazione-${ctx.nome.toLowerCase()}-…)`;
-    return ctx.importaDaSuoi(p) ? null : `${p}: è una prova esistente che non importa nessuno dei file di ${ctx.nome}`;
+    return ctx.importaDaSuoi(p) ? null : `${p}: è una prova esistente che non importa e non nomina nessuno dei file di ${ctx.nome}`;
   }
   if (!allaBase) return null; // un file nuovo: lo controlla prova-unione, che vede se un altro ramo lo crea
   return `${p}: è un file di un'altra sessione o di nessuno in quest'onda`;
@@ -785,6 +785,39 @@ export function importDi(percorso, testo) {
     else if (spec.startsWith(".")) radice = posix.normalize(posix.join(posix.dirname(percorso), spec));
     else continue;
     for (const coda of ["", ".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs", "/index.ts", "/index.tsx", "/index.js", "/index.jsx", "/index.mjs"]) fuori.add(radice + coda);
+  }
+  return fuori;
+}
+/**
+ * I percorsi del deposito che un file NOMINA in una stringa (12/11 sera, regola firmata da Nicola): molte prove
+ * del sito non importano la pagina, la leggono per nome (`readFileSync("app/x/page.tsx")`, `join(ROOT, "app",
+ * "x", "page.tsx")`, `resolve(__dirname, "../../lib/x.ts")`). Nell'onda del 12/11 tre riparatori (R04, R08,
+ * R11) sono finiti rossi per prove così, pur avendo riparato bene. I commenti si tolgono prima, come per gli
+ * import: un percorso scritto in un commento non lega la prova a nessun file. PURA.
+ */
+export function percorsiNominati(percorso, testo) {
+  const fuori = new Set();
+  const senzaCommenti = String(testo).replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:\\])\/\/.*$/gm, "$1");
+  const candidati = [];
+  // Le stringhe una per una, e i pezzi di join/resolve uniti con «/».
+  const RE_STR = /(['"`])((?:\\.|(?!\1)[^\\\n])*)\1/g;
+  for (const m of senzaCommenti.matchAll(RE_STR)) if (!m[2].includes("${")) candidati.push(m[2]);
+  for (const m of senzaCommenti.matchAll(/\b(?:join|resolve)\s*\(((?:[^()]|\([^()]*\))*)\)/g)) {
+    const pezzi = [...m[1].matchAll(RE_STR)].map((x) => x[2]).filter((x) => !x.includes("${"));
+    if (pezzi.length > 1) candidati.push(pezzi.join("/"));
+  }
+  for (const c of candidati) {
+    if (!c || c.length > 300 || !/[\w)]\.[a-z]{1,5}$|\//i.test(c)) continue;
+    const radici = new Set();
+    if (c.startsWith("@/")) radici.add(c.slice(2));
+    else {
+      radici.add(posix.normalize(c).replace(/^(?:\.\/)+/, "").replace(/^\/+/, ""));
+      if (c.startsWith(".")) radici.add(posix.normalize(posix.join(posix.dirname(percorso), c)));
+    }
+    for (const r of radici) {
+      if (!r || r.startsWith("..")) continue;
+      for (const coda of ["", ".ts", ".tsx", ".js", ".jsx", ".mjs", ".sql", "/page.tsx", "/route.ts", "/index.ts", "/index.tsx"]) fuori.add(r + coda);
+    }
   }
   return fuori;
 }
@@ -875,19 +908,31 @@ function guardiaRamo(opz) {
     const testo = gitOk(dir, ["show", `${partenza}:${p}`]);
     if (testo === null) return false;
     for (const x of importDi(p, testo)) if (suoi.has(x)) return true;
+    for (const x of percorsiNominati(p, testo)) if (suoi.has(x)) return true;
     return false;
   };
   const ctx = { nome, suoi, esisteAllaBase, importaDaSuoi, fascia: dove.sessione.migrazioni ?? null, casa: per.casa };
+  // Si giudica il RISULTATO del ramo, non ogni passo della storia (12/11 sera, regola firmata da Nicola): è il
+  // diff netto quello che entra nell'unione. Nell'onda del 12/11 R01 e R07 sono rimasti rossi per sempre su file
+  // toccati per sbaglio e rimessi com'erano. Un file toccato e rimesso si elenca, ma non è un rosso.
+  const netto = new Map();
+  for (const riga of (gitOk(dir, ["diff", "--name-status", "--no-renames", partenza, ref]) ?? "").split("\n").filter(Boolean)) {
+    const m = riga.match(/^([ACDMRTUX])\d*\t(.+)$/);
+    if (m) netto.set(m[2], m[1]);
+  }
+  const daGiudicare = [...netto.keys()];
+  const rimessi = [...storia.toccati].filter((f) => !netto.has(f)).sort();
+  const cancellati = new Set([...netto].filter(([, st]) => st === "D").map(([f]) => f));
   const rossi = [];
-  for (const p of [...storia.toccati].sort()) {
+  for (const p of daGiudicare.sort()) {
     const perche = giudicaPercorso(p, ctx);
     if (perche) rossi.push(perche);
   }
   for (const u of storia.unioni) rossi.push(`${u.slice(0, 12)}: un'unione nel ramo riparatore (il ramo parte dalla base e non unisce niente)`);
   // Una prova che c'era non si cancella e non si spegne: è il modo più corto per far tornare verde una
   // riparazione sbagliata, e il collaudo del 7/11 l'ha fatto passare finché la guardia guardava solo i nomi.
-  for (const p of [...storia.cancellati].sort()) if (eProva(p) && esisteAllaBase(p)) rossi.push(`${p}: una prova esistente non si cancella`);
-  for (const p of [...storia.toccati].filter((f) => eProva(f) && !storia.cancellati.has(f)).sort()) {
+  for (const p of [...cancellati].sort()) if (eProva(p) && esisteAllaBase(p)) rossi.push(`${p}: una prova esistente non si cancella`);
+  for (const p of daGiudicare.filter((f) => eProva(f) && !cancellati.has(f)).sort()) {
     const diff = gitOk(dir, ["diff", partenza, ref, "--", p]) ?? "";
     if (diff.split("\n").some((r) => r.startsWith("+") && !r.startsWith("+++") && RE_SPENTA.test(r))) rossi.push(`${p}: aggiunge una prova spenta (.skip, .only, .todo, .fails, .skipIf, { skip: }, xit): una prova non si spegne per farla passare`);
     // Una prova svuotata non porta nessun «.skip»: le si tolgono le asserzioni. Si contano alla base e alla punta.
@@ -905,7 +950,8 @@ function guardiaRamo(opz) {
   for (const c of senzaVoce) rossi.push(`${c.commit.slice(0, 12)}: un commit di codice che non comincia con l'id di una voce di ${nome} («${nome}-NNN …», oppure «${nome}-varie …»)`);
   for (const c of storia.perCommit) for (const id of c.messaggio.match(/\b[A-Z]\d{2}-\d{3}\b/g) || []) if (!ids.has(id)) rossi.push(`${c.commit.slice(0, 12)}: il messaggio cita ${id}, che non è una voce di ${nome}`);
   const attese = storia.commit.length ? [] : [`${nome}: il ramo non ha ancora nessun commit suo`];
-  return chiudi("guardia-ramo", rossi, attese, opz, { commit: storia.commit.length, file_toccati: storia.toccati.size });
+  if (rimessi.length) console.log(`ℹ️ toccati nella storia e rimessi com'erano (non entrano nell'unione, non sono un rosso): ${rimessi.slice(0, TETTO_RIGHE).join(", ")}`);
+  return chiudi("guardia-ramo", rossi, attese, opz, { commit: storia.commit.length, file_toccati: netto.size, ...(rimessi.length ? { toccati_e_rimessi_com_erano: rimessi } : {}) });
 }
 function guardiaCollaudatore(opz, ramo, nome) {
   const dir = resolve(opz.git ?? opz.radice);

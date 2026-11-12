@@ -82,6 +82,11 @@ Riparti quando la regista risponde «approvato», o correggi come ti dice.
    `node_modules`: per questo il referto non si tiene dentro l'albero mentre lavori (vedi «I commit»). Uscita 0 = regge. 1 = la prova non torna rossa togliendo la correzione: non
    è una riparazione. 3 = la prova è rossa per la struttura (un nome che manca), non per il comportamento:
    rimetti il difetto com'è scritto nella voce e guarda. 2 o 4 = condizione sbagliata: sistemala e riprova.
+   **Se la correzione ha file nuovi** (una migrazione, un aiutante) mettili in `--file` insieme agli altri: la
+   prova li toglie tutti insieme e rimette il codice di partenza, e deve cadere sul comportamento. **Una
+   migrazione si prova con le prove SQL:** `--sql mycity_rimessa` al posto di `--comando` (ricostruisce il
+   database dalle migrazioni sul disco, con e senza la tua). Così anche una voce chiusa solo con una migrazione
+   può essere `riparato`, non più `parziale` per forza (regola del 12/11 sera).
 9. Scrivi la voce nel referto **appena finita**, non alla fine: nel file di lavoro `../referto-RNN.json`, fuori
    dall'albero.
 
@@ -92,8 +97,11 @@ Riparti quando la regista risponde «approvato», o correggi come ti dice.
 - **Le prove nuove** portano il tuo nome: `tests/unit/riparazione-rNN-<tema>.test.ts` (sito),
   `tests/sql/rls/riparazione-rNN-<tema>.sql` (prove SQL: è l'unica cartella che leggono `run.sh` e la CI),
   `cervello/test/riparazione-rNN-<tema>.test.mjs` (macchina).
-- **Una prova esistente** la modifichi solo se importa uno dei tuoi file, e lo dichiari. Mai spegnerla,
-  saltarla (`.skip`) o indebolirla per farla passare.
+- **Una prova esistente** la modifichi solo se importa **o legge per nome** uno dei tuoi file (per esempio
+  `readFileSync(join(ROOT, "app", "x", "page.tsx"))`), e lo dichiari. Un percorso scritto solo in un commento
+  non conta. Mai spegnerla, saltarla (`.skip`) o indebolirla per farla passare.
+- La guardia guarda **il risultato del ramo**: un file toccato per sbaglio e rimesso com'era non ti fa rosso,
+  te lo elenca e basta. Un file altrui cambiato davvero resta rosso.
 - **Le migrazioni:** mai modificare una migrazione esistente. Se serve, una nuova nella tua fascia
   (`migrations/<numero>_<nome>.sql`). Non si applicano: lo decide Nicola.
 - **Macchina:** mai scrivere nei registri condivisi (`cantiere-difetti.json`, `mutanti.json`,

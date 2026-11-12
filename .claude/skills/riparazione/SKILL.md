@@ -200,7 +200,7 @@ dopo riparte da capo. A ogni giro, prima di tutto, `get_session` della regista: 
 blocco, si ferma tutto e si avvisa Nicola. Poi **un comando solo**, `bash cervello/riparazione/sorveglia.sh
 <C> <onda>`, che per ogni sessione dell'onda fa quello che segue e stampa solo i rossi:
 - `get_session` (stato, modello) e `git fetch` del deposito bersaglio;
-- `guardia-ramo <ramo> RNN --cartella <C> --git <deposito>`: la **storia** del ramo, commit per commit;
+- `guardia-ramo <ramo> RNN --cartella <C> --git <deposito>`: il **risultato** del ramo (diff netto), e gli id nei commit uno per uno;
 - `valida-referto <referto> --cartella <C> --git <deposito> --ramo <ramo>` sul referto parziale
   (`git show origin/<ramo>:.riparazione/referto-RNN.json > /tmp/referto-RNN.json`: il nome del file deve
   essere quello della sessione);
@@ -309,7 +309,7 @@ intanto. Riparti solo con la sua risposta, scritta: «via», «togli RNN», «co
 | `schede` | scrive le schede e il registro compatto | 0 |
 | `copertura-prima` | ogni voce in un posto solo, ogni file un padrone, schede uguali al piano | 0 · 1 · 3 |
 | `segnaposti` | nessun segnaposto nelle schede | 0 · 1 · 3 |
-| `guardia-ramo` | la storia del ramo: file propri, prove, migrazioni, temporanei, id nei commit | 0 · 1 · 3 |
+| `guardia-ramo` | il risultato del ramo: file propri, prove (importate o lette per nome), migrazioni, temporanei, id nei commit | 0 · 1 · 3 |
 | `valida-referto` | formato, chiavi, asticella, prova rimessa, una voce per commit, riservate | 0 · 1 · 3 |
 | `valida-collaudo` | verdetti, lenti, prova rimessa, regola del campione ricalcolata | 0 · 1 · 3 |
 | `prova-unione` | nessun file in due rami, l'unione di prova non litiga | 0 · 1 · 3 |

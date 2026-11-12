@@ -16,7 +16,7 @@ import { execFileSync, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { symlinkSync } from "node:fs";
 import {
-  fileDaCampoSito, fileDaSchedaMacchina, assegnaOnda, controllaOnda, giudicaPercorso, importDi,
+  fileDaCampoSito, fileDaSchedaMacchina, assegnaOnda, controllaOnda, giudicaPercorso, importDi, percorsiNominati,
   regoleReferto, regoleCollaudo, campioneDi, decidi, chiaviDoppie, classifica, CONDIVISI_MACCHINA, RE_SPENTA,
 } from "../riparazione-sessioni.mjs";
 
@@ -130,7 +130,7 @@ test("AR-1163 · guardia: i percorsi vietati si fermano, ognuno col suo perché"
     "tests/unit/.montati/1/x.mjs": /temporaneo/,
     ".prova-colonna-sparita/tsconfig.json": /temporaneo/,
     "tests/unit/minori-s03-x.test.ts": /porta il nome della sessione/,
-    "tests/unit/estranea.test.ts": /non importa nessuno dei file/,
+    "tests/unit/estranea.test.ts": /non importa e non nomina nessuno dei file/,
     "migrations/100_vecchia.sql": /già esistente non si modifica/,
     "migrations/290_fuori.sql": /fuori dalla fascia/,
     ".riparazione/appunti.txt": /solo il proprio referto/,
@@ -301,7 +301,7 @@ function cartellaCampagna(base) {
 }
 const lancia = (...args) => spawnSync(process.execPath, [PROGRAMMA, ...args], { encoding: "utf8" });
 
-test("AR-1163 · guardia-ramo: un file altrui toccato e poi rimesso resta nella STORIA, e la guardia lo vede", () => {
+test("regola del 12/11 sera · guardia-ramo: un file altrui toccato e poi rimesso non è un rosso, e la guardia lo elenca", () => {
   const { dir, g, scrivi, base } = depositoFinto();
   const c = cartellaCampagna(base);
   try {
@@ -310,10 +310,57 @@ test("AR-1163 · guardia-ramo: un file altrui toccato e poi rimesso resta nella 
     scrivi("lib/b.ts", "export const b = 1;\n"); g("commit", "-qam", "R01-001 lo rimetto com'era");
     scrivi("lib/a.ts", "export const a = 2;\n"); g("commit", "-qam", "R01-001 la riparazione");
     assert.equal(g("diff", "--name-only", base, "r01"), "lib/a.ts", "nel diff netto il file altrui non c'è più");
+    const r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir, "--json");
+    assert.equal(r.status, 0, r.stdout);
+    assert.match(r.stdout, /rimessi com'erano.*lib\/b\.ts/);
+    assert.deepEqual(JSON.parse(r.stdout.trim().split("\n").pop()).toccati_e_rimessi_com_erano, ["lib/b.ts"]);
+  } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
+});
+
+test("regola del 12/11 sera · guardia-ramo: un file altrui cambiato davvero resta rosso anche se un commit dopo lo tocca di nuovo", () => {
+  const { dir, g, scrivi, base } = depositoFinto();
+  const c = cartellaCampagna(base);
+  try {
+    g("checkout", "-q", "-b", "r01", base);
+    scrivi("lib/b.ts", "export const b = 2;\n"); g("commit", "-qam", "R01-001 tocco il file di R02");
+    scrivi("lib/b.ts", "export const b = 3;\n"); g("commit", "-qam", "R01-001 lo ritocco");
     const r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
     assert.equal(r.status, 1, r.stdout);
     assert.match(r.stdout, /lib\/b\.ts: è un file di un'altra sessione/);
   } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
+});
+
+test("regola del 12/11 sera · guardia-ramo: una prova esistente che LEGGE per nome un file della sessione è sua; una che lo nomina solo in un commento no", () => {
+  const { dir, g, scrivi, base: base0 } = depositoFinto();
+  scrivi("tests/unit/legge.test.ts", "import { readFileSync } from 'node:fs';\nimport { join } from 'node:path';\nconst t = readFileSync(join(process.cwd(), 'lib', 'a.ts'), 'utf8');\nit('x', () => { expect(t).toContain('a'); });\n");
+  scrivi("tests/unit/commento.test.ts", "// readFileSync('lib/a.ts')\nit('x', () => { expect(1).toBe(1); });\n");
+  g("add", "-A"); g("commit", "-qm", "prove esistenti");
+  const base = g("rev-parse", "HEAD");
+  const c = cartellaCampagna(base);
+  try {
+    g("checkout", "-q", "-b", "r01", base);
+    scrivi("lib/a.ts", "export const a = 2;\n");
+    scrivi("tests/unit/legge.test.ts", "import { readFileSync } from 'node:fs';\nimport { join } from 'node:path';\nconst t = readFileSync(join(process.cwd(), 'lib', 'a.ts'), 'utf8');\nit('x', () => { expect(t).toContain('a = 2'); });\n");
+    g("add", "-A"); g("commit", "-qm", "R01-001 la riparazione e la prova che legge il file");
+    let r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.equal(r.status, 0, r.stdout);
+    scrivi("tests/unit/commento.test.ts", "// readFileSync('lib/a.ts')\nit('x', () => { expect(2).toBe(2); });\n");
+    g("add", "-A"); g("commit", "-qm", "R01-001 tocco una prova che non è mia");
+    r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.equal(r.status, 1, r.stdout);
+    assert.match(r.stdout, /commento\.test\.ts: è una prova esistente che non importa e non nomina/);
+  } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
+});
+
+test("percorsiNominati: stringhe, join e resolve sì; commenti e frasi no", () => {
+  const t = `// readFileSync("lib/commento.ts")
+const a = readFileSync(join(process.cwd(), "app", "negozio", "page.tsx"), "utf8");
+const b = readFileSync("components/Card.tsx");
+const c = resolve(__dirname, "../../lib/soldi.ts");
+it("controlla app/frase nel nome", () => {});`;
+  const s = percorsiNominati("tests/unit/x.test.ts", t);
+  for (const k of ["app/negozio/page.tsx", "components/Card.tsx", "lib/soldi.ts"]) assert.ok(s.has(k), k);
+  for (const k of ["lib/commento.ts", "app/frase.ts"]) assert.ok(!s.has(k), k);
 });
 
 test("guardia-ramo: un ramo pulito, col referto e la voce nel messaggio, è verde; un ramo vuoto è in attesa", () => {
