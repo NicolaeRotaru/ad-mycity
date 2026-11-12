@@ -38,3 +38,4 @@
 2026-11-12 16:38 · R06 · lavora · — · chiavi corrette · — · 013/014 (solo migrazione nuova) = parziale, come R01-019
 2026-11-12 16:41 · R09 · finita · guardia ✅ · referto 25 di 25 ✅ · — · dato a K01 (pieno: R01 R02 R09)
 2026-11-12 16:42 · R07 · finita · guardia 🔴 solo storia di 1 aiuto altrui (netto vuoto) · referto 25 di 25 ✅ · — · dato a K02 (aperto); un qa ha letto in sola lettura la produzione
+2026-11-12 16:43 · K01 · R02 collaudato · 9 reggono, 10 parziali, 1 non regge, 1 rompe altro; campione minori 8 su 13, non accettato · — · — · un giro di correzione a R02 (003, 023, 008, 011, 015 + esiti); 1 difetto nato riservato tenuto fuori dal deposito
