@@ -59,7 +59,7 @@ Dalla frase si ricavano tre cose. Se una manca e non si deduce, si fa **una** do
 |---|---|---|---|---|
 | urgente | «ripara subito», «prima possibile quello che tiene spento X» | `--profilo urgente` (i bloccanti) o `--chiavi`/`--file-chiavi` | 1-3 riparatori + 1 collaudatore | 1 onda · 1 fermata (piano in 5 righe) · PR di emergenza da sola |
 | funzione | «i difetti della funzione X», «del PR N», «nati dal…» | `--profilo funzione --diff <base>..<testa>`, e per i difetti NATI dalla funzione anche `--nati-dal <giorno dell'unione>` (il solo diff prende anche i difetti vecchi di quei file: sulla PR #287 erano 544) | in base al numero | 1 onda · 1 fermata |
-| tutto | «ripara i difetti del sito / della macchina» | `--profilo tutto` | fino a 12 riparatori, ceil(K/3) collaudatori (max 4) | 2 onde + cucitura · 2 fermate |
+| tutto | «ripara i difetti del sito / della macchina» | `--profilo tutto` | riparatori da 25 voci al massimo, fino a 12 per onda; ceil(K/3) collaudatori (max 4); un controllore per onda più uno finale; la regia in una sessione sua | 3 onde + cucitura · 3 fermate |
 | scelta | chiavi, codici AR, area, gravità | `--profilo scelta` con i filtri | in base al numero | in base al numero |
 
 **La misura.** Il profilo urgente usa sempre le sessioni (da 1 a 3), anche con poche voci: serve la
@@ -71,6 +71,47 @@ sessione sola (skill `cantiere`): è il metodo misurato. Oltre, sessioni divise 
 Un guasto in corso («il sito è giù», «il worker non risponde») **non** si ripara da qui: prima la diagnosi
 (skill `salute`, `worker`, i log). Se la causa è una voce registrata, si torna qui col profilo urgente.
 Un rollback o un deploy sono 🔴: si propongono a Nicola.
+
+---
+
+## Le regole del 12/11 (Nicola: riparatori più piccoli, la regia a parte, un controllore, niente lavoro inutile)
+
+**I riparatori da 25.** `PER_SESSIONE` vale 25: un riparatore finisce in circa metà tempo. Sul profilo
+«tutto» le onde diventano tre (sul sito, il 12/11: 12 + 12 + 6 sessioni, poi la cucitura).
+
+**La regia in una sessione sua.** Quando la campagna dura ore (il profilo «tutto», o più di un'onda), la
+sessione che parla con Nicola non fa la regista: resta leggera e legge solo gli esiti (regola ㉔ del manuale).
+- La sessione dell'AD deve essere in modalità **Auto**: una figlia nasce nella modalità di chi la apre, e in
+  «plan» si blocca. Se `get_session` dice `plan`, lo si chiede a Nicola prima del «via».
+- La preparazione (perimetro e divisione) la fa l'AD. Poi scrive `<C>/REGIA.md`: il quaderno di bordo, al
+  massimo 80 righe, con le scelte di Nicola e cosa resta. Commit e push.
+- `create_session` con `source_url` = `ad-mycity`, `outcome_branch` = il ramo della campagna. Il prompt è una
+  riga: *«Sei la regista della campagna <C>. Leggi .claude/skills/riparazione/SKILL.md e <C>/REGIA.md, poi
+  continua da lì. Nicola parla con l'AD nella sessione <id>: le fermate e l'esito vanno lì con send_message.»*
+- La regista aggiunge il sito con `add_repo` (accesso `push`) e scrive le schede col suo id e il suo ramo.
+- Le fermate vanno all'AD con `send_message`, nei quattro blocchi. L'AD le mostra a Nicola e riporta la
+  risposta. Dopo il passaggio l'AD non spinge più sul ramo della campagna.
+
+**Il controllore.** Oltre ai collaudatori, che guardano ogni riparazione sul suo ramo, dopo l'unione di ogni
+onda una sessione nuova (`CNN`) guarda il ramo **unito**. Dopo la cucitura ne arriva una finale (`CF`) su tutta
+la campagna. Le sue regole stanno in `cervello/riparazione/LEGGIMI-controllore.md`. `applica` legge
+`<C>/controlli/`: una voce rossa al controllo non si chiude, e i difetti nuovi che il controllore vede entrano
+nel registro come nati. Così la radiografia dopo non trova come nuovo un difetto che la campagna ha toccato.
+
+**Il preventivo, detto giusto.** Il costo è il consumo di ogni sessione al prezzo di listino, cioè il campo
+`usage.cost_usd` di `get_session`. Con l'abbonamento scala dal **limite settimanale** e non va in bolletta,
+salvo l'«uso extra» a pagamento. A Nicola si dice così, con il rischio vero: a limite finito si ferma tutto
+fino al giorno del rinnovo. Il conto misurato si legge da `cost_usd` di ogni figlia e si dice a ogni fermata.
+
+**Il lavoro che non si fa** (Nicola: «non deve essere fatto lavoro inutile che consuma token»):
+- la regista non rilegge le trascrizioni delle figlie: giudica dal ramo, dal referto e da `sorveglia.sh`;
+- un giro di sorveglianza è **un** comando (`bash cervello/riparazione/sorveglia.sh <C> <onda>`), che stampa
+  solo i rossi; un giro senza rossi non scrive a nessuno (regola ㉓);
+- il collaudatore non rifà la riparazione e il controllore non rifà il collaudo: ognuno guarda solo quello
+  che l'altro non può vedere;
+- un secondo agente solo per gravi, bloccanti e sicurezza, e parte dalla prova del primo (regole ⑯ e ⑲);
+- le voci «già riparate prima» si provano con un comando o una riga, non con un agente;
+- oltre 12 subagenti per sessione, o oltre 2 milioni di token, ci si ferma e si chiede (regola ⑱).
 
 ---
 
@@ -96,8 +137,9 @@ Tutti i comandi dalla radice di `ad-mycity`, con `--cartella consegne/riparazion
 8. **FERMATA 1.** A Nicola, nei quattro blocchi di `cervello/scrittura-umana.md`:
    - il perimetro in numeri («541 lavorabili: 4 bloccanti, 59 gravi, 478 minori») e cosa resta fuori;
    - le sessioni e le onde, con i temi;
-   - la stima: costo (circa 50 dollari a riparatore, misurato il 5/11; i collaudatori si misurano alla
-     prima campagna), tempo e numero di agenti;
+   - la stima: consumo in dollari di listino (circa 50 $ per un riparatore da 45 voci, stimati il 5/11;
+     da 25 voci in proporzione), più collaudatori, controllori e regia; il tempo e il numero di agenti.
+     Detto come nella sezione «Il preventivo, detto giusto», e rimisurato con `cost_usd` alla fermata 2;
    - le domande che sbloccano voci (`domanda_per_nicola`), raggruppate;
    - per la macchina: se includere le voci a prova umana.
    Si parte solo con il suo «via».
@@ -131,7 +173,8 @@ a 30 minuti col testo «sorveglianza riparazione <C>, onda N». **Ogni giro**, f
 successivo. Una catena sola (mai `sleep`, mai due catene). **Quando smette:** quando tutti i riparatori e i
 collaudatori dell'onda hanno `finita: true` e i loro controlli sono verdi, oppure a una fermata. All'onda
 dopo riparte da capo. A ogni giro, prima di tutto, `get_session` della regista: se `isUsingOverage` o un
-blocco, si ferma tutto e si avvisa Nicola. Poi, per ogni sessione dell'onda:
+blocco, si ferma tutto e si avvisa Nicola. Poi **un comando solo**, `bash cervello/riparazione/sorveglia.sh
+<C> <onda>`, che per ogni sessione dell'onda fa quello che segue e stampa solo i rossi:
 - `get_session` (stato, modello) e `git fetch` del deposito bersaglio;
 - `guardia-ramo <ramo> RNN --cartella <C> --git <deposito>`: la **storia** del ramo, commit per commit;
 - `valida-referto <referto> --cartella <C> --git <deposito> --ramo <ramo>` sul referto parziale
@@ -181,16 +224,22 @@ senza Nicola.
    - macchina: `node cervello/cancello-lotto.mjs` e `node cervello/radiografia-in-corsa.mjs`.
    Sono le prove che il 5/11 diventavano rosse solo dopo l'unione (8). Una voce `rompe_altro`, o rossa
    dopo l'unione, si toglie da sola col suo commit (`git revert`): per questo una voce per commit.
-4. **FERMATA 2** (dopo l'onda 1), nei quattro blocchi: i numeri veri da `conti --cartella <C>` e da
+   **Il controllore d'onda** (`CNN`, sessione nuova, ramo `<ramo della regista>-cNN`) parte appena il ramo
+   unito è spinto. Il prompt è una riga: *«Sei il controllore CNN. Leggi cervello/riparazione/LEGGIMI-controllore.md
+   e controlla l'onda N della cartella <C>: integrazione <ramo> @ <sha>, base <sha>.»* Il suo referto si
+   copia in `<C>/controlli/CNN.json`. Sul suo ramo deve esserci solo quel file (`git diff --name-only`).
+4. **FERMATA 2** (dopo l'onda 1) e **FERMATA 3** (dopo l'onda 2), nei quattro blocchi: i numeri veri da `conti --cartella <C>` e da
    `applica --cartella <C>` a vuoto (quante reggono, quante no, quante passano all'onda 2), il costo misurato
    (`node cervello/conto-token.mjs` per i workflow della regista; per le sessioni figlie il loro `conto` nei
    referti) e la quota da `get_session`. Si va avanti solo con «via la seconda».
-5. **L'onda 2:** `dividi --cartella <C> --base <SHA dell'integrazione> --ultima` (più
-   `--file-chiavi` con le voci `serve_file_altrui` e `non_fatto` da rifare), `schede`, `copertura-prima`,
-   e di nuovo F1-F3.
+5. **Le onde dopo:** `dividi --cartella <C> --base <SHA dell'integrazione>` (più `--file-chiavi` con le voci
+   `serve_file_altrui` e `non_fatto` da rifare), con `--ultima` sull'ultima onda; poi `schede`,
+   `copertura-prima`, e di nuovo F1-F3.
 6. **La cucitura**, dopo l'ultima onda: le voci di `piano.cucitura` (al massimo 40) si fanno sul ramo di
    integrazione con `.claude/workflows/ondata-snella.js` (`tech` costruisce, `qa` collauda, tetto 12).
    `piano.eccedenza` resta nel registro per la campagna dopo: si dice, non si nasconde.
+   Poi **il controllore finale** (`CF`) su tutto il diff della campagna, con il giro dei flussi che incassano
+   in palestra se è accesa. Le PR escono di bozza solo con `CF` letto da `applica`.
 7. Si toglie `.riparazione/` dall'integrazione. **Una PR per deposito**, in bozza finché tutto non è verde,
    col titolo che descrive il comportamento. Le migrazioni nuove del sito sono 🔴 a parte: si
    applicano solo con «ok migrazioni» di Nicola.
@@ -223,6 +272,7 @@ intanto. Riparti solo con la sua risposta, scritta: «via», «togli RNN», «co
 - la terza bocciatura sulla stessa voce;
 - un guardiano rosso due volte sulla stessa sessione dopo la correzione;
 - un conflitto all'unione dentro un'onda;
+- un controllore che trova rosse più di 1 voce su 10 dell'onda;
 - agenti o costo oltre la stima della fermata 1;
 - qualunque azione 🔴 (deploy, migrazioni sul database vero, prezzi, messaggi a persone vere).
 
@@ -239,7 +289,7 @@ intanto. Riparti solo con la sua risposta, scritta: «via», «togli RNN», «co
 | `valida-referto` | formato, chiavi, asticella, prova rimessa, una voce per commit, riservate | 0 · 1 · 3 |
 | `valida-collaudo` | verdetti, lenti, prova rimessa, regola del campione ricalcolata | 0 · 1 · 3 |
 | `prova-unione` | nessun file in due rami, l'unione di prova non litiga | 0 · 1 · 3 |
-| `applica` | chi si chiude e chi no; con `--scrivi` frammenti e registro | 0 · 1 · 3 |
+| `applica` | chi si chiude e chi no, coi controllori di `controlli/`; con `--scrivi` frammenti e registro | 0 · 1 · 3 |
 | `conti` | prima e dopo, per chiave | 0 · 1 |
 
 L'uscita 2 vuol dire «non ho potuto misurare»: non è mai un verde. Le prove del programma:

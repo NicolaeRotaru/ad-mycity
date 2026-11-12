@@ -1,14 +1,16 @@
 #!/usr/bin/env bash
 # Un giro di sorveglianza della campagna, in un comando solo (skill `riparazione`, «La sorveglianza»).
-# Uso, dalla radice di ad-mycity:  bash consegne/riparazioni/2026-11-12-sito-tutto/sorveglia.sh <onda>
+# Uso, dalla radice di ad-mycity:  bash cervello/riparazione/sorveglia.sh <cartella della campagna> <onda>
+#   es.  bash cervello/riparazione/sorveglia.sh consegne/riparazioni/2026-11-12-sito-tutto 1
 # Per ogni riparatore dell'onda in sessioni.json: guardia-ramo e valida-referto sul referto parziale; per ogni
 # collaudatore con un ramo: guardia-ramo e valida-collaudo; poi una prova-unione per tutta l'onda.
 # Scrive una riga per sessione nel diario e stampa solo i rossi e i finiti. Uscita 0 nessun rosso, 1 rossi.
 # Lo stato delle sessioni (get_session) e la quota li guarda la regista a parte: da bash non si vedono.
 set -uo pipefail
-ONDA="${1:?serve il numero dell onda}"
-RADICE="$(cd "$(dirname "$0")/../../.." && pwd)"
-C="consegne/riparazioni/2026-11-12-sito-tutto"
+C="${1:?serve la cartella della campagna, relativa alla radice di ad-mycity}"; C="${C%/}"
+ONDA="${2:?serve il numero dell onda}"
+RADICE="$(cd "$(dirname "$0")/../.." && pwd)"
+[ -f "$RADICE/$C/sessioni.json" ] || { echo "⚪ $C/sessioni.json non c'è: nessuna sessione da sorvegliare"; exit 2; }
 SITO="${MARKETPLACE_REPO:-$RADICE/../mycity}"
 P="node $RADICE/cervello/riparazione-sessioni.mjs"
 DIARIO="$RADICE/$C/diario-della-sorveglianza.txt"

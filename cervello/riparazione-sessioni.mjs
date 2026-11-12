@@ -70,7 +70,9 @@ export const GIUDIZI = Object.freeze(["pieno", "nessuno"]);
 export const LENTI = Object.freeze(["chiude_tutta", "nata_rotta"]);
 export const PROVE = Object.freeze(["comando", "lettura-codice", "umano"]);
 export const MAX_SESSIONI = 12;
-export const PER_SESSIONE = 45;
+// 25 e non più 45 (Nicola, 12/11: «i lavori più lunghi che ci impiegano tante ore suddividilo in altre
+// sessioni»): un riparatore finisce in circa metà tempo, e il profilo «tutto» passa da due a tre onde.
+export const PER_SESSIONE = 25;
 export const TETTO_CUCITURA = 40;
 export const SOGLIA_CAMPIONE = 0.9;
 export const QUOTA_CAMPIONE = 0.3;
@@ -1278,6 +1280,46 @@ function leggiCartellaTesti(dir, re) {
     return { nome, testo, dati };
   });
 }
+// ── i controllori (Nicola, 12/11: «ci deve essere un controllore… non voglio che con la prossima radiografia
+// trovo errori che c'erano già») ─────────────────────────────────────────────────────────────────────
+// Un controllore d'onda (C01, C02…) o finale (CF) guarda il ramo GIÀ unito: rilancia le prove sull'albero
+// intero e riguarda i file toccati. Scrive controlli/<nome>.json. Una voce che trova rossa non si chiude,
+// anche se riparatore e collaudatore dicevano «regge»; i difetti nuovi che vede entrano nel registro come nati.
+export const RE_CONTROLLO = /^C(\d{2}|F)\.json$/;
+/** Le regole di un referto di controllo. PURA: torna i rossi. */
+export function regoleControllo(dati, { nome, chiaviDelRegistro = null } = {}) {
+  const rossi = [];
+  if (dati?.controllore !== nome) rossi.push(`dice di essere «${dati?.controllore}», il file è ${nome}`);
+  if (dati?.finita !== true) rossi.push("il controllo non è finito");
+  if (!Array.isArray(dati?.voci_rosse)) rossi.push("manca «voci_rosse» (anche vuota: [] vuol dire che ha guardato e reggono tutte)");
+  if (vuoto(dati?.verify?.comando) || !["verde", "rosso"].includes(dati?.verify?.esito)) rossi.push("manca la prova sull'albero unito («verify»: comando ed esito verde o rosso)");
+  for (const v of dati?.voci_rosse ?? []) {
+    if (vuoto(v?.chiave) || vuoto(v?.perche)) rossi.push(`una voce rossa senza chiave o senza perché: «${v?.chiave ?? ""}»`);
+    else if (chiaviDelRegistro && !chiaviDelRegistro.has(v.chiave)) rossi.push(`la voce rossa «${v.chiave}» non è nel registro`);
+  }
+  for (const n of dati?.nuovi_difetti_visti ?? []) {
+    if (n?.riservato === true) {
+      if (n.file !== PRIVATO || !TITOLO_RISERVATO.test(String(n.titolo ?? ""))) rossi.push(`un difetto nuovo riservato fuori forma: file «${PRIVATO}» e il titolo fisso, nient'altro`);
+    } else if (/falla di sicurezza/i.test(String(n?.titolo ?? ""))) rossi.push(`«${String(n?.titolo).slice(0, 60)}…»: una falla di sicurezza si scrive con «riservato: true», mai in chiaro`);
+    else if (vuoto(n?.titolo) || vuoto(n?.file) || !["bloccante", "grave", "minore"].includes(n?.severita)) rossi.push(`un difetto nuovo senza titolo, file o gravità valida: «${n?.titolo ?? ""}»`);
+  }
+  return rossi;
+}
+/** Le voci che un controllore ha trovato rosse non si chiudono. PURA: torna le decisioni nuove. */
+export function conIControlli(decisioni, controlli = []) {
+  const rosse = new Map();
+  for (const c of controlli) for (const v of c?.voci_rosse ?? []) if (!rosse.has(v.chiave)) rosse.set(v.chiave, `${c.controllore}: ${v.perche}`);
+  // Anche un «già riparato prima» si riapre: se sul ramo unito il difetto c'è, non era riparato.
+  return decisioni.map((d) => (["si_chiude", "gia_riparato_prima"].includes(d.decisione) && rosse.has(d.chiave)
+    ? { ...d, decisione: "resta_aperta", perche: `rossa al controllo sul ramo unito (${rosse.get(d.chiave)})`, controllo: rosse.get(d.chiave) }
+    : d));
+}
+/** Le voci rosse di un controllore che non sono di questa campagna: non si ignorano in silenzio. PURA. */
+export const rosseFuoriCampagna = (decisioni, controlli = []) => {
+  const nostre = new Set(decisioni.map((d) => d.chiave));
+  return [...new Set(controlli.flatMap((c) => (c?.voci_rosse ?? []).map((v) => v.chiave)).filter((k) => !nostre.has(k)))];
+};
+
 function applica(opz) {
   let per, piano;
   try { per = leggiPerimetro(opz); piano = leggiPiano(opz); } catch (e) { return cieco("applica", e.message, opz); }
@@ -1299,9 +1341,16 @@ function applica(opz) {
   try { chiaviDelRegistro = new Set(leggiRegistro(per.casa, opz).elenco.map((d) => chiaveDi(per.casa, d))); } catch (e) { return cieco("applica", e.message, opz); }
   const ferma = [];
   // Un file con un nome che non è di nessuna sessione non si ignora in silenzio: è un referto che nessuno legge.
-  for (const [sotto, re] of [["referti", /^R\d{2}\.json$/], ["collaudi", /^K\d{2}\.json$/]]) {
+  for (const [sotto, re, forma] of [["referti", /^R\d{2}\.json$/, "RNN"], ["collaudi", /^K\d{2}\.json$/, "KNN"], ["controlli", RE_CONTROLLO, "CNN o CF"]]) {
     const d = join(cartella, sotto);
-    if (existsSync(d)) for (const n of readdirSync(d)) if (!re.test(n)) ferma.push(`${sotto}/${n}: il nome non è quello di una sessione (${sotto === "referti" ? "RNN" : "KNN"}.json)`);
+    if (existsSync(d)) for (const n of readdirSync(d)) if (!re.test(n)) ferma.push(`${sotto}/${n}: il nome non è quello di una sessione (${forma}.json)`);
+  }
+  const controlli = [];
+  for (const { nome: file, dati } of leggiCartellaTesti(join(cartella, "controlli"), RE_CONTROLLO)) {
+    const nome = file.replace(/\.json$/, "");
+    if (!dati) { ferma.push(`controlli/${file}: non è JSON`); continue; }
+    for (const r of regoleControllo(dati, { nome, chiaviDelRegistro })) ferma.push(`controlli/${file}: ${r}`);
+    controlli.push(dati);
   }
   const referti = {};
   const sess = leggiSessioni(opz);
@@ -1338,7 +1387,9 @@ function applica(opz) {
     collaudi.push(dati);
   }
   if (ferma.length) return chiudi("applica", ferma, [], opz);
-  const decisioni = decidi({ piano, referti, collaudi, hub });
+  const decisioni = conIControlli(decidi({ piano, referti, collaudi, hub }), controlli);
+  const fuoriCampagna = rosseFuoriCampagna(decisioni, controlli);
+  if (fuoriCampagna.length) console.log(`⚠️  ${fuoriCampagna.length} voci rosse dei controllori non sono di questa campagna (restano come sono nel registro, vanno dette a Nicola): ${fuoriCampagna.slice(0, 5).join(" ; ")}`);
   const quando = opz.quando ?? timbroOra();
   const [g, m] = [quando.slice(8, 10), quando.slice(5, 7)];
   const campo = `riparazione_${g}_${m}`;
@@ -1346,7 +1397,8 @@ function applica(opz) {
   const chiude = decisioni.filter((d) => d.decisione === "si_chiude");
   const gia = decisioni.filter((d) => d.decisione === "gia_riparato_prima");
   const restano = decisioni.filter((d) => d.decisione === "resta_aperta");
-  const nati = Object.values(referti).flatMap((r) => (r.nuovi_difetti_visti ?? []).map((n) => ({ ...n, sessione: r.sessione })));
+  const nati = [...Object.values(referti), ...controlli.map((c) => ({ ...c, sessione: c.controllore }))]
+    .flatMap((r) => (r.nuovi_difetti_visti ?? []).map((n) => ({ ...n, sessione: r.sessione })));
   console.log(`🧾 ${decisioni.length} voci: ${chiude.length} si chiudono (dopo l'unione), ${gia.length} erano già riparate, ${restano.length} restano aperte · ${nati.length} difetti nati`);
   // i frammenti per chiudi-sito.mjs (sito) o la lista per auto-fix (macchina): si applicano DOPO l'unione
   const perSessione = new Map();

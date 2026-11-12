@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-11-07 09:53
+aggiornato: 2026-11-12 15:30
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🔧 **2026-11-12 15:30 — Il risolutore del sito è pronto a partire: 662 difetti, in attesa del tuo «via».**
+>
+> Su 828 difetti aperti del sito se ne riparano col codice 662: 5 bloccanti, 74 gravi e 583 minori. Hai chiesto riparatori più piccoli, la regia in una sessione sua e un controllore: ogni riparatore prende al massimo 25 difetti, in tre onde da 12, 12 e 6 sessioni. Dopo ogni onda una sessione nuova rifà le prove sul lavoro unito, e alla fine ce n'è una su tutto. Queste regole ora sono nel risolutore e valgono per le prossime campagne. Il preventivo è di circa 1.300-1.500 $ di consumo, che con l'abbonamento scala dal limite settimanale. Mancano il tuo «via» e la modalità «Auto». Richiesta di unione: ad-mycity#944.
 
 > 🔧 **2026-11-07 09:53 — La riparazione in sessioni è pronta: con una frase i difetti si riparano come la radiografia li ha trovati.**
 >

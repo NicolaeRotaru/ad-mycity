@@ -90,7 +90,15 @@ export const ALLARMI = [/🔴/, /\bCRITICO\b/i, /\bbloccante\b/i];
  * malattia dei referti auto-scritti in `sorvegliante.mjs` (REFERTI): un testo che la macchina rigenera
  * sempre uguale non è la voce di chi scopre un problema.
  */
-const ePrDoc = (file) => /^consegne\/tech\/pr-[^/]+-\d+\.md$/.test(file);
+const ePrDocSoltanto = (file) => /^consegne\/tech\/pr-[^/]+-\d+\.md$/.test(file);
+/**
+ * Le schede che il risolutore scrive per i riparatori (`riparazione-sessioni.mjs schede`): un elenco di
+ * difetti del registro con la loro gravità, quindi «bloccante» per mestiere, letto da una sessione e non
+ * da Nicola. È la stessa malattia dei referti di PR qui sopra. Trovato il 12/11 sulla prima campagna
+ * (ad-mycity#944): R01-R03 accusate di «allarme non accodato», R06 di «testo difficile per Nicola».
+ */
+export const eSchedaRisolutore = (file) => /^consegne\/riparazioni\/[^/]+\/schede\/[RK]\d{2}\.md$/.test(file);
+const ePrDoc = (file) => ePrDocSoltanto(file) || eSchedaRisolutore(file);
 
 // ─────────────────────────────────────────────────────────────────────────────
 // IL CUORE — funzioni pure. Prendono DUE stati (prima e dopo) e tornano cosa manca. Pure perché una
@@ -440,6 +448,7 @@ export function testiIlleggibili(testi = [], noteAGlossario = null) {
   for (const t of testi) {
     if (!CARTELLE_DI_NICOLA.some((c) => t.file.startsWith(c))) continue;
     if (STORIA_ESENTE.test(t.file)) continue;
+    if (eSchedaRisolutore(t.file)) continue; // la legge un riparatore, non Nicola
     const m = misura(t.contenuto, { noteAGlossario });
 
     // SI MISURA IL PEGGIORAMENTO, NON IL TOTALE.

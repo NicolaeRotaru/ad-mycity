@@ -706,3 +706,61 @@ test("secondo collaudo #7: applica rilancia anche i controlli del collaudo (un g
     assert.match(r.stdout, /collaudi\/K01\.json: R01-001: un giudizio pieno porta tutte e due le lenti/);
   } finally { rmSync(c, { recursive: true, force: true }); }
 });
+
+// ── il controllore sul ramo unito (Nicola, 12/11: «ci deve essere un controllore») ──────────────────────
+test("il controllore: una voce che trova rossa sul ramo unito non si chiude, e i difetti che vede nascono nel registro", () => {
+  const c = mkdtempSync(join(tmpdir(), "riparazione-applica-c-"));
+  try {
+    const voci = [{ id: "R01-001", chiave: "pagamenti|il payout salta", gravita: "grave", file: ["lib/a.ts"] }];
+    writeFileSync(join(c, "perimetro.json"), JSON.stringify({ casa: "sito", lavorabili: voci }));
+    writeFileSync(join(c, "piano.json"), JSON.stringify({ casa: "sito", onde: [{ onda: 1, base: "0".repeat(40), candidate: [voci[0].chiave], sessioni: { R01: { voci, file: ["lib/a.ts"] } }, rimandate: [], regia: [] }] }));
+    const registro = join(c, "registro.json");
+    writeFileSync(registro, JSON.stringify({ problemi: [{ dimensione: "pagamenti", titolo: "il payout salta", stato: "aperto", severita: "grave", file: "lib/a.ts:1" }] }));
+    mkdirSync(join(c, "referti")); mkdirSync(join(c, "collaudi")); mkdirSync(join(c, "controlli"));
+    const rip = riparata({ id: "R01-001" });
+    writeFileSync(join(c, "referti", "R01.json"), JSON.stringify({ sessione: "R01", aggiornato: "2026-11-08 10:00", finita: true, testa: "fff0000", verifica: { esito: "verde" }, voci: [rip] }));
+    writeFileSync(join(c, "collaudi", "K01.json"), JSON.stringify({ collaudatore: "K01", riparatori: ["R01"], aggiornato: "2026-11-08 12:00", finita: true, voci: [{ id: "R01-001", chiave: rip.chiave, verdetto: "regge", giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"], rimessa: { uscita: 0, comando: "x" } }] }));
+    const controllo = (extra) => JSON.stringify({ controllore: "C01", onda: 1, finita: true, verify: { comando: "npm run verify", esito: "rosso" }, voci_rosse: [], nuovi_difetti_visti: [], ...extra });
+    // senza controllo, o con un controllo che non trova niente, la voce si chiude
+    writeFileSync(join(c, "controlli", "C01.json"), controllo({}));
+    let r = lancia("applica", "--cartella", c, "--registro", registro);
+    assert.equal(r.status, 3, r.stdout);
+    assert.match(r.stdout, /1 si chiudono/);
+    // il controllore la trova rossa sul ramo unito: resta aperta, col perché
+    writeFileSync(join(c, "controlli", "C01.json"), controllo({
+      voci_rosse: [{ chiave: rip.chiave, perche: "tests/unit/riparazione-r03-payout.test.ts rosso dopo l'unione con R02" }],
+      nuovi_difetti_visti: [{ titolo: "Il bonifico parte due volte se si preme due volte", dimensione: "pagamenti-stripe", severita: "grave", file: "lib/a.ts:9", descrizione: "nato dall'unione" }],
+    }));
+    r = lancia("applica", "--cartella", c, "--registro", registro);
+    assert.equal(r.status, 3, r.stdout);
+    assert.match(r.stdout, /0 si chiudono/);
+    assert.match(r.stdout, /1 difetti nati/);
+    const d = JSON.parse(readFileSync(join(c, "decisioni.json"), "utf8")).decisioni[0];
+    assert.equal(d.decisione, "resta_aperta");
+    assert.match(d.perche, /C01: tests\/unit\/riparazione-r03-payout/);
+    // un controllo fuori forma, o un file con un nome di nessuno, fermano tutto
+    writeFileSync(join(c, "controlli", "C01.json"), controllo({ verify: undefined, voci_rosse: [{ chiave: "inventata|mai vista", perche: "x" }] }));
+    writeFileSync(join(c, "controlli", "note.json"), "{}");
+    r = lancia("applica", "--cartella", c, "--registro", registro);
+    assert.equal(r.status, 1, r.stdout);
+    assert.match(r.stdout, /controlli\/C01\.json: manca la prova sull'albero unito/);
+    assert.match(r.stdout, /controlli\/C01\.json: la voce rossa «inventata\|mai vista» non è nel registro/);
+    assert.match(r.stdout, /controlli\/note\.json: il nome non è quello di una sessione/);
+  } finally { rmSync(c, { recursive: true, force: true }); }
+});
+
+test("il controllore: anche un «già riparato prima» rosso sul ramo unito resta aperto, e una voce rossa d'altri si dice", async () => {
+  const { conIControlli, rosseFuoriCampagna } = await import("../riparazione-sessioni.mjs");
+  const decisioni = [
+    { chiave: "a|uno", decisione: "si_chiude" },
+    { chiave: "b|due", decisione: "gia_riparato_prima" },
+    { chiave: "c|tre", decisione: "resta_aperta", perche: "parziale" },
+  ];
+  const controlli = [{ controllore: "CF", voci_rosse: [{ chiave: "b|due", perche: "la riga 12 c'è ancora" }, { chiave: "z|altrui", perche: "x" }] }];
+  const dopo = conIControlli(decisioni, controlli);
+  assert.equal(dopo[0].decisione, "si_chiude");
+  assert.equal(dopo[1].decisione, "resta_aperta");
+  assert.match(dopo[1].perche, /CF: la riga 12/);
+  assert.equal(dopo[2].perche, "parziale", "una voce già aperta resta col suo perché");
+  assert.deepEqual(rosseFuoriCampagna(decisioni, controlli), ["z|altrui"]);
+});
