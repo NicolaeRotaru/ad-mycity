@@ -62,3 +62,4 @@
 2026-11-12 16:49 · R10 · finita · guardia ✅ · referto ✅ · — · dato a K03 (aperto)
 2026-11-12 16:54 · R06 · finita · guardia ✅ · referto ✅ · — · dato a K03
 2026-11-12 16:54 · R12 · dice finito · guardia 🔴 (asserzioni tolte da prove esistenti, non corretto) · referto ✅ · — · ultimo giro di correzione
+2026-11-12 16:56 · R12 · finita · guardia ✅ · referto ✅ · — · dato a K03 (pieno: R06 R10 R12)
