@@ -74,6 +74,25 @@ fonte: le parti di CLAUDE.md che servono solo all'AD, spostate parola per parola
 > trovato 74 problemi veri su 89 segnalati: il controllo serviva, era la forma a essere lenta. Stima col metodo nuovo:
 > 15-20 minuti e un terzo dei passi, da misurare al prossimo lavoro simile. *Freno non ancora scritto: oggi nessun
 > guardiano conta i turni per agente. È debito dichiarato in `LAVORO-APERTO.md`.*
+>
+> 🧾 **Il conto dei token (12/11/2026, Nicola: «voglio che non capiti più che mi consumi così tanti token
+> inutilmente»).** Le regole ⑥, ⑨, ⑬ e ⑯ c'erano già. La palestra le ha scavalcate tutte: circa 40 milioni di token in
+> 4 giorni, lotti da 68 a 112 subagenti, il limite settimanale toccato. Il ricontrollo del confronto è costato 3,2 milioni e
+> ha trovato 0 errori. ⑱ **Il preventivo prima di lanciare**: agenti e token stimati in testa allo script e nel messaggio
+> a Nicola. La stima: 80-150 mila token per un agente che prova, 50-100 mila per un verificatore. Oltre 12 subagenti o
+> 2 milioni di token si chiede prima · ⑲ **la verifica è proporzionata**: un secondo agente solo per bloccanti, gravi e
+> sicurezza, e parte dalla prova (⑯); un minore entra come visto una volta, con `verificato: false`; mai il controllo
+> di un controllo · ⑳ **il valore prima del volume**: con più di 100 minori aperti nel registro non si cercano minori
+> nuovi · ㉑ **ultracode o una firma larga** («fallo per tutti i giorni che ti servono») non sospendono queste regole:
+> il tetto di spesa lo dà Nicola · ㉒ **il quaderno di bordo**: il file del piano tiene solo lo stato di adesso, al
+> massimo 80 righe. Dentro ci sono cosa è fatto, il prossimo passo, i comandi esatti, i file e gli ID; la storia va in
+> `DECISIONI.md`. Dopo una compattazione o un riavvio si riparte da lì, senza rileggere la trascrizione e senza
+> esplorazioni rifatte. Gli script usati più di una volta vanno nel deposito, perché lo scratchpad sparisce col
+> contenitore · ㉓ **le attese sono mute**: un solo avviso alla fine di un lavoro lungo, niente controlli che svegliano
+> più volte, niente turni per dire «aspetto». Ogni risveglio rilegge tutto il contesto · ㉔ **i lavori lunghi in sessioni
+> separate** (Nicola, 12/11: «usare altre sessioni nel caso in cui il lavoro richiede tanto tempo o c'è tanto lavoro»):
+> un lavoro di più ore o con tanti pezzi parte in una sessione nuova, con il quaderno come brief. La sessione dell'AD resta
+> leggera e legge solo gli esiti. Analisi: `consegne/audit/2026-11-12-conto-token-palestra.md`.
 
 ---
 
