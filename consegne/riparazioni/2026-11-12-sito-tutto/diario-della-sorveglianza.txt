@@ -78,3 +78,4 @@
 2026-11-12 17:24 · R06 · correzione finita · guardia ✅ · referto ✅ · — · torna a K03 sulle voci rimandate
 2026-11-12 17:25 · R10 · correzione finita · guardia ✅ · referto ✅ · — · torna a K03 sulle voci rimandate
 2026-11-12 17:26 · R04 · correzione finita · guardia 🔴 solo la prova esistente nota · referto ✅ (lanciato dalla regista) · — · torna a K02 sulle voci rimandate
+2026-11-12 17:27 · R03 · correzione finita · guardia ✅ · referto ✅ (lanciato dalla regista) · — · torna a K04 sulle voci rimandate
