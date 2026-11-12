@@ -643,6 +643,131 @@ test("un file tracciato e CANCELLATO dal lotto non rende cieco il freno", () => 
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
+// LA CASA SPOGLIA NON HA OROLOGIO — l'accusa del 12/11/2026.
+// La casa schiacciava la storia in UN commit «prima del lotto» datato ADESSO. `conta-verdetti-muti`
+// lo leggeva come una consegna di oggi e confrontava STATO.md del 7/11 09:53 con quella: «Cabina ferma
+// da 5 giorni», mentre sul runner l'ultima consegna vera era del 7/11 12:24 (zero giorni). Il caso
+// CURA ① era verde l'8/11 mattina e rosso dal pomeriggio, su ogni PR. Qui le date sono del 2020:
+// se la casa rimette l'orologio dentro, questi casi lo vedono in qualunque giorno girino.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** Un commit con autore e data DICHIARATI: l'orologio di chi lancia la prova non entra. */
+function commitDatato(radice, { autore, quando, messaggio }) {
+  git(radice, "init", "-q", "-b", "main", ".");
+  git(radice, "add", "-A");
+  const env = { ...process.env, GIT_AUTHOR_NAME: autore, GIT_AUTHOR_EMAIL: "banco@mycity", GIT_AUTHOR_DATE: quando, GIT_COMMITTER_NAME: autore, GIT_COMMITTER_EMAIL: "banco@mycity", GIT_COMMITTER_DATE: quando };
+  const fatto = spawnSync("git", ["-c", "commit.gpgsign=false", "commit", "-q", "--no-verify", "-m", messaggio], { cwd: radice, encoding: "utf8", timeout: 60_000, env });
+  assert.equal(fatto.status, 0, `il commit datato del banco deve riuscire: ${fatto.stderr}`);
+}
+
+/** Due commit veri: prima il LAVORO, poi uno di SOLA MEMORIA un giorno dopo — la forma di main l'8/11. */
+function storiaDatata() {
+  const r = radiceNuova();
+  writeFileSync(join(r, "cervello/lavoro.mjs"), "// il lavoro\n", "utf8");
+  commitDatato(r, { autore: "Uno", quando: "2020-01-01T12:24:00+01:00", messaggio: "il lavoro" });
+  mkdirSync(join(r, "MyCity-Vault/90-Memoria-AI"), { recursive: true });
+  writeFileSync(join(r, "MyCity-Vault/90-Memoria-AI/nota.md"), "solo memoria\n", "utf8");
+  commitDatato(r, { autore: "Due", quando: "2020-01-02T15:30:00+01:00", messaggio: "solo memoria" });
+  return r;
+}
+
+test("AR-1168 — la casa spoglia porta la storia VERA: stessi commit, date e autori del repo, non un commit di adesso", () => {
+  const r = storiaDatata();
+  const dove = mkdtempSync(join(tmpdir(), "due-case-spoglia-"));
+  const esito = costruisciCasaSpoglia(r, dove);
+  assert.equal(esito.ok, true, `la casa spoglia si deve costruire: ${esito.motivo || ""}`);
+  assert.deepEqual(esito.storia, { intera: true }, "da un repo intero la storia è intera, e lo dice");
+  const linea = (radice, punta) => git(radice, "log", "--first-parent", "--format=%H|%an|%aI|%cI|%s", punta).stdout.trim();
+  assert.equal(
+    linea(dove, "origin/main"),
+    linea(r, "HEAD"),
+    "origin/main nella casa sono gli STESSI commit del repo, con le loro date: un commit «casa spoglia» datato adesso è una consegna che sul runner non esiste",
+  );
+  assert.equal(
+    git(dove, "show", "--name-only", "--format=", "origin/main").stdout.trim(),
+    "MyCity-Vault/90-Memoria-AI/nota.md",
+    "il commit di sola memoria resta di sola memoria: schiacciato col resto sembrava lavoro, e la Cabina sembrava ferma",
+  );
+  assert.equal(esito.delta, 0, "senza lotto il delta è vuoto");
+  assert.equal(git(dove, "rev-parse", "HEAD").stdout.trim(), git(r, "rev-parse", "HEAD").stdout.trim(), "e la punta è il commit vero, non un commit nuovo");
+  assert.equal(git(dove, "diff", "--cached", "--name-only").stdout.trim(), "", "l'indice resta pulito (AR-511)");
+  rmSync(r, { recursive: true, force: true });
+  rmSync(dove, { recursive: true, force: true });
+});
+
+test("AR-1168 — da un clone superficiale la casa ricopia la storia che c'è, con le sue date, e dichiara il taglio", () => {
+  // Le sessioni cloud lavorano su un clone superficiale (il 12/11 la storia arrivava al 25/10). La
+  // casa non può inventare la storia che manca, ma non può nemmeno nascere superficiale: i guardiani
+  // che contano la storia uscirebbero ciechi. Ricopia quello che c'è, coi dati veri, e lo dichiara.
+  const r = storiaDatata();
+  writeFileSync(join(r, "cervello/altro.mjs"), "// altro lavoro\n", "utf8");
+  commitDatato(r, { autore: "Tre", quando: "2020-01-03T09:00:00+01:00", messaggio: "altro lavoro" });
+  const clone = mkdtempSync(join(tmpdir(), "due-case-clone-"));
+  const clonato = spawnSync("git", ["clone", "-q", "--depth", "2", `file://${r}`, clone], { encoding: "utf8", timeout: 60_000 });
+  assert.equal(clonato.status, 0, `il clone superficiale del banco deve riuscire: ${clonato.stderr}`);
+  assert.equal(git(clone, "rev-parse", "--is-shallow-repository").stdout.trim(), "true", "premessa: il clone di partenza È superficiale");
+
+  const dove = mkdtempSync(join(tmpdir(), "due-case-spoglia-"));
+  const esito = costruisciCasaSpoglia(clone, dove);
+  assert.equal(esito.ok, true, `la casa spoglia si deve costruire anche da un clone superficiale: ${esito.motivo || ""}`);
+  assert.equal(git(dove, "rev-parse", "--is-shallow-repository").stdout.trim(), "false", "la casa non nasce superficiale: i guardiani che contano la storia uscirebbero ciechi");
+  assert.deepEqual(esito.storia, { intera: false, dal: "2020-01-02T15:30:00+01:00", commit: 2 }, "il taglio si DICHIARA: da quando parte e quanti commit porta");
+  const linea = (radice, punta) => git(radice, "log", "--first-parent", "--format=%an|%aI|%cI|%s", punta).stdout.trim();
+  assert.equal(linea(dove, "origin/main"), linea(clone, "HEAD"), "autori, date e messaggi sono quelli veri, commit per commit");
+  assert.equal(git(dove, "rev-parse", "origin/main~1^{tree}").stdout.trim(), git(clone, "rev-parse", "HEAD~1^{tree}").stdout.trim(), "il commit al confine porta il suo albero vero");
+  assert.equal(git(dove, "rev-parse", "origin/main^{tree}").stdout.trim(), git(clone, "rev-parse", "HEAD^{tree}").stdout.trim(), "e così la punta");
+  assert.equal(git(dove, "show", "--name-only", "--format=", "origin/main").stdout.trim(), "cervello/altro.mjs", "ogni commit tocca i suoi file, non tutto il repo");
+  rmSync(r, { recursive: true, force: true });
+  rmSync(clone, { recursive: true, force: true });
+  rmSync(dove, { recursive: true, force: true });
+});
+
+test("AR-1170 — con GIT_DIR del repo vero addosso, la casa non sposta il ramo di chi lavora e non committa nella sua storia", () => {
+  // Dentro un hook di git le variabili `GIT_DIR` / `GIT_INDEX_FILE` puntano al repo VERO, e git le
+  // preferisce al `cwd`: l'`update-ref refs/heads/main` e il commit del lotto lanciati «nella casa»
+  // sarebbero finiti nel repo di chi lavora. Trovato riguardando il file con la lente rischio-sicurezza.
+  const r = storiaDatata();
+  writeFileSync(join(r, "cervello/nato-nel-lotto.mjs"), "// nuovo\n", "utf8");
+  const puntaPrima = git(r, "rev-parse", "HEAD").stdout.trim();
+  const dove = mkdtempSync(join(tmpdir(), "due-case-spoglia-"));
+  const salvate = { GIT_DIR: process.env.GIT_DIR, GIT_INDEX_FILE: process.env.GIT_INDEX_FILE };
+  let esito;
+  try {
+    process.env.GIT_DIR = join(r, ".git");
+    process.env.GIT_INDEX_FILE = join(r, ".git", "index");
+    esito = costruisciCasaSpoglia(r, dove);
+  } finally {
+    for (const [k, v] of Object.entries(salvate)) {
+      if (v === undefined) delete process.env[k];
+      else process.env[k] = v;
+    }
+  }
+  assert.equal(esito.ok, true, `la casa spoglia si deve costruire: ${esito.motivo || ""}`);
+  assert.equal(git(r, "rev-parse", "HEAD").stdout.trim(), puntaPrima, "il ramo di chi lavora non si è mosso");
+  assert.equal(git(r, "rev-list", "--count", "HEAD").stdout.trim(), "2", "e nella sua storia non è entrato nessun commit della casa");
+  assert.equal(git(r, "diff", "--cached", "--name-only").stdout.trim(), "", "e il suo indice è come prima");
+  assert.equal(git(dove, "diff", "--name-only", "origin/main", "HEAD").stdout.trim(), "cervello/nato-nel-lotto.mjs", "il lotto è finito nella casa, dove doveva");
+  rmSync(r, { recursive: true, force: true });
+  rmSync(dove, { recursive: true, force: true });
+});
+
+test("AR-1168 — con origin/main la casa parte dall'antenato comune, come il freno, non dalla punta del ramo", () => {
+  // Su una PR il runner ha HEAD = il commit di prova che GitHub crea per l'unione, con la data della
+  // spinta. Il freno parte dall'antenato comune con origin/main (`basePerConfronto`); la casa di
+  // default partiva da HEAD, e il lavoro della PR finiva dentro «origin/main» con la data di adesso.
+  const r = storiaDatata();
+  git(r, "update-ref", "refs/remotes/origin/main", "HEAD~1");
+  const dove = mkdtempSync(join(tmpdir(), "due-case-spoglia-"));
+  const esito = costruisciCasaSpoglia(r, dove);
+  assert.equal(esito.ok, true, `la casa spoglia si deve costruire: ${esito.motivo || ""}`);
+  assert.equal(git(dove, "rev-parse", "origin/main").stdout.trim(), git(r, "rev-parse", "HEAD~1").stdout.trim(), "origin/main nella casa è l'antenato comune, come sul runner");
+  assert.equal(git(dove, "diff", "--name-only", "origin/main", "HEAD").stdout.trim(), "MyCity-Vault/90-Memoria-AI/nota.md", "e il commit in più del ramo sta nel lotto");
+  assert.equal(esito.delta, 1, "un file nel lotto, uno nel delta");
+  rmSync(r, { recursive: true, force: true });
+  rmSync(dove, { recursive: true, force: true });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
 // IL TETTO — ciò che non si potrà mai provare si conta, non sparisce.
 // ─────────────────────────────────────────────────────────────────────────────
 

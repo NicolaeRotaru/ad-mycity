@@ -37,7 +37,7 @@
 // Contratto dei guardiani (AR-322): 0 = misurato · 1 = violazione · 2 = non ho potuto misurare.
 
 import { existsSync, readFileSync, statSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import { gitLetto } from "./git-github.mjs";
 import { curaUnaVolta, verdettoCecita } from "./cecita-curabile.mjs";
 
@@ -163,9 +163,15 @@ export function storiaDelRepo(cwd = process.cwd()) {
   try {
     const dir = (gitQui(cwd, ["rev-parse", "--git-dir"]) || "").trim();
     if (dir) {
-      const f = join(cwd, dir, "shallow");
+      // `--git-dir` torna RELATIVO (`.git`) nei repo normali e ASSOLUTO nei worktree: `resolve` li
+      // porta tutti e due nella cartella giusta. Prima c'era un secondo tentativo con `dir` così
+      // com'era, cioè relativo alla cartella da cui GIRA il programma e non al repo da giudicare: da
+      // una sessione cloud (clone superficiale) ogni altro repo — una casa spoglia, un banco di prova —
+      // si prendeva gli innesti del repo di chi lanciava, e risultava «troncato» senza esserlo.
+      // Misurato il 12/11/2026: un repo di prova intero, con due commit, dichiarato «1 commit di
+      // innesto: d096470», che è il confine del clone dell'AD.
+      const f = join(resolve(cwd, dir), "shallow");
       if (existsSync(f)) innesti = innestiDaFile(readFileSync(f, "utf8"));
-      else if (existsSync(dir) && existsSync(join(dir, "shallow"))) innesti = innestiDaFile(readFileSync(join(dir, "shallow"), "utf8"));
     }
   } catch {
     /* l'assenza del file non è un errore: un clone intero non ce l'ha */
