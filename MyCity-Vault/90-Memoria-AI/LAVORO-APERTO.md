@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-07 12:09
+aggiornato: 2026-11-12 14:54
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -116,6 +116,7 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
 
 ### Ancora da fare
 
+- **Il risolutore sul sito, profilo «tutto», è preparato** (12/11 alle 14:54, Nicola: «parti con il risolutore, però solo del marketplace»). 662 difetti riparabili su 828 aperti: 5 bloccanti, 74 gravi, 583 minori. Restano fuori 88 falle riservate, 67 voci con una domanda per Nicola e 11 senza percorso. Il piano: 12 sessioni nell'onda 1 (429 voci), 6 nell'onda 2 (152), 40 voci cucite a mano, 41 per la campagna dopo. Preventivo: circa 900 $ di riparatori più 6 collaudatori. È ferma alla prima fermata, in attesa del «via» di Nicola. Cartella: `consegne/riparazioni/2026-11-12-sito-tutto/`.
 - **Il lavoro delle dieci sessioni sui minori è unito** (5/11 alle 23:45: NicolaeRotaru/mycity#287 e NicolaeRotaru/ad-mycity#932). Nel registro 844 minori riparati, unito su main; circa 8 su 10 reggono fino in fondo secondo il collaudo a campione. Le migrazioni sono entrate il 6/11 alle 00:16, tutte e 21 quelle che mancavano: dalla 164 alla 245, col pulsante e col tuo ok. Restano due cose: guardare che il primo rilascio vada online; rispondere quando puoi alle 67 domande in `consegne/audit/2026-11-05-dieci-sessioni-minori/domande-per-nicola.md`.
 - **Fino all'apertura niente radiografie larghe** (5/11): solo la rilettura dei file toccati, i minori dopo il lancio. Lo smistamento dei 74 seri, voce per voce, è nei dettagli di `consegne/ad/2026-11-05-pronto-prima-possibile.md`.
 - **Prima ondata dopo la radiografia del 5/11**, al tuo via: i soldi dei contanti (quanto versare il lunedì, «fatto» sul bonifico al negozio e su quello di rimborso, Guadagni del negozio, rimborso dopo il lunedì) e gli avvisi (allarme a 5 minuti, campanella nel pannello, email d'ordine fallita). Poi le 7 falle gravi. Il buco della consegna veloce non confermata si rilegge dopo aver chiuso i suoi 28 difetti aperti.
