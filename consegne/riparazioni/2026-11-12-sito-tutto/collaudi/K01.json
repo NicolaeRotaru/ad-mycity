@@ -1,0 +1,320 @@
+{
+ "collaudatore": "K01",
+ "riparatori": [
+  "R02"
+ ],
+ "aggiornato": "2026-11-12 16:55",
+ "finita": true,
+ "voci": [
+  {
+   "id": "R02-002",
+   "chiave": "privacy-legale|lo sconto scritto su un evento appare ai clienti come «-20%», ma la cassa non lo applica mai",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base e4776a179b2953d83f26e6dbfde6b55e3733087b^ --file app/admin/events/page.tsx --prove tests/unit/riparazione-r02-eventi-sconto.test.tsx --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Due qa: il modulo non chiede più lo sconto e il salvataggio scrive null; nessun'altra scrittura su marketplace_events. Resta il badge «-n%» in app/events/page.tsx:237 per gli eventi già salvati. cosa_resta sbagliato a metà: in components/home/HomeEvents.tsx il badge non c'è già alla base."
+  },
+  {
+   "id": "R02-003",
+   "chiave": "privacy-legale|accogliere una segnalazione non toglie il prodotto: resta online, e a chi ha segnalato si scrive che è stato rimosso",
+   "verdetto": "non_regge",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 73a0f45f6b842c0308afc311c3934ddd951f2aed^ --file app/admin/segnalazioni/page.tsx,app/api/admin/segnalazioni/accogli/route.ts,app/api/segnalazioni/route.ts --prove tests/unit/riparazione-r02-segnalazione-accolta-pagina.test.tsx,tests/unit/riparazione-r02-segnalazione-accolta.test.ts,tests/unit/riparazione-r02-segnalazione-esito-solo-se-tolto.test.ts,tests/unit/riparazione-r02-segnalazione-accolta-negozio.test.tsx --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Due qa concordi. «Accolta» mette il prodotto in draft, ma il negoziante lo rimette available con «Attiva» (app/seller/products/page.tsx:173-177): nessun segno «tolto dall'admin», e chi ha segnalato ha già ricevuto «rimosso». Inoltre contenutoAncoraOnline non guarda l'errore di lettura: a lettura caduta l'esito «rimosso» parte lo stesso. Rimessa: alla d0e1e9d0 uscita 3 (accogli/route.ts nuovo), alla 73a0f45f uscita 0."
+  },
+  {
+   "id": "R02-004",
+   "chiave": "privacy-legale|lo scarico dei miei dati si ferma a mille righe per sezione e dice comunque che il file è completo",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base f00ade84e3636444c6626a5a0dd492db67179d48^ --file app/api/account/export/route.ts --prove tests/unit/riparazione-r02-esporta.test.ts --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Due qa: le 47-48 letture passano da tutta() a blocchi ordinati per chiave fino a 5000; «al tetto» solo se esiste la riga 5001; filtri invariati, nessun dato altrui. Rimessa sul commit dopo il qa (f00ade84) uscita 0; sul primo (d83c721f) la pagina impostazioni non ha prova sua (uscita 1 solo per quel file), la rotta sì. Limite minore: abandoned_carts/user_carts ordinati su colonna forse non unica."
+  },
+  {
+   "id": "R02-005",
+   "chiave": "privacy-legale|le recensioni dei clienti non si possono segnalare, mentre i termini promettono di togliere quelle non genuine",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base ef43d38f68307b894a1e509de35a1f896e95ddcd^ --file components/store-sections/ReviewsSection.tsx --prove tests/unit/riparazione-r02-recensioni-segnalabili.test.tsx --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Due qa: il «Segnala» di tipo recensione c'è in vetrina e scheda prodotto, POST e CHECK della 126 accettano tipo e motivi. Resta, dichiarato: lo strumento admin per togliere la recensione, e reviews/store_reviews indistinguibili. La prova copre solo la vetrina (rimessa con app/product/[id]/page.tsx e Segnala.tsx: uscita 1 su quei due; ripetuta col solo ReviewsSection.tsx: 0)."
+  },
+  {
+   "id": "R02-007",
+   "chiave": "privacy-legale|la pulizia notturna dei documenti d'identità lasciati a metà iscrizione fallisce ogni notte nel database vero",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 62563fd21c244035248bce5637595ffc997ded8a^ --file lib/privacy/potature-ritenzione.ts --prove tests/unit/riparazione-r02-potatura-kyc.test.ts --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Due qa: il DELETE è identico; il salto scatta solo con codice PGRST205/PGRST202/42P01 E nome di un oggetto della 171 (provati colonna mancante, ruolo, timeout: restano guasti). Resta, dichiarato: senza la 171 i documenti non si tolgono; contaPotature scrive 0 invece di «non contata» e la notte non è più rossa: applicare la 171 è urgente."
+  },
+  {
+   "id": "R02-008",
+   "chiave": "accessibilita|se scegli una variante esaurita il lettore di schermo non dice niente, e il pulsante d'acquisto sparisce dal giro del tab",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 114d9a9ffc9053508ba16e08db045c63e49906a9^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r02-variante-esaurita-a11y.test.ts --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Il pulsante principale ha aria-disabled e resta nel giro del Tab, ma «Compra ora» (app/product/[id]/page.tsx:1177, disabled={!canAdd||inPartenza}, disabled:opacity-50) e il pulsante della barra (StickyAddToCart.tsx:184) restano disabled: con una variante esaurita un pulsante d'acquisto esce ancora dal Tab. Visto di persona sulla testa."
+  },
+  {
+   "id": "R02-009",
+   "chiave": "api-backend|se il servizio di accesso frena o e' guasto, il cambio password dice «password attuale non corretta»",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base b7689d2060ef85ca6bf8f0879455731c2a850129^ --file app/api/account/cambia-password/route.ts --prove tests/unit/riparazione-r02-cambio-password-errori.test.ts --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "429→troppi tentativi, 5xx/rete→503, solo il resto→401; nessun messaggio aiuta a indovinare la password. Mutazione a mano (tolto il ramo servizio giù): prova rossa. Rimessa con la pagina: uscita 1 sulla pagina (senza prova sua); ripetuta con la sola rotta: 0."
+  },
+  {
+   "id": "R02-010",
+   "chiave": "api-backend|si puo' «cambiare» la password con la stessa di prima e il sito dice «aggiornata»",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 6c4c1ae21cde0385dbabfea621aad05e265f6c15^ --file app/api/account/cambia-password/route.ts,lib/account/cambio-password.ts --prove tests/unit/riparazione-r02-password-uguale.test.ts --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Rifiuto della stessa password sia nella lib sia nella rotta prima dell'accesso; non aggirabile dal browser. Mutazione a mano (tolto il controllo): prova rossa."
+  },
+  {
+   "id": "R02-011",
+   "chiave": "api-backend|sulla scheda prodotto lo sconto della promozione vale zero se la lettura cade, poi la cassa lo applica",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 6b97d01ae5e4b9168d3b2b125a2f048a919431cf^ --file components/ActivePromoBadge.tsx --prove tests/unit/riparazione-r02-sconto-promo-lettura.test.tsx --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "throw error toglie lo zero salvato, ma dopo retry:1 la pagina ricade su scontoPromo = 0 (page.tsx:314) e mostra il prezzo pieno mentre la cassa applica lo sconto: due letture cadute rifanno la voce. La lettura in page.tsx non ha prova (rimessa con page.tsx: uscita 1; col solo ActivePromoBadge.tsx: 0)."
+  },
+  {
+   "id": "R02-012",
+   "chiave": "architettura|la prova del cambio password legge la pagina come testo: se la pagina tornasse a cambiarla senza chiedere quella vecchia, tutte le prove resterebbero verdi",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 2,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base f217d4dcc5fed3e5793223d9ad11ae4b9c89f4c1^ --file tests/unit/riparazione-r02-cambio-password-pagina.test.tsx --prove tests/unit/riparazione-r02-cambio-password-pagina.test.tsx --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Voce di sola prova: la macchina non si applica (uscita 2: un file non può essere correzione e prova). Mutazione a mano sulla testa: nella pagina il fetch a /api/account/cambia-password sostituito con supabase.auth.updateUser({password}) → la prova nuova è ROSSA (expected [] to have a length of 1); pagina rimessa → verde. Resta, dichiarato: la regola eslint (file altrui)."
+  },
+  {
+   "id": "R02-014",
+   "chiave": "dati-analytics|le visite che il negoziante fa ai suoi prodotti contano come visite di clienti, e anche nei più visti in home",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 011b89f3203d4835e3ec9e675713f3a45fde6427^ --file components/ProductViewTracker.tsx --prove tests/unit/riparazione-r02-visite-admin.test.tsx --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Il blocco nel browser c'è, ma «più visti in home» e Andamento dipendono dalla 260, non applicata; per l'admin isAdmin arriva dalla rete dopo idUtenteInMemoria(): aprendo la scheda diretta la visita probabilmente parte (dedotto dal codice). Parte SQL non provata da me (niente Postgres). Rimessa sul commit dopo il qa: 0; sul primo (5bb38d8e) page.tsx senza prova (uscita 1)."
+  },
+  {
+   "id": "R02-015",
+   "chiave": "dati-analytics|le visite al prodotto si contano con due regole diverse: posthog conta ogni nuova scheda, il database una per persona all'ora",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 05b4058e6478c361e720f5e0884c6b92794b1f4e^ --file lib/analytics/visita-prodotto.ts --prove tests/unit/riparazione-r02-visita-una-all-ora.test.ts --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Una nuova scheda ora non conta due volte (mutazioni a mano su frenoOrario e improntaOraria: prova rossa). Ma la voce dice «una per persona all'ora»: PostHog resta una per browser (stesso utente su due dispositivi = 1 vs 2) e mc_viewed_* non è legato all'utente. Rimessa sul commit dopo il qa col solo visita-prodotto.ts: 0 (app/cookies/page.tsx è testo, senza prova)."
+  },
+  {
+   "id": "R02-016",
+   "chiave": "flussi-conversione|sulla scheda prodotto al telefono prezzo e «aggiungi al carrello» non si vedono senza scorrere, e un doppio tocco su «aggiungi al carrello» mette due pezzi",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 585c6e0e96dfa6ccf631df27543908b73159e033^ --file components/StickyAddToCart.tsx,app/product/[id]/page.tsx --prove tests/unit/riparazione-r02-aggiungi-e-barra.test.tsx --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Con lib/ui/freno-doppio-tocco.ts fra i file uscita 3 (file nuovo); senza: uscita 0, StickyAddToCart e page.tsx alla base rossi sul comportamento. Mutazione a mano sul freno (tolto `t - ultima < ms`): prova rossa. Barra con IntersectionObserver e fallback; non misurato in un browser vero."
+  },
+  {
+   "id": "R02-017",
+   "chiave": "frontend-ux|se un'impostazione delle notifiche non si salva, l'interruttore resta nella posizione nuova",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 354d9eb091dd9102ae42aa0bb1b7f053856d6074^ --file app/profile/settings/page.tsx --prove tests/unit/riparazione-r02-interruttore-notifiche.test.tsx --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Si rimette l'ultimo valore confermato (prefsSalvate) solo se nel frattempo non è cambiato; due tocchi falliti gestiti. Caso preesistente fuori voce: due salvataggi riusciti in ordine inverso."
+  },
+  {
+   "id": "R02-019",
+   "chiave": "frontend-ux|la vetrina dice «recensioni · 20» ma ne fa leggere solo sei, senza modo di vedere le altre",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta"
+   ],
+   "nota": "Alla base il caso scritto (20 recensioni, se ne leggono 6) è risolto, ma useStorePageData.ts:40 legge al massimo 20 con .limit(20) mentre la linguetta mostra il totale vero: con 35 recensioni se ne leggono 20 e le altre 15 no. È lo stesso difetto con un numero più alto."
+  },
+  {
+   "id": "R02-020",
+   "chiave": "layout-responsive|nella pagina eventi gli stati sono in inglese, e un titolo lungo senza spazi allarga la pagina sul telefono",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base cdd22f2e2e905ad1972b709580f28e113fc20a77^ --file app/admin/events/page.tsx --prove tests/unit/riparazione-r02-eventi-stati-e-titoli.test.tsx --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Nessuno stato rimasto in inglese; titolo min-w-0 + overflow-wrap:anywhere, badge shrink-0, tabella che scorre."
+  },
+  {
+   "id": "R02-021",
+   "chiave": "layout-responsive|nelle segnalazioni, un link lungo incollato da chi segnala esce dalla scheda e fa scorrere la pagina di lato sul telefono",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base fb1d85ea838d6f767e2b56f4c8c83920c7281cd3^ --file app/admin/segnalazioni/page.tsx --prove tests/unit/riparazione-r02-segnalazione-link-lungo.test.tsx --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Il link lungo va a capo: la voce è chiusa. cosa_ho_fatto promette anche l'email a capo, ma il paragrafo «Chi ha segnalato» non ha break-words (non misurato)."
+  },
+  {
+   "id": "R02-022",
+   "chiave": "layout-responsive|con i caratteri grandi del telefono, le schede notifiche e zona pericolosa delle impostazioni scorrono di lato",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 3f422c18e852571f07d7e0f60cb10e71ad022252^ --file app/profile/settings/page.tsx --prove tests/unit/riparazione-r02-impostazioni-larghezza.test.ts --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Tolto il px-6 doppio (~48px) e sezioni a p-4 contro uno sforamento di 22px. Non misurato in un browser: da confermare scrollWidth=360 a 360x740 col carattere al 130%."
+  },
+  {
+   "id": "R02-023",
+   "chiave": "layout-responsive|nella vetrina del negozio, sul telefono il logo resta coperto dal tasto indietro e la scheda recensioni mostra gli orari",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 941948d9e37e3577ed00a386abbf8f14c287ce6b^ --file components/store-sections/SectionRenderer.tsx,components/store-sections/ReviewsSection.tsx,components/store-sections/HeroSection.tsx --prove tests/unit/riparazione-r02-vetrina-negozio.test.tsx --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Le tre parti sono chiuse, ma il messaggio nuovo «Ancora nessuna recensione» compare anche mentre le recensioni caricano e durante i tentativi automatici dopo un guasto (reviews = reviewsQ.data ?? [], recensioniInErrore vero solo a errore definitivo): sulle pagine personalizzate un negozio con 50 recensioni dice «nessuna» per qualche secondo."
+  },
+  {
+   "id": "R02-024",
+   "chiave": "microcopy|il piede rimette «abbigliamento» dopo la lettura se la categoria è attiva nel database (non verificato)",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta"
+   ],
+   "nota": "Alla base Footer.tsx filtra con soloLePiene solo quando la lettura «piene» è arrivata: mentre è in corsa o se fallisce il piede mostra tutte le categorie attive, Abbigliamento compresa. Il riparatore stesso lo lascia in cosa_resta; il database non l'ho guardato."
+  },
+  {
+   "id": "R02-025",
+   "chiave": "privacy-legale|lo scarico dei dati del fattorino si dichiara completo ma non contiene le sue giornate di cassa né le recensioni ricevute",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 72f0f07ba88ad06fc74a97cf23a01e3e997e84e0^ --file app/api/account/export/route.ts --prove tests/unit/riparazione-r02-esporta-fattorino.test.ts --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Le due sezioni filtrano su rider_id, colonne presenti (014, 024), recensioni senza user_id. Rimessa sul primo commit (91722c9d) e sul dopo-qa: 0. Nota minore: cod_reconciliations esce con select('*') (reviewed_by, remitted_by, note admin)."
+  }
+ ],
+ "campione": {
+  "R02": {
+   "accettato": false
+  }
+ }
+}
