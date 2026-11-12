@@ -76,3 +76,4 @@
 2026-11-12 17:21 · giro · quota allowed, regista 17,69 $ · R11 lavora (18 di 25), guardia 🔴 (2 prove esistenti) + 1 rimessa mancante, corretto · R05 fermo: la sua sessione aspetta un via umano e non manda il piano — le sue 25 voci vanno proposte all'onda 2 alla fermata 2 · prova-unione in attesa di R05
 2026-11-12 17:22 · K02 · ricollaudo R08-008 · regge (mutazioni rifatte: 2 e 4 rossi); R08 14 reggono, 3 parziali, 0 bocciate, campione accettato · — · — · R08 chiuso per l'onda 1
 2026-11-12 17:24 · R06 · correzione finita · guardia ✅ · referto ✅ · — · torna a K03 sulle voci rimandate
+2026-11-12 17:25 · R10 · correzione finita · guardia ✅ · referto ✅ · — · torna a K03 sulle voci rimandate
