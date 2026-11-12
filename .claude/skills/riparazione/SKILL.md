@@ -139,6 +139,55 @@ potuto lanciare i controlli del programma.
 *Freno: `cervello/riparazione/sorveglia.sh` chiude ogni giro ricordando il controllo delle figlie ferme. Un programma
 che conti da solo le figlie BLOCKED non esiste ancora, perché lo stato delle sessioni da bash non si vede: è debito dichiarato.*
 
+## Le regole del 12/11 notte (Nicola: «devi essere iper efficiente», e i controlli ci sono sempre)
+
+**Il conto che le ha decise.** L'onda 1 del sito è costata 610 $ di listino, circa il 20% del limite settimanale:
+riparatori 399 $, collaudo e controllo 152 $, regia 58 $. Il 61% (circa 373 $) è stato **rilettura**: a ogni passo
+una sessione rilegge tutta la sua storia, e le storie arrivavano a 440-775 mila token. Tre quarti del costo di un
+riparatore stavano nel suo primo turno lungo. Misura di 5 agenti, con uno scettico che ha tolto le stime gonfiate:
+gli otto rimedi qui sotto valgono circa 175 $ a onda (dal 20% al 14% del limite), e nessuno toglie un controllo.
+
+1. **I riparatori lavorano a lotti, con la storia piccola** (circa 100 $). Il riparatore fa il capo squadra: divide le
+   voci in lotti da 5-8 e dà ogni lotto a un subagente nuovo, che ripara e restituisce solo le righe del referto. I
+   giri di correzione partono da un subagente nuovo. Le regole stanno in `LEGGIMI-riparatore.md`, sezione «A lotti».
+2. **I collaudatori lavorano in giri brevi** (circa 35 $): subagenti nuovi per ogni giro, verdetto di prima letto da
+   file, copia del codice allo SHA esatto, database di prova proprio (`LEGGIMI-collaudo.md`, «Giri brevi»).
+3. **Un turno, un esito** (circa 15 $). I comandi lunghi si aspettano nello stesso turno; i subagenti si lanciano tutti
+   insieme in primo piano; lo SHA si prende con `git rev-parse` nello stesso comando che spedisce. Il riparatore scrive
+   `verifica.testa`, e **il programma lo controlla**: `valida-referto` è rosso se il verify è girato su un commit che
+   non è la testa, e resta in attesa (niente collaudo) se non lo dice.
+4. **La regia riparte da un registro** (circa 15 $). A ogni fermata la regista aggiorna `REGIA.md` (al massimo 80 righe),
+   lancia `applica` a vuoto (che scrive `decisioni.json`, voce per voce) e tiene il diario. Sono questi tre file il
+   registro: l'onda dopo la guida una **regista nuova**, aperta dall'AD, che riparte da lì invece di portarsi dietro
+   775 mila token. Il controllo finale legge `decisioni.json`: una voce senza decisione, senza SHA o senza verdetto è rossa.
+5. **Le storie si guardano prima dei giri.** Prima di mandare a una figlia un giro di correzione o di ricollaudo, la
+   regista guarda `get_session` di quella figlia. Se `used_tokens` supera 300 mila, il giro lo fa una sessione nuova
+   che riparte dal referto. Non si chiama `get_session` di tutte a ogni giro: costerebbe più di quello che salva.
+6. **I controlli del programma girano davvero** (circa 8 $). Nel sito `.claude/settings.json` dà il permesso a
+   `valida-referto`, `guardia-ramo` e `prova-rimessa`. Nell'onda 1 R03 e R04 non li hanno potuti lanciare.
+7. **Il verify completo sta in due punti fissi** (circa 4 $): alla consegna al collaudo, legato allo SHA, e dopo
+   l'unione. Nei passaggi in mezzo bastano le prove dei file toccati e di quelli che li importano. La verifica lunga
+   della regia gira in sottofondo e stampa solo l'esito.
+8. **Partenza controllata e permessi mai in sospeso** (circa 3 $): valgono le regole del 12/11 sera. L'ok di Nicola su
+   un lotto di migrazioni si chiede prima di lanciarlo, mentre lui c'è, e non si approva mai in anticipo.
+
+**Ultra Code Extra** (Nicola, 12/11 notte: «Ultra Code Extra, non Max»). Ogni figlia nasce con `effort: "xhigh"` in
+`create_session`, e con ultracode acceso. Subito dopo, `get_session` deve dire `effort_level` xhigh e
+`is_ultracode_active` true. Se `create_session` rifiuta `effort`, o se ultracode resta spento, non si aprono le altre:
+si dice all'AD quali sessioni sono, perché Nicola le accenda dall'app. Ultracode fa lanciare più agenti: per questo
+il tetto di spesa resta quello della fermata, e i rimedi 1-5 valgono anche in ultracode.
+
+**I buchi dell'onda 1, chiusi.**
+- Un subagente di R07 ha letto il database di produzione. Ora nel sito gli strumenti del database vero, della messa
+  online e di Stripe sono bloccati da `.claude/settings.json`. Nei LEGGIMI c'è la regola scritta, da mettere nel
+  mandato di ogni subagente: i collaudatori lavorano in `ad-mycity` e lì il blocco non arriva, quindi per loro vale
+  la regola, non un lucchetto.
+- R07 ha spinto 8 commit con un verify mai aspettato: ora c'è `verifica.testa`, controllata dal programma.
+- In R03 e R04 il controllo del referto era negato: ora ha il permesso.
+- In K02 un qa ha rischiato di provare codice spostato: ora c'è una copia allo SHA esatto, controllata con
+  `rev-parse` prima di ogni prova.
+- R05 non è mai partito: regole del 12/11 sera.
+
 ## F0 — Preparazione (programmi, 20-30 minuti)
 
 Tutti i comandi dalla radice di `ad-mycity`, con `--cartella consegne/riparazioni/AAAA-MM-GG-<nome>`.
@@ -175,6 +224,7 @@ Tutti i comandi dalla radice di `ad-mycity`, con `--cartella consegne/riparazion
 - `outcome_branch` = `<ramo della regista>-mNN` (NN = il numero del riparatore);
 - **nessun `permission_mode: "plan"`**: si blocca in attesa di un clic che nessuno fa, e il 6/11 si
   approvava da solo. La sessione nasce nella modalità della regista;
+- `effort: "xhigh"`, poi il controllo di «Ultra Code Extra» qui sopra;
 - tag `riparazione-<nome>`;
 - il prompt, una riga: *«Sei il riparatore RNN. Clona in sola lettura https://github.com/NicolaeRotaru/ad-mycity
   al commit SHA_REGISTA e leggi cervello/riparazione/LEGGIMI-riparatore.md e <C>/schede/RNN.md. Poi

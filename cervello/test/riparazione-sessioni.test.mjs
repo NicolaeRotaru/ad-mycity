@@ -837,3 +837,18 @@ test("il controllore ha le stesse regole del riparatore sui difetti nuovi, e non
   assert.equal(Object.keys(o.sessioni).length, 2);
   assert.equal(Math.max(...Object.values(o.sessioni).map((s) => s.voci.length)), 25);
 });
+
+test("12/11 notte: la verifica finale si lega alla testa (R07 ha spinto 8 commit con un verify mai aspettato)", () => {
+  const conVerifica = (verifica) => regoleReferto(referto([riparata(), nonFatta], { verifica }), ctxReferto);
+  // senza lo SHA il referto non è rosso ma resta in attesa: non passa al collaudo
+  let r = conVerifica({ comando: "npm run verify", esito: "verde" });
+  assert.deepEqual(r.rossi, []);
+  assert.match(r.attese.join(" "), /verifica\.testa/);
+  // girata su un commit vecchio: rosso
+  r = conVerifica({ comando: "npm run verify", esito: "verde", testa: "abc1234" });
+  assert.match(r.rossi.join(" "), /la verifica è girata su abc1234, non sulla testa fff0000/);
+  // sulla testa: niente da dire
+  r = conVerifica({ comando: "npm run verify", esito: "verde", testa: "fff0000" });
+  assert.deepEqual(r.rossi, []);
+  assert.ok(!r.attese.some((a) => /verifica/.test(a)));
+});

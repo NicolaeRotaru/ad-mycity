@@ -1077,6 +1077,13 @@ export function regoleReferto(testo, ctx) {
   if (r.finita === true) {
     for (const v of ctx.voci) if (!viste.has(v.id)) rossi.push(`${v.id}: a referto finito ogni voce della scheda deve comparire, anche quelle non fatte`);
     if (r.verifica?.esito !== "verde") rossi.push("a referto finito la verifica (npm run verify, o il cancello della macchina) deve essere verde");
+    // La verifica si lega allo SHA su cui è girata (12/11 notte): nell'onda 1 R07 ha spinto 8 commit con un verify
+    // lanciato e mai aspettato. Senza lo SHA è un'attesa (il referto non passa al collaudo); con uno SHA diverso
+    // dalla testa è un rosso: la verifica va rifatta sull'ultimo codice. I referti vecchi senza il campo restano
+    // leggibili da `applica`, che guarda solo i rossi.
+    else if (vuoto(r.verifica?.testa)) attese.push("la verifica non dice su quale commit è girata: scrivi «verifica.testa» = lo SHA su cui hai lanciato npm run verify (deve essere la testa)");
+    else if (!SHA.test(String(r.verifica.testa))) rossi.push(`«verifica.testa» «${r.verifica.testa}» non è un commit (da 7 a 40 cifre esadecimali)`);
+    else if (!vuoto(r.testa) && !String(r.testa).startsWith(String(r.verifica.testa)) && !String(r.verifica.testa).startsWith(String(r.testa))) rossi.push(`la verifica è girata su ${String(r.verifica.testa).slice(0, 12)}, non sulla testa ${String(r.testa).slice(0, 12)}: va rifatta sull'ultimo codice`);
     if (vuoto(r.testa)) rossi.push("a referto finito manca «testa», l'ultimo commit del ramo");
     else if (!SHA.test(String(r.testa))) rossi.push(`«testa» «${r.testa}» non è un commit (da 7 a 40 cifre esadecimali)`);
     else if (ctx.testaDelRamo && !String(ctx.testaDelRamo).startsWith(String(r.testa)) && !String(r.testa).startsWith(String(ctx.testaDelRamo))) rossi.push(`«testa» ${String(r.testa).slice(0, 12)} non è la testa del ramo (${String(ctx.testaDelRamo).slice(0, 12)})`);

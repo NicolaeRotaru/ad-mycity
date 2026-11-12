@@ -54,6 +54,31 @@ Prima di toccare il codice scrivi il piano: per ogni voce, il file e la riga da 
 diventerà rossa, l'ordine (i gravi prima). Mandalo alla regista con `send_message` e **chiudi il turno**.
 Riparti quando la regista risponde «approvato», o correggi come ti dice.
 
+### A lotti, con la storia piccola (regola del 12/11 notte)
+
+Il conto dell'onda 1: un riparatore è costato da 25 a 55 $ di listino, e tre quarti erano nel primo turno lungo.
+La sua storia arrivava a 440-740 mila token, riletti per intero a ogni passo. Sei dollari su dieci dell'onda sono
+andati in rilettura, non in lavoro. Quindi:
+
+1. **Tu fai il capo squadra, leggero.** Non apri i file del sito per ripararli. Dividi le tue voci in **lotti da 5
+   a 8**: i gravi prima, e un grave di soldi, dati o permessi sta da solo nel suo lotto.
+2. **Ogni lotto lo ripara un subagente nuovo.** Gli dai: le voci (chiave, file, riga del registro compatto), il
+   percorso di questo foglio da leggere, la tua fascia di migrazioni e il ramo. Ripara voce per voce col metodo qui
+   sotto, fa le prove e la prova rimessa, un commit per voce, e ti restituisce solo le righe JSON del referto e i
+   problemi in poche righe. Nel deposito del sito i tipi `tech` e `qa` non esistono: usa il subagente generico, con
+   un mandato chiuso («ripara queste voci con queste regole» oppure «prova a smentire queste riparazioni»).
+3. **Tu copi le righe nel referto**, lanci i controlli del lotto e passi al lotto dopo. Così la tua storia resta
+   sotto i 150 mila token. Un giro di correzione chiesto dal collaudo lo fa un subagente nuovo, che riceve solo il
+   referto, il diff della voce e il rapporto del collaudo.
+4. **I rapporti sono corti:** il verdetto, più ogni difetto con file e riga. Le uscite lunghe (prove, log) restano in
+   un file in `/tmp`, e nella storia entra solo il comando con l'esito. Le prove si lanciano con il reporter corto
+   (`--reporter=dot`), non con quello che stampa ogni caso.
+5. **Un turno, un esito.** Un comando lungo (`npm run verify`) si aspetta nello stesso turno: in primo piano fino a
+   10 minuti, oltre in sottofondo con l'attesa sul comando. Non si chiude il turno con «verify in corso». I subagenti
+   si lanciano tutti insieme in primo piano, nello stesso messaggio, così non ti svegliano uno alla volta.
+6. **Se la regista ti scrive che hai superato i 300 mila token**, chiudi il lotto in corso, aggiorna il referto e
+   spingi: il resto lo fa una sessione nuova, che riparte dal referto.
+
 ### Il metodo, voce per voce
 
 1. Leggi la voce nella scheda. Il testo intero sta nel registro di `ad-mycity`: cercalo con grep nel
@@ -124,16 +149,21 @@ Riparti quando la regista risponde «approvato», o correggi come ti dice.
 
 ### Il controllo prima di dire «finito»
 
-1. Un subagente diverso, del tipo `qa`, prova a smentire ogni gruppo di riparazioni (al massimo 6 voci per
-   subagente, un grave da solo): rilancia la prova, cerca la variante scomoda, guarda se la correzione
+1. Un subagente diverso da chi ha riparato prova a smentire ogni gruppo di riparazioni (al massimo 6 voci per
+   subagente, un grave da solo; nel sito il tipo `qa` non c'è, quindi il subagente generico con il mandato di smentire): rilancia la prova, cerca la variante scomoda, guarda se la correzione
    rompe qualcosa accanto. Nel dubbio la voce torna `parziale` o `non_fatto`. Scrivi chi l'ha guardata in
    `verificato_da`.
-2. **Sito:** `npm run verify` verde. **Macchina:** `node cervello/cancello-lotto.mjs` verde.
-3. Nel referto metti `"finita": true` e `testa` = il tuo **ultimo commit di codice** (quello dopo il quale ci sono
-   solo commit del referto). Copialo in `.riparazione/`, fai il commit del solo referto, spingi.
+2. **Sito:** prima le prove dei file toccati e quelle che li importano, poi `npm run verify` verde sull'ultimo
+   commit di codice, aspettato nello stesso turno. **Macchina:** `node cervello/cancello-lotto.mjs` verde.
+3. Nel referto metti `"finita": true`, `testa` = il tuo **ultimo commit di codice** (quello dopo il quale ci sono
+   solo commit del referto) e `verifica.testa` = lo SHA su cui è girato il verify, preso con `git rev-parse HEAD`
+   nello stesso comando. Deve essere uguale a `testa`: se no il programma è rosso (nell'onda 1 R07 ha spinto 8
+   commit con un verify lanciato e mai aspettato). Copia il referto in `.riparazione/`, fai il commit del solo
+   referto, spingi.
 4. Il controllo del programma sul tuo referto, dalla copia di `ad-mycity`:
    `node ../ad-mycity/cervello/riparazione-sessioni.mjs valida-referto .riparazione/referto-RNN.json --cartella ../ad-mycity/<cartella> --git . --ramo HEAD`
-   (sulla macchina, senza `../ad-mycity/`). Deve essere **verde** (uscita 0). Finché il referto non è finito il
+   (sulla macchina, senza `../ad-mycity/`). Deve essere **verde** (uscita 0). Nel sito questo comando e la prova
+   rimessa hanno il permesso scritto in `.claude/settings.json`: nell'onda 1 R03 e R04 non li hanno potuti lanciare. Finché il referto non è finito il
    controllo esce ⚪ «in attesa» (uscita 3): è normale, ma non basta per dire «finito».
 5. Manda alla regista con `send_message` una riga per esito («31 riparati, 4 parziali, 2 serve_file_altrui,
    1 scelta di Nicola»).
@@ -146,7 +176,7 @@ Riparti quando la regista risponde «approvato», o correggi come ti dice.
   "aggiornato": "2026-11-08 10:30",
   "finita": false,
   "testa": "<l'ultimo commit del ramo>",
-  "verifica": { "comando": "npm run verify", "esito": "verde", "nota": "" },
+  "verifica": { "comando": "npm run verify", "esito": "verde", "testa": "<lo SHA su cui è girato, uguale a testa>", "nota": "" },
   "voci": [
     { "id": "R03-001", "chiave": "<la chiave della scheda, uguale>", "esito": "riparato",
       "commit": "<sha>", "file_toccati": ["lib/…"], "prova_file": ["tests/unit/riparazione-r03-….test.ts"],
@@ -190,5 +220,8 @@ l'errore esatto, e intanto vai avanti per un'altra strada. Un comando che non pu
 ### Cosa non fai mai
 
 Mettere il sito online, scrivere sul database vero, applicare migrazioni, cambiare prezzi o commissioni,
-scrivere a clienti o negozi veri, leggere o stampare chiavi. Se una voce lo richiede, l'esito è
+scrivere a clienti o negozi veri, leggere o stampare chiavi. **Interrogare il database vero, anche solo in lettura**
+(gli strumenti Supabase, `psql` verso l'indirizzo vero): nell'onda 1 un subagente l'ha fatto. Le prove girano sul
+Postgres locale. Nel sito gli strumenti che toccano il database vero, la messa online e Stripe sono bloccati da
+`.claude/settings.json`; la regola vale anche dove il blocco non arriva, e la scrivi nel mandato di ogni subagente. Se una voce lo richiede, l'esito è
 `non_codice` o `scelta_di_nicola`.

@@ -16,7 +16,8 @@ Il collaudatore guarda ogni riparazione **sul ramo del riparatore**. Tu guardi i
 riparazioni di sessioni diverse si incontrano per la prima volta, ed è lì che nascono i difetti nuovi.
 Sei `CNN` dopo l'onda NN, oppure `CF`, il controllore finale, su tutta la campagna.
 
-Non ripari niente, non tocchi il database vero, non mandi messaggi a persone.
+Non ripari niente, non tocchi il database vero (nemmeno in lettura, nemmeno da un subagente: scrivilo nel mandato di
+ognuno), non mandi messaggi a persone.
 
 ## Cosa ti dà la regista, nel prompt
 La cartella della campagna `<C>`. Il commit di `ad-mycity` da leggere (`SHA_REGISTA`). Il ramo di integrazione
@@ -44,6 +45,8 @@ del sito e il suo SHA. La base dell'onda (per `CF`: la base della campagna). Il 
 - Non rileggi un file intero se è cambiata una riga. Non rileggi due volte lo stesso pezzo.
 - Non controlli il controllo: un secondo subagente solo per un difetto nuovo **grave, o che ferma il sito**, e parte
   dalla riga citata dal primo (regole ⑯ e ⑲ di `cervello/MANUALE-AD.md`).
+- Non tieni in storia le uscite lunghe: le prove si lanciano col reporter corto e il log va in un file in `/tmp`. I
+  subagenti si lanciano tutti insieme in primo piano, nello stesso messaggio.
 - Non cerchi difetti minori fuori dai file toccati: con più di 100 minori aperti nel registro non se ne
   cercano di nuovi (regola ⑳).
 - Preventivo: da 80 a 150 mila token per subagente. Oltre 12 subagenti, o oltre 2 milioni di token, ti fermi
