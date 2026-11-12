@@ -11,3 +11,22 @@
 2026-11-12 15:46 · R12 · piano · — · — · — · approvato (004 regola 2 ore in domande + prova; 007 togli VALUE_PROPS; 001 due lenti)
 2026-11-12 15:47 · R10 · piano · — · — · — · approvato (020 definizione in domande; 019 niente rimborso automatico; 009 lock in commit isolato con verify)
 2026-11-12 15:55 · AD · nota · — · — · — · Nicola dorme fino alle 17:30: avanti fino alla fermata 2, poi un messaggio solo e stop
+2026-11-12 16:13 · R01 · in lavoro · guardia 🔴 · referto 🔴 20 voci · unione (sotto) · nessuna
+2026-11-12 16:13 · R02 · in lavoro · guardia ✅ · referto ⏳ 11 voci · unione (sotto) · nessuna
+2026-11-12 16:13 · R03 · in lavoro · guardia ✅ · referto ⏳ 10 voci · unione (sotto) · nessuna
+2026-11-12 16:13 · R04 · in lavoro · guardia ✅ · referto ⏳ 13 voci · unione (sotto) · nessuna
+2026-11-12 16:13 · R05 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-12 16:13 · R06 · in lavoro · guardia ✅ · referto 🔴 11 voci · unione (sotto) · nessuna
+2026-11-12 16:13 · R07 · in lavoro · guardia ✅ · referto 🔴 16 voci · unione (sotto) · nessuna
+2026-11-12 16:13 · R08 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-12 16:13 · R09 · in lavoro · guardia ✅ · referto ⏳ 19 voci · unione (sotto) · nessuna
+2026-11-12 16:13 · R10 · in lavoro · guardia ✅ · referto 🔴 10 voci · unione (sotto) · nessuna
+2026-11-12 16:13 · R11 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-12 16:13 · R12 · in lavoro · guardia ✅ · referto ⏳ 10 voci · unione (sotto) · nessuna
+2026-11-12 16:13 · onda 1 · prova-unione ⏳
+2026-11-12 16:13 · R01 · lavora · guardia 🔴 · referto 20 di 25 · unione ✅ · corretto: 4 prove con skipIf, 2 prove rimesse mancanti
+2026-11-12 16:13 · R06 · lavora · guardia ✅ · referto 11 di 25 · unione ✅ · corretto: 4 chiavi tagliate, 2 prove rimesse mancanti
+2026-11-12 16:13 · R07 · lavora · guardia ✅ · referto 16 di 25 · unione ✅ · corretto: prova_tipo «leggera» su 4 voci
+2026-11-12 16:13 · R10 · lavora · guardia ✅ · referto 10 di 25 · unione ✅ · corretto: «{{» nel referto
+2026-11-12 16:13 · R05 · fermo senza piano · — · — · — · sollecitato col clone pubblico
+2026-11-12 16:13 · R02 R03 R04 R08 R09 R11 R12 · lavorano · ✅ · — · ✅ · nessuna azione
