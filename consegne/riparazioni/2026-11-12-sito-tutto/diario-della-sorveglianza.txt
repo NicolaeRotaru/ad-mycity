@@ -36,3 +36,4 @@
 2026-11-12 16:33 · R07 · lavora · guardia 🔴 (aiuto di prova altrui toccato) · referto vecchio sul ramo · — · correzione mandata
 2026-11-12 16:36 · R01 · finita · guardia 🔴 solo storia di 1 prova altrui (netto vuoto) · referto 25 di 25 ✅ · — · dato a K01; il rosso va a Nicola alla fermata 2
 2026-11-12 16:38 · R06 · lavora · — · chiavi corrette · — · 013/014 (solo migrazione nuova) = parziale, come R01-019
+2026-11-12 16:41 · R09 · finita · guardia ✅ · referto 25 di 25 ✅ · — · dato a K01 (pieno: R01 R02 R09)
