@@ -48,7 +48,9 @@
    "id": "session_015BmpnYpvGww4fT8hYibW1e",
    "ramo": "claude/sweet-galileo-0skkay-m07",
    "onda": 1,
-   "partenza": "2026-11-12 15:38"
+   "partenza": "2026-11-12 15:38",
+   "finita": true,
+   "nota": "guardia-ramo rossa solo sulla storia di tests/unit/aiuti/database-coi-permessi.ts (diff netto vuoto): decisione di Nicola alla fermata 2; un qa ha letto in sola lettura il database di produzione (annotato nel referto)"
   },
   "R08": {
    "id": "session_015BmpnZVJbMnQpGX6C4bvJq",
@@ -91,6 +93,15 @@
     "R01",
     "R02",
     "R09"
+   ],
+   "onda": 1
+  },
+  "K02": {
+   "id": "session_015BmpnYyjqbgDzNL8ScKQQS",
+   "ramo": "claude/sweet-galileo-0skkay-k02",
+   "partenza": "2f55d47d7ac130718ddabf722ba9485d3abe0428",
+   "riparatori": [
+    "R07"
    ],
    "onda": 1
   }
