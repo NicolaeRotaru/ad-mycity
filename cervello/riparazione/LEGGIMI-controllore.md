@@ -42,7 +42,7 @@ del sito e il suo SHA. La base dell'onda (per `CF`: la base della campagna). Il 
 ## Il lavoro che non fai, perché consuma senza servire
 - Non rifai il collaudo voce per voce: lo ha già fatto il collaudatore. Tu guardi solo l'unione.
 - Non rileggi un file intero se è cambiata una riga. Non rileggi due volte lo stesso pezzo.
-- Non controlli il controllo: un secondo subagente solo per un difetto nuovo **grave o bloccante**, e parte
+- Non controlli il controllo: un secondo subagente solo per un difetto nuovo **grave, o che ferma il sito**, e parte
   dalla riga citata dal primo (regole ⑯ e ⑲ di `cervello/MANUALE-AD.md`).
 - Non cerchi difetti minori fuori dai file toccati: con più di 100 minori aperti nel registro non se ne
   cercano di nuovi (regola ⑳).

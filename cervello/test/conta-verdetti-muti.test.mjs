@@ -89,6 +89,10 @@ test("se nessuno lavora la Cabina ferma NON e' un difetto", () => {
 test("una data illeggibile non diventa uno zero rassicurante", () => {
   assert.equal(cabinaFerma("boh", "2026-08-02 16:41"), null, "cieco non e' verde");
   assert.equal(cabinaFerma(null, "2026-08-02 16:41"), null);
+  // Fuori dalla forma «AAAA-MM-GG HH:MM» resta cieco anche quando l'orologio saprebbe leggerlo: la «T» o i
+  // secondi vengono da un altro scrittore, e una forbice calcolata su un campo che non è il nostro è inventata.
+  assert.equal(cabinaFerma("2026-08-02T16:41", "2026-08-02 16:41"), null);
+  assert.equal(cabinaFerma("2026-08-02 16:41", "2026-08-02 16:41:00"), null);
 });
 
 // ── Il tetto ──────────────────────────────────────────────────────────────────

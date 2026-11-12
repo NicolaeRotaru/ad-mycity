@@ -1288,12 +1288,13 @@ Al posto di `"Bash(node cervello/*.mjs:*)"` — 140 righe:
       "Bash(node cervello/verifica-sensori.mjs:*)",
 ```
 
-Al posto di `"Bash(bash cervello/*.sh:*)"` — 17 righe:
+Al posto di `"Bash(bash cervello/*.sh:*)"` — 18 righe:
 
 ```json
       "Bash(bash cervello/giro.sh:*)",
       "Bash(bash cervello/installa-bats.sh:*)",
       "Bash(bash cervello/installa-hooks.sh:*)",
+      "Bash(bash cervello/riparazione/sorveglia.sh:*)",
       "Bash(bash cervello/ritmo.sh:*)",
       "Bash(bash cervello/vps/aggiorna-cervello.sh:*)",
       "Bash(bash cervello/vps/collega-claude.sh:*)",
