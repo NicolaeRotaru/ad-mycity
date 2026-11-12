@@ -1,0 +1,82 @@
+{
+ "regista": "session_015BmpnXsL6Y7tP3BhawauHw",
+ "ad": "session_015BmpnWWfcmEfYEhQ25M7s2",
+ "sha_regista": "2f55d47d7ac130718ddabf722ba9485d3abe0428",
+ "base": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
+ "integrazione": "claude/sweet-galileo-0skkay",
+ "sessioni": {
+  "R01": {
+   "id": "session_015BmpnWa4kEGXtN8hYcdRgR",
+   "ramo": "claude/sweet-galileo-0skkay-m01",
+   "onda": 1,
+   "partenza": "2026-11-12 15:38"
+  },
+  "R02": {
+   "id": "session_015BmpnYwiJJk1vSNaYWVZUu",
+   "ramo": "claude/sweet-galileo-0skkay-m02",
+   "onda": 1,
+   "partenza": "2026-11-12 15:38"
+  },
+  "R03": {
+   "id": "session_015BmpnZFUeULBKmzDxSed5y",
+   "ramo": "claude/sweet-galileo-0skkay-m03",
+   "onda": 1,
+   "partenza": "2026-11-12 15:38"
+  },
+  "R04": {
+   "id": "session_015BmpnWRTq8EGWUoGHnUUnh",
+   "ramo": "claude/sweet-galileo-0skkay-m04",
+   "onda": 1,
+   "partenza": "2026-11-12 15:38"
+  },
+  "R05": {
+   "id": "session_015BmpnYCFe4QCxgiHPFgiMy",
+   "ramo": "claude/sweet-galileo-0skkay-m05",
+   "onda": 1,
+   "partenza": "2026-11-12 15:38"
+  },
+  "R06": {
+   "id": "session_015BmpnZDMdwrR3Hk3LdP1yL",
+   "ramo": "claude/sweet-galileo-0skkay-m06",
+   "onda": 1,
+   "partenza": "2026-11-12 15:38"
+  },
+  "R07": {
+   "id": "session_015BmpnYpvGww4fT8hYibW1e",
+   "ramo": "claude/sweet-galileo-0skkay-m07",
+   "onda": 1,
+   "partenza": "2026-11-12 15:38"
+  },
+  "R08": {
+   "id": "session_015BmpnZVJbMnQpGX6C4bvJq",
+   "ramo": "claude/sweet-galileo-0skkay-m08",
+   "onda": 1,
+   "partenza": "2026-11-12 15:38"
+  },
+  "R09": {
+   "id": "session_015BmpnYNCvQS2t6kJjn6qj3",
+   "ramo": "claude/sweet-galileo-0skkay-m09",
+   "onda": 1,
+   "partenza": "2026-11-12 15:38"
+  },
+  "R10": {
+   "id": "session_015BmpnXrTG4qST19RxhBdp7",
+   "ramo": "claude/sweet-galileo-0skkay-m10",
+   "onda": 1,
+   "partenza": "2026-11-12 15:38"
+  },
+  "R11": {
+   "id": "session_015BmpnXkhjmQaCWxNCSeKBd",
+   "ramo": "claude/sweet-galileo-0skkay-m11",
+   "onda": 1,
+   "partenza": "2026-11-12 15:38"
+  },
+  "R12": {
+   "id": "session_015BmpnVY8PKXUubt6QyBcp2",
+   "ramo": "claude/sweet-galileo-0skkay-m12",
+   "onda": 1,
+   "partenza": "2026-11-12 15:38"
+  }
+ },
+ "collaudatori": {}
+}
