@@ -34,3 +34,4 @@
 2026-11-12 16:29 · R01 · conflitto prova altrui · guardia 🔴 (storia di 1 prova altrui, toccata e rimessa) · — · — · scelta B: frase e prova all'onda 2; il rosso della storia va a Nicola alla fermata 2
 2026-11-12 16:33 · R02 · finita · guardia ✅ · referto 25 di 25 ✅ · — · dato a K01 (aperto)
 2026-11-12 16:33 · R07 · lavora · guardia 🔴 (aiuto di prova altrui toccato) · referto vecchio sul ramo · — · correzione mandata
+2026-11-12 16:36 · R01 · finita · guardia 🔴 solo storia di 1 prova altrui (netto vuoto) · referto 25 di 25 ✅ · — · dato a K01; il rosso va a Nicola alla fermata 2
