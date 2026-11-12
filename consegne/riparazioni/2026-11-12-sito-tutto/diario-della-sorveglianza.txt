@@ -9,3 +9,4 @@
 2026-11-12 15:45 · R06 · piano · — · — · — · approvato (007 senza difetto = gia_riparato_prima; 014 prova leggera; 005 parziale)
 2026-11-12 15:45 · R09 · piano · — · — · — · approvato (002 solo documentata, parole generiche; 006 pagina solo se sua; 007 non_fatto)
 2026-11-12 15:46 · R12 · piano · — · — · — · approvato (004 regola 2 ore in domande + prova; 007 togli VALUE_PROPS; 001 due lenti)
+2026-11-12 15:47 · R10 · piano · — · — · — · approvato (020 definizione in domande; 019 niente rimborso automatico; 009 lock in commit isolato con verify)
