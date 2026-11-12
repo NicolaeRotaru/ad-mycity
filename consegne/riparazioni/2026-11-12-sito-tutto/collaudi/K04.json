@@ -3,7 +3,7 @@
  "riparatori": [
   "R03"
  ],
- "aggiornato": "2026-11-12 17:40",
+ "aggiornato": "2026-11-12 17:55",
  "finita": true,
  "voci": [
   {
@@ -17,14 +17,14 @@
    ],
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-1 --base e3bd7a388c2763c12710564f10bda608358d1def^ --file lib/geocodifica.ts --prove tests/unit/riparazione-r03-via-roma-in-centro.test.ts --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-1 --base ea3d79c1d8056e461d92ef53434829a54f36522c^ --file lib/geocodifica.ts --prove tests/unit/riparazione-r03-via-roma-in-centro.test.ts --json"
    },
-   "nota": "Rimessa sul file che porta la correzione (lib/geocodifica.ts): 0; i tre file di collegamento (rotta geocode, rubrica, modulo cassa) non li morde la prova (prima corsa uscita 1, non_morde). Parziale dichiarato con onestà (righe vecchie della rubrica). Rompe: chi scrive come città una frazione (Montale, Borgotrebbia, «S. Nicolò») vede il risultato scartato perché il filtro guarda solo city/town/village/municipality → coordinate null → il controllo dei 5 km lascia passare l'ordine senza posizione, anche per frazioni lontane che prima venivano rifiutate (lib/geocodifica.ts:68-71, cod/route.ts:1040-1052). Confidenza media: Nominatim vero non interrogato. Anche: riga vecchia risalvata identica tiene le coordinate sbagliate se la nuova ricerca torna null."
+   "nota": "Ricollaudo (testa b44f9b7). Il difetto di prima è chiuso: le frazioni scritte come città (Montale, Borgotrebbia, «S. Nicolò») ora valgono, e un risultato accettato porta coordinate vere che il controllo dei 5 km misura. Rompe di nuovo: la frazione vale senza guardare il comune di appartenenza, e il CAP salta quando OSM non lo conosce (lib/geocodifica.ts:83-84, 90). risultatoAffidabile({town:'Argenta',hamlet:'San Nicolò'},'S. Nicolò','29010') = true: coordinate lontane, e il cliente di Piacenza si sente dire «troppo lontano», dove prima usciva null. Rimedio suggerito dal giudice: la frazione vale solo col CAP trovato o dentro RIQUADRO_PIACENZA. Probabilità reale non misurata (Nominatim non interrogato). Cosa_resta (rubrica vecchia, StoreLocationPicker) onesto."
   },
   {
    "id": "R03-003",
    "chiave": "api-backend|se l'email «nuovo ordine» al negozio non parte, nessuno se ne accorge e nessuno la rimanda",
-   "verdetto": "non_regge",
+   "verdetto": "parziale",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
@@ -32,9 +32,9 @@
    ],
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-2 --base 260658c7a696062497df0f26b8f6c1a7cba42abd^ --file lib/stripe/webhook/comune.ts --prove tests/unit/riparazione-r03-email-rifiutata-si-vede.test.ts --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-1 --base 260658c7a696062497df0f26b8f6c1a7cba42abd^ --file lib/stripe/webhook/comune.ts --prove tests/unit/riparazione-r03-email-rifiutata-si-vede.test.ts --json"
    },
-   "nota": "Rimessa su comune.ts: 0 (gli altri chiamanti non sono morsi dalla prova). La voce dice «nessuno se ne accorge E nessuno la rimanda»: c'è solo l'avviso in campanella all'admin, nessun nuovo tentativo né ingresso in email_queue, ma il referto dichiara copre_tutta_la_voce=true. Inoltre chi chiama provaAMandare con solo accountId (trasferimenti.ts:131/142) finisce sulla chiave 'senza-riferimento' e dal secondo rifiuto non avvisa più; rimborsi.ts:345 avvisa una volta per ordine anche con più rimborsi parziali."
+   "nota": "Ricollaudo: ora dichiarata parziale, e cosa_resta dice onestamente che nessuno rimanda la posta (manca l'email_queue). Rimessa su comune.ts alla testa: 0. Minori non dichiarati: chi chiama provaAMandare con solo accountId (trasferimenti.ts:131/142) finisce sulla chiave 'senza-riferimento' e avvisa una volta sola; rimborsi.ts:345 avvisa una volta per ordine."
   },
   {
    "id": "R03-005",
@@ -69,7 +69,7 @@
   {
    "id": "R03-007",
    "chiave": "pagamenti-stripe|un rimborso arrivato dopo il bonifico del lunedì non viene mai ripreso al negozio",
-   "verdetto": "rompe_altro",
+   "verdetto": "non_regge",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
@@ -77,9 +77,9 @@
    ],
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-3 --base c1d01145575a20efbfb559c87a3bdb98cf3fde3a^ --file lib/stripe/payout.ts --prove tests/unit/riparazione-r03-quota-dopo-il-bonifico-a-mano.test.ts --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-3 --base f6b9c70b9ad06a8c61ebc87fcee84d0e8d5d571e^ --file lib/stripe/payout.ts --prove tests/unit/riparazione-r03-quota-dopo-il-bonifico-a-mano.test.ts --json"
    },
-   "nota": "Rimessa: 0. Chiude_tutta: cosa_resta tace la promessa «trattenuta o recuperata» (app/seller/earnings/commissione.ts:137) e il fatto nel registro; se l'avviso cade c'è solo un log (payout.ts:1482) e nessuna ripresa; l'avviso usa sellerShare e non i centesimi davvero addebitati. Rompe: l'avviso «Togli X € dal prossimo bonifico» parte per ogni contanti HELD senza guardare contantiPagabiliDaStripe (payout.ts:154-162, 2041): quando i contanti passano da Stripe releaseOrderPayout versa già il netto meno seller_payout_reversed_cents, e chi segue l'avviso toglie la quota due volte."
+   "nota": "Ricollaudo, due lenti. Chiusi: l'avviso non parte più sui contanti che paga Stripe (payout.ts:1468, stessa regola del giro bonifici), quindi niente quota tolta due volte; se l'avviso cade parte un'email (1493-1500); la promessa di commissione.ts:137 ora è in cosa_resta. Ancora taciuto: il fatto nel registro dei fatti (pagamenti.rimborso-contanti, «la sera toglie al negozio il 90% della merce rimborsata») resta falso, e nulla toglie la quota in automatico: c'è solo un avviso da leggere. Il collaudo di prima l'aveva segnalato. Crepe minori: se la lettura dell'ordine (1464) fallisce l'avviso parte anche sui contanti pagati da Stripe; sellerShare invece dei centesimi addebitati."
   },
   {
    "id": "R03-008",
@@ -92,9 +92,9 @@
    ],
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-3 --base d022b765221810e4e147d3abcd33e0bbf4954478^ --file lib/stripe/webhook/ordini.ts --prove tests/unit/riparazione-r03-carta-tornata-prima-dell-ordine.test.ts --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-4 --base b44f9b7f7d46dc6393085118d5407ac517f4d90b^ --file lib/stripe/webhook/ordini.ts --prove tests/unit/riparazione-r03-carta-tornata-prima-dell-ordine.test.ts --json"
    },
-   "nota": "Rimessa su ordini.ts: 0 (carta-gia-tornata.ts nuovo: strutturale). Rompe (riprodotto dal giudice in scratch): cartaGiaTornata scatta su qualunque amount_refunded>0 senza chiedersi chi ha rimborsato (carta-gia-tornata.ts:34-38) e l'allineamento annulla gli ordini HELD del tentativo di prima (93-98): carrello di 2 negozi, A nasce, B cade, il sito rimborsa A (freno della veloce, annullo del negozio), Stripe ritenta → B nasce annullato e A, magari consegnato, diventa CANCELED senza pagamento al negozio; il cliente può aver pagato B senza merce né rimborso. Inoltre se l'allineamento cade c'è solo un log e il carrello si chiude COMPLETED (riga 119): l'ordine vecchio resta PAID/HELD e viene pagato, e l'avviso admin dice il falso («nati annullati»)."
+   "nota": "Ricollaudo, due lenti. Rimessa: ordini.ts 0, carta-gia-tornata.ts strutturale (uscita 3). Chiuso lo scenario di prima: rifatto contro la testa, il carrello A+B col rimborso fatto dal sito (freno della veloce 1 €, annullo di A 20 €) ora è verde, perché daFuori scarta i rimborsi con order_id o pending_checkout_id; il parziale da fuori ferma i bonifici (RIMBORSO_DA_RIPARTIRE) e si sblocca dal pannello; l'allineamento che cade ora lancia. Regressione nata da b44f9b7: carrello di 50 € (A 20 + B 30), il sito rende 20 € su A, Nicola rende i 30 € restanti dal cruscotto (refunded=true, amount_refunded=5000). Al ritentativo B nasce NEW/PAID/HELD e il negozio B riceve «Nuovo ordine» e prepara, mentre il cliente ha indietro tutto: `pieno` confronta solo i rimborsi da fuori (3000) col pagato e ignora carica.refunded (carta-gia-tornata.ts:73-74). Prima di b44f9b7, B nasceva annullato. Ancora aperti e non dichiarati: ordini del tentativo di prima a REFUNDED con refunded_amount_cents 0 (riga 170); avviso admin «nati annullati, senza avvisi al negozio» falso per gli ordini già nati (189); l'allineamento guarda solo payout HELD e può portare un DELIVERED a CANCELED (raro)."
   },
   {
    "id": "R03-009",
@@ -279,7 +279,7 @@
   {
    "id": "R03-022",
    "chiave": "qa-flussi|se il negoziante scrive il prezzo all'italiana col punto delle migliaia, «1.250,00», il prodotto va in vendita a 1,25 euro senza nessun avviso",
-   "verdetto": "rompe_altro",
+   "verdetto": "parziale",
    "giudizio": "pieno",
    "lenti": [
     "chiude_tutta",
@@ -287,9 +287,9 @@
    ],
    "rimessa": {
     "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-1 --base 7069b37049a66f06685b9285732fa2981b8d6fe2^ --file lib/products/schema.ts,components/seller/ProductForm.tsx --prove tests/unit/riparazione-r03-il-prezzo-all-italiana-nel-modulo.test.tsx --json"
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-2 --base 7069b37049a66f06685b9285732fa2981b8d6fe2^ --file lib/products/schema.ts,components/seller/ProductForm.tsx --prove tests/unit/riparazione-r03-il-prezzo-all-italiana-nel-modulo.test.tsx --json"
    },
-   "nota": "Rimessa a C e alla testa: 0. Rompe (verificato nel codice): il prezzo ora è testo, e ProductForm.tsx:384 e :500 passano getValues('price') grezzo («12,50») a patchAiPerIlForm; prezzoAiFuoriBanda fa Number('12,50')=NaN e la banda del 30% si spegne (lib/products/aiPatch.ts:536-537): la stima dell'AI sostituisce il prezzo del negoziante senza avviso. Va passato prezzoDelCampo(...). Cosa_resta sulla conferma mancante onesto."
+   "nota": "Ricollaudo. Chiuso il difetto di prima: ProductForm.tsx:384 e :500 passano prezzoDelCampo(getValues('price')), «12,50» → 12.5, il freno del 30% morde di nuovo (rimessa del commit f1ad16d5: uscita 0). Nessun altro lettore del prezzo grezzo nel modulo. La seconda prova del riparatore è solo una ricerca nel sorgente. Cosa_resta (conferma mancante, «1,234.56» → 1,23) onesto."
   },
   {
    "id": "R03-023",
