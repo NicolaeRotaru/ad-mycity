@@ -133,6 +133,12 @@ export const ESENZIONI = {
   // decido con la risposta in mano passa dalle guardie di sempre, e resta mio l'obbligo di riportare
   // la risposta com'è — non come mi conviene.
   AskUserQuestion: "porta una domanda a Nicola e aspetta: non scrive nel repo e non tocca il mondo. La risposta è una firma, e le mosse che ne seguono le guardano le guardie di sempre",
+  // Trovato dal cancello dello Stop il 12/11, riparando la casa spoglia (AR-1168): la sessione era
+  // partita in modalità piano. `ExitPlanMode` è il gemello di `AskUserQuestion`: mette il piano
+  // scritto davanti a Nicola e aspetta la sua approvazione. Non scrive nel repo e non tocca il mondo.
+  // L'esenzione copre il gesto di chiedere l'approvazione; il lavoro che parte dopo il sì passa dalle
+  // guardie di sempre, e un piano approvato non è una firma sulla PR.
+  ExitPlanMode: "porta il piano scritto a Nicola e aspetta la sua approvazione: non scrive nel repo e non tocca il mondo. Le mosse che seguono il sì le guardano le guardie di sempre, e un piano approvato non vale come firma sulla PR",
 };
 
 /**
