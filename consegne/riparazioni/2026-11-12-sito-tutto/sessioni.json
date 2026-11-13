@@ -137,7 +137,8 @@
    "id": "session_015BmpnYLk8AraXakVCkun9H",
    "ramo": "claude/magical-hamilton-xouwr8-m19",
    "onda": 2,
-   "partenza": "2026-11-13 06:05"
+   "partenza": "2026-11-13 06:05",
+   "finita": true
   },
   "R20": {
    "id": "session_015BmpnWFoQMAShMVa1oZB8L",
