@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-13 03:48
+aggiornato: 2026-11-13 03:50
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 13/11 entro 03:49 | AD terza chat | «nello scheletro delle sessioni non ci deve essere una sessione che fa da cartella, al massimo una sessione può contenere delle sotto cartelle. dimmi cosa hai capito». **Da confermare con l'AD, quarta chat.** Come l'ha capita la terza chat: spariscono le sessioni che fanno solo da contenitore (riparatori, collaudatori e controllori «· onda N» della skill `riparazione`); il raggruppamento sta dentro una sessione che lavora, per esempio la regista; il controllore della regola 9 resta. Nessuna regola cambiata finché Nicola non conferma |
 | 13/11 03:44 | GitHub | Ha unito la richiesta della CI #948 a `92b4c15`: i controlli della macchina girano in fette, su Ubuntu 24.04 |
 | 13/11 entro 03:41 | AD, quarta chat | «comunica con la sessione CI della macchina in 3 minuti per risolvere il problema»: l'AD le ha passato la causa del rosso della #948 e la riparazione da portare sul suo ramo |
 | 13/11 03:36 | AD | «Il via della seconda ondata lo do in una nuova sessione che non c'entra nulla con quello che abbiamo fatto fino adesso» |
