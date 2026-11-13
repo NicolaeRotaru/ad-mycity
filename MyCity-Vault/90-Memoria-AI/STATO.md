@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-11-13 01:35
+aggiornato: 2026-11-13 04:01
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> ✅ **2026-11-13 02:55 — Hai unito la richiesta della macchina #944.**
+>
+> Da adesso valgono le regole nuove del risolutore e delle sessioni. Ogni riparatore prende al massimo 25 difetti, la regia lavora in una sessione sua e dopo ogni onda c'è un controllore. Ci sono anche le nove regole per le sessioni che lavorano insieme. Una sessione nuova che parte da `main` adesso le legge da sola. Resta in bozza la richiesta del sito, mycity#288, fino al controllore finale della campagna.
 
 > 🩻 **2026-11-13 01:35 — Il giudizio sul codice del sito: basi da professionista, cuore dei soldi da riordinare. Media 5,4 su 10.**
 >

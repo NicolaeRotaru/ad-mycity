@@ -1,13 +1,13 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-13 03:29
+aggiornato: 2026-11-13 04:01
 regole: cervello/sessioni-insieme.md
 ---
 
 # La bacheca delle sessioni
 
-> **In due righe.** Qui stanno le decisioni di Nicola, chi fa cosa e gli id delle sessioni vive. Oggi l'AD è la terza chat,
-> e la sessione della CI porta i controlli della macchina sotto i 3 minuti.
+> **In due righe.** Qui stanno le decisioni di Nicola, chi fa cosa e gli id delle sessioni vive. Oggi l'AD è la quarta chat,
+> e la sessione della CI ha portato i controlli della macchina sotto i 3 minuti.
 
 ## In parole semplici
 Questa pagina è il posto comune delle sessioni che lavorano insieme. Serve perché nessuna decisione di Nicola si
@@ -28,7 +28,18 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 13/11 entro 03:49 | AD terza chat | «nello scheletro delle sessioni non ci deve essere una sessione che fa da cartella, al massimo una sessione può contenere delle sotto cartelle. dimmi cosa hai capito». **Da confermare con l'AD, quarta chat.** Ecco come l'ha capita la terza chat. Nessuna sessione fa più solo da contenitore. Spariscono quindi le cartelle «Riparatori · onda N», «Collaudatori · onda N» e «Controllori · onda N» della skill `riparazione`. Le sottocartelle stanno dentro una sessione che lavora, per esempio la regista. Il controllore della regola 9 resta, perché lavora. Finché Nicola non conferma, nessuna regola cambia |
+| 13/11 03:44 | GitHub | Ha unito la richiesta della CI #948 a `92b4c15`: i controlli della macchina girano in fette, su Ubuntu 24.04 |
+| 13/11 entro 03:41 | AD, quarta chat | «comunica con la sessione CI della macchina in 3 minuti per risolvere il problema»: l'AD le ha passato la causa del rosso della #948 e la riparazione da portare sul suo ramo |
+| 13/11 03:36 | AD | «Il via della seconda ondata lo do in una nuova sessione che non c'entra nulla con quello che abbiamo fatto fino adesso» |
 | 13/11 entro 03:28 | Radiografia del codice | La chat del giudizio sul codice continua in una sessione figlia, che parte con le regole nuove delle sessioni |
+| 13/11 03:27 | AD | Card 239, dopo la spiegazione: «a». La regola delle prove comuni resta severa; eccezione firmata solo per la prima onda |
+| 13/11 03:24 | GitHub | Card 236: Nicola toglie a mano la riga del permesso del database su `main` (3a5778e) |
+| 13/11 03:15 | AD | Card 239: sceglie «a», ma vuole prima la spiegazione |
+| 13/11 03:15 | AD | «riprova 361, 363 e 364»: applicate dall'AD alle 03:15-03:17 e controllate sul database |
+| 13/11 03:15 | AD | «ok 236»: togliere il permesso del database. La macchina non può scrivere il foglio dei permessi: lo toglie Nicola a mano |
+| 13/11 03:05 | AD | Ogni sessione nuova che scrive codice nasce con ultracode acceso: regola 10 di `cervello/sessioni-insieme.md` |
+| 13/11 02:55 | GitHub | Ha unito la richiesta della macchina #944: da adesso le regole nuove del risolutore e delle sessioni sono su `main` |
 | 13/11 entro 02:28 | AD | Regola 9 delle sessioni: un lavoro lungo ha tre livelli, AD, controllore e chi lavora; il controllore segue la richiesta e ripara CI e conflitti |
 | 13/11 entro 02:24 | AD | Regola 8 delle sessioni: un lavoro lungo ha una sessione sua, con un foglio di partenza in sei parti |
 | 13/11 entro 02:22 | AD | Togliere dalla bozza la richiesta della macchina #944: l'ha fatto la seconda chat |
@@ -49,24 +60,28 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 | Sessione | Lavoro | File suoi |
 |---|---|---|
 | AD | parla con Nicola, tiene la memoria e la bacheca | `MyCity-Vault/90-Memoria-AI/`, regole di scrittura |
+| AD, quarta chat | 13/11 03:38: ripara il rosso della CI dentro la #949. Il commit `3a5778e` di Nicola (card 236) ha tolto il permesso del database, ma in `cervello/permessi-debito.json` era rimasta la sua scusa, e la prova `permessi-di-guardia` la boccia. Cade anche `main`, non solo la #948. Quando la #949 è unita, la #948 si rilancia | `cervello/permessi-debito.json` |
 | regista (`…XsL6Y7`) | ferma a 450 mila token: passaggio scritto in fondo a `consegne/riparazioni/2026-11-12-sito-tutto/REGIA.md` (13/11 01:35). L'onda 2 la guida una regista nuova, aperta dall'AD al «via la seconda» | la campagna del 12/11, la skill `riparazione` |
-| CI della macchina | porta «Cancello del lotto» e «Test del cervello» entro 3 minuti, senza togliere controlli; PR in bozza sul ramo `claude/ci-tre-minuti`, tetto 30 $ | `.github/workflows/`, `cervello/cancello-lotto.mjs` |
+| CI della macchina | Finita: Nicola ha unito la #948 alle 03:44 (`92b4c15`). Il cancello ci mette 2 min 28 s, prima 10 min 21 s. Prima dell'unione la sessione ha riparato le due cause del rosso: la scusa dei permessi e Ubuntu 26.04. Alla fine era a 36,8 $ su 30 | nessuno |
+| Radiografia del codice · seguito (`…ZCaWUi`) | segue la richiesta del giudizio sul codice del sito (ad-mycity#947) e aspetta Nicola su due scelte: le quattro librerie con falle note da aggiornare prima di domenica 15/11, e il piano con i costi del riordino dopo il lancio. Il codice del sito non lo tocca senza la sua firma | `consegne/audit/2026-11-13-giudizio-codice-sito.md` |
 | radiografia | finita: aspetta il «via» alla prima corsa | la skill `radiografia-sessioni`, il suo programma |
-| Radiografia del codice · seguito (`…ZCaWUi`) | segue la richiesta di unione del giudizio sul codice del sito (ad-mycity#947). Aspetta Nicola su due scelte. La prima: aggiornare le quattro librerie con falle note prima del lancio di domenica 15/11. La seconda: il piano con i costi del riordino, dopo il lancio. Il codice del sito non si tocca senza la sua firma; con la firma va al senior `tech`, in un ramo di mycity | `consegne/audit/2026-11-13-giudizio-codice-sito.md` |
 
 ## Le sessioni vive
 | Ruolo | Id |
 |---|---|
-| AD, terza chat (dal 13/11 alle 02:20) | `session_015BmpnZ5ufx6s554FgYbUju` |
+| AD, quarta chat (dal 13/11 alle 03:36) | `session_015BmpnVpk1kywXGH5kMWQTH` |
+| AD terza chat, da non usare (471 mila token) | `session_015BmpnZ5ufx6s554FgYbUju` |
 | CI della macchina in 3 minuti | `session_015BmpnWjSJvwxssvANzndUF` |
+| Radiografia del codice · seguito (dal 13/11 alle 03:28) | `session_015BmpnZCaWUijDqfTAvJ4Dx` |
+| Radiografia del codice, da non usare (partita prima delle regole nuove) | `session_015BmpnXaAEDNzGNRCfhqygd` |
 | AD seconda chat, da non usare (390 mila token) | `session_015BmpnXznpQwCRc8GAKjgyw` |
 | AD vecchia, da non usare | `session_015BmpnWWfcmEfYEhQ25M7s2` |
 | regista del risolutore | `session_015BmpnXsL6Y7tP3BhawauHw` |
 | radiografia in sessioni | `session_015BmpnVn722KGUHR5nRn23Z` |
-| Radiografia del codice · seguito (dal 13/11 alle 03:28) | `session_015BmpnZCaWUijDqfTAvJ4Dx` |
-| Radiografia del codice, da non usare (partita prima delle regole nuove) | `session_015BmpnXaAEDNzGNRCfhqygd` |
 
 ## La quota
 | Quando | Chi l'ha vista | Stato |
 |---|---|---|
+| 13/11 03:45 | AD, quarta chat | la sessione della CI è a 36,8 $ contro un tetto di 30, e a 761 mila token, vicino alla compressione (784 mila). Detto a Nicola. Quota ancora in avviso |
+| 13/11 03:38 | AD, quarta chat | ancora avviso, nessun extra in uso: si rinnova il 19/11 alle 10 |
 | 12/11 23:33 | AD | avviso: il limite settimanale si avvicina, si rinnova il 19/11 alle 10 |

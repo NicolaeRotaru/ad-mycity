@@ -44,18 +44,22 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 Cosa cambia: i difetti chiusi della prima onda entrano nel registro, e la regola per le onde dopo resta decisa.
 Se va bene: la regista lancia la chiusura dei difetti della prima onda dopo che hai unito le due richieste.
 
+**Stato:** ✅ DECISO 2026-11-13 03:27. Hai scelto «a» dopo la spiegazione: la regola resta severa, e per la sola prima onda vale un'eccezione firmata. La mette in pratica la regista nuova, prima di chiudere i difetti della prima onda. Il programma oggi non ha un interruttore per onda su questa regola. La strada più corta è un'impostazione nel piano, come quella che c'è già per la verifica legata al commit: poche righe, con la loro prova.
+
 ### 🔴 #238 — Riprova le tre migrazioni del sito rimaste, ma non la 350 · ⏳ accodata 2026-11-12 23:55
 
 **In parole semplici.** Le migrazioni cambiano il database vero del sito. Delle 15 nate nella prima onda del risolutore, 12 sono già applicate col tuo ok. Ne restano tre: la 361, la 363 e la 364. La conferma del database è scaduta due volte prima della tua risposta.
 
 **Cosa cambia per te.** Esempio: la 361 crea la tabella dei codici sconto usati, che oggi non esiste. Senza, il sito usa ancora la strada vecchia.
 
-**Cosa devi fare tu.** Scrivi «riprova» nella chat della regista e approva la conferma del database. La 350, quella del bonifico del lunedì, non va applicata: in un caso fa pagare due volte lo stesso ordine.
+**Cosa devi fare tu.** Scrivi «riprova» qui all'AD. Le tre migrazioni le riprova la regista nuova dell'onda 2, perché quella di prima si è fermata. Quando nella sua chat compare la conferma del database, ti dico io dove cliccare. La 350, quella del bonifico del lunedì, non va applicata: in un caso fa pagare due volte lo stesso ordine.
 
 **Cosa non ho verificato.** Le tre migrazioni contengono comandi che cancellano: la conferma del database lo dice, e va letta.
 
 Cosa cambia: sul database vero arrivano le ultime tre migrazioni della prima onda; la 350 resta fuori finché non è riparata.
 Se va bene: la regista controlla le tabelle sul database e scrive l'esito nella richiesta del sito.
+
+**Stato:** ✅ FATTO 2026-11-13 03:17. Su tuo «riprova 361, 363 e 364» delle 03:15, le ha applicate l'AD, una alla volta. Il controllo sul database dice che tutto è al suo posto: la tabella dei codici usati, la colonna dell'obbligo degli allergeni (vera solo su «alimentari»), la guardia sulle categorie, il tipo «domanda» nelle segnalazioni e le tre regole sulle domande. La 350 resta fuori.
 
 ### 🔴 #237 — Di' alla regista se parte la seconda onda del risolutore · ⏳ accodata 2026-11-12 23:55
 
@@ -63,7 +67,7 @@ Se va bene: la regista controlla le tabelle sul database e scrive l'esito nella 
 
 **Cosa cambia per te.** Esempio: dentro ci sono anche i 25 difetti di R05, il riparatore che non è mai partito.
 
-**Cosa devi fare tu.** Scrivi alla regista «via la seconda», oppure «fermati».
+**Cosa devi fare tu.** Il via lo dai tu, in una sessione nuova che non c'entra con le chat dell'AD (tua scelta del 13/11 alle 03:36). I passi sono tre. Prima unisci la richiesta ad-mycity#949: dentro c'è il passaggio aggiornato per la regista nuova. Poi apri una sessione nuova sul deposito ad-mycity, ramo `main`, e accendi ultracode dall'app. Infine scrivi: «Sei la regista dell'onda 2 del risolutore del sito. Apri la skill riparazione e leggi il passaggio in fondo a consegne/riparazioni/2026-11-12-sito-tutto/REGIA.md. Via la seconda.»
 
 **Cosa non ho verificato.** Il risparmio dei lotti piccoli è una stima: lo misuriamo alla fine della seconda onda.
 
@@ -79,12 +83,16 @@ Se va bene: alla fine della seconda onda la regista ti porta i numeri veri e il 
 2. **Un freno automatico.** Blocca gli strumenti del database vero, della messa online e di Stripe solo quando nella copia c'è un file segnale. Collaudatori e controllori lo mettono come primo passo, e la regista controlla che il blocco scatti. Le sessioni dell'AD restano come sono. Il prezzo: è un pezzo nuovo da costruire e collaudare.
 La regista consiglia la 1. Finché non scegli vale un controllo dopo. A ogni giro la regista guarda se quelle sessioni hanno chiamato quegli strumenti, e alla prima chiamata le ferma. Vede la chiamata quando è già partita.
 
+> **Aggiornamento dell'AD, 13/11 alle 03:18.** Hai risposto «ok 236» alle 03:15. La riga però non la posso togliere io: la macchina non può scrivere il proprio foglio dei permessi, e il blocco è scattato due volte. Resta un passo a mano su GitHub, di un minuto. Apri `.claude/settings.json` sul ramo `main` e premi la matita. Cancella la riga `"mcp__Supabase__execute_sql",` (riga 62) e salva con «Commit changes».
+
 **Cosa devi fare tu.** Rispondi «ok 236» per la strada 1, «freno 236» per la strada 2, oppure «no 236» per lasciare solo il controllo dopo.
 
 **Cosa non ho verificato.** Non ho contato quante volte le sessioni dell'AD usano quello strumento per leggere i numeri.
 
 Cosa cambia: collaudatori e controllori non possono più leggere il database vero senza chiedere. Con la strada 1 il divieto vale per tutte le sessioni della macchina, con la 2 solo per chi ha messo il segnale.
 Se va bene: il buco della prima onda è chiuso prima della seconda, e il controllo dopo non serve più.
+
+**Stato:** ✅ FATTO 2026-11-13 03:24. Hai tolto tu la riga dal foglio dei permessi, direttamente su `main` (commit 3a5778e). L'AD ha controllato: su `main` lo strumento del database vero non è più fra quelli che si usano senza chiedere.
 
 ### 🟡 #235 — Unisci le due richieste del risolutore quando ti va · ⏳ accodata 2026-11-12 23:55
 
@@ -94,7 +102,7 @@ Se va bene: il buco della prima onda è chiuso prima della seconda, e il control
 
 **Cosa devi fare tu.** Unisci le due richieste quando vuoi. La pubblicazione del sito resta un passo a parte.
 
-> **Correzione dell'AD, 13/11 alle 02:33.** Quella della macchina, ad-mycity#944, si può unire: premi «Squash and merge». Il passo «Ready for review» è già fatto: la seconda chat l'ha tolta dalla bozza alle 02:22, su tua richiesta. Prima di unire guarda che i due controlli siano verdi sull'ultimo commit. Quella del sito, mycity#288, resta in bozza: la skill `riparazione` la fa uscire di bozza solo dopo il controllore finale della campagna. Inoltre il controllore dell'onda 1 ha trovato 14 voci rosse, e mancano tre migrazioni.
+> **Aggiornamento dell'AD, 13/11 alle 02:58.** Quella della macchina, ad-mycity#944, l'hai unita tu alle 02:55, con i due controlli verdi. Resta solo quella del sito. Quella del sito, mycity#288, resta in bozza: la skill `riparazione` la fa uscire di bozza solo dopo il controllore finale della campagna. Inoltre il controllore dell'onda 1 ha trovato 14 voci rosse, e mancano tre migrazioni.
 
 **Cosa non ho verificato.** La richiesta del sito resta in bozza fino al controllore finale della campagna.
 

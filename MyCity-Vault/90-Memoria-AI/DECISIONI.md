@@ -6803,3 +6803,46 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **entro 02:24** · Nicola in chat («aggiungi anche questa come regola») · Regola 8: un lavoro lungo ha una sessione sua, e il suo foglio di partenza ha sei parti (la richiesta con le parole di Nicola, i fatti misurati, cosa non si tocca, la prova del «fatto», il tetto di spesa, a chi riferisce). Commit c03fb84, riscritto in 03fee8a e 163f718.
 - **entro 02:28** · Nicola in chat («aggiungi una sessione-cartella come controllore di tutto, che si occupa di correggere la PR e la CI») · Regola 9: tre livelli, AD, controllore (sessione-cartella sul modello grande) e chi lavora. Il controllore segue la richiesta con `subscribe_pr_activity`, ripara CI rossa e conflitti, e all'AD manda solo fermate ed esito. Commit b7e9273.
 - **Cosa non regge da solo:** sono regole scritte, nessun programma le fa rispettare. Vale con la firma di Nicola sull'unione della #944.
+
+## 2026-11-13 02:55 — 🟡 Nicola unisce la richiesta della macchina #944 (commit 13df338 su main)
+- **Cosa:** «Squash and merge» della #944, con i due controlli verdi sull'ultimo commit (67e1ae0) e nessun conflitto. È la firma che serviva alle regole nuove del 12-13/11: il risolutore a lotti da 25 con regia e controllore, la radiografia in sessioni, le cartelle per ruolo e le nove regole di `cervello/sessioni-insieme.md`.
+- **Cosa resta:** la mycity#288 (le riparazioni della prima onda sul sito) resta in bozza fino al controllore finale della campagna; card #235 aggiornata alle 02:58. Il ramo `claude/sweet-galileo-0skkay` riparte da `main`.
+
+## 2026-11-13 03:05 — 🟡 Chi scrive codice nasce con ultracode acceso (regola 10 delle sessioni)
+- **Chi:** Nicola in chat con l'AD, terza chat: «nuova regola: ogni nuova sessione che si occupa a scrivere codice deve essere aperta con l'ultracode».
+- **Cosa:** regola 10 in `cervello/sessioni-insieme.md`. Subito dopo `create_session`, `get_session` deve dire `is_ultracode_active: true` ed `effort_level` xhigh. Se è spento, la sessione non comincia e Nicola lo accende dall'app (regola 4). La skill `riparazione` lo chiedeva già per le figlie («Ultra Code Extra», 12/11).
+- **Come si accende, misurato il 13/11:** `create_session` non ha un interruttore. Le sessioni aperte dall'AD alle 02:19 e alle 02:20, dopo che Nicola aveva acceso ultracode nella chat dell'AD (circa 02:10), risultano con `is_ultracode_active: true`. La figlia di prova delle 02:02 no. Sembra che si erediti da chi apre: due casi, non una prova.
+- **I tetti restano:** regole ⑱ e ㉑ del manuale. Il preventivo prima, e oltre 12 subagenti o 2 milioni di token si chiede a Nicola; chi ripara non ne lancia più di 12 (skill `riparazione`). La quota è in avviso fino al 19/11 alle 10.
+- **Anche:** card #237 e #238 corrette. Il «via la seconda» e il «riprova» si scrivono all'AD, perché la regista vecchia è ferma e l'onda 2 la guida una regista nuova.
+- **Cosa non regge da solo:** nessun programma controlla `is_ultracode_active` all'apertura: per ora regge sul controllo scritto nella regola.
+
+## 2026-11-13 03:15 — 🔴 Le ultime tre migrazioni della prima onda sul database vero, il permesso del database e la card 239
+- **«riprova 361, 363 e 364» (Nicola in chat, 03:15):** applicate dall'AD con `apply_migration` sul progetto Mycity (`clmpyfvpvfjgeviworth`), testo preso dalla mycity#288 a `3e820b0`: 361 alle 03:15, 363 e 364 alle 03:17. Prima ho controllato su `list_migrations` che nessuna delle tre fosse applicata e che le altre 12 ci fossero. Dopo ho controllato con una lettura: tabella dei codici usati, colonna dell'obbligo degli allergeni (vera solo su «alimentari»), guardia sulle categorie, tipo «domanda» nelle segnalazioni, tre regole sulle domande. Card #238 fatta. Perché l'AD e non una regista: la conferma del database era scaduta due volte in una chat dove Nicola non guardava, e per tre migrazioni una regista nuova costava molto di più.
+- **«ok 236» (03:15):** strada 1, togliere `mcp__Supabase__execute_sql` dai permessi di `.claude/settings.json`. Non eseguibile da qui: la macchina non può scrivere il proprio foglio dei permessi (bloccato due volte, dal classificatore e dalla regola della cartella). La toglie Nicola a mano su GitHub; la card #236 dice il passo.
+- **Card #239 (03:15):** Nicola sceglie «a», ma vuole prima la spiegazione. Non registrata come fatta: aspetta il suo ok dopo la spiegazione.
+
+## 2026-11-13 03:27 — 🟡 Card 239: «a», dopo la spiegazione; card 236 chiusa da Nicola su main
+- **Card #239 (Nicola in chat, 03:27: «card 239 la A», dopo la spiegazione delle 03:20):** la regola delle prove comuni resta severa. Per la sola onda 1 della campagna del 12/11 vale un'eccezione firmata, perché i collaudatori hanno già guardato quelle 57 modifiche (dato della regista, non riletto dall'AD). La regista di prima consigliava la «b»; l'AD consigliava la «a», perché un controllo si indebolisce anche senza calare di numero. Da fare per la regista dell'onda 2: il programma non ha un interruttore per onda su questa regola, quindi serve un campo nel piano come `verifica_testa_dall_onda`, con prova e mutazione, prima di `applica --git` sull'onda 1.
+- **Card #236:** Nicola ha tolto a mano `mcp__Supabase__execute_sql` da `.claude/settings.json` su `main` alle 03:24 (commit 3a5778e). Controllato dall'AD su `origin/main`: la riga non c'è più.
+
+## 2026-11-13 03:33 — 🟡 Due decisioni date alla radiografia del codice, registrate dall'AD (regola 2 delle sessioni)
+- **entro 01:30 · Nicola alla sessione della radiografia del codice (`session_015BmpnXaAEDNzGNRCfhqygd`):** sul codice del sito vuole un giudizio da professionista, non altri difetti nel registro: le misure del referto non si caricano come voci. Il referto è `consegne/audit/2026-11-13-giudizio-codice-sito.md` (richiesta #947, media 5,4 su 10).
+- **entro 03:28 · stessa chat:** il lavoro continua in una sessione figlia con le regole nuove, `session_015BmpnZCaWUijDqfTAvJ4Dx` («Radiografia del codice · seguito»), che tiene la #947. La sessione di prima è da non usare.
+- **In attesa di Nicola, tenute da quella sessione:** aggiornare prima di domenica 15/11 le quattro librerie del sito con falle note; il piano con i costi del riordino della cassa dopo il lancio. Il codice del sito non si tocca senza la sua firma.
+
+## 2026-11-13 03:36 — 🟡 Il via della seconda onda lo dà Nicola in una sessione nuova, fuori dalle chat dell'AD
+- **Chi:** Nicola in chat con l'AD, terza chat: «il via della seconda ondata lo do in una nuova sessione che non centra nulla con quello che abbiamo fatto fino adesso».
+- **Cosa cambia:** l'AD non apre la regista dell'onda 2. Card #237 riscritta coi tre passi: unire la #949 (porta il passaggio aggiornato in `REGIA.md`), aprire una sessione nuova su ad-mycity `main` con ultracode acceso dall'app, scrivere il testo pronto della card.
+- **Anche (03:33):** la sessione della CI ha finito al tetto (29,55 $ su 30). Il cancello del lotto è passato da 10 min 21 s a 2 min 36 s, il test del cervello da circa 5 min a 2 min 20 s, e nessun controllo è stato tolto. La richiesta #948 è in bozza. L'ultima corsa su `0f204ff` la segue l'AD.
+
+## 2026-11-13 03:40 — 🟡 Tolta la scusa rimasta per il permesso del database: main e la #948 erano rossi per quella
+- **Chi:** l'AD, quarta chat (`session_015BmpnVpk1kywXGH5kMWQTH`). La terza chat ha lasciato la scelta all'AD: «riparare o portargli la causa».
+- **Cosa è successo:** alle 03:24 Nicola ha tolto a mano `mcp__Supabase__execute_sql` da `.claude/settings.json` (card 236, commit `3a5778e`). In `cervello/permessi-debito.json` è rimasta la scusa per quel permesso. La prova `permessi-di-guardia`, al caso 4, boccia le scuse per violazioni che non ci sono più. Così sono caduti `main` e la fetta 8 della #948, che gira sul suo codice unito a `main`.
+- **Cosa ho fatto:** nella #949 ho unito `main` e tolto quella voce, 4 righe. I quattro file di prova dei permessi passano, 29 casi su 29.
+- **Perché qui:** è l'ultimo passo della card 236 che Nicola ha firmato. Solo una richiesta di unione può riparare `main`, e la #949 è dell'AD.
+- **Se va bene:** unita la #949, la #948 si rilancia e si unisce solo se torna verde.
+
+## 2026-11-13 03:41 — 🟡 La sessione della CI ripara da sola il rosso della #948
+- **Chi:** Nicola in chat con l'AD, quarta chat: «comunica con la sessione CI della macchina in 3 minuti per risolvere il problema».
+- **Cosa cambia:** l'AD ha mandato a `session_015BmpnWjSJvwxssvANzndUF` la causa e la riparazione (commit `67bb26e`). Lei unisce `main` nel suo ramo e porta la stessa riparazione di 4 righe. La #948 così torna verde senza aspettare la #949. Il suo tetto era 29,55 $ su 30: il lavoro è autorizzato da Nicola, ma solo questo, intorno a 2 $.
+- **Se va bene:** la #948 è verde in tutte le 14 righe e Nicola la può unire. Se le due richieste portano la stessa riparazione, la seconda unita non va in conflitto su quel file.

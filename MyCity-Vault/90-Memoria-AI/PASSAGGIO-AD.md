@@ -1,52 +1,63 @@
 ---
 tipo: passaggio
-data: 2026-11-13 02:20
-da: session_015BmpnXznpQwCRc8GAKjgyw (la seconda chat dell'AD, arrivata a 390 mila token: regola 7)
+data: 2026-11-13 03:40
+da: session_015BmpnZ5ufx6s554FgYbUju (la terza chat dell'AD, arrivata a 471 mila token: regola 7)
 ---
 
 # Il passaggio dell'AD
 
-Questo foglio serve alla terza chat dell'AD per ripartire senza rileggere la seconda. Esempio: la seconda arrivava a
-390 mila token su un milione, e ogni sua risposta rileggeva tutto; la terza riparte da poche migliaia.
+Questo foglio serve alla quarta chat dell'AD per ripartire senza rileggere la terza. Esempio: la terza era a 471 mila
+token su un milione, e ogni sua risposta li rileggeva tutti.
 
 ## Il punto adesso
-- ✅ Fatto: la richiesta della macchina ad-mycity#944 è verde e senza conflitti. Dentro ci sono la prova che non mordeva
-  (riparata), la regola delle cartelle per le sessioni figlie e la card 235 corretta.
-- ⏳ In corso: la sessione della CI lavora per portare i controlli della macchina sotto i 3 minuti (Nicola, 13/11 02:15).
-  Riferisce all'AD; l'id è nella bacheca.
-- 👉 Tocca a te (AD): iscriverti alla #944 con `subscribe_pr_activity` appena parti, poi aspettare Nicola.
-- 🕐 Quando vuoi: niente.
+- ✅ Fatto: la #944 è unita, le tre migrazioni sono sul database vero, le card 236, 238 e 239 sono chiuse.
+  - Nicola ha unito la #944 alle 02:55.
+  - Le migrazioni 361, 363 e 364 sono sul database vero dalle 03:17. Le ho controllate una per una (card 238).
+  - Nicola ha tolto a mano il permesso del database su `main`, commit 3a5778e (card 236).
+  - Sulla card 239 ha scelto la «a».
+  - Regola 10: chi scrive codice nasce con ultracode.
+  - Il registro delle decisioni è completo fino alle 03:36.
+- ⏳ In corso: due richieste aspettano i controlli di GitHub.
+  - La #949 porta la memoria di stanotte; i suoi controlli sono in corso.
+  - La #948 porta la CI in 3 minuti. L'ultima corsa su `0f204ff` è ROSSA (fetta 8 della suite, job 131647819880): non si unisce finché non è verde. Nessuno la segue più: tocca all'AD.
+- 👉 Tocca a te (Nicola): sei cose, tutte qui sotto.
+  - Unire la #949.
+  - Unire la #948, che è in bozza.
+  - Confermare che il test del cervello giri solo su `main`.
+  - Decidere sul difetto AR-1173 e sulle tre esenzioni del cancello dello stop.
+  - Dare il via dell'onda 2 in una sessione sua (card 237, coi passi pronti).
+  - Le due scelte del giudizio sul codice (#947): le librerie da aggiornare prima del 15/11 e il piano del riordino.
+- 🕐 Da sapere: la #947 e la #949 vanno in conflitto su bacheca e stato. Chi viene unito per secondo si ripara. Con
+  la sessione `…ZCaWUi` è d'accordo così: se Nicola unisce prima la #947, la #949 la sistema l'AD.
 
 ## Cosa non ho verificato
-Nicola non ha ancora risposto a tre proposte, qui sotto. La sessione della CI è appena partita.
+- Che ultracode si erediti da chi apre la sessione: è un'ipotesi fatta su tre casi.
+- Il sito con le tre migrazioni: non ho fatto nessun ordine di prova. Il sito di oggi usa ancora la strada vecchia
+  finché la mycity#288 non è unita e pubblicata.
 
 ---
 
 ## Dettagli tecnici
 
-**Da leggere per primi:** `cervello/MANUALE-AD.md` · `LAVORO-APERTO.md` · `BACHECA-SESSIONI.md` · le card 235-239.
+**Da leggere per primi:** `cervello/MANUALE-AD.md` · `cervello/sessioni-insieme.md` (dieci regole) · `BACHECA-SESSIONI.md` ·
+`LAVORO-APERTO.md` · card 237 in `AZIONI-IN-ATTESA.md`.
 
-**Le risposte che aspettiamo da Nicola:**
-- «archivia»: prima le due sessioni di prova (`session_015BmpnVbV3k7aZZbkGYB4H4` «Cartella di prova» e
-  `session_015BmpnUshbjQD4YeDwFF5TN` dentro), per vedere se l'app le nasconde; poi le 17 dell'onda 1.
-  Sul controllore C01 c'è l'etichetta di prova «Controllori»: si toglie se non serve.
-- «sì freno»: un freno in `cervello/cancello-stop.mjs` che, oltre 400 mila token stimati dal `transcript_path`,
-  ferma la sessione e le fa scrivere il passaggio. Oggi la regola 7 regge solo sulla disciplina.
-- Unire la #944: «Ready for review», poi «Squash and merge». La mycity#288 resta in bozza (14 voci rosse del
-  controllore, tre migrazioni in attesa). Finché la #944 non è unita, una sessione nuova che parte da `main` non vede
-  «Il punto adesso», `cervello/sessioni-insieme.md` e la regola delle cartelle.
-- Le quattro domande del riparatore R12, in `consegne/riparazioni/2026-11-12-sito-tutto/referti/R12.json`,
-  campo `domande_per_nicola`: mai portate a Nicola.
-- A fine campagna, togliere le copie grosse del registro dall'archivio (`registro-compatto.txt` 1,2 MB, `perimetro.json`).
+**Il ramo:** `claude/sweet-galileo-0skkay`, ripartito da `main` a `13df338` dopo l'unione della #944. Ci sta sopra la #949.
+Una sessione nuova che parte da `main` prima dell'unione della #949 non vede la regola 10, le card aggiornate e il
+passaggio della regista in `REGIA.md`.
 
-**Le card:** 235 corretta alle 02:10 (unire solo la #944). 236, 237, 238 e 239 come nel passaggio di prima: per la 238
-le tre migrazioni le riprova la regista nuova dell'onda 2, non quella vecchia (ferma a 717 mila token).
+**Le sessioni:**
+- CI in 3 minuti `session_015BmpnWjSJvwxssvANzndUF`: finita alle 03:33, 29,55 $ su 30. Cancello del lotto da 10 min 21 s
+  a 2 min 36 s; test del cervello da circa 5 min a 2 min 20 s.
+- Giudizio sul codice, seguito, `session_015BmpnZCaWUijDqfTAvJ4Dx`: tiene la #947 e le sue due scelte.
+- Regista vecchia `session_015BmpnXsL6Y7tP3BhawauHw`: ferma. L'onda 2 la apre Nicola.
+- Radiografia in sessioni `session_015BmpnVn722KGUHR5nRn23Z`: ferma, aspetta il via.
 
-**I commit di questa chat:** `cf59164` la prova che non mordeva (AR-1163, caso A2) · `02499f1` le cartelle ·
-`60bade0` la card 235 · `35cae16` le misure (352 difetti aperti nel cantiere, 141 nati nel mese).
+**Per la regista dell'onda 2:** prima di `applica --git` sull'onda 1 serve l'eccezione della «a» della card 239. Il
+programma non ha un interruttore per onda su quella regola: basta un campo nel piano come `verifica_testa_dall_onda`,
+con la sua prova e la sua mutazione. Sta scritto anche in `REGIA.md`.
 
-**Le notifiche:** la #944 le segue l'AD. La mycity#288 non si può seguire: il deposito del sito non è collegato
-a questa chat, e per collegarlo serve il sì di Nicola.
+**Il database del sito:** progetto Supabase `clmpyfvpvfjgeviworth`. La copia del sito in sola lettura si scarica con
+`node cervello/collega-marketplace.mjs`; la #288 si legge con `git -C marketplace fetch origin pull/288/head`.
 
-**Ultra Code** è acceso nella chat dell'AD da circa le 02:10. Le regole sul consumo valgono lo stesso (regola ㉑).
-La quota è in avviso fino al 19/11 alle 10. Costo di questa chat: 9,82 $, circa lo 0,33% del limite.
+**Il conto:** la terza chat è costata 17,46 $ fino alle 03:33. La quota settimanale è in avviso fino al 19/11 alle 10.
