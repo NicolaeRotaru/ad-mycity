@@ -46,12 +46,12 @@ si scrive appena cambia qualcosa.
 8. **Un lavoro lungo ha una sessione sua, e il suo foglio di partenza ha sei parti** (Nicola, 13/11: «aggiungi anche
    questa come regola»). La chat dell'AD resta leggera e legge solo l'esito (regola ㉔ del manuale). Il prompt della
    sessione porta sei cose:
-   - la richiesta, con le parole di Nicola;
-   - i fatti già misurati, coi numeri;
-   - i vincoli: cosa non si tocca, e quali lezioni leggere prima;
-   - la prova che dice «fatto»;
-   - il tetto di spesa, e cosa fare se non basta;
-   - a chi riferisce, con l'id e la forma del messaggio.
+   - La richiesta con le parole di Nicola.
+   - I fatti già misurati coi numeri.
+   - Cosa non si tocca e quali lezioni leggere prima.
+   - La prova che dice «fatto».
+   - Il tetto di spesa e cosa fare se non basta.
+   - A chi riferisce: l'id e la forma del messaggio.
    Esempio vero, 13/11 alle 02:20: «CI della macchina in 3 minuti». Il prompt aveva il tempo di ogni passo misurato,
    il divieto di togliere controlli e un tetto di 30 $, e la sessione riferisce all'AD. Nasce dalla chat dell'AD,
    così nell'elenco dell'app sta sotto di lei.
