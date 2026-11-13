@@ -45,11 +45,16 @@ si scrive appena cambia qualcosa.
    La chat dell'AD con Nicola non si sposta da sola: l'AD prepara la chat nuova e gli dice dove continuare.
 8. **Un lavoro lungo ha una sessione sua, e il suo foglio di partenza ha sei parti** (Nicola, 13/11: «aggiungi anche
    questa come regola»). La chat dell'AD resta leggera e legge solo l'esito (regola ㉔ del manuale). Il prompt della
-   sessione porta: ① la richiesta con le parole di Nicola; ② i fatti già misurati, coi numeri; ③ i vincoli, cioè cosa
-   non si tocca e quali lezioni leggere prima; ④ la prova di «fatto»; ⑤ il tetto di spesa e cosa fare se non basta;
-   ⑥ a chi riferisce, con l'id e la forma del messaggio. Esempio vero, 13/11 alle 02:20: «CI della macchina in 3
-   minuti», con il tempo di ogni passo misurato, nessun controllo tolto, tetto 30 $, riferisce all'AD. La sessione
-   nasce dalla chat dell'AD, così nell'elenco dell'app sta sotto di lei.
+   sessione porta sei cose:
+   - la richiesta, con le parole di Nicola;
+   - i fatti già misurati, coi numeri;
+   - i vincoli: cosa non si tocca, e quali lezioni leggere prima;
+   - la prova che dice «fatto»;
+   - il tetto di spesa, e cosa fare se non basta;
+   - a chi riferisce, con l'id e la forma del messaggio.
+   Esempio vero, 13/11 alle 02:20: «CI della macchina in 3 minuti». Il prompt aveva il tempo di ogni passo misurato,
+   il divieto di togliere controlli e un tetto di 30 $, e la sessione riferisce all'AD. Nasce dalla chat dell'AD,
+   così nell'elenco dell'app sta sotto di lei.
 
 ## Cosa queste regole non fanno
 Non sono un programma: nessun controllo le fa rispettare da solo. Per ora reggono sulla disciplina di chi le legge, e
