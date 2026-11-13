@@ -2,54 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-17T10:22:46.610Z",
-      "scatti": 11553,
-      "voci": 209,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 201,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-17T10:25:43.988Z",
-      "scatti": 11565,
-      "voci": 209,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 201,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-17T10:28:05.798Z",
-      "scatti": 11576,
-      "voci": 209,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 201,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-17T10:32:01.294Z",
-      "scatti": 11612,
-      "voci": 209,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 201,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-17T10:32:40.947Z",
       "scatti": 11612,
       "voci": 209,
@@ -2086,6 +2038,13 @@
       "mai_risolte": []
     },
     {
+      "quando": "2026-11-13T02:51:46.862Z",
+      "scatti": 38,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
       "quando": "2026-11-13T02:53:49.092Z",
       "scatti": 107,
       "voci": 0,
@@ -2109,6 +2068,20 @@
     {
       "quando": "2026-11-13T04:01:41.000Z",
       "scatti": 206,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-13T04:42:59.076Z",
+      "scatti": 58,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-13T05:28:30.631Z",
+      "scatti": 61,
       "voci": 0,
       "per_classe": {},
       "mai_risolte": []
@@ -2154,7 +2127,14 @@
       "voci": 0,
       "per_classe": {},
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-13T12:49:34.748Z",
+      "scatti": 77,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-11-13T12:11:16.761Z"
+  "aggiornato": "2026-11-13T12:49:34.750Z"
 }

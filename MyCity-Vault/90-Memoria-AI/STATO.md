@@ -1,12 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-11-12 23:55
+aggiornato: 2026-11-13 04:01
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
 > ✅ **2026-11-13 02:55 — Hai unito la richiesta della macchina #944.**
 >
 > Da adesso valgono le regole nuove del risolutore e delle sessioni. Ogni riparatore prende al massimo 25 difetti, la regia lavora in una sessione sua e dopo ogni onda c'è un controllore. Ci sono anche le nove regole per le sessioni che lavorano insieme. Una sessione nuova che parte da `main` adesso le legge da sola. Resta in bozza la richiesta del sito, mycity#288, fino al controllore finale della campagna.
+
+> 🩻 **2026-11-13 01:35 — Il giudizio sul codice del sito: basi da professionista, cuore dei soldi da riordinare. Media 5,4 su 10.**
+>
+> Nicola ha chiesto com'è scritto il codice, non quanti difetti ha. Voti: mestiere 6, falle 4, velocità 6, facilità di lavoro 5, sicurezza 6. Le 8.886 prove passano in 4 minuti. Prima del 15/11 contano solo i 6 bloccanti e l'aggiornamento di quattro librerie con falle note. Il riordino della cassa va dopo il lancio. Referto: `consegne/audit/2026-11-13-giudizio-codice-sito.md`.
 
 > 🔧 **2026-11-12 23:55 — La prima onda del risolutore è chiusa: 115 difetti chiusi davvero su 300, e il risolutore ora consuma meno.**
 >
