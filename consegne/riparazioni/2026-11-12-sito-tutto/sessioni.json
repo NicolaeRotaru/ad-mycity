@@ -143,19 +143,22 @@
    "id": "session_015BmpnWFoQMAShMVa1oZB8L",
    "ramo": "claude/magical-hamilton-xouwr8-m20",
    "onda": 2,
-   "partenza": "2026-11-13 06:06"
+   "partenza": "2026-11-13 06:06",
+   "finita": true
   },
   "R21": {
    "id": "session_015BmpnXidURWQE3ZCmCi9Yr",
    "ramo": "claude/magical-hamilton-xouwr8-m21",
    "onda": 2,
-   "partenza": "2026-11-13 06:08"
+   "partenza": "2026-11-13 06:08",
+   "finita": true
   },
   "R22": {
    "id": "session_015BmpnWcQPf4vZFu7owUPPJ",
    "ramo": "claude/magical-hamilton-xouwr8-m22",
    "onda": 2,
-   "partenza": "2026-11-13 06:09"
+   "partenza": "2026-11-13 06:09",
+   "finita": true
   },
   "R23": {
    "id": "session_015BmpnXoe6aGJCsrpTZTrWZ",
@@ -213,6 +216,17 @@
     "R11"
    ],
    "onda": 1
+  },
+  "K05": {
+   "id": "session_015BmpnZdFpSJ7U9ZdBvmfMM",
+   "ramo": "claude/magical-hamilton-xouwr8-k05",
+   "partenza": "e11facd3e07d15ba8b8da5bd4a0d3615481a4b56",
+   "riparatori": [
+    "R20",
+    "R22",
+    "R21"
+   ],
+   "onda": 2
   }
  },
  "controllori": {
