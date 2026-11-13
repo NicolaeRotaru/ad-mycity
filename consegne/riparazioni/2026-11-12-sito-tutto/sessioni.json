@@ -251,6 +251,30 @@
    ],
    "onda": 2,
    "cartella": "collaudatori"
+  },
+  "K07": {
+   "id": "session_015BmpnV296WzJDrPesa3Tbb",
+   "ramo": "claude/magical-hamilton-xouwr8-k07",
+   "partenza": "e11facd3e07d15ba8b8da5bd4a0d3615481a4b56",
+   "riparatori": [
+    "R18",
+    "R13",
+    "R17"
+   ],
+   "onda": 2,
+   "nota": "nato il 13/11 alle 14:34 nella cartella Collaudatori senza ultracode: fermo finché Nicola non lo accende"
+  },
+  "K08": {
+   "id": "session_015BmpnXv72iTDynaDgecira",
+   "ramo": "claude/magical-hamilton-xouwr8-k08",
+   "partenza": "e11facd3e07d15ba8b8da5bd4a0d3615481a4b56",
+   "riparatori": [
+    "R15",
+    "R16",
+    "R14"
+   ],
+   "onda": 2,
+   "nota": "nato il 13/11 alle 14:37 nella cartella Collaudatori senza ultracode: fermo finché Nicola non lo accende"
   }
  },
  "controllori": {
