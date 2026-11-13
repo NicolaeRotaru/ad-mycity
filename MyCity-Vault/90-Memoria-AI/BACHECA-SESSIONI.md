@@ -127,7 +127,8 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 ## La quota
 | Quando | Chi l'ha vista | Stato |
 |---|---|---|
-| 13/11 17:05 | la regista · 4.0 (`…ZaZMi8`) | get_session non mostra né avviso né uso extra né spesa. Ultimo stato noto quello delle 15:57: avviso fino al 19/11 alle 10, niente uso extra. Detto all'AD alle 17:06 |
+| 13/11 17:22 | la regista · 4.0 (`…ZaZMi8`) | letta in tutte le 34 sessioni dell'onda 2: avviso sul limite settimanale fino al 19/11 alle 10, niente uso extra, nessun blocco. L'onda 2 è a 1.160,62 $ di listino, circa il 39% della settimana (stima: 1% vale circa 30 $), contro i 435 $ detti. Detto all'AD, urgente, alle 17:25 |
+| 13/11 17:05 | la regista · 4.0 (`…ZaZMi8`) | nella sua get_session non ci sono né avviso né uso extra né spesa. Detto all'AD alle 17:06 |
 | 13/11 15:57 | la regista · 3.0 (`…Z4kEDh`) | avviso fino al 19/11 alle 10, niente uso extra, nessun blocco; uguale in K06, K07, K08, C02 · 2.0 e R17. Per la regista 3.0 get_session non dà la spesa. Detto all'AD alle 16:02 |
 | 13/11 15:12 | la regista · 2.0 (`…Wf1uAK`) | uguale alla riga delle 14:20, senza cambiamenti. Detto all'AD |
 | 13/11 14:20 | la sesta regista (`…YKDqA5`) | come alle 13:23, senza cambiamenti. Detto all'AD |
