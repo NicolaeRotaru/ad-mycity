@@ -63,18 +63,18 @@ Che le figlie nascano con ultracode: si controlla con get_session sulla prima, p
 **I controllori.** Le regole stanno in `cervello/riparazione/LEGGIMI-controllore.md`. I referti vanno in
 `<C>/controlli/`, e `applica` li legge da solo.
 
-**Passaggio alla sesta regista dell'onda 2 (13/11 13:45, dalla quinta `…VzbMLH` a 330 mila token).**
+**Passaggio alla sesta regista dell'onda 2 (13/11 13:58, dalla quinta `…VzbMLH` a 433 mila token).**
 - Sito: clone con `git clone --filter=blob:none`, ogni comando con `MARKETPLACE_REPO=<clone>`. Il push sul sito c'è: add_repo push, senza clic.
 - Nicola, 12:58: onda al 100%. Tetti in tutto: R13 90 $, R17 85, R14 80, R16 66, R19 71, R18 70, R24 70, R23 61, R15 60, R21 55.
 - Nicola, 13:20: collaudi e controlli subito sul già riparato, e unione man mano. Dalle 13:40 valgono le regole 7 e 11 nuove di `cervello/sessioni-insieme.md`.
-- Finite e verdi: R20 (punta `2851b087`), R22 (`35ee9faa`), R21 (`1c8a82ca`, testa `30c48c54`, 56 $ sul tetto di 55). Le collauda K05 (`…ZdFpSJ`, ramo `-k05`), fermo finché Nicola non gli accende ultracode.
-  Hanno finito anche R19 (punta `1d939a19`, testa `5a81802f`, 70,2 $ su 71) e R23 (punta `3795e191`, testa `0d499c53`, circa 52 $). Al programma, poi a K06.
+- Finite e verdi: R20 (punta `2851b087`), R22 (`35ee9faa`), R21 (`1c8a82ca`, testa `30c48c54`, 56 $ sul tetto di 55). Le collauda K05 (`…ZdFpSJ`, ramo `-k05`), partito alle 13:55 con ultracode.
+  R19, R23 e R24 (verdi al giro delle 13:51) vanno a K06, aperto alle 13:57 nella cartella Collaudatori. R18 ha finito alle 13:53 (punta `eee2f937`): va a K07 con R13 e R17.
 - Unione anticipata: R20 e R22 uniti e spinti nell'integrazione del sito alle 13:49, a `2d5f0313`. Verify verde (1451 file, 9766 prove) con `NODE_OPTIONS=--max-old-space-size=8192`. Harness SQL: `pg_ctlcluster 16 main start`, `createuser -s root`, `PGUSER=root`.
-- Al lavoro: R13, R15, R16, R17, R18 e R24, con la regola della 2.0 a 400 mila token. R14 continua nella sua 2.0 (`…WjBBk7`, da `8582fee7`), ferma finché Nicola non le accende ultracode. Poi K06-K08, tre riparatori ciascuno, appena finiscono.
+- Al lavoro: R13, R15, R16 e R17, con la 2.0 a 400 mila token. R14 continua nella sua 2.0 (`…WjBBk7`), con ultracode. R13 e R17 hanno due rossi da chiudere prima di «finita».
 - Dopo: unione, verify e harness, cucitura dell'onda 2 (le serve_file_altrui e le parziali in file altrui), C02 e fermata 3. Poi i 10 minori della macchina (passaggio della quarta, commit `2a71b48`).
 - Falle riservate: 5 (R14 pagamenti, R16 e R19 permessi, R21 accessi, R24 auth), più due nate in R21 (008, 014). I dettagli solo in chat, dalla quinta.
-- Per la fermata 3: carta #242 (R13-001 e i gravi 004-006), R13-003, R17-002 e le altre 4 di R17, R20-010, R23-016, R24-003 e R24-010. Poi il CAPTCHA di R24 e l'eccezione di R16.
-  Si aggiungono le voci tolte per le prove comuni, le domande dei referti (circa 25, più le 5 di R21) e le falle riservate.
+- Per la fermata 3: carta #242 (R13-001 e i gravi 004-006), R13-003, R17-002 e le altre 4 di R17, R20-010, R23-016, R24-003 e R24-010. Poi il CAPTCHA di R24, l'eccezione di R16, le voci tolte per le prove comuni, le domande dei referti e le falle riservate.
 - PR e CI: il controllore `…WroKtz` (`pr_ci` in `sessioni.json`) segue la #952, verde, che Nicola unisce alle 13:40. Mentre corre la CI non si spinge su ad-mycity: avvisa lui.
-- Costi alle 13:30 da `cost_usd`: figlie dell'onda 2 circa 586 $, il 20% della settimana. Regia quinta 5,1 $. Quota in avviso fino al 19/11 alle 10, senza extra.
-  La sesta cancella la catena di sorveglianza della quinta (`trig_019djWt83zUDMzvAH7mbmYbG`) e ne fa una sua ogni 30 minuti.
+- Costi alle 13:30 da `cost_usd`: figlie dell'onda 2 circa 586 $, il 20% della settimana. Regia quinta 12,6 $ alle 13:57. Quota in avviso fino al 19/11 alle 10, senza extra.
+  Sorveglianza: la sesta cancella la catena della quinta (`trig_011XDiyAEn16eYHhEQnsfPsS`, prossimo giro 14:26) e ne fa una sua. C02 aspetta ultracode.
+  Cartelle: le sessioni nuove nascono nelle sottocartelle (`cartelle` in `sessioni.json`). Se Nicola apre «Onda 2 · sessioni» dall'app, si usa quella: si chiude con la freccina.
