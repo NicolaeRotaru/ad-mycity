@@ -36,13 +36,13 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 | 13/11 01:56 | AD | Le figlie nascono in una cartella per ruolo: riparatori, collaudatori, controllori (skill `riparazione`, «Le cartelle nell'elenco») |
 | 13/11 entro 01:33 | AD | Le sessioni si cambiano oltre il 40% del contesto; la chat dell'AD passa a una nuova |
 | 13/11 entro 01:32 | AD | Analisi di cosa può cambiare la stima dell'onda 2, con i freni nelle regole |
+| 13/11 entro 01:30 | Radiografia del codice | Sul codice del sito vuole un giudizio da professionista, non altri difetti nel registro: le misure del referto non si caricano come voci |
 | 13/11 entro 01:25 | AD | «sì, rimedi»: le sessioni si parlano con le regole di `cervello/sessioni-insieme.md` |
 | 13/11 01:07 | regista | Ogni messaggio porta due costi, anche in percentuale del limite settimanale |
 | 12/11 23:40 | AD | La radiografia si porta sullo schema della riparazione |
 | 12/11 23:00 | AD | «sì, regola»: ogni messaggio a Nicola apre con «Il punto adesso» |
 | 12/11 22:10 | AD | «Ultra Code Extra, non Max» per tutte le sessioni |
 | 12/11 21:25 | regista | «riprova le ultime tre migrazioni» |
-| 13/11 entro 01:30 | Radiografia del codice | Sul codice del sito vuole un giudizio da professionista, non altri difetti nel registro: le misure del referto non si caricano come voci |
 | 12/11 21:05 (entro) | regista | «Risolvi le due regole» del programma di riparazione: guardia sul risultato del ramo e prova dei file nuovi e delle migrazioni |
 
 ## Chi fa cosa, adesso
@@ -52,7 +52,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 | regista (`…XsL6Y7`) | ferma a 450 mila token: passaggio scritto in fondo a `consegne/riparazioni/2026-11-12-sito-tutto/REGIA.md` (13/11 01:35). L'onda 2 la guida una regista nuova, aperta dall'AD al «via la seconda» | la campagna del 12/11, la skill `riparazione` |
 | CI della macchina | porta «Cancello del lotto» e «Test del cervello» entro 3 minuti, senza togliere controlli; PR in bozza sul ramo `claude/ci-tre-minuti`, tetto 30 $ | `.github/workflows/`, `cervello/cancello-lotto.mjs` |
 | radiografia | finita: aspetta il «via» alla prima corsa | la skill `radiografia-sessioni`, il suo programma |
-| Radiografia del codice · seguito (`…ZCaWUi`) | segue la richiesta di unione del giudizio sul codice del sito (ad-mycity#947) e aspetta Nicola su due scelte: aggiornare le quattro librerie con falle note prima del lancio di domenica 15/11, e il piano con i costi del riordino dopo il lancio. Il codice del sito non si tocca senza la sua firma; con la firma va al senior `tech`, in un ramo di mycity | `consegne/audit/2026-11-13-giudizio-codice-sito.md` |
+| Radiografia del codice · seguito (`…ZCaWUi`) | segue la richiesta di unione del giudizio sul codice del sito (ad-mycity#947). Aspetta Nicola su due scelte. La prima: aggiornare le quattro librerie con falle note prima del lancio di domenica 15/11. La seconda: il piano con i costi del riordino, dopo il lancio. Il codice del sito non si tocca senza la sua firma; con la firma va al senior `tech`, in un ramo di mycity | `consegne/audit/2026-11-13-giudizio-codice-sito.md` |
 
 ## Le sessioni vive
 | Ruolo | Id |
