@@ -156,21 +156,24 @@
    "ramo": "claude/magical-hamilton-xouwr8-m20",
    "onda": 2,
    "partenza": "2026-11-13 06:06",
-   "finita": true
+   "finita": true,
+   "archiviata": "2026-11-13 15:21"
   },
   "R21": {
    "id": "session_015BmpnXidURWQE3ZCmCi9Yr",
    "ramo": "claude/magical-hamilton-xouwr8-m21",
    "onda": 2,
    "partenza": "2026-11-13 06:08",
-   "finita": true
+   "finita": true,
+   "archiviata": "2026-11-13 15:21"
   },
   "R22": {
    "id": "session_015BmpnWcQPf4vZFu7owUPPJ",
    "ramo": "claude/magical-hamilton-xouwr8-m22",
    "onda": 2,
    "partenza": "2026-11-13 06:09",
-   "finita": true
+   "finita": true,
+   "archiviata": "2026-11-13 15:21"
   },
   "R23": {
    "id": "session_015BmpnXoe6aGJCsrpTZTrWZ",
@@ -240,7 +243,8 @@
     "R22",
     "R21"
    ],
-   "onda": 2
+   "onda": 2,
+   "archiviata": "2026-11-13 15:21"
   },
   "K06": {
    "id": "session_015BmpnWyCYQ4C6DndTLhMHY",
@@ -292,7 +296,15 @@
    "onda": 2,
    "integrazione": "2d5f0313d1fcb9d6179782f43b695f93ad72ffb5",
    "giro": 1,
-   "nota": "primo giro anticipato su R20 e R22; aperto dalla cartella Controllori"
+   "nota": "primo giro anticipato su R20 e R22; aperto dalla cartella Controllori",
+   "due_punto_zero": {
+    "id": "session_015BmpnYHnGoQc2UWGJzvGdG",
+    "partenza": "a7b2562214b9c2df1a473a09eb2ef19c27bd623e",
+    "aperta": "2026-11-13 15:24",
+    "integrazione": "990dd7fa8d013fe1e76e613681afca7de53879e9",
+    "nota": "secondo giro sul delta 2d5f0313..990dd7fa; nata nella cartella Controllori senza ultracode, ferma finché Nicola non lo accende; tetto 20 $"
+   },
+   "archiviata": "2026-11-13 15:21"
   }
  },
  "integrazione_onda1": "b144746992176ae554d48376a00d972f5210a49f",
@@ -328,5 +340,6 @@
   "nota": "aperte dalla quinta regista il 13/11 alle 13:47 (profondità 5 su 8); le sessioni nuove nascono dentro la sottocartella del loro ruolo"
  },
  "regista_onda2_sesta": "session_015BmpnYKDqA51jEGkbAWYGo",
- "integrazione_onda2_parziale": "990dd7fa8d013fe1e76e613681afca7de53879e9"
+ "integrazione_onda2_parziale": "990dd7fa8d013fe1e76e613681afca7de53879e9",
+ "regista_ultracode": "acceso da Nicola alle 15:25 circa"
 }
