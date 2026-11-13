@@ -410,10 +410,10 @@
   "fonti_non_lette": [],
   "sintesi": "Il problema più grave trovato oggi era una chiave del database leggibile da chiunque, e Nicola l'ha già spenta. Dei difetti nuovi nessuno è bloccante, ma il rimborso di un ordine in contanti va ancora fatto a mano, fuori dal sito.",
   "meta": {
-    "findings": 3032,
+    "findings": 3090,
     "bloccanti": 37,
-    "gravi": 675,
-    "minori": 2320,
+    "gravi": 676,
+    "minori": 2377,
     "agenti": null,
     "aggiornato": "2026-11-13 06:06"
   },
@@ -72317,7 +72317,7 @@
       "stato": "aperto"
     },
     {
-      "dimensione": "legale-privacy",
+      "dimensione": "privacy-legale",
       "titolo": "La cookie policy non nomina YouTube e Vimeo, che il sito carica al tocco nei video di vetrina, home e pagine CMS",
       "severita": "minore",
       "file": "(pagina della cookie policy, non mia)",
@@ -72325,7 +72325,9 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R11",
-      "stato": "aperto"
+      "stato": "aperto",
+      "dimensione_dichiarata": "legale-privacy",
+      "reparto": "Privacy e legale"
     },
     {
       "dimensione": "architettura",

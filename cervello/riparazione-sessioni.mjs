@@ -55,7 +55,7 @@ import { fileURLToPath } from "node:url";
 // L'unico esecutore di git della casa: il tetto di maxBuffer sta lì, una volta sola. Il 6/11 la CI della
 // radiografia era rossa proprio perché i suoi controlli chiamavano git per conto loro.
 import { gitEsegui } from "./git-github.mjs";
-import { chiaveProblema, REPARTI_MARKETPLACE } from "./referti-sito.mjs";
+import { chiaveProblema, REPARTI_MARKETPLACE, REPARTI_DESIGN } from "./referti-sito.mjs";
 import { timbroOra } from "./ora-piacenza.mjs";
 import { scriviJsonAtomico, scriviTestoAtomico } from "./scrivi-json.mjs";
 
@@ -322,6 +322,55 @@ function leggiRegistro(casa, opz) {
   const elenco = casa === "macchina" ? j.difetti : j.problemi;
   if (!Array.isArray(elenco)) throw new Error(`${percorso} non ha più l'elenco «${casa === "macchina" ? "difetti" : "problemi"}»: il registro ha cambiato forma`);
   return { percorso, grezzo: j, elenco };
+}
+
+/** L'area di un difetto nato: una che il registro conosce. Le stesse parole in un altro ordine
+ *  («legale-privacy» per «privacy-legale») sono la stessa area; una parola che non c'è va nei flussi. */
+function areaDelNato(dichiarata, aree) {
+  if (!aree.size) return dichiarata ?? "qa-flussi"; // un registro senza elenco delle aree: com'era prima
+  if (dichiarata && aree.has(dichiarata)) return dichiarata;
+  const parole = (s) => String(s).split("-").sort().join("-");
+  if (dichiarata) for (const a of aree) if (parole(a) === parole(dichiarata)) return a;
+  return aree.has("qa-flussi") ? "qa-flussi" : [...aree][0];
+}
+const CONTATORE_DI = Object.freeze({ bloccante: "bloccanti", grave: "gravi", minore: "minori" });
+
+/**
+ * I difetti nati entrano nel registro del sito, e il totale dichiarato sale con loro.
+ * Il 13/11 l'onda 1 ne ha scritti 58 senza toccare `meta.findings`, il numero che il referto dichiara e
+ * che fa da testimone al conto (radiografia-marketplace-conti.mjs): il conto diceva 3090, il testimone
+ * 3032, e la CI della macchina è diventata rossa. Uno dei 58 stava anche sotto «legale-privacy», un'area
+ * che il registro non ha, e la scheda del Pannello non sapeva come chiamarla.
+ * Il testimone non si ricalcola dall'elenco: chi scrive dichiara quanti ne ha aggiunti, e solo quelli.
+ */
+export function scriviNatiSito(reg, nati, { campagna, perChiave }) {
+  const aree = new Set((reg.grezzo.dimensioni ?? []).map((d) => d?.chiave).filter(Boolean));
+  const scritti = [], gianoti = [], riservati = [], aggiunte = [];
+  for (const n of nati) {
+    if (n.riservato === true) { riservati.push(n); continue; }
+    const dimensione = areaDelNato(n.dimensione, aree);
+    const voce = {
+      dimensione,
+      ...(n.dimensione && n.dimensione !== dimensione ? { dimensione_dichiarata: n.dimensione } : {}),
+      reparto: REPARTI_MARKETPLACE[dimensione] ?? REPARTI_DESIGN[dimensione] ?? undefined,
+      titolo: n.titolo, severita: n.severita, file: n.file, descrizione: n.descrizione ?? "", impatto: n.impatto ?? "", fix: n.fix ?? "",
+      fonte: `nato dalla riparazione ${campagna} · ${n.sessione}`, stato: "aperto",
+    };
+    if (perChiave.has(chiaveProblema(voce))) { gianoti.push(n); continue; }
+    reg.elenco.push(voce);
+    perChiave.set(chiaveProblema(voce), voce);
+    scritti.push(n);
+    aggiunte.push(voce);
+  }
+  const meta = reg.grezzo.meta;
+  if (meta && Number.isInteger(meta.findings) && aggiunte.length) {
+    meta.findings += aggiunte.length;
+    for (const v of aggiunte) {
+      const k = CONTATORE_DI[v.severita];
+      if (k && Number.isInteger(meta[k])) meta[k] += 1;
+    }
+  }
+  return { scritti, gianoti, riservati };
 }
 export function chiaveDi(casa, d) {
   return casa === "macchina" ? String(d?.id ?? "") : chiaveProblema(d);
@@ -1674,16 +1723,10 @@ function applica(opz) {
       x.verifica = { tipo: "comando", comando: d.verifica_comando };
     }
   }
-  const scritti = [], gianoti = [], riservati = [];
-  for (const n of nati) {
-    if (n.riservato === true) { riservati.push(n); continue; }
-    if (per.casa === "macchina") continue; // gli id AR nuovi li dà prossimo-ar.mjs: la regista li registra a mano
-    const voce = { dimensione: n.dimensione ?? "qa-flussi", reparto: REPARTI_MARKETPLACE[n.dimensione] ?? undefined, titolo: n.titolo, severita: n.severita, file: n.file, descrizione: n.descrizione ?? "", impatto: n.impatto ?? "", fix: n.fix ?? "", fonte: `nato dalla riparazione ${nomeCampagna} · ${n.sessione}`, stato: "aperto" };
-    if (perChiave.has(chiaveProblema(voce))) { gianoti.push(n); continue; }
-    reg.elenco.push(voce);
-    perChiave.set(chiaveProblema(voce), voce);
-    scritti.push(n);
-  }
+  // Gli id AR nuovi della macchina li dà prossimo-ar.mjs: lì la regista li registra a mano.
+  const { scritti, gianoti, riservati } = per.casa === "sito"
+    ? scriviNatiSito(reg, nati, { campagna: nomeCampagna, perChiave })
+    : { scritti: [], gianoti: [], riservati: nati.filter((n) => n.riservato === true) };
   if (per.casa === "macchina" && nati.length) scriviJson(join(cartella, "nati-macchina.json"), nati.filter((n) => n.riservato !== true));
   scriviJsonAtomico(reg.percorso, reg.grezzo);
   console.log(`   frammenti: ${frammenti.length} · nati scritti: ${scritti.length} (già noti ${gianoti.length}, riservati fuori ${riservati.length})${per.casa === "macchina" ? ` · prove a pattern tolte: ${tolte}` : ""}`);
