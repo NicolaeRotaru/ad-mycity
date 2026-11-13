@@ -46,7 +46,7 @@ Se va bene: preparo i primi quattro passi, ognuno con la sua prova, e ti porto i
 
 ### 🟡 #240 — Fai aggiornare le quattro librerie del sito che hanno falle note, prima di domenica · ⏳ accodata 2026-11-13 05:25
 
-**In parole semplici.** Le librerie sono pezzi di codice scritti da altri, che il sito usa. Quattro hanno falle note. Tre di queste falle sono gravi. Due non si possono sfruttare sul nostro sito. La terza si può sfruttare solo in teoria, e farebbe poco danno. L'aggiornamento resta nelle stesse versioni principali, quindi è piccolo.
+**In parole semplici.** Le librerie sono pezzi di codice scritti da altri, che il sito usa. Quattro hanno falle note. Tre di queste falle sono classificate critiche. Due non si possono sfruttare sul nostro sito. La terza si può sfruttare solo in teoria, e farebbe poco danno. L'aggiornamento resta nelle stesse versioni principali, quindi è piccolo.
 
 **Cosa cambia per te.** Esempio: la libreria che manda gli errori del sito a Sentry ha una falla che da noi si sfrutta solo in teoria. Con l'aggiornamento si chiude prima del lancio di domenica 15/11.
 
