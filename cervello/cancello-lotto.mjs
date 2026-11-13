@@ -844,6 +844,13 @@ function main() {
   const nati = difettiNati(cantiere, cantierePrima);
   const tetti = leggiTetti();
 
+  // Chiesto e non capito non vuol dire «niente»: `--referti` senza cartella farebbe girare tutta la
+  // suite qui, cioè un'altra cosa da quella chiesta (il ricollaudo del 13/11 l'ha trovato). Come
+  // `--fetta-mutazioni` storta, esce 2.
+  if (REFERTI === "") {
+    console.error("cancello-lotto: --referti senza una cartella → non misuro un'altra cosa");
+    process.exit(2);
+  }
   if (FETTA_MUT !== undefined) process.exit(soloLaFettaDelleMutazioni({ mutanti, toccati, proveDelLotto }));
 
   if (AGGIORNA_TETTI) {

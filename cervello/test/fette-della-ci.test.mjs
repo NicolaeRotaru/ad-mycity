@@ -215,6 +215,15 @@ test("② ESEGUITO: il banco ricuce le mutazioni; una persa esce 2 col suo nome,
   }
 });
 
+test("② ESEGUITO: il cancello con «--referti» o «--fetta-mutazioni» senza valore esce 2, non fa girare un'altra cosa", () => {
+  // Se l'opzione storta valesse «assente», il cancello farebbe girare qui la suite intera: minuti, e
+  // un verdetto su una domanda che nessuno ha fatto. Il tetto di 60 s è il freno di questa prova.
+  for (const argomenti of [["--referti"], ["--fetta-mutazioni"], ["--fetta-mutazioni", "9/3", "--referto", join(tmpdir(), "mai-scritto.json")]]) {
+    const r = spawnSync(process.execPath, [join(REPO, "cervello/cancello-lotto.mjs"), ...argomenti], { cwd: REPO, encoding: "utf8", timeout: 60_000, killSignal: "SIGKILL" });
+    assert.equal(r.status, 2, `${argomenti.join(" ")}: doveva uscire 2, è uscito ${r.status}\n${(r.stderr || "").slice(-400)}`);
+  }
+});
+
 // ── LA FORMA DEI DUE FLUSSI: il numero di fette scritto una volta sola ───────────────────────
 
 test("i flussi leggono indice e totale dalla matrice: un numero scritto due volte non può lasciare fuori una fetta", () => {
