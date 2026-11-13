@@ -6883,3 +6883,35 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
   - la terza chat fa i controlli sulla produzione: pubblicazione, pagine pubbliche ed errori di Vercel;
   - la quarta tiene la memoria.
 - **Se va bene:** la produzione risponde. Nicola apre l'onda 2 col testo di `AVVIO-ONDA-2.md`, e la base dell'onda 2 è `a19ff89`.
+
+## 2026-11-13 04:42 — 🟢 Il 9 nei voti del codice si certifica con criteri, giudizio finale dei senior e firma di Nicola
+- **Chi:** Nicola, nella sessione «Radiografia del codice · seguito»: «la tua proposta per il 9».
+- **Cosa cambia:** durante il lavoro guidano i criteri, uno per voto, controllati da un programma. Alla fine i tre senior rifanno il giudizio una volta sola, con lo stesso metro del 5,4. Il voto finale lo firma Nicola.
+- **Dove:** bacheca, commit `2f3b91f` sulla #947.
+
+## 2026-11-13 05:03 — 🟡 Una radiografia sola, ibrida, per il sito e poi per la macchina
+- **Chi:** Nicola, nella stessa sessione. Alle 04:52 ha confermato la lettura delle 04:30 («hai capito la radiografia»), alle 05:03 ha scelto.
+- **Cosa cambia:**
+  - adesso la radiografia guarda solo il sito, ma dovrà servire anche alla macchina;
+  - prende le regole del risolutore fin dove si può;
+  - un manuale solo, le regole in un posto solo, il 9 come profilo, le radiografie vecchie spente per ultime;
+  - la vuole «ibrida», e chiede se si può senza perdere velocità e qualità;
+  - quanto rende si misura su una copia vecchia del codice, con difetti già noti.
+- **Ancora aperti:** il sì ai sei passi, la data e la deroga alla regola d'oro per il sesto passo.
+- **Dove:** bacheca, commit `cb37b15` e `f57797a` sulla #947. Dalle 05:13 la segue `session_015BmpnYkmzPU2BsTXe1ZWwu`; la vecchia `…ZCaWUi` (429 mila token) non si usa più.
+
+## 2026-11-13 04:56 — 🟢 La produzione del sito regge dopo l'onda 1
+- **Chi:** la terza chat, workflow `wf_e2587adc-1ab` (6 agenti, ogni difetto ricontrollato da 2 verificatori).
+- **Esito:** `a19ff89` è READY e online dalle 04:37. Rispondono 29 pagine pubbliche, zero errori del server su Vercel, le 15 migrazioni ci sono tutte, nessuna variabile d'ambiente manca. Gli 11 lavori a orario sono fermi perché manca `LAVORI_A_ORARIO`: nessuno scrive a persone vere.
+- **Difetti:** resta il tasto «Bonifico fatto» (`app/admin/payouts/page.tsx:122`), che sbaglia senza la 350: lo ripara l'onda 2. Visto a tratti un errore di idratazione React #418 su home e accesso, non verificato se nuovo: l'AD propone a Nicola di metterlo nell'onda 2, aspetta il suo sì.
+
+## 2026-11-13 05:05 — 🟢 Unita la memoria di stanotte
+- **Chi:** Nicola, su GitHub: ad-mycity#950, `4b55e8d`. Il ramo `claude/sweet-galileo-0skkay` è ripartito da `main`.
+
+## 2026-11-13 05:10 — 🟡 Parte l'onda 2 del sito
+- **Chi:** Nicola, nella sessione «Ondata 2» (`session_015BmpnZcs1XvqxGKUA3qRGC`): «parti con l'ondata 2». Ha approvato il piano della regista. Ultracode acceso, effort xhigh.
+- **Se va bene:** la regista scrive l'eccezione «a» nel programma, chiude nel registro i difetti dell'onda 1, poi divide l'onda 2. Le fermate le manda alla quinta chat dell'AD.
+
+## 2026-11-13 05:20 — 🟡 L'eccezione «a» si allarga, solo per l'onda 1
+- **Chi:** Nicola alla regista dell'onda 2: «Allarga la a».
+- **Perché:** per chiudere l'onda 1 nel registro c'erano 63 errori. 57 sono prove comuni, coperte dalla card 239. Gli altri 6 no: 2 sul ramo di R08, che fermavano 13 chiusure, e 4 collaudi di K03 provati a mano sul database, su voci che restano aperte comunque. Nicola li ha messi nell'eccezione, solo per l'onda 1.
