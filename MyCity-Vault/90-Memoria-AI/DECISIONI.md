@@ -6846,3 +6846,40 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Chi:** Nicola in chat con l'AD, quarta chat: «comunica con la sessione CI della macchina in 3 minuti per risolvere il problema».
 - **Cosa cambia:** l'AD ha mandato a `session_015BmpnWjSJvwxssvANzndUF` la causa e la riparazione (commit `67bb26e`). Lei unisce `main` nel suo ramo e porta la stessa riparazione di 4 righe. La #948 così torna verde senza aspettare la #949. Il suo tetto era 29,55 $ su 30: il lavoro è autorizzato da Nicola, ma solo questo, intorno a 2 $.
 - **Se va bene:** la #948 è verde in tutte le 14 righe e Nicola la può unire. Se le due richieste portano la stessa riparazione, la seconda unita non va in conflitto su quel file.
+
+## 2026-11-13 04:10 — 🔴 L'onda 1 del sito si unisce prima dell'onda 2, e l'onda 2 parte in una sessione nuova
+- **Chi:** Nicola in chat con l'AD, quarta chat: «faccio partire la seconda ondata in una nuova sessione fuori da marketplace resolver, dimmi cosa devo dirli» e «prima però devo rendere mergiabile la pr del marketplace».
+- **Cosa cambia:** la mycity#288 non aspetta più il controllore finale della campagna. Si unisce adesso, e l'onda 2 parte dalla testa di `main` del sito dopo l'unione, non più da `3e820b0`.
+- **Cosa ha misurato l'AD (04:00-04:10):**
+  - La #288 ha 17 controlli su 17 verdi e nessun conflitto. È solo in bozza.
+  - Unirla pubblica il sito in produzione subito: `vercel.json` ha il rilascio automatico su `main`. La descrizione della #288 dice il contrario («niente va online da solo»), e sbaglia.
+  - Dopo l'unione, al database vero manca una sola migrazione su 194: la 350 del bonifico del lunedì, che in un caso fa pagare due volte lo stesso ordine.
+  - Il rilascio dalla CI oggi non la applica, perché gli mancano le chiavi di Vercel e si ferma prima. La applicherebbe invece il pulsante «migrazioni a mano», che applica tutto ciò che manca.
+  - Senza la 350 il sito regge: si rompe solo il tasto «Bonifico fatto» del pannello admin, che chiama `segna_bonifico_manuale`.
+  - Togliere tutto R11-004 non si può fare con un revert: R11-001 e R11-012 ci hanno costruito sopra.
+- **La proposta dell'AD:** prima di unire, togliere dalla #288 solo la migrazione 350 e le due prove che la leggono, e rimettere R11-004 nell'onda 2. Aspetta il sì di Nicola.
+
+## 2026-11-13 04:20 — 🟡 Tolta dalla richiesta del sito la migrazione del bonifico che può pagare due volte
+- **Chi:** Nicola in chat con l'AD, quarta chat: «scelgo la A».
+- **Cosa ho fatto:** sul ramo della mycity#288 ho fatto il commit `b868e37`, che toglie quattro cose:
+  - la migrazione 350;
+  - la sua prova sul database;
+  - il caso del test unitario che leggeva il file della migrazione;
+  - la colonna `payout_manual_ref` dai tipi generati.
+- **Cosa resta:** il codice di R11-004 resta, perché R11-001 e R11-012 ci hanno costruito sopra. R11-004 era già «resta_aperta» nelle decisioni della regista, quindi i 115 difetti chiusi restano 115.
+- **Prove:** in locale passano i 5 file di test collegati, 16 casi su 16. Anche `tsc --noEmit` ed `eslint` sono puliti. La CI della #288 è ripartita.
+- **Anche:** ho corretto la descrizione della #288, che diceva «niente va online da solo». Il testo d'avvio dell'onda 2 sta in `consegne/riparazioni/2026-11-12-sito-tutto/AVVIO-ONDA-2.md`, e la card 237 lo indica.
+- **Se va bene:** la CI della #288 è verde. Nicola la unisce con «Create a merge commit» e apre l'onda 2.
+
+## 2026-11-13 04:23 — 🟢 Il giudizio sul codice del sito porta un piano per arrivare a 9 su 10, e la CI del sito torna su Ubuntu 24.04
+- **Chi:** Nicola, verso le 04:10, nella sessione «Radiografia del codice · seguito». La sua frase: «ciò che devi dirmi tu è come risolvere i problemi nel codice per rendere tutti i punti un voto 9 su 10. dimmi cosa hai capito».
+- **Cosa cambia:** quella sessione prepara il piano per portare a 9 tutti e cinque i voti, senza toccare il codice del sito. Dentro ci sono anche le due scelte in sospeso: le librerie da aggiornare prima del 15/11 e il riordino dopo il lancio. Per il voto «falle» il piano cita la campagna di riparazione, senza rifarla. È in bacheca, commit `e168ab5`, richiesta ad-mycity#947.
+- **Anche (04:23, sul sito):** dopo la tolta della 350, nella mycity#288 erano rossi due controlli, «Prove nel browser» e «Accessibilità». La causa era la stessa della macchina di stanotte: su Ubuntu 26.04 Playwright non installa Chromium. Con il commit `facd5d8` l'AD ha fissato `ubuntu-24.04` sui tre lavori che installano il browser. Nessun controllo è stato tolto, e le 3 prove che leggono `ci.yml` passano (46 casi).
+
+## 2026-11-13 04:33 — 🔴 L'onda 1 del sito è unita e va online
+- **Chi:** Nicola, su GitHub. Ha unito la mycity#288 con «Create a merge commit»: `a19ff89`, che ha come genitori `db5164c` e `facd5d8`.
+- **Cosa cambia:** i 115 difetti dell'onda 1 sono sul ramo principale del sito. Vercel pubblica da solo: la costruzione in produzione `dpl_4KcBsVJntBqWWw4TzGJwpGVAYEzC` è partita alle 04:34. Prima dell'unione la CI era verde, 17 su 17 sulla testa `facd5d8`.
+- **Chi controlla:** Nicola ha chiesto alla terza chat e alla quarta di parlarsi. Alle 04:37 si sono divise il lavoro:
+  - la terza chat fa i controlli sulla produzione: pubblicazione, pagine pubbliche ed errori di Vercel;
+  - la quarta tiene la memoria.
+- **Se va bene:** la produzione risponde. Nicola apre l'onda 2 col testo di `AVVIO-ONDA-2.md`, e la base dell'onda 2 è `a19ff89`.
