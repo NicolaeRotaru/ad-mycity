@@ -31,6 +31,16 @@ test("A: file nuovo estraneo (migrazione pericolosa) accanto a un fix vero -> no
   console.log(JSON.stringify(j.passi));
   assert.notEqual(j.esito, "regge", "la migrazione nuova non e' provata da nessuna prova, ma l'esito e' regge");
 });
+// A2 (13/11): la A non basta più da sola. Dalla radiografia del 12/11 notte ogni migrazione senza --sql è «strutturale»,
+// quindi la A resta verde anche se si torna a togliere gli esistenti insieme ai nuovi. Qui il file estraneo non è
+// né SQL né codice né nominato dalle prove: lo ferma solo la regola «si tolgono i nuovi, gli esistenti restano corretti».
+test("A2: file nuovo estraneo di dati accanto a un fix vero -> non_morde, non regge", () => {
+  const r = repo({ "lib/somma.mjs": "export const somma=(a,b)=>a-b;\n" },
+    { "lib/somma.mjs": "export const somma=(a,b)=>a+b;\n", "config/apri.json": "{\"rls\": false}\n",
+      "tests/somma.test.mjs": testa + "import { somma } from '../lib/somma.mjs';\ntest('s',()=>assert.equal(somma(2,2),4));\n" });
+  const j = lancia(r, "lib/somma.mjs,config/apri.json", "tests/somma.test.mjs");
+  assert.equal(j.esito, "non_morde", "il file di dati nuovo non e' provato da nessuna prova, ma l'esito e' " + j.esito + " " + JSON.stringify(j.passi));
+});
 test("H: aiutante nuovo NON collegato al sito, prova che lo carica con import(new URL) -> non deve dare regge", () => {
   const r = repo({ "lib/x.mjs": "export const x=1;\n" },
     { "lib/aiuto.mjs": "export const aiuto=(a,b)=>a+b;\n",
