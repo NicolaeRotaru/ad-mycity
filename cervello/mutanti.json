@@ -11766,7 +11766,7 @@
    "difetto": "AR-1172",
    "file": "cervello/riparazione-sessioni.mjs",
    "nome": "l'eccezione firmata dell'onda 1 vale anche nelle onde dopo, e la regola stretta non torna più (card 239, 13/11)",
-   "cerca": "    if (Number(e?.onda) !== Number(onda) || !Array.isArray(e?.regole) || !e.regole.includes(regola)) continue;",
+   "cerca": "    if (!Number.isInteger(e?.onda) || e.onda !== Number(onda) || !Array.isArray(e?.regole) || !e.regole.includes(regola)) continue;",
    "sostituisci": "    if (!Array.isArray(e?.regole) || !e.regole.includes(regola)) continue;",
    "test": "cervello/test/riparazione-sessioni.test.mjs"
   },
@@ -11775,7 +11775,7 @@
    "difetto": "AR-1172",
    "file": "cervello/riparazione-sessioni.mjs",
    "nome": "un'eccezione senza la firma di Nicola sospende lo stesso la regola (card 239, 13/11)",
-   "cerca": "    if (typeof e.firma === \"string\" && e.firma.trim()) return e.firma.trim();",
+   "cerca": "    if (typeof e.firma === \"string\" && /[\\p{L}\\p{N}]/u.test(e.firma)) return e.firma.trim();",
    "sostituisci": "    return String(e.firma ?? \"eccezione\");",
    "test": "cervello/test/riparazione-sessioni.test.mjs"
   },
@@ -11813,6 +11813,51 @@
    "nome": "la deroga del collaudo non guarda l'onda del riparatore: un'eccezione dell'onda 2 copre l'onda 1 (card 239, 13/11)",
    "cerca": "    const firma = dove ? eccezioneFirmata(piano, dove.onda.onda, regola) : null;",
    "sostituisci": "    const firma = dove ? eccezioneFirmata(piano, 2, regola) || eccezioneFirmata(piano, 1, regola) : null;",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1172",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "l'onda dell'eccezione torna a essere convertita alla larga: «1», true o [1] valgono come onda 1 (collaudo del 13/11)",
+   "cerca": "    if (!Number.isInteger(e?.onda) || e.onda !== Number(onda) || !Array.isArray(e?.regole) || !e.regole.includes(regola)) continue;",
+   "sostituisci": "    if (Number(e?.onda) !== Number(onda) || !Array.isArray(e?.regole) || !e.regole.includes(regola)) continue;",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1172",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "una firma fatta di soli caratteri invisibili torna a valere come firma di Nicola (collaudo del 13/11)",
+   "cerca": "    if (typeof e.firma === \"string\" && /[\\p{L}\\p{N}]/u.test(e.firma)) return e.firma.trim();",
+   "sostituisci": "    if (typeof e.firma === \"string\" && e.firma.trim()) return e.firma.trim();",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1172",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "applica fermo per un altro motivo perde dal JSON i rossi sospesi dall'eccezione (collaudo del 13/11)",
+   "cerca": "  if (ferma.length) return chiudi(\"applica\", ferma, [], opz, conEccezioni());",
+   "sostituisci": "  if (ferma.length) return chiudi(\"applica\", ferma, [], opz);",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1172",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "valida-collaudo perde dal JSON i rossi sospesi dall'eccezione (collaudo del 13/11)",
+   "cerca": "  return chiudi(\"valida-collaudo\", rossi, attese, opz, { campioni, ...(derogatiK.length ? { eccezioni_firmate: derogatiK } : {}) });",
+   "sostituisci": "  return chiudi(\"valida-collaudo\", rossi, attese, opz, { campioni });",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1172",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "applica a vuoto perde dal JSON i rossi sospesi dall'eccezione (collaudo del 13/11)",
+   "cerca": "    return chiudi(\"applica\", [], attese, opz, conEccezioni({ si_chiudono: chiude.length, gia: gia.length, restano: restano.length, nati: nati.length }));",
+   "sostituisci": "    return chiudi(\"applica\", [], attese, opz, { si_chiudono: chiude.length, gia: gia.length, restano: restano.length, nati: nati.length });",
    "test": "cervello/test/riparazione-sessioni.test.mjs"
   }
  ],

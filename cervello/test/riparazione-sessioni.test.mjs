@@ -1070,6 +1070,9 @@ test("AR-1172 · eccezione firmata: vale solo nell'onda scritta, solo con la fir
   assert.equal(eccezioneFirmata({ eccezioni_firmate: [{ onda: 1, regole: ["prove_comuni"], firma: "  " }] }, 1, "prove_comuni"), null, "senza firma non vale");
   assert.equal(eccezioneFirmata({ eccezioni_firmate: [{ onda: 1, regole: ["migrazioni"], firma: FIRMA }] }, 1, "migrazioni"), null, "una regola fuori dall'elenco delle derogabili non si sospende");
   assert.equal(eccezioneFirmata({}, 1, "prove_comuni"), null);
+  // Collaudo del 13/11: l'onda è un intero, e una firma ha lettere o cifre.
+  for (const onda of ["1", true, [1], " 01 "]) assert.equal(eccezioneFirmata({ eccezioni_firmate: [{ onda, regole: ["prove_comuni"], firma: FIRMA }] }, 1, "prove_comuni"), null, `onda ${JSON.stringify(onda)}`);
+  for (const firma of ["\u200b", "\u2060", " \u00a0 ", "—"]) assert.equal(eccezioneFirmata({ eccezioni_firmate: [{ onda: 1, regole: ["prove_comuni"], firma }] }, 1, "prove_comuni"), null, `firma ${JSON.stringify(firma)}`);
 });
 
 test("AR-1172 · eccezione firmata: giudicaPercorso sospende solo la regola derogata, e la annota", () => {
@@ -1143,5 +1146,16 @@ test("AR-1172 · eccezione firmata: un collaudo con la rimessa a mano ferma appl
     const d = JSON.parse(readFileSync(join(c, "decisioni.json"), "utf8"));
     assert.equal(d.eccezioni_firmate.length, 1);
     assert.match(d.eccezioni_firmate[0], /collaudi\/K01\.json: R01-001: «regge» con una prova rimessa che non è prova-rimessa\.mjs.*onda 1/);
+    // Collaudo del 13/11: i sospesi stanno anche nel JSON, quando applica chiude, quando si ferma, e in valida-collaudo.
+    const ultimo = (out) => JSON.parse(out.trim().split("\n").pop());
+    r = lancia("applica", "--cartella", c, "--registro", registro, "--json");
+    assert.equal(ultimo(r.stdout).eccezioni_firmate.length, 1, r.stdout);
+    r = lancia("valida-collaudo", join(c, "collaudi", "K01.json"), "--cartella", c, "--json");
+    assert.equal(r.status, 0, r.stdout);
+    assert.equal(ultimo(r.stdout).eccezioni_firmate.length, 1, r.stdout);
+    writeFileSync(join(c, "referti", "appunti.txt"), "x");
+    r = lancia("applica", "--cartella", c, "--registro", registro, "--json");
+    assert.equal(r.status, 1, r.stdout);
+    assert.equal(ultimo(r.stdout).eccezioni_firmate.length, 1, `applica fermo per un altro motivo porta lo stesso i sospesi: ${r.stdout}`);
   } finally { rmSync(c, { recursive: true, force: true }); }
 });

@@ -761,8 +761,10 @@ export const REGOLE_DEROGABILI = Object.freeze(["prove_comuni", "prova_nuova_sen
 export function eccezioneFirmata(piano, onda, regola) {
   if (!REGOLE_DEROGABILI.includes(regola)) return null;
   for (const e of Array.isArray(piano?.eccezioni_firmate) ? piano.eccezioni_firmate : []) {
-    if (Number(e?.onda) !== Number(onda) || !Array.isArray(e?.regole) || !e.regole.includes(regola)) continue;
-    if (typeof e.firma === "string" && e.firma.trim()) return e.firma.trim();
+    // L'onda è un numero intero, scritto così: «1», true o [1] non valgono come onda 1 (collaudo del 13/11).
+    if (!Number.isInteger(e?.onda) || e.onda !== Number(onda) || !Array.isArray(e?.regole) || !e.regole.includes(regola)) continue;
+    // Una firma vera porta lettere o cifre: una fatta di soli caratteri invisibili non è una firma (collaudo del 13/11).
+    if (typeof e.firma === "string" && /[\p{L}\p{N}]/u.test(e.firma)) return e.firma.trim();
   }
   return null;
 }
@@ -1348,7 +1350,7 @@ function validaCollaudo(opz) {
     const idR = sess?.sessioni?.[r]?.id, idK = sess?.collaudatori?.[c.collaudatore]?.id;
     if (idR && idK && idR === idK) rossi.push(`${c.collaudatore} e ${r} sono la stessa sessione: chi ripara non collauda`);
   }
-  return chiudi("valida-collaudo", rossi, attese, opz, { campioni });
+  return chiudi("valida-collaudo", rossi, attese, opz, { campioni, ...(derogatiK.length ? { eccezioni_firmate: derogatiK } : {}) });
 }
 
 // ── prova-unione ─────────────────────────────────────────────────────────────────────────────────
@@ -1611,7 +1613,9 @@ function applica(opz) {
     collaudi.push(dati);
   }
   stampaEccezioni(eccezioni);
-  if (ferma.length) return chiudi("applica", ferma, [], opz);
+  // I sospesi viaggiano nel JSON anche quando applica si ferma: a schermo se ne stampano 40 (collaudo del 13/11).
+  const conEccezioni = (extra = {}) => (eccezioni.length ? { ...extra, eccezioni_firmate: eccezioni } : extra);
+  if (ferma.length) return chiudi("applica", ferma, [], opz, conEccezioni());
   const decisioni = conIControlli(decidi({ piano, referti, collaudi, hub }), controlli);
   const fuoriCampagna = rosseFuoriCampagna(decisioni, controlli);
   if (fuoriCampagna.length) console.log(`⚠️  ${fuoriCampagna.length} voci rosse dei controllori non sono di questa campagna (restano come sono nel registro, vanno dette a Nicola): ${fuoriCampagna.slice(0, 5).join(" ; ")}`);
@@ -1637,7 +1641,7 @@ function applica(opz) {
     console.log("   (a vuoto: ho scritto solo decisioni.json. Con --scrivi scrivo i frammenti e il registro.)");
     const attese = senzaStoria.length ? [`commit e testa non controllati sulla storia del ramo per ${senzaStoria.join(", ")} (servono --git e sessioni.json)`] : [];
     if (fuoriCampagna.length) attese.push(`${fuoriCampagna.length} voci rosse dei controllori non sono di questa campagna: vanno dette a Nicola (in decisioni.json, rosse_fuori_campagna)`);
-    return chiudi("applica", [], attese, opz, { si_chiudono: chiude.length, gia: gia.length, restano: restano.length, nati: nati.length });
+    return chiudi("applica", [], attese, opz, conEccezioni({ si_chiudono: chiude.length, gia: gia.length, restano: restano.length, nati: nati.length }));
   }
   for (const f of frammenti) scriviJson(join(cartella, "frammenti", `esito-${f.corsia}.json`), f);
   let reg;
@@ -1645,7 +1649,7 @@ function applica(opz) {
   const perChiave = new Map(reg.elenco.map((d) => [chiaveDi(per.casa, d), d]));
   const rossi = [];
   for (const d of [...gia, ...restano, ...chiude]) if (!perChiave.has(d.chiave)) rossi.push(`la chiave «${d.chiave}» non aggancia niente nel registro`);
-  if (rossi.length) return chiudi("applica", rossi, [], opz);
+  if (rossi.length) return chiudi("applica", rossi, [], opz, conEccezioni());
   for (const d of gia) {
     const x = perChiave.get(d.chiave);
     if (per.casa === "sito") Object.assign(x, { stato: "gia_riparato_prima", chiuso_il: quando, chiuso_da: `riparazione ${nomeCampagna} · ${d.sessione} · collaudo ${d.collaudatore}` });
@@ -1686,7 +1690,7 @@ function applica(opz) {
   console.log(per.casa === "sito"
     ? `   dopo l'unione: node cervello/chiudi-sito.mjs ${join(cartella, "frammenti")} --applica --pr <N> --commit <sha>`
     : "   dopo l'unione: node cervello/auto-fix.mjs verifica --applica");
-  return chiudi("applica", [], [], opz, { si_chiudono: chiude.length, gia: gia.length, restano: restano.length, nati_scritti: scritti.length });
+  return chiudi("applica", [], [], opz, conEccezioni({ si_chiudono: chiude.length, gia: gia.length, restano: restano.length, nati_scritti: scritti.length }));
 }
 
 // ── conti ────────────────────────────────────────────────────────────────────────────────────────

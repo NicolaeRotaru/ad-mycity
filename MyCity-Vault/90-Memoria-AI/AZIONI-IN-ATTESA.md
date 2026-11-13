@@ -44,7 +44,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 Cosa cambia: i difetti chiusi della prima onda entrano nel registro, e la regola per le onde dopo resta decisa.
 Se va bene: la regista lancia la chiusura dei difetti della prima onda dopo che hai unito le due richieste.
 
-**Stato:** ✅ DECISO 2026-11-13 03:27. Hai scelto «a» dopo la spiegazione: la regola resta severa, e per la sola prima onda vale un'eccezione firmata. La mette in pratica la regista nuova, prima di chiudere i difetti della prima onda. Il programma oggi non ha un interruttore per onda su questa regola. La strada più corta è un'impostazione nel piano, come quella che c'è già per la verifica legata al commit: poche righe, con la loro prova.
+**Stato:** ✅ DECISO 2026-11-13 03:27. Hai scelto «a» dopo la spiegazione: la regola resta severa, e per la sola prima onda vale un'eccezione firmata. La mette in pratica la regista nuova, prima di chiudere i difetti della prima onda. Il programma oggi non ha un interruttore per onda su questa regola. La strada più corta è un'impostazione nel piano, come quella che c'è già per la verifica legata al commit: poche righe, con la loro prova. Messa in pratica il 13/11 alle 05:40 dalla regista dell'onda 2. Con «Allarga la a» copre anche i 6 errori che non erano prove comuni. La chiusura a vuoto della prima onda adesso è verde: 115 difetti si chiudono.
 
 ### 🔴 #238 — Riprova le tre migrazioni del sito rimaste, ma non la 350 · ⏳ accodata 2026-11-12 23:55
 
@@ -73,6 +73,8 @@ Se va bene: la regista controlla le tabelle sul database e scrive l'esito nella 
 
 Cosa cambia: si lavora il prossimo blocco di difetti del sito, a lotti piccoli e con un controllore alla fine.
 Se va bene: alla fine della seconda onda la regista ti porta i numeri veri e il costo misurato.
+
+**Stato:** ✅ FATTO 2026-11-13 05:15. Hai dato il via nella sessione «Ondata 2», con «parti con l'ondata 2». La regista ha diviso l'onda: 12 riparatori per 259 difetti. Alle 05:49 hai passato la sessione in modalità Auto, e i riparatori partono da lì.
 
 ### 🟡 #236 — Scegli se togliere alla macchina il permesso di usare il database vero senza chiedere · ⏳ accodata 2026-11-12 23:55
 
