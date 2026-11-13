@@ -64,7 +64,7 @@ si scrive appena cambia qualcosa.
    La chat dell'AD con Nicola non si sposta da sola: l'AD prepara la chat nuova e gli dice dove continuare.
    **La sessione nuova la apre la sessione stessa, ed è la sua 2.0** (Nicola, 13/11 alle 13:30: «superato il 40-60% di
    contesto deve aprire una nuova sessione 2.0 di se stessa»). Ha lo stesso ruolo e lo stesso ramo, e «· 2.0» in fondo
-   al titolo. Nasce con ultracode come chi la apre. Vale anche per le figlie: riparatori, collaudatori e controllori
+   al titolo. Ultracode non lo eredita: lo accende Nicola dall'app (regola 10). Vale anche per le figlie: riparatori, collaudatori e controllori
    a 400 mila token non si fermano ad aspettare. Aprono la loro 2.0, scrivono l'id a chi le ha aperte e si fermano.
    Se una non può aprirla, lo dice subito, e la 2.0 la apre chi l'ha aperta lei. Esempio vero: fino alle 13:30 del
    13/11 ai riparatori dell'onda 2 era stato detto «oltre 350 mila token vi fermate e lo dite».
@@ -94,9 +94,10 @@ si scrive appena cambia qualcosa.
    scrivere codice deve essere aperta con l'ultracode»). Vale per chi ripara, per il controllore che sistema la CI e
    per ogni sessione della regola 8 che tocca il codice. Ultracode fa lavorare la sessione con squadre di agenti e
    verificatori indipendenti, invece che da sola.
-   - **Come si accende.** `create_session` non ha un interruttore per ultracode. La sessione nuova sembra prenderlo da
-     chi la apre. Esempio del 13/11: le due sessioni aperte dall'AD alle 02:19 e alle 02:20, dopo che Nicola l'aveva
-     acceso, ce l'hanno. La figlia di prova delle 02:02, aperta prima, no. Quindi chi apre deve averlo acceso.
+   - **Come si accende.** `create_session` non ha un interruttore per ultracode, e la sessione nuova non lo prende da
+     chi la apre. Lo accende Nicola dall'app, sessione per sessione. La prova è del 13/11 alle 13:38. La quinta regista
+     aveva ultracode acceso e ha aperto il collaudatore K05, che è nato spento. Prima si credeva il contrario, per due
+     sessioni dell'AD delle 02:19 e delle 02:20: con ogni probabilità Nicola le aveva accese a mano.
    - **Il controllo.** Subito dopo `create_session`, `get_session` deve dire `is_ultracode_active: true` e
      `effort_level` xhigh. Se ultracode è spento, la sessione non comincia il lavoro. Chi l'ha aperta lo dice subito
      all'AD, e Nicola lo accende dall'app (regola 4).

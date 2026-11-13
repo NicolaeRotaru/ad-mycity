@@ -100,7 +100,8 @@ andati in rilettura, non in lavoro. Quindi:
    giri aperti, spesa). Copialo in `.riparazione/referto-RNN.json`, fai il commit e spingi. Poi `create_session` dalla
    **testa del tuo ramo** (mai dalla base), sullo stesso ramo, titolo «Riparatore · RNN · onda N · 2.0», modello
    grande, `effort: "xhigh"`, `permission_mode: "auto"`. Il primo messaggio porta questo foglio, la scheda, il
-   passaggio e «riprendi solo le voci senza esito». Con `get_session` controlli che la 2.0 abbia ultracode acceso.
+   passaggio e «riprendi solo le voci senza esito». Con `get_session` controlli che la 2.0 abbia ultracode acceso:
+   se è spento, lo dici subito alla regista, che lo fa accendere a Nicola.
    Poi scrivi alla regista il suo id e lo SHA spinto, preso con `git rev-parse HEAD` nello stesso comando, e ti
    fermi. Se `create_session` ti è negato, la 2.0 la apre la regista.
 7. **Al massimo 12 subagenti in tutto** (regola del 13/11), anche se la sessione è in ultracode. Al dodicesimo ti
