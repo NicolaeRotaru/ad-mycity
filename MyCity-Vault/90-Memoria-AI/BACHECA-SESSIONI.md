@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-13 01:30
+aggiornato: 2026-11-13 01:40
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -24,6 +24,7 @@ Le più nuove in alto. Ognuna dice quando, a chi l'ha detta, e cosa.
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 13/11 01:40 | AD | Analisi di cosa può cambiare la stima dell'onda 2, con i freni nelle regole |
 | 13/11 01:28 | AD | «sì, rimedi»: le sessioni si parlano con le regole di `cervello/sessioni-insieme.md` |
 | 13/11 01:07 | regista | Ogni messaggio porta due costi, anche in percentuale del limite settimanale |
 | 12/11 23:40 | AD | La radiografia si porta sullo schema della riparazione |
@@ -36,7 +37,7 @@ Le più nuove in alto. Ognuna dice quando, a chi l'ha detta, e cosa.
 | Sessione | Lavoro | File suoi |
 |---|---|---|
 | AD | parla con Nicola, tiene la memoria e la bacheca | `MyCity-Vault/90-Memoria-AI/`, regole di scrittura |
-| regista | ferma: aspetta «via la seconda» e la card 239 | la campagna del 12/11, la skill `riparazione` |
+| regista | ferma: aspetta la card 239. L'onda 2 la guida una regista nuova, aperta dall'AD al «via» | la campagna del 12/11, la skill `riparazione` |
 | radiografia | finita: aspetta il «via» alla prima corsa | la skill `radiografia-sessioni`, il suo programma |
 
 ## Le sessioni vive

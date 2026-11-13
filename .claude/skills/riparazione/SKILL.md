@@ -196,6 +196,32 @@ gli otto rimedi qui sotto valgono circa 175 $ a onda (dal 20% al 14% del limite)
 si dice all'AD quali sessioni sono, perché Nicola le accenda dall'app. Ultracode fa lanciare più agenti: per questo
 il tetto di spesa resta quello della fermata, e i rimedi 1-5 valgono anche in ultracode.
 
+**Quello che può far salire il conto, e il suo freno** (Nicola, 13/11: «fai un'analisi sulle cose che possono
+cambiare la stima e aggiungi i miglioramenti»). La stima per la seconda onda è circa 435 $; questi sono i rischi.
+1. **Ultracode sulle figlie.** Lancia più agenti, e nessuno l'ha mai misurato su chi ripara. Freno: **al massimo 12
+   subagenti per figlia**, in tutta la sua vita, ultracode compreso. Oltre, la figlia si ferma e scrive alla regista.
+2. **Una figlia che sfora.** Nell'onda 1 un riparatore costava da 25 a 55 $. Freno, i **tetti per figlia**: riparatore
+   35 $, collaudatore 30 $, controllore 20 $, regia 60 $ per onda. La regista legge `cost_usd` della figlia quando
+   arriva il piano, quando arriva «finita» e prima di ogni giro di correzione. Oltre il tetto non manda altri giri:
+   lo dice all'AD con il nome della figlia e la cifra.
+3. **Le verifiche doppie.** Il 12/11 la regista ha ricontrollato le regole con 87 agenti, e l'80% dei token era negli
+   scettici, due per ogni difetto. Freno: nei ricontrolli e nelle radiografie **uno scettico solo, e solo su bloccanti,
+   gravi e sicurezza**. Le due lenti del collaudo su soldi, dati e permessi restano: sono un controllo, non un doppione.
+4. **Il modello per i lavori semplici.** Il testo scritto è il 22% del costo. Un lotto di soli minori, senza soldi,
+   dati o permessi, lo ripara un subagente col modello piccolo (`model: "sonnet"`, regola ⑨). Il collaudo resta sul
+   modello grande, e smentisce quello che non regge.
+5. **Una regista stanca.** La regista dell'onda 1 è arrivata a 165 $ e a 450 mila token di storia: ogni suo risveglio
+   costa caro. Al «via» dell'onda dopo l'AD apre **una regista nuova**, che riparte da `REGIA.md`, `decisioni.json` e
+   dalla bacheca. Lo stesso vale per la chat dell'AD: oltre 400 mila token conviene una chat nuova.
+6. **I giri di correzione.** Un giro su una storia lunga è costato fino a 11 $ (R02). I freni ci sono già: le prove
+   locali prima di «finito», e un subagente nuovo per ogni giro.
+7. **Le voci dell'onda.** Il costo segue il numero di voci: circa 1,45 $ a voce con le regole nuove. Un'onda da 233
+   voci costa meno di una da 300.
+
+**Il preventivo alla fermata dice tre numeri:** il minimo, l'atteso e il massimo, con cosa li sposta. Esempio per
+l'onda 2: minimo circa 380 $ (lotti piccoli e modello piccolo sui minori), atteso circa 435 $, massimo circa 550 $
+con ultracode dentro i tetti. Senza tetti, il massimo non si sa.
+
 **I buchi dell'onda 1, chiusi.**
 - Un subagente di R07 ha letto il database di produzione. Ora nel sito gli strumenti del database vero, della messa
   online e di Stripe sono bloccati da `.claude/settings.json`, e il blocco vale anche per i subagenti. Nei LEGGIMI c'è

@@ -81,7 +81,9 @@ frattempo da altri. Quindi:
 4. **Il database di prova è tuo.** Ogni esecutore usa un database locale con un nome suo (per esempio
    `mycity_k01_r03`), creato da zero dalle migrazioni o copiato da un modello pulito. Mai un database che un altro
    sta usando: dà prove false.
-5. **Il verify completo** lo rilancia chi consegna, legato allo SHA (`verifica.testa` nel referto). Tu rilanci le
+5. **Al massimo 12 subagenti in tutto** (regola del 13/11), anche in ultracode. Le due lenti su soldi, dati e
+   permessi restano, perché sono il controllo. Oltre il tetto ti fermi e lo scrivi alla regista.
+6. **Il verify completo** lo rilancia chi consegna, legato allo SHA (`verifica.testa` nel referto). Tu rilanci le
    prove delle voci e la prova rimessa. Il verify completo lo rifai solo se `verifica.testa` manca, o non è la testa:
    `applica` non lascia chiudere un referto così, ma se ti arriva il paracadute sei tu.
 

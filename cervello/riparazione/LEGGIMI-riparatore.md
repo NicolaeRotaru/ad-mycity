@@ -86,6 +86,10 @@ andati in rilettura, non in lavoro. Quindi:
    copialo in `.riparazione/referto-RNN.json`, fai il commit e spingi. Il resto lo fa una sessione nuova, che parte
    dalla **testa del tuo ramo** (non dalla base), legge il referto dal ramo e riprende solo le voci che non hanno
    ancora un esito. Scrivi alla regista lo SHA spinto, preso con `git rev-parse HEAD` nello stesso comando.
+7. **Al massimo 12 subagenti in tutto** (regola del 13/11), anche se la sessione è in ultracode. Al dodicesimo ti
+   fermi e lo scrivi alla regista, con quante voci restano.
+8. **Un lotto di soli minori, senza soldi, dati o permessi**, lo dai a un subagente col modello piccolo
+   (`model: "sonnet"`). I gravi, e tutto quello che tocca soldi, dati o permessi, restano sul modello grande.
 
 ### Il metodo, voce per voce
 
