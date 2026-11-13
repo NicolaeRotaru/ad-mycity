@@ -50,7 +50,7 @@ Se va bene: la regista lancia la chiusura dei difetti della prima onda dopo che 
 
 **Cosa cambia per te.** Esempio: la 361 crea la tabella dei codici sconto usati, che oggi non esiste. Senza, il sito usa ancora la strada vecchia.
 
-**Cosa devi fare tu.** Scrivi «riprova» nella chat della regista e approva la conferma del database. La 350, quella del bonifico del lunedì, non va applicata: in un caso fa pagare due volte lo stesso ordine.
+**Cosa devi fare tu.** Scrivi «riprova» qui all'AD. La regista vecchia è ferma: le tre migrazioni le riprova la regista nuova dell'onda 2. Quando nella sua chat compare la conferma del database, ti dico io dove cliccare. La 350, quella del bonifico del lunedì, non va applicata: in un caso fa pagare due volte lo stesso ordine.
 
 **Cosa non ho verificato.** Le tre migrazioni contengono comandi che cancellano: la conferma del database lo dice, e va letta.
 
@@ -63,7 +63,7 @@ Se va bene: la regista controlla le tabelle sul database e scrive l'esito nella 
 
 **Cosa cambia per te.** Esempio: dentro ci sono anche i 25 difetti di R05, il riparatore che non è mai partito.
 
-**Cosa devi fare tu.** Scrivi alla regista «via la seconda», oppure «fermati».
+**Cosa devi fare tu.** Scrivi qui all'AD «via la seconda», oppure «fermati». La regista vecchia è ferma: la seconda onda la guida una regista nuova, che apro io al tuo via.
 
 **Cosa non ho verificato.** Il risparmio dei lotti piccoli è una stima: lo misuriamo alla fine della seconda onda.
 

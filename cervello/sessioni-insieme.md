@@ -1,12 +1,12 @@
 ---
 tipo: regole
-data: 2026-11-13 02:40
+data: 2026-11-13 03:08
 fonte: Nicola, 13/11: «secondo me ci sono mancanze di comunicazione tra le sessioni», poi «sì, rimedi»
 ---
 
 # Come si parlano le sessioni
 
-> **In due righe.** Nove regole per le sessioni che lavorano insieme. Le tre che contano di più: l'urgente si manda
+> **In due righe.** Dieci regole per le sessioni che lavorano insieme. Le tre che contano di più: l'urgente si manda
 > urgente, si cambia sessione oltre 400 mila token, e un lavoro lungo ha un controllore che segue la richiesta e la CI.
 
 ## In parole semplici
@@ -39,7 +39,7 @@ si scrive appena cambia qualcosa.
 - La quota è passata ad «avviso» e nessuno l'ha detto: l'AD l'ha visto per caso.
 - Le sessioni già aperte non sapevano le regole nuove, e l'AD le ha mandate a mano, una per una.
 
-## Le nove regole
+## Le dieci regole
 1. **L'urgente si manda urgente.** Uno stop, la quota, la sicurezza e i soldi partono con `send_message` e
    `priority: "now"`. Chi riceve risponde subito con una riga: «ricevuto, faccio così». Chi manda, se dopo 10
    minuti non ha la risposta, guarda `get_session` di chi doveva riceverlo e riprova.
@@ -84,3 +84,15 @@ si scrive appena cambia qualcosa.
    è la regista, e dentro di lei ci sono le cartelle per ruolo. Esempio: la CI in 3 minuti del 13/11 è partita senza
    controllore, perché la regola è nata dopo. Dalla prossima volta l'elenco sarà: AD, poi «Controllore · CI», poi la
    sessione che lavora.
+10. **Chi scrive codice nasce con ultracode acceso** (Nicola, 13/11 alle 03:05: «ogni nuova sessione che si occupa a
+   scrivere codice deve essere aperta con l'ultracode»). Vale per chi ripara, per il controllore che sistema la CI e
+   per ogni sessione della regola 8 che tocca il codice. Ultracode fa lavorare la sessione con squadre di agenti e
+   verificatori indipendenti, invece che da sola.
+   - **Come si accende.** `create_session` non ha un interruttore per ultracode. La sessione nuova sembra prenderlo da
+     chi la apre. Esempio del 13/11: le due sessioni aperte dall'AD alle 02:19 e alle 02:20, dopo che Nicola l'aveva
+     acceso, ce l'hanno. La figlia di prova delle 02:02, aperta prima, no. Quindi chi apre deve averlo acceso.
+   - **Il controllo.** Subito dopo `create_session`, `get_session` deve dire `is_ultracode_active: true` e
+     `effort_level` xhigh. Se ultracode è spento, la sessione non comincia il lavoro. Chi l'ha aperta lo dice subito
+     all'AD, e Nicola lo accende dall'app (regola 4).
+   - **I tetti restano.** Ultracode fa lanciare più agenti, quindi consuma di più. Valgono lo stesso il preventivo prima
+     di lanciare, al massimo 12 subagenti per sessione e la quota (regola ㉑ del manuale dell'AD).

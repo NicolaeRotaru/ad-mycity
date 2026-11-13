@@ -6807,3 +6807,11 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 ## 2026-11-13 02:55 — 🟡 Nicola unisce la richiesta della macchina #944 (commit 13df338 su main)
 - **Cosa:** «Squash and merge» della #944, con i due controlli verdi sull'ultimo commit (67e1ae0) e nessun conflitto. È la firma che serviva alle regole nuove del 12-13/11: il risolutore a lotti da 25 con regia e controllore, la radiografia in sessioni, le cartelle per ruolo e le nove regole di `cervello/sessioni-insieme.md`.
 - **Cosa resta:** la mycity#288 (le riparazioni della prima onda sul sito) resta in bozza fino al controllore finale della campagna; card #235 aggiornata alle 02:58. Il ramo `claude/sweet-galileo-0skkay` riparte da `main`.
+
+## 2026-11-13 03:05 — 🟡 Chi scrive codice nasce con ultracode acceso (regola 10 delle sessioni)
+- **Chi:** Nicola in chat con l'AD, terza chat: «nuova regola: ogni nuova sessione che si occupa a scrivere codice deve essere aperta con l'ultracode».
+- **Cosa:** regola 10 in `cervello/sessioni-insieme.md`. Subito dopo `create_session`, `get_session` deve dire `is_ultracode_active: true` ed `effort_level` xhigh. Se è spento, la sessione non comincia e Nicola lo accende dall'app (regola 4). La skill `riparazione` lo chiedeva già per le figlie («Ultra Code Extra», 12/11).
+- **Come si accende, misurato il 13/11:** `create_session` non ha un interruttore. Le sessioni aperte dall'AD alle 02:19 e alle 02:20, dopo che Nicola aveva acceso ultracode nella chat dell'AD (circa 02:10), risultano con `is_ultracode_active: true`. La figlia di prova delle 02:02 no. Sembra che si erediti da chi apre: due casi, non una prova.
+- **I tetti restano:** regola ㉑ del manuale, cioè preventivo, al massimo 12 subagenti per sessione e la quota, che è in avviso fino al 19/11 alle 10.
+- **Anche:** card #237 e #238 corrette. Il «via la seconda» e il «riprova» si scrivono all'AD, perché la regista vecchia è ferma e l'onda 2 la guida una regista nuova.
+- **Cosa non regge da solo:** nessun programma controlla `is_ultracode_active` all'apertura: per ora regge sul controllo scritto nella regola.
