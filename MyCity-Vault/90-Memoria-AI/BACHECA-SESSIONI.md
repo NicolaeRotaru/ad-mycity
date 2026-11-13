@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-13 14:18
+aggiornato: 2026-11-13 14:30
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -79,6 +79,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 ## Chi fa cosa, adesso
 | Sessione | Lavoro | File suoi |
 |---|---|---|
+| Regista · onda 2 · sesta (`…YKDqA5`, dal 13/11 alle 14:16) | Ha preso l'onda 2 dalla quinta, che le ha passato lo stato in chat alle 13:58. Sorveglia ogni 30 minuti con una catena sua, `trig_01GeSkcdH2Q91NCVqRRMgp4D`: la catena della quinta è cancellata. Al lavoro R13, R15, R16, R17 e R14 nella sua 2.0. K05 collauda R20, R22 e R21. K06 deve collaudare R19, R23 e R24, ma aspetta ultracode. R18 va a K07 con R13 e R17. C02 fa il primo giro su `2d5f0313`. Poi unione, verify e harness, cucitura dell'onda 2, C02 e fermata 3. Ultracode qui è acceso dalle 14:20. Alle 14:20 K05 era a 28,61 $ su 30: niente spese nuove, consegna il collaudo com'è, e il tetto lo decide Nicola (detto all'AD alle 14:21). Al giro delle 14:24 sono finiti e verdi R15, R16 e R18-R24, e l'unione di prova è verde. Alla cartella dei collaudatori ha chiesto due sessioni nuove. K07 collauda R18 e poi R13 e R17. K08 collauda R15 e R16, poi R14. Non spinge sul ramo della campagna fino al «spinto» della quinta | `consegne/riparazioni/2026-11-12-sito-tutto/`, ramo `claude/magical-hamilton-xouwr8` |
 | Regista · onda 2 · quinta (`…VzbMLH`, dal 13/11 alle 13:17, passata alla sesta alle 14:16) | Ha preso l'onda 2 dalla quarta, che era a 423 mila token. Riparte dal passaggio in fondo a `REGIA.md`. Sorveglia ogni 30 minuti con una catena sua, `trig_019djWt83zUDMzvAH7mbmYbG`. Legge il sito da una copia sua in `/home/user/mycity`. Poi collaudatori K05-K08, unione, cucitura dell'onda 2, C02 e fermata 3. In questa sessione ultracode manca: chiesto all'AD alle 13:17, e prima non si aprono collaudatori. Dalle 13:20, su scelta di Nicola, collauda e unisce subito il lavoro già riparato, R20 e R22 per primi. Può spingere sul sito dalle 13:22 | `consegne/riparazioni/2026-11-12-sito-tutto/`, ramo `claude/magical-hamilton-xouwr8` |
 | Controllore · PR e CI · onda 2 (`…WroKtz`, dal 13/11 alle 13:17) | Segue la #952 di ad-mycity con gli avvisi di GitHub e, dopo l'unione dei 12 rami, la richiesta dell'onda 2 sul sito. Ripara la CI rossa e i conflitti, mai unione e mai fuori bozza. Alle 13:30 ha trovato la #952 in conflitto con main sullo storico del sorvegliante, per questo la CI non partiva: lo unisce tenendo le voci dei due lati. È partito senza ultracode, come la regista: detto all'AD alle 13:23. Finché resta così tocca solo file di memoria, niente codice | lo storico del sorvegliante quando è in conflitto, e i soli file che servono alla CI |
 | Regista · onda 2 · quarta (`…VkmAAN`, dal 13/11 alle 07:40, passata alla quinta alle 13:17) | Ha preso l'onda 2 dalla terza. Le figlie R13-R24 hanno il suo id, mandato dalla terza. Legge il sito da una copia sua, presa via proxy senza add_repo. Il push sul sito serve solo all'unione, e chiede un clic di Nicola. Non tocca il codice della macchina finché Nicola non le accende ultracode. Giro delle 08:01: finite e verdi R13, R17, R20 e R22, rosse R18 e R21. **Fermata urgente all'AD alle 08:06 (regola 4).** L'onda è a circa 510 $ di listino, contro una stima di 435 $. Per finirla servono circa 165 $ in più. Finché Nicola non sceglie A o B, nessun collaudatore. R16, R19, R23 e R24 si fermano dopo il pezzo in mano. Alle 12:58 Nicola ha deciso di finire l'onda al 100%: 10 riparatori ripartiti con tetti nuovi, sorveglianza di nuovo ogni 30 minuti | `consegne/riparazioni/2026-11-12-sito-tutto/`, ramo `claude/magical-hamilton-xouwr8` |
@@ -118,6 +119,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 ## La quota
 | Quando | Chi l'ha vista | Stato |
 |---|---|---|
+| 13/11 14:20 | la sesta regista (`…YKDqA5`) | avviso fino al 19/11 alle 10, niente uso extra, nessun blocco. Il contatore del costo della sua sessione non compare. Detto all'AD |
 | 13/11 13:38 | chat del codice (`…YkmzPU`) | uguale a quella delle 03:38, e l'extra resta spento. La chat del codice è a 324 mila token, sotto la soglia di 400, e costa circa 7 $ |
 | 13/11 13:23 | il controllore PR e CI (`…WroKtz`) | get_session dice avviso fino al 19/11 alle 10, niente uso extra, nessun blocco. Il contatore del costo non compare. Detto all'AD |
 | 13/11 13:17 | la quinta regista (`…VzbMLH`) | get_session non mostra né avviso né uso extra, e nemmeno il contatore del costo. Ultimo stato noto: avviso fino al 19/11 alle 10. Detto all'AD |

@@ -180,3 +180,16 @@
 2026-11-13 13:51 · K05 · ramo non ancora spinto · guardia – · collaudo – · nessuna
 2026-11-13 13:51 · onda 2 · prova-unione ✅
 2026-11-13 13:55 · regia · azioni del giro: R13 e R17 avvisati dei due rossi sul ramo parziale (commit senza id, prova col nome della sessione, verify non sulla testa); C02 rinominato da «CI · onda 2»; K05 e C02 senza chiamate agli strumenti del database vero; K05 e C02 fermi su ultracode, R14 2.0 acceso e al lavoro
+2026-11-13 14:24 · R13 · in lavoro · guardia 🔴 · referto 🔴 25 voci · unione (sotto) · nessuna
+2026-11-13 14:24 · R14 · in lavoro · guardia ✅ · referto ⏳ 22 voci · unione (sotto) · nessuna
+2026-11-13 14:24 · R15 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 14:24 · R16 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-13 14:24 · R17 · in lavoro FINITA · guardia 🔴 · referto 🔴 25 voci · unione (sotto) · nessuna
+2026-11-13 14:24 · R18 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 14:24 · R19 · in lavoro FINITA · guardia ✅ · referto ✅ 23 voci · unione (sotto) · nessuna
+2026-11-13 14:24 · R20 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 14:24 · R21 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 14:24 · R22 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 14:24 · R23 · in lavoro FINITA · guardia ✅ · referto ✅ 18 voci · unione (sotto) · nessuna
+2026-11-13 14:24 · R24 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-13 14:24 · onda 2 · prova-unione ✅
