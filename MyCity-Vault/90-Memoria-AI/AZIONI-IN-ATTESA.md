@@ -31,6 +31,19 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🟡 #240 — Decidi se un riparatore può spendere di più per sbloccare la cassa del centro · ⏳ accodata 2026-11-13 07:22
+
+**In parole semplici.** Nella seconda onda ogni riparatore ha un tetto di 35 $ di listino. R13, il riparatore che lavora su cassa, consegne e rimborsi, arriva al tetto dopo il terzo lotto. Restano fuori 22 voci, fra cui il difetto più grave dell'onda: chi abita in via Roma o in via Cavour, in pieno centro, si sente dire «troppo lontano» alla cassa, e l'ordine non parte.
+
+**Cosa cambia per te.** Esempio: senza un sì, quel difetto aspetta la terza onda, cioè qualche ora in più, e un cliente del centro intanto non può ordinare. Con il sì, R13 lo ripara adesso, insieme al grave della posizione del negozio salvata lontano da Piacenza.
+
+**Cosa devi fare tu.** Rispondi con una lettera all'AD. «a»: R13 arriva fino a circa 90 $ e fa tutte le 22 voci (è la sua proposta). «b»: si ferma a 35 $ e tutto passa alla terza onda. «c»: fa solo il lotto del difetto bloccante e della posizione del negozio, per circa 6-10 $ in più. La regista consiglia la «c»: è il difetto che pesa di più, e costa poco.
+
+**Cosa non ho verificato.** I 6-10 $ della «c» sono una stima dai lotti gravi di R14, che costano 5-6 $ l'uno, non una misura di R13. E il tetto della regia di quest'onda, 60 $, è già superato.
+
+Cosa cambia: con la «c» la cassa del centro torna a funzionare in questa onda; con la «b» resta rotta fino alla terza.
+Se va bene: la regista dice a R13 il tetto nuovo, e il bloccante entra nel collaudo di quest'onda.
+
 ### 🟡 #239 — Scegli come trattare le prove comuni toccate nella prima onda · ⏳ accodata 2026-11-13 01:10
 
 **In parole semplici.** Una regola del risolutore dice che una prova usata da più riparatori la cambia solo la regista. Nella prima onda 9 riparatori su 12 l'hanno toccata lo stesso: 57 prove comuni. Per questo il programma che chiude i difetti oggi dà 63 errori sulla campagna.
