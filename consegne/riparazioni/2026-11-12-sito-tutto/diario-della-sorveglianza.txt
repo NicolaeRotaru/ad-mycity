@@ -254,3 +254,21 @@
 2026-11-13 17:27 · R13 · finita · guardia 🔴 (solo 10708bcf) · prova di unione su 583624d1: il revert di R13-001 (5fb08582) litiga su lib/geocodifica.ts e app/api/geocode/route.ts anche senza R13-010 · non unita, proposta all'AD: onda 3
 2026-11-13 17:27 · onda 2 · costo misurato su 33 sessioni: 1.160,62 $ (riparatori 764,58 · collaudo e controllo 180,99 · regia, cartelle e controllore PR 215,06) · quota allowed_warning settimanale in tutte, niente uso extra · detto all'AD alle 17:25
 2026-11-13 17:20 · regia · la 3.0 ha passato le falle riservate in chat alle 17:04 (solo in chat) · 3.0 archiviata · AD alle 17:15: niente che spende finché Nicola non dice «via» · R14 · 2.0 finita (2048b33), 75,6 $ su 80
+2026-11-13 17:44 · R13 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 17:44 · R14 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 17:44 · R15 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 17:44 · R16 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-13 17:44 · R17 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 17:44 · R18 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 17:44 · R19 · in lavoro FINITA · guardia ✅ · referto ✅ 23 voci · unione (sotto) · nessuna
+2026-11-13 17:44 · R20 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 17:44 · R21 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 17:44 · R22 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 17:44 · R23 · in lavoro FINITA · guardia ✅ · referto ✅ 18 voci · unione (sotto) · nessuna
+2026-11-13 17:44 · R24 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-13 17:44 · K05 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-13 17:44 · K06 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-13 17:44 · K07 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-13 17:44 · K08 · collaudo · guardia ✅ · collaudo ⏳ · nessuna
+2026-11-13 17:44 · onda 2 · prova-unione ✅
+2026-11-13 17:52 · giro della 4.0 · 12 riparatori finiti · rossi solo i due noti (R13 10708bcf, R17 bb53b6be: revert col messaggio standard, deroga alla fermata 3) · K08 · 2.0 e C02 · 2.0 ferme dalle 17:08 (costo fermo a 1,44 e 2,28 $: nessuna chiamata, niente database vero) · quota allowed_warning, niente uso extra · regista a 304 mila token, 5,71 $ · in attesa del «via» di Nicola sulla spesa · prossimo giro 18:15
