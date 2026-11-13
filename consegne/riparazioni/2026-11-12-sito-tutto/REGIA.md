@@ -1,7 +1,7 @@
 ---
 tipo: quaderno-di-bordo
 data: 2026-11-13 05:50
-per: la regista della campagna «sito, tutto» (onda 2, dalle 07:40 del 13/11: la quarta, session_015BmpnVkmAAN92z8w4HLVGB)
+per: la regista della campagna «sito, tutto» (onda 2, dalle 13:15 del 13/11: la quinta, id in sessioni.json)
 stima_usd: 435
 ---
 
@@ -62,19 +62,16 @@ Che le figlie nascano con ultracode: si controlla con get_session sulla prima, p
 **I controllori.** Le regole stanno in `cervello/riparazione/LEGGIMI-controllore.md`. I referti vanno in
 `<C>/controlli/`, e `applica` li legge da solo.
 
-**Passaggio alla quarta regista dell'onda 2 (13/11 07:35, dalla terza `…YzJKvQ` a 442 mila token, oltre la soglia della regola 7).**
-- Figlie R13-R24 aperte, ultracode acceso, id e rami in `sessioni.json`. Sito: `add_repo` NicolaeRotaru/mycity (push), clone in `/home/user/mycity`; ogni comando del programma con `MARKETPLACE_REPO=/home/user/mycity`.
-- Finite e verdi (guardia ✅, referto ✅): R13 (codice `6f56a10d`: 0 riparati, 2 parziali, 1 scelta, 22 non_fatto per tetto) e R17 (codice `28a4f5a7`: 0 riparati, 2 parziali, R17-002 tolta col revert e serve_file_altrui, 22 non_fatto). **Subito K05 per R13 e R17**, con `source_revision` = la testa di questo ramo ad-mycity e NON `125b2db`: lì `lib/database.types.ts` non ha padrone e la guardia di R17 risulta rossa per sbaglio. Prima get_session della regista (ultracode) e messaggio d'attesa.
-- R20: finita ma con la guardia rossa su 2 prove comuni; approvata la strada sicura (R20-005 resta senza toccare la prova, R20-015 tolta e serve_file_altrui). Aspettare il suo «finita» nuovo.
-- Rossi del giro 07:30, già detti alle figlie: R14 (3 prove comuni, titolo riservato col segnaposto), R15 (1 prova comune), R16 (prova_tipo «leggera», titolo riservato col segnaposto), R22 (un commit con due voci: insieme_a), R24 (4 prove comuni: revert di R24-020, R24-017 e R24-010 dopo il lotto 2; R24-010 diventa scelta_di_nicola).
+**Passaggio alla quinta regista dell'onda 2 (13/11 13:15, dalla quarta `…VkmAAN` a 423 mila token).**
+- Sito: `git clone --filter=blob:none https://github.com/NicolaeRotaru/mycity` via proxy, senza add_repo; ogni comando con `MARKETPLACE_REPO=<clone>`. Il push sul sito serve all'unione: add_repo push chiede un clic di Nicola.
+- Ultracode spento nella quarta: le sessioni aperte da lei nascono spente; Nicola le accende dall'app. Controllare con get_session prima di aprire collaudatori.
+- **12:58, Nicola: «finiamo al 100% l'ondata»**, poi «oltre a questi 99 fai anche quelli che mancano». Ripartiti 10 riparatori con tetti in tutto: R13 90 $, R17 85, R14 80, R16 66, R19 71, R18 70, R24 70, R23 61, R15 60, R21 55. Fino a 10 subagenti in più. A loro: lotti, sonnet sui minori, prove comuni intoccabili (revert + serve_file_altrui), chiusura con verify (8192), finita:true, guardia e referto verdi; oltre 350 mila token si fermano e lo dicono.
+- Finite e verdi, da collaudare: R20 (punta `2851b087`, testa `a23283e8`, 13 riparati), R22 (punta `35ee9faa`, testa `edacdd69`, 12). Le altre mandano lo SHA a fine lavoro.
+- Poi: K05-K08 (3 riparatori ciascuno, `source_revision` = testa di questo ramo), unione nel ramo di integrazione del sito, verify e harness SQL, **cucitura dell'onda 2** sul ramo unito (tutte le serve_file_altrui e le parziali in file altrui: è nella decisione di Nicola), C02, fermata 3.
+- Domande per Nicola: nei `domande_per_nicola` dei referti, circa 25. Falle riservate nuove: 4 (R14 pagamenti, R16 permessi, R19 permessi, R21 accessi); i dettagli solo in chat, dalla quarta.
 - La regola data a tutti dall'onda 2: la prova comune torna com'era; la voce che la contraddice si toglie intera con git revert (codice, migrazione, tipi) e va serve_file_altrui, con gli SHA da riprendere e la modifica esatta della prova. Si riprende in cucitura, o all'unione dell'onda 2 se Nicola firma l'eccezione alla fermata 3.
-- R14: a 33 $ chiude il lotto e spinge «finita»: false; il resto lo riprende una sessione nuova dalla testa del suo ramo. Prima i revisori dei gravi. R18: revert di `1509d2f1` tenuto, i tipi si rigenerano all'unione.
-- #952: verde 14 su 14 su `e1a33475` (07:23) e di nuovo su `e581fb26` (07:30); si unisce senza conflitti; in bozza. Riparata con `c07ebb4` (la prova del battito) più la radiografia del perimetro registrata. Il collaudo della correzione ha riprodotto la prova rossa; il verdetto completo arriva alla terza, che lo inoltra. Ogni push fa ripartire la CI.
 - 10 minori della macchina (9 dal collaudo di `7d9500f`, `wf_135d9675-e15`, più 1 dal collaudo di `c07ebb4`: se il battito c'è ma è vuoto o rotto, la prova non lo rifà), da fare dopo il verde e solo con ultracode acceso: prova da capo a fondo di applica --scrivi con mutazione (il più importante); areaDelNato senza maiuscole e spazi; Array.isArray su dimensioni; doppione al rilancio; la cookie policy doppione della scheda 115; meta.aggiornato; `cervello/test/il-freno-non-era-sulla-strada.test.mjs:276` che scrive nel registro vero (da registrare come nato); l'ordine dei file di R17.md.
 - Per la fermata 3: carta #242 (tetto di R13: bloccante R13-001 della cassa del centro, gravi 004-006), R13-003 chi paga gli sconti, R17-002 ordine fermo pagato più le altre 4 domande di R17, R20-010, R23-016, R24-003, R24-010 (dominio di SUPPORT_EMAIL), il CAPTCHA di R24, l'eccezione di R16 e le voci tolte per le prove comuni.
-- Costi: regia prima 40,52 $, seconda ~23 $, terza 14,98 $ alle 07:31, cioè ~78,5 $ contro il tetto di 60 $. Figlie: R13 29,9 $, R17 ~35 $, R14 26,2 $ (07:30). Quota in avviso fino al 19/11 alle 10.
-- Sorveglianza: la catena della terza finisce col giro delle 07:30; la quarta ne fa una sua a 30 minuti. Due volte una guardia ha fermato un agente di collaudo che scriveva il battito: si sblocca con TaskStop, senza clic.
-
-**Quarta regista (`…VkmAAN`, dal 13/11 07:40).** Ultracode spento qui (niente codice della macchina). Sito letto senza add_repo: `git clone` via proxy in `/home/user/mycity`; il push serve solo all'unione (clic di Nicola).
-- Giro 08:01: finite e verdi R13, R17, R20, R22; rosse R18 (1 prova comune) e R21 (2 prove comuni, referto); prova-unione verde. Figlie a 428,8 $, regia ~81 $: l'onda è a ~510 $, oltre la stima di 435 $ (massimo 550 $).
-- 08:06, fermata urgente all'AD per il costo. 12:58, Nicola in questa chat: «finiamo al 100% l'ondata», anche le parziali. Ripartiti R13-R19, R21, R23, R24 con tetti nuovi (R13 90 $, R17 85, R14 80, R18 70, R24 70, R15 60, R19 60, R16 55, R21 55, R23 55) e fino a 10 subagenti in più. Dopo: chiusure, K05-K08, unione, cucitura dell'onda 2 (le serve_file_altrui sul ramo unito), C02, domande a Nicola. Stima in più circa 430 $ (massimo circa 540 $).
+- PR e CI: dal 13/11 13:15 le segue il «Controllore · PR e CI · onda 2» (id in `sessioni.json`, chiave `pr_ci`): ad-mycity#952 ora, la PR del sito dopo l'unione. La regista non ripara la CI.
+- Costi alle 13:05: regia quarta 13,5 $ (regia in tutto circa 94 $, tetto 60 $). Figlie: R24 49,9 $, R19 50,8, R16 47,9, R23 41,3, R14 39,8, R21 ~39, R18 ~36, R15 34,3, R17 ~33, R22 ~32, R13 30,5, R20 25,2. Stima in più per finire circa 430 $ (massimo circa 540 $). Quota in avviso fino al 19/11 alle 10.
+- Sorveglianza: la catena della quarta è cancellata; la quinta ne fa una sua a 30 minuti.
