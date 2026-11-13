@@ -30,6 +30,7 @@ Le più nuove in alto. Ognuna dice quando, a chi l'ha detta, e cosa.
 | 12/11 23:00 | AD | «sì, regola»: ogni messaggio a Nicola apre con «Il punto adesso» |
 | 12/11 22:10 | AD | «Ultra Code Extra, non Max» per tutte le sessioni |
 | 12/11 21:25 | regista | «riprova le ultime tre migrazioni» |
+| 12/11 21:05 (entro) | regista | «Risolvi le due regole» del programma di riparazione: guardia sul risultato del ramo e prova dei file nuovi e delle migrazioni |
 
 ## Chi fa cosa, adesso
 | Sessione | Lavoro | File suoi |
