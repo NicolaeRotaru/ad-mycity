@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-13 04:40
+aggiornato: 2026-11-13 13:38
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,8 +28,13 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 13/11 05:03 circa | chat del codice, quattro risposte | Sulla radiografia. Adesso guarda solo il sito, ma dovrà servire anche per la macchina e per altro. Prende le regole del risolutore fin dove si può. Si fa quello che ho proposto: un manuale solo, le regole in un posto solo, il 9 come profilo, le vecchie spente per ultime. In più la vuole «ibrida», e chiede se si può senza perdere prestazioni e qualità. Le prestazioni si misurano su una copia vecchia con difetti già noti. Chiede anche le risposte alle quattro domande sul metodo |
+| 13/11 04:52 circa | chat del codice, sulla radiografia | «hai capito la radiografia»: conferma la lettura delle 04:30. Chiede di dire se la radiografia, così come viene fatta, è corretta e rende il massimo. Servirà anche per la macchina, anche se adesso la usa sul sito. Domanda se conviene metterla dentro la strategia di radiografia che esiste già. Restano aperte la deroga e i tempi, e quali minori entrano |
+| 13/11 04:42 circa | chat del codice, sul 9 | «la tua proposta per il 9». Sceglie come si certifica il 9 nei cinque voti. Durante il lavoro guidano i criteri, uno per voto, controllati da un programma. Alla fine i tre senior rifanno il giudizio una volta sola, con lo stesso metro del 5,4. Il voto finale lo firma Nicola |
 | 13/11 04:33 | GitHub | Ha unito la richiesta del sito mycity#288, l'onda 1, con «Create a merge commit» (`a19ff89`). Vercel pubblica da solo. I controlli sulla produzione li fa la terza chat, su accordo con l'AD delle 04:37 |
+| 13/11 04:30 circa | chat del codice, mezz'ora dopo | «voglio che usi la strategia della radiografia». «e controlla se gli sono state inserite le regole del risolutore». «ed inserire tutti i difetti dentro il reparto dei difetti dentro il pannello/macchina/ad». «dimmi cosa hai capito». **Da confermare.** Come l'ho capita: prima si controlla che la skill della radiografia abbia le regole del risolutore e delle sessioni, e si aggiunge quello che manca. Poi la radiografia cerca sul sito quello che tiene i cinque voti sotto 9. Ogni difetto trovato entra nel registro dei difetti. Cambia la decisione delle 01:30, che teneva il giudizio fuori dal registro. Finché Nicola non conferma, nessuna regola cambia e nessuna radiografia parte |
 | 13/11 entro 04:13 | AD, quarta chat | «scelgo la A»: prima di unire la mycity#288 l'AD toglie la migrazione 350 del bonifico, che torna nell'onda 2. Fatto alle 04:18, commit `b868e37` |
+| 13/11 04:10 circa | chat del giudizio sul codice | «ciò che devi dirmi tu è come risolvere i problemi nel codice per rendere tutti i punti un voto 9 su 10. dimmi cosa hai capito». Vuole il piano per portare a 9 tutti e cinque i voti del giudizio sul codice del sito. Prima la conferma di cosa ho capito; il codice non si tocca |
 | 13/11 entro 04:10 | AD, quarta chat | «faccio partire la seconda ondata in una nuova sessione fuori da marketplace resolver, dimmi cosa devo dirli» e «prima però devo rendere mergiabile la pr del marketplace». Quindi la richiesta dell'onda 1 del sito, la mycity#288, si unisce prima del controllore finale della campagna. Il testo per la regista dell'onda 2 lo prepara l'AD |
 | 13/11 entro 03:49 | AD terza chat | «nello scheletro delle sessioni non ci deve essere una sessione che fa da cartella, al massimo una sessione può contenere delle sotto cartelle. dimmi cosa hai capito». **Da confermare con l'AD, quarta chat.** Ecco come l'ha capita la terza chat. Nessuna sessione fa più solo da contenitore. Spariscono quindi le cartelle «Riparatori · onda N», «Collaudatori · onda N» e «Controllori · onda N» della skill `riparazione`. Le sottocartelle stanno dentro una sessione che lavora, per esempio la regista. Il controllore della regola 9 resta, perché lavora. Finché Nicola non conferma, nessuna regola cambia |
 | 13/11 03:44 | GitHub | Ha unito la richiesta della CI #948 a `92b4c15`: i controlli della macchina girano in fette, su Ubuntu 24.04 |
@@ -49,8 +54,8 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 | 13/11 02:16 | AD | Le CI della macchina, «Cancello del lotto» e «Test del cervello», entro 3 minuti, «non di più» |
 | 13/11 01:56 | AD | Le figlie nascono in una cartella per ruolo: riparatori, collaudatori, controllori (skill `riparazione`, «Le cartelle nell'elenco») |
 | 13/11 entro 01:33 | AD | Le sessioni si cambiano oltre il 40% del contesto; la chat dell'AD passa a una nuova |
-| 13/11 entro 01:30 | Radiografia del codice | Sul codice del sito vuole un giudizio da professionista, non altri difetti nel registro: le misure del referto non si caricano come voci |
 | 13/11 entro 01:32 | AD | Analisi di cosa può cambiare la stima dell'onda 2, con i freni nelle regole |
+| 13/11 entro 01:30 | Radiografia del codice | Sul codice del sito vuole un giudizio da professionista, non altri difetti nel registro: le misure del referto non si caricano come voci |
 | 13/11 entro 01:25 | AD | «sì, rimedi»: le sessioni si parlano con le regole di `cervello/sessioni-insieme.md` |
 | 13/11 01:07 | regista | Ogni messaggio porta due costi, anche in percentuale del limite settimanale |
 | 12/11 23:40 | AD | La radiografia si porta sullo schema della riparazione |
@@ -66,7 +71,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 | AD, quarta chat | 13/11 03:38: ripara il rosso della CI dentro la #949. Il commit `3a5778e` di Nicola (card 236) ha tolto il permesso del database, ma in `cervello/permessi-debito.json` era rimasta la sua scusa, e la prova `permessi-di-guardia` la boccia. Cade anche `main`, non solo la #948. Quando la #949 è unita, la #948 si rilancia | `cervello/permessi-debito.json` |
 | regista (`…XsL6Y7`) | ferma a 450 mila token: passaggio scritto in fondo a `consegne/riparazioni/2026-11-12-sito-tutto/REGIA.md` (13/11 01:35). L'onda 2 la guida una regista nuova, aperta dall'AD al «via la seconda» | la campagna del 12/11, la skill `riparazione` |
 | CI della macchina | Finita: Nicola ha unito la #948 alle 03:44 (`92b4c15`). Il cancello ci mette 2 min 28 s, prima 10 min 21 s. Prima dell'unione la sessione ha riparato le due cause del rosso: la scusa dei permessi e Ubuntu 26.04. Alla fine era a 36,8 $ su 30 | nessuno |
-| Radiografia del codice · seguito (`…ZCaWUi`) | segue la richiesta del giudizio sul codice del sito (ad-mycity#947) e aspetta Nicola su due scelte: le quattro librerie con falle note da aggiornare prima di domenica 15/11, e il piano con i costi del riordino dopo il lancio. Il codice del sito non lo tocca senza la sua firma | `consegne/audit/2026-11-13-giudizio-codice-sito.md` |
+| Radiografia del codice · seguito 2 (`…YkmzPU`) | dal 13/11 alle 05:11 prende il posto di `…ZCaWUi`, ferma a 429 mila token. Segue la richiesta del giudizio sul codice del sito (ad-mycity#947), e alle 05:11 ripara il suo conflitto con la #950. Aspetta il sì di Nicola sui sei passi della radiografia ibrida, la data e la deroga per il sesto passo. Il codice del sito non lo tocca senza la sua firma. Il manuale della radiografia lo cambia solo d'accordo con `…Vn722K` e con l'AD | `consegne/audit/2026-11-13-giudizio-codice-sito.md`, `consegne/audit/2026-11-13-passaggio-radiografia-ibrida.md` |
 | radiografia | finita: aspetta il «via» alla prima corsa | la skill `radiografia-sessioni`, il suo programma |
 
 ## Le sessioni vive
@@ -76,7 +81,8 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 | AD quarta chat, da non usare (508 mila token) | `session_015BmpnVpk1kywXGH5kMWQTH` |
 | AD terza chat, da non usare (471 mila token) | `session_015BmpnZ5ufx6s554FgYbUju` |
 | CI della macchina in 3 minuti | `session_015BmpnWjSJvwxssvANzndUF` |
-| Radiografia del codice · seguito (dal 13/11 alle 03:28) | `session_015BmpnZCaWUijDqfTAvJ4Dx` |
+| Radiografia del codice · seguito 2 (dal 13/11 alle 05:11) | `session_015BmpnYkmzPU2BsTXe1ZWwu` |
+| Radiografia del codice · seguito, da non usare (429 mila token) | `session_015BmpnZCaWUijDqfTAvJ4Dx` |
 | Radiografia del codice, da non usare (partita prima delle regole nuove) | `session_015BmpnXaAEDNzGNRCfhqygd` |
 | AD seconda chat, da non usare (390 mila token) | `session_015BmpnXznpQwCRc8GAKjgyw` |
 | AD vecchia, da non usare | `session_015BmpnWWfcmEfYEhQ25M7s2` |
@@ -86,6 +92,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 ## La quota
 | Quando | Chi l'ha vista | Stato |
 |---|---|---|
+| 13/11 13:38 | chat del codice (`…YkmzPU`) | uguale a quella delle 03:38, e l'extra resta spento. La chat del codice è a 324 mila token, sotto la soglia di 400, e costa circa 7 $ |
 | 13/11 03:45 | AD, quarta chat | la sessione della CI è a 36,8 $ contro un tetto di 30, e a 761 mila token, vicino alla compressione (784 mila). Detto a Nicola. Quota ancora in avviso |
 | 13/11 03:38 | AD, quarta chat | ancora avviso, nessun extra in uso: si rinnova il 19/11 alle 10 |
 | 12/11 23:33 | AD | avviso: il limite settimanale si avvicina, si rinnova il 19/11 alle 10 |

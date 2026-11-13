@@ -31,6 +31,34 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🟡 #241 — Di' sì ai sei passi per sistemare la radiografia del codice · ⏳ accodata 2026-11-13 05:25
+
+**In parole semplici.** Vuoi portare a 9 su 10 i cinque voti del codice del sito, col metodo della radiografia. Prima la radiografia va sistemata e resa ibrida. I passi sono sei. I primi quattro cambiano la macchina. Il quinto prova la radiografia su una copia vecchia del sito. Il sesto è la radiografia vera.
+
+**Cosa cambia per te.** Esempio: col quinto passo sai quanti difetti già noti trova, quanti falsi segnala, quanto costa e quante ore ci mette. Lo sai prima di spendere per la radiografia vera.
+
+**Cosa devi fare tu.** Scrivi «ok 241» per il sì all'ordine dei sei passi. Poi servono altre due risposte, nella chat «Radiografia del codice · seguito 2». La prima è la data e il permesso per il sesto passo. Il permesso serve perché oggi la macchina chiude meno difetti di quanti ne apre, e allora non cerca difetti nuovi. La seconda è quali difetti minori entrano. Io propongo solo quelli che servono per arrivare al 9.
+
+**Cosa non ho verificato.** Il costo del quinto passo non è ancora stimato. Lo porto prima di partire.
+
+Cosa cambia: la radiografia si sistema in sei passi, e i primi quattro arrivano in una richiesta di unione che firmi tu.
+Se va bene: preparo i primi quattro passi, ognuno con la sua prova, e ti porto il preventivo del quinto.
+
+### 🟡 #240 — Fai aggiornare le quattro librerie del sito che hanno falle note, prima di domenica · ⏳ accodata 2026-11-13 05:25
+
+**In parole semplici.** Le librerie sono pezzi di codice scritti da altri, che il sito usa. Quattro hanno falle note. Tre di queste falle sono classificate critiche. Due non si possono sfruttare sul nostro sito. La terza si può sfruttare solo in teoria, e farebbe poco danno. L'aggiornamento resta nelle stesse versioni principali, quindi è piccolo.
+
+**Cosa cambia per te.** Esempio: la libreria che manda gli errori del sito a Sentry ha una falla che da noi si sfrutta solo in teoria. Con l'aggiornamento si chiude prima del lancio di domenica 15/11.
+
+**Cosa devi fare tu.** Scrivi «ok 240». Il senior tech prepara l'aggiornamento in un ramo separato del sito. L'unione resta tua.
+
+**Cosa non ho verificato.** Non ho provato l'aggiornamento. Le prove del sito le fa girare il senior tech, sul suo ramo.
+
+Cosa cambia: le quattro librerie del sito passano alle versioni senza le falle note, prima di domenica 15/11.
+Se va bene: il senior tech apre la richiesta di unione sul sito con le prove verdi, e tu la unisci.
+
+Per chi esegue: next almeno 15.5.28, @sentry/nextjs almeno 10.75.2, dompurify almeno 3.4.17, sharp almeno 0.35.5. Il perché sta nel referto `consegne/audit/2026-11-13-giudizio-codice-sito.md`, alla voce «Avvisi delle librerie».
+
 ### 🟡 #239 — Scegli come trattare le prove comuni toccate nella prima onda · ⏳ accodata 2026-11-13 01:10
 
 **In parole semplici.** Una regola del risolutore dice che una prova usata da più riparatori la cambia solo la regista. Nella prima onda 9 riparatori su 12 l'hanno toccata lo stesso: 57 prove comuni. Per questo il programma che chiude i difetti oggi dà 63 errori sulla campagna.
