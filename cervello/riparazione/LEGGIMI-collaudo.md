@@ -72,9 +72,9 @@ frattempo da altri. Quindi:
    in `/tmp`. **I revisori si lanciano tutti insieme in primo piano**, nello stesso messaggio: così non ti svegliano
    uno alla volta. Ognuno nella sua copia (punto 3) e col suo database (punto 4): insieme, mai nella stessa cartella.
 2. **Un giro di ricollaudo** (dopo una correzione del riparatore) lo fanno subagenti nuovi. Ricevono solo il referto
-   alla punta, le voci rimandate e il tuo verdetto di prima, letto da `collaudi/KNN.json`. Se la regista ti scrive
-   che hai superato i 300 mila token, salvi e spingi il collaudo: il giro dopo lo fa un collaudatore nuovo, sullo
-   stesso ramo, che riparte da quel file.
+   alla punta, le voci rimandate e il tuo verdetto di prima, letto da `collaudi/KNN.json`. A 400 mila token di
+   storia (lo leggi da te con `get_session`) salvi e spingi il collaudo, e apri tu il collaudatore 2.0 sullo stesso
+   ramo, che riparte da quel file: come il punto 6 del foglio del riparatore (Nicola, 13/11 alle 13:30).
 3. **Il codice è quello dichiarato.** Ogni esecutore ha la sua copia allo SHA esatto (`worktree add --detach`). Prima
    di lanciare una prova controlla `git -C ../wt-RNN rev-parse HEAD`: deve essere il commit che stai provando. Se no,
    fermati e rifai la copia.

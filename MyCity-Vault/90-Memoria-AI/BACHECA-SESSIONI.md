@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-13 13:19
+aggiornato: 2026-11-13 13:31
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 13/11 13:30 | chat «Regista · onda 2 · quinta» | «tutte le sessioni che hai creato hanno le 10 regole? ed è applicata la regola: superato il 40-60% di contesto deve aprire una nuova sessione 2.0 di se stessa». Non era applicata così: ai riparatori era stato detto «oltre 350 mila token vi fermate». Alle 13:30 la regista ha mandato a 10 riparatori e al controllore della CI la regola: a 400 mila token, cioè il 40%, la sessione apre da sé la sua 2.0 sullo stesso ramo, poi si ferma. Con la regola ha mandato la parte delle dieci regole che vale per loro. Scritta anche nei fogli del riparatore e del collaudatore |
 | 13/11 13:20 | chat «Regista · onda 2 · quarta» | «nella nuova sessione di regista riesci a metterti avanti con i collaudatori e controllori su difetti già risolti». Passata alla quinta regista: collaudi subito sui riparatori finiti e su quello che gli altri hanno già riparato, senza aspettare la fine di tutti |
 | 13/11 12:58 | chat «Regista · onda 2 · quarta» | «fai fare ai riparatori i difetti mai toccati, così finiamo al 100% l'ondata», e alla domanda sul costo: «oltre a questi 99 fai anche quelli che mancano da fare in questa ondata». La regista ha riavviato 10 riparatori con tetti nuovi (da 55 a 90 $ a testa). Le parti che stanno in file altrui le fa la cucitura dell'onda 2, dopo l'unione. Le sue scelte aperte gliele porta la regista |
 | 13/11 06:33 | chat «Regista · onda 2 · seconda» | «quante altre cose le hai, non le fai o le fai a metà». Un'altra correzione: la regista ha fatto l'elenco di quello che aveva lasciato a metà, e lo chiude punto per punto. L'elenco sta nella sua risposta in chat |
