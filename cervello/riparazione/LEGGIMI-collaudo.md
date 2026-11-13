@@ -54,6 +54,18 @@ quello che guardi**, e non lo ripari adesso: tu giudichi.
   nella stessa cartella si sovrascrivono): `git -C ../marketplace worktree add ../wt-RNN --detach <testa> && ln -s "$(cd ../marketplace && pwd)/node_modules" ../wt-RNN/node_modules`.
 - Spingi **solo** il tuo referto, `<cartella>/collaudi/KNN.json`, sul tuo ramo. Nient'altro.
 
+### Le regole delle sessioni (regola 11 di `cervello/sessioni-insieme.md`, Nicola 13/11 alle 13:30)
+
+- Lo stop, la quota, la sicurezza e i soldi li mandi alla regista con `send_message` e `priority: "now"`. A un
+  messaggio urgente rispondi subito, con una riga.
+- Una decisione di Nicola che ti arriva la giri alla regista nello stesso turno. Se aspetti un suo clic, lo dici
+  subito alla regista.
+- Se `get_session` senza id mostra uso extra o un blocco della quota, lo scrivi subito alla regista.
+- A 400 mila token di storia apri da te la tua sessione 2.0 (come nel punto 2 di «Giri brevi» qui sotto).
+- Lavori solo con ultracode acceso: se `get_session` non dice `is_ultracode_active: true`, non cominci e lo dici
+  alla regista.
+- Il costo lo leggi da `usage.cost_usd` di `get_session`, mai a stima.
+
 ### Giri brevi, codice giusto (regola del 12/11 notte)
 
 **Il database vero non si tocca, nemmeno per leggerlo.** Mai gli strumenti di Supabase, Vercel o Stripe: né tu né

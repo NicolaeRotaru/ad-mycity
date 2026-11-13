@@ -48,6 +48,18 @@ regole, e scrivi i dubbi nel referto (`domande_per_nicola`).
   della macchina. Valgono le sue regole sulle prove, più queste.
 - Spingi **solo** sul tuo ramo. Mai una PR, mai un'unione, mai `--force`, mai un altro ramo.
 
+### Le regole delle sessioni (regola 11 di `cervello/sessioni-insieme.md`, Nicola 13/11 alle 13:30)
+
+- Lo stop, la quota, la sicurezza e i soldi li mandi alla regista con `send_message` e `priority: "now"`. A un
+  messaggio urgente rispondi subito, con una riga.
+- Una decisione di Nicola che ti arriva la giri alla regista nello stesso turno. Se aspetti un suo clic, lo dici
+  subito alla regista.
+- Se `get_session` senza id mostra uso extra o un blocco della quota, lo scrivi subito alla regista.
+- A 400 mila token di storia apri da te la tua sessione 2.0 (come nel punto 6 di «A lotti» qui sotto).
+- Lavori solo con ultracode acceso: se `get_session` non dice `is_ultracode_active: true`, non cominci e lo dici
+  alla regista.
+- Il costo lo leggi da `usage.cost_usd` di `get_session`, mai a stima.
+
 ### Prima il piano
 
 Prima di toccare il codice scrivi il piano, **senza aprire il codice del sito**: lo ricavi dalla scheda e dal registro
