@@ -73,7 +73,7 @@ Che le figlie nascano con ultracode: si controlla con get_session sulla prima, p
 - Al lavoro: R13, R15 e R17, con la 2.0 a 400 mila token. R14 continua nella sua 2.0 (`…WjBBk7`), con ultracode. R13 e R17 hanno due rossi da chiudere prima di «finita».
 - Dopo: unione, verify e harness, cucitura dell'onda 2 (le serve_file_altrui e le parziali in file altrui), C02 e fermata 3. Poi i 10 minori della macchina (passaggio della quarta, commit `2a71b48`).
 - Falle riservate: 5 (R14 pagamenti, R16 e R19 permessi, R21 accessi, R24 auth), più due nate in R21 (008, 014). I dettagli solo in chat, dalla quinta.
-- Per la fermata 3: carta #242 (R13-001 e i gravi 004-006), R13-003, R17-002 e le altre 4 di R17, R20-010, R23-016, R24-003 e R24-010. Poi il CAPTCHA di R24, l'eccezione di R16, le voci tolte per le prove comuni, le domande dei referti e le falle riservate.
+- Per la fermata 3: carta #242 (R13-001 e i gravi 004-006), R13-003, R17-002 e le altre 4 di R17, R20-010, R23-016, R24-003 e R24-010. Poi il CAPTCHA di R24, l'eccezione di R16, le voci tolte per le prove comuni, le domande dei referti, le falle riservate e l'eccezione per il revert `10708bcf` di R13, che comincia con «Revert».
 - PR e CI: il controllore `…WroKtz` (`pr_ci` in `sessioni.json`) segue la #952, verde, che Nicola unisce alle 13:40. Mentre corre la CI non si spinge su ad-mycity: avvisa lui.
 - Costi alle 13:30 da `cost_usd`: figlie dell'onda 2 circa 586 $, il 20% della settimana. Regia quinta 12,6 $ alle 13:57. Quota in avviso fino al 19/11 alle 10, senza extra.
   Sorveglianza: la sesta cancella la catena della quinta (`trig_011XDiyAEn16eYHhEQnsfPsS`, prossimo giro 14:26) e ne fa una sua. C02 aspetta ultracode.
