@@ -1,5 +1,5 @@
 {
- "regista": "session_015BmpnYKDqA51jEGkbAWYGo",
+ "regista": "session_015BmpnWf1uAKL6VFXJQyNyv",
  "regista_onda2_quinta": "session_015BmpnVzbMLH1s3LPB8nHkW",
  "regista_onda2_quarta": "session_015BmpnVkmAAN92z8w4HLVGB",
  "regista_onda2_terza": "session_015BmpnYzJKvQoMML3LmU8aJ",
@@ -102,7 +102,8 @@
    "ramo": "claude/magical-hamilton-xouwr8-m13",
    "onda": 2,
    "partenza": "2026-11-13 05:50",
-   "nota": "ultracode acceso da Nicola dall'app alle 05:53; piano approvato da Nicola in chat («scelgo la proposta A e approvato il resto»)"
+   "nota": "ultracode acceso da Nicola dall'app alle 05:53; piano approvato da Nicola in chat («scelgo la proposta A e approvato il resto»)",
+   "finita": true
   },
   "R14": {
    "id": "session_015BmpnX1v15gDLe7qUkJjRN",
@@ -113,7 +114,8 @@
     "id": "session_015BmpnWjBBk7GEooFEhi67r",
     "partenza": "8582fee703f64a9eb6a445271edd47bf1cc9c18e",
     "aperta": "2026-11-13 13:42"
-   }
+   },
+   "finita": true
   },
   "R15": {
    "id": "session_015BmpnXJ2sx8pKEKoQsaNek",
@@ -324,5 +326,7 @@
   "controllori": "session_015BmpnVfi4KSr2gKbddcYf3",
   "ad": "session_015BmpnV6MM3MbPx3kR39WPd",
   "nota": "aperte dalla quinta regista il 13/11 alle 13:47 (profondità 5 su 8); le sessioni nuove nascono dentro la sottocartella del loro ruolo"
- }
+ },
+ "regista_onda2_sesta": "session_015BmpnYKDqA51jEGkbAWYGo",
+ "integrazione_onda2_parziale": "990dd7fa8d013fe1e76e613681afca7de53879e9"
 }
