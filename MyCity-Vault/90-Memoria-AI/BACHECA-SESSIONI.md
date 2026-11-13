@@ -1,12 +1,12 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-13 04:38
+aggiornato: 2026-11-13 04:40
 regole: cervello/sessioni-insieme.md
 ---
 
 # La bacheca delle sessioni
 
-> **In due righe.** Qui stanno le decisioni di Nicola, chi fa cosa e gli id delle sessioni vive. Oggi l'AD è la quarta chat,
+> **In due righe.** Qui stanno le decisioni di Nicola, chi fa cosa e gli id delle sessioni vive. Oggi l'AD è la quinta chat,
 > e la sessione della CI ha portato i controlli della macchina sotto i 3 minuti.
 
 ## In parole semplici
@@ -72,7 +72,8 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 ## Le sessioni vive
 | Ruolo | Id |
 |---|---|
-| AD, quarta chat (dal 13/11 alle 03:36) | `session_015BmpnVpk1kywXGH5kMWQTH` |
+| AD, quinta chat (dal 13/11 alle 04:39) | `session_015BmpnYWmNDPKAztZMPww6M` |
+| AD quarta chat, da non usare (508 mila token) | `session_015BmpnVpk1kywXGH5kMWQTH` |
 | AD terza chat, da non usare (471 mila token) | `session_015BmpnZ5ufx6s554FgYbUju` |
 | CI della macchina in 3 minuti | `session_015BmpnWjSJvwxssvANzndUF` |
 | Radiografia del codice · seguito (dal 13/11 alle 03:28) | `session_015BmpnZCaWUijDqfTAvJ4Dx` |

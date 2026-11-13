@@ -1,7 +1,8 @@
 ---
 tipo: passaggio
 data: 2026-11-13 04:40
-da: session_015BmpnVpk1kywXGH5kMWQTH (la quarta chat dell'AD, arrivata a 508 mila token: regola 7)
+da: session_015BmpnVpk1kywXGH5kMWQTH (la quarta chat dell'AD, arrivata a 508 mila token su un milione: regola 7)
+a: session_015BmpnYWmNDPKAztZMPww6M (la quinta chat)
 ---
 
 # Il passaggio dell'AD
@@ -13,7 +14,7 @@ token su un milione, e ogni sua risposta li rileggeva tutti.
 - ✅ Fatto: stanotte sono unite tre richieste, e il sito ha l'onda 1.
   - La #949 (memoria) e la #948 (CI della macchina in 3 minuti, su Ubuntu 24.04) sono sul ramo principale.
   - Alle 04:33 Nicola ha unito la mycity#288, l'onda 1 del sito, con «Create a merge commit»: `a19ff89`.
-  - Prima dell'unione l'AD ha tolto la migrazione 350 del bonifico, che in un caso paga due volte (scelta «a» di Nicola).
+  - Prima dell'unione l'AD ha tolto la migrazione 350 del bonifico. In un caso pagava due volte lo stesso ordine. È la scelta «a» di Nicola.
   - L'AD ha anche fissato Ubuntu 24.04 sulle prove nel browser del sito: su 26.04 Chromium non si installa.
   - Il testo per aprire l'onda 2 è pronto in `consegne/riparazioni/2026-11-12-sito-tutto/AVVIO-ONDA-2.md`.
 - ⏳ In corso: due cose aspettano.
