@@ -113,7 +113,11 @@
    "due_punto_zero": {
     "id": "session_015BmpnWjBBk7GEooFEhi67r",
     "partenza": "8582fee703f64a9eb6a445271edd47bf1cc9c18e",
-    "aperta": "2026-11-13 13:42"
+    "aperta": "2026-11-13 13:42",
+    "finita": true,
+    "punta": "2048b33",
+    "testa": "004218b",
+    "nota_17_07": "spesa di R14 circa 75,6 $ su 80 (2.0: 19,6 $): per il giro di correzione restano circa 4,4 $ e 2 subagenti su 9"
    },
    "finita": true
   },
@@ -122,14 +126,16 @@
    "ramo": "claude/magical-hamilton-xouwr8-m15",
    "onda": 2,
    "partenza": "2026-11-13 05:57",
-   "finita": true
+   "finita": true,
+   "conferma_4_0": "17:07: punta f6150e4b, testa 1b84dfed; verify, valida-referto e guardia verdi"
   },
   "R16": {
    "id": "session_015BmpnWfL1AGuka9KMWGpdY",
    "ramo": "claude/magical-hamilton-xouwr8-m16",
    "onda": 2,
    "partenza": "2026-11-13 05:58",
-   "finita": true
+   "finita": true,
+   "conferma_4_0": "17:07: punta 8a00cbaf, testa 0628993d; 15 riparati, 3 parziali, 2 serve_file_altrui, 1 già riparato; 65,80 $ su 66"
   },
   "R17": {
    "id": "session_015BmpnYSPCKUrojLLnhjvh5",
@@ -392,7 +398,8 @@
   "dal": "2026-11-13 15:50",
   "catena": "trig_017e9EB3p8LUoDwEKjMW99bG",
   "copia_sito": "/home/user/mycity, clone --filter=blob:none (storia intera)",
-  "passata_alla_4_0": "2026-11-13 17:05, a 335 mila token, 5,8 $"
+  "passata_alla_4_0": "2026-11-13 17:05, a 335 mila token, 5,8 $",
+  "archiviata": "2026-11-13 17:19, dalla 4.0, dopo aver passato le falle riservate in chat (8,54 $)"
  },
  "regista_onda2_sesta_4": {
   "id": "session_015BmpnZaZMi8cGzkuE9PJE7",

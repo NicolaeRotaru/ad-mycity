@@ -253,3 +253,4 @@
 2026-11-13 17:27 · K07 · finita · collaudo ✅ (valida-collaudo verde su 773fddd9) · R18 8/14, R13 1/8 · 32,62 $ su 30 · archiviata, detto all'AD alle 17:25
 2026-11-13 17:27 · R13 · finita · guardia 🔴 (solo 10708bcf) · prova di unione su 583624d1: il revert di R13-001 (5fb08582) litiga su lib/geocodifica.ts e app/api/geocode/route.ts anche senza R13-010 · non unita, proposta all'AD: onda 3
 2026-11-13 17:27 · onda 2 · costo misurato su 33 sessioni: 1.160,62 $ (riparatori 764,58 · collaudo e controllo 180,99 · regia, cartelle e controllore PR 215,06) · quota allowed_warning settimanale in tutte, niente uso extra · detto all'AD alle 17:25
+2026-11-13 17:20 · regia · la 3.0 ha passato le falle riservate in chat alle 17:04 (solo in chat) · 3.0 archiviata · AD alle 17:15: niente che spende finché Nicola non dice «via» · R14 · 2.0 finita (2048b33), 75,6 $ su 80

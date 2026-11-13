@@ -102,7 +102,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 | Ruolo | Id |
 |---|---|
 | La regista dell'onda 2 adesso (4.0 della sesta, dal 13/11 alle 17:05, nella cartella «Regia · onda 2») | `session_015BmpnZaZMi8cGzkuE9PJE7` |
-| Regista · onda 2 · sesta · 3.0, da non usare dopo il passaggio (335 mila token) | `session_015BmpnZ4kEDhRhLcWZzwwwP` |
+| Regista · onda 2 · sesta · 3.0, archiviata alle 17:19 dalla 4.0 (388 mila token, 8,54 $) | `session_015BmpnZ4kEDhRhLcWZzwwwP` |
 | Regista · onda 2 · sesta · 2.0, da non usare dopo il passaggio (440 mila token) | `session_015BmpnWf1uAKL6VFXJQyNyv` |
 | Regista · onda 2 · sesta, da non usare dopo il passaggio (390 mila token) | `session_015BmpnYKDqA51jEGkbAWYGo` |
 | Regista · onda 2 · quinta, da non usare dopo il passaggio (433 mila token) | `session_015BmpnVzbMLH1s3LPB8nHkW` |
