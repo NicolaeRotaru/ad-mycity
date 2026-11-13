@@ -6,6 +6,9 @@ da: session_015BmpnXznpQwCRc8GAKjgyw (la seconda chat dell'AD, arrivata a 390 mi
 
 # Il passaggio dell'AD
 
+Questo foglio serve alla terza chat dell'AD per ripartire senza rileggere la seconda. Esempio: la seconda arrivava a
+390 mila token su un milione, e ogni sua risposta rileggeva tutto; la terza riparte da poche migliaia.
+
 ## Il punto adesso
 - ✅ Fatto: la richiesta della macchina ad-mycity#944 è verde e senza conflitti. Dentro ci sono la prova che non mordeva
   (riparata), la regola delle cartelle per le sessioni figlie e la card 235 corretta.
