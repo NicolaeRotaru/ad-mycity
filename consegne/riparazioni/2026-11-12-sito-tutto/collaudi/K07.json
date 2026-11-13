@@ -9,6 +9,36 @@
   "finita": false,
   "voci": [
     {
+      "id": "R18-002",
+      "chiave": "accessibilita|le foto delle recensioni e l'importazione dei prodotti da file non si aprono da tastiera",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-2 --base e69b5fbf22e1e70ef718d6a7c92865d7816cc005^ --file 'app/seller/products/import/page.tsx,app/orders/[id]/return/page.tsx' --prove tests/unit/riparazione-r18-campi-file-da-tastiera.test.tsx --json (0)"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "qa (due lenti) alla testa 5188ab6c: import CSV, reso e foto recensione a posto (sr-only, aria-label, focus-within). Resta lo stesso difetto di fuoco non visibile in components/rider/CashConfirmDialog.tsx:318-343 (PhotoSlot) e app/rider/onboarding/page.tsx:330-345 (documenti del fattorino). La parte reso della prova è una ricerca nel sorgente."
+    },
+    {
+      "id": "R18-004",
+      "chiave": "frontend-ux|nello storico delle promo una promo annullata si legge «terminata» con una data che deve ancora venire",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-1 --base dc067a0800d6c2599503a9070c7b533250fda17e^ --file app/seller/promotions/page.tsx --prove tests/unit/riparazione-r18-promo-annullata.test.tsx --json (0)"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "qa (due lenti): «Terminata <data>» solo per lo stato Scaduta (page.tsx:260), annullata mostra «Annullata»; nessun'altra pagina scrive quella data; provata annullata con fine futura, annullata passata e scaduta: nessun caso sbagliato."
+    },
+    {
       "id": "R18-006",
       "chiave": "mobile-pwa|nella rubrica indirizzi i bottoni «modifica» ed «elimina» sono troppo piccoli e troppo vicini per il pollice",
       "rimessa": {
@@ -27,6 +57,66 @@
       },
       "verdetto": "regge",
       "giudizio": "nessuno"
+    },
+    {
+      "id": "R18-010",
+      "chiave": "qa-flussi|«migliora tutto il catalogo» fa vedere 50 prodotti e con «applica» ne riscrive fino a 200 (oggi spento)",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-1 --base 2b4b10a607b182e501e6aab820e5c5d2f8c487ab^ --file app/seller/products/ai-batch/page.tsx --prove tests/unit/riparazione-r18-lotto-applica-quello-che-si-vede.test.tsx --json (0)"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "qa (due lenti): «Applica a tutti» e «Metti in bozza i segnalati» mandano gli id dei risultati mostrati (ai-batch/page.tsx:439-442, 541); la rotta filtra per productIds (apply/route.ts:79-98); 200 id ≈ 8 KB sotto il tetto di 1 MB; nessun'altra porta applica il lotto."
+    },
+    {
+      "id": "R18-011",
+      "chiave": "qa-flussi|la promo «oggi, fino a mezzanotte» finisce a mezzanotte del fuso del telefono, non di piacenza",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-2 --base 3ec4673a5c9a591b2ecd34c4c28a1f411f19ef25^ --file app/seller/promotions/page.tsx --prove tests/unit/riparazione-r18-promo-mezzanotte-di-piacenza.test.tsx --json (0)"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "qa (due lenti): sulla pagina promozioni la mezzanotte è quella di Piacenza (page.tsx:43-51) e le date hanno timeZone Europe/Rome, giusto anche nei giorni del cambio d'ora. Resta la stessa promo nella vetrina del negozio: components/store-sections/PromotionsSection.tsx:27 «fino al» con toLocaleDateString senza fuso, da un telefono a est di Roma la promo «Oggi» del 6/11 si legge «fino al 7/11»."
+    },
+    {
+      "id": "R18-012",
+      "chiave": "qa-flussi|un doppio clic su «crea promo» crea due promozioni uguali, e se se ne cancella una l'altra resta attiva",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "PGHOST=localhost timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-1 --base 1916a2e9b2d6cb2181032d8b3b1fd94bd95ac4aa^ --file migrations/429_due_promo_uguali_non_restano_attive_insieme.sql --prove tests/sql/rls/riparazione-r18-promo-doppia.test.sql --sql k07_r18_012_1_rimessa --json (0) ; timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-1 --base 1916a2e9b2d6cb2181032d8b3b1fd94bd95ac4aa^ --file app/seller/promotions/page.tsx --prove tests/unit/riparazione-r18-promo-doppio-clic.test.tsx --json (0)"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "qa (due lenti): freno useRef in pagina (page.tsx:131,152-158); la 429 si applica e due sessioni psql parallele da negoziante lasciano una riga sola; bozza riaccesa fermata, annullo mai fermato; suite SQL 65 file verde. Fuori voce: un UPDATE diretto di ends_at o titolo su una promo scaduta non è controllato (il trigger guarda solo UPDATE OF status)."
+    },
+    {
+      "id": "R18-014",
+      "chiave": "qa-flussi|la risalita dei genitori delle categorie non ha un tetto",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-1 --base 5188ab6cb7c235d0eaeed55e6f5680c8680f758b^ --file lib/category-attributes.ts --prove tests/unit/riparazione-r18-categorie-con-un-cerchio.test.ts --json (0)"
+      },
+      "verdetto": "non_regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "qa (due lenti): il tetto c'è solo in lib/category-attributes.ts, ma components/seller/ProductForm.tsx:268-276 (resolveTop) risale i genitori con un while senza tetto PRIMA di arrivare alla funzione corretta: col ProductForm vero montato su categorie a→b→a, 200.000 chiamate e pagina bloccata. Anche migrations/363 righe 73-78 e 119-124 risale senza controllo di ciclo (timeout al salvataggio). La prova chiama solo la libreria e non monta il modulo."
     },
     {
       "id": "R18-015",
@@ -49,6 +139,76 @@
       "giudizio": "nessuno"
     },
     {
+      "id": "R18-018",
+      "chiave": "rls-database|chi non ha fatto l'accesso non vede la pagina eventi: legge «non riesco a leggere gli eventi» perché la regola dell'amministratore blocca anche la sola lettura",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "PGHOST=localhost timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-2 --base 554a60dd854a640a00aaf9dcb9d88902943544dc^ --file migrations/422_la_regola_dell_amministratore_non_ferma_la_lettura_degli_eventi.sql --prove tests/sql/rls/riparazione-r18-eventi-da-visitatore.test.sql --sql k07_r18_018_1_rimessa --json (0) ; timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-2 --base 554a60dd854a640a00aaf9dcb9d88902943544dc^ --file app/events/page.tsx --prove tests/unit/riparazione-r18-eventi-con-la-data.test.tsx --json (0)"
+      },
+      "verdetto": "regge",
+      "giudizio": "nessuno"
+    },
+    {
+      "id": "R18-019",
+      "chiave": "rls-database|il database accetta un codice sconto del 150% e importi in soldi negativi",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "PGHOST=localhost timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-1 --base 6eefff317cfb384ee60d75ca65d3d940ba88aa55^ --file migrations/423_il_codice_sconto_non_supera_il_cento_e_i_soldi_non_sono_negativi.sql --prove tests/sql/rls/riparazione-r18-coupon.test.sql --sql k07_r18_019_1_rimessa --json (0) ; timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-1 --base 6eefff317cfb384ee60d75ca65d3d940ba88aa55^ --file app/admin/coupons/page.tsx --prove tests/unit/riparazione-r18-coupon.test.ts --json (0)"
+      },
+      "verdetto": "regge",
+      "giudizio": "nessuno"
+    },
+    {
+      "id": "R18-020",
+      "chiave": "rls-database|un reclamo può restare legato a un ordine che non esiste",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "PGHOST=localhost timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-2 --base 8cdcffe4f82049e1b0a281fdb397431891a4d02e^ --file migrations/424_un_reclamo_non_resta_legato_a_un_ordine_che_non_esiste.sql --prove tests/sql/rls/riparazione-r18-reclamo-senza-ordine.test.sql --sql k07_r18_020_1_rimessa --json (0)"
+      },
+      "verdetto": "regge",
+      "giudizio": "nessuno"
+    },
+    {
+      "id": "R18-021",
+      "chiave": "rls-database|su un progetto supabase nuovo le migrazioni girano, ma i visitatori non leggono quasi nessuna tabella: i permessi non sono scritti",
+      "rimessa": {
+        "uscita": 1,
+        "comando": "PGHOST=localhost timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-1 --base 516cc5f533c94524b0a14832747b1fdff21d6795^ --file migrations/425_i_permessi_del_sito_sono_scritti_nelle_migrazioni.sql --prove tests/sql/rls/riparazione-r18-permessi-scritti.test.sql --sql k07_r18_021_1_rimessa --json (1)"
+      },
+      "verdetto": "non_regge",
+      "giudizio": "nessuno"
+    },
+    {
+      "id": "R13-002",
+      "chiave": "api-backend|la funzione che muore fra l'ordine e gli articoli lascia la merce riservata senza nessuno che la liberi",
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-2 --base 2dfe2d7e193ef2b20e17e1543df6c8f372b49046^ --file app/api/orders/cod/route.ts --prove tests/unit/riparazione-r13-riserva-della-cassa.test.ts --json (0) ; PGHOST=localhost timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-2 --base 2dfe2d7e193ef2b20e17e1543df6c8f372b49046^ --file migrations/371_la_merce_della_cassa_ha_una_riserva_scritta.sql --prove tests/sql/rls/riparazione-r13-riserva-della-cassa.test.sql --sql k07_r13_002_2_rimessa --json (3) ; rimessa a mano della parte SQL (uscita 3, rosso strutturale): nella copia ../wt-K07-2 al commit 2dfe2d7e tolto il ciclo di libera_riserve_della_cassa in migrations/371 (nessuno libera la merce riservata), apply.sh k07_r13_002_mano_rimessa + psql -f tests/sql/rls/riparazione-r13-riserva-della-cassa.test.sql → rossa, P0001 «6 controlli su 18 sono rossi»; migrazione rimessa con git checkout, ricostruito il database → verde"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Due qa, uno per lente, alla testa a28ea36d. La strada riparata regge: la funzione dei contanti che muore fra ordine e articoli, poi pulizia e giro degli ordini fermi in tutti e due gli ordini, merce e credito tornano una volta sola; permessi (anon/authenticated non eseguono le 5 funzioni) e corse fra pulizia e annullo provati sul database locale. Resta PIÙ del dichiarato in cosa_resta (che nomina solo il giro a orario, app/api/cron/expire-stale-orders/route.ts:89): ① lib/stripe/webhook/ordini.ts:368-390, il webhook della carta ha lo stesso difetto: se muore fra ordine (361) e articoli (409), al nuovo tentativo 23505 fa 'continue', il carrello passa a COMPLETED e resta un ordine pagato senza articoli con la merce scalata, che nessuno libera (provato con un test temporaneo); ② migrations/371 righe 259-261 e 319: due righe aperte sullo stesso ordine restano «incerte» per sempre e restore_stock_for_order le salta, anche a ordine annullato, senza avviso (provato: 2 pezzi e 300 centesimi bloccati); ③ app/api/orders/cod/route.ts 1299→1306, 1527→1533, 1599→1605: negli storni la riga si chiude «rimessa» prima di wallet_credit, se la funzione muore in mezzo il credito si perde (provato: 250 centesimi). Minori: route.ts:378 commento falso sul caso ②; 371:230 LIMIT 200 sulle righe incerte."
+    },
+    {
+      "id": "R13-007",
+      "chiave": "qa-flussi|un ordine in contanti già incassato non si rimborsa dall’amministrazione: il sito non apre da solo il reclamo come deciso il 29/10, e il pannello dice di aprirlo a chi non può",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-3 --base 7c203599cbe41acf4d4cd729689305e63b8261af^ --file 'lib/ordini/annulla.ts,app/api/admin/orders/[id]/cancel/route.ts,app/api/orders/[id]/cancel/route.ts,app/orders/[id]/dispute/page.tsx' --prove tests/unit/riparazione-r13-reclamo-dei-contanti.test.ts --json (0)"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Due qa, uno per lente, alla testa a28ea36d. La parte fatta regge: l'annullo admin di un ordine in contanti incassato apre il reclamo col client di servizio, il doppione dà 23505 su disputes_one_open_per_order e riusa quello aperto, il giro dei bonifici ferma il pagamento al negozio, la chiusura arriva a refundOrder; due pressioni insieme danno un solo reclamo; un negozio sulla rotta del cliente riceve 404; prove vicine e tsc verdi. Resta quanto dichiarato (campanella al negozio, ricevuta al cliente, prova della 409) più minori non dichiarati: app/admin/orders/page.tsx:277-279 la lista ordini nasconde ancora «Annulla» proprio sul contante consegnato, con un commento ormai falso; app/api/admin/orders/[id]/cancel/route.ts:64-85 il ramo che apre il reclamo esce prima di writeAudit (nessuna traccia dell'admin, opener_id = cliente); app/admin/orders/[id]/page.tsx:101-107 il link al reclamo non arriva mai a video; lib/ordini/annulla.ts:492-502 riprende anche un reclamo aperto dal negozio; 507-509 opener_id NULL se il cliente è cancellato; 518-523 messaggio sbagliato se la rilettura dopo 23505 cade."
+    },
+    {
       "id": "R17-008",
       "chiave": "pagamenti-stripe|le campagne sponsorizzate scadute restano «attiva» per sempre, e il filtro «finite» dell'amministrazione è sempre vuoto",
       "rimessa": {
@@ -69,5 +229,9 @@
       "giudizio": "nessuno"
     }
   ],
-  "campione": {}
+  "campione": {
+    "R18": {
+      "accettato": false
+    }
+  }
 }
