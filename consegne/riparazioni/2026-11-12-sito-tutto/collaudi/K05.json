@@ -5,180 +5,317 @@
     "R21",
     "R22"
   ],
-  "aggiornato": "2026-11-13 14:20",
+  "aggiornato": "2026-11-13 14:56",
   "finita": false,
   "voci": [
     {
       "id": "R20-001",
       "chiave": "accessibilita|nella consegna in corso i tasti chiama, naviga e sms sono sotto i 44 pixel, e senza rete un codice giusto risulta «verifica fallita»",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 425b234b3096a889a38aa33062a340ffede6231a^ --file app/rider/orders/[id]/page.tsx,components/VerifyCodeDialog.tsx --prove tests/unit/riparazione-r20-consegna-tasti-e-rete.test.ts  --json (al commit 425b234b3096a889a38aa33062a340ffede6231a)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Ho provato a rompere i due pezzi del titolo. Tasti: Button usa cn() che unisce le classi senza fonderle (lib/cn.ts:7), quindi min-h-[32px] più h-11 fa 44 px; il test monta la pagina vera col Button vero. Rete: postgrest-js 2.106.1 senza rete risponde «TypeError: Failed to fetch» (dist/index.cjs:324) e la regex lo riconosce. Ho fatto tre mutazioni alla testa: regex spenta, aria-invalid sempre acceso, solo SMS senza h-11. Tutte e tre fanno diventare rosso il test. I chiamanti sono solo verifyPickup e verifyDelivery, e le 19 prove vicine sono verdi. Resta un rischio minore: il testo dice «non è stato controllato» anche quando la richiesta è arrivata e si è persa solo la risposta. Il secondo tentativo però mostra WRONG_STATUS «potrebbe essere già stato confermato».",
+      "difetti": [
+        {
+          "file": "components/VerifyCodeDialog.tsx",
+          "riga": "32",
+          "cosa": "Rischio minore, fuori dal titolo: NIENTE_RETE afferma «il codice non è stato controllato». Se la richiesta arriva al server e si perde solo la risposta, la frase è falsa. Non fa danni: il secondo tentativo risponde WRONG_STATUS."
+        }
+      ],
+      "giudice": "J1"
     },
     {
       "id": "R20-002",
       "chiave": "accessibilita|nella bacheca del fattorino l'interruttore online è alto 32 pixel e le consegne in preparazione hanno il compenso poco leggibile",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 3f78b2b2edd6494ddaf2d1f72dba14c28b445670^ --file app/rider/page.tsx --prove tests/unit/riparazione-r20-interruttore-online.test.ts  --json (al commit 3f78b2b2edd6494ddaf2d1f72dba14c28b445670)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "L'interruttore passa da h-8 w-[58px] a h-11 w-[76px], con il pallino da 38 px che lascia 3 px di margine per lato. Il test calcola davvero il contrasto dalla tavolozza: compenso olive-700 e targhetta sopra surface-0, moltiplicati per l'opacità della scheda. La parte senza rete gira col react-query vero e col vero friendlyError, che riconosce l'errore dal messaggio. Ho fatto tre mutazioni alla testa: networkMode tolto, opacity-75 rimessa sulla scheda, interruttore riportato a 32 px. Tutte e tre fanno diventare rosso il test. Le prove vicine sono verdi e tsc esce 0. Fuori voce, già dichiarato dal riparatore: la lettura pref (app/rider/page.tsx:200) senza rete ripiega su online:false.",
+      "giudice": "J1"
     },
     {
       "id": "R20-003",
       "chiave": "accessibilita|nella pagina chi siamo e nella vetrina del negozio il banner ignora il testo alternativo e lascia la scritta bianca sulla foto senza velo",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base ad621b518462f2dd5b2c34fd12470c14c436013a^ --file lib/store-site.ts,components/store-sections/BannerSection.tsx --prove tests/unit/riparazione-r20-banner-vetrina.test.tsx  --json (al commit ad621b518462f2dd5b2c34fd12470c14c436013a)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "La parte CMS (Chi siamo) era già a posto alla base, verificato: CmsBlockRenderer.tsx:37 e :48, il campo alt sta nel form admin HomeSectionConfigForm, nessuna modifica dalla base. Vetrina: BannerSection.tsx:39 aggiunge la sfumatura con velo nessuno, :51 usa alt={config.alt}, store-site.ts:159 aggiunge alt allo schema. Tre mutazioni (alt rimesso uguale al titolo, sfumatura tolta, alt tolto dallo schema): la prova diventa rossa tutte e tre le volte. tsc pulito, 36 file di prove collegate verdi. Quello che resta è scritto giusto: BannerFields.tsx non ha un campo alt (riga 55, solo upload), quindi in pratica ogni banner della vetrina esce con alt vuoto.",
+      "difetti": [
+        {
+          "file": "components/seller/site/BannerFields.tsx",
+          "riga": "55",
+          "cosa": "Manca il campo per scrivere il testo alternativo: il negozio non può impostarlo, quindi le foto del banner in vetrina escono sempre con alt vuoto (è la parte che resta, dichiarata)."
+        }
+      ],
+      "giudice": "J2"
     },
     {
       "id": "R20-004",
       "chiave": "dati-analytics|la bacheca del fattorino mostra «oggi 0,00 € e 0 consegne» quando la lettura cade e mentre carica",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base c3fcbbf61090c1a6169d0221d2de0eb509872fcf^ --file app/rider/page.tsx --prove tests/unit/riparazione-r20-incasso-di-oggi.test.ts  --json (al commit 05d1969e76233d7f39cf12374724ef3dd8d80ec6)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Il test guarda la pagina disegnata, col react-query vero, in cinque situazioni: lettura caduta (57014), lettura in volo, aperta senza rete poi Riprova, aperta senza rete poi la rete torna, lettura riuscita. Ho fatto due mutazioni alla testa: getUser senza utente che torna {0,0}, e riquadro riportato a today?.earned ?? 0. Tutte e due fanno diventare rosso il test. Il «—» compare per data undefined, quindi copre anche la lettura in pausa senza rete. Resta un caso fuori dal titolo: se cade solo la lettura di oggi e la bacheca regge, il «—» resta senza spiegazione e senza un Riprova. QueryProvider.tsx spegne refetchOnWindowFocus, quindi si rilegge solo al ritorno della rete o riaprendo la pagina.",
+      "difetti": [
+        {
+          "file": "app/rider/page.tsx",
+          "riga": "258-283",
+          "cosa": "Fuori dal titolo, minore: se cade solo letturaOggi e la bacheca regge, «Oggi» e «Consegne» restano «—» senza avviso e senza Riprova. Il Riprova esiste solo nell'ErrorState, alla riga 417."
+        }
+      ],
+      "giudice": "J1"
     },
     {
       "id": "R20-005",
       "chiave": "frontend-ux|un link del menu lasciato vuoto blocca «salva sito» anche quando il menu è spento e il campo non si vede",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base c2a7a39e9ca568a8d4ca6a0b15b72cc7ec508f91^ --file lib/store-site.ts --prove tests/unit/riparazione-r20-menu-spento.test.ts  --json (al commit 167784086f42323cb51b3ee3db097620b80ba45d)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "store-site.ts:277-282: z.preprocess scarta i link incompleti solo se enabled===false. Il controllo passa sia dal client (SiteEditor.tsx:98) sia dalla PUT (route.ts:47), stesso schema. Mutazione (preprocess che non fa niente): la prova diventa rossa. Casi limite provati con una prova temporanea, poi cancellata. Menu assente: vale il default. Menu null: rifiutato come alla base. Menu spento con URL esterno vuoto o pagina non scelta: link scartati. Menu acceso con URL vuoto: ancora rifiutato. enabled scritto come testo «false»: non scarta. normalizeSite tiene le pagine. La prova minori-s06 è identica alla base. tsc pulito, prove collegate verdi.",
+      "giudice": "J2"
     },
     {
       "id": "R20-006",
       "chiave": "frontend-ux|eliminando una pagina della vetrina, la voce del menu che la apriva sparisce senza avviso",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 594d497c88bdb714576f0152d7e69e527b6c2748^ --file components/seller/site/PageListEditor.tsx --prove tests/unit/riparazione-r20-elimina-pagina-menu.test.tsx  --json (al commit 594d497c88bdb714576f0152d7e69e527b6c2748)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "PageListEditor.tsx:44-57: la conferma nomina le voci del menu che puntano alla pagina; confermando, pagina e voci vengono tolte insieme. La prova monta il componente vero con jsdom. Mutazione (PageListEditor rimesso com'era alla base): rossa. Caso limite provato montando il componente: due voci verso la stessa pagina, una senza nome, menu spento, più una terza pagina. Il messaggio dice «le voci» e «senza nome». Resta solo la voce della pagina rimasta, enabled resta false, la pagina giusta sopravvive e il sito risultante passa lo schema (si salva). L'unico percorso per eliminare una pagina è questo (grep). Nota a margine, fuori dal titolo: anche nascondere una pagina toglie la voce in silenzio, perché resolveMenu salta le pagine nascoste.",
+      "giudice": "J2"
     },
     {
       "id": "R20-007",
       "chiave": "frontend-ux|sulla bacheca del fattorino un guasto passeggero della vista dei negozi toglie il nome del negozio fino al giro dopo, senza riprovare subito",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 5729b46f1a087679817ab0b9cdec622de2884517^ --file lib/queries/negozio-dell-ordine.ts,app/rider/page.tsx --prove tests/unit/riparazione-r20-negozio-riprova.test.ts  --json (al commit 1051c49a0fa569f26b29a3136f632f293f86b479)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Ho fatto due mutazioni alla testa: intervallo fisso a 60 s, e richiamo seLaVistaCade mai chiamato. Tutte e due fanno diventare rosso il test (orologio finto, pagina vera). conNegozioSePossibile ha un solo chiamante (app/rider/page.tsx:172) e restituisce lo stesso tipo di prima. Le prove che usano negozio-dell-ordine (reclamo, recensione, r07) sono verdi. Ho provato a romperlo con la vista giù per sempre, con una prova temporanea poi cancellata. In 60 s la bacheca fa 12 letture degli ordini e 12 della vista, contro 1 di prima, senza nessun rallentamento progressivo. Con pochi fattorini il carico è minimo; con un guasto lungo moltiplica il carico per 12.",
+      "difetti": [
+        {
+          "file": "app/rider/page.tsx",
+          "riga": "191",
+          "cosa": "Rischio minore: con la vista dei negozi giù a lungo, la bacheca si rilegge ogni 5 s senza mai rallentare. Le tre letture girano 12 volte al minuto per ogni fattorino invece di una, misurato con una prova temporanea."
+        }
+      ],
+      "giudice": "J1"
     },
     {
       "id": "R20-008",
       "chiave": "qa-flussi|il drop del giorno legge senza guardare l errore e usa il giorno di greenwich",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base e90b1221b1035535a3b11a27b00a25fe0989fff1^ --file app/admin/daily-drops/page.tsx --prove tests/unit/riparazione-r20-drop-del-giorno.test.ts  --json (al commit e90b1221b1035535a3b11a27b00a25fe0989fff1)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Voce chiusa tutta alla testa. giornoPiacenza usa Europe/Rome (tempo-piacenza.ts:20-45), non Greenwich: parte gia' curata da R07-017, che e' antenato della base (merge-base --is-ancestor = vero), quindi davvero a posto alla testa. Entrambe le letture ora guardano isError: drops (page.tsx:71,183) e prodotti (page.tsx:57,143). Ho montato con orologio alle 23:30 UTC del 12/11: giorno 13; drops caduti NON dicono 'Nessun drop'; prodotti caduti mostrano ErrorState con Riprova FUORI dal fieldset (type='button', non invia il form). Prova rossa alla base, verde alla testa.",
+      "giudice": "J3"
     },
     {
       "id": "R20-009",
       "chiave": "qa-flussi|la variante a del titolo della home dice «consegna in giornata.» senza gli orari del negozio",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 1e4923a3b7ae7c88e2215a05c4d6ac689a251228^ --file app/page.tsx --prove tests/unit/riparazione-r20-home-variante-a.test.ts  --json (al commit 1e4923a3b7ae7c88e2215a05c4d6ac689a251228)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "La prova del referto e' debole (legge app/page.tsx e cerca stringhe). Non mi sono fidato: ho disegnato la home vera (renderToStaticMarkup) alla base e alla testa. Base: 'Consegna in giornata.'. Testa: 'Consegna in giornata, nella fascia oraria che scegli, a negozio aperto.' (page.tsx:40, costante QUANDO_ARRIVA_SENZA_NEGOZIO). Varianti B e C non toccate. La frase viene dalla casa unica lib/promesse-pubbliche.ts e la suite che vieta le copie (97 prove) resta verde. Difetto di copy chiuso tutto.",
+      "giudice": "J3"
     },
     {
       "id": "R20-011",
       "chiave": "qa-flussi|sulla bacheca del fattorino un «accetta» perso lascia l'ordine in elenco fino a un minuto, e fa girare tutti i pulsanti insieme",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 2eb0cddf7559d246bf1445d5aec3b629371a6256^ --file app/rider/page.tsx --prove tests/unit/riparazione-r20-presa-ordine.test.ts  --json (al commit 2eb0cddf7559d246bf1445d5aec3b629371a6256)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Il difetto scritto è chiuso: le mutazioni M5 (tutti i pulsanti girano) e M6 (niente rimozione su GIA_PRESO) fanno diventare rosso il test. Però loading={claim.isPending && claim.variables===o.id} segue solo l'ultimo mutate. Passi: 1) bacheca con due ordini A e B; 2) tocco Accetta su A; 3) mentre A è in volo tocco B; 4) A torna senza aria-busy e attivo, con la sua richiesta ancora in volo; 5) tocco di nuovo A e parte un secondo prendi_ordine(A). Misurato: alla testa 3 chiamate (A,B,A), alla base 1, perché lì tutti i pulsanti erano spenti. Rifatto due volte. Il secondo A trova rider_id pieno, perché è suo, e risponde GIA_PRESO (migrazione 270, righe 85-90). Il fattorino legge allora «l'ha preso un altro fattorino». Non c'è doppia assegnazione: gravità minore.",
+      "difetti": [
+        {
+          "file": "app/rider/page.tsx",
+          "riga": "645",
+          "cosa": "Il blocco contro il doppio tocco si perde. Dopo un Accetta su un secondo ordine, il pulsante del primo torna attivo e senza rotella mentre la sua presa è ancora in volo. Un nuovo tocco manda un secondo prendi_ordine sullo stesso ordine: 3 chiamate contro 1 della base."
+        },
+        {
+          "file": "app/rider/page.tsx",
+          "riga": "369-377",
+          "cosa": "Conseguenza del difetto sopra: il doppione riceve GIA_PRESO (migrations/270, righe 85-90: rider_id IS NULL). Il fattorino vede il toast «l'ha preso un altro fattorino» per un ordine che ha preso lui, e l'ordine sparisce dalla bacheca."
+        }
+      ],
+      "giudice": "J1"
     },
     {
       "id": "R20-012",
       "chiave": "qa-flussi|il carrello si riempie di nuovo con la spesa già pagata o già tolta, se si usano due dispositivi o non si torna da stripe",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 33e65fc83f1b8d6fe7fa3b1fc137cb5bd51374bf^ --file components/CartCrossDeviceSync.tsx --prove tests/unit/riparazione-r20-carrello-riga-tolta.test.ts  --json (al commit 33e65fc83f1b8d6fe7fa3b1fc137cb5bd51374bf)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Esito 'parziale' giusto. Il pezzo fatto regge: ho sondato CartCrossDeviceSync, la torta tolta sul telefono resta tolta alla testa (['pane']) mentre alla base torna; la quantita' abbassata non risale. cosa_resta e' vero: alla testa user_carts NON viene svuotato ne' in lib/stripe/webhook/ordini.ts ne' in app/api/orders/cod/route.ts (grep, 0 righe), quindi il caso carta-senza-ritorno/COD resta aperto. Difetto trovato: con orologi sfasati fra dispositivi un articolo appena aggiunto puo' sparire (sonda caso B: testa ['pane','torta'] perde il latte, base lo tiene). Edge stretto, estende un assunto gia' presente da S07. || Verdetto alzato dal collaudatore K05: il revisore ha misurato una perdita che alla base non c'era (con gli orologi sfasati fra due dispositivi, alla testa un articolo appena aggiunto sparisce in silenzio, alla base la fusione lo tiene). Per le regole del collaudo un cambio che rompe qualcosa accanto è rompe_altro, anche se l'esito della voce è parziale.",
+      "difetti": [
+        {
+          "file": "components/CartCrossDeviceSync.tsx",
+          "riga": "84-90",
+          "cosa": "Se l'orologio del dispositivo e' indietro rispetto al synced_at preso dal server dell'altro dispositivo, localUpdated<=allineatoIl puo' risultare vero anche con un articolo aggiunto qui e non ancora salito: il ramo 'vale il cloud' lo scarta in silenzio. Sonda: alla testa si perde l'articolo locale, alla base la fusione lo conserva."
+        },
+        {
+          "file": "lib/stripe/webhook/ordini.ts",
+          "riga": "handleCheckoutCompleted",
+          "cosa": "Non svuota user_carts quando l'ordine nasce (grep: 0 occorrenze a user_carts): chi paga con carta e non torna da Stripe ritrova la copia sul server piena. Parte dichiarata in cosa_resta, non fatta."
+        },
+        {
+          "file": "app/api/orders/cod/route.ts",
+          "riga": "~1608",
+          "cosa": "Stessa cosa per i contanti: non svuota user_carts lato server. Dichiarato in cosa_resta."
+        }
+      ],
+      "giudice": "J3"
     },
     {
       "id": "R20-013",
       "chiave": "qa-flussi|«sponsored» in inglese nel carosello pagato",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 49336f1e5b74a50e3a5ae362bda8a6881b666d49^ --file components/SponsoredCarousel.tsx --prove tests/unit/riparazione-r20-sponsorizzato.test.tsx  --json (al commit 49336f1e5b74a50e3a5ae362bda8a6881b666d49)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "SponsoredCarousel.tsx:93-98: l'etichetta ora dice «Sponsorizzato», text-xs text-ink-600 (#44403C, presente in tailwind.config), accanto al titolo. La prova fa il render del componente vero e controlla l'HTML. Mutazione (file rimesso com'era alla base): rossa. Grep su app/components/lib: in vista al cliente non resta nessun «Sponsored». L'unico che resta è l'etichetta del menu admin (lib/account-menu.ts:81), fuori dal carosello. Il carosello si usa solo in app/search/page.tsx:577. Prove vicine verdi (nella-ricerca-si-sa-subito-dove-si-e, le-vetrine-montate...).",
+      "giudice": "J2"
     },
     {
       "id": "R20-014",
       "chiave": "qa-flussi|la vetrina mostra il pulsante del banner verso un prodotto non più in vendita",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Alla base a19ff892 BannerSection.tsx:12-31 nasconde già il pulsante verso un prodotto se la RPC prodotto_in_vetrina non risponde sì, anche nell'HTML del server. I commit 896011dc e 9d603e8f risultano antenati della base. Fatto checkout della base nella mia copia: la prova r07-banner-bozza è verde. Tolto !prodottoFuoriVetrina alla base: diventa rossa. Ho ricostruito k05_j2 (193 migrazioni) e lanciato la RPC come anon. Risponde t solo per available; f per draft, sold_out, negozio non approvato e prodotto inesistente. La 151 lascia la funzione aperta ad anon. Se la RPC fallisce, il pulsante resta: scelta voluta, non è il difetto.",
+      "giudice": "J2"
     },
     {
       "id": "R20-017",
       "chiave": "stati-ui|la pagina delle categorie, quando non ce n'è nessuna, resta bianca senza un messaggio",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 03e9a9be90d6eda7934b35a3d86700631804c814^ --file app/admin/categories/page.tsx --prove tests/unit/riparazione-r20-categorie-vuote.test.tsx  --json (al commit 03e9a9be90d6eda7934b35a3d86700631804c814)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Voce chiusa. Con zero categorie ora c'e' EmptyState 'Nessuna categoria ancora' (page.tsx:158-164), dopo i rami isLoading e isError, cosi' nessun lampo durante il caricamento e lo stato vuoto resta distinto dalla lettura caduta (che aveva gia' il suo ErrorState). Prova bite: riportato il file alla base, la prova diventa rossa ('expected ... to contain Nessuna categoria ancora'); verde alla testa. Pagina foglia, nessun altro file la importa.",
+      "giudice": "J3"
     },
     {
       "id": "R20-018",
       "chiave": "stati-ui|nel nuovo prodotto dell'amministrazione, se l'elenco dei negozi non arriva, la tendina resta vuota senza spiegazioni",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base ad72bd0f3ce80434d64ae30c6f46744739e9df0f^ --file app/admin/products/new/page.tsx --prove tests/unit/riparazione-r20-nuovo-prodotto-negozi.test.tsx  --json (al commit ad72bd0f3ce80434d64ae30c6f46744739e9df0f)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Voce chiusa su tutti i casi del titolo. Lettura negozi caduta: ErrorState con Riprova che rilegge, niente tendina attiva (page.tsx:127-136). Zero negozi: tendina disabilitata + testo 'Non c'e' ancora nessun negozio' (page.tsx:147-162). Gestito anche l'errore categorie. Prova bite: riportato alla base, entrambi i casi diventano rossi ('to match Non riesco a leggere l'elenco dei negozi' e 'to match nessun negozio'); verde alla testa. Pagina foglia.",
+      "giudice": "J3"
     },
     {
       "id": "R20-019",
       "chiave": "stati-ui|se la risposta a una recensione non parte, il negozio legge un errore tecnico in inglese, e il tasto «rispondi» è alto 20 pixel",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base d3fd6f5a2d3a026bb3c69d65acd5bcbcf1910043^ --file app/seller/reviews/page.tsx --prove tests/unit/riparazione-r20-risposta-recensione-errore.test.tsx  --json (al commit d3fd6f5a2d3a026bb3c69d65acd5bcbcf1910043)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Voce chiusa tutta. sendReply ora fa res.json().catch(()=>null) e il toast passa da friendlyError con ripiego 'La risposta non e' partita. Riprova tra poco.' (page.tsx:197-213). 'Rispondi', 'Annulla' e 'Pubblica risposta' hanno min-h-11 (44px) (page.tsx:251,273,282). Prova bite forte: col file alla base l'avviso mostra 'Unexpected token <' e 'Internal Server Error' e l'altezza e' false; verde alla testa. friendlyError lascia passare la frase italiana (non matcha PAROLE_DEL_MOTORE). Pagina foglia.",
+      "giudice": "J3"
     },
     {
       "id": "R21-004",
@@ -227,8 +364,12 @@
     {
       "id": "R21-008",
       "chiave": "privacy-legale|chi segnala un contenuto illecito lasciando l'email non riceve nessuna conferma che la segnalazione è arrivata",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 97b303cc33a5da53ef586e8fd2fdb76912f99c84 --file app/api/segnalazioni/route.ts,components/Segnala.tsx --prove tests/unit/riparazione-r21-segnalazione-conferma.test.tsx,tests/unit/riparazione-r21-segnalazione-conferma-regole.test.tsx --json (al commit 9b775728dfce9baee7b14da84316cf511c7446a8)",
@@ -238,7 +379,8 @@
           "perche": "il primo giro toglieva solo l'ultimo commit della voce; quello che conta è il giro largo, con tutti i commit della voce"
         }
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Lente sicurezza: la correzione apre un difetto nuovo. Caso riservato: i dettagli sono stati mandati alla regista in chat e non stanno nel deposito.",
+      "giudice": "J10 (lente sicurezza)"
     },
     {
       "id": "R21-009",
@@ -304,7 +446,11 @@
       "id": "R21-014",
       "chiave": "privacy-legale|il modulo di segnalazione non permette di dare il nome di chi segnala né di dichiarare la buona fede",
       "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base bc2929055fc5433bdb793f2c45adbd9ba00ae615 --file app/api/segnalazioni/route.ts,app/privacy/page.tsx,components/Segnala.tsx --prove tests/unit/riparazione-r21-segnalazione-nome-buona-fede.test.tsx,tests/unit/riparazione-r21-segnalazione-righe-del-sito.test.ts --json (al commit 6b84f56ba6112832a16598bcd4a3b7f8da8c301d)",
@@ -314,7 +460,8 @@
           "perche": "il primo giro toglieva solo l'ultimo commit della voce; quello che conta è il giro largo, con tutti i commit della voce"
         }
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Lente sicurezza: la difesa aggiunta non regge. Caso riservato: i dettagli sono stati mandati alla regista in chat e non stanno nel deposito.",
+      "giudice": "J10 (lente sicurezza)"
     },
     {
       "id": "R21-015",
@@ -337,8 +484,12 @@
     {
       "id": "R21-018",
       "chiave": "stati-ui|dopo troppi tentativi di accesso la pagina dice «qualche minuto» invece di dire quanto aspettare",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base b993b09085bad3f3956a31fcee0bc98d94e82a74 --file app/api/auth/signin/route.ts,app/sign-in/page.tsx,lib/auth/conferma-email.ts --prove tests/unit/riparazione-r21-accesso-dice-quanto-aspettare.test.ts,tests/unit/riparazione-r21-accesso-conto-alla-rovescia.test.ts --json (al commit a9eb9760f9a211def8edd17ae5a45160376c9bad)",
@@ -348,7 +499,8 @@
           "perche": "il primo giro toglieva solo l'ultimo commit della voce; quello che conta è il giro largo, con tutti i commit della voce"
         }
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Lente sicurezza: il pezzo fatto regge. La rotta di accesso risponde come alla base in ogni caso provato, e la correzione non allarga la falla riservata «accessi», che c'era già alla base.",
+      "giudice": "J10 (lente sicurezza)"
     },
     {
       "id": "R21-019",
