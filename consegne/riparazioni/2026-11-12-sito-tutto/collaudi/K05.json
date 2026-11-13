@@ -5,8 +5,8 @@
     "R21",
     "R22"
   ],
-  "aggiornato": "2026-11-13 14:56",
-  "finita": false,
+  "aggiornato": "2026-11-13 15:08",
+  "finita": true,
   "voci": [
     {
       "id": "R20-001",
@@ -320,46 +320,107 @@
     {
       "id": "R21-004",
       "chiave": "frontend-ux|incollare il link di instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non dice dove",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base fc62905a9b89ca51bb69221338c0a7320c169932^ --file components/VendorForm.tsx,components/seller/SocialLinksFields.tsx,components/seller/CustomizationSection.tsx --prove tests/unit/riparazione-r21-social-sotto-il-campo.test.tsx  --json (al commit fc62905a9b89ca51bb69221338c0a7320c169932)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Ho scritto una prova temporanea sul VendorForm vero. Caso B: il negoziante apre a mano «Social e contatti», salva con Facebook sbagliato, poi corregge. Prima della correzione (fc62905a^) la sezione resta aperta; alla testa si chiude alla prima lettera. Il motivo: CustomizationSection.tsx:19 comanda open, e VendorForm.tsx:378 svuota gli errori. È un peggioramento nuovo, anche se cosa_resta lo dichiara. Caso C: chi corregge un campo perde l'errore dell'altro (2 errori diventano 0). Caso D: il link copiato dall'app Instagram (con ?igsh=) blocca ancora il salvataggio (store-customization.ts:262), mentre l'aiuto nuovo (SocialLinksFields.tsx:57) promette di correggerlo; cosa_resta non ne parla. Le 6 prove vicine (42 casi) sono verdi.",
+      "difetti": [
+        {
+          "file": "components/seller/CustomizationSection.tsx",
+          "riga": "19",
+          "cosa": "open={defaultOpen || forzaApertura}: quando forzaApertura torna false, React chiude la <details>. Dopo un salvataggio fallito, la sezione si chiude alla prima lettera, anche se il negoziante l'aveva aperta a mano. Prima della correzione restava aperta (peggioramento verificato con fc62905a^ contro la testa)."
+        },
+        {
+          "file": "components/VendorForm.tsx",
+          "riga": "373,378",
+          "cosa": "forzaApertura dipende da erroriSocial, e onChange fa setErroriSocial({}) a ogni lettera. Effetti: la sezione si richiude, e chi corregge un campo cancella anche gli errori degli altri campi (prova: 2 errori diventano 0 dopo aver corretto solo Facebook)."
+        },
+        {
+          "file": "lib/store-customization.ts",
+          "riga": "262",
+          "cosa": "Basta un «?» nel link perché il valore resti com'è: «https://www.instagram.com/panequotidiano?igsh=…», il link dell'app Instagram, e «…/panequotidiano/?hl=it» non vengono corretti e bloccano il salvataggio di tutta la vetrina. Il caso del titolo «incollare il link di Instagram» resta aperto, e cosa_resta non lo cita."
+        },
+        {
+          "file": "components/seller/SocialLinksFields.tsx",
+          "riga": "57",
+          "cosa": "L'aiuto nuovo dice «se incolli il link lo correggiamo noi»: non è vero per il link di condivisione dell'app Instagram (?igsh=)."
+        }
+      ],
+      "giudice": "J5"
     },
     {
       "id": "R21-005",
       "chiave": "layout-responsive|in chi siamo, coi caratteri del telefono un po' più grandi, la scritta «alla consegna» esce dal suo riquadro e la pagina scorre di lato",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 969f2cc5249cc9622862fdc89a0d878388ee0a64^ --file app/about/page.tsx --prove tests/unit/riparazione-r21-chi-siamo-riquadro.test.ts  --json (al commit 969f2cc5249cc9622862fdc89a0d878388ee0a64)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Ho ricostruito il CSS Tailwind vero + font Fraunces e misurato /about in Chromium a 277-1440 px x 100/130/150/200%. La correzione regge: al 130% (tutte le larghezze) niente scroll laterale e «Alla consegna» resta nel riquadro (prima: overflowCard=true, sw 366>360). Ma break-words spezza la parola a metà SEMPRE: a 320/130 «Alla/cons/egna», a 1024/130 «Alla/consegn/a» (app/about/page.tsx:127). La statistica si legge tagliata. cosa_resta lo dichiara e propone la colonna unica sotto 400px. Il 200% (h1 sw=394>360) la voce lo rimanda a parte. Pezzo fatto + residuo veritiero = parziale. Prova R21 solo sulle classi, non misura il browser.",
+      "difetti": [
+        {
+          "file": "app/about/page.tsx",
+          "riga": "127",
+          "cosa": "break-words spezza «consegna» a metà parola (es. «cons/egna» a 320px/130%), confermato in Chromium: residuo reale, non chiuso"
+        }
+      ],
+      "giudice": "J6"
     },
     {
       "id": "R21-006",
       "chiave": "microcopy|se il conteggio dei negozi non riesce, la pagina chi siamo torna a dire «100% venditori locali verificati»",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base b9fcc3f530797cea75d592e463ae999cb8ef9ec2^ --file app/about/page.tsx,components/home-sections/HomeSectionRenderer.tsx --prove tests/unit/riparazione-r21-chi-siamo-senza-cifra.test.ts  --json (al commit b9fcc3f530797cea75d592e463ae999cb8ef9ec2)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "La statistica «100% venditori locali verificati» è tolta da STATS (app/about/page.tsx:30-35): col conteggio caduto/zero restano 3 statistiche, col numero vero 4 (splice), mai più «100%». Test monta la pagina vera con DB finto (conteggio ok/caduto/zero) e controlla anche la home: 6/6 verdi. Vicini (21 file, 226 test) verdi: nessuna regressione. Restano «100% commercianti locali verificati» in components/ui/AuthShell.tsx:44 e «100% locale» in HeroStoreCard.tsx:258, ma sono stringhe diverse su pagine diverse NON nominate dalla voce (file: about + HomeSectionRenderer). Voce chiusa tutta.",
+      "giudice": "J6"
     },
     {
       "id": "R21-007",
       "chiave": "privacy-legale|chi fa una segnalazione lascia la sua email lì per sempre",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 97b303cc33a5da53ef586e8fd2fdb76912f99c84^ --file lib/privacy/potature-ritenzione.ts,app/privacy/page.tsx --prove tests/unit/riparazione-r21-segnalazioni-email.test.ts  --json (al commit 97b303cc33a5da53ef586e8fd2fdb76912f99c84)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Difetto: email di chi segnala resta per sempre. La potatura notturna azzera email_contatto+dettaglio delle segnalazioni decise da >12 mesi: provato su k05_j4 (out-J4-t007.sql) — riga respinta 420gg azzerata, recente 100gg tenuta. Ma i due buchi del cosa_resta sono VERI: (1) cancellazione account non tocca segnalazioni — 'segnalazioni' assente da TABELLE_CON_DATI_PERSONALI (lib/account/cancellazione.ts:146); (2) segnalazioni mai decise (deciso_at NULL, stato ricevuta/in_esame) tengono l'email senza tetto — il filtro .lt('deciso_at') non matcha NULL (confermato in SQL). Il pezzo fatto regge, l'informativa non mente ('12 mesi dalla decisione'). Esito parziale onesto.",
+      "difetti": [
+        {
+          "file": "lib/account/cancellazione.ts",
+          "riga": "146",
+          "cosa": "La cancellazione account non ripulisce le segnalazioni: 'segnalazioni' non e' in TABELLE_CON_DATI_PERSONALI, quindi email/testo di chi segnala sopravvivono alla cancellazione (disclosed in cosa_resta)"
+        },
+        {
+          "file": "lib/privacy/potature-ritenzione.ts",
+          "riga": "391",
+          "cosa": ".lt('deciso_at', mesi(12)) non copre le segnalazioni mai decise (deciso_at NULL): email tenuta senza tetto finche' non si decide (disclosed)"
+        }
+      ],
+      "giudice": "J4"
     },
     {
       "id": "R21-008",
@@ -379,58 +440,101 @@
           "perche": "il primo giro toglieva solo l'ultimo commit della voce; quello che conta è il giro largo, con tutti i commit della voce"
         }
       },
-      "nota": "Lente sicurezza: la correzione apre un difetto nuovo. Caso riservato: i dettagli sono stati mandati alla regista in chat e non stanno nel deposito.",
-      "giudice": "J10 (lente sicurezza)"
+      "nota": "Lente sicurezza: la correzione apre un difetto nuovo. Caso riservato: i dettagli sono stati mandati alla regista in chat e non stanno nel deposito. Giudizio del revisore J4: parziale; i suoi dettagli restano fuori dal deposito perché toccano il caso riservato.",
+      "giudice": "J4 + J10 (lente sicurezza)"
     },
     {
       "id": "R21-009",
       "chiave": "privacy-legale|l'informativa dice che teniamo i documenti d'identità per dieci anni per l'antiriciclaggio, ma il sito li cancella dopo un mese o alla cancellazione",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 6f87a54ec69a7f4026962a1c29166dbb8cade692^ --file app/privacy/page.tsx --prove tests/unit/riparazione-r21-kyc-informativa.test.ts  --json (al commit 6f87a54ec69a7f4026962a1c29166dbb8cade692)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Alla base la riga non diceva più 10 anni, ma diceva ancora «Verifica KYC e antiriciclaggio — Obbligo di legge». Alla testa (app/privacy/page.tsx:160) non ci sono più né antiriciclaggio né obbligo di legge, e i tempi tornano col codice. Ho cambiato per prova p_giorni da 90 a 60 in potature-ritenzione.ts:177: la prova è diventata rossa, quindi controlla il codice e non il testo. In app, components, lib e messages «antiriciclaggio» non compare più in nessun testo pubblico. Tutti i documenti (patente, HACCP, polizza) finiscono nel secchio kyc-docs, che si svuota alla cancellazione. Le 15 prove che usano la pagina privacy sono verdi (105 casi). Resta da validare con un legale la base giuridica 6.1.b/6.1.f, che è una bozza.",
+      "giudice": "J5"
     },
     {
       "id": "R21-010",
       "chiave": "privacy-legale|l'informativa non dice quanto teniamo i messaggi dei contatti e della chat, e per l'email con l'iban scrive «finché non la cancelliamo»",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 1ed88901a16966b490b35f474e86ad60e904a4ee^ --file app/privacy/page.tsx --prove tests/unit/riparazione-r21-chat-informativa.test.ts  --json (al commit 1ed88901a16966b490b35f474e86ad60e904a4ee)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Il pezzo fatto regge. Ho ricostruito il database di prova k05_j5 (194 migrazioni su 194). Poi ho cancellato il profilo del cliente: i suoi messaggi sono spariti, quelli del negozio restano e la conversazione passa a buyer_id NULL. È quello che dice la riga nuova «Chat col negozio». La seconda parte della prova legge il testo della migrazione 026 e non il comportamento, ma il database lo conferma. Quello che resta, cosa_resta lo dice giusto. In iban-per-email.ts:37 e :52 c'è ancora «finché non la cancelliamo», senza un numero di giorni. Anche la chat con l'Assistenza scrive nella tabella messages (app/api/support/conversation/route.ts:134), e nessuna riga dell'informativa la copre. Le 15 prove privacy sono verdi.",
+      "difetti": [
+        {
+          "file": "lib/privacy/iban-per-email.ts",
+          "riga": "37,52",
+          "cosa": "L'email con l'IBAN resta ancora «finché non la cancelliamo», senza termine: è il pezzo del titolo ancora aperto (dichiarato)."
+        },
+        {
+          "file": "app/privacy/page.tsx",
+          "riga": "riga «Chat col negozio» (circa 214-221)",
+          "cosa": "La chat con l'Assistenza (app/api/support/conversation/route.ts:134) scrive in messages, ma non ha una riga sua nell'informativa (dichiarato in cosa_resta)."
+        }
+      ],
+      "giudice": "J5"
     },
     {
       "id": "R21-011",
       "chiave": "privacy-legale|l'informativa promette di dare i dati solo al negozio e al rider, ma poi non li elenca fra chi riceve i dati, e mette il database negli stati uniti mentre sta a parigi",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base b993b09085bad3f3956a31fcee0bc98d94e82a74^ --file app/privacy/page.tsx --prove tests/unit/riparazione-r21-destinatari-informativa.test.ts  --json (al commit b993b09085bad3f3956a31fcee0bc98d94e82a74)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Ho letto la pagina com'era alla base con git show. I tre pezzi del titolo erano già chiusi prima della campagna. Riga 62: il riassunto non diceva più «solo». Riga 211: negozio e Rider erano già fra i destinatari. Righe 219-220: Supabase era già a Parigi. Il pezzo aggiunto regge. Il titolo della sezione non dice più «sub-responsabili», e la prova lo legge sulla pagina vera. Il negozio è «titolare autonomo», come nei Termini al punto 9 (app/terms/page.tsx:333-334). Il testo vecchio non è citato da nessuna parte, e le 15 prove privacy sono verdi. Cosa_resta è vero: l'informativa non dice in che ruolo riceve i dati il Rider, mentre i Termini al punto 10 (:354-355) dicono titolare autonomo. È una scelta legale, non un difetto di codice.",
+      "difetti": [
+        {
+          "file": "app/privacy/page.tsx",
+          "riga": "circa 245-247",
+          "cosa": "Il ruolo del Rider («Il Rider che consegna riceve gli stessi dati») non è dichiarato. I Termini al punto 10 dicono titolare autonomo, il registro dice per conto di MyCity: serve una decisione legale (dichiarato)."
+        }
+      ],
+      "giudice": "J5"
     },
     {
       "id": "R21-012",
       "chiave": "privacy-legale|gli «ultimi visti» restano salvati per sempre e si vedono anche dopo aver tolto il consenso",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 85f8fde71f5b1fba13d50b61b61df332f82b327c^ --file lib/privacy/potature-ritenzione.ts,lib/queries/fasce-prodotti.ts,app/privacy/page.tsx --prove tests/unit/riparazione-r21-ultimi-visti.test.ts  --json (al commit 85f8fde71f5b1fba13d50b61b61df332f82b327c) ; timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 85f8fde71f5b1fba13d50b61b61df332f82b327c^ --file migrations/450_gli_ultimi_visti_se_ne_vanno_col_consenso.sql --prove tests/sql/rls/riparazione-r21-ultimi-visti.test.sql --sql k05_r21_rimessa --json (al commit 85f8fde71f5b1fba13d50b61b61df332f82b327c)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Difetto a due facce: 'ultimi visti' restano per sempre E si vedono dopo la revoca. (a) Retention: potatura notturna recently_viewed >14 mesi, dentro potatureNotturne che process-deletions chiama davvero — verificato. (b) Visibilita': leggiVistiDiRecente ritorna [] senza consenso analytics (gira solo client, nessun chiamante server) + trigger migrazione 450 che cancella su consent_log 'no'. SQL 3/3 su k05_j4 (Maria perde, Pino tiene, Lia solo-marketing tiene); droppato il trigger -> prova rossa (Maria resta a 2). Insert service_role: trigger scatta. 632 prove vicine verdi, tsc 0 errori. Nessuna regressione trovata.",
+      "giudice": "J4"
     },
     {
       "id": "R21-013",
       "chiave": "privacy-legale|le foto della porta di casa che il fattorino rifà restano nell'archivio per sempre",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 85f8fde71f5b1fba13d50b61b61df332f82b327c --file lib/privacy/potature-ritenzione.ts --prove tests/unit/riparazione-r21-prove-orfane.test.ts --json (al commit 10bd0ee1e4aacb00f272e7119afd61ad807bf959)",
@@ -440,7 +544,15 @@
           "perche": "il primo giro toglieva solo l'ultimo commit della voce; quello che conta è il giro largo, con tutti i commit della voce"
         }
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Difetto: le foto consegna rifatte dal fattorino restano per sempre. Il passo potaturaDegliOrfaniDelleProve elenca cod-proof, legge i percorsi vivi da 4 colonne ordine, toglie gli orfani maturi (7gg margine, tetto 200, rilettura ordine prima di rimuovere). E' in potatureNotturne, che process-deletions esegue davvero. Prove 5/5 a HEAD; una foto indicata solo da delivery_signature_url resta viva. Non ho trovato cancellazioni di file vivi (percorsi <rider>/<order>/<file> combaciano con l'upload percorsoUtente). Unica asimmetria (disclosed): il conto a mano NON mostra questi orfani — provato, la notte ne toglie 2 e il dry-run non li conta. Non riapre il difetto: minore.",
+      "difetti": [
+        {
+          "file": "app/api/cron/process-deletions/route.ts",
+          "riga": "86",
+          "cosa": "Il conto senza-cancellare (contaSenzaCancellare) non include gli orfani di cod-proof: contaOrfaniDelleProve e' esportata ma non chiamata; l'operatore nel giro a mano non li vede in anteprima (disclosed). La cancellazione reale pero' funziona"
+        }
+      ],
+      "giudice": "J4"
     },
     {
       "id": "R21-014",
@@ -460,26 +572,36 @@
           "perche": "il primo giro toglieva solo l'ultimo commit della voce; quello che conta è il giro largo, con tutti i commit della voce"
         }
       },
-      "nota": "Lente sicurezza: la difesa aggiunta non regge. Caso riservato: i dettagli sono stati mandati alla regista in chat e non stanno nel deposito.",
-      "giudice": "J10 (lente sicurezza)"
+      "nota": "Lente sicurezza: la difesa aggiunta non regge. Caso riservato: i dettagli sono stati mandati alla regista in chat e non stanno nel deposito. Giudizio del revisore J4: parziale; i suoi dettagli restano fuori dal deposito perché toccano il caso riservato.",
+      "giudice": "J4 + J10 (lente sicurezza)"
     },
     {
       "id": "R21-015",
       "chiave": "qa-flussi|il riordino rilegge il prezzo del prodotto, non della variante",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Il difetto non c'era già alla base. migrations/080_product_variants.sql:4-6 dice che il prezzo è unico per prodotto. Nel database k05_j5, ricostruito da tutte le migrazioni, product_variants ha solo id, product_id, options, label, stock, position, created_at: nessuna colonna prezzo. Alla base nessun file in app, components, lib o migrations usa un prezzo di variante. lib/riordino.ts:59-72 legge products.price meno lo sconto, con la stessa regola della cassa (valida-carrello.ts:167, checkout:205-208). Il file non è cambiato fra base e testa. La prova minori-s02-riordino «290» riordina un articolo con variante: entra al prezzo scontato del prodotto. Le 4 prove sul riordino sono verdi (21 casi). Accanto, non verificato fino in fondo: riordino.ts:69 controlla la scorta del prodotto e non quella della variante. È un altro difetto, non questo.",
+      "giudice": "J5"
     },
     {
       "id": "R21-017",
       "chiave": "stati-ui|nella scheda ordine dell'amministratore un reclamo aperto non si vede: c'è scritto «contestazione: —» e il bonifico resta «trattenuto» senza un motivo",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 491bceb8cd9436ac17db41302a8c1ab96aec9188^ --file app/admin/orders/[id]/page.tsx,lib/admin/etichette.ts --prove tests/unit/riparazione-r21-reclamo-nella-scheda-ordine.test.ts  --json (al commit 491bceb8cd9436ac17db41302a8c1ab96aec9188)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "La scheda legge i reclami open/under_review da disputes + internal_dispute_status e mostra «reclamo aperto dal …» e «Bonifico: trattenuto · fermo per: reclamo aperto» (app/admin/orders/[id]/page.tsx:100-114,250-273). Mutazione (reclamiAperti=[]): 2 test su 5 diventano rossi → la prova morde il comportamento, non il testo. RLS sul DB locale k05_j6: un admin legge il reclamo open (count=1), un estraneo 0. Con HELD e nessun motivo resta solo «trattenuto» (niente motivo finto). Link a /admin/disputes (non al singolo reclamo): referto onesto, pagina non di R21. Voce chiusa tutta.",
+      "giudice": "J6"
     },
     {
       "id": "R21-018",
@@ -499,190 +621,353 @@
           "perche": "il primo giro toglieva solo l'ultimo commit della voce; quello che conta è il giro largo, con tutti i commit della voce"
         }
       },
-      "nota": "Lente sicurezza: il pezzo fatto regge. La rotta di accesso risponde come alla base in ogni caso provato, e la correzione non allarga la falla riservata «accessi», che c'era già alla base.",
-      "giudice": "J10 (lente sicurezza)"
+      "nota": "Lente sicurezza: il pezzo fatto regge. La rotta di accesso risponde come alla base in ogni caso provato, e la correzione non allarga la falla riservata «accessi», che c'era già alla base. Giudizio del revisore J6: parziale; i suoi dettagli restano fuori dal deposito perché toccano il caso riservato.",
+      "giudice": "J6 + J10 (lente sicurezza)"
     },
     {
       "id": "R21-019",
       "chiave": "stati-ui|la pagina del negozio del mese, quando la redazione non ha ancora scelto, non dice niente, e una lettura fallita sembra uguale",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 3e6a2948c67e0cd6872b8347eb202b043a2fe2d9^ --file app/shop-of-month/page.tsx,lib/queries/negozio-del-mese.ts --prove tests/unit/riparazione-r21-negozio-del-mese-vuoto.test.ts  --json (al commit 3e6a2948c67e0cd6872b8347eb202b043a2fe2d9)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "leggiNegozioDelMese ora lancia l'errore invece di valere «nessuna scelta» (lib/queries/negozio-del-mese.ts:43). La pagina distingue 3 stati: «Non riesco a leggere…» con Riprova (isError), «La scelta di novembre arriva presto» (letta e vuota), il riquadro (scelta presente). Mutazione: tolto «if (error) throw error» → 1 test rosso (quello che chiama il vero queryFn e pretende reject). ShopOfMonthHero in home usa la stessa funzione e torna null su errore/loading: la home non si rompe. Test 4/4 verde. Voce chiusa tutta.",
+      "giudice": "J6"
     },
     {
       "id": "R22-001",
       "chiave": "api-backend|se il servizio di posta risponde oltre dieci secondi, la coda rimanda la stessa email cinque minuti dopo",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 1e923271be7c2579596d826c4d713e73d56467be^ --file lib/email/client.ts,app/api/cron/send-emails/route.ts --prove tests/unit/riparazione-r22-coda-email-timeout.test.ts  --json (al commit 0ad9803aae9534e5e0ebb950a11f20552001dfb1)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "La chiave di idempotenza arriva davvero a Resend. L'SDK installato è resend 3.5.0, e la sua post() sparge le opzioni sopra headers (client.ts:230-239 copia Authorization e aggiunge la chiave). La coda passa email-queue/<id> (route.ts:488). Il ritardo crescente arriva a 5+25+125+625 min = 13 ore, dentro la finestra di 24 ore della chiave. Due mutazioni: senza la chiave nella coda falliscono 3 prove su 4; senza il ramo del 409 (client.ts:199) fallisce la prova della promozione. 24 file di prove vicine verdi, tsc a 0 errori. Non verificato (resend.com non raggiungibile): se Resend conserva la chiave anche di un primo invio fallito, una promozione andata in 5xx risulterebbe spedita.",
+      "giudice": "J7"
     },
     {
       "id": "R22-011",
       "chiave": "qa-flussi|dopo un timeout di resend la coda può spedire due volte la stessa email",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 1e923271be7c2579596d826c4d713e73d56467be^ --file lib/email/client.ts,app/api/cron/send-emails/route.ts --prove tests/unit/riparazione-r22-coda-email-timeout.test.ts  --json (al commit 0ad9803aae9534e5e0ebb950a11f20552001dfb1)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Stessa cura e stessa prova di R22-001. Il doppio invio dopo il timeout è chiuso sia per l'email di servizio (stesso corpo: Resend ridà la risposta di prima) sia per la promozione (corpo diverso: il 409 vale spedita, la riga non finisce annullata). Fuori dalla coda nessun altro chiamante ritenta dopo un timeout: sendEmail non ritenta dal 5/11 (client.ts:205-207). Resta un caso limite, non un difetto: se la riga viene rilasciata senza contare tentativi (consenso o indirizzo non letti) per più di 24 ore dopo un timeout, la chiave scade. Stessa riserva non verificata su Resend scritta in R22-001.",
+      "giudice": "J7"
     },
     {
       "id": "R22-002",
       "chiave": "deploy-sre|alla riaccensione della posta, le email ormai scadute fanno la fila davanti a quelle nuove",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base dce0a2434d0cc490a69dedca3579c8a8f13c68a4^ --file app/api/cron/send-emails/route.ts --prove tests/unit/riparazione-r22-scadute-fuori-dalla-fila.test.ts  --json (al commit dce0a2434d0cc490a69dedca3579c8a8f13c68a4)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Sul Postgres locale con la 165 la chiusura in blocco funziona: 100 scadute chiuse, la fresca presa al primo giro, la riga prenotata da un giro in corso lasciata stare. Ma sul database senza la 165 il difetto resta. Il codice dichiara proprio quello stato come quello vero (route.ts:350) e lo gestisce (route.ts:345-380). Lì l'update su scade_at (route.ts:187) cade e si torna alla chiusura una per una (route.ts:389). La mia sonda, senza la colonna: primo giro sent=0, scadute=15, la fresca non parte. Il riparatore lo scrive nella nota, ma dichiara copre_tutta_la_voce=true: copre solo lo stato con la 165, che oggi in produzione non c'è.",
+      "difetti": [
+        {
+          "file": "app/api/cron/send-emails/route.ts",
+          "riga": "173-197, 389",
+          "cosa": "chiudiLeScaduteInBlocco filtra su scade_at: senza la migrazione 165 (lo stato dichiarato vero a route.ts:350) non chiude niente, e le scadute calcolate in rotta occupano ancora i 15 posti del giro. Sonda: sent=0, scadute=15, fresca non spedita"
+        }
+      ],
+      "giudice": "J7"
     },
     {
       "id": "R22-007",
       "chiave": "privacy-legale|l'annulla iscrizione con un clic da gmail si perde senza traccia dopo 30 richieste in dieci minuti dallo stesso indirizzo",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base e40ac48ef79a5d5123400f3f86ce79fa957e1e71^ --file app/api/unsubscribe/route.ts --prove tests/unit/riparazione-r22-disiscrizione-da-gmail.test.ts  --json (al commit e40ac48ef79a5d5123400f3f86ce79fa957e1e71)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Il gettone ora si verifica prima del freno (route.ts:82). Con un gettone valido conta il freno per indirizzo email, hash sha256 (route.ts:93-103), e quando scatta lo scrive con logger.error. Senza gettone resta il freno per IP. La prova usa la rotta vera, i gettoni veri e il freno vero: 40 disiscrizioni dallo stesso IP di Google, tutte fatte. La mutazione che toglie il logger.error fa diventare rossa la prova del 'senza traccia'. L'unica altra strada di disiscrizione è il modulo di /disiscrizione, che fa POST sulla stessa rotta. Gettoni falsi dallo stesso IP non bloccano quelli validi. 11 file di prove vicine verdi.",
+      "giudice": "J7"
     },
     {
       "id": "R22-010",
       "chiave": "qa-flussi|quando un cliente scrive al negozio, l'email al negozio non parte: la funzione è pronta ma nessuno la chiama",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base a8251fb7f75b89c335eeb7309e51ef2754f938fa^ --file app/api/chat/messages/route.ts --prove tests/unit/riparazione-r22-email-al-negozio-dalla-chat.test.ts  --json (al commit a8251fb7f75b89c335eeb7309e51ef2754f938fa)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "La prova del riparatore finge la funzione, così ho scritto una sonda con la rotta vera, la vera avvisaNegozioMessaggioNuovo e un database finto. Primo messaggio del cliente: parte UNA email all'indirizzo del negozio. Secondo messaggio dello stesso giro: nessuna email. L'interfaccia spedisce solo da /api/chat/messages (app/messages/[id]/page.tsx:236). Resta muto il firstMessage di POST /api/chat/conversations (route.ts:94-100), che però nessuna pagina usa (ContactSellerButton manda solo sellerId). Caso limite: contatore >1 rimasto alto con voce vecchia accesa -> niente email, solo se mark-read cade a metà. 21 file vicini verdi.",
+      "giudice": "J7"
     },
     {
       "id": "R22-009",
       "chiave": "qa-flussi|la campanella del negozio accumula una voce a ogni giro di messaggi, anche per una chat già letta",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 8c57475ee6e326b0dfdfc46200939c3f63fe75b0^ --file app/api/chat/mark-read/route.ts,app/api/chat/messages/route.ts --prove tests/unit/riparazione-r22-campanella-spenta-dalla-chat-letta.test.ts  --json (al commit 8f2b277137deab3b73e23e62ba823f72d2c66a02)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "mark-read ora spegne le voci di campanella di chi legge con link /messages/<id>; la rotta dei messaggi salta la voce se il contatore riletto vale 0. Prova (3 casi, le due rotte vere) verde. Su k05_j8 con i permessi veri del database, da negozio autenticato: i tre passi di mark-read rendono letta la voce di questa chat e lasciano accesa quella di un'altra. Il trigger alza sempre il contatore, quindi il controllo '=== 0' non perde avvisi. Limiti minori: c'è una finestra stretta tra la lettura del contatore e la scrittura della voce (route.ts:92-139). Il campanello non si aggiorna dopo mark-read (page.tsx:229) e si spegne solo al ricontrollo successivo, entro 60-120 s. Le voci non si accumulano più.",
+      "difetti": [
+        {
+          "file": "app/messages/[id]/page.tsx",
+          "riga": "229",
+          "cosa": "Dopo mark-read si aggiornano solo le conversazioni e non il conteggio del campanello: la voce sparisce solo al ricontrollo successivo (60 s sul sito, 120 s nel pannello del negozio). È un ritardo, non un accumulo"
+        },
+        {
+          "file": "app/api/chat/messages/route.ts",
+          "riga": "92-139",
+          "cosa": "Finestra stretta: se mark-read gira tra la lettura del contatore e la scrittura della voce, resta una sola voce accesa fino al giro dopo"
+        }
+      ],
+      "giudice": "J8"
     },
     {
       "id": "R22-012",
       "chiave": "qa-flussi|una chat lasciata aperta in sottofondo sul computer del negozio segna come letti i messaggi appena arrivano",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 183389ac41500b5f21a57c2e2be83db17a26866e^ --file app/messages/[id]/page.tsx,app/api/chat/mark-read/route.ts --prove tests/unit/riparazione-r22-chat-in-sottofondo-non-segna-letto.test.ts,tests/unit/riparazione-r22-chat-letta-dice-l-esito.test.ts  --json (al commit cf5e6a776dfca505cd36a7de2fc8325702dc3562)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "La pagina segna letto solo se la scheda è visibile e la finestra ha il fuoco. Ascolta visibilitychange, focus e blur e riprova se mark-read non risponde ok. La rotta risponde 500 se l'azzeramento del contatore cade. Le 6 prove sono verdi. Mutazioni: senza hasFocus muore il caso 'visibile senza fuoco'; senza il controllo sulla pagina visibile muoiono 3 casi. È l'unico punto che segna letto (cercato con grep). Su k05_j8 i partecipanti possono aggiornare i contatori, quindi l'errore controllato è quello reale. Non coperto (fuori dal titolo): una chat in primo piano col fuoco e il negoziante lontano segna letto lo stesso. hasFocus non l'ho provato su browser veri come iOS.",
+      "giudice": "J8"
     },
     {
       "id": "R22-003",
       "chiave": "frontend-ux|in chat, se l'assistenza scrive il secondo messaggio mentre il primo sta partendo, il secondo sparisce senza essere inviato",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 830b7ab3342bb0a98b28e655024ac159a3b0c887^ --file app/messages/[id]/page.tsx --prove tests/unit/riparazione-r22-chat-il-secondo-messaggio-resta.test.ts  --json (al commit edacdd69d9b095e211e377e3d6ff7a00fe72f864)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Il campo ora si svuota all'invio (prima lo svuotava onSuccess) e onError rimette il testo. Prova (5 casi) verde, verdi anche i 10 file che montano la chat. Mutazioni: tolto il ripristino in onError, muore 'invio fallito'; tolta la guardia isPending, muore 'secondo Invio'. Il pezzo fatto regge: quello che si scrive mentre il primo è in volo non sparisce più. cosa_resta è vero: il secondo Invio in volo viene ignorato in silenzio (page.tsx:264) e il pulsante resta acceso durante l'invio (page.tsx:438), quindi il tocco non fa nulla e non avvisa. Il commento a page.tsx:432 ('Si spegne solo Invia') ora è falso. Typecheck pulito.",
+      "difetti": [
+        {
+          "file": "app/messages/[id]/page.tsx",
+          "riga": "264",
+          "cosa": "Secondo Invio mentre il primo è in volo: niente coda e nessun avviso, il messaggio non parte finché non si ripreme (il residuo dichiarato in cosa_resta)"
+        },
+        {
+          "file": "app/messages/[id]/page.tsx",
+          "riga": "438",
+          "cosa": "Il pulsante Invia non si spegne più durante l'invio: resta toccabile ma il tocco non fa niente e non dà riscontro"
+        },
+        {
+          "file": "app/messages/[id]/page.tsx",
+          "riga": "432",
+          "cosa": "Il commento dice che 'si spegne solo Invia', ma Invia non si spegne più durante l'invio (commento non più vero)"
+        }
+      ],
+      "giudice": "J8"
     },
     {
       "id": "R22-013",
       "chiave": "qa-flussi|la campanella del sito mostra le promozioni anche a chi le ha spente",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 39581a4912319a1c9ac770d93b0d82779d7127f9^ --file app/notifications/page.tsx,components/hooks/useNotificationsCount.ts --prove tests/unit/riparazione-r22-campanella-senza-promozioni-spente.test.ts  --json (al commit 8ec99f57725946ec683102dd360b3b1f851702de)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "La lista e il conteggio del sito tolgono le promozioni (category='promo') se notif_promos non è attivo. Prove verdi, e su k05_j8 l'utente collegato legge la propria notif_promos. ROMPE: il campanello del pannello negozio (SellerShell.tsx:105-122, porta a /notifications) conta ancora le promo. La pagina però ora le nasconde, e 'Segna tutte' segue un conteggio che le esclude. Prova temporanea con pagina e SellerShell veri, negozio con promo spente (valore predefinito) e una promo non letta (il trigger del calo prezzo la crea comunque). In testa: campanello a 1, pagina vuota, nessun 'Segna tutte'. Alla base: riga visibile e 'Segna tutte'. Il numero resta bloccato; cosa_resta non lo dice.",
+      "difetti": [
+        {
+          "file": "components/seller/SellerShell.tsx",
+          "riga": "105-122",
+          "cosa": "useNotifUnread conta anche le promo a chi le ha spente: nel pannello negozio il campanello mostra un numero che /notifications non fa più vedere"
+        },
+        {
+          "file": "app/notifications/page.tsx",
+          "riga": "112, 187",
+          "cosa": "Regressione: la lista nasconde le promo e 'Segna tutte' compare solo se il conteggio filtrato è sopra zero. Un negozio con solo promo non lette ha il campanello del pannello acceso per sempre, senza righe né pulsante (alla base si vedevano e si potevano segnare)"
+        },
+        {
+          "file": "components/hooks/useNotificationsCount.ts",
+          "riga": "47",
+          "cosa": "Il filtro promo vale solo per questo conteggio e non per quello del pannello negozio: i due campanelli dello stesso utente danno numeri diversi"
+        }
+      ],
+      "giudice": "J8"
     },
     {
       "id": "R22-018",
       "chiave": "stati-ui|le notifiche non lette più vecchie delle ultime cinquanta restano sul campanello e non si possono né vedere né segnare",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 6e1baeee8e39a744164be77b45f1c7b2b40df791^ --file app/notifications/page.tsx --prove tests/unit/riparazione-r22-campanello-oltre-le-cinquanta.test.ts  --json (al commit 6e1baeee8e39a744164be77b45f1c7b2b40df791)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "'Segna tutte' ora segue il conteggio vero (page.tsx:187), e la scrittura senza limite segna lette tutte e 60. 'Carica altre' alza il limite di 50 alla volta. Prova (3 casi, pagina vera con database finto) verde; la rimessa del collaudatore regge. La nuova chiave [notifications, list, quante] si aggiorna ancora da segnaLetta e markAllRead (gli unici usi, cercati con grep). Casi limite minori: con esattamente 50 notifiche il pulsante non porta a niente; se 'Carica altre' fallisce, l'intera pagina passa all'errore. Dipende da R22-013: col filtro promo, il campanello del pannello negozio può restare acceso su promo nascoste (difetto messo su R22-013).",
+      "difetti": [
+        {
+          "file": "app/notifications/page.tsx",
+          "riga": "189, 166-174",
+          "cosa": "Minore: con esattamente 50 notifiche compare 'Carica altre' che non porta niente; se il caricamento di altre fallisce, l'elenco già a video sparisce e resta solo la pagina di errore"
+        }
+      ],
+      "giudice": "J8"
     },
     {
       "id": "R22-015",
       "chiave": "qa-flussi|il ritiro in negozio è ancora spento, mentre nicola ha deciso che al lancio è acceso e gratis per il cliente",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 2,
         "comando": "non lanciabile: la voce non ha nessun commit di codice"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Nessun commit su lib/ritiro-in-negozio.ts (git log base..testa vuoto): interruttore RITIRO_IN_NEGOZIO_ATTIVO ancora false (:23). Il difetto del registro (ritiro spento mentre Nicola l'ha deciso acceso al lancio) è TUTTORA aperto, rinviato per decisione della regista (dipende da R17-002). cosa_resta verificato esatto: PICKUP_DISCOUNT_PERCENT=0 (constants.ts:87), i 12 lettori tutti presenti, le prove che fissano lo spento presenti. Senza commit il verdetto massimo è parziale; nulla rotto.",
+      "difetti": [
+        {
+          "file": "lib/ritiro-in-negozio.ts",
+          "riga": "23",
+          "cosa": "RITIRO_IN_NEGOZIO_ATTIVO ancora false: il ritiro resta spento, il difetto del registro non è chiuso (rinvio dichiarato, non riparazione)"
+        }
+      ],
+      "giudice": "J9"
     },
     {
       "id": "R22-014",
       "chiave": "qa-flussi|whatsapp senza +39 anche nel contatto del negozio",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 5c3ebbe2ff0abaff1dbf6c05cfa33e3501f9059c^ --file lib/contatto-whatsapp.ts --prove tests/unit/riparazione-r22-whatsapp-italiano.test.ts  --json (al commit 27977a4b2c8b8a4f5bf0593cbfbc20f4e5f6d99c)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Alla base numeroWhatsApp (lib/contatto-whatsapp.ts:50) tornava le cifre nude: «333 1234567»→wa.me/3331234567 (Francia). Alla testa applica il +39 con la stessa regola di numeroWhatsappItaliano (store-customization.ts:271), coi guardiani segnaposto/soli-zeri anche sul numero normalizzato (:59-63). Tutti i chiamanti di linkWhatsApp coperti: Footer:89,142, contact, help, rider/help, seller/help. Mutazione che toglie il prefisso italiano → 2 prove rosse. 27 prove verdi, nessuna regressione.",
+      "giudice": "J9"
     },
     {
       "id": "R22-016",
       "chiave": "qa-flussi|due guardie sulla veloce controllano il testo del sorgente e non il comportamento",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 2,
         "comando": "non lanciabile: la voce ha cambiato solo prove, nessun file di codice da togliere"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Commit 5aa1e173 aggiunge SOLO 2 prove nuove (file_toccati vuoto, confermato: 371 inserimenti, 2 file di test). Le 2 guardie vecchie sul testo del sorgente restano in piedi (la-consegna-veloce...:135-145 e l-ordine-con-un-appuntamento...:324-333, leggono readFileSync). Le prove nuove montano davvero app/checkout/page.tsx: mutazione DeliverySlotPicker:181 (veloceDisponibile!==false)→2 rosse; handleSubmit romeNow→new Date (checkout:1268)→1 rossa. cosa_resta esatto. Solo prove nuove → max parziale.",
+      "difetti": [
+        {
+          "file": "tests/unit/la-consegna-veloce-si-vende-solo-se-c-e-un-fattorino.test.ts",
+          "riga": "135-145",
+          "cosa": "guardia sul testo del sorgente (readFileSync DeliverySlotPicker) non ancora sostituita"
+        },
+        {
+          "file": "tests/unit/l-ordine-con-un-appuntamento-gia-passato.test.ts",
+          "riga": "324-333",
+          "cosa": "guardia sul testo del sorgente (readFileSync checkout handleSubmit) non ancora sostituita"
+        }
+      ],
+      "giudice": "J9"
     },
     {
       "id": "R22-008",
       "chiave": "qa-flussi|il prompt dell'ai chiama «fee di consegna» quella di un carrello con un solo pezzo",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base b44d989938480788136ca94420672a07088fb76b^ --file app/api/ai/improve-product/route.ts --prove tests/unit/riparazione-r22-consegna-nel-prompt.test.ts  --json (al commit b44d989938480788136ca94420672a07088fb76b)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Alla base la riga del contesto era già la regola del carrello (base route.ts:313 regolaConsegnaPerAi, da R04-021). Restava il SYSTEM a riga 50 con 'la fee di consegna'. Alla testa nel prompt non resta nessun 'fee di consegna'. L'unico altro 'fee' è un commento JSDoc a riga 24, che al modello non arriva. La prova passa dalla rotta vera e legge system e messages dati a runMessage: per un prompt il testo È il comportamento. Il revisore C ha già fatto la mutazione (riga 50 rimessa -> rossa). Nessun altro prompt in app/api/ai o lib/ai nomina deliveryFee o fee di consegna. tsc a 0 errori.",
+      "giudice": "J7"
     },
     {
       "id": "R22-005",
       "chiave": "layout-responsive|nelle recensioni del fattorino un commento con una parola lunga fa scorrere la pagina di lato sul telefono piccolo, e i filtri per stelle sono alti 24 pixel",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 56f67701aa7ea88897a08b1c44c17b8dd5902225^ --file app/rider/reviews/page.tsx --prove tests/unit/riparazione-r22-recensioni-fattorino-telefono.test.ts  --json (al commit 56f67701aa7ea88897a08b1c44c17b8dd5902225)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Provato a rompere il layout davvero: dump della pagina montata + Tailwind compilato + Chrome a 320/360px. Alla base scrollW=536 (scroll laterale) e filtri alti 24px; alla testa scrollW==clientW (niente overflow), filtri stella e «Mostra tutte» a 44px (min-h-11, reviews/page.tsx:143,155), commento con overflow-wrap:anywhere (:165). Entrambi i casi del titolo chiusi. 16 prove che montano la pagina verdi; suite intera verde.",
+      "giudice": "J9"
     },
     {
       "id": "R22-006",
       "chiave": "navigazione-gerarchia|su notifiche e messaggi i titoli saltano dal titolo principale al terzo livello",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 56f67701aa7ea88897a08b1c44c17b8dd5902225 --file app/notifications/page.tsx --prove tests/unit/riparazione-r22-titoli-notifiche-messaggi.test.ts --json (al commit 83f1deb72021628bcee3087605eb028ea3f78af2)",
@@ -692,30 +977,70 @@
           "perche": "il primo giro toglieva solo l'ultimo commit della voce; quello che conta è il giro largo, con tutti i commit della voce"
         }
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Notifiche: l'h3 è diventato h2 con text-lg leading-snug. globals.css:258 dà all'h3 proprio text-lg e interlinea snug, quindi l'aspetto non cambia. Ho montato la pagina vera in una prova temporanea: a video i titoli sono H1, H2. Su /messages invece il titolo delle righe (app/messages/page.tsx:212) è ancora un h3 subito sotto l'h1: lì il salto resta. La prova R22 legge solo il testo del sorgente, e come seconda pagina controlla app/messages/[id]/page.tsx, che non è nel registro, invece della lista dei messaggi. cosa_resta è vero: la-chat-con-l-assistenza-a-video.test.ts:125 cerca h3 e diventerebbe rossa.",
+      "difetti": [
+        {
+          "file": "app/messages/page.tsx",
+          "riga": "212",
+          "cosa": "Il titolo delle righe è ancora h3 subito sotto l'h1: su /messages il salto di livello resta"
+        },
+        {
+          "file": "tests/unit/riparazione-r22-titoli-notifiche-messaggi.test.ts",
+          "riga": "7",
+          "cosa": "La prova legge solo il sorgente e controlla app/messages/[id]/page.tsx invece di app/messages/page.tsx, il file indicato nel registro: per i messaggi dà un verde che non misura il difetto"
+        }
+      ],
+      "giudice": "J8"
     },
     {
       "id": "R22-017",
       "chiave": "stati-ui|se la lettura del prodotto non va, la pagina di modifica dell'amministrazione dice che il prodotto non esiste",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 5fd4ce74fba69686ed0f6607bcfe9bb1aa5c8a16^ --file app/admin/products/[id]/edit/page.tsx --prove tests/unit/riparazione-r22-prodotto-admin-lettura-caduta.test.tsx  --json (al commit 4e48718ff7ab37b111b0536ef861cc1a7cb97017)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "Alla base .single()+«error instanceof Error»: un errore di lettura (oggetto PostgREST, non Error) cadeva su «Prodotto non trovato». Alla testa .maybeSingle() separa l'errore (msg «Non riesco a leggere»+«Riprova» che rilegge davvero) dalla riga assente («Prodotto non trovato»), e un id non-UUID non legge le varianti (edit/page.tsx:36,61). Prova forte: monta la pagina con mock supabase realistico. 3 mutazioni (single, enabled FORMA_UUID, ramo del messaggio) → ciascuna rende rossa la prova. 14 prove che importano la pagina verdi.",
+      "giudice": "J9"
     },
     {
       "id": "R22-019",
       "chiave": "tipografia|otto spaziature diverse per la stessa etichetta maiuscola",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base f3da9d3dcc31f064dea33709a807f5faf329cb11^ --file app/messages/page.tsx,app/notifications/page.tsx --prove tests/unit/riparazione-r22-etichette-maiuscole-spaziatura.test.ts  --json (al commit f3da9d3dcc31f064dea33709a807f5faf329cb11)"
       },
-      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+      "nota": "2 file propri corretti a tracking-label (messages/page.tsx:164, notifications/page.tsx:195); il token nel config è già unico (label=wide=0.04em, tailwind.config.ts:164/170), config non toccato a ragione. Prova (testo sorgente) morde: tracking-label→tracking-wider in messages → rossa. Ma copre_tutta_la_voce=false ed è vero: grep conferma 77 occorrenze di tracking-wider/widest/[0.0x em] su etichette uppercase in 51 file ancora da unificare. Difetto del registro NON chiuso sul codice alla testa; parziale onesto.",
+      "difetti": [
+        {
+          "file": "51 file (es. app/search/page.tsx, app/admin/funnel/page.tsx, components/StoreProductExplorer.tsx)",
+          "riga": "varie",
+          "cosa": "77 etichette maiuscole usano ancora tracking-wider/widest o tracking-[0.03/0.05/0.06/0.08em] invece di tracking-label"
+        }
+      ],
+      "giudice": "J9"
     }
   ],
-  "campione": {}
+  "campione": {
+    "R20": {
+      "accettato": true
+    },
+    "R21": {
+      "accettato": true
+    },
+    "R22": {
+      "accettato": true
+    }
+  }
 }
