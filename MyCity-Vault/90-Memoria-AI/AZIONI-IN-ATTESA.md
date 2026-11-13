@@ -44,6 +44,8 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 Cosa cambia: i difetti chiusi della prima onda entrano nel registro, e la regola per le onde dopo resta decisa.
 Se va bene: la regista lancia la chiusura dei difetti della prima onda dopo che hai unito le due richieste.
 
+**Stato:** ✅ DECISO 2026-11-13 03:27. Hai scelto «a» dopo la spiegazione: la regola resta severa, e per la sola prima onda vale un'eccezione firmata. La mette in pratica la regista nuova, prima di chiudere i difetti della prima onda. Il programma oggi non ha un interruttore per onda su questa regola. La strada più corta è un'impostazione nel piano, come quella che c'è già per la verifica legata al commit: poche righe, con la loro prova.
+
 ### 🔴 #238 — Riprova le tre migrazioni del sito rimaste, ma non la 350 · ⏳ accodata 2026-11-12 23:55
 
 **In parole semplici.** Le migrazioni cambiano il database vero del sito. Delle 15 nate nella prima onda del risolutore, 12 sono già applicate col tuo ok. Ne restano tre: la 361, la 363 e la 364. La conferma del database è scaduta due volte prima della tua risposta.
@@ -89,6 +91,8 @@ La regista consiglia la 1. Finché non scegli vale un controllo dopo. A ogni gir
 
 Cosa cambia: collaudatori e controllori non possono più leggere il database vero senza chiedere. Con la strada 1 il divieto vale per tutte le sessioni della macchina, con la 2 solo per chi ha messo il segnale.
 Se va bene: il buco della prima onda è chiuso prima della seconda, e il controllo dopo non serve più.
+
+**Stato:** ✅ FATTO 2026-11-13 03:24. Hai tolto tu la riga dal foglio dei permessi, direttamente su `main` (commit 3a5778e). L'AD ha controllato: su `main` lo strumento del database vero non è più fra quelli che si usano senza chiedere.
 
 ### 🟡 #235 — Unisci le due richieste del risolutore quando ti va · ⏳ accodata 2026-11-12 23:55
 

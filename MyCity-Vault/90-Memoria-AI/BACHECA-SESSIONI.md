@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-13 03:18
+aggiornato: 2026-11-13 03:28
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,7 +28,9 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
-| 13/11 03:15 | AD | Card 239: sceglie «a», ma vuole prima la spiegazione. In attesa del suo ok dopo la spiegazione |
+| 13/11 03:27 | AD | Card 239, dopo la spiegazione: «a». La regola delle prove comuni resta severa; eccezione firmata solo per la prima onda |
+| 13/11 03:24 | GitHub | Card 236: Nicola toglie a mano la riga del permesso del database su `main` (3a5778e) |
+| 13/11 03:15 | AD | Card 239: sceglie «a», ma vuole prima la spiegazione |
 | 13/11 03:15 | AD | «riprova 361, 363 e 364»: applicate dall'AD alle 03:15-03:17 e controllate sul database |
 | 13/11 03:15 | AD | «ok 236»: togliere il permesso del database. La macchina non può scrivere il foglio dei permessi: lo toglie Nicola a mano |
 | 13/11 03:05 | AD | Ogni sessione nuova che scrive codice nasce con ultracode acceso: regola 10 di `cervello/sessioni-insieme.md` |
