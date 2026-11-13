@@ -21,9 +21,9 @@
 //   1 = violazione: qualcosa non torna, il lotto NON si consegna
 //   2 = non ho potuto misurare (cantiere illeggibile, ambiente incompleto) → cieco, non «verde»
 
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
-import { join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { comandoAmmesso, MOTIVO_COMANDO_NON_AMMESSO } from "./forma-prova.mjs";
 import { storiaDelRepoCurata } from "./storia-git.mjs";
@@ -772,6 +772,7 @@ function soloLaFettaDelleMutazioni({ mutanti, toccati, proveDelLotto }) {
   const perimetro = perimetroDalGit({ mutanti, toccati, proveCambiate: proveDelLotto, daGit: fileToccatiDaGit(gitQui) });
   if (!perimetro.girare.length) {
     const commit = gitOrNull(["rev-parse", "HEAD"]);
+    mkdirSync(dirname(resolve(REFERTO_MUT)), { recursive: true });
     writeFileSync(REFERTO_MUT, `${JSON.stringify({ fetta: { i: fetta.i, n: fetta.n }, commit: commit ? commit.trim() : null, difetti: [], misurate_qui: 0, esiti: [] }, null, 1)}\n`);
     console.log("· questo lotto non ha mutazioni da girare: la fetta non ha niente da provare (il cancello rifà lo stesso conto).");
     return 0;

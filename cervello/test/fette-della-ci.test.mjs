@@ -127,8 +127,9 @@ function cartellaDiProve({ rossa = false } = {}) {
   mkdirSync(prove);
   for (const n of ["a", "b", "c", "d", "e"]) writeFileSync(join(prove, `${n}.test.mjs`), `import { test } from "node:test";\ntest("${n}", () => {});\n`);
   if (rossa) writeFileSync(join(prove, "r.test.mjs"), `import { test } from "node:test";\nimport assert from "node:assert";\ntest("rossa", () => assert.equal(1, 2));\n`);
-  mkdirSync(join(casa, "referti"));
-  return { casa, prove, referti: join(casa, "referti") };
+  // La cartella dei referti NON la creo: la deve creare chi scrive. Il collaudo del 13/11 ha trovato
+  // un flusso che non la creava, e ogni fetta moriva con ENOENT dopo aver girato tutte le sue prove.
+  return { casa, prove, referti: join(casa, "referti", "suite") };
 }
 
 const suite = (args, env) => spawnSync(process.execPath, [SUITE, ...args], { cwd: REPO, encoding: "utf8", env: { ...process.env, ...env }, timeout: 120_000 });
@@ -186,6 +187,14 @@ test("② ESEGUITO: il banco ricuce le mutazioni; una persa esce 2 col suo nome,
     const registro = join(casa, "mutanti.json");
     writeFileSync(registro, JSON.stringify({ mutanti }));
     const commit = spawnSync("git", ["rev-parse", "HEAD"], { cwd: REPO, encoding: "utf8" }).stdout.trim();
+    // Una fetta VUOTA (due fette, una mutazione sola) consegna lo stesso il suo referto, anche in
+    // una cartella che non esiste ancora: il conto di cosa doveva girare lo fa chi ricuce.
+    const unaSola = join(casa, "una-sola.json");
+    writeFileSync(unaSola, JSON.stringify({ mutanti: [mutanti[0]] }));
+    const vuota = join(casa, "fette", "nuova", "mutazioni-2.json");
+    const r2 = spawnSync(process.execPath, [BANCO, "--difetti", "AR-1", "--fetta", "2/2", "--referto", vuota], { cwd: REPO, encoding: "utf8", env: { ...process.env, MUTANTI_FILE: unaSola }, timeout: 60_000 });
+    assert.equal(r2.status, 0, `una fetta vuota non è un ⚪:\n${r2.stdout}${r2.stderr}`);
+    assert.deepEqual(JSON.parse(readFileSync(vuota, "utf8")).esiti, [], "e il suo referto c'è, vuoto");
     const referti = join(casa, "referti");
     mkdirSync(referti);
     const scrivi = (i, esiti) => writeFileSync(join(referti, `mutazioni-${i}.json`), JSON.stringify({ fetta: { i, n: 2 }, commit, difetti: ["AR-1"], esiti }));

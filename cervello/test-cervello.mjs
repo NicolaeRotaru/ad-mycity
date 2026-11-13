@@ -50,8 +50,8 @@
 // che chiede a QUESTO file quali famiglie dice di eseguire: così il guardiano e il runner non
 // possono divergere in silenzio.
 
-import { existsSync, readdirSync, readFileSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
-import { basename, join, resolve } from "node:path";
+import { existsSync, mkdirSync, readdirSync, readFileSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { basename, dirname, join, resolve } from "node:path";
 import { spawn, spawnSync } from "node:child_process";
 import { cpus, tmpdir } from "node:os";
 import { pathToFileURL } from "node:url";
@@ -1087,7 +1087,12 @@ function concludi({ quando, righe, righeBats, bin, inFila = [], perche = new Map
   };
   // Il referto su file c'è ANCHE col report a schermo: la fetta scrive il JSON per chi ricuce e
   // stampa il report leggibile nel suo log, così un rosso si diagnostica senza scaricare niente.
-  if (REFERTO) writeFileSync(REFERTO, `${JSON.stringify(referto, null, 2)}\n`);
+  // La cartella la crea chi scrive: il 13/11 un flusso che non la creava rompeva ogni fetta DOPO
+  // aver girato tutte le sue prove (ENOENT), e il lavoro di un runner intero finiva nel nulla.
+  if (REFERTO) {
+    mkdirSync(dirname(resolve(REFERTO)), { recursive: true });
+    writeFileSync(REFERTO, `${JSON.stringify(referto, null, 2)}\n`);
+  }
   if (JSON_MODE) {
     console.log(JSON.stringify(referto, null, 2));
     process.exitCode = rotti.length ? 1 : incompleto ? 2 : 0;

@@ -26515,6 +26515,29 @@
         "comando": "node --test cervello/test/riparazione-sessioni.test.mjs",
         "nota": "75 casi qui, e 35 in cervello/test/la-correzione-tolta-deve-far-cadere-la-prova.test.mjs per prova-rimessa; 14 mutazioni nuove in cervello/mutanti.json col difetto AR-1172, tutte prese. Sui 11 rami veri dell'onda 1 la guardia dà gli stessi rossi prima e dopo. Effetto da decidere: con la regola delle prove comuni, 9 rami veri su 11 sono rossi (57 prove comuni toccate) e applica sulla campagna del 12/11 è rossa; la scelta di quanto stringere è di Nicola. Si chiude con auto-fix dopo l'unione della PR."
       }
+    },
+    {
+      "id": "AR-1173",
+      "dimensione": "rischio-sicurezza-se",
+      "gravita": "grave",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-13 03:00",
+      "nato_come": "scoperta",
+      "origine": "radiografia-in-corsa",
+      "fonte": "lente rischio-sicurezza-se sui file della CI in fette (ramo claude/ci-tre-minuti), 2026-11-13",
+      "owner": "tech",
+      "titolo": "Un lotto che cambia solo un file difeso da mutazioni senza numero di scheda fa provare al banco tutte le mutazioni del registro, e il cancello esce rosso per tempo",
+      "dove": "cervello/cancello-lotto.mjs (il passo delle mutazioni passa `--difetti perimetro.difetti`) · cervello/perimetro-mutazioni.mjs (difetti = solo i numeri AR delle mutazioni da girare) · cervello/banco-a-corsie.mjs (`--difetti` vuoto = nessun filtro)",
+      "nato_da": "rilettura del passo delle mutazioni mentre lo si divideva in fette per la CI, 13/11",
+      "sintomo": "Il perimetro sceglie una per una le mutazioni sui file cambiati, ma al banco passa solo i numeri di scheda (AR-…) che quelle mutazioni portano. Se il lotto cambia solo un file le cui mutazioni non hanno un numero di scheda — oggi 11 file su main, fra cui cervello/prediagnosi.mjs (80 mutazioni) e cervello/radiografia-sessioni.mjs (35) — l elenco passato è vuoto, e il banco con `--difetti` vuoto non filtra: prova tutte le mutazioni del registro (più di 1.300), sfora il budget di 1.800 s e il cancello esce ⚪ (2), cioè rosso, su un lotto che non ha colpa. Quando invece l elenco non è vuoto, le mutazioni senza numero del perimetro non girano mai: il banco prende solo quelle col numero esatto.",
+      "causa_radice": "Due modi di dire «queste mutazioni»: il perimetro le sceglie una per una, il banco le riceve per numero di scheda. Fra i due si perde chi non ha un numero, e un elenco vuoto vuol dire «tutto» invece di «niente».",
+      "fix_proposto": "Passare al banco le mutazioni scelte per identità (per esempio con chiaveMutazione di cervello/fette-ci.mjs) invece dei numeri di scheda; e far uscire il banco 2 dichiarato, non «tutte», quando riceve un elenco di difetti vuoto.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Non riparato nella richiesta delle fette della CI: cambierebbe quali mutazioni girano, ed è fuori mandato. Si chiude quando un lotto che tocca solo cervello/prediagnosi.mjs fa girare le sue 80 mutazioni e non tutto il registro."
+      }
     }
   ],
   "meta": {

@@ -388,6 +388,8 @@ if (process.argv[1] && process.argv[1].endsWith("banco-a-corsie.mjs")) {
       : { ...ricuciEsiti([]), corsie: 0, perCorsia: [] };
   }
   if (referto) {
+    // La cartella la crea chi scrive (vedi la stessa riga in test-cervello.mjs, 13/11).
+    mkdirSync(dirname(resolve(referto)), { recursive: true });
     writeFileSync(
       referto,
       `${JSON.stringify({ fetta: fetta && !fetta.errore ? { i: fetta.i, n: fetta.n } : null, commit, difetti: difettiChiesti, misurate_qui: esito.esiti.length, esiti: esito.esiti }, null, 1)}\n`,

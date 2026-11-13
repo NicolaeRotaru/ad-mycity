@@ -11715,26 +11715,10 @@
   },
   {
    "difetto": "ci-tre-minuti · fette",
-   "nome": "una fetta mancante torna a leggersi come una suite completa",
-   "file": "cervello/fette-ci.mjs",
-   "cerca": "    completo: !buchi.length && !mancano.length && !doppi.length && !estranei.length,",
-   "sostituisci": "    completo: true,",
-   "test": "cervello/test/fette-della-ci.test.mjs"
-  },
-  {
-   "difetto": "ci-tre-minuti · fette",
    "nome": "la ricucitura a schermo torna a uscire 0 con una fetta mancante",
    "file": "cervello/test-cervello.mjs",
    "cerca": "if (!JSON_MODE && !r.completo && process.exitCode !== 1) {",
    "sostituisci": "if (false) {",
-   "test": "cervello/test/fette-della-ci.test.mjs"
-  },
-  {
-   "difetto": "ci-tre-minuti · fette",
-   "nome": "la divisione perde la prova più pesante",
-   "file": "cervello/fette-ci.mjs",
-   "cerca": "    fette[scelta].file.push(v.file);",
-   "sostituisci": "    if (v !== ordinate[0]) fette[scelta].file.push(v.file);",
    "test": "cervello/test/fette-della-ci.test.mjs"
   },
   {
@@ -11752,6 +11736,22 @@
    "cerca": "    needs: [suite, mutazioni]",
    "sostituisci": "    needs: [suite]",
    "test": "cervello/test/fette-della-ci.test.mjs"
+  },
+  {
+   "difetto": "ci-tre-minuti · fette",
+   "test": "cervello/test/fette-della-ci.test.mjs",
+   "sostituisci": "",
+   "nome": "la fetta della suite torna a morire con ENOENT se la cartella dei referti non c è (collaudo del 13/11)",
+   "file": "cervello/test-cervello.mjs",
+   "cerca": "    mkdirSync(dirname(resolve(REFERTO)), { recursive: true });\n"
+  },
+  {
+   "difetto": "ci-tre-minuti · fette",
+   "test": "cervello/test/fette-della-ci.test.mjs",
+   "sostituisci": "",
+   "nome": "la fetta del banco torna a morire con ENOENT se la cartella dei referti non c è",
+   "file": "cervello/banco-a-corsie.mjs",
+   "cerca": "    mkdirSync(dirname(resolve(referto)), { recursive: true });\n"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",
