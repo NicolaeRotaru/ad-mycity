@@ -34,6 +34,12 @@ name: Test del cervello
 
 on:
   push:
+    # 🍰 SOLO SU MAIN (13/11). Prima partiva anche a ogni push sul ramo di una richiesta, dove il
+    # cancello del lotto fa già girare la stessa suite: due volte lo stesso lavoro, e il conto è
+    # misurato — sulla richiesta 948 i due flussi insieme chiedevano 23 macchine contro le circa 20
+    # che l'account ne concede, e una fetta del cancello è rimasta in coda 73 secondi. Questo file
+    # esiste per il push diretto su main (AR-377): lì resta, identico.
+    branches: [main]
     # Solo quando cambia CODICE. La memoria (vault, briefing, quaderni) arriva su main decine di
     # volte al giorno dal worker: farci girare la suite non proverebbe niente e insegnerebbe a
     # ignorare le notifiche — un allarme che si impara a scorrere costa quanto uno spento.

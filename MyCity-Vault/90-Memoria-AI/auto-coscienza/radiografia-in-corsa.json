@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-13 03:02",
+  "aggiornato": "2026-11-13 03:09",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -7113,6 +7113,20 @@
         "cervello/cancello-lotto.mjs": "1e1a4d4fec77",
         "cervello/fette-ci.mjs": "bd7ceeaca057",
         "cervello/test-cervello.mjs": "e3e26d72287a"
+      }
+    },
+    {
+      "quando": "2026-11-13 03:09",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/test-cervello.mjs": "91bbe58fff71"
       }
     }
   ]

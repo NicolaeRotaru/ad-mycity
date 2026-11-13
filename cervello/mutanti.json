@@ -11740,10 +11740,10 @@
   {
    "difetto": "ci-tre-minuti · fette",
    "test": "cervello/test/fette-della-ci.test.mjs",
-   "sostituisci": "",
-   "nome": "la fetta della suite torna a morire con ENOENT se la cartella dei referti non c è (collaudo del 13/11)",
+   "sostituisci": "  if (false) scriviTestoAtomico(resolve(REFERTO), ",
+   "nome": "la fetta della suite torna a non consegnare il referto (il 13/11 moriva con ENOENT a fine corsa): chi ricuce non ha niente da leggere",
    "file": "cervello/test-cervello.mjs",
-   "cerca": "    mkdirSync(dirname(resolve(REFERTO)), { recursive: true });\n"
+   "cerca": "  if (REFERTO) scriviTestoAtomico(resolve(REFERTO), "
   },
   {
    "difetto": "ci-tre-minuti · fette",

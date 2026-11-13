@@ -50,8 +50,8 @@
 // che chiede a QUESTO file quali famiglie dice di eseguire: così il guardiano e il runner non
 // possono divergere in silenzio.
 
-import { existsSync, mkdirSync, readdirSync, readFileSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
-import { basename, dirname, join, resolve } from "node:path";
+import { existsSync, readdirSync, readFileSync, mkdtempSync, rmSync } from "node:fs";
+import { basename, join, resolve } from "node:path";
 import { spawn, spawnSync } from "node:child_process";
 import { cpus, tmpdir } from "node:os";
 import { pathToFileURL } from "node:url";
@@ -90,6 +90,8 @@ import { canaleAllargato, casiSpenti, chiusureDaRiverificare } from "./contratto
 import { fileDelComando } from "./cancello-lotto.mjs";
 import { spazza } from "./spazza-temporanei.mjs";
 // Le fette della CI (13/11): la suite divisa fra più runner e ricucita in un verdetto solo.
+// La penna condivisa (AR-639): scrive tutto o niente, crea la cartella, e rispetta la sola lettura.
+import { scriviTestoAtomico } from "./scrivi-json.mjs";
 import { dividiInFette, leggiFetta, leggiReferti, leggiTempi, pesoProva, ricuciSuite, tempiDaiReferti, valoreOpzione } from "./fette-ci.mjs";
 import { cecitaDaAmbiente, leggiSalto } from "./ambiente-prova.mjs";
 // AR-859 — «il posto non c'è» (⚪ 2) vs «il posto c'è ed è vuoto» (❌ 1): una decisione sola,
@@ -1087,12 +1089,10 @@ function concludi({ quando, righe, righeBats, bin, inFila = [], perche = new Map
   };
   // Il referto su file c'è ANCHE col report a schermo: la fetta scrive il JSON per chi ricuce e
   // stampa il report leggibile nel suo log, così un rosso si diagnostica senza scaricare niente.
-  // La cartella la crea chi scrive: il 13/11 un flusso che non la creava rompeva ogni fetta DOPO
-  // aver girato tutte le sue prove (ENOENT), e il lavoro di un runner intero finiva nel nulla.
-  if (REFERTO) {
-    mkdirSync(dirname(resolve(REFERTO)), { recursive: true });
-    writeFileSync(REFERTO, `${JSON.stringify(referto, null, 2)}\n`);
-  }
+  // La cartella la crea chi scrive (la penna condivisa lo fa da sé): il 13/11 un flusso che non la
+  // creava rompeva ogni fetta DOPO aver girato tutte le sue prove (ENOENT), e il lavoro di un runner
+  // intero finiva nel nulla. Atomica: chi ricuce non può leggere un referto scritto a metà.
+  if (REFERTO) scriviTestoAtomico(resolve(REFERTO), `${JSON.stringify(referto, null, 2)}\n`);
   if (JSON_MODE) {
     console.log(JSON.stringify(referto, null, 2));
     process.exitCode = rotti.length ? 1 : incompleto ? 2 : 0;
@@ -1309,7 +1309,10 @@ function aggiornaTempi() {
       .filter(([f]) => existsSync(join(AD_ROOT, f)))
       .sort(([a], [b]) => (a < b ? -1 : 1)),
   );
-  writeFileSync(TEMPI, `${JSON.stringify({ ...vecchio, misurato_il: nowPiacenza(), ms: tutti }, null, 1)}\n`);
+  if (!scriviTestoAtomico(TEMPI, `${JSON.stringify({ ...vecchio, misurato_il: nowPiacenza(), ms: tutti }, null, 1)}\n`)) {
+    console.error("⚪ non ho riscritto cervello/tempi-prove.json: la memoria è in sola lettura in questa corsa.");
+    process.exit(2);
+  }
   console.log(`⏱️ ${Object.keys(ms).length} tempi aggiornati in cervello/tempi-prove.json (${Object.keys(tutti).length} in tutto).`);
 }
 
