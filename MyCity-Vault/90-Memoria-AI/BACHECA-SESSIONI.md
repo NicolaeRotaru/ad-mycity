@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-13 05:15
+aggiornato: 2026-11-13 05:12
 regole: cervello/sessioni-insieme.md
 ---
 
