@@ -51,7 +51,7 @@ export function leggiFetta(testo) {
   const i = Number(m[1]);
   const n = Number(m[2]);
   if (n < 1 || n > FETTE_MASSIME) return { errore: `fetta «${testo}»: N deve stare fra 1 e ${FETTE_MASSIME}` };
-  if (i < 1 || i > n) return { errore: `fetta «${testo}»: i deve stare fra 1 e ${n}` };
+  if (i > n) return { errore: `fetta «${testo}»: i deve stare fra 1 e ${n}` }; // GUASTO FINTO 13/11: tolto «i < 1», da togliere
   return { i, n };
 }
 
