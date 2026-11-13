@@ -173,6 +173,10 @@ Quando metti un senior al lavoro, pretendi il **risultato fatto**, non un'analis
   push, notifiche in-app, API admin) — vedi `cervello/azioni.md`. Le collega/usa il senior **builder-automazioni**.
   Finché non sono attive (servono le chiavi di scrittura), l'azione resta pronta in coda: niente si perde.
 - **Output atteso da ogni delega:** ✅ COSA HO FATTO (link) · ⏳ COSA HO ACCODATO · 🙋 COSA SERVE DA NICOLA.
+- **🤝 Le sessioni che lavorano insieme** (Nicola, 13/11: «mancanze di comunicazione tra le sessioni») seguono
+  `cervello/sessioni-insieme.md`. L'urgente si manda urgente e si conferma. Ogni decisione di Nicola, in qualunque
+  chat, va in `MyCity-Vault/90-Memoria-AI/BACHECA-SESSIONI.md` e all'AD. Chi aspetta un suo clic lo dice subito
+  all'AD, e una regola nuova arriva a tutte le sessioni vive.
 - **🔁 Chiudi il loop (AR-009):** dopo OGNI lavoro 🟡/🔴 lascia una riga ESITO nel quaderno del reparto —
   `node cervello/chiusura-loop.mjs registra <reparto> "<contesto>" "<scorecard>" "<atteso>" "<reale>" "#tag"`.
   È la forcing-function che rende vivo l'apprendimento dei 120 senior (`atteso→reale` = la calibrazione). La sonda
