@@ -3,6 +3,18 @@
   "profilo": "tutto",
   "creato": "2026-11-12 15:06",
   "verifica_testa_dall_onda": 2,
+  "eccezioni_firmate": [
+    {
+      "onda": 1,
+      "regole": [
+        "prove_comuni",
+        "prova_nuova_senza_nome",
+        "prova_esistente_altrui",
+        "rimessa_a_mano"
+      ],
+      "firma": "Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03"
+    }
+  ],
   "onde": [
     {
       "onda": 1,

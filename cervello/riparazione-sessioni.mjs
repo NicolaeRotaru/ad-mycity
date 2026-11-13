@@ -747,9 +747,29 @@ export const RE_SPENTA = /\b(?:it|test|describe)(?:\.\w+)*\.(?:skip|only|todo|fa
 /** Quante asserzioni porta il testo di una prova (vitest, node:test, assert). PURA. */
 // I commenti si tolgono prima di contare: un'asserzione COMMENTATA non controlla niente (radiografia del 12/11 notte).
 export const contaAsserzioni = (testo) => (String(testo).replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:\\])\/\/.*$/gm, "$1").match(/\bexpect\s*\(|\bassert(?:\.\w+)?\s*\(|\bt\.(?:assert|equal|deepEqual|ok|throws)\b/g) || []).length;
+/** Le regole che un'eccezione firmata può sospendere in un'onda, e solo queste. */
+export const REGOLE_DEROGABILI = Object.freeze(["prove_comuni", "prova_nuova_senza_nome", "prova_esistente_altrui", "rimessa_a_mano"]);
+/**
+ * L'eccezione firmata da Nicola su una regola, per un'onda sola. PURA. Torna la firma, o null.
+ * Perché esiste: la campagna del 12/11 ha lavorato la sua onda 1 prima che le regole di AR-1172 ci fossero, e i
+ * collaudatori avevano già guardato quelle modifiche. Con le regole di oggi `applica --git` dava 63 rossi su 300 voci,
+ * e i 115 difetti riparati non si potevano chiudere. Nicola ha scelto: la regola resta stretta, e per la sola onda 1
+ * vale un'eccezione firmata (card 239, «a», 13/11 03:27; «Allarga la a», 13/11 05:20, per i sei rossi che non erano
+ * prove comuni). Nel piano: `eccezioni_firmate: [{ onda: 1, regole: [...], firma: "…" }]`. Senza firma non vale; una
+ * regola fuori da REGOLE_DEROGABILI non vale; dall'onda dopo la regola è stretta.
+ */
+export function eccezioneFirmata(piano, onda, regola) {
+  if (!REGOLE_DEROGABILI.includes(regola)) return null;
+  for (const e of Array.isArray(piano?.eccezioni_firmate) ? piano.eccezioni_firmate : []) {
+    if (Number(e?.onda) !== Number(onda) || !Array.isArray(e?.regole) || !e.regole.includes(regola)) continue;
+    if (typeof e.firma === "string" && e.firma.trim()) return e.firma.trim();
+  }
+  return null;
+}
 /**
  * Il giudizio su UN percorso toccato dalla storia di un ramo riparatore. PURA.
- * `ctx`: { nome, suoi:Set, esisteAllaBase(p), importaDaSuoi(p), fascia:[a,b]|null, casa }
+ * `ctx`: { nome, suoi:Set, esisteAllaBase(p), importaDaSuoi(p), fascia:[a,b]|null, casa, deroga?(regola, perché) }
+ * `deroga` dice se un'eccezione firmata sospende quella regola in quest'onda (e la annota): allora non è un rosso.
  * Torna null se il percorso è ammesso, altrimenti il perché.
  */
 export function giudicaPercorso(p, ctx) {
@@ -773,10 +793,11 @@ export function giudicaPercorso(p, ctx) {
     // run.sh e la CI leggono solo tests/sql/rls/*.test.sql: una prova SQL con un altro nome non la rilancia
     // nessuno dopo l'unione (radiografia del 12/11 notte).
     if (!allaBase && /(^|\/)tests\/sql\/rls\/[^/]+$/.test(p) && !p.endsWith(".test.sql")) return `${p}: una prova SQL nuova finisce in .test.sql, se no run.sh e la CI non la lanciano`;
-    if (!allaBase) return basename(p).toLowerCase().includes(`riparazione-${ctx.nome.toLowerCase()}`) ? null : `${p}: una prova nuova porta il nome della sessione (riparazione-${ctx.nome.toLowerCase()}-…)`;
+    const derogata = (regola, perche) => (typeof ctx.deroga === "function" && ctx.deroga(regola, perche) ? null : perche);
+    if (!allaBase) return basename(p).toLowerCase().includes(`riparazione-${ctx.nome.toLowerCase()}`) ? null : derogata("prova_nuova_senza_nome", `${p}: una prova nuova porta il nome della sessione (riparazione-${ctx.nome.toLowerCase()}-…)`);
     const di = ctx.importaDaSuoi(p);
-    if (di === "condivisa") return `${p}: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista`;
-    return di ? null : `${p}: è una prova esistente che non importa e non nomina nessuno dei file di ${ctx.nome}`;
+    if (di === "condivisa") return derogata("prove_comuni", `${p}: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista`);
+    return di ? null : derogata("prova_esistente_altrui", `${p}: è una prova esistente che non importa e non nomina nessuno dei file di ${ctx.nome}`);
   }
   if (!allaBase) return null; // un file nuovo: lo controlla prova-unione, che vede se un altro ramo lo crea
   return `${p}: è un file di un'altra sessione o di nessuno in quest'onda`;
@@ -898,6 +919,22 @@ function controlliDelRamo(dir, base, ramo, testoReferto) {
   }
   return { ref, commitDelRamo, testaDelRamo, soloRefertoDopo };
 }
+function stampaEccezioni(elenco) {
+  if (!elenco?.length) return;
+  console.log(`ℹ️ ${elenco.length} rossi sospesi da un'eccezione firmata (non fermano, si elencano):`);
+  for (const e of elenco.slice(0, TETTO_RIGHE)) console.log(`   ℹ️ ${e}`);
+  if (elenco.length > TETTO_RIGHE) console.log(`   ℹ️ … e altri ${elenco.length - TETTO_RIGHE} (tutti in --json)`);
+}
+/** La deroga per un collaudo: l'onda è quella del riparatore della voce. */
+function derogaCollaudo(piano, annotati) {
+  return (regola, perche, riparatore) => {
+    const dove = sessioneNelPiano(piano, riparatore);
+    const firma = dove ? eccezioneFirmata(piano, dove.onda.onda, regola) : null;
+    if (!firma) return false;
+    annotati.push(`${perche} [eccezione firmata, onda ${dove.onda.onda}: ${firma}]`);
+    return true;
+  };
+}
 function sessioneNelPiano(piano, nome) {
   for (const o of piano.onde) if (o.sessioni[nome]) return { onda: o, sessione: o.sessioni[nome] };
   return null;
@@ -910,6 +947,7 @@ function guardiaRamo(opz) {
   if (nome.startsWith("K")) return guardiaCollaudatore(opz, ramo, nome);
   const g = giudicaRamo(opz, per, piano, ramo, nome);
   if (g.rimessi?.length) console.log(`ℹ️ toccati nella storia e rimessi com'erano (non entrano nell'unione, non sono un rosso): ${g.rimessi.slice(0, TETTO_RIGHE).join(", ")}`);
+  stampaEccezioni(g.extra?.eccezioni_firmate);
   return chiudi("guardia-ramo", g.rossi, g.attese, opz, g.extra);
 }
 /**
@@ -980,6 +1018,14 @@ export function giudicaRamo(opz, per, piano, ramo, nome) {
     return importataDaAltre(p) ? "condivisa" : true;
   };
   const ctx = { nome, suoi, esisteAllaBase, importaDaSuoi, fascia: dove.sessione.migrazioni ?? null, casa: per.casa };
+  // Un'eccezione firmata per quest'onda non ferma il rosso in silenzio: lo elenca uno per uno, con la firma.
+  const derogati = [];
+  ctx.deroga = (regola, perche) => {
+    const firma = eccezioneFirmata(piano, dove.onda.onda, regola);
+    if (!firma) return false;
+    derogati.push(`${perche} [eccezione firmata, onda ${dove.onda.onda}: ${firma}]`);
+    return true;
+  };
   // Si giudica il RISULTATO del ramo, non ogni passo della storia (12/11 sera, regola firmata da Nicola): è il
   // diff netto quello che entra nell'unione. Nell'onda del 12/11 R01 e R07 sono rimasti rossi per sempre su file
   // toccati per sbaglio e rimessi com'erano. Un file toccato e rimesso si elenca, ma non è un rosso.
@@ -1016,7 +1062,7 @@ export function giudicaRamo(opz, per, piano, ramo, nome) {
   for (const c of storia.perCommit) for (const id of c.messaggio.match(/\b[A-Z]\d{2}-\d{3}\b/g) || []) if (!ids.has(id)) rossi.push(`${c.commit.slice(0, 12)}: il messaggio cita ${id}, che non è una voce di ${nome}`);
   const attese = !storia.commit.length ? [`${nome}: il ramo non ha ancora nessun commit suo`]
     : !netto.size ? [`${nome}: il ramo ha ${storia.commit.length} commit ma alla fine non cambia nessun file: non c'è niente da giudicare, non è un verde`] : [];
-  return esito(rossi, attese, { commit: storia.commit.length, file_toccati: netto.size, ...(rimessi.length ? { toccati_e_rimessi_com_erano: rimessi } : {}) }, rimessi);
+  return esito(rossi, attese, { commit: storia.commit.length, file_toccati: netto.size, ...(rimessi.length ? { toccati_e_rimessi_com_erano: rimessi } : {}), ...(derogati.length ? { eccezioni_firmate: derogati } : {}) }, rimessi);
 }
 function guardiaCollaudatore(opz, ramo, nome) {
   const dir = resolve(opz.git ?? opz.radice);
@@ -1202,9 +1248,11 @@ export function campioneDi(minori, perId, hub) {
   const accettato = pieni.length >= servono && hubMancanti.length === 0 && (pieni.length === 0 || reggono / pieni.length >= SOGLIA_CAMPIONE);
   return { minori: tot, servono, nel_campione: pieni.length, reggono, hub_mancanti: hubMancanti, accettato };
 }
-/** ctx: { nome, riparatori: {RNN: {voci:[{id,chiave,gravita,file}], referto|null}}, hub:Set } */
+/** ctx: { nome, riparatori: {RNN: {voci:[{id,chiave,gravita,file}], referto|null}}, hub:Set, deroga?(regola, perché, RNN) } */
 export function regoleCollaudo(testo, ctx) {
   const rossi = [], attese = [];
+  // Un rosso che un'eccezione firmata sospende nell'onda del riparatore non entra fra i rossi (la deroga lo annota).
+  const nonDerogato = (regola, perche, r) => (typeof ctx.deroga === "function" && ctx.deroga(regola, perche, r) ? [] : [perche]);
   let c;
   try { c = JSON.parse(testo); } catch (e) { return { rossi: [`il collaudo non è JSON: ${e.message}`], attese, campioni: {} }; }
   for (const k of chiaviDoppie(testo)) rossi.push(`la chiave «${k}» è scritta due volte nello stesso oggetto`);
@@ -1241,7 +1289,7 @@ export function regoleCollaudo(testo, ctx) {
         if (cv.verdetto === "regge" && cv.rimessa?.uscita !== 0) rossi.push(`${rv.id}: «regge» con la prova rimessa uscita ${cv.rimessa?.uscita}, non 0`);
         // La prova rimessa del collaudo toglie davvero la correzione: apply.sh + run.sh, o un comando qualunque,
         // sono verdi qualunque cosa faccia la correzione (radiografia del 12/11 notte).
-        if (cv.verdetto === "regge" && !vuoto(cv.rimessa?.comando) && !/prova-rimessa\.mjs/.test(String(cv.rimessa.comando))) rossi.push(`${rv.id}: «regge» con una prova rimessa che non è prova-rimessa.mjs: un comando che non toglie la correzione non prova niente`);
+        if (cv.verdetto === "regge" && !vuoto(cv.rimessa?.comando) && !/prova-rimessa\.mjs/.test(String(cv.rimessa.comando))) rossi.push(...nonDerogato("rimessa_a_mano", `${rv.id}: «regge» con una prova rimessa che non è prova-rimessa.mjs: un comando che non toglie la correzione non prova niente`, r));
         if (cv.verdetto === "regge" && /--sql\b/.test(String(rv.rimessa?.comando ?? "")) && !/--sql\b/.test(String(cv.rimessa?.comando ?? ""))) rossi.push(`${rv.id}: il riparatore l'ha provata con --sql e il collaudo no: una migrazione si prova ricostruendo il database con e senza`);
       }
       if (cv.verdetto === "regge" && cv.giudizio === "pieno" && !lentiTutte) rossi.push(`${rv.id}: un giudizio pieno porta tutte e due le lenti (${LENTI.join(", ")})`);
@@ -1291,7 +1339,9 @@ function validaCollaudo(opz) {
   if (!elenco.length) return chiudi("valida-collaudo", ["il collaudo non dice quali riparatori guarda («riparatori»)"], [], opz);
   const riparatori = riparatoriDi(opz, piano, elenco);
   const fuoriPiano = Object.entries(riparatori).filter(([, x]) => !x.inPiano).map(([r]) => r);
-  const { rossi, attese, campioni } = regoleCollaudo(testo, { nome: c.collaudatore, riparatori, hub: fileHub(per.lavorabili) });
+  const derogatiK = [];
+  const { rossi, attese, campioni } = regoleCollaudo(testo, { nome: c.collaudatore, riparatori, hub: fileHub(per.lavorabili), deroga: derogaCollaudo(piano, derogatiK) });
+  stampaEccezioni(derogatiK);
   for (const r of fuoriPiano) rossi.push(`${r} non è nel piano`);
   const sess = leggiSessioni(opz);
   for (const r of elenco) {
@@ -1513,6 +1563,7 @@ function applica(opz) {
   const referti = {};
   const sess = leggiSessioni(opz);
   const senzaStoria = [];
+  const eccezioni = [];
   for (const { nome: file, testo, dati } of lettiR) {
     const nome = file.replace(/\.json$/, "");
     if (!dati) { ferma.push(`referti/${file}: non è JSON`); continue; }
@@ -1530,7 +1581,11 @@ function applica(opz) {
     for (const r of rossi) ferma.push(`referti/${file}: ${r}`);
     // La guardia del ramo si rilancia qui: la skill lo prometteva e non succedeva, e il 12/11 tre rami con la guardia
     // rossa si sono uniti e chiusi (radiografia del 12/11 notte). Con --scrivi --git è obbligatoria.
-    if (opz.git && ramo) for (const r of giudicaRamo(opz, per, piano, ramo, nome).rossi) ferma.push(`referti/${file}: guardia-ramo: ${r}`);
+    if (opz.git && ramo) {
+      const g = giudicaRamo(opz, per, piano, ramo, nome);
+      for (const r of g.rossi) ferma.push(`referti/${file}: guardia-ramo: ${r}`);
+      for (const e of g.extra?.eccezioni_firmate ?? []) eccezioni.push(`referti/${file}: guardia-ramo: ${e}`);
+    }
     // La verifica legata allo SHA è obbligatoria anche qui: l'attesa di valida-referto da sola non fermava niente
     // (collaudo del 12/11 notte). Vale da `verifica_testa_dall_onda` del piano (predefinito 1): la campagna del
     // 12/11 la mette a 2, perché i referti della sua onda 1 sono nati prima della regola. Prima era «dall'onda 2»
@@ -1548,11 +1603,14 @@ function applica(opz) {
     const elenco = Array.isArray(dati.riparatori) ? dati.riparatori : [];
     if (!elenco.length) ferma.push(`collaudi/${file}: non dice quali riparatori guarda`);
     const riparatori = Object.fromEntries(elenco.map((r) => [r, { voci: sessioneNelPiano(piano, r)?.sessione.voci ?? [], referto: referti[r] ?? null }]));
-    const { rossi } = regoleCollaudo(testo, { nome: dati.collaudatore, riparatori, hub });
+    const derogatiK = [];
+    const { rossi } = regoleCollaudo(testo, { nome: dati.collaudatore, riparatori, hub, deroga: derogaCollaudo(piano, derogatiK) });
     for (const r of rossi) ferma.push(`collaudi/${file}: ${r}`);
+    for (const e of derogatiK) eccezioni.push(`collaudi/${file}: ${e}`);
     if (dati.finita !== true) ferma.push(`collaudi/${file}: il collaudo non è finito`);
     collaudi.push(dati);
   }
+  stampaEccezioni(eccezioni);
   if (ferma.length) return chiudi("applica", ferma, [], opz);
   const decisioni = conIControlli(decidi({ piano, referti, collaudi, hub }), controlli);
   const fuoriCampagna = rosseFuoriCampagna(decisioni, controlli);
@@ -1574,7 +1632,7 @@ function applica(opz) {
     corsia: numeroSessione(s), territorio: s,
     difetti: ds.map((d) => ({ chiave: d.chiave, esito: "riparato", verifica_comando: d.verifica_comando, non_vacuita: d.non_vacuita, nota_fix: d.nota_fix })),
   }));
-  scriviJson(join(cartella, "decisioni.json"), { campagna: nomeCampagna, quando, decisioni, ...(fuoriCampagna.length ? { rosse_fuori_campagna: fuoriCampagna } : {}) });
+  scriviJson(join(cartella, "decisioni.json"), { campagna: nomeCampagna, quando, decisioni, ...(fuoriCampagna.length ? { rosse_fuori_campagna: fuoriCampagna } : {}), ...(eccezioni.length ? { eccezioni_firmate: eccezioni } : {}) });
   if (!opz.scrivi) {
     console.log("   (a vuoto: ho scritto solo decisioni.json. Con --scrivi scrivo i frammenti e il registro.)");
     const attese = senzaStoria.length ? [`commit e testa non controllati sulla storia del ramo per ${senzaStoria.join(", ")} (servono --git e sessioni.json)`] : [];
