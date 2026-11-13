@@ -135,7 +135,12 @@
    "id": "session_015BmpnYSPCKUrojLLnhjvh5",
    "ramo": "claude/magical-hamilton-xouwr8-m17",
    "onda": 2,
-   "partenza": "2026-11-13 06:00"
+   "partenza": "2026-11-13 06:00",
+   "tetto": {
+    "usd": 105,
+    "deciso": "2026-11-13 15:23",
+    "fonte": "Nicola: «r17 il punto a» (5 revisori e il resto di L7, dopo 89,5 $ su 85)"
+   }
   },
   "R18": {
    "id": "session_015BmpnWBsmWgHtzK8nkMZuU",
