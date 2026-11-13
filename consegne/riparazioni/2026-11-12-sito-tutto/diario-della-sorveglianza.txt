@@ -272,3 +272,21 @@
 2026-11-13 17:44 · K08 · collaudo · guardia ✅ · collaudo ⏳ · nessuna
 2026-11-13 17:44 · onda 2 · prova-unione ✅
 2026-11-13 17:52 · giro della 4.0 · 12 riparatori finiti · rossi solo i due noti (R13 10708bcf, R17 bb53b6be: revert col messaggio standard, deroga alla fermata 3) · K08 · 2.0 e C02 · 2.0 ferme dalle 17:08 (costo fermo a 1,44 e 2,28 $: nessuna chiamata, niente database vero) · quota allowed_warning, niente uso extra · regista a 304 mila token, 5,71 $ · in attesa del «via» di Nicola sulla spesa · prossimo giro 18:15
+2026-11-13 18:16 · R13 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 18:16 · R14 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 18:16 · R15 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 18:16 · R16 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-13 18:16 · R17 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 18:16 · R18 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 18:16 · R19 · in lavoro FINITA · guardia ✅ · referto ✅ 23 voci · unione (sotto) · nessuna
+2026-11-13 18:16 · R20 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 18:16 · R21 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 18:16 · R22 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 18:16 · R23 · in lavoro FINITA · guardia ✅ · referto ✅ 18 voci · unione (sotto) · nessuna
+2026-11-13 18:16 · R24 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-13 18:16 · K05 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-13 18:16 · K06 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-13 18:16 · K07 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-13 18:16 · K08 · collaudo · guardia ✅ · collaudo ⏳ · nessuna
+2026-11-13 18:16 · onda 2 · prova-unione ✅
+2026-11-13 18:24 · giro della 4.0 · 12 riparatori finiti · rossi solo i due noti (R13 10708bcf, R17 bb53b6be) · K08 · 2.0 e C02 · 2.0 ferme dalle 17:08 (nessuna attività: niente database vero) · quota allowed_warning, niente uso extra · regista a 321 mila token, 6,44 $ · AD in attesa del «via» di Nicola su K09 · prossimo giro 18:47
