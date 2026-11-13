@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-13 02:30
+aggiornato: 2026-11-13 02:40
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -24,6 +24,7 @@ Le più nuove in alto. Ognuna dice quando, a chi l'ha detta, e cosa.
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 13/11 02:40 | AD | Regola 9 delle sessioni: un lavoro lungo ha tre livelli, AD, controllore e chi lavora; il controllore segue la richiesta e ripara CI e conflitti |
 | 13/11 02:30 | AD | Regola 8 delle sessioni: un lavoro lungo ha una sessione sua, con un foglio di partenza in sei parti |
 | 13/11 02:16 | AD | Le CI della macchina, «Cancello del lotto» e «Test del cervello», entro 3 minuti, «non di più» |
 | 13/11 01:56 | AD | Le figlie nascono in una cartella per ruolo: riparatori, collaudatori, controllori (skill `riparazione`, «Le cartelle nell'elenco») |
