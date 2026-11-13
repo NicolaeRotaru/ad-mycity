@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 13/11 13:20 | chat «Regista · onda 2 · quarta» | «nella nuova sessione di regista riesci a metterti avanti con i collaudatori e controllori su difetti già risolti». Passata alla quinta regista: collaudi subito sui riparatori finiti e su quello che gli altri hanno già riparato, senza aspettare la fine di tutti |
 | 13/11 12:58 | chat «Regista · onda 2 · quarta» | «fai fare ai riparatori i difetti mai toccati, così finiamo al 100% l'ondata», e alla domanda sul costo: «oltre a questi 99 fai anche quelli che mancano da fare in questa ondata». La regista ha riavviato 10 riparatori con tetti nuovi (da 55 a 90 $ a testa). Le parti che stanno in file altrui le fa la cucitura dell'onda 2, dopo l'unione. Le sue scelte aperte gliele porta la regista |
 | 13/11 06:33 | chat «Regista · onda 2 · seconda» | «quante altre cose le hai, non le fai o le fai a metà». Un'altra correzione: la regista ha fatto l'elenco di quello che aveva lasciato a metà, e lo chiude punto per punto. L'elenco sta nella sua risposta in chat |
 | 13/11 06:23 | chat «Regista · onda 2 · seconda» | «però non stavi applicando le regole, come mai». È una correzione. La regista aveva cominciato a scrivere la riparazione della CI della #952 con ultracode spento, e la regola 10 lo vieta. Non l'aveva nemmeno scritta prima qui, come chiede la regola 3. Alle 06:24 ha messo da parte la modifica, senza commit. Riparte quando ultracode è acceso |
