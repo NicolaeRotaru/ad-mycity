@@ -6883,3 +6883,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
   - la terza chat fa i controlli sulla produzione: pubblicazione, pagine pubbliche ed errori di Vercel;
   - la quarta tiene la memoria.
 - **Se va bene:** la produzione risponde. Nicola apre l'onda 2 col testo di `AVVIO-ONDA-2.md`, e la base dell'onda 2 è `a19ff89`.
+
+## 2026-11-13 05:31 — 🟡 Sul sito la CI parte una volta sola per ogni aggiornamento di una richiesta (sessione session_015BmpnWjSJvwxssvANzndUF, ramo `claude/ci-tre-minuti` di mycity)
+- **Chi:** Nicola, alle 05:31, nella sessione della CI, rispondendo alla domanda sulla corsa doppia: «Sì, togli quella del ramo».
+- **Il contesto:** Nicola alle 04:27 aveva chiesto «riesci a portare anche le pr di mycity sotto i 3 minuti?». La CI del sito durava fra 5 minuti e mezzo e 7 e mezzo (corsa 43359816356 su main: 7 min 33 s). Divise in fette, le prove girano su 17 macchine per corsa. Ma ogni aggiornamento di una richiesta faceva partire due corse uguali, una per il ramo `claude/**` e una per la richiesta. Insieme chiedevano 34 macchine, e l'account ne dà circa 20. Metà dei lavori ha aspettato in coda fino a 40 secondi, e le due corse hanno superato i 4 minuti (43365332694 e 43365403658).
+- **Cosa cambia:** in `.github/workflows/ci.yml` del sito il `push` resta solo su `main`, e `pull_request` resta com'era. Le prove girano lo stesso a ogni aggiornamento di una richiesta, sul codice già unito a main. Un ramo senza richiesta aperta non ha controlli finché la richiesta non si apre. Commit `1ef0c3a`, richiesta mycity#289 in bozza.
+- **Se va bene:** la corsa della richiesta, da sola, sta sotto i 3 minuti. Nicola unisce la #289 quando vuole: l'unione è sua.
