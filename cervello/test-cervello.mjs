@@ -26,6 +26,12 @@
 //   node cervello/test-cervello.mjs --json    -> JSON
 //   node cervello/test-cervello.mjs --seriale -> uno alla volta (per isolare un test che disturba)
 //   node cervello/test-cervello.mjs --solo x  -> solo i file il cui nome contiene «x»
+//   node cervello/test-cervello.mjs --fetta 2/8 --referto f.json -> solo la 2ª di 8 fette di peso
+//        simile (la CI le fa girare su 8 macchine insieme), e il JSON scritto in f.json
+//   node cervello/test-cervello.mjs --ricuci <cartella> -> nessuna prova lanciata: ricuce i referti
+//        delle fette, controlla che OGNI prova della cartella abbia il suo verdetto, e dà il
+//        verdetto della suite intera (2 se manca anche una prova sola: non misurato non è verde)
+//   node cervello/test-cervello.mjs --aggiorna-tempi f.json [...] -> riscrive cervello/tempi-prove.json
 // Exit: 0 = tutti girano e passano · 1 = almeno uno rotto o ineseguibile
 //
 // AR-660 — E LE PROVE SCRITTE IN BATS, CHE NON ESEGUIVA NESSUNO. Ventisei file `.bats` vivevano in
@@ -83,6 +89,10 @@ export const CHIAVE_BATS = "prove-bash-senza-esecutore";
 import { canaleAllargato, casiSpenti, chiusureDaRiverificare } from "./contratto-prova.mjs";
 import { fileDelComando } from "./cancello-lotto.mjs";
 import { spazza } from "./spazza-temporanei.mjs";
+// Le fette della CI (13/11): la suite divisa fra più runner e ricucita in un verdetto solo.
+// La penna condivisa (AR-639): scrive tutto o niente, crea la cartella, e rispetta la sola lettura.
+import { scriviTestoAtomico } from "./scrivi-json.mjs";
+import { dividiInFette, leggiFetta, leggiReferti, leggiTempi, pesoProva, ricuciSuite, tempiDaiReferti, valoreOpzione } from "./fette-ci.mjs";
 import { cecitaDaAmbiente, leggiSalto } from "./ambiente-prova.mjs";
 // AR-859 — «il posto non c'è» (⚪ 2) vs «il posto c'è ed è vuoto» (❌ 1): una decisione sola,
 // pura, che un test può eseguire senza far partire il banco.
@@ -112,6 +122,12 @@ const SOLO = (() => {
   }
   return valore;
 })();
+// 🍰 LE FETTE DELLA CI (13/11) — vedi cervello/fette-ci.mjs per il perché e i numeri.
+const FETTA = leggiFetta(valoreOpzione(process.argv, "--fetta"));
+const REFERTO = valoreOpzione(process.argv, "--referto");
+const RICUCI = valoreOpzione(process.argv, "--ricuci");
+const AGGIORNA_TEMPI = process.argv.includes("--aggiorna-tempi");
+const TEMPI = join(AD_ROOT, "cervello/tempi-prove.json");
 // La cartella delle prove si può PUNTARE ALTROVE, e non è una comodità: è l'unico modo di provare
 // questo banco senza aggiungere al repo una prova rotta apposta. Un banco che si può misurare solo
 // sul contenuto vero di casa è un banco che nessuno misura — la forma di difetto che questa cartella
@@ -594,6 +610,7 @@ function eseguiTest(dir, f) {
     ambiente.MYCITY_BANCO_PROFONDITA = String(PROFONDITA + 1);
     // Ogni temporaneo di questa prova nasce nella sabbiera del giro, e muore con lei.
     ambiente.TMPDIR = SABBIERA;
+    const partito = Date.now();
     const p = spawn(process.execPath, ["--import", HOOK_TS, "--test", "--test-reporter=tap", join(dir, f)], {
       cwd: AD_ROOT,
       env: ambiente,
@@ -622,7 +639,7 @@ function eseguiTest(dir, f) {
         }
       }, RESPIRO_MS);
       colpoDiGrazia.unref?.();
-      risolvi({ file: `${CARTELLA}/${f}`, ...verdettoPiantato(`${CARTELLA}/${f}`, TETTO_PROVA_MS) });
+      risolvi({ file: `${CARTELLA}/${f}`, ...verdettoPiantato(`${CARTELLA}/${f}`, TETTO_PROVA_MS), ms: Date.now() - partito });
     }, TETTO_PROVA_MS);
     scadenza.unref?.();
     const fine = () => clearTimeout(scadenza);
@@ -630,11 +647,11 @@ function eseguiTest(dir, f) {
     // e `verdetto` lo classifica così solo se gli arriva un'uscita non nulla e nessun TAP.
     p.on("error", (e) => {
       fine();
-      risolvi({ file: `${CARTELLA}/${f}`, ...verdetto(1, `${uscita}\n${e.message}`) });
+      risolvi({ file: `${CARTELLA}/${f}`, ...verdetto(1, `${uscita}\n${e.message}`), ms: Date.now() - partito });
     });
     p.on("close", (code) => {
       fine();
-      risolvi({ file: `${CARTELLA}/${f}`, ...verdetto(code, uscita) });
+      risolvi({ file: `${CARTELLA}/${f}`, ...verdetto(code, uscita), ms: Date.now() - partito });
     });
   });
 }
@@ -697,12 +714,13 @@ export async function confermaIRossi(righe = [], rilancia) {
  */
 function eseguiBats(bin, dir, f) {
   return new Promise((risolvi) => {
+    const partito = Date.now();
     const p = spawn(bin, ["--tap", join(dir, f)], { cwd: AD_ROOT, env: { ...process.env, TMPDIR: SABBIERA } });
     let uscita = "";
     p.stdout.on("data", (d) => (uscita += d));
     p.stderr.on("data", (d) => (uscita += d));
-    p.on("error", (e) => risolvi({ file: `${CARTELLA}/${f}`, ...verdettoBats(1, `${uscita}\n${e.message}`) }));
-    p.on("close", (code) => risolvi({ file: `${CARTELLA}/${f}`, ...verdettoBats(code, uscita) }));
+    p.on("error", (e) => risolvi({ file: `${CARTELLA}/${f}`, ...verdettoBats(1, `${uscita}\n${e.message}`), ms: Date.now() - partito }));
+    p.on("close", (code) => risolvi({ file: `${CARTELLA}/${f}`, ...verdettoBats(code, uscita), ms: Date.now() - partito }));
   });
 }
 
@@ -817,6 +835,14 @@ async function main() {
     else console.error(messaggio);
     process.exit(2);
   }
+  // 🍰 Le due modalità che NON lanciano prove: chiedere una cosa e riceverne un'altra sarebbe il
+  // peggio — un `--fetta` scritto storto che fa girare la suite intera e la chiama «la fetta».
+  if (FETTA?.errore || REFERTO === "" || RICUCI === "") {
+    console.error(`⚪ ${FETTA?.errore || (REFERTO === "" ? "--referto senza un file" : "--ricuci senza una cartella")}: mi fermo invece di misurare un'altra cosa.`);
+    process.exit(2);
+  }
+  if (AGGIORNA_TEMPI) return aggiornaTempi();
+  if (RICUCI !== undefined) return ricuci(RICUCI);
   // 🧹 LA SPAZZATA, PRIMA DI TUTTO. Trentadue prove di questa cartella creano una cartella
   // temporanea con `mkdtempSync` e non la cancellano mai. Il banco gira a ogni giro, quindi ogni
   // giro ne lascia indietro una trentina da qualche mega: in mesi hanno riempito /tmp sul server
@@ -887,6 +913,26 @@ async function main() {
     console.error(rigaReferto(vProve));
     process.exit(vProve.codice);
   }
+  // 🍰 LA FETTA — si sceglie sull'elenco INTERO, prima di qualunque altra cosa, così ogni fetta fa
+  // la stessa divisione e ogni prova finisce in una fetta sola. Il peso viene dai tempi misurati
+  // (cervello/tempi-prove.json); chi non c'è pesa `PESO_IGNOTO_MS`, chi non si legge va in fila.
+  if (FETTA) {
+    const tempi = leggiTempi(TEMPI);
+    const inFilaDaSola = (f) => {
+      try {
+        return Boolean(perchePartireDaSola(readFileSync(join(dir, f), "utf8")));
+      } catch {
+        return true;
+      }
+    };
+    const voci = [
+      ...file.map((f) => ({ file: `${CARTELLA}/${f}`, peso: pesoProva({ ms: tempi.get(`${CARTELLA}/${f}`), inFila: inFilaDaSola(f) }) })),
+      ...bats.map((f) => ({ file: `${CARTELLA}/${f}`, peso: pesoProva({ ms: tempi.get(`${CARTELLA}/${f}`), inFila: true }) })),
+    ];
+    const mie = new Set(dividiInFette(voci, FETTA.n)[FETTA.i - 1]);
+    file = file.filter((f) => mie.has(`${CARTELLA}/${f}`));
+    bats = bats.filter((f) => mie.has(`${CARTELLA}/${f}`));
+  }
 
   // A CORSIE, non uno alla volta. Ogni file gira già nel suo processo separato: farne partire N
   // insieme non li mescola — un file che non parte resta un file che non parte, e gli altri
@@ -936,8 +982,6 @@ async function main() {
   ].sort((a, b) => a.file.localeCompare(b.file));
   // Ogni rosso si rilancia una volta, da solo, prima di essere creduto (L-2026-0814-001).
   const righe = await confermaIRossi(primaPassata, (x) => eseguiTest(dir, basename(x.file)));
-  const instabili = righe.filter((x) => x.esito === "instabile");
-
   // AR-660 — le prove in bash, che fino a oggi non lanciava nessuno.
   const bin = bats.length ? binarioBats() : null;
   const righeBats = bats.length
@@ -960,6 +1004,17 @@ async function main() {
           falliti: null,
         }))
     : [];
+  concludi({ quando, righe, righeBats, bin, inFila, perche, illeggibili, spentiPerFile, canaliPerFile });
+}
+
+/**
+ * IL REFERTO E IL CODICE D'USCITA — una casa sola per la suite girata qui e per quella ricucita
+ * dalle fette della CI. Se le due strade stampassero due referti, al primo cambiamento direbbero
+ * due verdetti diversi sulla stessa riga di codice (AR-697 l'ha già visto succedere fra due
+ * workflow). `ricucitura` c'è solo quando le righe arrivano dalle fette: porta i buchi, se ce ne sono.
+ */
+function concludi({ quando, righe, righeBats, bin, inFila = [], perche = new Map(), illeggibili = [], spentiPerFile = new Map(), canaliPerFile = new Map(), corsie = CORSIE, ricucitura = null }) {
+  const instabili = righe.filter((x) => x.esito === "instabile");
   const nonEseguiti = righeBats.filter((x) => x.esito === "non-eseguito");
 
   // «Non eseguito» NON entra fra i rotti, e la riga qui sotto è tutta la differenza. Un ambiente
@@ -998,16 +1053,22 @@ async function main() {
   // così tre difetti CHIUSI avevano la prova rossa senza che nessuno se ne accorgesse. Il conto si fa
   // qui perché è l'unico posto dove le due metà esistono insieme, e costa una lettura di file.
   const verdettoPerFile = new Map(tutte.map((x) => [x.file, x.esito]));
-  const chiusure = chiusureConProvaRossa(verdettoPerFile);
+  // Su una FETTA il conto delle chiusure si rimanda: con un ottavo dei verdetti in mano, le schede
+  // le cui prove girano altrove uscirebbero tutte «non misurate». Lo rifà chi ricuce, con tutti.
+  const chiusure = FETTA ? { voci: [], cieco: [] } : chiusureConProvaRossa(verdettoPerFile);
 
-  if (JSON_MODE) {
-    console.log(
-      JSON.stringify(
-        {
-          esito: rotti.length ? "rotti" : "ok",
+  const incompleto = ricucitura && !ricucitura.completo;
+  const referto = {
+          esito: rotti.length ? "rotti" : incompleto ? "incompleto" : "ok",
           quando,
           asserzioni: totale,
-          corsie: CORSIE,
+          corsie,
+          // 🍰 da quale fetta viene, e da quale commit: chi ricuce li confronta.
+          fetta: FETTA && !FETTA.errore ? { i: FETTA.i, n: FETTA.n } : null,
+          commit: commitDiCasa(),
+          ...(ricucitura
+            ? { fette: ricucitura.fette, buchi: ricucitura.buchi, mancano: ricucitura.mancano, doppi: ricucitura.doppi, estranei: ricucitura.estranei, completo: ricucitura.completo }
+            : {}),
           in_fila: inFila,
           in_fila_perche: Object.fromEntries(perche),
           illeggibili,
@@ -1025,16 +1086,21 @@ async function main() {
           canali_allargati: [...canaliPerFile].map(([file, righe]) => ({ file, righe })),
           chiusure_da_riverificare: chiusure.voci,
           chiusure_non_lette: chiusure.cieco,
-        },
-        null,
-        2,
-      ),
-    );
-    process.exitCode = rotti.length ? 1 : 0;
+  };
+  // Il referto su file c'è ANCHE col report a schermo: la fetta scrive il JSON per chi ricuce e
+  // stampa il report leggibile nel suo log, così un rosso si diagnostica senza scaricare niente.
+  // La cartella la crea chi scrive (la penna condivisa lo fa da sé): il 13/11 un flusso che non la
+  // creava rompeva ogni fetta DOPO aver girato tutte le sue prove (ENOENT), e il lavoro di un runner
+  // intero finiva nel nulla. Atomica: chi ricuce non può leggere un referto scritto a metà.
+  if (REFERTO) scriviTestoAtomico(resolve(REFERTO), `${JSON.stringify(referto, null, 2)}\n`);
+  if (JSON_MODE) {
+    console.log(JSON.stringify(referto, null, 2));
+    process.exitCode = rotti.length ? 1 : incompleto ? 2 : 0;
     return;
   }
 
-  console.log(`\n🧪 TEST DEL CERVELLO — ${quando}  (${CORSIE} corsie · ${inFila.length} in fila da sole: ${riassuntoFila(perche)})\n`);
+  const diQualeFetta = FETTA ? ` · fetta ${FETTA.i} di ${FETTA.n}` : "";
+  console.log(`\n🧪 TEST DEL CERVELLO — ${quando}  (${corsie} corsie · ${inFila.length} in fila da sole: ${riassuntoFila(perche)}${diQualeFetta})\n`);
   for (const m of illeggibili) console.log(`  ⚠️  ${m}`);
   for (const x of [...righe, ...righeBats]) {
     const icona =
@@ -1158,6 +1224,96 @@ async function main() {
     console.log(`\n⚠️  ${t.motivo}: senza un numero fermo non distinguo il debito di ieri da una regressione di oggi, e non assolvo ciò che non ho potuto distinguere.`);
   }
   process.exitCode = 1;
+}
+
+/** Il commit su cui sto girando: la fetta lo scrive, chi ricuce lo confronta col suo. */
+function commitDiCasa() {
+  const r = spawnSync("git", ["rev-parse", "HEAD"], { cwd: AD_ROOT, encoding: "utf8" });
+  return r.status === 0 ? r.stdout.trim() : null;
+}
+
+/**
+ * 🧵 RICUCIRE LE FETTE — nessuna prova lanciata qui: si leggono i referti delle fette della CI e si
+ * dà il verdetto della suite INTERA, con lo stesso referto e lo stesso codice d'uscita di una corsa
+ * vera. Più una domanda che una corsa vera non deve farsi: è arrivato TUTTO? L'elenco di ciò che
+ * doveva girare lo ricavo io dalla cartella delle prove, non dalle fette — una fetta sparita non
+ * può portarsi via anche la memoria di ciò che doveva fare. Un buco esce 2: non misurato non è verde.
+ */
+function ricuci(cartella) {
+  const quando = nowPiacenza();
+  const { referti, illeggibili, assente } = leggiReferti(resolve(AD_ROOT, cartella));
+  const dirProve = resolve(AD_ROOT, CARTELLA);
+  const nella = existsSync(dirProve) ? readdirSync(dirProve) : [];
+  const universo = { test: trovaTest(nella).map((f) => `${CARTELLA}/${f}`), bats: trovaBats(nella).map((f) => `${CARTELLA}/${f}`) };
+  const r = ricuciSuite(referti, universo, { commit: commitDiCasa() });
+  if (assente) r.buchi.unshift(`la cartella dei referti «${cartella}» non c'è`);
+  for (const x of illeggibili) r.buchi.push(`referto illeggibile: ${x}`);
+  r.completo = r.completo && !assente && !illeggibili.length;
+  if (!JSON_MODE) {
+    console.log(`🧵 SUITE RICUCITA da ${r.fette} referti di fetta in «${cartella}»: ${universo.test.length + universo.bats.length} prove attese nella cartella.`);
+    for (const b of r.buchi) console.log(`  ⚪ ${b}`);
+    if (r.mancano.length) console.log(`  ⚪ ${r.mancano.length} prove senza verdetto: ${r.mancano.slice(0, 10).join(", ")}${r.mancano.length > 10 ? " …" : ""}`);
+    if (r.doppi.length) console.log(`  ⚪ ${r.doppi.length} prove misurate da più fette: ${r.doppi.slice(0, 10).join(", ")}`);
+    if (r.estranei.length) console.log(`  ⚪ ${r.estranei.length} verdetti di prove che qui non esistono: ${r.estranei.slice(0, 10).join(", ")}`);
+  }
+  concludi({
+    quando,
+    righe: r.test,
+    righeBats: r.bats,
+    bin: r.bats_binario,
+    inFila: r.in_fila,
+    perche: new Map(Object.entries(r.in_fila_perche)),
+    illeggibili: r.illeggibili,
+    spentiPerFile: new Map(r.casi_spenti.map((c) => [c.file, c.casi])),
+    canaliPerFile: new Map(r.canali_allargati.map((c) => [c.file, c.righe])),
+    corsie: r.corsie,
+    ricucitura: r,
+  });
+  if (!JSON_MODE && !r.completo && process.exitCode !== 1) {
+    console.log(`\n⚪ NON HO RICUCITO TUTTO: il verde qui sopra copre solo le prove arrivate. Esco 2 — una fetta che non consegna non è una fetta verde.`);
+    process.exitCode = 2;
+  }
+}
+
+/** Riscrive cervello/tempi-prove.json dai referti dati (interi o fette). Serve solo al bilanciamento. */
+function aggiornaTempi() {
+  const i = process.argv.indexOf("--aggiorna-tempi");
+  const file = process.argv.slice(i + 1).filter((a) => !a.startsWith("--"));
+  if (!file.length) {
+    console.error("⚪ --aggiorna-tempi senza referti: dimmi da quali JSON leggere i tempi.");
+    process.exit(2);
+  }
+  const referti = [];
+  for (const f of file) {
+    try {
+      referti.push(JSON.parse(readFileSync(f, "utf8")));
+    } catch (e) {
+      console.error(`⚪ ${f} non si legge (${e.message}): non scrivo tempi presi a metà.`);
+      process.exit(2);
+    }
+  }
+  const ms = tempiDaiReferti(referti);
+  if (!Object.keys(ms).length) {
+    console.error("⚪ in quei referti non c'è nessun tempo: non scrivo un file vuoto al posto di quello buono.");
+    process.exit(2);
+  }
+  let vecchio = {};
+  try {
+    vecchio = JSON.parse(readFileSync(TEMPI, "utf8"));
+  } catch {
+    vecchio = {};
+  }
+  // Le prove che non esistono più escono dal file: un tempo orfano non fa danni, ma confonde chi legge.
+  const tutti = Object.fromEntries(
+    Object.entries({ ...(vecchio.ms || {}), ...ms })
+      .filter(([f]) => existsSync(join(AD_ROOT, f)))
+      .sort(([a], [b]) => (a < b ? -1 : 1)),
+  );
+  if (!scriviTestoAtomico(TEMPI, `${JSON.stringify({ ...vecchio, misurato_il: nowPiacenza(), ms: tutti }, null, 1)}\n`)) {
+    console.error("⚪ non ho riscritto cervello/tempi-prove.json: la memoria è in sola lettura in questa corsa.");
+    process.exit(2);
+  }
+  console.log(`⏱️ ${Object.keys(ms).length} tempi aggiornati in cervello/tempi-prove.json (${Object.keys(tutti).length} in tutto).`);
 }
 
 /**

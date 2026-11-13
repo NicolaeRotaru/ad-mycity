@@ -28,6 +28,8 @@ import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync,
 import { tmpdir } from "node:os";
 import { dirname, join, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
+// Le fette della CI (13/11): le mutazioni divise fra più runner e ricucite in un verdetto solo.
+import { fettaDelleMutazioni, leggiFetta, leggiReferti, leggiTempi, ricuciMutazioni, valoreOpzione } from "./fette-ci.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 export const AD_ROOT = join(QUI, "..");
@@ -336,13 +338,68 @@ if (process.argv[1] && process.argv[1].endsWith("banco-a-corsie.mjs")) {
     console.error(`banco-a-corsie: nessuna mutazione da provare${soloDifetti ? ` per ${soloDifetti}` : ""} → non posso misurare`);
     process.exit(2);
   }
+  // 🍰 LE FETTE DELLA CI — vedi cervello/fette-ci.mjs. `--fetta i/N` prova solo la sua parte del
+  // perimetro; `--referto f` scrive i verdetti per chi ricuce; `--ricuci cartella` non prova niente
+  // e ricuce. La scelta di COSA provare resta quella di sopra, identica: la fetta taglia dopo.
+  const fetta = leggiFetta(valoreOpzione(process.argv, "--fetta"));
+  const referto = valoreOpzione(process.argv, "--referto");
+  const daRicucire = valoreOpzione(process.argv, "--ricuci");
+  if (fetta?.errore || referto === "" || daRicucire === "") {
+    console.error(`banco-a-corsie: ${fetta?.errore || (referto === "" ? "--referto senza un file" : "--ricuci senza una cartella")} → mi fermo invece di misurare un'altra cosa`);
+    process.exit(2);
+  }
+  const commit = (() => {
+    const r = spawnSync("git", ["rev-parse", "HEAD"], { cwd: AD_ROOT, encoding: "utf8" });
+    return r.status === 0 ? r.stdout.trim() : null;
+  })();
+  const difettiChiesti = soloDifetti ? soloDifetti.split(",").map((x) => x.trim()) : null;
   const t0 = Date.now();
-  const esito = await giraATutteLeCorsie({ mutazioni, registro, corsie: Number(arg("--corsie", CORSIE_DI_DEFAULT)), budget: Number(arg("--budget", 0)) });
+  let esito;
+  let diQuale = "";
+  if (daRicucire !== undefined) {
+    // Le attese sono TUTTE le mutazioni scelte qui sopra: ricavate dal registro e dal perimetro,
+    // non dalle fette. Quelle che nessuna fetta ha misurato tornano ⚪ una per una, col loro nome.
+    const { referti, illeggibili, assente } = leggiReferti(resolve(AD_ROOT, daRicucire));
+    const r = ricuciMutazioni(referti, mutazioni, { commit, difetti: difettiChiesti });
+    const perche = [
+      ...(assente ? [`la cartella dei referti «${daRicucire}» non c'è`] : []),
+      ...illeggibili.map((x) => `referto illeggibile: ${x}`),
+      ...r.buchi,
+    ];
+    const restano = [
+      ...corsiaNonPartita(r.mancano, perche.join(" · ") || "nessuna fetta ha consegnato il suo verdetto"),
+      ...r.doppi.map((e) => ({ ...e, verdetto: "cieco", perche: "misurata da più di una fetta: la divisione non è stata la stessa per tutte, e non so quale verdetto valga" })),
+      ...r.estranei.map((e) => ({ ...e, verdetto: "cieco", perche: "una fetta l'ha misurata ma il perimetro di questo cancello non la contiene: misurava un altro lotto" })),
+    ];
+    // Un buco senza nessuna mutazione mancante (un referto illeggibile in più, un commit diverso)
+    // resta un buco: non so se i verdetti arrivati valgono per questo codice.
+    const cieco = !r.mancano.length && perche.length ? [{ difetto: "fette", nome: "le fette della CI", verdetto: "cieco", perche: perche.join(" · ") }] : [];
+    esito = ricuciEsiti([{ esiti: [...r.esiti.filter((e) => !r.doppi.includes(e) && !r.estranei.includes(e)), ...restano, ...cieco] }]);
+    esito.corsie = referti.length;
+    esito.perCorsia = referti.map((x) => (x.esiti || []).length);
+    diQuale = ` ricucite da ${referti.length} fette`;
+  } else {
+    const mie = fetta ? fettaDelleMutazioni(mutazioni, fetta, leggiTempi(join(AD_ROOT, "cervello/tempi-prove.json"))) : mutazioni;
+    diQuale = fetta ? ` (fetta ${fetta.i} di ${fetta.n}: ${mie.length} delle ${mutazioni.length} del perimetro)` : "";
+    // Una fetta vuota è legittima (meno mutazioni che fette): consegna un referto vuoto, NON un ⚪
+    // — il conto di cosa doveva girare lo fa chi ricuce, e lì una mutazione persa si vede.
+    esito = mie.length
+      ? await giraATutteLeCorsie({ mutazioni: mie, registro, corsie: Number(arg("--corsie", CORSIE_DI_DEFAULT)), budget: Number(arg("--budget", 0)) })
+      : { ...ricuciEsiti([]), corsie: 0, perCorsia: [] };
+  }
+  if (referto) {
+    // La cartella la crea chi scrive (vedi la stessa riga in test-cervello.mjs, 13/11).
+    mkdirSync(dirname(resolve(referto)), { recursive: true });
+    writeFileSync(
+      referto,
+      `${JSON.stringify({ fetta: fetta && !fetta.errore ? { i: fetta.i, n: fetta.n } : null, commit, difetti: difettiChiesti, misurate_qui: esito.esiti.length, esiti: esito.esiti }, null, 1)}\n`,
+    );
+  }
   const secondi = ((Date.now() - t0) / 1000).toFixed(1);
   if (process.argv.includes("--json")) {
     console.log(JSON.stringify({ ok: esito.vacue.length === 0, esiti: esito.esiti }, null, 2));
   } else {
-    console.log(`🛣️ BANCO A CORSIE — ${mutazioni.length} mutazioni su ${esito.corsie} corsie (${esito.perCorsia.join(" · ")}) in ${secondi} s`);
+    console.log(`🛣️ BANCO A CORSIE — ${mutazioni.length} mutazioni${diQuale} su ${esito.corsie} corsie (${esito.perCorsia.join(" · ")}) in ${secondi} s`);
     for (const v of esito.vacue) console.log(`  ❌ ${v.difetto} — ${v.nome}\n     ${v.perche}`);
     for (const c of esito.ciechi) console.log(`  ⚪ ${c.difetto} — ${c.nome}\n     ${c.perche}`);
     console.log(
@@ -350,7 +407,9 @@ if (process.argv[1] && process.argv[1].endsWith("banco-a-corsie.mjs")) {
         ? `❌ ${esito.vacue.length} prova/e resta VERDE col fix rotto: non difende niente.`
         : esito.misurate
           ? `✅ tutte e ${esito.misurate} le mutazioni misurate rendono rosso il loro test.`
-          : `⚪ nessuna mutazione è stata misurata: non ho niente da dire su queste prove.`,
+          : fetta && !esito.esiti.length
+            ? `· fetta vuota: le ${mutazioni.length} mutazioni del perimetro sono toccate alle altre fette (il conto lo rifà chi ricuce).`
+            : `⚪ nessuna mutazione è stata misurata: non ho niente da dire su queste prove.`,
     );
     if (esito.ciechi.length) console.log(`⚪ ${esito.ciechi.length} mutazione/i non ha potuto misurare (vedi sopra).`);
   }

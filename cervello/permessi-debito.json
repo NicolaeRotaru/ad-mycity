@@ -31,10 +31,6 @@
    "perche": "Stessa riga sul ramo `fix/*`: stesso uso (pubblicare il branch prima della PR), stessa decisione in sospeso presso Nicola.",
    "card": "permessi-push-e-supabase-da-rinominare"
   },
-  "strumenti-di-scrittura-non-automatici|mcp__Supabase__execute_sql": {
-   "perche": "AR-273: il nome VECCHIO del server (`mcp__Supabase__execute_sql`, in `.claude/settings.json` riga 51) è ancora concesso ed è rimasto scoperto da questa dichiarazione fino ad oggi — il lavoro che ha aggiunto le due voci col nome nuovo sotto ha rinominato la chiave invece di aggiungerne una in più, e la voce vecchia (ancora viva sul file vero) è rimasta senza perché scritto. `execute_sql` modifica lo stato di un sistema esterno ed è concesso senza chiedere: o si toglie da `.claude/settings.json` (il file col nome vecchio) o si giustifica per iscritto in STRUMENTI_GIUSTIFICATI — decisione di Nicola, non della macchina.",
-   "card": "permessi-push-e-supabase-da-rinominare"
-  },
   "strumenti-di-scrittura-non-automatici|mcp__supabase-memoria__execute_sql": {
    "file": ".claude/settings.local.json",
    "perche": "AR-273, riapparsa col nuovo nome del server MCP (prima `mcp__Supabase__execute_sql`, ora diviso in memoria/marketplace): `execute_sql` modifica lo stato di un sistema esterno ed è concesso senza chiedere. Sulla memoria (che la macchina PUÒ scrivere) è meno grave che sul marketplace, ma resta uno strumento di scrittura senza gate esplicito — o si giustifica per iscritto o si toglie: decisione di Nicola.",
