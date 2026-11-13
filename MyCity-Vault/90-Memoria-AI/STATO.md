@@ -4,9 +4,9 @@ aggiornato: 2026-11-12 23:55
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
-> ✅ **2026-11-13 02:55 — Hai unito la richiesta della macchina #944: le regole nuove del risolutore e delle sessioni valgono.**
+> ✅ **2026-11-13 02:55 — Hai unito la richiesta della macchina #944.**
 >
-> Dentro ci sono i riparatori a lotti da 25 difetti, la regia in una sessione sua, il controllore dopo ogni onda e le nove regole per le sessioni che lavorano insieme. Una sessione nuova che parte da `main` adesso le legge da sola. Resta in bozza la richiesta del sito, mycity#288, fino al controllore finale della campagna.
+> Da adesso valgono le regole nuove del risolutore e delle sessioni. Ogni riparatore prende al massimo 25 difetti, la regia lavora in una sessione sua e dopo ogni onda c'è un controllore. Ci sono anche le nove regole per le sessioni che lavorano insieme. Una sessione nuova che parte da `main` adesso le legge da sola. Resta in bozza la richiesta del sito, mycity#288, fino al controllore finale della campagna.
 
 > 🔧 **2026-11-12 23:55 — La prima onda del risolutore è chiusa: 115 difetti chiusi davvero su 300, e il risolutore ora consuma meno.**
 >
