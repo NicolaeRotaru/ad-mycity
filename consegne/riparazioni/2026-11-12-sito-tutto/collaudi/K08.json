@@ -5,9 +5,24 @@
   "R15",
   "R16"
  ],
- "aggiornato": "2026-11-13 16:25",
+ "aggiornato": "2026-11-13 16:50",
  "finita": false,
  "voci": [
+  {
+   "id": "R14-001",
+   "chiave": "api-backend|se la lettura delle email cade, la ricerca utenti dice «nessuno, ho cercato su tutti», e oltre mille iscritti l'email non si trova",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base f4ffa34fb7cde64c302de3ac296f49fc44e92960^ --file app/admin/users/page.tsx --prove tests/unit/riparazione-r14-ricerca-utenti.test.ts --json   (checkout f4ffa34fb7cde64c302de3ac296f49fc44e92960)"
+   },
+   "nota": "Un revisore qa, tutte e due le lenti. CHIUDE_TUTTA: regge, con residui minori. Le email si leggono in 3 punti (app/admin/users/page.tsx:212, :265, :562): due lanciano l errore, il terzo (l elenco) lo cattura ma non dichiara di aver cercato; se cade solo la seconda finestra la pagina mostra l avviso e non dice mai «Ho cercato su tutti». L ordine per id è stabile (chiave primaria); in postgrest-js 2.106.1 rpc() accetta order e range e range scrive offset/limit anche in POST; max_rows 1000 coincide con la finestra. Riportata la pagina alla base la prova è 4 su 4 rossa per i motivi giusti; tolto .order(id) resta 4 su 4 verde: il finto ordina in memoria, la paginazione è vera per costruzione. Paginazione a offset: un account cancellato fra due finestre fa saltare un utente vivo (provato su Postgres locale: 2.500 righe, 2.499 lette). NATA_ROTTA: rompe_altro. page.tsx:265: se la lettura delle email cade, anche la ricerca per NOME guarda solo i 500 profili in memoria, mentre alla base arrivava a tutti (provato base contro testa: «Cliente 140» trova Cliente 1405 alla base, alla testa no). page.tsx:166-167 con lib/supabase/blocchi.ts:70: con 20.001 iscritti il CSV completo non esce mai, col messaggio falso «Riprova fra poco», e l elenco perde in silenzio tutte le email (0 contro 1000 alla base); il tetto delle email (20.000) non coincide con quello dell esportazione (29.000, lib/admin/esporta-utenti.ts:62). Prestazioni: una chiamata alla RPC ogni mille iscritti, in fila, all apertura, a ogni parola cercata, al CSV e a ogni moderazione (21 chiamate con 20.001 iscritti). tsc 0, nessuna falla: la guardia is_admin della RPC resta intatta."
+  },
   {
    "id": "R14-002",
    "chiave": "api-backend|confermata una rimessa, la giornata del fattorino risulta versata anche per i contanti che incassa dopo, e la guardia della cancellazione lo lascia andare",
@@ -22,6 +37,21 @@
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 905ae0ce0e9c6ab61ba7274442e79fe7c70762a8^ --file migrations/381_la_rimessa_non_chiude_una_giornata_con_contanti_in_mano.sql --prove tests/sql/rls/riparazione-r14-rimessa.test.sql --sql k08_r14_002_0_rimessa --json   (checkout 905ae0ce0e9c6ab61ba7274442e79fe7c70762a8)"
    },
    "nota": "Due revisori qa, una lente ciascuno. CHIUDE_TUTTA: parziale. La parte (a) regge per il caso del registro (contanti incassati e consegnati lo stesso giorno, anche con conferma e consegna in corsa: il lucchetto le mette in fila). Tolta la 381 la prova SQL è rossa sui controlli ①; tolte 381 e 383 i rossi sono 4, per il motivo giusto. La parte (b), la guardia della cancellazione, resta aperta: la riapertura una tantum della 381 (righe 202-214) rimette remitted_at a NULL ma non ricalcola incassato e stato, e la guardia (lib/account/cancellazione.ts:670-672) e il sorvegliante non vedono una giornata vecchia con incassato 0 e PENDING riaperta (provato in locale: giornata riaperta con un ordine consegnato da versare di 20,50 euro, guardia a 0 giornate aperte); riquadra-casse rifà solo oggi e ieri. Finestra breve: incasso alle 23:58 e consegna alle 00:02, fino al ricalcolo delle 01:15 UTC la cancellazione immediata dall admin non vede niente. NATA_ROTTA: rompe_altro, minore. La «giornata versata a metà»: dopo un versamento parziale la giornata si riapre giustamente, ma collected_cents conta anche l incasso già versato e la guardia scrive al fattorino «risultano 41,00 euro non ancora versati» quando ne restano 20,50 (provato in locale: guardia 4100 centesimi, da versare 2050). La riapertura (grilletto, ramo ELSE della conferma, riapertura una tantum) mette a NULL remitted_by e remitted_at di una rimessa vera già fatta: si perde chi ha ricevuto i contanti e quando, il principio che la 383 protegge (provato in locale). Da lettura: la 381 si dichiara rieseguibile, ma rieseguita dopo la 383 il CREATE OR REPLACE rimette il suo corpo senza versata_ora e annulla in silenzio R14-006. Nessuno stallo con due sessioni vere; flussi caldi senza permessi negati; la rotta ricalcola in try/catch dopo la rpc. SQL rls 63 su 63, vitest 235 prove sui file della cassa, tsc 0. Prove rimesse in più: codice: uscita 0 (timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 905ae0ce0e9c6ab61ba7274442e79fe7c70762a8^ --file app/api/admin/cod-remittance/route.ts --prove tests/unit/riparazione-r14-rimessa.test.ts --json   (checkout 905ae0ce0e9c6ab61ba7274442e79fe7c70762a8))."
+  },
+  {
+   "id": "R14-004",
+   "chiave": "qa-flussi|un ordine fermo su «accettato» o «ritirato dal fattorino» non fa suonare nessun allarme e non scade mai",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 34608b208da58db9054af66ebe8ee0ceed9e8fcf^ --file app/api/cron/operational-alerts/route.ts --prove tests/unit/riparazione-r14-allarmi-ordini.test.ts --json   (checkout 34608b208da58db9054af66ebe8ee0ceed9e8fcf)"
+   },
+   "nota": "Un revisore qa, tutte e due le lenti. Alla testa le righe del riparatore sono spostate: i pezzi stanno a app/api/cron/operational-alerts/route.ts:115-120 e :289-308. CHIUDE_TUTTA: parziale, e il «cosa resta» è incompleto. Regge: ordine accettato con accepted_at vuoto conta dalla nascita, fascia rispettata, contanti uguali, dedup (giro ogni 15 minuti per 7 ore: 2 email e 2 campanelle), il passaggio da ritirato a in consegna non fa doppioni. Non dichiarato: route.ts:289-295 ordine crescente + limit(20) prima del filtro della fascia (:299-300): 20 ordini accettati in regola per una fascia di domani riempiono i 20 posti e un ordine senza fascia accettato da 3 ore non suona, anche con la scadenza automatica; route.ts:293 accepted_at lo scrive il browser del negozio (app/seller/orders/[id]/page.tsx:317): un tablet con l orologio avanti di 24 ore fa tacere l allarme per circa 26 ore (provato); route.ts:299-301 la consegna veloce non ha fascia leggibile e la soglia resta 2 ore contro una promessa di 30-60 minuti (provato). Minori: etichetta di fascia non riconosciuta dà un falso allarme a 2 ore; per il ritiro in negozio il testo parla di fattorino. NATA_ROTTA: rompe_altro. route.ts:115-120 il limit(10) senza ordine ora divide i posti fra PICKED_UP e OUT_FOR_DELIVERY: con 10 ordini ritirati fermi da più di 30 ore e uno in consegna fermo da 60 minuti, l allarme su in consegna che suonava prima della correzione alla testa tace (provato prima e dopo). Tolta la correzione 5 prove su 7 rosse col messaggio giusto; tre mutanti morsi; le altre 7 prove della rotta (117 casi) verdi."
   },
   {
    "id": "R14-005",
@@ -92,6 +122,36 @@
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base f19f53cd84a5a9bf99aa9d53cd0b6f51fe573c05^ --file app/error.tsx,app/admin/error.tsx,lib/analytics/sentry.tsx --prove tests/unit/riparazione-r14-pagina-errore-registra.test.ts --json   (checkout f19f53cd84a5a9bf99aa9d53cd0b6f51fe573c05)"
    },
    "nota": "Parziale per il riparatore: giudicata solo con la prova rimessa."
+  },
+  {
+   "id": "R15-001",
+   "chiave": "immagini-media|le tessere delle categorie in home sono foto d'archivio scritte a mano nel codice",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base bb56980b3d39809655ec2d20aff88e8a31fd60a1^ --file components/CategoryShowcase.tsx --prove tests/unit/riparazione-r15-la-foto-rotta-si-dice-una-volta.test.tsx --json   (checkout bb56980b3d39809655ec2d20aff88e8a31fd60a1)"
+   },
+   "nota": "Un revisore qa per R15-001 e R15-002 insieme (stessi file, due gravi parziali senza soldi né dati: uniti per stare nel tetto di 12 subagenti, con l ok della regista). CHIUDE_TUTTA: parziale. La parte fatta regge: l avviso della foto rotta si dice una volta per foto; il Set a livello di modulo (CategoryShowcase.tsx:92) sul server non si riempie mai, perché ref e onError non girano lì (sonda: tre disegni sul server con foto rotta danno 0 avvisi, l idratazione ne dà 2, uno per foto). Gli indirizzi Pexels scritti nel codice erano già tolti alla base: il lavoro vero della voce è solo l avviso. Buco nel cosa resta: lib/immagine-categoria.ts:47 ammette images.pexels.com fra gli host, quindi una foto d archivio Pexels salvata in categories.image_url torna in vetrina senza nessun segnale (provato con una sonda): è proprio il difetto della voce. Le altre 4 voci del cosa resta sono vere (rotta admin che scarta image_url, avviso solo console.warn, qualunque *.supabase.co ammesso, avviso «scartata» ripetuto). NATA_ROTTA: niente di rotto. Non provato: il ramo ref su un immagine pigra in un browser vero. Prove rimesse in più: intera: uscita 0 (timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 116e2134aa54021973cfc2252b11851d0c007996^ --file components/CategoryShowcase.tsx --prove tests/unit/riparazione-r15-la-foto-rotta-si-dice-una-volta.test.tsx,tests/unit/riparazione-r15-la-foto-rotta-della-tessera-si-dice.test.tsx --json   (checkout bb56980b3d39809655ec2d20aff88e8a31fd60a1))."
+  },
+  {
+   "id": "R15-002",
+   "chiave": "navigazione-gerarchia|home, piè di pagina e mappa per google mettono in mostra categorie vuote: otto su nove non hanno prodotti",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base bb848e563a72757f142702ffd395753b80c3d961 --file components/Footer.tsx --prove tests/unit/riparazione-r15-il-piede-che-sa-le-piene-non-ripiega-sulla-riserva.test.tsx --json   (checkout 3b8a85a628a1ba2d4339ccb9dc4fb17fef08a66a)"
+   },
+   "nota": "Un revisore qa per R15-001 e R15-002 insieme (stessi file, due gravi parziali senza soldi né dati: uniti per stare nel tetto di 12 subagenti, con l ok della regista). CHIUDE_TUTTA: parziale. Il cambio netto è solo nel piede (Footer.tsx:187-191): con le piene note non ripiega più sulla riserva, e regge. Vetrina e mappa filtravano già alla base (la funzione è solo spostata in lib/queries/categorie-piene.ts); la mappa esclude le vuote; se la lettura cade mappa e vetrina mostrano tutto, non si svuotano; le madri contano come piene grazie alle figlie; contano solo prodotti disponibili di negozi approvati. Diagnosi sbagliata nel cosa resta: i chip dell eroe (HomeSectionRenderer.tsx:67-72 e :155-169) sono una lista scritta a mano (Alimentari, Elettronica, Bellezza, Casa) che non guarda mai le piene: restano vuoti anche dopo l idratazione e il precarico nel layout proposto non li ripara (provato con una sonda). Non dichiarato: app/category/[slug]/layout.tsx:40-64, nel Dove della voce e non toccato, haProdotti non filtra i negozi approvati (non verificato su dati). NATA_ROTTA: niente di grave; minore nuovo: Footer.tsx:189-191 se le piene arrivano prima dell elenco il piede mostra 0 categorie per un attimo (sonda). Prove del riparatore 14 su 14, 104 di regressione su vetrina, piede e mappa verdi, tsc 0."
   },
   {
    "id": "R15-005",
@@ -272,20 +332,6 @@
  ],
  "campione": {},
  "da_giudicare": {
-  "R14-001": {
-   "esito": "riparato",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base f4ffa34fb7cde64c302de3ac296f49fc44e92960^ --file app/admin/users/page.tsx --prove tests/unit/riparazione-r14-ricerca-utenti.test.ts --json   (checkout f4ffa34fb7cde64c302de3ac296f49fc44e92960)"
-   }
-  },
-  "R14-004": {
-   "esito": "parziale",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 34608b208da58db9054af66ebe8ee0ceed9e8fcf^ --file app/api/cron/operational-alerts/route.ts --prove tests/unit/riparazione-r14-allarmi-ordini.test.ts --json   (checkout 34608b208da58db9054af66ebe8ee0ceed9e8fcf)"
-   }
-  },
   "R14-006": {
    "esito": "riparato",
    "rimessa": {
@@ -362,21 +408,6 @@
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base deccd9f87bd2acf4a427346a57dfe703358ff6c1^ --file app/api/track/route.ts,lib/consent.ts --prove tests/unit/riparazione-r14-visite-corpo-rotto.test.ts --json   (checkout deccd9f87bd2acf4a427346a57dfe703358ff6c1)"
-   }
-  },
-  "R15-001": {
-   "esito": "parziale",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base bb56980b3d39809655ec2d20aff88e8a31fd60a1^ --file components/CategoryShowcase.tsx --prove tests/unit/riparazione-r15-la-foto-rotta-si-dice-una-volta.test.tsx --json   (checkout bb56980b3d39809655ec2d20aff88e8a31fd60a1)"
-   },
-   "nota": "Prove rimesse in più: intera: uscita 0 (timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 116e2134aa54021973cfc2252b11851d0c007996^ --file components/CategoryShowcase.tsx --prove tests/unit/riparazione-r15-la-foto-rotta-si-dice-una-volta.test.tsx,tests/unit/riparazione-r15-la-foto-rotta-della-tessera-si-dice.test.tsx --json   (checkout bb56980b3d39809655ec2d20aff88e8a31fd60a1))."
-  },
-  "R15-002": {
-   "esito": "parziale",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base bb848e563a72757f142702ffd395753b80c3d961 --file components/Footer.tsx --prove tests/unit/riparazione-r15-il-piede-che-sa-le-piene-non-ripiega-sulla-riserva.test.tsx --json   (checkout 3b8a85a628a1ba2d4339ccb9dc4fb17fef08a66a)"
    }
   },
   "R15-003": {
