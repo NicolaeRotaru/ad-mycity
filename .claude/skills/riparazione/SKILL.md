@@ -102,6 +102,12 @@ nel registro come nati. Così la radiografia dopo non trova come nuovo un difett
 `usage.cost_usd` di `get_session`. Con l'abbonamento scala dal **limite settimanale** e non va in bolletta,
 salvo l'«uso extra» a pagamento. A Nicola si dice così, con il rischio vero: a limite finito si ferma tutto
 fino al giorno del rinnovo. Il conto misurato si legge da `cost_usd` di ogni figlia e si dice a ogni fermata.
+**I due costi in ogni messaggio** (Nicola, 13/11 notte: «devi leggere sempre il costo della tua sessione, oltre al
+costo del lavoro che hai fatto»). Prima di ogni messaggio a Nicola o all'AD, la regista legge il costo della sua sessione
+(`usage.cost_usd` di `get_session` senza id) e lo scrive accanto al costo del lavoro di quel turno: le figlie e i
+workflow che ha lanciato (`cost_usd` delle figlie, `node cervello/conto-token.mjs --workflow <runId>`). Sono due numeri
+diversi e servono tutti e due: «sessione 164,49 $ di listino; questo lavoro 0 agenti». Se il contatore della sessione
+non si è ancora mosso, lo si dice, invece di tacerlo.
 **Il tetto si guarda anche durante l'onda**, non solo a fine onda (radiografia del 12/11 notte): la stima della fermata 1
 si scrive in `REGIA.md` (`stima_usd`), e almeno ogni 2 ore la regista somma `usage.cost_usd` delle figlie dell'onda
 (`get_session` di ognuna). Oltre la stima ci si ferma subito e si dice a Nicola, anche nei profili da un'onda sola.
