@@ -38,7 +38,7 @@ Le più nuove in alto. Ognuna dice quando, a chi l'ha detta, e cosa.
 | Sessione | Lavoro | File suoi |
 |---|---|---|
 | AD | parla con Nicola, tiene la memoria e la bacheca | `MyCity-Vault/90-Memoria-AI/`, regole di scrittura |
-| regista | ferma: aspetta la card 239. L'onda 2 la guida una regista nuova, aperta dall'AD al «via» | la campagna del 12/11, la skill `riparazione` |
+| regista (`…XsL6Y7`) | ferma a 450 mila token: passaggio scritto in fondo a `consegne/riparazioni/2026-11-12-sito-tutto/REGIA.md` (13/11 01:35). L'onda 2 la guida una regista nuova, aperta dall'AD al «via la seconda» | la campagna del 12/11, la skill `riparazione` |
 | radiografia | finita: aspetta il «via» alla prima corsa | la skill `radiografia-sessioni`, il suo programma |
 
 ## Le sessioni vive
