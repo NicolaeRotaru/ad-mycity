@@ -1,0 +1,569 @@
+{
+  "collaudatore": "K05",
+  "riparatori": [
+    "R20",
+    "R21",
+    "R22"
+  ],
+  "aggiornato": "2026-11-13 14:20",
+  "finita": false,
+  "voci": [
+    {
+      "id": "R20-001",
+      "chiave": "accessibilita|nella consegna in corso i tasti chiama, naviga e sms sono sotto i 44 pixel, e senza rete un codice giusto risulta «verifica fallita»",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 425b234b3096a889a38aa33062a340ffede6231a^ --file app/rider/orders/[id]/page.tsx,components/VerifyCodeDialog.tsx --prove tests/unit/riparazione-r20-consegna-tasti-e-rete.test.ts  --json (al commit 425b234b3096a889a38aa33062a340ffede6231a)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R20-002",
+      "chiave": "accessibilita|nella bacheca del fattorino l'interruttore online è alto 32 pixel e le consegne in preparazione hanno il compenso poco leggibile",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 3f78b2b2edd6494ddaf2d1f72dba14c28b445670^ --file app/rider/page.tsx --prove tests/unit/riparazione-r20-interruttore-online.test.ts  --json (al commit 3f78b2b2edd6494ddaf2d1f72dba14c28b445670)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R20-003",
+      "chiave": "accessibilita|nella pagina chi siamo e nella vetrina del negozio il banner ignora il testo alternativo e lascia la scritta bianca sulla foto senza velo",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base ad621b518462f2dd5b2c34fd12470c14c436013a^ --file lib/store-site.ts,components/store-sections/BannerSection.tsx --prove tests/unit/riparazione-r20-banner-vetrina.test.tsx  --json (al commit ad621b518462f2dd5b2c34fd12470c14c436013a)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R20-004",
+      "chiave": "dati-analytics|la bacheca del fattorino mostra «oggi 0,00 € e 0 consegne» quando la lettura cade e mentre carica",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base c3fcbbf61090c1a6169d0221d2de0eb509872fcf^ --file app/rider/page.tsx --prove tests/unit/riparazione-r20-incasso-di-oggi.test.ts  --json (al commit 05d1969e76233d7f39cf12374724ef3dd8d80ec6)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R20-005",
+      "chiave": "frontend-ux|un link del menu lasciato vuoto blocca «salva sito» anche quando il menu è spento e il campo non si vede",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base c2a7a39e9ca568a8d4ca6a0b15b72cc7ec508f91^ --file lib/store-site.ts --prove tests/unit/riparazione-r20-menu-spento.test.ts  --json (al commit 167784086f42323cb51b3ee3db097620b80ba45d)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R20-006",
+      "chiave": "frontend-ux|eliminando una pagina della vetrina, la voce del menu che la apriva sparisce senza avviso",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 594d497c88bdb714576f0152d7e69e527b6c2748^ --file components/seller/site/PageListEditor.tsx --prove tests/unit/riparazione-r20-elimina-pagina-menu.test.tsx  --json (al commit 594d497c88bdb714576f0152d7e69e527b6c2748)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R20-007",
+      "chiave": "frontend-ux|sulla bacheca del fattorino un guasto passeggero della vista dei negozi toglie il nome del negozio fino al giro dopo, senza riprovare subito",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 5729b46f1a087679817ab0b9cdec622de2884517^ --file lib/queries/negozio-dell-ordine.ts,app/rider/page.tsx --prove tests/unit/riparazione-r20-negozio-riprova.test.ts  --json (al commit 1051c49a0fa569f26b29a3136f632f293f86b479)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R20-008",
+      "chiave": "qa-flussi|il drop del giorno legge senza guardare l errore e usa il giorno di greenwich",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base e90b1221b1035535a3b11a27b00a25fe0989fff1^ --file app/admin/daily-drops/page.tsx --prove tests/unit/riparazione-r20-drop-del-giorno.test.ts  --json (al commit e90b1221b1035535a3b11a27b00a25fe0989fff1)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R20-009",
+      "chiave": "qa-flussi|la variante a del titolo della home dice «consegna in giornata.» senza gli orari del negozio",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 1e4923a3b7ae7c88e2215a05c4d6ac689a251228^ --file app/page.tsx --prove tests/unit/riparazione-r20-home-variante-a.test.ts  --json (al commit 1e4923a3b7ae7c88e2215a05c4d6ac689a251228)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R20-011",
+      "chiave": "qa-flussi|sulla bacheca del fattorino un «accetta» perso lascia l'ordine in elenco fino a un minuto, e fa girare tutti i pulsanti insieme",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 2eb0cddf7559d246bf1445d5aec3b629371a6256^ --file app/rider/page.tsx --prove tests/unit/riparazione-r20-presa-ordine.test.ts  --json (al commit 2eb0cddf7559d246bf1445d5aec3b629371a6256)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R20-012",
+      "chiave": "qa-flussi|il carrello si riempie di nuovo con la spesa già pagata o già tolta, se si usano due dispositivi o non si torna da stripe",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 33e65fc83f1b8d6fe7fa3b1fc137cb5bd51374bf^ --file components/CartCrossDeviceSync.tsx --prove tests/unit/riparazione-r20-carrello-riga-tolta.test.ts  --json (al commit 33e65fc83f1b8d6fe7fa3b1fc137cb5bd51374bf)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R20-013",
+      "chiave": "qa-flussi|«sponsored» in inglese nel carosello pagato",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 49336f1e5b74a50e3a5ae362bda8a6881b666d49^ --file components/SponsoredCarousel.tsx --prove tests/unit/riparazione-r20-sponsorizzato.test.tsx  --json (al commit 49336f1e5b74a50e3a5ae362bda8a6881b666d49)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R20-014",
+      "chiave": "qa-flussi|la vetrina mostra il pulsante del banner verso un prodotto non più in vendita",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R20-017",
+      "chiave": "stati-ui|la pagina delle categorie, quando non ce n'è nessuna, resta bianca senza un messaggio",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 03e9a9be90d6eda7934b35a3d86700631804c814^ --file app/admin/categories/page.tsx --prove tests/unit/riparazione-r20-categorie-vuote.test.tsx  --json (al commit 03e9a9be90d6eda7934b35a3d86700631804c814)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R20-018",
+      "chiave": "stati-ui|nel nuovo prodotto dell'amministrazione, se l'elenco dei negozi non arriva, la tendina resta vuota senza spiegazioni",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base ad72bd0f3ce80434d64ae30c6f46744739e9df0f^ --file app/admin/products/new/page.tsx --prove tests/unit/riparazione-r20-nuovo-prodotto-negozi.test.tsx  --json (al commit ad72bd0f3ce80434d64ae30c6f46744739e9df0f)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R20-019",
+      "chiave": "stati-ui|se la risposta a una recensione non parte, il negozio legge un errore tecnico in inglese, e il tasto «rispondi» è alto 20 pixel",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base d3fd6f5a2d3a026bb3c69d65acd5bcbcf1910043^ --file app/seller/reviews/page.tsx --prove tests/unit/riparazione-r20-risposta-recensione-errore.test.tsx  --json (al commit d3fd6f5a2d3a026bb3c69d65acd5bcbcf1910043)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R21-004",
+      "chiave": "frontend-ux|incollare il link di instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non dice dove",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base fc62905a9b89ca51bb69221338c0a7320c169932^ --file components/VendorForm.tsx,components/seller/SocialLinksFields.tsx,components/seller/CustomizationSection.tsx --prove tests/unit/riparazione-r21-social-sotto-il-campo.test.tsx  --json (al commit fc62905a9b89ca51bb69221338c0a7320c169932)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R21-005",
+      "chiave": "layout-responsive|in chi siamo, coi caratteri del telefono un po' più grandi, la scritta «alla consegna» esce dal suo riquadro e la pagina scorre di lato",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 969f2cc5249cc9622862fdc89a0d878388ee0a64^ --file app/about/page.tsx --prove tests/unit/riparazione-r21-chi-siamo-riquadro.test.ts  --json (al commit 969f2cc5249cc9622862fdc89a0d878388ee0a64)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R21-006",
+      "chiave": "microcopy|se il conteggio dei negozi non riesce, la pagina chi siamo torna a dire «100% venditori locali verificati»",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base b9fcc3f530797cea75d592e463ae999cb8ef9ec2^ --file app/about/page.tsx,components/home-sections/HomeSectionRenderer.tsx --prove tests/unit/riparazione-r21-chi-siamo-senza-cifra.test.ts  --json (al commit b9fcc3f530797cea75d592e463ae999cb8ef9ec2)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R21-007",
+      "chiave": "privacy-legale|chi fa una segnalazione lascia la sua email lì per sempre",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 97b303cc33a5da53ef586e8fd2fdb76912f99c84^ --file lib/privacy/potature-ritenzione.ts,app/privacy/page.tsx --prove tests/unit/riparazione-r21-segnalazioni-email.test.ts  --json (al commit 97b303cc33a5da53ef586e8fd2fdb76912f99c84)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R21-008",
+      "chiave": "privacy-legale|chi segnala un contenuto illecito lasciando l'email non riceve nessuna conferma che la segnalazione è arrivata",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 97b303cc33a5da53ef586e8fd2fdb76912f99c84 --file app/api/segnalazioni/route.ts,components/Segnala.tsx --prove tests/unit/riparazione-r21-segnalazione-conferma.test.tsx,tests/unit/riparazione-r21-segnalazione-conferma-regole.test.tsx --json (al commit 9b775728dfce9baee7b14da84316cf511c7446a8)",
+        "primo_giro": {
+          "uscita": 0,
+          "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 9b775728dfce9baee7b14da84316cf511c7446a8^ --file app/api/segnalazioni/route.ts,components/Segnala.tsx --prove tests/unit/riparazione-r21-segnalazione-conferma.test.tsx,tests/unit/riparazione-r21-segnalazione-conferma-regole.test.tsx  --json (al commit 9b775728dfce9baee7b14da84316cf511c7446a8)",
+          "perche": "il primo giro toglieva solo l'ultimo commit della voce; quello che conta è il giro largo, con tutti i commit della voce"
+        }
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R21-009",
+      "chiave": "privacy-legale|l'informativa dice che teniamo i documenti d'identità per dieci anni per l'antiriciclaggio, ma il sito li cancella dopo un mese o alla cancellazione",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 6f87a54ec69a7f4026962a1c29166dbb8cade692^ --file app/privacy/page.tsx --prove tests/unit/riparazione-r21-kyc-informativa.test.ts  --json (al commit 6f87a54ec69a7f4026962a1c29166dbb8cade692)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R21-010",
+      "chiave": "privacy-legale|l'informativa non dice quanto teniamo i messaggi dei contatti e della chat, e per l'email con l'iban scrive «finché non la cancelliamo»",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 1ed88901a16966b490b35f474e86ad60e904a4ee^ --file app/privacy/page.tsx --prove tests/unit/riparazione-r21-chat-informativa.test.ts  --json (al commit 1ed88901a16966b490b35f474e86ad60e904a4ee)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R21-011",
+      "chiave": "privacy-legale|l'informativa promette di dare i dati solo al negozio e al rider, ma poi non li elenca fra chi riceve i dati, e mette il database negli stati uniti mentre sta a parigi",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base b993b09085bad3f3956a31fcee0bc98d94e82a74^ --file app/privacy/page.tsx --prove tests/unit/riparazione-r21-destinatari-informativa.test.ts  --json (al commit b993b09085bad3f3956a31fcee0bc98d94e82a74)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R21-012",
+      "chiave": "privacy-legale|gli «ultimi visti» restano salvati per sempre e si vedono anche dopo aver tolto il consenso",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 85f8fde71f5b1fba13d50b61b61df332f82b327c^ --file lib/privacy/potature-ritenzione.ts,lib/queries/fasce-prodotti.ts,app/privacy/page.tsx --prove tests/unit/riparazione-r21-ultimi-visti.test.ts  --json (al commit 85f8fde71f5b1fba13d50b61b61df332f82b327c) ; timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 85f8fde71f5b1fba13d50b61b61df332f82b327c^ --file migrations/450_gli_ultimi_visti_se_ne_vanno_col_consenso.sql --prove tests/sql/rls/riparazione-r21-ultimi-visti.test.sql --sql k05_r21_rimessa --json (al commit 85f8fde71f5b1fba13d50b61b61df332f82b327c)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R21-013",
+      "chiave": "privacy-legale|le foto della porta di casa che il fattorino rifà restano nell'archivio per sempre",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 85f8fde71f5b1fba13d50b61b61df332f82b327c --file lib/privacy/potature-ritenzione.ts --prove tests/unit/riparazione-r21-prove-orfane.test.ts --json (al commit 10bd0ee1e4aacb00f272e7119afd61ad807bf959)",
+        "primo_giro": {
+          "uscita": 0,
+          "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 10bd0ee1e4aacb00f272e7119afd61ad807bf959^ --file lib/privacy/potature-ritenzione.ts --prove tests/unit/riparazione-r21-prove-orfane.test.ts  --json (al commit 10bd0ee1e4aacb00f272e7119afd61ad807bf959)",
+          "perche": "il primo giro toglieva solo l'ultimo commit della voce; quello che conta è il giro largo, con tutti i commit della voce"
+        }
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R21-014",
+      "chiave": "privacy-legale|il modulo di segnalazione non permette di dare il nome di chi segnala né di dichiarare la buona fede",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base bc2929055fc5433bdb793f2c45adbd9ba00ae615 --file app/api/segnalazioni/route.ts,app/privacy/page.tsx,components/Segnala.tsx --prove tests/unit/riparazione-r21-segnalazione-nome-buona-fede.test.tsx,tests/unit/riparazione-r21-segnalazione-righe-del-sito.test.ts --json (al commit 6b84f56ba6112832a16598bcd4a3b7f8da8c301d)",
+        "primo_giro": {
+          "uscita": 2,
+          "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 6b84f56ba6112832a16598bcd4a3b7f8da8c301d^ --file app/api/segnalazioni/route.ts,components/Segnala.tsx,app/privacy/page.tsx --prove tests/unit/riparazione-r21-segnalazione-nome-buona-fede.test.tsx,tests/unit/riparazione-r21-segnalazione-righe-del-sito.test.ts  --json (al commit 6b84f56ba6112832a16598bcd4a3b7f8da8c301d)",
+          "perche": "il primo giro toglieva solo l'ultimo commit della voce; quello che conta è il giro largo, con tutti i commit della voce"
+        }
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R21-015",
+      "chiave": "qa-flussi|il riordino rilegge il prezzo del prodotto, non della variante",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R21-017",
+      "chiave": "stati-ui|nella scheda ordine dell'amministratore un reclamo aperto non si vede: c'è scritto «contestazione: —» e il bonifico resta «trattenuto» senza un motivo",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 491bceb8cd9436ac17db41302a8c1ab96aec9188^ --file app/admin/orders/[id]/page.tsx,lib/admin/etichette.ts --prove tests/unit/riparazione-r21-reclamo-nella-scheda-ordine.test.ts  --json (al commit 491bceb8cd9436ac17db41302a8c1ab96aec9188)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R21-018",
+      "chiave": "stati-ui|dopo troppi tentativi di accesso la pagina dice «qualche minuto» invece di dire quanto aspettare",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base b993b09085bad3f3956a31fcee0bc98d94e82a74 --file app/api/auth/signin/route.ts,app/sign-in/page.tsx,lib/auth/conferma-email.ts --prove tests/unit/riparazione-r21-accesso-dice-quanto-aspettare.test.ts,tests/unit/riparazione-r21-accesso-conto-alla-rovescia.test.ts --json (al commit a9eb9760f9a211def8edd17ae5a45160376c9bad)",
+        "primo_giro": {
+          "uscita": 2,
+          "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base a9eb9760f9a211def8edd17ae5a45160376c9bad^ --file app/api/auth/signin/route.ts,lib/auth/conferma-email.ts,app/sign-in/page.tsx --prove tests/unit/riparazione-r21-accesso-dice-quanto-aspettare.test.ts,tests/unit/riparazione-r21-accesso-conto-alla-rovescia.test.ts  --json (al commit a9eb9760f9a211def8edd17ae5a45160376c9bad)",
+          "perche": "il primo giro toglieva solo l'ultimo commit della voce; quello che conta è il giro largo, con tutti i commit della voce"
+        }
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R21-019",
+      "chiave": "stati-ui|la pagina del negozio del mese, quando la redazione non ha ancora scelto, non dice niente, e una lettura fallita sembra uguale",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 3e6a2948c67e0cd6872b8347eb202b043a2fe2d9^ --file app/shop-of-month/page.tsx,lib/queries/negozio-del-mese.ts --prove tests/unit/riparazione-r21-negozio-del-mese-vuoto.test.ts  --json (al commit 3e6a2948c67e0cd6872b8347eb202b043a2fe2d9)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R22-001",
+      "chiave": "api-backend|se il servizio di posta risponde oltre dieci secondi, la coda rimanda la stessa email cinque minuti dopo",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 1e923271be7c2579596d826c4d713e73d56467be^ --file lib/email/client.ts,app/api/cron/send-emails/route.ts --prove tests/unit/riparazione-r22-coda-email-timeout.test.ts  --json (al commit 0ad9803aae9534e5e0ebb950a11f20552001dfb1)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R22-011",
+      "chiave": "qa-flussi|dopo un timeout di resend la coda può spedire due volte la stessa email",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 1e923271be7c2579596d826c4d713e73d56467be^ --file lib/email/client.ts,app/api/cron/send-emails/route.ts --prove tests/unit/riparazione-r22-coda-email-timeout.test.ts  --json (al commit 0ad9803aae9534e5e0ebb950a11f20552001dfb1)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R22-002",
+      "chiave": "deploy-sre|alla riaccensione della posta, le email ormai scadute fanno la fila davanti a quelle nuove",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base dce0a2434d0cc490a69dedca3579c8a8f13c68a4^ --file app/api/cron/send-emails/route.ts --prove tests/unit/riparazione-r22-scadute-fuori-dalla-fila.test.ts  --json (al commit dce0a2434d0cc490a69dedca3579c8a8f13c68a4)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R22-007",
+      "chiave": "privacy-legale|l'annulla iscrizione con un clic da gmail si perde senza traccia dopo 30 richieste in dieci minuti dallo stesso indirizzo",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base e40ac48ef79a5d5123400f3f86ce79fa957e1e71^ --file app/api/unsubscribe/route.ts --prove tests/unit/riparazione-r22-disiscrizione-da-gmail.test.ts  --json (al commit e40ac48ef79a5d5123400f3f86ce79fa957e1e71)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R22-010",
+      "chiave": "qa-flussi|quando un cliente scrive al negozio, l'email al negozio non parte: la funzione è pronta ma nessuno la chiama",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base a8251fb7f75b89c335eeb7309e51ef2754f938fa^ --file app/api/chat/messages/route.ts --prove tests/unit/riparazione-r22-email-al-negozio-dalla-chat.test.ts  --json (al commit a8251fb7f75b89c335eeb7309e51ef2754f938fa)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R22-009",
+      "chiave": "qa-flussi|la campanella del negozio accumula una voce a ogni giro di messaggi, anche per una chat già letta",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 8c57475ee6e326b0dfdfc46200939c3f63fe75b0^ --file app/api/chat/mark-read/route.ts,app/api/chat/messages/route.ts --prove tests/unit/riparazione-r22-campanella-spenta-dalla-chat-letta.test.ts  --json (al commit 8f2b277137deab3b73e23e62ba823f72d2c66a02)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R22-012",
+      "chiave": "qa-flussi|una chat lasciata aperta in sottofondo sul computer del negozio segna come letti i messaggi appena arrivano",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 183389ac41500b5f21a57c2e2be83db17a26866e^ --file app/messages/[id]/page.tsx,app/api/chat/mark-read/route.ts --prove tests/unit/riparazione-r22-chat-in-sottofondo-non-segna-letto.test.ts,tests/unit/riparazione-r22-chat-letta-dice-l-esito.test.ts  --json (al commit cf5e6a776dfca505cd36a7de2fc8325702dc3562)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R22-003",
+      "chiave": "frontend-ux|in chat, se l'assistenza scrive il secondo messaggio mentre il primo sta partendo, il secondo sparisce senza essere inviato",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 830b7ab3342bb0a98b28e655024ac159a3b0c887^ --file app/messages/[id]/page.tsx --prove tests/unit/riparazione-r22-chat-il-secondo-messaggio-resta.test.ts  --json (al commit edacdd69d9b095e211e377e3d6ff7a00fe72f864)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R22-013",
+      "chiave": "qa-flussi|la campanella del sito mostra le promozioni anche a chi le ha spente",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 39581a4912319a1c9ac770d93b0d82779d7127f9^ --file app/notifications/page.tsx,components/hooks/useNotificationsCount.ts --prove tests/unit/riparazione-r22-campanella-senza-promozioni-spente.test.ts  --json (al commit 8ec99f57725946ec683102dd360b3b1f851702de)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R22-018",
+      "chiave": "stati-ui|le notifiche non lette più vecchie delle ultime cinquanta restano sul campanello e non si possono né vedere né segnare",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 6e1baeee8e39a744164be77b45f1c7b2b40df791^ --file app/notifications/page.tsx --prove tests/unit/riparazione-r22-campanello-oltre-le-cinquanta.test.ts  --json (al commit 6e1baeee8e39a744164be77b45f1c7b2b40df791)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R22-015",
+      "chiave": "qa-flussi|il ritiro in negozio è ancora spento, mentre nicola ha deciso che al lancio è acceso e gratis per il cliente",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 2,
+        "comando": "non lanciabile: la voce non ha nessun commit di codice"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R22-014",
+      "chiave": "qa-flussi|whatsapp senza +39 anche nel contatto del negozio",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 5c3ebbe2ff0abaff1dbf6c05cfa33e3501f9059c^ --file lib/contatto-whatsapp.ts --prove tests/unit/riparazione-r22-whatsapp-italiano.test.ts  --json (al commit 27977a4b2c8b8a4f5bf0593cbfbc20f4e5f6d99c)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R22-016",
+      "chiave": "qa-flussi|due guardie sulla veloce controllano il testo del sorgente e non il comportamento",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 2,
+        "comando": "non lanciabile: la voce ha cambiato solo prove, nessun file di codice da togliere"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R22-008",
+      "chiave": "qa-flussi|il prompt dell'ai chiama «fee di consegna» quella di un carrello con un solo pezzo",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base b44d989938480788136ca94420672a07088fb76b^ --file app/api/ai/improve-product/route.ts --prove tests/unit/riparazione-r22-consegna-nel-prompt.test.ts  --json (al commit b44d989938480788136ca94420672a07088fb76b)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R22-005",
+      "chiave": "layout-responsive|nelle recensioni del fattorino un commento con una parola lunga fa scorrere la pagina di lato sul telefono piccolo, e i filtri per stelle sono alti 24 pixel",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 56f67701aa7ea88897a08b1c44c17b8dd5902225^ --file app/rider/reviews/page.tsx --prove tests/unit/riparazione-r22-recensioni-fattorino-telefono.test.ts  --json (al commit 56f67701aa7ea88897a08b1c44c17b8dd5902225)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R22-006",
+      "chiave": "navigazione-gerarchia|su notifiche e messaggi i titoli saltano dal titolo principale al terzo livello",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 56f67701aa7ea88897a08b1c44c17b8dd5902225 --file app/notifications/page.tsx --prove tests/unit/riparazione-r22-titoli-notifiche-messaggi.test.ts --json (al commit 83f1deb72021628bcee3087605eb028ea3f78af2)",
+        "primo_giro": {
+          "uscita": 0,
+          "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base cd9e77cfacb74b5764562974012d05abdf7f0a80^ --file app/notifications/page.tsx --prove tests/unit/riparazione-r22-titoli-notifiche-messaggi.test.ts  --json (al commit 83f1deb72021628bcee3087605eb028ea3f78af2)",
+          "perche": "il primo giro toglieva solo l'ultimo commit della voce; quello che conta è il giro largo, con tutti i commit della voce"
+        }
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R22-017",
+      "chiave": "stati-ui|se la lettura del prodotto non va, la pagina di modifica dell'amministrazione dice che il prodotto non esiste",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 5fd4ce74fba69686ed0f6607bcfe9bb1aa5c8a16^ --file app/admin/products/[id]/edit/page.tsx --prove tests/unit/riparazione-r22-prodotto-admin-lettura-caduta.test.tsx  --json (al commit 4e48718ff7ab37b111b0536ef861cc1a7cb97017)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    },
+    {
+      "id": "R22-019",
+      "chiave": "tipografia|otto spaziature diverse per la stessa etichetta maiuscola",
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base f3da9d3dcc31f064dea33709a807f5faf329cb11^ --file app/messages/page.tsx,app/notifications/page.tsx --prove tests/unit/riparazione-r22-etichette-maiuscole-spaziatura.test.ts  --json (al commit f3da9d3dcc31f064dea33709a807f5faf329cb11)"
+      },
+      "nota": "giudizio in corso: per ora c'è solo la prova rimessa, e nel dubbio la voce non regge"
+    }
+  ],
+  "campione": {}
+}
