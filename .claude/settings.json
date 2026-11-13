@@ -59,7 +59,6 @@
       "mcp__supabase-marketplace__list_migrations",
       "mcp__supabase-marketplace__get_logs",
       "mcp__supabase-memoria__list_tables",
-      "mcp__Supabase__execute_sql",
       "mcp__github__list_pull_requests",
       "mcp__github__pull_request_read",
       "mcp__github__list_commits",
