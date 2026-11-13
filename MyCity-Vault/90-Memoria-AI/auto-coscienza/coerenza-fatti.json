@@ -1,12 +1,12 @@
 {
-  "data": "2026-11-12 22:22",
+  "data": "2026-11-13 02:06",
   "esito": "ok",
-  "copertura": 1590,
+  "copertura": 1595,
   "origine": "cloud",
   "scritto_da": "coerenza-fatti.mjs",
   "fatti_totali": 72,
   "cacce_aperte": 29,
-  "file_scansionati": 1590,
+  "file_scansionati": 1595,
   "incoerenze": [],
   "cacce": [
     {
