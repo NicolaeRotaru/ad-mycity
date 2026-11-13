@@ -124,3 +124,17 @@
 2026-11-13 07:16 · decisioni della terza regista · R17 e R24: dall'onda 2 la deroga prove_comuni non c'è più (valeva solo per l'onda 1) → prove comuni rimesse a BASE, git revert di TUTTI i commit delle voci che le contraddicono (R17-001, R17-002 intera con migrazione e tipi; R24-017, R24-020, R24-010), serve_file_altrui con gli SHA da riprendere più la modifica esatta alla prova, verify verde sulla testa · R17-002 niente giro di correzione: i tre punti del revisore in cosa_resta, la domanda sull'ordine fermo per Nicola · R18: revert di 1509d2f1 tenuto, tipi rigenerati all'unione · R14: prima i revisori dei gravi, poi L5 e L6; soglia 33 $ e sessione nuova dalla testa per il resto · R13: stop dopo il lotto 3 confermato; R13-001 (bloccante) e 004-006 come domanda di tetto a Nicola
 2026-11-13 07:16 · stato dichiarato dalle figlie · R13 2dfe2d7e, 21,6 $ · R14 16,3 $ · R15 f007952c · R16 debafe63 (prova comune rimessa, R16-001 tolto) · R17 ~23 $ · R18 58003e34 · R20 e90b1221 · R21 5ad1b757 · R22 7d84f4b1 · R23 8b854ced (prova comune rimessa) · R24 5502893d
 2026-11-13 07:24 · #952 · CI verde 14 su 14 sulla testa e1a33475, mergeable clean, ancora in bozza · detto all'AD
+2026-11-13 07:30 · R13 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 07:30 · R14 · in lavoro · guardia 🔴 · referto 🔴 25 voci · unione (sotto) · nessuna
+2026-11-13 07:30 · R15 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-13 07:30 · R16 · in lavoro · guardia ✅ · referto 🔴 11 voci · unione (sotto) · nessuna
+2026-11-13 07:30 · R17 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 07:30 · R18 · in lavoro · guardia ✅ · referto ⏳ 6 voci · unione (sotto) · nessuna
+2026-11-13 07:30 · R19 · in lavoro · guardia ✅ · referto ⏳ 23 voci · unione (sotto) · nessuna
+2026-11-13 07:30 · R20 · in lavoro FINITA · guardia 🔴 · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 07:30 · R21 · in lavoro · guardia ✅ · referto ⏳ 11 voci · unione (sotto) · nessuna
+2026-11-13 07:30 · R22 · in lavoro · guardia ✅ · referto 🔴 10 voci · unione (sotto) · nessuna
+2026-11-13 07:30 · R23 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-13 07:30 · R24 · in lavoro · guardia 🔴 · referto ⏳ 21 voci · unione (sotto) · nessuna
+2026-11-13 07:30 · onda 2 · prova-unione ✅
+2026-11-13 07:33 · giro 3 onda 2 (terza regista) · list_sessions: nessuna figlia BLOCKED (R13 e R17 ferme a fine lavoro) · 🏁 R13 e R17 finite, guardia ✅ referto ✅ · 🏁 R20 finita con guardia 🔴 (2 prove comuni, strada sicura approvata) · 🔴 R14 (3 prove comuni, titolo riservato col segnaposto), R15 (1 prova comune), R16 (prova_tipo «leggera», titolo riservato), R22 (commit con due voci), R24 (4 prove comuni, revert in corso) · azione: corretti R14 R15 R16 R22 · la regista è a 442 mila token: passaggio alla quarta
