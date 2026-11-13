@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-13 06:25
+aggiornato: 2026-11-13 06:34
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 13/11 06:33 | chat «Regista · onda 2 · seconda» | «quante altre cose le hai, non le fai o le fai a metà». Un'altra correzione: la regista ha fatto l'elenco di quello che aveva lasciato a metà, e lo chiude punto per punto. L'elenco sta nella sua risposta in chat |
 | 13/11 06:23 | chat «Regista · onda 2 · seconda» | «però non stavi applicando le regole, come mai». È una correzione. La regista aveva cominciato a scrivere la riparazione della CI della #952 con ultracode spento, e la regola 10 lo vieta. Non l'aveva nemmeno scritta prima qui, come chiede la regola 3. Alle 06:24 ha messo da parte la modifica, senza commit. Riparte quando ultracode è acceso |
 | 13/11 entro 06:10 | chat «Ondata 2» | «non stai usando la regola del contesto, come mai?». La prima regista era oltre 450 mila token: passaggio scritto e seconda regista aperta alle 06:12 |
 | 13/11 entro 06:05 | chat «Ondata 2» | «accendi ultracode in ogni sessione dove si lavora con il codice». Da una sessione non si accende: lo accende Nicola dall'app, sessione per sessione. R13 l'ha acceso lui alle 05:53 |

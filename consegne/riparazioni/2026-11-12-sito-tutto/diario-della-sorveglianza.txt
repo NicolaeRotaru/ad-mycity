@@ -92,3 +92,18 @@
 2026-11-12 19:16 · unione onda 1 · 11 rami uniti senza conflitti (1 file fuso da solo, minori-s09-aspetto) · revert: R03-001 R03-008 R11-015 R11-016 R12-012 (rompe altro ×2), R07-019 R06-014 R06-017 (rosse dopo l'unione); R10-019 non tolta (conflitto, latente) · tipi del database rigenerati · verify ✅ 9646 · SQL ✅ 195 migrazioni · integrazione b144746 spinta · C01 aperto
 2026-11-12 19:45 · C01 · finito · 14 voci rosse (9 tolte + R10-019 + R03-007 R11-017 R08-012 R09-013), 16 difetti nuovi (3 gravi, 2 riservati) · verify ✅ SQL ✅ · applica ✅ 115 si chiudono · fermata 2 all'AD
 2026-11-12 20:50 · migrazioni sul database vero (firma di Nicola in chat: «fai la migrazione della falla» + «fai le 14 migrazioni») · applicate 250 260 270 271 272 300 320 321 322 323 360 + 365 (falla IBAN/dati fiscali) · 361 non applicata: il server ha chiesto una conferma rimasta senza risposta (verificato: tabella coupon_redemptions assente) · restano 361 363 364 · 350 NON va applicata · codice della falla sulla PR mycity#288 @ 8bf33ea
+2026-11-13 06:16 · onda 2 · controllo a 10 minuti (list_sessions) · R20 R21 R22 R23 ferme sul piano → approvate dalla seconda regista alle 06:15-06:20; R24 approvata alle 06:21 · ultracode acceso su R13-R24 · costi alle 06:16: R13 7,09 · R14 4,23 · R15 4,92 · R16 4,53 · R17 4,58 · R18 4,08 · R19 4,29 · R20 0,92 · R21 0,98 · R22 1,31 · R23 1,13 · R24 — · totale 38,06 $ (tetto 35 $ a figlia: nessuna oltre) · quota in avviso, niente uso extra · nessun ramo ancora con codice
+2026-11-13 06:47 · R13 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-13 06:47 · R14 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-13 06:47 · R15 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-13 06:47 · R16 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-13 06:47 · R17 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-13 06:47 · R18 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-13 06:47 · R19 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-13 06:47 · R20 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-13 06:47 · R21 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-13 06:47 · R22 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-13 06:47 · R23 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-13 06:47 · R24 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-13 06:47 · onda 2 · prova-unione ⏳
+2026-11-13 06:48 · giro 1 onda 2 · nessuna figlia BLOCKED (list_sessions) · rami spinti: R14 R16 R19 R21 R23 · guardia 🔴 R16 (prova comune il-testo-dice-quello-che-succede-davvero.test.ts) e 🔴 R23 (prova comune webhook-diviso-per-mestiere.test.ts: l'avevo permessa io nel piano, errore mio) · azione: a tutte e due «rimetti la prova comune, prova nuova col tuo nome, serve_file_altrui» · R17 chiede lib/database.types.ts: assegnato dalla regia in piano.json e scheda (copertura-prima ✅) · R13 e R15 senza aggiornamenti dalle 06:16: da riguardare al giro dopo

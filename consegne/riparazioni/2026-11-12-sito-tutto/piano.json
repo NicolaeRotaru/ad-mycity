@@ -6327,6 +6327,7 @@
             "components/seller/pronto-a-incassare.ts",
             "components/store-sections/useStorePageData.ts",
             "lib/admin/vista-delle-campagne.ts",
+            "lib/database.types.ts",
             "lib/guadagni/negozio.ts",
             "lib/ordini/veloce-non-confermata.ts",
             "lib/queries/catalogo.ts",
@@ -6339,6 +6340,13 @@
           "migrazioni": [
             410,
             419
+          ],
+          "assegnati_dalla_regia": [
+            {
+              "file": "lib/database.types.ts",
+              "quando": "2026-11-13 06:46",
+              "perche": "in onda 2 non aveva padrone; R17-002 rimette orders.payout_manual_ref con la migrazione 410 e due prove esistenti confrontano i tipi col generatore. Solo le righe che il generatore produce per quella colonna."
+            }
           ]
         },
         "R18": {
