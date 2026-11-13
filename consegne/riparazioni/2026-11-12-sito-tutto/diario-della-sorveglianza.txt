@@ -193,3 +193,21 @@
 2026-11-13 14:24 · R23 · in lavoro FINITA · guardia ✅ · referto ✅ 18 voci · unione (sotto) · nessuna
 2026-11-13 14:24 · R24 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
 2026-11-13 14:24 · onda 2 · prova-unione ✅
+2026-11-13 15:48 · R13 · in lavoro FINITA · guardia 🔴 · referto 🔴 25 voci · unione (sotto) · nessuna
+2026-11-13 15:48 · R14 · in lavoro FINITA · guardia 🔴 · referto 🔴 25 voci · unione (sotto) · nessuna
+2026-11-13 15:48 · R15 · in lavoro FINITA · guardia 🔴 · referto 🔴 19 voci · unione (sotto) · nessuna
+2026-11-13 15:48 · R16 · in lavoro FINITA · guardia 🔴 · referto 🔴 21 voci · unione (sotto) · nessuna
+2026-11-13 15:48 · R17 · in lavoro FINITA · guardia 🔴 · referto 🔴 25 voci · unione (sotto) · nessuna
+2026-11-13 15:48 · R18 · in lavoro FINITA · guardia 🔴 · referto 🔴 25 voci · unione (sotto) · nessuna
+2026-11-13 15:48 · R19 · in lavoro FINITA · guardia 🔴 · referto 🔴 23 voci · unione (sotto) · nessuna
+2026-11-13 15:48 · R20 · in lavoro FINITA · guardia 🔴 · referto 🔴 19 voci · unione (sotto) · nessuna
+2026-11-13 15:48 · R21 · in lavoro FINITA · guardia 🔴 · referto 🔴 19 voci · unione (sotto) · nessuna
+2026-11-13 15:48 · R22 · in lavoro FINITA · guardia 🔴 · referto 🔴 19 voci · unione (sotto) · nessuna
+2026-11-13 15:48 · R23 · in lavoro FINITA · guardia 🔴 · referto 🔴 18 voci · unione (sotto) · nessuna
+2026-11-13 15:48 · R24 · in lavoro FINITA · guardia 🔴 · referto 🔴 21 voci · unione (sotto) · nessuna
+2026-11-13 15:48 · K05 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-13 15:48 · K06 · ramo non ancora spinto · guardia – · collaudo – · nessuna
+2026-11-13 15:48 · K07 · ramo non ancora spinto · guardia – · collaudo – · nessuna
+2026-11-13 15:48 · K08 · ramo non ancora spinto · guardia – · collaudo – · nessuna
+2026-11-13 15:48 · onda 2 · prova-unione 🔴
+2026-11-13 15:50 · regia · giro delle 15:48 cieco: la copia del sito era superficiale, i rossi su storia, base e unione non sono misure · nessuna azione, scritto nel passaggio alla 3.0
