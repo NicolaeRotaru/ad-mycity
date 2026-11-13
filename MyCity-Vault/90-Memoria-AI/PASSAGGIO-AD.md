@@ -1,63 +1,59 @@
 ---
 tipo: passaggio
-data: 2026-11-13 03:40
-da: session_015BmpnZ5ufx6s554FgYbUju (la terza chat dell'AD, arrivata a 471 mila token: regola 7)
+data: 2026-11-13 04:40
+da: session_015BmpnVpk1kywXGH5kMWQTH (la quarta chat dell'AD, arrivata a 508 mila token: regola 7)
 ---
 
 # Il passaggio dell'AD
 
-Questo foglio serve alla quarta chat dell'AD per ripartire senza rileggere la terza. Esempio: la terza era a 471 mila
+Questo foglio serve alla quinta chat dell'AD per ripartire senza rileggere la quarta. Esempio: la quarta era a 508 mila
 token su un milione, e ogni sua risposta li rileggeva tutti.
 
 ## Il punto adesso
-- ✅ Fatto: la #944 è unita, le tre migrazioni sono sul database vero, le card 236, 238 e 239 sono chiuse.
-  - Nicola ha unito la #944 alle 02:55.
-  - Le migrazioni 361, 363 e 364 sono sul database vero dalle 03:17. Le ho controllate una per una (card 238).
-  - Nicola ha tolto a mano il permesso del database su `main`, commit 3a5778e (card 236).
-  - Sulla card 239 ha scelto la «a».
-  - Regola 10: chi scrive codice nasce con ultracode.
-  - Il registro delle decisioni è completo fino alle 03:36.
-- ⏳ In corso: due richieste aspettano i controlli di GitHub.
-  - La #949 porta la memoria di stanotte; i suoi controlli sono in corso.
-  - La #948 porta la CI in 3 minuti. L'ultima corsa su `0f204ff` è ROSSA (fetta 8 della suite, job 131647819880): non si unisce finché non è verde. Nessuno la segue più: tocca all'AD.
-- 👉 Tocca a te (Nicola): sei cose, tutte qui sotto.
-  - Unire la #949.
-  - Unire la #948, che è in bozza.
-  - Confermare che il test del cervello giri solo su `main`.
-  - Decidere sul difetto AR-1173 e sulle tre esenzioni del cancello dello stop.
-  - Dare il via dell'onda 2 in una sessione sua (card 237, coi passi pronti).
-  - Le due scelte del giudizio sul codice (#947): le librerie da aggiornare prima del 15/11 e il piano del riordino.
-- 🕐 Da sapere: la #947 e la #949 vanno in conflitto su bacheca e stato. Chi viene unito per secondo si ripara. Con
-  la sessione `…ZCaWUi` è d'accordo così: se Nicola unisce prima la #947, la #949 la sistema l'AD.
+- ✅ Fatto: stanotte sono unite tre richieste, e il sito ha l'onda 1.
+  - La #949 (memoria) e la #948 (CI della macchina in 3 minuti, su Ubuntu 24.04) sono sul ramo principale.
+  - Alle 04:33 Nicola ha unito la mycity#288, l'onda 1 del sito, con «Create a merge commit»: `a19ff89`.
+  - Prima dell'unione l'AD ha tolto la migrazione 350 del bonifico, che in un caso paga due volte (scelta «a» di Nicola).
+  - L'AD ha anche fissato Ubuntu 24.04 sulle prove nel browser del sito: su 26.04 Chromium non si installa.
+  - Il testo per aprire l'onda 2 è pronto in `consegne/riparazioni/2026-11-12-sito-tutto/AVVIO-ONDA-2.md`.
+- ⏳ In corso: due cose aspettano.
+  - La terza chat fa i controlli sulla produzione dopo l'unione, e manda l'esito all'AD in una riga.
+  - La #950, con la memoria di stanotte e questo foglio, è verde e aspetta Nicola.
+- 👉 Tocca a Nicola, in quest'ordine:
+  - Unire la #950.
+  - Aprire l'onda 2: sessione nuova su ad-mycity `main`, ultracode acceso, incollare il testo d'avvio.
+  - Confermare la regola sulle sessioni-cartella: in bacheca è «da confermare», ed è già scritta nel testo d'avvio.
+  - Confermare due richieste fatte alla sessione `…ZCaWUi`: il piano per portare a 9 i voti del codice, e la radiografia del codice coi difetti nel registro.
+  - Le scelte vecchie che restano: il difetto AR-1173, le tre esenzioni del cancello dello stop, e le due scelte della #947.
+- 🕐 Da sapere: la quota settimanale è in avviso fino al 19/11 alle 10. Il tasto «Bonifico fatto» del pannello admin dà errore finché l'onda 2 non ripara la 350.
 
 ## Cosa non ho verificato
-- Che ultracode si erediti da chi apre la sessione: è un'ipotesi fatta su tre casi.
-- Il sito con le tre migrazioni: non ho fatto nessun ordine di prova. Il sito di oggi usa ancora la strada vecchia
-  finché la mycity#288 non è unita e pubblicata.
+- La produzione dopo l'unione: la controlla la terza chat. Se Vercel fallisce, la versione di prima si rimette online.
+- Che la regola sulle cartelle sia quella che Nicola intendeva: lui non l'ha ancora confermata.
 
 ---
 
 ## Dettagli tecnici
 
-**Da leggere per primi:** `cervello/MANUALE-AD.md` · `cervello/sessioni-insieme.md` (dieci regole) · `BACHECA-SESSIONI.md` ·
-`LAVORO-APERTO.md` · card 237 in `AZIONI-IN-ATTESA.md`.
+**Da leggere per primi:** `cervello/MANUALE-AD.md` · `cervello/sessioni-insieme.md` · `BACHECA-SESSIONI.md` ·
+`LAVORO-APERTO.md` · card 237 in `AZIONI-IN-ATTESA.md` · `DECISIONI.md` dalle 03:40 in poi.
 
-**Il ramo:** `claude/sweet-galileo-0skkay`, ripartito da `main` a `13df338` dopo l'unione della #944. Ci sta sopra la #949.
-Una sessione nuova che parte da `main` prima dell'unione della #949 non vede la regola 10, le card aggiornate e il
-passaggio della regista in `REGIA.md`.
+**Il ramo:** `claude/sweet-galileo-0skkay`, ripartito da `main` a `54d3605` dopo l'unione della #949. Ci sta sopra la #950.
+Quando la #950 è unita, il ramo riparte da `main` (force-with-lease, solo storia già unita).
+
+**Il sito:** main a `a19ff89`. Pubblicazione in produzione `dpl_4KcBsVJntBqWWw4TzGJwpGVAYEzC`, progetto Vercel
+`prj_XvKD8R89QzA7qVyOhltfS85SH4k9`, team `team_O5b1EUNnEQWvcXSNlos567lo`. La versione di prima da rimettere online è
+`dpl_EedXsADXpbHjqEmd6SM8FB6wrQs6`. Il database è `clmpyfvpvfjgeviworth`: dopo l'unione non gli manca nessuna migrazione.
+Il pulsante «migrazioni a mano» non si usa, perché applica tutto ciò che manca. Il rilascio dalla CI del sito non ha le chiavi di
+Vercel e si ferma prima delle migrazioni. Vercel pubblica `main` da solo (`vercel.json`). Per scrivere sul deposito del sito
+serve `add_repo` con accesso «push».
 
 **Le sessioni:**
-- CI in 3 minuti `session_015BmpnWjSJvwxssvANzndUF`: finita alle 03:33, 29,55 $ su 30. Cancello del lotto da 10 min 21 s
-  a 2 min 36 s; test del cervello da circa 5 min a 2 min 20 s.
-- Giudizio sul codice, seguito, `session_015BmpnZCaWUijDqfTAvJ4Dx`: tiene la #947 e le sue due scelte.
-- Regista vecchia `session_015BmpnXsL6Y7tP3BhawauHw`: ferma. L'onda 2 la apre Nicola.
-- Radiografia in sessioni `session_015BmpnVn722KGUHR5nRn23Z`: ferma, aspetta il via.
+- Terza chat `session_015BmpnZ5ufx6s554FgYbUju`: da non usare, ma Nicola le scrive. Fa i controlli sulla produzione
+  (workflow `wf_e2587adc-1ab`) e scrive solo lo storico del sorvegliante sul ramo.
+- Giudizio sul codice, seguito, `session_015BmpnZCaWUijDqfTAvJ4Dx`: tiene la #947, verde. Se la #950 è unita prima, il
+  conflitto su bacheca e stato lo sistema lei.
+- CI in 3 minuti `session_015BmpnWjSJvwxssvANzndUF`: finita, la #948 è unita. È a 36,8 $ e 761 mila token: non scriverle.
+- Regista vecchia `session_015BmpnXsL6Y7tP3BhawauHw` e radiografia in sessioni `session_015BmpnVn722KGUHR5nRn23Z`: ferme.
 
-**Per la regista dell'onda 2:** prima di `applica --git` sull'onda 1 serve l'eccezione della «a» della card 239. Il
-programma non ha un interruttore per onda su quella regola: basta un campo nel piano come `verifica_testa_dall_onda`,
-con la sua prova e la sua mutazione. Sta scritto anche in `REGIA.md`.
-
-**Il database del sito:** progetto Supabase `clmpyfvpvfjgeviworth`. La copia del sito in sola lettura si scarica con
-`node cervello/collega-marketplace.mjs`; la #288 si legge con `git -C marketplace fetch origin pull/288/head`.
-
-**Il conto:** la terza chat è costata 17,46 $ fino alle 03:33. La quota settimanale è in avviso fino al 19/11 alle 10.
+**Il conto:** la quarta chat è costata 18,59 $ fino alle 04:37.

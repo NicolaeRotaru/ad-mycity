@@ -6875,3 +6875,11 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Chi:** Nicola, verso le 04:10, nella sessione «Radiografia del codice · seguito». La sua frase: «ciò che devi dirmi tu è come risolvere i problemi nel codice per rendere tutti i punti un voto 9 su 10. dimmi cosa hai capito».
 - **Cosa cambia:** quella sessione prepara il piano per portare a 9 tutti e cinque i voti, senza toccare il codice del sito. Dentro ci sono anche le due scelte in sospeso: le librerie da aggiornare prima del 15/11 e il riordino dopo il lancio. Per il voto «falle» il piano cita la campagna di riparazione, senza rifarla. È in bacheca, commit `e168ab5`, richiesta ad-mycity#947.
 - **Anche (04:23, sul sito):** dopo la tolta della 350, nella mycity#288 erano rossi due controlli, «Prove nel browser» e «Accessibilità». La causa era la stessa della macchina di stanotte: su Ubuntu 26.04 Playwright non installa Chromium. Con il commit `facd5d8` l'AD ha fissato `ubuntu-24.04` sui tre lavori che installano il browser. Nessun controllo è stato tolto, e le 3 prove che leggono `ci.yml` passano (46 casi).
+
+## 2026-11-13 04:33 — 🔴 L'onda 1 del sito è unita e va online
+- **Chi:** Nicola, su GitHub. Ha unito la mycity#288 con «Create a merge commit»: `a19ff89`, che ha come genitori `db5164c` e `facd5d8`.
+- **Cosa cambia:** i 115 difetti dell'onda 1 sono sul ramo principale del sito. Vercel pubblica da solo: la costruzione in produzione `dpl_4KcBsVJntBqWWw4TzGJwpGVAYEzC` è partita alle 04:34. Prima dell'unione la CI era verde, 17 su 17 sulla testa `facd5d8`.
+- **Chi controlla:** Nicola ha chiesto alla terza chat e alla quarta di parlarsi. Alle 04:37 si sono divise il lavoro:
+  - la terza chat fa i controlli sulla produzione: pubblicazione, pagine pubbliche ed errori di Vercel;
+  - la quarta tiene la memoria.
+- **Se va bene:** la produzione risponde. Nicola apre l'onda 2 col testo di `AVVIO-ONDA-2.md`, e la base dell'onda 2 è `a19ff89`.
