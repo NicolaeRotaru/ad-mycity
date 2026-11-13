@@ -8619,8 +8619,8 @@
    "difetto": "AR-888",
    "nome": "il tetto del tempo torna scritto a mano dentro la chiamata: quattro copie che possono divergere",
    "file": "cervello/cancello-lotto.mjs",
-   "cerca": "const pTest = esegui(\"test del cervello\", \"node\", [\"cervello/test-cervello.mjs\", \"--json\"], { timeout: TEMPO_MAX_SUITE });",
-   "sostituisci": "const pTest = esegui(\"test del cervello\", \"node\", [\"cervello/test-cervello.mjs\", \"--json\"], { timeout: 600_000 });",
+   "cerca": "const pTest = esegui(\"test del cervello\", \"node\", [\"cervello/test-cervello.mjs\", \"--json\", ...ARGOMENTI_SUITE], { timeout: TEMPO_MAX_SUITE });",
+   "sostituisci": "const pTest = esegui(\"test del cervello\", \"node\", [\"cervello/test-cervello.mjs\", \"--json\", ...ARGOMENTI_SUITE], { timeout: 600_000 });",
    "test": "cervello/test/il-tetto-del-tempo-scritto-in-quattro-posti.test.mjs"
   },
   {
@@ -11712,6 +11712,54 @@
    "cerca": "  const onda = piano.onde[Number(opz.onda) - 1];",
    "sostituisci": "  const onda = piano.onde[Number(opz.onda) - 1] ?? [];",
    "test": "cervello/test/radiografia-sessioni.test.mjs"
+  },
+  {
+   "difetto": "ci-tre-minuti · fette",
+   "nome": "la ricucitura a schermo torna a uscire 0 con una fetta mancante",
+   "file": "cervello/test-cervello.mjs",
+   "cerca": "if (!JSON_MODE && !r.completo && process.exitCode !== 1) {",
+   "sostituisci": "if (false) {",
+   "test": "cervello/test/fette-della-ci.test.mjs"
+  },
+  {
+   "difetto": "ci-tre-minuti · fette",
+   "nome": "il banco ricucito torna a perdere in silenzio le mutazioni che nessuna fetta ha provato",
+   "file": "cervello/banco-a-corsie.mjs",
+   "cerca": "...corsiaNonPartita(r.mancano, ",
+   "sostituisci": "...corsiaNonPartita([], ",
+   "test": "cervello/test/fette-della-ci.test.mjs"
+  },
+  {
+   "difetto": "ci-tre-minuti · fette",
+   "nome": "il cancello smette di aspettare le fette delle mutazioni",
+   "file": ".github/workflows/cancello-lotto.yml",
+   "cerca": "    needs: [suite, mutazioni]",
+   "sostituisci": "    needs: [suite]",
+   "test": "cervello/test/fette-della-ci.test.mjs"
+  },
+  {
+   "difetto": "ci-tre-minuti · fette",
+   "test": "cervello/test/fette-della-ci.test.mjs",
+   "sostituisci": "  if (false) scriviTestoAtomico(resolve(REFERTO), ",
+   "nome": "la fetta della suite torna a non consegnare il referto (il 13/11 moriva con ENOENT a fine corsa): chi ricuce non ha niente da leggere",
+   "file": "cervello/test-cervello.mjs",
+   "cerca": "  if (REFERTO) scriviTestoAtomico(resolve(REFERTO), "
+  },
+  {
+   "difetto": "ci-tre-minuti · fette",
+   "test": "cervello/test/fette-della-ci.test.mjs",
+   "sostituisci": "",
+   "nome": "la fetta del banco torna a morire con ENOENT se la cartella dei referti non c è",
+   "file": "cervello/banco-a-corsie.mjs",
+   "cerca": "    mkdirSync(dirname(resolve(referto)), { recursive: true });\n"
+  },
+  {
+   "difetto": "ci-tre-minuti · fette",
+   "nome": "il cancello con --referti senza cartella torna a far girare tutta la suite in locale (ricollaudo del 13/11, M1)",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "  if (REFERTI === \"\") {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/fette-della-ci.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",

@@ -24,6 +24,26 @@
 # Qui il 2 blocca come il racconto 1, apposta: un cancello che lascia passare ciò che non ha saputo
 # misurare è la bugia che questo lotto cura.
 
+# 🍰 IN FETTE, DAL 13/11 — Nicola: «fai in modo che le CI della macchina non superino i 2/3 minuti».
+#
+# MISURATO prima di toccare, richiesta 944, corsa 43340266076: un lavoro solo di 10 minuti e 20 s.
+# Preparazione 1 minuto (checkout 12 s, npm ci 13 s, browser 38 s); dentro il cancello: guardiani
+# 12 s, suite del cervello 364 s, mutazioni del lotto 104 s, typecheck 2 s, prove del Pannello 3 s.
+# La suite misurata prova per prova il 13/11 (4 processori, 409 s): 278 di quei secondi sono 73 prove
+# che girano UNA alla volta — scrivono sul dato vivo o accendono un browser — e su una macchina sola
+# non c'è corsia che le acceleri.
+#
+# COSA CAMBIA: DOVE girano, non COSA gira. Ogni prova e ogni mutazione girano una volta, su una delle
+# fette qui sotto, ognuna sul suo runner (cioè sul suo disco: le prove in fila non si pestano). Poi
+# «prove, guardiani e typecheck» — lo stesso nome, lo stesso comando, gli stessi guardiani — ricuce i
+# referti invece di rilanciare la suite (`--referti`), e controlla che OGNI prova della cartella e
+# OGNI mutazione del perimetro abbiano il loro verdetto: una fetta che non consegna esce ⚪, e il ⚪
+# qui blocca come il rosso. La regola sta in cervello/fette-ci.mjs, con le sue prove.
+#
+# E «suite del cervello + typecheck del Pannello», che prima rifaceva la stessa suite una seconda
+# volta in `test-cervello.yml`, adesso legge le stesse fette: un verdetto in più, zero prove in meno.
+# Il conto dei tempi, prima e dopo, sta nella richiesta che ha portato questo file (ci-tre-minuti).
+
 name: Cancello del lotto
 
 on:
@@ -40,9 +60,20 @@ permissions:
   contents: read
 
 jobs:
-  cancello:
-    name: prove, guardiani e typecheck
-    runs-on: ubuntu-latest
+  # ── LE FETTE DELLA SUITE ─────────────────────────────────────────────────────────────────────
+  # Quante: l'elenco qui sotto è l'UNICO posto dove si sceglie. Il comando legge l'indice e il totale
+  # dalla matrice stessa (`strategy.job-index`, `strategy.job-total`): un numero scritto due volte —
+  # nella matrice e nel comando — è il modo in cui un giorno una fetta resta fuori senza che nessuno
+  # se ne accorga. Otto, perché la prova più lunga (lo schermo del Pannello, 53 s) è già un ottavo
+  # della suite: con più fette la più lenta non scende, aumentano solo i runner occupati.
+  suite:
+    name: suite del cervello — fetta ${{ matrix.fetta }}
+    # 🔩 LA MACCHINA FISSATA A UBUNTU 24.04, NON «L'ULTIMA» (13/11 03:39). Quella notte `ubuntu-latest`
+    # è passato a Ubuntu 26.04 e Playwright 1.56.1 lì non sa installare il browser («does not support
+    # chromium on ubuntu26.04-x64»): tutte le fette rosse in 30 secondi, prima di una prova sola.
+    # Un'etichetta che si sposta da sola è un controllo che cambia senza un commit. Si passa alla versione
+    # nuova insieme a un playwright che la supporta, in un lavoro suo.
+    runs-on: ubuntu-24.04
     # Erano 20, e il cancello ne prendeva 6 e mezzo. Da quando c'è il browser il conto cambia: lo
     # scarico di chromium, la compilazione a freddo del Pannello e la mutazione di AR-613 che lo
     # riapre. Il margine sta qui apposta — un cancello ucciso dall'orologio è un ⚪, e chi legge un
@@ -69,24 +100,31 @@ jobs:
     # 75 è una volta e mezza il bisogno misurato. Non di più, e vale qui la stessa ragione scritta
     # accanto a TEMPO_MAX_SUITE in cervello/cancello-lotto.mjs: un tetto troppo generoso smette di
     # distinguere «la macchina è lenta» da «si è piantato».
+    #
+    # 🍰 Dal 13/11 il tetto vale per OGNI lavoro di questo flusso, non più per uno solo: ognuno fa
+    # una parte del lavoro di prima, e nessun tetto si abbassa. Il tempo vero lo dice la corsa.
     timeout-minutes: 75
+    strategy:
+      fail-fast: false
+      matrix:
+        fetta: [1, 2, 3, 4, 5, 6, 7, 8]
     steps:
       # Agganciate al commit, non all'etichetta (AR-637): un tag si sposta, un commit no.
       # Per aggiornarle: `git ls-remote --tags https://github.com/actions/checkout v4`.
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           # Il cancello confronta il ramo con main per sapere quali difetti il lotto TOCCA: con un
-          # clone superficiale quel confronto degrada e lo dice («repo shallow»). Qui la storia serve.
+          # clone superficiale quel confronto degrada e lo dice («repo shallow»). Qui la storia serve,
+          # e serve anche alle prove che chiedono a git cosa è cambiato negli ultimi giorni.
           fetch-depth: 0
 
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: '22'
-
-      # Il typecheck del Pannello è parte del cancello: senza le dipendenze uscirebbe 2 (cieco), e
-      # cieco non è verde. Installarle qui è ciò che rende il verde un verde vero.
-      - name: Dipendenze del Pannello
-        run: npm --prefix pannello ci
+          # La cache dei pacchetti scaricati, non dei pacchetti installati: `npm ci` gira lo stesso
+          # e installa esattamente il lockfile — cambia solo che non riscarica tutto da internet.
+          cache: npm
+          cache-dependency-path: pannello/package-lock.json
 
       # 🖥️ IL BROWSER — AR-707, 15/8.
       #
@@ -117,21 +155,196 @@ jobs:
       # Non servono chiavi: la coda che il Pannello disegna la legge dai file del vault, che stanno
       # in questo stesso commit. È per questo che la pagina ha delle card anche su una macchina dove
       # non esiste nessun Supabase — e senza card la prova direbbe «spariti anche i bottoni».
-      - name: Browser per le prove a schermo
-        run: |
-          npm i -g playwright@1.56.1
-          # `playwright` finisce direttamente nel PATH globale: chiamarlo per nome toglie di mezzo
-          # la domanda «npx sta usando quello installato o ne sta scaricando un altro?».
-          playwright install --with-deps chromium
-          # `require("playwright")` deve risolversi da dentro il repo: il file di prova cerca anche
-          # in NODE_PATH, e la radice globale è dove npm l'ha appena messo.
-          echo "NODE_PATH=$(npm root -g)" >> "$GITHUB_ENV"
+      # 🍰 La cartella dei browser si tiene fra una corsa e l'altra (centoquattro mega ogni volta, otto
+      # fette): la chiave porta la versione, quindi un aggiornamento di playwright la rinnova da solo.
+      - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-1.56.1-${{ runner.os }}
 
       # 🐚 CHI ESEGUE LE PROVE IN BASH — AR-693 ①. Ventinove prove esistevano e non le lanciava
       # nessuno: senza `bats` il banco le dichiara ⚪ e il verde di fianco vale meno di quanto sembra.
       # Una casa sola per tutti gli esecutori (CI, VPS, avvio di sessione): cervello/installa-bats.sh.
-      - name: Chi esegue le prove in bash
-        run: bash cervello/installa-bats.sh
+      #
+      # 🍰 Le tre installazioni non dipendono l'una dall'altra, e in fila costavano 13 + 38 + 1 s a ogni
+      # fetta: le prime due partono insieme, e il passo fallisce se una sola delle due fallisce.
+      # Le dipendenze del Pannello restano PRIMA della suite (AR-696/AR-697: una prova sana che importa
+      # `next` uscirebbe «import non risolvibile»), e `bats` resta la casa unica di sempre.
+      - name: Dipendenze del Pannello, browser per le prove a schermo, chi esegue le prove in bash
+        run: |
+          npm --prefix pannello ci > "$RUNNER_TEMP/dipendenze.log" 2>&1 &
+          dipendenze=$!
+          # `playwright` finisce direttamente nel PATH globale: chiamarlo per nome toglie di mezzo
+          # la domanda «npx sta usando quello installato o ne sta scaricando un altro?».
+          ( npm i -g playwright@1.56.1 && playwright install --with-deps chromium ) > "$RUNNER_TEMP/browser.log" 2>&1 &
+          browser=$!
+          esito=0
+          wait "$dipendenze" || { echo "::error::npm --prefix pannello ci non è andato a buon fine"; esito=1; }
+          wait "$browser" || { echo "::error::il browser per le prove a schermo non si è installato"; esito=1; }
+          cat "$RUNNER_TEMP/dipendenze.log" "$RUNNER_TEMP/browser.log"
+          bash cervello/installa-bats.sh
+          # `require("playwright")` deve risolversi da dentro il repo: il file di prova cerca anche
+          # in NODE_PATH, e la radice globale è dove npm l'ha appena messo.
+          echo "NODE_PATH=$(npm root -g)" >> "$GITHUB_ENV"
+          exit "$esito"
+
+      - name: Fetta della suite del cervello
+        env:
+          INDICE: ${{ strategy.job-index }}
+          TOTALE: ${{ strategy.job-total }}
+        # I referti stanno FUORI dal deposito, nella cartella temporanea del runner: dentro, un file non
+        # tracciato rende l'albero «sporco», e i guardiani che lo guardano cambiano verdetto (il 13/11
+        # «verdetti senza lettore» usciva ⚪ per questo). Le cartelle le crea chi scrive.
+        run: node cervello/test-cervello.mjs --fetta "$((INDICE + 1))/$TOTALE" --referto "$RUNNER_TEMP/referti/suite-$((INDICE + 1)).json"
+
+      # Anche se la fetta è rossa: il verdetto lo dà chi ricuce, e senza il referto non avrebbe niente
+      # da leggere — un rosso diventerebbe un ⚪ e perderebbe il suo nome.
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        if: always()
+        with:
+          name: suite-${{ matrix.fetta }}
+          path: ${{ runner.temp }}/referti/
+          if-no-files-found: warn
+          retention-days: 3
+
+  # ── LE FETTE DELLE MUTAZIONI DEL LOTTO ───────────────────────────────────────────────────────
+  # La prova che le prove provino (AR-393): ogni mutazione del perimetro rompe un fix apposta e
+  # pretende il rosso. Il perimetro lo calcola ogni fetta con la stessa funzione del cancello, poi
+  # prova solo la sua parte; il cancello qui sotto lo ricalcola e conta che non ne manchi nessuna.
+  # Quattro fette da quattro corsie: sedici difese provate insieme invece di quattro.
+  mutazioni:
+    name: mutazioni del lotto — fetta ${{ matrix.fetta }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    strategy:
+      fail-fast: false
+      matrix:
+        fetta: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: pannello/package-lock.json
+
+      # Il browser serve anche qui: la mutazione di AR-613 rompe il Pannello e pretende che lo schermo
+      # se ne accorga — senza browser quella prova dichiara di non aver guardato (AR-707).
+      - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-1.56.1-${{ runner.os }}
+
+      - name: Dipendenze del Pannello, browser per le prove a schermo, chi esegue le prove in bash
+        run: |
+          npm --prefix pannello ci > "$RUNNER_TEMP/dipendenze.log" 2>&1 &
+          dipendenze=$!
+          ( npm i -g playwright@1.56.1 && playwright install --with-deps chromium ) > "$RUNNER_TEMP/browser.log" 2>&1 &
+          browser=$!
+          esito=0
+          wait "$dipendenze" || { echo "::error::npm --prefix pannello ci non è andato a buon fine"; esito=1; }
+          wait "$browser" || { echo "::error::il browser per le prove a schermo non si è installato"; esito=1; }
+          cat "$RUNNER_TEMP/dipendenze.log" "$RUNNER_TEMP/browser.log"
+          bash cervello/installa-bats.sh
+          echo "NODE_PATH=$(npm root -g)" >> "$GITHUB_ENV"
+          exit "$esito"
+
+      - name: Fetta delle mutazioni del lotto
+        env:
+          INDICE: ${{ strategy.job-index }}
+          TOTALE: ${{ strategy.job-total }}
+        run: node cervello/cancello-lotto.mjs --fetta-mutazioni "$((INDICE + 1))/$TOTALE" --referto "$RUNNER_TEMP/referti/mutazioni-$((INDICE + 1)).json"
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        if: always()
+        with:
+          name: mutazioni-${{ matrix.fetta }}
+          path: ${{ runner.temp }}/referti/
+          if-no-files-found: warn
+          retention-days: 3
+
+  # ── IL CANCELLO ──────────────────────────────────────────────────────────────────────────────
+  # Stesso nome di prima, apposta: se un giorno la protezione del ramo lo pretende, lo pretende per
+  # nome. Gira anche se una fetta è rossa (`!cancelled()`): il verdetto con i tetti è il suo, e una
+  # fetta rossa per un debito ereditato sotto il tetto non deve impedirgli di dirlo.
+  cancello:
+    name: prove, guardiani e typecheck
+    needs: [suite, mutazioni]
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: pannello/package-lock.json
+
+      # Il typecheck del Pannello è parte del cancello: senza le dipendenze uscirebbe 2 (cieco), e
+      # cieco non è verde. Installarle qui è ciò che rende il verde un verde vero.
+      - name: Dipendenze del Pannello e chi esegue le prove in bash
+        run: |
+          npm --prefix pannello ci
+          bash cervello/installa-bats.sh
+
+      # Se una fetta non ha caricato niente, lo scaricamento non deve fermare il cancello prima che
+      # possa dirlo: è il cancello che nomina la fetta mancante e esce ⚪.
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        continue-on-error: true
+        with:
+          pattern: suite-*
+          merge-multiple: true
+          path: ${{ runner.temp }}/referti/suite
+
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        continue-on-error: true
+        with:
+          pattern: mutazioni-*
+          merge-multiple: true
+          path: ${{ runner.temp }}/referti/mutazioni
 
       - name: Cancello di uscita
-        run: node cervello/cancello-lotto.mjs
+        run: node cervello/cancello-lotto.mjs --referti "$RUNNER_TEMP/referti"
+
+  # ── LA SUITE INTERA, SENZA TETTI ─────────────────────────────────────────────────────────────
+  # Il verdetto che dava `test-cervello.yml` sulle richieste: ogni rosso è rosso, nessun tetto. Prima
+  # rilanciava la suite una seconda volta su un altro runner; adesso legge le stesse fette. Su main
+  # (i push diretti dal VPS, AR-377) lo dà ancora `test-cervello.yml`, che lì è l'unico.
+  suite-intera:
+    name: suite del cervello + typecheck del Pannello
+    needs: [suite]
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: pannello/package-lock.json
+
+      - name: Dipendenze del Pannello
+        run: npm --prefix pannello ci
+
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        continue-on-error: true
+        with:
+          pattern: suite-*
+          merge-multiple: true
+          path: ${{ runner.temp }}/referti/suite
+
+      - name: Suite del cervello, ricucita dalle fette
+        run: node cervello/test-cervello.mjs --ricuci "$RUNNER_TEMP/referti/suite"
+
+      - name: Typecheck del Pannello
+        if: ${{ !cancelled() }}
+        run: npx --prefix pannello tsc --noEmit --project pannello/tsconfig.json

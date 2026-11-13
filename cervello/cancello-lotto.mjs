@@ -21,9 +21,9 @@
 //   1 = violazione: qualcosa non torna, il lotto NON si consegna
 //   2 = non ho potuto misurare (cantiere illeggibile, ambiente incompleto) → cieco, non «verde»
 
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
-import { join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { comandoAmmesso, MOTIVO_COMANDO_NON_AMMESSO } from "./forma-prova.mjs";
 import { storiaDelRepoCurata } from "./storia-git.mjs";
@@ -35,11 +35,25 @@ import { fileToccatiDaGit } from "./mutazioni-orfane.mjs";
 // 📏 Il contratto della prova (contratto-prova.mjs): quanto vale una prova lo dice UN posto solo.
 import { debitoDiMutazione } from "./contratto-prova.mjs";
 import { timbriStorti } from "./contratto-scheda.mjs";
+import { leggiFetta, valoreOpzione } from "./fette-ci.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const VELOCE = process.argv.includes("--veloce");
 const SOLO_PROVE = process.argv.includes("--solo-prove");
 const AGGIORNA_TETTI = process.argv.includes("--aggiorna-tetti");
+// 🍰 LE FETTE DELLA CI (13/11) — il perché e i numeri stanno in cervello/fette-ci.mjs.
+//   --referti <cartella>        il cancello di sempre, ma la suite e le mutazioni NON le lancia: le
+//                               ricuce dai referti delle fette (`suite/` e `mutazioni/`), e ogni
+//                               prova o mutazione senza verdetto esce ⚪ — cioè blocca.
+//   --fetta-mutazioni i/N --referto <file>
+//                               solo la i-esima fetta delle mutazioni del lotto: stesso perimetro,
+//                               stesso banco, stesso budget; i verdetti vanno nel file.
+// In locale non si passa niente, e il cancello fa esattamente quello che faceva prima.
+const REFERTI = valoreOpzione(process.argv, "--referti");
+const FETTA_MUT = valoreOpzione(process.argv, "--fetta-mutazioni");
+const REFERTO_MUT = valoreOpzione(process.argv, "--referto");
+const ARGOMENTI_SUITE = REFERTI ? ["--ricuci", join(REFERTI, "suite")] : [];
+const ARGOMENTI_BANCO = REFERTI ? ["--ricuci", join(REFERTI, "mutazioni")] : FETTA_MUT ? ["--fetta", FETTA_MUT, "--referto", REFERTO_MUT || ""] : [];
 
 const CANTIERE = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json");
 const TETTI = join(AD_ROOT, "cervello/tetti-lotto.json");
@@ -726,6 +740,49 @@ export function applicaTetto(passo, { quanti, delLotto, tetto, avvisi, violazion
   return v;
 }
 
+/**
+ * Il passo delle mutazioni, in UNA riga sola — la chiamano il cancello intero e la fetta della CI.
+ * Due copie della stessa chiamata sarebbero due budget che al primo ritocco divergono (la malattia
+ * `una-parola-con-due-padroni`), e `cervello/due-case.mjs` conterebbe due passi dove ce n'è uno.
+ * Il perché di ogni numero sta nel commento dove il cancello la chiama (AR-917, AR-938, AR-944).
+ */
+function passoMutazioni(perimetro) {
+  return esegui("prove non vacue (mutazioni del lotto)", "node", ["cervello/banco-a-corsie.mjs", "--difetti", perimetro.difetti.join(","), "--corsie", "4", "--budget", "1800000", ...ARGOMENTI_BANCO], {
+    timeout: 1_950_000,
+  });
+}
+
+/**
+ * 🍰 UNA FETTA DELLE MUTAZIONI, per la CI. Il perimetro si calcola ESATTAMENTE come nel cancello
+ * intero (stessa funzione, stessi ingressi), poi il banco prova solo la sua parte. Se il lotto non
+ * ha mutazioni da girare, la fetta lo scrive nel referto e finisce: il cancello che ricuce rifà lo
+ * stesso conto e non le chiede niente.
+ */
+function soloLaFettaDelleMutazioni({ mutanti, toccati, proveDelLotto }) {
+  const fetta = leggiFetta(FETTA_MUT);
+  if (!fetta || fetta.errore || !REFERTO_MUT) {
+    console.error(`cancello-lotto: ${fetta?.errore || "--fetta-mutazioni vuole i/N e --referto <file>"} → non misuro un'altra cosa`);
+    return 2;
+  }
+  if (!mutanti) {
+    console.error("cancello-lotto: mutanti.json non leggibile → la fetta delle mutazioni non ha misurato");
+    return 2;
+  }
+  const gitQui = (args) => spawnSync("git", args, { cwd: AD_ROOT, encoding: "utf8" });
+  const perimetro = perimetroDalGit({ mutanti, toccati, proveCambiate: proveDelLotto, daGit: fileToccatiDaGit(gitQui) });
+  if (!perimetro.girare.length) {
+    const commit = gitOrNull(["rev-parse", "HEAD"]);
+    mkdirSync(dirname(resolve(REFERTO_MUT)), { recursive: true });
+    writeFileSync(REFERTO_MUT, `${JSON.stringify({ fetta: { i: fetta.i, n: fetta.n }, commit: commit ? commit.trim() : null, difetti: [], misurate_qui: 0, esiti: [] }, null, 1)}\n`);
+    console.log("· questo lotto non ha mutazioni da girare: la fetta non ha niente da provare (il cancello rifà lo stesso conto).");
+    return 0;
+  }
+  const passo = passoMutazioni(perimetro);
+  console.log(passo.uscita.trim());
+  // Ucciso dall'orologio (124) resta rosso, come nel cancello intero.
+  return passo.codice === 0 || passo.codice === 2 ? passo.codice : 1;
+}
+
 function main() {
   if (!existsSync(CANTIERE)) {
     if (JSON_MODE) console.log(JSON.stringify({ ok: false, cieco: true, motivo: "cantiere assente" }));
@@ -787,6 +844,15 @@ function main() {
   const nati = difettiNati(cantiere, cantierePrima);
   const tetti = leggiTetti();
 
+  // Chiesto e non capito non vuol dire «niente»: `--referti` senza cartella farebbe girare tutta la
+  // suite qui, cioè un'altra cosa da quella chiesta (il ricollaudo del 13/11 l'ha trovato). Come
+  // `--fetta-mutazioni` storta, esce 2.
+  if (REFERTI === "") {
+    console.error("cancello-lotto: --referti senza una cartella → non misuro un'altra cosa");
+    process.exit(2);
+  }
+  if (FETTA_MUT !== undefined) process.exit(soloLaFettaDelleMutazioni({ mutanti, toccati, proveDelLotto }));
+
   if (AGGIORNA_TETTI) {
     if (ciechiProve.length) {
       console.error(`cancello-lotto: ${ciechiProve[0]} → non abbasso un tetto che non ho misurato`);
@@ -802,7 +868,7 @@ function main() {
     // AR-437 — i due tetti nuovi si dichiarano da qui, e ci vogliono i loro guardiani: il numero non
     // si indovina, si misura. Costa i secondi delle due corse, e si paga solo con `--aggiorna-tetti`.
     const onesteOra = idSospetti(esegui("prove oneste", "node", ["cervello/prove-oneste.mjs"]).uscita).length;
-    const uscitaSuite = esegui("test del cervello", "node", ["cervello/test-cervello.mjs", "--json"], { timeout: TEMPO_MAX_SUITE }).uscita;
+    const uscitaSuite = esegui("test del cervello", "node", ["cervello/test-cervello.mjs", "--json", ...ARGOMENTI_SUITE], { timeout: TEMPO_MAX_SUITE }).uscita;
     const rossiOra = testRossi(uscitaSuite);
     // AR-693 — il debito ereditato in bash ha il suo numero, misurato dalla stessa corsa.
     const rossiBashOra = testRossiBash(uscitaSuite);
@@ -1247,7 +1313,7 @@ function main() {
     // bisogno di un NUMERO e dei NOMI, e sei righe di coda non li danno: senza i nomi, «tre test
     // rossi da prima» e «hai appena rotto tre test» sono lo stesso rosso, e chi legge non sa se il
     // lavoro è suo. Il perimetro del blocco duro sono i test che questo lotto ha scritto o toccato.
-    const pTest = esegui("test del cervello", "node", ["cervello/test-cervello.mjs", "--json"], { timeout: TEMPO_MAX_SUITE });
+    const pTest = esegui("test del cervello", "node", ["cervello/test-cervello.mjs", "--json", ...ARGOMENTI_SUITE], { timeout: TEMPO_MAX_SUITE });
     const rossi = testRossi(pTest.uscita);
     const miei = testDelLotto(
       // AR-339 — ENTRAMBI gli elenchi passano dalla porta, che mette il `-z`: senza, un nome con
@@ -1354,9 +1420,7 @@ function main() {
         // Con il budget fermo a 1500 il margine sarebbe 260 s — cioè la cura del tetto verrebbe
         // rimangiata dal budget al primo runner lento, e le stesse sette tornerebbero ⚪ da un'altra
         // porta. 1800 lascia ~560 s di margine dentro un tetto di lavoro che resta 75 minuti.
-        esegui("prove non vacue (mutazioni del lotto)", "node", ["cervello/banco-a-corsie.mjs", "--difetti", perimetro.difetti.join(","), "--corsie", "4", "--budget", "1800000"], {
-          timeout: 1_950_000,
-        }),
+        passoMutazioni(perimetro),
       );
     } else if (toccati && toccati.length && !perimetro.saltate.length) {
       avvisi.push("nessuna mutazione per i difetti di questo lotto: la prova che le prove provino non ha misurato niente");
