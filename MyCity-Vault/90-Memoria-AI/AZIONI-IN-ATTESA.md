@@ -37,7 +37,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 **Cosa cambia per te.** Esempio: senza un sì, quel difetto aspetta la terza onda, cioè qualche ora in più, e un cliente del centro intanto non può ordinare. Con il sì, R13 lo ripara adesso, insieme al grave della posizione del negozio salvata lontano da Piacenza.
 
-**Cosa devi fare tu.** Rispondi con una lettera all'AD. «a»: R13 arriva fino a circa 90 $ e fa tutte le 22 voci (è la sua proposta). «b»: si ferma a 35 $ e tutto passa alla terza onda. «c»: fa solo il lotto del difetto bloccante e della posizione del negozio, per circa 6-10 $ in più. La regista consiglia la «c»: è il difetto che pesa di più, e costa poco.
+**Cosa devi fare tu.** Di' all'AD fin dove può spendere R13. «a»: R13 arriva fino a circa 90 $ e fa tutte le 22 voci (è la sua proposta). «b»: si ferma a 35 $ e tutto passa alla terza onda. «c»: fa solo il lotto del difetto bloccante e della posizione del negozio, per circa 6-10 $ in più. La regista consiglia la «c»: è il difetto che pesa di più, e costa poco.
 
 **Cosa non ho verificato.** I 6-10 $ della «c» sono una stima dai lotti gravi di R14, che costano 5-6 $ l'uno, non una misura di R13. E il tetto della regia di quest'onda, 60 $, è già superato.
 
