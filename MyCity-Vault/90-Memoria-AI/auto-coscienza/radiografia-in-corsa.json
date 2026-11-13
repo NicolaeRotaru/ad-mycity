@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-13 06:07",
+  "aggiornato": "2026-11-13 07:09",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -7155,6 +7155,20 @@
       "nota": "",
       "file": {
         "cervello/riparazione-sessioni.mjs": "126b5d148bb5"
+      }
+    },
+    {
+      "quando": "2026-11-13 07:09",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "terza regista onda 2",
+      "trovati": 0,
+      "schede": [],
+      "nota": "Riguardato il diff di 7d9500f su riparazione-sessioni.mjs (scriviNatiSito, areaDelNato) con le lenti guardrail-semaforo e cadenza-esecuzione: scrive il registro solo dentro applica --scrivi, già sotto cancello; nessuna cadenza nuova. Due appunti minori, non schede: l'area di ripiego è la prima dell'elenco se manca qa-flussi; un nato con gravità fuori elenco alza findings ma nessun contatore per gravità. Collaudo indipendente del commit: wf_135d9675-e15, esito non ancora letto.",
+      "file": {
+        "cervello/riparazione-sessioni.mjs": "f1b5204786bd"
       }
     }
   ]
