@@ -67,7 +67,7 @@ Se va bene: la regista controlla le tabelle sul database e scrive l'esito nella 
 
 **Cosa cambia per te.** Esempio: dentro ci sono anche i 25 difetti di R05, il riparatore che non è mai partito.
 
-**Cosa devi fare tu.** Il via lo dai tu, in una sessione nuova che non c'entra con le chat dell'AD (tua scelta del 13/11 alle 03:36). I passi sono tre. Prima unisci la richiesta ad-mycity#949: dentro c'è il passaggio aggiornato per la regista nuova. Poi apri una sessione nuova sul deposito ad-mycity, ramo `main`, e accendi ultracode dall'app. Infine scrivi: «Sei la regista dell'onda 2 del risolutore del sito. Apri la skill riparazione e leggi il passaggio in fondo a consegne/riparazioni/2026-11-12-sito-tutto/REGIA.md. Via la seconda.»
+**Cosa devi fare tu.** Il via lo dai tu, in una sessione nuova che non c'entra con le chat dell'AD (tua scelta del 13/11 alle 03:36). I passi sono tre. Primo: unisci la richiesta del sito mycity#288 con «Create a merge commit», quando è verde. La migrazione del bonifico l'AD l'ha già tolta (tua scelta «a», 13/11 alle 04:20). Secondo: apri una sessione nuova sul deposito ad-mycity, ramo `main`, e accendi ultracode dall'app. Terzo: incolla il testo che trovi in `consegne/riparazioni/2026-11-12-sito-tutto/AVVIO-ONDA-2.md`.
 
 **Cosa non ho verificato.** Il risparmio dei lotti piccoli è una stima: lo misuriamo alla fine della seconda onda.
 

@@ -6858,3 +6858,15 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
   - Senza la 350 il sito regge: si rompe solo il tasto «Bonifico fatto» del pannello admin, che chiama `segna_bonifico_manuale`.
   - Togliere tutto R11-004 non si può fare con un revert: R11-001 e R11-012 ci hanno costruito sopra.
 - **La proposta dell'AD:** prima di unire, togliere dalla #288 solo la migrazione 350 e le due prove che la leggono, e rimettere R11-004 nell'onda 2. Aspetta il sì di Nicola.
+
+## 2026-11-13 04:20 — 🟡 Tolta dalla richiesta del sito la migrazione del bonifico che può pagare due volte
+- **Chi:** Nicola in chat con l'AD, quarta chat: «scelgo la A».
+- **Cosa ho fatto:** sul ramo della mycity#288 ho fatto il commit `b868e37`, che toglie quattro cose:
+  - la migrazione 350;
+  - la sua prova sul database;
+  - il caso del test unitario che leggeva il file della migrazione;
+  - la colonna `payout_manual_ref` dai tipi generati.
+- **Cosa resta:** il codice di R11-004 resta, perché R11-001 e R11-012 ci hanno costruito sopra. R11-004 era già «resta_aperta» nelle decisioni della regista, quindi i 115 difetti chiusi restano 115.
+- **Prove:** in locale passano i 5 file di test collegati, 16 casi su 16. Anche `tsc --noEmit` ed `eslint` sono puliti. La CI della #288 è ripartita.
+- **Anche:** ho corretto la descrizione della #288, che diceva «niente va online da solo». Il testo d'avvio dell'onda 2 sta in `consegne/riparazioni/2026-11-12-sito-tutto/AVVIO-ONDA-2.md`, e la card 237 lo indica.
+- **Se va bene:** la CI della #288 è verde. Nicola la unisce con «Create a merge commit» e apre l'onda 2.
