@@ -151,3 +151,17 @@
 2026-11-13 08:01 · R23 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
 2026-11-13 08:01 · R24 · in lavoro · guardia ✅ · referto ⏳ 21 voci · unione (sotto) · nessuna
 2026-11-13 08:01 · onda 2 · prova-unione ✅
+2026-11-13 08:39 · R13 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 08:39 · R14 · in lavoro · guardia ✅ · referto ⏳ 9 voci · unione (sotto) · nessuna
+2026-11-13 08:39 · R15 · in lavoro · guardia ✅ · referto ⏳ 12 voci · unione (sotto) · nessuna
+2026-11-13 08:39 · R16 · in lavoro · guardia ✅ · referto ⏳ 21 voci · unione (sotto) · nessuna
+2026-11-13 08:39 · R17 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 08:39 · R18 · in lavoro · guardia 🔴 · referto ⏳ 12 voci · unione (sotto) · nessuna
+2026-11-13 08:39 · R19 · in lavoro · guardia 🔴 · referto ⏳ 18 voci · unione (sotto) · nessuna
+2026-11-13 08:39 · R20 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 08:39 · R21 · in lavoro · guardia 🔴 · referto 🔴 19 voci · unione (sotto) · nessuna
+2026-11-13 08:39 · R22 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 08:39 · R23 · in lavoro · guardia ✅ · referto ⏳ 12 voci · unione (sotto) · nessuna
+2026-11-13 08:39 · R24 · in lavoro · guardia ✅ · referto ⏳ 14 voci · unione (sotto) · nessuna
+2026-11-13 08:39 · onda 2 · prova-unione ✅
+2026-11-13 08:39 · giro 1 onda 2 (quarta regista) · rossi R18 (prova comune), R19 (prova spenta con skipIf), R21 (2 prove comuni, referto) · tutte e 12 le figlie ferme su richiesta, ognuna con lo SHA spinto · azione: detto a R19; catena di sorveglianza sospesa per la fermata del costo, riparte con la risposta di Nicola
