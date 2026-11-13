@@ -1,9 +1,9 @@
 {
- "regista": "session_015BmpnXsL6Y7tP3BhawauHw",
- "ad": "session_015BmpnWWfcmEfYEhQ25M7s2",
+ "regista": "session_015BmpnZcs1XvqxGKUA3qRGC",
+ "ad": "session_015BmpnYWmNDPKAztZMPww6M",
  "sha_regista": "2f55d47d7ac130718ddabf722ba9485d3abe0428",
  "base": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
- "integrazione": "claude/sweet-galileo-0skkay",
+ "integrazione": "claude/magical-hamilton-xouwr8",
  "sessioni": {
   "R01": {
    "id": "session_015BmpnWa4kEGXtN8hYcdRgR",
@@ -165,5 +165,8 @@
   "non_tolta_latente": [
    "R10-019"
   ]
- }
+ },
+ "regista_onda1": "session_015BmpnXsL6Y7tP3BhawauHw",
+ "integrazione_onda1_ramo": "claude/sweet-galileo-0skkay",
+ "base_onda2": "a19ff8923106fb5fbe7c2e74cc02979ea9dc2067"
 }

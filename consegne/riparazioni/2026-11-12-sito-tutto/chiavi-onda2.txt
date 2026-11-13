@@ -1,0 +1,58 @@
+# Le voci dell onda 1 che rientrano nell onda 2 (regista dell onda 2, 13/11). Una chiave per riga.
+# Fonti: AVVIO-ONDA-2.md (R05, serve_file_altrui, tolte con revert, R11-004) e la skill riparazione (non_fatto). R10-019: rompe altro, non tolta, latente su main.
+# R05 (25)
+api-backend|se la lettura delle email cade, la ricerca utenti dice «nessuno, ho cercato su tutti», e oltre mille iscritti l'email non si trova
+api-backend|confermata una rimessa, la giornata del fattorino risulta versata anche per i contanti che incassa dopo, e la guardia della cancellazione lo lascia andare
+qa-flussi|nicola non viene avvisato quando arriva un ordine: il primo allarme per un ordine non accettato parte dopo un'ora, non dopo 5 minuti
+qa-flussi|un ordine fermo su «accettato» o «ritirato dal fattorino» non fa suonare nessun allarme e non scade mai
+rls-database|chi ha fatto anche un solo ordine non riesce a cancellare il proprio account
+api-backend|un doppio clic su «conferma i contanti ricevuti» registra due rimesse invece di una
+api-backend|due cancellazioni dello stesso account partite insieme danno un errore falso o una riga doppia nel registro
+api-backend|la rotta che cancella un utente accetta anche un amministratore, mentre la pagina nasconde il bottone
+api-backend|il conteggio dei promemoria «inviati» include carrelli segnati senza nessuna email
+api-backend|il cron degli ordini scaduti ricopia la logica di annullo invece di usare annullaerimborsa
+api-backend|il giro che annulla legge al massimo 100 ordini fermi, senza un ordine: una veloce scaduta può restare fuori dal giro
+api-backend|se due giri del sorvegliante partono nello stesso istante, l'amministratore riceve due volte la stessa campanella
+api-backend|allarme 'persone non avvisate' riscritto ogni notte, senza dire chi: la stessa classe chiusa per le email resta aperta qui
+api-backend|avvisi ed email in un giro senza tetto di tempo: con posta appesa e ~15 in attesa, gli ultimi non hanno nemmeno l'avviso nel pannello
+api-backend|l'allarme 'scrivile tu' si chiude solo se l'email parte: se la persona annulla o viene cancellata resta aperto per sempre col suo id
+api-backend|se due giri della cancellazione account partono insieme, l'account sparisce ma agli amministratori arriva un falso allarme di cancellazione fallita
+api-backend|la notifica del nuovo ordine fa la fila dietro le promozioni
+api-backend|se l'amministratore apre i documenti di un fattorino con un codice storto, la rotta risponde con un guasto invece di dire che il codice non è valido
+api-backend|il freno sulla rotta regge per 3 interruttori su 9: ai, newsletter, classifica e caricamento da file stanno solo nelle pagine
+api-backend|gli avvisi «incasso in contanti che non quadra» e «incasso senza foto» si scrivono senza guardare se sono partiti
+api-backend|comunicare due volte l'esito di una segnalazione rimanda la mail e le notifiche, e dopo un errore il nuovo tentativo rimanda anche i canali già riusciti
+api-backend|due invii uguali all'assistenza nello stesso istante creano due messaggi e due avvisi
+api-backend|due segnali di accesso per lo stesso ingresso: la deduplica legge-e-poi-scrive senza vincolo sul database — e la migrazione che la reggerebbe non c'e' in questo lotto
+api-backend|la rotta che registra le visite va in errore del server se riceve un corpo vuoto o rotto, o un cookie dei consensi storto
+api-backend|la pagina d'errore dice «abbiamo registrato il problema», ma un errore nel telefono del cliente non lo registra nessuno
+# serve_file_altrui (14)
+microcopy|il sos del fattorino dice «stiamo chiamando il 112», ma l'app apre solo il tastierino
+frontend-ux|con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato
+architettura|il finto clienteavvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente
+frontend-ux|i marchi «km 0» e «artigianale» non compaiono mai sulla scheda, perché la scheda non legge i tag
+immagini-media|le tessere delle categorie in home sono foto d'archivio scritte a mano nel codice
+architettura|interfacce zombie: shippingforeuro vale sempre 0 ma riceve 7 ingressi; promessaspedizione ha un argomento morto e campi sempre costanti
+deploy-sre|la prova «migrazione su database pieno» mette ancora i file nell'ordine vecchio
+immagini-media|se l'abbonamento supabase scade, le foto del sito tornano rotte e nessun controllo se ne accorge
+privacy-legale|i nomi di sedici account cancellati restano nel registro delle azioni
+rls-database|la regola per riga della migrazione 001 lascia scrivere i prodotti dal browser, senza traccia ne' controllo di vendibilita'
+architettura|una fascia «domani» inviata alle 23:59 e arrivata alla rotta dopo mezzanotte si giudica sul giorno dopo
+performance|ogni pagina scarica due caratteri in corsivo che quasi nessuna pagina usa
+architettura|una prova sul webhook di stripe controlla l'ordine delle righe cercando una parola, e basta togliere uno spazio per ingannarla
+privacy-legale|i video di youtube e vimeo si caricano senza chiedere il consenso, e la cookie policy non li nomina
+# non_fatto (3)
+qa-flussi|le tre prove automatiche dell'acquisto vero sono vuote: passano in tre millesimi senza aprire niente
+api-backend|la funzione che muore fra l'ordine e gli articoli lascia la merce riservata senza nessuno che la liberi
+architettura|il codice pgrst204 su una colonna della 124 ora fa scattare il ripiego per tutti: con la cache dello schema di postgrest vecchia, la scrittura salta gross_total_cents anche a migrazione applicata
+# tolte_e_bonifico (10)
+qa-flussi|la cassa dice «troppo lontano» a chi abita in via roma o in via cavour, in pieno centro, e l'ordine non parte
+pagamenti-stripe|se il cliente viene rimborsato prima che il suo ordine nasca, l'ordine nasce lo stesso come pagato e il negozio viene pagato
+dati-analytics|negozio del mese: la classifica dei voti mostra tutti i negozi a zero voti in fila, e «nessun voto» non compare mai
+dati-analytics|in analisi il voto medio guarda solo le recensioni ai prodotti: un negozio con tre recensioni legge «nessuna recensione», e le etichette sono in inglese
+frontend-ux|il salvataggio fa due passi: se una variante è cambiata, nome e prezzo del prodotto restano salvati e le varianti no
+pagamenti-stripe|con l'abbonamento acceso, due schede aperte creano due abbonamenti da 50 euro, e il primo resta orfano e non si disdice dal sito
+pagamenti-stripe|il bonifico del lunedì al negozio non si può segnare: i soldi dei contanti restano «in attesa» per sempre, sia per il negozio sia per nicola
+frontend-ux|le modifiche ai dettagli del negozio e al profilo si perdono uscendo, senza nessun avviso
+frontend-ux|incollare il link di instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non dice dove
+frontend-ux|se il nome del negozio comincia con un numero, un apostrofo, le virgolette o contiene una parola inglese come «table», il cliente in cassa legge «qualcosa non ha funzionato» invece del motivo vero
