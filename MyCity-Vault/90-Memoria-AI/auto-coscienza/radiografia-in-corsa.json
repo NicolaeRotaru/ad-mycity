@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-13 01:47",
+  "aggiornato": "2026-11-13 02:04",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -7079,6 +7079,21 @@
       "nota": "Riletta la sezione 'Quello che può far salire il conto' (commit 699b7c6) con le lenti cadenza-esecuzione e chiusura-volano. Due punti deboli già noti, nessun difetto nuovo: il tetto di 12 subagenti per figlia e i 400 mila token della chat dell'AD reggono sulla disciplina (debito dichiarato nel MANUALE: nessun guardiano conta i turni); il confronto atteso-reale del preventivo a fine onda è promesso dalla card 237 e dalla Regola 3-ter, non dalla sezione.",
       "file": {
         ".claude/skills/riparazione/SKILL.md": "bde91b917edc"
+      }
+    },
+    {
+      "quando": "2026-11-13 02:04",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "Aggiunta la regola delle cartelle (Nicola 13/11). Riletta con cadenza-esecuzione: chi apre la cartella (la regista, a inizio onda), chi la risveglia (la regista, per ogni collaudatore in catena), chi inoltra le cadute (la cartella). Il passaggio del testo intero ai riparatori resta alla regista via send_message, entro 64 KiB. Nessun difetto nuovo.",
+      "file": {
+        ".claude/skills/riparazione/SKILL.md": "e9c4335699ad",
+        ".claude/skills/radiografia-sessioni/SKILL.md": "96f0ae2f0b8b"
       }
     }
   ]

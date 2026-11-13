@@ -112,7 +112,12 @@ sessione <id>: le fermate e l'esito vanno lì con send_message.»* `<C>/REGIA.md
 massimo): le scelte di Nicola, lo stato, il prossimo passo, i comandi esatti. La sessione dell'AD deve essere in
 modalità Auto: una figlia nasce nella modalità di chi la apre, e in «plan» si blocca.
 
-**Aprire le cercatrici dell'onda**, una `create_session` per sessione:
+**Le cartelle nell'elenco** (Nicola, 13/11). Le cercatrici, il verificatore e il controllore non li apre la regista da
+sé, ma una cartella per ruolo e per onda: «Cercatrici · onda N», e così via. La regola, il modello della cartella e
+la prova del 13/11 stanno nella skill `riparazione`, sezione «Le cartelle nell'elenco». Qui i prompt sono di una riga,
+quindi la cartella li passa così com'è.
+
+**Aprire le cercatrici dell'onda**, dentro la loro cartella, una `create_session` per sessione:
 - `source_url` = `https://github.com/NicolaeRotaru/ad-mycity`; `source_revision` = `SHA_REGISTA` (dall'onda 2: lo
   SHA del commit con `trovati.txt`); `outcome_branch` = `<ramo della regista>-sNN`;
 - nessun `permission_mode: "plan"`; `effort: "xhigh"`, poi il controllo di Ultra Code Extra;

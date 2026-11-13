@@ -269,9 +269,33 @@ Tutti i comandi dalla radice di `ad-mycity`, con `--cartella consegne/riparazion
    - per la macchina: se includere le voci a prova umana.
    Si parte solo con il suo «via».
 
+## Le cartelle nell'elenco (vale per riparatori, collaudatori e controllori)
+
+Nicola, 13/11: «controllore, collaudatore e riparatori ognuno nella sua cartella», per risparmiare spazio
+nell'elenco dell'app. Nell'elenco una sessione sta dentro chi l'ha aperta, e dopo non si sposta più. Quindi la
+regista non apre le figlie da sé. Prima apre una **cartella** per ruolo e per onda: «Riparatori · onda N»,
+«Collaudatori · onda N», «Controllori · onda N». Poi è la cartella ad aprire le figlie. Provato il 13/11 alle 01:02:
+una cartella su `claude-sonnet-5-5` ha aperto una figlia su `claude-opus-5-5` con `effort: "xhigh"` e
+`permission_mode: "auto"`, e la figlia è nata così. Costo: 0,28 $ per tutte e due.
+- **La cartella** è una `create_session` senza `source_url`, con `model: "claude-sonnet-5-5"`, `permission_mode:
+  "auto"`, il tag della campagna e il titolo del ruolo. Il prompt elenca le figlie da aprire, con tutti i campi di
+  questa skill scritti per esteso: titolo, deposito, revisione, ramo, `model: "claude-opus-5-5"`, `effort`,
+  `permission_mode`, tag. Una figlia senza `model` prende quello della cartella, cioè il piccolo. Poi la cartella
+  manda gli id alla regista con `send_message` e si ferma. Se le arriva l'avviso che una figlia è caduta, lo inoltra
+  alla regista in una riga.
+- **Il prompt della figlia.** Se è una riga (collaudatori, controllori), la cartella lo passa così com'è. Se porta il
+  testo intero (riparatori), la cartella passa solo: *«Sei il riparatore RNN. La regista è <id>: ti manda adesso le
+  regole e la scheda, e quello è il tuo compito. Fino ad allora non fare niente.»* Poi la regista manda a ognuno il
+  testo intero con `send_message`. Il limite è 64 KiB a messaggio: se serve, in due messaggi, prima il LEGGIMI e poi
+  la scheda.
+- **La cartella resta viva per tutta l'onda.** I collaudatori nascono in catena: per ognuno la regista scrive alla
+  cartella «apri KNN con questo prompt». Gli id delle cartelle vanno in `sessioni.json`, sotto `"cartelle"`.
+- **Ultra Code.** Nella figlia di prova non risultava acceso. Il controllo di «Ultra Code Extra» qui sopra si fa
+  come prima, sulla prima figlia della prima cartella.
+
 ## F1 — I riparatori
 
-**Aprire le sessioni.** Una `create_session` per riparatore dell'onda:
+**Aprire le sessioni.** Dentro la cartella «Riparatori · onda N» (sezione qui sopra), una `create_session` per riparatore dell'onda:
 - `source_url` = il deposito bersaglio; `source_revision` = `BASE` (dall'onda 2: lo SHA dell'integrazione);
 - `outcome_branch` = `<ramo della regista>-mNN` (NN = il numero del riparatore);
 - `permission_mode: "auto"`, scritto: mai `"plan"` (si blocca in attesa di un clic che nessuno fa, e il 6/11 si

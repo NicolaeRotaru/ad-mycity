@@ -24,6 +24,7 @@ Le più nuove in alto. Ognuna dice quando, a chi l'ha detta, e cosa.
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 13/11 01:56 | AD | Le figlie nascono in una cartella per ruolo: riparatori, collaudatori, controllori (skill `riparazione`, «Le cartelle nell'elenco») |
 | 13/11 01:45 | AD | Le sessioni si cambiano oltre il 40% del contesto; la chat dell'AD passa a una nuova |
 | 13/11 01:40 | AD | Analisi di cosa può cambiare la stima dell'onda 2, con i freni nelle regole |
 | 13/11 01:28 | AD | «sì, rimedi»: le sessioni si parlano con le regole di `cervello/sessioni-insieme.md` |
