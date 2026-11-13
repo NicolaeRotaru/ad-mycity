@@ -28,8 +28,9 @@ Che le figlie nascano con ultracode: si controlla con get_session sulla prima, p
 **Le scelte di Nicola.**
 - 12/11: casa `sito`, profilo `tutto`, riparatori da 25 voci, tre onde, fermate prima dell'onda 1 e dopo le onde 1 e 2.
 - 12/11: un controllore dopo ogni onda e uno finale; niente lavoro inutile.
-- 13/11: nessuna sessione fa solo da cartella. Le figlie stanno dentro la regista, col ruolo in testa al titolo
-  («Riparatore · R13 · onda 2»). Ogni figlia che scrive codice nasce con ultracode ed effort xhigh.
+- 13/11 13:35: ogni sessione nasce dentro la sottocartella del suo ruolo, aperta dentro la regista (Regia, Collaudatori,
+  Controllori, AD: id in `sessioni.json`, chiave `cartelle`). L'albero ha 8 livelli al massimo: le cartelle stanno al 5.
+  Chi scrive codice nasce con effort xhigh e lavora solo con ultracode acceso, che Nicola accende dall'app.
 - 13/11, card 239 «a» e «Allarga la a»: per la sola onda 1 vale l'eccezione firmata su quattro regole
   (`eccezioni_firmate` in piano.json, commit `ed65fbf`). Dall'onda 2 tutto stretto.
 - Le migrazioni sul database vero solo con la sua firma, una per una. L'unione e la pubblicazione sono sue.
@@ -68,8 +69,7 @@ Che le figlie nascano con ultracode: si controlla con get_session sulla prima, p
 - Nicola, 13:20: collaudi e controlli subito sul già riparato, e unione man mano. Dalle 13:40 valgono le regole 7 e 11 nuove di `cervello/sessioni-insieme.md`.
 - Finite e verdi: R20 (punta `2851b087`), R22 (`35ee9faa`), R21 (`1c8a82ca`, testa `30c48c54`, 56 $ sul tetto di 55). Le collauda K05 (`…ZdFpSJ`, ramo `-k05`), fermo finché Nicola non gli accende ultracode.
   Hanno finito anche R19 (punta `1d939a19`, testa `5a81802f`, 70,2 $ su 71) e R23 (punta `3795e191`, testa `0d499c53`, circa 52 $). Al programma, poi a K06.
-- Unione anticipata: R20 e R22 uniti solo nel clone della quinta (`0cfe25e6`, `2d5f0313`), non spinti. Il verify era caduto per memoria: va lanciato con `NODE_OPTIONS=--max-old-space-size=8192`.
-  L'harness SQL vuole un Postgres locale: `pg_ctlcluster 16 main start`, poi `createuser -s root` e `PGUSER=root` sul socket.
+- Unione anticipata: R20 e R22 uniti e spinti nell'integrazione del sito alle 13:49, a `2d5f0313`. Verify verde (1451 file, 9766 prove) con `NODE_OPTIONS=--max-old-space-size=8192`. Harness SQL: `pg_ctlcluster 16 main start`, `createuser -s root`, `PGUSER=root`.
 - Al lavoro: R13, R15, R16, R17, R18 e R24, con la regola della 2.0 a 400 mila token. R14 continua nella sua 2.0 (`…WjBBk7`, da `8582fee7`), ferma finché Nicola non le accende ultracode. Poi K06-K08, tre riparatori ciascuno, appena finiscono.
 - Dopo: unione, verify e harness, cucitura dell'onda 2 (le serve_file_altrui e le parziali in file altrui), C02 e fermata 3. Poi i 10 minori della macchina (passaggio della quarta, commit `2a71b48`).
 - Falle riservate: 5 (R14 pagamenti, R16 e R19 permessi, R21 accessi, R24 auth), più due nate in R21 (008, 014). I dettagli solo in chat, dalla quinta.

@@ -268,5 +268,12 @@
  "regista_onda2_prima": "session_015BmpnZcs1XvqxGKUA3qRGC",
  "sha_regista_onda2": "125b2db",
  "regista_onda2_seconda": "session_015BmpnWRS6TmZUqTtjQ5fX7",
- "pr_ci": "session_015BmpnWroKtzTLyTmXZVE2k"
+ "pr_ci": "session_015BmpnWroKtzTLyTmXZVE2k",
+ "cartelle": {
+  "regia": "session_015BmpnZJxFMJaArHSLWdGbM",
+  "collaudatori": "session_015BmpnVmCx4MZC3KfX92m9A",
+  "controllori": "session_015BmpnVfi4KSr2gKbddcYf3",
+  "ad": "session_015BmpnV6MM3MbPx3kR39WPd",
+  "nota": "aperte dalla quinta regista il 13/11 alle 13:47 (profondità 5 su 8); le sessioni nuove nascono dentro la sottocartella del loro ruolo"
+ }
 }
