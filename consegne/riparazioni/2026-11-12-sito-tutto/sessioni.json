@@ -236,6 +236,18 @@
     "R21"
    ],
    "onda": 2
+  },
+  "K06": {
+   "id": "session_015BmpnWyCYQ4C6DndTLhMHY",
+   "ramo": "claude/magical-hamilton-xouwr8-k06",
+   "partenza": "e11facd3e07d15ba8b8da5bd4a0d3615481a4b56",
+   "riparatori": [
+    "R19",
+    "R23",
+    "R24"
+   ],
+   "onda": 2,
+   "cartella": "collaudatori"
   }
  },
  "controllori": {
