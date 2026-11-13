@@ -6834,3 +6834,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Chi:** Nicola in chat con l'AD, terza chat: «il via della seconda ondata lo do in una nuova sessione che non centra nulla con quello che abbiamo fatto fino adesso».
 - **Cosa cambia:** l'AD non apre la regista dell'onda 2. Card #237 riscritta coi tre passi: unire la #949 (porta il passaggio aggiornato in `REGIA.md`), aprire una sessione nuova su ad-mycity `main` con ultracode acceso dall'app, scrivere il testo pronto della card.
 - **Anche (03:33):** la sessione della CI ha finito al tetto (29,55 $ su 30). Il cancello del lotto è passato da 10 min 21 s a 2 min 36 s, il test del cervello da circa 5 min a 2 min 20 s, e nessun controllo è stato tolto. La richiesta #948 è in bozza. L'ultima corsa su `0f204ff` la segue l'AD.
+
+## 2026-11-13 03:40 — 🟡 Tolta la scusa rimasta per il permesso del database: main e la #948 erano rossi per quella
+- **Chi:** l'AD, quarta chat (`session_015BmpnVpk1kywXGH5kMWQTH`). La terza chat ha lasciato la scelta all'AD: «riparare o portargli la causa».
+- **Cosa è successo:** alle 03:24 Nicola ha tolto a mano `mcp__Supabase__execute_sql` da `.claude/settings.json` (card 236, commit `3a5778e`). In `cervello/permessi-debito.json` è rimasta la scusa per quel permesso. La prova `permessi-di-guardia`, al caso 4, boccia le scuse per violazioni che non ci sono più. Così sono caduti `main` e la fetta 8 della #948, che gira sul suo codice unito a `main`.
+- **Cosa ho fatto:** nella #949 ho unito `main` e tolto quella voce, 4 righe. I quattro file di prova dei permessi passano, 29 casi su 29.
+- **Perché qui:** è l'ultimo passo della card 236 che Nicola ha firmato. Solo una richiesta di unione può riparare `main`, e la #949 è dell'AD.
+- **Se va bene:** unita la #949, la #948 si rilancia e si unisce solo se torna verde.
