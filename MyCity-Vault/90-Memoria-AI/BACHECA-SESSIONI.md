@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-13 05:34
+aggiornato: 2026-11-13 06:15
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -76,7 +76,8 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 | AD, quinta chat (dal 13/11 alle 04:39) | `session_015BmpnYWmNDPKAztZMPww6M` |
 | AD quarta chat, da non usare (508 mila token) | `session_015BmpnVpk1kywXGH5kMWQTH` |
 | AD terza chat, da non usare (471 mila token) | `session_015BmpnZ5ufx6s554FgYbUju` |
-| CI della macchina in 3 minuti | `session_015BmpnWjSJvwxssvANzndUF` |
+| CI del sito in 3 minuti · seguito (dal 13/11 alle 06:14, passaggio in `consegne/tech/passaggio-ci-sito-tre-minuti.md`) | `session_015BmpnUqVt6v4HuqvPF3X7B` |
+| CI della macchina e del sito, da non usare (oltre il 40% del contesto) | `session_015BmpnWjSJvwxssvANzndUF` |
 | Radiografia del codice · seguito (dal 13/11 alle 03:28) | `session_015BmpnZCaWUijDqfTAvJ4Dx` |
 | Radiografia del codice, da non usare (partita prima delle regole nuove) | `session_015BmpnXaAEDNzGNRCfhqygd` |
 | AD seconda chat, da non usare (390 mila token) | `session_015BmpnXznpQwCRc8GAKjgyw` |
