@@ -1,5 +1,5 @@
 {
- "regista": "session_015BmpnZ4kEDhRhLcWZzwwwP",
+ "regista": "session_015BmpnZaZMi8cGzkuE9PJE7",
  "regista_onda2_quinta": "session_015BmpnVzbMLH1s3LPB8nHkW",
  "regista_onda2_quarta": "session_015BmpnVkmAAN92z8w4HLVGB",
  "regista_onda2_terza": "session_015BmpnYzJKvQoMML3LmU8aJ",
@@ -383,6 +383,14 @@
   "id": "session_015BmpnZ4kEDhRhLcWZzwwwP",
   "dal": "2026-11-13 15:50",
   "catena": "trig_017e9EB3p8LUoDwEKjMW99bG",
-  "copia_sito": "/home/user/mycity, clone --filter=blob:none (storia intera)"
+  "copia_sito": "/home/user/mycity, clone --filter=blob:none (storia intera)",
+  "passata_alla_4_0": "2026-11-13 17:05, a 335 mila token, 5,8 $"
+ },
+ "regista_onda2_sesta_4": {
+  "id": "session_015BmpnZaZMi8cGzkuE9PJE7",
+  "dal": "2026-11-13 17:05",
+  "catena": "trig_01PJBEzMyrazzzucVWJ7oHgS",
+  "copia_sito": "/home/user/mycity, clone --filter=blob:none --no-checkout (storia intera), integrazione a 583624d1",
+  "ultracode": "manca in get_session alle 17:05: chiesto all'AD alle 17:06"
  }
 }
