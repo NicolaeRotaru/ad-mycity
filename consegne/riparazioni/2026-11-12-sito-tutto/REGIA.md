@@ -62,13 +62,12 @@ Che le figlie nascano con ultracode: si controlla con get_session sulla prima, p
 **I controllori.** Le regole stanno in `cervello/riparazione/LEGGIMI-controllore.md`. I referti vanno in
 `<C>/controlli/`, e `applica` li legge da solo.
 
-**Passaggio alla seconda regista dell'onda 2 (13/11 06:12, da `…Zcs1Xv` oltre 450 mila token: regola 7 violata, Nicola l'ha visto).**
-- Richiesta di Nicola: «parti con l'ondata 2», poi «accendi ultracode in ogni sessione dove si lavora con il codice». Si riferisce all'AD, quinta chat `…YWmNDP`, in modo urgente per stop, quota e clic.
-- Aperti R13-R19 (id in sessioni.json; R19 `session_015BmpnYLk8AraXakVCkun9H`), piani approvati. R20-R24 in apertura da un agente della prima regista: gli id li manda lei.
-- Ultracode: solo Nicola lo accende dall'app, sessione per sessione. R13 acceso; R14-R24 da accendere. La parola nel testo non basta.
-- Le figlie non chiedono a Nicola (R13 l'ha fatto): ordine mandato a tutte, ed è nei testi di R19-R24. Se ricapita, si interrompe e si ricorda.
-- Mai oltre 12 subagenti per figlia: niente deroghe senza la firma di Nicola. I minori senza revisore portano verificato_da = «prova rimessa del riparatore, tetto dei 12».
-- Da fare subito: catena di sorveglianza a 30 minuti (`sorveglia.sh <C> 2`), controllo a 10 minuti con list_sessions, tetti per figlia, poi F2/F3.
-- CI della ad-mycity#952: rossa su `cervello/test/due-case.test.mjs` (2 casi, «il banco non si avvelena da solo»), da capire. Riagganciate le mutazioni AR-1163.
-- Analisi delle regole non seguite: workflow `wf_f8b37da0-d37` della prima regista. L'esito te lo manda lei.
-- 13/11 06:13: la seconda regista (`session_015BmpnWRS6TmZUqTtjQ5fX7`) prende la sorveglianza. Alle 06:15 approva i piani di R20, R21, R22 e R23. R22-015 passa all'onda 3 (dipende da R17-002). R20-016 e le dipendenze di R23 vanno alla cucitura (serve_file_altrui). R23-016 (festivi) è scelta_di_nicola. Le dodici figlie hanno ultracode acceso; nella seconda regista è spento, chiesto all'AD. Il controllo trig_01JLh… non esiste più.
+**Passaggio alla terza regista dell'onda 2 (13/11 06:55, dalla seconda `…WRS6Tm` a 472 mila token: regola 7 rotta di nuovo, detto all'AD).**
+- R13-R24 aperti, piani approvati, ultracode acceso su tutti (controllato 06:16). Id e rami in `sessioni.json`. SHA_REGISTA onda 2 = `125b2db` (la base dei cloni ad-mycity delle figlie): usarlo come source_revision di K05-K08 e C02.
+- Sito: `add_repo` NicolaeRotaru/mycity e clone in `/home/user/mycity`; ogni comando del programma con `MARKETPLACE_REPO=/home/user/mycity`.
+- Sorveglianza: catena `send_later` a 30 minuti (prossimo giro 07:19, trig_01TsUDPKVkyuR2nnS4ptbkLf): alla presa del posto cancellarlo e rifarlo dalla regista nuova. Giro 1 (06:48) nel diario.
+- Aperti: R16 e R23 guardia rossa per una prova comune toccata (detto a tutte e due: rimetterla, prova nuova col proprio nome). R16-001: aspetta la firma di Nicola su un'eccezione per `tests/unit/il-testo-dice-quello-che-succede-davvero.test.ts`; senza firma va in cucitura. R17: `lib/database.types.ts` assegnato dalla regia (piano + scheda, copertura-prima verde); R17 si ferma a 35 $ e lascia il resto all'onda 3.
+- Decisioni sui piani: R22-015 → onda 3 (dipende da R17-002); R20-016 e le dipendenze di R23 → cucitura; R23-016 (festivi) e R24-003 (modificare la recensione) → scelta_di_nicola alla fermata 3.
+- ad-mycity#952: unica causa del rosso = `il-conto-del-sito-che-dice-zero` (applica non alzava `meta.findings`). Riparato in `7d9500f`, 27 mutazioni AR-1172 rosse. Collaudo indipendente `wf_135d9675-e15` in corso alla partenza: l'esito lo inoltra la seconda regista. Seguire la CI con `subscribe_pr_activity`. Le 115 chiusure dell'onda 1 valgono solo con la #952 verde.
+- Costi alle 06:51: seconda regista 12,61 $; figlie 38,06 $ alle 06:16. Prima regista 40,52 $. Tetto regia 60 $ a onda.
+- Dall'analisi della prima regista (`wf_f8b37da0-d37`), da fare: messaggio d'attesa e get_session prima di dare il lavoro a K05-K08 e C02; controllo di used_tokens a ogni giro; registrazione onesta della radiografia in corsa («trovati 3, riparati nello stesso lotto, 643ab2a»); riga in bacheca per R13-R24.
