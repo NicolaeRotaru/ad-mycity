@@ -74,4 +74,7 @@ Che le figlie nascano con ultracode: si controlla con get_session sulla prima, p
 - Per la fermata 3: carta #242 (tetto di R13: bloccante R13-001 della cassa del centro, gravi 004-006), R13-003 chi paga gli sconti, R17-002 ordine fermo pagato più le altre 4 domande di R17, R20-010, R23-016, R24-003, R24-010 (dominio di SUPPORT_EMAIL), il CAPTCHA di R24, l'eccezione di R16 e le voci tolte per le prove comuni.
 - PR e CI: dal 13/11 13:15 le segue il «Controllore · PR e CI · onda 2» (id in `sessioni.json`, chiave `pr_ci`): ad-mycity#952 ora, la PR del sito dopo l'unione. La regista non ripara la CI.
 - Costi alle 13:05: regia quarta 13,5 $ (regia in tutto circa 94 $, tetto 60 $). Figlie: R24 49,9 $, R19 50,8, R16 47,9, R23 41,3, R14 39,8, R21 ~39, R18 ~36, R15 34,3, R17 ~33, R22 ~32, R13 30,5, R20 25,2. Stima in più per finire circa 430 $ (massimo circa 540 $). Quota in avviso fino al 19/11 alle 10.
-- Sorveglianza: la catena della quarta è cancellata; la quinta ne fa una sua a 30 minuti.
+- Sorveglianza: catena della quinta, `trig_019djWt83zUDMzvAH7mbmYbG`, ogni 30 minuti. Sito: add_repo push fatto alle 13:22.
+- **13:20, Nicola: «mettiti avanti con i collaudatori e controllori su difetti già risolti».** Si scosta dalla skill, che collauda a `finita: true`.
+  K05 subito su R20 e R22. Poi collaudi anticipati sulle voci con esito, allo SHA spinto, ognuna al suo commit; il dopo si ricollauda sul delta.
+  I rami finiti e verdi si uniscono man mano nell'integrazione del sito; C02 fa un primo giro e un secondo sul resto. Tetti: 30 $ e 20 $.
