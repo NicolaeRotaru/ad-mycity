@@ -1,6 +1,6 @@
 ---
 tipo: passaggio
-data: 2026-11-13 05:15
+data: 2026-11-13 05:10
 da: session_015BmpnZCaWUijDqfTAvJ4Dx («Radiografia del codice · seguito», 429 mila token, oltre la soglia della regola 7)
 a: la sessione nuova che continua la chat con Nicola
 ---
@@ -16,7 +16,7 @@ radiografia va controllata e resa ibrida. Per esempio: oggi il suo programma non
 del risolutore la nomina 35 volte.
 
 ## Cosa cambia per te
-Continui tu la chat con Nicola, da dove si è fermata alle 05:15 del 13/11.
+Continui tu la chat con Nicola, da dove si è fermata alle 05:10 del 13/11.
 
 ## Cosa devi fare
 Aspettare il suo sì sull'ordine dei lavori della sezione 3. Ogni sua decisione va in bacheca e all'AD.
@@ -48,7 +48,7 @@ Le schede delle sessioni (non generate), il programma riga per riga, e quanto co
   del 7/11 trovò il bloccante degli indirizzi.
 - Il ritmo di chiusura è 0,19, e i minori aperti erano 726 il 12/11. La quota è in avviso fino al 19/11 alle 10.
 
-## 3. Cosa gli ho risposto alle 05:15
+## 3. Cosa gli ho risposto entro le 05:10
 - **Le quattro domande.** Sui difetti veri e sui falsi non c'è una misura: la radiografia non è mai partita. Sul
   consumo, corregge il 6/11, ma non cambia sessione oltre soglia. Sulle regole è aggiornata solo in parte.
 - **Ibrida si può, in due sensi.** Per bersaglio, con una parte comune e una per bersaglio, come il risolutore. Per
