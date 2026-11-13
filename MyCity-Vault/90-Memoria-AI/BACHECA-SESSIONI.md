@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-13 02:40
+aggiornato: 2026-11-13 02:33
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -23,17 +23,19 @@ Niente: la tengono aggiornata le sessioni.
 Nessun programma controlla che ogni decisione arrivi qui: per ora regge sulla disciplina delle sessioni.
 
 ## Le decisioni di Nicola
-Le più nuove in alto. Ognuna dice quando, a chi l'ha detta, e cosa.
+Le più nuove in alto. Ognuna dice quando, a chi l'ha detta, e cosa. Gli orari con «entro» vengono dall'ora del commit
+che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12 minuti più tardi (corretti dall'AD alle 02:33).
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
-| 13/11 02:40 | AD | Regola 9 delle sessioni: un lavoro lungo ha tre livelli, AD, controllore e chi lavora; il controllore segue la richiesta e ripara CI e conflitti |
-| 13/11 02:30 | AD | Regola 8 delle sessioni: un lavoro lungo ha una sessione sua, con un foglio di partenza in sei parti |
+| 13/11 entro 02:28 | AD | Regola 9 delle sessioni: un lavoro lungo ha tre livelli, AD, controllore e chi lavora; il controllore segue la richiesta e ripara CI e conflitti |
+| 13/11 entro 02:24 | AD | Regola 8 delle sessioni: un lavoro lungo ha una sessione sua, con un foglio di partenza in sei parti |
+| 13/11 entro 02:22 | AD | Togliere dalla bozza la richiesta della macchina #944: l'ha fatto la seconda chat |
 | 13/11 02:16 | AD | Le CI della macchina, «Cancello del lotto» e «Test del cervello», entro 3 minuti, «non di più» |
 | 13/11 01:56 | AD | Le figlie nascono in una cartella per ruolo: riparatori, collaudatori, controllori (skill `riparazione`, «Le cartelle nell'elenco») |
-| 13/11 01:45 | AD | Le sessioni si cambiano oltre il 40% del contesto; la chat dell'AD passa a una nuova |
-| 13/11 01:40 | AD | Analisi di cosa può cambiare la stima dell'onda 2, con i freni nelle regole |
-| 13/11 01:28 | AD | «sì, rimedi»: le sessioni si parlano con le regole di `cervello/sessioni-insieme.md` |
+| 13/11 entro 01:33 | AD | Le sessioni si cambiano oltre il 40% del contesto; la chat dell'AD passa a una nuova |
+| 13/11 entro 01:32 | AD | Analisi di cosa può cambiare la stima dell'onda 2, con i freni nelle regole |
+| 13/11 entro 01:25 | AD | «sì, rimedi»: le sessioni si parlano con le regole di `cervello/sessioni-insieme.md` |
 | 13/11 01:07 | regista | Ogni messaggio porta due costi, anche in percentuale del limite settimanale |
 | 12/11 23:40 | AD | La radiografia si porta sullo schema della riparazione |
 | 12/11 23:00 | AD | «sì, regola»: ogni messaggio a Nicola apre con «Il punto adesso» |

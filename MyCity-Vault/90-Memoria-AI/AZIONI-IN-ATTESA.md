@@ -94,7 +94,7 @@ Se va bene: il buco della prima onda è chiuso prima della seconda, e il control
 
 **Cosa devi fare tu.** Unisci le due richieste quando vuoi. La pubblicazione del sito resta un passo a parte.
 
-> **Correzione dell'AD, 13/11 alle 02:10.** Quella della macchina, ad-mycity#944, si può unire: premi «Ready for review», poi «Squash and merge». I controlli sono verdi e non ci sono conflitti. Quella del sito, mycity#288, resta in bozza: la skill `riparazione` la fa uscire di bozza solo dopo il controllore finale della campagna. Inoltre il controllore dell'onda 1 ha trovato 14 voci rosse, e mancano tre migrazioni.
+> **Correzione dell'AD, 13/11 alle 02:33.** Quella della macchina, ad-mycity#944, si può unire: premi «Squash and merge». Il passo «Ready for review» è già fatto: la seconda chat l'ha tolta dalla bozza alle 02:22, su tua richiesta. Prima di unire guarda che i due controlli siano verdi sull'ultimo commit. Quella del sito, mycity#288, resta in bozza: la skill `riparazione` la fa uscire di bozza solo dopo il controllore finale della campagna. Inoltre il controllore dell'onda 1 ha trovato 14 voci rosse, e mancano tre migrazioni.
 
 **Cosa non ho verificato.** La richiesta del sito resta in bozza fino al controllore finale della campagna.
 
