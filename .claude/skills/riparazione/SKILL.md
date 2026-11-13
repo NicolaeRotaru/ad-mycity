@@ -107,7 +107,11 @@ costo del lavoro che hai fatto»). Prima di ogni messaggio a Nicola o all'AD, la
 (`usage.cost_usd` di `get_session` senza id) e lo scrive accanto al costo del lavoro di quel turno: le figlie e i
 workflow che ha lanciato (`cost_usd` delle figlie, `node cervello/conto-token.mjs --workflow <runId>`). Sono due numeri
 diversi e servono tutti e due: «sessione 164,49 $ di listino; questo lavoro 0 agenti». Se il contatore della sessione
-non si è ancora mosso, lo si dice, invece di tacerlo.
+non si è ancora mosso, lo si dice, invece di tacerlo. **E ogni costo si dice anche in percentuale del limite
+settimanale**, perché è quello che Nicola vede nell'app («164 $, circa il 5% della settimana»). Il cambio si ricava da
+una misura vera: costo di un lavoro diviso la percentuale che Nicola ha visto salire per quel lavoro. Il 12/11 l'onda 1
+è costata 610 $ e ha mangiato circa il 20%, quindi 1% vale circa 30 $ di listino. È una stima da una misura sola: si
+aggiorna appena Nicola legge un'altra percentuale, e si dice sempre che è una stima.
 **Il tetto si guarda anche durante l'onda**, non solo a fine onda (radiografia del 12/11 notte): la stima della fermata 1
 si scrive in `REGIA.md` (`stima_usd`), e almeno ogni 2 ore la regista somma `usage.cost_usd` delle figlie dell'onda
 (`get_session` di ognuna). Oltre la stima ci si ferma subito e si dice a Nicola, anche nei profili da un'onda sola.

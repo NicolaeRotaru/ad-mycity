@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-13 01:07",
+  "aggiornato": "2026-11-13 01:08",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -7049,6 +7049,21 @@
       "nota": "Riguardato a mano il solo paragrafo nuovo della skill (regola dei due costi in ogni messaggio, firmata da Nicola il 13/11 01:07): sei righe di testo, nessun comando nuovo, niente trovato. sorveglia.sh non è cambiato da cb4136c.",
       "file": {
         ".claude/skills/riparazione/SKILL.md": "b2ef8e950e48",
+        "cervello/riparazione/sorveglia.sh": "68365837c3db"
+      }
+    },
+    {
+      "quando": "2026-11-13 01:08",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "regista riparazione",
+      "trovati": 0,
+      "schede": [],
+      "nota": "Riguardato a mano il solo paragrafo aggiunto (i costi anche in percentuale del limite settimanale, Nicola 13/11 01:08): testo, nessun comando, niente trovato.",
+      "file": {
+        ".claude/skills/riparazione/SKILL.md": "ee29ee509e65",
         "cervello/riparazione/sorveglia.sh": "68365837c3db"
       }
     }
