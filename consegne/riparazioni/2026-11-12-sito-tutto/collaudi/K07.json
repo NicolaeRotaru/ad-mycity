@@ -1,0 +1,73 @@
+{
+  "collaudatore": "K07",
+  "riparatori": [
+    "R18",
+    "R13",
+    "R17"
+  ],
+  "aggiornato": "2026-11-13 16:20",
+  "finita": false,
+  "voci": [
+    {
+      "id": "R18-006",
+      "chiave": "mobile-pwa|nella rubrica indirizzi i bottoni «modifica» ed «elimina» sono troppo piccoli e troppo vicini per il pollice",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-3 --base a09cc8e9a910fbf8abc9640d4975856e7ccddfb9^ --file app/profile/addresses/page.tsx --prove tests/unit/riparazione-r18-indirizzi-bottoni-da-pollice.test.ts --json (0)"
+      },
+      "verdetto": "regge",
+      "giudizio": "nessuno"
+    },
+    {
+      "id": "R18-009",
+      "chiave": "qa-flussi|un doppio tocco su «crea lista» crea due liste uguali, e aprendo la finestra il cursore va su «chiudi» invece che sul nome",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-3 --base dd6985ede22ec0891d0fa9fa3ab88735e3193fb1^ --file app/lists/page.tsx,components/ui/Modal.tsx --prove tests/unit/riparazione-r18-crea-lista-una-sola-volta.test.tsx --json (0)"
+      },
+      "verdetto": "regge",
+      "giudizio": "nessuno"
+    },
+    {
+      "id": "R18-015",
+      "chiave": "qa-flussi|col telefono del negozio un po' indietro, un ordine non più ritirabile legge «entro le 12:46» invece di «ritiro non più possibile»",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-2 --base a5d2477903843022b7a1fb3d4d75b71c390ac0de^ --file lib/ordini/scadenza-accettazione.ts --prove tests/unit/riparazione-r18-ritiro-impossibile-col-telefono-indietro.test.ts --json (0)"
+      },
+      "verdetto": "parziale",
+      "giudizio": "nessuno"
+    },
+    {
+      "id": "R18-016",
+      "chiave": "qa-flussi|il nome scritto alla registrazione si perde e il profilo resta senza nome",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "PGHOST=localhost timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-2 --base 548151b625cddd1f4c3d6234dd8cb64b030debd5^ --file migrations/421_il_nome_scritto_alla_registrazione_resta_nel_profilo.sql --prove tests/sql/rls/riparazione-r18-nome-alla-registrazione.test.sql --sql k07_r18_016_1_rimessa --json (0)"
+      },
+      "verdetto": "parziale",
+      "giudizio": "nessuno"
+    },
+    {
+      "id": "R17-008",
+      "chiave": "pagamenti-stripe|le campagne sponsorizzate scadute restano «attiva» per sempre, e il filtro «finite» dell'amministrazione è sempre vuoto",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-2 --base 3fc335511faa1689a0568ebb1ec59987e44bf2b2^ --file lib/admin/vista-delle-campagne.ts --prove tests/unit/riparazione-r17-campagne-scadute-finite.test.ts --json (0)"
+      },
+      "verdetto": "regge",
+      "giudizio": "nessuno"
+    },
+    {
+      "id": "R17-020",
+      "chiave": "pagamenti-stripe|se la banca respinge un rimborso vecchio mentre ne parte uno che porta l'ordine al totale, l'ordine resta «rimborsato del tutto» e il negozio non riceve più il resto del bonifico",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-2 --base 49312af26fb78d8971912b919228bb0d150fe56d^ --file lib/stripe/payout.ts --prove tests/unit/riparazione-r17-rimborso-pieno-e-respinto-insieme.test.ts --json (0)"
+      },
+      "verdetto": "parziale",
+      "giudizio": "nessuno"
+    }
+  ],
+  "campione": {}
+}
