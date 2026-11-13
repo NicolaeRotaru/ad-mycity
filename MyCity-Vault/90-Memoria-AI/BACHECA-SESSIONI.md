@@ -6,6 +6,9 @@ regole: cervello/sessioni-insieme.md
 
 # La bacheca delle sessioni
 
+> **In due righe.** Qui stanno le decisioni di Nicola, chi fa cosa e gli id delle sessioni vive. Oggi l'AD è la terza chat,
+> e la sessione della CI porta i controlli della macchina sotto i 3 minuti.
+
 ## In parole semplici
 Questa pagina è il posto comune delle sessioni che lavorano insieme. Serve perché nessuna decisione di Nicola si
 perda tra una chat e l'altra. Esempio: il 12/11 Nicola ha dato tre decisioni alla regista, e l'AD le ha sapute dopo.
