@@ -21,6 +21,15 @@
 # La regola generale, da tenere: **nessuna difesa può avere come unico esecutore un processo che può
 # stare fermo giorni senza che nessuno se ne accorga.** Il giro resta la seconda rete, non la prima.
 
+# 🍰 IN FETTE, DAL 13/11 — e SOLO SU MAIN. Prima girava anche su ogni richiesta, e lì rifaceva da
+# capo la stessa suite che il cancello del lotto aveva appena fatto: dieci minuti di runner per lo
+# stesso verdetto due volte. Sulle richieste il suo verdetto — stesso nome, «suite del cervello +
+# typecheck del Pannello», stesso significato: ogni rosso è rosso, nessun tetto — lo dà adesso
+# `cancello-lotto.yml`, leggendo le fette che il cancello fa girare comunque. Qui resta la strada
+# per cui questo file è nato (AR-377): il push diretto su main, che nessun altro controlla.
+# Le fette sono le stesse del cancello (cervello/fette-ci.mjs): ogni prova gira una volta, su una
+# fetta; chi ricuce conta che non ne manchi nessuna, e una fetta che non consegna esce ⚪ → rosso.
+
 name: Test del cervello
 
 on:
@@ -33,8 +42,6 @@ on:
       - "pannello/**"
       - ".claude/**"
       - ".github/workflows/**"
-  pull_request:
-    branches: [main]
   workflow_dispatch: {}
 
 concurrency:
@@ -45,10 +52,16 @@ permissions:
   contents: read
 
 jobs:
-  test:
-    name: suite del cervello + typecheck del Pannello
+  # Quante fette: l'elenco qui sotto è l'UNICO posto dove si sceglie — il comando legge indice e
+  # totale dalla matrice stessa, così un numero scritto due volte non può lasciare fuori una fetta.
+  suite:
+    name: suite del cervello — fetta ${{ matrix.fetta }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        fetta: [1, 2, 3, 4, 5, 6, 7, 8]
     steps:
       # Agganciate al commit, non all'etichetta (AR-637): un tag si sposta, un commit no.
       # Per aggiornarle: `git ls-remote --tags https://github.com/actions/checkout v4`.
@@ -68,6 +81,10 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: "22"
+          # La cache dei pacchetti scaricati: `npm ci` gira lo stesso e installa esattamente il
+          # lockfile — cambia solo che non riscarica tutto da internet a ogni fetta.
+          cache: npm
+          cache-dependency-path: pannello/package-lock.json
 
       # Le dipendenze servono al typecheck: senza, `tsc` non parte e il passo uscirebbe cieco.
       # Cieco non è verde — è la regola che questa macchina applica a ogni guardiano (AR-322), e
@@ -106,7 +123,53 @@ jobs:
         run: npm --prefix pannello ci
 
       - name: Test del cervello
-        run: node cervello/test-cervello.mjs
+        run: node cervello/test-cervello.mjs --fetta "$((INDICE + 1))/$TOTALE" --referto "referti/suite-$((INDICE + 1)).json"
+        env:
+          INDICE: ${{ strategy.job-index }}
+          TOTALE: ${{ strategy.job-total }}
+
+      # Anche se la fetta è rossa: senza il referto chi ricuce non avrebbe niente da leggere, e un
+      # rosso diventerebbe un ⚪ senza nome.
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        if: always()
+        with:
+          name: suite-${{ matrix.fetta }}
+          path: referti/
+          if-no-files-found: warn
+          retention-days: 3
+
+  # Il verdetto della suite INTERA, con lo stesso nome di sempre: se la protezione del ramo lo
+  # pretende, lo pretende per nome. Gira anche se una fetta è rossa: il verdetto è il suo.
+  test:
+    name: suite del cervello + typecheck del Pannello
+    needs: [suite]
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: pannello/package-lock.json
+
+      - name: Dipendenze del Pannello per il typecheck
+        run: npm --prefix pannello ci
+
+      # Se una fetta non ha caricato niente, lo scaricamento non deve fermarsi prima che la
+      # ricucitura possa nominarla: è lei che esce ⚪ e dice quale.
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        continue-on-error: true
+        with:
+          pattern: suite-*
+          merge-multiple: true
+          path: referti/suite
+
+      - name: Suite del cervello, ricucita dalle fette
+        run: node cervello/test-cervello.mjs --ricuci referti/suite
 
       - name: Typecheck del Pannello
+        if: ${{ !cancelled() }}
         run: npx --prefix pannello tsc --noEmit --project pannello/tsconfig.json
