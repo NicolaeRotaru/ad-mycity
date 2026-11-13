@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-13 06:54
+aggiornato: 2026-11-13 08:12
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -69,7 +69,8 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 ## Chi fa cosa, adesso
 | Sessione | Lavoro | File suoi |
 |---|---|---|
-| Regista · onda 2 · terza (`…YzJKvQ`, dal 13/11 alle 06:55) | Guida l'onda 2 dal passaggio in fondo a `REGIA.md`. Sorveglia ogni 30 minuti con una catena sua, `trig_01Lx5efLQ27HHa6Zq4gLXXYe`. Apre i collaudatori K05-K08, unisce, apre C02 e segue la ad-mycity#952. Alle 06:58 ha mandato il suo id a R13-R24. Al giro delle 06:58 la guardia era rossa su R16, R17, R23 e R24. Il motivo è lo stesso per tutti: hanno toccato prove comuni. A ognuno ha detto di rimetterle com'erano e di scrivere una prova col proprio nome. Ultracode è acceso anche qui dalle 07:04. Alle 07:20 ha riparato la CI della #952 con `c07ebb4`. La prova `la-penna-che-si-poteva-scegliere` cadeva solo in CI, perché le mancava il battito. Ha registrato anche la radiografia del perimetro toccato. Finché la CI su `c07ebb4` non finisce, nessuno spinge sul ramo: ogni push annulla la corsa in corso | `consegne/riparazioni/2026-11-12-sito-tutto/`, ramo `claude/magical-hamilton-xouwr8` |
+| Regista · onda 2 · quarta (`…VkmAAN`, dal 13/11 alle 07:40) | Guida l'onda 2 dal passaggio in fondo a `REGIA.md`. Ha mandato il suo id a R13-R24 (tramite la terza). Legge il sito da un clone suo via proxy (`/home/user/mycity`), senza add_repo; il push sul sito serve solo all'unione e chiede un clic di Nicola. Ultracode spento in questa sessione: niente codice della macchina. Giro delle 08:01: finite e verdi R13, R17, R20, R22; rosse R18 e R21. **Fermata urgente all'AD alle 08:12 (regola 4):** l'onda è a circa 510 $ di listino contro una stima di 435 $; per finirla servono circa 165 $. Nessun collaudatore finché Nicola non sceglie A o B; R16, R19, R23 e R24 si fermano dopo il pezzo in mano. Catena di sorveglianza sua ogni 30 minuti | `consegne/riparazioni/2026-11-12-sito-tutto/`, ramo `claude/magical-hamilton-xouwr8` |
+| Regista · onda 2 · terza (`…YzJKvQ`, dal 13/11 alle 06:55, passata alla quarta alle 07:40) | Guida l'onda 2 dal passaggio in fondo a `REGIA.md`. Sorveglia ogni 30 minuti con una catena sua, `trig_01Lx5efLQ27HHa6Zq4gLXXYe`. Apre i collaudatori K05-K08, unisce, apre C02 e segue la ad-mycity#952. Alle 06:58 ha mandato il suo id a R13-R24. Al giro delle 06:58 la guardia era rossa su R16, R17, R23 e R24. Il motivo è lo stesso per tutti: hanno toccato prove comuni. A ognuno ha detto di rimetterle com'erano e di scrivere una prova col proprio nome. Ultracode è acceso anche qui dalle 07:04. Alle 07:20 ha riparato la CI della #952 con `c07ebb4`. La prova `la-penna-che-si-poteva-scegliere` cadeva solo in CI, perché le mancava il battito. Ha registrato anche la radiografia del perimetro toccato. Finché la CI su `c07ebb4` non finisce, nessuno spinge sul ramo: ogni push annulla la corsa in corso | `consegne/riparazioni/2026-11-12-sito-tutto/`, ramo `claude/magical-hamilton-xouwr8` |
 | Regista · onda 2 · seconda (`…WRS6Tm`, dal 13/11 alle 06:12, passata alla terza alle 06:55) | Ha tenuto l'onda 2 per 43 minuti, poi l'ha passata. Prende la sorveglianza, i collaudatori, l'unione, C02 e la ad-mycity#952. Alle 06:15 ha approvato i piani di R20, R21, R22 e R23, e ha mandato il suo id a R13-R24. Tutte e dodici le figlie hanno ultracode acceso ed effort xhigh. Nella sua sessione ultracode è spento: chiesto all'AD alle 06:17. **Lavoro in attesa (regola 3):** la CI della #952 è rossa su `cervello/test/il-conto-del-sito-che-dice-zero.test.mjs`. La causa: il 13/11 alle 06:06 il programma di riparazione ha scritto nel registro del sito 58 difetti nati. Non ha alzato il totale dichiarato, che è rimasto 3032 mentre i difetti sono 3090. Uno dei 58 sta poi sotto un'area che non esiste, «legale-privacy». La riparazione tocca tre file. Il primo è `cervello/riparazione-sessioni.mjs`, il punto dove si scrivono i nati. Il secondo è `MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-marketplace.json`, per il totale. Il terzo è una prova nuova. È ferma finché Nicola non accende ultracode in questa sessione | `consegne/riparazioni/2026-11-12-sito-tutto/`, ramo `claude/magical-hamilton-xouwr8` |
 | prima regista dell'onda 2 (`…Zcs1Xv`, dal 13/11 alle 05:20, passata alla seconda alle 06:13) | Alle 05:49 Nicola l'ha passata in modalità Auto. Aperti R13-R18 alle 05:50-06:02, R19-R24 in apertura. Ultracode lo accende Nicola dall'app. Onda 2 del risolutore del sito. Prima scrive nel programma l'eccezione «a» per l'onda 1 e chiude nel registro i difetti dell'onda 1. Poi divide l'onda 2 e apre i riparatori dentro di sé, col ruolo in testa al titolo. Le fermate vanno all'AD, quinta chat | `consegne/riparazioni/2026-11-12-sito-tutto/`, `cervello/riparazione-sessioni.mjs` (l'eccezione), ramo `claude/magical-hamilton-xouwr8` su ad-mycity e sul sito |
 | AD | parla con Nicola, tiene la memoria e la bacheca | `MyCity-Vault/90-Memoria-AI/`, regole di scrittura |
@@ -82,7 +83,8 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 ## Le sessioni vive
 | Ruolo | Id |
 |---|---|
-| La regista dell'onda 2 adesso | `session_015BmpnYzJKvQoMML3LmU8aJ` |
+| La regista dell'onda 2 adesso (quarta, dal 13/11 alle 07:40) | `session_015BmpnVkmAAN92z8w4HLVGB` |
+| Regista · onda 2 · terza, da non usare dopo il passaggio (501 mila token) | `session_015BmpnYzJKvQoMML3LmU8aJ` |
 | riparatori R13-R24 dell'onda 2 | id in `consegne/riparazioni/2026-11-12-sito-tutto/sessioni.json` |
 | Regista · onda 2 · seconda, da non usare dopo il passaggio (472 mila token) | `session_015BmpnWRS6TmZUqTtjQ5fX7` |
 | «Ondata 2», prima regista dell'onda 2: oltre 450 mila token, inoltra solo i messaggi | `session_015BmpnZcs1XvqxGKUA3qRGC` |
@@ -100,6 +102,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 ## La quota
 | Quando | Chi l'ha vista | Stato |
 |---|---|---|
+| 13/11 08:12 | la quarta regista (`…VkmAAN`) | sempre in avviso, senza uso extra; si rinnova il 19/11 alle 10. L'onda 2 è a circa 510 $ di listino (17% della settimana, stima), oltre i 435 $ detti. Detto all'AD, urgente |
 | 13/11 07:05 | `…YzJKvQ` | sempre in avviso, senza uso extra; si rinnova il 19/11 alle 10. Già noto all'AD: ripetuto nel messaggio delle 07:05 |
 | 13/11 06:16 | la regista nuova (`…WRS6Tm`) | sempre in avviso, senza uso extra; si rinnova il 19/11 alle 10. Le figlie dell'onda 2 sono a 38 $ di listino. Detto all'AD |
 | 13/11 05:21 | chat «Ondata 2» | sempre in avviso, senza uso extra. Il rinnovo è il 19/11 alle 10. Detto all'AD |

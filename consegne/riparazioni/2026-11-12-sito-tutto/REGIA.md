@@ -1,7 +1,7 @@
 ---
 tipo: quaderno-di-bordo
 data: 2026-11-13 05:50
-per: la regista della campagna «sito, tutto» (onda 2, dalle 06:55 del 13/11: la terza, session_015BmpnYzJKvQoMML3LmU8aJ)
+per: la regista della campagna «sito, tutto» (onda 2, dalle 07:40 del 13/11: la quarta, session_015BmpnVkmAAN92z8w4HLVGB)
 stima_usd: 435
 ---
 
@@ -70,7 +70,11 @@ Che le figlie nascano con ultracode: si controlla con get_session sulla prima, p
 - La regola data a tutti dall'onda 2: la prova comune torna com'era; la voce che la contraddice si toglie intera con git revert (codice, migrazione, tipi) e va serve_file_altrui, con gli SHA da riprendere e la modifica esatta della prova. Si riprende in cucitura, o all'unione dell'onda 2 se Nicola firma l'eccezione alla fermata 3.
 - R14: a 33 $ chiude il lotto e spinge «finita»: false; il resto lo riprende una sessione nuova dalla testa del suo ramo. Prima i revisori dei gravi. R18: revert di `1509d2f1` tenuto, i tipi si rigenerano all'unione.
 - #952: verde 14 su 14 su `e1a33475` (07:23) e di nuovo su `e581fb26` (07:30); si unisce senza conflitti; in bozza. Riparata con `c07ebb4` (la prova del battito) più la radiografia del perimetro registrata. Il collaudo della correzione ha riprodotto la prova rossa; il verdetto completo arriva alla terza, che lo inoltra. Ogni push fa ripartire la CI.
-- 9 minori della macchina dal collaudo di `7d9500f` (`wf_135d9675-e15`), da fare dopo il verde: prova da capo a fondo di applica --scrivi con mutazione (il più importante); areaDelNato senza maiuscole e spazi; Array.isArray su dimensioni; doppione al rilancio; la cookie policy doppione della scheda 115; meta.aggiornato; `cervello/test/il-freno-non-era-sulla-strada.test.mjs:276` che scrive nel registro vero (da registrare come nato); l'ordine dei file di R17.md.
+- 10 minori della macchina (9 dal collaudo di `7d9500f`, `wf_135d9675-e15`, più 1 dal collaudo di `c07ebb4`: se il battito c'è ma è vuoto o rotto, la prova non lo rifà), da fare dopo il verde e solo con ultracode acceso: prova da capo a fondo di applica --scrivi con mutazione (il più importante); areaDelNato senza maiuscole e spazi; Array.isArray su dimensioni; doppione al rilancio; la cookie policy doppione della scheda 115; meta.aggiornato; `cervello/test/il-freno-non-era-sulla-strada.test.mjs:276` che scrive nel registro vero (da registrare come nato); l'ordine dei file di R17.md.
 - Per la fermata 3: carta #242 (tetto di R13: bloccante R13-001 della cassa del centro, gravi 004-006), R13-003 chi paga gli sconti, R17-002 ordine fermo pagato più le altre 4 domande di R17, R20-010, R23-016, R24-003, R24-010 (dominio di SUPPORT_EMAIL), il CAPTCHA di R24, l'eccezione di R16 e le voci tolte per le prove comuni.
 - Costi: regia prima 40,52 $, seconda ~23 $, terza 14,98 $ alle 07:31, cioè ~78,5 $ contro il tetto di 60 $. Figlie: R13 29,9 $, R17 ~35 $, R14 26,2 $ (07:30). Quota in avviso fino al 19/11 alle 10.
 - Sorveglianza: la catena della terza finisce col giro delle 07:30; la quarta ne fa una sua a 30 minuti. Due volte una guardia ha fermato un agente di collaudo che scriveva il battito: si sblocca con TaskStop, senza clic.
+
+**Quarta regista (`…VkmAAN`, dal 13/11 07:40).** Ultracode spento qui (niente codice della macchina). Sito letto senza add_repo: `git clone` via proxy in `/home/user/mycity`; il push serve solo all'unione (clic di Nicola).
+- Giro 08:01: finite e verdi R13, R17, R20, R22; rosse R18 (1 prova comune) e R21 (2 prove comuni, referto); prova-unione verde. Figlie a 428,8 $, regia ~81 $: l'onda è a ~510 $, oltre la stima di 435 $ (massimo 550 $).
+- 08:12, fermata urgente all'AD: A (chiusure + K05-K08 + C02, ~165 $ in più) o B (ferma fino al 19/11). Nessun collaudatore finché Nicola non risponde. R16, R19, R23, R24 chiudono il pezzo in mano e si fermano con finita:false; R23-011 tolta col revert (regola delle prove comuni).

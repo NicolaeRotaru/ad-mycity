@@ -138,3 +138,16 @@
 2026-11-13 07:30 · R24 · in lavoro · guardia 🔴 · referto ⏳ 21 voci · unione (sotto) · nessuna
 2026-11-13 07:30 · onda 2 · prova-unione ✅
 2026-11-13 07:33 · giro 3 onda 2 (terza regista) · list_sessions: nessuna figlia BLOCKED (R13 e R17 ferme a fine lavoro) · 🏁 R13 e R17 finite, guardia ✅ referto ✅ · 🏁 R20 finita con guardia 🔴 (2 prove comuni, strada sicura approvata) · 🔴 R14 (3 prove comuni, titolo riservato col segnaposto), R15 (1 prova comune), R16 (prova_tipo «leggera», titolo riservato), R22 (commit con due voci), R24 (4 prove comuni, revert in corso) · azione: corretti R14 R15 R16 R22 · la regista è a 442 mila token: passaggio alla quarta
+2026-11-13 08:01 · R13 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 08:01 · R14 · in lavoro · guardia ✅ · referto ⏳ 9 voci · unione (sotto) · nessuna
+2026-11-13 08:01 · R15 · in lavoro · guardia ✅ · referto ⏳ 12 voci · unione (sotto) · nessuna
+2026-11-13 08:01 · R16 · in lavoro · guardia ✅ · referto ⏳ 21 voci · unione (sotto) · nessuna
+2026-11-13 08:01 · R17 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 08:01 · R18 · in lavoro · guardia 🔴 · referto ⏳ 12 voci · unione (sotto) · nessuna
+2026-11-13 08:01 · R19 · in lavoro · guardia ✅ · referto ⏳ 23 voci · unione (sotto) · nessuna
+2026-11-13 08:01 · R20 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 08:01 · R21 · in lavoro · guardia 🔴 · referto 🔴 19 voci · unione (sotto) · nessuna
+2026-11-13 08:01 · R22 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 08:01 · R23 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-13 08:01 · R24 · in lavoro · guardia ✅ · referto ⏳ 21 voci · unione (sotto) · nessuna
+2026-11-13 08:01 · onda 2 · prova-unione ✅
