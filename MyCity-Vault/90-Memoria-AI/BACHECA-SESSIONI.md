@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-13 04:43
+aggiornato: 2026-11-13 04:54
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 13/11 04:52 circa | chat del codice, sulla radiografia | «hai capito la radiografia»: conferma la lettura delle 04:30. Chiede di dire se la radiografia, così come viene fatta, è corretta e rende il massimo. Servirà anche per la macchina, anche se adesso la usa sul sito. Domanda se conviene metterla dentro la strategia di radiografia che esiste già. Restano aperte la deroga e i tempi, e quali minori entrano |
 | 13/11 04:42 circa | chat del codice, sul 9 | «la tua proposta per il 9». Sceglie come si certifica il 9 nei cinque voti. Durante il lavoro guidano i criteri, uno per voto, controllati da un programma. Alla fine i tre senior rifanno il giudizio una volta sola, con lo stesso metro del 5,4. Il voto finale lo firma Nicola |
 | 13/11 04:30 circa | stessa chat, mezz'ora dopo | «voglio che usi la strategia della radiografia». «e controlla se gli sono state inserite le regole del risolutore». «ed inserire tutti i difetti dentro il reparto dei difetti dentro il pannello/macchina/ad». «dimmi cosa hai capito». **Da confermare.** Come l'ho capita: prima si controlla che la skill della radiografia abbia le regole del risolutore e delle sessioni, e si aggiunge quello che manca. Poi la radiografia cerca sul sito quello che tiene i cinque voti sotto 9. Ogni difetto trovato entra nel registro dei difetti. Cambia la decisione delle 01:30, che teneva il giudizio fuori dal registro. Finché Nicola non conferma, nessuna regola cambia e nessuna radiografia parte |
 | 13/11 04:10 circa | chat del giudizio sul codice | «ciò che devi dirmi tu è come risolvere i problemi nel codice per rendere tutti i punti un voto 9 su 10. dimmi cosa hai capito». Vuole il piano per portare a 9 tutti e cinque i voti del giudizio sul codice del sito. Prima la conferma di cosa ho capito; il codice non si tocca |
