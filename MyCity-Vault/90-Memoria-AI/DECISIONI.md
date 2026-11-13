@@ -6871,7 +6871,7 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Anche:** ho corretto la descrizione della #288, che diceva «niente va online da solo». Il testo d'avvio dell'onda 2 sta in `consegne/riparazioni/2026-11-12-sito-tutto/AVVIO-ONDA-2.md`, e la card 237 lo indica.
 - **Se va bene:** la CI della #288 è verde. Nicola la unisce con «Create a merge commit» e apre l'onda 2.
 
-## 2026-11-13 04:25 — 🟢 Il giudizio sul codice del sito porta un piano per arrivare a 9 su 10, e la CI del sito torna su Ubuntu 24.04
+## 2026-11-13 04:23 — 🟢 Il giudizio sul codice del sito porta un piano per arrivare a 9 su 10, e la CI del sito torna su Ubuntu 24.04
 - **Chi:** Nicola, verso le 04:10, nella sessione «Radiografia del codice · seguito». La sua frase: «ciò che devi dirmi tu è come risolvere i problemi nel codice per rendere tutti i punti un voto 9 su 10. dimmi cosa hai capito».
 - **Cosa cambia:** quella sessione prepara il piano per portare a 9 tutti e cinque i voti, senza toccare il codice del sito. Dentro ci sono anche le due scelte in sospeso: le librerie da aggiornare prima del 15/11 e il riordino dopo il lancio. Per il voto «falle» il piano cita la campagna di riparazione, senza rifarla. È in bacheca, commit `e168ab5`, richiesta ad-mycity#947.
 - **Anche (04:23, sul sito):** dopo la tolta della 350, nella mycity#288 erano rossi due controlli, «Prove nel browser» e «Accessibilità». La causa era la stessa della macchina di stanotte: su Ubuntu 26.04 Playwright non installa Chromium. Con il commit `facd5d8` l'AD ha fissato `ubuntu-24.04` sui tre lavori che installano il browser. Nessun controllo è stato tolto, e le 3 prove che leggono `ci.yml` passano (46 casi).
