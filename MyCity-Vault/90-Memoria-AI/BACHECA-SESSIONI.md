@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-13 06:34
+aggiornato: 2026-11-13 06:54
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -81,7 +81,9 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 ## Le sessioni vive
 | Ruolo | Id |
 |---|---|
-| Regista · onda 2 · seconda (dal 13/11 alle 06:12) | `session_015BmpnWRS6TmZUqTtjQ5fX7` |
+| Regista · onda 2 · terza (dal 13/11 alle 06:52, aspetta ultracode) | `session_015BmpnYzJKvQoMML3LmU8aJ` |
+| riparatori R13-R24 dell'onda 2 | id in `consegne/riparazioni/2026-11-12-sito-tutto/sessioni.json` |
+| Regista · onda 2 · seconda, da non usare dopo il passaggio (472 mila token) | `session_015BmpnWRS6TmZUqTtjQ5fX7` |
 | «Ondata 2», prima regista dell'onda 2: oltre 450 mila token, inoltra solo i messaggi | `session_015BmpnZcs1XvqxGKUA3qRGC` |
 | AD, quinta chat (dal 13/11 alle 04:39) | `session_015BmpnYWmNDPKAztZMPww6M` |
 | AD quarta chat, da non usare (508 mila token) | `session_015BmpnVpk1kywXGH5kMWQTH` |
