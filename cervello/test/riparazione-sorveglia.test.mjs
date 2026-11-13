@@ -1,7 +1,7 @@
 // La sorveglianza della riparazione in sessioni (cervello/riparazione/sorveglia.sh) non dice «nessun rosso» quando
 // non ha guardato. Radiografia del 12/11 notte: lo script indovinava il deposito dei rami (../mycity) e su una
 // campagna della macchina, o col sito in <radice>/marketplace, stampava «✅ nessun rosso» con la guardia rossa;
-// un fetch fallito veniva buttato via e si giudicava il ramo vecchio. AR-1163 (la riparazione in sessioni).
+// un fetch fallito veniva buttato via e si giudicava il ramo vecchio. AR-1171 (la riparazione in sessioni).
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { mkdtempSync, mkdirSync, writeFileSync, copyFileSync, rmSync } from "node:fs";
@@ -43,7 +43,7 @@ function casaFinta() {
   return { t, radice, remoto, g, sorveglia };
 }
 
-test("AR-1163 · su una campagna della macchina la sorveglianza vede la guardia rossa (prima diceva «nessun rosso»)", () => {
+test("AR-1171 · su una campagna della macchina la sorveglianza vede la guardia rossa (prima diceva «nessun rosso»)", () => {
   const { t, sorveglia } = casaFinta();
   try {
     const r = sorveglia();
@@ -55,7 +55,7 @@ test("AR-1163 · su una campagna della macchina la sorveglianza vede la guardia 
   } finally { rmSync(t, { recursive: true, force: true }); }
 });
 
-test("AR-1163 · se il fetch fallisce il giro è cieco (uscita 2) e non giudica il ramo vecchio", () => {
+test("AR-1171 · se il fetch fallisce il giro è cieco (uscita 2) e non giudica il ramo vecchio", () => {
   const { t, g, sorveglia } = casaFinta();
   try {
     g("fetch", "-q", "origin", "+refs/heads/rip-r01:refs/remotes/origin/rip-r01");
@@ -68,7 +68,7 @@ test("AR-1163 · se il fetch fallisce il giro è cieco (uscita 2) e non giudica 
   } finally { rmSync(t, { recursive: true, force: true }); }
 });
 
-test("AR-1163 · senza un deposito git la sorveglianza esce 2, mai «nessun rosso»", () => {
+test("AR-1171 · senza un deposito git la sorveglianza esce 2, mai «nessun rosso»", () => {
   const { t, radice, sorveglia } = casaFinta();
   try {
     rmSync(join(radice, ".git"), { recursive: true, force: true });
@@ -78,7 +78,7 @@ test("AR-1163 · senza un deposito git la sorveglianza esce 2, mai «nessun ross
   } finally { rmSync(t, { recursive: true, force: true }); }
 });
 
-test("AR-1163 · un ramo spinto ma ancora senza commit è un'attesa della guardia, non un rosso", () => {
+test("AR-1171 · un ramo spinto ma ancora senza commit è un'attesa della guardia, non un rosso", () => {
   const { t, g, sorveglia } = casaFinta();
   try {
     g("push", "-q", "origin", "--delete", "rip-r01");

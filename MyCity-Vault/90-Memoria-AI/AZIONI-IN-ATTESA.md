@@ -61,14 +61,17 @@ Se va bene: alla fine della seconda onda la regista ti porta i numeri veri e il 
 
 **In parole semplici.** Nel foglio dei permessi della macchina c'è una riga che lascia usare lo strumento del database vero senza chiedere. Nella prima onda un aiutante l'ha usato per leggere il database di produzione.
 
-**Cosa cambia per te.** Esempio: oggi collaudatori e controllori si mettono da soli un divieto all'inizio. Togliendo la riga, il divieto vale per tutte le sessioni della macchina, comprese le mie quando leggo i dati da lì.
+**Cosa cambia per te.** Collaudatori e controllori lavorano nella copia della macchina. Il divieto che dovevano mettersi da soli all'inizio **non si può mettere**: lo stesso foglio dei permessi vieta di scrivere il file del divieto. Lo ha provato la radiografia della notte del 12/11, con Claude Code vero. Quindi oggi il buco della prima onda è ancora aperto. Le strade sono due (aggiornato 2026-11-13 01:00 dalla regista della riparazione):
+1. **Togliere la riga dal foglio dei permessi della macchina.** È la più semplice e chiude il buco per tutti. Il prezzo: anche le sessioni dell'AD chiedono prima di leggere il database da lì; i numeri si leggono già prima dal canale ufficiale.
+2. **Un freno automatico.** Blocca gli strumenti del database vero, della messa online e di Stripe solo quando nella copia c'è un file segnale. Collaudatori e controllori lo mettono come primo passo, e la regista controlla che il blocco scatti. Le sessioni dell'AD restano come sono. Il prezzo: è un pezzo nuovo da costruire e collaudare.
+La regista consiglia la 1. Finché non scegli vale un controllo dopo: a ogni giro la regista guarda se quelle sessioni hanno chiamato quegli strumenti e, alla prima chiamata, le ferma. Vede la chiamata quando è già partita.
 
-**Cosa devi fare tu.** Rispondi «ok 236» per toglierla, oppure «no 236» per lasciarla.
+**Cosa devi fare tu.** Rispondi «ok 236» per la strada 1, «freno 236» per la strada 2, oppure «no 236» per lasciare solo il controllo dopo.
 
-**Cosa non ho verificato.** Non ho contato quante volte le mie sessioni usano quello strumento per leggere i numeri.
+**Cosa non ho verificato.** Non ho contato quante volte le sessioni dell'AD usano quello strumento per leggere i numeri.
 
-Cosa cambia: nessuna sessione della macchina può più interrogare il database vero senza chiedere.
-Se va bene: i numeri si leggono dal canale ufficiale, che è già il primo, e il divieto vale per tutti.
+Cosa cambia: collaudatori e controllori non possono più leggere il database vero senza chiedere (con la 1 neanche le altre sessioni della macchina; con la 2 solo chi ha messo il segnale).
+Se va bene: il buco della prima onda è chiuso prima della seconda, e il controllo dopo non serve più.
 
 ### 🟡 #235 — Unisci le due richieste del risolutore quando ti va · ⏳ accodata 2026-11-12 23:55
 

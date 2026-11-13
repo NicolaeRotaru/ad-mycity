@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-13 00:58",
+  "aggiornato": "2026-11-13 01:03",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -7000,6 +7000,41 @@
       "nota": "riletta la skill con la lente della cadenza: la sorveglianza ha una catena sola di send_later ogni 30 minuti con la condizione di fine, le fermate sono tre, la chiusura scrive ESITO con chiusura-loop e la memoria",
       "file": {
         ".claude/skills/radiografia-sessioni/SKILL.md": "25e1419c05a1"
+      }
+    },
+    {
+      "quando": "2026-11-13 01:03",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "regista riparazione",
+      "trovati": 1,
+      "schede": [
+        "AR-1171"
+      ],
+      "nota": "Due radiografie del 12/11 notte, due scettici per difetto: 9 difetti confermati su questi file, scritti tutti nella scheda AR-1171 e corretti in cb4136c.",
+      "file": {
+        ".claude/skills/riparazione/SKILL.md": "cf2db24e9cf8",
+        "cervello/riparazione/sorveglia.sh": "68365837c3db"
+      }
+    },
+    {
+      "quando": "2026-11-13 01:03",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "regista riparazione",
+      "trovati": 1,
+      "schede": [
+        "AR-1172"
+      ],
+      "nota": "Due radiografie del 12/11 notte, due scettici per difetto: 13 difetti confermati su prova-rimessa e riparazione-sessioni, scritti tutti nella scheda AR-1172 e corretti in cb4136c. si-capisce.mjs (diff 9525b77..1f35ab4 della sessione AD, 23 righe) guardato a mano dalla regista, niente trovato: il collaudo con agenti è stato fermato per la quota.",
+      "file": {
+        "cervello/prova-rimessa.mjs": "25e9206f7629",
+        "cervello/riparazione-sessioni.mjs": "771e2d3ff4a6",
+        "cervello/si-capisce.mjs": "d3be1f016af1"
       }
     }
   ]

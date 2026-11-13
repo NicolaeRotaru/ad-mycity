@@ -898,7 +898,7 @@ test("12/11 notte, collaudo: applica ferma un referto finito senza verifica.test
   } finally { rmSync(c, { recursive: true, force: true }); }
 });
 
-test("radiografia 12/11 notte · la verifica legata al commit vale anche nell'onda 1 di una campagna nuova; la campagna del 12/11 la esenta col piano", () => {
+test("AR-1172 · radiografia 12/11 notte · la verifica legata al commit vale anche nell'onda 1 di una campagna nuova; la campagna del 12/11 la esenta col piano", () => {
   const c = mkdtempSync(join(tmpdir(), "riparazione-applica-o1-"));
   try {
     const v1 = [{ id: "R01-001", chiave: "pagamenti|il payout salta", gravita: "grave", file: ["lib/a.ts"] }];
@@ -920,7 +920,7 @@ test("radiografia 12/11 notte · la verifica legata al commit vale anche nell'on
   } finally { rmSync(c, { recursive: true, force: true }); }
 });
 
-test("radiografia 12/11 notte · il collaudo che dice «regge» deve aver tolto la correzione con prova-rimessa, e con --sql se il riparatore l'ha usato", () => {
+test("AR-1172 · radiografia 12/11 notte · il collaudo che dice «regge» deve aver tolto la correzione con prova-rimessa, e con --sql se il riparatore l'ha usato", () => {
   const scheda = [{ id: "R03-001", chiave: "g|1", gravita: "grave", file: ["migrations/251_x.sql"] }];
   const ctxSql = (comandoRiparatore) => ({ nome: "K01", riparatori: { R03: { voci: scheda, referto: { finita: true, voci: [{ id: "R03-001", chiave: "g|1", esito: "riparato", rimessa: { uscita: 0, comando: comandoRiparatore } }] } } }, hub: new Set() });
   const col = (comando) => collaudo([voceCollaudo(scheda[0], { giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"], rimessa: { uscita: 0, comando } })]);
@@ -957,7 +957,7 @@ test("il controllo finale non dimentica nulla: conti è rosso per una voce senza
 });
 
 // ── radiografia del 12/11 notte: i buchi trovati sulla guardia, sull'unione di prova e su applica ──────────
-test("radiografia 12/11 notte · una prova che passa al setaccio una cartella non è di chi possiede un file nominato", () => {
+test("AR-1172 · radiografia 12/11 notte · una prova che passa al setaccio una cartella non è di chi possiede un file nominato", () => {
   const { dir, g, scrivi } = depositoFinto();
   scrivi("tests/unit/setaccio.test.ts", "import { readdirSync, readFileSync } from 'node:fs';\nconst tipi = readFileSync('lib/a.ts', 'utf8');\nfor (const f of readdirSync('lib')) it(f, () => { expect(tipi).toBeTruthy(); });\n");
   g("add", "-A"); g("commit", "-qm", "prova che setaccia");
@@ -974,7 +974,7 @@ test("radiografia 12/11 notte · una prova che passa al setaccio una cartella no
   } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
 });
 
-test("radiografia 12/11 notte · un aiutante delle prove importato da altre prove è comune, anche se nomina solo un file della sessione", () => {
+test("AR-1172 · radiografia 12/11 notte · un aiutante delle prove importato da altre prove è comune, anche se nomina solo un file della sessione", () => {
   const { dir, g, scrivi } = depositoFinto();
   scrivi("tests/unit/aiuti/tavolozza.ts", "import { readFileSync } from 'node:fs';\nexport const contrastoOk = () => readFileSync('lib/a.ts', 'utf8').length > 0;\n");
   scrivi("tests/unit/usa-tavolozza.test.ts", "import { contrastoOk } from './aiuti/tavolozza';\nimport { b } from '../../lib/b';\nit('b', () => { expect(contrastoOk() && b).toBeTruthy(); });\n");
@@ -992,22 +992,22 @@ test("radiografia 12/11 notte · un aiutante delle prove importato da altre prov
   } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
 });
 
-test("radiografia 12/11 notte · una prova SQL nuova che non finisce in .test.sql è rossa: run.sh e la CI non la lanciano", () => {
+test("AR-1172 · radiografia 12/11 notte · una prova SQL nuova che non finisce in .test.sql è rossa: run.sh e la CI non la lanciano", () => {
   const ctx = ctxBase();
   assert.match(String(giudicaPercorso("tests/sql/rls/riparazione-r03-tetto.sql", ctx)), /finisce in \.test\.sql/);
   assert.equal(giudicaPercorso("tests/sql/rls/riparazione-r03-tetto.test.sql", ctx), null);
 });
 
-test("radiografia 12/11 notte · le prove spente con .skip.each, describe.skip.each e ctx.skip() si vedono", () => {
+test("AR-1172 · radiografia 12/11 notte · le prove spente con .skip.each, describe.skip.each e ctx.skip() si vedono", () => {
   for (const r of ["it.skip.each([[1]])('x', () => {})", "describe.skip.each`a`('x', () => {})", "test.only.each([1])('x', () => {})", "it('x', (ctx) => { ctx.skip(); })", "it('x', (context) => { context.skip() })"]) assert.ok(RE_SPENTA.test(r), r);
   for (const r of ["it.each([[1]])('x', () => {})", "skipList.push(1)"]) assert.ok(!RE_SPENTA.test(r), r);
 });
 
-test("radiografia 12/11 notte · un'asserzione commentata non si conta: la prova svuotata così resta rossa", () => {
+test("AR-1172 · radiografia 12/11 notte · un'asserzione commentata non si conta: la prova svuotata così resta rossa", () => {
   assert.equal(contaAsserzioni("expect(a).toBe(1);\n// expect(b).toBe(2);\n/* assert.equal(c, 3) */\nconst u = 'http://x'; expect(u).toBeTruthy();"), 2);
 });
 
-test("radiografia 12/11 notte · prova-unione guarda il diff netto: un file toccato e rimesso non fa rosso per due rami", () => {
+test("AR-1172 · radiografia 12/11 notte · prova-unione guarda il diff netto: un file toccato e rimesso non fa rosso per due rami", () => {
   const { dir, g, scrivi, base } = depositoFinto();
   const c = cartellaCampagna(base);
   try {
@@ -1022,7 +1022,7 @@ test("radiografia 12/11 notte · prova-unione guarda il diff netto: un file tocc
   } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
 });
 
-test("radiografia 12/11 notte · applica rilancia la guardia del ramo: un ramo che tocca il file di un'altra sessione ferma tutto", () => {
+test("AR-1172 · radiografia 12/11 notte · applica rilancia la guardia del ramo: un ramo che tocca il file di un'altra sessione ferma tutto", () => {
   const { dir, g, scrivi, base } = depositoFinto();
   const c = cartellaCampagna(base);
   try {
@@ -1041,7 +1041,7 @@ test("radiografia 12/11 notte · applica rilancia la guardia del ramo: un ramo c
   } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
 });
 
-test("radiografia 12/11 notte · deposito stampa il deposito giusto per la casa, ed esce 2 se non c'è", () => {
+test("AR-1172 · radiografia 12/11 notte · deposito stampa il deposito giusto per la casa, ed esce 2 se non c'è", () => {
   const { dir, base } = depositoFinto();
   const c = cartellaCampagna(base);
   try {
