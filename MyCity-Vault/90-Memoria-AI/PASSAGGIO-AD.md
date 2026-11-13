@@ -7,12 +7,20 @@ a: session_015BmpnYWmNDPKAztZMPww6M (la quinta chat)
 
 # Il passaggio dell'AD
 
+## In parole semplici
 Questo foglio serve alla quinta chat dell'AD per ripartire senza rileggere la quarta. Esempio: la quarta era a 508 mila
 token su un milione, e ogni sua risposta li rileggeva tutti.
 
+## Cosa cambia per te
+Da adesso Nicola scrive alla quinta chat. La quarta resta solo come storia.
+
+## Cosa devi fare
+La quinta chat legge le pagine qui sotto e aspetta Nicola. I suoi passi stanno nella riga «Tocca a Nicola».
+
 ## Il punto adesso
 - ✅ Fatto: stanotte sono unite tre richieste, e il sito ha l'onda 1.
-  - La #949 (memoria) e la #948 (CI della macchina in 3 minuti, su Ubuntu 24.04) sono sul ramo principale.
+  - La #949, con la memoria, è sul ramo principale.
+  - Anche la #948 è sul ramo principale: la CI della macchina gira in 3 minuti, su Ubuntu 24.04.
   - Alle 04:33 Nicola ha unito la mycity#288, l'onda 1 del sito, con «Create a merge commit»: `a19ff89`.
   - Prima dell'unione l'AD ha tolto la migrazione 350 del bonifico. In un caso pagava due volte lo stesso ordine. È la scelta «a» di Nicola.
   - L'AD ha anche fissato Ubuntu 24.04 sulle prove nel browser del sito: su 26.04 Chromium non si installa.
