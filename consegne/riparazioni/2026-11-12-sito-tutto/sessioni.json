@@ -156,7 +156,8 @@
    "ramo": "claude/magical-hamilton-xouwr8-m18",
    "onda": 2,
    "partenza": "2026-11-13 06:02",
-   "finita": true
+   "finita": true,
+   "nota_3_0": "tetto 70 $, a 68,55: giro di correzione annullato, R18-014 e R18-021 all'onda 3"
   },
   "R19": {
    "id": "session_015BmpnYLk8AraXakVCkun9H",
@@ -271,7 +272,15 @@
    ],
    "onda": 2,
    "cartella": "collaudatori",
-   "via": "2026-11-13 16:00, dalla 3.0, ultracode acceso"
+   "via": "2026-11-13 16:00, dalla 3.0, ultracode acceso",
+   "finita": true,
+   "chiusura": {
+    "quando": "2026-11-13 16:59",
+    "punta": "3c0c8dc1c123c5dcd9dc0bdbc69b36c95941767f",
+    "costo_usd": 51.79,
+    "subagenti": 10,
+    "nota": "oltre il tetto di 30 $: detto all'AD alle 16:53; 5 rompe_altro (R23-003, R19-007 tolte col revert; R19-009, R19-012, R19-015 ancora dentro, il revert litiga con R19-008)"
+   }
   },
   "K07": {
    "id": "session_015BmpnV296WzJDrPesa3Tbb",
@@ -284,7 +293,8 @@
    ],
    "onda": 2,
    "nota": "nato il 13/11 alle 14:34 nella cartella Collaudatori senza ultracode: fermo finché Nicola non lo accende",
-   "via": "2026-11-13 16:00, dalla 3.0, ultracode acceso"
+   "via": "2026-11-13 16:00, dalla 3.0, ultracode acceso",
+   "nota_3_0": "tetto 30 $ (stop a 20 tolto): finisce R13; R17 fuori, a K09 se Nicola sceglie"
   },
   "K08": {
    "id": "session_015BmpnXv72iTDynaDgecira",
@@ -297,7 +307,12 @@
    ],
    "onda": 2,
    "nota": "nato il 13/11 alle 14:37 nella cartella Collaudatori senza ultracode: fermo finché Nicola non lo accende",
-   "via": "2026-11-13 16:00, dalla 3.0, ultracode acceso"
+   "via": "2026-11-13 16:00, dalla 3.0, ultracode acceso",
+   "due_punto_zero": {
+    "id": "session_015BmpnWyxgs5C2qg4LShCsM",
+    "aperta": "2026-11-13 16:35",
+    "nota": "ultracode manca; aspetta la scelta di Nicola sui 28 minori; tetti in comune con K08 (24,65 $ su 30, 7 subagenti su 12)"
+   }
   }
  },
  "controllori": {
@@ -357,9 +372,13 @@
   "nota": "aperte dalla quinta regista il 13/11 alle 13:47 (profondità 5 su 8); le sessioni nuove nascono dentro la sottocartella del loro ruolo"
  },
  "regista_onda2_sesta": "session_015BmpnYKDqA51jEGkbAWYGo",
- "integrazione_onda2_parziale": "990dd7fa8d013fe1e76e613681afca7de53879e9",
+ "integrazione_onda2_parziale": "583624d1 (dopo i revert di R23-003 e R19-007 del 13/11 alle 17:05)",
  "regista_ultracode": "3.0: manca in get_session alle 15:57 (chiesto all'AD alle 16:02); la 2.0 l'aveva dalle 15:25",
- "regista_onda2_sesta_2": "session_015BmpnWf1uAKL6VFXJQyNyv",
+ "regista_onda2_sesta_2": {
+  "id": "session_015BmpnWf1uAKL6VFXJQyNyv",
+  "archiviata": "2026-11-13 16:06",
+  "costo_usd": 11.42
+ },
  "regista_onda2_sesta_3": {
   "id": "session_015BmpnZ4kEDhRhLcWZzwwwP",
   "dal": "2026-11-13 15:50",

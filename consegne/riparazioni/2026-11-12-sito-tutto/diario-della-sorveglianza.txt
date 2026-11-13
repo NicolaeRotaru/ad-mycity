@@ -228,3 +228,5 @@
 2026-11-13 15:58 · K07 · ramo non ancora spinto · guardia – · collaudo – · nessuna
 2026-11-13 15:58 · K08 · ramo non ancora spinto · guardia – · collaudo – · nessuna
 2026-11-13 15:58 · onda 2 · prova-unione ✅
+2026-11-13 17:06 · K06 · finito · guardia – · collaudo ✅ (51,79 $ su 30) · copiato in collaudi/K06.json
+2026-11-13 17:06 · integrazione sito · revert R23-003 e R19-007 → 583624d1 · R19-009, R19-012, R19-015 ancora dentro: il revert litiga con R19-008 (Navbar, cookies), R19 senza tetto · alla fermata 3
