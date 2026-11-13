@@ -1,5 +1,5 @@
 {
- "regista": "session_015BmpnWRS6TmZUqTtjQ5fX7",
+ "regista": "session_015BmpnYzJKvQoMML3LmU8aJ",
  "ad": "session_015BmpnYWmNDPKAztZMPww6M",
  "sha_regista": "2f55d47d7ac130718ddabf722ba9485d3abe0428",
  "base": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
@@ -243,5 +243,6 @@
  "integrazione_onda1_ramo": "claude/sweet-galileo-0skkay",
  "base_onda2": "a19ff8923106fb5fbe7c2e74cc02979ea9dc2067",
  "regista_onda2_prima": "session_015BmpnZcs1XvqxGKUA3qRGC",
- "sha_regista_onda2": "125b2db"
+ "sha_regista_onda2": "125b2db",
+ "regista_onda2_seconda": "session_015BmpnWRS6TmZUqTtjQ5fX7"
 }

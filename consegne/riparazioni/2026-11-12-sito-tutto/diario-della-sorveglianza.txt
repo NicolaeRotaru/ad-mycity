@@ -107,3 +107,17 @@
 2026-11-13 06:47 · R24 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
 2026-11-13 06:47 · onda 2 · prova-unione ⏳
 2026-11-13 06:48 · giro 1 onda 2 · nessuna figlia BLOCKED (list_sessions) · rami spinti: R14 R16 R19 R21 R23 · guardia 🔴 R16 (prova comune il-testo-dice-quello-che-succede-davvero.test.ts) e 🔴 R23 (prova comune webhook-diviso-per-mestiere.test.ts: l'avevo permessa io nel piano, errore mio) · azione: a tutte e due «rimetti la prova comune, prova nuova col tuo nome, serve_file_altrui» · R17 chiede lib/database.types.ts: assegnato dalla regia in piano.json e scheda (copertura-prima ✅) · R13 e R15 senza aggiornamenti dalle 06:16: da riguardare al giro dopo
+2026-11-13 06:57 · R13 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-13 06:57 · R14 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-13 06:57 · R15 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-13 06:57 · R16 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-13 06:57 · R17 · in lavoro · guardia 🔴 · referto ⏳ 2 voci · unione (sotto) · nessuna
+2026-11-13 06:57 · R18 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-13 06:57 · R19 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-13 06:57 · R20 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-13 06:57 · R21 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-13 06:57 · R22 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-13 06:57 · R23 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-13 06:57 · R24 · in lavoro · guardia 🔴 · referto ⏳ 21 voci · unione (sotto) · nessuna
+2026-11-13 06:57 · onda 2 · prova-unione ⏳
+2026-11-13 07:02 · giro 2 onda 2 (terza regista) · nessuna figlia BLOCKED (list_sessions: R13-R24 tutte WORKING) · rami non spinti: R13 R15 R18 R20 R22 · guardia 🔴 R16 e R23 (ancora la prova comune), 🔴 R17 (minori-s01-numeri-del-negozio, riparazione-r11-bonifico-non-due-volte), 🔴 R24 (4 prove comuni) · azione: id della terza regista a R13-R24; a R17 e R24 «rimetti le prove comuni com'erano su BASE, prova nuova col tuo nome, serve_file_altrui»; a R16 e R23 ricordato · #952 rossa su d453f7b (radiografia del perimetro toccato + la-penna-che-si-poteva-scegliere solo in CI)

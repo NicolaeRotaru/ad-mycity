@@ -1,7 +1,7 @@
 ---
 tipo: quaderno-di-bordo
 data: 2026-11-13 05:50
-per: la regista della campagna «sito, tutto» (dall'onda 2: session_015BmpnZcs1XvqxGKUA3qRGC)
+per: la regista della campagna «sito, tutto» (onda 2, dalle 06:55 del 13/11: la terza, session_015BmpnYzJKvQoMML3LmU8aJ)
 stima_usd: 435
 ---
 
@@ -71,3 +71,5 @@ Che le figlie nascano con ultracode: si controlla con get_session sulla prima, p
 - ad-mycity#952: unica causa del rosso = `il-conto-del-sito-che-dice-zero` (applica non alzava `meta.findings`). Riparato in `7d9500f`, 27 mutazioni AR-1172 rosse. Collaudo indipendente `wf_135d9675-e15` in corso alla partenza: l'esito lo inoltra la seconda regista. Seguire la CI con `subscribe_pr_activity`. Le 115 chiusure dell'onda 1 valgono solo con la #952 verde.
 - Costi alle 06:51: seconda regista 12,61 $; figlie 38,06 $ alle 06:16. Prima regista 40,52 $. Tetto regia 60 $ a onda.
 - Dall'analisi della prima regista (`wf_f8b37da0-d37`), da fare: messaggio d'attesa e get_session prima di dare il lavoro a K05-K08 e C02; controllo di used_tokens a ogni giro; registrazione onesta della radiografia in corsa («trovati 3, riparati nello stesso lotto, 643ab2a»); riga in bacheca per R13-R24.
+
+**La terza regista (13/11 06:55, `…YzJKvQ`).** Ultracode spento: sorveglia e scrive la memoria, non tocca codice. Catena sua `trig_01Lx5efLQ27HHa6Zq4gLXXYe` (quella della seconda non esisteva più). Sito clonato in `/home/user/mycity`. #952 rossa su `d453f7b`: radiografia del perimetro toccato + `la-penna-che-si-poteva-scegliere` (solo in CI); detto all'AD.
