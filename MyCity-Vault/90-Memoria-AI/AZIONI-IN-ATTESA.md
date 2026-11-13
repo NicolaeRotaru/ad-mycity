@@ -57,6 +57,8 @@ Se va bene: la regista lancia la chiusura dei difetti della prima onda dopo che 
 Cosa cambia: sul database vero arrivano le ultime tre migrazioni della prima onda; la 350 resta fuori finché non è riparata.
 Se va bene: la regista controlla le tabelle sul database e scrive l'esito nella richiesta del sito.
 
+**Stato:** ✅ FATTO 2026-11-13 03:17. Su tuo «riprova 361, 363 e 364» delle 03:15, le ha applicate l'AD, una alla volta. Il controllo sul database dice che tutto è al suo posto: la tabella dei codici usati, la colonna dell'obbligo degli allergeni (vera solo su «alimentari»), la guardia sulle categorie, il tipo «domanda» nelle segnalazioni e le tre regole sulle domande. La 350 resta fuori.
+
 ### 🔴 #237 — Di' alla regista se parte la seconda onda del risolutore · ⏳ accodata 2026-11-12 23:55
 
 **In parole semplici.** La prima onda ha lavorato 300 difetti del sito e ne ha chiusi davvero 115, per circa 610 $ di consumo. La seconda onda parte solo col tuo «via la seconda». Ora i riparatori lavorano a lotti piccoli, e la stima scende a circa 435 $ per onda.
@@ -78,6 +80,8 @@ Se va bene: alla fine della seconda onda la regista ti porta i numeri veri e il 
 1. **Togliere la riga dal foglio dei permessi della macchina.** Si fa con una riga sola, e chiude il buco per tutti. Il prezzo: anche le sessioni dell'AD chiedono prima di leggere il database da lì; i numeri si leggono già prima dal canale ufficiale.
 2. **Un freno automatico.** Blocca gli strumenti del database vero, della messa online e di Stripe solo quando nella copia c'è un file segnale. Collaudatori e controllori lo mettono come primo passo, e la regista controlla che il blocco scatti. Le sessioni dell'AD restano come sono. Il prezzo: è un pezzo nuovo da costruire e collaudare.
 La regista consiglia la 1. Finché non scegli vale un controllo dopo. A ogni giro la regista guarda se quelle sessioni hanno chiamato quegli strumenti, e alla prima chiamata le ferma. Vede la chiamata quando è già partita.
+
+> **Aggiornamento dell'AD, 13/11 alle 03:18.** Hai risposto «ok 236» alle 03:15. La riga però non la posso togliere io: la macchina non può scrivere il proprio foglio dei permessi, e il blocco è scattato due volte. Resta un passo a mano su GitHub, di un minuto. Apri `.claude/settings.json` sul ramo `main` e premi la matita. Cancella la riga `"mcp__Supabase__execute_sql",` (riga 62) e salva con «Commit changes».
 
 **Cosa devi fare tu.** Rispondi «ok 236» per la strada 1, «freno 236» per la strada 2, oppure «no 236» per lasciare solo il controllo dopo.
 
