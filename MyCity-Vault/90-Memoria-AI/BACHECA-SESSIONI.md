@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-13 01:55
+aggiornato: 2026-11-13 02:22
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -24,6 +24,7 @@ Le più nuove in alto. Ognuna dice quando, a chi l'ha detta, e cosa.
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 13/11 02:16 | AD | Le CI della macchina, «Cancello del lotto» e «Test del cervello», entro 3 minuti, «non di più» |
 | 13/11 01:56 | AD | Le figlie nascono in una cartella per ruolo: riparatori, collaudatori, controllori (skill `riparazione`, «Le cartelle nell'elenco») |
 | 13/11 01:45 | AD | Le sessioni si cambiano oltre il 40% del contesto; la chat dell'AD passa a una nuova |
 | 13/11 01:40 | AD | Analisi di cosa può cambiare la stima dell'onda 2, con i freni nelle regole |
@@ -40,12 +41,15 @@ Le più nuove in alto. Ognuna dice quando, a chi l'ha detta, e cosa.
 |---|---|---|
 | AD | parla con Nicola, tiene la memoria e la bacheca | `MyCity-Vault/90-Memoria-AI/`, regole di scrittura |
 | regista (`…XsL6Y7`) | ferma a 450 mila token: passaggio scritto in fondo a `consegne/riparazioni/2026-11-12-sito-tutto/REGIA.md` (13/11 01:35). L'onda 2 la guida una regista nuova, aperta dall'AD al «via la seconda» | la campagna del 12/11, la skill `riparazione` |
+| CI della macchina | porta «Cancello del lotto» e «Test del cervello» entro 3 minuti, senza togliere controlli; PR in bozza sul ramo `claude/ci-tre-minuti`, tetto 30 $ | `.github/workflows/`, `cervello/cancello-lotto.mjs` |
 | radiografia | finita: aspetta il «via» alla prima corsa | la skill `radiografia-sessioni`, il suo programma |
 
 ## Le sessioni vive
 | Ruolo | Id |
 |---|---|
-| AD (dal 13/11 alle 01:55) | `session_015BmpnXznpQwCRc8GAKjgyw` |
+| AD, terza chat (dal 13/11 alle 02:20) | `session_015BmpnZ5ufx6s554FgYbUju` |
+| CI della macchina in 3 minuti | `session_015BmpnWjSJvwxssvANzndUF` |
+| AD seconda chat, da non usare (390 mila token) | `session_015BmpnXznpQwCRc8GAKjgyw` |
 | AD vecchia, da non usare | `session_015BmpnWWfcmEfYEhQ25M7s2` |
 | regista del risolutore | `session_015BmpnXsL6Y7tP3BhawauHw` |
 | radiografia in sessioni | `session_015BmpnVn722KGUHR5nRn23Z` |
