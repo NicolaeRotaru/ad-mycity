@@ -1,7 +1,7 @@
 ---
 tipo: quaderno-di-bordo
 data: 2026-11-13 05:50
-per: la regista della campagna «sito, tutto» (onda 2: dalle 15:52 del 13/11 la 3.0 della sesta, id in sessioni.json)
+per: la regista della campagna «sito, tutto» (onda 2: dalle 17:15 del 13/11 la 4.0 della sesta, id in sessioni.json)
 stima_usd: 435
 ---
 
@@ -63,14 +63,16 @@ Che le figlie nascano con ultracode: si controlla con get_session sulla prima, p
 **I controllori.** Le regole stanno in `cervello/riparazione/LEGGIMI-controllore.md`. I referti vanno in
 `<C>/controlli/`, e `applica` li legge da solo.
 
-**Passaggio alla regista dell'onda 2 · 3.0 (13/11 15:52, dalla 2.0 `…Wf1uAK` a 440 mila token, 8,9 $).**
-- Sito: serve una copia con la storia intera (`git clone --filter=blob:none`). Con la copia superficiale il giro delle 15:48 è stato cieco: «commit non nella storia», «non parte dalla base» e «l'unione litiga» su tutti, senza valore. Ogni comando con `MARKETPLACE_REPO=<clone>`. Push sul sito: `add_repo` push, poi `git -c push.negotiate=true push`.
-- Nicola, 15:10 e 15:12: si archiviano solo le sessioni finite dell'onda 2. 15:23: R17 sceglie la (a), tetto 105 $; le cinque registe vecchie aspettano la fine dell'onda.
-- Archiviate: K05, C02, R20, R21, R22 e la sesta (niente di non unito, verificato su git). A collaudo chiuso: R13, R14 e la sua 2.0, R15, R16, R18, R19, R23, R24, poi R17. Mai: la chat dell'AD, `…YkmzPU` (#947), `…W2CbV7` (mycity#289), l'onda 1.
-- Ultracode: acceso qui dalle 15:25; spento in K06, K07, K08 e C02 · 2.0 (`…YHnGoQ`), chiesto all'AD. A ogni giro `get_session` di ognuno: chi ha `is_ultracode_active` riceve il via (K06: R19, R23, R24; K07: R18, R13, poi R17; K08: R15, R16, R14 punta `2048b33c` testa `004218b6`; C02 · 2.0: il delta `2d5f0313..990dd7fa`).
-- R13 finita: punta `48b9f178`, testa `a28ea36d`, 76,4 $ su 90; migrazioni 371, 373 e 377 da far decidere a Nicola. Guardia rossa solo per il revert `10708bcf`.
-- R17 al lavoro, tetto 105 $: revisori fatti (16 riparati che reggono, 3 parziali, 4 serve_file_altrui, 1 già riparato, 1 non_fatto). Guardia rossa solo per `bb53b6be`, il revert di R17-005 col messaggio senza id: deroga di Nicola alla fermata 3, come `10708bcf`. Aspetto «finita» con punta, testa e costo, poi va a K07.
-- Falle riservate: 7, i dettagli solo in chat (li manda la 2.0 alla 3.0). Una è già nell'integrazione `990dd7fa` (R16, migrazione 405): va chiusa prima che la PR esca di bozza.
-- Costi: regia 2.0 8,9 $; K05 48,71; C02 16,77; sesta 17,21; K06 3,42, K07 1,17, K08 1,16 da fermi; R17 89,5 su 105.
-- Dopo: collaudi K06-K08, unione di R13, R14 e R17, cucitura, C02 · 2.0 sull'albero finale, fermata 3 (lista nel passaggio di prima, più `bb53b6be`).
-- Sorveglianza: la catena della 2.0 non c'è più (ultimo giro 15:48, nessun seguito). La 3.0 ne fa una sua ogni 30 minuti.
+**Passaggio alla regista dell'onda 2 · 4.0 (13/11 17:15, dalla 3.0 `…Z4kEDh` a 335 mila token, 5,8 $).**
+- Sito: rifare la copia con la storia intera (`git clone --filter=blob:none --no-checkout`), poi ogni comando con `MARKETPLACE_REPO=<clone>`. Push: `add_repo` push, poi `git -c push.negotiate=true push`. Integrazione sito a `583624d1`: dentro R15, R16, R18-R24; fuori R13, R14, R17.
+- Tolte col revert (K06, rompe_altro): R23-003 e R19-007. **Ancora dentro** R19-009, R19-012 e R19-015: il revert litiga con R19-008, che regge (Navbar, cookies), e R19 è senza tetto (71 su 71) e archiviata. Vanno tolte prima che la PR esca di bozza: la cucitura (tech + qa) o una scelta di Nicola.
+- K06 finito: 52,70 $ su 30, oltre il tetto e detto all'AD. `collaudi/K06.json` copiato e verde. Campione non accettato su R19, R23 e R24. R19-011 e R24-011 vanno rietichettate da «già riparato» a «riparato».
+- K07 (`…V296Wz`): finisce R13 entro 30 $ (lo stop a 20 è tolto), poi consegna. R18 collaudato: 2 non reggono (014, 021), campione non accettato; giro annullato per tetto (68,55 su 70), e le due voci vanno all'onda 3. R17 fuori da K07.
+- K08 (`…Xv72iT`): gravi fatti, 24,65 $ e 7 subagenti, collaudo a `31607338`, finita false. La 2.0 `…Wyxgs5` è senza ultracode e aspetta la scelta sui 28 minori. R14: rompe_altro 001, 002, 004 e 005, con giro di correzione a R14 · 2.0 (`…WjBBk7`) dopo la scelta sui minori (guardare prima il suo tetto). R15-001 e R15-002 parziali.
+- Scelte chieste all'AD, ancora senza risposta: ultracode qui, in C02 · 2.0 e, con la (a), in K08 · 2.0 e K09; R17 a un K09 nuovo (consigliata, circa 25-30 $); i minori di K08 (+15 $, consigliata) o all'onda 3; K06 lasciato finire; R18 all'onda 3 salvo «alza R18 di 10 $».
+- Archiviate dalla 3.0: la 2.0 (11,42 $), K06, R18, R19, R23 e R24. A collaudo chiuso: R13, R14 e la sua 2.0, R15, R16, R17, K07, K08. Mai: la chat dell'AD, `…YkmzPU`, `…W2CbV7`, l'onda 1 e le registe vecchie fino alla fine dell'onda.
+- Falle riservate: 7, più il caso di K08 su R14-002, che è la stessa falla dei pagamenti di R14. I dettagli solo in chat: la 3.0 li manda alla 4.0.
+- Costi: K07 19,46 $ (in corso), R17 101,9, R18 70,76, R19 71,07, R23 52,14, R24 62,79.
+- Dopo: K07 su R13, poi unione di R13 (deroga per `10708bcf`), R14 dopo la correzione, R17 dopo il collaudo; cucitura; C02 · 2.0 sull'albero finale; fermata 3. Nella lista: i revert `10708bcf` e `bb53b6be`, R17 con 15 subagenti, K06 oltre il tetto, le falle, le migrazioni di R13 (371, 373, 377) e di R17 (411-412).
+- Il controllore PR e CI dice che la #952 è unita e che su ad-mycity non c'è una PR aperta: aspetta il numero della prossima.
+- Sorveglianza: la catena della 3.0 (`trig_017e9EB3p8LUoDwEKjMW99bG`) si cancella al passaggio, e la 4.0 ne fa una sua.
