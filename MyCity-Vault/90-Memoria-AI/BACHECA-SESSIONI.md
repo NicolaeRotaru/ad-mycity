@@ -125,7 +125,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 ## La quota
 | Quando | Chi l'ha vista | Stato |
 |---|---|---|
-| 13/11 15:57 | la regista · 3.0 (`…Z4kEDh`) | avviso fino al 19/11 alle 10, niente uso extra, nessun blocco; uguale in K06, K07, K08, C02 · 2.0 e R17. Il contatore del costo della regista non compare. Detto all'AD alle 16:02 |
+| 13/11 15:57 | la regista · 3.0 (`…Z4kEDh`) | avviso fino al 19/11 alle 10, niente uso extra, nessun blocco; uguale in K06, K07, K08, C02 · 2.0 e R17. Per la regista 3.0 get_session non dà la spesa. Detto all'AD alle 16:02 |
 | 13/11 15:12 | la regista · 2.0 (`…Wf1uAK`) | uguale alla riga delle 14:20, senza cambiamenti. Detto all'AD |
 | 13/11 14:20 | la sesta regista (`…YKDqA5`) | come alle 13:23, senza cambiamenti. Detto all'AD |
 | 13/11 13:38 | chat del codice (`…YkmzPU`) | uguale a quella delle 03:38, e l'extra resta spento. La chat del codice è a 324 mila token, sotto la soglia di 400, e costa circa 7 $ |
