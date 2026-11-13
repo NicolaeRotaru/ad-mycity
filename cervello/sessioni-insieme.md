@@ -20,7 +20,7 @@ si scrive appena cambia qualcosa.
 - La quota è passata ad «avviso» e nessuno l'ha detto: l'AD l'ha visto per caso.
 - Le sessioni già aperte non sapevano le regole nuove, e l'AD le ha mandate a mano, una per una.
 
-## Le sei regole
+## Le sette regole
 1. **L'urgente si manda urgente.** Uno stop, la quota, la sicurezza e i soldi partono con `send_message` e
    `priority: "now"`. Chi riceve risponde subito con una riga: «ricevuto, faccio così». Chi manda, se dopo 10
    minuti non ha la risposta, guarda `get_session` di chi doveva riceverlo e riprova.
@@ -35,6 +35,14 @@ si scrive appena cambia qualcosa.
    scrive subito all'AD, in modo urgente, e lo segna in bacheca con l'ora. L'AD lo dice a Nicola nel messaggio dopo.
 6. **Una regola nuova arriva a tutte le sessioni vive.** Chi cambia una regola la manda nello stesso turno a ogni
    sessione della lista «Sessioni vive» della bacheca. Una sessione legge le regole solo quando parte.
+7. **Si cambia sessione prima, non dopo** (Nicola, 13/11: «perché non ne apri una nuova quando hai raggiunto il
+   60-80% del contesto?»). Ogni passo rilegge tutta la storia. A 800 mila token una chiamata costa circa quattro volte
+   una a 200 mila, e la compressione automatica, che arriva verso l'80-90%, riassume a modo suo e perde dettagli.
+   Quindi: alla fine di ogni lavoro lungo la sessione guarda la sua storia con `get_session`
+   (`context_usage.used_tokens`). **Oltre 400 mila token**, cioè il 40% della finestra, scrive il passaggio: lo stato in
+   poche righe, i lavori aperti, gli id e le decisioni in sospeso. Poi apre una sessione nuova che riparte da lì, la
+   scrive in bacheca e manda il nuovo id alle sessioni vive. Chi ripara punta più in basso, a 150 mila (regola dei lotti).
+   La chat dell'AD con Nicola non si sposta da sola: l'AD prepara la chat nuova e gli dice dove continuare.
 
 ## Cosa queste regole non fanno
 Non sono un programma: nessun controllo le fa rispettare da solo. Per ora reggono sulla disciplina di chi le legge, e
