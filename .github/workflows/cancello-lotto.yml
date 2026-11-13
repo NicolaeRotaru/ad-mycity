@@ -68,7 +68,12 @@ jobs:
   # della suite: con più fette la più lenta non scende, aumentano solo i runner occupati.
   suite:
     name: suite del cervello — fetta ${{ matrix.fetta }}
-    runs-on: ubuntu-latest
+    # 🔩 LA MACCHINA FISSATA A UBUNTU 24.04, NON «L'ULTIMA» (13/11 03:39). Quella notte `ubuntu-latest`
+    # è passato a Ubuntu 26.04 e Playwright 1.56.1 lì non sa installare il browser («does not support
+    # chromium on ubuntu26.04-x64»): tutte le fette rosse in 30 secondi, prima di una prova sola.
+    # Un'etichetta che si sposta da sola è un controllo che cambia senza un commit. Si passa alla versione
+    # nuova insieme a un playwright che la supporta, in un lavoro suo.
+    runs-on: ubuntu-24.04
     # Erano 20, e il cancello ne prendeva 6 e mezzo. Da quando c'è il browser il conto cambia: lo
     # scarico di chromium, la compilazione a freddo del Pannello e la mutazione di AR-613 che lo
     # riapre. Il margine sta qui apposta — un cancello ucciso dall'orologio è un ⚪, e chi legge un
@@ -209,7 +214,7 @@ jobs:
   # Quattro fette da quattro corsie: sedici difese provate insieme invece di quattro.
   mutazioni:
     name: mutazioni del lotto — fetta ${{ matrix.fetta }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 75
     strategy:
       fail-fast: false
@@ -269,7 +274,7 @@ jobs:
     name: prove, guardiani e typecheck
     needs: [suite, mutazioni]
     if: ${{ !cancelled() }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 75
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -316,7 +321,7 @@ jobs:
     name: suite del cervello + typecheck del Pannello
     needs: [suite]
     if: ${{ !cancelled() }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4

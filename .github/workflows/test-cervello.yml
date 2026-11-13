@@ -62,7 +62,12 @@ jobs:
   # totale dalla matrice stessa, così un numero scritto due volte non può lasciare fuori una fetta.
   suite:
     name: suite del cervello — fetta ${{ matrix.fetta }}
-    runs-on: ubuntu-latest
+    # 🔩 LA MACCHINA FISSATA A UBUNTU 24.04, NON «L'ULTIMA» (13/11 03:39). Quella notte `ubuntu-latest`
+    # è passato a Ubuntu 26.04 e Playwright 1.56.1 lì non sa installare il browser («does not support
+    # chromium on ubuntu26.04-x64»): tutte le fette rosse in 30 secondi, prima di una prova sola.
+    # Un'etichetta che si sposta da sola è un controllo che cambia senza un commit. Si passa alla versione
+    # nuova insieme a un playwright che la supporta, in un lavoro suo.
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     strategy:
       fail-fast: false
@@ -150,7 +155,7 @@ jobs:
     name: suite del cervello + typecheck del Pannello
     needs: [suite]
     if: ${{ !cancelled() }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
