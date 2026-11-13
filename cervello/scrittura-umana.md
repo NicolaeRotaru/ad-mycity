@@ -273,6 +273,7 @@ quello che gli serve.
 - ⏳ In corso: <cosa sta girando, e chi lo fa>
 - 👉 Tocca a te: <ogni cosa da fare, con un verbo e il posto dove farla>
 - 🕐 Quando vuoi: <le cose che non hanno fretta>
+- 💸 Costo: <questa sessione X $, circa Y% del limite> · <il lavoro di questo turno Z $, circa W%>
 ```
 
 Esempio vero, 12/11:
@@ -285,6 +286,10 @@ Le regole del punto:
 - **Niente numeri davanti alle righe del punto**, solo trattini: i numeri sopra i blocchi li ferma la Regola 3-bis.
 - **Una riga per cosa da fare**, col verbo e il posto: «nella chat della regista», «nella richiesta di unione».
   Mai «decidi tu» senza dire cosa.
+- **Il costo, sempre due numeri** (Nicola, 13/11 alle 01:07): quello della sessione, cioè `usage.cost_usd` di
+  `get_session`, e quello del lavoro del turno, comprese figlie e workflow. Tutti e due si dicono anche in
+  percentuale del limite settimanale. La stima viene da una misura sola: l'onda 1 del 12/11 è costata 610 $ per circa
+  il 20%, quindi **1% vale circa 30 $** di listino. Si rimisura alla prossima onda.
 - **Se non c'è niente da fare:** «👉 Tocca a te: niente». Lo si scrive comunque, perché è la riga che cerca per prima.
 - **Il punto vale al posto dei primi tre blocchi** (In parole semplici, Cosa cambia per te, Cosa devi fare). Sotto
   si spiega solo quello che il punto non dice, senza ripeterlo (Regola 0-bis). **«Cosa non ho verificato» resta
