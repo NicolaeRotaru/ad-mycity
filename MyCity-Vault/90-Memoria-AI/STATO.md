@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-11-12 14:48
+aggiornato: 2026-11-13 01:35
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🩻 **2026-11-13 01:35 — Il giudizio sul codice del sito: basi da professionista, cuore dei soldi da riordinare. Media 5,4 su 10.**
+>
+> Nicola ha chiesto com'è scritto il codice, non quanti difetti ha. Voti: mestiere 6, falle 4, velocità 6, facilità di lavoro 5, sicurezza 6. Le 8.886 prove passano in 4 minuti. Prima del 15/11 contano solo i 6 bloccanti e l'aggiornamento di quattro librerie con falle note. Il riordino della cassa va dopo il lancio. Referto: `consegne/audit/2026-11-13-giudizio-codice-sito.md`.
 
 > 🏋️ **2026-11-12 14:48 — La palestra ha finito i giri larghi: 125 difetti nuovi, fra cui il bloccante degli indirizzi.**
 >
