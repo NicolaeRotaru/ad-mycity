@@ -1,7 +1,7 @@
 ---
 tipo: quaderno-di-bordo
 data: 2026-11-13 05:50
-per: la regista della campagna «sito, tutto» (onda 2, dalle 13:45 del 13/11: la sesta, id in sessioni.json)
+per: la regista della campagna «sito, tutto» (onda 2: dalle 15:00 del 13/11 la 2.0 della sesta, id in sessioni.json)
 stima_usd: 435
 ---
 
@@ -63,18 +63,17 @@ Che le figlie nascano con ultracode: si controlla con get_session sulla prima, p
 **I controllori.** Le regole stanno in `cervello/riparazione/LEGGIMI-controllore.md`. I referti vanno in
 `<C>/controlli/`, e `applica` li legge da solo.
 
-**Passaggio alla sesta regista dell'onda 2 (13/11 13:58, dalla quinta `…VzbMLH` a 433 mila token).**
-- Sito: clone con `git clone --filter=blob:none`, ogni comando con `MARKETPLACE_REPO=<clone>`. Il push sul sito c'è: add_repo push, senza clic.
-- Nicola, 12:58: onda al 100%. Tetti in tutto: R13 90 $, R17 85, R14 80, R16 66, R19 71, R18 70, R24 70, R23 61, R15 60, R21 55.
-- Nicola, 13:20: collaudi e controlli subito sul già riparato, e unione man mano. Dalle 13:40 valgono le regole 7 e 11 nuove di `cervello/sessioni-insieme.md`.
-- Finite e verdi: R20 (punta `2851b087`), R22 (`35ee9faa`), R21 (`1c8a82ca`, testa `30c48c54`, 56 $ sul tetto di 55). Le collauda K05 (`…ZdFpSJ`, ramo `-k05`), partito alle 13:55 con ultracode.
-  R19, R23 e R24 (verdi al giro delle 13:51) vanno a K06, aperto alle 13:57 nella cartella Collaudatori. R18 (punta `eee2f937`), R16 (`8a00cbaf`, 65,8 $ su 66) e R15 (`f6150e4b`) hanno finito: vanno a K07.
-- Unione anticipata: R20 e R22 uniti e spinti nell'integrazione del sito alle 13:49, a `2d5f0313`. Verify verde (1451 file, 9766 prove) con `NODE_OPTIONS=--max-old-space-size=8192`. Harness SQL: `pg_ctlcluster 16 main start`, `createuser -s root`, `PGUSER=root`.
-- Al lavoro: R13 e R17, con la 2.0 a 400 mila token. R14 continua nella sua 2.0 (`…WjBBk7`), con ultracode. R13 e R17 hanno due rossi da chiudere prima di «finita».
-- Dopo: unione, verify e harness, cucitura dell'onda 2 (le serve_file_altrui e le parziali in file altrui), C02 e fermata 3. Poi i 10 minori della macchina (passaggio della quarta, commit `2a71b48`).
-- Falle riservate: 5 (R14 pagamenti, R16 e R19 permessi, R21 accessi, R24 auth), più due nate in R21 (008, 014). I dettagli solo in chat, dalla quinta.
-- Per la fermata 3: carta #242 (R13-001 e i gravi 004-006), R13-003, R17-002 e le altre 4 di R17, R20-010, R23-016, R24-003 e R24-010. Poi il CAPTCHA di R24, l'eccezione di R16, le voci tolte per le prove comuni, le domande dei referti, le falle riservate e l'eccezione per il revert `10708bcf` di R13, che comincia con «Revert».
-- PR e CI: il controllore `…WroKtz` (`pr_ci` in `sessioni.json`) segue la #952, verde, che Nicola unisce alle 13:40. Mentre corre la CI non si spinge su ad-mycity: avvisa lui.
-- Costi alle 13:30 da `cost_usd`: figlie dell'onda 2 circa 586 $, il 20% della settimana. Regia quinta 12,6 $ alle 13:57. Quota in avviso fino al 19/11 alle 10, senza extra.
-  Sorveglianza: la sesta cancella la catena della quinta (`trig_011XDiyAEn16eYHhEQnsfPsS`, prossimo giro 14:26) e ne fa una sua. C02 aspetta ultracode.
-  Cartelle: le sessioni nuove nascono nelle sottocartelle (`cartelle` in `sessioni.json`). Se Nicola apre «Onda 2 · sessioni» dall'app, si usa quella: si chiude con la freccina.
+**Passaggio alla regista dell'onda 2 · 2.0 (13/11 ~15:00, dalla sesta `…YKDqA5` a circa 390 mila token).**
+- Sito: clone in `/home/user/mycity` (o `git clone --filter=blob:none`), ogni comando con `MARKETPLACE_REPO=<clone>`. Push: `add_repo` push (nessun clic), poi `git -c push.negotiate=true push`.
+- Nicola 12:58: onda al 100%, tetti in tutto R13 90 $, R17 85, R14 80, R16 66, R19 71, R18 70, R24 70, R23 61, R15 60, R21 55. 13:20: collaudi e controlli subito sul già riparato, unione man mano.
+- Integrazione del sito a `990dd7fa` (spinta alle 14:59): uniti R15, R16, R18, R19, R20, R21, R22, R23, R24. Tolte col revert dopo K05: R20-011, R20-012, R22-013, R21-004 (rompono altro), R21-008 (rompe altro) e R21-014 (non regge, costruita sopra la 008). Verify verde (1559 file, 10302 prove), harness verde (204 migrazioni, 70 file).
+- Collaudi: K05 finito, `collaudi/K05.json` verde (49 voci: 31 reggono, 12 parziali, 5 rompono altro, 1 non regge; 47,02 $ su 30, detto all'AD). K06 (R19, R23, R24), K07 (R18, poi R13 e R17) e K08 (R15, R16, R14) fermi su ultracode: clic chiesto all'AD alle 14:36-14:38. K07 e K08 hanno lo stop a 20 $.
+- C02, primo giro su `2d5f0313`: 0 rosse, 13 minori nuovi (`controlli/C02.json`). È a 393 mila token: il secondo giro su `990dd7fa` lo fa «Controllore · C02 · onda 2 · 2.0», da chiedere alla cartella Controllori (tetto 20 $).
+- R14 finita (punta `2048b33c`, testa `004218b6`, 75,6 $ su 80): da unire dopo il collaudo di K08. Per la cucitura: R14-021 (`git revert 004218b` e rigenerare `lib/database.types.ts`) e R14-018 (rimettere `930e4f9` con `AI_NEGOZI_ACCESA` finto nella prova e nelle 14 rotte ai/*).
+- Al lavoro: R13 (rosso R13-013 `prova_tipo` «leggera», detto alle 14:26) e R17 (prova col nome r17, verify non sulla testa). Quando sono verdi: K07, poi unione.
+- Dopo: unione di R13, R14, R17; cucitura dell'onda 2 (serve_file_altrui e parziali in file altrui); C02 2.0; fermata 3. Poi i 10 minori della macchina (commit `2a71b48`).
+- Falle riservate: 6 (R14 pagamenti, R16 due di permessi, R19 permessi, R21 accessi, R24 auth) più R21-008 e R21-014. I dettagli solo in chat: la sesta li manda alla 2.0.
+- Fermata 3: carta #242 (R13-001, gravi 004-006), R13-003, R17-002 e altre 4 di R17, R20-010, R23-016, R24-003, R24-010, CAPTCHA di R24, eccezione di R16, voci tolte per le prove comuni e per «rompe altro», domande dei referti, falle riservate, revert `10708bcf` di R13, i tetti sforati (K05 47 $ su 30, R21 56 su 55).
+- PR e CI: controllore `…WroKtz`. #952 unita da Nicola alle 14:28. Nessuna richiesta aperta su ad-mycity: la creazione si è fermata al permesso, si apre solo con l'ok di Nicola.
+- Costi: regia sesta circa 12 $; K05 47,02, C02 14,30, controllore PR 18,1, K06-K08 circa 5 da fermi. Quota in avviso fino al 19/11 alle 10, senza extra.
+- Sorveglianza: la 2.0 cancella la catena della sesta («Sorveglianza onda 2 · sesta regista», `list_triggers`) e ne fa una sua ogni 30 minuti.
