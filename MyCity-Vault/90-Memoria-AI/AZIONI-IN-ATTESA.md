@@ -31,7 +31,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
-### 🟡 #240 — Decidi se un riparatore può spendere di più per sbloccare la cassa del centro · ⏳ accodata 2026-11-13 07:22
+### 🟡 #242 — Decidi se un riparatore può spendere di più per sbloccare la cassa del centro · ⏳ accodata 2026-11-13 07:22
 
 **In parole semplici.** Nella seconda onda ogni riparatore ha un tetto di 35 $ di listino. R13, il riparatore che lavora su cassa, consegne e rimborsi, arriva al tetto dopo il terzo lotto. Restano fuori 22 voci, fra cui il difetto più grave dell'onda: chi abita in via Roma o in via Cavour, in pieno centro, si sente dire «troppo lontano» alla cassa, e l'ordine non parte.
 
