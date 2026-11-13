@@ -1,8 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-11-12 14:48
+aggiornato: 2026-11-12 23:55
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🔧 **2026-11-12 23:55 — La prima onda del risolutore è chiusa: 115 difetti chiusi davvero su 300, e il risolutore ora consuma meno.**
+>
+> La prima onda ha lavorato 300 difetti del sito: ne chiude davvero 115, più 7 già a posto, per circa 610 $ di consumo, circa il 20% del limite settimanale. Sei dollari su dieci erano rilettura: ora i riparatori lavorano a lotti piccoli, e la stima scende a circa 435 $ per onda senza togliere controlli. La falla dell'IBAN è chiusa e 12 migrazioni sono sul database vero col tuo ok. Restano quattro cose da fare con te, nelle card dalla 235 alla 238. Una è riprovare tre migrazioni, lasciando fuori la 350. Le altre sono il «via la seconda», il permesso del database nella macchina e l'unione delle due richieste. La radiografia del sito è in una sessione sua, che la porta sullo stesso schema. Richieste di unione: ad-mycity#944 e mycity#288.
+
+> 🔧 **2026-11-12 15:30 — Il risolutore del sito è pronto a partire: 662 difetti, in attesa del tuo «via».**
+>
+> Su 828 difetti aperti del sito se ne riparano col codice 662: 5 bloccanti, 74 gravi e 583 minori. Hai chiesto riparatori più piccoli, la regia in una sessione sua e un controllore: ogni riparatore prende al massimo 25 difetti, in tre onde da 12, 12 e 6 sessioni. Dopo ogni onda una sessione nuova rifà le prove sul lavoro unito, e alla fine ce n'è una su tutto. Queste regole ora sono nel risolutore e valgono per le prossime campagne. Il preventivo è di circa 1.300-1.500 $ di consumo, che con l'abbonamento scala dal limite settimanale. Mancano il tuo «via» e la modalità «Auto». Richiesta di unione: ad-mycity#944.
 
 > 🏋️ **2026-11-12 14:48 — La palestra ha finito i giri larghi: 125 difetti nuovi, fra cui il bloccante degli indirizzi.**
 >

@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-07 12:09
+aggiornato: 2026-11-12 23:55
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -116,6 +116,7 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
 
 ### Ancora da fare
 
+- **Il risolutore sul sito: la prima onda è chiusa, la seconda aspetta il tuo «via»** (12/11 alle 23:55). La prima onda ha chiuso davvero 115 difetti su 300, per circa 610 $ di consumo. Le regole nuove sul consumo sono nella skill, e la stima scende a circa 435 $ per onda. Restano da te le card 235-238: tre migrazioni da riprovare (non la 350), il «via la seconda», il permesso del database nella macchina e l'unione delle richieste ad-mycity#944 e mycity#288. La regista è la sessione `session_015BmpnXsL6Y7tP3BhawauHw`; cartella `consegne/riparazioni/2026-11-12-sito-tutto/`.
 - **Il lavoro delle dieci sessioni sui minori è unito** (5/11 alle 23:45: NicolaeRotaru/mycity#287 e NicolaeRotaru/ad-mycity#932). Nel registro 844 minori riparati, unito su main; circa 8 su 10 reggono fino in fondo secondo il collaudo a campione. Le migrazioni sono entrate il 6/11 alle 00:16, tutte e 21 quelle che mancavano: dalla 164 alla 245, col pulsante e col tuo ok. Restano due cose: guardare che il primo rilascio vada online; rispondere quando puoi alle 67 domande in `consegne/audit/2026-11-05-dieci-sessioni-minori/domande-per-nicola.md`.
 - **Fino all'apertura niente radiografie larghe** (5/11): solo la rilettura dei file toccati, i minori dopo il lancio. Lo smistamento dei 74 seri, voce per voce, è nei dettagli di `consegne/ad/2026-11-05-pronto-prima-possibile.md`.
 - **Prima ondata dopo la radiografia del 5/11**, al tuo via: i soldi dei contanti (quanto versare il lunedì, «fatto» sul bonifico al negozio e su quello di rimborso, Guadagni del negozio, rimborso dopo il lunedì) e gli avvisi (allarme a 5 minuti, campanella nel pannello, email d'ordine fallita). Poi le 7 falle gravi. Il buco della consegna veloce non confermata si rilegge dopo aver chiuso i suoi 28 difetti aperti.
@@ -151,7 +152,7 @@ Tutti gli altri tuoi passi, 33 prima del primo ordine, sono in fila nella tua li
 
 ## 3 · La macchina
 
-- **La radiografia in 12 sessioni non parte ancora da una frase** (07/11). Il 6/11 è partita incollando le quattro parti, e il suo testo è legato a quel giorno: commit fisso, scelte del giorno, controlli in una cartella con la data. Il comando «radiografia» del manuale ora dice che fa partire quella in una sessione sola. Da fare: portarla sullo schema della riparazione in sessioni (una skill, un programma salvato in `cervello/`, il comando).
+- **La radiografia del sito parte da una frase, in sessioni** (13/11 alle 01:22, costruita e collaudata, mai lanciata). La frase «radiografia del sito» apre la skill `radiografia-sessioni`: un programma divide e controlla, la verifica si fa solo dove serve, e il preventivo viene prima del via. La radiografia del 6/11 era costata 327 $, e 97 token su 100 erano riletture. Il profilo «lancio» oggi prevede 9 sessioni in 2 onde, circa 251 $. Aspetta il tuo «via», da dare dopo aver letto il preventivo. Da verificare: i divieti del sito potrebbero non coprire i nomi veri degli strumenti in tutte le sessioni.
 - **La skill della riparazione non si apre sempre per prima** (AR-1166). Entro tre mosse si apre su tutte e 4 le frasi vere provate. Come prima mossa invece cambia da una corsa all'altra: 1 frase su 4 la prima volta, 2 su 3 la seconda. Il motivo: a volte la sessione legge prima il manuale, e il manuale poi la nomina. Da decidere: se la misura di `prova-trigger` va allargata alle prime mosse.
 - **Rifare il registro dei difetti del sito non cancella più il lavoro scritto dopo la radiografia** (06/11 alle 09:54, unito da te: richiesta NicolaeRotaru/ad-mycity#937). Il digest teneva sei campi e il resto tornava quello della radiografia: 357 voci su 444 perdevano campi. Adesso vince il registro, e una correzione fatta solo nel referto viene nominata. Da fare dopo: quattro minori nel cantiere, il più serio è la copertura che resta muta quando arriva una radiografia nuova.
 - **La regola del lavoro veloce è nel manuale dell'AD, ma il suo freno no** (6/11 alle 01:03, su tua firma). Le regole ⑬-⑰: prima il programma, domande chiuse, fatti pronti, verificatore che parte dalla prova, modello piccolo per i controlli semplici. Manca un guardiano che conti i turni di ogni agente e segnali quelli troppo pesanti: è debito dichiarato. La prima misura vera arriva al prossimo lavoro simile, contro i 47 minuti del controllo del prompt.

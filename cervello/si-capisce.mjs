@@ -62,6 +62,21 @@ export const PAROLE_MACCHINA = [
  * ZERO — sono già tutti rossi per altro. Costo oggi nessuno, valore da domani.
  */
 export const BLOCCHI = ["In parole semplici", "Cosa cambia per te", "Cosa devi fare", "Cosa non ho verificato"];
+/**
+ * «Il punto adesso» (Nicola, 12/11 notte: «sì, regola»). Un riassunto in cima, con ✅ fatto, ⏳ in corso e 👉 tocca a te,
+ * vale al posto dei primi tre blocchi: dice cosa è successo, cosa cambia e cosa deve fare lui. Il quarto blocco,
+ * «Cosa non ho verificato», resta preteso: è quello che sparisce più spesso. Regola 3-ter di scrittura-umana.md.
+ */
+export const IL_PUNTO = "Il punto adesso";
+export const COPERTI_DAL_PUNTO = ["In parole semplici", "Cosa cambia per te", "Cosa devi fare"];
+/** C'è il punto: il titolo, e dentro almeno la riga di quello che tocca a Nicola. PURA. */
+export function puntoPresente(testo) {
+  const t = String(testo);
+  const titolo = t.search(/^#{1,4}\s*il punto adesso\b/im);
+  if (titolo === -1) return false;
+  const dopo = t.slice(titolo).split(/\n#{1,4}\s/)[0];
+  return /tocca a te/i.test(dopo);
+}
 
 /** Sotto questa soglia è un messaggio breve: la struttura sarebbe burocrazia. */
 export const RIGHE_TESTO_LUNGO = 15;
@@ -136,7 +151,7 @@ const MARCATORE_TECNICO = /^#{1,4}\s.*dettagl\w*\s+tecnic/i;
 /** Una riga che è solo il titolo di un blocco: è impalcatura, non contenuto. */
 export function eTitoloDiBlocco(riga) {
   const pulito = String(riga).replace(/[#*_`:]/g, " ").replace(/\s+/g, " ").trim().toLowerCase();
-  return BLOCCHI.some((b) => pulito === b.toLowerCase());
+  return BLOCCHI.some((b) => pulito === b.toLowerCase()) || pulito === IL_PUNTO.toLowerCase();
 }
 
 /** Legge le parole che il glossario definisce davvero. Se il glossario non c'è, si dichiara cieco. */
@@ -915,7 +930,8 @@ export function misura(testo, { noteAGlossario = null, testoGlossario = null, pr
   // Le domande numerate da sole non bastano più a pretenderli: una risposta di tre righe a «1) 2)»
   // resta una risposta di tre righe. L'ORDINE invece resta preteso sempre — se i blocchi ci sono,
   // vanno sopra i numeri (AR-517): quel controllo è qui sopra e non si tocca.
-  const bloccoPresente = (b) => new RegExp(b.replace(/\s+/g, "\\s+"), "i").test(corpo);
+  const conPunto = puntoPresente(corpo);
+  const bloccoPresente = (b) => (conPunto && COPERTI_DAL_PUNTO.includes(b)) || new RegExp(b.replace(/\s+/g, "\\s+"), "i").test(corpo);
   if (testoLungo || (rispondeAiNumeri && !testoCorto)) {
     for (const blocco of BLOCCHI) {
       if (!bloccoPresente(blocco)) {
@@ -928,7 +944,8 @@ export function misura(testo, { noteAGlossario = null, testoGlossario = null, pr
       }
     }
   } else if (testoCorto) {
-    const quanti = BLOCCHI.filter(bloccoPresente).length;
+    // Qui contano i titoli scritti davvero: «Il punto adesso» su un testo corto è un riassunto, non impalcatura.
+    const quanti = BLOCCHI.filter((x) => new RegExp(x.replace(/\s+/g, "\\s+"), "i").test(corpo)).length;
     if (quanti >= 3) {
       problemi.push({
         riga: 1,

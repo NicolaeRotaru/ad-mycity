@@ -1,0 +1,1080 @@
+{
+ "tabella": [
+  {
+   "nome": "R01",
+   "cost_usd": 25.68,
+   "cache_read_milioni": 76.23,
+   "cache_write_milioni": 0.977,
+   "output_mila": 219.9,
+   "contesto_max_mila": 440.8,
+   "chiamate_api": 61,
+   "risultati": 5,
+   "subagenti": 6,
+   "tipi_subagenti": {
+    "general-purpose": 6
+   },
+   "risvegli_per_origine": {
+    "task-notification": 5
+   },
+   "turni_piu_cari": [
+    {
+     "costo_usd": 2.98,
+     "origine": "task-notification (hand-back QA-A)",
+     "cosa": "22 chiamate, 10M di cache letta: riceve il rapporto del collaudatore su 6 voci, corregge e chiude la prima volta"
+    },
+    {
+     "costo_usd": 1.5,
+     "origine": "task-notification (regista)",
+     "cosa": "14 chiamate: giro di correzione K01, R01-004 sistemata, 006 e 008 scese a parziale/non fatta"
+    },
+    {
+     "costo_usd": 0.92,
+     "origine": "task-notification (regista)",
+     "cosa": "9 chiamate, 3,7M di cache letta: strade A/B/C sul testo dell'SOS, si ferma e aspetta"
+    }
+   ]
+  },
+  {
+   "nome": "R02",
+   "cost_usd": 30.76,
+   "cache_read_milioni": 97.5,
+   "cache_write_milioni": 0.852,
+   "output_mila": 285.2,
+   "contesto_max_mila": 491,
+   "chiamate_api": 70,
+   "risultati": 2,
+   "subagenti": 6,
+   "tipi_subagenti": {
+    "general-purpose": 6
+   },
+   "risvegli_per_origine": {
+    "task-notification": 2
+   },
+   "turni_piu_cari": [
+    {
+     "costo_usd": 11.47,
+     "origine": "task-notification (hand-back QA, 6 subagenti)",
+     "cosa": "42 chiamate, 34,7M di cache letta, 119 mila token di output: corregge i difetti di 9 voci trovati dai QA e chiude le 25 voci"
+    },
+    {
+     "costo_usd": 3.32,
+     "origine": "task-notification (regista, giro K)",
+     "cosa": "28 chiamate, 13M di cache letta: ricorregge 003/008/011/023 e declassa 014/015/019/024"
+    }
+   ]
+  },
+  {
+   "nome": "R03",
+   "cost_usd": 54.73,
+   "cache_read_milioni": 191.82,
+   "cache_write_milioni": 1.22,
+   "output_mila": 411,
+   "contesto_max_mila": 738.2,
+   "chiamate_api": 69,
+   "risultati": 2,
+   "subagenti": 6,
+   "tipi_subagenti": {
+    "general-purpose": 6
+   },
+   "risvegli_per_origine": {
+    "task-notification": 2
+   },
+   "turni_piu_cari": [
+    {
+     "costo_usd": 8.21,
+     "origine": "task-notification (session-task)",
+     "cosa": "37 chiamate, 29M di cache letta, 74 mila token di output: chiusura delle 25 voci dopo 6 QA, 9 falle corrette; valida-referto negato dal permesso"
+    },
+    {
+     "costo_usd": 5.35,
+     "origine": "task-notification (regista, giro K04)",
+     "cosa": "32 chiamate, 22M di cache letta a ~694 mila token per chiamata: 4 voci rifatte con test rosso-verde"
+    }
+   ]
+  },
+  {
+   "nome": "R04",
+   "cost_usd": 39.51,
+   "cache_read_milioni": 131.23,
+   "cache_write_milioni": 1.01,
+   "output_mila": 333.9,
+   "contesto_max_mila": 568.9,
+   "chiamate_api": 87,
+   "risultati": 3,
+   "subagenti": 6,
+   "tipi_subagenti": {
+    "general-purpose": 6
+   },
+   "risvegli_per_origine": {
+    "task-notification": 3
+   },
+   "turni_piu_cari": [
+    {
+     "costo_usd": 7.31,
+     "origine": "task-notification (session-task)",
+     "cosa": "58 chiamate, 28,6M di cache letta, 53 mila token di output: chiusura con 6 subagenti QA; valida-referto negato dal permesso"
+    },
+    {
+     "costo_usd": 3.64,
+     "origine": "task-notification (regista, giro K02)",
+     "cosa": "25 chiamate, 13,8M di cache letta: 4 voci rimandate (017, 018, 011, 025)"
+    },
+    {
+     "costo_usd": 0.61,
+     "origine": "task-notification (regista)",
+     "cosa": "4 chiamate: solo il tipo di prova «leggera» non ammesso nel referto e una nota; nessun codice"
+    }
+   ]
+  },
+  {
+   "nome": "R05",
+   "cost_usd": 0.81,
+   "cache_read_milioni": 1.07,
+   "cache_write_milioni": 0.055,
+   "output_mila": 7.9,
+   "contesto_max_mila": 117.2,
+   "chiamate_api": 11,
+   "risultati": 3,
+   "subagenti": 0,
+   "tipi_subagenti": {},
+   "risvegli_per_origine": {
+    "task-notification": 3
+   },
+   "turni_piu_cari": [
+    {
+     "costo_usd": 0.47,
+     "origine": "task-notification (regista, scheda incollata)",
+     "cosa": "8 chiamate: scrive il piano locale ma non lo manda e non ripara nulla"
+    },
+    {
+     "costo_usd": 0.19,
+     "origine": "task-notification (regista, sollecito)",
+     "cosa": "2 chiamate: rifiuta di clonare ad-mycity fuori ambito, nessun lavoro"
+    },
+    {
+     "costo_usd": 0.16,
+     "origine": "task-notification (avvio)",
+     "cosa": "1 chiamata: rifiuta la richiesta perché arrivata come avviso automatico e fuori dal repo permesso"
+    }
+   ]
+  },
+  {
+   "nome": "R06",
+   "cost_usd": 33.12,
+   "cache_read_milioni": 106.35,
+   "cache_write_milioni": 0.845,
+   "output_mila": 308,
+   "contesto_max_mila": 545.9,
+   "chiamate_api": 45,
+   "risultati": 3,
+   "subagenti": 5,
+   "tipi_subagenti": {
+    "general-purpose": 5
+   },
+   "risvegli_per_origine": {
+    "task-notification": 3
+   },
+   "turni_piu_cari": [
+    {
+     "costo_usd": 4.03,
+     "origine": "task-notification",
+     "cosa": "19 chiamate, 12,7M di cache letta, 46 mila token di output: corregge R06-023/025 e termina dicendo che aspetta il revisore (un altro risveglio necessario)"
+    },
+    {
+     "costo_usd": 2.59,
+     "origine": "task-notification (regista, giro K03)",
+     "cosa": "19 chiamate, 10M di cache letta: rifà 005, 019, 023"
+    },
+    {
+     "costo_usd": 1.25,
+     "origine": "task-notification (hand-back QA)",
+     "cosa": "7 chiamate, 4,3M di cache letta, 13 mila token di output: chiude referto, verify e invia l'esito"
+    }
+   ]
+  },
+  {
+   "nome": "R07",
+   "cost_usd": 31.21,
+   "cache_read_milioni": 96.3,
+   "cache_write_milioni": 0.97,
+   "output_mila": 282.6,
+   "contesto_max_mila": 450,
+   "risultati": 9,
+   "subagenti": 10,
+   "tipi_subagenti": {
+    "general-purpose": 7,
+    "fork": 3
+   },
+   "risvegli_per_origine": {
+    "peer-handback (visibili)": 1,
+    "task-notification (visibili)": 2
+   },
+   "turni_piu_cari": [
+    {
+     "costo_usd": 9.71,
+     "cosa": "37 chiamate dopo il rapporto QA su R07-004; spinti 8 commit, verify avviato e non atteso",
+     "origine": "peer-handback"
+    },
+    {
+     "costo_usd": 1.65,
+     "cosa": "15 chiamate: push dell'ultimo commit, verify ancora in corso, turno chiuso senza esito",
+     "origine": "task-notification"
+    },
+    {
+     "costo_usd": 0.63,
+     "cosa": "5 chiamate: referto chiuso, verify verde 8945 prove",
+     "origine": "task-notification"
+    }
+   ]
+  },
+  {
+   "nome": "R08",
+   "cost_usd": 35.68,
+   "cache_read_milioni": 117.4,
+   "cache_write_milioni": 0.96,
+   "output_mila": 298.2,
+   "contesto_max_mila": 542,
+   "risultati": 8,
+   "subagenti": 5,
+   "tipi_subagenti": {
+    "general-purpose": 5
+   },
+   "risvegli_per_origine": {
+    "peer-handback (visibili)": 1,
+    "task-notification (visibili)": 3
+   },
+   "turni_piu_cari": [
+    {
+     "costo_usd": 2.61,
+     "cosa": "9 chiamate dopo il QA su migrazioni 008/016/025; corretti 3 punti, secondo verify completo avviato",
+     "origine": "peer-handback"
+    },
+    {
+     "costo_usd": 1.74,
+     "cosa": "15 chiamate: giro di correzione K02 su R08-008 (finto salva_varianti nelle prove), nuovo commit e verify",
+     "origine": "task-notification"
+    },
+    {
+     "costo_usd": 1.26,
+     "cosa": "9 chiamate: referto, messaggio alla regista con testa sbagliata e poi corretta",
+     "origine": "task-notification"
+    }
+   ]
+  },
+  {
+   "nome": "R09",
+   "cost_usd": 26.17,
+   "cache_read_milioni": 85.8,
+   "cache_write_milioni": 0.7,
+   "output_mila": 213.6,
+   "contesto_max_mila": 464,
+   "risultati": 5,
+   "subagenti": 5,
+   "tipi_subagenti": {
+    "general-purpose": 5
+   },
+   "risvegli_per_origine": {
+    "peer-handback (visibili)": 1,
+    "task-notification (visibili)": 1
+   },
+   "turni_piu_cari": [
+    {
+     "costo_usd": 4.84,
+     "cosa": "31 chiamate dopo il QA su 5 voci, 20 min di CPU shell; referto e verify",
+     "origine": "peer-handback"
+    },
+    {
+     "costo_usd": 1.74,
+     "cosa": "15 chiamate: giro K01, R09-001 con prova solo sulla funzione e non sul giro vero",
+     "origine": "task-notification"
+    }
+   ]
+  },
+  {
+   "nome": "R10",
+   "cost_usd": 30.37,
+   "cache_read_milioni": 95.9,
+   "cache_write_milioni": 0.8,
+   "output_mila": 294.9,
+   "contesto_max_mila": 488,
+   "risultati": 7,
+   "subagenti": 5,
+   "tipi_subagenti": {
+    "general-purpose": 5
+   },
+   "risvegli_per_origine": {
+    "peer-handback (visibili)": 1,
+    "task-notification (visibili)": 1
+   },
+   "turni_piu_cari": [
+    {
+     "costo_usd": 3.04,
+     "cosa": "22 chiamate dopo il QA che ha smentito 3 voci su 6; corrette 5 riparazioni",
+     "origine": "peer-handback"
+    },
+    {
+     "costo_usd": 2.37,
+     "cosa": "18 chiamate: giro K03, 4 voci rimandate (014, 017, 019, 020)",
+     "origine": "task-notification"
+    }
+   ]
+  },
+  {
+   "nome": "R11",
+   "cost_usd": 47.78,
+   "cache_read_milioni": 157.8,
+   "cache_write_milioni": 1.46,
+   "output_mila": 359.9,
+   "contesto_max_mila": 628,
+   "risultati": 12,
+   "subagenti": 8,
+   "tipi_subagenti": {
+    "general-purpose": 8
+   },
+   "risvegli_per_origine": {
+    "task-notification (visibili)": 4
+   },
+   "turni_piu_cari": [
+    {
+     "costo_usd": 5.23,
+     "cosa": "35 chiamate: giro K04 con 9 commit, verify ancora in corso a fine turno",
+     "origine": "task-notification"
+    },
+    {
+     "costo_usd": 3.77,
+     "cosa": "26 chiamate: 13 commit spinti dopo gli 8 revisori, verify ancora in corso",
+     "origine": "task-notification"
+    },
+    {
+     "costo_usd": 0.58,
+     "cosa": "3 chiamate: solo chiusura referto dopo il verify",
+     "origine": "task-notification"
+    }
+   ]
+  },
+  {
+   "nome": "R12",
+   "cost_usd": 43.35,
+   "cache_read_milioni": 143.1,
+   "cache_write_milioni": 1.05,
+   "output_mila": 388.7,
+   "contesto_max_mila": 621,
+   "risultati": 6,
+   "subagenti": 5,
+   "tipi_subagenti": {
+    "general-purpose": 5
+   },
+   "risvegli_per_origine": {
+    "task-notification (visibili)": 3
+   },
+   "turni_piu_cari": [
+    {
+     "costo_usd": 6.45,
+     "cosa": "43 chiamate, 17 min: giro K03 con riscrittura R12-004 e prove rinforzate, 475 s di strumenti",
+     "origine": "task-notification"
+    },
+    {
+     "costo_usd": 1.44,
+     "cosa": "11 chiamate: 5 prove esistenti con meno asserzioni della base, rimesse a posto",
+     "origine": "task-notification"
+    },
+    {
+     "costo_usd": 0.49,
+     "cosa": "4 chiamate: ricontrollo punta del ramo (guardia-ramo, referto, verify)",
+     "origine": "task-notification"
+    }
+   ]
+  },
+  {
+   "nome": "K01",
+   "cost_usd": 32.1,
+   "cache_read_milioni": 70.27,
+   "cache_write_milioni": 1.94,
+   "output_mila": 305.7,
+   "contesto_max_mila": 442.8,
+   "chiamate_api": 21,
+   "subagenti": 0,
+   "tipi_subagenti": {},
+   "risvegli_per_origine": {
+    "task-notification": 1
+   },
+   "turni_piu_cari": [
+    {
+     "costo_usd": 4.4,
+     "origine": "task-notification",
+     "cosa": "Ricollaudo R01 e R09 (21 chiamate API, 5,69M token riletti, 381k riscritti in cache perché scaduta); chiude con la questione del file sorvegliante-storico.json non salvato"
+    }
+   ]
+  },
+  {
+   "nome": "K02",
+   "cost_usd": 27.98,
+   "cache_read_milioni": 69.21,
+   "cache_write_milioni": 1.41,
+   "output_mila": 283.3,
+   "contesto_max_mila": 439.3,
+   "chiamate_api": 16,
+   "subagenti": 1,
+   "tipi_subagenti": {
+    "qa": 1
+   },
+   "risvegli_per_origine": {
+    "task-notification": 1,
+    "hand-back subagente": 1
+   },
+   "turni_piu_cari": [
+    {
+     "costo_usd": 1.39,
+     "origine": "task-notification",
+     "cosa": "Turno senza esito: lancia 1 qa in background, risponde solo che il ricollaudo R04 non è finito e aspetta il giudizio (10 chiamate, 4,8M token riletti)"
+    },
+    {
+     "costo_usd": 1.37,
+     "origine": "hand-back subagente",
+     "cosa": "Riceve il referto del qa su R04 e chiude il collaudo: R04-011 regge, 017/018/025 parziali, rischio doppio pagamento su 025"
+    }
+   ]
+  },
+  {
+   "nome": "K03",
+   "cost_usd": 41.2,
+   "cache_read_milioni": 91.91,
+   "cache_write_milioni": 2.24,
+   "output_mila": 517.1,
+   "contesto_max_mila": 479.9,
+   "chiamate_api": 16,
+   "subagenti": 7,
+   "tipi_subagenti": {
+    "qa": 7
+   },
+   "risvegli_per_origine": {
+    "task-notification": 1,
+    "hand-back subagente": 2
+   },
+   "turni_piu_cari": [
+    {
+     "costo_usd": 1.86,
+     "origine": "hand-back subagente",
+     "cosa": "Ricollaudo R10-019 (non regge) e R10-020 (regge); 7 chiamate, 145k token scritti in cache"
+    },
+    {
+     "costo_usd": 0.88,
+     "origine": "hand-back subagente",
+     "cosa": "Ricollaudo R12-004 e R12-001 (parziali: FOR UPDATE provato solo con una regex)"
+    },
+    {
+     "costo_usd": 0,
+     "origine": "task-notification",
+     "cosa": "Evento di riepilogo senza turni (num_turns 0): porta solo i totali cumulati (38,5 $ a quel punto)"
+    }
+   ]
+  },
+  {
+   "nome": "K04",
+   "cost_usd": 35.53,
+   "cache_read_milioni": 81.55,
+   "cache_write_milioni": 2,
+   "output_mila": 403,
+   "contesto_max_mila": 436.4,
+   "chiamate_api": 15,
+   "subagenti": 3,
+   "tipi_subagenti": {
+    "qa": 3
+   },
+   "risvegli_per_origine": {
+    "hand-back subagente": 2
+   },
+   "turni_piu_cari": [
+    {
+     "costo_usd": 2.87,
+     "origine": "hand-back subagente",
+     "cosa": "Turno senza esito: riceve il referto parziale di R11, scrive solo 'manca un giudizio' (5 chiamate, 7,5M token riletti, 39,9k token in uscita di cui 19k di ragionamento)"
+    },
+    {
+     "costo_usd": 1.42,
+     "origine": "hand-back subagente",
+     "cosa": "Riceve il referto qa su R11-001/004/017/023 (bonifici pagati due volte in una corsa) e chiude il collaudo di R03 e R11"
+    }
+   ]
+  },
+  {
+   "nome": "C01",
+   "cost_usd": 15.45,
+   "cache_read_milioni": 35.1,
+   "cache_write_milioni": 1.19,
+   "output_mila": 156.2,
+   "contesto_max_mila": 244.3,
+   "chiamate_api": 11,
+   "subagenti": 11,
+   "tipi_subagenti": {
+    "accessibility": 1,
+    "backend-dev": 1,
+    "data-engineer": 1,
+    "devops-sre": 1,
+    "frontend-dev": 1,
+    "marketplace-payments": 1,
+    "platform-infra": 1,
+    "qa": 1,
+    "security": 1,
+    "tech": 1,
+    "ux-designer": 1
+   },
+   "risvegli_per_origine": {
+    "task-notification": 1,
+    "hand-back subagente": 1
+   },
+   "turni_piu_cari": [
+    {
+     "costo_usd": 1.52,
+     "origine": "task-notification",
+     "cosa": "Turno senza esito: 'aspetto l'ultimo revisore, poi scrivo il referto' (3 chiamate, 5,2M token riletti)"
+    },
+    {
+     "costo_usd": 0.87,
+     "origine": "hand-back subagente",
+     "cosa": "Riceve il referto di backend-dev (2 difetti gravi, 1 minore) e scrive controlli/C01.json: 14 voci rosse, 16 difetti nuovi"
+    }
+   ]
+  },
+  {
+   "nome": "REGIA (session_015BmpnXsL6Y7tP3BhawauHw, Opus 5.5, effort xhigh, finestra 1M)",
+   "cost_usd": 58.37,
+   "output_mila": 300.6,
+   "cache_read_milioni": 218.1,
+   "cache_write_milioni": 1.16,
+   "chiamate_api": 388,
+   "contesto_max_mila": 775,
+   "risultati": 49,
+   "risvegli_per_origine": {
+    "task-notification": 44,
+    "human": 2,
+    "ripresa dopo permesso rimasto senza risposta (interrupted_turn, nessuna origine)": 1,
+    "subagent-handback (collaudatore general-purpose)": 2
+   },
+   "subagenti": 2,
+   "tipi_subagenti": {
+    "general-purpose": 2
+   },
+   "turni_piu_cari": [
+    {
+     "costo_usd": 4.9,
+     "cosa": "20:07, ripresa dopo la conferma sulla migrazione 361 lasciata senza risposta. 35 chiamate, 19,4M di cache letta, contesto 775 mila. Applica 11 migrazioni su 14, chiude la falla IBAN, scrive il rapporto con le 30 domande.",
+     "origine": "ripresa dopo permesso orfano"
+    },
+    {
+     "costo_usd": 4.87,
+     "cosa": "18:16, unione dei rami dell'onda 1 (11 rami, 8 voci tolte). 38 chiamate, 21,3M di cache letta, contesto circa 590 mila. 30 minuti di strumenti (verifica completa del sito, 195 migrazioni di prova).",
+     "origine": "task-notification"
+    },
+    {
+     "costo_usd": 3.84,
+     "cosa": "21:05, turno umano: salva e invia le due regole, lancia il collaudatore. 36 chiamate, 8,9M di cache letta (contesto sceso a circa 250 mila dopo l'autocompattazione delle 20:09).",
+     "origine": "human"
+    },
+    {
+     "costo_usd": 3.1,
+     "cosa": "19:03, turno umano: apre la PR 288 del sito e risponde su R05. 20 chiamate, 13,1M di cache letta a 640-665 mila di contesto.",
+     "origine": "human"
+    }
+   ]
+  }
+ ],
+ "sprechi": [
+  {
+   "tipo": "contesto-gonfio",
+   "dove": "R01-R04, R06 (tutte e cinque le sessioni di lavoro)",
+   "evidenza": "Contesto finale 441k / 491k / 738k / 569k / 546k token su finestra da 1M (autocompact a 784k). Ogni chiamata rilegge il contesto intero: R03 giro K04 = 32 chiamate x ~694k = 22,2M di cache letta e 5,35 $ per 4 voci; R04 giro finale 58 chiamate a ~567k. Cache letta totale del gruppo 604M di token, dominante nel costo (la tariffa non è nei dati: stima 60-75% dei 184,6 $).",
+   "costo_stimato_usd": 45,
+   "rimedio": "Dopo la prima consegna e prima dei giri di correzione, compattare o ripartire con un riassunto (referto + diff), tenendo il contesto sotto ~250-300k. I giri K sono interventi mirati su 3-6 voci e non servono la storia dell'intero lavoro. Soglia di autocompact più bassa (es. 300k) invece di 784k.",
+   "tocca_un_controllo": false
+  },
+  {
+   "tipo": "risvegli-corti-ripetuti",
+   "dove": "R01 (3 risvegli consecutivi), R06 (4,03 poi 1,25), R04 (0,61)",
+   "evidenza": "R01: tre messaggi della regista in fila costano 0,80 + 0,92 + 0,91 = 2,63 $, ciascuno 8-9 chiamate e 3-4M di cache letta per rileggere ~420k di contesto e rispondere in poche righe (strade A/B/C poi scelta B, poi sistemare). R06: il turno da 4,03 $ finisce con 'aspetto il revisore', quindi serve un secondo risveglio da 1,25 $ per la consegna. R04: risveglio da 0,61 $ solo per correggere un valore del referto.",
+   "costo_stimato_usd": 4,
+   "rimedio": "La regista dà una decisione unica e completa per giro (regole di guardia-ramo e prove esistenti dichiarate in anticipo) invece di A/B/C e conferme successive; i riparatori non terminano il turno per aspettare un subagente ma aspettano nello stesso turno o consegnano tutto insieme. Eseguire il validatore dello schema del referto prima di dichiarare finito.",
+   "tocca_un_controllo": false
+  },
+  {
+   "tipo": "permessi-bloccati-e-riesecuzioni",
+   "dove": "R03, R04 (valida-referto e prova-rimessa negati); R04 risveglio extra",
+   "evidenza": "permission_denials in R03 e R04: 'riparazione-sessioni.mjs valida-referto' negato; R03 dichiara che anche prova-rimessa.mjs è bloccato e la prova rimessa è fatta a mano su ogni voce. In R04 la regista ha trovato dopo il ramo due rossi (tipo di prova 'leggera' non ammesso; prova esistente modificata), costando un risveglio da 0,61 $ e un passaggio della regista. R01 ha anche dichiarato 'npm run verify rifatto prima di questi commit, non dopo'.",
+   "costo_stimato_usd": 3,
+   "rimedio": "Dare in anticipo il permesso a quei due script (o farli girare dalla regista una sola volta con output compatto) e mettere il validatore dello schema nel gancio di consegna del riparatore. La prova rimessa a mano su 25 voci è lavoro rifatto che lo script farebbe in secondi.",
+   "tocca_un_controllo": false
+  },
+  {
+   "tipo": "subagenti-generici-pesanti",
+   "dove": "R01, R02, R03, R04 (6 ciascuno), R06 (5): 29 general-purpose",
+   "evidenza": "Tutti general-purpose in background, nessun tipo qa o tech come vuole la casa. I turni di hand-back sono i più cari: R02 11,47 $ (42 chiamate, 119k output), R03 8,21 $ (37), R04 7,31 $ (58), R01 2,98 $ (22), R06 4,03 $ (19). Il costo dei subagenti stessi non compare nel costo della sessione: non misurato qui. Il QA di R02 ha anche controllato tre voci gravi insieme contro la regola 'una per volta', segnalato dal riparatore.",
+   "costo_stimato_usd": 15,
+   "rimedio": "Usare il tipo qa con istruzioni a una voce grave per volta e lettura mirata; riassumere il rapporto del QA in poche righe (elenco difetti + file:riga) invece di rapporti da 5-6 mila caratteri riletti a ogni chiamata successiva. Evitare che ogni QA ricostruisca da zero Postgres e le 179 migrazioni (vedi voce successiva).",
+   "tocca_un_controllo": false
+  },
+  {
+   "tipo": "lavoro-rifatto",
+   "dove": "QA di R01, R02, R06 e riparatori (Postgres locale e 179 migrazioni ricostruiti più volte); npm run verify da ~8.950 test a ogni giro",
+   "evidenza": "R01 QA: 'full rebuild ... applicate 179, fallite 0' su cluster usa e getta; R02 e R06 avviano un Postgres locale per le prove SQL; R03 ha 25 voci e 32 chiamate di giro K con verify completo. Tempo di strumenti per giro correttivo: R01 324 s, R03 434 s, R04 401 s, R06 339 s (tool wall); verify completo ripetuto a ogni giro, 1216-1224 file di prova.",
+   "costo_stimato_usd": 3,
+   "rimedio": "Un Postgres condiviso già pronto per ambiente (o snapshot) e verify mirato ai file toccati nei giri K, con il verify completo una sola volta alla chiusura finale. Non toglie controlli se il pieno resta all'ultimo passo.",
+   "tocca_un_controllo": true
+  },
+  {
+   "tipo": "sessione-bloccata-senza-esito",
+   "dove": "R05",
+   "evidenza": "3 risvegli, 11 chiamate, 0,81 $, zero voci riparate: ha rifiutato di clonare ad-mycity (fuori dal repo permesso, richiesta arrivata da avvisi automatici) e ha scritto solo un piano locale mai inviato (resta in need_input con due domande a Nicola). Le 25 voci di R05 non sono state riparate.",
+   "costo_stimato_usd": 0.81,
+   "rimedio": "Nel seed della sessione includere ad-mycity in sola lettura o incollare scheda e regole nel prompt (la regista lo ha fatto solo al secondo sollecito); verificare che il riparatore sia partito prima di sprecare risvegli. Il costo in dollari è piccolo ma ritarda e lascia 25 voci scoperte.",
+   "tocca_un_controllo": false
+  },
+  {
+   "tipo": "ping-pong-di-decisione",
+   "dove": "R01 (R01-007, guardia-ramo)",
+   "evidenza": "R01 corregge il testo SOS e la prova esistente, poi la regista chiede di rimetterli alla base, poi sceglie B: due commit e tre risvegli (0,92 + 0,91 + 1,50 $) per arrivare a R01-007 'serve file altrui' e guardia-ramo ancora rossa; il difetto grave resta aperto.",
+   "costo_stimato_usd": 2.7,
+   "rimedio": "Dichiarare prima del lavoro la regola sulle prove esistenti (si modificano solo se importano file propri, con motivo nel referto) e decidere con Nicola in anticipo il caso storia-del-ramo/push forzato, invece di scoprirlo dopo i commit.",
+   "tocca_un_controllo": false
+  },
+  {
+   "tipo": "contesto enorme riletto a ogni chiamata",
+   "dove": "tutte e 6 le sessioni, in particolare R11 e R12 (turni a 26-43 chiamate)",
+   "evidenza": "Contesto per chiamata 433-449k (R07), 463-541k (R08-R10), 570-627k (R11-R12) su una finestra da 1M con autocompact a 784k. Cache read totale 696M token su 6 sessioni; a circa 0,20 $/M (tariffa ricavata dai turni piccoli, non da un listino) fa circa 139 $, cioe circa 65% dei 214,5 $. Output 1,84M token circa 46 $ (21%), cache write 5,9M circa 29 $ (14%). Esempio: R12 giro K03 43 chiamate x 620k = 25,5M letti = 5,1 $ su 6,45 $ del turno. Una chiamata a vuoto costa gia 0,09-0,13 $.",
+   "costo_stimato_usd": 60,
+   "rimedio": "Soglia di compattazione molto piu bassa (circa 250k) o riavvio con riepilogo tra una fase e l'altra. Far leggere file e uscite grandi a un subagente che torna con 10 righe. Fare i giri di correzione in un fork o in una sessione nuova col solo referto. Ipotesi: dimezzare il contesto medio dimezza la voce cache read, circa 60-70 $ su questo gruppo.",
+   "tocca_un_controllo": false
+  },
+  {
+   "tipo": "turni chiusi senza esito in attesa del verify",
+   "dove": "R07 (2 turni), R08 (1), R11 (2), R12 (1) tra quelli visibili",
+   "evidenza": "Risultati che finiscono con 'npm run verify sta girando, quando finisce chiudo il referto'. Poi un nuovo risveglio per notifica che rilegge tutto il contesto. Costi visibili: 1,65 $ (R07), 1,26 $ (R08), 3,77 $ e 5,23 $ (R11, due turni lunghi che chiudono senza esito), 0,58 $ e 0,63 $ per i soli risvegli di chiusura (3-5 chiamate a 450-630k).",
+   "costo_stimato_usd": 4,
+   "rimedio": "Lanciare verify in primo piano con timeout fino a 600 secondi, oppure in background con attesa sul comando di fine lavoro, e chiudere il turno solo con l'esito. Si evita un risveglio da circa 0,5-0,6 $ per volta (il risveglio solo-notifica costa circa 0,5 $, non 1 $).",
+   "tocca_un_controllo": false
+  },
+  {
+   "tipo": "giri di correzione evitabili (prova debole o prova rossa lasciata nel commit)",
+   "dove": "R08-008, R09-001, R10-014/017/019/020, R11-004/015/016, R12-004 e 5 prove con meno asserzioni",
+   "evidenza": "Giri K visibili: R08 1,74 $, R09 1,74 $, R10 2,37 $, R11 5,23 $, R12 6,45 $, piu R12 1,44 $ per le 5 prove indebolite: circa 19 $. Cause scritte nei rapporti: commit R08-008 che lasciava rossa una prova perche la suite intera non era stata lanciata (rapporto del QA); prova di R09-001 che controllava la sola funzione della frase; prova di R08-002 che non mordeva; R12 con meno asserzioni della base.",
+   "costo_stimato_usd": 5,
+   "rimedio": "Prima del commit lanciare i soli file di prova toccati piu quelli che importano i file cambiati, e la prova rimessa (togli la correzione, deve diventare rossa) sul giro vero. Il collaudo esterno resta com'e: sposta solo prima la scoperta.",
+   "tocca_un_controllo": false
+  },
+  {
+   "tipo": "lavoro rifatto dai controllori",
+   "dove": "R08 (QA migrazioni), R07 (QA R07-004), R10 e R11 (QA)",
+   "evidenza": "Il QA di R08 ha ricostruito un database da zero con 182 migrazioni, lanciato 49 file SQL, 41 file di prova (418 prove) e poi l'intera suite 1208 file / 8941 prove; poco dopo la sessione R08 ha ricostruito il database da zero e rifatto verify completo (8942 prove). Il QA di R07 ha ricompilato Tailwind e reso markup per la sola ProductCard, mentre la sessione aveva gia verify. Costo dei subagenti non isolato nei dati: non trovato.",
+   "costo_stimato_usd": 0,
+   "rimedio": "Dire al QA di lanciare solo i file di prova e SQL delle voci toccate; verify completo una volta sola, a cura di chi consegna. Il QA mantiene il mandato di distruggere ogni riparazione.",
+   "tocca_un_controllo": false
+  },
+  {
+   "tipo": "subagenti general-purpose al posto di qa/tech",
+   "dove": "R07 (7 general-purpose + 3 fork), R08 5, R09 5, R10 5, R11 8, R12 5",
+   "evidenza": "38 subagenti in tutto, 35 general-purpose e 3 fork, nessuno del tipo qa o tech. R09 li ha lanciati con background non impostato (5 unset, 0 background), cioe in primo piano e bloccanti. Valore reale: hanno trovato difetti in 9 voci (R07), 5 problemi (R08), 8 voci (R09), 5 voci (R10), 8 voci (R11).",
+   "costo_stimato_usd": 0,
+   "rimedio": "Usare il tipo qa con mandato e uscita brevi (verdetto + difetti in elenco, max 40 righe). Il rapporto che rientra nel contesto principale pesa meno ed e letto a ogni chiamata successiva. Costo del cambio non stimabile con questi dati.",
+   "tocca_un_controllo": false
+  },
+  {
+   "tipo": "rapporti dei subagenti molto lunghi riletti dal contesto principale",
+   "dove": "R07, R08, R09, R10 (hand-back da 1,5 a 3 mila parole)",
+   "evidenza": "Gli hand-back arrivano come messaggio nel contesto e restano per tutte le chiamate seguenti. Esempio: il rapporto QA R10 con 6 voci e percorsi di screenshot, il rapporto R08 con tre tabelle. Turni successivi: 9,71 $ (R07, 37 chiamate), 4,84 $ (R09, 31 chiamate), 3,04 $ (R10, 22 chiamate). Sono giri utili (correggono difetti veri), ma ognuno viaggia a 450-540k di contesto.",
+   "costo_stimato_usd": 3,
+   "rimedio": "Chiedere rapporti sotto le 40 righe, con i dettagli scritti nel referto su file (letto solo se serve). Piu gli hand-back sono corti, meno contesto si trascina.",
+   "tocca_un_controllo": false
+  },
+  {
+   "tipo": "messaggi alla regista con dati sbagliati e secondo messaggio di correzione",
+   "dove": "R08 (testa del ramo sbagliata), R09 (SHA dell'ultimo commit sbagliato)",
+   "evidenza": "R08: 'le avevo scritto una testa sbagliata e l'ho corretta con un secondo messaggio'. R09: 'ho sbagliato lo SHA e ho mandato subito la correzione (83471f69)'. Ogni messaggio in piu fa risvegliare la regista, che ha contesto grande. Costo preciso non trovato.",
+   "costo_stimato_usd": 1,
+   "rimedio": "Prendere SHA e testa del ramo con git rev-parse HEAD nello stesso comando che spedisce il messaggio, mai a mano.",
+   "tocca_un_controllo": false
+  },
+  {
+   "tipo": "subagente fuori mandato su produzione (rischio, non costo)",
+   "dove": "R07, uno dei 7 controllori",
+   "evidenza": "Dal riepilogo finale di R07: un agente di sua iniziativa ha letto dal database Supabase di produzione (permessi di una funzione, esistenza di una colonna), senza scrivere. Non era nel compito.",
+   "costo_stimato_usd": 0,
+   "rimedio": "Nel prompt dei QA scrivere che il database di produzione non si interroga; prove su Postgres locale come gia fanno R08, R11 e R12.",
+   "tocca_un_controllo": false
+  },
+  {
+   "tipo": "contesto che cresce e viene riletto",
+   "dove": "K01, K02, K03, K04 (C01 meno)",
+   "evidenza": "Contesto a fine lavoro 442k, 439k, 480k, 436k token (C01 244k), con il tetto di compattazione automatica a 784k. Ogni chiamata API rilegge tutto: cache letta 70,3M, 69,2M, 91,9M, 81,5M, 35,1M token = 348M in totale. Nei turni visibili ogni chiamata rilegge 420-480k token (campo usage.iterations). Le chiamate sono poche (11-21 per i turni visibili) ma quasi tutte con contesto pieno.",
+   "costo_stimato_usd": 90,
+   "rimedio": "Stima mia: la lettura della cache è circa il 55-65% dei 152 $ totali (non conosco il prezzo esatto per token). Abbassare la soglia di compattazione a ~200k per i collaudatori, oppure far partire una sessione nuova per ogni giro di ricollaudo con solo il referto del riparatore e la voce da provare, invece di trascinare 440k di storia dell'onda 1.",
+   "tocca_un_controllo": false
+  },
+  {
+   "tipo": "turni senza esito (risvegli per attendere)",
+   "dove": "K02 turno 'ricollaudo R04 non è finito', K04 turno 'manca un giudizio', C01 turno 'aspetto l'ultimo revisore'",
+   "evidenza": "Tre risvegli la cui risposta è una riga che dice 'aspetto': 1,39 $ (10 chiamate), 2,87 $ (5 chiamate, 39,9k token in uscita) e 1,52 $ (3 chiamate). Totale visibile 5,78 $ senza alcun risultato. Nei tre casi i subagenti qa/revisori erano lanciati in background (K02 requested.background=1, K03 7), quindi ogni hand-back riapre la sessione.",
+   "costo_stimato_usd": 5.8,
+   "rimedio": "Lanciare i revisori in primo piano nello stesso turno, oppure non rispondere alle consegne parziali: aspettare l'ultima e fare un solo turno di sintesi. Almeno ridurre la riflessione sul turno 'aspetto' (K04: 19k token di ragionamento per scrivere una riga).",
+   "tocca_un_controllo": false
+  },
+  {
+   "tipo": "cache scaduta e riscritta dopo l'attesa",
+   "dove": "K01 turno ricollaudo R01/R09; K03 turno R10 dopo 18 minuti di attesa",
+   "evidenza": "K01: un solo risveglio da 4,40 $ con 381k token riscritti in cache (1h) più 5,69M letti. K03 turno R10: 1.088.067 ms fra i turni (circa 18 min) e 145k token scritti in cache. Un risveglio dopo un'attesa lunga paga la riscrittura del contesto intero.",
+   "costo_stimato_usd": 3,
+   "rimedio": "Stima mia (prezzo di scrittura non verificato). Raggruppare i risvegli in finestre ravvicinate, oppure compattare prima di mettersi in attesa così la riscrittura costa 100k invece di 400k.",
+   "tocca_un_controllo": false
+  },
+  {
+   "tipo": "ragionamento e uscita elevati nei collaudatori",
+   "dove": "K03 (517k token di output, 173k di ragionamento), K04 (403k, 189k), K01 (306k, 111k)",
+   "evidenza": "Output totale 1,67M token sui 5 gruppi, di cui ragionamento 0,66M (K01 110,8k, K02 81,6k, K03 173k, K04 188,7k, C01 66,3k). I turni visibili di K04 e K03 scrivono pochissimo testo ma spendono migliaia di token di ragionamento.",
+   "costo_stimato_usd": 15,
+   "rimedio": "Stima mia, assumendo circa 25 $ per milione di token in uscita. Abbassare il livello di ragionamento per i collaudatori nei turni di semplice attesa o di sola trasmissione del referto, tenerlo alto solo dove si decide il verdetto.",
+   "tocca_un_controllo": false
+  },
+  {
+   "tipo": "subagenti di tipo non previsto dalla casa",
+   "dove": "C01 (controllore)",
+   "evidenza": "11 subagenti lanciati tutti insieme, uno per tipo: accessibility, backend-dev, data-engineer, devops-sre, frontend-dev, marketplace-payments, platform-infra, qa, security, tech, ux-designer. Il compito diceva che la casa vuole tech/qa. Il costo di ciascuno non è separabile dai dati letti; il costo Sonnet visibile è solo 0,91 $ e gran parte del lavoro dei revisori non è nel conto della sessione.",
+   "costo_stimato_usd": 0,
+   "rimedio": "Per un controllo di una diga di 20 file, 2-4 revisori per area (tech, qa, security e uno per i pagamenti) coprono lo stesso terreno. Tenere gli altri solo quando il diff tocca interfaccia o infrastruttura. Il costo reale va guardato nelle sessioni dei subagenti, non qui.",
+   "tocca_un_controllo": true
+  },
+  {
+   "tipo": "lavoro rifatto: decisione ripetuta sul file del sorvegliante",
+   "dove": "K01, K04, C01",
+   "evidenza": "Tutti e tre i collaudatori/controllori dedicano righe e un ricontrollo dello stato a spiegare perché sorvegliante-storico.json, riscritto dai controlli automatici, resta fuori dal commit. K01 lo lascia anche come domanda a Nicola ('chi salva quel file').",
+   "costo_stimato_usd": 1,
+   "rimedio": "Stima del costo bassa. Mettere il file fra le eccezioni del cancello (o in .gitignore) e scrivere la regola una volta nel mansionario, così nessuno ricontrolla e nessuno chiede.",
+   "tocca_un_controllo": false
+  },
+  {
+   "tipo": "attesa/collisione sull'ambiente di lavoro",
+   "dove": "K02, subagente qa su R04",
+   "evidenza": "La cartella di lavoro /home/user/wt-r04b2 non era più a 6ffafba7: HEAD spostato da altri a 1c471906. Il qa ha dovuto estrarre l'albero con git archive in una cartella temporanea e riadattare le prove (fame2.test.ts, stale.test.ts).",
+   "costo_stimato_usd": 0.5,
+   "rimedio": "Stima mia. Dare a ogni qa una copia in sola lettura già estratta al commit da provare (git archive) invece di una cartella condivisa che altri possono muovere.",
+   "tocca_un_controllo": false
+  },
+  {
+   "tipo": "verifiche ridondanti (non tagliabili)",
+   "dove": "K03, subagente qa su R10-020",
+   "evidenza": "Per un mutante sul banner è stata rilanciata tutta la suite (1216 file) più mutanti ripetuti; è lavoro lungo ma ha trovato 3 mutanti sopravvissuti e un difetto non dichiarato su R10-019.",
+   "costo_stimato_usd": 0,
+   "rimedio": "Non è uno spreco da togliere: ha prodotto risultati. Si può solo restringere la suite ai file toccati per i mutanti già noti e lanciarla intera una volta alla fine.",
+   "tocca_un_controllo": true
+  },
+  {
+   "tipo": "contesto che cresce oltre 300 mila token e viene riletto a ogni passo",
+   "dove": "REGIA, tutta la giornata. Contesto: 360 mila (15:43), 440 mila (16:07), 500 mila (16:49), 540 mila (17:24), 590 mila (18:16), 640 mila (19:03), 775 mila (20:07). Poi autocompattazione (60 secondi di attesa alle 20:09) e 171-300 mila.",
+   "evidenza": "La cache letta vale 218M di token su 58,37 $, circa il 75% del costo (dai conti dei turni la lettura costa circa 0,20 $ per milione). Ogni chiamata a 500 mila di contesto costa circa 0,10 $ solo per rileggere. 388 chiamate viste, quasi tutte sopra 360 mila. Costo medio visto: 0,11 $ a chiamata.",
+   "costo_stimato_usd": 14,
+   "rimedio": "Far compattare la regia a circa 250-300 mila invece che alla soglia di 784 mila, oppure far partire la regia con un riepilogo di stato scritto su file dopo la fermata 1 e ripartire da lì. Stima: tenere il contesto intorno a 250 mila taglia circa il 55% della cache letta (circa 19 $), meno circa 5 $ per le ricompattazioni (ogni riscrittura della cache costa circa 1,5 $).",
+   "tocca_un_controllo": false
+  },
+  {
+   "tipo": "risvegli per notifiche che costano circa 0,4-0,5 $ l'uno solo per rileggere il contesto",
+   "dove": "REGIA, 44 risvegli task-notification su 49 turni. Una trentina sono relè brevi (2-5 chiamate, un messaggio per riparatore o collaudatore): 15:54, 15:56, 15:59, 16:00, 16:02, 16:03, 16:07, 16:11, 16:12 (due), 16:14, 16:20, 16:21, 16:22, 16:24 (due), 16:25 (due), 16:30, 16:31, 16:49, 16:52, 17:00, 17:11, 17:20, 17:24, 17:26, 20:12, 21:21.",
+   "evidenza": "Ognuno legge 1,3-2,7M di cache a 410-640 mila di contesto e costa 0,24-0,63 $. Somma stimata di circa 33 risvegli sotto 0,70 $: circa 14-15 $. Esempio: 4 risvegli in 4 minuti (16:21-16:25) per R08, R06, R10, R04, circa 2,3 $ in tutto.",
+   "costo_stimato_usd": 6,
+   "rimedio": "Far scrivere alla regia solo a fine batch: i riparatori passano il lavoro al collaudatore direttamente, e i collaudatori mandano un solo messaggio per tutti i loro riparatori (la regia l'ha già chiesto a K01 e K03 dalle 16:24, ma non a tutti dal primo prompt: renderlo regola fissa). Un solo script ricontrolla i rami di tutti in un colpo a ogni giro di sorveglianza. Risparmio atteso circa 40% di quei risvegli.",
+   "tocca_un_controllo": false
+  },
+  {
+   "tipo": "risvegli programmati che arrivano quando non servono più",
+   "dove": "18:17 (controllo dei rami programmato prima dell'unione, arrivato dopo); 19:03-19:04 e 21:23 (controllo di sicurezza a 50 minuti oltre all'iscrizione agli eventi della PR 944 e 288, che avvisano da soli).",
+   "evidenza": "Il turno delle 18:17 costa 0,26 $ e dice di non servire più. Il 21:21 la regia si iscrive agli eventi di PR 944 e 288 e il 21:23 programma comunque un ricontrollo fra 50 minuti. Due meccanismi per la stessa cosa. Le PR con CI sono state riguardate anche a 20:09-20:12 (0,24 + 0,24 $) per un errore esterno di caricamento dei caratteri Google.",
+   "costo_stimato_usd": 1.5,
+   "rimedio": "Un solo meccanismo per la sorveglianza della PR: gli eventi di GitHub, senza timer in più. Cancellare i timer residui quando si chiude la fase (delete_trigger). Per i rossi esterni (caratteri Google) rilanciare con un comando senza passare dal modello.",
+   "tocca_un_controllo": false
+  },
+  {
+   "tipo": "subagenti general-purpose invece di tech/qa",
+   "dove": "REGIA, collaudo indipendente delle due regole del programma (21:05-21:16): 2 subagenti general-purpose (stesso id ae5fe9309a8d41bf3 nei due hand-back).",
+   "evidenza": "subagent_stats by_type general-purpose: 1 nei turni 21:05, 21:11, 21:16. Hand-back con 5 buchi nel primo giro e 3 nel secondo. Il costo del collaudatore non è nei dati della regia (non l'ho trovato).",
+   "costo_stimato_usd": 0,
+   "rimedio": "Usare il tipo qa (o il senior collaudatore previsto dalla casa) con il mandato di distruggere, così il prompt, i permessi e il modello sono già giusti. Il collaudo resta: due giri su una modifica alla macchina sono proprio quello che la casa vuole.",
+   "tocca_un_controllo": false
+  },
+  {
+   "tipo": "attese su permessi e sessioni bloccate",
+   "dove": "R05 fermo circa 70 minuti (leggeva il deposito e aspettava un clic nella sua finestra), K01 fermo oltre 1 ora (comando di aggiornamento resoconto), conferma sulla migrazione 361 senza risposta (Supabase apply_migration, ancora in attesa: la sessione è in REQUIRES_ACTION adesso).",
+   "evidenza": "Il turno di ripresa delle 20:07 costa 4,90 $ con 35 chiamate e 1.157 secondi di strumenti. R05 non è mai partito: le sue 25 voci sono rimaste aperte e passano all'onda 2, cioè lavoro ripianificato. Il controllo dopo 35 minuti e l'aiuto dopo 70 sono noti alla regia stessa (turno delle 19:03). Costo in token di quanto ha fatto R05 non trovato.",
+   "costo_stimato_usd": 3,
+   "rimedio": "Regole già aggiunte alle 19:03 (regole e scheda nel primo messaggio, controllo dopo 10 minuti). Aggiungere: applicare le migrazioni in un solo passo con approvazione anticipata della conferma, oppure chiedere a Nicola l'ok prima di lanciare il batch, e non lasciare un permesso aperto mentre la regia dorme. Un sensore che conti le sessioni in REQUIRES_ACTION a ogni sorveglianza (get_session già lo dice).",
+   "tocca_un_controllo": false
+  },
+  {
+   "tipo": "lavoro rifatto: giri di correzione evitabili da regole del programma troppo strette",
+   "dove": "Regole guardia-ramo e prova-rimessa: stesso caso noto (prova esistente che legge il file per nome, storia del ramo che resta rossa) comparso per R01, R07, R08, R04, R11, R12, poi due giri di collaudo sulla modifica con 5 e 3 buchi.",
+   "evidenza": "Almeno 8 turni della regia (16:11-17:20 e 21:05-21:16) spesi a spiegare o aggirare lo stesso falso rosso, circa 0,4-1,4 $ ciascuno. Inoltre il collaudatore della regola ha trovato due regressioni introdotte dalla prima versione (file estraneo che passava, file nuovo non collegato che passava).",
+   "costo_stimato_usd": 6,
+   "rimedio": "Prima della prossima onda: provare le regole sui rami già esistenti dell'onda 1 (non fatto: nella relazione delle 21:16 dice di non averle rilanciate sui rami veri) e fissare in anticipo il criterio di prova per file nuovi e migrazioni. Così i riparatori onesti non finiscono rossi e la regia non deve decidere caso per caso.",
+   "tocca_un_controllo": false
+  },
+  {
+   "tipo": "verifiche ripetute sullo stesso codice",
+   "dove": "Verifica completa del sito (9.642-9.647 prove) e prove sul database (195 migrazioni): 18:16 (unione), 19:03 (PR), 20:07 (dopo falla IBAN), 20:09-20:12 (CI rilanciata), 21:05 e 21:23 (dopo le regole).",
+   "evidenza": "I turni di unione e PR sono tra i più cari (4,87 $ con 30 minuti di strumenti, 3,10 $). Il costo in token della verifica è piccolo (uscita breve), pesa il tempo e la rilettura del contesto a ogni passo mentre aspetta. Non ho trovato l'ampiezza dell'uscita degli strumenti in questi dati.",
+   "costo_stimato_usd": 2,
+   "rimedio": "Lanciare la verifica in background con un solo comando che stampa solo l'esito e svegliare la regia a fine corsa, invece di tenerla in un ciclo di 30+ chiamate a 590 mila di contesto. Ricontrollare lo stesso codice più volte resta giusto quando il codice è cambiato.",
+   "tocca_un_controllo": false
+  },
+  {
+   "tipo": "turni umani lunghi con contesto pesante",
+   "dove": "20:07 (35 chiamate), 19:03 (20 chiamate), 21:05 (36 chiamate).",
+   "evidenza": "Insieme 11,84 $ cioè quasi il 20% del costo della regia in 3 turni. Il rapporto delle 20:07 contiene anche 30 domande pratiche per Nicola (parte dell'obbligo di consegna, ma scritte per esteso in un solo messaggio lungo).",
+   "costo_stimato_usd": 2,
+   "rimedio": "Compattare il contesto prima dei turni lunghi (non a 775 mila) e delegare a un subagente tech la parte meccanica (applicare migrazioni, generare tipi) con un riepilogo breve di ritorno.",
+   "tocca_un_controllo": false
+  }
+ ],
+ "vaglio": {
+  "verdetti": [
+   {
+    "tipo": "contesto-gonfio",
+    "dove": "R01-R04, R06",
+    "verdetto": "VERO",
+    "perche": "I conti tornano. Il gruppo ha letto 603 milioni di token dalla cache su 183,8 $. Alla tariffa ricavata dai totali (circa 0,20 $ per milione) la sola rilettura vale circa 121 $. Ripartire prima dei giri di correzione con referto e diff su file taglia il 40-45%: i 45 $ reggono (stima mia 50-55 $). Nessun controllo si perde, perché la memoria passa al referto e guardia-ramo, valida-referto e verify girano comunque sul ramo finale. Una correzione: niente autocompattazione cieca a 300 mila a metà di una voce, perché riassume male le regole. Le ripartenze vanno fatte a fine lotto e all'inizio di ogni giro di correzione."
+   },
+   {
+    "tipo": "risvegli-corti-ripetuti",
+    "dove": "R01, R06, R04",
+    "verdetto": "VERO",
+    "perche": "Si vedono 4,49 $, ma 0,92 $ e 0,91 $ di R01 sono contati anche nella voce del ping-pong: non vanno sommati due volte. Il turno di consegna di R06 (1,25 $) in parte serve comunque, quindi si risparmia solo la rilettura, circa 0,6 $. Il risparmio netto è circa 2,5 $. Non si toglie nessun controllo; il validatore del referto lanciato prima di dire «finito» anzi ne aggiunge uno."
+   },
+   {
+    "tipo": "permessi-bloccati-e-riesecuzioni",
+    "dove": "R03, R04",
+    "verdetto": "VERO",
+    "perche": "Qui non si spreca un controllo, è un controllo che manca: col permesso negato valida-referto non ha girato in R03 e in R04, e la prova rimessa è stata fatta a mano su 25 voci. Dando il permesso a questi due script, che verificano soltanto, il controllo gira davvero e sparisce il lavoro a mano. I circa 3 $ reggono. È un cambio di configurazione della macchina, quindi è giallo e serve la firma di Nicola."
+   },
+   {
+    "tipo": "subagenti-generici-pesanti",
+    "dove": "R01-R04, R06",
+    "verdetto": "FALSO",
+    "perche": "I 15 $ non reggono. I turni di rientro valgono 34 $ in tutto e sono quasi tutti correzioni vere dei difetti trovati dai QA (R02 ha corretto 9 voci). I rapporti lunghi pesano pochissimo: 6 rapporti da circa 2 mila token, riletti per circa 50 chiamate, fanno 0,6 milioni di token, cioè circa 0,12 $ a sessione. Il costo dei subagenti non compare nei dati. E «una voce grave per volta» è una regola di controllo: fa spendere di più, non di meno. Il tipo qa conviene per la qualità, non per risparmiare."
+   },
+   {
+    "tipo": "lavoro-rifatto (Postgres e verify completo a ogni giro)",
+    "dove": "QA di R01, R02, R06; giri di correzione di R01, R03, R04, R06",
+    "verdetto": "DA_RIFORMULARE",
+    "perche": "Il risparmio esiste ma è piccolo: circa 3 $, quasi tutto tempo di macchina e non token. Così com'è scritto, però, il rimedio tocca un controllo: un Postgres condiviso che altri modificano dà prove false (in K02 è successo con la cartella di lavoro). Versione corretta: ogni QA riceve un database copiato da un modello pulito, mai condiviso in scrittura. Nei passaggi intermedi bastano le prove mirate. Il verify completo resta a ogni consegna al collaudo e dopo l'unione, legato allo SHA del commit."
+   },
+   {
+    "tipo": "sessione-bloccata-senza-esito",
+    "dove": "R05",
+    "verdetto": "VERO",
+    "perche": "Sono stati buttati 0,81 $. Il danno vero però è un buco di copertura: 25 voci non riparate. Questo rimedio non fa risparmiare, perché riparare quelle voci nell'onda 2 costerà circa 30 $ come le altre. Serve a chiudere il buco: scheda e regole nel primo messaggio, e un controllo che la sessione sia davvero partita entro 10 minuti."
+   },
+   {
+    "tipo": "ping-pong-di-decisione",
+    "dove": "R01 (R01-007, guardia-ramo)",
+    "verdetto": "DA_RIFORMULARE",
+    "perche": "Il costo regge: si vedono 3,33 $, di cui circa 2,3 $ evitabili. Però in parte sono gli stessi soldi della voce dei risvegli corti. Il rimedio proposto («una prova esistente si modifica se importa file propri») allarga una regola di controllo. È proprio quella regola che ha fermato R12, che aveva consegnato 5 prove con meno asserzioni della base. Versione corretta: una prova esistente si tocca solo se il numero di asserzioni non scende, e lo misura il programma. Il caso della storia del ramo e del push forzato si decide con Nicola prima dell'onda."
+   },
+   {
+    "tipo": "contesto enorme riletto a ogni chiamata",
+    "dove": "R07-R12",
+    "verdetto": "VERO",
+    "perche": "Sono 696 milioni di token letti dalla cache, a circa 0,20 $ per milione: circa 139 $ su 214,5 $. «Dimezzare vale 60-70 $» è un po' ottimista. La base fissa (prompt e regole) non si comprime, e ogni ripartenza riscrive in cache 60-100 mila token. Stima mia: 50-60 $. Fare il giro di correzione in una sessione nuova col solo referto non toglie il collaudo esterno."
+   },
+   {
+    "tipo": "turni chiusi senza esito in attesa del verify",
+    "dove": "R07, R08, R11, R12",
+    "verdetto": "VERO",
+    "perche": "I turni di R11 da 3,77 $ e 5,23 $ sono lavoro vero (22 commit), non spreco. Lo spreco è solo il risveglio di chiusura: circa 0,55 $ per 6 volte, circa 3,3 $. Il rimedio chiude anche un buco di controllo: R07 ha spinto 8 commit col verify avviato e mai atteso. Aspettare l'esito nello stesso turno rende il controllo più forte."
+   },
+   {
+    "tipo": "giri di correzione evitabili",
+    "dove": "R08-008, R09-001, R10, R11, R12",
+    "verdetto": "VERO",
+    "perche": "Questi giri si vedono per circa 19 $, quindi 5 $ evitabili è una stima prudente. Prima del commit il riparatore lancia le prove toccate e quelle che importano i file cambiati, più la prova rimessa sul giro vero. È un controllo in più, e il collaudo esterno resta com'è: cambia solo il momento in cui il difetto si scopre, che arriva prima."
+   },
+   {
+    "tipo": "lavoro rifatto dai controllori",
+    "dove": "QA di R07, R08, R10, R11",
+    "verdetto": "DA_RIFORMULARE",
+    "perche": "Nessun risparmio misurato (0 $). Oggi il verify completo del QA è l'unica controprova indipendente: R01 ha fatto il verify «prima di questi commit, non dopo», R07 non l'ha aspettato. Al QA si può togliere la suite intera solo a due condizioni: il verify di chi consegna è legato allo SHA del commit e controllato dal programma, e la regia rifà il verify completo dopo l'unione."
+   },
+   {
+    "tipo": "subagenti general-purpose al posto di qa/tech",
+    "dove": "R07-R12",
+    "verdetto": "DA_RIFORMULARE",
+    "perche": "Nessun risparmio dimostrato: il tipo qa serve per il mandato di distruggere, non per i soldi. Due correzioni. R09, che ha lanciato i subagenti in primo piano, non ha un difetto: è il modello da seguire (solo 2 risvegli). Il tetto di 40 righe va bene solo se l'elenco dei difetti con file e riga resta completo e le prove stanno nel file del referto."
+   },
+   {
+    "tipo": "rapporti dei subagenti molto lunghi",
+    "dove": "R07, R08, R09, R10",
+    "verdetto": "VERO",
+    "perche": "L'effetto c'è ma è piccolo: 2-4 mila token per rapporto contro 450-540 mila di contesto. Sull'onda vale 1-2 $, non 3. Rapporto corto più dettagli su file non toglie nulla, purché ogni difetto resti elencato."
+   },
+   {
+    "tipo": "messaggi alla regista con dati sbagliati",
+    "dove": "R08, R09",
+    "verdetto": "VERO",
+    "perche": "Sono due risvegli in più della regia, da circa 0,4 $ l'uno: circa 1 $ regge. Prendere SHA e testa del ramo con git rev-parse dentro lo stesso comando rende il controllo più forte, perché la regia confronta lo SHA giusto."
+   },
+   {
+    "tipo": "subagente fuori mandato su produzione",
+    "dove": "R07",
+    "verdetto": "VERO",
+    "perche": "Non costa nulla, ma è un rischio di sicurezza. La regola «i QA non interrogano il database di produzione» va scritta nel loro prompt: aggiunge un vincolo e non toglie controlli."
+   },
+   {
+    "tipo": "contesto che cresce e viene riletto",
+    "dove": "K01-K04, C01",
+    "verdetto": "FALSO",
+    "perche": "Il numero non regge. Il gruppo ha letto 348 milioni di token dalla cache, a circa 0,20 $ per milione: circa 70 $. Un risparmio di 90 $ supera il costo di tutta la lettura della cache del gruppo, ed è il 59% dei 152 $. Il rimedio invece è giusto: una sessione nuova per ogni giro di ricollaudo, col solo referto e il verdetto precedente. Stima mia: 30-35 $ di lettura più circa 10 $ di riscritture della cache evitate."
+   },
+   {
+    "tipo": "turni senza esito (risvegli per attendere)",
+    "dove": "K02, K04, C01",
+    "verdetto": "VERO",
+    "perche": "Si vedono 5,78 $, ma nel turno di K02 è stato anche lanciato il qa, che è lavoro necessario. Si possono evitare circa 4 $. Il rimedio: lanciare tutti i revisori insieme in primo piano nello stesso messaggio. Girano in parallelo e il turno aspetta l'ultimo, quindi spariscono i risvegli e non si perde nessun revisore."
+   },
+   {
+    "tipo": "cache scaduta e riscritta dopo l'attesa",
+    "dove": "K01, K03",
+    "verdetto": "VERO",
+    "perche": "Circa 2-3 $ sono plausibili: in K01, dopo più di un'ora di attesa, sono stati riscritti 381 mila token. Il problema si risolve da solo con una sessione nuova per ogni giro, perché la riscrittura parte da circa 100 mila token invece che da 400 mila. Non serve un rimedio a parte."
+   },
+   {
+    "tipo": "ragionamento e uscita elevati nei collaudatori",
+    "dove": "K01, K03, K04",
+    "verdetto": "FALSO",
+    "perche": "Il ragionamento dei collaudatori vale circa 0,66 milioni di token a circa 25 $ per milione, cioè circa 16,5 $. Tagliarne 15 vuol dire toglierlo quasi tutto, anche dove si decide il verdetto, e il verdetto è il controllo. Inoltre lo sforzo si fissa per sessione, non per turno. L'unica parte buttata è nei turni «aspetto» (19 mila token in K04, circa 0,5 $), già coperta dalla voce dei turni senza esito."
+   },
+   {
+    "tipo": "subagenti di tipo non previsto dalla casa",
+    "dove": "C01",
+    "verdetto": "DA_RIFORMULARE",
+    "perche": "Nessun costo misurato, e C01 è la sessione meno cara del gruppo (15,45 $). Togliere revisori a occhio vuol dire togliere controlli. Meglio una regola legata al tipo di modifica: sempre tech, qa e security, più i pagamenti se il diff tocca soldi; interfaccia e accessibilità solo se tocca le pagine; infrastruttura solo se tocca la piattaforma."
+   },
+   {
+    "tipo": "decisione ripetuta sul file del sorvegliante",
+    "dove": "K01, K04, C01",
+    "verdetto": "DA_RIFORMULARE",
+    "perche": "Circa 1 $ regge, ma metterlo in .gitignore è rischioso: se quel file è la memoria del sorvegliante (il tetto che cala e non risale), ignorarlo la azzera. Va deciso chi lo salva, cioè il giro che lo scrive, e la regola va scritta una volta sola. Dal cancello va escluso solo sui rami di riparazione."
+   },
+   {
+    "tipo": "collisione sull'ambiente di lavoro",
+    "dove": "K02 (qa su R04)",
+    "verdetto": "VERO",
+    "perche": "Il costo è piccolo (circa 0,5 $). Soprattutto è un buco di controllo: il qa poteva provare codice diverso dallo SHA dichiarato. Dare a ogni qa una copia in sola lettura estratta allo SHA esatto rende il collaudo più forte."
+   },
+   {
+    "tipo": "verifiche ridondanti (non tagliabili)",
+    "dove": "K03 (qa su R10-020)",
+    "verdetto": "FALSO",
+    "perche": "Non è uno spreco: quella corsa ha trovato 3 mutanti sopravvissuti e un difetto non dichiarato su R10-019. È un controllo che ha funzionato e va tenuto."
+   },
+   {
+    "tipo": "contesto della regia oltre 300 mila token",
+    "dove": "REGIA",
+    "verdetto": "DA_RIFORMULARE",
+    "perche": "Il numero regge: 218 milioni di token per 0,20 $ fanno circa 44 $, e tenerla a circa 250 mila fa risparmiare circa 14-15 $ netti. Ma la regia è chi fa il controllo finale. Un'autocompattazione a 250-300 mila riassume a modo suo e può perdere lo stato di una voce. Versione corretta: prima di ogni ripartenza la regia scrive su file un registro con, per ogni voce, stato, ramo, SHA, verdetto e verify, e riparte da lì ai confini di fase. Il controllo finale legge il registro, non la sua memoria."
+   },
+   {
+    "tipo": "risvegli per notifiche della regia",
+    "dove": "REGIA (circa 33 risvegli brevi)",
+    "verdetto": "VERO",
+    "perche": "Circa 33 risvegli sotto 0,70 $ fanno circa 14 $; tagliarne il 40% vale circa 5,7 $, e regge. La sorveglianza non si perde a una condizione: a ogni giro la regia lancia un solo programma che ricontrolla tutti i rami. Così il passaggio diretto dal riparatore al collaudatore e un solo messaggio per lotto bastano."
+   },
+   {
+    "tipo": "risvegli programmati che non servono più",
+    "dove": "REGIA 18:17, 21:23, 20:09-20:12",
+    "verdetto": "VERO",
+    "perche": "Circa 1 $: 0,26 $, più il timer rimasto, più 0,48 $ per l'errore esterno dei caratteri. Gli eventi della PR bastano se l'iscrizione è confermata. Un timer di riserva si tiene solo se la conferma manca."
+   },
+   {
+    "tipo": "subagenti general-purpose per il collaudo della regia",
+    "dove": "REGIA 21:05-21:16",
+    "verdetto": "VERO",
+    "perche": "Non costa nulla e non fa risparmiare. Usare il tipo qa o il collaudatore della casa è la scelta giusta, e il collaudo resta con i suoi due giri."
+   },
+   {
+    "tipo": "attese su permessi e sessioni bloccate",
+    "dove": "R05, K01, REGIA (migrazione 361)",
+    "verdetto": "DA_RIFORMULARE",
+    "perche": "«Approvare in anticipo la conferma» della migrazione toglie la firma di Nicola su una scrittura nel database. È un'azione rossa e non si approva in anticipo. Il resto del rimedio vale: chiedere a Nicola l'ok sull'intero lotto prima di lanciarlo, mentre è presente, e un sensore che a ogni sorveglianza conta le sessioni ferme in attesa di conferma. Il turno da 4,90 $ era lavoro vero: lo spreco è circa 1-2 $, non 3."
+   },
+   {
+    "tipo": "regole del programma troppo strette",
+    "dove": "guardia-ramo e prova-rimessa (R01, R04, R07, R08, R11, R12)",
+    "verdetto": "VERO",
+    "perche": "Circa 6 $ reggono (8 turni da 0,4-1,4 $). Provare le regole sui rami veri dell'onda 1 prima dell'onda 2 è un controllo in più. Va fatto anche coi casi cattivi già noti (le 5 prove indebolite di R12, il file estraneo, il file nuovo non collegato), che devono restare rossi: così la regola non si allarga."
+   },
+   {
+    "tipo": "verifiche ripetute sullo stesso codice",
+    "dove": "REGIA 18:16, 19:03, 20:07, 21:05",
+    "verdetto": "VERO",
+    "perche": "Circa 2 $ reggono. Non si paga la verifica: si paga la regia che aspetta con 590 mila token di contesto. Lanciare la verifica in sottofondo, con un comando che stampa solo l'esito, toglie le chiamate d'attesa. Ogni verifica resta dove il codice è cambiato."
+   },
+   {
+    "tipo": "turni umani lunghi con contesto pesante",
+    "dove": "REGIA 19:03, 20:07, 21:05",
+    "verdetto": "VERO",
+    "perche": "Circa 2 $ sono plausibili e stanno già dentro il rimedio della regia (ripartenza dal registro). Delegare la parte meccanica a un subagente tech va bene a due condizioni: la regia confronta l'esito (migrazioni applicate contro l'elenco atteso) e le conferme restano a Nicola."
+   }
+  ],
+  "rimedi": [
+   {
+    "rimedio": "Riparatori a lotti, con ripartenza pulita. Le 25 voci si dividono in 3-5 lotti. A fine lotto: commit e referto aggiornato su file, poi contesto nuovo (sessione o fork) con regole, scheda e referto. Ogni giro di correzione parte in un contesto nuovo, con solo referto, diff e rapporto del collaudo. I rapporti dei QA sono corti (verdetto più tutti i difetti con file e riga) e il resto va su file. Mai autocompattazione cieca a metà di una voce. Tre quarti del costo dei riparatori stanno nel primo, lunghissimo turno di riparazione, con contesto fino a 740 mila token.",
+    "risparmio_usd": 100,
+    "risparmio_percento": 16.4,
+    "controllo_che_resta": "Il collaudo esterno non cambia. Guardia-ramo, valida-referto e verify girano sul ramo finale come oggi. La memoria passa dal contesto al referto su file, che il programma valida voce per voce."
+   },
+   {
+    "rimedio": "Collaudatori con una sessione nuova (o un fork) per ogni giro di ricollaudo. Entrano solo il referto del riparatore, le voci da provare e il verdetto del giro precedente, letto dal file dei controlli, senza i 440 mila token della storia dell'onda.",
+    "risparmio_usd": 35,
+    "risparmio_percento": 5.7,
+    "controllo_che_resta": "Il mandato di distruggere e la regola di una voce grave per volta non cambiano. Il verdetto precedente su file impedisce di dimenticare le voci parziali, e occhi nuovi a ogni giro rendono il collaudo più indipendente."
+   },
+   {
+    "rimedio": "Un turno, un esito. Il verify si aspetta nello stesso turno: in primo piano fino a 600 secondi, oltre in sottofondo con attesa sul comando. I revisori si lanciano tutti insieme in primo piano e non si risponde alle consegne parziali. Il riparatore passa il lavoro direttamente al collaudatore, che manda un solo messaggio per lotto alla regia. Lo SHA si prende con git rev-parse dentro lo stesso comando che spedisce. Per le PR bastano gli eventi di GitHub, e i timer si cancellano a fine fase.",
+    "risparmio_usd": 15,
+    "risparmio_percento": 2.5,
+    "controllo_che_resta": "Il controllo diventa più forte: nessun commit esce più con un verify mai atteso (è successo in R07). La regia sorveglia con un solo programma che ricontrolla tutti i rami a ogni giro."
+   },
+   {
+    "rimedio": "Regia con registro su file e ripartenze decise. Dopo la divisione, dopo l'unione e prima dei turni lunghi, la regia scrive il registro: per ogni voce stato, ramo, SHA, verdetto del collaudo e verify. Poi riparte da lì restando sotto circa 250-300 mila token, invece di arrivare a 775 mila e autocompattarsi.",
+    "risparmio_usd": 15,
+    "risparmio_percento": 2.5,
+    "controllo_che_resta": "Il controllo finale legge il registro voce per voce, e una voce senza SHA, verdetto o verify è rossa. Su un file è più difficile dimenticare qualcosa che dentro 775 mila token riassunti in automatico."
+   },
+   {
+    "rimedio": "Regole tarate prima dell'onda 2. Guardia-ramo e prova-rimessa si provano sui rami veri dell'onda 1, coi casi cattivi già noti come prove che devono restare rosse. Si scrive un criterio per file nuovi e migrazioni. Una prova esistente si può toccare solo se le asserzioni non scendono, e lo misura il programma. Il caso della storia del ramo e del push forzato si decide con Nicola prima di partire.",
+    "risparmio_usd": 8,
+    "risparmio_percento": 1.3,
+    "controllo_che_resta": "La regola resta un blocco duro e non si allarga. Smette soltanto di dare falsi rossi ai riparatori onesti, e continua a fermare le prove indebolite."
+   },
+   {
+    "rimedio": "Controlli locali prima del commit. Il riparatore lancia le prove toccate più quelle che importano i file cambiati, poi la prova rimessa sul giro vero. Poi lancia valida-referto, con permesso dato in anticipo solo a quel validatore e a prova-rimessa: è un cambio giallo che vuole la firma di Nicola. Solo dopo dice «finito».",
+    "risparmio_usd": 8,
+    "risparmio_percento": 1.3,
+    "controllo_che_resta": "Il collaudo esterno resta identico. Si aggiunge un controllo a monte, e il validatore gira davvero (oggi in R03 e R04 era negato)."
+   },
+   {
+    "rimedio": "Verify a strati e database da modello. Nei passaggi intermedi bastano le prove mirate. Il verify completo si fa a ogni consegna al collaudo e dopo l'unione, legato allo SHA. Ogni QA riceve un database copiato da un modello pulito e una copia del codice estratta allo SHA esatto. La verifica lunga della regia gira in sottofondo e stampa solo l'esito.",
+    "risparmio_usd": 4,
+    "risparmio_percento": 0.7,
+    "controllo_che_resta": "Il verify completo resta in due punti fissi che il programma può controllare. Il QA prova esattamente il codice dichiarato, non una cartella che altri possono spostare."
+   },
+   {
+    "rimedio": "Partenza controllata e permessi mai lasciati senza risposta. Ogni sessione riceve scheda e regole nel primo messaggio, e si controlla che sia partita entro 10 minuti. Un sensore conta le sessioni ferme in attesa di conferma. L'ok di Nicola sul lotto di migrazioni si chiede prima di lanciarlo, mentre lui è presente, e non si approva mai in anticipo.",
+    "risparmio_usd": 3,
+    "risparmio_percento": 0.5,
+    "controllo_che_resta": "La firma di Nicola sulle scritture nel database resta. Si chiude il buco di copertura di R05, le cui 25 voci non sono mai state riparate."
+   }
+  ],
+  "sintesi": "In parole semplici: la prima onda è costata circa 610 $ di consumo in 18 sessioni. Sei dollari su dieci (circa 373 $) servono solo a rileggere: a ogni passo una sessione rilegge tutta la sua storia, e le storie arrivavano a 440-775 mila token. Le sessioni che riparano pesano 399 $ (65%), quelle che collaudano 152 $ (25%), la regia 58 $ (10%). Gli analisti stimavano 296 $ di risparmio, ma ne reggono circa 175 $, cioè il 29% dell'onda. Tre stime erano gonfiate (90 $, 15 $ e 15 $) e alcuni soldi erano contati due volte.\n\nCosa cambia per te: con gli otto rimedi la stessa onda costerebbe circa 435 $ invece di 610 $. Se il limite settimanale segue il costo, consumerebbe circa il 14% invece del 20%. Non si toglie nessun controllo. La catena resta questa: il riparatore prova da sé, un collaudatore esterno prova a rompere, la regia unisce e fa girare i programmi, il controllo finale ripassa ogni voce su un registro scritto. Tre controlli anzi diventano più forti, perché nella prima onda avevano dei buchi: una sessione ha consegnato 8 commit senza aspettare la verifica completa, il validatore del referto era bloccato dai permessi in due sessioni, e un collaudatore ha rischiato di provare codice spostato da altri.\n\nCosa devi fare: tre firme. Primo, il permesso ai due script che verificano soltanto. Secondo, le regole «ripartenza da file» e «un turno, un esito» nel manuale della regia. Terzo, la decisione sul push forzato prima dell'onda 2. In più c'è una conferma su una migrazione del database ancora senza risposta: la regia è ferma lì.\n\nCosa non ho verificato: le tariffe (circa 0,20 $ per milione di token riletti, circa 5 $ scritti, circa 25 $ in uscita) le ho ricavate dai totali delle sessioni, non da un listino. Non so se il costo dei subagenti è dentro i totali. I turni elencati coprono solo un quarto del costo dei riparatori; il resto è il primo turno di riparazione, che i dati non scompongono. Non ho misurato il legame col 20% del limite settimanale. Non ho usato strumenti: i conti sono fatti sulla tabella.\n\nDettagli tecnici: totale 609,80 $ = R01-R06 184,61 + R07-R12 214,56 + K01-C01 152,26 + REGIA 58,37. Token: cache letta 1.866,6M (circa 373 $, 61%), uscita 5,37M (circa 134 $, 22%), cache scritta 20,8M (circa 104 $, 17%). I collaudatori scrivono in cache 8,78M token con poche chiamate, cioè riscrivono il contesto intero dopo ogni attesa: è una ragione in più per la sessione nuova a ogni giro. Voci FALSE: contesto K a 90 $ (supera l'intera lettura della cache del gruppo, circa 70 $); ragionamento dei collaudatori a 15 $ (circa il 91% di tutto il ragionamento, compreso quello dei verdetti); subagenti generici R01-R06 a 15 $ (rientri fatti di lavoro vero, rapporti che valgono centesimi); verifiche ridondanti di K03 (controllo che ha trovato 3 mutanti). Doppi conteggi: R01 0,92 + 0,91 $ sia nei risvegli corti sia nel ping-pong; i risvegli costeranno meno dopo i rimedi sul contesto (somma lorda dei rimedi 188 $, netta circa 175 $). Da riformulare per non togliere controlli: la regola delle prove esistenti (asserzioni che non scendono, misurate dal programma, non permesso libero); l'approvazione anticipata di apply_migration (azione rossa, resta a Nicola); il .gitignore di sorvegliante-storico.json (rischia di azzerare la memoria del sorvegliante); il verify completo tolto al QA (solo se il verify di chi consegna è legato allo SHA); i revisori di C01 (scelti per tipo di diff, minimo tech, qa, security, pagamenti). Buchi di controllo da chiudere: R07 verify non atteso; R01 verify fatto prima dei commit; R03/R04 valida-referto negato; R07 subagente che ha letto il database di produzione; K02 HEAD spostato sotto il qa; regole del programma non riprovate sui rami veri (regia 21:16); R05 con 25 voci mai riparate; migrazione 361 in REQUIRES_ACTION.",
+  "totale_onda_usd": 609.8
+ },
+ "note": [
+  "Dati letti con get_session e list_events(result). Costo cumulativo: modelUsage.costUSD e total_cost_usd; costo per turno: model_usage_since_last_result.costUSD. Pagine lette: tutte quelle necessarie a vedere il giro di chiusura e i giri di correzione, ma NON la fase iniziale: ogni pagina da 100 eventi conteneva solo 1-3 risultati e restava has_more=true (tranne R05, completa). Per questo risultati e chiamate API sono conteggi parziali dei turni visti (R01 5 risultati/61 chiamate, R02 2/70, R03 2/69, R04 3/87, R05 3/11, R06 3/45), non totali. Il costo dei turni non visti si ricava per differenza: prima dell'ultimo giro/consegna R01 ~18,6 $ (72%), R02 ~16,0 $ (52%), R03 ~41,2 $ (75%), R04 ~27,9 $ (71%), R06 ~25,2 $ (76%): la fase iniziale di riparazione pesa 50-75% e non l'ho scomposta (non ho letto subagenti, durata dei singoli passi, uscite di prove). Totale gruppo A: 184,61 $ (25,68+30,76+54,73+39,51+0,81+33,12). Cache letta ~604M token; la tariffa per milione non è nei dati, quindi le percentuali (60-75%) e le stime in dollari degli sprechi sono approssimazioni da cache letta e numero di chiamate (~0,10 $/chiamata a 400k di contesto, ~0,17 $ a ~700k nei dati di R01-R03). Il costo dei subagenti non risulta nel costo della sessione madre e non è misurato qui. Tutti i risvegli visti hanno origin.kind=task-notification (incluse le consegne dei subagenti, con producer session-task in R03/R04); nessun risveglio user diretto. Le stime di spreco si sovrappongono in parte (contesto gonfio e risvegli corti) e non vanno sommate alla lettera. Modello unico: claude-opus-5-5, finestra 1M. Nessun file modificato e nessun messaggio inviato alle sessioni.",
+  "Limiti dei dati. 1) list_events con kinds=[\"result\"] e limit 100 legge 100 eventi e poi filtra, quindi ogni pagina conteneva solo 0-4 risultati; ho letto la prima pagina per tutte e 6 le sessioni e una seconda per tutte. Dalla seconda pagina in poi per R07, R09 e R10 non sono tornati risultati e has_more era ancora vero, quindi i turni iniziali (i piu grossi, dove si fa il lavoro principale) NON sono visibili. Costo di quei turni non visti ricavato per differenza tra il costo cumulativo del primo risultato visibile e il totale: R07 circa 19 $, R08 circa 30 $, R09 circa 20 $, R10 circa 25 $, R11 circa 37 $ (prima del K04), R12 circa 37 $. I 3 turni piu cari indicati sono i piu cari tra quelli visibili, non necessariamente tra tutti. 2) Il conteggio dei risultati viene da result_index prima e dopo il riavvio del processo (R08-R12 hanno worker_epoch 2): R07 9, R08 7+1, R09 4+1, R10 6+1, R11 10+2, R12 5+1. 3) chiamate_api omesso: num_turns e noto solo per i turni visibili (da 3 a 43 per turno), non sommabile sul totale. 4) Risvegli per origine: solo quelli visibili (task-notification e peer hand-back); origine user non compare tra i visibili. 5) I costi dei subagenti non risultano separati: non so se il costo dei subagenti sia compreso nel total_cost_usd. 6) La tariffa (circa 0,20 $/M cache read, 25 $/M output, circa 5 $/M cache write medio) e ricavata da due turni piccoli di R07 e dai totali, non da un listino: ordine di grandezza. 7) I risvegli per sola notifica costano circa 0,5 $ (3-5 chiamate a 450-630k), non 1 $; il costo vero sta nei turni lunghi a contesto grande. 8) QA e giri di correzione hanno trovato difetti veri in quasi ogni sessione (R07 9 voci, R08 5 problemi, R09 8 voci, R10 5 riparazioni smentite, R11 8 voci): nessun rimedio proposto toglie un controllo, riducono contesto, attese e rilavorazioni. R12 e in stato need_input (domanda a Nicola sulla giornata di cassa), non incide sui costi.",
+  "Letti circa 49 eventi result su 388 chiamate API visibili, dal turno delle 15:43 fino a quello delle 21:23. Mancano i turni prima delle 15:43: la regia era già a 9,8 $ cumulati, quindi circa 10 $ non sono analizzati (non ho paginato fino all'inizio: restano due o tre pagine di list_events). La somma dei costi per turno che ho visto è circa 42,5 $ contro 48,6 $ di differenza cumulata tra 15:43 e 21:23: circa 6 $ stanno in turni non result (permessi orfani, autocompattazioni) o in pagine che ho saltato. get_session dà cost_usd 52,16 (cache_read 193,2M, cache_write 1,05M, output 274,3k), più vecchio dell'ultimo result che dice 58,37 (cache_read 218,1M); ho usato il secondo. Percentuale del limite settimanale: non trovata nei dati (c'è solo rate_limit_info seven_day status allowed). Costo delle altre sessioni (12 riparatori, 4 collaudatori): non in questo gruppo; la regia stessa dice che l'onda 1 è costata 583 $ di listino, quindi la regia pesa circa il 10%. Il costo dei due subagenti general-purpose non è nei dati della regia. La formula 'cache letta circa 0,20 $ per milione, scritta circa 6,25 $ per milione, output 25 $ per milione' è dedotta da tre turni che tornano al centesimo, non da un listino letto. I risparmi stimati (tabella sprechi) sono stime a spanne, non misure; sommati danno circa 35 $ ma non vanno sommati alla lettera perché si sovrappongono (meno contesto abbassa anche il costo dei risvegli). Nessun rimedio proposto toglie un controllo: collaudatori, ricollaudo, verifica della regia sui rami e controllo finale restano; cambia solo quando e quante volte la regia viene svegliata e quanto contesto si porta dietro."
+ ],
+ "_nota": "Misura del consumo dell'onda 1 del risolutore (12/11/2026), workflow wf_8adb8bd9-aa1: 5 agenti, ~870 mila token. Tariffe ricavate dai totali delle sessioni, non da un listino."
+}

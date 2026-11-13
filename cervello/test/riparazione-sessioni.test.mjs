@@ -9,15 +9,15 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, writeFileSync, mkdirSync, rmSync, readFileSync, existsSync } from "node:fs";
+import { mkdtempSync, writeFileSync, mkdirSync, rmSync, readFileSync, existsSync, realpathSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
 import { execFileSync, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { symlinkSync } from "node:fs";
 import {
-  fileDaCampoSito, fileDaSchedaMacchina, assegnaOnda, controllaOnda, giudicaPercorso, importDi,
-  regoleReferto, regoleCollaudo, campioneDi, decidi, chiaviDoppie, classifica, CONDIVISI_MACCHINA, RE_SPENTA,
+  fileDaCampoSito, fileDaSchedaMacchina, assegnaOnda, controllaOnda, giudicaPercorso, importDi, percorsiNominati,
+  regoleReferto, regoleCollaudo, campioneDi, decidi, chiaviDoppie, classifica, CONDIVISI_MACCHINA, RE_SPENTA, contaAsserzioni,
 } from "../riparazione-sessioni.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
@@ -130,7 +130,7 @@ test("AR-1163 · guardia: i percorsi vietati si fermano, ognuno col suo perché"
     "tests/unit/.montati/1/x.mjs": /temporaneo/,
     ".prova-colonna-sparita/tsconfig.json": /temporaneo/,
     "tests/unit/minori-s03-x.test.ts": /porta il nome della sessione/,
-    "tests/unit/estranea.test.ts": /non importa nessuno dei file/,
+    "tests/unit/estranea.test.ts": /non importa e non nomina nessuno dei file/,
     "migrations/100_vecchia.sql": /già esistente non si modifica/,
     "migrations/290_fuori.sql": /fuori dalla fascia/,
     ".riparazione/appunti.txt": /solo il proprio referto/,
@@ -266,7 +266,7 @@ test("applica: un minore fuori campione si chiude solo se il campione è accetta
   const piano = { onde: [{ sessioni: { R03: { voci: [...schedaMinori, { id: "R03-011", chiave: "g|1", gravita: "grave", file: ["lib/g.ts"] }] } } }] };
   const referti = { R03: { voci: [...refertoMinori.voci.map((v) => ({ ...v, prova_comando: "npx vitest run x" })), { id: "R03-011", chiave: "g|1", esito: "riparato", prova_comando: "x", rimessa: { uscita: 0, comando: "x" } }] } };
   const pieni = (quanti, regge = () => true) => schedaMinori.map((v, i) => voceCollaudo(v, i < quanti ? { giudizio: "pieno", verdetto: regge(i) ? "regge" : "non_regge" } : {}));
-  const conGrave = (voci, giudizioGrave) => ({ collaudatore: "K01", riparatori: ["R03"], voci: [...voci, { id: "R03-011", chiave: "g|1", verdetto: "regge", giudizio: giudizioGrave, rimessa: { uscita: 0, comando: "x" } }] });
+  const conGrave = (voci, giudizioGrave) => ({ collaudatore: "K01", riparatori: ["R03"], voci: [...voci, { id: "R03-011", chiave: "g|1", verdetto: "regge", giudizio: giudizioGrave, rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] });
   let d = decidi({ piano, referti, collaudi: [conGrave(pieni(5), "nessuno")], hub: new Set() });
   assert.equal(d.find((x) => x.id === "R03-010").decisione, "si_chiude");
   assert.equal(d.find((x) => x.id === "R03-011").decisione, "resta_aperta");
@@ -301,7 +301,7 @@ function cartellaCampagna(base) {
 }
 const lancia = (...args) => spawnSync(process.execPath, [PROGRAMMA, ...args], { encoding: "utf8" });
 
-test("AR-1163 · guardia-ramo: un file altrui toccato e poi rimesso resta nella STORIA, e la guardia lo vede", () => {
+test("regola del 12/11 sera · guardia-ramo: un file altrui toccato e poi rimesso non è un rosso, e la guardia lo elenca", () => {
   const { dir, g, scrivi, base } = depositoFinto();
   const c = cartellaCampagna(base);
   try {
@@ -310,10 +310,57 @@ test("AR-1163 · guardia-ramo: un file altrui toccato e poi rimesso resta nella 
     scrivi("lib/b.ts", "export const b = 1;\n"); g("commit", "-qam", "R01-001 lo rimetto com'era");
     scrivi("lib/a.ts", "export const a = 2;\n"); g("commit", "-qam", "R01-001 la riparazione");
     assert.equal(g("diff", "--name-only", base, "r01"), "lib/a.ts", "nel diff netto il file altrui non c'è più");
+    const r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir, "--json");
+    assert.equal(r.status, 0, r.stdout);
+    assert.match(r.stdout, /rimessi com'erano.*lib\/b\.ts/);
+    assert.deepEqual(JSON.parse(r.stdout.trim().split("\n").pop()).toccati_e_rimessi_com_erano, ["lib/b.ts"]);
+  } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
+});
+
+test("regola del 12/11 sera · guardia-ramo: un file altrui cambiato davvero resta rosso anche se un commit dopo lo tocca di nuovo", () => {
+  const { dir, g, scrivi, base } = depositoFinto();
+  const c = cartellaCampagna(base);
+  try {
+    g("checkout", "-q", "-b", "r01", base);
+    scrivi("lib/b.ts", "export const b = 2;\n"); g("commit", "-qam", "R01-001 tocco il file di R02");
+    scrivi("lib/b.ts", "export const b = 3;\n"); g("commit", "-qam", "R01-001 lo ritocco");
     const r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
     assert.equal(r.status, 1, r.stdout);
     assert.match(r.stdout, /lib\/b\.ts: è un file di un'altra sessione/);
   } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
+});
+
+test("regola del 12/11 sera · guardia-ramo: una prova esistente che LEGGE per nome un file della sessione è sua; una che lo nomina solo in un commento no", () => {
+  const { dir, g, scrivi, base: base0 } = depositoFinto();
+  scrivi("tests/unit/legge.test.ts", "import { readFileSync } from 'node:fs';\nimport { join } from 'node:path';\nconst t = readFileSync(join(process.cwd(), 'lib', 'a.ts'), 'utf8');\nit('x', () => { expect(t).toContain('a'); });\n");
+  scrivi("tests/unit/commento.test.ts", "// readFileSync('lib/a.ts')\nit('x', () => { expect(1).toBe(1); });\n");
+  g("add", "-A"); g("commit", "-qm", "prove esistenti");
+  const base = g("rev-parse", "HEAD");
+  const c = cartellaCampagna(base);
+  try {
+    g("checkout", "-q", "-b", "r01", base);
+    scrivi("lib/a.ts", "export const a = 2;\n");
+    scrivi("tests/unit/legge.test.ts", "import { readFileSync } from 'node:fs';\nimport { join } from 'node:path';\nconst t = readFileSync(join(process.cwd(), 'lib', 'a.ts'), 'utf8');\nit('x', () => { expect(t).toContain('a = 2'); });\n");
+    g("add", "-A"); g("commit", "-qm", "R01-001 la riparazione e la prova che legge il file");
+    let r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.equal(r.status, 0, r.stdout);
+    scrivi("tests/unit/commento.test.ts", "// readFileSync('lib/a.ts')\nit('x', () => { expect(2).toBe(2); });\n");
+    g("add", "-A"); g("commit", "-qm", "R01-001 tocco una prova che non è mia");
+    r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.equal(r.status, 1, r.stdout);
+    assert.match(r.stdout, /commento\.test\.ts: è una prova esistente che non importa e non nomina/);
+  } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
+});
+
+test("percorsiNominati: stringhe, join e resolve sì; commenti e frasi no", () => {
+  const t = `// readFileSync("lib/commento.ts")
+const a = readFileSync(join(process.cwd(), "app", "negozio", "page.tsx"), "utf8");
+const b = readFileSync("components/Card.tsx");
+const c = resolve(__dirname, "../../lib/soldi.ts");
+it("controlla app/frase nel nome", () => {});`;
+  const s = percorsiNominati("tests/unit/x.test.ts", t);
+  for (const k of ["app/negozio/page.tsx", "components/Card.tsx", "lib/soldi.ts"]) assert.ok(s.has(k), k);
+  for (const k of ["lib/commento.ts", "app/frase.ts"]) assert.ok(!s.has(k), k);
 });
 
 test("guardia-ramo: un ramo pulito, col referto e la voce nel messaggio, è verde; un ramo vuoto è in attesa", () => {
@@ -394,7 +441,7 @@ test("AR-1163 · collaudo A #1: il «regge» di un collaudatore che non guarda q
   const piano = { onde: [{ sessioni: { R01: { voci: [{ id: "R01-001", chiave: "g|1", gravita: "grave", file: ["lib/g.ts"] }] } } }] };
   const referti = { R01: { voci: [{ id: "R01-001", chiave: "g|1", esito: "riparato", prova_comando: "x", rimessa: { uscita: 0, comando: "x" } }] } };
   const giusto = { collaudatore: "K01", riparatori: ["R01"], voci: [{ id: "R01-001", chiave: "g|1", verdetto: "non_regge", giudizio: "pieno", rimessa: { uscita: 0, comando: "x" } }] };
-  const intruso = { collaudatore: "K02", riparatori: ["R02"], voci: [{ id: "R01-001", chiave: "g|1", verdetto: "regge", giudizio: "pieno", rimessa: { uscita: 0, comando: "x" } }] };
+  const intruso = { collaudatore: "K02", riparatori: ["R02"], voci: [{ id: "R01-001", chiave: "g|1", verdetto: "regge", giudizio: "pieno", rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] };
   assert.equal(decidi({ piano, referti, collaudi: [giusto, intruso], hub: new Set() })[0].decisione, "resta_aperta");
   assert.equal(decidi({ piano, referti, collaudi: [intruso], hub: new Set() })[0].decisione, "resta_aperta", "senza il collaudatore giusto non si chiude");
   const indulgente = { ...intruso, collaudatore: "K03", riparatori: ["R01"] };
@@ -496,7 +543,7 @@ test("AR-1163 · collaudo A #2: applica rilancia i controlli su referti e collau
     mkdirSync(join(c, "referti")); mkdirSync(join(c, "collaudi"));
     const rip = riparata({ id: "R01-001", prova_tipo: "lettura-codice", prova_eseguita: false });
     writeFileSync(join(c, "referti", "R01.json"), JSON.stringify({ sessione: "R01", aggiornato: "2026-11-08 10:00", finita: false, voci: [rip] }));
-    writeFileSync(join(c, "collaudi", "K01.json"), JSON.stringify({ collaudatore: "K01", riparatori: ["R01"], aggiornato: "2026-11-08 12:00", finita: true, voci: [{ id: "R01-001", chiave: rip.chiave, verdetto: "regge", giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"], rimessa: { uscita: 0, comando: "x" } }] }));
+    writeFileSync(join(c, "collaudi", "K01.json"), JSON.stringify({ collaudatore: "K01", riparatori: ["R01"], aggiornato: "2026-11-08 12:00", finita: true, voci: [{ id: "R01-001", chiave: rip.chiave, verdetto: "regge", giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"], rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] }));
     writeFileSync(join(c, "collaudi", "appunti.json"), "{}");
     const prima = readFileSync(registro, "utf8");
     const r = lancia("applica", "--cartella", c, "--registro", registro, "--scrivi");
@@ -574,7 +621,7 @@ test("collaudo B #4: il collaudatore trova i referti con --referti o dal ramo sc
   const c = cartellaCampagna(base);
   try {
     const rif = { sessione: "R01", aggiornato: "2026-11-08 10:00", finita: true, voci: [{ id: "R01-001", chiave: "x|a", esito: "riparato", rimessa: { uscita: 0, comando: "x" } }] };
-    const col = { collaudatore: "K01", riparatori: ["R01"], aggiornato: "2026-11-08 12:00", finita: true, voci: [{ id: "R01-001", chiave: "x|a", verdetto: "regge", giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"], rimessa: { uscita: 0, comando: "x" } }] };
+    const col = { collaudatore: "K01", riparatori: ["R01"], aggiornato: "2026-11-08 12:00", finita: true, voci: [{ id: "R01-001", chiave: "x|a", verdetto: "regge", giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"], rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] };
     mkdirSync(join(c, "collaudi")); writeFileSync(join(c, "collaudi", "K01.json"), JSON.stringify(col));
     assert.equal(lancia("valida-collaudo", join(c, "collaudi", "K01.json"), "--cartella", c).status, 3, "senza referti: in attesa");
     const mia = mkdtempSync(join(tmpdir(), "referti-")); writeFileSync(join(mia, "R01.json"), JSON.stringify(rif));
@@ -637,8 +684,8 @@ test("secondo collaudo #8: la forma unica del percorso viene prima del controllo
 test("secondo collaudo #8: fra due «regge» vince quello col giudizio pieno", () => {
   const piano = { onde: [{ sessioni: { R01: { voci: [{ id: "R01-001", chiave: "g|1", gravita: "grave", file: ["lib/g.ts"] }] } } }] };
   const referti = { R01: { voci: [{ id: "R01-001", chiave: "g|1", esito: "riparato", prova_comando: "x", rimessa: { uscita: 0, comando: "x" } }] } };
-  const rapido = { collaudatore: "K01", riparatori: ["R01"], voci: [{ id: "R01-001", chiave: "g|1", verdetto: "regge", giudizio: "nessuno", rimessa: { uscita: 0, comando: "x" } }] };
-  const pieno = { collaudatore: "K02", riparatori: ["R01"], voci: [{ id: "R01-001", chiave: "g|1", verdetto: "regge", giudizio: "pieno", rimessa: { uscita: 0, comando: "x" } }] };
+  const rapido = { collaudatore: "K01", riparatori: ["R01"], voci: [{ id: "R01-001", chiave: "g|1", verdetto: "regge", giudizio: "nessuno", rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] };
+  const pieno = { collaudatore: "K02", riparatori: ["R01"], voci: [{ id: "R01-001", chiave: "g|1", verdetto: "regge", giudizio: "pieno", rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] };
   assert.equal(decidi({ piano, referti, collaudi: [rapido, pieno], hub: new Set() })[0].decisione, "si_chiude");
 });
 
@@ -694,8 +741,8 @@ test("secondo collaudo #7: applica rilancia anche i controlli del collaudo (un g
     writeFileSync(registro, JSON.stringify({ problemi: [{ dimensione: "pagamenti", titolo: "il payout salta", stato: "aperto", severita: "grave", file: "lib/a.ts:1" }] }));
     mkdirSync(join(c, "referti")); mkdirSync(join(c, "collaudi"));
     const rip = riparata({ id: "R01-001" });
-    writeFileSync(join(c, "referti", "R01.json"), JSON.stringify({ sessione: "R01", aggiornato: "2026-11-08 10:00", finita: true, testa: "fff0000", verifica: { esito: "verde" }, voci: [rip] }));
-    const k = (lenti) => JSON.stringify({ collaudatore: "K01", riparatori: ["R01"], aggiornato: "2026-11-08 12:00", finita: true, voci: [{ id: "R01-001", chiave: rip.chiave, verdetto: "regge", giudizio: "pieno", ...(lenti ? { lenti } : {}), rimessa: { uscita: 0, comando: "x" } }] });
+    writeFileSync(join(c, "referti", "R01.json"), JSON.stringify({ sessione: "R01", aggiornato: "2026-11-08 10:00", finita: true, testa: "fff0000", verifica: { esito: "verde", testa: "fff0000" }, voci: [rip] }));
+    const k = (lenti) => JSON.stringify({ collaudatore: "K01", riparatori: ["R01"], aggiornato: "2026-11-08 12:00", finita: true, voci: [{ id: "R01-001", chiave: rip.chiave, verdetto: "regge", giudizio: "pieno", ...(lenti ? { lenti } : {}), rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] });
     writeFileSync(join(c, "collaudi", "K01.json"), k(["chiude_tutta", "nata_rotta"]));
     let r = lancia("applica", "--cartella", c, "--registro", registro);
     assert.equal(r.status, 3, r.stdout);
@@ -705,4 +752,307 @@ test("secondo collaudo #7: applica rilancia anche i controlli del collaudo (un g
     assert.equal(r.status, 1, r.stdout);
     assert.match(r.stdout, /collaudi\/K01\.json: R01-001: un giudizio pieno porta tutte e due le lenti/);
   } finally { rmSync(c, { recursive: true, force: true }); }
+});
+
+// ── il controllore sul ramo unito (Nicola, 12/11: «ci deve essere un controllore») ──────────────────────
+test("il controllore: una voce che trova rossa sul ramo unito non si chiude, e i difetti che vede nascono nel registro", () => {
+  const c = mkdtempSync(join(tmpdir(), "riparazione-applica-c-"));
+  try {
+    const voci = [{ id: "R01-001", chiave: "pagamenti|il payout salta", gravita: "grave", file: ["lib/a.ts"] }];
+    writeFileSync(join(c, "perimetro.json"), JSON.stringify({ casa: "sito", lavorabili: voci }));
+    writeFileSync(join(c, "piano.json"), JSON.stringify({ casa: "sito", onde: [{ onda: 1, base: "0".repeat(40), candidate: [voci[0].chiave], sessioni: { R01: { voci, file: ["lib/a.ts"] } }, rimandate: [], regia: [] }] }));
+    const registro = join(c, "registro.json");
+    writeFileSync(registro, JSON.stringify({ problemi: [{ dimensione: "pagamenti", titolo: "il payout salta", stato: "aperto", severita: "grave", file: "lib/a.ts:1" }] }));
+    mkdirSync(join(c, "referti")); mkdirSync(join(c, "collaudi")); mkdirSync(join(c, "controlli"));
+    const rip = riparata({ id: "R01-001" });
+    writeFileSync(join(c, "referti", "R01.json"), JSON.stringify({ sessione: "R01", aggiornato: "2026-11-08 10:00", finita: true, testa: "fff0000", verifica: { esito: "verde", testa: "fff0000" }, voci: [rip] }));
+    writeFileSync(join(c, "collaudi", "K01.json"), JSON.stringify({ collaudatore: "K01", riparatori: ["R01"], aggiornato: "2026-11-08 12:00", finita: true, voci: [{ id: "R01-001", chiave: rip.chiave, verdetto: "regge", giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"], rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] }));
+    const controllo = (extra) => JSON.stringify({ controllore: "C01", onda: 1, finita: true, testa: "abc1234", verify: { comando: "npm run verify", esito: "verde" }, voci_rosse: [], nuovi_difetti_visti: [], ...extra });
+    // senza controllo, o con un controllo che non trova niente, la voce si chiude
+    writeFileSync(join(c, "controlli", "C01.json"), controllo({}));
+    let r = lancia("applica", "--cartella", c, "--registro", registro);
+    assert.equal(r.status, 3, r.stdout);
+    assert.match(r.stdout, /1 si chiudono/);
+    // il controllore la trova rossa sul ramo unito: resta aperta, col perché
+    writeFileSync(join(c, "controlli", "C01.json"), controllo({
+      verify: { comando: "npm run verify", esito: "rosso" },
+      voci_rosse: [{ chiave: rip.chiave, perche: "tests/unit/riparazione-r03-payout.test.ts rosso dopo l'unione con R02" }],
+      nuovi_difetti_visti: [{ titolo: "Il bonifico parte due volte se si preme due volte", dimensione: "pagamenti-stripe", severita: "grave", file: "lib/a.ts:9", descrizione: "nato dall'unione" }],
+    }));
+    r = lancia("applica", "--cartella", c, "--registro", registro);
+    assert.equal(r.status, 3, r.stdout);
+    assert.match(r.stdout, /0 si chiudono/);
+    assert.match(r.stdout, /1 difetti nati/);
+    const d = JSON.parse(readFileSync(join(c, "decisioni.json"), "utf8")).decisioni[0];
+    assert.equal(d.decisione, "resta_aperta");
+    assert.match(d.perche, /C01: tests\/unit\/riparazione-r03-payout/);
+    // un controllo fuori forma, o un file con un nome di nessuno, fermano tutto
+    writeFileSync(join(c, "controlli", "C01.json"), controllo({ verify: undefined, voci_rosse: [{ chiave: "inventata|mai vista", perche: "x" }] }));
+    writeFileSync(join(c, "controlli", "note.json"), "{}");
+    r = lancia("applica", "--cartella", c, "--registro", registro);
+    assert.equal(r.status, 1, r.stdout);
+    assert.match(r.stdout, /controlli\/C01\.json: manca la prova sull'albero unito/);
+    assert.match(r.stdout, /controlli\/C01\.json: la voce rossa «inventata\|mai vista» non è nel registro/);
+    assert.match(r.stdout, /controlli\/note\.json: il nome non è quello di una sessione/);
+  } finally { rmSync(c, { recursive: true, force: true }); }
+});
+
+test("il controllore: anche un «già riparato prima» rosso sul ramo unito resta aperto, e una voce rossa d'altri si dice", async () => {
+  const { conIControlli, rosseFuoriCampagna } = await import("../riparazione-sessioni.mjs");
+  const decisioni = [
+    { chiave: "a|uno", decisione: "si_chiude" },
+    { chiave: "b|due", decisione: "gia_riparato_prima" },
+    { chiave: "c|tre", decisione: "resta_aperta", perche: "parziale" },
+  ];
+  const controlli = [{ controllore: "CF", voci_rosse: [{ chiave: "b|due", perche: "la riga 12 c'è ancora" }, { chiave: "z|altrui", perche: "x" }] }];
+  const dopo = conIControlli(decisioni, controlli);
+  assert.equal(dopo[0].decisione, "si_chiude");
+  assert.equal(dopo[1].decisione, "resta_aperta");
+  assert.match(dopo[1].perche, /CF: la riga 12/);
+  assert.equal(dopo[2].perche, "parziale", "una voce già aperta resta col suo perché");
+  assert.deepEqual(rosseFuoriCampagna(decisioni, controlli), ["z|altrui"]);
+});
+
+test("il controllore ha le stesse regole del riparatore sui difetti nuovi, e non chiude niente su un controllo dubbio", async () => {
+  const { regoleControllo, PER_SESSIONE } = await import("../riparazione-sessioni.mjs");
+  const buono = { controllore: "C01", finita: true, testa: "abc1234", verify: { comando: "npm run verify", esito: "verde" }, voci_rosse: [], nuovi_difetti_visti: [] };
+  assert.deepEqual(regoleControllo(buono, { nome: "C01" }), []);
+  const rossiDi = (extra, testo = null) => regoleControllo({ ...buono, ...extra }, { nome: "C01", testo });
+  assert.match(rossiDi({ finita: false }).join(" "), /non è finito/);
+  assert.match(rossiDi({ testa: undefined }).join(" "), /manca «testa»/);
+  assert.match(rossiDi({ voci_rosse: "nessuna" }).join(" "), /manca «voci_rosse»/);
+  assert.match(rossiDi({ verify: { comando: "npm run verify", esito: "rosso" } }).join(" "), /di chi è il rosso/);
+  // una riservata con il dettaglio in un campo in più, o scritta come stringa, non passa nel deposito pubblico
+  const titolo = "Falla di sicurezza da chiudere (accessi): i dettagli restano fuori dal deposito pubblico finché non è chiusa.";
+  assert.match(rossiDi({ nuovi_difetti_visti: [{ riservato: true, titolo, file: "(nel referto privato)", severita: "bloccante", descrizione: "app/api/admin/route.ts:42" }] }).join(" "), /campi in più/);
+  assert.match(rossiDi({ nuovi_difetti_visti: [{ riservato: "true", titolo: "Il token passa nella query", file: "app/api/admin/route.ts:42", severita: "bloccante" }] }).join(" "), /deve essere true o false/);
+  assert.match(rossiDi({ nuovi_difetti_visti: [{ titolo: "x", file: "a.ts:1", severita: "altissima" }] }).join(" "), /gravità valida/);
+  // una chiave scritta due volte: «voci_rosse» pieno non sparisce sotto uno vuoto
+  const testo = '{"controllore":"C01","voci_rosse":[{"chiave":"a|b","perche":"x"}],"voci_rosse":[]}';
+  assert.match(rossiDi({}, testo).join(" "), /«voci_rosse» è scritta due volte/);
+  // 25 voci a riparatore (Nicola, 12/11): 30 voci senza numero di sessioni sono due riparatori, il più carico a 25
+  assert.equal(PER_SESSIONE, 25);
+  const voci = Array.from({ length: 30 }, (_, i) => ({ chiave: `x|v${i}`, gravita: "minore", dimensione: "d", file: [`lib/f${i}.ts`] }));
+  const o = assegnaOnda(voci, {});
+  assert.equal(Object.keys(o.sessioni).length, 2);
+  assert.equal(Math.max(...Object.values(o.sessioni).map((s) => s.voci.length)), 25);
+});
+
+test("12/11 notte: la verifica finale si lega alla testa (R07 ha spinto 8 commit con un verify mai aspettato)", () => {
+  const conVerifica = (verifica) => regoleReferto(referto([riparata(), nonFatta], { verifica }), ctxReferto);
+  // senza lo SHA il referto non è rosso ma resta in attesa: non passa al collaudo
+  let r = conVerifica({ comando: "npm run verify", esito: "verde" });
+  assert.deepEqual(r.rossi, []);
+  assert.match(r.attese.join(" "), /verifica\.testa/);
+  // girata su un commit vecchio: rosso
+  r = conVerifica({ comando: "npm run verify", esito: "verde", testa: "abc1234" });
+  assert.match(r.rossi.join(" "), /la verifica è girata su abc1234, non sulla testa fff0000/);
+  // sulla testa: niente da dire
+  r = conVerifica({ comando: "npm run verify", esito: "verde", testa: "fff0000" });
+  assert.deepEqual(r.rossi, []);
+  assert.ok(!r.attese.some((a) => /verifica/.test(a)));
+});
+
+test("12/11 notte, collaudo: la verifica su un commit del solo referto vale, uno SHA simile ma diverso no", async () => {
+  const { verificaSullaTesta } = await import("../riparazione-sessioni.mjs");
+  const C = "c0de" + "1".repeat(36), P = "f00d" + "2".repeat(36);
+  // con la storia del ramo: la testa di codice, o un commit dopo di lei che tocca solo il referto
+  assert.equal(verificaSullaTesta(C.slice(0, 7), C.slice(0, 7), { testaDelRamo: C, soloRefertoDopo: [P] }), true);
+  assert.equal(verificaSullaTesta(P.slice(0, 9), C.slice(0, 7), { testaDelRamo: C, soloRefertoDopo: [P] }), true);
+  // stesso prefisso della testa dichiarata, ma non è il commit vero: rosso
+  assert.equal(verificaSullaTesta("c0de111bbbb", "c0de111", { testaDelRamo: C, soloRefertoDopo: [] }), false);
+  // senza storia: a prefisso, nei due versi, mai su una testa troppo corta
+  assert.equal(verificaSullaTesta("abc1234", "abc1234def", {}), true);
+  assert.equal(verificaSullaTesta("abc1234def", "abc1234", {}), true);
+  assert.equal(verificaSullaTesta("abc1234", "abc9999", {}), false);
+  assert.equal(verificaSullaTesta("abc1234", "", {}), false);
+  // un numero o un elenco al posto dello SHA: rosso
+  const r = regoleReferto(referto([riparata(), nonFatta], { verifica: { comando: "npm run verify", esito: "verde", testa: ["fff0000"] } }), ctxReferto);
+  assert.match(r.rossi.join(" "), /«verifica\.testa» \["fff0000"\] non è un commit/);
+});
+
+test("12/11 notte, collaudo: applica ferma un referto finito senza verifica.testa (dall'onda scritta nel piano)", () => {
+  const c = mkdtempSync(join(tmpdir(), "riparazione-applica-o2-"));
+  try {
+    const v1 = [{ id: "R01-001", chiave: "pagamenti|il payout salta", gravita: "grave", file: ["lib/a.ts"] }];
+    const v2 = [{ id: "R02-001", chiave: "pagamenti|il payout salta", gravita: "grave", file: ["lib/a.ts"] }];
+    writeFileSync(join(c, "perimetro.json"), JSON.stringify({ casa: "sito", lavorabili: v1 }));
+    writeFileSync(join(c, "piano.json"), JSON.stringify({ casa: "sito", onde: [
+      { onda: 1, base: "0".repeat(40), candidate: [], sessioni: {}, rimandate: [v1[0].chiave], regia: [] },
+      { onda: 2, base: "1".repeat(40), candidate: [v2[0].chiave], sessioni: { R02: { voci: v2, file: ["lib/a.ts"] } }, rimandate: [], regia: [] },
+    ] }));
+    const registro = join(c, "registro.json");
+    writeFileSync(registro, JSON.stringify({ problemi: [{ dimensione: "pagamenti", titolo: "il payout salta", stato: "aperto", severita: "grave", file: "lib/a.ts:1" }] }));
+    mkdirSync(join(c, "referti")); mkdirSync(join(c, "collaudi"));
+    const rip = riparata({ id: "R02-001" });
+    const ref = (verifica) => JSON.stringify({ sessione: "R02", aggiornato: "2026-11-13 10:00", finita: true, testa: "fff0000", verifica, voci: [rip] });
+    writeFileSync(join(c, "collaudi", "K01.json"), JSON.stringify({ collaudatore: "K01", riparatori: ["R02"], aggiornato: "2026-11-13 12:00", finita: true, voci: [{ id: "R02-001", chiave: rip.chiave, verdetto: "regge", giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"], rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] }));
+    writeFileSync(join(c, "referti", "R02.json"), ref({ comando: "npm run verify", esito: "verde" }));
+    let r = lancia("applica", "--cartella", c, "--registro", registro);
+    assert.equal(r.status, 1, r.stdout);
+    assert.match(r.stdout, /un referto finito dice su quale commit è girata la verifica/);
+    writeFileSync(join(c, "referti", "R02.json"), ref({ comando: "npm run verify", esito: "verde", testa: "fff0000" }));
+    r = lancia("applica", "--cartella", c, "--registro", registro);
+    assert.equal(r.status, 3, r.stdout);
+    assert.match(r.stdout, /1 si chiudono/);
+  } finally { rmSync(c, { recursive: true, force: true }); }
+});
+
+test("AR-1172 · radiografia 12/11 notte · la verifica legata al commit vale anche nell'onda 1 di una campagna nuova; la campagna del 12/11 la esenta col piano", () => {
+  const c = mkdtempSync(join(tmpdir(), "riparazione-applica-o1-"));
+  try {
+    const v1 = [{ id: "R01-001", chiave: "pagamenti|il payout salta", gravita: "grave", file: ["lib/a.ts"] }];
+    const piano = (extra) => JSON.stringify({ casa: "sito", ...extra, onde: [{ onda: 1, base: "0".repeat(40), candidate: [v1[0].chiave], sessioni: { R01: { voci: v1, file: ["lib/a.ts"] } }, rimandate: [], regia: [] }] });
+    writeFileSync(join(c, "perimetro.json"), JSON.stringify({ casa: "sito", lavorabili: v1 }));
+    const registro = join(c, "registro.json");
+    writeFileSync(registro, JSON.stringify({ problemi: [{ dimensione: "pagamenti", titolo: "il payout salta", stato: "aperto", severita: "grave", file: "lib/a.ts:1" }] }));
+    mkdirSync(join(c, "referti")); mkdirSync(join(c, "collaudi"));
+    const rip = riparata({ id: "R01-001" });
+    writeFileSync(join(c, "referti", "R01.json"), JSON.stringify({ sessione: "R01", aggiornato: "2026-11-13 10:00", finita: true, testa: "fff0000", verifica: { comando: "npm run verify", esito: "verde" }, voci: [rip] }));
+    writeFileSync(join(c, "collaudi", "K01.json"), JSON.stringify({ collaudatore: "K01", riparatori: ["R01"], aggiornato: "2026-11-13 12:00", finita: true, voci: [{ id: "R01-001", chiave: rip.chiave, verdetto: "regge", giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"], rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] }));
+    writeFileSync(join(c, "piano.json"), piano({}));
+    let r = lancia("applica", "--cartella", c, "--registro", registro);
+    assert.equal(r.status, 1, r.stdout);
+    assert.match(r.stdout, /un referto finito dice su quale commit è girata la verifica/);
+    writeFileSync(join(c, "piano.json"), piano({ verifica_testa_dall_onda: 2 }));
+    r = lancia("applica", "--cartella", c, "--registro", registro);
+    assert.equal(r.status, 3, r.stdout);
+  } finally { rmSync(c, { recursive: true, force: true }); }
+});
+
+test("AR-1172 · radiografia 12/11 notte · il collaudo che dice «regge» deve aver tolto la correzione con prova-rimessa, e con --sql se il riparatore l'ha usato", () => {
+  const scheda = [{ id: "R03-001", chiave: "g|1", gravita: "grave", file: ["migrations/251_x.sql"] }];
+  const ctxSql = (comandoRiparatore) => ({ nome: "K01", riparatori: { R03: { voci: scheda, referto: { finita: true, voci: [{ id: "R03-001", chiave: "g|1", esito: "riparato", rimessa: { uscita: 0, comando: comandoRiparatore } }] } } }, hub: new Set() });
+  const col = (comando) => collaudo([voceCollaudo(scheda[0], { giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"], rimessa: { uscita: 0, comando } })]);
+  assert.match(regoleCollaudo(col("bash tests/sql/harness/apply.sh && bash tests/sql/harness/run.sh"), ctxSql("node cervello/prova-rimessa.mjs --sql db")).rossi.join("\n"), /non è prova-rimessa\.mjs/);
+  assert.match(regoleCollaudo(col("node cervello/prova-rimessa.mjs --comando 'x {prove}'"), ctxSql("node cervello/prova-rimessa.mjs --sql db")).rossi.join("\n"), /provata con --sql e il collaudo no/);
+  assert.doesNotMatch(regoleCollaudo(col("node cervello/prova-rimessa.mjs --sql k01_rimessa"), ctxSql("node cervello/prova-rimessa.mjs --sql db")).rossi.join("\n"), /prova-rimessa|--sql/);
+});
+
+test("il controllo finale non dimentica nulla: conti è rosso per una voce senza decisione o aperta senza perché", () => {
+  const c = mkdtempSync(join(tmpdir(), "riparazione-conti-"));
+  try {
+    const voci = [{ id: "R01-001", chiave: "a|uno", gravita: "minore", file: ["lib/a.ts"] }, { id: "R01-002", chiave: "a|due", gravita: "minore", file: ["lib/b.ts"] }];
+    writeFileSync(join(c, "perimetro.json"), JSON.stringify({ casa: "sito", lavorabili: voci }));
+    writeFileSync(join(c, "piano.json"), JSON.stringify({ casa: "sito", onde: [{ onda: 1, base: "0".repeat(40), candidate: voci.map((v) => v.chiave), sessioni: { R01: { voci, file: ["lib/a.ts", "lib/b.ts"] } }, rimandate: [], regia: [] }] }));
+    const registro = join(c, "registro.json");
+    writeFileSync(registro, JSON.stringify({ problemi: [{ dimensione: "a", titolo: "uno", stato: "aperto", severita: "minore", file: "lib/a.ts" }, { dimensione: "a", titolo: "due", stato: "aperto", severita: "minore", file: "lib/b.ts" }] }));
+    writeFileSync(join(c, "decisioni.json"), JSON.stringify({ decisioni: [{ id: "R01-001", chiave: "a|uno", esito: "parziale", decisione: "resta_aperta", perche: "" }] }));
+    let r = lancia("conti", "--cartella", c, "--registro", registro);
+    assert.equal(r.status, 1, r.stdout);
+    assert.match(r.stdout, /R01-002 \(R01, onda 1\): nessuna decisione/);
+    assert.match(r.stdout, /R01-001: resta aperta senza il perché/);
+    writeFileSync(join(c, "decisioni.json"), JSON.stringify({ decisioni: [
+      { id: "R01-001", chiave: "a|uno", esito: "parziale", decisione: "resta_aperta", perche: "parziale: manca la carta" },
+      { id: "R01-002", chiave: "a|due", esito: "riparato", decisione: "si_chiude", perche: "regge" },
+    ] }));
+    r = lancia("conti", "--cartella", c, "--registro", registro);
+    assert.equal(r.status, 0, r.stdout);
+    // radiografia 12/11 notte: senza decisioni.json il controllo non è fatto, e conti non è verde
+    rmSync(join(c, "decisioni.json"));
+    r = lancia("conti", "--cartella", c, "--registro", registro);
+    assert.equal(r.status, 3, r.stdout);
+    assert.match(r.stdout, /decisioni\.json non c'è o è vuoto/);
+  } finally { rmSync(c, { recursive: true, force: true }); }
+});
+
+// ── radiografia del 12/11 notte: i buchi trovati sulla guardia, sull'unione di prova e su applica ──────────
+test("AR-1172 · radiografia 12/11 notte · una prova che passa al setaccio una cartella non è di chi possiede un file nominato", () => {
+  const { dir, g, scrivi } = depositoFinto();
+  scrivi("tests/unit/setaccio.test.ts", "import { readdirSync, readFileSync } from 'node:fs';\nconst tipi = readFileSync('lib/a.ts', 'utf8');\nfor (const f of readdirSync('lib')) it(f, () => { expect(tipi).toBeTruthy(); });\n");
+  g("add", "-A"); g("commit", "-qm", "prova che setaccia");
+  const base = g("rev-parse", "HEAD");
+  const c = cartellaCampagna(base);
+  try {
+    g("checkout", "-q", "-b", "r01", base);
+    scrivi("lib/a.ts", "export const a = 2;\n");
+    scrivi("tests/unit/setaccio.test.ts", "import { readdirSync, readFileSync } from 'node:fs';\nconst tipi = readFileSync('lib/a.ts', 'utf8');\nfor (const f of readdirSync('lib').filter((x) => x !== 'b.ts')) it(f, () => { expect(tipi).toBeTruthy(); });\n");
+    g("add", "-A"); g("commit", "-qm", "R01-001 tolgo dal giro il file di R02");
+    const r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.equal(r.status, 1, r.stdout);
+    assert.match(r.stdout, /setaccio\.test\.ts: è una prova esistente che usa anche file di altre sessioni/);
+  } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
+});
+
+test("AR-1172 · radiografia 12/11 notte · un aiutante delle prove importato da altre prove è comune, anche se nomina solo un file della sessione", () => {
+  const { dir, g, scrivi } = depositoFinto();
+  scrivi("tests/unit/aiuti/tavolozza.ts", "import { readFileSync } from 'node:fs';\nexport const contrastoOk = () => readFileSync('lib/a.ts', 'utf8').length > 0;\n");
+  scrivi("tests/unit/usa-tavolozza.test.ts", "import { contrastoOk } from './aiuti/tavolozza';\nimport { b } from '../../lib/b';\nit('b', () => { expect(contrastoOk() && b).toBeTruthy(); });\n");
+  g("add", "-A"); g("commit", "-qm", "aiutante e prova di R02");
+  const base = g("rev-parse", "HEAD");
+  const c = cartellaCampagna(base);
+  try {
+    g("checkout", "-q", "-b", "r01", base);
+    scrivi("lib/a.ts", "export const a = 2;\n");
+    scrivi("tests/unit/aiuti/tavolozza.ts", "export const contrastoOk = () => true;\n");
+    g("add", "-A"); g("commit", "-qm", "R01-001 svuoto l'aiutante");
+    const r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.equal(r.status, 1, r.stdout);
+    assert.match(r.stdout, /tavolozza\.ts: è una prova esistente che usa anche file di altre sessioni/);
+  } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
+});
+
+test("AR-1172 · radiografia 12/11 notte · una prova SQL nuova che non finisce in .test.sql è rossa: run.sh e la CI non la lanciano", () => {
+  const ctx = ctxBase();
+  assert.match(String(giudicaPercorso("tests/sql/rls/riparazione-r03-tetto.sql", ctx)), /finisce in \.test\.sql/);
+  assert.equal(giudicaPercorso("tests/sql/rls/riparazione-r03-tetto.test.sql", ctx), null);
+});
+
+test("AR-1172 · radiografia 12/11 notte · le prove spente con .skip.each, describe.skip.each e ctx.skip() si vedono", () => {
+  for (const r of ["it.skip.each([[1]])('x', () => {})", "describe.skip.each`a`('x', () => {})", "test.only.each([1])('x', () => {})", "it('x', (ctx) => { ctx.skip(); })", "it('x', (context) => { context.skip() })"]) assert.ok(RE_SPENTA.test(r), r);
+  for (const r of ["it.each([[1]])('x', () => {})", "skipList.push(1)"]) assert.ok(!RE_SPENTA.test(r), r);
+});
+
+test("AR-1172 · radiografia 12/11 notte · un'asserzione commentata non si conta: la prova svuotata così resta rossa", () => {
+  assert.equal(contaAsserzioni("expect(a).toBe(1);\n// expect(b).toBe(2);\n/* assert.equal(c, 3) */\nconst u = 'http://x'; expect(u).toBeTruthy();"), 2);
+});
+
+test("AR-1172 · radiografia 12/11 notte · prova-unione guarda il diff netto: un file toccato e rimesso non fa rosso per due rami", () => {
+  const { dir, g, scrivi, base } = depositoFinto();
+  const c = cartellaCampagna(base);
+  try {
+    g("checkout", "-q", "-b", "r01", base);
+    scrivi("lib/b.ts", "export const b = 9;\n"); g("commit", "-qam", "R01-001 tocco b per sbaglio");
+    scrivi("lib/b.ts", "export const b = 1;\n"); g("commit", "-qam", "R01-001 lo rimetto");
+    scrivi("lib/a.ts", "export const a = 2;\n"); g("commit", "-qam", "R01-001 la riparazione");
+    g("checkout", "-q", "-b", "r02", base);
+    scrivi("lib/b.ts", "export const b = 2;\n"); g("commit", "-qam", "R02-001 la riparazione");
+    const r = lancia("prova-unione", "--cartella", c, "--git", dir, "--onda", "1", "--refs", "R01=r01,R02=r02");
+    assert.equal(r.status, 0, r.stdout);
+  } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
+});
+
+test("AR-1172 · radiografia 12/11 notte · applica rilancia la guardia del ramo: un ramo che tocca il file di un'altra sessione ferma tutto", () => {
+  const { dir, g, scrivi, base } = depositoFinto();
+  const c = cartellaCampagna(base);
+  try {
+    g("checkout", "-q", "-b", "r01", base);
+    scrivi("lib/a.ts", "export const a = 2;\n"); scrivi("lib/b.ts", "export const b = 7;\n");
+    g("add", "-A"); g("commit", "-qm", "R01-001 la riparazione, e il file di R02");
+    const testa = g("rev-parse", "HEAD");
+    writeFileSync(join(c, "sessioni.json"), JSON.stringify({ sessioni: { R01: { onda: 1, ramo: "r01" } } }));
+    const registro = join(c, "registro.json");
+    writeFileSync(registro, JSON.stringify({ problemi: [{ dimensione: "x", titolo: "a", stato: "aperto", severita: "minore", file: "lib/a.ts:1" }] }));
+    mkdirSync(join(c, "referti"));
+    writeFileSync(join(c, "referti", "R01.json"), JSON.stringify({ sessione: "R01", aggiornato: "2026-11-13 10:00", finita: true, testa, verifica: { esito: "verde", testa }, voci: [{ id: "R01-001", chiave: "x|a", esito: "non_fatto", nota: "prova" }] }));
+    const r = lancia("applica", "--cartella", c, "--git", dir, "--registro", registro);
+    assert.equal(r.status, 1, r.stdout);
+    assert.match(r.stdout, /guardia-ramo: lib\/b\.ts: è un file di un'altra sessione/);
+  } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
+});
+
+test("AR-1172 · radiografia 12/11 notte · deposito stampa il deposito giusto per la casa, ed esce 2 se non c'è", () => {
+  const { dir, base } = depositoFinto();
+  const c = cartellaCampagna(base);
+  try {
+    let r = lancia("deposito", "--cartella", c, "--git", dir);
+    assert.equal(r.status, 0, r.stderr);
+    assert.equal(r.stdout.trim(), realpathSync(dir));
+    r = lancia("deposito", "--cartella", c, "--git", join(dir, "non-c-e"));
+    assert.equal(r.status, 2);
+    writeFileSync(join(c, "perimetro.json"), JSON.stringify({ casa: "macchina", profilo: "tutto", lavorabili: [] }));
+    r = lancia("deposito", "--cartella", c, "--radice", dir);
+    assert.equal(r.status, 0, r.stderr);
+    assert.equal(r.stdout.trim(), realpathSync(dir));
+  } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
 });

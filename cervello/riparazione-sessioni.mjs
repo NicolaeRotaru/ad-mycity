@@ -25,12 +25,13 @@
 //   schede                    scrive schede/RNN.md dell'onda e registro-compatto.txt
 //   copertura-prima           ogni voce dell'onda sta in un posto solo, ogni file ha un padrone solo
 //   segnaposti                nelle schede non resta nessun segnaposto
-//   guardia-ramo <ramo> <ID>  la STORIA del ramo (commit per commit) tocca solo quello che la sessione può
+//   guardia-ramo <ramo> <ID>  il RISULTATO del ramo (diff netto) tocca solo quello che la sessione può
 //   valida-referto <file>     il referto di un riparatore rispetta formato e regole
 //   valida-collaudo <file>    il referto di un collaudatore rispetta formato e regola del campione
 //   prova-unione              i rami dell'onda non si pestano: nessun file in due rami, l'unione non litiga
 //   applica [--scrivi]        da referti e collaudi: chi si chiude, chi resta aperto, i difetti nati
 //   conti                     prima e dopo, incrociando le chiavi
+//   deposito                  stampa il deposito dei rami della campagna (sito o macchina); 2 se non c'è
 //
 // Uscita: 0 verde · 1 rosso · 2 uso sbagliato o non ho potuto misurare · 3 in attesa (mai un verde muto).
 //
@@ -70,7 +71,9 @@ export const GIUDIZI = Object.freeze(["pieno", "nessuno"]);
 export const LENTI = Object.freeze(["chiude_tutta", "nata_rotta"]);
 export const PROVE = Object.freeze(["comando", "lettura-codice", "umano"]);
 export const MAX_SESSIONI = 12;
-export const PER_SESSIONE = 45;
+// 25 e non più 45 (Nicola, 12/11: «i lavori più lunghi che ci impiegano tante ore suddividilo in altre
+// sessioni»): un riparatore finisce in circa metà tempo, e il profilo «tutto» passa da due a tre onde.
+export const PER_SESSIONE = 25;
 export const TETTO_CUCITURA = 40;
 export const SOGLIA_CAMPIONE = 0.9;
 export const QUOTA_CAMPIONE = 0.3;
@@ -736,9 +739,14 @@ function segnaposti(opz) {
 // ── guardia-ramo ─────────────────────────────────────────────────────────────────────────────────
 // Le forme in cui una prova si spegne, tutte quelle che esistono nel sito e nel cervello (secondo collaudo del
 // 7/11: 21 `.skipIf(` nei test del sito, 31 `{ skip:` / `t.skip(` in cervello/test).
-export const RE_SPENTA = /\b(?:it|test|describe)(?:\.\w+)*\.(?:skip|only|todo|fails|skipIf|runIf)\s*\(|\bx(?:it|test|describe)\s*\(|\{\s*(?:skip|todo)\s*:|\bt\.(?:skip|todo)\s*\(/;
+/** Le chiamate che passano al setaccio una cartella intera. */
+export const RE_SETACCIO = /\b(?:readdirSync|readdir|opendirSync|opendir|globSync|glob|fg|fastGlob|walk\w*)\s*\(/;
+const senzaCommentiJs = (t) => String(t).replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:\\])\/\/.*$/gm, "$1");
+// Radiografia del 12/11 notte: anche `.skip.each(…)`, `.skip.each\`…\``, `describe.skip.each` e `ctx.skip()` / `context.skip()`.
+export const RE_SPENTA = /\b(?:it|test|describe)(?:\.\w+)*\.(?:skip|only|todo|fails|skipIf|runIf)(?:\.\w+)*\s*[(`]|\bx(?:it|test|describe)\s*\(|\{\s*(?:skip|todo)\s*:|\b(?:t|ctx|context)\.(?:skip|todo)\s*\(/;
 /** Quante asserzioni porta il testo di una prova (vitest, node:test, assert). PURA. */
-export const contaAsserzioni = (testo) => (String(testo).match(/\bexpect\s*\(|\bassert(?:\.\w+)?\s*\(|\bt\.(?:assert|equal|deepEqual|ok|throws)\b/g) || []).length;
+// I commenti si tolgono prima di contare: un'asserzione COMMENTATA non controlla niente (radiografia del 12/11 notte).
+export const contaAsserzioni = (testo) => (String(testo).replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:\\])\/\/.*$/gm, "$1").match(/\bexpect\s*\(|\bassert(?:\.\w+)?\s*\(|\bt\.(?:assert|equal|deepEqual|ok|throws)\b/g) || []).length;
 /**
  * Il giudizio su UN percorso toccato dalla storia di un ramo riparatore. PURA.
  * `ctx`: { nome, suoi:Set, esisteAllaBase(p), importaDaSuoi(p), fascia:[a,b]|null, casa }
@@ -762,8 +770,13 @@ export function giudicaPercorso(p, ctx) {
   }
   if (ctx.suoi.has(p)) return null;
   if (eProva(p)) {
+    // run.sh e la CI leggono solo tests/sql/rls/*.test.sql: una prova SQL con un altro nome non la rilancia
+    // nessuno dopo l'unione (radiografia del 12/11 notte).
+    if (!allaBase && /(^|\/)tests\/sql\/rls\/[^/]+$/.test(p) && !p.endsWith(".test.sql")) return `${p}: una prova SQL nuova finisce in .test.sql, se no run.sh e la CI non la lanciano`;
     if (!allaBase) return basename(p).toLowerCase().includes(`riparazione-${ctx.nome.toLowerCase()}`) ? null : `${p}: una prova nuova porta il nome della sessione (riparazione-${ctx.nome.toLowerCase()}-…)`;
-    return ctx.importaDaSuoi(p) ? null : `${p}: è una prova esistente che non importa nessuno dei file di ${ctx.nome}`;
+    const di = ctx.importaDaSuoi(p);
+    if (di === "condivisa") return `${p}: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista`;
+    return di ? null : `${p}: è una prova esistente che non importa e non nomina nessuno dei file di ${ctx.nome}`;
   }
   if (!allaBase) return null; // un file nuovo: lo controlla prova-unione, che vede se un altro ramo lo crea
   return `${p}: è un file di un'altra sessione o di nessuno in quest'onda`;
@@ -786,6 +799,47 @@ export function importDi(percorso, testo) {
   }
   return fuori;
 }
+/**
+ * I percorsi del deposito che un file NOMINA in una stringa (12/11 sera, regola firmata da Nicola): molte prove
+ * del sito non importano la pagina, la leggono per nome (`readFileSync("app/x/page.tsx")`, `join(ROOT, "app",
+ * "x", "page.tsx")`, `resolve(__dirname, "../../lib/x.ts")`). Nell'onda del 12/11 tre riparatori (R04, R08,
+ * R11) sono finiti rossi per prove così, pur avendo riparato bene. I commenti si tolgono prima, come per gli
+ * import: un percorso scritto in un commento non lega la prova a nessun file. PURA.
+ */
+export function percorsiNominati(percorso, testo) {
+  const fuori = new Set();
+  const senzaCommenti = String(testo).replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:\\])\/\/.*$/gm, "$1");
+  const candidati = [];
+  // Le stringhe una per una, e i pezzi di join/resolve uniti con «/».
+  const RE_STR = /(['"`])((?:\\.|(?!\1)[^\\\n])*)\1/g;
+  for (const m of senzaCommenti.matchAll(RE_STR)) if (!m[2].includes("${")) candidati.push(m[2]);
+  for (const m of senzaCommenti.matchAll(/\b(?:join|resolve)\s*\(((?:[^()]|\([^()]*\))*)\)/g)) {
+    const pezzi = [...m[1].matchAll(RE_STR)].map((x) => x[2]).filter((x) => !x.includes("${"));
+    if (pezzi.length > 1) candidati.push(pezzi.join("/"));
+  }
+  for (const c of candidati) {
+    if (!c || c.length > 300 || !/[\w)]\.[a-z]{1,5}$|\//i.test(c)) continue;
+    const radici = new Set();
+    if (c.startsWith("@/")) radici.add(c.slice(2));
+    else {
+      radici.add(posix.normalize(c).replace(/^(?:\.\/)+/, "").replace(/^\/+/, ""));
+      if (c.startsWith(".")) radici.add(posix.normalize(posix.join(posix.dirname(percorso), c)));
+    }
+    for (const r of radici) {
+      if (!r || r.startsWith("..")) continue;
+      for (const coda of ["", ".ts", ".tsx", ".js", ".jsx", ".mjs", ".sql", "/page.tsx", "/route.ts", "/index.ts", "/index.tsx"]) fuori.add(r + coda);
+    }
+  }
+  return fuori;
+}
+/** L'uscita di git con -z: coppie [stato, percorso] (o [null, percorso] senza stato). PURA. */
+export function voci0(testo, conStato) {
+  const pezzi = String(testo).split("\0").filter((x) => x !== "");
+  const fuori = [];
+  if (!conStato) { for (const f of pezzi) fuori.push([null, f]); return fuori; }
+  for (let i = 0; i + 1 < pezzi.length; i += 2) fuori.push([pezzi[i].trim().charAt(0), pezzi[i + 1]]);
+  return fuori;
+}
 function storiaDelRamo(dir, partenza, ref) {
   const commit = (gitOk(dir, ["rev-list", "--reverse", `${partenza}..${ref}`]) ?? "").split("\n").filter(Boolean);
   const toccati = new Set();
@@ -795,14 +849,15 @@ function storiaDelRamo(dir, partenza, ref) {
   for (const c of commit) {
     const genitori = (gitOk(dir, ["rev-list", "--parents", "-n", "1", c]) ?? "").trim().split(/\s+/).slice(1);
     if (genitori.length > 1) unioni.push(c);
+    // -z: senza, git mette tra virgolette i nomi con accenti, «"» o «\\», e la guardia li crederebbe file nuovi
+    // (collaudo del 12/11 sera).
     const args = genitori.length > 1
-      ? ["diff-tree", "-r", "--cc", "--name-only", "--no-renames", "--no-commit-id", c]
-      : ["diff-tree", "-r", "--root", "--name-status", "--no-renames", "--no-commit-id", c];
+      ? ["diff-tree", "-z", "-r", "--cc", "--name-only", "--no-renames", "--no-commit-id", c]
+      : ["diff-tree", "-z", "-r", "--root", "--name-status", "--no-renames", "--no-commit-id", c];
     const file = [];
-    for (const riga of (gitOk(dir, args) ?? "").split("\n").filter((f) => f && f !== c)) {
-      const m = genitori.length > 1 ? null : riga.match(/^([ACDMRTUX])\d*\t(.+)$/);
-      const f = m ? m[2] : riga;
-      if (m?.[1] === "D") cancellati.add(f);
+    for (const [st, f] of voci0(gitOk(dir, args) ?? "", genitori.length <= 1)) {
+      if (f === c) continue;
+      if (st === "D") cancellati.add(f);
       file.push(f);
       toccati.add(f);
     }
@@ -831,16 +886,17 @@ function controlliDelRamo(dir, base, ramo, testoReferto) {
   const commitDelRamo = new Map(storia.perCommit.map((c) => [c.commit, c.messaggio]));
   let testaDelRamo = (gitOk(dir, ["rev-parse", ref]) ?? "").trim();
   let dichiarata = null;
+  let soloRefertoDopo = [];
   try { dichiarata = String(JSON.parse(testoReferto).testa ?? ""); } catch { /* lo dice regoleReferto */ }
   if (dichiarata && SHA.test(dichiarata)) {
     const piena = (gitOk(dir, ["rev-parse", "--verify", "--quiet", `${dichiarata}^{commit}`]) ?? "").trim();
     if (piena && piena !== testaDelRamo && gitOk(dir, ["merge-base", "--is-ancestor", piena, ref]) !== null) {
       const dopo = storia.perCommit.slice(storia.perCommit.findIndex((c) => c.commit === piena) + 1);
       const soloReferto = storia.perCommit.some((c) => c.commit === piena) && dopo.every((c) => c.file.every((f) => f.startsWith(`${REFERTO_DIR}/`)));
-      if (soloReferto) testaDelRamo = piena;
+      if (soloReferto) { testaDelRamo = piena; soloRefertoDopo = dopo.map((c) => c.commit); }
     }
   }
-  return { ref, commitDelRamo, testaDelRamo };
+  return { ref, commitDelRamo, testaDelRamo, soloRefertoDopo };
 }
 function sessioneNelPiano(piano, nome) {
   for (const o of piano.onde) if (o.sessioni[nome]) return { onda: o, sessione: o.sessioni[nome] };
@@ -852,40 +908,96 @@ function guardiaRamo(opz) {
   let per, piano;
   try { per = leggiPerimetro(opz); piano = leggiPiano(opz); } catch (e) { return cieco("guardia-ramo", e.message, opz); }
   if (nome.startsWith("K")) return guardiaCollaudatore(opz, ramo, nome);
+  const g = giudicaRamo(opz, per, piano, ramo, nome);
+  if (g.rimessi?.length) console.log(`ℹ️ toccati nella storia e rimessi com'erano (non entrano nell'unione, non sono un rosso): ${g.rimessi.slice(0, TETTO_RIGHE).join(", ")}`);
+  return chiudi("guardia-ramo", g.rossi, g.attese, opz, g.extra);
+}
+/**
+ * Il giudizio su un ramo riparatore, senza stampare: lo usano `guardia-ramo` e `applica` (radiografia del 12/11 notte:
+ * la skill diceva che applica rilancia la guardia, e non era vero). Torna { rossi, attese, extra, rimessi }.
+ */
+export function giudicaRamo(opz, per, piano, ramo, nome) {
+  const esito = (rossi, attese = [], extra = {}, rimessi = []) => ({ rossi, attese, extra, rimessi });
   const dove = sessioneNelPiano(piano, nome);
-  if (!dove) return chiudi("guardia-ramo", [`${nome} non è nel piano`], [], opz);
+  if (!dove) return esito([`${nome} non è nel piano`]);
   const dir = resolve(opz.git ?? repoDi(per.casa, opz));
   const ref = risolviRef(dir, ramo);
-  if (!ref) return chiudi("guardia-ramo", [], [`il ramo ${ramo} non esiste ancora in ${dir}`], opz);
+  if (!ref) return esito([], [`il ramo ${ramo} non esiste ancora in ${dir}`]);
   const partenza = dove.onda.base;
-  if (gitOk(dir, ["merge-base", "--is-ancestor", partenza, ref]) === null) return chiudi("guardia-ramo", [`${nome}: ${ref} non parte dalla base dell'onda ${dove.onda.onda} (${partenza.slice(0, 12)})`], [], opz);
+  if (gitOk(dir, ["merge-base", "--is-ancestor", partenza, ref]) === null) return esito([`${nome}: ${ref} non parte dalla base dell'onda ${dove.onda.onda} (${partenza.slice(0, 12)})`]);
   const storia = storiaDelRamo(dir, partenza, ref);
   // Un ramo che ha unito main porta dentro la storia di tutti: giudicarne i file darebbe migliaia di rossi
   // non suoi (collaudo B del 7/11: 3.445 righe, 25 secondi). Le unioni sono già il rosso: si tolgono prima.
-  if (storia.unioni.length) return chiudi("guardia-ramo", [`${nome}: il ramo ha ${storia.unioni.length} unioni (${storia.unioni.slice(0, 3).map((u) => u.slice(0, 12)).join(", ")}): il ramo riparatore parte dalla base e non unisce niente. Si giudica di nuovo quando le unioni sono tolte`], [], opz, { commit: storia.commit.length });
+  if (storia.unioni.length) return esito([`${nome}: il ramo ha ${storia.unioni.length} unioni (${storia.unioni.slice(0, 3).map((u) => u.slice(0, 12)).join(", ")}): il ramo riparatore parte dalla base e non unisce niente. Si giudica di nuovo quando le unioni sono tolte`], [], { commit: storia.commit.length });
   const suoi = new Set(dove.sessione.file.map(normPerc));
   const allaBase = new Map();
   const esisteAllaBase = (p) => {
     if (!allaBase.has(p)) allaBase.set(p, gitOk(dir, ["cat-file", "-e", `${partenza}:${p}`]) !== null);
     return allaBase.get(p);
   };
+  // I file delle ALTRE sessioni dell'onda: una prova che li usa insieme ai propri è comune, e chi la tocca
+  // potrebbe togliere i controlli sugli altri senza cambiare il numero di asserzioni (collaudo del 12/11 sera).
+  const altrui = new Set(Object.entries(dove.onda.sessioni).filter(([n]) => n !== nome).flatMap(([, x]) => (x.file ?? []).map(normPerc)));
+  // Le cartelle alla base e i file che contengono: una prova che passa al setaccio una cartella intera non è di
+  // chi possiede UN file di quella cartella (radiografia del 12/11 notte).
+  const sottoCartella = new Map();
+  const fileSotto = (x) => {
+    if (!sottoCartella.has(x)) {
+      const tipo = (gitOk(dir, ["cat-file", "-t", `${partenza}:${x}`]) ?? "").trim();
+      sottoCartella.set(x, tipo === "tree" ? voci0(gitOk(dir, ["ls-tree", "-r", "-z", "--name-only", partenza, "--", x]) ?? "", false).map(([, f]) => f) : null);
+    }
+    return sottoCartella.get(x);
+  };
+  // Chi importa una prova (un aiutante delle prove usato da altre prove): se qualcun altro la importa è comune,
+  // e chi la possiede «per nome» potrebbe svuotarla e indebolire le prove degli altri (radiografia del 12/11 notte).
+  const importataDaAltre = (p) => {
+    const stelo = basename(p).replace(/\.[^.]+$/, "");
+    if (!stelo) return false;
+    const trovati = (gitOk(dir, ["grep", "-l", "-z", "-F", "-e", stelo, partenza, "--"]) ?? "").split("\0").filter(Boolean).map((r) => r.slice(r.indexOf(":") + 1));
+    for (const f of trovati) {
+      if (f === p || !eProva(f)) continue;
+      const t = gitOk(dir, ["show", `${partenza}:${f}`]);
+      if (t !== null && importDi(f, t).has(p)) return true;
+    }
+    return false;
+  };
   const importaDaSuoi = (p) => {
     const testo = gitOk(dir, ["show", `${partenza}:${p}`]);
     if (testo === null) return false;
-    for (const x of importDi(p, testo)) if (suoi.has(x)) return true;
-    return false;
+    const importa = importDi(p, testo), nomina = percorsiNominati(p, testo);
+    const usati = new Set([...importa, ...nomina]);
+    if (![...usati].some((x) => suoi.has(x))) return false;
+    // Condivisa: importa un file d'un'altra sessione, o NOMINA un file che esiste e non è suo (una prova che
+    // gira su una lista di file: chi la tocca può togliere dal giro quelli degli altri, secondo collaudo del
+    // 12/11), o nomina una CARTELLA con dentro file non suoi, o è importata da altre prove. Un aiutante comune
+    // solo importato e di nessuno (lib/supabase.ts) non la rende condivisa.
+    if ([...importa].some((x) => altrui.has(x))) return "condivisa";
+    // Una prova che passa al setaccio cartelle intere (readdirSync, glob…) guarda anche i file degli altri, che
+    // non nomina uno per uno: è comune (radiografia del 12/11 notte, 10 prove così nel sito).
+    if (RE_SETACCIO.test(senzaCommentiJs(testo))) return "condivisa";
+    if ([...nomina].some((x) => x !== p && !suoi.has(x) && esisteAllaBase(x) && fileSotto(x) === null)) return "condivisa";
+    if ([...nomina].some((x) => { const dentro = fileSotto(x); return dentro !== null && dentro.some((f) => f !== p && !suoi.has(f)); })) return "condivisa";
+    return importataDaAltre(p) ? "condivisa" : true;
   };
   const ctx = { nome, suoi, esisteAllaBase, importaDaSuoi, fascia: dove.sessione.migrazioni ?? null, casa: per.casa };
+  // Si giudica il RISULTATO del ramo, non ogni passo della storia (12/11 sera, regola firmata da Nicola): è il
+  // diff netto quello che entra nell'unione. Nell'onda del 12/11 R01 e R07 sono rimasti rossi per sempre su file
+  // toccati per sbaglio e rimessi com'erano. Un file toccato e rimesso si elenca, ma non è un rosso.
+  const netto = new Map();
+  for (const [st, f] of voci0(gitOk(dir, ["diff", "-z", "--name-status", "--no-renames", partenza, ref]) ?? "", true)) netto.set(f, st);
+  const daGiudicare = [...netto.keys()];
+  const rimessi = [...storia.toccati].filter((f) => !netto.has(f)).sort();
+  const cancellati = new Set([...netto].filter(([, st]) => st === "D").map(([f]) => f));
   const rossi = [];
-  for (const p of [...storia.toccati].sort()) {
+  for (const p of daGiudicare.sort()) {
     const perche = giudicaPercorso(p, ctx);
     if (perche) rossi.push(perche);
   }
   for (const u of storia.unioni) rossi.push(`${u.slice(0, 12)}: un'unione nel ramo riparatore (il ramo parte dalla base e non unisce niente)`);
   // Una prova che c'era non si cancella e non si spegne: è il modo più corto per far tornare verde una
   // riparazione sbagliata, e il collaudo del 7/11 l'ha fatto passare finché la guardia guardava solo i nomi.
-  for (const p of [...storia.cancellati].sort()) if (eProva(p) && esisteAllaBase(p)) rossi.push(`${p}: una prova esistente non si cancella`);
-  for (const p of [...storia.toccati].filter((f) => eProva(f) && !storia.cancellati.has(f)).sort()) {
+  for (const p of [...cancellati].sort()) if (eProva(p) && esisteAllaBase(p)) rossi.push(`${p}: una prova esistente non si cancella`);
+  for (const p of daGiudicare.filter((f) => eProva(f) && !cancellati.has(f)).sort()) {
     const diff = gitOk(dir, ["diff", partenza, ref, "--", p]) ?? "";
     if (diff.split("\n").some((r) => r.startsWith("+") && !r.startsWith("+++") && RE_SPENTA.test(r))) rossi.push(`${p}: aggiunge una prova spenta (.skip, .only, .todo, .fails, .skipIf, { skip: }, xit): una prova non si spegne per farla passare`);
     // Una prova svuotata non porta nessun «.skip»: le si tolgono le asserzioni. Si contano alla base e alla punta.
@@ -902,8 +1014,9 @@ function guardiaRamo(opz) {
   const senzaVoce = storia.perCommit.filter((c) => c.file.some((f) => !f.startsWith(`${REFERTO_DIR}/`)) && !primoRigoGiusto.test(c.messaggio.split("\n")[0].trim()));
   for (const c of senzaVoce) rossi.push(`${c.commit.slice(0, 12)}: un commit di codice che non comincia con l'id di una voce di ${nome} («${nome}-NNN …», oppure «${nome}-varie …»)`);
   for (const c of storia.perCommit) for (const id of c.messaggio.match(/\b[A-Z]\d{2}-\d{3}\b/g) || []) if (!ids.has(id)) rossi.push(`${c.commit.slice(0, 12)}: il messaggio cita ${id}, che non è una voce di ${nome}`);
-  const attese = storia.commit.length ? [] : [`${nome}: il ramo non ha ancora nessun commit suo`];
-  return chiudi("guardia-ramo", rossi, attese, opz, { commit: storia.commit.length, file_toccati: storia.toccati.size });
+  const attese = !storia.commit.length ? [`${nome}: il ramo non ha ancora nessun commit suo`]
+    : !netto.size ? [`${nome}: il ramo ha ${storia.commit.length} commit ma alla fine non cambia nessun file: non c'è niente da giudicare, non è un verde`] : [];
+  return esito(rossi, attese, { commit: storia.commit.length, file_toccati: netto.size, ...(rimessi.length ? { toccati_e_rimessi_com_erano: rimessi } : {}) }, rimessi);
 }
 function guardiaCollaudatore(opz, ramo, nome) {
   const dir = resolve(opz.git ?? opz.radice);
@@ -923,9 +1036,45 @@ function guardiaCollaudatore(opz, ramo, nome) {
 
 // ── valida-referto ───────────────────────────────────────────────────────────────────────────────
 /**
+ * I difetti nuovi visti da un riparatore o da un controllore. PURA: torna i rossi. Una regola sola per tutti e
+ * due: il 12/11 il controllore ne aveva una copia più corta, e una falla riservata con la «descrizione» in
+ * chiaro passava nel deposito pubblico (collaudo del 12/11).
+ */
+export function regoleNuoviDifetti(lista) {
+  const rossi = [];
+  for (const n of lista ?? []) {
+    // Il deposito è pubblico: una riservata si scrive in UNA forma sola. Il collaudo del 7/11 ha fatto passare
+    // il dettaglio nel titolo («Falla di sicurezza: …route.ts:42…»), nel NOME di una chiave e in una parola sola.
+    if (n && "riservato" in n && typeof n.riservato !== "boolean") rossi.push(`«riservato» deve essere true o false, non ${JSON.stringify(n.riservato)}: un valore ambiguo fa sparire un difetto o pubblica una falla`);
+    if (n?.riservato === true) {
+      if (!["bloccante", "grave", "minore"].includes(n.severita)) rossi.push("un difetto nuovo riservato ha la gravità fuori elenco (bloccante, grave o minore)");
+      const chiaviIn = Object.keys(n ?? {}).filter((k) => !CAMPI_RISERVATA.includes(k));
+      if (chiaviIn.length) rossi.push(`un difetto nuovo riservato porta campi in più (${chiaviIn.join(", ")}): solo ${CAMPI_RISERVATA.join(", ")}`);
+      if (n.file !== PRIVATO) rossi.push(`un difetto nuovo riservato ha il file in chiaro: va «${PRIVATO}»`);
+      if (!TITOLO_RISERVATO.test(String(n.titolo ?? ""))) rossi.push(`un difetto nuovo riservato ha il titolo fuori forma: «Falla di sicurezza da chiudere (<${AREE_RISERVATE.join("|")}>): i dettagli restano fuori dal deposito pubblico finché non è chiusa»`);
+      if (n.dimensione !== undefined && !/^[a-z-]{1,40}$/.test(String(n.dimensione))) rossi.push("un difetto nuovo riservato ha una dimensione fuori forma");
+    } else if (/falla di sicurezza/i.test(String(n?.titolo ?? ""))) rossi.push(`«${String(n?.titolo).slice(0, 60)}…»: una falla di sicurezza si scrive con «riservato: true», mai in chiaro`);
+    else if (vuoto(n?.titolo) || vuoto(n?.file) || !["bloccante", "grave", "minore"].includes(n?.severita)) rossi.push(`un difetto nuovo senza titolo, file o gravità valida: «${n?.titolo ?? ""}»`);
+  }
+  return rossi;
+}
+
+/**
  * Le regole del referto di un riparatore. PURA: riceve il testo e il contesto, torna {rossi, attese}.
  * ctx: { nome, voci: [{id, chiave, gravita}], chiaviDelRegistro: Set|null, commitDelRamo: Map(sha→messaggio)|null, testaDelRamo }
  */
+/**
+ * La verifica finale è girata sull'ultimo codice? PURA. Va bene la testa, o un commit dopo di lei che tocca solo
+ * il referto (il referto parziale si committa ogni 10 voci: collaudo del 12/11 notte). Con la storia del ramo
+ * il confronto si fa sugli SHA pieni; senza, a prefisso con la testa dichiarata.
+ */
+export function verificaSullaTesta(verificata, testa, ctx = {}) {
+  const v = String(verificata);
+  const pieni = [ctx.testaDelRamo, ...(ctx.soloRefertoDopo ?? [])].filter((x) => typeof x === "string" && x.length >= 7);
+  if (pieni.length) return pieni.some((c) => c.startsWith(v));
+  const t = String(testa ?? "");
+  return t.length >= 7 && (t.startsWith(v) || v.startsWith(t));
+}
 export function regoleReferto(testo, ctx) {
   const rossi = [], attese = [];
   let r;
@@ -984,23 +1133,17 @@ export function regoleReferto(testo, ctx) {
     const dichiarati = insieme.every((v) => Array.isArray(v.insieme_a) && ids.filter((x) => x !== v.id).every((x) => v.insieme_a.includes(x)));
     if (!dichiarati) rossi.push(`il commit ${String(c).slice(0, 12)} porta ${ids.join(", ")}: una voce per commit, oppure «insieme_a» dichiarato su ognuna`);
   }
-  for (const n of r.nuovi_difetti_visti ?? []) {
-    // Il deposito è pubblico: una riservata si scrive in UNA forma sola. Il collaudo del 7/11 ha fatto passare
-    // il dettaglio nel titolo («Falla di sicurezza: …route.ts:42…»), nel NOME di una chiave e in una parola sola.
-    if (n && "riservato" in n && typeof n.riservato !== "boolean") rossi.push(`«riservato» deve essere true o false, non ${JSON.stringify(n.riservato)}: un valore ambiguo fa sparire un difetto o pubblica una falla`);
-    if (n?.riservato === true) {
-      if (!["bloccante", "grave", "minore"].includes(n.severita)) rossi.push("un difetto nuovo riservato ha la gravità fuori elenco (bloccante, grave o minore)");
-      const chiaviIn = Object.keys(n ?? {}).filter((k) => !CAMPI_RISERVATA.includes(k));
-      if (chiaviIn.length) rossi.push(`un difetto nuovo riservato porta campi in più (${chiaviIn.join(", ")}): solo ${CAMPI_RISERVATA.join(", ")}`);
-      if (n.file !== PRIVATO) rossi.push(`un difetto nuovo riservato ha il file in chiaro: va «${PRIVATO}»`);
-      if (!TITOLO_RISERVATO.test(String(n.titolo ?? ""))) rossi.push(`un difetto nuovo riservato ha il titolo fuori forma: «Falla di sicurezza da chiudere (<${AREE_RISERVATE.join("|")}>): i dettagli restano fuori dal deposito pubblico finché non è chiusa»`);
-      if (n.dimensione !== undefined && !/^[a-z-]{1,40}$/.test(String(n.dimensione))) rossi.push("un difetto nuovo riservato ha una dimensione fuori forma");
-    } else if (/falla di sicurezza/i.test(String(n?.titolo ?? ""))) rossi.push(`«${String(n?.titolo).slice(0, 60)}…»: una falla di sicurezza si scrive con «riservato: true», mai in chiaro`);
-    else if (vuoto(n?.titolo) || vuoto(n?.file) || !["bloccante", "grave", "minore"].includes(n?.severita)) rossi.push(`un difetto nuovo senza titolo, file o gravità valida: «${n?.titolo ?? ""}»`);
-  }
+  rossi.push(...regoleNuoviDifetti(r.nuovi_difetti_visti));
   if (r.finita === true) {
     for (const v of ctx.voci) if (!viste.has(v.id)) rossi.push(`${v.id}: a referto finito ogni voce della scheda deve comparire, anche quelle non fatte`);
     if (r.verifica?.esito !== "verde") rossi.push("a referto finito la verifica (npm run verify, o il cancello della macchina) deve essere verde");
+    // La verifica si lega allo SHA su cui è girata (12/11 notte): nell'onda 1 R07 ha spinto 8 commit con un verify
+    // lanciato e mai aspettato. Senza lo SHA è un'attesa (il referto non passa al collaudo); con uno SHA diverso
+    // dalla testa è un rosso: la verifica va rifatta sull'ultimo codice. I referti vecchi senza il campo restano
+    // leggibili da `applica`, che guarda solo i rossi.
+    else if (vuoto(r.verifica?.testa)) attese.push("la verifica non dice su quale commit è girata: scrivi «verifica.testa» = lo SHA su cui hai lanciato npm run verify (deve essere la testa)");
+    else if (typeof r.verifica.testa !== "string" || !SHA.test(r.verifica.testa)) rossi.push(`«verifica.testa» ${JSON.stringify(r.verifica.testa)} non è un commit (da 7 a 40 cifre esadecimali)`);
+    else if (!verificaSullaTesta(r.verifica.testa, r.testa, ctx)) rossi.push(`la verifica è girata su ${r.verifica.testa.slice(0, 12)}, non sulla testa ${String(r.testa ?? "").slice(0, 12)}: va rifatta sull'ultimo codice`);
     if (vuoto(r.testa)) rossi.push("a referto finito manca «testa», l'ultimo commit del ramo");
     else if (!SHA.test(String(r.testa))) rossi.push(`«testa» «${r.testa}» non è un commit (da 7 a 40 cifre esadecimali)`);
     else if (ctx.testaDelRamo && !String(ctx.testaDelRamo).startsWith(String(r.testa)) && !String(r.testa).startsWith(String(ctx.testaDelRamo))) rossi.push(`«testa» ${String(r.testa).slice(0, 12)} non è la testa del ramo (${String(ctx.testaDelRamo).slice(0, 12)})`);
@@ -1023,14 +1166,14 @@ function validaReferto(opz) {
   if (![`referto-${nome}.json`, `${nome}.json`].includes(basename(file))) return chiudi("valida-referto", [`il file ${basename(file)} dice una sessione, il referto un'altra («${nome}»)`], [], opz);
   let chiaviDelRegistro = null;
   try { chiaviDelRegistro = new Set(leggiRegistro(per.casa, opz).elenco.map((d) => chiaveDi(per.casa, d))); } catch { /* detto sotto */ }
-  let commitDelRamo = null, testaDelRamo = null;
+  let commitDelRamo = null, testaDelRamo = null, soloRefertoDopo = [];
   if (opz.ramo) {
     const dir = resolve(opz.git ?? repoDi(per.casa, opz));
     const visti = controlliDelRamo(dir, dove.onda.base, opz.ramo, testo);
     if (!visti) return chiudi("valida-referto", [], [`il ramo ${opz.ramo} non esiste ancora`], opz);
-    ({ commitDelRamo, testaDelRamo } = visti);
+    ({ commitDelRamo, testaDelRamo, soloRefertoDopo } = visti);
   }
-  const { rossi, attese } = regoleReferto(testo, { nome, voci: dove.sessione.voci, chiaviDelRegistro, commitDelRamo, testaDelRamo });
+  const { rossi, attese } = regoleReferto(testo, { nome, voci: dove.sessione.voci, chiaviDelRegistro, commitDelRamo, testaDelRamo, soloRefertoDopo });
   if (!chiaviDelRegistro) attese.push("il registro non si legge: non ho controllato che le chiavi ci siano");
   if (!opz.ramo) attese.push("senza --ramo non ho controllato i commit nella storia del ramo");
   return chiudi("valida-referto", rossi, attese, opz, { sessione: nome });
@@ -1096,6 +1239,10 @@ export function regoleCollaudo(testo, ctx) {
       if (rv.esito !== "gia_riparato_prima") {
         if (!Number.isInteger(cv.rimessa?.uscita) || vuoto(cv.rimessa?.comando)) rossi.push(`${rv.id}: manca la prova rimessa lanciata dal collaudatore (uscita e comando)`);
         if (cv.verdetto === "regge" && cv.rimessa?.uscita !== 0) rossi.push(`${rv.id}: «regge» con la prova rimessa uscita ${cv.rimessa?.uscita}, non 0`);
+        // La prova rimessa del collaudo toglie davvero la correzione: apply.sh + run.sh, o un comando qualunque,
+        // sono verdi qualunque cosa faccia la correzione (radiografia del 12/11 notte).
+        if (cv.verdetto === "regge" && !vuoto(cv.rimessa?.comando) && !/prova-rimessa\.mjs/.test(String(cv.rimessa.comando))) rossi.push(`${rv.id}: «regge» con una prova rimessa che non è prova-rimessa.mjs: un comando che non toglie la correzione non prova niente`);
+        if (cv.verdetto === "regge" && /--sql\b/.test(String(rv.rimessa?.comando ?? "")) && !/--sql\b/.test(String(cv.rimessa?.comando ?? ""))) rossi.push(`${rv.id}: il riparatore l'ha provata con --sql e il collaudo no: una migrazione si prova ricostruendo il database con e senza`);
       }
       if (cv.verdetto === "regge" && cv.giudizio === "pieno" && !lentiTutte) rossi.push(`${rv.id}: un giudizio pieno porta tutte e due le lenti (${LENTI.join(", ")})`);
       if ((GRAVI.has(s.gravita) || rv.esito === "gia_riparato_prima") && cv.verdetto === "regge" && cv.giudizio !== "pieno") rossi.push(`${rv.id}: un ${rv.esito === "gia_riparato_prima" ? "«già riparato»" : s.gravita} regge solo con un giudizio pieno`);
@@ -1155,6 +1302,15 @@ function validaCollaudo(opz) {
 }
 
 // ── prova-unione ─────────────────────────────────────────────────────────────────────────────────
+/** Il deposito dove vivono i rami dei riparatori di questa campagna: lo usa sorveglia.sh, che prima lo indovinava. */
+function deposito(opz) {
+  let per;
+  try { per = leggiPerimetro(opz); } catch (e) { return cieco("deposito", e.message, opz); }
+  const dir = resolve(opz.git ?? repoDi(per.casa, opz));
+  if (gitOk(dir, ["rev-parse", "--git-dir"]) === null) { console.error(`🔴 deposito: ${dir} non è un deposito git (casa ${per.casa}): non posso sorvegliare`); return 2; }
+  console.log(dir);
+  return 0;
+}
 function provaUnione(opz) {
   let per, piano;
   try { per = leggiPerimetro(opz); piano = leggiPiano(opz); } catch (e) { return cieco("prova-unione", e.message, opz); }
@@ -1182,7 +1338,8 @@ function provaUnione(opz) {
     const st = storiaDelRamo(dir, o.base, ref);
     // Un ramo che ha unito altro porta i file di tutti: un rosso solo, e fuori dalla prova (secondo collaudo).
     if (st.unioni.length) { conUnioni.add(n); rossi.push(`${n}: il ramo ha ${st.unioni.length} unioni; prima si tolgono, poi si prova l'unione`); continue; }
-    for (const f of st.toccati) {
+    // Il diff netto, come la guardia (radiografia del 12/11 notte): un file toccato e rimesso non entra nell'unione.
+    for (const [, f] of voci0(gitOk(dir, ["diff", "-z", "--name-only", "--no-renames", o.base, ref]) ?? "", false)) {
       if (f.startsWith(`${REFERTO_DIR}/`)) continue;
       if (!chiTocca.has(f)) chiTocca.set(f, []);
       chiTocca.get(f).push(n);
@@ -1278,6 +1435,49 @@ function leggiCartellaTesti(dir, re) {
     return { nome, testo, dati };
   });
 }
+// ── i controllori (Nicola, 12/11: «ci deve essere un controllore… non voglio che con la prossima radiografia
+// trovo errori che c'erano già») ─────────────────────────────────────────────────────────────────────
+// Un controllore d'onda (C01, C02…) o finale (CF) guarda il ramo GIÀ unito: rilancia le prove sull'albero
+// intero e riguarda i file toccati. Scrive controlli/<nome>.json. Una voce che trova rossa non si chiude,
+// anche se riparatore e collaudatore dicevano «regge»; i difetti nuovi che vede entrano nel registro come nati.
+export const RE_CONTROLLO = /^C(\d{2}|F)\.json$/;
+/** Le regole di un referto di controllo. PURA: torna i rossi. */
+export function regoleControllo(dati, { nome, chiaviDelRegistro = null, testo = null } = {}) {
+  const rossi = [];
+  // Una chiave scritta due volte: JSON.parse tiene l'ultima, e un «voci_rosse» pieno spariva sotto uno vuoto.
+  if (testo) for (const k of chiaviDoppie(testo)) rossi.push(`la chiave «${k}» è scritta due volte nello stesso oggetto`);
+  if (dati?.controllore !== nome) rossi.push(`dice di essere «${dati?.controllore}», il file è ${nome}`);
+  if (dati?.finita !== true) rossi.push("il controllo non è finito");
+  if (!SHA.test(String(dati?.testa ?? ""))) rossi.push("manca «testa»: lo SHA del ramo unito che il controllore ha guardato");
+  const listaRosse = Array.isArray(dati?.voci_rosse);
+  if (!listaRosse) rossi.push("manca «voci_rosse» (anche vuota: [] vuol dire che ha guardato e reggono tutte)");
+  if (vuoto(dati?.verify?.comando) || !["verde", "rosso"].includes(dati?.verify?.esito)) rossi.push("manca la prova sull'albero unito («verify»: comando ed esito verde o rosso)");
+  // Un albero unito rosso che il controllore non attribuisce a nessuna voce non chiude niente in silenzio:
+  // nel dubbio si capisce prima di chiudere (collaudo del 12/11).
+  else if (dati.verify.esito === "rosso" && listaRosse && dati.voci_rosse.length === 0) rossi.push("«verify» è rosso ma nessuna voce è rossa: di chi è il rosso? Si capisce prima di chiudere");
+  for (const v of listaRosse ? dati.voci_rosse : []) {
+    if (vuoto(v?.chiave) || vuoto(v?.perche)) rossi.push(`una voce rossa senza chiave o senza perché: «${v?.chiave ?? ""}»`);
+    else if (chiaviDelRegistro && !chiaviDelRegistro.has(v.chiave)) rossi.push(`la voce rossa «${v.chiave}» non è nel registro`);
+  }
+  if (dati?.nuovi_difetti_visti !== undefined && !Array.isArray(dati.nuovi_difetti_visti)) rossi.push("«nuovi_difetti_visti» deve essere un elenco");
+  else rossi.push(...regoleNuoviDifetti(dati?.nuovi_difetti_visti));
+  return rossi;
+}
+/** Le voci che un controllore ha trovato rosse non si chiudono. PURA: torna le decisioni nuove. */
+export function conIControlli(decisioni, controlli = []) {
+  const rosse = new Map();
+  for (const c of controlli) for (const v of c?.voci_rosse ?? []) if (!rosse.has(v.chiave)) rosse.set(v.chiave, `${c.controllore}: ${v.perche}`);
+  // Anche un «già riparato prima» si riapre: se sul ramo unito il difetto c'è, non era riparato.
+  return decisioni.map((d) => (["si_chiude", "gia_riparato_prima"].includes(d.decisione) && rosse.has(d.chiave)
+    ? { ...d, decisione: "resta_aperta", verdetto: "rossa_al_controllo", perche: `rossa al controllo sul ramo unito (${rosse.get(d.chiave)})`, controllo: rosse.get(d.chiave) }
+    : d));
+}
+/** Le voci rosse di un controllore che non sono di questa campagna: non si ignorano in silenzio. PURA. */
+export const rosseFuoriCampagna = (decisioni, controlli = []) => {
+  const nostre = new Set(decisioni.map((d) => d.chiave));
+  return [...new Set(controlli.flatMap((c) => (c?.voci_rosse ?? []).map((v) => v.chiave)).filter((k) => !nostre.has(k)))];
+};
+
 function applica(opz) {
   let per, piano;
   try { per = leggiPerimetro(opz); piano = leggiPiano(opz); } catch (e) { return cieco("applica", e.message, opz); }
@@ -1299,9 +1499,16 @@ function applica(opz) {
   try { chiaviDelRegistro = new Set(leggiRegistro(per.casa, opz).elenco.map((d) => chiaveDi(per.casa, d))); } catch (e) { return cieco("applica", e.message, opz); }
   const ferma = [];
   // Un file con un nome che non è di nessuna sessione non si ignora in silenzio: è un referto che nessuno legge.
-  for (const [sotto, re] of [["referti", /^R\d{2}\.json$/], ["collaudi", /^K\d{2}\.json$/]]) {
+  for (const [sotto, re, forma] of [["referti", /^R\d{2}\.json$/, "RNN"], ["collaudi", /^K\d{2}\.json$/, "KNN"], ["controlli", RE_CONTROLLO, "CNN o CF"]]) {
     const d = join(cartella, sotto);
-    if (existsSync(d)) for (const n of readdirSync(d)) if (!re.test(n)) ferma.push(`${sotto}/${n}: il nome non è quello di una sessione (${sotto === "referti" ? "RNN" : "KNN"}.json)`);
+    if (existsSync(d)) for (const n of readdirSync(d)) if (!re.test(n)) ferma.push(`${sotto}/${n}: il nome non è quello di una sessione (${forma}.json)`);
+  }
+  const controlli = [];
+  for (const { nome: file, testo, dati } of leggiCartellaTesti(join(cartella, "controlli"), RE_CONTROLLO)) {
+    const nome = file.replace(/\.json$/, "");
+    if (!dati) { ferma.push(`controlli/${file}: non è JSON`); continue; }
+    for (const r of regoleControllo(dati, { nome, chiaviDelRegistro, testo })) ferma.push(`controlli/${file}: ${r}`);
+    controlli.push(dati);
   }
   const referti = {};
   const sess = leggiSessioni(opz);
@@ -1319,8 +1526,17 @@ function applica(opz) {
     if (opz.git && ramo) visti = controlliDelRamo(resolve(opz.git), dove.onda.base, ramo, testo);
     if (!visti && opz.scrivi) ferma.push(`referti/${file}: con --scrivi servono --git e il ramo di ${nome} in sessioni.json, per controllare commit e testa sulla storia vera`);
     if (!visti && !opz.scrivi) senzaStoria.push(nome);
-    const { rossi } = regoleReferto(testo, { nome, voci: dove.sessione.voci, chiaviDelRegistro, commitDelRamo: visti?.commitDelRamo ?? null, testaDelRamo: visti?.testaDelRamo ?? null });
+    const { rossi } = regoleReferto(testo, { nome, voci: dove.sessione.voci, chiaviDelRegistro, commitDelRamo: visti?.commitDelRamo ?? null, testaDelRamo: visti?.testaDelRamo ?? null, soloRefertoDopo: visti?.soloRefertoDopo ?? [] });
     for (const r of rossi) ferma.push(`referti/${file}: ${r}`);
+    // La guardia del ramo si rilancia qui: la skill lo prometteva e non succedeva, e il 12/11 tre rami con la guardia
+    // rossa si sono uniti e chiusi (radiografia del 12/11 notte). Con --scrivi --git è obbligatoria.
+    if (opz.git && ramo) for (const r of giudicaRamo(opz, per, piano, ramo, nome).rossi) ferma.push(`referti/${file}: guardia-ramo: ${r}`);
+    // La verifica legata allo SHA è obbligatoria anche qui: l'attesa di valida-referto da sola non fermava niente
+    // (collaudo del 12/11 notte). Vale da `verifica_testa_dall_onda` del piano (predefinito 1): la campagna del
+    // 12/11 la mette a 2, perché i referti della sua onda 1 sono nati prima della regola. Prima era «dall'onda 2»
+    // per tutte, e nell'onda 1 di ogni campagna futura non valeva mai (radiografia del 12/11 notte).
+    const dallOnda = Number(piano.verifica_testa_dall_onda) || 1;
+    if (dove.onda.onda >= dallOnda && dati.finita === true && vuoto(dati.verifica?.testa)) ferma.push(`referti/${file}: un referto finito dice su quale commit è girata la verifica («verifica.testa»)`);
     if (dati.finita !== true) ferma.push(`referti/${file}: il referto non è finito`);
     referti[nome] = dati;
   }
@@ -1338,7 +1554,9 @@ function applica(opz) {
     collaudi.push(dati);
   }
   if (ferma.length) return chiudi("applica", ferma, [], opz);
-  const decisioni = decidi({ piano, referti, collaudi, hub });
+  const decisioni = conIControlli(decidi({ piano, referti, collaudi, hub }), controlli);
+  const fuoriCampagna = rosseFuoriCampagna(decisioni, controlli);
+  if (fuoriCampagna.length) console.log(`⚠️  ${fuoriCampagna.length} voci rosse dei controllori non sono di questa campagna (restano come sono nel registro, vanno dette a Nicola): ${fuoriCampagna.slice(0, 5).join(" ; ")}`);
   const quando = opz.quando ?? timbroOra();
   const [g, m] = [quando.slice(8, 10), quando.slice(5, 7)];
   const campo = `riparazione_${g}_${m}`;
@@ -1346,7 +1564,8 @@ function applica(opz) {
   const chiude = decisioni.filter((d) => d.decisione === "si_chiude");
   const gia = decisioni.filter((d) => d.decisione === "gia_riparato_prima");
   const restano = decisioni.filter((d) => d.decisione === "resta_aperta");
-  const nati = Object.values(referti).flatMap((r) => (r.nuovi_difetti_visti ?? []).map((n) => ({ ...n, sessione: r.sessione })));
+  const nati = [...Object.values(referti), ...controlli.map((c) => ({ ...c, sessione: c.controllore }))]
+    .flatMap((r) => (r.nuovi_difetti_visti ?? []).map((n) => ({ ...n, sessione: r.sessione })));
   console.log(`🧾 ${decisioni.length} voci: ${chiude.length} si chiudono (dopo l'unione), ${gia.length} erano già riparate, ${restano.length} restano aperte · ${nati.length} difetti nati`);
   // i frammenti per chiudi-sito.mjs (sito) o la lista per auto-fix (macchina): si applicano DOPO l'unione
   const perSessione = new Map();
@@ -1355,10 +1574,11 @@ function applica(opz) {
     corsia: numeroSessione(s), territorio: s,
     difetti: ds.map((d) => ({ chiave: d.chiave, esito: "riparato", verifica_comando: d.verifica_comando, non_vacuita: d.non_vacuita, nota_fix: d.nota_fix })),
   }));
-  scriviJson(join(cartella, "decisioni.json"), { campagna: nomeCampagna, quando, decisioni });
+  scriviJson(join(cartella, "decisioni.json"), { campagna: nomeCampagna, quando, decisioni, ...(fuoriCampagna.length ? { rosse_fuori_campagna: fuoriCampagna } : {}) });
   if (!opz.scrivi) {
     console.log("   (a vuoto: ho scritto solo decisioni.json. Con --scrivi scrivo i frammenti e il registro.)");
     const attese = senzaStoria.length ? [`commit e testa non controllati sulla storia del ramo per ${senzaStoria.join(", ")} (servono --git e sessioni.json)`] : [];
+    if (fuoriCampagna.length) attese.push(`${fuoriCampagna.length} voci rosse dei controllori non sono di questa campagna: vanno dette a Nicola (in decisioni.json, rosse_fuori_campagna)`);
     return chiudi("applica", [], attese, opz, { si_chiudono: chiude.length, gia: gia.length, restano: restano.length, nati: nati.length });
   }
   for (const f of frammenti) scriviJson(join(cartella, "frammenti", `esito-${f.corsia}.json`), f);
@@ -1433,17 +1653,28 @@ function conti(opz) {
   const dec = existsSync(join(cartella, "decisioni.json")) ? leggiJson(join(cartella, "decisioni.json")).decisioni : [];
   const perDec = {};
   for (const d of dec) perDec[d.decisione] = (perDec[d.decisione] ?? 0) + 1;
+  // Il controllo finale non dimentica nessuna voce (Nicola, 12/11: «che non si dimentichi nulla»): ogni voce data a
+  // una sessione ha la sua decisione in decisioni.json, e ogni decisione dice perché resta aperta.
+  if (dec.length) {
+    const conDecisione = new Set(dec.map((d) => d.chiave));
+    for (const o of piano.onde) for (const [n, sess] of Object.entries(o.sessioni)) for (const v of sess.voci) {
+      if (!conDecisione.has(v.chiave)) rossi.push(`${v.id} (${n}, onda ${o.onda}): nessuna decisione in decisioni.json`);
+    }
+    for (const d of dec) if (d.decisione === "resta_aperta" && vuoto(d.perche) && d.esito !== "senza_referto") rossi.push(`${d.id}: resta aperta senza il perché`);
+  }
+  // Senza decisioni.json il controllo qui sopra non si fa: lo si dice, invece di uscire verdi (radiografia del 12/11 notte).
+  const senzaDecisioni = !dec.length && assegnate > 0 ? [`decisioni.json non c'è o è vuoto: il controllo «nessuna voce dimenticata» non è fatto (si scrive con applica)`] : [];
   console.log(`📊 perimetro ${per.lavorabili.length} lavorabili · assegnate ${assegnate} in ${piano.onde.length} onde · cucitura ${piano.cucitura?.length ?? 0} · eccedenza ${piano.eccedenza?.length ?? 0}`);
   console.log(`   esiti dei riparatori: ${Object.entries(esiti).map(([k, v]) => `${v} ${k}`).join(", ") || "nessun referto"}`);
   if (dec.length) console.log(`   decisioni: ${Object.entries(perDec).map(([k, v]) => `${v} ${k}`).join(", ")}`);
   if (statoOra) console.log(`   nel registro adesso, per le chiavi del perimetro: ${Object.entries(statoOra).map(([k, v]) => `${v} ${k}`).join(", ")}`);
-  return chiudi("conti", rossi, statoOra ? [] : ["il registro non si legge"], opz, { lavorabili: per.lavorabili.length, assegnate, esiti, decisioni: perDec, registro: statoOra });
+  return chiudi("conti", rossi, [...senzaDecisioni, ...(statoOra ? [] : ["il registro non si legge"])], opz, { lavorabili: per.lavorabili.length, assegnate, esiti, decisioni: perDec, registro: statoOra });
 }
 
 // ── avvio ────────────────────────────────────────────────────────────────────────────────────────
 const COMANDI = {
   perimetro, dividi, schede, "copertura-prima": coperturaPrima, segnaposti, "guardia-ramo": guardiaRamo,
-  "valida-referto": validaReferto, "valida-collaudo": validaCollaudo, "prova-unione": provaUnione, applica, conti,
+  "valida-referto": validaReferto, "valida-collaudo": validaCollaudo, "prova-unione": provaUnione, applica, conti, deposito,
 };
 export function esegui(argv) {
   const [comando, ...resto] = argv;

@@ -1,0 +1,169 @@
+{
+ "regista": "session_015BmpnXsL6Y7tP3BhawauHw",
+ "ad": "session_015BmpnWWfcmEfYEhQ25M7s2",
+ "sha_regista": "2f55d47d7ac130718ddabf722ba9485d3abe0428",
+ "base": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
+ "integrazione": "claude/sweet-galileo-0skkay",
+ "sessioni": {
+  "R01": {
+   "id": "session_015BmpnWa4kEGXtN8hYcdRgR",
+   "ramo": "claude/sweet-galileo-0skkay-m01",
+   "onda": 1,
+   "partenza": "2026-11-12 15:38",
+   "finita": true,
+   "nota": "guardia-ramo rossa solo sulla storia di tests/unit/il-testo-dice-quello-che-succede-davvero.test.ts (diff netto vuoto): decisione di Nicola alla fermata 2"
+  },
+  "R02": {
+   "id": "session_015BmpnYwiJJk1vSNaYWVZUu",
+   "ramo": "claude/sweet-galileo-0skkay-m02",
+   "onda": 1,
+   "partenza": "2026-11-12 15:38",
+   "finita": true
+  },
+  "R03": {
+   "id": "session_015BmpnZFUeULBKmzDxSed5y",
+   "ramo": "claude/sweet-galileo-0skkay-m03",
+   "onda": 1,
+   "partenza": "2026-11-12 15:38",
+   "finita": true
+  },
+  "R04": {
+   "id": "session_015BmpnWRTq8EGWUoGHnUUnh",
+   "ramo": "claude/sweet-galileo-0skkay-m04",
+   "onda": 1,
+   "partenza": "2026-11-12 15:38",
+   "finita": true,
+   "nota": "guardia-ramo rossa: 1 prova esistente che legge app/globals.css di R04; regola a Nicola alla fermata 2; rimesse fatte a mano (programma bloccato nella sua sessione)"
+  },
+  "R05": {
+   "id": "session_015BmpnYCFe4QCxgiHPFgiMy",
+   "ramo": "claude/sweet-galileo-0skkay-m05",
+   "onda": 1,
+   "partenza": "2026-11-12 15:38",
+   "nota": "mai partito: la sessione aspetta un via umano e non accetta i messaggi della regista; voci da proporre all'onda 2"
+  },
+  "R06": {
+   "id": "session_015BmpnZDMdwrR3Hk3LdP1yL",
+   "ramo": "claude/sweet-galileo-0skkay-m06",
+   "onda": 1,
+   "partenza": "2026-11-12 15:38",
+   "finita": true
+  },
+  "R07": {
+   "id": "session_015BmpnYpvGww4fT8hYibW1e",
+   "ramo": "claude/sweet-galileo-0skkay-m07",
+   "onda": 1,
+   "partenza": "2026-11-12 15:38",
+   "finita": true,
+   "nota": "guardia-ramo rossa solo sulla storia di tests/unit/aiuti/database-coi-permessi.ts (diff netto vuoto): decisione di Nicola alla fermata 2; un qa ha letto in sola lettura il database di produzione (annotato nel referto)"
+  },
+  "R08": {
+   "id": "session_015BmpnZVJbMnQpGX6C4bvJq",
+   "ramo": "claude/sweet-galileo-0skkay-m08",
+   "onda": 1,
+   "partenza": "2026-11-12 15:38",
+   "finita": true,
+   "nota": "guardia-ramo rossa: 2 prove esistenti modificate che leggono ma non importano file di R08; decisione di Nicola alla fermata 2"
+  },
+  "R09": {
+   "id": "session_015BmpnYNCvQS2t6kJjn6qj3",
+   "ramo": "claude/sweet-galileo-0skkay-m09",
+   "onda": 1,
+   "partenza": "2026-11-12 15:38",
+   "finita": true
+  },
+  "R10": {
+   "id": "session_015BmpnXrTG4qST19RxhBdp7",
+   "ramo": "claude/sweet-galileo-0skkay-m10",
+   "onda": 1,
+   "partenza": "2026-11-12 15:38",
+   "finita": true
+  },
+  "R11": {
+   "id": "session_015BmpnXkhjmQaCWxNCSeKBd",
+   "ramo": "claude/sweet-galileo-0skkay-m11",
+   "onda": 1,
+   "partenza": "2026-11-12 15:38",
+   "finita": true,
+   "nota": "guardia-ramo rossa: 3 prove esistenti che montano le sue pagine per percorso; regola a Nicola"
+  },
+  "R12": {
+   "id": "session_015BmpnVY8PKXUubt6QyBcp2",
+   "ramo": "claude/sweet-galileo-0skkay-m12",
+   "onda": 1,
+   "partenza": "2026-11-12 15:38",
+   "finita": true
+  }
+ },
+ "collaudatori": {
+  "K01": {
+   "id": "session_015BmpnWPgQwyfLWKYmjVRSe",
+   "ramo": "claude/sweet-galileo-0skkay-k01",
+   "partenza": "2f55d47d7ac130718ddabf722ba9485d3abe0428",
+   "riparatori": [
+    "R01",
+    "R02",
+    "R09"
+   ],
+   "onda": 1
+  },
+  "K02": {
+   "id": "session_015BmpnYyjqbgDzNL8ScKQQS",
+   "ramo": "claude/sweet-galileo-0skkay-k02",
+   "partenza": "2f55d47d7ac130718ddabf722ba9485d3abe0428",
+   "riparatori": [
+    "R04",
+    "R07",
+    "R08"
+   ],
+   "onda": 1
+  },
+  "K03": {
+   "id": "session_015BmpnYx7NAcJEk1L5shNPn",
+   "ramo": "claude/sweet-galileo-0skkay-k03",
+   "partenza": "2f55d47d7ac130718ddabf722ba9485d3abe0428",
+   "riparatori": [
+    "R06",
+    "R10",
+    "R12"
+   ],
+   "onda": 1
+  },
+  "K04": {
+   "id": "session_015BmpnWMxyV4QsgcBmvsQJo",
+   "ramo": "claude/sweet-galileo-0skkay-k04",
+   "partenza": "2f55d47d7ac130718ddabf722ba9485d3abe0428",
+   "riparatori": [
+    "R03",
+    "R11"
+   ],
+   "onda": 1
+  }
+ },
+ "controllori": {
+  "C01": {
+   "id": "session_015BmpnVabUhyJW9h8MggNoh",
+   "ramo": "claude/sweet-galileo-0skkay-c01",
+   "onda": 1,
+   "integrazione": "b144746992176ae554d48376a00d972f5210a49f"
+  }
+ },
+ "integrazione_onda1": "b144746992176ae554d48376a00d972f5210a49f",
+ "tolte_onda1": {
+  "rompe_altro_due_volte": [
+   "R03-001",
+   "R03-008",
+   "R11-015",
+   "R11-016",
+   "R12-012"
+  ],
+  "rosse_dopo_unione": [
+   "R07-019",
+   "R06-014",
+   "R06-017"
+  ],
+  "non_tolta_latente": [
+   "R10-019"
+  ]
+ }
+}

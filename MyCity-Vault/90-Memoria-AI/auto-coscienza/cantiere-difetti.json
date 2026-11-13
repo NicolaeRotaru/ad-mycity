@@ -26467,6 +26467,54 @@
       },
       "chiuso_il": "2026-11-12 14:34",
       "chiuso_da": "riparazione della suite del cervello del 12/11 sul ramo claude/happy-tesla-3c87mc, in attesa della firma di Nicola sulla richiesta di unione (vale solo da unita)"
+    },
+    {
+      "id": "AR-1171",
+      "titolo": "La sorveglianza della riparazione in sessioni diceva «nessun rosso» senza aver guardato, e la guida chiedeva cose che il programma non faceva",
+      "dimensione": "cadenza-esecuzione",
+      "dove": ".claude/skills/riparazione/SKILL.md · cervello/riparazione/sorveglia.sh · cervello/riparazione/LEGGIMI-*.md",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-13 01:05",
+      "nato_come": "scoperta",
+      "nato_da": "radiografia del perimetro toccato, notte del 12/11 (lenti cadenza-esecuzione e guardrail-semaforo, ogni difetto verificato da due scettici), sui file della PR #944",
+      "origine": "radiografia",
+      "fonte": "radiografia-in-corsa del lotto della riparazione in sessioni",
+      "owner": "builder-automazioni",
+      "sintomo": "Nove difetti confermati. sorveglia.sh indovinava il deposito (../mycity): su una campagna della macchina, o col sito in <radice>/marketplace, stampava «✅ nessun rosso» con la guardia rossa; un fetch fallito veniva buttato via e si giudicava il ramo vecchio; l'attesa della guardia (uscita 3) contava come rosso. La guida: il prompt di F1 faceva clonare ad-mycity per leggere le regole (la causa del blocco di R05); diceva che applica rilancia la guardia, e non era vero (il 12/11 tre rami con la guardia rossa si sono uniti); il lucchetto dei collaudatori sul database vero non si può mettere, perché ad-mycity vieta di scrivere settings.local.json; il tetto di spesa si guardava solo a fine onda; il passaggio oltre 300 mila token non aveva ricetta; i lotti del riparatore partivano «tutti insieme» nella stessa copia.",
+      "causa_radice": "La sorveglianza e la guida erano scritte per il caso del sito in ../mycity e per un programma che si immaginava più completo di com'era: nessuna prova girava sorveglia.sh, e nessuno confrontava la guida col codice.",
+      "fix_proposto": "Fatto in cb4136c: sorveglia.sh chiede il deposito al programma (comando deposito), esce 2 «giro cieco» su un fetch fallito, legge l'attesa come attesa; la guida e i LEGGIMI dicono quello che il codice fa (primo messaggio con regole e scheda intere, applica --git che rilancia la guardia, lotti uno alla volta, ricetta del passaggio, spesa guardata durante l'onda, controllo dopo con list_events finché Nicola non sceglie la strada del lucchetto: card #236).",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/riparazione-sorveglia.test.mjs",
+        "nota": "4 casi su una casa finta (campagna della macchina con guardia rossa, fetch fallito, deposito mancante, ramo senza commit), rossi con la sorveglia.sh di prima; 2 mutazioni in cervello/mutanti.json col difetto AR-1171, prese. Il lucchetto dei collaudatori resta aperto: è la card #236 per Nicola. Si chiude con auto-fix dopo l'unione della PR."
+      }
+    },
+    {
+      "id": "AR-1172",
+      "titolo": "Il programma della riparazione in sessioni lasciava passare verdi falsi: prove condivise, prove spente o svuotate, migrazioni provate male, rami rossi uniti",
+      "dimensione": "rischio-sicurezza-se",
+      "dove": "cervello/riparazione-sessioni.mjs · cervello/prova-rimessa.mjs",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-13 01:05",
+      "nato_come": "scoperta",
+      "nato_da": "radiografia del perimetro toccato, notte del 12/11 (lenti rischio-sicurezza-se e guardrail-semaforo, ogni difetto verificato da due scettici), sui file della PR #944",
+      "origine": "radiografia",
+      "fonte": "radiografia-in-corsa del lotto della riparazione in sessioni",
+      "owner": "builder-automazioni",
+      "sintomo": "Tredici difetti. guardia-ramo: una prova che setaccia cartelle, o un aiutante delle prove importato da altre prove, diventava di una sessione sola; .skip.each, describe.skip.each e ctx.skip() non si vedevano; un'asserzione commentata contava ancora; una prova SQL nuova senza .test.sql passava, e dopo l'unione non la lanciava nessuno. prova-unione giudicava ancora la storia. applica non rilanciava la guardia, chiudeva un referto senza verifica.testa (e nell'onda 1 di ogni campagna nuova non lo fermava mai), e accettava un collaudo «regge» con apply.sh e run.sh, che non tolgono la correzione. conti era verde senza decisioni.json. prova-rimessa: due file nuovi provati solo insieme (quello estraneo prendeva «regge»), --sql che leggeva come asserzione un errore di struttura avvolto in WHEN OTHERS, una migrazione nuova provata senza --sql, --sql che faceva DROP DATABASE su qualunque server dicesse l'ambiente.",
+      "causa_radice": "Le regole nuove del 12/11 sera allargavano chi può toccare una prova e cosa vale come prova, ma i casi d'uso veri del sito (prove che setacciano cartelle, aiutanti comuni, lo stampo SQL con WHEN OTHERS) non erano nelle prove del programma.",
+      "fix_proposto": "Fatto in cb4136c: le prove comuni sono della regista; RE_SPENTA e contaAsserzioni allargati; .test.sql obbligatorio; prova-unione sul diff netto; applica con --git rilancia la guardia e ferma il referto senza verifica.testa da piano.verifica_testa_dall_onda (predefinito 1); il collaudo regge solo con prova-rimessa, e con --sql se il riparatore l'ha usato; conti in attesa senza decisioni.json; prova-rimessa toglie i file nuovi anche uno per uno, legge la struttura nelle righe INFO e nei nomi creati solo dalla migrazione nuova, non decide su una migrazione senza --sql, e --sql gira solo su un database di prova e su un Postgres locale.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/riparazione-sessioni.test.mjs",
+        "nota": "75 casi qui, e 35 in cervello/test/la-correzione-tolta-deve-far-cadere-la-prova.test.mjs per prova-rimessa; 14 mutazioni nuove in cervello/mutanti.json col difetto AR-1172, tutte prese. Sui 11 rami veri dell'onda 1 la guardia dà gli stessi rossi prima e dopo. Effetto da decidere: con la regola delle prove comuni, 9 rami veri su 11 sono rossi (57 prove comuni toccate) e applica sulla campagna del 12/11 è rossa; la scelta di quanto stringere è di Nicola. Si chiude con auto-fix dopo l'unione della PR."
+      }
     }
   ],
   "meta": {
