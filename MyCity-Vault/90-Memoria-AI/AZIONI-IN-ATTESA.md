@@ -31,6 +31,19 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🟡 #239 — Scegli come trattare le prove comuni toccate nella prima onda · ⏳ accodata 2026-11-13 01:10
+
+**In parole semplici.** Una regola del risolutore dice che una prova usata da più riparatori la cambia solo la regista. Nella prima onda 9 riparatori su 12 l'hanno toccata lo stesso: 57 prove comuni. Per questo il programma che chiude i difetti oggi dà 63 errori sulla campagna.
+
+**Cosa cambia per te.** Esempio: finché non scegli, i 115 difetti riparati della prima onda non si possono segnare come chiusi nel registro.
+
+**Cosa devi fare tu.** Rispondi con una lettera. «a»: la regola resta stretta, e per la sola prima onda firmi un'eccezione, perché quelle modifiche le hanno già guardate i collaudatori. «b»: la regola si allenta, se il numero di controlli dentro la prova non cala. «c»: diventa solo un avviso. Io consiglio «a»: niente codice nuovo, e dalla seconda onda vale la regola stretta.
+
+**Cosa non ho verificato.** Non ho riletto io le 57 prove: il numero viene dalla regista.
+
+Cosa cambia: i difetti chiusi della prima onda entrano nel registro, e la regola per le onde dopo resta decisa.
+Se va bene: la regista lancia la chiusura dei difetti della prima onda dopo che hai unito le due richieste.
+
 ### 🔴 #238 — Riprova le tre migrazioni del sito rimaste, ma non la 350 · ⏳ accodata 2026-11-12 23:55
 
 **In parole semplici.** Le migrazioni cambiano il database vero del sito. Delle 15 nate nella prima onda del risolutore, 12 sono già applicate col tuo ok. Ne restano tre: la 361, la 363 e la 364. La conferma del database è scaduta due volte prima della tua risposta.
@@ -62,15 +75,15 @@ Se va bene: alla fine della seconda onda la regista ti porta i numeri veri e il 
 **In parole semplici.** Nel foglio dei permessi della macchina c'è una riga che lascia usare lo strumento del database vero senza chiedere. Nella prima onda un aiutante l'ha usato per leggere il database di produzione.
 
 **Cosa cambia per te.** Collaudatori e controllori lavorano nella copia della macchina. Il divieto che dovevano mettersi da soli all'inizio **non si può mettere**: lo stesso foglio dei permessi vieta di scrivere il file del divieto. Lo ha provato la radiografia della notte del 12/11, con Claude Code vero. Quindi oggi il buco della prima onda è ancora aperto. Le strade sono due (aggiornato 2026-11-13 01:00 dalla regista della riparazione):
-1. **Togliere la riga dal foglio dei permessi della macchina.** È la più semplice e chiude il buco per tutti. Il prezzo: anche le sessioni dell'AD chiedono prima di leggere il database da lì; i numeri si leggono già prima dal canale ufficiale.
+1. **Togliere la riga dal foglio dei permessi della macchina.** Si fa con una riga sola, e chiude il buco per tutti. Il prezzo: anche le sessioni dell'AD chiedono prima di leggere il database da lì; i numeri si leggono già prima dal canale ufficiale.
 2. **Un freno automatico.** Blocca gli strumenti del database vero, della messa online e di Stripe solo quando nella copia c'è un file segnale. Collaudatori e controllori lo mettono come primo passo, e la regista controlla che il blocco scatti. Le sessioni dell'AD restano come sono. Il prezzo: è un pezzo nuovo da costruire e collaudare.
-La regista consiglia la 1. Finché non scegli vale un controllo dopo: a ogni giro la regista guarda se quelle sessioni hanno chiamato quegli strumenti e, alla prima chiamata, le ferma. Vede la chiamata quando è già partita.
+La regista consiglia la 1. Finché non scegli vale un controllo dopo. A ogni giro la regista guarda se quelle sessioni hanno chiamato quegli strumenti, e alla prima chiamata le ferma. Vede la chiamata quando è già partita.
 
 **Cosa devi fare tu.** Rispondi «ok 236» per la strada 1, «freno 236» per la strada 2, oppure «no 236» per lasciare solo il controllo dopo.
 
 **Cosa non ho verificato.** Non ho contato quante volte le sessioni dell'AD usano quello strumento per leggere i numeri.
 
-Cosa cambia: collaudatori e controllori non possono più leggere il database vero senza chiedere (con la 1 neanche le altre sessioni della macchina; con la 2 solo chi ha messo il segnale).
+Cosa cambia: collaudatori e controllori non possono più leggere il database vero senza chiedere. Con la strada 1 il divieto vale per tutte le sessioni della macchina, con la 2 solo per chi ha messo il segnale.
 Se va bene: il buco della prima onda è chiuso prima della seconda, e il controllo dopo non serve più.
 
 ### 🟡 #235 — Unisci le due richieste del risolutore quando ti va · ⏳ accodata 2026-11-12 23:55
