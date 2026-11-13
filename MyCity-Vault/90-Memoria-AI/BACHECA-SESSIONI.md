@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-13 01:40
+aggiornato: 2026-11-13 01:55
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -24,6 +24,7 @@ Le più nuove in alto. Ognuna dice quando, a chi l'ha detta, e cosa.
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 13/11 01:45 | AD | Le sessioni si cambiano oltre il 40% del contesto; la chat dell'AD passa a una nuova |
 | 13/11 01:40 | AD | Analisi di cosa può cambiare la stima dell'onda 2, con i freni nelle regole |
 | 13/11 01:28 | AD | «sì, rimedi»: le sessioni si parlano con le regole di `cervello/sessioni-insieme.md` |
 | 13/11 01:07 | regista | Ogni messaggio porta due costi, anche in percentuale del limite settimanale |
@@ -43,7 +44,8 @@ Le più nuove in alto. Ognuna dice quando, a chi l'ha detta, e cosa.
 ## Le sessioni vive
 | Ruolo | Id |
 |---|---|
-| AD | `session_015BmpnWWfcmEfYEhQ25M7s2` |
+| AD (dal 13/11 alle 01:55) | `session_015BmpnXznpQwCRc8GAKjgyw` |
+| AD vecchia, da non usare | `session_015BmpnWWfcmEfYEhQ25M7s2` |
 | regista del risolutore | `session_015BmpnXsL6Y7tP3BhawauHw` |
 | radiografia in sessioni | `session_015BmpnVn722KGUHR5nRn23Z` |
 
