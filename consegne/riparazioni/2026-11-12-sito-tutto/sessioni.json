@@ -1,5 +1,6 @@
 {
- "regista": "session_015BmpnVkmAAN92z8w4HLVGB",
+ "regista": "session_015BmpnVzbMLH1s3LPB8nHkW",
+ "regista_onda2_quarta": "session_015BmpnVkmAAN92z8w4HLVGB",
  "regista_onda2_terza": "session_015BmpnYzJKvQoMML3LmU8aJ",
  "ad": "session_015BmpnYWmNDPKAztZMPww6M",
  "sha_regista": "2f55d47d7ac130718ddabf722ba9485d3abe0428",
@@ -245,5 +246,6 @@
  "base_onda2": "a19ff8923106fb5fbe7c2e74cc02979ea9dc2067",
  "regista_onda2_prima": "session_015BmpnZcs1XvqxGKUA3qRGC",
  "sha_regista_onda2": "125b2db",
- "regista_onda2_seconda": "session_015BmpnWRS6TmZUqTtjQ5fX7"
+ "regista_onda2_seconda": "session_015BmpnWRS6TmZUqTtjQ5fX7",
+ "pr_ci": "session_015BmpnWroKtzTLyTmXZVE2k"
 }
