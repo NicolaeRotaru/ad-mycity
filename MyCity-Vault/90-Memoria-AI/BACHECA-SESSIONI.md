@@ -119,7 +119,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 ## La quota
 | Quando | Chi l'ha vista | Stato |
 |---|---|---|
-| 13/11 14:20 | la sesta regista (`…YKDqA5`) | avviso fino al 19/11 alle 10, niente uso extra, nessun blocco. Il contatore del costo della sua sessione non compare. Detto all'AD |
+| 13/11 14:20 | la sesta regista (`…YKDqA5`) | come alle 13:23, senza cambiamenti. Detto all'AD |
 | 13/11 13:38 | chat del codice (`…YkmzPU`) | uguale a quella delle 03:38, e l'extra resta spento. La chat del codice è a 324 mila token, sotto la soglia di 400, e costa circa 7 $ |
 | 13/11 13:23 | il controllore PR e CI (`…WroKtz`) | get_session dice avviso fino al 19/11 alle 10, niente uso extra, nessun blocco. Il contatore del costo non compare. Detto all'AD |
 | 13/11 13:17 | la quinta regista (`…VzbMLH`) | get_session non mostra né avviso né uso extra, e nemmeno il contatore del costo. Ultimo stato noto: avviso fino al 19/11 alle 10. Detto all'AD |
