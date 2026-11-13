@@ -5,19 +5,23 @@
     "R23",
     "R24"
   ],
-  "aggiornato": "2026-11-13 16:53",
-  "finita": false,
+  "aggiornato": "2026-11-13 16:58",
+  "finita": true,
   "voci": [
     {
       "id": "R19-002",
       "chiave": "api-backend|un documento del fattorino fra 4,4 e 8 mb viene rifiutato con un messaggio tecnico in inglese, anche se la pagina promette fino a 8 mb",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
-      "nota": "NESSUN GIUDIZIO ANCORA",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "cd /home/user/wt-R19 && git checkout --detach 3318ef6981da624c19e8fa049ed81aa58675fd6a && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base 3318ef6981da624c19e8fa049ed81aa58675fd6a^ --file app/rider/onboarding/page.tsx --prove tests/unit/riparazione-r19-documento-del-fattorino-col-tetto-vero.test.tsx --json"
-      }
+      },
+      "nota": "[g2: regge] La pagina dice 4 MB, blocca sopra 4 MiB prima dell'invio e traduce un 413 non JSON in italiano; è l'unica chiamante della rotta, il cui 413 cade nello stesso ramo. Avanzo: la rotta ha ancora il limite e il testo «max 8 MB», irraggiungibili."
     },
     {
       "id": "R19-003",
@@ -82,13 +86,17 @@
     {
       "id": "R19-007",
       "chiave": "layout-responsive|alla cassa, col testo del telefono al massimo, la scheda «contanti alla consegna» esce dallo schermo e la pagina scorre di lato",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
-      "nota": "NESSUN GIUDIZIO ANCORA",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "cd /home/user/wt-R19 && git checkout --detach ef66437404e5c9990ec8f1bacb26f89464efcb84 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base 5d924702ee38a5c50dcca03e198966413e4bd0a6^ --file components/checkout/PaymentMethodSelector.tsx --prove tests/unit/riparazione-r19-scheda-contanti-col-testo-grande.test.tsx --json"
-      }
+      },
+      "nota": "[g2: rompe_altro] Misurato nel Chrome della macchina col markup vero, il CSS compilato e il font Inter: prima 444 px (come il riparatore). Dopo la correzione la pagina non scorre più di lato a 360-390 px, ma la colonna del testo della scheda contanti si stringe a 0 px: «Contanti alla consegna» esce una lettera per riga e il bollino «Zero rischio» esce dal bordo (prima il testo si leggeva in 154 px). Con la carta accesa e più negozi la pagina scorre ancora (392 px); a 320 px scorre sempre (346 px). La prova del riparatore controlla solo i nomi delle classi. Difetti: components/checkout/PaymentMethodSelector.tsx:167 — min-w-0 + break-words (anche :110 e :169) fanno stringere la colonna del testo a 0 px con testo al 200% e 360 px: titolo e descrizione una lettera per riga, bollino fuori dalla scheda | components/checkout/PaymentMethodSelector.tsx:137 — la riga più-negozi è un flex annidato senza min-w-0: con la carta accesa e 2+ negozi la cassa è larga 392 px a 360/375/390 px (dormiente finché CARTA_ACCESA=false)"
     },
     {
       "id": "R19-008",
@@ -194,13 +202,17 @@
     {
       "id": "R19-016",
       "chiave": "qa-flussi|un carrello condiviso con più di cinquanta righe perde le ultime in silenzio, anche quelle disponibili",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
-      "nota": "NESSUN GIUDIZIO ANCORA",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "cd /home/user/wt-R19 && git checkout --detach 5a81802f6174767bed50122dc1e6d3217db2584f && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base 5a81802f6174767bed50122dc1e6d3217db2584f^ --file app/shared-cart/page.tsx,components/ShareCartButton.tsx --prove tests/unit/riparazione-r19-lista-condivisa-oltre-cinquanta-righe.test.tsx --json"
-      }
+      },
+      "nota": "[g2: regge] ShareCartButton è l'unico che costruisce i link /shared-cart, li divide a pezzi di 50 come il lettore, «Copia testo» li copia tutti; il lettore conta e dice le righe oltre 50; quantità già limitate a 99. Avanzo estetico: i doppioni uniti mostrano meno righe delle «prime 50»."
     },
     {
       "id": "R19-017",
@@ -220,7 +232,7 @@
     {
       "id": "R19-020",
       "chiave": "qa-flussi|il ritorno dopo l accesso perde ?tab=",
-      "verdetto": "regge",
+      "verdetto": "parziale",
       "giudizio": "pieno",
       "lenti": [
         "chiude_tutta",
@@ -230,7 +242,7 @@
         "uscita": 0,
         "comando": "cd /home/user/wt-R19 && git checkout --detach b1cd202916fee6eafacb0a19034c9bd4c0ce8d2f && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base b1cd202916fee6eafacb0a19034c9bd4c0ce8d2f^ --file middleware.ts --prove tests/unit/riparazione-r19-ritorno-con-la-query.test.ts --json"
       },
-      "nota": "[g10: regge] Lente sicurezza: 20 varianti di rimando esterno nel middleware vero (//evil.com, CRLF codificato, %2F%2F, tab, barra rovesciata, @, returnTo annidati): Location sempre senza a capo e returnTo sempre interno; nessuna pagina protetta legge segreti dalla query."
+      "nota": "[g10: regge] Lente sicurezza: 20 varianti di rimando esterno nel middleware vero (//evil.com, CRLF codificato, %2F%2F, tab, barra rovesciata, @, returnTo annidati): Location sempre senza a capo e returnTo sempre interno; nessuna pagina protetta legge segreti dalla query. [g2: parziale] 38 richieste ostili al middleware vero (//evil, /\\evil, %2F%2F, %5C, CRLF, javascript:, tab, returnTo annidati, oltre 512, con e senza sessione): il rimando resta sempre sul nostro dominio e nessun parametro si perde. L'accesso con Google perde ancora ?tab= e tutto il percorso (rotto già prima, ma è lo stesso sintomo del titolo). Difetti: components/ui/AuthShell.tsx:145 — handleGoogle manda /auth/callback senza next e la pagina di accesso monta <AuthAlternatives /> senza returnTo (app/sign-in/page.tsx:345): dopo Google da /profile/settings?tab=danger si finisce in home | app/profile/settings/page.tsx:197 — minore: il ripiego della pagina push('/sign-in?returnTo=/profile/settings') perde ?tab= (corsa rara)"
     },
     {
       "id": "R19-021",
@@ -245,18 +257,22 @@
         "uscita": 0,
         "comando": "cd /home/user/wt-R19 && git checkout --detach dd8cb290e8e21ffd53a694d8c8fe7cc2bb8d904b && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base dd8cb290e8e21ffd53a694d8c8fe7cc2bb8d904b^ --file app/profile/settings/page.tsx --prove tests/unit/riparazione-r19-dopo-il-cambio-password-si-rientra.test.tsx --json"
       },
-      "nota": "[g10: regge] Lente sicurezza: la revoca delle sessioni sul server è intatta (updateUserById fa Logout di tutte le sessioni); la correzione tocca solo il browser e nessuna sessione resta valida per colpa sua. Fuori voce: il JWT già emesso resta valido fino alla scadenza."
+      "nota": "[g10: regge] Lente sicurezza: la revoca delle sessioni sul server è intatta (updateUserById fa Logout di tutte le sessioni); la correzione tocca solo il browser e nessuna sessione resta valida per colpa sua. Fuori voce: il JWT già emesso resta valido fino alla scadenza. [g2: regge] Sul sorgente pubblico di supabase/auth: updateUserById chiama UpdatePassword(tx, nil) che fa Logout di tutte le sessioni; le altre sessioni restano chiuse e la rotta non cambia. Sul dispositivo: avviso, signOut locale (il 403 è ignorato da auth-js 2.106.1), poi accesso. Fuori voce: l'avviso non dice che anche gli altri dispositivi sono usciti."
     },
     {
       "id": "R19-023",
       "chiave": "stati-ui|se la lettura del profilo non riesce, il negoziante approvato legge che il suo account non è da venditore e gli viene proposto di iscriversi di nuovo",
-      "verdetto": "non_regge",
-      "giudizio": "nessuno",
-      "nota": "NESSUN GIUDIZIO ANCORA",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "rimessa": {
         "uscita": 0,
         "comando": "cd /home/user/wt-R19 && git checkout --detach 1445c09df4a99dfee8cf2a1141d50c2c589aac0c && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base 1445c09df4a99dfee8cf2a1141d50c2c589aac0c^ --file app/seller/layout.tsx,components/hooks/useProfile.ts --prove tests/unit/riparazione-r19-profilo-non-letto-nel-negozio.test.tsx --json"
-      }
+      },
+      "nota": "[g2: parziale] Il layout del negozio tiene: un 500 dopo il ritentativo o una lettura in pausa senza rete mostra Riprova, che rilegge e fa entrare; isError/refetch non cambiano gli altri chiamanti. Una prova che monta i layout veri del fattorino e dell'admin con useProfile vero e lettura a 500 mostra lo stesso difetto per quei ruoli. Difetti: app/rider/layout.tsx:19 — lettura del profilo fallita trattata come ruolo sbagliato: «Accesso riservato ai rider.» (:30) e rimando a '/' | app/admin/layout.tsx:19 — stesso schema: «Accesso riservato agli amministratori.» (:30) e rimando a '/'"
     },
     {
       "id": "R23-002",
