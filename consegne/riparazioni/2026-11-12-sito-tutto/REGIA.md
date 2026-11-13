@@ -70,7 +70,7 @@ Che le figlie nascano con ultracode: si controlla con get_session sulla prima, p
   Hanno finito anche R19 (punta `1d939a19`, testa `5a81802f`, 70,2 $ su 71) e R23 (punta `3795e191`, testa `0d499c53`, circa 52 $). Al programma, poi a K06.
 - Unione anticipata: R20 e R22 uniti solo nel clone della quinta (`0cfe25e6`, `2d5f0313`), non spinti. Il verify era caduto per memoria: va lanciato con `NODE_OPTIONS=--max-old-space-size=8192`.
   L'harness SQL vuole un Postgres locale: `pg_ctlcluster 16 main start`, poi `createuser -s root` e `PGUSER=root` sul socket.
-- Al lavoro: R13-R19, R23 e R24, con la regola della 2.0 a 400 mila token. R14 la apre a fine L5. Poi K06-K08, tre riparatori ciascuno, appena finiscono.
+- Al lavoro: R13, R15, R16, R17, R18 e R24, con la regola della 2.0 a 400 mila token. R14 continua nella sua 2.0 (`…WjBBk7`, da `8582fee7`), ferma finché Nicola non le accende ultracode. Poi K06-K08, tre riparatori ciascuno, appena finiscono.
 - Dopo: unione, verify e harness, cucitura dell'onda 2 (le serve_file_altrui e le parziali in file altrui), C02 e fermata 3. Poi i 10 minori della macchina (passaggio della quarta, commit `2a71b48`).
 - Falle riservate: 5 (R14 pagamenti, R16 e R19 permessi, R21 accessi, R24 auth), più due nate in R21 (008, 014). I dettagli solo in chat, dalla quinta.
 - Per la fermata 3: carta #242 (R13-001 e i gravi 004-006), R13-003, R17-002 e le altre 4 di R17, R20-010, R23-016, R24-003 e R24-010. Poi il CAPTCHA di R24 e l'eccezione di R16.
