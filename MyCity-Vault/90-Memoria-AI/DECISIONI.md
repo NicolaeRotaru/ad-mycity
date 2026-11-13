@@ -6829,3 +6829,8 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **entro 01:30 · Nicola alla sessione della radiografia del codice (`session_015BmpnXaAEDNzGNRCfhqygd`):** sul codice del sito vuole un giudizio da professionista, non altri difetti nel registro: le misure del referto non si caricano come voci. Il referto è `consegne/audit/2026-11-13-giudizio-codice-sito.md` (richiesta #947, media 5,4 su 10).
 - **entro 03:28 · stessa chat:** il lavoro continua in una sessione figlia con le regole nuove, `session_015BmpnZCaWUijDqfTAvJ4Dx` («Radiografia del codice · seguito»), che tiene la #947. La sessione di prima è da non usare.
 - **In attesa di Nicola, tenute da quella sessione:** aggiornare prima di domenica 15/11 le quattro librerie del sito con falle note; il piano con i costi del riordino della cassa dopo il lancio. Il codice del sito non si tocca senza la sua firma.
+
+## 2026-11-13 03:36 — 🟡 Il via della seconda onda lo dà Nicola in una sessione nuova, fuori dalle chat dell'AD
+- **Chi:** Nicola in chat con l'AD, terza chat: «il via della seconda ondata lo do in una nuova sessione che non centra nulla con quello che abbiamo fatto fino adesso».
+- **Cosa cambia:** l'AD non apre la regista dell'onda 2. Card #237 riscritta coi tre passi: unire la #949 (porta il passaggio aggiornato in `REGIA.md`), aprire una sessione nuova su ad-mycity `main` con ultracode acceso dall'app, scrivere il testo pronto della card.
+- **Anche (03:33):** la sessione della CI ha finito al tetto (29,55 $ su 30). Il cancello del lotto è passato da 10 min 21 s a 2 min 36 s, il test del cervello da circa 5 min a 2 min 20 s, e nessun controllo è stato tolto. La richiesta #948 è in bozza. L'ultima corsa su `0f204ff` la segue l'AD.

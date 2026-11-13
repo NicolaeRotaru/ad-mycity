@@ -67,7 +67,7 @@ Se va bene: la regista controlla le tabelle sul database e scrive l'esito nella 
 
 **Cosa cambia per te.** Esempio: dentro ci sono anche i 25 difetti di R05, il riparatore che non è mai partito.
 
-**Cosa devi fare tu.** Scrivi qui all'AD «via la seconda», oppure «fermati». La regista vecchia è ferma: la seconda onda la guida una regista nuova, che apro io al tuo via.
+**Cosa devi fare tu.** Il via lo dai tu, in una sessione nuova che non c'entra con le chat dell'AD (tua scelta del 13/11 alle 03:36). I passi sono tre. Prima unisci la richiesta ad-mycity#949: dentro c'è il passaggio aggiornato per la regista nuova. Poi apri una sessione nuova sul deposito ad-mycity, ramo `main`, e accendi ultracode dall'app. Infine scrivi: «Sei la regista dell'onda 2 del risolutore del sito. Apri la skill riparazione e leggi il passaggio in fondo a consegne/riparazioni/2026-11-12-sito-tutto/REGIA.md. Via la seconda.»
 
 **Cosa non ho verificato.** Il risparmio dei lotti piccoli è una stima: lo misuriamo alla fine della seconda onda.
 
