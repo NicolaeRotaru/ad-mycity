@@ -288,13 +288,21 @@
    "partenza": "e11facd3e07d15ba8b8da5bd4a0d3615481a4b56",
    "riparatori": [
     "R18",
-    "R13",
-    "R17"
+    "R13"
    ],
    "onda": 2,
    "nota": "nato il 13/11 alle 14:34 nella cartella Collaudatori senza ultracode: fermo finché Nicola non lo accende",
    "via": "2026-11-13 16:00, dalla 3.0, ultracode acceso",
-   "nota_3_0": "tetto 30 $ (stop a 20 tolto): finisce R13; R17 fuori, a K09 se Nicola sceglie"
+   "nota_3_0": "tetto 30 $ (stop a 20 tolto): finisce R13; R17 fuori, a K09 se Nicola sceglie",
+   "finita": true,
+   "chiusura": {
+    "quando": "2026-11-13 17:18",
+    "punta": "773fddd950b5ba6dc86248dd533fa0b91919c238",
+    "costo_usd": 33.71,
+    "subagenti": 10,
+    "nota": "oltre il tetto di 30 $ (32,62 alla consegna): detto all'AD alle 17:25. R18 8 su 14 reggono (014, 021 non reggono); R13 1 su 8 regge, 001 e 004 rompe_altro; campione non accettato per tutti e due. R17 fuori, a K09 se Nicola sceglie"
+   },
+   "archiviata": "2026-11-13 17:27"
   },
   "K08": {
    "id": "session_015BmpnXv72iTDynaDgecira",
