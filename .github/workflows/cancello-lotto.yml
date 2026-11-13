@@ -187,9 +187,10 @@ jobs:
         env:
           INDICE: ${{ strategy.job-index }}
           TOTALE: ${{ strategy.job-total }}
-        run: |
-          mkdir -p referti
-          node cervello/test-cervello.mjs --fetta "$((INDICE + 1))/$TOTALE" --referto "referti/suite-$((INDICE + 1)).json"
+        # I referti stanno FUORI dal deposito, nella cartella temporanea del runner: dentro, un file non
+        # tracciato rende l'albero «sporco», e i guardiani che lo guardano cambiano verdetto (il 13/11
+        # «verdetti senza lettore» usciva ⚪ per questo). Le cartelle le crea chi scrive.
+        run: node cervello/test-cervello.mjs --fetta "$((INDICE + 1))/$TOTALE" --referto "$RUNNER_TEMP/referti/suite-$((INDICE + 1)).json"
 
       # Anche se la fetta è rossa: il verdetto lo dà chi ricuce, e senza il referto non avrebbe niente
       # da leggere — un rosso diventerebbe un ⚪ e perderebbe il suo nome.
@@ -197,7 +198,7 @@ jobs:
         if: always()
         with:
           name: suite-${{ matrix.fetta }}
-          path: referti/
+          path: ${{ runner.temp }}/referti/
           if-no-files-found: warn
           retention-days: 3
 
@@ -250,15 +251,13 @@ jobs:
         env:
           INDICE: ${{ strategy.job-index }}
           TOTALE: ${{ strategy.job-total }}
-        run: |
-          mkdir -p referti
-          node cervello/cancello-lotto.mjs --fetta-mutazioni "$((INDICE + 1))/$TOTALE" --referto "referti/mutazioni-$((INDICE + 1)).json"
+        run: node cervello/cancello-lotto.mjs --fetta-mutazioni "$((INDICE + 1))/$TOTALE" --referto "$RUNNER_TEMP/referti/mutazioni-$((INDICE + 1)).json"
 
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         if: always()
         with:
           name: mutazioni-${{ matrix.fetta }}
-          path: referti/
+          path: ${{ runner.temp }}/referti/
           if-no-files-found: warn
           retention-days: 3
 
@@ -297,17 +296,17 @@ jobs:
         with:
           pattern: suite-*
           merge-multiple: true
-          path: referti/suite
+          path: ${{ runner.temp }}/referti/suite
 
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         continue-on-error: true
         with:
           pattern: mutazioni-*
           merge-multiple: true
-          path: referti/mutazioni
+          path: ${{ runner.temp }}/referti/mutazioni
 
       - name: Cancello di uscita
-        run: node cervello/cancello-lotto.mjs --referti referti
+        run: node cervello/cancello-lotto.mjs --referti "$RUNNER_TEMP/referti"
 
   # ── LA SUITE INTERA, SENZA TETTI ─────────────────────────────────────────────────────────────
   # Il verdetto che dava `test-cervello.yml` sulle richieste: ogni rosso è rosso, nessun tetto. Prima
@@ -336,10 +335,10 @@ jobs:
         with:
           pattern: suite-*
           merge-multiple: true
-          path: referti/suite
+          path: ${{ runner.temp }}/referti/suite
 
       - name: Suite del cervello, ricucita dalle fette
-        run: node cervello/test-cervello.mjs --ricuci referti/suite
+        run: node cervello/test-cervello.mjs --ricuci "$RUNNER_TEMP/referti/suite"
 
       - name: Typecheck del Pannello
         if: ${{ !cancelled() }}

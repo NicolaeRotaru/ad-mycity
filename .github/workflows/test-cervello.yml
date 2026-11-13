@@ -129,7 +129,7 @@ jobs:
         run: npm --prefix pannello ci
 
       - name: Test del cervello
-        run: node cervello/test-cervello.mjs --fetta "$((INDICE + 1))/$TOTALE" --referto "referti/suite-$((INDICE + 1)).json"
+        run: node cervello/test-cervello.mjs --fetta "$((INDICE + 1))/$TOTALE" --referto "$RUNNER_TEMP/referti/suite-$((INDICE + 1)).json"
         env:
           INDICE: ${{ strategy.job-index }}
           TOTALE: ${{ strategy.job-total }}
@@ -140,7 +140,7 @@ jobs:
         if: always()
         with:
           name: suite-${{ matrix.fetta }}
-          path: referti/
+          path: ${{ runner.temp }}/referti/
           if-no-files-found: warn
           retention-days: 3
 
@@ -171,10 +171,10 @@ jobs:
         with:
           pattern: suite-*
           merge-multiple: true
-          path: referti/suite
+          path: ${{ runner.temp }}/referti/suite
 
       - name: Suite del cervello, ricucita dalle fette
-        run: node cervello/test-cervello.mjs --ricuci referti/suite
+        run: node cervello/test-cervello.mjs --ricuci "$RUNNER_TEMP/referti/suite"
 
       - name: Typecheck del Pannello
         if: ${{ !cancelled() }}

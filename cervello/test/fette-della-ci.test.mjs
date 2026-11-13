@@ -223,9 +223,12 @@ test("i flussi leggono indice e totale dalla matrice: un numero scritto due volt
     assert.match(yml, /INDICE: \$\{\{ strategy\.job-index \}\}/, `${f}: l'indice della fetta deve venire dalla matrice`);
     assert.match(yml, /TOTALE: \$\{\{ strategy\.job-total \}\}/, `${f}: e il totale pure`);
     assert.ok(!/--fetta\s+"?\d+\/\d+/.test(yml), `${f}: una fetta scritta a numeri nel comando può divergere dalla matrice`);
-    assert.match(yml, /--ricuci referti\/suite/, `${f}: qualcuno deve ricucire le fette della suite`);
+    assert.match(yml, /--ricuci "\$RUNNER_TEMP\/referti\/suite"/, `${f}: qualcuno deve ricucire le fette della suite`);
+    // I referti FUORI dal deposito: dentro, un file non tracciato sporca l'albero e cambia il verdetto
+    // dei guardiani che lo guardano (13/11: «verdetti senza lettore» usciva ⚪ per questo).
+    assert.ok(!/(path:|--referto|--ricuci|--referti)\s+"?referti\//.test(yml), `${f}: i referti devono stare in $RUNNER_TEMP, non dentro il deposito`);
   }
   const cancello = readFileSync(join(REPO, ".github/workflows/cancello-lotto.yml"), "utf8");
   assert.match(cancello, /needs: \[suite, mutazioni\]/, "il cancello aspetta le fette della suite E delle mutazioni");
-  assert.match(cancello, /node cervello\/cancello-lotto\.mjs --referti referti/, "e le ricuce, invece di non leggerle");
+  assert.match(cancello, /node cervello\/cancello-lotto\.mjs --referti "\$RUNNER_TEMP\/referti"/, "e le ricuce, invece di non leggerle");
 });
