@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-13 04:54
+aggiornato: 2026-11-13 05:05
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 13/11 05:03 circa | chat del codice, quattro risposte | Sulla radiografia. Adesso guarda solo il sito, ma dovrà servire anche per la macchina e per altro. Prende le regole del risolutore fin dove si può. Si fa quello che ho proposto: un manuale solo, le regole in un posto solo, il 9 come profilo, le vecchie spente per ultime. In più la vuole «ibrida», e chiede se si può senza perdere prestazioni e qualità. Le prestazioni si misurano su una copia vecchia con difetti già noti. Chiede anche le risposte alle quattro domande sul metodo |
 | 13/11 04:52 circa | chat del codice, sulla radiografia | «hai capito la radiografia»: conferma la lettura delle 04:30. Chiede di dire se la radiografia, così come viene fatta, è corretta e rende il massimo. Servirà anche per la macchina, anche se adesso la usa sul sito. Domanda se conviene metterla dentro la strategia di radiografia che esiste già. Restano aperte la deroga e i tempi, e quali minori entrano |
 | 13/11 04:42 circa | chat del codice, sul 9 | «la tua proposta per il 9». Sceglie come si certifica il 9 nei cinque voti. Durante il lavoro guidano i criteri, uno per voto, controllati da un programma. Alla fine i tre senior rifanno il giudizio una volta sola, con lo stesso metro del 5,4. Il voto finale lo firma Nicola |
 | 13/11 04:30 circa | stessa chat, mezz'ora dopo | «voglio che usi la strategia della radiografia». «e controlla se gli sono state inserite le regole del risolutore». «ed inserire tutti i difetti dentro il reparto dei difetti dentro il pannello/macchina/ad». «dimmi cosa hai capito». **Da confermare.** Come l'ho capita: prima si controlla che la skill della radiografia abbia le regole del risolutore e delle sessioni, e si aggiunge quello che manca. Poi la radiografia cerca sul sito quello che tiene i cinque voti sotto 9. Ogni difetto trovato entra nel registro dei difetti. Cambia la decisione delle 01:30, che teneva il giudizio fuori dal registro. Finché Nicola non conferma, nessuna regola cambia e nessuna radiografia parte |
