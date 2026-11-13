@@ -19,7 +19,7 @@ token su un milione, e ogni sua risposta li rileggeva tutti.
   - Il registro delle decisioni è completo fino alle 03:36.
 - ⏳ In corso: due richieste aspettano i controlli di GitHub.
   - La #949 porta la memoria di stanotte; i suoi controlli sono in corso.
-  - La #948 porta la CI in 3 minuti; manca l'ultima corsa su `0f204ff`. La segue l'AD.
+  - La #948 porta la CI in 3 minuti. L'ultima corsa su `0f204ff` è ROSSA (fetta 8 della suite, job 131647819880): non si unisce finché non è verde. Nessuno la segue più: tocca all'AD.
 - 👉 Tocca a te (Nicola): sei cose, tutte qui sotto.
   - Unire la #949.
   - Unire la #948, che è in bozza.
