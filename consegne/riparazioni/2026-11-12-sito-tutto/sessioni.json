@@ -1,5 +1,5 @@
 {
- "regista": "session_015BmpnZcs1XvqxGKUA3qRGC",
+ "regista": "session_015BmpnWRS6TmZUqTtjQ5fX7",
  "ad": "session_015BmpnYWmNDPKAztZMPww6M",
  "sha_regista": "2f55d47d7ac130718ddabf722ba9485d3abe0428",
  "base": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
@@ -130,6 +130,42 @@
    "ramo": "claude/magical-hamilton-xouwr8-m18",
    "onda": 2,
    "partenza": "2026-11-13 06:02"
+  },
+  "R19": {
+   "id": "session_015BmpnYLk8AraXakVCkun9H",
+   "ramo": "claude/magical-hamilton-xouwr8-m19",
+   "onda": 2,
+   "partenza": "2026-11-13 06:05"
+  },
+  "R20": {
+   "id": "session_015BmpnWFoQMAShMVa1oZB8L",
+   "ramo": "claude/magical-hamilton-xouwr8-m20",
+   "onda": 2,
+   "partenza": "2026-11-13 06:06"
+  },
+  "R21": {
+   "id": "session_015BmpnXidURWQE3ZCmCi9Yr",
+   "ramo": "claude/magical-hamilton-xouwr8-m21",
+   "onda": 2,
+   "partenza": "2026-11-13 06:08"
+  },
+  "R22": {
+   "id": "session_015BmpnWcQPf4vZFu7owUPPJ",
+   "ramo": "claude/magical-hamilton-xouwr8-m22",
+   "onda": 2,
+   "partenza": "2026-11-13 06:09"
+  },
+  "R23": {
+   "id": "session_015BmpnXoe6aGJCsrpTZTrWZ",
+   "ramo": "claude/magical-hamilton-xouwr8-m23",
+   "onda": 2,
+   "partenza": "2026-11-13 06:11"
+  },
+  "R24": {
+   "id": "session_015BmpnYg5DbCFWtPsAaMzWP",
+   "ramo": "claude/magical-hamilton-xouwr8-m24",
+   "onda": 2,
+   "partenza": "2026-11-13 06:12"
   }
  },
  "collaudatori": {
@@ -205,5 +241,6 @@
  },
  "regista_onda1": "session_015BmpnXsL6Y7tP3BhawauHw",
  "integrazione_onda1_ramo": "claude/sweet-galileo-0skkay",
- "base_onda2": "a19ff8923106fb5fbe7c2e74cc02979ea9dc2067"
+ "base_onda2": "a19ff8923106fb5fbe7c2e74cc02979ea9dc2067",
+ "regista_onda2_prima": "session_015BmpnZcs1XvqxGKUA3qRGC"
 }

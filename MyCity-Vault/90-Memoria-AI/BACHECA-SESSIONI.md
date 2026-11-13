@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-13 06:13
+aggiornato: 2026-11-13 06:19
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -67,8 +67,8 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 ## Chi fa cosa, adesso
 | Sessione | Lavoro | File suoi |
 |---|---|---|
-| Regista · onda 2 · seconda (`…WRS6Tm`, dal 13/11 alle 06:12) | guida l'onda 2 dal passaggio in fondo a `REGIA.md`. Prende la sorveglianza, i collaudatori, l'unione, C02 e la ad-mycity#952 | `consegne/riparazioni/2026-11-12-sito-tutto/`, ramo `claude/magical-hamilton-xouwr8` |
-| regista dell'onda 2 (`…Zcs1Xv`, dal 13/11 alle 05:20) | Alle 05:49 Nicola l'ha passata in modalità Auto. Aperti R13-R18 alle 05:50-06:02, R19-R24 in apertura. Ultracode lo accende Nicola dall'app. Onda 2 del risolutore del sito. Prima scrive nel programma l'eccezione «a» per l'onda 1 e chiude nel registro i difetti dell'onda 1. Poi divide l'onda 2 e apre i riparatori dentro di sé, col ruolo in testa al titolo. Le fermate vanno all'AD, quinta chat | `consegne/riparazioni/2026-11-12-sito-tutto/`, `cervello/riparazione-sessioni.mjs` (l'eccezione), ramo `claude/magical-hamilton-xouwr8` su ad-mycity e sul sito |
+| Regista · onda 2 · seconda (`…WRS6Tm`, dal 13/11 alle 06:12) | guida l'onda 2 dal passaggio in fondo a `REGIA.md`. Prende la sorveglianza, i collaudatori, l'unione, C02 e la ad-mycity#952. Alle 06:15 ha approvato i piani di R20, R21, R22 e R23, e ha mandato il suo id a R13-R24. Tutte e dodici le figlie hanno ultracode acceso ed effort xhigh. Nella sua sessione ultracode è spento: chiesto all'AD alle 06:17 | `consegne/riparazioni/2026-11-12-sito-tutto/`, ramo `claude/magical-hamilton-xouwr8` |
+| prima regista dell'onda 2 (`…Zcs1Xv`, dal 13/11 alle 05:20, passata alla seconda alle 06:13) | Alle 05:49 Nicola l'ha passata in modalità Auto. Aperti R13-R18 alle 05:50-06:02, R19-R24 in apertura. Ultracode lo accende Nicola dall'app. Onda 2 del risolutore del sito. Prima scrive nel programma l'eccezione «a» per l'onda 1 e chiude nel registro i difetti dell'onda 1. Poi divide l'onda 2 e apre i riparatori dentro di sé, col ruolo in testa al titolo. Le fermate vanno all'AD, quinta chat | `consegne/riparazioni/2026-11-12-sito-tutto/`, `cervello/riparazione-sessioni.mjs` (l'eccezione), ramo `claude/magical-hamilton-xouwr8` su ad-mycity e sul sito |
 | AD | parla con Nicola, tiene la memoria e la bacheca | `MyCity-Vault/90-Memoria-AI/`, regole di scrittura |
 | AD, quarta chat | 13/11 03:38: ripara il rosso della CI dentro la #949. Il commit `3a5778e` di Nicola (card 236) ha tolto il permesso del database, ma in `cervello/permessi-debito.json` era rimasta la sua scusa, e la prova `permessi-di-guardia` la boccia. Cade anche `main`, non solo la #948. Quando la #949 è unita, la #948 si rilancia | `cervello/permessi-debito.json` |
 | regista (`…XsL6Y7`) | ferma a 450 mila token: passaggio scritto in fondo a `consegne/riparazioni/2026-11-12-sito-tutto/REGIA.md` (13/11 01:35). L'onda 2 la guida una regista nuova, aperta dall'AD al «via la seconda» | la campagna del 12/11, la skill `riparazione` |
@@ -95,6 +95,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 ## La quota
 | Quando | Chi l'ha vista | Stato |
 |---|---|---|
+| 13/11 06:16 | seconda regista dell'onda 2 | sempre in avviso, senza uso extra; si rinnova il 19/11 alle 10. Le figlie dell'onda 2 sono a 38 $ di listino. Detto all'AD |
 | 13/11 05:21 | chat «Ondata 2» | sempre in avviso, senza uso extra. Il rinnovo è il 19/11 alle 10. Detto all'AD |
 | 13/11 03:45 | AD, quarta chat | la sessione della CI è a 36,8 $ contro un tetto di 30, e a 761 mila token, vicino alla compressione (784 mila). Detto a Nicola. Quota ancora in avviso |
 | 13/11 03:38 | AD, quarta chat | ancora avviso, nessun extra in uso: si rinnova il 19/11 alle 10 |

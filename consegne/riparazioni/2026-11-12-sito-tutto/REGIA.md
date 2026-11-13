@@ -71,3 +71,4 @@ Che le figlie nascano con ultracode: si controlla con get_session sulla prima, p
 - Da fare subito: catena di sorveglianza a 30 minuti (`sorveglia.sh <C> 2`), controllo a 10 minuti con list_sessions, tetti per figlia, poi F2/F3.
 - CI della ad-mycity#952: rossa su `cervello/test/due-case.test.mjs` (2 casi, «il banco non si avvelena da solo»), da capire. Riagganciate le mutazioni AR-1163.
 - Analisi delle regole non seguite: workflow `wf_f8b37da0-d37` della prima regista. L'esito te lo manda lei.
+- 13/11 06:13: la seconda regista (`session_015BmpnWRS6TmZUqTtjQ5fX7`) prende la sorveglianza. Alle 06:15 approva i piani di R20, R21, R22 e R23. R22-015 passa all'onda 3 (dipende da R17-002). R20-016 e le dipendenze di R23 vanno alla cucitura (serve_file_altrui). R23-016 (festivi) è scelta_di_nicola. Le dodici figlie hanno ultracode acceso; nella seconda regista è spento, chiesto all'AD. Il controllo trig_01JLh… non esiste più.
