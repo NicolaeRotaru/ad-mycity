@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-13 03:28
+aggiornato: 2026-11-13 03:33
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 13/11 entro 03:28 | Radiografia del codice | La chat del giudizio sul codice continua in una sessione figlia, che parte con le regole nuove delle sessioni |
 | 13/11 03:27 | AD | Card 239, dopo la spiegazione: «a». La regola delle prove comuni resta severa; eccezione firmata solo per la prima onda |
 | 13/11 03:24 | GitHub | Card 236: Nicola toglie a mano la riga del permesso del database su `main` (3a5778e) |
 | 13/11 03:15 | AD | Card 239: sceglie «a», ma vuole prima la spiegazione |
@@ -41,6 +42,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 | 13/11 02:16 | AD | Le CI della macchina, «Cancello del lotto» e «Test del cervello», entro 3 minuti, «non di più» |
 | 13/11 01:56 | AD | Le figlie nascono in una cartella per ruolo: riparatori, collaudatori, controllori (skill `riparazione`, «Le cartelle nell'elenco») |
 | 13/11 entro 01:33 | AD | Le sessioni si cambiano oltre il 40% del contesto; la chat dell'AD passa a una nuova |
+| 13/11 entro 01:30 | Radiografia del codice | Sul codice del sito vuole un giudizio da professionista, non altri difetti nel registro: le misure del referto non si caricano come voci |
 | 13/11 entro 01:32 | AD | Analisi di cosa può cambiare la stima dell'onda 2, con i freni nelle regole |
 | 13/11 entro 01:25 | AD | «sì, rimedi»: le sessioni si parlano con le regole di `cervello/sessioni-insieme.md` |
 | 13/11 01:07 | regista | Ogni messaggio porta due costi, anche in percentuale del limite settimanale |
@@ -56,6 +58,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 | AD | parla con Nicola, tiene la memoria e la bacheca | `MyCity-Vault/90-Memoria-AI/`, regole di scrittura |
 | regista (`…XsL6Y7`) | ferma a 450 mila token: passaggio scritto in fondo a `consegne/riparazioni/2026-11-12-sito-tutto/REGIA.md` (13/11 01:35). L'onda 2 la guida una regista nuova, aperta dall'AD al «via la seconda» | la campagna del 12/11, la skill `riparazione` |
 | CI della macchina | porta «Cancello del lotto» e «Test del cervello» entro 3 minuti, senza togliere controlli; PR in bozza sul ramo `claude/ci-tre-minuti`, tetto 30 $ | `.github/workflows/`, `cervello/cancello-lotto.mjs` |
+| Radiografia del codice · seguito (`…ZCaWUi`) | segue la richiesta del giudizio sul codice del sito (ad-mycity#947) e aspetta Nicola su due scelte: le quattro librerie con falle note da aggiornare prima di domenica 15/11, e il piano con i costi del riordino dopo il lancio. Il codice del sito non lo tocca senza la sua firma | `consegne/audit/2026-11-13-giudizio-codice-sito.md` |
 | radiografia | finita: aspetta il «via» alla prima corsa | la skill `radiografia-sessioni`, il suo programma |
 
 ## Le sessioni vive
@@ -63,6 +66,8 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 |---|---|
 | AD, terza chat (dal 13/11 alle 02:20) | `session_015BmpnZ5ufx6s554FgYbUju` |
 | CI della macchina in 3 minuti | `session_015BmpnWjSJvwxssvANzndUF` |
+| Radiografia del codice · seguito (dal 13/11 alle 03:28) | `session_015BmpnZCaWUijDqfTAvJ4Dx` |
+| Radiografia del codice, da non usare (partita prima delle regole nuove) | `session_015BmpnXaAEDNzGNRCfhqygd` |
 | AD seconda chat, da non usare (390 mila token) | `session_015BmpnXznpQwCRc8GAKjgyw` |
 | AD vecchia, da non usare | `session_015BmpnWWfcmEfYEhQ25M7s2` |
 | regista del risolutore | `session_015BmpnXsL6Y7tP3BhawauHw` |
