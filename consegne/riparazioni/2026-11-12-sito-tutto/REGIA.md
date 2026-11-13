@@ -68,9 +68,9 @@ Che le figlie nascano con ultracode: si controlla con get_session sulla prima, p
 - Nicola, 12:58: onda al 100%. Tetti in tutto: R13 90 $, R17 85, R14 80, R16 66, R19 71, R18 70, R24 70, R23 61, R15 60, R21 55.
 - Nicola, 13:20: collaudi e controlli subito sul già riparato, e unione man mano. Dalle 13:40 valgono le regole 7 e 11 nuove di `cervello/sessioni-insieme.md`.
 - Finite e verdi: R20 (punta `2851b087`), R22 (`35ee9faa`), R21 (`1c8a82ca`, testa `30c48c54`, 56 $ sul tetto di 55). Le collauda K05 (`…ZdFpSJ`, ramo `-k05`), partito alle 13:55 con ultracode.
-  R19, R23 e R24 (verdi al giro delle 13:51) vanno a K06, aperto alle 13:57 nella cartella Collaudatori. R18 ha finito alle 13:53 (punta `eee2f937`): va a K07 con R13 e R17.
+  R19, R23 e R24 (verdi al giro delle 13:51) vanno a K06, aperto alle 13:57 nella cartella Collaudatori. R18 (punta `eee2f937`) e R16 (punta `8a00cbaf`, 65,8 $ su 66) hanno finito: vanno a K07.
 - Unione anticipata: R20 e R22 uniti e spinti nell'integrazione del sito alle 13:49, a `2d5f0313`. Verify verde (1451 file, 9766 prove) con `NODE_OPTIONS=--max-old-space-size=8192`. Harness SQL: `pg_ctlcluster 16 main start`, `createuser -s root`, `PGUSER=root`.
-- Al lavoro: R13, R15, R16 e R17, con la 2.0 a 400 mila token. R14 continua nella sua 2.0 (`…WjBBk7`), con ultracode. R13 e R17 hanno due rossi da chiudere prima di «finita».
+- Al lavoro: R13, R15 e R17, con la 2.0 a 400 mila token. R14 continua nella sua 2.0 (`…WjBBk7`), con ultracode. R13 e R17 hanno due rossi da chiudere prima di «finita».
 - Dopo: unione, verify e harness, cucitura dell'onda 2 (le serve_file_altrui e le parziali in file altrui), C02 e fermata 3. Poi i 10 minori della macchina (passaggio della quarta, commit `2a71b48`).
 - Falle riservate: 5 (R14 pagamenti, R16 e R19 permessi, R21 accessi, R24 auth), più due nate in R21 (008, 014). I dettagli solo in chat, dalla quinta.
 - Per la fermata 3: carta #242 (R13-001 e i gravi 004-006), R13-003, R17-002 e le altre 4 di R17, R20-010, R23-016, R24-003 e R24-010. Poi il CAPTCHA di R24, l'eccezione di R16, le voci tolte per le prove comuni, le domande dei referti e le falle riservate.
