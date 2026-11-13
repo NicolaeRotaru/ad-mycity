@@ -270,7 +270,8 @@
     "R24"
    ],
    "onda": 2,
-   "cartella": "collaudatori"
+   "cartella": "collaudatori",
+   "via": "2026-11-13 16:00, dalla 3.0, ultracode acceso"
   },
   "K07": {
    "id": "session_015BmpnV296WzJDrPesa3Tbb",
@@ -282,7 +283,8 @@
     "R17"
    ],
    "onda": 2,
-   "nota": "nato il 13/11 alle 14:34 nella cartella Collaudatori senza ultracode: fermo finché Nicola non lo accende"
+   "nota": "nato il 13/11 alle 14:34 nella cartella Collaudatori senza ultracode: fermo finché Nicola non lo accende",
+   "via": "2026-11-13 16:00, dalla 3.0, ultracode acceso"
   },
   "K08": {
    "id": "session_015BmpnXv72iTDynaDgecira",
@@ -294,7 +296,8 @@
     "R14"
    ],
    "onda": 2,
-   "nota": "nato il 13/11 alle 14:37 nella cartella Collaudatori senza ultracode: fermo finché Nicola non lo accende"
+   "nota": "nato il 13/11 alle 14:37 nella cartella Collaudatori senza ultracode: fermo finché Nicola non lo accende",
+   "via": "2026-11-13 16:00, dalla 3.0, ultracode acceso"
   }
  },
  "controllori": {
@@ -355,6 +358,12 @@
  },
  "regista_onda2_sesta": "session_015BmpnYKDqA51jEGkbAWYGo",
  "integrazione_onda2_parziale": "990dd7fa8d013fe1e76e613681afca7de53879e9",
- "regista_ultracode": "acceso da Nicola alle 15:25 circa",
- "regista_onda2_sesta_2": "session_015BmpnWf1uAKL6VFXJQyNyv"
+ "regista_ultracode": "3.0: manca in get_session alle 15:57 (chiesto all'AD alle 16:02); la 2.0 l'aveva dalle 15:25",
+ "regista_onda2_sesta_2": "session_015BmpnWf1uAKL6VFXJQyNyv",
+ "regista_onda2_sesta_3": {
+  "id": "session_015BmpnZ4kEDhRhLcWZzwwwP",
+  "dal": "2026-11-13 15:50",
+  "catena": "trig_017e9EB3p8LUoDwEKjMW99bG",
+  "copia_sito": "/home/user/mycity, clone --filter=blob:none (storia intera)"
+ }
 }
