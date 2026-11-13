@@ -4,6 +4,10 @@ aggiornato: 2026-11-12 23:55
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
+> ✅ **2026-11-13 02:55 — Hai unito la richiesta della macchina #944.**
+>
+> Da adesso valgono le regole nuove del risolutore e delle sessioni. Ogni riparatore prende al massimo 25 difetti, la regia lavora in una sessione sua e dopo ogni onda c'è un controllore. Ci sono anche le nove regole per le sessioni che lavorano insieme. Una sessione nuova che parte da `main` adesso le legge da sola. Resta in bozza la richiesta del sito, mycity#288, fino al controllore finale della campagna.
+
 > 🔧 **2026-11-12 23:55 — La prima onda del risolutore è chiusa: 115 difetti chiusi davvero su 300, e il risolutore ora consuma meno.**
 >
 > La prima onda ha lavorato 300 difetti del sito: ne chiude davvero 115, più 7 già a posto, per circa 610 $ di consumo, circa il 20% del limite settimanale. Sei dollari su dieci erano rilettura: ora i riparatori lavorano a lotti piccoli, e la stima scende a circa 435 $ per onda senza togliere controlli. La falla dell'IBAN è chiusa e 12 migrazioni sono sul database vero col tuo ok. Restano quattro cose da fare con te, nelle card dalla 235 alla 238. Una è riprovare tre migrazioni, lasciando fuori la 350. Le altre sono il «via la seconda», il permesso del database nella macchina e l'unione delle due richieste. La radiografia del sito è in una sessione sua, che la porta sullo stesso schema. Richieste di unione: ad-mycity#944 e mycity#288.
