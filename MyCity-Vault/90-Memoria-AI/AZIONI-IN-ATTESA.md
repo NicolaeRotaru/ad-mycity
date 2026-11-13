@@ -50,7 +50,7 @@ Se va bene: la regista lancia la chiusura dei difetti della prima onda dopo che 
 
 **Cosa cambia per te.** Esempio: la 361 crea la tabella dei codici sconto usati, che oggi non esiste. Senza, il sito usa ancora la strada vecchia.
 
-**Cosa devi fare tu.** Scrivi «riprova» qui all'AD. La regista vecchia è ferma: le tre migrazioni le riprova la regista nuova dell'onda 2. Quando nella sua chat compare la conferma del database, ti dico io dove cliccare. La 350, quella del bonifico del lunedì, non va applicata: in un caso fa pagare due volte lo stesso ordine.
+**Cosa devi fare tu.** Scrivi «riprova» qui all'AD. Le tre migrazioni le riprova la regista nuova dell'onda 2, perché quella di prima si è fermata. Quando nella sua chat compare la conferma del database, ti dico io dove cliccare. La 350, quella del bonifico del lunedì, non va applicata: in un caso fa pagare due volte lo stesso ordine.
 
 **Cosa non ho verificato.** Le tre migrazioni contengono comandi che cancellano: la conferma del database lo dice, e va letta.
 

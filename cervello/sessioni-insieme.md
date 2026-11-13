@@ -94,5 +94,6 @@ si scrive appena cambia qualcosa.
    - **Il controllo.** Subito dopo `create_session`, `get_session` deve dire `is_ultracode_active: true` e
      `effort_level` xhigh. Se ultracode è spento, la sessione non comincia il lavoro. Chi l'ha aperta lo dice subito
      all'AD, e Nicola lo accende dall'app (regola 4).
-   - **I tetti restano.** Ultracode fa lanciare più agenti, quindi consuma di più. Valgono lo stesso il preventivo prima
-     di lanciare, al massimo 12 subagenti per sessione e la quota (regola ㉑ del manuale dell'AD).
+   - **I tetti restano.** Ultracode fa lanciare più agenti, quindi consuma di più. Vale lo stesso il preventivo prima di
+     lanciare: oltre 12 subagenti o 2 milioni di token si chiede a Nicola (regole ⑱ e ㉑ del manuale dell'AD). Chi
+     ripara non ne lancia più di 12 (skill `riparazione`). E vale la quota.
