@@ -67,7 +67,7 @@ Che le figlie nascano con ultracode: si controlla con get_session sulla prima, p
 - Nicola, 12:58: onda al 100%. Tetti in tutto: R13 90 $, R17 85, R14 80, R16 66, R19 71, R18 70, R24 70, R23 61, R15 60, R21 55.
 - Nicola, 13:20: collaudi e controlli subito sul già riparato, e unione man mano. Dalle 13:40 valgono le regole 7 e 11 nuove di `cervello/sessioni-insieme.md`.
 - Finite e verdi: R20 (punta `2851b087`), R22 (`35ee9faa`), R21 (`1c8a82ca`, testa `30c48c54`, 56 $ sul tetto di 55). Le collauda K05 (`…ZdFpSJ`, ramo `-k05`), fermo finché Nicola non gli accende ultracode.
-  R19 ha finito alle 13:44 (punta `1d939a19`, testa `5a81802f`, 70,2 $ su 71): va controllato col programma, poi a K06.
+  Hanno finito anche R19 (punta `1d939a19`, testa `5a81802f`, 70,2 $ su 71) e R23 (punta `3795e191`, testa `0d499c53`, circa 52 $). Al programma, poi a K06.
 - Unione anticipata: R20 e R22 uniti solo nel clone della quinta (`0cfe25e6`, `2d5f0313`), non spinti. Il verify era caduto per memoria: va lanciato con `NODE_OPTIONS=--max-old-space-size=8192`.
   L'harness SQL vuole un Postgres locale: `pg_ctlcluster 16 main start`, poi `createuser -s root` e `PGUSER=root` sul socket.
 - Al lavoro: R13-R19, R23 e R24, con la regola della 2.0 a 400 mila token. R14 la apre a fine L5. Poi K06-K08, tre riparatori ciascuno, appena finiscono.
@@ -77,4 +77,4 @@ Che le figlie nascano con ultracode: si controlla con get_session sulla prima, p
   Si aggiungono le voci tolte per le prove comuni, le domande dei referti (circa 25, più le 5 di R21) e le falle riservate.
 - PR e CI: il controllore `…WroKtz` (`pr_ci` in `sessioni.json`) segue la #952, verde, che Nicola unisce alle 13:40. Mentre corre la CI non si spinge su ad-mycity: avvisa lui.
 - Costi alle 13:30 da `cost_usd`: figlie dell'onda 2 circa 586 $, il 20% della settimana. Regia quinta 5,1 $. Quota in avviso fino al 19/11 alle 10, senza extra.
-- Sorveglianza: la sesta cancella la catena della quinta (`trig_019djWt83zUDMzvAH7mbmYbG`) e ne fa una sua ogni 30 minuti.
+  La sesta cancella la catena di sorveglianza della quinta (`trig_019djWt83zUDMzvAH7mbmYbG`) e ne fa una sua ogni 30 minuti.
