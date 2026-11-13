@@ -61,3 +61,13 @@ Che le figlie nascano con ultracode: si controlla con get_session sulla prima, p
 
 **I controllori.** Le regole stanno in `cervello/riparazione/LEGGIMI-controllore.md`. I referti vanno in
 `<C>/controlli/`, e `applica` li legge da solo.
+
+**Passaggio alla seconda regista dell'onda 2 (13/11 06:12, da `…Zcs1Xv` oltre 450 mila token: regola 7 violata, Nicola l'ha visto).**
+- Richiesta di Nicola: «parti con l'ondata 2», poi «accendi ultracode in ogni sessione dove si lavora con il codice». Si riferisce all'AD, quinta chat `…YWmNDP`, in modo urgente per stop, quota e clic.
+- Aperti R13-R19 (id in sessioni.json; R19 `session_015BmpnYLk8AraXakVCkun9H`), piani approvati. R20-R24 in apertura da un agente della prima regista: gli id li manda lei.
+- Ultracode: solo Nicola lo accende dall'app, sessione per sessione. R13 acceso; R14-R24 da accendere. La parola nel testo non basta.
+- Le figlie non chiedono a Nicola (R13 l'ha fatto): ordine mandato a tutte, ed è nei testi di R19-R24. Se ricapita, si interrompe e si ricorda.
+- Mai oltre 12 subagenti per figlia: niente deroghe senza la firma di Nicola. I minori senza revisore portano verificato_da = «prova rimessa del riparatore, tetto dei 12».
+- Da fare subito: catena di sorveglianza a 30 minuti (`sorveglia.sh <C> 2`), controllo a 10 minuti con list_sessions, tetti per figlia, poi F2/F3.
+- CI della ad-mycity#952: rossa su `cervello/test/due-case.test.mjs` (2 casi, «il banco non si avvelena da solo»), da capire. Riagganciate le mutazioni AR-1163.
+- Analisi delle regole non seguite: workflow `wf_f8b37da0-d37` della prima regista. L'esito te lo manda lei.

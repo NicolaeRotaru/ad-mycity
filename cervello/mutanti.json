@@ -11313,8 +11313,8 @@
    "difetto": "AR-1163",
    "file": "cervello/riparazione-sessioni.mjs",
    "nome": "applica torna a scrivere senza ricontrollare referti e collaudi",
-   "cerca": "if (ferma.length) return chiudi(\"applica\", ferma, [], opz);",
-   "sostituisci": "if (false) return chiudi(\"applica\", ferma, [], opz);",
+   "cerca": "if (ferma.length) return chiudi(\"applica\", ferma, [], opz, conEccezioni());",
+   "sostituisci": "if (false) return chiudi(\"applica\", ferma, [], opz, conEccezioni());",
    "test": "cervello/test/riparazione-sessioni.test.mjs"
   },
   {
