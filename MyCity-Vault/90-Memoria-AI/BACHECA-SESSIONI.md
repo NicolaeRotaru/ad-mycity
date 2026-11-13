@@ -58,7 +58,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 |---|---|---|
 | AD | parla con Nicola, tiene la memoria e la bacheca | `MyCity-Vault/90-Memoria-AI/`, regole di scrittura |
 | regista (`…XsL6Y7`) | ferma a 450 mila token: passaggio scritto in fondo a `consegne/riparazioni/2026-11-12-sito-tutto/REGIA.md` (13/11 01:35). L'onda 2 la guida una regista nuova, aperta dall'AD al «via la seconda» | la campagna del 12/11, la skill `riparazione` |
-| CI della macchina | finita alle 03:33 al tetto (29,55 $ su 30): cancello 2 min 36 s (era 10 min 21 s), test del cervello 2 min 20 s (era circa 5 min), nessun controllo tolto. Richiesta #948 in bozza: l'ultima corsa su `0f204ff` la segue l'AD | `.github/workflows/`, `cervello/cancello-lotto.mjs` |
+| CI della macchina | Finita alle 03:33, al tetto: 29,55 $ su 30. Il cancello del lotto ora ci mette 2 minuti e 36 secondi, prima 10 e 21. Il test del cervello ci mette 2 minuti e 20, prima circa 5. Nessun controllo tolto. La richiesta #948 è in bozza, e l'ultima corsa su `0f204ff` la segue l'AD | `.github/workflows/`, `cervello/cancello-lotto.mjs` |
 | Radiografia del codice · seguito (`…ZCaWUi`) | segue la richiesta del giudizio sul codice del sito (ad-mycity#947) e aspetta Nicola su due scelte: le quattro librerie con falle note da aggiornare prima di domenica 15/11, e il piano con i costi del riordino dopo il lancio. Il codice del sito non lo tocca senza la sua firma | `consegne/audit/2026-11-13-giudizio-codice-sito.md` |
 | radiografia | finita: aspetta il «via» alla prima corsa | la skill `radiografia-sessioni`, il suo programma |
 
