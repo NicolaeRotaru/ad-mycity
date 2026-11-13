@@ -1,77 +1,80 @@
 ---
 tipo: quaderno-di-bordo
-data: 2026-11-12 15:25
-per: la sessione regista della campagna «sito, tutto»
+data: 2026-11-13 05:50
+per: la regista della campagna «sito, tutto» (onda 2, dalle 13:15 del 13/11: la quinta, id in sessioni.json)
+stima_usd: 435
 ---
 
 # La regia della campagna «sito, tutto»
 
 ## In parole semplici
 Questo foglio lo legge la regista. È la sessione che apre i riparatori, li sorveglia e unisce il loro lavoro.
-Prima legge la guida del risolutore e il manuale dell'AD. Qui trova solo cosa è già fatto e cosa resta.
-Per esempio: la prima onda ha 12 riparatori da 25 difetti l'uno, e il riparatore R11 parte dal pannello dei bonifici.
+Qui trova solo cosa è già fatto e cosa resta; le regole stanno nella skill `riparazione`.
+Esempio: l'onda 2 ha 12 riparatori, da R13 a R24, e la voce del bonifico del lunedì (R11-004) è R17-002.
 
 ## Cosa cambia per te
-Nicola parla solo con l'AD. Ogni fermata, e il messaggio finale, vanno all'AD con un messaggio fra sessioni.
-L'AD li mostra a Nicola e riporta la sua risposta. Il «via» arriva sempre da lì.
+Nicola parla con l'AD, nella quinta chat (`session_015BmpnYWmNDPKAztZMPww6M`). Fermate ed esito vanno lì, con send_message.
 
 ## Cosa devi fare
-Finire la preparazione, aspettare il «via», poi guidare tre onde, la cucitura e i controllori.
+Guidare l'onda 2 fino alla fermata 3, poi l'onda 3, la cucitura e il controllore finale.
 
 ## Cosa non ho verificato
-Non ho provato ad aprire le sessioni figlie. La regista è in modalità «auto» (controllato alle 15:45): le figlie nascono in «auto».
+Che le figlie nascano con ultracode: si controlla con get_session sulla prima, prima di aprire le altre.
 
 ---
 
 ## Dettagli tecnici
 
-**Le scelte di Nicola, 12/11.**
-- Casa `sito`, profilo `tutto`.
-- Riparatori da 25 voci al massimo, in tre onde. Fermate: prima dell'onda 1, dopo l'onda 1, dopo l'onda 2.
-- Un controllore dopo ogni onda e uno finale, oltre ai collaudatori.
-- Niente lavoro inutile: vale la sezione «Il lavoro che non si fa» della guida.
-- La sessione dell'AD, dal 13/11 01:30, è `session_015BmpnXznpQwCRc8GAKjgyw` («AD — continua dal 13/11»).
+**Le scelte di Nicola.**
+- 12/11: casa `sito`, profilo `tutto`, riparatori da 25 voci, tre onde, fermate prima dell'onda 1 e dopo le onde 1 e 2.
+- 12/11: un controllore dopo ogni onda e uno finale; niente lavoro inutile.
+- 13/11: nessuna sessione fa solo da cartella. Le figlie stanno dentro la regista, col ruolo in testa al titolo
+  («Riparatore · R13 · onda 2»). Ogni figlia che scrive codice nasce con ultracode ed effort xhigh.
+- 13/11, card 239 «a» e «Allarga la a»: per la sola onda 1 vale l'eccezione firmata su quattro regole
+  (`eccezioni_firmate` in piano.json, commit `ed65fbf`). Dall'onda 2 tutto stretto.
+- Le migrazioni sul database vero solo con la sua firma, una per una. L'unione e la pubblicazione sono sue.
 
-**Già fatto.**
-- `perimetro.json`: 662 lavorabili su 828 aperti. Sono 5 bloccanti, 74 gravi e 583 minori.
-- Fuori dal perimetro: 88 riservate, 67 con una domanda per Nicola, 11 senza percorso.
-- La base del sito è `db5164c52e856c0e3eab1c02197ae755fca76eb3`.
-- `piano.json`: l'onda 1 è divisa, con 12 sessioni e 300 voci. Ne restano 362 per le onde dopo.
-- La simulazione delle onde dopo: 12 sessioni con 233 voci, poi 6 con 85, poi la cucitura e circa 4 voci in eccedenza.
+**Onda 1 (chiusa).**
+- Unita nel sito con la mycity#288 il 13/11 alle 04:33 (`a19ff89`). Prima l'AD ha tolto la migrazione 350 (`b868e37`).
+- `applica --git` a vuoto, con l'eccezione: verde. 300 voci: 115 si chiudono, 7 già riparate, 178 aperte, 62 nati.
+  63 rossi sospesi dall'eccezione, elencati in `decisioni.json`.
+- Nessuna delle 115 dipende dalla 350: i 127 file di prova esistono su `a19ff89`.
+- Database vero: applicate 250, 260, 270-272, 300, 320-323, 360, 361, 363, 364 e 365. La 350 non esiste più.
+- Costo misurato: 583 $ di listino per le figlie, più 164 $ della regista di prima.
 
-**Preparazione finita (12/11 alle 15:36, regista `session_015BmpnXsL6Y7tP3BhawauHw`).**
-- Sito clonato in `/home/user/mycity` alla base `db5164c`, `npm ci` lanciato. RAMO_SITO = `claude/sweet-galileo-0skkay`.
-- Schede R01-R12 e `registro-compatto.txt` scritti; `copertura-prima` e `segnaposti` verdi.
-- Il «via» di Nicola è arrivato alle 15:34: l'onda 1 parte subito dopo il push di questo commit (SHA_REGISTA).
-- Gli id delle figlie stanno in `sessioni.json`, il diario in `diario-della-sorveglianza.txt`.
+**Onda 2 (aperta il 13/11).**
+- BASE `a19ff8923106fb5fbe7c2e74cc02979ea9dc2067`. Integrazione sito: `claude/magical-hamilton-xouwr8`.
+- Candidate: le 362 rimandate dall'onda 1, più 52 chiavi in `chiavi-onda2.txt`. Sono le 25 di R05, le 14
+  `serve_file_altrui`, le 3 `non_fatto`, le 8 tolte con revert, R10-019 (rompe altro, latente su main) e R11-004.
+- `dividi`: 12 sessioni R13-R24, 259 voci (1 bloccante, 19 gravi, 239 minori), migrazioni 370-489.
+  Passano all'onda 3 155 voci, fra cui R03-008, R05-010, R11-015 e R10-023.
+- Stima: circa 376 $ (259 voci per 1,45 $); il tetto detto a Nicola è 435 $, il massimo 550 $.
+- Tetti per figlia: riparatore 35 $, collaudatore 30 $, controllore 20 $, regia 60 $.
+- Il tasto «Bonifico fatto» del pannello admin dà errore finché R17-002 non è riparata e la sua migrazione applicata.
 
-**Onda 1 chiusa (12/11 alle 19:45) — FERMATA 2 mandata all'AD, si aspetta «via la seconda».**
-- Integrazione sito `claude/sweet-galileo-0skkay` @ `b144746`: 11 rami uniti (R05 mai partito), verify ✅ 9646, SQL ✅.
-- Tolte con revert: R03-001, R03-008, R11-015, R11-016, R12-012, R07-019, R06-014, R06-017. R10-019 lasciata (latente, abbonamento spento).
-- `applica` a vuoto verde: 300 voci → 115 si chiudono, 7 già riparate, 178 aperte, 62 nati. `controlli/C01.json` copiato (forma delle riservate normalizzata).
-- Costo misurato onda 1: 583 $ di listino (riparatori 399, collaudatori 137, C01 15, regia 32).
-- Le falle riservate stanno SOLO nel messaggio all'AD della fermata 2, non qui.
-- Al «via la seconda»: `dividi --base 3e820b069e0baf37daac343ea832539fb871d4d6` (la testa di integrazione di adesso) con `--file-chiavi` (le 25 di R05 + serve_file_altrui + tolte), poi schede, copertura-prima, F1.
-
-**Le onde dopo.** `dividi --base <SHA di integrazione>`, con `--ultima` sull'onda 3. Il default è già 25 voci.
-
-**La sorveglianza.** `bash cervello/riparazione/sorveglia.sh <C> <onda>` ogni 30 minuti, più `get_session`.
+**Da fare, in ordine.**
+1. F1: aprire R13-R24 (sessioni.json), approvare i piani, controllo a 10 minuti, catena di sorveglianza a 30 minuti.
+2. F2: collaudatori K05-K08, in catena. F3: unione, prove sull'albero unito, C02, PR in bozza sul sito, fermata 3.
+3. ✅ Registro onda 1, 13/11 06:06: `applica --git --scrivi` e `chiudi-sito` con la #288. Sono 115 chiusure, e `conti` è verde.
+   Tre prove rilanciate verdi su `a19ff89`: R03-006, R01-010 e R12-014. L'eccezione regge al secondo collaudo (`643ab2a`).
+4. Onda 3: `dividi --base <SHA integrazione onda 2> --ultima`, con le voci da rifare dell'onda 2.
 
 **I controllori.** Le regole stanno in `cervello/riparazione/LEGGIMI-controllore.md`. I referti vanno in
 `<C>/controlli/`, e `applica` li legge da solo.
 
-**Il conto.** Il consumo di ogni figlia si legge da `get_session`, nel campo `usage.cost_usd`. Va detto a ogni
-fermata. Il preventivo detto a Nicola è di circa 1.300-1.500 $ in tutto.
-
-**Passaggio alla regista dell'onda 2 (13/11 01:35, dalla regista `session_015BmpnXsL6Y7tP3BhawauHw`, a 450 mila token).**
-- Sito, PR #288 in bozza, testa `3e820b0`, CI 17 su 17 verde. Dentro anche la falla dell'IBAN chiusa (`8bf33ea`, migrazione 365) e il blocco di Supabase, Vercel e Stripe per le sessioni del sito (`65934dc`, `3e820b0`, dell'AD).
-- Database vero: applicate 250, 260, 270, 271, 272, 300, 320, 321, 322, 323, 360 e 365. Mancano 361, 363 e 364: Nicola ha detto «riprova», ma due volte la sessione si è riavviata con la conferma aperta (361 controllata: non applicata). La 350 NON si applica.
-  - **Aggiornamento dell'AD, 13/11 alle 03:18:** 361, 363 e 364 applicate dall'AD su «riprova» di Nicola (03:15), versioni 20261113021522, 20261113021719 e 20261113021747. Il controllo sul database: tabella `coupon_redemptions` presente, due `claim_coupon` (la vecchia resta), colonna `richiede_dichiarazioni_alimentari` vera solo su «alimentari», trigger `categoria_alimentare_non_si_spegne`, tipo «domanda» in `segnalazioni_tipo_check` e tre policy su `product_questions`. L'esito nella mycity#288 non è scritto: quel deposito non è collegato alla chat dell'AD.
-  - **Aggiornamento dell'AD, 13/11 alle 03:28:** card #236 fatta (Nicola ha tolto `mcp__Supabase__execute_sql` dai permessi su `main`, 3a5778e): il controllo dopo con `list_events` non serve più. Card #239 decisa: «a». La regola delle prove comuni resta severa; per la sola onda 1 vale un'eccezione firmata, perché i collaudatori hanno già guardato quelle modifiche. Da fare per la regista dell'onda 2, prima di `applica --git` sull'onda 1: `riparazione-sessioni.mjs` non ha un interruttore per onda su questa regola. La strada più corta è un campo nel piano, come `verifica_testa_dall_onda`, con la sua prova e la sua mutazione.
-- Macchina, PR #944: le due regole del 12/11 sera, più le correzioni delle due radiografie (`cb4136c`, schede AR-1171 e AR-1172). Radiografia in corsa: 10 file su 10.
-- In sospeso da Nicola: card #236, il lucchetto dei collaudatori, che oggi non si può mettere; fino alla scelta vale il controllo dopo con `list_events`. Poi la strada per le prove comuni: 1 stretta, 2 allentata (consigliata), 3 avviso. Con la regola di adesso, 9 rami su 11 dell'onda 1 hanno la guardia rossa (57 prove comuni) e `applica --git` su questa campagna è rossa: va deciso prima di `applica --scrivi`.
-- `piano.json` ha `verifica_testa_dall_onda: 2`: i referti dell'onda 1 sono nati prima della regola.
-- Regole da applicare all'onda 2, tutte nella skill: «Ultra Code Extra» (effort xhigh, controllo con get_session); `permission_mode: "auto"`; primo messaggio con LEGGIMI e scheda interi; due costi in ogni messaggio, anche in percentuale (1% ≈ 30 $, stima); `cervello/sessioni-insieme.md` (bacheca, urgente, passaggio oltre 400 mila); mai più di 12 subagenti senza chiedere, e uno scettico solo, sui gravi.
-- Conto: questa sessione ha speso 164,49 $ (circa il 5,4% della settimana), di cui 106 $ dopo l'onda 1, quasi tutti per le due radiografie (87 agenti). La quota settimanale è in «allowed_warning».
-- Su questa sessione restano: le notifiche delle PR #288 e #944 e un controllo programmato alle 04:11 (`trig_01JLh5Lu5UPy136nDfPcDxsm`). Se la sessione nuova li prende, quel controllo si cancella.
-  - **Aggiornamento dell'AD, 13/11 alle 04:20:** Nicola unisce la #288 prima dell'onda 2. Prima dell'unione, su sua scelta «a», l'AD ha tolto la migrazione 350 con il commit `b868e37`. La 350 in un caso fa pagare due volte lo stesso ordine. Insieme a lei sono uscite la sua prova SQL, il caso unitario che la leggeva e `payout_manual_ref` dai tipi. R11-004 era già «resta_aperta» e va nell'onda 2. La base dell'onda 2 è la testa di main del sito dopo l'unione. Il testo d'avvio sta in `AVVIO-ONDA-2.md`.
+**Passaggio alla quinta regista dell'onda 2 (13/11 13:15, dalla quarta `…VkmAAN` a 423 mila token).**
+- Sito: `git clone --filter=blob:none https://github.com/NicolaeRotaru/mycity` via proxy, senza add_repo; ogni comando con `MARKETPLACE_REPO=<clone>`. Il push sul sito serve all'unione: add_repo push chiede un clic di Nicola.
+- Ultracode spento nella quarta: le sessioni aperte da lei nascono spente; Nicola le accende dall'app. Controllare con get_session prima di aprire collaudatori.
+- **12:58, Nicola: «finiamo al 100% l'ondata»**, poi «oltre a questi 99 fai anche quelli che mancano». Ripartiti 10 riparatori con tetti in tutto: R13 90 $, R17 85, R14 80, R16 66, R19 71, R18 70, R24 70, R23 61, R15 60, R21 55. Fino a 10 subagenti in più. A loro: lotti, sonnet sui minori, prove comuni intoccabili (revert + serve_file_altrui), chiusura con verify (8192), finita:true, guardia e referto verdi; oltre 350 mila token si fermano e lo dicono.
+- Finite e verdi, da collaudare: R20 (punta `2851b087`, testa `a23283e8`, 13 riparati), R22 (punta `35ee9faa`, testa `edacdd69`, 12). Le altre mandano lo SHA a fine lavoro.
+- Poi: K05-K08 (3 riparatori ciascuno, `source_revision` = testa di questo ramo), unione nel ramo di integrazione del sito, verify e harness SQL, **cucitura dell'onda 2** sul ramo unito (tutte le serve_file_altrui e le parziali in file altrui: è nella decisione di Nicola), C02, fermata 3.
+- Domande per Nicola: nei `domande_per_nicola` dei referti, circa 25. Falle riservate nuove: 4 (R14 pagamenti, R16 permessi, R19 permessi, R21 accessi); i dettagli solo in chat, dalla quarta.
+- La regola data a tutti dall'onda 2: la prova comune torna com'era; la voce che la contraddice si toglie intera con git revert (codice, migrazione, tipi) e va serve_file_altrui, con gli SHA da riprendere e la modifica esatta della prova. Si riprende in cucitura, o all'unione dell'onda 2 se Nicola firma l'eccezione alla fermata 3.
+- 10 minori della macchina (9 dal collaudo di `7d9500f`, `wf_135d9675-e15`, più 1 dal collaudo di `c07ebb4`: se il battito c'è ma è vuoto o rotto, la prova non lo rifà), da fare dopo il verde e solo con ultracode acceso: prova da capo a fondo di applica --scrivi con mutazione (il più importante); areaDelNato senza maiuscole e spazi; Array.isArray su dimensioni; doppione al rilancio; la cookie policy doppione della scheda 115; meta.aggiornato; `cervello/test/il-freno-non-era-sulla-strada.test.mjs:276` che scrive nel registro vero (da registrare come nato); l'ordine dei file di R17.md.
+- Per la fermata 3: carta #242 (tetto di R13: bloccante R13-001 della cassa del centro, gravi 004-006), R13-003 chi paga gli sconti, R17-002 ordine fermo pagato più le altre 4 domande di R17, R20-010, R23-016, R24-003, R24-010 (dominio di SUPPORT_EMAIL), il CAPTCHA di R24, l'eccezione di R16 e le voci tolte per le prove comuni.
+- PR e CI: dal 13/11 13:15 le segue il «Controllore · PR e CI · onda 2» (id in `sessioni.json`, chiave `pr_ci`): ad-mycity#952 ora, la PR del sito dopo l'unione. La regista non ripara la CI.
+- Costi alle 13:05: regia quarta 13,5 $ (regia in tutto circa 94 $, tetto 60 $). Figlie: R24 49,9 $, R19 50,8, R16 47,9, R23 41,3, R14 39,8, R21 ~39, R18 ~36, R15 34,3, R17 ~33, R22 ~32, R13 30,5, R20 25,2. Stima in più per finire circa 430 $ (massimo circa 540 $). Quota in avviso fino al 19/11 alle 10.
+- Sorveglianza: catena della quinta, `trig_019djWt83zUDMzvAH7mbmYbG`, ogni 30 minuti. Sito: add_repo push fatto alle 13:22.
+- **13:20, Nicola: «mettiti avanti con i collaudatori e controllori su difetti già risolti».** Si scosta dalla skill, che collauda a `finita: true`.
+  K05 subito su R20 e R22. Poi collaudi anticipati sulle voci con esito, allo SHA spinto, ognuna al suo commit; il dopo si ricollauda sul delta.
+  I rami finiti e verdi si uniscono man mano nell'integrazione del sito; C02 fa un primo giro e un secondo sul resto. Tetti: 30 $ e 20 $.

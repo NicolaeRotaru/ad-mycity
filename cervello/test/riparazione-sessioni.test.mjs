@@ -18,6 +18,7 @@ import { symlinkSync } from "node:fs";
 import {
   fileDaCampoSito, fileDaSchedaMacchina, assegnaOnda, controllaOnda, giudicaPercorso, importDi, percorsiNominati,
   regoleReferto, regoleCollaudo, campioneDi, decidi, chiaviDoppie, classifica, CONDIVISI_MACCHINA, RE_SPENTA, contaAsserzioni,
+  eccezioneFirmata,
 } from "../riparazione-sessioni.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
@@ -1055,4 +1056,106 @@ test("AR-1172 · radiografia 12/11 notte · deposito stampa il deposito giusto p
     assert.equal(r.status, 0, r.stderr);
     assert.equal(r.stdout.trim(), realpathSync(dir));
   } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
+});
+
+// ── le eccezioni firmate da Nicola, onda per onda (card 239 «a» e «Allarga la a», 13/11) ─────────────
+const FIRMA = "Nicola, card 239 «a» (13/11 03:27) e «Allarga la a» (13/11 05:20)";
+const conEccezioni = (piano, eccezioni) => ({ ...piano, eccezioni_firmate: eccezioni });
+
+test("AR-1172 · eccezione firmata: vale solo nell'onda scritta, solo con la firma, solo per le regole ammesse", () => {
+  const piano = { eccezioni_firmate: [{ onda: 1, regole: ["prove_comuni", "rimessa_a_mano"], firma: FIRMA }] };
+  assert.equal(eccezioneFirmata(piano, 1, "prove_comuni"), FIRMA);
+  assert.equal(eccezioneFirmata(piano, 2, "prove_comuni"), null, "dall'onda 2 la regola è stretta");
+  assert.equal(eccezioneFirmata(piano, 1, "prova_nuova_senza_nome"), null, "una regola non elencata non è sospesa");
+  assert.equal(eccezioneFirmata({ eccezioni_firmate: [{ onda: 1, regole: ["prove_comuni"], firma: "  " }] }, 1, "prove_comuni"), null, "senza firma non vale");
+  assert.equal(eccezioneFirmata({ eccezioni_firmate: [{ onda: 1, regole: ["migrazioni"], firma: FIRMA }] }, 1, "migrazioni"), null, "una regola fuori dall'elenco delle derogabili non si sospende");
+  assert.equal(eccezioneFirmata({}, 1, "prove_comuni"), null);
+  // Collaudo del 13/11: l'onda è un intero, e una firma ha lettere o cifre.
+  for (const onda of ["1", true, [1], " 01 "]) assert.equal(eccezioneFirmata({ eccezioni_firmate: [{ onda, regole: ["prove_comuni"], firma: FIRMA }] }, 1, "prove_comuni"), null, `onda ${JSON.stringify(onda)}`);
+  for (const firma of ["\u200b", "\u2060", " \u00a0 ", "—"]) assert.equal(eccezioneFirmata({ eccezioni_firmate: [{ onda: 1, regole: ["prove_comuni"], firma }] }, 1, "prove_comuni"), null, `firma ${JSON.stringify(firma)}`);
+});
+
+test("AR-1172 · eccezione firmata: giudicaPercorso sospende solo la regola derogata, e la annota", () => {
+  const annotati = [];
+  const deroga = (regole) => (regola, perche) => { if (!regole.includes(regola)) return false; annotati.push(perche); return true; };
+  const condivisa = { importaDaSuoi: (p) => (p === "tests/unit/importa.test.ts" ? "condivisa" : false) };
+  assert.match(String(giudicaPercorso("tests/unit/importa.test.ts", ctxBase(condivisa))), /usa anche file di altre sessioni/);
+  assert.equal(giudicaPercorso("tests/unit/importa.test.ts", ctxBase({ ...condivisa, deroga: deroga(["prove_comuni"]) })), null);
+  assert.match(annotati.pop(), /usa anche file di altre sessioni/, "il rosso sospeso resta scritto");
+  assert.match(String(giudicaPercorso("tests/unit/estranea.test.ts", ctxBase({ deroga: deroga(["prove_comuni"]) }))), /non importa e non nomina/, "la deroga di una regola non copre le altre");
+  assert.equal(giudicaPercorso("tests/unit/estranea.test.ts", ctxBase({ deroga: deroga(["prova_esistente_altrui"]) })), null);
+  assert.equal(giudicaPercorso("tests/unit/minori-s03-x.test.ts", ctxBase({ deroga: deroga(["prova_nuova_senza_nome"]) })), null);
+  assert.match(String(giudicaPercorso("lib/altrui.ts", ctxBase({ deroga: deroga(["prove_comuni", "prova_esistente_altrui", "prova_nuova_senza_nome"]) }))), /altra sessione o di nessuno/, "un file di codice altrui non è mai derogabile");
+});
+
+test("AR-1172 · eccezione firmata: guardia-ramo è verde sulla prova comune solo nell'onda firmata, e la elenca", () => {
+  const { dir, g, scrivi, base: base0 } = depositoFinto();
+  scrivi("tests/unit/comune.test.ts", "import { a } from '../../lib/a';\nimport { b } from '../../lib/b';\nit('x', () => { expect(a + b).toBe(2); });\n");
+  g("add", "-A"); g("commit", "-qm", "prova comune");
+  const base = g("rev-parse", "HEAD");
+  const c = cartellaCampagna(base);
+  const pianoFile = join(c, "piano.json");
+  const piano0 = JSON.parse(readFileSync(pianoFile, "utf8"));
+  try {
+    g("checkout", "-q", "-b", "r01", base);
+    scrivi("lib/a.ts", "export const a = 2;\n");
+    scrivi("tests/unit/comune.test.ts", "import { a } from '../../lib/a';\nimport { b } from '../../lib/b';\nit('x', () => { expect(a + b).toBe(3); });\n");
+    g("add", "-A"); g("commit", "-qm", "R01-001 la riparazione e la prova comune");
+    let r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.equal(r.status, 1, r.stdout);
+    assert.match(r.stdout, /comune\.test\.ts: è una prova esistente che usa anche file di altre sessioni/);
+    writeFileSync(pianoFile, JSON.stringify(conEccezioni(piano0, [{ onda: 2, regole: ["prove_comuni"], firma: FIRMA }])));
+    r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.equal(r.status, 1, `un'eccezione dell'onda 2 non tocca l'onda 1: ${r.stdout}`);
+    writeFileSync(pianoFile, JSON.stringify(conEccezioni(piano0, [{ onda: 1, regole: ["prove_comuni"] }])));
+    r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.equal(r.status, 1, `senza firma l'eccezione non vale: ${r.stdout}`);
+    writeFileSync(pianoFile, JSON.stringify(conEccezioni(piano0, [{ onda: 1, regole: ["prove_comuni"], firma: FIRMA }])));
+    r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir, "--json");
+    assert.equal(r.status, 0, r.stdout);
+    assert.match(r.stdout, /sospesi da un'eccezione firmata/);
+    const j = JSON.parse(r.stdout.trim().split("\n").pop());
+    assert.equal(j.eccezioni_firmate.length, 1);
+    assert.match(j.eccezioni_firmate[0], /comune\.test\.ts.*eccezione firmata, onda 1: Nicola/);
+  } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
+});
+
+test("AR-1172 · eccezione firmata: un collaudo con la rimessa a mano ferma applica, tranne nell'onda firmata, e la deroga finisce in decisioni.json", () => {
+  const c = mkdtempSync(join(tmpdir(), "riparazione-eccezione-"));
+  try {
+    const v1 = [{ id: "R01-001", chiave: "pagamenti|il payout salta", gravita: "grave", file: ["lib/a.ts"] }];
+    const piano = (extra) => JSON.stringify({ casa: "sito", ...extra, onde: [{ onda: 1, base: "0".repeat(40), candidate: [v1[0].chiave], sessioni: { R01: { voci: v1, file: ["lib/a.ts"] } }, rimandate: [], regia: [] }] });
+    writeFileSync(join(c, "perimetro.json"), JSON.stringify({ casa: "sito", lavorabili: v1 }));
+    const registro = join(c, "registro.json");
+    writeFileSync(registro, JSON.stringify({ problemi: [{ dimensione: "pagamenti", titolo: "il payout salta", stato: "aperto", severita: "grave", file: "lib/a.ts:1" }] }));
+    mkdirSync(join(c, "referti")); mkdirSync(join(c, "collaudi"));
+    const rip = riparata({ id: "R01-001" });
+    writeFileSync(join(c, "referti", "R01.json"), JSON.stringify({ sessione: "R01", aggiornato: "2026-11-13 10:00", finita: true, testa: "fff0000", verifica: { comando: "npm run verify", esito: "verde", testa: "fff0000" }, voci: [rip] }));
+    writeFileSync(join(c, "collaudi", "K01.json"), JSON.stringify({ collaudatore: "K01", riparatori: ["R01"], aggiornato: "2026-11-13 12:00", finita: true, voci: [{ id: "R01-001", chiave: rip.chiave, verdetto: "regge", giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"], rimessa: { uscita: 0, comando: "apply.sh senza la migrazione, rimessa SQL a mano" } }] }));
+    writeFileSync(join(c, "piano.json"), piano({}));
+    let r = lancia("applica", "--cartella", c, "--registro", registro);
+    assert.equal(r.status, 1, r.stdout);
+    assert.match(r.stdout, /non è prova-rimessa\.mjs/);
+    writeFileSync(join(c, "piano.json"), piano({ eccezioni_firmate: [{ onda: 2, regole: ["rimessa_a_mano"], firma: FIRMA }] }));
+    r = lancia("applica", "--cartella", c, "--registro", registro);
+    assert.equal(r.status, 1, `un'eccezione dell'onda 2 non tocca l'onda 1: ${r.stdout}`);
+    writeFileSync(join(c, "piano.json"), piano({ eccezioni_firmate: [{ onda: 1, regole: ["rimessa_a_mano"], firma: FIRMA }] }));
+    r = lancia("applica", "--cartella", c, "--registro", registro);
+    assert.equal(r.status, 3, r.stdout);
+    assert.match(r.stdout, /sospesi da un'eccezione firmata/);
+    const d = JSON.parse(readFileSync(join(c, "decisioni.json"), "utf8"));
+    assert.equal(d.eccezioni_firmate.length, 1);
+    assert.match(d.eccezioni_firmate[0], /collaudi\/K01\.json: R01-001: «regge» con una prova rimessa che non è prova-rimessa\.mjs.*onda 1/);
+    // Collaudo del 13/11: i sospesi stanno anche nel JSON, quando applica chiude, quando si ferma, e in valida-collaudo.
+    const ultimo = (out) => JSON.parse(out.trim().split("\n").pop());
+    r = lancia("applica", "--cartella", c, "--registro", registro, "--json");
+    assert.equal(ultimo(r.stdout).eccezioni_firmate.length, 1, r.stdout);
+    r = lancia("valida-collaudo", join(c, "collaudi", "K01.json"), "--cartella", c, "--json");
+    assert.equal(r.status, 0, r.stdout);
+    assert.equal(ultimo(r.stdout).eccezioni_firmate.length, 1, r.stdout);
+    writeFileSync(join(c, "referti", "appunti.txt"), "x");
+    r = lancia("applica", "--cartella", c, "--registro", registro, "--json");
+    assert.equal(r.status, 1, r.stdout);
+    assert.equal(ultimo(r.stdout).eccezioni_firmate.length, 1, `applica fermo per un altro motivo porta lo stesso i sospesi: ${r.stdout}`);
+  } finally { rmSync(c, { recursive: true, force: true }); }
 });

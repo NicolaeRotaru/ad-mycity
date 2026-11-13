@@ -54,6 +54,18 @@ quello che guardi**, e non lo ripari adesso: tu giudichi.
   nella stessa cartella si sovrascrivono): `git -C ../marketplace worktree add ../wt-RNN --detach <testa> && ln -s "$(cd ../marketplace && pwd)/node_modules" ../wt-RNN/node_modules`.
 - Spingi **solo** il tuo referto, `<cartella>/collaudi/KNN.json`, sul tuo ramo. Nient'altro.
 
+### Le regole delle sessioni (regola 11 di `cervello/sessioni-insieme.md`, Nicola 13/11 alle 13:30)
+
+- Lo stop, la quota, la sicurezza e i soldi li mandi alla regista con `send_message` e `priority: "now"`. A un
+  messaggio urgente rispondi subito, con una riga.
+- Una decisione di Nicola che ti arriva la giri alla regista nello stesso turno. Se aspetti un suo clic, lo dici
+  subito alla regista.
+- Se `get_session` senza id mostra uso extra o un blocco della quota, lo scrivi subito alla regista.
+- A 400 mila token di storia apri da te la tua sessione 2.0 (come nel punto 2 di «Giri brevi» qui sotto).
+- Lavori solo con ultracode acceso: se `get_session` non dice `is_ultracode_active: true`, non cominci e lo dici
+  alla regista.
+- Il costo lo leggi da `usage.cost_usd` di `get_session`, mai a stima.
+
 ### Giri brevi, codice giusto (regola del 12/11 notte)
 
 **Il database vero non si tocca, nemmeno per leggerlo.** Mai gli strumenti di Supabase, Vercel o Stripe: né tu né
@@ -72,9 +84,9 @@ frattempo da altri. Quindi:
    in `/tmp`. **I revisori si lanciano tutti insieme in primo piano**, nello stesso messaggio: così non ti svegliano
    uno alla volta. Ognuno nella sua copia (punto 3) e col suo database (punto 4): insieme, mai nella stessa cartella.
 2. **Un giro di ricollaudo** (dopo una correzione del riparatore) lo fanno subagenti nuovi. Ricevono solo il referto
-   alla punta, le voci rimandate e il tuo verdetto di prima, letto da `collaudi/KNN.json`. Se la regista ti scrive
-   che hai superato i 300 mila token, salvi e spingi il collaudo: il giro dopo lo fa un collaudatore nuovo, sullo
-   stesso ramo, che riparte da quel file.
+   alla punta, le voci rimandate e il tuo verdetto di prima, letto da `collaudi/KNN.json`. A 400 mila token di
+   storia (lo leggi da te con `get_session`) salvi e spingi il collaudo, e apri tu il collaudatore 2.0 sullo stesso
+   ramo, che riparte da quel file: come il punto 6 del foglio del riparatore (Nicola, 13/11 alle 13:30).
 3. **Il codice è quello dichiarato.** Ogni esecutore ha la sua copia allo SHA esatto (`worktree add --detach`). Prima
    di lanciare una prova controlla `git -C ../wt-RNN rev-parse HEAD`: deve essere il commit che stai provando. Se no,
    fermati e rifai la copia.

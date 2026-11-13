@@ -1,0 +1,83 @@
+{
+  "corsia": 3,
+  "territorio": "R03",
+  "difetti": [
+    {
+      "chiave": "pagamenti-stripe|reso con la carta in un carrello di due negozi: se un rimborso dal cruscotto è già stato diviso fra i due ordini, il reso ripreso dopo un guasto toglie di nuovo la quota al negozio",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-reso-carta-dopo-rimborso-diviso.test.ts",
+      "non_vacuita": "rimessa equivalente: lib/stripe/payout.ts a 90bb88ad5c1a08d27fe9361e8676dc69265482b5^ → rossa «expected 3150 to be 1800»; a HEAD → verde → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-2 --base 90bb88ad5c1a08d27fe9361e8676dc69265482b5^ --file lib/stripe/payout.ts --prove tests/unit/riparazione-r03-reso-carta-dopo-rimborso-diviso.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "ilRimborsoDellaChiaveGiaUscito non conta più per intero i rimborsi senza order_id: per quelli scritti da una divisione dal cruscotto (registro audit_logs, origine divisione_del_rimborso_dal_cruscotto, stesso pagamento) conta solo la parte di questo ordine; quelli mai divisi restano contati per intero. Scenario della voce (40/60 €, 30 € divisi 5/25, reso 20 € ripreso): storni 1800 una volta, o1 a 2500. lib/stripe/rimborsi-da-dividere.ts non è servito toccarlo."
+    },
+    {
+      "chiave": "qa-flussi|se il negozio alza un prezzo mentre il cliente è in cassa, l'ordine in contanti nasce col prezzo nuovo senza che nessuno glielo dica",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-prezzo-cambiato-in-cassa.test.ts",
+      "non_vacuita": "rimessa equivalente: route.ts a 0620a2ac8c5c922061d8f2f788c4e320567b2bc5^ → rossa (200 invece di 409); a HEAD → verde → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-3 --base 0620a2ac8c5c922061d8f2f788c4e320567b2bc5^ --file app/api/orders/cod/route.ts --prove tests/unit/riparazione-r03-prezzo-cambiato-in-cassa.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "La cassa manda subtotaliVistiCents (il sottototale prodotti di ogni negozio come l'ha mostrato); la rotta, ricalcolati i prezzi, se un sottototale è diverso risponde 409 PREZZI_CAMBIATI con le cifre nuove senza creare l'ordine (prima di rivendicare il codice sconto); la cassa a quel codice rilegge i prezzi e mostra l'avviso «prezzo cambiato» già esistente. Confronto sui prodotti e non sul totale con la consegna, perché la consegna dipende da coordinate che il browser può non avere (rischio di fermare ordini buoni). Campo facoltativo per le pagine vecchie."
+    },
+    {
+      "chiave": "qa-flussi|la cassa può ordinare la quantità o la taglia vecchia se torni al carrello, la cambi e rientri entro mezzo minuto",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-cassa-rilegge-il-carrello-cambiato.test.ts",
+      "non_vacuita": "rimessa equivalente: page.tsx a 88ca1ff541144eaf7a53057825ec04841a18f80f^ → 2 rosse (stessa chiave con quantità/variante diverse); a HEAD → verdi → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-3 --base 88ca1ff541144eaf7a53057825ec04841a18f80f^ --file app/checkout/page.tsx --prove tests/unit/riparazione-r03-cassa-rilegge-il-carrello-cambiato.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "Correzione minima indicata dalla voce: la chiave di checkout-groups è id:variantId:quantity:sellerId. Prova montata: la cassa montata due volte con un carrello cambiato chiede una chiave diversa (quindi React Query non riusa la copia vecchia); stesso carrello, stessa chiave."
+    },
+    {
+      "chiave": "qa-flussi|cambiando la via di un indirizzo salvato, se la ricerca della posizione non risponde restano le coordinate della via vecchia",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-rubrica-via-nuova.test.tsx",
+      "non_vacuita": "rimessa equivalente: page.tsx a 83837299aa37dcd0edc36a7a230d0a7ee00ba60d^ → rossa (lat 45.0517 salvata con la via nuova); a HEAD → verde → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-1 --base 83837299aa37dcd0edc36a7a230d0a7ee00ba60d^ --file app/profile/addresses/page.tsx --prove tests/unit/riparazione-r03-rubrica-via-nuova.test.tsx --json → uscita 0 (K04)",
+      "nota_fix": "In modifica le coordinate di partenza restano solo se via, città e CAP sono identici a quelli salvati; altrimenti partono vuote, e se la ricerca non trova la via (o non risponde) si salva null. Il cliente legge, oltre a «Indirizzo salvato», che la posizione non è stata trovata e che può ordinare lo stesso. Con coordinate null coordinateDaIndirizziSalvati salta la riga e le rotte d'ordine cercano la posizione da sé (lib/shipping-coordinate.ts non è servito toccarlo)."
+    },
+    {
+      "chiave": "qa-flussi|salvando i turni il fattorino può tornare offline senza saperlo, e «preferenze salvate» compare prima di sapere se il salvataggio è riuscito",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-turni-non-spengono-l-online.test.tsx",
+      "non_vacuita": "rimessa equivalente: page.tsx a aca036f7d53697ea84ccdb53b80fa54531668370^ → 2 rosse; a HEAD → verdi → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-2 --base aca036f7d53697ea84ccdb53b80fa54531668370^ --file app/rider/availability/page.tsx --prove tests/unit/riparazione-r03-turni-non-spengono-l-online.test.tsx --json → uscita 0 (K04)",
+      "nota_fix": "save() scrive solo i campi cambiati: un turno manda solo rider_schedule, l'interruttore della pagina solo rider_is_online. «Preferenze salvate» parte dopo la scrittura riuscita; se cade, l'errore e la pagina torna ai valori di prima. app/rider/page.tsx (interruttore della bacheca) scriveva già solo rider_is_online: non è servito toccarlo."
+    },
+    {
+      "chiave": "qa-flussi|un fattorino nuovo non riesce a salvare i dati del primo passo se non ha già scritto le scadenze di patente e polizza",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-iscrizione-fattorino-senza-scadenze.test.ts",
+      "non_vacuita": "rimessa equivalente: page.tsx a 93c84c787ed44b4657a96808de000174b1957da3^ → rossa (rider_license_expires_on '' nel corpo); a HEAD → verde → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-3 --base 93c84c787ed44b4657a96808de000174b1957da3^ --file app/rider/onboarding/page.tsx --prove tests/unit/riparazione-r03-iscrizione-fattorino-senza-scadenze.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "«Salva i dati» del passo 1 scrive solo i quattro campi anagrafici (data di nascita vuota → null); l'invio finale manda le tre date vuote come null invece di ''. Prova montata con un database finto che rifiuta '' sulle colonne data come Postgres (22007). Il portiere che rimanda alla home il fattorino non approvato (noto 85) resta un difetto a parte, non mio."
+    },
+    {
+      "chiave": "qa-flussi|se il fattorino cambia solo il nome nel profilo, il suo telefono si cancella (e viceversa)",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-profilo-fattorino-nome-e-telefono.test.tsx",
+      "non_vacuita": "rimessa equivalente: page.tsx a f31e857c23f817024f3ee4fcb03256325b1cae0f^ → 3 rosse; a HEAD → verdi → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-4 --base f31e857c23f817024f3ee4fcb03256325b1cae0f^ --file app/rider/profile/page.tsx --prove tests/unit/riparazione-r03-profilo-fattorino-nome-e-telefono.test.tsx --json → uscita 0 (K04)",
+      "nota_fix": "Gli stati di nome e telefono partono da null (non toccato); il salvataggio scrive solo i campi cambiati rispetto al profilo letto, rifiuta il nome vuoto con un errore e, senza modifiche, dice «Nessuna modifica da salvare» senza scrivere. Prova montata: cambiando solo il telefono il corpo è {phone}, «Salva» a vuoto non scrive niente."
+    },
+    {
+      "chiave": "qa-flussi|nella modifica veloce dei prezzi «1.500» diventa 1,50 euro, e il sito dice «aggiornato»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-prezzo-con-il-punto-delle-migliaia.test.ts",
+      "non_vacuita": "rimessa equivalente: csv.ts a 87c0a88a87d5e736e8ba15fae4edd2314f70b1e1^ → rossa (1.500 → 1.5); a HEAD → verde → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-4 --base 87c0a88a87d5e736e8ba15fae4edd2314f70b1e1^ --file app/seller/products/import/csv.ts --prove tests/unit/riparazione-r03-prezzo-con-il-punto-delle-migliaia.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "leggiPrezzo: senza virgola, un numero che comincia da 1-9 seguito da gruppi di esattamente tre cifre dopo il punto è letto come migliaia (1.500 → 1500, 1.234.567); «4.50», «1.5», «0.500» restano decimali. La modifica in blocco chiede conferma (confirmDialog, nome e due cifre) quando un prezzo nuovo è sotto il 30% di quello di prima, come propone la voce. La conferma non ha una prova montata sua (la pagina dell'elenco è pesante da montare): la prova copre la lettura del prezzo, che è il difetto."
+    },
+    {
+      "chiave": "qa-flussi|la promo su una categoria non sconta niente, ma al negozio e ai clienti diciamo che è attiva",
+      "esito": "riparato",
+      "verifica_comando": "tests/sql/harness/apply.sh mycity_test && tests/sql/harness/run.sh mycity_test ; npx vitest run tests/unit/riparazione-r03-promo-sceglie-la-categoria.test.tsx",
+      "non_vacuita": "rimessa equivalente. SQL: senza la 272 → 2 rossi (le promo senza bersaglio nascono); con la 272 → 3 verdi, e tutta la cartella tests/sql/rls verde. Modulo: page.tsx a 9a5436adf5e4e21a72d9b8668ab9f7fb11371495^ → rossa; a HEAD → verde → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-3 --base 9a5436adf5e4e21a72d9b8668ab9f7fb11371495^ --file app/seller/promotions/page.tsx --prove tests/unit/riparazione-r03-promo-sceglie-la-categoria.test.tsx --json → uscita 0 (K04)",
+      "nota_fix": "Il modulo mostra la scelta della categoria quando si sceglie «Una categoria specifica», la rende obbligatoria (pulsante spento ed errore) e manda category_id; l'anteprima dice il nome della categoria. Migrazione 272 (non applicata): annulla le promo attive o in bozza senza bersaglio e aggiunge due CHECK (categoria per scope='category', almeno un prodotto per scope='products') limitati alle promo attive o in bozza, così si convalidano su tutte le righe: la prova 14 del progetto vieta i NOT VALID. PromotionsSection, store-site e promo-attive non è servito toccarli: senza righe senza bersaglio non annunciano sconti finti."
+    },
+    {
+      "chiave": "qa-flussi|dopo aver scritto all'assistenza la chat non si apre: il riquadro si chiude e il cliente resta sulla pagina senza nessuna conferma",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-assistenza-apre-la-chat.test.ts",
+      "non_vacuita": "rimessa equivalente: SupportChatModal.tsx a b56e824128651ec26356cd919ec400acf7b83ecd^ → rossa (history.back chiamato 1 volta); a HEAD → verde → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-2 --base b56e824128651ec26356cd919ec400acf7b83ecd^ --file components/SupportChatModal.tsx --prove tests/unit/riparazione-r03-assistenza-apre-la-chat.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "const navigatingRef = useCloseOnBack(open, onClose); nel ramo riuscito navigatingRef.current = true prima di onClose() e router.push, come MobileAccountSheet; più l'avviso «Messaggio inviato». La vista AI del negozio non naviga (setView) e con l'AI spenta non compare: niente da cambiare lì. components/hooks/useCloseOnBack.ts non è servito toccarlo. Prova montata con un involucro che chiude davvero la finestra."
+    },
+    {
+      "chiave": "qa-flussi|chi ordina la sera per domani e conferma l'email la mattina dopo si ritrova la consegna spostata di un giorno",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-bozza-della-sera-per-domani.test.ts",
+      "non_vacuita": "rimessa equivalente: lib/bozza-checkout.ts a e344a745b5821adbd8a59d21b9c7f38f56dd24c2^ → 3 rosse (giorno «tomorrow» rimesso martedì); a HEAD → verdi → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-2 --base e344a745b5821adbd8a59d21b9c7f38f56dd24c2^ --file lib/bozza-checkout.ts --prove tests/unit/riparazione-r03-bozza-della-sera-per-domani.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "La bozza salva sceltaIl (istante della scelta). bozzaLetta(grezza, adesso) la riporta al giorno di adesso con fasciaAlGiornoDellOrdine: «Domani · 9:00–11:00» salvato lunedì sera diventa «Oggi · 9:00–11:00» martedì, una fascia di un giorno passato non torna, una bozza senza data non rimette giorno e fasce (resta «Adesso», che la cassa ricontrolla da sé). Orologio fisso nella prova. La scadenza di poche ore della bozza (noto 63) non l'ho aggiunta: la voce la propone «anche», e l'indirizzo salvato resta utile; giorno e fasce sono comunque riportati al giorno giusto."
+    }
+  ]
+}

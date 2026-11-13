@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-13 13:38
+aggiornato: 2026-11-13 13:46
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,6 +28,17 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 13/11 13:40 | la stessa chat, subito dopo | «aggiungi come regola anche questa». In `cervello/sessioni-insieme.md` la regola 7 ora dice che la 2.0 la apre la sessione stessa, figlie comprese. La regola 11 nuova dice che chi apre una sessione le dà nel primo messaggio almeno le regole 1, 2, 4, 5, 7 e 10. Lo stesso blocco sta nei fogli di riparatore, collaudatore e controllore. Mandata alle 11 sessioni vive della campagna e all'AD. La regista ha chiesto a Nicola se intendeva proprio questo |
+| 13/11 13:30 | chat «Regista · onda 2 · quinta» | «tutte le sessioni che hai creato hanno le 10 regole? ed è applicata la regola: superato il 40-60% di contesto deve aprire una nuova sessione 2.0 di se stessa». Non era applicata così: ai riparatori era stato detto «oltre 350 mila token vi fermate». Alle 13:30 la regista ha mandato a 10 riparatori e al controllore della CI la regola: a 400 mila token, cioè il 40%, la sessione apre da sé la sua 2.0 sullo stesso ramo, poi si ferma. Con la regola ha mandato la parte delle dieci regole che vale per loro. Scritta anche nei fogli del riparatore e del collaudatore |
+| 13/11 13:20 | chat «Regista · onda 2 · quarta» | «nella nuova sessione di regista riesci a metterti avanti con i collaudatori e controllori su difetti già risolti». Passata alla quinta regista: collaudi subito sui riparatori finiti e su quello che gli altri hanno già riparato, senza aspettare la fine di tutti |
+| 13/11 12:58 | chat «Regista · onda 2 · quarta» | «fai fare ai riparatori i difetti mai toccati, così finiamo al 100% l'ondata», e alla domanda sul costo: «oltre a questi 99 fai anche quelli che mancano da fare in questa ondata». La regista ha riavviato 10 riparatori con tetti nuovi (da 55 a 90 $ a testa). Le parti che stanno in file altrui le fa la cucitura dell'onda 2, dopo l'unione. Le sue scelte aperte gliele porta la regista |
+| 13/11 06:33 | chat «Regista · onda 2 · seconda» | «quante altre cose le hai, non le fai o le fai a metà». Un'altra correzione: la regista ha fatto l'elenco di quello che aveva lasciato a metà, e lo chiude punto per punto. L'elenco sta nella sua risposta in chat |
+| 13/11 06:23 | chat «Regista · onda 2 · seconda» | «però non stavi applicando le regole, come mai». È una correzione. La regista aveva cominciato a scrivere la riparazione della CI della #952 con ultracode spento, e la regola 10 lo vieta. Non l'aveva nemmeno scritta prima qui, come chiede la regola 3. Alle 06:24 ha messo da parte la modifica, senza commit. Riparte quando ultracode è acceso |
+| 13/11 entro 06:10 | chat «Ondata 2» | «non stai usando la regola del contesto, come mai?». La prima regista era oltre 450 mila token: passaggio scritto e seconda regista aperta alle 06:12 |
+| 13/11 entro 06:05 | chat «Ondata 2» | «accendi ultracode in ogni sessione dove si lavora con il codice». Da una sessione non si accende: lo accende Nicola dall'app, sessione per sessione. R13 l'ha acceso lui alle 05:53 |
+| 13/11 05:56 | dentro R13 | «scelgo la proposta A e approvato il resto»: Nicola ha risposto a una domanda di R13 e ne ha approvato il piano. Le figlie non dovevano chiedere a lui: la regista l'ha ricordato a tutte |
+| 13/11 entro 05:20 | chat «Ondata 2» | «Allarga la a»: nell'onda 1 l'eccezione firmata copre anche 6 errori che non sono prove comuni. Due sono sul ramo di R08 e fermavano 13 chiusure. Quattro sono collaudi di K03 provati a mano sul database. Dall'onda 2 la regola è stretta |
+| 13/11 entro 05:15 | chat «Ondata 2» | «parti con l'ondata 2», nella sessione nuova «Ondata 2». Ha approvato il piano della regista: prima l'eccezione «a» nel programma e il registro dell'onda 1, poi la divisione e i riparatori |
 | 13/11 05:03 circa | chat del codice, quattro risposte | Sulla radiografia. Adesso guarda solo il sito, ma dovrà servire anche per la macchina e per altro. Prende le regole del risolutore fin dove si può. Si fa quello che ho proposto: un manuale solo, le regole in un posto solo, il 9 come profilo, le vecchie spente per ultime. In più la vuole «ibrida», e chiede se si può senza perdere prestazioni e qualità. Le prestazioni si misurano su una copia vecchia con difetti già noti. Chiede anche le risposte alle quattro domande sul metodo |
 | 13/11 04:52 circa | chat del codice, sulla radiografia | «hai capito la radiografia»: conferma la lettura delle 04:30. Chiede di dire se la radiografia, così come viene fatta, è corretta e rende il massimo. Servirà anche per la macchina, anche se adesso la usa sul sito. Domanda se conviene metterla dentro la strategia di radiografia che esiste già. Restano aperte la deroga e i tempi, e quali minori entrano |
 | 13/11 04:42 circa | chat del codice, sul 9 | «la tua proposta per il 9». Sceglie come si certifica il 9 nei cinque voti. Durante il lavoro guidano i criteri, uno per voto, controllati da un programma. Alla fine i tre senior rifanno il giudizio una volta sola, con lo stesso metro del 5,4. Il voto finale lo firma Nicola |
@@ -67,6 +78,12 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 ## Chi fa cosa, adesso
 | Sessione | Lavoro | File suoi |
 |---|---|---|
+| Regista · onda 2 · quinta (`…VzbMLH`, dal 13/11 alle 13:17) | Ha preso l'onda 2 dalla quarta, che era a 423 mila token. Riparte dal passaggio in fondo a `REGIA.md`. Sorveglia ogni 30 minuti con una catena sua, `trig_019djWt83zUDMzvAH7mbmYbG`. Legge il sito da una copia sua in `/home/user/mycity`. Poi collaudatori K05-K08, unione, cucitura dell'onda 2, C02 e fermata 3. In questa sessione ultracode manca: chiesto all'AD alle 13:17, e prima non si aprono collaudatori. Dalle 13:20, su scelta di Nicola, collauda e unisce subito il lavoro già riparato, R20 e R22 per primi. Può spingere sul sito dalle 13:22 | `consegne/riparazioni/2026-11-12-sito-tutto/`, ramo `claude/magical-hamilton-xouwr8` |
+| Controllore · PR e CI · onda 2 (`…WroKtz`, dal 13/11 alle 13:17) | Segue la #952 di ad-mycity con gli avvisi di GitHub e, dopo l'unione dei 12 rami, la richiesta dell'onda 2 sul sito. Ripara la CI rossa e i conflitti, mai unione e mai fuori bozza. Alle 13:30 ha trovato la #952 in conflitto con main sullo storico del sorvegliante, per questo la CI non partiva: lo unisce tenendo le voci dei due lati. È partito senza ultracode, come la regista: detto all'AD alle 13:23. Finché resta così tocca solo file di memoria, niente codice | lo storico del sorvegliante quando è in conflitto, e i soli file che servono alla CI |
+| Regista · onda 2 · quarta (`…VkmAAN`, dal 13/11 alle 07:40, passata alla quinta alle 13:17) | Ha preso l'onda 2 dalla terza. Le figlie R13-R24 hanno il suo id, mandato dalla terza. Legge il sito da una copia sua, presa via proxy senza add_repo. Il push sul sito serve solo all'unione, e chiede un clic di Nicola. Non tocca il codice della macchina finché Nicola non le accende ultracode. Giro delle 08:01: finite e verdi R13, R17, R20 e R22, rosse R18 e R21. **Fermata urgente all'AD alle 08:06 (regola 4).** L'onda è a circa 510 $ di listino, contro una stima di 435 $. Per finirla servono circa 165 $ in più. Finché Nicola non sceglie A o B, nessun collaudatore. R16, R19, R23 e R24 si fermano dopo il pezzo in mano. Alle 12:58 Nicola ha deciso di finire l'onda al 100%: 10 riparatori ripartiti con tetti nuovi, sorveglianza di nuovo ogni 30 minuti | `consegne/riparazioni/2026-11-12-sito-tutto/`, ramo `claude/magical-hamilton-xouwr8` |
+| Regista · onda 2 · terza (`…YzJKvQ`, dal 13/11 alle 06:55, passata alla quarta alle 07:40) | Guida l'onda 2 dal passaggio in fondo a `REGIA.md`. Sorveglia ogni 30 minuti con una catena sua, `trig_01Lx5efLQ27HHa6Zq4gLXXYe`. Apre i collaudatori K05-K08, unisce, apre C02 e segue la ad-mycity#952. Alle 06:58 ha mandato il suo id a R13-R24. Al giro delle 06:58 la guardia era rossa su R16, R17, R23 e R24. Il motivo è lo stesso per tutti: hanno toccato prove comuni. A ognuno ha detto di rimetterle com'erano e di scrivere una prova col proprio nome. Ultracode è acceso anche qui dalle 07:04. Alle 07:20 ha riparato la CI della #952 con `c07ebb4`. La prova `la-penna-che-si-poteva-scegliere` cadeva solo in CI, perché le mancava il battito. Ha registrato anche la radiografia del perimetro toccato. Finché la CI su `c07ebb4` non finisce, nessuno spinge sul ramo: ogni push annulla la corsa in corso | `consegne/riparazioni/2026-11-12-sito-tutto/`, ramo `claude/magical-hamilton-xouwr8` |
+| Regista · onda 2 · seconda (`…WRS6Tm`, dal 13/11 alle 06:12, passata alla terza alle 06:55) | Ha tenuto l'onda 2 per 43 minuti, poi l'ha passata. Prende la sorveglianza, i collaudatori, l'unione, C02 e la ad-mycity#952. Alle 06:15 ha approvato i piani di R20, R21, R22 e R23, e ha mandato il suo id a R13-R24. Tutte e dodici le figlie hanno ultracode acceso ed effort xhigh. Nella sua sessione ultracode è spento: chiesto all'AD alle 06:17. **Lavoro in attesa (regola 3):** la CI della #952 è rossa su `cervello/test/il-conto-del-sito-che-dice-zero.test.mjs`. La causa: il 13/11 alle 06:06 il programma di riparazione ha scritto nel registro del sito 58 difetti nati. Non ha alzato il totale dichiarato, che è rimasto 3032 mentre i difetti sono 3090. Uno dei 58 sta poi sotto un'area che non esiste, «legale-privacy». La riparazione tocca tre file. Il primo è `cervello/riparazione-sessioni.mjs`, il punto dove si scrivono i nati. Il secondo è `MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-marketplace.json`, per il totale. Il terzo è una prova nuova. È ferma finché Nicola non accende ultracode in questa sessione | `consegne/riparazioni/2026-11-12-sito-tutto/`, ramo `claude/magical-hamilton-xouwr8` |
+| prima regista dell'onda 2 (`…Zcs1Xv`, dal 13/11 alle 05:20, passata alla seconda alle 06:13) | Alle 05:49 Nicola l'ha passata in modalità Auto. Aperti R13-R18 alle 05:50-06:02, R19-R24 in apertura. Ultracode lo accende Nicola dall'app. Onda 2 del risolutore del sito. Prima scrive nel programma l'eccezione «a» per l'onda 1 e chiude nel registro i difetti dell'onda 1. Poi divide l'onda 2 e apre i riparatori dentro di sé, col ruolo in testa al titolo. Le fermate vanno all'AD, quinta chat | `consegne/riparazioni/2026-11-12-sito-tutto/`, `cervello/riparazione-sessioni.mjs` (l'eccezione), ramo `claude/magical-hamilton-xouwr8` su ad-mycity e sul sito |
 | AD | parla con Nicola, tiene la memoria e la bacheca | `MyCity-Vault/90-Memoria-AI/`, regole di scrittura |
 | AD, quarta chat | 13/11 03:38: ripara il rosso della CI dentro la #949. Il commit `3a5778e` di Nicola (card 236) ha tolto il permesso del database, ma in `cervello/permessi-debito.json` era rimasta la sua scusa, e la prova `permessi-di-guardia` la boccia. Cade anche `main`, non solo la #948. Quando la #949 è unita, la #948 si rilancia | `cervello/permessi-debito.json` |
 | regista (`…XsL6Y7`) | ferma a 450 mila token: passaggio scritto in fondo a `consegne/riparazioni/2026-11-12-sito-tutto/REGIA.md` (13/11 01:35). L'onda 2 la guida una regista nuova, aperta dall'AD al «via la seconda» | la campagna del 12/11, la skill `riparazione` |
@@ -77,6 +94,13 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 ## Le sessioni vive
 | Ruolo | Id |
 |---|---|
+| La regista dell'onda 2 adesso (quinta, dal 13/11 alle 13:17) | `session_015BmpnVzbMLH1s3LPB8nHkW` |
+| Controllore · PR e CI · onda 2 (dal 13/11 alle 13:17) | `session_015BmpnWroKtzTLyTmXZVE2k` |
+| Regista · onda 2 · quarta, da non usare dopo il passaggio (423 mila token) | `session_015BmpnVkmAAN92z8w4HLVGB` |
+| Regista · onda 2 · terza, da non usare dopo il passaggio (501 mila token) | `session_015BmpnYzJKvQoMML3LmU8aJ` |
+| riparatori R13-R24 dell'onda 2 | id in `consegne/riparazioni/2026-11-12-sito-tutto/sessioni.json` |
+| Regista · onda 2 · seconda, da non usare dopo il passaggio (472 mila token) | `session_015BmpnWRS6TmZUqTtjQ5fX7` |
+| «Ondata 2», prima regista dell'onda 2: oltre 450 mila token, inoltra solo i messaggi | `session_015BmpnZcs1XvqxGKUA3qRGC` |
 | AD, quinta chat (dal 13/11 alle 04:39) | `session_015BmpnYWmNDPKAztZMPww6M` |
 | AD quarta chat, da non usare (508 mila token) | `session_015BmpnVpk1kywXGH5kMWQTH` |
 | AD terza chat, da non usare (471 mila token) | `session_015BmpnZ5ufx6s554FgYbUju` |
@@ -86,13 +110,19 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 | Radiografia del codice, da non usare (partita prima delle regole nuove) | `session_015BmpnXaAEDNzGNRCfhqygd` |
 | AD seconda chat, da non usare (390 mila token) | `session_015BmpnXznpQwCRc8GAKjgyw` |
 | AD vecchia, da non usare | `session_015BmpnWWfcmEfYEhQ25M7s2` |
-| regista del risolutore | `session_015BmpnXsL6Y7tP3BhawauHw` |
+| regista del risolutore, onda 1, ferma | `session_015BmpnXsL6Y7tP3BhawauHw` |
 | radiografia in sessioni | `session_015BmpnVn722KGUHR5nRn23Z` |
 
 ## La quota
 | Quando | Chi l'ha vista | Stato |
 |---|---|---|
 | 13/11 13:38 | chat del codice (`…YkmzPU`) | uguale a quella delle 03:38, e l'extra resta spento. La chat del codice è a 324 mila token, sotto la soglia di 400, e costa circa 7 $ |
+| 13/11 13:23 | il controllore PR e CI (`…WroKtz`) | get_session dice avviso fino al 19/11 alle 10, niente uso extra, nessun blocco. Il contatore del costo non compare. Detto all'AD |
+| 13/11 13:17 | la quinta regista (`…VzbMLH`) | get_session non mostra né avviso né uso extra, e nemmeno il contatore del costo. Ultimo stato noto: avviso fino al 19/11 alle 10. Detto all'AD |
+| 13/11 08:06 | la quarta regista (`…VkmAAN`) | come alle 07:05. L'onda 2 è a circa 510 $ di listino (17% della settimana, stima), oltre i 435 $ detti. Detto all'AD, urgente |
+| 13/11 07:05 | `…YzJKvQ` | sempre in avviso, senza uso extra; si rinnova il 19/11 alle 10. Già noto all'AD: ripetuto nel messaggio delle 07:05 |
+| 13/11 06:16 | la regista nuova (`…WRS6Tm`) | sempre in avviso, senza uso extra; si rinnova il 19/11 alle 10. Le figlie dell'onda 2 sono a 38 $ di listino. Detto all'AD |
+| 13/11 05:21 | chat «Ondata 2» | sempre in avviso, senza uso extra. Il rinnovo è il 19/11 alle 10. Detto all'AD |
 | 13/11 03:45 | AD, quarta chat | la sessione della CI è a 36,8 $ contro un tetto di 30, e a 761 mila token, vicino alla compressione (784 mila). Detto a Nicola. Quota ancora in avviso |
 | 13/11 03:38 | AD, quarta chat | ancora avviso, nessun extra in uso: si rinnova il 19/11 alle 10 |
 | 12/11 23:33 | AD | avviso: il limite settimanale si avvicina, si rinnova il 19/11 alle 10 |

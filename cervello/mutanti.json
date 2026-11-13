@@ -11142,8 +11142,8 @@
    "difetto": "AR-1172",
    "file": "cervello/riparazione-sessioni.mjs",
    "nome": "applica torna a non rilanciare la guardia del ramo: un ramo che tocca i file degli altri si unisce e le sue voci si chiudono (radiografia del 12/11 notte)",
-   "cerca": "    if (opz.git && ramo) for (const r of giudicaRamo(opz, per, piano, ramo, nome).rossi) ferma.push(`referti/${file}: guardia-ramo: ${r}`);\n",
-   "sostituisci": "",
+   "cerca": "      for (const r of g.rossi) ferma.push(`referti/${file}: guardia-ramo: ${r}`);",
+   "sostituisci": "      void g.rossi;",
    "test": "cervello/test/riparazione-sessioni.test.mjs"
   },
   {
@@ -11313,8 +11313,8 @@
    "difetto": "AR-1163",
    "file": "cervello/riparazione-sessioni.mjs",
    "nome": "applica torna a scrivere senza ricontrollare referti e collaudi",
-   "cerca": "if (ferma.length) return chiudi(\"applica\", ferma, [], opz);",
-   "sostituisci": "if (false) return chiudi(\"applica\", ferma, [], opz);",
+   "cerca": "if (ferma.length) return chiudi(\"applica\", ferma, [], opz, conEccezioni());",
+   "sostituisci": "if (false) return chiudi(\"applica\", ferma, [], opz, conEccezioni());",
    "test": "cervello/test/riparazione-sessioni.test.mjs"
   },
   {
@@ -11760,6 +11760,123 @@
    "cerca": "  if (REFERTI === \"\") {",
    "sostituisci": "  if (false) {",
    "test": "cervello/test/fette-della-ci.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1172",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "l'eccezione firmata dell'onda 1 vale anche nelle onde dopo, e la regola stretta non torna più (card 239, 13/11)",
+   "cerca": "    if (!Number.isInteger(e?.onda) || e.onda !== Number(onda) || !Array.isArray(e?.regole) || !e.regole.includes(regola)) continue;",
+   "sostituisci": "    if (!Array.isArray(e?.regole) || !e.regole.includes(regola)) continue;",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1172",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "un'eccezione senza la firma di Nicola sospende lo stesso la regola (card 239, 13/11)",
+   "cerca": "    if (typeof e.firma === \"string\" && /[\\p{L}\\p{N}]/u.test(e.firma)) return e.firma.trim();",
+   "sostituisci": "    return String(e.firma ?? \"eccezione\");",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1172",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "la deroga di una regola delle prove copre anche le altre: una prova altrui passa con l'eccezione delle prove comuni (card 239, 13/11)",
+   "cerca": "    const derogata = (regola, perche) => (typeof ctx.deroga === \"function\" && ctx.deroga(regola, perche) ? null : perche);",
+   "sostituisci": "    const derogata = (regola, perche) => (typeof ctx.deroga === \"function\" && ctx.deroga(\"prove_comuni\", perche) ? null : perche);",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1172",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "un rosso sospeso dall'eccezione sparisce in silenzio dalla guardia, invece di essere elencato con la firma (card 239, 13/11)",
+   "cerca": "    derogati.push(`${perche} [eccezione firmata, onda ${dove.onda.onda}: ${firma}]`);",
+   "sostituisci": "    void perche;",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1172",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "il collaudo con la rimessa a mano non ferma più applica, anche senza eccezione (card 239, 13/11)",
+   "cerca": "  const nonDerogato = (regola, perche, r) => (typeof ctx.deroga === \"function\" && ctx.deroga(regola, perche, r) ? [] : [perche]);",
+   "sostituisci": "  const nonDerogato = (regola, perche, r) => [];",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1172",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "la deroga del collaudo non guarda l'onda del riparatore: un'eccezione dell'onda 2 copre l'onda 1 (card 239, 13/11)",
+   "cerca": "    const firma = dove ? eccezioneFirmata(piano, dove.onda.onda, regola) : null;",
+   "sostituisci": "    const firma = dove ? eccezioneFirmata(piano, 2, regola) || eccezioneFirmata(piano, 1, regola) : null;",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1172",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "l'onda dell'eccezione torna a essere convertita alla larga: «1», true o [1] valgono come onda 1 (collaudo del 13/11)",
+   "cerca": "    if (!Number.isInteger(e?.onda) || e.onda !== Number(onda) || !Array.isArray(e?.regole) || !e.regole.includes(regola)) continue;",
+   "sostituisci": "    if (Number(e?.onda) !== Number(onda) || !Array.isArray(e?.regole) || !e.regole.includes(regola)) continue;",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1172",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "una firma fatta di soli caratteri invisibili torna a valere come firma di Nicola (collaudo del 13/11)",
+   "cerca": "    if (typeof e.firma === \"string\" && /[\\p{L}\\p{N}]/u.test(e.firma)) return e.firma.trim();",
+   "sostituisci": "    if (typeof e.firma === \"string\" && e.firma.trim()) return e.firma.trim();",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1172",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "applica fermo per un altro motivo perde dal JSON i rossi sospesi dall'eccezione (collaudo del 13/11)",
+   "cerca": "  if (ferma.length) return chiudi(\"applica\", ferma, [], opz, conEccezioni());",
+   "sostituisci": "  if (ferma.length) return chiudi(\"applica\", ferma, [], opz);",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1172",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "valida-collaudo perde dal JSON i rossi sospesi dall'eccezione (collaudo del 13/11)",
+   "cerca": "  return chiudi(\"valida-collaudo\", rossi, attese, opz, { campioni, ...(derogatiK.length ? { eccezioni_firmate: derogatiK } : {}) });",
+   "sostituisci": "  return chiudi(\"valida-collaudo\", rossi, attese, opz, { campioni });",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1172",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "applica a vuoto perde dal JSON i rossi sospesi dall'eccezione (collaudo del 13/11)",
+   "cerca": "    return chiudi(\"applica\", [], attese, opz, conEccezioni({ si_chiudono: chiude.length, gia: gia.length, restano: restano.length, nati: nati.length }));",
+   "sostituisci": "    return chiudi(\"applica\", [], attese, opz, { si_chiudono: chiude.length, gia: gia.length, restano: restano.length, nati: nati.length });",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1172",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "applica scrive i difetti nati nel registro del sito senza alzare il totale dichiarato: il conto non torna più col testimone (CI della #952, 13/11)",
+   "cerca": "    meta.findings += aggiunte.length;",
+   "sostituisci": "",
+   "test": "cervello/test/i-nati-della-riparazione-alzano-il-totale.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1172",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "un difetto nato sotto «legale-privacy» resta in un'area che il registro non ha, e la scheda non sa come chiamarla (CI della #952, 13/11)",
+   "cerca": "  if (dichiarata) for (const a of aree) if (parole(a) === parole(dichiarata)) return a;",
+   "sostituisci": "  if (dichiarata) return dichiarata;",
+   "test": "cervello/test/i-nati-della-riparazione-alzano-il-totale.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",

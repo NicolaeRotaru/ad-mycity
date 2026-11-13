@@ -1,9 +1,11 @@
 {
- "regista": "session_015BmpnXsL6Y7tP3BhawauHw",
- "ad": "session_015BmpnWWfcmEfYEhQ25M7s2",
+ "regista": "session_015BmpnVzbMLH1s3LPB8nHkW",
+ "regista_onda2_quarta": "session_015BmpnVkmAAN92z8w4HLVGB",
+ "regista_onda2_terza": "session_015BmpnYzJKvQoMML3LmU8aJ",
+ "ad": "session_015BmpnYWmNDPKAztZMPww6M",
  "sha_regista": "2f55d47d7ac130718ddabf722ba9485d3abe0428",
  "base": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
- "integrazione": "claude/sweet-galileo-0skkay",
+ "integrazione": "claude/magical-hamilton-xouwr8",
  "sessioni": {
   "R01": {
    "id": "session_015BmpnWa4kEGXtN8hYcdRgR",
@@ -93,6 +95,79 @@
    "onda": 1,
    "partenza": "2026-11-12 15:38",
    "finita": true
+  },
+  "R13": {
+   "id": "session_015BmpnXJyvv3uj3gkCHeSeG",
+   "ramo": "claude/magical-hamilton-xouwr8-m13",
+   "onda": 2,
+   "partenza": "2026-11-13 05:50",
+   "nota": "ultracode acceso da Nicola dall'app alle 05:53; piano approvato da Nicola in chat («scelgo la proposta A e approvato il resto»)"
+  },
+  "R14": {
+   "id": "session_015BmpnX1v15gDLe7qUkJjRN",
+   "ramo": "claude/magical-hamilton-xouwr8-m14",
+   "onda": 2,
+   "partenza": "2026-11-13 05:56"
+  },
+  "R15": {
+   "id": "session_015BmpnXJ2sx8pKEKoQsaNek",
+   "ramo": "claude/magical-hamilton-xouwr8-m15",
+   "onda": 2,
+   "partenza": "2026-11-13 05:57"
+  },
+  "R16": {
+   "id": "session_015BmpnWfL1AGuka9KMWGpdY",
+   "ramo": "claude/magical-hamilton-xouwr8-m16",
+   "onda": 2,
+   "partenza": "2026-11-13 05:58"
+  },
+  "R17": {
+   "id": "session_015BmpnYSPCKUrojLLnhjvh5",
+   "ramo": "claude/magical-hamilton-xouwr8-m17",
+   "onda": 2,
+   "partenza": "2026-11-13 06:00"
+  },
+  "R18": {
+   "id": "session_015BmpnWBsmWgHtzK8nkMZuU",
+   "ramo": "claude/magical-hamilton-xouwr8-m18",
+   "onda": 2,
+   "partenza": "2026-11-13 06:02"
+  },
+  "R19": {
+   "id": "session_015BmpnYLk8AraXakVCkun9H",
+   "ramo": "claude/magical-hamilton-xouwr8-m19",
+   "onda": 2,
+   "partenza": "2026-11-13 06:05"
+  },
+  "R20": {
+   "id": "session_015BmpnWFoQMAShMVa1oZB8L",
+   "ramo": "claude/magical-hamilton-xouwr8-m20",
+   "onda": 2,
+   "partenza": "2026-11-13 06:06"
+  },
+  "R21": {
+   "id": "session_015BmpnXidURWQE3ZCmCi9Yr",
+   "ramo": "claude/magical-hamilton-xouwr8-m21",
+   "onda": 2,
+   "partenza": "2026-11-13 06:08"
+  },
+  "R22": {
+   "id": "session_015BmpnWcQPf4vZFu7owUPPJ",
+   "ramo": "claude/magical-hamilton-xouwr8-m22",
+   "onda": 2,
+   "partenza": "2026-11-13 06:09"
+  },
+  "R23": {
+   "id": "session_015BmpnXoe6aGJCsrpTZTrWZ",
+   "ramo": "claude/magical-hamilton-xouwr8-m23",
+   "onda": 2,
+   "partenza": "2026-11-13 06:11"
+  },
+  "R24": {
+   "id": "session_015BmpnYg5DbCFWtPsAaMzWP",
+   "ramo": "claude/magical-hamilton-xouwr8-m24",
+   "onda": 2,
+   "partenza": "2026-11-13 06:12"
   }
  },
  "collaudatori": {
@@ -165,5 +240,12 @@
   "non_tolta_latente": [
    "R10-019"
   ]
- }
+ },
+ "regista_onda1": "session_015BmpnXsL6Y7tP3BhawauHw",
+ "integrazione_onda1_ramo": "claude/sweet-galileo-0skkay",
+ "base_onda2": "a19ff8923106fb5fbe7c2e74cc02979ea9dc2067",
+ "regista_onda2_prima": "session_015BmpnZcs1XvqxGKUA3qRGC",
+ "sha_regista_onda2": "125b2db",
+ "regista_onda2_seconda": "session_015BmpnWRS6TmZUqTtjQ5fX7",
+ "pr_ci": "session_015BmpnWroKtzTLyTmXZVE2k"
 }

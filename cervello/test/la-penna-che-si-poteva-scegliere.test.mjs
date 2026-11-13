@@ -33,6 +33,7 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { SCRITTORI_STATO_SENSORI, scriviStatoSensore, verificaAdozione } from "../stato-sensori.mjs";
+import { BATTITO } from "../sorvegliante.mjs";
 
 const cartella = () => mkdtempSync(join(tmpdir(), "stato-sensori-"));
 const leggi = (p) => JSON.parse(readFileSync(p, "utf8"));
@@ -171,6 +172,15 @@ test("in sola lettura il diario versionato del sorvegliante non si muove, e lo d
   const diario = join(cervello, "..", "MyCity-Vault/90-Memoria-AI/auto-coscienza/sorvegliante-storico.json");
   const prima = leggiSeCè(diario);
 
+  // Il battito vive fuori da git (`_tmp_`): su una copia appena scaricata non c'è, e senza battito la
+  // guardia esce dicendo «niente da archiviare», prima di arrivare al freno. Il 13/11 la #952 era
+  // rossa solo per questo: la prova passava se un'altra prova della stessa fetta della CI aveva scritto
+  // il battito prima di lei, e un file di prova nuovo ha cambiato le fette. Il battito se lo porta lei,
+  // e lo toglie solo se l'ha messo lei.
+  const battito = join(cervello, "..", BATTITO);
+  const battitoMio = leggiSeCè(battito) === null;
+  if (battitoMio) writeFileSync(battito, JSON.stringify({ quando: new Date().toISOString(), scatto: 0, viste: {} }));
+
   let uscita = "";
   try {
     uscita = execFileSyncVero(process.execPath, [join(cervello, "memoria-guardia.mjs"), "--chiudi"], {
@@ -181,6 +191,8 @@ test("in sola lettura il diario versionato del sorvegliante non si muove, e lo d
   } catch (e) {
     // Esce 2 apposta: «non ho archiviato» non è «ho archiviato niente».
     uscita = `${e.stdout || ""}${e.stderr || ""}`;
+  } finally {
+    if (battitoMio) rmSync(battito, { force: true });
   }
 
   assert.equal(leggiSeCè(diario), prima, "la memoria vera non deve muoversi quando la corsa è in sola lettura");

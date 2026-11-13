@@ -1,0 +1,55 @@
+{
+  "corsia": 11,
+  "territorio": "R11",
+  "difetti": [
+    {
+      "chiave": "pagamenti-stripe|un reclamo chiuso a favore del negozio gli blocca ancora per sempre il bonifico di quell'ordine",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r11-reclamo-segno-banca.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 4e824caf^ --file app/api/admin/disputes/[id]/resolve/route.ts --prove tests/unit/riparazione-r11-reclamo-segno-banca.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R11-2 --base 5ed20296a67af2b1757740e7e14891c34b77189d^ --file app/api/admin/disputes/[id]/resolve/route.ts --prove tests/unit/riparazione-r11-reclamo-segno-banca.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "Chiudendo il reclamo, la rotta toglie il dispute_status OPEN lasciato dal trigger della 063 (con filtro eq OPEN), solo se in banca non c è una contestazione aperta: contanti mai, carta chiedendo a Stripe disputes.list. Se Stripe non risponde il segno resta e parte un avviso agli admin. Resta comunque consigliato applicare la 184 (Nicola). Dopo il controllo qa (secondo commit): il segno si toglie solo se su Stripe non c'è nessuna contestazione o sono tutte 'won'/'warning_closed' (una 'lost' col suo avviso ancora in arrivo, o uno stato nuovo, lasciano il segno); una carta senza payment intent non si toglie e parte l'avviso."
+    },
+    {
+      "chiave": "architettura|i tipi generati dal database sbagliano su 7 colonne che possono restare vuote",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r11-tipi-che-possono-restare-vuoti.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base e40fc247857e58421ff02eaf41516856e2905d57^ --file scripts/gen-db-types.mjs,lib/database.types.ts --prove tests/unit/riparazione-r11-tipi-che-possono-restare-vuoti.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R11-4 --base e40fc247857e58421ff02eaf41516856e2905d57^ --file lib/database.types.ts,scripts/gen-db-types.mjs --prove tests/unit/riparazione-r11-tipi-che-possono-restare-vuoti.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "Il generatore applica gli ALTER COLUMN … SET/DROP NOT NULL delle migrazioni successive e non perde più il NOT NULL dopo un tipo con la virgola fra parentesi (numeric(10, 2)); tipi rigenerati (21 righe, solo nullabilità). Verificato contro il database ricostruito dalle migrazioni con tests/sql/harness/apply.sh su Postgres 16 locale: nullabilità di tutte le 780 colonne delle 76 tabelle uguale a information_schema. La prova fa girare il generatore in una cartella a parte e controlla le colonne della voce e che il file salvato sia quello generato. Nessuna riga scritta a mano."
+    },
+    {
+      "chiave": "frontend-ux|payout: i riquadri «da pagare / già pagato» mostrano un totale parziale come cifra esatta, e l'avviso sta sotto",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r11-elenchi-admin-oltre-mille.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base db5164c5 --file app/admin/payouts/page.tsx --prove tests/unit/riparazione-r11-elenchi-admin-oltre-mille.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R11-1 --base db5164c52e856c0e3eab1c02197ae755fca76eb3 --file app/admin/payouts/page.tsx --prove tests/unit/riparazione-r11-elenchi-admin-oltre-mille.test.tsx --json → uscita 0 (K04)",
+      "nota_fix": "Collaudo K04: non era già riparato. Alla base l'avviso e «almeno» dipendevano dalla riga in più (limit TETTO+1), ma il server non ne dà mai più di mille (max_rows): l'avviso non compariva mai. Si chiude col conteggio esatto (count: exact, commit di R11-011, e5c2ea18) e con questo commit, che mette «almeno» anche alle cifre del singolo negozio (di questa settimana, in sospeso, già pagati). Prova rimessa contro la base db5164c5: regge."
+    },
+    {
+      "chiave": "frontend-ux|in guadagni le barre del grafico dei sette giorni restano a zero, e sul telefono lo stato del bonifico esce dallo schermo o compare come codice",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r11-guadagni-grafico-e-stati.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 068e36664d0b923fef13db694b21417ea052f137^ --file app/seller/earnings/page.tsx --prove tests/unit/riparazione-r11-guadagni-grafico-e-stati.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R11-3 --base 068e36664d0b923fef13db694b21417ea052f137^ --file app/seller/earnings/page.tsx --prove tests/unit/riparazione-r11-guadagni-grafico-e-stati.test.tsx --json → uscita 0 (K04)",
+      "nota_fix": "Grafico: la colonna di ogni giorno ha h-full, così l altezza in % della barra ha un riferimento. Targhette: REVERSAL_FAILED → «Storno da sistemare: ci pensiamo noi», PROCESSING → «Bonifico in corso», «Completa onboarding» → «Collega il conto», ripiego «Da verificare» invece del codice. Storico pagamenti: sotto sm la colonna Data sparisce e la data va sotto il numero d ordine, padding ridotto: la colonna Stato resta nello schermo. Parole: «Commissione MyCity», «Contanti alla consegna», «il tuo conto Stripe». Il layout a 360 px è provato sulle classi, non misurato in un browser vero."
+    },
+    {
+      "chiave": "frontend-ux|la lista dei primi passi manda al profilo per mettere nome e logo, ma lì quei campi non ci sono",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r11-primi-passi-portano-ai-campi.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base b1572456d2b623ec1d41d7e67122981fed3a7e1f^ --file components/seller/SellerOnboardingChecklist.tsx --prove tests/unit/riparazione-r11-primi-passi-portano-ai-campi.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R11-4 --base b1572456d2b623ec1d41d7e67122981fed3a7e1f^ --file components/seller/SellerOnboardingChecklist.tsx --prove tests/unit/riparazione-r11-primi-passi-portano-ai-campi.test.tsx --json → uscita 0 (K04)",
+      "nota_fix": "I passi «Imposta nome e descrizione» e «Carica logo» puntano a /seller/site?details=1 (Costruisci il sito → Dettagli negozio, StoreDetailsEditor, dove store_name e store_logo si salvano), non a /seller/profile. Profilo e VendorForm non toccati: la pagina profilo dice già dove stanno quei dati."
+    },
+    {
+      "chiave": "pagamenti-stripe|un buono regalo annullato o scaduto si legge «disponibile», col codice in chiaro",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r11-buono-annullato-non-disponibile.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base f73733294870dbcbc5fc0e215edb35d36a3b8419^ --file app/profile/gift-cards/page.tsx --prove tests/unit/riparazione-r11-buono-annullato-non-disponibile.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R11-3 --base f73733294870dbcbc5fc0e215edb35d36a3b8419^ --file app/profile/gift-cards/page.tsx --prove tests/unit/riparazione-r11-buono-annullato-non-disponibile.test.tsx --json → uscita 0 (K04)",
+      "nota_fix": "Lo stato del buono si legge da voided_at (178) ed expires_at: Annullata / Scaduta / Riscattata / Disponibile. Per un buono annullato o scaduto il codice si mostra mascherato e il tasto Copia sparisce. Collaudo K04: si vede la data di scadenza («Scaduta il …» per un buono scaduto, «Scade il …» per uno disponibile)."
+    },
+    {
+      "chiave": "pagamenti-stripe|il fattorino preme «aggiorna stato», il server risponde errore e lui legge «stato aggiornato»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r11-fattorino-aggiorna-stato.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3122836c44f73c6a21e972e21b0218b8257afeef^ --file components/rider/RiderConnectButton.tsx --prove tests/unit/riparazione-r11-fattorino-aggiorna-stato.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R11-1 --base 3122836c44f73c6a21e972e21b0218b8257afeef^ --file components/rider/RiderConnectButton.tsx --prove tests/unit/riparazione-r11-fattorino-aggiorna-stato.test.tsx --json → uscita 0 (K04)",
+      "nota_fix": "refreshStatus controlla res.ok: con il server in errore mostra un toast d errore col motivo (apiErrorMessage) invece di «Stato aggiornato»; anche una risposta non leggibile non fa più saltare il messaggio."
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "corsia": 7,
+  "territorio": "R07",
+  "difetti": [
+    {
+      "chiave": "frontend-ux|toccando la scheda di un prodotto in home e nella ricerca non si apre niente",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r07-scheda-cliccabile.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 353b8f2f^ --file components/ProductCard.tsx --prove tests/unit/riparazione-r07-scheda-cliccabile.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 353b8f2f^ --file components/ProductCard.tsx --prove tests/unit/riparazione-r07-scheda-cliccabile.test.tsx --json → uscita 0 (K02)",
+      "nota_fix": "Badge, riquadro foto e corpo della card stavano sopra il link che apre la scheda e prendevano il tocco: ora sono trasparenti al tocco (pointer-events none: classe su badge e foto, style sul corpo, per non rompere le prove che leggono le classi del corpo), e cuore e «+» hanno pointer-events-auto. La prova controlla la regola sul markup (jsdom non sa dire quale strato prende il tocco); un controllo con elementFromPoint in un browser vero non l'ho fatto."
+    },
+    {
+      "chiave": "qa-flussi|nell'ultimo giorno di recesso e nel giorno dopo, la pagina fa compilare tutto il reso, iban compreso, e poi il server lo rifiuta come scaduto",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r07-termine-recesso-pagina.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 4a48eacc^ --file app/orders/[id]/return/page.tsx --prove tests/unit/riparazione-r07-termine-recesso-pagina.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base afb25d44^ --file app/orders/[id]/return/page.tsx --prove tests/unit/riparazione-r07-termine-recesso-pagina.test.tsx --json → uscita 0 (K02)",
+      "nota_fix": "Due commit. Il primo (afb25d44): la pagina usa la stessa recessoAperto del server, con created_at come ripiego quando manca delivered_at; il giorno dopo l'ultimo il modulo non si apre e il messaggio dice fino a che giorno valeva il termine. Il qa (12 casi in 6 fusi, pagina e server sempre d'accordo) ha visto che la data scritta usciva un giorno avanti nei browser a +12 ore e oltre: il secondo commit la formatta col fuso Europe/Rome."
+    },
+    {
+      "chiave": "accessibilita|chi usa il lettore di schermo sente «3» accanto a una conversazione, senza sapere che sono messaggi da leggere",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r07-non-letti-a11y.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base de9ae007^ --file app/messages/page.tsx,app/notifications/page.tsx --prove tests/unit/riparazione-r07-non-letti-a11y.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base de9ae007^ --file app/messages/page.tsx,app/notifications/page.tsx --prove tests/unit/riparazione-r07-non-letti-a11y.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Chat: il numero dei non letti è aria-hidden e accanto c'è «N messaggi non letti» in sr-only. Notifiche: il pallino è aria-hidden e «Non letta» sta in sr-only, al posto dell'aria-label su uno span senza ruolo."
+    },
+    {
+      "chiave": "accessibilita|il tasto per togliere una foto dal reso è grande la metà del minimo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r07-togli-foto-reso.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 0d6d2dac^ --file app/orders/[id]/return/page.tsx --prove tests/unit/riparazione-r07-togli-foto-reso.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base a516b88d^ --file app/orders/[id]/return/page.tsx --prove tests/unit/riparazione-r07-togli-foto-reso.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Due commit. Il primo (a516b88d): il tasto «×» diventa un'area h-11 w-11 (44 px) col pallino visibile da 24 px dentro, aria-hidden. Il qa ha visto che sporgendo di 12 px entrava per 4 px nella miniatura accanto (gap-2, 8 px) e nel riquadro «+»: il secondo commit lo fa sporgere di 8 px (-right-2 -top-2)."
+    },
+    {
+      "chiave": "accessibilita|nelle pagine regali, novità e i più recensiti i titoli saltano dal primo al terzo livello",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r07-titoli-collezioni-pagine.test.tsx tests/unit/riparazione-r07-titoli-collezioni.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base ff224e6a^ --file components/ProductGrid.tsx,app/novita/page.tsx,app/piu-venduti/page.tsx,app/regali/RegaliClient.tsx --prove tests/unit/riparazione-r07-titoli-collezioni.test.tsx,tests/unit/riparazione-r07-titoli-collezioni-pagine.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 81a4c190^ --file app/novita/page.tsx,app/piu-venduti/page.tsx,app/regali/RegaliClient.tsx,components/ProductGrid.tsx --prove tests/unit/riparazione-r07-titoli-collezioni-pagine.test.tsx,tests/unit/riparazione-r07-titoli-collezioni.test.tsx --json → uscita 0 (K02)",
+      "nota_fix": "Due commit. Il primo (81a4c190) metteva un h2 invisibile in ogni griglia; il qa ha visto che nella vetrina del negozio e nelle collezioni c'era già un h2 visibile, e il secondo staccava i prodotti dal loro titolo. Il secondo commit lo rende esplicito: ProductGrid ha la prop titoloNascosto e disegna l'h2 sr-only solo se c'è; la passano Novità, I più recensiti e Regali. Così fra l'h1 di CollectionHeader e l'h3 dei prodotti c'è un h2 solo dove mancava."
+    },
+    {
+      "chiave": "frontend-ux|se la recensione al negozio entra e quella al fattorino no, il fattorino non si puo' piu' recensire",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r07-recensione-fattorino.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 75b2500d^ --file app/orders/[id]/review/page.tsx --prove tests/unit/riparazione-r07-recensione-fattorino.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 65d38e05^ --file app/orders/[id]/review/page.tsx --prove tests/unit/riparazione-r07-recensione-fattorino.test.tsx --json → uscita 0 (K02)",
+      "nota_fix": "Due commit. Il primo (65d38e05) legge anche rider_reviews e chiede solo la parte che manca. Il qa ha trovato due buchi, chiusi dal secondo: nella stessa visita, se il negozio entrava e il fattorino cadeva, il modulo chiedeva ancora il negozio e al secondo invio diceva «avevi già recensito» anche se il voto al fattorino era appena entrato (ora onError rilegge l'ordine, e «già recensito» compare solo se non è entrata nessuna recensione nuova); e una lettura di store_reviews o rider_reviews caduta veniva presa per «non recensito» (ora l'errore sale e la pagina offre Riprova)."
+    },
+    {
+      "chiave": "frontend-ux|dopo aver risposto a una recensione, tornando sulla pagina il negozio rivede la risposta vecchia",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r07-risposta-recensione.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 970cd432^ --file app/seller/reviews/page.tsx --prove tests/unit/riparazione-r07-risposta-recensione.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 970cd432^ --file app/seller/reviews/page.tsx --prove tests/unit/riparazione-r07-risposta-recensione.test.tsx --json → uscita 0 (K02)",
+      "nota_fix": "Dopo una risposta pubblicata, ReviewCard aggiorna subito la recensione nella memoria di React Query (setQueryData su queryKeys.seller.reviews) e la fa rileggere (invalidateQueries). components/providers/QueryProvider.tsx non l'ho toccato."
+    },
+    {
+      "chiave": "frontend-ux|il pulsante del banner della vetrina può puntare a un prodotto in bozza, che il cliente non riesce ad aprire",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r07-banner-bozza.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 896011dc^ --file components/store-sections/BannerSection.tsx --prove tests/unit/riparazione-r07-banner-bozza.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 9d603e8f^ --file components/seller/site/BannerFields.tsx,components/store-sections/BannerSection.tsx --prove tests/unit/riparazione-r07-banner-bozza.test.tsx --json → uscita 0 (K02)",
+      "nota_fix": "Due commit. Il primo (9d603e8f): BannerSection chiede rpc prodotto_in_vetrina (migrazione 129, aperta ad anon; nessuna migrazione nuova) e BannerFields avvisa il negozio quando il prodotto scelto non è più in vendita. Il qa ha trovato che sul server la risposta non c'è, quindi l'HTML conteneva comunque il link al prodotto in bozza (visibile a Google e cliccabile prima della risposta): col secondo commit il pulsante verso un prodotto compare solo quando la risposta è sì; se la domanda cade resta com'era. I pulsanti verso categorie e indirizzi esterni non aspettano niente."
+    }
+  ]
+}

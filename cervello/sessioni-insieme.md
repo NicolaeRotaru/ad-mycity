@@ -1,12 +1,12 @@
 ---
 tipo: regole
-data: 2026-11-13 03:08
+data: 2026-11-13 13:40
 fonte: Nicola, 13/11: «secondo me ci sono mancanze di comunicazione tra le sessioni», poi «sì, rimedi»
 ---
 
 # Come si parlano le sessioni
 
-> **In due righe.** Dieci regole per le sessioni che lavorano insieme. Le tre che contano di più: l'urgente si manda
+> **In due righe.** Undici regole per le sessioni che lavorano insieme. Le tre che contano di più: l'urgente si manda
 > urgente, si cambia sessione oltre 400 mila token, e un lavoro lungo ha un controllore che segue la richiesta e la CI.
 
 ## In parole semplici
@@ -39,7 +39,7 @@ si scrive appena cambia qualcosa.
 - La quota è passata ad «avviso» e nessuno l'ha detto: l'AD l'ha visto per caso.
 - Le sessioni già aperte non sapevano le regole nuove, e l'AD le ha mandate a mano, una per una.
 
-## Le dieci regole
+## Le undici regole
 1. **L'urgente si manda urgente.** Uno stop, la quota, la sicurezza e i soldi partono con `send_message` e
    `priority: "now"`. Chi riceve risponde subito con una riga: «ricevuto, faccio così». Chi manda, se dopo 10
    minuti non ha la risposta, guarda `get_session` di chi doveva riceverlo e riprova.
@@ -62,6 +62,12 @@ si scrive appena cambia qualcosa.
    poche righe, i lavori aperti, gli id e le decisioni in sospeso. Poi apre una sessione nuova che riparte da lì, la
    scrive in bacheca e manda il nuovo id alle sessioni vive. Chi ripara punta più in basso, a 150 mila (regola dei lotti).
    La chat dell'AD con Nicola non si sposta da sola: l'AD prepara la chat nuova e gli dice dove continuare.
+   **La sessione nuova la apre la sessione stessa, ed è la sua 2.0** (Nicola, 13/11 alle 13:30: «superato il 40-60% di
+   contesto deve aprire una nuova sessione 2.0 di se stessa»). Ha lo stesso ruolo e lo stesso ramo, e «· 2.0» in fondo
+   al titolo. Nasce con ultracode come chi la apre. Vale anche per le figlie: riparatori, collaudatori e controllori
+   a 400 mila token non si fermano ad aspettare. Aprono la loro 2.0, scrivono l'id a chi le ha aperte e si fermano.
+   Se una non può aprirla, lo dice subito, e la 2.0 la apre chi l'ha aperta lei. Esempio vero: fino alle 13:30 del
+   13/11 ai riparatori dell'onda 2 era stato detto «oltre 350 mila token vi fermate e lo dite».
 8. **Un lavoro lungo ha una sessione sua, e il suo foglio di partenza ha sei parti** (Nicola, 13/11: «aggiungi anche
    questa come regola»). La chat dell'AD resta leggera e legge solo l'esito (regola ㉔ del manuale). Il prompt della
    sessione porta sei cose:
@@ -97,3 +103,9 @@ si scrive appena cambia qualcosa.
    - **I tetti restano.** Ultracode fa lanciare più agenti, quindi consuma di più. Vale lo stesso il preventivo prima di
      lanciare: oltre 12 subagenti o 2 milioni di token si chiede a Nicola (regole ⑱ e ㉑ del manuale dell'AD). Chi
      ripara non ne lancia più di 12 (skill `riparazione`). E vale la quota.
+11. **Chi apre una sessione le dà le regole nel primo messaggio** (Nicola, 13/11 alle 13:30: «tutte le sessioni che
+   hai creato hanno le 10 regole?», poi «aggiungi come regola anche questa»). Spesso una figlia non legge nemmeno
+   `ad-mycity`, quindi non ha altro modo di saperle. Il primo messaggio di ogni sessione nuova porta la parte di queste
+   regole che vale per lei: almeno le regole 1, 2, 4, 5, 7 e 10, scritte per intero.
+   Chi apre controlla nella prima risposta che la figlia le abbia lette. Esempio vero: i 10 riparatori dell'onda 2,
+   aperti fra le 05:50 e le 06:12 del 13/11, non le avevano. Le hanno avute alle 13:30, con un messaggio a testa.

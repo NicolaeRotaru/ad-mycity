@@ -1,0 +1,90 @@
+{
+  "corsia": 10,
+  "territorio": "R10",
+  "difetti": [
+    {
+      "chiave": "mobile-pwa|chrome non trova il file che rende mycity installabile: su android l'app non si può mettere in home",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r10-manifest-nel-head.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 36814a6e^ --file app/layout.tsx --prove tests/unit/riparazione-r10-manifest-nel-head.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 36814a6ebfcbceb9aee9c4f5520414095d029695^ --file app/layout.tsx --prove tests/unit/riparazione-r10-manifest-nel-head.test.tsx --json → uscita 0 (K03)",
+      "nota_fix": "Manifest (sotto APP_INSTALLABILE_ACCESA) e apple-touch-icon spostati dai metadata, che con force-dynamic finiscono nel body, al <head> scritto a mano del layout. Niente htmlLimitedBots. Il <title> resta nei metadata: Chrome non lo usa per l'installabilità. La condizione resta scritta `APP_INSTALLABILE_ACCESA ? { manifest: '/manifest.json' }` (costante MANIFEST), come chiede la prova esistente al-lancio-carta-abbonamento-…, che non ho toccato."
+    },
+    {
+      "chiave": "accessibilita|il link «password dimenticata?» nella pagina di accesso è alto 16 pixel, troppo piccolo per il pollice",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r10-password-dimenticata-per-il-pollice.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 85b35a51366b060e6479b6b215af12b9bb11b599^ --file app/sign-in/page.tsx --prove tests/unit/riparazione-r10-password-dimenticata-per-il-pollice.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 85b35a51366b060e6479b6b215af12b9bb11b599^ --file app/sign-in/page.tsx --prove tests/unit/riparazione-r10-password-dimenticata-per-il-pollice.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "Il bottone «Password dimenticata?» ha ora inline-flex, min-h-[44px] e px-2. L'area cresce verso l'alto (-mt-3) e non si sovrappone al campo; con mb-1 fra bottone e campo restano 8 px. È uno stile: prova leggera sul sorgente."
+    },
+    {
+      "chiave": "api-backend|nel nuovo prodotto la spunta «escluso dal recesso» sparisce per tutta la sessione dopo una lettura caduta",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r10-spunta-recesso-dopo-una-lettura-caduta.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 408eee62a3a0527927d1aba47b2ddc3ae4936bdf^ --file app/seller/products/new/page.tsx --prove tests/unit/riparazione-r10-spunta-recesso-dopo-una-lettura-caduta.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 408eee62a3a0527927d1aba47b2ddc3ae4936bdf^ --file app/seller/products/new/page.tsx --prove tests/unit/riparazione-r10-spunta-recesso-dopo-una-lettura-caduta.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "Nella domanda «la colonna del recesso c'è?» una lettura caduta ora lancia l'errore (React Query riprova) invece di rispondere false, e staleTime passa da Infinity a 5 minuti. Finché non si sa, il ripiego resta «spunta nascosta». lib/ordini/recesso.ts non serviva toccarlo."
+    },
+    {
+      "chiave": "architettura|nel pannello /admin/home «drop del giorno» e «newsletter» risultano visibili, ma la home non le disegna",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r10-pannello-home-sezioni-spente.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 87a5be051b55668627f58b244938b1500061672b^ --file components/admin/home/HomeSectionsEditor.tsx --prove tests/unit/riparazione-r10-pannello-home-sezioni-spente.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 87a5be051b55668627f58b244938b1500061672b^ --file components/admin/home/HomeSectionsEditor.tsx --prove tests/unit/riparazione-r10-pannello-home-sezioni-spente.test.tsx --json → uscita 0 (K03)",
+      "nota_fix": "Nel pannello una sezione attiva ma spenta al lancio (sezioneAccesa=false) porta «spenta al lancio · non appare in home» e il riquadro grigio come le nascoste. Il menu «Aggiungi sezione» filtra HOME_SECTION_CATALOG con sezioneAccesa. lib/home-site.ts non serviva toccarlo."
+    },
+    {
+      "chiave": "frontend-ux|nella pagina dei miei ordini, dopo il centesimo gli ordini vecchi spariscono senza avviso",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r10-oltre-il-centesimo-ordine.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 379dc98988c460259a78b7a0871b055a6ede04fe^ --file app/orders/page.tsx --prove tests/unit/riparazione-r10-oltre-il-centesimo-ordine.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 379dc989^ --file app/orders/page.tsx --prove tests/unit/riparazione-r10-oltre-il-centesimo-ordine.test.tsx --json → uscita 0 (K03)",
+      "nota_fix": "Il tetto (100) e le sue parole stanno in un file nuovo, lib/ordini/tetto-ordini.ts. La lettura usa TETTO_ORDINI; con il tetto pieno l'intestazione dice «ultimi 100 ordini» e sotto la lista compare «Qui vedi solo gli ultimi 100 ordini…» con il link all'assistenza (/help). Niente paginazione: la voce chiedeva paginazione oppure la frase, ho scelto la frase."
+    },
+    {
+      "chiave": "frontend-ux|un testo lungo incollato in una pagina del sito viene tagliato a 4.000 caratteri senza avvisare, e la pagina pubblicata resta monca",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r10-testo-lungo-non-si-taglia.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base c2118e58b5d05fdbc13488a57fa94bff7e425d98^ --file lib/testo-visibile.ts --prove tests/unit/riparazione-r10-testo-lungo-non-si-taglia.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 585a8bcf^ --file components/admin/home/HomeSectionConfigForm.tsx,lib/home-site.ts --prove tests/unit/riparazione-r10-testo-lungo-non-si-taglia.test.tsx --json → uscita 0 (K03)",
+      "nota_fix": "Tolto maxLength={4000} dal campo del blocco di testo (lo usano sia /admin/home sia le pagine CMS), che tagliava in silenzio quello che si incollava. Al suo posto un contatore «n/4000 caratteri» e, oltre il limite, un errore visibile (aria-invalid) che dice cosa fare. Lo schema (lib/home-site.ts) rifiuta con un messaggio che dice il limite: è quello che rispondono la rotta app/api/admin/cms/[slug] e il salvataggio della home, e la rotta non serviva toccarla. Dopo il controllo qa, secondo commit e75482db (il primo era 585a8bcf). Le rotte controllano e POI sanitizzano, e la sanitizzazione allunga (attributi sui link, &lt;): un testo da 3.960 caratteri si salvava da 10.000 e alla rilettura leggiHomeSite scartava il blocco senza avviso. Ora il limite si conta sul testo visibile (lib/testo-visibile.ts: senza tag, un'entità vale un carattere), uguale prima e dopo la sanitizzazione, con un tetto di 16.000 sull'HTML grezzo. Il contatore del modulo conta allo stesso modo. Collaudo K03 (non reggeva), terzo commit c2118e58: lunghezzaDelTesto toglieva con un'espressione tutto ciò che stava fra «<» e «>». Un testo con quei simboli scritti a mano valeva pochi caratteri, passava, e alla rilettura il blocco spariva intero. Ora si misura sull'HTML già sanitizzato (i simboli letterali diventano entità, i tag restano solo quelli veri). Anche il tetto sull'HTML (16.000) si conta sull'HTML come verrà salvato, quindi tanti link vengono rifiutati al salvataggio con un messaggio e non spariscono dopo. Il freno sul testo grezzo è a 32.000."
+    },
+    {
+      "chiave": "layout-responsive|il dettaglio ordine sul telefono scorre di lato se il cliente incolla un link nelle note di consegna",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r10-dettaglio-ordine-non-scorre-di-lato.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 74b55ed4400e27c6466ebebbad0d2deae2e6c39b^ --file app/admin/orders/[id]/page.tsx --prove tests/unit/riparazione-r10-dettaglio-ordine-non-scorre-di-lato.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 74b55ed4400e27c6466ebebbad0d2deae2e6c39b^ --file app/admin/orders/[id]/page.tsx --prove tests/unit/riparazione-r10-dettaglio-ordine-non-scorre-di-lato.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "Al <dd> della riga del dettaglio ordine aggiunti min-w-0, break-words e [overflow-wrap:anywhere]: un link incollato nelle note va a capo invece di allargare la pagina. È uno stile: prova leggera sul sorgente."
+    },
+    {
+      "chiave": "microcopy|sulla pagina della nuova password, una password già finita in rete viene rifiutata con un consiglio sbagliato che sparisce dopo pochi secondi",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r10-password-rubata-consiglio-giusto.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 1195153c2920fdd586dcde1cf1211042687fe01b^ --file lib/auth/errori-nuova-password.ts --prove tests/unit/riparazione-r10-password-rubata-consiglio-giusto.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 533f6a7e^ --file app/reset-password/page.tsx --prove tests/unit/riparazione-r10-password-rubata-consiglio-giusto.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "La traduzione degli errori va in un file nuovo, lib/auth/errori-nuova-password.ts, e legge il motivo del rifiuto di Supabase (reasons): password rubata (pwned), troppo corta (length), troppo semplice (characters), ognuna con il suo consiglio. Il motivo resta sotto il campo «Nuova password» (prop error) oltre all'avviso, e sparisce quando si riscrive. La frase introduttiva aggiunge «che non usi già altrove». Dopo il controllo qa, secondo commit 1195153c (il primo era 533f6a7e). Il minimo di caratteri ora si legge dal messaggio del server. «you can only request this after N seconds» diventa «puoi chiederne un altro fra N secondi», e l'email non valida ha la sua frase (prima finivano nella frase generica «richiedi un nuovo link qui sotto»). Il controllo sulla parola «rate» non prende più «generate». Sotto il campo vanno solo gli errori della password."
+    },
+    {
+      "chiave": "mobile-pwa|nella lista ordini i bottoni «traccia» e «riordina» sono troppo piccoli per il pollice",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r10-bottoni-degli-ordini-per-il-pollice.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 6243926fdf53beef32dbb79ea5285c690003e7d6^ --file app/orders/page.tsx --prove tests/unit/riparazione-r10-bottoni-degli-ordini-per-il-pollice.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base aa88b5da38ea^ --file app/orders/page.tsx --prove tests/unit/riparazione-r10-bottoni-degli-ordini-per-il-pollice.test.tsx --json → uscita 0 (K03)",
+      "nota_fix": "I due bottoni passano da size sm (32 px) a md (min-h 44 px), con gap-3 e flex-wrap. components/ui/Button.tsx non l'ho toccato: ingrandire la sm cambierebbe anche le tabelle fitte dell'amministrazione. Dopo il controllo qa, secondo commit d26e5207 (il primo era aa88b5da). Con i bottoni da 44 px il blocco di miniature e prezzo (min-w-0 flex-1, base 0) si stringeva a 57 px a 360, e «Traccia» copriva il prezzo. Ora quel blocco ha basis-56: quando lo spazio non basta, sono i bottoni ad andare sulla riga sotto. Collaudo K03, terzo commit 6243926f: con 4 miniature più «+N» (~264 px) anche la base di 14rem lasciava il prezzo sotto i bottoni fino a 600 px. Ora miniature e prezzo prendono la riga intera e i bottoni vanno sotto, fino a lg; le miniature vanno a capo invece di uscire dalla card. Misurato con Playwright sul CSS compilato del progetto (replica della card, 4 miniature + «+3»): a 320, 360, 560, 600, 768, 1024 e 1280 px nessuna sovrapposizione fra prezzo, miniature e bottoni, e nessuno scorrimento di lato."
+    },
+    {
+      "chiave": "pagamenti-stripe|quando si accenderà l'abbonamento, il negozio pagherà 50 euro subito dopo l'approvazione invece che dopo i primi incassi",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r10-abbonamento-dopo-il-primo-incasso.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base d78619dd89b5decf5fb7497be86f0f7a0241e14d^ --file components/seller/SubscriptionBanner.tsx --prove tests/unit/riparazione-r10-aggiorna-pagamento.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 5bd9e7af^ --file app/api/seller/subscription/checkout/route.ts --prove tests/unit/riparazione-r10-abbonamento-dopo-il-primo-incasso.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "La frase di commissione.ts:98-102 diceva già «dopo il tuo primo incasso»; il comportamento no. Ora la cassa risponde 403 «L'abbonamento parte solo dopo il tuo primo incasso con MyCity» finché il negozio non ha un ordine PAID o in contanti DELIVERED; se gli incassi non si leggono, risponde 503. Nel modulo di richiesta il riquadro e il consenso dicevano «all'approvazione»: ora dicono «dopo il primo incasso». Definizione approvata dalla regista, in domande_per_nicola. L'interruttore resta spento. Dopo il controllo qa, secondo commit 45b6c48b (il primo era 5bd9e7af): conta come incasso anche un ordine pagato e poi rimborsato in parte (PARTIALLY_REFUNDED), come in migrations/215. Collaudo K03, terzo commit d78619dd: il banner invitava ad «Attiva €50/mese» anche chi non aveva incassato, e il tasto rispondeva 403. La regola ora sta in lib/abbonamento-primo-incasso.ts e la leggono la cassa e il banner, che chiede gli ordini del negozio (RLS: Sellers can view their store orders) e mostra l'invito solo dopo il primo incasso. Chi è in ritardo di pagamento vede sempre l'avviso."
+    },
+    {
+      "chiave": "pagamenti-stripe|un negozio con l'abbonamento disdetto vede ancora «gestisci l'abbonamento», e il tasto risponde che l'abbonamento non è attivo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r10-gestisci-abbonamento.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base d64e7d95e61e4e5f61ec87ee893d134f67c20dd1^ --file components/seller/GestisciAbbonamento.tsx --prove tests/unit/riparazione-r10-gestisci-abbonamento.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base d64e7d95^ --file components/seller/GestisciAbbonamento.tsx --prove tests/unit/riparazione-r10-gestisci-abbonamento.test.tsx --json → uscita 0 (K03)",
+      "nota_fix": "La regola «chi può aprire il portale» sta in un file nuovo, lib/abbonamento-portale.ts. La usano il bottone GestisciAbbonamento (a funzione spenta sparisce per un abbonamento disdetto) e la rotta del portale (stesso comportamento di prima, la regola ora sta lì). Il webhook non serviva toccarlo."
+    },
+    {
+      "chiave": "pagamenti-stripe|quando il pagamento dell'abbonamento non va a buon fine, il tasto «aggiorna pagamento» risponde con un errore invece di aprire il portale",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r10-aggiorna-pagamento.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 39f45396dbf6819b0b5b8130b5b841725c073902^ --file components/seller/SubscriptionBanner.tsx --prove tests/unit/riparazione-r10-aggiorna-pagamento.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 39f45396dbf6819b0b5b8130b5b841725c073902^ --file components/seller/SubscriptionBanner.tsx --prove tests/unit/riparazione-r10-aggiorna-pagamento.test.tsx --json → uscita 0 (K03)",
+      "nota_fix": "Con past_due il tasto del banner chiama /api/seller/subscription/portal (dove si aggiorna la carta) invece della cassa, che su un abbonamento esistente risponde 409. Senza abbonamento chiama la cassa come prima."
+    }
+  ]
+}

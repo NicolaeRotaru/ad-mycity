@@ -1,0 +1,76 @@
+{
+  "corsia": 6,
+  "territorio": "R06",
+  "difetti": [
+    {
+      "chiave": "dati-analytics|il funnel conta molti meno clienti che comprano di quelli veri, perché per ogni cento clienti legge al massimo mille ordini e non lo dice",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r06-funnel-ordini-oltre-mille.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base a95c1eebf95f8eb85630ce6d9cf745d83b33768a^ --file app/admin/funnel/page.tsx --prove tests/unit/riparazione-r06-funnel-ordini-oltre-mille.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base a95c1eebf95f^ --file app/admin/funnel/page.tsx --prove tests/unit/riparazione-r06-funnel-ordini-oltre-mille.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "Nuova leggiInBlocchiTutte in blocchi.ts: dentro ogni blocco di cento clienti legge a finestre di mille (leggiTutteLeRighe) e restituisce troncato. Il funnel la usa per gli ordini (order+range) e accende campione se gli ordini sono troncati. Senza correzione la prova conta 34 clienti che comprano invece di 100. Rimessa con il solo file della pagina: togliendo blocchi.ts la prova cade per un nome mancante (uscita 3), non per il comportamento."
+    },
+    {
+      "chiave": "accessibilita|nella chat col negozio i messaggi nuovi arrivano in silenzio per chi usa il lettore di schermo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r06-chat-si-annuncia.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 2530a711b7800e36059ed315f09e7b07312f661b^ --file app/messages/[id]/page.tsx --prove tests/unit/riparazione-r06-chat-si-annuncia.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 2530a711b780^ --file app/messages/[id]/page.tsx --prove tests/unit/riparazione-r06-chat-si-annuncia.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "Il contenitore del filo ha role=log, aria-live=polite, aria-relevant=additions e aria-label «Messaggi della conversazione»; ogni bolla comincia con uno span sr-only col mittente («Tu:» o il nome dell'interlocutore). Prova che monta la pagina e legge gli attributi e i testi."
+    },
+    {
+      "chiave": "accessibilita-visiva|nella pagina «stato dei servizi» il link «contattaci» si distingue dal testo solo per il colore",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r06-pagina-stato.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 4c6a8221d3a6b509cc986c8b7cc4eed5f07fb69c^ --file app/status/page.tsx --prove tests/unit/riparazione-r06-pagina-stato.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 4c6a8221d3a6^ --file app/status/page.tsx --prove tests/unit/riparazione-r06-pagina-stato.test.tsx --json → uscita 0 (K03)",
+      "nota_fix": "Il link «Contattaci» ha underline underline-offset-2 sempre (prima solo hover:underline). Prova leggera: la pagina si disegna con getSystemHealth finto e si legge la classe del link."
+    },
+    {
+      "chiave": "architettura|il tetto di 10 secondi è diventato quello di serie per tutte le chiamate, e la scelta fra 3 e 10 secondi sta fuori dal modulo provabile",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r06-tetto-di-serie-tre-secondi.test.ts tests/unit/riparazione-r06-tetto-per-getuser.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base a58ce9bbfd68705527581c3399e544d5386fbb64^ --file lib/auth/cookie-di-sessione.ts --prove tests/unit/riparazione-r06-tetto-di-serie-tre-secondi.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base a58ce9bbfd68^ --file lib/auth/cookie-di-sessione.ts --prove tests/unit/riparazione-r06-tetto-di-serie-tre-secondi.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "Nuova funzione pura tettoPerGetUser(cookie, adesso) nel modulo (10 s solo se sessioneDaRinnovare, altrimenti 3 s), chiamata dal middleware al posto della scelta in linea. Il valore di serie di chiediConTettoSuScritturaDiSessione torna TETTO_PORTIERE_MS (tutti i chiamanti, middleware e prove, passano gia' ms). Comportamento del portiere identico; la convivenza con tettoPerChiedereChiSei e' in domande_per_nicola."
+    },
+    {
+      "chiave": "dati-analytics|il funnel senza iscritti mostra zero virgola zero per cento in rosso invece di dire che non c'è niente da misurare",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r06-funnel-senza-iscritti.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base cfc0ba0024532b20cd7440815ffc473be1988214^ --file app/admin/funnel/page.tsx --prove tests/unit/riparazione-r06-funnel-senza-iscritti.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base cfc0ba002453^ --file app/admin/funnel/page.tsx --prove tests/unit/riparazione-r06-funnel-senza-iscritti.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "Con denominatore zero le percentuali del funnel sono null: le righe scrivono «(n.d.)», i tre riquadri «n.d.» in grigio (text-ink-400) senza colore contro il bersaglio. La funzione pura sta dentro la pagina (piano: file nuovo, non e' servito); la prova monta la pagina."
+    },
+    {
+      "chiave": "dati-analytics|la percentuale dei pagamenti con carta nel cruscotto si calcola su mille tentativi qualsiasi, non sugli ultimi trenta giorni",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r06-tasso-pagamenti-30-giorni.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 571d12fc3f1664a0f1085fa3a0ecfbcc8fe835f1^ --file app/admin/page.tsx --prove tests/unit/riparazione-r06-tasso-pagamenti-30-giorni.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 571d12fc3f16^ --file app/admin/page.tsx --prove tests/unit/riparazione-r06-tasso-pagamenti-30-giorni.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "La lettura di payment_attempts degli ultimi trenta giorni passa da .limit(5000) senza ordine a leggiTutteLeRighe con order(created_at, id) e range: il tasso si calcola su tutti i tentativi del periodo. Il calcolo resta nella pagina (piano: un file nuovo, non e' servito); la prova esegue la lettura vera della pagina."
+    },
+    {
+      "chiave": "dati-analytics|nello storico consegne compaiono due gruppi «oggi»: le consegne fatte dopo mezzanotte finiscono in un gruppo a parte e il totale del giorno si spezza",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r06-storico-fattorino.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 940d692ea4f3adcbe05affa702555c91204db64b^ --file app/rider/history/page.tsx --prove tests/unit/riparazione-r06-storico-fattorino.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 940d692ea4f3^ --file app/rider/history/page.tsx --prove tests/unit/riparazione-r06-storico-fattorino.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "La chiave del gruppo e' giornoPiacenza(delivered_at), l'etichetta Oggi/Ieri/data lunga si calcola sullo stesso giorno di Piacenza (timeZone Europe/Rome), e key={g.key} al posto dell'etichetta ripetuta. Prova con orologio finto: tre consegne fra 00:10 e 01:10 di Piacenza, un solo gruppo «Oggi» da 9 euro. Raggruppamento lasciato nella pagina (nel piano c'era un file nuovo, non e' servito)."
+    },
+    {
+      "chiave": "dati-analytics|storico e recensioni del fattorino si caricano tutti in una volta, senza pagine, e le consegne vecchie aprono «ordine non trovato»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r06-storico-fattorino.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 12202bd61fac42b4e592eaf5561c172d16284aa0^ --file app/rider/history/page.tsx,app/rider/reviews/page.tsx --prove tests/unit/riparazione-r06-storico-fattorino.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 12202bd61fac^ --file app/rider/history/page.tsx,app/rider/reviews/page.tsx --prove tests/unit/riparazione-r06-storico-fattorino.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "Storico e recensioni si leggono con leggiTutteLeRighe (order + range, finestre da mille), con un avviso a schermo se si arriva al tetto duro. Nello storico le consegne con piu' di 7 giorni non sono piu' un link (la pagina del dettaglio direbbe «Ordine non trovato»). La prova esistente lo-storico-del-fattorino-mostra-il-suo-compenso importa la pagina: adeguato solo il finto (order concatenabile, range, dato nella forma nuova), con le stesse asserzioni."
+    },
+    {
+      "chiave": "dati-analytics|la misura che parte dal server e' una seconda porta verso lo stesso raccoglitore, senza nessuna rete",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r06-acquisto-dal-server-ripulito.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base cceddf83237b54b79453574ba6317eed69aa8999^ --file lib/analytics/server.ts --prove tests/unit/riparazione-r06-acquisto-dal-server-ripulito.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base cceddf83237b^ --file lib/analytics/server.ts --prove tests/unit/riparazione-r06-acquisto-dal-server-ripulito.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "Le proprieta' dell'evento order_placed spedito dal server passano da strutturaSenzaIndirizzi (filmato-senza-dati-personali.ts, modulo puro adatto al server): indirizzi con parametri ripuliti, email e telefoni nascosti (con R06-019). Identificativi, importi e $insert_id restano uguali. Non uso proprietaSenzaDatiPersonali perche' vive in posthog.tsx, un modulo del browser."
+    },
+    {
+      "chiave": "deploy-sre|la pagina pubblica «stato servizi» dice anche che le email non partono, e non dice perché",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r06-salute-dei-servizi.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 7d55294e414807d5abca6afbdd07178bb720cb82^ --file lib/health/checks.ts --prove tests/unit/riparazione-r06-salute-dei-servizi.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 7d55294e4148^ --file lib/health/checks.ts --prove tests/unit/riparazione-r06-salute-dei-servizi.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "checkEmail: un 401 con name restricted_api_key (chiave di solo invio) vale «operativo» («Chiave di solo invio: raggiungibile»); ogni altro errore scrive il motivo vero nella riga («API non raggiungibile (HTTP 500)») e in un logger.warn. Un 401 di chiave sbagliata resta un guasto."
+    }
+  ]
+}

@@ -48,6 +48,18 @@ regole, e scrivi i dubbi nel referto (`domande_per_nicola`).
   della macchina. Valgono le sue regole sulle prove, più queste.
 - Spingi **solo** sul tuo ramo. Mai una PR, mai un'unione, mai `--force`, mai un altro ramo.
 
+### Le regole delle sessioni (regola 11 di `cervello/sessioni-insieme.md`, Nicola 13/11 alle 13:30)
+
+- Lo stop, la quota, la sicurezza e i soldi li mandi alla regista con `send_message` e `priority: "now"`. A un
+  messaggio urgente rispondi subito, con una riga.
+- Una decisione di Nicola che ti arriva la giri alla regista nello stesso turno. Se aspetti un suo clic, lo dici
+  subito alla regista.
+- Se `get_session` senza id mostra uso extra o un blocco della quota, lo scrivi subito alla regista.
+- A 400 mila token di storia apri da te la tua sessione 2.0 (come nel punto 6 di «A lotti» qui sotto).
+- Lavori solo con ultracode acceso: se `get_session` non dice `is_ultracode_active: true`, non cominci e lo dici
+  alla regista.
+- Il costo lo leggi da `usage.cost_usd` di `get_session`, mai a stima.
+
 ### Prima il piano
 
 Prima di toccare il codice scrivi il piano, **senza aprire il codice del sito**: lo ricavi dalla scheda e dal registro
@@ -82,10 +94,15 @@ andati in rilettura, non in lavoro. Quindi:
    10 minuti, oltre in sottofondo con l'attesa sul comando. Non si chiude il turno con «verify in corso». Insieme, in
    primo piano e nello stesso messaggio, si lanciano solo i subagenti che **leggono** (i revisori di un lotto), così
    non ti svegliano uno alla volta. Quelli che riparano vanno uno alla volta (punto 3).
-6. **Se la regista ti scrive che hai superato i 300 mila token**, chiudi il lotto in corso, aggiorna il referto,
-   copialo in `.riparazione/referto-RNN.json`, fai il commit e spingi. Il resto lo fa una sessione nuova, che parte
-   dalla **testa del tuo ramo** (non dalla base), legge il referto dal ramo e riprende solo le voci che non hanno
-   ancora un esito. Scrivi alla regista lo SHA spinto, preso con `git rev-parse HEAD` nello stesso comando.
+6. **A 400 mila token di storia apri tu la tua sessione 2.0** (Nicola, 13/11 alle 13:30; regola 7 di
+   `cervello/sessioni-insieme.md`). Il numero lo leggi da te a fine di ogni lotto: `context_usage.used_tokens` di
+   `get_session` senza id. Chiudi il lotto in corso e scrivi nel referto un campo `passaggio` (voci fatte, in corso,
+   giri aperti, spesa). Copialo in `.riparazione/referto-RNN.json`, fai il commit e spingi. Poi `create_session` dalla
+   **testa del tuo ramo** (mai dalla base), sullo stesso ramo, titolo «Riparatore · RNN · onda N · 2.0», modello
+   grande, `effort: "xhigh"`, `permission_mode: "auto"`. Il primo messaggio porta questo foglio, la scheda, il
+   passaggio e «riprendi solo le voci senza esito». Con `get_session` controlli che la 2.0 abbia ultracode acceso.
+   Poi scrivi alla regista il suo id e lo SHA spinto, preso con `git rev-parse HEAD` nello stesso comando, e ti
+   fermi. Se `create_session` ti è negato, la 2.0 la apre la regista.
 7. **Al massimo 12 subagenti in tutto** (regola del 13/11), anche se la sessione è in ultracode. Al dodicesimo ti
    fermi e lo scrivi alla regista, con quante voci restano.
 8. **Un lotto di soli minori, senza soldi, dati o permessi**, lo dai a un subagente col modello piccolo

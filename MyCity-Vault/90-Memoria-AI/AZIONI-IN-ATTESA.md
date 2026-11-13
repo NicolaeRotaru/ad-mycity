@@ -31,6 +31,18 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🟡 #242 — Decidi se un riparatore può spendere di più per sbloccare la cassa del centro · ⏳ accodata 2026-11-13 07:22
+
+**In parole semplici.** Nella seconda onda ogni riparatore ha un tetto di 35 $ di listino. R13, il riparatore che lavora su cassa, consegne e rimborsi, arriva al tetto dopo il terzo lotto. Restano fuori 22 voci, fra cui il difetto più grave dell'onda: chi abita in via Roma o in via Cavour, in pieno centro, si sente dire «troppo lontano» alla cassa, e l'ordine non parte.
+
+**Cosa cambia per te.** Esempio: senza un sì, quel difetto aspetta la terza onda, cioè qualche ora in più, e un cliente del centro intanto non può ordinare. Con il sì, R13 lo ripara adesso, insieme al grave della posizione del negozio salvata lontano da Piacenza.
+
+**Cosa devi fare tu.** Di' all'AD fin dove può spendere R13. «a»: R13 arriva fino a circa 90 $ e fa tutte le 22 voci (è la sua proposta). «b»: si ferma a 35 $ e tutto passa alla terza onda. «c»: fa solo il lotto del difetto bloccante e della posizione del negozio, per circa 6-10 $ in più. La regista consiglia la «c»: è il difetto che pesa di più, e costa poco.
+
+**Cosa non ho verificato.** I 6-10 $ della «c» sono una stima dai lotti gravi di R14, che costano 5-6 $ l'uno, non una misura di R13. E il tetto della regia di quest'onda, 60 $, è già superato.
+
+Cosa cambia: con la «c» la cassa del centro torna a funzionare in questa onda; con la «b» resta rotta fino alla terza.
+Se va bene: la regista dice a R13 il tetto nuovo, e il bloccante entra nel collaudo di quest'onda.
 ### 🟡 #241 — Di' sì ai sei passi per sistemare la radiografia del codice · ⏳ accodata 2026-11-13 05:25
 
 **In parole semplici.** Vuoi portare a 9 su 10 i cinque voti del codice del sito, col metodo della radiografia. Prima la radiografia va sistemata e resa ibrida. I passi sono sei. I primi quattro cambiano la macchina. Il quinto prova la radiografia su una copia vecchia del sito. Il sesto è la radiografia vera.
@@ -72,7 +84,7 @@ Per chi esegue: next almeno 15.5.28, @sentry/nextjs almeno 10.75.2, dompurify al
 Cosa cambia: i difetti chiusi della prima onda entrano nel registro, e la regola per le onde dopo resta decisa.
 Se va bene: la regista lancia la chiusura dei difetti della prima onda dopo che hai unito le due richieste.
 
-**Stato:** ✅ DECISO 2026-11-13 03:27. Hai scelto «a» dopo la spiegazione: la regola resta severa, e per la sola prima onda vale un'eccezione firmata. La mette in pratica la regista nuova, prima di chiudere i difetti della prima onda. Il programma oggi non ha un interruttore per onda su questa regola. La strada più corta è un'impostazione nel piano, come quella che c'è già per la verifica legata al commit: poche righe, con la loro prova.
+**Stato:** ✅ DECISO 2026-11-13 03:27. Hai scelto «a» dopo la spiegazione: la regola resta severa, e per la sola prima onda vale un'eccezione firmata. La mette in pratica la regista nuova, prima di chiudere i difetti della prima onda. Il programma oggi non ha un interruttore per onda su questa regola. La strada più corta è un'impostazione nel piano, come quella che c'è già per la verifica legata al commit: poche righe, con la loro prova. Messa in pratica il 13/11 alle 05:40 dalla regista dell'onda 2. Con «Allarga la a» copre anche i 6 errori che non erano prove comuni. La chiusura a vuoto della prima onda adesso è verde: 115 difetti si chiudono.
 
 ### 🔴 #238 — Riprova le tre migrazioni del sito rimaste, ma non la 350 · ⏳ accodata 2026-11-12 23:55
 
@@ -101,6 +113,8 @@ Se va bene: la regista controlla le tabelle sul database e scrive l'esito nella 
 
 Cosa cambia: si lavora il prossimo blocco di difetti del sito, a lotti piccoli e con un controllore alla fine.
 Se va bene: alla fine della seconda onda la regista ti porta i numeri veri e il costo misurato.
+
+**Stato:** ✅ FATTO 2026-11-13 05:15. Hai dato il via nella sessione «Ondata 2», con «parti con l'ondata 2». La regista ha diviso l'onda: 12 riparatori per 259 difetti. Alle 05:49 hai passato la sessione in modalità Auto, e i riparatori partono da lì.
 
 ### 🟡 #236 — Scegli se togliere alla macchina il permesso di usare il database vero senza chiedere · ⏳ accodata 2026-11-12 23:55
 

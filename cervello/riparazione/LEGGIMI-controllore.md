@@ -19,6 +19,18 @@ Sei `CNN` dopo l'onda NN, oppure `CF`, il controllore finale, su tutta la campag
 Non ripari niente, non tocchi il database vero (nemmeno in lettura, nemmeno da un subagente: scrivilo nel mandato di
 ognuno), non mandi messaggi a persone.
 
+## Le regole delle sessioni (regola 11 di `cervello/sessioni-insieme.md`, Nicola 13/11 alle 13:30)
+
+- Lo stop, la quota, la sicurezza e i soldi li mandi alla regista con `send_message` e `priority: "now"`. A un
+  messaggio urgente rispondi subito, con una riga.
+- Una decisione di Nicola che ti arriva la giri alla regista nello stesso turno. Se aspetti un suo clic, lo dici
+  subito alla regista.
+- Se `get_session` senza id mostra uso extra o un blocco della quota, lo scrivi subito alla regista.
+- A 400 mila token di storia apri da te la tua sessione 2.0 (stesso ramo, titolo con «· 2.0» in fondo, poi l'id alla regista).
+- Lavori solo con ultracode acceso: se `get_session` non dice `is_ultracode_active: true`, non cominci e lo dici
+  alla regista.
+- Il costo lo leggi da `usage.cost_usd` di `get_session`, mai a stima.
+
 ## Cosa ti dà la regista, nel prompt
 La cartella della campagna `<C>`. Il commit di `ad-mycity` da leggere (`SHA_REGISTA`). Il ramo di integrazione
 del sito e il suo SHA. La base dell'onda (per `CF`: la base della campagna). Il tuo ramo `<ramo>-cNN`.

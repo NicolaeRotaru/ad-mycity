@@ -1,0 +1,83 @@
+{
+  "corsia": 2,
+  "territorio": "R02",
+  "difetti": [
+    {
+      "chiave": "privacy-legale|lo scarico dei miei dati si ferma a mille righe per sezione e dice comunque che il file è completo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-esporta.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base d83c721feb496f7261b4076ebc53092b62500b76^ --file app/api/account/export/route.ts --prove tests/unit/riparazione-r02-esporta.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base f00ade84e3636444c6626a5a0dd492db67179d48^ --file app/api/account/export/route.ts --prove tests/unit/riparazione-r02-esporta.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Ogni sezione si legge a finestre di 1000 (range) fino al tetto di 5000; 'al tetto' solo se dopo il tetto c'è un'altra riga. La pagina usa il nome del file del server, avvisa se è INCOMPLETO e spegne il pulsante durante lo scarico. Prove esistenti che importano la rotta: aggiunto 'range' ai finti; minori-s08-esporta ora rispetta il tetto di 1000 per lettura (come chiede la voce), senza indebolirla."
+    },
+    {
+      "chiave": "accessibilita|se scegli una variante esaurita il lettore di schermo non dice niente, e il pulsante d'acquisto sparisce dal giro del tab",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-variante-esaurita-a11y.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base ede785a50937cbde164dbbefe8fa32480efa32f5^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r02-variante-esaurita-a11y.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base caa58d261b794ff41456caa6747cca820c4b3b7f^ --file app/product/[id]/page.tsx,components/StickyAddToCart.tsx --prove tests/unit/riparazione-r02-variante-esaurita-a11y.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "La regione role=status c'era già (5/11). Ora il pulsante «Aggiungi al carrello» usa aria-disabled invece di disabled (resta nel giro del Tab, con aria-describedby sul messaggio della disponibilità) e handleAdd, su un prodotto o una combinazione esaurita, avvisa invece di aggiungere. I pulsanti delle opzioni che portano solo a combinazioni esaurite si chiamano «<valore>, esaurito»."
+    },
+    {
+      "chiave": "api-backend|se il servizio di accesso frena o e' guasto, il cambio password dice «password attuale non corretta»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-cambio-password-errori.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base b7689d2060ef85ca6bf8f0879455731c2a850129^ --file app/api/account/cambia-password/route.ts --prove tests/unit/riparazione-r02-cambio-password-errori.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base b7689d2060ef85ca6bf8f0879455731c2a850129^ --file app/api/account/cambia-password/route.ts --prove tests/unit/riparazione-r02-cambio-password-errori.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "La rotta legge l'errore di signInWithPassword con esitoErroreDiAccesso, come l'accesso: freno → 429, servizio giù → 503, solo le credenziali sbagliate → 401. La pagina, senza un messaggio dal server, non dice più «password attuale non corretta»."
+    },
+    {
+      "chiave": "api-backend|si puo' «cambiare» la password con la stessa di prima e il sito dice «aggiornata»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-password-uguale.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 6c4c1ae21cde0385dbabfea621aad05e265f6c15^ --file app/api/account/cambia-password/route.ts,lib/account/cambio-password.ts --prove tests/unit/riparazione-r02-password-uguale.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 6c4c1ae21cde0385dbabfea621aad05e265f6c15^ --file app/api/account/cambia-password/route.ts,lib/account/cambio-password.ts --prove tests/unit/riparazione-r02-password-uguale.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "perchePasswordNonCambiabile e la rotta rifiutano una nuova password uguale all'attuale (400, «deve essere diversa»), prima di provare l'accesso e senza riscrivere niente."
+    },
+    {
+      "chiave": "flussi-conversione|sulla scheda prodotto al telefono prezzo e «aggiungi al carrello» non si vedono senza scorrere, e un doppio tocco su «aggiungi al carrello» mette due pezzi",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-aggiungi-e-barra.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 585c6e0e96dfa6ccf631df27543908b73159e033^ --file components/StickyAddToCart.tsx,app/product/[id]/page.tsx --prove tests/unit/riparazione-r02-aggiungi-e-barra.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 585c6e0e96dfa6ccf631df27543908b73159e033^ --file components/StickyAddToCart.tsx,app/product/[id]/page.tsx --prove tests/unit/riparazione-r02-aggiungi-e-barra.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "La barra in fondo segue il pulsante d'acquisto vero (IntersectionObserver su id acquisto-principale): appena aperta la scheda al telefono, con il pulsante sotto la piega, la barra con prezzo e «Aggiungi» c'è già; quando il pulsante si vede, sparisce. handleAdd ha un freno sincrono di 1 s (lib/ui/freno-doppio-tocco.ts) dopo i controlli e prima di addToCart, che vale per la scheda e per la barra."
+    },
+    {
+      "chiave": "frontend-ux|se un'impostazione delle notifiche non si salva, l'interruttore resta nella posizione nuova",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-interruttore-notifiche.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 25bb5c911f081073b43005bea1549aad84d97c46^ --file app/profile/settings/page.tsx --prove tests/unit/riparazione-r02-interruttore-notifiche.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 354d9eb091dd9102ae42aa0bb1b7f053856d6074^ --file app/profile/settings/page.tsx --prove tests/unit/riparazione-r02-interruttore-notifiche.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "updatePref ricorda il valore di prima e, se il database rifiuta il salvataggio, lo rimette (solo se nel frattempo nessuno l'ha cambiato di nuovo) e lo dice nell'avviso."
+    },
+    {
+      "chiave": "layout-responsive|nella pagina eventi gli stati sono in inglese, e un titolo lungo senza spazi allarga la pagina sul telefono",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-eventi-stati-e-titoli.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base cdd22f2e2e905ad1972b709580f28e113fc20a77^ --file app/admin/events/page.tsx --prove tests/unit/riparazione-r02-eventi-stati-e-titoli.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base cdd22f2e2e905ad1972b709580f28e113fc20a77^ --file app/admin/events/page.tsx --prove tests/unit/riparazione-r02-eventi-stati-e-titoli.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "Stati tradotti (In programma, In corso, Concluso, Annullato) nei due badge; il titolo va a capo (min-w-0, break-words, overflow-wrap:anywhere) nella card del telefono e nella cella della tabella; il contenitore della tabella passa da overflow-hidden a overflow-x-auto, così i pulsanti Modifica ed Elimina restano raggiungibili."
+    },
+    {
+      "chiave": "layout-responsive|nelle segnalazioni, un link lungo incollato da chi segnala esce dalla scheda e fa scorrere la pagina di lato sul telefono",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-segnalazione-link-lungo.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base fb1d85ea838d6f767e2b56f4c8c83920c7281cd3^ --file app/admin/segnalazioni/page.tsx --prove tests/unit/riparazione-r02-segnalazione-link-lungo.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base fb1d85ea838d6f767e2b56f4c8c83920c7281cd3^ --file app/admin/segnalazioni/page.tsx --prove tests/unit/riparazione-r02-segnalazione-link-lungo.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "Il paragrafo del dettaglio ha break-words e overflow-wrap:anywhere: link ed email lunghi vanno a capo dentro la scheda."
+    },
+    {
+      "chiave": "layout-responsive|con i caratteri grandi del telefono, le schede notifiche e zona pericolosa delle impostazioni scorrono di lato",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-impostazioni-larghezza.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 6e29fdf6dafb07df6b70edbdfad0a8ead995c54a^ --file app/profile/settings/page.tsx --prove tests/unit/riparazione-r02-impostazioni-larghezza.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 3f422c18e852571f07d7e0f60cb10e71ad022252^ --file app/profile/settings/page.tsx --prove tests/unit/riparazione-r02-impostazioni-larghezza.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Tolto il px-6 della pagina (la cornice la dà AccountShell, px-4 sm:px-6); le sezioni Notifiche, Privacy e Zona pericolosa passano a p-4 sm:p-6 con min-w-0; il riquadro rosso a p-4 sm:p-5 con break-words; il bottone «Richiedi eliminazione» a tutta larghezza sotto sm. AccountShell non è cambiato."
+    },
+    {
+      "chiave": "layout-responsive|nella vetrina del negozio, sul telefono il logo resta coperto dal tasto indietro e la scheda recensioni mostra gli orari",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-vetrina-negozio.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 941948d9e37e3577ed00a386abbf8f14c287ce6b^ --file components/store-sections/SectionRenderer.tsx,components/store-sections/ReviewsSection.tsx,components/store-sections/HeroSection.tsx --prove tests/unit/riparazione-r02-vetrina-negozio.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 40ed044bba533881efcc9f745f1d505d748e37ab^ --file components/store-sections/ReviewsSection.tsx --prove tests/unit/riparazione-r02-vetrina-negozio.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "SectionRenderer: il pannello non attivo ha solo la classe hidden (grid non vince più sull'attributo hidden). ReviewsSection: con zero recensioni e nessun errore scrive «Ancora nessuna recensione per questo negozio». HeroSection: la riga logo+nome non va più a capo (flex-nowrap, nome min-w-0 con overflow-wrap:anywhere), così il logo resta in basso nella copertina e non sale sotto la pillola «Indietro»."
+    },
+    {
+      "chiave": "privacy-legale|lo scarico dei dati del fattorino si dichiara completo ma non contiene le sue giornate di cassa né le recensioni ricevute",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-esporta-fattorino.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 91722c9de0d8d170ba2f895d3114610ccbce2cdb^ --file app/api/account/export/route.ts --prove tests/unit/riparazione-r02-esporta-fattorino.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 72f0f07ba88ad06fc74a97cf23a01e3e997e84e0^ --file app/api/account/export/route.ts --prove tests/unit/riparazione-r02-esporta-fattorino.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Due sezioni nuove: recensioni_ricevute_come_fattorino (rider_reviews su rider_id) e giornate_di_cassa_del_fattorino (cod_reconciliations su rider_id). export_completo guarda già letture_fallite e sezioni_al_tetto delle sezioni lette."
+    }
+  ]
+}

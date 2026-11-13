@@ -92,3 +92,76 @@
 2026-11-12 19:16 · unione onda 1 · 11 rami uniti senza conflitti (1 file fuso da solo, minori-s09-aspetto) · revert: R03-001 R03-008 R11-015 R11-016 R12-012 (rompe altro ×2), R07-019 R06-014 R06-017 (rosse dopo l'unione); R10-019 non tolta (conflitto, latente) · tipi del database rigenerati · verify ✅ 9646 · SQL ✅ 195 migrazioni · integrazione b144746 spinta · C01 aperto
 2026-11-12 19:45 · C01 · finito · 14 voci rosse (9 tolte + R10-019 + R03-007 R11-017 R08-012 R09-013), 16 difetti nuovi (3 gravi, 2 riservati) · verify ✅ SQL ✅ · applica ✅ 115 si chiudono · fermata 2 all'AD
 2026-11-12 20:50 · migrazioni sul database vero (firma di Nicola in chat: «fai la migrazione della falla» + «fai le 14 migrazioni») · applicate 250 260 270 271 272 300 320 321 322 323 360 + 365 (falla IBAN/dati fiscali) · 361 non applicata: il server ha chiesto una conferma rimasta senza risposta (verificato: tabella coupon_redemptions assente) · restano 361 363 364 · 350 NON va applicata · codice della falla sulla PR mycity#288 @ 8bf33ea
+2026-11-13 06:16 · onda 2 · controllo a 10 minuti (list_sessions) · R20 R21 R22 R23 ferme sul piano → approvate dalla seconda regista alle 06:15-06:20; R24 approvata alle 06:21 · ultracode acceso su R13-R24 · costi alle 06:16: R13 7,09 · R14 4,23 · R15 4,92 · R16 4,53 · R17 4,58 · R18 4,08 · R19 4,29 · R20 0,92 · R21 0,98 · R22 1,31 · R23 1,13 · R24 — · totale 38,06 $ (tetto 35 $ a figlia: nessuna oltre) · quota in avviso, niente uso extra · nessun ramo ancora con codice
+2026-11-13 06:47 · R13 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-13 06:47 · R14 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-13 06:47 · R15 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-13 06:47 · R16 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-13 06:47 · R17 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-13 06:47 · R18 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-13 06:47 · R19 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-13 06:47 · R20 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-13 06:47 · R21 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-13 06:47 · R22 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-13 06:47 · R23 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-13 06:47 · R24 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-13 06:47 · onda 2 · prova-unione ⏳
+2026-11-13 06:48 · giro 1 onda 2 · nessuna figlia BLOCKED (list_sessions) · rami spinti: R14 R16 R19 R21 R23 · guardia 🔴 R16 (prova comune il-testo-dice-quello-che-succede-davvero.test.ts) e 🔴 R23 (prova comune webhook-diviso-per-mestiere.test.ts: l'avevo permessa io nel piano, errore mio) · azione: a tutte e due «rimetti la prova comune, prova nuova col tuo nome, serve_file_altrui» · R17 chiede lib/database.types.ts: assegnato dalla regia in piano.json e scheda (copertura-prima ✅) · R13 e R15 senza aggiornamenti dalle 06:16: da riguardare al giro dopo
+2026-11-13 06:57 · R13 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-13 06:57 · R14 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-13 06:57 · R15 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-13 06:57 · R16 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-13 06:57 · R17 · in lavoro · guardia 🔴 · referto ⏳ 2 voci · unione (sotto) · nessuna
+2026-11-13 06:57 · R18 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-13 06:57 · R19 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-13 06:57 · R20 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-13 06:57 · R21 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-13 06:57 · R22 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-13 06:57 · R23 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-13 06:57 · R24 · in lavoro · guardia 🔴 · referto ⏳ 21 voci · unione (sotto) · nessuna
+2026-11-13 06:57 · onda 2 · prova-unione ⏳
+2026-11-13 07:02 · giro 2 onda 2 (terza regista) · nessuna figlia BLOCKED (list_sessions: R13-R24 tutte WORKING) · rami non spinti: R13 R15 R18 R20 R22 · guardia 🔴 R16 e R23 (ancora la prova comune), 🔴 R17 (minori-s01-numeri-del-negozio, riparazione-r11-bonifico-non-due-volte), 🔴 R24 (4 prove comuni) · azione: id della terza regista a R13-R24; a R17 e R24 «rimetti le prove comuni com'erano su BASE, prova nuova col tuo nome, serve_file_altrui»; a R16 e R23 ricordato · #952 rossa su d453f7b (radiografia del perimetro toccato + la-penna-che-si-poteva-scegliere solo in CI)
+2026-11-13 07:16 · decisioni della terza regista · R17 e R24: dall'onda 2 la deroga prove_comuni non c'è più (valeva solo per l'onda 1) → prove comuni rimesse a BASE, git revert di TUTTI i commit delle voci che le contraddicono (R17-001, R17-002 intera con migrazione e tipi; R24-017, R24-020, R24-010), serve_file_altrui con gli SHA da riprendere più la modifica esatta alla prova, verify verde sulla testa · R17-002 niente giro di correzione: i tre punti del revisore in cosa_resta, la domanda sull'ordine fermo per Nicola · R18: revert di 1509d2f1 tenuto, tipi rigenerati all'unione · R14: prima i revisori dei gravi, poi L5 e L6; soglia 33 $ e sessione nuova dalla testa per il resto · R13: stop dopo il lotto 3 confermato; R13-001 (bloccante) e 004-006 come domanda di tetto a Nicola
+2026-11-13 07:16 · stato dichiarato dalle figlie · R13 2dfe2d7e, 21,6 $ · R14 16,3 $ · R15 f007952c · R16 debafe63 (prova comune rimessa, R16-001 tolto) · R17 ~23 $ · R18 58003e34 · R20 e90b1221 · R21 5ad1b757 · R22 7d84f4b1 · R23 8b854ced (prova comune rimessa) · R24 5502893d
+2026-11-13 07:24 · #952 · CI verde 14 su 14 sulla testa e1a33475, mergeable clean, ancora in bozza · detto all'AD
+2026-11-13 07:30 · R13 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 07:30 · R14 · in lavoro · guardia 🔴 · referto 🔴 25 voci · unione (sotto) · nessuna
+2026-11-13 07:30 · R15 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-13 07:30 · R16 · in lavoro · guardia ✅ · referto 🔴 11 voci · unione (sotto) · nessuna
+2026-11-13 07:30 · R17 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 07:30 · R18 · in lavoro · guardia ✅ · referto ⏳ 6 voci · unione (sotto) · nessuna
+2026-11-13 07:30 · R19 · in lavoro · guardia ✅ · referto ⏳ 23 voci · unione (sotto) · nessuna
+2026-11-13 07:30 · R20 · in lavoro FINITA · guardia 🔴 · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 07:30 · R21 · in lavoro · guardia ✅ · referto ⏳ 11 voci · unione (sotto) · nessuna
+2026-11-13 07:30 · R22 · in lavoro · guardia ✅ · referto 🔴 10 voci · unione (sotto) · nessuna
+2026-11-13 07:30 · R23 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-13 07:30 · R24 · in lavoro · guardia 🔴 · referto ⏳ 21 voci · unione (sotto) · nessuna
+2026-11-13 07:30 · onda 2 · prova-unione ✅
+2026-11-13 07:33 · giro 3 onda 2 (terza regista) · list_sessions: nessuna figlia BLOCKED (R13 e R17 ferme a fine lavoro) · 🏁 R13 e R17 finite, guardia ✅ referto ✅ · 🏁 R20 finita con guardia 🔴 (2 prove comuni, strada sicura approvata) · 🔴 R14 (3 prove comuni, titolo riservato col segnaposto), R15 (1 prova comune), R16 (prova_tipo «leggera», titolo riservato), R22 (commit con due voci), R24 (4 prove comuni, revert in corso) · azione: corretti R14 R15 R16 R22 · la regista è a 442 mila token: passaggio alla quarta
+2026-11-13 08:01 · R13 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 08:01 · R14 · in lavoro · guardia ✅ · referto ⏳ 9 voci · unione (sotto) · nessuna
+2026-11-13 08:01 · R15 · in lavoro · guardia ✅ · referto ⏳ 12 voci · unione (sotto) · nessuna
+2026-11-13 08:01 · R16 · in lavoro · guardia ✅ · referto ⏳ 21 voci · unione (sotto) · nessuna
+2026-11-13 08:01 · R17 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 08:01 · R18 · in lavoro · guardia 🔴 · referto ⏳ 12 voci · unione (sotto) · nessuna
+2026-11-13 08:01 · R19 · in lavoro · guardia ✅ · referto ⏳ 23 voci · unione (sotto) · nessuna
+2026-11-13 08:01 · R20 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 08:01 · R21 · in lavoro · guardia 🔴 · referto 🔴 19 voci · unione (sotto) · nessuna
+2026-11-13 08:01 · R22 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 08:01 · R23 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-13 08:01 · R24 · in lavoro · guardia ✅ · referto ⏳ 21 voci · unione (sotto) · nessuna
+2026-11-13 08:01 · onda 2 · prova-unione ✅
+2026-11-13 08:39 · R13 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 08:39 · R14 · in lavoro · guardia ✅ · referto ⏳ 9 voci · unione (sotto) · nessuna
+2026-11-13 08:39 · R15 · in lavoro · guardia ✅ · referto ⏳ 12 voci · unione (sotto) · nessuna
+2026-11-13 08:39 · R16 · in lavoro · guardia ✅ · referto ⏳ 21 voci · unione (sotto) · nessuna
+2026-11-13 08:39 · R17 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 08:39 · R18 · in lavoro · guardia 🔴 · referto ⏳ 12 voci · unione (sotto) · nessuna
+2026-11-13 08:39 · R19 · in lavoro · guardia 🔴 · referto ⏳ 18 voci · unione (sotto) · nessuna
+2026-11-13 08:39 · R20 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 08:39 · R21 · in lavoro · guardia 🔴 · referto 🔴 19 voci · unione (sotto) · nessuna
+2026-11-13 08:39 · R22 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 08:39 · R23 · in lavoro · guardia ✅ · referto ⏳ 12 voci · unione (sotto) · nessuna
+2026-11-13 08:39 · R24 · in lavoro · guardia ✅ · referto ⏳ 14 voci · unione (sotto) · nessuna
+2026-11-13 08:39 · onda 2 · prova-unione ✅
+2026-11-13 08:39 · giro 1 onda 2 (quarta regista) · rossi R18 (prova comune), R19 (prova spenta con skipIf), R21 (2 prove comuni, referto) · tutte e 12 le figlie ferme su richiesta, ognuna con lo SHA spinto · azione: detto a R19; catena di sorveglianza sospesa per la fermata del costo, riparte con la risposta di Nicola
