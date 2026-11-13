@@ -1,0 +1,508 @@
+{
+ "collaudatore": "K08",
+ "riparatori": [
+  "R14",
+  "R15",
+  "R16"
+ ],
+ "aggiornato": "2026-11-13 16:25",
+ "finita": false,
+ "voci": [
+  {
+   "id": "R14-002",
+   "chiave": "api-backend|confermata una rimessa, la giornata del fattorino risulta versata anche per i contanti che incassa dopo, e la guardia della cancellazione lo lascia andare",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 905ae0ce0e9c6ab61ba7274442e79fe7c70762a8^ --file migrations/381_la_rimessa_non_chiude_una_giornata_con_contanti_in_mano.sql --prove tests/sql/rls/riparazione-r14-rimessa.test.sql --sql k08_r14_002_0_rimessa --json   (checkout 905ae0ce0e9c6ab61ba7274442e79fe7c70762a8)"
+   },
+   "nota": "Due revisori qa, una lente ciascuno. CHIUDE_TUTTA: parziale. La parte (a) regge per il caso del registro (contanti incassati e consegnati lo stesso giorno, anche con conferma e consegna in corsa: il lucchetto le mette in fila). Tolta la 381 la prova SQL è rossa sui controlli ①; tolte 381 e 383 i rossi sono 4, per il motivo giusto. La parte (b), la guardia della cancellazione, resta aperta: la riapertura una tantum della 381 (righe 202-214) rimette remitted_at a NULL ma non ricalcola incassato e stato, e la guardia (lib/account/cancellazione.ts:670-672) e il sorvegliante non vedono una giornata vecchia con incassato 0 e PENDING riaperta (provato in locale: giornata riaperta con un ordine consegnato da versare di 20,50 euro, guardia a 0 giornate aperte); riquadra-casse rifà solo oggi e ieri. Finestra breve: incasso alle 23:58 e consegna alle 00:02, fino al ricalcolo delle 01:15 UTC la cancellazione immediata dall admin non vede niente. Un altro caso sulla parte (b) è riservato e sta solo nel messaggio alla regista. NATA_ROTTA: rompe_altro, minore. La «giornata versata a metà»: dopo un versamento parziale la giornata si riapre giustamente, ma collected_cents conta anche l incasso già versato e la guardia scrive al fattorino «risultano 41,00 euro non ancora versati» quando ne restano 20,50 (provato in locale: guardia 4100 centesimi, da versare 2050). La riapertura (grilletto, ramo ELSE della conferma, riapertura una tantum) mette a NULL remitted_by e remitted_at di una rimessa vera già fatta: si perde chi ha ricevuto i contanti e quando, il principio che la 383 protegge (provato in locale). Da lettura: la 381 si dichiara rieseguibile, ma rieseguita dopo la 383 il CREATE OR REPLACE rimette il suo corpo senza versata_ora e annulla in silenzio R14-006. Nessuno stallo con due sessioni vere; flussi caldi senza permessi negati; la rotta ricalcola in try/catch dopo la rpc. SQL rls 63 su 63, vitest 235 prove sui file della cassa, tsc 0. Prove rimesse in più: codice: uscita 0 (timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 905ae0ce0e9c6ab61ba7274442e79fe7c70762a8^ --file app/api/admin/cod-remittance/route.ts --prove tests/unit/riparazione-r14-rimessa.test.ts --json   (checkout 905ae0ce0e9c6ab61ba7274442e79fe7c70762a8))."
+  },
+  {
+   "id": "R14-005",
+   "chiave": "rls-database|chi ha fatto anche un solo ordine non riesce a cancellare il proprio account",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base cc4c2603144e44534596ebe1c9293236fa625ba5^ --file migrations/382_chi_ha_ordinato_puo_cancellare_l_account.sql --prove tests/sql/rls/riparazione-r14-cancellazione.test.sql --sql k08_r14_005_0_rimessa --json   (checkout cc4c2603144e44534596ebe1c9293236fa625ba5)"
+   },
+   "nota": "Due revisori qa, una lente ciascuno. CHIUDE_TUTTA: parziale. La 382 regge sulla causa del registro (guardiano degli ordini della 179): un cliente con 7 ordini, uno per stato, e righe in circa 30 tabelle collegate, cancellato come supabase_auth_admin senza claims, passa con la 382 ed è respinto senza («orders: modifica di un campo protetto»). Tolta la 382 la prova del riparatore è rossa 3 su 12 per il motivo giusto. Resta un altro blocco sullo stesso percorso, già presente alla base: lib/account/cancellazione.ts:195 pulisce contact_messages con email=[eliminato] e message=[rimosso] (9 caratteri), respinti dai vincoli di migrations/028_contact_messages.sql (formato email, minimo 10). cancellaAccount si ferma prima di deleteUser: un cliente con ordini che ha scritto al modulo contatti da loggato non si cancella mai (provato in locale, errore 23514). NATA_ROTTA: rompe_altro, minore. Il varco della 382 regge (grilletto SECURITY DEFINER a profondità 2 lanciato da un negozio, user_id a NULL col profilo vivo, verso un altro cliente, insieme al totale: tutti respinti 42501). Ma la 382 rende raggiungibile un ordine ATTIVO senza cliente, e lì si perdono avvisi al negozio: migrations/321_l_ordine_pronto_dice_la_fascia.sql:69 (notify_buyer_on_order_status, ramo ASSIGNED: l avviso al cliente fallisce su notifications.user_id NOT NULL e nello stesso blocco EXCEPTION cade l avviso «Rider assegnato» al negozio; provato: 0 avvisi contro 1 del controllo) e migrations/360_l_amministratore_chiude_la_consegna.sql:129 (admin_chiudi_consegna: INSERT a due righe che cade tutto; ok true, DELIVERED, 0 avvisi al negozio; provato). Da lettura: lib/stripe/webhook/rimborsi.ts:336 getUserById(NULL) dà 500 al primo tentativo di un rimborso fatto dal cruscotto Stripe. Ricostruzione con 197 migrazioni senza errori, tests/sql/rls tutto verde."
+  },
+  {
+   "id": "R14-009",
+   "chiave": "api-backend|il conteggio dei promemoria «inviati» include carrelli segnati senza nessuna email",
+   "verdetto": "parziale",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 4cbcf09df264b6069479a3e3c64327f633340bca^ --file app/api/cron/abandoned-carts/route.ts,lib/carrelli-abbandonati.ts --prove tests/unit/riparazione-r14-carrelli-senza-email.test.ts --json   (checkout 4cbcf09df264b6069479a3e3c64327f633340bca)"
+   },
+   "nota": "Parziale per il riparatore: giudicata solo con la prova rimessa."
+  },
+  {
+   "id": "R14-017",
+   "chiave": "api-backend|se l'amministratore apre i documenti di un fattorino con un codice storto, la rotta risponde con un guasto invece di dire che il codice non è valido",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 5722621ed59e1b79f70fde9c78c85035d4bf6a75^ --file app/api/kyc/documenti-rider/[id]/route.ts,app/api/admin/users/[id]/kyc/route.ts,app/api/ai/reviews-summary/route.ts --prove tests/unit/riparazione-r14-codice-storto.test.ts --json   (checkout 5722621ed59e1b79f70fde9c78c85035d4bf6a75)"
+   },
+   "nota": "Minore fuori dai file che legano: solo prova rimessa (campione)."
+  },
+  {
+   "id": "R14-020",
+   "chiave": "api-backend|gli avvisi «incasso in contanti che non quadra» e «incasso senza foto» si scrivono senza guardare se sono partiti",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 4711b9701bedf1ffd6b23f62324ea94136eb8973^ --file app/api/rider/cash-confirm/route.ts --prove tests/unit/riparazione-r14-incasso-avvisi.test.ts --json   (checkout 4711b9701bedf1ffd6b23f62324ea94136eb8973)"
+   },
+   "nota": "Minore fuori dai file che legano: solo prova rimessa (campione)."
+  },
+  {
+   "id": "R14-022",
+   "chiave": "api-backend|due invii uguali all'assistenza nello stesso istante creano due messaggi e due avvisi",
+   "verdetto": "parziale",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base de0f54b18148e49437fe06523ae71c83c97b0cba^ --file app/api/support/conversation/route.ts --prove tests/unit/riparazione-r14-assistenza-doppio-invio.test.ts --json   (checkout de0f54b18148e49437fe06523ae71c83c97b0cba)"
+   },
+   "nota": "Parziale per il riparatore: giudicata solo con la prova rimessa. Prove rimesse in più: intera: uscita 0 (timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base ee68faa3b895ff0405c1002c3dd7970e101c258e^ --file app/api/support/conversation/route.ts --prove tests/unit/riparazione-r14-assistenza-doppio-invio.test.ts --json   (checkout de0f54b18148e49437fe06523ae71c83c97b0cba))."
+  },
+  {
+   "id": "R14-025",
+   "chiave": "api-backend|la pagina d'errore dice «abbiamo registrato il problema», ma un errore nel telefono del cliente non lo registra nessuno",
+   "verdetto": "parziale",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base f19f53cd84a5a9bf99aa9d53cd0b6f51fe573c05^ --file app/error.tsx,app/admin/error.tsx,lib/analytics/sentry.tsx --prove tests/unit/riparazione-r14-pagina-errore-registra.test.ts --json   (checkout f19f53cd84a5a9bf99aa9d53cd0b6f51fe573c05)"
+   },
+   "nota": "Parziale per il riparatore: giudicata solo con la prova rimessa."
+  },
+  {
+   "id": "R15-005",
+   "chiave": "frontend-ux|le pagine di prodotti, negozi e categorie che non esistono rispondono «tutto ok» invece di «non trovato»",
+   "verdetto": "parziale",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base b66f29ddf99487cd4161aec600c25fa55ede7201^ --file app/not-found.tsx --prove tests/unit/riparazione-r15-la-pagina-non-trovata-non-si-presenta-come-la-home.test.ts --json   (checkout b66f29ddf99487cd4161aec600c25fa55ede7201)"
+   },
+   "nota": "Parziale per il riparatore: giudicata solo con la prova rimessa."
+  },
+  {
+   "id": "R15-006",
+   "chiave": "immagini-media|quattro foto sotto la piega vengono chieste come «urgenti» su ogni home",
+   "verdetto": "parziale",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base fc54d5a60151f01fa170f4c68cbaf221fa34e589^ --file components/ProductGrid.tsx,app/promozioni/page.tsx --prove tests/unit/riparazione-r15-foto-urgenti-solo-sopra-la-piega.test.ts --json   (checkout fc54d5a60151f01fa170f4c68cbaf221fa34e589)"
+   },
+   "nota": "Parziale per il riparatore: giudicata solo con la prova rimessa."
+  },
+  {
+   "id": "R15-007",
+   "chiave": "immagini-media|se l'abbonamento supabase scade, le foto del sito tornano rotte e nessun controllo se ne accorge",
+   "verdetto": "parziale",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base b2c82d7cff7063161a791a7046f043f065923ede^ --file lib/image-url.ts --prove tests/unit/riparazione-r15-foto-senza-trasformazione.test.ts --json   (checkout b2c82d7cff7063161a791a7046f043f065923ede)"
+   },
+   "nota": "Parziale per il riparatore: giudicata solo con la prova rimessa."
+  },
+  {
+   "id": "R15-008",
+   "chiave": "layout-responsive|col testo ingrandito al massimo sul telefono, le pagine pubbliche scorrono di lato per colpa del piè di pagina",
+   "verdetto": "parziale",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base f007952cf4d139c58ca9ab40e6e5f55550746eb2^ --file components/Footer.tsx,app/lavora-con-noi/page.tsx,app/returns/page.tsx,app/faq/page.tsx --prove tests/unit/riparazione-r15-col-testo-grande-la-pagina-non-scorre-di-lato.test.tsx --json   (checkout f007952cf4d139c58ca9ab40e6e5f55550746eb2)"
+   },
+   "nota": "Parziale per il riparatore: giudicata solo con la prova rimessa."
+  },
+  {
+   "id": "R15-009",
+   "chiave": "microcopy|la pagina dei più recensiti presenta 40 prodotti come «scelti dai clienti» anche quando nessuno ha una recensione",
+   "verdetto": "parziale",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base e92ee472d61dfc4cc7fd90e973f68f481327a926^ --file components/ProductGrid.tsx,app/piu-venduti/page.tsx --prove tests/unit/riparazione-r15-piu-recensiti-solo-recensiti.test.ts --json   (checkout e92ee472d61dfc4cc7fd90e973f68f481327a926)"
+   },
+   "nota": "Parziale per il riparatore: giudicata solo con la prova rimessa."
+  },
+  {
+   "id": "R15-011",
+   "chiave": "qa-flussi|la pagina novità mostra tutto il catalogo, anche un prodotto di tre mesi fa, e il numero in alto conta solo i prodotti già caricati",
+   "verdetto": "parziale",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 715b96dcc02d71222d2c69a973797e2aa78d4b0d^ --file lib/queries/griglia-prodotti.ts,components/ProductGrid.tsx,app/novita/page.tsx --prove tests/unit/riparazione-r15-novita-finestra.test.ts --json   (checkout 715b96dcc02d71222d2c69a973797e2aa78d4b0d)"
+   },
+   "nota": "Parziale per il riparatore: giudicata solo con la prova rimessa. Prove rimesse in più: std: uscita 3 (timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 715b96dcc02d71222d2c69a973797e2aa78d4b0d^ --file lib/queries/griglia-prodotti.ts,components/ProductGrid.tsx,app/novita/page.tsx --prove tests/unit/riparazione-r15-novita-finestra.test.ts,tests/unit/riparazione-r15-novita-conteggio.test.ts --json   (checkout 715b96dcc02d71222d2c69a973797e2aa78d4b0d))."
+  },
+  {
+   "id": "R15-012",
+   "chiave": "qa-flussi|il pannello della home suggerisce ancora «i più amati / prodotti che vanno forte»",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 77822274e34cec14e69685249a7374c029c0a3f3^ --file components/admin/home/HomeSectionConfigForm.tsx --prove tests/unit/riparazione-r15-pannello-home-segnaposto.test.ts --json   (checkout 77822274e34cec14e69685249a7374c029c0a3f3)"
+   },
+   "nota": "Minore fuori dai file che legano: solo prova rimessa (campione)."
+  },
+  {
+   "id": "R15-013",
+   "chiave": "qa-flussi|con tre tocchi veloci sul cuore e una rete che consegna le richieste in disordine, il preferito resta tolto anche se l'ultimo tocco era «aggiungi»",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base d1b41e44df2c65f093c3b532075e86e7a66d024f^ --file components/hooks/useFavorites.ts,lib/preferiti/tocco-del-cuore.ts --prove tests/unit/riparazione-r15-il-cuore-in-fila.test.tsx --json   (checkout d1b41e44df2c65f093c3b532075e86e7a66d024f)"
+   },
+   "nota": "Minore fuori dai file che legano: solo prova rimessa (campione)."
+  },
+  {
+   "id": "R15-014",
+   "chiave": "qa-flussi|loadingstate annuncia solo il suo aria-label in una regione viva",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 5383b34820dea7cfcc43d0cec9a52c446d9a3ce2^ --file components/ui/LoadingState.tsx --prove tests/unit/riparazione-r15-loadingstate.test.tsx --json   (checkout 5383b34820dea7cfcc43d0cec9a52c446d9a3ce2)"
+   },
+   "nota": "Minore fuori dai file che legano: solo prova rimessa (campione)."
+  },
+  {
+   "id": "R15-015",
+   "chiave": "qa-flussi|la consegna veloce si vende a tutti insieme anche con un solo fattorino: nessuno conta quante veloci ha già in mano",
+   "verdetto": "parziale",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 14e7c7233a3c05156910400e04e3d4d458daef65^ --file lib/ordini/consegna-veloce.ts --prove tests/unit/riparazione-r15-la-veloce-conta-quelle-in-mano.test.ts --json   (checkout 14e7c7233a3c05156910400e04e3d4d458daef65)"
+   },
+   "nota": "Parziale per il riparatore: giudicata solo con la prova rimessa."
+  },
+  {
+   "id": "R16-010",
+   "chiave": "qa-flussi|indirizzo, cap e città del profilo non si correggono più",
+   "verdetto": "parziale",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 4584606f22a9be6f9e38eac12fc9e8363fdbf32a^ --file app/sell/page.tsx --prove tests/unit/riparazione-r16-residenza-dal-profilo.test.tsx --json   (checkout 4584606f22a9be6f9e38eac12fc9e8363fdbf32a)"
+   },
+   "nota": "Parziale per il riparatore: giudicata solo con la prova rimessa."
+  },
+  {
+   "id": "R16-014",
+   "chiave": "qa-flussi|lo specchio activity_events chiama «azione admin» anche le azioni degli utenti",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 8d6ec52fad3c0a292951edadd230f91c642b27a4^ --file lib/audit.ts --prove tests/unit/riparazione-r16-specchio-audit.test.ts --json   (checkout 8d6ec52fad3c0a292951edadd230f91c642b27a4)"
+   },
+   "nota": "Minore fuori dai file che legano: solo prova rimessa (campione)."
+  },
+  {
+   "id": "R16-015",
+   "chiave": "qa-flussi|nel riepilogo dell'ordine la consegna ricavata fa sempre «torna» il totale",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 97dcba9356cd945811cc601c4ac9753357a11a3d^ --file lib/ordini/riepilogo-ordine.ts --prove tests/unit/riparazione-r16-riepilogo-consegna.test.ts,tests/unit/minori-s02-riepilogo.test.ts --json   (checkout 97dcba9356cd945811cc601c4ac9753357a11a3d)"
+   },
+   "nota": "Minore fuori dai file che legano: solo prova rimessa (campione)."
+  },
+  {
+   "id": "R16-004",
+   "chiave": "frontend-ux|il salvataggio fa due passi: se una variante è cambiata, nome e prezzo del prodotto restano salvati e le varianti no",
+   "verdetto": "parziale",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 66e466b9320b31e283653addaafd1e0825901da5^ --file app/api/admin/products/route.ts,app/seller/products/[id]/edit/page.tsx --prove tests/unit/riparazione-r16-salvataggio-tutto-o-niente.test.tsx --json   (checkout 66e466b9320b31e283653addaafd1e0825901da5)"
+   },
+   "nota": "Parziale per il riparatore: giudicata solo con la prova rimessa. Prove rimesse in più: std: uscita 3 (timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 0628993d24e87d455ab2cab2afce4bf339f92830^ --file migrations/405_prodotto_e_varianti_si_salvano_insieme.sql --prove tests/sql/rls/riparazione-r16-salvataggio-unico.test.sql --sql k08_r16_004_0_rimessa --json   (checkout 0628993d24e87d455ab2cab2afce4bf339f92830))."
+  },
+  {
+   "id": "R16-003",
+   "chiave": "deploy-sre|il cancello delle migrazioni promette di confrontare il contenuto ma confronta solo i nomi, e registra in un passo separato",
+   "verdetto": "parziale",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 30486fd5cee15b7f927254ae857ea4543a9a4160^ --file scripts/check-migration-drift.mjs,scripts/applica-migrazioni-mancanti.sh --prove tests/unit/riparazione-r16-deriva-contenuto.test.ts --json   (checkout 30486fd5cee15b7f927254ae857ea4543a9a4160)"
+   },
+   "nota": "Parziale per il riparatore: giudicata solo con la prova rimessa."
+  },
+  {
+   "id": "R16-016",
+   "chiave": "qa-flussi|l'etichetta da attaccare alla busta non dice quando consegnare: né «veloce» né la fascia",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base de11b93a4439f0ac08b70e0b847772efe9a41d12^ --file lib/shipping-etichetta/label.ts,app/api/seller/orders/[id]/label/route.ts --prove tests/unit/riparazione-r16-etichetta-consegna.test.ts --json   (checkout de11b93a4439f0ac08b70e0b847772efe9a41d12)"
+   },
+   "nota": "Minore fuori dai file che legano: solo prova rimessa (campione)."
+  }
+ ],
+ "campione": {},
+ "da_giudicare": {
+  "R14-001": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base f4ffa34fb7cde64c302de3ac296f49fc44e92960^ --file app/admin/users/page.tsx --prove tests/unit/riparazione-r14-ricerca-utenti.test.ts --json   (checkout f4ffa34fb7cde64c302de3ac296f49fc44e92960)"
+   }
+  },
+  "R14-004": {
+   "esito": "parziale",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 34608b208da58db9054af66ebe8ee0ceed9e8fcf^ --file app/api/cron/operational-alerts/route.ts --prove tests/unit/riparazione-r14-allarmi-ordini.test.ts --json   (checkout 34608b208da58db9054af66ebe8ee0ceed9e8fcf)"
+   }
+  },
+  "R14-006": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 288f46375fd2caf01125d54ee7ee182ca0723a1a^ --file app/admin/cod-remittance/page.tsx,app/api/admin/cod-remittance/route.ts --prove tests/unit/riparazione-r14-doppia-rimessa.test.ts --json   (checkout 288f46375fd2caf01125d54ee7ee182ca0723a1a) ; timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 288f46375fd2caf01125d54ee7ee182ca0723a1a^ --file migrations/383_la_seconda_conferma_della_rimessa_non_e_una_rimessa.sql --prove tests/sql/rls/riparazione-r14-doppia-rimessa.test.sql --sql k08_r14_006_1_rimessa --json   (checkout 288f46375fd2caf01125d54ee7ee182ca0723a1a)"
+   }
+  },
+  "R14-007": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 214adc53de822f0007aa569c4f92b7d5981ca3fa^ --file lib/account/cancellazione.ts,app/api/admin/users/[id]/delete/route.ts --prove tests/unit/riparazione-r14-cancella-utente.test.ts,tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json   (checkout 214adc53de822f0007aa569c4f92b7d5981ca3fa)"
+   }
+  },
+  "R14-008": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 5b8c0b71561f08df04380cd50e8ff1bf552a9e15^ --file app/api/admin/users/[id]/delete/route.ts --prove tests/unit/riparazione-r14-cancella-utente.test.ts --json   (checkout 5b8c0b71561f08df04380cd50e8ff1bf552a9e15)"
+   }
+  },
+  "R14-010": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 76b57d9fed060a8b3a391b7b6d2ff6d10cffe8e1^ --file app/api/cron/expire-stale-orders/route.ts --prove tests/unit/riparazione-r14-scadenze.test.ts --json   (checkout 76b57d9fed060a8b3a391b7b6d2ff6d10cffe8e1)"
+   }
+  },
+  "R14-012": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 6b35624bdff5aeb1ee006162d69e2a829d64cdfa^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json   (checkout 6b35624bdff5aeb1ee006162d69e2a829d64cdfa)"
+   }
+  },
+  "R14-013": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 5e2aa09fef112bdbf037561a262b6c0c99a2823f^ --file app/api/cron/process-deletions/route.ts,lib/privacy/avvisi-a-chi-aspetta.ts --prove tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json   (checkout 5e2aa09fef112bdbf037561a262b6c0c99a2823f)"
+   }
+  },
+  "R14-014": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base fdd02e1b87da095e94fb013c1901ce9f2e224f41^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json   (checkout fdd02e1b87da095e94fb013c1901ce9f2e224f41)"
+   }
+  },
+  "R14-015": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 214adc53de822f0007aa569c4f92b7d5981ca3fa^ --file lib/account/cancellazione.ts --prove tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json   (checkout 214adc53de822f0007aa569c4f92b7d5981ca3fa)"
+   }
+  },
+  "R14-019": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base ef3e59716d0ab413578e82b510f37c39478693b5^ --file app/api/returns/[id]/decide/route.ts --prove tests/unit/riparazione-r14-reso-ritirato.test.ts --json   (checkout ef3e59716d0ab413578e82b510f37c39478693b5)"
+   }
+  },
+  "R14-023": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base f3b50ba93b7f361d0aebc12c70f64031841f4a5b^ --file migrations/384_un_accesso_lascia_una_riga_sola.sql --prove tests/sql/rls/riparazione-r14-accesso-doppio.test.sql --sql k08_r14_023_0_rimessa --json   (checkout f3b50ba93b7f361d0aebc12c70f64031841f4a5b)"
+   },
+   "nota": "Prove rimesse in più: codice: uscita 1 (timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base f3b50ba93b7f361d0aebc12c70f64031841f4a5b^ --file lib/activity.ts --prove tests/unit/riparazione-r14-accesso-doppio.test.ts --json   (checkout f3b50ba93b7f361d0aebc12c70f64031841f4a5b))."
+  },
+  "R14-024": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base deccd9f87bd2acf4a427346a57dfe703358ff6c1^ --file app/api/track/route.ts,lib/consent.ts --prove tests/unit/riparazione-r14-visite-corpo-rotto.test.ts --json   (checkout deccd9f87bd2acf4a427346a57dfe703358ff6c1)"
+   }
+  },
+  "R15-001": {
+   "esito": "parziale",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base bb56980b3d39809655ec2d20aff88e8a31fd60a1^ --file components/CategoryShowcase.tsx --prove tests/unit/riparazione-r15-la-foto-rotta-si-dice-una-volta.test.tsx --json   (checkout bb56980b3d39809655ec2d20aff88e8a31fd60a1)"
+   },
+   "nota": "Prove rimesse in più: intera: uscita 0 (timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 116e2134aa54021973cfc2252b11851d0c007996^ --file components/CategoryShowcase.tsx --prove tests/unit/riparazione-r15-la-foto-rotta-si-dice-una-volta.test.tsx,tests/unit/riparazione-r15-la-foto-rotta-della-tessera-si-dice.test.tsx --json   (checkout bb56980b3d39809655ec2d20aff88e8a31fd60a1))."
+  },
+  "R15-002": {
+   "esito": "parziale",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base bb848e563a72757f142702ffd395753b80c3d961 --file components/Footer.tsx --prove tests/unit/riparazione-r15-il-piede-che-sa-le-piene-non-ripiega-sulla-riserva.test.tsx --json   (checkout 3b8a85a628a1ba2d4339ccb9dc4fb17fef08a66a)"
+   }
+  },
+  "R15-003": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 91f5ecfa306030b05a789075631400c6ac0e48a9^ --file scripts/backup-db.sh --prove tests/unit/riparazione-r15-backup-storico.test.ts --json   (checkout 91f5ecfa306030b05a789075631400c6ac0e48a9)"
+   }
+  },
+  "R15-004": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base c3e076df7e6b4c3db43afc6e3e069b3bd7d5e94a^ --file scripts/backup-db.sh --prove tests/unit/riparazione-r15-backup-secchio-vuoto.test.ts --json   (checkout c3e076df7e6b4c3db43afc6e3e069b3bd7d5e94a)"
+   }
+  },
+  "R15-010": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 37e5e07c5fcf5db26d12ed9d62871c6a79879f76^ --file app/categorie/page.tsx,app/category/[slug]/page.tsx --prove tests/unit/riparazione-r15-l-indice-delle-categorie-mostra-solo-le-piene.test.tsx --json   (checkout 37e5e07c5fcf5db26d12ed9d62871c6a79879f76)"
+   }
+  },
+  "R15-017": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base a6227b42938e4e2d91007b77027d9fd50ecb91d1^ --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r15-commento-categoryids.test.ts --json   (checkout a6227b42938e4e2d91007b77027d9fd50ecb91d1)"
+   }
+  },
+  "R15-019": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 9bbd606a7492328c797235d68080d478673947a7^ --file app/novita/page.tsx,app/piu-venduti/page.tsx,app/regali/RegaliClient.tsx --prove tests/unit/riparazione-r15-vuoto-con-via-d-uscita.test.ts --json   (checkout 9bbd606a7492328c797235d68080d478673947a7)"
+   }
+  },
+  "R16-009": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 6935611b4f4e9886db95e112f2d34102b9a5f981^ --file components/rider/SOSButton.tsx --prove tests/unit/riparazione-r16-sos-posizione.test.tsx --json   (checkout 6935611b4f4e9886db95e112f2d34102b9a5f981)"
+   }
+  },
+  "R16-018": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 7f1eb2a733ff1ebd08cc9495d796582da6d609db^ --file migrations/400_il_negozio_sospeso_non_si_rimette_in_coda.sql --prove tests/sql/rls/riparazione-r16-negozio-sospeso.test.sql --sql k08_r16_018_0_rimessa --json   (checkout 7f1eb2a733ff1ebd08cc9495d796582da6d609db)"
+   }
+  },
+  "R16-011": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base c6e09c0ffb0dc006f46a45739dd15ebd37a42882^ --file app/seller/stories/page.tsx,components/StoryViewer.tsx --prove tests/unit/riparazione-r16-storie-link.test.tsx --json   (checkout c6e09c0ffb0dc006f46a45739dd15ebd37a42882) ; timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base c6e09c0ffb0dc006f46a45739dd15ebd37a42882^ --file migrations/403_il_link_delle_storie_porta_solo_dentro_mycity.sql --prove tests/sql/rls/riparazione-r16-link-storie.test.sql --sql k08_r16_011_1_rimessa --json   (checkout c6e09c0ffb0dc006f46a45739dd15ebd37a42882)"
+   },
+   "nota": "Prove rimesse in più: sql-corretta: uscita 0 (timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base c6e09c0ffb0dc006f46a45739dd15ebd37a42882^ --file migrations/403_il_link_delle_storie_porta_solo_dentro_mycity.sql --prove tests/sql/rls/riparazione-r16-link-storie.test.sql --sql k08_r16_011_corr_rimessa --json   (checkout 20187e40f17913d6158c0c73f98c7ab67e1b39c0))."
+  },
+  "R16-019": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base d5441d45739688a8e232a7506a7033d29168005e^ --file migrations/404_le_storie_le_scrive_solo_un_negozio_approvato.sql --prove tests/sql/rls/riparazione-r16-storie-solo-negozi.test.sql --sql k08_r16_019_0_rimessa --json   (checkout d5441d45739688a8e232a7506a7033d29168005e)"
+   }
+  },
+  "R16-012": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base b11990d5fb9081a2470d73cf8840653f2cbd7ea4^ --file app/seller/stories/page.tsx --prove tests/unit/riparazione-r16-storie-doppio-clic.test.tsx --json   (checkout b11990d5fb9081a2470d73cf8840653f2cbd7ea4)"
+   }
+  },
+  "R16-013": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base c73f3d4378ac487651b95829fe2c8d44760cda3c^ --file app/seller/stories/page.tsx --prove tests/unit/riparazione-r16-storie-scadenza.test.tsx --json   (checkout c73f3d4378ac487651b95829fe2c8d44760cda3c)"
+   }
+  },
+  "R16-007": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 0b1f3e32d4c74dec879fe0cd32bbcbda1eb3cbb2^ --file app/seller/stories/page.tsx --prove tests/unit/riparazione-r16-storie-testi.test.tsx --json   (checkout 0b1f3e32d4c74dec879fe0cd32bbcbda1eb3cbb2)"
+   }
+  },
+  "R16-005": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 0d427245dbe431d0585adb557724f65ce6bbef1b^ --file lib/products/schema.ts --prove tests/unit/riparazione-r16-condizione-usata.test.ts --json   (checkout 0d427245dbe431d0585adb557724f65ce6bbef1b)"
+   },
+   "nota": "Prove rimesse in più: intera: uscita 0 (timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base c4015952e1fa945f300e153794286e873deedd7c^ --file lib/products/schema.ts --prove tests/unit/riparazione-r16-condizione-usata.test.ts --json   (checkout 0d427245dbe431d0585adb557724f65ce6bbef1b))."
+  },
+  "R16-020": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 27b1a9ce5d1becfaadf109a6bdf5f068c9ada809^ --file app/seller/products/[id]/edit/page.tsx --prove tests/unit/riparazione-r16-modifica-lettura-caduta.test.tsx --json   (checkout 27b1a9ce5d1becfaadf109a6bdf5f068c9ada809)"
+   }
+  },
+  "R16-021": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 0834f8e1e16c1ede8420fb497cadb07d2d68c640^ --file app/seller/products/new/page.tsx --prove tests/unit/riparazione-r16-nuovo-prodotto-categorie.test.tsx --json   (checkout 0834f8e1e16c1ede8420fb497cadb07d2d68c640)"
+   }
+  },
+  "R16-008": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 0270677f47fb1e7648e3d56c1ff4a3390b98a26a^ --file lib/format.ts --prove tests/unit/riparazione-r16-ore-di-roma.test.ts --json   (checkout 0270677f47fb1e7648e3d56c1ff4a3390b98a26a)"
+   }
+  },
+  "R16-002": {
+   "esito": "gia_riparato_prima"
+  },
+  "R16-006": {
+   "esito": "riparato",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base bca20010f7eda3c30727656534ecad274163fc60^ --file app/seller/customers/page.tsx --prove tests/unit/riparazione-r16-clienti-schede-telefono.test.ts --json   (checkout bca20010f7eda3c30727656534ecad274163fc60)"
+   },
+   "nota": "Prove rimesse in più: intera: uscita 0 (timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 4419056ee5a7c073d10e0dd5bd8b8983d9b3f0f3^ --file app/seller/customers/page.tsx --prove tests/unit/riparazione-r16-clienti-schede-telefono.test.ts --json   (checkout bca20010f7eda3c30727656534ecad274163fc60))."
+  }
+ }
+}
