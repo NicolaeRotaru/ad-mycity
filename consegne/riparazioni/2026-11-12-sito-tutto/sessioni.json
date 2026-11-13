@@ -93,6 +93,43 @@
    "onda": 1,
    "partenza": "2026-11-12 15:38",
    "finita": true
+  },
+  "R13": {
+   "id": "session_015BmpnXJyvv3uj3gkCHeSeG",
+   "ramo": "claude/magical-hamilton-xouwr8-m13",
+   "onda": 2,
+   "partenza": "2026-11-13 05:50",
+   "nota": "ultracode acceso da Nicola dall'app alle 05:53; piano approvato da Nicola in chat («scelgo la proposta A e approvato il resto»)"
+  },
+  "R14": {
+   "id": "session_015BmpnX1v15gDLe7qUkJjRN",
+   "ramo": "claude/magical-hamilton-xouwr8-m14",
+   "onda": 2,
+   "partenza": "2026-11-13 05:56"
+  },
+  "R15": {
+   "id": "session_015BmpnXJ2sx8pKEKoQsaNek",
+   "ramo": "claude/magical-hamilton-xouwr8-m15",
+   "onda": 2,
+   "partenza": "2026-11-13 05:57"
+  },
+  "R16": {
+   "id": "session_015BmpnWfL1AGuka9KMWGpdY",
+   "ramo": "claude/magical-hamilton-xouwr8-m16",
+   "onda": 2,
+   "partenza": "2026-11-13 05:58"
+  },
+  "R17": {
+   "id": "session_015BmpnYSPCKUrojLLnhjvh5",
+   "ramo": "claude/magical-hamilton-xouwr8-m17",
+   "onda": 2,
+   "partenza": "2026-11-13 06:00"
+  },
+  "R18": {
+   "id": "session_015BmpnWBsmWgHtzK8nkMZuU",
+   "ramo": "claude/magical-hamilton-xouwr8-m18",
+   "onda": 2,
+   "partenza": "2026-11-13 06:02"
   }
  },
  "collaudatori": {

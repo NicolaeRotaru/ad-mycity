@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-13 05:52
+aggiornato: 2026-11-13 06:06
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,6 +28,8 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 13/11 entro 06:05 | chat «Ondata 2» | «accendi ultracode in ogni sessione dove si lavora con il codice». Da una sessione non si accende: lo accende Nicola dall'app, sessione per sessione. R13 l'ha acceso lui alle 05:53 |
+| 13/11 05:56 | dentro R13 | «scelgo la proposta A e approvato il resto»: Nicola ha risposto a una domanda di R13 e ne ha approvato il piano. Le figlie non dovevano chiedere a lui: la regista l'ha ricordato a tutte |
 | 13/11 entro 05:20 | chat «Ondata 2» | «Allarga la a»: nell'onda 1 l'eccezione firmata copre anche 6 errori che non sono prove comuni. Due sono sul ramo di R08 e fermavano 13 chiusure. Quattro sono collaudi di K03 provati a mano sul database. Dall'onda 2 la regola è stretta |
 | 13/11 entro 05:15 | chat «Ondata 2» | «parti con l'ondata 2», nella sessione nuova «Ondata 2». Ha approvato il piano della regista: prima l'eccezione «a» nel programma e il registro dell'onda 1, poi la divisione e i riparatori |
 | 13/11 04:33 | GitHub | Ha unito la richiesta del sito mycity#288, l'onda 1, con «Create a merge commit» (`a19ff89`). Vercel pubblica da solo. I controlli sulla produzione li fa la terza chat, su accordo con l'AD delle 04:37 |
@@ -64,7 +66,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 ## Chi fa cosa, adesso
 | Sessione | Lavoro | File suoi |
 |---|---|---|
-| regista dell'onda 2 (`…Zcs1Xv`, dal 13/11 alle 05:20) | Alle 05:49 Nicola l'ha passata in modalità Auto: adesso apre i riparatori. Onda 2 del risolutore del sito. Prima scrive nel programma l'eccezione «a» per l'onda 1 e chiude nel registro i difetti dell'onda 1. Poi divide l'onda 2 e apre i riparatori dentro di sé, col ruolo in testa al titolo. Le fermate vanno all'AD, quinta chat | `consegne/riparazioni/2026-11-12-sito-tutto/`, `cervello/riparazione-sessioni.mjs` (l'eccezione), ramo `claude/magical-hamilton-xouwr8` su ad-mycity e sul sito |
+| regista dell'onda 2 (`…Zcs1Xv`, dal 13/11 alle 05:20) | Alle 05:49 Nicola l'ha passata in modalità Auto. Aperti R13-R18 alle 05:50-06:02, R19-R24 in apertura. Ultracode lo accende Nicola dall'app. Onda 2 del risolutore del sito. Prima scrive nel programma l'eccezione «a» per l'onda 1 e chiude nel registro i difetti dell'onda 1. Poi divide l'onda 2 e apre i riparatori dentro di sé, col ruolo in testa al titolo. Le fermate vanno all'AD, quinta chat | `consegne/riparazioni/2026-11-12-sito-tutto/`, `cervello/riparazione-sessioni.mjs` (l'eccezione), ramo `claude/magical-hamilton-xouwr8` su ad-mycity e sul sito |
 | AD | parla con Nicola, tiene la memoria e la bacheca | `MyCity-Vault/90-Memoria-AI/`, regole di scrittura |
 | AD, quarta chat | 13/11 03:38: ripara il rosso della CI dentro la #949. Il commit `3a5778e` di Nicola (card 236) ha tolto il permesso del database, ma in `cervello/permessi-debito.json` era rimasta la sua scusa, e la prova `permessi-di-guardia` la boccia. Cade anche `main`, non solo la #948. Quando la #949 è unita, la #948 si rilancia | `cervello/permessi-debito.json` |
 | regista (`…XsL6Y7`) | ferma a 450 mila token: passaggio scritto in fondo a `consegne/riparazioni/2026-11-12-sito-tutto/REGIA.md` (13/11 01:35). L'onda 2 la guida una regista nuova, aperta dall'AD al «via la seconda» | la campagna del 12/11, la skill `riparazione` |
