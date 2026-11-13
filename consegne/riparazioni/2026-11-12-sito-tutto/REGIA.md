@@ -55,8 +55,8 @@ Che le figlie nascano con ultracode: si controlla con get_session sulla prima, p
 **Da fare, in ordine.**
 1. F1: aprire R13-R24 (sessioni.json), approvare i piani, controllo a 10 minuti, catena di sorveglianza a 30 minuti.
 2. F2: collaudatori K05-K08, in catena. F3: unione, prove sull'albero unito, C02, PR in bozza sul sito, fermata 3.
-3. Registro onda 1: `applica --git --scrivi`, poi `chiudi-sito.mjs <C>/frammenti --applica --pr 288 --commit a19ff892`.
-   Si fa dopo il collaudo dell'eccezione.
+3. ✅ Registro onda 1, 13/11 06:06: `applica --git --scrivi` e `chiudi-sito` con la #288. Sono 115 chiusure, e `conti` è verde.
+   Tre prove rilanciate verdi su `a19ff89`: R03-006, R01-010 e R12-014. L'eccezione regge al secondo collaudo (`643ab2a`).
 4. Onda 3: `dividi --base <SHA integrazione onda 2> --ultima`, con le voci da rifare dell'onda 2.
 
 **I controllori.** Le regole stanno in `cervello/riparazione/LEGGIMI-controllore.md`. I referti vanno in

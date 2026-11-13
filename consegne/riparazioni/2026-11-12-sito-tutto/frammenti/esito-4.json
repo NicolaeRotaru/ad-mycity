@@ -1,0 +1,48 @@
+{
+  "corsia": 4,
+  "territorio": "R04",
+  "difetti": [
+    {
+      "chiave": "ai-endpoints|il modello ai che legge le foto e scrive le schede si spegne il 30 novembre: dodici funzioni smetteranno di rispondere",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-modello-ritirato.test.ts",
+      "non_vacuita": "rimessa a mano (prova-rimessa.mjs bloccato dal classificatore): git checkout HEAD^ -- lib/ai/client.ts lib/ai/run.ts; npx vitest run tests/unit/riparazione-r04-modello-ritirato.test.ts -> 2 rosse; ripristino -> verde · revisione 0cb6eeb69: rimessa a mano sul commit di revisione -> rossa, ripristino -> verde → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base b51060dd^ --file lib/ai/client.ts,lib/ai/run.ts --prove tests/unit/riparazione-r04-modello-ritirato.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "MODELLO_PREDEFINITO passa da claude-sonnet-4-5 (spento il 30/11) a claude-sonnet-4-6, stesso prezzo: CAMBIA IL MODELLO IN PRODUZIONE. mapAiError trasforma un 404 del fornitore in 503 «Funzione AI momentaneamente non disponibile» con logger.error. Aggiornata la prova esistente il-modello-grande-si-cambia-senza-rilascio (importa lib/ai/client.ts) al nuovo default. REVISIONE DOPO IL QA: modelloDaAmbiente, dal giorno dello spegnimento, rifiuta un modello ritirato scritto in AI_MODELLO_VISION/SMART e torna al predefinito attivo. Resta fuori (fuori voce, solo admin/cron): external-refresh e il cron prezzi esterni trasformano un 404 in un messaggio generico."
+    },
+    {
+      "chiave": "ai-endpoints|con l'intelligenza artificiale spenta, la creazione di prodotti in blocco risponde «riprova fra poco» invece di dire che il servizio è spento",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-bulk-ai-spenta.test.ts",
+      "non_vacuita": "rimessa a mano: git checkout HEAD^ -- app/api/ai/catalog-create-bulk/route.ts -> 2 rosse; ripristino -> verde → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 4c5d5bf3^ --file app/api/ai/catalog-create-bulk/route.ts --prove tests/unit/riparazione-r04-bulk-ai-spenta.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "In testa alla rotta, prima del freno e del corpo, 503 «Gli strumenti AI per i negozi non sono ancora attivi.» con AI_NEGOZI_ACCESA spento. Nel ciclo un AiConfigError del filtro rende 503 tutta la richiesta; «riprova fra poco» resta solo per i guasti passeggeri. Le cinque prove esistenti che importano la rotta ora simulano la funzione accesa (come le sorelle di catalog-batch). Il «meglio ancora» della voce (catalog-apply e catalog-apply-bulk) e' fuori dai miei file: vedi nuovi_difetti_visti."
+    },
+    {
+      "chiave": "ai-endpoints|l'assistente ai del negozio controlla solo l'ultima richiesta: il testo messo nella conversazione precedente arriva al modello senza filtro",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-copilot-cronologia.test.ts",
+      "non_vacuita": "rimessa a mano: git checkout HEAD^ -- app/api/ai/copilot/route.ts -> rossa; ripristino -> verde → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base b709670f^ --file app/api/ai/copilot/route.ts --prove tests/unit/riparazione-r04-copilot-cronologia.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Come dice il fix: tolto history dalla rotta (nessuna pagina lo manda, CatalogCopilot.tsx invia solo instruction). Al modello arrivano il catalogo e l'istruzione recintata, che e' l'unico testo del venditore ed e' gia' passato da assertSafeText. CatalogCopilot.tsx non serviva toccarlo."
+    },
+    {
+      "chiave": "ai-endpoints|nelle due chat ai del negozio una risposta del modello scritta a mano nella richiesta arriva al modello senza filtro",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-chat-turni-assistente.test.ts",
+      "non_vacuita": "rimessa a mano: git checkout HEAD^ -- product-chat/route.ts catalog-chat/route.ts -> 2 rosse; ripristino -> verde → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 20e01611^ --file app/api/ai/product-chat/route.ts,app/api/ai/catalog-chat/route.ts --prove tests/unit/riparazione-r04-chat-turni-assistente.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "In entrambe le chat il filtro anti-contenuti riceve tutta la cronologia che va al modello (turni user e assistant), non solo i turni user. Se il rifiuto viene da un turno vecchio (anche un assistant inventato), resta il ripiego gia' esistente: si controlla l'ultimo messaggio e al modello va solo lui."
+    },
+    {
+      "chiave": "ai-endpoints|con l'ai spenta, chi guarda un prodotto importato da un altro sito lo fa segnare come «aggiornato adesso» anche se nessun dato è arrivato",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-prezzo-esterno-ai-spenta.test.ts tests/unit/riparazione-r04-cron-prezzi-esterni-errore.test.ts",
+      "non_vacuita": "rimessa a mano: git checkout HEAD^ -- app/api/products/[id]/external-refresh/route.ts -> 2 rosse; ripristino -> verde · revisione dad5a6d38: rimessa a mano sul commit di revisione -> rossa, ripristino -> verde · revisione 1c4719067: rimessa a mano sul commit di revisione -> rossa, ripristino -> verde → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 1c471906^ --file app/api/cron/external-price-alerts/route.ts --prove tests/unit/riparazione-r04-prezzo-esterno-ai-spenta.test.ts,tests/unit/riparazione-r04-cron-prezzi-esterni-errore.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Nel GET, con AI_NEGOZI_ACCESA spento, si restituiscono i dati salvati (con stale vero) senza scrivere 'pending' ne' lanciare il refresh. Nel catch di doRefresh si scrive solo external_sync_status='error', non external_synced_at=adesso; il freno resta il cancello di 30 minuti per prodotto. Il cron external-price-alerts legge gia' l'interruttore: non toccato. REVISIONE DOPO IL QA: il freno contro i ritentativi non e' piu' external_synced_at=adesso ma ritentoDopoErroreConsentito (lib/products/externalSync.ts): un prodotto in errore si ritenta al massimo ogni 6 ore (il ritmo di prima), dalla vista e dal cron. Anche il cron external-price-alerts non scrive piu' external_synced_at su errore. Limite: il cancello usa rate-limit (Upstash, in memoria se Upstash manca). REVISIONE DOPO IL QA: (collaudo K02) senza spostare la data dei falliti, dieci prodotti sempre in errore restavano i piu' vecchi e riempivano ogni giro orario: ora il giro prende prima i prodotti non in errore (.or status null/neq error) e solo nei posti che restano i falliti, ciascuno se il suo freno di sei ore lo consente. Aggiornata la prova esistente minori-s03-prezzi-esterni (importa la rotta)."
+    },
+    {
+      "chiave": "ai-endpoints|se il negoziante esce dalla pagina mentre «migliora tutto il catalogo» lavora, il lavoro è pagato e non si ritrova più",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-lavoro-ritrovato.test.ts tests/unit/riparazione-r04-lotto-aperto.test.ts",
+      "non_vacuita": "rimessa a mano: git checkout HEAD^ -- status/route.ts ai-batch/page.tsx -> 3 rosse; ripristino -> verde · revisione f30f52367: rimessa a mano sul commit di revisione -> rossa, ripristino -> verde → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base f9dca280^ --file app/api/ai/catalog-batch/status/route.ts,app/seller/products/ai-batch/page.tsx --prove tests/unit/riparazione-r04-lavoro-ritrovato.test.ts,tests/unit/riparazione-r04-lotto-aperto.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "La rotta dello stato chiamata senza jobId restituisce l'ultimo lavoro aperto del venditore (submitting/processing/ready) o null; la pagina, se questo browser non ricorda un lavoro, lo chiede al server all'apertura, e lo riprende anche dopo un avvio rifiutato. Il secondo avvio con un lavoro aperto e' rifiutato (R04-025, commit precedente), quindi non si paga di nuovo. REVISIONE DOPO IL QA: se il lavoro ricordato dal browser risponde 403 o 404 (cancellato, o di un altro account sullo stesso browser) la pagina lo dimentica e chiede al server l'ultimo lavoro aperto (prima restava bloccata sul vecchio id). Prova della pagina leggera (testo del sorgente), quella della rotta e' comportamentale."
+    }
+  ]
+}

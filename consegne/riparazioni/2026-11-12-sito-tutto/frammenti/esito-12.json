@@ -1,0 +1,104 @@
+{
+  "corsia": 12,
+  "territorio": "R12",
+  "difetti": [
+    {
+      "chiave": "accessibilita|nella pagina che chiede di accettare i termini, il bottone «continua» è spento senza dire che bisogna spuntare la casella",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-termini-il-bottone-spiega.test.tsx",
+      "non_vacuita": "node ad-mycity/cervello/prova-rimessa.mjs --repo . --base a5634f24cc070579dbe13584dbffbe7527e86f09^ --file app/accetta-condizioni/page.tsx --prove tests/unit/riparazione-r12-termini-il-bottone-spiega.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base a5634f24cc07^ --file app/accetta-condizioni/page.tsx --prove tests/unit/riparazione-r12-termini-il-bottone-spiega.test.tsx --json → uscita 0 (K03)",
+      "nota_fix": "«Continua» non è più disabled (solo aria-disabled senza spunta, disabled solo durante l'invio): premuto senza spunta mostra «Spunta la casella per continuare» con role=alert, collegato con aria-describedby a bottone e casella, e porta il fuoco sulla casella. Termini e Informativa si aprono in una nuova scheda (con l'avviso per il lettore di schermo), così la spunta non si perde."
+    },
+    {
+      "chiave": "accessibilita|i messaggi di errore del sito spariscono da soli dopo 4 secondi e non hanno la x per chiuderli",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-gli-avvisi-restano-e-si-chiudono.test.tsx",
+      "non_vacuita": "node ad-mycity/cervello/prova-rimessa.mjs --repo . --base 85cdaad0d5b38afcf8fdd5a027a9a89222628d01^ --file components/providers/ToastProvider.tsx --prove tests/unit/riparazione-r12-gli-avvisi-restano-e-si-chiudono.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 85cdaad0d5b3^ --file components/providers/ToastProvider.tsx --prove tests/unit/riparazione-r12-gli-avvisi-restano-e-si-chiudono.test.tsx --json → uscita 0 (K03)",
+      "nota_fix": "Toaster con closeButton e duration 8000 per tutti gli avvisi (prima 4000 di sonner, senza X). Una durata separata di 10 s per gli errori non si può dare da toastOptions: è una sola per tutti."
+    },
+    {
+      "chiave": "architettura|il documento delle decisioni del sito dice ancora commissione all'8% più 15 euro al mese, «da decidere»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-decisioni-superate.test.ts",
+      "non_vacuita": "node ad-mycity/cervello/prova-rimessa.mjs --repo . --base db5164c52e856c0e3eab1c02197ae755fca76eb3 --file docs/decisions.md --prove tests/unit/riparazione-r12-decisioni-superate.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 5c3ed729f046^ --file docs/decisions.md --prove tests/unit/riparazione-r12-decisioni-superate.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "ADR-006 e ADR-007 segnati «superseded (12/11/2026)». La nota rimanda al registro dei fatti e dice quello che dice oggi: pricing.commissione (1/11) 10% su tutti gli ordini, anche clienti già del negozio e ritiro, «IVA inclusa» sospesa finché il commercialista non conferma; pricing.abbonamento (26/10) 50 €/mese sospeso finché il negozio non incassa. Il benvenuto è un codice first_order_only spento al lancio. Il testo storico resta."
+    },
+    {
+      "chiave": "architettura|value_props non lo mostra nessuna pagina: una delle «cinque case» corrette non arriva a nessun utente",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-value-props-tolte.test.ts",
+      "non_vacuita": "node ad-mycity/cervello/prova-rimessa.mjs --repo . --base f2f59ad6b152c81291e8893355229ee0daeecee7^ --file lib/constants.ts --prove tests/unit/riparazione-r12-value-props-tolte.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base f2f59ad6b152^ --file lib/constants.ts --prove tests/unit/riparazione-r12-value-props-tolte.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "Tolto VALUE_PROPS da lib/constants.ts (e i tre import che servivano solo a lui), come deciso dalla regista. Nelle cinque prove che importano lib/constants (dichiarato) tolte solo le asserzioni su VALUE_PROPS; le altre restano. Le frasi che il cliente vede davvero restano provate (DEFAULT_TRUST_BULLETS della home, promesse-pubbliche)."
+    },
+    {
+      "chiave": "architettura|il ripiego della lettura delle tendenze carica gli ultimi 8 prodotti, che ora non vengono mai mostrati",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-tendenze-senza-ripiego.test.ts",
+      "non_vacuita": "node ad-mycity/cervello/prova-rimessa.mjs --repo . --base 8cefec81936223d4a9ebda9d34022d9a8e332269^ --file lib/queries/fasce-prodotti.ts --prove tests/unit/riparazione-r12-tendenze-senza-ripiego.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 8cefec819362^ --file lib/queries/fasce-prodotti.ts --prove tests/unit/riparazione-r12-tendenze-senza-ripiego.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "leggiTendenze senza visite ritorna [] senza leggere prodotti né negozi (TrendingNow scartava comunque chi ha meno di VISITE_MINIME_PER_LA_CLASSIFICA visite). In il-catalogo-regge-con-i-profili-chiusi (importa il mio file, dichiarato) il caso «si riempie anche senza visite» diventa «senza visite è vuoto», e il caso dei due negozi legge le tendenze con le visite. Le altre prove su fasce/TrendingNow restano verdi (201)."
+    },
+    {
+      "chiave": "flussi-conversione|chi si registra con un'email che ha già un account legge che gli è arrivato un link che non arriverà mai, e nessuno gli indica il recupero della password",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-la-verifica-indica-il-recupero.test.tsx",
+      "non_vacuita": "node ad-mycity/cervello/prova-rimessa.mjs --repo . --base db5164c52e856c0e3eab1c02197ae755fca76eb3 --file app/auth/verify-email/page.tsx,lib/errors.ts --prove tests/unit/riparazione-r12-la-verifica-indica-il-recupero.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base f000ebc70dd8^ --file app/auth/verify-email/page.tsx,lib/errors.ts --prove tests/unit/riparazione-r12-la-verifica-indica-il-recupero.test.tsx --json → uscita 0 (K03)",
+      "nota_fix": "La pagina di verifica dice «Se <email> è un indirizzo nuovo ti abbiamo inviato un link… se hai già un account non ti arriverà nulla: accedi, oppure recupera la password», uguale in tutti e due i casi (non rivela chi è iscritto), con i link Accedi e «Password dimenticata?» (/reset-password). Il toast della registrazione non dice più «Registrazione completata!». traduciErroreAuth: il tetto email del progetto non parla più di «questo indirizzo». Il link al recupero non porta l'email già scritta: la pagina /reset-password non legge un parametro (non è mio file). Aggiornate dichiarandolo due prove che importano i miei file e controllavano le frasi vecchie. Dopo il collaudo il testo «se hai già un account» compare solo a chi arriva dalla registrazione (percorsoVerificaEmail(..., {daRegistrazione:true}) aggiunge da=registrazione); chi arriva dall'accesso con l'email non confermata o con la sessione legge «ti abbiamo inviato un link»."
+    },
+    {
+      "chiave": "layout-responsive|sul telefono piccolo la pagina del registro delle azioni scorre di lato, e l'elenco si ferma a 200 righe senza dirlo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-registro-azioni-dice-quante.test.tsx",
+      "non_vacuita": "node ad-mycity/cervello/prova-rimessa.mjs --repo . --base db5164c52e856c0e3eab1c02197ae755fca76eb3 --file app/admin/audit/page.tsx --prove tests/unit/riparazione-r12-registro-azioni-dice-quante.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 26c9448ccdae^ --file app/admin/audit/page.tsx --prove tests/unit/riparazione-r12-registro-azioni-dice-quante.test.tsx --json → uscita 0 (K03)",
+      "nota_fix": "Il select del filtro ha w-full max-w-full (sm:w-auto); una seconda lettura conta il totale (count exact, head) con lo stesso filtro e, quando l'elenco è tagliato a 200, sopra compare «Mostro le 200 azioni più recenti di N: per le altre filtra per azione». La lettura principale non cambia forma. Lo scorrimento a 360 px non l'ho misurato in un browser: la prova controlla la classe."
+    },
+    {
+      "chiave": "layout-responsive|un nome lungo senza spazi allarga la pagina del profilo sul telefono e la fa scorrere di lato",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-nome-lungo-nel-profilo.test.ts",
+      "non_vacuita": "node ad-mycity/cervello/prova-rimessa.mjs --repo . --base 1b56ae7cfa2539876b762e32452881d82625159e^ --file app/profile/page.tsx --prove tests/unit/riparazione-r12-nome-lungo-nel-profilo.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 1b56ae7cfa25^ --file app/profile/page.tsx --prove tests/unit/riparazione-r12-nome-lungo-nel-profilo.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "Il nome nel profilo ha [overflow-wrap:anywhere] e line-clamp-2, con title={displayName}; il contenitore aveva già min-w-0. Prova leggera sulle classi (è uno stile)."
+    },
+    {
+      "chiave": "microcopy|chi arriva alla pagina dei termini senza essere entrato legge «registrazione non riuscita» e non trova la strada per accedere",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-termini-senza-sessione.test.tsx",
+      "non_vacuita": "node ad-mycity/cervello/prova-rimessa.mjs --repo . --base 4d31437255613f1502e250bcc41469df22984489^ --file app/accetta-condizioni/page.tsx --prove tests/unit/riparazione-r12-termini-senza-sessione.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 4d3143725561^ --file app/accetta-condizioni/page.tsx --prove tests/unit/riparazione-r12-termini-senza-sessione.test.tsx --json → uscita 0 (K03)",
+      "nota_fix": "La pagina legge lo stato: 401 → «La sessione è scaduta: accedi di nuovo» e porta a /sign-in?returnTo=/accetta-condizioni?next=<dove>; 429 → «Troppi tentativi… riprova fra un minuto»; il resto → apiErrorMessage del corpo, con un ripiego che non parla di registrazione. La rotta non cambia: i suoi stati erano già giusti."
+    },
+    {
+      "chiave": "microcopy|il reinvio dell'email di conferma dà messaggi che si contraddicono e non dice quanto aspettare",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-reinvio-dice-quanto-aspettare.test.tsx",
+      "non_vacuita": "node ad-mycity/cervello/prova-rimessa.mjs --repo . --base db5164c52e856c0e3eab1c02197ae755fca76eb3 --file lib/auth/conferma-email.ts,app/auth/verify-email/page.tsx --prove tests/unit/riparazione-r12-reinvio-dice-quanto-aspettare.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base f8f94c044478^ --file app/auth/verify-email/page.tsx,lib/auth/conferma-email.ts --prove tests/unit/riparazione-r12-reinvio-dice-quanto-aspettare.test.tsx --json → uscita 0 (K03)",
+      "nota_fix": "rimandaLinkDiConferma guarda codice e testo: «after N seconds» → «puoi chiederne un altro fra N secondi» (esito attendi, attesaSecondi N); over_email_send_rate_limit / email rate limit exceeded → «Il servizio email è al limite… riprova fra qualche minuto» senza «questo indirizzo»; dopo un invio riuscito attesa 60 s. La pagina spegne «Reinvia» con il conto alla rovescia. lib/errors.ts non è servito qui (la frase sul tetto per la registrazione la cambia R12-011). Aggiornata dichiarandolo una prova che importa conferma-email.ts e voleva «troppe email». Collaudo K03: la frase del freno ora conta insieme al bottone e sparisce a zero (prima restava «fra 55 secondi» col bottone già acceso); il tetto del progetto («fra qualche minuto») spegne il bottone 3 minuti."
+    },
+    {
+      "chiave": "pagamenti-stripe|un avviso di stripe mai lavorato, col turno preso da una consegna morta da meno di cinque minuti, riceve «già visto» e si perde",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-turno-in-corso.test.ts",
+      "non_vacuita": "node ad-mycity/cervello/prova-rimessa.mjs --repo . --base 32772148c8655faeb34e2c90fbef38ec6bab5a8f^ --file app/api/stripe/webhook/route.ts --prove tests/unit/riparazione-r12-turno-in-corso.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 32772148c865^ --file app/api/stripe/webhook/route.ts --prove tests/unit/riparazione-r12-turno-in-corso.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "Quando la presa del turno è 'occupato', la rotta legge processed (statoDellAvvisoOccupato): già lavorato → 200 duplicated come prima; in corso o lettura fallita → 409, così Stripe riprova e trova il turno chiuso o scaduto. Aggiornate dichiarandolo tre prove che importano la rotta e si aspettavano 200 sul turno fresco non lavorato (scelta 062 ora superata)."
+    },
+    {
+      "chiave": "pagamenti-stripe|la vetrina sponsorizzata di una settimana resta in vetrina 8 giorni",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-sponsorizzata-sette-giorni.test.ts",
+      "non_vacuita": "node ad-mycity/cervello/prova-rimessa.mjs --repo . --base db5164c52e856c0e3eab1c02197ae755fca76eb3 --file lib/stripe/webhook/sponsorizzati.ts --prove tests/unit/riparazione-r12-sponsorizzata-sette-giorni.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 396f55a49d50^ --file lib/stripe/webhook/sponsorizzati.ts --prove tests/unit/riparazione-r12-sponsorizzata-sette-giorni.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "Fine = giorno di inizio + (giorni − 1) contato sul calendario (non in millisecondi): 7 giorni per 1 settimana anche a cavallo del cambio d'ora (provato ottobre e marzo), 28 per 4. L'avviso «fino al …» usa la stessa data. Aggiornata dichiarandolo la prova notturna che importa il file e si aspettava l'11/9."
+    },
+    {
+      "chiave": "privacy-legale|la descrizione di «come funziona» che esce su google promette il reso senza escludere i prodotti fatti su ordinazione",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-come-funziona-su-google.test.ts",
+      "non_vacuita": "node ad-mycity/cervello/prova-rimessa.mjs --repo . --base db5164c52e856c0e3eab1c02197ae755fca76eb3 --file app/come-funziona/page.tsx --prove tests/unit/riparazione-r12-come-funziona-su-google.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base c730bc051172^ --file app/come-funziona/page.tsx --prove tests/unit/riparazione-r12-come-funziona-su-google.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "metadata.description = «Scegli dai negozi di Piacenza, ordini in pochi tap e paghi alla consegna. <FRASE_RESO>.», sotto i 160 caratteri così gli esclusi (anche «fatti su ordinazione») si vedono nel riquadro di Google. Aggiornata dichiarandolo la prova che importa la pagina e controllava la frase vecchia. Anche openGraph.description (anteprima di WhatsApp e social) ora usa FRASE_RESO."
+    },
+    {
+      "chiave": "qa-flussi|due richieste di cancellazione quasi insieme mandano due email",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r12-cancellazione-una-email.test.ts",
+      "non_vacuita": "node ad-mycity/cervello/prova-rimessa.mjs --repo . --base b795adeda16852457b55a1afa8c7b3d95a196bbd^ --file app/api/account/delete/route.ts --prove tests/unit/riparazione-r12-cancellazione-una-email.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base b795adeda168^ --file app/api/account/delete/route.ts --prove tests/unit/riparazione-r12-cancellazione-una-email.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "La scrittura con .is(null) ora restituisce le righe (.select('id')); con zero righe la richiesta c'era già: si rilegge la data e si risponde alreadyRequested con lo stato vero, senza spedire l'email."
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "corsia": 1,
+  "territorio": "R01",
+  "difetti": [
+    {
+      "chiave": "api-backend|l'sos del fattorino non arriva davvero a nessuno: solo una notifica nel pannello, mentre a lui diciamo «alert immediato»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-sos-avviso.test.tsx tests/unit/riparazione-r01-sos-guscio.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 2bc80f48^ --file components/rider/SOSButton.tsx,components/rider/RiderShell.tsx --prove tests/unit/riparazione-r01-sos-avviso.test.tsx,tests/unit/riparazione-r01-sos-guscio.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base 8781907018ebaa1cc1b1654b236bdf74d78b9c42^ --file app/api/rider/sos/avvisa/route.ts --prove tests/unit/riparazione-r01-sos-avviso.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "Nuova rotta /api/rider/sos/avvisa: rilegge l'ultimo SOS aperto di chi chiama (solo fattorini) e manda subito un push ad alta urgenza a ogni admin. SOSButton la chiama dopo l'insert senza bloccare il 112; RiderShell passa l'orderId della consegna in corso; il dialogo dice che gli admin ricevono l'avviso sul telefono. Il testo «alert immediato» era gia' stato tolto prima. Se VAPID non e' configurato la rotta risponde 503 e lo scrive nel registro (resta il pannello). Dopo il controllo qa: se la riga con l'ordine viene rifiutata (id non valido, ordine cancellato) l'SOS si riscrive senza ordine; triggered_at lo decide il database (DEFAULT now()), non l'orologio del telefono; il dialogo dice «se hanno le notifiche attive». Dopo il collaudo K01: la rotta dell'avviso SOS controlla l'approvazione e avvisa una volta per SOS (segno atomico in operational_alert_log)."
+    },
+    {
+      "chiave": "api-backend|la consolle degli sos può dire «tutto tranquillo» con un'emergenza ancora aperta",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-sos-consolle.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base e1f9ea9929319df487e5b6f984375ac4d78b7b07^ --file app/admin/sos/page.tsx --prove tests/unit/riparazione-r01-sos-consolle.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R0X --base e1f9ea9929319df487e5b6f984375ac4d78b7b07^ --file app/admin/sos/lettura-degli-sos.ts,app/admin/sos/page.tsx --prove tests/unit/riparazione-r01-sos-consolle.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "La consolle legge gli ultimi 50 per lo storico e a parte tutti gli SOS aperti (resolved_at null, tetto 500), uniti senza doppioni: un SOS aperto vecchio non esce piu' dagli attivi e il «tutto tranquillo» non compare con un'emergenza aperta."
+    },
+    {
+      "chiave": "api-backend|se il battito di un lavoro non si scrive, nessuna riga lo dice, e l'allarme che segue ha la diagnosi sbagliata",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-battito-rifiutato.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base cdcf31591e550a43cbd9f0da896481f0ed294677^ --file lib/api/middleware.ts --prove tests/unit/riparazione-r01-battito-rifiutato.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R0X --base cdcf31591e550a43cbd9f0da896481f0ed294677^ --file lib/api/middleware.ts --prove tests/unit/riparazione-r01-battito-rifiutato.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "recordCronHeartbeat legge l'{error} dell'upsert (supabase-js non lancia) e scrive logger.warn con il nome del lavoro e il messaggio: «battito non registrato … ma il lavoro e' partito», cosi' l'allarme successivo ha la diagnosi giusta."
+    },
+    {
+      "chiave": "deploy-sre|la prova mensile di ripristino ingoia gli errori e conta solo le righe: direbbe «si riapre» anche se tornano tabelle senza regole di accesso",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-ripristino-con-le-regole.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3f33e7978c86084ceb03f99fe0eeea1603ac67d8^ --file .github/workflows/backup-db.yml --prove tests/unit/riparazione-r01-ripristino-con-le-regole.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R0X --base 3f33e7978c86084ceb03f99fe0eeea1603ac67d8^ --file .github/workflows/backup-db.yml --prove tests/unit/riparazione-r01-ripristino-con-le-regole.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Nella prova mensile gli errori di pg_restore non si buttano: vanno in un file, si contano, avviso ::warning:: e i primi 20 nel riepilogo (pg_restore resta non bloccante per il rumore dei ruoli/schemi del fornitore). Dopo il conto delle righe, la prova fallisce se una tabella di public torna con la RLS spenta o se pg_policies e' vuota. Verificato che sullo schema ricostruito dalle migrazioni le 76 tabelle di public hanno tutte la RLS (132 regole), quindi il controllo non da' falsi rossi. Dopo il controllo qa (che l'aveva giudicata parziale): il ripristino monta prima l'impalcatura di Supabase (tests/sql/harness/00_shim_supabase.sql: ruoli anon/authenticated, auth.uid), poi gli utenti senza trigger, poi il resto, poi i trigger degli utenti; la soglia delle regole passa da «piu' di zero» ad «almeno 100»; l'elenco degli errori usa sed e non head (niente SIGPIPE, uscita 141). Misurato su un Postgres vero con lo schema delle 179 migrazioni: col ripristino vecchio tornavano 36 regole su 132 (e la prova diceva «si riapre»), col nuovo 132 su 132, i 2 trigger di auth e gli utenti, con 4 errori innocui (doppioni dell'impalcatura)."
+    },
+    {
+      "chiave": "deploy-sre|il database avanti si scopre solo se cade la prova di fumo, non se cadono le migrazioni",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-migrazioni-a-meta.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 2b7c8b7d5764fe3aa37fd62cfd07db101be1c1c2^ --file .github/workflows/deploy-dopo-ci.yml --prove tests/unit/riparazione-r01-migrazioni-a-meta.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R0X --base 2b7c8b7d5764fe3aa37fd62cfd07db101be1c1c2^ --file .github/workflows/deploy-dopo-ci.yml --prove tests/unit/riparazione-r01-migrazioni-a-meta.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Nel passo delle migrazioni del rilascio, se lo script esce con errore dopo aver iniziato ad applicare (non per il tetto, uscita 4), il riepilogo dice che il database e' avanti: elenca le migrazioni applicate prima del guasto e quella rotta, e scrive fermo=migrazioni-a-meta. Prova: il passo vero gira contro un Postgres usa e getta con la seconda di tre migrazioni rotta."
+    },
+    {
+      "chiave": "deploy-sre|duecento carrelli pagati a metà bastano a fermare per sempre la pulizia dei carrelli scaduti",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-carrelli-scaduti.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base f3d113d88870cd157e91a35826f7a371906646c5^ --file app/api/cron/expire-checkouts/route.ts --prove tests/unit/riparazione-r01-carrelli-scaduti.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R0X --base f3d113d88870cd157e91a35826f7a371906646c5^ --file app/api/cron/expire-checkouts/route.ts --prove tests/unit/riparazione-r01-carrelli-scaduti.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Il giro legge i candidati a pagine di 200 ordinate per scadenza (dalla piu' recente indietro, cursore su expires_at): se una pagina e' piena solo di carrelli pagati a meta' passa alla successiva, fino a 5 pagine. Il controllo ordini si fa pagina per pagina. Limite noto: carrelli con expires_at identico al bordo di pagina li prende il giro dopo. Dopo il controllo qa: la memoria degli avvisi (operational_alert_log) si legge a blocchi di 100 chiavi, perche' con le pagine i carrelli pagati a meta' possono arrivare a 1000."
+    },
+    {
+      "chiave": "deploy-sre|sulle anteprime il file per i motori di ricerca apre tutto il sito invece di chiuderlo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-robots-anteprime.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base cf6a3851d9ef4dc955329d31658eb57f1e0eda44^ --file app/robots.ts --prove tests/unit/riparazione-r01-robots-anteprime.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R0X --base cf6a3851d9ef4dc955329d31658eb57f1e0eda44^ --file app/robots.ts --prove tests/unit/riparazione-r01-robots-anteprime.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Con VERCEL_ENV (o NEXT_PUBLIC_VERCEL_ENV) uguale a preview o development, robots.txt risponde disallow: '/' per tutti; in produzione resta com'era."
+    },
+    {
+      "chiave": "deploy-sre|l'avviso sul commit esce da una porta che il riepilogo del rilascio non legge",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-avviso-nel-riepilogo.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base ec36250925b93dc2b6e769ab7543573d07197bba^ --file scripts/applica-migrazioni-mancanti.sh,.github/workflows/deploy-dopo-ci.yml --prove tests/unit/riparazione-r01-avviso-nel-riepilogo.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R0X --base ec36250925b93dc2b6e769ab7543573d07197bba^ --file .github/workflows/deploy-dopo-ci.yml,scripts/applica-migrazioni-mancanti.sh --prove tests/unit/riparazione-r01-avviso-nel-riepilogo.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Gli avvisi sulle migrazioni escono sia su stderr sia su stdout come ::warning:: (annotazione GitHub); il passo delle migrazioni del rilascio copia le righe ::warning:: del diario nel riepilogo, prima di uscire anche quando lo script fallisce."
+    },
+    {
+      "chiave": "deploy-sre|lo script delle migrazioni promette che il danno e' nullo, e in due file su ventitre' non lo e'",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-commit-nelle-migrazioni.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 7af86e7832b3d64b73a7e8924de85ead600cb9de^ --file scripts/applica-migrazioni-mancanti.sh --prove tests/unit/riparazione-r01-commit-nelle-migrazioni.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R0X --base 7af86e7832b3d64b73a7e8924de85ead600cb9de^ --file scripts/applica-migrazioni-mancanti.sh --prove tests/unit/riparazione-r01-commit-nelle-migrazioni.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Il commento non promette piu' «danno nullo» per tutti: nomina la 115 e la 117. L'avviso guarda cosa c'e' dopo il primo COMMIT: se e' solo NOTIFY/commenti avviso leggero, se c'e' altro lavoro avviso forte (⚠⚠) con la prima istruzione. Sulla cartella vera l'avviso forte tocca solo 115 e 117 (31 file con COMMIT)."
+    },
+    {
+      "chiave": "deploy-sre|una migrazione nuova con lo stesso nome di una vecchia non arriva mai in produzione, e tutti e tre i controlli dicono verde",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-nomi-migrazioni.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 909c4b0f3062eb9d517c42cea0a7a2b979c829d8^ --file scripts/applica-migrazioni-mancanti.sh,scripts/check-migration-drift.mjs --prove tests/unit/riparazione-r01-nomi-migrazioni.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R0X --base 909c4b0f3062eb9d517c42cea0a7a2b979c829d8^ --file scripts/applica-migrazioni-mancanti.sh,scripts/check-migration-drift.mjs --prove tests/unit/riparazione-r01-nomi-migrazioni.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Nello script del rilascio (le due interrogazioni del registro) e in esitoDelConfronto il nome conta come «gia' applicata» solo se il numero di quella riga NON e' il prefisso di un altro file del deposito (rinumerazione vera, non omonimo). conta-migrazioni-mancanti.sh usa lo script e si sistema da solo. Nuova prova: nessun nome doppio in migrations/, e lo script, su un Postgres usa e getta, applica davvero 250_minori dopo 127_minori. Lo script accetta CARTELLA_MIGRAZIONI solo per le prove. Rischio da guardare: se in produzione una riga storica ha il numero di un altro file con lo stesso nome, il controllo della deriva ora la segnala come mancante (rumore, non un buco). tests/unit/migrations-integrity.test.ts non toccato (non importa file miei)."
+    },
+    {
+      "chiave": "deploy-sre|il backup adesso porta con se' i semi della doppia verifica, e senza passphrase resta in chiaro",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-backup-senza-passphrase.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base eb3797f67afd83100d30f3f1342f1f7dd0547bba^ --file scripts/backup-db.sh --prove tests/unit/riparazione-r01-backup-senza-passphrase.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R0X --base eb3797f67afd83100d30f3f1342f1f7dd0547bba^ --file scripts/backup-db.sh --prove tests/unit/riparazione-r01-backup-senza-passphrase.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Senza BACKUP_PASSPHRASE il dump degli utenti copia solo auth.users e auth.identities, non auth.mfa_factors, e lo scrive nel log e nel riepilogo del lavoro; con la passphrase copia anche mfa_factors e cifra come prima. Scelta approvata dalla regista. Resta una scelta di Nicola l'alternativa piu' severa: «senza passphrase niente backup»."
+    }
+  ]
+}

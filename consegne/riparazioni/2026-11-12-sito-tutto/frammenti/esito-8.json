@@ -1,0 +1,97 @@
+{
+  "corsia": 8,
+  "territorio": "R08",
+  "difetti": [
+    {
+      "chiave": "accessibilita|le pagine in più della vetrina di un negozio non hanno un titolo principale, e «pagina non trovata» è scritto come titolo di terzo livello",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r08-la-pagina-in-piu-del-negozio.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base ecabb9791ec23db3257d51664103cadd98ef1c8a^ --file app/store/[id]/[slug]/page.tsx,components/EmptyState.tsx --prove tests/unit/riparazione-r08-la-pagina-in-piu-del-negozio.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base ecabb979^ --file app/store/[id]/[slug]/page.tsx,components/EmptyState.tsx --prove tests/unit/riparazione-r08-la-pagina-in-piu-del-negozio.test.tsx --json → uscita 0 (K02)",
+      "nota_fix": "La pagina in più scrive un h1 visibile col titolo della pagina subito dopo il menu del negozio. EmptyState ha la prop titoloCome (h1/h2/h3, predefinita h3, quindi le altre 14 pagine non cambiano) e «Pagina non trovata» la usa con h1. Dopo il collaudo: se la pagina ha il blocco «Copertina» (che disegna già un h1 col nome del negozio, HeroSection.tsx:198) il titolo della pagina è h2, così l'h1 resta uno solo; la prova ora finge i blocchi come quelli veri (hero → h1)."
+    },
+    {
+      "chiave": "api-backend|approvare e rifiutare un negozio non controllano lo stato di partenza: due amministratori, o una scheda vecchia, mandano due esiti opposti",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r08-moderazione.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base b178f10124b7c9ec094842b0d27bd8b383c45501^ --file app/api/admin/users/[id]/moderate/route.ts --prove tests/unit/riparazione-r08-moderazione.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base b178f101^ --file app/api/admin/users/[id]/moderate/route.ts --prove tests/unit/riparazione-r08-moderazione.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Approva e rifiuta valgono solo da in attesa (pending o vuoto), altrimenti 409. L'update è condizionato allo stato letto (count exact): con 0 righe toccate 409 e non partono notifica, email né registro."
+    },
+    {
+      "chiave": "api-backend|due sospensioni dello stesso negozio partite insieme passano tutte e due e il negozio riceve l'avviso due volte",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r08-moderazione.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base b178f10124b7c9ec094842b0d27bd8b383c45501^ --file app/api/admin/users/[id]/moderate/route.ts --prove tests/unit/riparazione-r08-moderazione.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base b178f101^ --file app/api/admin/users/[id]/moderate/route.ts --prove tests/unit/riparazione-r08-moderazione.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Già sospeso risponde 409. L'update condizionato allo stato letto fa passare una sola delle due sospensioni in gara: l'altra trova 0 righe, 409, nessuna seconda campanella, email o riga user.suspend."
+    },
+    {
+      "chiave": "api-backend|se il conteggio delle consegne di un fattorino sospeso fallisce, l'avviso «riassegnale» non compare",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r08-moderazione.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base fd3295cb64eb47ef8ea5f3de18ae6115d4f8d50e^ --file app/api/admin/users/[id]/moderate/route.ts --prove tests/unit/riparazione-r08-moderazione.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base fd3295cb^ --file app/api/admin/users/[id]/moderate/route.ts --prove tests/unit/riparazione-r08-moderazione.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Se il conteggio delle consegne dà errore, torna vuoto o lancia, la risposta porta l'avviso «non ho potuto contare le consegne in corso del fattorino: controllale nella pagina Ordini» e consegne_in_corso è null invece di 0."
+    },
+    {
+      "chiave": "architettura|la colonna «approvato il» adesso segna anche l'ora del rifiuto, mentre «approvato da» resta il vecchio approvatore",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r08-moderazione.test.ts && bash tests/sql/harness/apply.sh mycity_ci && psql -X -d mycity_ci -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r08-rifiuto-ha-la-sua-ora.test.sql",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base f641f72deccde125b6a0a0a48212c34685cf39bd^ --file app/api/admin/users/[id]/moderate/route.ts --prove tests/unit/riparazione-r08-moderazione.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base f641f72d^ --file app/api/admin/users/[id]/moderate/route.ts --prove tests/unit/riparazione-r08-moderazione.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Migrazione 320: colonna profiles.rejected_at, riempita per i respinti da approved_at, e potatura dei documenti dei respinti che conta da coalesce(rejected_at, approved_at). La rotta: il rifiuto scrive rejected_at e non tocca più approved_at né approved_by; se la colonna manca (42703/PGRST204) ripete il rifiuto con approved_at come prima, provato a parte. La guardia dei profili è a lista di permessi (119): la colonna nuova è già chiusa alle persone, provato al punto ④."
+    },
+    {
+      "chiave": "architettura|il salvataggio delle varianti non è tutto-o-niente: cancellazioni e aggiornamenti già fatti restano se una riga dopo fallisce",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r08-le-varianti-tutte-o-nessuna.test.ts && bash tests/sql/harness/apply.sh mycity_ci && psql -X -d mycity_ci -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r08-le-varianti-tutte-o-nessuna.test.sql",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 26c478fdd25502a18887f449129974706b64215d^ --file lib/products/persistVariantsServer.ts --prove tests/unit/riparazione-r08-le-varianti-tutte-o-nessuna.test.ts --json (regge anche sul primo commit della voce) → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base 6e0a23a0^ --file lib/products/persistVariantsServer.ts --prove tests/unit/riparazione-r08-le-varianti-tutte-o-nessuna.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Migrazione 323: funzione salva_varianti(product, delete[], update jsonb, insert jsonb), SECURITY INVOKER (valgono le regole per riga di chi chiama), con un update condizionato alla scorta vista. Al primo conflitto alza scorta_cambiata (DETAIL = id) e il database torna indietro su tutto. persistVariantsServer prepara gli stessi tre elenchi di prima e chiama la funzione; traduce scorta_cambiata nel DaCompletare per il negoziante, con la taglia giusta. Se la funzione manca (PGRST202/42883), ripiega sui tre giri di prima (provato a parte, come ha chiesto la regista). Gli altri errori escono senza scritture a pezzi. Il controllo preventivo delle scorte resta. Dopo il collaudo: il ripiego scatta col 42883 solo se l'errore nomina salva_varianti (una funzione mancante DENTRO non fa ripiegare in silenzio); options nullo non diventa una jsonb null (nullif nella 323). Prove in più, unitaria e SQL (8 verdi). Collaudo K02: le prove esistenti tornano a provare la strada vera con una salva_varianti finta che esegue il carico; il ripiego PGRST202 resta provato a parte (tests/unit/riparazione-r08-le-varianti-tutte-o-nessuna.test.ts, caso «ripiego»)."
+    },
+    {
+      "chiave": "coerenza-brand|nella mappa «vicino a te» il pallino «sei qui» è blu, un colore che il marchio non usa",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r08-la-mappa-usa-i-colori-del-marchio.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 9aa2fd29b9c2c8742b1562df9dd01e3cc42f5754^ --file components/NearbyStoresMap.tsx --prove tests/unit/riparazione-r08-la-mappa-usa-i-colori-del-marchio.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base 9aa2fd29^ --file components/NearbyStoresMap.tsx --prove tests/unit/riparazione-r08-la-mappa-usa-i-colori-del-marchio.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Il pallino «Tu sei qui» usa INK (ink-900 #1C1A18) con l'alone dello stesso colore al 25%, come costanti accanto a PRIMARY. La prova leggera legge ogni esadecimale e ogni rgba() del file e li confronta con la tavolozza vera di tailwind.config.ts."
+    },
+    {
+      "chiave": "frontend-ux|tolte le foto, le tessere della home restano sotto un velo scuro pensato per le foto — con una banda chiara in mezzo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r08-le-tessere-senza-foto.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 1579ee2dcb6bc3fbd0a6a191db81dff75bf990ef^ --file components/CategoryShowcase.tsx --prove tests/unit/riparazione-r08-le-tessere-senza-foto.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base 1579ee2d^ --file components/CategoryShowcase.tsx --prove tests/unit/riparazione-r08-le-tessere-senza-foto.test.tsx --json → uscita 0 (K02)",
+      "nota_fix": "Restava aperto quanto detto dalla riverifica del 6/11 e dal collaudo del 5/11. Il velo pieno dipende da una foto CARICATA: un onError segna la tessera e torna il velo leggero. Il velo senza foto passa da 35→0 a 55→30→0: sale senza risalite (niente banda) e porta il nome bianco sopra 4,5:1 sulla senape fino al 37% d'altezza. L'icona sta su un cerchio bg-black/30, così il gradiente in alto resta pulito e l'icona sta sopra 3:1. I numeri della prova si leggono dalle classi disegnate e dalla tavolozza vera. Dopo il collaudo: (1) una foto fallita PRIMA dell'idratazione (React 18 non ripete l'errore) si riconosce al montaggio: un img completo con naturalWidth 0 è una foto rotta; (2) la foto rotta si ricorda per categoria + indirizzo, e l'img ha come chiave l'indirizzo: una foto nuova messa nel pannello riparte pulita. Prova in più per (1)."
+    },
+    {
+      "chiave": "frontend-ux|la casella «pagina nascosta» promette che si apre col link diretto, ma chi riceve il link vede «non trovato»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r08-la-pagina-in-piu-del-negozio.test.tsx && psql -X -d mycity_ci -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r08-la-pagina-nascosta-e-gia-nei-dati-pubblici.test.sql",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 6774c4b8b8e1c2417da816de6832e23266397f69^ --file app/store/[id]/[slug]/page.tsx --prove tests/unit/riparazione-r08-la-pagina-in-piu-del-negozio.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base 6774c4b8^ --file app/store/[id]/[slug]/page.tsx --prove tests/unit/riparazione-r08-la-pagina-in-piu-del-negozio.test.tsx --json → uscita 0 (K02)",
+      "nota_fix": "Scelta approvata dalla regista: nascosta = fuori dal menu, aperta col link (la promessa già scritta nella casella di PageEditor.tsx:104, che resta com'è). Tolto il notFound per i visitatori e il parametro preview non più usato. Il banner lo vede solo il proprietario e dice «nascosta dal menu: la vede solo chi ha il link». Verificato prima che non si esponga niente: la vista seller_public_profiles (migrations/126, coi permessi del creatore, concessa ad anon, commento in 152) restituisce già all'anonimo tutto store_site, pagine nascoste coi loro blocchi. Prova SQL eseguita sul database ricostruito: verde. Il noindex delle pagine nascoste c'era già (app/store/[id]/[slug]/layout.tsx:39)."
+    },
+    {
+      "chiave": "performance|sul telefono la home chiede al database e alla cassa i dati di un riquadro che non mostra",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r08-sul-telefono-il-riquadro-nascosto-non-chiede-dati.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 2f9e4db509b1ce5d03152e13bf372bffee3d80f6^ --file components/home/HeroStoreCard.tsx --prove tests/unit/riparazione-r08-sul-telefono-il-riquadro-nascosto-non-chiede-dati.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base 2f9e4db5^ --file components/home/HeroStoreCard.tsx --prove tests/unit/riparazione-r08-sul-telefono-il-riquadro-nascosto-non-chiede-dati.test.tsx --json → uscita 0 (K02)",
+      "nota_fix": "Seconda strada del fix (niente letture sotto md), senza smontare il riquadro: il tentativo del 5/11 di montarlo solo da md aveva fatto diventare rosse sei prove e spostato la copertina sul desktop. La queryFn guarda matchMedia('(min-width: 768px)'): sul telefono restituisce null senza chiamare vetrina_home. Senza negozio useVeloceDelNegozio non chiede la veloce. Il disegno all'idratazione non cambia (stesso markup dal server). Le 8 prove esistenti che montano il componente restano verdi. Dopo il collaudo: il telefono girato in orizzontale (≥768 px) mostrava «il negozio del mese arriva a giorni» per 10 minuti, perché il null del telefono restava in memoria. Adesso lo schermo fa parte della chiave della lettura (useSyncExternalStore su matchMedia, ascolta il cambio), e il salto del telefono è un segnale a parte, mai fresco, disegnato come scheletro: girando il telefono la lettura parte. Prova in più (390 → 844 px). Limite: l'orologio di useOraDiPiacenza (un setInterval al minuto in DeliveryCutoff, non mio) resta acceso."
+    },
+    {
+      "chiave": "performance|il service worker fa passare da sé le foto dei prodotti ma non ne conserva nessuna",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r08-il-service-worker-conserva-le-foto.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base a24bedcef881fe0816b0e165a65672277c4d3957^ --file public/sw.js --prove tests/unit/riparazione-r08-il-service-worker-conserva-le-foto.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base a24bedce^ --file public/sw.js --prove tests/unit/riparazione-r08-il-service-worker-conserva-le-foto.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Non ho messo crossOrigin sugli <img>, che stanno in ProductCard e in altri file non miei. Per le foto *.supabase.co/storage chieste in no-cors, il service worker rifà la domanda da sé con fetch(url, {mode:'cors', credentials:'omit'}): la risposta è leggibile, quindi entra nella cache con la logica che c'era già (freschezza, tetto, marca temporale). Un 403/404 resta tale e non si salva. Se il CORS manca, ripiega sulla domanda originale senza salvarla. Le risposte opache non si salvano, per il costo di quota che aveva fermato la S10. lib/image-loader.ts non cambia. Non verificato in un browser vero: che lo storage pubblico di Supabase risponda con Access-Control-Allow-Origin sulle rotte /render/image (lo dice la documentazione e la voce, non l'ho misurato da qui)."
+    },
+    {
+      "chiave": "privacy-legale|il link per disiscriversi scatta appena qualcuno lo apre, filtri antivirus compresi, e porta l'indirizzo email leggibile nell'indirizzo web",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r08-il-link-per-smettere-non-mostra-l-email.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base ea95891e415ea0a6740105be428e28f4d94c1c4e^ --file lib/email/unsubscribe.ts --prove tests/unit/riparazione-r08-il-link-per-smettere-non-mostra-l-email.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base ea95891e^ --file lib/email/unsubscribe.ts --prove tests/unit/riparazione-r08-il-link-per-smettere-non-mostra-l-email.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "La prima metà (GET con pagina di conferma, POST one-click immediata) era già alla base (app/api/unsubscribe/route.ts:41-48). Seconda metà: il gettone nuovo è v2.<iv|cifrato|etichetta> con AES-256-GCM e una chiave derivata dal segreto dei link; l'etichetta GCM autentica, quindi un gettone manomesso non si apre. I gettoni vecchi delle email già spedite si verificano ancora. Niente migrazione: disiscrivi riceve sempre l'email, decifrata sul server. Non serviva cambiare la rotta."
+    },
+    {
+      "chiave": "privacy-legale|se la persona toglie il consenso ai cookie statistici, sentry continua a misurare le sue pagine fino alla ricarica",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r08-sentry-smette-quando-si-dice-no.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base d66abdde2f26bfb485c701364ff39a49ebaf3a87^ --file lib/analytics/sentry-config.ts --prove tests/unit/riparazione-r08-sentry-smette-quando-si-dice-no.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base d66abdde^ --file lib/analytics/sentry-config.ts --prove tests/unit/riparazione-r08-sentry-smette-quando-si-dice-no.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "tracesSampleRate fisso all'avvio sostituito da tracesSampler: () => quotaDelleMisure(), che Sentry chiama a ogni misura e che legge il consenso in quel momento. instrumentation-client.ts non cambia: chiama ancora opzioniSentry() una volta, ma la funzione dentro guarda il consenso ogni volta. La registrazione dello schermo oggi non è accesa (nessuna replayIntegration fra le opzioni), quindi non c'è niente da fermare su mc:consent-change."
+    }
+  ]
+}
