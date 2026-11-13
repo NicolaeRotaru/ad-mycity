@@ -12,7 +12,7 @@ import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
 import { execFileSync, spawnSync, spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { tipoDiRosso, passate, nomiNuoviUsati } from "../prova-rimessa.mjs";
+import { tipoDiRosso, passate, nomiNuoviUsati, comandoSql, nomiCreatiNuovi } from "../prova-rimessa.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const ATTREZZO = join(QUI, "..", "prova-rimessa.mjs");
@@ -107,6 +107,41 @@ test("un file nuovo della correzione: tolto al passo ②, rimesso alla fine", ()
   const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/nuovo.mjs": "export const uno = () => 1;\n", "tests/nuovo.test.mjs": prova });
   assert.equal(lancia(r, "lib/nuovo.mjs", "tests/nuovo.test.mjs").uscita, 3);
   assert.ok(existsSync(join(r.d, "lib/nuovo.mjs")));
+});
+
+test("regola del 12/11 sera · un aiutante NUOVO usato da un file corretto: tolto da solo rompe l'import, e la macchina non decide (3)", () => {
+  const prova = testa + "import { somma } from '../lib/somma.mjs';\ntest('somma', () => assert.equal(somma(2, 2), 4));\n";
+  const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": "import { aiuto } from './aiuto.mjs';\nexport const somma = (a, b) => aiuto(a, b);\n", "lib/aiuto.mjs": "export const aiuto = (a, b) => a + b;\n", "tests/somma.test.mjs": prova });
+  const o = lancia(r, "lib/somma.mjs,lib/aiuto.mjs", "tests/somma.test.mjs");
+  assert.equal(o.uscita, 3, JSON.stringify(o.j) + o.err);
+  assert.equal(o.j.esito, "rosso_strutturale");
+  assert.ok(existsSync(join(r.d, "lib/aiuto.mjs")), "il file nuovo torna al suo posto");
+});
+
+test("regola del 12/11 sera · un file NUOVO che la prova non nomina (come una migrazione letta da chi ricostruisce il database): tolto, la prova cade sul comportamento, e regge (0)", () => {
+  const prova = testa + "import { readdirSync, readFileSync } from 'node:fs';\nconst tetto = Math.max(0, ...readdirSync('regole').map((f) => Number(readFileSync('regole/' + f, 'utf8')) || 0));\ntest('il tetto c\\'e\\'', () => assert.equal(tetto, 10));\n";
+  const r = repo({ "regole/base.txt": "x\n" }, { "regole/limite.txt": "10\n", "tests/regole.test.mjs": prova });
+  const o = lancia(r, "regole/limite.txt", "tests/regole.test.mjs");
+  assert.equal(o.uscita, 0, JSON.stringify(o.j) + o.err);
+  assert.equal(o.j.esito, "regge");
+  assert.ok(existsSync(join(r.d, "regole/limite.txt")), "il file nuovo torna al suo posto");
+});
+
+test("regola del 12/11 sera · una prova che nomina il file nuovo guarda il file, non il comportamento: la macchina non decide (3)", () => {
+  const prova = testa + "import { existsSync } from 'node:fs';\ntest('c\\'e\\'', () => assert.ok(existsSync('regole/limite.txt'), 'expected file to exist'));\n";
+  const r = repo({ "regole/base.txt": "x\n" }, { "regole/limite.txt": "10\n", "tests/regole.test.mjs": prova });
+  assert.equal(lancia(r, "regole/limite.txt", "tests/regole.test.mjs").uscita, 3);
+});
+
+test("regola del 12/11 sera · --sql scrive lui il comando: nome del database controllato, e insieme a --comando no (2)", () => {
+  assert.match(comandoSql("mycity_rimessa"), /apply\.sh mycity_rimessa .*MIGRAZIONI_NON_APPLICATE.*VERBOSITY=verbose/);
+  assert.equal(tipoDiRosso("MIGRAZIONI_NON_APPLICATE: il database di prova non si ricostruisce"), "strutturale");
+  assert.throws(() => comandoSql("x; rm -rf /"), /nome di un database/);
+  const r = repo({ "lib/somma.mjs": SBAGLIATA }, { "lib/somma.mjs": GIUSTA, "tests/somma.test.mjs": PROVA });
+  const p = spawnSync("node", [ATTREZZO, "--repo", r.d, "--base", r.base, "--file", "lib/somma.mjs", "--prove", "tests/somma.test.mjs", "--comando", "x {prove}", "--sql", "db"], { encoding: "utf8", env: ambiente() });
+  assert.equal(p.status, 2);
+  assert.equal(tipoDiRosso("psql:x.sql:70: ERROR:  P0001: 4 controllo/i rosso/i"), "comportamento");
+  assert.equal(tipoDiRosso("psql:x.sql:9: ERROR:  42883: function public.nuova(uuid) does not exist"), "strutturale");
 });
 
 test("i permessi tornano com'erano: un file eseguibile resta eseguibile", () => {
@@ -284,4 +319,38 @@ test("un file che la correzione ha cancellato e che un'interruzione ha rimesso: 
   const o = lancia(r, "lib/somma.mjs,lib/vecchio.mjs", "tests/somma.test.mjs");
   assert.equal(o.uscita, 2);
   assert.match(o.j.motivo, /rm [^ ]*lib\/vecchio\.mjs/);
+});
+
+// ── radiografia del 12/11 notte ─────────────────────────────────────────────────────────────────────────
+test("AR-1172 · radiografia 12/11 notte · due file NUOVI: quello estraneo, tolto da solo, lascia la prova verde → non morde (1)", () => {
+  const prova = testa + "import { readdirSync, readFileSync } from 'node:fs';\nconst tetto = Math.max(0, ...readdirSync('regole').map((f) => Number(readFileSync('regole/' + f, 'utf8')) || 0));\ntest('il tetto', () => assert.equal(tetto, 10));\n";
+  const r = repo({ "regole/base.txt": "x\n" }, { "regole/limite.txt": "10\n", "regole/zz-apre-tutto.txt": "grant all\n", "tests/regole.test.mjs": prova });
+  const o = lancia(r, "regole/limite.txt,regole/zz-apre-tutto.txt", "tests/regole.test.mjs");
+  assert.equal(o.uscita, 1, JSON.stringify(o.j) + o.err);
+  assert.equal(o.j.esito, "non_morde");
+  assert.match(o.j.motivo, /zz-apre-tutto\.txt/);
+  assert.doesNotMatch(o.j.motivo, /limite\.txt/);
+});
+
+test("AR-1172 · radiografia 12/11 notte · una migrazione nuova provata senza --sql: la macchina non decide (3)", () => {
+  const prova = testa + "import { readdirSync, readFileSync } from 'node:fs';\nconst tutto = readdirSync('migrations').map((f) => readFileSync('migrations/' + f, 'utf8')).join('');\ntest('il tetto', () => assert.ok(tutto.includes('tetto_rimborso'), 'expected migrations to include it'));\n";
+  const r = repo({ "migrations/245_x.sql": "select 1;\n" }, { "migrations/250_tetto.sql": "-- niente\nselect 'tetto_rimborso';\n", "tests/tetto.test.mjs": prova });
+  const o = lancia(r, "migrations/250_tetto.sql", "tests/tetto.test.mjs");
+  assert.equal(o.uscita, 3, JSON.stringify(o.j) + o.err);
+  assert.match(o.j.motivo, /si prova con --sql/);
+});
+
+test("AR-1172 · radiografia 12/11 notte · --sql: un errore di struttura avvolto in WHEN OTHERS resta struttura; i nomi creati solo dalla migrazione nuova si riconoscono", () => {
+  assert.equal(tipoDiRosso("INFO:  00000: 1 ROTTO → function public.conta_ordini() does not exist\nERROR:  P0001: 1 controlli rossi"), "strutturale");
+  assert.equal(tipoDiRosso("INFO:  00000: relation \"public.coupon_redemptions\" does not exist\nERROR:  P0001: 2 controlli rossi"), "strutturale");
+  assert.equal(tipoDiRosso("ERROR:  P0001: 4 controllo/i rosso/i su IBAN e dati fiscali"), "comportamento");
+  assert.deepEqual(nomiCreatiNuovi("create or replace function public.conta_ordini() returns int as $$ select 0 $$;\nCREATE TABLE IF NOT EXISTS public.coupon_redemptions (id int);\n-- create table finta (x int)\ncreate or replace function public.vecchia() returns int as $$ select 1 $$;", (n) => n === "vecchia"), ["conta_ordini", "coupon_redemptions"]);
+});
+
+test("AR-1172 · radiografia 12/11 notte · --sql gira solo su un database di prova e su un Postgres locale", () => {
+  assert.throws(() => comandoSql("mycity_rimessa", { PGHOST: "db.abcd.supabase.co" }), /Postgres locale/);
+  assert.throws(() => comandoSql("postgres", {}), /di prova/);
+  assert.throws(() => comandoSql("produzione", {}), /di prova/);
+  assert.match(comandoSql("k01_rimessa", { PGHOST: "/tmp" }), /apply\.sh k01_rimessa/);
+  assert.match(comandoSql("mycity_test", { PGHOST: "localhost" }), /apply\.sh mycity_test/);
 });

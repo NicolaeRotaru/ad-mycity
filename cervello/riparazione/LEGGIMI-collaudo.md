@@ -54,6 +54,39 @@ quello che guardi**, e non lo ripari adesso: tu giudichi.
   nella stessa cartella si sovrascrivono): `git -C ../marketplace worktree add ../wt-RNN --detach <testa> && ln -s "$(cd ../marketplace && pwd)/node_modules" ../wt-RNN/node_modules`.
 - Spingi **solo** il tuo referto, `<cartella>/collaudi/KNN.json`, sul tuo ramo. Nient'altro.
 
+### Giri brevi, codice giusto (regola del 12/11 notte)
+
+**Il database vero non si tocca, nemmeno per leggerlo.** Mai gli strumenti di Supabase, Vercel o Stripe: né tu né
+i subagenti che lanci. Nell'onda 1 un subagente ha letto il database di produzione. Scrivi la regola nel mandato di
+ogni subagente, con queste parole: «mai interrogare il database di produzione, né gli strumenti di Supabase, Vercel
+e Stripe». Un lucchetto che si mette da sola non c'è: `ad-mycity` vieta di scrivere `.claude/settings.local.json`
+(radiografia del 12/11 notte). Non provare a scriverlo, nemmeno da Bash. La regista controlla a ogni giro che nella
+tua sessione non ci siano chiamate a quegli strumenti: alla prima ti interrompe.
+
+Il conto dell'onda 1: i collaudatori sono costati da 28 a 41 $. Gran parte era la loro storia (440-480 mila token)
+riletta a ogni passo e riscritta dopo ogni attesa. Inoltre in K02 un qa ha rischiato di provare codice spostato nel
+frattempo da altri. Quindi:
+
+1. **Tu resti leggero.** Il lavoro sulle voci lo fanno subagenti `qa` nuovi, al massimo 6 voci ciascuno e un grave
+   da solo, con un rapporto corto: il verdetto, più ogni difetto con file e riga. Le uscite lunghe stanno in un file
+   in `/tmp`. **I revisori si lanciano tutti insieme in primo piano**, nello stesso messaggio: così non ti svegliano
+   uno alla volta. Ognuno nella sua copia (punto 3) e col suo database (punto 4): insieme, mai nella stessa cartella.
+2. **Un giro di ricollaudo** (dopo una correzione del riparatore) lo fanno subagenti nuovi. Ricevono solo il referto
+   alla punta, le voci rimandate e il tuo verdetto di prima, letto da `collaudi/KNN.json`. Se la regista ti scrive
+   che hai superato i 300 mila token, salvi e spingi il collaudo: il giro dopo lo fa un collaudatore nuovo, sullo
+   stesso ramo, che riparte da quel file.
+3. **Il codice è quello dichiarato.** Ogni esecutore ha la sua copia allo SHA esatto (`worktree add --detach`). Prima
+   di lanciare una prova controlla `git -C ../wt-RNN rev-parse HEAD`: deve essere il commit che stai provando. Se no,
+   fermati e rifai la copia.
+4. **Il database di prova è tuo.** Ogni esecutore usa un database locale con un nome suo (per esempio
+   `mycity_k01_r03`), creato da zero dalle migrazioni o copiato da un modello pulito. Mai un database che un altro
+   sta usando: dà prove false.
+5. **Al massimo 12 subagenti in tutto** (regola del 13/11), anche in ultracode. Le due lenti su soldi, dati e
+   permessi restano, perché sono il controllo. Oltre il tetto ti fermi e lo scrivi alla regista.
+6. **Il verify completo** lo rilancia chi consegna, legato allo SHA (`verifica.testa` nel referto). Tu rilanci le
+   prove delle voci e la prova rimessa. Il verify completo lo rifai solo se `verifica.testa` manca, o non è la testa:
+   `applica` non lascia chiudere un referto così, ma se ti arriva il paracadute sei tu.
+
 ### Passo 1 — Su ogni voce, il programma
 
 Per ogni voce `riparato` o `parziale` del referto, con C = il suo commit:
@@ -61,8 +94,10 @@ Per ogni voce `riparato` o `parziale` del referto, con C = il suo commit:
 1. `git -C ../wt-RNN checkout --quiet --detach C` (l'albero deve essere pulito, a parte `node_modules`);
 2. `timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-RNN --base C^ --file <i file della voce> --prove <le sue prove> --json`
    (più file separati da una virgola, senza spazi)
-   (macchina: aggiungi `--comando "node --test {prove}"`; voci SQL: `tests/sql/harness/apply.sh` e `run.sh`
-   su un Postgres locale);
+   (macchina: aggiungi `--comando "node --test {prove}"`; voci SQL: `--sql <il tuo database>`, per esempio
+   `--sql k01_r03_rimessa`, su un Postgres locale: ricostruisce il database con e senza la migrazione. `apply.sh` e
+   `run.sh` da soli non tolgono la correzione e sono verdi qualunque cosa faccia: il programma rifiuta un «regge»
+   che non viene da `prova-rimessa.mjs`, e se il riparatore ha usato `--sql` lo pretende anche da te);
 3. l'uscita va nel collaudo, col comando esatto:
    - 0 → si passa al giudizio;
    - 1 → `non_regge`: togliendo la correzione la prova non diventa rossa;
@@ -128,7 +163,17 @@ I verdetti: `regge | parziale | non_regge | rompe_altro`. Ogni voce `riparato`, 
 3. Spegni quello che hai acceso (un server di prova, un Postgres) e togli le copie di lavoro
    (`git worktree remove`).
 
+### Se qualcosa ti blocca
+
+Se un permesso, un controllo della sessione o un accesso negato ti ferma (un comando rifiutato, `ad-mycity` che non
+si legge, una richiesta di approvazione), non aspettare: nessuno la vede. Manda subito alla regista con `send_message`
+l'errore esatto, e intanto vai avanti per un'altra strada. Un comando che non puoi lanciare lo lancia la regista. Il
+12/11 una sessione è rimasta ferma quattro ore in attesa di un clic che nessuno poteva dare.
+
 ### Cosa non fai mai
 
 Riparare tu una voce, toccare i rami dei riparatori, mettere il sito online, scrivere sul database vero.
+**Interrogare il database vero, anche solo in lettura** (gli strumenti Supabase, `psql` verso l'indirizzo vero):
+nell'onda 1 un subagente l'ha fatto. Le prove girano sul Postgres locale, e questa riga va nel mandato di ogni
+subagente che lanci.
 I dettagli di una falla riservata non vanno nel collaudo: solo nel messaggio alla regista.

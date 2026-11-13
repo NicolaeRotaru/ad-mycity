@@ -1,0 +1,94 @@
+2026-11-12 15:38 · R01-R12 · aperte · onda 1 partita (12 sessioni, 300 voci) · aspetto i piani
+2026-11-12 15:41 · R11 · piano · — · — · — · approvato con 3 precisazioni (tipi DB, prova R11-024, tetto qa)
+2026-11-12 15:42 · R01 · piano · — · — · — · approvato (R01-002 solo con l'esecuzione del rilascio verificata; R01-025 alternativa a Nicola)
+2026-11-12 15:42 · R02 · piano · — · — · — · approvato (R02-001/006 scelta di Nicola, niente testo)
+2026-11-12 15:42 · R04 · piano · — · — · — · approvato (niente add_repo su ad-mycity; modello 4-6 come riparazione)
+2026-11-12 15:43 · R03 · piano · — · — · — · approvato (RC con fonte o domanda; 008 nasce CANCELLED; payout.ts tre commit; qa ≤12)
+2026-11-12 15:44 · R07 · piano · — · — · — · approvato (R07-003 HEIC resta scelta di Nicola, niente codice)
+2026-11-12 15:44 · R08 · piano · — · — · — · approvato (014 con prova che era già pubblico; domanda P.IVA a Nicola; prove dei ripieghi)
+2026-11-12 15:45 · R06 · piano · — · — · — · approvato (007 senza difetto = gia_riparato_prima; 014 prova leggera; 005 parziale)
+2026-11-12 15:45 · R09 · piano · — · — · — · approvato (002 solo documentata, parole generiche; 006 pagina solo se sua; 007 non_fatto)
+2026-11-12 15:46 · R12 · piano · — · — · — · approvato (004 regola 2 ore in domande + prova; 007 togli VALUE_PROPS; 001 due lenti)
+2026-11-12 15:47 · R10 · piano · — · — · — · approvato (020 definizione in domande; 019 niente rimborso automatico; 009 lock in commit isolato con verify)
+2026-11-12 15:55 · AD · nota · — · — · — · Nicola dorme fino alle 17:30: avanti fino alla fermata 2, poi un messaggio solo e stop
+2026-11-12 16:13 · R01 · in lavoro · guardia 🔴 · referto 🔴 20 voci · unione (sotto) · nessuna
+2026-11-12 16:13 · R02 · in lavoro · guardia ✅ · referto ⏳ 11 voci · unione (sotto) · nessuna
+2026-11-12 16:13 · R03 · in lavoro · guardia ✅ · referto ⏳ 10 voci · unione (sotto) · nessuna
+2026-11-12 16:13 · R04 · in lavoro · guardia ✅ · referto ⏳ 13 voci · unione (sotto) · nessuna
+2026-11-12 16:13 · R05 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-12 16:13 · R06 · in lavoro · guardia ✅ · referto 🔴 11 voci · unione (sotto) · nessuna
+2026-11-12 16:13 · R07 · in lavoro · guardia ✅ · referto 🔴 16 voci · unione (sotto) · nessuna
+2026-11-12 16:13 · R08 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-12 16:13 · R09 · in lavoro · guardia ✅ · referto ⏳ 19 voci · unione (sotto) · nessuna
+2026-11-12 16:13 · R10 · in lavoro · guardia ✅ · referto 🔴 10 voci · unione (sotto) · nessuna
+2026-11-12 16:13 · R11 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-12 16:13 · R12 · in lavoro · guardia ✅ · referto ⏳ 10 voci · unione (sotto) · nessuna
+2026-11-12 16:13 · onda 1 · prova-unione ⏳
+2026-11-12 16:13 · R01 · lavora · guardia 🔴 · referto 20 di 25 · unione ✅ · corretto: 4 prove con skipIf, 2 prove rimesse mancanti
+2026-11-12 16:13 · R06 · lavora · guardia ✅ · referto 11 di 25 · unione ✅ · corretto: 4 chiavi tagliate, 2 prove rimesse mancanti
+2026-11-12 16:13 · R07 · lavora · guardia ✅ · referto 16 di 25 · unione ✅ · corretto: prova_tipo «leggera» su 4 voci
+2026-11-12 16:13 · R10 · lavora · guardia ✅ · referto 10 di 25 · unione ✅ · corretto: «{{» nel referto
+2026-11-12 16:13 · R05 · fermo senza piano · — · — · — · sollecitato col clone pubblico
+2026-11-12 16:13 · R02 R03 R04 R08 R09 R11 R12 · lavorano · ✅ · — · ✅ · nessuna azione
+2026-11-12 16:27 · R01 · dice finito · guardia 🔴 (6 prove con skipIf, 1 prova altrui toccata) · referto 25 di 25 ✅ · — · ultimo giro di correzione mandato
+2026-11-12 16:29 · R01 · conflitto prova altrui · guardia 🔴 (storia di 1 prova altrui, toccata e rimessa) · — · — · scelta B: frase e prova all'onda 2; il rosso della storia va a Nicola alla fermata 2
+2026-11-12 16:33 · R02 · finita · guardia ✅ · referto 25 di 25 ✅ · — · dato a K01 (aperto)
+2026-11-12 16:33 · R07 · lavora · guardia 🔴 (aiuto di prova altrui toccato) · referto vecchio sul ramo · — · correzione mandata
+2026-11-12 16:36 · R01 · finita · guardia 🔴 solo storia di 1 prova altrui (netto vuoto) · referto 25 di 25 ✅ · — · dato a K01; il rosso va a Nicola alla fermata 2
+2026-11-12 16:38 · R06 · lavora · — · chiavi corrette · — · 013/014 (solo migrazione nuova) = parziale, come R01-019
+2026-11-12 16:41 · R09 · finita · guardia ✅ · referto 25 di 25 ✅ · — · dato a K01 (pieno: R01 R02 R09)
+2026-11-12 16:42 · R07 · finita · guardia 🔴 solo storia di 1 aiuto altrui (netto vuoto) · referto 25 di 25 ✅ · — · dato a K02 (aperto); un qa ha letto in sola lettura la produzione
+2026-11-12 16:43 · K01 · R02 collaudato · 9 reggono, 10 parziali, 1 non regge, 1 rompe altro; campione minori 8 su 13, non accettato · — · — · un giro di correzione a R02 (003, 023, 008, 011, 015 + esiti); 1 difetto nato riservato tenuto fuori dal deposito
+2026-11-12 16:44 · R08 · dice finito · — · referto ✅ · — · 016/025 da riportare a parziale; 1 falla riservata tenuta fuori dal deposito
+2026-11-12 16:45 · R08 · finita · guardia 🔴 (2 prove esistenti che leggono i suoi file, non li importano) · referto 25 di 25 ✅ · — · dato a K02; la regola va a Nicola
+2026-11-12 16:46 · R01 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-12 16:46 · R02 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-12 16:46 · R03 · in lavoro · guardia ✅ · referto ⏳ 19 voci · unione (sotto) · nessuna
+2026-11-12 16:46 · R04 · in lavoro FINITA · guardia 🔴 · referto 🔴 25 voci · unione (sotto) · nessuna
+2026-11-12 16:46 · R05 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-12 16:46 · R06 · in lavoro · guardia ✅ · referto 🔴 25 voci · unione (sotto) · nessuna
+2026-11-12 16:46 · R07 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-12 16:46 · R08 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-12 16:46 · R09 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-12 16:46 · R10 · in lavoro · guardia ✅ · referto ⏳ 25 voci · unione (sotto) · nessuna
+2026-11-12 16:46 · R11 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-12 16:46 · R12 · in lavoro · guardia 🔴 · referto 🔴 20 voci · unione (sotto) · nessuna
+2026-11-12 16:46 · K01 · collaudo · guardia ✅ · collaudo ⏳ · nessuna
+2026-11-12 16:46 · K02 · collaudo · guardia ✅ · collaudo ⏳ · nessuna
+2026-11-12 16:46 · onda 1 · prova-unione ⏳
+2026-11-12 16:47 · giro · quota allowed, regista 10,49 $ · R04 🔴 guardia (1 prova esistente) + 2 prova_tipo · R12 🔴 guardia (5 prove con meno asserzioni) + referto · R06 in corso · corrette con messaggio
+2026-11-12 16:49 · R05 · bloccato (non può leggere ad-mycity) · — · — · — · mandate regole e scheda nel messaggio
+2026-11-12 16:49 · R04 · finita · guardia 🔴 (1 prova esistente che legge un suo file) · referto ✅ · — · dato a K02 (pieno: R04 R07 R08)
+2026-11-12 16:49 · R10 · finita · guardia ✅ · referto ✅ · — · dato a K03 (aperto)
+2026-11-12 16:54 · R06 · finita · guardia ✅ · referto ✅ · — · dato a K03
+2026-11-12 16:54 · R12 · dice finito · guardia 🔴 (asserzioni tolte da prove esistenti, non corretto) · referto ✅ · — · ultimo giro di correzione
+2026-11-12 16:56 · R12 · finita · guardia ✅ · referto ✅ · — · dato a K03 (pieno: R06 R10 R12)
+2026-11-12 16:58 · K01 · R01 R02 R09 collaudati · R01 10 reggono, 5 parziali, 1 rompe altro (004); R09 13 reggono, 6 parziali, 1 non regge (001), campione non accettato · — · — · giro di correzione a R01 e R09; R02 corretto torna a K01; 1 falla riservata tenuta fuori dal deposito
+2026-11-12 17:03 · R03 · finita · guardia ✅ · referto ✅ · — · dato a K04 (aperto)
+2026-11-12 17:04 · K01 · ricollaudo R02 · 11 reggono, 9 parziali, 1 non regge (003, seconda volta: resta aperta con la nota, niente terzo giro senza Nicola); campione accettato · — · — · R02 chiuso per l'onda 1
+2026-11-12 17:07 · R01 · correzione finita · guardia 🔴 solo storia nota · referto ✅ · — · torna a K01 per le voci rimandate
+2026-11-12 17:08 · R09 · correzione finita · guardia ✅ · referto ✅ · — · torna a K01 per le voci rimandate
+2026-11-12 17:12 · K02 · R04 R07 R08 collaudati · R04 10 reggono, 2 non reggono, 2 rompe altro, campione no; R07 18 reggono, 0 bocciate; R08 15 reggono, 1 rompe altro (008: 6 prove indebolite) · — · — · correzione a R04 e R08; 9 voci con rimessa uscita 3 = parziale (regola della campagna); falla riservata già annotata
+2026-11-12 17:13 · K04 · R03 collaudato · 11 reggono, 6 parziali, 1 non regge (003), 4 rompe altro (001, 007, 008, 022) · — · — · correzione a R03
+2026-11-12 17:14 · K02 · aggiornato · 9 voci a parziale (rimessa uscita 3): R07 campione scende a 7 su 9 e non è più accettato, solo per la regola del programma · — · — · da portare a Nicola con la regola sui file nuovi
+2026-11-12 17:15 · K03 · R06 R10 R12 collaudati · R06 15 reggono, 3 non reggono; R10 14 reggono, 1 non regge, 3 rompe altro; R12 15 reggono, 3 non reggono, 1 rompe altro; campioni non accettati · — · — · correzione a R06, R10, R12; 1 difetto riservato annotato fuori
+2026-11-12 17:20 · R08 · correzione finita · guardia 🔴 (2 prove esistenti note + aiuto nuovo senza il nome riparazione-r08: rinominarlo non toglie il rosso dalla storia) · referto ✅ · — · torna a K02 sulla 008; nome dell'aiuto a Nicola con le altre regole
+2026-11-12 17:21 · giro · quota allowed, regista 17,69 $ · R11 lavora (18 di 25), guardia 🔴 (2 prove esistenti) + 1 rimessa mancante, corretto · R05 fermo: la sua sessione aspetta un via umano e non manda il piano — le sue 25 voci vanno proposte all'onda 2 alla fermata 2 · prova-unione in attesa di R05
+2026-11-12 17:22 · K02 · ricollaudo R08-008 · regge (mutazioni rifatte: 2 e 4 rossi); R08 14 reggono, 3 parziali, 0 bocciate, campione accettato · — · — · R08 chiuso per l'onda 1
+2026-11-12 17:24 · R06 · correzione finita · guardia ✅ · referto ✅ · — · torna a K03 sulle voci rimandate
+2026-11-12 17:25 · R10 · correzione finita · guardia ✅ · referto ✅ · — · torna a K03 sulle voci rimandate
+2026-11-12 17:26 · R04 · correzione finita · guardia 🔴 solo la prova esistente nota · referto ✅ (lanciato dalla regista) · — · torna a K02 sulle voci rimandate
+2026-11-12 17:27 · R03 · correzione finita · guardia ✅ · referto ✅ (lanciato dalla regista) · — · torna a K04 sulle voci rimandate
+2026-11-12 17:30 · K02 · finito · R04 7 reggono, 17 parziali; R07 14 reggono, 6 parziali; R08 14 reggono, 3 parziali; nessuna bocciata · — · — · R04-025: rischio non dichiarato (lotto finito chiuso come fallito dopo 25 ore → riavvio pagato due volte) da mettere nel registro come nato; R04-011: falliti oltre il 30° mai ritentati (minore nato)
+2026-11-12 17:31 · R12 · correzione finita · guardia ✅ · referto ✅ · — · torna a K03 sulle voci rimandate
+2026-11-12 17:32 · K04 · ricollaudo R03 · 11 reggono, 8 parziali, 1 non regge (007), 2 rompono altro (001, 008: seconda caduta) · — · — · niente terzo giro: all'unione si tolgono con git revert i commit di R03-001 e R03-008 (008 regressione soldi: rimborso pieno ma ordine B nasce PAID); 007 resta aperta (il fatto pagamenti.rimborso-contanti è falso)
+2026-11-12 17:52 · giro · quota allowed, regista 22,64 $ · aspetto K01 (R01 R09), K03 (R06 R10 R12), R11 in chiusura · R05 ancora bloccato, invariato · nessuna azione
+2026-11-12 18:00 · K03 · ricollaudo R06 R10 R12 · seconde cadute: R06-019 non regge (resta aperta, miglioramento tenuto); R10-019 rompe altro (abbonamento pagato sovrascritto su errore di rete) → revert di tutti i commit R10-019 all'unione; R12-012 rompe altro (9 errori grezzi del database arrivano al cliente) → revert di tutti i commit R12-012; R12-001 e R12-004 parziali; R06-023 parziale; campioni non accettati · — · — · niente terzo giro
+2026-11-12 18:11 · R11 · finita · guardia 🔴 (3 prove esistenti montate per percorso) · referto ✅ · — · dato a K04; 1 falla grave riservata (IBAN) tenuta fuori dal deposito
+2026-11-12 18:21 · K04 · R11 collaudato · 5 reggono, 6 parziali, 9 non reggono, 4 rompono altro (004/001 bonifico pagabile due volte; 023 contestazione col credito); campione no · — · — · un giro di correzione a R11; K04 finito per R03
+2026-11-12 18:24 · giro · quota allowed, regista 24,56 $ · K01 fermo da 1 h su una richiesta di permesso (comando python): interrotto e rimesso in moto con strumenti di file · R11 in correzione · R05 fermo
+2026-11-12 18:27 · K01 · ricollaudo R01 R09 · R01 11 reggono, 4 parziali, 1 non regge (006: dall'elenco storico l'SOS punta a una consegna chiusa — da valutare il revert della parte RiderShell); R09 13 reggono, 3 parziali, 4 non reggono (001, 008, 024, 025: restano aperte); campioni accettati R01 R02 R09 · — · — · niente terzo giro
+2026-11-12 18:34 · R11 · correzione finita (9 riparati, 15 parziali) · guardia 🔴 solo le 3 prove note · referto ✅ · — · torna a K04 sulle voci rimandate
+2026-11-12 19:16 · unione onda 1 · 11 rami uniti senza conflitti (1 file fuso da solo, minori-s09-aspetto) · revert: R03-001 R03-008 R11-015 R11-016 R12-012 (rompe altro ×2), R07-019 R06-014 R06-017 (rosse dopo l'unione); R10-019 non tolta (conflitto, latente) · tipi del database rigenerati · verify ✅ 9646 · SQL ✅ 195 migrazioni · integrazione b144746 spinta · C01 aperto
+2026-11-12 19:45 · C01 · finito · 14 voci rosse (9 tolte + R10-019 + R03-007 R11-017 R08-012 R09-013), 16 difetti nuovi (3 gravi, 2 riservati) · verify ✅ SQL ✅ · applica ✅ 115 si chiudono · fermata 2 all'AD
+2026-11-12 20:50 · migrazioni sul database vero (firma di Nicola in chat: «fai la migrazione della falla» + «fai le 14 migrazioni») · applicate 250 260 270 271 272 300 320 321 322 323 360 + 365 (falla IBAN/dati fiscali) · 361 non applicata: il server ha chiesto una conferma rimasta senza risposta (verificato: tabella coupon_redemptions assente) · restano 361 363 364 · 350 NON va applicata · codice della falla sulla PR mycity#288 @ 8bf33ea

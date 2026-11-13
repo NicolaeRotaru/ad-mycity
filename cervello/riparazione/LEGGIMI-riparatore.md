@@ -50,9 +50,46 @@ regole, e scrivi i dubbi nel referto (`domande_per_nicola`).
 
 ### Prima il piano
 
-Prima di toccare il codice scrivi il piano: per ogni voce, il file e la riga da cambiare, la prova che
-diventerà rossa, l'ordine (i gravi prima). Mandalo alla regista con `send_message` e **chiudi il turno**.
+Prima di toccare il codice scrivi il piano, **senza aprire il codice del sito**: lo ricavi dalla scheda e dal registro
+compatto. Per ogni lotto: le voci, l'ordine (i gravi prima), e per ogni voce il file della scheda e il tipo di prova
+che ti aspetti. Il dettaglio riga per riga lo scrive il subagente del lotto, prima di riparare, e lo trovi nel suo
+rapporto. Manda il piano alla regista con `send_message` e **chiudi il turno**.
 Riparti quando la regista risponde «approvato», o correggi come ti dice.
+
+### A lotti, con la storia piccola (regola del 12/11 notte)
+
+Il conto dell'onda 1: un riparatore è costato da 25 a 55 $ di listino, e tre quarti erano nel primo turno lungo.
+La sua storia arrivava a 440-740 mila token, riletti per intero a ogni passo. Sei dollari su dieci dell'onda sono
+andati in rilettura, non in lavoro. Quindi:
+
+1. **Tu fai il capo squadra, leggero.** Non apri i file del sito per ripararli. Dividi le tue voci in **lotti da 5
+   a 8**: i gravi prima, e un grave di soldi, dati o permessi sta da solo nel suo lotto.
+2. **Ogni lotto lo ripara un subagente nuovo.** Gli dai: le voci (chiave, file, riga del registro compatto), il
+   percorso di questo foglio da leggere, la tua fascia di migrazioni e il ramo. Ripara voce per voce col metodo qui
+   sotto, fa le prove e la prova rimessa, un commit per voce, e ti restituisce solo le righe JSON del referto e i
+   problemi in poche righe. Nel deposito del sito i tipi `tech` e `qa` non esistono: usa il subagente generico, con
+   un mandato chiuso («ripara queste voci con queste regole» oppure «prova a smentire queste riparazioni»).
+3. **Un lotto alla volta.** I lotti lavorano nella stessa copia del sito: due insieme si rubano i file a vicenda
+   (il commit di uno cattura i file che la prova rimessa dell'altro ha riportato alla base, e la prova rimessa trova
+   l'albero sporco). Il lotto dopo parte solo quando quello prima ha fatto i suoi commit.
+   **Tu copi le righe nel referto**, lanci i controlli del lotto e passi al lotto dopo. Così la tua storia resta
+   sotto i 150 mila token. Un giro di correzione chiesto dal collaudo lo fa un subagente nuovo, che riceve solo il
+   referto, il diff della voce e il rapporto del collaudo.
+4. **I rapporti sono corti:** il verdetto, più ogni difetto con file e riga. Le uscite lunghe (prove, log) restano in
+   un file in `/tmp`, e nella storia entra solo il comando con l'esito. Le prove si lanciano con il reporter corto
+   (`--reporter=dot`), non con quello che stampa ogni caso.
+5. **Un turno, un esito.** Un comando lungo (`npm run verify`) si aspetta nello stesso turno: in primo piano fino a
+   10 minuti, oltre in sottofondo con l'attesa sul comando. Non si chiude il turno con «verify in corso». Insieme, in
+   primo piano e nello stesso messaggio, si lanciano solo i subagenti che **leggono** (i revisori di un lotto), così
+   non ti svegliano uno alla volta. Quelli che riparano vanno uno alla volta (punto 3).
+6. **Se la regista ti scrive che hai superato i 300 mila token**, chiudi il lotto in corso, aggiorna il referto,
+   copialo in `.riparazione/referto-RNN.json`, fai il commit e spingi. Il resto lo fa una sessione nuova, che parte
+   dalla **testa del tuo ramo** (non dalla base), legge il referto dal ramo e riprende solo le voci che non hanno
+   ancora un esito. Scrivi alla regista lo SHA spinto, preso con `git rev-parse HEAD` nello stesso comando.
+7. **Al massimo 12 subagenti in tutto** (regola del 13/11), anche se la sessione è in ultracode. Al dodicesimo ti
+   fermi e lo scrivi alla regista, con quante voci restano.
+8. **Un lotto di soli minori, senza soldi, dati o permessi**, lo dai a un subagente col modello piccolo
+   (`model: "sonnet"`). I gravi, e tutto quello che tocca soldi, dati o permessi, restano sul modello grande.
 
 ### Il metodo, voce per voce
 
@@ -82,6 +119,14 @@ Riparti quando la regista risponde «approvato», o correggi come ti dice.
    `node_modules`: per questo il referto non si tiene dentro l'albero mentre lavori (vedi «I commit»). Uscita 0 = regge. 1 = la prova non torna rossa togliendo la correzione: non
    è una riparazione. 3 = la prova è rossa per la struttura (un nome che manca), non per il comportamento:
    rimetti il difetto com'è scritto nella voce e guarda. 2 o 4 = condizione sbagliata: sistemala e riprova.
+   **Se la correzione ha file nuovi** (una migrazione, un aiutante) mettili in `--file` insieme agli altri: la
+   prova toglie tutti i file nuovi insieme, lascia corretti gli altri, e deve cadere sul comportamento. Una
+   prova che nomina o importa il file nuovo dà 3: guarda il file, non quello che fa. **Una
+   migrazione si prova con le prove SQL:** `--sql rNN_rimessa` al posto di `--comando` (ricostruisce il
+   database dalle migrazioni sul disco, con e senza la tua; il nome deve dire «rimessa», «prova» o «test», e il
+   Postgres deve essere locale). Senza `--sql` una migrazione nuova dà 3. Se la correzione ha più file nuovi, ognuno
+   si toglie anche da solo: uno che da solo lascia la prova verde dà 1. Così anche una voce chiusa solo con una
+   migrazione può essere `riparato`, non più `parziale` per forza (regola del 12/11 sera).
 9. Scrivi la voce nel referto **appena finita**, non alla fine: nel file di lavoro `../referto-RNN.json`, fuori
    dall'albero.
 
@@ -90,10 +135,15 @@ Riparti quando la regista risponde «approvato», o correggi come ti dice.
 - Tocchi solo **i tuoi file** (sezione «I miei file» della scheda). Un file nuovo lo puoi creare: se un
   altro ramo crea lo stesso file, la regista lo vede subito.
 - **Le prove nuove** portano il tuo nome: `tests/unit/riparazione-rNN-<tema>.test.ts` (sito),
-  `tests/sql/rls/riparazione-rNN-<tema>.sql` (prove SQL: è l'unica cartella che leggono `run.sh` e la CI),
+  `tests/sql/rls/riparazione-rNN-<tema>.test.sql` (prove SQL: `run.sh` e la CI leggono solo `tests/sql/rls/*.test.sql`;
+  con un altro nome la guardia è rossa),
   `cervello/test/riparazione-rNN-<tema>.test.mjs` (macchina).
-- **Una prova esistente** la modifichi solo se importa uno dei tuoi file, e lo dichiari. Mai spegnerla,
-  saltarla (`.skip`) o indebolirla per farla passare.
+- **Una prova esistente** la modifichi solo se importa **o legge per nome** uno dei tuoi file (per esempio
+  `readFileSync(join(ROOT, "app", "x", "page.tsx"))`), e lo dichiari. Un percorso scritto solo in un commento
+  non conta. Se la prova usa anche file di altre sessioni dell'onda è comune: non la tocchi, scrivi
+  `serve_file_altrui`. Mai spegnerla, saltarla (`.skip`) o indebolirla per farla passare.
+- La guardia guarda **il risultato del ramo**: un file toccato per sbaglio e rimesso com'era non ti fa rosso,
+  te lo elenca e basta. Un file altrui cambiato davvero resta rosso.
 - **Le migrazioni:** mai modificare una migrazione esistente. Se serve, una nuova nella tua fascia
   (`migrations/<numero>_<nome>.sql`). Non si applicano: lo decide Nicola.
 - **Macchina:** mai scrivere nei registri condivisi (`cantiere-difetti.json`, `mutanti.json`,
@@ -114,16 +164,21 @@ Riparti quando la regista risponde «approvato», o correggi come ti dice.
 
 ### Il controllo prima di dire «finito»
 
-1. Un subagente diverso, del tipo `qa`, prova a smentire ogni gruppo di riparazioni (al massimo 6 voci per
-   subagente, un grave da solo): rilancia la prova, cerca la variante scomoda, guarda se la correzione
+1. Un subagente diverso da chi ha riparato prova a smentire ogni gruppo di riparazioni (al massimo 6 voci per
+   subagente, un grave da solo; nel sito il tipo `qa` non c'è, quindi il subagente generico con il mandato di smentire): rilancia la prova, cerca la variante scomoda, guarda se la correzione
    rompe qualcosa accanto. Nel dubbio la voce torna `parziale` o `non_fatto`. Scrivi chi l'ha guardata in
    `verificato_da`.
-2. **Sito:** `npm run verify` verde. **Macchina:** `node cervello/cancello-lotto.mjs` verde.
-3. Nel referto metti `"finita": true` e `testa` = il tuo **ultimo commit di codice** (quello dopo il quale ci sono
-   solo commit del referto). Copialo in `.riparazione/`, fai il commit del solo referto, spingi.
+2. **Sito:** prima le prove dei file toccati e quelle che li importano, poi `npm run verify` verde sull'ultimo
+   commit di codice, aspettato nello stesso turno. **Macchina:** `node cervello/cancello-lotto.mjs` verde.
+3. Nel referto metti `"finita": true`, `testa` = il tuo **ultimo commit di codice** (quello dopo il quale ci sono
+   solo commit del referto) e `verifica.testa` = lo SHA su cui è girato il verify, preso con `git rev-parse HEAD`
+   nello stesso comando. Deve essere `testa`, oppure un commit dopo `testa` che tocca solo il referto: se no il
+   programma è rosso (nell'onda 1 R07 ha spinto 8 commit con un verify lanciato e mai aspettato). Copia il referto in `.riparazione/`, fai il commit del solo
+   referto, spingi.
 4. Il controllo del programma sul tuo referto, dalla copia di `ad-mycity`:
    `node ../ad-mycity/cervello/riparazione-sessioni.mjs valida-referto .riparazione/referto-RNN.json --cartella ../ad-mycity/<cartella> --git . --ramo HEAD`
-   (sulla macchina, senza `../ad-mycity/`). Deve essere **verde** (uscita 0). Finché il referto non è finito il
+   (sulla macchina, senza `../ad-mycity/`). Deve essere **verde** (uscita 0). Nel sito questo comando e la prova
+   rimessa hanno il permesso scritto in `.claude/settings.json`: nell'onda 1 R03 e R04 non li hanno potuti lanciare. Finché il referto non è finito il
    controllo esce ⚪ «in attesa» (uscita 3): è normale, ma non basta per dire «finito».
 5. Manda alla regista con `send_message` una riga per esito («31 riparati, 4 parziali, 2 serve_file_altrui,
    1 scelta di Nicola»).
@@ -136,7 +191,7 @@ Riparti quando la regista risponde «approvato», o correggi come ti dice.
   "aggiornato": "2026-11-08 10:30",
   "finita": false,
   "testa": "<l'ultimo commit del ramo>",
-  "verifica": { "comando": "npm run verify", "esito": "verde", "nota": "" },
+  "verifica": { "comando": "npm run verify", "esito": "verde", "testa": "<lo SHA su cui è girato, uguale a testa>", "nota": "" },
   "voci": [
     { "id": "R03-001", "chiave": "<la chiave della scheda, uguale>", "esito": "riparato",
       "commit": "<sha>", "file_toccati": ["lib/…"], "prova_file": ["tests/unit/riparazione-r03-….test.ts"],
@@ -170,8 +225,18 @@ referto né nei commit. Nel referto: `"riservato": true`, titolo generico «Fall
 (<area>): i dettagli restano fuori dal deposito pubblico finché non è chiusa», `"file": "(nel referto
 privato)"`, nessuna descrizione. I dettagli li scrivi solo nel messaggio finale alla regista.
 
+### Se qualcosa ti blocca
+
+Se un permesso, un controllo della sessione o un accesso negato ti ferma (un comando rifiutato, `ad-mycity` che non
+si legge, una richiesta di approvazione), non aspettare: nessuno la vede. Manda subito alla regista con `send_message`
+l'errore esatto, e intanto vai avanti per un'altra strada. Un comando che non puoi lanciare lo lancia la regista. Il
+12/11 una sessione è rimasta ferma quattro ore in attesa di un clic che nessuno poteva dare.
+
 ### Cosa non fai mai
 
 Mettere il sito online, scrivere sul database vero, applicare migrazioni, cambiare prezzi o commissioni,
-scrivere a clienti o negozi veri, leggere o stampare chiavi. Se una voce lo richiede, l'esito è
+scrivere a clienti o negozi veri, leggere o stampare chiavi. **Interrogare il database vero, anche solo in lettura**
+(gli strumenti Supabase, `psql` verso l'indirizzo vero): nell'onda 1 un subagente l'ha fatto. Le prove girano sul
+Postgres locale. Nel sito gli strumenti che toccano il database vero, la messa online e Stripe sono bloccati da
+`.claude/settings.json`; la regola vale anche dove il blocco non arriva, e la scrivi nel mandato di ogni subagente. Se una voce lo richiede, l'esito è
 `non_codice` o `scelta_di_nicola`.

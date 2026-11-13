@@ -1,0 +1,1023 @@
+{
+ "collaudatore": "K03",
+ "riparatori": [
+  "R06",
+  "R10",
+  "R12"
+ ],
+ "aggiornato": "2026-11-12 19:40",
+ "finita": true,
+ "voci": [
+  {
+   "id": "R06-001",
+   "chiave": "dati-analytics|il funnel conta molti meno clienti che comprano di quelli veri, perché per ogni cento clienti legge al massimo mille ordini e non lo dice",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base a95c1eebf95f^ --file app/admin/funnel/page.tsx --prove tests/unit/riparazione-r06-funnel-ordini-oltre-mille.test.ts --json"
+   },
+   "nota": "Rimessa con lib/supabase/blocchi.ts: uscita 3 (rosso solo strutturale: leggiInBlocchiTutte nuova); sul funnel: uscita 0. Difetto rimesso a mano come da voce (una sola richiesta 0-999 per blocco, blocchi.ts:122): 6 prove su 9 rosse sul comportamento (50 invece di 100 clienti, 1000 invece di 1500 righe, campione spento, errore perso). Minori: titolo dell'avviso app/admin/funnel/page.tsx:381 parla di iscritti anche quando sono gli ordini a essere tagliati; iscritti ordinati senza id come seconda chiave (:108, già alla base)."
+  },
+  {
+   "id": "R06-002",
+   "chiave": "dati-analytics|l'indirizzo d'ingresso intero esce dalla porta dei flag, dove il filtro nuovo non arriva",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "lib/analytics/posthog.tsx identico fra base e testa; alla base posthog.init riceve già le opzioni di mascheramento (:419) e la pulizia al caricamento (:422, :376); posthog-js 1.393.0 le usa in set_initial_person_info. Non provato in un browser con la richiesta dei flag intercettata."
+  },
+  {
+   "id": "R06-003",
+   "chiave": "accessibilita|nella chat col negozio i messaggi nuovi arrivano in silenzio per chi usa il lettore di schermo",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 2530a711b780^ --file app/messages/[id]/page.tsx --prove tests/unit/riparazione-r06-chat-si-annuncia.test.ts --json"
+   },
+   "nota": "Senza aria-live la prova va rossa; unica pagina di chat. Riserva già dichiarata: la lettura dei messaggi non aspetta il caricamento (app/messages/[id]/page.tsx:247), all'apertura il lettore di schermo legge tutta la cronologia. Non provato con un lettore vero."
+  },
+  {
+   "id": "R06-004",
+   "chiave": "accessibilita-visiva|nella pagina «stato dei servizi» il link «contattaci» si distingue dal testo solo per il colore",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 4c6a8221d3a6^ --file app/status/page.tsx --prove tests/unit/riparazione-r06-pagina-stato.test.tsx --json"
+   },
+   "nota": "app/status/page.tsx:131 sottolineato sempre; primary-800 esiste; prova verde."
+  },
+  {
+   "id": "R06-005",
+   "chiave": "architettura|la regola che vieta i tipi «qualunque» non è accesa: 46 sono passati, e 40 permessi di saltare il controllo non saltano niente",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 7edd7aec015b^ --file .eslintrc.json --prove tests/unit/riparazione-r06-regola-niente-any.test.ts --json"
+   },
+   "nota": "Ricollaudo alla testa a3c7915f. Regola accesa (.eslintrc.json), .eslintrc della base → prova rossa. npx eslint --report-unused-disable-directives app components lib middleware.ts conta 29 direttive inutili, e tutte e 29 sono elencate in serve_file_altrui, compresa lib/email/avviso-messaggio-negozio.ts:64 che mancava nel primo referto. Il cosa_resta ora dà i conti veri (29 avvisi any con next lint, 32 su tutta la repo, non i 46 della voce). Parziale onesto."
+  },
+  {
+   "id": "R06-006",
+   "chiave": "architettura|oltre i mille prodotti la mappa per google perde i più vecchi senza dirlo",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base bfcdbb29fc2a^ --file app/sitemap.ts --prove tests/unit/riparazione-r06-sitemap-oltre-mille.test.ts --json"
+   },
+   "nota": "Oltre mille righe regge (sitemap della base → 3 rosse; le prove vecchie con 'range' passano anche alla base, non indebolite). Ma tolto il logger.warn di app/sitemap.ts:127-131 la prova resta verde: la metà «senza dirlo» non è provata, il verificato_da «e warn» è falso, e oltre 5000 i prodotti più vecchi si perdono ancora con un solo log del server."
+  },
+  {
+   "id": "R06-007",
+   "chiave": "architettura|il controllo «la sessione va rinnovata?» è provato solo su cookie scritti a mano: se la libreria cambia formato, si torna in silenzio al tetto di 3 secondi",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "sessioneDaRinnovare invariata dalla base; la prova nuova passa 9/9 anche col file della base e usa @supabase/ssr 0.5.2 vera senza finti; mutanti a cookie-di-sessione.ts:362-364 («solo il pezzo .0», «ignora la tessera») rossi; il middleware la usa (:542)."
+  },
+  {
+   "id": "R06-008",
+   "chiave": "architettura|il tetto di 10 secondi è diventato quello di serie per tutte le chiamate, e la scelta fra 3 e 10 secondi sta fuori dal modulo provabile",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base a58ce9bbfd68^ --file lib/auth/cookie-di-sessione.ts --prove tests/unit/riparazione-r06-tetto-di-serie-tre-secondi.test.ts --json"
+   },
+   "nota": "Rimessa con middleware.ts: uscita 1 (la prova del tetto di serie non guarda il middleware); su cookie-di-sessione.ts: uscita 0. Valore di serie a TETTO_PORTIERE_MS (cookie-di-sessione.ts:448), unico chiamante middleware.ts:538 con tettoPerGetUser, comportamento identico; 274 file di prove accanto verdi (2050). Il collegamento nel middleware è controllato solo con una ricerca di parole (ammessa sui minori)."
+  },
+  {
+   "id": "R06-009",
+   "chiave": "architettura|in home ogni sezione chiede di nuovo alla vetrina lo stesso negozio, e ogni fascia compare un giro di rete più tardi",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 46a4511edaca^ --file lib/queries/seller-public-profiles.ts --prove tests/unit/riparazione-r06-vetrina-una-volta-sola.test.ts --json"
+   },
+   "nota": "Unione dei voli corretta (mutanti pulizia/chiave/unisci sempre → rossi; il mutante sul server lo prende solo riparazione-r06-vetrina-sul-server.test.ts, fuori dal prova_file). Ma sul sito l'unione non scatta quasi mai: la chiave contiene le colonne e in home ogni sezione ne chiede di diverse (DropOfDay.tsx:84, StoriesCarousel.tsx:80, negozio-del-mese.ts:44, griglia-prodotti.ts:235-238), e la chiave usa le colonne prima della normalizzazione. Non dichiarato nel referto, come il giro di rete in più della prima fascia."
+  },
+  {
+   "id": "R06-011",
+   "chiave": "dati-analytics|il funnel senza iscritti mostra zero virgola zero per cento in rosso invece di dire che non c'è niente da misurare",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base cfc0ba002453^ --file app/admin/funnel/page.tsx --prove tests/unit/riparazione-r06-funnel-senza-iscritti.test.ts --json"
+   },
+   "nota": "Calcolo della base rimesso in app/admin/funnel/page.tsx:293-299 → 1/2 rossa; coorti già «—» (:483-494), barra pct??0 (:349) corretta."
+  },
+  {
+   "id": "R06-012",
+   "chiave": "dati-analytics|la percentuale dei pagamenti con carta nel cruscotto si calcola su mille tentativi qualsiasi, non sugli ultimi trenta giorni",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 571d12fc3f16^ --file app/admin/page.tsx --prove tests/unit/riparazione-r06-tasso-pagamenti-30-giorni.test.ts --json"
+   },
+   "nota": ".limit(5000) senza ordine rimesso in app/admin/page.tsx:138-148 → rossa; payment_attempts.id uuid (migrations/124:420), ordine stabile. Taglio silenzioso oltre 20.000 tentativi detto solo in verificato_da, irrilevante a questa scala."
+  },
+  {
+   "id": "R06-013",
+   "chiave": "dati-analytics|un solo ordine senza stato spegne tutta la panoramica dell'amministrazione",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "PGHOST=/tmp PGPORT=55432 tests/sql/harness/apply.sh k03_r06e && psql -d k03_r06e -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r06-admin-kpi.test.sql (verde, 181 migrazioni); poi senza migrations/300_admin_kpi_regge_le_chiavi_vuote.sql: apply.sh (178) e la stessa prova è rossa — rimessa SQL a mano, ripristinata"
+   },
+   "nota": "Senza la 300 la prova è rossa («field name must not be null»), con la 300 verde (senza_ruolo=1, SENZA_STATO=1). pg_dump -s identico tranne le due coalesce; SECURITY DEFINER, search_path=public, nessun execute ad anon; venditore 42501, anon permission denied. Minore: app/admin/page.tsx:320 non mostra SENZA_STATO nella ripartizione (il totale lo conta). cosa_resta (applicare la migrazione) onesto."
+  },
+  {
+   "id": "R06-014",
+   "chiave": "dati-analytics|negozio del mese: la classifica dei voti mostra tutti i negozi a zero voti in fila, e «nessun voto» non compare mai",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "PGHOST=/tmp PGPORT=55432 tests/sql/harness/apply.sh k03_r06e && psql -d k03_r06e -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r06-negozio-del-mese.test.sql (verde, 181 migrazioni); poi senza migrations/301_negozio_del_mese_col_mese_di_piacenza.sql: apply.sh (178) e la stessa prova è rossa — rimessa SQL a mano, ripristinata"
+   },
+   "nota": "Senza la 301 il controllo è rosso, con la 301 verde; reloptions e permessi invariati (pg_dump). La metà «zero voti» era già chiusa alla base (app/admin/shop-of-month/page.tsx:91,202). Limite: la prova rossa confronta il testo della vista (pg_get_viewdef), non un comportamento — now() non si può fingere. cosa_resta onesto."
+  },
+  {
+   "id": "R06-015",
+   "chiave": "dati-analytics|nello storico consegne compaiono due gruppi «oggi»: le consegne fatte dopo mezzanotte finiscono in un gruppo a parte e il totale del giorno si spezza",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 940d692ea4f3^ --file app/rider/history/page.tsx --prove tests/unit/riparazione-r06-storico-fattorino.test.ts --json"
+   },
+   "nota": "Mutante chiave slice(0,10) in app/rider/history/page.tsx:86 → rossa «tre consegne fra mezzanotte e le due»; «Ieri» = inizio di oggi meno 12 ore (:40) regge al cambio d'ora; key unica (:125)."
+  },
+  {
+   "id": "R06-016",
+   "chiave": "dati-analytics|storico e recensioni del fattorino si caricano tutti in una volta, senza pagine, e le consegne vecchie aprono «ordine non trovato»",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 12202bd61fac^ --file app/rider/history/page.tsx,app/rider/reviews/page.tsx --prove tests/unit/riparazione-r06-storico-fattorino.test.ts --json"
+   },
+   "nota": "Limite dei 7 giorni (history/page.tsx:48-52) coerente con migrations/215:768; avviso di taglio a schermo; prova esistente lo-storico-del-fattorino… cambiata solo nel finto (:29,:39), asserzioni :66-92 invariate."
+  },
+  {
+   "id": "R06-017",
+   "chiave": "dati-analytics|in analisi il voto medio guarda solo le recensioni ai prodotti: un negozio con tre recensioni legge «nessuna recensione», e le etichette sono in inglese",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 289d683889d9^ --file app/seller/analytics/page.tsx --prove tests/unit/riparazione-r06-analisi-in-italiano.test.ts --json"
+   },
+   "nota": "Unit: app/seller/analytics/page.tsx alla base rossa su «Voto medio» (uscita 0, comando qui). SQL: senza la 302 la prova è rossa (recensioni=0, voto null), con la 302 verde (3; 3.67); suite SQL intera verde. Prova avversaria con due negozi: andamento_del_negozio filtra store_id=auth.uid(), nessuna fuga, anon rifiutato. Migrazione non ancora applicata: deploy-dopo-ci.yml:488 applica le migrazioni prima del codice (non visto girare)."
+  },
+  {
+   "id": "R06-018",
+   "chiave": "dati-analytics|il filtro del filmato si ferma alla prima parentesi: il resto della ricerca esce in chiaro verso posthog",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 368e75bd3c85^ --file lib/analytics/filmato-senza-dati-personali.ts --prove tests/unit/riparazione-r06-filmato-oltre-le-parentesi.test.ts --json"
+   },
+   "nota": "Parentesi, apostrofo e ! * ~ chiusi (vecchia espressione → 3/10 rosse), ma la barra rovescia resta un punto di arresto in lib/analytics/filmato-senza-dati-personali.ts:67: con https://mycity.it/search?q=pane\\Mario%20Rossi%203331234567 (il browser non codifica «\\» dopo il «?», provato con URL di Node, standard WHATWG) la targa del filmato esce con nome e telefono in chiaro. Residuo non dichiarato. Oggi PostHog è spento (POSTHOG_ACCESO)."
+  },
+  {
+   "id": "R06-019",
+   "chiave": "dati-analytics|la rete guarda gli indirizzi, non un dato personale nudo",
+   "verdetto": "non_regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 055f4cae6c5c^ --file lib/analytics/filmato-senza-dati-personali.ts --prove tests/unit/riparazione-r06-rete-sui-recapiti.test.ts --json"
+   },
+   "nota": "Ricollaudo alla testa a3c7915f (commit 78348d4d). I due casi del primo collaudo ora sono nascosti («mario.rossi@gmail.com.» e «Mario%20Rossi%203331234567»), varianti vicine coperte, nessun falso positivo su uuid, date, importi, react@18.3.1. Ma passano in chiaro, non dichiarati nel cosa_resta: email con %40 («mario.rossi%40gmail.com», anche in un percorso), telefono dopo %2B («%2B393331234567»), «tel+393331234567», telefono con spazi codificati fra le cifre («Mario%20333%201234567», la forma di encodeURIComponent su «333 1234567»), dopo %2C, %2520, %0A, e nella coda dopo «\\» del caso 018 (filmato-senza-dati-personali.ts:113,120). Falsi positivi sottostimati: «importo 333123456», «ordine n. 3331234567» nascosti anche senza «#». Oggi PostHog è spento."
+  },
+  {
+   "id": "R06-020",
+   "chiave": "dati-analytics|la misura che parte dal server e' una seconda porta verso lo stesso raccoglitore, senza nessuna rete",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base cceddf83237b^ --file lib/analytics/server.ts --prove tests/unit/riparazione-r06-acquisto-dal-server-ripulito.test.ts --json"
+   },
+   "nota": "lib/analytics/server.ts della base → prova rossa. strutturaSenzaIndirizzi lascia passare chiavi degli oggetti, nomi, vie, CF, IBAN, telefoni esteri (filmato-senza-dati-personali.ts:138-168), ma è la stessa rete del browser come promesso e oggi chiavi e valori delle varianti sono un elenco chiuso (lib/analytics/varianti-dai-cookie.ts): in produzione non esce niente. Nessun'altra porta server verso PostHog."
+  },
+  {
+   "id": "R06-021",
+   "chiave": "dati-analytics|quando un cruscotto legge un campione invece del totale, lo dice solo alla console",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 9d7bb4974ee7^ --file app/admin/activity/page.tsx,lib/supabase/blocchi.ts --prove tests/unit/riparazione-r06-attivita-campione.test.tsx --json"
+   },
+   "nota": "La pagina Attività della base dà 3 prove rosse su 4; mutante «campione sempre al tetto» (blocchi.ts:94) preso; funnel giusto (:272). Ma app/admin/activity/page.tsx:295 avvisa solo su «Visitatori 24h»: Accessi 24h, Viste anonime/loggati (:296-298) e categorie, dispositivi, pagine, IP (:317-361) sono calcolati sulle stesse 3000 righe e restano un campione presentato come totale, non dichiarato nel referto. Rischio minore: lettura dai più recenti (:131), le finestre slittano e «Accessi 24h» può contare doppio."
+  },
+  {
+   "id": "R06-023",
+   "chiave": "deploy-sre|la pagina pubblica «stato servizi» annuncia a tutti un guasto del database e dell'accesso che non c'è",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base c1d514af^ --file app/admin/page.tsx,lib/health/checks.ts --prove tests/unit/riparazione-r06-salute-dei-servizi.test.ts,tests/unit/riparazione-r06-configurazione-admin.test.tsx --json"
+   },
+   "nota": "Ricollaudo alla testa a3c7915f. Rimessa con la rotta nuova: uscita 3 (strutturale); su pagina admin e checks.ts: uscita 0. La pagina pubblica regge: il mutante «checkDb ignora l'errore» (lib/health/checks.ts:97) ora è preso (sopravvive solo quello che toglie il motivo «Non raggiungibile», :103, minore). La rotta app/api/admin/configurazione/route.ts, provata col vero withAdminAuth: 401 senza sessione o token finto, 403 a buyer/seller/rider/customer, all'admin solo booleani e nomi, nessun valore né prefisso né lunghezza. Ma il riquadro admin (app/admin/page.tsx:244) non può mai mostrare «chiave di servizio non configurata»: senza SUPABASE_SERVICE_ROLE_KEY withAdminAuth risponde 503 prima del gestore (lib/api/middleware.ts ~:276, riprodotto), quindi route.ts:21 è codice morto e la prova è verde solo perché finge withAdminAuth. La chiave mancante oggi non si vede da nessuna parte."
+  },
+  {
+   "id": "R06-024",
+   "chiave": "deploy-sre|la pagina pubblica «stato servizi» dice anche che le email non partono, e non dice perché",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 7d55294e4148^ --file lib/health/checks.ts --prove tests/unit/riparazione-r06-salute-dei-servizi.test.ts --json"
+   },
+   "nota": "Mutanti «ogni 401 operativo» (lib/health/checks.ts:187) e log tolto (:194) → 2 rosse; una chiave sbagliata resta un guasto; motivo breve in italiano, testo grezzo nei log; email di prova vera dichiarata come passo per Nicola."
+  },
+  {
+   "id": "R06-025",
+   "chiave": "deploy-sre|le violazioni delle regole di sicurezza del browser non le vede nessuno",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 2769d8dc6fb5^ --file middleware.ts --prove tests/unit/riparazione-r06-csp-si-fa-sentire.test.ts --json"
+   },
+   "nota": "Rimessa con i due file nuovi: uscita 3 (strutturale); sul middleware: uscita 0. report-uri, report-to e Reporting-Endpoints su tutte le risposte (middleware.ts:316-324), matcher che esclude api/; la rotta regge log injection (logger JSON), tetto di 10 KB anche senza content-length, __proto__/null/stringa (204). Ma: freno (30/min) e tetto delle 10 voci tolti (app/api/csp-report/route.ts:87-88,102) senza che nessuna prova diventi rossa; e «quindi Sentry quando è acceso» (middleware.ts:315 e referto) è falso — logger.warn è solo console.warn (lib/logger.ts:122-125), la violazione resta in un log di Vercel che nessun allarme legge. Un'email nel percorso della pagina finisce nel log in chiaro (tolta solo la query). Reporting-Endpoints relativo: letto in specifica, non provato in Chrome."
+  },
+  {
+   "id": "R10-001",
+   "chiave": "mobile-pwa|chrome non trova il file che rende mycity installabile: su android l'app non si può mettere in home",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 36814a6ebfcbceb9aee9c4f5520414095d029695^ --file app/layout.tsx --prove tests/unit/riparazione-r10-manifest-nel-head.test.tsx --json"
+   },
+   "nota": "next dev con l'interruttore acceso solo in locale: manifest e apple-touch-icon una volta sola nel <head> (app/layout.tsx:211-212) per Chrome Android e Googlebot, risorse a 200, CSP e middleware.ts:709 non bloccano; spento, nessun link al manifest. In produzione resta non installabile finché APP_INSTALLABILE_ACCESA è false (decisione, non difetto)."
+  },
+  {
+   "id": "R10-003",
+   "chiave": "accessibilita|il link «password dimenticata?» nella pagina di accesso è alto 16 pixel, troppo piccolo per il pollice",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 85b35a51366b060e6479b6b215af12b9bb11b599^ --file app/sign-in/page.tsx --prove tests/unit/riparazione-r10-password-dimenticata-per-il-pollice.test.ts --json"
+   },
+   "nota": "app/sign-in/page.tsx:316 area di tocco 44 px, 4 px dal campo email e nessuna sovrapposizione (form space-y-4, riga 286)."
+  },
+  {
+   "id": "R10-004",
+   "chiave": "api-backend|nel nuovo prodotto la spunta «escluso dal recesso» sparisce per tutta la sessione dopo una lettura caduta",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 408eee62a3a0527927d1aba47b2ddc3ae4936bdf^ --file app/seller/products/new/page.tsx --prove tests/unit/riparazione-r10-spunta-recesso-dopo-una-lettura-caduta.test.ts --json"
+   },
+   "nota": "app/seller/products/new/page.tsx:103 una lettura caduta ora è un errore, ritentata e riletta alla riapertura: «per tutta la sessione» chiuso. Commento 93-97 impreciso (staleTime non rilegge da solo)."
+  },
+  {
+   "id": "R10-005",
+   "chiave": "architettura|il prezzo dell'abbonamento dei negozi è scritto a mano in sei posti, e la prova che dovrebbe tenerli uguali non se ne accorge se l'addebito cambia",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 38851d0c^ --file app/api/seller/subscription/checkout/route.ts,components/seller/SubscriptionBanner.tsx,components/SellerApplicationForm.tsx --prove tests/unit/riparazione-r10-un-prezzo-abbonamento.test.tsx --json"
+   },
+   "nota": "Unico 5000 in app/seller/earnings/commissione.ts:94; cassa, banner, modulo, termini e webhook lo leggono. Rimessa con tutti i file: uscita 1 (non_morde su commissione.ts e webhook: la prova sostituisce la costante con un mock a 6000, quindi la derivazione PREZZO=€CENT/100 non è provata); rimessa sui tre consumatori: uscita 0, comando qui sotto. Nata_rotta: la prova esistente tests/unit/ai-negozi-diciamo-un-prezzo-solo.test.tsx:71 ora confronta PREZZO_ABBONAMENTO_MESE con se stesso invece del letterale €50 firmato: con ABBONAMENTO_CENTESIMI_MESE=500 (addebito di 5 €) 44 prove su 44 restano verdi. L'addebito cambiato non è ancorato a niente: la seconda metà della voce non è chiusa."
+  },
+  {
+   "id": "R10-006",
+   "chiave": "architettura|ogni scheda dell elenco dei negozi chiede la veloce da sola: oltre 30 negozi consumano il limite di 30 domande al minuto per indirizzo, lo stesso che serve al carrello e alla cassa",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 974d9750e61fc1e8d81948f00e6c786bfa4065dc^ --file app/api/consegna/veloce/route.ts --prove tests/unit/riparazione-r10-la-lista-dei-negozi-non-frena-il-carrello.test.ts --json"
+   },
+   "nota": "Freno per indirizzo+insieme di negozi non aggirabile (tetto 120 contato prima, id ordinati, route.ts:56-72), memoria limitata (MAX_KEYS, EXPIRE NX). Il 429 al carrello con 120+ schede è dichiarato nel cosa_resta."
+  },
+  {
+   "id": "R10-007",
+   "chiave": "architettura|nel pannello /admin/home «drop del giorno» e «newsletter» risultano visibili, ma la home non le disegna",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 87a5be051b55668627f58b244938b1500061672b^ --file components/admin/home/HomeSectionsEditor.tsx --prove tests/unit/riparazione-r10-pannello-home-sezioni-spente.test.tsx --json"
+   },
+   "nota": "Menu filtrato con sezioneAccesa (HomeSectionsEditor.tsx:39-40), riga «spenta al lancio» (:124-144), stessa regola di homeEnabledSections (lib/home-site.ts:433)."
+  },
+  {
+   "id": "R10-008",
+   "chiave": "architettura|la traccia «chi ha cambiato il prezzo» esce in due forme diverse a seconda della porta",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base f807317fda35976d399b5c0587efd0475ffeb1fe^ --file app/api/ai/catalog-apply/route.ts --prove tests/unit/riparazione-r10-traccia-del-prezzo-una-forma.test.ts --json"
+   },
+   "nota": "catalog-apply usa tracciaDellaModifica (route.ts:191-199), nessun campo AI fuori da COLONNE_DEL_VENDITORE; le tre porte rimaste sono dichiarate nel cosa_resta."
+  },
+  {
+   "id": "R10-009",
+   "chiave": "architettura|gli strumenti degli sviluppatori portano altre 19 falle note, 10 alte, ma nessuna arriva al sito",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 2,
+    "comando": "non applicabile: voce di sole dipendenze (package-lock.json), nessuna prova da rimettere; controlli: npm audit --json ; npm audit --omit=dev --json ; tsc --noEmit ; next lint"
+   },
+   "nota": "Solo package-lock.json (11d7c307, 2df6e8cd), package.json invariato, dirette nei range; npm audit 26 (4 alte), produzione 12 (1 alta: zod) come dichiarato; tsc e next lint escono 0, 144 prove verdi. Parziale onesto su zod 3→4. Nessuna prova unitaria da rimettere: voce di sole dipendenze."
+  },
+  {
+   "id": "R10-010",
+   "chiave": "coerenza-brand|la primitiva card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 90e765a5d7f62934e1cc0ce5c9536fbd9324761f^ --file components/ui/Card.tsx --prove tests/unit/riparazione-r10-card-raggio-per-contesto.test.tsx --json"
+   },
+   "nota": "Card.tsx:23-24,63-67 corretti, nessun chiamante passa un rounded proprio, 78 prove vicine verdi; card a mano e documento dichiarati nel cosa_resta."
+  },
+  {
+   "id": "R10-011",
+   "chiave": "flussi-conversione|il carrello avvisa «fuori zona» anche chi poi sceglierà il ritiro in negozio",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Alla base app/cart/page.tsx:612-616 usa motivoFuoriZona (lib/ordini/zona-di-consegna.ts:61-68), ritiro spento (lib/ritiro-in-negozio.ts:22), carrello senza scelta (app/cart/page.tsx:514 pickupInStore:false)."
+  },
+  {
+   "id": "R10-012",
+   "chiave": "frontend-ux|foto sgranate nel carrello e negli ordini: `unoptimized` spegne il `sizes` scritto lì accanto",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Alla base app/cart/page.tsx:625-626 e app/orders/page.tsx:353,382 usano loader={caricatoreFotoRemote}, zero unoptimized."
+  },
+  {
+   "id": "R10-013",
+   "chiave": "frontend-ux|nella pagina dei miei ordini, dopo il centesimo gli ordini vecchi spariscono senza avviso",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 379dc989^ --file app/orders/page.tsx --prove tests/unit/riparazione-r10-oltre-il-centesimo-ordine.test.tsx --json"
+   },
+   "nota": "Rimessa uscita 3: lib/ordini/tetto-ordini.ts è nuovo (rosso strutturale); app/orders/page.tsx alla base rossa sul comportamento. Mutante a mano (avvisoOrdiniOltreIlTetto torna sempre null): prova rossa. Con R10-017 nessun conflitto; falso positivo innocuo con esattamente 100 ordini. Rimessa sui file di comportamento (senza la libreria nuova, provata a mano con la mutante): uscita 0."
+  },
+  {
+   "id": "R10-014",
+   "chiave": "frontend-ux|un testo lungo incollato in una pagina del sito viene tagliato a 4.000 caratteri senza avvisare, e la pagina pubblicata resta monca",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 585a8bcf^ --file components/admin/home/HomeSectionConfigForm.tsx,lib/home-site.ts --prove tests/unit/riparazione-r10-testo-lungo-non-si-taglia.test.tsx --json"
+   },
+   "nota": "Ricollaudo alla testa 6243926f (terzo commit c2118e58). Rimessa con testo-visibile (nuovo): uscita 3; su modulo e home-site: uscita 0. Percorso schema → sanitize → leggiHomeSite e leggiCmsPage (rotta cms/[slug]): il caso del primo collaudo (4.892 caratteri con «<»/«>») ora è rifiutato con messaggio e il contatore dà errore; 266 link (22.921 di HTML) rifiutati con avviso; «<»×4.000 accettato a 16.000 esatti e riletto; &, entità, emoji, a capo, <br> coerenti; 150 testi casuali senza scarti né contraddizioni fra contatore e server; mutante su lib/testo-visibile.ts:20 → rosso. Minore nuovo: un corpo grezzo oltre 32.000 caratteri che si pulisce corto è rifiutato dal server («troppo lungo», lib/home-site.ts:179) mentre il contatore dice 4/4.000 senza errore (HomeSectionConfigForm.tsx:207-209); il testo non si perde."
+  },
+  {
+   "id": "R10-015",
+   "chiave": "layout-responsive|il dettaglio ordine sul telefono scorre di lato se il cliente incolla un link nelle note di consegna",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 74b55ed4400e27c6466ebebbad0d2deae2e6c39b^ --file app/admin/orders/[id]/page.tsx --prove tests/unit/riparazione-r10-dettaglio-ordine-non-scorre-di-lato.test.ts --json"
+   },
+   "nota": "app/admin/orders/[id]/page.tsx:67 min-w-0 e overflow-wrap:anywhere sul dd; le note passano solo da Riga (riga 202)."
+  },
+  {
+   "id": "R10-016",
+   "chiave": "microcopy|sulla pagina della nuova password, una password già finita in rete viene rifiutata con un consiglio sbagliato che sparisce dopo pochi secondi",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 533f6a7e^ --file app/reset-password/page.tsx --prove tests/unit/riparazione-r10-password-rubata-consiglio-giusto.test.ts --json"
+   },
+   "nota": "lib/auth/errori-nuova-password.ts:31-34 legge reasons:['pwned'] (auth-js 2.106.1 lo fornisce davvero); l'errore resta sotto il campo (app/reset-password/page.tsx:241,375-376). Rimessa uscita 3 (errori-nuova-password nuovo); mutanti a mano (PASSWORD_RUBATA→SEMPLICE, secondi d'attesa spenti): prove rosse. Rimessa sui file di comportamento (senza la libreria nuova, provata a mano con la mutante): uscita 0."
+  },
+  {
+   "id": "R10-017",
+   "chiave": "mobile-pwa|nella lista ordini i bottoni «traccia» e «riordina» sono troppo piccoli per il pollice",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base aa88b5da38ea^ --file app/orders/page.tsx --prove tests/unit/riparazione-r10-bottoni-degli-ordini-per-il-pollice.test.tsx --json"
+   },
+   "nota": "Ricollaudo alla testa 6243926f. Card copiata da app/orders/page.tsx:371-424 col CSS compilato del progetto, misurata in Chromium: 1/4/5/6/12 prodotti, due prezzi, con e senza Traccia, 320-1280 px, due font — zero sovrapposizioni fra prezzo, miniature e bottoni, niente fuori dalla card, niente scorrimento di lato, bottoni sempre 44 px; sotto 1024 px i bottoni vanno sotto il prezzo. Mutante sulle classi del blocco → rosso. Estetico: a 320-414 px il riquadro «+N» va da solo sulla riga sotto."
+  },
+  {
+   "id": "R10-018",
+   "chiave": "mobile-pwa|il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 2,
+    "comando": "non applicabile: nessun commit (tre richieste su quattro già fatte alla base, manca screenshots)"
+   },
+   "nota": "Alla base public/manifest.json non ha orientation e ha id e display_override; manca solo screenshots, dichiarato nel cosa_resta. Nessun app/manifest.ts."
+  },
+  {
+   "id": "R10-019",
+   "chiave": "pagamenti-stripe|con l'abbonamento acceso, due schede aperte creano due abbonamenti da 50 euro, e il primo resta orfano e non si disdice dal sito",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base a47ea68b2f40^ --file app/api/seller/subscription/checkout/route.ts,lib/stripe/webhook/abbonamenti.ts --prove tests/unit/riparazione-r10-abbonamento-doppio.test.ts --json"
+   },
+   "nota": "Ricollaudo alla testa 6243926f. nata_rotta: lib/stripe/webhook/abbonamenti.ts:147-152 inghiotte ogni errore di subscriptions.retrieve(precedente) senza guardare err.code: con un errore di rete passeggero e il precedente ancora attivo e pagato, il nuovo gli si scrive sopra e nessuno dei due si annulla — due abbonamenti da 50 €, il primo orfano (riprodotto: 200, profilo su sub_2, annullati []; anche con eventi fuori ordine). La fattura rifiutata del vecchio segna poi past_due il negozio che paga il nuovo (:232-249). Il commit 501d46a8 gestiva bene la rete (500, Stripe riprova): il terzo commit l'ha peggiorato. La prova simula «non trovato» con un errore senza codice e boccia la correzione giusta (mutante resource_missing → rosso). Rimedio: proseguire solo su StripeInvalidRequestError con code resource_missing. 22 file / 151 prove verdi, tsc 0. chiude_tutta (secondo collaudatore): non chiusa nemmeno alla lettera — due clic a cavallo delle 10:10 danno due chiavi (checkout/route.ts:116) e due addebiti, il doppione è annullato senza rimborso (abbonamenti.ts:160; dichiarato, domanda per Nicola); due conferme in parallelo su un profilo vuoto lasciano sub_1 attivo su un altro cliente Stripe, non disdicibile dal portale (abbonamenti.ts:132-181, route.ts:123-125, portal/route.ts:48; dichiarato). Segnata «riparato» con copre_tutta_la_voce: true: doveva essere «parziale»."
+  },
+  {
+   "id": "R10-020",
+   "chiave": "pagamenti-stripe|quando si accenderà l'abbonamento, il negozio pagherà 50 euro subito dopo l'approvazione invece che dopo i primi incassi",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 5bd9e7af^ --file app/api/seller/subscription/checkout/route.ts --prove tests/unit/riparazione-r10-abbonamento-dopo-il-primo-incasso.test.ts --json"
+   },
+   "nota": "Ricollaudo alla testa 6243926f (terzo commit d78619dd). Rimessa con modulo e banner: uscita 1 (la prova della voce non li guarda); sul checkout: uscita 0. Cassa: mutanti 403 (route.ts:75), 503 (:71) e PARTIALLY_REFUNDED tolto (lib/abbonamento-primo-incasso.ts:12) → rossi. Banner: stessa regola della cassa (SubscriptionBanner.tsx:43-48) sotto la policy migrations/011:109-111, fail-closed in caricamento ed errore (:35,:49,:60), past_due vede sempre l'avviso (:34); mutanti banner della base e «invito sempre» → rossi (riparazione-r10-aggiorna-pagamento.test.tsx:75). Riserva sulle prove, non sul codice: sopravvivono «errore = invito» (:49), «invito durante il caricamento» (:35) e «filtro scritto a mano» (:47)."
+  },
+  {
+   "id": "R10-021",
+   "chiave": "pagamenti-stripe|un negozio con l'abbonamento disdetto vede ancora «gestisci l'abbonamento», e il tasto risponde che l'abbonamento non è attivo",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base d64e7d95^ --file components/seller/GestisciAbbonamento.tsx --prove tests/unit/riparazione-r10-gestisci-abbonamento.test.tsx --json"
+   },
+   "nota": "Bottone (GestisciAbbonamento.tsx:32) e rotta (portal/route.ts:37) usano la stessa regola (lib/abbonamento-portale.ts:21-27). Rimessa uscita 1 con la rotta (refactor equivalente); sul bottone uscita 0. Mutante a mano «return true»: rossa; il ramo none/inactive con interruttore acceso non è provato (mutante sopravvive) — oggi spento. Nata_rotta: la rotta si comporta come prima, il bottone coincide con la rotta a interruttore spento e acceso."
+  },
+  {
+   "id": "R10-022",
+   "chiave": "pagamenti-stripe|quando il pagamento dell'abbonamento non va a buon fine, il tasto «aggiorna pagamento» risponde con un errore invece di aprire il portale",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 39f45396dbf6819b0b5b8130b5b841725c073902^ --file components/seller/SubscriptionBanner.tsx --prove tests/unit/riparazione-r10-aggiorna-pagamento.test.tsx --json"
+   },
+   "nota": "Con past_due il banner chiama il portale (SubscriptionBanner.tsx:38), che risponde {url} (portal/route.ts:51), la forma letta alla riga 41. Nata_rotta: senza stripe_customer_id 400, nessun addebito né doppione; il negozio in past_due non finisce più contro 409/403."
+  },
+  {
+   "id": "R10-025",
+   "chiave": "qa-flussi|buco nelle prove del carrello: alcune mutanti del collaudo sul conto della consegna restano verdi",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 2,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base cbf95b1070e7e3c32eb06115d464de7dd6109ae2^ --file tests/unit/riparazione-r10-carrello-conto-consegna.test.tsx --prove tests/unit/riparazione-r10-carrello-conto-consegna.test.tsx --json"
+   },
+   "nota": "Voce di sole prove: la macchina non decide (uscita 2, «un file non può essere insieme correzione e prova»). Mutanti rimesse a mano in app/cart/page.tsx: M3 (:509), M4 (:586), M4 bis, N5 (:606), N1 (:485) tutte rosse; M2 e M5 equivalenti (lib/shipping.ts:37). Sopravvive la mutante non dichiarata Math.ceil (:509), da aggiungere."
+  },
+  {
+   "id": "R12-001",
+   "chiave": "qa-flussi|se il fattorino sparisce senza dichiarare i contanti, l'ordine resta in consegna per sempre e l'amministratore non può chiuderlo",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "PGHOST=/tmp PGPORT=55432 tests/sql/harness/apply.sh k03_rc1 && psql -d k03_rc1 -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r12-chiudi-consegna.test.sql (verde); poi la stessa prova con migrations/360_l_amministratore_chiude_la_consegna.sql mutata o tolta: rossa — rimessa SQL a mano, ripristinata"
+   },
+   "nota": "Ricollaudo alla testa 7b20df75. Codice giusto: i mutanti di migrations/360 a :106 (PAID scritto sempre) e :109 (HELD→CASH_WITHHELD) ora fanno rossa la prova sul comportamento (23/23 verde col codice). Ma il FOR UPDATE a :63 è controllato solo da una regex su pg_get_functiondef (tests/sql/rls/riparazione-r12-chiudi-consegna.test.sql:135-137): tolto e rimesso in un commento, la prova resta verde 23/23. Gara vera a due sessioni psql: senza FOR UPDATE l'admin sovrascrive i 1111 centesimi dichiarati dal fattorino con 2200 a nome suo; con il blocco riceve WRONG_STATUS. Su una voce grave la prova del blocco è una ricerca di parole (vietato dall'asticella); si può fare con uno script .sh come quelli in tests/sql/harness/. Il cosa_resta (rotta, pulsante, lista; la migrazione la applica Nicola) è onesto."
+  },
+  {
+   "id": "R12-002",
+   "chiave": "accessibilita|nella pagina che chiede di accettare i termini, il bottone «continua» è spento senza dire che bisogna spuntare la casella",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base a5634f24cc07^ --file app/accetta-condizioni/page.tsx --prove tests/unit/riparazione-r12-termini-il-bottone-spiega.test.tsx --json"
+   },
+   "nota": "Mutanti su app/accetta-condizioni/page.tsx:129 (disabled rimesso su !accettato → 2/4 rosse) e :39 (setManca tolto → 1 rossa); Button.tsx:105-114 passa aria-disabled e aria-describedby; tsc verde."
+  },
+  {
+   "id": "R12-003",
+   "chiave": "accessibilita|i messaggi di errore del sito spariscono da soli dopo 4 secondi e non hanno la x per chiuderli",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 85cdaad0d5b3^ --file components/providers/ToastProvider.tsx --prove tests/unit/riparazione-r12-gli-avvisi-restano-e-si-chiudono.test.tsx --json"
+   },
+   "nota": "Mutanti closeButton tolto e duration tolta → rosse; in sonner 1.7.4 la durata del singolo avviso vince (i 2000 ms di ProductCard.tsx:102 restano); X in inglese «Close toast» e X disattivata sui caricamenti già dichiarate fra i nuovi difetti."
+  },
+  {
+   "id": "R12-004",
+   "chiave": "api-backend|lo stesso cliente può usare il codice «solo primo ordine» due volte, aprendo la cassa in due schede",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 2ceb7da7^ --file lib/ordini/rivendica-il-codice-sconto.ts --prove tests/unit/riparazione-r12-benvenuto-due-schede.test.ts --json"
+   },
+   "nota": "Ricollaudo alla testa 7b20df75. Rimessa con la migrazione 361: uscita 1 (la prova unitaria non guarda il database); su lib: uscita 0. Due lenti. Il doppio uso è chiuso: tre schede → uses_count=1, gara a sei sessioni psql → 1 sola rivendicazione, codice normale con max_uses=3 → esattamente 3; mutanti sulle tre prove vive uccisi; GRANT solo service_role, SECURITY DEFINER, search_path, p_user_id dal server (stripe/checkout/route.ts:657, orders/cod/route.ts:1050); 139 file/1146 prove verdi, SQL 16/16, run.sh 0. Non chiuso del tutto: dopo esaurito, intento non scritto, Stripe che rifiuta o pulizia della cassa il buono resta bloccato fino a 2 minuti (migrations/361:79-85; release_coupon(text) non chiude la rivendicazione, riserve-abbandonate.ts:290, stripe/checkout/route.ts:790): chi torna indietro da Stripe per cambiare fascia legge «potrebbe essere esaurito» (rivendica-il-codice-sconto.ts:177), e la prova «riprende il benvenuto» di 4bb0124e è stata invertita (riparazione-r12-benvenuto-due-schede.test.ts). Il FOR UPDATE è provato solo con una regex (la gara vera mostra che serve). Il ripiego PGRST202 (:169) tiene aperto il buco finché la 361 non è applicata, e la sua applicazione non è in AZIONI-IN-ATTESA."
+  },
+  {
+   "id": "R12-006",
+   "chiave": "architettura|il documento delle decisioni del sito dice ancora commissione all'8% più 15 euro al mese, «da decidere»",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 5c3ed729f046^ --file docs/decisions.md --prove tests/unit/riparazione-r12-decisioni-superate.test.ts --json"
+   },
+   "nota": "Ricollaudo alla testa 7b20df75. La nota di docs/decisions.md (ADR-006) corrisponde a registro-fatti.json (pricing.commissione: 10% su tutti gli ordini, anche clienti già del negozio e ritiro, «IVA inclusa» sospesa; abbonamento 50 € sospeso) e al codice (constants.ts:155, funzioni-al-lancio.ts:103,111)."
+  },
+  {
+   "id": "R12-007",
+   "chiave": "architettura|value_props non lo mostra nessuna pagina: una delle «cinque case» corrette non arriva a nessun utente",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base f2f59ad6b152^ --file lib/constants.ts --prove tests/unit/riparazione-r12-value-props-tolte.test.ts --json"
+   },
+   "nota": "export VALUE_PROPS rimesso in lib/constants.ts → 5 prove rosse; nessun import rimasto, tsc verde; frasi visibili (HomeSectionRenderer.tsx:74) provate in al-lancio…test.tsx:477. Nota sul commit «R12-varie» (36037ba9), che dice «nessuna asserzione persa»: i cinque file toccati tengono il conto, ma le-condizioni-della-veloce-hanno-una-casa-sola.test.tsx:44-48, toccato da f2f59ad6 (questa voce), scende da 10 a 9 (persa diceLeTreCondizioni su VALUE_PROPS, 3 controlli, senza sostituto); i sostituti sono la stessa guardia «l'export non esiste» copiata 4 volte e in i-minuti:35 un ciclo su 4 promesse è diventato un expect. Nessuna copertura persa sul sito (la costante non la mostrava nessuna pagina). Resta un commento vecchio in lib/promessa-consegna.ts:15."
+  },
+  {
+   "id": "R12-008",
+   "chiave": "architettura|il ripiego della lettura delle tendenze carica gli ultimi 8 prodotti, che ora non vengono mai mostrati",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 8cefec819362^ --file lib/queries/fasce-prodotti.ts --prove tests/unit/riparazione-r12-tendenze-senza-ripiego.test.ts --json"
+   },
+   "nota": "File della base → 7 prove rosse; profiles=null alla riga 88 → 6 rosse; unico chiamante TrendingNow.tsx:48 con soglia 3 (riga 28); il controllo «scarta il negozio non approvato» resta coperto dalla prova già alla base. Le asserzioni rimesse da «R12-varie» in il-catalogo:269-284 e :498-506 mordono."
+  },
+  {
+   "id": "R12-009",
+   "chiave": "architettura|i dati demo del sito non si caricano più sul database di oggi: tutte e quattro le semine si fermano",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "PGHOST=/tmp PGPORT=55432 bash tests/sql/harness/riparazione-r12-le-semine-girano.sh (verde, semine applicate due volte senza duplicati); mutanti a mano: seeds/005 della base → rosso a 005:129 (chk_approvazione_coerente); un alimento di seeds/001 rimesso in vendita → rosso a 001:426 (guardiano allergeni); file rimessi"
+   },
+   "nota": "set_config(...,true) vale solo dentro il blocco DO; nessun codice o prova dipende dai prodotti demo «available»; effetto dichiarato: i 2 negozi alimentari demo hanno la vetrina vuota; il passo in CI è nel cosa_resta."
+  },
+  {
+   "id": "R12-010",
+   "chiave": "coerenza-brand|il design system di riferimento è incompleto: mancano button, badge e card e un file importa un componente che non esiste",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 3,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 8ee5d14865fc^ --file docs/mockup/components/core/Badge.jsx,docs/mockup/components/core/Button.jsx,docs/mockup/components/core/Card.jsx,docs/mockup/components/core/core.card.html --prove tests/unit/riparazione-r12-il-design-system-e-completo.test.ts --json"
+   },
+   "nota": "Rimessa uscita 3 (file nuovi, rosso strutturale). Card.jsx spostato via → prova rossa; i 3 .jsx compilano con esbuild; tutti i percorsi del manifesto esistono. Parziale onesto: docs/mockup/LEGGIMI.md:15-20 dice ancora che queste copie sono state cancellate (dichiarato)."
+  },
+  {
+   "id": "R12-011",
+   "chiave": "flussi-conversione|chi si registra con un'email che ha già un account legge che gli è arrivato un link che non arriverà mai, e nessuno gli indica il recupero della password",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base f000ebc70dd8^ --file app/auth/verify-email/page.tsx,lib/errors.ts --prove tests/unit/riparazione-r12-la-verifica-indica-il-recupero.test.tsx --json"
+   },
+   "nota": "Rimessa con sign-up/page.tsx: uscita 1 (quel file non lo guarda la prova); su verify-email e lib/errors.ts: uscita 0. Testo con da=registrazione identico per email nuova e già iscritta (verify-email/page.tsx:107-117): nessuna enumerazione. Nota: tests/unit/le-pagine-vere-dell-accesso-non-chiudono-fuori-nessuno.test.ts prova ② indebolita senza bisogno (il controllo originale passa alla testa, 15/15); copertura ripresa dalla prova nuova."
+  },
+  {
+   "id": "R12-012",
+   "chiave": "frontend-ux|se il nome del negozio comincia con un numero, un apostrofo, le virgolette o contiene una parola inglese come «table», il cliente in cassa legge «qualcosa non ha funzionato» invece del motivo vero",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 73fa9291156e^ --file lib/errors.ts --prove tests/unit/riparazione-r12-nome-del-negozio-in-cassa.test.ts --json"
+   },
+   "nota": "Ricollaudo alla testa 7b20df75. I nomi dei negozi ora arrivano giusti (18/18: «1950 Pizzeria», «100 Montaditos», «la table di nonna», «L'Osteria», «404 Bistrot», «Error Bar»…), i cinque grezzi classici restano filtrati, mutante dallaRotta=false → 7 rossi. Ma sulla strada delle rotte, su 33 errori grezzi filtrati alla base 9 ora passano al cliente — «Key (id)=(5) already exists.», «Key (seller_id)=(abc) is not present in table \"sellers\".», «missing FROM-clause entry…», «column reference \"id\" is ambiguous», «JSON object requested, multiple (or no) rows returned», «…ON CONFLICT specification», ecc.: FRASI_DEL_MOTORE (lib/errors.ts:64) non le conosce, le parentesi restano per dallaRotta (:272), e il ricordo è un Set di modulo (:73). Il referto dice «filtrati come prima»: falso. Oggi nessuna rotta di cassa rimanda grezzi al browser (rischio pratico basso)."
+  },
+  {
+   "id": "R12-013",
+   "chiave": "frontend-ux|orari passati alla cassa e 409 della rotta contanti: le prove cercano parole nel sorgente, non fanno girare pagina e rotta",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 2,
+    "comando": "non applicabile alla macchina: voce di sole prove, nessun file di codice nei commit (prova-rimessa non ha una correzione da togliere). A mano: app/api/orders/cod/route.ts:908 → 409 calcolato e non restituito: la prova nuova diventa rossa (ordine scritto), la vecchia testuale resta verde; file rimesso"
+   },
+   "nota": "La prova nuova esegue davvero POST /api/orders/cod con orologio finto (2/2 verdi). La metà sulla pagina della cassa (app/checkout/page.tsx) non è fatta: dichiarata nel cosa_resta."
+  },
+  {
+   "id": "R12-014",
+   "chiave": "layout-responsive|sul telefono piccolo la pagina del registro delle azioni scorre di lato, e l'elenco si ferma a 200 righe senza dirlo",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 26c9448ccdae^ --file app/admin/audit/page.tsx --prove tests/unit/riparazione-r12-registro-azioni-dice-quante.test.tsx --json"
+   },
+   "nota": "Totale con count exact e stesso filtro, «200 di N» solo se tagliato (app/admin/audit/page.tsx:67-77,121-127); base → 2/3 rosse; select w-full max-w-full; il pre ha overflow-x-auto. Scorrimento a 360 px non misurato in un browser (solo le classi)."
+  },
+  {
+   "id": "R12-015",
+   "chiave": "layout-responsive|un nome lungo senza spazi allarga la pagina del profilo sul telefono e la fa scorrere di lato",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 1b56ae7cfa25^ --file app/profile/page.tsx --prove tests/unit/riparazione-r12-nome-lungo-nel-profilo.test.ts --json"
+   },
+   "nota": "app/profile/page.tsx:121 [overflow-wrap:anywhere] con line-clamp-2 e title, contenitore min-w-0; base → 2/2 rosse. Fuori voce: riga 125 mostra profile.email senza a capo se manca «Cliente dal»."
+  },
+  {
+   "id": "R12-016",
+   "chiave": "microcopy|chi arriva alla pagina dei termini senza essere entrato legge «registrazione non riuscita» e non trova la strada per accedere",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 4d3143725561^ --file app/accetta-condizioni/page.tsx --prove tests/unit/riparazione-r12-termini-senza-sessione.test.tsx --json"
+   },
+   "nota": "401 porta a /sign-in?returnTo=/accetta-condizioni?next=… (page.tsx:50-56), 429 e 500 non parlano più di registrazione; togliendo solo il pezzo di R12-016 le sue 3 prove vanno rosse e quella di R12-002 resta verde: non si pestano."
+  },
+  {
+   "id": "R12-017",
+   "chiave": "microcopy|il reinvio dell'email di conferma dà messaggi che si contraddicono e non dice quanto aspettare",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base f8f94c044478^ --file app/auth/verify-email/page.tsx,lib/auth/conferma-email.ts --prove tests/unit/riparazione-r12-reinvio-dice-quanto-aspettare.test.tsx --json"
+   },
+   "nota": "Ricollaudo alla testa 7b20df75. La frase «fra N secondi» usa attesa che il timer abbassa e sparisce a zero (verify-email/page.tsx); due mutanti → 1 rosso ciascuno; il tetto over_email_send_rate_limit spegne il bottone 180 s senza nominare l'indirizzo (conferma-email.ts:228-235). Asserzione rimessa da R12-varie (826cb2df): le-condizioni-della-veloce torna a 10 e la nuova expect morde (VALUE_PROPS rimesso → rosso); controlla l'assenza del nome, non il contenuto."
+  },
+  {
+   "id": "R12-018",
+   "chiave": "pagamenti-stripe|un avviso di stripe mai lavorato, col turno preso da una consegna morta da meno di cinque minuti, riceve «già visto» e si perde",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 32772148c865^ --file app/api/stripe/webhook/route.ts --prove tests/unit/riparazione-r12-turno-in-corso.test.ts --json"
+   },
+   "nota": "Rimessa con registro-eventi.ts: uscita 3 (funzione nuova); sulla rotta: uscita 0. Mutanti: 200 sul turno fresco (registro-eventi.ts:53) e lavoro nel ramo occupato (route.ts:96) → 4 prove rosse ciascuno; le tre prove esistenti cambiate 200→409 verificano ancora che il gestore non parta; 610/610 verdi sul webhook. Nessun doppio effetto di soldi: il ramo occupato esce prima dello switch. Minore: il caso guasto→409 non ha prova propria."
+  },
+  {
+   "id": "R12-019",
+   "chiave": "pagamenti-stripe|la vetrina sponsorizzata di una settimana resta in vetrina 8 giorni",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 396f55a49d50^ --file lib/stripe/webhook/sponsorizzati.ts --prove tests/unit/riparazione-r12-sponsorizzata-sette-giorni.test.ts --json"
+   },
+   "nota": "Base (+7 giorni) e versione in millisecondi rimesse in sponsorizzati.ts:62-64: rosse 4 prove e la prova del cambio d'ora; verde con TZ Kiritimati e Los Angeles; prova notturna esistente più stretta. Fuori voce, già prima: components/SponsoredCarousel.tsx:36 calcola «oggi» con toISOString (giorno di Greenwich), accensione e spegnimento 1-2 ore in ritardo."
+  },
+  {
+   "id": "R12-020",
+   "chiave": "privacy-legale|la descrizione di «come funziona» che esce su google promette il reso senza escludere i prodotti fatti su ordinazione",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base c730bc051172^ --file app/come-funziona/page.tsx --prove tests/unit/riparazione-r12-come-funziona-su-google.test.ts --json"
+   },
+   "nota": "page.tsx della base: 4 prove rosse; descrizione Google (158 caratteri) e anteprima social usano FRASE_RESO con gli esclusi (page.tsx:16,21); la scheda Twitter ereditata (site-branding.ts:80) non promette il reso; prova esistente più stretta."
+  },
+  {
+   "id": "R12-021",
+   "chiave": "privacy-legale|le domande sotto i prodotti si pubblicano subito, non si possono segnalare una per una e nessuno può toglierle",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "PGHOST=/tmp PGPORT=55432 tests/sql/harness/apply.sh k03_rc3 && psql -d k03_rc3 -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r12-domanda-segnalata.test.sql (verde); poi la stessa prova con migrations/364_una_domanda_si_segnala_e_si_nasconde.sql mutata o tolta: rossa — rimessa SQL a mano, ripristinata"
+   },
+   "nota": "Ricollaudo alla testa 7b20df75. Da cliente vero (SET ROLE authenticated + jwt claims): INSERT con answer, answered_by, answered_at o answer='' rifiutati (migrations/364:58-65); a nome del negozio rifiutato; UPDATE dell'autore 0 righe; upsert rifiutato; DELETE negato. Con la policy della base il controllo 5 è rosso; con la 364 7/7. Il cosa_resta è onesto: «nascono visibili» è una domanda per Nicola; Segnala, rotta e pagina admin in serve_file_altrui. Resta created_at retrodatabile, innocuo."
+  },
+  {
+   "id": "R12-023",
+   "chiave": "privacy-legale|l'obbligo di dichiarare allergeni e ingredienti vale solo finché la categoria principale si chiama esattamente «alimentari», e dal pannello quel nome si può cambiare",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base 0738e871^ --file lib/category-attributes.ts --prove tests/unit/riparazione-r12-allergeni-per-proprieta.test.ts --json"
+   },
+   "nota": "Ricollaudo alla testa 7b20df75. Rimessa con la 363: uscita 1 (la prova unitaria non guarda il database); su lib: uscita 0; la prova SQL 10/10, il controllo 9 rosso con la 363 di prima. Sul database alimentari spostata sotto un'altra radice non perde l'obbligo; slug, colonna, cancellazione e uscita dall'albero bloccati. prontoPerLaVendita.ts:64,:156,:302 decidono ancora per nome ma ora sono dichiarati in serve_file_altrui. Minori non dichiarati: :340,:368,:583,:732 scelgono i campi da mostrare per slug; un ciclo via SQL manda in loop il CTE del guardiano (già alla base, l'API admin lo impedisce)."
+  },
+  {
+   "id": "R12-024",
+   "chiave": "qa-flussi|due richieste di cancellazione quasi insieme mandano due email",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R12 --base b795adeda168^ --file app/api/account/delete/route.ts --prove tests/unit/riparazione-r12-cancellazione-una-email.test.ts --json"
+   },
+   "nota": "route.ts della base: prova nuova rossa; 141/141 verdi sulle 11 prove della rotta; chi scrive per primo prosegue con email e chiusura coda (route.ts:142-163). Minore: profilo mancante o rilettura fallita → 409 invece di una finta conferma (route.ts:138). Corsa fra due transazioni ragionata (Postgres rilegge la condizione), non eseguita."
+  },
+  {
+   "id": "R12-025",
+   "chiave": "qa-flussi|il contatore dei messaggi non letti non si azzera aprendo la chat",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Alla base migrations/154:76-79 ha già REVOKE + GRANT UPDATE di colonna su conversations; nessuna migrazione la tocca fra base e testa, rotta identica. Simulata la rotta mark-read (route.ts:43-51) sullo schema ricostruito: compratore 2→0, negozio 1→0; la pagina la chiama all'apertura (app/messages/[id]/page.tsx:191-200). Minore fuori voce: la rotta ignora l'errore dell'update del contatore (route.ts:48-51)."
+  }
+ ],
+ "campione": {
+  "R06": {
+   "accettato": false
+  },
+  "R10": {
+   "accettato": false
+  },
+  "R12": {
+   "accettato": false
+  }
+ }
+}

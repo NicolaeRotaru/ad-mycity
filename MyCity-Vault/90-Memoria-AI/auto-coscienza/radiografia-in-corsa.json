@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-12 15:34",
+  "aggiornato": "2026-11-13 02:04",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -4136,6 +4136,22 @@
       }
     },
     {
+      "quando": "2026-10-25 14:36",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-1013"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/permessi-elenco.mjs": "60482553b2a7"
+      }
+    },
+    {
       "quando": "2026-10-25 15:44",
       "casa": "macchina",
       "dimensione": "rischio-sicurezza-se",
@@ -4178,22 +4194,6 @@
         "cervello/riga-prossima-card.sh": "733a5cca93c5",
         "cervello/ritmo.sh": "2f2c21793399",
         "cervello/worker.sh": "b85d4329521b"
-      }
-    },
-    {
-      "quando": "2026-10-25 14:36",
-      "casa": "macchina",
-      "dimensione": "rischio-sicurezza-se",
-      "repo": "ad",
-      "modo": "ad",
-      "chi": "AD",
-      "trovati": 1,
-      "schede": [
-        "AR-1013"
-      ],
-      "nota": "",
-      "file": {
-        "cervello/permessi-elenco.mjs": "60482553b2a7"
       }
     },
     {
@@ -6901,6 +6901,51 @@
       }
     },
     {
+      "quando": "2026-11-12 15:03",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/coerenza-fatti.mjs": "d6f52e95a6e4"
+      }
+    },
+    {
+      "quando": "2026-11-12 15:30",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/cancello-stop.mjs": "e282a907de91",
+        "cervello/coerenza-fatti.mjs": "d6f52e95a6e4",
+        "cervello/riparazione-sessioni.mjs": "8fe4207bd676"
+      }
+    },
+    {
+      "quando": "2026-11-12 15:30",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        ".claude/skills/riparazione/SKILL.md": "5cddac2600ff",
+        "cervello/riparazione/sorveglia.sh": "2f702f97b8cc"
+      }
+    },
+    {
       "quando": "2026-11-12 15:34",
       "casa": "macchina",
       "dimensione": "rischio-sicurezza-se",
@@ -6926,6 +6971,129 @@
       "nota": "",
       "file": {
         "pannello/src/lib/obsidian.ts": "699a35f0a0b3"
+      }
+    },
+    {
+      "quando": "2026-11-13 00:58",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "collaudo indipendente del 12/11 (due qa, lenti regole e dati/riservatezza): 15 difetti trovati nel programma prima della consegna, tutti corretti nello stesso lavoro con 41 prove e 35 mutazioni fermate; al riesame finale chiuso anche il nome di ramo passato a git fetch senza filtro",
+      "file": {
+        "cervello/censimento-macchina.mjs": "248d7f2e887a",
+        "cervello/radiografia-sessioni.mjs": "7d392665f079"
+      }
+    },
+    {
+      "quando": "2026-11-13 00:58",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "riletta la skill con la lente della cadenza: la sorveglianza ha una catena sola di send_later ogni 30 minuti con la condizione di fine, le fermate sono tre, la chiusura scrive ESITO con chiusura-loop e la memoria",
+      "file": {
+        ".claude/skills/radiografia-sessioni/SKILL.md": "25e1419c05a1"
+      }
+    },
+    {
+      "quando": "2026-11-13 01:03",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "regista riparazione",
+      "trovati": 1,
+      "schede": [
+        "AR-1171"
+      ],
+      "nota": "Due radiografie del 12/11 notte, due scettici per difetto: 9 difetti confermati su questi file, scritti tutti nella scheda AR-1171 e corretti in cb4136c.",
+      "file": {
+        ".claude/skills/riparazione/SKILL.md": "cf2db24e9cf8",
+        "cervello/riparazione/sorveglia.sh": "68365837c3db"
+      }
+    },
+    {
+      "quando": "2026-11-13 01:03",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "regista riparazione",
+      "trovati": 1,
+      "schede": [
+        "AR-1172"
+      ],
+      "nota": "Due radiografie del 12/11 notte, due scettici per difetto: 13 difetti confermati su prova-rimessa e riparazione-sessioni, scritti tutti nella scheda AR-1172 e corretti in cb4136c. si-capisce.mjs (diff 9525b77..1f35ab4 della sessione AD, 23 righe) guardato a mano dalla regista, niente trovato: il collaudo con agenti è stato fermato per la quota.",
+      "file": {
+        "cervello/prova-rimessa.mjs": "25e9206f7629",
+        "cervello/riparazione-sessioni.mjs": "771e2d3ff4a6",
+        "cervello/si-capisce.mjs": "d3be1f016af1"
+      }
+    },
+    {
+      "quando": "2026-11-13 01:07",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "regista riparazione",
+      "trovati": 0,
+      "schede": [],
+      "nota": "Riguardato a mano il solo paragrafo nuovo della skill (regola dei due costi in ogni messaggio, firmata da Nicola il 13/11 01:07): sei righe di testo, nessun comando nuovo, niente trovato. sorveglia.sh non è cambiato da cb4136c.",
+      "file": {
+        ".claude/skills/riparazione/SKILL.md": "b2ef8e950e48",
+        "cervello/riparazione/sorveglia.sh": "68365837c3db"
+      }
+    },
+    {
+      "quando": "2026-11-13 01:08",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "regista riparazione",
+      "trovati": 0,
+      "schede": [],
+      "nota": "Riguardato a mano il solo paragrafo aggiunto (i costi anche in percentuale del limite settimanale, Nicola 13/11 01:08): testo, nessun comando, niente trovato.",
+      "file": {
+        ".claude/skills/riparazione/SKILL.md": "ee29ee509e65",
+        "cervello/riparazione/sorveglia.sh": "68365837c3db"
+      }
+    },
+    {
+      "quando": "2026-11-13 01:47",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "Riletta la sezione 'Quello che può far salire il conto' (commit 699b7c6) con le lenti cadenza-esecuzione e chiusura-volano. Due punti deboli già noti, nessun difetto nuovo: il tetto di 12 subagenti per figlia e i 400 mila token della chat dell'AD reggono sulla disciplina (debito dichiarato nel MANUALE: nessun guardiano conta i turni); il confronto atteso-reale del preventivo a fine onda è promesso dalla card 237 e dalla Regola 3-ter, non dalla sezione.",
+      "file": {
+        ".claude/skills/riparazione/SKILL.md": "bde91b917edc"
+      }
+    },
+    {
+      "quando": "2026-11-13 02:04",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "Aggiunta la regola delle cartelle (Nicola 13/11). Riletta con cadenza-esecuzione: chi apre la cartella (la regista, a inizio onda), chi la risveglia (la regista, per ogni collaudatore in catena), chi inoltra le cadute (la cartella). Il passaggio del testo intero ai riparatori resta alla regista via send_message, entro 64 KiB. Nessun difetto nuovo.",
+      "file": {
+        ".claude/skills/riparazione/SKILL.md": "e9c4335699ad",
+        ".claude/skills/radiografia-sessioni/SKILL.md": "96f0ae2f0b8b"
       }
     }
   ]

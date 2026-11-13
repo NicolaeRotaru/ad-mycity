@@ -31,6 +31,76 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🟡 #239 — Scegli come trattare le prove comuni toccate nella prima onda · ⏳ accodata 2026-11-13 01:10
+
+**In parole semplici.** Una regola del risolutore dice che una prova usata da più riparatori la cambia solo la regista. Nella prima onda 9 riparatori su 12 l'hanno toccata lo stesso: 57 prove comuni. Per questo il programma che chiude i difetti oggi dà 63 errori sulla campagna.
+
+**Cosa cambia per te.** Esempio: finché non scegli, i 115 difetti riparati della prima onda non si possono segnare come chiusi nel registro.
+
+**Cosa devi fare tu.** Rispondi con una lettera. «a»: la regola resta stretta, e per la sola prima onda firmi un'eccezione, perché quelle modifiche le hanno già guardate i collaudatori. «b»: la regola si allenta, se il numero di controlli dentro la prova non cala. «c»: diventa solo un avviso. Io consiglio «a»: niente codice nuovo, e dalla seconda onda vale la regola stretta.
+
+**Cosa non ho verificato.** Non ho riletto io le 57 prove: il numero viene dalla regista.
+
+Cosa cambia: i difetti chiusi della prima onda entrano nel registro, e la regola per le onde dopo resta decisa.
+Se va bene: la regista lancia la chiusura dei difetti della prima onda dopo che hai unito le due richieste.
+
+### 🔴 #238 — Riprova le tre migrazioni del sito rimaste, ma non la 350 · ⏳ accodata 2026-11-12 23:55
+
+**In parole semplici.** Le migrazioni cambiano il database vero del sito. Delle 15 nate nella prima onda del risolutore, 12 sono già applicate col tuo ok. Ne restano tre: la 361, la 363 e la 364. La conferma del database è scaduta due volte prima della tua risposta.
+
+**Cosa cambia per te.** Esempio: la 361 crea la tabella dei codici sconto usati, che oggi non esiste. Senza, il sito usa ancora la strada vecchia.
+
+**Cosa devi fare tu.** Scrivi «riprova» nella chat della regista e approva la conferma del database. La 350, quella del bonifico del lunedì, non va applicata: in un caso fa pagare due volte lo stesso ordine.
+
+**Cosa non ho verificato.** Le tre migrazioni contengono comandi che cancellano: la conferma del database lo dice, e va letta.
+
+Cosa cambia: sul database vero arrivano le ultime tre migrazioni della prima onda; la 350 resta fuori finché non è riparata.
+Se va bene: la regista controlla le tabelle sul database e scrive l'esito nella richiesta del sito.
+
+### 🔴 #237 — Di' alla regista se parte la seconda onda del risolutore · ⏳ accodata 2026-11-12 23:55
+
+**In parole semplici.** La prima onda ha lavorato 300 difetti del sito e ne ha chiusi davvero 115, per circa 610 $ di consumo. La seconda onda parte solo col tuo «via la seconda». Ora i riparatori lavorano a lotti piccoli, e la stima scende a circa 435 $ per onda.
+
+**Cosa cambia per te.** Esempio: dentro ci sono anche i 25 difetti di R05, il riparatore che non è mai partito.
+
+**Cosa devi fare tu.** Scrivi alla regista «via la seconda», oppure «fermati».
+
+**Cosa non ho verificato.** Il risparmio dei lotti piccoli è una stima: lo misuriamo alla fine della seconda onda.
+
+Cosa cambia: si lavora il prossimo blocco di difetti del sito, a lotti piccoli e con un controllore alla fine.
+Se va bene: alla fine della seconda onda la regista ti porta i numeri veri e il costo misurato.
+
+### 🟡 #236 — Scegli se togliere alla macchina il permesso di usare il database vero senza chiedere · ⏳ accodata 2026-11-12 23:55
+
+**In parole semplici.** Nel foglio dei permessi della macchina c'è una riga che lascia usare lo strumento del database vero senza chiedere. Nella prima onda un aiutante l'ha usato per leggere il database di produzione.
+
+**Cosa cambia per te.** Collaudatori e controllori lavorano nella copia della macchina. Il divieto che dovevano mettersi da soli all'inizio **non si può mettere**: lo stesso foglio dei permessi vieta di scrivere il file del divieto. Lo ha provato la radiografia della notte del 12/11, con Claude Code vero. Quindi oggi il buco della prima onda è ancora aperto. Le strade sono due (aggiornato 2026-11-13 01:00 dalla regista della riparazione):
+1. **Togliere la riga dal foglio dei permessi della macchina.** Si fa con una riga sola, e chiude il buco per tutti. Il prezzo: anche le sessioni dell'AD chiedono prima di leggere il database da lì; i numeri si leggono già prima dal canale ufficiale.
+2. **Un freno automatico.** Blocca gli strumenti del database vero, della messa online e di Stripe solo quando nella copia c'è un file segnale. Collaudatori e controllori lo mettono come primo passo, e la regista controlla che il blocco scatti. Le sessioni dell'AD restano come sono. Il prezzo: è un pezzo nuovo da costruire e collaudare.
+La regista consiglia la 1. Finché non scegli vale un controllo dopo. A ogni giro la regista guarda se quelle sessioni hanno chiamato quegli strumenti, e alla prima chiamata le ferma. Vede la chiamata quando è già partita.
+
+**Cosa devi fare tu.** Rispondi «ok 236» per la strada 1, «freno 236» per la strada 2, oppure «no 236» per lasciare solo il controllo dopo.
+
+**Cosa non ho verificato.** Non ho contato quante volte le sessioni dell'AD usano quello strumento per leggere i numeri.
+
+Cosa cambia: collaudatori e controllori non possono più leggere il database vero senza chiedere. Con la strada 1 il divieto vale per tutte le sessioni della macchina, con la 2 solo per chi ha messo il segnale.
+Se va bene: il buco della prima onda è chiuso prima della seconda, e il controllo dopo non serve più.
+
+### 🟡 #235 — Unisci le due richieste del risolutore quando ti va · ⏳ accodata 2026-11-12 23:55
+
+**In parole semplici.** Il lavoro di oggi sta in due richieste di unione. Quella della macchina porta il risolutore migliorato e la radiografia in sessioni. Quella del sito porta le riparazioni della prima onda.
+
+**Cosa cambia per te.** Esempio: unita la richiesta del sito, l'allarme d'emergenza dei fattorini arriva agli amministratori una sola volta.
+
+**Cosa devi fare tu.** Unisci le due richieste quando vuoi. La pubblicazione del sito resta un passo a parte.
+
+> **Correzione dell'AD, 13/11 alle 02:33.** Quella della macchina, ad-mycity#944, si può unire: premi «Squash and merge». Il passo «Ready for review» è già fatto: la seconda chat l'ha tolta dalla bozza alle 02:22, su tua richiesta. Prima di unire guarda che i due controlli siano verdi sull'ultimo commit. Quella del sito, mycity#288, resta in bozza: la skill `riparazione` la fa uscire di bozza solo dopo il controllore finale della campagna. Inoltre il controllore dell'onda 1 ha trovato 14 voci rosse, e mancano tre migrazioni.
+
+**Cosa non ho verificato.** La richiesta del sito resta in bozza fino al controllore finale della campagna.
+
+Cosa cambia: le regole nuove del risolutore e le riparazioni della prima onda entrano nei rami principali.
+Se va bene: chi ripara dopo lavora sul codice già unito, senza ricucire niente a mano.
+
 ### 🔴 #234 — Prima di far partire il risolutore, di' dove sta il difetto dei contanti e scegli sugli allergeni · ⏳ accodata 2026-11-07 14:37
 
 > ✅ 2026-11-08 07:55 — La prima domanda ha una risposta: il difetto dei contanti non è una delle falle riservate. La palestra lo ha rifatto davvero sul suo database, due volte, ed è entrato nel registro come grave. Resta a te solo la scelta sugli allergeni.
@@ -1143,7 +1213,7 @@ Solo con questo, i 2 pallini della Cabina diventano verdi (o rossi veri, se un g
 
 **⚠️ Aggiornato il 25/10: l'elenco qui sotto era indietro di 19 programmi** (il 23/8 lo era di 51). Dieci erano entrati nel documento ma non in questa card. Nove non li vedeva lo strumento che rifà l'elenco. Adesso una prova diventa rossa se questa card resta indietro rispetto a chi lancia.
 
-Al posto di `"Bash(node cervello/*.mjs:*)"` — 140 righe:
+Al posto di `"Bash(node cervello/*.mjs:*)"` — 142 righe:
 
 ```json
       "Bash(node cervello/adozione-medicine.mjs:*)",
@@ -1239,6 +1309,8 @@ Al posto di `"Bash(node cervello/*.mjs:*)"` — 140 righe:
       "Bash(node cervello/prove-oneste.mjs:*)",
       "Bash(node cervello/quadro.mjs:*)",
       "Bash(node cervello/radiografia-in-corsa.mjs:*)",
+      "Bash(node cervello/radiografia-marketplace-digest.mjs:*)",
+      "Bash(node cervello/radiografia-sessioni.mjs:*)",
       "Bash(node cervello/registra-cadenza.mjs:*)",
       "Bash(node cervello/registro-scelte-check.mjs:*)",
       "Bash(node cervello/retry-policy.mjs:*)",
@@ -1288,12 +1360,13 @@ Al posto di `"Bash(node cervello/*.mjs:*)"` — 140 righe:
       "Bash(node cervello/verifica-sensori.mjs:*)",
 ```
 
-Al posto di `"Bash(bash cervello/*.sh:*)"` — 17 righe:
+Al posto di `"Bash(bash cervello/*.sh:*)"` — 18 righe:
 
 ```json
       "Bash(bash cervello/giro.sh:*)",
       "Bash(bash cervello/installa-bats.sh:*)",
       "Bash(bash cervello/installa-hooks.sh:*)",
+      "Bash(bash cervello/riparazione/sorveglia.sh:*)",
       "Bash(bash cervello/ritmo.sh:*)",
       "Bash(bash cervello/vps/aggiorna-cervello.sh:*)",
       "Bash(bash cervello/vps/collega-claude.sh:*)",
