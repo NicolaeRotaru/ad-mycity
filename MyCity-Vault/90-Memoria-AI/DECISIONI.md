@@ -6842,7 +6842,7 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Perché qui:** è l'ultimo passo della card 236 che Nicola ha firmato. Solo una richiesta di unione può riparare `main`, e la #949 è dell'AD.
 - **Se va bene:** unita la #949, la #948 si rilancia e si unisce solo se torna verde.
 
-## 2026-11-13 03:43 — 🟡 La sessione della CI ripara da sola il rosso della #948
+## 2026-11-13 03:41 — 🟡 La sessione della CI ripara da sola il rosso della #948
 - **Chi:** Nicola in chat con l'AD, quarta chat: «comunica con la sessione CI della macchina in 3 minuti per risolvere il problema».
 - **Cosa cambia:** l'AD ha mandato a `session_015BmpnWjSJvwxssvANzndUF` la causa e la riparazione (commit `67bb26e`). Lei unisce `main` nel suo ramo e porta la stessa riparazione di 4 righe. La #948 così torna verde senza aspettare la #949. Il suo tetto era 29,55 $ su 30: il lavoro è autorizzato da Nicola, ma solo questo, intorno a 2 $.
 - **Se va bene:** la #948 è verde in tutte le 14 righe e Nicola la può unire. Se le due richieste portano la stessa riparazione, la seconda unita non va in conflitto su quel file.
