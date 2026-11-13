@@ -242,6 +242,14 @@
    "ramo": "claude/sweet-galileo-0skkay-c01",
    "onda": 1,
    "integrazione": "b144746992176ae554d48376a00d972f5210a49f"
+  },
+  "C02": {
+   "id": "session_015BmpnWa1XbcMneNurhpqfo",
+   "ramo": "claude/magical-hamilton-xouwr8-c02",
+   "onda": 2,
+   "integrazione": "2d5f0313d1fcb9d6179782f43b695f93ad72ffb5",
+   "giro": 1,
+   "nota": "primo giro anticipato su R20 e R22; aperto dalla cartella Controllori"
   }
  },
  "integrazione_onda1": "b144746992176ae554d48376a00d972f5210a49f",
