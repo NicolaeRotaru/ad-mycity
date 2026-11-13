@@ -1,0 +1,118 @@
+{
+ "controllore": "C02",
+ "onda": 2,
+ "finita": true,
+ "giro": "primo giro anticipato (scelta di Nicola del 13/11 alle 13:20): sull'integrazione ci sono solo R20 e R22, un secondo giro guarderà il resto",
+ "aggiornato": "2026-11-13 14:36",
+ "testa": "2d5f0313d1fcb9d6179782f43b695f93ad72ffb5",
+ "base": "a19ff8923106fb5fbe7c2e74cc02979ea9dc2067",
+ "verify": {
+  "comando": "npm run verify && tests/sql/harness/apply.sh && tests/sql/harness/run.sh",
+  "esito": "verde",
+  "nota": "Girate dalla quinta regista su 2d5f0313 alle 13:46-13:47, non da C02: la regista ha tolto il passo 2 dal piano per non fare lavoro doppio. Verify verde con 1451 file e 9766 prove (NODE_OPTIONS=--max-old-space-size=8192); harness con 193 migrazioni applicate, 0 fallite, tutti i controlli verdi."
+ },
+ "voci_rosse": [],
+ "nuovi_difetti_visti": [
+  {
+   "titolo": "Gli annunci sponsorizzati si accendono e si spengono sul giorno di Greenwich, non su quello di Piacenza",
+   "dimensione": "qa-flussi",
+   "severita": "minore",
+   "file": "components/SponsoredCarousel.tsx:36",
+   "descrizione": "La riga 36 passa a leggiSponsorizzati (lib/queries/fasce-prodotti.ts:178-179) il giorno UTC, new Date().toISOString().slice(0, 10), e la vista sponsored_active_public (migrations/114:388-391) filtra solo lo stato. Ogni notte fra mezzanotte e l'una di Piacenza (le due con l'ora legale) vale ancora il giorno prima. Un annuncio pagato che parte oggi resta nascosto per 1-2 ore, e uno scaduto ieri resta in vetrina gratis per 1-2 ore. È la stessa classe di difetto di R20-008 (drop del giorno), rimasta in un file toccato da R20-013."
+  },
+  {
+   "titolo": "Un'aggiunta al carrello fatta su un telefono può sparire quando un altro dispositivo cambia il carrello",
+   "dimensione": "qa-flussi",
+   "severita": "minore",
+   "file": "components/CartCrossDeviceSync.tsx:85",
+   "descrizione": "È un effetto del ramo nuovo di R20-012: scarta il carrello locale quando localUpdated <= allineatoIl. Quei segni però possono dire «locale non cambiato» anche quando il locale è cambiato. Primo caso: syncUp prende l'ora prima dell'await (riga 114) e la riscrive dopo (riga 126). Secondo caso: allineatoIl viene dall'orologio dell'altro dispositivo e la salita successiva fallisce. Alla modifica dopo, il cloud sostituisce il locale e la riga aggiunta si perde senza avviso; prima di R20-012 la fusione la teneva. Serve una corsa o un orologio sfasato, più la rete caduta. Il revisore l'ha ricostruito leggendo il codice, non riprodotto: confidenza 60%."
+  },
+  {
+   "titolo": "Il carrello preso dal cloud salta il tetto da 1 a 99 pezzi per articolo",
+   "dimensione": "qa-flussi",
+   "severita": "minore",
+   "file": "components/CartCrossDeviceSync.tsx:86",
+   "descrizione": "Prima un carrello del cloud più recente passava da fondiCarrelli (lib/cart.ts:50), che porta ogni quantità fra 1 e MAX_PEZZI_PER_ARTICOLO=99. Il ramo nuovo di R20-012 fa saveCart(cloudItems) sulle righe grezze del database. Una riga vecchia con quantità 0 o sopra 99 arriva nel carrello locale, e la cassa la rifiuta con un errore che non nomina l'articolo. Non tocca i soldi: il server rifiuta già oltre 99."
+  },
+  {
+   "titolo": "Il titolo della variante A della home dice «a negozio aperto», ma la consegna può arrivare dopo la chiusura",
+   "dimensione": "microcopy",
+   "severita": "minore",
+   "file": "app/page.tsx:40",
+   "descrizione": "La frase di R20-009 è «Consegna in giornata, nella fascia oraria che scegli, a negozio aperto.». Il commento in lib/promesse-pubbliche.ts:175-178 spiega che il 5/11 «negli orari di apertura del negozio» è stato tolto apposta: la merce si ritira a negozio aperto ma arriva anche dopo la chiusura (Pane Quotidiano chiude alle 19:30, la cassa propone 19:30-21:00). Si può leggere come «consegna solo a negozio aperto». La voce R20-009 resta chiusa: va solo rivista la parola."
+  },
+  {
+   "titolo": "Sulla bacheca del fattorino, se la vista dei negozi resta giù, la pagina la rilegge ogni 5 secondi senza fine",
+   "dimensione": "performance",
+   "severita": "minore",
+   "file": "app/rider/page.tsx:191",
+   "descrizione": "Con negoziNonLetti vero il refetchInterval resta a 5 secondi finché la vista non risponde, senza tetto e senza attese crescenti. Un guasto lungo moltiplica le letture di ogni fattorino con la bacheca aperta."
+  },
+  {
+   "titolo": "Quando la presa di un ordine torna vuota o con un motivo sconosciuto, il fattorino legge «non più disponibile»",
+   "dimensione": "qa-flussi",
+   "severita": "minore",
+   "file": "app/rider/page.tsx:349",
+   "descrizione": "Ogni esito non riuscito senza un motivo noto, anche una risposta nulla o malformata, diventa OrdineNonPiuDisponibile. L'ordine esce dall'elenco in memoria e il testo dice che non è più disponibile anche se il problema è un altro. La bacheca si rilegge, quindi il danno resta contenuto; la presa resta decisa dal server (prendi_ordine)."
+  },
+  {
+   "titolo": "Eliminando una pagina della vetrina restano i pulsanti delle sezioni che puntavano a lei",
+   "dimensione": "frontend-ux",
+   "severita": "minore",
+   "file": "components/seller/site/PageListEditor.tsx:44",
+   "descrizione": "Con R20-006 remove() toglie le voci del menu verso la pagina eliminata, ma non i pulsanti di banner e altre sezioni con cta kind 'page' (lib/store-site.ts:134, controllo alla :431). Restano puntati a una pagina che non c'è più: link rotto in vetrina o errore al salvataggio."
+  },
+  {
+   "titolo": "A menu spento, un link lasciato a metà sparisce al salvataggio senza avviso",
+   "dimensione": "frontend-ux",
+   "severita": "minore",
+   "file": "lib/store-site.ts:279",
+   "descrizione": "Con R20-005 a menu spento i link incompleti vengono tolti in silenzio al salvataggio. Va bene finché il menu è nascosto, ma quando il negoziante lo riaccende non li ritrova e non sa perché."
+  },
+  {
+   "titolo": "Nel nuovo prodotto dell'amministrazione il modulo resta attivo anche se negozi o categorie non sono arrivati",
+   "dimensione": "stati-ui",
+   "severita": "minore",
+   "file": "app/admin/products/new/page.tsx:150",
+   "descrizione": "Con R20-018 compare l'avviso d'errore, ma ProductForm resta montato. Con le categorie cadute il modulo ha l'elenco vuoto; con i negozi caduti l'invio fallisce solo con il messaggio «Scegli il negozio». Non tocca soldi né dati: la rotta rifiuta un negozio mancante."
+  },
+  {
+   "titolo": "Se il servizio di posta conserva anche le risposte d'errore, una promozione mai partita risulta spedita",
+   "dimensione": "api-backend",
+   "severita": "minore",
+   "file": "lib/email/client.ts:205",
+   "descrizione": "Il blocco nuovo di R22-001/R22-011 tratta il 409 invalid_idempotent_request («stessa chiave, corpo diverso») come email consegnata: return { ok: true, id: '' }. Regge solo se Resend registra sotto la chiave le richieste riuscite. Se conserva anche un 5xx o un 422, al giro dopo la promozione (il cui corpo cambia a ogni giro per il gettone di disiscrizione) riceve 409 e viene segnata sent_at senza essere mai partita. Il revisore non ha potuto verificare il comportamento di Resend. Riguarda solo le promozioni: niente soldi, niente permessi."
+  },
+  {
+   "titolo": "Una voce della chat sul campanello può restare accesa anche se la chat è stata letta mentre era aperta",
+   "dimensione": "qa-flussi",
+   "severita": "minore",
+   "file": "app/api/chat/messages/route.ts:94",
+   "descrizione": "La riga 94 legge il contatore dei non letti una volta sola, prima dei passaggi che scrivono la voce (riga 139). Se intanto la chat aperta chiama mark-read e spegne le voci (mark-read/route.ts:64), la voce scritta subito dopo resta accesa per una chat già letta. Non si accumula: alla lettura dopo mark-read le spegne tutte. Il controllo nonLetti === 0 di R22-009 stringe la finestra ma non la chiude, quindi il referto promette un po' troppo."
+  },
+  {
+   "titolo": "Se la lettura dei ruoli cade, all'Assistenza arriva l'email «un cliente ti ha scritto» pensata per un negozio",
+   "dimensione": "api-backend",
+   "severita": "minore",
+   "file": "app/api/chat/messages/route.ts:117",
+   "descrizione": "Con R22-010 la riga 117 legge i ruoli senza guardare l'errore. Se la lettura cade, ruoloDi restituisce null e il filtro della riga 134 non riconosce più la chat con l'Assistenza, che lì è seller_id (app/api/support/conversation/route.ts:97). Così avvisaNegozioMessaggioNuovo le manda l'email per i negozi col testo del cliente. Il destinatario è comunque chi riceve il messaggio, quindi nessun dato esce: è sbagliato il testo."
+  },
+  {
+   "titolo": "Nelle notifiche il tasto «Carica altre» sparisce mentre carica, e un errore cancella dalla pagina l'elenco già letto",
+   "dimensione": "stati-ui",
+   "severita": "minore",
+   "file": "app/notifications/page.tsx:189",
+   "descrizione": "Con R22-018, durante il caricamento successivo l'elenco a video è ancora quello di 50 righe mentre quante vale già 100: forseAltre diventa falso e il tasto scompare, quindi disabled={isFetching} non entra mai in gioco. Se il caricamento delle altre fallisce, la riga 174 mette l'avviso d'errore al posto dell'intera pagina e le 50 righe già lette spariscono. Nessun dato si perde: è come si vede la pagina."
+  }
+ ],
+ "file_toccati": 62,
+ "file_guardati": 27,
+ "file_non_guardati": "35 file non guardati dagli occhi: 33 di prova (tests/unit) e i 2 referti .riparazione/referto-R20.json e referto-R22.json, letti come fonte delle voci. Le prove le copre verify, che è verde. I 27 file di codice toccati sono stati guardati tutti, divisi fra 7 revisori.",
+ "voci_in_attesa_del_secondo_giro": "Non rosse, ma non chiuse su questa integrazione. Il pezzo che manca sta in file di altre sessioni (serve_file_altrui) o aspetta una decisione: R20-003, R20-012, R22-003, R22-006, R22-013, R22-016 e R22-019 (parziali); R20-015, R20-016 e R22-004 (serve_file_altrui); R20-010 (scelta di Nicola); R22-015 (parziale, il ritiro in negozio non si accende in quest'onda per decisione della regista). R20-014 era già riparata prima. R22-002 regge sul codice, ma la sua colonna scade_at sta nella migrazione 165, che va applicata sul database vero prima di riaccendere la posta (domanda già nel referto R22).",
+ "nota_controllore": "Pre-controllo: R20 e R22 non toccano nessun file in comune, il diff non aggiunge nessuna migrazione, e ogni voce «riparato» ha i suoi file davvero sull'albero unito. Lasciati fuori dai difetti nuovi due punti dei revisori. Il ripiego senza rete su preferenze e rating (app/rider/page.tsx:201) è già nei nuovi_difetti_visti del referto R20. Il controllo doppio delle cifre in lib/contatto-whatsapp.ts:57 per il revisore non ha effetto pratico. Nessun difetto nuovo grave, quindi nessun secondo controllo. Nessun revisore ha chiamato strumenti di database, Supabase, Vercel o Stripe: 63 comandi in sola lettura e una lettura della documentazione pubblica di Resend.",
+ "conto": {
+  "subagenti": 7,
+  "token_stimati": 392613,
+  "costo_sessione_usd_prima_dei_revisori": 3.25
+ }
+}
