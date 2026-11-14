@@ -192,7 +192,9 @@ gli otto rimedi qui sotto valgono circa 175 $ a onda (dal 20% al 14% del limite)
 
 **Ultra Code Extra** (Nicola, 12/11 notte: «Ultra Code Extra, non Max»). Ogni figlia nasce con `effort: "xhigh"` in
 `create_session`, e con ultracode acceso: il suo `prompt` è esattamente `/effort ultracode`, e il compito arriva dopo
-con `send_message` (regola 10 di `cervello/sessioni-insieme.md`, provata il 14/11). Subito dopo, `get_session` deve dire `effort_level` xhigh e
+con `send_message` (regola 10 di `cervello/sessioni-insieme.md`, provata il 14/11). Vale sopra ogni altro punto di
+questa skill sul campo `prompt`: dove qui sotto c'è scritto cosa mettere nel prompt di una figlia o di una cartella,
+quel testo va nel primo `send_message` subito dopo la nascita, oppure in `append_system_prompt`. Subito dopo, `get_session` deve dire `effort_level` xhigh e
 `is_ultracode_active` true. Se `create_session` rifiuta `effort`, o se ultracode resta spento, non si aprono le altre:
 si dice all'AD quali sessioni sono, perché Nicola le accenda dall'app. Ultracode fa lanciare più agenti: per questo
 il tetto di spesa resta quello della fermata, e i rimedi 1-5 valgono anche in ultracode.
