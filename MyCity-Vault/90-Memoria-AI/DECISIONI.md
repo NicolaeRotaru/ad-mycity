@@ -6915,3 +6915,84 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 ## 2026-11-13 05:20 — 🟡 L'eccezione «a» si allarga, solo per l'onda 1
 - **Chi:** Nicola alla regista dell'onda 2: «Allarga la a».
 - **Perché:** per chiudere l'onda 1 nel registro c'erano 63 errori. 57 sono prove comuni, coperte dalla card 239. Gli altri 6 no: 2 sul ramo di R08, che fermavano 13 chiusure, e 4 collaudi di K03 provati a mano sul database, su voci che restano aperte comunque. Nicola li ha messi nell'eccezione, solo per l'onda 1.
+
+## 2026-11-13 05:49 — 🟡 L'onda 2 parte: modalità Auto e ultracode in ogni sessione che lavora sul codice
+- **Chi:** Nicola, nell'app. Alle 05:49 ha passato la sessione «Ondata 2» in Auto, alle 05:53 ha acceso ultracode su R13. Entro le 06:05, alla regista: «accendi ultracode in ogni sessione dove si lavora con il codice».
+- **Perché serve lui:** una sessione figlia in Auto nasce solo da una madre in Auto. Ultracode si accende solo dall'app, sessione per sessione: `create_session` non ha l'interruttore, e la parola nel testo d'avvio non basta.
+- **Anche:** alle 05:56 Nicola ha risposto a una domanda di R13 dentro la sua chat («scelgo la proposta A e approvato il resto»). Le figlie non dovevano chiedere a lui: la regista ha vietato AskUserQuestion a R13-R24, piani e dubbi vanno alla regista.
+- **Se va bene:** i 12 riparatori R13-R24 lavorano 259 difetti (1 bloccante, 19 gravi); 155 voci passano all'onda 3. Richiesta ad-mycity#952.
+
+## 2026-11-13 06:10 — 🟢 La regola del contesto vale anche per le registe
+- **Chi:** Nicola alla prima regista dell'onda 2, oltre 450 mila token: «non stai usando la regola del contesto, come mai?».
+- **Cosa è successo:** alle 06:12 il lavoro è passato a «Regista · onda 2 · seconda», `session_015BmpnWRS6TmZUqTtjQ5fX7`, dal passaggio in fondo a REGIA.md. Lo stesso è successo alla sessione della CI del sito: dal 40% del contesto continua in `session_015BmpnUqVt6v4HuqvPF3X7B`.
+- **Costi:** prima regista 12-15 $ di listino; sessione CI del sito 40,28 $, sopra il tetto di 30 $ del primo lavoro. Alla nuova è dato un tetto di 12 $.
+
+## 2026-11-13 12:58 — 🔴 L'onda 2 si finisce al 100%, anche le voci mai toccate
+- **Chi:** Nicola alla quarta regista: «fai fare ai riparatori i difetti mai toccati, così finiamo al 100% l'ondata» e «oltre a questi 99 fai anche quelli che mancano da fare in questa ondata».
+- **Soldi:** alle 08:06 l'onda era a circa 510 $ di listino (17% della settimana) contro una stima di 435 $. Nicola ha visto 395 $ in più prima di allargare alle parziali; la stima nuova è 430-540 $ in più, onda a circa 940 $ (31% della settimana). 10 riparatori ripartiti con tetti da 55 a 90 $.
+- **Anche:** dichiarazioni di costo dei riparatori sotto il vero (R14 39,8 $ dichiarati contro 52,3 $; R21 56 $ oltre il tetto di 55): la spesa si legge da `get_session`, non dal riparatore. Regia a circa 81 $ alle 08:06 contro un tetto di 60 $ (cinque registe in 9 ore).
+
+## 2026-11-13 13:45 — 🟡 Regola del contesto per tutte le sessioni, figlie comprese
+- **Chi:** Nicola alla quinta regista, 13:30 e 13:45: «tutte le sessioni che hai creato hanno le 10 regole? ed è applicata la regola: superato il 40-60% di contesto deve aprire una nuova sessione 2.0 di se stessa» e «aggiungi come regola anche questa».
+- **Cosa cambia:** in `cervello/sessioni-insieme.md` (commit c7d9263) la regola 7 dice che a 400 mila token la sessione apre da sé la sua 2.0 sullo stesso ramo e si ferma, figlie comprese; la regola 11 nuova dice che chi apre una sessione le dà nel primo messaggio le regole 1, 2, 4, 5, 7 e 10. La regista ha chiesto a Nicola se intendeva questo: conferma ancora aperta.
+- **Scoperta:** ultracode NON passa da chi apre una sessione alla sessione nuova, né scrivendolo nel primo messaggio (K05 alle 13:38, la 2.0 di R14). Ogni sessione nuova, 2.0 comprese, chiede un clic di Nicola dall'app. La regista corregge le regole 7 e 10.
+
+## 2026-11-13 13:35 — 🟢 Ogni sessione dell'onda nella sua sotto-cartella
+- **Chi:** Nicola alla quinta regista: «manca la sessione dell'AD» e «ogni sessione di riparatore, collaudatore, chat AD, etc. devono essere dentro una sotto cartella».
+- **Cosa cambia:** alle 13:47 quattro cartelle su sonnet, che aprono solo sessioni: Regia, Collaudatori, Controllori, AD (`session_015BmpnV6MM3MbPx3kR39WPd`). Le sessioni già aperte restano dove sono. Spostare la chat dell'AD nella cartella aspetta l'ok di Nicola.
+
+## 2026-11-13 15:23 — 🟡 R17 riceve 20 $ in più, e le registe vecchie restano aperte fino a fine onda
+- **Chi:** Nicola alla regista 2.0 dell'onda 2: «r17 il punto a» e «il punto 3 "aspetta"». Alle 15:10 aveva chiesto di archiviare le sessioni finite, poi precisato «solo l'ondata 2».
+- **Cosa cambia:** il tetto di R17 sale da 85 a 105 $: 5 revisori sui 14 difetti riparati e gli ultimi 4. L'AD aveva consigliato di farli controllare dal collaudatore K07 invece che da revisori propri, per non pagare due volte; Nicola ha scelto la strada della regista. Archiviate K05, C02, R20, R21, R22; le 5 registe vecchie restano aperte finché l'onda non finisce, perché contengono sessioni vive.
+- **Collaudo K05 (R20, R21, R22):** 49 voci, 31 reggono, 12 in parte, 5 rompono qualcosa, 1 non regge. Le 6 bocciate tolte dall'integrazione del sito (`990dd7fa`, 10302 prove verdi), passano all'onda 3. K05 ha chiuso a 48,71 $ su un tetto di 30 $: dai collaudatori dopo, stop a 20 $ e revisori a gruppi piccoli.
+
+## 2026-11-14 06:06 — 🔴 L'onda 2 riparte con la strada corta e un tetto di 1.500 $
+- **Chi:** Nicola alla regista 4.0 dell'onda 2: «via ai 4 lavori e l'ondata sui soldi portala a 1500$».
+- **Perché c'era la fermata:** il 13/11 alle 17:25 l'onda 2 era a 1.161 $ di listino (circa il 39% della settimana) contro una stima di 435 $ e un massimo di 550 $. Collaudi: K05 e K06 hanno sforato i loro 30 $ (48,71 e 52,70 $) lanciando 10 aiutanti insieme; R13 ha retto 1 voce su 8.
+- **Cosa parte:** il collaudo di R17 (bonifico del lunedì) con un collaudatore nuovo K09, la cucitura (toglie 3 voci di R19 che rompono la cassa, chiude una falla riservata), il controllore finale e la fermata 3. Stima 65-80 $.
+- **Cosa passa all'onda 3:** R13, R14, i 28 minori di K08 e 2 voci di R18.
+- **Il tetto:** l'onda 2 sale a 1.500 $; restano circa 340 $. L'AD aveva proposto, prima dell'onda 3, di rivedere il metodo: un freno vero sulla spesa di ogni sessione letto da `get_session`, al massimo 3 revisori per collaudatore.
+
+## 2026-11-14 07:52 — 🟡 Ultracode si accende da sé: il primo messaggio di una sessione nuova è `/effort ultracode`
+- **Chi:** Nicola alla regista 4.0: «cerca in tutti i modi di capire come aprire da solo l'ultracode dentro una nuova sessione aperta da te», poi «l'hai aggiunta alla regola?».
+- **Cosa cambia:** sei agenti hanno trovato la via nel codice di Claude Code; alle 07:45 una sessione di prova è nata accesa in 2 secondi, senza clic. La regola 10 di `cervello/sessioni-insieme.md` ora dice: il prompt di `create_session` è esattamente `/effort ultracode`, il compito si manda subito dopo con send_message. La skill `riparazione` rimanda lì (commit 727b2da).
+- **Perché conta:** dal 13/11 ogni sessione nuova (registe, collaudatori, 2.0) chiedeva un clic di Nicola dall'app; erano decine di clic e lavori fermi in attesa.
+- **Limiti non ancora visti:** l'interruttore dell'app non si accende; secondo il codice si spegne se la sessione riparte da capo. La ricerca è costata 1,36 milioni di token.
+
+## 2026-11-14 08:02 — 🟢 Titoli delle sessioni più corti
+- **Chi:** Nicola alla regista 6.0: «i titoli delle sessioni devono essere più corti, questa sessione deve diventare "regista O2 sesta"».
+- **Cosa cambia:** la regista 6.0 si chiama «regista O2 sesta». Per le altre sessioni vive dell'onda (controllore C02, K08, PR e CI, cucitura, cartelle) la regista ha proposto lo stesso stampo («K08 O2», «regia O2»…) e aspetta il sì di Nicola. Da decidere con lui se la regola 7 («· 2.0» in fondo al titolo) segue lo stampo corto («… O2 2.0»).
+
+## 2026-11-14 08:32 — 🟢 La regista che subentra prende il numero dopo, non «· 2.0»
+- **Chi:** Nicola alla regista 6.0: «ho visto che hai aperto laltra regista ma non doveva essere la numero 6 2.0 ma la numero 7 direttamente».
+- **Cosa cambia:** la regista aperta alle 08:30 (`session_015BmpnVKqiFCVbsAjWm364m`) si chiama «regista O2 settima». Le regole 7 e 12 di `cervello/sessioni-insieme.md` dicono ancora «· 2.0» e vanno corrette, poi passate alle sessioni vive: lavoro per la prossima chat dell'AD. Da chiarire con Nicola se vale anche per gli altri ruoli (C02, K08, PR e CI).
+- **Anche:** C02 ha chiuso alle 08:26 (18,3 $ su 20): non reggono R15-005, R17-017 e R18-019 (grave); 90 file di codice su 170 non controllati per il tetto. La regista settima è al livello 7 di 8 dell'albero: la regista dopo la apre l'AD.
+
+## 2026-11-14 08:31 — 🟢 «analisi O2» analizza l'onda 2, non la 3
+- **Chi:** Nicola nella sessione aperta come «analisi O3»: «chi ti ha aperta? ho sbagliato mi riferivo all'ondata 2».
+- **Cosa cambia:** la sessione (`…VsbfzoaD`) si chiama «analisi O2», con tag `cartella:onda-2-analisi`: analizza andamento, voci che reggono, costo e scelte della fermata 3 dell'onda 2. Non guida l'onda e non apre sessioni.
+- **08:36, Nicola alla stessa sessione:** «l'obbiettivo di questa sessione è di analizzare l'ondata 2 e capire perche ha risolto 1 su 4» (60 voci chiuse su 259).
+
+## 2026-11-14 08:56 — 🔴 Giro di correzione dell'onda 2 prima della fermata 3
+- **Chi:** Nicola ad «analisi O2»: «la strada a».
+- **Cosa parte:** correzione e ricollaudo delle 23 voci bocciate dal collaudo o dal controllore, tutte minori, con tetto 130 $; K08 finisce il collaudo dei suoi 28 minori dentro i suoi 30 $; poi un controllo sulle sole modifiche nuove; poi la fermata 3. Lo guida la regista O2 settima (`…VKqiFC`).
+- **Perché:** nell'onda 1 il giro di correzione si era fatto per 9 riparatori su 12, nell'onda 2 per nessuno: è uno dei motivi per cui l'onda 2 ha chiuso 1 voce su 4 (60 su 259).
+- **Soldi:** l'onda era a circa 1.310 $ sul tetto di 1.500 $; con 130 $ arriva a circa 1.440 $.
+- **08:34, la numerazione vale per tutti i ruoli:** Nicola alla regista 6.0: «C02 terzo». Niente «· 2.0»: chi subentra prende il numero dopo, in parole. Rinominate «C02 terzo», «K08 secondo», «PR e CI secondo». Le regole 7 e 12 di `cervello/sessioni-insieme.md` vanno corrette così e passate alle sessioni vive (lavoro per la prossima chat dell'AD).
+
+## 2026-11-14 09:14 — 🟡 Il giro di correzione prende sempre anche le voci a metà e quelle con file altrui
+- **Chi:** Nicola alla regista O2 settima: «le 42 fatte a metà e le 26 che chiedono un file di un'altra sessione devono essere messe nel giro di correzione sempre, perché non sfruttarla subito questa opportunità anziché rimandarla?».
+- **Cosa cambia:** regola nuova per la skill `riparazione` (da scrivere). Le 68 voci si fanno dopo l'unione dei 7 riparatori di adesso: «dividi» sul ramo unito, circa 3 riparatori da 25 voci, un collaudatore e un controllo. Costo stimato circa 140 $: l'onda 2 arriverebbe a circa 1.610 $ contro il tetto di 1.500 $; serve il sì di Nicola per alzarlo a 1.650 $.
+- **Anche (09:15, «Sessione wave 3 setup»):** «no niente togli le cartelle» e «il mio obbiettivo è risparmiare lo spazio per dover scrollare in mezzo a 10-20 sessioni ma solo quelle che sono attive». Regola 12: chi apre una sessione la archivia appena il suo lavoro è chiuso; niente sessioni-cartella; onda nell'etichetta `onda-N-<ruolo>` (PR ad-mycity#953).
+
+## 2026-11-14 10:20 — 🔴 Sette scelte di Nicola sulla fermata dell'onda 2
+- **Chi:** Nicola alla regista O2 settima: «1) riparti», «2)A 3 apri 4 si 5 A 6 la togliamo 7 si».
+- **Cosa cambia:**
+  1. la regista riparte;
+  2. da R17 si tolgono le correzioni di R17-015 e R17-016, che hanno creato difetti sui soldi; restano R17-013 e R17-017;
+  3. si aprono K05 secondo (ricollaudo di R20 e R22), R15 secondo e R16 secondo (voci bocciate da K08);
+  4. il tetto dell'onda 2 sale da 1.500 a 1.650 $;
+  5. R15-005 si corregge invece di togliersi (la fa R15 secondo);
+  6. R18-019 si toglie (revert di 6eefff31, lo fa «PR e CI terzo»);
+  7. si apre in bozza la richiesta di unione del ramo della macchina `claude/magical-hamilton-xouwr8` → main (la apre la regista).
+- **Dove:** bacheca, commit 077d91a74; tetto in sessioni.json, commit febc67458.
