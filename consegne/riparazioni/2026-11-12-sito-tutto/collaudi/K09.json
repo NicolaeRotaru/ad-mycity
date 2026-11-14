@@ -3,8 +3,8 @@
  "riparatori": [
   "R17"
  ],
- "aggiornato": "2026-11-14 06:28",
- "finita": false,
+ "aggiornato": "2026-11-14 06:58",
+ "finita": true,
  "punta": "0a0fbaca20c5c3a0d45bcd670524490e17fc5967",
  "testa": "7e5909b2aeafac50988356725f03cd07837c3d08",
  "base": "a19ff8923106fb5fbe7c2e74cc02979ea9dc2067",
@@ -17,8 +17,13 @@
     "comando": "timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-r17-1 --base c6713b6b939b016752bee8bafa89d99d05790750\\^ --file app/seller/earnings/page.tsx\\,lib/guadagni/negozio.ts --prove tests/unit/riparazione-r17-guadagni-coi-contanti.test.ts --json",
     "commit": "c6713b6b939b"
    },
-   "verdetto": "regge",
-   "giudizio": "nessuno"
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Due revisori, una lente ciascuno. nata_rotta regge: chiamanti, tipi, 22 file vicini verdi, select della pagina sotto RLS sul Postgres locale, 4000 casi testa contro base (sola carta identica). chiude_tutta parziale, come il referto, ma cosa_resta non dice tutto: le righe contanti nuove dello storico mostrano il netto senza storni (page.tsx:416, 18 € contro 14 € della torre); il riquadro contanti promette un bonifico diverso dal «lunedì» (page.tsx:330); «già versati» vuole PAID_MANUALLY, che il vincolo orders_payout_status_check rifiuta (migrations/130:36-48): oltre a R17-002 serve la sua migrazione. Minore: «bonifico del lunedì» copre anche contanti fermi per reclamo o ancora dal fattorino (negozio.ts:147-152)."
   },
   {
    "id": "R17-003",
@@ -28,8 +33,13 @@
     "comando": "timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-r17-2 --base 63eae464111b74a30a163134cca21863dca31947\\^ --file app/api/returns/\\[id\\]/avanza/route.ts\\,components/seller/ReturnRequestCard.tsx\\,lib/database.types.ts --prove tests/unit/riparazione-r17-recesso-merce-spedita.test.ts\\,tests/unit/riparazione-r11-tipi-che-possono-restare-vuoti.test.ts --json && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-r17-3 --base 63eae464111b74a30a163134cca21863dca31947\\^ --file migrations/411_il_cliente_dice_di_aver_rispedito_il_reso.sql --prove tests/sql/rls/riparazione-r17-recesso-merce-spedita.test.sql --sql k09_r17_003_rimessa --json",
     "commit": "63eae464111b 63eae464111b"
    },
-   "verdetto": "regge",
-   "giudizio": "nessuno"
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Due revisori, una lente ciascuno; le prove della voce sono verdi alla testa (10 unitarie, 16 SQL). Falla di sicurezza da chiudere (abuso di logica sui resi): dettagli solo alla regista. Inoltre il guardiano della 411 si aggira in due passi (SHIPPED_BACK→APPROVED→CANCELED, provato sul Postgres locale come service_role; oggi nessuna rotta lo fa). Dichiarati nel referto: il tasto «Ho rispedito la merce» del cliente manca (app/orders/[id]/return/page.tsx) e la scheda del negozio non legge la dichiarazione (app/seller/orders/[id]/page.tsx)."
   },
   {
    "id": "R17-004",
@@ -40,7 +50,11 @@
     "commit": "fb5774562e2c"
    },
    "verdetto": "regge",
-   "giudizio": "nessuno"
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
   },
   {
    "id": "R17-006",
@@ -51,13 +65,22 @@
     "commit": "337b3d393894"
    },
    "verdetto": "regge",
-   "giudizio": "nessuno"
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
   },
   {
    "id": "R17-007",
    "chiave": "pagamenti-stripe|tre tempi diversi per lo stesso bonifico nel codice — e un quarto nelle faq del venditore",
    "verdetto": "regge",
-   "giudizio": "nessuno"
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Già riparato: verificato alla BASE a19ff892, non solo alla testa. release-payouts:29 e stripe/payout/route.ts:36 usano già ORE_ATTESA_BONIFICO; faq venditore (domande.ts:7-12) e Guadagni passano già da fraseAttesaBonifico; «giorno 5», «+3gg», «~24 ore» restano solo nei commenti storici."
   },
   {
    "id": "R17-008",
@@ -68,7 +91,11 @@
     "commit": "36def6d03bd7"
    },
    "verdetto": "regge",
-   "giudizio": "nessuno"
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
   },
   {
    "id": "R17-009",
@@ -79,7 +106,11 @@
     "commit": "27a880f8a765"
    },
    "verdetto": "regge",
-   "giudizio": "nessuno"
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
   },
   {
    "id": "R17-010",
@@ -90,7 +121,11 @@
     "commit": "43a9791bd152"
    },
    "verdetto": "regge",
-   "giudizio": "nessuno"
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
   },
   {
    "id": "R17-011",
@@ -101,7 +136,11 @@
     "commit": "ca3b8f693b58"
    },
    "verdetto": "regge",
-   "giudizio": "nessuno"
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
   },
   {
    "id": "R17-012",
@@ -112,7 +151,11 @@
     "commit": "b15033d6a580"
    },
    "verdetto": "regge",
-   "giudizio": "nessuno"
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
   },
   {
    "id": "R17-013",
@@ -122,8 +165,13 @@
     "comando": "timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-r17-2 --base 3018413b9cca2b299e9e220c619a631b4104baea\\^ --file lib/stripe/payout.ts --prove tests/unit/riparazione-r17-quota-su-quello-che-resta.test.ts --json",
     "commit": "3018413b9cca"
    },
-   "verdetto": "regge",
-   "giudizio": "nessuno"
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Su refundOrder regge. Ma lo stesso caso della voce passa dal rimborso pieno fatto dal cruscotto: rimborsi-da-fuori.ts:165-167 calcola ancora round(1800×1350/1900)=1279 invece di 1350, cioè gli stessi 71 cent della voce (prova di scarto rossa: expected 1279 to be 1350). Il commento «stessa quota di refundOrder» è falso."
   },
   {
    "id": "R17-014",
@@ -134,7 +182,11 @@
     "commit": "dcdb68db710a dcdb68db710a 4fb7ab98142b"
    },
    "verdetto": "regge",
-   "giudizio": "nessuno"
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
   },
   {
    "id": "R17-015",
@@ -144,8 +196,13 @@
     "comando": "timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-r17-3 --base f66d4510233ebbf3f2763fecad201c0b65294235\\^ --file lib/stripe/payout.ts --prove tests/unit/riparazione-r17-bonifico-importo-dopo-il-turno.test.ts --json",
     "commit": "f66d4510233e"
    },
-   "verdetto": "regge",
-   "giudizio": "nessuno"
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Chiusa la finestra lettura→turno della voce. Resta la seconda scrittrice che la voce nomina: addebitaQuotaVenditoreSeNonPagato può scrivere DOPO il turno: controlla lo stato letto prima di Stripe (payout.ts:1163) e la scrittura non filtra payout_status (1185-1188); registraIlBonificoAlNegozio non riconfronta la quota (501-506). Bonifico pieno e quota tolta che nessuno riprende. Visto leggendo il codice, non riprodotto: nel dubbio non regge."
   },
   {
    "id": "R17-016",
@@ -155,8 +212,13 @@
     "comando": "timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-r17-1 --base 4eda498b1b7435d0af4d493a9022955de5207f15\\^ --file lib/ordini/veloce-non-confermata.ts --prove tests/unit/riparazione-r17-freno-morto-prima-di-stripe.test.ts --json",
     "commit": "4eda498b1b74"
    },
-   "verdetto": "regge",
-   "giudizio": "nessuno"
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Chiude solo se l'ordine resta NEW e «Adesso» oltre 10 minuti. Se nel frattempo l'ordine è annullato o accettato, la prenotazione da 1 € senza soldi usciti resta e nessuno la pulisce (veloce-non-confermata.ts:546, selezione a 806); l'annullo rende totale meno il già rimborsato, quindi 1 € in meno al cliente (annulla.ts:299). Nei 10 minuti il giro esce con «riprova» senza avvisi (594): alla base arrivava almeno l'avviso agli amministratori."
   },
   {
    "id": "R17-017",
@@ -167,7 +229,11 @@
     "commit": "369f27616465"
    },
    "verdetto": "regge",
-   "giudizio": "nessuno"
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
   },
   {
    "id": "R17-018",
@@ -178,7 +244,11 @@
     "commit": "f3f465830252"
    },
    "verdetto": "regge",
-   "giudizio": "nessuno"
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
   },
   {
    "id": "R17-019",
@@ -189,7 +259,11 @@
     "commit": "e04ce1702749"
    },
    "verdetto": "regge",
-   "giudizio": "nessuno"
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
   },
   {
    "id": "R17-020",
@@ -199,8 +273,13 @@
     "comando": "timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-r17-2 --base 49312af26fb78d8971912b919228bb0d150fe56d\\^ --file lib/stripe/payout.ts --prove tests/unit/riparazione-r17-rimborso-pieno-e-respinto-insieme.test.ts --json",
     "commit": "49312af26fb7"
    },
-   "verdetto": "regge",
-   "giudizio": "nessuno"
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "La parte dichiarata tiene (40→35 dà PARTIALLY_REFUNDED e HELD con 4,05 € al negozio). Ma cosa_resta non dice tutto: anche il recupero del compenso al fattorino segue la decisione «pieno» presa prima di Stripe (payout.ts:2529), e refundOrder restituisce pieno: isFull vecchio a chi chiama (2698)."
   },
   {
    "id": "R17-024",
@@ -211,7 +290,12 @@
     "commit": "40bb42637fc3"
    },
    "verdetto": "regge",
-   "giudizio": "nessuno"
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Regge sulle due strade del rimborso pieno (rimborsi.ts:210, payout.ts:2253, 1164). Minore: se notifyAdmins lancia (rimborsi.ts:278) la ripetizione di Stripe salta l'ordine già REFUNDED (275) e l'avviso si perde; resta il segno REVERSAL_FAILED."
   },
   {
    "id": "R17-025",
@@ -222,7 +306,23 @@
     "commit": "f4a41e4803c1"
    },
    "verdetto": "regge",
-   "giudizio": "nessuno"
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
   }
- ]
+ ],
+ "campione": {
+  "R17": {
+   "accettato": false
+  }
+ },
+ "revisori": {
+  "quanti": 7,
+  "tipo": "qa",
+  "come": "R17-001 e R17-003 con due revisori, una lente ciascuno; i 16 minori riparati più R17-007 a gruppi di 6 con le due lenti; ognuno nella sua copia alla testa 7e5909b2 e col suo database locale; nessuno strumento di Supabase, Vercel o Stripe"
+ },
+ "alla_testa": "le 20 prove riparazione-r17 (72 controlli) verdi; migrazioni applicate da zero sul Postgres locale; le 3 prove SQL riparazione-r17 verdi",
+ "fuori_collaudo": "R17-002 (il bonifico del lunedì), R17-005, R17-022 e R17-023 sono serve_file_altrui, R17-021 non_fatto: non sono sul ramo e qui non si collaudano"
 }
