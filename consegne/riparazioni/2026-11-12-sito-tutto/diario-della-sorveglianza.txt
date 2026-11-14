@@ -368,3 +368,4 @@
 2026-11-14 07:52 · K09 · collaudo · guardia 🔴 · collaudo ✅ · nessuna
 2026-11-14 07:52 · onda 2 · prova-unione ✅
 2026-11-14 07:55 · giro della 6.0 · sorveglia.sh uscita 1 · rossi solo i tre noti: R13 10708bcf e R17 bb53b6be (deroghe per la fermata 3), K09 partenza dee61af (non vero, visto dalla 5.0) · prova-unione ✅ · C02 · 2.0 fermo senza ultracode (terza richiesta all'AD alle 07:55) · K08 · 2.0 fermo, cucitura finita, PR e CI · 2.0 in attesa del numero · controllo db vero: nessun collaudatore o controllore al lavoro · quota allowed_warning, niente uso extra · regista 0,70 $ e 224 mila token
+2026-11-14 08:03 · regista 6.0 · costo dell'onda 2: 1.277,38 $ su 1.500 (40 sessioni, 85%, circa 43% della settimana: stima) · C02 · 3.0 e PR e CI · 2.0 fermi sul permesso «Add Repo»: interrotti; C02 riparte col clone in sola lettura, mycity#290 la segue la regista · detto all'AD, urgente, alle 08:03
