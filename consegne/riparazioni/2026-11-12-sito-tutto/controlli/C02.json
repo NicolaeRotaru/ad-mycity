@@ -62,12 +62,11 @@
    "descrizione": "La riparazione delle foto di consegna orfane ha aggiunto un passo notturno che cancella file dal magazzino cod-proof: è in potatureNotturne (lib/privacy/potature-ritenzione.ts:785), fino a 200 file per notte. Il giro a mano «conta prima di cancellare» però conta solo i documenti d'identità orfani: alla riga 87 della rotta c'è soltanto contaOrfaniKyc. contaOrfaniDelleProve (potature-ritenzione.ts:762) è esportata ma nessuno la chiama. Anche la frase della risposta (righe 99-101) dice che sono contati solo i documenti d'identità orfani. Esempio: Nicola fa il conto, vede «fileDaTogliere: kyc-docs 0» e accende CANCELLAZIONI_A_ORARIO. La prima notte spariscono fino a 200 foto di contanti o di pacchi lasciati, che il conto non gli aveva fatto vedere. Quelle foto non hanno copia. Le foto toccate sono solo quelle che nessun ordine indica più, quindi il danno è basso. Il riparatore l'aveva già annotato fra i difetti visti. Lo segnalo perché nell'albero unito il buco è rimasto. Nato da: R21-013 (commit 034c1f6f e 10bd0ee1)."
   },
   {
-   "titolo": "Falla di sicurezza da chiudere (autenticazione)",
+   "titolo": "Falla di sicurezza da chiudere (permessi): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
    "dimensione": "sicurezza-auth",
    "severita": "minore",
    "riservato": true,
-   "file": "(nel referto privato)",
-   "descrizione": "(nel referto privato) I dettagli sono andati solo alla regista in chat."
+   "file": "(nel referto privato)"
   },
   {
    "titolo": "Gli annunci sponsorizzati si accendono e si spengono sul giorno di Greenwich, non su quello di Piacenza",

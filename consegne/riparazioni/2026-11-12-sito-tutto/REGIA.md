@@ -1,7 +1,7 @@
 ---
 tipo: quaderno-di-bordo
 data: 2026-11-13 05:50
-per: la regista della campagna «sito, tutto» (onda 2: dalle 08:10 del 14/11 la 6.0 della sesta, id in sessioni.json)
+per: la regista della campagna «sito, tutto» (onda 2: dalle 08:30 del 14/11 la «regista O2 sesta · 2.0», id in sessioni.json)
 stima_usd: 435
 ---
 
@@ -67,11 +67,12 @@ Che le figlie nascano con ultracode: si controlla con get_session sulla prima, p
 **Passaggio alla «regista O2 sesta · 2.0» (14/11 08:28, dalla 6.0 `…WFiSCa` a 406 mila token, 11 $).**
 - Via di Nicola 14/11 06:06: «via ai 4 lavori e l'ondata sui soldi portala a 1500$». Fatti: K09 su R17 (14 su 20 reggono, 5 parziali, R17-003 tolta, `29a34376`) e la cucitura (`9bf9c914`, toglie R19-009/012/015). Resta: C02 e la fermata 3.
 - Sito: integrazione `4a3d9b8a` (R15, R16, R17 senza 003, R18-R24, cucitura; R13 e R14 all'onda 3, referti fuori da `referti/`). Verify verde (1571 file, 10336 prove, `NODE_OPTIONS=--max-old-space-size=6144`), harness 205/205 e 72 file.
-- PR in bozza **mycity#290** (07:57). CI rossa su una prova sola: e2e «404 page is custom» (`tests/e2e/03-cart-and-search.spec.ts:60`), la scritta due volte (h1 e `<title>` di R15-005). Revert pronto (`b2034695` in `/home/user/mycity-revert`, si rifà con `git revert b66f29dd f880877f` in un commit solo): la spinta l'ha fermata il permesso automatico. Chiesto «togli R15-005» a Nicola alle 08:10 (all'AD e in chat). Commento sulla PR fatto. La #290 la segue la regista (il controllore PR e CI · 2.0 `…Vy26PK` era fermo sul permesso «Add Repo»: interrotto, torna a lui se Nicola lo approva).
-- C02 · 3.0 (`…Wwg1yF`, nato acceso con «/effort ultracode», tag vecchio) controlla `4a3d9b8a`: piano approvato; R15-005 segnata rossa. Alle 08:24 era a 18,05 $ su 20: detto di chiudere entro il tetto («ricevuto»). Il referto va in `controlli/C02.json` sul ramo `-c02`. C02 · 2.0 chiusa.
+- PR in bozza **mycity#290** (07:57). CI rossa solo su e2e «404 page is custom» (R15-005: la scritta due volte, h1 e `<title>`). Il sì di Nicola («togli R15-005») chiesto alle 08:10. La #290 la segue la regista, ma l'iscrizione e la spinta vogliono `add_repo` col push, cioè un clic di Nicola.
+- C02 · 3.0 (`…Wwg1yF`) ha finito alle 08:26 (18,23 $ su 20): 3 voci rosse (R15-005, R18-019, R17-017), 17 nati, 80 file guardati su 170, scettico non partito. Referto in `controlli/C02.json`; alle 08:40 la 2.0 ha messo il riservato nella forma del programma (categoria «permessi», senza descrizione).
 - Costo onda 2 alle 08:01: 1.277,38 $ su 1.500 (40 sessioni; `costo_onda2` in sessioni.json). Quota in avviso fino al 19/11 10:00, niente extra.
-- `applica` a vuoto delle 07:55: rosso per la guardia di R17 (`bb53b6be`) e per K08 non chiudibile (i 28 minori all'onda 3, `valida-collaudo` dà 32 rossi con finita=true). Su copia senza K08: 58 si chiudono, 3 già riparate, 198 aperte, i 20 gravi aperti. Per Nicola: K08 · 2.0 finisce il campione, oppure R15 e R16 le ricollauda l'onda 3.
+- `applica` a vuoto delle 08:38: rosso solo per la guardia di R17 (`bb53b6be`) e per K08 non finito. Su copia senza K08 e senza la guardia di R17: onda 2 con 259 voci, 57 si chiudono, 3 già riparate, 199 aperte; `conti` verde. Per Nicola: K08 · 2.0 finisce il campione, oppure R15 e R16 le ricollauda l'onda 3.
 - Fermata 3 (dopo C02): deroghe 10708bcf (R13) e bb53b6be (R17); R17 con 15 subagenti su 12; K05-K07 oltre il tetto; K08; R15-005; le falle riservate (9 + la variante di K08) per il binario privato, dettagli SOLO in chat; da firmare la migrazione 412 di R17; costo e quota.
+- **La 2.0 (08:40).** Revert pronti in locale, non spinti: R15-005 (`47751109`) e R18-019 (`88cff70f`, nessun commit dopo tocca i suoi file) in `/home/user/mycity-revert`. R17-017 resta nel codice e aperta: il revert rimetterebbe il doppio bonifico dopo 24 ore, e il ripiego sbaglia solo senza la 126. Catena `trig_015FammtzzZarEf2a3cGFwwf`. Alle 08:35 il riavvio del processo (`worker_epoch` 2) ha spento ultracode e il titolo è diventato «regista O2 settima».
 - «analisi O3» (`…VsbfzoaD`, aperta 08:25 per Nicola, tag `cartella:onda-3-analisi`, tetto 15 $): la prima (`…Z6zAYT`) non è partita per uno SHA corto. «wave 3 setup» (`…XBC7maw`) è di Nicola e prepara l'onda 3.
 - Da non archiviare: la 4.0 (dentro K09; Nicola 13/11 15:23) e la cucitura (tiene i dettagli di una falla).
 - Copia del sito `blob:none`: prima di sorveglia.sh e applica, scaricare in blocco i contenuti (`rev-list --objects --missing=print --no-walk <rami>`, poi `fetch --stdin`). Albero sessioni: la 6.0 sta al livello 6 di 8; la sua 2.0 al 7; dopo, la regista nuova la apre l'AD.
