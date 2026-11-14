@@ -1,7 +1,7 @@
 ---
 tipo: quaderno-di-bordo
 data: 2026-11-13 05:50
-per: la regista della campagna «sito, tutto» (onda 2: dalle 08:30 del 14/11 la «regista O2 sesta · 2.0», id in sessioni.json)
+per: la regista della campagna «sito, tutto» (onda 2: dalle 08:30 del 14/11 la «regista O2 settima», id in sessioni.json)
 stima_usd: 435
 ---
 
@@ -72,7 +72,7 @@ Che le figlie nascano con ultracode: si controlla con get_session sulla prima, p
 - Costo onda 2 alle 08:01: 1.277,38 $ su 1.500 (40 sessioni; `costo_onda2` in sessioni.json). Quota in avviso fino al 19/11 10:00, niente extra.
 - `applica` a vuoto delle 08:38: rosso solo per la guardia di R17 (`bb53b6be`) e per K08 non finito. Su copia senza K08 e senza la guardia di R17: onda 2 con 259 voci, 57 si chiudono, 3 già riparate, 199 aperte; `conti` verde. Per Nicola: K08 · 2.0 finisce il campione, oppure R15 e R16 le ricollauda l'onda 3.
 - Fermata 3 (dopo C02): deroghe 10708bcf (R13) e bb53b6be (R17); R17 con 15 subagenti su 12; K05-K07 oltre il tetto; K08; R15-005; le falle riservate (9 + la variante di K08) per il binario privato, dettagli SOLO in chat; da firmare la migrazione 412 di R17; costo e quota.
-- **La 2.0 (08:40).** Revert pronti in locale, non spinti: R15-005 (`47751109`) e R18-019 (`88cff70f`, nessun commit dopo tocca i suoi file) in `/home/user/mycity-revert`. R17-017 resta nel codice e aperta: il revert rimetterebbe il doppio bonifico dopo 24 ore, e il ripiego sbaglia solo senza la 126. Catena `trig_015FammtzzZarEf2a3cGFwwf`. Alle 08:35 il riavvio del processo (`worker_epoch` 2) ha spento ultracode e il titolo è diventato «regista O2 settima».
+- **La settima (08:40).** Revert pronti in locale, non spinti: R15-005 (`47751109`) e R18-019 (`88cff70f`, nessun commit dopo tocca i suoi file) in `/home/user/mycity-revert`. R17-017 resta nel codice e aperta: il revert rimetterebbe il doppio bonifico dopo 24 ore, e il ripiego sbaglia solo senza la 126. Catena `trig_015FammtzzZarEf2a3cGFwwf`. Alle 08:35 il riavvio del processo (`worker_epoch` 2) ha spento ultracode e il titolo è diventato «regista O2 settima».
 - «analisi O3» (`…VsbfzoaD`, aperta 08:25 per Nicola, tag `cartella:onda-3-analisi`, tetto 15 $): la prima (`…Z6zAYT`) non è partita per uno SHA corto. «wave 3 setup» (`…XBC7maw`) è di Nicola e prepara l'onda 3.
 - Da non archiviare: la 4.0 (dentro K09; Nicola 13/11 15:23) e la cucitura (tiene i dettagli di una falla).
 - Copia del sito `blob:none`: prima di sorveglia.sh e applica, scaricare in blocco i contenuti (`rev-list --objects --missing=print --no-walk <rami>`, poi `fetch --stdin`). Albero sessioni: la 6.0 sta al livello 6 di 8; la sua 2.0 al 7; dopo, la regista nuova la apre l'AD.
