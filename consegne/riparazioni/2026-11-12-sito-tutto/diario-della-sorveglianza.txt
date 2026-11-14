@@ -370,3 +370,22 @@
 2026-11-14 07:55 · giro della 6.0 · sorveglia.sh uscita 1 · rossi solo i tre noti: R13 10708bcf e R17 bb53b6be (deroghe per la fermata 3), K09 partenza dee61af (non vero, visto dalla 5.0) · prova-unione ✅ · C02 · 2.0 fermo senza ultracode (terza richiesta all'AD alle 07:55) · K08 · 2.0 fermo, cucitura finita, PR e CI · 2.0 in attesa del numero · controllo db vero: nessun collaudatore o controllore al lavoro · quota allowed_warning, niente uso extra · regista 0,70 $ e 224 mila token
 2026-11-14 08:03 · regista 6.0 · costo dell'onda 2: 1.277,38 $ su 1.500 (40 sessioni, 85%, circa 43% della settimana: stima) · C02 · 3.0 e PR e CI · 2.0 fermi sul permesso «Add Repo»: interrotti; C02 riparte col clone in sola lettura, mycity#290 la segue la regista · detto all'AD, urgente, alle 08:03
 2026-11-14 08:10 · regista 6.0 · mycity#290: CI rossa su una prova sola, «404 page is custom» (e2e 03:60), con la scritta due volte (h1 e <title> di R15-005). Rimedio della regola: revert di R15-005 (b2034695 in locale sopra 4a3d9b8a), spinta fermata dal permesso automatico, chiesto il sì di Nicola all'AD, urgente, alle 08:10 · C02 · 3.0 al lavoro col piano approvato, R15-005 segnalata rossa
+2026-11-14 08:23 · R13 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 08:23 · R14 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 08:23 · R15 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 08:23 · R16 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-14 08:23 · R17 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 08:23 · R18 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 08:23 · R19 · in lavoro FINITA · guardia ✅ · referto ✅ 23 voci · unione (sotto) · nessuna
+2026-11-14 08:23 · R20 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 08:23 · R21 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 08:23 · R22 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 08:23 · R23 · in lavoro FINITA · guardia ✅ · referto ✅ 18 voci · unione (sotto) · nessuna
+2026-11-14 08:23 · R24 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-14 08:23 · K05 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 08:23 · K06 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 08:23 · K07 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 08:23 · K08 · collaudo · guardia ✅ · collaudo ⏳ · nessuna
+2026-11-14 08:23 · K09 · collaudo · guardia 🔴 · collaudo ✅ · nessuna
+2026-11-14 08:23 · onda 2 · prova-unione ✅
+2026-11-14 08:27 · giro della 6.0 · sorveglia.sh uscita 1 in 27 s · rossi solo i tre noti (R13 10708bcf, R17 bb53b6be, K09 partenza) · C02 · 3.0 a 18,05 $ su 20: detto di chiudere entro il tetto · «analisi O3» rifatta (la prima non partita per uno SHA corto) · quota allowed_warning, niente extra · regista a 406 mila token e 11,02 $: passaggio alla 2.0
