@@ -1,7 +1,7 @@
 ---
 tipo: quaderno-di-bordo
 data: 2026-11-13 05:50
-per: la regista della campagna «sito, tutto» (onda 2: dalle 17:15 del 13/11 la 4.0 della sesta, id in sessioni.json)
+per: la regista della campagna «sito, tutto» (onda 2: dalle 08:10 del 14/11 la 6.0 della sesta, id in sessioni.json)
 stima_usd: 435
 ---
 
@@ -63,13 +63,13 @@ Che le figlie nascano con ultracode: si controlla con get_session sulla prima, p
 **I controllori.** Le regole stanno in `cervello/riparazione/LEGGIMI-controllore.md`. I referti vanno in
 `<C>/controlli/`, e `applica` li legge da solo.
 
-**Passaggio alla regista dell'onda 2 · 5.0 (14/11 06:45, dalla 4.0 `…ZaZMi8` a 452 mila token, 15,09 $).**
-- Via di Nicola, 14/11 06:06, nella chat della 4.0: «via ai 4 lavori e l'ondata sui soldi portala a 1500$». È la strada corta: (1) K09 collauda R17, (2) la cucitura, (3) il controllore finale C02 · 2.0 sull'albero finale, (4) la fermata 3. All'onda 3: R13 tutto, R14 tutto (il giro di correzione non si fa), i 28 minori di K08, R18-014 e R18-021. Tetto dell'onda 2: 1.500 $ (1.161 $ spesi al 13/11 17:22).
-- Sito: copia `/home/user/mycity` (`clone --filter=blob:none --no-checkout`), comandi con `MARKETPLACE_REPO=/home/user/mycity`. Integrazione a `583624d1`: dentro R15, R16, R18-R24; fuori R13, R14, R17. Push sul sito: `add_repo` push, poi `git -c push.negotiate=true push`.
-- K09 (`…Xh3j1v`, dentro la 4.0, ultracode acceso): collauda R17 (punta 0a0fbaca, testa 7e5909b2), tetto 30 $ e 10 subagenti. Alle 06:38: 9,08 $, 7 revisori al lavoro, K09.json spinto con finita false. Alla consegna: copiare collaudi/K09.json, valida-collaudo, poi unire R17 togliendo le voci rompe_altro col loro commit.
-- Cucitura (`…WYw3LR`, cartella Regia, ultracode acceso, svegliata alle 06:40): ramo `claude/magical-hamilton-xouwr8-cucitura` da 583624d1. A: togliere R19-009, R19-012, R19-015 tenendo intatta R19-008. B: una falla di sicurezza da chiudere (permessi) di R16, dettagli solo in chat. Tetto 25 $ e 6 subagenti. Manda il piano: approvarlo contro il foglio, poi unire il suo ramo.
-- Dopo K09 e cucitura: unione nell'integrazione, prove sull'albero unito (npm run verify, harness SQL) con un subagente, poi C02 · 2.0 (`…YHnGoQ`, ultracode da controllare) sull'albero finale, tetto 20 $. Poi copiare referti R13-R24 e collaudi K05-K09 nella cartella, `applica` a vuoto, `conti`, PR in bozza sul sito e numero al controllore PR e CI 2.0 (`…Vy26PK`, ultracode spento).
-- Fermata 3 per Nicola: deroghe 10708bcf (R13) e bb53b6be (R17), R17 con 15 subagenti su 12, K05-K07 oltre il tetto, le falle, le migrazioni nuove da firmare (R17: 411-412), il costo finale.
-- Falle riservate: 7, più la variante di K08 su R14-002. Solo in chat: la 4.0 le passa alla 5.0.
-- Lezioni della 4.0: le cartelle Collaudatori e Regia sono state bloccate dal controllo dei permessi quando dovevano aprire K09, perché non vedevano il via di Nicola; la 4.0 l'ha aperto da sé. `list_sessions` costa circa 10 mila token: meglio get_session delle singole sessioni. Mai `git add -A`: lo storico del sorvegliante va in un commit da solo. Nel deposito la falla si nomina solo per categoria, senza il file.
-- Archiviate dalla 4.0: K07 e la 3.0. Da non archiviare: la chat dell'AD, `…YkmzPU`, `…W2CbV7`, l'onda 1, le registe vecchie fino alla fine dell'onda.
+**Passaggio alla regista dell'onda 2 · 6.0 (14/11 08:10, dalla 5.0 `…WW9rUE` a 390 mila token, 7,4 $).**
+- Via di Nicola, 14/11 06:06: «via ai 4 lavori e l'ondata sui soldi portala a 1500$». Fatti i primi due. K09 ha collaudato R17: reggono 14 voci su 20, 5 sono parziali, e R17-003 è una falla, tolta col suo commit. La cucitura (`9bf9c914`, 11,57 $) ha tolto R19-009, 012 e 015 e chiuso la falla dei permessi di R16.
+- Sito: l'integrazione è a `4a3d9b8a`, spinta alle 07:46. Contiene 583624d1, R17 (`c282562e`), il revert di R17-003 (`29a34376`, conflitto sciolto tenendo solo R17-004, verificato col diff) e la cucitura. Verify verde: 1571 file e 10336 prove, 406 s, con `NODE_OPTIONS=--max-old-space-size=6144`. Harness: 205 migrazioni su 205, 72 file verdi.
+- Resta il terzo lavoro: C02 · 2.0 (`…YHnGoQ`) sull'albero finale. Ha ultracode spento: il clic è chiesto all'AD alle 06:47 e alle 07:35. Il prompt è di una riga: «Sei il controllore C02 · 2.0. Leggi cervello/riparazione/LEGGIMI-controllore.md e controlla l'onda 2 della cartella consegne/riparazioni/2026-11-12-sito-tutto: integrazione claude/magical-hamilton-xouwr8 @ 4a3d9b8a, base a19ff892.» Tetto 20 $ (ne ha già spesi 3,50). Il referto va in `controlli/C02.json`.
+- Poi il quarto: PR in bozza sul sito (alle 07:50 non ce n'era nessuna), il numero al controllore PR e CI · 2.0, `applica` a vuoto, `conti`, fermata 3.
+- `applica` a vuoto delle 07:55 è rosso su due punti. Il primo è la guardia di R17 (`bb53b6be`, deroga per Nicola). Il secondo è K08 non finito: non si può chiudere, perché il programma vuole un verdetto per ogni voce riparata e i 28 minori sono all'onda 3 (con finita=true, valida-collaudo dà 32 rossi). Su una copia senza K08: onda 2 = 259 voci, 58 si chiudono, 3 già riparate, 198 aperte; i 20 gravi restano tutti aperti. Le strade per Nicola sono due: K08 · 2.0 finisce il campione (serve ultracode), oppure R15 e R16 le ricollauda l'onda 3.
+- R13 e R14 non sono unite: i loro referti stanno fuori da `referti/`, altrimenti `applica` chiuderebbe voci non unite. Il motivo che stampa, «non scritta nel referto», vuol dire «all'onda 3».
+- Fermata 3: le deroghe 10708bcf (R13) e bb53b6be (R17); R17 con 15 subagenti su 12; K05-K07 oltre il tetto; K08 che non si chiude; le falle riservate (9, più la variante di K08), per il binario privato; da firmare solo la migrazione 412 di R17 (la 411 è uscita con R17-003); il costo, da risommare con get_session.
+- La copia del sito con `blob:none`: prima di sorveglia.sh e di applica si scaricano in blocco i contenuti mancanti (`rev-list --missing=print`, poi `fetch --stdin`). Senza, il giro supera i 15 minuti: è successo alle 06:45. Postgres locale: `service postgresql start`, poi l'harness con `su postgres`.
+- Da non archiviare: la 4.0 (dentro c'è K09, e Nicola il 13/11 alle 15:23 ha detto di non archiviare le registe vecchie) e la cucitura, che tiene in chat i dettagli di una falla per il binario privato.
