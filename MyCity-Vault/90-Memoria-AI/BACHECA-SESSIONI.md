@@ -110,7 +110,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 ## Le sessioni vive
 | Ruolo | Id |
 |---|---|
-| La regista dell'onda 2 adesso: «regista O2 settima», dal 14/11 alle 08:30. Tag `cartella:onda-2-regia`. Ultracode spento dal riavvio delle 08:35 | `session_015BmpnVKqiFCVbsAjWm364m` |
+| La regista dell'onda 2 adesso: «regista O2 settima», dal 14/11 alle 08:30. Tag `cartella:onda-2-regia` | `session_015BmpnVKqiFCVbsAjWm364m` |
 | regista O2 sesta, cioè la 6.0. Da non usare dopo il passaggio, a 406 mila token e 11 $ | `session_015BmpnWFiSCapSEYMt2NTCb` |
 | Regista · onda 2 · sesta · 5.0, da non usare dopo il passaggio (390 mila token, 7,4 $) | `session_015BmpnWW9rUEQRqv4jLWfhZ` |
 | Regista · onda 2 · sesta · 4.0, da non usare dopo il passaggio (452 mila token, 15,09 $) | `session_015BmpnZaZMi8cGzkuE9PJE7` |
@@ -145,7 +145,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 ## La quota
 | Quando | Chi l'ha vista | Stato |
 |---|---|---|
-| 14/11 08:40 | la regista O2 sesta · 2.0 (`…VKqiFC`) | avviso sul limite settimanale fino al 19/11 alle 10, niente uso extra, nessun blocco. La sessione non mostra la sua spesa. Detto all'AD con la fermata 3 |
+| 14/11 08:40 | la regista O2 settima (`…VKqiFC`) | uguale alla riga delle 07:54, senza cambiamenti. La sessione non mostra la sua spesa. Detto all'AD con la fermata 3 |
 | 14/11 07:54 | la regista · 6.0 (`…WFiSCa`) | avviso sul limite settimanale fino al 19/11 alle 10, niente uso extra, nessun blocco; uguale in C02 · 2.0, K08 · 2.0, cucitura e controllore PR e CI · 2.0. La regista 6.0 costa 0,70 $; le quattro sessioni aperte insieme 26 $ (C02 4,79, K08 3,63, PR e CI 4,95, cucitura 12,71), circa l'1% della settimana (stima). Detto all'AD, urgente, alle 07:55 |
 | 14/11 07:52 | il controllore PR e CI · 2.0 (`…Vy26PK`) | la quota adesso si vede: resta l'avviso settimanale che scade il 19/11 alle 10, senza uso extra. La sessione ha speso 3,10 $ dei 6 $ che può spendere senza chiedere. Detto all'AD |
 | 14/11 06:43 | la regista · 5.0 (`…WW9rUE`) | avviso sul limite settimanale fino al 19/11 alle 10, niente uso extra, nessun blocco; uguale in K09 e nella cucitura. La regista 5.0 costa 0,70 $, K09 11,63 $ su 30, la cucitura 2,10 $ su 25. Detto all'AD, urgente, alle 06:44 |
