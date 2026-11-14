@@ -135,6 +135,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 ## La quota
 | Quando | Chi l'ha vista | Stato |
 |---|---|---|
+| 14/11 07:52 | il controllore PR e CI · 2.0 (`…Vy26PK`) | la quota adesso si vede: resta l'avviso settimanale che scade il 19/11 alle 10, senza uso extra. La sessione ha speso 3,10 $ dei 6 $ che può spendere senza chiedere. Detto all'AD |
 | 14/11 06:43 | la regista · 5.0 (`…WW9rUE`) | avviso sul limite settimanale fino al 19/11 alle 10, niente uso extra, nessun blocco; uguale in K09 e nella cucitura. La regista 5.0 costa 0,70 $, K09 11,63 $ su 30, la cucitura 2,10 $ su 25. Detto all'AD, urgente, alle 06:44 |
 | 14/11 06:03 | il controllore PR e CI · 2.0 (`…Vy26PK`) | vede quello che ha visto la regista 4.0 alle 17:05: nessun dato di quota e nessuna spesa. Detto all'AD |
 | 13/11 17:22 | la regista · 4.0 (`…ZaZMi8`) | letta in tutte le 34 sessioni dell'onda 2: avviso sul limite settimanale fino al 19/11 alle 10, niente uso extra, nessun blocco. L'onda 2 è a 1.160,62 $ di listino, circa il 39% della settimana (stima: 1% vale circa 30 $), contro i 435 $ detti. Detto all'AD, urgente, alle 17:25 |
