@@ -160,7 +160,8 @@
     "quando": "2026-11-14 07:25",
     "merge": "c282562e",
     "revert_R17_003": "29a34376 (conflitto nella rotta dei resi sciolto tenendo solo il blocco di R17-004: rotta = prima di R17-003 + le sole righe di R17-004, verificato con diff)",
-    "spinto": false
+    "spinto": false,
+    "typecheck": "verde il 14/11 alle 07:31 (56 s, NODE_OPTIONS=--max-old-space-size=8192: senza, tsc finisce la memoria)"
    }
   },
   "R18": {
@@ -455,7 +456,28 @@
    "subagenti": 6
   },
   "via": "Nicola, 14/11 06:06: «via ai 4 lavori e l'ondata sui soldi portala a 1500$»",
-  "piano_approvato": "2026-11-14 06:43 dalla 4.0, 06:48 dalla 5.0: A tre revert 009-012-015, B una riga della 405 e il caso ⑧ neutro; 10 file; 3-4 subagenti; 8-12 $ su 25"
+  "piano_approvato": "2026-11-14 06:43 dalla 4.0, 06:48 dalla 5.0: A tre revert 009-012-015, B una riga della 405 e il caso ⑧ neutro; 10 file; 3-4 subagenti; 8-12 $ su 25",
+  "finita": true,
+  "chiusura": {
+   "quando": "2026-11-14 07:33",
+   "punta": "9bf9c9142d01820b6fdfa3d089d36f4d05de970e",
+   "costo_usd": 11.57,
+   "subagenti": 3,
+   "commit": [
+    "60451b18 R19-009",
+    "68f9595d R19-012",
+    "e4c42cba R19-015",
+    "9bf9c914 falla di sicurezza da chiudere (permessi)"
+   ],
+   "prove": "verify verde (1553 file, 10275 prove), harness 204 migrazioni e 70 file verdi, rosso/verde della falla rifatto da tre agenti",
+   "note": "tre minori nel registro (tracce innocue nella prova di R19-004; run.sh non stampa le etichette dei verdi; verify qui vuole NODE_OPTIONS=--max-old-space-size=6144); una falla di sicurezza da chiudere (permessi) già esistente, dettagli solo in chat alla cucitura"
+  },
+  "unione": {
+   "quando": "2026-11-14 07:35",
+   "merge": "4a3d9b8a",
+   "spinto": false
+  },
+  "archivio": "non prima che la sessione privata delle falle abbia i dettagli"
  },
  "tetto_onda2_usd": {
   "valore": 1500,
