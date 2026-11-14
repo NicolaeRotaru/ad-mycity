@@ -2,372 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-17T10:32:40.947Z",
-      "scatti": 11612,
-      "voci": 209,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 201,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-17T10:45:14.722Z",
-      "scatti": 11634,
-      "voci": 209,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 201,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-17T10:48:30.391Z",
-      "scatti": 11637,
-      "voci": 209,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 201,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-17T11:14:30.303Z",
-      "scatti": 11726,
-      "voci": 209,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 201,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-17T11:17:24.729Z",
-      "scatti": 11736,
-      "voci": 209,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 201,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-17T11:26:57.699Z",
-      "scatti": 11765,
-      "voci": 209,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 201,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-17T11:31:01.979Z",
-      "scatti": 11776,
-      "voci": 209,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 201,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-17T11:33:53.429Z",
-      "scatti": 11784,
-      "voci": 209,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 201,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-17T12:21:44.241Z",
-      "scatti": 11787,
-      "voci": 209,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 201,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-17T12:33:01.693Z",
-      "scatti": 11815,
-      "voci": 209,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 201,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-17T13:28:38.216Z",
-      "scatti": 11820,
-      "voci": 209,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 201,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-18T03:01:29.347Z",
-      "scatti": 12144,
-      "voci": 215,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 204,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1,
-        "gate-orfano": 3
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-18T03:02:01.512Z",
-      "scatti": 12145,
-      "voci": 215,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 204,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1,
-        "gate-orfano": 3
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-18T04:08:19.183Z",
-      "scatti": 12179,
-      "voci": 215,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 204,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1,
-        "gate-orfano": 3
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-18T04:37:07.104Z",
-      "scatti": 12259,
-      "voci": 215,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 204,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1,
-        "gate-orfano": 3
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-18T04:39:34.345Z",
-      "scatti": 12269,
-      "voci": 215,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 204,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1,
-        "gate-orfano": 3
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-18T04:47:11.189Z",
-      "scatti": 12301,
-      "voci": 215,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 204,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1,
-        "gate-orfano": 3
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-19T13:40:29.776Z",
-      "scatti": 77,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-19T14:47:46.854Z",
-      "scatti": 109,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-19T14:56:11.344Z",
-      "scatti": 114,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-19T15:31:27.201Z",
-      "scatti": 117,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-19T20:52:22.099Z",
-      "scatti": 50,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-19T21:04:56.004Z",
-      "scatti": 64,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-19T21:17:07.707Z",
-      "scatti": 75,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-19T21:25:54.537Z",
-      "scatti": 79,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-19T21:34:38.782Z",
-      "scatti": 79,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-19T21:45:42.982Z",
-      "scatti": 202,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-19T21:50:15.498Z",
-      "scatti": 82,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-19T22:00:20.320Z",
-      "scatti": 82,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-19T23:06:02.938Z",
-      "scatti": 219,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-21T12:29:30.128Z",
-      "scatti": 13861,
-      "voci": 224,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 208,
-        "prova-accecata": 7,
-        "riparazione-parziale": 1,
-        "gate-orfano": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-21T12:36:55.884Z",
-      "scatti": 13919,
-      "voci": 224,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 208,
-        "prova-accecata": 7,
-        "riparazione-parziale": 1,
-        "gate-orfano": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-21T12:40:44.387Z",
-      "scatti": 13952,
-      "voci": 224,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 208,
-        "prova-accecata": 7,
-        "riparazione-parziale": 1,
-        "gate-orfano": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-21T12:41:23.826Z",
-      "scatti": 13957,
-      "voci": 224,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 208,
-        "prova-accecata": 7,
-        "riparazione-parziale": 1,
-        "gate-orfano": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-21T12:44:52.504Z",
-      "scatti": 13984,
-      "voci": 224,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 208,
-        "prova-accecata": 7,
-        "riparazione-parziale": 1,
-        "gate-orfano": 4
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-21T12:47:59.134Z",
       "scatti": 14001,
       "voci": 224,
@@ -2134,7 +1768,252 @@
       "voci": 0,
       "per_classe": {},
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-13T13:13:35.039Z",
+      "scatti": 108,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-13T13:38:56.938Z",
+      "scatti": 131,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-13T13:56:11.721Z",
+      "scatti": 68,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-13T14:15:33.630Z",
+      "scatti": 136,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-13T14:32:31.072Z",
+      "scatti": 35,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-13T14:55:15.562Z",
+      "scatti": 4,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-13T15:08:33.193Z",
+      "scatti": 145,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-13T15:14:35.369Z",
+      "scatti": 23,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-13T16:14:00.128Z",
+      "scatti": 155,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-13T16:24:14.102Z",
+      "scatti": 41,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-13T16:49:48.223Z",
+      "scatti": 45,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-13T17:21:46.611Z",
+      "scatti": 48,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T04:41:49.185Z",
+      "scatti": 156,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T05:05:01.210Z",
+      "scatti": 157,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T05:07:07.988Z",
+      "scatti": 20,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T05:22:35.793Z",
+      "scatti": 70,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T05:50:49.801Z",
+      "scatti": 30,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T06:07:43.722Z",
+      "scatti": 36,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T06:40:21.890Z",
+      "scatti": 326,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T06:41:43.187Z",
+      "scatti": 86,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T07:05:36.110Z",
+      "scatti": 35,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T07:11:51.117Z",
+      "scatti": 51,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T07:19:27.749Z",
+      "scatti": 37,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T07:40:28.690Z",
+      "scatti": 19,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T07:55:10.242Z",
+      "scatti": 49,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T07:55:38.345Z",
+      "scatti": 40,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T08:11:31.095Z",
+      "scatti": 49,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T08:26:50.776Z",
+      "scatti": 77,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T08:46:48.534Z",
+      "scatti": 124,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T08:59:47.064Z",
+      "scatti": 124,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T09:15:24.782Z",
+      "scatti": 124,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T10:52:09.776Z",
+      "scatti": 160,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T11:11:16.589Z",
+      "scatti": 167,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T11:42:45.883Z",
+      "scatti": 177,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T11:52:27.305Z",
+      "scatti": 180,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-11-13T12:49:34.750Z"
+  "aggiornato": "2026-11-14T11:52:27.306Z"
 }

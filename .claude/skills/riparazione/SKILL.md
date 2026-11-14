@@ -281,8 +281,8 @@ cartelle-sessione del 13/11 («Riparatori · onda N», «Regia · onda N» e le 
   di lei.
 - **L'etichetta dice l'onda e il ruolo.** In `create_session` il campo `tags` porta il tag della campagna e
   `onda-N-<ruolo>`, con ruolo `riparatori`, `collaudatori` o `controllori`.
-- **Il titolo comincia col ruolo, senza l'onda**: «Riparatore · R25», «Collaudatore · K10», «Controllore · C03». La 2.0
-  tiene etichetta e titolo, con «· 2.0» in fondo.
+- **Il titolo è corto**: il codice della sessione, per esempio «R25», «K10», «C03». Chi prende il posto di una sessione
+  tiene l'etichetta e prende il numero dopo, in parole: «R25 secondo», «C03 terzo» (regola 12).
 - **La regista archivia ogni figlia appena il suo lavoro è chiuso** (`archive_session`). Un riparatore si archivia quando
   il suo collaudo è chiuso e il ramo è unito o tolto dall'onda. Un collaudatore si archivia quando il suo verdetto è nella
   cartella, un controllore quando `applica` ha letto il suo referto. Prima si guarda che non abbia sessioni vive dentro.
@@ -300,7 +300,7 @@ cartelle-sessione del 13/11 («Riparatori · onda N», «Regia · onda N» e le 
 - `permission_mode: "auto"`, scritto: mai `"plan"` (si blocca in attesa di un clic che nessuno fa, e il 6/11 si
   approvava da solo), e mai ereditato senza guardare (una regista in `bypassPermissions` lo passerebbe a tutte);
 - `effort: "xhigh"`, poi il controllo di «Ultra Code Extra» qui sopra;
-- tag `riparazione-<nome>` e `onda-N-riparatori`, titolo «Riparatore · RNN»;
+- tag `riparazione-<nome>` e `onda-N-riparatori`, titolo «RNN»;
 - il prompt porta dentro **per intero** il testo di `cervello/riparazione/LEGGIMI-riparatore.md` e di
   `<C>/schede/RNN.md` (regola 1 del 12/11 sera: sotto i 64 mila caratteri), e finisce con: *«Sei il riparatore RNN.
   Il clone in sola lettura di https://github.com/NicolaeRotaru/ad-mycity al commit SHA_REGISTA serve solo per i
@@ -354,7 +354,7 @@ Appena un riparatore ha `finita: true` con `guardia-ramo` e `valida-referto` ver
 collaudatore libero (fino a 3 riparatori ciascuno; i collaudatori sono ceil(K/3), al massimo 4).
 - `create_session` con `source_url` = `ad-mycity`, `source_revision` = `SHA_REGISTA` (così
   `prova-rimessa.mjs` è una copia fissata, non quella che un riparatore può aver toccato),
-  `outcome_branch` = `<ramo della regista>-kNN`, tag `onda-N-collaudatori`, titolo «Collaudatore · KNN»;
+  `outcome_branch` = `<ramo della regista>-kNN`, tag `onda-N-collaudatori`, titolo «KNN»;
 - il prompt, una riga: *«Sei il collaudatore KNN. Leggi cervello/riparazione/LEGGIMI-collaudo.md e collauda
   i riparatori R… (ramo …, punta …, testa …) e R… (ramo …, punta …, testa …) della cartella <C>. BASE è ….»*.
   La **punta** è l'ultimo commit del ramo (`git rev-parse origin/<ramo>`), dove sta il referto finito; la
@@ -367,6 +367,24 @@ collaudatore libero (fino a 3 riparatori ciascuno; i collaudatori sono ceil(K/3)
 Le voci bocciate tornano allo **stesso** riparatore per **un** giro di correzione, poi allo stesso
 collaudatore. Se cadono di nuovo, restano aperte con la nota. Il terzo giro sulla stessa voce non esiste
 senza Nicola.
+
+**Il giro di correzione prende sempre anche le voci a metà e quelle con i file altrui** (Nicola, 14/11
+alle 09:14: «le 42 fatte a metà e le 26 che chiedono un file di un'altra sessione devono essere messe nel
+giro di correzione sempre. Perché non sfruttarla subito questa opportunità anziché rimandarla?»).
+Il conto che l'ha decisa: nell'onda 2 il giro partiva con 20 voci bocciate su 199 aperte. Restavano fuori
+42 voci lasciate a metà dal riparatore e 26 che chiedevano il file di un'altra sessione.
+- **Cosa entra.** Tre gruppi, in ogni onda: le voci bocciate dal collaudo o dal controllore, le voci
+  `parziale` e le voci `serve_file_altrui`. Restano fuori solo quelle che aspettano una scelta di Nicola,
+  quelle che non sono codice e quelle al terzo giro.
+- **Come si divide.** Le bocciate tornano al loro riparatore, sul suo ramo. Le altre due non possono: una
+  voce `serve_file_altrui` chiede proprio un file che nell'onda ha un altro padrone. Quindi, appena i rami
+  del giro sono uniti, la regista lancia `dividi --base <SHA dell'integrazione> --file-chiavi <le chiavi>`.
+  Così ogni file ha di nuovo un padrone solo. Poi `schede`, riparatori che partono dall'integrazione, un
+  collaudo, un controllo sulle sole modifiche nuove, e `applica` coi loro referti. La fermata viene solo dopo.
+- **Cosa portano i riparatori.** Per ogni file altrui scrivono nella nota la modifica esatta: file, righe
+  e diff. È il punto di partenza del riparatore che avrà quel file.
+- **Il preventivo.** Prima di partire la regista dice a Nicola il costo, circa 1,45 $ a voce più collaudo e
+  controllo, e la percentuale della settimana. Se si va oltre il tetto dell'onda, parte solo col suo sì.
 
 ## F3 — L'unione (a ogni onda)
 
@@ -386,7 +404,7 @@ senza Nicola.
    - macchina: `node cervello/cancello-lotto.mjs` e `node cervello/radiografia-in-corsa.mjs`.
    Sono le prove che il 5/11 diventavano rosse solo dopo l'unione (8). Una voce `rompe_altro`, o rossa
    dopo l'unione, si toglie da sola col suo commit (`git revert`): per questo una voce per commit.
-   **Il controllore d'onda** (`CNN`, sessione nuova su `ad-mycity`, dove ci sono i senior, ramo `<ramo della regista>-cNN`, tag `onda-N-controllori`, titolo «Controllore · CNN») parte appena il ramo
+   **Il controllore d'onda** (`CNN`, sessione nuova su `ad-mycity`, dove ci sono i senior, ramo `<ramo della regista>-cNN`, tag `onda-N-controllori`, titolo «CNN») parte appena il ramo
    unito è spinto. Il prompt è una riga: *«Sei il controllore CNN. Leggi cervello/riparazione/LEGGIMI-controllore.md
    e controlla l'onda N della cartella <C>: integrazione <ramo> @ <sha>, base <sha>.»* Il suo referto si
    copia in `<C>/controlli/CNN.json`. Sul suo ramo deve esserci solo quel file (`git diff --name-only`).

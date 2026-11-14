@@ -1,0 +1,750 @@
+{
+  "collaudatore": "K06",
+  "riparatori": [
+    "R19",
+    "R23",
+    "R24"
+  ],
+  "aggiornato": "2026-11-13 16:58",
+  "finita": true,
+  "voci": [
+    {
+      "id": "R19-002",
+      "chiave": "api-backend|un documento del fattorino fra 4,4 e 8 mb viene rifiutato con un messaggio tecnico in inglese, anche se la pagina promette fino a 8 mb",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R19 && git checkout --detach 3318ef6981da624c19e8fa049ed81aa58675fd6a && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base 3318ef6981da624c19e8fa049ed81aa58675fd6a^ --file app/rider/onboarding/page.tsx --prove tests/unit/riparazione-r19-documento-del-fattorino-col-tetto-vero.test.tsx --json"
+      },
+      "nota": "[g2: regge] La pagina dice 4 MB, blocca sopra 4 MiB prima dell'invio e traduce un 413 non JSON in italiano; è l'unica chiamante della rotta, il cui 413 cade nello stesso ramo. Avanzo: la rotta ha ancora il limite e il testo «max 8 MB», irraggiungibili."
+    },
+    {
+      "id": "R19-003",
+      "chiave": "flussi-conversione|in cassa, sul telefono, l'avviso «fuori zona» sta solo nel riepilogo in fondo: chi scrive lì l'indirizzo lo scopre all'ultimo tocco",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R19 && git checkout --detach fb3b7a7a808b1798dc1bdb5cccc81f66a3d3df80 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base fb3b7a7a808b1798dc1bdb5cccc81f66a3d3df80^ --file app/checkout/page.tsx --prove tests/unit/riparazione-r19-fuori-zona-vicino-all-indirizzo.test.ts --json"
+      },
+      "nota": "[g1: regge] Ogni ordine dei motivi di blocco, ritiro in negozio, mattonella della bozza, ospite che scrive l'indirizzo: l'avviso del passo 1 diventa informativo solo quando il motivo vero è un altro e il salto porta al blocco giusto. Prova del riparatore monta la cassa vera, 10 prove vicine verdi (141). Non provato su un telefono vero."
+    },
+    {
+      "id": "R19-004",
+      "chiave": "frontend-ux|in cassa da ospite il link «ho già un account» fa perdere indirizzo e telefono appena scritti, anche se la pagina promette che restano salvati",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R19 && git checkout --detach b028f98ce19dfe7ef6d0f6aec3978318701e5698 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base b028f98ce19dfe7ef6d0f6aec3978318701e5698^ --file app/checkout/page.tsx --prove tests/unit/riparazione-r19-ho-gia-un-account-salva-la-bozza.test.ts --json"
+      },
+      "nota": "[g6: parziale] Il link che salva la bozza e la mattonella «Appena scritto» tengono, e senza indirizzi salvati torna tutto. Con indirizzi salvati il telefono appena scritto si perde (lo cambia la correzione di R19-009), e la prova del riparatore si aspetta il telefono dell'account. Difetti: app/checkout/page.tsx:630 — ospite scrive 3339876543, entra con la casa predefinita 3331234567: modulo nascosto, la COD parte col telefono dell'account | app/checkout/page.tsx:665 — bozza uguale a un indirizzo salvato non predefinito: mattonella «Appena scritto» più un doppione, confronto esatto senza trim (dichiarato) | tests/unit/riparazione-r19-ho-gia-un-account-salva-la-bozza.test.ts:110 — la prova si aspetta il telefono dell'account e non quello scritto: passa proprio quando il difetto c'è"
+    },
+    {
+      "id": "R19-005",
+      "chiave": "frontend-ux|nel profilo del fattorino il documento risulta «verificato» appena caricato, e l'attestato haccp resta «mancante» anche dopo il caricamento",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R19 && git checkout --detach 7d54bb488340903db6c5fa075035c4b036d17277 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base 7d54bb488340903db6c5fa075035c4b036d17277^ --file app/rider/profile/page.tsx --prove tests/unit/riparazione-r19-profilo-fattorino-documenti-in-verifica.test.tsx --json"
+      },
+      "nota": "[g6: parziale] Il documento di chi è in attesa ora risulta «In verifica» e l'HACCP caricato si vede; la colonna rider_haccp_url esiste. I casi aperti sono dichiarati, ma resta la stessa classe di difetto su patente e polizza. Difetti: app/rider/profile/page.tsx:175 — fattorino in attesa con scadenza patente scritta: «Scade 01/05/2030 · OK» per un documento mai esaminato (non dichiarato) | app/rider/profile/page.tsx:185 — un approvato che ricarica resta «Verificato»; un rifiutato legge «In attesa di verifica» (dichiarati)"
+    },
+    {
+      "id": "R19-006",
+      "chiave": "frontend-ux|il negoziante col negozio non ancora approvato vede «negozio» al posto della sua insegna nella lista condivisa e alla cassa",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R19 && git checkout --detach 23cf610b566e8b9b2a3c26cb2e2200d81bee6c13 && node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base 23cf610b566e8b9b2a3c26cb2e2200d81bee6c13^ --file app/checkout/page.tsx,app/shared-cart/page.tsx --prove tests/unit/riparazione-r19-insegna-del-negozio-non-approvato.test.ts --json"
+      },
+      "nota": "[g1: parziale] Lettura vera della cassa contro database finto: il proprietario legge la sua insegna, un altro cliente legge «Negozio» (la prova del riparatore cerca solo parole nel sorgente). Lo stesso difetto resta nel carrello, il passo fra le due pagine riparate. Difetti: app/cart/page.tsx:487 — storeName ?? 'Negozio': il proprietario di un negozio non approvato vede «Negozio» nel carrello | app/product/[id]/page.tsx:587 — la riga del carrello nasce con storeName undefined (anche :629); la scheda prodotto scrive «Negozio» a :962"
+    },
+    {
+      "id": "R19-007",
+      "chiave": "layout-responsive|alla cassa, col testo del telefono al massimo, la scheda «contanti alla consegna» esce dallo schermo e la pagina scorre di lato",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R19 && git checkout --detach ef66437404e5c9990ec8f1bacb26f89464efcb84 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base 5d924702ee38a5c50dcca03e198966413e4bd0a6^ --file components/checkout/PaymentMethodSelector.tsx --prove tests/unit/riparazione-r19-scheda-contanti-col-testo-grande.test.tsx --json"
+      },
+      "nota": "[g2: rompe_altro] Misurato nel Chrome della macchina col markup vero, il CSS compilato e il font Inter: prima 444 px (come il riparatore). Dopo la correzione la pagina non scorre più di lato a 360-390 px, ma la colonna del testo della scheda contanti si stringe a 0 px: «Contanti alla consegna» esce una lettera per riga e il bollino «Zero rischio» esce dal bordo (prima il testo si leggeva in 154 px). Con la carta accesa e più negozi la pagina scorre ancora (392 px); a 320 px scorre sempre (346 px). La prova del riparatore controlla solo i nomi delle classi. Difetti: components/checkout/PaymentMethodSelector.tsx:167 — min-w-0 + break-words (anche :110 e :169) fanno stringere la colonna del testo a 0 px con testo al 200% e 360 px: titolo e descrizione una lettera per riga, bollino fuori dalla scheda | components/checkout/PaymentMethodSelector.tsx:137 — la riga più-negozi è un flex annidato senza min-w-0: con la carta accesa e 2+ negozi la cassa è larga 392 px a 360/375/390 px (dormiente finché CARTA_ACCESA=false)"
+    },
+    {
+      "id": "R19-008",
+      "chiave": "mobile-pwa|quando la sessione scade da sola, il telefono perde le notifiche in silenzio e al nuovo accesso nessuno le riaccende",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R19 && git checkout --detach c30d04d14441f4456363bc7201dc1fe2e8d25b29 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base c30d04d14441f4456363bc7201dc1fe2e8d25b29^ --file components/Navbar.tsx,app/profile/settings/page.tsx,app/cookies/page.tsx --prove tests/unit/riparazione-r19-notifiche-spente-dette-al-rientro.test.ts --json"
+      },
+      "nota": "[g6: parziale] Tengono il segno legato all'account, la voce nella Cookie policy e il ?tab= nelle impostazioni, senza loop. Se la sessione cade al caricamento non resta nessun segno e al rientro nessun avviso (dichiarato). Dopo un «Esci» volontario da altre barre al rientro compare l'avviso «spente alla fine della sessione». Difetti: components/Navbar.tsx:228 — sessione caduta al caricamento: chiEUscito è null, nessun segno e nessun avviso al rientro (dichiarato aperto)"
+    },
+    {
+      "id": "R19-009",
+      "chiave": "privacy-legale|nome, telefono e indirizzo di chi non completa l'accesso restano nel browser senza scadenza, e chi apre la cassa dopo li trova già scritti",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R19 && git checkout --detach 8d9e830a95ab0ba3c2cd323958e0d2b374d8a7bb && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base 8d9e830a95ab0ba3c2cd323958e0d2b374d8a7bb^ --file app/checkout/page.tsx,components/Navbar.tsx,lib/bozza-checkout.ts,app/cookies/page.tsx --prove tests/unit/riparazione-r19-bozza-della-cassa-scade.test.ts,tests/unit/riparazione-r19-ho-gia-un-account-salva-la-bozza.test.ts --json"
+      },
+      "nota": "[g6: rompe_altro] Scadenza a 2 ore, pulizia al caricamento e Cookie policy tengono. La sostituzione di nome e telefono col predefinito, ancora alla testa, fa partire ordini con dati sbagliati; la cancellazione a ogni SIGNED_OUT fa perdere la bozza a chi passa dal recupero password a metà ordine; il secondo account entro 2 ore resta aperto. Difetti: app/checkout/page.tsx:624-632 — stessa persona con indirizzi salvati: il telefono appena scritto viene sostituito in silenzio e la COD parte col numero vecchio; ordine per la nonna parte a nome di Maria (dichiarato «da togliere» ma ancora nel codice) | components/Navbar.tsx:226 — bozza buttata a ogni SIGNED_OUT, compreso il signOut tecnico di app/reset-password/page.tsx:235: ospite a metà ordine → password dimenticata → bozza persa (non dichiarato) | app/checkout/page.tsx:665 — entro 2 ore un secondo account riceve la mattonella con indirizzo e note del primo (dichiarato aperto, in attesa di Nicola)"
+    },
+    {
+      "id": "R19-011",
+      "chiave": "qa-flussi|buco nelle prove: con la carta e piu' negozi torna «ogni negozio fa consegnare il proprio» e nessuna prova diventa rossa",
+      "verdetto": "non_regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "[g5: non_regge] Alla base non esiste nessuna prova che morda: in una copia rimessa a :1548 la frase «ogni negozio prepara e fa consegnare il proprio», 17 file di prova della base restano verdi (135 prove); l'unica che cerca la frase monta solo i contanti e CARTA_ACCESA=false è compilato nella pagina. Alla testa la prova nuova 26194dc2 diventa rossa (a :1785; la riga :1685 del referto non corrisponde): va rietichettata «riparato» con 26194dc2. Difetti: app/checkout/page.tsx:1548 — alla base nessuna prova diventa rossa se con carta e più negozi torna «fa consegnare il proprio»"
+    },
+    {
+      "id": "R19-012",
+      "chiave": "qa-flussi|la bozza della cassa riceve gli orari dei negozi vuoti: il filo con la regola unica non lavora",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R19 && git checkout --detach ed242caf4e988e0582a9b3da5070fd16a96e5d1b && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base ed242caf4e988e0582a9b3da5070fd16a96e5d1b^ --file app/checkout/page.tsx --prove tests/unit/riparazione-r19-bozza-con-gli-orari.test.ts --json"
+      },
+      "nota": "[g1: rompe_altro] Il caso della voce è chiuso, ma ora la bozza aspetta i dati del carrello: se la lettura cade, la pagina si disegna e le fasce si toccano; quando «Riprova» riesce la bozza rimette la sua consegna sopra la scelta a mano (prova montata: «Oggi · 16:30–18:00» diventa «Domani · 11:00–13:00»). Alla base la bozza si applicava una volta sola prima di ogni tocco. Caso raro. Difetti: app/checkout/page.tsx:635-646 — dopo un errore di lettura e «Riprova», la fascia della bozza sostituisce in silenzio quella scelta a mano"
+    },
+    {
+      "id": "R19-013",
+      "chiave": "qa-flussi|la cassa propone i contanti anche sopra il tetto di legge",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R19 && git checkout --detach 4296db3a67a7012d5f5d8d49bde75f10d349f620 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base 4296db3a67a7012d5f5d8d49bde75f10d349f620^ --file app/checkout/page.tsx,components/checkout/PaymentMethodSelector.tsx --prove tests/unit/riparazione-r19-contanti-sopra-il-tetto.test.ts --json"
+      },
+      "nota": "[g1: parziale] Server: la rotta contanti rifiuta sopra 4.999,99 € (409) e lo faceva già alla base; in pagina la scelta contanti è spenta e l'invio fermato. Ma con la carta spenta (configurazione di oggi) a 5.203 € la cassa dice «non si può fare» e subito sotto propone ancora di pagare in contanti al rider. Difetti: components/checkout/OrderSummary.tsx:220 — sopra il tetto, carta spenta: resta «Non paghi adesso. Paghi in contanti al rider quando arriva.» | components/checkout/OrderSummary.tsx:204 — il pulsante bloccato dice «Ordina e paga alla consegna · 5203,00 €»; lo stesso nella barra del telefono app/checkout/page.tsx:2005 e 2011"
+    },
+    {
+      "id": "R19-014",
+      "chiave": "qa-flussi|se la cassa non riesce a leggere il carrello, il pulsante è spento ma il riepilogo dice «subtotale 0,00 € · spedizione gratis · totale 0,00 €»",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R19 && git checkout --detach ddc874a85b38c51a3c00f6aade1bfdf6785c5589 && node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base ddc874a85b38c51a3c00f6aade1bfdf6785c5589^ --file app/checkout/page.tsx --prove tests/unit/riparazione-r19-cassa-non-legge-il-carrello.test.ts --json"
+      },
+      "nota": "[g1: regge] Cassa montata con la lettura del carrello in errore: in tutta la pagina, barra del telefono compresa, nessun «0,00» né «Gratis», c'è «Riprova»; con tutte le righe tolte va sullo stato vuoto. La prova del riparatore cerca solo parole nel sorgente, il comportamento verificato montando la pagina."
+    },
+    {
+      "id": "R19-015",
+      "chiave": "qa-flussi|stesso carrello entro 12 ore con un'altra fascia o un altro indirizzo: la cassa risponde «fatto» con l'ordine di prima",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R19 && git checkout --detach 5f97f524a2aff1d58cc7fd15f715022949e1182e && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base 5f97f524a2aff1d58cc7fd15f715022949e1182e^ --file app/checkout/page.tsx --prove tests/unit/riparazione-r19-ripetuto-con-altra-fascia.test.ts --json"
+      },
+      "nota": "[g1: rompe_altro] Il server riconosce il doppione solo dalla chiave e al «ripetuto» non restituisce fascia, giorno e indirizzo: la correzione sta solo nel browser, che ricorda la consegna del primo invio. Ma il primo invio può non aver creato niente (rete giù, 403 «conferma l'email»): prova montata, la cassa scrive «l'avevi già ordinato con le 11:00… annullalo e rifallo» per un ordine nato con le 16:30. Prima diceva «Ordine effettuato!», che era vero. Difetti: app/checkout/page.tsx:89-101 — consegnaDelPrimoInvio salva fascia e indirizzo anche di un invio che non ha creato niente; al confronto (riga 1177) nasce un avviso falso che spinge ad annullare l'ordine giusto | app/api/orders/cod/route.ts:479 — la risposta «ripetuto» non porta fascia, giorno e indirizzo dell'ordine vero (anche :653)"
+    },
+    {
+      "id": "R19-016",
+      "chiave": "qa-flussi|un carrello condiviso con più di cinquanta righe perde le ultime in silenzio, anche quelle disponibili",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R19 && git checkout --detach 5a81802f6174767bed50122dc1e6d3217db2584f && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base 5a81802f6174767bed50122dc1e6d3217db2584f^ --file app/shared-cart/page.tsx,components/ShareCartButton.tsx --prove tests/unit/riparazione-r19-lista-condivisa-oltre-cinquanta-righe.test.tsx --json"
+      },
+      "nota": "[g2: regge] ShareCartButton è l'unico che costruisce i link /shared-cart, li divide a pezzi di 50 come il lettore, «Copia testo» li copia tutti; il lettore conta e dice le righe oltre 50; quantità già limitate a 99. Avanzo estetico: i doppioni uniti mostrano meno righe delle «prime 50»."
+    },
+    {
+      "id": "R19-017",
+      "chiave": "qa-flussi|con la cassa aperta a mezzanotte, «domani» passa da sabato a domenica senza avviso e l'ordine nasce per il giorno dopo",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R19 && git checkout --detach 46eac696b53a6a0f05542fa8d80ec23de19e5bf3 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base 46eac696b53a6a0f05542fa8d80ec23de19e5bf3^ --file app/checkout/page.tsx --prove tests/unit/riparazione-r19-mezzanotte-in-cassa.test.ts --json"
+      },
+      "nota": "[g6: parziale] La cassa tiene: il selettore ricalcola la data a ogni disegno, la guardia sta prima del ramo carta/contanti e delivery_date usa l'ora di Roma. Resta aperto, dichiarato, il lato rotte: nessuna rotta legge delivery_date. Difetti: app/api/orders/cod/route.ts:905 — la rotta giudica la fascia col suo orologio e ignora delivery_date (dichiarato, serve_file_altrui)"
+    },
+    {
+      "id": "R19-020",
+      "chiave": "qa-flussi|il ritorno dopo l accesso perde ?tab=",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R19 && git checkout --detach b1cd202916fee6eafacb0a19034c9bd4c0ce8d2f && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base b1cd202916fee6eafacb0a19034c9bd4c0ce8d2f^ --file middleware.ts --prove tests/unit/riparazione-r19-ritorno-con-la-query.test.ts --json"
+      },
+      "nota": "[g10: regge] Lente sicurezza: 20 varianti di rimando esterno nel middleware vero (//evil.com, CRLF codificato, %2F%2F, tab, barra rovesciata, @, returnTo annidati): Location sempre senza a capo e returnTo sempre interno; nessuna pagina protetta legge segreti dalla query. [g2: parziale] 38 richieste ostili al middleware vero (//evil, /\\evil, %2F%2F, %5C, CRLF, javascript:, tab, returnTo annidati, oltre 512, con e senza sessione): il rimando resta sempre sul nostro dominio e nessun parametro si perde. L'accesso con Google perde ancora ?tab= e tutto il percorso (rotto già prima, ma è lo stesso sintomo del titolo). Difetti: components/ui/AuthShell.tsx:145 — handleGoogle manda /auth/callback senza next e la pagina di accesso monta <AuthAlternatives /> senza returnTo (app/sign-in/page.tsx:345): dopo Google da /profile/settings?tab=danger si finisce in home | app/profile/settings/page.tsx:197 — minore: il ripiego della pagina push('/sign-in?returnTo=/profile/settings') perde ?tab= (corsa rara)"
+    },
+    {
+      "id": "R19-021",
+      "chiave": "sicurezza-auth|dopo il cambio della password il sito ti fa uscire senza dirlo, e al clic dopo ti tratta come se non fossi mai entrato",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R19 && git checkout --detach dd8cb290e8e21ffd53a694d8c8fe7cc2bb8d904b && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base dd8cb290e8e21ffd53a694d8c8fe7cc2bb8d904b^ --file app/profile/settings/page.tsx --prove tests/unit/riparazione-r19-dopo-il-cambio-password-si-rientra.test.tsx --json"
+      },
+      "nota": "[g10: regge] Lente sicurezza: la revoca delle sessioni sul server è intatta (updateUserById fa Logout di tutte le sessioni); la correzione tocca solo il browser e nessuna sessione resta valida per colpa sua. Fuori voce: il JWT già emesso resta valido fino alla scadenza. [g2: regge] Sul sorgente pubblico di supabase/auth: updateUserById chiama UpdatePassword(tx, nil) che fa Logout di tutte le sessioni; le altre sessioni restano chiuse e la rotta non cambia. Sul dispositivo: avviso, signOut locale (il 403 è ignorato da auth-js 2.106.1), poi accesso. Fuori voce: l'avviso non dice che anche gli altri dispositivi sono usciti."
+    },
+    {
+      "id": "R19-023",
+      "chiave": "stati-ui|se la lettura del profilo non riesce, il negoziante approvato legge che il suo account non è da venditore e gli viene proposto di iscriversi di nuovo",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R19 && git checkout --detach 1445c09df4a99dfee8cf2a1141d50c2c589aac0c && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base 1445c09df4a99dfee8cf2a1141d50c2c589aac0c^ --file app/seller/layout.tsx,components/hooks/useProfile.ts --prove tests/unit/riparazione-r19-profilo-non-letto-nel-negozio.test.tsx --json"
+      },
+      "nota": "[g2: parziale] Il layout del negozio tiene: un 500 dopo il ritentativo o una lettura in pausa senza rete mostra Riprova, che rilegge e fa entrare; isError/refetch non cambiano gli altri chiamanti. Una prova che monta i layout veri del fattorino e dell'admin con useProfile vero e lettura a 500 mostra lo stesso difetto per quei ruoli. Difetti: app/rider/layout.tsx:19 — lettura del profilo fallita trattata come ruolo sbagliato: «Accesso riservato ai rider.» (:30) e rimando a '/' | app/admin/layout.tsx:19 — stesso schema: «Accesso riservato agli amministratori.» (:30) e rimando a '/'"
+    },
+    {
+      "id": "R23-002",
+      "chiave": "architettura|il gancio semancalachiave rende morti i catch sulla chiave nelle rotte; senzachiave e sullaporta copiati in due file",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 3,
+        "comando": "cd /home/user/wt-R23 && git checkout --detach 44c588115baf4c74f4c4fa5feb7b493d4c43b395 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R23 --base 44c58811^ --file app/api/account/delete/route.ts,app/api/account/export/route.ts,lib/privacy/porta-dei-diritti.ts --prove tests/unit/riparazione-r23-porte-dei-diritti.test.ts --json"
+      },
+      "nota": "[g7: parziale] La risposta senza chiave adesso è una sola e i catch morti nelle due rotte se ne sono andati. 7 file vicini: 109 su 109 verdi. Restano due catch sulla chiave morti allo stesso modo in rotte che passano già da authenticate: stessa classe, codice morto innocuo. Difetti: app/api/rider/sos/avvisa/route.ts:37 — catch su getAdminSupabase che non scatta mai: senza chiave authenticate risponde 503 prima | app/api/admin/users/[id]/delete/route.ts:33 — stesso catch morto sulla chiave, dietro withAdminAuthRateLimit Rimessa a mano: rossa sul comportamento: in copie sotto /tmp le due rotte alla base (44c58811^) e il file nuovo tolto, la prova del riparatore diventa rossa sul comportamento (la riga d'errore dell'esportazione non dice più utente e diritto); il rosso_sconosciuto della macchina nasceva dall'import rotto del file nuovo tolto Prova rimessa uscita 3 (rosso_sconosciuto sul file nuovo); i due file esistenti tolti uno alla volta danno rosso sul comportamento."
+    },
+    {
+      "id": "R23-003",
+      "chiave": "architettura|il codice pgrst204 su una colonna della 124 ora fa scattare il ripiego per tutti: con la cache dello schema di postgrest vecchia, la scrittura salta gross_total_cents anche a migrazione applicata",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R23 && git checkout --detach d1791649863e7589b0e0f0c2cc1200ab4c644528 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R23 --base f5cab277^ --file lib/db/migrazione-124.ts --prove tests/unit/riparazione-r23-cache-vecchia-di-postgrest.test.ts --json ; cd /home/user/wt-R23 && git checkout --detach d1791649863e7589b0e0f0c2cc1200ab4c644528 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R23 --base f5cab277^ --file lib/stripe/webhook/dispute.ts --prove tests/unit/riparazione-r23-cache-vecchia-contestazione.test.ts --json"
+      },
+      "nota": "[g7: rompe_altro] Contestazione parziale vinta, migrazione 126 applicata ma memoria di PostgREST vecchia, fattorino dell'ordine REVERSED: la scrittura del fattorino ora lancia (dispute.ts:70 → :445) e Stripe ripete l'evento; a ogni ripetizione restituisciLeQuoteParziali rifà il bonifico al negozio con una chiave nuova (3 consegne = 3 bonifici da 18 €). Con dispute.ts a d1791649^ il bonifico è uno solo. Probabilità bassa, soldi veri. Difetti: lib/stripe/webhook/dispute.ts:70 — con la memoria vecchia il ramo del fattorino restituisce l'errore e scritturaObbligatoria (riga 445) lancia dopo la restituzione al negozio: Stripe ripete charge.dispute.closed | lib/stripe/webhook/contestazione-parziale-vinta.ts:43 — il ripiego a mano toglie dispute_seller_reversed_cents ma scrive payout_tentativo+1: a ogni ripetizione la chiave è nuova e parte un altro bonifico della quota | lib/stripe/webhook/rimborsi.ts:506 — ripiego a mano dichiarato aperto, senza la verifica della memoria vecchia"
+    },
+    {
+      "id": "R23-004",
+      "chiave": "architettura|due file del sito importano una libreria che non è installata, e reggono solo grazie a una scorciatoia interna di next",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R23 && git checkout --detach 8524b22499013ac0da5ca3ab3a1f7c77dc504992 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R23 --base 8524b224^ --file lib/health/checks.ts,lib/products/externalSync.ts --prove tests/unit/riparazione-r23-librerie-dichiarate.test.ts --json"
+      },
+      "nota": "[g3: regge] Nessun import di server-only resta; scansione di tutti gli import di app/, lib/, components/ contro package.json: nessuna libreria non dichiarata. I due moduli li importano solo pagina server, rotte API e lavori periodici; prove r23 e r06 12/12."
+    },
+    {
+      "id": "R23-005",
+      "chiave": "architettura|una fascia «domani» inviata alle 23:59 e arrivata alla rotta dopo mezzanotte si giudica sul giorno dopo",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R23 && git checkout --detach 0d499c53e2ded00b3ab343fe1793c03634ea9a05 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R23 --base 0d499c53^ --file lib/store-hours.ts --prove tests/unit/riparazione-r23-fascia-domani-dopo-mezzanotte.test.ts --json"
+      },
+      "nota": "[g8: parziale] Il caso dichiarato regge (proposta lun 23:59, rotta mar 00:01 → true) e in produzione non cambia niente (i chiamanti passano 3 argomenti). Il pezzo che resta e la strada di cablaggio proposta sono incompleti (4 casi su 4 confermati da una prova). Difetti: lib/store-hours.ts:243 — per «domani» la finestra parte da 0 anche con proposta del giorno prima: proposta lun 23:59, rotta mar 14:00, «Domani · 9:00–11:00» → negozioPuoServire=true su una fascia finita | lib/ordini/scadenza-accettazione.ts:185 — ultimoMomentoDelRitiro/fineDellaFascia ancorano «domani» a created_at e non ricevono propostaIl | lib/quando-arriva.ts:230 — motivoFasciaRifiutata, chiamata dalle rotte, non ha parametro per la proposta: la strada serve_file_altrui indicata non basta"
+    },
+    {
+      "id": "R23-006",
+      "chiave": "architettura|l'elenco delle librerie dichiara una libreria mai usata e ne usa una che non dichiara, e il lint gira con un comando che next 16 toglie",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R23 && git checkout --detach 590a65e2846ae0def53706459b422bbb7b653f86 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R23 --base 590a65e2^ --file package.json --prove tests/unit/riparazione-r23-lint-senza-next-lint.test.ts --json"
+      },
+      "nota": "[g8: parziale] Script di lint lanciato una volta: 868 file, 0 errori, 91 avvisi, exit 0; parità con next lint 15.5.29 verificata sul sorgente. Resta aperta la parte dipendenze, dichiarata. Difetti: package.json:42 — iconv-lite dichiarata e mai importata (dichiarato aperto) | .eslintrc.json:49 — plugin @typescript-eslint usato ma non dichiarato (dichiarato aperto)"
+    },
+    {
+      "id": "R23-008",
+      "chiave": "dati-analytics|il tasso dei pagamenti riusciti mescola i clienti che comprano con i negozi che pagano noi",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R23 && git checkout --detach e01e01b14f72f9bcaef01e6c1eaf2b7e0d247d86 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R23 --base 8a7ab996^ --file app/api/gift-cards/checkout/route.ts,lib/stripe/webhook/pagamenti.ts --prove tests/unit/riparazione-r23-tasso-pagamenti-dei-clienti.test.ts --json"
+      },
+      "nota": "[g10: regge] Lente sicurezza: kind=gift_card non fa emettere il buono due volte, non fa uscire dati personali, un estraneo non può falsare il tasso (metadati scritti solo dal server, tabella leggibile solo dall'admin). [g3: regge] Il controllo sta solo nella funzione di misura prima dell'insert: importi, ordini, rimborsi, registro eventi e deduplica 23505 invariati; nessun handler legge pi.metadata.kind. I 4 punti dove nasce un pagamento ricontrollati; prova 3/3. Residuo che passa da sé: le righe vecchie escono dalla finestra di 30 giorni."
+    },
+    {
+      "id": "R23-009",
+      "chiave": "deploy-sre|se il segreto dei lavori su vercel finisce con un «a capo», anche il primo giro a mano risponde «non autorizzato»",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R23 && git checkout --detach 52b08f8adf6970057dc16b3db0cb39bedc068a24 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R23 --base 52b08f8a^ --file lib/api/middleware.ts,app/api/health/route.ts,app/api/health/ready/route.ts --prove tests/unit/riparazione-r23-segreto-con-a-capo.test.ts --json"
+      },
+      "nota": "[g10: parziale] Lente sicurezza: la parte CRON_SECRET regge (49 casi, confronto a tempo costante, vuoto = 503). Lo stesso difetto resta nello stesso file su INTERNAL_API_SECRET e su EDGE_TRUST_SECRET: falliscono chiusi, non è un buco, ma la porta resta chiusa a chi ha diritto. Difetti: lib/api/middleware.ts:692 — withInternalAuth non ripulisce INTERNAL_API_SECRET: con un a capo su Vercel /api/stripe/payout risponde 403 per sempre (provato) | lib/rate-limit.ts:335 — EDGE_TRUST_SECRET non ripulito: con un a capo x-edge-token non combacia mai | app/api/track/route.ts:75 — stesso gemello su EDGE_TRUST_SECRET [g3: regge] 40 casi limite sul codice vero (a capo, BOM, soli spazi, gettone vuoto, Bearer senza valore, prefissi): un gettone vuoto o sbagliato non entra mai, segreto di soli spazi dà 503. CRON_SECRET ha 3 lettori e tutte le 11 rotte cron passano da withCronAuth."
+    },
+    {
+      "id": "R23-010",
+      "chiave": "frontend-ux|con «aperti ora» acceso, l'elenco dei negozi non si aggiorna all'orario di chiusura e tiene in lista negozi con scritto «chiuso ora»",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R23 && git checkout --detach 9ec7e9a9a5fa7afb5a6a7463891d88cad019c641 && node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R23 --base 9ec7e9a9a5fa7afb5a6a7463891d88cad019c641^ --file app/stores/page.tsx --prove tests/unit/riparazione-r23-aperti-ora-si-aggiorna.test.ts --json"
+      },
+      "nota": "[g3: parziale] /stores si rifà al battito del minuto, prova verde. Il filtro «Negozi aperti ora» della griglia prodotti (/search, /category) ha lo stesso difetto e non è toccato; riprodotto con la pagina vera anche un piccolo peggioramento su /stores entro 60 s dalla chiusura. Difetti: components/ProductGrid.tsx:378-385 — il filtro aperti ora calcola chiaveDiOggi()/isOpenNow() in un useMemo senza orologio fra le dipendenze (riga 428), RPC con staleTime 5 min: alla chiusura i prodotti restano in «aperti ora» | app/stores/page.tsx:219-224 — il filtro usa l'adesso dell'ultimo battito, StorePreviewCard.tsx:58-59 l'ora vera: fino a 60 s dopo la chiusura un render nuovo tiene in lista il negozio con «Chiuso ora» (piccola regressione rispetto alla base)"
+    },
+    {
+      "id": "R23-012",
+      "chiave": "pagamenti-stripe|una richiesta di informazioni della banca che diventa contestazione vera non toglie niente al negozio: arriva solo un avviso se si perde",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R23 && git checkout --detach 0ab4dacde22736961db7c5f3b3d4736b42806a1a && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R23 --base 60533c2c^ --file app/api/stripe/webhook/route.ts,lib/stripe/webhook/dispute.ts --prove tests/unit/riparazione-r23-richiesta-diventata-contestazione.test.ts --json"
+      },
+      "nota": "[g10: parziale] Lente sicurezza: created e funds_withdrawn insieme, in fila e in contemporanea: nessun doppio storno. Ma un rimborso della stessa cifra fatto durante la richiesta viene preso per lo storno della contestazione: al negozio non si toglie niente e non parte nessun avviso. Il ramo dispute_id non scatta mai. Difetti: lib/stripe/webhook/dispute-storni.ts:38 — storno della contestazione riconosciuto da r.amount === quota | lib/stripe/payout.ts:618 — reverseOrderTransfer scrive solo {order_id} nei metadati: il ramo dispute_id non scatta mai | app/api/stripe/webhook/route.ts:170 — dichiarato: senza charge.dispute.funds_withdrawn acceso sull'endpoint Stripe il ramo nuovo non gira [g7: parziale] created e funds_withdrawn in sequenza e in parallelo, pieni e parziali: nessun doppio storno, un solo avviso. Su due casi lo storno della contestazione si perde (rimborso uguale alla quota durante la richiesta; fetta del fattorino già stornata in parte). Resta da accendere l'evento sull'endpoint Stripe. Difetti: lib/stripe/webhook/dispute-storni.ts:38 — uno storno senza dispute_id conta come quello della contestazione se l'importo è uguale alla quota | lib/stripe/webhook/dispute.ts:245 — fattorinoGiaStornato usa OPEN + rider_payout_reversed_cents > 0, e OPEN lo ha scritto la richiesta: la fetta del fattorino non si toglie"
+    },
+    {
+      "id": "R23-013",
+      "chiave": "performance|la velocità del sito vista dai clienti veri non la misura nessuno",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R23 && git checkout --detach cd816ff077b2ea56f78bfcc1c0b514b878258928 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R23 --base cd816ff0^ --file lib/analytics/posthog.tsx --prove tests/unit/riparazione-r23-velocita-vista-dai-clienti.test.ts --json"
+      },
+      "nota": "[g8: parziale] Ordine consenso/evento, revoca, doppia accensione provati; web-vitals 4.2 con buffered recupera FCP, LCP, CLS, INP. In produzione nessuno misura perché PostHog è spento (dichiarato, decisione di Nicola). Difetti: lib/funzioni-al-lancio.ts:132 — POSTHOG_ACCESO=false (dichiarato aperto)"
+    },
+    {
+      "id": "R23-014",
+      "chiave": "qa-flussi|l'orologio della consegna gira anche dove il riquadro non si vede",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R23 && git checkout --detach 5091f9aed62303fabcd6cd08e685f13777aa84a2 && node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R23 --base 5091f9aed62303fabcd6cd08e685f13777aa84a2^ --file components/ui/DeliveryCutoff.tsx,components/home/HeroStoreCard.tsx --prove tests/unit/riparazione-r23-orologio-dove-non-si-vede.test.tsx --json"
+      },
+      "nota": "[g3: regge] Idratazione vera provata: sul telefono 0 intervalli vivi dopo l'idratazione; a 1024 px ne parte 1, a 390 px si ferma, scheda nascosta/visibile non riparte; prove del riparatore e r08 verdi."
+    },
+    {
+      "id": "R23-015",
+      "chiave": "qa-flussi|il negozio aperto fino a mezzanotte non riesce a salvare 18:00–00:00, e il messaggio non dice di scrivere 23:59",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R23 && git checkout --detach 21fdd994dd96f968d87204fc4cb7f9757c3996ba && node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R23 --base 21fdd994dd96f968d87204fc4cb7f9757c3996ba^ --file components/seller/orari-validi.ts --prove tests/unit/riparazione-r23-orari-fino-a-mezzanotte.test.ts --json"
+      },
+      "nota": "[g3: parziale] 18:00-00:00 ora si salva e i lettori a valle (isOpenNow, negozioPuoServire, SQL 231, JSON-LD) la leggono bene. Nello stesso file prossimaFascia legge ancora 00:00 come 0. Difetti: components/seller/orari-validi.ts:53-58 — dopo 18:00-00:00 «aggiungi fascia» propone 03:00-06:00 che erroreDelleFasce accetta: se il negoziante salva, il negozio risulta aperto e ordinabile dalle 3 alle 6 di notte"
+    },
+    {
+      "id": "R23-017",
+      "chiave": "sicurezza-auth|il freno contro chi prova mille password vale per ogni copia del sito, perché manca il contatore condiviso",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R23 && git checkout --detach fe1a8f2a7c94314b1d805c346665beaad3d9f9a8 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R23 --base fe1a8f2a^ --file lib/rate-limit.ts --prove tests/unit/riparazione-r23-freno-senza-contatore.test.ts --json"
+      },
+      "nota": "[g10: parziale] Lente sicurezza: coppia Upstash assente, mezza o di spazi: l'undicesimo tentativo è fermato, il registro scrive solo sì/no e nomi delle variabili, mai i valori. Il limite resta per copia finché non ci sono le variabili su Vercel (dichiarato). [g7: parziale] Senza Upstash e con Upstash guasto (500, rete giù, errore per comando, corpo non JSON) l'undicesimo tentativo è respinto: il freno non si apre e scrive una riga d'errore. La prova del riparatore non verifica mai un rifiuto. Il contatore resta per copia finché non ci sono le due variabili su Vercel. Difetti: lib/rate-limit.ts:229 — preesistente, non toccato: se Upstash risponde 200 con result null, Number(null)=0 e il freno ammette tutto"
+    },
+    {
+      "id": "R23-018",
+      "chiave": "stati-ui|nella pagina dei punti i numeri sono scritti senza il punto delle migliaia e, se la lettura non riesce, la pagina mostra zero punti",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R23 && git checkout --detach 1f38eb7841ea1d289af4b84e0f73708eb0ec18df && node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R23 --base 1f38eb7841ea1d289af4b84e0f73708eb0ec18df^ --file app/profile/loyalty/page.tsx,lib/loyalty.ts --prove tests/unit/riparazione-r23-punti-numeri-e-errore.test.ts --json"
+      },
+      "nota": "[g5: parziale] Caso esatto della radiografia (1250 punti, movimenti 1000 e 250): a video esce ancora «1250 punti», «+1000 pt», perché Intl it-IT non mette il punto sotto le 5 cifre; la prova del riparatore usa 12345 per evitarlo. L'errore di lettura del conto ora si vede, ma se cade getUser la pagina mostra di nuovo «0 punti, Bronzo». Difetti: app/profile/loyalty/page.tsx:42 — Intl.NumberFormat('it-IT') senza useGrouping:'always': 1250 → «1250» (prova k06 rossa sul testo a video) | lib/loyalty.ts:48-49 — getUser su rete caduta torna {user:null,error} senza lanciare → null → page.tsx:129 mostra 0 punti, Bronzo (prova k06 rossa)"
+    },
+    {
+      "id": "R24-001",
+      "chiave": "coerenza-brand|ombre nere fredde accanto alle ombre calde del brand; il token creato apposta non è usato mai",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R24 && git checkout --detach 69d4d608424a49ba4d718a5b84502723380d54ee && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R24 --base 69d4d608424a49ba4d718a5b84502723380d54ee^ --file app/search/page.tsx,components/home/DropOfDay.tsx --prove tests/unit/riparazione-r24-ombre-del-brand.test.tsx --json"
+      },
+      "nota": "[g9: parziale] Le tre ombre corrette (search Ordina/Filtri, DropOfDay) reggono e non rompono niente. I file della voce erano già puliti alla base, e shadow-sm-neutral era già usato in 5 file. Restano 34 ombre della scala Tailwind, fra cui la primitiva Button. Difetti: components/ui/Button.tsx:26 — la variante accent della primitiva usa ancora shadow-sm, cioè l'ombra nera (con altre 33 in file altrui)"
+    },
+    {
+      "id": "R24-002",
+      "chiave": "coerenza-brand|la scala tipografica è aggirata 330 volte con misure a mano",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R24 && git checkout --detach 8f70c8d0e465fbd00eac4e27038d819ea2003b06 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R24 --base 8f70c8d0e465fbd00eac4e27038d819ea2003b06^ --file app/cart/page.tsx,app/orders/[id]/page.tsx,app/product/[id]/page.tsx,app/reset-password/page.tsx,app/rider/earnings/page.tsx,app/search/page.tsx,app/seller/products/page.tsx,app/sign-up/page.tsx,components/ProductCard.tsx,components/admin/AdminSidebar.tsx,components/home/TrendingNow.tsx,components/seller/SellerShell.tsx --prove tests/unit/riparazione-r24-scala-del-testo.test.ts --json"
+      },
+      "nota": "[g9: parziale] 72 misure diventano 0 nei 12 file. Le classi esistono: compilate con il tailwind.config del progetto. Su telefono, misurato in Chrome con Fraunces, nessun testo troncato e nessuna sovrapposizione: il totale del fattorino a 48px esce dal contenuto di 3-9px solo a 320px e resta nel margine; «Crea il tuo account» va a capo su 375px. Restano circa 273 misure a mano nel sito (69 sono text-[11px]). Difetti: app/sign-up/page.tsx:204 — titolo a 36px mentre app/sign-in/page.tsx:266 resta a 34px: le pagine di accesso, prima uguali, ora hanno titoli diversi (minore)"
+    },
+    {
+      "id": "R24-003",
+      "chiave": "frontend-ux|le stelle delle recensioni partono già a 5, e una seconda recensione viene buttata via dicendo «grazie»",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R24 && git checkout --detach f2d81af5 && I=$(git rev-parse --git-dir)/indice-senza-003-k06; rm -f $I; GIT_INDEX_FILE=$I git read-tree HEAD && git show f2d81af5 -- 'app/product/[id]/page.tsx' | GIT_INDEX_FILE=$I git apply -R --cached && git show 04d6d01b -- 'app/product/[id]/page.tsx' | GIT_INDEX_FILE=$I git apply -R --cached && B=$(git commit-tree $(GIT_INDEX_FILE=$I git write-tree) -p HEAD -m 'base senza R24-003, solo per la rimessa K06') && rm -f $I && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R24 --base $B --file 'app/product/[id]/page.tsx' --prove tests/unit/riparazione-r24-stelle-recensione-prodotto.test.tsx --json"
+      },
+      "nota": "[g9: parziale] Scheda prodotto: le stelle partono da 0 e Pubblica resta spento finché non si vota (provato montando la pagina). Il 23505 si riconosce dal code e funziona anche con l'oggetto semplice di postgrest-js 2.106; il freno al doppio invio non passa da un prodotto all'altro. Restano il link dell'email e «Lascia recensione» sempre visibile; la recensione dell'ordine era già a posto alla base. Difetti: lib/email/templates.ts:384 — l'email «Ordine consegnato» porta ancora a /orders/<id> e non al modulo della recensione | app/orders/[id]/page.tsx:520 — «Lascia recensione» resta visibile anche dopo aver recensito Prova rimessa: primo tentativo al commit 04d6d01b non applicabile (il secondo commit della voce f2d81af5 viene dopo), ripetuta una volta all'ultimo commit f2d81af5 con la base costruita come il riparatore."
+    },
+    {
+      "id": "R24-004",
+      "chiave": "frontend-ux|se il nome del negozio comincia con un numero, un apostrofo, le virgolette o contiene una parola inglese come «table», il cliente in cassa legge «qualcosa non ha funzionato» invece del motivo vero",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R24 && git checkout --detach ec8a953b5ce78fb684e1f09ab07f6af1aa5b2867 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R24 --base ec8a953b^ --file lib/errors.ts --prove tests/unit/riparazione-r24-motivo-in-cassa.test.ts --json"
+      },
+      "nota": "[g8: parziale] La cassa passa da apiErrorMessage a friendlyError, i CONFLICT con nomi come «1920 Bottega» arrivano interi; 271 prove vicine verdi; circa 60 conflict() con testo dinamico scorsi, nessuno porta testo interno. Il caso «fuori zona» resta generico. Difetti: app/api/orders/cod/route.ts:1055 — motivoFuoriZona con INVALID_REQUEST → «Qualcosa non ha funzionato…» (anche stripe/checkout/route.ts:629; dichiarato aperto)"
+    },
+    {
+      "id": "R24-005",
+      "chiave": "immagini-media|il segnaposto «foto mancante» arriva da un sito esterno e ha tre stili diversi",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R24 && git checkout --detach 8c131077cb580089b2a0cfed83c720b4491d3486 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R24 --base 8c131077cb580089b2a0cfed83c720b4491d3486^ --file app/seller/products/page.tsx,components/seller/FeaturedProductsPicker.tsx --prove tests/unit/riparazione-r24-foto-mancante-venditore.test.tsx --json"
+      },
+      "nota": "[g4: regge] Nessuna richiesta a placehold.co resta in app, components o lib; gli otto punti della radiografia usano /foto-mancante.svg, che passa intatto sia da unoptimized sia dal caricatore."
+    },
+    {
+      "id": "R24-006",
+      "chiave": "immagini-media|se la foto di un prodotto è stata cancellata, la scheda resta un riquadro bianco invece della foto di ripiego",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R24 && git checkout --detach 398b860906c1e50bef7a8f90fccce13673b1634f && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R24 --base 398b860906c1e50bef7a8f90fccce13673b1634f^ --file components/ProductCard.tsx,components/checkout/CartGroupsList.tsx,components/home/TrendingNow.tsx,app/cart/page.tsx --prove tests/unit/riparazione-r24-foto-che-non-risponde.test.tsx,tests/unit/riparazione-r24-foto-che-non-risponde-carrello.test.tsx --json"
+      },
+      "nota": "[g4: parziale] Con next/image vera e un browser finto: i 4 punti del fix passano al ripiego, srcset pulito, nessun giro infinito anche col ripiego rotto, nessuna foto valida nascosta. La causa scritta nella voce (nessuna <Image> ha onError) resta nella foto grande della pagina prodotto e nelle file della home e del carrello. Difetti: app/product/[id]/page.tsx:708 — la foto grande della pagina prodotto non ha ripiego: foto cancellata = icona rotta | components/home-sections/ReorderRail.tsx:202 — miniature senza ripiego (anche :232; SponsoredCarousel.tsx:117, SimilarProducts.tsx:81, RecentlyViewed.tsx:97, FrequentlyBoughtTogether.tsx:84, CartUpsell.tsx:88, HeroStoreCard.tsx:229) | tests/unit/la-foto-chiesta-piu-piccola-del-riquadro.test.ts:111 — la guardia cerca <Image e non vede più i 4 punti passati a <FotoConRipiego (resta verde)"
+    },
+    {
+      "id": "R24-007",
+      "chiave": "microcopy|gli errori dei moduli controllati dal server arrivano al cliente in inglese, per esempio «string must contain at most 120 character»",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R24 && git checkout --detach 99fc86a385a4455c68a1b44520bb0cf6e5682419 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R24 --base 99fc86a3^ --file lib/errors.ts,app/api/contact/route.ts --prove tests/unit/riparazione-r24-errori-zod-in-italiano.test.ts,tests/unit/riparazione-r24-errori-dal-server.test.ts --json"
+      },
+      "nota": "[g8: parziale] 38 testi inglesi veri di Zod 3.25 passati a friendlyError: nessuno esce in inglese, numeri giusti, nessuna nostra frase catturata; 19 prove vicine verdi. Resta l'accensione sul server e una visualizzazione grezza non elencata dal riparatore. Difetti: lib/api/responses.ts:1 — traduttore non acceso per tutte le rotte (dichiarato aperto) | components/products/ImportFromUrlBox.tsx:84 — body.error.message grezzo (dichiarato aperto) | components/seller/DatiPerIBonifici.tsx:52 — non elencato: setErrore(corpo.error.message) grezzo; businessPec .max(200) senza messaggio → testo inglese sul modulo bonifici"
+    },
+    {
+      "id": "R24-008",
+      "chiave": "microcopy|chi si registra con una password troppo comune legge l'avviso in inglese e non capisce cosa cambiare",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R24 && git checkout --detach 6a55e9a6f01cef689a86879fcc7b25f592449caa && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R24 --base 6a55e9a6^ --file lib/errors.ts --prove tests/unit/riparazione-r24-password-comune.test.ts --json"
+      },
+      "nota": "[g4: regge] 8 combinazioni col vero AuthWeakPasswordError di supabase-js: /sign-up e /reset-password danno la stessa frase italiana, i nuovi riconoscimenti non rubano altri errori. Da ricontrollare alla ricucitura di R24-020 (app/api/auth/signup/route.ts:51 oggi non chiamata)."
+    },
+    {
+      "id": "R24-009",
+      "chiave": "navigazione-gerarchia|nella scheda prodotto il prezzo è quasi grande quanto il titolo e pesa meno del pulsante «+»",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R24 && git checkout --detach 66c0ce245d6428c72f60449d32c35bec74f56132 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R24 --base 66c0ce245d6428c72f60449d32c35bec74f56132^ --file components/ProductCard.tsx --prove tests/unit/riparazione-r24-prezzo-piu-del-pulsante.test.tsx --json"
+      },
+      "nota": "[g4: parziale] In ProductCard regge (prezzo 18 px contro titolo 14, «+» a contorno 44x44, guardie vicine verdi). Lo stesso difetto resta nella scheda «Ti potrebbe interessare» del carrello. Difetti: components/cart/CartUpsell.tsx:106 — prezzo 14 px contro nome 12 px e «+» quadrato pieno bg-primary-600 (righe 106-111): stessa gerarchia rovesciata della voce"
+    },
+    {
+      "id": "R24-011",
+      "chiave": "qa-flussi|l'avviso «spesa sotto i 10 €… ti mancano x» nel carrello può ignorare la quantità senza che una prova della squadra diventi rossa",
+      "verdetto": "non_regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "[g5: non_regge] «Già riparato prima» è falso: in una copia della base, rimesso il difetto della voce sulla riga dell'avviso (:585, spesa senza quantità), i 24 file di prova della base che leggono il carrello restano verdi (352 prove). Il mutante a :509 citato dal riparatore lo prendeva già un'altra prova. Alla testa la prova nuova del ramo (1fe70f29 + dea461d8) diventa rossa 4 su 4: va rietichettata «riparato» con quei commit. Difetti: app/cart/page.tsx:585 — alla base nessuna prova diventa rossa se l'avviso ignora la quantità: il buco lo chiude solo la prova nuova del ramo"
+    },
+    {
+      "id": "R24-012",
+      "chiave": "qa-flussi|col doppio clic la recensione parte due volte e il cliente legge «avevi già recensito»",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R24 && git checkout --detach 8de3e9a49229f1c4e4929b9193c46e12bfe3f0e9 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R24 --base a19ff892 --file 'app/orders/[id]/review/page.tsx' --prove tests/unit/riparazione-r24-recensione-doppio-clic.test.tsx --json"
+      },
+      "nota": "[g4: regge] Pulsante: freno sincrono useRef che si riapre solo su errore. Server: store_reviews e rider_reviews hanno UNIQUE (order_id, user_id) (migrations/014_mvp_sprint.sql:64 e :101): due schede o un nuovo tentativo non creano doppioni. La prova monta la pagina vera con un database finto che applica il vincolo."
+    },
+    {
+      "id": "R24-014",
+      "chiave": "qa-flussi|il grafico della settimana nei guadagni del fattorino taglia i giorni all'ora di greenwich: le consegne dopo mezzanotte finiscono nel giorno prima",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R24 && git checkout --detach a6656b69d3be2d0a3565da0743962025e72bd5e8 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R24 --base a6656b69^ --file app/rider/earnings/page.tsx --prove tests/unit/riparazione-r24-grafico-fattorino-ora-di-roma.test.tsx --json"
+      },
+      "nota": "[g4: regge] Colonne da ultimiGiorniPiacenza(7), consegne in giornoPiacenza, lettera del giorno in UTC; prova con orologio finto su inverno, estate e notte del 25/10. Nell'area fattorino non resta altro taglio all'ora di Greenwich."
+    },
+    {
+      "id": "R24-015",
+      "chiave": "qa-flussi|le pagine del venditore chiedono ancora il segnaposto a placehold.co",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R24 && git checkout --detach 8c131077cb580089b2a0cfed83c720b4491d3486 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R24 --base 8c131077cb580089b2a0cfed83c720b4491d3486^ --file app/seller/products/page.tsx,components/seller/FeaturedProductsPicker.tsx --prove tests/unit/riparazione-r24-foto-mancante-venditore.test.tsx --json"
+      },
+      "nota": "[g5: regge] Alla testa nessun codice che gira chiede placehold.co (restano solo CSP, Storybook, seed in bozza e un .md); FOTO_MANCANTE passa da sizedImage e si mostra come nel carrello; la prova monta le pagine vere e legge lo src."
+    },
+    {
+      "id": "R24-016",
+      "chiave": "qa-flussi|la pagina di iscrizione promette ancora «puoi provare lo stesso a registrarti» quando l'anti-robot non si carica",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R24 && git checkout --detach d4a24f7822c63ce451765a7269fd8886cbf617e2 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R24 --base a19ff892 --file app/sign-up/page.tsx --prove tests/unit/riparazione-r24-anti-robot-rotto.test.ts --json"
+      },
+      "nota": "[g5: parziale] Sull'iscrizione tiene (rimesso «&& !captchaRotto» in una copia: prova rossa). Lo stesso difetto resta identico sulla pagina Contatti, che usa lo stesso riquadro anti-robot. Difetti: app/contact/page.tsx:199 — «Puoi provare lo stesso a inviare» col riquadro rotto; :67 manda il modulo senza gettone e app/api/contact/route.ts:58 lo rifiuta sempre con 400 (prova k06 rossa) | app/sign-up/page.tsx:129 — minore: il toast dice «anti-robot» e «non si è caricato», il riquadro «anti-bot non ha risposto»"
+    },
+    {
+      "id": "R24-018",
+      "chiave": "qa-flussi|un capo con più di cento combinazioni di taglia e colore perde le ultime in silenzio, e il cliente che le sceglie non può comprarle",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R24 && git checkout --detach 64dc1b395527036b4dba25a21c510aa0bfa8461c && I=$(git rev-parse --git-dir)/indice-senza-018; rm -f $I; GIT_INDEX_FILE=$I git read-tree HEAD && git show 64dc1b39 -- 'app/product/[id]/page.tsx' | GIT_INDEX_FILE=$I git apply -R --cached && B=$(git commit-tree $(GIT_INDEX_FILE=$I git write-tree) -p HEAD -m 'base senza R24-018, solo per la rimessa') && rm -f $I && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R24 --base $B --file 'app/product/[id]/page.tsx' --prove tests/unit/riparazione-r24-varianti-oltre-cento.test.tsx --json"
+      },
+      "nota": "[g9: parziale] Ho montato la scheda vera in 7 casi: zero varianti, has_variants senza varianti, 1 variante su 1 o 2 assi, 150 varianti complete, 102 tagliate a 100 scelte in ordine inverso. Tutto verde: si compra, si barra solo ciò che manca, la barra mobile segue. Il tetto silenzioso lato negozio resta. Difetti: lib/products/variants.ts:88 — combos.slice(0, MAX_VARIANTS) taglia ancora in silenzio oltre 100 combinazioni (chiamato da components/seller/ProductForm.tsx:306)"
+    },
+    {
+      "id": "R24-019",
+      "chiave": "qa-flussi|traduttore degli errori di zod: tre frasi sbagliate e acceso solo nel browser",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R24 && git checkout --detach fa846baede4bb56f846137741b0168b9104f805e && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R24 --base fa846bae^ --file lib/zod-i18n.ts --prove tests/unit/riparazione-r24-traduttore-zod.test.ts --json"
+      },
+      "nota": "[g8: parziale] Le tre frasi, limite escluso, plurale e massimo degli elenchi escono giusti col traduttore acceso; zod-i18n.test verde. Resta l'accensione sul server (dichiarata) e difetti già alla base che non peggiorano. Difetti: lib/api/responses.ts:1 — traduttore acceso sul server solo dove si caricano contatti o lib/errors (dichiarato aperto) | lib/zod-i18n.ts:61 — già alla base: issue.exact ignorato, .length(5) → «Almeno 5 caratteri»; vari codici Zod ancora in inglese"
+    },
+    {
+      "id": "R24-021",
+      "chiave": "tipografia|la scala delle dimensioni del testo viene scavalcata circa trecentotrenta volte",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/wt-R24 && git checkout --detach 8f70c8d0e465fbd00eac4e27038d819ea2003b06 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R24 --base 8f70c8d0e465fbd00eac4e27038d819ea2003b06^ --file app/cart/page.tsx,app/orders/[id]/page.tsx,app/product/[id]/page.tsx,app/reset-password/page.tsx,app/rider/earnings/page.tsx,app/search/page.tsx,app/seller/products/page.tsx,app/sign-up/page.tsx,components/ProductCard.tsx,components/admin/AdminSidebar.tsx,components/home/TrendingNow.tsx,components/seller/SellerShell.tsx --prove tests/unit/riparazione-r24-scala-del-testo.test.ts --json"
+      },
+      "nota": "[g9: parziale] Stesso commit di R24-002: il pezzo dichiarato tiene e non rompe il telefono (dettagli in g9.md). I file della voce non sono chiusi: tailwind.config.ts non ha i gradini 11/13 e globals.css non è toccato. Effetto collaterale: la prova del Copilot ora ripiega su 16px, resta prudente. Difetti: components/ProductCard.tsx:233 — restano text-[11px] (anche alla riga 271) nel file citato dalla voce | tailwind.config.ts:158 — fontSize ha solo '2xs': mancano i gradini 11 e 13 proposti dalla voce"
+    }
+  ],
+  "campione": {
+    "R19": {
+      "accettato": false
+    },
+    "R23": {
+      "accettato": false
+    },
+    "R24": {
+      "accettato": false
+    }
+  }
+}

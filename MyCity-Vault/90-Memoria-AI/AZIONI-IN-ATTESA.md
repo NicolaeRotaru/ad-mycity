@@ -43,6 +43,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 Cosa cambia: con la «c» la cassa del centro torna a funzionare in questa onda; con la «b» resta rotta fino alla terza.
 Se va bene: la regista dice a R13 il tetto nuovo, e il bloccante entra nel collaudo di quest'onda.
+
 ### 🟡 #241 — Di' sì ai sei passi per sistemare la radiografia del codice · ⏳ accodata 2026-11-13 05:25
 
 **In parole semplici.** Vuoi portare a 9 su 10 i cinque voti del codice del sito, col metodo della radiografia. Prima la radiografia va sistemata e resa ibrida. I passi sono sei. I primi quattro cambiano la macchina. Il quinto prova la radiografia su una copia vecchia del sito. Il sesto è la radiografia vera.

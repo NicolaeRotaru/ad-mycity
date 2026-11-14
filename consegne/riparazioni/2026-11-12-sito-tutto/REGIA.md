@@ -1,7 +1,7 @@
 ---
 tipo: quaderno-di-bordo
 data: 2026-11-13 05:50
-per: la regista della campagna «sito, tutto» (onda 2, dalle 13:15 del 13/11: la quinta, id in sessioni.json)
+per: la regista della campagna «sito, tutto» (onda 2: dalle 08:30 del 14/11 la «regista O2 settima», id in sessioni.json)
 stima_usd: 435
 ---
 
@@ -28,8 +28,10 @@ Che le figlie nascano con ultracode: si controlla con get_session sulla prima, p
 **Le scelte di Nicola.**
 - 12/11: casa `sito`, profilo `tutto`, riparatori da 25 voci, tre onde, fermate prima dell'onda 1 e dopo le onde 1 e 2.
 - 12/11: un controllore dopo ogni onda e uno finale; niente lavoro inutile.
-- 13/11: nessuna sessione fa solo da cartella. Le figlie stanno dentro la regista, col ruolo in testa al titolo
-  («Riparatore · R13 · onda 2»). Ogni figlia che scrive codice nasce con ultracode ed effort xhigh.
+- 14/11 08:11 (regola 12, sostituisce le sottocartelle del 13/11): nessuna sessione fa più da cartella. Chi apre una
+  sessione la apre da sé, col tag `cartella:<lavoro>-<ruolo>` e il ruolo all'inizio del titolo; le cartelle già aperte
+  restano dove sono. L'albero ha 8 livelli al massimo: la regista 6.0 sta al 6. Titoli corti (Nicola, 14/11 08:02).
+  Chi scrive codice nasce con effort xhigh e ultracode acceso: prompt esatto «/effort ultracode» (regola 10, 14/11).
 - 13/11, card 239 «a» e «Allarga la a»: per la sola onda 1 vale l'eccezione firmata su quattro regole
   (`eccezioni_firmate` in piano.json, commit `ed65fbf`). Dall'onda 2 tutto stretto.
 - Le migrazioni sul database vero solo con la sua firma, una per una. L'unione e la pubblicazione sono sue.
@@ -62,19 +64,11 @@ Che le figlie nascano con ultracode: si controlla con get_session sulla prima, p
 **I controllori.** Le regole stanno in `cervello/riparazione/LEGGIMI-controllore.md`. I referti vanno in
 `<C>/controlli/`, e `applica` li legge da solo.
 
-**Passaggio alla quinta regista dell'onda 2 (13/11 13:15, dalla quarta `…VkmAAN` a 423 mila token).**
-- Sito: `git clone --filter=blob:none https://github.com/NicolaeRotaru/mycity` via proxy, senza add_repo; ogni comando con `MARKETPLACE_REPO=<clone>`. Il push sul sito serve all'unione: add_repo push chiede un clic di Nicola.
-- Ultracode spento nella quarta: le sessioni aperte da lei nascono spente; Nicola le accende dall'app. Controllare con get_session prima di aprire collaudatori.
-- **12:58, Nicola: «finiamo al 100% l'ondata»**, poi «oltre a questi 99 fai anche quelli che mancano». Ripartiti 10 riparatori con tetti in tutto: R13 90 $, R17 85, R14 80, R16 66, R19 71, R18 70, R24 70, R23 61, R15 60, R21 55. Fino a 10 subagenti in più. A loro: lotti, sonnet sui minori, prove comuni intoccabili (revert + serve_file_altrui), chiusura con verify (8192), finita:true, guardia e referto verdi; oltre 350 mila token si fermano e lo dicono.
-- Finite e verdi, da collaudare: R20 (punta `2851b087`, testa `a23283e8`, 13 riparati), R22 (punta `35ee9faa`, testa `edacdd69`, 12). Le altre mandano lo SHA a fine lavoro.
-- Poi: K05-K08 (3 riparatori ciascuno, `source_revision` = testa di questo ramo), unione nel ramo di integrazione del sito, verify e harness SQL, **cucitura dell'onda 2** sul ramo unito (tutte le serve_file_altrui e le parziali in file altrui: è nella decisione di Nicola), C02, fermata 3.
-- Domande per Nicola: nei `domande_per_nicola` dei referti, circa 25. Falle riservate nuove: 4 (R14 pagamenti, R16 permessi, R19 permessi, R21 accessi); i dettagli solo in chat, dalla quarta.
-- La regola data a tutti dall'onda 2: la prova comune torna com'era; la voce che la contraddice si toglie intera con git revert (codice, migrazione, tipi) e va serve_file_altrui, con gli SHA da riprendere e la modifica esatta della prova. Si riprende in cucitura, o all'unione dell'onda 2 se Nicola firma l'eccezione alla fermata 3.
-- 10 minori della macchina (9 dal collaudo di `7d9500f`, `wf_135d9675-e15`, più 1 dal collaudo di `c07ebb4`: se il battito c'è ma è vuoto o rotto, la prova non lo rifà), da fare dopo il verde e solo con ultracode acceso: prova da capo a fondo di applica --scrivi con mutazione (il più importante); areaDelNato senza maiuscole e spazi; Array.isArray su dimensioni; doppione al rilancio; la cookie policy doppione della scheda 115; meta.aggiornato; `cervello/test/il-freno-non-era-sulla-strada.test.mjs:276` che scrive nel registro vero (da registrare come nato); l'ordine dei file di R17.md.
-- Per la fermata 3: carta #242 (tetto di R13: bloccante R13-001 della cassa del centro, gravi 004-006), R13-003 chi paga gli sconti, R17-002 ordine fermo pagato più le altre 4 domande di R17, R20-010, R23-016, R24-003, R24-010 (dominio di SUPPORT_EMAIL), il CAPTCHA di R24, l'eccezione di R16 e le voci tolte per le prove comuni.
-- PR e CI: dal 13/11 13:15 le segue il «Controllore · PR e CI · onda 2» (id in `sessioni.json`, chiave `pr_ci`): ad-mycity#952 ora, la PR del sito dopo l'unione. La regista non ripara la CI.
-- Costi alle 13:05: regia quarta 13,5 $ (regia in tutto circa 94 $, tetto 60 $). Figlie: R24 49,9 $, R19 50,8, R16 47,9, R23 41,3, R14 39,8, R21 ~39, R18 ~36, R15 34,3, R17 ~33, R22 ~32, R13 30,5, R20 25,2. Stima in più per finire circa 430 $ (massimo circa 540 $). Quota in avviso fino al 19/11 alle 10.
-- Sorveglianza: catena della quinta, `trig_019djWt83zUDMzvAH7mbmYbG`, ogni 30 minuti. Sito: add_repo push fatto alle 13:22.
-- **13:20, Nicola: «mettiti avanti con i collaudatori e controllori su difetti già risolti».** Si scosta dalla skill, che collauda a `finita: true`.
-  K05 subito su R20 e R22. Poi collaudi anticipati sulle voci con esito, allo SHA spinto, ognuna al suo commit; il dopo si ricollauda sul delta.
-  I rami finiti e verdi si uniscono man mano nell'integrazione del sito; C02 fa un primo giro e un secondo sul resto. Tetti: 30 $ e 20 $.
+**Passaggio dalla «regista O2 settima» (`…VKqiFC`, 14/11 09:20, verso i 400 mila token) alla «regista O2 ottava», che apre l'AD.**
+- Sito: integrazione `4a3d9b8a` (R15, R16, R17 senza 003, R18-R24, cucitura; R13 e R14 all'onda 3). Verify verde, harness 205/205. PR in bozza **mycity#290**, CI rossa su R15-005 (la scritta «Pagina non trovata» due volte). La PR la segue «PR e CI terzo» (`…ZQGy36`). Il revert di R18-019 è già sulla #290 (58e23838). R15-005 si corregge (Nicola 10:20): l'ha fatto R15 secondo.
+- C02 terzo (`…Wwg1yF`): 3 rosse (R15-005, R18-019, R17-017), 17 nati, 90 file su 170 non guardati (scelta per Nicola: controllo a parte o CF). `applica` a vuoto: rosso solo per la guardia di R17 (`bb53b6be`, deroga da firmare) e K08 non finito; su copia l'onda 2 chiude 57, 3 già riparate, 199 aperte.
+- **Giro di correzione** (Nicola 08:56 «la strada a»): i 7 riparatori «RNN secondo» hanno finito, ognuno sul suo ramo `-mNN`; esiti e punte in `sessioni.json` (`giro_correzione_onda2`). Riparate: R20-011, R22-002, R23-015, R23-018, R17-017. R17-015 e R17-016: correzioni tolte da R17 (revert 3acd324, Nicola 10:20 «2)A»). R18-014 parziale con la migrazione 426. Tutte le altre: serve_file_altrui o parziale, con le diff dei file altrui nei referti. R19-007/012/015 all'onda 3. R23 non ha potuto lanciare guardia-ramo e valida-referto: li lancia la regista prima di unire. R20-011 non si unisce: K05 secondo l'ha trovata rompe_altro, quindi il codice 30b7f9ed resta fuori e la voce resta aperta (terzo giro solo con Nicola).
+- K08 terzo (`…ZdoJsh`) ha finito: R15 7 reggono e 10 parziali, R16 13 e 6, campioni non accettati (80% e 75%); R14 in `rimandati_onda_3`. Bocciate rifatte da «Riparatore · R15 · secondo» (`…UwjSH7`, finito: R15-004 riparato, R15-005 corretto, e2e verde in locale, punta c244f89a) e «Riparatore · R16 · secondo» (`…YFtuec`, finito alle 11:30: R16-020 e R16-021 riparate, R16-019 parziale, punta e388903c). «Collaudatore · K05 · secondo» (`…XBtXmn`) ha finito alle 12:05: R22-002 regge, R20-011 rompe_altro. Da aprire, col clic di Nicola: i ricollaudi K07 (R18), K06 (R19, R23, R24), K09 (R17), K08 (R15, R16): le sessioni di prima sono oltre i 300 mila token.
+- Nicola 09:14 e 10:20: il giro allargato (42 a metà + 26 serve_file_altrui, più i serve_file_altrui nati in questo giro) parte dopo i ricollaudi e l'unione dei rami; tetto dell'onda 2 alzato a 1.650 $. Regola scritta nella skill (F2). R18-019 tolta dalla #290 (58e23838); R15-005 si corregge (fatto da R15 secondo). Richiesta di unione della macchina: ad-mycity#954, non più in bozza, la segue la settima; unirla è di Nicola.
+- Fermata 3, lista: deroghe 10708bcf (R13) e bb53b6be (R17); R17 con 15 subagenti su 12; K05-K07 oltre il tetto; R15-005; le falle riservate (9 + la variante di K08), dettagli SOLO in chat; la migrazione 412 da firmare; i 90 file; il freno mancante sullo strumento Workflow (da incollare in `.claude/settings.json`, solo Nicola); costo e quota; R20-011 rompe_altro (terzo giro solo con Nicola); la guardia di K09 rossa (57 file in più); la migrazione 426 di R18 da firmare.
+- Costo: riparatori del giro 68,22 $ + R15 secondo 14,23 $ + R16 secondo 11,34 $ + K08 terzo 11,39 $ + K05 secondo 11,47 $; quasi tutti oltre il tetto perché usage.cost_usd compare solo a lavoro chiuso (da dire in fermata). Catena di sorveglianza allungata a 60 minuti alle 12:32 (`trig_01H5c9X5HQPiVhVbwXH9pzav`), perché nessuna figlia è viva: torna a 30 quando partono i ricollaudi. PR e CI terzo: `…ZQGy36` (#290 rossa solo su «404 page is custom», sparisce con l'unione di m15). Da non archiviare: la 4.0 e la cucitura. Copia del sito `blob:none`: scaricare in blocco i contenuti prima di sorveglia.sh e applica.

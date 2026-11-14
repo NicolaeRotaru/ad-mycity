@@ -63,8 +63,8 @@ si scrive appena cambia qualcosa.
    scrive in bacheca e manda il nuovo id alle sessioni vive. Chi ripara punta più in basso, a 150 mila (regola dei lotti).
    La chat dell'AD con Nicola non si sposta da sola: l'AD prepara la chat nuova e gli dice dove continuare.
    **La sessione nuova la apre la sessione stessa, ed è la sua 2.0** (Nicola, 13/11 alle 13:30: «superato il 40-60% di
-   contesto deve aprire una nuova sessione 2.0 di se stessa»). Ha lo stesso ruolo e lo stesso ramo, e «· 2.0» in fondo
-   al titolo. Ultracode non lo eredita: lo accende chi la apre, col prompt esatto `/effort ultracode`
+   contesto deve aprire una nuova sessione 2.0 di se stessa»). Ha lo stesso ruolo e lo stesso ramo, e nel titolo il
+   numero dopo, scritto in parole: «C02 terzo», «regista O2 settima» (regola 12). Ultracode non lo eredita: lo accende chi la apre, col prompt esatto `/effort ultracode`
    (regola 10). Nicola serve solo se resta spento. Vale anche per le figlie: riparatori, collaudatori e controllori
    a 400 mila token non si fermano ad aspettare. Aprono la loro 2.0, scrivono l'id a chi le ha aperte e si fermano.
    Se una non può aprirla, lo dice subito, e la 2.0 la apre chi l'ha aperta lei. Esempio vero: fino alle 13:30 del
@@ -131,10 +131,13 @@ si scrive appena cambia qualcosa.
      (Nicola, 13/11 alle 15:23). Si archivia quando le sue figlie hanno finito.
    - **Nessuna sessione-cartella**, né in cima né in mezzo. Quelle dell'onda 2 («Regia», «Collaudatori», «Controllori»,
      «AD · onda 2») si archiviano a fine onda.
-   - **Il ruolo sta in testa al titolo, senza il numero dell'onda**: «Riparatore · R25», «Collaudatore · K10». L'onda la dice
-     l'etichetta, nel campo `tags` di `create_session`: per esempio `onda-3-riparatori`, più il tag della campagna (Nicola,
-     14/11 alle 08:50: «basta l'etichetta»).
-   - **La 2.0 porta la stessa etichetta e lo stesso titolo della 1.0**, con «· 2.0» in fondo (regola 7).
+   - **Il titolo è corto** (Nicola, 14/11 alle 08:02: «i titoli delle sessioni devono essere più corti»). Esempi veri:
+     «R24 secondo», «C02 terzo», «PR e CI secondo», «regista O2 settima». L'onda la dice l'etichetta, nel campo `tags` di
+     `create_session`: per esempio `onda-3-riparatori`, più il tag della campagna (Nicola, 14/11 alle 08:50: «basta
+     l'etichetta»). Nel titolo l'onda resta solo dove l'ha messa Nicola, come «regista O2 settima».
+   - **Chi prende il posto di una sessione prende il numero dopo, in parole** (Nicola, 14/11 alle 08:32: «non doveva
+     essere la numero 6 2.0 ma la numero 7 direttamente», e alle 08:35: «C02 terzo»). Tiene la stessa etichetta. Il
+     titolo «· 2.0» non si usa più (regola 7).
    - **Dove un'altra regola o una skill parla di cartelle**, vale questa: chi deve aprire una sessione la apre da sé.
    - **Esempio vero, 14/11.** Alle 08:45 è nato un albero d'esempio, con cinque sessioni-cartella e undici sessioni dentro.
      Nicola l'ha guardato e ha detto «togli le cartelle». Alle 09:17 è stato archiviato, insieme alle cinque prove delle

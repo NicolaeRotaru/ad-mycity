@@ -165,3 +165,355 @@
 2026-11-13 08:39 · R24 · in lavoro · guardia ✅ · referto ⏳ 14 voci · unione (sotto) · nessuna
 2026-11-13 08:39 · onda 2 · prova-unione ✅
 2026-11-13 08:39 · giro 1 onda 2 (quarta regista) · rossi R18 (prova comune), R19 (prova spenta con skipIf), R21 (2 prove comuni, referto) · tutte e 12 le figlie ferme su richiesta, ognuna con lo SHA spinto · azione: detto a R19; catena di sorveglianza sospesa per la fermata del costo, riparte con la risposta di Nicola
+2026-11-13 13:51 · R13 · in lavoro FINITA · guardia 🔴 · referto 🔴 25 voci · unione (sotto) · nessuna
+2026-11-13 13:51 · R14 · in lavoro · guardia ✅ · referto ⏳ 17 voci · unione (sotto) · nessuna
+2026-11-13 13:51 · R15 · in lavoro · guardia ✅ · referto ⏳ 12 voci · unione (sotto) · nessuna
+2026-11-13 13:51 · R16 · in lavoro · guardia ✅ · referto ⏳ 21 voci · unione (sotto) · nessuna
+2026-11-13 13:51 · R17 · in lavoro FINITA · guardia 🔴 · referto 🔴 25 voci · unione (sotto) · nessuna
+2026-11-13 13:51 · R18 · in lavoro · guardia ✅ · referto ⏳ 19 voci · unione (sotto) · nessuna
+2026-11-13 13:51 · R19 · in lavoro FINITA · guardia ✅ · referto ✅ 23 voci · unione (sotto) · nessuna
+2026-11-13 13:51 · R20 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 13:51 · R21 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 13:51 · R22 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 13:51 · R23 · in lavoro FINITA · guardia ✅ · referto ✅ 18 voci · unione (sotto) · nessuna
+2026-11-13 13:51 · R24 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-13 13:51 · K05 · ramo non ancora spinto · guardia – · collaudo – · nessuna
+2026-11-13 13:51 · onda 2 · prova-unione ✅
+2026-11-13 13:55 · regia · azioni del giro: R13 e R17 avvisati dei due rossi sul ramo parziale (commit senza id, prova col nome della sessione, verify non sulla testa); C02 rinominato da «CI · onda 2»; K05 e C02 senza chiamate agli strumenti del database vero; K05 e C02 fermi su ultracode, R14 2.0 acceso e al lavoro
+2026-11-13 14:24 · R13 · in lavoro · guardia 🔴 · referto 🔴 25 voci · unione (sotto) · nessuna
+2026-11-13 14:24 · R14 · in lavoro · guardia ✅ · referto ⏳ 22 voci · unione (sotto) · nessuna
+2026-11-13 14:24 · R15 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 14:24 · R16 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-13 14:24 · R17 · in lavoro FINITA · guardia 🔴 · referto 🔴 25 voci · unione (sotto) · nessuna
+2026-11-13 14:24 · R18 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 14:24 · R19 · in lavoro FINITA · guardia ✅ · referto ✅ 23 voci · unione (sotto) · nessuna
+2026-11-13 14:24 · R20 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 14:24 · R21 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 14:24 · R22 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 14:24 · R23 · in lavoro FINITA · guardia ✅ · referto ✅ 18 voci · unione (sotto) · nessuna
+2026-11-13 14:24 · R24 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-13 14:24 · onda 2 · prova-unione ✅
+2026-11-13 15:48 · R13 · in lavoro FINITA · guardia 🔴 · referto 🔴 25 voci · unione (sotto) · nessuna
+2026-11-13 15:48 · R14 · in lavoro FINITA · guardia 🔴 · referto 🔴 25 voci · unione (sotto) · nessuna
+2026-11-13 15:48 · R15 · in lavoro FINITA · guardia 🔴 · referto 🔴 19 voci · unione (sotto) · nessuna
+2026-11-13 15:48 · R16 · in lavoro FINITA · guardia 🔴 · referto 🔴 21 voci · unione (sotto) · nessuna
+2026-11-13 15:48 · R17 · in lavoro FINITA · guardia 🔴 · referto 🔴 25 voci · unione (sotto) · nessuna
+2026-11-13 15:48 · R18 · in lavoro FINITA · guardia 🔴 · referto 🔴 25 voci · unione (sotto) · nessuna
+2026-11-13 15:48 · R19 · in lavoro FINITA · guardia 🔴 · referto 🔴 23 voci · unione (sotto) · nessuna
+2026-11-13 15:48 · R20 · in lavoro FINITA · guardia 🔴 · referto 🔴 19 voci · unione (sotto) · nessuna
+2026-11-13 15:48 · R21 · in lavoro FINITA · guardia 🔴 · referto 🔴 19 voci · unione (sotto) · nessuna
+2026-11-13 15:48 · R22 · in lavoro FINITA · guardia 🔴 · referto 🔴 19 voci · unione (sotto) · nessuna
+2026-11-13 15:48 · R23 · in lavoro FINITA · guardia 🔴 · referto 🔴 18 voci · unione (sotto) · nessuna
+2026-11-13 15:48 · R24 · in lavoro FINITA · guardia 🔴 · referto 🔴 21 voci · unione (sotto) · nessuna
+2026-11-13 15:48 · K05 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-13 15:48 · K06 · ramo non ancora spinto · guardia – · collaudo – · nessuna
+2026-11-13 15:48 · K07 · ramo non ancora spinto · guardia – · collaudo – · nessuna
+2026-11-13 15:48 · K08 · ramo non ancora spinto · guardia – · collaudo – · nessuna
+2026-11-13 15:48 · onda 2 · prova-unione 🔴
+2026-11-13 15:50 · regia · giro delle 15:48 cieco: la copia del sito era superficiale, i rossi su storia, base e unione non sono misure · nessuna azione, scritto nel passaggio alla 3.0
+2026-11-13 15:58 · R13 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 15:58 · R14 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 15:58 · R15 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 15:58 · R16 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-13 15:58 · R17 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 15:58 · R18 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 15:58 · R19 · in lavoro FINITA · guardia ✅ · referto ✅ 23 voci · unione (sotto) · nessuna
+2026-11-13 15:58 · R20 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 15:58 · R21 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 15:58 · R22 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 15:58 · R23 · in lavoro FINITA · guardia ✅ · referto ✅ 18 voci · unione (sotto) · nessuna
+2026-11-13 15:58 · R24 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-13 15:58 · K05 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-13 15:58 · K06 · ramo non ancora spinto · guardia – · collaudo – · nessuna
+2026-11-13 15:58 · K07 · ramo non ancora spinto · guardia – · collaudo – · nessuna
+2026-11-13 15:58 · K08 · ramo non ancora spinto · guardia – · collaudo – · nessuna
+2026-11-13 15:58 · onda 2 · prova-unione ✅
+2026-11-13 17:06 · K06 · finito · guardia – · collaudo ✅ (51,79 $ su 30) · copiato in collaudi/K06.json
+2026-11-13 17:06 · integrazione sito · revert R23-003 e R19-007 → 583624d1 · R19-009, R19-012, R19-015 ancora dentro: il revert litiga con R19-008 (Navbar, cookies), R19 senza tetto · alla fermata 3
+2026-11-13 17:06 · R13 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 17:06 · R14 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 17:06 · R15 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 17:12 · R13 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 17:12 · R14 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 17:12 · R15 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 17:12 · R16 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-13 17:12 · R17 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 17:12 · R18 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 17:12 · R19 · in lavoro FINITA · guardia ✅ · referto ✅ 23 voci · unione (sotto) · nessuna
+2026-11-13 17:12 · R20 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 17:12 · R21 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 17:12 · R22 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 17:12 · R23 · in lavoro FINITA · guardia ✅ · referto ✅ 18 voci · unione (sotto) · nessuna
+2026-11-13 17:12 · R24 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-13 17:12 · K05 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-13 17:12 · K06 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-13 17:12 · K07 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-13 17:12 · K08 · collaudo · guardia ✅ · collaudo ⏳ · nessuna
+2026-11-13 17:12 · onda 2 · prova-unione ✅
+2026-11-13 17:27 · K07 · finita · collaudo ✅ (valida-collaudo verde su 773fddd9) · R18 8/14, R13 1/8 · 32,62 $ su 30 · archiviata, detto all'AD alle 17:25
+2026-11-13 17:27 · R13 · finita · guardia 🔴 (solo 10708bcf) · prova di unione su 583624d1: il revert di R13-001 (5fb08582) litiga su lib/geocodifica.ts e app/api/geocode/route.ts anche senza R13-010 · non unita, proposta all'AD: onda 3
+2026-11-13 17:27 · onda 2 · costo misurato su 33 sessioni: 1.160,62 $ (riparatori 764,58 · collaudo e controllo 180,99 · regia, cartelle e controllore PR 215,06) · quota allowed_warning settimanale in tutte, niente uso extra · detto all'AD alle 17:25
+2026-11-13 17:20 · regia · la 3.0 ha passato le falle riservate in chat alle 17:04 (solo in chat) · 3.0 archiviata · AD alle 17:15: niente che spende finché Nicola non dice «via» · R14 · 2.0 finita (2048b33), 75,6 $ su 80
+2026-11-13 17:44 · R13 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 17:44 · R14 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 17:44 · R15 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 17:44 · R16 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-13 17:44 · R17 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 17:44 · R18 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 17:44 · R19 · in lavoro FINITA · guardia ✅ · referto ✅ 23 voci · unione (sotto) · nessuna
+2026-11-13 17:44 · R20 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 17:44 · R21 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 17:44 · R22 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 17:44 · R23 · in lavoro FINITA · guardia ✅ · referto ✅ 18 voci · unione (sotto) · nessuna
+2026-11-13 17:44 · R24 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-13 17:44 · K05 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-13 17:44 · K06 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-13 17:44 · K07 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-13 17:44 · K08 · collaudo · guardia ✅ · collaudo ⏳ · nessuna
+2026-11-13 17:44 · onda 2 · prova-unione ✅
+2026-11-13 17:52 · giro della 4.0 · 12 riparatori finiti · rossi solo i due noti (R13 10708bcf, R17 bb53b6be: revert col messaggio standard, deroga alla fermata 3) · K08 · 2.0 e C02 · 2.0 ferme dalle 17:08 (costo fermo a 1,44 e 2,28 $: nessuna chiamata, niente database vero) · quota allowed_warning, niente uso extra · regista a 304 mila token, 5,71 $ · in attesa del «via» di Nicola sulla spesa · prossimo giro 18:15
+2026-11-13 18:16 · R13 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 18:16 · R14 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 18:16 · R15 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 18:16 · R16 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-13 18:16 · R17 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 18:16 · R18 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 18:16 · R19 · in lavoro FINITA · guardia ✅ · referto ✅ 23 voci · unione (sotto) · nessuna
+2026-11-13 18:16 · R20 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 18:16 · R21 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 18:16 · R22 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 18:16 · R23 · in lavoro FINITA · guardia ✅ · referto ✅ 18 voci · unione (sotto) · nessuna
+2026-11-13 18:16 · R24 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-13 18:16 · K05 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-13 18:16 · K06 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-13 18:16 · K07 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-13 18:16 · K08 · collaudo · guardia ✅ · collaudo ⏳ · nessuna
+2026-11-13 18:16 · onda 2 · prova-unione ✅
+2026-11-13 18:24 · giro della 4.0 · 12 riparatori finiti · rossi solo i due noti (R13 10708bcf, R17 bb53b6be) · K08 · 2.0 e C02 · 2.0 ferme dalle 17:08 (nessuna attività: niente database vero) · quota allowed_warning, niente uso extra · regista a 321 mila token, 6,44 $ · AD in attesa del «via» di Nicola su K09 · prossimo giro 18:47
+2026-11-13 18:49 · R13 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 18:49 · R14 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 18:49 · R15 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 18:49 · R16 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-13 18:49 · R17 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 18:49 · R18 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-13 18:49 · R19 · in lavoro FINITA · guardia ✅ · referto ✅ 23 voci · unione (sotto) · nessuna
+2026-11-13 18:49 · R20 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 18:49 · R21 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 18:49 · R22 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-13 18:49 · R23 · in lavoro FINITA · guardia ✅ · referto ✅ 18 voci · unione (sotto) · nessuna
+2026-11-13 18:49 · R24 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-13 18:49 · K05 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-13 18:49 · K06 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-13 18:49 · K07 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-13 18:49 · K08 · collaudo · guardia ✅ · collaudo ⏳ · nessuna
+2026-11-13 18:49 · onda 2 · prova-unione ✅
+2026-11-13 18:57 · giro della 4.0, l'ultimo prima della fermata · 12 riparatori finiti · rossi solo i due noti (R13 10708bcf, R17 bb53b6be) · K08 · 2.0 e C02 · 2.0 ferme dalle 17:08 · quota allowed_warning, niente uso extra · regista a 346 mila token, 7,18 $ · CATENA FERMA alla fermata dei soldi (skill: la sorveglianza smette a una fermata), riparte al «via» di Nicola · REGIA.md aggiornato con lo stato
+2026-11-14 06:39 · R13 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 06:39 · R14 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 06:39 · R15 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 06:39 · R16 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-14 06:39 · R17 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 06:39 · R18 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 06:39 · R19 · in lavoro FINITA · guardia ✅ · referto ✅ 23 voci · unione (sotto) · nessuna
+2026-11-14 06:39 · R20 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 06:39 · R21 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 06:39 · R22 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 06:39 · R23 · in lavoro FINITA · guardia ✅ · referto ✅ 18 voci · unione (sotto) · nessuna
+2026-11-14 06:39 · R24 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-14 06:39 · K05 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 06:39 · K06 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 06:39 · K07 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 06:39 · K08 · collaudo · guardia ✅ · collaudo ⏳ · nessuna
+2026-11-14 06:39 · K09 · collaudo · guardia 🔴 · collaudo 🔴 · nessuna
+2026-11-14 06:39 · onda 2 · prova-unione ✅
+2026-11-14 06:46 · giro della 4.0 · 12 riparatori finiti, rossi solo i due noti (10708bcf, bb53b6be) · K09 al lavoro (ultracode acceso, 9,08 $ su 30, 7 revisori) · Cucitura con ultracode acceso ma ferma: svegliata alle 06:40 · quota allowed_warning, niente uso extra · regista a 452 mila token, 15,09 $: passaggio alla 5.0 scritto in REGIA.md
+2026-11-14 06:43 · R13 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 06:43 · R14 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 06:43 · R15 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 07:00 · R13 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 07:00 · R14 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 07:00 · R15 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 07:00 · R16 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-14 07:00 · R17 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 07:00 · R18 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 07:00 · R19 · in lavoro FINITA · guardia ✅ · referto ✅ 23 voci · unione (sotto) · nessuna
+2026-11-14 07:00 · R20 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 07:00 · R21 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 07:00 · R22 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 07:00 · R23 · in lavoro FINITA · guardia ✅ · referto ✅ 18 voci · unione (sotto) · nessuna
+2026-11-14 07:00 · R24 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-14 07:00 · K05 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 07:00 · K06 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 07:00 · K07 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 07:00 · K08 · collaudo · guardia ✅ · collaudo ⏳ · nessuna
+2026-11-14 07:00 · K09 · collaudo · guardia 🔴 · collaudo ✅ · nessuna
+2026-11-14 07:00 · onda 2 · prova-unione ✅
+2026-11-14 07:22 · giro della 5.0 · sorveglia.sh uscita 1 in 43 s (prima i contenuti dei file scaricati in blocco: il giro delle 06:45 si era fermato al tetto di 15 minuti dopo R15) · rossi: R13 10708bcf e R17 bb53b6be (deroghe note per la fermata 3), K09 partenza dee61af invece di e11facd3 (cambiano solo due LEGGIMI, nessun programma: non vero) · K09 finito, valida-collaudo verde, 14 su 20 reggono · controllo db vero su K09 ⚪ non misurato fino in fondo (35 eventi letti, nessuna chiamata) · R17 unito localmente (c282562e) con R17-003 tolta (29a34376) · cucitura al lavoro, 10,94 $ su 25 · quota allowed_warning, niente uso extra · regista 3,85 $ e 283 mila token
+2026-11-14 07:52 · R13 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 07:52 · R14 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 07:52 · R15 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 07:52 · R16 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-14 07:52 · R17 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 07:52 · R18 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 07:52 · R19 · in lavoro FINITA · guardia ✅ · referto ✅ 23 voci · unione (sotto) · nessuna
+2026-11-14 07:52 · R20 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 07:52 · R21 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 07:52 · R22 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 07:52 · R23 · in lavoro FINITA · guardia ✅ · referto ✅ 18 voci · unione (sotto) · nessuna
+2026-11-14 07:52 · R24 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-14 07:52 · K05 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 07:52 · K06 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 07:52 · K07 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 07:52 · K08 · collaudo · guardia ✅ · collaudo ⏳ · nessuna
+2026-11-14 07:52 · K09 · collaudo · guardia 🔴 · collaudo ✅ · nessuna
+2026-11-14 07:52 · onda 2 · prova-unione ✅
+2026-11-14 07:55 · giro della 6.0 · sorveglia.sh uscita 1 · rossi solo i tre noti: R13 10708bcf e R17 bb53b6be (deroghe per la fermata 3), K09 partenza dee61af (non vero, visto dalla 5.0) · prova-unione ✅ · C02 · 2.0 fermo senza ultracode (terza richiesta all'AD alle 07:55) · K08 · 2.0 fermo, cucitura finita, PR e CI · 2.0 in attesa del numero · controllo db vero: nessun collaudatore o controllore al lavoro · quota allowed_warning, niente uso extra · regista 0,70 $ e 224 mila token
+2026-11-14 08:03 · regista 6.0 · costo dell'onda 2: 1.277,38 $ su 1.500 (40 sessioni, 85%, circa 43% della settimana: stima) · C02 · 3.0 e PR e CI · 2.0 fermi sul permesso «Add Repo»: interrotti; C02 riparte col clone in sola lettura, mycity#290 la segue la regista · detto all'AD, urgente, alle 08:03
+2026-11-14 08:10 · regista 6.0 · mycity#290: CI rossa su una prova sola, «404 page is custom» (e2e 03:60), con la scritta due volte (h1 e <title> di R15-005). Rimedio della regola: revert di R15-005 (b2034695 in locale sopra 4a3d9b8a), spinta fermata dal permesso automatico, chiesto il sì di Nicola all'AD, urgente, alle 08:10 · C02 · 3.0 al lavoro col piano approvato, R15-005 segnalata rossa
+2026-11-14 08:23 · R13 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 08:23 · R14 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 08:23 · R15 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 08:23 · R16 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-14 08:23 · R17 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 08:23 · R18 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 08:23 · R19 · in lavoro FINITA · guardia ✅ · referto ✅ 23 voci · unione (sotto) · nessuna
+2026-11-14 08:23 · R20 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 08:23 · R21 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 08:23 · R22 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 08:23 · R23 · in lavoro FINITA · guardia ✅ · referto ✅ 18 voci · unione (sotto) · nessuna
+2026-11-14 08:23 · R24 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-14 08:23 · K05 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 08:23 · K06 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 08:23 · K07 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 08:23 · K08 · collaudo · guardia ✅ · collaudo ⏳ · nessuna
+2026-11-14 08:23 · K09 · collaudo · guardia 🔴 · collaudo ✅ · nessuna
+2026-11-14 08:23 · onda 2 · prova-unione ✅
+2026-11-14 08:27 · giro della 6.0 · sorveglia.sh uscita 1 in 27 s · rossi solo i tre noti (R13 10708bcf, R17 bb53b6be, K09 partenza) · C02 · 3.0 a 18,05 $ su 20: detto di chiudere entro il tetto · «analisi O3» rifatta (la prima non partita per uno SHA corto) · quota allowed_warning, niente extra · regista a 406 mila token e 11,02 $: passaggio alla 2.0
+2026-11-14 08:30 · R13 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 08:30 · R14 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 08:30 · R15 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 08:30 · R16 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-14 08:30 · R17 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 08:30 · R18 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 08:30 · R19 · in lavoro FINITA · guardia ✅ · referto ✅ 23 voci · unione (sotto) · nessuna
+2026-11-14 08:30 · R20 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 08:30 · R21 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 08:30 · R22 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 08:30 · R23 · in lavoro FINITA · guardia ✅ · referto ✅ 18 voci · unione (sotto) · nessuna
+2026-11-14 08:30 · R24 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-14 08:30 · K05 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 08:30 · K06 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 08:30 · K07 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 08:30 · K08 · collaudo · guardia ✅ · collaudo ⏳ · nessuna
+2026-11-14 08:30 · K09 · collaudo · guardia 🔴 · collaudo ✅ · nessuna
+2026-11-14 08:30 · onda 2 · prova-unione ✅
+2026-11-14 09:06 · R13 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 09:06 · R14 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 09:06 · R15 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 09:06 · R16 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-14 09:06 · R17 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 09:06 · R18 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 09:06 · R19 · in lavoro FINITA · guardia ✅ · referto ✅ 23 voci · unione (sotto) · nessuna
+2026-11-14 09:06 · R20 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 09:06 · R21 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 09:06 · R22 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 09:06 · R23 · in lavoro FINITA · guardia ✅ · referto ✅ 18 voci · unione (sotto) · nessuna
+2026-11-14 09:06 · R24 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-14 09:06 · K05 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 09:06 · K06 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 09:06 · K07 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 09:06 · K08 · collaudo · guardia ✅ · collaudo ⏳ · nessuna
+2026-11-14 09:06 · K09 · collaudo · guardia 🔴 · collaudo ✅ · nessuna
+2026-11-14 09:06 · onda 2 · prova-unione ✅
+2026-11-14 09:40 · R13 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 09:40 · R14 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 09:40 · R15 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 09:40 · R16 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-14 09:40 · R17 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 09:40 · R18 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 09:40 · R19 · in lavoro FINITA · guardia ✅ · referto ✅ 23 voci · unione (sotto) · nessuna
+2026-11-14 09:40 · R20 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 09:40 · R21 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 09:40 · R22 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 09:40 · R23 · in lavoro FINITA · guardia ✅ · referto ✅ 18 voci · unione (sotto) · nessuna
+2026-11-14 09:40 · R24 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-14 09:40 · K05 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 09:40 · K06 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 09:40 · K07 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 09:40 · K08 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 09:40 · K09 · collaudo · guardia 🔴 · collaudo ✅ · nessuna
+2026-11-14 09:40 · onda 2 · prova-unione ✅
+2026-11-14 10:50 · R13 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 10:50 · R14 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 10:50 · R15 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 10:50 · R16 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-14 10:50 · R17 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 10:50 · R18 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 10:50 · R19 · in lavoro FINITA · guardia ✅ · referto ✅ 23 voci · unione (sotto) · nessuna
+2026-11-14 10:50 · R20 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 10:50 · R21 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 10:50 · R22 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 10:50 · R23 · in lavoro FINITA · guardia ✅ · referto ✅ 18 voci · unione (sotto) · nessuna
+2026-11-14 10:50 · R24 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-14 10:50 · K05 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 10:50 · K06 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 10:50 · K07 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 10:50 · K08 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 10:50 · K09 · collaudo · guardia 🔴 · collaudo ✅ · nessuna
+2026-11-14 10:50 · onda 2 · prova-unione ✅
+2026-11-14 11:24 · R13 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 11:24 · R14 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 11:24 · R15 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 11:24 · R16 · in lavoro FINITA · guardia ✅ · referto 🔴 21 voci · unione (sotto) · nessuna
+2026-11-14 11:24 · R17 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 11:24 · R18 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 11:24 · R19 · in lavoro FINITA · guardia ✅ · referto ✅ 23 voci · unione (sotto) · nessuna
+2026-11-14 11:24 · R20 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 11:24 · R21 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 11:24 · R22 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 11:24 · R23 · in lavoro FINITA · guardia ✅ · referto ✅ 18 voci · unione (sotto) · nessuna
+2026-11-14 11:24 · R24 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-14 11:24 · K05 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 11:24 · K06 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 11:24 · K07 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 11:24 · K08 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 11:24 · K09 · collaudo · guardia 🔴 · collaudo ✅ · nessuna
+2026-11-14 11:24 · onda 2 · prova-unione ✅
+2026-11-14 11:57 · R13 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 11:57 · R14 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 11:57 · R15 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 11:57 · R16 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-14 11:57 · R17 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 11:57 · R18 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 11:57 · R19 · in lavoro FINITA · guardia ✅ · referto ✅ 23 voci · unione (sotto) · nessuna
+2026-11-14 11:57 · R20 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 11:57 · R21 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 11:57 · R22 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 11:57 · R23 · in lavoro FINITA · guardia ✅ · referto ✅ 18 voci · unione (sotto) · nessuna
+2026-11-14 11:57 · R24 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-14 11:57 · K05 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 11:57 · K06 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 11:57 · K07 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 11:57 · K08 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 11:57 · K09 · collaudo · guardia 🔴 · collaudo ✅ · nessuna
+2026-11-14 11:57 · onda 2 · prova-unione ✅
+2026-11-14 12:29 · R13 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 12:29 · R14 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 12:29 · R15 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 12:29 · R16 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-14 12:29 · R17 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 12:29 · R18 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 12:29 · R19 · in lavoro FINITA · guardia ✅ · referto ✅ 23 voci · unione (sotto) · nessuna
+2026-11-14 12:29 · R20 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 12:29 · R21 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 12:29 · R22 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 12:29 · R23 · in lavoro FINITA · guardia ✅ · referto ✅ 18 voci · unione (sotto) · nessuna
+2026-11-14 12:29 · R24 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-14 12:29 · K05 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 12:29 · K06 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 12:29 · K07 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 12:29 · K08 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 12:29 · K09 · collaudo · guardia 🔴 · collaudo ✅ · nessuna
+2026-11-14 12:29 · onda 2 · prova-unione ✅
+2026-11-14 12:32 · onda 2 (regista O2 settima) · nessuna figlia viva, ottava non ancora aperta · azione: catena allungata a 60 minuti (trig_01H5c9X5HQPiVhVbwXH9pzav), torna a 30 coi ricollaudi
+2026-11-14 13:34 · onda 2 (regista O2 settima) · giro lungo: nessuna sessione nuova (ottava non aperta, nessun ricollaudo), main fermo a 1905beee · azione: nessuna, catena riarmata a 60 minuti
