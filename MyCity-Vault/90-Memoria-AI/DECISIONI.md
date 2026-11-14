@@ -6915,3 +6915,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 ## 2026-11-13 05:20 — 🟡 L'eccezione «a» si allarga, solo per l'onda 1
 - **Chi:** Nicola alla regista dell'onda 2: «Allarga la a».
 - **Perché:** per chiudere l'onda 1 nel registro c'erano 63 errori. 57 sono prove comuni, coperte dalla card 239. Gli altri 6 no: 2 sul ramo di R08, che fermavano 13 chiusure, e 4 collaudi di K03 provati a mano sul database, su voci che restano aperte comunque. Nicola li ha messi nell'eccezione, solo per l'onda 1.
+
+## 2026-11-15 00:32 — 🟡🔴 Le cinque scelte sull'onda 2 del sito (carte 243-247)
+- **Chi:** Nicola alla regista O2 settima: «ok 243, 244 a, 245 sì, 246 a, 247 sì».
+- **Cosa:** 243, la regista riunisce i rami delle sessioni nella richiesta di unione del sito e la carica, senza le tre correzioni che rompono altro (rimborso diviso, allergeni con la migrazione 426, bacheca del fattorino). 244 «a», il giro allargato si fa solo sulle 6 voci gravi, con un preventivo portato a Nicola prima di aprire le sessioni. 245, sì all'eccezione sulla prova comune che vincolava la frase sbagliata del pulsante di emergenza del fattorino. 246 «a», quando un reso respinto arriva dopo il bonifico del lunedì l'ordine fermo si segna come già pagato. 247, sì al controllo dei 90 file non guardati, tetto 20 $.
+- **Perché:** il resoconto dell'onda 2 (consegne/riparazioni/2026-11-12-sito-tutto/RESOCONTO-ONDA-2.md): 78 difetti chiusi su 259, nessun grave; il giro allargato intero costerebbe circa 475 $ contro circa 185 $ rimasti nel tetto di 1.650 $.
+- **Se va bene:** la richiesta di unione del sito si aggiorna, una sessione nuova controlla le modifiche nuove e i 90 file, e la regista porta a Nicola il preventivo delle 6 gravi.
+

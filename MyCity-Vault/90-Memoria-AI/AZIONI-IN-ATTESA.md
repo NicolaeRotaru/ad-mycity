@@ -33,6 +33,8 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ### 🟡 #243 — Dai il sì per mettere il lavoro dell'onda 2 nella richiesta di unione del sito · ⏳ accodata 2026-11-14 17:16
 
+**Stato:** ⏳ in corso dal 2026-11-15 00:32. Hai scritto «ok 243»: la regista riunisce i rami e carica la richiesta di unione del sito.
+
 **In parole semplici.** Le sessioni dell'onda 2 hanno riparato ognuna su una copia separata del sito. La regista le mette insieme nella richiesta di unione del sito, che è già aperta in bozza. Sul sito vero non va niente: online va solo quando unisci tu.
 
 **Cosa cambia per te.** Esempio: l'avviso «senza rete» col tasto Riprova, riparato da una sessione, entra nella richiesta insieme agli altri lavori. Con il sì, nella richiesta entrano le 4 voci chiuse dal giro di correzione. Restano fuori tre correzioni che rompono un'altra cosa: il rimborso diviso, gli allergeni, la bacheca del fattorino.
@@ -45,6 +47,8 @@ Cosa cambia: la richiesta di unione del sito si aggiorna con il lavoro del 14/11
 Se va bene: una sessione nuova controlla solo le modifiche nuove, con un tetto di 20 $.
 
 ### 🟡 #244 — Scegli quanto fare del giro allargato dell'onda 2, perché intero sfora il tetto · ⏳ accodata 2026-11-14 17:16
+
+**Stato:** ⏳ in corso dal 2026-11-15 00:32. Hai scelto la «a»: la regista prepara il preventivo delle 6 voci gravi e te lo porta prima di aprire le sessioni.
 
 **In parole semplici.** Il giro allargato riprende 84 voci rimaste a metà o ferme per il file di un'altra sessione. Al ritmo vero dell'onda 2, circa 5,66 $ a voce, costerebbe circa 475 $. Prima di arrivare al tetto di 1.650 $ ne restano circa 185.
 
@@ -59,6 +63,8 @@ Se va bene: la regista prepara il preventivo delle 6 gravi e te lo porta prima d
 
 ### 🟡 #245 — Firma l'eccezione per il pulsante di emergenza del fattorino · ⏳ accodata 2026-11-14 17:16
 
+**Stato:** ✅ FATTO 2026-11-15 00:32. Hai scritto «245 sì»: l'eccezione è firmata. La riparazione rientra con le voci gravi.
+
 **In parole semplici.** Il pulsante di emergenza del fattorino promette «stiamo chiamando il 112», poi apre solo il tastierino. La riparazione è pronta e provata. È stata tolta solo perché una prova comune a tutti controlla ancora la frase sbagliata.
 
 **Cosa cambia per te.** Esempio: un fattorino in difficoltà oggi legge che il 112 è chiamato, e non è vero. Con l'eccezione, il testo dice la verità, e una delle 20 voci gravi dell'onda 2 si può chiudere.
@@ -72,6 +78,8 @@ Se va bene: la voce entra nel giro allargato o nel controllo, e si chiude se reg
 
 ### 🔴 #246 — Rispondi su cosa fare quando un reso respinto arriva dopo il bonifico del lunedì · ⏳ accodata 2026-11-14 17:16
 
+**Stato:** ✅ FATTO 2026-11-15 00:32. Hai scelto la «a»: l'ordine fermo si segna come già pagato. La riparazione entra con le voci gravi.
+
 **In parole semplici.** Il lunedì il negozio riceve un bonifico. Se su un ordine si apre un reso dopo il bonifico, e poi il reso viene respinto, quell'ordine chiede di essere pagato una seconda volta.
 
 **Cosa cambia per te.** Esempio: versi 36 €, su un ordine si apre un reso, segni 18 €. Il reso viene respinto: il lunedì dopo, quell'ordine chiede di nuovo 18 €. Sono soldi pagati due volte.
@@ -84,6 +92,8 @@ Cosa cambia: con la «a» il bonifico del lunedì non paga mai due volte lo stes
 Se va bene: la riparazione entra nel giro allargato delle voci gravi.
 
 ### 🟡 #247 — Fai finire il controllo dei 90 file di codice che nessuno ha guardato · ⏳ accodata 2026-11-14 17:16
+
+**Stato:** ⏳ in corso dal 2026-11-15 00:32. Hai scritto «247 sì»: il controllo dei 90 file parte dopo la riunione dei rami, insieme al controllo delle modifiche nuove.
 
 **In parole semplici.** Il controllore finale dell'onda 2 si è fermato al suo tetto. Ha guardato 80 file di codice su 170: gli altri 90 non li ha visti nessuno.
 
