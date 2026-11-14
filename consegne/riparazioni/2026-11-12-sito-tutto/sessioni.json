@@ -1,5 +1,5 @@
 {
- "regista": "session_015BmpnWW9rUEQRqv4jLWfhZ",
+ "regista": "session_015BmpnWFiSCapSEYMt2NTCb",
  "regista_onda2_quinta": "session_015BmpnVzbMLH1s3LPB8nHkW",
  "regista_onda2_quarta": "session_015BmpnVkmAAN92z8w4HLVGB",
  "regista_onda2_terza": "session_015BmpnYzJKvQoMML3LmU8aJ",
@@ -487,9 +487,10 @@
  "regista_onda2_sesta_5": {
   "id": "session_015BmpnWW9rUEQRqv4jLWfhZ",
   "dal": "2026-11-14 06:42",
-  "catena": "trig_01UQxJZsaXNu5Kp7SeXYtY1G",
+  "catena": "trig_01UQxJZsaXNu5Kp7SeXYtY1G (cancellata dalla 5.0 al passaggio)",
   "copia_sito": "/home/user/mycity, clone --filter=blob:none --no-checkout (storia intera), integrazione a 583624d1",
-  "ultracode": "mancava alle 06:43 (detto all'AD alle 06:44); acceso alle 06:48"
+  "ultracode": "mancava alle 06:43 (detto all'AD alle 06:44); acceso alle 06:48",
+  "passata_alla_6_0": "2026-11-14 07:50, a 390 mila token, 7,4 $ (commit e64205833)"
  },
  "integrazione_onda2_finale": {
   "sha": "4a3d9b8ae0de1810c0414081fc17289c19ba2a7a",
@@ -497,5 +498,13 @@
   "dentro": "R15, R16, R17 senza R17-003, R18-R24, cucitura",
   "fuori": "R13 e R14 (all'onda 3): i loro referti non stanno in referti/, così applica non chiude voci non unite",
   "prove": "verify verde (tsc ok, eslint 0 errori e 95 avvisi, 1571 file e 10336 prove verdi, 1 salto che c'era già) in 406 s; harness 205 migrazioni applicate su 205 e 72 file SQL verdi"
+ },
+ "regista_onda2_sesta_6": {
+  "id": "session_015BmpnWFiSCapSEYMt2NTCb",
+  "dal": "2026-11-14 07:50",
+  "catena": "trig_01GbLtpRxBbW7N1SvFsfdqHC",
+  "copia_sito": "/home/user/mycity, clone --filter=blob:none --no-checkout (storia intera), contenuti dei rami dell onda 2 scaricati in blocco alle 07:52; integrazione a 4a3d9b8a",
+  "ultracode": "mancava in get_session alle 07:50; acceso alle 07:54 (is_ultracode_active true, effort ultracode)",
+  "quota": "allowed_warning sul limite settimanale alle 07:50, niente uso extra"
  }
 }
