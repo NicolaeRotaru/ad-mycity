@@ -160,7 +160,7 @@
     "quando": "2026-11-14 07:25",
     "merge": "c282562e",
     "revert_R17_003": "29a34376 (conflitto nella rotta dei resi sciolto tenendo solo il blocco di R17-004: rotta = prima di R17-003 + le sole righe di R17-004, verificato con diff)",
-    "spinto": false,
+    "spinto": true,
     "typecheck": "verde il 14/11 alle 07:31 (56 s, NODE_OPTIONS=--max-old-space-size=8192: senza, tsc finisce la memoria)"
    }
   },
@@ -475,7 +475,7 @@
   "unione": {
    "quando": "2026-11-14 07:35",
    "merge": "4a3d9b8a",
-   "spinto": false
+   "spinto": true
   },
   "archivio": "non prima che la sessione privata delle falle abbia i dettagli"
  },
@@ -490,5 +490,12 @@
   "catena": "trig_01UQxJZsaXNu5Kp7SeXYtY1G",
   "copia_sito": "/home/user/mycity, clone --filter=blob:none --no-checkout (storia intera), integrazione a 583624d1",
   "ultracode": "mancava alle 06:43 (detto all'AD alle 06:44); acceso alle 06:48"
+ },
+ "integrazione_onda2_finale": {
+  "sha": "4a3d9b8ae0de1810c0414081fc17289c19ba2a7a",
+  "spinto": "2026-11-14 07:46",
+  "dentro": "R15, R16, R17 senza R17-003, R18-R24, cucitura",
+  "fuori": "R13 e R14 (all'onda 3): i loro referti non stanno in referti/, così applica non chiude voci non unite",
+  "prove": "verify verde (tsc ok, eslint 0 errori e 95 avvisi, 1571 file e 10336 prove verdi, 1 salto che c'era già) in 406 s; harness 205 migrazioni applicate su 205 e 72 file SQL verdi"
  }
 }
