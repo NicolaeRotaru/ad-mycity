@@ -409,5 +409,22 @@
   "ultracode": "manca in get_session alle 17:05: chiesto all'AD alle 17:06"
  },
  "pr_ci_1_0": "session_015BmpnWroKtzTLyTmXZVE2k",
- "pr_ci_nota": "14/11 06:00: la 1.0 (…WroKtz) oltre i 400 mila token ha passato il lavoro alla 2.0 (…Vy26PK), nata con ultracode spento; ignorare …VijNMw, una prima 2.0 mai partita"
+ "pr_ci_nota": "14/11 06:00: la 1.0 (…WroKtz) oltre i 400 mila token ha passato il lavoro alla 2.0 (…Vy26PK), nata con ultracode spento; ignorare …VijNMw, una prima 2.0 mai partita",
+ "cucitura_onda2": {
+  "id": "session_015BmpnWYw3LRsWtdwepgmBw",
+  "ramo": "claude/magical-hamilton-xouwr8-cucitura",
+  "partenza": "583624d1fdfbd4ce54483999a32a0f30e13c69e2",
+  "aperta": "2026-11-14 06:07, dalla cartella Regia",
+  "compito": "togliere R19-009, R19-012, R19-015 tenendo R19-008; chiudere la falla riservata della migrazione 405 (dettagli solo in chat)",
+  "tetto": {
+   "usd": 25,
+   "subagenti": 6
+  },
+  "via": "Nicola, 14/11 06:06: «via ai 4 lavori e l'ondata sui soldi portala a 1500$»"
+ },
+ "tetto_onda2_usd": {
+  "valore": 1500,
+  "deciso": "2026-11-14 06:06",
+  "fonte": "Nicola nella chat della regista 4.0"
+ }
 }
