@@ -94,13 +94,21 @@ si scrive appena cambia qualcosa.
    scrivere codice deve essere aperta con l'ultracode»). Vale per chi ripara, per il controllore che sistema la CI e
    per ogni sessione della regola 8 che tocca il codice. Ultracode fa lavorare la sessione con squadre di agenti e
    verificatori indipendenti, invece che da sola.
-   - **Come si accende.** `create_session` non ha un interruttore per ultracode, e la sessione nuova non lo prende da
-     chi la apre. Lo accende Nicola dall'app, sessione per sessione. La prova è del 13/11 alle 13:38. La quinta regista
-     aveva ultracode acceso e ha aperto il collaudatore K05, che è nato spento. Prima si credeva il contrario, per due
-     sessioni dell'AD delle 02:19 e delle 02:20: con ogni probabilità Nicola le aveva accese a mano.
-   - **Il controllo.** Subito dopo `create_session`, `get_session` deve dire `is_ultracode_active: true` e
-     `effort_level` xhigh. Se ultracode è spento, la sessione non comincia il lavoro. Chi l'ha aperta lo dice subito
-     all'AD, e Nicola lo accende dall'app (regola 4).
+   - **Come si accende** (Nicola, 14/11: «cerca in tutti i modi di capire come aprire da solo l'ultracode», poi
+     «l'hai aggiunta alla regola?»). Lo accende chi apre la sessione, da solo. Il campo `prompt` di `create_session` è
+     **esattamente** `/effort ultracode`, senza altre parole e senza a capo. Il compito e le regole arrivano subito
+     dopo con `send_message`, oppure nel campo `append_system_prompt`. Vale anche per le cartelle: il prompt che
+     passano è `/effort ultracode`, e il compito lo manda chi ha chiesto «apri:». La prova è del 14/11 alle 07:45: una
+     sessione aperta così risultava accesa dopo 2 secondi, senza nessun clic.
+   - **Cosa non funziona.** La parola «ultracode» nel testo: K09 l'aveva 9 volte ed è nato spento. Il comando mandato
+     dopo con `send_message`: i messaggi fra sessioni non eseguono comandi. `effort: "ultracode"`: lo strumento non lo
+     accetta. E la sessione nuova non prende ultracode da chi la apre.
+   - **I due limiti.** Questa via non scrive il campo `flag_settings`, che scrive invece il clic di Nicola nell'app:
+     l'interruttore nell'app può sembrare spento anche quando è acceso. E secondo il codice si perde se il processo
+     della sessione riparte (`worker_epoch` cambia), cosa non ancora vista succedere.
+   - **Il controllo.** Subito dopo `create_session`, `get_session` deve dire `is_ultracode_active: true`, con effort
+     xhigh in `session_context`. Si riguarda prima di ogni lavoro lungo e dopo una ripartenza. Se è spento, la
+     sessione non comincia il lavoro: chi l'ha aperta lo dice subito all'AD, e Nicola lo accende dall'app (regola 4).
    - **I tetti restano.** Ultracode fa lanciare più agenti, quindi consuma di più. Vale lo stesso il preventivo prima di
      lanciare: oltre 12 subagenti o 2 milioni di token si chiede a Nicola (regole ⑱ e ㉑ del manuale dell'AD). Chi
      ripara non ne lancia più di 12 (skill `riparazione`). E vale la quota.
