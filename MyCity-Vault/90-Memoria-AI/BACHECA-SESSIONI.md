@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-14 08:17
+aggiornato: 2026-11-14 08:46
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 14/11 08:44 | la stessa chat della riga sotto, mezz'ora dopo | «cartella: riparatore e dentro tutti i R25», e «cartella: controllore e dentro C03, pr e ci, controllore finale», più il cucitore. «pure il regista deve essere nella sua cartella e pure le chat dell'ad». «la sessione etichetta ondata 3 dentro la quale saranno tutte queste cartelle, serve solo a crearle». Poi: «fammi un esempio di prova (senza usare la parola prova) e crealo già». **Da confermare.** Cambia la regola 12 delle 08:11: le cartelle tornano sessioni leggere, una per ruolo. Stanno dentro una sessione «Onda 3» che serve solo a crearle. Alle 08:45 è nato l'esempio. La richiesta di unione #953 è in bozza finché Nicola non conferma |
 | 14/11 08:11 | chat «Sessione wave 3 setup» | Entro le 08:07: «dentro l'albero riesci a creare delle cartelle e usare quelle al posto delle sessioni che creano sotto di loro delle sotto sessioni». Poi ha chiesto di «creare già adesso l'albero con le cartelle e le sessioni di prova». Alle 08:11: «salvala come regola». L'app non ha cartelle che una sessione possa creare: le cartelle diventano etichette, e il ruolo va in testa al titolo. Alle 08:07 sono nate cinque sessioni di prova, una per ruolo, tutte al livello 1 e senza sessioni-cartella (0,31 $). È la regola 12 di `cervello/sessioni-insieme.md`, e la skill `riparazione` la segue. Resta da vedere, sulla foto di Nicola, se l'app mostra le etichette come cartelle |
 | 14/11 08:02 | chat della regista 6.0 dell'onda 2 (`…WFiSCa`) | «i titoli delle sessioni devono essere più corti, questa sessione deve diventare "regista O2 sesta"». Il titolo è cambiato alle 08:02. Per le altre sessioni vive la regista ha proposto titoli corti sullo stesso stampo, e aspetta il suo sì. Mandata all'AD |
 | 14/11 07:50 | la stessa chat della riga delle 06:06 | Prima «cerca in tutti i modi di capire come aprire da solo l'ultracode dentro una nuova sessione aperta da te», poi «l'hai aggiunta alla regola?». Sei agenti hanno trovato la via nel codice di Claude Code. Alle 07:45 una sessione di prova è nata accesa in 2 secondi, senza nessun clic: il suo primo messaggio era solo «/effort ultracode». La regola 10 di cervello/sessioni-insieme.md ora dice di fare così, e la skill riparazione rimanda lì. Mandata all'AD e alle sessioni vive |
