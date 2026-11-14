@@ -1,5 +1,6 @@
 {
- "regista": "session_015BmpnVzbMLH1s3LPB8nHkW",
+ "regista": "session_015BmpnVKqiFCVbsAjWm364m",
+ "regista_onda2_quinta": "session_015BmpnVzbMLH1s3LPB8nHkW",
  "regista_onda2_quarta": "session_015BmpnVkmAAN92z8w4HLVGB",
  "regista_onda2_terza": "session_015BmpnYzJKvQoMML3LmU8aJ",
  "ad": "session_015BmpnYWmNDPKAztZMPww6M",
@@ -101,73 +102,120 @@
    "ramo": "claude/magical-hamilton-xouwr8-m13",
    "onda": 2,
    "partenza": "2026-11-13 05:50",
-   "nota": "ultracode acceso da Nicola dall'app alle 05:53; piano approvato da Nicola in chat («scelgo la proposta A e approvato il resto»)"
+   "nota": "ultracode acceso da Nicola dall'app alle 05:53; piano approvato da Nicola in chat («scelgo la proposta A e approvato il resto»)",
+   "finita": true
   },
   "R14": {
    "id": "session_015BmpnX1v15gDLe7qUkJjRN",
    "ramo": "claude/magical-hamilton-xouwr8-m14",
    "onda": 2,
-   "partenza": "2026-11-13 05:56"
+   "partenza": "2026-11-13 05:56",
+   "due_punto_zero": {
+    "id": "session_015BmpnWjBBk7GEooFEhi67r",
+    "partenza": "8582fee703f64a9eb6a445271edd47bf1cc9c18e",
+    "aperta": "2026-11-13 13:42",
+    "finita": true,
+    "punta": "2048b33",
+    "testa": "004218b",
+    "nota_17_07": "spesa di R14 circa 75,6 $ su 80 (2.0: 19,6 $): per il giro di correzione restano circa 4,4 $ e 2 subagenti su 9"
+   },
+   "finita": true
   },
   "R15": {
    "id": "session_015BmpnXJ2sx8pKEKoQsaNek",
    "ramo": "claude/magical-hamilton-xouwr8-m15",
    "onda": 2,
-   "partenza": "2026-11-13 05:57"
+   "partenza": "2026-11-13 05:57",
+   "finita": true,
+   "conferma_4_0": "17:07: punta f6150e4b, testa 1b84dfed; verify, valida-referto e guardia verdi"
   },
   "R16": {
    "id": "session_015BmpnWfL1AGuka9KMWGpdY",
    "ramo": "claude/magical-hamilton-xouwr8-m16",
    "onda": 2,
-   "partenza": "2026-11-13 05:58"
+   "partenza": "2026-11-13 05:58",
+   "finita": true,
+   "conferma_4_0": "17:07: punta 8a00cbaf, testa 0628993d; 15 riparati, 3 parziali, 2 serve_file_altrui, 1 già riparato; 65,80 $ su 66"
   },
   "R17": {
    "id": "session_015BmpnYSPCKUrojLLnhjvh5",
    "ramo": "claude/magical-hamilton-xouwr8-m17",
    "onda": 2,
-   "partenza": "2026-11-13 06:00"
+   "partenza": "2026-11-13 06:00",
+   "tetto": {
+    "usd": 105,
+    "deciso": "2026-11-13 15:23",
+    "fonte": "Nicola: «r17 il punto a» (5 revisori e il resto di L7, dopo 89,5 $ su 85)"
+   },
+   "finita": true,
+   "chiusura": {
+    "quando": "2026-11-13 15:48",
+    "punta": "0a0fbaca20c5c3a0d45bcd670524490e17fc5967",
+    "testa": "7e5909b2aeafac50988356725f03cd07837c3d08",
+    "costo_usd": 101.3,
+    "subagenti": 15,
+    "nota": "guardia rossa solo per bb53b6be (revert di R17-005 col messaggio standard): deroga di Nicola alla fermata 3; collaudo K07 dopo R18 e R13"
+   },
+   "unione": {
+    "quando": "2026-11-14 07:25",
+    "merge": "c282562e",
+    "revert_R17_003": "29a34376 (conflitto nella rotta dei resi sciolto tenendo solo il blocco di R17-004: rotta = prima di R17-003 + le sole righe di R17-004, verificato con diff)",
+    "spinto": true,
+    "typecheck": "verde il 14/11 alle 07:31 (56 s, NODE_OPTIONS=--max-old-space-size=8192: senza, tsc finisce la memoria)"
+   }
   },
   "R18": {
    "id": "session_015BmpnWBsmWgHtzK8nkMZuU",
    "ramo": "claude/magical-hamilton-xouwr8-m18",
    "onda": 2,
-   "partenza": "2026-11-13 06:02"
+   "partenza": "2026-11-13 06:02",
+   "finita": true,
+   "nota_3_0": "tetto 70 $, a 68,55: giro di correzione annullato, R18-014 e R18-021 all'onda 3"
   },
   "R19": {
    "id": "session_015BmpnYLk8AraXakVCkun9H",
    "ramo": "claude/magical-hamilton-xouwr8-m19",
    "onda": 2,
-   "partenza": "2026-11-13 06:05"
+   "partenza": "2026-11-13 06:05",
+   "finita": true
   },
   "R20": {
    "id": "session_015BmpnWFoQMAShMVa1oZB8L",
    "ramo": "claude/magical-hamilton-xouwr8-m20",
    "onda": 2,
-   "partenza": "2026-11-13 06:06"
+   "partenza": "2026-11-13 06:06",
+   "finita": true,
+   "archiviata": "2026-11-13 15:21"
   },
   "R21": {
    "id": "session_015BmpnXidURWQE3ZCmCi9Yr",
    "ramo": "claude/magical-hamilton-xouwr8-m21",
    "onda": 2,
-   "partenza": "2026-11-13 06:08"
+   "partenza": "2026-11-13 06:08",
+   "finita": true,
+   "archiviata": "2026-11-13 15:21"
   },
   "R22": {
    "id": "session_015BmpnWcQPf4vZFu7owUPPJ",
    "ramo": "claude/magical-hamilton-xouwr8-m22",
    "onda": 2,
-   "partenza": "2026-11-13 06:09"
+   "partenza": "2026-11-13 06:09",
+   "finita": true,
+   "archiviata": "2026-11-13 15:21"
   },
   "R23": {
    "id": "session_015BmpnXoe6aGJCsrpTZTrWZ",
    "ramo": "claude/magical-hamilton-xouwr8-m23",
    "onda": 2,
-   "partenza": "2026-11-13 06:11"
+   "partenza": "2026-11-13 06:11",
+   "finita": true
   },
   "R24": {
    "id": "session_015BmpnYg5DbCFWtPsAaMzWP",
    "ramo": "claude/magical-hamilton-xouwr8-m24",
    "onda": 2,
-   "partenza": "2026-11-13 06:12"
+   "partenza": "2026-11-13 06:12",
+   "finita": true
   }
  },
  "collaudatori": {
@@ -213,6 +261,105 @@
     "R11"
    ],
    "onda": 1
+  },
+  "K05": {
+   "id": "session_015BmpnZdFpSJ7U9ZdBvmfMM",
+   "ramo": "claude/magical-hamilton-xouwr8-k05",
+   "partenza": "e11facd3e07d15ba8b8da5bd4a0d3615481a4b56",
+   "riparatori": [
+    "R20",
+    "R22",
+    "R21"
+   ],
+   "onda": 2,
+   "archiviata": "2026-11-13 15:21"
+  },
+  "K06": {
+   "id": "session_015BmpnWyCYQ4C6DndTLhMHY",
+   "ramo": "claude/magical-hamilton-xouwr8-k06",
+   "partenza": "e11facd3e07d15ba8b8da5bd4a0d3615481a4b56",
+   "riparatori": [
+    "R19",
+    "R23",
+    "R24"
+   ],
+   "onda": 2,
+   "cartella": "collaudatori",
+   "via": "2026-11-13 16:00, dalla 3.0, ultracode acceso",
+   "finita": true,
+   "chiusura": {
+    "quando": "2026-11-13 16:59",
+    "punta": "3c0c8dc1c123c5dcd9dc0bdbc69b36c95941767f",
+    "costo_usd": 51.79,
+    "subagenti": 10,
+    "nota": "oltre il tetto di 30 $: detto all'AD alle 16:53; 5 rompe_altro (R23-003, R19-007 tolte col revert; R19-009, R19-012, R19-015 ancora dentro, il revert litiga con R19-008)"
+   }
+  },
+  "K07": {
+   "id": "session_015BmpnV296WzJDrPesa3Tbb",
+   "ramo": "claude/magical-hamilton-xouwr8-k07",
+   "partenza": "e11facd3e07d15ba8b8da5bd4a0d3615481a4b56",
+   "riparatori": [
+    "R18",
+    "R13"
+   ],
+   "onda": 2,
+   "nota": "nato il 13/11 alle 14:34 nella cartella Collaudatori senza ultracode: fermo finché Nicola non lo accende",
+   "via": "2026-11-13 16:00, dalla 3.0, ultracode acceso",
+   "nota_3_0": "tetto 30 $ (stop a 20 tolto): finisce R13; R17 fuori, a K09 se Nicola sceglie",
+   "finita": true,
+   "chiusura": {
+    "quando": "2026-11-13 17:18",
+    "punta": "773fddd950b5ba6dc86248dd533fa0b91919c238",
+    "costo_usd": 33.71,
+    "subagenti": 10,
+    "nota": "oltre il tetto di 30 $ (32,62 alla consegna): detto all'AD alle 17:25. R18 8 su 14 reggono (014, 021 non reggono); R13 1 su 8 regge, 001 e 004 rompe_altro; campione non accettato per tutti e due. R17 fuori, a K09 se Nicola sceglie"
+   },
+   "archiviata": "2026-11-13 17:27"
+  },
+  "K08": {
+   "id": "session_015BmpnXv72iTDynaDgecira",
+   "ramo": "claude/magical-hamilton-xouwr8-k08",
+   "partenza": "e11facd3e07d15ba8b8da5bd4a0d3615481a4b56",
+   "riparatori": [
+    "R15",
+    "R16",
+    "R14"
+   ],
+   "onda": 2,
+   "nota": "nato il 13/11 alle 14:37 nella cartella Collaudatori senza ultracode: fermo finché Nicola non lo accende",
+   "via": "2026-11-13 16:00, dalla 3.0, ultracode acceso",
+   "due_punto_zero": {
+    "id": "session_015BmpnWyxgs5C2qg4LShCsM",
+    "aperta": "2026-11-13 16:35",
+    "nota": "ultracode manca; aspetta la scelta di Nicola sui 28 minori; tetti in comune con K08 (24,65 $ su 30, 7 subagenti su 12)"
+   }
+  },
+  "K09": {
+   "id": "session_015BmpnXh3j1vY18PV399Xj8",
+   "ramo": "claude/magical-hamilton-xouwr8-k09",
+   "partenza": "e11facd3e07d15ba8b8da5bd4a0d3615481a4b56",
+   "riparatori": [
+    "R17"
+   ],
+   "onda": 2,
+   "aperta": "2026-11-14 06:11, dalla regista 4.0 (le cartelle Collaudatori e Regia sono state bloccate dal controllo dei permessi: non vedevano il via di Nicola)",
+   "tetto": {
+    "usd": 30,
+    "subagenti": 10
+   },
+   "via": "Nicola, 14/11 06:06",
+   "finita": true,
+   "chiusura": {
+    "quando": "2026-11-14 07:02",
+    "punta": "316d35ec7d7f74506340ed79c5f2ea9b126d89c4",
+    "costo_usd": 15.99,
+    "subagenti": 7,
+    "esito": "R17: reggono 14 su 20 (13 minori + R17-007 già riparata), 5 parziali (001, 013, 015, 016, 020), R17-003 rompe_altro: falla di sicurezza da chiudere (resi), dettagli solo in chat",
+    "valida_collaudo": "verde il 14/11 alle 07:20, con --git /home/user/mycity"
+   },
+   "nota_partenza": "il ramo parte da dee61af e non da e11facd3: fra i due cambiano solo LEGGIMI-riparatore.md e sessioni-insieme.md, nessun programma; guardia rossa solo per questo",
+   "controllo_db_vero": "non misurato fino in fondo: un agente ha letto circa 35 eventi di K09 il 14/11 alle 07:22, nessuna chiamata a Supabase, Vercel o Stripe; la storia intera non è stata letta"
   }
  },
  "controllori": {
@@ -221,6 +368,45 @@
    "ramo": "claude/sweet-galileo-0skkay-c01",
    "onda": 1,
    "integrazione": "b144746992176ae554d48376a00d972f5210a49f"
+  },
+  "C02": {
+   "id": "session_015BmpnWa1XbcMneNurhpqfo",
+   "ramo": "claude/magical-hamilton-xouwr8-c02",
+   "onda": 2,
+   "integrazione": "2d5f0313d1fcb9d6179782f43b695f93ad72ffb5",
+   "giro": 1,
+   "nota": "primo giro anticipato su R20 e R22; aperto dalla cartella Controllori",
+   "due_punto_zero": {
+    "id": "session_015BmpnYHnGoQc2UWGJzvGdG",
+    "partenza": "a7b2562214b9c2df1a473a09eb2ef19c27bd623e",
+    "aperta": "2026-11-13 15:24",
+    "integrazione": "990dd7fa8d013fe1e76e613681afca7de53879e9",
+    "nota": "secondo giro sul delta 2d5f0313..990dd7fa; nata nella cartella Controllori senza ultracode, ferma finché Nicola non lo accende; tetto 20 $",
+    "chiusa": "2026-11-14 07:58 dalla 6.0, senza archiviarla: mai accesa, 4,79 $ spesi in attesa"
+   },
+   "archiviata": "2026-11-13 15:21",
+   "tre_punto_zero": {
+    "id": "session_015BmpnWwg1yFfPGGPyi6QWq",
+    "aperta": "2026-11-14 07:56, dalla cartella Controllori, prompt «/effort ultracode» (regola 10, commit 727b2da2f)",
+    "partenza": "a7b2562214b9c2df1a473a09eb2ef19c27bd623e",
+    "integrazione": "4a3d9b8ae0de1810c0414081fc17289c19ba2a7a",
+    "ultracode": "acceso alla nascita (is_ultracode_active true, effort xhigh)",
+    "compito": "mandato alle 07:58 con le regole 1, 2, 4, 5, 7 e 10",
+    "tetto": {
+     "usd": 20,
+     "subagenti": 12
+    },
+    "permesso": "08:02 ferma su «Add Repo» (solo Nicola): interrotta, rimessa in moto col clone in sola lettura via proxy, senza add_repo",
+    "costo_08_24": "18,05 $ su 20: detto di chiudere entro il tetto, ricevuto",
+    "finita": true,
+    "chiusura": {
+     "quando": "2026-11-14 08:26",
+     "punta": "875c3c95c3ecfcd53dd7da9a7d08a8ed3b7f0228",
+     "costo_usd": "18,23 alle 08:24 (contatore indietro)",
+     "subagenti": 6,
+     "esito": "3 voci rosse (R15-005, R18-019 grave, R17-017), 17 difetti nuovi nel referto (6 di questo giro, 1 falla di sicurezza da chiudere: autenticazione, gia nota), 80 file di codice guardati su 170: 90 non controllati per il tetto"
+    }
+   }
   }
  },
  "integrazione_onda1": "b144746992176ae554d48376a00d972f5210a49f",
@@ -247,5 +433,145 @@
  "regista_onda2_prima": "session_015BmpnZcs1XvqxGKUA3qRGC",
  "sha_regista_onda2": "125b2db",
  "regista_onda2_seconda": "session_015BmpnWRS6TmZUqTtjQ5fX7",
- "pr_ci": "session_015BmpnWroKtzTLyTmXZVE2k"
+ "pr_ci": "session_015BmpnVy26PKmTJ66EZtQG6",
+ "cartelle": {
+  "regia": "session_015BmpnZJxFMJaArHSLWdGbM",
+  "collaudatori": "session_015BmpnVmCx4MZC3KfX92m9A",
+  "controllori": "session_015BmpnVfi4KSr2gKbddcYf3",
+  "ad": "session_015BmpnV6MM3MbPx3kR39WPd",
+  "nota": "aperte dalla quinta regista il 13/11 alle 13:47 (profondità 5 su 8); le sessioni nuove nascono dentro la sottocartella del loro ruolo",
+  "nota_regola_12": "dal 14/11 08:11 nessuna sessione fa più da cartella (regola 12, Nicola): le sessioni nuove si aprono da sé col tag cartella:<lavoro>-<ruolo>; quelle già aperte restano dove sono"
+ },
+ "regista_onda2_sesta": "session_015BmpnYKDqA51jEGkbAWYGo",
+ "integrazione_onda2_parziale": "583624d1 (dopo i revert di R23-003 e R19-007 del 13/11 alle 17:05)",
+ "regista_ultracode": "3.0: manca in get_session alle 15:57 (chiesto all'AD alle 16:02); la 2.0 l'aveva dalle 15:25",
+ "regista_onda2_sesta_2": {
+  "id": "session_015BmpnWf1uAKL6VFXJQyNyv",
+  "archiviata": "2026-11-13 16:06",
+  "costo_usd": 11.42
+ },
+ "regista_onda2_sesta_3": {
+  "id": "session_015BmpnZ4kEDhRhLcWZzwwwP",
+  "dal": "2026-11-13 15:50",
+  "catena": "trig_017e9EB3p8LUoDwEKjMW99bG",
+  "copia_sito": "/home/user/mycity, clone --filter=blob:none (storia intera)",
+  "passata_alla_4_0": "2026-11-13 17:05, a 335 mila token, 5,8 $",
+  "archiviata": "2026-11-13 17:19, dalla 4.0, dopo aver passato le falle riservate in chat (8,54 $)"
+ },
+ "regista_onda2_sesta_4": {
+  "id": "session_015BmpnZaZMi8cGzkuE9PJE7",
+  "dal": "2026-11-13 17:05",
+  "catena": "trig_01PJBEzMyrazzzucVWJ7oHgS",
+  "copia_sito": "/home/user/mycity, clone --filter=blob:none --no-checkout (storia intera), integrazione a 583624d1",
+  "ultracode": "manca in get_session alle 17:05: chiesto all'AD alle 17:06",
+  "passata_alla_5_0": "2026-11-14 06:42, a 452 mila token, 15,09 $",
+  "archivio": "rimandato: dentro c'è K09, viva (Nicola 13/11 15:23: le registe vecchie non si archiviano fino alla fine dell'onda)"
+ },
+ "pr_ci_1_0": "session_015BmpnWroKtzTLyTmXZVE2k",
+ "pr_ci_nota": "14/11 06:00: la 1.0 (…WroKtz) oltre i 400 mila token ha passato il lavoro alla 2.0 (…Vy26PK), nata con ultracode spento; ignorare …VijNMw, una prima 2.0 mai partita",
+ "cucitura_onda2": {
+  "id": "session_015BmpnWYw3LRsWtdwepgmBw",
+  "ramo": "claude/magical-hamilton-xouwr8-cucitura",
+  "partenza": "583624d1fdfbd4ce54483999a32a0f30e13c69e2",
+  "aperta": "2026-11-14 06:07, dalla cartella Regia",
+  "compito": "togliere R19-009, R19-012, R19-015 tenendo R19-008; chiudere una falla di sicurezza da chiudere (permessi) di R16, dettagli solo in chat",
+  "tetto": {
+   "usd": 25,
+   "subagenti": 6
+  },
+  "via": "Nicola, 14/11 06:06: «via ai 4 lavori e l'ondata sui soldi portala a 1500$»",
+  "piano_approvato": "2026-11-14 06:43 dalla 4.0, 06:48 dalla 5.0: A tre revert 009-012-015, B una riga della 405 e il caso ⑧ neutro; 10 file; 3-4 subagenti; 8-12 $ su 25",
+  "finita": true,
+  "chiusura": {
+   "quando": "2026-11-14 07:33",
+   "punta": "9bf9c9142d01820b6fdfa3d089d36f4d05de970e",
+   "costo_usd": 11.57,
+   "subagenti": 3,
+   "commit": [
+    "60451b18 R19-009",
+    "68f9595d R19-012",
+    "e4c42cba R19-015",
+    "9bf9c914 falla di sicurezza da chiudere (permessi)"
+   ],
+   "prove": "verify verde (1553 file, 10275 prove), harness 204 migrazioni e 70 file verdi, rosso/verde della falla rifatto da tre agenti",
+   "note": "tre minori nel registro (tracce innocue nella prova di R19-004; run.sh non stampa le etichette dei verdi; verify qui vuole NODE_OPTIONS=--max-old-space-size=6144); una falla di sicurezza da chiudere (permessi) già esistente, dettagli solo in chat alla cucitura"
+  },
+  "unione": {
+   "quando": "2026-11-14 07:35",
+   "merge": "4a3d9b8a",
+   "spinto": true
+  },
+  "archivio": "non prima che la sessione privata delle falle abbia i dettagli"
+ },
+ "tetto_onda2_usd": {
+  "valore": 1650,
+  "deciso": "2026-11-14 10:20",
+  "fonte": "Nicola nella chat della regista O2 settima («4 si»)",
+  "prima": {"valore": 1500, "deciso": "2026-11-14 06:06", "fonte": "Nicola nella chat della regista 4.0"}
+ },
+ "regista_onda2_sesta_5": {
+  "id": "session_015BmpnWW9rUEQRqv4jLWfhZ",
+  "dal": "2026-11-14 06:42",
+  "catena": "trig_01UQxJZsaXNu5Kp7SeXYtY1G (cancellata dalla 5.0 al passaggio)",
+  "copia_sito": "/home/user/mycity, clone --filter=blob:none --no-checkout (storia intera), integrazione a 583624d1",
+  "ultracode": "mancava alle 06:43 (detto all'AD alle 06:44); acceso alle 06:48",
+  "passata_alla_6_0": "2026-11-14 07:50, a 390 mila token, 7,4 $ (commit e64205833)"
+ },
+ "integrazione_onda2_finale": {
+  "sha": "4a3d9b8ae0de1810c0414081fc17289c19ba2a7a",
+  "spinto": "2026-11-14 07:46",
+  "dentro": "R15, R16, R17 senza R17-003, R18-R24, cucitura",
+  "fuori": "R13 e R14 (all'onda 3): i loro referti non stanno in referti/, così applica non chiude voci non unite",
+  "prove": "verify verde (tsc ok, eslint 0 errori e 95 avvisi, 1571 file e 10336 prove verdi, 1 salto che c'era già) in 406 s; harness 205 migrazioni applicate su 205 e 72 file SQL verdi"
+ },
+ "regista_onda2_sesta_6": {
+  "id": "session_015BmpnWFiSCapSEYMt2NTCb",
+  "dal": "2026-11-14 07:50",
+  "catena": "trig_01GbLtpRxBbW7N1SvFsfdqHC (scattata alle 08:23, non riarmata: la catena la riparte la 2.0)",
+  "copia_sito": "/home/user/mycity, clone --filter=blob:none --no-checkout (storia intera), contenuti dei rami dell onda 2 scaricati in blocco alle 07:52; integrazione a 4a3d9b8a",
+  "ultracode": "mancava in get_session alle 07:50; acceso alle 07:54 (is_ultracode_active true, effort ultracode)",
+  "quota": "allowed_warning sul limite settimanale alle 07:50, niente uso extra",
+  "passaggio": "2026-11-14 08:28, a 406 mila token e 11,02 $: passaggio in fondo a REGIA.md",
+  "passata_alla_2_0": "2026-11-14 08:30 a session_015BmpnVKqiFCVbsAjWm364m («regista O2 sesta · 2.0», tag cartella:onda-2-regia, nata accesa con «/effort ultracode»)"
+ },
+ "pr_sito_onda2": {
+  "numero": 290,
+  "url": "https://github.com/NicolaeRotaru/mycity/pull/290",
+  "aperta": "2026-11-14 07:57, in bozza, dalla regista 6.0",
+  "testa": "4a3d9b8a",
+  "segue": "la regista 6.0 dalle 08:02: il controllore PR e CI · 2.0 si era fermato sul permesso «Add Repo» (solo Nicola), interrotto; torna a lui se Nicola lo approva",
+  "ci": "rossa su e2e «404 page is custom» per R15-005; revert pronto, spinta fermata dal permesso automatico, chiesto il sì di Nicola alle 08:10"
+ },
+ "costo_onda2": {
+  "quando": "2026-11-14 08:01",
+  "usd": 1277.38,
+  "tetto": 1500,
+  "sessioni": "40 (39 col costo, C02 · 3.0 ancora senza)",
+  "parti": {
+   "riparatori": 776.28,
+   "collaudatori": 184.4,
+   "controllori": 22.03,
+   "registe": 238.41,
+   "cartelle": 12.98,
+   "cucitura": 12.96,
+   "pr_ci": 30.33
+  },
+  "fonte": "usage.cost_usd di get_session, sommato da un subagente in sola lettura"
+ },
+ "analisi_o3": {
+  "id": "session_015BmpnVsbfzoaDwKYQwGVYz",
+  "titolo": "analisi O2",
+  "aperta": "2026-11-14 08:25 dalla regista 6.0, da sé (regola 12, tag cartella:onda-3-analisi)",
+  "perche": "Nicola, 14/11 08:12: «Apri una sessione in posso analizzare con lei l'andamento dell'ondata 3»",
+  "compito": "analizza con Nicola l'onda 2: perché ha chiuso circa 1 voce su 4, il costo e le scelte; non guida, non apre sessioni, non scrive nella cartella",
+  "tetto": {
+   "usd": 15,
+   "subagenti": 4
+  },
+  "prima_non_partita": "session_015BmpnZ6zAYTtAxbo8JZSak (source_revision corto: ref_not_found)",
+  "tag": "cartella:onda-2-analisi",
+  "correzione": "Nicola, 14/11 08:31: «ho sbagliato mi riferivo all'ondata 2»; titolo e tag cambiati alle 08:32"
+ },
+ "regista_onda2_sesta_6_2": {"id": "session_015BmpnVKqiFCVbsAjWm364m", "dal": "2026-11-14 08:30", "titolo": "regista O2 settima (aperta come «regista O2 sesta · 2.0», rinominata alle 08:32: Nicola, la regista nuova prende il numero dopo)", "ultracode": "acceso alla nascita; spento dal riavvio del processo alle 08:35 (worker_epoch 2): detto all'AD", "catena": "trig_015FammtzzZarEf2a3cGFwwf", "copia_sito": "/home/user/mycity, clone --filter=blob:none --no-checkout, contenuti dei rami dell'onda 2 scaricati alle 08:32; revert in /home/user/mycity-revert (47751109 R15-005, 88cff70f R18-019), non spinti", "quota": "allowed_warning settimanale alle 08:40, niente uso extra"},
+ "giro_correzione_onda2": {"deciso": "Nicola 2026-11-14 08:56, «la strada a» (chat di analisi O2)", "tetto_usd": 130, "aperto": "2026-11-14 09:05 dalla regista O2 settima", "riparatori": {"R17": {"id": "session_015BmpnW2TiiG89GbV7QUGiG", "titolo": "R17 secondo", "ramo": "claude/magical-hamilton-xouwr8-m17", "partenza": "0a0fbaca20c5c3a0d45bcd670524490e17fc5967", "voci": ["R17-013", "R17-015", "R17-016", "R17-017"], "piano": "approvato", "finita": "fermo al tetto 2026-11-14 10:02 (finita=false nel referto, passaggio scritto)", "punta": "8c7f7fd5b1621b438353989d8501cf12bc574a6f", "testa": "0da7241687f705f441a83ceae21cecdcb32f7b2e", "esito": "R17-017 regge; R17-013 parziale (centesimi nel ramo a mano); R17-015 parziale con 2 regressioni (D1 soldi: il negozio perde 27 euro; D2 falso REVERSAL_FAILED); R17-016 parziale con un difetto ALTO (Stripe cade al secondo giro: la prenotazione si cancella, il cliente resta con 1 euro in meno). Proposta a Nicola: togliere le correzioni di 015 e 016. 22,31 $ su 12"}, "R18": {"id": "session_015BmpnWAPU364S3rsiVSXwL", "titolo": "R18 secondo", "ramo": "claude/magical-hamilton-xouwr8-m18", "partenza": "eee2f937039d93569373ae1b4ab584738e206e30", "voci": ["R18-002", "R18-011", "R18-014"], "piano": "approvato; 002 e 011 serve_file_altrui, 014 con la migrazione 426", "finita": "2026-11-14 09:45", "punta": "573ff6e8bcd4aa4217e6204eda69c3224552570b", "testa": "69a1e6996fba33c6b6f57c1e7deb055752b2afc2", "esito": "002 e 011 serve_file_altrui; 014 parziale con la migrazione 426 (risalita senza tetto); 10,92 $ su 9"}, "R19": {"id": "session_015BmpnVd7HVS5tigyuyvo9Y", "titolo": "R19 secondo", "ramo": "claude/magical-hamilton-xouwr8-m19", "partenza": "1d939a1971cbe030fecabc1cf7d2dc9105e46e75", "voci": ["R19-006", "R19-013", "R19-020", "R19-023"], "piano": "atteso", "finita": "2026-11-14 09:34", "punta": "fbd75f585789d1e4a6f666e9830ef2bcc44c4494", "testa": "8ca90026cac4b5c39102267f30e0a18ab4d61afb", "esito": "4 serve_file_altrui (013, 020, 023 con la parte propria riparata), 8,00 $"}, "R20": {"id": "session_015BmpnX7d3on534r33WA8jA", "titolo": "R20 O2 correzione (da rinominare R20 secondo)", "ramo": "claude/magical-hamilton-xouwr8-m20", "partenza": "2851b087ce876fb2de6218556f847a1565dd3710", "voci": ["R20-011"], "piano": "approvato", "finita": "2026-11-14 09:25", "punta": "d0163c4d48eb29c173c122f7c83d602eca0b75f5", "testa": "30b7f9ed4c8231a23b8f56bae58f4e53e99e8c80", "esito": "R20-011 riparato (revert e607b68b + correzione 30b7f9ed), verify verde, guardia e referto verdi, 3,45 $", "unione": "NON si unisce: K05 secondo (12:05) ha trovato R20-011 rompe_altro, il codice 30b7f9ed resta fuori. Prima: 2 conflitti attesi su app/rider/page.tsx e sulla prova di R20-011"}, "R22": {"id": "session_015BmpnWWTwzDMFuKufT7R9n", "titolo": "R22 O2 correzione (da rinominare R22 secondo)", "ramo": "claude/magical-hamilton-xouwr8-m22", "partenza": "35ee9faacb422c6549e15a34b876a0c26aaf85b1", "voci": ["R22-002"], "piano": "approvato", "finita": "2026-11-14 09:34", "punta": "4b886ce9841ec48fd55904052c40b0a0684614b5", "testa": "2c5387bf7ac4ce551ccfc8ccd329093a02ead7f2", "esito": "R22-002 riparato, 5,29 $"}, "R23": {"id": "session_015BmpnWwboD3TkWRM6WXgQn", "ramo": "claude/magical-hamilton-xouwr8-m23", "partenza": "3795e1910354c2755c9f03e1c5be26709f70c8d5", "voci": ["R23-009", "R23-010", "R23-015", "R23-018"], "titolo": "R23 O2 correzione (da rinominare R23 secondo)", "piano": "approvato", "finita": "2026-11-14 09:55", "punta": "b7808519c70284a6313d58a0cbb1d8288e32fe16", "testa": "721b18bc75466b872d5d41fccf61cfff345d47d1", "esito": "015 e 018 riparate; 009 e 010 serve_file_altrui; guardia-ramo e valida-referto non lanciati dalla sessione (classificatore): li lancia la regista; 14,86 $ su 12"}, "R24": {"id": "session_015BmpnVx3KCj9hg6WPA5mMR", "ramo": "claude/magical-hamilton-xouwr8-m24", "partenza": "72c0ccb23644898e9613fd51978932910db3d8a4", "voci": ["R24-006", "R24-009", "R24-016"], "titolo": "R24 secondo", "nota": "il LEGGIMI copiato aveva una frase sbagliata in «Cosa non fai mai»: corretta con un messaggio alle 09:25", "finita": "2026-11-14 09:33", "punta": "ad4bdf3ba2e23ae53f7576639059627e7f3d5330", "testa": "0c46f3a6078fd5756eed5405b37719d88fd4fcc6", "esito": "3 serve_file_altrui (006 e 016 con la parte propria riparata), 5,31 $"}, "R15": {"id": "session_015BmpnUwjSH7xuqBYBbdwoh", "finita": "2026-11-14 11:22", "punta": "c244f89ab2d74b16a6cc6d43cf8d586ea9bb5bff", "testa": "dc3280bdffd544194c5979a0dd5c752fe9495ef8", "esito": "R15-004 riparato; R15-005 corretto (titolo 404 diverso dall'h1, e2e verde in locale), resta parziale per il 404 vero; 14,23 $ su 9"}, "R16": {"id": "session_015BmpnYFtuecwtZfsSEinUw", "finita": "2026-11-14 11:30", "punta": "e388903c12a052c94dca0886bfad5ac6ccaee185", "testa": "d93ff753b80972d42d04bf64b9b6878bfad85d99", "esito": "R16-020 e R16-021 riparate; R16-019 parziale; 11,34 $ su 9"}}, "fuori": {"R19-007": "onda 3: cassa, terzo giro", "R19-012": "onda 3: cassa", "R19-015": "onda 3: cassa"}, "k08_terzo": {"id": "session_015BmpnZdoJshxsmQoXwFUxp", "titolo": "K08 terzo", "tetto_usd": 25.71, "compito": "finire R15 e R16; R14 in rimandati_onda_3", "finita": "2026-11-14 09:38", "punta": "84451dce771e10f508a37e3807eb047147aa857c", "esito": "R15: 7 reggono, 10 parziali, campione minori 4 su 5 (non accettato); R16: 13 reggono, 6 parziali, campione 9 su 12 (non accettato); bocciate oggi R15-004, R16-019, R16-020, R16-021; R14 in rimandati_onda_3; 11,39 $"}, "k05_secondo": {"id": "session_015BmpnXBtXmnTrLviXQERad", "finita": "2026-11-14 12:05", "punta": "fa1979da9b23682e1418cc1341a275e79141d5e0", "esito": "R22-002 regge; R20-011 rompe_altro minore (due prese insieme: toast sul dettaglio sbagliato; senza rete 3 ordini assegnati invece di 1): al secondo giro resta aperta e il suo codice (30b7f9ed) NON si unisce; campione accettato per R20, R21, R22; 11,47 $ su 8", "archiviata": "2026-11-14 12:06"}, "costo_riparatori_usd": 68.22, "nota_costi": "riparatori 68,22 $ (tetti 66 $), R15 secondo 14,23 $, R16 secondo 11,34 $, K08 terzo 11,39 $, K05 secondo 11,47 $; mancano i ricollaudi K06, K07, K08, K09", "archiviate": "2026-11-14 11:25: R15, R17, R18, R19, R20, R22, R23, R24 secondo; 11:35 R16 secondo; 12:06 K05 secondo (regola 12 nuova di Nicola: si archivia a lavoro chiuso)"}
 }

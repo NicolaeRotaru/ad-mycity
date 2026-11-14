@@ -191,7 +191,10 @@ gli otto rimedi qui sotto valgono circa 175 $ a onda (dal 20% al 14% del limite)
    un lotto di migrazioni si chiede prima di lanciarlo, mentre lui c'è, e non si approva mai in anticipo.
 
 **Ultra Code Extra** (Nicola, 12/11 notte: «Ultra Code Extra, non Max»). Ogni figlia nasce con `effort: "xhigh"` in
-`create_session`, e con ultracode acceso. Subito dopo, `get_session` deve dire `effort_level` xhigh e
+`create_session`, e con ultracode acceso: il suo `prompt` è esattamente `/effort ultracode`, e il compito arriva dopo
+con `send_message` (regola 10 di `cervello/sessioni-insieme.md`, provata il 14/11). Vale sopra ogni altro punto di
+questa skill sul campo `prompt`: dove qui sotto c'è scritto cosa mettere nel prompt di una figlia o di una cartella,
+quel testo va nel primo `send_message` subito dopo la nascita, oppure in `append_system_prompt`. Subito dopo, `get_session` deve dire `effort_level` xhigh e
 `is_ultracode_active` true. Se `create_session` rifiuta `effort`, o se ultracode resta spento, non si aprono le altre:
 si dice all'AD quali sessioni sono, perché Nicola le accenda dall'app. Ultracode fa lanciare più agenti: per questo
 il tetto di spesa resta quello della fermata, e i rimedi 1-5 valgono anche in ultracode.
@@ -368,6 +371,24 @@ collaudatore libero (fino a 3 riparatori ciascuno; i collaudatori sono ceil(K/3)
 Le voci bocciate tornano allo **stesso** riparatore per **un** giro di correzione, poi allo stesso
 collaudatore. Se cadono di nuovo, restano aperte con la nota. Il terzo giro sulla stessa voce non esiste
 senza Nicola.
+
+**Il giro di correzione prende sempre anche le voci a metà e quelle con i file altrui** (Nicola, 14/11
+alle 09:14: «le 42 fatte a metà e le 26 che chiedono un file di un'altra sessione devono essere messe nel
+giro di correzione sempre. Perché non sfruttarla subito questa opportunità anziché rimandarla?»).
+Il conto che l'ha decisa: nell'onda 2 il giro partiva con 20 voci bocciate su 199 aperte. Restavano fuori
+42 voci lasciate a metà dal riparatore e 26 che chiedevano il file di un'altra sessione.
+- **Cosa entra.** Tre gruppi, in ogni onda: le voci bocciate dal collaudo o dal controllore, le voci
+  `parziale` e le voci `serve_file_altrui`. Restano fuori solo quelle che aspettano una scelta di Nicola,
+  quelle che non sono codice e quelle al terzo giro.
+- **Come si divide.** Le bocciate tornano al loro riparatore, sul suo ramo. Le altre due non possono: una
+  voce `serve_file_altrui` chiede proprio un file che nell'onda ha un altro padrone. Quindi, appena i rami
+  del giro sono uniti, la regista lancia `dividi --base <SHA dell'integrazione> --file-chiavi <le chiavi>`.
+  Così ogni file ha di nuovo un padrone solo. Poi `schede`, riparatori che partono dall'integrazione, un
+  collaudo, un controllo sulle sole modifiche nuove, e `applica` coi loro referti. La fermata viene solo dopo.
+- **Cosa portano i riparatori.** Per ogni file altrui scrivono nella nota la modifica esatta: file, righe
+  e diff. È il punto di partenza del riparatore che avrà quel file.
+- **Il preventivo.** Prima di partire la regista dice a Nicola il costo, circa 1,45 $ a voce più collaudo e
+  controllo, e la percentuale della settimana. Se si va oltre il tetto dell'onda, parte solo col suo sì.
 
 ## F3 — L'unione (a ogni onda)
 

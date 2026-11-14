@@ -1,0 +1,257 @@
+{
+ "controllore": "C02",
+ "onda": 2,
+ "finita": true,
+ "giro": "secondo giro, su tutta l'integrazione dell'onda 2 (R15, R16, R17 senza R17-003, R18-R24 e la cucitura 9bf9c914). Sostituisce il referto del primo giro (2d5f0313, solo R20 e R22).",
+ "aggiornato": "2026-11-14 08:26",
+ "testa": "4a3d9b8ae0de1810c0414081fc17289c19ba2a7a",
+ "base": "a19ff8923106fb5fbe7c2e74cc02979ea9dc2067",
+ "verify": {
+  "comando": "npm run verify && tests/sql/harness/apply.sh && tests/sql/harness/run.sh",
+  "esito": "verde",
+  "nota": "Girate dalla regista sull'albero unito, non da C02: verify verde (1571 file, 10336 prove, 406 s con NODE_OPTIONS=--max-old-space-size=6144), harness SQL verde (205 migrazioni su 205, 72 file). Fuori da verify, la CI della mycity#290 è rossa su una prova del browser (tests/e2e/03-cart-and-search.spec.ts:60): è la voce R15-005, in voci_rosse."
+ },
+ "voci_rosse": [
+  {
+   "chiave": "frontend-ux|le pagine di prodotti, negozi e categorie che non esistono rispondono «tutto ok» invece di «non trovato»",
+   "perche": "Dopo l'unione la prova del browser «404 page is custom» (tests/e2e/03-cart-and-search.spec.ts:55-60) cade: la scritta «Pagina non trovata» compare due volte, nell'h1 di app/not-found.tsx e nel <title> dei metadati. Causa data dalla regista; il revert è pronto e aspetta Nicola."
+  },
+  {
+   "chiave": "rls-database|il database accetta un codice sconto del 150% e importi in soldi negativi",
+   "perche": "migrations/423:63 aggiunge i vincoli NOT VALID. Se il passato non regge, restano NOT VALID ma scattano lo stesso su ogni UPDATE di una riga vecchia storta. Allora si fermano il «Disattiva» dell'admin (app/admin/coupons/page.tsx:103), release_coupon (361:27-28, uses-1 ancora sopra max) e ogni cambio di stato di un ordine con payment_method diverso da card/cod (024:20 prevedeva anche apple_pay e google_pay). L'aveva segnalato il revisore B e sull'albero unito non è stato corretto. Il danno c'è solo se in produzione esistono righe del genere: da qui non l'ho potuto verificare. (grave secondo il senior database; lo scettico non è partito per il tetto di spesa, quindi non è verificato da un secondo occhio)."
+  },
+  {
+   "chiave": "pagamenti-stripe|la protezione dal doppio bonifico al negozio e al fattorino dura solo 24 ore",
+   "perche": "lib/stripe/payout.ts:209-213 e 588-592: per leggere payout_claimed_at la lettura del bonifico ha ora un ripiego che toglie in un colpo solo le colonne della 126 e della 124, payout_tentativo compreso. Su un database senza la 126 il tentativo letto diventa 0, e bonificoGiaFatto (riga 359) scambia il vecchio bonifico già stornato per quello nuovo. Il dettaglio è nel difetto nuovo."
+  }
+ ],
+ "nuovi_difetti_visti": [
+  {
+   "titolo": "Un rimborso pieno che arriva mentre parte il compenso del fattorino gli lascia il compenso",
+   "dimensione": "pagamenti-stripe",
+   "severita": "minore",
+   "file": "lib/stripe/payout.ts:753",
+   "descrizione": "R17-025 ha chiuso la gara per il negozio ma non il suo gemello del fattorino. releaseRiderPayout prende il turno (rider_payout_status PROCESSING), crea il bonifico e scrive TRANSFERRED filtrando solo per id (righe 751-754). handleChargeRefunded riprende il compenso solo se rider_payout_status è già TRANSFERRED (rimborsi.ts:143). E il nuovo controllo che rimanda l'avviso (rimborsi.ts:99) guarda solo payout_status del negozio, non quello del fattorino. Esempio: ordine consegnato, il giro sta versando 3 € al fattorino, nello stesso secondo arriva il rimborso pieno dal cruscotto. L'avviso trova il compenso in PROCESSING, non lo storna, e subito dopo il giro scrive TRANSFERRED: la piattaforma ha reso tutto al cliente e il fattorino tiene il compenso. Cifre piccole, finestra stretta. Il difetto c'era già, ma ora il negozio è protetto e il fattorino no. È il gemello rimasto della voce R17-025 (domanda c del controllo). Nato da: c'era già."
+  },
+  {
+   "titolo": "Nella pagina Guadagni i due pulsanti di Stripe possono dirsi il contrario",
+   "dimensione": "stati-ui",
+   "severita": "minore",
+   "file": "components/seller/StripeDashboardButton.tsx:72",
+   "descrizione": "Dopo R17-009, StripeConnectButton mostra «Pagamenti attivi» con conto Stripe e versamenti accesi, anche se gli incassi non sono accesi (StripeConnectButton.tsx:110, stripePronto). Il pulsante della dashboard Stripe, accanto nella stessa scheda Bonifici (earnings/page.tsx, sotto CARTA_ACCESA), richiede ancora incassi E versamenti, e altrimenti non compare. Esempio: un negozio con versamenti accesi e incassi ancora in verifica legge «Pagamenti attivi», ma il pulsante per aprire il conto Stripe non c'è. Conta solo con la carta accesa. È il gemello rimasto della voce R17-009 (domanda c del controllo). Nato da: R17-009."
+  },
+  {
+   "titolo": "Il commento e la prova dicono che la bozza della cassa scade, ma la scadenza è stata tolta",
+   "dimensione": "architettura",
+   "severita": "minore",
+   "file": "app/checkout/page.tsx:1326",
+   "descrizione": "Il revert di R19-009 ha tolto da lib/bozza-checkout.ts il campo della scadenza (`scadeIl`, `BOZZA_VALE_MS`, `scadenzaDellaBozzaValida`). Sono rimasti due testi che dicono il contrario. Il primo è il commento di `salvaLaBozzaPerAccesso` (app/checkout/page.tsx:1326): «Passa da `bozzaDaSalvare`, quindi porta anche la scadenza». Il secondo è il titolo della prova tests/unit/riparazione-r19-ho-gia-un-account-salva-la-bozza.test.ts:18: «il salvataggio passa da bozzaDaSalvare (con la scadenza)». Non cambia nessun comportamento, ma chi legge pensa che la bozza con i dati personali si cancelli da sola dopo 2 ore. Non è così. Il codice delle voci tolte non ha lasciato altri pezzi: Navbar, cookies, bozza-checkout e PaymentMethodSelector sono puliti, e lo stesso vale per i pezzi di R19-012, R19-015 e R19-007 nella cassa. Nato da: revert di R19-009 (60451b18): mezza riparazione rimasta nei testi."
+  },
+  {
+   "titolo": "Il link «Ho già un account» lascia nome, indirizzo e telefono nel browser senza scadenza",
+   "dimensione": "privacy-legale",
+   "severita": "minore",
+   "file": "app/checkout/page.tsx:1501",
+   "descrizione": "Con R19-004 la bozza della cassa si salva in localStorage anche al semplice tocco su «Ho già un account» (onClick a :1501, funzione a :1327). Prima si salvava solo su «Ordina» da ospite. La bozza contiene nome, via, telefono e note, per esempio «citofono Rossi». Si cancella solo quando qualcuno riapre la cassa (:531). Il revert di R19-009 ha tolto la scadenza di 2 ore, e anche la pulizia a ogni uscita e a ogni caricamento. Esempio: un ospite su un computer condiviso compila la cassa e tocca il link. Poi rinuncia all'accesso. Una settimana dopo, chi apre la cassa sullo stesso computer trova già scritti nome, indirizzo e telefono dell'ospite. Il difetto di fondo è quello di R19-009, che resta aperto. R19-004 allarga solo i casi in cui la bozza nasce. Metto «minore» per non contarlo due volte; se R19-009 è registrato come grave, va con quello. La Cookie policy non dichiara `mc_checkout_draft`: la riga è stata tolta col revert e non c'era nemmeno sulla base. Nato da: R19-004 (e9259cfc, salvataggio anche sul link) insieme al revert di R19-009 (60451b18)."
+  },
+  {
+   "titolo": "Il conto fatto prima di accendere le cancellazioni non mostra le foto di consegna che la notte toglierà",
+   "dimensione": "privacy-legale",
+   "severita": "minore",
+   "file": "app/api/cron/process-deletions/route.ts:87",
+   "descrizione": "La riparazione delle foto di consegna orfane ha aggiunto un passo notturno che cancella file dal magazzino cod-proof: è in potatureNotturne (lib/privacy/potature-ritenzione.ts:785), fino a 200 file per notte. Il giro a mano «conta prima di cancellare» però conta solo i documenti d'identità orfani: alla riga 87 della rotta c'è soltanto contaOrfaniKyc. contaOrfaniDelleProve (potature-ritenzione.ts:762) è esportata ma nessuno la chiama. Anche la frase della risposta (righe 99-101) dice che sono contati solo i documenti d'identità orfani. Esempio: Nicola fa il conto, vede «fileDaTogliere: kyc-docs 0» e accende CANCELLAZIONI_A_ORARIO. La prima notte spariscono fino a 200 foto di contanti o di pacchi lasciati, che il conto non gli aveva fatto vedere. Quelle foto non hanno copia. Le foto toccate sono solo quelle che nessun ordine indica più, quindi il danno è basso. Il riparatore l'aveva già annotato fra i difetti visti. Lo segnalo perché nell'albero unito il buco è rimasto. Nato da: R21-013 (commit 034c1f6f e 10bd0ee1)."
+  },
+  {
+   "titolo": "Falla di sicurezza da chiudere (permessi): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+   "dimensione": "sicurezza-auth",
+   "severita": "minore",
+   "riservato": true,
+   "file": "(nel referto privato)"
+  },
+  {
+   "titolo": "Gli annunci sponsorizzati si accendono e si spengono sul giorno di Greenwich, non su quello di Piacenza",
+   "dimensione": "qa-flussi",
+   "severita": "minore",
+   "file": "components/SponsoredCarousel.tsx:36",
+   "descrizione": "La riga 36 passa a leggiSponsorizzati (lib/queries/fasce-prodotti.ts:178-179) il giorno UTC, new Date().toISOString().slice(0, 10), e la vista sponsored_active_public (migrations/114:388-391) filtra solo lo stato. Ogni notte fra mezzanotte e l'una di Piacenza (le due con l'ora legale) vale ancora il giorno prima. Un annuncio pagato che parte oggi resta nascosto per 1-2 ore, e uno scaduto ieri resta in vetrina gratis per 1-2 ore. È la stessa classe di difetto di R20-008 (drop del giorno), rimasta in un file toccato da R20-013. Visto dal primo giro su 2d5f0313; il file è identico su 4a3d9b8a, quindi resta vero com'era."
+  },
+  {
+   "titolo": "Il titolo della variante A della home dice «a negozio aperto», ma la consegna può arrivare dopo la chiusura",
+   "dimensione": "microcopy",
+   "severita": "minore",
+   "file": "app/page.tsx:40",
+   "descrizione": "La frase di R20-009 è «Consegna in giornata, nella fascia oraria che scegli, a negozio aperto.». Il commento in lib/promesse-pubbliche.ts:175-178 spiega che il 5/11 «negli orari di apertura del negozio» è stato tolto apposta: la merce si ritira a negozio aperto ma arriva anche dopo la chiusura (Pane Quotidiano chiude alle 19:30, la cassa propone 19:30-21:00). Si può leggere come «consegna solo a negozio aperto». La voce R20-009 resta chiusa: va solo rivista la parola. Visto dal primo giro su 2d5f0313; il file è identico su 4a3d9b8a, quindi resta vero com'era."
+  },
+  {
+   "titolo": "Sulla bacheca del fattorino, se la vista dei negozi resta giù, la pagina la rilegge ogni 5 secondi senza fine",
+   "dimensione": "performance",
+   "severita": "minore",
+   "file": "app/rider/page.tsx:191",
+   "descrizione": "Con negoziNonLetti vero il refetchInterval resta a 5 secondi finché la vista non risponde, senza tetto e senza attese crescenti. Un guasto lungo moltiplica le letture di ogni fattorino con la bacheca aperta. ATTENZIONE: il file è cambiato dopo 2d5f0313 e questo difetto NON è stato ricontrollato sulla testa nuova (tetto di spesa)."
+  },
+  {
+   "titolo": "Quando la presa di un ordine torna vuota o con un motivo sconosciuto, il fattorino legge «non più disponibile»",
+   "dimensione": "qa-flussi",
+   "severita": "minore",
+   "file": "app/rider/page.tsx:349",
+   "descrizione": "Ogni esito non riuscito senza un motivo noto, anche una risposta nulla o malformata, diventa OrdineNonPiuDisponibile. L'ordine esce dall'elenco in memoria e il testo dice che non è più disponibile anche se il problema è un altro. La bacheca si rilegge, quindi il danno resta contenuto; la presa resta decisa dal server (prendi_ordine). ATTENZIONE: il file è cambiato dopo 2d5f0313 e questo difetto NON è stato ricontrollato sulla testa nuova (tetto di spesa)."
+  },
+  {
+   "titolo": "Eliminando una pagina della vetrina restano i pulsanti delle sezioni che puntavano a lei",
+   "dimensione": "frontend-ux",
+   "severita": "minore",
+   "file": "components/seller/site/PageListEditor.tsx:44",
+   "descrizione": "Con R20-006 remove() toglie le voci del menu verso la pagina eliminata, ma non i pulsanti di banner e altre sezioni con cta kind 'page' (lib/store-site.ts:134, controllo alla :431). Restano puntati a una pagina che non c'è più: link rotto in vetrina o errore al salvataggio. Visto dal primo giro su 2d5f0313; il file è identico su 4a3d9b8a, quindi resta vero com'era."
+  },
+  {
+   "titolo": "A menu spento, un link lasciato a metà sparisce al salvataggio senza avviso",
+   "dimensione": "frontend-ux",
+   "severita": "minore",
+   "file": "lib/store-site.ts:279",
+   "descrizione": "Con R20-005 a menu spento i link incompleti vengono tolti in silenzio al salvataggio. Va bene finché il menu è nascosto, ma quando il negoziante lo riaccende non li ritrova e non sa perché. Visto dal primo giro su 2d5f0313; il file è identico su 4a3d9b8a, quindi resta vero com'era."
+  },
+  {
+   "titolo": "Nel nuovo prodotto dell'amministrazione il modulo resta attivo anche se negozi o categorie non sono arrivati",
+   "dimensione": "stati-ui",
+   "severita": "minore",
+   "file": "app/admin/products/new/page.tsx:150",
+   "descrizione": "Con R20-018 compare l'avviso d'errore, ma ProductForm resta montato. Con le categorie cadute il modulo ha l'elenco vuoto; con i negozi caduti l'invio fallisce solo con il messaggio «Scegli il negozio». Non tocca soldi né dati: la rotta rifiuta un negozio mancante. Visto dal primo giro su 2d5f0313; il file è identico su 4a3d9b8a, quindi resta vero com'era."
+  },
+  {
+   "titolo": "Se il servizio di posta conserva anche le risposte d'errore, una promozione mai partita risulta spedita",
+   "dimensione": "api-backend",
+   "severita": "minore",
+   "file": "lib/email/client.ts:201",
+   "descrizione": "Il blocco nuovo di R22-001/R22-011 tratta il 409 invalid_idempotent_request («stessa chiave, corpo diverso») come email consegnata: return { ok: true, id: '' }. Regge solo se Resend registra sotto la chiave le richieste riuscite. Se conserva anche un 5xx o un 422, al giro dopo la promozione (il cui corpo cambia a ogni giro per il gettone di disiscrizione) riceve 409 e viene segnata sent_at senza essere mai partita. Il revisore non ha potuto verificare il comportamento di Resend. Riguarda solo le promozioni: niente soldi, niente permessi. Ricontrollato su 4a3d9b8a dal senior privacy: ancora vero."
+  },
+  {
+   "titolo": "Una voce della chat sul campanello può restare accesa anche se la chat è stata letta mentre era aperta",
+   "dimensione": "qa-flussi",
+   "severita": "minore",
+   "file": "app/api/chat/messages/route.ts:94",
+   "descrizione": "La riga 94 legge il contatore dei non letti una volta sola, prima dei passaggi che scrivono la voce (riga 139). Se intanto la chat aperta chiama mark-read e spegne le voci (mark-read/route.ts:64), la voce scritta subito dopo resta accesa per una chat già letta. Non si accumula: alla lettura dopo mark-read le spegne tutte. Il controllo nonLetti === 0 di R22-009 stringe la finestra ma non la chiude, quindi il referto promette un po' troppo. Visto dal primo giro su 2d5f0313; il file è identico su 4a3d9b8a, quindi resta vero com'era."
+  },
+  {
+   "titolo": "Se la lettura dei ruoli cade, all'Assistenza arriva l'email «un cliente ti ha scritto» pensata per un negozio",
+   "dimensione": "api-backend",
+   "severita": "minore",
+   "file": "app/api/chat/messages/route.ts:117",
+   "descrizione": "Con R22-010 la riga 117 legge i ruoli senza guardare l'errore. Se la lettura cade, ruoloDi restituisce null e il filtro della riga 134 non riconosce più la chat con l'Assistenza, che lì è seller_id (app/api/support/conversation/route.ts:97). Così avvisaNegozioMessaggioNuovo le manda l'email per i negozi col testo del cliente. Il destinatario è comunque chi riceve il messaggio, quindi nessun dato esce: è sbagliato il testo. Visto dal primo giro su 2d5f0313; il file è identico su 4a3d9b8a, quindi resta vero com'era."
+  },
+  {
+   "titolo": "Nelle notifiche il tasto «Carica altre» sparisce mentre carica, e un errore cancella dalla pagina l'elenco già letto",
+   "dimensione": "stati-ui",
+   "severita": "minore",
+   "file": "app/notifications/page.tsx:189",
+   "descrizione": "Con R22-018, durante il caricamento successivo l'elenco a video è ancora quello di 50 righe mentre quante vale già 100: forseAltre diventa falso e il tasto scompare, quindi disabled={isFetching} non entra mai in gioco. Se il caricamento delle altre fallisce, la riga 174 mette l'avviso d'errore al posto dell'intera pagina e le 50 righe già lette spariscono. Nessun dato si perde: è come si vede la pagina. ATTENZIONE: il file è cambiato dopo 2d5f0313 e questo difetto NON è stato ricontrollato sulla testa nuova (tetto di spesa)."
+  }
+ ],
+ "file_toccati": 351,
+ "file_guardati": 80,
+ "file_non_guardati": {
+  "quanti": 90,
+  "perche": "Tetto di spesa: a 18,05 $ su 20 $ la regista ha fermato il lavoro e il workflow è stato interrotto. I gruppi chat e negozio, pagine e stati, aspetto e testi, vetrina e affidabilità non hanno chiuso il controllo: questi file di codice NON sono controllati sull'unione. Non guardati per scelta anche 171 file di prova e i 10 referti in .riparazione/: il controllore guarda il codice.",
+  "file": [
+   "app/api/chat/mark-read/route.ts",
+   "app/api/chat/messages/route.ts",
+   "app/messages/[id]/page.tsx",
+   "app/notifications/page.tsx",
+   "app/messages/page.tsx",
+   "lib/contatto-whatsapp.ts",
+   "app/api/ai/improve-product/route.ts",
+   "app/seller/products/ai-batch/page.tsx",
+   "app/sell/page.tsx",
+   "app/admin/daily-drops/page.tsx",
+   "app/api/seller/orders/[id]/label/route.ts",
+   "lib/shipping-etichetta/label.ts",
+   "lib/category-attributes.ts",
+   "app/seller/customers/page.tsx",
+   "app/rider/reviews/page.tsx",
+   "components/rider/SOSButton.tsx",
+   "app/seller/products/new/page.tsx",
+   "app/admin/categories/page.tsx",
+   "app/admin/orders/[id]/page.tsx",
+   "app/admin/products/[id]/edit/page.tsx",
+   "app/admin/products/new/page.tsx",
+   "app/not-found.tsx",
+   "app/orders/[id]/review/page.tsx",
+   "app/profile/loyalty/page.tsx",
+   "app/regali/RegaliClient.tsx",
+   "app/seller/reviews/page.tsx",
+   "app/shop-of-month/page.tsx",
+   "app/stores/page.tsx",
+   "components/hooks/useFavorites.ts",
+   "components/seller/site/PageListEditor.tsx",
+   "lib/admin/etichette.ts",
+   "lib/loyalty.ts",
+   "lib/preferiti/tocco-del-cuore.ts",
+   "lib/queries/catalogo.ts",
+   "lib/queries/negozio-del-mese.ts",
+   "lib/queries/negozio-dell-ordine.ts",
+   "app/about/page.tsx",
+   "app/api/contact/route.ts",
+   "app/cart/page.tsx",
+   "app/faq/page.tsx",
+   "app/lavora-con-noi/page.tsx",
+   "app/orders/[id]/page.tsx",
+   "app/piu-venduti/page.tsx",
+   "app/product/[id]/page.tsx",
+   "app/promozioni/page.tsx",
+   "app/reset-password/page.tsx",
+   "app/returns/page.tsx",
+   "app/rider/earnings/page.tsx",
+   "app/search/page.tsx",
+   "app/seller/products/page.tsx",
+   "app/sign-up/page.tsx",
+   "components/CategoryShowcase.tsx",
+   "components/ProductCard.tsx",
+   "components/ProductGrid.tsx",
+   "components/admin/AdminSidebar.tsx",
+   "components/checkout/CartGroupsList.tsx",
+   "components/home-sections/HomeSectionRenderer.tsx",
+   "components/home/DropOfDay.tsx",
+   "components/home/TrendingNow.tsx",
+   "components/seller/FeaturedProductsPicker.tsx",
+   "components/seller/SellerShell.tsx",
+   "components/ui/FotoConRipiego.tsx",
+   "lib/errors.ts",
+   "lib/format.ts",
+   "lib/image-url.ts",
+   "lib/zod-i18n.ts",
+   "app/api/health/ready/route.ts",
+   "app/api/health/route.ts",
+   "app/categorie/page.tsx",
+   "app/category/[slug]/page.tsx",
+   "app/novita/page.tsx",
+   "app/orders/[id]/return/page.tsx",
+   "app/page.tsx",
+   "app/rider/orders/[id]/page.tsx",
+   "app/rider/page.tsx",
+   "app/seller/products/import/page.tsx",
+   "app/sitemap.ts",
+   "components/Footer.tsx",
+   "components/SponsoredCarousel.tsx",
+   "components/VerifyCodeDialog.tsx",
+   "components/admin/home/HomeSectionConfigForm.tsx",
+   "components/store-sections/BannerSection.tsx",
+   "components/ui/LoadingState.tsx",
+   "lib/api/middleware.ts",
+   "lib/queries/categorie-piene.ts",
+   "lib/queries/griglia-prodotti.ts",
+   "lib/store-site.ts",
+   "scripts/applica-migrazioni-mancanti.sh",
+   "scripts/backup-db.sh",
+   "scripts/check-migration-drift.mjs"
+  ]
+ },
+ "esclusi": "R13 e R14 non unite (onda 3); R17-003, R19-009, R19-012, R19-015 tolte; R20-011, R20-012, R21-004, R21-008, R21-014, R22-013, R23-003, R19-007 tolte dai riparatori dopo il collaudo (K05, K06): il loro codice non è nell'albero, verificato con git diff base..testa = 0 righe sui loro file.",
+ "superati": "I due difetti del primo giro su components/CartCrossDeviceSync.tsx:85-86 parlavano del codice di R20-012, tolto dal ramo con ab0a32ec: non valgono più.",
+ "scettico": "non partito: tetto di spesa. R18-019 (grave) e la falla di sicurezza non hanno il secondo occhio.",
+ "conto": {
+  "subagenti": 6,
+  "subagenti_finiti": 4,
+  "token_stimati": 48150000,
+  "nota_token": "Totale della sessione da get_session (letture dalla cache comprese): 46,8 milioni letti dalla cache, 1,2 milioni scritti, 0,2 milioni di uscita.",
+  "costo_sessione_usd": 18.23
+ }
+}
