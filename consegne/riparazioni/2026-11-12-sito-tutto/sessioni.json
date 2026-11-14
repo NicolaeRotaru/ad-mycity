@@ -396,7 +396,8 @@
      "usd": 20,
      "subagenti": 12
     },
-    "permesso": "08:02 ferma su «Add Repo» (solo Nicola): interrotta, rimessa in moto col clone in sola lettura via proxy, senza add_repo"
+    "permesso": "08:02 ferma su «Add Repo» (solo Nicola): interrotta, rimessa in moto col clone in sola lettura via proxy, senza add_repo",
+    "costo_08_24": "18,05 $ su 20: detto di chiudere entro il tetto, ricevuto"
    }
   }
  },
@@ -517,17 +518,19 @@
  "regista_onda2_sesta_6": {
   "id": "session_015BmpnWFiSCapSEYMt2NTCb",
   "dal": "2026-11-14 07:50",
-  "catena": "trig_01GbLtpRxBbW7N1SvFsfdqHC",
+  "catena": "trig_01GbLtpRxBbW7N1SvFsfdqHC (scattata alle 08:23, non riarmata: la catena la riparte la 2.0)",
   "copia_sito": "/home/user/mycity, clone --filter=blob:none --no-checkout (storia intera), contenuti dei rami dell onda 2 scaricati in blocco alle 07:52; integrazione a 4a3d9b8a",
   "ultracode": "mancava in get_session alle 07:50; acceso alle 07:54 (is_ultracode_active true, effort ultracode)",
-  "quota": "allowed_warning sul limite settimanale alle 07:50, niente uso extra"
+  "quota": "allowed_warning sul limite settimanale alle 07:50, niente uso extra",
+  "passaggio": "2026-11-14 08:28, a 406 mila token e 11,02 $: passaggio in fondo a REGIA.md"
  },
  "pr_sito_onda2": {
   "numero": 290,
   "url": "https://github.com/NicolaeRotaru/mycity/pull/290",
   "aperta": "2026-11-14 07:57, in bozza, dalla regista 6.0",
   "testa": "4a3d9b8a",
-  "segue": "la regista 6.0 dalle 08:02: il controllore PR e CI · 2.0 si era fermato sul permesso «Add Repo» (solo Nicola), interrotto; torna a lui se Nicola lo approva"
+  "segue": "la regista 6.0 dalle 08:02: il controllore PR e CI · 2.0 si era fermato sul permesso «Add Repo» (solo Nicola), interrotto; torna a lui se Nicola lo approva",
+  "ci": "rossa su e2e «404 page is custom» per R15-005; revert pronto, spinta fermata dal permesso automatico, chiesto il sì di Nicola alle 08:10"
  },
  "costo_onda2": {
   "quando": "2026-11-14 08:01",
@@ -546,14 +549,15 @@
   "fonte": "usage.cost_usd di get_session, sommato da un subagente in sola lettura"
  },
  "analisi_o3": {
-  "id": "session_015BmpnZ6zAYTtAxbo8JZSak",
+  "id": "session_015BmpnVsbfzoaDwKYQwGVYz",
   "titolo": "analisi O3",
-  "aperta": "2026-11-14 08:15 dalla regista 6.0, da sé (regola 12, tag cartella:onda-3-analisi)",
+  "aperta": "2026-11-14 08:25 dalla regista 6.0, da sé (regola 12, tag cartella:onda-3-analisi)",
   "perche": "Nicola, 14/11 08:12: «Apri una sessione in posso analizzare con lei l'andamento dell'ondata 3»",
   "compito": "analizza con Nicola le voci, il costo e le scelte dell'onda 3; non guida, non apre sessioni, non scrive nella cartella",
   "tetto": {
    "usd": 15,
    "subagenti": 4
-  }
+  },
+  "prima_non_partita": "session_015BmpnZ6zAYTtAxbo8JZSak (source_revision corto: ref_not_found)"
  }
 }
