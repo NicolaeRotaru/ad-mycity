@@ -272,25 +272,25 @@ Tutti i comandi dalla radice di `ad-mycity`, con `--cartella consegne/riparazion
    - per la macchina: se includere le voci a prova umana.
    Si parte solo con il suo «via».
 
-## Le cartelle nell'elenco (vale per riparatori, collaudatori e controllori)
+## L'elenco delle sessioni (vale per riparatori, collaudatori e controllori)
 
-Nicola, 14/11: «usare [le cartelle] al posto delle sessioni che creano sotto di loro delle sotto sessioni», poi
-«salvala come regola». È la regola 12 di `cervello/sessioni-insieme.md`, e prende il posto delle cartelle-sessione
-del 13/11 («Riparatori · onda N», «Regia · onda N» e le altre): quelle non si aprono più.
-- **Nessuna sessione-cartella.** La regista apre da sé riparatori, collaudatori e controllori. Nascono un livello sotto
-  di lei, perché una sessione nasce sempre dentro chi la apre.
-- **La cartella è un'etichetta.** In `create_session` il campo `tags` porta il tag della campagna e
-  `cartella:onda-N-<ruolo>`, con ruolo `riparatori`, `collaudatori`, `controllori`, `regia` o `ad`.
-- **Il titolo comincia col ruolo**: «Riparatore · R25 · onda 3», «Collaudatore · K10 · onda 3», «Controllore · C03 ·
-  onda 3». La 2.0 tiene etichetta e titolo, con «· 2.0» in fondo.
+Nicola, 14/11: «no niente togli le cartelle», e «il mio obiettivo è risparmiare lo spazio per dover scrollare in mezzo a
+10-20 sessioni ma solo quelle che sono attive». È la regola 12 di `cervello/sessioni-insieme.md`. Prende il posto delle
+cartelle-sessione del 13/11 («Riparatori · onda N», «Regia · onda N» e le altre): quelle non si aprono più.
+- **Nessuna sessione-cartella.** La regista apre da sé riparatori, collaudatori e controllori, che nascono un livello sotto
+  di lei.
+- **L'etichetta dice l'onda e il ruolo.** In `create_session` il campo `tags` porta il tag della campagna e
+  `onda-N-<ruolo>`, con ruolo `riparatori`, `collaudatori` o `controllori`.
+- **Il titolo comincia col ruolo, senza l'onda**: «Riparatore · R25», «Collaudatore · K10», «Controllore · C03». La 2.0
+  tiene etichetta e titolo, con «· 2.0» in fondo.
+- **La regista archivia ogni figlia appena il suo lavoro è chiuso** (`archive_session`). Un riparatore si archivia quando
+  il suo collaudo è chiuso e il ramo è unito o tolto dall'onda. Un collaudatore si archivia quando il suo verdetto è nella
+  cartella, un controllore quando `applica` ha letto il suo referto. Prima si guarda che non abbia sessioni vive dentro.
+  Se serve un altro giro, si riapre con `unarchive_session`.
 - **Il resto non cambia**: `model: "claude-opus-5-5"`, `effort: "xhigh"`, `permission_mode: "auto"`, il prompt
   esattamente `/effort ultracode` per chi scrive codice, e il compito subito dopo con `send_message` (LEGGIMI, scheda e
   regole delle sessioni).
-- **Quando la regista passa alla sua 2.0**, le sessioni nuove nascono dentro la 2.0. Si ritrovano lo stesso, per
-  etichetta e per titolo.
 - Gli id vanno in `sessioni.json` come prima. La chiave `"cartelle"` non serve più.
-- **Non ancora provato:** se l'app mostra le etichette come cartelle. Lo dice la foto dell'elenco di Nicola, dopo la
-  prova del 14/11 alle 08:07 (cinque sessioni di prova, 0,31 $).
 
 ## F1 — I riparatori
 
@@ -300,7 +300,7 @@ del 13/11 («Riparatori · onda N», «Regia · onda N» e le altre): quelle non
 - `permission_mode: "auto"`, scritto: mai `"plan"` (si blocca in attesa di un clic che nessuno fa, e il 6/11 si
   approvava da solo), e mai ereditato senza guardare (una regista in `bypassPermissions` lo passerebbe a tutte);
 - `effort: "xhigh"`, poi il controllo di «Ultra Code Extra» qui sopra;
-- tag `riparazione-<nome>` e `cartella:onda-N-riparatori`, titolo «Riparatore · RNN · onda N»;
+- tag `riparazione-<nome>` e `onda-N-riparatori`, titolo «Riparatore · RNN»;
 - il prompt porta dentro **per intero** il testo di `cervello/riparazione/LEGGIMI-riparatore.md` e di
   `<C>/schede/RNN.md` (regola 1 del 12/11 sera: sotto i 64 mila caratteri), e finisce con: *«Sei il riparatore RNN.
   Il clone in sola lettura di https://github.com/NicolaeRotaru/ad-mycity al commit SHA_REGISTA serve solo per i
@@ -354,7 +354,7 @@ Appena un riparatore ha `finita: true` con `guardia-ramo` e `valida-referto` ver
 collaudatore libero (fino a 3 riparatori ciascuno; i collaudatori sono ceil(K/3), al massimo 4).
 - `create_session` con `source_url` = `ad-mycity`, `source_revision` = `SHA_REGISTA` (così
   `prova-rimessa.mjs` è una copia fissata, non quella che un riparatore può aver toccato),
-  `outcome_branch` = `<ramo della regista>-kNN`, tag `cartella:onda-N-collaudatori`, titolo «Collaudatore · KNN · onda N»;
+  `outcome_branch` = `<ramo della regista>-kNN`, tag `onda-N-collaudatori`, titolo «Collaudatore · KNN»;
 - il prompt, una riga: *«Sei il collaudatore KNN. Leggi cervello/riparazione/LEGGIMI-collaudo.md e collauda
   i riparatori R… (ramo …, punta …, testa …) e R… (ramo …, punta …, testa …) della cartella <C>. BASE è ….»*.
   La **punta** è l'ultimo commit del ramo (`git rev-parse origin/<ramo>`), dove sta il referto finito; la
@@ -386,7 +386,7 @@ senza Nicola.
    - macchina: `node cervello/cancello-lotto.mjs` e `node cervello/radiografia-in-corsa.mjs`.
    Sono le prove che il 5/11 diventavano rosse solo dopo l'unione (8). Una voce `rompe_altro`, o rossa
    dopo l'unione, si toglie da sola col suo commit (`git revert`): per questo una voce per commit.
-   **Il controllore d'onda** (`CNN`, sessione nuova su `ad-mycity`, dove ci sono i senior, ramo `<ramo della regista>-cNN`, tag `cartella:onda-N-controllori`, titolo «Controllore · CNN · onda N») parte appena il ramo
+   **Il controllore d'onda** (`CNN`, sessione nuova su `ad-mycity`, dove ci sono i senior, ramo `<ramo della regista>-cNN`, tag `onda-N-controllori`, titolo «Controllore · CNN») parte appena il ramo
    unito è spinto. Il prompt è una riga: *«Sei il controllore CNN. Leggi cervello/riparazione/LEGGIMI-controllore.md
    e controlla l'onda N della cartella <C>: integrazione <ramo> @ <sha>, base <sha>.»* Il suo referto si
    copia in `<C>/controlli/CNN.json`. Sul suo ramo deve esserci solo quel file (`git diff --name-only`).

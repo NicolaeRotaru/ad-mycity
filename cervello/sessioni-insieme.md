@@ -120,23 +120,24 @@ si scrive appena cambia qualcosa.
    regole che vale per lei: almeno le regole 1, 2, 4, 5, 7 e 10, scritte per intero.
    Chi apre controlla nella prima risposta che la figlia le abbia lette. Esempio vero: i 10 riparatori dell'onda 2,
    aperti fra le 05:50 e le 06:12 del 13/11, non le avevano. Le hanno avute alle 13:30, con un messaggio a testa.
-12. **Le cartelle sono etichette, mai sessioni** (Nicola, 14/11 entro le 08:07: «dentro l'albero riesci a creare delle
-   cartelle e usare quelle al posto delle sessioni che creano sotto di loro delle sotto sessioni», poi alle 08:11
-   «salvala come regola»). Nessuna sessione fa da contenitore, né in cima né in mezzo. Le sessioni-cartella dell'onda 2,
-   cioè «Regia», «Collaudatori», «Controllori» e «AD · onda 2», non si aprono più.
-   - **In cima c'è una sessione che lavora**: la regia, o il controllore della regola 9. Chi lavora nasce un livello
-     sotto di lei. È un vincolo dell'app: una sessione nasce dentro chi la apre, e lì resta per sempre.
-   - **La cartella è un'etichetta.** Nel campo `tags` di `create_session` va `cartella:<lavoro>-<ruolo>`, più il tag
-     della campagna. Esempio: `cartella:onda-3-riparatori`. Anche la chat dell'AD ha la sua: `cartella:onda-3-ad`.
-   - **Il ruolo sta in testa al titolo**: «Riparatore · R25 · onda 3». Così il nome raggruppa da solo, anche dove l'app
-     non mostra le etichette.
-   - **La 2.0 porta la stessa etichetta e lo stesso titolo della 1.0**, con «· 2.0» in fondo (regola 7). Se la regia
-     passa alla sua 2.0, le sessioni nuove nascono dentro la 2.0: si ritrovano lo stesso, per etichetta e per titolo.
-   - **Dove un'altra regola o una skill parla di cartelle**, vale questa. Al posto di «la cartella apre la figlia» si
-     legge «chi la deve aprire la apre da sé, con l'etichetta del ruolo».
-   - **Esempio vero, 14/11 alle 08:07.** «Sessione wave 3 setup» ha aperto cinque sessioni di prova, una per ruolo: AD,
-     regia, riparatore, collaudatore, controllore. Stanno tutte al livello 1, ognuna con la sua etichetta, e nessuna
-     sessione fa da cartella. Sono costate 0,31 $ in tutto.
-   - **Cosa non è ancora provato.** Non si sa se l'app mostra le etichette come cartelle: lo dice la foto dell'elenco
-     di Nicola. Le cartelle vere dell'app sono i «Progetti»: li crea solo Nicola, e una sessione aperta da qui non ci
-     può nascere dentro (documentazione ufficiale letta il 14/11). Le sessioni già aperte dell'onda 2 non si spostano.
+12. **Nell'elenco restano solo le sessioni attive** (Nicola, 14/11 verso le 09:15: «no niente togli le cartelle, pensavo
+   che si aprissero e chiudessero come una finestra». E poi: «il mio obiettivo è risparmiare lo spazio per dover scrollare
+   in mezzo a 10-20 sessioni ma solo quelle che sono attive»). L'app non ha cartelle vere. Una sessione-cartella occupa una
+   riga dell'elenco come tutte le altre, quindi non fa risparmiare spazio.
+   - **Si archivia appena si finisce.** Chi ha aperto una sessione la archivia con `archive_session` appena il suo lavoro è
+     chiuso. Nell'elenco restano solo le sessioni che lavorano o aspettano qualcosa. Archiviare non cancella niente: una
+     sessione archiviata si riapre con `unarchive_session`.
+   - **Prima di archiviare si guarda dentro.** Una sessione con dentro sessioni vive non si archivia, perché le nasconderebbe
+     (Nicola, 13/11 alle 15:23). Si archivia quando le sue figlie hanno finito.
+   - **Nessuna sessione-cartella**, né in cima né in mezzo. Quelle dell'onda 2 («Regia», «Collaudatori», «Controllori»,
+     «AD · onda 2») si archiviano a fine onda.
+   - **Il ruolo sta in testa al titolo, senza il numero dell'onda**: «Riparatore · R25», «Collaudatore · K10». L'onda la dice
+     l'etichetta, nel campo `tags` di `create_session`: per esempio `onda-3-riparatori`, più il tag della campagna (Nicola,
+     14/11 alle 08:50: «basta l'etichetta»).
+   - **La 2.0 porta la stessa etichetta e lo stesso titolo della 1.0**, con «· 2.0» in fondo (regola 7).
+   - **Dove un'altra regola o una skill parla di cartelle**, vale questa: chi deve aprire una sessione la apre da sé.
+   - **Esempio vero, 14/11.** Alle 08:45 è nato un albero d'esempio, con cinque sessioni-cartella e undici sessioni dentro.
+     Nicola l'ha guardato e ha detto «togli le cartelle». Alle 09:17 è stato archiviato, insieme alle cinque prove delle
+     08:07: 22 sessioni, costate circa 1,8 $ in tutto.
+   - **Cosa non è ancora provato.** Nessun programma conta le sessioni finite e non archiviate: per ora regge sulla
+     disciplina di chi le apre.
