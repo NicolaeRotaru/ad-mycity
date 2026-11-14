@@ -155,6 +155,12 @@
     "costo_usd": 101.3,
     "subagenti": 15,
     "nota": "guardia rossa solo per bb53b6be (revert di R17-005 col messaggio standard): deroga di Nicola alla fermata 3; collaudo K07 dopo R18 e R13"
+   },
+   "unione": {
+    "quando": "2026-11-14 07:25",
+    "merge": "c282562e",
+    "revert_R17_003": "29a34376 (conflitto nella rotta dei resi sciolto tenendo solo il blocco di R17-004: rotta = prima di R17-003 + le sole righe di R17-004, verificato con diff)",
+    "spinto": false
    }
   },
   "R18": {
@@ -341,7 +347,18 @@
     "usd": 30,
     "subagenti": 10
    },
-   "via": "Nicola, 14/11 06:06"
+   "via": "Nicola, 14/11 06:06",
+   "finita": true,
+   "chiusura": {
+    "quando": "2026-11-14 07:02",
+    "punta": "316d35ec7d7f74506340ed79c5f2ea9b126d89c4",
+    "costo_usd": 15.99,
+    "subagenti": 7,
+    "esito": "R17: reggono 14 su 20 (13 minori + R17-007 già riparata), 5 parziali (001, 013, 015, 016, 020), R17-003 rompe_altro: falla di sicurezza da chiudere (resi), dettagli solo in chat",
+    "valida_collaudo": "verde il 14/11 alle 07:20, con --git /home/user/mycity"
+   },
+   "nota_partenza": "il ramo parte da dee61af e non da e11facd3: fra i due cambiano solo LEGGIMI-riparatore.md e sessioni-insieme.md, nessun programma; guardia rossa solo per questo",
+   "controllo_db_vero": "non misurato fino in fondo: un agente ha letto circa 35 eventi di K09 il 14/11 alle 07:22, nessuna chiamata a Supabase, Vercel o Stripe; la storia intera non è stata letta"
   }
  },
  "controllori": {

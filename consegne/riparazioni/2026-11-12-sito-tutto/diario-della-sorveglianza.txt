@@ -330,3 +330,22 @@
 2026-11-14 06:43 · R13 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
 2026-11-14 06:43 · R14 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
 2026-11-14 06:43 · R15 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 07:00 · R13 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 07:00 · R14 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 07:00 · R15 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 07:00 · R16 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-14 07:00 · R17 · in lavoro FINITA · guardia 🔴 · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 07:00 · R18 · in lavoro FINITA · guardia ✅ · referto ✅ 25 voci · unione (sotto) · nessuna
+2026-11-14 07:00 · R19 · in lavoro FINITA · guardia ✅ · referto ✅ 23 voci · unione (sotto) · nessuna
+2026-11-14 07:00 · R20 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 07:00 · R21 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 07:00 · R22 · in lavoro FINITA · guardia ✅ · referto ✅ 19 voci · unione (sotto) · nessuna
+2026-11-14 07:00 · R23 · in lavoro FINITA · guardia ✅ · referto ✅ 18 voci · unione (sotto) · nessuna
+2026-11-14 07:00 · R24 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-14 07:00 · K05 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 07:00 · K06 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 07:00 · K07 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-14 07:00 · K08 · collaudo · guardia ✅ · collaudo ⏳ · nessuna
+2026-11-14 07:00 · K09 · collaudo · guardia 🔴 · collaudo ✅ · nessuna
+2026-11-14 07:00 · onda 2 · prova-unione ✅
+2026-11-14 07:22 · giro della 5.0 · sorveglia.sh uscita 1 in 43 s (prima i contenuti dei file scaricati in blocco: il giro delle 06:45 si era fermato al tetto di 15 minuti dopo R15) · rossi: R13 10708bcf e R17 bb53b6be (deroghe note per la fermata 3), K09 partenza dee61af invece di e11facd3 (cambiano solo due LEGGIMI, nessun programma: non vero) · K09 finito, valida-collaudo verde, 14 su 20 reggono · controllo db vero su K09 ⚪ non misurato fino in fondo (35 eventi letti, nessuna chiamata) · R17 unito localmente (c282562e) con R17-003 tolta (29a34376) · cucitura al lavoro, 10,94 $ su 25 · quota allowed_warning, niente uso extra · regista 3,85 $ e 283 mila token
