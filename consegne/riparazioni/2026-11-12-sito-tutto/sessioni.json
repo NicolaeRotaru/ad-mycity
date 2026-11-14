@@ -377,7 +377,7 @@
  "regista_onda2_prima": "session_015BmpnZcs1XvqxGKUA3qRGC",
  "sha_regista_onda2": "125b2db",
  "regista_onda2_seconda": "session_015BmpnWRS6TmZUqTtjQ5fX7",
- "pr_ci": "session_015BmpnWroKtzTLyTmXZVE2k",
+ "pr_ci": "session_015BmpnVy26PKmTJ66EZtQG6",
  "cartelle": {
   "regia": "session_015BmpnZJxFMJaArHSLWdGbM",
   "collaudatori": "session_015BmpnVmCx4MZC3KfX92m9A",
@@ -407,5 +407,7 @@
   "catena": "trig_01PJBEzMyrazzzucVWJ7oHgS",
   "copia_sito": "/home/user/mycity, clone --filter=blob:none --no-checkout (storia intera), integrazione a 583624d1",
   "ultracode": "manca in get_session alle 17:05: chiesto all'AD alle 17:06"
- }
+ },
+ "pr_ci_1_0": "session_015BmpnWroKtzTLyTmXZVE2k",
+ "pr_ci_nota": "14/11 06:00: la 1.0 (…WroKtz) oltre i 400 mila token ha passato il lavoro alla 2.0 (…Vy26PK), nata con ultracode spento; ignorare …VijNMw, una prima 2.0 mai partita"
 }
