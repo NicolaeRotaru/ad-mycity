@@ -519,3 +519,4 @@
 2026-11-14 13:34 · onda 2 (regista O2 settima) · giro lungo: nessuna sessione nuova (ottava non aperta, nessun ricollaudo), main fermo a 1905beee · azione: nessuna, catena riarmata a 60 minuti
 2026-11-14 14:35 · onda 2 (regista O2 settima) · giro lungo: nessuna sessione nuova (ottava non aperta, nessun ricollaudo); main a 8001e7ad (#954 unita alle 13:54, #953 non ancora) · azione: nessuna, catena riarmata a 60 minuti
 2026-11-14 15:41 · onda 2 (regista O2 settima) · ricollaudi partiti: K06 secondo, K07 secondo, K09 secondo e K08 quarto hanno risposto «ricevute le regole»; K08 terzo senza ultracode dopo un riavvio, archiviato · azione: catena a 30 minuti (trig_01HAZ1tKyWMzCAy1fELodM4n)
+2026-11-14 16:08 · onda 2 (regista O2 settima) · i quattro ricollaudi hanno finito e sono archiviati (K06 10,54 $, K07 8,84 $, K09 9,08 $, K08 quarto 12,08 $) · azione: catena fermata, nessuna figlia viva; si aspetta il sì di Nicola per riunire i rami
