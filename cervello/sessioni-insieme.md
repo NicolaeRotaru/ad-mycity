@@ -64,7 +64,8 @@ si scrive appena cambia qualcosa.
    La chat dell'AD con Nicola non si sposta da sola: l'AD prepara la chat nuova e gli dice dove continuare.
    **La sessione nuova la apre la sessione stessa, ed è la sua 2.0** (Nicola, 13/11 alle 13:30: «superato il 40-60% di
    contesto deve aprire una nuova sessione 2.0 di se stessa»). Ha lo stesso ruolo e lo stesso ramo, e «· 2.0» in fondo
-   al titolo. Ultracode non lo eredita: lo accende Nicola dall'app (regola 10). Vale anche per le figlie: riparatori, collaudatori e controllori
+   al titolo. Ultracode non lo eredita: lo accende chi la apre, col prompt esatto `/effort ultracode`
+   (regola 10). Nicola serve solo se resta spento. Vale anche per le figlie: riparatori, collaudatori e controllori
    a 400 mila token non si fermano ad aspettare. Aprono la loro 2.0, scrivono l'id a chi le ha aperte e si fermano.
    Se una non può aprirla, lo dice subito, e la 2.0 la apre chi l'ha aperta lei. Esempio vero: fino alle 13:30 del
    13/11 ai riparatori dell'onda 2 era stato detto «oltre 350 mila token vi fermate e lo dite».
