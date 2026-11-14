@@ -381,9 +381,22 @@
     "partenza": "a7b2562214b9c2df1a473a09eb2ef19c27bd623e",
     "aperta": "2026-11-13 15:24",
     "integrazione": "990dd7fa8d013fe1e76e613681afca7de53879e9",
-    "nota": "secondo giro sul delta 2d5f0313..990dd7fa; nata nella cartella Controllori senza ultracode, ferma finché Nicola non lo accende; tetto 20 $"
+    "nota": "secondo giro sul delta 2d5f0313..990dd7fa; nata nella cartella Controllori senza ultracode, ferma finché Nicola non lo accende; tetto 20 $",
+    "chiusa": "2026-11-14 07:58 dalla 6.0, senza archiviarla: mai accesa, 4,79 $ spesi in attesa"
    },
-   "archiviata": "2026-11-13 15:21"
+   "archiviata": "2026-11-13 15:21",
+   "tre_punto_zero": {
+    "id": "session_015BmpnWwg1yFfPGGPyi6QWq",
+    "aperta": "2026-11-14 07:56, dalla cartella Controllori, prompt «/effort ultracode» (regola 10, commit 727b2da2f)",
+    "partenza": "a7b2562214b9c2df1a473a09eb2ef19c27bd623e",
+    "integrazione": "4a3d9b8ae0de1810c0414081fc17289c19ba2a7a",
+    "ultracode": "acceso alla nascita (is_ultracode_active true, effort xhigh)",
+    "compito": "mandato alle 07:58 con le regole 1, 2, 4, 5, 7 e 10",
+    "tetto": {
+     "usd": 20,
+     "subagenti": 12
+    }
+   }
   }
  },
  "integrazione_onda1": "b144746992176ae554d48376a00d972f5210a49f",
@@ -506,5 +519,12 @@
   "copia_sito": "/home/user/mycity, clone --filter=blob:none --no-checkout (storia intera), contenuti dei rami dell onda 2 scaricati in blocco alle 07:52; integrazione a 4a3d9b8a",
   "ultracode": "mancava in get_session alle 07:50; acceso alle 07:54 (is_ultracode_active true, effort ultracode)",
   "quota": "allowed_warning sul limite settimanale alle 07:50, niente uso extra"
+ },
+ "pr_sito_onda2": {
+  "numero": 290,
+  "url": "https://github.com/NicolaeRotaru/mycity/pull/290",
+  "aperta": "2026-11-14 07:57, in bozza, dalla regista 6.0",
+  "testa": "4a3d9b8a",
+  "segue": "controllore PR e CI · 2.0 (session_015BmpnVy26PKmTJ66EZtQG6), numero mandato alle 07:58"
  }
 }
