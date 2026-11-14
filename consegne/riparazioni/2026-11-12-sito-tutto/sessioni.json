@@ -395,7 +395,8 @@
     "tetto": {
      "usd": 20,
      "subagenti": 12
-    }
+    },
+    "permesso": "08:02 ferma su «Add Repo» (solo Nicola): interrotta, rimessa in moto col clone in sola lettura via proxy, senza add_repo"
    }
   }
  },
@@ -525,6 +526,22 @@
   "url": "https://github.com/NicolaeRotaru/mycity/pull/290",
   "aperta": "2026-11-14 07:57, in bozza, dalla regista 6.0",
   "testa": "4a3d9b8a",
-  "segue": "controllore PR e CI · 2.0 (session_015BmpnVy26PKmTJ66EZtQG6), numero mandato alle 07:58"
+  "segue": "la regista 6.0 dalle 08:02: il controllore PR e CI · 2.0 si era fermato sul permesso «Add Repo» (solo Nicola), interrotto; torna a lui se Nicola lo approva"
+ },
+ "costo_onda2": {
+  "quando": "2026-11-14 08:01",
+  "usd": 1277.38,
+  "tetto": 1500,
+  "sessioni": "40 (39 col costo, C02 · 3.0 ancora senza)",
+  "parti": {
+   "riparatori": 776.28,
+   "collaudatori": 184.4,
+   "controllori": 22.03,
+   "registe": 238.41,
+   "cartelle": 12.98,
+   "cucitura": 12.96,
+   "pr_ci": 30.33
+  },
+  "fonte": "usage.cost_usd di get_session, sommato da un subagente in sola lettura"
  }
 }
