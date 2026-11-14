@@ -327,6 +327,21 @@
     "aperta": "2026-11-13 16:35",
     "nota": "ultracode manca; aspetta la scelta di Nicola sui 28 minori; tetti in comune con K08 (24,65 $ su 30, 7 subagenti su 12)"
    }
+  },
+  "K09": {
+   "id": "session_015BmpnXh3j1vY18PV399Xj8",
+   "ramo": "claude/magical-hamilton-xouwr8-k09",
+   "partenza": "e11facd3e07d15ba8b8da5bd4a0d3615481a4b56",
+   "riparatori": [
+    "R17"
+   ],
+   "onda": 2,
+   "aperta": "2026-11-14 06:11, dalla regista 4.0 (le cartelle Collaudatori e Regia sono state bloccate dal controllo dei permessi: non vedevano il via di Nicola)",
+   "tetto": {
+    "usd": 30,
+    "subagenti": 10
+   },
+   "via": "Nicola, 14/11 06:06"
   }
  },
  "controllori": {
