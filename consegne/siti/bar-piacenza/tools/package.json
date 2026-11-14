@@ -1,0 +1,17 @@
+{
+  "name": "bar-piacenza-strumenti",
+  "private": true,
+  "description": "Strumenti facoltativi per chi mantiene il sito (il sito non ne ha bisogno per funzionare).",
+  "type": "module",
+  "scripts": {
+    "test": "node test-orari.mjs",
+    "controlla": "node controlla.mjs",
+    "sincronizza": "node sincronizza.mjs",
+    "immagini": "node immagini.mjs"
+  },
+  "devDependencies": {
+    "fontkit": "^2.0.4",
+    "html-validate": "^9.0.0",
+    "sharp": "^0.34.0"
+  }
+}
