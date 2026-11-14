@@ -422,7 +422,8 @@
   "catena": "trig_01PJBEzMyrazzzucVWJ7oHgS",
   "copia_sito": "/home/user/mycity, clone --filter=blob:none --no-checkout (storia intera), integrazione a 583624d1",
   "ultracode": "manca in get_session alle 17:05: chiesto all'AD alle 17:06",
-  "passata_alla_5_0": "2026-11-14 06:42, a 452 mila token, 15,09 $"
+  "passata_alla_5_0": "2026-11-14 06:42, a 452 mila token, 15,09 $",
+  "archivio": "rimandato: dentro c'è K09, viva (Nicola 13/11 15:23: le registe vecchie non si archiviano fino alla fine dell'onda)"
  },
  "pr_ci_1_0": "session_015BmpnWroKtzTLyTmXZVE2k",
  "pr_ci_nota": "14/11 06:00: la 1.0 (…WroKtz) oltre i 400 mila token ha passato il lavoro alla 2.0 (…Vy26PK), nata con ultracode spento; ignorare …VijNMw, una prima 2.0 mai partita",
@@ -436,7 +437,8 @@
    "usd": 25,
    "subagenti": 6
   },
-  "via": "Nicola, 14/11 06:06: «via ai 4 lavori e l'ondata sui soldi portala a 1500$»"
+  "via": "Nicola, 14/11 06:06: «via ai 4 lavori e l'ondata sui soldi portala a 1500$»",
+  "piano_approvato": "2026-11-14 06:43 dalla 4.0, 06:48 dalla 5.0: A tre revert 009-012-015, B una riga della 405 e il caso ⑧ neutro; 10 file; 3-4 subagenti; 8-12 $ su 25"
  },
  "tetto_onda2_usd": {
   "valore": 1500,
@@ -448,6 +450,6 @@
   "dal": "2026-11-14 06:42",
   "catena": "trig_01UQxJZsaXNu5Kp7SeXYtY1G",
   "copia_sito": "/home/user/mycity, clone --filter=blob:none --no-checkout (storia intera), integrazione a 583624d1",
-  "ultracode": "manca in get_session alle 06:43: detto all'AD alle 06:44"
+  "ultracode": "mancava alle 06:43 (detto all'AD alle 06:44); acceso alle 06:48"
  }
 }
