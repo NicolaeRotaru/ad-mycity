@@ -374,7 +374,7 @@ senza Nicola.
 
 **Il giro di correzione prende sempre anche le voci a metà e quelle con i file altrui** (Nicola, 14/11
 alle 09:14: «le 42 fatte a metà e le 26 che chiedono un file di un'altra sessione devono essere messe nel
-giro di correzione sempre, perché non sfruttarla subito questa opportunità anziché rimandarla?»).
+giro di correzione sempre. Perché non sfruttarla subito questa opportunità anziché rimandarla?»).
 Il conto che l'ha decisa: nell'onda 2 il giro partiva con 20 voci bocciate su 199 aperte. Restavano fuori
 42 voci lasciate a metà dal riparatore e 26 che chiedevano il file di un'altra sessione.
 - **Cosa entra.** Tre gruppi, in ogni onda: le voci bocciate dal collaudo o dal controllore, le voci
@@ -384,7 +384,7 @@ Il conto che l'ha decisa: nell'onda 2 il giro partiva con 20 voci bocciate su 19
   voce `serve_file_altrui` chiede proprio un file che nell'onda ha un altro padrone. Quindi, appena i rami
   del giro sono uniti, la regista lancia `dividi --base <SHA dell'integrazione> --file-chiavi <le chiavi>`.
   Così ogni file ha di nuovo un padrone solo. Poi `schede`, riparatori che partono dall'integrazione, un
-  collaudo, un controllo sulle sole modifiche nuove. Solo dopo la fermata.
+  collaudo, un controllo sulle sole modifiche nuove, e `applica` coi loro referti. La fermata viene solo dopo.
 - **Cosa portano i riparatori.** Per ogni file altrui scrivono nella nota la modifica esatta: file, righe
   e diff. È il punto di partenza del riparatore che avrà quel file.
 - **Il preventivo.** Prima di partire la regista dice a Nicola il costo, circa 1,45 $ a voce più collaudo e
