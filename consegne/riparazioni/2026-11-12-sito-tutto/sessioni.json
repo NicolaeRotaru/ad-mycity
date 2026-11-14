@@ -1,5 +1,5 @@
 {
- "regista": "session_015BmpnZaZMi8cGzkuE9PJE7",
+ "regista": "session_015BmpnWW9rUEQRqv4jLWfhZ",
  "regista_onda2_quinta": "session_015BmpnVzbMLH1s3LPB8nHkW",
  "regista_onda2_quarta": "session_015BmpnVkmAAN92z8w4HLVGB",
  "regista_onda2_terza": "session_015BmpnYzJKvQoMML3LmU8aJ",
@@ -421,7 +421,8 @@
   "dal": "2026-11-13 17:05",
   "catena": "trig_01PJBEzMyrazzzucVWJ7oHgS",
   "copia_sito": "/home/user/mycity, clone --filter=blob:none --no-checkout (storia intera), integrazione a 583624d1",
-  "ultracode": "manca in get_session alle 17:05: chiesto all'AD alle 17:06"
+  "ultracode": "manca in get_session alle 17:05: chiesto all'AD alle 17:06",
+  "passata_alla_5_0": "2026-11-14 06:42, a 452 mila token, 15,09 $"
  },
  "pr_ci_1_0": "session_015BmpnWroKtzTLyTmXZVE2k",
  "pr_ci_nota": "14/11 06:00: la 1.0 (…WroKtz) oltre i 400 mila token ha passato il lavoro alla 2.0 (…Vy26PK), nata con ultracode spento; ignorare …VijNMw, una prima 2.0 mai partita",
@@ -441,5 +442,12 @@
   "valore": 1500,
   "deciso": "2026-11-14 06:06",
   "fonte": "Nicola nella chat della regista 4.0"
+ },
+ "regista_onda2_sesta_5": {
+  "id": "session_015BmpnWW9rUEQRqv4jLWfhZ",
+  "dal": "2026-11-14 06:42",
+  "catena": "trig_01UQxJZsaXNu5Kp7SeXYtY1G",
+  "copia_sito": "/home/user/mycity, clone --filter=blob:none --no-checkout (storia intera), integrazione a 583624d1",
+  "ultracode": "manca in get_session alle 06:43: detto all'AD alle 06:44"
  }
 }
