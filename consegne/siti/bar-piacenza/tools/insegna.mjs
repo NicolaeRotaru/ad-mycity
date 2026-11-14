@@ -92,7 +92,8 @@ function favicon() {
 const out = path.join(dir, 'out');
 fs.mkdirSync(out, { recursive: true });
 const snippet = { sprite, larga, stretta, marchio: mini() };
-fs.writeFileSync(path.join(out, 'marchio.json'), JSON.stringify(snippet, null, 1));
+// tools/parti/marchio.json è letto da sincronizza.mjs (che così non ha bisogno di fontkit).
+fs.writeFileSync(path.join(dir, 'parti', 'marchio.json'), JSON.stringify(snippet, null, 1));
 // Anteprime autonome (sprite incluso) per controllare il disegno.
 const solo = (svg) => svg.replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ').replace(/(<svg[^>]*>)/, `$1${sprite.replace(/^<svg[^>]*>|<\/svg>$/g, '')}`);
 fs.writeFileSync(path.join(out, 'insegna-larga.svg'), solo(larga));

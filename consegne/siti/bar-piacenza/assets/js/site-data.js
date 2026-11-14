@@ -17,7 +17,7 @@ window.BP.data = {
       zona: 'a due passi da Piazza Cavalli'
     },
     geo: { lat: 45.0521, lng: 9.6937 }, // DA CONFERMARE (indicative)
-    telefono: { e164: '+390523000000', testo: '0523 000000' }, // DA CONFERMARE
+    telefono: { e164: '+390523000000', testo: '0523\u00a0000000' }, // DA CONFERMARE
     whatsapp: '393330000000', // DA CONFERMARE · solo cifre con prefisso; null = niente WhatsApp
     email: 'ciao@barpiacenza.it', // DA CONFERMARE
     social: { // DA CONFERMARE
@@ -161,7 +161,7 @@ window.BP.data = {
     { img: 'palazzo-gotico', alt: 'Il Palazzo Gotico di Piazza Cavalli: marmo sotto, mattone e merli sopra', w: 1600, h: 1600, provvisoria: true },
     { img: 'caffe-zucchero', alt: 'Due tazzine di espresso e le bustine di zucchero sul marmo', w: 1600, h: 1600, provvisoria: true },
     { img: 'macchina-espresso', alt: 'Il caffè che scende dal gruppo della macchina dell’espresso nella tazzina', w: 1600, h: 2000, provvisoria: true },
-    { img: 'gutturnio-coppa', alt: 'Bottiglia di Gutturnio, un calice e fette di coppa sul tagliere', w: 1600, h: 1600, provvisoria: true }
+    { img: 'listino', alt: 'Il listino a lettere bianche sul pannello verde dietro al banco', w: 1600, h: 2000, provvisoria: true }
   ],
 
   recensioni: {

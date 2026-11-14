@@ -213,8 +213,46 @@
     };
   }
 
+  // Modelli HTML puri: li usa il browser e li usa tools/sincronizza.mjs per scrivere le pagine statiche.
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+  const icona = (id) => `<svg class="icona" aria-hidden="true" focusable="false"><use href="#i-${id}"/></svg>`;
+  const euro = new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'EUR' });
+  function foto(base, alt, w, h, sizes, subito) {
+    const set = (ext) => [480, 960, 1600].map((x) => `assets/img/${base}-${x}.${ext} ${x}w`).join(', ');
+    return `<picture><source type="image/avif" srcset="${set('avif')}" sizes="${sizes}"><source type="image/webp" srcset="${set('webp')}" sizes="${sizes}">` +
+      `<img src="assets/img/${base}-960.jpg" srcset="${set('jpg')}" sizes="${sizes}" width="${w}" height="${h}" alt="${esc(alt)}"${subito ? '' : ' loading="lazy" decoding="async"'}></picture>`;
+  }
+  const H = {
+    giornata: (D) => (D.giornata || []).map((g) => `<li class="giornata__voce"><p class="giornata__ora">${esc(g.ora)}</p><h3>${esc(g.titolo)}</h3><p>${esc(g.testo)}</p></li>`).join(''),
+    prodotti: (D) => (D.prodottiFirma || []).map((p, i) => {
+      const sizes = i ? '(min-width: 60rem) 17rem, (min-width: 36rem) 45vw, 46vw' : '(min-width: 60rem) 36rem, (min-width: 36rem) 45vw, 92vw';
+      return `<li class="vetrina__voce"><article class="prodotto"><div class="foto">${foto(p.img, p.alt, 1600, 1600, sizes)}</div>` +
+        `<div><h3>${esc(p.nome)}</h3><p>${esc(p.testo)}</p>${p.prezzo ? `<p class="prodotto__prezzo">${euro.format(p.prezzo)}</p>` : ''}</div></article></li>`;
+    }).join(''),
+    galleria: (D) => (D.galleria || []).map((f, i) => `<li><button class="galleria__apri" type="button" data-i="${i}" aria-label="Ingrandisci: ${esc(f.alt)}">${foto(f.img, '', f.w, f.h, '(min-width: 48rem) 33vw, 50vw')}</button></li>`).join(''),
+    orari: (sett) => [1, 2, 3, 4, 5, 6, 0].map((g) => `<tr data-g="${g}"><th scope="row">${maiusc(GIORNI[g])}</th><td>${maiusc(fasceTesto(sett[g]))}</td></tr>`).join(''),
+    sintesi: (sett) => sintesiOrari(sett).map((r) => `<li>${esc(r)}</li>`).join(''),
+    social: (s) => ['instagram', 'facebook', 'tiktok'].filter((k) => s[k]).map((k) =>
+      `<li><a href="${esc(s[k].url)}" rel="noopener">${icona(k)}${esc(k === 'instagram' ? `Instagram ${s[k].nome}` : s[k].nome)}</a></li>`).join(''),
+    categorie: (D) => D.menu.map((c) => `<li><a class="chip" href="#${c.id}">${esc(c.nome)}</a></li>`).join(''),
+    allergeni: (D) => D.allergeni.map((n) => `<li>${esc(n)}</li>`).join(''),
+    menu(D) {
+      const nomi = D.allergeni, et = D.etichette, chiavi = Object.keys(et);
+      const ha = (v, t) => v.tag.includes(t) || (t === 'veg' && v.tag.includes('vegan'));
+      const voce = (v) => {
+        const tag = v.tag.length ? `<ul class="etichette" role="list">${v.tag.map((t) => `<li class="etichetta">${icona(t === 'sg' ? 'spiga' : 'foglia')}${esc(et[t])}</li>`).join('')}</ul>` : '';
+        const all = v.all.length ? `<p class="voce__allergeni"><span aria-hidden="true">Allergeni: ${v.all.join(', ')}</span><span class="vh">Allergeni: ${v.all.map((n) => nomi[n - 1].toLowerCase()).join(', ')}</span></p>` : '';
+        return `<li class="voce" data-tag="${chiavi.filter((t) => ha(v, t)).join(' ')}"><div class="voce__riga"><h3 class="voce__nome">${esc(v.nome)}</h3><span class="voce__punti" aria-hidden="true"></span><span class="voce__prezzo">${euro.format(v.prezzo)}</span></div>` +
+          (v.testo ? `<p class="voce__testo">${esc(v.testo)}</p>` : '') + (tag || all ? `<div class="voce__info">${tag}${all}</div>` : '') + '</li>';
+      };
+      return D.menu.map((c) => `<section class="listino__sezione" id="${c.id}" aria-labelledby="t-${c.id}"><h2 id="t-${c.id}">${esc(c.nome)}</h2><ul class="voci" role="list">${c.voci.map(voce).join('')}</ul></section>`).join('') +
+        '<p class="menu-vuoto" hidden>Nessuna voce con questi filtri. Togli un filtro per vedere tutto il menu.</p>';
+    }
+  };
+
   BP.orari = { oraLocale, fasceDelGiorno, intervalli, stato, testoStato, sintesiOrari, fasceTesto, speciali };
   BP.util = { eventiFuturi, risolviRelative, ics, validaPrenotazione, messaggioPrenotazione, link, indirizzoCompleto };
+  BP.html = H;
 
   if (typeof document === 'undefined' || !BP.data) return;
 
@@ -222,18 +260,9 @@
   const D = BP.data, L = D.locale, U = link(L), O = D.orari;
   const $ = (s, c = document) => c.querySelector(s);
   const $$ = (s, c = document) => [...c.querySelectorAll(s)];
-  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
-  const icona = (id) => `<svg class="icona" aria-hidden="true" focusable="false"><use href="#i-${id}"/></svg>`;
-  const euro = new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'EUR' });
   const ridotto = matchMedia('(prefers-reduced-motion: reduce)');
   const oggiN = () => oraLocale(new Date(), O.fuso).giorno;
   const render = (nome, html) => { const el = $(`[data-render="${nome}"]`); if (el) el.innerHTML = html; return el; };
-
-  function foto(base, alt, w, h, sizes, subito) {
-    const set = (ext) => [480, 960, 1600].map((x) => `assets/img/${base}-${x}.${ext} ${x}w`).join(', ');
-    return `<picture><source type="image/avif" srcset="${set('avif')}" sizes="${sizes}"><source type="image/webp" srcset="${set('webp')}" sizes="${sizes}">` +
-      `<img src="assets/img/${base}-960.jpg" srcset="${set('jpg')}" sizes="${sizes}" width="${w}" height="${h}" alt="${esc(alt)}"${subito ? '' : ' loading="lazy" decoding="async"'}></picture>`;
-  }
 
   // Link e testi presi da site-data.js (l'HTML statico ne tiene una copia per chi non ha JS).
   function collega() {
@@ -246,7 +275,7 @@
     $$('[data-bp]').forEach((el) => { const u = U[el.dataset.bp]; if (u) el.href = u; else el.hidden = true; });
     $$('[data-se-no-wa]').forEach((el) => { el.hidden = !!L.whatsapp; });
     $$('[data-bp-testo]').forEach((el) => { const t = testi[el.dataset.bpTesto]; if (t != null) el.textContent = t; });
-    $$('[data-render="sintesi"]').forEach((el) => { el.innerHTML = sintesiOrari(O.settimana).map((r) => `<li>${esc(r)}</li>`).join(''); });
+    $$('[data-render="sintesi"]').forEach((el) => { el.innerHTML = H.sintesi(O.settimana); });
   }
 
   function statoLive() {
@@ -273,7 +302,7 @@
   }
 
   function tabellaOrari() {
-    render('orari', [1, 2, 3, 4, 5, 6, 0].map((g) => `<tr data-g="${g}"><th scope="row">${maiusc(GIORNI[g])}</th><td>${maiusc(fasceTesto(O.settimana[g]))}</td></tr>`).join(''));
+    render('orari', H.orari(O.settimana));
     const lista = speciali(oggiN(), 45, O), box = $('[data-speciali]');
     if (!box) return;
     box.hidden = !lista.length;
@@ -349,17 +378,8 @@
     box.append(el, b); disegna();
   }
 
-  function giornata() {
-    render('giornata', (D.giornata || []).map((g) => `<li class="giornata__voce"><p class="giornata__ora">${esc(g.ora)}</p><h3>${esc(g.titolo)}</h3><p>${esc(g.testo)}</p></li>`).join(''));
-  }
-
-  function prodotti() {
-    render('prodotti', (D.prodottiFirma || []).map((p, i) => {
-      const sizes = i ? '(min-width: 60rem) 17rem, (min-width: 36rem) 45vw, 46vw' : '(min-width: 60rem) 36rem, (min-width: 36rem) 45vw, 92vw';
-      return `<li class="vetrina__voce"><article class="prodotto"><div class="foto">${foto(p.img, p.alt, 1600, 1600, sizes)}</div>` +
-        `<div><h3>${esc(p.nome)}</h3><p>${esc(p.testo)}</p>${p.prezzo ? `<p class="prodotto__prezzo">${euro.format(p.prezzo)}</p>` : ''}</div></article></li>`;
-    }).join(''));
-  }
+  const giornata = () => render('giornata', H.giornata(D));
+  const prodotti = () => render('prodotti', H.prodotti(D));
 
   function eventi() {
     const box = $('[data-render="eventi"]');
@@ -395,7 +415,7 @@
     const ul = $('[data-render="galleria"]'), dlg = $('#lightbox'), lista = D.galleria || [], n = lista.length;
     if (!ul || !n) return;
     let ora = 0, origine = null, x0 = null;
-    ul.innerHTML = lista.map((f, i) => `<li><button class="galleria__apri" type="button" data-i="${i}" aria-label="Ingrandisci: ${esc(f.alt)}">${foto(f.img, '', f.w, f.h, '(min-width: 48rem) 33vw, 50vw')}</button></li>`).join('');
+    ul.innerHTML = H.galleria(D);
     if (!dlg || typeof dlg.showModal !== 'function') return;
     const scena = $('.lightbox__scena', dlg);
     const mostra = (i) => {
@@ -456,6 +476,7 @@
     const f = $('#modulo-prenota');
     if (!f) return;
     if (!D.prenotazioni) { f.hidden = true; return; }
+    if (!L.whatsapp) $('.modulo__invio span', f).textContent = 'Scrivici un’email';
     const campi = ['nome', 'giorno', 'ora', 'persone', 'note'], esito = $('#esito-modulo');
     let tentato = false;
     f.elements.giorno.min = iso(oggiN());
@@ -486,21 +507,11 @@
   function menu() {
     const box = $('[data-render="menu"]');
     if (!box) return;
-    const nomi = D.allergeni, et = D.etichette, chiavi = Object.keys(et);
-    const ha = (v, t) => v.tag.includes(t) || (t === 'veg' && v.tag.includes('vegan'));
-    let tutte = 0;
-    const voce = (v) => {
-      tutte++;
-      const tag = v.tag.length ? `<ul class="etichette" role="list">${v.tag.map((t) => `<li class="etichetta">${icona(t === 'sg' ? 'spiga' : 'foglia')}${esc(et[t])}</li>`).join('')}</ul>` : '';
-      const all = v.all.length ? `<p class="voce__allergeni"><span aria-hidden="true">Allergeni: ${v.all.join(', ')}</span><span class="vh">Allergeni: ${v.all.map((n) => nomi[n - 1].toLowerCase()).join(', ')}</span></p>` : '';
-      return `<li class="voce" data-tag="${chiavi.filter((t) => ha(v, t)).join(' ')}"><div class="voce__riga"><h3 class="voce__nome">${esc(v.nome)}</h3><span class="voce__punti" aria-hidden="true"></span><span class="voce__prezzo">${euro.format(v.prezzo)}</span></div>` +
-        (v.testo ? `<p class="voce__testo">${esc(v.testo)}</p>` : '') + (tag || all ? `<div class="voce__info">${tag}${all}</div>` : '') + '</li>';
-    };
-    box.innerHTML = D.menu.map((c) => `<section class="listino__sezione" id="${c.id}" aria-labelledby="t-${c.id}"><h2 id="t-${c.id}">${esc(c.nome)}</h2><ul class="voci" role="list">${c.voci.map(voce).join('')}</ul></section>`).join('') +
-      '<p class="menu-vuoto" hidden>Nessuna voce con questi filtri. Togli un filtro per vedere tutto il menu.</p>';
-    render('categorie', D.menu.map((c) => `<li><a class="chip" href="#${c.id}">${esc(c.nome)}</a></li>`).join(''));
+    const et = D.etichette, chiavi = Object.keys(et), tutte = D.menu.reduce((n, c) => n + c.voci.length, 0);
+    box.innerHTML = H.menu(D);
+    render('categorie', H.categorie(D));
     const filtri = render('filtri', chiavi.map((t) => `<button class="chip" type="button" aria-pressed="false" data-tag="${t}">${icona('spunta')}${esc(et[t])}</button>`).join(''));
-    render('allergeni', nomi.map((n) => `<li>${esc(n)}</li>`).join(''));
+    render('allergeni', H.allergeni(D));
     const esito = $('.filtri__esito'), tutteTesto = `Tutte le ${tutte} voci.`;
     esito.textContent = tutteTesto;
     filtri.addEventListener('click', (e) => {
@@ -529,15 +540,13 @@
         });
       }), { rootMargin: '-30% 0px -65% 0px' });
       $$('.listino__sezione', box).forEach((s) => io.observe(s));
+      const testa = $('.menu-testa');
+      if (testa) new IntersectionObserver(([v]) => { if (v.isIntersecting) { $$('a', barra).forEach((a) => a.removeAttribute('aria-current')); barra.scrollTo({ left: 0 }); } }).observe(testa);
     }
     if (location.hash) { const t = document.getElementById(location.hash.slice(1)); if (t) t.scrollIntoView(); }
   }
 
-  function social() {
-    const s = L.social;
-    render('social', ['instagram', 'facebook', 'tiktok'].filter((k) => s[k]).map((k) =>
-      `<li><a href="${esc(s[k].url)}" rel="noopener">${icona(k)}${esc(k === 'instagram' ? `Instagram ${s[k].nome}` : s[k].nome)}</a></li>`).join(''));
-  }
+  const social = () => render('social', H.social(L.social));
 
   // Dati strutturati schema.org, generati da site-data.js così restano allineati.
   function datiLocale() {
