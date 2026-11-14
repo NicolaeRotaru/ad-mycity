@@ -3,7 +3,7 @@
  "riparatori": [
   "R17"
  ],
- "aggiornato": "2026-11-14 06:58",
+ "aggiornato": "2026-11-14 07:00",
  "finita": true,
  "punta": "0a0fbaca20c5c3a0d45bcd670524490e17fc5967",
  "testa": "7e5909b2aeafac50988356725f03cd07837c3d08",
@@ -39,7 +39,7 @@
     "chiude_tutta",
     "nata_rotta"
    ],
-   "nota": "Due revisori, una lente ciascuno; le prove della voce sono verdi alla testa (10 unitarie, 16 SQL). Falla di sicurezza da chiudere (abuso di logica sui resi): dettagli solo alla regista. Inoltre il guardiano della 411 si aggira in due passi (SHIPPED_BACK→APPROVED→CANCELED, provato sul Postgres locale come service_role; oggi nessuna rotta lo fa). Dichiarati nel referto: il tasto «Ho rispedito la merce» del cliente manca (app/orders/[id]/return/page.tsx) e la scheda del negozio non legge la dichiarazione (app/seller/orders/[id]/page.tsx)."
+   "nota": "Falla di sicurezza da chiudere (resi)."
   },
   {
    "id": "R17-004",
