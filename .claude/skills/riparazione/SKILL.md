@@ -354,7 +354,7 @@ Appena un riparatore ha `finita: true` con `guardia-ramo` e `valida-referto` ver
 collaudatore libero (fino a 3 riparatori ciascuno; i collaudatori sono ceil(K/3), al massimo 4).
 - `create_session` con `source_url` = `ad-mycity`, `source_revision` = `SHA_REGISTA` (così
   `prova-rimessa.mjs` è una copia fissata, non quella che un riparatore può aver toccato),
-  `outcome_branch` = `<ramo della regista>-kNN`;
+  `outcome_branch` = `<ramo della regista>-kNN`, tag `cartella:onda-N-collaudatori`, titolo «Collaudatore · KNN · onda N»;
 - il prompt, una riga: *«Sei il collaudatore KNN. Leggi cervello/riparazione/LEGGIMI-collaudo.md e collauda
   i riparatori R… (ramo …, punta …, testa …) e R… (ramo …, punta …, testa …) della cartella <C>. BASE è ….»*.
   La **punta** è l'ultimo commit del ramo (`git rev-parse origin/<ramo>`), dove sta il referto finito; la
@@ -386,7 +386,7 @@ senza Nicola.
    - macchina: `node cervello/cancello-lotto.mjs` e `node cervello/radiografia-in-corsa.mjs`.
    Sono le prove che il 5/11 diventavano rosse solo dopo l'unione (8). Una voce `rompe_altro`, o rossa
    dopo l'unione, si toglie da sola col suo commit (`git revert`): per questo una voce per commit.
-   **Il controllore d'onda** (`CNN`, sessione nuova su `ad-mycity`, dove ci sono i senior, ramo `<ramo della regista>-cNN`) parte appena il ramo
+   **Il controllore d'onda** (`CNN`, sessione nuova su `ad-mycity`, dove ci sono i senior, ramo `<ramo della regista>-cNN`, tag `cartella:onda-N-controllori`, titolo «Controllore · CNN · onda N») parte appena il ramo
    unito è spinto. Il prompt è una riga: *«Sei il controllore CNN. Leggi cervello/riparazione/LEGGIMI-controllore.md
    e controlla l'onda N della cartella <C>: integrazione <ramo> @ <sha>, base <sha>.»* Il suo referto si
    copia in `<C>/controlli/CNN.json`. Sul suo ramo deve esserci solo quel file (`git diff --name-only`).
