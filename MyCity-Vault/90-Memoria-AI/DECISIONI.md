@@ -6915,3 +6915,15 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 ## 2026-11-13 05:20 — 🟡 L'eccezione «a» si allarga, solo per l'onda 1
 - **Chi:** Nicola alla regista dell'onda 2: «Allarga la a».
 - **Perché:** per chiudere l'onda 1 nel registro c'erano 63 errori. 57 sono prove comuni, coperte dalla card 239. Gli altri 6 no: 2 sul ramo di R08, che fermavano 13 chiusure, e 4 collaudi di K03 provati a mano sul database, su voci che restano aperte comunque. Nicola li ha messi nell'eccezione, solo per l'onda 1.
+
+## 2026-11-14 08:11 — 🟡 Le cartelle dello scheletro diventano etichette: niente più sessioni-cartella
+- **Chi:** Nicola, nella chat «Sessione wave 3 setup» (`session_015BmpnXBC7mawbhLmxjMKTW`). Prima: «dentro l'albero riesci a creare delle cartelle e usare quelle al posto delle sessioni che creano sotto di loro delle sotto sessioni». Poi: «salvala come regola».
+- **Perché:** nell'onda 2 le sessioni-cartella e le registe aperte una dentro l'altra hanno portato l'albero al livello 7 su 8, con circa 41 sessioni in 27 ore. Secondo la documentazione ufficiale, l'app non ha cartelle che una sessione possa creare: i «Progetti» li crea solo Nicola.
+- **Cosa cambia:** la regola 12 di `cervello/sessioni-insieme.md` e la skill `riparazione`. In cima c'è una sessione che lavora. Sotto di lei nascono tutte le altre, con l'etichetta `cartella:onda-N-<ruolo>` e il ruolo in testa al titolo.
+- **Prova:** alle 08:07 sono nate cinque sessioni di prova, una per ruolo (0,31 $). Resta da vedere, sulla foto di Nicola, se l'app mostra le etichette come cartelle.
+
+## 2026-11-14 09:15 — 🟡 Nell'elenco restano solo le sessioni attive: si archivia appena si finisce
+- **Chi:** Nicola, nella chat «Sessione wave 3 setup», dopo aver visto l'albero d'esempio con le sessioni-cartella: «no niente togli le cartelle, pensavo che si aprissero e chiudessero come un finestra». E poi: «il mio obbiettivo è risparmiare lo spazio per dover scrollare in mezzo a 10-20 sessioni ma solo quelle che sono attive».
+- **Perché:** l'app non ha cartelle vere. Una sessione-cartella è una riga in più nell'elenco, non una in meno.
+- **Cosa cambia:** la regola 12 di `cervello/sessioni-insieme.md` e la skill `riparazione`. Chi apre una sessione la archivia appena il suo lavoro è chiuso, dopo aver guardato che non abbia sessioni vive dentro. Nessuna sessione-cartella. Il ruolo va in testa al titolo, l'onda nell'etichetta (`onda-3-riparatori`).
+- **Fatto subito:** alle 09:17 archiviate le 22 sessioni d'esempio e di prova del 14/11. Costo dei due esempi: circa 1,8 $.

@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-11-13 04:01
+aggiornato: 2026-11-14 17:20
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🔧 **2026-11-14 17:20 — Nell'elenco delle sessioni restano solo quelle attive, e l'onda 2 fa un giro di correzione prima della fermata 3.**
+>
+> Hai chiesto di non dover scorrere fra 10-20 sessioni finite. La regola 12 ora dice che chi apre una sessione la archivia appena finisce, e che non ci sono sessioni-cartella. I titoli sono corti, e chi prende il posto di una sessione prende il numero dopo, in parole: «C02 terzo». È nella richiesta #953, che aspetta la tua unione. Intanto l'onda 2 rifà le voci bocciate, quelle lasciate a metà e quelle che chiedono il file di un'altra sessione. Il tetto dell'onda è salito a 1.650 $ (bacheca, 14/11 alle 10:20). La fermata 3 viene dopo questo giro.
 
 > ✅ **2026-11-13 02:55 — Hai unito la richiesta della macchina #944.**
 >
@@ -1835,19 +1839,11 @@ solo indovinare. L'ho già indovinato male due volte.
 
 > 🕛 **17/8 12:00 — Punto di mezzogiorno (cadenza ufficiale di ritmo.md).** Riprese le 3 priorità del Piano del mattino (06:05): tutte e tre ancora aperte, nessuna sbloccata (`#108` sblocco server, `#36`/`#37`/`#38` sicurezza 19gg, `#104` permessi 12gg). Business riverificato dal vivo con `verifica-sensori.mjs` (REST, 1 ordine) e `coerenza-fatti.mjs` (✅ coerente): identico al passaggio 11:40, stallo North Star **54 giorni**, dentro la pausa concordata fino al 24/8-1/9. Nessuna correzione di rotta necessaria: nessuna urgenza nuova. Novità minima: il worker ha fatto un altro recupero automatico di scritture pendenti proprio a mezzogiorno (commit `e306d8297`). Blocco completo in [[RITMO]], dettaglio priorità in "Prossime priorità" più sotto.
 
-> 🔁 **17/8 11:40 — Nuova sessione di chat, giro completo. Business riverificato dal vivo, invariato: ~36°-37° passaggio odierno sullo stesso stato.**
-> `verifica-sensori.mjs` (REST ok, 1 ordine) + `coerenza-fatti.mjs` (✅ memoria coerente) + `ci-stato.mjs` (stesse 3 PR rosse #749/#741/#735): identico bit-per-bit. **Difetto vero trovato e riparato:** `AUTO-ANALISI.md` era fermo alle 10:22 mentre il suo json gemello era già a 11:25 — desincronizzati, causa del vincolo HARD `freschezza-cadenze` mostrato in apertura sessione. Risincronizzati. Livello letargo: SOPRAVVIVENZA, quota AI **123%** (era 93% alle 11:25) — nessuna riscrittura dei JSON pesanti (freschi, dati identici), nessun sub-agente.
->
-> **Non ripropongo per la quinta volta la domanda sul ritmo dei giri nei file automatici** (posta 10:22, 10:39, 11:08, 11:25, mai risposta): la richiamo in chiaro nella risposta a Nicola in chat.
->
-> **Mossa n.1, invariata.** Coda: **#62** (pratica pagamenti Pane Quotidiano — il vero blocco), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, 19 giorni), le 3 PR croniche rosse (#749/#741/#735), **#42** (permesso jolly).
-
-
 ---
 
 > 📦 **Le voci piu' vecchie sono nell'archivio.** Questo file era arrivato a
 > 168.335 caratteri. Sopra i 200.000 il controllo che tiene leggibili
 > i testi non riesce a leggerlo intero, quindi su questo file smetteva di
-> proteggerlo. Le 34 voci piu' vecchie stanno in
+> proteggerlo. Le 35 voci piu' vecchie stanno in
 > `MyCity-Vault/90-Memoria-AI/Archivio/STATO-archivio.md`, spostate senza
 > riscrivere niente.

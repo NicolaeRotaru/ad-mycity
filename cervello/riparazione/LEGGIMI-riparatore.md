@@ -98,7 +98,7 @@ andati in rilettura, non in lavoro. Quindi:
    `cervello/sessioni-insieme.md`). Il numero lo leggi da te a fine di ogni lotto: `context_usage.used_tokens` di
    `get_session` senza id. Chiudi il lotto in corso e scrivi nel referto un campo `passaggio` (voci fatte, in corso,
    giri aperti, spesa). Copialo in `.riparazione/referto-RNN.json`, fai il commit e spingi. Poi `create_session` dalla
-   **testa del tuo ramo** (mai dalla base), sullo stesso ramo, titolo «Riparatore · RNN · onda N · 2.0», modello
+   **testa del tuo ramo** (mai dalla base), sullo stesso ramo, stessa etichetta, titolo «RNN secondo» (il numero dopo, in parole), modello
    grande, `effort: "xhigh"`, `permission_mode: "auto"`. Il primo messaggio porta questo foglio, la scheda, il
    passaggio e «riprendi solo le voci senza esito». Con `get_session` controlli che la 2.0 abbia ultracode acceso:
    se è spento, lo dici subito alla regista, che lo fa accendere a Nicola.
