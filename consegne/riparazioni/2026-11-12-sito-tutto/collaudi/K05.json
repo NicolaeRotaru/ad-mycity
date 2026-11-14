@@ -5,7 +5,7 @@
     "R21",
     "R22"
   ],
-  "aggiornato": "2026-11-13 15:08",
+  "aggiornato": "2026-11-14 11:58",
   "finita": true,
   "voci": [
     {
@@ -191,22 +191,22 @@
       ],
       "rimessa": {
         "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 2eb0cddf7559d246bf1445d5aec3b629371a6256^ --file app/rider/page.tsx --prove tests/unit/riparazione-r20-presa-ordine.test.ts  --json (al commit 2eb0cddf7559d246bf1445d5aec3b629371a6256)"
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 30b7f9ed4c8231a23b8f56bae58f4e53e99e8c80^ --file app/rider/page.tsx --prove tests/unit/riparazione-r20-presa-ordine.test.ts --json (al commit 30b7f9ed4c8231a23b8f56bae58f4e53e99e8c80, giro di correzione: «② app/rider/page.tsx alla base: rossa, sul comportamento»)"
       },
-      "nota": "Il difetto scritto è chiuso: le mutazioni M5 (tutti i pulsanti girano) e M6 (niente rimozione su GIA_PRESO) fanno diventare rosso il test. Però loading={claim.isPending && claim.variables===o.id} segue solo l'ultimo mutate. Passi: 1) bacheca con due ordini A e B; 2) tocco Accetta su A; 3) mentre A è in volo tocco B; 4) A torna senza aria-busy e attivo, con la sua richiesta ancora in volo; 5) tocco di nuovo A e parte un secondo prendi_ordine(A). Misurato: alla testa 3 chiamate (A,B,A), alla base 1, perché lì tutti i pulsanti erano spenti. Rifatto due volte. Il secondo A trova rider_id pieno, perché è suo, e risponde GIA_PRESO (migrazione 270, righe 85-90). Il fattorino legge allora «l'ha preso un altro fattorino». Non c'è doppia assegnazione: gravità minore.",
+      "nota": "Ricollaudo del giro di correzione (14/11), alla testa 30b7f9ed. La voce è chiusa tutta, e il caso del collaudo di prima pure. A, poi B con A in volo, poi di nuovo A: 2 chiamate (A, B) invece di 3, e A resta spento con aria-busy finché la sua presa non torna. Sonda di 12 casi: 12 verdi alla testa, 8 rossi su 12 a e607b68b. Ci sono anche GIA_PRESO (l'ordine esce subito, una rilettura), DOCUMENTI_SCADUTI e NON_FATTORINO (l'ordine resta), A che cade con B in volo, StrictMode e pagina smontata. In @tanstack/query-core 5.100.14 onSettled delle opzioni riceve le variables di ogni presa. Prova 6/6, le 10 prove sulla pagina 118/118, tsc pulito. Rompe però una cosa piccola. Ora gli altri pulsanti restano attivi, come chiede la voce, quindi due prese possono viaggiare insieme. Se A riesce e B torna GIA_PRESO, il fattorino legge sul dettaglio di A, che è suo, «Questo ordine non è più disponibile: l'ha preso un altro fattorino». Il messaggio non dice quale ordine. Alla base B non si poteva toccare. Gravità minore.",
       "difetti": [
         {
           "file": "app/rider/page.tsx",
-          "riga": "645",
-          "cosa": "Il blocco contro il doppio tocco si perde. Dopo un Accetta su un secondo ordine, il pulsante del primo torna attivo e senza rotella mentre la sua presa è ancora in volo. Un nuovo tocco manda un secondo prendi_ordine sullo stesso ordine: 3 chiamate contro 1 della base."
+          "riga": "394, 400-404 (testo 376)",
+          "cosa": "Minore, nato dalla voce. Passi: 1) tocco Accetta su A; 2) mentre A è in volo tocco B; 3) A riesce e la pagina passa al dettaglio di A (router.push in onSuccess); 4) B torna GIA_PRESO. Il toast d'errore di B compare sul dettaglio di A senza dire di quale ordine parla: il fattorino legge «l'ha preso un altro fattorino» per una pagina che è sua. Se riescono tutte e due partono due router.push, e si finisce sull'ultimo ordine tornato. Senza rete A, B e C si accodano: al ritorno della rete partono 3 prese e arrivano 3 ordini (alla base 1). prendi_ordine (migrazione 270) non mette limiti per fattorino. Rimedio minimo: nominare il negozio dell'ordine nel messaggio, oppure non mostrare l'errore di una presa dopo che un'altra ha già cambiato pagina."
         },
         {
           "file": "app/rider/page.tsx",
-          "riga": "369-377",
-          "cosa": "Conseguenza del difetto sopra: il doppione riceve GIA_PRESO (migrations/270, righe 85-90: rider_id IS NULL). Il fattorino vede il toast «l'ha preso un altro fattorino» per un ordine che ha preso lui, e l'ordine sparisce dalla bacheca."
+          "riga": "673",
+          "cosa": "Minore, già così alla base, non nato qui: se la pagina si rimonta con la presa di A in volo, A torna premibile e un nuovo tocco manda un secondo prendi_ordine(A) (2 chiamate, uguale alla base). Si chiuderebbe con useMutationState."
         }
       ],
-      "giudice": "J1"
+      "giudice": "J1·2 (giro di correzione, 14/11)"
     },
     {
       "id": "R20-012",
@@ -675,25 +675,31 @@
     {
       "id": "R22-002",
       "chiave": "deploy-sre|alla riaccensione della posta, le email ormai scadute fanno la fila davanti a quelle nuove",
-      "verdetto": "parziale",
+      "verdetto": "regge",
       "giudizio": "pieno",
       "lenti": [
         "chiude_tutta",
-        "nata_rotta"
+        "nata_rotta",
+        "dati"
       ],
       "rimessa": {
         "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base dce0a2434d0cc490a69dedca3579c8a8f13c68a4^ --file app/api/cron/send-emails/route.ts --prove tests/unit/riparazione-r22-scadute-fuori-dalla-fila.test.ts  --json (al commit dce0a2434d0cc490a69dedca3579c8a8f13c68a4)"
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 2c5387bf7ac4ce551ccfc8ccd329093a02ead7f2^ --file app/api/cron/send-emails/route.ts --prove tests/unit/riparazione-r22-scadute-fuori-dalla-fila.test.ts --json (al commit 2c5387bf7ac4ce551ccfc8ccd329093a02ead7f2, giro di correzione: «② route.ts alla base: rossa, sul comportamento»)"
       },
-      "nota": "Sul Postgres locale con la 165 la chiusura in blocco funziona: 100 scadute chiuse, la fresca presa al primo giro, la riga prenotata da un giro in corso lasciata stare. Ma sul database senza la 165 il difetto resta. Il codice dichiara proprio quello stato come quello vero (route.ts:350) e lo gestisce (route.ts:345-380). Lì l'update su scade_at (route.ts:187) cade e si torna alla chiusura una per una (route.ts:389). La mia sonda, senza la colonna: primo giro sent=0, scadute=15, la fresca non parte. Il riparatore lo scrive nella nota, ma dichiara copre_tutta_la_voce=true: copre solo lo stato con la 165, che oggi in produzione non c'è.",
+      "nota": "Ricollaudo del giro di correzione (14/11), alla testa 2c5387bf. Ci sono due revisori, uno per lente, ognuno col suo Postgres 16 locale vero, la route vera e il postgrest-js vero. L'SQL l'hanno tradotto dall'indirizzo generato, perché sulla macchina non c'è un PostgREST. Senza la 165, lo stato di oggi: 100 scadute e 1 fresca, al primo giro sent=1 e 100 chiuse in blocco col motivo, claimed_at nullo. È lo stesso con 100 scadute rinviate dalla posta spenta, che è il caso vero della riaccensione. La route di prima dà sent=0, scadute=15. Sulle code a caso (900 e 4000 righe) e su una matrice di ogni forma di riga nessuna riga vera è chiusa a torto. Fra le 15 prese non c'è nessuna scaduta. Con la 165: 101 chiuse su scade_at, la fresca al primo giro, la riga prenotata lasciata stare. Due connessioni vere in concorrenza: una riga appena presa non si chiude mai, 0 doppi invii su 20 coppie di giri. L'errore porta davvero code 42703 fino alla route. Due errori messi apposta (senza neq vuoto, ritardo a 0) fanno diventare rossa la sonda. Il dubbio sui filtri col valore vuoto l'ho chiuso leggendo il sorgente di PostgREST v12.2.3: eq. e neq. vuoti valgono stringa vuota (pSingleVal = many anyChar). Prova 10/10, le 19 prove sulla route 180/180. Restano due rischi minori, non nati qui e quasi nulli oggi (vedi difetti). Un'osservazione: senza la 165 ogni giro fa circa 15 PATCH, anche a coda vuota.",
       "difetti": [
         {
           "file": "app/api/cron/send-emails/route.ts",
-          "riga": "173-197, 389",
-          "cosa": "chiudiLeScaduteInBlocco filtra su scade_at: senza la migrazione 165 (lo stato dichiarato vero a route.ts:350) non chiude niente, e le scadute calcolate in rotta occupano ancora i 15 posti del giro. Sonda: sent=0, scadute=15, fresca non spedita"
+          "riga": "224-235, 147",
+          "cosa": "Minore e latente. Con la 165 presente, se la chiusura su scade_at cade per un motivo diverso dalla colonna assente (timeout 57014, permesso), si passa al calcolo. Il calcolo chiude in anticipo una riga rinviata di un modello programmato con un ritardo diverso da RITARDO_PREVISTO_GIORNI. Esempio misurato: tutorial_day2 con send_at = created_at + 7 giorni, rinviato, nato 6 giorni fa, chiuso mentre scade_at vale ancora 4 giorni. Su 1802 righe realistiche le righe chiuse sono 0. Oggi la probabilità è circa zero: la 165 non c'è, e gli inserimenti (033, 150, 215) usano i ritardi della mappa. Nessuna prova però confronta la mappa con le migrazioni."
+        },
+        {
+          "file": "app/api/cron/send-emails/route.ts",
+          "riga": "194-201",
+          "cosa": "Minore, già dichiarato nella nota del referto e già così nel percorso con la 165. La chiusura in blocco non filtra attempts: una riga aperta con attempts>=5 viene chiusa come «scaduta» e perde il suo last_error vero. Non parte nessuna email in più. Nel codice di oggi una riga così non si forma, perché il quinto tentativo scrive attempts e cancelled_at insieme."
         }
       ],
-      "giudice": "J7"
+      "giudice": "J7·2a (chiude_tutta+dati) + J7·2b (nata_rotta+dati), giro di correzione 14/11"
     },
     {
       "id": "R22-007",
