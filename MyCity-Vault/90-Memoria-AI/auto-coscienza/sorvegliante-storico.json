@@ -2,32 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-18T03:01:29.347Z",
-      "scatti": 12144,
-      "voci": 215,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 204,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1,
-        "gate-orfano": 3
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-18T03:02:01.512Z",
-      "scatti": 12145,
-      "voci": 215,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 204,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1,
-        "gate-orfano": 3
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-18T04:08:19.183Z",
       "scatti": 12179,
       "voci": 215,
@@ -2060,6 +2034,13 @@
       "mai_risolte": []
     },
     {
+      "quando": "2026-11-13T16:14:00.128Z",
+      "scatti": 155,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
       "quando": "2026-11-13T16:24:14.102Z",
       "scatti": 41,
       "voci": 0,
@@ -2079,7 +2060,14 @@
       "voci": 0,
       "per_classe": {},
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T04:41:49.185Z",
+      "scatti": 156,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-11-13T17:21:46.612Z"
+  "aggiornato": "2026-11-14T04:41:49.186Z"
 }
