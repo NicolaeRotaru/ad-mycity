@@ -31,6 +31,23 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🟡 #248 — Dai il via al giro sulle 6 voci gravi dell'onda 2, per circa 70 $ · ⏳ accodata 2026-11-15 00:58
+
+**In parole semplici.** Hai scelto di riprendere solo le 6 voci gravi (carta 244 «a»). Ecco il preventivo. Le voci si dividono in tre gruppi: due sui soldi, tre sulla vetrina e sul fattorino, una falla di sicurezza riservata.
+
+**Cosa cambia per te.** I due riparatori lavorano sul codice già riunito, quindi nessun file è di un'altra sessione. Esempio: il bonifico del lunedì e la pagina Guadagni stanno nello stesso file, e li ripara la stessa sessione.
+- Soldi: il bonifico del lunedì, con la tua scelta «a» della carta 246, e la pagina Guadagni coi soli contanti. Tetto 20 $.
+- Vetrina e fattorino: le foto delle categorie da cambiare dal pannello, le categorie vuote in home e nel piè di pagina, il pulsante di emergenza con la tua eccezione della carta 245. Tetto 18 $.
+- Un collaudatore per tutte e 6. Tetto 20 $.
+- La falla riservata va su una strada a parte, con i dettagli solo in chat. Tetto 12 $.
+
+**Cosa devi fare tu.** Scrivi alla regista «ok 248». Ogni sessione nuova chiede il tuo clic su «Create Session»: sono quattro.
+
+**Cosa non ho verificato.** I tetti vengono dal costo misurato del giro di correzione: 22,31 $ per 4 voci sui soldi, 14,23 $ per 2 voci della vetrina. Le sessioni di oggi hanno sforato in media del 20-50%. Il conto vero può arrivare a circa 100 $, e ci sta: prima del tetto di 1.650 $ ne restano circa 150, già tolti i 35 $ del controllore.
+
+Cosa cambia: con il via, le 6 voci gravi possono chiudersi in questa onda; senza, vanno all'onda 3.
+Se va bene: la regista divide le voci, apre le quattro sessioni e le sorveglia ogni 30 minuti.
+
 ### 🟡 #243 — Dai il sì per mettere il lavoro dell'onda 2 nella richiesta di unione del sito · ⏳ accodata 2026-11-14 17:16
 
 **Stato:** ✅ FATTO 2026-11-15 00:54. Hai scritto «ok 243». I nove rami sono nella richiesta di unione del sito, senza le tre correzioni difettose. Le prove automatiche sono tutte verdi, e la richiesta si può unire. Resta in bozza: unirla è tua.
@@ -48,7 +65,7 @@ Se va bene: una sessione nuova controlla solo le modifiche nuove, con un tetto d
 
 ### 🟡 #244 — Scegli quanto fare del giro allargato dell'onda 2, perché intero sfora il tetto · ⏳ accodata 2026-11-14 17:16
 
-**Stato:** ⏳ in corso dal 2026-11-15 00:32. Hai scelto la «a». Il preventivo arriva dopo la riunione dei rami.
+**Stato:** ✅ FATTO 2026-11-15 00:58. Hai scelto la «a». Il preventivo è la carta 248.
 
 **In parole semplici.** Il giro allargato riprende 84 voci rimaste a metà o ferme per il file di un'altra sessione. Al ritmo vero dell'onda 2, circa 5,66 $ a voce, costerebbe circa 475 $. Prima di arrivare al tetto di 1.650 $ ne restano circa 185.
 
