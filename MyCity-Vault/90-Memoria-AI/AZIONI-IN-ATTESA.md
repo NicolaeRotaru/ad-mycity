@@ -31,6 +31,71 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🟡 #243 — Dai il sì per mettere il lavoro dell'onda 2 nella richiesta di unione del sito · ⏳ accodata 2026-11-14 17:16
+
+**In parole semplici.** Le sessioni dell'onda 2 hanno riparato ognuna su una copia separata del sito. La regista le mette insieme nella richiesta di unione del sito, che è già aperta in bozza. Sul sito vero non va niente: online va solo quando unisci tu.
+
+**Cosa cambia per te.** Esempio: l'avviso «senza rete» col tasto Riprova, riparato da una sessione, entra nella richiesta insieme agli altri lavori. Con il sì, nella richiesta entrano le 4 voci chiuse dal giro di correzione. Restano fuori tre correzioni che rompono un'altra cosa: il rimborso diviso, gli allergeni, la bacheca del fattorino.
+
+**Cosa devi fare tu.** Scrivi alla regista dell'onda 2 «sì, carica».
+
+**Cosa non ho verificato.** La prova di unione fra i rami è verde. La riunione con la copia unica del sito si prova dopo il sì, prima di caricare.
+
+Cosa cambia: la richiesta di unione del sito si aggiorna con il lavoro del 14/11; il sito vero resta com'è.
+Se va bene: una sessione nuova controlla solo le modifiche nuove, con un tetto di 20 $.
+
+### 🟡 #244 — Scegli quanto fare del giro allargato dell'onda 2, perché intero sfora il tetto · ⏳ accodata 2026-11-14 17:16
+
+**In parole semplici.** Il giro allargato riprende 84 voci rimaste a metà o ferme per il file di un'altra sessione. Al ritmo vero dell'onda 2, circa 5,66 $ a voce, costerebbe circa 475 $. Prima di arrivare al tetto di 1.650 $ ne restano circa 185.
+
+**Cosa cambia per te.** Fra le 84 ci sono 6 voci gravi, fra cui il bonifico del lunedì e il pulsante di emergenza del fattorino. Esempio: fare solo quelle 6 costa una frazione del totale e tocca i difetti che pesano di più.
+
+**Cosa devi fare tu.** Scrivi alla regista una lettera. «a»: solo le 6 gravi, con un preventivo vero prima di partire (la regista consiglia questa). «b»: tutte le 84, alzando il tetto. «c»: niente adesso, tutto all'onda 3.
+
+**Cosa non ho verificato.** I 475 $ sono una stima sul costo medio per voce dell'onda 2, non un preventivo voce per voce. Il resoconto intero dell'onda 2 sta in `consegne/riparazioni/2026-11-12-sito-tutto/RESOCONTO-ONDA-2.md`.
+
+Cosa cambia: con la «a» le gravi possono chiudersi in questa onda; con la «c» aspettano l'onda 3.
+Se va bene: la regista prepara il preventivo delle 6 gravi e te lo porta prima di aprire le sessioni.
+
+### 🟡 #245 — Firma l'eccezione per il pulsante di emergenza del fattorino · ⏳ accodata 2026-11-14 17:16
+
+**In parole semplici.** Il pulsante di emergenza del fattorino promette «stiamo chiamando il 112», poi apre solo il tastierino. La riparazione è pronta e provata. È stata tolta solo perché una prova comune a tutti controlla ancora la frase sbagliata.
+
+**Cosa cambia per te.** Esempio: un fattorino in difficoltà oggi legge che il 112 è chiamato, e non è vero. Con l'eccezione, il testo dice la verità, e una delle 20 voci gravi dell'onda 2 si può chiudere.
+
+**Cosa devi fare tu.** Scrivi alla regista «sì all'eccezione del pulsante di emergenza».
+
+**Cosa non ho verificato.** La riparazione non l'ho riprovata io oggi: si riprova nel controllo dopo la riunione dei rami.
+
+Cosa cambia: la prova comune si aggiorna alla frase giusta e la riparazione rientra.
+Se va bene: la voce entra nel giro allargato o nel controllo, e si chiude se regge.
+
+### 🔴 #246 — Rispondi su cosa fare quando un reso respinto arriva dopo il bonifico del lunedì · ⏳ accodata 2026-11-14 17:16
+
+**In parole semplici.** Il lunedì il negozio riceve un bonifico. Se su un ordine si apre un reso dopo il bonifico, e poi il reso viene respinto, quell'ordine chiede di essere pagato una seconda volta.
+
+**Cosa cambia per te.** Esempio: versi 36 €, su un ordine si apre un reso, segni 18 €. Il reso viene respinto: il lunedì dopo, quell'ordine chiede di nuovo 18 €. Sono soldi pagati due volte.
+
+**Cosa devi fare tu.** Rispondi con «a» se l'ordine fermo va segnato come già pagato, e non si paga due volte (la regista consiglia questa). Oppure «b»: si lascia com'è e la voce resta a metà.
+
+**Cosa non ho verificato.** Se sia già successo davvero: il database vero non lo guardo.
+
+Cosa cambia: con la «a» il bonifico del lunedì non paga mai due volte lo stesso ordine.
+Se va bene: la riparazione entra nel giro allargato delle voci gravi.
+
+### 🟡 #247 — Fai finire il controllo dei 90 file di codice che nessuno ha guardato · ⏳ accodata 2026-11-14 17:16
+
+**In parole semplici.** Il controllore finale dell'onda 2 si è fermato al suo tetto. Ha guardato 80 file di codice su 170: gli altri 90 non li ha visti nessuno.
+
+**Cosa cambia per te.** Fra i 90 ci sono proprio i file del pulsante di emergenza e della pagina «non trovata», due voci aperte. Un errore lì entrerebbe nel sito senza che nessuno l'abbia visto.
+
+**Cosa devi fare tu.** Scrivi alla regista «sì, controlla i 90 file» (tetto 20 $), oppure «dopo»: li guarda il controllore di fine campagna.
+
+**Cosa non ho verificato.** I 20 $ sono una stima sul costo del primo controllore.
+
+Cosa cambia: con il sì, ogni file dell'onda 2 avrà avuto almeno un controllo prima dell'unione.
+Se va bene: una sessione nuova parte col tuo clic su «Create Session».
+
 ### 🟡 #242 — Decidi se un riparatore può spendere di più per sbloccare la cassa del centro · ⏳ accodata 2026-11-13 07:22
 
 **In parole semplici.** Nella seconda onda ogni riparatore ha un tetto di 35 $ di listino. R13, il riparatore che lavora su cassa, consegne e rimborsi, arriva al tetto dopo il terzo lotto. Restano fuori 22 voci, fra cui il difetto più grave dell'onda: chi abita in via Roma o in via Cavour, in pieno centro, si sente dire «troppo lontano» alla cassa, e l'ordine non parte.
