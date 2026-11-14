@@ -517,3 +517,4 @@
 2026-11-14 12:29 · onda 2 · prova-unione ✅
 2026-11-14 12:32 · onda 2 (regista O2 settima) · nessuna figlia viva, ottava non ancora aperta · azione: catena allungata a 60 minuti (trig_01H5c9X5HQPiVhVbwXH9pzav), torna a 30 coi ricollaudi
 2026-11-14 13:34 · onda 2 (regista O2 settima) · giro lungo: nessuna sessione nuova (ottava non aperta, nessun ricollaudo), main fermo a 1905beee · azione: nessuna, catena riarmata a 60 minuti
+2026-11-14 14:35 · onda 2 (regista O2 settima) · giro lungo: nessuna sessione nuova (ottava non aperta, nessun ricollaudo); main a 8001e7ad (#954 unita alle 13:54, #953 non ancora) · azione: nessuna, catena riarmata a 60 minuti
