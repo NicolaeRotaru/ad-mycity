@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-11-13 04:01
+aggiornato: 2026-11-14 17:20
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🔧 **2026-11-14 17:20 — Nell'elenco delle sessioni restano solo quelle attive, e l'onda 2 fa un giro di correzione prima della fermata 3.**
+>
+> Hai chiesto di non dover scorrere fra 10-20 sessioni finite. La regola 12 ora dice che chi apre una sessione la archivia appena finisce, e che non ci sono sessioni-cartella. I titoli sono corti, e chi prende il posto di una sessione prende il numero dopo, in parole: «C02 terzo». È nella richiesta #953, che aspetta la tua unione. Intanto l'onda 2 rifà le voci bocciate, quelle lasciate a metà e quelle che chiedono il file di un'altra sessione. Il tetto dell'onda è salito a 1.650 $ (bacheca, 14/11 alle 10:20). La fermata 3 viene dopo questo giro.
 
 > ✅ **2026-11-13 02:55 — Hai unito la richiesta della macchina #944.**
 >
