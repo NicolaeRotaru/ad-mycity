@@ -504,9 +504,10 @@
   "archivio": "non prima che la sessione privata delle falle abbia i dettagli"
  },
  "tetto_onda2_usd": {
-  "valore": 1500,
-  "deciso": "2026-11-14 06:06",
-  "fonte": "Nicola nella chat della regista 4.0"
+  "valore": 1650,
+  "deciso": "2026-11-14 10:20",
+  "fonte": "Nicola nella chat della regista O2 settima («4 si»)",
+  "prima": {"valore": 1500, "deciso": "2026-11-14 06:06", "fonte": "Nicola nella chat della regista 4.0"}
  },
  "regista_onda2_sesta_5": {
   "id": "session_015BmpnWW9rUEQRqv4jLWfhZ",
