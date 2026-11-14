@@ -6,7 +6,7 @@ fonte: Nicola, 13/11: «secondo me ci sono mancanze di comunicazione tra le sess
 
 # Come si parlano le sessioni
 
-> **In due righe.** Undici regole per le sessioni che lavorano insieme. Le tre che contano di più: l'urgente si manda
+> **In due righe.** Dodici regole per le sessioni che lavorano insieme. Le tre che contano di più: l'urgente si manda
 > urgente, si cambia sessione oltre 400 mila token, e un lavoro lungo ha un controllore che segue la richiesta e la CI.
 
 ## In parole semplici
@@ -39,7 +39,7 @@ si scrive appena cambia qualcosa.
 - La quota è passata ad «avviso» e nessuno l'ha detto: l'AD l'ha visto per caso.
 - Le sessioni già aperte non sapevano le regole nuove, e l'AD le ha mandate a mano, una per una.
 
-## Le undici regole
+## Le dodici regole
 1. **L'urgente si manda urgente.** Uno stop, la quota, la sicurezza e i soldi partono con `send_message` e
    `priority: "now"`. Chi riceve risponde subito con una riga: «ricevuto, faccio così». Chi manda, se dopo 10
    minuti non ha la risposta, guarda `get_session` di chi doveva riceverlo e riprova.
@@ -64,7 +64,7 @@ si scrive appena cambia qualcosa.
    La chat dell'AD con Nicola non si sposta da sola: l'AD prepara la chat nuova e gli dice dove continuare.
    **La sessione nuova la apre la sessione stessa, ed è la sua 2.0** (Nicola, 13/11 alle 13:30: «superato il 40-60% di
    contesto deve aprire una nuova sessione 2.0 di se stessa»). Ha lo stesso ruolo e lo stesso ramo, e «· 2.0» in fondo
-   al titolo. Nasce con ultracode come chi la apre. Vale anche per le figlie: riparatori, collaudatori e controllori
+   al titolo. Ultracode non lo eredita: lo accende Nicola dall'app (regola 10). Vale anche per le figlie: riparatori, collaudatori e controllori
    a 400 mila token non si fermano ad aspettare. Aprono la loro 2.0, scrivono l'id a chi le ha aperte e si fermano.
    Se una non può aprirla, lo dice subito, e la 2.0 la apre chi l'ha aperta lei. Esempio vero: fino alle 13:30 del
    13/11 ai riparatori dell'onda 2 era stato detto «oltre 350 mila token vi fermate e lo dite».
@@ -81,25 +81,35 @@ si scrive appena cambia qualcosa.
    il divieto di togliere controlli e un tetto di 30 $, e la sessione riferisce all'AD.
 9. **Tre livelli: l'AD, il controllore, chi lavora** (Nicola, 13/11: «aggiungi una sessione-cartella come controllore
    di tutto, che si occupa di correggere la PR e la CI»). Per un lavoro lungo l'AD non apre direttamente chi lavora.
-   Apre un **controllore**, una sessione-cartella sul modello grande, perché deve saper riparare.
+   Apre un **controllore**, una sessione sul modello grande che lavora: non è una scatola vuota, perché deve saper
+   riparare (regola 12).
    - Il controllore apre dentro di sé le sessioni che lavorano, ognuna col foglio della regola 8.
    - Controlla il loro lavoro contro il foglio, e rimanda indietro quello che non regge.
    - Segue la richiesta di unione con `subscribe_pr_activity`. Se la CI è rossa o c'è un conflitto, lo ripara lui.
    - All'AD manda solo le fermate e l'esito finale.
    Così gli avvisi di GitHub svegliano il controllore, e non la chat dove scrive Nicola. Nella riparazione il controllore
-   è la regista, e dentro di lei ci sono le cartelle per ruolo. Esempio: la CI in 3 minuti del 13/11 è partita senza
+   è la regista, e chi lavora nasce dentro di lei con l'etichetta del suo ruolo (regola 12). Esempio: la CI in 3 minuti del 13/11 è partita senza
    controllore, perché la regola è nata dopo. Dalla prossima volta l'elenco sarà: AD, poi «Controllore · CI», poi la
    sessione che lavora.
 10. **Chi scrive codice nasce con ultracode acceso** (Nicola, 13/11 alle 03:05: «ogni nuova sessione che si occupa a
    scrivere codice deve essere aperta con l'ultracode»). Vale per chi ripara, per il controllore che sistema la CI e
    per ogni sessione della regola 8 che tocca il codice. Ultracode fa lavorare la sessione con squadre di agenti e
    verificatori indipendenti, invece che da sola.
-   - **Come si accende.** `create_session` non ha un interruttore per ultracode. La sessione nuova sembra prenderlo da
-     chi la apre. Esempio del 13/11: le due sessioni aperte dall'AD alle 02:19 e alle 02:20, dopo che Nicola l'aveva
-     acceso, ce l'hanno. La figlia di prova delle 02:02, aperta prima, no. Quindi chi apre deve averlo acceso.
-   - **Il controllo.** Subito dopo `create_session`, `get_session` deve dire `is_ultracode_active: true` e
-     `effort_level` xhigh. Se ultracode è spento, la sessione non comincia il lavoro. Chi l'ha aperta lo dice subito
-     all'AD, e Nicola lo accende dall'app (regola 4).
+   - **Come si accende** (Nicola, 14/11: «cerca in tutti i modi di capire come aprire da solo l'ultracode», poi
+     «l'hai aggiunta alla regola?»). Lo accende chi apre la sessione, da solo. Il campo `prompt` di `create_session` è
+     **esattamente** `/effort ultracode`, senza altre parole e senza a capo. Il compito e le regole arrivano subito
+     dopo con `send_message`, oppure nel campo `append_system_prompt`. Il compito lo manda chi ha aperto la
+     sessione: le sessioni-cartella non ci sono più (regola 12). La prova è del 14/11 alle 07:45: una
+     sessione aperta così risultava accesa dopo 2 secondi, senza nessun clic.
+   - **Cosa non funziona.** La parola «ultracode» nel testo: K09 l'aveva 9 volte ed è nato spento. Il comando mandato
+     dopo con `send_message`: i messaggi fra sessioni non eseguono comandi. `effort: "ultracode"`: lo strumento non lo
+     accetta. E la sessione nuova non prende ultracode da chi la apre.
+   - **I due limiti.** Questa via non scrive il campo `flag_settings`, che scrive invece il clic di Nicola nell'app:
+     l'interruttore nell'app può sembrare spento anche quando è acceso. E secondo il codice si perde se il processo
+     della sessione riparte (`worker_epoch` cambia), cosa non ancora vista succedere.
+   - **Il controllo.** Subito dopo `create_session`, `get_session` deve dire `is_ultracode_active: true`, con effort
+     xhigh in `session_context`. Si riguarda prima di ogni lavoro lungo e dopo una ripartenza. Se è spento, la
+     sessione non comincia il lavoro: chi l'ha aperta lo dice subito all'AD, e Nicola lo accende dall'app (regola 4).
    - **I tetti restano.** Ultracode fa lanciare più agenti, quindi consuma di più. Vale lo stesso il preventivo prima di
      lanciare: oltre 12 subagenti o 2 milioni di token si chiede a Nicola (regole ⑱ e ㉑ del manuale dell'AD). Chi
      ripara non ne lancia più di 12 (skill `riparazione`). E vale la quota.
@@ -109,3 +119,23 @@ si scrive appena cambia qualcosa.
    regole che vale per lei: almeno le regole 1, 2, 4, 5, 7 e 10, scritte per intero.
    Chi apre controlla nella prima risposta che la figlia le abbia lette. Esempio vero: i 10 riparatori dell'onda 2,
    aperti fra le 05:50 e le 06:12 del 13/11, non le avevano. Le hanno avute alle 13:30, con un messaggio a testa.
+12. **Le cartelle sono etichette, mai sessioni** (Nicola, 14/11 entro le 08:07: «dentro l'albero riesci a creare delle
+   cartelle e usare quelle al posto delle sessioni che creano sotto di loro delle sotto sessioni», poi alle 08:11
+   «salvala come regola»). Nessuna sessione fa da contenitore, né in cima né in mezzo. Le sessioni-cartella dell'onda 2,
+   cioè «Regia», «Collaudatori», «Controllori» e «AD · onda 2», non si aprono più.
+   - **In cima c'è una sessione che lavora**: la regia, o il controllore della regola 9. Chi lavora nasce un livello
+     sotto di lei. È un vincolo dell'app: una sessione nasce dentro chi la apre, e lì resta per sempre.
+   - **La cartella è un'etichetta.** Nel campo `tags` di `create_session` va `cartella:<lavoro>-<ruolo>`, più il tag
+     della campagna. Esempio: `cartella:onda-3-riparatori`. Anche la chat dell'AD ha la sua: `cartella:onda-3-ad`.
+   - **Il ruolo sta in testa al titolo**: «Riparatore · R25 · onda 3». Così il nome raggruppa da solo, anche dove l'app
+     non mostra le etichette.
+   - **La 2.0 porta la stessa etichetta e lo stesso titolo della 1.0**, con «· 2.0» in fondo (regola 7). Se la regia
+     passa alla sua 2.0, le sessioni nuove nascono dentro la 2.0: si ritrovano lo stesso, per etichetta e per titolo.
+   - **Dove un'altra regola o una skill parla di cartelle**, vale questa. Al posto di «la cartella apre la figlia» si
+     legge «chi la deve aprire la apre da sé, con l'etichetta del ruolo».
+   - **Esempio vero, 14/11 alle 08:07.** «Sessione wave 3 setup» ha aperto cinque sessioni di prova, una per ruolo: AD,
+     regia, riparatore, collaudatore, controllore. Stanno tutte al livello 1, ognuna con la sua etichetta, e nessuna
+     sessione fa da cartella. Sono costate 0,31 $ in tutto.
+   - **Cosa non è ancora provato.** Non si sa se l'app mostra le etichette come cartelle: lo dice la foto dell'elenco
+     di Nicola. Le cartelle vere dell'app sono i «Progetti»: li crea solo Nicola, e una sessione aperta da qui non ci
+     può nascere dentro (documentazione ufficiale letta il 14/11). Le sessioni già aperte dell'onda 2 non si spostano.

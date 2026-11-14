@@ -191,7 +191,10 @@ gli otto rimedi qui sotto valgono circa 175 $ a onda (dal 20% al 14% del limite)
    un lotto di migrazioni si chiede prima di lanciarlo, mentre lui c'è, e non si approva mai in anticipo.
 
 **Ultra Code Extra** (Nicola, 12/11 notte: «Ultra Code Extra, non Max»). Ogni figlia nasce con `effort: "xhigh"` in
-`create_session`, e con ultracode acceso. Subito dopo, `get_session` deve dire `effort_level` xhigh e
+`create_session`, e con ultracode acceso: il suo `prompt` è esattamente `/effort ultracode`, e il compito arriva dopo
+con `send_message` (regola 10 di `cervello/sessioni-insieme.md`, provata il 14/11). Vale sopra ogni altro punto di
+questa skill sul campo `prompt`: dove qui sotto c'è scritto cosa mettere nel prompt di una figlia,
+quel testo va nel primo `send_message` subito dopo la nascita, oppure in `append_system_prompt`. Subito dopo, `get_session` deve dire `effort_level` xhigh e
 `is_ultracode_active` true. Se `create_session` rifiuta `effort`, o se ultracode resta spento, non si aprono le altre:
 si dice all'AD quali sessioni sono, perché Nicola le accenda dall'app. Ultracode fa lanciare più agenti: per questo
 il tetto di spesa resta quello della fermata, e i rimedi 1-5 valgono anche in ultracode.
@@ -271,37 +274,33 @@ Tutti i comandi dalla radice di `ad-mycity`, con `--cartella consegne/riparazion
 
 ## Le cartelle nell'elenco (vale per riparatori, collaudatori e controllori)
 
-Nicola, 13/11: «controllore, collaudatore e riparatori ognuno nella sua cartella», per risparmiare spazio
-nell'elenco dell'app. Nell'elenco una sessione sta dentro chi l'ha aperta, e dopo non si sposta più. Quindi la
-regista non apre le figlie da sé. Prima apre una **cartella** per ruolo e per onda: «Riparatori · onda N»,
-«Collaudatori · onda N», «Controllori · onda N». Poi è la cartella ad aprire le figlie. Provato il 13/11 alle 01:02:
-una cartella su `claude-sonnet-5-5` ha aperto una figlia su `claude-opus-5-5` con `effort: "xhigh"` e
-`permission_mode: "auto"`, e la figlia è nata così. Costo: 0,28 $ per tutte e due.
-- **La cartella** è una `create_session` senza `source_url`, con `model: "claude-sonnet-5-5"`, `permission_mode:
-  "auto"`, il tag della campagna e il titolo del ruolo. Il prompt elenca le figlie da aprire, con tutti i campi di
-  questa skill scritti per esteso: titolo, deposito, revisione, ramo, `model: "claude-opus-5-5"`, `effort`,
-  `permission_mode`, tag. Una figlia senza `model` prende quello della cartella, cioè il piccolo. Poi la cartella
-  manda gli id alla regista con `send_message` e si ferma. Se le arriva l'avviso che una figlia è caduta, lo inoltra
-  alla regista in una riga.
-- **Il prompt della figlia.** Se è una riga (collaudatori, controllori), la cartella lo passa così com'è. Se porta il
-  testo intero (riparatori), la cartella passa solo: *«Sei il riparatore RNN. La regista è <id>: ti manda adesso le
-  regole e la scheda, e quello è il tuo compito. Fino ad allora non fare niente.»* Poi la regista manda a ognuno il
-  testo intero con `send_message`. Il limite è 64 KiB a messaggio: se serve, in due messaggi, prima il LEGGIMI e poi
-  la scheda.
-- **La cartella resta viva per tutta l'onda.** I collaudatori nascono in catena: per ognuno la regista scrive alla
-  cartella «apri KNN con questo prompt». Gli id delle cartelle vanno in `sessioni.json`, sotto `"cartelle"`.
-- **Ultra Code.** Nella figlia di prova non risultava acceso. Il controllo di «Ultra Code Extra» qui sopra si fa
-  come prima, sulla prima figlia della prima cartella.
+Nicola, 14/11: «usare [le cartelle] al posto delle sessioni che creano sotto di loro delle sotto sessioni», poi
+«salvala come regola». È la regola 12 di `cervello/sessioni-insieme.md`, e prende il posto delle cartelle-sessione
+del 13/11 («Riparatori · onda N», «Regia · onda N» e le altre): quelle non si aprono più.
+- **Nessuna sessione-cartella.** La regista apre da sé riparatori, collaudatori e controllori. Nascono un livello sotto
+  di lei, perché una sessione nasce sempre dentro chi la apre.
+- **La cartella è un'etichetta.** In `create_session` il campo `tags` porta il tag della campagna e
+  `cartella:onda-N-<ruolo>`, con ruolo `riparatori`, `collaudatori`, `controllori`, `regia` o `ad`.
+- **Il titolo comincia col ruolo**: «Riparatore · R25 · onda 3», «Collaudatore · K10 · onda 3», «Controllore · C03 ·
+  onda 3». La 2.0 tiene etichetta e titolo, con «· 2.0» in fondo.
+- **Il resto non cambia**: `model: "claude-opus-5-5"`, `effort: "xhigh"`, `permission_mode: "auto"`, il prompt
+  esattamente `/effort ultracode` per chi scrive codice, e il compito subito dopo con `send_message` (LEGGIMI, scheda e
+  regole delle sessioni).
+- **Quando la regista passa alla sua 2.0**, le sessioni nuove nascono dentro la 2.0. Si ritrovano lo stesso, per
+  etichetta e per titolo.
+- Gli id vanno in `sessioni.json` come prima. La chiave `"cartelle"` non serve più.
+- **Non ancora provato:** se l'app mostra le etichette come cartelle. Lo dice la foto dell'elenco di Nicola, dopo la
+  prova del 14/11 alle 08:07 (cinque sessioni di prova, 0,31 $).
 
 ## F1 — I riparatori
 
-**Aprire le sessioni.** Dentro la cartella «Riparatori · onda N» (sezione qui sopra), una `create_session` per riparatore dell'onda:
+**Aprire le sessioni.** Con le etichette della sezione qui sopra, una `create_session` per riparatore dell'onda:
 - `source_url` = il deposito bersaglio; `source_revision` = `BASE` (dall'onda 2: lo SHA dell'integrazione);
 - `outcome_branch` = `<ramo della regista>-mNN` (NN = il numero del riparatore);
 - `permission_mode: "auto"`, scritto: mai `"plan"` (si blocca in attesa di un clic che nessuno fa, e il 6/11 si
   approvava da solo), e mai ereditato senza guardare (una regista in `bypassPermissions` lo passerebbe a tutte);
 - `effort: "xhigh"`, poi il controllo di «Ultra Code Extra» qui sopra;
-- tag `riparazione-<nome>`;
+- tag `riparazione-<nome>` e `cartella:onda-N-riparatori`, titolo «Riparatore · RNN · onda N»;
 - il prompt porta dentro **per intero** il testo di `cervello/riparazione/LEGGIMI-riparatore.md` e di
   `<C>/schede/RNN.md` (regola 1 del 12/11 sera: sotto i 64 mila caratteri), e finisce con: *«Sei il riparatore RNN.
   Il clone in sola lettura di https://github.com/NicolaeRotaru/ad-mycity al commit SHA_REGISTA serve solo per i
