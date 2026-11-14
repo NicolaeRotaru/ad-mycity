@@ -1,128 +1,12 @@
 {
  "collaudatore": "K08",
  "riparatori": [
-  "R14",
   "R15",
   "R16"
  ],
- "aggiornato": "2026-11-13 16:50",
- "finita": false,
+ "aggiornato": "2026-11-14 09:38",
+ "finita": true,
  "voci": [
-  {
-   "id": "R14-001",
-   "chiave": "api-backend|se la lettura delle email cade, la ricerca utenti dice «nessuno, ho cercato su tutti», e oltre mille iscritti l'email non si trova",
-   "verdetto": "rompe_altro",
-   "giudizio": "pieno",
-   "lenti": [
-    "chiude_tutta",
-    "nata_rotta"
-   ],
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base f4ffa34fb7cde64c302de3ac296f49fc44e92960^ --file app/admin/users/page.tsx --prove tests/unit/riparazione-r14-ricerca-utenti.test.ts --json   (checkout f4ffa34fb7cde64c302de3ac296f49fc44e92960)"
-   },
-   "nota": "Un revisore qa, tutte e due le lenti. CHIUDE_TUTTA: regge, con residui minori. Le email si leggono in 3 punti (app/admin/users/page.tsx:212, :265, :562): due lanciano l errore, il terzo (l elenco) lo cattura ma non dichiara di aver cercato; se cade solo la seconda finestra la pagina mostra l avviso e non dice mai «Ho cercato su tutti». L ordine per id è stabile (chiave primaria); in postgrest-js 2.106.1 rpc() accetta order e range e range scrive offset/limit anche in POST; max_rows 1000 coincide con la finestra. Riportata la pagina alla base la prova è 4 su 4 rossa per i motivi giusti; tolto .order(id) resta 4 su 4 verde: il finto ordina in memoria, la paginazione è vera per costruzione. Paginazione a offset: un account cancellato fra due finestre fa saltare un utente vivo (provato su Postgres locale: 2.500 righe, 2.499 lette). NATA_ROTTA: rompe_altro. page.tsx:265: se la lettura delle email cade, anche la ricerca per NOME guarda solo i 500 profili in memoria, mentre alla base arrivava a tutti (provato base contro testa: «Cliente 140» trova Cliente 1405 alla base, alla testa no). page.tsx:166-167 con lib/supabase/blocchi.ts:70: con 20.001 iscritti il CSV completo non esce mai, col messaggio falso «Riprova fra poco», e l elenco perde in silenzio tutte le email (0 contro 1000 alla base); il tetto delle email (20.000) non coincide con quello dell esportazione (29.000, lib/admin/esporta-utenti.ts:62). Prestazioni: una chiamata alla RPC ogni mille iscritti, in fila, all apertura, a ogni parola cercata, al CSV e a ogni moderazione (21 chiamate con 20.001 iscritti). tsc 0, nessuna falla: la guardia is_admin della RPC resta intatta."
-  },
-  {
-   "id": "R14-002",
-   "chiave": "api-backend|confermata una rimessa, la giornata del fattorino risulta versata anche per i contanti che incassa dopo, e la guardia della cancellazione lo lascia andare",
-   "verdetto": "rompe_altro",
-   "giudizio": "pieno",
-   "lenti": [
-    "chiude_tutta",
-    "nata_rotta"
-   ],
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 905ae0ce0e9c6ab61ba7274442e79fe7c70762a8^ --file migrations/381_la_rimessa_non_chiude_una_giornata_con_contanti_in_mano.sql --prove tests/sql/rls/riparazione-r14-rimessa.test.sql --sql k08_r14_002_0_rimessa --json   (checkout 905ae0ce0e9c6ab61ba7274442e79fe7c70762a8)"
-   },
-   "nota": "Due revisori qa, una lente ciascuno. CHIUDE_TUTTA: parziale. La parte (a) regge per il caso del registro (contanti incassati e consegnati lo stesso giorno, anche con conferma e consegna in corsa: il lucchetto le mette in fila). Tolta la 381 la prova SQL è rossa sui controlli ①; tolte 381 e 383 i rossi sono 4, per il motivo giusto. La parte (b), la guardia della cancellazione, resta aperta: la riapertura una tantum della 381 (righe 202-214) rimette remitted_at a NULL ma non ricalcola incassato e stato, e la guardia (lib/account/cancellazione.ts:670-672) e il sorvegliante non vedono una giornata vecchia con incassato 0 e PENDING riaperta (provato in locale: giornata riaperta con un ordine consegnato da versare di 20,50 euro, guardia a 0 giornate aperte); riquadra-casse rifà solo oggi e ieri. Finestra breve: incasso alle 23:58 e consegna alle 00:02, fino al ricalcolo delle 01:15 UTC la cancellazione immediata dall admin non vede niente. NATA_ROTTA: rompe_altro, minore. La «giornata versata a metà»: dopo un versamento parziale la giornata si riapre giustamente, ma collected_cents conta anche l incasso già versato e la guardia scrive al fattorino «risultano 41,00 euro non ancora versati» quando ne restano 20,50 (provato in locale: guardia 4100 centesimi, da versare 2050). La riapertura (grilletto, ramo ELSE della conferma, riapertura una tantum) mette a NULL remitted_by e remitted_at di una rimessa vera già fatta: si perde chi ha ricevuto i contanti e quando, il principio che la 383 protegge (provato in locale). Da lettura: la 381 si dichiara rieseguibile, ma rieseguita dopo la 383 il CREATE OR REPLACE rimette il suo corpo senza versata_ora e annulla in silenzio R14-006. Nessuno stallo con due sessioni vere; flussi caldi senza permessi negati; la rotta ricalcola in try/catch dopo la rpc. SQL rls 63 su 63, vitest 235 prove sui file della cassa, tsc 0. Prove rimesse in più: codice: uscita 0 (timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 905ae0ce0e9c6ab61ba7274442e79fe7c70762a8^ --file app/api/admin/cod-remittance/route.ts --prove tests/unit/riparazione-r14-rimessa.test.ts --json   (checkout 905ae0ce0e9c6ab61ba7274442e79fe7c70762a8))."
-  },
-  {
-   "id": "R14-004",
-   "chiave": "qa-flussi|un ordine fermo su «accettato» o «ritirato dal fattorino» non fa suonare nessun allarme e non scade mai",
-   "verdetto": "rompe_altro",
-   "giudizio": "pieno",
-   "lenti": [
-    "chiude_tutta",
-    "nata_rotta"
-   ],
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 34608b208da58db9054af66ebe8ee0ceed9e8fcf^ --file app/api/cron/operational-alerts/route.ts --prove tests/unit/riparazione-r14-allarmi-ordini.test.ts --json   (checkout 34608b208da58db9054af66ebe8ee0ceed9e8fcf)"
-   },
-   "nota": "Un revisore qa, tutte e due le lenti. Alla testa le righe del riparatore sono spostate: i pezzi stanno a app/api/cron/operational-alerts/route.ts:115-120 e :289-308. CHIUDE_TUTTA: parziale, e il «cosa resta» è incompleto. Regge: ordine accettato con accepted_at vuoto conta dalla nascita, fascia rispettata, contanti uguali, dedup (giro ogni 15 minuti per 7 ore: 2 email e 2 campanelle), il passaggio da ritirato a in consegna non fa doppioni. Non dichiarato: route.ts:289-295 ordine crescente + limit(20) prima del filtro della fascia (:299-300): 20 ordini accettati in regola per una fascia di domani riempiono i 20 posti e un ordine senza fascia accettato da 3 ore non suona, anche con la scadenza automatica; route.ts:293 accepted_at lo scrive il browser del negozio (app/seller/orders/[id]/page.tsx:317): un tablet con l orologio avanti di 24 ore fa tacere l allarme per circa 26 ore (provato); route.ts:299-301 la consegna veloce non ha fascia leggibile e la soglia resta 2 ore contro una promessa di 30-60 minuti (provato). Minori: etichetta di fascia non riconosciuta dà un falso allarme a 2 ore; per il ritiro in negozio il testo parla di fattorino. NATA_ROTTA: rompe_altro. route.ts:115-120 il limit(10) senza ordine ora divide i posti fra PICKED_UP e OUT_FOR_DELIVERY: con 10 ordini ritirati fermi da più di 30 ore e uno in consegna fermo da 60 minuti, l allarme su in consegna che suonava prima della correzione alla testa tace (provato prima e dopo). Tolta la correzione 5 prove su 7 rosse col messaggio giusto; tre mutanti morsi; le altre 7 prove della rotta (117 casi) verdi."
-  },
-  {
-   "id": "R14-005",
-   "chiave": "rls-database|chi ha fatto anche un solo ordine non riesce a cancellare il proprio account",
-   "verdetto": "rompe_altro",
-   "giudizio": "pieno",
-   "lenti": [
-    "chiude_tutta",
-    "nata_rotta"
-   ],
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base cc4c2603144e44534596ebe1c9293236fa625ba5^ --file migrations/382_chi_ha_ordinato_puo_cancellare_l_account.sql --prove tests/sql/rls/riparazione-r14-cancellazione.test.sql --sql k08_r14_005_0_rimessa --json   (checkout cc4c2603144e44534596ebe1c9293236fa625ba5)"
-   },
-   "nota": "Due revisori qa, una lente ciascuno. CHIUDE_TUTTA: parziale. La 382 regge sulla causa del registro (guardiano degli ordini della 179): un cliente con 7 ordini, uno per stato, e righe in circa 30 tabelle collegate, cancellato come supabase_auth_admin senza claims, passa con la 382 ed è respinto senza («orders: modifica di un campo protetto»). Tolta la 382 la prova del riparatore è rossa 3 su 12 per il motivo giusto. Resta un altro blocco sullo stesso percorso, già presente alla base: lib/account/cancellazione.ts:195 pulisce contact_messages con email=[eliminato] e message=[rimosso] (9 caratteri), respinti dai vincoli di migrations/028_contact_messages.sql (formato email, minimo 10). cancellaAccount si ferma prima di deleteUser: un cliente con ordini che ha scritto al modulo contatti da loggato non si cancella mai (provato in locale, errore 23514). NATA_ROTTA: rompe_altro, minore. Il varco della 382 regge (grilletto SECURITY DEFINER a profondità 2 lanciato da un negozio, user_id a NULL col profilo vivo, verso un altro cliente, insieme al totale: tutti respinti 42501). Ma la 382 rende raggiungibile un ordine ATTIVO senza cliente, e lì si perdono avvisi al negozio: migrations/321_l_ordine_pronto_dice_la_fascia.sql:69 (notify_buyer_on_order_status, ramo ASSIGNED: l avviso al cliente fallisce su notifications.user_id NOT NULL e nello stesso blocco EXCEPTION cade l avviso «Rider assegnato» al negozio; provato: 0 avvisi contro 1 del controllo) e migrations/360_l_amministratore_chiude_la_consegna.sql:129 (admin_chiudi_consegna: INSERT a due righe che cade tutto; ok true, DELIVERED, 0 avvisi al negozio; provato). Da lettura: lib/stripe/webhook/rimborsi.ts:336 getUserById(NULL) dà 500 al primo tentativo di un rimborso fatto dal cruscotto Stripe. Ricostruzione con 197 migrazioni senza errori, tests/sql/rls tutto verde."
-  },
-  {
-   "id": "R14-009",
-   "chiave": "api-backend|il conteggio dei promemoria «inviati» include carrelli segnati senza nessuna email",
-   "verdetto": "parziale",
-   "giudizio": "nessuno",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 4cbcf09df264b6069479a3e3c64327f633340bca^ --file app/api/cron/abandoned-carts/route.ts,lib/carrelli-abbandonati.ts --prove tests/unit/riparazione-r14-carrelli-senza-email.test.ts --json   (checkout 4cbcf09df264b6069479a3e3c64327f633340bca)"
-   },
-   "nota": "Parziale per il riparatore: giudicata solo con la prova rimessa."
-  },
-  {
-   "id": "R14-017",
-   "chiave": "api-backend|se l'amministratore apre i documenti di un fattorino con un codice storto, la rotta risponde con un guasto invece di dire che il codice non è valido",
-   "verdetto": "regge",
-   "giudizio": "nessuno",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 5722621ed59e1b79f70fde9c78c85035d4bf6a75^ --file app/api/kyc/documenti-rider/[id]/route.ts,app/api/admin/users/[id]/kyc/route.ts,app/api/ai/reviews-summary/route.ts --prove tests/unit/riparazione-r14-codice-storto.test.ts --json   (checkout 5722621ed59e1b79f70fde9c78c85035d4bf6a75)"
-   },
-   "nota": "Minore fuori dai file che legano: solo prova rimessa (campione)."
-  },
-  {
-   "id": "R14-020",
-   "chiave": "api-backend|gli avvisi «incasso in contanti che non quadra» e «incasso senza foto» si scrivono senza guardare se sono partiti",
-   "verdetto": "regge",
-   "giudizio": "nessuno",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 4711b9701bedf1ffd6b23f62324ea94136eb8973^ --file app/api/rider/cash-confirm/route.ts --prove tests/unit/riparazione-r14-incasso-avvisi.test.ts --json   (checkout 4711b9701bedf1ffd6b23f62324ea94136eb8973)"
-   },
-   "nota": "Minore fuori dai file che legano: solo prova rimessa (campione)."
-  },
-  {
-   "id": "R14-022",
-   "chiave": "api-backend|due invii uguali all'assistenza nello stesso istante creano due messaggi e due avvisi",
-   "verdetto": "parziale",
-   "giudizio": "nessuno",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base de0f54b18148e49437fe06523ae71c83c97b0cba^ --file app/api/support/conversation/route.ts --prove tests/unit/riparazione-r14-assistenza-doppio-invio.test.ts --json   (checkout de0f54b18148e49437fe06523ae71c83c97b0cba)"
-   },
-   "nota": "Parziale per il riparatore: giudicata solo con la prova rimessa. Prove rimesse in più: intera: uscita 0 (timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base ee68faa3b895ff0405c1002c3dd7970e101c258e^ --file app/api/support/conversation/route.ts --prove tests/unit/riparazione-r14-assistenza-doppio-invio.test.ts --json   (checkout de0f54b18148e49437fe06523ae71c83c97b0cba))."
-  },
-  {
-   "id": "R14-025",
-   "chiave": "api-backend|la pagina d'errore dice «abbiamo registrato il problema», ma un errore nel telefono del cliente non lo registra nessuno",
-   "verdetto": "parziale",
-   "giudizio": "nessuno",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base f19f53cd84a5a9bf99aa9d53cd0b6f51fe573c05^ --file app/error.tsx,app/admin/error.tsx,lib/analytics/sentry.tsx --prove tests/unit/riparazione-r14-pagina-errore-registra.test.ts --json   (checkout f19f53cd84a5a9bf99aa9d53cd0b6f51fe573c05)"
-   },
-   "nota": "Parziale per il riparatore: giudicata solo con la prova rimessa."
-  },
   {
    "id": "R15-001",
    "chiave": "immagini-media|le tessere delle categorie in home sono foto d'archivio scritte a mano nel codice",
@@ -328,212 +212,485 @@
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base de11b93a4439f0ac08b70e0b847772efe9a41d12^ --file lib/shipping-etichetta/label.ts,app/api/seller/orders/[id]/label/route.ts --prove tests/unit/riparazione-r16-etichetta-consegna.test.ts --json   (checkout de11b93a4439f0ac08b70e0b847772efe9a41d12)"
    },
    "nota": "Minore fuori dai file che legano: solo prova rimessa (campione)."
-  }
- ],
- "campione": {},
- "da_giudicare": {
-  "R14-006": {
-   "esito": "riparato",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 288f46375fd2caf01125d54ee7ee182ca0723a1a^ --file app/admin/cod-remittance/page.tsx,app/api/admin/cod-remittance/route.ts --prove tests/unit/riparazione-r14-doppia-rimessa.test.ts --json   (checkout 288f46375fd2caf01125d54ee7ee182ca0723a1a) ; timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 288f46375fd2caf01125d54ee7ee182ca0723a1a^ --file migrations/383_la_seconda_conferma_della_rimessa_non_e_una_rimessa.sql --prove tests/sql/rls/riparazione-r14-doppia-rimessa.test.sql --sql k08_r14_006_1_rimessa --json   (checkout 288f46375fd2caf01125d54ee7ee182ca0723a1a)"
-   }
   },
-  "R14-007": {
-   "esito": "riparato",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 214adc53de822f0007aa569c4f92b7d5981ca3fa^ --file lib/account/cancellazione.ts,app/api/admin/users/[id]/delete/route.ts --prove tests/unit/riparazione-r14-cancella-utente.test.ts,tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json   (checkout 214adc53de822f0007aa569c4f92b7d5981ca3fa)"
-   }
-  },
-  "R14-008": {
-   "esito": "riparato",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 5b8c0b71561f08df04380cd50e8ff1bf552a9e15^ --file app/api/admin/users/[id]/delete/route.ts --prove tests/unit/riparazione-r14-cancella-utente.test.ts --json   (checkout 5b8c0b71561f08df04380cd50e8ff1bf552a9e15)"
-   }
-  },
-  "R14-010": {
-   "esito": "riparato",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 76b57d9fed060a8b3a391b7b6d2ff6d10cffe8e1^ --file app/api/cron/expire-stale-orders/route.ts --prove tests/unit/riparazione-r14-scadenze.test.ts --json   (checkout 76b57d9fed060a8b3a391b7b6d2ff6d10cffe8e1)"
-   }
-  },
-  "R14-012": {
-   "esito": "riparato",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 6b35624bdff5aeb1ee006162d69e2a829d64cdfa^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json   (checkout 6b35624bdff5aeb1ee006162d69e2a829d64cdfa)"
-   }
-  },
-  "R14-013": {
-   "esito": "riparato",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 5e2aa09fef112bdbf037561a262b6c0c99a2823f^ --file app/api/cron/process-deletions/route.ts,lib/privacy/avvisi-a-chi-aspetta.ts --prove tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json   (checkout 5e2aa09fef112bdbf037561a262b6c0c99a2823f)"
-   }
-  },
-  "R14-014": {
-   "esito": "riparato",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base fdd02e1b87da095e94fb013c1901ce9f2e224f41^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json   (checkout fdd02e1b87da095e94fb013c1901ce9f2e224f41)"
-   }
-  },
-  "R14-015": {
-   "esito": "riparato",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 214adc53de822f0007aa569c4f92b7d5981ca3fa^ --file lib/account/cancellazione.ts --prove tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json   (checkout 214adc53de822f0007aa569c4f92b7d5981ca3fa)"
-   }
-  },
-  "R14-019": {
-   "esito": "riparato",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base ef3e59716d0ab413578e82b510f37c39478693b5^ --file app/api/returns/[id]/decide/route.ts --prove tests/unit/riparazione-r14-reso-ritirato.test.ts --json   (checkout ef3e59716d0ab413578e82b510f37c39478693b5)"
-   }
-  },
-  "R14-023": {
-   "esito": "riparato",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base f3b50ba93b7f361d0aebc12c70f64031841f4a5b^ --file migrations/384_un_accesso_lascia_una_riga_sola.sql --prove tests/sql/rls/riparazione-r14-accesso-doppio.test.sql --sql k08_r14_023_0_rimessa --json   (checkout f3b50ba93b7f361d0aebc12c70f64031841f4a5b)"
-   },
-   "nota": "Prove rimesse in più: codice: uscita 1 (timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base f3b50ba93b7f361d0aebc12c70f64031841f4a5b^ --file lib/activity.ts --prove tests/unit/riparazione-r14-accesso-doppio.test.ts --json   (checkout f3b50ba93b7f361d0aebc12c70f64031841f4a5b))."
-  },
-  "R14-024": {
-   "esito": "riparato",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base deccd9f87bd2acf4a427346a57dfe703358ff6c1^ --file app/api/track/route.ts,lib/consent.ts --prove tests/unit/riparazione-r14-visite-corpo-rotto.test.ts --json   (checkout deccd9f87bd2acf4a427346a57dfe703358ff6c1)"
-   }
-  },
-  "R15-003": {
-   "esito": "riparato",
+  {
+   "id": "R15-003",
+   "chiave": "deploy-sre|il magazzino di sicurezza delle foto punta a un secchio che non e mai esistito: la copia notturna puo diventare rossa al primo giro",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 91f5ecfa306030b05a789075631400c6ac0e48a9^ --file scripts/backup-db.sh --prove tests/unit/riparazione-r15-backup-storico.test.ts --json   (checkout 91f5ecfa306030b05a789075631400c6ac0e48a9)"
-   }
+   },
+   "nota": "Un revisore qa (gruppo A, copia a 1b84dfed207e), tutte e due le lenti. CHIUDE_TUTTA: Sì. Il caso del secchio predefinito «-storico» che non esiste è chiuso: se lsd e mkdir falliscono e STORAGE_SYNC_STORICO è vuoto (anche quando vale \"\", come lo passa il workflow), lo storico ripiega su <DEST_PULITA>/_storico (scripts/backup-db.sh:418-425). Il caso della barra finale era già chiuso nella base da DEST_PULITA (309-313). Con una sonda ho verificato che la foto cancellata finisce davvero in b2/mycity-foto/_storico/T1/products/cancellata.jpg e che l'uscita è 0. Se mkdir riesce, si usa ancora il secchio -storico. Se STORAGE_SYNC_STORICO punta a un secchio che non esiste, la notte resta rossa (uscita 5): è una scelta esplicita di chi configura. NATA_ROTTA: Non rompe niente nel codice. La prova gira sul pezzo vero dello script, ritagliato da backup-db.sh, con un rclone finto. Le 15 prove vicine sul backup sono verdi e tsc passa. Restano tre residui di documentazione e visibilità. 1) Il commento a 293-308 dice ancora che uno storico nello stesso secchio è «peggio che fermarsi». 2) docs/backup-restore.md:226-231 non dice che lo storico può finire in <dest>/_storico: chi ripristina lo cercherebbe solo nel secchio -storico. 3) Il ripiego avvisa solo nel registro (riga 425, stderr). Il riepilogo resta «✅» (riga 465), senza ::warning::. È contro la regola scritta in docs/backup-restore.md:316-318: lo stato della rete di sicurezza va dove si guarda. Residui: scripts/backup-db.sh:293-308 il commento dice ancora che lo storico deve stare fuori dalla destinazione e che dentro è «peggio che fermarsi»: contraddice il ripiego nuovo; docs/backup-restore.md:226-231 la guida al ripristino non dice che i file spariti possono stare in <dest>/_storico; scripts/backup-db.sh:425,465 il ripiego (protezione ridotta) si vede solo su stderr; il riepilogo dice «✅» senza segnalare lo storico degradato e senza ::warning:: Prove: npx vitest run riparazione-r15-backup-storico: verde (insieme alle altre 4 prove delle voci, 17/17). Le 15 prove vicine sul backup-db sono nel giro da 27 file e 213 prove: verde. tsc --noEmit (con buildinfo fuori dalla copia): uscita 0. Sonda zz-k08-backup-sonda: il file va in _storico; con mkdir riuscito si usa -storico; con STORICO esplicito inesistente uscita 5. Sonda verde e poi cancellata; copia in /tmp/claude-0/k08/out-A/."
   },
-  "R15-004": {
-   "esito": "riparato",
+  {
+   "id": "R15-004",
+   "chiave": "deploy-sre|un secchio di foto svuotato all'origine passa per verde: il controllo di vuoto guarda il totale, non il singolo secchio",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base c3e076df7e6b4c3db43afc6e3e069b3bd7d5e94a^ --file scripts/backup-db.sh --prove tests/unit/riparazione-r15-backup-secchio-vuoto.test.ts --json   (checkout c3e076df7e6b4c3db43afc6e3e069b3bd7d5e94a)"
-   }
+   },
+   "nota": "Un revisore qa (gruppo A, copia a 1b84dfed207e), tutte e due le lenti. CHIUDE_TUTTA: Solo la prima notte. Ora la riproduzione della voce dà uscita 5: products era pieno nella copia, l'origine è vuota, stories è pieno. Ma PRIMA_PIENO si ricava da com'era la copia subito prima di QUESTO giro (scripts/backup-db.sh:435-438), non da «l'ultima notte» come chiede la voce. La notte rossa sposta tutto products nello storico. Dal giro dopo, products è vuoto prima e dopo e conta come «legittimo». Sonda: stesso mondo lanciato due volte, notte 1 uscita 5, notte 2 uscita 0 con «copiate e riaperte (… 1 secchi riaperti)». È esattamente il falso verde del titolo: un secchio svuotato all'origine passa per verde. Basta anche rilanciare il lavoro rosso dalla pagina di GitHub per vederlo verde. NATA_ROTTA: Non rompe le prove: quelle vicine sono verdi e tsc passa. Ma crea un rosso falso. reviews è uno dei secchi con file personali (lib/account/cancellazione.ts:91). Quando un account viene cancellato, le sue foto sono tolte dall'origine (303-327). Se erano le ultime del secchio, la notte diventa rossa, e il messaggio dice «l'origine è stata svuotata o non si legge più» (riga 360). Verificato con una sonda: uscita 5. In più l'uscita 5 dentro il ciclo (448-450) ferma la copia di stories e reviews quella notte (verificato). È lo stesso schema che lo script usa già per gli altri errori di rilettura. Il commento a 336-338 («un singolo secchio vuoto è legittimo») non dice la regola nuova. Residui: scripts/backup-db.sh:435-438 la memoria «era pieno» è lo stato prima di questo giro, non dell'ultima notte: dal secondo giro (o rilanciando il lavoro rosso) il secchio svuotato all'origine torna verde. Provato: notte 1 uscita 5, notte 2 uscita 0; scripts/backup-db.sh:359-361 rosso falso quando l'ultima foto di reviews viene tolta per una cancellazione account (lib/account/cancellazione.ts:91); il messaggio attribuisce la causa a un'origine svuotata o illeggibile; scripts/backup-db.sh:336-338 il commento dice ancora che un secchio vuoto è legittimo, senza la distinzione nuova tra pieno→vuoto e vuoto da sempre Prove: npx vitest run riparazione-r15-backup-secchio-vuoto: verde. Prove vicine del backup-db: verdi. tsc: uscita 0. Sonda zz-k08-backup-sonda: notte 1 uscita 5 / notte 2 uscita 0 (falso verde che torna); ultima foto di reviews tolta: uscita 5; products svuotato: nuova.jpg di stories non copiata. Uscita in /tmp/claude-0/k08/out-A/sonda-backup.txt; sonda cancellata."
   },
-  "R15-010": {
-   "esito": "riparato",
+  {
+   "id": "R15-010",
+   "chiave": "navigazione-gerarchia|l'indice delle categorie mostra giocattoli come le altre anche se non ha nessun prodotto, e cliccandola si trova il vuoto",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 37e5e07c5fcf5db26d12ed9d62871c6a79879f76^ --file app/categorie/page.tsx,app/category/[slug]/page.tsx --prove tests/unit/riparazione-r15-l-indice-delle-categorie-mostra-solo-le-piene.test.tsx --json   (checkout 37e5e07c5fcf5db26d12ed9d62871c6a79879f76)"
-   }
+   },
+   "nota": "Un revisore qa (gruppo A, copia a 1b84dfed207e), tutte e due le lenti. CHIUDE_TUTTA: Sì. /categorie usa domandaCategoriePiene e soloLePiene con la stessa chiave del piede e del menu (app/categorie/page.tsx:37,47-48). Madri e figlie vuote spariscono (righe 66-67). La pagina aspetta le piene prima di disegnare. Se la lettura delle piene fallisce, le mostra tutte. Nessun precarico dal server, quindi l'HTML del server non perde niente. La frase «Non abbiamo trovato questo prodotto» è sostituita in tutti e due i punti di app/category/[slug]/page.tsx (363 e 526). Fuori dal testo della voce resta una strada: i chip delle sottocategorie nella pagina madre portano ancora a figlie vuote. NATA_ROTTA: Niente di rotto. La prova disegna la pagina vera; useQuery è finto e risponde per chiave, quindi la vera domandaCategoriePiene passa. Le prove che disegnano /categorie (le-pagine-di-catalogo-non-dicono-vuoto…, minori-s09-aspetto) sono verdi. tsc: uscita 0. Se le piene falliscono, c'è circa 1 s di caricamento in più (retry:1 in components/providers/QueryProvider.tsx:24): accettabile. La parte sulla pagina categoria è provata solo cercando parole nel sorgente; per una voce minore è ammesso. Residui: app/category/[slug]/page.tsx:325-331 residuo fuori voce: nella pagina madre i chip «Sottocategorie» elencano anche le figlie vuote (non c'è soloLePiene) e portano al vuoto Prove: npx vitest run riparazione-r15-l-indice-delle-categorie-mostra-solo-le-piene.test.tsx: verde. Prove vicine su /categorie e collezioni: verdi (27 file, 213 prove). tsc: uscita 0."
   },
-  "R15-017": {
-   "esito": "riparato",
+  {
+   "id": "R15-017",
+   "chiave": "qa-flussi|il commento di lib/queries/griglia-prodotti.ts:154 sui categoryids",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base a6227b42938e4e2d91007b77027d9fd50ecb91d1^ --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r15-commento-categoryids.test.ts --json   (checkout a6227b42938e4e2d91007b77027d9fd50ecb91d1)"
-   }
+   },
+   "nota": "Un revisore qa (gruppo A, copia a 1b84dfed207e), tutte e due le lenti. CHIUDE_TUTTA: Sì. Il commento a lib/queries/griglia-prodotti.ts:186-192 ora dice che categoryIds ha la precedenza e non allarga alle figlie. Nomina anche i due chiamanti reali, che ho verificato con grep: Regali, con le figlie già dentro (app/regali/categorie-regalabili.ts:26-31), e «Altri prodotti», solo la madre (app/category/[slug]/page.tsx:354). Il codice non cambia. NATA_ROTTA: Cambia solo un commento: niente da rompere. Resta, fuori dalla voce, il commento della prop in ProductGrid: dice «padre + sottocategorie» e «IN al posto di EQ», cose che non valgono più. Residui: components/ProductGrid.tsx:77 residuo fuori voce: il doc di categoryIds porta come esempio «categoria padre + sottocategorie, IN al posto di EQ», contrario all'uso «Altri prodotti» e superato (anche categoryId usa IN) Prove: npx vitest run riparazione-r15-commento-categoryids: verde (prova che cerca parole nel sorgente, ammessa per minore). Diff letto: solo il commento."
   },
-  "R15-019": {
-   "esito": "riparato",
+  {
+   "id": "R15-019",
+   "chiave": "stati-ui|la pagina novità vuota dice di cambiare filtri che non ci sono e non offre nessuna strada per uscire",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 9bbd606a7492328c797235d68080d478673947a7^ --file app/novita/page.tsx,app/piu-venduti/page.tsx,app/regali/RegaliClient.tsx --prove tests/unit/riparazione-r15-vuoto-con-via-d-uscita.test.ts --json   (checkout 9bbd606a7492328c797235d68080d478673947a7)"
-   }
-  },
-  "R16-009": {
-   "esito": "riparato",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 6935611b4f4e9886db95e112f2d34102b9a5f981^ --file components/rider/SOSButton.tsx --prove tests/unit/riparazione-r16-sos-posizione.test.tsx --json   (checkout 6935611b4f4e9886db95e112f2d34102b9a5f981)"
-   }
-  },
-  "R16-018": {
-   "esito": "riparato",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 7f1eb2a733ff1ebd08cc9495d796582da6d609db^ --file migrations/400_il_negozio_sospeso_non_si_rimette_in_coda.sql --prove tests/sql/rls/riparazione-r16-negozio-sospeso.test.sql --sql k08_r16_018_0_rimessa --json   (checkout 7f1eb2a733ff1ebd08cc9495d796582da6d609db)"
-   }
-  },
-  "R16-011": {
-   "esito": "riparato",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base c6e09c0ffb0dc006f46a45739dd15ebd37a42882^ --file app/seller/stories/page.tsx,components/StoryViewer.tsx --prove tests/unit/riparazione-r16-storie-link.test.tsx --json   (checkout c6e09c0ffb0dc006f46a45739dd15ebd37a42882) ; timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base c6e09c0ffb0dc006f46a45739dd15ebd37a42882^ --file migrations/403_il_link_delle_storie_porta_solo_dentro_mycity.sql --prove tests/sql/rls/riparazione-r16-link-storie.test.sql --sql k08_r16_011_1_rimessa --json   (checkout c6e09c0ffb0dc006f46a45739dd15ebd37a42882)"
    },
-   "nota": "Prove rimesse in più: sql-corretta: uscita 0 (timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base c6e09c0ffb0dc006f46a45739dd15ebd37a42882^ --file migrations/403_il_link_delle_storie_porta_solo_dentro_mycity.sql --prove tests/sql/rls/riparazione-r16-link-storie.test.sql --sql k08_r16_011_corr_rimessa --json   (checkout 20187e40f17913d6158c0c73f98c7ab67e1b39c0))."
+   "nota": "Un revisore qa (gruppo A, copia a 1b84dfed207e), tutte e due le lenti. CHIUDE_TUTTA: Sì per le tre pagine nominate: Novità, Più recensiti e Regali passano emptyTitle, emptyDescription ed emptySuggestions con i link /search e /categorie. La prova del riparatore cerca solo parole nel sorgente, quindi ho montato davvero le tre pagine (jsdom, griglia vuota). Nessuna dice «modificare i filtri» e i link presenti sono [\"/\",\"/search\",\"/categorie\"]. Il ramo arricchito di ProductGrid (600-623) è quello che si disegna davvero. Resta fuori dal testo /piccoli-prezzi: è nel menu principale (components/CategoryBar.tsx:29) e mostra ancora il riquadro storico. NATA_ROTTA: Niente di rotto. Lo stato vuoto storico di ProductGrid non è stato toccato. NEW_PRODUCT_DAYS esiste e vale 14 (lib/constants.ts:2). tsc: uscita 0. Le prove vicine (promozioni-vuota, titoli-collezioni, piu-recensiti, novita-finestra/conteggio) sono verdi. Residui: app/piccoli-prezzi/page.tsx:47 residuo fuori voce, stessa causa: ProductGrid senza le prop dello stato vuoto, quindi riquadro storico «Prova a modificare i filtri», senza link (components/ProductGrid.tsx:626-631) su una pagina del menu che ha solo l'ordinamento Prove: npx vitest run riparazione-r15-vuoto-con-via-d-uscita: verde. Sonda zz-k08-vuoto-sonda.test.tsx, che monta NovitaPage, PiuVendutiPage e RegaliClient con catalogo vuoto: 3/3 verdi. Uscita in /tmp/claude-0/k08/out-A/sonda-vuoto.txt; sonda cancellata."
   },
-  "R16-019": {
-   "esito": "riparato",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base d5441d45739688a8e232a7506a7033d29168005e^ --file migrations/404_le_storie_le_scrive_solo_un_negozio_approvato.sql --prove tests/sql/rls/riparazione-r16-storie-solo-negozi.test.sql --sql k08_r16_019_0_rimessa --json   (checkout d5441d45739688a8e232a7506a7033d29168005e)"
-   }
+  {
+   "id": "R16-002",
+   "chiave": "dati-analytics|negozio del mese: la classifica dei voti mostra tutti i negozi a zero voti in fila, e «nessun voto» non compare mai",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Un revisore qa (gruppo D, copia a a19ff8923106), tutte e due le lenti. CHIUDE_TUTTA: Alla BASE a19ff892 il difetto descritto nel registro non c'è più. (1) La pagina admin filtra le righe a zero voti: app/admin/shop-of-month/page.tsx:91 `classifica.filter((r) => Number(r.vote_count) > 0)`. Il controllo sulla lunghezza (:201) lavora sulla lista già filtrata, quindi «Nessun voto registrato per questo mese» compare quando i voti non ci sono (:202; il referto dice :199, ma la riga vera è 202 e il contenuto è giusto). Il pulsante «Scegli» sta dentro la lista filtrata (:204-224), quindi un negozio a zero voti non si può più scegliere da lì. (2) Il problema del mese è chiuso da migrations/322_la_classifica_conta_il_mese_di_piacenza.sql:22-46. La funzione mese_di_piacenza() calcola il mese con il fuso Europe/Rome, e la vista la usa sia per la colonna month sia per contare i voti. La pagina usa primoDelMesePiacenza() (:35), quindi lo stesso mese. Ho cercato con grep chi legge shop_of_month_leaderboard: solo app/admin/shop-of-month/page.tsx:84 e app/shop-of-month/page.tsx:83. Nessuna API e nessun altro file in lib la legge (app/api/account/export legge solo la tabella dei voti). La pagina pubblica /shop-of-month mostra tutti i negozi approvati anche a zero voti, ma lì la lista è la scheda per votare (pulsante «Vota»). Il registro però descrive la pagina admin («L'admin vede…», file admin:178), quindi la pagina pubblica è fuori dal testo della voce. Il residuo marginale che ne resta è scritto in difetti. NATA_ROTTA: Nessun codice cambiato: non c'è una correzione che possa rompere qualcosa accanto. La testa di R16 (0628993d) non ha rimesso il difetto: `git diff a19ff892 0628993d` non tocca app/admin/shop-of-month, app/shop-of-month, migrations/322 o lib/queries, e nessun file del ramo che contiene shop_of_month o leaderboard. Il filtro gira davvero nel sito: la prova esistente tests/unit/minori-s05-negozio-del-mese.test.tsx:21 importa la pagina vera (@/app/admin/shop-of-month/page). Il caso «264» (:42-46) le passa una riga con vote_count 0 e controlla che compaia «Nessun voto registrato per questo mese». Sul database locale k08_d la definizione della vista conferma il LEFT JOIN su tutti i negozi approvati, ma con il mese di Piacenza: è per questo che serve il filtro nella pagina, e il filtro c'è. Residui: app/shop-of-month/page.tsx:182-191 Residuo marginale, fuori dal testo della voce. La pagina pubblica mostra la medaglia (i===0) al primo negozio anche quando nessuno ha voti: il primo in ordine alfabetico sembra in testa con «0 voti». Il controllo `leaderboard.length === 0` (:182) dice «Nessun negozio in classifica», non «nessun voto». Va bene per la scheda di voto, ma non c'è un messaggio «ancora nessun voto».; app/admin/shop-of-month/page.tsx:202 Citazione sbagliata nel referto: «Nessun voto registrato» è alla riga 202, non alla 199. Il contenuto è corretto. Prove: git rev-parse HEAD: wt-K08-D=a19ff892 (base, ok), wt-K08-D2=0628993d (testa, ok). grep shop_of_month_leaderboard: 2 lettori (pagina admin e pagina pubblica), nessuna API. npx vitest run minori-s04 e minori-s05 negozio-del-mese: 2 file, 7 prove su 7 passate, exit 0. Database k08_d ricostruito con PGHOST=/var/run/postgresql bash tests/sql/harness/apply.sh k08_d: 193 migrazioni applicate, 0 fallite. psql della prova tests/sql/rls/riparazione-r08-la-classifica-conta-il-mese-di-piacenza.test.sql: 9 controlli ok, 0 errori. pg_get_viewdef: la vista usa mese_di_piacenza(). git diff base..testa sui file della voce: vuoto. Uscite salvate in /tmp/claude-0/k08/out-D/r16-002-*.txt. git status --porcelain su entrambe le copie: vuoto, a parte il link node_modules."
   },
-  "R16-012": {
-   "esito": "riparato",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base b11990d5fb9081a2470d73cf8840653f2cbd7ea4^ --file app/seller/stories/page.tsx --prove tests/unit/riparazione-r16-storie-doppio-clic.test.tsx --json   (checkout b11990d5fb9081a2470d73cf8840653f2cbd7ea4)"
-   }
-  },
-  "R16-013": {
-   "esito": "riparato",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base c73f3d4378ac487651b95829fe2c8d44760cda3c^ --file app/seller/stories/page.tsx --prove tests/unit/riparazione-r16-storie-scadenza.test.tsx --json   (checkout c73f3d4378ac487651b95829fe2c8d44760cda3c)"
-   }
-  },
-  "R16-007": {
-   "esito": "riparato",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 0b1f3e32d4c74dec879fe0cd32bbcbda1eb3cbb2^ --file app/seller/stories/page.tsx --prove tests/unit/riparazione-r16-storie-testi.test.tsx --json   (checkout 0b1f3e32d4c74dec879fe0cd32bbcbda1eb3cbb2)"
-   }
-  },
-  "R16-005": {
-   "esito": "riparato",
+  {
+   "id": "R16-005",
+   "chiave": "frontend-ux|«seminuovo», «come nuovo» e «non nuovo», letti dalla foto o dall assistente, entrano come «nuovo»: un oggetto usato può arrivare in vetrina come nuovo",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 0d427245dbe431d0585adb557724f65ce6bbef1b^ --file lib/products/schema.ts --prove tests/unit/riparazione-r16-condizione-usata.test.ts --json   (checkout 0d427245dbe431d0585adb557724f65ce6bbef1b)"
    },
-   "nota": "Prove rimesse in più: intera: uscita 0 (timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base c4015952e1fa945f300e153794286e873deedd7c^ --file lib/products/schema.ts --prove tests/unit/riparazione-r16-condizione-usata.test.ts --json   (checkout 0d427245dbe431d0585adb557724f65ce6bbef1b))."
+   "nota": "Un revisore qa (gruppo C, copia a 0628993d24e8), tutte e due le lenti. CHIUDE_TUTTA: Le quattro frasi del registro (Seminuovo, Come nuovo, Pari al nuovo, Non nuovo) ora danno 'usato'. Passano dalle due porte, normalizeCondition e condizioneDalSuggerimento (lib/products/schema.ts:83-110). Tutti i chiamanti AI passano da lì: ProductForm.tsx:419, aiPatch.ts:878 e :1200, draftFromVision.ts:162. Con una sonda ho trovato frasi della stessa famiglia che danno ancora 'nuovo': 'Simil nuovo', 'Vicino/Prossimo/Paragonabile al nuovo', 'Non è stato usato tanto', 'Not used in years'. Sono residui ai margini e fuori dal testo del registro. La probabilità è bassa: nessuna categoria ha la chiave «condizione» e il campo condition dell'assistente accetta solo 'nuovo' (lib/ai/patchSchema.ts:19). NATA_ROTTA: La correzione sbaglia anche nel verso opposto. 'Mai aperto e nuovo', senza virgola, prima dava 'nuovo' e adesso dà 'usato'. Per un prodotto nuovo il suggerimento si scarta e compare un avviso al negoziante (ProductForm.tsx:422). Danno minimo: nel menu resta 'nuovo' da scegliere a mano. Le 109 prove vicine sono verdi e il controllo dei tipi è verde. Residui: lib/products/schema.ts:70-71 L'elenco dei paragoni non copre 'simil', 'vicino', 'prossimo', 'paragonabile', 'equivalente': 'Simil nuovo' e 'Vicino al nuovo' danno 'nuovo' (residuo marginale); lib/products/schema.ts:77 La misura dell'uso riconosce 'tanto' solo se seguito da tempo o spesso: 'Non è stato usato tanto', 'Non usato ultimamente' e 'Not used in years' danno 'nuovo'; lib/products/schema.ts:67,96 Un 'mai'/'no' davanti a 'nuovo' nella stessa frase basta per dire usato: 'Mai aperto e nuovo' prima dava 'nuovo', ora dà 'usato' (il suggerimento si scarta e parte un avviso) Prove: npx vitest run della prova della voce più 108 file vicini: 109 su 109 verdi, 1012 prove. Sonda zz-k08-cond con 38 frasi, poi cancellata (uscita in out-C/r16-005-probe.txt). tsc --noEmit: uscita 0."
   },
-  "R16-020": {
-   "esito": "riparato",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 27b1a9ce5d1becfaadf109a6bdf5f068c9ada809^ --file app/seller/products/[id]/edit/page.tsx --prove tests/unit/riparazione-r16-modifica-lettura-caduta.test.tsx --json   (checkout 27b1a9ce5d1becfaadf109a6bdf5f068c9ada809)"
-   }
-  },
-  "R16-021": {
-   "esito": "riparato",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 0834f8e1e16c1ede8420fb497cadb07d2d68c640^ --file app/seller/products/new/page.tsx --prove tests/unit/riparazione-r16-nuovo-prodotto-categorie.test.tsx --json   (checkout 0834f8e1e16c1ede8420fb497cadb07d2d68c640)"
-   }
-  },
-  "R16-008": {
-   "esito": "riparato",
-   "rimessa": {
-    "uscita": 0,
-    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 0270677f47fb1e7648e3d56c1ff4a3390b98a26a^ --file lib/format.ts --prove tests/unit/riparazione-r16-ore-di-roma.test.ts --json   (checkout 0270677f47fb1e7648e3d56c1ff4a3390b98a26a)"
-   }
-  },
-  "R16-002": {
-   "esito": "gia_riparato_prima"
-  },
-  "R16-006": {
-   "esito": "riparato",
+  {
+   "id": "R16-006",
+   "chiave": "layout-responsive|sul telefono la tabella dei clienti esce dallo schermo: spesa, ultimo ordine e targhetta vip si vedono solo trascinandola di lato",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base bca20010f7eda3c30727656534ecad274163fc60^ --file app/seller/customers/page.tsx --prove tests/unit/riparazione-r16-clienti-schede-telefono.test.ts --json   (checkout bca20010f7eda3c30727656534ecad274163fc60)"
    },
-   "nota": "Prove rimesse in più: intera: uscita 0 (timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 4419056ee5a7c073d10e0dd5bd8b8983d9b3f0f3^ --file app/seller/customers/page.tsx --prove tests/unit/riparazione-r16-clienti-schede-telefono.test.ts --json   (checkout bca20010f7eda3c30727656534ecad274163fc60))."
+   "nota": "Un revisore qa (gruppo B, copia a 0628993d24e8), tutte e due le lenti. CHIUDE_TUTTA: Sì, tutta. Sotto md compare una scheda per cliente con nome, ordini, speso, ultimo ordine con i giorni passati e la targhetta VIP/Inattivo/Attivo (app/seller/customers/page.tsx:146-174). La tabella da 700 px resta solo da md in su (:176-177). Filtri, ricerca e link «Punto 9» hanno min-h-11 sul telefono (:128, :141, :231). La riga «ID:» è tolta sia dalle schede sia dalla tabella. In fondo c'è pb-36 (:95). Ho compilato Tailwind 3.4.19 con la config del sito: min-h-11, md:min-h-0, pb-36, md:pb-0, md:table e md:hidden esistono davvero nel CSS. Quindi la correzione funziona sul sito, non solo nella prova. Usare md invece di sm è meglio di quanto chiedeva il registro: fra 640 e 767 px la tabella da 700 px non ci starebbe. NATA_ROTTA: Non rompe niente. Le prove vicine sono verdi, compresa minori-s06-pagina-clienti, e tsc --noEmit esce 0. Il pulsante assistenza sul telefono sta a 96 px dal fondo ed è alto 56 px, quindi arriva a 152 px (globals.css:184, SupportChatButton). Lo spazio vero in fondo è 144 (pb-36) + 24 (py-6 di SellerShell.tsx:522) = 168 px: basta. La prova però guarda solo le classi in jsdom, non la posizione vera sullo schermo. Fiducia circa 85%. Residui: tests/unit/riparazione-r16-clienti-schede-telefono.test.ts:72 Il commento fa il conto sbagliato: «py-6 (48 px) + pb-36 = 192 px». Sul fondo py-6 aggiunge solo 24 px, quindi lo spazio vero è 168 px. Basta comunque (più di 152 px), ma il conto scritto nel referto e nella prova è falso. Prove: npx vitest run riparazione-r16-clienti-schede-telefono + 19 file vicini: 20 file, 234 test verdi. npx tailwindcss sulla pagina con tailwind.config.ts: le classi ci sono tutte. tsc --noEmit (con 6 GB di memoria): uscita 0."
+  },
+  {
+   "id": "R16-007",
+   "chiave": "microcopy|nella schermata delle storie il negoziante trova «caption» e un indirizzo da programmatore come esempio",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 0b1f3e32d4c74dec879fe0cd32bbcbda1eb3cbb2^ --file app/seller/stories/page.tsx --prove tests/unit/riparazione-r16-storie-testi.test.tsx --json   (checkout 0b1f3e32d4c74dec879fe0cd32bbcbda1eb3cbb2)"
+   },
+   "nota": "Un revisore qa (gruppo B, copia a 0628993d24e8), tutte e due le lenti. CHIUDE_TUTTA: Sì. «Caption (1 frase)» diventa «Scritta sotto la foto (una frase)» (app/seller/stories/page.tsx:305). Il campo link diventa «Pagina del sito (facoltativo)», con una spiegazione e il segnaposto /promozioni (:315-321). La pagina app/promozioni esiste davvero, e l'esempio passa la regola di salvataggio di R16-011. Con grep nella pagina non resta nessuna parola tecnica visibile al negoziante: «caption» e «link_url» restano solo come nomi di variabili. L'avviso «Applica la migration 035» (:134) è una voce separata del registro, e la voce stessa lo dice. NATA_ROTTA: Non rompe niente. La prova monta la pagina vera. Il testo d'aiuto si vede davvero (la prova trova «Scopri di più» nel dialogo). Il messaggio d'errore di R16-011 usa lo stesso esempio, quindi non si contraddicono. Prove: npx vitest run riparazione-r16-storie-testi + minori-s09-storie e altri vicini: verdi."
+  },
+  {
+   "id": "R16-008",
+   "chiave": "microcopy|le ore scritte dal server escono nell'ora di londra: la pagina stato dice 14:54 quando a piacenza sono le 16:54",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 0270677f47fb1e7648e3d56c1ff4a3390b98a26a^ --file lib/format.ts --prove tests/unit/riparazione-r16-ore-di-roma.test.ts --json   (checkout 0270677f47fb1e7648e3d56c1ff4a3390b98a26a)"
+   },
+   "nota": "Un revisore qa (gruppo C, copia a 0628993d24e8), tutte e due le lenti. CHIUDE_TUTTA: I tre punti del registro ora usano timeZone 'Europe/Rome': app/status/page.tsx:73, lib/shipping-etichetta/label.ts:130 e lib/format.ts:63. Il primo e il secondo lo avevano già sulla base a19ff892; il terzo è la correzione. Ho cercato con grep le altre date scritte sul server, nei file senza 'use client' sotto app, lib e components: hanno tutte timeZone (etichette.ts:77, esporta-ordini.ts:109, templates.ts:1024, store-hours.ts:74). OrderTimeline gira solo nel browser. Il progetto non usa date-fns. NATA_ROTTA: formatDate cambia solo per gli istanti vicini alla mezzanotte, e ora mostra il giorno di Piacenza. Le prove che importano lib/format sono verdi. La prova gira in UTC, cioè senza TZ nell'ambiente, quindi morde davvero. Residui: eslint.config / lib/format.ts:- Manca la regola di lint suggerita nel campo fix: niente impedisce che una nuova data scritta dal server nasca senza timeZone. È fuori dal testo della voce. Prove: La prova riparazione-r16-ore-di-roma è verde, dentro la serie delle 109. Grep di toLocale e Intl.DateTimeFormat nei file del server: uscita in out-C/r16-008-server-locale.txt, nessun caso scoperto."
+  },
+  {
+   "id": "R16-009",
+   "chiave": "mobile-pwa|il pulsante sos chiede la posizione dopo aver aperto il tastierino del 112: l'avviso a mycity potrebbe partire spesso senza coordinate",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 6935611b4f4e9886db95e112f2d34102b9a5f981^ --file components/rider/SOSButton.tsx --prove tests/unit/riparazione-r16-sos-posizione.test.tsx --json   (checkout 6935611b4f4e9886db95e112f2d34102b9a5f981)"
+   },
+   "nota": "Un revisore qa (gruppo C, copia a 0628993d24e8), tutte e due le lenti. CHIUDE_TUTTA: La posizione ora si chiede quando si apre il dialogo, prima del tel:112 (SOSButton.tsx, apriDialogo e avviaLetturaGps), con getCurrentPosition più watchPosition e maximumAge di 60 secondi. Alla conferma il tastierino si apre subito e l'avviso usa la posizione già arrivata, o quella che arriva entro 5,5 secondi. L'unico punto d'ingresso dell'SOS è RiderShell. Il link tel:112 in app/rider/help/page.tsx:151 non manda avvisi ed è fuori dalla voce. Non l'ho verificato su un telefono vero, come dice anche il registro: confidenza circa 70%. NATA_ROTTA: Il GPS si ferma quando il dialogo si chiude (con Annulla, X, Esc o a fine avviso) e allo smontaggio. La chiusura durante l'invio non annulla la posizione già promessa. La prova monta il componente vero. Effetto collaterale accettabile: la richiesta di permesso per la posizione ora compare all'apertura del dialogo. Le prove vicine sono verdi. Prove: La prova riparazione-r16-sos-posizione è verde, dentro la serie delle 109. Ho letto il diff completo rispetto alla base (out-C/r16-009-diff.txt)."
+  },
+  {
+   "id": "R16-011",
+   "chiave": "qa-flussi|il link «scopri di più» delle storie accetta qualunque indirizzo, anche un sito esterno, senza nessun controllo",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base c6e09c0ffb0dc006f46a45739dd15ebd37a42882^ --file app/seller/stories/page.tsx,components/StoryViewer.tsx --prove tests/unit/riparazione-r16-storie-link.test.tsx --json   (checkout c6e09c0ffb0dc006f46a45739dd15ebd37a42882) ; timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base c6e09c0ffb0dc006f46a45739dd15ebd37a42882^ --file migrations/403_il_link_delle_storie_porta_solo_dentro_mycity.sql --prove tests/sql/rls/riparazione-r16-link-storie.test.sql --sql k08_r16_011_1_rimessa --json   (checkout c6e09c0ffb0dc006f46a45739dd15ebd37a42882)"
+   },
+   "nota": "Un revisore qa (gruppo B, copia a 0628993d24e8), tutte e due le lenti. CHIUDE_TUTTA: Sì, su tutti e tre i livelli che la voce nomina. ① Modulo: safeInternalPath controlla il link prima di caricare la foto e si salva solo il link pulito (app/seller/stories/page.tsx:99-101 e :144). Il messaggio arriva al negoziante passando da friendlyError: la prova lo verifica. ② Visore: il bottone «Scopri di più» compare solo se il link passa la regola (components/StoryViewer.tsx:151 e :270). StoreStoryRing passa dallo stesso visore. ③ Database: la migrazione 403 aggiunge un CHECK e prima toglie i link sbagliati alle storie vecchie, dicendo quante sono. Nel database k08_b il CHECK è presente e respinge https://, // e /\\. Con grep: le uniche scritture su seller_stories sono nella pagina del negozio, e le uniche letture di link_url sono il carosello e StoreStoryRing, che passano entrambi dal visore. NATA_ROTTA: Non rompe niente. Sono verdi la prova unitaria, la prova SQL, safe-redirect.test.ts e il-ritorno-dopo-l-accesso-resta-in-casa-nostra. L'indirizzo intero del sito incollato (https://mycity-marketplace.com/promozioni) viene rifiutato, ma il messaggio spiega cosa scrivere: è una scomodità, non un difetto. Resta il residuo già segnato dal revisore precedente (caratteri di controllo C1 accettati dalla pagina e rifiutati dal CHECK). Uscirebbe solo scrivendo caratteri invisibili: marginale. Prove: Ricostruito il database: apply.sh k08_b (197 migrazioni applicate, 0 fallite). psql riparazione-r16-link-storie.test.sql: uscita 0, 6 controlli verdi. vitest riparazione-r16-storie-link e safe-redirect: verdi. \\d seller_stories: il CHECK seller_stories_link_dentro_mycity c'è."
+  },
+  {
+   "id": "R16-012",
+   "chiave": "qa-flussi|un doppio clic su «pubblica (24h)» pubblica la stessa storia due volte, e i clienti le vedono tutte e due",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base b11990d5fb9081a2470d73cf8840653f2cbd7ea4^ --file app/seller/stories/page.tsx --prove tests/unit/riparazione-r16-storie-doppio-clic.test.tsx --json   (checkout b11990d5fb9081a2470d73cf8840653f2cbd7ea4)"
+   },
+   "nota": "Un revisore qa (gruppo B, copia a 0628993d24e8), tutte e due le lenti. CHIUDE_TUTTA: Sì. Il freno useRef scatta subito nel clic, prima di mutate, e anche setUploading(true) è nel clic (app/seller/stories/page.tsx:164-169). Il bottone è spento con create.isPending || uploading || !image (:280). Il freno si toglie in onSettled (:158-161), quindi dopo un errore si può riprovare. Il caso «Bucket not found» con due avvisi è coperto: oggi parte un tentativo solo. Con grep: nessun'altra strada crea storie, l'unico insert è in questa pagina. NATA_ROTTA: Non rompe niente. La prova monta la pagina vera, con Supabase e caricamento finti: due clic danno una foto e un inserimento. Il bottone resta spento mentre carica, e dopo un errore si riprova. L'etichetta «Carico…» ora compare subito al clic: è un miglioramento. Prove: npx vitest run riparazione-r16-storie-doppio-clic: verde, dentro la serie di 234 test verdi."
+  },
+  {
+   "id": "R16-013",
+   "chiave": "qa-flussi|una storia a meno di mezz'ora dalla scadenza risulta «scaduta» al negozio, mentre i clienti la vedono ancora",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base c73f3d4378ac487651b95829fe2c8d44760cda3c^ --file app/seller/stories/page.tsx --prove tests/unit/riparazione-r16-storie-scadenza.test.tsx --json   (checkout c73f3d4378ac487651b95829fe2c8d44760cda3c)"
+   },
+   "nota": "Un revisore qa (gruppo B, copia a 0628993d24e8), tutte e due le lenti. CHIUDE_TUTTA: Sì. Attiva o scaduta ora si decide con expires_at > adesso (app/seller/stories/page.tsx:191-193). È la stessa regola di StoriesCarousel.tsx:73, di StoreStoryRing.tsx:31 e della regola di lettura pubblica del database. Le ore si arrotondano per eccesso (:196): una storia a 20 minuti dalla scadenza mostra «1h». Con grep: non c'è nessun altro calcolo della scadenza lato negozio. NATA_ROTTA: Non rompe niente di sostanza. La prova monta la pagina vera e il carosello vero con l'orologio finto. C'è un effetto collaterale estetico e raro dell'arrotondamento per eccesso, descritto nei difetti. Residui: app/seller/stories/page.tsx:196 Effetto estetico raro dell'arrotondamento per eccesso. Se l'orologio del telefono è indietro rispetto al database anche di meno di un secondo, una storia appena pubblicata mostra «25h». La pagina non si ridisegna da sola, quindi «25h» resta finché non si aggiorna. Rimedio da una riga: Math.min(24, …). Prove: npx vitest run riparazione-r16-storie-scadenza: verde, dentro la serie di 234 test verdi. Lettura delle tre regole di scadenza: coincidono."
+  },
+  {
+   "id": "R16-018",
+   "chiave": "rls-database|un negozio sospeso può rimettersi da solo in coda per l'approvazione rimandando il modulo da /sell",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 7f1eb2a733ff1ebd08cc9495d796582da6d609db^ --file migrations/400_il_negozio_sospeso_non_si_rimette_in_coda.sql --prove tests/sql/rls/riparazione-r16-negozio-sospeso.test.sql --sql k08_r16_018_0_rimessa --json   (checkout 7f1eb2a733ff1ebd08cc9495d796582da6d609db)"
+   },
+   "nota": "Un revisore qa (gruppo C, copia a 0628993d24e8), tutte e due le lenti. CHIUDE_TUTTA: La migrazione 400 è la 365 con un solo controllo in più: chi non è staff non cambia lo stato di un profilo sospeso, né verso pending né verso vuoto. Ho verificato col diff dei due corpi, uscita in out-C/f365.sql e f400.sql. Nessuna migrazione dopo la 400 ridefinisce la funzione. /sell (page.tsx:143) e /api/seller/apply (route.ts:149) rifiutavano già il sospeso sulla base. Le altre scritture di approval_status passano dal client amministratore (moderate, cancellazione.ts:574), quindi sono privilegiate. Non ho trovato una porta laterale. NATA_ROTTA: Il negozio rifiutato può ancora ripresentarsi, il sospeso cambia ancora il telefono e il server toglie ancora la sospensione. L'intera serie RLS (63 file) è verde su k08_c. La migrazione non è applicata a nessun database vero: questo riguarda il rilascio, non il codice. Prove: apply.sh k08_c: 197 migrazioni applicate, 0 fallite. psql della prova riparazione-r16-negozio-sospeso.test.sql: 6 controlli su 6 verdi, uscita 0. run.sh k08_c: tutti i controlli verdi, uscita 0 (out-C/run-all-sql.log)."
+  },
+  {
+   "id": "R16-019",
+   "chiave": "rls-database|chiunque abbia un account può riempire i 30 posti del carosello delle storie in home e svuotarlo per tutti",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base d5441d45739688a8e232a7506a7033d29168005e^ --file migrations/404_le_storie_le_scrive_solo_un_negozio_approvato.sql --prove tests/sql/rls/riparazione-r16-storie-solo-negozi.test.sql --sql k08_r16_019_0_rimessa --json   (checkout d5441d45739688a8e232a7506a7033d29168005e)"
+   },
+   "nota": "Un revisore qa (gruppo B, copia a 0628993d24e8), tutte e due le lenti. CHIUDE_TUTTA: Solo un pezzo. La 404 chiude la strada scritta nel titolo, «chiunque abbia un account»: un cliente o un negozio sospeso non pubblica più storie e non allunga quelle vecchie, e la prova SQL lo dimostra (7 controlli verdi). La seconda metà della correzione nel registro, «il carosello filtra prima di tagliare», non è fatta: il carosello taglia ancora e filtra dopo (components/home/StoriesCarousel.tsx:78-80). Altri residui sono passati alla regista in chat. NATA_ROTTA: Non rompe niente accanto. Il negozio legge ancora le proprie storie, anche scadute. Il negozio sospeso cancella ancora le sue. La lettura pubblica non cambia. Il cliente non scrive a nome di altri. Nella regola dei profili, ruolo e approvazione restano riservati allo staff (migrations/400:51). La nota del revisore precedente resta: l'admin dentro l'area negozio lascia una foto orfana, perché la foto si carica e poi il salvataggio viene rifiutato. Residui: components/home/StoriesCarousel.tsx:78-80 il carosello prende le storie più recenti e filtra i negozi solo dopo il taglio: la seconda metà della correzione del registro manca (altri residui passati alla regista in chat) Prove: apply.sh k08_b: 197 migrazioni applicate, 0 fallite. psql riparazione-r16-storie-solo-negozi.test.sql: uscita 0, 7 controlli verdi. Due sonde SQL del revisore, chiuse con ROLLBACK (dettagli alla regista)."
+  },
+  {
+   "id": "R16-020",
+   "chiave": "stati-ui|se la lettura del prodotto non riesce, la pagina di modifica dice «prodotto non trovato» e non offre «riprova»",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 27b1a9ce5d1becfaadf109a6bdf5f068c9ada809^ --file app/seller/products/[id]/edit/page.tsx --prove tests/unit/riparazione-r16-modifica-lettura-caduta.test.tsx --json   (checkout 27b1a9ce5d1becfaadf109a6bdf5f068c9ada809)"
+   },
+   "nota": "Un revisore qa (gruppo C, copia a 0628993d24e8), tutte e due le lenti. CHIUDE_TUTTA: Il registro dice anche «Senza rete, stesso testo». Il caso coperto è l'errore 500, o un fetch che fallisce mentre react-query crede di essere in linea: lì ora compare «Non riesco a leggere il prodotto» con Riprova. Il caso non coperto è il telefono senza rete. react-query (networkMode 'online' di default, QueryProvider.tsx) mette la lettura in pausa: stato pending, isLoading falso, nessun errore. La pagina allora cade in '!product' (edit/page.tsx:255) e dice ancora «Prodotto non trovato» senza Riprova. Lo stesso succede col nuovo tentativo messo in pausa quando la rete singhiozza (retry: 1). L'ho riprodotto con una sonda sulla pagina vera e onlineManager.setOnline(false): «Errore · Prodotto non trovato», nessun Riprova. La pagina si rimette da sola solo quando la rete torna. NATA_ROTTA: I rami PGRST116, prodotto di un altro negozio e sessione mancante restano corretti. La classe LetturaNegata funziona con instanceof perché il target è es2017. Prove e controllo dei tipi verdi. Fuori voce: la pagina di modifica dell'amministratore ha lo stesso difetto originale. Residui: app/seller/products/[id]/edit/page.tsx:235,255 La lettura in pausa perché il telefono è senza rete non è né caricamento (isLoading falso) né errore: si cade in '!product' e compare «Prodotto non trovato» senza Riprova. Serve isPending o fetchStatus==='paused'.; app/admin/products/[id]/edit/page.tsx:137-141 Fuori voce, stessa classe: l'errore di Supabase non è un Error, quindi cade su «Prodotto non trovato» senza Riprova Prove: La prova riparazione-r16-modifica-lettura-caduta è verde, 6 prove. Sonda zz-k08-offline-edit con onlineManager offline: «Prodotto non trovato», riprova: false. Al ritorno della rete: «Non riesco a leggere…» con Riprova. Sonda cancellata."
+  },
+  {
+   "id": "R16-021",
+   "chiave": "stati-ui|se le categorie non arrivano, il modulo «nuovo prodotto» mostra un elenco vuoto e poi chiede di scegliere una categoria che non c'è",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 0834f8e1e16c1ede8420fb497cadb07d2d68c640^ --file app/seller/products/new/page.tsx --prove tests/unit/riparazione-r16-nuovo-prodotto-categorie.test.tsx --json   (checkout 0834f8e1e16c1ede8420fb497cadb07d2d68c640)"
+   },
+   "nota": "Un revisore qa (gruppo C, copia a 0628993d24e8), tutte e due le lenti. CHIUDE_TUTTA: Il caso coperto: se la lettura delle categorie fallisce (rotta bloccata, come nella palestra del registro), compare l'avviso «Non riesco a leggere le categorie» con Riprova. Il caso non coperto è il titolo stesso, «se le categorie non arrivano», quando il telefono è senza rete. react-query mette la lettura in pausa (pending, isLoading falso, isError falso), e new/page.tsx:279-281 apre il modulo con l'elenco vuoto. È il difetto originale, che il registro collega alla «rete che singhiozza». Riprodotto con una sonda sulla pagina vera e onlineManager offline: «MODULO con 0 categorie». NATA_ROTTA: La query delle categorie condivide la chiave queryKeys.categories.form con la pagina di modifica e con le pagine dell'amministratore. Coi dati in memoria il modulo si apre comunque, ed è corretto. Prove vicine e controllo dei tipi verdi. Il gemello, la pagina di modifica alle righe 235-236, ha la stessa lacuna di pausa. Residui: app/seller/products/new/page.tsx:76,279 Con la rete assente, isLoading (pending più fetching) è falso perché la lettura è in pausa: il modulo si apre con 0 categorie e chiede di sceglierne una. Serve isPending o fetchStatus==='paused'.; app/seller/products/[id]/edit/page.tsx:113,235-236 Stessa lacuna sulle categorie nella pagina gemella presa a modello Prove: La prova riparazione-r16-nuovo-prodotto-categorie è verde. Sonda zz-k08-offline: offline dà «MODULO con 0 categorie», in linea con errore dà l'avviso con Riprova. Sonda cancellata."
+  }
+ ],
+ "campione": {
+  "R15": {
+   "accettato": false,
+   "perche": "4 reggono su 5 minori guardati (80%), sotto la soglia del 90%: R15-004 è parziale"
+  },
+  "R16": {
+   "accettato": false,
+   "perche": "9 reggono su 12 minori guardati (75%), sotto la soglia del 90%: R16-019, R16-020 e R16-021 sono parziali"
+  }
+ },
+ "nota": "R14 non è più fra i riparatori di questo collaudo: non è unito e passa all'onda 3 (decisione di Nicola del 14/11 alle 08:56, «la strada a»; spostamento approvato dalla regista O2 settima). Le sue 20 voci, coi giudizi e le prove rimesse, sono in «rimandati_onda_3».",
+ "rimandati_onda_3": {
+  "R14": {
+   "perche": "R14 non è unito e passa all'onda 3 (decisione di Nicola del 14/11 alle 08:56, «la strada a», girata dalla regista O2 settima). Le sue voci stanno qui, fuori da «voci», perché valida-collaudo non accetta voci di un riparatore che il collaudo non elenca. Giudizi e prove rimesse restano validi per chi la collauda nell'onda 3, alla stessa punta 2048b33cad287d9746e5fdd994c8d0ffe9c2c04a e testa 004218b6674bf1d1c30eb212a86c91aa232f41c7.",
+   "voci": [
+    {
+     "id": "R14-001",
+     "chiave": "api-backend|se la lettura delle email cade, la ricerca utenti dice «nessuno, ho cercato su tutti», e oltre mille iscritti l'email non si trova",
+     "verdetto": "rompe_altro",
+     "giudizio": "pieno",
+     "lenti": [
+      "chiude_tutta",
+      "nata_rotta"
+     ],
+     "rimessa": {
+      "uscita": 0,
+      "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base f4ffa34fb7cde64c302de3ac296f49fc44e92960^ --file app/admin/users/page.tsx --prove tests/unit/riparazione-r14-ricerca-utenti.test.ts --json   (checkout f4ffa34fb7cde64c302de3ac296f49fc44e92960)"
+     },
+     "nota": "Un revisore qa, tutte e due le lenti. CHIUDE_TUTTA: regge, con residui minori. Le email si leggono in 3 punti (app/admin/users/page.tsx:212, :265, :562): due lanciano l errore, il terzo (l elenco) lo cattura ma non dichiara di aver cercato; se cade solo la seconda finestra la pagina mostra l avviso e non dice mai «Ho cercato su tutti». L ordine per id è stabile (chiave primaria); in postgrest-js 2.106.1 rpc() accetta order e range e range scrive offset/limit anche in POST; max_rows 1000 coincide con la finestra. Riportata la pagina alla base la prova è 4 su 4 rossa per i motivi giusti; tolto .order(id) resta 4 su 4 verde: il finto ordina in memoria, la paginazione è vera per costruzione. Paginazione a offset: un account cancellato fra due finestre fa saltare un utente vivo (provato su Postgres locale: 2.500 righe, 2.499 lette). NATA_ROTTA: rompe_altro. page.tsx:265: se la lettura delle email cade, anche la ricerca per NOME guarda solo i 500 profili in memoria, mentre alla base arrivava a tutti (provato base contro testa: «Cliente 140» trova Cliente 1405 alla base, alla testa no). page.tsx:166-167 con lib/supabase/blocchi.ts:70: con 20.001 iscritti il CSV completo non esce mai, col messaggio falso «Riprova fra poco», e l elenco perde in silenzio tutte le email (0 contro 1000 alla base); il tetto delle email (20.000) non coincide con quello dell esportazione (29.000, lib/admin/esporta-utenti.ts:62). Prestazioni: una chiamata alla RPC ogni mille iscritti, in fila, all apertura, a ogni parola cercata, al CSV e a ogni moderazione (21 chiamate con 20.001 iscritti). tsc 0, nessuna falla: la guardia is_admin della RPC resta intatta."
+    },
+    {
+     "id": "R14-002",
+     "chiave": "api-backend|confermata una rimessa, la giornata del fattorino risulta versata anche per i contanti che incassa dopo, e la guardia della cancellazione lo lascia andare",
+     "verdetto": "rompe_altro",
+     "giudizio": "pieno",
+     "lenti": [
+      "chiude_tutta",
+      "nata_rotta"
+     ],
+     "rimessa": {
+      "uscita": 0,
+      "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 905ae0ce0e9c6ab61ba7274442e79fe7c70762a8^ --file migrations/381_la_rimessa_non_chiude_una_giornata_con_contanti_in_mano.sql --prove tests/sql/rls/riparazione-r14-rimessa.test.sql --sql k08_r14_002_0_rimessa --json   (checkout 905ae0ce0e9c6ab61ba7274442e79fe7c70762a8)"
+     },
+     "nota": "Due revisori qa, una lente ciascuno. CHIUDE_TUTTA: parziale. La parte (a) regge per il caso del registro (contanti incassati e consegnati lo stesso giorno, anche con conferma e consegna in corsa: il lucchetto le mette in fila). Tolta la 381 la prova SQL è rossa sui controlli ①; tolte 381 e 383 i rossi sono 4, per il motivo giusto. La parte (b), la guardia della cancellazione, resta aperta: la riapertura una tantum della 381 (righe 202-214) rimette remitted_at a NULL ma non ricalcola incassato e stato, e la guardia (lib/account/cancellazione.ts:670-672) e il sorvegliante non vedono una giornata vecchia con incassato 0 e PENDING riaperta (provato in locale: giornata riaperta con un ordine consegnato da versare di 20,50 euro, guardia a 0 giornate aperte); riquadra-casse rifà solo oggi e ieri. Finestra breve: incasso alle 23:58 e consegna alle 00:02, fino al ricalcolo delle 01:15 UTC la cancellazione immediata dall admin non vede niente. NATA_ROTTA: rompe_altro, minore. La «giornata versata a metà»: dopo un versamento parziale la giornata si riapre giustamente, ma collected_cents conta anche l incasso già versato e la guardia scrive al fattorino «risultano 41,00 euro non ancora versati» quando ne restano 20,50 (provato in locale: guardia 4100 centesimi, da versare 2050). La riapertura (grilletto, ramo ELSE della conferma, riapertura una tantum) mette a NULL remitted_by e remitted_at di una rimessa vera già fatta: si perde chi ha ricevuto i contanti e quando, il principio che la 383 protegge (provato in locale). Da lettura: la 381 si dichiara rieseguibile, ma rieseguita dopo la 383 il CREATE OR REPLACE rimette il suo corpo senza versata_ora e annulla in silenzio R14-006. Nessuno stallo con due sessioni vere; flussi caldi senza permessi negati; la rotta ricalcola in try/catch dopo la rpc. SQL rls 63 su 63, vitest 235 prove sui file della cassa, tsc 0. Prove rimesse in più: codice: uscita 0 (timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 905ae0ce0e9c6ab61ba7274442e79fe7c70762a8^ --file app/api/admin/cod-remittance/route.ts --prove tests/unit/riparazione-r14-rimessa.test.ts --json   (checkout 905ae0ce0e9c6ab61ba7274442e79fe7c70762a8))."
+    },
+    {
+     "id": "R14-004",
+     "chiave": "qa-flussi|un ordine fermo su «accettato» o «ritirato dal fattorino» non fa suonare nessun allarme e non scade mai",
+     "verdetto": "rompe_altro",
+     "giudizio": "pieno",
+     "lenti": [
+      "chiude_tutta",
+      "nata_rotta"
+     ],
+     "rimessa": {
+      "uscita": 0,
+      "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 34608b208da58db9054af66ebe8ee0ceed9e8fcf^ --file app/api/cron/operational-alerts/route.ts --prove tests/unit/riparazione-r14-allarmi-ordini.test.ts --json   (checkout 34608b208da58db9054af66ebe8ee0ceed9e8fcf)"
+     },
+     "nota": "Un revisore qa, tutte e due le lenti. Alla testa le righe del riparatore sono spostate: i pezzi stanno a app/api/cron/operational-alerts/route.ts:115-120 e :289-308. CHIUDE_TUTTA: parziale, e il «cosa resta» è incompleto. Regge: ordine accettato con accepted_at vuoto conta dalla nascita, fascia rispettata, contanti uguali, dedup (giro ogni 15 minuti per 7 ore: 2 email e 2 campanelle), il passaggio da ritirato a in consegna non fa doppioni. Non dichiarato: route.ts:289-295 ordine crescente + limit(20) prima del filtro della fascia (:299-300): 20 ordini accettati in regola per una fascia di domani riempiono i 20 posti e un ordine senza fascia accettato da 3 ore non suona, anche con la scadenza automatica; route.ts:293 accepted_at lo scrive il browser del negozio (app/seller/orders/[id]/page.tsx:317): un tablet con l orologio avanti di 24 ore fa tacere l allarme per circa 26 ore (provato); route.ts:299-301 la consegna veloce non ha fascia leggibile e la soglia resta 2 ore contro una promessa di 30-60 minuti (provato). Minori: etichetta di fascia non riconosciuta dà un falso allarme a 2 ore; per il ritiro in negozio il testo parla di fattorino. NATA_ROTTA: rompe_altro. route.ts:115-120 il limit(10) senza ordine ora divide i posti fra PICKED_UP e OUT_FOR_DELIVERY: con 10 ordini ritirati fermi da più di 30 ore e uno in consegna fermo da 60 minuti, l allarme su in consegna che suonava prima della correzione alla testa tace (provato prima e dopo). Tolta la correzione 5 prove su 7 rosse col messaggio giusto; tre mutanti morsi; le altre 7 prove della rotta (117 casi) verdi."
+    },
+    {
+     "id": "R14-005",
+     "chiave": "rls-database|chi ha fatto anche un solo ordine non riesce a cancellare il proprio account",
+     "verdetto": "rompe_altro",
+     "giudizio": "pieno",
+     "lenti": [
+      "chiude_tutta",
+      "nata_rotta"
+     ],
+     "rimessa": {
+      "uscita": 0,
+      "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base cc4c2603144e44534596ebe1c9293236fa625ba5^ --file migrations/382_chi_ha_ordinato_puo_cancellare_l_account.sql --prove tests/sql/rls/riparazione-r14-cancellazione.test.sql --sql k08_r14_005_0_rimessa --json   (checkout cc4c2603144e44534596ebe1c9293236fa625ba5)"
+     },
+     "nota": "Due revisori qa, una lente ciascuno. CHIUDE_TUTTA: parziale. La 382 regge sulla causa del registro (guardiano degli ordini della 179): un cliente con 7 ordini, uno per stato, e righe in circa 30 tabelle collegate, cancellato come supabase_auth_admin senza claims, passa con la 382 ed è respinto senza («orders: modifica di un campo protetto»). Tolta la 382 la prova del riparatore è rossa 3 su 12 per il motivo giusto. Resta un altro blocco sullo stesso percorso, già presente alla base: lib/account/cancellazione.ts:195 pulisce contact_messages con email=[eliminato] e message=[rimosso] (9 caratteri), respinti dai vincoli di migrations/028_contact_messages.sql (formato email, minimo 10). cancellaAccount si ferma prima di deleteUser: un cliente con ordini che ha scritto al modulo contatti da loggato non si cancella mai (provato in locale, errore 23514). NATA_ROTTA: rompe_altro, minore. Il varco della 382 regge (grilletto SECURITY DEFINER a profondità 2 lanciato da un negozio, user_id a NULL col profilo vivo, verso un altro cliente, insieme al totale: tutti respinti 42501). Ma la 382 rende raggiungibile un ordine ATTIVO senza cliente, e lì si perdono avvisi al negozio: migrations/321_l_ordine_pronto_dice_la_fascia.sql:69 (notify_buyer_on_order_status, ramo ASSIGNED: l avviso al cliente fallisce su notifications.user_id NOT NULL e nello stesso blocco EXCEPTION cade l avviso «Rider assegnato» al negozio; provato: 0 avvisi contro 1 del controllo) e migrations/360_l_amministratore_chiude_la_consegna.sql:129 (admin_chiudi_consegna: INSERT a due righe che cade tutto; ok true, DELIVERED, 0 avvisi al negozio; provato). Da lettura: lib/stripe/webhook/rimborsi.ts:336 getUserById(NULL) dà 500 al primo tentativo di un rimborso fatto dal cruscotto Stripe. Ricostruzione con 197 migrazioni senza errori, tests/sql/rls tutto verde."
+    },
+    {
+     "id": "R14-009",
+     "chiave": "api-backend|il conteggio dei promemoria «inviati» include carrelli segnati senza nessuna email",
+     "verdetto": "parziale",
+     "giudizio": "nessuno",
+     "rimessa": {
+      "uscita": 0,
+      "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 4cbcf09df264b6069479a3e3c64327f633340bca^ --file app/api/cron/abandoned-carts/route.ts,lib/carrelli-abbandonati.ts --prove tests/unit/riparazione-r14-carrelli-senza-email.test.ts --json   (checkout 4cbcf09df264b6069479a3e3c64327f633340bca)"
+     },
+     "nota": "Parziale per il riparatore: giudicata solo con la prova rimessa."
+    },
+    {
+     "id": "R14-017",
+     "chiave": "api-backend|se l'amministratore apre i documenti di un fattorino con un codice storto, la rotta risponde con un guasto invece di dire che il codice non è valido",
+     "verdetto": "regge",
+     "giudizio": "nessuno",
+     "rimessa": {
+      "uscita": 0,
+      "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 5722621ed59e1b79f70fde9c78c85035d4bf6a75^ --file app/api/kyc/documenti-rider/[id]/route.ts,app/api/admin/users/[id]/kyc/route.ts,app/api/ai/reviews-summary/route.ts --prove tests/unit/riparazione-r14-codice-storto.test.ts --json   (checkout 5722621ed59e1b79f70fde9c78c85035d4bf6a75)"
+     },
+     "nota": "Minore fuori dai file che legano: solo prova rimessa (campione)."
+    },
+    {
+     "id": "R14-020",
+     "chiave": "api-backend|gli avvisi «incasso in contanti che non quadra» e «incasso senza foto» si scrivono senza guardare se sono partiti",
+     "verdetto": "regge",
+     "giudizio": "nessuno",
+     "rimessa": {
+      "uscita": 0,
+      "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 4711b9701bedf1ffd6b23f62324ea94136eb8973^ --file app/api/rider/cash-confirm/route.ts --prove tests/unit/riparazione-r14-incasso-avvisi.test.ts --json   (checkout 4711b9701bedf1ffd6b23f62324ea94136eb8973)"
+     },
+     "nota": "Minore fuori dai file che legano: solo prova rimessa (campione)."
+    },
+    {
+     "id": "R14-022",
+     "chiave": "api-backend|due invii uguali all'assistenza nello stesso istante creano due messaggi e due avvisi",
+     "verdetto": "parziale",
+     "giudizio": "nessuno",
+     "rimessa": {
+      "uscita": 0,
+      "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base de0f54b18148e49437fe06523ae71c83c97b0cba^ --file app/api/support/conversation/route.ts --prove tests/unit/riparazione-r14-assistenza-doppio-invio.test.ts --json   (checkout de0f54b18148e49437fe06523ae71c83c97b0cba)"
+     },
+     "nota": "Parziale per il riparatore: giudicata solo con la prova rimessa. Prove rimesse in più: intera: uscita 0 (timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base ee68faa3b895ff0405c1002c3dd7970e101c258e^ --file app/api/support/conversation/route.ts --prove tests/unit/riparazione-r14-assistenza-doppio-invio.test.ts --json   (checkout de0f54b18148e49437fe06523ae71c83c97b0cba))."
+    },
+    {
+     "id": "R14-025",
+     "chiave": "api-backend|la pagina d'errore dice «abbiamo registrato il problema», ma un errore nel telefono del cliente non lo registra nessuno",
+     "verdetto": "parziale",
+     "giudizio": "nessuno",
+     "rimessa": {
+      "uscita": 0,
+      "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base f19f53cd84a5a9bf99aa9d53cd0b6f51fe573c05^ --file app/error.tsx,app/admin/error.tsx,lib/analytics/sentry.tsx --prove tests/unit/riparazione-r14-pagina-errore-registra.test.ts --json   (checkout f19f53cd84a5a9bf99aa9d53cd0b6f51fe573c05)"
+     },
+     "nota": "Parziale per il riparatore: giudicata solo con la prova rimessa."
+    }
+   ],
+   "da_giudicare": {
+    "R14-006": {
+     "esito": "riparato",
+     "rimessa": {
+      "uscita": 0,
+      "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 288f46375fd2caf01125d54ee7ee182ca0723a1a^ --file app/admin/cod-remittance/page.tsx,app/api/admin/cod-remittance/route.ts --prove tests/unit/riparazione-r14-doppia-rimessa.test.ts --json   (checkout 288f46375fd2caf01125d54ee7ee182ca0723a1a) ; timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 288f46375fd2caf01125d54ee7ee182ca0723a1a^ --file migrations/383_la_seconda_conferma_della_rimessa_non_e_una_rimessa.sql --prove tests/sql/rls/riparazione-r14-doppia-rimessa.test.sql --sql k08_r14_006_1_rimessa --json   (checkout 288f46375fd2caf01125d54ee7ee182ca0723a1a)"
+     }
+    },
+    "R14-007": {
+     "esito": "riparato",
+     "rimessa": {
+      "uscita": 0,
+      "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 214adc53de822f0007aa569c4f92b7d5981ca3fa^ --file lib/account/cancellazione.ts,app/api/admin/users/[id]/delete/route.ts --prove tests/unit/riparazione-r14-cancella-utente.test.ts,tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json   (checkout 214adc53de822f0007aa569c4f92b7d5981ca3fa)"
+     }
+    },
+    "R14-008": {
+     "esito": "riparato",
+     "rimessa": {
+      "uscita": 0,
+      "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 5b8c0b71561f08df04380cd50e8ff1bf552a9e15^ --file app/api/admin/users/[id]/delete/route.ts --prove tests/unit/riparazione-r14-cancella-utente.test.ts --json   (checkout 5b8c0b71561f08df04380cd50e8ff1bf552a9e15)"
+     }
+    },
+    "R14-010": {
+     "esito": "riparato",
+     "rimessa": {
+      "uscita": 0,
+      "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 76b57d9fed060a8b3a391b7b6d2ff6d10cffe8e1^ --file app/api/cron/expire-stale-orders/route.ts --prove tests/unit/riparazione-r14-scadenze.test.ts --json   (checkout 76b57d9fed060a8b3a391b7b6d2ff6d10cffe8e1)"
+     }
+    },
+    "R14-012": {
+     "esito": "riparato",
+     "rimessa": {
+      "uscita": 0,
+      "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 6b35624bdff5aeb1ee006162d69e2a829d64cdfa^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json   (checkout 6b35624bdff5aeb1ee006162d69e2a829d64cdfa)"
+     }
+    },
+    "R14-013": {
+     "esito": "riparato",
+     "rimessa": {
+      "uscita": 0,
+      "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 5e2aa09fef112bdbf037561a262b6c0c99a2823f^ --file app/api/cron/process-deletions/route.ts,lib/privacy/avvisi-a-chi-aspetta.ts --prove tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json   (checkout 5e2aa09fef112bdbf037561a262b6c0c99a2823f)"
+     }
+    },
+    "R14-014": {
+     "esito": "riparato",
+     "rimessa": {
+      "uscita": 0,
+      "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base fdd02e1b87da095e94fb013c1901ce9f2e224f41^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json   (checkout fdd02e1b87da095e94fb013c1901ce9f2e224f41)"
+     }
+    },
+    "R14-015": {
+     "esito": "riparato",
+     "rimessa": {
+      "uscita": 0,
+      "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base 214adc53de822f0007aa569c4f92b7d5981ca3fa^ --file lib/account/cancellazione.ts --prove tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json   (checkout 214adc53de822f0007aa569c4f92b7d5981ca3fa)"
+     }
+    },
+    "R14-019": {
+     "esito": "riparato",
+     "rimessa": {
+      "uscita": 0,
+      "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base ef3e59716d0ab413578e82b510f37c39478693b5^ --file app/api/returns/[id]/decide/route.ts --prove tests/unit/riparazione-r14-reso-ritirato.test.ts --json   (checkout ef3e59716d0ab413578e82b510f37c39478693b5)"
+     }
+    },
+    "R14-023": {
+     "esito": "riparato",
+     "rimessa": {
+      "uscita": 0,
+      "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base f3b50ba93b7f361d0aebc12c70f64031841f4a5b^ --file migrations/384_un_accesso_lascia_una_riga_sola.sql --prove tests/sql/rls/riparazione-r14-accesso-doppio.test.sql --sql k08_r14_023_0_rimessa --json   (checkout f3b50ba93b7f361d0aebc12c70f64031841f4a5b)"
+     },
+     "nota": "Prove rimesse in più: codice: uscita 1 (timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base f3b50ba93b7f361d0aebc12c70f64031841f4a5b^ --file lib/activity.ts --prove tests/unit/riparazione-r14-accesso-doppio.test.ts --json   (checkout f3b50ba93b7f361d0aebc12c70f64031841f4a5b))."
+    },
+    "R14-024": {
+     "esito": "riparato",
+     "rimessa": {
+      "uscita": 0,
+      "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14 --base deccd9f87bd2acf4a427346a57dfe703358ff6c1^ --file app/api/track/route.ts,lib/consent.ts --prove tests/unit/riparazione-r14-visite-corpo-rotto.test.ts --json   (checkout deccd9f87bd2acf4a427346a57dfe703358ff6c1)"
+     }
+    }
+   }
   }
  }
 }
