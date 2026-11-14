@@ -40,8 +40,9 @@ const noscript = `<noscript><div class="contenitore noscript"><p><strong>${esc(L
   `Telefono <a href="${esc(URL_.tel)}">${esc(L.telefono.testo)}</a>. Orari: ${esc(sintesi.join('; '))}. ` +
   `<a href="menu.html">Apri il menu</a>.</p></div></noscript>`;
 
-function blocco(html, nome, contenuto) {
-  return html.replace(new RegExp(`<!-- bp:${nome} -->[\\s\\S]*?<!-- /bp:${nome} -->`, 'g'), `<!-- bp:${nome} -->${contenuto}<!-- /bp:${nome} -->`);
+function blocco(html, nome, contenuto, impronta = false) {
+  const testa = impronta ? `<!-- bp:${nome} #${U.firma(contenuto)} -->` : `<!-- bp:${nome} -->`;
+  return html.replace(new RegExp(`<!-- bp:${nome}(?: #[0-9a-z]+)? -->[\\s\\S]*?<!-- /bp:${nome} -->`, 'g'), `${testa}${contenuto}<!-- /bp:${nome} -->`);
 }
 function sistema(html) {
   html = blocco(html, 'piede', `\n${leggi('piede.html')}\n`);
@@ -62,9 +63,9 @@ function sistema(html) {
     sintesi: H.sintesi(D.orari.settimana), social: H.social(L.social), orari: H.orari(D.orari.settimana),
     cartello: `<span class="cartello__titolo">Orari</span>${esc(sintesi.join('; '))}`,
     giornata: H.giornata(D), prodotti: H.prodotti(D), galleria: H.galleria(D),
-    menu: H.menu(D), categorie: H.categorie(D), allergeni: H.allergeni(D)
+    menu: H.menu(D), categorie: H.categorie(D), allergeni: H.allergeni(D), filtri: H.filtri(D), esito: H.esito(D)
   };
-  for (const [nome, contenuto] of Object.entries(resi)) html = blocco(html, nome, contenuto);
+  for (const [nome, contenuto] of Object.entries(resi)) html = blocco(html, nome, contenuto, nome !== 'cartello');
   // Dominio: tutte le occorrenze del dominio attuale (letto dal canonical) diventano quello dei dati.
   const attuale = (/<link rel="canonical" href="(https?:\/\/[^/"]+)/.exec(html) || [])[1];
   if (attuale && attuale !== L.dominio) html = html.split(attuale).join(L.dominio);

@@ -236,6 +236,8 @@
       `<li><a href="${esc(s[k].url)}" rel="noopener">${icona(k)}${esc(k === 'instagram' ? `Instagram ${s[k].nome}` : s[k].nome)}</a></li>`).join(''),
     categorie: (D) => D.menu.map((c) => `<li><a class="chip" href="#${c.id}">${esc(c.nome)}</a></li>`).join(''),
     allergeni: (D) => D.allergeni.map((n) => `<li>${esc(n)}</li>`).join(''),
+    filtri: (D) => Object.keys(D.etichette).map((t) => `<button class="chip" type="button" aria-pressed="false" data-tag="${t}">${icona('spunta')}${esc(D.etichette[t])}</button>`).join(''),
+    esito: (D) => `Tutte le ${D.menu.reduce((n, c) => n + c.voci.length, 0)} voci.`,
     menu(D) {
       const nomi = D.allergeni, et = D.etichette, chiavi = Object.keys(et);
       const ha = (v, t) => v.tag.includes(t) || (t === 'veg' && v.tag.includes('vegan'));
@@ -251,7 +253,9 @@
   };
 
   BP.orari = { oraLocale, fasceDelGiorno, intervalli, stato, testoStato, sintesiOrari, fasceTesto, speciali };
-  BP.util = { eventiFuturi, risolviRelative, ics, validaPrenotazione, messaggioPrenotazione, link, indirizzoCompleto };
+  // Impronta di un blocco HTML (FNV-1a): tools/sincronizza.mjs la scrive nel commento <!-- bp:nome #impronta -->.
+  const firma = (s) => { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return (h >>> 0).toString(36); };
+  BP.util = { eventiFuturi, risolviRelative, ics, validaPrenotazione, messaggioPrenotazione, link, indirizzoCompleto, firma };
   BP.html = H;
 
   if (typeof document === 'undefined' || !BP.data) return;
@@ -262,7 +266,13 @@
   const $$ = (s, c = document) => [...c.querySelectorAll(s)];
   const ridotto = matchMedia('(prefers-reduced-motion: reduce)');
   const oggiN = () => oraLocale(new Date(), O.fuso).giorno;
-  const render = (nome, html) => { const el = $(`[data-render="${nome}"]`); if (el) el.innerHTML = html; return el; };
+  // Riempie un contenitore, ma salta il lavoro se l'HTML statico è già uguale ai dati (stessa impronta).
+  const riempi = (el, nome, html) => {
+    const c = el.firstChild;
+    if (!(c && c.nodeType === 8 && c.data === ` bp:${nome} #${firma(html)} `)) el.innerHTML = html;
+    return el;
+  };
+  const render = (nome, html) => { const el = $(`[data-render="${nome}"]`); return el && riempi(el, nome, html); };
 
   // Link e testi presi da site-data.js (l'HTML statico ne tiene una copia per chi non ha JS).
   function collega() {
@@ -275,7 +285,7 @@
     $$('[data-bp]').forEach((el) => { const u = U[el.dataset.bp]; if (u) el.href = u; else el.hidden = true; });
     $$('[data-se-no-wa]').forEach((el) => { el.hidden = !!L.whatsapp; });
     $$('[data-bp-testo]').forEach((el) => { const t = testi[el.dataset.bpTesto]; if (t != null) el.textContent = t; });
-    $$('[data-render="sintesi"]').forEach((el) => { el.innerHTML = H.sintesi(O.settimana); });
+    $$('[data-render="sintesi"]').forEach((el) => riempi(el, 'sintesi', H.sintesi(O.settimana)));
   }
 
   function statoLive() {
@@ -415,7 +425,7 @@
     const ul = $('[data-render="galleria"]'), dlg = $('#lightbox'), lista = D.galleria || [], n = lista.length;
     if (!ul || !n) return;
     let ora = 0, origine = null, x0 = null;
-    ul.innerHTML = H.galleria(D);
+    riempi(ul, 'galleria', H.galleria(D));
     if (!dlg || typeof dlg.showModal !== 'function') return;
     const scena = $('.lightbox__scena', dlg);
     const mostra = (i) => {
@@ -507,13 +517,13 @@
   function menu() {
     const box = $('[data-render="menu"]');
     if (!box) return;
-    const et = D.etichette, chiavi = Object.keys(et), tutte = D.menu.reduce((n, c) => n + c.voci.length, 0);
-    box.innerHTML = H.menu(D);
+    const et = D.etichette;
+    riempi(box, 'menu', H.menu(D));
     render('categorie', H.categorie(D));
-    const filtri = render('filtri', chiavi.map((t) => `<button class="chip" type="button" aria-pressed="false" data-tag="${t}">${icona('spunta')}${esc(et[t])}</button>`).join(''));
+    const filtri = render('filtri', H.filtri(D));
     render('allergeni', H.allergeni(D));
-    const esito = $('.filtri__esito'), tutteTesto = `Tutte le ${tutte} voci.`;
-    esito.textContent = tutteTesto;
+    const esito = $('.filtri__esito'), tutteTesto = H.esito(D);
+    if (esito.textContent !== tutteTesto) esito.textContent = tutteTesto;
     filtri.addEventListener('click', (e) => {
       const b = e.target.closest('[data-tag]');
       if (!b) return;

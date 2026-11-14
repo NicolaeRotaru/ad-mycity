@@ -42,7 +42,7 @@ const sprite = `<svg class="sprite" aria-hidden="true" focusable="false"><defs>`
   `<path id="bp-ps" d="${R1(Ps.d(0, 0))}"/><path id="bp-bs" d="${R1(Bs.d(0, 0))}"/>` +
   `<radialGradient id="bp-vite" cx=".35" cy=".35" r=".8"><stop offset="0" stop-color="#F1D9A6"/><stop offset=".6" stop-color="${OTT}"/><stop offset="1" stop-color="#7A5A2C"/></radialGradient>` +
   `<radialGradient id="bp-luce" cx=".5" cy=".5" r=".75"><stop offset="0" stop-color="#FFFDF6"/><stop offset=".7" stop-color="#FBF3E0"/><stop offset="1" stop-color="#F0E2C2"/></radialGradient>` +
-  `<filter id="bp-bagliore" x="-30%" y="-60%" width="160%" height="220%"><feGaussianBlur stdDeviation="5"/></filter>` +
+  `<radialGradient id="bp-alone" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FF4D5E" stop-opacity=".32"/><stop offset="1" stop-color="#FF4D5E" stop-opacity="0"/></radialGradient>` +
   `</defs></svg>`;
 const usa = (id, x, y, size, attr = '') => `<use href="#${id}" transform="translate(${r(x)} ${r(y)}) scale(${r(size / 100)})"${attr}/>`;
 
@@ -57,7 +57,7 @@ function cassonetto(x, y, w, h, size) {
     `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="#BFC5BC"/>` +
     usa('bp-b', bx, by, size, ' fill="#7C3038"') +
     `<g class="insegna__luce"><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="url(#bp-luce)"/>` +
-    usa('bp-b', bx, by, size, ` fill="${ROSSO}" filter="url(#bp-bagliore)" opacity=".55"`) + usa('bp-b', bx, by, size, ` fill="${ROSSO}"`) + `</g>` +
+    `<rect x="${x + 8}" y="${y + 8}" width="${w - 16}" height="${h - 16}" fill="url(#bp-alone)"/>` + usa('bp-b', bx, by, size, ` fill="${ROSSO}"`) + `</g>` +
     `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="none" stroke="${OTT}" stroke-width="2.5"/></g>`;
 }
 
