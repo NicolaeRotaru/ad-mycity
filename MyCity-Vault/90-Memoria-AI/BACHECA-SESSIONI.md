@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-14 08:33
+aggiornato: 2026-11-14 08:44
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -29,7 +29,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
 | 14/11 08:32 | chat della regista 6.0 dell'onda 2 (`…WFiSCa`) | «ho visto che hai aperto laltra regista ma non doveva essere la numero 6 2.0 ma la numero 7 direttamente». La regista nuova non è la «2.0» di quella vecchia: prende il numero dopo. Il titolo della regista aperta alle 08:30 è cambiato alle 08:32 in «regista O2 settima». Mandata all'AD: le regole 7 e 12 parlano ancora di «· 2.0» |
-| 14/11 08:31 | «analisi O2», prima «analisi O3» (`…VsbfzoaD`) | «chi ti ha aperta? ho sbagliato mi riferivo all'ondata 2». La sessione aperta per analizzare l'onda 3 analizza invece l'onda 2: come sta andando, quante voci reggono, quanto è costata e le scelte della fermata 3. Non guida l'onda, non apre sessioni e non scrive nella cartella. Il titolo diventa «analisi O2» e il tag `cartella:onda-2-analisi`, cambiati alle 08:32. Alle 08:34 Nicola ha detto anche qui che la regista nuova si chiama «regista O2 settima» (riga sopra). Mandata all'AD e alla regista O2 settima |
+| 14/11 08:31 | «analisi O2», prima «analisi O3» (`…VsbfzoaD`) | «chi ti ha aperta? ho sbagliato mi riferivo all'ondata 2». La sessione aperta per analizzare l'onda 3 analizza invece l'onda 2: come sta andando, quante voci reggono, quanto è costata e le scelte della fermata 3. Non guida l'onda, non apre sessioni e non scrive nella cartella. Il titolo diventa «analisi O2» e il tag `cartella:onda-2-analisi`, cambiati alle 08:32. Alle 08:34 Nicola ha detto anche qui che la regista nuova si chiama «regista O2 settima» (riga sopra). Alle 08:36 ha fissato l'obiettivo: «l'obbiettivo di questa sessione è di analizzare l'ondata 2 e capire perche ha risolto 1 su 4» (60 voci chiuse su 259). Mandata all'AD e alla regista O2 settima |
 | 14/11 08:02 | chat della regista 6.0 dell'onda 2 (`…WFiSCa`) | «i titoli delle sessioni devono essere più corti, questa sessione deve diventare "regista O2 sesta"». Il titolo è cambiato alle 08:02. Per le altre sessioni vive la regista ha proposto titoli corti sullo stesso stampo, e aspetta il suo sì. Mandata all'AD |
 | 14/11 07:50 | la stessa chat della riga delle 06:06 | Prima «cerca in tutti i modi di capire come aprire da solo l'ultracode dentro una nuova sessione aperta da te», poi «l'hai aggiunta alla regola?». Sei agenti hanno trovato la via nel codice di Claude Code. Alle 07:45 una sessione di prova è nata accesa in 2 secondi, senza nessun clic: il suo primo messaggio era solo «/effort ultracode». La regola 10 di cervello/sessioni-insieme.md ora dice di fare così, e la skill riparazione rimanda lì. Mandata all'AD e alle sessioni vive |
 | 14/11 06:06 | chat «Regista · onda 2 · sesta · 4.0» | «via ai 4 lavori e l'ondata sui soldi portala a 1500$». È il via alla strada corta proposta pochi minuti prima. I quattro lavori sono il collaudo di R17 con un collaudatore nuovo, K09, poi la cucitura, il controllore finale e la fermata 3. La cucitura toglie 3 voci di R19 e chiude una falla di sicurezza. R13, R14, i 28 minori di K08 e 2 voci di R18 passano all'onda 3. Il tetto di spesa dell'onda 2 sale a 1.500 $ di listino, contro i 1.161 $ già spesi. Mandata all'AD |
