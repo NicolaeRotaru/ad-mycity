@@ -48,7 +48,7 @@ Se va bene: una sessione nuova controlla solo le modifiche nuove, con un tetto d
 
 ### 🟡 #244 — Scegli quanto fare del giro allargato dell'onda 2, perché intero sfora il tetto · ⏳ accodata 2026-11-14 17:16
 
-**Stato:** ⏳ in corso dal 2026-11-15 00:32. Hai scelto la «a»: la regista prepara il preventivo delle 6 voci gravi e te lo porta prima di aprire le sessioni.
+**Stato:** ⏳ in corso dal 2026-11-15 00:32. Hai scelto la «a». Il preventivo arriva dopo la riunione dei rami.
 
 **In parole semplici.** Il giro allargato riprende 84 voci rimaste a metà o ferme per il file di un'altra sessione. Al ritmo vero dell'onda 2, circa 5,66 $ a voce, costerebbe circa 475 $. Prima di arrivare al tetto di 1.650 $ ne restano circa 185.
 
@@ -78,7 +78,7 @@ Se va bene: la voce entra nel giro allargato o nel controllo, e si chiude se reg
 
 ### 🔴 #246 — Rispondi su cosa fare quando un reso respinto arriva dopo il bonifico del lunedì · ⏳ accodata 2026-11-14 17:16
 
-**Stato:** ✅ FATTO 2026-11-15 00:32. Hai scelto la «a»: l'ordine fermo si segna come già pagato. La riparazione entra con le voci gravi.
+**Stato:** ✅ FATTO 2026-11-15 00:32. Hai scelto la «a»: l'ordine fermo si segna come già pagato.
 
 **In parole semplici.** Il lunedì il negozio riceve un bonifico. Se su un ordine si apre un reso dopo il bonifico, e poi il reso viene respinto, quell'ordine chiede di essere pagato una seconda volta.
 
