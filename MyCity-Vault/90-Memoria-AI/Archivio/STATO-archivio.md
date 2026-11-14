@@ -1,6 +1,6 @@
 ---
 tipo: stato-archivio
-archiviato: 2026-08-22 16:45 · secondo spostamento 2026-08-27 11:50
+archiviato: 2026-08-22 16:45 · secondo spostamento 2026-08-27 11:50 · terzo spostamento 2026-11-14 17:30
 proviene_da: MyCity-Vault/90-Memoria-AI/STATO.md
 ---
 
@@ -14,6 +14,13 @@ piu' a leggere il file intero, e su quel file smette di proteggerlo.
 stesso ordine. Lo stato vivo continua in `STATO.md`.
 
 ---
+
+> 🔁 **17/8 11:40 — Nuova sessione di chat, giro completo. Business riverificato dal vivo, invariato: ~36°-37° passaggio odierno sullo stesso stato.**
+> `verifica-sensori.mjs` (REST ok, 1 ordine) + `coerenza-fatti.mjs` (✅ memoria coerente) + `ci-stato.mjs` (stesse 3 PR rosse #749/#741/#735): identico bit-per-bit. **Difetto vero trovato e riparato:** `AUTO-ANALISI.md` era fermo alle 10:22 mentre il suo json gemello era già a 11:25 — desincronizzati, causa del vincolo HARD `freschezza-cadenze` mostrato in apertura sessione. Risincronizzati. Livello letargo: SOPRAVVIVENZA, quota AI **123%** (era 93% alle 11:25) — nessuna riscrittura dei JSON pesanti (freschi, dati identici), nessun sub-agente.
+>
+> **Non ripropongo per la quinta volta la domanda sul ritmo dei giri nei file automatici** (posta 10:22, 10:39, 11:08, 11:25, mai risposta): la richiamo in chiaro nella risposta a Nicola in chat.
+>
+> **Mossa n.1, invariata.** Coda: **#62** (pratica pagamenti Pane Quotidiano — il vero blocco), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, 19 giorni), le 3 PR croniche rosse (#749/#741/#735), **#42** (permesso jolly).
 
 > 🟡 **14/8 11:17 — Quarto giro richiesto in meno di 3 ore (dopo 11:02/11:11/11:13). Business invariato, nessuna novità.** Strategia snella applicata di nuovo ([[playbook-giro-pieno-ripetuto-strategia]]): `git log -1` = commit `5374f3440` (11:13, VPS, solo bookkeeping), `delta-gate.json` stessa firma di sempre. Il rischio dei 34 file di codice non committati (vedi banner 08:41 sotto) persiste invariato — ancora da recuperare in un branch+PR. Le 3 cartelle `.claude/worktrees/agent-*` sono vecchie di 21 ore, non lavoro in corso. Nessuna azione business sbloccabile prima del 24/8-1/9. Briefing: [[Briefing/2026-08-14]].
 
