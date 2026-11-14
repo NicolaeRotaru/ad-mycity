@@ -28,9 +28,10 @@ Che le figlie nascano con ultracode: si controlla con get_session sulla prima, p
 **Le scelte di Nicola.**
 - 12/11: casa `sito`, profilo `tutto`, riparatori da 25 voci, tre onde, fermate prima dell'onda 1 e dopo le onde 1 e 2.
 - 12/11: un controllore dopo ogni onda e uno finale; niente lavoro inutile.
-- 13/11 13:35: ogni sessione nasce dentro la sottocartella del suo ruolo, aperta dentro la regista (Regia, Collaudatori,
-  Controllori, AD: id in `sessioni.json`, chiave `cartelle`). L'albero ha 8 livelli al massimo: le cartelle stanno al 5.
-  Chi scrive codice nasce con effort xhigh e lavora solo con ultracode acceso, che Nicola accende dall'app.
+- 14/11 08:11 (regola 12, sostituisce le sottocartelle del 13/11): nessuna sessione fa più da cartella. Chi apre una
+  sessione la apre da sé, col tag `cartella:<lavoro>-<ruolo>` e il ruolo all'inizio del titolo; le cartelle già aperte
+  restano dove sono. L'albero ha 8 livelli al massimo: la regista 6.0 sta al 6. Titoli corti (Nicola, 14/11 08:02).
+  Chi scrive codice nasce con effort xhigh e ultracode acceso: prompt esatto «/effort ultracode» (regola 10, 14/11).
 - 13/11, card 239 «a» e «Allarga la a»: per la sola onda 1 vale l'eccezione firmata su quattro regole
   (`eccezioni_firmate` in piano.json, commit `ed65fbf`). Dall'onda 2 tutto stretto.
 - Le migrazioni sul database vero solo con la sua firma, una per una. L'unione e la pubblicazione sono sue.

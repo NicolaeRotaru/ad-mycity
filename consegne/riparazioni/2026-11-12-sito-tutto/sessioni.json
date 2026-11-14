@@ -430,7 +430,8 @@
   "collaudatori": "session_015BmpnVmCx4MZC3KfX92m9A",
   "controllori": "session_015BmpnVfi4KSr2gKbddcYf3",
   "ad": "session_015BmpnV6MM3MbPx3kR39WPd",
-  "nota": "aperte dalla quinta regista il 13/11 alle 13:47 (profondità 5 su 8); le sessioni nuove nascono dentro la sottocartella del loro ruolo"
+  "nota": "aperte dalla quinta regista il 13/11 alle 13:47 (profondità 5 su 8); le sessioni nuove nascono dentro la sottocartella del loro ruolo",
+  "nota_regola_12": "dal 14/11 08:11 nessuna sessione fa più da cartella (regola 12, Nicola): le sessioni nuove si aprono da sé col tag cartella:<lavoro>-<ruolo>; quelle già aperte restano dove sono"
  },
  "regista_onda2_sesta": "session_015BmpnYKDqA51jEGkbAWYGo",
  "integrazione_onda2_parziale": "583624d1 (dopo i revert di R23-003 e R19-007 del 13/11 alle 17:05)",
@@ -543,5 +544,16 @@
    "pr_ci": 30.33
   },
   "fonte": "usage.cost_usd di get_session, sommato da un subagente in sola lettura"
+ },
+ "analisi_o3": {
+  "id": "session_015BmpnZ6zAYTtAxbo8JZSak",
+  "titolo": "analisi O3",
+  "aperta": "2026-11-14 08:15 dalla regista 6.0, da sé (regola 12, tag cartella:onda-3-analisi)",
+  "perche": "Nicola, 14/11 08:12: «Apri una sessione in posso analizzare con lei l'andamento dell'ondata 3»",
+  "compito": "analizza con Nicola le voci, il costo e le scelte dell'onda 3; non guida, non apre sessioni, non scrive nella cartella",
+  "tetto": {
+   "usd": 15,
+   "subagenti": 4
+  }
  }
 }
