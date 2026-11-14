@@ -1,5 +1,5 @@
 {
- "regista": "session_015BmpnWFiSCapSEYMt2NTCb",
+ "regista": "session_015BmpnVKqiFCVbsAjWm364m",
  "regista_onda2_quinta": "session_015BmpnVzbMLH1s3LPB8nHkW",
  "regista_onda2_quarta": "session_015BmpnVkmAAN92z8w4HLVGB",
  "regista_onda2_terza": "session_015BmpnYzJKvQoMML3LmU8aJ",
@@ -397,7 +397,15 @@
      "subagenti": 12
     },
     "permesso": "08:02 ferma su «Add Repo» (solo Nicola): interrotta, rimessa in moto col clone in sola lettura via proxy, senza add_repo",
-    "costo_08_24": "18,05 $ su 20: detto di chiudere entro il tetto, ricevuto"
+    "costo_08_24": "18,05 $ su 20: detto di chiudere entro il tetto, ricevuto",
+    "finita": true,
+    "chiusura": {
+     "quando": "2026-11-14 08:26",
+     "punta": "875c3c95c3ecfcd53dd7da9a7d08a8ed3b7f0228",
+     "costo_usd": "18,23 alle 08:24 (contatore indietro)",
+     "subagenti": 6,
+     "esito": "3 voci rosse (R15-005, R18-019 grave, R17-017), 17 difetti nuovi nel referto (6 di questo giro, 1 falla di sicurezza da chiudere: autenticazione, gia nota), 80 file di codice guardati su 170: 90 non controllati per il tetto"
+    }
    }
   }
  },
@@ -522,7 +530,8 @@
   "copia_sito": "/home/user/mycity, clone --filter=blob:none --no-checkout (storia intera), contenuti dei rami dell onda 2 scaricati in blocco alle 07:52; integrazione a 4a3d9b8a",
   "ultracode": "mancava in get_session alle 07:50; acceso alle 07:54 (is_ultracode_active true, effort ultracode)",
   "quota": "allowed_warning sul limite settimanale alle 07:50, niente uso extra",
-  "passaggio": "2026-11-14 08:28, a 406 mila token e 11,02 $: passaggio in fondo a REGIA.md"
+  "passaggio": "2026-11-14 08:28, a 406 mila token e 11,02 $: passaggio in fondo a REGIA.md",
+  "passata_alla_2_0": "2026-11-14 08:30 a session_015BmpnVKqiFCVbsAjWm364m («regista O2 sesta · 2.0», tag cartella:onda-2-regia, nata accesa con «/effort ultracode»)"
  },
  "pr_sito_onda2": {
   "numero": 290,
@@ -559,5 +568,11 @@
    "subagenti": 4
   },
   "prima_non_partita": "session_015BmpnZ6zAYTtAxbo8JZSak (source_revision corto: ref_not_found)"
+ },
+ "regista_onda2_sesta_6_2": {
+  "id": "session_015BmpnVKqiFCVbsAjWm364m",
+  "dal": "2026-11-14 08:30",
+  "titolo": "regista O2 sesta · 2.0",
+  "ultracode": "acceso alla nascita (is_ultracode_active true)"
  }
 }
