@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-14 08:38
+aggiornato: 2026-11-14 08:58
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 14/11 08:56 | «analisi O2» (`…VsbfzoaD`) | «la strada a». Si fa subito il giro di correzione sulle 23 voci dell'onda 2 bocciate dal collaudo o dal controllore, invece di rimandarle all'onda 3. Sono tutte minori, e 4 erano state tolte perché rompevano altro. Il tetto è 130 $ per correzione e ricollaudo. Insieme, K08 finisce il collaudo dei suoi 28 minori. Poi un controllo sulle sole modifiche nuove, poi la fermata 3. Il giro lo fanno sessioni nuove che ripartono dal referto, con la diagnosi del collaudatore. Lo guida la regista O2 settima. Mandata alla regista e all'AD, urgente, alle 08:58 |
 | 14/11 08:32 | chat della regista 6.0 dell'onda 2 (`…WFiSCa`) | «ho visto che hai aperto laltra regista ma non doveva essere la numero 6 2.0 ma la numero 7 direttamente». La regista nuova non è la «2.0» di quella vecchia: prende il numero dopo. Il titolo della regista aperta alle 08:30 è cambiato alle 08:32 in «regista O2 settima». Mandata all'AD: le regole 7 e 12 parlano ancora di «· 2.0» |
 | 14/11 08:31 | «analisi O2», prima «analisi O3» (`…VsbfzoaD`) | «chi ti ha aperta? ho sbagliato mi riferivo all'ondata 2». La sessione aperta per analizzare l'onda 3 analizza invece l'onda 2: come sta andando, quante voci reggono, quanto è costata e le scelte della fermata 3. Non guida l'onda, non apre sessioni e non scrive nella cartella. Il titolo diventa «analisi O2» e il tag `cartella:onda-2-analisi`, cambiati alle 08:32. Alle 08:34 Nicola ha detto anche qui che la regista nuova si chiama «regista O2 settima» (riga sopra). Alle 08:36 ha fissato l'obiettivo: «l'obbiettivo di questa sessione è di analizzare l'ondata 2 e capire perche ha risolto 1 su 4» (60 voci chiuse su 259). Mandata all'AD e alla regista O2 settima |
 | 14/11 08:02 | chat della regista 6.0 dell'onda 2 (`…WFiSCa`) | «i titoli delle sessioni devono essere più corti, questa sessione deve diventare "regista O2 sesta"». Il titolo è cambiato alle 08:02. Per le altre sessioni vive la regista ha proposto titoli corti sullo stesso stampo, e aspetta il suo sì. Mandata all'AD |
