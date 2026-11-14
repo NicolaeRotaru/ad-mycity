@@ -559,15 +559,17 @@
  },
  "analisi_o3": {
   "id": "session_015BmpnVsbfzoaDwKYQwGVYz",
-  "titolo": "analisi O3",
+  "titolo": "analisi O2",
   "aperta": "2026-11-14 08:25 dalla regista 6.0, da sé (regola 12, tag cartella:onda-3-analisi)",
   "perche": "Nicola, 14/11 08:12: «Apri una sessione in posso analizzare con lei l'andamento dell'ondata 3»",
-  "compito": "analizza con Nicola le voci, il costo e le scelte dell'onda 3; non guida, non apre sessioni, non scrive nella cartella",
+  "compito": "analizza con Nicola l'onda 2: perché ha chiuso circa 1 voce su 4, il costo e le scelte; non guida, non apre sessioni, non scrive nella cartella",
   "tetto": {
    "usd": 15,
    "subagenti": 4
   },
-  "prima_non_partita": "session_015BmpnZ6zAYTtAxbo8JZSak (source_revision corto: ref_not_found)"
+  "prima_non_partita": "session_015BmpnZ6zAYTtAxbo8JZSak (source_revision corto: ref_not_found)",
+  "tag": "cartella:onda-2-analisi",
+  "correzione": "Nicola, 14/11 08:31: «ho sbagliato mi riferivo all'ondata 2»; titolo e tag cambiati alle 08:32"
  },
  "regista_onda2_sesta_6_2": {"id": "session_015BmpnVKqiFCVbsAjWm364m", "dal": "2026-11-14 08:30", "titolo": "regista O2 settima (aperta come «regista O2 sesta · 2.0», rinominata alle 08:32: Nicola, la regista nuova prende il numero dopo)", "ultracode": "acceso alla nascita; spento dal riavvio del processo alle 08:35 (worker_epoch 2): detto all'AD", "catena": "trig_015FammtzzZarEf2a3cGFwwf", "copia_sito": "/home/user/mycity, clone --filter=blob:none --no-checkout, contenuti dei rami dell'onda 2 scaricati alle 08:32; revert in /home/user/mycity-revert (47751109 R15-005, 88cff70f R18-019), non spinti", "quota": "allowed_warning settimanale alle 08:40, niente uso extra"}
 }
