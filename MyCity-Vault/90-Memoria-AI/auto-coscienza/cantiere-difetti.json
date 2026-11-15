@@ -26746,6 +26746,75 @@
       },
       "chiuso_il": "2026-11-15 10:40",
       "chiuso_da": "costruttrice corta dell'officina, ramo claude/officina-correzione-2 (PR verso main): con la testa fuori da main e senza il campo «unita», conti dà un'attesa invece di tacere"
+    },
+    {
+      "id": "AR-1184",
+      "titolo": "Applica e pronte chiudono voci collaudate a campione sotto le 40, perché solo valida-collaudo tiene la regola",
+      "dove": "cervello/riparazione-sessioni.mjs (applica, pronte → decidi)",
+      "dimensione": "guardrail-semaforo",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-15 11:00",
+      "nato_come": "scoperta",
+      "origine": "collaudo",
+      "owner": "builder-automazioni",
+      "nato_da": "ricollaudo dell'officina minima (ad-mycity#966, consegne/officina-minima/ricollaudo-2026-11-15.md), bloccante 1 «la regola dei 40 voci solo dietro ctx.misura»",
+      "fonte": "ricollaudatore dell'officina minima, sessione figlia dell'AD (chat 3 del 15/11)",
+      "sintomo": "La regola «sotto le 40 voci non si collauda a campione» la tiene solo valida-collaudo. applica e pronte chiamano decidi senza misura:true, quindi la saltano. Caso vero: K08 ha guardato a campione R15 e R16 (19 e 21 voci). valida-collaudo gli dà 6 rossi «il campione non esiste»; applica senza quel controllo chiude lo stesso R16-014, R16-015 e R16-016. Inoltre la skill riparazione, riga 466, promette che «applica --git li rilancia comunque da sé»: per questa regola non è più vero.",
+      "causa_radice": "Nessun codice di produzione passa misura:true a decidi (applica e pronte): il ramo con la regola dentro decidi gira solo nei test.",
+      "fix_proposto": "Un campo nel piano, campione_fino_a_40_dall_onda (come verifica_testa_dall_onda), passato come misura ad applica e a pronte. Oppure correggere la riga 466 della skill riparazione perché dica la verità: la skill qui non si tocca, si segnala.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si chiude con una prova che dà ad applica un collaudo a campione di un lotto sotto le 40 voci (es. K08 su R16) dall'onda del campo nel piano, e trova le voci resta_aperta."
+      }
+    },
+    {
+      "id": "AR-1185",
+      "titolo": "La prova del minore 5 copre solo il collaudo con finita:false, non quello senza il campo o con «true» scritto come testo",
+      "dove": "cervello/test/collaudi-guardati-insieme.test.mjs",
+      "dimensione": "guardrail-semaforo",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-15 11:00",
+      "nato_come": "scoperta",
+      "origine": "collaudo",
+      "owner": "builder-automazioni",
+      "nato_da": "ricollaudo dell'officina minima (ad-mycity#966, consegne/officina-minima/ricollaudo-2026-11-15.md), minore 5 «un collaudo non finito non presta il pieno»",
+      "fonte": "ricollaudatore dell'officina minima, sessione figlia dell'AD (chat 3 del 15/11)",
+      "sintomo": "Il test copre solo finita:false. I casi «campo mancante» e finita:\"true\" li ha provati solo il ricollaudatore a mano. Se un giorno qualcuno scrive c.finita !== false, nessun test diventa rosso.",
+      "causa_radice": "La prova è stata scritta su un solo dei tre modi in cui un collaudo può non essere finito.",
+      "fix_proposto": "Aggiungere al test del minore 5 i due casi: delete K10.finita e finita: \"true\".",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si chiude quando il test ha i due casi in più e la mutazione c.finita !== false lo fa diventare rosso."
+      }
+    },
+    {
+      "id": "AR-1186",
+      "titolo": "Il controllo del glossario dei numeri dà un verde muto se un modulo che esegue si chiude da solo appena caricato",
+      "dimensione": "guardiani",
+      "dove": "cervello/glossario-kpi-check.mjs",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-15 08:53",
+      "nato_come": "scoperta",
+      "origine": "collaudo",
+      "owner": "builder-automazioni",
+      "nato_da": "AR-962 (controllo del glossario dei numeri), visto dal taglio della #956 sul ramo claude/magical-hamilton-xouwr8 commit 58c232b72; salvato in consegne/ad/2026-11-15-difetto-glossario-verde-muto.json",
+      "fonte": "sessione del taglio della #956 (session_015BmpnVUQehKpPytmYYeF8E), girato all'AD chat 3 dalla chat 2",
+      "sintomo": "Se un modulo eseguito da glossario-kpi-check.mjs chiama process.exit appena caricato, il guardiano esce 0 senza verdetto: nel giro risulta verde senza aver controllato niente. Esempio: la vetrina della cassa (riga 299) arriva prima della riga 435. Riprodotto togliendo la guardia d'import di cervello/sensore-cassa.mjs (riga 367). Nessuna delle 24 mutazioni lo copre. Oggi la guardia c'è, quindi il difetto non scatta.",
+      "causa_radice": "Il guardiano non distingue un'uscita del modulo caricato da un proprio verdetto.",
+      "fix_proposto": "Una mutazione che toglie la guardia d'import di sensore-cassa.mjs: il guardiano deve uscire diverso da 0, oppure con un verdetto esplicito «cieco».",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si chiude con la mutazione proposta che fa uscire il guardiano diverso da 0 o «cieco». Non verificato: il guardiano sul server vero e la versione di node (sotto la 22.15 esce cieco, non verde)."
+      }
     }
   ],
   "meta": {

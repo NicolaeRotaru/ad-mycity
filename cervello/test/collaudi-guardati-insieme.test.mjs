@@ -90,7 +90,9 @@ function applicaSulla12_11(conK10) {
   try {
     const C = join(t, "campagna");
     spawnSync("cp", ["-r", CAMPAGNA, C]);
+    // Dal 15/11 K10 sta anche nella cartella vera della campagna: «senza K10» lo toglie dalla copia.
     if (conK10) writeFileSync(join(C, "collaudi/K10.json"), readFileSync(K10_VERO));
+    else rmSync(join(C, "collaudi/K10.json"), { force: true });
     const r = spawnSync(process.execPath, [PROGRAMMA, "applica", "--cartella", C], { encoding: "utf8", cwd: RADICE });
     let dec = [];
     try { dec = JSON.parse(readFileSync(join(C, "decisioni.json"), "utf8")).decisioni; } catch { /* applica fermo: niente decisioni */ }
