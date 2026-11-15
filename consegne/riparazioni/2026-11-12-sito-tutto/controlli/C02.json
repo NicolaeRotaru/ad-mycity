@@ -214,7 +214,7 @@
   "subagenti": 5,
   "subagenti_finiti": 5,
   "token_subagenti": 612672,
-  "nota_token": "Token dei subagenti dal riepilogo del workflow (4 revisori e lo scettico). get_session di questa sessione non mostra usage.cost_usd: il costo in dollari non l'ho potuto leggere.",
-  "costo_sessione_usd": null
+  "nota_token": "Token dei subagenti dal riepilogo del workflow (4 revisori e lo scettico): 612.672. Costo da usage.cost_usd di get_session alle 01:45 del 15/11: 12,78 $ su un tetto di 35 $ (27,8 milioni letti dalla cache, 0,8 milioni scritti, 0,18 milioni di uscita), subagenti compresi.",
+  "costo_sessione_usd": 12.78
  }
 }
