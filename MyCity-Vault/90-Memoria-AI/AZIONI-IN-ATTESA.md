@@ -31,6 +31,23 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🟡 #250 — Rivedi con l'AD le decisioni ancora aperte dell'onda 2 del sito · ⏳ accodata 2026-11-15 07:10
+
+**In parole semplici.** La regista che ha guidato l'onda 2 del sito ha lasciato un resoconto con 18 decisioni per te. Alcune le hai già prese. Le altre aspettano ancora.
+
+**Cosa cambia per te.** Ti faccio due esempi dal resoconto. La decisione 7, la deroga su R17, l'hai firmata il 15/11 verso le 06:05 ed è già applicata. La decisione 8 invece è ancora aperta: le modifiche al database dell'onda 2 si firmano una per una, e quella sugli allergeni non va firmata così.
+
+**Cosa devi fare tu.** Niente di nuovo da solo. Chiedi all'AD «cosa resta dell'onda 2»: lui spunta le decisioni già prese e ti porta solo quelle aperte, una alla volta.
+
+**Cosa non ho verificato.** Non so quali delle altre 17 decisioni siano già chiuse: le tue risposte delle 00:32 del 15/11 (carte 243-247) non le ho confrontate una per una con la lista.
+
+Cosa cambia: le decisioni rimaste aperte dell'onda 2 non si perdono in un file che nessuno rilegge.
+Se va bene: l'AD aggiorna la lista e accoda solo quello che serve davvero, prima dell'onda 3.
+
+- **Colore:** 🟡 (decisioni da rivedere, niente parte senza di te)
+- **Reparto:** chief-of-staff
+- **Dettagli tecnici:** `consegne/riparazioni/2026-11-12-sito-tutto/RESOCONTO-ONDA-2.md`, sezione «Le decisioni che aspettano Nicola». Il numero 250 è il primo libero sopra la #249 del ramo `claude/magical-hamilton-xouwr8`.
+
 ### 🟡 #242 — Decidi se un riparatore può spendere di più per sbloccare la cassa del centro · ⏳ accodata 2026-11-13 07:22
 
 **In parole semplici.** Nella seconda onda ogni riparatore ha un tetto di 35 $ di listino. R13, il riparatore che lavora su cassa, consegne e rimborsi, arriva al tetto dopo il terzo lotto. Restano fuori 22 voci, fra cui il difetto più grave dell'onda: chi abita in via Roma o in via Cavour, in pieno centro, si sente dire «troppo lontano» alla cassa, e l'ordine non parte.
