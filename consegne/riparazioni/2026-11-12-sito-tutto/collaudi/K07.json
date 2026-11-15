@@ -4,7 +4,7 @@
     "R18",
     "R13"
   ],
-  "aggiornato": "2026-11-13 17:45",
+  "aggiornato": "2026-11-14 15:55",
   "finita": true,
   "voci": [
     {
@@ -12,7 +12,7 @@
       "chiave": "accessibilita|le foto delle recensioni e l'importazione dei prodotti da file non si aprono da tastiera",
       "rimessa": {
         "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-2 --base e69b5fbf22e1e70ef718d6a7c92865d7816cc005^ --file 'app/seller/products/import/page.tsx,app/orders/[id]/return/page.tsx' --prove tests/unit/riparazione-r18-campi-file-da-tastiera.test.tsx --json (0)"
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07b-r --base e69b5fbf22e1e70ef718d6a7c92865d7816cc005^ --file 'app/seller/products/import/page.tsx,app/orders/[id]/return/page.tsx' --prove tests/unit/riparazione-r18-campi-file-da-tastiera.test.tsx --json (0, alla testa 69a1e699)"
       },
       "verdetto": "parziale",
       "giudizio": "pieno",
@@ -20,7 +20,7 @@
         "chiude_tutta",
         "nata_rotta"
       ],
-      "nota": "qa (due lenti) alla testa 5188ab6c: import CSV, reso e foto recensione a posto (sr-only, aria-label, focus-within). Resta lo stesso difetto di fuoco non visibile in components/rider/CashConfirmDialog.tsx:318-343 (PhotoSlot) e app/rider/onboarding/page.tsx:330-345 (documenti del fattorino). La parte reso della prova è una ricerca nel sorgente."
+      "nota": "giro di correzione del 14/11, testa 69a1e699, ricollaudo K07·secondo. Giudicata solo la parte sul ramo (69a1e699, cambia solo la prova): la parte del reso ora monta la pagina vera, readFileSync tolto, label e input veri; verde 2/2; morde su sei difetti rimessi a mano in tutte e due le pagine (focus-within tolto, classe hidden, attributo hidden, tabIndex -1, aria-label tolto, label cambiato in div). Buco: con style={{display:'none'}} sull'input la prova resta verde, sia in app/orders/[id]/return/page.tsx:433 sia in app/seller/products/import/page.tsx:249; verdi anche disabled fisso, classe invisible, visibility:hidden. È il difetto della voce scritto in un altro modo: manca un controllo dello stile calcolato (getComputedStyle(input).display diverso da none), provato su una copia: rosso col difetto, verde sul codice vero. I due campi file del fattorino (CashConfirmDialog.tsx, rider/onboarding) sono in file di altre sessioni: non giudicati adesso, vanno nel giro allargato. La voce resta aperta."
     },
     {
       "id": "R18-004",
@@ -45,7 +45,12 @@
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-3 --base a09cc8e9a910fbf8abc9640d4975856e7ccddfb9^ --file app/profile/addresses/page.tsx --prove tests/unit/riparazione-r18-indirizzi-bottoni-da-pollice.test.ts --json (0)"
       },
       "verdetto": "regge",
-      "giudizio": "nessuno"
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Campione dei minori (giro di correzione del 14/11, testa 69a1e699, ricollaudo K07·secondo; scelta a sorte fra le 5 non guardate, seme = testa 69a1e699). Codice alla testa identico ad a09cc8e9. chiude_tutta: size md di Button.tsx ha min-h-[44px], i due bottoni non passano className, 12 px fra loro (gap-3); Salva e Annulla md con 8 px; «Predefinito» è un'etichetta; resta piccola solo la casella «Imposta come predefinito» (components/ui/Field.tsx:243, 16 px), che la voce non nomina. La prova legge il sorgente (ammesso su un minore) e morde in 6 casi su 6 (sm su ciascun bottone, gap-1, gap tolto, flex-wrap tolto, md a 32 px); non morde con className h-8 min-h-0 o -ml-3. nata_rotta: il commit cambia 3 righe; a 320 px i due bottoni (circa 232 px) stanno nei circa 246 utili e se no vanno a capo puliti (calcolo, non misurato in un browser)."
     },
     {
       "id": "R18-009",
@@ -85,7 +90,7 @@
         "chiude_tutta",
         "nata_rotta"
       ],
-      "nota": "qa (due lenti): sulla pagina promozioni la mezzanotte è quella di Piacenza (page.tsx:43-51) e le date hanno timeZone Europe/Rome, giusto anche nei giorni del cambio d'ora. Resta la stessa promo nella vetrina del negozio: components/store-sections/PromotionsSection.tsx:27 «fino al» con toLocaleDateString senza fuso, da un telefono a est di Roma la promo «Oggi» del 6/11 si legge «fino al 7/11»."
+      "nota": "qa (due lenti), primo collaudo: sulla pagina promozioni la mezzanotte è quella di Piacenza (page.tsx:43-51), date con timeZone Europe/Rome. Resta la vetrina del negozio: components/store-sections/PromotionsSection.tsx:27. giro di correzione del 14/11, testa 69a1e699, ricollaudo K07·secondo: nel giro R18-011 non ha nessun commit sul ramo; tutta la modifica nuova (PromotionsSection.tsx e la sua prova) è in file di altre sessioni, scritta nel referto come serve_file_altrui. Adesso non c'è niente da giudicare: va nel giro allargato, dopo la riunione dei rami. La voce resta aperta."
     },
     {
       "id": "R18-012",
@@ -107,15 +112,16 @@
       "chiave": "qa-flussi|la risalita dei genitori delle categorie non ha un tetto",
       "rimessa": {
         "uscita": 0,
-        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-1 --base 5188ab6cb7c235d0eaeed55e6f5680c8680f758b^ --file lib/category-attributes.ts --prove tests/unit/riparazione-r18-categorie-con-un-cerchio.test.ts --json (0)"
+        "comando": "PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07b-r --base b9184071c0bc026c462a247da50dffd16ff72b93^ --file migrations/426_la_risalita_delle_categorie_si_ferma_su_un_cerchio.sql --prove tests/sql/rls/riparazione-r18-categorie-in-cerchio.test.sql --sql k07b_r18_014_rimessa --json (0) ; timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07b-r --base b9184071c0bc026c462a247da50dffd16ff72b93^ --file lib/category-attributes.ts --prove tests/unit/riparazione-r18-categorie-con-un-cerchio.test.ts --json (0)"
       },
-      "verdetto": "non_regge",
+      "verdetto": "rompe_altro",
       "giudizio": "pieno",
       "lenti": [
         "chiude_tutta",
-        "nata_rotta"
+        "nata_rotta",
+        "dati"
       ],
-      "nota": "qa (due lenti): il tetto c'è solo in lib/category-attributes.ts, ma components/seller/ProductForm.tsx:268-276 (resolveTop) risale i genitori con un while senza tetto PRIMA di arrivare alla funzione corretta: col ProductForm vero montato su categorie a→b→a, 200.000 chiamate e pagina bloccata. Anche migrations/363 righe 73-78 e 119-124 risale senza controllo di ciclo (timeout al salvataggio). La prova chiama solo la libreria e non monta il modulo."
+      "nota": "giro di correzione del 14/11, testa 69a1e699, ricollaudo K07·secondo. Giudicata solo la parte sul ramo (b9184071: migrazione 426 + lib/category-attributes.ts), sul Postgres locale. chiude_tutta: a parte ProductForm.tsx (dichiarato serve_file_altrui, non giudicato) nessun'altra risalita di parent_id scoperta; nelle migrazioni risalivano la 126, la 195 e la 363, e la 426 le rifà tutte. dati: firme, SECURITY INVOKER, search_path, proprietario e permessi identici prima e dopo, trigger legati, nessuna riga toccata, nessuna migrazione fra la 364 e la 425 ridefinisce quelle funzioni, la 426 si rilancia due volte, catena di 35 livelli sotto «alimentari» bloccata. nata_rotta: run.sh 66 file verdi, 86 file vitest che importano la libreria verdi (737 prove), su 2000 alberi casuali la libreria nuova dà lo stesso risultato della vecchia, termina con autoanello, id doppi, genitore mancante. ROMPE: su un cerchio staccato da «alimentari» la guardia della 426 lascia pubblicare un prodotto alimentare senza allergeni (426: commento riga 25 «nel dubbio si chiede la dichiarazione», controllo righe 83-90, radice riga 131), mentre prima della 426 lo stesso salvataggio andava in timeout e niente usciva senza allergeni. Riprodotto due volte, anche con autoanello e cerchio a tre: pane sotto alimentari, pane-fresco sotto pane, UPDATE categories SET parent_id = pane-fresco WHERE id = pane passa (il controllo degli spostamenti della 363, righe 153-156, guarda l'albero di prima), poi un prodotto in vendita in pane-fresco senza allergeni viene pubblicato. Dal pannello non ci si arriva (la API admin lo blocca, genitoreNonAmmesso): serve una scrittura diretta sul database. Cura possibile: risalita senza radice = chiedere la dichiarazione, oppure vietare nella 363 lo spostamento che chiude un cerchio. Minore: in un cerchio dove «alimentari» ha il nome ma non l'obbligo la libreria dà 14 campi o 0 secondo la categoria di partenza. La migrazione è provata solo sul Postgres locale: il database vero non è stato toccato."
     },
     {
       "id": "R18-015",
@@ -154,8 +160,13 @@
         "uscita": 0,
         "comando": "PGHOST=localhost timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-1 --base 6eefff317cfb384ee60d75ca65d3d940ba88aa55^ --file migrations/423_il_codice_sconto_non_supera_il_cento_e_i_soldi_non_sono_negativi.sql --prove tests/sql/rls/riparazione-r18-coupon.test.sql --sql k07_r18_019_1_rimessa --json (0) ; timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-1 --base 6eefff317cfb384ee60d75ca65d3d940ba88aa55^ --file app/admin/coupons/page.tsx --prove tests/unit/riparazione-r18-coupon.test.ts --json (0)"
       },
-      "verdetto": "regge",
-      "giudizio": "nessuno"
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Campione dei minori (giro di correzione del 14/11, testa 69a1e699, ricollaudo K07·secondo; scelta a sorte fra le 5 non guardate, seme = testa 69a1e699). Provata a mano sul Postgres locale: DB fermo alla 422 con righe storte salvate, poi la 423. chiude_tutta: per i dati nuovi sì, tutti i campi nominati rifiutano le scritture storte, claim/release_coupon e i seed passano dal vincolo, nessuna API admin a parte; fuori voce restano aperti seller_payout_reversed_cents, rider_payout_reversed_cents, dispute_rider_reversed_cents, dispute_seller_reversed_cents (accettano -1). ROMPE: il «Disattiva» dell'amministratore (app/admin/coupons/page.tsx:103, UPDATE coupons SET active=false) su un vecchio codice PERCENT 150 viene rifiutato dal vincolo coupons_valore_sensato (423:37), che resta NOT VALID e scatta su ogni UPDATE; lo stesso con un codice a 7 usi su 1 (coupons_usi_sensati); a vincoli tolti lo stesso UPDATE passa. Il passato può contenerli: prima della correzione il modulo aveva solo min={0} (6eefff31^:app/admin/coupons/page.tsx:193) e nessun vincolo nel database. L'admin può ancora eliminare il codice. release_coupon su quei codici si ferma (il codice non torna al cliente, coupon_released_at resta vuoto; l'ordine non si blocca, lib/ordini/annulla.ts:904-923 scrive solo un avviso). Ordini e reclami vecchi storti: annullo, accettazione, accumula_rimborso, confirm_cod_remittance e chiusura reclamo rifiutati (una riga storta ferma tutta la conferma contanti del fattorino di quel giorno), rischio teorico perché oggi nessun codice scrive quelle righe. Punto (2) della nota del riparatore smentito: in cassa un codice al 150% non vale più (claim_coupon 361:111 cade sul vincolo); check_coupon nel carrello lo dà ancora valido, conta solo se i codici in cassa si riaccendono (oggi spenti). payment_method: si scrivono solo 'card' e 'cod', nessuna rottura. run.sh 66 file verdi, vitest 15 file 119 prove verdi."
     },
     {
       "id": "R18-020",
