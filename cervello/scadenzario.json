@@ -33,15 +33,15 @@
     {
       "id": "esenzione-round2-applica",
       "titolo": "Vecchio programma del 25 luglio da togliere, o la CI torna rossa per tutti",
-      "scade": "2026-11-15T01:00:00+01:00",
+      "scade": "2026-11-22T01:00:00+01:00",
       "cancello": {
         "registro": "porte",
         "chiave": "cervello/round2-applica.mjs"
       },
       "colore": "🟡",
       "chi": "una sessione di lavoro sulla macchina: riparare il sorvegliante (scheda AR-969) e togliere il programma, oppure rinnovare l'esenzione con un perché nuovo",
-      "conseguenza": "Dal 15/11 all'01:00 è scaduta l'esenzione che il registro delle porte dà al programma usa-e-getta cervello/round2-applica.mjs: porte-gemelle diventa rosso, e con lui il cancello del lotto di ogni richiesta di unione. È la trappola trovata dal sesto collaudo dell'11/10, che scattava il 16/10: rinnovata invece che tolta, perché togliere il programma fa scattare falsi allarmi del sorvegliante (AR-969).",
-      "fonte": "cervello/atti-con-porte.json → esenzione di cervello/round2-applica.mjs, fino_al «2026-11-14». porte-gemelle la confronta con la data di Greenwich (toISOString): vale per tutto il 14/11 e muore alla mezzanotte di Greenwich del 15/11, cioè l'01:00 a Piacenza. La prova c9-governo-senza-sveglia controlla che le due date restino uguali, nei due versi.",
+      "conseguenza": "Dal 22/11 all'01:00 scade l'esenzione che il registro delle porte dà al programma usa-e-getta cervello/round2-applica.mjs: porte-gemelle diventa rosso, e con lui il cancello del lotto di ogni richiesta di unione. È la trappola trovata dal sesto collaudo dell'11/10, che scattava il 16/10: rinnovata invece che tolta, perché togliere il programma fa scattare falsi allarmi del sorvegliante (AR-969).",
+      "fonte": "cervello/atti-con-porte.json → esenzione di cervello/round2-applica.mjs, fino_al «2026-11-21». porte-gemelle la confronta con la data di Greenwich (toISOString): vale per tutto il 21/11 e muore alla mezzanotte di Greenwich del 22/11, cioè l'01:00 a Piacenza. La prova c9-governo-senza-sveglia controlla che le due date restino uguali, nei due versi.",
       "chi_la_chiude": "Chi toglie il programma, o rinnova l'esenzione, sposta questa voce in `chiuse` (intera, con la sua fonte) o ne aggiorna la data nello stesso lavoro: la prova c9 lo pretende. Chi lo toglie toglie anche, dal registro delle mutazioni, le due di AR-966 che rompono la data dell'esenzione, se nel registro delle porte non resta un'altra esenzione a scadenza: senza una data da rompere il banco le dà per cieche, e il cancello si ferma."
     }
   ],
