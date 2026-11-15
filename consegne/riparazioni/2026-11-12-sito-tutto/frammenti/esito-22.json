@@ -1,0 +1,90 @@
+{
+  "corsia": 22,
+  "territorio": "R22",
+  "difetti": [
+    {
+      "chiave": "api-backend|se il servizio di posta risponde oltre dieci secondi, la coda rimanda la stessa email cinque minuti dopo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r22-coda-email-timeout.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 0ad9803a^ --file lib/email/client.ts --prove tests/unit/riparazione-r22-coda-email-timeout.test.ts --json (giro di correzione; la cura prima, 1e923271, reggeva con --base 1e923271^ --file lib/email/client.ts,app/api/cron/send-emails/route.ts) → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 1e923271be7c2579596d826c4d713e73d56467be^ --file lib/email/client.ts,app/api/cron/send-emails/route.ts --prove tests/unit/riparazione-r22-coda-email-timeout.test.ts  --json (al commit 0ad9803aae9534e5e0ebb950a11f20552001dfb1) → uscita 0 (K05)",
+      "nota_fix": "sendEmail accetta una idempotencyKey e la passa a Resend come intestazione Idempotency-Key (resend 3.5 non ha l'opzione: la chiave va nelle intestazioni dell'SDK, conservando la chiave d'accesso); la coda passa una chiave stabile per riga (email-queue/<id>), così la riga ripresa 5 minuti dopo un timeout non viene rispedita. Prova: giro vero, client vero, SDK vero, fetch finto che fa come Resend con la chiave. Inseparabili: è la stessa riga di codice (la chiave di idempotenza passata dalla coda a sendEmail); 001 è il sintomo nella coda, 011 il doppio invio dopo il timeout. Giro di correzione (0ad9803a, chiesto dal revisore): il 409 invalid_idempotent_request con chiave presente vale «già accettato» ({ ok: true }, logger.warn senza dati personali), così la promozione ripresa (corpo diverso per il gettone con IV casuale) si segna spedita e non finisce annullata; concurrent_idempotent_requests resta da ritentare; warn anche sul ripiego { idempotencyKey }."
+    },
+    {
+      "chiave": "deploy-sre|alla riaccensione della posta, le email ormai scadute fanno la fila davanti a quelle nuove",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r22-scadute-fuori-dalla-fila.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 2c5387bf^ --file app/api/cron/send-emails/route.ts --prove tests/unit/riparazione-r22-scadute-fuori-dalla-fila.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 2c5387bf7ac4ce551ccfc8ccd329093a02ead7f2^ --file app/api/cron/send-emails/route.ts --prove tests/unit/riparazione-r22-scadute-fuori-dalla-fila.test.ts --json (al commit 2c5387bf7ac4ce551ccfc8ccd329093a02ead7f2, giro di correzione: «② route.ts alla base: rossa, sul comportamento») → uscita 0 (K05)",
+      "nota_fix": "Solo codice, niente migrazione, 165 intatta: prima della presa il giro chiude in blocco (col motivo) le righe non spedite e non annullate con scade_at passato, lasciando stare quelle prenotate da un giro in corso; se la scrittura cade il giro va avanti come prima. Prova: coda in memoria che fa come la 165, 100 scadute e 1 fresca: la fresca parte al primo giro. Giro di correzione (14/11, dopo K05): senza la 165 la chiusura su scade_at cade, e allora le scadute si chiudono in blocco con la stessa regola di processBatch senza la 165. Mai rinviata (last_error nullo o vuoto): send_at + 3 giorni. Rinviata: created_at + ritardo previsto del modello + 3 giorni, con le costanti in comune. Prova: nuovo blocco «senza la 165» (database finto che rifiuta scade_at, presa vecchia senza la colonna). Con 100 scadute e una fresca, la fresca parte al primo giro e le scadute sono chiuse col motivo. Controprove: la riga prenotata resta, il winback_60d rinviato a 61 giorni resta aperto, una riga di 2 giorni parte."
+    },
+    {
+      "chiave": "layout-responsive|nelle recensioni del fattorino un commento con una parola lunga fa scorrere la pagina di lato sul telefono piccolo, e i filtri per stelle sono alti 24 pixel",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r22-recensioni-fattorino-telefono.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 56f67701^ --file app/rider/reviews/page.tsx --prove tests/unit/riparazione-r22-recensioni-fattorino-telefono.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 56f67701aa7ea88897a08b1c44c17b8dd5902225^ --file app/rider/reviews/page.tsx --prove tests/unit/riparazione-r22-recensioni-fattorino-telefono.test.ts  --json (al commit 56f67701aa7ea88897a08b1c44c17b8dd5902225) → uscita 0 (K05)",
+      "nota_fix": "Il commento ha break-words [overflow-wrap:anywhere] e il nome dell'autore min-w-0 break-words; le righe dei filtri per stelle e «Mostra tutte» hanno min-h-11 (44 px). Prova leggera sulle classi, come le prove R09 sui bersagli da 44 px; non misurata in un browser a 360 px."
+    },
+    {
+      "chiave": "privacy-legale|l'annulla iscrizione con un clic da gmail si perde senza traccia dopo 30 richieste in dieci minuti dallo stesso indirizzo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r22-disiscrizione-da-gmail.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base e40ac48e^ --file app/api/unsubscribe/route.ts --prove tests/unit/riparazione-r22-disiscrizione-da-gmail.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base e40ac48ef79a5d5123400f3f86ce79fa957e1e71^ --file app/api/unsubscribe/route.ts --prove tests/unit/riparazione-r22-disiscrizione-da-gmail.test.ts  --json (al commit e40ac48ef79a5d5123400f3f86ce79fa957e1e71) → uscita 0 (K05)",
+      "nota_fix": "Il gettone si verifica prima del freno: senza gettone valido resta il freno per IP (30/10 min); con gettone valido il freno è per indirizzo (sha256 di email e ambito, niente indirizzo in chiaro) e quando scatta lascia un logger.error. Prova: 40 gettoni diversi dallo stesso IP di Google, tutte e 40 disiscritte."
+    },
+    {
+      "chiave": "qa-flussi|il prompt dell'ai chiama «fee di consegna» quella di un carrello con un solo pezzo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r22-consegna-nel-prompt.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base b44d9899^ --file app/api/ai/improve-product/route.ts --prove tests/unit/riparazione-r22-consegna-nel-prompt.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base b44d989938480788136ca94420672a07088fb76b^ --file app/api/ai/improve-product/route.ts --prove tests/unit/riparazione-r22-consegna-nel-prompt.test.ts  --json (al commit b44d989938480788136ca94420672a07088fb76b) → uscita 0 (K05)",
+      "nota_fix": "La riga del contesto era già stata riparata da R04-021 (route.ts:313 manda regolaConsegnaPerAi(), con le cifre prese da tariffaConsegnaCents, cioè da PLATFORM_DELIVERY_FEE_CENTS e dalla soglia del carrello): restava il SYSTEM (riga 50), che elencava «la fee di consegna» fra le cose su cui ragionare per il netto del venditore. Ora dice la regola della consegna: si paga sul carrello intero e non sul singolo prodotto, la paga l'acquirente e non tocca il netto; nessuna cifra scritta a mano, nessun prezzo cambiato. La prova passa dalla rotta vera (runMessage finto) e guarda SYSTEM e contesto; le altre 8 prove della rotta restano verdi."
+    },
+    {
+      "chiave": "qa-flussi|la campanella del negozio accumula una voce a ogni giro di messaggi, anche per una chat già letta",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r22-campanella-spenta-dalla-chat-letta.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 8f2b2771^ --file app/api/chat/messages/route.ts --prove tests/unit/riparazione-r22-campanella-spenta-dalla-chat-letta.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 8c57475ee6e326b0dfdfc46200939c3f63fe75b0^ --file app/api/chat/mark-read/route.ts,app/api/chat/messages/route.ts --prove tests/unit/riparazione-r22-campanella-spenta-dalla-chat-letta.test.ts  --json (al commit 8f2b277137deab3b73e23e62ba823f72d2c66a02) → uscita 0 (K05)",
+      "nota_fix": "mark-read segna lette anche le voci di campanella di chi legge con link /messages/<id> (con log se cade). Prova: le due rotte vere per cinque giri «il cliente scrive, il negozio legge»: nessuna voce resta accesa, e quelle di altre chat e altre persone non si toccano. Giro di correzione (8f2b2771, dal revisore): commento delle righe 105-107 reso vero e `if (nonLetti === 0) return;` dopo il controllo sul destinatario, così la corsa con la chat aperta non lascia una voce accesa; caso «contatore a 0: nessuna voce»."
+    },
+    {
+      "chiave": "qa-flussi|quando un cliente scrive al negozio, l'email al negozio non parte: la funzione è pronta ma nessuno la chiama",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r22-email-al-negozio-dalla-chat.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base a8251fb7^ --file app/api/chat/messages/route.ts --prove tests/unit/riparazione-r22-email-al-negozio-dalla-chat.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base a8251fb7f75b89c335eeb7309e51ef2754f938fa^ --file app/api/chat/messages/route.ts --prove tests/unit/riparazione-r22-email-al-negozio-dalla-chat.test.ts  --json (al commit a8251fb7f75b89c335eeb7309e51ef2754f938fa) → uscita 0 (K05)",
+      "nota_fix": "avvisaChiRiceve chiama avvisaNegozioMessaggioNuovo(admin, {conversationId, senderId}) solo quando scrive il cliente a un negozio (non nella chat con l'Assistenza), via dopoLaRisposta: l'email non rallenta né fa fallire il messaggio; freno e raccolta restano quelli della funzione. Prova con funzione finta: chiamata sì dal cliente, no dal negozio né in chat Assistenza; con l'email che cade il messaggio risponde 200."
+    },
+    {
+      "chiave": "qa-flussi|dopo un timeout di resend la coda può spedire due volte la stessa email",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r22-coda-email-timeout.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 0ad9803a^ --file lib/email/client.ts --prove tests/unit/riparazione-r22-coda-email-timeout.test.ts --json (giro di correzione; la cura prima, 1e923271, reggeva con --base 1e923271^ --file lib/email/client.ts,app/api/cron/send-emails/route.ts) → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 1e923271be7c2579596d826c4d713e73d56467be^ --file lib/email/client.ts,app/api/cron/send-emails/route.ts --prove tests/unit/riparazione-r22-coda-email-timeout.test.ts  --json (al commit 0ad9803aae9534e5e0ebb950a11f20552001dfb1) → uscita 0 (K05)",
+      "nota_fix": "Stessa cura e stesso commit di R22-001: chiave di idempotenza stabile per riga di coda verso Resend, senza aggiornare il pacchetto resend. La prova copre l'email di servizio e la promozione (corpo che cambia a ogni giro): una sola consegna in tutti e due i casi. Inseparabili: è la stessa riga di codice (la chiave di idempotenza passata dalla coda a sendEmail); 001 è il sintomo nella coda, 011 il doppio invio dopo il timeout. Giro di correzione (0ad9803a, chiesto dal revisore): il 409 invalid_idempotent_request con chiave presente vale «già accettato» ({ ok: true }, logger.warn senza dati personali), così la promozione ripresa (corpo diverso per il gettone con IV casuale) si segna spedita e non finisce annullata; concurrent_idempotent_requests resta da ritentare; warn anche sul ripiego { idempotencyKey }."
+    },
+    {
+      "chiave": "qa-flussi|una chat lasciata aperta in sottofondo sul computer del negozio segna come letti i messaggi appena arrivano",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r22-chat-in-sottofondo-non-segna-letto.test.ts tests/unit/riparazione-r22-chat-letta-dice-l-esito.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base cf5e6a77^ --file \"app/messages/[id]/page.tsx\" --prove tests/unit/riparazione-r22-chat-in-sottofondo-non-segna-letto.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 183389ac41500b5f21a57c2e2be83db17a26866e^ --file app/messages/[id]/page.tsx,app/api/chat/mark-read/route.ts --prove tests/unit/riparazione-r22-chat-in-sottofondo-non-segna-letto.test.ts,tests/unit/riparazione-r22-chat-letta-dice-l-esito.test.ts  --json (al commit cf5e6a776dfca505cd36a7de2fc8325702dc3562) → uscita 0 (K05)",
+      "nota_fix": "La pagina segna letto solo con document.visibilityState 'visible' e lo rifà a ogni visibilitychange; mark-read legge l'esito dell'azzeramento del contatore e se cade risponde 500. Prova: la pagina vera montata con la scheda nascosta non segna letto il messaggio che arriva; la chiamata parte al ritorno in primo piano. Giro di correzione (cf5e6a77, chiesto dal revisore: la voce nomina anche hasFocus): la pagina conta come vista solo con visibilityState 'visible' e document.hasFocus(), ascolta visibilitychange, focus e blur (tolti nel cleanup) e se mark-read risponde non ok riprova al focus o visibilitychange successivo; casi «visibile ma senza fuoco: zero chiamate» e «riprova dopo errore»."
+    },
+    {
+      "chiave": "qa-flussi|whatsapp senza +39 anche nel contatto del negozio",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r22-whatsapp-italiano.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 27977a4b^ --file lib/contatto-whatsapp.ts --prove tests/unit/riparazione-r22-whatsapp-italiano.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 5c3ebbe2ff0abaff1dbf6c05cfa33e3501f9059c^ --file lib/contatto-whatsapp.ts --prove tests/unit/riparazione-r22-whatsapp-italiano.test.ts  --json (al commit 27977a4b2c8b8a4f5bf0593cbfbc20f4e5f6d99c) → uscita 0 (K05)",
+      "nota_fix": "numeroWhatsApp, dopo i controlli del segnaposto, mette il 39 con la stessa regola di numeroWhatsappItaliano (la 580): 0039 e +39 restano 39, un 3… o uno 0… scritti senza prefisso lo prendono, un numero straniero col + resta suo; così linkWhatsApp('333 1234567') apre wa.me/393331234567 nel piè di pagina, in Contattaci e nelle tre pagine d'aiuto. La regola è scritta nel file e non importata da lib/store-customization.ts per non portare zod nel piè di pagina di ogni pagina; il-numero-whatsapp-che-non-esiste e minori-s06-social-del-negozio restano verdi. Giro di correzione (27977a4b): i controlli del segnaposto e degli zeri girano anche sul numero normalizzato: '0039 300 0000000', '00393000000000', '0039 0000000000' e '+39 000 0000000' non danno link."
+    },
+    {
+      "chiave": "stati-ui|se la lettura del prodotto non va, la pagina di modifica dell'amministrazione dice che il prodotto non esiste",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r22-prodotto-admin-lettura-caduta.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 4e48718f^ --file \"app/admin/products/[id]/edit/page.tsx\" --prove tests/unit/riparazione-r22-prodotto-admin-lettura-caduta.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 5fd4ce74fba69686ed0f6607bcfe9bb1aa5c8a16^ --file app/admin/products/[id]/edit/page.tsx --prove tests/unit/riparazione-r22-prodotto-admin-lettura-caduta.test.tsx  --json (al commit 4e48718ff7ab37b111b0536ef861cc1a7cb97017) → uscita 0 (K05)",
+      "nota_fix": "La lettura usa .maybeSingle() (come app/admin/orders/[id]/page.tsx) e un id senza forma di UUID vale «non trovato» senza leggere; un errore di lettura mostra «Non riesco a leggere questo prodotto…» con «Riprova»; nessuna riga e nessun errore → «Prodotto non trovato». La prova monta la pagina con un errore come oggetto e con una tabella vuota. Giro di correzione (4e48718f): la query delle varianti ha enabled: FORMA_UUID.test(id); con id 'abc' la pagina dice «Prodotto non trovato», senza testo sulle taglie, senza «Riprova» e con zero letture delle varianti."
+    },
+    {
+      "chiave": "stati-ui|le notifiche non lette più vecchie delle ultime cinquanta restano sul campanello e non si possono né vedere né segnare",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r22-campanello-oltre-le-cinquanta.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 6e1baeee^ --file app/notifications/page.tsx --prove tests/unit/riparazione-r22-campanello-oltre-le-cinquanta.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R22 --base 6e1baeee8e39a744164be77b45f1c7b2b40df791^ --file app/notifications/page.tsx --prove tests/unit/riparazione-r22-campanello-oltre-le-cinquanta.test.ts  --json (al commit 6e1baeee8e39a744164be77b45f1c7b2b40df791) → uscita 0 (K05)",
+      "nota_fix": "«Segna tutte come lette» compare anche quando il conteggio vero (useNotificationsCount) è sopra zero (la scrittura segnava già tutte le non lette); «Carica altre» alza il limite di 50 in 50 tenendo l'elenco a video. Prova: 50 lette più 10 vecchie non lette: «Segna tutte» le segna tutte e 60, «Carica altre» arriva alle 10."
+    }
+  ]
+}

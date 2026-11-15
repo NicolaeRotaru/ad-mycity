@@ -1,0 +1,34 @@
+{
+  "corsia": 18,
+  "territorio": "R18",
+  "difetti": [
+    {
+      "chiave": "frontend-ux|nello storico delle promo una promo annullata si legge «terminata» con una data che deve ancora venire",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r18-promo-annullata.test.tsx tests/unit/minori-s06-promozioni.test.ts tests/unit/riparazione-r03-promo-sceglie-la-categoria.test.tsx --reporter=dot",
+      "non_vacuita": "cd /home/user/mycity && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base dc067a08^ --file app/seller/promotions/page.tsx --prove tests/unit/riparazione-r18-promo-annullata.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-1 --base dc067a0800d6c2599503a9070c7b533250fda17e^ --file app/seller/promotions/page.tsx --prove tests/unit/riparazione-r18-promo-annullata.test.tsx --json (0) → uscita 0 (K07)",
+      "nota_fix": "Nello storico la riga scrive « · Terminata <data>» solo quando statoDellaPromo dice «Scaduta» (non annullata e ends_at già passato); una promo annullata resta «-15%» col cartellino «Annullata», senza la data che deve ancora venire. Nessuna colonna nuova. La correzione sta tutta in page.tsx (riusa statoDellaPromo senza cambiarlo): una funzione nuova in stato-promo.ts avrebbe reso la prova rimessa «strutturale». La prova monta la pagina con orologio finto al 6/11 (promo annullata fino al 6/12 e una scaduta il 1/11) e controlla anche statoDellaPromo con l'orologio finto."
+    },
+    {
+      "chiave": "mobile-pwa|nella rubrica indirizzi i bottoni «modifica» ed «elimina» sono troppo piccoli e troppo vicini per il pollice",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r18-indirizzi-bottoni-da-pollice.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base a09cc8e9^ --file app/profile/addresses/page.tsx --prove tests/unit/riparazione-r18-indirizzi-bottoni-da-pollice.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-3 --base a09cc8e9a910fbf8abc9640d4975856e7ccddfb9^ --file app/profile/addresses/page.tsx --prove tests/unit/riparazione-r18-indirizzi-bottoni-da-pollice.test.ts --json (0) → uscita 0 (K07)",
+      "nota_fix": "Nella scheda indirizzo Modifica ed Elimina passano a size=md (44 px) con flex-wrap gap-3; Button.tsx non toccato."
+    },
+    {
+      "chiave": "qa-flussi|«migliora tutto il catalogo» fa vedere 50 prodotti e con «applica» ne riscrive fino a 200 (oggi spento)",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r18-lotto-applica-quello-che-si-vede.test.tsx tests/unit/minori-s10-lotto-applica.test.ts tests/unit/il-lotto-non-scrive-quello-che-il-filtro-nega.test.ts tests/unit/minori-s06-ai-studio.test.ts --reporter=dot",
+      "non_vacuita": "cd /home/user/mycity && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 2b4b10a6^ --file app/seller/products/ai-batch/page.tsx --prove tests/unit/riparazione-r18-lotto-applica-quello-che-si-vede.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-1 --base 2b4b10a607b182e501e6aab820e5c5d2f8c487ab^ --file app/seller/products/ai-batch/page.tsx --prove tests/unit/riparazione-r18-lotto-applica-quello-che-si-vede.test.tsx --json (0) → uscita 0 (K07)",
+      "nota_fix": "L'anteprima mostra tutti i risultati (non più slice(0, 50); il lotto parte al massimo su 200 prodotti) e «Applica a tutti» / «Metti in bozza i segnalati» mandano alla rotta {jobId, productIds} con i prodotti mostrati: la rotta li filtrava già (apply/route.ts:74-98), quindi rotta e start non cambiano. La prova monta la pagina vera e passa la sua richiesta alla rotta vera con un database finto: 120 proposte, i prodotti riscritti sono esattamente quelli mostrati (sulla base: 70 riscritti senza essere stati mostrati); lo stesso per la moderazione (80, sulla base 30 messi in bozza senza essere mostrati); più un controllo diretto sulla rotta con productIds."
+    },
+    {
+      "chiave": "qa-flussi|un doppio clic su «crea promo» crea due promozioni uguali, e se se ne cancella una l'altra resta attiva",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r18-promo-doppio-clic.test.tsx --reporter=dot ; export PGHOST=/var/run/postgresql; bash tests/sql/harness/apply.sh r18_prova && psql -X -d r18_prova -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r18-promo-doppia.test.sql && bash tests/sql/harness/run.sh r18_prova ; npx vitest run tests/unit/riparazione-r11-tipi-che-possono-restare-vuoti.test.ts tests/unit/riparazione-r11-viste-nei-tipi.test.ts --reporter=dot",
+      "non_vacuita": "cd /home/user/mycity && export PGHOST=/var/run/postgresql && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 1916a2e9^ --file migrations/429_due_promo_uguali_non_restano_attive_insieme.sql --prove tests/sql/rls/riparazione-r18-promo-doppia.test.sql --sql r18_rimessa --json (0) ; cd /home/user/mycity && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 1916a2e9^ --file app/seller/promotions/page.tsx --prove tests/unit/riparazione-r18-promo-doppio-clic.test.tsx --json (0) → uscita 0 (riparatore); PGHOST=localhost timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-1 --base 1916a2e9b2d6cb2181032d8b3b1fd94bd95ac4aa^ --file migrations/429_due_promo_uguali_non_restano_attive_insieme.sql --prove tests/sql/rls/riparazione-r18-promo-doppia.test.sql --sql k07_r18_012_1_rimessa --json (0) ; timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-1 --base 1916a2e9b2d6cb2181032d8b3b1fd94bd95ac4aa^ --file app/seller/promotions/page.tsx --prove tests/unit/riparazione-r18-promo-doppio-clic.test.tsx --json (0) → uscita 0 (K07)",
+      "nota_fix": "Pagina: un useRef creazioneInCorso messo a true prima di create.mutate() e rimesso a false in onSettled; il secondo clic nello stesso istante si ignora (prova: due clic in un solo act, un solo insert; dopo un errore il bottone torna a funzionare). Database, migrazione 429: un controllo BEFORE INSERT OR UPDATE OF status su seller_promotions (funzione seller_promotions_niente_doppioni, plpgsql, search_path fisso, EXECUTE tolto a PUBLIC/anon/authenticated) rifiuta con un messaggio in italiano una promo attiva uguale (stesso negozio, titolo, sconto, scope, categoria, prodotti) a un'altra attiva la cui durata si sovrappone e non è finita; un lucchetto per negozio (pg_advisory_xact_lock) mette in fila due inserimenti concorrenti (provato a mano con due sessioni psql: una riga sola). Scadute e annullate non fermano niente. Niente colonne, niente indice: i doppioni vecchi non fermano la migrazione. run.sh e le due prove dei tipi verdi."
+    }
+  ]
+}
