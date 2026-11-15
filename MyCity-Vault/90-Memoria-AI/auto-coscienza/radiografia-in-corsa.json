@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-14 10:40",
+  "aggiornato": "2026-11-15 01:19",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -7183,6 +7183,44 @@
       "nota": "",
       "file": {
         ".claude/skills/riparazione/SKILL.md": "240ba3a809a7"
+      }
+    },
+    {
+      "quando": "2026-11-15 01:19",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/cancello-senior.mjs": "28682cd4afff",
+        "cervello/mappa-copertura.mjs": "c01400e4e46e",
+        "cervello/pre-scrittura.mjs": "801d64e04f57"
+      }
+    },
+    {
+      "quando": "2026-11-15 01:19",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        ".claude/workflows/audit-design.js": "6cf8f0a9fbf1",
+        ".claude/workflows/audit-pannello.js": "c0da0f5070bd",
+        ".claude/workflows/auto-radiografia.js": "277500bf333d",
+        ".claude/workflows/giro-operativo.js": "814be86067cc",
+        ".claude/workflows/ondata-sito.js": "bf669364eeae",
+        ".claude/workflows/ondata-snella.js": "95e8875ff98b",
+        ".claude/workflows/prediagnosi.js": "9a1dd7050418",
+        ".claude/workflows/radiografia-totale.js": "015c0318f463",
+        ".claude/workflows/radiografia.js": "27c2810be5e0"
       }
     }
   ]
