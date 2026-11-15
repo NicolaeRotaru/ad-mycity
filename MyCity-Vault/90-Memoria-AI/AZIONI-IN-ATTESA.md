@@ -31,6 +31,26 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🟡 #256 — Scegli quanta onda 3 del sito partire prima di giovedì · ⏳ accodata 2026-11-15 11:35
+
+**In parole semplici.** Hai detto «Parti con l'ondata 3». L'onda intera conta 261 voci da riparare e, coi costi veri dell'onda 2, vale circa 2.030 $. Fino a giovedì 19/11 alle 10:00 restano circa 215 $ su 350 $, il tetto firmato stamattina. Quindi propongo un primo pezzo misurato.
+
+**Cosa cambia per te.** Esempio: tre riparatori da 22 voci l'uno e un collaudo delle riparazioni mai giudicate, circa 195 $ in tutto, cioè circa il 6% della settimana. Si chiudono circa 30-45 difetti entro giovedì, e le altre circa 195 voci partono dopo le 10:00 di giovedì col limite nuovo.
+
+**Cosa devi fare tu.** Rispondi all'AD della chat «Ondata 3» con cinque risposte, per esempio «1 = 12%, 2 fatto, 3a, 4a, 5a»:
+- 1: la percentuale del limite settimanale che vedi nell'app;
+- 2: il freno sugli agenti incollato in due posti, nelle impostazioni della macchina e in quelle del sito;
+- 3, ultracode sui due riparatori che hanno un grave. a: spento, lo consiglio. b: acceso.
+- 4, quanta onda. a: il primo pezzo fino a giovedì, lo consiglio. b: solo il collaudo delle riparate. c: l'onda intera, alzando il tetto.
+- 5, la regola del collaudo senza campione. a: scritta nel piano, così la leggono tutti e tre i programmi, lo consiglio. b: si corregge solo la frase della skill.
+
+**Cosa non ho verificato.** Il margine di 215 $ somma le spese dette dalle sessioni, non quello che vedi nell'app. La divisione l'ho provata solo su una copia. Il freno non l'ho provato su una sessione vera: quasi certamente non vede le sessioni aperte con ultracode.
+
+Cosa cambia: entro giovedì si chiudono circa 30-45 difetti del sito, con una spesa che ha un tetto per ogni sessione.
+Se va bene: giovedì dopo le 10:00 parte il resto dell'onda 3, col preventivo fatto sui costi misurati in questo pezzo.
+
+Dettagli: `consegne/riparazioni/2026-11-12-sito-tutto/FERMATA-1-ONDA-3.md` (richiesta di unione ad-mycity#968).
+
 ### 🟡 #254 — Aspetta a unire la richiesta dell'officina: il collaudo l'ha bocciata · ⏳ accodata 2026-11-15 09:40
 
 **✅ Superata il 15/11 alle 10:23.** Nicola ha unito la #962. Dentro c'era già la correzione del bloccante (commit 41e041c). Manca il collaudo corto della correzione: lo apre l'AD.
