@@ -4009,10 +4009,11 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_15_11": {
-        "esito": "riparato",
+        "esito": "parziale",
         "sessione": "R18",
         "collaudo": "rompe_altro",
-        "perche": "collaudo: rompe_altro"
+        "perche": "collaudo: rompe_altro",
+        "nota": "codice tolto col revert 58e23838: il referto dice parziale (corretto il 15/11 alle 07:00; per scrivere il registro era stato rimesso «riparato» per un momento, errore della regista della fase 1)"
       }
     },
     {

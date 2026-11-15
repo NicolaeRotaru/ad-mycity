@@ -5401,11 +5401,12 @@
       "sessione": "R18",
       "chiave": "rls-database|il database accetta un codice sconto del 150% e importi in soldi negativi",
       "gravita": "minore",
-      "esito": "riparato",
+      "esito": "parziale",
       "verdetto": "rompe_altro",
       "collaudatore": "K07",
       "decisione": "resta_aperta",
-      "perche": "collaudo: rompe_altro"
+      "perche": "collaudo: rompe_altro",
+      "nota": "codice tolto col revert 58e23838: il referto dice parziale (corretto il 15/11 alle 07:00; per scrivere il registro era stato rimesso «riparato» per un momento, errore della regista della fase 1)"
     },
     {
       "id": "R18-020",
