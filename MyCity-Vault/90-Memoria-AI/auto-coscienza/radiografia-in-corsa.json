@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-14 10:40",
+  "aggiornato": "2026-11-15 04:31",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -7183,6 +7183,54 @@
       "nota": "",
       "file": {
         ".claude/skills/riparazione/SKILL.md": "240ba3a809a7"
+      }
+    },
+    {
+      "quando": "2026-11-15 04:01",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "spariti": [
+        "cervello/round2-applica.mjs"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/sorvegliante.mjs": "e2f32dad2a5c"
+      }
+    },
+    {
+      "quando": "2026-11-15 04:31",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "AR-962: riguardati rete (fetch finto su indirizzi .invalid, rifiuta il resto), segreti (il figlio del sensore della cassa gira con il solo PATH), scritture (nessuna) e codice d'uscita. Trovato e curato nello stesso lavoro: un errore imprevisto usciva 1 invece di 2 (cieco); ora esce 2, con prova e mutazione.",
+      "file": {
+        "cervello/glossario-kpi-check.mjs": "1876e678acd2",
+        "cervello/glossario-kpi.mjs": "e822923af6ae",
+        "cervello/censimento-guardiani.mjs": "20a36f384737",
+        "cervello/documenti-di-governo.mjs": "8ce386f34c38"
+      }
+    },
+    {
+      "quando": "2026-11-15 04:31",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "AR-962: il blocco del glossario gira a ogni giro accanto ai rischi, costa 0,2 secondi, prende il codice d'uscita, e il suo vincolo è contato e finisce nel prompt.",
+      "file": {
+        "cervello/giro.sh": "8df6a0f98718"
       }
     }
   ]

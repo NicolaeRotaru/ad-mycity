@@ -20635,12 +20635,12 @@
       "causa_radice": "Il confronto richiede di sapere quali numeri il codice chiama KPI, e oggi non esiste un registro che lo dica. Un controllo scritto adesso cercherebbe parole nei file, cioè la prova debole che l'asticella vieta. È la causa esatta di AR-282 sulla cassa: un KPI che vive solo dentro uno script.",
       "fix_proposto": "🟡 ① Un registro dei KPI usati dal codice: nome, file, funzione che lo calcola. ② Un guardiano che fallisce se un KPI del registro non ha la sua riga nel glossario, o se il codice ne espone uno fuori registro. ③ Cablarlo nel giro e scriverlo come guardiano della voce glossario-kpi, togliendo l'attesa.",
       "verifica": {
-        "tipo": "umano",
-        "nota": "Aperto finché la voce glossario-kpi di cervello/documenti-di-governo.mjs ha guardiano null. Chiuso quando il guardiano esiste, il giro lo esegue, e una prova lo vede fallire su un KPI non definito nel glossario."
+        "comando": "node cervello/test/glossario-kpi.test.mjs"
       },
       "dove": "cervello/documenti-di-governo.mjs: voce glossario-kpi · MyCity-Vault/07-Agenti/GLOSSARIO-KPI.md",
       "impatto_crescita": "medio",
-      "impatto_crescita_nota": "Un numero sbagliato portato a Nicola sposta decisioni vere. Il caso di AR-282 sulla cassa è il precedente misurato."
+      "impatto_crescita_nota": "Un numero sbagliato portato a Nicola sposta decisioni vere. Il caso di AR-282 sulla cassa è il precedente misurato.",
+      "nota_fix": "2026-11-15 04:31, nel lavoro della CI rossa del 15/11 (Nicola: «Costruisco i controlli»). Il controllo c’è, ed è in tre pezzi. Primo: il registro dei KPI, cervello/kpi-registro.json. Dice 42 KPI, ognuno con nome, file e funzione che lo calcola, i campi con cui esce e la riga del glossario che lo definisce. Secondo: il guardiano, cervello/glossario-kpi-check.mjs, con la regola in una funzione pura (cervello/glossario-kpi.mjs). Esce 1 se un KPI non ha la sua riga nel glossario, o se il codice consegna un numero che il registro non conosce. Esce 2 se non ha potuto misurare, e anche quando va in errore imprevisto: la prima versione in quel caso usciva 1, e il giro avrebbe detto al motore «un KPI senza definizione» con lo strumento rotto. Trovato riguardando i file con la lente della sicurezza, curato e provato qui. Terzo: il cablaggio. Gira nel giro con il suo vincolo, ed è il guardiano della voce glossario-kpi nella lista dei documenti di governo, dove l’attesa non c’è più. Sul registro vero esce 0 in 0,2 secondi. DIFFERENZA FRA SCHEDA E CODICE: la scheda temeva che un controllo scritto subito avrebbe cercato parole nei file. L’appiglio invece è l’uscita vera del codice. Il guardiano esegue tre vetrine: la rotta delle metriche del Pannello contro un database finto (80 campi), la demo (46 campi) e il sensore della cassa senza chiavi (18 campi). Un campo nuovo aggiunto nel codice compare da solo. La prova lo rifà su una copia del Pannello: aggiungo un margine inventato alla rotta, e il guardiano esce rosso nominando quel campo. Il Pannello non l’ho modificato. GLOSSARIO: il codice consegnava numeri senza una riga nel glossario. Ho aggiunto 29 righe, con la formula presa dal codice e la scritta «da confermare da Nicola», più tre divergenze (D8, D9, D10). È un file di Nicola. MUTAZIONI: 11 nuove, tutte rosse (non-vacuita.mjs --difetti AR-962). La prova ha 18 casi. La prima versione della mutazione sulla riga mancante restava verde: il ramo «definizione vuota» prendeva il caso al posto suo. L’ho spostata sulla ricerca della riga, e la prova ora pretende anche il messaggio giusto. Tolta la mutazione di AR-966 che spostava la data dell’attesa: senza attesa il suo pezzo non esiste più. Le altre 15 di AR-966 mordono ancora, e c9-governo-senza-sveglia resta 17 su 17. COSA NON COPRE: le altre rotte di numeri del Pannello e gli altri script del cervello (scheda AR-1175). E non giudica se una definizione è giusta: prova che c’è. Due divergenze trovate così sono le schede AR-1176 (due formule di runway) e AR-1177 (margine per ordine senza costo di consegna nel cruscotto). NON VERIFICATO: su un node più vecchio del 22.15 il guardiano esce 2 (cieco), perché le vetrine del Pannello usano module.registerHooks; la versione di node del server non l’ho controllata. Non ho lanciato la suite intera né il cancello del lotto."
     },
     {
       "id": "AR-963",
@@ -20790,12 +20790,12 @@
       "causa_radice": "La regola ⑥b di cervello/sorvegliante.mjs guarda le righe rimosse che nominano una difesa, e assolve la rimozione solo se la difesa è ancora chiamata NELLO STESSO FILE (AR-536, `difesaAncoraChiamata`). Per un file cancellato per intero il contenuto dopo è null, quindi la risposta è sempre «no»: ogni nome di difesa scritto in un file cancellato diventa una voce grave, anche quando il file non lo lanciava nessuno e non poteva tenere acceso niente. È «menzione ≠ chiamata» un'altra volta, stavolta sul gesto di togliere codice morto. E non c'è una via d'uscita dichiarabile: l'esenzione `sorvegliante: ok … fino al …` vive dentro il file, e il file non c'è più. Dall'inizio di agosto, quando la regola è nata, nessuno aveva cancellato un file di codice sotto cervello/: è la prima volta che questa strada viene percorsa. E c'è il verso opposto della stessa confusione. Per assolvere una riga tolta, ⑥b cerca il nome della difesa fra le righe AGGIUNTE in tutto il delta, prosa compresa: un .md, o un campo di racconto di un registro JSON, come questa scheda. Una menzione aggiunta vale come chiamata spostata: così una chiamata vera, tolta da un file vivo, passa se nello stesso lotto qualcuno scrive il nome di quel freno in una nota. Menzione ≠ chiamata vale nei due versi: una riga tolta è una chiamata solo se chiamava, una riga aggiunta è uno spostamento solo se chiama. Terzo pezzo, misurato dal nono collaudo: l'elenco dei campi di racconto dei registri (`CAMPI_PROSA`) non ha `fonte`, `chi_la_chiude`, `si_toglie_quando` e `conseguenza`. Così una voce dello scadenzario chiusa in forma corta, senza la sua fonte, fa nascere «difesa-rimossa» sulla riga della fonte che nomina un file su cui poggiano mutazioni.",
       "fix_proposto": "🟡 Per un file cancellato per intero la domanda giusta non è «la difesa è chiamata ancora in questo file?», ma «questo file lo lanciava qualcuno?». Se alla base del confronto nessun file di codice vivo lo nomina fuori dai commenti (git grep del nome senza estensione, esclusi prosa e campi di racconto dei registri), il file era morto e le sue righe non chiamavano niente: ⑥b non si applica, ⑥a resta, se il file stesso è una difesa dichiarata. Se lo lanciava qualcuno, le voci restano tutte. Funzione pura con la sua prova su tre casi — file morto con nomi di difese: zero voci; file lanciato dal giro: voci; lanciatore tolto nello stesso delta: voci — e una mutazione. Poi, nello stesso lavoro, togliere cervello/round2-applica.mjs, la sua esenzione in cervello/atti-con-porte.json e la voce esenzione-round2-applica dello scadenzario (in `chiuse`). Collaudo con mani diverse: è un guardiano, e la strada nuova non deve aprire un buco a chi stacca un freno vero. E l'altra metà: `aggiuntoOvunque` deve contare solo le righe aggiunte che chiamano (codice, fuori dai commenti e dai campi di racconto), non le menzioni in prosa. Quando il file si toglie, si tolgono anche le mutazioni AR-966 che rompono la data della sua esenzione: lo scrivono lo scadenzario e il registro delle porte. E aggiungere a `CAMPI_PROSA` i campi che raccontano nei registri di casa: `fonte`, `chi_la_chiude`, `si_toglie_quando`, `conseguenza`. Fino ad allora, i testi di chiusura dicono di spostare la voce in chiuse intera, con la sua fonte.",
       "verifica": {
-        "tipo": "umano",
-        "nota": "Aperto finché, in un lotto partito dopo l'unione (git worktree sulla base, `git rm cervello/round2-applica.mjs` con la sua esenzione, poi `node cervello/sorvegliante.mjs --base <base> --json`), il sorvegliante dà voci gravi «difesa-rimossa» su righe che nominano soltanto. Chiuso quando quella cancellazione lascia zero voci gravi; una chiamata vera tolta da un file vivo le fa ancora nascere, anche se nello stesso delta una nota nomina quel freno; e cancellare un file che il giro lancia, e che chiama un freno, le fa ancora nascere. Tutto provato da mutazioni. Il caso a parte, «tolta solo l'esenzione» senza cancellare il file: oggi dà due voci «prova-accecata» sulle mutazioni di AR-966 che rompono la data dell'esenzione — attese, perché le istruzioni dicono di toglierle insieme — e nessuna «difesa-rimossa». In quel caso a parte diventano rosse anche la prova c9, per la voce rimasta orfana, e mutazioni-orfane, per le due mutazioni senza data: è il motivo per cui le istruzioni dicono di fare tutto insieme. E dal nono collaudo, col tetto delle porte sceso a 0, anche porte-gemelle: la porta resta scoperta."
+        "comando": "node cervello/test/togliere-codice-morto.test.mjs"
       },
       "dove": "cervello/sorvegliante.mjs, regola ⑥b (`difesaAncoraChiamata` e il ciclo sulle righe rimosse). Il caso vivo: cervello/round2-applica.mjs, con la sua esenzione in cervello/atti-con-porte.json (fino al 14/11) e la voce esenzione-round2-applica in cervello/scadenzario.json.",
       "impatto_crescita": "basso",
-      "impatto_crescita_nota": "Non tocca ordini né negozi. Tiene in casa codice morto, e una data che se dimenticata il 15/11 fa rossa la CI di ogni richiesta di unione: lo scadenzario la annuncia tre giorni prima."
+      "impatto_crescita_nota": "Non tocca ordini né negozi. Tiene in casa codice morto, e una data che se dimenticata il 15/11 fa rossa la CI di ogni richiesta di unione: lo scadenzario la annuncia tre giorni prima.",
+      "nota_fix": "2026-11-15 03:58, nel lavoro della CI rossa del 15/11 (Nicola: «Costruisco i controlli»). Cosa ho fatto, clausola per clausola. ① Per un file cancellato per intero il sorvegliante ora chiede: alla base del confronto, questo file lo lanciava qualcuno? Risponde chiLoLanciava, una funzione pura. Cerca il nome senza estensione nei file di codice della base. Conta solo le righe che possono chiamare: fuori dai commenti, dalla prosa e dai campi di racconto o di riferimento dei registri. Se nessuno lo lanciava, ⑥b tace; ⑥a resta. Se lo lanciava qualcuno, anche un lanciatore tolto nella stessa modifica, le voci restano. Ognuna dice chi lo lanciava, al massimo tre nomi. La base arriva dal parametro --base: se comincia con «-» la rifiuto, perché git grep la leggerebbe come un'opzione (con -O lancia un programma), e la risposta torna quella prudente: la voce resta. ② Lo «spostato altrove» conta solo le righe aggiunte che chiamano, con la stessa regola (parteCheChiama). Una nota .md, un racconto o un riferimento che nomina un freno non assolvono più una chiamata vera tolta. ③ Fra i campi di racconto ci sono adesso fonte, chi_la_chiude, si_toglie_quando e conseguenza, e anche perche_conta. ④ Tolto il programma del 25/7. Tolta la sua esenzione dal registro delle porte. La voce dello scadenzario è in chiuse, intera, con la sua fonte e un esito. Nel registro delle porte non resta nessun'altra esenzione a scadenza: ho tolto anche le due mutazioni di AR-966 che ne rompevano la data. AR-966 passa da 17 a 15 mutazioni. Quella sull'attesa del glossario non l'ho toccata: è del lavoro AR-962. ⑤ Gli altri cinque file che nominano il programma lo fanno in commenti, uno anche in una stringa di testo storica. Nessuno lo lancia, e le loro prove restano verdi. DOVE LA SCHEDA NON TORNAVA COL CODICE. Primo: «fuori da sé stesso lo nominano solo commenti e registri» non era vero. Lo nomina anche una stringa di testo dentro registra-programma-intelligenza.mjs, che è codice e non commento. Ma quel programma non lo lancia nessuno. Per questo chiLoLanciava fa un passo all'indietro: un file lanciato solo da un programma morto è morto. Il passo vale solo per i programmi lanciati per nome, direttamente in cervello/. Prove, flussi della CI, hook, Pannello e unità del server si danno sempre per vivi. Secondo: la regola alla lettera («git grep, esclusi prosa e campi di racconto») avrebbe tenuto vivo il file. Lo nominavano l'esenzione stessa (campo file), la voce dello scadenzario (campi id e chiave) e il racconto perche_conta del registro delle porte. Per questo ci sono i campi di riferimento (file, chiave, id), e perche_conta fra i racconti. PROVE. node cervello/test/togliere-codice-morto.test.mjs: 18 casi su 18 verdi, costruiti con le righe vere del 15/11. Undici mutazioni registrate: col fix rotto tutte e undici rendono rossa la prova. Sul ramo vero, col file cancellato, il sorvegliante con --base origin/main dà zero voci gravi (prima erano cinque). Controprova in una copia: cancellando cervello/cancello-lotto.mjs, che la CI lancia, le voci nascono ancora, 32 sulle sue righe. porte-gemelle verde, mutazioni-orfane verde, la spazzata verde, le 144 prove del sorvegliante verdi; c9 verde tranne «IL PUNTO», che è il glossario del lavoro AR-962. LIMITI, DETTI. Un programma lanciato solo da fuori dal repo (un cron del server non versionato, o a mano da un manuale .md) risulta morto: è la regola della scheda, che esclude la prosa. Cancellarlo rompe forte chi lo lancia, non in silenzio. Spostare una chiamata dentro un registro della memoria (per esempio il gate di una lezione) non conta più come «spostato»: dà una voce in più, cioè sbaglia dal lato prudente. Lo stato della scheda non l'ho toccato: il collaudo lo fa un altro agente."
     },
     {
       "stato": "aperto",
@@ -26538,6 +26538,94 @@
         "tipo": "umano",
         "nota": "Non riparato nella richiesta delle fette della CI: cambierebbe quali mutazioni girano, ed è fuori mandato. Si chiude quando un lotto che tocca solo cervello/prediagnosi.mjs fa girare le sue 80 mutazioni e non tutto il registro."
       }
+    },
+    {
+      "id": "AR-1174",
+      "stato": "aperto",
+      "gravita": "minore",
+      "dimensione": "guardiani-e-guardrail",
+      "area": "macchina",
+      "nato": "2026-11-15 04:02",
+      "nato_come": "scoperta",
+      "nato_da": "AR-969",
+      "trovato_da": "Lavoro di AR-969 del 15/11, provando la funzione nuova del sorvegliante che dice se un file lo lancia qualcuno.",
+      "titolo": "Quattro programmi del 25 luglio restano in casa, e nessun codice li lancia più",
+      "sintomo": "Misurato il 15/11 alle 04:00 sulla base HEAD, con chiLoLanciava del sorvegliante: registra-programma-intelligenza.mjs, programma-intelligenza-memoria.mjs, registra-riverifica-programma.mjs e round3-verifica.mjs, tutti in cervello/, non li lancia nessun file di codice. Li nominano solo commenti e testi. Sono nati tutti il 25/7. Tre scrivono in memoria una volta sola (idempotenti), come round2-applica.mjs che AR-969 ha tolto; round3-verifica.mjs invece è una verifica in sola lettura da lanciare a mano. Un quinto, programma-correzione-ar114.mjs, risulta vivo solo perché una prova lo nomina come chiave di un elenco.",
+      "causa_radice": "Gli script usa-e-getta nascono per un giro solo e nessuno li toglie dopo l'uso. Finché il sorvegliante scambiava ogni nome in un file cancellato per un freno spento (AR-969), toglierli faceva rossa la CI: restavano per forza.",
+      "fix_proposto": "🟡 Ora che il sorvegliante distingue un file morto (AR-969), decidere i quattro programmi in un lavoro suo, uno per uno: i tre che scrivono in memoria si tolgono se il loro effetto è già nei registri; per round3-verifica.mjs si chiede se serve ancora a Nicola, e se sì lo si scrive in un manuale o nel giro. Poi valutare un controllo che segnali gli script di cervello/ che nessuno lancia più da tempo.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Chiuso quando i quattro programmi sono tolti, oppure ognuno ha scritto perché resta, e il sorvegliante del delta non dà voci gravi per la loro cancellazione."
+      },
+      "dove": "cervello/registra-programma-intelligenza.mjs · cervello/programma-intelligenza-memoria.mjs · cervello/registra-riverifica-programma.mjs · cervello/round3-verifica.mjs",
+      "impatto_crescita": "basso",
+      "impatto_crescita_nota": "Non tocca ordini né negozi. È codice morto che chi legge la macchina deve ancora capire, e che i guardiani continuano a misurare."
+    },
+    {
+      "id": "AR-1175",
+      "stato": "aperto",
+      "area": "macchina",
+      "nato": "2026-11-15 04:29",
+      "nato_come": "scoperta",
+      "nato_da": "AR-962",
+      "trovato_da": "Lavoro di AR-962 del 15/11, costruendo il registro dei KPI e confrontando il codice col glossario.",
+      "gravita": "medio",
+      "dimensione": "guardiani-e-guardrail",
+      "titolo": "Il controllo del glossario guarda tre vetrine di numeri: le altre rotte del Pannello restano senza",
+      "sintomo": "Misurato il 15/11: il guardiano del glossario esegue la rotta delle metriche del Pannello (80 campi), la demo (46 campi) e il sensore della cassa (18 campi). Il Pannello ha almeno altre undici rotte che consegnano numeri a Nicola: funnel, trend, retention, negozi, payout, cassa, unit, acquisizione, catalogo, pattern e le stelle polari. Lì un numero nuovo senza definizione non lo vede nessuno. E due di quelle rotte, cassa e unit, ricalcolano runway e margine con formule proprie.",
+      "causa_radice": "Ogni rotta compone la sua risposta a mano, con oggetti liberi: non c’è un punto solo da cui escono i KPI. Il registro deve nominare le vetrine una per una, e ognuna vuole un esecutore col suo database finto.",
+      "fix_proposto": "🟡 Estendere il registro dei KPI e gli esecutori del guardiano alle altre rotte di numeri, una alla volta, cominciando da cassa e unit. In alternativa, far passare tutte le rotte di numeri da un modulo unico che si possa eseguire.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Chiuso quando ogni rotta del Pannello che consegna numeri a Nicola è una vetrina del registro dei KPI, oppure il registro scrive perché non lo è."
+      },
+      "dove": "cervello/kpi-registro.json (_perimetro) · cervello/glossario-kpi-check.mjs (ESECUTORI) · pannello/src/app/api/metriche/",
+      "impatto_crescita": "medio",
+      "impatto_crescita_nota": "Un numero sbagliato per definizione sposta decisioni vere: è il precedente di AR-282 sulla cassa."
+    },
+    {
+      "id": "AR-1176",
+      "stato": "aperto",
+      "area": "macchina",
+      "nato": "2026-11-15 04:29",
+      "nato_come": "scoperta",
+      "nato_da": "AR-962",
+      "trovato_da": "Lavoro di AR-962 del 15/11, costruendo il registro dei KPI e confrontando il codice col glossario.",
+      "gravita": "medio",
+      "dimensione": "salute-sensori-dati",
+      "titolo": "Il Pannello e il sensore del giro calcolano il runway con due formule diverse",
+      "sintomo": "Il Pannello (economia.ts, calcolaRunway) divide la cassa scritta a mano nelle impostazioni per il burn al netto delle commissioni degli ultimi 30 giorni. Il sensore della cassa del giro (sensore-cassa.mjs, statoCassa) divide banca + Stripe − payout dovuti per il burn dichiarato. Esempio: cassa 10.000 €, burn 2.000 € al mese, commissioni 500 € al mese. Il Pannello dice 6,7 mesi. Il sensore, con la stessa cassa tutta in banca, dice 5 mesi. Stesso nome, due numeri.",
+      "causa_radice": "AR-282 ha corretto la formula del sensore senza toccare quella del Pannello. Nessuna delle due aveva una riga nel glossario, quindi nessuno poteva vedere che divergevano.",
+      "fix_proposto": "🟡 Nicola sceglie la definizione unica di runway (D8 nel glossario). Poi una sola funzione la calcola, e le due vetrine la usano.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Chiuso quando il glossario ha una sola definizione di runway confermata da Nicola, e Pannello e sensore la calcolano con la stessa funzione."
+      },
+      "dove": "pannello/src/lib/economia.ts → calcolaRunway · cervello/sensore-cassa.mjs → statoCassa · MyCity-Vault/07-Agenti/GLOSSARIO-KPI.md (D8)",
+      "impatto_crescita": "alto",
+      "impatto_crescita_nota": "Il runway misura il rischio numero uno dell’azienda (AR-016): due numeri diversi possono spingere a decisioni opposte sui soldi."
+    },
+    {
+      "id": "AR-1177",
+      "stato": "aperto",
+      "area": "macchina",
+      "nato": "2026-11-15 04:29",
+      "nato_come": "scoperta",
+      "nato_da": "AR-962",
+      "trovato_da": "Lavoro di AR-962 del 15/11, costruendo il registro dei KPI e confrontando il codice col glossario.",
+      "gravita": "medio",
+      "dimensione": "pannello-comportamento",
+      "titolo": "Il margine per ordine del cruscotto non toglie il costo di consegna, la pagina dei conti per ordine sì",
+      "sintomo": "La rotta delle metriche chiama getMargineReale() senza il costo di consegna, quindi il margine per ordine è commissione media + fee di consegna media − 0. La rotta unit la chiama col costo di consegna delle impostazioni. La casella «Margine medio / ordine» della pagina dei numeri legge il primo. Esempio: commissione media 3,60 €, fee 2 €, costo di consegna 3 €. Il cruscotto dice 5,60 €, la pagina dei conti 2,60 €.",
+      "causa_radice": "Il costo di consegna è un parametro con valore predefinito 0 (getMargineReale(costoConsegna = 0)). Chi non lo passa ottiene un margine senza costi, senza errore e senza avviso. Nessuna definizione nel glossario diceva cosa ci sta dentro.",
+      "fix_proposto": "🟡 Il cruscotto passa a getMargineReale lo stesso costo di consegna che usa la pagina dei conti (impostazione costo_consegna), oppure il parametro diventa obbligatorio. Prima Nicola conferma la definizione (D9 nel glossario).",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Chiuso quando le due rotte danno lo stesso margine per ordine a parità di impostazioni, con una prova che lo esegue."
+      },
+      "dove": "pannello/src/app/api/metriche/route.ts (getMargineReale senza argomento) · pannello/src/app/api/metriche/unit/route.ts · pannello/src/lib/marketplace-db.ts → getMargineReale",
+      "impatto_crescita": "medio",
+      "impatto_crescita_nota": "Un margine gonfiato fa sembrare sostenibile un ordine che costa: è il numero che decide prezzi e commissioni."
     }
   ],
   "meta": {

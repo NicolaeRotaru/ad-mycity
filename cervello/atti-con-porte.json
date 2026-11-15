@@ -3,7 +3,7 @@
  "_come_si_usa": "Registri un atto quando vuoi che la macchina misuri chi lo compie: id, atto, perche_conta, guardia{file,funzione}, casa (verificata: deve DEFINIRE il primitivo, non importarlo), rilevatore, dove[], estensioni[], esenti[]. Poi: node cervello/porte-gemelle.mjs. ATTENZIONE, e sta scritto qui perche non si scopra leggendo il codice: questo registro NON cresce da solo. Il controllo che obbligava ogni scheda grave chiusa a dichiarare l'altra porta (campo `altra_porta`) e stato TOLTO il 23/8, perche nessun programma della macchina scrive quel campo — misurato: zero scrittori — e un campo che solo una persona puo riempire, su ogni scheda grave, per sempre, non e un freno: e una tassa, e le tasse si abrogano entro la settimana. Chi registra un atto nuovo qui dentro e una persona. E debito aperto, non copertura.",
  "_perche_un_tetto_e_non_zero": "Misurato il 23/8 con QUESTO metro, non ripreso da un rapporto: l'atto «scrivere un JSON di memoria» (rilevatore `writeFileSync\\s*\\(`, dove cervello + pannello/src) ha 69 porte, di cui 67 non passano da `scriviJsonAtomico`. Lo studio che ha preceduto questo freno ne contava 45 con un rilevatore più stretto: il numero esatto dipende dal rilevatore, l'ordine di grandezza no. Un cancello che nasce rosso su 45 file viene spento entro la settimana, ed è la lezione già pagata dai tetti di cervello/tetti-lotto.json. Quindi: fino a `max_porte` (8) porte scoperte ognuna si nomina in `esenti`; oltre, l'atto DEVE dichiarare `tetto_porte` = la misura di oggi, che scende e non risale (`node cervello/porte-gemelle.mjs --aggiorna-tetti`), oppure va affidato a un guardiano dedicato — per «scrivere un JSON di memoria» quel guardiano esiste già ed è cervello/indentazione-guardia.mjs, per questo l'atto NON è qui. Il debito diventa un numero in calo invece di una scoperta che dorme in un rapporto.",
  "acceso_il": "2026-08-23 13:01",
- "aggiornato": "2026-10-11 06:50",
+ "aggiornato": "2026-11-15 03:52",
  "max_porte": 8,
  "atti": [
   {
@@ -29,13 +29,6 @@
     ".tsx"
    ],
    "esenti": [
-    {
-     "file": "cervello/round2-applica.mjs",
-     "perche": "Uno-shot del 25/7 già applicato e idempotente: chiude AR-144 e AR-117 con una motivazione scritta a mano dopo una verifica end-to-end fatta da una persona. Rieseguirlo non chiude più niente (si ferma su «round 2 già applicato»). Va tolto dal repo, non fatto passare da una guardia. RINNOVATA l'11/10 dal sesto collaudo della CI: scadeva il 15/10, e dal 16 porte-gemelle sarebbe stato rosso per tutti. Togliere il file fa nascere nel sorvegliante del delta dei falsi «difesa-rimossa»: righe che si limitano a nominare altri programmi, in un file che nessuno lancia, lette come freni spenti (AR-969). Quanti, dipende da cosa nomina il resto del lotto: i conti misurati, commit per commit, stanno nella scheda. La nuova data è nello scadenzario (esenzione-round2-applica), che la annuncia tre giorni prima.",
-     "fino_al": "2026-11-14",
-     "natura": "temporanea",
-     "si_toglie_quando": "quando `cervello/round2-applica.mjs` viene tolto dal repo, cioè appena il sorvegliante distingue un file che nessuno lancia da un freno staccato (AR-969). E' uno-shot del 25/7 gia' applicato e idempotente (si ferma su «round 2 gia' applicato»), quindi il fatto che chiude questa esenzione e' la cancellazione del file, non una riga di codice in piu'. Il giorno in cui non c'e' piu', l'esenzione muore da sola: non c'e' piu' nessuna porta li' dove punta. Nello stesso lavoro: la voce esenzione-round2-applica dello scadenzario va in `chiuse` intera, con la sua fonte, e, se qui non resta nessun'altra esenzione a scadenza, dal registro delle mutazioni si tolgono anche le due di AR-966 che rompono la data di questa esenzione: senza una data da rompere il banco le dà per cieche, e il cancello si ferma."
-    },
     {
      "file": "pannello/src/lib/cantiere-snello.ts",
      "perche": "Non chiude niente: costruisce la COPIA ridotta del cantiere che la Cabina mostra a Nicola, e riscrive `stato: \"chiuso\"` sulle schede già chiuse per non perdere il campo mentre le sfoltisce. È una proiezione in sola lettura del registro vero, non un atto di chiusura.",
