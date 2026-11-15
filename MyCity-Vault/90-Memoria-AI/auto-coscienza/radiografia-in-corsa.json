@@ -1,73 +1,7 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-15 07:49",
+  "aggiornato": "2026-11-15 10:16",
   "scansioni": [
-    {
-      "quando": "2026-08-25 19:48",
-      "casa": "macchina",
-      "dimensione": "rischio-sicurezza-se",
-      "repo": "ad",
-      "modo": "ad",
-      "chi": "AD (sessione cloud, nessun collaudatore indipendente disponibile)",
-      "trovati": 3,
-      "schede": [
-        "AR-814",
-        "AR-815",
-        "AR-816"
-      ],
-      "nota": "Riletti riga per riga cercando: segreti esposti, permessi larghi, scritture che possono corrompere la memoria, loop auto-amplificanti, punti singoli di rottura. Trovati e riparati AR-814 (registrazione muta con un flag davanti), AR-815 (percorso fuori dal repo nel registro), AR-816 (file cancellato chiesto in radiografia: cancello insoddisfacibile). Restano dichiarati: il freno prova la freschezza della copertura, non la qualita dello sguardo.",
-      "file": {
-        "cervello/cancello-lotto.mjs": "0789e46f8a0d",
-        "cervello/radiografia-in-corsa.mjs": "7a43d4442b56"
-      }
-    },
-    {
-      "quando": "2026-08-25 19:48",
-      "casa": "macchina",
-      "dimensione": "cadenza-esecuzione",
-      "repo": "ad",
-      "modo": "ad",
-      "chi": "AD (sessione cloud)",
-      "trovati": 0,
-      "schede": [],
-      "nota": "Lente cadenza-esecuzione sul nuovo passo 6bis del mansionario: puo essere saltato in silenzio? No, e cablato nel cancello. Rompe il giro? No: giro.sh non lancia cancello-lotto (verificato con grep). I comandi scritti nel testo li ho lanciati davvero: controllo, --da-fare, --repo ../mycity, registra. Nessun difetto trovato.",
-      "file": {
-        ".claude/skills/cantiere/SKILL.md": "fe73019ed3fe"
-      }
-    },
-    {
-      "quando": "2026-08-25 20:13",
-      "casa": "macchina",
-      "dimensione": "rischio-sicurezza-se",
-      "repo": "ad",
-      "modo": "ad",
-      "chi": "AD (sessione cloud)",
-      "trovati": 0,
-      "schede": [],
-      "nota": "Rilettura dopo l'unione col tronco: dall'ultima scansione e cambiata UNA riga di commento in cancello-lotto.mjs, il numero della scheda passato da AR-813 ad AR-818 per la collisione. Riguardata la riga e il passo che monta il freno: invariato il comando, invariato l'ordine dei passi, nessun argomento calcolato. Nessun difetto nuovo.",
-      "file": {
-        "cervello/cancello-lotto.mjs": "d9388757aa10",
-        "cervello/radiografia-in-corsa.mjs": "7a43d4442b56"
-      }
-    },
-    {
-      "quando": "2026-08-25 20:35",
-      "casa": "macchina",
-      "dimensione": "rischio-sicurezza-se",
-      "repo": "ad",
-      "modo": "ad",
-      "chi": "AD",
-      "trovati": 1,
-      "schede": [
-        "AR-823"
-      ],
-      "nota": "",
-      "file": {
-        "cervello/cancello-lotto.mjs": "25a87d881ed0",
-        "cervello/lavori-hanno-la-corsia.mjs": "8dea01e6b280",
-        "cervello/sentinella-motore.mjs": "337e2507786f"
-      }
-    },
     {
       "quando": "2026-08-25 20:35",
       "casa": "macchina",
@@ -7276,6 +7210,37 @@
       }
     },
     {
+      "quando": "2026-11-15 07:42",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-1180"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/riparazione/sorveglia.sh": "ffc7f8900cac"
+      }
+    },
+    {
+      "quando": "2026-11-15 07:42",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/riparazione-sessioni.mjs": "ee1bf2427a3c",
+        "cervello/riparazione/freno-subagenti.mjs": "5ca09cfca18e"
+      }
+    },
+    {
       "quando": "2026-11-15 07:49",
       "casa": "macchina",
       "dimensione": "salute-sensori-dati",
@@ -7316,6 +7281,36 @@
       "file": {
         "cervello/glossario-kpi-check.mjs": "81ae86052237",
         "cervello/glossario-kpi.mjs": "8179525d1c94"
+      }
+    },
+    {
+      "quando": "2026-11-15 08:08",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/riparazione-sessioni.mjs": "c06067f267c4",
+        "cervello/riparazione/freno-subagenti.mjs": "5ca09cfca18e"
+      }
+    },
+    {
+      "quando": "2026-11-15 10:16",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/riparazione-sessioni.mjs": "854922c3e3c2",
+        "cervello/riparazione/freno-subagenti.mjs": "5ca09cfca18e"
       }
     }
   ]

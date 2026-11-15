@@ -167,6 +167,13 @@ solo un altro sguardo.
 I verdetti: `regge | parziale | non_regge | rompe_altro`. Ogni voce `riparato`, `parziale` o
 `gia_riparato_prima` dei tuoi riparatori deve comparire. Salva e spingi ogni 20 voci, con `"finita": false`.
 
+**Il collaudo parziale** (officina minima del 15/11). Se guardi solo alcune voci, per esempio le 11 rimaste
+aperte dopo un altro collaudo, scrivi `"parziale": true`. Allora `valida-collaudo` guarda solo le voci che
+elenchi, e non serve ricopiare le altre da K02 o K07. Le voci che non elenchi restano «nessun collaudo» e non
+si chiudono da sole. Un collaudo parziale non dichiara un campione accettato. Il giudizio pieno si guarda
+sull'unione dei collaudi finiti: un tuo pieno «regge» chiude la voce anche se un altro collaudo non l'aveva
+giudicata. Se due pieni non sono d'accordo, vince il peggiore. I gravi restano come sono.
+
 ### Prima di dire «finito»
 
 1. `valida-collaudo … --referti ../referti` verde (uscita 0) sulla versione finale, con `"finita": true`.
