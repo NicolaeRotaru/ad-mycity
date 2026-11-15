@@ -63,7 +63,7 @@ Le spese sono stime delle sessioni. Il dato vero si vede nell'app.
 ### Prossimi passi, in ordine
 1. Quando la sessione corta consegna: controllare i numeri (+7 riparate, +8 aperte, nient'altro), poi dire a Nicola di unire.
 2. AR-1178, cioè applica che si fida dell'esito rialzato dopo il collaudo: una costruttrice corta, poi il suo collaudo. Solo se il tetto lo permette.
-3. Pilota della cucitura su 25 voci: sopra le 10 chiuse si allarga, sotto le 6 si ferma. Poi la misura su 40 minori mai lavorati. Tutti e due solo dopo che Nicola ha incollato il freno, consegne/officina-minima/freno-agenti-da-incollare.md.
+3. L'onda 3 e il pilota sono della chat 4 dell'AD «Ondata 3», session_015BmpnV65jCuJATqykK8GtB, aperta da Nicola alle 11:13. Questa chat non apre niente per lei. Le si manda l'id della PR delle 7 chiusure di K10. Il pilota della cucitura, se lo prende lei, va su 25 voci: sopra le 10 chiuse si allarga, sotto le 6 si ferma. Poi la misura su 40 minori mai lavorati. Tutti e due solo dopo che Nicola ha incollato il freno, consegne/officina-minima/freno-agenti-da-incollare.md.
 4. Carte per Nicola: la #243 chiede la percentuale del limite, la #250 rimanda alle decisioni aperte dell'onda 2.
 
 ### Regole per chi prende il posto
