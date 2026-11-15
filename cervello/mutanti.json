@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-11-15 04:30",
+ "aggiornato": "2026-11-15 07:33",
  "mutanti": [
   {
    "lotto": 30,
@@ -9528,6 +9528,22 @@
   },
   {
    "difetto": "AR-966",
+   "nome": "la data dell'esenzione si sposta solo nel registro delle porte (un secolo avanti, qualunque sia oggi): lo scadenzario avvisa per un giorno sbagliato, e il rosso torna senza preavviso",
+   "file": "cervello/atti-con-porte.json",
+   "cerca": "     \"fino_al\": \"20",
+   "sostituisci": "     \"fino_al\": \"21",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-966",
+   "nome": "l'esenzione perde la scadenza e la voce dello scadenzario resta orfana: avvisa di un rosso che non arriverà più",
+   "file": "cervello/atti-con-porte.json",
+   "cerca": "     \"fino_al\": \"",
+   "sostituisci": "     \"fino_al_vecchio\": \"",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-966",
    "nome": "il doppione torna invisibile: una seconda voce sulla stessa data, con un altro nome, avvisa per un giorno che nessuno controlla",
    "file": "cervello/scadenze-del-cancello.mjs",
    "cerca": "    } else if (sue.length > 1) {",
@@ -11855,150 +11871,6 @@
    "test": "cervello/test/i-nati-della-riparazione-alzano-il-totale.test.mjs"
   },
   {
-   "difetto": "AR-969",
-   "nome": "⑥b torna a dare le voci di un file cancellato che nessuno lanciava: togliere un programma morto fa di nuovo rossa la CI",
-   "file": "cervello/sorvegliante.mjs",
-   "cerca": "            if (!l.lanciato) continue;",
-   "sostituisci": "            if (false) continue;",
-   "test": "cervello/test/togliere-codice-morto.test.mjs"
-  },
-  {
-   "difetto": "AR-969",
-   "nome": "chi lanciava il file si torna a cercarlo in ogni riga che lo nomina: un commento, un racconto o un'esenzione lo tengono in vita",
-   "file": "cervello/sorvegliante.mjs",
-   "cerca": "    if (!parteCheChiama(r.testo, r.file).includes(nome)) continue;",
-   "sostituisci": "    if (!String(r.testo).includes(nome)) continue;",
-   "test": "cervello/test/togliere-codice-morto.test.mjs"
-  },
-  {
-   "difetto": "AR-969",
-   "nome": "il file cancellato si tiene in vita da solo: la riga con cui riconosce il proprio nome conta come chi lo lancia",
-   "file": "cervello/sorvegliante.mjs",
-   "cerca": "    if (!r || !r.file || r.file === file || perFile.has(r.file)) continue;",
-   "sostituisci": "    if (!r || !r.file || perFile.has(r.file)) continue;",
-   "test": "cervello/test/togliere-codice-morto.test.mjs"
-  },
-  {
-   "difetto": "AR-969",
-   "nome": "un programma nominato solo da un altro programma morto torna a sembrare vivo: il passo all'indietro non conta piu'",
-   "file": "cervello/sorvegliante.mjs",
-   "cerca": "      if (!sopra.lanciato) continue; // lo lanciava un file morto: non tiene in vita niente",
-   "sostituisci": "      if (false) continue; // lo lanciava un file morto: non tiene in vita niente",
-   "test": "cervello/test/togliere-codice-morto.test.mjs"
-  },
-  {
-   "difetto": "AR-969",
-   "nome": "ogni file cancellato risulta non lanciato da nessuno: si puo' staccare il giro da un freno e cancellare il file senza una voce",
-   "file": "cervello/sorvegliante.mjs",
-   "cerca": "  return { lanciato: da.length > 0, cieco, da };",
-   "sostituisci": "  return { lanciato: false, cieco, da };",
-   "test": "cervello/test/togliere-codice-morto.test.mjs"
-  },
-  {
-   "difetto": "AR-969",
-   "nome": "con la base che non risponde il file risulta morto: cieco diventa verde e la voce sparisce",
-   "file": "cervello/sorvegliante.mjs",
-   "cerca": "  if (!Array.isArray(righe)) return { lanciato: true, cieco: true, da: [] };",
-   "sostituisci": "  if (!Array.isArray(righe)) return { lanciato: false, cieco: true, da: [] };",
-   "test": "cervello/test/togliere-codice-morto.test.mjs"
-  },
-  {
-   "difetto": "AR-969",
-   "nome": "anche i flussi della CI, gli hook e le prove possono risultare morti perche' nessuno li nomina: un file che lanciano sparisce senza voce",
-   "file": "cervello/sorvegliante.mjs",
-   "cerca": "export const PUO_ESSERE_MORTO = /^cervello\\/[^/]+\\.(?:mjs|cjs|js|sh|py)$/;",
-   "sostituisci": "export const PUO_ESSERE_MORTO = /\\.(?:mjs|cjs|js|sh|py|yml)$/;",
-   "test": "cervello/test/togliere-codice-morto.test.mjs"
-  },
-  {
-   "difetto": "AR-969",
-   "nome": "lo spostamento si torna a cercare in ogni riga aggiunta, prosa compresa: una nota che nomina un freno assolve la chiamata vera tolta",
-   "file": "cervello/sorvegliante.mjs",
-   "cerca": "      (t.aggiunte || []).map((a) => parteCheChiama(a.testo, t.file, t.contenuto ?? null)).join(\"\\n\"),",
-   "sostituisci": "      (t.aggiunte || []).map((a) => senzaCommenti(a.testo, t.file)).join(\"\\n\"),",
-   "test": "cervello/test/togliere-codice-morto.test.mjs"
-  },
-  {
-   "difetto": "AR-969",
-   "nome": "i campi che raccontano nello scadenzario e nel registro delle porte tornano a contare come chiamate: una voce chiusa in forma corta fa nascere difesa-rimossa",
-   "file": "cervello/sorvegliante.mjs",
-   "cerca": "  \"fonte\", \"chi_la_chiude\", \"si_toglie_quando\", \"conseguenza\", \"perche_conta\",",
-   "sostituisci": "  \"nessun_campo_in_piu\",",
-   "test": "cervello/test/togliere-codice-morto.test.mjs"
-  },
-  {
-   "difetto": "AR-969",
-   "nome": "i campi che dicono di chi si parla (file, chiave, id) tornano a contare come chiamate: l'esenzione di un programma morto lo tiene in vita",
-   "file": "cervello/sorvegliante.mjs",
-   "cerca": "  if (eCampoDiProsa(pulita, f) || eCampoDiRiferimento(pulita, f)) return \"\";",
-   "sostituisci": "  if (eCampoDiProsa(pulita, f)) return \"\";",
-   "test": "cervello/test/togliere-codice-morto.test.mjs"
-  },
-  {
-   "difetto": "AR-969",
-   "nome": "la prosa e la memoria tornano a contare come codice: una riga di un quaderno o di una scheda tiene in vita un file o assolve una chiamata tolta",
-   "file": "cervello/sorvegliante.mjs",
-   "cerca": "  if (!f || !eCodice(f) || ePROSA(f) || eReferto(f, contenuto)) return \"\";",
-   "sostituisci": "  if (!f) return \"\";",
-   "test": "cervello/test/togliere-codice-morto.test.mjs"
-  },
-  {
-   "difetto": "AR-969",
-   "nome": "le righe aggiunte delle prove tornano a contare come spostamento: una prova che lancia porte-gemelle su un caso finto assolve chi toglie dal cancello la sua unica chiamata",
-   "file": "cervello/sorvegliante.mjs",
-   "cerca": "      .filter((t) => !eFileDiProva(t.file))",
-   "sostituisci": "      .filter(() => true)",
-   "test": "cervello/test/togliere-codice-morto.test.mjs"
-  },
-  {
-   "difetto": "AR-969",
-   "nome": "dentro una prova ogni stringa torna a contare come chiamata: la chiave di una base finta tiene in vita un programma morto, e cancellarlo fa rossa la CI",
-   "file": "cervello/sorvegliante.mjs",
-   "cerca": "  if (eFileDiProva(f) && JS_O_TS.test(f)) return parteCheRaggiungeInProva(pulita);",
-   "sostituisci": "  if (false) return parteCheRaggiungeInProva(pulita);",
-   "test": "cervello/test/togliere-codice-morto.test.mjs"
-  },
-  {
-   "difetto": "AR-969",
-   "nome": "una prova che lancia un file con l'elenco degli argomenti non lo raggiunge piu': spawnSync(\"node\", [\"cervello/x.mjs\"]) diventa un esempio",
-   "file": "cervello/sorvegliante.mjs",
-   "cerca": "        if (pila[k].ch === \"[\") continue;",
-   "sostituisci": "        if (pila[k].ch === \"[\") break;",
-   "test": "cervello/test/togliere-codice-morto.test.mjs"
-  },
-  {
-   "difetto": "AR-969",
-   "nome": "nello stesso file la riga aggiunta torna grezza: un commento che nomina il freno assolve la chiamata tolta",
-   "file": "cervello/sorvegliante.mjs",
-   "cerca": "    const testoAggiunto = aggiunteQui.map((a) => parteDichiarata(a.testo, file)).join(\"\\n\");",
-   "sostituisci": "    const testoAggiunto = aggiunteQui.map((a) => a.testo).join(\"\\n\");",
-   "test": "cervello/test/togliere-codice-morto.test.mjs"
-  },
-  {
-   "difetto": "AR-969",
-   "nome": "nello stesso registro un racconto torna a contare come chiamata ancora viva: una «nota» che nomina il gate assolve il gate tolto",
-   "file": "cervello/sorvegliante.mjs",
-   "cerca": "  return contenuto.split(\"\\n\").some((riga) => parteDichiarata(riga, file).includes(p));",
-   "sostituisci": "  return contenuto.split(\"\\n\").some((riga) => senzaCommenti(riga, file).includes(p));",
-   "test": "cervello/test/togliere-codice-morto.test.mjs"
-  },
-  {
-   "difetto": "AR-969",
-   "nome": "un flusso della CI, un hook o una prova del Pannello cancellati tornano a risultare non lanciati: le loro righe spariscono senza voce",
-   "file": "cervello/sorvegliante.mjs",
-   "cerca": "  if (!PUO_ESSERE_MORTO.test(String(file)) || eFileDiProva(file)) return { lanciato: true, cieco: false, da: [] };",
-   "sostituisci": "  if (false) return { lanciato: true, cieco: false, da: [] };",
-   "test": "cervello/test/togliere-codice-morto.test.mjs"
-  },
-  {
-   "difetto": "AR-969",
-   "nome": "lanciato_da torna a nominare per prima la prova: la voce dice chi lo prova, non da dove partiva",
-   "file": "cervello/sorvegliante.mjs",
-   "cerca": "  const da = vivi.map(voce);",
-   "sostituisci": "  const da = [...prove, ...vivi].map(voce);",
-   "test": "cervello/test/togliere-codice-morto.test.mjs"
-  },
-  {
    "difetto": "AR-962",
    "nome": "la riga del glossario non si cerca più: qualunque KPI risulta definito, anche quello che nel glossario non c’è, come la cassa di AR-282",
    "file": "cervello/glossario-kpi.mjs",
@@ -12233,6 +12105,5 @@
    }
   ]
  },
- "_tolte_2026_11_15": "Due mutazioni di AR-966 tolte il 15/11/2026 alle 03:52, nel lavoro di AR-969. Rompevano la data dell’esenzione a scadenza del registro delle porte: una la spostava di un secolo, l’altra la cancellava. Quell’esenzione era l’unica a scadenza, ed è sparita insieme al programma usa-e-getta del 25 luglio che copriva. Senza una data da rompere il banco le avrebbe date per cieche, e il cancello si sarebbe fermato: lo dicevano già lo scadenzario e il registro delle porte. La difesa di AR-966 resta nelle altre mutazioni sul modulo delle scadenze del cancello: 14, contate il 15/11/2026 alle 05:31. Quella sull’attesa del glossario, che questa nota citava alle 03:52, è stata tolta alle 04:20 nel lavoro di AR-962: senza l’attesa il suo pezzo non esiste più.",
  "_tolte_2026_11_15_ar962": "Una mutazione di AR-966 tolta il 15/11/2026 alle 04:20, nel lavoro di AR-962. Spostava di un secolo la data dell’attesa del glossario dei KPI nella lista dei documenti di governo, ed era legata apposta all’attesa SENZA guardiano: quando il controllo nasce, il pezzo sparisce e il banco lo dice. Il controllo è nato, la voce del glossario ha il suo guardiano e l’attesa non c’è più: nella lista non resta nessun’altra attesa con una data. La difesa di AR-966 resta nelle mutazioni sul modulo delle scadenze del cancello, che la prova c9 morde su dati finti."
 }

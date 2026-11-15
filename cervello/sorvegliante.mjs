@@ -222,18 +222,11 @@ const ePROSA = (file) => PROSA.some((e) => file.endsWith(e));
  * L'elenco è dei campi DI PROSA, non dei campi di dichiarazione, apposta: una chiave nuova che
  * nessuno ha ancora classificato resta GUARDATA. Sbagliare per eccesso di allarme si ripara con una
  * riga; sbagliare per silenzio non si ripara, perché non lo vede nessuno.
- *
- * AR-969 (15/11) — i campi che raccontano nello scadenzario e nel registro delle porte: `fonte`,
- * `chi_la_chiude`, `si_toglie_quando`, `conseguenza`, e `perche_conta` (in testa a ogni atto del
- * registro delle porte). Senza, una voce dello scadenzario chiusa in forma corta faceva nascere
- * «difesa-rimossa» sulla riga della fonte; e il nome di un programma scritto in uno di questi
- * racconti bastava a far credere che qualcuno lo lanciasse (vedi `chiLoLanciava`).
  */
 export const CAMPI_PROSA = [
   "testo", "perche", "perche_e_grave", "nota", "note", "nota_onesta", "nota_baseline", "nota_fix",
   "descrizione", "titolo", "nome", "motivo", "causa_radice", "impatto_crescita", "fix_proposto",
   "nato_da", "lezione_appresa", "_cosa_e", "_come_si_aggiunge",
-  "fonte", "chi_la_chiude", "si_toglie_quando", "conseguenza", "perche_conta",
 ];
 
 /** Vero se la riga è il valore di un campo che racconta, dentro un registro JSON. */
@@ -241,27 +234,6 @@ export function eCampoDiProsa(riga = "", file = "") {
   if (!String(file).endsWith(".json")) return false;
   const m = String(riga).match(/^\s*"([A-Za-z_][A-Za-z0-9_]*)"\s*:/);
   return !!m && CAMPI_PROSA.includes(m[1]);
-}
-
-/**
- * I CAMPI CHE DICONO DI CHI SI PARLA, dentro un registro JSON (AR-969).
- *
- * `"file": "cervello/x.mjs"` in un'esenzione o in una mutazione, `"chiave"` nel collegamento dello
- * scadenzario, `"id"` di una voce: dicono DI QUALE file parla la voce, non lo lanciano. Nessun
- * programma di questa casa legge uno di questi campi per eseguirlo (cercato il 15/11: nessuno passa
- * `x.file` o `x.chiave` a node o a bash). Un file dichiarato difesa da un registro resta comunque
- * coperto da ⑥a, che guarda il file cancellato e non le sue righe.
- *
- * Elenco corto e chiuso apposta, come `CAMPI_PROSA`: una chiave che nessuno ha classificato resta
- * una possibile chiamata.
- */
-export const CAMPI_RIFERIMENTO = ["file", "chiave", "id"];
-
-/** Vero se la riga è il valore di un campo che dice di quale file si parla, dentro un registro JSON. */
-export function eCampoDiRiferimento(riga = "", file = "") {
-  if (!String(file).endsWith(".json")) return false;
-  const m = String(riga).match(/^\s*"([A-Za-z_][A-Za-z0-9_]*)"\s*:/);
-  return !!m && CAMPI_RIFERIMENTO.includes(m[1]);
 }
 
 /**
@@ -891,11 +863,6 @@ export function sorveglia({
   // e il freno deve scattare sulla seconda dichiarando il motivo. In produzione nessuno lo passa e
   // resta `BUDGET_PATTERN_MS`, che è il valore vero.
   budgetMs = BUDGET_PATTERN_MS,
-  // 15/11 · AR-969 — le righe della BASE del confronto che contengono un nome: `(nome) => [{file, n,
-  // testo}]`, oppure `null` se non ho potuto chiederlo. Serve a ⑥b per un file cancellato: «questo
-  // file lo lanciava qualcuno?». Arriva da fuori per lo stesso motivo del budget: il cuore resta
-  // puro, e una prova gli passa una base finta. Chi non lo passa ha la risposta prudente: lanciato.
-  cercaAllaBase = null,
 } = {}) {
   const voci = [];
   const motivi = [];
@@ -1141,44 +1108,15 @@ export function sorveglia({
   // sopra (`testoAggiunto`) non decideva più niente, e la mutazione che la spegneva lasciava il test
   // verde. Una prova che resta verde a fix rimosso è un difetto chiuso il cui freno non frena — cioè
   // un verde che vale zero. Ora le due domande sono separate: qui gli ALTRI file, sopra questo.
-  //
-  // AR-969 — E SOLO LE RIGHE CHE CHIAMANO. Fino al 15/11 qui entrava ogni riga aggiunta senza
-  // commenti, prosa compresa: un `.md`, o il racconto di una scheda del cantiere. Così una chiamata
-  // vera tolta da un file vivo passava per «spostata» se nello stesso lotto qualcuno scriveva il nome
-  // di quel freno in una nota. Menzione ≠ chiamata vale nei due versi. La regola è quella di
-  // `parteCheChiama`, la stessa che decide chi lanciava un file cancellato: una sola definizione di
-  // «chiamata», non due che divergono.
-  //
-  // E NIENTE PROVE (AR-969, primo giro di correzione, 15/11). Una prova non è il posto dove un freno
-  // si sposta: anche quando lo importa o lo lancia davvero, lo esercita su un caso finto, non lo
-  // rimette a girare dove girava. E nelle prove i nomi dei freni stanno scritti per mestiere, nelle
-  // basi finte e nei diff finti. Misurato sul ramo che ha costruito questa regola: la sua stessa
-  // prova faceva sembrare «spostate» 16 difese, e togliere dal cancello l'unica chiamata a
-  // `porte-gemelle.mjs` non dava nessuna voce. Così una riga aggiunta è uno spostamento solo se
-  // chiama, e solo se sta fuori dalle prove.
   const aggiunteSenzaCommenti = new Map(
-    toccati
-      .filter((t) => !eFileDiProva(t.file))
-      .map((t) => [
-        t.file,
-        (t.aggiunte || []).map((a) => parteCheChiama(a.testo, t.file, t.contenuto ?? null)).join("\n"),
-      ]),
+    toccati.map((t) => [t.file, (t.aggiunte || []).map((a) => senzaCommenti(a.testo, t.file)).join("\n")]),
   );
-  // AR-969 — chi lanciava un file cancellato, chiesto una volta sola per file e solo quando serve.
-  const lancio = new Map();
-  const chiLanciava = (file) => {
-    if (!lancio.has(file)) lancio.set(file, chiLoLanciava(file, cercaAllaBase));
-    return lancio.get(file);
-  };
   for (const r of rimossi) {
     const file = r.file;
     const rimosse = r.rimosse || [];
     const aggiunteQui = perNome.get(file)?.aggiunte || [];
     // «L'ho rimesso in QUESTO file?» — la prima delle due domande sullo spostamento.
-    // AR-969 (primo giro di correzione) — con la stessa regola che giudica la riga tolta: fuori dai
-    // commenti e dai campi che raccontano. Prima entrava la riga grezza, e il gesto di tutti i giorni
-    // — tolgo il passo e lascio un commento che spiega perché — assolveva la chiamata tolta.
-    const testoAggiunto = aggiunteQui.map((a) => parteDichiarata(a.testo, file)).join("\n");
+    const testoAggiunto = aggiunteQui.map((a) => a.testo).join("\n");
     // «L'ho rimesso in un ALTRO file di questa stessa modifica?» — la seconda.
     const aggiuntoOvunque = [...aggiunteSenzaCommenti]
       .filter(([f]) => f !== file)
@@ -1237,21 +1175,6 @@ export function sorveglia({
           // ho messo — e nessuna guarda il RISULTATO. Su un registro dove lo stesso `gate:` compare
           // in dodici schede, cancellarne una è togliere un doppione, non spegnere un freno.
           if (difesaAncoraChiamata(perNome.get(file)?.contenuto ?? null, p, file)) continue;
-          // AR-969 — un file CANCELLATO per intero non ha un «dopo» in cui cercare la chiamata, e
-          // `difesaAncoraChiamata` risponde sempre no. Lì la domanda giusta è un'altra: questo file
-          // lo lanciava qualcuno? Se alla base nessun codice vivo lo nominava fuori dai commenti e
-          // dai racconti, le sue righe non chiamavano niente: non c'è nessun freno da spegnere.
-          // Se lo lanciava qualcuno — anche un lanciatore tolto in questa stessa modifica, perché
-          // la domanda si fa alla BASE — la voce resta. ⑥a, sopra, non cambia.
-          let lanciatoDa = null;
-          if (r.cancellato) {
-            const l = chiLanciava(file);
-            if (!l.lanciato) continue;
-            // Tre bastano a dire da dove partiva: un file molto usato ne ha quaranta, ripetuti su
-            // ogni voce, e un'uscita gonfia si smette di leggerla. Vuoto per chi parte da solo (un
-            // flusso, un hook, una prova): lì non c'è un lanciatore da nominare.
-            if (l.da.length) lanciatoDa = l.da.slice(0, 3).map((d) => d.file);
-          }
           voci.push({
             classe: "difesa-rimossa",
             gravita: "grave",
@@ -1260,7 +1183,6 @@ export function sorveglia({
             cosa: `ho tolto la riga che chiamava «${p}», che ${perche}`,
             perche: "un freno smette di frenare nel momento in cui nessuno lo lancia più, e da fuori non si vede: i registri lo contano ancora.",
             domanda: `l'ho spostato altrove in questa stessa modifica, o «${p}» adesso non lo esegue più nessuno?`,
-            ...(lanciatoDa ? { lanciato_da: lanciatoDa } : {}),
           });
         }
       }
@@ -1407,272 +1329,7 @@ export function derivaDelLavoro(file = [], soglia = ZONE_MAX) {
  */
 export function difesaAncoraChiamata(contenuto = null, p = "", file = "") {
   if (typeof contenuto !== "string" || !p) return false;
-  return contenuto.split("\n").some((riga) => parteDichiarata(riga, file).includes(p));
-}
-
-/**
- * La parte di una riga che DICHIARA qualcosa, dentro il file stesso da cui ho tolto la riga (AR-969,
- * primo giro di correzione, 15/11). È la regola con cui ⑥b giudica la riga tolta — fuori dai commenti
- * e, in un registro JSON, fuori dai campi che raccontano (`CAMPI_PROSA`) — applicata anche alle due
- * domande sullo stesso file: «l'ho rimesso qui?» e «qui lo chiama ancora qualcuno?».
- *
- * Prima quelle due domande guardavano la riga grezza o solo senza commenti. Così un commento aggiunto
- * nello stesso file, o una `"nota"` aggiunta nello stesso registro, assolveva una chiamata vera tolta.
- * Misurato dal collaudo: 0 voci invece di 1 in tutti e due i casi.
- *
- * Non è `parteCheChiama`, apposta: i registri dove vivono le difese (`apprendimento.json`) stanno fuori
- * dal codice, e lì dentro un `gate:` spostato da una lezione all'altra è uno spostamento vero.
- *
- * @param {string} testo  la riga
- * @param {string} file   il file che la contiene
- */
-export function parteDichiarata(testo = "", file = "") {
-  const pulita = senzaCommenti(String(testo ?? ""), file);
-  if (!pulita.trim() || eCampoDiProsa(pulita, file)) return "";
-  return pulita;
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// ⑥b SU UN FILE CANCELLATO — «questo file lo lanciava qualcuno?» (AR-969, 15/11)
-//
-// Il caso vero: `cervello/round2-applica.mjs`, un programma usa-e-getta del 25/7 già applicato, che
-// nessuno lancia. Cancellarlo dava cinque voci gravi «difesa-rimossa»: un oggetto `verifica`, una
-// frase di racconto, un suggerimento stampato a video, tutte righe che NOMINANO costo-ai.mjs,
-// motore-ai.sh, pagella-intelligenza.mjs e giro.sh. In un file che non gira, nominare non è chiamare.
-// Per un file cancellato `difesaAncoraChiamata` risponde sempre no (non c'è un «dopo»), e
-// l'esenzione dichiarabile vive dentro il file, che non c'è più: nessuna via d'uscita onesta.
-//
-// La domanda giusta si fa alla BASE del confronto, non dopo: così un lanciatore tolto nella stessa
-// modifica conta ancora. Togliere la riga di giro.sh e il file insieme non deve passare in silenzio.
-// ─────────────────────────────────────────────────────────────────────────────
-
-/**
- * La parte di una riga che può CHIAMARE qualcosa; "" se la riga non può chiamare niente.
- *
- * Una sola definizione di «chiamata» per le due domande di ⑥b su un file cancellato o spostato:
- * «chi lo lanciava?» (`chiLoLanciava`) e «l'ho rimesso altrove?» (`aggiuntoOvunque`). Non chiama:
- *   · un file fuori dal codice (`eCodice`): nella memoria gli script si citano per mestiere;
- *   · la prosa (`.md`, `.txt`): lì ogni riga è una menzione (AR-503);
- *   · un referto, cioè quello che la macchina scrive di sé dopo aver misurato (AR-543);
- *   · un commento;
- *   · in un registro JSON, un campo che racconta (`CAMPI_PROSA`) o che dice di chi si parla
- *     (`CAMPI_RIFERIMENTO`);
- *   · in una prova scritta in JS o TS, ogni stringa che non raggiunge il file vero
- *     (`parteCheRaggiungeInProva`): le basi finte, i diff finti, i nomi scritti per esempio.
- *
- * @param {string} testo           la riga
- * @param {string} file            il file che la contiene
- * @param {string|null} contenuto  il file intero, se c'è: serve solo a riconoscere un referto
- */
-export function parteCheChiama(testo = "", file = "", contenuto = null) {
-  const f = String(file || "");
-  if (!f || !eCodice(f) || ePROSA(f) || eReferto(f, contenuto)) return "";
-  const pulita = senzaCommenti(String(testo ?? ""), f);
-  if (!pulita.trim()) return "";
-  if (eCampoDiProsa(pulita, f) || eCampoDiRiferimento(pulita, f)) return "";
-  if (eFileDiProva(f) && JS_O_TS.test(f)) return parteCheRaggiungeInProva(pulita);
-  return pulita;
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// LE PROVE — una stringa che nomina un file non è una chiamata (AR-969, primo giro di correzione)
-//
-// Una prova è un libro di esempi: scrive i nomi dei freni nelle sue basi finte e nei suoi diff finti,
-// perché il suo mestiere è far vedere alla guardia le forme vere. Contarle come chiamate costava nei
-// due versi, misurati il 15/11 sul ramo che ha costruito ⑥b su un file cancellato:
-//   · il silenzio: le stringhe della prova di AR-969 facevano sembrare «spostate» 16 difese, e
-//     togliere dal cancello l'unica chiamata a porte-gemelle.mjs o a gate-veri.mjs dava 0 voci;
-//   · l'allarme falso: le chiavi della sua base finta facevano sembrare «lanciati» due programmi
-//     usa-e-getta (registra-programma-intelligenza.mjs, programma-intelligenza-memoria.mjs), e
-//     cancellarli dopo l'unione avrebbe fatto rossa la CI con 3 e 2 voci gravi.
-// Una prova che IMPORTA un file, o lo lancia, o ne costruisce il percorso, invece lo raggiunge
-// davvero: quella resta una chiamata.
-// ─────────────────────────────────────────────────────────────────────────────
-
-/** I file di prova: la cartella delle prove del cervello, e ovunque i `*.test.*`, `*.spec.*` e `.bats`. */
-export const PROVA_PER_NOME = /\.(?:test|spec)\.[cm]?[jt]sx?$|\.bats$/;
-
-/** Vero se il file è una prova. Più largo di `FIXTURE`, che resta com'era per i controlli ①③④. */
-export const eFileDiProva = (file = "") => eFixture(String(file)) || PROVA_PER_NOME.test(String(file));
-
-/** Le prove scritte in JS o TS: lì so distinguere una stringa che raggiunge il file da un esempio.
- *  Nelle prove in shell (`.bats`) una riga che nomina un file di solito lo lancia: restano come prima. */
-const JS_O_TS = /\.(?:[cm]?[jt]sx?)$/;
-
-/**
- * Le funzioni con cui una prova RAGGIUNGE un file vero: lo importa, lo lancia, ne costruisce il
- * percorso o lo legge. Il percorso costruito conta perché le prove di questa casa scrivono quasi
- * sempre `const GUARDIANO = join(REPO, "cervello/x.mjs")` e lo lanciano tre righe più sotto.
- */
-export const RAGGIUNGE_IN_PROVA = new Set([
-  "import", "require", "join", "resolve", "URL", "fileURLToPath", "pathToFileURL",
-  "spawn", "spawnSync", "exec", "execSync", "execFile", "execFileSync", "fork",
-  "readFileSync", "existsSync", "statSync", "copyFileSync", "cpSync",
-]);
-
-/**
- * In una riga di una prova JS/TS, le sole stringhe che raggiungono un file vero, una per riga; ""
- * se nessuna. Una stringa raggiunge quando sta dopo `from` o `import`, oppure è un argomento — anche
- * dentro un elenco `[…]` — di una funzione di `RAGGIUNGE_IN_PROVA`. Tutto il resto è un esempio: la
- * chiave di una base finta, un elemento di un diff finto, una costante col nome di un file.
- *
- * Pura e riga per riga, perché le righe arrivano da `git grep`. Il prezzo: un elenco di argomenti
- * scritto su più righe (`[` da solo su una riga) non si riconosce, e quella prova non tiene in vita
- * il file. Se il file sparisce, è la prova stessa a diventare rossa: rompe forte, non in silenzio.
- *
- * @param {string} riga  la riga, già senza commenti
- */
-export function parteCheRaggiungeInProva(riga = "") {
-  const t = String(riga ?? "");
-  const pila = [];
-  const fuori = [];
-  let i = 0;
-  while (i < t.length) {
-    const c = t[i];
-    if (c === '"' || c === "'" || c === "`") {
-      let j = i + 1;
-      let dentro = "";
-      while (j < t.length && t[j] !== c) {
-        if (t[j] === "\\") {
-          dentro += t[j + 1] ?? "";
-          j += 2;
-          continue;
-        }
-        dentro += t[j];
-        j++;
-      }
-      // La parentesi che contiene questa stringa, saltando gli elenchi: `spawnSync("node", ["x"])`.
-      let chi = null;
-      for (let k = pila.length - 1; k >= 0; k--) {
-        if (pila[k].ch === "[") continue;
-        if (pila[k].ch === "(") chi = pila[k].chi;
-        break;
-      }
-      const prima = t.slice(0, i).trimEnd();
-      if (/(?:^|[^\w$.])(?:from|import)$/.test(prima) || (chi && RAGGIUNGE_IN_PROVA.has(chi))) fuori.push(dentro);
-      i = j + 1;
-      continue;
-    }
-    if (c === "(") {
-      const m = /([A-Za-z_$][\w$]*)\s*$/.exec(t.slice(0, i));
-      pila.push({ ch: "(", chi: m ? m[1] : null });
-    } else if (c === "[" || c === "{") {
-      pila.push({ ch: c, chi: null });
-    } else if (c === ")" || c === "]" || c === "}") {
-      pila.pop();
-    }
-    i++;
-  }
-  return fuori.join("\n");
-}
-
-/** Il nome del file senza cartelle e senza estensione: «cervello/round2-applica.mjs» → «round2-applica».
- *  È il nome che il fix cerca (`git grep` del nome senza estensione): chi compone il percorso a pezzi
- *  — `join(QUI, \`${nome}.mjs\`)` — scrive questo, non il percorso intero. */
-export function radiceDelNome(file = "") {
-  const b = basenameSemplice(file);
-  const i = b.lastIndexOf(".");
-  return i > 0 ? b.slice(0, i) : b;
-}
-
-/**
- * Chi lancia un file può essere morto a sua volta: allora non tiene in vita niente. Vale solo per i
- * programmi lanciati per nome, cioè quelli direttamente in `cervello/`. Tutto il resto si dà per vivo
- * senza chiedere: le prove le trova test-cervello per cartella, i flussi della CI e gli hook partono da
- * soli, il Pannello trova le pagine per convenzione, le unità del server si installano a parte.
- * Sbagliare qui verso «vivo» costa una voce in più; verso «morto» costerebbe un freno spento in silenzio.
- *
- * Vale nei due ruoli (AR-969, primo giro di correzione): per chi lancia, e per il file cancellato. Prima
- * valeva solo per chi lancia, e un flusso della CI, un hook o una prova del Pannello cancellati
- * risultavano «non lanciati da nessuno»: 10 prove su 15 in pannello/src/lib, misurato dal collaudo.
- */
-export const PUO_ESSERE_MORTO = /^cervello\/[^/]+\.(?:mjs|cjs|js|sh|py)$/;
-
-/** Quanti passi all'indietro: il file, chi lo lancia, chi lancia quello. Oltre si dà per vivo. Uno
- *  basta al caso vero: round2-applica.mjs lo nominava, in una stringa di testo, un altro programma
- *  usa-e-getta (registra-programma-intelligenza.mjs) che nessuno lancia. */
-export const PASSI_LANCIO = 1;
-
-/**
- * ⑥b su un file CANCELLATO — alla base del confronto, questo file lo lanciava qualcuno?
- *
- * Lanciato = almeno un ALTRO file di codice lo nomina in una riga che può chiamare (`parteCheChiama`),
- * e quel file non è a sua volta un programma morto (`PUO_ESSERE_MORTO`, fino a `PASSI_LANCIO` passi).
- * Pura: le righe della base arrivano da `cerca`, che nel comando vero è un `git grep` sulla base e in
- * una prova è un repo finto.
- *
- * Cieco non è verde: senza `cerca`, o se `cerca` torna `null`, la risposta è «lanciato» — la voce
- * resta, e non si nasconde niente.
- *
- * @param {string} file  il file cancellato
- * @param {((nome:string)=>Array<{file:string, n?:number, testo:string}>|null)|null} cerca
- * @param {number} passi quanti passi all'indietro restano
- * @returns {{lanciato:boolean, cieco:boolean, da:Array<{file:string, n:number|null, testo:string}>}}
- */
-export function chiLoLanciava(file = "", cerca = null, passi = PASSI_LANCIO) {
-  // Chi parte da solo — un flusso della CI, un hook, una prova, una pagina del Pannello — è vivo
-  // senza chiedere anche quando è LUI a essere cancellato, non solo quando lancia un altro file.
-  // `da` resta vuoto: non c'è un lanciatore da nominare.
-  if (!PUO_ESSERE_MORTO.test(String(file)) || eFileDiProva(file)) return { lanciato: true, cieco: false, da: [] };
-  const nome = radiceDelNome(file);
-  if (!nome || typeof cerca !== "function") return { lanciato: true, cieco: true, da: [] };
-  const righe = cerca(nome);
-  if (!Array.isArray(righe)) return { lanciato: true, cieco: true, da: [] };
-  // Il primo nome per file basta: la domanda è «chi», non «quante volte».
-  const perFile = new Map();
-  for (const r of righe) {
-    if (!r || !r.file || r.file === file || perFile.has(r.file)) continue;
-    if (!parteCheChiama(r.testo, r.file).includes(nome)) continue;
-    perFile.set(r.file, r);
-  }
-  // Tre gruppi, in quest'ordine: chi è vivo senza chiedere (flussi, hook, unità, Pannello), poi i
-  // programmi che potrebbero essere morti, e le prove per ultime. Le prove tengono in vita il file
-  // ma non dicono da dove partiva: per `mappa-macchina.mjs`, lanciato da giro.sh e importato da una
-  // prova, la voce nominava solo la prova (AR-969, primo giro di correzione).
-  const vivi = [];
-  const programmi = [];
-  const prove = [];
-  for (const r of perFile.values()) {
-    if (eFileDiProva(r.file)) prove.push(r);
-    else if (PUO_ESSERE_MORTO.test(r.file)) programmi.push(r);
-    else vivi.push(r);
-  }
-  const voce = (r) => ({ file: r.file, n: r.n ?? null, testo: String(r.testo).trim() });
-  let cieco = false;
-  const da = vivi.map(voce);
-  for (const r of programmi) {
-    if (passi > 0) {
-      // Già vivo per un lanciatore certo (non una prova): un altro giro sulla base costerebbe tempo
-      // all'hook per una risposta che non cambia.
-      if (da.length) break;
-      const sopra = chiLoLanciava(r.file, cerca, passi - 1);
-      if (!sopra.lanciato) continue; // lo lanciava un file morto: non tiene in vita niente
-      if (sopra.cieco) cieco = true;
-    }
-    da.push(voce(r));
-  }
-  da.push(...prove.map(voce));
-  return { lanciato: da.length > 0, cieco, da };
-}
-
-/**
- * Le righe di un `git grep -n -z <nome> <base> -- …`: «base:percorso\0riga\0testo» per riga.
- * Pura, così la lettura si prova senza git. `-z` per lo stesso motivo della porta degli elenchi
- * (AR-339): un percorso con l'accento arriva intero, non riscritto con gli ottali.
- */
-export function righeDaGitGrep(testo = "", base = "") {
-  const prefisso = `${base}:`;
-  const fuori = [];
-  for (const l of String(testo || "").split("\n")) {
-    const a = l.indexOf("\0");
-    if (a < 0) continue;
-    const b = l.indexOf("\0", a + 1);
-    if (b < 0) continue;
-    let file = l.slice(0, a);
-    file = base && file.startsWith(prefisso) ? file.slice(prefisso.length) : file;
-    fuori.push({ file, n: Number(l.slice(a + 1, b)) || null, testo: l.slice(b + 1) });
-  }
-  return fuori;
+  return contenuto.split("\n").some((riga) => senzaCommenti(riga, file).includes(p));
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1936,34 +1593,6 @@ export function verdettoBattito(battito, adesso = 0) {
 
 function git(args) {
   return execFileSync("git", args, { cwd: REPO, encoding: "utf8", maxBuffer: 32 * 1024 * 1024 });
-}
-
-/**
- * AR-969 — le righe della BASE che contengono un nome, nei file di codice: è il `cerca` di
- * `chiLoLanciava`. Una domanda per nome, ricordata. `git grep` esce 1 quando non trova niente: quello
- * è «nessuno», non «non lo so». Ogni altro errore torna `null`, e `null` vuol dire «lanciato» (la
- * voce resta): cieco non è verde. Passa da `git()` qui sopra, col suo tetto: un altro `execFileSync`
- * sarebbe una porta laterale in più della malattia `git-letto-senza-tetto`.
- */
-function cercaNellaBase(base) {
-  const ricordo = new Map();
-  // La base arriva da `--base`: un valore che comincia con «-» git lo leggerebbe come un'opzione, e
-  // `git grep -O<comando>` lancia un programma. Nessun nome di ramo o di commit comincia con «-»:
-  // lo rifiuto, e la risposta torna quella prudente (voce che resta).
-  const baseSicura = typeof base === "string" && base.length > 0 && !base.startsWith("-");
-  return (nome) => {
-    if (!baseSicura) return null;
-    if (ricordo.has(nome)) return ricordo.get(nome);
-    let righe;
-    try {
-      const testo = git(["grep", "-n", "-I", "-F", "-z", "-e", nome, base, "--", ...CARTELLE_CODICE, ":(glob)*"]);
-      righe = righeDaGitGrep(testo, base);
-    } catch (e) {
-      righe = e && e.status === 1 ? [] : null;
-    }
-    ricordo.set(nome, righe);
-    return righe;
-  };
 }
 
 /** Legge il diff unificato e ne estrae, per ogni file, le righe AGGIUNTE col loro numero vero. */
@@ -2502,8 +2131,6 @@ export function verdettoDelDelta({ soloStaged = false, da = null, senzaRaggio = 
     // Il disco COMANDA sul frammento che il chiamante ha in mano (AR-713).
     leggi: (p) => (existsSync(join(REPO, p)) ? readFileSync(join(REPO, p), "utf8") : null),
     inMisura: misura.file,
-    // AR-969 — la base è la stessa del diff: in `--staged` e senza `--base` è HEAD.
-    cercaAllaBase: cercaNellaBase(soloStaged ? "HEAD" : da || "HEAD"),
   });
   esito.motivi.push(...motiviIO);
   esito.motivi.push(...motiviPerimetro({ base: da, nToccati: toccati.length, nRimossi: rimossi.length }));
