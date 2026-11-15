@@ -410,12 +410,12 @@
   "fonti_non_lette": [],
   "sintesi": "Il problema più grave trovato oggi era una chiave del database leggibile da chiunque, e Nicola l'ha già spenta. Dei difetti nuovi nessuno è bloccante, ma il rimborso di un ordine in contanti va ancora fatto a mano, fuori dal sito.",
   "meta": {
-    "findings": 3185,
+    "findings": 3193,
     "bloccanti": 37,
     "gravi": 677,
-    "minori": 2471,
+    "minori": 2479,
     "agenti": null,
-    "aggiornato": "2026-11-15 06:48"
+    "aggiornato": "2026-11-15 11:36"
   },
   "confronto_precedente": {
     "data": "2026-11-05",
@@ -2016,8 +2016,8 @@
       "riparazione_15_11": {
         "esito": "riparato",
         "sessione": "R15",
-        "collaudo": "regge",
-        "perche": "minore fuori campione, e il campione di R15 non è accettato"
+        "collaudo": "rompe_altro",
+        "perche": "collaudo: rompe_altro"
       }
     },
     {
@@ -2204,7 +2204,7 @@
       "impatto": "Il cliente che tocca due volte si ritrova due liste uguali e deve cancellarne una a mano. Chi usa la tastiera deve tornare indietro per arrivare al campo del nome. È un fastidio e non tocca soldi. Lo stesso schema, un bottone protetto solo da isPending, va controllato sui flussi che spostano soldi.",
       "fix": "In app/lists/page.tsx un freno sincrono: un useRef inCorso messo a true prima di create.mutate() e rimesso a false in onSettled, con il clic ignorato se è già true. Nella finestra «Nuova lista» dare autoFocus al campo Titolo, oppure dare a Modal una prop initialFocus che, quando c'è, prende il posto del primo elemento attivabile.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Test vitest proposto: tests/unit/un-doppio-tocco-crea-una-lista-sola.test.tsx. Monta app/lists/page col database finto della vetrina (tests/unit/aiuti/database-della-vetrina.ts) e un utente collegato, apre «Nuova lista», scrive il titolo e lancia due click di seguito, senza attese, su «Crea lista»: pretende un solo insert su product_lists. Pretende anche che, appena aperta la finestra, document.activeElement sia l'input del Titolo. Comando: cd /home/user/mycity && npx vitest run tests/unit/un-doppio-tocco-crea-una-lista-sola.test.tsx. Oggi è rosso: 2 insert e fuoco su «Chiudi».",
       "prova_tipo": "vitest",
       "prova_eseguita": true,
@@ -2221,9 +2221,12 @@
       "riparazione_15_11": {
         "esito": "riparato",
         "sessione": "R18",
-        "collaudo": "regge",
-        "perche": "minore fuori campione, e il campione di R18 non è accettato"
-      }
+        "collaudo": "K10 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      },
+      "chiuso_il": "2026-11-15 11:36",
+      "chiuso_da": "PR #290 · 67666b3f60bd16460b21e8b797a2f061fd91eed8",
+      "nota_riparazione": "Freno sincrono con useRef su Crea lista (rilasciato in onSettled). Modal dà il fuoco iniziale a un elemento [data-autofocus] se c'è, altrimenti come prima; il campo Titolo lo chiede. — prova: npx vitest run tests/unit/riparazione-r18-crea-lista-una-sola-volta.test.tsx — mutazione: node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base dd6985ed^ --file app/lists/page.tsx,components/ui/Modal.tsx --prove tests/unit/riparazione-r18-crea-lista-una-sola-volta.test.tsx --json → uscita 0 (riparatore); cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-b --base dd6985ede22ec0891d0fa9fa3ab88735e3193fb1^ --file app/lists/page.tsx,components/ui/Modal.tsx --prove tests/unit/riparazione-r18-crea-lista-una-sola-volta.test.tsx --json → uscita 0 (K10)"
     },
     {
       "dimensione": "qa-flussi",
@@ -4012,8 +4015,7 @@
         "esito": "parziale",
         "sessione": "R18",
         "collaudo": "rompe_altro",
-        "perche": "collaudo: rompe_altro",
-        "nota": "codice tolto col revert 58e23838: il referto dice parziale (corretto il 15/11 alle 07:00; per scrivere il registro era stato rimesso «riparato» per un momento, errore della regista della fase 1)"
+        "perche": "parziale: Tutta la voce. Il codice (commit 6eefff31) è tolto dal sito col revert 58e23838 (2026-11-14): rossa al controllo dell onda 2 (C02 terzo) e rompe_altro al ricollaudo K07 secondo. Sul sito pubblicato (mycity#290) la voce non è riparata e resta aperta."
       }
     },
     {
@@ -4026,7 +4028,7 @@
       "impatto": "Esempio: un ordine viene cancellato a mano dall'amministrazione mentre c'è un reclamo aperto. Il reclamo resta nel pannello senza ordine, il blocco del bonifico non trova più l'ordine e nessuno sa a chi restituire i soldi.",
       "fix": "Aggiungere `FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE RESTRICT` alle tre tabelle, dopo aver controllato che non ci siano orfani (in produzione oggi c'è un solo ordine).",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Su una copia locale piena, da superuser, in BEGIN…ROLLBACK: `INSERT INTO disputes(order_id, reason, description) VALUES ('11111111-0000-0000-0000-000000000000','x','y')`; poi la query delle colonne order_id senza chiave esterna su information_schema.",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -4043,9 +4045,12 @@
       "riparazione_15_11": {
         "esito": "riparato",
         "sessione": "R18",
-        "collaudo": "regge",
-        "perche": "minore fuori campione, e il campione di R18 non è accettato"
-      }
+        "collaudo": "K10 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      },
+      "chiuso_il": "2026-11-15 11:36",
+      "chiuso_da": "PR #290 · 67666b3f60bd16460b21e8b797a2f061fd91eed8",
+      "nota_riparazione": "Migrazione 424: chiavi esterne verso orders(id) sulle tre colonne della voce, NOT VALID poi VALIDATE (se ci sono orfani resta NOT VALID con un avviso e le domande per trovarli). disputes.order_id ON DELETE RESTRICT (un reclamo non sparisce con l'ordine e non resta senza; nel sito un ordine si cancella solo nel ripiego subito dopo averlo creato). loyalty_transactions.order_id e zone_code_uses.order_id ON DELETE SET NULL, come le altre order_id che possono restare vuote (cashback_redemptions, rider_sos_events); per loro due anche l'indice (controllo 4 di tests/sql/rls/14). La prova scrive su un ordine inventato (rifiutato) e cancella ordini con righe legate. — prova: export PGHOST=/var/run/postgresql; bash tests/sql/harness/apply.sh r18_prova && psql -X -d r18_prova -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r18-reclamo-senza-ordine.test.sql && bash tests/sql/harness/run.sh r18_prova — mutazione: cd /home/user/mycity && export PGHOST=/var/run/postgresql && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 8cdcffe4^ --file migrations/424_un_reclamo_non_resta_legato_a_un_ordine_che_non_esiste.sql --prove tests/sql/rls/riparazione-r18-reclamo-senza-ordine.test.sql --sql r18_rimessa --json → uscita 0 (riparatore); cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-c --base 8cdcffe4f82049e1b0a281fdb397431891a4d02e^ --file migrations/424_un_reclamo_non_resta_legato_a_un_ordine_che_non_esiste.sql --prove tests/sql/rls/riparazione-r18-reclamo-senza-ordine.test.sql --json --sql k10_r18_020_rimessa → uscita 0 (K10)"
     },
     {
       "dimensione": "rls-database",
@@ -4334,7 +4339,7 @@
       "impatto": "Ogni visitatore che arriva su /events senza essere entrato vede una pagina in errore invece degli eventi, che arrivi da un link, da un post o dal piè di pagina. È proprio il pubblico che gli eventi dovrebbero portare. Da collegati funziona. Non tocca soldi.",
       "fix": "Una migrazione che sostituisce events_admin_write FOR ALL con regole separate per INSERT, UPDATE e DELETE; le letture restano a events_public_read. Nella condizione usare public.is_admin(), che anon può eseguire ed è già usata da 28 regole, al posto della sottodomanda su profiles. Con la stessa domanda controllare le altre tabelle che hanno regole FOR ALL e leggono profiles. Nella pagina, accanto ai tempi relativi, scrivere data e ora nel fuso di Piacenza (Intl.DateTimeFormat con timeZone 'Europe/Rome').",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Prova SQL proposta: tests/sql/rls/18-i-visitatori-leggono-gli-eventi.test.sql, sul database ricostruito. Dentro una transazione, da amministratore del database, inserisce un evento 'scheduled' e fa REVOKE SELECT ON public.profiles FROM anon, come in produzione. Poi SET LOCAL ROLE anon, SELECT count(*) FROM public.marketplace_events, e pretende 1 senza errori; alla fine ROLLBACK. Comando: cd /home/user/mycity && bash tests/sql/harness/apply.sh mycity_ci && psql -X -d mycity_ci -v ON_ERROR_STOP=1 -f tests/sql/rls/18-i-visitatori-leggono-gli-eventi.test.sql. Oggi è rossa: «permission denied for table profiles».",
       "prova_tipo": "sql",
       "prova_eseguita": true,
@@ -4351,9 +4356,12 @@
       "riparazione_15_11": {
         "esito": "riparato",
         "sessione": "R18",
-        "collaudo": "regge",
-        "perche": "minore fuori campione, e il campione di R18 non è accettato"
-      }
+        "collaudo": "K10 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      },
+      "chiuso_il": "2026-11-15 11:36",
+      "chiuso_da": "PR #290 · 67666b3f60bd16460b21e8b797a2f061fd91eed8",
+      "nota_riparazione": "Migrazione 422: su marketplace_events la regola FOR ALL events_admin_write (034:95-99, sottodomanda su profiles coi permessi di chi chiede) lascia il posto a quattro regole TO authenticated con (SELECT public.is_admin()): scrittura (INSERT, UPDATE, DELETE) e la lettura completa dell'amministratore, che la pagina admin usa per gli annullati e senza la quale UPDATE e DELETE non troverebbero la riga. La lettura pubblica events_public_read resta com'e'. Con la stessa domanda sulle altre FOR ALL che leggono profiles: stessa cura su shop_of_month (negozio del mese in home, letto dai visitatori) e cashback_campaigns (lettura pubblica delle campagne attive); rider_sos_events e zone_codes restano (i visitatori non le leggono). Prova SQL: toglie ad anon SELECT su profiles come in produzione, poi da visitatore legge evento, negozio del mese e campagna senza errori e non scrive; il cliente non scrive; l'amministratore vede l'annullato, lo rimette in programma, crea e cancella. Pagina: accanto a «Inizia tra…/Termina tra…» data e ora di Piacenza (dataEOraPiacenza di lib/admin/etichette.ts, Intl con timeZone Europe/Rome: «31 dic 2026, 20:00» e «1 gen 2027, 12:00»), «tra meno di un minuto» invece di «tra 0 min», e un ridisegno ogni 30 secondi che toglie l'evento appena finito senza aspettare la rilettura. Lo stato d'errore resta com'era: con la 422 non scatta piu' per i visitatori (e la prova S04 ne pretende il testo). Vitest con orologio finto e TZ America/New_York. — prova: export PGHOST=/var/run/postgresql; bash tests/sql/harness/apply.sh r18_prova && psql -X -d r18_prova -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r18-eventi-da-visitatore.test.sql && bash tests/sql/harness/run.sh r18_prova ; npx vitest run tests/unit/riparazione-r18-eventi-con-la-data.test.tsx tests/unit/minori-s04-eventi.test.tsx tests/unit/storie-drop-ed-eventi-reggono-con-i-profili-chiusi.test.ts --reporter=dot — mutazione: cd /home/user/mycity && export PGHOST=/var/run/postgresql && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 554a60dd^ --file migrations/422_la_regola_dell_amministratore_non_ferma_la_lettura_degli_eventi.sql --prove tests/sql/rls/riparazione-r18-eventi-da-visitatore.test.sql --sql r18_rimessa --json (0) ; cd /home/user/mycity && export PGHOST=/var/run/postgresql && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 554a60dd^ --file app/events/page.tsx --prove tests/unit/riparazione-r18-eventi-con-la-data.test.tsx --json (0) → uscita 0 (riparatore); cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-b --base 554a60dd854a640a00aaf9dcb9d88902943544dc^ --file app/events/page.tsx --prove tests/unit/riparazione-r18-eventi-con-la-data.test.tsx --json ; cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-c --base 554a60dd854a640a00aaf9dcb9d88902943544dc^ --file migrations/422_la_regola_dell_amministratore_non_ferma_la_lettura_degli_eventi.sql --prove tests/sql/rls/riparazione-r18-eventi-da-visitatore.test.sql --json --sql k10_r18_018_rimessa → uscita 0 (K10)"
     },
     {
       "dimensione": "architettura",
@@ -6033,7 +6041,7 @@
       "impatto": "Una cliente ha la lista «Regali di Natale» con 5 prodotti; il 20 novembre la Bottega nasconde 2 articoli (nascondiProdotto li mette in bozza). L'elenco delle liste dice ancora «5 prodotti», la lista ne mostra 3, e i 2 fantasmi non si possono togliere: il conteggio resta sbagliato per sempre.",
       "fix": "Disegnare le righe con prodotto non leggibile come «Non più disponibile» col cestino; contare solo i prodotti leggibili (o mostrare «3 di 5 disponibili»); trattare come vuota una lista senza prodotti leggibili.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Lettura di app/lists/[id]/page.tsx:320-366: il return null della riga 323 precede il pulsante Rimuovi (righe 355-363); app/lists/page.tsx:60 e :157 contano le righe senza guardare il prodotto.",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": false,
@@ -6064,9 +6072,12 @@
       "riparazione_15_11": {
         "esito": "riparato",
         "sessione": "R07",
-        "collaudo": "regge",
-        "perche": "minore fuori campione, e il campione di R07 non è accettato"
-      }
+        "collaudo": "K10 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      },
+      "chiuso_il": "2026-11-15 11:36",
+      "chiuso_da": "PR #288 · a19ff8923106fb5fbe7c2e74cc02979ea9dc2067",
+      "nota_riparazione": "Al posto di «if (!p) return null» la lista disegna una riga «Non più disponibile · il negozio l'ha tolto dalla vetrina», con il cestino per chi ha la lista (removeItem su it.product_id). Il conteggio in app/lists/page.tsx resta com'è: adesso corrisponde alle righe che si vedono. — prova: npx vitest run tests/unit/riparazione-r07-lista-prodotto-nascosto.test.tsx — mutazione: node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 43d1a381^ --file app/lists/[id]/page.tsx --prove tests/unit/riparazione-r07-lista-prodotto-nascosto.test.tsx --json → uscita 0 (riparatore); cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-a --base 43d1a381ad170d27d2858cff4961c38e86234a05^ --file app/lists/[id]/page.tsx --prove tests/unit/riparazione-r07-lista-prodotto-nascosto.test.tsx --json → uscita 0 (K10)"
     },
     {
       "dimensione": "frontend-ux",
@@ -7247,8 +7258,8 @@
       "riparazione_15_11": {
         "esito": "riparato",
         "sessione": "R04",
-        "collaudo": "regge",
-        "perche": "minore fuori campione, e il campione di R04 non è accettato"
+        "collaudo": "parziale",
+        "perche": "collaudo: parziale"
       }
     },
     {
@@ -9410,7 +9421,7 @@
       "impatto": "È la prima pagina di MyCity che vede ogni nuovo iscritto, e chi recupera la password: arriva su una pagina bianca con un bottone verde bosco che sembra di un altro sito, nel momento in cui deve fidarsi a cliccare.",
       "fix": "Nome MyCity in testata, sfondo panna #FBF7F0, testo inchiostro #2C2A28, bottone terracotta #C0492C, «così» con l'accento.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "curl -sk -o d2.html 'http://localhost:3010/auth/confirm?token_hash=xxxxxxxxxxxx&type=signup' (copia locale) && grep -oE \"font-family:[^;]*|background:#[0-9a-f]+|cosi'\" d2.html",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -9427,9 +9438,12 @@
       "riparazione_15_11": {
         "esito": "riparato",
         "sessione": "R07",
-        "collaudo": "regge",
-        "perche": "minore fuori campione, e il campione di R07 non è accettato"
-      }
+        "collaudo": "K10 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      },
+      "chiuso_il": "2026-11-15 11:36",
+      "chiuso_da": "PR #288 · a19ff8923106fb5fbe7c2e74cc02979ea9dc2067",
+      "nota_riparazione": "paginaColPulsante ora ha il nome MyCity in serif in testa, sfondo crema #FBF7F0, testo #1C1A18, titolo in serif, bottone terracotta #C0492C al posto del verde, e «così» con l'accento. — prova: npx vitest run tests/unit/riparazione-r07-conferma-email-marchio.test.ts — mutazione: node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base b4184549^ --file app/auth/confirm/route.ts --prove tests/unit/riparazione-r07-conferma-email-marchio.test.ts --json → uscita 0 (riparatore); cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-a --base b4184549f21c0f54a0ad0912d3b30c34b04fad52^ --file app/auth/confirm/route.ts --prove tests/unit/riparazione-r07-conferma-email-marchio.test.ts --json → uscita 0 (K10)"
     },
     {
       "dimensione": "coerenza-brand",
@@ -10026,8 +10040,8 @@
       "riparazione_15_11": {
         "esito": "riparato",
         "sessione": "R08",
-        "collaudo": "rossa_al_controllo",
-        "perche": "rossa al controllo sul ramo unito (C01: lib/riordino.ts:60 legge solo products.stock, che è la somma delle varianti: una taglia esaurita dell'ordine vecchio rientra nel carrello con «aggiunti al carrello» e si scopre solo in cassa. product_variants non è letta.)"
+        "collaudo": "parziale",
+        "perche": "collaudo: parziale"
       }
     },
     {
@@ -55574,7 +55588,7 @@
       "titolo": "Funzioni spente, da sistemare prima di riaccenderle. Classifica inviti e Drop leggono senza guardare l'errore, quindi mostrano «Classifica vuota · Sii il primo…» e «Nessun drop per oggi» anche quando la lettura è caduta. Il Drop usa il giorno di Greenwich: fra mezzanotte e l'1-2 di notte, ora di Piacenza, la data minima e l'elenco sono su ieri",
       "severita": "minore",
       "file": "app/profile/referral/leaderboard/page.tsx:26-35 e :55-60; app/admin/daily-drops/page.tsx:28, :53-78 e :155-156",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "frontend-ux",
       "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262",
       "fuori_dal_referto": true,
@@ -55597,9 +55611,12 @@
       "riparazione_15_11": {
         "esito": "riparato",
         "sessione": "R07",
-        "collaudo": "regge",
-        "perche": "minore fuori campione, e il campione di R07 non è accettato"
-      }
+        "collaudo": "K10 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      },
+      "chiuso_il": "2026-11-15 11:36",
+      "chiuso_da": "PR #288 · a19ff8923106fb5fbe7c2e74cc02979ea9dc2067",
+      "nota_riparazione": "Drop: todayIso usa giornoPiacenza() al posto della data di Greenwich (data minima, data proposta e filtro dell'elenco), e la lettura dei drop caduta mostra un ErrorState con Riprova invece di «Nessun drop». La classifica inviti guardava già l'errore: app/profile/referral/leaderboard/page.tsx:30-34 lancia, :55-58 mostra l'avviso (5/11). — prova: npx vitest run tests/unit/riparazione-r07-drop-giorno-piacenza.test.tsx — mutazione: node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 83658a41^ --file app/admin/daily-drops/page.tsx --prove tests/unit/riparazione-r07-drop-giorno-piacenza.test.tsx --json → uscita 0 (riparatore); cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-a --base 83658a4139865fd77ff5c997cda8e829e86b4843^ --file app/admin/daily-drops/page.tsx --prove tests/unit/riparazione-r07-drop-giorno-piacenza.test.tsx --json → uscita 0 (K10)"
     },
     {
       "titolo": "L'AI per i negozi risulta spenta, ma la scheda Nuovo prodotto e Modifica prodotto si apre ancora con «Compila con una foto: l'AI compila...» e 7 pulsanti AI che rispondono «Servizio AI non configurato». Il primo pulsante foto della pagina perde la foto scattata.",
@@ -74426,7 +74443,7 @@
       "file": "components/ui/LoadingState.tsx:73",
       "descrizione": "Stesso schema corretto qui in ScheletroCassa: una regione role=status annuncia il contenuto, non il nome. Serve un testo sr-only dentro.",
       "fonte": "dieci sessioni del 5/11, S07 (visto strada facendo)",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "giro": "dieci-sessioni-5-11",
       "riverifica_6_11": {
@@ -74447,9 +74464,12 @@
       "riparazione_15_11": {
         "esito": "riparato",
         "sessione": "R15",
-        "collaudo": "regge",
-        "perche": "minore fuori campione, e il campione di R15 non è accettato"
-      }
+        "collaudo": "K10 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      },
+      "chiuso_il": "2026-11-15 11:36",
+      "chiuso_da": "PR #290 · 67666b3f60bd16460b21e8b797a2f061fd91eed8",
+      "nota_riparazione": "Nella variante skeleton tolto l aria-label dal role=status e messo dentro un span sr-only col messaggio, come in ScheletroCassa. Prova di render con renderToStaticMarkup; le prove esistenti su LoadingState restano verdi. — prova: npx vitest run --reporter=dot tests/unit/riparazione-r15-loadingstate.test.tsx — mutazione: node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 5383b348^ --file components/ui/LoadingState.tsx --prove tests/unit/riparazione-r15-loadingstate.test.tsx --json → uscita 0 (riparatore); cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-b --base 5383b34820dea7cfcc43d0cec9a52c446d9a3ce2^ --file components/ui/LoadingState.tsx --prove tests/unit/riparazione-r15-loadingstate.test.tsx --json → uscita 0 (K10)"
     },
     {
       "dimensione": "qa-flussi",
@@ -74873,8 +74893,8 @@
       "riparazione_15_11": {
         "esito": "riparato",
         "sessione": "R15",
-        "collaudo": "regge",
-        "perche": "minore fuori campione, e il campione di R15 non è accettato"
+        "collaudo": "parziale",
+        "perche": "collaudo: parziale"
       }
     },
     {
@@ -77040,23 +77060,119 @@
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C02",
       "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "Il doppio tocco sul cuore con due salvataggi falliti lascia il cuore pieno e il preferito non salvato, e una richiesta che non risponde blocca la fila del prodotto",
+      "severita": "minore",
+      "file": "lib/preferiti/tocco-del-cuore.ts",
+      "descrizione": "Regressione nata dalla riparazione di R15-013 (verdetto rompe_altro di K10). Righe 137-140: dopo due salvataggi falliti il cuore resta pieno e il database è vuoto. Riga 122: una richiesta che non risponde blocca la fila del prodotto finché la pagina resta aperta. Una prova di passaggio era verde 3 su 3 sul commit di prima e rossa 3 su 3 su main. È sul sito pubblicato.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · K10",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "Il Drop del giorno usa il giorno di Greenwich: fra mezzanotte e le 2 la home e la pagina admin sono su giorni diversi",
+      "severita": "minore",
+      "file": "components/home/DropOfDay.tsx",
+      "descrizione": "Righe 49-61. Oggi il Drop è spento: il difetto si vede quando si riaccende.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · K10",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "La data degli eventi in home non usa il fuso di Piacenza",
+      "severita": "minore",
+      "file": "components/home/HomeEvents.tsx",
+      "descrizione": "Riga 48.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · K10",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "Dopo aver tolto un prodotto da una lista, il conteggio in /lists resta vecchio fino a 30 secondi",
+      "severita": "minore",
+      "file": "app/lists/[id]/page.tsx",
+      "descrizione": "Righe 162-164.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · K10",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "«Ripeti ordine» rimette nel carrello una quantità oltre la scorta (la ferma solo la cassa)",
+      "severita": "minore",
+      "file": "lib/riordino.ts",
+      "descrizione": "Riga 211.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · K10",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "aria-busy sulla variante «cards» del caricamento può zittire l'annuncio per lo screen reader",
+      "severita": "minore",
+      "file": "components/ui/LoadingState.tsx",
+      "descrizione": "Riga 54. Oggi nessuna pagina usa la variante «cards».",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · K10",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "L'icona a cuore accanto ad «Appena arrivati» in home",
+      "severita": "minore",
+      "file": "components/home/HomeSectionRenderer.tsx",
+      "descrizione": "Riga 237: icona che richiama i preferiti in una sezione che non li riguarda.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · K10",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "Rilanciando la migrazione 424 la validazione non si riprova, e in produzione due movimenti punti orfani vanno ripuliti prima del VALIDATE",
+      "severita": "minore",
+      "file": "migrations/424",
+      "descrizione": "Righe 46-48. L'applicazione sul database vero resta di Nicola.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · K10",
+      "stato": "aperto"
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-11-13 06:59",
+    "aggiornato": "2026-11-15 11:45",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 764,
-    "findings_chiusi": 2326,
-    "findings_tot": 3090,
+    "findings_aperti": 779,
+    "findings_chiusi": 2414,
+    "findings_tot": 3193,
     "aperti_per_severita": {
       "bloccante": 6,
-      "grave": 76,
-      "minore": 682,
+      "grave": 77,
+      "minore": 696,
       "altre": 0
     },
-    "dichiarati_dal_referto": 3090,
+    "dichiarati_dal_referto": 3193,
     "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-11-06",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."

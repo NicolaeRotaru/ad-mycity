@@ -1231,10 +1231,10 @@
       "chiave": "privacy-legale|il business plan e i conti unitari nei documenti del sito dicono ancora commissione all'8%, abbonamento a 15 €, piano gratis e mancia al fattorino",
       "gravita": "minore",
       "esito": "riparato",
-      "verdetto": "regge",
-      "collaudatore": "K02",
+      "verdetto": "parziale",
+      "collaudatore": "K10",
       "decisione": "resta_aperta",
-      "perche": "minore fuori campione, e il campione di R04 non è accettato"
+      "perche": "collaudo: parziale"
     },
     {
       "id": "R04-024",
@@ -1982,9 +1982,13 @@
       "gravita": "minore",
       "esito": "riparato",
       "verdetto": "regge",
-      "collaudatore": "K02",
-      "decisione": "resta_aperta",
-      "perche": "minore fuori campione, e il campione di R07 non è accettato"
+      "collaudatore": "K10",
+      "decisione": "si_chiude",
+      "perche": "",
+      "come": "collaudo pieno",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r07-conferma-email-marchio.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base b4184549^ --file app/auth/confirm/route.ts --prove tests/unit/riparazione-r07-conferma-email-marchio.test.ts --json → uscita 0 (riparatore); cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-a --base b4184549f21c0f54a0ad0912d3b30c34b04fad52^ --file app/auth/confirm/route.ts --prove tests/unit/riparazione-r07-conferma-email-marchio.test.ts --json → uscita 0 (K10)",
+      "nota_fix": "paginaColPulsante ora ha il nome MyCity in serif in testa, sfondo crema #FBF7F0, testo #1C1A18, titolo in serif, bottone terracotta #C0492C al posto del verde, e «così» con l'accento."
     },
     {
       "id": "R07-011",
@@ -2027,9 +2031,13 @@
       "gravita": "minore",
       "esito": "riparato",
       "verdetto": "regge",
-      "collaudatore": "K02",
-      "decisione": "resta_aperta",
-      "perche": "minore fuori campione, e il campione di R07 non è accettato"
+      "collaudatore": "K10",
+      "decisione": "si_chiude",
+      "perche": "",
+      "come": "collaudo pieno",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r07-lista-prodotto-nascosto.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 43d1a381^ --file app/lists/[id]/page.tsx --prove tests/unit/riparazione-r07-lista-prodotto-nascosto.test.tsx --json → uscita 0 (riparatore); cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-a --base 43d1a381ad170d27d2858cff4961c38e86234a05^ --file app/lists/[id]/page.tsx --prove tests/unit/riparazione-r07-lista-prodotto-nascosto.test.tsx --json → uscita 0 (K10)",
+      "nota_fix": "Al posto di «if (!p) return null» la lista disegna una riga «Non più disponibile · il negozio l'ha tolto dalla vetrina», con il cestino per chi ha la lista (removeItem su it.product_id). Il conteggio in app/lists/page.tsx resta com'è: adesso corrisponde alle righe che si vedono."
     },
     {
       "id": "R07-015",
@@ -2064,9 +2072,13 @@
       "gravita": "minore",
       "esito": "riparato",
       "verdetto": "regge",
-      "collaudatore": "K02",
-      "decisione": "resta_aperta",
-      "perche": "minore fuori campione, e il campione di R07 non è accettato"
+      "collaudatore": "K10",
+      "decisione": "si_chiude",
+      "perche": "",
+      "come": "collaudo pieno",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r07-drop-giorno-piacenza.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 83658a41^ --file app/admin/daily-drops/page.tsx --prove tests/unit/riparazione-r07-drop-giorno-piacenza.test.tsx --json → uscita 0 (riparatore); cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-a --base 83658a4139865fd77ff5c997cda8e829e86b4843^ --file app/admin/daily-drops/page.tsx --prove tests/unit/riparazione-r07-drop-giorno-piacenza.test.tsx --json → uscita 0 (K10)",
+      "nota_fix": "Drop: todayIso usa giornoPiacenza() al posto della data di Greenwich (data minima, data proposta e filtro dell'elenco), e la lettura dei drop caduta mostra un ErrorState con Riprova invece di «Nessun drop». La classifica inviti guardava già l'errore: app/profile/referral/leaderboard/page.tsx:30-34 lancia, :55-58 mostra l'avviso (5/11)."
     },
     {
       "id": "R07-018",
@@ -2324,15 +2336,10 @@
       "chiave": "flussi-conversione|«ripeti ordine» rimette nel carrello anche i prodotti finiti o tolti dalla vendita, col prezzo di allora, e dice «aggiunti al carrello»",
       "gravita": "minore",
       "esito": "riparato",
-      "verdetto": "rossa_al_controllo",
-      "collaudatore": "K02",
+      "verdetto": "parziale",
+      "collaudatore": "K10",
       "decisione": "resta_aperta",
-      "perche": "rossa al controllo sul ramo unito (C01: lib/riordino.ts:60 legge solo products.stock, che è la somma delle varianti: una taglia esaurita dell'ordine vecchio rientra nel carrello con «aggiunti al carrello» e si scopre solo in cassa. product_variants non è letta.)",
-      "come": "campione",
-      "verifica_comando": "npx vitest run tests/unit/riparazione-r08-ripeti-ordine-lascia-fuori-i-finiti.test.ts",
-      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base c65715b540e2fdf31ca24792f705590429754042^ --file lib/riordino.ts --prove tests/unit/riparazione-r08-ripeti-ordine-lascia-fuori-i-finiti.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base c65715b5^ --file lib/riordino.ts --prove tests/unit/riparazione-r08-ripeti-ordine-lascia-fuori-i-finiti.test.ts --json → uscita 0 (K02)",
-      "nota_fix": "La lettura chiede anche status e stock e guarda l'errore. Se la lettura riesce, un prodotto non restituito (nascosto dalle regole: esaurito, bozza, venduto), con status diverso da available o con stock ≤ 0 non entra nel carrello e si conta in «N articoli non sono più disponibili». Se la lettura fallisce resta il ripiego coi prezzi storici. In più il carrello si svuota per «Sostituisci» solo se resta qualcosa da aggiungere.",
-      "controllo": "C01: lib/riordino.ts:60 legge solo products.stock, che è la somma delle varianti: una taglia esaurita dell'ordine vecchio rientra nel carrello con «aggiunti al carrello» e si scopre solo in cassa. product_variants non è letta."
+      "perche": "collaudo: parziale"
     },
     {
       "id": "R08-013",
@@ -4479,10 +4486,10 @@
       "chiave": "qa-flussi|il pannello della home suggerisce ancora «i più amati / prodotti che vanno forte»",
       "gravita": "minore",
       "esito": "riparato",
-      "verdetto": "regge",
-      "collaudatore": "K08",
+      "verdetto": "parziale",
+      "collaudatore": "K10",
       "decisione": "resta_aperta",
-      "perche": "minore fuori campione, e il campione di R15 non è accettato"
+      "perche": "collaudo: parziale"
     },
     {
       "id": "R15-013",
@@ -4490,10 +4497,10 @@
       "chiave": "qa-flussi|con tre tocchi veloci sul cuore e una rete che consegna le richieste in disordine, il preferito resta tolto anche se l'ultimo tocco era «aggiungi»",
       "gravita": "minore",
       "esito": "riparato",
-      "verdetto": "regge",
-      "collaudatore": "K08",
+      "verdetto": "rompe_altro",
+      "collaudatore": "K10",
       "decisione": "resta_aperta",
-      "perche": "minore fuori campione, e il campione di R15 non è accettato"
+      "perche": "collaudo: rompe_altro"
     },
     {
       "id": "R15-014",
@@ -4502,9 +4509,13 @@
       "gravita": "minore",
       "esito": "riparato",
       "verdetto": "regge",
-      "collaudatore": "K08",
-      "decisione": "resta_aperta",
-      "perche": "minore fuori campione, e il campione di R15 non è accettato"
+      "collaudatore": "K10",
+      "decisione": "si_chiude",
+      "perche": "",
+      "come": "collaudo pieno",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r15-loadingstate.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 5383b348^ --file components/ui/LoadingState.tsx --prove tests/unit/riparazione-r15-loadingstate.test.tsx --json → uscita 0 (riparatore); cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-b --base 5383b34820dea7cfcc43d0cec9a52c446d9a3ce2^ --file components/ui/LoadingState.tsx --prove tests/unit/riparazione-r15-loadingstate.test.tsx --json → uscita 0 (K10)",
+      "nota_fix": "Nella variante skeleton tolto l aria-label dal role=status e messo dentro un span sr-only col messaggio, come in ScheletroCassa. Prova di render con renderToStaticMarkup; le prove esistenti su LoadingState restano verdi."
     },
     {
       "id": "R15-015",
@@ -5285,9 +5296,13 @@
       "gravita": "minore",
       "esito": "riparato",
       "verdetto": "regge",
-      "collaudatore": "K07",
-      "decisione": "resta_aperta",
-      "perche": "minore fuori campione, e il campione di R18 non è accettato"
+      "collaudatore": "K10",
+      "decisione": "si_chiude",
+      "perche": "",
+      "come": "collaudo pieno",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r18-crea-lista-una-sola-volta.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base dd6985ed^ --file app/lists/page.tsx,components/ui/Modal.tsx --prove tests/unit/riparazione-r18-crea-lista-una-sola-volta.test.tsx --json → uscita 0 (riparatore); cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-b --base dd6985ede22ec0891d0fa9fa3ab88735e3193fb1^ --file app/lists/page.tsx,components/ui/Modal.tsx --prove tests/unit/riparazione-r18-crea-lista-una-sola-volta.test.tsx --json → uscita 0 (K10)",
+      "nota_fix": "Freno sincrono con useRef su Crea lista (rilasciato in onSettled). Modal dà il fuoco iniziale a un elemento [data-autofocus] se c'è, altrimenti come prima; il campo Titolo lo chiede."
     },
     {
       "id": "R18-010",
@@ -5392,9 +5407,13 @@
       "gravita": "minore",
       "esito": "riparato",
       "verdetto": "regge",
-      "collaudatore": "K07",
-      "decisione": "resta_aperta",
-      "perche": "minore fuori campione, e il campione di R18 non è accettato"
+      "collaudatore": "K10",
+      "decisione": "si_chiude",
+      "perche": "",
+      "come": "collaudo pieno",
+      "verifica_comando": "export PGHOST=/var/run/postgresql; bash tests/sql/harness/apply.sh r18_prova && psql -X -d r18_prova -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r18-eventi-da-visitatore.test.sql && bash tests/sql/harness/run.sh r18_prova ; npx vitest run tests/unit/riparazione-r18-eventi-con-la-data.test.tsx tests/unit/minori-s04-eventi.test.tsx tests/unit/storie-drop-ed-eventi-reggono-con-i-profili-chiusi.test.ts --reporter=dot",
+      "non_vacuita": "cd /home/user/mycity && export PGHOST=/var/run/postgresql && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 554a60dd^ --file migrations/422_la_regola_dell_amministratore_non_ferma_la_lettura_degli_eventi.sql --prove tests/sql/rls/riparazione-r18-eventi-da-visitatore.test.sql --sql r18_rimessa --json (0) ; cd /home/user/mycity && export PGHOST=/var/run/postgresql && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 554a60dd^ --file app/events/page.tsx --prove tests/unit/riparazione-r18-eventi-con-la-data.test.tsx --json (0) → uscita 0 (riparatore); cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-b --base 554a60dd854a640a00aaf9dcb9d88902943544dc^ --file app/events/page.tsx --prove tests/unit/riparazione-r18-eventi-con-la-data.test.tsx --json ; cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-c --base 554a60dd854a640a00aaf9dcb9d88902943544dc^ --file migrations/422_la_regola_dell_amministratore_non_ferma_la_lettura_degli_eventi.sql --prove tests/sql/rls/riparazione-r18-eventi-da-visitatore.test.sql --json --sql k10_r18_018_rimessa → uscita 0 (K10)",
+      "nota_fix": "Migrazione 422: su marketplace_events la regola FOR ALL events_admin_write (034:95-99, sottodomanda su profiles coi permessi di chi chiede) lascia il posto a quattro regole TO authenticated con (SELECT public.is_admin()): scrittura (INSERT, UPDATE, DELETE) e la lettura completa dell'amministratore, che la pagina admin usa per gli annullati e senza la quale UPDATE e DELETE non troverebbero la riga. La lettura pubblica events_public_read resta com'e'. Con la stessa domanda sulle altre FOR ALL che leggono profiles: stessa cura su shop_of_month (negozio del mese in home, letto dai visitatori) e cashback_campaigns (lettura pubblica delle campagne attive); rider_sos_events e zone_codes restano (i visitatori non le leggono). Prova SQL: toglie ad anon SELECT su profiles come in produzione, poi da visitatore legge evento, negozio del mese e campagna senza errori e non scrive; il cliente non scrive; l'amministratore vede l'annullato, lo rimette in programma, crea e cancella. Pagina: accanto a «Inizia tra…/Termina tra…» data e ora di Piacenza (dataEOraPiacenza di lib/admin/etichette.ts, Intl con timeZone Europe/Rome: «31 dic 2026, 20:00» e «1 gen 2027, 12:00»), «tra meno di un minuto» invece di «tra 0 min», e un ridisegno ogni 30 secondi che toglie l'evento appena finito senza aspettare la rilettura. Lo stato d'errore resta com'era: con la 422 non scatta piu' per i visitatori (e la prova S04 ne pretende il testo). Vitest con orologio finto e TZ America/New_York."
     },
     {
       "id": "R18-019",
@@ -5405,8 +5424,7 @@
       "verdetto": "rompe_altro",
       "collaudatore": "K07",
       "decisione": "resta_aperta",
-      "perche": "collaudo: rompe_altro",
-      "nota": "codice tolto col revert 58e23838: il referto dice parziale (corretto il 15/11 alle 07:00; per scrivere il registro era stato rimesso «riparato» per un momento, errore della regista della fase 1)"
+      "perche": "parziale: Tutta la voce. Il codice (commit 6eefff31) è tolto dal sito col revert 58e23838 (2026-11-14): rossa al controllo dell onda 2 (C02 terzo) e rompe_altro al ricollaudo K07 secondo. Sul sito pubblicato (mycity#290) la voce non è riparata e resta aperta."
     },
     {
       "id": "R18-020",
@@ -5415,9 +5433,13 @@
       "gravita": "minore",
       "esito": "riparato",
       "verdetto": "regge",
-      "collaudatore": "K07",
-      "decisione": "resta_aperta",
-      "perche": "minore fuori campione, e il campione di R18 non è accettato"
+      "collaudatore": "K10",
+      "decisione": "si_chiude",
+      "perche": "",
+      "come": "collaudo pieno",
+      "verifica_comando": "export PGHOST=/var/run/postgresql; bash tests/sql/harness/apply.sh r18_prova && psql -X -d r18_prova -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r18-reclamo-senza-ordine.test.sql && bash tests/sql/harness/run.sh r18_prova",
+      "non_vacuita": "cd /home/user/mycity && export PGHOST=/var/run/postgresql && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 8cdcffe4^ --file migrations/424_un_reclamo_non_resta_legato_a_un_ordine_che_non_esiste.sql --prove tests/sql/rls/riparazione-r18-reclamo-senza-ordine.test.sql --sql r18_rimessa --json → uscita 0 (riparatore); cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-c --base 8cdcffe4f82049e1b0a281fdb397431891a4d02e^ --file migrations/424_un_reclamo_non_resta_legato_a_un_ordine_che_non_esiste.sql --prove tests/sql/rls/riparazione-r18-reclamo-senza-ordine.test.sql --json --sql k10_r18_020_rimessa → uscita 0 (K10)",
+      "nota_fix": "Migrazione 424: chiavi esterne verso orders(id) sulle tre colonne della voce, NOT VALID poi VALIDATE (se ci sono orfani resta NOT VALID con un avviso e le domande per trovarli). disputes.order_id ON DELETE RESTRICT (un reclamo non sparisce con l'ordine e non resta senza; nel sito un ordine si cancella solo nel ripiego subito dopo averlo creato). loyalty_transactions.order_id e zone_code_uses.order_id ON DELETE SET NULL, come le altre order_id che possono restare vuote (cashback_redemptions, rider_sos_events); per loro due anche l'indice (controllo 4 di tests/sql/rls/14). La prova scrive su un ordine inventato (rifiutato) e cancella ordini con righe legate."
     },
     {
       "id": "R18-021",

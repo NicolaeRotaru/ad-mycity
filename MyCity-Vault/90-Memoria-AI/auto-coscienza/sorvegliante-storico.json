@@ -2,52 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-24T12:18:45.131Z",
-      "scatti": 852,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-27T07:19:11.386Z",
-      "scatti": 325,
-      "voci": 24,
-      "per_classe": {
-        "prova-accecata": 16,
-        "perimetro-letterale": 1,
-        "malattia-nuova": 3,
-        "esenzione-aggiunta": 1,
-        "difesa-rimossa": 3
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-27T10:46:15.081Z",
-      "scatti": 359,
-      "voci": 24,
-      "per_classe": {
-        "prova-accecata": 16,
-        "perimetro-letterale": 1,
-        "malattia-nuova": 3,
-        "esenzione-aggiunta": 1,
-        "difesa-rimossa": 3
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-27T10:57:44.295Z",
-      "scatti": 361,
-      "voci": 24,
-      "per_classe": {
-        "prova-accecata": 16,
-        "perimetro-letterale": 1,
-        "malattia-nuova": 3,
-        "esenzione-aggiunta": 1,
-        "difesa-rimossa": 3
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-27T11:40:10.238Z",
       "scatti": 363,
       "voci": 25,
@@ -1888,6 +1842,20 @@
       "mai_risolte": []
     },
     {
+      "quando": "2026-11-15T09:54:33.487Z",
+      "scatti": 45,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-15T10:20:13.540Z",
+      "scatti": 64,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
       "quando": "2026-11-15T10:28:37.053Z",
       "scatti": 77,
       "voci": 1,
@@ -1903,6 +1871,13 @@
       "per_classe": {
         "riparazione-parziale": 1
       },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-15T10:49:38.768Z",
+      "scatti": 68,
+      "voci": 0,
+      "per_classe": {},
       "mai_risolte": []
     },
     {
@@ -1922,7 +1897,14 @@
         "riparazione-parziale": 1
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-15T19:23:27.191Z",
+      "scatti": 68,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-11-15T18:19:50.569Z"
+  "aggiornato": "2026-11-15T19:23:27.192Z"
 }
