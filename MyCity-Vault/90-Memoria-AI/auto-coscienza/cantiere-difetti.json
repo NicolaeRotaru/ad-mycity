@@ -26538,6 +26538,30 @@
         "tipo": "umano",
         "nota": "Non riparato nella richiesta delle fette della CI: cambierebbe quali mutazioni girano, ed è fuori mandato. Si chiude quando un lotto che tocca solo cervello/prediagnosi.mjs fa girare le sue 80 mutazioni e non tutto il registro."
       }
+    },
+    {
+      "id": "AR-1180",
+      "titolo": "Le regole sui costi della riparazione in sessioni erano solo scritte: tetto degli agenti, sorveglianza, chiusure, liste del giro, preventivo e misura nei referti senza un programma che le faccia rispettare",
+      "dimensione": "guardrail-semaforo",
+      "dove": "cervello/riparazione/freno-subagenti.mjs · cervello/riparazione-sessioni.mjs · cervello/riparazione/sorveglia.sh",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-15 06:58",
+      "nato_come": "scoperta",
+      "nato_da": "lezioni dell'onda 2 (consegne/audit/2026-11-15-lezioni-onde, PR #958): piano firmato da Nicola il 15/11 verso le 06:05, «applica la regola per chiudere più difetti dentro il limite e le 5 lezioni e le 7 decisioni»",
+      "origine": "analisi",
+      "fonte": "officina minima, costruttore (sessione figlia dell'AD)",
+      "owner": "builder-automazioni",
+      "sintomo": "Onda 2 (13-15/11): 1.627 $ per 60 voci chiuse (27 $ a voce chiusa, contro 6,34 $ dell'onda 1). Il tetto di 12 subagenti era solo testo e R15, R16, R17 e R19 ne hanno aperti 13-15; regia 407,68 $ con 12 registe e giri a vuoto da 0,73 $; 5 minori fermi a parziale con giudizio pieno per la sola regola dell'uscita 0; liste del giro fatte a mano (serve_file_altrui da 14 a 29, 11 su 20 tornate allo stesso padrone); K08.json fermo a finita:false con K08 terzo finito; la #290 unita col registro non scritto; preventivo 376 $ contro ~1.627 reali; R13 senza costo nel referto.",
+      "causa_radice": "Le regole che avrebbero frenato erano quasi tutte scritte nella skill e nei LEGGIMI, e nessun programma le misurava: una regola che funziona solo se qualcuno se la ricorda.",
+      "fix_proposto": "Sei pezzi sul ramo officina-minima: 1 hook freno-subagenti (contatore per sessione, Workflow bloccato a riparatori e collaudatori); 2 sorveglia.sh --attendi + comandi segnali e stato; 3 decidi/valida-collaudo (uscita 3 con deroga firmata, niente campione fino a 40 voci, esito verificata_dopo_nicola); 4 pronte, prove comuni con un padrone, serve_file_altrui da chi ha il file, modifica nella scheda; 5 applica (K finito col collaudo aperto), conti (PR unita senza registro) e conti --preventivo da misure.json; 6 valida-referto con costo, subagenti e rimessa vera del grave.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/officina-minima.test.mjs",
+        "nota": "39 casi in 6 prove, una per pezzo, raccolte in officina-minima.test.mjs; 29 mutazioni in cervello/mutanti.json col difetto AR-1180, tutte prese. Il freno parte solo quando Nicola incolla il blocco di consegne/officina-minima/freno-agenti-da-incollare.md in .claude/settings.json. Si chiude dopo il collaudo di un'altra sessione e l'unione della PR."
+      }
     }
   ],
   "meta": {

@@ -23,7 +23,7 @@ function banco() {
 }
 const agente = (session_id, extra = {}) => ({ session_id, hook_event_name: "PreToolUse", tool_name: "Agent", tool_input: { prompt: "x" }, ...extra });
 
-test("riparatore di minori: sei lanci passano, il settimo esce 2 e dice di fermarsi", () => {
+test("AR-1180 · riparatore di minori: sei lanci passano, il settimo esce 2 e dice di fermarsi", () => {
   const { lancia } = banco();
   for (let i = 1; i <= 6; i++) assert.equal(lancia(agente("s-uno"), "riparatore-minori").status, 0, `lancio ${i}`);
   const r = lancia(agente("s-uno"), "riparatore-minori");
@@ -33,13 +33,13 @@ test("riparatore di minori: sei lanci passano, il settimo esce 2 e dice di ferma
   assert.equal(lancia(agente("s-uno", { tool_name: "Task" }), "riparatore-minori").status, 2, "anche Task conta, e resta bloccato");
 });
 
-test("un id diverso riparte da zero", () => {
+test("AR-1180 · un id diverso riparte da zero", () => {
   const { lancia } = banco();
   for (let i = 0; i < 7; i++) lancia(agente("s-a"), "riparatore-minori");
   assert.equal(lancia(agente("s-b"), "riparatore-minori").status, 0);
 });
 
-test("i tetti per ruolo: gravi 8, collaudatore 4, controllore 4, regia 2", () => {
+test("AR-1180 · i tetti per ruolo: gravi 8, collaudatore 4, controllore 4, regia 2", () => {
   const { lancia } = banco();
   for (const [ruolo, tetto] of [["riparatore-gravi", 8], ["collaudatore", 4], ["controllore", 4], ["regia", 2]]) {
     for (let i = 1; i <= tetto; i++) assert.equal(lancia(agente(`s-${ruolo}`), ruolo).status, 0, `${ruolo} ${i}`);
@@ -47,7 +47,7 @@ test("i tetti per ruolo: gravi 8, collaudatore 4, controllore 4, regia 2", () =>
   }
 });
 
-test("Workflow: bloccato al primo lancio per riparatori e collaudatori, contato per la regia", () => {
+test("AR-1180 · Workflow: bloccato al primo lancio per riparatori e collaudatori, contato per la regia", () => {
   const { lancia } = banco();
   for (const ruolo of ["riparatore-minori", "riparatore-gravi", "collaudatore"]) {
     const r = lancia(agente(`w-${ruolo}`, { tool_name: "Workflow" }), ruolo);
@@ -57,7 +57,7 @@ test("Workflow: bloccato al primo lancio per riparatori e collaudatori, contato 
   assert.equal(lancia(agente("w-regia", { tool_name: "Workflow" }), "regia").status, 0);
 });
 
-test("senza session_id la chiamata è bloccata, anche fuori da una campagna", () => {
+test("AR-1180 · senza session_id la chiamata è bloccata, anche fuori da una campagna", () => {
   const { lancia } = banco();
   for (const sid of [undefined, "", "../fuori"]) {
     const r = lancia(agente(sid));
@@ -66,14 +66,14 @@ test("senza session_id la chiamata è bloccata, anche fuori da una campagna", ()
   }
 });
 
-test("una sessione senza ruolo (l'AD, il giro) non ha tetto e non scrive niente", () => {
+test("AR-1180 · una sessione senza ruolo (l'AD, il giro) non ha tetto e non scrive niente", () => {
   const { dir, lancia } = banco();
   for (let i = 0; i < 20; i++) assert.equal(lancia(agente("s-ad")).status, 0);
   assert.equal(readdirSync(dir).length, 0, "nessun file di conteggio");
   assert.equal(lancia({ session_id: "s-ad", tool_name: "Bash", tool_input: {} }, "regia").status, 0, "gli altri strumenti passano");
 });
 
-test("il ruolo lo dà la prima riga del prompt d'apertura, non un risultato di strumento letto dopo", () => {
+test("AR-1180 · il ruolo lo dà la prima riga del prompt d'apertura, non un risultato di strumento letto dopo", () => {
   const { dir, lancia } = banco();
   const tr = join(dir, "t.jsonl");
   const righe = [
@@ -92,7 +92,7 @@ test("il ruolo lo dà la prima riga del prompt d'apertura, non un risultato di s
   for (let i = 0; i < 9; i++) assert.equal(lancia(agente("s-x", { transcript_path: tr2 })).status, 0);
 });
 
-test("dieci lanci nello stesso istante con tetto 6: ne passano esattamente sei", async () => {
+test("AR-1180 · dieci lanci nello stesso istante con tetto 6: ne passano esattamente sei", async () => {
   const { dir } = banco();
   const env = { ...process.env, FRENO_SUBAGENTI_DIR: join(dir, "conti"), FRENO_RUOLO: "riparatore-minori" };
   const uno = () => new Promise((ok) => {

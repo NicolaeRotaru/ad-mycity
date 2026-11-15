@@ -13,7 +13,7 @@ const riparata = (comando) => ({ id: "R20-001", chiave: "k|1", esito: "riparato"
 const referto = (extra = {}, voce = riparata("node cervello/prova-rimessa.mjs --file lib/a.ts")) => JSON.stringify({ sessione: "R20", aggiornato: "2026-11-15 07:00", finita: true, testa: "abcdef1", verifica: { esito: "verde", testa: "abcdef1" }, voci: [voce], ...extra });
 const rossi = (testo, gravita = "minore", misura = true) => regoleReferto(testo, { nome: "R20", voci: scheda(gravita), misura }).rossi.join("\n");
 
-test("senza conto.subagenti o senza costo_usd il referto finito è rosso", () => {
+test("AR-1180 · senza conto.subagenti o senza costo_usd il referto finito è rosso", () => {
   const t = rossi(referto());
   assert.match(t, /manca «conto\.subagenti»/);
   assert.match(t, /manca «costo_usd», letto con get_session/);
@@ -21,24 +21,24 @@ test("senza conto.subagenti o senza costo_usd il referto finito è rosso", () =>
   assert.doesNotMatch(ok, /conto\.subagenti|costo_usd|oltre il tetto/);
 });
 
-test("7 subagenti col tetto di 6 (scheda di soli minori) è rosso; con un grave nella scheda il tetto è 8", () => {
+test("AR-1180 · 7 subagenti col tetto di 6 (scheda di soli minori) è rosso; con un grave nella scheda il tetto è 8", () => {
   assert.match(rossi(referto({ conto: { subagenti: 7 }, costo_usd: 30 })), /7 subagenti, oltre il tetto di 6 della scheda/);
   assert.doesNotMatch(rossi(referto({ conto: { subagenti: 7 }, costo_usd: 30 }), "grave"), /oltre il tetto/);
   assert.match(rossi(referto({ conto: { subagenti: 9 }, costo_usd: 30 }), "grave"), /9 subagenti, oltre il tetto di 8/);
 });
 
-test("un grave «riparato» con la rimessa scritta a mano è rosso; con prova-rimessa.mjs no", () => {
+test("AR-1180 · un grave «riparato» con la rimessa scritta a mano è rosso; con prova-rimessa.mjs no", () => {
   const aMano = referto({ conto: { subagenti: 3 }, costo_usd: 10 }, riparata("rimessa a mano: git checkout HEAD^ -- lib/a.ts -> 2 rosse; ripristino -> verde"));
   assert.match(rossi(aMano, "grave"), /un grave riparato vuole la prova che diventa rossa togliendo la correzione/);
   assert.doesNotMatch(rossi(aMano, "minore"), /vuole la prova che diventa rossa/, "per un minore resta la regola di prima");
   assert.doesNotMatch(rossi(referto({ conto: { subagenti: 3 }, costo_usd: 10 }), "grave"), /vuole la prova che diventa rossa/);
 });
 
-test("applica rilegge i referti di prima senza queste regole (sono di valida-referto)", () => {
+test("AR-1180 · applica rilegge i referti di prima senza queste regole (sono di valida-referto)", () => {
   const t = rossi(referto({ conto: { subagenti: 99 } }, riparata("a mano")), "grave", false);
   assert.doesNotMatch(t, /costo_usd|oltre il tetto|vuole la prova che diventa rossa/);
 });
 
-test("i tetti del referto sono gli stessi del freno sugli agenti", () => {
+test("AR-1180 · i tetti del referto sono gli stessi del freno sugli agenti", () => {
   for (const [ruolo, n] of Object.entries(TETTO_SUBAGENTI)) assert.equal(TETTI_FRENO[ruolo], n, ruolo);
 });

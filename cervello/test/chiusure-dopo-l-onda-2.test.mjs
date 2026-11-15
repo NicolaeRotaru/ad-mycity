@@ -23,14 +23,14 @@ const referti = { R04: { finita: true, voci: [{ id: "R04-012", chiave: "ai|foto"
 const collaudo = (extra = {}) => ({ collaudatore: "K02", riparatori: ["R04"], voci: [{ id: "R04-012", chiave: "ai|foto", verdetto: "regge", giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"], rimessa: { uscita: 3, comando: "node cervello/prova-rimessa.mjs --file app/api/x/route.ts", a_mano: A_MANO }, ...extra }] });
 const decisione = (piano, c = collaudo()) => decidi({ piano, referti, collaudi: [c], hub: new Set() })[0];
 
-test("(a) un minore a uscita 3, con la deroga firmata, la rimessa a mano e il giudizio pieno si chiude", () => {
+test("AR-1180 · (a) un minore a uscita 3, con la deroga firmata, la rimessa a mano e il giudizio pieno si chiude", () => {
   const d = decisione(pianoCon("minore"));
   assert.equal(d.decisione, "si_chiude", d.perche);
   assert.match(d.come, /rimessa a mano/);
   assert.match(d.non_vacuita, /uscita 1 senza la correzione, 0 con \(K02, a mano\)/);
 });
 
-test("(a) la stessa voce come grave resta aperta: la deroga non vale per gravi e bloccanti", () => {
+test("AR-1180 · (a) la stessa voce come grave resta aperta: la deroga non vale per gravi e bloccanti", () => {
   for (const g of ["grave", "bloccante"]) {
     const d = decisione(pianoCon(g));
     assert.equal(d.decisione, "resta_aperta", g);
@@ -38,7 +38,7 @@ test("(a) la stessa voce come grave resta aperta: la deroga non vale per gravi e
   }
 });
 
-test("(a) senza rimessa.a_mano, senza firma o senza giudizio pieno il minore resta aperto", () => {
+test("AR-1180 · (a) senza rimessa.a_mano, senza firma o senza giudizio pieno il minore resta aperto", () => {
   const senzaAMano = collaudo({ rimessa: { uscita: 3, comando: "node cervello/prova-rimessa.mjs" } });
   assert.equal(decisione(pianoCon("minore"), senzaAMano).decisione, "resta_aperta");
   const aManoVuota = collaudo({ rimessa: { uscita: 3, comando: "node cervello/prova-rimessa.mjs", a_mano: { ...A_MANO, uscita_senza_correzione: 0 } } });
@@ -48,7 +48,7 @@ test("(a) senza rimessa.a_mano, senza firma o senza giudizio pieno il minore res
   assert.equal(decisione(pianoCon("minore"), collaudo({ giudizio: "nessuno" })).decisione, "resta_aperta");
 });
 
-test("(a) valida-collaudo: il «regge» a uscita 3 con la rimessa a mano è rosso, se non c'è la deroga dell'onda", () => {
+test("AR-1180 · (a) valida-collaudo: il «regge» a uscita 3 con la rimessa a mano è rosso, se non c'è la deroga dell'onda", () => {
   const ctx = (deroga) => ({ nome: "K02", riparatori: { R04: { voci: [una("minore")], referto: referti.R04 } }, hub: new Set(), deroga });
   const testo = JSON.stringify({ ...collaudo(), aggiornato: "2026-11-15 07:00", finita: true });
   assert.match(regoleCollaudo(testo, ctx(() => false)).rossi.join("\n"), /uscita 3 e la rimessa a mano: vale solo con l'eccezione firmata/);
@@ -68,7 +68,7 @@ function campagna(voci, refertoVoci, collaudoVoci) {
   return r;
 }
 
-test("(b) lotto di 30 voci: due minori riparati senza giudizio pieno fanno uscire valida-collaudo con 1, e dice quali", () => {
+test("AR-1180 · (b) lotto di 30 voci: due minori riparati senza giudizio pieno fanno uscire valida-collaudo con 1, e dice quali", () => {
   const voci = Array.from({ length: 30 }, (_, i) => ({ id: `R05-${String(i + 1).padStart(3, "0")}`, chiave: `m|${i}`, gravita: "minore", file: [`lib/m${i}.ts`] }));
   const refertoVoci = voci.map((v) => ({ id: v.id, chiave: v.chiave, esito: "riparato", rimessa: { esito: "regge", uscita: 0, comando: "x" } }));
   const pieno = { giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"] };
@@ -83,7 +83,7 @@ test("(b) lotto di 30 voci: due minori riparati senza giudizio pieno fanno uscir
   assert.equal(tutti.status, 0, tutti.stdout + tutti.stderr);
 });
 
-test("(c) «verificata_dopo_nicola» chiude solo con prova, rimessa e il giudizio pieno di un'altra sessione", () => {
+test("AR-1180 · (c) «verificata_dopo_nicola» chiude solo con prova, rimessa e il giudizio pieno di un'altra sessione", () => {
   const piano = { onde: [{ onda: 1, sessioni: { R06: { voci: [{ id: "R06-003", chiave: "env|chiave", gravita: "grave", file: [] }] } } }] };
   const voce = { id: "R06-003", chiave: "env|chiave", esito: "verificata_dopo_nicola", prova_comando: "node cervello/verifica-sensori.mjs --solo stripe", rimessa: { comando: "node cervello/verifica-sensori.mjs --solo stripe", uscita_senza_correzione: 2, uscita_con_correzione: 0 } };
   const k = (extra = {}) => ({ collaudatore: "K10", riparatori: ["R06"], voci: [{ id: "R06-003", chiave: "env|chiave", verdetto: "regge", giudizio: "pieno", ...extra }] });

@@ -40,20 +40,20 @@ const collaudi = [
 ];
 const calcola = () => elenchiPronte({ piano, referti, collaudi, decisioni: decidi({ piano, referti, collaudi, hub: new Set() }) });
 
-test("fondiVoci: il giro dopo vince voce per voce, le voci che non porta restano", () => {
+test("AR-1180 · fondiVoci: il giro dopo vince voce per voce, le voci che non porta restano", () => {
   const f = fondiVoci({ finita: true, voci: [{ id: "a", esito: "parziale" }, { id: "b", esito: "riparato" }] }, { finita: true, voci: [{ id: "a", esito: "riparato" }] });
   assert.deepEqual(f.voci.map((v) => `${v.id}:${v.esito}`), ["a:riparato", "b:riparato"]);
   assert.equal(fondiVoci(null, { voci: [] }).voci.length, 0);
 });
 
-test("A: il minore a uscita 3 con giudizio pieno c'è; il minore che non regge e il grave no", () => {
+test("AR-1180 · A: il minore a uscita 3 con giudizio pieno c'è; il minore che non regge e il grave no", () => {
   const { elenchi } = calcola();
   assert.ok(elenchi.A.includes("k|a"));
   assert.ok(!elenchi.A.includes("k|b"), "R08-016 non regge: non è da ricollaudare, è da rifare");
   assert.ok(!elenchi.A.includes("k|g"), "un grave non entra mai in A");
 });
 
-test("B, C e D dai percorsi e dagli esiti; una voce unica per chiave, con l'onda più nuova", () => {
+test("AR-1180 · B, C e D dai percorsi e dagli esiti; una voce unica per chiave, con l'onda più nuova", () => {
   const { elenchi, precedenti, righeB } = calcola();
   assert.deepEqual(elenchi.B.sort(), ["k|altrui", "k|dup"]);
   assert.equal(righeB, 2);
@@ -66,7 +66,7 @@ test("B, C e D dai percorsi e dagli esiti; una voce unica per chiave, con l'onda
   assert.equal(new Set(tutte).size, tutte.length, "nessuna voce in due elenchi");
 });
 
-test("dividi: una prova comune ha un padrone solo, e una serve_file_altrui va da chi ha il file che le serve", () => {
+test("AR-1180 · dividi: una prova comune ha un padrone solo, e una serve_file_altrui va da chi ha il file che le serve", () => {
   const v = (chiave, file) => ({ chiave, gravita: "minore", dimensione: "x", titolo: chiave, file });
   const r = assegnaOnda([v("p|1", ["lib/a.ts", "tests/unit/comune.test.ts"]), v("p|2", ["lib/b.ts", "tests/unit/comune.test.ts"])], { sessioni: 2 });
   const chi = Object.entries(r.sessioni).filter(([, s]) => s.file.includes("tests/unit/comune.test.ts")).map(([n]) => n);
@@ -80,7 +80,7 @@ test("dividi: una prova comune ha un padrone solo, e una serve_file_altrui va da
   assert.ok(!s1 || s1.file.includes("lib/padrone.ts"), "chi riceve la serve_file_altrui ha il file che le serve");
 });
 
-test("copertura-prima: una prova comune senza padrone, o di un'altra sessione, è rossa", () => {
+test("AR-1180 · copertura-prima: una prova comune senza padrone, o di un'altra sessione, è rossa", () => {
   const prova = "tests/unit/comune.test.ts";
   const o = { onda: 2, base: "abc", candidate: ["c|1", "c|2"], sessioni: {
     R10: { file: ["lib/a.ts"], voci: [{ id: "R10-001", chiave: "c|1", gravita: "minore", file: ["lib/a.ts", prova] }] },
@@ -96,7 +96,7 @@ test("copertura-prima: una prova comune senza padrone, o di un'altra sessione, �
   assert.deepEqual(controllaOnda(sola, { candidate: ["c|1"], casa: "macchina" }), []);
 });
 
-test("la scheda di una voce B porta il testo della modifica scritta nel referto vecchio", () => {
+test("AR-1180 · la scheda di una voce B porta il testo della modifica scritta nel referto vecchio", () => {
   const sessione = { voci: [{ id: "R30-001", chiave: "k|altrui", gravita: "minore", titolo: "t", file: ["lib/e.ts"] }], file: ["lib/e.ts"] };
   const { precedenti } = calcola();
   const t = testoScheda({ nome: "R30", onda: 3, casa: "sito", deposito: "d", base: "b", ramo: "r", regista: "g", cartella: "c", sessione, precedenti });
@@ -105,7 +105,7 @@ test("la scheda di una voce B porta il testo della modifica scritta nel referto 
   assert.match(t, /prima: serve_file_altrui/);
 });
 
-test("il comando pronte scrive i quattro elenchi e pronte.json nella cartella della campagna", () => {
+test("AR-1180 · il comando pronte scrive i quattro elenchi e pronte.json nella cartella della campagna", () => {
   const t = mkdtempSync(join(tmpdir(), "pronte-"));
   try {
     const C = join(t, "consegne/riparazioni/2026-11-15-prova");

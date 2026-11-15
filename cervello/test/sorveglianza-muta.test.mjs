@@ -46,7 +46,7 @@ function casaFinta() {
   return { t, radice, scrivi, finisci, noti, attendi, prog };
 }
 
-test("senza cambiamenti --attendi resta zitta per tre intervalli e esce solo al battito (4)", () => {
+test("AR-1180 · senza cambiamenti --attendi resta zitta per tre intervalli e esce solo al battito (4)", () => {
   const { t, noti, attendi } = casaFinta();
   try {
     noti("ramo R01 rip-r01");
@@ -59,7 +59,7 @@ test("senza cambiamenti --attendi resta zitta per tre intervalli e esce solo al 
   } finally { rmSync(t, { recursive: true, force: true }); }
 });
 
-test("un referto finito sveglia la regista entro un intervallo (uscita 1, e dice chi)", () => {
+test("AR-1180 · un referto finito sveglia la regista entro un intervallo (uscita 1, e dice chi)", () => {
   const { t, noti, finisci, attendi } = casaFinta();
   try {
     noti("ramo R01 rip-r01");
@@ -71,7 +71,7 @@ test("un referto finito sveglia la regista entro un intervallo (uscita 1, e dice
   } finally { rmSync(t, { recursive: true, force: true }); }
 });
 
-test("un rosso già noto non sveglia nessuno", () => {
+test("AR-1180 · un rosso già noto non sveglia nessuno", () => {
   const { t, noti, finisci, attendi } = casaFinta();
   try {
     noti("ramo R01 rip-r01", "finita R01");
@@ -82,7 +82,7 @@ test("un rosso già noto non sveglia nessuno", () => {
   } finally { rmSync(t, { recursive: true, force: true }); }
 });
 
-test("da stato-sessioni.json: figlia in attesa, spesa oltre il 70% e quota in avviso sono segnali nuovi", () => {
+test("AR-1180 · da stato-sessioni.json: figlia in attesa, spesa oltre il 70% e quota in avviso sono segnali nuovi", () => {
   const { t, scrivi, noti, prog } = casaFinta();
   try {
     noti("ramo R01 rip-r01");
@@ -94,7 +94,7 @@ test("da stato-sessioni.json: figlia in attesa, spesa oltre il 70% e quota in av
   } finally { rmSync(t, { recursive: true, force: true }); }
 });
 
-test("un ramo fermo da più di 20 minuti è un segnale con la sua testa: si muove e torna nuovo", () => {
+test("AR-1180 · un ramo fermo da più di 20 minuti è un segnale con la sua testa: si muove e torna nuovo", () => {
   const ora = Date.parse("2026-11-15T07:00:00Z");
   const s = (sha, minuti) => [{ nome: "R03", ramo: "r3", sulRemoto: true, finita: false, testa: { sha, quando: ora - minuti * 60000 } }];
   assert.deepEqual(segnaliDa({ sessioni: s("aaaaaaa111", 10), ora }), ["ramo R03 r3"]);
@@ -104,7 +104,7 @@ test("un ramo fermo da più di 20 minuti è un segnale con la sua testa: si muov
   assert.deepEqual(nuoviSegnali(segnaliDa({ sessioni: s("bbbbbbb222", 30), ora }), noti), ["ferma R03 bbbbbbb"]);
 });
 
-test("stato non supera mai 40 righe, anche con 30 sessioni e 60 segnali nuovi", () => {
+test("AR-1180 · stato non supera mai 40 righe, anche con 30 sessioni e 60 segnali nuovi", () => {
   const sessioni = Array.from({ length: 30 }, (_, i) => ({ nome: `${i % 3 === 0 ? "K" : "R"}${String(i + 1).padStart(2, "0")}`, tipo: i % 3 === 0 ? "K" : "R", finita: i % 2 === 0 }));
   const nuovi = Array.from({ length: 60 }, (_, i) => `ferma R${i} abcdef${i}`);
   const righe = testoStato({ campagna: "prova", ora: "2026-11-15 07:00", sessioni, nuovi, esiti: { riparato: 12, parziale: 3 } });
@@ -114,7 +114,7 @@ test("stato non supera mai 40 righe, anche con 30 sessioni e 60 segnali nuovi", 
   assert.match(righe.join("\n"), /e altre \d+ righe/);
 });
 
-test("stato sulla casa finta: figlie, esiti e prossima azione in poche righe", () => {
+test("AR-1180 · stato sulla casa finta: figlie, esiti e prossima azione in poche righe", () => {
   const { t, noti, prog } = casaFinta();
   try {
     noti("ramo R01 rip-r01");

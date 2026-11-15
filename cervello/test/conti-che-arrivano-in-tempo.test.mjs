@@ -28,14 +28,14 @@ function campagna() {
   return { t, C, scrivi, registro, lancia };
 }
 
-test("kFinitiMaAperti: il giro dopo («K08 terzo», finito con una data) col collaudo ancora finita:false", () => {
+test("AR-1180 · kFinitiMaAperti: il giro dopo («K08 terzo», finito con una data) col collaudo ancora finita:false", () => {
   const sess = { collaudatori: { K08: { ramo: "k08" }, K05: { finita: true } }, giro: { k08_terzo: { titolo: "K08 terzo", finita: "2026-11-14 09:38" }, r17: { titolo: "R17 secondo", finita: "fermo al tetto" } } };
   assert.deepEqual(kFinitiMaAperti(sess, { K08: { finita: false }, K05: { finita: false } }), ["K05", "K08"]);
   assert.deepEqual(kFinitiMaAperti(sess, { K08: { finita: true }, K05: { finita: true } }), []);
   assert.deepEqual(kFinitiMaAperti({ collaudatori: { K09: { finita: "fermo al tetto" } } }, { K09: { finita: false } }), [], "«fermo al tetto» non è finito");
 });
 
-test("applica esce 1 quando sessioni.json dice K01 finito e collaudi/K01.json no", () => {
+test("AR-1180 · applica esce 1 quando sessioni.json dice K01 finito e collaudi/K01.json no", () => {
   const { t, scrivi, lancia } = campagna();
   try {
     scrivi("referti/R01.json", { sessione: "R01", aggiornato: "2026-11-15 06:00", finita: true, voci: [] });
@@ -47,7 +47,7 @@ test("applica esce 1 quando sessioni.json dice K01 finito e collaudi/K01.json no
   } finally { rmSync(t, { recursive: true, force: true }); }
 });
 
-test("conti: la PR dell'onda unita e il registro non scritto è rosso; scritto il registro, il rosso se ne va", () => {
+test("AR-1180 · conti: la PR dell'onda unita e il registro non scritto è rosso; scritto il registro, il rosso se ne va", () => {
   const { t, scrivi, registro, lancia } = campagna();
   try {
     const repo = join(t, "sito");
@@ -66,7 +66,7 @@ test("conti: la PR dell'onda unita e il registro non scritto è rosso; scritto i
   } finally { rmSync(t, { recursive: true, force: true }); }
 });
 
-test("prUniteSenzaRegistro: una PR non unita non è rossa, e se non lo so è un'attesa", () => {
+test("AR-1180 · prUniteSenzaRegistro: una PR non unita non è rossa, e se non lo so è un'attesa", () => {
   const sess = { pr_sito_onda2: { numero: 300, testa: "abc12345" } };
   const piano = { onde: [{}, { sessioni: { R13: {} } }] };
   assert.deepEqual(prUniteSenzaRegistro({ sess, piano, elenco: [], unita: () => false }).rossi, []);
@@ -74,7 +74,7 @@ test("prUniteSenzaRegistro: una PR non unita non è rossa, e se non lo so è un'
   assert.match(prUniteSenzaRegistro({ sess, piano, elenco: [], unita: () => true }).rossi.join(""), /#300 unita, onda 2/);
 });
 
-test("preventivo: 259 voci con le misure dell'onda 2 fanno almeno 1.600 $, mai 1,45 $ a voce", () => {
+test("AR-1180 · preventivo: 259 voci con le misure dell'onda 2 fanno almeno 1.600 $, mai 1,45 $ a voce", () => {
   const p = preventivoDa(MISURE, 259);
   assert.ok(p.stima_usd >= 1600, `stima ${p.stima_usd}`);
   assert.ok(p.per_voce_usd > 6, `per voce ${p.per_voce_usd}`);
@@ -84,7 +84,7 @@ test("preventivo: 259 voci con le misure dell'onda 2 fanno almeno 1.600 $, mai 1
   assert.equal(preventivoDa(null, 259), null, "senza misure niente preventivo");
 });
 
-test("conti --preventivo: senza misure.json esce 2; con le misure scrive preventivo.json e REGIA.md, ed è rosso al 70%", () => {
+test("AR-1180 · conti --preventivo: senza misure.json esce 2; con le misure scrive preventivo.json e REGIA.md, ed è rosso al 70%", () => {
   const { t, C, scrivi, lancia } = campagna();
   try {
     assert.equal(lancia("conti", "--preventivo", "--voci", "259", "--misure", join(t, "non-c-e.json")).status, 2);
