@@ -17,6 +17,13 @@
       "nota_fix": "/categorie usa la stessa lettura di vetrina, piede e menu (domandaCategoriePiene + soloLePiene, nessun filtro nuovo). Madri e figlie vuote non compaiono più. La pagina aspetta la risposta dietro il caricamento che già mostra, così Giocattoli non compare e poi sparisce. Se la lettura fallisce le mostra tutte, come prima. Così indice e piede vanno d'accordo. Sulla pagina di una categoria vuota, «Non abbiamo trovato questo prodotto» (la frase della ricerca, search.noResultsDescription) diventa una frase da categoria, in tutti e due i punti (righe 363 e 526)."
     },
     {
+      "chiave": "qa-flussi|loadingstate annuncia solo il suo aria-label in una regione viva",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r15-loadingstate.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 5383b348^ --file components/ui/LoadingState.tsx --prove tests/unit/riparazione-r15-loadingstate.test.tsx --json → uscita 0 (riparatore); cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-b --base 5383b34820dea7cfcc43d0cec9a52c446d9a3ce2^ --file components/ui/LoadingState.tsx --prove tests/unit/riparazione-r15-loadingstate.test.tsx --json → uscita 0 (K10)",
+      "nota_fix": "Nella variante skeleton tolto l aria-label dal role=status e messo dentro un span sr-only col messaggio, come in ScheletroCassa. Prova di render con renderToStaticMarkup; le prove esistenti su LoadingState restano verdi."
+    },
+    {
       "chiave": "qa-flussi|il commento di lib/queries/griglia-prodotti.ts:154 sui categoryids",
       "esito": "riparato",
       "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r15-commento-categoryids.test.ts",
