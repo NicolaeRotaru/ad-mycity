@@ -32,6 +32,8 @@
 //   applica [--scrivi]        da referti e collaudi: chi si chiude, chi resta aperto, i difetti nati
 //   conti                     prima e dopo, incrociando le chiavi
 //   deposito                  stampa il deposito dei rami della campagna (sito o macchina); 2 se non c'è
+//   pronte [--git <dir>]      quattro elenchi di chiavi in <cartella>/pronte/: A da ricollaudare, B serve_file_altrui,
+//                             C parziali con file altrui, D per Nicola (dai percorsi e dagli esiti, voce unica)
 //   segnali [--onda N]        le novità rispetto a rossi-noti.txt, una per riga (1 se ce n'è almeno una)
 //   stato [--onda N]          la campagna in 40 righe al massimo: figlie, esiti, spesa, segnali, prossima azione
 //
@@ -519,6 +521,12 @@ function perimetro(opz) {
  * sessione ancora vuota, poi la meno carica. Chi si scontra con due sessioni, o trova piena la sua, passa
  * all'onda dopo. Chi tocca un file che nessuna sessione può toccare va alla regia.
  */
+/** Le prove citate da due voci o più: hanno un padrone solo nell'onda. PURA. */
+export function proveComuni(voci) {
+  const conto = new Map();
+  for (const v of voci) for (const f of new Set((v.file ?? []).map(normPerc).filter((x) => eProva(x) && !eMigrazione(x)))) conto.set(f, (conto.get(f) ?? 0) + 1);
+  return new Set([...conto].filter(([, n]) => n >= 2).map(([f]) => f));
+}
 export function assegnaOnda(voci, { sessioni: k, perSessione = PER_SESSIONE, primoNumero = 1, vietati = new Set() } = {}) {
   const ordinate = [...voci].sort((a, b) =>
     (RANGO[a.gravita] ?? 9) - (RANGO[b.gravita] ?? 9)
@@ -529,9 +537,12 @@ export function assegnaOnda(voci, { sessioni: k, perSessione = PER_SESSIONE, pri
   const sess = Array.from({ length: quante }, (_, i) => ({ nome: nomeSessione(primoNumero + i), tema: null, voci: [], file: new Set() }));
   const padrone = new Map();
   const rimandate = [], regia = [];
+  const comuni = proveComuni(ordinate);
   for (const v of ordinate) {
     if (v.file.some((f) => vietati.has(normPerc(f)))) { regia.push(v.chiave); continue; }
-    const decidono = fileCheDecidono(v.file);
+    // Una prova COMUNE (citata da due voci o più) ha un padrone solo, come un sorgente (officina minima del 15/11):
+    // il 13/11 alle 07:16 cinque voci sono state tolte con un revert perché due sessioni toccavano la stessa prova.
+    const decidono = [...new Set([...fileCheDecidono(v.file), ...v.file.map(normPerc).filter((f) => comuni.has(f))])];
     const loro = new Set(decidono.filter((f) => padrone.has(f)).map((f) => padrone.get(f)));
     let i;
     if (loro.size > 1) { rimandate.push(v.chiave); continue; }
@@ -585,7 +596,7 @@ function dividi(opz) {
     if (opz["file-chiavi"]) for (const r of readFileSync(resolve(opz["file-chiavi"]), "utf8").split(/\r?\n/)) if (r.trim() && !r.startsWith("#")) chiavi.add(r.trim());
     const ignote = [...chiavi].filter((c) => !perChiave.has(c));
     if (ignote.length) return chiudi("dividi", [`${ignote.length} chiavi non sono nel perimetro: ${ignote.slice(0, 3).join(" ; ")}`], [], opz);
-    candidate = [...chiavi].map((c) => perChiave.get(c));
+    candidate = conFileCheServono([...chiavi].map((c) => perChiave.get(c)), fileCheServono(opz));
   }
   const perSessione = Number(opz["per-sessione"] ?? PER_SESSIONE);
   let k = opz.sessioni !== undefined ? Number(opz.sessioni) : undefined;
@@ -620,7 +631,7 @@ function rigaCompatta(casa, d) {
   const piatto = (v) => String(v ?? "").replace(/[\t\r\n]+/g, " ").trim();
   return [chiaveDi(casa, d), gravitaDi(casa, d), statoDi(d), piatto(casa === "macchina" ? d.dove : d.file).slice(0, 300), piatto(d.titolo)].join("\t");
 }
-export function testoScheda({ nome, onda, casa, deposito, base, ramo, regista, cartella, sessione }) {
+export function testoScheda({ nome, onda, casa, deposito, base, ramo, regista, cartella, sessione, precedenti = {} }) {
   const prima = sessione.voci[0];
   const gravi = sessione.voci.filter((v) => GRAVI.has(v.gravita)).length;
   const righe = [
@@ -640,7 +651,11 @@ export function testoScheda({ nome, onda, casa, deposito, base, ramo, regista, c
     `- casa: ${casa}`, `- deposito: ${deposito}`, `- base: ${base}`, `- ramo: ${ramo}`,
     `- cartella della campagna: ${cartella}`, `- regista: ${regista}`, `- referto: ${REFERTO_DIR}/referto-${nome}.json`, "",
     "### Le mie voci", "",
-    ...sessione.voci.map((v) => `- \`${v.id}\` · ${v.gravita} · ${v.chiave} · ${v.file.join(" , ")}`), "",
+    ...sessione.voci.flatMap((v) => {
+      const pr = precedenti[v.chiave];
+      const prima = pr ? [`  - prima: ${pr.esito} (${pr.id})${pr.cosa_resta ? ` · resta: ${pr.cosa_resta}` : ""}`, ...(pr.modifiche ?? []).map((m) => `  - modifica scritta per ${m.file}: ${m.modifica}`)] : [];
+      return [`- \`${v.id}\` · ${v.gravita} · ${v.chiave} · ${v.file.join(" , ")}`, ...prima];
+    }), "",
     "### I miei file", "",
     ...sessione.file.map((f) => `- \`${f}\``), "",
     "### Le mie migrazioni", "",
@@ -665,10 +680,13 @@ function schede(opz) {
   scriviTesto(join(cartella, "registro-compatto.txt"), reg.elenco.map((d) => rigaCompatta(per.casa, d)).join("\n") + "\n");
   mkdirSync(join(cartella, "schede"), { recursive: true });
   const ramoRegista = opz.ramo ?? "<ramo>";
+  // Le voci che tornano dal giro prima portano nella scheda esito, cosa resta e la modifica scritta (pronte.json).
+  const filePronte = join(cartella, "pronte", "pronte.json");
+  const precedenti = existsSync(filePronte) ? (leggiJson(filePronte).precedenti ?? {}) : {};
   for (const [nome, s] of Object.entries(o.sessioni)) {
     const testo = testoScheda({
       nome, onda, casa: per.casa, deposito: per.deposito, base: o.base,
-      ramo: `${ramoRegista}-m${due(numeroSessione(nome))}`, regista: opz.regista ?? "<regista>", cartella: relCartella, sessione: s,
+      ramo: `${ramoRegista}-m${due(numeroSessione(nome))}`, regista: opz.regista ?? "<regista>", cartella: relCartella, sessione: s, precedenti,
     });
     scriviTesto(join(cartella, "schede", `${nome}.md`), testo);
   }
@@ -714,6 +732,12 @@ export function controllaOnda(o, { candidate, casa, maxMigrazione = null, vietat
       if (apertiNelRegistro && !apertiNelRegistro.has(v.chiave)) rossi.push(`${v.id}: la chiave «${v.chiave}» non è più aperta nel registro`);
       if (/^\d+$/.test(String(v.chiave))) rossi.push(`${v.id}: «${v.chiave}» è un indice, non una chiave`);
     }
+  }
+  // Una prova comune (citata da due voci o più) vuole un padrone nell'onda, ed è della sessione di ogni voce che la cita.
+  const comuni = proveComuni(Object.values(o.sessioni ?? {}).flatMap((s) => s.voci ?? []));
+  for (const [nome, s] of Object.entries(o.sessioni ?? {})) for (const v of s.voci ?? []) for (const f of (v.file ?? []).map(normPerc).filter((x) => comuni.has(x))) {
+    if (!padrone.has(f)) rossi.push(`${v.id}: tocca ${f}, che in quest'onda non ha un padrone`);
+    else if (padrone.get(f) !== nome) rossi.push(`${v.id}: tocca ${f}, che in quest'onda è di ${padrone.get(f)}`);
   }
   for (const c of o.rimandate ?? []) segna(c, "onda dopo");
   for (const c of o.regia ?? []) segna(c, "regia");
@@ -1944,10 +1968,118 @@ function stato(opz) {
   return f.nuovi.length ? 1 : 0;
 }
 
+// ── pronte: le voci che tornano in lavoro, in quattro elenchi (officina minima del 15/11, pezzo 4) ──
+// Le liste del giro di correzione le faceva la regista a mano: le serve_file_altrui sono passate da 14 a 29, e il
+// 14/11 su 20 voci rimandate allo stesso padrone del file 11 sono tornate serve_file_altrui. Qui gli elenchi
+// nascono dai PERCORSI dei file e dagli ESITI, mai dalle parole, dopo aver fuso voce per voce i referti e i
+// collaudi dei giri successivi (i rami «secondo», K05 secondo, K08 terzo). Si conta per voce unica (la chiave).
+export const ELENCHI_PRONTE = Object.freeze({ A: "A-da-ricollaudare.txt", B: "B-serve-file-altrui.txt", C: "C-parziali-file-altrui.txt", D: "D-per-nicola.txt" });
+const SEGRETO = /\b[A-Z][A-Z0-9_]*_(?:KEY|SECRET|TOKEN|PASSWORD)\b/;
+const PERCORSO_NEL_TESTO = /[\w@.-]+(?:\/[\w@.[\]-]+)+\.[a-z]{1,5}\b/gi;
+
+/** Due versioni dello stesso referto o collaudo, voce per voce: la più nuova vince sulle voci che porta. PURA. */
+export function fondiVoci(vecchio, nuovo) {
+  if (!nuovo) return vecchio ?? null;
+  if (!vecchio) return nuovo;
+  const perId = new Map((vecchio.voci ?? []).map((v) => [v?.id, v]));
+  for (const v of nuovo.voci ?? []) if (v?.id) perId.set(v.id, v);
+  return { ...vecchio, ...nuovo, voci: [...perId.values()] };
+}
+
+/**
+ * I quattro elenchi. PURA. Una voce sta in un elenco solo, in quest'ordine: D (per Nicola), B, C, A.
+ *  A riparate minori ancora aperte senza collaudo, senza giudizio pieno o con la prova rimessa a uscita 3;
+ *  B serve_file_altrui con ogni modifica scritta; C parziali che nominano un file di un altro padrone nel piano;
+ *  D non_codice, scelta_di_nicola, o una migrazione o un segreto nominati.
+ * Torna anche `precedenti` (per chiave: esito, cosa_resta, modifiche e file che servono), per `dividi` e `schede`.
+ */
+export function elenchiPronte({ piano, referti, collaudi, decisioni }) {
+  const dec = new Map(decisioni.map((d) => [d.id, d]));
+  const cvDi = (d) => (collaudi.find((c) => c.collaudatore === d?.collaudatore)?.voci ?? []).find((v) => v?.id === d?.id) ?? null;
+  const fuori = { A: new Map(), B: new Map(), C: new Map(), D: new Map() };
+  const precedenti = {};
+  let righeB = 0;
+  for (const o of piano.onde ?? []) {
+    const padrone = new Map();
+    for (const [n, s] of Object.entries(o.sessioni ?? {})) for (const f of [...(s.file ?? []), ...(s.voci ?? []).flatMap((v) => v.file ?? [])]) if (!padrone.has(normPerc(f))) padrone.set(normPerc(f), n);
+    for (const [nome, s] of Object.entries(o.sessioni ?? {})) {
+      for (const sv of s.voci ?? []) {
+        const rv = (referti[nome]?.voci ?? []).find((v) => v?.id === sv.id);
+        const d = dec.get(sv.id);
+        if (!rv || d?.decisione !== "resta_aperta") continue;
+        const altrui = Array.isArray(rv.serve_file_altrui) ? rv.serve_file_altrui : [];
+        const testo = [rv.cosa_resta, rv.nota, rv.domanda, ...altrui.map((x) => x?.modifica)].filter(Boolean).join("\n");
+        const nominati = [...new Set([...(sv.file ?? []), ...(rv.file_toccati ?? []), ...altrui.map((x) => x?.file), ...(String(rv.cosa_resta ?? "").match(PERCORSO_NEL_TESTO) ?? [])].filter(Boolean).map(normPerc))];
+        const cv = cvDi(d);
+        let el = null;
+        if (["non_codice", "scelta_di_nicola"].includes(rv.esito) || nominati.some(eMigrazione) || SEGRETO.test(testo)) el = "D";
+        else if (rv.esito === "serve_file_altrui" && altrui.length && altrui.every((x) => !vuoto(x?.file) && !vuoto(x?.modifica))) { el = "B"; righeB += 1; }
+        else if (rv.esito === "parziale" && nominati.some((f) => padrone.has(f) && padrone.get(f) !== nome)) el = "C";
+        else if (rv.esito === "riparato" && !GRAVI.has(sv.gravita) && !["non_regge", "rompe_altro"].includes(cv?.verdetto)
+          && (!cv || cv.giudizio !== "pieno" || [rv.rimessa?.uscita, cv.rimessa?.uscita].includes(3))) el = "A";
+        if (!el) continue;
+        // Voce unica: la stessa chiave in due onde conta una volta, e vale l'onda più nuova.
+        for (const m of Object.values(fuori)) m.delete(sv.chiave);
+        fuori[el].set(sv.chiave, sv.id);
+        precedenti[sv.chiave] = { id: sv.id, elenco: el, esito: rv.esito, cosa_resta: rv.cosa_resta ?? null, modifiche: altrui.map((x) => ({ file: normPerc(x.file), modifica: x.modifica })), file_che_servono: [...new Set(altrui.map((x) => normPerc(x.file)))] };
+      }
+    }
+  }
+  const elenchi = Object.fromEntries(Object.entries(fuori).map(([k, m]) => [k, [...m.keys()]]));
+  return { elenchi, precedenti, righeB };
+}
+
+function pronte(opz) {
+  let per, piano;
+  try { per = leggiPerimetro(opz); piano = leggiPiano(opz); } catch (e) { return cieco("pronte", e.message, opz); }
+  const dir = serveCartella(opz);
+  const sess = leggiSessioni(opz) ?? {};
+  const rel = posix.normalize(dir.slice(opz.radice.length + 1).split("\\").join("/"));
+  const dalRamo = (depo, ramo, percorso) => {
+    if (!depo || !ramo) return null;
+    const ref = risolviRef(depo, ramo);
+    const t = ref ? gitOk(depo, ["show", `${ref}:${percorso}`]) : null;
+    try { return t ? JSON.parse(t) : null; } catch { return null; }
+  };
+  const sito = opz.git ? resolve(opz.git) : null;
+  const locali = (sotto) => Object.fromEntries(leggiCartellaTesti(join(dir, sotto), /^[RK]\d+\.json$/).filter((x) => x.dati).map((x) => [basename(x.nome, ".json"), x.dati]));
+  const refLoc = locali("referti"), colLoc = locali("collaudi");
+  const referti = {};
+  for (const n of new Set([...piano.onde.flatMap((o) => Object.keys(o.sessioni)), ...Object.keys(refLoc)])) {
+    referti[n] = fondiVoci(refLoc[n], dalRamo(sito, sess.sessioni?.[n]?.ramo, `${REFERTO_DIR}/referto-${n}.json`));
+  }
+  const collaudi = [];
+  for (const n of new Set([...Object.keys(colLoc), ...Object.keys(sess.collaudatori ?? {})])) {
+    const c = fondiVoci(colLoc[n], dalRamo(opz.radice, sess.collaudatori?.[n]?.ramo, `${rel}/collaudi/${n}.json`));
+    if (c) collaudi.push(c);
+  }
+  const decisioni = decidi({ piano, referti, collaudi, hub: fileHub(per.lavorabili ?? []) });
+  const { elenchi, precedenti, righeB } = elenchiPronte({ piano, referti, collaudi, decisioni });
+  const fuoriDir = join(dir, "pronte");
+  mkdirSync(fuoriDir, { recursive: true });
+  for (const [k, file] of Object.entries(ELENCHI_PRONTE)) scriviTesto(join(fuoriDir, file), [`# elenco ${k} di pronte (${timbroOra()}): ${elenchi[k].length} voci uniche, una chiave per riga`, ...elenchi[k]].join("\n") + "\n");
+  scriviJson(join(fuoriDir, "pronte.json"), { creato: timbroOra(), conti: Object.fromEntries(Object.entries(elenchi).map(([k, v]) => [k, v.length])), righe_B: righeB, precedenti });
+  console.log(`🧺 pronte: A ${elenchi.A.length} da ricollaudare · B ${elenchi.B.length} serve_file_altrui (${righeB} righe nei referti) · C ${elenchi.C.length} parziali con file altrui · D ${elenchi.D.length} per Nicola`);
+  return chiudi("pronte", [], sito ? [] : ["senza --git i referti dei rami (i giri «secondo») non sono fusi: solo le copie in referti/"], opz, { conti: Object.fromEntries(Object.entries(elenchi).map(([k, v]) => [k, v.length])), righe_B: righeB });
+}
+
+/** Le chiavi B del file dato a `dividi --file-chiavi`, con i file che servono (da pronte.json accanto). */
+function fileCheServono(opz) {
+  const f = opz["file-chiavi"] && join(dirname(resolve(opz["file-chiavi"])), "pronte.json");
+  if (!f || !existsSync(f)) return new Map();
+  const p = leggiJson(f).precedenti ?? {};
+  return new Map(Object.entries(p).filter(([, x]) => x.elenco === "B" && x.file_che_servono?.length).map(([k, x]) => [k, x.file_che_servono]));
+}
+
+/** Una serve_file_altrui va da chi ha il file che le serve: i file che servono entrano fra i file della voce. PURA. */
+export function conFileCheServono(candidate, mappa) {
+  return candidate.map((v) => (mappa.has(v.chiave) ? { ...v, file: [...new Set([...v.file, ...mappa.get(v.chiave)])] } : v));
+}
+
 const COMANDI = {
   perimetro, dividi, schede, "copertura-prima": coperturaPrima, segnaposti, "guardia-ramo": guardiaRamo,
   "valida-referto": validaReferto, "valida-collaudo": validaCollaudo, "prova-unione": provaUnione, applica, conti, deposito,
-  segnali, stato,
+  segnali, stato, pronte,
 };
 export function esegui(argv) {
   const [comando, ...resto] = argv;
