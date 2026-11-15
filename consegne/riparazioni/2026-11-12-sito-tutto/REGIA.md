@@ -16,7 +16,7 @@ Esempio: l'onda 2 ha 12 riparatori, da R13 a R24, e la voce del bonifico del lun
 Nicola parla con l'AD, nella quinta chat (`session_015BmpnYWmNDPKAztZMPww6M`). Fermate ed esito vanno lì, con send_message.
 
 ## Cosa devi fare
-Guidare l'onda 2 fino alla fermata 3, poi l'onda 3, la cucitura e il controllore finale.
+L'onda 2 è sul sito vero. La regista nuova riparte dal passaggio della settima, il primo blocco dei dettagli tecnici: scrivere il registro, decidere con Nicola il sorvegliante, poi l'onda 3.
 
 ## Cosa non ho verificato
 Che le figlie nascano con ultracode: si controlla con get_session sulla prima, prima di aprire le altre.
@@ -24,6 +24,20 @@ Che le figlie nascano con ultracode: si controlla con get_session sulla prima, p
 ---
 
 ## Dettagli tecnici
+
+### Il passaggio della regista O2 settima — 2026-11-15 06:20
+Decisioni di Nicola delle 06:05 (via l'AD `session_015BmpnYSQgvReHZZJxrC8mw`, piano `consegne/audit/2026-11-15-lezioni-onde/piano.md` sul ramo `ccr-35d5a384-heiqd7`, ad-mycity#958): la settima finisce il giro e si ferma (decisione 6); il tetto dell'onda 2 resta 1.650 $ (decisione 7); la deroga `bb53b6be` è firmata e la scrive in `piano.json` la regista nuova, prima di `applica --scrivi` (decisione 2).
+- **Costo.** Settima a 200,04 $ (`get_session`, `usage.cost_usd`); onda 2 circa 1.658 $: oltre il tetto di circa 8 $. Per questo il secondo giro di correzione di AR-969 è stato FERMATO a metà (TaskStop sul workflow `wf_caf549d7-220`) e il terzo collaudo non è partito.
+- **Onda 2 pubblicata.** mycity#290 unita il 15/11 alle 03:07:29 (`67666b3f`), sito online alle 03:09:52 (`dpl_FCvjndSp8CSx4ipH8LySz8W1s55U`). Migrazioni 400, 403, 404, 405, 412, 421, 422, 424, 425, 429, 450 sul database vero dalle 02:45 alle 03:06 (versioni `20261115014540`-`20261115020606`, progetto `clmpyfvpvfjgeviworth`); `loyalty_transactions_order_id_fkey` resta NOT VALID (2 movimenti orfani). Scheda: `FERMATA-PUBBLICAZIONE-ONDA-2.md`. Restano fuori dal sito R13 e R14 (rami `-m13`, `-m14`) e le tre correzioni tolte (R20-011, R17-013, R18-014).
+- **Il registro (da fare, regista nuova).** `node cervello/riparazione-sessioni.mjs applica --scrivi` sulla cartella della campagna: 78 voci dell'onda 2 e 164 nati (conto `conti_15_11_01_35` in `sessioni.json`). Prima: la deroga `bb53b6be` in `piano.json`; i referti in `.riparazione/` che dicono «riparato» per R18-019 e R20-011 (non sono chiuse).
+- **ad-mycity#956** (ramo `claude/magical-hamilton-xouwr8`): memoria della campagna + le due cure della scelta di Nicola «Costruisco i controlli».
+  - AR-962 (controllo del glossario dei KPI: `cervello/kpi-registro.json`, `cervello/glossario-kpi.mjs`, `cervello/glossario-kpi-check.mjs`): REGGE al secondo collaudo (`wf_ef6d5bbe-981`). Minori aperti: tre strade restano aperte nella chiusura delle uscite (dns.Resolver, node:sqlite, /proc/self/environ), `documentoCassa` non vede un campo aggiunto in `main`, un `.catch(() => {})` fratello in `cervello/sensore-cassa.mjs:318`, la riga di log di `cervello/giro.sh:669` da cieco; la scorciatoia A4 (2 non-KPI «soglia» su 23).
+  - AR-969 (sorvegliante): BOCCIATO due volte (`wf_5fdb4a85-a3b`, `wf_ef6d5bbe-981`). Grave aperto: la prima correzione dà per vivi senza chiedere tutti i programmi fuori dalla radice di `cervello/`, quindi cancellare `cervello/capacita/cap-51-la-costituzione-vivente.mjs` o `cervello/vps/test-giro-prompt.sh` (morti) dà una voce grave. La cura parziale del secondo giro, non finita e non collaudata, sta in `frammenti/correzione-2-ar969-interrotta.patch` (466 righe, NON applicata al ramo). Un terzo rosso è di Nicola (R-F): semplifica, restringi o continua.
+  - CI della #956: verde tranne «la radiografia del perimetro toccato» (5 file da riguardare dopo l'ultima modifica: `cervello/sensore-cassa.mjs` salute-sensori-dati, `cervello/giro.sh` cadenza-esecuzione, `cervello/glossario-kpi-check.mjs`, `cervello/glossario-kpi.mjs`, `cervello/sorvegliante.mjs` rischio-sicurezza-se). Non è unibile finché AR-969 non regge o Nicola sceglie.
+  - Conflitto con la #958: la #958 sposta al 22/11 l'attesa del glossario (`cervello/documenti-di-governo.mjs`, voce `attesa-glossario-kpi` di `cervello/scadenzario.json`); la #956 la toglie e mette il guardiano. Se AR-962 entra, vale la versione della #956.
+- **Catena e sessioni.** Nessun risveglio attivo: `trig_01H5c9X5HQPiVhVbwXH9pzav` è spento dal 14/11 alle 12:34 (`run_once_fired`), `list_triggers` attivi = 0. Nessuna figlia viva. Le falle riservate (9 + la variante di K08) restano fuori dal deposito: i dettagli stanno nelle chat delle sessioni che le hanno trovate e in quella della settima.
+- **Schede nuove nel cantiere:** AR-1174 (sorvegliante, verifica umana), AR-1175 (il controllo del glossario guarda 3 vetrine su molte), AR-1176 (due formule del runway), AR-1177 (margine per ordine senza il costo di consegna).
+
 
 **Le scelte di Nicola.**
 - 12/11: casa `sito`, profilo `tutto`, riparatori da 25 voci, tre onde, fermate prima dell'onda 1 e dopo le onde 1 e 2.
