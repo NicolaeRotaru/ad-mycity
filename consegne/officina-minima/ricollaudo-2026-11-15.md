@@ -1,7 +1,7 @@
 ---
 data: 2026-11-15 10:50
 chi: ricollaudatore della correzione dell'officina minima (chat 3 dell'AD)
-testa: main a 6273ba1, che contiene lo squash 85e4167. Il codice di riparazione-sessioni.mjs e i test sono identici a 41e041c
+testa: domande 1-6 su main a 6273ba1, che contiene lo squash 85e4167. La domanda 7 e il rilancio finale dei test su main a 823f579, che contiene la #965. Fra le due teste riparazione-sessioni.mjs cambia solo in prUniteSenzaRegistro
 ---
 
 # Ricollaudo dell'officina minima — 15/11/2026
@@ -12,7 +12,7 @@ Il bloccante è chiuso, i minori 4 e 5 sono chiusi, i numeri della costruttrice 
 La riserva è un rischio già dichiarato dalla costruttrice: lo scrivo col caso vero e con la correzione.
 
 ## Il punto adesso
-- ✅ **Fatto:** ho rifatto le sei prove sulla copia della campagna del 12 novembre. Cinque reggono. La sesta regge, ma con un rischio da sapere.
+- ✅ **Fatto:** ho rifatto le sei prove sulla copia della campagna del 12 novembre. Cinque reggono. La sesta regge, ma con un rischio da sapere. Ho controllato anche la #965, unita dopo: regge.
 - ⏳ **In corso:** niente.
 - 👉 **Tocca a te:** niente di urgente. Se vuoi chiudere anche il rischio, serve un campo nel piano: lo spiego sotto.
 - 🕐 **Quando vuoi:** la promessa scritta nella skill `riparazione` («applica rilancia comunque i controlli») non vale più per la regola dei 40 voci. Va corretta la frase, oppure il codice.
@@ -95,6 +95,14 @@ Le righe rosse sparite non cambiano le voci chiuse: fermavano `applica` tutta in
   `node cervello/non-vacuita.mjs --difetti AR-1163,AR-1172,AR-1180 --json` → 88 lanciate (le 81 più 7 di freno e sorveglia), **87 ok e 1 «cieca»**.
   La cieca è di AR-1172 («valida-collaudo perde dal JSON i rossi sospesi»). È andata oltre il tetto di 700 secondi con la macchina carica. Non era misurata, quindi l'ho rilanciata da sola: la mutazione applicata a mano, poi `node --test cervello/test/riparazione-sessioni.test.mjs` → rosso al test 81, in 13 secondi.
   Conto finale: **88 prese su 88**.
+
+### 7. La #965 — minore 3, conti su una PR unita con squash — ✅
+Domanda aggiunta dall'AD dopo il primo messaggio. Controllata una volta sola, su main a 823f579, dove la #965 è entrata.
+- La correzione aggiunge un'attesa quando la testa della PR non è in main, il campo «unita» manca e il registro dell'onda non è scritto.
+- `node --test --test-name-pattern="minore 3 del collaudo" cervello/test/conti-che-arrivano-in-tempo.test.mjs` → con la correzione 1 su 1 verde.
+- Stessa prova con `riparazione-sessioni.mjs` rimesso com'era prima di 823f579 → 0 su 1, rossa. Atteso rosso senza e verde con → reale rosso senza e verde con.
+- La testa nuova f9af2ed cambia solo il titolo della prova, da AR-1180 ad AR-1183. La mutazione di AR-1183 è nel file `cervello/mutanti.json`.
+- Rilancio su main a 823f579 di cinque file di test: conti, riparazione-sessioni, collaudi insieme, officina minima, chiusure dopo l'onda 2 → 153 su 153 verdi.
 
 ### Fuori perimetro, solo annotato
 - `decidi` da solo, senza `conIControlli`, chiude 5 voci che i controllori sul ramo unito hanno trovato rosse: R06-017, R07-019, R08-012, R09-013, R11-017. `applica` le riapre. `pronte` chiama `decidi` senza controlli: non ho verificato se le rimette nei suoi elenchi. Vale una occhiata, ma non nasce da 41e041c.
