@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-11-13 04:01
+aggiornato: 2026-11-15 01:21
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🔧 **2026-11-15 01:21 — L'onda 2 del sito: 78 difetti chiusi su 259, il lavoro è nella richiesta di unione del sito con le prove verdi.**
+>
+> L'onda 2 ha lavorato 259 difetti del sito con 12 riparatori. Ne chiude 78, tutti piccoli, più 3 già a posto. Dei 20 gravi o bloccanti non ne chiude nessuno. Il 15/11 alle 00:54 la regia ha riunito i rami nella richiesta di unione del sito (mycity#290): tutte le prove automatiche sono verdi e si può unire, ma resta in bozza. Fuori restano tre correzioni che rompevano altro. Un controllore sta guardando le modifiche nuove e i 90 file mai controllati. Il costo è circa 1.560 $ su un tetto di 1.650. Prima di andare online servono le firme di Nicola sulle 11 migrazioni del database. Il resoconto intero sta in `consegne/riparazioni/2026-11-12-sito-tutto/RESOCONTO-ONDA-2.md`.
 
 > ✅ **2026-11-13 02:55 — Hai unito la richiesta della macchina #944.**
 >
