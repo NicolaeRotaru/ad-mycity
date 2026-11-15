@@ -13,6 +13,17 @@
         "rimessa_a_mano"
       ],
       "firma": "Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03"
+    },
+    {
+      "onda": 2,
+      "sessione": "R17",
+      "commit": "bb53b6beebd8a17ca7d93d476d123f59b5ecfb13",
+      "regole": [
+        "id_nel_commit"
+      ],
+      "perche": "Il commit è il revert di R17-005 (d5687bbc) scritto col messaggio standard di git («Revert \"R17-005 …\"»): non comincia con «R17-005», ma tocca solo i file di R17-005 e li rimette com'erano.",
+      "firma": "Nicola, 15/11 verso le 06:05, chat dell'AD session_015BmpnYSQgvReHZZJxrC8mw, decisione 2 del piano del 15/11",
+      "scritta": "2026-11-15 06:45, regista della fase 1"
     }
   ],
   "onde": [

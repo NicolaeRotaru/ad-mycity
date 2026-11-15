@@ -396,6 +396,60 @@ test("guardia-ramo: un commit di codice senza l'id della voce è rosso", () => {
   } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
 });
 
+test("deroga di R17 (15/11) · guardia-ramo: la firma su UN commit intero sospende solo quel commit, e lo elenca", () => {
+  const { dir, g, scrivi, base } = depositoFinto();
+  const c = cartellaCampagna(base);
+  const conEccezione = (e) => { const p = JSON.parse(readFileSync(join(c, "piano.json"), "utf8")); p.eccezioni_firmate = e; writeFileSync(join(c, "piano.json"), JSON.stringify(p)); };
+  try {
+    g("checkout", "-q", "-b", "r01", base);
+    scrivi("lib/a.ts", "export const a = 3;\n"); g("commit", "-qam", "R01-001 la riparazione");
+    g("revert", "--no-edit", "HEAD"); // il messaggio standard di git: «Revert "R01-001 …"»
+    const revert = g("rev-parse", "HEAD");
+    const altro = (scrivi("lib/a.ts", "export const a = 4;\n"), g("commit", "-qam", "sistemo un po' di cose"), g("rev-parse", "HEAD"));
+    const firma = "Nicola, prova";
+    // firmata sul revert: il revert passa, l'altro commit senza id resta rosso
+    conEccezione([{ onda: 1, commit: revert, regole: ["id_nel_commit"], firma }]);
+    let r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.equal(r.status, 1, r.stdout);
+    const rossiId = (out) => (out.match(/🔴 [0-9a-f]{12}: un commit di codice che non comincia con l'id/g) || []).length;
+    assert.equal(rossiId(r.stdout), 1, r.stdout);
+    assert.match(r.stdout, new RegExp(`ℹ️ ${revert.slice(0, 12)}: .*\\[eccezione firmata, onda 1: ${firma}\\]`));
+    assert.match(r.stdout, new RegExp(`🔴 ${altro.slice(0, 12)}`));
+    assert.doesNotMatch(r.stdout, new RegExp(`🔴 ${revert.slice(0, 12)}`));
+    // firmata su tutti e due: verde, e i due sospesi si elencano con la firma
+    conEccezione([{ onda: 1, commit: revert, regole: ["id_nel_commit"], firma }, { onda: 1, commit: altro, regole: ["id_nel_commit"], firma }]);
+    r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.equal(r.status, 0, r.stdout);
+    assert.equal(rossiId(r.stdout), 0, r.stdout);
+    assert.equal((r.stdout.match(/ℹ️ [0-9a-f]{12}: un commit di codice .*\[eccezione firmata, onda 1: Nicola, prova\]/g) || []).length, 2, r.stdout);
+    // un prefisso, nessun commit, l'onda sbagliata, un'altra regola o un commit fra le regole d'onda: niente sospeso
+    for (const e of [
+      [{ onda: 1, commit: revert.slice(0, 12), regole: ["id_nel_commit"], firma }],
+      [{ onda: 1, regole: ["id_nel_commit"], firma }],
+      [{ onda: 2, commit: revert, regole: ["id_nel_commit"], firma }],
+      [{ onda: 1, commit: revert, regole: ["prove_comuni"], firma }],
+      [{ onda: 1, commit: revert.toUpperCase(), regole: ["id_nel_commit"], firma }],
+      [{ onda: 1, commit: revert, regole: ["id_nel_commit"], firma: "​" }],
+    ]) {
+      conEccezione(e);
+      r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+      assert.equal(r.status, 1, `${JSON.stringify(e)}\n${r.stdout}`);
+      assert.equal(rossiId(r.stdout), 2, `${JSON.stringify(e)}\n${r.stdout}`);
+    }
+  } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
+});
+
+test("deroga di R17 (15/11) · eccezioneFirmata: una regola per commit non vale per l'onda, e un commit non allarga le regole d'onda", () => {
+  const sha = "bb53b6beebd8a17ca7d93d476d123f59b5ecfb13";
+  const piano = { eccezioni_firmate: [{ onda: 2, commit: sha, regole: ["id_nel_commit", "prove_comuni"], firma: FIRMA }] };
+  assert.equal(eccezioneFirmata(piano, 2, "id_nel_commit", sha), FIRMA);
+  assert.equal(eccezioneFirmata(piano, 2, "id_nel_commit"), null, "senza il commit giudicato non vale");
+  assert.equal(eccezioneFirmata(piano, 2, "id_nel_commit", "a".repeat(40)), null, "un altro commit non è sospeso");
+  assert.equal(eccezioneFirmata(piano, 2, "prove_comuni"), null, "un'eccezione che nomina un commit non sospende una regola per tutta l'onda");
+  assert.equal(eccezioneFirmata({ eccezioni_firmate: [{ onda: 2, regole: ["id_nel_commit"], firma: FIRMA }] }, 2, "id_nel_commit", sha), null, "senza commit scritto non vale");
+  assert.equal(eccezioneFirmata({ eccezioni_firmate: [{ onda: 2, commit: sha.slice(0, 8), regole: ["id_nel_commit"], firma: FIRMA }] }, 2, "id_nel_commit", sha.slice(0, 8)), null, "un prefisso non è un commit intero");
+});
+
 test("AR-1163 · prova-unione: due rami sullo stesso file sono rossi, e l'unione che litiga lo dice; rami disgiunti verdi", () => {
   const { dir, g, scrivi, base } = depositoFinto();
   const c = cartellaCampagna(base);

@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-11-15 05:59
+aggiornato: 2026-11-15 06:55
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> ✅ **2026-11-15 06:55 — Il registro del sito segna i 78 difetti chiusi dall'onda 2.**
+>
+> In tutta la campagna i difetti riparati sono 193 su 559 lavorati: 115 dell'onda 1 e 78 dell'onda 2. Altri 10 erano già a posto prima. Hai firmato il piano verso le 06:05, e la regista dell'onda 2 si è fermata al tetto. La regista nuova ha segnato le chiusure e si è fermata da sola a 270 mila token. Adesso un collaudatore giudica 11 difetti riparati che nessuno aveva mai giudicato. Restano da unire le richieste ad-mycity#958 e #959.
 
 > 🔧 **2026-11-15 05:59 — Il piano per chiudere più difetti dentro il limite: l'onda 2 è costata cinque volte l'onda 1 per ogni difetto.**
 >

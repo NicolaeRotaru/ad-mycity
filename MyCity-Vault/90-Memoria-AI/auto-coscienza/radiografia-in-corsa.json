@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-15 07:16",
+  "aggiornato": "2026-11-15 07:40",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -7214,7 +7214,21 @@
       }
     },
     {
-      "quando": "2026-11-15 07:16",
+      "quando": "2026-11-15 06:59",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/riparazione-sessioni.mjs": "71ddb607ef81"
+      }
+    },
+    {
+      "quando": "2026-11-15 07:40",
       "casa": "macchina",
       "dimensione": "cadenza-esecuzione",
       "repo": "ad",
@@ -7230,7 +7244,7 @@
       }
     },
     {
-      "quando": "2026-11-15 07:16",
+      "quando": "2026-11-15 07:40",
       "casa": "macchina",
       "dimensione": "rischio-sicurezza-se",
       "repo": "ad",
@@ -7240,7 +7254,7 @@
       "schede": [],
       "nota": "",
       "file": {
-        "cervello/riparazione-sessioni.mjs": "f70f0481c270",
+        "cervello/riparazione-sessioni.mjs": "ee1bf2427a3c",
         "cervello/riparazione/freno-subagenti.mjs": "5ca09cfca18e"
       }
     }

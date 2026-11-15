@@ -1,0 +1,104 @@
+{
+  "corsia": 16,
+  "territorio": "R16",
+  "difetti": [
+    {
+      "chiave": "frontend-ux|«seminuovo», «come nuovo» e «non nuovo», letti dalla foto o dall assistente, entrano come «nuovo»: un oggetto usato può arrivare in vetrina come nuovo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r16-condizione-usata.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 0d427245^ --file lib/products/schema.ts --prove tests/unit/riparazione-r16-condizione-usata.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 0d427245dbe431d0585adb557724f65ce6bbef1b^ --file lib/products/schema.ts --prove tests/unit/riparazione-r16-condizione-usata.test.ts --json   (checkout 0d427245dbe431d0585adb557724f65ce6bbef1b) → uscita 0 (K08)",
+      "nota_fix": "normalizeCondition segue una regola, non una lista: «nuovo» (nuov…/new) vale solo senza una negazione (non, not, mai…) né un paragone (come, quasi, pari, simile, pare, sembra, tipo, praticamente, fosse, like, as, nearly) davanti; «mai/non usato» vale nuovo solo se subito dopo non c'è una misura di tempo o quantità (da/per/negli anni, dal 2019, molto, più), e «troppo»/«tanto» altrove non contano. La prova ha tutte le frasi del revisore; verdi le prove che importano lo schema."
+    },
+    {
+      "chiave": "layout-responsive|sul telefono la tabella dei clienti esce dallo schermo: spesa, ultimo ordine e targhetta vip si vedono solo trascinandola di lato",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r16-clienti-schede-telefono.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base bca20010^ --file app/seller/customers/page.tsx --prove tests/unit/riparazione-r16-clienti-schede-telefono.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base bca20010f7eda3c30727656534ecad274163fc60^ --file app/seller/customers/page.tsx --prove tests/unit/riparazione-r16-clienti-schede-telefono.test.ts --json   (checkout bca20010f7eda3c30727656534ecad274163fc60) → uscita 0 (K08)",
+      "nota_fix": "Sul telefono una scheda per cliente al posto della tabella da 700 px (che resta da md in su), con filtri, ricerca e link alti 44 px; la riga «ID:» è tolta da schede e tabella. Lo spazio in fondo è pb-36 md:pb-0 (con py-6 = 192 px, oltre i 152 px del pulsante assistenza); la prova controlla che «ID: xxxxxxxx» non compaia e la classe dello spazio."
+    },
+    {
+      "chiave": "microcopy|nella schermata delle storie il negoziante trova «caption» e un indirizzo da programmatore come esempio",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r16-storie-testi.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 0b1f3e32^ --file app/seller/stories/page.tsx --prove tests/unit/riparazione-r16-storie-testi.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 0b1f3e32d4c74dec879fe0cd32bbcbda1eb3cbb2^ --file app/seller/stories/page.tsx --prove tests/unit/riparazione-r16-storie-testi.test.tsx --json   (checkout 0b1f3e32d4c74dec879fe0cd32bbcbda1eb3cbb2) → uscita 0 (K08)",
+      "nota_fix": "«Caption (1 frase)» diventa «Scritta sotto la foto (una frase)»; il link diventa «Pagina del sito (facoltativo)» con una spiegazione e l'esempio /promozioni, che la regola della 011 accetta. La prova controlla che «Caption» non ci sia e che l'esempio passi safeInternalPath."
+    },
+    {
+      "chiave": "microcopy|le ore scritte dal server escono nell'ora di londra: la pagina stato dice 14:54 quando a piacenza sono le 16:54",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r16-ore-di-roma.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 0270677f^ --file lib/format.ts --prove tests/unit/riparazione-r16-ore-di-roma.test.ts → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 0270677f47fb1e7648e3d56c1ff4a3390b98a26a^ --file lib/format.ts --prove tests/unit/riparazione-r16-ore-di-roma.test.ts --json   (checkout 0270677f47fb1e7648e3d56c1ff4a3390b98a26a) → uscita 0 (K08)",
+      "nota_fix": "Sulla base app/status/page.tsx:73 e lib/shipping-etichetta/label.ts:115 avevano già timeZone 'Europe/Rome'; mancava formatDate in lib/format.ts, che ora lo ha. Prova con l'orologio finto: 22:30 UTC di agosto esce «4 agosto», 23:30 UTC di dicembre esce «1 gennaio». Le 27 prove che importano lib/format restano verdi, nessuna toccata."
+    },
+    {
+      "chiave": "mobile-pwa|il pulsante sos chiede la posizione dopo aver aperto il tastierino del 112: l'avviso a mycity potrebbe partire spesso senza coordinate",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r16-sos-posizione.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 6935611b^ --file components/rider/SOSButton.tsx --prove tests/unit/riparazione-r16-sos-posizione.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 6935611b4f4e9886db95e112f2d34102b9a5f981^ --file components/rider/SOSButton.tsx --prove tests/unit/riparazione-r16-sos-posizione.test.tsx --json   (checkout 6935611b4f4e9886db95e112f2d34102b9a5f981) → uscita 0 (K08)",
+      "nota_fix": "La posizione (getCurrentPosition più watchPosition, se c'è) si chiede quando il fattorino preme SOS e si apre il dialogo, e resta pronta; alla conferma tel:112 si apre subito senza attese e l'avviso usa la posizione già arrivata o quella che arriva entro il tempo massimo. Il watch si ferma alla chiusura del dialogo e allo smontaggio; con un GPS finto asincrono la richiesta parte all'apertura, prima della conferma, e l'avviso ha le coordinate anche se dopo tel: il GPS tace. Da provare ancora su un telefono vero."
+    },
+    {
+      "chiave": "qa-flussi|il link «scopri di più» delle storie accetta qualunque indirizzo, anche un sito esterno, senza nessun controllo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r16-storie-link.test.tsx && tests/sql/harness/apply.sh r16_b_prova && psql -X -d r16_b_prova -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r16-link-storie.test.sql",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base c6e09c0f^ --file app/seller/stories/page.tsx,components/StoryViewer.tsx --prove tests/unit/riparazione-r16-storie-link.test.tsx --json ; timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base c6e09c0f^ --file migrations/403_il_link_delle_storie_porta_solo_dentro_mycity.sql --prove tests/sql/rls/riparazione-r16-link-storie.test.sql --sql r16_rimessa_011 --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base c6e09c0ffb0dc006f46a45739dd15ebd37a42882^ --file app/seller/stories/page.tsx,components/StoryViewer.tsx --prove tests/unit/riparazione-r16-storie-link.test.tsx --json   (checkout c6e09c0ffb0dc006f46a45739dd15ebd37a42882) ; timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base c6e09c0ffb0dc006f46a45739dd15ebd37a42882^ --file migrations/403_il_link_delle_storie_porta_solo_dentro_mycity.sql --prove tests/sql/rls/riparazione-r16-link-storie.test.sql --sql k08_r16_011_1_rimessa --json   (checkout c6e09c0ffb0dc006f46a45739dd15ebd37a42882) → uscita 0 (K08)",
+      "nota_fix": "La pagina del negozio e il visore usano la regola già esistente safeInternalPath (lib/safe-redirect.ts): la pagina rifiuta un link esterno prima di caricare la foto e dice perché, il visore non mostra un link che non passa. La migrazione 403 aggiunge un CHECK (comincia con / ma non con // né /\\, niente caratteri di controllo): prima toglie il link alle storie vecchie fuori regola dicendo quante sono, poi valida (niente NOT VALID, come chiede la prova 14). Non applicata a nessun database vero."
+    },
+    {
+      "chiave": "qa-flussi|un doppio clic su «pubblica (24h)» pubblica la stessa storia due volte, e i clienti le vedono tutte e due",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r16-storie-doppio-clic.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base b11990d5^ --file app/seller/stories/page.tsx --prove tests/unit/riparazione-r16-storie-doppio-clic.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base b11990d5fb9081a2470d73cf8840653f2cbd7ea4^ --file app/seller/stories/page.tsx --prove tests/unit/riparazione-r16-storie-doppio-clic.test.tsx --json   (checkout b11990d5fb9081a2470d73cf8840653f2cbd7ea4) → uscita 0 (K08)",
+      "nota_fix": "Il freno è un useRef che scatta nel clic, prima di create.mutate(); setUploading(true) è nel clic, prima di ogni await, e il bottone ha disabled={create.isPending || uploading || !image}. Il freno si toglie in onSettled, così dopo un errore si riprova. La prova fa due clic di fila: una sola foto caricata e un solo inserimento."
+    },
+    {
+      "chiave": "qa-flussi|una storia a meno di mezz'ora dalla scadenza risulta «scaduta» al negozio, mentre i clienti la vedono ancora",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r16-storie-scadenza.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base c73f3d43^ --file app/seller/stories/page.tsx --prove tests/unit/riparazione-r16-storie-scadenza.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base c73f3d4378ac487651b95829fe2c8d44760cda3c^ --file app/seller/stories/page.tsx --prove tests/unit/riparazione-r16-storie-scadenza.test.tsx --json   (checkout c73f3d4378ac487651b95829fe2c8d44760cda3c) → uscita 0 (K08)",
+      "nota_fix": "La pagina del negozio decide attiva o scaduta con expires_at > adesso, la stessa regola del carosello e del database; le ore rimaste si arrotondano per eccesso. La prova ferma l'orologio alle 10:00 con una storia che scade alle 10:20: il negozio la vede attiva («1h») e il carosello la mostra."
+    },
+    {
+      "chiave": "qa-flussi|lo specchio activity_events chiama «azione admin» anche le azioni degli utenti",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r16-specchio-audit.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 8d6ec52f^ --file lib/audit.ts --prove tests/unit/riparazione-r16-specchio-audit.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 8d6ec52fad3c0a292951edadd230f91c642b27a4^ --file lib/audit.ts --prove tests/unit/riparazione-r16-specchio-audit.test.ts --json   (checkout 8d6ec52fad3c0a292951edadd230f91c642b27a4) → uscita 0 (K08)",
+      "nota_fix": "writeAudit legge profiles.role di chi agisce, in parallelo alla scrittura in audit_logs. Lo specchio scrive action 'admin' e «Azione admin: …» solo per role admin, «Azione utente: …» per gli altri, e «Azione: …» senza action se il ruolo non si legge. Le 67 prove che usano lib/audit sono verdi."
+    },
+    {
+      "chiave": "qa-flussi|nel riepilogo dell'ordine la consegna ricavata fa sempre «torna» il totale",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r16-riepilogo-consegna.test.ts tests/unit/minori-s02-riepilogo.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 97dcba93^ --file lib/ordini/riepilogo-ordine.ts --prove tests/unit/riparazione-r16-riepilogo-consegna.test.ts,tests/unit/minori-s02-riepilogo.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 97dcba9356cd945811cc601c4ac9753357a11a3d^ --file lib/ordini/riepilogo-ordine.ts --prove tests/unit/riparazione-r16-riepilogo-consegna.test.ts,tests/unit/minori-s02-riepilogo.test.ts --json   (checkout 97dcba9356cd945811cc601c4ac9753357a11a3d) → uscita 0 (K08)",
+      "nota_fix": "Con delivery_fee_cents nullo la consegna non si ricava più per differenza: se nel totale non resta niente da spiegare vale zero, altrimenti torna=false e differenzaCentesimi dice quanto manca. I prezzi non cambiano. La prova minori-s02-riepilogo (importa il file, dichiarata) ora si aspetta torna=false e 3 € di differenza."
+    },
+    {
+      "chiave": "qa-flussi|l'etichetta da attaccare alla busta non dice quando consegnare: né «veloce» né la fascia",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r16-etichetta-consegna.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base de11b93a^ --file lib/shipping-etichetta/label.ts,app/api/seller/orders/[id]/label/route.ts --prove tests/unit/riparazione-r16-etichetta-consegna.test.ts → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base de11b93a4439f0ac08b70e0b847772efe9a41d12^ --file lib/shipping-etichetta/label.ts,app/api/seller/orders/[id]/label/route.ts --prove tests/unit/riparazione-r16-etichetta-consegna.test.ts --json   (checkout de11b93a4439f0ac08b70e0b847772efe9a41d12) → uscita 0 (K08)",
+      "nota_fix": "LabelData ha il campo consegna: la veloce esce «CONSEGNA VELOCE» in grande, la fascia esce «CONSEGNA:» col giorno vero e le ore (ora di Roma). La rotta legge delivery_slot, created_at e pickup_in_store e usa fasciaLeggibile già esistente. La prova legge il testo stampato nel PDF e prova la rotta con un database finto."
+    },
+    {
+      "chiave": "rls-database|un negozio sospeso può rimettersi da solo in coda per l'approvazione rimandando il modulo da /sell",
+      "esito": "riparato",
+      "verifica_comando": "tests/sql/harness/apply.sh r16_a_prova && psql -X -d r16_a_prova -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r16-negozio-sospeso.test.sql",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 7f1eb2a7^ --file migrations/400_il_negozio_sospeso_non_si_rimette_in_coda.sql --prove tests/sql/rls/riparazione-r16-negozio-sospeso.test.sql --sql r16_rimessa_018 --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 7f1eb2a733ff1ebd08cc9495d796582da6d609db^ --file migrations/400_il_negozio_sospeso_non_si_rimette_in_coda.sql --prove tests/sql/rls/riparazione-r16-negozio-sospeso.test.sql --sql k08_r16_018_0_rimessa --json   (checkout 7f1eb2a733ff1ebd08cc9495d796582da6d609db) → uscita 0 (K08)",
+      "nota_fix": "La migrazione 400 ridefinisce enforce_profile_update_rules partendo dal corpo della 365, che è l'ultima a definirla, con un solo controllo in più: se lo stato di partenza è 'suspended', chi non è staff non lo cambia (né verso pending né verso vuoto). /sell e /api/seller/apply rifiutavano già il sospeso dal lato pagina, quindi la pagina non si tocca. Non applicata a nessun database vero."
+    },
+    {
+      "chiave": "stati-ui|se la lettura del prodotto non riesce, la pagina di modifica dice «prodotto non trovato» e non offre «riprova»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r16-modifica-lettura-caduta.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 7f475f21b37394f5acc0a56911ee7eb57c255801^ --file \"app/seller/products/[id]/edit/page.tsx\" --prove tests/unit/riparazione-r16-modifica-lettura-caduta.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 7f475f21b37394f5acc0a56911ee7eb57c255801^ --file app/seller/products/[id]/edit/page.tsx --prove tests/unit/riparazione-r16-modifica-lettura-caduta.test.tsx --json   (checkout 7f475f21b37394f5acc0a56911ee7eb57c255801) → uscita 0 (K08)",
+      "nota_fix": "Primo giro: solo PGRST116 vale «Prodotto non trovato», ogni altro errore dà «Non riesco a leggere il prodotto…» con Riprova. Giro di correzione: lo stesso avviso con Riprova quando la lettura è in pausa perché il telefono è senza rete (onlineManager offline)."
+    },
+    {
+      "chiave": "stati-ui|se le categorie non arrivano, il modulo «nuovo prodotto» mostra un elenco vuoto e poi chiede di scegliere una categoria che non c'è",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r16-nuovo-prodotto-categorie.test.tsx tests/unit/riparazione-r16-modifica-lettura-caduta.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base cdcb4f2eef6ae4d9207e7e195d132b870c12f5cf^ --file \"app/seller/products/new/page.tsx,app/seller/products/[id]/edit/page.tsx\" --prove tests/unit/riparazione-r16-nuovo-prodotto-categorie.test.tsx,tests/unit/riparazione-r16-modifica-lettura-caduta.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base cdcb4f2eef6ae4d9207e7e195d132b870c12f5cf^ --file app/seller/products/new/page.tsx,app/seller/products/[id]/edit/page.tsx --prove tests/unit/riparazione-r16-nuovo-prodotto-categorie.test.tsx,tests/unit/riparazione-r16-modifica-lettura-caduta.test.tsx --json   (checkout cdcb4f2eef6ae4d9207e7e195d132b870c12f5cf) → uscita 0 (K08)",
+      "nota_fix": "Primo giro: avviso con Riprova se la lettura delle categorie fallisce. Giro di correzione: lo stesso avviso quando la lettura è in pausa senza rete, in new/page.tsx e nel gemello edit/page.tsx, mai il modulo con 0 categorie."
+    }
+  ]
+}
