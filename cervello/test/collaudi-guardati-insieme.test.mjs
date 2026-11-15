@@ -163,3 +163,89 @@ test("AR-1180 · minore 5: un collaudo non finito non presta il suo giudizio pie
   assert.deepEqual(decidi({ piano, referti: { R18: REFERTO }, collaudi: [nonFinito], hub: new Set() }).map((x) => x.decisione), ["resta_aperta", "resta_aperta", "resta_aperta"]);
   assert.deepEqual(decidi({ piano, referti: { R18: REFERTO }, collaudi: [K07, K10], hub: new Set() }).map((x) => x.decisione), ["si_chiude", "si_chiude", "si_chiude"], "finito, il pieno chiude");
 });
+
+// ── AR-1184 · la regola dei 40 anche in applica e pronte, dall'onda scritta nel piano ────────────────────────────────
+// Nicola, carta #256 risposta 5a (15/11 23:35): la strada «a». Il caso vero: K08 ha guardato a campione R15 e R16 (19 e
+// 21 voci, onda 2). valida-collaudo dà 6 rossi, ma applica chiudeva lo stesso R16-014, R16-015 e R16-016.
+const K08_SU_R16 = ["R16-014", "R16-015", "R16-016"];
+/** Copia la campagna vera, mette (o toglie: undefined) il campo nel piano della copia, lancia il comando. */
+function sulla12_11ConCampo(campo, comando = "applica") {
+  const t = mkdtempSync(join(tmpdir(), "campagna-12-11-campo-"));
+  try {
+    const C = join(t, "campagna");
+    spawnSync("cp", ["-r", CAMPAGNA, C]);
+    writeFileSync(join(C, "collaudi/K10.json"), readFileSync(K10_VERO));
+    const p = JSON.parse(readFileSync(join(C, "piano.json"), "utf8"));
+    // La regista dell'onda 3 scriverà il campo nel piano vero: la prova lo decide da sé, sulla copia.
+    if (campo === undefined) delete p.campione_fino_a_40_dall_onda;
+    else p.campione_fino_a_40_dall_onda = campo;
+    writeFileSync(join(C, "piano.json"), JSON.stringify(p));
+    const r = spawnSync(process.execPath, [PROGRAMMA, comando, "--cartella", C], { encoding: "utf8", cwd: RADICE });
+    const leggi = (rel) => { try { return readFileSync(join(C, rel), "utf8"); } catch { return null; } };
+    const dec = (() => { try { return JSON.parse(leggi("decisioni.json")).decisioni; } catch { return []; } })();
+    return { r, dec, aDaRicollaudare: leggi("pronte/A-da-ricollaudare.txt") ?? "" };
+  } finally { rmSync(t, { recursive: true, force: true }); }
+}
+const chiaveDiVoce = (id) => {
+  const p = JSON.parse(readFileSync(join(CAMPAGNA, "piano.json"), "utf8"));
+  for (const o of p.onde) for (const s of Object.values(o.sessioni)) { const v = s.voci.find((x) => x.id === id); if (v) return v.chiave; }
+  return null;
+};
+
+test("AR-1184 · applica dall'onda del campo: K08 a campione su R16 (21 voci) non chiude R16-014, -015, -016", () => {
+  const { r, dec } = sulla12_11ConCampo(2);
+  assert.notEqual(r.status, 1, r.stdout.slice(-3000));
+  assert.notEqual(r.status, 2, r.stdout.slice(-3000));
+  assert.ok(dec.length > 0, "applica non ha scritto decisioni.json");
+  for (const id of K08_SU_R16) {
+    const d = dec.find((x) => x.id === id);
+    assert.equal(d?.decisione, "resta_aperta", `${id}: ${d?.decisione} (${d?.come ?? d?.perche})`);
+    assert.match(d.perche, /in un lotto di 21 voci il campione non esiste/);
+  }
+  // Le voci di R16 col giudizio pieno si chiudono lo stesso: la regola tocca solo il campione.
+  assert.equal(dec.find((x) => x.id === "R16-005")?.decisione, "si_chiude");
+});
+
+test("AR-1184 · sotto il campo, o senza il campo, applica resta com'era: la campagna del 12/11 non riapre niente", () => {
+  const senza = sulla12_11ConCampo(undefined);
+  const sopra = sulla12_11ConCampo(3);
+  for (const { r, dec } of [senza, sopra]) {
+    assert.notEqual(r.status, 1, r.stdout.slice(-3000));
+    for (const id of K08_SU_R16) assert.equal(dec.find((x) => x.id === id)?.decisione, "si_chiude", `${id}: ${dec.find((x) => x.id === id)?.perche}`);
+  }
+  const chiuse = (dec) => dec.filter((x) => x.decisione === "si_chiude").map((x) => x.id).sort();
+  assert.deepEqual(chiuse(sopra.dec), chiuse(senza.dec), "un campo sopra l'onda 2 non cambia nessuna decisione");
+  // Con il campo all'onda 2 cambiano solo minori chiusi a campione in lotti fino a 40 voci, R16-014/015/016 compresi.
+  const due = chiuse(sulla12_11ConCampo(2).dec);
+  const riaperte = chiuse(senza.dec).filter((id) => !due.includes(id));
+  for (const id of K08_SU_R16) assert.ok(riaperte.includes(id), `${id} non è fra quelle che la regola tiene aperte`);
+  for (const id of riaperte) assert.equal(senza.dec.find((x) => x.id === id).come, "campione", `${id} era chiusa col giudizio pieno, non col campione`);
+  assert.equal(due.length + riaperte.length, chiuse(senza.dec).length, "il campo ha chiuso una voce in più");
+});
+
+test("AR-1184 · pronte dall'onda del campo manda R16-014, -015, -016 a ricollaudare (elenco A); senza il campo no", () => {
+  const chiavi = K08_SU_R16.map(chiaveDiVoce);
+  assert.ok(chiavi.every(Boolean), "le tre voci non sono più nel piano della campagna");
+  const con = sulla12_11ConCampo(2, "pronte").aDaRicollaudare.split("\n");
+  const senza = sulla12_11ConCampo(undefined, "pronte").aDaRicollaudare.split("\n");
+  for (const k of chiavi) {
+    assert.ok(con.includes(k), `con il campo, «${k}» manca dall'elenco A`);
+    assert.ok(!senza.includes(k), `senza il campo, «${k}» è finita nell'elenco A`);
+  }
+});
+
+test("AR-1184 · il campo si legge come un numero d'onda; un valore storto ferma (cieco), non spegne la regola in silenzio", async () => {
+  const { campioneFinoA40DallOnda } = await import("../riparazione-sessioni.mjs");
+  assert.equal(campioneFinoA40DallOnda({}), null);
+  assert.equal(campioneFinoA40DallOnda({ campione_fino_a_40_dall_onda: 3 }), 3);
+  for (const storto of ["3", 0, -1, 2.5, true]) assert.throws(() => campioneFinoA40DallOnda({ campione_fino_a_40_dall_onda: storto }), /numero dell'onda/);
+  // In decidi la regola vale dall'onda del campo in su, e non sotto.
+  const conCampione = { ...K07, voci: VOCI.map((v, i) => giudizio(v, i === 0 ? PIENO : {})) };
+  const d = (misuraDallOnda) => decidi({ piano, referti: { R18: REFERTO }, collaudi: [conCampione], hub: new Set(), misuraDallOnda })[1];
+  assert.match(d(1).perche, /il campione non esiste/);
+  assert.doesNotMatch(d(2).perche, /il campione non esiste/);
+  assert.doesNotMatch(d(null).perche, /il campione non esiste/);
+  const { r } = sulla12_11ConCampo("2");
+  assert.equal(r.status, 2, r.stdout.slice(-2000));
+  assert.match(r.stdout, /campione_fino_a_40_dall_onda "2": serve il numero dell'onda/);
+});
