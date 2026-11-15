@@ -31,6 +31,19 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🟡 #254 — Aspetta a unire la richiesta dell'officina: il collaudo l'ha bocciata · ⏳ accodata 2026-11-15 09:40
+
+**In parole semplici.** L'officina ha costruito i programmi che fanno rispettare le regole sui costi delle riparazioni. Il collaudo indipendente li ha bocciati per un difetto bloccante. La regola «niente controllo a campione sotto le 40 riparazioni» vale anche sui collaudi fatti prima che esistesse.
+
+**Cosa cambia per te.** Esempio: se unissi adesso la richiesta dell'officina, 7 riparazioni già chiuse del 12/11 tornerebbero aperte. E le 7 promosse dal collaudo K10 non entrerebbero nel registro.
+
+**Cosa devi fare tu.** Niente, per ora: non unire la #962. Una sessione corta la sta correggendo, con un tetto di 12 $. Poi un collaudo corto ricontrolla solo il pezzo cambiato, e questa carta diventa «unisci».
+
+**Cosa non ho verificato.** Il referto non l'ho riletto io: mi baso sul messaggio del collaudatore. Il referto intero è nella richiesta #964.
+
+Cosa cambia: la richiesta dell'officina resta ferma finché la correzione non passa il collaudo.
+Se va bene: entro oggi la richiesta torna unibile, e una sessione corta scrive le 7 chiusure di K10 nel registro.
+
 ### 🟡 #250 — Rivedi con l'AD le decisioni ancora aperte dell'onda 2 del sito · ⏳ accodata 2026-11-15 07:10
 
 **In parole semplici.** La regista che ha guidato l'onda 2 del sito ha lasciato un resoconto con 18 decisioni per te. Alcune le hai già prese. Le altre aspettano ancora.
