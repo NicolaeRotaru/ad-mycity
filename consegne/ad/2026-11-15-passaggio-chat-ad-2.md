@@ -33,39 +33,27 @@ Le spese dell'officina e del taglio sono stime loro. Il codice dell'officina non
 - Regole: skill riparazione, sezione «Le regole del 15/11»; MANUALE-AD, regole 25-27.
 - Tetti dei subagenti: riparatore 6, oppure 8 con un grave, mai Workflow. Collaudatore 4.
 - Il limite si azzera giovedì 19/11 alle 10:00. Fino ad allora la spesa resta sotto circa 350 $.
-- Spese note: squadra delle lezioni circa 13 $. Collaudo K10 15,36 $. AD chat 2 circa 3 $ alle 07:53. Officina: sua stima fra 25 e 38 $ su 45. Taglio: non letto.
-- Su main, 3e89ba4: unite la #958, la #959 e la #960.
+- Spese note: squadra delle lezioni circa 13 $. Collaudo K10 15,36 $. AD chat 2 circa 3 $ alle 07:53. Officina: sua stima fra 25 e 38 $ su 45. Taglio 16,31 $ su 15.
 
 ### Richieste di unione
 - #961: memoria di K10, carta #244, e gli 8 difetti nati in frammenti/K10-nuovi-difetti.json. Verde su 2c15c30.
-- #962, ramo officina-minima, SHA 13d4ee748ab7c29968e62df0be04c850787ef0b2. È pulita e la CI è verde. Il cancello --veloce dice «SI PUÒ CONSEGNARE».
+- #962, ramo officina-minima, testa 62247e4 (codice di 13d4ee7 + registro del sorvegliante, prove 125 su 125). È pulita e la CI è verde. Il cancello --veloce dice «SI PUÒ CONSEGNARE».
 - La scheda della #962 è AR-1180, con 37 mutazioni prese. Verifica: `node --test cervello/test/officina-minima.test.mjs cervello/test/collaudi-guardati-insieme.test.mjs`.
-- #956, il taglio: sorvegliante tolto e main unito. Alle 07:52 giravano il suo collaudo e il cancello.
-- #963: questo quaderno.
+- #956, il taglio: pronta da unire su 58c232b72.
+- #963: questo quaderno, verde su 288ca52.
 
 ### Cosa ha fatto l'officina dopo il primo rapporto
-- Ha unito main e la #959 nel suo ramo.
-- a) Giudizio pieno sull'unione dei collaudi. La prova usa K07 senza giudizio e K10 col pieno su R18-009, R18-018 e R18-020. Le tre voci chiudono come «collaudo pieno» di K10.
-- b) Collaudo parziale: il campo è «parziale: true», scritto nel LEGGIMI-collaudo.
-- c) La mutazione della deroga id_nel_commit, nella scheda AR-1172.
+- Ha unito main e la #959. Ritocchi: a) giudizio pieno sull'unione dei collaudi (K07 + K10 su R18-009, -018, -020); b) campo «parziale: true» nel LEGGIMI-collaudo; c) mutazione della deroga id_nel_commit in AR-1172.
 - Non fatto: AR-1178, cioè applica che si fida dell'esito rialzato dopo il collaudo.
 
 ### Da dare al collaudatore
-- Dove l'officina si è scostata dal brief:
-  - il padrone unico vale solo per le prove citate da almeno 2 voci;
-  - il «secondo» si legge dalla punta in sessioni.json, senza fetch dei rami del sito;
-  - le regole nuove di valida-referto valgono solo nel comando;
-  - conti capisce l'unione da git o dal campo «unita». Con lo squash merge serve il campo.
-- Le sue misure sulla campagna del 12/11:
-  - classe B: 43 righe, cioè 35 chiavi uniche;
-  - dopo pronte restano 27 voci;
-  - applica esce 1 per K08;
-  - preventivo per 259 voci: 2.016,23 $.
-- Il freno sugli agenti non è provato su una sessione vera. Il blocco da incollare è in consegne/officina-minima/freno-agenti-da-incollare.md.
+- Già dato nel brief del collaudatore: gli scostamenti dal brief, le misure del 12/11 da ricalcolare, il freno sugli agenti in consegne/officina-minima/freno-agenti-da-incollare.md.
 
-### Sessioni
-- Officina, session_015BmpnYEogewAx6A1TGsRju: ha finito e non apre altro lavoro.
-- Taglio della #956, session_015BmpnVUQehKpPytmYYeF8E, tetto 15 $.
+### Sessioni (aggiornato dall'AD chat 3, session_015BmpnUti7NiAJcN27m2Q67, alle 08:55)
+- Collaudatore dell'officina, session_015BmpnV5woFbf5fJbNUtveL, partito alle 08:52. Collauda la testa nuova della #962, 62247e4, che ha sopra 13d4ee7 solo il registro del sorvegliante. Tetto 15 $, 4 subagenti. Consegna in una PR il file consegne/officina-minima/collaudo-2026-11-15.md.
+- Officina, session_015BmpnYEogewAx6A1TGsRju: ha confermato, è ferma.
+- Taglio della #956, session_015BmpnVUQehKpPytmYYeF8E: ha chiuso. La #956 si può unire (58c232b72). Ha speso 16,31 $ su un tetto di 15. Il difetto minore che ha visto è in consegne/ad/2026-11-15-difetto-glossario-verde-muto.json, e aspetta un numero AR.
+- Lezione: il contatore dei token di get_session può restare fermo. Non fidarti di un numero che non si muove.
 - Ferme, da non riaprire:
   - regista O2 settima, session_015BmpnVKqiFCVbsAjWm364m;
   - regista della fase 1, session_015BmpnZcszekRaVbNjepdKd;
