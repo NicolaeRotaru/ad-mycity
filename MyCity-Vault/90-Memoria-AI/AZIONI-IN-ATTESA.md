@@ -33,6 +33,8 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ### 🟡 #254 — Aspetta a unire la richiesta dell'officina: il collaudo l'ha bocciata · ⏳ accodata 2026-11-15 09:40
 
+**✅ Superata il 15/11 alle 10:23.** Nicola ha unito la #962. Dentro c'era già la correzione del bloccante (commit 41e041c). Manca il collaudo corto della correzione: lo apre l'AD.
+
 **In parole semplici.** L'officina ha costruito i programmi che fanno rispettare le regole sui costi delle riparazioni. Il collaudo indipendente li ha bocciati per un difetto bloccante. La regola «niente controllo a campione sotto le 40 riparazioni» vale anche sui collaudi fatti prima che esistesse.
 
 **Cosa cambia per te.** Esempio: se unissi adesso la richiesta dell'officina, 7 riparazioni già chiuse del 12/11 tornerebbero aperte. E le 7 promosse dal collaudo K10 non entrerebbero nel registro.
