@@ -61,15 +61,16 @@ export const DOCUMENTI = [
     guardiano: "cervello/scadenzario-check.mjs",
   },
   {
+    // AR-962 — fino al 15/11 questa voce aveva «guardiano: null» e un'attesa datata, scaduta due volte
+    // (30/9 e 15/11): «il controllo giusto confronta i KPI scritti nel codice con quelli definiti qui».
+    // Qui il pericolo non è la data vecchia: è un KPI che vive solo dentro uno script e non passa mai
+    // dal glossario, la causa di AR-282 sulla cassa. Il controllo adesso c'è. Legge il registro dei KPI
+    // (cervello/kpi-registro.json), esegue le vetrine da cui il codice consegna i numeri, e fallisce se
+    // un KPI non ha la sua riga qui, o se il codice consegna un numero fuori registro. Gira a ogni giro.
     id: "glossario-kpi",
     documento: "MyCity-Vault/07-Agenti/GLOSSARIO-KPI.md",
     cosa_e: "l'unica definizione condivisa di ogni numero che la macchina dice a Nicola",
-    guardiano: null,
-    attesa: {
-      fino: "2026-11-22",
-      perche:
-        "Qui il pericolo non è la data vecchia: è un KPI che vive solo dentro uno script e non è mai passato dal glossario — la causa esatta di AR-282 sulla cassa. Il controllo giusto confronta i KPI scritti nel codice con quelli definiti qui, e quel confronto va costruito, non è una freschezza. DATA SPOSTATA l'11/10 (era il 30/9), col perché nuovo: il 30/9 è passato senza che nessuno lo costruisse — i lotti di inizio settembre hanno lavorato sul sito, e dal 10/9 al 9/10 sul ramo principale non è entrato nessun lavoro. E il confronto non si scrive in un'ora: prima serve sapere quali numeri il codice chiama KPI, cioè un registro che oggi non esiste. È la scheda AR-962, nel cantiere: lì il lavoro c'è, qui c'è solo la data. DATA SPOSTATA il 15/11 alle 06:10 (era il 15/11), col perché nuovo: il controllo è stato costruito nella notte del 15/11 sul ramo di ad-mycity#956. Il primo collaudo l'ha bocciato con un difetto grave (sul server avrebbe scritto numeri di cassa finti nella memoria e nel Pannello); dopo la correzione ha retto al secondo collaudo. Resta da unire, e la #956 aspetta la scelta di Nicola su AR-969, che sta nella stessa richiesta. Una settimana basta per la scelta e l'unione; se non basta, la data si sposta di nuovo solo con un perché nuovo.",
-    },
+    guardiano: "cervello/glossario-kpi-check.mjs",
   },
 ];
 
