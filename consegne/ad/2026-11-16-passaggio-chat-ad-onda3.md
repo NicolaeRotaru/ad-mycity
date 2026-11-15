@@ -34,9 +34,11 @@ Le spese sono quelle dette dalle sessioni. Il freno l'ho provato a mano, non su 
 ### Sessioni vive
 - Regista O3 uno `session_015BmpnWmv8ffGh6315mcUd6`, ramo `claude/sito-onda-3` (ad-mycity e sito). Quaderno: `consegne/riparazioni/2026-11-12-sito-tutto/REGIA-ONDA-3.md`. Tetto 25 $.
 - R25 pagamenti-stripe, R26 privacy-legale, R27 ai-endpoints: piani approvati, ad-mycity clonata accanto, freno attivo. Base dell'onda spostata a `76d4c4d` (il commit del freno, ora antenato del main del sito `b6ef4afa`). Id in `sessioni.json` sul ramo della regista. Tetto 35 $ l'uno.
-- K11 `session_015BmpnYqdgPHMTawQWLA8LL`: collauda le 16 riparate mai giudicate (R04 3, R07 2, R14 11). Era a 14,34 $ su 15: massimo assoluto 18 $, poi consegna. R14 non è unito sul sito: se le sue voci reggono, all'unione vanno portate dal suo ramo `-m14`.
+- K11 `session_015BmpnYqdgPHMTawQWLA8LL`: FINITO (16/11 00:10, detto dalla regista). 17,89 $ su 15, sotto il massimo di 18. Su 16 voci: 8 reggono, 8 a metà, 0 bocciate; programma del collaudo verde. All'unione la regista porta dentro le 5 voci di R14 che reggono (ramo `-m14`, mai unito) e sistema 3 voci dove due collaudi vecchi dicevano «a metà» (applica sceglie il giudizio peggiore).
 - K12: NON aperto. 66 voci a circa 1 $ l'una non stanno in 30 $. La regista porta due strade coi numeri, dentro i 215 $.
-- Costruttrice AR-1184 `session_015BmpnWDZD8FG6b9VMuascM`, ramo `claude/ar1184-campione-nel-piano`, tetto 12 $: il campo `campione_fino_a_40_dall_onda` letto da applica e pronte. Quando manda la PR: aprire un collaudo corto in una sessione nuova (tetto ~6 $). Dopo l'unione, la regista scrive il valore per l'onda 3 in `piano.json`.
+- Costruttrice AR-1184 `session_015BmpnWDZD8FG6b9VMuascM`: FINITA. PR ad-mycity#973, commit `0459edd`, 0 subagenti. Col campo a 2 R16-014/015/016 restano aperte; applica a vuoto 200 → 197. Deviazione: mutazioni senza campo «lezione».
+- Collaudo corto della #973 `session_015BmpnVa1Fw7Z3tTyJdN5ge` (aperto 16/11 00:39 dalla chat 5): tetto 6 $ solo testo, 0 subagenti, 6 domande chiuse, consegna con send_message all'AD. Poi Nicola unisce, e la regista scrive il valore per l'onda 3 in `piano.json` prima di applica.
+- AD chat 5 `session_015BmpnZ11jw7Gf6mFdaUGo9`: riceve le fermate e i rapporti.
 - AD chat 3 `session_015BmpnUti7NiAJcN27m2Q67`: ferma a 386 mila token, non tiene più niente (K10 è su main con la #970).
 
 ### Richieste di unione
