@@ -60,7 +60,7 @@ Le spese dell'officina e del taglio sono stime loro. Il codice dell'officina non
   - K10, session_015BmpnVoKwLXx38QpasjKQ7, ramo claude/f1-k10, commit 30d749c.
 
 ### Prossimi passi, in ordine
-1. Il collaudatore dell'officina, in una sessione nuova, sullo SHA 13d4ee7. Mandato di distruggere. Due lenti sui pezzi 1, 3 e 5 e sui ritocchi a, b e c. Tetto 15 $, ultracode acceso, al massimo 4 subagenti.
+1. PARTITO alle 08:52 (session_015BmpnV5woFbf5fJbNUtveL, testa 62247e4): il collaudatore dell'officina. Mandato di distruggere. Due lenti sui pezzi 1, 3 e 5 e sui ritocchi a, b e c. Tetto 15 $, ultracode acceso, al massimo 4 subagenti.
 2. Una costruttrice corta per AR-1178, poi il suo collaudo. Solo se il tetto lo permette.
 3. Officina collaudata e unita: una sessione corta lancia applica --scrivi con K10. Le 7 chiusure: R07-010, R07-014, R07-017, R15-014, R18-009, R18-018, R18-020. Porta nel registro anche gli 8 nati di K10.
 4. Pilota della cucitura su 25 voci. Sopra le 10 chiuse si allarga, sotto le 6 si ferma. Poi la misura su 40 minori mai lavorati. Tutti e due solo dopo l'officina e l'hook incollato da Nicola.
