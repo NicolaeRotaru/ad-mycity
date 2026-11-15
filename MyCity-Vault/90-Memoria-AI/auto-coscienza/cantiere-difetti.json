@@ -26839,6 +26839,75 @@
         "tipo": "umano",
         "nota": "Si chiude con una prova che lancia applica --scrivi e chiudi-sito due volte sulla stessa campagna e trova chiuso_il delle voci già chiuse invariato, e la ragione «rossa al controllo» ancora presente."
       }
+    },
+    {
+      "id": "AR-1188",
+      "titolo": "Un numero d'onda che non esiste nel piano spegne la regola dei 40 voci senza dirlo",
+      "dimensione": "guardrail-semaforo",
+      "dove": "cervello/riparazione-sessioni.mjs:95-99 (campioneFinoA40DallOnda), letto da applica e pronte",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-16 00:45",
+      "nato_come": "scoperta",
+      "fonte": "AD chat 5 del 15-16/11",
+      "origine": "collaudo",
+      "nato_da": "collaudo corto della PR ad-mycity#973 (AR-1184), sessione session_015BmpnVa1Fw7Z3tTyJdN5ge, sul commit 22483fc",
+      "owner": "builder-automazioni",
+      "sintomo": "Con campione_fino_a_40_dall_onda = 99 in piano.json (onde esistenti molto meno), applica esce 3 con 200 chiusure come senza campo: la regola non scatta mai e nessun messaggio lo dice. Basta un errore di battitura (20 al posto di 2). Gli altri valori sbagliati (\"2\", 0, -1, 2.5, true) escono invece 2 con un messaggio chiaro.",
+      "causa_radice": "La convalida controlla che il valore sia un intero da 1 in su, ma non lo confronta con le onde scritte nel piano.",
+      "fix_proposto": "Se il valore supera la onda più alta di piano.onde, uscita 2 con lo stesso messaggio degli altri valori sbagliati.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si chiude con un caso nuovo in cervello/test/collaudi-guardati-insieme.test.mjs: piano con onde 1-3 e campo a 99 → applica e pronte escono 2; rosso sul codice di oggi."
+      }
+    },
+    {
+      "id": "AR-1189",
+      "titolo": "Il campo della regola dei 40 voci scritto nel posto sbagliato o con un nome sbagliato viene ignorato senza avviso",
+      "dimensione": "guardrail-semaforo",
+      "dove": "cervello/riparazione-sessioni.mjs (campioneFinoA40DallOnda; stesso stampo in verifica_testa_dall_onda)",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-16 00:45",
+      "nato_come": "scoperta",
+      "fonte": "AD chat 5 del 15-16/11",
+      "origine": "collaudo",
+      "nato_da": "collaudo corto della PR ad-mycity#973 (AR-1184), sessione session_015BmpnVa1Fw7Z3tTyJdN5ge, sul commit 22483fc",
+      "owner": "builder-automazioni",
+      "sintomo": "Il campo messo dentro onde[1] invece che al livello alto di piano.json, o scritto «campione_fino_a_40_dall_onde», è ignorato: applica esce 3 con 200 chiusure come senza campo. Capita a chi modifica il piano a mano, come farà la regista per l'onda 3.",
+      "causa_radice": "Il programma legge una sola chiave al livello alto e non guarda se ci sono chiavi simili altrove.",
+      "fix_proposto": "Un avviso (o uscita 2) se una chiave che comincia con «campione_» o «verifica_testa_» compare dentro un'onda o con un nome che non esiste.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si chiude con due casi nel test della #973: campo dentro onde[1] e nome sbagliato → avviso visibile o uscita 2; rossi sul codice di oggi."
+      }
+    },
+    {
+      "id": "AR-1190",
+      "titolo": "Il freno sugli agenti non vede il ruolo delle sessioni aperte con «/effort ultracode»",
+      "dimensione": "guardrail-semaforo",
+      "dove": "cervello/riparazione/freno-subagenti.mjs:49-65 (primoPrompt) e :104-106",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-16 00:45",
+      "nato_come": "scoperta",
+      "fonte": "AD chat 5 del 15-16/11",
+      "origine": "riparazione",
+      "nato_da": "quaderno dell'AD chat 4 (consegne/ad/2026-11-16-passaggio-chat-ad-onda3.md, prossimi passi 3): debito dichiarato, scritto qui dalla chat 5",
+      "owner": "builder-automazioni",
+      "sintomo": "Il freno legge il ruolo solo dal primo messaggio della sessione. Se la sessione nasce con «/effort ultracode», il primo messaggio è il comando e non contiene la riga «ruolo-freno:»: il ruolo resta nullo e la sessione non ha tetto di agenti. Oggi non scatta perché Nicola ha spento ultracode su tutta l'onda 3; scatta alla prima sessione di campagna aperta con ultracode.",
+      "causa_radice": "primoPrompt torna il primo messaggio utente non meta, qualunque sia; un comando slash in testa prende il posto del brief.",
+      "fix_proposto": "Cercare la riga ruolo-freno nei primi messaggi utente fino al primo che non è un comando slash (o nei primi N), non solo nel primo; in alternativa far dare il ruolo dall'ambiente (FRENO_RUOLO) quando la sessione è creata da create_session.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si chiude con un caso nel test del freno: trascritto il cui primo messaggio utente è il comando /effort e il secondo ha «ruolo-freno: riparatore-minori» → ruolo letto e tetto 6; rosso sul codice di oggi."
+      }
     }
   ],
   "meta": {
