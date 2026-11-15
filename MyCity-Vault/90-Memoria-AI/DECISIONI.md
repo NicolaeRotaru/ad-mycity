@@ -6916,6 +6916,18 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Chi:** Nicola alla regista dell'onda 2: «Allarga la a».
 - **Perché:** per chiudere l'onda 1 nel registro c'erano 63 errori. 57 sono prove comuni, coperte dalla card 239. Gli altri 6 no: 2 sul ramo di R08, che fermavano 13 chiusure, e 4 collaudi di K03 provati a mano sul database, su voci che restano aperte comunque. Nicola li ha messi nell'eccezione, solo per l'onda 1.
 
+## 2026-11-15 00:32 — 🟡🔴 Le cinque scelte sull'onda 2 del sito (carte 243-247)
+- **Chi:** Nicola alla regista O2 settima: «ok 243, 244 a, 245 sì, 246 a, 247 sì».
+- **Cosa:** 243, la regista riunisce i rami delle sessioni nella richiesta di unione del sito e la carica, senza le tre correzioni che rompono altro (rimborso diviso, allergeni con la migrazione 426, bacheca del fattorino). 244 «a», il giro allargato si fa solo sulle 6 voci gravi, con un preventivo portato a Nicola prima di aprire le sessioni. 245, sì all'eccezione sulla prova comune che vincolava la frase sbagliata del pulsante di emergenza del fattorino. 246 «a», quando un reso respinto arriva dopo il bonifico del lunedì l'ordine fermo si segna come già pagato. 247, sì al controllo dei 90 file non guardati, tetto 20 $.
+- **Perché:** il resoconto dell'onda 2 (consegne/riparazioni/2026-11-12-sito-tutto/RESOCONTO-ONDA-2.md): 78 difetti chiusi su 259, nessun grave; il giro allargato intero costerebbe circa 475 $ contro circa 185 $ rimasti nel tetto di 1.650 $.
+- **Se va bene:** la richiesta di unione del sito si aggiorna, una sessione nuova controlla le modifiche nuove e i 90 file, e la regista porta a Nicola il preventivo delle 6 gravi.
+
+## 2026-11-15 02:45 — 🔴 La pubblicazione del sito con l'onda 2 (carta 249)
+- **Chi:** Nicola alla regista O2 settima: «firmo le 11 migrazioni, le due deroghe e l'unione».
+- **Cosa:** le 11 migrazioni dell'onda 2 sul database vero, una alla volta, dalle 02:45 alle 03:06: 400, 403, 404, 405, 412, 421, 422, 424, 425, 429, 450. Le due deroghe sulle correzioni tolte col messaggio standard di git (R13-012, R17-005). L'unione della richiesta di unione del sito nel ramo principale alle 03:10 (mycity#290, commit 67666b3f), da cui parte la pubblicazione.
+- **Perché:** il controllo in sola lettura del 15/11 alle 01:47 (consegne/riparazioni/2026-11-12-sito-tutto/FERMATA-PUBBLICAZIONE-ONDA-2.md): nessuna riga di dati cambiata, nessun permesso aperto, il codice di oggi compatibile con le migrazioni nuove.
+- **Esito:** 11 migrazioni su 11 passate e controllate una per una. Un solo legame resta parziale: i punti fedeltà hanno 2 movimenti legati a ordini che non esistono più, e lì il legame vale solo per le righe nuove, come prevede la 424.
+- **Correzione delle 03:16:** l'unione è delle 03:07:29, non delle 03:10. La pubblicazione era pronta alle 03:09:52 (fonte: il commit 67666b3f e la pubblicazione Vercel).
 ## 2026-11-15 05:55 — 🟡 Le lezioni delle onde 1 e 2, e il piano per chiudere più difetti dentro il limite
 - **Chi:** Nicola, nella chat «Correzione difetti e limite settimanale»: «dimmi come risolvere il maggior numero di difetti entro il limite settimanale, impara da tutto ciò che è successo e migliorati».
 - **Cosa:** un programma ha costruito il fascicolo delle due onde (`consegne/audit/2026-11-15-lezioni-onde/fatti.json`). Poi una squadra di 8 agenti (workflow `wf_1a083b28-467`, circa 13 $, 1,24 milioni di token senza riletture) ha prodotto tre analisi, tre piani, un giudice e un critico. Il critico ha bocciato i numeri del piano vincitore: 78 chiusure fino a giovedì erano troppo ottimiste, e diventano 35-45 con circa 350 $. Il piano corretto sta in `piano.md`, il lavoro di lunedì in `AVVIO-OFFICINA.md`, i tassi misurati in `misure.json`.
@@ -6941,3 +6953,20 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **La lezione per me:** un ordine di fermarsi va mandato con priorità «now», e si aspetta la conferma prima di considerarlo arrivato. È la regola delle sessioni che lavorano insieme, e io ho usato «next».
 - **La lezione per la macchina:** il programma si fida dell'esito scritto nel referto, e nessuno lo confronta con quello che il collaudatore ha visto. Registrato nel cantiere come AR-1178, candidato al pezzo 5 dell'officina.
 - **Ancora aperti sulla #959:** la mutazione della deroga per singolo commit in `cervello/mutanti.json` e la seconda lente del collaudo («sa diventare rosso»). La regista era oltre i 250 mila token e li ha passati all'officina.
+
+## 2026-11-15 07:19 — 🟡 Fase 1: il collaudo K10 giudica gli 11 difetti riparati senza giudizio
+- **Chi:** il collaudatore K10 (`session_015BmpnVoKwLXx38QpasjKQ7`), aperto dall'AD. Ha speso 15,36 $ contro un tetto di 15 $, e ha confermato in pochi secondi l'ordine di consegnare.
+- **Esito:** 7 reggono (R07-010, R07-014, R07-017, R15-014, R18-009, R18-018, R18-020); 3 parziali (R04-023, R08-012, R15-012); 1 rompe altro (R15-013, una regressione dei preferiti già sul sito). Ramo `claude/f1-k10`, commit `30d749c`, file `collaudi/K10.json`.
+- **Perché le 7 non sono ancora nel registro:** applica è rosso per il campione di R18 dentro K07, che ha 4 voci guardate su 5. Il programma guarda ogni collaudo da solo, e non vede che K10 ha giudicato in pieno quelle voci. La correzione (giudizio pieno sull'unione dei collaudi, e un collaudo che copre solo una parte delle voci) è passata all'officina dentro il pezzo 3. Dopo, una sessione corta lancia applica --scrivi.
+- **Difetti nuovi:** K10 ne ha visti 8, tutti minori, fra cui la regressione dei preferiti. Il formato del collaudo non ha un campo per loro, e applica legge i nati solo da referti e controlli: li ho salvati in `frammenti/K10-nuovi-difetti.json`, nel formato dei referti, perché chi lancia applica li porti nel registro del sito.
+- **Spesa della fase fino a giovedì, finora:** squadra delle lezioni circa 13 $, regista O2 settima oltre il tetto dell'onda 2 (circa 22 $ dopo le 05:40), K10 15,36 $. Il costo della regista della fase 1 e dell'officina non è ancora visibile.
+
+## 2026-11-15 07:24 — 🟡 Nicola sceglie di restringere la #956: il glossario entra, il sorvegliante torna nel cantiere
+- **Chi:** Nicola in chat: «ok 244 b».
+- **Cosa:** dalla richiesta della macchina #956 (ramo `claude/magical-hamilton-xouwr8`) esce la cura di AR-969, il sorvegliante bocciato due volte. Esce con commit nuovi: la storia del ramo non si riscrive. Resta la cura di AR-962, il controllo del glossario dei numeri, che ha retto al secondo collaudo. AR-969 resta aperto nel cantiere, con la correzione interrotta in `frammenti/correzione-2-ar969-interrotta.patch` come punto di partenza. L'esenzione del vecchio programma `round2-applica.mjs` resta fino al 21/11, perché dipende da AR-969.
+- **Chi lo fa:** una sessione corta aperta dall'AD, con un tetto di 15 $. Deve anche unire `main`, dove la #958 ha spostato l'attesa del glossario al 22/11: vale la versione della #956, che toglie l'attesa e mette il controllo.
+
+## 2026-11-15 07:36 — 🟢 La chat dell'AD passa a una chat nuova, col quaderno
+- **Chi:** Nicola: «a, passala a una chat nuova». La chat di prima (`session_015BmpnYSQgvReHZZJxrC8mw`) era a 654 mila token su un milione, e alle 07:23 era costata 44,49 $.
+- **Cosa:** la chat nuova è `session_015BmpnVXjpgkhAJActQd8KN`. Riparte dal quaderno `consegne/ad/2026-11-15-passaggio-chat-ad.md`, di 63 righe, e non dalla trascrizione. L'officina e il taglio della #956 mandano i rapporti a lei. Il controllo programmato della chat vecchia è cancellato.
+- **Perché:** a ogni passo una sessione rilegge tutta la sua storia. Con 650 mila token un passo costa circa 6 volte un passo con 100 mila. La compressione automatica scatta solo verso il 90%, e il riassunto perde i dettagli.

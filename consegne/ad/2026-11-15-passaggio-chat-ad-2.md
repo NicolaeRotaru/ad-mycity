@@ -36,10 +36,10 @@ Le spese dell'officina e del taglio sono stime loro. Il codice dell'officina non
 - Spese note: squadra delle lezioni circa 13 $. Collaudo K10 15,36 $. AD chat 2 circa 3 $ alle 07:53. Officina: sua stima fra 25 e 38 $ su 45. Taglio 16,31 $ su 15.
 
 ### Richieste di unione
-- #961: memoria di K10, carta #244, e gli 8 difetti nati in frammenti/K10-nuovi-difetti.json. Verde su 2c15c30.
+- #961: memoria di K10 e gli 8 difetti nati in frammenti/K10-nuovi-difetti.json. UNITA su main (0970e87).
 - #962, ramo officina-minima, testa 62247e4 (codice di 13d4ee7 + registro del sorvegliante, prove 125 su 125). È pulita e la CI è verde. Il cancello --veloce dice «SI PUÒ CONSEGNARE».
 - La scheda della #962 è AR-1180, con 37 mutazioni prese. Verifica: `node --test cervello/test/officina-minima.test.mjs cervello/test/collaudi-guardati-insieme.test.mjs`.
-- #956, il taglio: pronta da unire su 58c232b72.
+- #956, il taglio: UNITA su main (014bd32).
 - #963: questo quaderno, verde su 288ca52.
 
 ### Cosa ha fatto l'officina dopo il primo rapporto

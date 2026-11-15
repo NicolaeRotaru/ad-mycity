@@ -1,0 +1,97 @@
+{
+ "_cosa_e": "📊 IL REGISTRO DEI KPI — i numeri che il codice della macchina consegna a Nicola come KPI. Per ognuno: il nome, il file e la funzione che lo calcola, i campi con cui esce, le vetrine da cui esce, e la riga del glossario che lo definisce (campo `glossario`, uguale al termine in grassetto della prima colonna di una tabella di MyCity-Vault/07-Agenti/GLOSSARIO-KPI.md). Nato il 2026-11-15 04:16 con la scheda AR-962.",
+ "_perche_esiste": "Un KPI che vive solo dentro uno script non passa mai da una definizione condivisa: è la causa di AR-282 sulla cassa. Senza un elenco di quali numeri il codice chiama KPI, nessun controllo poteva confrontarli col glossario se non cercando parole nei file. Questo registro è quell'elenco, e il guardiano cervello/glossario-kpi-check.mjs lo tiene vero.",
+ "_come_si_usa": "Quando il codice comincia a consegnare un numero nuovo da una delle vetrine qui sotto, il guardiano diventa rosso («fuori registro»). Si aggiunge il KPI qui (id, nome, glossario, file, funzione, esposizioni, campi) e la sua riga nel glossario, con la definizione presa dal codice e la scritta «da confermare da Nicola». Un campo che esce ma non è un numero del business (un interruttore, un testo, una struttura) va fra i non_kpi della sua vetrina, con la natura e il perché: la natura si misura sul valore vero, quindi un numero non può dichiararsi flag, testo o struttura. Quando un campo smette di uscire, il guardiano lo dice («fantasma»): si toglie dal registro nello stesso lavoro.",
+ "_perimetro": "Tre vetrine, eseguite davvero a ogni giro: la rotta /api/metriche del Pannello (80 campi il 2026-11-15 04:16, è la risposta che il codice stesso descrive come «il cockpit KPI mostra TUTTI i dati disponibili»), le metriche della demo (46 campi), e il documento del sensore della cassa (18 campi). NON coperte: le altre rotte di numeri del Pannello (/api/metriche/funnel, /trend, /retention, /negozi, /payout, /cassa, /unit, /acquisizione, /catalogo, /pattern, le stelle polari) e gli altri script del cervello che scrivono numeri in STATO o nelle sentinelle. Lì un KPI nuovo resta invisibile a questo controllo: è la scheda AR-1175.",
+ "aggiornato": "2026-11-15 05:38",
+ "esposizioni": [
+  {
+   "id": "cruscotto",
+   "dove": "pannello/src/app/api/metriche/route.ts → GET",
+   "cosa_e": "La risposta di /api/metriche: getMetriche più traffico, retention, salute negozi, catalogo, payout, acquisizione, margine, orari, cassa e break-even. La leggono la Plancia, le schede del Pannello e gli avvisi.",
+   "non_kpi": [
+    { "campo": "connected", "natura": "flag", "perche": "dice se almeno una fonte risponde, non è un numero del business" },
+    { "campo": "dati_affidabili", "natura": "flag", "perche": "dice se ordini e profili sono stati letti: serve a non scambiare uno zero per errore con uno zero vero" },
+    { "campo": "marketplace_collegato", "natura": "flag", "perche": "dice se il database del marketplace risponde" },
+    { "campo": "traffico_collegato", "natura": "flag", "perche": "dice se PostHog risponde" }
+   ]
+  },
+  {
+   "id": "cruscotto-demo",
+   "dove": "pannello/src/lib/demo.ts → metricheDemo",
+   "cosa_e": "I numeri di esempio della modalità demo, marchiati demo:true. Stessi campi del cruscotto vero, valori finti: un campo nuovo qui è un numero nuovo che Nicola vede.",
+   "non_kpi": [
+    { "campo": "connected", "natura": "flag", "perche": "in demo è sempre vero" },
+    { "campo": "demo", "natura": "flag", "perche": "il marchio che dice che i numeri sono di esempio" },
+    { "campo": "marketplace_collegato", "natura": "flag", "perche": "in demo è sempre vero" },
+    { "campo": "traffico_collegato", "natura": "flag", "perche": "in demo è sempre vero" }
+   ]
+  },
+  {
+   "id": "cassa-runway",
+   "dove": "cervello/sensore-cassa.mjs → documentoCassa, il documento che il sensore scrive in MyCity-Vault/90-Memoria-AI/auto-coscienza/cassa-runway.json. Il guardiano chiama la funzione pura con valori finti: il sensore non si lancia, perché lanciato legge le chiavi del server e scrive.",
+   "cosa_e": "Il sensore della cassa del giro (AR-282): cassa disponibile, burn e runway. Lo leggono le sentinelle e il letargo.",
+   "non_kpi": [
+    { "campo": "_cosa_e", "natura": "testo", "perche": "la descrizione del documento" },
+    { "campo": "data", "natura": "testo", "perche": "quando è stato misurato" },
+    { "campo": "formula", "natura": "testo", "perche": "la formula scritta a parole" },
+    { "campo": "componenti_cassa", "natura": "struttura", "perche": "le tre componenti della cassa, ognuna col suo valore e la sua fonte: il numero che conta è cassa_disponibile_eur" },
+    { "campo": "componenti_mancanti", "natura": "struttura", "perche": "i nomi delle componenti che mancano" },
+    { "campo": "misura_completa", "natura": "flag", "perche": "dice se tutte e tre le componenti ci sono" },
+    { "campo": "fonte_cassa", "natura": "testo", "perche": "le componenti incluse, a parole" },
+    { "campo": "soglia_allerta_mesi", "natura": "soglia", "perche": "la soglia sotto cui il runway è critico (3 mesi): una regola d'allarme, non una misura" },
+    { "campo": "stato", "natura": "testo", "perche": "il verdetto: ok, attenzione, critico, parziale, sconosciuto" },
+    { "campo": "stato_perche", "natura": "testo", "perche": "il perché del verdetto" },
+    { "campo": "giri_sconosciuto", "natura": "contatore-sensore", "perche": "da quanti giri il sensore non sa la cassa (AR-039): misura la salute del sensore, non l'azienda" },
+    { "campo": "allarme", "natura": "struttura", "perche": "lo stato dell'allarme e della presa in carico (AR-285)" },
+    { "campo": "presa_in_carico", "natura": "struttura", "perche": "chi ha preso in carico l'allarme e fino a quando" },
+    { "campo": "note", "natura": "testo", "perche": "le note leggibili" },
+    { "campo": "istruzioni", "natura": "testo", "perche": "cosa fare, a parole" }
+   ]
+  }
+ ],
+ "kpi": [
+  { "id": "ordini", "nome": "Ordini", "glossario": "ordini", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getMetriche", "esposizioni": ["cruscotto", "cruscotto-demo"], "campi": ["ordini_oggi", "ordini_7g", "ordini_30g"] },
+  { "id": "incasso", "nome": "Incasso (GMV)", "glossario": "incasso / GMV", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getMetriche", "esposizioni": ["cruscotto", "cruscotto-demo"], "campi": ["incasso_oggi", "incasso_7g", "incasso_30g"] },
+  { "id": "scontrino-medio", "nome": "Scontrino medio", "glossario": "scontrino medio (AOV)", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getMetriche", "esposizioni": ["cruscotto", "cruscotto-demo"], "campi": ["scontrino_medio", "scontrino_oggi", "scontrino_7g", "scontrino_30g"] },
+  { "id": "nuovi-clienti", "nome": "Nuovi clienti", "glossario": "nuovi clienti", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getMetriche", "esposizioni": ["cruscotto", "cruscotto-demo"], "campi": ["nuovi_clienti_oggi", "nuovi_clienti_7g", "nuovi_clienti_30g"] },
+  { "id": "clienti-totali", "nome": "Clienti totali", "glossario": "clienti totali", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getMetriche", "esposizioni": ["cruscotto", "cruscotto-demo"], "campi": ["clienti"] },
+  { "id": "clienti-attivi", "nome": "Clienti attivi", "glossario": "clienti attivi", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getMetriche", "esposizioni": ["cruscotto", "cruscotto-demo"], "campi": ["clienti_attivi_oggi", "clienti_attivi_7g", "clienti_attivi_30g"] },
+  { "id": "clienti-dormienti", "nome": "Clienti dormienti", "glossario": "clienti dormienti", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getMetriche", "esposizioni": ["cruscotto", "cruscotto-demo"], "campi": ["clienti_dormienti"] },
+  { "id": "carrelli", "nome": "Carrelli abbandonati (adesso)", "glossario": "carrelli", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getMetriche", "esposizioni": ["cruscotto", "cruscotto-demo"], "campi": ["carrelli"] },
+  { "id": "carrelli-finestra", "nome": "Carrelli abbandonati (oggi/7g/30g)", "glossario": "carrelli abbandonati per finestra", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getMetriche", "esposizioni": ["cruscotto", "cruscotto-demo"], "campi": ["carrelli_oggi", "carrelli_7g", "carrelli_30g"] },
+  { "id": "carrelli-recuperati", "nome": "Carrelli recuperati", "glossario": "carrelli recuperati", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getMetriche", "esposizioni": ["cruscotto", "cruscotto-demo"], "campi": ["carrelli_recuperati_oggi", "carrelli_recuperati_7g", "carrelli_recuperati_30g"] },
+  { "id": "negozi", "nome": "Negozi", "glossario": "negozi", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getMetriche", "esposizioni": ["cruscotto", "cruscotto-demo"], "campi": ["negozi"] },
+  { "id": "nuovi-negozi", "nome": "Nuovi negozi", "glossario": "nuovi negozi", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getMetriche", "esposizioni": ["cruscotto", "cruscotto-demo"], "campi": ["nuovi_negozi_oggi", "nuovi_negozi_7g", "nuovi_negozi_30g"] },
+  { "id": "consegne-in-corso", "nome": "Consegne in corso", "glossario": "consegne in corso", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getMetriche", "esposizioni": ["cruscotto", "cruscotto-demo"], "campi": ["consegne_in_corso"] },
+  { "id": "consegne-completate", "nome": "Consegne completate", "glossario": "consegne completate", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getMetriche", "esposizioni": ["cruscotto", "cruscotto-demo"], "campi": ["consegne_oggi", "consegne_7g", "consegne_30g"] },
+  { "id": "tempo-consegna", "nome": "Tempo medio di consegna", "glossario": "tempo consegna (min)", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getMetriche", "esposizioni": ["cruscotto", "cruscotto-demo"], "campi": ["tempo_consegna_min"] },
+  { "id": "problemi", "nome": "Ordini con problemi", "glossario": "problemi", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getMetriche", "esposizioni": ["cruscotto", "cruscotto-demo"], "campi": ["problemi"] },
+  { "id": "ordini-annullati", "nome": "Ordini annullati", "glossario": "ordini annullati", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getMetriche", "esposizioni": ["cruscotto", "cruscotto-demo"], "campi": ["annullati_oggi", "annullati_7g", "annullati_30g"] },
+  { "id": "recensione-media", "nome": "Recensione media", "glossario": "recensione media", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getMetriche", "esposizioni": ["cruscotto", "cruscotto-demo"], "campi": ["recensione_media"] },
+  { "id": "recensioni-totali", "nome": "Recensioni totali", "glossario": "recensioni totali", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getMetriche", "esposizioni": ["cruscotto", "cruscotto-demo"], "campi": ["recensioni_totali"] },
+  { "id": "visite", "nome": "Visite al sito (7 giorni)", "glossario": "visite sito (7g)", "file": "pannello/src/lib/posthog.ts", "funzione": "getPostHog", "esposizioni": ["cruscotto", "cruscotto-demo"], "campi": ["visite_7g"] },
+  { "id": "conversione", "nome": "Conversione del sito", "glossario": "conversione", "file": "pannello/src/app/api/metriche/route.ts", "funzione": "GET", "esposizioni": ["cruscotto", "cruscotto-demo"], "campi": ["conversione"] },
+  { "id": "tasso-riordino", "nome": "Tasso di riordino", "glossario": "tasso di riordino", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getRetention", "esposizioni": ["cruscotto"], "campi": ["repeat_rate"] },
+  { "id": "ltv", "nome": "Valore medio di un cliente (LTV)", "glossario": "valore cliente (LTV)", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getRetention", "esposizioni": ["cruscotto"], "campi": ["ltv_medio"] },
+  { "id": "ordini-per-cliente", "nome": "Ordini per cliente", "glossario": "ordini per cliente", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getRetention", "esposizioni": ["cruscotto"], "campi": ["ordini_per_cliente"] },
+  { "id": "giorni-secondo-ordine", "nome": "Giorni fra il primo e il secondo ordine", "glossario": "giorni fra 1° e 2° ordine", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getRetention", "esposizioni": ["cruscotto"], "campi": ["tempo_medio_secondo_ordine_giorni"] },
+  { "id": "clienti-paganti", "nome": "Clienti paganti", "glossario": "clienti paganti", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getRetention", "esposizioni": ["cruscotto"], "campi": ["clienti_paganti"] },
+  { "id": "salute-negozi", "nome": "Salute dei negozi", "glossario": "salute dei negozi", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getHealthNegozi", "esposizioni": ["cruscotto"], "campi": ["negozi_rossi", "negozi_gialli", "negozi_totale_health"] },
+  { "id": "catalogo", "nome": "Catalogo", "glossario": "catalogo", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getCatalogo", "esposizioni": ["cruscotto"], "campi": ["prodotti_totali", "prodotti_mai_venduti", "prodotti_stock_zero", "categorie_coperte"] },
+  { "id": "payout-negozi", "nome": "Payout ai negozi", "glossario": "payout ai negozi", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getRiconciliazionePayout", "esposizioni": ["cruscotto"], "campi": ["payout_completati", "payout_in_attesa", "payout_falliti", "payout_euro_in_attesa", "payout_completati_euro"] },
+  { "id": "rimborsi", "nome": "Rimborsi", "glossario": "rimborsi", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getRiconciliazionePayout", "esposizioni": ["cruscotto"], "campi": ["rimborsi_n", "rimborsi_euro"] },
+  { "id": "nuovi-clienti-acquisizione", "nome": "Nuovi clienti (vista acquisizione)", "glossario": "nuovi clienti (acquisizione)", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getAcquisizione", "esposizioni": ["cruscotto"], "campi": ["nuovi_clienti_30g_acq"] },
+  { "id": "referral", "nome": "Clienti arrivati con un invito", "glossario": "inviti (referral)", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getAcquisizione", "esposizioni": ["cruscotto"], "campi": ["referral_30g", "referral_totali", "quota_referral_pct"] },
+  { "id": "ricavo-commissioni", "nome": "Ricavo da commissioni (30 giorni)", "glossario": "ricavo commissioni (30g)", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getMargineReale", "esposizioni": ["cruscotto"], "campi": ["ricavo_commissione_30g"] },
+  { "id": "margine-per-ordine", "nome": "Margine per ordine", "glossario": "margine per ordine", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getMargineReale", "esposizioni": ["cruscotto"], "campi": ["commissione_media_ordine", "fee_consegna_media_ordine", "cm_reale_per_ordine"] },
+  { "id": "picco-ordini", "nome": "Ora e giorno di punta", "glossario": "picco degli ordini", "file": "pannello/src/lib/marketplace-db.ts", "funzione": "getPatternOrari", "esposizioni": ["cruscotto"], "campi": ["ora_di_punta", "giorno_di_punta"] },
+  { "id": "cassa-pannello", "nome": "Cassa (Pannello)", "glossario": "cassa (Pannello)", "file": "pannello/src/lib/economia.ts", "funzione": "calcolaRunway", "esposizioni": ["cruscotto"], "campi": ["cassa_attuale"] },
+  { "id": "burn-pannello", "nome": "Burn mensile (Pannello)", "glossario": "burn mensile (Pannello)", "file": "pannello/src/lib/economia.ts", "funzione": "calcolaRunway", "esposizioni": ["cruscotto"], "campi": ["burn_lordo", "burn_netto"] },
+  { "id": "runway-pannello", "nome": "Runway (Pannello)", "glossario": "runway (Pannello)", "file": "pannello/src/lib/economia.ts", "funzione": "calcolaRunway", "esposizioni": ["cruscotto"], "campi": ["runway_mesi"] },
+  { "id": "break-even", "nome": "Ordini al mese per andare in pari", "glossario": "break-even (ordini al mese)", "file": "pannello/src/lib/economia.ts", "funzione": "calcolaUnitEconomics", "esposizioni": ["cruscotto"], "campi": ["break_even_ordini_mese"] },
+  { "id": "cassa-disponibile-sensore", "nome": "Cassa disponibile (sensore del giro)", "glossario": "cassa disponibile (sensore del giro)", "file": "cervello/sensore-cassa.mjs", "funzione": "componentiCassa", "esposizioni": ["cassa-runway"], "campi": ["cassa_disponibile_eur"] },
+  { "id": "burn-sensore", "nome": "Burn mensile (sensore del giro)", "glossario": "burn mensile (sensore del giro)", "file": "cervello/sensore-cassa.mjs", "funzione": "burnMensile", "esposizioni": ["cassa-runway"], "campi": ["burn_mensile_eur"] },
+  { "id": "runway-sensore", "nome": "Runway (sensore del giro)", "glossario": "runway (sensore del giro)", "file": "cervello/sensore-cassa.mjs", "funzione": "statoCassa", "esposizioni": ["cassa-runway"], "campi": ["runway_mesi"] }
+ ]
+}

@@ -12,6 +12,10 @@ fonte: AD digitale (giro, cervello/giro.md)
 >
 > L'onda 1 della riparazione del sito ha chiuso 122 difetti con 610 $, circa 5 $ l'uno. L'onda 2 ne ha chiusi circa 60 con circa 1.630 $, circa 27 $ l'uno. È stata unita nel sito il 15/11 alle 03:07, ma il registro non è ancora aggiornato. Il salto viene da registe e riletture, non dalla difficoltà: 92 difetti su 100 erano piccoli. Il piano: fino a giovedì 19/11 alle 10:00 al massimo circa 350 $ per circa 35-45 difetti, poi circa 90-110 a settimana. Aspetta sette tuoi sì o no, il primo è la percentuale vera del limite. Nel registro del sito al 13/11: 764 voci aperte, di cui 6 bloccanti e 76 gravi. Piano: `consegne/audit/2026-11-15-lezioni-onde/piano.md` (richiesta ad-mycity#958).
 
+> ✅ **2026-11-15 03:16 — L'onda 2 è sul sito vero: 78 difetti chiusi su 259, e le 11 migrazioni sono sul database.**
+>
+> Nicola ha firmato alle 02:45. Le 11 migrazioni sono passate sul database vero una alla volta, dalle 02:45 alle 03:06, senza cambiare nessuna riga di dati. Alle 03:07 la richiesta di unione del sito (mycity#290) è entrata nel ramo principale, e alle 03:10 il sito era online. Controllo online: le pagine principali si aprono, nessun errore in produzione, e cassa, prodotti e rimborsi rifiutano chi non ha fatto l'accesso. L'onda chiude 78 difetti piccoli; dei 20 gravi nessuno. Il costo è circa 1.580 $ su un tetto di 1.650. Restano la carta 248 sulle 6 voci gravi e l'onda 3, con la regista O2 otto da aprire dall'app. Il resoconto sta in `consegne/riparazioni/2026-11-12-sito-tutto/RESOCONTO-ONDA-2.md`.
+
 > ✅ **2026-11-13 02:55 — Hai unito la richiesta della macchina #944.**
 >
 > Da adesso valgono le regole nuove del risolutore e delle sessioni. Ogni riparatore prende al massimo 25 difetti, la regia lavora in una sessione sua e dopo ogni onda c'è un controllore. Ci sono anche le nove regole per le sessioni che lavorano insieme. Una sessione nuova che parte da `main` adesso le legge da sola. Resta in bozza la richiesta del sito, mycity#288, fino al controllore finale della campagna.
