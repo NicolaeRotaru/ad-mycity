@@ -49,7 +49,8 @@ Le spese sono stime delle sessioni. Il dato vero si vede nell'app.
 - #965 (823f579): minore 3. L'AD ha corretto il titolo della prova, che sforava il tetto dei puntatori scollegati.
 
 ### Aperte
-- #966: referto del ricollaudo, consegne/officina-minima/ricollaudo-2026-11-15.md. Verdetto: REGGE CON RISERVA. Da unire.
+- #966 UNITA (1ed6a5d): referto del ricollaudo, REGGE CON RISERVA, con la carta #255 (scelta a o b sulla regola dei 40).
+- #970: le 7 chiusure di K10 e gli 8 nati (riparate 1390 → 1397, AR-1184/1185/1186). Alle 19:10 la sessione corta …X32Uaq unisce main e registra il difetto delle date rimesse a oggi.
 - #964: referto del primo collaudo con la carta #254 vecchia. Da chiudere senza unirla, perché è doppia della #963.
 - Riserva del ricollaudo: la regola dei 40 voci la tiene solo valida-collaudo, mentre applica e pronte chiamano decidi senza misura:true. La riga 466 della skill riparazione promette il contrario.
 
