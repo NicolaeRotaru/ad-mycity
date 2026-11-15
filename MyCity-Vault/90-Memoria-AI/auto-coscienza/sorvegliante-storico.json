@@ -1924,14 +1924,15 @@
       "mai_risolte": []
     },
     {
-      "quando": "2026-11-15T09:10:55.889Z",
-      "scatti": 44,
-      "voci": 1,
+      "quando": "2026-11-15T07:50:44.631Z",
+      "scatti": 189,
+      "voci": 18,
       "per_classe": {
-        "riparazione-parziale": 1
+        "prova-accecata": 15,
+        "difesa-rimossa": 3
       },
       "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-11-15T09:10:55.925Z"
+  "aggiornato": "2026-11-15T07:50:44.633Z"
 }

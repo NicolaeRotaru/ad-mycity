@@ -1,0 +1,1398 @@
+{
+  "collaudatore": "K10",
+  "riparatori": [
+    "R04",
+    "R07",
+    "R08",
+    "R15",
+    "R18"
+  ],
+  "aggiornato": "2026-11-15 07:16",
+  "finita": true,
+  "nota": "K10 giudica 11 voci (classe A della fase 1) con giudizio pieno. Le altre voci dei cinque riparatori sono copiate senza cambiare nulla dai collaudi K02, K07 e K08 (campo ripreso_da): valida-collaudo pretende tutte le voci dei riparatori elencati. Le decisioni non cambiano: a parità di verdetto vale la riga del collaudo di prima.",
+  "voci": [
+    {
+      "id": "R04-001",
+      "chiave": "ai-endpoints|nella chat assistenza il negoziante approva una descrizione nuova senza poterla leggere, e al primo messaggio l'assistente riscrive tag e descrizione senza aver visto quelli che ci sono",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 307fd9a4^ --file app/api/ai/catalog-chat/route.ts --prove tests/unit/riparazione-r04-chat-non-inventa.test.ts --json"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Il pezzo chiuso regge: avvisoTolti in catalog-chat/route.ts:457-467, prova sulla rotta vera (patch == {price:27} più avviso). La regola «non inventare» sta solo nel prompt, e la prova cerca parole nel prompt. Resta aperto il cuore della voce, dichiarato: prontoPerLaVendita.ts:705 e :724 mostrano ancora solo «Descrizione aggiornata» e i tag nuovi, senza i tolti, anche col prodotto aperto. Due testi minori imprecisi nell'avviso.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R04-002",
+      "chiave": "ai-endpoints|il modello ai che legge le foto e scrive le schede si spegne il 30 novembre: dodici funzioni smetteranno di rispondere",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base b51060dd^ --file lib/ai/client.ts,lib/ai/run.ts --prove tests/unit/riparazione-r04-modello-ritirato.test.ts --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Il modello ritirato compare solo in lib/ai/client.ts; 17 punti di chiamata passano da MODELS.*; id claude-sonnet-4-6 valido; prezzo {3,15} per il tetto di spesa; variabili AI_MODELLO_* col modello ritirato tornano al predefinito; 404 -> 503 col log. Prova esistente il-modello-grande-si-cambia-senza-rilascio: adeguata (cambiano solo i 3 attesi del predefinito). Residui: nessuna prova vera foto->prodotto col modello nuovo (verifica umana prima del 30/11); MODELS calcolato al caricamento del modulo; 4.6 si ritira non prima del 17/2/2027 e Haiku 4.5 ha data già passata, nessun promemoria in calendario.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R04-004",
+      "chiave": "accessibilita-visiva|in fondo alle domande frequenti, chi usa la tastiera non vede quando è sul bottone «contattaci»",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base baaf53be^ --file app/faq/page.tsx --prove tests/unit/riparazione-r04-faq-fuoco.test.ts --json"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Il riparatore la dichiara ora parziale; il pezzo riparato regge. focus-visible:outline-white sul Link «Contattaci» (faq/page.tsx:266) batte la regola globale; contorno bianco sul fondo scuro; nessun altro elemento col Tab nel riquadro. Prova a parole (minore, ammesso).",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R04-005",
+      "chiave": "ai-endpoints|un lotto ai partito ma non agganciato resta «in invio» per sempre, e la pagina del negozio non mostra né rotella né pulsante",
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base f9dca280^ --file app/api/ai/catalog-batch/status/route.ts,app/api/ai/catalog-batch/start/route.ts,lib/ai/statoLavoroCatalogo.ts --prove tests/unit/riparazione-r04-lavoro-in-invio.test.ts,tests/unit/riparazione-r04-lavoro-aggancio.test.ts --json"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Prima corsa uscita 1: la pagina ai-batch non ha una prova che morde (tolta da --file). Rimessa a mano: lib/ai/statoLavoroCatalogo.ts IN_CORSO senza 'submitting' (lo stato «in invio» torna senza rotella né pulsante) -> 1 rosso su 7 (lavoro-in-invio + lavoro-aggancio) Rotella anche «in invio» (page.tsx:389,512-517). Resta il caso esatto della voce: lotto partito e pagato, aggancio fallito due volte -> dopo 15 minuti chiuso come fallito «invio non confermato» (status/route.ts:99-103) e la pagina invita ad avviarne un altro: secondo lotto pagato, risultati del primo persi.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R04-006",
+      "chiave": "ai-endpoints|con l'intelligenza artificiale spenta, la creazione di prodotti in blocco risponde «riprova fra poco» invece di dire che il servizio è spento",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 4c5d5bf3^ --file app/api/ai/catalog-create-bulk/route.ts --prove tests/unit/riparazione-r04-bulk-ai-spenta.test.ts --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). 503 prima del freno (catalog-create-bulk/route.ts:94), AiConfigError rende 503 l'intera richiesta senza scrivere (:182-191, :207-209). Le 5 prove esistenti modificate sono adeguate: aggiungono solo il mock AI_NEGOZI_ACCESA true, nessuna asserzione tolta. 10 file, 65 test verdi.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R04-007",
+      "chiave": "ai-endpoints|il copilot non riesce a preparare una modifica su tutto il catalogo oltre circa cento prodotti: risponde «riprova» e fallisce ogni volta",
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 3caab0b1^ --file app/api/ai/copilot/route.ts,lib/ai/regolaCopilot.ts --prove tests/unit/riparazione-r04-copilot-regola.test.ts --json"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Rimessa a mano: lib/ai/regolaCopilot.ts espandiRegolaCopilot ritorna sempre [] (la regola su tanti prodotti non si espande) -> 3 rossi su 6 La regola si espande sul server coi dati veri (regolaCopilot.ts:47-95, copilot/route.ts:256-259), i tag partono da quelli veri. Ma a ±30% esatti l'arrotondamento al centesimo porta il prezzo oltre la banda e il server lo rifiuta dopo «Applica» (prezzoAiFuoriBanda usa >, aiPatch.ts:577-584): 12,99 -> 16,89 = +30,02%; 5 prezzi su 6 nella prova del revisore. Non provato che la risposta stia nel tetto di 6000 token con 200 id.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R04-008",
+      "chiave": "ai-endpoints|l'assistente ai del negozio controlla solo l'ultima richiesta: il testo messo nella conversazione precedente arriva al modello senza filtro",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base b709670f^ --file app/api/ai/copilot/route.ts --prove tests/unit/riparazione-r04-copilot-cronologia.test.ts --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). La history è tolta del tutto (copilot/route.ts:89-90,188-209); l'unica pagina manda solo instruction (CatalogCopilot.tsx:94); nessun turno vecchio può più bloccare.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R04-009",
+      "chiave": "ai-endpoints|nelle due chat ai del negozio una risposta del modello scritta a mano nella richiesta arriva al modello senza filtro",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 20e01611^ --file app/api/ai/product-chat/route.ts,app/api/ai/catalog-chat/route.ts --prove tests/unit/riparazione-r04-chat-turni-assistente.test.ts --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Tutta la cronologia passa dal filtro (catalog-chat/route.ts:236-246, uguale in product-chat); prova di comportamento. Minori: il filtro costa di più; un falso positivo toglie il contesto in silenzio.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R04-010",
+      "chiave": "ai-endpoints|la dettatura porta nel prompt, senza tetto e senza filtro, il testo degli elenchi che manda il browser",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 732ea170^ --file app/api/ai/voice-product/route.ts --prove tests/unit/riparazione-r04-dettatura-elenchi.test.ts --json"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Filtro aggiunto e prompt recintato a 4000/16000 (voice-product/route.ts:118-146), ma il testo mandato al filtro non ha tetto (testoDaFiltrare con attrLines intero, :124; assertSafeText non taglia): fino a ~100 mila caratteri per chiamata col corpo da 1 MB. La parte «senza tetto» della voce non è chiusa, si è spostata sul filtro.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R04-011",
+      "chiave": "ai-endpoints|con l'ai spenta, chi guarda un prodotto importato da un altro sito lo fa segnare come «aggiornato adesso» anche se nessun dato è arrivato",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 1c471906^ --file app/api/cron/external-price-alerts/route.ts --prove tests/unit/riparazione-r04-prezzo-esterno-ai-spenta.test.ts,tests/unit/riparazione-r04-cron-prezzi-esterni-errore.test.ts --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Ricollaudo 2026-11-12 17:45 sul giro di correzione (1c471906): prima i prodotti non in errore, poi i falliti nei posti rimasti (external-price-alerts/route.ts:72-95). Prova del collaudo rilanciata col db finto che applica or/eq: 24 giri, con 12 o 40 rotti i 5 sani ottengono 5 controlli (prima 0). Minore nuovo, non dichiarato: i falliti si leggono solo fra i 30 più vecchi (:88), quelli oltre il 30° non si ritentano più dal giro orario. Il freno di 6 ore è ancora un contatore per istanza senza Upstash (dichiarato come limite). Prova esistente minori-s03-prezzi-esterni: adeguata (cambia solo il db finto).",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R04-012",
+      "chiave": "ai-endpoints|la lettura di un prodotto da una foto va in errore 500 se il modello scrive il motivo del rifiuto in un formato inatteso",
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 61c6e995^ --file app/api/vision/extract-product/route.ts --prove tests/unit/riparazione-r04-foto-uscita-modello.test.ts --json"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Regge alla rimessa a mano (mutazione nel resto di questa nota); il programma accetta la chiusura solo con uscita 0 — regola della campagna per file nuovi e SQL, decisa dalla regista il 2026-11-12 17:11. Rimessa a mano: app/api/vision/extract-product/route.ts:415 rimesso policy_reason?.trim() senza controllo di tipo -> 1 rosso su 2 (TypeError, il 500 della voce); a parte, name senza controllo -> 1 rosso su 2. L'uscita 3 del programma veniva proprio da quel TypeError, che e' il difetto policy_reason solo se testo (extract-product/route.ts:415) -> 400 invece di 500; nome, descrizione, categoria e prezzo solo col tipo giusto (:482-492); ProductForm regge null e stringa vuota. Rimessa a mano: policy_reason?.trim() senza controllo -> 1 rosso su 2, il 500 della voce.",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R04-013",
+      "chiave": "ai-endpoints|se il negoziante esce dalla pagina mentre «migliora tutto il catalogo» lavora, il lavoro è pagato e non si ritrova più",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base f9dca280^ --file app/api/ai/catalog-batch/status/route.ts,app/seller/products/ai-batch/page.tsx --prove tests/unit/riparazione-r04-lavoro-ritrovato.test.ts,tests/unit/riparazione-r04-lotto-aperto.test.ts --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Prima corsa uscita 1: start/route.ts non ha una prova che morde (tolto da --file). status senza jobId restituisce l'ultimo lavoro aperto (status/route.ts:46-57), la pagina lo chiede all'apertura e dopo un avvio fallito, lavoro 403/404 dimenticato, tipo di vista dal lavoro. Pesa su di lei il blocco descritto in R04-025.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R04-014",
+      "chiave": "ai-endpoints|se l'invio di un lotto ai resta senza risposta, il sito lo rimanda e anthropic ne esegue due, uno pagato e mai visto",
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 81e1507e^ --file app/api/ai/catalog-batch/start/route.ts,app/api/ai/catalog-batch/status/route.ts,lib/ai/batch.ts --prove tests/unit/riparazione-r04-lotto-senza-doppione.test.ts,tests/unit/riparazione-r04-lotto-invio-incerto.test.ts,tests/unit/riparazione-r04-lavoro-in-invio.test.ts --json"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Rimessa a mano: lib/ai/batch.ts tolto { maxRetries: 0 } dall'invio del lotto -> 1 rosso su 11; a parte, invioIncerto sempre false -> 1 rosso su 11 maxRetries 0 e APIConnectionError riconosciuto davvero (batch.ts:83,140-142). Restano: 500/504 del fornitore non trattati come «forse partito» -> failed e riavviabile; scritture della spesa o del motivo fallite riportano ai 15 minuti. Accanto: anche il 529 ora fallisce subito.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R04-015",
+      "chiave": "ai-endpoints|i tagli contro i costi contano le voci degli elenchi ma non la loro lunghezza: una richiesta sotto il megabyte riempie la finestra del modello",
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 7482bc60^ --file app/api/ai/improve-product/route.ts,app/api/ai/product-chat/route.ts,app/api/ai/barcode-lookup/route.ts,lib/ai/productContext.ts --prove tests/unit/riparazione-r04-elenchi-con-tetto.test.ts --json"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Regge alla rimessa a mano (mutazione nel resto di questa nota); il programma accetta la chiusura solo con uscita 0 — regola della campagna per file nuovi e SQL, decisa dalla regista il 2026-11-12 17:11. Rimessa a mano: il «motivo che non riconosco» alla base e' TypeError reading null.options: alla base un elemento non oggetto faceva cadere la rotta (meta' del difetto). Mutazione sul comportamento, una rotta alla volta: tolto voceCorta su slug/nome categoria (e opzioniCorte in improve-product) -> improve-product 1 rosso su 4, product-chat 1 rosso su 4, barcode-lookup 1 rosso su 4 voceCorta/opzioniCorte su improve-product, product-chat e barcode-lookup; i tetti di productContext c'erano già; nessuna regressione sui file condivisi; suite intera 8977 verdi.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R04-016",
+      "chiave": "ai-endpoints|se si riaccende «traduci», una descrizione lunga torna tradotta solo all'inizio e il modulo la presenta come intera",
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 19162a99^ --file app/api/ai/translate/route.ts,lib/ai/productContext.ts --prove tests/unit/riparazione-r04-traduzione-lunga.test.ts --json"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Rimessa a mano: lib/ai/productContext.ts schedaTagliataNelContesto sempre false -> NON MORDE (3 su 3 verdi): il controllo e' ridondante col tetto MAX_TESTO_TRADUCIBILE=2500 della rotta. Anche togliendo solo il tetto dei 2500 nella rotta -> NON MORDE. Togliendo tutti e due (translate/route.ts:106 if(false)) -> 1 rosso su 3. La correzione regge, ma ognuna delle due guardie da sola non e' provata Il percorso dal modulo è chiuso (translate/route.ts:89-114). Resta lo stesso difetto sul lotto: catalogBatch.ts:192-195 taglia a 4000 in silenzio anche per 'translate' (dormiente finché TRADUCI_ACCESO è spento). Rimessa a mano: le due guardie insieme mordono (1 rosso su 3), ciascuna da sola no.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R04-017",
+      "chiave": "ai-endpoints|il tetto di spesa ai del giorno si sfora quando più chiamate partono insieme",
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base e539f75d^ --file lib/ai/run.ts,lib/ai/tettoSpesa.ts --prove tests/unit/riparazione-r04-tetto-concorrente.test.ts --json"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Ricollaudo 17:45 (e539f75d): run.ts:178-181 usa il massimo fra lettura e ultimo totale noto. Prova del collaudo della lettura vecchia ora verde (spesa 6 su tetto 10, prima 12). Rimessa a mano: ultimaSpesaNotaCents a 0 -> 1 rosso su 4. Resta, dichiarato: sforamento fra copie diverse (serve SQL atomico).",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R04-018",
+      "chiave": "ai-endpoints|l'allarme del tetto di spesa ai scatta solo se la stessa copia del sito resta accesa per un'ora, e su vercel può non arrivare mai",
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base ca67e847^ --file lib/ai/tettoSpesa.ts --prove tests/unit/riparazione-r04-allarme-ripiego.test.ts --json"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Ricollaudo 17:45 (ca67e847): l'inizio del guasto si ricorda in operational_alert_log (alert_key, last_sent_at esistono, 084:12-15) con upsert ignoreDuplicates e cancellazione al ritorno. Rimessa a mano: ignoreDuplicates false -> 1 rosso su 5; senza la cancellazione -> 1 rosso su 5. Nessuno chiama ancora allarmiTettoSpesaAiPerIlCron: inerte finché il cron non lo importa, dichiarato in serve_file_altrui.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R04-019",
+      "chiave": "ai-endpoints|nella chat assistenza la scheda della proposta promette caratteristiche che il server butta via, e dopo «applica» dice «modifiche salvate» senza aver cambiato niente",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base ba99a985^ --file lib/products/aiPatch.ts,app/api/ai/catalog-chat/route.ts --prove tests/unit/riparazione-r04-chat-caratteristiche.test.ts --json"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Valori impostati con le regole del server (aiPatch.ts:419-437). Buco non dichiarato: la chat tiene una rimozione di un campo che il prodotto non ha (aiPatch.ts:438-446, OR) e la scheda mostra «Rimuovi marca», mentre il server non cambia niente (attributiDaTogliere, :1259). Riprodotto con una prova del collaudo, oggi rossa.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R04-020",
+      "chiave": "architettura|il modulo del prodotto applica le proposte dell'assistente con una seconda copia delle regole del server, e le due copie sono già diverse",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 30523450^ --file lib/products/aiPatch.ts --prove tests/unit/riparazione-r04-modulo-e-server-stesse-regole.test.ts --json"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Prima corsa uscita 1: catalog-chat/route.ts non ha una prova che morde (tolto da --file). Regole condivise senza effetti sul server; il modulo vero non passa i due dati nuovi (ProductForm.tsx:491-496), quindi in produzione nessun effetto visibile. Doppia scrittura di tag/attributi dichiarata.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R04-021",
+      "chiave": "architettura|all'assistente ai si dice che la consegna di una pagnotta da 3,50 € costa 4 €, ma la consegna si paga sul carrello e non sul singolo prodotto",
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 89a69345^ --file lib/products/economics.ts,app/api/ai/improve-product/route.ts --prove tests/unit/riparazione-r04-consegna-nel-prompt.test.ts --json"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Regge alla rimessa a mano (mutazione nel resto di questa nota); il programma accetta la chiusura solo con uscita 0 — regola della campagna per file nuovi e SQL, decisa dalla regista il 2026-11-12 17:11. Rimessa a mano: lib/products/economics.ts regolaConsegnaPerAi torna «consegna €4.00» per prodotto -> 2 rossi su 2. Solo funzione nuova aggiunta: nessun numero esistente di economics.ts cambiato Aggiunta solo regolaConsegnaPerAi (economics.ts:79-87), usata solo da improve-product; nessun numero visto da cliente o negozio cambia. Fragile: «10 €» scritto a mano invece di SPESA_SENZA_SUPPLEMENTO_CENTS.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R04-022",
+      "chiave": "layout-responsive|in fondo a ogni pagina mobile restano ~14px di vuoto: l'altezza della barra a schede e' dichiarata piu' alta di quella vera",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 90fe9ca1^ --file app/globals.css --prove tests/unit/riparazione-r04-fondo-pagina-mobile.test.ts --json"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Padding 58px + area sicura contro barra di 57,5px + area sicura: il conto torna, solo body, modali e tastiera non toccati. Non verificato a schermo: pulsante assistenza e banner di installazione tarati su 72px. Prova esistente una-pagina-corta-non-scorre-a-vuoto: adeguata (stesse asserzioni sulla variabile nuova).",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R04-023",
+      "chiave": "privacy-legale|il business plan e i conti unitari nei documenti del sito dicono ancora commissione all'8%, abbonamento a 15 €, piano gratis e mancia al fattorino",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-a --base 3cc56a56c7cfee23568ef00284f1ac8fae516e24^ --file docs/business-plan.md,docs/unit-economics.md --prove tests/unit/riparazione-r04-documenti-numeri.test.ts --json"
+      },
+      "nota": "Le scritte esplicite (8%, PRO a 15 €, piano gratis, mancia) sono corrette o dentro un riquadro «Numeri vecchi», coi valori del codice. Resta: docs/unit-economics.md:24 tiene la spedizione 4,90 € sotto 30 € «va al rider» (tariffa tolta il 27/10) mentre l'avviso a :9 dice «Corrette le righe dei ricavi per ordine»; la sezione LTV (:72-84, €0,18 e 12×€2,47) e LTV/CAC (:104-105) sono calcolate sull'8% senza correzione né riquadro. La prova non guarda la sezione LTV. Rivisto da K10 sul sito pubblicato."
+    },
+    {
+      "id": "R04-024",
+      "chiave": "privacy-legale|con il fornitore onfido acceso, ogni chiamata (fino a 5 l'ora) crea da onfido una nuova scheda con nome, email e data di nascita, ma senza caricare i documenti. restano schede orfane con dati personali, e alla cancellazione dell'account nessuno le toglie",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 747a458b^ --file lib/kyc/providers.ts --prove tests/unit/riparazione-r04-onfido-niente-schede-orfane.test.ts --json"
+      },
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Dichiarata parziale dal riparatore, fuori campione: confermo solo che la prova morde sul pezzo riparato.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R04-025",
+      "chiave": "qa-flussi|la rotta del lavoro ai sul catalogo non rifiuta un secondo lavoro",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 6ffafba7^ --file app/api/ai/catalog-batch/status/route.ts --prove tests/unit/riparazione-r04-lotto-aperto.test.ts,tests/unit/riparazione-r04-scarta-lavoro.test.ts,tests/unit/riparazione-r04-lavoro-in-invio.test.ts --json"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Ricollaudo 17:45 (6ffafba7): un lavoro oltre 25 ore si chiude, ma solo dalla rotta di stato (status/route.ts:129,132,200-218); la rotta di avvio vede ancora processing finché qualcuno non interroga lo stato (la pagina lo fa su errore: due tocchi). Rischio non dichiarato: se oltre 25 ore il fornitore non risponde, un lotto già finito si chiude come fallito e il riavvio lo fa pagare due volte (letto, non provato). Doppio avvio contemporaneo dichiarato (indice unico da fare); con due lavori aperti lo stato senza jobId chiude solo il più recente.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R07-001",
+      "chiave": "frontend-ux|in chat il negoziante vede «utente» al posto del nome di ogni cliente",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Alla base: messages/page.tsx:98-102 e controparte-della-chat.ts:44-91,201; migrazione 181 SECURITY DEFINER con grant ad authenticated e prova RLS 49; anche la testata conversazione. Dipende dalla 181 applicata nel database vero (non verificato).",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R07-002",
+      "chiave": "frontend-ux|la pagina di richiesta reso accetta il ripensamento anche su ordini di pane",
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 955c95e4^ --file app/api/returns/ripensamento/route.ts,app/orders/[id]/return/page.tsx --prove tests/unit/riparazione-r07-reso-pane-server.test.ts,tests/unit/riparazione-r07-reso-pane.test.tsx --json"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Regge alla rimessa a mano (mutazione nel resto di questa nota); il programma accetta la chiusura solo con uscita 0 — regola della campagna per file nuovi e SQL, decisa dalla regista il 2026-11-12 17:11. rimesso a mano: prodotti letti col client del cliente -> 2 rossi su 4. chiude_tutta: regge. Pagina chiede GET /api/returns/ripensamento (page.tsx:94-112) e spegne il motivo; prodotti letti col client di servizio come create; ordine misto coerente con rifiutoDelRecesso. Fuori voce: esclusione letta sul valore di oggi di non_recedibile. nata_rotta: regge. tsc 0, 41 file di prove sui resi verdi; RLS order_items del cliente ok; select('*') non si rompe senza la colonna della 180; ordine misto non bloccato; errore di rete non blocca, decide il server.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R07-004",
+      "chiave": "frontend-ux|toccando la scheda di un prodotto in home e nella ricerca non si apre niente",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 353b8f2f^ --file components/ProductCard.tsx --prove tests/unit/riparazione-r07-scheda-cliccabile.test.tsx --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). pointer-events-none su foto/corpo, auto su cuore e +; copre home (ProductGrid, PromoDeals) e ricerca; niente a dentro a, stopPropagation sui bottoni. Nei minori: il + disabilitato su esaurito non apre la scheda; testo non selezionabile. La prova guarda le classi, non lo strato del tocco.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R07-005",
+      "chiave": "qa-flussi|l'ultimo giorno del recesso il sito rifiuta il reso dal pomeriggio, e col cambio d'ora anche prima dell'ora della consegna",
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base ed8cab30^ --file app/api/returns/create/route.ts,lib/ordini/termine-del-recesso.ts --prove tests/unit/riparazione-r07-termine-recesso-server.test.ts --json"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Regge alla rimessa a mano (mutazione nel resto di questa nota); il programma accetta la chiusura solo con uscita 0 — regola della campagna per file nuovi e SQL, decisa dalla regista il 2026-11-12 17:11. rimesso a mano: conto a blocchi di 24 ore -> 4 rossi su 5. chiude_tutta: regge, eseguito su 9 casi vicino ai cambi d'ora 25/10 e 29/3 con TZ server diverso. Fuori voce: lib/rimborsi/regole-del-rimborso.ts:381 conta ancora 14x24h per la rispedizione (gia tra i nuovi difetti). nata_rotta: regge. Confronto su tutte le consegne 2026 ogni 15 minuti: la nuova regola e quasi sempre piu larga; 42 casi la sera del 15/3 chiudono a mezzanotte del 14o giorno (giusto per legge). Nessun altro chiamante; payout con recupero se arriva il reso.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R07-006",
+      "chiave": "qa-flussi|nell'ultimo giorno di recesso e nel giorno dopo, la pagina fa compilare tutto il reso, iban compreso, e poi il server lo rifiuta come scaduto",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base afb25d44^ --file app/orders/[id]/return/page.tsx --prove tests/unit/riparazione-r07-termine-recesso-pagina.test.tsx --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). chiude_tutta: regge. Stessa recessoAperto in pagina (page.tsx:287) e server, stessa base delivered_at ?? created_at, data scritta col fuso di Roma. Residuo minore: modulo aperto alle 23:50 e inviato dopo mezzanotte viene rifiutato. nata_rotta: regge. Stessa recessoAperto, created_at letto in pagina, data dell'ultimo giorno a mezzogiorno col fuso di Roma.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R07-007",
+      "chiave": "accessibilita|chi usa il lettore di schermo sente «3» accanto a una conversazione, senza sapere che sono messaggi da leggere",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base de9ae007^ --file app/messages/page.tsx,app/notifications/page.tsx --prove tests/unit/riparazione-r07-non-letti-a11y.test.ts --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). messages/page.tsx:232-236 numero aria-hidden + frase sr-only dentro il Link; notifications/page.tsx:225-231 pallino aria-hidden + «Non letta». tsc 0. La prova cerca parole (minore, ammesso); nessun lettore di schermo vero.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R07-008",
+      "chiave": "accessibilita|il tasto per togliere una foto dal reso è grande la metà del minimo",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base a516b88d^ --file app/orders/[id]/return/page.tsx --prove tests/unit/riparazione-r07-togli-foto-reso.test.ts --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Tasto 44x44 con pallino 24px; geometria: tocca senza coprire la foto accanto; nessun overflow-hidden. Prova controlla solo le classi.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R07-009",
+      "chiave": "accessibilita|nelle pagine regali, novità e i più recensiti i titoli saltano dal primo al terzo livello",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 81a4c190^ --file app/novita/page.tsx,app/piu-venduti/page.tsx,app/regali/RegaliClient.tsx,components/ProductGrid.tsx --prove tests/unit/riparazione-r07-titoli-collezioni-pagine.test.tsx,tests/unit/riparazione-r07-titoli-collezioni.test.tsx --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). h2 solo con titoloNascosto, passato solo da novita/piu-venduti/regali; nessun doppio h2 altrove; fuori voce: piccoli-prezzi e promozioni hanno lo stesso salto (voce nuova).",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R07-010",
+      "chiave": "coerenza-brand|la pagina che si apre dal link di conferma email non sembra mycity: niente logo, carattere di sistema, bottone verde",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-a --base b4184549f21c0f54a0ad0912d3b30c34b04fad52^ --file app/auth/confirm/route.ts --prove tests/unit/riparazione-r07-conferma-email-marchio.test.ts --json"
+      },
+      "nota": "Un solo ramo di app/auth/confirm/route.ts disegna una pagina (:99-120) e ha nome, crema, terracotta e accento; gli altri rami rimandano a /sign-in o /reset-password che spiegano l'errore. La CSP del middleware (:312) ammette gli stili in pagina e l'invio del modulo. Minori: testo #1C1A18 invece di #2C2A28; Inter non caricato, il commento a :96-98 dice «i caratteri del sito». 7 file di prova sulla route verdi."
+    },
+    {
+      "id": "R07-011",
+      "chiave": "deploy-sre|il ritorno indietro può ancora scegliere il rilascio sbagliato in due casi rari: un solo altro commit negli ultimi 20 rilasci, o un dominio che non dice il suo commit",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 1baa071f^ --file scripts/prova-di-fumo.mjs --prove tests/unit/riparazione-r07-ritorno-dominio-senza-commit.test.ts --json"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Pezzo chiuso regge (prova-di-fumo.mjs:323-329: dominio senza commit non vale come risposta). Caso A aperto come dichiarato; stesso ramo: unico candidato senza commit restituito (preesistente). Da verificare che i rilasci CI portino il commit su Vercel, altrimenti ritorno sempre a mano.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R07-013",
+      "chiave": "frontend-ux|una categoria principale senza prodotti mostra solo titolo e bottoni, senza nessun messaggio",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Alla base category/[slug]/page.tsx:353-367 stato vuoto con onCount(0) da ProductGrid:419-422. Resta aperto il caso lettura in errore (onCount non chiamato), gia tra i nuovi difetti del referto.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R07-014",
+      "chiave": "frontend-ux|in una lista, i prodotti che il negozio ha tolto dalla vetrina restano contati ma non si vedono e non si possono togliere",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-a --base 43d1a381ad170d27d2858cff4961c38e86234a05^ --file app/lists/[id]/page.tsx --prove tests/unit/riparazione-r07-lista-prodotto-nascosto.test.tsx --json"
+      },
+      "nota": "Riga «Non più disponibile» in app/lists/[id]/page.tsx:327-345, cestino solo al proprietario col product_id giusto, permesso dalla 036:53-58. Conteggio e righe dalla stessa tabella con le stesse regole: coincidono; dd6985ed non tocca il conteggio. Visitatore e utente non loggato vedono la riga senza cestino. Minore fuori voce: dopo aver tolto un prodotto il conteggio in /lists resta vecchio fino a 30 secondi (:162-164)."
+    },
+    {
+      "id": "R07-015",
+      "chiave": "frontend-ux|se la recensione al negozio entra e quella al fattorino no, il fattorino non si puo' piu' recensire",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 65d38e05^ --file app/orders/[id]/review/page.tsx --prove tests/unit/riparazione-r07-recensione-fattorino.test.tsx --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Letture separate per negozio e fattorino (review/page.tsx:105-119), rilettura dopo invio a meta, vincolo unico (order_id,user_id) e RLS user_id=auth.uid. Caso minore preesistente: negozio sospeso dopo la consegna.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R07-016",
+      "chiave": "frontend-ux|la pagina «sotto i 10 €» mostra prodotti da 10 € e nasconde quelli che in promozione costano meno di 10",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base b64fda54^ --file app/piccoli-prezzi/page.tsx,components/ProductGrid.tsx --prove tests/unit/riparazione-r07-piccoli-prezzi-pagina.test.tsx,tests/unit/riparazione-r07-piccoli-prezzi.test.tsx --json"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Pezzo chiuso regge: maxPrice 9.995 => 9,99 dentro 10,00 fuori, chiave cache inclusa, altre pagine invariate. Restano aperti i prodotti sotto 10 solo in promozione e il contatore onCount; il commento in app/piccoli-prezzi/page.tsx:45 dice promozione compresa ma non lo fa.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R07-017",
+      "chiave": "frontend-ux|funzioni spente, da sistemare prima di riaccenderle. classifica inviti e drop leggono senza guardare l'errore, quindi mostrano «classifica vuota · sii il primo…» e «nessun drop per oggi» anche quando la lettura è caduta. il drop usa il giorno di greenwich: fra mezzanotte e l'1-2 di notte, ora di piacenza, la data minima e l'elenco sono su ieri",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-a --base 83658a4139865fd77ff5c997cda8e829e86b4843^ --file app/admin/daily-drops/page.tsx --prove tests/unit/riparazione-r07-drop-giorno-piacenza.test.tsx --json"
+      },
+      "nota": "Classifica inviti guarda già l'errore (leaderboard/page.tsx:34, :57-60). Drop admin: lettura caduta con Riprova (daily-drops/page.tsx:183-188); data minima, proposta ed elenco col giorno di Piacenza (:32, :53, :77, :160); e90b1221 non annulla niente. Variante: macchina in UTC, 00:30 in ora legale e solare, cambi d'ora e Capodanno: giorno giusto. 12 file di prova verdi. Minore: l'etichetta a :197 slitta se il browser sta a ovest di Greenwich."
+    },
+    {
+      "id": "R07-019",
+      "chiave": "frontend-ux|il salvataggio fa due passi: se una variante è cambiata, nome e prezzo del prodotto restano salvati e le varianti no",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base a20eb622^ --file app/api/admin/products/route.ts --prove tests/unit/riparazione-r07-varianti-admin.test.ts --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). withAdminAuth avvolge la PATCH; controllo scorte prima di ogni scrittura (route.ts:195-207), il modulo admin manda le scorte viste; percorso negozio gia coperto. Resta la finestra di millisecondi non atomica, gia tra i nuovi difetti.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R07-020",
+      "chiave": "frontend-ux|dopo aver risposto a una recensione, tornando sulla pagina il negozio rivede la risposta vecchia",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 970cd432^ --file app/seller/reviews/page.tsx --prove tests/unit/riparazione-r07-risposta-recensione.test.tsx --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Stessa chiave queryKeys.seller.reviews, setQueryData e poi invalidateQueries (reviews/page.tsx:203-206); la prova monta la pagina con 30 s di freschezza. Fuori voce: la cache pubblica della vetrina non si svuota.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R07-021",
+      "chiave": "frontend-ux|la vetrina di ogni negozio manda a google i suoi dati senza l'indirizzo della pagina, e nel browser va in conflitto con quello che ha disegnato il server",
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base c38145e8^ --file lib/queries/precarico.ts,lib/queries/riepilogo-recensioni-negozio.ts --prove tests/unit/riparazione-r07-vetrina-stelle-dal-server.test.ts --json"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Regge alla rimessa a mano (mutazione nel resto di questa nota); il programma accetta la chiusura solo con uscita 0 — regola della campagna per file nuovi e SQL, decisa dalla regista il 2026-11-12 17:11. rimesso a mano: chiave diversa fra server e browser -> 2 rossi su 2. store_review_stats concessa ad anon (052:56-59), la 151 non la tocca, prova RLS 19 lo controlla; il precarico usa allSettled, una lettura caduta non fa cadere la pagina (torna il comportamento di prima). url già alla base. Le due copie della domanda restano duplicate a mano.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R07-022",
+      "chiave": "frontend-ux|orari, stelle e indirizzo web del negozio non arrivano a google nella prima lettura",
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 9f9fe6ec^ --file app/store/[id]/page.tsx,components/store-sections/orari-schema.ts --prove tests/unit/riparazione-r07-vetrina-orari-schema.test.tsx --json"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Regge alla rimessa a mano (mutazione nel resto di questa nota); il programma accetta la chiusura solo con uscita 0 — regola della campagna per file nuovi e SQL, decisa dalla regista il 2026-11-12 17:11. rimesso a mano: orari fuori dallo schema -> 2 rossi su 3. openingHoursSpecification in store/[id]/page.tsx:104 dai dati del precarico; orari scritti male, fasce invertite, giorni chiusi e negozio senza orari gestiti (orari-schema.ts:26-64). Suite intera 8945 prove verdi, tsc 0.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R07-023",
+      "chiave": "frontend-ux|il pulsante del banner della vetrina può puntare a un prodotto in bozza, che il cliente non riesce ad aprire",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 9d603e8f^ --file components/seller/site/BannerFields.tsx,components/store-sections/BannerSection.tsx --prove tests/unit/riparazione-r07-banner-bozza.test.tsx --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). prodotto_in_vetrina aperta ad anon (129, 151:269); pulsante solo dopo il si del database, HTML server e browser coincidono. Costi: se la richiesta cade il pulsante ricompare.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R08-002",
+      "chiave": "rls-database|l'approvazione di un negozio non pretende la partita iva, e chi e' gia' approvato non ha nessuna pagina per inserirla",
+      "rimessa": {
+        "uscita": 1,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base 426b42ed^ --file app/api/seller/partita-iva/route.ts,app/seller/partita-iva/page.tsx --prove tests/unit/riparazione-r08-partita-iva-dopo-l-approvazione.test.ts --json"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). chiude_tutta: la prima metà (approvazione con partita IVA valida) è alla base in regole-approvazione.ts e regge; la rotta nuova regge come codice (8/8). Resta aperto: la pagina non ha nessun link, il sospeso non la apre, e c'è un percorso che toglie valore alle garanzie dichiarate (dettagli solo alla regista: riservato). Rimessa: prova-rimessa uscita 1 con anche la pagina (la pagina non ha prova che morde); solo route.ts uscita 3; rimesso a mano tolti controllo «già presente», condizione di stato e condizione colonna vuota: 2, 1, 2 rossi su 8. nata_rotta: regge (accesso solo negozio approvato/sospeso, id dalla sessione, client di servizio filtrato su user.id, stessa partitaIvaValida, scrittura condizionata, avviso in try/catch; 16 file / 154 prove verdi). Il percorso riservato è preesistente alla base, non nato da questa correzione.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R08-003",
+      "chiave": "accessibilita|le pagine in più della vetrina di un negozio non hanno un titolo principale, e «pagina non trovata» è scritto come titolo di terzo livello",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base ecabb979^ --file app/store/[id]/[slug]/page.tsx,components/EmptyState.tsx --prove tests/unit/riparazione-r08-la-pagina-in-piu-del-negozio.test.tsx --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Pagina non trovata h1 (page.tsx:42), titolo h1 o h2 con la copertina che ha già il suo h1; EmptyState resta h3 per gli altri 15 chiamanti. Minore: con la copertina l'h2 viene prima dell'h1.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R08-004",
+      "chiave": "api-backend|approvare e rifiutare un negozio non controllano lo stato di partenza: due amministratori, o una scheda vecchia, mandano due esiti opposti",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base b178f101^ --file app/api/admin/users/[id]/moderate/route.ts --prove tests/unit/riparazione-r08-moderazione.test.ts --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Approva/rifiuta solo da pending (route.ts:276-280), scrittura condizionata allo stato letto (165-175, 296-305), 0 righe = 409 senza avvisi; prova con finto db che applica i filtri e gara a :125.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R08-005",
+      "chiave": "api-backend|due sospensioni dello stesso negozio partite insieme passano tutte e due e il negozio riceve l'avviso due volte",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base b178f101^ --file app/api/admin/users/[id]/moderate/route.ts --prove tests/unit/riparazione-r08-moderazione.test.ts --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Gia sospeso = 409 (256-257) e gara chiusa dalla scrittura condizionata; una campanella, una email (prova :143).",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R08-006",
+      "chiave": "api-backend|se il conteggio delle consegne di un fattorino sospeso fallisce, l'avviso «riassegnale» non compare",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base fd3295cb^ --file app/api/admin/users/[id]/moderate/route.ts --prove tests/unit/riparazione-r08-moderazione.test.ts --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Errore/vuoto/eccezione del conteggio fa scattare l'avviso (340-357), consegne_in_corso null; il pannello non legge quel campo.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R08-007",
+      "chiave": "architettura|la colonna «approvato il» adesso segna anche l'ora del rifiuto, mentre «approvato da» resta il vecchio approvatore",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base f641f72d^ --file app/api/admin/users/[id]/moderate/route.ts --prove tests/unit/riparazione-r08-moderazione.test.ts --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Il rifiuto scrive rejected_at (route.ts:89), ripiego se la 320 manca; nessun lettore di approved_at si rompe (solo documenti_da_cancellare_respinti, ora coalesce). Dati vecchi copiati in rejected_at; approved_at storico resta, scelta dichiarata in 320:19-21. Prove esistenti modificate (moderazione-dice-il-vero, minori-s05, fattorino-minorenne, riattivare-un-sospeso, partita-iva-e-documenti, sospendere-e-riattivare): adeguate, nessuna indebolita; 400->409 voluto, controllo partita IVA ancora provato su pending.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R08-008",
+      "chiave": "architettura|il salvataggio delle varianti non è tutto-o-niente: cancellazioni e aggiornamenti già fatti restano se una riga dopo fallisce",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base 6e0a23a0^ --file lib/products/persistVariantsServer.ts --prove tests/unit/riparazione-r08-le-varianti-tutte-o-nessuna.test.ts --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Ricollaudo 2026-11-12 17:25 sulla testa e157fa56: le sei prove esistenti ora usano tests/unit/aiuti/salva-varianti-finta.ts, che esegue il carico di salva_varianti sulla banca dati finta. Mutazioni rifatte dal collaudo: A) persistVariantsServer.ts:121 senza il filtro sulle varianti viste -> 2 rossi su 44 (la-variante-mai-vista-non-si-cancella); B) :96 senza togliere la scorta non cambiata -> 4 rossi su 44 (chi-corregge-la-descrizione, la-pagina-di-modifica-salva-le-varianti, la-porta-del-catalogo, minori-s06). Senza mutazioni 44 su 44 verdi. Finta contro 323: stesse scritture (cancella per id, aggiorna condizionato alla scorta vista con errore scorta_cambiata, inserisce). Non è più permissiva sui due difetti; differenze minori: non filtra product_id su delete/update e non fa coalesce di options/label né greatest(stock,0), irrilevanti per queste prove perché il codice manda solo id del prodotto. Resto invariato dal primo giudizio: funzione SECURITY INVOKER, grant authenticated/service_role, RLS per seller, test SQL verde, ripiego solo per PGRST202/42883 con la sua prova. Prima: rompe_altro per le prove indebolite.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R08-010",
+      "chiave": "coerenza-brand|nella mappa «vicino a te» il pallino «sei qui» è blu, un colore che il marchio non usa",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base 9aa2fd29^ --file components/NearbyStoresMap.tsx --prove tests/unit/riparazione-r08-la-mappa-usa-i-colori-del-marchio.test.ts --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "ripreso_da": "K02",
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato)."
+    },
+    {
+      "id": "R08-012",
+      "chiave": "flussi-conversione|«ripeti ordine» rimette nel carrello anche i prodotti finiti o tolti dalla vendita, col prezzo di allora, e dice «aggiunti al carrello»",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-a --base c65715b540e2fdf31ca24792f705590429754042^ --file lib/riordino.ts --prove tests/unit/riparazione-r08-ripeti-ordine-lascia-fuori-i-finiti.test.ts --json"
+      },
+      "nota": "Due revisori, una lente ciascuno. chiude_tutta: esauriti, bozza, venduti e negozio non approvato restano fuori; i prodotti che entrano hanno il prezzo di oggi; il messaggio dice il vero; con tutto finito il carrello resta intatto. Resta la variante scomoda: una taglia esaurita rientra se le altre hanno scorta, perché lib/riordino.ts:59 e :69 leggono solo products.stock (somma delle varianti, 080); il cliente legge «1 articolo aggiunto al carrello!» e la cassa blocca (lib/ordini/valida-carrello.ts:143). È il caso già rosso al controllo C01. nata_rotta: regge, i tre chiamanti (app/orders/[id]/page.tsx:437, app/orders/page.tsx:212, components/home-sections/ReorderRail.tsx:141/:160) e 32 prove verdi."
+    },
+    {
+      "id": "R08-013",
+      "chiave": "frontend-ux|tolte le foto, le tessere della home restano sotto un velo scuro pensato per le foto — con una banda chiara in mezzo",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base 1579ee2d^ --file components/CategoryShowcase.tsx --prove tests/unit/riparazione-r08-le-tessere-senza-foto.test.tsx --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Velo pieno solo con la foto caricata (CategoryShowcase.tsx:348-349), velo senza banda; prove di comportamento. Dubbio minore: immagine completa con larghezza 0 (SVG, lazy) giudicata rotta. Prova esistente minori-s09-aspetto: adeguata (il valore del velo senza foto è coperto dalla prova nuova, righe 92-95 e 119-130).",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R08-014",
+      "chiave": "frontend-ux|la casella «pagina nascosta» promette che si apre col link diretto, ma chi riceve il link vede «non trovato»",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base 6774c4b8^ --file app/store/[id]/[slug]/page.tsx --prove tests/unit/riparazione-r08-la-pagina-in-piu-del-negozio.test.tsx --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Tolto il notFound per le nascoste; avviso solo al proprietario; noindex se non pubblica (layout.tsx:39), fuori da sitemap e menu. I dati erano già pubblici: rimessa SQL verde su k02 (riparazione-r08-la-pagina-nascosta-e-gia-nei-dati-pubblici).",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R08-016",
+      "chiave": "microcopy|la campanella «ordine pronto» promette il fattorino «a breve» anche quando la consegna è fissata ore dopo",
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 bash tests/sql/harness/apply.sh k02b (senza migrations/321) && psql -d k02b -f tests/sql/rls/riparazione-r08-l-ordine-pronto-dice-la-fascia.test.sql"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Regge alla rimessa a mano (mutazione nel resto di questa nota); il programma accetta la chiusura solo con uscita 0 — regola della campagna per file nuovi e SQL, decisa dalla regista il 2026-11-12 17:11. rimesso a mano: database senza la 321 -> 2 controlli rossi; con la 321 verde. 321 cambia solo il calcolo della fascia rispetto alla 215; senza fascia, consegna veloce e ritiro restano «a breve»; formato come lib/quando-arriva.ts. Rimessa a mano: senza la 321 il test SQL dà 2 controlli rossi.",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R08-017",
+      "chiave": "performance|sul telefono la home chiede al database e alla cassa i dati di un riquadro che non mostra",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base 2f9e4db5^ --file components/home/HeroStoreCard.tsx --prove tests/unit/riparazione-r08-sul-telefono-il-riquadro-nascosto-non-chiede-dati.test.tsx --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Lo schermo entra nella chiave della lettura (HeroStoreCard.tsx:88), la lettura ricontrolla lo schermo (:111), staleTime 0 sul salto (:92). Prove del revisore: idratazione vera su 390 px con 0 letture, rotazione 390->844 legge una volta, desktop 1280->600->1280 una lettura sola; 9 prove esistenti, 114 test verdi. Resta acceso l'orologio di useOraDiPiacenza (non è una lettura).",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R08-018",
+      "chiave": "performance|il service worker fa passare da sé le foto dei prodotti ma non ne conserva nessuna",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base a24bedce^ --file public/sw.js --prove tests/unit/riparazione-r08-il-service-worker-conserva-le-foto.test.ts --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "ripreso_da": "K02",
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato)."
+    },
+    {
+      "id": "R08-020",
+      "chiave": "privacy-legale|il link per disiscriversi scatta appena qualcuno lo apre, filtri antivirus compresi, e porta l'indirizzo email leggibile nell'indirizzo web",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base ea95891e^ --file lib/email/unsubscribe.ts --prove tests/unit/riparazione-r08-il-link-per-smettere-non-mostra-l-email.test.ts --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "ripreso_da": "K02",
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato)."
+    },
+    {
+      "id": "R08-023",
+      "chiave": "privacy-legale|se la persona toglie il consenso ai cookie statistici, sentry continua a misurare le sue pagine fino alla ricarica",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R08 --base d66abdde^ --file lib/analytics/sentry-config.ts --prove tests/unit/riparazione-r08-sentry-smette-quando-si-dice-no.test.ts --json"
+      },
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "ripreso_da": "K02",
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato)."
+    },
+    {
+      "id": "R08-025",
+      "chiave": "qa-flussi|il voto per il negozio del mese dato nelle prime ore del primo giorno non entra nella classifica che si vede",
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 bash tests/sql/harness/apply.sh k02b (322 con mese_di_piacenza in UTC) && psql -d k02b -f tests/sql/rls/riparazione-r08-la-classifica-conta-il-mese-di-piacenza.test.sql"
+      },
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Regge alla rimessa a mano (mutazione nel resto di questa nota); il programma accetta la chiusura solo con uscita 0 — regola della campagna per file nuovi e SQL, decisa dalla regista il 2026-11-12 17:11. rimesso a mano: mese in UTC -> 2 controlli rossi; con la 322 verde. La pagina scrive il voto col mese di Piacenza (shop-of-month/page.tsx:53,64,97); vista con le stesse opzioni e permessi di 121/161. Rimessa a mano: mese_di_piacenza in UTC -> 2 controlli rossi (00:30 del 1/12 e del 1/7).",
+      "ripreso_da": "K02"
+    },
+    {
+      "id": "R15-001",
+      "chiave": "immagini-media|le tessere delle categorie in home sono foto d'archivio scritte a mano nel codice",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base bb56980b3d39809655ec2d20aff88e8a31fd60a1^ --file components/CategoryShowcase.tsx --prove tests/unit/riparazione-r15-la-foto-rotta-si-dice-una-volta.test.tsx --json   (checkout bb56980b3d39809655ec2d20aff88e8a31fd60a1)"
+      },
+      "nota": "Ripresa da K08 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Un revisore qa per R15-001 e R15-002 insieme (stessi file, due gravi parziali senza soldi né dati: uniti per stare nel tetto di 12 subagenti, con l ok della regista). CHIUDE_TUTTA: parziale. La parte fatta regge: l avviso della foto rotta si dice una volta per foto; il Set a livello di modulo (CategoryShowcase.tsx:92) sul server non si riempie mai, perché ref e onError non girano lì (sonda: tre disegni sul server con foto rotta danno 0 avvisi, l idratazione ne dà 2, uno per foto). Gli indirizzi Pexels scritti nel codice erano già tolti alla base: il lavoro vero della voce è solo l avviso. Buco nel cosa resta: lib/immagine-categoria.ts:47 ammette images.pexels.com fra gli host, quindi una foto d archivio Pexels salvata in categories.image_url torna in vetrina senza nessun segnale (provato con una sonda): è proprio il difetto della voce. Le altre 4 voci del cosa resta sono vere (rotta admin che scarta image_url, avviso solo console.warn, qualunque *.supabase.co ammesso, avviso «scartata» ripetuto). NATA_ROTTA: niente di rotto. Non provato: il ramo ref su un immagine pigra in un browser vero. Prove rimesse in più: intera: uscita 0 (timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 116e2134aa54021973cfc2252b11851d0c007996^ --file components/CategoryShowcase.tsx --prove tests/unit/riparazione-r15-la-foto-rotta-si-dice-una-volta.test.tsx,tests/unit/riparazione-r15-la-foto-rotta-della-tessera-si-dice.test.tsx --json   (checkout bb56980b3d39809655ec2d20aff88e8a31fd60a1)).",
+      "ripreso_da": "K08"
+    },
+    {
+      "id": "R15-002",
+      "chiave": "navigazione-gerarchia|home, piè di pagina e mappa per google mettono in mostra categorie vuote: otto su nove non hanno prodotti",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base bb848e563a72757f142702ffd395753b80c3d961 --file components/Footer.tsx --prove tests/unit/riparazione-r15-il-piede-che-sa-le-piene-non-ripiega-sulla-riserva.test.tsx --json   (checkout 3b8a85a628a1ba2d4339ccb9dc4fb17fef08a66a)"
+      },
+      "nota": "Ripresa da K08 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Un revisore qa per R15-001 e R15-002 insieme (stessi file, due gravi parziali senza soldi né dati: uniti per stare nel tetto di 12 subagenti, con l ok della regista). CHIUDE_TUTTA: parziale. Il cambio netto è solo nel piede (Footer.tsx:187-191): con le piene note non ripiega più sulla riserva, e regge. Vetrina e mappa filtravano già alla base (la funzione è solo spostata in lib/queries/categorie-piene.ts); la mappa esclude le vuote; se la lettura cade mappa e vetrina mostrano tutto, non si svuotano; le madri contano come piene grazie alle figlie; contano solo prodotti disponibili di negozi approvati. Diagnosi sbagliata nel cosa resta: i chip dell eroe (HomeSectionRenderer.tsx:67-72 e :155-169) sono una lista scritta a mano (Alimentari, Elettronica, Bellezza, Casa) che non guarda mai le piene: restano vuoti anche dopo l idratazione e il precarico nel layout proposto non li ripara (provato con una sonda). Non dichiarato: app/category/[slug]/layout.tsx:40-64, nel Dove della voce e non toccato, haProdotti non filtra i negozi approvati (non verificato su dati). NATA_ROTTA: niente di grave; minore nuovo: Footer.tsx:189-191 se le piene arrivano prima dell elenco il piede mostra 0 categorie per un attimo (sonda). Prove del riparatore 14 su 14, 104 di regressione su vetrina, piede e mappa verdi, tsc 0.",
+      "ripreso_da": "K08"
+    },
+    {
+      "id": "R15-003",
+      "chiave": "deploy-sre|il magazzino di sicurezza delle foto punta a un secchio che non e mai esistito: la copia notturna puo diventare rossa al primo giro",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 91f5ecfa306030b05a789075631400c6ac0e48a9^ --file scripts/backup-db.sh --prove tests/unit/riparazione-r15-backup-storico.test.ts --json   (checkout 91f5ecfa306030b05a789075631400c6ac0e48a9)"
+      },
+      "nota": "Ripresa da K08 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Un revisore qa (gruppo A, copia a 1b84dfed207e), tutte e due le lenti. CHIUDE_TUTTA: Sì. Il caso del secchio predefinito «-storico» che non esiste è chiuso: se lsd e mkdir falliscono e STORAGE_SYNC_STORICO è vuoto (anche quando vale \"\", come lo passa il workflow), lo storico ripiega su <DEST_PULITA>/_storico (scripts/backup-db.sh:418-425). Il caso della barra finale era già chiuso nella base da DEST_PULITA (309-313). Con una sonda ho verificato che la foto cancellata finisce davvero in b2/mycity-foto/_storico/T1/products/cancellata.jpg e che l'uscita è 0. Se mkdir riesce, si usa ancora il secchio -storico. Se STORAGE_SYNC_STORICO punta a un secchio che non esiste, la notte resta rossa (uscita 5): è una scelta esplicita di chi configura. NATA_ROTTA: Non rompe niente nel codice. La prova gira sul pezzo vero dello script, ritagliato da backup-db.sh, con un rclone finto. Le 15 prove vicine sul backup sono verdi e tsc passa. Restano tre residui di documentazione e visibilità. 1) Il commento a 293-308 dice ancora che uno storico nello stesso secchio è «peggio che fermarsi». 2) docs/backup-restore.md:226-231 non dice che lo storico può finire in <dest>/_storico: chi ripristina lo cercherebbe solo nel secchio -storico. 3) Il ripiego avvisa solo nel registro (riga 425, stderr). Il riepilogo resta «✅» (riga 465), senza ::warning::. È contro la regola scritta in docs/backup-restore.md:316-318: lo stato della rete di sicurezza va dove si guarda. Residui: scripts/backup-db.sh:293-308 il commento dice ancora che lo storico deve stare fuori dalla destinazione e che dentro è «peggio che fermarsi»: contraddice il ripiego nuovo; docs/backup-restore.md:226-231 la guida al ripristino non dice che i file spariti possono stare in <dest>/_storico; scripts/backup-db.sh:425,465 il ripiego (protezione ridotta) si vede solo su stderr; il riepilogo dice «✅» senza segnalare lo storico degradato e senza ::warning:: Prove: npx vitest run riparazione-r15-backup-storico: verde (insieme alle altre 4 prove delle voci, 17/17). Le 15 prove vicine sul backup-db sono nel giro da 27 file e 213 prove: verde. tsc --noEmit (con buildinfo fuori dalla copia): uscita 0. Sonda zz-k08-backup-sonda: il file va in _storico; con mkdir riuscito si usa -storico; con STORICO esplicito inesistente uscita 5. Sonda verde e poi cancellata; copia in /tmp/claude-0/k08/out-A/.",
+      "ripreso_da": "K08"
+    },
+    {
+      "id": "R15-004",
+      "chiave": "deploy-sre|un secchio di foto svuotato all'origine passa per verde: il controllo di vuoto guarda il totale, non il singolo secchio",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base dc3280bdffd544194c5979a0dd5c752fe9495ef8^ --file scripts/backup-db.sh --prove tests/unit/riparazione-r15-backup-secchio-vuoto.test.ts --json   (checkout dc3280bdffd544194c5979a0dd5c752fe9495ef8; uscita 0 anche con --base f6150e4b9e5ceeb776132b414c9097a566a035a3, l'inizio del giro di correzione)"
+      },
+      "nota": "Ripresa da K08 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Ricollaudo del 14/11 (K08 quarto), giro di correzione 9b61e166, 88eb976d, dc3280bd. Un revisore qa nuovo, copia a dc3280bd, tutte e due le lenti. CHIUDE_TUTTA: i tre residui del collaudo di prima sono chiusi, provati col blocco foto vero dello script, un rclone finto e un psql vero su un Postgres locale: notte 2, notte 3 e rilancio restano rossi (database a 0 o che elenca file); l'ultima foto di reviews tolta da una cancellazione d'account dà verde con avviso, niente rosso falso; il commento è riscritto. Restano due casi in cui il titolo si riproduce, più il manuale. NATA_ROTTA: niente di rotto. psql c'è nel runner (passo che installa postgresql-client-17), la query usa la stessa DB_URL, il tempo massimo sta dentro la query (SET LOCAL in transazione, regge dietro un pooler), la memoria vive nella destinazione remota e sopravvive fra le notti, l'uscita 5 spostata in fondo non nasconde altri errori, set -euo pipefail regge in 34 notti di sonda. Residui: scripts/backup-db.sh:451-456 (e 344-347) reviews svuotato in massa all'origine, col database a 0, esce verde con un ::warning:: che dà la colpa all'app (sonda S9: sparite insieme le foto di due utenti, che una cancellazione sola non spiega); scripts/backup-db.sh:539 se l'elenco della memoria non si legge l'errore è ingoiato (|| true) e quella notte products svuotato col database a 0 torna verde senza avviso (sonda S10, notte 27; la notte dopo torna rosso); docs/backup-restore.md:263-265 il manuale dice ancora «un singolo secchio vuoto resta legittimo… non è più ammesso che siano vuoti tutti», cioè la regola del difetto, e non spiega la memoria _memoria-copia/<secchio>.aveva-file né come toglierla. Non verificati: pooler vero, rclone e B2 veri, RLS di storage.objects. Prove: la prova della voce 11/11 verde; prove vicine del backup 17 file, 152/152; tsc uscita 0; sonda della query su Postgres 16 locale (conteggi giusti, apice e iniezione innocui, porta chiusa e tabella bloccata trattate come mute); sonda dei mondi, 13 scenari e 34 notti. Uscite in /tmp/claude-0/k08/out-A/.",
+      "ripreso_da": "K08"
+    },
+    {
+      "id": "R15-005",
+      "chiave": "frontend-ux|le pagine di prodotti, negozi e categorie che non esistono rispondono «tutto ok» invece di «non trovato»",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 0b27c8ff3666d1ff07ae431b24e79a56f9bfac65^ --file app/not-found.tsx --prove tests/unit/riparazione-r15-la-pagina-non-trovata-non-si-presenta-come-la-home.test.ts --json   (checkout 0b27c8ff3666d1ff07ae431b24e79a56f9bfac65)"
+      },
+      "nota": "Ripresa da K08 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Ricollaudo del 14/11 (K08 quarto). Voce parziale per il riparatore: giudicata solo la parte messa sul ramo in questo giro, il commit 0b27c8ff (decisione di Nicola del 14/11 alle 10:20, si corregge). Un revisore qa nuovo, copia a dc3280bd. CHIUDE_TUTTA (della parte): fatta. Il titolo dei metadati, «404 · Questa pagina non esiste · MyCity», è diverso dall'h1, e «Pagina non trovata» compare una volta sola come testo. Il codice 200 al posto di 404 sulle pagine che non esistono resta aperto e non è giudicato qui; l'immagine dell'anteprima resta quella della home, già dichiarato dal riparatore. NATA_ROTTA: non rompe niente. Build con variabili finte e next start: /this-route-does-not-exist-xyz risponde 404 col titolo una volta sola (nessun «· MyCity · MyCity»: la radice non ha modello del titolo), una sola meta robots, og e twitter giusti; il <title> in streaming sta dopo l'h1, quindi il .first() della e2e 07 prende il testo della 404; l'import di metadata da ./layout non rompe build, lint e tipi. Residui nella parte nuova: nessuno. Prove: unitarie 16/16 verdi; next build uscita 0; Playwright e2e 03 «404 page is custom» e 07 «404 page renders for invalid route» verdi, spec 03 e 07 intere 14/14.",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "ripreso_da": "K08"
+    },
+    {
+      "id": "R15-006",
+      "chiave": "immagini-media|quattro foto sotto la piega vengono chieste come «urgenti» su ogni home",
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base fc54d5a60151f01fa170f4c68cbaf221fa34e589^ --file components/ProductGrid.tsx,app/promozioni/page.tsx --prove tests/unit/riparazione-r15-foto-urgenti-solo-sopra-la-piega.test.ts --json   (checkout fc54d5a60151f01fa170f4c68cbaf221fa34e589)"
+      },
+      "nota": "Ripresa da K08 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Parziale per il riparatore: giudicata solo con la prova rimessa.",
+      "ripreso_da": "K08"
+    },
+    {
+      "id": "R15-007",
+      "chiave": "immagini-media|se l'abbonamento supabase scade, le foto del sito tornano rotte e nessun controllo se ne accorge",
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base b2c82d7cff7063161a791a7046f043f065923ede^ --file lib/image-url.ts --prove tests/unit/riparazione-r15-foto-senza-trasformazione.test.ts --json   (checkout b2c82d7cff7063161a791a7046f043f065923ede)"
+      },
+      "nota": "Ripresa da K08 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Parziale per il riparatore: giudicata solo con la prova rimessa.",
+      "ripreso_da": "K08"
+    },
+    {
+      "id": "R15-008",
+      "chiave": "layout-responsive|col testo ingrandito al massimo sul telefono, le pagine pubbliche scorrono di lato per colpa del piè di pagina",
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base f007952cf4d139c58ca9ab40e6e5f55550746eb2^ --file components/Footer.tsx,app/lavora-con-noi/page.tsx,app/returns/page.tsx,app/faq/page.tsx --prove tests/unit/riparazione-r15-col-testo-grande-la-pagina-non-scorre-di-lato.test.tsx --json   (checkout f007952cf4d139c58ca9ab40e6e5f55550746eb2)"
+      },
+      "nota": "Ripresa da K08 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Parziale per il riparatore: giudicata solo con la prova rimessa.",
+      "ripreso_da": "K08"
+    },
+    {
+      "id": "R15-009",
+      "chiave": "microcopy|la pagina dei più recensiti presenta 40 prodotti come «scelti dai clienti» anche quando nessuno ha una recensione",
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base e92ee472d61dfc4cc7fd90e973f68f481327a926^ --file components/ProductGrid.tsx,app/piu-venduti/page.tsx --prove tests/unit/riparazione-r15-piu-recensiti-solo-recensiti.test.ts --json   (checkout e92ee472d61dfc4cc7fd90e973f68f481327a926)"
+      },
+      "nota": "Ripresa da K08 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Parziale per il riparatore: giudicata solo con la prova rimessa.",
+      "ripreso_da": "K08"
+    },
+    {
+      "id": "R15-010",
+      "chiave": "navigazione-gerarchia|l'indice delle categorie mostra giocattoli come le altre anche se non ha nessun prodotto, e cliccandola si trova il vuoto",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 37e5e07c5fcf5db26d12ed9d62871c6a79879f76^ --file app/categorie/page.tsx,app/category/[slug]/page.tsx --prove tests/unit/riparazione-r15-l-indice-delle-categorie-mostra-solo-le-piene.test.tsx --json   (checkout 37e5e07c5fcf5db26d12ed9d62871c6a79879f76)"
+      },
+      "nota": "Ripresa da K08 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Un revisore qa (gruppo A, copia a 1b84dfed207e), tutte e due le lenti. CHIUDE_TUTTA: Sì. /categorie usa domandaCategoriePiene e soloLePiene con la stessa chiave del piede e del menu (app/categorie/page.tsx:37,47-48). Madri e figlie vuote spariscono (righe 66-67). La pagina aspetta le piene prima di disegnare. Se la lettura delle piene fallisce, le mostra tutte. Nessun precarico dal server, quindi l'HTML del server non perde niente. La frase «Non abbiamo trovato questo prodotto» è sostituita in tutti e due i punti di app/category/[slug]/page.tsx (363 e 526). Fuori dal testo della voce resta una strada: i chip delle sottocategorie nella pagina madre portano ancora a figlie vuote. NATA_ROTTA: Niente di rotto. La prova disegna la pagina vera; useQuery è finto e risponde per chiave, quindi la vera domandaCategoriePiene passa. Le prove che disegnano /categorie (le-pagine-di-catalogo-non-dicono-vuoto…, minori-s09-aspetto) sono verdi. tsc: uscita 0. Se le piene falliscono, c'è circa 1 s di caricamento in più (retry:1 in components/providers/QueryProvider.tsx:24): accettabile. La parte sulla pagina categoria è provata solo cercando parole nel sorgente; per una voce minore è ammesso. Residui: app/category/[slug]/page.tsx:325-331 residuo fuori voce: nella pagina madre i chip «Sottocategorie» elencano anche le figlie vuote (non c'è soloLePiene) e portano al vuoto Prove: npx vitest run riparazione-r15-l-indice-delle-categorie-mostra-solo-le-piene.test.tsx: verde. Prove vicine su /categorie e collezioni: verdi (27 file, 213 prove). tsc: uscita 0.",
+      "ripreso_da": "K08"
+    },
+    {
+      "id": "R15-011",
+      "chiave": "qa-flussi|la pagina novità mostra tutto il catalogo, anche un prodotto di tre mesi fa, e il numero in alto conta solo i prodotti già caricati",
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 715b96dcc02d71222d2c69a973797e2aa78d4b0d^ --file lib/queries/griglia-prodotti.ts,components/ProductGrid.tsx,app/novita/page.tsx --prove tests/unit/riparazione-r15-novita-finestra.test.ts --json   (checkout 715b96dcc02d71222d2c69a973797e2aa78d4b0d)"
+      },
+      "nota": "Ripresa da K08 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Parziale per il riparatore: giudicata solo con la prova rimessa. Prove rimesse in più: std: uscita 3 (timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 715b96dcc02d71222d2c69a973797e2aa78d4b0d^ --file lib/queries/griglia-prodotti.ts,components/ProductGrid.tsx,app/novita/page.tsx --prove tests/unit/riparazione-r15-novita-finestra.test.ts,tests/unit/riparazione-r15-novita-conteggio.test.ts --json   (checkout 715b96dcc02d71222d2c69a973797e2aa78d4b0d)).",
+      "ripreso_da": "K08"
+    },
+    {
+      "id": "R15-012",
+      "chiave": "qa-flussi|il pannello della home suggerisce ancora «i più amati / prodotti che vanno forte»",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-b --base 77822274e34cec14e69685249a7374c029c0a3f3^ --file components/admin/home/HomeSectionConfigForm.tsx --prove tests/unit/riparazione-r15-pannello-home-segnaposto.test.ts --json"
+      },
+      "nota": "I segnaposto di HomeSectionConfigForm ora coincidono coi titoli di riserva della home (HomeSectionRenderer.tsx:240-243) e la fila ordina per data. Ma lo stesso pannello della home promette ancora i «più amati»: il menu «Aggiungi sezione» di /admin/home mostra «Prodotti popolari — Griglia dei prodotti più amati» (lib/home-site.ts:75, via components/admin/home/HomeSectionsEditor.tsx:70). Il titolo della voce resta vero sul sito."
+    },
+    {
+      "id": "R15-013",
+      "chiave": "qa-flussi|con tre tocchi veloci sul cuore e una rete che consegna le richieste in disordine, il preferito resta tolto anche se l'ultimo tocco era «aggiungi»",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-b --base d1b41e44df2c65f093c3b532075e86e7a66d024f^ --file components/hooks/useFavorites.ts,lib/preferiti/tocco-del-cuore.ts --prove tests/unit/riparazione-r15-il-cuore-in-fila.test.tsx --json"
+      },
+      "nota": "Lo scenario della voce (ritardi 200/2500/200 ms, 409) è chiuso. Ma due casi giusti prima ora sono sbagliati, con prova temporanea verde 3/3 sul commit precedente e rossa 3/3 su 67666b3f: (1) lib/preferiti/tocco-del-cuore.ts:137-140 ribalta il cuore solo se fallisce l'ultimo tocco: doppio tocco con due scritture fallite = cuore pieno, database vuoto; tre tocchi riuscito/fallito/fallito = cuore vuoto e riga salvata; la rilettura (:147) corregge solo se la lettura riesce, quindi con la rete giù l'errore resta. (2) :122 la scrittura non ha tempo massimo: una richiesta che non risponde blocca la fila del prodotto finché la scheda è aperta, e i tocchi dopo cambiano il cuore senza scrivere né avvisare."
+    },
+    {
+      "id": "R15-014",
+      "chiave": "qa-flussi|loadingstate annuncia solo il suo aria-label in una regione viva",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-b --base 5383b34820dea7cfcc43d0cec9a52c446d9a3ce2^ --file components/ui/LoadingState.tsx --prove tests/unit/riparazione-r15-loadingstate.test.tsx --json"
+      },
+      "nota": "Tutte e 4 le varianti di LoadingState hanno il testo dentro la regione; nessun punto d'uso sta dentro un'altra regione viva; 9 file di prova verdi. Nota: la variante skeleton oggi non la usa nessuna pagina (89 usi, tutti a rotella o inline). Minore fuori voce: la variante cards mette aria-busy=true sulla regione (LoadingState.tsx:54), che può zittire l'annuncio; oggi non usata."
+    },
+    {
+      "id": "R15-015",
+      "chiave": "qa-flussi|la consegna veloce si vende a tutti insieme anche con un solo fattorino: nessuno conta quante veloci ha già in mano",
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 14e7c7233a3c05156910400e04e3d4d458daef65^ --file lib/ordini/consegna-veloce.ts --prove tests/unit/riparazione-r15-la-veloce-conta-quelle-in-mano.test.ts --json   (checkout 14e7c7233a3c05156910400e04e3d4d458daef65)"
+      },
+      "nota": "Ripresa da K08 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Parziale per il riparatore: giudicata solo con la prova rimessa.",
+      "ripreso_da": "K08"
+    },
+    {
+      "id": "R15-017",
+      "chiave": "qa-flussi|il commento di lib/queries/griglia-prodotti.ts:154 sui categoryids",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base a6227b42938e4e2d91007b77027d9fd50ecb91d1^ --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r15-commento-categoryids.test.ts --json   (checkout a6227b42938e4e2d91007b77027d9fd50ecb91d1)"
+      },
+      "nota": "Ripresa da K08 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Un revisore qa (gruppo A, copia a 1b84dfed207e), tutte e due le lenti. CHIUDE_TUTTA: Sì. Il commento a lib/queries/griglia-prodotti.ts:186-192 ora dice che categoryIds ha la precedenza e non allarga alle figlie. Nomina anche i due chiamanti reali, che ho verificato con grep: Regali, con le figlie già dentro (app/regali/categorie-regalabili.ts:26-31), e «Altri prodotti», solo la madre (app/category/[slug]/page.tsx:354). Il codice non cambia. NATA_ROTTA: Cambia solo un commento: niente da rompere. Resta, fuori dalla voce, il commento della prop in ProductGrid: dice «padre + sottocategorie» e «IN al posto di EQ», cose che non valgono più. Residui: components/ProductGrid.tsx:77 residuo fuori voce: il doc di categoryIds porta come esempio «categoria padre + sottocategorie, IN al posto di EQ», contrario all'uso «Altri prodotti» e superato (anche categoryId usa IN) Prove: npx vitest run riparazione-r15-commento-categoryids: verde (prova che cerca parole nel sorgente, ammessa per minore). Diff letto: solo il commento.",
+      "ripreso_da": "K08"
+    },
+    {
+      "id": "R15-019",
+      "chiave": "stati-ui|la pagina novità vuota dice di cambiare filtri che non ci sono e non offre nessuna strada per uscire",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 9bbd606a7492328c797235d68080d478673947a7^ --file app/novita/page.tsx,app/piu-venduti/page.tsx,app/regali/RegaliClient.tsx --prove tests/unit/riparazione-r15-vuoto-con-via-d-uscita.test.ts --json   (checkout 9bbd606a7492328c797235d68080d478673947a7)"
+      },
+      "nota": "Ripresa da K08 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Un revisore qa (gruppo A, copia a 1b84dfed207e), tutte e due le lenti. CHIUDE_TUTTA: Sì per le tre pagine nominate: Novità, Più recensiti e Regali passano emptyTitle, emptyDescription ed emptySuggestions con i link /search e /categorie. La prova del riparatore cerca solo parole nel sorgente, quindi ho montato davvero le tre pagine (jsdom, griglia vuota). Nessuna dice «modificare i filtri» e i link presenti sono [\"/\",\"/search\",\"/categorie\"]. Il ramo arricchito di ProductGrid (600-623) è quello che si disegna davvero. Resta fuori dal testo /piccoli-prezzi: è nel menu principale (components/CategoryBar.tsx:29) e mostra ancora il riquadro storico. NATA_ROTTA: Niente di rotto. Lo stato vuoto storico di ProductGrid non è stato toccato. NEW_PRODUCT_DAYS esiste e vale 14 (lib/constants.ts:2). tsc: uscita 0. Le prove vicine (promozioni-vuota, titoli-collezioni, piu-recensiti, novita-finestra/conteggio) sono verdi. Residui: app/piccoli-prezzi/page.tsx:47 residuo fuori voce, stessa causa: ProductGrid senza le prop dello stato vuoto, quindi riquadro storico «Prova a modificare i filtri», senza link (components/ProductGrid.tsx:626-631) su una pagina del menu che ha solo l'ordinamento Prove: npx vitest run riparazione-r15-vuoto-con-via-d-uscita: verde. Sonda zz-k08-vuoto-sonda.test.tsx, che monta NovitaPage, PiuVendutiPage e RegaliClient con catalogo vuoto: 3/3 verdi. Uscita in /tmp/claude-0/k08/out-A/sonda-vuoto.txt; sonda cancellata.",
+      "ripreso_da": "K08"
+    },
+    {
+      "id": "R18-004",
+      "chiave": "frontend-ux|nello storico delle promo una promo annullata si legge «terminata» con una data che deve ancora venire",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-1 --base dc067a0800d6c2599503a9070c7b533250fda17e^ --file app/seller/promotions/page.tsx --prove tests/unit/riparazione-r18-promo-annullata.test.tsx --json (0)"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K07 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). qa (due lenti): «Terminata <data>» solo per lo stato Scaduta (page.tsx:260), annullata mostra «Annullata»; nessun'altra pagina scrive quella data; provata annullata con fine futura, annullata passata e scaduta: nessun caso sbagliato.",
+      "ripreso_da": "K07"
+    },
+    {
+      "id": "R18-006",
+      "chiave": "mobile-pwa|nella rubrica indirizzi i bottoni «modifica» ed «elimina» sono troppo piccoli e troppo vicini per il pollice",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-3 --base a09cc8e9a910fbf8abc9640d4975856e7ccddfb9^ --file app/profile/addresses/page.tsx --prove tests/unit/riparazione-r18-indirizzi-bottoni-da-pollice.test.ts --json (0)"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K07 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Campione dei minori (giro di correzione del 14/11, testa 69a1e699, ricollaudo K07·secondo; scelta a sorte fra le 5 non guardate, seme = testa 69a1e699). Codice alla testa identico ad a09cc8e9. chiude_tutta: size md di Button.tsx ha min-h-[44px], i due bottoni non passano className, 12 px fra loro (gap-3); Salva e Annulla md con 8 px; «Predefinito» è un'etichetta; resta piccola solo la casella «Imposta come predefinito» (components/ui/Field.tsx:243, 16 px), che la voce non nomina. La prova legge il sorgente (ammesso su un minore) e morde in 6 casi su 6 (sm su ciascun bottone, gap-1, gap tolto, flex-wrap tolto, md a 32 px); non morde con className h-8 min-h-0 o -ml-3. nata_rotta: il commit cambia 3 righe; a 320 px i due bottoni (circa 232 px) stanno nei circa 246 utili e se no vanno a capo puliti (calcolo, non misurato in un browser).",
+      "ripreso_da": "K07"
+    },
+    {
+      "id": "R18-009",
+      "chiave": "qa-flussi|un doppio tocco su «crea lista» crea due liste uguali, e aprendo la finestra il cursore va su «chiudi» invece che sul nome",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-b --base dd6985ede22ec0891d0fa9fa3ab88735e3193fb1^ --file app/lists/page.tsx,components/ui/Modal.tsx --prove tests/unit/riparazione-r18-crea-lista-una-sola-volta.test.tsx --json"
+      },
+      "nota": "Il freno su Crea lista si rilascia anche se la creazione fallisce (onSettled); doppio Invio e tasto tenuto premuto bloccati; nome vuoto o di spazi: bottone spento; riaprendo la finestra il fuoco torna sul Titolo. data-autofocus c'è solo in app/lists/page.tsx:316: le altre finestre e la trappola del fuoco non cambiano. Prove di Modal (18) e delle liste (39) verdi."
+    },
+    {
+      "id": "R18-010",
+      "chiave": "qa-flussi|«migliora tutto il catalogo» fa vedere 50 prodotti e con «applica» ne riscrive fino a 200 (oggi spento)",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-1 --base 2b4b10a607b182e501e6aab820e5c5d2f8c487ab^ --file app/seller/products/ai-batch/page.tsx --prove tests/unit/riparazione-r18-lotto-applica-quello-che-si-vede.test.tsx --json (0)"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K07 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). qa (due lenti): «Applica a tutti» e «Metti in bozza i segnalati» mandano gli id dei risultati mostrati (ai-batch/page.tsx:439-442, 541); la rotta filtra per productIds (apply/route.ts:79-98); 200 id ≈ 8 KB sotto il tetto di 1 MB; nessun'altra porta applica il lotto.",
+      "ripreso_da": "K07"
+    },
+    {
+      "id": "R18-012",
+      "chiave": "qa-flussi|un doppio clic su «crea promo» crea due promozioni uguali, e se se ne cancella una l'altra resta attiva",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "PGHOST=localhost timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-1 --base 1916a2e9b2d6cb2181032d8b3b1fd94bd95ac4aa^ --file migrations/429_due_promo_uguali_non_restano_attive_insieme.sql --prove tests/sql/rls/riparazione-r18-promo-doppia.test.sql --sql k07_r18_012_1_rimessa --json (0) ; timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-1 --base 1916a2e9b2d6cb2181032d8b3b1fd94bd95ac4aa^ --file app/seller/promotions/page.tsx --prove tests/unit/riparazione-r18-promo-doppio-clic.test.tsx --json (0)"
+      },
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K07 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). qa (due lenti): freno useRef in pagina (page.tsx:131,152-158); la 429 si applica e due sessioni psql parallele da negoziante lasciano una riga sola; bozza riaccesa fermata, annullo mai fermato; suite SQL 65 file verde. Fuori voce: un UPDATE diretto di ends_at o titolo su una promo scaduta non è controllato (il trigger guarda solo UPDATE OF status).",
+      "ripreso_da": "K07"
+    },
+    {
+      "id": "R18-014",
+      "chiave": "qa-flussi|la risalita dei genitori delle categorie non ha un tetto",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07b-r --base b9184071c0bc026c462a247da50dffd16ff72b93^ --file migrations/426_la_risalita_delle_categorie_si_ferma_su_un_cerchio.sql --prove tests/sql/rls/riparazione-r18-categorie-in-cerchio.test.sql --sql k07b_r18_014_rimessa --json (0) ; timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07b-r --base b9184071c0bc026c462a247da50dffd16ff72b93^ --file lib/category-attributes.ts --prove tests/unit/riparazione-r18-categorie-con-un-cerchio.test.ts --json (0)"
+      },
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta",
+        "dati"
+      ],
+      "nota": "Ripresa da K07 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). giro di correzione del 14/11, testa 69a1e699, ricollaudo K07·secondo. Giudicata solo la parte sul ramo (b9184071: migrazione 426 + lib/category-attributes.ts), sul Postgres locale. chiude_tutta: a parte ProductForm.tsx (dichiarato serve_file_altrui, non giudicato) nessun'altra risalita di parent_id scoperta; nelle migrazioni risalivano la 126, la 195 e la 363, e la 426 le rifà tutte. dati: firme, SECURITY INVOKER, search_path, proprietario e permessi identici prima e dopo, trigger legati, nessuna riga toccata, nessuna migrazione fra la 364 e la 425 ridefinisce quelle funzioni, la 426 si rilancia due volte, catena di 35 livelli sotto «alimentari» bloccata. nata_rotta: run.sh 66 file verdi, 86 file vitest che importano la libreria verdi (737 prove), su 2000 alberi casuali la libreria nuova dà lo stesso risultato della vecchia, termina con autoanello, id doppi, genitore mancante. ROMPE: su un cerchio staccato da «alimentari» la guardia della 426 lascia pubblicare un prodotto alimentare senza allergeni (426: commento riga 25 «nel dubbio si chiede la dichiarazione», controllo righe 83-90, radice riga 131), mentre prima della 426 lo stesso salvataggio andava in timeout e niente usciva senza allergeni. Riprodotto due volte, anche con autoanello e cerchio a tre: pane sotto alimentari, pane-fresco sotto pane, UPDATE categories SET parent_id = pane-fresco WHERE id = pane passa (il controllo degli spostamenti della 363, righe 153-156, guarda l'albero di prima), poi un prodotto in vendita in pane-fresco senza allergeni viene pubblicato. Dal pannello non ci si arriva (la API admin lo blocca, genitoreNonAmmesso): serve una scrittura diretta sul database. Cura possibile: risalita senza radice = chiedere la dichiarazione, oppure vietare nella 363 lo spostamento che chiude un cerchio. Minore: in un cerchio dove «alimentari» ha il nome ma non l'obbligo la libreria dà 14 campi o 0 secondo la categoria di partenza. La migrazione è provata solo sul Postgres locale: il database vero non è stato toccato.",
+      "ripreso_da": "K07"
+    },
+    {
+      "id": "R18-015",
+      "chiave": "qa-flussi|col telefono del negozio un po' indietro, un ordine non più ritirabile legge «entro le 12:46» invece di «ritiro non più possibile»",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-2 --base a5d2477903843022b7a1fb3d4d75b71c390ac0de^ --file lib/ordini/scadenza-accettazione.ts --prove tests/unit/riparazione-r18-ritiro-impossibile-col-telefono-indietro.test.ts --json (0)"
+      },
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "ripreso_da": "K07",
+      "nota": "Ripresa da K07 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato)."
+    },
+    {
+      "id": "R18-016",
+      "chiave": "qa-flussi|il nome scritto alla registrazione si perde e il profilo resta senza nome",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "PGHOST=localhost timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-2 --base 548151b625cddd1f4c3d6234dd8cb64b030debd5^ --file migrations/421_il_nome_scritto_alla_registrazione_resta_nel_profilo.sql --prove tests/sql/rls/riparazione-r18-nome-alla-registrazione.test.sql --sql k07_r18_016_1_rimessa --json (0)"
+      },
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "ripreso_da": "K07",
+      "nota": "Ripresa da K07 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato)."
+    },
+    {
+      "id": "R18-018",
+      "chiave": "rls-database|chi non ha fatto l'accesso non vede la pagina eventi: legge «non riesco a leggere gli eventi» perché la regola dell'amministratore blocca anche la sola lettura",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-b --base 554a60dd854a640a00aaf9dcb9d88902943544dc^ --file app/events/page.tsx --prove tests/unit/riparazione-r18-eventi-con-la-data.test.tsx --json ; cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-c --base 554a60dd854a640a00aaf9dcb9d88902943544dc^ --file migrations/422_la_regola_dell_amministratore_non_ferma_la_lettura_degli_eventi.sql --prove tests/sql/rls/riparazione-r18-eventi-da-visitatore.test.sql --json --sql k10_r18_018_rimessa"
+      },
+      "nota": "Due revisori, una lente ciascuno, su database locale ricostruito (204 migrazioni) con SELECT su profiles tolto ad anon come in produzione. chiude_tutta: da visitatore la select di app/events/page.tsx:91-98 dà gli eventi futuri, annullati e finiti esclusi; legge anche sponsor, conteggi, negozio del mese e campagne; delle 66 tabelle leggibili da anon restano in errore solo audit_logs, contact_messages, disputes, rider_sos_events (nessuna pagina pubblica). nata_rotta: chi non è admin non scrive; l'admin fa tutto sugli eventi, negozio del mese e campagne; is_admin() SECURITY DEFINER con search_path fissato; 422 rilanciata esce 0; clearInterval alla chiusura; ora legale e solare giuste; run.sh tutto verde, vitest 10403/10403."
+    },
+    {
+      "id": "R18-019",
+      "chiave": "rls-database|il database accetta un codice sconto del 150% e importi in soldi negativi",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "PGHOST=localhost timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-1 --base 6eefff317cfb384ee60d75ca65d3d940ba88aa55^ --file migrations/423_il_codice_sconto_non_supera_il_cento_e_i_soldi_non_sono_negativi.sql --prove tests/sql/rls/riparazione-r18-coupon.test.sql --sql k07_r18_019_1_rimessa --json (0) ; timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-1 --base 6eefff317cfb384ee60d75ca65d3d940ba88aa55^ --file app/admin/coupons/page.tsx --prove tests/unit/riparazione-r18-coupon.test.ts --json (0)"
+      },
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Ripresa da K07 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Campione dei minori (giro di correzione del 14/11, testa 69a1e699, ricollaudo K07·secondo; scelta a sorte fra le 5 non guardate, seme = testa 69a1e699). Provata a mano sul Postgres locale: DB fermo alla 422 con righe storte salvate, poi la 423. chiude_tutta: per i dati nuovi sì, tutti i campi nominati rifiutano le scritture storte, claim/release_coupon e i seed passano dal vincolo, nessuna API admin a parte; fuori voce restano aperti seller_payout_reversed_cents, rider_payout_reversed_cents, dispute_rider_reversed_cents, dispute_seller_reversed_cents (accettano -1). ROMPE: il «Disattiva» dell'amministratore (app/admin/coupons/page.tsx:103, UPDATE coupons SET active=false) su un vecchio codice PERCENT 150 viene rifiutato dal vincolo coupons_valore_sensato (423:37), che resta NOT VALID e scatta su ogni UPDATE; lo stesso con un codice a 7 usi su 1 (coupons_usi_sensati); a vincoli tolti lo stesso UPDATE passa. Il passato può contenerli: prima della correzione il modulo aveva solo min={0} (6eefff31^:app/admin/coupons/page.tsx:193) e nessun vincolo nel database. L'admin può ancora eliminare il codice. release_coupon su quei codici si ferma (il codice non torna al cliente, coupon_released_at resta vuoto; l'ordine non si blocca, lib/ordini/annulla.ts:904-923 scrive solo un avviso). Ordini e reclami vecchi storti: annullo, accettazione, accumula_rimborso, confirm_cod_remittance e chiusura reclamo rifiutati (una riga storta ferma tutta la conferma contanti del fattorino di quel giorno), rischio teorico perché oggi nessun codice scrive quelle righe. Punto (2) della nota del riparatore smentito: in cassa un codice al 150% non vale più (claim_coupon 361:111 cade sul vincolo); check_coupon nel carrello lo dà ancora valido, conta solo se i codici in cassa si riaccendono (oggi spenti). payment_method: si scrivono solo 'card' e 'cod', nessuna rottura. run.sh 66 file verdi, vitest 15 file 119 prove verdi.",
+      "ripreso_da": "K07"
+    },
+    {
+      "id": "R18-020",
+      "chiave": "rls-database|un reclamo può restare legato a un ordine che non esiste",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-c --base 8cdcffe4f82049e1b0a281fdb397431891a4d02e^ --file migrations/424_un_reclamo_non_resta_legato_a_un_ordine_che_non_esiste.sql --prove tests/sql/rls/riparazione-r18-reclamo-senza-ordine.test.sql --json --sql k10_r18_020_rimessa"
+      },
+      "nota": "Due revisori, una lente ciascuno, su database locale. chiude_tutta: reclamo su ordine inventato rifiutato (23503); cancellare un ordine con reclamo aperto o chiuso è rifiutato; loyalty_transactions e zone_code_uses rifiutano ordini inventati e vanno a NULL alla cancellazione; tutte le 13 colonne order_id hanno la loro chiave; una chiave NOT VALID ferma comunque le scritture nuove. nata_rotta: gli ordini si cancellano solo appena creati (app/api/orders/cod/route.ts:1193, :1458; lib/stripe/webhook/ordini.ts:429); la cancellazione dell'account non cancella ordini; nessun trigger o indice unico su quelle order_id; 424 rilanciata esce 0. Minori: in produzione i 2 movimenti punti orfani vanno ripuliti prima del VALIDATE; un rilancio della 424 non riprova la validazione (migrations/424:46-48)."
+    },
+    {
+      "id": "R18-021",
+      "chiave": "rls-database|su un progetto supabase nuovo le migrazioni girano, ma i visitatori non leggono quasi nessuna tabella: i permessi non sono scritti",
+      "rimessa": {
+        "uscita": 1,
+        "comando": "PGHOST=localhost timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K07-1 --base 516cc5f533c94524b0a14832747b1fdff21d6795^ --file migrations/425_i_permessi_del_sito_sono_scritti_nelle_migrazioni.sql --prove tests/sql/rls/riparazione-r18-permessi-scritti.test.sql --sql k07_r18_021_1_rimessa --json (1)"
+      },
+      "verdetto": "non_regge",
+      "giudizio": "nessuno",
+      "ripreso_da": "K07",
+      "nota": "Ripresa da K07 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato)."
+    }
+  ],
+  "campione": {
+    "R04": {
+      "accettato": false
+    },
+    "R07": {
+      "accettato": false
+    },
+    "R08": {
+      "accettato": true
+    },
+    "R15": {
+      "accettato": false
+    },
+    "R18": {
+      "accettato": true
+    }
+  }
+}
