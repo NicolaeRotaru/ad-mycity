@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-11-15 07:25",
+ "aggiornato": "2026-11-15 07:50",
  "mutanti": [
   {
    "lotto": 30,
@@ -11949,6 +11949,51 @@
    "cerca": "    sleep \"$INTERVALLO\"",
    "sostituisci": "    exit 4",
    "test": "cervello/test/sorveglianza-muta.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "decidi chiude anche un grave a uscita 3 con la rimessa a mano: la deroga dei minori si allarga ai gravi",
+   "cerca": "          const aMano = minore && usc.includes(3)",
+   "sostituisci": "          const aMano = usc.includes(3)",
+   "test": "cervello/test/chiusure-dopo-l-onda-2.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "decidi chiude un minore a uscita 3 senza la firma di Nicola sulla deroga «rimessa_a_mano»",
+   "cerca": " && aManoValida(cv.rimessa?.a_mano) && !!eccezioneFirmata(piano, o.onda, \"rimessa_a_mano\");",
+   "sostituisci": " && aManoValida(cv.rimessa?.a_mano);",
+   "test": "cervello/test/chiusure-dopo-l-onda-2.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "una rimessa a mano che non cade senza la correzione vale come prova",
+   "cerca": " && a.uscita_senza_correzione !== 0 && a.uscita_con_correzione === 0;",
+   "sostituisci": " && a.uscita_con_correzione === 0;",
+   "test": "cervello/test/chiusure-dopo-l-onda-2.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "valida-collaudo torna al campione nei lotti fino a 40 voci: due minori senza giudizio pieno passano verdi",
+   "cerca": "        if (senzaCampione && cv.verdetto === \"regge\" && cv.giudizio !== \"pieno\") (c.finita === true ? rossi : attese)",
+   "sostituisci": "        if (false) (c.finita === true ? rossi : attese)",
+   "test": "cervello/test/chiusure-dopo-l-onda-2.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "una voce «verificata dopo Nicola» si chiude collaudata dalla stessa sessione che l'ha scritta",
+   "cerca": "          else if (vuoto(cv.collaudatore) || cv.collaudatore === nome) d.perche = \"va collaudata da un'altra sessione\";",
+   "sostituisci": "",
+   "test": "cervello/test/chiusure-dopo-l-onda-2.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",

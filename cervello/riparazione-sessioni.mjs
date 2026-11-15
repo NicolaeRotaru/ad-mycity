@@ -67,7 +67,7 @@ const veroPercorso = (p) => { try { return realpathSync(p); } catch { return res
 // ── Le costanti del metodo ───────────────────────────────────────────────────────────────────────
 export const RANGO = Object.freeze({ bloccante: 0, grave: 1, medio: 2, minore: 3 });
 export const GRAVI = new Set(["bloccante", "grave"]);
-export const ESITI = Object.freeze(["riparato", "parziale", "gia_riparato_prima", "non_codice", "scelta_di_nicola", "serve_file_altrui", "non_fatto"]);
+export const ESITI = Object.freeze(["riparato", "parziale", "gia_riparato_prima", "non_codice", "scelta_di_nicola", "serve_file_altrui", "non_fatto", "verificata_dopo_nicola"]);
 export const VERDETTI = Object.freeze(["regge", "parziale", "non_regge", "rompe_altro"]);
 export const GIUDIZI = Object.freeze(["pieno", "nessuno"]);
 export const LENTI = Object.freeze(["chiude_tutta", "nata_rotta"]);
@@ -77,6 +77,9 @@ export const MAX_SESSIONI = 12;
 // sessioni»): un riparatore finisce in circa metà tempo, e il profilo «tutto» passa da due a tre onde.
 export const PER_SESSIONE = 25;
 export const TETTO_CUCITURA = 40;
+// Dentro un lotto fino a 40 voci il campione non esiste: ogni minore riparato vuole il giudizio pieno. Il campione
+// ha lasciato fuori 15 minori nell'onda 2, e il giudizio pieno costa circa 0,32 $ a voce (K08 terzo, 14/11).
+export const LOTTO_SENZA_CAMPIONE = 40;
 export const SOGLIA_CAMPIONE = 0.9;
 export const QUOTA_CAMPIONE = 0.3;
 export const MINIMO_CAMPIONE = 5;
@@ -822,6 +825,13 @@ export function eccezioneFirmata(piano, onda, regola) {
   return null;
 }
 /**
+ * La rimessa fatta a mano, quando prova-rimessa esce 3 (rossa per la struttura, non per il comportamento): il
+ * comando, l'uscita senza la correzione (diversa da 0) e quella con la correzione (0). PURA.
+ */
+export function aManoValida(a) {
+  return !!a && typeof a === "object" && !vuoto(a.comando) && Number.isInteger(a.uscita_senza_correzione) && a.uscita_senza_correzione !== 0 && a.uscita_con_correzione === 0;
+}
+/**
  * Il giudizio su UN percorso toccato dalla storia di un ramo riparatore. PURA.
  * `ctx`: { nome, suoi:Set, esisteAllaBase(p), importaDaSuoi(p), fascia:[a,b]|null, casa, deroga?(regola, perché) }
  * `deroga` dice se un'eccezione firmata sospende quella regola in quest'onda (e la annota): allora non è un rosso.
@@ -1224,6 +1234,7 @@ export function regoleReferto(testo, ctx) {
     }
     if (v.esito === "parziale" && vuoto(v.cosa_resta)) rossi.push(`${dove}: parziale senza «cosa_resta»`);
     if (v.esito === "gia_riparato_prima" && vuoto(v.prova)) rossi.push(`${dove}: già riparato senza la riga o il comando che lo dimostra («prova»)`);
+    if (v.esito === "verificata_dopo_nicola" && (vuoto(v.prova_comando) || !aManoValida(v.rimessa))) rossi.push(`${dove}: verificata dopo Nicola senza «prova_comando» e «rimessa» {comando, uscita_senza_correzione ≠ 0 prima della sua mossa, uscita_con_correzione 0 dopo}`);
     if (v.esito === "serve_file_altrui" && (!Array.isArray(v.serve_file_altrui) || !v.serve_file_altrui.length || v.serve_file_altrui.some((x) => vuoto(x?.file) || vuoto(x?.modifica)))) rossi.push(`${dove}: serve_file_altrui senza l'elenco {file, modifica}`);
     if (v.esito === "scelta_di_nicola" && vuoto(v.domanda)) rossi.push(`${dove}: scelta di Nicola senza la domanda in una riga`);
     if (["non_codice", "non_fatto"].includes(v.esito) && vuoto(v.nota)) rossi.push(`${dove}: ${v.esito} senza la nota (cosa deve fare Nicola, o perché)`);
@@ -1328,7 +1339,8 @@ export function regoleCollaudo(testo, ctx) {
     // (secondo collaudo del 7/11: letto alla «testa», il referto era quello intermedio, 1 voce su 2).
     if (info.referto.finita !== true) { rossi.push(`${r}: il referto del riparatore non è finito; si collauda il referto finito, letto alla PUNTA del suo ramo`); continue; }
     const scheda = new Map(info.voci.map((v) => [v.id, v]));
-    const daCollaudare = info.referto.voci.filter((v) => ["riparato", "parziale", "gia_riparato_prima"].includes(v.esito));
+    const daCollaudare = info.referto.voci.filter((v) => ["riparato", "parziale", "gia_riparato_prima", "verificata_dopo_nicola"].includes(v.esito));
+    const senzaCampione = info.voci.length <= LOTTO_SENZA_CAMPIONE;
     const minori = [];
     for (const rv of daCollaudare) {
       const s = scheda.get(rv.id);
@@ -1339,23 +1351,30 @@ export function regoleCollaudo(testo, ctx) {
       if (!VERDETTI.includes(cv.verdetto)) { rossi.push(`${rv.id}: verdetto «${cv.verdetto}» non è uno di ${VERDETTI.join("|")}`); continue; }
       if (!GIUDIZI.includes(cv.giudizio)) rossi.push(`${rv.id}: giudizio «${cv.giudizio}» non è uno di ${GIUDIZI.join("|")}`);
       const lentiTutte = Array.isArray(cv.lenti) && LENTI.every((l) => cv.lenti.includes(l));
-      if (rv.esito !== "gia_riparato_prima") {
+      const senzaRimessa = ["gia_riparato_prima", "verificata_dopo_nicola"].includes(rv.esito);
+      if (!senzaRimessa) {
         if (!Number.isInteger(cv.rimessa?.uscita) || vuoto(cv.rimessa?.comando)) rossi.push(`${rv.id}: manca la prova rimessa lanciata dal collaudatore (uscita e comando)`);
-        if (cv.verdetto === "regge" && cv.rimessa?.uscita !== 0) rossi.push(`${rv.id}: «regge» con la prova rimessa uscita ${cv.rimessa?.uscita}, non 0`);
+        // Un minore a uscita 3 regge con la rimessa a mano e il giudizio pieno, ma solo dove Nicola ha firmato la
+        // deroga «rimessa_a_mano» per l'onda (officina minima del 15/11). Per gravi e bloccanti niente cambia.
+        const aMano = !GRAVI.has(s.gravita) && cv.rimessa?.uscita === 3 && cv.giudizio === "pieno" && aManoValida(cv.rimessa?.a_mano);
+        if (cv.verdetto === "regge" && cv.rimessa?.uscita !== 0) rossi.push(...(aMano ? nonDerogato("rimessa_a_mano", `${rv.id}: «regge» con la prova rimessa uscita 3 e la rimessa a mano: vale solo con l'eccezione firmata «rimessa_a_mano» nell'onda`, r) : [`${rv.id}: «regge» con la prova rimessa uscita ${cv.rimessa?.uscita}, non 0`]));
         // La prova rimessa del collaudo toglie davvero la correzione: apply.sh + run.sh, o un comando qualunque,
         // sono verdi qualunque cosa faccia la correzione (radiografia del 12/11 notte).
         if (cv.verdetto === "regge" && !vuoto(cv.rimessa?.comando) && !/prova-rimessa\.mjs/.test(String(cv.rimessa.comando))) rossi.push(...nonDerogato("rimessa_a_mano", `${rv.id}: «regge» con una prova rimessa che non è prova-rimessa.mjs: un comando che non toglie la correzione non prova niente`, r));
         if (cv.verdetto === "regge" && /--sql\b/.test(String(rv.rimessa?.comando ?? "")) && !/--sql\b/.test(String(cv.rimessa?.comando ?? ""))) rossi.push(`${rv.id}: il riparatore l'ha provata con --sql e il collaudo no: una migrazione si prova ricostruendo il database con e senza`);
       }
       if (cv.verdetto === "regge" && cv.giudizio === "pieno" && !lentiTutte) rossi.push(`${rv.id}: un giudizio pieno porta tutte e due le lenti (${LENTI.join(", ")})`);
-      if ((GRAVI.has(s.gravita) || rv.esito === "gia_riparato_prima") && cv.verdetto === "regge" && cv.giudizio !== "pieno") rossi.push(`${rv.id}: un ${rv.esito === "gia_riparato_prima" ? "«già riparato»" : s.gravita} regge solo con un giudizio pieno`);
-      if (!GRAVI.has(s.gravita) && rv.esito === "riparato") minori.push({ id: rv.id, file: s.file });
+      if ((GRAVI.has(s.gravita) || senzaRimessa) && cv.verdetto === "regge" && cv.giudizio !== "pieno") rossi.push(`${rv.id}: un ${rv.esito === "gia_riparato_prima" ? "«già riparato»" : rv.esito === "verificata_dopo_nicola" ? "«verificata dopo Nicola»" : s.gravita} regge solo con un giudizio pieno`);
+      if (!GRAVI.has(s.gravita) && rv.esito === "riparato") {
+        minori.push({ id: rv.id, file: s.file });
+        if (senzaCampione && cv.verdetto === "regge" && cv.giudizio !== "pieno") (c.finita === true ? rossi : attese).push(`${rv.id}: minore riparato senza giudizio pieno: in un lotto di ${info.voci.length} voci (fino a ${LOTTO_SENZA_CAMPIONE}) il campione non esiste`);
+      }
     }
     const camp = campioneDi(minori, perId, ctx.hub);
     campioni[r] = camp;
     const dichiarato = c.campione?.[r]?.accettato;
-    if (dichiarato === true && !camp.accettato) rossi.push(`${r}: il campione è dichiarato accettato ma non lo è (${camp.reggono} reggono su ${camp.nel_campione} guardati, ne servivano ${camp.servono}${camp.hub_mancanti.length ? `, ${camp.hub_mancanti.length} sui file che legano non guardati` : ""})`);
-    if (c.finita === true && camp.nel_campione < camp.servono) rossi.push(`${r}: campione troppo piccolo: ${camp.nel_campione} minori guardati con giudizio, ne servono ${camp.servono}`);
+    if (!senzaCampione && dichiarato === true && !camp.accettato) rossi.push(`${r}: il campione è dichiarato accettato ma non lo è (${camp.reggono} reggono su ${camp.nel_campione} guardati, ne servivano ${camp.servono}${camp.hub_mancanti.length ? `, ${camp.hub_mancanti.length} sui file che legano non guardati` : ""})`);
+    if (!senzaCampione && c.finita === true && camp.nel_campione < camp.servono) rossi.push(`${r}: campione troppo piccolo: ${camp.nel_campione} minori guardati con giudizio, ne servono ${camp.servono}`);
   }
   if (c.finita !== true) attese.push(`${ctx.nome}: collaudo non ancora finito`);
   return { rossi, attese, campioni };
@@ -1504,18 +1523,41 @@ export function decidi({ piano, referti, collaudi, hub }) {
         const d = { id: sv.id, sessione: nome, chiave: sv.chiave, gravita: sv.gravita, esito: rv?.esito ?? "senza_referto", verdetto: cv?.verdetto ?? null, collaudatore: cv?.collaudatore ?? null, decisione: "resta_aperta", perche: "" };
         if (!rv) d.perche = "il riparatore non l'ha scritta nel referto";
         else if (rv.esito === "riparato") {
-          if (rv.rimessa?.uscita !== 0) d.perche = "la prova rimessa del riparatore non regge";
+          const minore = !GRAVI.has(sv.gravita);
+          // Officina minima del 15/11: un minore la cui prova rimessa esce 3 (rossa per la struttura) si chiude con la
+          // rimessa a mano del collaudatore e il giudizio pieno, solo dove Nicola ha firmato «rimessa_a_mano» per
+          // l'onda. K02: 5 minori fermi a «parziale» con giudizio pieno solo per questa regola. Gravi invariati.
+          const usc = [rv.rimessa?.uscita, cv?.rimessa?.uscita];
+          const aMano = minore && usc.includes(3) && usc.every((u) => u === 0 || u === 3) && cv?.verdetto === "regge" && cv.giudizio === "pieno" && aManoValida(cv.rimessa?.a_mano) && !!eccezioneFirmata(piano, o.onda, "rimessa_a_mano");
+          if (rv.rimessa?.uscita !== 0 && !aMano) d.perche = "la prova rimessa del riparatore non regge";
           else if (!cv) d.perche = "nessun collaudo";
           else if (cv.verdetto !== "regge") d.perche = `collaudo: ${cv.verdetto}`;
-          else if (cv.rimessa?.uscita !== 0) d.perche = "la prova rimessa del collaudatore non è uscita 0";
+          else if (cv.rimessa?.uscita !== 0 && !aMano) d.perche = minore && usc.includes(3) ? "prova rimessa a uscita 3: un minore chiude solo con la deroga firmata «rimessa_a_mano», il giudizio pieno e rimessa.a_mano" : "la prova rimessa del collaudatore non è uscita 0";
           else if (GRAVI.has(sv.gravita) && cv.giudizio !== "pieno") d.perche = "un grave senza giudizio pieno";
-          else if (!GRAVI.has(sv.gravita) && cv.giudizio !== "pieno" && !camp.accettato) d.perche = `minore fuori campione, e il campione di ${nome} non è accettato`;
+          else if (minore && cv.giudizio !== "pieno" && s.voci.length <= LOTTO_SENZA_CAMPIONE) d.perche = `minore senza giudizio pieno: in un lotto di ${s.voci.length} voci il campione non esiste`;
+          else if (minore && cv.giudizio !== "pieno" && !camp.accettato) d.perche = `minore fuori campione, e il campione di ${nome} non è accettato`;
           else {
             d.decisione = "si_chiude";
-            d.come = cv.giudizio === "pieno" ? "collaudo pieno" : "campione";
+            d.come = aMano ? "collaudo pieno, rimessa a mano (deroga firmata)" : cv.giudizio === "pieno" ? "collaudo pieno" : "campione";
             d.verifica_comando = rv.prova_comando;
-            d.non_vacuita = `${rv.rimessa.comando} → uscita 0 (riparatore); ${cv.rimessa.comando} → uscita 0 (${cv.collaudatore})`;
+            d.non_vacuita = aMano
+              ? `${cv.rimessa.a_mano.comando} → uscita ${cv.rimessa.a_mano.uscita_senza_correzione} senza la correzione, 0 con (${cv.collaudatore}, a mano)`
+              : `${rv.rimessa.comando} → uscita 0 (riparatore); ${cv.rimessa.comando} → uscita 0 (${cv.collaudatore})`;
             d.nota_fix = rv.cosa_ho_fatto ?? "";
+          }
+        } else if (rv.esito === "verificata_dopo_nicola") {
+          // Una voce non di codice sistemata da Nicola (una chiave, un'impostazione): chiude solo con la prova che oggi
+          // passa, la rimessa che prima della sua mossa falliva, e il giudizio pieno di un'altra sessione.
+          if (vuoto(rv.prova_comando) || !aManoValida(rv.rimessa)) d.perche = "verificata dopo Nicola senza la prova e la rimessa (rossa prima della sua mossa, verde dopo)";
+          else if (!cv) d.perche = "nessun collaudo";
+          else if (cv.verdetto !== "regge" || cv.giudizio !== "pieno") d.perche = `collaudo: ${cv.verdetto}${cv.giudizio !== "pieno" ? " senza giudizio pieno" : ""}`;
+          else if (vuoto(cv.collaudatore) || cv.collaudatore === nome) d.perche = "va collaudata da un'altra sessione";
+          else {
+            d.decisione = "si_chiude";
+            d.come = "verificata dopo Nicola, collaudo pieno";
+            d.verifica_comando = rv.prova_comando;
+            d.non_vacuita = `${rv.rimessa.comando} → uscita ${rv.rimessa.uscita_senza_correzione} prima, 0 dopo (${cv.collaudatore})`;
+            d.nota_fix = rv.nota ?? rv.cosa_ho_fatto ?? "";
           }
         } else if (rv.esito === "gia_riparato_prima") {
           if (cv?.verdetto === "regge" && cv.giudizio === "pieno") { d.decisione = "gia_riparato_prima"; d.prova = rv.prova; }
