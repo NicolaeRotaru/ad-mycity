@@ -924,10 +924,11 @@
   "id": "session_015BmpnWmv8ffGh6315mcUd6",
   "ramo": "claude/sito-onda-3",
   "sha_regista": "6dcc1cf907178980f4abab34344c5c1955513877",
-  "base_sito": "67666b3f60bd16460b21e8b797a2f061fd91eed8",
+  "base_sito": "76d4c4d79254284a0330eb865ff029db5261e26e",
   "aperta": "2026-11-15 23:41",
   "tetto_usd": 25,
   "tetto_pezzo_usd": 215,
-  "freno": "assente sui due main alle 23:46: aperto solo K11"
+  "freno": "assente sui due main alle 23:46: aperto solo K11",
+  "base_sito_prima": "67666b3f60bd16460b21e8b797a2f061fd91eed8"
  }
 }

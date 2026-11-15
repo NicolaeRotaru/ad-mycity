@@ -39,6 +39,13 @@ Che il freno legga davvero la riga del ruolo in una sessione vera: le prove lo f
 
 **Rami.** Regista in ad-mycity: `claude/sito-onda-3`. Integrazione del sito: `claude/sito-onda-3`, da `67666b3f`. Riparatori: `claude/sito-onda-3-m25`, `-m26`, `-m27`. Collaudatori: `-k11`, `-k12`. Controllore: `-c03`.
 
+**La base cambiata per il freno (15/11 alle 23:55, via dell'AD chat 4 alle 23:52).** La base dell'onda 3 sul sito non è più `67666b3f` ma `76d4c4d7` (`76d4c4d79254284a0330eb865ff029db5261e26e`), il commit della PR mycity#291 (ramo `claude/freno-agenti`). Quel commit ha `67666b3f` come unico genitore e tocca solo `.claude/settings.json`: aggiunge l'hook PreToolUse `Agent|Task|Workflow` che chiama `node ../ad-mycity/cervello/riparazione/freno-subagenti.mjs`.
+- Perché: i riparatori devono partire con il freno nella loro copia. Ho provato `guardia-ramo R27` su un ramo finto che parte da `76d4c4d` con la base vecchia, ed era rossa per due motivi: `.claude/settings.json` era un file senza padrone, e il commit del freno non portava l'id di una voce. Con la base spostata la stessa prova dice «in attesa» (nessun commit suo). Voci, file e migrazioni non cambiano: in `piano.json` cambia solo `onde[2].base`, e quella vecchia resta scritta in `onde[2].base_prima`.
+- Partire dal commit, senza aspettare che Nicola unisca, è la sua richiesta di stanotte («incolla i freni»). Si torna indietro facilmente, e il testo è identico a quello della #291.
+- **La #291 va unita prima della PR dell'onda 3, o insieme.** Se la #291 cambia prima dell'unione, il cambio di settings.json arriva due volte: lo stesso testo non dà scontro, un testo diverso sì.
+- Nel primo messaggio di ogni riparatore: la prima riga è `ruolo-freno:` della scheda, subito dopo «clona ad-mycity in ../ad-mycity prima di qualunque Agent». Senza la copia accanto il freno resta spento e non lo dice.
+- L'integrazione del sito `claude/sito-onda-3` nasce da `76d4c4d`, non da `67666b3f`.
+
 **Prima di aprire, in ordine.**
 1. `get_session` su di te: con `isUsingOverage` non si apre niente.
 2. `add_repo` mycity con accesso `push`. `schede --cartella <C> --ramo claude/sito-onda-3 --regista <tuo id>`, poi `copertura-prima` e `segnaposti` verdi. Commit e push.

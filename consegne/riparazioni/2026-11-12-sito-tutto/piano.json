@@ -8198,7 +8198,7 @@
     },
     {
       "onda": 3,
-      "base": "67666b3f60bd16460b21e8b797a2f061fd91eed8",
+      "base": "76d4c4d79254284a0330eb865ff029db5261e26e",
       "creata": "2026-11-15 23:38",
       "per_sessione": 22,
       "candidate": [
@@ -9385,7 +9385,12 @@
         "stati-ui|mentre la cassa cerca l'indirizzo scritto a mano, «ordina» resta premibile e il fuori zona lo dice ancora il server",
         "tipografia|con un solo elemento il sito scrive «1 negozi», «1 articoli», «1 ordini», «1 giorni fa»: il plurale è fisso"
       ],
-      "regia": []
+      "regia": [],
+      "base_prima": {
+        "sha": "67666b3f60bd16460b21e8b797a2f061fd91eed8",
+        "cambiata": "2026-11-15 23:55",
+        "perche": "freno sugli agenti: i riparatori partono dal commit della PR mycity#291 (solo .claude/settings.json); guardia-ramo su un ramo finto da 76d4c4d era rossa (settings.json senza padrone, commit senza id di voce). Via dell'AD chat 4 alle 23:52"
+      }
     }
   ],
   "cucitura": [],
