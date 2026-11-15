@@ -174,13 +174,18 @@ export function verificaGlossarioKpi({ registro, termini, esposti = {}, puntator
   if (!esposizioni.length) no("registro", "il registro non nomina nessuna vetrina: non so da dove escono i numeri");
 
   // ── ③ Il puntatore di ogni KPI: il file e la funzione che lo calcola esistono davvero ────────
+  // Un puntatore cieco si dice una volta, anche se è di dieci KPI: è un modulo che non si importa,
+  // non dieci. Prima ogni KPI ripeteva la stessa riga, e da cieco erano 40 righe uguali.
+  const puntatoriCiechi = new Set();
   for (const k of kpi) {
     if (!spazi(k?.file) || !spazi(k?.funzione)) continue;
     const chiave = `${k.file}#${k.funzione}`;
     const p = puntatori[chiave];
     if (!p) continue; // chi chiama non l'ha misurato: la prova pura può non passarli
-    if (!p.ok) ciechi.push({ dove: chiave, perche: p.perche || "modulo non importabile" });
-    else if (!p.esiste) no("puntatore", `il KPI «${k.id}» dice che lo calcola ${k.funzione} in ${k.file}, e lì quella funzione esportata non c'è`, { kpi: k.id });
+    if (!p.ok) {
+      if (!puntatoriCiechi.has(chiave)) ciechi.push({ dove: chiave, perche: p.perche || "modulo non importabile" });
+      puntatoriCiechi.add(chiave);
+    } else if (!p.esiste) no("puntatore", `il KPI «${k.id}» dice che lo calcola ${k.funzione} in ${k.file}, e lì quella funzione esportata non c'è`, { kpi: k.id });
   }
 
   const esito = problemi.length ? 1 : ciechi.length ? 2 : 0;

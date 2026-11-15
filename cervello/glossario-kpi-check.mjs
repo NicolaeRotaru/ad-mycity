@@ -23,8 +23,9 @@
 //      grassetto della prima colonna di una tabella del glossario (scorciatoia 22: il legame è un
 //      campo apposta, non un prefisso o una frase).
 //   ② LE VETRINE. I punti dove il codice consegna i numeri a Nicola. Ognuna si ESEGUE: la rotta vera
-//      /api/metriche del Pannello contro un database finto, le metriche della demo, il sensore della
-//      cassa senza chiavi. I campi che escono davvero sono l'appiglio strutturale: un campo nuovo
+//      /api/metriche del Pannello contro un database finto, le metriche della demo, e il documento
+//      della cassa costruito dalla funzione pura del sensore (documentoCassa) con valori finti, senza
+//      lanciare il sensore. I campi che escono davvero sono l'appiglio strutturale: un campo nuovo
 //      aggiunto nel codice compare da solo nell'uscita, senza che nessuno lo dichiari (scorciatoia 1:
 //      misura, non chiedere).
 //   ③ IL CONFRONTO, in una funzione pura (`verificaGlossarioKpi` in cervello/glossario-kpi.mjs) che la
@@ -41,20 +42,34 @@
 // · Le vetrine che il registro non nomina. Il Pannello ha altre rotte di numeri (/api/metriche/funnel,
 //   /trend, /retention, /negozi, /payout, /cassa, /unit, /acquisizione, le stelle polari) e il cervello
 //   altri script: lì un KPI nuovo non lo vede nessuno. Il perimetro è scritto nel registro, col numero.
+// · Le uscite chiuse sono le strade di node: fs, child_process, worker_threads, http, https, http2, net,
+//   tls, dgram, dns, fetch, WebSocket e process.loadEnvFile. Un modulo nativo o process.binding le
+//   aggirerebbero: il codice delle vetrine di oggi non ne usa, e il Pannello gira senza node_modules.
 // · Un ramo nuovo della rotta acceso da una fonte che il database finto non conosce: quel campo non
 //   esce nella prova. I rami di oggi sì, e un campo del registro che smette di uscire è rosso
 //   («fantasma»), quindi il banco finto non può accecarsi in silenzio sui rami che conosce.
 //
-// 🟢 Sola lettura. Nessuna rete: ogni chiamata del codice eseguito passa da un fetch finto, che
-// rifiuta qualunque indirizzo non suo. Nessuna scrittura: il sensore della cassa gira senza chiavi,
-// e senza chiavi non scrive (AR-281). Nessun effetto all'import: parte solo dalla riga di comando.
+// 🟢 Sola lettura, e non per promessa: prima di eseguire una riga del codice che misura, il guardiano
+// toglie dall'ambiente ogni variabile che non sia innocua e chiude le uscite (vedi «LE USCITE CHIUSE»
+// qui sotto). Leggere un file .env, scrivere su disco, lanciare un programma e andare in rete danno
+// un errore; il codice delle vetrine parla solo col fetch finto, che risponde a tre indirizzi finti.
+// Nessun effetto all'import: parte solo dalla riga di comando.
 //
 // Uso:  node cervello/glossario-kpi-check.mjs          · rapporto leggibile
 //       node cervello/glossario-kpi-check.mjs --json   · lo stesso, in JSON
 // Per le prove: KPI_REGISTRO_FILE, GLOSSARIO_KPI_FILE, KPI_PANNELLO_SRC (una copia di pannello/src).
 
-import { existsSync, readFileSync, realpathSync } from "node:fs";
-import { spawnSync } from "node:child_process";
+import fs, { existsSync, readFileSync, realpathSync } from "node:fs";
+import childProcess from "node:child_process";
+import dgram from "node:dgram";
+import dns from "node:dns";
+import http from "node:http";
+import http2 from "node:http2";
+import https from "node:https";
+import { syncBuiltinESMExports } from "node:module";
+import net from "node:net";
+import tls from "node:tls";
+import workerThreads from "node:worker_threads";
 import { dirname, join, relative, sep } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -64,6 +79,85 @@ import { terminiDelGlossario, verificaGlossarioKpi } from "./glossario-kpi.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..");
+
+// ═════════════════════════════════════════════════════════════════════════════
+// LE USCITE CHIUSE — prima di eseguire una riga del codice che misura (collaudo del 15/11)
+// ═════════════════════════════════════════════════════════════════════════════
+// La prima versione LANCIAVA cervello/sensore-cassa.mjs con un ambiente finto, e prometteva «senza
+// chiavi non scrive». Ma il sensore importava git-github.mjs, che appena caricato legge da solo
+// cervello/vps/.env: sul server lì ci sono la chiave Stripe e quella del database. Così, a ogni giro,
+// il guardiano riscriveva cassa-runway.json con la cassa finta (900 €, runway 1,8 mesi: col saldo
+// Stripe vero a zero, «critico») e mandava una POST al database del Pannello, stampando ✅.
+//
+// La regola che ne esce: un guardiano MISURA e basta, e non perché promette di non avere effetti,
+// ma perché non li PUÒ avere. Prima delle vetrine:
+//   · toglie dall'ambiente ogni variabile che non sia innocua. Sul server il giro gira con le chiavi
+//     nell'ambiente (systemd le legge dal .env), e il codice del Pannello legge process.env;
+//   · chiude quattro uscite: leggere un file .env, scrivere su disco, lanciare un programma, andare
+//     in rete. Chi ci prova riceve un errore; una vetrina che va in errore è cieca (esce 2), non verde.
+// Il fetch finto del Pannello resta: risponde solo ai suoi tre indirizzi .invalid.
+
+/** Le sole variabili d'ambiente che il guardiano tiene: nessuna è una chiave. */
+const AMBIENTE_INNOCUO = /^(PATH|HOME|USER|LOGNAME|SHELL|TMPDIR|TMP|TEMP|TZ|LANG|LANGUAGE|LC_[A-Z_]+|TERM|NO_COLOR|FORCE_COLOR)$/;
+/** Un file di chiavi: `.env`, `.env.local`, `cervello/vps/.env`… */
+const FILE_DI_CHIAVI = /(^|[\\/])\.env(\.[^\\/]*)?$/;
+
+/** Le funzioni che hanno un effetto fuori dal processo, per uscita. Ognuna, chiamata, dà un errore. */
+const USCITE = [
+  ["scrivere su disco", fs, ["writeFileSync", "writeFile", "appendFileSync", "appendFile", "mkdirSync", "mkdir", "mkdtempSync", "mkdtemp", "rmSync", "rm", "rmdirSync", "rmdir", "unlinkSync", "unlink", "renameSync", "rename", "copyFileSync", "copyFile", "cpSync", "cp", "symlinkSync", "symlink", "linkSync", "link", "truncateSync", "truncate", "chmodSync", "chmod", "chownSync", "chown", "utimesSync", "utimes", "createWriteStream"]],
+  ["scrivere su disco", fs.promises, ["writeFile", "appendFile", "mkdir", "mkdtemp", "rm", "rmdir", "unlink", "rename", "copyFile", "cp", "symlink", "link", "truncate", "chmod", "chown", "utimes"]],
+  ["lanciare un programma", childProcess, ["spawn", "spawnSync", "exec", "execSync", "execFile", "execFileSync", "fork"]],
+  ["lanciare un programma", workerThreads, ["Worker"]],
+  ["andare in rete", http, ["request", "get"]],
+  ["andare in rete", https, ["request", "get"]],
+  ["andare in rete", http2, ["connect"]],
+  ["andare in rete", net, ["connect", "createConnection"]],
+  ["andare in rete", net.Socket.prototype, ["connect"]],
+  ["andare in rete", tls, ["connect"]],
+  ["andare in rete", dgram, ["createSocket"]],
+  ["andare in rete", dns, ["lookup", "lookupService", "resolve", "resolve4", "resolve6", "resolveAny", "resolveCname", "resolveMx", "resolveNs", "resolveSrv", "resolveTxt", "reverse"]],
+  ["andare in rete", dns.promises, ["lookup", "lookupService", "resolve", "resolve4", "resolve6", "resolveAny", "resolveCname", "resolveMx", "resolveNs", "resolveSrv", "resolveTxt", "reverse"]],
+  // node legge un .env anche da solo, senza passare da fs: anche questa strada si chiude.
+  ["leggere un file di chiavi", process, ["loadEnvFile"]],
+];
+
+/** Chiude le uscite per tutto il processo. Solo da main: importare questo file non tocca niente. */
+function chiudiLeUscite() {
+  for (const k of Object.keys(process.env)) if (!AMBIENTE_INNOCUO.test(k)) delete process.env[k];
+  const rifiuto = (cosa, nome) =>
+    function rifiutata() {
+      throw new Error(`il guardiano del glossario non può ${cosa} (${nome}): misura e basta (AR-962)`);
+    };
+  for (const [cosa, modulo, nomi] of USCITE) for (const nome of nomi) if (typeof modulo[nome] === "function") modulo[nome] = rifiuto(cosa, nome);
+
+  // Leggere si può, tranne i file di chiavi. Aprire un file si può, ma solo in lettura.
+  const percorsoDi = (p) => (p instanceof URL ? fileURLToPath(p) : Buffer.isBuffer(p) ? p.toString() : typeof p === "string" ? p : "");
+  const leggeChiavi = (p) => FILE_DI_CHIAVI.test(percorsoDi(p));
+  const { O_WRONLY, O_RDWR, O_CREAT, O_APPEND, O_TRUNC } = fs.constants;
+  const scrive = (b) => (typeof b === "number" ? (b & (O_WRONLY | O_RDWR | O_CREAT | O_APPEND | O_TRUNC)) !== 0 : typeof b === "string" && /[wa+]/.test(b));
+  const sorveglia = (modulo, nome, bandieraDi) => {
+    const vera = modulo[nome];
+    if (typeof vera !== "function") return;
+    modulo[nome] = function (p, ...resto) {
+      if (leggeChiavi(p)) throw new Error(`il guardiano del glossario non legge i file di chiavi (${percorsoDi(p)}): AR-962`);
+      if (scrive(bandieraDi(resto))) return rifiuto("scrivere su disco", nome)();
+      return vera.call(this, p, ...resto);
+    };
+  };
+  const opzione = (k) => (resto) => (resto[0] && typeof resto[0] === "object" ? resto[0][k] : undefined);
+  for (const m of [fs, fs.promises]) {
+    sorveglia(m, "readFile", opzione("flag"));
+    sorveglia(m, "open", (resto) => resto[0]);
+  }
+  sorveglia(fs, "readFileSync", opzione("flag"));
+  sorveglia(fs, "openSync", (resto) => resto[0]);
+  sorveglia(fs, "createReadStream", opzione("flags"));
+
+  globalThis.fetch = rifiuto("andare in rete", "fetch"); // montaPannello lo sostituisce col fetch finto
+  globalThis.WebSocket = rifiuto("andare in rete", "WebSocket");
+  // Chi ha importato `{ writeFileSync } from "node:fs"` vede la versione chiusa anche lui.
+  syncBuiltinESMExports();
+}
 
 // ═════════════════════════════════════════════════════════════════════════════
 // LE MISURE — quello che tocca il disco e il codice vero. Parte solo dalla riga di comando.
@@ -111,6 +205,12 @@ function databaseFinto(adessoMs) {
     categories: [{ id: "k1", name: "Forno" }],
   };
 }
+
+/**
+ * I valori finti da cui si costruisce il documento della cassa: banca 1000 €, payout dovuti 100 €,
+ * burn 500 €/mese, Stripe senza chiave. Servono a far uscire numeri, non null.
+ */
+const CASSA_FINTA = () => ({ quando: "1970-01-01 00:00", stripe: { eur: null, nota: "il guardiano non legge Stripe" }, bancaEur: "1000", payoutDovutiEur: "100", burnRaw: "500", giriPrecedenti: 0, presa: null, adessoMs: Date.now() });
 
 const IMPOSTAZIONI_FINTE = { cassa_attuale: "10000", burn_mensile: "2000", commissione: "12", costo_fisso: "1500", fee_consegna_cliente: "2", costo_consegna: "3" };
 
@@ -193,15 +293,12 @@ const ESECUTORI = {
     return comeJson(demo.metricheDemo());
   },
   async "cassa-runway"() {
-    // Senza STRIPE_SECRET_KEY il sensore non va in rete e non scrive (AR-281): stampa il documento
-    // che scriverebbe. Le tre componenti finte servono a far uscire numeri, non null.
-    const r = spawnSync(process.execPath, [join(QUI, "sensore-cassa.mjs"), "--json"], {
-      encoding: "utf8",
-      env: { PATH: process.env.PATH || "", CASSA_BANCA_EUR: "1000", BURN_MENSILE_EUR: "500", PAYOUT_DOVUTI_EUR: "100" },
-      timeout: 60_000,
-    });
-    if (r.status !== 0 && r.status !== 1) throw new Error(`sensore-cassa uscito ${r.status}: ${(r.stderr || "").split("\n")[0]}`);
-    return JSON.parse(r.stdout);
+    // Il documento che il sensore scriverebbe, dalla sua funzione pura. Il sensore NON si lancia: il
+    // suo main legge le chiavi del server e, con le chiavi, scrive cassa-runway.json e manda un
+    // segnale al database. L'uscita non passa dal JSON: un campo che vale undefined è un campo lo stesso.
+    const { documentoCassa } = await import("./sensore-cassa.mjs");
+    const { doc } = documentoCassa(CASSA_FINTA());
+    return doc;
   },
 };
 
@@ -281,7 +378,14 @@ function stampa(r, file) {
   console.log(testa);
   console.log(`   registro ${file.registro} · glossario ${file.glossario} · ${r.conti.kpi} KPI · ${r.conti.vetrine_misurate} vetrine su ${r.conti.vetrine} · ${r.conti.campi_esposti} campi consegnati · ${r.conti.termini_glossario} righe nel glossario`);
   for (const p of r.problemi) console.log(`   🔴 [${p.tipo}] ${p.messaggio}`);
-  for (const c of r.ciechi) console.log(`   ⚪ ${c.dove}: ${c.perche}`);
+  // Lo stesso perché in più punti si dice una volta. Da cieco, col Pannello che non si monta, erano 43
+  // righe e 40 dicevano la stessa cosa: nel log del giro le ultime coprivano il verdetto.
+  const perPerche = new Map();
+  for (const c of r.ciechi) perPerche.set(c.perche, [...(perPerche.get(c.perche) || []), c.dove]);
+  for (const [perche, dove] of perPerche) {
+    const dove3 = dove.length === 1 ? dove[0] : `${dove.length} punti (${dove.slice(0, 3).join(", ")}${dove.length > 3 ? ` e altri ${dove.length - 3}` : ""})`;
+    console.log(`   ⚪ ${dove3}: ${perche}`);
+  }
   if (r.esito === 1) {
     console.log("   Cosa fare: ogni numero che esce va nel registro (cervello/kpi-registro.json) con la sua riga nel glossario;");
     console.log("   la riga nuova del glossario la conferma Nicola. Un campo che non è un numero va fra i non_kpi, col perché.");
@@ -295,6 +399,9 @@ async function main() {
   const fileGlossario = process.env.GLOSSARIO_KPI_FILE || join(REPO, voce?.documento || "MyCity-Vault/07-Agenti/GLOSSARIO-KPI.md");
   const src = process.env.KPI_PANNELLO_SRC || join(REPO, "pannello/src");
   const file = { registro: rel(fileRegistro), glossario: rel(fileGlossario), pannello: rel(src) };
+  // Lette le tre porte delle prove, l'ambiente si svuota e le uscite si chiudono: da qui in poi gira
+  // anche codice che non è di questo file.
+  chiudiLeUscite();
 
   const cieco = (perche) => {
     const r = { esito: 2, problemi: [], ciechi: [{ dove: "ingresso", perche }], conti: { kpi: 0, vetrine: 0, vetrine_misurate: 0, campi_esposti: 0, termini_glossario: 0 } };

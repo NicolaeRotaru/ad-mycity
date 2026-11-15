@@ -3,7 +3,7 @@
  "_perche_esiste": "Un KPI che vive solo dentro uno script non passa mai da una definizione condivisa: è la causa di AR-282 sulla cassa. Senza un elenco di quali numeri il codice chiama KPI, nessun controllo poteva confrontarli col glossario se non cercando parole nei file. Questo registro è quell'elenco, e il guardiano cervello/glossario-kpi-check.mjs lo tiene vero.",
  "_come_si_usa": "Quando il codice comincia a consegnare un numero nuovo da una delle vetrine qui sotto, il guardiano diventa rosso («fuori registro»). Si aggiunge il KPI qui (id, nome, glossario, file, funzione, esposizioni, campi) e la sua riga nel glossario, con la definizione presa dal codice e la scritta «da confermare da Nicola». Un campo che esce ma non è un numero del business (un interruttore, un testo, una struttura) va fra i non_kpi della sua vetrina, con la natura e il perché: la natura si misura sul valore vero, quindi un numero non può dichiararsi flag, testo o struttura. Quando un campo smette di uscire, il guardiano lo dice («fantasma»): si toglie dal registro nello stesso lavoro.",
  "_perimetro": "Tre vetrine, eseguite davvero a ogni giro: la rotta /api/metriche del Pannello (80 campi il 2026-11-15 04:16, è la risposta che il codice stesso descrive come «il cockpit KPI mostra TUTTI i dati disponibili»), le metriche della demo (46 campi), e il documento del sensore della cassa (18 campi). NON coperte: le altre rotte di numeri del Pannello (/api/metriche/funnel, /trend, /retention, /negozi, /payout, /cassa, /unit, /acquisizione, /catalogo, /pattern, le stelle polari) e gli altri script del cervello che scrivono numeri in STATO o nelle sentinelle. Lì un KPI nuovo resta invisibile a questo controllo: è la scheda AR-1175.",
- "aggiornato": "2026-11-15 04:16",
+ "aggiornato": "2026-11-15 05:38",
  "esposizioni": [
   {
    "id": "cruscotto",
@@ -29,7 +29,7 @@
   },
   {
    "id": "cassa-runway",
-   "dove": "cervello/sensore-cassa.mjs → il documento che scrive in MyCity-Vault/90-Memoria-AI/auto-coscienza/cassa-runway.json",
+   "dove": "cervello/sensore-cassa.mjs → documentoCassa, il documento che il sensore scrive in MyCity-Vault/90-Memoria-AI/auto-coscienza/cassa-runway.json. Il guardiano chiama la funzione pura con valori finti: il sensore non si lancia, perché lanciato legge le chiavi del server e scrive.",
    "cosa_e": "Il sensore della cassa del giro (AR-282): cassa disponibile, burn e runway. Lo leggono le sentinelle e il letargo.",
    "non_kpi": [
     { "campo": "_cosa_e", "natura": "testo", "perche": "la descrizione del documento" },
@@ -91,7 +91,7 @@
   { "id": "runway-pannello", "nome": "Runway (Pannello)", "glossario": "runway (Pannello)", "file": "pannello/src/lib/economia.ts", "funzione": "calcolaRunway", "esposizioni": ["cruscotto"], "campi": ["runway_mesi"] },
   { "id": "break-even", "nome": "Ordini al mese per andare in pari", "glossario": "break-even (ordini al mese)", "file": "pannello/src/lib/economia.ts", "funzione": "calcolaUnitEconomics", "esposizioni": ["cruscotto"], "campi": ["break_even_ordini_mese"] },
   { "id": "cassa-disponibile-sensore", "nome": "Cassa disponibile (sensore del giro)", "glossario": "cassa disponibile (sensore del giro)", "file": "cervello/sensore-cassa.mjs", "funzione": "componentiCassa", "esposizioni": ["cassa-runway"], "campi": ["cassa_disponibile_eur"] },
-  { "id": "burn-sensore", "nome": "Burn mensile (sensore del giro)", "glossario": "burn mensile (sensore del giro)", "file": "cervello/sensore-cassa.mjs", "funzione": "statoCassa", "esposizioni": ["cassa-runway"], "campi": ["burn_mensile_eur"] },
+  { "id": "burn-sensore", "nome": "Burn mensile (sensore del giro)", "glossario": "burn mensile (sensore del giro)", "file": "cervello/sensore-cassa.mjs", "funzione": "burnMensile", "esposizioni": ["cassa-runway"], "campi": ["burn_mensile_eur"] },
   { "id": "runway-sensore", "nome": "Runway (sensore del giro)", "glossario": "runway (sensore del giro)", "file": "cervello/sensore-cassa.mjs", "funzione": "statoCassa", "esposizioni": ["cassa-runway"], "campi": ["runway_mesi"] }
  ]
 }

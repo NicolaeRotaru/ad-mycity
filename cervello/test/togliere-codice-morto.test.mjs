@@ -14,6 +14,11 @@
 // ingresso esatto con un'uscita esatta. Le righe della base finta sono copiate dalle forme vere del
 // 15/11 (l'esenzione nel registro delle porte, la voce dello scadenzario, la stringa di testo di un
 // altro programma usa-e-getta, i commenti di porte-gemelle): è la variante scomoda, non quella comoda.
+//
+// Il primo giro di correzione (15/11, dopo il collaudo bocciato) aggiunge la sezione ④: dentro una
+// prova una stringa che nomina un file non è una chiamata. La prova stessa di AR-969 era la
+// dimostrazione: le sue stringhe facevano tacere chi toglie porte-gemelle dal cancello, e le chiavi
+// della sua base finta tenevano «in vita» due programmi morti.
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
@@ -25,6 +30,8 @@ import {
   indiceDifese,
   chiLoLanciava,
   parteCheChiama,
+  parteCheRaggiungeInProva,
+  eFileDiProva,
   radiceDelNome,
   righeDaGitGrep,
   eCampoDiProsa,
@@ -112,7 +119,7 @@ const DIFESE = indiceDifese({
     { difetto: "AR-175", file: "cervello/pagella-intelligenza.mjs", test: "cervello/test/pagella.test.mjs" },
     { difetto: "AR-966", file: "cervello/atti-con-porte.json", test: "cervello/test/c9.test.mjs" },
   ],
-  guardiani: ["cervello/gate-veri.mjs"],
+  guardiani: ["cervello/gate-veri.mjs", "cervello/porte-gemelle.mjs"],
 });
 
 /** Il diff della cancellazione per intero di un file, con le sue righe. */
@@ -120,14 +127,23 @@ function diffCancellazione(file, righe) {
   return [`--- a/${file}`, "+++ /dev/null", `@@ -1,${righe.length} +0,0 @@`, ...righe.map((r) => `-${r}`)];
 }
 
-/** Il giro che fa il comando vero: diff → due letture → cuore. */
-function daDiff(righe, extra = {}) {
+/** Il diff di un file NUOVO, con le sue righe. */
+function diffNuovo(file, righe) {
+  return ["--- /dev/null", `+++ b/${file}`, `@@ -0,0 +1,${righe.length} @@`, ...righe.map((r) => `+${r}`)];
+}
+
+/** Il giro che fa il comando vero: diff → due letture → cuore. `contenuti` = i file come sono DOPO. */
+function daDiff(righe, extra = {}, contenuti = {}) {
   const testo = righe.join("\n");
   const agg = leggiDiff(testo);
   const { rimosse, cancellati } = leggiRimozioni(testo);
   const file = new Set([...agg.keys(), ...rimosse.keys()]);
   return sorveglia({
-    toccati: [...file].map((f) => ({ file: f, aggiunte: agg.get(f) || [], contenuto: cancellati.includes(f) ? null : "" })),
+    toccati: [...file].map((f) => ({
+      file: f,
+      aggiunte: agg.get(f) || [],
+      contenuto: cancellati.includes(f) ? null : (contenuti[f] ?? ""),
+    })),
     rimossi: [...rimosse].map(([f, r]) => ({ file: f, rimosse: r, cancellato: cancellati.includes(f) })),
     difese: DIFESE,
     malattie: [],
@@ -361,4 +377,199 @@ test("③ una voce dello scadenzario chiusa in forma corta, senza la sua fonte, 
   for (const k of ["fonte", "chi_la_chiude", "si_toglie_quando", "conseguenza", "perche_conta"]) {
     assert.equal(eCampoDiProsa(`  "${k}": "cervello/x.mjs",`, "cervello/scadenzario.json"), true, k);
   }
+});
+
+// ─── ④ dentro una prova, una stringa che nomina un file non è una chiamata ──
+// Primo giro di correzione (15/11). Il collaudo l'ha misurato sul ramo vero, nei due versi.
+
+const TOLTE_PORTE = [
+  "--- a/cervello/cancello-lotto.mjs",
+  "+++ b/cervello/cancello-lotto.mjs",
+  "@@ -1133,1 +1132,0 @@",
+  '-    passi.push(esegui("le porte gemelle di ogni atto", "node", ["cervello/porte-gemelle.mjs"]));',
+];
+
+// Le forme vere con cui una prova nomina un freno: la chiave di una base finta, una riga di un diff
+// finto, una costante. E una che lo lancia davvero, ma su una copia finta.
+const PROVA_CHE_NOMINA_PORTE = diffNuovo("cervello/test/porte-nuove.test.mjs", [
+  '  "cervello/porte-gemelle.mjs": "// `round2-applica.mjs` (67, 73). **Zero su tre passano dal cancello.**",',
+  `  '-    passi.push(esegui("le porte gemelle di ogni atto", "node", ["cervello/porte-gemelle.mjs"]));',`,
+  'const GUARDIANO = "cervello/porte-gemelle.mjs";',
+  '  const r = spawnSync(process.execPath, [join(dir, "cervello/porte-gemelle.mjs"), "--json"], { cwd: dir });',
+]);
+
+test("④ togliere dal cancello l'unica chiamata a porte-gemelle resta grave anche se una prova dello stesso lotto la nomina o la lancia", () => {
+  const e = daDiff([...TOLTE_PORTE, ...PROVA_CHE_NOMINA_PORTE]);
+  assert.deepEqual(
+    difeseRimosse(e).map((v) => `${v.file}:${v.riga}`),
+    ["cervello/cancello-lotto.mjs:1133"],
+    "una prova esercita un freno su un caso finto: non lo rimette a girare nel cancello",
+  );
+});
+
+test("④ …e lo stesso per gate-veri, il freno della lezione L-2026-0813-02", () => {
+  const e = daDiff([
+    ...TOLTA_DAL_CANCELLO,
+    ...diffNuovo("cervello/test/gate-nuovo.test.mjs", [
+      `    "cervello/cancello-lotto.mjs": 'passi.push(esegui("gate delle lezioni", "node", ["cervello/gate-veri.mjs"]));',`,
+      '  const r = execFileSync("node", [join(REPO, "cervello/gate-veri.mjs")], { encoding: "utf8" });',
+    ]),
+  ]);
+  assert.equal(difeseRimosse(e).length, 1);
+});
+
+test("④ il file morto tace per merito di ①, non delle stringhe di una prova: se lo lanciava qualcuno, le cinque voci restano", () => {
+  // La forma del ramo vero: la prova del lotto scrive in stringhe le stesse righe del file cancellato,
+  // e ne importa uno dei freni. Prima del primo giro di correzione questo bastava a farle tacere tutte,
+  // anche con il pezzo ① spento: la prova sul ramo vero non dimostrava niente.
+  const vivo = {
+    ...NOMINATO_MA_NON_LANCIATO,
+    "cervello/giro.sh": 'node "$DIR/cervello/round2-applica.mjs" --gate || true',
+    "cervello/vps/mycity-giro.service": "ExecStart=/bin/bash /opt/mycity/ad-mycity/cervello/giro.sh",
+  };
+  const e = daDiff(
+    [
+      ...diffCancellazione(MORTO, RIGHE_MORTO),
+      ...diffNuovo("cervello/test/togliere.test.mjs", [
+        'import { tokenPerGate } from "../costo-ai.mjs";',
+        ...RIGHE_MORTO.map((r) => `  ${JSON.stringify(r)},`),
+      ]),
+    ],
+    { cercaAllaBase: base(vivo) },
+  );
+  assert.deepEqual(difeseRimosse(e).map((v) => v.riga), [1, 2, 3, 4, 5]);
+});
+
+// Il gemello usa-e-getta di round2-applica, con due delle sue righe vere che nominano un freno.
+const GEMELLO = "cervello/registra-programma-intelligenza.mjs";
+const RIGHE_GEMELLO = [
+  '    join(AD_ROOT, "cervello/chiusura-loop.mjs"), "registra", "tech",',
+  '    ? "\\n   Poi rimisura:  node cervello/pagella-intelligenza.mjs --gate\\n"',
+];
+// La base dopo l'unione: la prova di AR-969 nomina il gemello come chiave della sua base finta, in
+// una riga di un diff finto e in una costante. Nessuna di queste righe lo lancia.
+const GEMELLO_NELLA_PROVA = {
+  [GEMELLO]: "//   node cervello/registra-programma-intelligenza.mjs         -> scrive",
+  "cervello/test/togliere-codice-morto.test.mjs": [
+    '  "cervello/registra-programma-intelligenza.mjs": [',
+    '    "//   node cervello/registra-programma-intelligenza.mjs         -> scrive",',
+    `    "cervello/cancello-lotto.mjs": 'passi.push(esegui("registra", "node", ["cervello/registra-programma-intelligenza.mjs"]));',`,
+    'const GEMELLO = "cervello/registra-programma-intelligenza.mjs";',
+  ].join("\n"),
+  "cervello/programma-intelligenza-memoria.mjs":
+    "// permesso di git push (AR-142). Stesso schema di registra-programma-intelligenza.mjs e",
+};
+const DIFESE_GEMELLO = new Map([...DIFESE, ["cervello/chiusura-loop.mjs", "è il codice su cui poggia la mutazione di AR-209"]]);
+
+test("④ un programma morto nominato solo dalla base finta di una prova resta morto: cancellarlo non fa rossa la CI", () => {
+  const e = daDiff(diffCancellazione(GEMELLO, RIGHE_GEMELLO), {
+    difese: DIFESE_GEMELLO,
+    cercaAllaBase: base(GEMELLO_NELLA_PROVA),
+  });
+  assert.deepEqual(difeseRimosse(e).map((v) => `${v.file}:${v.riga}`), [], "nominare in un esempio non è lanciare");
+  assert.equal(chiLoLanciava(GEMELLO, base(GEMELLO_NELLA_PROVA)).lanciato, false);
+});
+
+test("④ …ma una prova che lo importa, lo lancia o ne costruisce il percorso lo raggiunge davvero, e lo tiene in vita", () => {
+  for (const riga of [
+    'import { main } from "../registra-programma-intelligenza.mjs";',
+    'const m = await import("../registra-programma-intelligenza.mjs");',
+    'const r = spawnSync(process.execPath, ["cervello/registra-programma-intelligenza.mjs", "--dry"], { cwd: REPO });',
+    'const SCRIPT = join(REPO, "cervello", "registra-programma-intelligenza.mjs");',
+  ]) {
+    const cerca = base({ ...GEMELLO_NELLA_PROVA, "cervello/test/registra.test.mjs": riga });
+    assert.deepEqual(chiLoLanciava(GEMELLO, cerca).da.map((d) => d.file), ["cervello/test/registra.test.mjs"], riga);
+    const e = daDiff(diffCancellazione(GEMELLO, RIGHE_GEMELLO), { difese: DIFESE_GEMELLO, cercaAllaBase: cerca });
+    assert.equal(difeseRimosse(e).length, 2, riga);
+  }
+});
+
+test("parteCheRaggiungeInProva: raggiunge chi importa, lancia o costruisce il percorso; non chi scrive un esempio", () => {
+  for (const [riga, atteso] of [
+    ['import { x } from "../a.mjs";', "../a.mjs"],
+    ['import "../a.mjs";', "../a.mjs"],
+    ['const m = await import("../a.mjs");', "../a.mjs"],
+    ['const m = require("../a.cjs");', "../a.cjs"],
+    ['const r = spawnSync("node", ["cervello/a.mjs", "--json"], { cwd: REPO });', "cervello/a.mjs"],
+    ['const G = join(REPO, "cervello/a.mjs");', "cervello/a.mjs"],
+    ['const u = new URL("../a.mjs", import.meta.url);', "../a.mjs"],
+    ['execFileSync("bash", [join(REPO, "cervello/a.sh")]);', "cervello/a.sh"],
+  ]) {
+    assert.ok(parteCheRaggiungeInProva(riga).split("\n").includes(atteso), riga);
+  }
+  for (const riga of [
+    '  "cervello/a.mjs": [',
+    '    "//   node cervello/a.mjs   -> scrive",',
+    `    "cervello/cancello-lotto.mjs": 'passi.push(esegui("x", "node", ["cervello/a.mjs"]));',`,
+    'const MORTO = "cervello/a.mjs";',
+    '  { difetto: "AR-1", file: "cervello/a.mjs", test: "cervello/test/a.test.mjs" },',
+    'test("cancellare cervello/a.mjs non fa nascere voci", () => {',
+    '  assert.equal(v.file, "cervello/a.mjs");',
+  ]) {
+    assert.ok(!parteCheRaggiungeInProva(riga).includes("cervello/a.mjs"), riga);
+  }
+  // E parteCheChiama la applica alle sole prove in JS o TS: in una prova in shell la riga lancia.
+  assert.equal(parteCheChiama('  "cervello/a.mjs": [', "cervello/test/x.test.mjs"), "");
+  assert.equal(parteCheChiama('  "cervello/a.mjs": [', "pannello/src/lib/x.test.mts"), "");
+  assert.equal(parteCheChiama("  run node cervello/a.mjs --json", "cervello/test/x.bats"), "  run node cervello/a.mjs --json");
+  for (const f of ["cervello/test/x.test.mjs", "cervello/test/x.bats", "pannello/src/lib/a.test.mts", "pannello/src/a.spec.ts"]) {
+    assert.ok(eFileDiProva(f), f);
+  }
+  for (const f of ["cervello/giro.sh", "pannello/src/app/page.tsx", "cervello/testimoni.mjs"]) assert.ok(!eFileDiProva(f), f);
+});
+
+// ─── ⑤ nello STESSO file: un commento o un racconto non rimettono la chiamata tolta ─
+
+test("⑤ chiamata tolta + commento nello STESSO file che nomina il freno: resta grave", () => {
+  // Il gesto di tutti i giorni: tolgo il passo e lascio la riga che spiega perché.
+  const commento = "    // cervello/gate-veri.mjs adesso lo lancia la visita, non il cancello";
+  const e = daDiff(
+    ["--- a/cervello/cancello-lotto.mjs", "+++ b/cervello/cancello-lotto.mjs", "@@ -5,1 +5,1 @@", TOLTA_DAL_CANCELLO[3], `+${commento}`],
+    {},
+    { "cervello/cancello-lotto.mjs": `${commento}\n` },
+  );
+  assert.equal(difeseRimosse(e).length, 1, "un commento non chiama niente, nemmeno nel file da cui ho tolto la chiamata");
+});
+
+const APPRENDIMENTO = "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json";
+const DIFESE_LEZIONE = indiceDifese({ lezioni: [{ id: "L-1", gate: "node cervello/test/x.test.mjs" }] });
+const GATE_TOLTO = [`--- a/${APPRENDIMENTO}`, `+++ b/${APPRENDIMENTO}`, "@@ -9,1 +9,1 @@", '-      "gate": "node cervello/test/x.test.mjs",'];
+
+test("⑤ gate tolto da una lezione + una «nota» nello STESSO registro che lo nomina: resta grave", () => {
+  const nota = '      "nota": "tolto il gate node cervello/test/x.test.mjs: era lento",';
+  const e = daDiff([...GATE_TOLTO, `+${nota}`], { difese: DIFESE_LEZIONE }, { [APPRENDIMENTO]: `${nota}\n` });
+  assert.equal(difeseRimosse(e).length, 1, "un racconto non è un gate");
+});
+
+test("⑤ …e lo spostamento VERO dentro lo stesso registro resta riconosciuto (il gate passa a un'altra riga)", () => {
+  const gate = '      "gate": "node cervello/test/x.test.mjs",';
+  const e = daDiff([...GATE_TOLTO, `+${gate}`], { difese: DIFESE_LEZIONE }, { [APPRENDIMENTO]: `${gate}\n` });
+  assert.equal(difeseRimosse(e).length, 0);
+});
+
+// ─── ⑥ chi parte da solo è vivo anche quando è LUI a essere cancellato ─────
+
+test("⑥ un flusso della CI, un hook o una prova del Pannello cancellati: le loro righe restano voci anche se nessuno li nomina", () => {
+  for (const [file, riga] of [
+    [".github/workflows/notte.yml", "      - run: node cervello/gate-veri.mjs"],
+    [".githooks/pre-push", "node cervello/gate-veri.mjs || exit 1"],
+    ["pannello/src/lib/carrello.test.mts", 'const r = spawnSync("node", [join(REPO, "cervello/gate-veri.mjs")]);'],
+  ]) {
+    const e = daDiff(diffCancellazione(file, [riga]), { cercaAllaBase: base({}) });
+    assert.equal(difeseRimosse(e).length, 1, `${file}: nessuno lo nomina perché parte da solo, non perché è morto`);
+  }
+});
+
+// ─── ⑦ lanciato_da dice da dove partiva, non chi lo prova ──────────────────
+
+test("⑦ lanciato_da nomina prima chi lo lancia davvero (il giro), poi la prova che lo importa", () => {
+  const vivo = {
+    ...NOMINATO_MA_NON_LANCIATO,
+    "cervello/test/round2.test.mjs": 'import { main } from "../round2-applica.mjs";',
+    "cervello/giro.sh": 'node "$DIR/cervello/round2-applica.mjs" --gate || true',
+    "cervello/vps/mycity-giro.service": "ExecStart=/bin/bash /opt/mycity/ad-mycity/cervello/giro.sh",
+  };
+  const v = difeseRimosse(daDiff(diffCancellazione(MORTO, RIGHE_MORTO), { cercaAllaBase: base(vivo) }));
+  assert.equal(v.length, 5);
+  for (const x of v) assert.deepEqual(x.lanciato_da, ["cervello/giro.sh", "cervello/test/round2.test.mjs"], `riga ${x.riga}`);
 });

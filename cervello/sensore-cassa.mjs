@@ -14,10 +14,18 @@
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { segnaleDa } from "./misura-o-cieco.mjs"; // una mappa esaustiva: chi non è nominato non prende il verde
-import { dirname, join } from "node:path";
-import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
+import { dirname, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { scriviStatoSensore } from "./stato-sensori.mjs";
 import { STATO_ALLARME, firmaCausa, verdettoAllarme } from "./presa-in-carico.mjs";
+
+// AR-962 — git-github.mjs, appena caricato, legge cervello/vps/.env e mette nel processo le chiavi
+// del server (Stripe, database). Importato qui in cima, le portava dentro chiunque importasse questo
+// file solo per le sue funzioni pure: il guardiano del glossario, la prova della cassa incompleta.
+// Adesso si carica soltanto quando il sensore gira davvero, dalla riga di comando (main).
+const AD_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), ".."); // lo stesso valore di git-github.mjs
+let gitGithub = null;
+const caricaGitGithub = async () => (gitGithub ??= await import("./git-github.mjs"));
 
 const JSON_MODE = process.argv.includes("--json");
 const RETRIES = 3;
@@ -98,66 +106,34 @@ export function statoCassa({ cassa, burnEur = null, soglia = SOGLIA_ALLERTA_MESI
   };
 }
 
-function num(x) {
-  if (x === null || x === undefined || String(x).trim() === "") return null;
-  const n = Number(x);
-  return Number.isFinite(n) ? n : null;
+/**
+ * Il burn mensile del sensore: il valore che Nicola dichiara in BURN_MENSILE_EUR, letto così com'è.
+ * PURA. Sta qui, e non dentro `main`, perché il registro dei KPI deve poter nominare la funzione
+ * che lo calcola (AR-962): prima nasceva in due righe di main, e il registro lo dava a statoCassa.
+ */
+export function burnMensile(valore) {
+  const burnRaw = valore == null ? undefined : String(valore).trim();
+  return burnRaw && !Number.isNaN(Number(burnRaw)) ? Number(burnRaw) : null;
 }
 
-function sleep(ms) {
-  return new Promise((r) => setTimeout(r, ms));
-}
-
-async function conRetry(fn) {
-  let last = "";
-  for (let i = 1; i <= RETRIES; i++) {
-    try {
-      const r = await fn();
-      if (r.ok) return r;
-      last = r.dettaglio || "fallito";
-    } catch (e) {
-      last = e.message || String(e);
-    }
-    if (i < RETRIES) await sleep(RETRY_MS);
-  }
-  return { ok: false, dettaglio: `${last} (dopo ${RETRIES} tentativi)` };
-}
-
-// Cassa disponibile da Stripe balance (available + pending), in euro. null se la chiave manca.
-async function cassaStripe() {
-  const key = process.env.STRIPE_SECRET_KEY?.trim();
-  if (!key) return { eur: null, nota: "STRIPE_SECRET_KEY assente — cassa Stripe non leggibile" };
-  const r = await conRetry(async () => {
-    const res = await fetch("https://api.stripe.com/v1/balance", {
-      headers: { Authorization: `Bearer ${key}` },
-    });
-    if (!res.ok) {
-      const t = await res.text();
-      return { ok: false, dettaglio: `HTTP ${res.status}: ${t.slice(0, 120)}` };
-    }
-    return { ok: true, data: await res.json() };
-  });
-  if (!r.ok) return { eur: null, nota: r.dettaglio };
-  const somma = (arr) => (Array.isArray(arr) ? arr.reduce((s, x) => s + (x.amount || 0), 0) : 0);
-  const centesimi = somma(r.data.available) + somma(r.data.pending);
-  return { eur: Math.round(centesimi) / 100, nota: "Stripe balance (available + pending)" };
-}
-
-async function main() {
-  const quando = nowPiacenza();
-
-  const stripe = await cassaStripe();
-
+/**
+ * IL DOCUMENTO che il sensore scrive in cassa-runway.json, costruito da valori già letti.
+ * PURA: niente rete, niente disco, niente chiavi. `main` legge Stripe, l'ambiente e il documento di
+ * prima, e passa qui i valori. Il guardiano del glossario (AR-962) la chiama con valori finti per
+ * sapere quali campi consegna il sensore, SENZA lanciarlo: lanciato, il sensore legge le chiavi del
+ * server e, con le chiavi, scrive la memoria e manda un segnale al database. Un campo nuovo
+ * aggiunto qui compare da solo nella vetrina della cassa.
+ */
+export function documentoCassa({ quando = null, stripe = { eur: null, nota: "" }, bancaEur = null, payoutDovutiEur = null, burnRaw = null, giriPrecedenti = 0, presa = null, adessoMs = Date.now() } = {}) {
   // AR-282 — le tre componenti, ognuna con la sua fonte. Nessuna scrittura: sola lettura, sempre.
   const cassa = componentiCassa({
     stripeEur: stripe.eur,
-    bancaEur: process.env.CASSA_BANCA_EUR,       // la dichiara Nicola: è l'unica fonte che ce l'ha
-    payoutDovutiEur: process.env.PAYOUT_DOVUTI_EUR,
+    bancaEur,       // la dichiara Nicola: è l'unica fonte che ce l'ha
+    payoutDovutiEur,
   });
   const cassaEur = cassa.totale_eur;
 
-  const burnRaw = process.env.BURN_MENSILE_EUR?.trim();
-  const burnEur = burnRaw && !Number.isNaN(Number(burnRaw)) ? Number(burnRaw) : null;
+  const burnEur = burnMensile(burnRaw);
 
   const verdetto = statoCassa({ cassa, burnEur, soglia: SOGLIA_ALLERTA_MESI });
   const runwayMesi = verdetto.runway_mesi;
@@ -166,29 +142,15 @@ async function main() {
   // AR-039: contatore di cecità del sensore-cassa. Persiste per quanti giri consecutivi la cassa
   // è "sconosciuta" (Stripe non collegato o BURN_MENSILE_EUR non impostato), così la non-funzionalità
   // del sensore non resta invisibile e una sentinella può allertare 🟡 sotto soglia.
-  let giriSconosciuto = 0;
-  if (existsSync(OUT_PATH)) {
-    try {
-      const prev = JSON.parse(readFileSync(OUT_PATH, "utf8"));
-      giriSconosciuto = Number(prev.giri_sconosciuto) || 0;
-    } catch {
-      giriSconosciuto = 0;
-    }
-  }
+  // Il conto dei giri di prima lo rilegge `main` dal documento scritto l'ultima volta.
+  let giriSconosciuto = Number(giriPrecedenti) || 0;
   giriSconosciuto = stato === "sconosciuto" ? giriSconosciuto + 1 : 0; // AR-039
 
-  // ── AR-285 — LA PRESA IN CARICO ────────────────────────────────────────────────────────────────
-  // Questa sentinella suona da 256 giri sulla stessa identica cosa. Adesso c'è un modo dichiarato
-  // di chiuderla — «lo so, ci penso, entro il …» — e un modo di riaprirla da sola quando quella
-  // data passa. Si scrive con:
-  //   node cervello/sensore-cassa.mjs --prendo-in-carico "chiedo il saldo in banca" --fino 2026-09-15
-  const presaSalvata = presaInCaricoDaFile(OUT_PATH);
-  const presa = presaInCaricoDaArgv() || presaSalvata;
   const allarme = verdettoAllarme({
     acceso: stato === "sconosciuto" || stato === "critico" || stato === "parziale",
     giriConsecutivi: giriSconosciuto,
     presaInCarico: presa,
-    adessoMs: Date.now(),
+    adessoMs,
     // AR-285 ④: la firma è la CAUSA, non il contatore. Con «cieco da 256 giri» dentro, la firma
     // cambiava a ogni giro e il dedup non agganciava mai — per questo la card si duplicava.
     firma: firmaCausa({ sensore: "cassa-runway", causa: `${stato}: mancano ${cassa.mancanti.join("+") || "niente"}${burnEur == null ? "+burn" : ""}` }),
@@ -241,6 +203,94 @@ async function main() {
     note,
     istruzioni,
   };
+  return { doc, cassa, burnEur, verdetto, allarme, giriSconosciuto, note, istruzioni };
+}
+
+function num(x) {
+  if (x === null || x === undefined || String(x).trim() === "") return null;
+  const n = Number(x);
+  return Number.isFinite(n) ? n : null;
+}
+
+function sleep(ms) {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
+async function conRetry(fn) {
+  let last = "";
+  for (let i = 1; i <= RETRIES; i++) {
+    try {
+      const r = await fn();
+      if (r.ok) return r;
+      last = r.dettaglio || "fallito";
+    } catch (e) {
+      last = e.message || String(e);
+    }
+    if (i < RETRIES) await sleep(RETRY_MS);
+  }
+  return { ok: false, dettaglio: `${last} (dopo ${RETRIES} tentativi)` };
+}
+
+// Cassa disponibile da Stripe balance (available + pending), in euro. null se la chiave manca.
+async function cassaStripe() {
+  const key = process.env.STRIPE_SECRET_KEY?.trim();
+  if (!key) return { eur: null, nota: "STRIPE_SECRET_KEY assente — cassa Stripe non leggibile" };
+  const r = await conRetry(async () => {
+    const res = await fetch("https://api.stripe.com/v1/balance", {
+      headers: { Authorization: `Bearer ${key}` },
+    });
+    if (!res.ok) {
+      const t = await res.text();
+      return { ok: false, dettaglio: `HTTP ${res.status}: ${t.slice(0, 120)}` };
+    }
+    return { ok: true, data: await res.json() };
+  });
+  if (!r.ok) return { eur: null, nota: r.dettaglio };
+  const somma = (arr) => (Array.isArray(arr) ? arr.reduce((s, x) => s + (x.amount || 0), 0) : 0);
+  const centesimi = somma(r.data.available) + somma(r.data.pending);
+  return { eur: Math.round(centesimi) / 100, nota: "Stripe balance (available + pending)" };
+}
+
+async function main() {
+  const { nowPiacenza, stampSegnale } = await caricaGitGithub();
+  const quando = nowPiacenza();
+
+  const stripe = await cassaStripe();
+
+  // AR-039: il contatore di cecità persiste fra un giro e l'altro, nel documento di prima.
+  let giriPrecedenti = 0;
+  if (existsSync(OUT_PATH)) {
+    try {
+      const prev = JSON.parse(readFileSync(OUT_PATH, "utf8"));
+      giriPrecedenti = Number(prev.giri_sconosciuto) || 0;
+    } catch {
+      giriPrecedenti = 0;
+    }
+  }
+
+  // ── AR-285 — LA PRESA IN CARICO ────────────────────────────────────────────────────────────────
+  // Questa sentinella suona da 256 giri sulla stessa identica cosa. Adesso c'è un modo dichiarato
+  // di chiuderla — «lo so, ci penso, entro il …» — e un modo di riaprirla da sola quando quella
+  // data passa. Si scrive con:
+  //   node cervello/sensore-cassa.mjs --prendo-in-carico "chiedo il saldo in banca" --fino 2026-09-15
+  const presaSalvata = presaInCaricoDaFile(OUT_PATH);
+  const presa = presaInCaricoDaArgv() || presaSalvata;
+
+  // AR-962: il documento lo costruisce una funzione pura, la stessa che il guardiano del glossario
+  // esegue con valori finti. Qui le si passano i valori veri.
+  const { doc, cassa, burnEur, verdetto, allarme, giriSconosciuto, note, istruzioni } = documentoCassa({
+    quando,
+    stripe,
+    bancaEur: process.env.CASSA_BANCA_EUR,
+    payoutDovutiEur: process.env.PAYOUT_DOVUTI_EUR,
+    burnRaw: process.env.BURN_MENSILE_EUR,
+    giriPrecedenti,
+    presa,
+    adessoMs: Date.now(),
+  });
+  const cassaEur = cassa.totale_eur;
+  const runwayMesi = verdetto.runway_mesi;
+  const stato = verdetto.stato;
 
   // AR-281 — la cassa si scrive solo dove la si può MISURARE. Senza STRIPE_SECRET_KEY questo script
   // produce comunque un documento ("cassa sconosciuta"): scriverlo da una sessione cloud senza chiavi
@@ -298,7 +348,7 @@ function presaInCaricoDaArgv(argv = process.argv.slice(2)) {
   if (i === -1) return null;
   const j = argv.indexOf("--fino");
   const fino = j !== -1 ? argv[j + 1] : "";
-  return { da: nowPiacenza().slice(0, 10), motivo: argv[i + 1] || "", fino: fino || "" };
+  return { da: gitGithub.nowPiacenza().slice(0, 10), motivo: argv[i + 1] || "", fino: fino || "" };
 }
 
 function presaInCaricoDaFile(path) {
@@ -316,6 +366,8 @@ function presaInCaricoDaFile(path) {
 // far partire una lettura di rete e una scrittura nel vault. Prima `main()` girava al solo import.
 if (import.meta.url === `file://${process.argv[1]}`) main().catch(async (e) => {
   console.error("ERRORE sensore-cassa:", e.message || e);
-  await stampSegnale("cassa-runway", "errore", `crash: ${(e.message || e).toString().slice(0, 200)}`).catch(() => {});
+  await caricaGitGithub()
+    .then((g) => g.stampSegnale("cassa-runway", "errore", `crash: ${(e.message || e).toString().slice(0, 200)}`))
+    .catch((err) => console.error(`⚠️  segnale di crash non inviato al Pannello: ${err?.message || err}`));
   process.exit(1);
 });

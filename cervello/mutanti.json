@@ -11943,6 +11943,62 @@
    "test": "cervello/test/togliere-codice-morto.test.mjs"
   },
   {
+   "difetto": "AR-969",
+   "nome": "le righe aggiunte delle prove tornano a contare come spostamento: una prova che lancia porte-gemelle su un caso finto assolve chi toglie dal cancello la sua unica chiamata",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "      .filter((t) => !eFileDiProva(t.file))",
+   "sostituisci": "      .filter(() => true)",
+   "test": "cervello/test/togliere-codice-morto.test.mjs"
+  },
+  {
+   "difetto": "AR-969",
+   "nome": "dentro una prova ogni stringa torna a contare come chiamata: la chiave di una base finta tiene in vita un programma morto, e cancellarlo fa rossa la CI",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "  if (eFileDiProva(f) && JS_O_TS.test(f)) return parteCheRaggiungeInProva(pulita);",
+   "sostituisci": "  if (false) return parteCheRaggiungeInProva(pulita);",
+   "test": "cervello/test/togliere-codice-morto.test.mjs"
+  },
+  {
+   "difetto": "AR-969",
+   "nome": "una prova che lancia un file con l'elenco degli argomenti non lo raggiunge piu': spawnSync(\"node\", [\"cervello/x.mjs\"]) diventa un esempio",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "        if (pila[k].ch === \"[\") continue;",
+   "sostituisci": "        if (pila[k].ch === \"[\") break;",
+   "test": "cervello/test/togliere-codice-morto.test.mjs"
+  },
+  {
+   "difetto": "AR-969",
+   "nome": "nello stesso file la riga aggiunta torna grezza: un commento che nomina il freno assolve la chiamata tolta",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "    const testoAggiunto = aggiunteQui.map((a) => parteDichiarata(a.testo, file)).join(\"\\n\");",
+   "sostituisci": "    const testoAggiunto = aggiunteQui.map((a) => a.testo).join(\"\\n\");",
+   "test": "cervello/test/togliere-codice-morto.test.mjs"
+  },
+  {
+   "difetto": "AR-969",
+   "nome": "nello stesso registro un racconto torna a contare come chiamata ancora viva: una «nota» che nomina il gate assolve il gate tolto",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "  return contenuto.split(\"\\n\").some((riga) => parteDichiarata(riga, file).includes(p));",
+   "sostituisci": "  return contenuto.split(\"\\n\").some((riga) => senzaCommenti(riga, file).includes(p));",
+   "test": "cervello/test/togliere-codice-morto.test.mjs"
+  },
+  {
+   "difetto": "AR-969",
+   "nome": "un flusso della CI, un hook o una prova del Pannello cancellati tornano a risultare non lanciati: le loro righe spariscono senza voce",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "  if (!PUO_ESSERE_MORTO.test(String(file)) || eFileDiProva(file)) return { lanciato: true, cieco: false, da: [] };",
+   "sostituisci": "  if (false) return { lanciato: true, cieco: false, da: [] };",
+   "test": "cervello/test/togliere-codice-morto.test.mjs"
+  },
+  {
+   "difetto": "AR-969",
+   "nome": "lanciato_da torna a nominare per prima la prova: la voce dice chi lo prova, non da dove partiva",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "  const da = vivi.map(voce);",
+   "sostituisci": "  const da = [...prove, ...vivi].map(voce);",
+   "test": "cervello/test/togliere-codice-morto.test.mjs"
+  },
+  {
    "difetto": "AR-962",
    "nome": "la riga del glossario non si cerca più: qualunque KPI risulta definito, anche quello che nel glossario non c’è, come la cassa di AR-282",
    "file": "cervello/glossario-kpi.mjs",
@@ -12029,6 +12085,110 @@
    "cerca": "  process.on(\"unhandledRejection\", cieco);\n  main().catch(cieco);",
    "sostituisci": "  main();",
    "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "il cuore della cura tolto: la vetrina della cassa torna a LANCIARE il sensore, che col .env del server riscrive cassa-runway.json e manda una POST al database",
+   "file": "cervello/glossario-kpi-check.mjs",
+   "cerca": "    const { doc } = documentoCassa(CASSA_FINTA());",
+   "sostituisci": "    const doc = JSON.parse((await import(\"node:child_process\")).spawnSync(process.execPath, [join(QUI, \"sensore-cassa.mjs\"), \"--json\"], { encoding: \"utf8\", env: { PATH: process.env.PATH || \"\", CASSA_BANCA_EUR: \"1000\", BURN_MENSILE_EUR: \"500\", PAYOUT_DOVUTI_EUR: \"100\" } }).stdout);",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "l'ambiente non si svuota più: le chiavi che systemd dà al giro restano nel processo del guardiano, e il codice del Pannello le legge",
+   "file": "cervello/glossario-kpi-check.mjs",
+   "cerca": "  for (const k of Object.keys(process.env)) if (!AMBIENTE_INNOCUO.test(k)) delete process.env[k];",
+   "sostituisci": "  // ambiente lasciato com'era: le chiavi del giro restano nel processo",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "i file .env si leggono di nuovo: un modulo che li legge appena caricato porta le chiavi del server dentro il guardiano",
+   "file": "cervello/glossario-kpi-check.mjs",
+   "cerca": "  const leggeChiavi = (p) => FILE_DI_CHIAVI.test(percorsoDi(p));",
+   "sostituisci": "  const leggeChiavi = (p) => false;",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "scrivere su disco torna possibile: una vetrina che scrive un file, dentro il guardiano, lo scrive davvero",
+   "file": "cervello/glossario-kpi-check.mjs",
+   "cerca": "  [\"scrivere su disco\", fs, [\"writeFileSync\", \"writeFile\",",
+   "sostituisci": "  [\"scrivere su disco\", fs, [\"writeFile\",",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "lanciare un programma torna possibile: una vetrina che lancia un programma, dentro il guardiano, lo lancia davvero",
+   "file": "cervello/glossario-kpi-check.mjs",
+   "cerca": "[\"spawn\", \"spawnSync\", \"exec\",",
+   "sostituisci": "[\"spawn\", \"exec\",",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "la rete torna aperta (http, https, net, tls…): una vetrina che chiama un indirizzo vero con node:http, dentro il guardiano, lo chiama davvero. Togliere solo http non basta a riaprirla: http passa da net, chiuso anche lui",
+   "file": "cervello/glossario-kpi-check.mjs",
+   "cerca": "for (const [cosa, modulo, nomi] of USCITE) for (const nome of nomi) if (typeof modulo[nome] === \"function\") modulo[nome] = rifiuto(cosa, nome);",
+   "sostituisci": "for (const [cosa, modulo, nomi] of USCITE) for (const nome of nomi) if (typeof modulo[nome] === \"function\" && cosa !== \"andare in rete\") modulo[nome] = rifiuto(cosa, nome);",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "il sensore della cassa torna a caricare git-github.mjs appena importato: chi importa le sue funzioni pure si porta dentro le chiavi del server",
+   "file": "cervello/sensore-cassa.mjs",
+   "cerca": "const caricaGitGithub = async () => (gitGithub ??= await import(\"./git-github.mjs\"));",
+   "sostituisci": "import * as gitGithubSubito from \"./git-github.mjs\";\nconst caricaGitGithub = async () => (gitGithub ??= gitGithubSubito);",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "il registro torna a dire che il burn del sensore lo calcola statoCassa, che lo riceve già calcolato",
+   "file": "cervello/kpi-registro.json",
+   "cerca": "\"funzione\": \"burnMensile\"",
+   "sostituisci": "\"funzione\": \"statoCassa\"",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "un puntatore cieco torna a ripetersi una volta per KPI: da cieco 40 righe uguali",
+   "file": "cervello/glossario-kpi.mjs",
+   "cerca": "      if (!puntatoriCiechi.has(chiave)) ciechi.push(",
+   "sostituisci": "      if (true) ciechi.push(",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "da cieco ogni punto torna a stampare la sua riga, anche quando il perché è lo stesso",
+   "file": "cervello/glossario-kpi-check.mjs",
+   "cerca": "  for (const c of r.ciechi) perPerche.set(c.perche, [...(perPerche.get(c.perche) || []), c.dove]);",
+   "sostituisci": "  for (const c of r.ciechi) perPerche.set(`${c.dove}: ${c.perche}`, [c.dove]);",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "il giro torna a stampare l'uscita del guardiano con tail -6: con un'uscita lunga la riga del verdetto sparisce dal log",
+   "file": "cervello/giro.sh",
+   "cerca": "  printf '%s\\n' \"$_glossario_out\" | esito_righe 6",
+   "sostituisci": "  printf '%s\\n' \"$_glossario_out\" | tail -6",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "da cieco il vincolo torna sotto il titolo HARD di dominio, che dice il contrario del testo",
+   "file": "cervello/giro.sh",
+   "cerca": "    GLOSSARIO_KPI_TITOLO=\"GUARDIANO CIECO — AR-962: non ha misurato, NON è un numero senza definizione\"",
+   "sostituisci": "    GLOSSARIO_KPI_TITOLO=\"HARD — AR-962: un numero senza definizione condivisa\"",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "process.loadEnvFile torna aperto: una vetrina legge cervello/vps/.env senza passare da fs, e le chiavi del server entrano nel guardiano",
+   "file": "cervello/glossario-kpi-check.mjs",
+   "cerca": "  [\"leggere un file di chiavi\", process, [\"loadEnvFile\"]],",
+   "sostituisci": "  [\"leggere un file di chiavi\", process, []],",
+   "test": "cervello/test/glossario-kpi.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",
@@ -12073,6 +12233,6 @@
    }
   ]
  },
- "_tolte_2026_11_15": "Due mutazioni di AR-966 tolte il 15/11/2026 alle 03:52, nel lavoro di AR-969. Rompevano la data dell’esenzione a scadenza del registro delle porte: una la spostava di un secolo, l’altra la cancellava. Quell’esenzione era l’unica a scadenza, ed è sparita insieme al programma usa-e-getta del 25 luglio che copriva. Senza una data da rompere il banco le avrebbe date per cieche, e il cancello si sarebbe fermato: lo dicevano già lo scadenzario e il registro delle porte. La difesa di AR-966 resta: le altre mutazioni sul modulo delle scadenze del cancello, e quella sull’attesa del glossario.",
+ "_tolte_2026_11_15": "Due mutazioni di AR-966 tolte il 15/11/2026 alle 03:52, nel lavoro di AR-969. Rompevano la data dell’esenzione a scadenza del registro delle porte: una la spostava di un secolo, l’altra la cancellava. Quell’esenzione era l’unica a scadenza, ed è sparita insieme al programma usa-e-getta del 25 luglio che copriva. Senza una data da rompere il banco le avrebbe date per cieche, e il cancello si sarebbe fermato: lo dicevano già lo scadenzario e il registro delle porte. La difesa di AR-966 resta nelle altre mutazioni sul modulo delle scadenze del cancello: 14, contate il 15/11/2026 alle 05:31. Quella sull’attesa del glossario, che questa nota citava alle 03:52, è stata tolta alle 04:20 nel lavoro di AR-962: senza l’attesa il suo pezzo non esiste più.",
  "_tolte_2026_11_15_ar962": "Una mutazione di AR-966 tolta il 15/11/2026 alle 04:20, nel lavoro di AR-962. Spostava di un secolo la data dell’attesa del glossario dei KPI nella lista dei documenti di governo, ed era legata apposta all’attesa SENZA guardiano: quando il controllo nasce, il pezzo sparisce e il banco lo dice. Il controllo è nato, la voce del glossario ha il suo guardiano e l’attesa non c’è più: nella lista non resta nessun’altra attesa con una data. La difesa di AR-966 resta nelle mutazioni sul modulo delle scadenze del cancello, che la prova c9 morde su dati finti."
 }

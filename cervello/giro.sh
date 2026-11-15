@@ -233,6 +233,7 @@ FATTI_VINCOLO=""      # AR-102: vincolo del gate coerenza-fatti (copie vecchie d
 CHECKLIST_VINCOLO=""  # AR-030: vincolo freschezza checklist Nicola (stantia se > 2 giorni)
 RISCHI_VINCOLO=""     # AR-431: vincolo freschezza mappa dei rischi (guardiano che nessuno eseguiva)
 GLOSSARIO_KPI_VINCOLO=""  # AR-962: un numero consegnato come KPI senza la sua riga nel glossario
+GLOSSARIO_KPI_TITOLO=""   # AR-962: il titolo del vincolo, diverso se il guardiano è cieco
 CADENZE_VINCOLO=""    # AR-164: una cadenza (giro/ritmo/monitora) ha smesso di uscire
 CI_VINCOLO=""         # 4/8: una PR aperta non passa i controlli, e il rosso è suo (non ereditato da main)
 OKR_VINCOLO=""        # AR-115: vincolo freschezza OKR-Squadra (target scaduti o doc stantio)
@@ -654,7 +655,15 @@ $_rischi_out")"
   # senza definizione condivisa è la malattia di AR-282 sulla cassa. rc=2 vuol dire cieco, non verde.
   echo "[$(ts)] Glossario dei KPI: ogni numero consegnato ha la sua definizione (AR-962)..."
   _glossario_out="$(node "$SCRIPT_DIR/glossario-kpi-check.mjs" 2>&1)"; _glossario_rc=$?
-  printf '%s\n' "$_glossario_out" | tail -6
+  # La prima riga è il verdetto: esito_righe la tiene sempre, tail -6 la perdeva appena l'uscita era lunga.
+  printf '%s\n' "$_glossario_out" | esito_righe 6
+  # Il titolo del vincolo dice cosa è successo: un guardiano cieco non ha trovato un numero senza
+  # definizione, non ha misurato. Sotto il titolo di dominio, il testo del cieco si contraddiceva.
+  if [ "$_glossario_rc" -eq 2 ]; then
+    GLOSSARIO_KPI_TITOLO="GUARDIANO CIECO — AR-962: non ha misurato, NON è un numero senza definizione"
+  else
+    GLOSSARIO_KPI_TITOLO="HARD — AR-962: un numero senza definizione condivisa"
+  fi
   GLOSSARIO_KPI_VINCOLO="$(vincolo_da_rc "glossario-kpi-check" "$_glossario_rc" "⛔ UN KPI SENZA DEFINIZIONE (glossario-kpi-check.mjs rc=$_glossario_rc, AR-962): il codice consegna a Nicola un numero che non è nel registro dei KPI, o un KPI del registro non ha la sua riga nel glossario. Un numero senza una definizione condivisa può essere sbagliato per definizione senza che nessuno lo veda: è AR-282 sulla cassa. Aggiungi il KPI in cervello/kpi-registro.json e la sua riga in MyCity-Vault/07-Agenti/GLOSSARIO-KPI.md, con la formula presa dal codice e «da confermare da Nicola». Dettaglio: node cervello/glossario-kpi-check.mjs
 $_glossario_out")"
   [ -n "$GLOSSARIO_KPI_VINCOLO" ] && echo "[$(ts)] ⚠️  AR-962: glossario-kpi-check non è passato (rc=$_glossario_rc) → vincolo hard al motore." >&2
@@ -1267,7 +1276,7 @@ if [ -n "${GLOSSARIO_KPI_VINCOLO:-}" ]; then
   # qui, come quello dei rischi: calcolarlo e non usarlo sarebbe un verdetto buttato via.
   PROMPT="$PROMPT
 
-## Vincolo glossario dei KPI (HARD — AR-962: un numero senza definizione condivisa)
+## Vincolo glossario dei KPI (${GLOSSARIO_KPI_TITOLO:-HARD — AR-962: un numero senza definizione condivisa})
 $GLOSSARIO_KPI_VINCOLO"
 fi
 if [ -n "${CADENZE_VINCOLO:-}" ]; then
