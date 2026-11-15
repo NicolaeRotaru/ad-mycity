@@ -51,9 +51,24 @@ Se va bene: giovedì dopo le 10:00 parte il resto dell'onda 3, col preventivo fa
 
 Dettagli: `consegne/riparazioni/2026-11-12-sito-tutto/FERMATA-1-ONDA-3.md` (richiesta di unione ad-mycity#968).
 
+### 🟡 #255 — Scegli se il passo finale delle riparazioni deve tornare a controllare la regola dei 40 voci · ⏳ accodata 2026-11-15 11:15
+
+Il collaudo corto della correzione dell'officina dice che regge. Resta un rischio. La regola «niente controllo a campione sotto le 40 riparazioni» adesso la guarda solo il controllo del singolo collaudo, non più il passo finale che chiude le voci.
+
+Esempio vero: il collaudo K08 sul lotto R16, che ha 21 voci, prende 6 rossi al primo controllo. Se la regista lo salta, il passo finale chiude lo stesso tre voci di R16. Oggi la skill di riparazione promette che il passo finale rilancia tutti i controlli: per questa regola non è più vero.
+
+Scegli una strada. (a) Un campo nel piano dice da quale onda vale la regola: il passo finale la guarda nelle campagne nuove e la salta in quella del 12/11. È una sessione corta. (b) Si lascia com'è e si corregge solo la frase della skill, così dice la verità.
+
+Di quanto fidarsi: non ho una campagna nuova vera: il caso l'ho ricreato trattando K08 come se fosse nuovo. Non ho fatto prove sui rami veri. Il referto è in `consegne/officina-minima/ricollaudo-2026-11-15.md`, PR #966.
+
+Cosa cambia: con la strada (a), una dimenticanza non chiude più una riparazione a campione. Con la strada (b) resta una rete sola, ma scritta.
+Se va bene: l'AD apre la sessione corta, e il suo collaudo rilancia proprio il caso di K08 su R16.
+
 ### 🟡 #254 — Aspetta a unire la richiesta dell'officina: il collaudo l'ha bocciata · ⏳ accodata 2026-11-15 09:40
 
 **✅ Superata il 15/11 alle 10:23.** Nicola ha unito la #962. Dentro c'era già la correzione del bloccante (commit 41e041c). Manca il collaudo corto della correzione: lo apre l'AD.
+
+**Aggiornata il 15/11 alle 11:20.** Il ricollaudo dice che la correzione regge, con una riserva. La scelta su quella riserva è nella carta #255.
 
 **In parole semplici.** L'officina ha costruito i programmi che fanno rispettare le regole sui costi delle riparazioni. Il collaudo indipendente li ha bocciati per un difetto bloccante. La regola «niente controllo a campione sotto le 40 riparazioni» vale anche sui collaudi fatti prima che esistesse.
 

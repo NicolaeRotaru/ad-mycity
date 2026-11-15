@@ -26746,6 +26746,99 @@
       },
       "chiuso_il": "2026-11-15 10:40",
       "chiuso_da": "costruttrice corta dell'officina, ramo claude/officina-correzione-2 (PR verso main): con la testa fuori da main e senza il campo «unita», conti dà un'attesa invece di tacere"
+    },
+    {
+      "id": "AR-1184",
+      "titolo": "Applica e pronte chiudono voci collaudate a campione sotto le 40, perché solo valida-collaudo tiene la regola",
+      "dove": "cervello/riparazione-sessioni.mjs (applica, pronte → decidi)",
+      "dimensione": "guardrail-semaforo",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-15 11:00",
+      "nato_come": "scoperta",
+      "origine": "collaudo",
+      "owner": "builder-automazioni",
+      "nato_da": "ricollaudo dell'officina minima (ad-mycity#966, consegne/officina-minima/ricollaudo-2026-11-15.md), bloccante 1 «la regola dei 40 voci solo dietro ctx.misura»",
+      "fonte": "ricollaudatore dell'officina minima, sessione figlia dell'AD (chat 3 del 15/11)",
+      "sintomo": "La regola «sotto le 40 voci non si collauda a campione» la tiene solo valida-collaudo. applica e pronte chiamano decidi senza misura:true, quindi la saltano. Caso vero: K08 ha guardato a campione R15 e R16 (19 e 21 voci). valida-collaudo gli dà 6 rossi «il campione non esiste»; applica senza quel controllo chiude lo stesso R16-014, R16-015 e R16-016. Inoltre la skill riparazione, riga 466, promette che «applica --git li rilancia comunque da sé»: per questa regola non è più vero.",
+      "causa_radice": "Nessun codice di produzione passa misura:true a decidi (applica e pronte): il ramo con la regola dentro decidi gira solo nei test.",
+      "fix_proposto": "Decisione aperta: carta #255 (PR #966). Nicola sceglie fra (a) un campo nel piano, campione_fino_a_40_dall_onda come verifica_testa_dall_onda, passato come misura ad applica e a pronte, e (b) correggere solo la frase della riga 466 della skill riparazione. Qui non si sceglie la cura.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si chiude con una prova che dà ad applica un collaudo a campione di un lotto sotto le 40 voci (es. K08 su R16) dall'onda del campo nel piano, e trova le voci resta_aperta."
+      },
+      "decisione_aperta": "carta #255"
+    },
+    {
+      "id": "AR-1185",
+      "titolo": "La prova del minore 5 copre solo il collaudo con finita:false, non quello senza il campo o con «true» scritto come testo",
+      "dove": "cervello/test/collaudi-guardati-insieme.test.mjs",
+      "dimensione": "guardrail-semaforo",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-15 11:00",
+      "nato_come": "scoperta",
+      "origine": "collaudo",
+      "owner": "builder-automazioni",
+      "nato_da": "ricollaudo dell'officina minima (ad-mycity#966, consegne/officina-minima/ricollaudo-2026-11-15.md), minore 5 «un collaudo non finito non presta il pieno»",
+      "fonte": "ricollaudatore dell'officina minima, sessione figlia dell'AD (chat 3 del 15/11)",
+      "sintomo": "Il test copre solo finita:false. I casi «campo mancante» e finita:\"true\" li ha provati solo il ricollaudatore a mano. Se un giorno qualcuno scrive c.finita !== false, nessun test diventa rosso.",
+      "causa_radice": "La prova è stata scritta su un solo dei tre modi in cui un collaudo può non essere finito.",
+      "fix_proposto": "Aggiungere al test del minore 5 i due casi: delete K10.finita e finita: \"true\".",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si chiude quando il test ha i due casi in più e la mutazione c.finita !== false lo fa diventare rosso."
+      }
+    },
+    {
+      "id": "AR-1186",
+      "titolo": "Il controllo del glossario dei numeri dà un verde muto se un modulo che esegue si chiude da solo appena caricato",
+      "dimensione": "guardiani",
+      "dove": "cervello/glossario-kpi-check.mjs",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-15 08:53",
+      "nato_come": "scoperta",
+      "origine": "collaudo",
+      "owner": "builder-automazioni",
+      "nato_da": "AR-962 (controllo del glossario dei numeri), visto dal taglio della #956 sul ramo claude/magical-hamilton-xouwr8 commit 58c232b72; salvato in consegne/ad/2026-11-15-difetto-glossario-verde-muto.json",
+      "fonte": "sessione del taglio della #956 (session_015BmpnVUQehKpPytmYYeF8E), girato all'AD chat 3 dalla chat 2",
+      "sintomo": "Se un modulo eseguito da glossario-kpi-check.mjs chiama process.exit appena caricato, il guardiano esce 0 senza verdetto: nel giro risulta verde senza aver controllato niente. Esempio: la vetrina della cassa (riga 299) arriva prima della riga 435. Riprodotto togliendo la guardia d'import di cervello/sensore-cassa.mjs (riga 367). Nessuna delle 24 mutazioni lo copre. Oggi la guardia c'è, quindi il difetto non scatta.",
+      "causa_radice": "Il guardiano non distingue un'uscita del modulo caricato da un proprio verdetto.",
+      "fix_proposto": "Una mutazione che toglie la guardia d'import di sensore-cassa.mjs: il guardiano deve uscire diverso da 0, oppure con un verdetto esplicito «cieco».",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si chiude con la mutazione proposta che fa uscire il guardiano diverso da 0 o «cieco». Non verificato: il guardiano sul server vero e la versione di node (sotto la 22.15 esce cieco, non verde)."
+      }
+    },
+    {
+      "id": "AR-1187",
+      "titolo": "Applica e chiudi-sito rimettono la data di oggi su voci già chiuse, e applica riscrive la ragione di voci che restano aperte",
+      "dimensione": "guardrail-semaforo",
+      "dove": "cervello/riparazione-sessioni.mjs (applica --scrivi) · cervello/chiudi-sito.mjs",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-15 19:10",
+      "nato_come": "scoperta",
+      "origine": "riparazione",
+      "nato_da": "scrittura nel registro del collaudo K10 sulla campagna 2026-11-12-sito-tutto (ad-mycity#970)",
+      "fonte": "sessione corta dell'AD (chat 3 del 15/11) che ha applicato K10",
+      "owner": "builder-automazioni",
+      "sintomo": "applica --scrivi rimette chiuso_il = --quando a ogni voce «già riparata» della campagna: il 15/11 ha portato 7 voci chiuse il 13/11 al 15/11 06:39 (rimesse a mano al 13/11). chiudi-sito, lanciato sulla cartella dei frammenti intera, riscrive chiuso_il, chiuso_da e nota_riparazione anche delle voci già riparate: sulle 200 della campagna avrebbe ritimbrato le 193 già chiuse con #288 e #290 (per questo l'ho lanciato solo sulle 7). Inoltre applica riscrive il campo riparazione_GG_MM di voci che restano aperte e perde la ragione di prima: R08-012 è passata da «rossa al controllo sul ramo unito (C01: lib/riordino.ts:60 …)» a «collaudo: parziale».",
+      "causa_radice": "Né applica né chiudi-sito guardano se la voce ha già una chiusura: scrivono sempre la data e la firma di questo giro.",
+      "fix_proposto": "Una voce che ha già chiuso_il (o stato riparato) tiene data e firma; applica unisce la ragione nuova con quella vecchia invece di sostituirla.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si chiude con una prova che lancia applica --scrivi e chiudi-sito due volte sulla stessa campagna e trova chiuso_il delle voci già chiuse invariato, e la ragione «rossa al controllo» ancora presente."
+      }
     }
   ],
   "meta": {
