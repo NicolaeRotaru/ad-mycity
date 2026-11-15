@@ -1,6 +1,6 @@
 {
  "_cosa_e": "Fascicolo compatto delle onde 1 e 2 della campagna «sito, tutto» (12-15/11/2026), costruito da un programma. Leggere questo prima dei file grezzi.",
- "_costruito": "2026-11-15 05:20",
+ "_costruito": "2026-11-15 05:05",
  "campagna": {
   "voci_totali": 662,
   "candidate_onda2": 414,
@@ -18,7 +18,7 @@
  "limite_settimanale": {
   "azzera": "giovedì 19/11/2026 10:00 (resetsAt di get_session); finestra partita giovedì 12/11 10:00",
   "calibrazione": "Nicola, 12/11 sera: «perché il 20% del limite settimanale?» quando l'onda 1 era a 610 $ di listino → circa 30,5 $ per punto. Se nel 20% c'era altro, è un tetto (le quote vere sono più basse).",
-  "stato": "allowed alle 03:55 del 15/11; allowed_warning il 14/11 07:50-08:40; isUsingOverage false",
+  "stato": "allowed alle 04:55 del 15/11; allowed_warning il 14/11 07:50-08:40; isUsingOverage false",
   "stima_usata_in_finestra_dalla_campagna_usd": 2237,
   "stima_quota": "circa 73% al massimo",
   "restante_fino_al_reset_usd": "al massimo circa 800 (meno le altre chat della settimana)",
