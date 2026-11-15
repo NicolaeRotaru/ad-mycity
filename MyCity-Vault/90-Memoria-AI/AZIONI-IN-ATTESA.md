@@ -50,7 +50,7 @@ Se va bene: la voce entra nel giro allargato o nel controllo, e si chiude se reg
 
 ### 🟡 #252 — Scegli quanto fare del giro allargato dell'onda 2, perché intero sfora il tetto · ⏳ accodata 2026-11-14 17:16
 
-**Numero cambiato il 15/11:** fino a stamattina era la #244. La tua risposta «244 a», del 15/11 alle 00:32, vale per questa carta. Il numero 244 è rimasto alla carta dell'AD nata alle 06:23: le due carte erano nate su due rami diversi con lo stesso numero, e unendo i rami il numero sarebbe valso due carte.
+**Numero cambiato il 15/11:** fino a stamattina era la #244. La tua risposta «244 a», del 15/11 alle 00:32, vale per questa carta. Il perché del cambio è scritto nella carta 253.
 
 **Stato:** ✅ FATTO 2026-11-15 00:58. Hai scelto la «a». Il preventivo è la carta 248.
 
@@ -67,7 +67,7 @@ Se va bene: la regista prepara il preventivo delle 6 gravi e te lo porta prima d
 
 ### 🟡 #251 — Dai il sì per mettere il lavoro dell'onda 2 nella richiesta di unione del sito · ⏳ accodata 2026-11-14 17:16
 
-**Numero cambiato il 15/11:** fino a stamattina era la #243. La tua risposta «ok 243», del 15/11 alle 00:32, vale per questa carta. Il numero 243 è rimasto alla carta dell'AD nata alle 06:23: le due carte erano nate su due rami diversi con lo stesso numero, e unendo i rami il numero sarebbe valso due carte.
+**Numero cambiato il 15/11:** fino a stamattina era la #243. La tua risposta «ok 243», del 15/11 alle 00:32, vale per questa carta.
 
 **Stato:** ✅ FATTO 2026-11-15 00:54. Hai scritto «ok 243». I nove rami sono nella richiesta di unione del sito, senza le tre correzioni difettose. Le prove automatiche sono tutte verdi, e la richiesta si può unire. Resta in bozza: unirla è tua.
 
@@ -120,7 +120,7 @@ Se va bene: la regista controlla online la cassa, il salvataggio di un prodotto 
 
 **Cosa cambia per te.** I due riparatori lavorano sul codice già riunito, quindi nessun file è di un'altra sessione. Esempio: il bonifico del lunedì e la pagina Guadagni stanno nello stesso file, e li ripara la stessa sessione.
 - Soldi: il bonifico del lunedì, con la tua scelta «a» della carta 246, e la pagina Guadagni coi soli contanti. Tetto 20 $.
-- Vetrina e fattorino: le foto delle categorie da cambiare dal pannello, le categorie vuote in home e nel piè di pagina, il pulsante di emergenza con la tua eccezione della carta 253 (allora 245). Tetto 18 $.
+- Vetrina e fattorino: le foto delle categorie da cambiare dal pannello e le categorie vuote in home e nel piè di pagina. Poi il pulsante di emergenza, con la tua eccezione della carta 253 (allora 245). Tetto 18 $.
 - Un collaudatore per tutte e 6. Tetto 20 $.
 - La falla riservata va su una strada a parte, con i dettagli solo in chat. Tetto 12 $.
 
