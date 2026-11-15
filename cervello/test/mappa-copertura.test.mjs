@@ -44,6 +44,10 @@ test("una guardia svegliata su uno strumento che non sa trattare NON conta come 
   const { ramoDi } = await import("../pre-scrittura.mjs");
   const filtro = freni([["Bash|Monitor|Task|Agent|Workflow|mcp__.*", "node cervello/pre-scrittura.mjs --hook"]]);
 
+  // Il filtro resta letto alla lettera: «Task» nel filtro NON prende «Agent» (AR-1019). Che il motore
+  // tratti Task come alias di Agent è un fatto della versione, non una copertura su cui contare.
+  assert.equal(copre("Bash|Monitor|Task|mcp__.*", "Agent"), false);
+
   // Il caso vero: la guardia di oggi tratta Agent (ancora) e Workflow (preventivo).
   assert.equal(ramoDi("Agent"), "delega");
   assert.equal(ramoDi("Workflow"), "squadra");

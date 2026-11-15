@@ -569,7 +569,7 @@
    "estensioni": [
     ".mjs"
    ],
-   "baseline": 14,
+   "baseline": 13,
    "file_noti": [
     "cervello/cancello-senior.mjs",
     "cervello/cancello-stop.mjs",
@@ -588,6 +588,7 @@
     "cervello/storia-git.mjs"
    ],
    "curati": [
+    "cervello/pre-scrittura.mjs",
     "cervello/git-github.mjs",
     "cervello/git-pr.mjs",
     "cervello/prossimo-ar.mjs"

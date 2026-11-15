@@ -1,4 +1,4 @@
-// Preventivo: 12 subagenti (il tetto di args.max_agenti), circa 1,8 milioni di token — se si alza max_agenti, si alza anche questa riga
+// Preventivo: 12 subagenti (il tetto di args.max_agenti), circa 1,8 milioni di token — se si alza max_agenti, si alza anche questa riga · regge con args.max_agenti ≤ 12
 // 🌊 ONDATA SNELLA — ripara UN'ondata del sito col metodo snello (CLAUDE.md, paragrafo 🪙).
 //
 // PERCHE' ESISTE. L'ondata del 28/10 con `ondata-sito.js`: 54 subagenti e 118 milioni di token riletti, 27

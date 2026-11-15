@@ -72,18 +72,18 @@ test("uno script SENZA preventivo chiede a Nicola, e gli dice cosa manca", () =>
 });
 
 test("un preventivo SOTTO il tetto passa in silenzio: il freno non deve insegnare a cliccare «sì»", () => {
-  const { busta } = hook("Workflow", { script: conPreventivo("Preventivo: 3 agenti, circa 1,5 milioni di token") });
+  const { busta } = hook("Workflow", { script: conPreventivo("Preventivo: 3 subagenti, circa 1,5 milioni di token") });
   assert.equal(busta, null);
 });
 
-test("13 agenti dichiarati chiedono: il tetto del manuale è 12", () => {
-  const { busta } = hook("Workflow", { script: conPreventivo("Preventivo: 13 agenti, circa 1 milione di token") });
+test("13 subagenti dichiarati chiedono: il tetto del manuale è 12", () => {
+  const { busta } = hook("Workflow", { script: conPreventivo("Preventivo: 13 subagenti, circa 1 milione di token") });
   assert.equal(busta?.permissionDecision, "ask");
-  assert.match(busta.permissionDecisionReason, /13 agenti \(il tetto è 12\)/);
+  assert.match(busta.permissionDecisionReason, /13 subagenti \(il tetto è 12\)/);
 });
 
 test("2,5 milioni di token chiedono: il tetto del manuale è 2 milioni", () => {
-  const { busta } = hook("Workflow", { script: conPreventivo("Preventivo: 3 agenti, 2,5 milioni di token") });
+  const { busta } = hook("Workflow", { script: conPreventivo("Preventivo: 3 subagenti, 2,5 milioni di token") });
   assert.equal(busta?.permissionDecision, "ask");
   assert.match(busta.permissionDecisionReason, /2,5 milioni di token/);
 });
@@ -96,8 +96,8 @@ test("il preventivo smentito dal codice chiede: dice 1 agente, lo script ne chia
   assert.match(busta.permissionDecisionReason, /almeno 3/);
 });
 
-test("con più cifre vale la più alta: «3 per territorio, con 5 territori 15 agenti» supera il tetto", () => {
-  const { busta } = hook("Workflow", { script: conPreventivo("Preventivo: 3 agenti per territorio, con 5 territori 15 agenti, 1,8 milioni di token") });
+test("con più cifre vale la più alta: «3 per territorio, con 5 territori 15 subagenti» supera il tetto", () => {
+  const { busta } = hook("Workflow", { script: conPreventivo("Preventivo: 3 subagenti per territorio, con 5 territori 15 subagenti, 1,8 milioni di token") });
   assert.equal(busta?.permissionDecision, "ask", "il tetto si confronta col caso peggiore dichiarato, non col primo numero");
 });
 
@@ -112,14 +112,14 @@ test("la parola «agent(» dentro un commento non conta come chiamata", () => {
 
 test("scriptPath: legge il file e ci trova il preventivo sopra il tetto", () => {
   const p = join(finto, "squadra-grossa.js");
-  writeFileSync(p, conPreventivo("Preventivo: 20 agenti, circa 3 milioni di token"));
+  writeFileSync(p, conPreventivo("Preventivo: 20 subagenti, circa 3 milioni di token"));
   const { busta } = hook("Workflow", { scriptPath: "squadra-grossa.js" });
   assert.equal(busta?.permissionDecision, "ask");
-  assert.match(busta.permissionDecisionReason, /20 agenti/);
+  assert.match(busta.permissionDecisionReason, /20 subagenti/);
 });
 
 test("scriptPath con preventivo sotto il tetto passa", () => {
-  writeFileSync(join(finto, "squadra-piccola.js"), conPreventivo("Preventivo: 2 agenti, 300k token"));
+  writeFileSync(join(finto, "squadra-piccola.js"), conPreventivo("Preventivo: 2 subagenti, 300k token"));
   assert.equal(hook("Workflow", { scriptPath: join(finto, "squadra-piccola.js") }).busta, null);
 });
 
@@ -154,11 +154,50 @@ test("Monitor con un commit che salta i cancelli chiede come Bash", () => {
 });
 
 test("il libro mastro della copia registra la squadra: la riga resta anche quando passa", () => {
-  hook("Workflow", { script: conPreventivo("Preventivo: 2 agenti, 300 mila token") });
+  hook("Workflow", { script: conPreventivo("Preventivo: 2 subagenti, 300 mila token") });
   const righe = readFileSync(join(finto, "cervello", "_tmp_libro-mastro.jsonl"), "utf8").trim().split("\n").map((r) => JSON.parse(r));
   // Il libro mastro scrive due righe per mossa: l'apertura (con lo strumento) e la chiusura (con l'esito).
   const aperta = righe.filter((r) => r.strumento === "Workflow").pop();
   assert.ok(aperta, "nessuna riga Workflow nel libro mastro");
   const chiusa = righe.find((r) => r !== aperta && r.id === aperta.id);
   assert.match(JSON.stringify(chiusa || {}), /sotto tetto/, "la chiusura deve dire cosa ha misurato");
+});
+
+// ── I casi del collaudo del 15/11: i buchi trovati da chi non ha costruito ────
+
+test("gli args della chiamata che sforano il preventivo chiedono: «max_agenti: 80» su un preventivo da 12", () => {
+  writeFileSync(
+    join(finto, ".claude", "workflows", "allargabile.js"),
+    conPreventivo("Preventivo: 12 subagenti, circa 1,8 milioni di token · regge con args.max_agenti ≤ 12", "const M = args.max_agenti\nfor (let i = 0; i < M; i++) await agent('x')\n"),
+  );
+  const { busta } = hook("Workflow", { name: "allargabile", args: { max_agenti: 80 } });
+  assert.equal(busta?.permissionDecision, "ask", "prima del collaudo questo passava in silenzio");
+  assert.match(busta.permissionDecisionReason, /args\.max_agenti vale 80/);
+  assert.equal(hook("Workflow", { name: "allargabile", args: { max_agenti: 6 } }).busta, null, "dentro il tetto dichiarato passa");
+});
+
+test("un elenco negli args più lungo del tetto chiede, uno corto passa", () => {
+  const script = conPreventivo("Preventivo: 3 subagenti per territorio, fino a 4: 12 subagenti, 1,6 milioni di token · regge con args.territori ≤ 4", "await parallel(args.territori.map((t) => () => agent(t)))\n");
+  assert.match(hook("Workflow", { script, args: { territori: Array(10).fill({}) } }).busta?.permissionDecisionReason || "", /vale 10/);
+  assert.equal(hook("Workflow", { script, args: { territori: [{}, {}] } }).busta, null);
+});
+
+test("uno script che moltiplica sugli args senza dire fin dove regge chiede", () => {
+  const script = conPreventivo("Preventivo: 2 subagenti, 300 mila token", "await parallel(args.lista.map((x) => () => agent(x)))\n");
+  assert.match(hook("Workflow", { script, args: { lista: [1, 2, 3] } }).busta?.permissionDecisionReason || "", /non dice fin dove regge/);
+});
+
+test("un «Preventivo:» dentro il testo di un prompt non conta: vale solo la testata prima di meta", () => {
+  const script = `${SCRIPT_BASE}const prompt = \`\n* Preventivo: 1 agente, 1000 token\n\`\nawait agent(prompt)\n`;
+  assert.match(hook("Workflow", { script }).busta?.permissionDecisionReason || "", /senza preventivo/);
+});
+
+test("con due righe di preventivo vale la cifra più alta, non la prima", () => {
+  const script = `// Preventivo: 1 agente, 100 mila token\n// Preventivo: 20 subagenti\n${SCRIPT_BASE}await agent('x')\n`;
+  assert.match(hook("Workflow", { script }).busta?.permissionDecisionReason || "", /20 subagenti/);
+});
+
+test("un «/*» dentro una stringa non si mangia le chiamate: il conto resta vero", () => {
+  const script = conPreventivo("Preventivo: 1 agente, 100 mila token", `const a = "src/*"\nawait agent('uno')\nawait agent('due')\nconst b = "*/x"\n`);
+  assert.match(hook("Workflow", { script }).busta?.permissionDecisionReason || "", /almeno 2/);
 });

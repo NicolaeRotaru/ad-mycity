@@ -1,4 +1,4 @@
-// Preventivo: 3 subagenti per territorio, fino a 4 territori per corsa: 12 subagenti, circa 1,6 milioni di token — con più territori in una corsa sale, e va riscritta
+// Preventivo: 3 subagenti per territorio, fino a 4 territori per corsa: 12 subagenti, circa 1,6 milioni di token — con più territori in una corsa sale, e va riscritta · regge con args.territori ≤ 4
 // 🔎 PRE-DIAGNOSI DEL SITO — la ricetta di ogni difetto, scritta e verificata PRIMA di riparare.
 //
 // Nato il 24/10/2026 dalla domanda di Nicola: «Dobbiamo risolverli nel minor tempo possibile, riesci a

@@ -11917,6 +11917,26 @@
    "cerca": "  if (dichiarata) for (const a of aree) if (parole(a) === parole(dichiarata)) return a;",
    "sostituisci": "  if (dichiarata) return dichiarata;",
    "test": "cervello/test/i-nati-della-riparazione-alzano-il-totale.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "",
+   "lezione": "regola ⑱ del manuale dell'AD — il tetto dei 12 agenti",
+   "nome": "il tetto degli agenti spento: una squadra da 13 agenti dichiarati parte senza chiedere a Nicola",
+   "file": "cervello/pre-scrittura.mjs",
+   "cerca": "  if (p.agenti > TETTO_AGENTI) sopra.push(",
+   "sostituisci": "  if (false) sopra.push(",
+   "test": "cervello/test/pre-scrittura-squadra.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "",
+   "lezione": "regola ⑱ del manuale dell'AD — gli args che allargano la squadra (collaudo 15/11)",
+   "nome": "gli args della chiamata ignorati: «max_agenti: 80» su un preventivo da 12 passa in silenzio",
+   "file": "cervello/pre-scrittura.mjs",
+   "cerca": "    if (fuori.length) {",
+   "sostituisci": "    if (false) {",
+   "test": "cervello/test/pre-scrittura-squadra.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",

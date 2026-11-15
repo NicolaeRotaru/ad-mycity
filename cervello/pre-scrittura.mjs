@@ -151,24 +151,69 @@ const UNITA = { milione: 1e6, milioni: 1e6, mln: 1e6, m: 1e6, mila: 1e3, k: 1e3 
  * è un preventivo. Torna {trovato, riga, agenti, token}; agenti/token null se la riga non li dice.
  */
 export function leggiPreventivo(script = "") {
-  const righe = String(script).split("\n");
-  const riga = righe.find((r) => /^\s*(\/\/|\/?\*)\s*Preventivo\s*:/i.test(r));
-  if (!riga) return { trovato: false, riga: "", agenti: null, token: null };
-  const testo = riga.replace(/^\s*(\/\/|\/?\*)\s*Preventivo\s*:/i, "");
+  // Solo la testata: le righe di commento PRIMA di `export const meta`. Una riga «* Preventivo: …»
+  // dentro il testo di un prompt più sotto non è un preventivo (trovato dal collaudo del 15/11).
+  const righe = [];
+  for (const r of String(script).split("\n")) {
+    if (/^\s*export\s+const\s+meta\b/.test(r)) break;
+    righe.push(r);
+  }
+  const TESTA = /^\s*(\/\/|\/?\*)\s*Preventivo\s*:/i;
+  const trovate = righe.filter((r) => TESTA.test(r));
+  if (!trovate.length) return { trovato: false, riga: "", agenti: null, token: null, limitiArgs: {} };
+  // Più righe di preventivo: si leggono TUTTE e vale la cifra più alta, non la prima.
+  const testo = trovate.map((r) => r.replace(TESTA, "")).join(" ");
 
   const agenti = [...testo.matchAll(/(\d+)\s*(?:sub-?)?agent[ie]?\b/gi)].map((m) => Number(m[1]));
   const token = [...testo.matchAll(/(\d[\d.,]*)\s*(milion[ei]|mln|mila|m|k)?\s*(?:di\s+)?token/gi)].map((m) => {
     const unita = (m[2] || "").toLowerCase();
     return numeroItaliano(m[1], Boolean(unita)) * (UNITA[unita] || 1);
   });
+  // I tetti sugli argomenti della chiamata: «args.max_agenti ≤ 12», «args.territori <= 4».
+  const limitiArgs = {};
+  for (const m of testo.matchAll(/args\.(\w+)\s*(?:≤|<=)\s*(\d+)/g)) limitiArgs[m[1]] = Number(m[2]);
   const massimo = (xs) => (xs.filter(Number.isFinite).length ? Math.max(...xs.filter(Number.isFinite)) : null);
-  return { trovato: true, riga: riga.trim(), agenti: massimo(agenti), token: massimo(token) };
+  return { trovato: true, riga: trovate.map((r) => r.trim()).join(" · "), agenti: massimo(agenti), token: massimo(token), limitiArgs };
+}
+
+/**
+ * Gli argomenti della chiamata che sforano i tetti dichiarati nel preventivo. Un numero si confronta
+ * col tetto, un elenco con la sua lunghezza. Puro. Torna le frasi da dire, vuoto se tutto torna.
+ */
+export function argsOltreIlPreventivo(args, limiti = {}) {
+  let a = args;
+  if (typeof a === "string") {
+    try {
+      a = JSON.parse(a);
+    } catch {
+      // Argomenti che non so leggere non sono «argomenti piccoli»: lo dico, e la guardia chiede.
+      return Object.keys(limiti).length ? ["gli args arrivano come testo che non è JSON, quindi non posso confrontarli col preventivo"] : [];
+    }
+  }
+  if (!a || typeof a !== "object") return [];
+  const fuori = [];
+  for (const [chiave, tetto] of Object.entries(limiti)) {
+    const v = a[chiave];
+    const misura = Array.isArray(v) ? v.length : typeof v === "number" ? v : Number.isFinite(Number(v)) && v !== "" && v != null ? Number(v) : null;
+    if (misura != null && misura > tetto) fuori.push(`args.${chiave} vale ${misura}, il preventivo regge fino a ${tetto}`);
+  }
+  return fuori;
+}
+
+/** La chiamata porta argomenti veri? (un oggetto vuoto o una stringa vuota non allargano niente) */
+function haArgs(args) {
+  if (args == null || args === "") return false;
+  if (Array.isArray(args)) return args.length > 0;
+  if (typeof args === "object") return Object.keys(args).length > 0;
+  return true;
 }
 
 /** Lo script senza commenti, per contare le chiamate vere e non quelle citate nel racconto. */
 function senzaCommentiJs(script = "") {
   return String(script)
-    .replace(/\/\*[\s\S]*?\*\//g, "")
+    // Solo i blocchi che APRONO una riga: un «/*» dentro una stringa (un percorso «src/*») non apre
+    // niente, e toglierlo si mangiava le chiamate vere fino al «*/» seguente (collaudo del 15/11).
+    .replace(/^[ \t]*\/\*[\s\S]*?\*\//gm, "")
     .split("\n")
     .map((r) => (/^\s*\/\//.test(r) ? "" : r))
     .join("\n");
@@ -186,7 +231,10 @@ export function contaAgenti(script = "") {
   return { minimo, moltiplicatori };
 }
 
-const milioni = (n) => `${(n / 1e6).toLocaleString("it-IT", { maximumFractionDigits: 2 })} milioni`;
+const milioni = (n) =>
+  n >= 1e6
+    ? `${(n / 1e6).toLocaleString("it-IT", { maximumFractionDigits: 2 })} milioni`
+    : `${Math.round(n / 1e3).toLocaleString("it-IT")} mila`;
 
 /**
  * La decisione su una squadra. Pura.
@@ -194,7 +242,7 @@ const milioni = (n) => `${(n / 1e6).toLocaleString("it-IT", { maximumFractionDig
  * @param {{script?:string, origine?:string, errore?:string}} s
  * @returns {{chiedi:boolean, classe:string|null, motivo:string|null, nota:string}}
  */
-export function decidiSquadra({ script = "", origine = "script", errore = "" } = {}) {
+export function decidiSquadra({ script = "", origine = "script", errore = "", args = undefined } = {}) {
   const chiedi = (classe, motivo) => ({ chiedi: true, classe, motivo, nota: motivo });
   if (errore || !String(script).trim()) {
     return chiedi(
@@ -224,15 +272,34 @@ export function decidiSquadra({ script = "", origine = "script", errore = "" } =
         `di ${TETTO_AGENTI} agenti e ${milioni(TETTO_TOKEN)} di token.${molt}`,
     );
   }
+  // Gli argomenti della chiamata allargano la squadra? (collaudo del 15/11: `max_agenti: 80` passava)
+  const legge = /\bargs\b/.test(senzaCommentiJs(script));
+  if (legge && haArgs(args)) {
+    const fuori = argsOltreIlPreventivo(args, p.limitiArgs);
+    if (fuori.length) {
+      return chiedi(
+        "preventivo-smentito-dagli-args",
+        `la squadra (${origine}) parte con argomenti più grandi di quelli che il preventivo copre: ${fuori.join("; ")}. ` +
+          `Il preventivo «${p.riga}» qui non vale più.`,
+      );
+    }
+    if (moltiplicatori.length && !Object.keys(p.limitiArgs).length) {
+      return chiedi(
+        "preventivo-senza-tetto-sugli-args",
+        `la squadra (${origine}) legge gli argomenti della chiamata e moltiplica gli agenti (${moltiplicatori.join(", ")}), ` +
+          `ma il preventivo non dice fin dove regge (es. «args.max_agenti ≤ 12»): con argomenti più grandi partono più agenti di quelli scritti.`,
+      );
+    }
+  }
   if (minimo > p.agenti) {
     return chiedi(
       "preventivo-smentito",
-      `il preventivo della squadra (${origine}) dice ${p.agenti} agenti, ma lo script ne chiama almeno ${minimo}: il codice smentisce ` +
+      `il preventivo della squadra (${origine}) dice ${p.agenti} subagenti, ma lo script ne chiama almeno ${minimo}: il codice smentisce ` +
         `la stima prima ancora di partire.${molt}`,
     );
   }
   const sopra = [];
-  if (p.agenti > TETTO_AGENTI) sopra.push(`${p.agenti} agenti (il tetto è ${TETTO_AGENTI})`);
+  if (p.agenti > TETTO_AGENTI) sopra.push(`${p.agenti} subagenti (il tetto è ${TETTO_AGENTI})`);
   if (p.token > TETTO_TOKEN) sopra.push(`${milioni(p.token)} di token (il tetto è ${milioni(TETTO_TOKEN)})`);
   if (sopra.length) {
     return chiedi(
@@ -245,7 +312,7 @@ export function decidiSquadra({ script = "", origine = "script", errore = "" } =
     chiedi: false,
     classe: null,
     motivo: null,
-    nota: `squadra sotto tetto (${origine}): preventivo ${p.agenti} agenti e ${milioni(p.token)} di token, almeno ${minimo} chiamate nel codice.${molt}`,
+    nota: `squadra sotto tetto (${origine}): preventivo ${p.agenti} subagenti e ${milioni(p.token)} di token, almeno ${minimo} chiamate nel codice.${molt}`,
   };
 }
 
@@ -460,7 +527,7 @@ export function suMossa(ev, { repo = REPO, difese = difeseDelRepo, mastro = { an
 
   // Parte una squadra: leggo il preventivo e lo confronto col tetto (regola ⑱).
   if (STRUMENTI_DI_SQUADRA.has(strumento)) {
-    const d = decidiSquadra(scriptDelWorkflow(ev?.tool_input, { repo, cwd: ev?.cwd || repo }));
+    const d = decidiSquadra({ ...scriptDelWorkflow(ev?.tool_input, { repo, cwd: ev?.cwd || repo }), args: ev?.tool_input?.args });
     mastro.chiudi(id, d.chiedi ? "chiede" : "ok", d.nota);
     return { busta: bustaDecisione(d), ancora: null };
   }
