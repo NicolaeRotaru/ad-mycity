@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-11-13 04:01
+aggiornato: 2026-11-15 05:59
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🔧 **2026-11-15 05:59 — Il piano per chiudere più difetti dentro il limite: l'onda 2 è costata cinque volte l'onda 1 per ogni difetto.**
+>
+> L'onda 1 della riparazione del sito ha chiuso 122 difetti con 610 $, circa 5 $ l'uno. L'onda 2 ne ha chiusi circa 60 con circa 1.630 $, circa 27 $ l'uno. È stata unita nel sito il 15/11 alle 03:07, ma il registro non è ancora aggiornato. Il salto viene da registe e riletture, non dalla difficoltà: 92 difetti su 100 erano piccoli. Il piano: fino a giovedì 19/11 alle 10:00 al massimo circa 350 $ per circa 35-45 difetti, poi circa 90-110 a settimana. Aspetta sette tuoi sì o no, il primo è la percentuale vera del limite. Nel registro del sito al 13/11: 764 voci aperte, di cui 6 bloccanti e 76 gravi. Piano: `consegne/audit/2026-11-15-lezioni-onde/piano.md` (richiesta ad-mycity#958).
 
 > ✅ **2026-11-13 02:55 — Hai unito la richiesta della macchina #944.**
 >
