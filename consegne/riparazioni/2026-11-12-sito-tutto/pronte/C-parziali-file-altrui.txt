@@ -1,4 +1,4 @@
-# elenco C di pronte (2026-11-15 11:16): 41 voci uniche, una chiave per riga
+# elenco C di pronte (2026-11-15 23:38): 41 voci uniche, una chiave per riga
 privacy-legale|accogliere una segnalazione non toglie il prodotto: resta online, e a chi ha segnalato si scrive che è stato rimosso
 frontend-ux|la vetrina dice «recensioni · 20» ma ne fa leggere solo sei, senza modo di vedere le altre
 pagamenti-stripe|un rimborso arrivato dopo il bonifico del lunedì non viene mai ripreso al negozio

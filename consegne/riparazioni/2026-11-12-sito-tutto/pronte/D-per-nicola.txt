@@ -1,4 +1,4 @@
-# elenco D di pronte (2026-11-15 11:16): 85 voci uniche, una chiave per riga
+# elenco D di pronte (2026-11-15 23:38): 83 voci uniche, una chiave per riga
 deploy-sre|il rilascio non applica le migrazioni: il codice nuovo arriva su un database vecchio
 deploy-sre|ogni unione su main pubblica in produzione senza aspettare la ci
 deploy-sre|oggi nessun cliente può ordinare: al sito vero manca la chiave di servizio del database
@@ -62,9 +62,7 @@ frontend-ux|il cliente legge «il tuo rider» e il negozio legge «cliente» al 
 privacy-legale|i nomi di sedici account cancellati restano nel registro delle azioni
 qa-flussi|la risalita dei genitori delle categorie non ha un tetto
 qa-flussi|il nome scritto alla registrazione si perde e il profilo resta senza nome
-rls-database|chi non ha fatto l'accesso non vede la pagina eventi: legge «non riesco a leggere gli eventi» perché la regola dell'amministratore blocca anche la sola lettura
 rls-database|il database accetta un codice sconto del 150% e importi in soldi negativi
-rls-database|un reclamo può restare legato a un ordine che non esiste
 rls-database|su un progetto supabase nuovo le migrazioni girano, ma i visitatori non leggono quasi nessuna tabella: i permessi non sono scritti
 rls-database|manca la colonna della scadenza del documento d'identità: si può controllare solo patente e polizza
 rls-database|il controllo del codice di benvenuto nel database conta ancora gli ordini annullati come primo ordine

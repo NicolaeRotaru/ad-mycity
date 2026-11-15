@@ -33,6 +33,8 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ### 🟡 #256 — Scegli quanta onda 3 del sito partire prima di giovedì · ⏳ accodata 2026-11-15 11:35
 
+**Stato:** ✅ RISPOSTA 2026-11-15 23:35: «1 = 12%, 2 fatto, 3a, 4a, 5a». Parte il primo pezzo. Ultracode resta spento su tutti i riparatori. La regola del collaudo va nel piano. Il freno però alle 23:37 non c'era in nessuno dei due depositi: l'AD l'ha chiesto di nuovo.
+
 **In parole semplici.** Hai detto «Parti con l'ondata 3». L'onda intera conta 261 voci da riparare e, coi costi veri dell'onda 2, vale circa 2.030 $. Fino a giovedì 19/11 alle 10:00 restano circa 215 $ su 350 $, il tetto firmato stamattina. Quindi propongo un primo pezzo misurato.
 
 **Cosa cambia per te.** Esempio: tre riparatori da 22 voci l'uno e un collaudo delle riparazioni mai giudicate, circa 195 $ in tutto, cioè circa il 6% della settimana. Si chiudono circa 30-45 difetti entro giovedì, e le altre circa 195 voci partono dopo le 10:00 di giovedì col limite nuovo.
@@ -42,7 +44,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 - 2: il freno sugli agenti incollato in due posti, nelle impostazioni della macchina e in quelle del sito;
 - 3, ultracode sui due riparatori che hanno un grave. a: spento, lo consiglio. b: acceso.
 - 4, quanta onda. a: il primo pezzo fino a giovedì, lo consiglio. b: solo il collaudo delle riparate. c: l'onda intera, alzando il tetto.
-- 5, la regola del collaudo senza campione. a: scritta nel piano, così la leggono tutti e tre i programmi, lo consiglio. b: si corregge solo la frase della skill.
+- 5, la regola del collaudo senza campione. a: scritta nel piano, così la leggono tutti e tre i programmi, lo consiglio. b: la regola resta in un programma solo, e il manuale lo dice.
 
 **Cosa non ho verificato.** Il margine di 215 $ somma le spese dette dalle sessioni, non quello che vedi nell'app. La divisione l'ho provata solo su una copia. Il freno non l'ho provato su una sessione vera: quasi certamente non vede le sessioni aperte con ultracode.
 

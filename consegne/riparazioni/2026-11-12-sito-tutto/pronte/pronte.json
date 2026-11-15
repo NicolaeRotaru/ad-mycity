@@ -1,10 +1,10 @@
 {
-  "creato": "2026-11-15 11:16",
+  "creato": "2026-11-15 23:38",
   "conti": {
-    "A": 24,
+    "A": 16,
     "B": 42,
     "C": 41,
-    "D": 85
+    "D": 83
   },
   "righe_B": 53,
   "precedenti": {
@@ -379,14 +379,6 @@
       "modifiche": [],
       "file_che_servono": []
     },
-    "privacy-legale|il business plan e i conti unitari nei documenti del sito dicono ancora commissione all'8%, abbonamento a 15 €, piano gratis e mancia al fattorino": {
-      "id": "R04-023",
-      "elenco": "A",
-      "esito": "riparato",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
-    },
     "privacy-legale|con il fornitore onfido acceso, ogni chiamata (fino a 5 l'ora) crea da onfido una nuova scheda con nome, email e data di nascita, ma senza caricare i documenti. restano schede orfane con dati personali, e alla cancellazione dell'account nessuno le toglie": {
       "id": "R04-024",
       "elenco": "D",
@@ -614,14 +606,6 @@
       "modifiche": [],
       "file_che_servono": []
     },
-    "coerenza-brand|la pagina che si apre dal link di conferma email non sembra mycity: niente logo, carattere di sistema, bottone verde": {
-      "id": "R07-010",
-      "elenco": "A",
-      "esito": "riparato",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
-    },
     "deploy-sre|il ritorno indietro può ancora scegliere il rilascio sbagliato in due casi rari: un solo altro commit negli ultimi 20 rilasci, o un dominio che non dice il suo commit": {
       "id": "R07-011",
       "elenco": "C",
@@ -641,22 +625,6 @@
       "id": "R07-012",
       "elenco": "D",
       "esito": "scelta_di_nicola",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
-    },
-    "frontend-ux|in una lista, i prodotti che il negozio ha tolto dalla vetrina restano contati ma non si vedono e non si possono togliere": {
-      "id": "R07-014",
-      "elenco": "A",
-      "esito": "riparato",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
-    },
-    "frontend-ux|funzioni spente, da sistemare prima di riaccenderle. classifica inviti e drop leggono senza guardare l'errore, quindi mostrano «classifica vuota · sii il primo…» e «nessun drop per oggi» anche quando la lettura è caduta. il drop usa il giorno di greenwich: fra mezzanotte e l'1-2 di notte, ora di piacenza, la data minima e l'elenco sono su ieri": {
-      "id": "R07-017",
-      "elenco": "A",
-      "esito": "riparato",
       "cosa_resta": null,
       "modifiche": [],
       "file_che_servono": []
@@ -1926,30 +1894,6 @@
         "components/ui/LegalLayout.tsx"
       ]
     },
-    "qa-flussi|il pannello della home suggerisce ancora «i più amati / prodotti che vanno forte»": {
-      "id": "R15-012",
-      "elenco": "A",
-      "esito": "riparato",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
-    },
-    "qa-flussi|con tre tocchi veloci sul cuore e una rete che consegna le richieste in disordine, il preferito resta tolto anche se l'ultimo tocco era «aggiungi»": {
-      "id": "R15-013",
-      "elenco": "A",
-      "esito": "riparato",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
-    },
-    "qa-flussi|loadingstate annuncia solo il suo aria-label in una regione viva": {
-      "id": "R15-014",
-      "elenco": "A",
-      "esito": "riparato",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
-    },
     "qa-flussi|la consegna veloce si vende a tutti insieme anche con un solo fattorino: nessuno conta quante veloci ha già in mano": {
       "id": "R15-015",
       "elenco": "C",
@@ -2159,14 +2103,6 @@
       "modifiche": [],
       "file_che_servono": []
     },
-    "qa-flussi|un doppio tocco su «crea lista» crea due liste uguali, e aprendo la finestra il cursore va su «chiudi» invece che sul nome": {
-      "id": "R18-009",
-      "elenco": "A",
-      "esito": "riparato",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
-    },
     "qa-flussi|la promo «oggi, fino a mezzanotte» finisce a mezzanotte del fuso del telefono, non di piacenza": {
       "id": "R18-011",
       "elenco": "B",
@@ -2270,24 +2206,8 @@
         "tests/unit/zz-collaudo-termini-chi.test.tsx"
       ]
     },
-    "rls-database|chi non ha fatto l'accesso non vede la pagina eventi: legge «non riesco a leggere gli eventi» perché la regola dell'amministratore blocca anche la sola lettura": {
-      "id": "R18-018",
-      "elenco": "D",
-      "esito": "riparato",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
-    },
     "rls-database|il database accetta un codice sconto del 150% e importi in soldi negativi": {
       "id": "R18-019",
-      "elenco": "D",
-      "esito": "riparato",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
-    },
-    "rls-database|un reclamo può restare legato a un ordine che non esiste": {
-      "id": "R18-020",
       "elenco": "D",
       "esito": "riparato",
       "cosa_resta": null,

@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-15 11:30
+aggiornato: 2026-11-15 23:50
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 15/11 alle 23:35 | l'AD, chat «Ondata 3» | «1 = 12%, 2 fatto, 3a, 4a, 5a» (carta #256). Il 12% del limite settimanale è usato. Ultracode spento su tutti i riparatori dell'onda 3, anche con un grave. Parte il primo pezzo: R25, R26, R27 (66 voci), K11 sulle 16 riparate mai giudicate, K12, C03, tetto duro 215 $. La regola del collaudo senza campione va nel piano (AR-1184). Il freno non risulta su nessun ramo alle 23:37: richiesto di nuovo. Quaderno: `consegne/riparazioni/2026-11-12-sito-tutto/REGIA-ONDA-3.md` |
 | 15/11 alle 11:13 | l'AD, chat «Ondata 3» (`session_015BmpnV65jCuJATqykK8GtB`, la quarta AD del 15/11) | «Parti con l'ondata 3». L'AD prepara l'onda 3 del sito coi programmi e porta la fermata 1: `consegne/riparazioni/2026-11-12-sito-tutto/FERMATA-1-ONDA-3.md`. Nessuna sessione si apre prima del suo «via». La terza chat dell'AD tiene la sessione corta di K10 e le PR #966 e #967 finché non passa la mano. Mandata alla terza chat alle 11:20 |
 | 15/11 alle 07:36 | l'AD, nella chat vecchia | «a, passala a una chat nuova»: la chat dell'AD era al 65% della memoria. La chat nuova dell'AD è `session_015BmpnVXjpgkhAJActQd8KN`. L'officina e il taglio della #956 scrivono a lei. Il quaderno è `consegne/ad/2026-11-15-passaggio-chat-ad.md`. |
 | 15/11 alle 07:24 | l'AD, chat «Correzione difetti e limite settimanale» | «ok 244 b»: il sorvegliante (AR-969) esce dalla richiesta della macchina #956 e torna nel cantiere. Il controllo del glossario dei numeri (AR-962), che ha retto al secondo collaudo, entra da solo. Il taglio lo fa una sessione corta aperta dall'AD. |
