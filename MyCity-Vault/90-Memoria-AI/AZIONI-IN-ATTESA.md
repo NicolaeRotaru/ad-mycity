@@ -39,7 +39,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 **Cosa devi fare tu.** Niente, per ora: non unire la #962. Una sessione corta la sta correggendo, con un tetto di 12 $. Poi un collaudo corto ricontrolla solo il pezzo cambiato, e questa carta diventa «unisci».
 
-**Cosa non ho verificato.** Il referto non l'ho riletto io: mi baso sul messaggio del collaudatore. Il referto intero è nella richiesta #964.
+**Cosa non ho verificato.** Del referto ho letto la parte iniziale e l'elenco dei difetti. Le prove non le ho rifatte io. Il referto è in `consegne/officina-minima/collaudo-2026-11-15.md`.
 
 Cosa cambia: la richiesta dell'officina resta ferma finché la correzione non passa il collaudo.
 Se va bene: entro oggi la richiesta torna unibile, e una sessione corta scrive le 7 chiusure di K10 nel registro.

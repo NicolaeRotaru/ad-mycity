@@ -60,8 +60,8 @@ Le spese dell'officina e del taglio sono stime loro. Il codice dell'officina non
   - K10, session_015BmpnVoKwLXx38QpasjKQ7, ramo claude/f1-k10, commit 30d749c.
 
 ### Prossimi passi, in ordine
-1. FATTO alle 09:37: il collaudo dice NON SI PUÒ UNIRE (referto nella PR #964, circa 5 $). C'è 1 bloccante: la regola «niente campione fino a 40 voci» vale anche sui collaudi vecchi, riapre 7 voci chiuse e blocca le 7 di K10. Ci sono anche 5 minori. Il ritocco a) regge sui dati veri.
-1b. PARTITA alle 09:38 la costruttrice corta session_015BmpnWza8rDQJYPjDLnnzB, con tetto 12 $ e 2 subagenti. Corregge il bloccante e i minori 4 e 5 sul ramo officina-minima, e porta i minori 1-3 nel cantiere. Dopo serve un collaudo corto, solo sul pezzo cambiato.
+1. FATTO alle 09:37: il collaudo dice NON SI PUÒ UNIRE (referto in consegne/officina-minima/collaudo-2026-11-15.md, portato qui dalla #964; circa 6 $). C'è 1 bloccante: la regola «niente campione fino a 40 voci» vale anche sui collaudi vecchi, riapre 7 voci chiuse e blocca le 7 di K10. Ci sono anche 5 minori. Il ritocco a) regge sui dati veri.
+1b. PARTITA alle 09:38 la costruttrice corta session_015BmpnWza8rDQJYPjDLnnzB, con tetto 12 $ e 2 subagenti. Corregge il bloccante e i minori 2-5 sul ramo officina-minima, e porta il minore 1 nel cantiere. Dopo serve un collaudo corto, solo sul pezzo cambiato.
 2. Una costruttrice corta per AR-1178, poi il suo collaudo. Solo se il tetto lo permette.
 3. Officina collaudata e unita: una sessione corta lancia applica --scrivi con K10. Le 7 chiusure: R07-010, R07-014, R07-017, R15-014, R18-009, R18-018, R18-020. Porta nel registro anche gli 8 nati di K10.
 4. Pilota della cucitura su 25 voci. Sopra le 10 chiuse si allarga, sotto le 6 si ferma. Poi la misura su 40 minori mai lavorati. Tutti e due solo dopo l'officina e l'hook incollato da Nicola.
