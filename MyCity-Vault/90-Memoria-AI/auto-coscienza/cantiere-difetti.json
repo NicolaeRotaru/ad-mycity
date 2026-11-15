@@ -26764,11 +26764,12 @@
       "fonte": "ricollaudatore dell'officina minima, sessione figlia dell'AD (chat 3 del 15/11)",
       "sintomo": "La regola «sotto le 40 voci non si collauda a campione» la tiene solo valida-collaudo. applica e pronte chiamano decidi senza misura:true, quindi la saltano. Caso vero: K08 ha guardato a campione R15 e R16 (19 e 21 voci). valida-collaudo gli dà 6 rossi «il campione non esiste»; applica senza quel controllo chiude lo stesso R16-014, R16-015 e R16-016. Inoltre la skill riparazione, riga 466, promette che «applica --git li rilancia comunque da sé»: per questa regola non è più vero.",
       "causa_radice": "Nessun codice di produzione passa misura:true a decidi (applica e pronte): il ramo con la regola dentro decidi gira solo nei test.",
-      "fix_proposto": "Un campo nel piano, campione_fino_a_40_dall_onda (come verifica_testa_dall_onda), passato come misura ad applica e a pronte. Oppure correggere la riga 466 della skill riparazione perché dica la verità: la skill qui non si tocca, si segnala.",
+      "fix_proposto": "Decisione aperta: carta #255 (PR #966). Nicola sceglie fra (a) un campo nel piano, campione_fino_a_40_dall_onda come verifica_testa_dall_onda, passato come misura ad applica e a pronte, e (b) correggere solo la frase della riga 466 della skill riparazione. Qui non si sceglie la cura.",
       "verifica": {
         "tipo": "umano",
         "nota": "Si chiude con una prova che dà ad applica un collaudo a campione di un lotto sotto le 40 voci (es. K08 su R16) dall'onda del campo nel piano, e trova le voci resta_aperta."
-      }
+      },
+      "decisione_aperta": "carta #255"
     },
     {
       "id": "AR-1185",
@@ -26814,6 +26815,29 @@
       "verifica": {
         "tipo": "umano",
         "nota": "Si chiude con la mutazione proposta che fa uscire il guardiano diverso da 0 o «cieco». Non verificato: il guardiano sul server vero e la versione di node (sotto la 22.15 esce cieco, non verde)."
+      }
+    },
+    {
+      "id": "AR-1187",
+      "titolo": "Applica e chiudi-sito rimettono la data di oggi su voci già chiuse, e applica riscrive la ragione di voci che restano aperte",
+      "dimensione": "guardrail-semaforo",
+      "dove": "cervello/riparazione-sessioni.mjs (applica --scrivi) · cervello/chiudi-sito.mjs",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-15 19:10",
+      "nato_come": "scoperta",
+      "origine": "riparazione",
+      "nato_da": "scrittura nel registro del collaudo K10 sulla campagna 2026-11-12-sito-tutto (ad-mycity#970)",
+      "fonte": "sessione corta dell'AD (chat 3 del 15/11) che ha applicato K10",
+      "owner": "builder-automazioni",
+      "sintomo": "applica --scrivi rimette chiuso_il = --quando a ogni voce «già riparata» della campagna: il 15/11 ha portato 7 voci chiuse il 13/11 al 15/11 06:39 (rimesse a mano al 13/11). chiudi-sito, lanciato sulla cartella dei frammenti intera, riscrive chiuso_il, chiuso_da e nota_riparazione anche delle voci già riparate: sulle 200 della campagna avrebbe ritimbrato le 193 già chiuse con #288 e #290 (per questo l'ho lanciato solo sulle 7). Inoltre applica riscrive il campo riparazione_GG_MM di voci che restano aperte e perde la ragione di prima: R08-012 è passata da «rossa al controllo sul ramo unito (C01: lib/riordino.ts:60 …)» a «collaudo: parziale».",
+      "causa_radice": "Né applica né chiudi-sito guardano se la voce ha già una chiusura: scrivono sempre la data e la firma di questo giro.",
+      "fix_proposto": "Una voce che ha già chiuso_il (o stato riparato) tiene data e firma; applica unisce la ragione nuova con quella vecchia invece di sostituirla.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si chiude con una prova che lancia applica --scrivi e chiudi-sito due volte sulla stessa campagna e trova chiuso_il delle voci già chiuse invariato, e la ragione «rossa al controllo» ancora presente."
       }
     }
   ],
