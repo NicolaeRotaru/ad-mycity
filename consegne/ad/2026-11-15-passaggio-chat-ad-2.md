@@ -37,7 +37,7 @@ Le spese dell'officina e del taglio sono stime loro. Il codice dell'officina non
 
 ### Richieste di unione
 - #961: memoria di K10 e gli 8 difetti nati in frammenti/K10-nuovi-difetti.json. UNITA su main (0970e87).
-- #962, ramo officina-minima, testa 62247e4 (codice di 13d4ee7 + registro del sorvegliante, prove 125 su 125). È pulita e la CI è verde. Il cancello --veloce dice «SI PUÒ CONSEGNARE».
+- #962, ramo officina-minima, testa 62247e4 (codice di 13d4ee7 + registro del sorvegliante, prove 125 su 125). BOCCIATA dal collaudo (1 bloccante): NON unire, vedi carta #254 e il punto 1b.
 - La scheda della #962 è AR-1180, con 37 mutazioni prese. Verifica: `node --test cervello/test/officina-minima.test.mjs cervello/test/collaudi-guardati-insieme.test.mjs`.
 - #956, il taglio: UNITA su main (014bd32).
 - #963: questo quaderno, verde su 288ca52.
