@@ -522,3 +522,4 @@
 2026-11-14 16:08 · onda 2 (regista O2 settima) · i quattro ricollaudi hanno finito e sono archiviati (K06 10,54 $, K07 8,84 $, K09 9,08 $, K08 quarto 12,08 $) · azione: catena fermata, nessuna figlia viva; si aspetta il sì di Nicola per riunire i rami
 2026-11-15 00:57 · onda 2 (regista O2 settima) · Nicola «ok 243, 244 a, 245 sì, 246 a, 247 sì»: integrazione del sito riunita e spinta a dbb84ebd (verify verde, CI #290 verde, unibile) · azione: aperto C02 quarto sul delta e sui 90 file
 2026-11-15 01:06 · onda 2 (regista O2 settima) · C02 quarto senza ultracode dopo un riavvio, archiviato prima di cominciare · azione: aperto C02 quinto con lo stesso compito
+2026-11-15 01:30 · onda 2 (regista O2 settima) · C02 quinto al lavoro, ultracode acceso, 12,78 $ su 35, 273 mila token · azione: nessuna, catena riarmata a 30 minuti
