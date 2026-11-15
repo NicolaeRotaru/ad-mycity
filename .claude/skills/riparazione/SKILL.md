@@ -44,6 +44,71 @@ E una regola nuova, che le campagne passate non avevano: **nella stessa onda un 
 Le zone fisse non reggono: sul sito il 37% delle voci aperte cita file di zone diverse. Quindi il padrone
 lo decide `dividi`, onda per onda; chi si scontra passa all'onda dopo, che parte dal lavoro già unito.
 
+## Le regole del 15/11 — le lezioni delle onde 1 e 2 (valgono SOPRA le sezioni più vecchie che le contraddicono)
+
+> Nicola, 15/11: *«dimmi come risolvere il maggior numero di difetti entro il limite settimanale, impara da
+> tutto ciò che è successo e migliorati»*. Il conto: l'onda 1 ha chiuso 122 voci con 610 $ (circa 5 $ a
+> voce chiusa), l'onda 2 circa 60 con circa 1.627 $ (circa 27 $). L'onda 2 aveva 92 minori su 100: il
+> salto non viene dalla difficoltà ma dalle riletture. Le registe sono passate da 58 $ a 408 $ con 12
+> registe aperte, una a 556 mila token. I riparatori in ultracode sono passati da 2,22 $ a 4,16 $ per voce
+> lavorata. E c'è il lavoro mai arrivato al collaudo. Analisi, piano e critica:
+> `consegne/audit/2026-11-15-lezioni-onde/` (`piano.md`, `fatti.json`, `misure.json`, `esito-squadra.json`).
+
+Ogni regola dice **chi la fa rispettare**. «Solo testo» vuol dire che oggi nessun programma la frena:
+nell'onda 2 tutte le regole solo testo sui costi sono state superate. Quando un programma la prende, la
+scritta cambia.
+
+1. **Il preventivo viene da `misure.json`, mai da un rimedio sperato.** Caso base: minori al 28%, gravi al
+   15%, cucitura al 20%; l'onda 1 vale solo come caso migliore. La stima di 1,45 $ a voce non si usa più:
+   non era mai stata misurata ed è finita a 4,16 $. *Solo testo, finché c'è `conti --preventivo`
+   (officina, pezzo 5).*
+2. **Il tetto non si alza a metà onda.** Chi arriva al tetto consegna quello che ha. Se Nicola alza il tetto,
+   si apre un'onda nuova col suo preventivo. Nell'onda 2 il tetto è salito da 435 a 1.500 e poi a 1.650 $,
+   e così ha smesso di frenare. *Firmata (Nicola, 15/11 verso le 06:05 in chat: «applica la regola per chiudere più difetti dentro il limite e le 5 lezioni e le 7 decisioni»). Resta solo testo: nessun programma può fermare Nicola,
+   e non deve.*
+3. **La spesa vera si legge prima di ogni passo, non a fine lavoro.** `usage.cost_usd` arriva solo a turno
+   chiuso, quindi la regista legge `get_session` su sé stessa a ogni risveglio. Le figlie lo leggono prima
+   di ogni lotto e consegnano al 70% del loro tetto. Con `allowed_warning` o `isUsingOverage` non si apre
+   niente. *Solo testo, finché c'è `stato` (officina, pezzo 2).*
+4. **La regista è leggera e non si sveglia per niente.** Una regista per fase, che nasce con REGIA.md più
+   l'uscita di `stato` (circa 80 mila token) e passa la mano a 250 mila. La sorveglianza la fa
+   `sorveglia.sh --attendi`, che la sveglia solo quando cambia qualcosa: niente catene di send_later ogni
+   30 minuti, perché ogni giro a vuoto costa fra 0,4 e 0,7 $. *Solo testo, finché c'è `--attendi`
+   (officina, pezzo 2). Il passaggio a 250 mila si può imporre aprendo la regista con la finestra da 200
+   mila.*
+5. **Ultracode solo dove serve.** Ultracode va nelle sessioni con un grave, un bloccante o un tocco a
+   soldi, dati o permessi. Nelle sessioni di soli minori resta spento: lì costava il doppio per voce
+   lavorata. *Firmata: Nicola, 15/11 verso le 06:05 in chat: «applica la regola per chiudere più difetti dentro il limite e le 5 lezioni e le 7 decisioni». Sostituisce «Ultra Code Extra» del 12/11 per le sessioni di soli minori.*
+6. **Il tetto di agenti lo fa rispettare un programma.** I tetti per sessione sono: riparatore di minori 6,
+   riparatore di gravi 8, collaudatore 4, controllore 4, regia 2. Workflow è vietato a riparatori e
+   collaudatori: un lancio solo apre molti agenti. Nell'onda 2 R15, R16, R17 e R19 ne hanno aperti 13-15
+   con un tetto scritto di 12. *Solo testo, finché Nicola non incolla l'hook `freno-subagenti` (officina,
+   pezzo 1). Nicola ha detto sì all'hook il 15/11; lo incolla lui appena il pezzo è collaudato.*
+7. **Prima il già pagato.** L'ordine è: le voci riparate senza giudizio, poi le serve_file_altrui con la
+   diff già scritta, poi le parziali con commit, poi le voci nuove. Nell'onda 2 17 voci riparate sono
+   rimaste aperte solo perché non collaudate. *Solo testo, finché c'è `pronte` (officina, pezzo 4).*
+8. **Un secondo giro cambia una condizione, o non parte.** Una voce non torna allo stesso padrone del file
+   né alle stesse condizioni. Il giro del 14/11 ha reso 4 voci su 20 per 68 $. Dopo due giri falliti la
+   voce va a Nicola (R-D). *Solo testo, finché `pronte`/`dividi` non rifiutano lo stesso padrone (pezzo
+   4).*
+9. **Ogni sessione aperta ha il suo collaudo già nel preventivo.** Il 15% del preventivo va al collaudo e
+   si mette da parte per primo. R13 e R14 sono costate almeno 97 $ e sono finite all'onda 3 senza chiudere
+   niente. Nei lotti fino a 40 voci il collaudo giudica tutti i minori, senza campione. *Solo testo,
+   finché `valida-collaudo` non lo controlla (pezzo 3).*
+10. **Una novità alla volta, con un cancello.** Ogni tasso mai misurato passa da un pilota piccolo, con la
+    soglia scritta prima. Esempio: la cucitura parte su 25 voci, si allarga sopra le 10 chiuse e si ferma
+    sotto le 6. Non si tolgono insieme quattro cose che funzionavano: i revisori qa interni restano
+    finché una misura a sé non dice che si possono togliere. *Solo testo.*
+
+Queste regole **sostituiscono**, dove le contraddicono:
+- la stima di 1,45 $ a voce;
+- «regista nuova a ogni onda» (ora è una regista per fase, con il passaggio a 250 mila);
+- la catena di sorveglianza ogni 30 minuti;
+- «Ultra Code Extra sopra ogni altro punto»: dal 15/11 vale solo dove c'è un grave, un bloccante o un tocco a
+  soldi, dati o permessi (regola 5, firmata).
+
+La riscrittura della skill in una carta da circa 12 KB è nel piano della settimana dal 19/11.
+
 ---
 
 ## Passo 0 — Capire la richiesta (30 secondi, zero agenti)
@@ -189,6 +254,9 @@ gli otto rimedi qui sotto valgono circa 175 $ a onda (dal 20% al 14% del limite)
    della regia gira in sottofondo e stampa solo l'esito.
 8. **Partenza controllata e permessi mai in sospeso** (circa 3 $): valgono le regole del 12/11 sera. L'ok di Nicola su
    un lotto di migrazioni si chiede prima di lanciarlo, mentre lui c'è, e non si approva mai in anticipo.
+
+> ⚠️ Dal 15/11 (regola 5 delle «Regole del 15/11», firmata): quanto segue vale solo per le figlie con un grave, un
+> bloccante o un tocco a soldi, dati o permessi. Le figlie di soli minori nascono con `effort: "xhigh"` e SENZA ultracode.
 
 **Ultra Code Extra** (Nicola, 12/11 notte: «Ultra Code Extra, non Max»). Ogni figlia nasce con `effort: "xhigh"` in
 `create_session`, e con ultracode acceso: il suo `prompt` è esattamente `/effort ultracode`, e il compito arriva dopo
