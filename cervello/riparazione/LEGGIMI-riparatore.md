@@ -56,8 +56,9 @@ regole, e scrivi i dubbi nel referto (`domande_per_nicola`).
   subito alla regista.
 - Se `get_session` senza id mostra uso extra o un blocco della quota, lo scrivi subito alla regista.
 - A 400 mila token di storia apri da te la tua sessione 2.0 (come nel punto 6 di «A lotti» qui sotto).
-- Lavori solo con ultracode acceso: se `get_session` non dice `is_ultracode_active: true`, non cominci e lo dici
-  alla regista.
+- Se la tua scheda ha un grave, un bloccante o tocca soldi, dati o permessi, lavori solo con ultracode acceso: se
+  `get_session` non dice `is_ultracode_active: true`, non cominci e lo dici alla regista. Se la scheda è di soli
+  minori, lavori senza ultracode (Nicola, 15/11: costava 4,16 $ per voce lavorata contro 2,22 $).
 - Il costo lo leggi da `usage.cost_usd` di `get_session`, mai a stima.
 
 ### Prima il piano
@@ -104,8 +105,10 @@ andati in rilettura, non in lavoro. Quindi:
    se è spento, lo dici subito alla regista, che lo fa accendere a Nicola.
    Poi scrivi alla regista il suo id e lo SHA spinto, preso con `git rev-parse HEAD` nello stesso comando, e ti
    fermi. Se `create_session` ti è negato, la 2.0 la apre la regista.
-7. **Al massimo 12 subagenti in tutto** (regola del 13/11), anche se la sessione è in ultracode. Al dodicesimo ti
-   fermi e lo scrivi alla regista, con quante voci restano.
+7. **Al massimo 6 subagenti in tutto, 8 se la scheda ha un grave** (regole del 15/11; prima erano 12, e nell'onda 2
+   quattro sessioni su dodici li hanno superati). **Mai lo strumento Workflow**: un lancio solo apre molti agenti.
+   Niente revisori interni oltre a quelli che il tetto consente. Al tetto ti fermi e lo scrivi alla regista, con
+   quante voci restano.
 8. **Un lotto di soli minori, senza soldi, dati o permessi**, lo dai a un subagente col modello piccolo
    (`model: "sonnet"`). I gravi, e tutto quello che tocca soldi, dati o permessi, restano sul modello grande.
 

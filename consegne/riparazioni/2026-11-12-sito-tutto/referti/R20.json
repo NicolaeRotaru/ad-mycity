@@ -260,7 +260,7 @@
     {
       "id": "R20-011",
       "chiave": "qa-flussi|sulla bacheca del fattorino un «accetta» perso lascia l'ordine in elenco fino a un minuto, e fa girare tutti i pulsanti insieme",
-      "esito": "riparato",
+      "esito": "parziale",
       "commit": "30b7f9ed4c8231a23b8f56bae58f4e53e99e8c80",
       "file_toccati": [
         "app/rider/page.tsx"
@@ -276,11 +276,18 @@
         "uscita": 0,
         "comando": "cd /home/user/mycity && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 30b7f9ed4c8231a23b8f56bae58f4e53e99e8c80^ --file app/rider/page.tsx --prove tests/unit/riparazione-r20-presa-ordine.test.ts --json"
       },
-      "copre_tutta_la_voce": true,
+      "copre_tutta_la_voce": false,
       "cosa_ho_fatto": "Giro di correzione (collaudo K05). Ho tolto la prima versione (2eb0cddf) col revert e607b68b, come nell'integrazione (01547939): dopo il revert il diff col ramo di integrazione sui file della voce è vuoto. Poi ho rifatto la voce da capo. Con GIA_PRESO l'ordine esce subito dagli ordini liberi in memoria e la bacheca si rilegge; con DOCUMENTI_SCADUTI resta. Il testo dice «non è più disponibile: l'ha preso un altro fattorino oppure non è più pronto». La correzione: la rotella non segue più claim.variables, che ricorda solo l'ultimo mutate. Un insieme di ordini in volo si riempie al tocco e si svuota in onSettled della useMutation, che scatta per ogni presa. Ogni pulsante con la sua presa in volo gira ed è spento, gli altri restano attivi. Un ref scarta il secondo tocco sullo stesso ordine anche prima del ridisegno.",
       "verificato_da": "qa (revisore indipendente, sonnet, nel suo worktree): non è riuscito a smentirla. Ha rilanciato la prova (6 su 6) e le 10 prove che leggono app/rider/page.tsx (118 su 118), tsc pulito. Mutazioni: senza ref, onSettled vuoto, claim.variables, niente togliDallaBacheca su GIA_PRESO, svuotamento solo senza errore: tutte rosse. Ha letto in @tanstack/query-core 5.100.14 che onSettled delle opzioni scatta per ogni presa, anche quando un mutate più nuovo l'ha sostituita, e anche in errore. Note, non difetti: offline il pulsante gira finché la rete torna, uguale alla base; la mutazione «svuota solo in errore» sopravvive perché, a presa riuscita, l'ordine esce dall'elenco e si cambia pagina.",
       "nota": "Prova 6 su 6. Il caso del collaudo (A, poi B con A in volo, poi di nuovo A) dà 2 chiamate (A, B) e non 3, e nessun toast d'errore. Mutazioni a mano, tutte rosse: la prima versione (claim.variables) fa cadere 2 casi, M5 (girano tutti) 2, senza ref 1, M6 (niente rimozione subito su GIA_PRESO, con la rilettura trattenuta) 1, M7 (onSettled che non riaccende) 1. Le 10 prove che leggono app/rider/page.tsx: 118 su 118 verdi.",
-      "prova": "npx vitest run tests/unit/riparazione-r20-presa-ordine.test.ts --reporter=dot → 6 passate; prova-rimessa --base 30b7f9ed4c8231a23b8f56bae58f4e53e99e8c80^ → uscita 0, regge"
+      "prova": "npx vitest run tests/unit/riparazione-r20-presa-ordine.test.ts --reporter=dot → 6 passate; prova-rimessa --base 30b7f9ed4c8231a23b8f56bae58f4e53e99e8c80^ → uscita 0, regge",
+      "cosa_resta": "Tutta la voce. Il codice (commit 30b7f9ed) è tolto dal sito col revert de5a0b46 (2026-11-14 23:34): rompe_altro al ricollaudo K05 secondo; Nicola, carta 243: la voce resta aperta, terzo giro solo con lui. Sul sito pubblicato (mycity#290) la voce non è riparata e resta aperta.",
+      "tolta": {
+        "revert": "de5a0b46",
+        "quando": "2026-11-14 23:34",
+        "collaudo": "K05 secondo (rompe_altro, 14/11 12:05)",
+        "corretto_da": "regista della fase 1 del piano del 15/11, 2026-11-15 06:40: il referto diceva ancora «riparato» con il codice tolto"
+      }
     },
     {
       "id": "R20-012",

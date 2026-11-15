@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-15 03:12
+aggiornato: 2026-11-15 06:17
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 15/11 verso le 06:05 | l'AD, chat «Correzione difetti e limite settimanale» (`session_015BmpnYSQgvReHZZJxrC8mw`) | «applica la regola per chiudere più difetti dentro il limite e le 5 lezioni e le 7 decisioni». Il piano è `consegne/audit/2026-11-15-lezioni-onde/piano.md`. Decisione 2: la deroga sulla guardia di R17 `bb53b6be` è firmata. Decisione 3: ultracode resta spento sulle figlie di soli minori. Resta acceso su gravi, bloccanti, soldi, dati e permessi. Decisione 4: sì all'hook freno-subagenti. Lo incolla Nicola quando è collaudato. Decisione 5: i programmi dell'officina si usano dal ramo collaudato, prima dell'unione. Decisione 6: la regista O2 settima finisce il suo giro, scrive il passaggio e si ferma. Dopo parte una regista nuova e leggera. Decisione 7: il tetto non si alza a metà onda. Se Nicola lo alza, si apre un'onda nuova col suo preventivo. Decisione 1, la percentuale vera del limite, va ancora letta nell'app. Fino ad allora il tetto fino a giovedì 19/11 alle 10:00 è circa 350 $. |
 | 15/11 02:45 | regista O2 settima | «firmo le 11 migrazioni, le due deroghe e l'unione». Le migrazioni dell'onda 2 vanno sul database vero una alla volta (passate tutte, dalle 02:45 alle 03:06). La richiesta di unione del sito entra nel ramo principale alle 03:07, e alle 03:10 il sito è online. |
 | 15/11 01:08 | regista O2 settima | «perché non hai ancora aperto regista O2 otto (deve essere otto e non ottavo)». Le registe si numerano coi numeri, non con gli ordinali: «regista O2 otto». La settima è a 652 mila token, oltre il limite di 400 mila, e passa la regia. La otto la apre Nicola dall'app, perché una figlia della settima sarebbe all'ultimo livello della catena e non potrebbe aprire sessioni |
 | 15/11 00:32 | regista O2 settima | «ok 243, 244 a, 245 sì, 246 a, 247 sì». I nove rami del giro di correzione entrano nella richiesta di unione del sito, che si carica senza tre correzioni che rompono altro. Il giro allargato si fa solo sulle 6 voci gravi, con un preventivo prima di partire. Sì all'eccezione per il pulsante di emergenza del fattorino. Sul bonifico del lunedì l'ordine fermo si segna come già pagato. Sì al controllo dei 90 file non guardati, con un tetto di 20 $ |

@@ -31,6 +31,61 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🟡 #250 — Rivedi con l'AD le decisioni ancora aperte dell'onda 2 del sito · ⏳ accodata 2026-11-15 07:10
+
+**In parole semplici.** La regista che ha guidato l'onda 2 del sito ha lasciato un resoconto con 18 decisioni per te. Alcune le hai già prese. Le altre aspettano ancora.
+
+**Cosa cambia per te.** Ti faccio due esempi dal resoconto. La decisione 7, la deroga su R17, l'hai firmata il 15/11 verso le 06:05 ed è già applicata. La decisione 8 invece è ancora aperta: le modifiche al database dell'onda 2 si firmano una per una, e quella sugli allergeni non va firmata così.
+
+**Cosa devi fare tu.** Niente di nuovo da solo. Chiedi all'AD «cosa resta dell'onda 2»: lui spunta le decisioni già prese e ti porta solo quelle aperte, una alla volta.
+
+**Cosa non ho verificato.** Non so quali delle altre 17 decisioni siano già chiuse: le tue risposte delle 00:32 del 15/11 (carte 243-247) non le ho confrontate una per una con la lista.
+
+Cosa cambia: le decisioni rimaste aperte dell'onda 2 non si perdono in un file che nessuno rilegge.
+Se va bene: l'AD aggiorna la lista e accoda solo quello che serve davvero, prima dell'onda 3.
+
+- **Colore:** 🟡 (decisioni da rivedere, niente parte senza di te)
+- **Reparto:** chief-of-staff
+- **Dettagli tecnici:** `consegne/riparazioni/2026-11-12-sito-tutto/RESOCONTO-ONDA-2.md`, sezione «Le decisioni che aspettano Nicola». Il numero 250 è il primo libero sopra la #249 del ramo `claude/magical-hamilton-xouwr8`.
+### 🔴 #245 — Unisci la richiesta della macchina col piano per chiudere più difetti · ⏳ accodata 2026-11-15 06:23
+
+**In parole semplici.** La richiesta contiene il piano delle onde, le 5 lezioni e le regole nuove che hai firmato stamattina. Tocca solo testi, dati e due date di scadenza: nessun programma nuovo.
+
+**Cosa cambia per te.** Esempio: dopo l'unione, ogni sessione nuova che parte dal ramo principale trova già le regole nuove. Il tetto di 6 agenti per riparatore e ultracode solo sui difetti gravi valgono anche per lei.
+
+**Cosa devi fare tu.** Quando i controlli automatici sono verdi, unisci la richiesta ad-mycity#958 con «Create a merge commit». Non tocca il Pannello, quindi non pubblica niente.
+
+**Cosa non ho verificato.** La richiesta della macchina #956 tocca le stesse due righe sulla scadenza del glossario dei numeri. Se entra prima quella, va tenuta la sua versione.
+
+Cosa cambia: le regole firmate stamattina diventano quelle di tutte le sessioni, non solo di questa.
+Se va bene: la regista della fase 1 e l'officina lavorano già con queste regole, senza leggerle da un ramo a parte.
+
+### 🟡 #244 — Scegli cosa fare col controllo della macchina bocciato due volte · ⏳ accodata 2026-11-15 06:23
+
+**In parole semplici.** Stanotte la regista dell'onda 2 ha costruito due controlli per la macchina. Uno, quello del glossario dei numeri, ha retto al secondo collaudo. L'altro, il sorvegliante che distingue i programmi morti dai freni staccati, è stato bocciato due volte. Ha ancora un difetto grave: dei programmi morti nelle sottocartelle danno allarmi gravi falsi.
+
+**Cosa cambia per te.** Esempio: finché non scegli, la richiesta della macchina #956 non si può unire. E con lei resta fuori anche il controllo del glossario, che invece funziona.
+
+**Cosa devi fare tu.** Al terzo rosso la scelta è tua. «a» semplifica: si tiene solo la parte che regge e si toglie quella delle sottocartelle. «b» restringi: il sorvegliante esce dalla #956, e il glossario entra da solo. «c» un terzo giro. La correzione interrotta è già scritta, ma non è collaudata.
+
+**Cosa non ho verificato.** Quanto costa la «c»: il secondo giro si è fermato a metà per il tetto dell'onda 2.
+
+Cosa cambia: con la «b» il controllo del glossario entra subito, e il sorvegliante torna nel cantiere.
+Se va bene: la regista della fase 1 o l'AD preparano la versione scelta, e la #956 diventa unibile.
+
+### 🟡 #243 — Leggi nell'app quanto del limite settimanale è già usato · ⏳ accodata 2026-11-15 06:23
+
+**In parole semplici.** Tutto il piano per chiudere più difetti si appoggia a un numero: quanto del limite di questa settimana è già speso. Oggi lo stimo da una tua frase del 12/11, che vale solo come tetto.
+
+**Cosa cambia per te.** Esempio: se l'app dice 60%, fino a giovedì 19/11 alle 10:00 restano circa 1.200 $ e il piano può fare di più. Se dice 85%, ne restano circa 450 $ e mi fermo prima.
+
+**Cosa devi fare tu.** Apri l'app di Claude, Impostazioni, Utilizzo. Scrivimi la percentuale del limite settimanale, adesso e di nuovo martedì sera.
+
+**Cosa non ho verificato.** Da qui non vedo la percentuale: vedo solo se il sistema è in allarme. Stanotte alle 05:55 era «consentito», senza spese extra.
+
+Cosa cambia: il tetto fino a giovedì passa dalla stima prudente di 350 $ al numero vero.
+Se va bene: ricalcolo il preventivo delle fasi e lo scrivo nel piano.
+
 ### 🔴 #249 — Firma le migrazioni e l'unione per mettere online il sito con l'onda 2 · ⏳ accodata 2026-11-15 01:47
 
 **Stato:** ✅ FATTO 2026-11-15 03:10. Hai firmato alle 02:45. Le 11 migrazioni sono passate dalle 02:45 alle 03:06, una alla volta. L'unione è delle 03:07, e alle 03:10 il sito era online.

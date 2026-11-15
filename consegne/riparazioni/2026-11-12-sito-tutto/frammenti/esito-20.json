@@ -1,0 +1,90 @@
+{
+  "corsia": 20,
+  "territorio": "R20",
+  "difetti": [
+    {
+      "chiave": "accessibilita|nella consegna in corso i tasti chiama, naviga e sms sono sotto i 44 pixel, e senza rete un codice giusto risulta «verifica fallita»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r20-consegna-tasti-e-rete.test.ts --reporter=dot",
+      "non_vacuita": "cd /home/user/mycity && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 425b234b3096a889a38aa33062a340ffede6231a^ --file \"app/rider/orders/[id]/page.tsx,components/VerifyCodeDialog.tsx\" --prove tests/unit/riparazione-r20-consegna-tasti-e-rete.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 425b234b3096a889a38aa33062a340ffede6231a^ --file app/rider/orders/[id]/page.tsx,components/VerifyCodeDialog.tsx --prove tests/unit/riparazione-r20-consegna-tasti-e-rete.test.ts  --json (al commit 425b234b3096a889a38aa33062a340ffede6231a) → uscita 0 (K05)",
+      "nota_fix": "Naviga, Chiama e SMS hanno h-11 (44 px) e restano a testo piccolo, così i tre stanno in fila. Anche la freccia indietro passa a 44x44 (h-11 w-11). VerifyCodeDialog riconosce gli errori di rete di Chrome, Safari e Firefox, e anche navigator.onLine falso, sia come motivo sia come eccezione. Mostra «Niente rete: il codice non è stato controllato, non è sbagliato. Riprova appena c'è connessione» e non segna il campo con aria-invalid. Un codice davvero sbagliato resta «Codice errato»."
+    },
+    {
+      "chiave": "accessibilita|nella bacheca del fattorino l'interruttore online è alto 32 pixel e le consegne in preparazione hanno il compenso poco leggibile",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r20-interruttore-online.test.ts --reporter=dot",
+      "non_vacuita": "cd /home/user/mycity && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3f78b2b2edd6494ddaf2d1f72dba14c28b445670^ --file app/rider/page.tsx --prove tests/unit/riparazione-r20-interruttore-online.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 3f78b2b2edd6494ddaf2d1f72dba14c28b445670^ --file app/rider/page.tsx --prove tests/unit/riparazione-r20-interruttore-online.test.ts  --json (al commit 3f78b2b2edd6494ddaf2d1f72dba14c28b445670) → uscita 0 (K05)",
+      "nota_fix": "L'interruttore ora misura 76x44 (era 58x32), con il pallino in proporzione. Tolta opacity-75 dalle schede in preparazione: il compenso passa da 3,80:1 a circa 6,9:1. La mutazione online/offline usa networkMode 'always' e passa avanti l'errore di getUser. Senza rete compare subito «Problema di connessione», l'interruttore non resta grigio e non cambia da solo quando la rete torna."
+    },
+    {
+      "chiave": "dati-analytics|la bacheca del fattorino mostra «oggi 0,00 € e 0 consegne» quando la lettura cade e mentre carica",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r20-incasso-di-oggi.test.ts --reporter=dot",
+      "non_vacuita": "cd /home/user/mycity && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 05d1969e76233d7f39cf12374724ef3dd8d80ec6^ --file app/rider/page.tsx --prove tests/unit/riparazione-r20-incasso-di-oggi.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base c3fcbbf61090c1a6169d0221d2de0eb509872fcf^ --file app/rider/page.tsx --prove tests/unit/riparazione-r20-incasso-di-oggi.test.ts  --json (al commit 05d1969e76233d7f39cf12374724ef3dd8d80ec6) → uscita 0 (K05)",
+      "nota_fix": "Giro di correzione. Quando getUser() torna senza utente, la lettura degli incassi di oggi ora lancia l'errore (erroreUtente, o 'Non autenticato' se manca) invece di dare {0,0}, come R20-002 fa già in toggleOnline. Così il riquadro mostra «—» e la lettura viene rifatta quando la rete torna (refetchOnReconnect su una lettura in errore). Il «Riprova» della bacheca ora rilegge anche gli incassi di oggi. Due casi nuovi nella prova della voce (aperta senza rete, poi Riprova; aperta senza rete, poi la rete torna): tutti e due rossi sul codice di c3fcbbf6."
+    },
+    {
+      "chiave": "frontend-ux|un link del menu lasciato vuoto blocca «salva sito» anche quando il menu è spento e il campo non si vede",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r20-menu-spento.test.ts tests/unit/minori-s06-vetrina-non-salvata.test.ts --reporter=dot",
+      "non_vacuita": "cd /home/user/mycity && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base c2a7a39e^ --file lib/store-site.ts --prove tests/unit/riparazione-r20-menu-spento.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base c2a7a39e9ca568a8d4ca6a0b15b72cc7ec508f91^ --file lib/store-site.ts --prove tests/unit/riparazione-r20-menu-spento.test.ts  --json (al commit 167784086f42323cb51b3ee3db097620b80ba45d) → uscita 0 (K05)",
+      "nota_fix": "In lib/store-site.ts i link incompleti si scartano prima del controllo solo quando il menu in input è spento in modo esplicito (enabled === false); se enabled manca o è true il controllo resta com'era. La prova comune minori-s06-vetrina-non-salvata è tornata identica alla base e passa senza modifiche; alla prova R20 (che usava già enabled:false) ho aggiunto il caso «senza enabled il link vuoto è ancora rifiutato». Controllato MenuEditor.tsx: la casella scrive enabled:false (:45), «Aggiungi link» e i campi si vedono solo col menu acceso (:48), defaultSite ha enabled:false (store-site.ts:345)."
+    },
+    {
+      "chiave": "frontend-ux|eliminando una pagina della vetrina, la voce del menu che la apriva sparisce senza avviso",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r20-elimina-pagina-menu.test.tsx --reporter=dot",
+      "non_vacuita": "cd /home/user/mycity && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 594d497c^ --file components/seller/site/PageListEditor.tsx --prove tests/unit/riparazione-r20-elimina-pagina-menu.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 594d497c88bdb714576f0152d7e69e527b6c2748^ --file components/seller/site/PageListEditor.tsx --prove tests/unit/riparazione-r20-elimina-pagina-menu.test.tsx  --json (al commit 594d497c88bdb714576f0152d7e69e527b6c2748) → uscita 0 (K05)",
+      "nota_fix": "La conferma di eliminazione nomina le voci del menu che aprono quella pagina e dice che spariranno; confermando, pagina e voci si tolgono insieme (nessun link orfano). Annullando non cambia nulla; senza voci la conferma è quella di prima. Prova montando PageListEditor."
+    },
+    {
+      "chiave": "frontend-ux|sulla bacheca del fattorino un guasto passeggero della vista dei negozi toglie il nome del negozio fino al giro dopo, senza riprovare subito",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r20-negozio-riprova.test.ts --reporter=dot",
+      "non_vacuita": "cd /home/user/mycity && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 2eb0cddf7559d246bf1445d5aec3b629371a6256 --file lib/queries/negozio-dell-ordine.ts,app/rider/page.tsx --prove tests/unit/riparazione-r20-negozio-riprova.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 5729b46f1a087679817ab0b9cdec622de2884517^ --file lib/queries/negozio-dell-ordine.ts,app/rider/page.tsx --prove tests/unit/riparazione-r20-negozio-riprova.test.ts  --json (al commit 1051c49a0fa569f26b29a3136f632f293f86b479) → uscita 0 (K05)",
+      "nota_fix": "conNegozioSePossibile prende un richiamo facoltativo seLaVistaCade e restituisce le righe come prima. La bacheca segna la lettura come parziale (negoziNonLetti) e la riprova dopo 5 secondi invece di 60. Con la vista sana l'intervallo resta 60 secondi. Il primo commit è stato rifatto (uscita 3) perché la lettura restava compatibile all'indietro. La base della rimessa è il commit prima dei due commit della voce."
+    },
+    {
+      "chiave": "qa-flussi|il drop del giorno legge senza guardare l errore e usa il giorno di greenwich",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r20-drop-del-giorno.test.ts --reporter=dot",
+      "non_vacuita": "cd /home/user/mycity && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base e90b1221b1035535a3b11a27b00a25fe0989fff1^ --file app/admin/daily-drops/page.tsx --prove tests/unit/riparazione-r20-drop-del-giorno.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base e90b1221b1035535a3b11a27b00a25fe0989fff1^ --file app/admin/daily-drops/page.tsx --prove tests/unit/riparazione-r20-drop-del-giorno.test.ts  --json (al commit e90b1221b1035535a3b11a27b00a25fe0989fff1) → uscita 0 (K05)",
+      "nota_fix": "Il giorno di Roma (giornoPiacenza, Europe/Rome) e l'errore della lettura dei drop li aveva già sistemati R07-017 (commit 83658a41). Restava la lettura dei prodotti: se cadeva, il menu «Prodotto» restava vuoto senza una parola. Ora c'è un ErrorState compatto con «Riprova», fuori dal fieldset, quindi si preme anche con la funzione spenta. Prova con orologio finto alle 00:30 di Roma (23:30 UTC del 12/11) e la notte del cambio dell'ora (25/10). Controlla anche che la lettura dei drop caduta non dica «Nessun drop»."
+    },
+    {
+      "chiave": "qa-flussi|la variante a del titolo della home dice «consegna in giornata.» senza gli orari del negozio",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r20-home-variante-a.test.ts --reporter=dot",
+      "non_vacuita": "cd /home/user/mycity && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 1e4923a3^ --file app/page.tsx --prove tests/unit/riparazione-r20-home-variante-a.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 1e4923a3b7ae7c88e2215a05c4d6ac689a251228^ --file app/page.tsx --prove tests/unit/riparazione-r20-home-variante-a.test.ts  --json (al commit 1e4923a3b7ae7c88e2215a05c4d6ac689a251228) → uscita 0 (K05)",
+      "nota_fix": "Nella sola variante A «Consegna in giornata.» diventa «Consegna in giornata, nella fascia oraria che scegli, a negozio aperto.», usando la costante QUANDO_ARRIVA_SENZA_NEGOZIO della cassa. Prova leggera sul sorgente."
+    },
+    {
+      "chiave": "qa-flussi|«sponsored» in inglese nel carosello pagato",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r20-sponsorizzato.test.tsx --reporter=dot",
+      "non_vacuita": "cd /home/user/mycity && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 49336f1e5b74a50e3a5ae362bda8a6881b666d49^ --file components/SponsoredCarousel.tsx --prove tests/unit/riparazione-r20-sponsorizzato.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 49336f1e5b74a50e3a5ae362bda8a6881b666d49^ --file components/SponsoredCarousel.tsx --prove tests/unit/riparazione-r20-sponsorizzato.test.tsx  --json (al commit 49336f1e5b74a50e3a5ae362bda8a6881b666d49) → uscita 0 (K05)",
+      "nota_fix": "«Sponsored» diventa «Sponsorizzato» (anche nei commenti del file); l'etichetta passa da 10 px grigio chiaro a text-xs text-ink-600 e sta accanto al titolo invece che spinta a destra. Nel file non c'erano aria-label da cambiare."
+    },
+    {
+      "chiave": "stati-ui|la pagina delle categorie, quando non ce n'è nessuna, resta bianca senza un messaggio",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r20-categorie-vuote.test.tsx --reporter=dot",
+      "non_vacuita": "cd /home/user/mycity && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 03e9a9be90d6eda7934b35a3d86700631804c814^ --file app/admin/categories/page.tsx --prove tests/unit/riparazione-r20-categorie-vuote.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base 03e9a9be90d6eda7934b35a3d86700631804c814^ --file app/admin/categories/page.tsx --prove tests/unit/riparazione-r20-categorie-vuote.test.tsx  --json (al commit 03e9a9be90d6eda7934b35a3d86700631804c814) → uscita 0 (K05)",
+      "nota_fix": "Con zero categorie la pagina mostra EmptyState «Nessuna categoria ancora» con l'invito a crearne una dal modulo; il ramo di lettura caduta c'era già (ErrorState con Riprova) e la prova ne conferma la distinzione dallo stato vuoto."
+    },
+    {
+      "chiave": "stati-ui|nel nuovo prodotto dell'amministrazione, se l'elenco dei negozi non arriva, la tendina resta vuota senza spiegazioni",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r20-nuovo-prodotto-negozi.test.tsx --reporter=dot",
+      "non_vacuita": "cd /home/user/mycity && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base ad72bd0f3ce80434d64ae30c6f46744739e9df0f^ --file app/admin/products/new/page.tsx --prove tests/unit/riparazione-r20-nuovo-prodotto-negozi.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base ad72bd0f3ce80434d64ae30c6f46744739e9df0f^ --file app/admin/products/new/page.tsx --prove tests/unit/riparazione-r20-nuovo-prodotto-negozi.test.tsx  --json (al commit ad72bd0f3ce80434d64ae30c6f46744739e9df0f) → uscita 0 (K05)",
+      "nota_fix": "La pagina legge isError di negozi e categorie: con la lettura caduta mostra ErrorState con «Riprova» (rilegge) al posto della tendina; con zero negozi la tendina è disabilitata e c'è il testo «Non c'è ancora nessun negozio». Prova montando la pagina: lettura caduta, Riprova, elenco vuoto."
+    },
+    {
+      "chiave": "stati-ui|se la risposta a una recensione non parte, il negozio legge un errore tecnico in inglese, e il tasto «rispondi» è alto 20 pixel",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r20-risposta-recensione-errore.test.tsx --reporter=dot",
+      "non_vacuita": "cd /home/user/mycity && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base d3fd6f5a2d3a026bb3c69d65acd5bcbcf1910043^ --file app/seller/reviews/page.tsx --prove tests/unit/riparazione-r20-risposta-recensione-errore.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R20 --base d3fd6f5a2d3a026bb3c69d65acd5bcbcf1910043^ --file app/seller/reviews/page.tsx --prove tests/unit/riparazione-r20-risposta-recensione-errore.test.tsx  --json (al commit d3fd6f5a2d3a026bb3c69d65acd5bcbcf1910043) → uscita 0 (K05)",
+      "nota_fix": "res.json() ora è protetto con .catch(() => null), il toast passa da friendlyError con ripiego «La risposta non è partita. Riprova tra poco.»; «Rispondi» e «Annulla» hanno min-h-11, «Pubblica risposta» è in size md (44 px). Prova: pagina montata con fetch finto 504 HTML e 500 testo grezzo, più controllo dell'altezza dei tre tasti."
+    }
+  ]
+}

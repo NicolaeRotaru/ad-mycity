@@ -797,7 +797,16 @@ export const RE_SPENTA = /\b(?:it|test|describe)(?:\.\w+)*\.(?:skip|only|todo|fa
 // I commenti si tolgono prima di contare: un'asserzione COMMENTATA non controlla niente (radiografia del 12/11 notte).
 export const contaAsserzioni = (testo) => (String(testo).replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:\\])\/\/.*$/gm, "$1").match(/\bexpect\s*\(|\bassert(?:\.\w+)?\s*\(|\bt\.(?:assert|equal|deepEqual|ok|throws)\b/g) || []).length;
 /** Le regole che un'eccezione firmata può sospendere in un'onda, e solo queste. */
-export const REGOLE_DEROGABILI = Object.freeze(["prove_comuni", "prova_nuova_senza_nome", "prova_esistente_altrui", "rimessa_a_mano"]);
+export const REGOLE_DEROGABILI = Object.freeze(["prove_comuni", "prova_nuova_senza_nome", "prova_esistente_altrui", "rimessa_a_mano", "id_nel_commit"]);
+/**
+ * Le regole che una firma sospende solo su UN commit, scritto per intero (40 cifre), mai per un'onda intera.
+ * Perché esiste: nell'onda 2 il ramo di R17 porta bb53b6be, il revert di R17-005 col messaggio standard di git
+ * («Revert "R17-005 …"»), che non comincia con l'id della voce. Nicola ha firmato la deroga su quel commit solo
+ * (15/11 verso le 06:05, decisione 2 del piano del 15/11). Nel piano:
+ * `eccezioni_firmate: [{ onda: 2, commit: "<40 cifre>", regole: ["id_nel_commit"], firma: "…" }]`.
+ */
+export const REGOLE_PER_COMMIT = Object.freeze(["id_nel_commit"]);
+const SHA_INTERO = /^[0-9a-f]{40}$/;
 /**
  * L'eccezione firmata da Nicola su una regola, per un'onda sola. PURA. Torna la firma, o null.
  * Perché esiste: la campagna del 12/11 ha lavorato la sua onda 1 prima che le regole di AR-1172 ci fossero, e i
@@ -807,11 +816,15 @@ export const REGOLE_DEROGABILI = Object.freeze(["prove_comuni", "prova_nuova_sen
  * prove comuni). Nel piano: `eccezioni_firmate: [{ onda: 1, regole: [...], firma: "…" }]`. Senza firma non vale; una
  * regola fuori da REGOLE_DEROGABILI non vale; dall'onda dopo la regola è stretta.
  */
-export function eccezioneFirmata(piano, onda, regola) {
+export function eccezioneFirmata(piano, onda, regola, commit = null) {
   if (!REGOLE_DEROGABILI.includes(regola)) return null;
+  const perCommit = REGOLE_PER_COMMIT.includes(regola);
   for (const e of Array.isArray(piano?.eccezioni_firmate) ? piano.eccezioni_firmate : []) {
     // L'onda è un numero intero, scritto così: «1», true o [1] non valgono come onda 1 (collaudo del 13/11).
     if (!Number.isInteger(e?.onda) || e.onda !== Number(onda) || !Array.isArray(e?.regole) || !e.regole.includes(regola)) continue;
+    // Una regola per commit vale solo sul commit giudicato, scritto per intero: un prefisso, o nessun commit, la
+    // sospenderebbe per tutta l'onda. E un'eccezione che nomina un commit non sospende nient'altro per l'onda intera.
+    if (perCommit ? !(typeof e.commit === "string" && SHA_INTERO.test(e.commit) && e.commit === String(commit ?? "")) : e.commit !== undefined) continue;
     // Una firma vera porta lettere o cifre: una fatta di soli caratteri invisibili non è una firma (collaudo del 13/11).
     if (typeof e.firma === "string" && /[\p{L}\p{N}]/u.test(e.firma)) return e.firma.trim();
   }
@@ -1071,8 +1084,8 @@ export function giudicaRamo(opz, per, piano, ramo, nome) {
   const ctx = { nome, suoi, esisteAllaBase, importaDaSuoi, fascia: dove.sessione.migrazioni ?? null, casa: per.casa };
   // Un'eccezione firmata per quest'onda non ferma il rosso in silenzio: lo elenca uno per uno, con la firma.
   const derogati = [];
-  ctx.deroga = (regola, perche) => {
-    const firma = eccezioneFirmata(piano, dove.onda.onda, regola);
+  ctx.deroga = (regola, perche, commit = null) => {
+    const firma = eccezioneFirmata(piano, dove.onda.onda, regola, commit);
     if (!firma) return false;
     derogati.push(`${perche} [eccezione firmata, onda ${dove.onda.onda}: ${firma}]`);
     return true;
@@ -1109,7 +1122,11 @@ export function giudicaRamo(opz, per, piano, ramo, nome) {
   // di un'altra sessione, non attribuisce il commit a nessuno (collaudo del 7/11).
   const primoRigoGiusto = new RegExp(`^${nome}-(?:\\d{3}|varie)\\b`);
   const senzaVoce = storia.perCommit.filter((c) => c.file.some((f) => !f.startsWith(`${REFERTO_DIR}/`)) && !primoRigoGiusto.test(c.messaggio.split("\n")[0].trim()));
-  for (const c of senzaVoce) rossi.push(`${c.commit.slice(0, 12)}: un commit di codice che non comincia con l'id di una voce di ${nome} («${nome}-NNN …», oppure «${nome}-varie …»)`);
+  for (const c of senzaVoce) {
+    const perche = `${c.commit.slice(0, 12)}: un commit di codice che non comincia con l'id di una voce di ${nome} («${nome}-NNN …», oppure «${nome}-varie …»)`;
+    // Si sospende solo con la firma su QUESTO commit (REGOLE_PER_COMMIT), e la deroga lo elenca.
+    if (!ctx.deroga("id_nel_commit", perche, c.commit)) rossi.push(perche);
+  }
   for (const c of storia.perCommit) for (const id of c.messaggio.match(/\b[A-Z]\d{2}-\d{3}\b/g) || []) if (!ids.has(id)) rossi.push(`${c.commit.slice(0, 12)}: il messaggio cita ${id}, che non è una voce di ${nome}`);
   const attese = !storia.commit.length ? [`${nome}: il ramo non ha ancora nessun commit suo`]
     : !netto.size ? [`${nome}: il ramo ha ${storia.commit.length} commit ma alla fine non cambia nessun file: non c'è niente da giudicare, non è un verde`] : [];

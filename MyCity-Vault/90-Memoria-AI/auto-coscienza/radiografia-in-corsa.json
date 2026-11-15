@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-15 04:31",
+  "aggiornato": "2026-11-15 06:59",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -7231,6 +7231,48 @@
       "nota": "AR-962: il blocco del glossario gira a ogni giro accanto ai rischi, costa 0,2 secondi, prende il codice d'uscita, e il suo vincolo è contato e finisce nel prompt.",
       "file": {
         "cervello/giro.sh": "8df6a0f98718"
+      }
+    },
+    {
+      "quando": "2026-11-15 06:24",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/documenti-di-governo.mjs": "7694d8fc5633"
+      }
+    },
+    {
+      "quando": "2026-11-15 06:24",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        ".claude/skills/riparazione/SKILL.md": "ff2eb0b8b9a2"
+      }
+    },
+    {
+      "quando": "2026-11-15 06:59",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/riparazione-sessioni.mjs": "71ddb607ef81"
       }
     }
   ]

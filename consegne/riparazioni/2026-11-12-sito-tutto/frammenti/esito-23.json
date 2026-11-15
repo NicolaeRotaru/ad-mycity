@@ -1,0 +1,34 @@
+{
+  "corsia": 23,
+  "territorio": "R23",
+  "difetti": [
+    {
+      "chiave": "architettura|due file del sito importano una libreria che non è installata, e reggono solo grazie a una scorciatoia interna di next",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r23-librerie-dichiarate.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 8524b224^ --file lib/health/checks.ts,lib/products/externalSync.ts --prove tests/unit/riparazione-r23-librerie-dichiarate.test.ts --json → uscita 0 (riparatore); cd /home/user/wt-R23 && git checkout --detach 8524b22499013ac0da5ca3ab3a1f7c77dc504992 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R23 --base 8524b224^ --file lib/health/checks.ts,lib/products/externalSync.ts --prove tests/unit/riparazione-r23-librerie-dichiarate.test.ts --json → uscita 0 (K06)",
+      "nota_fix": "La libreria era server-only, non dichiarata né installata: reggeva solo per l'alias interno di Next. Il suo import non dava nessuna funzione, solo il segnale «del server», quindi l'ho tolto dai due file senza aggiungere librerie. I due moduli li usano solo /status, due rotte API e un lavoro periodico, nessun componente 'use client'."
+    },
+    {
+      "chiave": "dati-analytics|il tasso dei pagamenti riusciti mescola i clienti che comprano con i negozi che pagano noi",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r23-tasso-pagamenti-dei-clienti.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 8a7ab996^ --file app/api/gift-cards/checkout/route.ts,lib/stripe/webhook/pagamenti.ts --prove tests/unit/riparazione-r23-tasso-pagamenti-dei-clienti.test.ts --json → uscita 0 (riparatore); cd /home/user/wt-R23 && git checkout --detach e01e01b14f72f9bcaef01e6c1eaf2b7e0d247d86 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R23 --base 8a7ab996^ --file app/api/gift-cards/checkout/route.ts,lib/stripe/webhook/pagamenti.ts --prove tests/unit/riparazione-r23-tasso-pagamenti-dei-clienti.test.ts --json → uscita 0 (K06)",
+      "nota_fix": "In payment_attempts entrano solo i pagamenti con il segno di un acquisto di un cliente (ordine o buono regalo). Il canone del negozio e lo sponsorizzato non entrano più nel tasso. Sul pagamento, la cassa del buono mette kind gift_card e buyer_user_id, il nome che legge il registro dei tentativi. Il buyer_id della sessione, che legge giftcard.ts, resta com'era."
+    },
+    {
+      "chiave": "qa-flussi|l'orologio della consegna gira anche dove il riquadro non si vede",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r23-orologio-dove-non-si-vede.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 5091f9aed62303fabcd6cd08e685f13777aa84a2^ --file components/ui/DeliveryCutoff.tsx,components/home/HeroStoreCard.tsx --prove tests/unit/riparazione-r23-orologio-dove-non-si-vede.test.tsx --json → uscita 0 (riparatore); cd /home/user/wt-R23 && git checkout --detach 5091f9aed62303fabcd6cd08e685f13777aa84a2 && node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R23 --base 5091f9aed62303fabcd6cd08e685f13777aa84a2^ --file components/ui/DeliveryCutoff.tsx,components/home/HeroStoreCard.tsx --prove tests/unit/riparazione-r23-orologio-dove-non-si-vede.test.tsx --json → uscita 0 (K06)",
+      "nota_fix": "useOraDiPiacenza(attivo = true) non avvia l'intervallo se attivo è false, e HeroStoreCard passa `schermoGrande`. Prova in jsdom: a 390 px nessun intervallo da 60 secondi, a 1024 px sì. La prova esistente r08 sul riquadro nascosto resta verde."
+    },
+    {
+      "chiave": "qa-flussi|il negozio aperto fino a mezzanotte non riesce a salvare 18:00–00:00, e il messaggio non dice di scrivere 23:59",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r23-orari-fino-a-mezzanotte.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 43b44e6^ --file components/seller/orari-validi.ts --prove tests/unit/riparazione-r23-orari-fino-a-mezzanotte.test.ts --json → uscita 0 (riparatore); cd /home/user/wt-R23 && git checkout --detach 7a8093a0e5c89453f1235bcd8195eb49f7992d80 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R23 --base 7a8093a0e5c89453f1235bcd8195eb49f7992d80^ --file components/seller/orari-validi.ts --prove tests/unit/riparazione-r23-orari-fino-a-mezzanotte.test.ts --json → uscita 0 (K06)",
+      "nota_fix": "Primo giro: erroreDelleFasce accetta 18:00–00:00 e il messaggio cita 00:00 o 23:59. Giro di correzione (K06 e due verificatori): per prossimaFascia un'ultima riga che non è una fascia valida dello stesso giorno (chiusura 00:00, chiusura prima o uguale all'apertura come 18:00–01:00, apertura vuota o illeggibile) finisce a mezzanotte: la proposta è 22:00–23:59, che il controllo segnala come sovrapposta quando la riga, corretta, arriva a mezzanotte. Mai più 03:00–06:00 o 04:00–07:00 salvabili."
+    }
+  ]
+}

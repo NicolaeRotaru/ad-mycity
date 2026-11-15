@@ -526,7 +526,7 @@
     {
       "id": "R18-019",
       "chiave": "rls-database|il database accetta un codice sconto del 150% e importi in soldi negativi",
-      "esito": "riparato",
+      "esito": "parziale",
       "commit": "6eefff317cfb384ee60d75ca65d3d940ba88aa55",
       "file_toccati": [
         "migrations/423_il_codice_sconto_non_supera_il_cento_e_i_soldi_non_sono_negativi.sql",
@@ -546,10 +546,17 @@
         "uscita": 0,
         "comando": "cd /home/user/mycity && export PGHOST=/var/run/postgresql && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 6eefff31^ --file migrations/423_il_codice_sconto_non_supera_il_cento_e_i_soldi_non_sono_negativi.sql --prove tests/sql/rls/riparazione-r18-coupon.test.sql --sql r18_rimessa --json (0) ; cd /home/user/mycity && export PGHOST=/var/run/postgresql && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 6eefff31^ --file app/admin/coupons/page.tsx --prove tests/unit/riparazione-r18-coupon.test.ts --json (0)"
       },
-      "copre_tutta_la_voce": true,
+      "copre_tutta_la_voce": false,
       "cosa_ho_fatto": "Migrazione 423: dieci paletti CHECK col giro della 215 (NOT VALID, poi VALIDATE; se il passato non regge resta NOT VALID con un avviso e le domande per contare le righe). coupons: PERCENT fra 0 e 100, FIXED > 0, mai negativo; spesa minima >= 0; usi e massimo >= 0 e usi <= massimo. orders: shipping_cost, discount_amount, application_fee_cents, cash_collected_cents >= 0 e payment_method in ('card','cod') o vuoto; disputes.refund_cents e gift_cards.voided_cents >= 0. Nel modulo admin il Valore ha max=100 col tipo percentuale. La prova SQL scrive i 15 numeri storti (rifiutati) e 10 scritture oneste (passano, compresi claim/release del contatore); la vitest apre la pagina: 150% non parte, 15% e 150 euro fissi partono. lib/coupons.ts non cambia: la cassa taglia gia' lo sconto, il buco era nel database.",
       "verificato_da": "revisore B: database ricostruito fino alla 422 con righe storte committate (coupon PERCENT 150, usi 7 su 1, spesa minima -10; ordine apple_pay con importi -1/-2/-3/-4; reclamo refund -300; buono voided -100), poi 423: esce 0 con 10 avvisi e i 10 vincoli NOT VALID; prova SQL e vitest verdi; rimessa --sql e rimessa sulla pagina rifatte: regge (0); i vincoli stanno tutti nella descrizione e nel fix della voce; gli unici payment_method scritti dal codice (anche nella storia git) sono 'card' e 'cod'",
-      "nota": "Giro di correzione NON fatto (tetto di costo), segnalato dal revisore B: (1) 423:63, un vincolo NOT VALID scatta su ogni UPDATE di una riga vecchia storta anche se la modifica non tocca la colonna, quindi il «Disattiva» dell admin (app/admin/coupons/page.tsx:103) su un vecchio codice al 150% e release_coupon su un codice con usi oltre il massimo vengono rifiutati (idem ordini, reclami e buoni storti); cura proposta: il vincolo sul valore dei coupon vale solo per i codici attivi; (2) lib/coupons.ts:137, un vecchio codice oltre il 100% rimasto NOT VALID vale ancora in cassa: il calcolo deve rifiutarlo."
+      "nota": "Giro di correzione NON fatto (tetto di costo), segnalato dal revisore B: (1) 423:63, un vincolo NOT VALID scatta su ogni UPDATE di una riga vecchia storta anche se la modifica non tocca la colonna, quindi il «Disattiva» dell admin (app/admin/coupons/page.tsx:103) su un vecchio codice al 150% e release_coupon su un codice con usi oltre il massimo vengono rifiutati (idem ordini, reclami e buoni storti); cura proposta: il vincolo sul valore dei coupon vale solo per i codici attivi; (2) lib/coupons.ts:137, un vecchio codice oltre il 100% rimasto NOT VALID vale ancora in cassa: il calcolo deve rifiutarlo.",
+      "cosa_resta": "Tutta la voce. Il codice (commit 6eefff31) è tolto dal sito col revert 58e23838 (2026-11-14): rossa al controllo dell onda 2 (C02 terzo) e rompe_altro al ricollaudo K07 secondo. Sul sito pubblicato (mycity#290) la voce non è riparata e resta aperta.",
+      "tolta": {
+        "revert": "58e23838",
+        "quando": "2026-11-14",
+        "collaudo": "C02 terzo (rossa) e K07 secondo (rompe_altro)",
+        "corretto_da": "regista della fase 1 del piano del 15/11, 2026-11-15 06:40: il referto diceva ancora «riparato» con il codice tolto"
+      }
     },
     {
       "id": "R18-020",

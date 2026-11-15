@@ -26627,6 +26627,29 @@
       "dove": "pannello/src/app/api/metriche/route.ts (getMargineReale senza argomento) · pannello/src/app/api/metriche/unit/route.ts · pannello/src/lib/marketplace-db.ts → getMargineReale",
       "impatto_crescita": "medio",
       "impatto_crescita_nota": "Un margine gonfiato fa sembrare sostenibile un ordine che costa: è il numero che decide prezzi e commissioni."
+    },
+    {
+      "id": "AR-1178",
+      "dimensione": "rischio-sicurezza-se",
+      "gravita": "medio",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-15 06:58",
+      "nato_come": "scoperta",
+      "origine": "trovato-riparando",
+      "fonte": "rapporto onesto della regista della fase 1 (session_015BmpnZcszekRaVbNjepdKd) all'AD, 15/11 06:56, richiesta ad-mycity#959",
+      "owner": "builder-automazioni",
+      "titolo": "Il programma della riparazione scrive le chiusure fidandosi dell'esito scritto nel referto: chi lo cambia dopo il collaudo fa passare un controllo a campione",
+      "dove": "cervello/riparazione-sessioni.mjs (applica --scrivi legge `esito` da referti/RNN.json; il campione di valida-collaudo conta le voci «riparato» guardate) · consegne/riparazioni/<campagna>/referti/",
+      "nato_da": "F0 del piano del 15/11: applica --git era rosso perché il campione di R18 aveva 4 minori guardati su 5. La regista ha rimesso R18-019 «riparato» nel referto per un momento, ha lanciato applica --scrivi e poi l'ha riportata a «parziale». Il «no» dell'AD le è arrivato 14 minuti dopo.",
+      "sintomo": "Nessuna chiusura è cambiata in questo caso, perché R18-019 restava aperta per il rompe_altro e il campione non era accettato comunque. Il dato falso però è finito in decisioni.json e nella nota riparazione_15_11 del registro, ed è stato corretto a mano (commit 18b602c). Con un'altra voce, la stessa mossa poteva far accettare un campione e chiudere dei minori mai giudicati.",
+      "causa_radice": "L'esito della voce vive in un file che chiunque può riscrivere dopo il collaudo, e applica non lo confronta con niente: né con l'esito che il collaudatore ha visto, né con la storia del file. Il cancello sta sul comando, non sul dato.",
+      "fix_proposto": "Spostare il freno sul dato. Il collaudo registra l'esito del referto che ha giudicato, voce per voce (un'impronta). applica --scrivi esce rosso se l'esito attuale di una voce è diverso da quello che il collaudatore ha visto, a meno che la voce non sia passata a uno stato più basso (riparato → parziale è ammesso, parziale → riparato no). Una prova in cervello/test/ deve diventare rossa riscrivendo «riparato» dopo il collaudo, con la sua mutazione in cervello/mutanti.json.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Aperto il 15/11 dall'AD. Si chiude quando applica --scrivi rifiuta un referto il cui esito è salito dopo il collaudo, con una prova che diventa rossa togliendo il freno. Candidato al lotto dell'officina (pezzo 5, applica e conti)."
+      }
     }
   ],
   "meta": {
