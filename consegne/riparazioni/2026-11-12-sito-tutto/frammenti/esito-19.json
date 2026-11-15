@@ -1,0 +1,41 @@
+{
+  "corsia": 19,
+  "territorio": "R19",
+  "difetti": [
+    {
+      "chiave": "api-backend|un documento del fattorino fra 4,4 e 8 mb viene rifiutato con un messaggio tecnico in inglese, anche se la pagina promette fino a 8 mb",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r19-documento-del-fattorino-col-tetto-vero.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3318ef6981da624c19e8fa049ed81aa58675fd6a^ --file app/rider/onboarding/page.tsx --prove tests/unit/riparazione-r19-documento-del-fattorino-col-tetto-vero.test.tsx --json → uscita 0 (riparatore); cd /home/user/wt-R19 && git checkout --detach 3318ef6981da624c19e8fa049ed81aa58675fd6a && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base 3318ef6981da624c19e8fa049ed81aa58675fd6a^ --file app/rider/onboarding/page.tsx --prove tests/unit/riparazione-r19-documento-del-fattorino-col-tetto-vero.test.tsx --json → uscita 0 (K06)",
+      "nota_fix": "Via del tetto vero: la pagina scrive «max 4 MB», ferma prima di inviare un file più grande con «File troppo grande, massimo 4 MB…», e un 413 in testo semplice della piattaforma non fa più comparire l'errore JSON in inglese ma lo stesso messaggio. Rotta, permessi e secchio invariati."
+    },
+    {
+      "chiave": "flussi-conversione|in cassa, sul telefono, l'avviso «fuori zona» sta solo nel riepilogo in fondo: chi scrive lì l'indirizzo lo scopre all'ultimo tocco",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r19-fuori-zona-vicino-all-indirizzo.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base fb3b7a7a808b1798dc1bdb5cccc81f66a3d3df80^ --file app/checkout/page.tsx --prove tests/unit/riparazione-r19-fuori-zona-vicino-all-indirizzo.test.ts --json → uscita 0 (riparatore); cd /home/user/wt-R19 && git checkout --detach fb3b7a7a808b1798dc1bdb5cccc81f66a3d3df80 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base fb3b7a7a808b1798dc1bdb5cccc81f66a3d3df80^ --file app/checkout/page.tsx --prove tests/unit/riparazione-r19-fuori-zona-vicino-all-indirizzo.test.ts --json → uscita 0 (K06)",
+      "nota_fix": "Prima (b7070503): avviso role=alert con motivoFuoriZona subito dopo il modulo indirizzo. Correzione: se a bloccare c'è prima un altro motivo (scorte, varianti) l'avviso del passo 1 diventa informativo e «vai al primo blocco» porta al riquadro giusto. La prova ora monta la cassa: indirizzo salvato fuori zona → avviso nel riquadro del modulo; mattonella in zona → sparisce; indirizzo scritto con geocodifica finta fuori/in zona → compare/sparisce; fuori zona più scorte → il fuoco va alle scorte. Rimessa sul commit del salto; senza l'avviso le 4 prove cadono."
+    },
+    {
+      "chiave": "qa-flussi|se la cassa non riesce a leggere il carrello, il pulsante è spento ma il riepilogo dice «subtotale 0,00 € · spedizione gratis · totale 0,00 €»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r19-cassa-non-legge-il-carrello.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base ddc874a85b38c51a3c00f6aade1bfdf6785c5589^ --file app/checkout/page.tsx --prove tests/unit/riparazione-r19-cassa-non-legge-il-carrello.test.ts --json → uscita 0 (riparatore); cd /home/user/wt-R19 && git checkout --detach ddc874a85b38c51a3c00f6aade1bfdf6785c5589 && node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base ddc874a85b38c51a3c00f6aade1bfdf6785c5589^ --file app/checkout/page.tsx --prove tests/unit/riparazione-r19-cassa-non-legge-il-carrello.test.ts --json → uscita 0 (K06)",
+      "nota_fix": "Il riepilogo e il pulsante erano già a posto (R19 S07). Restava la riga «Consegna a domicilio … Gratis» del passo 2, che ora scrive «—» se il carrello non è letto. Il riquadro d'errore ha il titolo «Non riesco a leggere il carrello.» e il bottone «Riprova» che rilegge la cassa."
+    },
+    {
+      "chiave": "qa-flussi|un carrello condiviso con più di cinquanta righe perde le ultime in silenzio, anche quelle disponibili",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r19-lista-condivisa-oltre-cinquanta-righe.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 5a81802f6174767bed50122dc1e6d3217db2584f^ --file app/shared-cart/page.tsx,components/ShareCartButton.tsx --prove tests/unit/riparazione-r19-lista-condivisa-oltre-cinquanta-righe.test.tsx --json → uscita 0 (riparatore); cd /home/user/wt-R19 && git checkout --detach 5a81802f6174767bed50122dc1e6d3217db2584f && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base 5a81802f6174767bed50122dc1e6d3217db2584f^ --file app/shared-cart/page.tsx,components/ShareCartButton.tsx --prove tests/unit/riparazione-r19-lista-condivisa-oltre-cinquanta-righe.test.tsx --json → uscita 0 (K06)",
+      "nota_fix": "/shared-cart legge ancora al massimo 50 righe, ma conta quelle oltre e lo dice («Questa lista ha 60 righe: ne mostro solo le prime 50…»). «Condividi la lista» manda una lista più lunga in più link da 50 righe al massimo e lo spiega, così nessun link nasce tagliato."
+    },
+    {
+      "chiave": "sicurezza-auth|dopo il cambio della password il sito ti fa uscire senza dirlo, e al clic dopo ti tratta come se non fossi mai entrato",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r19-dopo-il-cambio-password-si-rientra.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base dd8cb290e8e21ffd53a694d8c8fe7cc2bb8d904b^ --file app/profile/settings/page.tsx --prove tests/unit/riparazione-r19-dopo-il-cambio-password-si-rientra.test.tsx --json → uscita 0 (riparatore); cd /home/user/wt-R19 && git checkout --detach dd8cb290e8e21ffd53a694d8c8fe7cc2bb8d904b && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R19 --base dd8cb290e8e21ffd53a694d8c8fe7cc2bb8d904b^ --file app/profile/settings/page.tsx --prove tests/unit/riparazione-r19-dopo-il-cambio-password-si-rientra.test.tsx --json → uscita 0 (K06)",
+      "nota_fix": "Dopo il 200 la pagina mostra «Password cambiata: accedi con quella nuova», chiama supabase.auth.signOut({ scope: 'local' }) dentro un try e va a /sign-in?returnTo=%2Fprofile%2Fsettings. La rotta non cambia: continua a chiudere anche tutte le altre sessioni. Se la rotta dà errore la pagina resta com'era. La prova monta la pagina vera con un Supabase finto."
+    }
+  ]
+}

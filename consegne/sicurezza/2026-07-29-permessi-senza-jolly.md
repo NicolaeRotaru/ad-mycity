@@ -85,6 +85,7 @@ Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.m
       "Bash(node cervello/gate-veri.mjs:*)",
       "Bash(node cervello/git-merge.mjs:*)",
       "Bash(node cervello/git-pr.mjs:*)",
+      "Bash(node cervello/glossario-kpi-check.mjs:*)",
       "Bash(node cervello/guardiani-check.mjs:*)",
       "Bash(node cervello/guardiano-capacita.mjs:*)",
       "Bash(node cervello/guardiano-tempo.mjs:*)",

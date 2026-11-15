@@ -1,73 +1,7 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-14 10:40",
+  "aggiornato": "2026-11-15 10:30",
   "scansioni": [
-    {
-      "quando": "2026-08-25 19:48",
-      "casa": "macchina",
-      "dimensione": "rischio-sicurezza-se",
-      "repo": "ad",
-      "modo": "ad",
-      "chi": "AD (sessione cloud, nessun collaudatore indipendente disponibile)",
-      "trovati": 3,
-      "schede": [
-        "AR-814",
-        "AR-815",
-        "AR-816"
-      ],
-      "nota": "Riletti riga per riga cercando: segreti esposti, permessi larghi, scritture che possono corrompere la memoria, loop auto-amplificanti, punti singoli di rottura. Trovati e riparati AR-814 (registrazione muta con un flag davanti), AR-815 (percorso fuori dal repo nel registro), AR-816 (file cancellato chiesto in radiografia: cancello insoddisfacibile). Restano dichiarati: il freno prova la freschezza della copertura, non la qualita dello sguardo.",
-      "file": {
-        "cervello/cancello-lotto.mjs": "0789e46f8a0d",
-        "cervello/radiografia-in-corsa.mjs": "7a43d4442b56"
-      }
-    },
-    {
-      "quando": "2026-08-25 19:48",
-      "casa": "macchina",
-      "dimensione": "cadenza-esecuzione",
-      "repo": "ad",
-      "modo": "ad",
-      "chi": "AD (sessione cloud)",
-      "trovati": 0,
-      "schede": [],
-      "nota": "Lente cadenza-esecuzione sul nuovo passo 6bis del mansionario: puo essere saltato in silenzio? No, e cablato nel cancello. Rompe il giro? No: giro.sh non lancia cancello-lotto (verificato con grep). I comandi scritti nel testo li ho lanciati davvero: controllo, --da-fare, --repo ../mycity, registra. Nessun difetto trovato.",
-      "file": {
-        ".claude/skills/cantiere/SKILL.md": "fe73019ed3fe"
-      }
-    },
-    {
-      "quando": "2026-08-25 20:13",
-      "casa": "macchina",
-      "dimensione": "rischio-sicurezza-se",
-      "repo": "ad",
-      "modo": "ad",
-      "chi": "AD (sessione cloud)",
-      "trovati": 0,
-      "schede": [],
-      "nota": "Rilettura dopo l'unione col tronco: dall'ultima scansione e cambiata UNA riga di commento in cancello-lotto.mjs, il numero della scheda passato da AR-813 ad AR-818 per la collisione. Riguardata la riga e il passo che monta il freno: invariato il comando, invariato l'ordine dei passi, nessun argomento calcolato. Nessun difetto nuovo.",
-      "file": {
-        "cervello/cancello-lotto.mjs": "d9388757aa10",
-        "cervello/radiografia-in-corsa.mjs": "7a43d4442b56"
-      }
-    },
-    {
-      "quando": "2026-08-25 20:35",
-      "casa": "macchina",
-      "dimensione": "rischio-sicurezza-se",
-      "repo": "ad",
-      "modo": "ad",
-      "chi": "AD",
-      "trovati": 1,
-      "schede": [
-        "AR-823"
-      ],
-      "nota": "",
-      "file": {
-        "cervello/cancello-lotto.mjs": "25a87d881ed0",
-        "cervello/lavori-hanno-la-corsia.mjs": "8dea01e6b280",
-        "cervello/sentinella-motore.mjs": "337e2507786f"
-      }
-    },
     {
       "quando": "2026-08-25 20:35",
       "casa": "macchina",
@@ -7183,6 +7117,214 @@
       "nota": "",
       "file": {
         ".claude/skills/riparazione/SKILL.md": "240ba3a809a7"
+      }
+    },
+    {
+      "quando": "2026-11-15 04:01",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "spariti": [
+        "cervello/round2-applica.mjs"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/sorvegliante.mjs": "e2f32dad2a5c"
+      }
+    },
+    {
+      "quando": "2026-11-15 04:31",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "AR-962: riguardati rete (fetch finto su indirizzi .invalid, rifiuta il resto), segreti (il figlio del sensore della cassa gira con il solo PATH), scritture (nessuna) e codice d'uscita. Trovato e curato nello stesso lavoro: un errore imprevisto usciva 1 invece di 2 (cieco); ora esce 2, con prova e mutazione.",
+      "file": {
+        "cervello/glossario-kpi-check.mjs": "1876e678acd2",
+        "cervello/glossario-kpi.mjs": "e822923af6ae",
+        "cervello/censimento-guardiani.mjs": "20a36f384737",
+        "cervello/documenti-di-governo.mjs": "8ce386f34c38"
+      }
+    },
+    {
+      "quando": "2026-11-15 04:31",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "AR-962: il blocco del glossario gira a ogni giro accanto ai rischi, costa 0,2 secondi, prende il codice d'uscita, e il suo vincolo è contato e finisce nel prompt.",
+      "file": {
+        "cervello/giro.sh": "8df6a0f98718"
+      }
+    },
+    {
+      "quando": "2026-11-15 06:24",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/documenti-di-governo.mjs": "7694d8fc5633"
+      }
+    },
+    {
+      "quando": "2026-11-15 06:24",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        ".claude/skills/riparazione/SKILL.md": "ff2eb0b8b9a2"
+      }
+    },
+    {
+      "quando": "2026-11-15 06:59",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/riparazione-sessioni.mjs": "71ddb607ef81"
+      }
+    },
+    {
+      "quando": "2026-11-15 07:42",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-1180"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/riparazione/sorveglia.sh": "ffc7f8900cac"
+      }
+    },
+    {
+      "quando": "2026-11-15 07:42",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/riparazione-sessioni.mjs": "ee1bf2427a3c",
+        "cervello/riparazione/freno-subagenti.mjs": "5ca09cfca18e"
+      }
+    },
+    {
+      "quando": "2026-11-15 07:49",
+      "casa": "macchina",
+      "dimensione": "salute-sensori-dati",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "costruttore della restrizione #956",
+      "trovati": 0,
+      "schede": [],
+      "nota": "AR-962 dopo l'unione con main: lanciato davvero senza chiavi (node cervello/sensore-cassa.mjs --json), risponde «cassa sconosciuta» con le tre componenti nulle, esce 0 e non cambia nessun file. Riletto il diff: git-github.mjs si carica solo da main, documentoCassa e burnMensile sono pure, AD_ROOT ha lo stesso valore di git-github.mjs, il segnale di crash non ingoia più l'errore.",
+      "file": {
+        "cervello/sensore-cassa.mjs": "f8bc41d230dc"
+      }
+    },
+    {
+      "quando": "2026-11-15 07:49",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "costruttore della restrizione #956",
+      "trovati": 0,
+      "schede": [],
+      "nota": "AR-962: il blocco del glossario gira a ogni giro dopo quello dei rischi. giro.sh non ha set -e, quindi un rc diverso da 0 non ferma il giro; esito_righe 6 tiene la riga del verdetto; rc=2 cambia il titolo del vincolo in «guardiano cieco»; il vincolo è consumato nel prompt. Nessun riferimento al sorvegliante uscito.",
+      "file": {
+        "cervello/giro.sh": "c5281bcb6759"
+      }
+    },
+    {
+      "quando": "2026-11-15 07:49",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "costruttore della restrizione #956",
+      "trovati": 0,
+      "schede": [],
+      "nota": "AR-962: glossario-kpi.mjs è puro, senza import. Il guardiano, prima di eseguire le vetrine, svuota l'ambiente (restano PATH, HOME, lingua e fuso) e chiude scrittura su disco (anche createWriteStream e open in scrittura), lancio di programmi, rete (http, https, http2, net, tls, dgram, dns, fetch, WebSocket) e lettura dei .env, anche via process.loadEnvFile. Limite dichiarato nel file: un modulo nativo o process.binding aggirerebbero la barriera; oggi le vetrine non ne usano. La prova distruttiva sul server finto la fa il collaudo.",
+      "file": {
+        "cervello/glossario-kpi-check.mjs": "81ae86052237",
+        "cervello/glossario-kpi.mjs": "8179525d1c94"
+      }
+    },
+    {
+      "quando": "2026-11-15 08:08",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/riparazione-sessioni.mjs": "c06067f267c4",
+        "cervello/riparazione/freno-subagenti.mjs": "5ca09cfca18e"
+      }
+    },
+    {
+      "quando": "2026-11-15 10:16",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/riparazione-sessioni.mjs": "854922c3e3c2",
+        "cervello/riparazione/freno-subagenti.mjs": "5ca09cfca18e"
+      }
+    },
+    {
+      "quando": "2026-11-15 10:30",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/riparazione-sessioni.mjs": "2b31bac005c9"
       }
     }
   ]

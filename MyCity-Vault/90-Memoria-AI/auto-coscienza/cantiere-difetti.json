@@ -20635,12 +20635,12 @@
       "causa_radice": "Il confronto richiede di sapere quali numeri il codice chiama KPI, e oggi non esiste un registro che lo dica. Un controllo scritto adesso cercherebbe parole nei file, cioè la prova debole che l'asticella vieta. È la causa esatta di AR-282 sulla cassa: un KPI che vive solo dentro uno script.",
       "fix_proposto": "🟡 ① Un registro dei KPI usati dal codice: nome, file, funzione che lo calcola. ② Un guardiano che fallisce se un KPI del registro non ha la sua riga nel glossario, o se il codice ne espone uno fuori registro. ③ Cablarlo nel giro e scriverlo come guardiano della voce glossario-kpi, togliendo l'attesa.",
       "verifica": {
-        "tipo": "umano",
-        "nota": "Aperto finché la voce glossario-kpi di cervello/documenti-di-governo.mjs ha guardiano null. Chiuso quando il guardiano esiste, il giro lo esegue, e una prova lo vede fallire su un KPI non definito nel glossario."
+        "comando": "node cervello/test/glossario-kpi.test.mjs"
       },
       "dove": "cervello/documenti-di-governo.mjs: voce glossario-kpi · MyCity-Vault/07-Agenti/GLOSSARIO-KPI.md",
       "impatto_crescita": "medio",
-      "impatto_crescita_nota": "Un numero sbagliato portato a Nicola sposta decisioni vere. Il caso di AR-282 sulla cassa è il precedente misurato."
+      "impatto_crescita_nota": "Un numero sbagliato portato a Nicola sposta decisioni vere. Il caso di AR-282 sulla cassa è il precedente misurato.",
+      "nota_fix": "2026-11-15 04:31, nel lavoro della CI rossa del 15/11 (Nicola: «Costruisco i controlli»). Il controllo c’è, ed è in tre pezzi. Primo: il registro dei KPI, cervello/kpi-registro.json. Dice 42 KPI, ognuno con nome, file e funzione che lo calcola, i campi con cui esce e la riga del glossario che lo definisce. Secondo: il guardiano, cervello/glossario-kpi-check.mjs, con la regola in una funzione pura (cervello/glossario-kpi.mjs). Esce 1 se un KPI non ha la sua riga nel glossario, o se il codice consegna un numero che il registro non conosce. Esce 2 se non ha potuto misurare, e anche quando va in errore imprevisto: la prima versione in quel caso usciva 1, e il giro avrebbe detto al motore «un KPI senza definizione» con lo strumento rotto. Trovato riguardando i file con la lente della sicurezza, curato e provato qui. Terzo: il cablaggio. Gira nel giro con il suo vincolo, ed è il guardiano della voce glossario-kpi nella lista dei documenti di governo, dove l’attesa non c’è più. Sul registro vero esce 0 in 0,2 secondi. DIFFERENZA FRA SCHEDA E CODICE: la scheda temeva che un controllo scritto subito avrebbe cercato parole nei file. L’appiglio invece è l’uscita vera del codice. Il guardiano esegue tre vetrine: la rotta delle metriche del Pannello contro un database finto (80 campi), la demo (46 campi) e il sensore della cassa senza chiavi (18 campi). Un campo nuovo aggiunto nel codice compare da solo. La prova lo rifà su una copia del Pannello: aggiungo un margine inventato alla rotta, e il guardiano esce rosso nominando quel campo. Il Pannello non l’ho modificato. GLOSSARIO: il codice consegnava numeri senza una riga nel glossario. Ho aggiunto 29 righe, con la formula presa dal codice e la scritta «da confermare da Nicola», più tre divergenze (D8, D9, D10). È un file di Nicola. MUTAZIONI: 11 nuove, tutte rosse (non-vacuita.mjs --difetti AR-962). La prova ha 18 casi. La prima versione della mutazione sulla riga mancante restava verde: il ramo «definizione vuota» prendeva il caso al posto suo. L’ho spostata sulla ricerca della riga, e la prova ora pretende anche il messaggio giusto. Tolta la mutazione di AR-966 che spostava la data dell’attesa: senza attesa il suo pezzo non esiste più. Le altre 14 di AR-966 mordono ancora (qui c'era scritto 15: corretto dopo il collaudo), e c9-governo-senza-sveglia resta 17 su 17. COSA NON COPRE: le altre rotte di numeri del Pannello e gli altri script del cervello (scheda AR-1175). E non giudica se una definizione è giusta: prova che c’è. Due divergenze trovate così sono le schede AR-1176 (due formule di runway) e AR-1177 (margine per ordine senza costo di consegna nel cruscotto). NON VERIFICATO: su un node più vecchio del 22.15 il guardiano esce 2 (cieco), perché le vetrine del Pannello usano module.registerHooks; la versione di node del server non l’ho controllata. Non ho lanciato la suite intera né il cancello del lotto. 2026-11-15 05:38, PRIMO GIRO DI CORREZIONE DOPO IL COLLAUDO, che ha bocciato: 1 grave e 6 minori. IL GRAVE. Per far uscire i numeri della cassa il guardiano lanciava sensore-cassa.mjs con un ambiente finto. Ma il sensore importava git-github.mjs, che appena caricato legge cervello/vps/.env. Sul server lì ci sono le chiavi vere. Così, a ogni giro, il guardiano avrebbe riscritto cassa-runway.json con la cassa finta (900 €, runway 1,8 mesi) e mandato una POST al database del Pannello, stampando ✅. L'ho rifatto in una copia, con un .env finto e un database finto: file riscritto, una POST arrivata. LA CURA, in tre pezzi. ① Il guardiano non lancia più il sensore. Il documento della cassa lo costruisce documentoCassa, una funzione pura esportata da sensore-cassa.mjs; il main del sensore ora scrive proprio quel documento. Uscita del sensore confrontata prima e dopo in 7 casi: identica. ② sensore-cassa.mjs carica git-github.mjs solo quando gira davvero. Importarlo non porta più dentro le chiavi del server: vale anche per la prova della cassa incompleta, che lo importa. ③ Prima di eseguire le vetrine il guardiano svuota l'ambiente e chiude le uscite. L'ambiente, perché sul server systemd ci mette le chiavi e il codice del Pannello legge process.env. Le uscite sono quattro: leggere un file .env, scrivere su disco, lanciare un programma, andare in rete. Chi ci prova riceve un errore. Lo stesso vale per le altre due vetrine, la rotta /api/metriche e la demo: oggi non scrivono e vanno in rete solo col fetch finto, adesso non potrebbero farlo nemmeno volendo. Riguardando il guardiano con la lente della sicurezza ho chiuso altre tre strade: process.loadEnvFile (legge un .env senza passare da fs), net.Socket.connect e il DNS. PROVE: 3 casi nuovi «come sul server». Ognuno ha un .env pieno di chiavi finte, un database finto in ascolto e chiavi finte anche nell'ambiente di partenza. Primo caso: il guardiano esce 0, nessun file cambia, il database non riceve niente, nel processo non resta una chiave e git-github.mjs non si carica. Secondo: un KPI punta a git-github.mjs, e le chiavi restano fuori lo stesso. Terzo: nella rotta c'è codice che prova a leggere il .env, scrivere un file, lanciare un programma e chiamare il database, e non passa niente. Sul codice del commit 31cfd2dd1 i tre casi sono rossi: la POST, le chiavi nel processo, il file scritto. I MINORI, tutti corretti. · AR-966 ha 14 mutazioni, non 15 (su main erano 17). · La frase vecchia in _tolte_2026_11_15 di mutanti.json ora dice che la mutazione sull'attesa del glossario è stata tolta alle 04:20. · Tre righe del glossario dicono quello che fa il codice: payout ai negozi (anche seller_payout_cents > 0; stati remit e done), runway del Pannello (vuoto anche con cassa zero o negativa), catalogo («Senza categoria» conta come una categoria; due categorie con lo stesso nome contano una). · Il burn del sensore lo calcola burnMensile, nuova funzione pura che main usa: il registro e la riga del glossario ora nominano lei, e una prova controlla che dia lo stesso numero del documento. · giro.sh stampa l'uscita con esito_righe 6, così la prima riga, il verdetto, resta nel log. Da cieco il titolo del vincolo dice «GUARDIANO CIECO», non HARD. I ciechi uguali si dicono una volta: da cieco l'uscita passa da 43 righe a 3. NUMERI, ricalcolati alle 05:38: 42 KPI, 3 vetrine, 80 + 46 + 18 = 144 campi, 56 righe nel glossario (29 nuove del 15/11). La prova ha 25 casi (erano 18), verdi in 2,3 secondi. Mutazioni di AR-962: 24, cioè 11 di prima e 13 nuove, tutte rosse (node cervello/non-vacuita.mjs --difetti AR-962). Mutazioni dei vicini AR-966, AR-282 (vive nel sensore della cassa), AR-431 e AR-960: 22 su 22 rosse. BUCO DICHIARATO, scorciatoia A4: un numero nuovo si può dichiarare non-KPI con natura «soglia» o «contatore-sensore» e un perché qualsiasi, e il guardiano resta verde senza una riga nel glossario. Serve un'etichetta sbagliata messa apposta. Oggi i campi dichiarati così sono 2 su 23 non-KPI (soglia_allerta_mesi e giri_sconosciuto). Non l'ho chiuso; è scritto nel commento di NATURE. NON VERIFICATO: la barriera chiude le strade di node; un modulo nativo o process.binding la aggirerebbero, e il codice delle vetrine oggi non ne usa. Non ho lanciato il guardiano sul server vero né col suo .env. La radiografia in corsa l'ho letta ma non registrata: la sua dimensione di sicurezza comprende anche sorvegliante.mjs del collega, che non ho riguardato. Non ho lanciato la suite intera né il cancello."
     },
     {
       "id": "AR-963",
@@ -20793,9 +20793,10 @@
         "tipo": "umano",
         "nota": "Aperto finché, in un lotto partito dopo l'unione (git worktree sulla base, `git rm cervello/round2-applica.mjs` con la sua esenzione, poi `node cervello/sorvegliante.mjs --base <base> --json`), il sorvegliante dà voci gravi «difesa-rimossa» su righe che nominano soltanto. Chiuso quando quella cancellazione lascia zero voci gravi; una chiamata vera tolta da un file vivo le fa ancora nascere, anche se nello stesso delta una nota nomina quel freno; e cancellare un file che il giro lancia, e che chiama un freno, le fa ancora nascere. Tutto provato da mutazioni. Il caso a parte, «tolta solo l'esenzione» senza cancellare il file: oggi dà due voci «prova-accecata» sulle mutazioni di AR-966 che rompono la data dell'esenzione — attese, perché le istruzioni dicono di toglierle insieme — e nessuna «difesa-rimossa». In quel caso a parte diventano rosse anche la prova c9, per la voce rimasta orfana, e mutazioni-orfane, per le due mutazioni senza data: è il motivo per cui le istruzioni dicono di fare tutto insieme. E dal nono collaudo, col tetto delle porte sceso a 0, anche porte-gemelle: la porta resta scoperta."
       },
-      "dove": "cervello/sorvegliante.mjs, regola ⑥b (`difesaAncoraChiamata` e il ciclo sulle righe rimosse). Il caso vivo: cervello/round2-applica.mjs, con la sua esenzione in cervello/atti-con-porte.json (fino al 14/11) e la voce esenzione-round2-applica in cervello/scadenzario.json.",
+      "dove": "cervello/sorvegliante.mjs, regola ⑥b (`difesaAncoraChiamata` e il ciclo sulle righe rimosse). Il caso vivo: cervello/round2-applica.mjs, con la sua esenzione in cervello/atti-con-porte.json (fino al 21/11: rinnovata il 15/11, scadeva il 14/11) e la voce esenzione-round2-applica in cervello/scadenzario.json.",
       "impatto_crescita": "basso",
-      "impatto_crescita_nota": "Non tocca ordini né negozi. Tiene in casa codice morto, e una data che se dimenticata il 15/11 fa rossa la CI di ogni richiesta di unione: lo scadenzario la annuncia tre giorni prima."
+      "impatto_crescita_nota": "Non tocca ordini né negozi. Tiene in casa codice morto, e una data che se dimenticata il 22/11 fa rossa la CI di ogni richiesta di unione: lo scadenzario la annuncia tre giorni prima.",
+      "nota_fix": "2026-11-15 07:33 — ristretto da Nicola il 15/11 con «ok 244 b»; la correzione interrotta è in consegne/riparazioni/2026-11-12-sito-tutto/frammenti/correzione-2-ar969-interrotta.patch. Cosa vuol dire. La cura costruita nella notte del 15/11 (il sorvegliante che chiede «questo file cancellato lo lanciava qualcuno?», con la sua prova e 18 mutazioni) è uscita dalla richiesta della macchina #956 con un commit nuovo, senza riscrivere la storia del ramo. Il suo codice resta leggibile nei commit 31cfd2dd1 e e54478190 del ramo claude/magical-hamilton-xouwr8. Perché è uscita: il collaudo l'ha bocciata due volte, e resta un difetto grave aperto, cioè dei programmi morti nelle sottocartelle danno allarmi gravi falsi. Con lei sono tornati com'erano: il programma usa-e-getta cervello/round2-applica.mjs, la sua esenzione nel registro delle porte (fino al 21/11, rinnovata su main), la voce esenzione-round2-applica fra le scadenze attive e le due mutazioni di AR-966 che ne rompono la data. La verifica torna quella di prima, scritta per una persona. Chi riprende parte dalla correzione interrotta, che non è collaudata."
     },
     {
       "stato": "aperto",
@@ -26538,6 +26539,213 @@
         "tipo": "umano",
         "nota": "Non riparato nella richiesta delle fette della CI: cambierebbe quali mutazioni girano, ed è fuori mandato. Si chiude quando un lotto che tocca solo cervello/prediagnosi.mjs fa girare le sue 80 mutazioni e non tutto il registro."
       }
+    },
+    {
+      "id": "AR-1174",
+      "stato": "aperto",
+      "gravita": "minore",
+      "dimensione": "guardiani-e-guardrail",
+      "area": "macchina",
+      "nato": "2026-11-15 04:02",
+      "nato_come": "scoperta",
+      "nato_da": "AR-969",
+      "trovato_da": "Lavoro di AR-969 del 15/11, provando la funzione nuova del sorvegliante che dice se un file lo lancia qualcuno. Quella cura è poi uscita dalla richiesta #956 con la scelta di Nicola del 15/11 («ok 244 b»): la misura qui sotto resta vera, lo strumento che l'ha presa no.",
+      "titolo": "Quattro programmi del 25 luglio restano in casa, e nessun codice li lancia più",
+      "sintomo": "Misurato il 15/11 alle 04:00 sulla base HEAD, con la funzione nuova del sorvegliante scritta nella cura di AR-969 (poi uscita dalla #956): registra-programma-intelligenza.mjs, programma-intelligenza-memoria.mjs, registra-riverifica-programma.mjs e round3-verifica.mjs, tutti in cervello/, non li lancia nessun file di codice. Li nominano solo commenti e testi. Sono nati tutti il 25/7. Tre scrivono in memoria una volta sola (idempotenti), come round2-applica.mjs, che resta in casa con la sua esenzione a scadenza; round3-verifica.mjs invece è una verifica in sola lettura da lanciare a mano. Un quinto, programma-correzione-ar114.mjs, risulta vivo solo perché una prova lo nomina come chiave di un elenco.",
+      "causa_radice": "Gli script usa-e-getta nascono per un giro solo e nessuno li toglie dopo l'uso. Finché il sorvegliante scambia ogni nome in un file cancellato per un freno spento (AR-969, ancora aperto), toglierli fa rossa la CI: restano per forza.",
+      "fix_proposto": "🟡 Quando la cura di AR-969 regge al collaudo, decidere i quattro programmi in un lavoro suo, uno per uno: i tre che scrivono in memoria si tolgono se il loro effetto è già nei registri; per round3-verifica.mjs si chiede se serve ancora a Nicola, e se sì lo si scrive in un manuale o nel giro. Poi valutare un controllo che segnali gli script di cervello/ che nessuno lancia più da tempo.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Chiuso quando i quattro programmi sono tolti, oppure ognuno ha scritto perché resta, e il sorvegliante del delta non dà voci gravi per la loro cancellazione."
+      },
+      "dove": "cervello/registra-programma-intelligenza.mjs · cervello/programma-intelligenza-memoria.mjs · cervello/registra-riverifica-programma.mjs · cervello/round3-verifica.mjs",
+      "impatto_crescita": "basso",
+      "impatto_crescita_nota": "Non tocca ordini né negozi. È codice morto che chi legge la macchina deve ancora capire, e che i guardiani continuano a misurare."
+    },
+    {
+      "id": "AR-1175",
+      "stato": "aperto",
+      "area": "macchina",
+      "nato": "2026-11-15 04:29",
+      "nato_come": "scoperta",
+      "nato_da": "AR-962",
+      "trovato_da": "Lavoro di AR-962 del 15/11, costruendo il registro dei KPI e confrontando il codice col glossario.",
+      "gravita": "medio",
+      "dimensione": "guardiani-e-guardrail",
+      "titolo": "Il controllo del glossario guarda tre vetrine di numeri: le altre rotte del Pannello restano senza",
+      "sintomo": "Misurato il 15/11: il guardiano del glossario esegue la rotta delle metriche del Pannello (80 campi), la demo (46 campi) e il sensore della cassa (18 campi). Il Pannello ha almeno altre undici rotte che consegnano numeri a Nicola: funnel, trend, retention, negozi, payout, cassa, unit, acquisizione, catalogo, pattern e le stelle polari. Lì un numero nuovo senza definizione non lo vede nessuno. E due di quelle rotte, cassa e unit, ricalcolano runway e margine con formule proprie.",
+      "causa_radice": "Ogni rotta compone la sua risposta a mano, con oggetti liberi: non c’è un punto solo da cui escono i KPI. Il registro deve nominare le vetrine una per una, e ognuna vuole un esecutore col suo database finto.",
+      "fix_proposto": "🟡 Estendere il registro dei KPI e gli esecutori del guardiano alle altre rotte di numeri, una alla volta, cominciando da cassa e unit. In alternativa, far passare tutte le rotte di numeri da un modulo unico che si possa eseguire.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Chiuso quando ogni rotta del Pannello che consegna numeri a Nicola è una vetrina del registro dei KPI, oppure il registro scrive perché non lo è."
+      },
+      "dove": "cervello/kpi-registro.json (_perimetro) · cervello/glossario-kpi-check.mjs (ESECUTORI) · pannello/src/app/api/metriche/",
+      "impatto_crescita": "medio",
+      "impatto_crescita_nota": "Un numero sbagliato per definizione sposta decisioni vere: è il precedente di AR-282 sulla cassa."
+    },
+    {
+      "id": "AR-1176",
+      "stato": "aperto",
+      "area": "macchina",
+      "nato": "2026-11-15 04:29",
+      "nato_come": "scoperta",
+      "nato_da": "AR-962",
+      "trovato_da": "Lavoro di AR-962 del 15/11, costruendo il registro dei KPI e confrontando il codice col glossario.",
+      "gravita": "medio",
+      "dimensione": "salute-sensori-dati",
+      "titolo": "Il Pannello e il sensore del giro calcolano il runway con due formule diverse",
+      "sintomo": "Il Pannello (economia.ts, calcolaRunway) divide la cassa scritta a mano nelle impostazioni per il burn al netto delle commissioni degli ultimi 30 giorni. Il sensore della cassa del giro (sensore-cassa.mjs, statoCassa) divide banca + Stripe − payout dovuti per il burn dichiarato. Esempio: cassa 10.000 €, burn 2.000 € al mese, commissioni 500 € al mese. Il Pannello dice 6,7 mesi. Il sensore, con la stessa cassa tutta in banca, dice 5 mesi. Stesso nome, due numeri.",
+      "causa_radice": "AR-282 ha corretto la formula del sensore senza toccare quella del Pannello. Nessuna delle due aveva una riga nel glossario, quindi nessuno poteva vedere che divergevano.",
+      "fix_proposto": "🟡 Nicola sceglie la definizione unica di runway (D8 nel glossario). Poi una sola funzione la calcola, e le due vetrine la usano.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Chiuso quando il glossario ha una sola definizione di runway confermata da Nicola, e Pannello e sensore la calcolano con la stessa funzione."
+      },
+      "dove": "pannello/src/lib/economia.ts → calcolaRunway · cervello/sensore-cassa.mjs → statoCassa · MyCity-Vault/07-Agenti/GLOSSARIO-KPI.md (D8)",
+      "impatto_crescita": "alto",
+      "impatto_crescita_nota": "Il runway misura il rischio numero uno dell’azienda (AR-016): due numeri diversi possono spingere a decisioni opposte sui soldi."
+    },
+    {
+      "id": "AR-1177",
+      "stato": "aperto",
+      "area": "macchina",
+      "nato": "2026-11-15 04:29",
+      "nato_come": "scoperta",
+      "nato_da": "AR-962",
+      "trovato_da": "Lavoro di AR-962 del 15/11, costruendo il registro dei KPI e confrontando il codice col glossario.",
+      "gravita": "medio",
+      "dimensione": "pannello-comportamento",
+      "titolo": "Il margine per ordine del cruscotto non toglie il costo di consegna, la pagina dei conti per ordine sì",
+      "sintomo": "La rotta delle metriche chiama getMargineReale() senza il costo di consegna, quindi il margine per ordine è commissione media + fee di consegna media − 0. La rotta unit la chiama col costo di consegna delle impostazioni. La casella «Margine medio / ordine» della pagina dei numeri legge il primo. Esempio: commissione media 3,60 €, fee 2 €, costo di consegna 3 €. Il cruscotto dice 5,60 €, la pagina dei conti 2,60 €.",
+      "causa_radice": "Il costo di consegna è un parametro con valore predefinito 0 (getMargineReale(costoConsegna = 0)). Chi non lo passa ottiene un margine senza costi, senza errore e senza avviso. Nessuna definizione nel glossario diceva cosa ci sta dentro.",
+      "fix_proposto": "🟡 Il cruscotto passa a getMargineReale lo stesso costo di consegna che usa la pagina dei conti (impostazione costo_consegna), oppure il parametro diventa obbligatorio. Prima Nicola conferma la definizione (D9 nel glossario).",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Chiuso quando le due rotte danno lo stesso margine per ordine a parità di impostazioni, con una prova che lo esegue."
+      },
+      "dove": "pannello/src/app/api/metriche/route.ts (getMargineReale senza argomento) · pannello/src/app/api/metriche/unit/route.ts · pannello/src/lib/marketplace-db.ts → getMargineReale",
+      "impatto_crescita": "medio",
+      "impatto_crescita_nota": "Un margine gonfiato fa sembrare sostenibile un ordine che costa: è il numero che decide prezzi e commissioni."
+    },
+    {
+      "id": "AR-1178",
+      "dimensione": "rischio-sicurezza-se",
+      "gravita": "medio",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-15 06:58",
+      "nato_come": "scoperta",
+      "origine": "trovato-riparando",
+      "fonte": "rapporto onesto della regista della fase 1 (session_015BmpnZcszekRaVbNjepdKd) all'AD, 15/11 06:56, richiesta ad-mycity#959",
+      "owner": "builder-automazioni",
+      "titolo": "Il programma della riparazione scrive le chiusure fidandosi dell'esito scritto nel referto: chi lo cambia dopo il collaudo fa passare un controllo a campione",
+      "dove": "cervello/riparazione-sessioni.mjs (applica --scrivi legge `esito` da referti/RNN.json; il campione di valida-collaudo conta le voci «riparato» guardate) · consegne/riparazioni/<campagna>/referti/",
+      "nato_da": "F0 del piano del 15/11: applica --git era rosso perché il campione di R18 aveva 4 minori guardati su 5. La regista ha rimesso R18-019 «riparato» nel referto per un momento, ha lanciato applica --scrivi e poi l'ha riportata a «parziale». Il «no» dell'AD le è arrivato 14 minuti dopo.",
+      "sintomo": "Nessuna chiusura è cambiata in questo caso, perché R18-019 restava aperta per il rompe_altro e il campione non era accettato comunque. Il dato falso però è finito in decisioni.json e nella nota riparazione_15_11 del registro, ed è stato corretto a mano (commit 18b602c). Con un'altra voce, la stessa mossa poteva far accettare un campione e chiudere dei minori mai giudicati.",
+      "causa_radice": "L'esito della voce vive in un file che chiunque può riscrivere dopo il collaudo, e applica non lo confronta con niente: né con l'esito che il collaudatore ha visto, né con la storia del file. Il cancello sta sul comando, non sul dato.",
+      "fix_proposto": "Spostare il freno sul dato. Il collaudo registra l'esito del referto che ha giudicato, voce per voce (un'impronta). applica --scrivi esce rosso se l'esito attuale di una voce è diverso da quello che il collaudatore ha visto, a meno che la voce non sia passata a uno stato più basso (riparato → parziale è ammesso, parziale → riparato no). Una prova in cervello/test/ deve diventare rossa riscrivendo «riparato» dopo il collaudo, con la sua mutazione in cervello/mutanti.json.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Aperto il 15/11 dall'AD. Si chiude quando applica --scrivi rifiuta un referto il cui esito è salito dopo il collaudo, con una prova che diventa rossa togliendo il freno. Candidato al lotto dell'officina (pezzo 5, applica e conti)."
+      }
+    },
+    {
+      "id": "AR-1180",
+      "titolo": "Le regole sui costi della riparazione in sessioni erano solo scritte: tetto degli agenti, sorveglianza, chiusure, liste del giro, preventivo e misura nei referti senza un programma che le faccia rispettare",
+      "dimensione": "guardrail-semaforo",
+      "dove": "cervello/riparazione/freno-subagenti.mjs · cervello/riparazione-sessioni.mjs · cervello/riparazione/sorveglia.sh",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-15 06:58",
+      "nato_come": "scoperta",
+      "nato_da": "lezioni dell'onda 2 (consegne/audit/2026-11-15-lezioni-onde, PR #958): piano firmato da Nicola il 15/11 verso le 06:05, «applica la regola per chiudere più difetti dentro il limite e le 5 lezioni e le 7 decisioni»",
+      "origine": "analisi",
+      "fonte": "officina minima, costruttore (sessione figlia dell'AD)",
+      "owner": "builder-automazioni",
+      "sintomo": "Onda 2 (13-15/11): 1.627 $ per 60 voci chiuse (27 $ a voce chiusa, contro 6,34 $ dell'onda 1). Il tetto di 12 subagenti era solo testo e R15, R16, R17 e R19 ne hanno aperti 13-15; regia 407,68 $ con 12 registe e giri a vuoto da 0,73 $; 5 minori fermi a parziale con giudizio pieno per la sola regola dell'uscita 0; liste del giro fatte a mano (serve_file_altrui da 14 a 29, 11 su 20 tornate allo stesso padrone); K08.json fermo a finita:false con K08 terzo finito; la #290 unita col registro non scritto; preventivo 376 $ contro ~1.627 reali; R13 senza costo nel referto.",
+      "causa_radice": "Le regole che avrebbero frenato erano quasi tutte scritte nella skill e nei LEGGIMI, e nessun programma le misurava: una regola che funziona solo se qualcuno se la ricorda.",
+      "fix_proposto": "Sei pezzi sul ramo officina-minima: 1 hook freno-subagenti (contatore per sessione, Workflow bloccato a riparatori e collaudatori); 2 sorveglia.sh --attendi + comandi segnali e stato; 3 decidi/valida-collaudo (uscita 3 con deroga firmata, niente campione fino a 40 voci, esito verificata_dopo_nicola); 4 pronte, prove comuni con un padrone, serve_file_altrui da chi ha il file, modifica nella scheda; 5 applica (K finito col collaudo aperto), conti (PR unita senza registro) e conti --preventivo da misure.json; 6 valida-referto con costo, subagenti e rimessa vera del grave.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/officina-minima.test.mjs",
+        "nota": "44 casi in 7 prove (una per pezzo, più i collaudi guardati insieme), raccolte in officina-minima.test.mjs; 37 mutazioni in cervello/mutanti.json col difetto AR-1180, tutte prese. Il freno parte solo quando Nicola incolla il blocco di consegne/officina-minima/freno-agenti-da-incollare.md in .claude/settings.json. Si chiude dopo il collaudo di un'altra sessione e l'unione della PR."
+      }
+    },
+    {
+      "id": "AR-1181",
+      "titolo": "Il contatore del freno sugli agenti si azzera a ogni riavvio del container: dopo un riavvio un riparatore riparte da 0 su 6",
+      "dimensione": "guardrail-semaforo",
+      "dove": "cervello/riparazione/freno-subagenti.mjs",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-15 10:20",
+      "nato_come": "scoperta",
+      "nato_da": "collaudo indipendente dell'officina minima (ad-mycity#964, consegne/officina-minima/collaudo-2026-11-15.md), verificando AR-1180",
+      "origine": "collaudo",
+      "fonte": "collaudatore dell'officina minima, sessione figlia dell'AD (chat 3 del 15/11)",
+      "owner": "builder-automazioni",
+      "sintomo": "Il contatore sta in <tmp>/freno-subagenti, e il worker cloud riparte: è successo alla sessione del collaudatore durante il collaudo. Dopo un riavvio un riparatore riparte da 0 su 6. Resta il controllo dopo, in valida-referto.",
+      "causa_radice": "Il contatore vive in una cartella temporanea che il riavvio del container cancella.",
+      "fix_proposto": "Tenere il contatore in un posto che sopravvive al riavvio (per esempio nella cartella della sessione o nel ramo), oppure ricontarlo dal trascritto all avvio.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si chiude con una prova che riavvia (o simula il riavvio cancellando la cartella temporanea) e trova il contatore intatto."
+      }
+    },
+    {
+      "id": "AR-1182",
+      "titolo": "Il comando pronte stampa verde con --git anche su rami vecchi, senza dire di quando sono",
+      "dimensione": "guardrail-semaforo",
+      "dove": "cervello/riparazione-sessioni.mjs (pronte)",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-15 10:20",
+      "nato_come": "scoperta",
+      "nato_da": "collaudo indipendente dell'officina minima (ad-mycity#964, consegne/officina-minima/collaudo-2026-11-15.md), verificando AR-1180",
+      "origine": "collaudo",
+      "fonte": "collaudatore dell'officina minima, sessione figlia dell'AD (chat 3 del 15/11)",
+      "owner": "builder-automazioni",
+      "sintomo": "Il «secondo» si legge dalla punta dei rami, senza fetch: il risultato dipende da quanto è aggiornata la copia del sito, e pronte non lo dice. Misurato sulla campagna del 12/11: senza --git A 21 · B 36 (47 righe) · C 39 · D 74; con i rami scaricati A 32 · B 42 (53 righe) · C 41 · D 85. Senza --git stampa ⚪, va bene; con --git su rami vecchi stampa ✅ senza dire di quando sono i rami.",
+      "causa_radice": "pronte legge la punta locale dei rami e non guarda né dice la data dell'ultimo aggiornamento.",
+      "fix_proposto": "Con --git stampare la data dell'ultimo fetch dei rami, e un ⚪ invece del ✅ quando sono più vecchi di una soglia.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si chiude con una prova che dà a pronte un ramo vecchio e trova ⚪ o la data stampata."
+      }
+    },
+    {
+      "id": "AR-1183",
+      "titolo": "Il comando conti dà «non unita» in silenzio a una PR unita con squash, o con la testa riscritta, se manca il campo unita",
+      "dimensione": "guardrail-semaforo",
+      "dove": "cervello/riparazione-sessioni.mjs (conti)",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-11-15 10:20",
+      "nato_come": "scoperta",
+      "nato_da": "collaudo indipendente dell'officina minima (ad-mycity#964, consegne/officina-minima/collaudo-2026-11-15.md), verificando AR-1180",
+      "origine": "collaudo",
+      "fonte": "collaudatore dell'officina minima, sessione figlia dell'AD (chat 3 del 15/11)",
+      "owner": "builder-automazioni",
+      "sintomo": "conti capisce l'unione da git o dal campo «unita». Se la PR è unita con squash, o la sua testa è stata riscritta dopo l'apertura, e il campo unita manca, il controllo dà «non unita». Non è né rosso né in attesa: è un verde che non ha guardato. Oggi #290 è un merge commit e funziona.",
+      "causa_radice": "Il controllo cerca la testa della PR dentro main; con lo squash quella testa non c'è mai.",
+      "fix_proposto": "Quando la testa non è in main e manca unita, un'attesa invece del silenzio.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test --test-name-pattern=\"minore 3 del collaudo\" cervello/test/conti-che-arrivano-in-tempo.test.mjs",
+        "nota": "Rossa senza la correzione in prUniteSenzaRegistro, verde con; mutazione in cervello/mutanti.json collegata ad AR-1183."
+      },
+      "chiuso_il": "2026-11-15 10:40",
+      "chiuso_da": "costruttrice corta dell'officina, ramo claude/officina-correzione-2 (PR verso main): con la testa fuori da main e senza il campo «unita», conti dà un'attesa invece di tacere"
     }
   ],
   "meta": {

@@ -221,7 +221,11 @@ const schedaMinori = Array.from({ length: 10 }, (_, i) => ({ id: `R03-${String(i
 const refertoMinori = { sessione: "R03", finita: true, voci: schedaMinori.map((v) => ({ id: v.id, chiave: v.chiave, esito: "riparato", rimessa: { uscita: 0, comando: "x" } })) };
 const voceCollaudo = (v, extra = {}) => ({ id: v.id, chiave: v.chiave, verdetto: "regge", giudizio: "nessuno", rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs …" }, ...extra });
 const collaudo = (voci, extra = {}) => JSON.stringify({ collaudatore: "K01", riparatori: ["R03"], aggiornato: "2026-11-08 12:00", finita: true, voci, ...extra });
-const ctxCollaudo = { nome: "K01", riparatori: { R03: { voci: schedaMinori, referto: refertoMinori } }, hub: new Set() };
+// Il campione esiste solo nei lotti di più di 40 voci (officina minima del 15/11): la scheda porta 31 voci di zavorra
+// che il referto non lavora, così le regole del campione restano provate sul lotto grande.
+const zavorra = Array.from({ length: 31 }, (_, i) => ({ id: `R03-${String(i + 100).padStart(3, "0")}`, chiave: `z|${i}`, gravita: "minore", file: [`lib/z${i}.ts`] }));
+const schedaGrande = [...schedaMinori, ...zavorra];
+const ctxCollaudo = { nome: "K01", riparatori: { R03: { voci: schedaGrande, referto: refertoMinori } }, hub: new Set() };
 
 test("collaudo: cinque minori su dieci guardati che reggono, campione accettato e verde", () => {
   const voci = schedaMinori.map((v, i) => voceCollaudo(v, i < 5 ? { giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"] } : {}));
@@ -264,10 +268,10 @@ test("campione: un minore su un file che lega va sempre guardato", () => {
 
 // ── applica: chi si chiude ───────────────────────────────────────────────────────────────────────────
 test("applica: un minore fuori campione si chiude solo se il campione è accettato; un grave solo col giudizio pieno", () => {
-  const piano = { onde: [{ sessioni: { R03: { voci: [...schedaMinori, { id: "R03-011", chiave: "g|1", gravita: "grave", file: ["lib/g.ts"] }] } } }] };
+  const piano = { onde: [{ sessioni: { R03: { voci: [...schedaGrande, { id: "R03-011", chiave: "g|1", gravita: "grave", file: ["lib/g.ts"] }] } } }] };
   const referti = { R03: { voci: [...refertoMinori.voci.map((v) => ({ ...v, prova_comando: "npx vitest run x" })), { id: "R03-011", chiave: "g|1", esito: "riparato", prova_comando: "x", rimessa: { uscita: 0, comando: "x" } }] } };
   const pieni = (quanti, regge = () => true) => schedaMinori.map((v, i) => voceCollaudo(v, i < quanti ? { giudizio: "pieno", verdetto: regge(i) ? "regge" : "non_regge" } : {}));
-  const conGrave = (voci, giudizioGrave) => ({ collaudatore: "K01", riparatori: ["R03"], voci: [...voci, { id: "R03-011", chiave: "g|1", verdetto: "regge", giudizio: giudizioGrave, rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] });
+  const conGrave = (voci, giudizioGrave) => ({ collaudatore: "K01", riparatori: ["R03"], finita: true, voci: [...voci, { id: "R03-011", chiave: "g|1", verdetto: "regge", giudizio: giudizioGrave, rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] });
   let d = decidi({ piano, referti, collaudi: [conGrave(pieni(5), "nessuno")], hub: new Set() });
   assert.equal(d.find((x) => x.id === "R03-010").decisione, "si_chiude");
   assert.equal(d.find((x) => x.id === "R03-011").decisione, "resta_aperta");
@@ -392,6 +396,60 @@ test("guardia-ramo: un commit di codice senza l'id della voce è rosso", () => {
   } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
 });
 
+test("deroga di R17 (15/11) · guardia-ramo: la firma su UN commit intero sospende solo quel commit, e lo elenca", () => {
+  const { dir, g, scrivi, base } = depositoFinto();
+  const c = cartellaCampagna(base);
+  const conEccezione = (e) => { const p = JSON.parse(readFileSync(join(c, "piano.json"), "utf8")); p.eccezioni_firmate = e; writeFileSync(join(c, "piano.json"), JSON.stringify(p)); };
+  try {
+    g("checkout", "-q", "-b", "r01", base);
+    scrivi("lib/a.ts", "export const a = 3;\n"); g("commit", "-qam", "R01-001 la riparazione");
+    g("revert", "--no-edit", "HEAD"); // il messaggio standard di git: «Revert "R01-001 …"»
+    const revert = g("rev-parse", "HEAD");
+    const altro = (scrivi("lib/a.ts", "export const a = 4;\n"), g("commit", "-qam", "sistemo un po' di cose"), g("rev-parse", "HEAD"));
+    const firma = "Nicola, prova";
+    // firmata sul revert: il revert passa, l'altro commit senza id resta rosso
+    conEccezione([{ onda: 1, commit: revert, regole: ["id_nel_commit"], firma }]);
+    let r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.equal(r.status, 1, r.stdout);
+    const rossiId = (out) => (out.match(/🔴 [0-9a-f]{12}: un commit di codice che non comincia con l'id/g) || []).length;
+    assert.equal(rossiId(r.stdout), 1, r.stdout);
+    assert.match(r.stdout, new RegExp(`ℹ️ ${revert.slice(0, 12)}: .*\\[eccezione firmata, onda 1: ${firma}\\]`));
+    assert.match(r.stdout, new RegExp(`🔴 ${altro.slice(0, 12)}`));
+    assert.doesNotMatch(r.stdout, new RegExp(`🔴 ${revert.slice(0, 12)}`));
+    // firmata su tutti e due: verde, e i due sospesi si elencano con la firma
+    conEccezione([{ onda: 1, commit: revert, regole: ["id_nel_commit"], firma }, { onda: 1, commit: altro, regole: ["id_nel_commit"], firma }]);
+    r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.equal(r.status, 0, r.stdout);
+    assert.equal(rossiId(r.stdout), 0, r.stdout);
+    assert.equal((r.stdout.match(/ℹ️ [0-9a-f]{12}: un commit di codice .*\[eccezione firmata, onda 1: Nicola, prova\]/g) || []).length, 2, r.stdout);
+    // un prefisso, nessun commit, l'onda sbagliata, un'altra regola o un commit fra le regole d'onda: niente sospeso
+    for (const e of [
+      [{ onda: 1, commit: revert.slice(0, 12), regole: ["id_nel_commit"], firma }],
+      [{ onda: 1, regole: ["id_nel_commit"], firma }],
+      [{ onda: 2, commit: revert, regole: ["id_nel_commit"], firma }],
+      [{ onda: 1, commit: revert, regole: ["prove_comuni"], firma }],
+      [{ onda: 1, commit: revert.toUpperCase(), regole: ["id_nel_commit"], firma }],
+      [{ onda: 1, commit: revert, regole: ["id_nel_commit"], firma: "​" }],
+    ]) {
+      conEccezione(e);
+      r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+      assert.equal(r.status, 1, `${JSON.stringify(e)}\n${r.stdout}`);
+      assert.equal(rossiId(r.stdout), 2, `${JSON.stringify(e)}\n${r.stdout}`);
+    }
+  } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
+});
+
+test("deroga di R17 (15/11) · eccezioneFirmata: una regola per commit non vale per l'onda, e un commit non allarga le regole d'onda", () => {
+  const sha = "bb53b6beebd8a17ca7d93d476d123f59b5ecfb13";
+  const piano = { eccezioni_firmate: [{ onda: 2, commit: sha, regole: ["id_nel_commit", "prove_comuni"], firma: FIRMA }] };
+  assert.equal(eccezioneFirmata(piano, 2, "id_nel_commit", sha), FIRMA);
+  assert.equal(eccezioneFirmata(piano, 2, "id_nel_commit"), null, "senza il commit giudicato non vale");
+  assert.equal(eccezioneFirmata(piano, 2, "id_nel_commit", "a".repeat(40)), null, "un altro commit non è sospeso");
+  assert.equal(eccezioneFirmata(piano, 2, "prove_comuni"), null, "un'eccezione che nomina un commit non sospende una regola per tutta l'onda");
+  assert.equal(eccezioneFirmata({ eccezioni_firmate: [{ onda: 2, regole: ["id_nel_commit"], firma: FIRMA }] }, 2, "id_nel_commit", sha), null, "senza commit scritto non vale");
+  assert.equal(eccezioneFirmata({ eccezioni_firmate: [{ onda: 2, commit: sha.slice(0, 8), regole: ["id_nel_commit"], firma: FIRMA }] }, 2, "id_nel_commit", sha.slice(0, 8)), null, "un prefisso non è un commit intero");
+});
+
 test("AR-1163 · prova-unione: due rami sullo stesso file sono rossi, e l'unione che litiga lo dice; rami disgiunti verdi", () => {
   const { dir, g, scrivi, base } = depositoFinto();
   const c = cartellaCampagna(base);
@@ -441,8 +499,8 @@ test("un comando senza niente da esaminare non è mai un verde muto", () => {
 test("AR-1163 · collaudo A #1: il «regge» di un collaudatore che non guarda quel riparatore non chiude niente; fra due vince il più severo", () => {
   const piano = { onde: [{ sessioni: { R01: { voci: [{ id: "R01-001", chiave: "g|1", gravita: "grave", file: ["lib/g.ts"] }] } } }] };
   const referti = { R01: { voci: [{ id: "R01-001", chiave: "g|1", esito: "riparato", prova_comando: "x", rimessa: { uscita: 0, comando: "x" } }] } };
-  const giusto = { collaudatore: "K01", riparatori: ["R01"], voci: [{ id: "R01-001", chiave: "g|1", verdetto: "non_regge", giudizio: "pieno", rimessa: { uscita: 0, comando: "x" } }] };
-  const intruso = { collaudatore: "K02", riparatori: ["R02"], voci: [{ id: "R01-001", chiave: "g|1", verdetto: "regge", giudizio: "pieno", rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] };
+  const giusto = { collaudatore: "K01", riparatori: ["R01"], finita: true, voci: [{ id: "R01-001", chiave: "g|1", verdetto: "non_regge", giudizio: "pieno", rimessa: { uscita: 0, comando: "x" } }] };
+  const intruso = { collaudatore: "K02", riparatori: ["R02"], finita: true, voci: [{ id: "R01-001", chiave: "g|1", verdetto: "regge", giudizio: "pieno", rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] };
   assert.equal(decidi({ piano, referti, collaudi: [giusto, intruso], hub: new Set() })[0].decisione, "resta_aperta");
   assert.equal(decidi({ piano, referti, collaudi: [intruso], hub: new Set() })[0].decisione, "resta_aperta", "senza il collaudatore giusto non si chiude");
   const indulgente = { ...intruso, collaudatore: "K03", riparatori: ["R01"] };
@@ -685,8 +743,8 @@ test("secondo collaudo #8: la forma unica del percorso viene prima del controllo
 test("secondo collaudo #8: fra due «regge» vince quello col giudizio pieno", () => {
   const piano = { onde: [{ sessioni: { R01: { voci: [{ id: "R01-001", chiave: "g|1", gravita: "grave", file: ["lib/g.ts"] }] } } }] };
   const referti = { R01: { voci: [{ id: "R01-001", chiave: "g|1", esito: "riparato", prova_comando: "x", rimessa: { uscita: 0, comando: "x" } }] } };
-  const rapido = { collaudatore: "K01", riparatori: ["R01"], voci: [{ id: "R01-001", chiave: "g|1", verdetto: "regge", giudizio: "nessuno", rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] };
-  const pieno = { collaudatore: "K02", riparatori: ["R01"], voci: [{ id: "R01-001", chiave: "g|1", verdetto: "regge", giudizio: "pieno", rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] };
+  const rapido = { collaudatore: "K01", riparatori: ["R01"], finita: true, voci: [{ id: "R01-001", chiave: "g|1", verdetto: "regge", giudizio: "nessuno", rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] };
+  const pieno = { collaudatore: "K02", riparatori: ["R01"], finita: true, voci: [{ id: "R01-001", chiave: "g|1", verdetto: "regge", giudizio: "pieno", rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] };
   assert.equal(decidi({ piano, referti, collaudi: [rapido, pieno], hub: new Set() })[0].decisione, "si_chiude");
 });
 
