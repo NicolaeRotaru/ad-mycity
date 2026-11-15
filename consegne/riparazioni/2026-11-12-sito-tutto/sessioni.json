@@ -410,7 +410,14 @@
    "onda": 3,
    "aperta": "2026-11-15 23:47",
    "tetto_usd": 15,
-   "mandato": "le 16 voci di pronte/A-da-ricollaudare.txt, giudizio pieno senza campione"
+   "mandato": "le 16 voci di pronte/A-da-ricollaudare.txt, giudizio pieno senza campione",
+   "finita": true,
+   "punta": "68fb127e",
+   "spesa_usd": 17.89,
+   "chiusa": "2026-11-16 00:09",
+   "esito": "8 reggono (R04-021, R07-021, R07-022, R14-008, R14-014, R14-015, R14-017, R14-020), 8 parziali, 0 bocciate; R14-006 e R14-023 provate e non giudicate (b)",
+   "controllo_regia": "guardia-ramo verde, valida-collaudo verde (3 rossi sospesi dall'eccezione firmata rimessa_a_mano dell'onda 1) alle 00:11",
+   "da_decidere": "R04-021, R07-021, R07-022: K02/K10 avevano «parziale» pieno e applica fa vincere il peggiore; R14 non è unito: le 5 che reggono vanno portate nell'integrazione dal suo ramo"
   }
  },
  "controllori": {
