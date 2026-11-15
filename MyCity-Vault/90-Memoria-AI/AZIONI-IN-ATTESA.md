@@ -44,7 +44,9 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 Cosa cambia: le regole firmate stamattina diventano quelle di tutte le sessioni, non solo di questa.
 Se va bene: la regista della fase 1 e l'officina lavorano già con queste regole, senza leggerle da un ramo a parte.
 
-### 🟡 #244 — Scegli cosa fare col controllo della macchina bocciato due volte · ✅ fatto: Nicola ha scelto «b» (2026-11-15 07:24, «ok 244 b»). Accodata 2026-11-15 06:23
+### 🟡 #244 — Scegli cosa fare col controllo della macchina bocciato due volte · ⏳ accodata 2026-11-15 06:23
+
+**✅ Fatto (2026-11-15 07:24).** Nicola ha scelto «b» («ok 244 b»): il sorvegliante esce dalla richiesta #956 e torna nel cantiere, il controllo del glossario entra da solo. Il taglio lo fa una sessione corta aperta dall'AD.
 
 **In parole semplici.** Stanotte la regista dell'onda 2 ha costruito due controlli per la macchina. Uno, quello del glossario dei numeri, ha retto al secondo collaudo. L'altro, il sorvegliante che distingue i programmi morti dai freni staccati, è stato bocciato due volte. Ha ancora un difetto grave: dei programmi morti nelle sottocartelle danno allarmi gravi falsi.
 
