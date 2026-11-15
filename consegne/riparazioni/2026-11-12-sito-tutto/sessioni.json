@@ -233,7 +233,7 @@
    "id": "session_015BmpnYAcQyeLz2AB2gFogr",
    "ramo": "claude/sito-onda-3-m26",
    "onda": 3,
-   "partenza": "2026-11-16 00:00",
+   "partenza": "2026-11-15 23:59",
    "base": "76d4c4d79254284a0330eb865ff029db5261e26e",
    "ruolo_freno": "riparatore-gravi",
    "tetto_usd": 35,
