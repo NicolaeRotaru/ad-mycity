@@ -26585,6 +26585,75 @@
         "comando": "node --test cervello/test/officina-minima.test.mjs",
         "nota": "44 casi in 7 prove (una per pezzo, più i collaudi guardati insieme), raccolte in officina-minima.test.mjs; 37 mutazioni in cervello/mutanti.json col difetto AR-1180, tutte prese. Il freno parte solo quando Nicola incolla il blocco di consegne/officina-minima/freno-agenti-da-incollare.md in .claude/settings.json. Si chiude dopo il collaudo di un'altra sessione e l'unione della PR."
       }
+    },
+    {
+      "id": "AR-1181",
+      "titolo": "Il contatore del freno sugli agenti si azzera a ogni riavvio del container: dopo un riavvio un riparatore riparte da 0 su 6",
+      "dimensione": "guardrail-semaforo",
+      "dove": "cervello/riparazione/freno-subagenti.mjs",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-15 10:20",
+      "nato_come": "scoperta",
+      "nato_da": "collaudo indipendente dell'officina minima (ad-mycity#964, consegne/officina-minima/collaudo-2026-11-15.md), verificando AR-1180",
+      "origine": "collaudo",
+      "fonte": "collaudatore dell'officina minima, sessione figlia dell'AD (chat 3 del 15/11)",
+      "owner": "builder-automazioni",
+      "sintomo": "Il contatore sta in <tmp>/freno-subagenti, e il worker cloud riparte: è successo alla sessione del collaudatore durante il collaudo. Dopo un riavvio un riparatore riparte da 0 su 6. Resta il controllo dopo, in valida-referto.",
+      "causa_radice": "Il contatore vive in una cartella temporanea che il riavvio del container cancella.",
+      "fix_proposto": "Tenere il contatore in un posto che sopravvive al riavvio (per esempio nella cartella della sessione o nel ramo), oppure ricontarlo dal trascritto all avvio.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si chiude con una prova che riavvia (o simula il riavvio cancellando la cartella temporanea) e trova il contatore intatto."
+      }
+    },
+    {
+      "id": "AR-1182",
+      "titolo": "Il comando pronte stampa verde con --git anche su rami vecchi, senza dire di quando sono",
+      "dimensione": "guardrail-semaforo",
+      "dove": "cervello/riparazione-sessioni.mjs (pronte)",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-15 10:20",
+      "nato_come": "scoperta",
+      "nato_da": "collaudo indipendente dell'officina minima (ad-mycity#964, consegne/officina-minima/collaudo-2026-11-15.md), verificando AR-1180",
+      "origine": "collaudo",
+      "fonte": "collaudatore dell'officina minima, sessione figlia dell'AD (chat 3 del 15/11)",
+      "owner": "builder-automazioni",
+      "sintomo": "Il «secondo» si legge dalla punta dei rami, senza fetch: il risultato dipende da quanto è aggiornata la copia del sito, e pronte non lo dice. Misurato sulla campagna del 12/11: senza --git A 21 · B 36 (47 righe) · C 39 · D 74; con i rami scaricati A 32 · B 42 (53 righe) · C 41 · D 85. Senza --git stampa ⚪, va bene; con --git su rami vecchi stampa ✅ senza dire di quando sono i rami.",
+      "causa_radice": "pronte legge la punta locale dei rami e non guarda né dice la data dell'ultimo aggiornamento.",
+      "fix_proposto": "Con --git stampare la data dell'ultimo fetch dei rami, e un ⚪ invece del ✅ quando sono più vecchi di una soglia.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si chiude con una prova che dà a pronte un ramo vecchio e trova ⚪ o la data stampata."
+      }
+    },
+    {
+      "id": "AR-1183",
+      "titolo": "Il comando conti dà «non unita» in silenzio a una PR unita con squash, o con la testa riscritta, se manca il campo unita",
+      "dimensione": "guardrail-semaforo",
+      "dove": "cervello/riparazione-sessioni.mjs (conti)",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-15 10:20",
+      "nato_come": "scoperta",
+      "nato_da": "collaudo indipendente dell'officina minima (ad-mycity#964, consegne/officina-minima/collaudo-2026-11-15.md), verificando AR-1180",
+      "origine": "collaudo",
+      "fonte": "collaudatore dell'officina minima, sessione figlia dell'AD (chat 3 del 15/11)",
+      "owner": "builder-automazioni",
+      "sintomo": "conti capisce l'unione da git o dal campo «unita». Se la PR è unita con squash, o la sua testa è stata riscritta dopo l'apertura, e il campo unita manca, il controllo dà «non unita». Non è né rosso né in attesa: è un verde che non ha guardato. Oggi #290 è un merge commit e funziona.",
+      "causa_radice": "Il controllo cerca la testa della PR dentro main; con lo squash quella testa non c'è mai.",
+      "fix_proposto": "Quando la testa non è in main e manca unita, un'attesa invece del silenzio.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si chiude con una prova su una PR unita con squash senza campo unita, che deve dare ⚪ e non verde."
+      }
     }
   ],
   "meta": {

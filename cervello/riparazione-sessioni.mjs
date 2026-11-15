@@ -1421,7 +1421,11 @@ export function regoleCollaudo(testo, ctx) {
     if (info.referto.finita !== true) { rossi.push(`${r}: il referto del riparatore non è finito; si collauda il referto finito, letto alla PUNTA del suo ramo`); continue; }
     const scheda = new Map(info.voci.map((v) => [v.id, v]));
     const daCollaudare = info.referto.voci.filter((v) => ["riparato", "parziale", "gia_riparato_prima", "verificata_dopo_nicola"].includes(v.esito));
-    const senzaCampione = info.voci.length <= LOTTO_SENZA_CAMPIONE;
+    // La regola «niente campione fino a 40 voci» (15/11) vale solo per i collaudi nuovi, cioè dietro ctx.misura come le
+    // regole nuove del referto: valida-collaudo la applica, applica no. Su un collaudo scritto prima, quando il campione
+    // era ammesso, riapriva voci già chiuse a campione accettato (collaudo dell'officina minima, 15/11: 7 voci della
+    // campagna del 12/11, R08-010 … R16-016, e applica rosso con 18 problemi).
+    const senzaCampione = ctx.misura === true && info.voci.length <= LOTTO_SENZA_CAMPIONE;
     const minori = [];
     for (const rv of daCollaudare) {
       const s = scheda.get(rv.id);
@@ -1499,7 +1503,7 @@ function validaCollaudo(opz) {
   const fuoriPiano = Object.entries(riparatori).filter(([, x]) => !x.inPiano).map(([r]) => r);
   const derogatiK = [];
   const altriK = leggiCartellaJson(join(serveCartella(opz), "collaudi"), /^K\d{2}\.json$/);
-  const { rossi, attese, campioni } = regoleCollaudo(testo, { nome: c.collaudatore, riparatori, hub: fileHub(per.lavorabili), deroga: derogaCollaudo(piano, derogatiK), altrui: pieniAltrove(altriK, c.collaudatore) });
+  const { rossi, attese, campioni } = regoleCollaudo(testo, { nome: c.collaudatore, riparatori, hub: fileHub(per.lavorabili), deroga: derogaCollaudo(piano, derogatiK), altrui: pieniAltrove(altriK, c.collaudatore), misura: true });
   stampaEccezioni(derogatiK);
   for (const r of fuoriPiano) rossi.push(`${r} non è nel piano`);
   const sess = leggiSessioni(opz);
@@ -1582,9 +1586,13 @@ function provaUnione(opz) {
  * La decisione su ogni voce, dai referti e dai collaudi. PURA. La regola del campione si ricalcola qui
  * (scorciatoia #1: misura, non chiedere): la parola «accettato» scritta dal collaudatore non conta.
  */
-export function decidi({ piano, referti, collaudi, hub }) {
+export function decidi({ piano, referti, collaudi, hub, misura = false }) {
   const decisioni = [];
   const verdetti = new Map();
+  // Il verdetto più severo fra quelli SENZA giudizio pieno, voce per voce: se un pieno lo batte, la decisione lo dice
+  // in «avviso» invece di farlo sparire (collaudo dell'officina minima, 15/11, minore 4: un «rompe_altro» di K07
+  // spariva sotto il «regge» pieno di K10 senza lasciare traccia).
+  const scartati = new Map();
   // Un collaudatore giudica solo i riparatori che elenca: il collaudo del 7/11 ha fatto chiudere un grave di R01
   // con il «regge» di K02, che guardava R02, sopra il «non regge» di K01. Fra due verdetti vince il più severo.
   const SEVERITA_VERDETTO = { rompe_altro: 3, non_regge: 2, parziale: 1, regge: 0 };
@@ -1596,8 +1604,12 @@ export function decidi({ piano, referti, collaudi, hub }) {
     const pesoPrima = prima ? (SEVERITA_VERDETTO[prima.verdetto] ?? 3) : -1;
     // Un giudizio pieno batte sempre uno che non lo è; fra due dello stesso tipo vince il peggiore (officina minima
     // del 15/11: K07 senza giudizio su R18, K10 col pieno sulle stesse voci; applica le teneva aperte).
-    const pieno = v.giudizio === "pieno", pienoPrima = prima?.giudizio === "pieno";
-    if (!prima || (pieno && !pienoPrima) || (pieno === pienoPrima && peso > pesoPrima)) verdetti.set(v.id, { ...v, collaudatore: c.collaudatore });
+    // Un collaudo non finito non presta il giudizio pieno: le sue voci contano come giudicate senza pieno (minore 5
+    // dello stesso collaudo: pronte chiudeva voci col pieno di un collaudo non ancora consegnato).
+    const pieno = v.giudizio === "pieno" && c.finita === true, pienoPrima = prima?.giudizio === "pieno";
+    const voce = { ...v, giudizio: pieno ? "pieno" : v.giudizio === "pieno" ? "nessuno" : v.giudizio, collaudatore: c.collaudatore };
+    if (!pieno && peso > (SEVERITA_VERDETTO[scartati.get(v.id)?.verdetto] ?? -1)) scartati.set(v.id, voce);
+    if (!prima || (pieno && !pienoPrima) || (pieno === pienoPrima && peso > pesoPrima)) verdetti.set(v.id, voce);
   }
   for (const o of piano.onde) {
     for (const [nome, s] of Object.entries(o.sessioni)) {
@@ -1609,6 +1621,8 @@ export function decidi({ piano, referti, collaudi, hub }) {
         const rv = ref?.voci?.find((v) => v.id === sv.id);
         const cv = verdetti.get(sv.id);
         const d = { id: sv.id, sessione: nome, chiave: sv.chiave, gravita: sv.gravita, esito: rv?.esito ?? "senza_referto", verdetto: cv?.verdetto ?? null, collaudatore: cv?.collaudatore ?? null, decisione: "resta_aperta", perche: "" };
+        const sc = scartati.get(sv.id);
+        if (cv?.giudizio === "pieno" && sc && (SEVERITA_VERDETTO[sc.verdetto] ?? 3) > (SEVERITA_VERDETTO[cv.verdetto] ?? 3)) d.avviso = `${sc.collaudatore} dice «${sc.verdetto}» senza giudizio pieno; vince il «${cv.verdetto}» pieno di ${cv.collaudatore}`;
         if (!rv) d.perche = "il riparatore non l'ha scritta nel referto";
         else if (rv.esito === "riparato") {
           const minore = !GRAVI.has(sv.gravita);
@@ -1622,7 +1636,7 @@ export function decidi({ piano, referti, collaudi, hub }) {
           else if (cv.verdetto !== "regge") d.perche = `collaudo: ${cv.verdetto}`;
           else if (cv.rimessa?.uscita !== 0 && !aMano) d.perche = minore && usc.includes(3) ? "prova rimessa a uscita 3: un minore chiude solo con la deroga firmata «rimessa_a_mano», il giudizio pieno e rimessa.a_mano" : "la prova rimessa del collaudatore non è uscita 0";
           else if (GRAVI.has(sv.gravita) && cv.giudizio !== "pieno") d.perche = "un grave senza giudizio pieno";
-          else if (minore && cv.giudizio !== "pieno" && s.voci.length <= LOTTO_SENZA_CAMPIONE) d.perche = `minore senza giudizio pieno: in un lotto di ${s.voci.length} voci il campione non esiste`;
+          else if (misura === true && minore && cv.giudizio !== "pieno" && s.voci.length <= LOTTO_SENZA_CAMPIONE) d.perche = `minore senza giudizio pieno: in un lotto di ${s.voci.length} voci il campione non esiste`;
           else if (minore && cv.giudizio !== "pieno" && !camp.accettato) d.perche = `minore fuori campione, e il campione di ${nome} non è accettato`;
           else {
             d.decisione = "si_chiude";
@@ -1814,6 +1828,8 @@ function applica(opz) {
   const restano = decisioni.filter((d) => d.decisione === "resta_aperta");
   const nati = [...Object.values(referti), ...controlli.map((c) => ({ ...c, sessione: c.controllore }))]
     .flatMap((r) => (r.nuovi_difetti_visti ?? []).map((n) => ({ ...n, sessione: r.sessione })));
+  const avvisi = decisioni.filter((d) => d.avviso).map((d) => `${d.id}: ${d.avviso}`);
+  for (const a of avvisi) console.log(`⚠️  ${a}`);
   console.log(`🧾 ${decisioni.length} voci: ${chiude.length} si chiudono (dopo l'unione), ${gia.length} erano già riparate, ${restano.length} restano aperte · ${nati.length} difetti nati`);
   // i frammenti per chiudi-sito.mjs (sito) o la lista per auto-fix (macchina): si applicano DOPO l'unione
   const perSessione = new Map();
@@ -1822,7 +1838,7 @@ function applica(opz) {
     corsia: numeroSessione(s), territorio: s,
     difetti: ds.map((d) => ({ chiave: d.chiave, esito: "riparato", verifica_comando: d.verifica_comando, non_vacuita: d.non_vacuita, nota_fix: d.nota_fix })),
   }));
-  scriviJson(join(cartella, "decisioni.json"), { campagna: nomeCampagna, quando, decisioni, ...(fuoriCampagna.length ? { rosse_fuori_campagna: fuoriCampagna } : {}), ...(eccezioni.length ? { eccezioni_firmate: eccezioni } : {}) });
+  scriviJson(join(cartella, "decisioni.json"), { campagna: nomeCampagna, quando, decisioni, ...(fuoriCampagna.length ? { rosse_fuori_campagna: fuoriCampagna } : {}), ...(avvisi.length ? { avvisi } : {}), ...(eccezioni.length ? { eccezioni_firmate: eccezioni } : {}) });
   if (!opz.scrivi) {
     console.log("   (a vuoto: ho scritto solo decisioni.json. Con --scrivi scrivo i frammenti e il registro.)");
     const attese = senzaStoria.length ? [`commit e testa non controllati sulla storia del ramo per ${senzaStoria.join(", ")} (servono --git e sessioni.json)`] : [];

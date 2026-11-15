@@ -271,7 +271,7 @@ test("applica: un minore fuori campione si chiude solo se il campione è accetta
   const piano = { onde: [{ sessioni: { R03: { voci: [...schedaGrande, { id: "R03-011", chiave: "g|1", gravita: "grave", file: ["lib/g.ts"] }] } } }] };
   const referti = { R03: { voci: [...refertoMinori.voci.map((v) => ({ ...v, prova_comando: "npx vitest run x" })), { id: "R03-011", chiave: "g|1", esito: "riparato", prova_comando: "x", rimessa: { uscita: 0, comando: "x" } }] } };
   const pieni = (quanti, regge = () => true) => schedaMinori.map((v, i) => voceCollaudo(v, i < quanti ? { giudizio: "pieno", verdetto: regge(i) ? "regge" : "non_regge" } : {}));
-  const conGrave = (voci, giudizioGrave) => ({ collaudatore: "K01", riparatori: ["R03"], voci: [...voci, { id: "R03-011", chiave: "g|1", verdetto: "regge", giudizio: giudizioGrave, rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] });
+  const conGrave = (voci, giudizioGrave) => ({ collaudatore: "K01", riparatori: ["R03"], finita: true, voci: [...voci, { id: "R03-011", chiave: "g|1", verdetto: "regge", giudizio: giudizioGrave, rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] });
   let d = decidi({ piano, referti, collaudi: [conGrave(pieni(5), "nessuno")], hub: new Set() });
   assert.equal(d.find((x) => x.id === "R03-010").decisione, "si_chiude");
   assert.equal(d.find((x) => x.id === "R03-011").decisione, "resta_aperta");
@@ -499,8 +499,8 @@ test("un comando senza niente da esaminare non è mai un verde muto", () => {
 test("AR-1163 · collaudo A #1: il «regge» di un collaudatore che non guarda quel riparatore non chiude niente; fra due vince il più severo", () => {
   const piano = { onde: [{ sessioni: { R01: { voci: [{ id: "R01-001", chiave: "g|1", gravita: "grave", file: ["lib/g.ts"] }] } } }] };
   const referti = { R01: { voci: [{ id: "R01-001", chiave: "g|1", esito: "riparato", prova_comando: "x", rimessa: { uscita: 0, comando: "x" } }] } };
-  const giusto = { collaudatore: "K01", riparatori: ["R01"], voci: [{ id: "R01-001", chiave: "g|1", verdetto: "non_regge", giudizio: "pieno", rimessa: { uscita: 0, comando: "x" } }] };
-  const intruso = { collaudatore: "K02", riparatori: ["R02"], voci: [{ id: "R01-001", chiave: "g|1", verdetto: "regge", giudizio: "pieno", rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] };
+  const giusto = { collaudatore: "K01", riparatori: ["R01"], finita: true, voci: [{ id: "R01-001", chiave: "g|1", verdetto: "non_regge", giudizio: "pieno", rimessa: { uscita: 0, comando: "x" } }] };
+  const intruso = { collaudatore: "K02", riparatori: ["R02"], finita: true, voci: [{ id: "R01-001", chiave: "g|1", verdetto: "regge", giudizio: "pieno", rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] };
   assert.equal(decidi({ piano, referti, collaudi: [giusto, intruso], hub: new Set() })[0].decisione, "resta_aperta");
   assert.equal(decidi({ piano, referti, collaudi: [intruso], hub: new Set() })[0].decisione, "resta_aperta", "senza il collaudatore giusto non si chiude");
   const indulgente = { ...intruso, collaudatore: "K03", riparatori: ["R01"] };
@@ -743,8 +743,8 @@ test("secondo collaudo #8: la forma unica del percorso viene prima del controllo
 test("secondo collaudo #8: fra due «regge» vince quello col giudizio pieno", () => {
   const piano = { onde: [{ sessioni: { R01: { voci: [{ id: "R01-001", chiave: "g|1", gravita: "grave", file: ["lib/g.ts"] }] } } }] };
   const referti = { R01: { voci: [{ id: "R01-001", chiave: "g|1", esito: "riparato", prova_comando: "x", rimessa: { uscita: 0, comando: "x" } }] } };
-  const rapido = { collaudatore: "K01", riparatori: ["R01"], voci: [{ id: "R01-001", chiave: "g|1", verdetto: "regge", giudizio: "nessuno", rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] };
-  const pieno = { collaudatore: "K02", riparatori: ["R01"], voci: [{ id: "R01-001", chiave: "g|1", verdetto: "regge", giudizio: "pieno", rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] };
+  const rapido = { collaudatore: "K01", riparatori: ["R01"], finita: true, voci: [{ id: "R01-001", chiave: "g|1", verdetto: "regge", giudizio: "nessuno", rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] };
+  const pieno = { collaudatore: "K02", riparatori: ["R01"], finita: true, voci: [{ id: "R01-001", chiave: "g|1", verdetto: "regge", giudizio: "pieno", rimessa: { uscita: 0, comando: "node cervello/prova-rimessa.mjs x" } }] };
   assert.equal(decidi({ piano, referti, collaudi: [rapido, pieno], hub: new Set() })[0].decisione, "si_chiude");
 });
 

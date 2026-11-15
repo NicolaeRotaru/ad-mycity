@@ -20,7 +20,7 @@ const A_MANO = { comando: "git checkout HEAD^ -- app/api/x/route.ts && npx vites
 const una = (gravita) => ({ id: "R04-012", chiave: "ai|foto", gravita, file: ["app/api/x/route.ts"] });
 const pianoCon = (gravita, eccezioni = FIRMA) => ({ eccezioni_firmate: eccezioni, onde: [{ onda: 1, sessioni: { R04: { voci: [una(gravita)] } } }] });
 const referti = { R04: { finita: true, voci: [{ id: "R04-012", chiave: "ai|foto", esito: "riparato", prova_comando: "npx vitest run tests/unit/x.test.ts", rimessa: { esito: "regge", uscita: 0, comando: "rimessa a mano" } }] } };
-const collaudo = (extra = {}) => ({ collaudatore: "K02", riparatori: ["R04"], voci: [{ id: "R04-012", chiave: "ai|foto", verdetto: "regge", giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"], rimessa: { uscita: 3, comando: "node cervello/prova-rimessa.mjs --file app/api/x/route.ts", a_mano: A_MANO }, ...extra }] });
+const collaudo = (extra = {}) => ({ collaudatore: "K02", riparatori: ["R04"], finita: true, voci: [{ id: "R04-012", chiave: "ai|foto", verdetto: "regge", giudizio: "pieno", lenti: ["chiude_tutta", "nata_rotta"], rimessa: { uscita: 3, comando: "node cervello/prova-rimessa.mjs --file app/api/x/route.ts", a_mano: A_MANO }, ...extra }] });
 const decisione = (piano, c = collaudo()) => decidi({ piano, referti, collaudi: [c], hub: new Set() })[0];
 
 test("AR-1180 · (a) un minore a uscita 3, con la deroga firmata, la rimessa a mano e il giudizio pieno si chiude", () => {
@@ -86,7 +86,7 @@ test("AR-1180 · (b) lotto di 30 voci: due minori riparati senza giudizio pieno 
 test("AR-1180 · (c) «verificata_dopo_nicola» chiude solo con prova, rimessa e il giudizio pieno di un'altra sessione", () => {
   const piano = { onde: [{ onda: 1, sessioni: { R06: { voci: [{ id: "R06-003", chiave: "env|chiave", gravita: "grave", file: [] }] } } }] };
   const voce = { id: "R06-003", chiave: "env|chiave", esito: "verificata_dopo_nicola", prova_comando: "node cervello/verifica-sensori.mjs --solo stripe", rimessa: { comando: "node cervello/verifica-sensori.mjs --solo stripe", uscita_senza_correzione: 2, uscita_con_correzione: 0 } };
-  const k = (extra = {}) => ({ collaudatore: "K10", riparatori: ["R06"], voci: [{ id: "R06-003", chiave: "env|chiave", verdetto: "regge", giudizio: "pieno", ...extra }] });
+  const k = (extra = {}) => ({ collaudatore: "K10", riparatori: ["R06"], finita: true, voci: [{ id: "R06-003", chiave: "env|chiave", verdetto: "regge", giudizio: "pieno", ...extra }] });
   const d = (v, c = k()) => decidi({ piano, referti: { R06: { voci: [v] } }, collaudi: [c], hub: new Set() })[0];
   assert.equal(d(voce).decisione, "si_chiude");
   assert.match(d(voce).come, /verificata dopo Nicola/);

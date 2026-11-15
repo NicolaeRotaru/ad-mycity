@@ -12219,6 +12219,60 @@
    "cerca": "    if (!c || c.collaudatore === tranne || c.finita !== true) continue;",
    "sostituisci": "    if (!c || c.collaudatore === tranne) continue;",
    "test": "cervello/test/collaudi-guardati-insieme.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "la regola dei 40 voci torna a valere sui collaudi scritti prima (applica rosso sulla campagna del 12/11)",
+   "cerca": "    const senzaCampione = ctx.misura === true && info.voci.length <= LOTTO_SENZA_CAMPIONE;",
+   "sostituisci": "    const senzaCampione = info.voci.length <= LOTTO_SENZA_CAMPIONE;",
+   "test": "cervello/test/collaudi-guardati-insieme.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "valida-collaudo smette di applicare la regola dei 40 voci ai collaudi nuovi",
+   "cerca": "altrui: pieniAltrove(altriK, c.collaudatore), misura: true });",
+   "sostituisci": "altrui: pieniAltrove(altriK, c.collaudatore) });",
+   "test": "cervello/test/chiusure-dopo-l-onda-2.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "decidi riapre le voci chiuse a campione con la regola dei 40 anche senza misura",
+   "cerca": "          else if (misura === true && minore && cv.giudizio !== \"pieno\" && s.voci.length <= LOTTO_SENZA_CAMPIONE) d.perche",
+   "sostituisci": "          else if (minore && cv.giudizio !== \"pieno\" && s.voci.length <= LOTTO_SENZA_CAMPIONE) d.perche",
+   "test": "cervello/test/collaudi-guardati-insieme.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "un «rompe_altro» senza pieno battuto da un pieno sparisce senza avviso",
+   "cerca": "    if (!pieno && peso > (SEVERITA_VERDETTO[scartati.get(v.id)?.verdetto] ?? -1)) scartati.set(v.id, voce);",
+   "sostituisci": "    void scartati;",
+   "test": "cervello/test/collaudi-guardati-insieme.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "applica non stampa gli avvisi dei verdetti battuti da un pieno",
+   "cerca": "  for (const a of avvisi) console.log(`⚠️  ${a}`);",
+   "sostituisci": "  void avvisi;",
+   "test": "cervello/test/collaudi-guardati-insieme.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "decidi presta il giudizio pieno di un collaudo non finito",
+   "cerca": "    const pieno = v.giudizio === \"pieno\" && c.finita === true, pienoPrima",
+   "sostituisci": "    const pieno = v.giudizio === \"pieno\", pienoPrima",
+   "test": "cervello/test/collaudi-guardati-insieme.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",
