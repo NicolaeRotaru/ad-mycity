@@ -5,9 +5,9 @@
     "R07",
     "R14"
   ],
-  "aggiornato": "2026-11-16 00:06",
-  "finita": false,
-  "nota": "bozza",
+  "aggiornato": "2026-11-16 00:09",
+  "finita": true,
+  "nota": "K11 (onda 3) giudica con giudizio pieno le 16 voci di pronte/A-da-ricollaudare.txt, senza campione (R04, R07 e R14 hanno ciascuno al massimo 40 voci). R04 e R07 sono provati alla loro testa e sul main del sito 67666b3f, dove sono uniti. R14 è provato alla sua testa 004218b6: non è unito. Le 5 voci di R04 e R07 escono 3 alla prova rimessa: si chiudono con la rimessa a mano (rimessa.a_mano) e l'eccezione firmata «rimessa_a_mano» dell'onda 1. Attenzione: K02 e K10 portano su R04-012, R04-015, R04-021, R07-021 e R07-022 un «parziale» pieno, e applica fa vincere il peggiore fra due pieni. R14-006 e R14-023 non sono nell'elenco A (stanno in D, perché nominano una migrazione) e non sono giudicate: per scelta della regista O3 hanno verdetto parziale, giudizio nessuno e solo le prove rimesse di K11, codice e migrazione su un Postgres locale. Nessuna migrazione è stata applicata al database vero. Le altre voci dei tre riparatori sono copiate senza cambiare nulla dai collaudi K02, K10 e K08 (campo ripreso_da): per R14 vengono da K08, rimandati_onda_3.",
   "voci": [
     {
       "id": "R04-001",
@@ -170,6 +170,26 @@
       "ripreso_da": "K02"
     },
     {
+      "id": "R04-012",
+      "chiave": "ai-endpoints|la lettura di un prodotto da una foto va in errore 500 se il modello scrive il motivo del rifiuto in un formato inatteso",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 61c6e995c2219d23eaf589652a6110a6f3b4415b^ --file app/api/vision/extract-product/route.ts --prove tests/unit/riparazione-r04-foto-uscita-modello.test.ts --json   (checkout 61c6e995c2219d23eaf589652a6110a6f3b4415b)",
+        "a_mano": {
+          "comando": "cd ../wt-R04 && git apply /tmp/claude-0/k11/a_mano/R04-012.patch && npx vitest run --reporter=dot tests/unit/riparazione-r04-foto-uscita-modello.test.ts; echo \"senza=$?\"; git apply -R /tmp/claude-0/k11/a_mano/R04-012.patch && npx vitest run --reporter=dot tests/unit/riparazione-r04-foto-uscita-modello.test.ts; echo \"con=$?\"",
+          "uscita_senza_correzione": 1,
+          "uscita_con_correzione": 0
+        }
+      },
+      "nota": "Giudizio pieno K11 (un revisore qa, due lenti), alla testa di R04 6ffafba7, confrontato col main del sito 67666b3f dove la correzione è unita. La prova-rimessa esce 3 (rossa per la struttura): rimessa a mano, policy_reason senza controllo di tipo (extract-product/route.ts:415): la prova cade su expect(res.status).toBe(400) col TypeError, cioè il 500 della voce. CHIUDE_TUTTA: no. extract-product ora controlla il tipo di ogni campo, ma la rotta sorella app/api/vision/extract-products/route.ts:257-260 fa products.map((p) => … p.image_indexes) fuori dal try: un elemento null nell'uscita del modello dà TypeError, cioè 500 (provato con una sonda products:[null,…]). NATA_ROTTA: niente rotto; ProductForm e SupportProductAssistant gestiscono nome vuoto e prezzo null. Difetto nuovo fuori chiave: extract-product/route.ts:412 ed extract-products/route.ts:304 leggono policy_ok senza controllo di tipo: con \"false\" scritto come stringa un prodotto vietato passa (provato, policy_ok:true)."
+    },
+    {
       "id": "R04-013",
       "chiave": "ai-endpoints|se il negoziante esce dalla pagina mentre «migliora tutto il catalogo» lavora, il lavoro è pagato e non si ritrova più",
       "rimessa": {
@@ -200,6 +220,26 @@
       ],
       "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Rimessa a mano: lib/ai/batch.ts tolto { maxRetries: 0 } dall'invio del lotto -> 1 rosso su 11; a parte, invioIncerto sempre false -> 1 rosso su 11 maxRetries 0 e APIConnectionError riconosciuto davvero (batch.ts:83,140-142). Restano: 500/504 del fornitore non trattati come «forse partito» -> failed e riavviabile; scritture della spesa o del motivo fallite riportano ai 15 minuti. Accanto: anche il 529 ora fallisce subito.",
       "ripreso_da": "K02"
+    },
+    {
+      "id": "R04-015",
+      "chiave": "ai-endpoints|i tagli contro i costi contano le voci degli elenchi ma non la loro lunghezza: una richiesta sotto il megabyte riempie la finestra del modello",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 7482bc60053bd1e7552e3182158acc8761d9da3a^ --file app/api/ai/improve-product/route.ts,app/api/ai/product-chat/route.ts,app/api/ai/barcode-lookup/route.ts,lib/ai/productContext.ts --prove tests/unit/riparazione-r04-elenchi-con-tetto.test.ts --json   (checkout 7482bc60053bd1e7552e3182158acc8761d9da3a)",
+        "a_mano": {
+          "comando": "cd ../wt-R04 && git apply /tmp/claude-0/k11/a_mano/R04-015.patch && npx vitest run --reporter=dot tests/unit/riparazione-r04-elenchi-con-tetto.test.ts; echo \"senza=$?\"; git apply -R /tmp/claude-0/k11/a_mano/R04-015.patch && npx vitest run --reporter=dot tests/unit/riparazione-r04-elenchi-con-tetto.test.ts; echo \"con=$?\"",
+          "uscita_senza_correzione": 1,
+          "uscita_con_correzione": 0
+        }
+      },
+      "nota": "Giudizio pieno K11 (un revisore qa, due lenti), alla testa di R04 6ffafba7, confrontato col main del sito 67666b3f dove la correzione è unita. La prova-rimessa esce 3 (rossa per la struttura): rimessa a mano, tolti voceCorta e opzioniCorte: cadono 3 asserzioni lunghezzaPrompt() < 20000 (migliora 824.761, chat 401.786, codice a barre 401.647). CHIUDE_TUTTA: no. app/api/ai/variants/route.ts:114-119 ha il tetto di 1 MB sul corpo e conta 20 campi per 30 opzioni ma non la loro lunghezza: f.key, f.label e le opzioni entrano intere attraverso lead di lib/ai/productContext.ts, che non ha tetto (provato: un corpo da 900.180 byte diventa un prompt da 900.302 caratteri, il caso esatto della voce); variants/route.ts:116, con options stringa opzioni.join non è una funzione, 500. NATA_ROTTA: niente rotto: nelle tre rotte riparate il prompt massimo resta fra circa 110 e 155 mila caratteri; il main ha lo stesso codice e lo stesso buco in variants."
     },
     {
       "id": "R04-016",
@@ -280,6 +320,26 @@
       ],
       "nota": "Ripresa da K02 senza cambiare nulla: K10 non l'ha rigiudicata (fuori dal suo mandato). Prima corsa uscita 1: catalog-chat/route.ts non ha una prova che morde (tolto da --file). Regole condivise senza effetti sul server; il modulo vero non passa i due dati nuovi (ProductForm.tsx:491-496), quindi in produzione nessun effetto visibile. Doppia scrittura di tag/attributi dichiarata.",
       "ripreso_da": "K02"
+    },
+    {
+      "id": "R04-021",
+      "chiave": "architettura|all'assistente ai si dice che la consegna di una pagnotta da 3,50 € costa 4 €, ma la consegna si paga sul carrello e non sul singolo prodotto",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 89a69345ac1270694410deeb42f8f5e7f076c645^ --file lib/products/economics.ts,app/api/ai/improve-product/route.ts --prove tests/unit/riparazione-r04-consegna-nel-prompt.test.ts --json   (checkout 89a69345ac1270694410deeb42f8f5e7f076c645)",
+        "a_mano": {
+          "comando": "cd ../wt-R04 && git apply /tmp/claude-0/k11/a_mano/R04-021.patch && npx vitest run --reporter=dot tests/unit/riparazione-r04-consegna-nel-prompt.test.ts; echo \"senza=$?\"; git apply -R /tmp/claude-0/k11/a_mano/R04-021.patch && npx vitest run --reporter=dot tests/unit/riparazione-r04-consegna-nel-prompt.test.ts; echo \"con=$?\"",
+          "uscita_senza_correzione": 1,
+          "uscita_con_correzione": 0
+        }
+      },
+      "nota": "Giudizio pieno K11 (un revisore qa, due lenti), alla testa di R04 6ffafba7, confrontato col main del sito 67666b3f dove la correzione è unita. La prova-rimessa esce 3 (rossa per la struttura): rimessa a mano, il prompt di improve-product/route.ts:313 riportato a «Fee di consegna a domicilio: € …» per prodotto: cade expected … not to match /Fee di consegna a domicilio: €/, 2 rosse su 2, poi verde. CHIUDE_TUTTA: sì nel main: il prompt dice 3 € da 10 € in su e 4 € sotto, presi da tariffaConsegnaCents, uguali alla tariffa vera (300/100/1000) per un carrello di un negozio; nessun'altra rotta AI parla di consegna per prodotto; la riga di sistema «fee di consegna» rimasta nel ramo R04 l'ha chiusa R22-008 (b44d9899) nel main. NATA_ROTTA: niente rotto, deliveryFee non lo legge più nessuno. Minori: lib/products/economics.ts:80-85 scrive a mano 10 €, 999 e 1000 invece di SPESA_SENZA_SUPPLEMENTO_CENTS (la prova diventerebbe rossa se la soglia cambiasse); la regola tace l'euro per ogni negozio in più e la consegna veloce."
     },
     {
       "id": "R04-022",
@@ -606,6 +666,46 @@
       "ripreso_da": "K02"
     },
     {
+      "id": "R07-021",
+      "chiave": "frontend-ux|la vetrina di ogni negozio manda a google i suoi dati senza l'indirizzo della pagina, e nel browser va in conflitto con quello che ha disegnato il server",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base c38145e83ea0a129842ddc88c62555d4c824ab42^ --file lib/queries/precarico.ts,lib/queries/riepilogo-recensioni-negozio.ts --prove tests/unit/riparazione-r07-vetrina-stelle-dal-server.test.ts --json   (checkout c38145e83ea0a129842ddc88c62555d4c824ab42)",
+        "a_mano": {
+          "comando": "cd ../wt-R07 && git apply /tmp/claude-0/k11/a_mano/R07-021.patch && npx vitest run --reporter=dot tests/unit/riparazione-r07-vetrina-stelle-dal-server.test.ts; echo \"senza=$?\"; git apply -R /tmp/claude-0/k11/a_mano/R07-021.patch && npx vitest run --reporter=dot tests/unit/riparazione-r07-vetrina-stelle-dal-server.test.ts; echo \"con=$?\"",
+          "uscita_senza_correzione": 1,
+          "uscita_con_correzione": 0
+        }
+      },
+      "nota": "Giudizio pieno K11 (un revisore qa, due lenti), alla testa di R07 e2fb0340, confrontato col main del sito 67666b3f dove la correzione è unita. La prova-rimessa esce 3 (rossa per la struttura): precarico.ts alla base rossa sul comportamento, il file nuovo tolto rosso per la struttura. Rimessa a mano: tolta da lib/queries/precarico.ts la lettura domandaRiepilogoRecensioni: cade expected undefined to deeply equal { media: 4.6, totale: 37 }, poi verde. CHIUDE_TUTTA: sì sul percorso vero: una sonda con precarico, idratazione, pagina e hook veri dà lo schema del server identico a quello del browser (stelle 4.6 su 37, url assoluto); senza recensioni i due schemi sono uguali; l'url era già giusto alla base. NATA_ROTTA: niente rotto: store_review_stats è concessa ad anon (migrazione 052), la prova RLS 19 lo copre; se cade la lettura sul server il browser riscrive lo script, ma è il modo degradato dichiarato del precarico. Minori fuori chiave: components/store-sections/riepilogo-recensioni.ts:15-17 (c'era già), con la lettura caduta anche nel browser a Google va 4.0 su 20, un conto falso; useStorePageData.ts:79-88 copia la domanda a mano, tenuta uguale solo da un controllo sul testo."
+    },
+    {
+      "id": "R07-022",
+      "chiave": "frontend-ux|orari, stelle e indirizzo web del negozio non arrivano a google nella prima lettura",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 9f9fe6ec3b90496ca74f19b61cbc99bf7b5671ca^ --file app/store/[id]/page.tsx,components/store-sections/orari-schema.ts --prove tests/unit/riparazione-r07-vetrina-orari-schema.test.tsx --json   (checkout 597e101512271adf1a0dbff70eb4d4f4163a6ed4)",
+        "a_mano": {
+          "comando": "cd ../wt-R07 && git apply /tmp/claude-0/k11/a_mano/R07-022.patch && npx vitest run --reporter=dot tests/unit/riparazione-r07-vetrina-orari-schema.test.tsx; echo \"senza=$?\"; git apply -R /tmp/claude-0/k11/a_mano/R07-022.patch && npx vitest run --reporter=dot tests/unit/riparazione-r07-vetrina-orari-schema.test.tsx; echo \"con=$?\"",
+          "uscita_senza_correzione": 1,
+          "uscita_con_correzione": 0
+        }
+      },
+      "nota": "Giudizio pieno K11 (un revisore qa, due lenti), alla testa di R07 e2fb0340, confrontato col main del sito 67666b3f dove la correzione è unita. La prova-rimessa esce 3 (rossa per la struttura): col primo tentativo (--base 597e1015^) uscita 2, page.tsx uguale alla base perché la voce ha due commit; rilanciata una volta con --base 9f9fe6ec^ (il primo commit): page.tsx alla base rossa sul comportamento, il file nuovo tolto rosso per la struttura. Rimessa a mano: tolta da app/store/[id]/page.tsx la riga openingHoursSpecification: cade expected undefined to deeply equal [ {…}, {…}, {…} ] sugli orari dello schema disegnato dal server, poi verde. CHIUDE_TUTTA: sì: nell'HTML del server, sul percorso vero, ci sono orari, stelle e url; la pausa pranzo diventa due voci per lo stesso giorno; giorni chiusi e negozi senza orari non hanno il campo; gli orari sono testo, nessun salto di fuso. NATA_ROTTA: niente rotto: le modifiche del main a store-hours.ts riguardano la cassa (propostaIl), non orariImpostati né DAY_KEYS. Minori: orari-schema.ts:36 e :40, la fascia 00:00-24:00 esce come 00:00-00:00 (non verificato come la legge Google; l'editor type=time non può scrivere 24:00); le fasce oltre la mezzanotte si scartano, come fa l'app."
+    },
+    {
       "id": "R07-023",
       "chiave": "frontend-ux|il pulsante del banner della vetrina può puntare a un prodotto in bozza, che il cliente non riesce ad aprire",
       "rimessa": {
@@ -697,6 +797,36 @@
       "nota": "Non giudicata, in D: la regista O3 ha scelto la strada b (giudizio pieno solo se la spesa lo permetteva, e non lo permette). Solo prove rimesse di K11: codice uscita 0 (questo comando); migrazione 383 uscita 0 su un Postgres locale (PGHOST=/var/tmp/k11pg PGPORT=5433 PGUSER=postgres timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14c --base 288f46375fd2caf01125d54ee7ee182ca0723a1a^ --file migrations/383_la_seconda_conferma_della_rimessa_non_e_una_rimessa.sql --prove tests/sql/rls/riparazione-r14-doppia-rimessa.test.sql --sql k11_r14_006_rimessa --json   (checkout 288f46375fd2caf01125d54ee7ee182ca0723a1a)). Nessuna migrazione applicata al database vero: la 383 resta alla firma di Nicola. Il numero 383 non si scontra con il main del sito 67666b3f (nessuna migrazione 380-389); la 425 del main dà i permessi su confirm_cod_remittance(uuid,date) con la stessa firma che la 383 ridefinisce, e CREATE OR REPLACE li conserva."
     },
     {
+      "id": "R14-007",
+      "chiave": "api-backend|due cancellazioni dello stesso account partite insieme danno un errore falso o una riga doppia nel registro",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14a --base 214adc53de822f0007aa569c4f92b7d5981ca3fa^ --file lib/account/cancellazione.ts,app/api/admin/users/[id]/delete/route.ts --prove tests/unit/riparazione-r14-cancella-utente.test.ts,tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json   (checkout 214adc53de822f0007aa569c4f92b7d5981ca3fa)"
+      },
+      "nota": "Giudizio pieno K11 (un revisore qa, due lenti), alla testa 004218b6. CHIUDE_TUTTA: chiude solo i casi col 500 «User not found» (3 su 6 incroci visti). Resta app/api/admin/users/[id]/delete/route.ts:89: se tutte e due le deleteUser rispondono ok si scrivono 2 righe user.delete, il turno sull'account non si prende (provato: due DELETE insieme con deleteUser ok, 200 e 200 e 2 righe nel registro). Resta route.ts:46: il secondo clic, a profilo già sparito per CASCADE, risponde 404 e la pagina mostra un errore su un'operazione riuscita (provato). lib/account/cancellazione.ts:978: basta status 404 senza codice per contare l'account come già cancellato (provato: un 404 senza codice dà 200 giaCancellato). NATA_ROTTA: nessuna rottura vista; la prova finge solo il caso in cui la seconda riceve 404, non quello in cui il servizio di accesso fa riuscire tutte e due. Le prove R14 verdi (14 su 14), 38 file vicini verdi; il main 67666b3f non tocca i file corretti."
+    },
+    {
+      "id": "R14-008",
+      "chiave": "api-backend|la rotta che cancella un utente accetta anche un amministratore, mentre la pagina nasconde il bottone",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14a --base 5b8c0b71561f08df04380cd50e8ff1bf552a9e15^ --file app/api/admin/users/[id]/delete/route.ts --prove tests/unit/riparazione-r14-cancella-utente.test.ts --json   (checkout 5b8c0b71561f08df04380cd50e8ff1bf552a9e15)"
+      },
+      "nota": "Giudizio pieno K11 (un revisore qa, due lenti), alla testa 004218b6. CHIUDE_TUTTA: la rotta risponde 403 se il bersaglio ha profiles.role uguale ad admin, che è l'unico modo in cui il sito definisce un amministratore (niente app_metadata, il CHECK accetta solo minuscole); non ci sono altre rotte che cancellano o bannano un utente, e moderate esclude già gli amministratori. NATA_ROTTA: la pagina mostra il messaggio della rotta; cancellare sé stessi resta 400; il giro notturno (richieste della persona stessa) funziona come prima. Resta solo una finestra trascurabile fra la lettura del ruolo e la cancellazione. Letti involucri, CHECK, pagina e rotte moderate e kyc; prova R14 verde."
+    },
+    {
       "id": "R14-009",
       "chiave": "api-backend|il conteggio dei promemoria «inviati» include carrelli segnati senza nessuna email",
       "verdetto": "parziale",
@@ -722,6 +852,66 @@
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14a --base 76b57d9fed060a8b3a391b7b6d2ff6d10cffe8e1^ --file app/api/cron/expire-stale-orders/route.ts --prove tests/unit/riparazione-r14-scadenze.test.ts --json   (checkout 76b57d9fed060a8b3a391b7b6d2ff6d10cffe8e1)"
       },
       "nota": "Giudizio pieno K11 (un revisore qa, due lenti), alla testa 004218b6. CHIUDE_TUTTA: il caso del registro è chiuso (150 ordini rinviati più una veloce scaduta: la lettura a pagine ordinata la prende), ma la veloce scaduta può ancora restare fuori per due strade, senza segnale. app/api/cron/expire-stale-orders/route.ts:189-190: il contatore degli annullati scatta prima del controllo del carrello in attesa della divisione (:205), che lascia l'ordine in NEW: gli ordini parcheggiati (e le prese andate in errore) consumano i 100 posti; provato: con 100 ordini carta in attesa della divisione la veloce resta NEW per 3 giri. route.ts:137: oltre 2000 rinviati la veloce resta fuori senza log né campo nella risposta (provato: 2001 rinviati, risposta «rinviati 2000, annullati 0»); anche il tetto dei 100 annulli è muto. NATA_ROTTA: nessuna rottura: lettura a pagine corretta anche con nascite uguali; la presa NEW→CANCELED resta atomica, nessun doppio annullo. Prove della voce e api-cron-expire-stale-orders verdi."
+    },
+    {
+      "id": "R14-012",
+      "chiave": "api-backend|allarme 'persone non avvisate' riscritto ogni notte, senza dire chi: la stessa classe chiusa per le email resta aperta qui",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14a --base 6b35624bdff5aeb1ee006162d69e2a829d64cdfa^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json   (checkout 6b35624bdff5aeb1ee006162d69e2a829d64cdfa)"
+      },
+      "nota": "Giudizio pieno K11 (un revisore qa, due lenti), alla testa 004218b6. CHIUDE_TUTTA: chiuse le copie riscritte ogni notte e il «senza dire chi», ma non le altre due parti della classe chiusa per le email: app/api/cron/process-deletions/route.ts:363, con avvisi falliti la risposta resta 500 ogni notte (provato su 3 notti col pannello di una persona rifiutato: 500, 500, 500; il referto lo ammette); route.ts:264-282, l'allarme «Persone non avvisate» resta aperto quando il pannello torna, la persona annulla o viene cancellata (provato). NATA_ROTTA: il nuovo allarme porta l'id della persona e non si chiude mai: è la classe di R14-014 che rinasce qui. Prove R14 verdi."
+    },
+    {
+      "id": "R14-013",
+      "chiave": "api-backend|avvisi ed email in un giro senza tetto di tempo: con posta appesa e ~15 in attesa, gli ultimi non hanno nemmeno l'avviso nel pannello",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14a --base 5e2aa09fef112bdbf037561a262b6c0c99a2823f^ --file app/api/cron/process-deletions/route.ts,lib/privacy/avvisi-a-chi-aspetta.ts --prove tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json   (checkout 5e2aa09fef112bdbf037561a262b6c0c99a2823f)"
+      },
+      "nota": "Giudizio pieno K11 (un revisore qa, due lenti), alla testa 004218b6. CHIUDE_TUTTA: i pannelli si scrivono per tutti prima delle email, e il tetto di 240 secondi tiene il giro sotto i 300. NATA_ROTTA: con la posta che fallisce, cioè lo scenario della voce, la notte dopo non riparte da dove si era fermata: lib/privacy/avvisi-a-chi-aspetta.ts:190 e :238, le prime della fila si ritentano ogni notte (20 ore sotto le 24), gli ultimi non vengono mai tentati, non ricevono nessun «scrivile tu» e il fuori tempo è silenzioso; route.ts:349, il conto finisce solo nel corpo della risposta (provato: 15 persone e 20 secondi per email fallita su 4 notti, 12 tentativi a notte, sempre gli stessi 3 mai tentati, 0 allarmi per loro, stati 200, 500, 200, 200). La prova R14 nasconde il caso perché usa una posta lenta ma riuscita."
+    },
+    {
+      "id": "R14-014",
+      "chiave": "api-backend|l'allarme 'scrivile tu' si chiude solo se l'email parte: se la persona annulla o viene cancellata resta aperto per sempre col suo id",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14a --base fdd02e1b87da095e94fb013c1901ce9f2e224f41^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json   (checkout fdd02e1b87da095e94fb013c1901ce9f2e224f41)"
+      },
+      "nota": "Giudizio pieno K11 (un revisore qa, due lenti), alla testa 004218b6. CHIUDE_TUTTA: l'allarme «scrivile tu» si chiude quando il profilo manca (cancellata) o la richiesta è vuota (annullata), in tutte le notti; gli allarmi vecchi hanno la stessa frase e si chiudono anche loro. NATA_ROTTA: non si chiude quando la persona aspetta ancora, né su un errore di lettura, né su un'email non partita per altri motivi. Due note minori rare (provate con due sonde): route.ts:565-566, limit(200) senza filtro su is_read né ordine, oltre 200 allarmi per amministratore quelli aperti possono restare fuori; route.ts:581, chiude per persona e non per avviso, chi annulla e richiede di nuovo lo stesso giorno tiene aperto il vecchio. Le 3 prove R14 verdi."
+    },
+    {
+      "id": "R14-015",
+      "chiave": "api-backend|se due giri della cancellazione account partono insieme, l'account sparisce ma agli amministratori arriva un falso allarme di cancellazione fallita",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14b --base 214adc53de822f0007aa569c4f92b7d5981ca3fa^ --file lib/account/cancellazione.ts --prove tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json   (checkout 214adc53de822f0007aa569c4f92b7d5981ca3fa)"
+      },
+      "nota": "Giudizio pieno K11 (un revisore qa, due lenti), alla testa 004218b6. CHIUDE_TUTTA: con due giri insieme il secondo trova «utente non trovato» o un ok: niente sveglia, failed 0; nessun'altra strada per un falso guasto (Stripe dà resource_missing, l'annotazione ha un id ricavato, i file già tolti e le update su 0 righe non danno errore). NATA_ROTTA: un errore vero 5xx o di rete sveglia ancora; «accesso cancellato ma profilo no» non può succedere per il CASCADE (migrations/001). Nota: lib/account/cancellazione.ts:978 conta come già cancellato anche un 404 senza codice (vedi R14-007): nel giro darebbe «processed» ogni notte con l'account vivo, ma solo se il solo indirizzo di cancellazione degli accessi rispondesse 404, cioè con una configurazione sbagliata. Prove R14 verdi, 38 file vicini verdi anche coi moduli del main sopra."
     },
     {
       "id": "R14-017",
@@ -824,7 +1014,7 @@
       "accettato": false
     },
     "R07": {
-      "accettato": false
+      "accettato": true
     },
     "R14": {
       "accettato": false
