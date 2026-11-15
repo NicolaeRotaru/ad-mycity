@@ -6953,3 +6953,8 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Chi:** Nicola in chat: «ok 244 b».
 - **Cosa:** dalla richiesta della macchina #956 (ramo `claude/magical-hamilton-xouwr8`) esce la cura di AR-969, il sorvegliante bocciato due volte. Esce con commit nuovi: la storia del ramo non si riscrive. Resta la cura di AR-962, il controllo del glossario dei numeri, che ha retto al secondo collaudo. AR-969 resta aperto nel cantiere, con la correzione interrotta in `frammenti/correzione-2-ar969-interrotta.patch` come punto di partenza. L'esenzione del vecchio programma `round2-applica.mjs` resta fino al 21/11, perché dipende da AR-969.
 - **Chi lo fa:** una sessione corta aperta dall'AD, con un tetto di 15 $. Deve anche unire `main`, dove la #958 ha spostato l'attesa del glossario al 22/11: vale la versione della #956, che toglie l'attesa e mette il controllo.
+
+## 2026-11-15 07:36 — 🟢 La chat dell'AD passa a una chat nuova, col quaderno
+- **Chi:** Nicola: «a, passala a una chat nuova». La chat di prima (`session_015BmpnYSQgvReHZZJxrC8mw`) era a 654 mila token su un milione, e alle 07:23 era costata 44,49 $.
+- **Cosa:** la chat nuova è `session_015BmpnVXjpgkhAJActQd8KN`. Riparte dal quaderno `consegne/ad/2026-11-15-passaggio-chat-ad.md`, di 63 righe, e non dalla trascrizione. L'officina e il taglio della #956 mandano i rapporti a lei. Il controllo programmato della chat vecchia è cancellato.
+- **Perché:** a ogni passo una sessione rilegge tutta la sua storia. Con 650 mila token un passo costa circa 6 volte un passo con 100 mila. La compressione automatica scatta solo verso il 90%, e il riassunto perde i dettagli.
