@@ -17,9 +17,8 @@ Esempio: nell'onda 2 R17 ne ha aperti 15 con un tetto scritto di 12. Con il fren
 Le altre sessioni (l'AD, il giro, i senior) non hanno nessun tetto da qui.
 
 ## Cosa devi fare
-1. Aprire `.claude/settings.json` di ad-mycity.
-2. Dentro `"PreToolUse"`, aggiungere il blocco qui sotto come nuova voce dell'elenco.
-3. Fare lo stesso nel sito (mycity) solo se le sessioni del sito hanno anche ad-mycity accanto (vedi sotto).
+Aprire `.claude/settings.json` di ad-mycity e aggiungere il blocco qui sotto dentro `"PreToolUse"`, come voce nuova.
+Nel sito si fa lo stesso solo se le sue sessioni hanno accanto la cartella ad-mycity.
 
 ## Cosa non ho verificato
 Non l'ho provato su una sessione vera del cloud: le prove fanno girare l'hook come lo lancia Claude Code, con i dati su stdin.
