@@ -31,6 +31,57 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🟡 #253 — Firma l'eccezione per il pulsante di emergenza del fattorino · ⏳ accodata 2026-11-14 17:16
+
+**Numero cambiato il 15/11:** fino a stamattina era la #245. La tua risposta «245 sì», del 15/11 alle 00:32, vale per questa carta. Il numero 245 è rimasto alla carta dell'AD nata alle 06:23: le due carte erano nate su due rami diversi con lo stesso numero, e unendo i rami il numero sarebbe valso due carte.
+
+**Stato:** ✅ FATTO 2026-11-15 00:32. Hai scritto «245 sì»: l'eccezione è firmata. La riparazione rientra con le voci gravi.
+
+**In parole semplici.** Il pulsante di emergenza del fattorino promette «stiamo chiamando il 112», poi apre solo il tastierino. La riparazione è pronta e provata. È stata tolta solo perché una prova comune a tutti controlla ancora la frase sbagliata.
+
+**Cosa cambia per te.** Esempio: un fattorino in difficoltà oggi legge che il 112 è chiamato, e non è vero. Con l'eccezione, il testo dice la verità, e una delle 20 voci gravi dell'onda 2 si può chiudere.
+
+**Cosa devi fare tu.** Scrivi alla regista «sì all'eccezione del pulsante di emergenza».
+
+**Cosa non ho verificato.** La riparazione non l'ho riprovata io oggi: si riprova nel controllo dopo la riunione dei rami.
+
+Cosa cambia: la prova comune si aggiorna alla frase giusta e la riparazione rientra.
+Se va bene: la voce entra nel giro allargato o nel controllo, e si chiude se regge.
+
+### 🟡 #252 — Scegli quanto fare del giro allargato dell'onda 2, perché intero sfora il tetto · ⏳ accodata 2026-11-14 17:16
+
+**Numero cambiato il 15/11:** fino a stamattina era la #244. La tua risposta «244 a», del 15/11 alle 00:32, vale per questa carta. Il numero 244 è rimasto alla carta dell'AD nata alle 06:23: le due carte erano nate su due rami diversi con lo stesso numero, e unendo i rami il numero sarebbe valso due carte.
+
+**Stato:** ✅ FATTO 2026-11-15 00:58. Hai scelto la «a». Il preventivo è la carta 248.
+
+**In parole semplici.** Il giro allargato riprende 84 voci rimaste a metà o ferme per il file di un'altra sessione. Al ritmo vero dell'onda 2, circa 5,66 $ a voce, costerebbe circa 475 $. Prima di arrivare al tetto di 1.650 $ ne restano circa 185.
+
+**Cosa cambia per te.** Fra le 84 ci sono 6 voci gravi, fra cui il bonifico del lunedì e il pulsante di emergenza del fattorino. Esempio: fare solo quelle 6 costa una frazione del totale e tocca i difetti che pesano di più.
+
+**Cosa devi fare tu.** Scrivi alla regista una lettera. «a»: solo le 6 gravi, con un preventivo vero prima di partire (la regista consiglia questa). «b»: tutte le 84, alzando il tetto. «c»: niente adesso, tutto all'onda 3.
+
+**Cosa non ho verificato.** I 475 $ sono una stima sul costo medio per voce dell'onda 2, non un preventivo voce per voce. Il resoconto intero dell'onda 2 sta in `consegne/riparazioni/2026-11-12-sito-tutto/RESOCONTO-ONDA-2.md`.
+
+Cosa cambia: con la «a» le gravi possono chiudersi in questa onda; con la «c» aspettano l'onda 3.
+Se va bene: la regista prepara il preventivo delle 6 gravi e te lo porta prima di aprire le sessioni.
+
+### 🟡 #251 — Dai il sì per mettere il lavoro dell'onda 2 nella richiesta di unione del sito · ⏳ accodata 2026-11-14 17:16
+
+**Numero cambiato il 15/11:** fino a stamattina era la #243. La tua risposta «ok 243», del 15/11 alle 00:32, vale per questa carta. Il numero 243 è rimasto alla carta dell'AD nata alle 06:23: le due carte erano nate su due rami diversi con lo stesso numero, e unendo i rami il numero sarebbe valso due carte.
+
+**Stato:** ✅ FATTO 2026-11-15 00:54. Hai scritto «ok 243». I nove rami sono nella richiesta di unione del sito, senza le tre correzioni difettose. Le prove automatiche sono tutte verdi, e la richiesta si può unire. Resta in bozza: unirla è tua.
+
+**In parole semplici.** Le sessioni dell'onda 2 hanno riparato ognuna su una copia separata del sito. La regista le mette insieme nella richiesta di unione del sito, che è già aperta in bozza. Sul sito vero non va niente: online va solo quando unisci tu.
+
+**Cosa cambia per te.** Esempio: l'avviso «senza rete» col tasto Riprova, riparato da una sessione, entra nella richiesta insieme agli altri lavori. Con il sì, nella richiesta entrano le 4 voci chiuse dal giro di correzione. Restano fuori tre correzioni che rompono un'altra cosa: il rimborso diviso, gli allergeni, la bacheca del fattorino.
+
+**Cosa devi fare tu.** Scrivi alla regista dell'onda 2 «sì, carica».
+
+**Cosa non ho verificato.** La prova di unione fra i rami è verde. La riunione con la copia unica del sito si prova dopo il sì, prima di caricare.
+
+Cosa cambia: la richiesta di unione del sito si aggiorna con il lavoro del 14/11; il sito vero resta com'è.
+Se va bene: una sessione nuova controlla solo le modifiche nuove, con un tetto di 20 $.
+
 ### 🟡 #250 — Rivedi con l'AD le decisioni ancora aperte dell'onda 2 del sito · ⏳ accodata 2026-11-15 07:10
 
 **In parole semplici.** La regista che ha guidato l'onda 2 del sito ha lasciato un resoconto con 18 decisioni per te. Alcune le hai già prese. Le altre aspettano ancora.
@@ -39,7 +90,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 **Cosa devi fare tu.** Niente di nuovo da solo. Chiedi all'AD «cosa resta dell'onda 2»: lui spunta le decisioni già prese e ti porta solo quelle aperte, una alla volta.
 
-**Cosa non ho verificato.** Non so quali delle altre 17 decisioni siano già chiuse: le tue risposte delle 00:32 del 15/11 (carte 243-247) non le ho confrontate una per una con la lista.
+**Cosa non ho verificato.** Non so quali delle altre 17 decisioni siano già chiuse: le tue risposte delle 00:32 del 15/11 (carte 246, 247, 251, 252 e 253: fino al 15/11 erano le 243-247) non le ho confrontate una per una con la lista.
 
 Cosa cambia: le decisioni rimaste aperte dell'onda 2 non si perdono in un file che nessuno rilegge.
 Se va bene: l'AD aggiorna la lista e accoda solo quello che serve davvero, prima dell'onda 3.
@@ -47,44 +98,6 @@ Se va bene: l'AD aggiorna la lista e accoda solo quello che serve davvero, prima
 - **Colore:** 🟡 (decisioni da rivedere, niente parte senza di te)
 - **Reparto:** chief-of-staff
 - **Dettagli tecnici:** `consegne/riparazioni/2026-11-12-sito-tutto/RESOCONTO-ONDA-2.md`, sezione «Le decisioni che aspettano Nicola». Il numero 250 è il primo libero sopra la #249 del ramo `claude/magical-hamilton-xouwr8`.
-### 🔴 #245 — Unisci la richiesta della macchina col piano per chiudere più difetti · ⏳ accodata 2026-11-15 06:23
-
-**In parole semplici.** La richiesta contiene il piano delle onde, le 5 lezioni e le regole nuove che hai firmato stamattina. Tocca solo testi, dati e due date di scadenza: nessun programma nuovo.
-
-**Cosa cambia per te.** Esempio: dopo l'unione, ogni sessione nuova che parte dal ramo principale trova già le regole nuove. Il tetto di 6 agenti per riparatore e ultracode solo sui difetti gravi valgono anche per lei.
-
-**Cosa devi fare tu.** Quando i controlli automatici sono verdi, unisci la richiesta ad-mycity#958 con «Create a merge commit». Non tocca il Pannello, quindi non pubblica niente.
-
-**Cosa non ho verificato.** La richiesta della macchina #956 tocca le stesse due righe sulla scadenza del glossario dei numeri. Se entra prima quella, va tenuta la sua versione.
-
-Cosa cambia: le regole firmate stamattina diventano quelle di tutte le sessioni, non solo di questa.
-Se va bene: la regista della fase 1 e l'officina lavorano già con queste regole, senza leggerle da un ramo a parte.
-
-### 🟡 #244 — Scegli cosa fare col controllo della macchina bocciato due volte · ⏳ accodata 2026-11-15 06:23
-
-**In parole semplici.** Stanotte la regista dell'onda 2 ha costruito due controlli per la macchina. Uno, quello del glossario dei numeri, ha retto al secondo collaudo. L'altro, il sorvegliante che distingue i programmi morti dai freni staccati, è stato bocciato due volte. Ha ancora un difetto grave: dei programmi morti nelle sottocartelle danno allarmi gravi falsi.
-
-**Cosa cambia per te.** Esempio: finché non scegli, la richiesta della macchina #956 non si può unire. E con lei resta fuori anche il controllo del glossario, che invece funziona.
-
-**Cosa devi fare tu.** Al terzo rosso la scelta è tua. «a» semplifica: si tiene solo la parte che regge e si toglie quella delle sottocartelle. «b» restringi: il sorvegliante esce dalla #956, e il glossario entra da solo. «c» un terzo giro. La correzione interrotta è già scritta, ma non è collaudata.
-
-**Cosa non ho verificato.** Quanto costa la «c»: il secondo giro si è fermato a metà per il tetto dell'onda 2.
-
-Cosa cambia: con la «b» il controllo del glossario entra subito, e il sorvegliante torna nel cantiere.
-Se va bene: la regista della fase 1 o l'AD preparano la versione scelta, e la #956 diventa unibile.
-
-### 🟡 #243 — Leggi nell'app quanto del limite settimanale è già usato · ⏳ accodata 2026-11-15 06:23
-
-**In parole semplici.** Tutto il piano per chiudere più difetti si appoggia a un numero: quanto del limite di questa settimana è già speso. Oggi lo stimo da una tua frase del 12/11, che vale solo come tetto.
-
-**Cosa cambia per te.** Esempio: se l'app dice 60%, fino a giovedì 19/11 alle 10:00 restano circa 1.200 $ e il piano può fare di più. Se dice 85%, ne restano circa 450 $ e mi fermo prima.
-
-**Cosa devi fare tu.** Apri l'app di Claude, Impostazioni, Utilizzo. Scrivimi la percentuale del limite settimanale, adesso e di nuovo martedì sera.
-
-**Cosa non ho verificato.** Da qui non vedo la percentuale: vedo solo se il sistema è in allarme. Stanotte alle 05:55 era «consentito», senza spese extra.
-
-Cosa cambia: il tetto fino a giovedì passa dalla stima prudente di 350 $ al numero vero.
-Se va bene: ricalcolo il preventivo delle fasi e lo scrivo nel piano.
 
 ### 🔴 #249 — Firma le migrazioni e l'unione per mettere online il sito con l'onda 2 · ⏳ accodata 2026-11-15 01:47
 
@@ -103,11 +116,11 @@ Se va bene: la regista controlla online la cassa, il salvataggio di un prodotto 
 
 ### 🟡 #248 — Dai il via al giro sulle 6 voci gravi dell'onda 2, per circa 70 $ · ⏳ accodata 2026-11-15 00:58
 
-**In parole semplici.** Hai scelto di riprendere solo le 6 voci gravi (carta 244 «a»). Ecco il preventivo. Le voci si dividono in tre gruppi: due sui soldi, tre sulla vetrina e sul fattorino, una falla di sicurezza riservata.
+**In parole semplici.** Hai scelto di riprendere solo le 6 voci gravi (carta 252 «a», che allora era la 244). Ecco il preventivo. Le voci si dividono in tre gruppi: due sui soldi, tre sulla vetrina e sul fattorino, una falla di sicurezza riservata.
 
 **Cosa cambia per te.** I due riparatori lavorano sul codice già riunito, quindi nessun file è di un'altra sessione. Esempio: il bonifico del lunedì e la pagina Guadagni stanno nello stesso file, e li ripara la stessa sessione.
 - Soldi: il bonifico del lunedì, con la tua scelta «a» della carta 246, e la pagina Guadagni coi soli contanti. Tetto 20 $.
-- Vetrina e fattorino: le foto delle categorie da cambiare dal pannello, le categorie vuote in home e nel piè di pagina, il pulsante di emergenza con la tua eccezione della carta 245. Tetto 18 $.
+- Vetrina e fattorino: le foto delle categorie da cambiare dal pannello, le categorie vuote in home e nel piè di pagina, il pulsante di emergenza con la tua eccezione della carta 253 (allora 245). Tetto 18 $.
 - Un collaudatore per tutte e 6. Tetto 20 $.
 - La falla riservata va su una strada a parte, con i dettagli solo in chat. Tetto 12 $.
 
@@ -148,50 +161,44 @@ Se va bene: una sessione nuova parte col tuo clic su «Create Session».
 Cosa cambia: con la «a» il bonifico del lunedì non paga mai due volte lo stesso ordine.
 Se va bene: la riparazione entra nel giro allargato delle voci gravi.
 
-### 🟡 #245 — Firma l'eccezione per il pulsante di emergenza del fattorino · ⏳ accodata 2026-11-14 17:16
+### 🔴 #245 — Unisci la richiesta della macchina col piano per chiudere più difetti · ⏳ accodata 2026-11-15 06:23
 
-**Stato:** ✅ FATTO 2026-11-15 00:32. Hai scritto «245 sì»: l'eccezione è firmata. La riparazione rientra con le voci gravi.
+**In parole semplici.** La richiesta contiene il piano delle onde, le 5 lezioni e le regole nuove che hai firmato stamattina. Tocca solo testi, dati e due date di scadenza: nessun programma nuovo.
 
-**In parole semplici.** Il pulsante di emergenza del fattorino promette «stiamo chiamando il 112», poi apre solo il tastierino. La riparazione è pronta e provata. È stata tolta solo perché una prova comune a tutti controlla ancora la frase sbagliata.
+**Cosa cambia per te.** Esempio: dopo l'unione, ogni sessione nuova che parte dal ramo principale trova già le regole nuove. Il tetto di 6 agenti per riparatore e ultracode solo sui difetti gravi valgono anche per lei.
 
-**Cosa cambia per te.** Esempio: un fattorino in difficoltà oggi legge che il 112 è chiamato, e non è vero. Con l'eccezione, il testo dice la verità, e una delle 20 voci gravi dell'onda 2 si può chiudere.
+**Cosa devi fare tu.** Quando i controlli automatici sono verdi, unisci la richiesta ad-mycity#958 con «Create a merge commit». Non tocca il Pannello, quindi non pubblica niente.
 
-**Cosa devi fare tu.** Scrivi alla regista «sì all'eccezione del pulsante di emergenza».
+**Cosa non ho verificato.** La richiesta della macchina #956 tocca le stesse due righe sulla scadenza del glossario dei numeri. Se entra prima quella, va tenuta la sua versione.
 
-**Cosa non ho verificato.** La riparazione non l'ho riprovata io oggi: si riprova nel controllo dopo la riunione dei rami.
+Cosa cambia: le regole firmate stamattina diventano quelle di tutte le sessioni, non solo di questa.
+Se va bene: la regista della fase 1 e l'officina lavorano già con queste regole, senza leggerle da un ramo a parte.
 
-Cosa cambia: la prova comune si aggiorna alla frase giusta e la riparazione rientra.
-Se va bene: la voce entra nel giro allargato o nel controllo, e si chiude se regge.
+### 🟡 #244 — Scegli cosa fare col controllo della macchina bocciato due volte · ⏳ accodata 2026-11-15 06:23
 
-### 🟡 #244 — Scegli quanto fare del giro allargato dell'onda 2, perché intero sfora il tetto · ⏳ accodata 2026-11-14 17:16
+**In parole semplici.** Stanotte la regista dell'onda 2 ha costruito due controlli per la macchina. Uno, quello del glossario dei numeri, ha retto al secondo collaudo. L'altro, il sorvegliante che distingue i programmi morti dai freni staccati, è stato bocciato due volte. Ha ancora un difetto grave: dei programmi morti nelle sottocartelle danno allarmi gravi falsi.
 
-**Stato:** ✅ FATTO 2026-11-15 00:58. Hai scelto la «a». Il preventivo è la carta 248.
+**Cosa cambia per te.** Esempio: finché non scegli, la richiesta della macchina #956 non si può unire. E con lei resta fuori anche il controllo del glossario, che invece funziona.
 
-**In parole semplici.** Il giro allargato riprende 84 voci rimaste a metà o ferme per il file di un'altra sessione. Al ritmo vero dell'onda 2, circa 5,66 $ a voce, costerebbe circa 475 $. Prima di arrivare al tetto di 1.650 $ ne restano circa 185.
+**Cosa devi fare tu.** Al terzo rosso la scelta è tua. «a» semplifica: si tiene solo la parte che regge e si toglie quella delle sottocartelle. «b» restringi: il sorvegliante esce dalla #956, e il glossario entra da solo. «c» un terzo giro. La correzione interrotta è già scritta, ma non è collaudata.
 
-**Cosa cambia per te.** Fra le 84 ci sono 6 voci gravi, fra cui il bonifico del lunedì e il pulsante di emergenza del fattorino. Esempio: fare solo quelle 6 costa una frazione del totale e tocca i difetti che pesano di più.
+**Cosa non ho verificato.** Quanto costa la «c»: il secondo giro si è fermato a metà per il tetto dell'onda 2.
 
-**Cosa devi fare tu.** Scrivi alla regista una lettera. «a»: solo le 6 gravi, con un preventivo vero prima di partire (la regista consiglia questa). «b»: tutte le 84, alzando il tetto. «c»: niente adesso, tutto all'onda 3.
+Cosa cambia: con la «b» il controllo del glossario entra subito, e il sorvegliante torna nel cantiere.
+Se va bene: la regista della fase 1 o l'AD preparano la versione scelta, e la #956 diventa unibile.
 
-**Cosa non ho verificato.** I 475 $ sono una stima sul costo medio per voce dell'onda 2, non un preventivo voce per voce. Il resoconto intero dell'onda 2 sta in `consegne/riparazioni/2026-11-12-sito-tutto/RESOCONTO-ONDA-2.md`.
+### 🟡 #243 — Leggi nell'app quanto del limite settimanale è già usato · ⏳ accodata 2026-11-15 06:23
 
-Cosa cambia: con la «a» le gravi possono chiudersi in questa onda; con la «c» aspettano l'onda 3.
-Se va bene: la regista prepara il preventivo delle 6 gravi e te lo porta prima di aprire le sessioni.
+**In parole semplici.** Tutto il piano per chiudere più difetti si appoggia a un numero: quanto del limite di questa settimana è già speso. Oggi lo stimo da una tua frase del 12/11, che vale solo come tetto.
 
-### 🟡 #243 — Dai il sì per mettere il lavoro dell'onda 2 nella richiesta di unione del sito · ⏳ accodata 2026-11-14 17:16
+**Cosa cambia per te.** Esempio: se l'app dice 60%, fino a giovedì 19/11 alle 10:00 restano circa 1.200 $ e il piano può fare di più. Se dice 85%, ne restano circa 450 $ e mi fermo prima.
 
-**Stato:** ✅ FATTO 2026-11-15 00:54. Hai scritto «ok 243». I nove rami sono nella richiesta di unione del sito, senza le tre correzioni difettose. Le prove automatiche sono tutte verdi, e la richiesta si può unire. Resta in bozza: unirla è tua.
+**Cosa devi fare tu.** Apri l'app di Claude, Impostazioni, Utilizzo. Scrivimi la percentuale del limite settimanale, adesso e di nuovo martedì sera.
 
-**In parole semplici.** Le sessioni dell'onda 2 hanno riparato ognuna su una copia separata del sito. La regista le mette insieme nella richiesta di unione del sito, che è già aperta in bozza. Sul sito vero non va niente: online va solo quando unisci tu.
+**Cosa non ho verificato.** Da qui non vedo la percentuale: vedo solo se il sistema è in allarme. Stanotte alle 05:55 era «consentito», senza spese extra.
 
-**Cosa cambia per te.** Esempio: l'avviso «senza rete» col tasto Riprova, riparato da una sessione, entra nella richiesta insieme agli altri lavori. Con il sì, nella richiesta entrano le 4 voci chiuse dal giro di correzione. Restano fuori tre correzioni che rompono un'altra cosa: il rimborso diviso, gli allergeni, la bacheca del fattorino.
-
-**Cosa devi fare tu.** Scrivi alla regista dell'onda 2 «sì, carica».
-
-**Cosa non ho verificato.** La prova di unione fra i rami è verde. La riunione con la copia unica del sito si prova dopo il sì, prima di caricare.
-
-Cosa cambia: la richiesta di unione del sito si aggiorna con il lavoro del 14/11; il sito vero resta com'è.
-Se va bene: una sessione nuova controlla solo le modifiche nuove, con un tetto di 20 $.
+Cosa cambia: il tetto fino a giovedì passa dalla stima prudente di 350 $ al numero vero.
+Se va bene: ricalcolo il preventivo delle fasi e lo scrivo nel piano.
 
 ### 🟡 #242 — Decidi se un riparatore può spendere di più per sbloccare la cassa del centro · ⏳ accodata 2026-11-13 07:22
 
@@ -779,6 +786,7 @@ negozio — in entrambi i casi smetto di riproporti la stessa domanda ogni giorn
 ---
 
 <!-- cancello-del-sito-e-campo-prova -->
+
 ### 🟡 #186 — Decidi se costruire il cancello unico del sito, che oggi non esiste · ⏳ accodata 2026-08-28 21:40
 
 **In parole semplici.** Ho scritto il metodo per chiudere tanti difetti del sito in una volta sola.
@@ -966,6 +974,7 @@ rotte apposta viene dal cancello, che lo stampa a ogni consegna — non l'ho ric
 ---
 
 <!-- muro-negozi-due-sql-in-ordine -->
+
 ### 🔴 #168 — Riaccendi il server che fa lavorare la macchina: tace dal 25 settembre · ⏳ accodata 2026-08-22 20:25 · riscritta 2026-10-16 18:30
 
 **In parole semplici.** Il server è il computer affittato da Hetzner che fa lavorare la macchina da sola. Non prende lavori dal
