@@ -47,6 +47,44 @@ Se va bene: l'AD aggiorna la lista e accoda solo quello che serve davvero, prima
 - **Colore:** 🟡 (decisioni da rivedere, niente parte senza di te)
 - **Reparto:** chief-of-staff
 - **Dettagli tecnici:** `consegne/riparazioni/2026-11-12-sito-tutto/RESOCONTO-ONDA-2.md`, sezione «Le decisioni che aspettano Nicola». Il numero 250 è il primo libero sopra la #249 del ramo `claude/magical-hamilton-xouwr8`.
+### 🔴 #245 — Unisci la richiesta della macchina col piano per chiudere più difetti · ⏳ accodata 2026-11-15 06:23
+
+**In parole semplici.** La richiesta contiene il piano delle onde, le 5 lezioni e le regole nuove che hai firmato stamattina. Tocca solo testi, dati e due date di scadenza: nessun programma nuovo.
+
+**Cosa cambia per te.** Esempio: dopo l'unione, ogni sessione nuova che parte dal ramo principale trova già le regole nuove. Il tetto di 6 agenti per riparatore e ultracode solo sui difetti gravi valgono anche per lei.
+
+**Cosa devi fare tu.** Quando i controlli automatici sono verdi, unisci la richiesta ad-mycity#958 con «Create a merge commit». Non tocca il Pannello, quindi non pubblica niente.
+
+**Cosa non ho verificato.** La richiesta della macchina #956 tocca le stesse due righe sulla scadenza del glossario dei numeri. Se entra prima quella, va tenuta la sua versione.
+
+Cosa cambia: le regole firmate stamattina diventano quelle di tutte le sessioni, non solo di questa.
+Se va bene: la regista della fase 1 e l'officina lavorano già con queste regole, senza leggerle da un ramo a parte.
+
+### 🟡 #244 — Scegli cosa fare col controllo della macchina bocciato due volte · ⏳ accodata 2026-11-15 06:23
+
+**In parole semplici.** Stanotte la regista dell'onda 2 ha costruito due controlli per la macchina. Uno, quello del glossario dei numeri, ha retto al secondo collaudo. L'altro, il sorvegliante che distingue i programmi morti dai freni staccati, è stato bocciato due volte. Ha ancora un difetto grave: dei programmi morti nelle sottocartelle danno allarmi gravi falsi.
+
+**Cosa cambia per te.** Esempio: finché non scegli, la richiesta della macchina #956 non si può unire. E con lei resta fuori anche il controllo del glossario, che invece funziona.
+
+**Cosa devi fare tu.** Al terzo rosso la scelta è tua. «a» semplifica: si tiene solo la parte che regge e si toglie quella delle sottocartelle. «b» restringi: il sorvegliante esce dalla #956, e il glossario entra da solo. «c» un terzo giro. La correzione interrotta è già scritta, ma non è collaudata.
+
+**Cosa non ho verificato.** Quanto costa la «c»: il secondo giro si è fermato a metà per il tetto dell'onda 2.
+
+Cosa cambia: con la «b» il controllo del glossario entra subito, e il sorvegliante torna nel cantiere.
+Se va bene: la regista della fase 1 o l'AD preparano la versione scelta, e la #956 diventa unibile.
+
+### 🟡 #243 — Leggi nell'app quanto del limite settimanale è già usato · ⏳ accodata 2026-11-15 06:23
+
+**In parole semplici.** Tutto il piano per chiudere più difetti si appoggia a un numero: quanto del limite di questa settimana è già speso. Oggi lo stimo da una tua frase del 12/11, che vale solo come tetto.
+
+**Cosa cambia per te.** Esempio: se l'app dice 60%, fino a giovedì 19/11 alle 10:00 restano circa 1.200 $ e il piano può fare di più. Se dice 85%, ne restano circa 450 $ e mi fermo prima.
+
+**Cosa devi fare tu.** Apri l'app di Claude, Impostazioni, Utilizzo. Scrivimi la percentuale del limite settimanale, adesso e di nuovo martedì sera.
+
+**Cosa non ho verificato.** Da qui non vedo la percentuale: vedo solo se il sistema è in allarme. Stanotte alle 05:55 era «consentito», senza spese extra.
+
+Cosa cambia: il tetto fino a giovedì passa dalla stima prudente di 350 $ al numero vero.
+Se va bene: ricalcolo il preventivo delle fasi e lo scrivo nel piano.
 
 ### 🟡 #242 — Decidi se un riparatore può spendere di più per sbloccare la cassa del centro · ⏳ accodata 2026-11-13 07:22
 

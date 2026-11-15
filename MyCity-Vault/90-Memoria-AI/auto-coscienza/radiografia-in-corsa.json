@@ -7186,6 +7186,34 @@
       }
     },
     {
+      "quando": "2026-11-15 06:24",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/documenti-di-governo.mjs": "7694d8fc5633"
+      }
+    },
+    {
+      "quando": "2026-11-15 06:24",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        ".claude/skills/riparazione/SKILL.md": "ff2eb0b8b9a2"
+      }
+    },
+    {
       "quando": "2026-11-15 06:59",
       "casa": "macchina",
       "dimensione": "rischio-sicurezza-se",
