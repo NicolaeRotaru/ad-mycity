@@ -966,6 +966,17 @@
   "tetto_usd": 25,
   "tetto_pezzo_usd": 215,
   "freno": "assente sui due main alle 23:46: aperto solo K11",
-  "base_sito_prima": "67666b3f60bd16460b21e8b797a2f061fd91eed8"
+  "base_sito_prima": "67666b3f60bd16460b21e8b797a2f061fd91eed8",
+  "ad": {
+   "id": "session_015BmpnZ11jw7Gf6mFdaUGo9",
+   "nome": "AD · quinta chat",
+   "dal": "2026-11-16 00:08",
+   "prima": "session_015BmpnV65jCuJATqykK8GtB (AD chat 4)"
+  },
+  "decisioni_ad": [
+   "K11 al massimo 18 $, poi consegna (00:06)",
+   "K12 non si apre senza due strade coi numeri dentro i 215 $ (00:06)",
+   "base 76d4c4d approvata (23:52); PR mycity#291 unita, main b6ef4afa (00:05)"
+  ]
  }
 }
