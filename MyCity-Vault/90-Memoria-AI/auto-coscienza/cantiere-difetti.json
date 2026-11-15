@@ -26583,7 +26583,7 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/officina-minima.test.mjs",
-        "nota": "40 casi in 6 prove, una per pezzo, raccolte in officina-minima.test.mjs; 31 mutazioni in cervello/mutanti.json col difetto AR-1180, tutte prese. Il freno parte solo quando Nicola incolla il blocco di consegne/officina-minima/freno-agenti-da-incollare.md in .claude/settings.json. Si chiude dopo il collaudo di un'altra sessione e l'unione della PR."
+        "nota": "44 casi in 7 prove (una per pezzo, più i collaudi guardati insieme), raccolte in officina-minima.test.mjs; 37 mutazioni in cervello/mutanti.json col difetto AR-1180, tutte prese. Il freno parte solo quando Nicola incolla il blocco di consegne/officina-minima/freno-agenti-da-incollare.md in .claude/settings.json. Si chiude dopo il collaudo di un'altra sessione e l'unione della PR."
       }
     }
   ],

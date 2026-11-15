@@ -8,3 +8,4 @@ import "./chiusure-dopo-l-onda-2.test.mjs";
 import "./voci-pronte-per-il-giro.test.mjs";
 import "./conti-che-arrivano-in-tempo.test.mjs";
 import "./referto-con-la-sua-misura.test.mjs";
+import "./collaudi-guardati-insieme.test.mjs";

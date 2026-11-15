@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-11-15 07:41",
+ "aggiornato": "2026-11-15 07:56",
  "mutanti": [
   {
    "lotto": 30,
@@ -11982,7 +11982,7 @@
    "difetto": "AR-1180",
    "file": "cervello/riparazione-sessioni.mjs",
    "nome": "valida-collaudo torna al campione nei lotti fino a 40 voci: due minori senza giudizio pieno passano verdi",
-   "cerca": "        if (senzaCampione && cv.verdetto === \"regge\" && cv.giudizio !== \"pieno\") (c.finita === true ? rossi : attese)",
+   "cerca": "        if (senzaCampione && cv.verdetto === \"regge\" && cv.giudizio !== \"pieno\" && altrui.get(rv.id)?.giudizio !== \"pieno\") (c.finita === true ? rossi : attese)",
    "sostituisci": "        if (false) (c.finita === true ? rossi : attese)",
    "test": "cervello/test/chiusure-dopo-l-onda-2.test.mjs"
   },
@@ -12165,6 +12165,60 @@
    "cerca": "SHA_INTERO.test(e.commit) && e.commit === String(commit ?? \"\")",
    "sostituisci": "SHA_INTERO.test(e.commit)",
    "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "applica torna a guardare ogni collaudo da solo: il pieno di K10 non salva le voci di R18 che K07 non ha giudicato",
+   "cerca": "altrui: pieniAltrove(tuttiK, dati.collaudatore) });",
+   "sostituisci": "altrui: new Map() });",
+   "test": "cervello/test/collaudi-guardati-insieme.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "decidi lascia che un «non regge» senza giudizio batta un pieno «regge»",
+   "cerca": "    if (!prima || (pieno && !pienoPrima) || (pieno === pienoPrima && peso > pesoPrima)) verdetti.set(",
+   "sostituisci": "    if (!prima || peso > pesoPrima || (peso === pesoPrima && !pienoPrima && pieno)) verdetti.set(",
+   "test": "cervello/test/collaudi-guardati-insieme.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "valida-collaudo non guarda i pieni degli altri collaudi: un minore giudicato in pieno altrove resta rosso",
+   "cerca": "cv.giudizio !== \"pieno\" && altrui.get(rv.id)?.giudizio !== \"pieno\") (c.finita === true ? rossi : attese)",
+   "sostituisci": "cv.giudizio !== \"pieno\") (c.finita === true ? rossi : attese)",
+   "test": "cervello/test/collaudi-guardati-insieme.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "un collaudo parziale torna a dover elencare tutte le voci dei suoi riparatori (le 79 righe ricopiate da K10)",
+   "cerca": "      if (!cv) { if (!parziale) (c.finita === true ? rossi : attese)",
+   "sostituisci": "      if (!cv) { (c.finita === true ? rossi : attese)",
+   "test": "cervello/test/collaudi-guardati-insieme.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "un collaudo parziale dichiara un campione accettato",
+   "cerca": "  if (parziale && Object.values(c.campione ?? {}).some((x) => x?.accettato === true)) rossi.push(",
+   "sostituisci": "  if (false) rossi.push(",
+   "test": "cervello/test/collaudi-guardati-insieme.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "un collaudo non finito presta il suo giudizio pieno agli altri",
+   "cerca": "    if (!c || c.collaudatore === tranne || c.finita !== true) continue;",
+   "sostituisci": "    if (!c || c.collaudatore === tranne) continue;",
+   "test": "cervello/test/collaudi-guardati-insieme.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",

@@ -1374,7 +1374,24 @@ export function campioneDi(minori, perId, hub) {
   const accettato = pieni.length >= servono && hubMancanti.length === 0 && (pieni.length === 0 || reggono / pieni.length >= SOGLIA_CAMPIONE);
   return { minori: tot, servono, nel_campione: pieni.length, reggono, hub_mancanti: hubMancanti, accettato };
 }
-/** ctx: { nome, riparatori: {RNN: {voci:[{id,chiave,gravita,file}], referto|null}}, hub:Set, deroga?(regola, perché, RNN) } */
+/**
+ * I giudizi pieni degli ALTRI collaudi finiti, voce per voce (fra due pieni vince il peggiore). PURA.
+ * Servono a valida-collaudo e ad applica per guardare il giudizio pieno sull'unione dei collaudi, non dentro ognuno.
+ */
+export function pieniAltrove(collaudi, tranne) {
+  const peso = { rompe_altro: 3, non_regge: 2, parziale: 1, regge: 0 };
+  const fuori = new Map();
+  for (const c of collaudi ?? []) {
+    if (!c || c.collaudatore === tranne || c.finita !== true) continue;
+    for (const v of c.voci ?? []) {
+      if (v?.giudizio !== "pieno" || !(c.riparatori ?? []).includes(String(v.id ?? "").slice(0, 3))) continue;
+      const prima = fuori.get(v.id);
+      if (!prima || (peso[v.verdetto] ?? 3) > (peso[prima.verdetto] ?? 3)) fuori.set(v.id, { ...v, collaudatore: c.collaudatore });
+    }
+  }
+  return fuori;
+}
+/** ctx: { nome, riparatori: {RNN: {voci:[{id,chiave,gravita,file}], referto|null}}, hub:Set, deroga?(regola, perché, RNN), altrui?: Map } */
 export function regoleCollaudo(testo, ctx) {
   const rossi = [], attese = [];
   // Un rosso che un'eccezione firmata sospende nell'onda del riparatore non entra fra i rossi (la deroga lo annota).
@@ -1393,6 +1410,10 @@ export function regoleCollaudo(testo, ctx) {
     perId.set(v?.id, v);
   }
   const campioni = {};
+  // Un collaudo parziale («parziale: true») guarda solo le voci che elenca: le altre restano senza collaudo.
+  const parziale = c.parziale === true;
+  if (parziale && Object.values(c.campione ?? {}).some((x) => x?.accettato === true)) rossi.push("un collaudo parziale non dichiara un campione accettato: il campione si conta sull'unione dei collaudi");
+  const altrui = ctx.altrui instanceof Map ? ctx.altrui : new Map();
   for (const [r, info] of Object.entries(ctx.riparatori)) {
     if (!info.referto) { attese.push(`${r}: il referto del riparatore non c'è ancora`); continue; }
     // Un referto non finito è una fotografia di metà lavoro: collaudarlo dà un verde su voci che cambieranno
@@ -1406,7 +1427,7 @@ export function regoleCollaudo(testo, ctx) {
       const s = scheda.get(rv.id);
       const cv = perId.get(rv.id);
       if (!s) continue;
-      if (!cv) { (c.finita === true ? rossi : attese).push(`${rv.id}: ${rv.esito} nel referto di ${r}, manca nel collaudo`); continue; }
+      if (!cv) { if (!parziale) (c.finita === true ? rossi : attese).push(`${rv.id}: ${rv.esito} nel referto di ${r}, manca nel collaudo`); continue; }
       if (cv.chiave !== s.chiave) rossi.push(`${rv.id}: la chiave del collaudo non è quella della scheda`);
       if (!VERDETTI.includes(cv.verdetto)) { rossi.push(`${rv.id}: verdetto «${cv.verdetto}» non è uno di ${VERDETTI.join("|")}`); continue; }
       if (!GIUDIZI.includes(cv.giudizio)) rossi.push(`${rv.id}: giudizio «${cv.giudizio}» non è uno di ${GIUDIZI.join("|")}`);
@@ -1427,14 +1448,17 @@ export function regoleCollaudo(testo, ctx) {
       if ((GRAVI.has(s.gravita) || senzaRimessa) && cv.verdetto === "regge" && cv.giudizio !== "pieno") rossi.push(`${rv.id}: un ${rv.esito === "gia_riparato_prima" ? "«già riparato»" : rv.esito === "verificata_dopo_nicola" ? "«verificata dopo Nicola»" : s.gravita} regge solo con un giudizio pieno`);
       if (!GRAVI.has(s.gravita) && rv.esito === "riparato") {
         minori.push({ id: rv.id, file: s.file });
-        if (senzaCampione && cv.verdetto === "regge" && cv.giudizio !== "pieno") (c.finita === true ? rossi : attese).push(`${rv.id}: minore riparato senza giudizio pieno: in un lotto di ${info.voci.length} voci (fino a ${LOTTO_SENZA_CAMPIONE}) il campione non esiste`);
+        if (senzaCampione && cv.verdetto === "regge" && cv.giudizio !== "pieno" && altrui.get(rv.id)?.giudizio !== "pieno") (c.finita === true ? rossi : attese).push(`${rv.id}: minore riparato senza giudizio pieno: in un lotto di ${info.voci.length} voci (fino a ${LOTTO_SENZA_CAMPIONE}) il campione non esiste`);
       }
     }
-    const camp = campioneDi(minori, perId, ctx.hub);
+    // Il campione si conta sull'unione: un pieno di un altro collaudo vale come voce guardata.
+    const perIdUnione = new Map(perId);
+    for (const [id, v] of altrui) if (perIdUnione.get(id)?.giudizio !== "pieno") perIdUnione.set(id, v);
+    const camp = campioneDi(minori, perIdUnione, ctx.hub);
     campioni[r] = camp;
     const dichiarato = c.campione?.[r]?.accettato;
     if (!senzaCampione && dichiarato === true && !camp.accettato) rossi.push(`${r}: il campione è dichiarato accettato ma non lo è (${camp.reggono} reggono su ${camp.nel_campione} guardati, ne servivano ${camp.servono}${camp.hub_mancanti.length ? `, ${camp.hub_mancanti.length} sui file che legano non guardati` : ""})`);
-    if (!senzaCampione && c.finita === true && camp.nel_campione < camp.servono) rossi.push(`${r}: campione troppo piccolo: ${camp.nel_campione} minori guardati con giudizio, ne servono ${camp.servono}`);
+    if (!senzaCampione && !parziale && c.finita === true && camp.nel_campione < camp.servono) rossi.push(`${r}: campione troppo piccolo: ${camp.nel_campione} minori guardati con giudizio, ne servono ${camp.servono}`);
   }
   if (c.finita !== true) attese.push(`${ctx.nome}: collaudo non ancora finito`);
   return { rossi, attese, campioni };
@@ -1474,7 +1498,8 @@ function validaCollaudo(opz) {
   const riparatori = riparatoriDi(opz, piano, elenco);
   const fuoriPiano = Object.entries(riparatori).filter(([, x]) => !x.inPiano).map(([r]) => r);
   const derogatiK = [];
-  const { rossi, attese, campioni } = regoleCollaudo(testo, { nome: c.collaudatore, riparatori, hub: fileHub(per.lavorabili), deroga: derogaCollaudo(piano, derogatiK) });
+  const altriK = leggiCartellaJson(join(serveCartella(opz), "collaudi"), /^K\d{2}\.json$/);
+  const { rossi, attese, campioni } = regoleCollaudo(testo, { nome: c.collaudatore, riparatori, hub: fileHub(per.lavorabili), deroga: derogaCollaudo(piano, derogatiK), altrui: pieniAltrove(altriK, c.collaudatore) });
   stampaEccezioni(derogatiK);
   for (const r of fuoriPiano) rossi.push(`${r} non è nel piano`);
   const sess = leggiSessioni(opz);
@@ -1569,7 +1594,10 @@ export function decidi({ piano, referti, collaudi, hub }) {
     const prima = verdetti.get(v.id);
     const peso = SEVERITA_VERDETTO[v.verdetto] ?? 3;
     const pesoPrima = prima ? (SEVERITA_VERDETTO[prima.verdetto] ?? 3) : -1;
-    if (!prima || peso > pesoPrima || (peso === pesoPrima && prima.giudizio !== "pieno" && v.giudizio === "pieno")) verdetti.set(v.id, { ...v, collaudatore: c.collaudatore });
+    // Un giudizio pieno batte sempre uno che non lo è; fra due dello stesso tipo vince il peggiore (officina minima
+    // del 15/11: K07 senza giudizio su R18, K10 col pieno sulle stesse voci; applica le teneva aperte).
+    const pieno = v.giudizio === "pieno", pienoPrima = prima?.giudizio === "pieno";
+    if (!prima || (pieno && !pienoPrima) || (pieno === pienoPrima && peso > pesoPrima)) verdetti.set(v.id, { ...v, collaudatore: c.collaudatore });
   }
   for (const o of piano.onde) {
     for (const [nome, s] of Object.entries(o.sessioni)) {
@@ -1756,6 +1784,7 @@ function applica(opz) {
   }
   const hub = fileHub(per.lavorabili);
   const collaudi = [];
+  const tuttiK = lettiK.map((x) => x.dati).filter(Boolean);
   for (const { nome: file, testo, dati } of lettiK) {
     if (!dati) { ferma.push(`collaudi/${file}: non è JSON`); continue; }
     if (dati.collaudatore !== file.replace(/\.json$/, "")) { ferma.push(`collaudi/${file}: dice di essere «${dati.collaudatore}»`); continue; }
@@ -1763,7 +1792,7 @@ function applica(opz) {
     if (!elenco.length) ferma.push(`collaudi/${file}: non dice quali riparatori guarda`);
     const riparatori = Object.fromEntries(elenco.map((r) => [r, { voci: sessioneNelPiano(piano, r)?.sessione.voci ?? [], referto: referti[r] ?? null }]));
     const derogatiK = [];
-    const { rossi } = regoleCollaudo(testo, { nome: dati.collaudatore, riparatori, hub, deroga: derogaCollaudo(piano, derogatiK) });
+    const { rossi } = regoleCollaudo(testo, { nome: dati.collaudatore, riparatori, hub, deroga: derogaCollaudo(piano, derogatiK), altrui: pieniAltrove(tuttiK, dati.collaudatore) });
     for (const r of rossi) ferma.push(`collaudi/${file}: ${r}`);
     for (const e of derogatiK) eccezioni.push(`collaudi/${file}: ${e}`);
     if (dati.finita !== true) ferma.push(`collaudi/${file}: il collaudo non è finito`);
