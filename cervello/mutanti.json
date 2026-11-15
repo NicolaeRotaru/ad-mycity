@@ -12235,8 +12235,27 @@
    "difetto": "AR-1180",
    "file": "cervello/riparazione-sessioni.mjs",
    "nome": "decidi riapre le voci chiuse a campione con la regola dei 40 anche senza misura",
-   "cerca": "          else if (misura === true && minore && cv.giudizio !== \"pieno\" && s.voci.length <= LOTTO_SENZA_CAMPIONE) d.perche",
+   "cerca": "          else if (misuraQui && minore && cv.giudizio !== \"pieno\" && s.voci.length <= LOTTO_SENZA_CAMPIONE) d.perche",
    "sostituisci": "          else if (minore && cv.giudizio !== \"pieno\" && s.voci.length <= LOTTO_SENZA_CAMPIONE) d.perche",
+   "test": "cervello/test/collaudi-guardati-insieme.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1184",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "applica torna a chiamare decidi senza la regola dei 40: R16-014, -015 e -016 si chiudono col campione di K08 anche dall'onda del campo",
+   "cerca": "decidi({ piano, referti, collaudi, hub, misuraDallOnda: dallOndaCampione })",
+   "sostituisci": "decidi({ piano, referti, collaudi, hub })",
+   "test": "cervello/test/collaudi-guardati-insieme.test.mjs",
+   "perche_conta": "Nicola ha scelto la strada «a» (carta #256, 15/11 23:35): dall'onda scritta nel piano, applica non chiude un minore collaudato a campione in un lotto fino a 40 voci. Senza questo passaggio la regola resta solo in valida-collaudo, e applica scrive nel registro come chiuse voci che il collaudo non ha guardato."
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1184",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "pronte torna a chiamare decidi senza la regola dei 40: R16-014, -015 e -016 escono dall'elenco A da ricollaudare",
+   "cerca": "hub: fileHub(per.lavorabili ?? []), misuraDallOnda: dallOndaCampione })",
+   "sostituisci": "hub: fileHub(per.lavorabili ?? []) })",
    "test": "cervello/test/collaudi-guardati-insieme.test.mjs"
   },
   {
