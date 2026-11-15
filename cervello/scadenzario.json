@@ -18,16 +18,16 @@
     },
     {
       "id": "attesa-glossario-kpi",
-      "titolo": "Glossario dei KPI: il controllo promesso per il 15/11, o la CI torna rossa per tutti",
-      "scade": "2026-11-15T01:00:00+01:00",
+      "titolo": "Glossario dei KPI: il controllo promesso per il 22/11, o la CI torna rossa per tutti",
+      "scade": "2026-11-22T01:00:00+01:00",
       "cancello": {
         "registro": "governo",
         "chiave": "glossario-kpi"
       },
       "colore": "🟡",
       "chi": "una sessione di lavoro sulla macchina: costruire il controllo (scheda AR-962) o spostare la data con un perché nuovo",
-      "conseguenza": "Dal 15/11 all'01:00 la prova «IL PUNTO» di c9-governo-senza-sveglia diventa rossa, e con lei la CI di ogni richiesta di unione: per la lista dei documenti di governo un'attesa scaduta torna a essere un buco. È la stessa trappola che ha fatto rossa la CI il 30/9: qui serve ad accorgersene tre giorni prima.",
-      "fonte": "cervello/documenti-di-governo.mjs → voce glossario-kpi, attesa.fino «2026-11-15», letta come mezzanotte di Greenwich (Date.UTC), cioè l'01:00 a Piacenza. La prova c9-governo-senza-sveglia controlla che le due date restino uguali, nei due versi.",
+      "conseguenza": "Dal 22/11 all'01:00 la prova «IL PUNTO» di c9-governo-senza-sveglia diventa rossa, e con lei la CI di ogni richiesta di unione: per la lista dei documenti di governo un'attesa scaduta torna a essere un buco. È la stessa trappola che ha fatto rossa la CI il 30/9: qui serve ad accorgersene tre giorni prima.",
+      "fonte": "cervello/documenti-di-governo.mjs → voce glossario-kpi, attesa.fino «2026-11-22», letta come mezzanotte di Greenwich (Date.UTC), cioè l'01:00 a Piacenza. La prova c9-governo-senza-sveglia controlla che le due date restino uguali, nei due versi.",
       "chi_la_chiude": "Chi costruisce il controllo del glossario, o sposta la data, sposta questa voce in `chiuse` (intera, con la sua fonte) o ne aggiorna la data nello stesso lavoro: la prova c9 lo pretende. Quando il controllo nasce, che l'attesa sparisca o resti scritta accanto al guardiano, dal registro delle mutazioni va tolta anche quella di AR-966 che sposta la data dell'attesa: senza una data da rompere il banco la dà per cieca, e il cancello si ferma."
     },
     {

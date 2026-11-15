@@ -66,9 +66,9 @@ export const DOCUMENTI = [
     cosa_e: "l'unica definizione condivisa di ogni numero che la macchina dice a Nicola",
     guardiano: null,
     attesa: {
-      fino: "2026-11-15",
+      fino: "2026-11-22",
       perche:
-        "Qui il pericolo non è la data vecchia: è un KPI che vive solo dentro uno script e non è mai passato dal glossario — la causa esatta di AR-282 sulla cassa. Il controllo giusto confronta i KPI scritti nel codice con quelli definiti qui, e quel confronto va costruito, non è una freschezza. DATA SPOSTATA l'11/10 (era il 30/9), col perché nuovo: il 30/9 è passato senza che nessuno lo costruisse — i lotti di inizio settembre hanno lavorato sul sito, e dal 10/9 al 9/10 sul ramo principale non è entrato nessun lavoro. E il confronto non si scrive in un'ora: prima serve sapere quali numeri il codice chiama KPI, cioè un registro che oggi non esiste. È la scheda AR-962, nel cantiere: lì il lavoro c'è, qui c'è solo la data.",
+        "Qui il pericolo non è la data vecchia: è un KPI che vive solo dentro uno script e non è mai passato dal glossario — la causa esatta di AR-282 sulla cassa. Il controllo giusto confronta i KPI scritti nel codice con quelli definiti qui, e quel confronto va costruito, non è una freschezza. DATA SPOSTATA l'11/10 (era il 30/9), col perché nuovo: il 30/9 è passato senza che nessuno lo costruisse — i lotti di inizio settembre hanno lavorato sul sito, e dal 10/9 al 9/10 sul ramo principale non è entrato nessun lavoro. E il confronto non si scrive in un'ora: prima serve sapere quali numeri il codice chiama KPI, cioè un registro che oggi non esiste. È la scheda AR-962, nel cantiere: lì il lavoro c'è, qui c'è solo la data. DATA SPOSTATA il 15/11 alle 06:10 (era il 15/11), col perché nuovo: il controllo è stato costruito nella notte del 15/11 sul ramo di ad-mycity#954, ma un collaudo indipendente l'ha bocciato con un difetto grave (sul server avrebbe scritto numeri di cassa finti nella memoria e nel Pannello). La regista O2 settima sta facendo il primo giro di correzione. Una settimana basta per correggere, ricollaudare e unire; se non basta, la data si sposta di nuovo solo con un perché nuovo.",
     },
   },
 ];

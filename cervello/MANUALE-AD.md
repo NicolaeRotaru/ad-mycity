@@ -97,7 +97,7 @@ fonte: le parti di CLAUDE.md che servono solo all'AD, spostate parola per parola
 > leggera e legge solo gli esiti. Analisi: `consegne/audit/2026-11-12-conto-token-palestra.md`.
 >
 > 🧱 **Le regole che reggono da sole (15/11/2026, Nicola: «impara da tutto ciò che è successo e migliorati»).**
-> Il conto: nell'onda 2 del sito erano scritti il tetto di 12 agenti, i tetti per sessione, le attese mute e
+> Il conto: nell'onda 2 del sito erano scritti il tetto sugli agenti per sessione, i tetti di spesa, le attese mute e
 > «oltre la stima ci si ferma». Sono stati superati tutti: circa 27 $ per voce chiusa contro i circa 5 $
 > dell'onda 1. ㉕ **Una regola che ha fallito una volta diventa un programma, oppure porta la scritta «solo
 > testo»**. Così chi legge sa di quanto fidarsi, e la prossima cosa da costruire è sempre quella. ㉖ **Il
