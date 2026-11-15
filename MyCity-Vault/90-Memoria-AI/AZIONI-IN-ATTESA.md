@@ -35,6 +35,8 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 **✅ Superata il 15/11 alle 10:23.** Nicola ha unito la #962. Dentro c'era già la correzione del bloccante (commit 41e041c). Manca il collaudo corto della correzione: lo apre l'AD.
 
+**Aggiornata il 15/11 alle 11:20.** Il ricollaudo dice che la correzione regge, con una riserva. La scelta su quella riserva è nella carta #255.
+
 **In parole semplici.** L'officina ha costruito i programmi che fanno rispettare le regole sui costi delle riparazioni. Il collaudo indipendente li ha bocciati per un difetto bloccante. La regola «niente controllo a campione sotto le 40 riparazioni» vale anche sui collaudi fatti prima che esistesse.
 
 **Cosa cambia per te.** Esempio: se unissi adesso la richiesta dell'officina, 7 riparazioni già chiuse del 12/11 tornerebbero aperte. E le 7 promosse dal collaudo K10 non entrerebbero nel registro.
