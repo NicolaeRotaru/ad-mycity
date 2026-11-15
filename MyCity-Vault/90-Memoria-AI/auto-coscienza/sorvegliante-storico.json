@@ -1921,14 +1921,12 @@
       "mai_risolte": []
     },
     {
-      "quando": "2026-11-15T10:56:11.539Z",
-      "scatti": 62,
-      "voci": 8,
-      "per_classe": {
-        "difesa-rimossa": 8
-      },
+      "quando": "2026-11-15T09:54:33.487Z",
+      "scatti": 45,
+      "voci": 0,
+      "per_classe": {},
       "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-11-15T10:56:11.543Z"
+  "aggiornato": "2026-11-15T09:54:33.490Z"
 }
