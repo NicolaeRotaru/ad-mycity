@@ -103,7 +103,7 @@ test("AR-1180 · conti --preventivo: senza misure.json esce 2; con le misure scr
   } finally { rmSync(t, { recursive: true, force: true }); }
 });
 
-test("AR-1180 · minore 3 del collaudo: una PR forse unita con squash (testa non in main, campo «unita» assente) è un'attesa, non un verde muto", () => {
+test("AR-1183 · minore 3 del collaudo: una PR forse unita con squash (testa non in main, campo «unita» assente) è un'attesa, non un verde muto", () => {
   const piano = { onde: [{}, { sessioni: { R13: {} } }] };
   const senzaCampo = { pr_sito_onda2: { numero: 300, testa: "abc12345" } };
   assert.match(prUniteSenzaRegistro({ sess: senzaCampo, piano, elenco: [], unita: () => false }).attese.join(""), /#300 \(onda 2\): la testa abc12345 non è in main e manca il campo «unita»/);
