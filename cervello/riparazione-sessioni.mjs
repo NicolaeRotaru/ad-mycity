@@ -30,7 +30,9 @@
 //   valida-collaudo <file>    il referto di un collaudatore rispetta formato e regola del campione
 //   prova-unione              i rami dell'onda non si pestano: nessun file in due rami, l'unione non litiga
 //   applica [--scrivi]        da referti e collaudi: chi si chiude, chi resta aperto, i difetti nati
-//   conti                     prima e dopo, incrociando le chiavi
+//   conti                     prima e dopo, incrociando le chiavi; rosso se una PR dell'onda è unita e il registro no
+//   conti --preventivo [--voci N] [--misure <file>]   stima, tetto e massimo SOLO da misure.json, in preventivo.json
+//                             e in REGIA.md; rosso con la spesa (stato-sessioni.json) al 70% e al 100% della stima
 //   deposito                  stampa il deposito dei rami della campagna (sito o macchina); 2 se non c'è
 //   pronte [--git <dir>]      quattro elenchi di chiavi in <cartella>/pronte/: A da ricollaudare, B serve_file_altrui,
 //                             C parziali con file altrui, D per Nicola (dai percorsi e dagli esiti, voce unica)
@@ -121,7 +123,7 @@ const TEMPORANEI = [
 ];
 
 // ── Opzioni ──────────────────────────────────────────────────────────────────────────────────────
-const BOOLEANE = new Set(["json", "anche-umani", "anche-rimandati", "ultima", "scrivi", "tutti"]);
+const BOOLEANE = new Set(["json", "anche-umani", "anche-rimandati", "ultima", "scrivi", "tutti", "preventivo"]);
 export function leggiOpzioni(argv) {
   const opz = { posizionali: [] };
   for (let i = 0; i < argv.length; i++) {
@@ -1683,6 +1685,8 @@ function applica(opz) {
   }
   const referti = {};
   const sess = leggiSessioni(opz);
+  const collaudiPerNome = Object.fromEntries(lettiK.filter((x) => x.dati).map((x) => [x.nome.replace(/\.json$/, ""), x.dati]));
+  for (const k of kFinitiMaAperti(sess, collaudiPerNome)) ferma.push(`collaudi/${k}.json: sessioni.json dice che ${k} ha finito, ma il collaudo ha ancora finita:false (le sue voci risultano senza collaudo): copia qui il collaudo finito dal suo ramo`);
   const senzaStoria = [];
   const eccezioni = [];
   for (const { nome: file, testo, dati } of lettiR) {
@@ -1810,6 +1814,7 @@ function applica(opz) {
 function conti(opz) {
   let per, piano;
   try { per = leggiPerimetro(opz); piano = leggiPiano(opz); } catch (e) { return cieco("conti", e.message, opz); }
+  if (opz.preventivo) return contiPreventivo(opz, piano);
   const cartella = serveCartella(opz);
   const referti = leggiCartellaJson(join(cartella, "referti"), /^R\d{2}\.json$/);
   const nelPerimetro = new Set(per.lavorabili.map((v) => v.chiave));
@@ -1820,9 +1825,10 @@ function conti(opz) {
     if (!nelPerimetro.has(v.chiave)) rossi.push(`${v.id}: la chiave «${v.chiave}» non è nel perimetro`);
   }
   const assegnate = piano.onde.reduce((a, o) => a + Object.values(o.sessioni).reduce((b, s) => b + s.voci.length, 0), 0);
-  let statoOra = {};
+  let statoOra = {}, elencoReg = null;
   try {
     const reg = leggiRegistro(per.casa, opz);
+    elencoReg = reg.elenco;
     for (const d of reg.elenco) if (nelPerimetro.has(chiaveDi(per.casa, d))) statoOra[statoDi(d)] = (statoOra[statoDi(d)] ?? 0) + 1;
   } catch { statoOra = null; }
   const dec = existsSync(join(cartella, "decisioni.json")) ? leggiJson(join(cartella, "decisioni.json")).decisioni : [];
@@ -1839,11 +1845,19 @@ function conti(opz) {
   }
   // Senza decisioni.json il controllo qui sopra non si fa: lo si dice, invece di uscire verdi (radiografia del 12/11 notte).
   const senzaDecisioni = !dec.length && assegnate > 0 ? [`decisioni.json non c'è o è vuoto: il controllo «nessuna voce dimenticata» non è fatto (si scrive con applica)`] : [];
+  // Una PR dell'onda unita col registro non scritto: le voci chiuse restano aperte per tutti gli altri (la #290).
+  const repo = resolve(opz.git ?? repoDi(per.casa, opz));
+  const unita = (testa) => {
+    if (gitOk(repo, ["rev-parse", "--verify", "--quiet", `${testa}^{commit}`]) === null || gitOk(repo, ["rev-parse", "--verify", "--quiet", "origin/main"]) === null) return null;
+    return gitOk(repo, ["merge-base", "--is-ancestor", testa, "origin/main"]) !== null;
+  };
+  const pr = elencoReg ? prUniteSenzaRegistro({ sess: leggiSessioni(opz), piano, elenco: elencoReg, unita }) : { rossi: [], attese: [] };
+  rossi.push(...pr.rossi);
   console.log(`📊 perimetro ${per.lavorabili.length} lavorabili · assegnate ${assegnate} in ${piano.onde.length} onde · cucitura ${piano.cucitura?.length ?? 0} · eccedenza ${piano.eccedenza?.length ?? 0}`);
   console.log(`   esiti dei riparatori: ${Object.entries(esiti).map(([k, v]) => `${v} ${k}`).join(", ") || "nessun referto"}`);
   if (dec.length) console.log(`   decisioni: ${Object.entries(perDec).map(([k, v]) => `${v} ${k}`).join(", ")}`);
   if (statoOra) console.log(`   nel registro adesso, per le chiavi del perimetro: ${Object.entries(statoOra).map(([k, v]) => `${v} ${k}`).join(", ")}`);
-  return chiudi("conti", rossi, [...senzaDecisioni, ...(statoOra ? [] : ["il registro non si legge"])], opz, { lavorabili: per.lavorabili.length, assegnate, esiti, decisioni: perDec, registro: statoOra });
+  return chiudi("conti", rossi, [...senzaDecisioni, ...pr.attese, ...(statoOra ? [] : ["il registro non si legge"])], opz, { lavorabili: per.lavorabili.length, assegnate, esiti, decisioni: perDec, registro: statoOra });
 }
 
 // ── avvio ────────────────────────────────────────────────────────────────────────────────────────
@@ -2074,6 +2088,94 @@ function fileCheServono(opz) {
 /** Una serve_file_altrui va da chi ha il file che le serve: i file che servono entrano fra i file della voce. PURA. */
 export function conFileCheServono(candidate, mappa) {
   return candidate.map((v) => (mappa.has(v.chiave) ? { ...v, file: [...new Set([...v.file, ...mappa.get(v.chiave)])] } : v));
+}
+
+// ── i conti che arrivavano tardi (officina minima del 15/11, pezzo 5) ────────────────────────────
+// K08.json era fermo a finita:false dal 13/11 alle 16:50 mentre K08 terzo aveva finito il 14/11 alle 09:38: 18 voci
+// risultavano senza collaudo. La mycity#290 era unita dal 15/11 alle 03:07 e il registro non era scritto. La stima
+// dell'onda 2 era 376 $ contro circa 1.627 reali (4,3 volte), fatta con 1,45 $ a voce: un rimedio sperato.
+const FINITA_VERA = (f) => f === true || (typeof f === "string" && /^\d{4}-\d{2}-\d{2}/.test(f));
+
+/** I collaudatori che sessioni.json dà per finiti (anche i giri dopo, «K08 terzo») col collaudo ancora finita:false. PURA. */
+export function kFinitiMaAperti(sess, collaudiPerNome) {
+  const finiti = new Set();
+  for (const [n, v] of Object.entries(sess?.collaudatori ?? {})) if (/^K\d{2}$/.test(n) && FINITA_VERA(v?.finita)) finiti.add(n);
+  const visita = (o, prof) => {
+    if (!o || typeof o !== "object" || prof > 3) return;
+    const m = typeof o.titolo === "string" ? o.titolo.match(/^(K\d{2})\b/) : null;
+    if (m && FINITA_VERA(o.finita)) finiti.add(m[1]);
+    for (const x of Object.values(o)) visita(x, prof + 1);
+  };
+  visita(sess, 0);
+  return [...finiti].filter((k) => collaudiPerNome[k] && collaudiPerNome[k].finita !== true).sort();
+}
+
+/** Il registro porta le voci di quell'onda: almeno una scheda con un campo riparazione_* di una sua sessione. PURA. */
+export function registroScrittoPerOnda(elenco, sessioniOnda) {
+  const mie = new Set(sessioniOnda);
+  return elenco.some((d) => Object.entries(d ?? {}).some(([k, v]) => k.startsWith("riparazione_") && mie.has(v?.sessione)));
+}
+
+/**
+ * Le PR delle onde (in sessioni.json «pr_…ondaN»: {numero, testa}) unite senza il registro scritto. PURA.
+ * `unita(testa)` dice true, false o null (non lo so: il commit o main non ci sono nel deposito).
+ */
+export function prUniteSenzaRegistro({ sess, piano, elenco, unita }) {
+  const rossi = [], attese = [];
+  for (const [chiave, pr] of Object.entries(sess ?? {})) {
+    const m = chiave.match(/^pr_\w*?onda(\d+)$/);
+    if (!m || !pr || typeof pr !== "object" || vuoto(pr.testa)) continue;
+    const onda = Number(m[1]);
+    const u = FINITA_VERA(pr.unita) ? true : unita(String(pr.testa));
+    const nomi = Object.keys(piano?.onde?.[onda - 1]?.sessioni ?? {});
+    if (u === null) attese.push(`#${pr.numero ?? "?"} (onda ${onda}): non so se è unita (il commit ${String(pr.testa).slice(0, 8)} o main non sono nel deposito)`);
+    else if (u && !registroScrittoPerOnda(elenco, nomi)) rossi.push(`#${pr.numero ?? "?"} unita, onda ${onda} non scritta nel registro: applica --scrivi`);
+  }
+  return { rossi, attese };
+}
+
+/**
+ * Il preventivo di un'onda, SOLO dalle misure (lezione 3 del 15/11). PURA. Torna null senza misure leggibili.
+ * stima = voci × $ per voce lavorata dell'ultima onda misurata (collaudo e regia sono già dentro: il 15% e il
+ * 10% sono la loro parte); tetto = stima + 30% (lo scarto ammesso fra stima e reale); massimo = voci × la
+ * misura peggiore.
+ */
+export function preventivoDa(misure, voci) {
+  const righe = (Array.isArray(misure?.misure) ? misure.misure : [])
+    .filter((m) => /^onda\b/i.test(String(m?.fase ?? "")) && Number(m.usd) > 0 && Number(m.voci_lavorate) > 0)
+    .map((m) => ({ fase: m.fase, per_voce: Number(m.usd) / Number(m.voci_lavorate) }));
+  if (!righe.length || !(Number(voci) > 0)) return null;
+  const ultima = righe[righe.length - 1];
+  const tonda = (x) => Math.round(x * 100) / 100;
+  const stima = tonda(voci * ultima.per_voce);
+  const q = misure.casi_base_per_il_preventivo ?? {};
+  const collaudo = Number(q.collaudo_quota) || 0.15, regia = Number(q.regia_quota) || 0.1;
+  return {
+    voci: Number(voci), per_voce_usd: tonda(ultima.per_voce), fonte: `misure.json, fase «${ultima.fase}»`,
+    stima_usd: stima, tetto_usd: tonda(stima * 1.3), massimo_usd: tonda(voci * Math.max(...righe.map((r) => r.per_voce))),
+    quote_usd: { collaudo: tonda(stima * collaudo), regia: tonda(stima * regia), riparatori: tonda(stima * (1 - collaudo - regia)) },
+  };
+}
+
+function contiPreventivo(opz, piano) {
+  const cartella = serveCartella(opz);
+  const fileMisure = resolve(opz.misure ?? join(opz.radice, "cervello/riparazione/misure.json"));
+  if (!existsSync(fileMisure)) return cieco("conti", `${fileMisure} non c'è: il preventivo si fa solo dalle misure, mai da un rimedio sperato`, opz);
+  const ultima = piano.onde[piano.onde.length - 1];
+  const voci = Number(opz.voci ?? ultima?.candidate?.length ?? 0);
+  const p = preventivoDa(leggiJson(fileMisure), voci);
+  if (!p) return cieco("conti", `nessuna misura d'onda leggibile in ${fileMisure}, o nessuna voce (--voci)`, opz);
+  scriviJson(join(cartella, "preventivo.json"), { creato: timbroOra(), ...p });
+  const riga = `- ${timbroOra()} · preventivo (conti --preventivo): ${p.voci} voci × ${p.per_voce_usd} $ = stima ${p.stima_usd} $ · tetto ${p.tetto_usd} $ · massimo ${p.massimo_usd} $ (collaudo ${p.quote_usd.collaudo} $, regia ${p.quote_usd.regia} $ dentro; ${p.fonte})`;
+  const regia = join(cartella, "REGIA.md");
+  scriviTesto(regia, (existsSync(regia) ? readFileSync(regia, "utf8").replace(/\n*$/, "\n") : "") + riga + "\n");
+  console.log(`💶 ${riga.slice(2)}`);
+  const vive = existsSync(join(cartella, "stato-sessioni.json")) ? leggiJson(join(cartella, "stato-sessioni.json")) : null;
+  const spesa = Number(vive?.spesa_usd);
+  const rossi = [];
+  if (spesa >= p.stima_usd) rossi.push(`spesa ${spesa} $: oltre il 100% della stima (${p.stima_usd} $)`);
+  else if (spesa >= SOGLIA_SPESA * p.stima_usd) rossi.push(`spesa ${spesa} $: oltre il 70% della stima (${p.stima_usd} $)`);
+  return chiudi("conti", rossi, spesa > 0 ? [] : ["la spesa non è nota (stato-sessioni.json senza spesa_usd): il 70% e il 100% non sono guardati"], opz, { preventivo: p, spesa_usd: spesa || null });
 }
 
 const COMANDI = {

@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-11-15 08:30",
+ "aggiornato": "2026-11-15 06:54",
  "mutanti": [
   {
    "lotto": 30,
@@ -12057,6 +12057,51 @@
    "cerca": "...(pr.modifiche ?? []).map((m) => `  - modifica scritta per ${m.file}: ${m.modifica}`)",
    "sostituisci": "",
    "test": "cervello/test/voci-pronte-per-il-giro.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "applica non vede più il collaudatore dato per finito col collaudo ancora aperto (K08 terzo, 18 voci senza collaudo)",
+   "cerca": "  return [...finiti].filter((k) => collaudiPerNome[k] && collaudiPerNome[k].finita !== true).sort();",
+   "sostituisci": "  return [];",
+   "test": "cervello/test/conti-che-arrivano-in-tempo.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "conti tace sulla PR dell'onda unita col registro non scritto (la mycity#290)",
+   "cerca": "    else if (u && !registroScrittoPerOnda(elenco, nomi)) rossi.push(",
+   "sostituisci": "    else if (false) rossi.push(",
+   "test": "cervello/test/conti-che-arrivano-in-tempo.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "il registro risulta scritto anche senza nessuna voce dell'onda",
+   "cerca": "  return elenco.some((d) => Object.entries(d ?? {}).some(([k, v]) => k.startsWith(\"riparazione_\") && mie.has(v?.sessione)));",
+   "sostituisci": "  return elenco.length > 0;",
+   "test": "cervello/test/conti-che-arrivano-in-tempo.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "il preventivo torna a 1,45 $ a voce, un rimedio sperato invece della misura",
+   "cerca": "  const stima = tonda(voci * ultima.per_voce);",
+   "sostituisci": "  const stima = tonda(voci * 1.45);",
+   "test": "cervello/test/conti-che-arrivano-in-tempo.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "conti --preventivo non è più rosso al 70% della stima",
+   "cerca": "  else if (spesa >= SOGLIA_SPESA * p.stima_usd) rossi.push(",
+   "sostituisci": "  else if (false) rossi.push(",
+   "test": "cervello/test/conti-che-arrivano-in-tempo.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",
