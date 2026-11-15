@@ -1,0 +1,15 @@
+{
+  "_cosa_e": "I difetti nuovi visti dal collaudatore K10 (session_015BmpnVoKwLXx38QpasjKQ7) il 15/11, nel formato di «nuovi_difetti_visti» dei referti. Il formato del collaudo non ha questo campo, e applica legge i nati solo da referti e controlli: chi lancia applica --scrivi con K10 li porta nel registro del sito (per esempio con scriviNatiSito). Salvati qui dall'AD perché non restino solo in chat.",
+  "sessione": "K10",
+  "visti_su": "main del sito 67666b3f (dopo la #290)",
+  "nuovi_difetti_visti": [
+    { "titolo": "Il doppio tocco sul cuore con due salvataggi falliti lascia il cuore pieno e il preferito non salvato, e una richiesta che non risponde blocca la fila del prodotto", "severita": "minore", "file": "lib/preferiti/tocco-del-cuore.ts", "descrizione": "Regressione nata dalla riparazione di R15-013 (verdetto rompe_altro di K10). Righe 137-140: dopo due salvataggi falliti il cuore resta pieno e il database è vuoto. Riga 122: una richiesta che non risponde blocca la fila del prodotto finché la pagina resta aperta. Una prova di passaggio era verde 3 su 3 sul commit di prima e rossa 3 su 3 su main. È sul sito pubblicato.", "riservato": false },
+    { "titolo": "Il Drop del giorno usa il giorno di Greenwich: fra mezzanotte e le 2 la home e la pagina admin sono su giorni diversi", "severita": "minore", "file": "components/home/DropOfDay.tsx", "descrizione": "Righe 49-61. Oggi il Drop è spento: il difetto si vede quando si riaccende.", "riservato": false },
+    { "titolo": "La data degli eventi in home non usa il fuso di Piacenza", "severita": "minore", "file": "components/home/HomeEvents.tsx", "descrizione": "Riga 48.", "riservato": false },
+    { "titolo": "Dopo aver tolto un prodotto da una lista, il conteggio in /lists resta vecchio fino a 30 secondi", "severita": "minore", "file": "app/lists/[id]/page.tsx", "descrizione": "Righe 162-164.", "riservato": false },
+    { "titolo": "«Ripeti ordine» rimette nel carrello una quantità oltre la scorta (la ferma solo la cassa)", "severita": "minore", "file": "lib/riordino.ts", "descrizione": "Riga 211.", "riservato": false },
+    { "titolo": "aria-busy sulla variante «cards» del caricamento può zittire l'annuncio per lo screen reader", "severita": "minore", "file": "components/ui/LoadingState.tsx", "descrizione": "Riga 54. Oggi nessuna pagina usa la variante «cards».", "riservato": false },
+    { "titolo": "L'icona a cuore accanto ad «Appena arrivati» in home", "severita": "minore", "file": "components/home/HomeSectionRenderer.tsx", "descrizione": "Riga 237: icona che richiama i preferiti in una sezione che non li riguarda.", "riservato": false },
+    { "titolo": "Rilanciando la migrazione 424 la validazione non si riprova, e in produzione due movimenti punti orfani vanno ripuliti prima del VALIDATE", "severita": "minore", "file": "migrations/424", "descrizione": "Righe 46-48. L'applicazione sul database vero resta di Nicola.", "riservato": false }
+  ]
+}
