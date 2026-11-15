@@ -42,11 +42,20 @@ mapfile -t RIGHE < <(node -e '
 if [ "$ATTENDI" = 1 ]; then
   INTERVALLO="${SORVEGLIA_INTERVALLO:-300}"; BATTITO="${SORVEGLIA_BATTITO:-7200}"; INIZIO=$SECONDS
   until false; do
+    # Un remoto che non risponde rende muti i segnali: se nessun ramo si è potuto chiedere, il giro è cieco (uscita 2),
+    # non un silenzio fino al battito. Un ramo che non esiste ancora non conta (ls-remote esce 2).
+    CHIESTI=0; FALLITI=0
     for riga in "${RIGHE[@]}"; do
       IFS=$'\t' read -r TIPO N RAMO <<< "$riga"
       if [ "$TIPO" = "R" ]; then D="$SITO"; else D="$RADICE"; fi
-      git -C "$D" fetch --quiet origin "+refs/heads/$RAMO:refs/remotes/origin/$RAMO" 2>/dev/null || true
+      CHIESTI=$((CHIESTI + 1))
+      if ! git -C "$D" fetch --quiet origin "+refs/heads/$RAMO:refs/remotes/origin/$RAMO" 2>"$TMP/attendi-fetch.err"; then
+        git -C "$D" ls-remote --exit-code --heads origin "$RAMO" >/dev/null 2>&1; [ $? -eq 2 ] || FALLITI=$((FALLITI + 1))
+      fi
     done
+    if [ "$CHIESTI" -gt 0 ] && [ "$FALLITI" -eq "$CHIESTI" ]; then
+      echo "⚪ sorveglianza muta cieca: il remoto non risponde per nessuno dei $CHIESTI rami ($(head -1 "$TMP/attendi-fetch.err")). Non è un verde."; exit 2
+    fi
     NUOVI="$(p segnali --cartella "$RADICE/$C" --git "$SITO" --onda "$ONDA")"; rc=$?
     if [ $rc -eq 1 ]; then
       echo "🔔 $(TZ=Europe/Rome date '+%Y-%m-%d %H:%M') segnali nuovi nell'onda $ONDA:"; echo "$NUOVI"

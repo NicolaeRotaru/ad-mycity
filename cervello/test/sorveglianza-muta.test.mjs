@@ -71,6 +71,17 @@ test("AR-1180 · un referto finito sveglia la regista entro un intervallo (uscit
   } finally { rmSync(t, { recursive: true, force: true }); }
 });
 
+test("AR-1180 · se il remoto non risponde --attendi si dice cieca (uscita 2), non zitta fino al battito", () => {
+  const { t, radice, noti, attendi } = casaFinta();
+  try {
+    noti("ramo R01 rip-r01");
+    execFileSync("git", ["-C", radice, "remote", "set-url", "origin", join(t, "non-c-e.git")]);
+    const r = attendi();
+    assert.equal(r.status, 2, r.stdout + r.stderr);
+    assert.match(r.stdout, /cieca: il remoto non risponde/);
+  } finally { rmSync(t, { recursive: true, force: true }); }
+});
+
 test("AR-1180 · un rosso già noto non sveglia nessuno", () => {
   const { t, noti, finisci, attendi } = casaFinta();
   try {
