@@ -524,3 +524,7 @@
 2026-11-15 01:06 · onda 2 (regista O2 settima) · C02 quarto senza ultracode dopo un riavvio, archiviato prima di cominciare · azione: aperto C02 quinto con lo stesso compito
 2026-11-15 01:30 · onda 2 (regista O2 settima) · C02 quinto al lavoro, ultracode acceso, 12,78 $ su 35, 273 mila token · azione: nessuna, catena riarmata a 30 minuti
 2026-11-15 01:35 · onda 2 (regista O2 settima) · C02 quinto finito: 0 voci rosse, 6 nati minori, 0 file non guardati, 12,78 $; archiviato · applica a vuoto su copia: onda 2 = 78 si chiudono
+2026-11-16 00:49 · R25 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-16 00:49 · R26 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-16 00:49 · R27 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-16 00:49 · onda 3 · prova-unione ⏳
