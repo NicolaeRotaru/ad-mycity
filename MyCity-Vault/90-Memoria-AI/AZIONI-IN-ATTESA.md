@@ -176,6 +176,8 @@ Se va bene: la regista della fase 1 e l'officina lavorano già con queste regole
 
 ### 🟡 #244 — Scegli cosa fare col controllo della macchina bocciato due volte · ⏳ accodata 2026-11-15 06:23
 
+**✅ Fatto il 15/11 alle 07:24.** Nicola ha scritto «ok 244 b». Il taglio della #956 lo fa una sessione corta aperta dall'AD.
+
 **In parole semplici.** Stanotte la regista dell'onda 2 ha costruito due controlli per la macchina. Uno, quello del glossario dei numeri, ha retto al secondo collaudo. L'altro, il sorvegliante che distingue i programmi morti dai freni staccati, è stato bocciato due volte. Ha ancora un difetto grave: dei programmi morti nelle sottocartelle danno allarmi gravi falsi.
 
 **Cosa cambia per te.** Esempio: finché non scegli, la richiesta della macchina #956 non si può unire. E con lei resta fuori anche il controllo del glossario, che invece funziona.
