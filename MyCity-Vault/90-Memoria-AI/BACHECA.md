@@ -6,6 +6,92 @@
 > `## <emoji> Titolo · AAAA-MM-GG HH:MM` — corpo in markdown; il Pannello ordina
 > gli avvisi per data (più recenti in alto). Un avviso superato si toglie da qui.
 
+## 📋 La scheda cliente in 25 punti, con l'esempio di Tropico Latino · 2026-11-15 20:19
+
+**In due righe.** Questa è la scheda per mettere un cliente nei workflow: 25 dati, una colonna ciascuno, con l'esempio vero di Tropico Latino. Sarà la base del modulo da compilare quando un negozio firma con MyCity.
+
+**In parole semplici.** Sono i 25 dati che servono per far lavorare i workflow social su un cliente: una riga del foglio, una colonna per dato. Qui sotto c'è la scheda così com'è oggi, compilata con un esempio vero: El Tropico Latino, il primo locale pilota dell'agenzia.
+
+**Cosa cambia per te.** È lo schema da tenere davanti quando un negozio firma con MyCity e vuole aderire. Tropico Latino è un ristorante, mentre i clienti di MyCity sono botteghe: alcune voci cambieranno nome quando lo adatterai.
+
+**Cosa devi fare.** Niente adesso. Quando vorrai la versione da compilare con pochi clic, si parte da questa tabella.
+
+**Cosa non ho verificato.** Nella riga d'esempio alcuni dati aspettano il titolare: orari, CAP e prezzi del menu 2025. Aspettano la sua approvazione anche le frasi per le storie e due proposte mie, le regole per i commenti e gli hashtag.
+
+| # | Colonna | Cosa contiene | Chi la compila | Esempio: El Tropico Latino |
+|---|---|---|---|---|
+| 1 | `cliente` | la chiave del cliente, senza spazi | voi | tropico-latino |
+| 2 | `nome_locale` | il nome come lo vede il pubblico | voi | El Tropico Latino |
+| 3 | `ig_user_id` | il codice del profilo Instagram | il workflow 00, da solo | *vuota* |
+| 4 | `fb_page_id` | il codice della Pagina Facebook | il workflow 00, da quello che gli date all'avvio | *vuota* |
+| 5 | `attivo` | «si» o «no»: i workflow lavorano solo i clienti accesi | voi | no |
+| 6 | `risposte_automatiche` | «si» o «no»: se Claude risponde da solo ai commenti semplici | voi | no |
+| 7 | `tono_di_voce` | come scrive il locale | voi col titolare | vedi sotto |
+| 8 | `orari` | orari di apertura, cucina compresa | il titolare | Lunedì chiuso. Martedì, mercoledì, giovedì e domenica 18:30-01:00, cucina 19:00-23:00. Venerdì e sabato 18:30-02:00, cucina 19:00-23:30. |
+| 9 | `link_prenotazione` | dove si prenota | voi | https://wa.me/393395327569 |
+| 10 | `telefono` | il numero del locale | il titolare | 0523 335932 |
+| 11 | `indirizzo` | via, numero, CAP e città | il titolare | Via Giuseppe Mazzini 77/A, 29121 Piacenza |
+| 12 | `link_menu` | la pagina del menu online | voi | https://www.eltropicolatino.it/menu.html |
+| 13 | `regole_risposte` | come rispondere ai commenti | voi col titolare | vedi sotto |
+| 14 | `id_luogo` | il codice del luogo per Instagram e Facebook | il workflow 00, da solo | *vuota* |
+| 15 | `account_da_taggare` | fornitori, staff e partner che si possono taggare, separati da « | » | voi col titolare | *vuota* |
+| 16 | `hashtag_fissi` | gli hashtag sempre presenti | voi | #eltropicolatino #piacenza |
+| 17 | `note_piano` | punti forti, eventi ricorrenti, cose da evitare: li legge il piano del mese | voi col titolare | vedi sotto |
+| 18 | `approvazione_testi` | «si» o «no»: i testi aspettano l'ok del team (vuoto vale «si») | voi | si |
+| 19 | `whatsapp_titolare` | i numeri WhatsApp dei titolari, formato 39…, separati da « | » | il titolare | *vuota* |
+| 20 | `approvazione_storie` | «si» o «no»: le storie mandate dal titolare aspettano l'ok del team | voi | si |
+| 21 | `esempi_didascalie` | 3-5 didascalie che il titolare ama, separate da una riga con «---» | il titolare | *vuota* |
+| 22 | `menu_testo` | il menu vero con i prezzi, unica fonte di piatti e prezzi (i workflow ne leggono 3.000 caratteri) | il titolare | vedi sotto |
+| 23 | `cartella_drive` | il codice della cartella Drive del locale | voi | *vuota* |
+| 24 | `marchio` | colori, caratteri, logo, ritocco foto e modelli grafici, in un blocco JSON | voi, con il motore | vedi sotto |
+| 25 | `frasi_storie` | frasi approvate per le storie, separate da « | »: ne servono 10-15 | il titolare le approva | vedi sotto |
+
+### I valori lunghi dell'esempio
+
+**7. `tono_di_voce`**
+```
+Caldo e diretto, frasi brevi, voce attiva, si dà del tu. Spagnolo solo nei nomi dei piatti e nei saluti che il locale usa già, come «Bienvenidos». Mai: «passione», «eccellenza», «esperienza unica», «viaggio nei sapori», «autentico», «fiesta», «caliente». Cocktail e tequila raccontati in modo responsabile, senza inviti a bere tanto o in fretta.
+```
+
+**13. `regole_risposte`**
+```
+Per prenotare rimanda al WhatsApp 339 532 7569 o al telefono 0523 335932: la prenotazione è consigliata. Per compleanni, gruppi e cene aziendali invita a scrivere su WhatsApp. Non promettere sconti né tavoli liberi. Per i reclami: scuse e invito a scrivere in privato. Mai inviti a bere tanto.
+```
+
+**17. `note_piano`**
+```
+Ristorante messicano, pub, taqueria e tequileria dal 1992, in un palazzo del Settecento nel centro di Piacenza, a circa 330 metri da Piazza Cavalli. Due sale con oltre 100 posti, colori caldi e disegni alle pareti, bancone e tavolini di legno colorati segnati dalle «tequila bum bum». Aperitivo al bancone. Piatti firma: fajitas, enchiladas rojas, burritos, chile con carne, tortillas, nachos, tacos, queso fundido, buffalo wings. Da bere: margarita frozen o classico, daiquiri, mojito, sangria, cocktail analcolici, birre messicane, vini sudamericani e piacentini, tequila. Asporto, opzioni vegetariane, animali ammessi, accesso per persone con disabilità. Da evitare: premi, citazioni di stampa e stereotipi sul Messico come sombreri e cactus.
+```
+
+**22. `menu_testo`**
+```
+Prezzi in euro, dal menu 2025 del locale come sul sito eltropicolatino.it. (v) vegetariano, (p) piccante, (pp) molto piccante.
+Platos fuertes: Burrito 12,00 · Burrito de pollo 11,00 · Burrito de verduras (v) 11,00 · Burrito del mar 12,00 · Burrito de chile (p) 13,00 · Cheviche pollo (pp) 11,00 · Cheviche de gamberi (pp) 12,00 · Soft tacos 12,00 · Chile con carne (p) 15,00 · Vegetables burger (v) 11,50 · Tortilla yerba buena (v) 10,00 · Camarones fiestas 16,00 · Camarones a la diabla (p) 16,50 · Enchiladas poblanas 10,00 · Enchiladas rojas 13,00 · Enchiladas verdes 13,50 · Alambre 13,00 · Fuego (pp) 13,00 · Degustacion del Tropico a testa 16,00 · Degustacion di burritos per 2 24,00
+Fajitas fiestas, per 2 persone: Fajitas tropico 32,00 · Fajitas del sol 33,00 · Fajitas pollo 32,00 · Combo fajitas 32,00 · Fajitas pollo y vegetales 31,00 · Fajitas gambas 34,00
+A la grilla: Medallones a la pimienta (p) 22,00 · Filete Villa Rica 22,00 · Filete del deserto 22,00 · Tacos al carbon 18,00 · Pollo Camino Real 15,00 · Barbacoa 16,00 · Picada caliente (p) 14,00 · El bistecòn 24,00 · Dos continentes 16,00 · Parrilla per 2 o più 36,00
+Nachos: Nachos tipicos (v)(p) 9,00 / piccola 8,00 · Nachos blanco 7,50 / piccola 6,50 · Nachos del sol (v) 9,50 / piccola 8,50 · Nachos palmeros (v)(p) 8,00 / piccola 7,00 · Nachos con verduras (v) 8,00 / piccola 7,00 · Nachos del pueblo 8,00 / piccola 7,00 · Nachos Jalisco 8,50 / piccola 7,50 · Nachos Guanajuato (pp) 9,00 / piccola 8,00 · Nachos del tigre (p) 8,50 / piccola 7,50
+Quesadillas: Queso 8,00 · Queso e jamon, Queso e pollo 8,50 · Queso e chile con carne (p), Queso e California meat 9,00
+Antojitos: Tostaditos y salsa 3,50 · Guacamole y tostaditos 4,50 · Pequeño 5,50 · Queso fundido 8,00 · Chile pequeño (p) 8,00 · Cheviche (pp) 7,50 · Taco light 9,00 · Buffalo wings 8,00 · Taquitos 8,50
+Tropico cocktail: Margarita, Margarita gold 9,00 / caraffa 32,00 · Paloma, Daiquiri, Piña colada, Tequila sunrise, Coco loco, Cuba libre, Long Island Ice Tea 9,00 · Sangria 8,50 / caraffa 23,00
+Frozen: Margarita frozen 8,50 / caraffa 24,00 · Daiquiri frozen 8,50 / caraffa 24,00
+Ensaladas: Fajitas salad, Ensalada de Durango 10,00 · Chicken salad 9,00 · Ensalada mariscos 9,50
+Antojitos fritos: Patas sabrosas 5,50 · Queso frito 6,50 · Onion rings 6,50 · Croquetas de pollo 7,00 · Jalapeños relleños 7,50 · Pinchos tropicales 7,00 · Combinación de antojitos 9,00
+Pestati: Mojito, Caipirissima, Caipiorange, Caipicerveza, Viuda Negra, Caipiroska, Caipifresas, Caipiriña 9,00 / caraffa 30,00
+Dulces: Cheese cake, Tortellas, Chocolate cake, Belgian waffles, Brownie, Mousse cioccolato al peperoncino, Sorbetto limon y tequila, Helado del Tropico, Churros, Platanos al rhum, Caramel apple pie, Piña fresca, Fresas y crema 6,00 · Oreo cake 7,00
+Cocktail classici: Negroni (gin), Negroni mexicano 8,50 · Negroni (soda) 7,50 · Spritz, Hugo tropico 6,00
+Coperto e servizio 1,50.
+```
+
+**24. `marchio`**
+```
+{"colori":{"primario":"#D61D73","secondario":"#3D7C2B","testo":"#FFFFFF","accento":"#FBCA1E"},"font":"Roboto Slab","peso_titolo":800,"font_testo":"Archivo","logo":"https://www.eltropicolatino.it/assets/img/logo-1440.png","stile_foto":{"luminosita":1.0,"contrasto":1.05,"saturazione":1.08,"calore":0.02},"placid":{"storia":"","post":""}}
+```
+
+**25. `frasi_storie`**
+```
+Vi aspettiamo stasera in via Mazzini 77/A | Prenota il tuo tavolo: 0523 335932 | Margarita frozen o classico? | Aperitivo al bancone, si parte! | Due sale, più di 100 posti: portate tutti
+```
+
 ## 🏗️ Le tre macchine, come sarà MyCity quando è finita · 2026-08-03 22:20
 
 **Come sarà.** Oggi c'è una macchina sola che fa tutto. Domani ce ne saranno tre, ognuna con un
