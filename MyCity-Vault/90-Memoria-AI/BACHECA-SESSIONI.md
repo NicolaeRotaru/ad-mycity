@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-14 08:58
+aggiornato: 2026-11-15 06:17
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 15/11 verso le 06:05 | l'AD, chat «Correzione difetti e limite settimanale» (`session_015BmpnYSQgvReHZZJxrC8mw`) | «applica la regola per chiudere più difetti dentro il limite e le 5 lezioni e le 7 decisioni» (`consegne/audit/2026-11-15-lezioni-onde/piano.md`): (2) deroga sulla guardia di R17 `bb53b6be`; (3) ultracode spento sulle figlie di soli minori, acceso su gravi, bloccanti, soldi, dati, permessi; (4) sì all'hook freno-subagenti, lo incolla lui quando è collaudato; (5) i programmi dell'officina si usano dal ramo collaudato prima dell'unione; (6) la regista O2 settima finisce il giro su AR-969/AR-962, scrive il passaggio e si ferma: poi una regista nuova e leggera; (7) il tetto non si alza a metà onda: se lo alza lui, si apre un'onda nuova col suo preventivo. (1) la percentuale vera del limite: ancora da leggere in app. Fino ad allora il tetto fino a giovedì 19/11 alle 10:00 è circa 350 $. |
 | 14/11 10:20 | regista O2 settima | «1) riparti», poi «2)A 3 apri 4 si 5 A 6 la togliamo 7 si». La regista riparte. Da R17 si tolgono le correzioni di R17-015 e R17-016, che hanno creato difetti sui soldi. Si aprono il collaudatore K05 secondo e i riparatori R15 secondo e R16 secondo. Il tetto dell'onda 2 sale a 1.650 $. R15-005 si corregge, non si toglie. R18-019 si toglie. Si apre in bozza la richiesta di unione della macchina. Mandata all'AD, urgente |
 | 14/11 09:14 | regista O2 settima (`…VKqiFC`) | «le 42 fatte a metà e le 26 che chiedono un file di un'altra sessione devono essere messe nel giro di correzione sempre. Perché non sfruttarla subito questa opportunità anziché rimandarla?». Il giro di correzione prende anche le voci lasciate a metà dai riparatori. Prende anche quelle che chiedono un file di un'altra sessione. Lo fa sempre, non solo in questa onda. Nell'onda 2 sono 68 voci in più. La regista l'ha mandata all'AD, urgente, alle 09:16, col costo, con il tetto da alzare e con la regola da scrivere nella skill `riparazione` |
 | 14/11 09:05 circa | chat «regista O2 settima» | «perché stai lavorando sulla pr/ci tu e non la sessione pr e ci seconda?». La regista ha ridato la mycity#290 al controllore PR e CI · 2.0, come vuole la regola 9, e non la tocca più. Il controllore la segue appena Nicola gli approva l'accesso al repository del sito. L'ha scritta qui il controllore alle 09:04, saputa dalla regista |
