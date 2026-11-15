@@ -6916,6 +6916,18 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Chi:** Nicola alla regista dell'onda 2: «Allarga la a».
 - **Perché:** per chiudere l'onda 1 nel registro c'erano 63 errori. 57 sono prove comuni, coperte dalla card 239. Gli altri 6 no: 2 sul ramo di R08, che fermavano 13 chiusure, e 4 collaudi di K03 provati a mano sul database, su voci che restano aperte comunque. Nicola li ha messi nell'eccezione, solo per l'onda 1.
 
+## 2026-11-15 00:32 — 🟡🔴 Le cinque scelte sull'onda 2 del sito (carte 243-247)
+- **Chi:** Nicola alla regista O2 settima: «ok 243, 244 a, 245 sì, 246 a, 247 sì».
+- **Cosa:** 243, la regista riunisce i rami delle sessioni nella richiesta di unione del sito e la carica, senza le tre correzioni che rompono altro (rimborso diviso, allergeni con la migrazione 426, bacheca del fattorino). 244 «a», il giro allargato si fa solo sulle 6 voci gravi, con un preventivo portato a Nicola prima di aprire le sessioni. 245, sì all'eccezione sulla prova comune che vincolava la frase sbagliata del pulsante di emergenza del fattorino. 246 «a», quando un reso respinto arriva dopo il bonifico del lunedì l'ordine fermo si segna come già pagato. 247, sì al controllo dei 90 file non guardati, tetto 20 $.
+- **Perché:** il resoconto dell'onda 2 (consegne/riparazioni/2026-11-12-sito-tutto/RESOCONTO-ONDA-2.md): 78 difetti chiusi su 259, nessun grave; il giro allargato intero costerebbe circa 475 $ contro circa 185 $ rimasti nel tetto di 1.650 $.
+- **Se va bene:** la richiesta di unione del sito si aggiorna, una sessione nuova controlla le modifiche nuove e i 90 file, e la regista porta a Nicola il preventivo delle 6 gravi.
+
+## 2026-11-15 02:45 — 🔴 La pubblicazione del sito con l'onda 2 (carta 249)
+- **Chi:** Nicola alla regista O2 settima: «firmo le 11 migrazioni, le due deroghe e l'unione».
+- **Cosa:** le 11 migrazioni dell'onda 2 sul database vero, una alla volta, dalle 02:45 alle 03:06: 400, 403, 404, 405, 412, 421, 422, 424, 425, 429, 450. Le due deroghe sulle correzioni tolte col messaggio standard di git (R13-012, R17-005). L'unione della richiesta di unione del sito nel ramo principale alle 03:10 (mycity#290, commit 67666b3f), da cui parte la pubblicazione.
+- **Perché:** il controllo in sola lettura del 15/11 alle 01:47 (consegne/riparazioni/2026-11-12-sito-tutto/FERMATA-PUBBLICAZIONE-ONDA-2.md): nessuna riga di dati cambiata, nessun permesso aperto, il codice di oggi compatibile con le migrazioni nuove.
+- **Esito:** 11 migrazioni su 11 passate e controllate una per una. Un solo legame resta parziale: i punti fedeltà hanno 2 movimenti legati a ordini che non esistono più, e lì il legame vale solo per le righe nuove, come prevede la 424.
+- **Correzione delle 03:16:** l'unione è delle 03:07:29, non delle 03:10. La pubblicazione era pronta alle 03:09:52 (fonte: il commit 67666b3f e la pubblicazione Vercel).
 ## 2026-11-15 05:55 — 🟡 Le lezioni delle onde 1 e 2, e il piano per chiudere più difetti dentro il limite
 - **Chi:** Nicola, nella chat «Correzione difetti e limite settimanale»: «dimmi come risolvere il maggior numero di difetti entro il limite settimanale, impara da tutto ciò che è successo e migliorati».
 - **Cosa:** un programma ha costruito il fascicolo delle due onde (`consegne/audit/2026-11-15-lezioni-onde/fatti.json`). Poi una squadra di 8 agenti (workflow `wf_1a083b28-467`, circa 13 $, 1,24 milioni di token senza riletture) ha prodotto tre analisi, tre piani, un giudice e un critico. Il critico ha bocciato i numeri del piano vincitore: 78 chiusure fino a giovedì erano troppo ottimiste, e diventano 35-45 con circa 350 $. Il piano corretto sta in `piano.md`, il lavoro di lunedì in `AVVIO-OFFICINA.md`, i tassi misurati in `misure.json`.

@@ -79,6 +79,7 @@ export const DESCRIZIONI = {
   // ── I numeri sono veri? ────────────────────────────────────────────────────
   "verifica-sensori": { famiglia: "numeri-veri", cosa: "Controlla che gli occhi sui dati reali siano aperti: se il marketplace non risponde, il giro non può scrivere numeri nuovi." },
   "sensore-cassa": { famiglia: "numeri-veri", cosa: "Guarda cassa e autonomia: quanto è entrato davvero, quanto brucia al mese, quanti mesi restano." },
+  "glossario-kpi-check": { famiglia: "numeri-veri", cosa: "Ogni numero che il Pannello e il sensore della cassa consegnano come KPI deve avere la sua definizione nel glossario: un numero nuovo senza definizione, o una definizione persa, lo fa dire." },
   "sentinella-fonti": { famiglia: "numeri-veri", cosa: "Prova le fonti web da cui la macchina si informa: una fonte morta smette di portare notizie senza dirlo." },
   "onesta-check": { famiglia: "numeri-veri", cosa: "Cerca i numeri orfani: una cifra scritta in memoria senza una fonte accanto non deve uscire." },
   "coerenza-fatti": { famiglia: "numeri-veri", cosa: "Un fatto cambia in un posto solo. Se una copia vecchia resta in giro, la trova e ferma la pubblicazione." },
