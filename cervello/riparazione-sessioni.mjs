@@ -619,7 +619,9 @@ export function testoScheda({ nome, onda, casa, deposito, base, ramo, regista, c
   const prima = sessione.voci[0];
   const gravi = sessione.voci.filter((v) => GRAVI.has(v.gravita)).length;
   const righe = [
-    "---", "tipo: scheda", `sessione: ${nome}`, `onda: ${onda}`, `casa: ${casa}`, "---", "",
+    // La riga del ruolo la legge il freno sugli agenti (riparazione/freno-subagenti.mjs) nel prompt d'apertura:
+    // la regista la copia come prima riga del prompt con cui apre la sessione.
+    "---", "tipo: scheda", `sessione: ${nome}`, `onda: ${onda}`, `casa: ${casa}`, `ruolo-freno: ${gravi ? "riparatore-gravi" : "riparatore-minori"}`, "---", "",
     `# La scheda di ${nome}: ${sessione.voci.length} difetti da riparare, ${gravi} gravi`, "",
     "## In parole semplici", "",
     `Questa è la lista dei difetti che la sessione ${nome} ripara nell'onda ${onda}, e dei file che in quest'onda solo lei può toccare.`,
