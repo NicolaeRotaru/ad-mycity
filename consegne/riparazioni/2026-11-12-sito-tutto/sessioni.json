@@ -216,6 +216,43 @@
    "onda": 2,
    "partenza": "2026-11-13 06:12",
    "finita": true
+  },
+  "R25": {
+   "id": "session_015BmpnWvRbpHq4AM98odxQZ",
+   "ramo": "claude/sito-onda-3-m25",
+   "onda": 3,
+   "partenza": "2026-11-15 23:57",
+   "base": "76d4c4d79254284a0330eb865ff029db5261e26e",
+   "ruolo_freno": "riparatore-gravi",
+   "tetto_usd": 35,
+   "consegna_usd": 25,
+   "tetto_agenti": 8,
+   "ultracode": false
+  },
+  "R26": {
+   "id": "session_015BmpnYAcQyeLz2AB2gFogr",
+   "ramo": "claude/sito-onda-3-m26",
+   "onda": 3,
+   "partenza": "2026-11-16 00:00",
+   "base": "76d4c4d79254284a0330eb865ff029db5261e26e",
+   "ruolo_freno": "riparatore-gravi",
+   "tetto_usd": 35,
+   "consegna_usd": 25,
+   "tetto_agenti": 8,
+   "ultracode": false
+  },
+  "R27": {
+   "id": "session_015BmpnZWyYQkf7YyDT1g7L6",
+   "ramo": "claude/sito-onda-3-m27",
+   "onda": 3,
+   "partenza": "2026-11-16 00:02",
+   "base": "76d4c4d79254284a0330eb865ff029db5261e26e",
+   "ruolo_freno": "riparatore-minori",
+   "tetto_usd": 35,
+   "consegna_usd": 25,
+   "tetto_agenti": 6,
+   "ultracode": false,
+   "nota": "prompt con il LEGGIMI per intero e la scheda in sintesi + rimando al clone a 33fbcdb (la scheda intera è 38 KB)"
   }
  },
  "collaudatori": {
@@ -923,7 +960,7 @@
  "regista_onda3_uno": {
   "id": "session_015BmpnWmv8ffGh6315mcUd6",
   "ramo": "claude/sito-onda-3",
-  "sha_regista": "6dcc1cf907178980f4abab34344c5c1955513877",
+  "sha_regista": "33fbcdb07b2da7c034f305018c32fe3e0cd2e906",
   "base_sito": "76d4c4d79254284a0330eb865ff029db5261e26e",
   "aperta": "2026-11-15 23:41",
   "tetto_usd": 25,
