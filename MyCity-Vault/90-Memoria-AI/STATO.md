@@ -6,7 +6,7 @@ fonte: AD digitale (giro, cervello/giro.md)
 
 > ✅ **2026-11-15 03:16 — L'onda 2 è sul sito vero: 78 difetti chiusi su 259, e le 11 migrazioni sono sul database.**
 >
-> Nicola ha firmato alle 02:45. Le 11 migrazioni sono passate sul database vero una alla volta, dalle 02:45 alle 03:06, senza cambiare nessuna riga di dati. Alle 03:10 la richiesta di unione del sito (mycity#290) è entrata nel ramo principale, e alle 03:13 il sito era online. Controllo online: le pagine principali si aprono, nessun errore in produzione, e cassa, prodotti e rimborsi rifiutano chi non ha fatto l'accesso. L'onda chiude 78 difetti piccoli; dei 20 gravi nessuno. Il costo è circa 1.580 $ su un tetto di 1.650. Restano la carta 248 sulle 6 voci gravi e l'onda 3, con la regista O2 otto da aprire dall'app. Il resoconto sta in `consegne/riparazioni/2026-11-12-sito-tutto/RESOCONTO-ONDA-2.md`.
+> Nicola ha firmato alle 02:45. Le 11 migrazioni sono passate sul database vero una alla volta, dalle 02:45 alle 03:06, senza cambiare nessuna riga di dati. Alle 03:07 la richiesta di unione del sito (mycity#290) è entrata nel ramo principale, e alle 03:10 il sito era online. Controllo online: le pagine principali si aprono, nessun errore in produzione, e cassa, prodotti e rimborsi rifiutano chi non ha fatto l'accesso. L'onda chiude 78 difetti piccoli; dei 20 gravi nessuno. Il costo è circa 1.580 $ su un tetto di 1.650. Restano la carta 248 sulle 6 voci gravi e l'onda 3, con la regista O2 otto da aprire dall'app. Il resoconto sta in `consegne/riparazioni/2026-11-12-sito-tutto/RESOCONTO-ONDA-2.md`.
 
 > ✅ **2026-11-13 02:55 — Hai unito la richiesta della macchina #944.**
 >
