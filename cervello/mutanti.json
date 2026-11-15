@@ -11921,8 +11921,7 @@
   {
    "lotto": null,
    "difetto": "",
-   "lezione": "regola ⑱ del manuale dell'AD — il tetto dei 12 agenti",
-   "nome": "il tetto degli agenti spento: una squadra da 13 agenti dichiarati parte senza chiedere a Nicola",
+   "nome": "il tetto degli agenti spento: una squadra da 13 agenti dichiarati parte senza chiedere a Nicola (regola ⑱ del manuale dell'AD; nessuna scheda AR aperta per questo freno)",
    "file": "cervello/pre-scrittura.mjs",
    "cerca": "  if (p.agenti > TETTO_AGENTI) sopra.push(",
    "sostituisci": "  if (false) sopra.push(",
@@ -11931,8 +11930,7 @@
   {
    "lotto": null,
    "difetto": "",
-   "lezione": "regola ⑱ del manuale dell'AD — gli args che allargano la squadra (collaudo 15/11)",
-   "nome": "gli args della chiamata ignorati: «max_agenti: 80» su un preventivo da 12 passa in silenzio",
+   "nome": "gli args della chiamata ignorati: «max_agenti: 80» su un preventivo da 12 passa in silenzio (regola ⑱ del manuale dell'AD; nessuna scheda AR aperta per questo freno)",
    "file": "cervello/pre-scrittura.mjs",
    "cerca": "    if (fuori.length) {",
    "sostituisci": "    if (false) {",
