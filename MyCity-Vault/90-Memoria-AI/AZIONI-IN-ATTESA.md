@@ -31,6 +31,20 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🟡 #254 — Aspetta a unire la richiesta dell'officina: il collaudo l'ha bocciata · ⏳ accodata 2026-11-15 09:40
+
+**✅ Superata il 15/11 alle 10:23.** Nicola ha unito la #962. Dentro c'era già la correzione del bloccante (commit 41e041c). Manca il collaudo corto della correzione: lo apre l'AD.
+
+**In parole semplici.** L'officina ha costruito i programmi che fanno rispettare le regole sui costi delle riparazioni. Il collaudo indipendente li ha bocciati per un difetto bloccante. La regola «niente controllo a campione sotto le 40 riparazioni» vale anche sui collaudi fatti prima che esistesse.
+
+**Cosa cambia per te.** Esempio: se unissi adesso la richiesta dell'officina, 7 riparazioni già chiuse del 12/11 tornerebbero aperte. E le 7 promosse dal collaudo K10 non entrerebbero nel registro.
+
+**Cosa devi fare tu.** Niente, per ora: non unire la #962. Una sessione corta la sta correggendo, con un tetto di 12 $. Poi un collaudo corto ricontrolla solo il pezzo cambiato, e questa carta diventa «unisci».
+
+**Cosa non ho verificato.** Del referto ho letto la parte iniziale e l'elenco dei difetti. Le prove non le ho rifatte io. Il referto è in `consegne/officina-minima/collaudo-2026-11-15.md`.
+
+Cosa cambia: la richiesta dell'officina resta ferma finché la correzione non passa il collaudo.
+Se va bene: entro oggi la richiesta torna unibile, e una sessione corta scrive le 7 chiusure di K10 nel registro.
 ### 🟡 #253 — Firma l'eccezione per il pulsante di emergenza del fattorino · ⏳ accodata 2026-11-14 17:16
 
 **Numero cambiato il 15/11:** fino a stamattina era la #245. La tua risposta «245 sì», del 15/11 alle 00:32, vale per questa carta. Il numero 245 è rimasto alla carta dell'AD nata alle 06:23: le due carte erano nate su due rami diversi con lo stesso numero, e unendo i rami il numero sarebbe valso due carte.
