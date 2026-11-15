@@ -1,0 +1,1429 @@
+{
+ "_cosa_e": "Fascicolo compatto delle onde 1 e 2 della campagna «sito, tutto» (12-15/11/2026), costruito da un programma. Leggere questo prima dei file grezzi.",
+ "_costruito": "2026-11-15 05:20",
+ "campagna": {
+  "voci_totali": 662,
+  "candidate_onda2": 414,
+  "per_sessione": [
+   25,
+   25
+  ],
+  "registro_sito_aperte_13_11": {
+   "totale": 764,
+   "bloccanti": 6,
+   "gravi": 76,
+   "minori": 682
+  }
+ },
+ "limite_settimanale": {
+  "azzera": "giovedì 19/11/2026 10:00 (resetsAt di get_session); finestra partita giovedì 12/11 10:00",
+  "calibrazione": "Nicola, 12/11 sera: «perché il 20% del limite settimanale?» quando l'onda 1 era a 610 $ di listino → circa 30,5 $ per punto. Se nel 20% c'era altro, è un tetto (le quote vere sono più basse).",
+  "stato": "allowed alle 03:55 del 15/11; allowed_warning il 14/11 07:50-08:40; isUsingOverage false",
+  "stima_usata_in_finestra_dalla_campagna_usd": 2237,
+  "stima_quota": "circa 73% al massimo",
+  "restante_fino_al_reset_usd": "al massimo circa 800 (meno le altre chat della settimana)",
+  "settimana_dopo_usd": "circa 3.050 se la calibrazione regge"
+ },
+ "costi": {
+  "onda1": {
+   "usd": 610,
+   "figlie_usd": 583,
+   "regista_precedente_usd": 164,
+   "nota": "610 $ è la misura di 5 agenti del 12/11; il 61% era rilettura di storie da 440-775 mila token",
+   "tabella_sessioni": [
+    {
+     "nome": "R01",
+     "usd": 25.68,
+     "cache_read_M": 76.23,
+     "contesto_max_k": 440.8,
+     "subagenti": 6
+    },
+    {
+     "nome": "R02",
+     "usd": 30.76,
+     "cache_read_M": 97.5,
+     "contesto_max_k": 491,
+     "subagenti": 6
+    },
+    {
+     "nome": "R03",
+     "usd": 54.73,
+     "cache_read_M": 191.82,
+     "contesto_max_k": 738.2,
+     "subagenti": 6
+    },
+    {
+     "nome": "R04",
+     "usd": 39.51,
+     "cache_read_M": 131.23,
+     "contesto_max_k": 568.9,
+     "subagenti": 6
+    },
+    {
+     "nome": "R05",
+     "usd": 0.81,
+     "cache_read_M": 1.07,
+     "contesto_max_k": 117.2,
+     "subagenti": 0
+    },
+    {
+     "nome": "R06",
+     "usd": 33.12,
+     "cache_read_M": 106.35,
+     "contesto_max_k": 545.9,
+     "subagenti": 5
+    },
+    {
+     "nome": "R07",
+     "usd": 31.21,
+     "cache_read_M": 96.3,
+     "contesto_max_k": 450,
+     "subagenti": 10
+    },
+    {
+     "nome": "R08",
+     "usd": 35.68,
+     "cache_read_M": 117.4,
+     "contesto_max_k": 542,
+     "subagenti": 5
+    },
+    {
+     "nome": "R09",
+     "usd": 26.17,
+     "cache_read_M": 85.8,
+     "contesto_max_k": 464,
+     "subagenti": 5
+    },
+    {
+     "nome": "R10",
+     "usd": 30.37,
+     "cache_read_M": 95.9,
+     "contesto_max_k": 488,
+     "subagenti": 5
+    },
+    {
+     "nome": "R11",
+     "usd": 47.78,
+     "cache_read_M": 157.8,
+     "contesto_max_k": 628,
+     "subagenti": 8
+    },
+    {
+     "nome": "R12",
+     "usd": 43.35,
+     "cache_read_M": 143.1,
+     "contesto_max_k": 621,
+     "subagenti": 5
+    },
+    {
+     "nome": "K01",
+     "usd": 32.1,
+     "cache_read_M": 70.27,
+     "contesto_max_k": 442.8,
+     "subagenti": 0
+    },
+    {
+     "nome": "K02",
+     "usd": 27.98,
+     "cache_read_M": 69.21,
+     "contesto_max_k": 439.3,
+     "subagenti": 1
+    },
+    {
+     "nome": "K03",
+     "usd": 41.2,
+     "cache_read_M": 91.91,
+     "contesto_max_k": 479.9,
+     "subagenti": 7
+    },
+    {
+     "nome": "K04",
+     "usd": 35.53,
+     "cache_read_M": 81.55,
+     "contesto_max_k": 436.4,
+     "subagenti": 3
+    },
+    {
+     "nome": "C01",
+     "usd": 15.45,
+     "cache_read_M": 35.1,
+     "contesto_max_k": 244.3,
+     "subagenti": 11
+    },
+    {
+     "nome": "REGIA (session_015BmpnXsL6Y7tP3BhawauHw, Opus 5.5, effort xhigh, finestra 1M)",
+     "usd": 58.37,
+     "cache_read_M": 218.1,
+     "contesto_max_k": 775,
+     "subagenti": 2
+    }
+   ],
+   "sprechi": [
+    {
+     "tipo": "contesto-gonfio",
+     "dove": "R01-R04, R06 (tutte e cinque le sessioni di lavoro)",
+     "usd": 45,
+     "rimedio": "Dopo la prima consegna e prima dei giri di correzione, compattare o ripartire con un riassunto (referto + diff), tenendo il contesto sotto ~250-300k. I giri K sono interventi mirati su 3-6 voci e non servono la storia dell'intero lavoro. Soglia di autocompact più bassa (es. 300k) invece di 784k."
+    },
+    {
+     "tipo": "risvegli-corti-ripetuti",
+     "dove": "R01 (3 risvegli consecutivi), R06 (4,03 poi 1,25), R04 (0,61)",
+     "usd": 4,
+     "rimedio": "La regista dà una decisione unica e completa per giro (regole di guardia-ramo e prove esistenti dichiarate in anticipo) invece di A/B/C e conferme successive; i riparatori non terminano il turno per aspettare un subagente ma aspettano nello stesso turno o consegnano tutto insieme. Eseguire il valida"
+    },
+    {
+     "tipo": "permessi-bloccati-e-riesecuzioni",
+     "dove": "R03, R04 (valida-referto e prova-rimessa negati); R04 risveglio extra",
+     "usd": 3,
+     "rimedio": "Dare in anticipo il permesso a quei due script (o farli girare dalla regista una sola volta con output compatto) e mettere il validatore dello schema nel gancio di consegna del riparatore. La prova rimessa a mano su 25 voci è lavoro rifatto che lo script farebbe in secondi."
+    },
+    {
+     "tipo": "subagenti-generici-pesanti",
+     "dove": "R01, R02, R03, R04 (6 ciascuno), R06 (5): 29 general-purpose",
+     "usd": 15,
+     "rimedio": "Usare il tipo qa con istruzioni a una voce grave per volta e lettura mirata; riassumere il rapporto del QA in poche righe (elenco difetti + file:riga) invece di rapporti da 5-6 mila caratteri riletti a ogni chiamata successiva. Evitare che ogni QA ricostruisca da zero Postgres e le 179 migrazioni (v"
+    },
+    {
+     "tipo": "lavoro-rifatto",
+     "dove": "QA di R01, R02, R06 e riparatori (Postgres locale e 179 migrazioni ricostruiti più volte); npm run verify da ~8.950 test a ogni giro",
+     "usd": 3,
+     "rimedio": "Un Postgres condiviso già pronto per ambiente (o snapshot) e verify mirato ai file toccati nei giri K, con il verify completo una sola volta alla chiusura finale. Non toglie controlli se il pieno resta all'ultimo passo."
+    },
+    {
+     "tipo": "sessione-bloccata-senza-esito",
+     "dove": "R05",
+     "usd": 0.81,
+     "rimedio": "Nel seed della sessione includere ad-mycity in sola lettura o incollare scheda e regole nel prompt (la regista lo ha fatto solo al secondo sollecito); verificare che il riparatore sia partito prima di sprecare risvegli. Il costo in dollari è piccolo ma ritarda e lascia 25 voci scoperte."
+    },
+    {
+     "tipo": "ping-pong-di-decisione",
+     "dove": "R01 (R01-007, guardia-ramo)",
+     "usd": 2.7,
+     "rimedio": "Dichiarare prima del lavoro la regola sulle prove esistenti (si modificano solo se importano file propri, con motivo nel referto) e decidere con Nicola in anticipo il caso storia-del-ramo/push forzato, invece di scoprirlo dopo i commit."
+    },
+    {
+     "tipo": "contesto enorme riletto a ogni chiamata",
+     "dove": "tutte e 6 le sessioni, in particolare R11 e R12 (turni a 26-43 chiamate)",
+     "usd": 60,
+     "rimedio": "Soglia di compattazione molto piu bassa (circa 250k) o riavvio con riepilogo tra una fase e l'altra. Far leggere file e uscite grandi a un subagente che torna con 10 righe. Fare i giri di correzione in un fork o in una sessione nuova col solo referto. Ipotesi: dimezzare il contesto medio dimezza la "
+    },
+    {
+     "tipo": "turni chiusi senza esito in attesa del verify",
+     "dove": "R07 (2 turni), R08 (1), R11 (2), R12 (1) tra quelli visibili",
+     "usd": 4,
+     "rimedio": "Lanciare verify in primo piano con timeout fino a 600 secondi, oppure in background con attesa sul comando di fine lavoro, e chiudere il turno solo con l'esito. Si evita un risveglio da circa 0,5-0,6 $ per volta (il risveglio solo-notifica costa circa 0,5 $, non 1 $)."
+    },
+    {
+     "tipo": "giri di correzione evitabili (prova debole o prova rossa lasciata nel commit)",
+     "dove": "R08-008, R09-001, R10-014/017/019/020, R11-004/015/016, R12-004 e 5 prove con meno asserzioni",
+     "usd": 5,
+     "rimedio": "Prima del commit lanciare i soli file di prova toccati piu quelli che importano i file cambiati, e la prova rimessa (togli la correzione, deve diventare rossa) sul giro vero. Il collaudo esterno resta com'e: sposta solo prima la scoperta."
+    },
+    {
+     "tipo": "lavoro rifatto dai controllori",
+     "dove": "R08 (QA migrazioni), R07 (QA R07-004), R10 e R11 (QA)",
+     "usd": 0,
+     "rimedio": "Dire al QA di lanciare solo i file di prova e SQL delle voci toccate; verify completo una volta sola, a cura di chi consegna. Il QA mantiene il mandato di distruggere ogni riparazione."
+    },
+    {
+     "tipo": "subagenti general-purpose al posto di qa/tech",
+     "dove": "R07 (7 general-purpose + 3 fork), R08 5, R09 5, R10 5, R11 8, R12 5",
+     "usd": 0,
+     "rimedio": "Usare il tipo qa con mandato e uscita brevi (verdetto + difetti in elenco, max 40 righe). Il rapporto che rientra nel contesto principale pesa meno ed e letto a ogni chiamata successiva. Costo del cambio non stimabile con questi dati."
+    },
+    {
+     "tipo": "rapporti dei subagenti molto lunghi riletti dal contesto principale",
+     "dove": "R07, R08, R09, R10 (hand-back da 1,5 a 3 mila parole)",
+     "usd": 3,
+     "rimedio": "Chiedere rapporti sotto le 40 righe, con i dettagli scritti nel referto su file (letto solo se serve). Piu gli hand-back sono corti, meno contesto si trascina."
+    },
+    {
+     "tipo": "messaggi alla regista con dati sbagliati e secondo messaggio di correzione",
+     "dove": "R08 (testa del ramo sbagliata), R09 (SHA dell'ultimo commit sbagliato)",
+     "usd": 1,
+     "rimedio": "Prendere SHA e testa del ramo con git rev-parse HEAD nello stesso comando che spedisce il messaggio, mai a mano."
+    },
+    {
+     "tipo": "subagente fuori mandato su produzione (rischio, non costo)",
+     "dove": "R07, uno dei 7 controllori",
+     "usd": 0,
+     "rimedio": "Nel prompt dei QA scrivere che il database di produzione non si interroga; prove su Postgres locale come gia fanno R08, R11 e R12."
+    },
+    {
+     "tipo": "contesto che cresce e viene riletto",
+     "dove": "K01, K02, K03, K04 (C01 meno)",
+     "usd": 90,
+     "rimedio": "Stima mia: la lettura della cache è circa il 55-65% dei 152 $ totali (non conosco il prezzo esatto per token). Abbassare la soglia di compattazione a ~200k per i collaudatori, oppure far partire una sessione nuova per ogni giro di ricollaudo con solo il referto del riparatore e la voce da provare, i"
+    },
+    {
+     "tipo": "turni senza esito (risvegli per attendere)",
+     "dove": "K02 turno 'ricollaudo R04 non è finito', K04 turno 'manca un giudizio', C01 turno 'aspetto l'ultimo revisore'",
+     "usd": 5.8,
+     "rimedio": "Lanciare i revisori in primo piano nello stesso turno, oppure non rispondere alle consegne parziali: aspettare l'ultima e fare un solo turno di sintesi. Almeno ridurre la riflessione sul turno 'aspetto' (K04: 19k token di ragionamento per scrivere una riga)."
+    },
+    {
+     "tipo": "cache scaduta e riscritta dopo l'attesa",
+     "dove": "K01 turno ricollaudo R01/R09; K03 turno R10 dopo 18 minuti di attesa",
+     "usd": 3,
+     "rimedio": "Stima mia (prezzo di scrittura non verificato). Raggruppare i risvegli in finestre ravvicinate, oppure compattare prima di mettersi in attesa così la riscrittura costa 100k invece di 400k."
+    },
+    {
+     "tipo": "ragionamento e uscita elevati nei collaudatori",
+     "dove": "K03 (517k token di output, 173k di ragionamento), K04 (403k, 189k), K01 (306k, 111k)",
+     "usd": 15,
+     "rimedio": "Stima mia, assumendo circa 25 $ per milione di token in uscita. Abbassare il livello di ragionamento per i collaudatori nei turni di semplice attesa o di sola trasmissione del referto, tenerlo alto solo dove si decide il verdetto."
+    },
+    {
+     "tipo": "subagenti di tipo non previsto dalla casa",
+     "dove": "C01 (controllore)",
+     "usd": 0,
+     "rimedio": "Per un controllo di una diga di 20 file, 2-4 revisori per area (tech, qa, security e uno per i pagamenti) coprono lo stesso terreno. Tenere gli altri solo quando il diff tocca interfaccia o infrastruttura. Il costo reale va guardato nelle sessioni dei subagenti, non qui."
+    },
+    {
+     "tipo": "lavoro rifatto: decisione ripetuta sul file del sorvegliante",
+     "dove": "K01, K04, C01",
+     "usd": 1,
+     "rimedio": "Stima del costo bassa. Mettere il file fra le eccezioni del cancello (o in .gitignore) e scrivere la regola una volta nel mansionario, così nessuno ricontrolla e nessuno chiede."
+    },
+    {
+     "tipo": "attesa/collisione sull'ambiente di lavoro",
+     "dove": "K02, subagente qa su R04",
+     "usd": 0.5,
+     "rimedio": "Stima mia. Dare a ogni qa una copia in sola lettura già estratta al commit da provare (git archive) invece di una cartella condivisa che altri possono muovere."
+    },
+    {
+     "tipo": "verifiche ridondanti (non tagliabili)",
+     "dove": "K03, subagente qa su R10-020",
+     "usd": 0,
+     "rimedio": "Non è uno spreco da togliere: ha prodotto risultati. Si può solo restringere la suite ai file toccati per i mutanti già noti e lanciarla intera una volta alla fine."
+    },
+    {
+     "tipo": "contesto che cresce oltre 300 mila token e viene riletto a ogni passo",
+     "dove": "REGIA, tutta la giornata. Contesto: 360 mila (15:43), 440 mila (16:07), 500 mila (16:49), 540 mila (17:24), 590 mila (18:16), 640 mila (19:03), 775 mila (20:07). Poi autocompattazione (60 secondi di attesa alle 20:09) e 171-300 mila.",
+     "usd": 14,
+     "rimedio": "Far compattare la regia a circa 250-300 mila invece che alla soglia di 784 mila, oppure far partire la regia con un riepilogo di stato scritto su file dopo la fermata 1 e ripartire da lì. Stima: tenere il contesto intorno a 250 mila taglia circa il 55% della cache letta (circa 19 $), meno circa 5 $ "
+    },
+    {
+     "tipo": "risvegli per notifiche che costano circa 0,4-0,5 $ l'uno solo per rileggere il contesto",
+     "dove": "REGIA, 44 risvegli task-notification su 49 turni. Una trentina sono relè brevi (2-5 chiamate, un messaggio per riparatore o collaudatore): 15:54, 15:56, 15:59, 16:00, 16:02, 16:03, 16:07, 16:11, 16:12 (due), 16:14, 16:20, 16:21, 16:22, 16:24 (due), 16:25 (due), 16:30, 16:31, 16:49, 16:52, 17:00, 17:11, 17:20, 17:24, 17:26, 20:12, 21:21.",
+     "usd": 6,
+     "rimedio": "Far scrivere alla regia solo a fine batch: i riparatori passano il lavoro al collaudatore direttamente, e i collaudatori mandano un solo messaggio per tutti i loro riparatori (la regia l'ha già chiesto a K01 e K03 dalle 16:24, ma non a tutti dal primo prompt: renderlo regola fissa). Un solo script r"
+    },
+    {
+     "tipo": "risvegli programmati che arrivano quando non servono più",
+     "dove": "18:17 (controllo dei rami programmato prima dell'unione, arrivato dopo); 19:03-19:04 e 21:23 (controllo di sicurezza a 50 minuti oltre all'iscrizione agli eventi della PR 944 e 288, che avvisano da soli).",
+     "usd": 1.5,
+     "rimedio": "Un solo meccanismo per la sorveglianza della PR: gli eventi di GitHub, senza timer in più. Cancellare i timer residui quando si chiude la fase (delete_trigger). Per i rossi esterni (caratteri Google) rilanciare con un comando senza passare dal modello."
+    },
+    {
+     "tipo": "subagenti general-purpose invece di tech/qa",
+     "dove": "REGIA, collaudo indipendente delle due regole del programma (21:05-21:16): 2 subagenti general-purpose (stesso id ae5fe9309a8d41bf3 nei due hand-back).",
+     "usd": 0,
+     "rimedio": "Usare il tipo qa (o il senior collaudatore previsto dalla casa) con il mandato di distruggere, così il prompt, i permessi e il modello sono già giusti. Il collaudo resta: due giri su una modifica alla macchina sono proprio quello che la casa vuole."
+    },
+    {
+     "tipo": "attese su permessi e sessioni bloccate",
+     "dove": "R05 fermo circa 70 minuti (leggeva il deposito e aspettava un clic nella sua finestra), K01 fermo oltre 1 ora (comando di aggiornamento resoconto), conferma sulla migrazione 361 senza risposta (Supabase apply_migration, ancora in attesa: la sessione è in REQUIRES_ACTION adesso).",
+     "usd": 3,
+     "rimedio": "Regole già aggiunte alle 19:03 (regole e scheda nel primo messaggio, controllo dopo 10 minuti). Aggiungere: applicare le migrazioni in un solo passo con approvazione anticipata della conferma, oppure chiedere a Nicola l'ok prima di lanciare il batch, e non lasciare un permesso aperto mentre la regia"
+    },
+    {
+     "tipo": "lavoro rifatto: giri di correzione evitabili da regole del programma troppo strette",
+     "dove": "Regole guardia-ramo e prova-rimessa: stesso caso noto (prova esistente che legge il file per nome, storia del ramo che resta rossa) comparso per R01, R07, R08, R04, R11, R12, poi due giri di collaudo sulla modifica con 5 e 3 buchi.",
+     "usd": 6,
+     "rimedio": "Prima della prossima onda: provare le regole sui rami già esistenti dell'onda 1 (non fatto: nella relazione delle 21:16 dice di non averle rilanciate sui rami veri) e fissare in anticipo il criterio di prova per file nuovi e migrazioni. Così i riparatori onesti non finiscono rossi e la regia non dev"
+    },
+    {
+     "tipo": "verifiche ripetute sullo stesso codice",
+     "dove": "Verifica completa del sito (9.642-9.647 prove) e prove sul database (195 migrazioni): 18:16 (unione), 19:03 (PR), 20:07 (dopo falla IBAN), 20:09-20:12 (CI rilanciata), 21:05 e 21:23 (dopo le regole).",
+     "usd": 2,
+     "rimedio": "Lanciare la verifica in background con un solo comando che stampa solo l'esito e svegliare la regia a fine corsa, invece di tenerla in un ciclo di 30+ chiamate a 590 mila di contesto. Ricontrollare lo stesso codice più volte resta giusto quando il codice è cambiato."
+    },
+    {
+     "tipo": "turni umani lunghi con contesto pesante",
+     "dove": "20:07 (35 chiamate), 19:03 (20 chiamate), 21:05 (36 chiamate).",
+     "usd": 2,
+     "rimedio": "Compattare il contesto prima dei turni lunghi (non a 775 mila) e delegare a un subagente tech la parte meccanica (applicare migrazioni, generare tipi) con un riepilogo breve di ritorno."
+    }
+   ]
+  },
+  "onda2": {
+   "usd_stimati": 1627,
+   "al_14_11_0801": {
+    "quando": "2026-11-14 08:01",
+    "usd": 1277.38,
+    "tetto": 1500,
+    "sessioni": "40 (39 col costo, C02 · 3.0 ancora senza)",
+    "parti": {
+     "riparatori": 776.28,
+     "collaudatori": 184.4,
+     "controllori": 22.03,
+     "registe": 238.41,
+     "cartelle": 12.98,
+     "cucitura": 12.96,
+     "pr_ci": 30.33
+    },
+    "fonte": "usage.cost_usd di get_session, sommato da un subagente in sola lettura"
+   },
+   "aggiunte_dopo_0801": {
+    "giro_riparatori": 68.22,
+    "R15_secondo": 14.23,
+    "R16_secondo": 11.34,
+    "K08_terzo": 11.39,
+    "K05_secondo": 11.47,
+    "K06_secondo": 10.54,
+    "K07_secondo": 8.84,
+    "K08_quarto": 12.08,
+    "K09_secondo": 9.08,
+    "C02_quinto": 12.78,
+    "PR_CI_terzo": 10.75,
+    "regista_O2_settima": 169.27
+   },
+   "regista_settima": "555.868 token di contesto, 552 milioni letti dalla cache, ancora accesa",
+   "tetto": {
+    "valore": 1650,
+    "deciso": "2026-11-14 10:20",
+    "fonte": "Nicola nella chat della regista O2 settima («4 si»)",
+    "prima": {
+     "valore": 1500,
+     "deciso": "2026-11-14 06:06",
+     "fonte": "Nicola nella chat della regista 4.0"
+    }
+   },
+   "stima_iniziale": "376 $ (259 voci × 1,45 $), tetto detto 435 $, massimo 550 $",
+   "registe_aperte_nell_onda2": 12
+  },
+  "per_voce_chiusa": {
+   "onda1": "circa 5,0 $ (610/122)",
+   "onda2": "circa 27 $ (1.627/~60)"
+  }
+ },
+ "funnel": {
+  "onda1": {
+   "voci_con_referto": 275,
+   "esito_x_verdetto": {
+    "non_codice → non_collaudata": 15,
+    "riparato → regge": 124,
+    "parziale → non_regge": 9,
+    "serve_file_altrui → non_collaudata": 14,
+    "non_fatto → parziale": 1,
+    "parziale → parziale": 58,
+    "scelta_di_nicola → non_collaudata": 12,
+    "riparato → parziale": 17,
+    "parziale → rompe_altro": 3,
+    "non_fatto → non_collaudata": 2,
+    "gia_riparato_prima → regge": 7,
+    "parziale → regge": 9,
+    "riparato → non_regge": 1,
+    "riparato → rompe_altro": 3
+   },
+   "decisioni_applica": {
+    "resta_aperta": 178,
+    "si_chiude": 115,
+    "gia_riparato_prima": 7
+   },
+   "perche_resta_aperta": {
+    "non_codice|-": 15,
+    "parziale|non_regge": 9,
+    "serve_file_altrui|-": 14,
+    "non_fatto|parziale": 1,
+    "parziale|parziale": 58,
+    "scelta_di_nicola|-": 12,
+    "riparato|parziale": 17,
+    "parziale|rompe_altro": 3,
+    "non_fatto|-": 2,
+    "riparato|regge": 4,
+    "senza_referto|-": 25,
+    "parziale|regge": 9,
+    "riparato|rossa_al_controllo": 5,
+    "riparato|non_regge": 1,
+    "riparato|rompe_altro": 3
+   },
+   "per_gravita": {
+    "bloccante|resta_aperta": 5,
+    "grave|si_chiude": 19,
+    "grave|resta_aperta": 44,
+    "minore|si_chiude": 96,
+    "minore|resta_aperta": 129,
+    "grave|gia_riparato_prima": 2,
+    "minore|gia_riparato_prima": 5
+   }
+  },
+  "onda2": {
+   "voci_con_referto": 209,
+   "esito_x_verdetto": {
+    "parziale → parziale": 45,
+    "riparato → non_collaudata": 17,
+    "riparato → regge": 69,
+    "serve_file_altrui → non_collaudata": 29,
+    "non_fatto → non_collaudata": 3,
+    "gia_riparato_prima → non_collaudata": 1,
+    "parziale → rompe_altro": 7,
+    "gia_riparato_prima → regge": 3,
+    "riparato → parziale": 17,
+    "non_codice → non_collaudata": 3,
+    "riparato → non_regge": 1,
+    "parziale → non_regge": 2,
+    "scelta_di_nicola → non_collaudata": 6,
+    "riparato → rompe_altro": 4,
+    "gia_riparato_prima → non_regge": 2
+   },
+   "applica_a_vuoto_su_copia": "C02 terzo, 14/11 ~09:20: si chiudono 57, 3 gia riparate, 199 aperte su 259 (R13 e R14 rimandate all'onda 3, senza referto in referti/). Dopo: giro di correzione (R22-002, R23-015, R23-018, R17-017 riparate; R20-011 rompe_altro fuori; R17-015/016 tolte), R15/R16 secondo, C02 quinto (tolte 3 correzioni, 6 minori nuovi). Stima finale circa 60 chiuse. #290 unita 15/11 03:07, registro non ancora aggiornato."
+  }
+ },
+ "per_sessione": [
+  {
+   "sessione": "R01",
+   "onda": 1,
+   "finita": true,
+   "voci": 25,
+   "esiti": {
+    "non_codice": 7,
+    "riparato": 11,
+    "parziale": 4,
+    "serve_file_altrui": 1,
+    "non_fatto": 1,
+    "scelta_di_nicola": 1
+   },
+   "verdetti": {
+    "non_collaudata": 9,
+    "regge": 11,
+    "non_regge": 1,
+    "parziale": 4
+   },
+   "gravita": {
+    "?": 25
+   },
+   "campione_accettato": true,
+   "conto": "{\"agenti\":6,\"nota\":\"6 subagenti qa (tre gravi da soli, due gruppi da sei minori, R01-011 da solo)\"}",
+   "nuovi_difetti_visti": 1,
+   "domande_per_nicola": 4
+  },
+  {
+   "sessione": "R02",
+   "onda": 1,
+   "finita": true,
+   "voci": 25,
+   "esiti": {
+    "scelta_di_nicola": 2,
+    "parziale": 9,
+    "riparato": 12,
+    "non_codice": 1,
+    "serve_file_altrui": 1
+   },
+   "verdetti": {
+    "non_collaudata": 4,
+    "parziale": 9,
+    "non_regge": 1,
+    "regge": 11
+   },
+   "gravita": {
+    "?": 25
+   },
+   "campione_accettato": true,
+   "conto": "{\"agenti\":6,\"nota\":\"6 agenti qa (general-purpose, nessun tipo «qa» disponibile): 3 sui gravi (004+025, 003, 002/005/007 separati nel testo), 3 sui minori.\"}",
+   "nuovi_difetti_visti": 5,
+   "domande_per_nicola": 3
+  },
+  {
+   "sessione": "R03",
+   "onda": 1,
+   "finita": true,
+   "voci": 25,
+   "esiti": {
+    "parziale": 11,
+    "non_fatto": 1,
+    "non_codice": 2,
+    "riparato": 11
+   },
+   "verdetti": {
+    "rompe_altro": 2,
+    "non_collaudata": 3,
+    "parziale": 8,
+    "regge": 11,
+    "non_regge": 1
+   },
+   "gravita": {
+    "?": 25
+   },
+   "campione_accettato": true,
+   "conto": "{\"agenti\":6,\"nota\":\"6 subagenti qa (soldi con due lenti, cassa, fattorino, negozio, privacy/reclami/admin/chat)\"}",
+   "nuovi_difetti_visti": 3,
+   "domande_per_nicola": 4
+  },
+  {
+   "sessione": "R04",
+   "onda": 1,
+   "finita": true,
+   "voci": 25,
+   "esiti": {
+    "parziale": 13,
+    "riparato": 11,
+    "non_codice": 1
+   },
+   "verdetti": {
+    "parziale": 17,
+    "regge": 7,
+    "non_collaudata": 1
+   },
+   "gravita": {
+    "?": 25
+   },
+   "campione_accettato": false,
+   "conto": "{\"agenti\":6,\"nota\":\"6 subagenti qa (gravi da soli: g1 R04-001, g2 R04-002/003; poi gruppi da 6 al massimo). Le loro obiezioni dentro i file di R04 sono state corrette nei commit di revisione (commit_revisione nelle voci). Giro K02: corrette R04-017, R04-018, R04-011, R04-025 con commit nuovi; esiti dei minori riletti (R04-004, R04-007, R04-016, R04-025 a parziale).\"}",
+   "nuovi_difetti_visti": 4,
+   "domande_per_nicola": 3
+  },
+  {
+   "sessione": "R06",
+   "onda": 1,
+   "finita": true,
+   "voci": 25,
+   "esiti": {
+    "riparato": 16,
+    "gia_riparato_prima": 2,
+    "parziale": 5,
+    "serve_file_altrui": 1,
+    "non_codice": 1
+   },
+   "verdetti": {
+    "regge": 16,
+    "parziale": 6,
+    "non_collaudata": 2,
+    "non_regge": 1
+   },
+   "gravita": {
+    "?": 25
+   },
+   "campione_accettato": false,
+   "conto": "{\"agenti\":5,\"nota\":\"cinque subagenti qa (general-purpose) per smentire le riparazioni: R06-001 da solo, poi gruppi da al massimo 6 voci\"}",
+   "nuovi_difetti_visti": 3,
+   "domande_per_nicola": 1
+  },
+  {
+   "sessione": "R07",
+   "onda": 1,
+   "finita": true,
+   "voci": 25,
+   "esiti": {
+    "gia_riparato_prima": 2,
+    "riparato": 16,
+    "scelta_di_nicola": 4,
+    "parziale": 2,
+    "serve_file_altrui": 1
+   },
+   "verdetti": {
+    "regge": 14,
+    "parziale": 6,
+    "non_collaudata": 5
+   },
+   "gravita": {
+    "?": 25
+   },
+   "campione_accettato": false,
+   "conto": "{\"agenti\":10,\"nota\":\"3 fork per il piano, 7 agenti qa (4 per i gravi, 3 per i minori a gruppi di 5). Un agente qa (gruppo C) ha fatto letture in sola lettura sul database Supabase di produzione (permessi di store_review_stats e colonna products.tags): non era nel suo compito e non ha scritto niente.\"}",
+   "nuovi_difetti_visti": 7,
+   "domande_per_nicola": 6
+  },
+  {
+   "sessione": "R08",
+   "onda": 1,
+   "finita": true,
+   "voci": 25,
+   "esiti": {
+    "serve_file_altrui": 5,
+    "parziale": 3,
+    "riparato": 14,
+    "scelta_di_nicola": 3
+   },
+   "verdetti": {
+    "non_collaudata": 8,
+    "parziale": 3,
+    "regge": 14
+   },
+   "gravita": {
+    "?": 25
+   },
+   "campione_accettato": true,
+   "conto": "{\"agenti\":5,\"nota\":\"5 subagenti di collaudo (002 da solo; 004-007; 003/010/013/014; 012/017/018/020/023; 008/016/025). Hanno trovato 3 prove esistenti lasciate rosse (007), il doppio h1 (003), due casi della foto rotta (013), la rotazione del telefono (017), una prova che non mordeva e due minori (002), due minori (008): tutto corretto con una prova in più.\"}",
+   "nuovi_difetti_visti": 2,
+   "domande_per_nicola": 6
+  },
+  {
+   "sessione": "R09",
+   "onda": 1,
+   "finita": true,
+   "voci": 25,
+   "esiti": {
+    "riparato": 15,
+    "serve_file_altrui": 2,
+    "parziale": 5,
+    "non_fatto": 1,
+    "non_codice": 1,
+    "scelta_di_nicola": 1
+   },
+   "verdetti": {
+    "non_regge": 4,
+    "non_collaudata": 5,
+    "regge": 13,
+    "parziale": 3
+   },
+   "gravita": {
+    "?": 25
+   },
+   "campione_accettato": true,
+   "conto": "{\"agenti\":5,\"nota\":\"cinque subagenti di collaudo avversariale (R09-001 da solo, poi gruppi da ≤6 voci).\"}",
+   "nuovi_difetti_visti": 3,
+   "domande_per_nicola": 3
+  },
+  {
+   "sessione": "R10",
+   "onda": 1,
+   "finita": true,
+   "voci": 25,
+   "esiti": {
+    "riparato": 14,
+    "non_codice": 2,
+    "parziale": 6,
+    "gia_riparato_prima": 2,
+    "serve_file_altrui": 1
+   },
+   "verdetti": {
+    "regge": 17,
+    "non_collaudata": 3,
+    "parziale": 4,
+    "rompe_altro": 1
+   },
+   "gravita": {
+    "?": 25
+   },
+   "campione_accettato": false,
+   "conto": "{\"agenti\":5,\"nota\":\"5 subagenti qa (general-purpose, ognuno nella sua worktree): R10-001 da sola; 019+020+005; 022+021+004+006+008; 007+014+013+017+015+003; 016+010+025+009.\"}",
+   "nuovi_difetti_visti": 8,
+   "domande_per_nicola": 3
+  },
+  {
+   "sessione": "R11",
+   "onda": 1,
+   "finita": true,
+   "voci": 25,
+   "esiti": {
+    "parziale": 15,
+    "riparato": 9,
+    "scelta_di_nicola": 1
+   },
+   "verdetti": {
+    "non_regge": 2,
+    "regge": 8,
+    "parziale": 12,
+    "non_collaudata": 1,
+    "rompe_altro": 2
+   },
+   "gravita": {
+    "?": 25
+   },
+   "campione_accettato": false,
+   "conto": "{\"agenti\":8,\"nota\":\"8 subagenti qa (6 per i gravi, 001+005 insieme, 2 per i minori raggruppati per tema, 1 per tipi e prove)\"}",
+   "nuovi_difetti_visti": 4,
+   "domande_per_nicola": 1
+  },
+  {
+   "sessione": "R12",
+   "onda": 1,
+   "finita": true,
+   "voci": 25,
+   "esiti": {
+    "parziale": 6,
+    "riparato": 16,
+    "serve_file_altrui": 2,
+    "gia_riparato_prima": 1
+   },
+   "verdetti": {
+    "parziale": 4,
+    "regge": 18,
+    "non_collaudata": 2,
+    "rompe_altro": 1
+   },
+   "gravita": {
+    "?": 25
+   },
+   "campione_accettato": false,
+   "conto": "{\"agenti\":5,\"nota\":\"cinque subagenti qa: due lenti su R12-001, tre gruppi sulle altre 24 voci\"}",
+   "nuovi_difetti_visti": 6,
+   "domande_per_nicola": 4
+  },
+  {
+   "sessione": "R15",
+   "onda": 2,
+   "finita": true,
+   "voci": 19,
+   "esiti": {
+    "parziale": 9,
+    "riparato": 8,
+    "serve_file_altrui": 1,
+    "non_fatto": 1
+   },
+   "verdetti": {
+    "parziale": 9,
+    "non_collaudata": 7,
+    "regge": 3
+   },
+   "gravita": {
+    "?": 19
+   },
+   "campione_accettato": null,
+   "conto": "{\"agenti\":13,\"nota\":\"13 subagenti su 22: lotto 1 = 1 riparatore e 3 revisori, 1 correzione (002, 005), lotto 2 = 1 riparatore sonnet, lotto 3 = 2 riparatori (grande e sonnet) e 5 revisori. Costo della sessione 52,6 $ prima della chiusura, tetto 60 $. Per il tetto non c'è stato il giro di correzione dei rilievi del collaudo di chiusura (R15-018 riprodotto, la seconda metà di 009, il filtro dei nego",
+   "nuovi_difetti_visti": 14,
+   "domande_per_nicola": 2
+  },
+  {
+   "sessione": "R16",
+   "onda": 2,
+   "finita": true,
+   "voci": 21,
+   "esiti": {
+    "serve_file_altrui": 2,
+    "riparato": 15,
+    "parziale": 3,
+    "gia_riparato_prima": 1
+   },
+   "verdetti": {
+    "non_collaudata": 15,
+    "parziale": 3,
+    "regge": 3
+   },
+   "gravita": {
+    "?": 21
+   },
+   "campione_accettato": null,
+   "conto": "{\"agenti\":14,\"nota\":\"4 riparatori di lotto (A-D) + 1 correzione (R16-006) + 5 revisori (workflow wf_e8c81381) + lotto E (sonnet) + lotto F (R16-004) + 1 revisore di R16-004 sul modello grande = 14 su 18. Costo da get_session: 65,80 $ su un tetto di 66 $.\"}",
+   "nuovi_difetti_visti": 7,
+   "domande_per_nicola": 3
+  },
+  {
+   "sessione": "R17",
+   "onda": 2,
+   "finita": true,
+   "voci": 25,
+   "esiti": {
+    "serve_file_altrui": 4,
+    "parziale": 3,
+    "riparato": 16,
+    "gia_riparato_prima": 1,
+    "non_fatto": 1
+   },
+   "verdetti": {
+    "non_collaudata": 5,
+    "parziale": 5,
+    "rompe_altro": 1,
+    "regge": 14
+   },
+   "gravita": {
+    "?": 25
+   },
+   "campione_accettato": false,
+   "conto": "{\"agenti\":15,\"nota\":\"15 subagenti su 22: 5 nella prima parte (3 riparatori, 2 revisori grandi), poi 4 riparatori di lotto (L4-L6 grandi, L7 piccolo, interrotto e ripreso da 1 piccolo) e 5 revisori (4 grandi, 1 piccolo). Tetto 105 $ (85 + 20 firmati da Nicola alle 15:23).\"}",
+   "nuovi_difetti_visti": 7,
+   "domande_per_nicola": 6
+  },
+  {
+   "sessione": "R18",
+   "onda": 2,
+   "finita": true,
+   "voci": 25,
+   "esiti": {
+    "serve_file_altrui": 8,
+    "riparato": 11,
+    "non_codice": 3,
+    "parziale": 3
+   },
+   "verdetti": {
+    "non_collaudata": 11,
+    "parziale": 4,
+    "regge": 8,
+    "non_regge": 2
+   },
+   "gravita": {
+    "?": 25
+   },
+   "campione_accettato": false,
+   "conto": "{\"agenti\":8,\"nota\":\"8 subagenti: 5 riparatori (lotti 1-5, il 5 col modello piccolo) e 3 revisori (A: 001 da solo; B: lotto 2; C: lotto 3). I lotti 4 e 5 non hanno avuto un revisore indipendente, e il giro di correzione di R18-019 non è stato fatto: il tetto di 70 $ non bastava. Costo alla chiusura: circa 66 $ (get_session).\"}",
+   "nuovi_difetti_visti": 6,
+   "domande_per_nicola": 17
+  },
+  {
+   "sessione": "R19",
+   "onda": 2,
+   "finita": true,
+   "voci": 23,
+   "esiti": {
+    "scelta_di_nicola": 2,
+    "riparato": 12,
+    "parziale": 5,
+    "serve_file_altrui": 3,
+    "gia_riparato_prima": 1
+   },
+   "verdetti": {
+    "non_collaudata": 5,
+    "regge": 5,
+    "parziale": 8,
+    "rompe_altro": 4,
+    "non_regge": 1
+   },
+   "gravita": {
+    "?": 23
+   },
+   "campione_accettato": false,
+   "conto": "{\"agenti\":14,\"nota\":\"14 subagenti (lotti 1-5, giro di correzione, 7 collaudi). Costo dal record della sessione 70,2 $ sul tetto di 71 $: per questo i quattro parziali nati dai ricollaudi (004, 005, 008, 009) non hanno avuto un altro giro; la cura è scritta in cosa_resta. Lotto 1: il commit e33ef01 è tolto con b4c3caa (scelta di Nicola).\"}",
+   "nuovi_difetti_visti": 8,
+   "domande_per_nicola": 5
+  },
+  {
+   "sessione": "R20",
+   "onda": 2,
+   "finita": true,
+   "voci": 19,
+   "esiti": {
+    "riparato": 13,
+    "parziale": 2,
+    "scelta_di_nicola": 1,
+    "gia_riparato_prima": 1,
+    "serve_file_altrui": 2
+   },
+   "verdetti": {
+    "regge": 13,
+    "parziale": 1,
+    "non_collaudata": 3,
+    "rompe_altro": 2
+   },
+   "gravita": {
+    "?": 19
+   },
+   "campione_accettato": true,
+   "conto": "{\"agenti\":10,\"nota\":\"4 subagenti che riparano (lotti 1-2 modello grande, 3-4 sonnet), 4 revisori (1-2 modello grande, 3-4 sonnet), più 1 riparatore e 1 revisore per il giro chiesto dalla guardia (prove comuni di R20-005 e R20-015). Il giro di correzione di R20-004 l’ha fatto il subagente del lotto 2.\"}",
+   "nuovi_difetti_visti": 1,
+   "domande_per_nicola": 1
+  },
+  {
+   "sessione": "R21",
+   "onda": 2,
+   "finita": true,
+   "voci": 19,
+   "esiti": {
+    "non_fatto": 1,
+    "serve_file_altrui": 2,
+    "scelta_di_nicola": 1,
+    "parziale": 8,
+    "riparato": 6,
+    "gia_riparato_prima": 1
+   },
+   "verdetti": {
+    "non_collaudata": 4,
+    "rompe_altro": 2,
+    "parziale": 5,
+    "regge": 7,
+    "non_regge": 1
+   },
+   "gravita": {
+    "?": 19
+   },
+   "campione_accettato": true,
+   "conto": "{\"agenti\":9,\"nota\":\"9 subagenti: 3 lotti, 2 giri di correzione, 4 collaudi. Costo della sessione oltre il tetto di 55 $ (56 $ alle 13:30 secondo la regista): chiusa senza altri giri. Quello che i collaudi hanno bocciato è parziale (004, 005, 008, 014, 018) o tolto col revert (001 non_fatto; 002 e 016 serve_file_altrui per le prove comuni).\"}",
+   "nuovi_difetti_visti": 8,
+   "domande_per_nicola": 5
+  },
+  {
+   "sessione": "R22",
+   "onda": 2,
+   "finita": true,
+   "voci": 19,
+   "esiti": {
+    "riparato": 12,
+    "parziale": 6,
+    "serve_file_altrui": 1
+   },
+   "verdetti": {
+    "regge": 11,
+    "parziale": 6,
+    "rompe_altro": 1,
+    "non_collaudata": 1
+   },
+   "gravita": {
+    "?": 19
+   },
+   "campione_accettato": true,
+   "conto": "{\"agenti\":11,\"nota\":\"4 lotti (3 opus, 1 sonnet), 4 revisori in un workflow (2 opus, 2 sonnet), 3 giri di correzione (1 opus, 2 sonnet). Costo della sessione intorno ai 31 $ su un tetto di 35 $.\"}",
+   "nuovi_difetti_visti": 3,
+   "domande_per_nicola": 1
+  },
+  {
+   "sessione": "R23",
+   "onda": 2,
+   "finita": true,
+   "voci": 18,
+   "esiti": {
+    "serve_file_altrui": 3,
+    "parziale": 7,
+    "riparato": 7,
+    "scelta_di_nicola": 1
+   },
+   "verdetti": {
+    "non_collaudata": 4,
+    "parziale": 10,
+    "rompe_altro": 1,
+    "regge": 3
+   },
+   "gravita": {
+    "?": 18
+   },
+   "campione_accettato": false,
+   "conto": "{\"agenti\":9,\"nota\":\"lotto 1: riparazione, revisione, correzione. lotto 2: riparazione, revisione. lotto 3: riparazione e revisione col modello piccolo, più una correzione piccola su R23-005. R23-011 tolta per le prove comuni di R10; R23-007 tolta perché la guardia tratta come comune l'aiutante tests/unit/aiuti/finto-giro-notturno.ts, anche se la scheda lo dà a R23.\"}",
+   "nuovi_difetti_visti": 5,
+   "domande_per_nicola": 2
+  },
+  {
+   "sessione": "R24",
+   "onda": 2,
+   "finita": true,
+   "voci": 21,
+   "esiti": {
+    "parziale": 8,
+    "riparato": 8,
+    "scelta_di_nicola": 1,
+    "gia_riparato_prima": 1,
+    "serve_file_altrui": 3
+   },
+   "verdetti": {
+    "parziale": 11,
+    "regge": 5,
+    "non_collaudata": 4,
+    "non_regge": 1
+   },
+   "gravita": {
+    "?": 21
+   },
+   "campione_accettato": false,
+   "conto": "{\"agenti\":12,\"nota\":\"12 subagenti: 3 che riparano (lotti 1, 2 e 3, il 3 su sonnet), 7 collaudi (L1-A, L1-B, L2, due ricollaudi del giro di correzione, L3-P e L3-Q su sonnet), 2 giri di correzione (il secondo su sonnet). Fermata per il tetto alle 08:20 e ripresa alle 13:00 per decisione di Nicola (onda 2 al 100%, tetto 70 $).\"}",
+   "nuovi_difetti_visti": 10,
+   "domande_per_nicola": 2
+  }
+ ],
+ "controlli": {
+  "C01": {
+   "giro": "",
+   "voci_rosse": 14,
+   "nuovi_difetti": 16,
+   "file_non_guardati": 263,
+   "conto": {
+    "subagenti": 11,
+    "token_stimati": 1113000
+   }
+  },
+  "C02": {
+   "giro": "secondo giro, su tutta l'integrazione dell'onda 2 (R15, R16, R17 senza R17-003, R18-R24 e la cucitura 9bf9c914). Sostituisce il referto del primo giro (2d5f0313",
+   "voci_rosse": 3,
+   "nuovi_difetti": 17,
+   "conto": {
+    "subagenti": 6,
+    "subagenti_finiti": 4,
+    "token_stimati": 48150000,
+    "nota_token": "Totale della sessione da get_session (letture dalla cache comprese): 46,8 milioni letti dalla cache, 1,2 milioni scritti, 0,2 milioni di uscita.",
+    "costo_sessione_usd": 18.23
+   }
+  }
+ },
+ "esempi": {
+  "parziale": [
+   {
+    "id": "R01-006",
+    "esito": "parziale",
+    "verdetto": "non_regge",
+    "chiave": "frontend-ux|la consolle sos non mostra da quale consegna parte l'allarme: l'order_id ora scritto non si vede da nessuna parte",
+    "cosa_resta": "Il guscio ricava l'ordine solo dall'indirizzo /rider/orders/<id>: se il fattorino preme l'SOS da /rider (o da Guadagni, Turni, Profilo) mentre ha una consegna in corso, l'SOS parte senza order_id e la consolle dice «Fuori da una consegna» anche se una consegna",
+    "nota_collaudo": "Ricollaudo: nessun codice nuovo, ora dichiarata parziale. Il cosa_resta nomina solo «la consegna c'è ma non appare» e tace il caso opposto, più pericoloso: RiderShell.tsx:55 prende qualunque id da /rider/orders/<id> e la"
+   },
+   {
+    "id": "R01-011",
+    "esito": "parziale",
+    "verdetto": "parziale",
+    "chiave": "architettura|se sulla macchina delle prove manca postgres, sette file di prova si saltano in silenzio e la verifica esce verde lo stesso",
+    "cosa_resta": "Fuori dalla CI i file di prova saltano ancora in silenzio, e in CI si salterebbero se la guardia venisse tolta: la cura dentro i file sta in file non miei.",
+    "nota_collaudo": "In CI Postgres c'è e la guardia si ferma rossa se psql non risponde; fuori dalla CI un-invito-scritto-a-mano-non-paga si salta ancora in silenzio e PROVE_POSTGRES_OBBLIGATORIE non la legge nessuno. Dichiarato (file altru"
+   },
+   {
+    "id": "R01-015",
+    "esito": "parziale",
+    "verdetto": "parziale",
+    "chiave": "deploy-sre|se il sito nuovo non risponde si torna indietro col codice ma il database resta avanti",
+    "cosa_resta": "Il codice resta tornato indietro su un database avanti. La cura vera e' una scelta: migrazioni «espandi e poi contrai» (mai togliere nello stesso rilascio che smette di usare), oppure nessun ritorno automatico quando una migrazione del giro toglie qualcosa.",
+    "nota_collaudo": "La ricerca segnala solo 105, 134, 161: non prende ALTER TABLE … DROP senza COLUMN né DROP FUNCTION/VIEW/TYPE (40 file). La cura vera è una scelta di Nicola, dichiarata."
+   },
+   {
+    "id": "R01-019",
+    "esito": "parziale",
+    "verdetto": "parziale",
+    "chiave": "deploy-sre|dopo il deploy il freno della veloce può risultare «mai partito» per un attimo, con un falso allarme agli amministratori",
+    "cosa_resta": "La radice sta in lib/cron-health.ts (lavoriFermi): la finestra di prima accensione si misura dal battito piu' vecchio, non dalla nascita del lavoro, e nei dati non c'e' una data di nascita da usare. Quindi ogni lavoro nuovo ha bisogno della sua riga di seme in",
+    "nota_collaudo": "La 250 si applica e non sovrascrive un battito esistente (provato su Postgres); la radice in lib/cron-health.ts non è toccata: ogni lavoro nuovo vorrà la sua riga di seme. Dichiarato. Voce SQL: niente rimessa col program"
+   },
+   {
+    "id": "R02-002",
+    "esito": "parziale",
+    "verdetto": "parziale",
+    "chiave": "privacy-legale|lo sconto scritto su un evento appare ai clienti come «-20%», ma la cassa non lo applica mai",
+    "cosa_resta": "I badge «-n%» delle pagine pubbliche leggono ancora discount_percent degli eventi già salvati: vedi serve_file_altrui.",
+    "nota_collaudo": "Due qa: il modulo non chiede più lo sconto e il salvataggio scrive null; nessun'altra scrittura su marketplace_events. Resta il badge «-n%» in app/events/page.tsx:237 per gli eventi già salvati. cosa_resta sbagliato a me"
+   },
+   {
+    "id": "R02-003",
+    "esito": "parziale",
+    "verdetto": "non_regge",
+    "chiave": "privacy-legale|accogliere una segnalazione non toglie il prodotto: resta online, e a chi ha segnalato si scrive che è stato rimosso",
+    "cosa_resta": "Il negoziante può rimettere in vendita con «Attiva» il prodotto tolto: la pagina del negoziante non è mia.",
+    "nota_collaudo": "Ricollaudo sulla testa 855e7eda. Il punto della lettura caduta è chiuso: ogni lettura che cade (segnalazione, products, profiles) dà 409 e «rimosso» non parte; non blocca per sempre «respinta»/«in esame» (secondo qa). Ma"
+   },
+   {
+    "id": "R02-005",
+    "esito": "parziale",
+    "verdetto": "parziale",
+    "chiave": "privacy-legale|le recensioni dei clienti non si possono segnalare, mentre i termini promettono di togliere quelle non genuine",
+    "cosa_resta": "Lo strumento admin per togliere una recensione accolta e avvisarne l'autore: non c'è una pagina admin per le recensioni e i file non sono miei (in /admin/segnalazioni «Accolta» resta spenta per le recensioni, R02-003). Inoltre oggetto_id di una recensione non ",
+    "nota_collaudo": "Due qa: il «Segnala» di tipo recensione c'è in vetrina e scheda prodotto, POST e CHECK della 126 accettano tipo e motivi. Resta, dichiarato: lo strumento admin per togliere la recensione, e reviews/store_reviews indistin"
+   },
+   {
+    "id": "R02-007",
+    "esito": "parziale",
+    "verdetto": "parziale",
+    "chiave": "privacy-legale|la pulizia notturna dei documenti d'identità lasciati a metà iscrizione fallisce ogni notte nel database vero",
+    "cosa_resta": "Non codice: per potare davvero quei documenti Nicola deve applicare la migrazione 171 (e mettere la chiave di servizio, senza la quale il lavoro è comunque fermo). Fino ad allora la notte non fallisce, ma i documenti delle iscrizioni a metà non vengono tolti (",
+    "nota_collaudo": "Due qa: il DELETE è identico; il salto scatta solo con codice PGRST205/PGRST202/42P01 E nome di un oggetto della 171 (provati colonna mancante, ruolo, timeout: restano guasti). Resta, dichiarato: senza la 171 i documenti"
+   },
+   {
+    "id": "R02-012",
+    "esito": "parziale",
+    "verdetto": "parziale",
+    "chiave": "architettura|la prova del cambio password legge la pagina come testo: se la pagina tornasse a cambiarla senza chiedere quella vecchia, tutte",
+    "cosa_resta": "La regola di lint no-restricted-syntax contro auth.updateUser con password in app/profile/settings/page.tsx va nella configurazione eslint, che non è un mio file. La prova di comportamento c'è; essendo una voce di sola prova, la prova rimessa non si applica: l",
+    "nota_collaudo": "Voce di sola prova: la macchina non si applica (uscita 2: un file non può essere correzione e prova). Mutazione a mano sulla testa: nella pagina il fetch a /api/account/cambia-password sostituito con supabase.auth.update"
+   },
+   {
+    "id": "R02-014",
+    "esito": "parziale",
+    "verdetto": "parziale",
+    "chiave": "dati-analytics|le visite che il negoziante fa ai suoi prodotti contano come visite di clienti, e anche nei più visti in home",
+    "cosa_resta": "Le statistiche (Andamento, più visti) escludono negoziante e admin solo quando Nicola applica la migrazione 260; fino ad allora vale solo la parte del browser (niente righe e niente PostHog per negoziante e admin, ma le righe già scritte contano ancora).",
+    "nota_collaudo": "Il blocco nel browser c'è, ma «più visti in home» e Andamento dipendono dalla 260, non applicata; per l'admin isAdmin arriva dalla rete dopo idUtenteInMemoria(): aprendo la scheda diretta la visita probabilmente parte (d"
+   },
+   {
+    "id": "R02-015",
+    "esito": "parziale",
+    "verdetto": "parziale",
+    "chiave": "dati-analytics|le visite al prodotto si contano con due regole diverse: posthog conta ogni nuova scheda, il database una per persona all'ora",
+    "cosa_resta": "La regola è «una visita per browser all'ora»: fra due dispositivi dello stesso utente il database ne conta una e PostHog due. Per una regola sola anche lì serve che sia il database a dire «contata/scartata» (una RPC, cioè una migrazione) e annunciare solo le v",
+    "nota_collaudo": "Una nuova scheda ora non conta due volte (mutazioni a mano su frenoOrario e improntaOraria: prova rossa). Ma la voce dice «una per persona all'ora»: PostHog resta una per browser (stesso utente su due dispositivi = 1 vs "
+   },
+   {
+    "id": "R02-019",
+    "esito": "parziale",
+    "verdetto": "parziale",
+    "chiave": "frontend-ux|la vetrina dice «recensioni · 20» ma ne fa leggere solo sei, senza modo di vedere le altre",
+    "cosa_resta": "La vetrina legge al massimo 20 recensioni (components/store-sections/useStorePageData.ts:40, non mio) mentre la linguetta mostra il totale vero: con «Recensioni · 45» se ne leggono 20.",
+    "nota_collaudo": "Alla base il caso scritto (20 recensioni, se ne leggono 6) è risolto, ma useStorePageData.ts:40 legge al massimo 20 con .limit(20) mentre la linguetta mostra il totale vero: con 35 recensioni se ne leggono 20 e le altre "
+   }
+  ],
+  "riparato_ma_collaudo_parziale": [
+   {
+    "id": "R02-011",
+    "esito": "riparato",
+    "verdetto": "parziale",
+    "chiave": "api-backend|sulla scheda prodotto lo sconto della promozione vale zero se la lettura cade, poi la cassa lo applica",
+    "cosa_resta": "La barra in fondo, a lettura caduta, mostra ancora il prezzo pieno (ma il riquadro sopra avvisa).",
+    "nota_collaudo": "Ricollaudo: con retry 3 la lettura caduta due volte si recupera e a errore definitivo compare «Non riusciamo a verificare le promozioni». Ma durante i tentativi (~7 s) e dopo l'errore il prezzo grande e la barra in fondo"
+   },
+   {
+    "id": "R04-010",
+    "esito": "riparato",
+    "verdetto": "parziale",
+    "chiave": "ai-endpoints|la dettatura porta nel prompt, senza tetto e senza filtro, il testo degli elenchi che manda il browser",
+    "cosa_resta": "",
+    "nota_collaudo": "Filtro aggiunto e prompt recintato a 4000/16000 (voice-product/route.ts:118-146), ma il testo mandato al filtro non ha tetto (testoDaFiltrare con attrLines intero, :124; assertSafeText non taglia): fino a ~100 mila carat"
+   },
+   {
+    "id": "R04-012",
+    "esito": "riparato",
+    "verdetto": "parziale",
+    "chiave": "ai-endpoints|la lettura di un prodotto da una foto va in errore 500 se il modello scrive il motivo del rifiuto in un formato inatteso",
+    "cosa_resta": "",
+    "nota_collaudo": "Regge alla rimessa a mano (mutazione nel resto di questa nota); il programma accetta la chiusura solo con uscita 0 — regola della campagna per file nuovi e SQL, decisa dalla regista il 2026-11-12 17:11. Rimessa a mano: a"
+   },
+   {
+    "id": "R04-015",
+    "esito": "riparato",
+    "verdetto": "parziale",
+    "chiave": "ai-endpoints|i tagli contro i costi contano le voci degli elenchi ma non la loro lunghezza: una richiesta sotto il megabyte riempie la fines",
+    "cosa_resta": "",
+    "nota_collaudo": "Regge alla rimessa a mano (mutazione nel resto di questa nota); il programma accetta la chiusura solo con uscita 0 — regola della campagna per file nuovi e SQL, decisa dalla regista il 2026-11-12 17:11. Rimessa a mano: i"
+   },
+   {
+    "id": "R04-021",
+    "esito": "riparato",
+    "verdetto": "parziale",
+    "chiave": "architettura|all'assistente ai si dice che la consegna di una pagnotta da 3,50 € costa 4 €, ma la consegna si paga sul carrello e non sul si",
+    "cosa_resta": "",
+    "nota_collaudo": "Regge alla rimessa a mano (mutazione nel resto di questa nota); il programma accetta la chiusura solo con uscita 0 — regola della campagna per file nuovi e SQL, decisa dalla regista il 2026-11-12 17:11. Rimessa a mano: l"
+   },
+   {
+    "id": "R06-006",
+    "esito": "riparato",
+    "verdetto": "parziale",
+    "chiave": "architettura|oltre i mille prodotti la mappa per google perde i più vecchi senza dirlo",
+    "cosa_resta": "",
+    "nota_collaudo": "Oltre mille righe regge (sitemap della base → 3 rosse; le prove vecchie con 'range' passano anche alla base, non indebolite). Ma tolto il logger.warn di app/sitemap.ts:127-131 la prova resta verde: la metà «senza dirlo» "
+   },
+   {
+    "id": "R06-018",
+    "esito": "riparato",
+    "verdetto": "parziale",
+    "chiave": "dati-analytics|il filtro del filmato si ferma alla prima parentesi: il resto della ricerca esce in chiaro verso posthog",
+    "cosa_resta": "",
+    "nota_collaudo": "Parentesi, apostrofo e ! * ~ chiusi (vecchia espressione → 3/10 rosse), ma la barra rovescia resta un punto di arresto in lib/analytics/filmato-senza-dati-personali.ts:67: con https://mycity.it/search?q=pane\\Mario%20Ross"
+   },
+   {
+    "id": "R06-021",
+    "esito": "riparato",
+    "verdetto": "parziale",
+    "chiave": "dati-analytics|quando un cruscotto legge un campione invece del totale, lo dice solo alla console",
+    "cosa_resta": "",
+    "nota_collaudo": "La pagina Attività della base dà 3 prove rosse su 4; mutante «campione sempre al tetto» (blocchi.ts:94) preso; funnel giusto (:272). Ma app/admin/activity/page.tsx:295 avvisa solo su «Visitatori 24h»: Accessi 24h, Viste "
+   },
+   {
+    "id": "R06-023",
+    "esito": "riparato",
+    "verdetto": "parziale",
+    "chiave": "deploy-sre|la pagina pubblica «stato servizi» annuncia a tutti un guasto del database e dell'accesso che non c'è",
+    "cosa_resta": "",
+    "nota_collaudo": "Ricollaudo alla testa a3c7915f. Rimessa con la rotta nuova: uscita 3 (strutturale); su pagina admin e checks.ts: uscita 0. La pagina pubblica regge: il mutante «checkDb ignora l'errore» (lib/health/checks.ts:97) ora è pr"
+   },
+   {
+    "id": "R06-025",
+    "esito": "riparato",
+    "verdetto": "parziale",
+    "chiave": "deploy-sre|le violazioni delle regole di sicurezza del browser non le vede nessuno",
+    "cosa_resta": "",
+    "nota_collaudo": "Rimessa con i due file nuovi: uscita 3 (strutturale); sul middleware: uscita 0. report-uri, report-to e Reporting-Endpoints su tutte le risposte (middleware.ts:316-324), matcher che esclude api/; la rotta regge log injec"
+   },
+   {
+    "id": "R07-002",
+    "esito": "riparato",
+    "verdetto": "parziale",
+    "chiave": "frontend-ux|la pagina di richiesta reso accetta il ripensamento anche su ordini di pane",
+    "cosa_resta": "",
+    "nota_collaudo": "Regge alla rimessa a mano (mutazione nel resto di questa nota); il programma accetta la chiusura solo con uscita 0 — regola della campagna per file nuovi e SQL, decisa dalla regista il 2026-11-12 17:11. rimesso a mano: p"
+   },
+   {
+    "id": "R07-005",
+    "esito": "riparato",
+    "verdetto": "parziale",
+    "chiave": "qa-flussi|l'ultimo giorno del recesso il sito rifiuta il reso dal pomeriggio, e col cambio d'ora anche prima dell'ora della consegna",
+    "cosa_resta": "",
+    "nota_collaudo": "Regge alla rimessa a mano (mutazione nel resto di questa nota); il programma accetta la chiusura solo con uscita 0 — regola della campagna per file nuovi e SQL, decisa dalla regista il 2026-11-12 17:11. rimesso a mano: c"
+   }
+  ],
+  "rompe_altro": [
+   {
+    "id": "R03-001",
+    "esito": "parziale",
+    "verdetto": "rompe_altro",
+    "chiave": "qa-flussi|la cassa dice «troppo lontano» a chi abita in via roma o in via cavour, in pieno centro, e l'ordine non parte",
+    "cosa_resta": "Le righe di rubrica (user_addresses) già salvate con le coordinate sbagliate della vecchia ricerca a testo libero restano: le rotte d'ordine le prendono per buone e il cliente di Via Roma con una riga vecchia resta «troppo lontano». Serve un ricalcolo dei dati",
+    "nota_collaudo": "Ricollaudo (testa b44f9b7). Il difetto di prima è chiuso: le frazioni scritte come città (Montale, Borgotrebbia, «S. Nicolò») ora valgono, e un risultato accettato porta coordinate vere che il controllo dei 5 km misura. "
+   },
+   {
+    "id": "R03-008",
+    "esito": "parziale",
+    "verdetto": "rompe_altro",
+    "chiave": "pagamenti-stripe|se il cliente viene rimborsato prima che il suo ordine nasca, l'ordine nasce lo stesso come pagato e il negozio viene pagat",
+    "cosa_resta": "Carrello CANCELED saltato in silenzio: se la sessione Stripe nasceva in un timeout (stripe/checkout 966-973) un pagamento arriverebbe senza ordine né avviso (raro). rimborsi.ts non toccato: resta una piccola finestra fra rilettura e insert.",
+    "nota_collaudo": "Ricollaudo, due lenti. Rimessa: ordini.ts 0, carta-gia-tornata.ts strutturale (uscita 3). Chiuso lo scenario di prima: rifatto contro la testa, il carrello A+B col rimborso fatto dal sito (freno della veloce 1 €, annullo"
+   },
+   {
+    "id": "R10-019",
+    "esito": "riparato",
+    "verdetto": "rompe_altro",
+    "chiave": "pagamenti-stripe|con l'abbonamento acceso, due schede aperte creano due abbonamenti da 50 euro, e il primo resta orfano e non si disdice dal",
+    "cosa_resta": "Resta, dichiarato: la chiave di idempotenza va a finestre fisse di 10 minuti. Protegge dal doppio clic, ma due schede aperte a cavallo della finestra, o la seconda dopo più di 10 minuti, creano due sessioni di cassa, e il doppione può nascere ed essere pagato.",
+    "nota_collaudo": "Ricollaudo alla testa 6243926f. nata_rotta: lib/stripe/webhook/abbonamenti.ts:147-152 inghiotte ogni errore di subscriptions.retrieve(precedente) senza guardare err.code: con un errore di rete passeggero e il precedente "
+   },
+   {
+    "id": "R11-015",
+    "esito": "parziale",
+    "verdetto": "rompe_altro",
+    "chiave": "frontend-ux|le modifiche ai dettagli del negozio e al profilo si perdono uscendo, senza nessun avviso",
+    "cosa_resta": "La navigazione interna non è coperta: i link del menu del pannello negozio e il tasto indietro dentro «Costruisci il sito» (SiteEditor.tsx:143, che guarda solo il suo stato) perdono ancora le modifiche in silenzio. Next non lancia beforeunload; serve un avviso",
+    "nota_collaudo": "Ricollaudo, due lenti. Rimessa: 0. L'ordine dei campi è sistemato (fotografiaStabile), ma la classe del difetto resta. La fotografia di partenza si rifà sui dati ripuliti da zod (VendorForm.tsx:291: trim di slogan e annu"
+   },
+   {
+    "id": "R11-016",
+    "esito": "riparato",
+    "verdetto": "rompe_altro",
+    "chiave": "frontend-ux|incollare il link di instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non",
+    "cosa_resta": "",
+    "nota_collaudo": "Ricollaudo, due lenti. Rimessa: 0. /about, /photos e /reels/ tornano a correggersi da soli. Ma tagliare tutto quello che segue «?» (store-customization.ts:261) e prendere il primo pezzo del percorso fa salvare in silenzi"
+   },
+   {
+    "id": "R12-012",
+    "esito": "riparato",
+    "verdetto": "rompe_altro",
+    "chiave": "frontend-ux|se il nome del negozio comincia con un numero, un apostrofo, le virgolette o contiene una parola inglese come «table», il client",
+    "cosa_resta": "",
+    "nota_collaudo": "Ricollaudo alla testa 7b20df75. I nomi dei negozi ora arrivano giusti (18/18: «1950 Pizzeria», «100 Montaditos», «la table di nonna», «L'Osteria», «404 Bistrot», «Error Bar»…), i cinque grezzi classici restano filtrati, "
+   },
+   {
+    "id": "R17-003",
+    "esito": "parziale",
+    "verdetto": "rompe_altro",
+    "chiave": "privacy-legale|il negozio può chiudere un recesso senza rimborso dopo 14 giorni anche se il cliente ha riportato o spedito la merce, perché ",
+    "cosa_resta": "Il modulo lato cliente «Ho rispedito la merce» (app/orders/[id]/return/page.tsx) e le due colonne nella lettura del reso della pagina ordine del negozio (app/seller/orders/[id]/page.tsx): senza il primo il cliente non ha ancora un tasto; senza la seconda la sc",
+    "nota_collaudo": "Falla di sicurezza da chiudere (resi)."
+   },
+   {
+    "id": "R19-007",
+    "esito": "riparato",
+    "verdetto": "rompe_altro",
+    "chiave": "layout-responsive|alla cassa, col testo del telefono al massimo, la scheda «contanti alla consegna» esce dallo schermo e la pagina scorre di",
+    "cosa_resta": "La misura in Chromium (444 px prima, nessuno scorrimento dopo, a 360/375/390 px con testo al 200%) è stata fatta il 13/11 e tolta dalle prove perché in CI non c'è Chromium: era spenta con describe.skipIf, e una prova non si spegne. Il risultato resta nel comme",
+    "nota_collaudo": "[g2: rompe_altro] Misurato nel Chrome della macchina col markup vero, il CSS compilato e il font Inter: prima 444 px (come il riparatore). Dopo la correzione la pagina non scorre più di lato a 360-390 px, ma la colonna d"
+   },
+   {
+    "id": "R19-009",
+    "esito": "parziale",
+    "verdetto": "rompe_altro",
+    "chiave": "privacy-legale|nome, telefono e indirizzo di chi non completa l'accesso restano nel browser senza scadenza, e chi apre la cassa dopo li trov",
+    "cosa_resta": "(a) Il caso dell ospite che entra in un altro account aspetta la scelta di Nicola (domanda sotto). (b) Il ricollaudo ha trovato che la correzione 8d9e830a (nome e telefono dal predefinito dell account) cambia senza dirlo il telefono scritto da ospite dalla ste",
+    "nota_collaudo": "[g6: rompe_altro] Scadenza a 2 ore, pulizia al caricamento e Cookie policy tengono. La sostituzione di nome e telefono col predefinito, ancora alla testa, fa partire ordini con dati sbagliati; la cancellazione a ogni SIG"
+   },
+   {
+    "id": "R19-012",
+    "esito": "riparato",
+    "verdetto": "rompe_altro",
+    "chiave": "qa-flussi|la bozza della cassa riceve gli orari dei negozi vuoti: il filo con la regola unica non lavora",
+    "cosa_resta": "",
+    "nota_collaudo": "[g1: rompe_altro] Il caso della voce è chiuso, ma ora la bozza aspetta i dati del carrello: se la lettura cade, la pagina si disegna e le fasce si toccano; quando «Riprova» riesce la bozza rimette la sua consegna sopra l"
+   }
+  ],
+  "serve_file_altrui": [
+   {
+    "id": "R01-007",
+    "esito": "serve_file_altrui",
+    "verdetto": "non_collaudata",
+    "chiave": "microcopy|il sos del fattorino dice «stiamo chiamando il 112», ma l'app apre solo il tastierino",
+    "cosa_resta": "Decisione della regista (B): la frase e la prova esistente cambiano insieme nell'onda 2, dove la prova avra' un padrone. Su questo ramo il dialogo e' tornato alla frase della base (commit 5d829f31) e la mia prova riparazione-r01-sos-testo-112 e' tolta. I due t"
+   },
+   {
+    "id": "R02-018",
+    "esito": "serve_file_altrui",
+    "verdetto": "non_collaudata",
+    "chiave": "frontend-ux|con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato",
+    "cosa_resta": "Della voce, la parte nei miei file (la barra) era già riparata prima; restano i caroselli, che non sono miei."
+   },
+   {
+    "id": "R06-010",
+    "esito": "serve_file_altrui",
+    "verdetto": "non_collaudata",
+    "chiave": "architettura|il finto clienteavvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente",
+    "cosa_resta": "Riordino di prove, senza difetto del sito. Nessuno dei file da toccare e' mio e nessuno importa file miei, quindi non li tocco. Controllato sulla base: la prova lunga ha ancora 1035 righe e adminDiProva (:70), la scansione readdirSync del sorgente (:567), lett"
+   },
+   {
+    "id": "R07-025",
+    "esito": "serve_file_altrui",
+    "verdetto": "non_collaudata",
+    "chiave": "frontend-ux|i marchi «km 0» e «artigianale» non compaiono mai sulla scheda, perché la scheda non legge i tag",
+    "cosa_resta": "Ho provato anche a leggere tags con un ripiego sul 42703: le prove che contano le letture in fila (la-scheda-prodotto-arriva-dopo-due-viaggi) vedono un viaggio in più e cadono lo stesso. La guardia del ramo segna comunque tests/unit/aiuti/database-coi-permessi"
+   },
+   {
+    "id": "R08-001",
+    "esito": "serve_file_altrui",
+    "verdetto": "non_collaudata",
+    "chiave": "immagini-media|le tessere delle categorie in home sono foto d'archivio scritte a mano nel codice",
+    "cosa_resta": "Non codice, per Nicola: applicare la migrazione 159 (categories.image_url: in produzione la colonna non c'è) e caricare foto vere fatte nei negozi di Piacenza. Finché image_url è vuota la home resta gradiente + icona + nome, come chiede il fix."
+   },
+   {
+    "id": "R08-009",
+    "esito": "serve_file_altrui",
+    "verdetto": "non_collaudata",
+    "chiave": "architettura|interfacce zombie: shippingforeuro vale sempre 0 ma riceve 7 ingressi; promessaspedizione ha un argomento morto e campi sempre ",
+    "cosa_resta": "Nessun effetto per chi usa il sito: è pulizia di interfacce. Togliere gli argomenti morti da lib/shipping.ts e lib/promesse-pubbliche.ts (miei) rompe la compilazione dei chiamanti, che non sono miei: prima vanno cambiati loro, poi tolgo io _opts, _sottototale,"
+   },
+   {
+    "id": "R08-011",
+    "esito": "serve_file_altrui",
+    "verdetto": "non_collaudata",
+    "chiave": "deploy-sre|la prova «migrazione su database pieno» mette ancora i file nell'ordine vecchio",
+    "cosa_resta": ""
+   },
+   {
+    "id": "R08-015",
+    "esito": "serve_file_altrui",
+    "verdetto": "non_collaudata",
+    "chiave": "immagini-media|se l'abbonamento supabase scade, le foto del sito tornano rotte e nessun controllo se ne accorge",
+    "cosa_resta": "Non codice, per Nicola: tenere attivo il piano Pro di Supabase, perché la trasformazione delle foto (/render/image) c'è solo col Pro. lib/image-url.ts e lib/image-loader.ts (miei) costruiscono l'indirizzo e non possono sapere se la trasformazione risponde: la "
+   },
+   {
+    "id": "R08-019",
+    "esito": "serve_file_altrui",
+    "verdetto": "non_collaudata",
+    "chiave": "privacy-legale|i nomi di sedici account cancellati restano nel registro delle azioni",
+    "cosa_resta": "Non codice, per Nicola: le 20 righe già nel database (16 persone cancellate, giugno-luglio 2026) vanno ripulite a mano con la stessa update; e l'informativa privacy deve dire quanto si tiene il registro delle azioni (file fuori dal mio territorio)."
+   },
+   {
+    "id": "R09-002",
+    "esito": "serve_file_altrui",
+    "verdetto": "non_collaudata",
+    "chiave": "rls-database|la regola per riga della migrazione 001 lascia scrivere i prodotti dal browser, senza traccia ne' controllo di vendibilita'",
+    "cosa_resta": "Regola di scrittura dei prodotti troppo larga, già nota. Non chiusa in questo ramo: stringerla oggi romperebbe il salvataggio del modulo e il Nascondi, che passano da una rotta col client dell utente. Non ho aggiunto la prova SQL: nel harness ogni file rosso f"
+   },
+   {
+    "id": "R09-011",
+    "esito": "serve_file_altrui",
+    "verdetto": "non_collaudata",
+    "chiave": "architettura|una fascia «domani» inviata alle 23:59 e arrivata alla rotta dopo mezzanotte si giudica sul giorno dopo",
+    "cosa_resta": "In lib/store-hours.ts non serve niente: negozioPuoServire giudica la fascia che riceve, e lo strumento per riportarla al giorno giusto esiste già (fasciaAlGiornoDellOrdine), usato dal webhook. Manca solo che la cassa mandi quando ha proposto la fascia e che le"
+   },
+   {
+    "id": "R10-023",
+    "esito": "serve_file_altrui",
+    "verdetto": "non_collaudata",
+    "chiave": "performance|ogni pagina scarica due caratteri in corsivo che quasi nessuna pagina usa",
+    "cosa_resta": "Inter corsivo NON si può togliere: lo usano le note in corsivo senza grazie (app/orders/[id]/page.tsx:865, app/seller/orders/[id]/page.tsx:641, app/profile/addresses/page.tsx:232, app/profile/gift-cards/page.tsx:375, app/lists/[id]/page.tsx:353, components/Pro"
+   }
+  ]
+ },
+ "backlog_dopo_onda2": {
+  "stima": "662 − 122 (onda 1) − ~60 (onda 2) ≈ 480 aperte della campagna",
+  "composizione_nota": "155 mai lavorate (rimandate all'onda 3) + 50 di R13/R14 + ~199 lavorate e non chiuse in onda 2 + 178 non chiuse in onda 1 meno le 362 già ripassate. Le parziali hanno già un commit; le serve_file_altrui hanno spesso la diff dei file altrui nel referto.",
+  "onda2_non_chiuse_per_esito": {
+   "parziale→parziale": 45,
+   "riparato→non_collaudata": 17,
+   "serve_file_altrui→non_collaudata": 29,
+   "non_fatto→non_collaudata": 3,
+   "gia_riparato_prima→non_collaudata": 1,
+   "parziale→rompe_altro": 7,
+   "gia_riparato_prima→regge": 3,
+   "riparato→parziale": 17,
+   "non_codice→non_collaudata": 3,
+   "riparato→non_regge": 1,
+   "parziale→non_regge": 2,
+   "scelta_di_nicola→non_collaudata": 6,
+   "riparato→rompe_altro": 4,
+   "gia_riparato_prima→non_regge": 2
+  }
+ },
+ "cronologia_regole": [
+  "25/10: R-A..R-H nella skill cantiere (giro che converge, due giri di correzione, collaudo dosato, misura in referto)",
+  "5/11: senior sul modello piccolo dove basta (47 grandi, 73 piccoli)",
+  "6/11: lavoro veloce ⑬-⑰ (prima il programma, meno agenti, fatti pronti, verificatore parte dalla prova, modello piccolo)",
+  "12/11: conto dei token ⑱-㉔ (preventivo, verifica proporzionata, valore prima del volume, ultracode non sospende, quaderno ≤80 righe, attese mute, lavori lunghi in sessioni)",
+  "12/11 sera: regole del 12/11 notte nella skill riparazione (riparatori a lotti, collaudatori in giri brevi, un turno un esito, regista nuova a ogni onda); stima 435 $/onda",
+  "14/11: giro di correzione «strada a», tetto onda 2 alzato a 1.500 poi 1.650 $"
+ ]
+}
