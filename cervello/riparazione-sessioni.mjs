@@ -32,6 +32,8 @@
 //   applica [--scrivi]        da referti e collaudi: chi si chiude, chi resta aperto, i difetti nati
 //   conti                     prima e dopo, incrociando le chiavi
 //   deposito                  stampa il deposito dei rami della campagna (sito o macchina); 2 se non c'è
+//   segnali [--onda N]        le novità rispetto a rossi-noti.txt, una per riga (1 se ce n'è almeno una)
+//   stato [--onda N]          la campagna in 40 righe al massimo: figlie, esiti, spesa, segnali, prossima azione
 //
 // Uscita: 0 verde · 1 rosso · 2 uso sbagliato o non ho potuto misurare · 3 in attesa (mai un verde muto).
 //
@@ -114,7 +116,7 @@ const TEMPORANEI = [
 ];
 
 // ── Opzioni ──────────────────────────────────────────────────────────────────────────────────────
-const BOOLEANE = new Set(["json", "anche-umani", "anche-rimandati", "ultima", "scrivi"]);
+const BOOLEANE = new Set(["json", "anche-umani", "anche-rimandati", "ultima", "scrivi", "tutti"]);
 export function leggiOpzioni(argv) {
   const opz = { posizionali: [] };
   for (let i = 0; i < argv.length; i++) {
@@ -1779,9 +1781,131 @@ function conti(opz) {
 }
 
 // ── avvio ────────────────────────────────────────────────────────────────────────────────────────
+// ── segnali e stato: la sorveglianza muta (officina minima del 15/11, pezzo 2) ───────────────────
+// Regia dell'onda 2: 407,68 $ con 12 registe, e il 14/11 alle 12:32 e alle 13:34 giri di sorveglianza con nessuna
+// figlia viva. Un giro a vuoto costa circa 0,73 $. Qui la regista dorme finché non succede una cosa NUOVA:
+// `segnali` dice cosa è cambiato rispetto a <C>/rossi-noti.txt, `sorveglia.sh --attendi` lo chiede in un ciclo
+// in sottofondo, e `stato` riassume la campagna in 40 righe al massimo.
+// Quello che da qui non si vede (figlia in attesa di un clic, spesa, quota) arriva da <C>/stato-sessioni.json, che
+// scrive chi vede get_session: { aggiornato, spesa_usd, quota: {status, isUsingOverage}, sessioni: {R07: {stato}} }.
+export const MINUTI_FERMA = 20;
+export const SOGLIA_SPESA = 0.7;
+export const RIGHE_STATO = 40;
+
+/**
+ * I segnali che svegliano la regista, uno per riga e con l'identità dentro: «ferma R07 abc1234» resta noto finché
+ * il ramo non si muove, e torna nuovo se si ferma di nuovo su un'altra testa. PURA.
+ * @param {{ sessioni: Array<{nome, ramo, sulRemoto, finita, testa: {sha, quando}|null}>, vive?: object|null,
+ *           preventivo?: {stima_usd:number}|null, ora: number }} f
+ */
+export function segnaliDa({ sessioni = [], vive = null, preventivo = null, ora }) {
+  const out = [];
+  for (const s of sessioni) {
+    if (s.sulRemoto) out.push(`ramo ${s.nome} ${s.ramo}`);
+    if (s.finita) out.push(`finita ${s.nome}`);
+    else if (s.testa && ora - s.testa.quando > MINUTI_FERMA * 60000) out.push(`ferma ${s.nome} ${String(s.testa.sha).slice(0, 7)}`);
+    if (/requires_action|blocked/i.test(String(vive?.sessioni?.[s.nome]?.stato ?? ""))) out.push(`attesa ${s.nome}`);
+  }
+  const stima = Number(preventivo?.stima_usd), spesa = Number(vive?.spesa_usd);
+  if (stima > 0 && spesa > 0) {
+    if (spesa >= stima) out.push("spesa oltre il 100% del preventivo");
+    else if (spesa >= SOGLIA_SPESA * stima) out.push("spesa oltre il 70% del preventivo");
+  }
+  if (vive?.quota?.status === "allowed_warning") out.push("quota allowed_warning");
+  if (vive?.quota?.isUsingOverage === true) out.push("quota isUsingOverage");
+  return out;
+}
+
+/** I segnali che la regista non ha ancora visto: una riga di rossi-noti.txt per segnale, # per i commenti. PURA. */
+export function nuoviSegnali(segnali, testoNoti) {
+  const noti = new Set(String(testoNoti ?? "").split("\n").map((r) => r.trim()).filter((r) => r && !r.startsWith("#")));
+  return segnali.filter((s) => !noti.has(s));
+}
+
+/** Il riassunto della campagna, mai più di RIGHE_STATO righe (si taglia dal fondo e si dice quante). PURA. */
+export function testoStato({ campagna, ora, sessioni = [], nuovi = [], vive = null, preventivo = null, esiti = {} }) {
+  const r = [`📋 ${campagna} · ${ora}`];
+  for (const [tipo, nomeTipo] of [["R", "riparatori"], ["K", "collaudatori"], ["C", "controllori"]]) {
+    const mie = sessioni.filter((s) => s.tipo === tipo);
+    if (!mie.length) continue;
+    const fin = mie.filter((s) => s.finita), vivi = mie.filter((s) => !s.finita);
+    r.push(`${nomeTipo}: ${vivi.length} in lavoro${vivi.length ? ` (${vivi.map((s) => s.nome).join(" ")})` : ""}, ${fin.length} finiti`);
+  }
+  const conti = Object.entries(esiti).filter(([, n]) => n > 0).map(([e, n]) => `${e} ${n}`).join(", ");
+  r.push(`esiti nei referti: ${conti || "nessun referto letto"}`);
+  const stima = Number(preventivo?.stima_usd), spesa = Number(vive?.spesa_usd);
+  r.push(spesa > 0 ? `spesa: ${spesa.toFixed(2)} ${stima > 0 ? ` su ${stima.toFixed(2)} $ di preventivo (${Math.round((100 * spesa) / stima)}%)` : " (preventivo non scritto: conti --preventivo)"}`
+    : "spesa: non nota (stato-sessioni.json non c'è o non ha spesa_usd)");
+  r.push(nuovi.length ? `segnali nuovi: ${nuovi.length}` : "segnali nuovi: nessuno");
+  for (const n of nuovi) r.push(`  🔴 ${n}`);
+  const tutteFinite = sessioni.length > 0 && sessioni.every((s) => s.finita);
+  r.push(`prossima azione: ${nuovi.length ? "guarda i segnali nuovi, poi aggiungili a rossi-noti.txt" : tutteFinite ? "tutte finite: applica" : "bash cervello/riparazione/sorveglia.sh --attendi <C> <onda> in sottofondo"}`);
+  if (r.length <= RIGHE_STATO) return r;
+  const tagliate = r.length - (RIGHE_STATO - 1);
+  return [...r.slice(0, RIGHE_STATO - 2), `  … e altre ${tagliate} righe (tutto in segnali --tutti)`, r[r.length - 1]];
+}
+
+// I fatti dai rami già scaricati (il fetch lo fa sorveglia.sh) e dai file della campagna.
+function fattiDellaCampagna(opz) {
+  const dir = serveCartella(opz);
+  const sess = leggiSessioni(opz);
+  if (!sess) throw new Error(`${join(dir, "sessioni.json")} non c'è: nessuna sessione da guardare`);
+  const per = leggiPerimetro(opz);
+  const sito = resolve(opz.git ?? repoDi(per.casa, opz));
+  const onda = opz.onda === undefined ? null : Number(opz.onda);
+  const rel = posix.normalize(dir.slice(opz.radice.length + 1).split("\\").join("/"));
+  const mieR = Object.entries(sess.sessioni ?? {}).filter(([, v]) => onda === null || Number(v.onda) === onda);
+  const nomiR = new Set(mieR.map(([n]) => n));
+  const mieK = Object.entries(sess.collaudatori ?? {}).filter(([, v]) => onda === null || (v.riparatori ?? []).some((x) => nomiR.has(x)));
+  const mieC = Object.entries(sess.controllori ?? {}).filter(([, v]) => onda === null || v.onda === undefined || Number(v.onda) === onda);
+  const esiti = {};
+  const una = (tipo, nome, v, depo, percorso) => {
+    const s = { nome, tipo, ramo: v.ramo, sulRemoto: false, finita: false, testa: null };
+    if (!v.ramo || gitOk(depo, ["rev-parse", "--verify", "--quiet", `origin/${v.ramo}`]) === null) return s;
+    s.sulRemoto = true;
+    const [sha, quando] = String(gitOk(depo, ["log", "-1", "--format=%H %ct", `origin/${v.ramo}`]) ?? "").trim().split(" ");
+    if (sha) s.testa = { sha, quando: Number(quando) * 1000 };
+    const testo = gitOk(depo, ["show", `origin/${v.ramo}:${percorso}`]);
+    if (testo !== null) {
+      try {
+        const j = JSON.parse(testo);
+        s.finita = j.finita === true;
+        for (const x of j.voci ?? []) if (x?.esito) esiti[x.esito] = (esiti[x.esito] ?? 0) + 1;
+      } catch { /* referto illeggibile: non finito */ }
+    }
+    return s;
+  };
+  const sessioni = [
+    ...mieR.map(([n, v]) => una("R", n, v, sito, `${REFERTO_DIR}/referto-${n}.json`)),
+    ...mieK.map(([n, v]) => una("K", n, v, opz.radice, `${rel}/collaudi/${n}.json`)),
+    ...mieC.map(([n, v]) => una("C", n, v, opz.radice, `${rel}/controlli/${n}.json`)),
+  ];
+  const leggiSeC = (f) => (existsSync(join(dir, f)) ? leggiJson(join(dir, f)) : null);
+  const vive = leggiSeC("stato-sessioni.json"), preventivo = leggiSeC("preventivo.json");
+  const noti = existsSync(join(dir, "rossi-noti.txt")) ? readFileSync(join(dir, "rossi-noti.txt"), "utf8") : "";
+  const tutti = segnaliDa({ sessioni, vive, preventivo, ora: Date.now() });
+  return { dir, sessioni, vive, preventivo, esiti, tutti, nuovi: nuoviSegnali(tutti, noti) };
+}
+
+function segnali(opz) {
+  let f;
+  try { f = fattiDellaCampagna(opz); } catch (e) { return cieco("segnali", e.message, opz); }
+  for (const s of opz.tutti ? f.tutti : f.nuovi) console.log(s);
+  if (opz.json) console.log(JSON.stringify({ controllo: "segnali", nuovi: f.nuovi, tutti: f.tutti }));
+  return f.nuovi.length ? 1 : 0;
+}
+
+function stato(opz) {
+  let f;
+  try { f = fattiDellaCampagna(opz); } catch (e) { return cieco("stato", e.message, opz); }
+  for (const riga of testoStato({ campagna: basename(f.dir), ora: timbroOra(), ...f })) console.log(riga);
+  return f.nuovi.length ? 1 : 0;
+}
+
 const COMANDI = {
   perimetro, dividi, schede, "copertura-prima": coperturaPrima, segnaposti, "guardia-ramo": guardiaRamo,
   "valida-referto": validaReferto, "valida-collaudo": validaCollaudo, "prova-unione": provaUnione, applica, conti, deposito,
+  segnali, stato,
 };
 export function esegui(argv) {
   const [comando, ...resto] = argv;
