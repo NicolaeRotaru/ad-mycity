@@ -984,6 +984,21 @@
    "K11 al massimo 18 $, poi consegna (00:06)",
    "K12 non si apre senza due strade coi numeri dentro i 215 $ (00:06)",
    "base 76d4c4d approvata (23:52); PR mycity#291 unita, main b6ef4afa (00:05)"
-  ]
+  ],
+  "passaggio": {
+   "a": "session_015BmpnUwZWwGrsy5a7qyDwZ",
+   "nome": "regista O3 due",
+   "quando": "2026-11-16 00:39",
+   "perche": "storia a 399 mila token (soglia 250 mila)",
+   "spesa_regia_uno_usd": 10.63,
+   "stato": "REGIA-ONDA-3.md, blocco «Stato al passaggio», commit 97d51c1"
+  }
+ },
+ "regista_onda3_due": {
+  "id": "session_015BmpnUwZWwGrsy5a7qyDwZ",
+  "ramo": "claude/sito-onda-3",
+  "partenza": "97d51c1c52cea2cc4ad60562c7b832b62839b6ea",
+  "aperta": "2026-11-16 00:39",
+  "tetto_usd": 14
  }
 }
