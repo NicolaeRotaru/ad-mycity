@@ -12457,6 +12457,15 @@
    "cerca": "  [\"leggere un file di chiavi\", process, [\"loadEnvFile\"]],",
    "sostituisci": "  [\"leggere un file di chiavi\", process, []],",
    "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1183",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "conti torna a tacere su una PR unita con squash (testa fuori da main, campo «unita» assente)",
+   "cerca": "    else if (!u && pr.unita === undefined && !registroScrittoPerOnda(elenco, nomi)) attese.push(",
+   "sostituisci": "    else if (false) attese.push(",
+   "test": "cervello/test/conti-che-arrivano-in-tempo.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",

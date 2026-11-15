@@ -2209,6 +2209,9 @@ export function prUniteSenzaRegistro({ sess, piano, elenco, unita }) {
     const nomi = Object.keys(piano?.onde?.[onda - 1]?.sessioni ?? {});
     if (u === null) attese.push(`#${pr.numero ?? "?"} (onda ${onda}): non so se è unita (il commit ${String(pr.testa).slice(0, 8)} o main non sono nel deposito)`);
     else if (u && !registroScrittoPerOnda(elenco, nomi)) rossi.push(`#${pr.numero ?? "?"} unita, onda ${onda} non scritta nel registro: applica --scrivi`);
+    // Una PR unita con squash, o con la testa riscritta, ha la testa fuori da main: senza il campo «unita» il «no»
+    // non ha guardato davvero. Si dice come attesa (collaudo dell'officina minima, 15/11, minore 3).
+    else if (!u && pr.unita === undefined && !registroScrittoPerOnda(elenco, nomi)) attese.push(`#${pr.numero ?? "?"} (onda ${onda}): la testa ${String(pr.testa).slice(0, 8)} non è in main e manca il campo «unita»: se la PR è unita con squash scrivi «unita: true» in sessioni.json`);
   }
   return { rossi, attese };
 }
