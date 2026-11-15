@@ -1,3 +1,4 @@
+// Preventivo: 13 subagenti (sei senior in turno, ognuno con la sua verifica, più la sintesi), circa 1,65 milioni di token — sopra il tetto degli agenti, si chiede a Nicola
 // AR-780 — PERCHE' QUESTO FILE NON HA IMPORT, E PERCHE' RICEVE `args`.
 //
 // Fino al 23/8/2026 apriva con degli `import` e metteva `meta` piu' in basso: il motore pretende che

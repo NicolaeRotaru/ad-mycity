@@ -42,6 +42,8 @@ import { fileURLToPath } from "node:url";
 import { abbina, delTurno, leggiRegistro, strumentiVisti, turnoCorrente } from "./libro-mastro.mjs";
 // L'orologio di casa, puro a sua volta: l'ora di Piacenza si chiede in un posto solo.
 import { giornoPiacenza } from "./ora-piacenza.mjs";
+// Il centralino di pre-scrittura: la stessa funzione con cui la guardia smista le mosse (vedi POTERI).
+import { ramoDi } from "./pre-scrittura.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 export const REPO = join(QUI, "..");
@@ -56,7 +58,10 @@ const FRENI = ".claude/settings.json";
  */
 export const POTERI = {
   "mano-fermata.mjs": { blocca: true, come: "rifiuta la scrittura (deny)" },
-  "pre-scrittura.mjs": { blocca: false, come: "gira la decisione a Nicola (ask)" },
+  // `ramo`: per quali strumenti la guardia FA qualcosa quando il filtro la sveglia. Non è una carta
+  // scritta a mano: è la funzione con cui pre-scrittura smista davvero le mosse. Fino al 15/11 il
+  // filtro svegliava la guardia su Agent e Workflow e lei taceva — la mappa li dava per guardati.
+  "pre-scrittura.mjs": { blocca: false, come: "gira la decisione a Nicola (ask)", ramo: ramoDi },
   "sorvegliante.mjs": { blocca: true, come: "rimanda indietro la modifica" },
   "misura-cieca.mjs": { blocca: false, come: "avvisa sul comando" },
   "cancello-senior.mjs": { blocca: true, come: "ferma la consegna del senior" },
@@ -176,15 +181,9 @@ export const ESENZIONI = {
 // Tutte e tre restano scoperte finché Nicola non incolla la riga in `.claude/settings.json` (file
 // che questa sessione non può scrivere, righe 80-83 lo vietano apposta).
 export const IN_ATTESA = {
-  // 25/10 — la causa vera, verificata: il matcher di settings.json che nomina «Task» SVEGLIA già
-  // pre-scrittura su «Agent» (libro mastro 2026-10-25 12:01:20), ma pre-scrittura pianta l'ancora del
-  // senior solo se lo strumento si chiama «Task», quindi per Agent la guardia si apre e non fa niente.
-  // Non è coperto: è in attesa del lotto del freno dei senior (patch pronta). Dare Agent per sorvegliato
-  // da un alias del matcher era un rosso travestito da verde (riesame del 25/10).
-  Agent: {
-    perche: "delega compiti a un collega (sub-agente) che apre/scrive file veri e lancia comandi per conto mio. La guardia pre-scrittura si sveglia su Agent (il matcher «Task» lo prende), ma non pianta l'ancora del senior perché confronta il nome con «Task» e basta: lo ripara il lotto del freno dei senior, partendo da consegne/audit/2026-10-25-freno-senior-rinviato.patch (card #119 e #212)",
-    scade: "2026-11-08",
-  },
+  // 15/11 — Agent è uscito dall'elenco: pre-scrittura pianta l'ancora del senior anche su «Agent»
+  // (STRUMENTI_DI_DELEGA) e il filtro di .claude/settings.json lo nomina. Lo stesso giorno è uscito
+  // Workflow: la guardia legge il preventivo della squadra e chiede sopra il tetto (decidiSquadra).
   TaskCreate: {
     perche: "crea righe nella lista dei task di sessione (stato locale, non scrive nel repo né tocca il mondo fuori): nessuna guardia lo vede perché non è in POTERI né nel matcher del file dei freni",
     scade: "2026-09-07",
@@ -202,10 +201,6 @@ export const IN_ATTESA = {
   // chiamarle esenti sarebbe stato mettere un'etichetta su un buco.
   Artifact: {
     perche: "PUBBLICA UNA PAGINA SUL WEB, ed è la più esposta delle tre: nasce privata ma ha un indirizzo, e da lì basta un clic per condividerla. È l'unico strumento di questa sessione che mette qualcosa davanti a occhi che non sono di Nicola. Nessuna guardia lo vede finché lui non incolla la riga in .claude/settings.json (file che questa sessione non può scrivere, righe 80-83 lo vietano apposta). Il freno giusto sarebbe sul CONTENUTO, non sul gesto: quello che finisce in pagina passa già dal metro dell'onestà quando è un testo per i clienti, ma una pagina di lavoro come questa oggi non la guarda nessuno",
-    scade: "2026-09-11",
-  },
-  Workflow: {
-    perche: "fa partire una flotta di colleghi che aprono e scrivono file veri e lanciano comandi per conto mio, molti insieme: è Agent moltiplicato, quindi stessa famiglia di Bash e stesso motivo per cui Agent è già qui in attesa. Il rischio in più rispetto ad Agent è il numero: un errore nel copione si moltiplica per quanti agenti partono, e nessuna guardia conta quanti ne sono partiti",
     scade: "2026-09-11",
   },
   SendMessage: {
@@ -284,7 +279,10 @@ export function coperturaDi(strumento, hooks, { poteri = POTERI, esenzioni = ESE
   const guardieSu = (evento) =>
     agganci(hooks, evento)
       .filter((a) => copre(a.matcher, strumento))
-      .flatMap((a) => a.comandi.map((c) => guardiaDelComando(c, poteri)).filter(Boolean));
+      .flatMap((a) => a.comandi.map((c) => guardiaDelComando(c, poteri)).filter(Boolean))
+      // Una guardia svegliata su uno strumento che non sa trattare apre la porta su una stanza vuota:
+      // non conta come copertura. Vale solo per le guardie che dichiarano il loro centralino.
+      .filter((g) => typeof poteri[g]?.ramo !== "function" || Boolean(poteri[g].ramo(strumento)));
 
   const prima = [...new Set(guardieSu("PreToolUse"))];
   const dopo = [...new Set(guardieSu("PostToolUse"))];

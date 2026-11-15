@@ -1,3 +1,4 @@
+// Preventivo: 16 subagenti (8 dimensioni, un cercatore e un verificatore ciascuna), circa 2 milioni di token — sopra il tetto, si chiede a Nicola
 // AR-780 — PERCHE' QUESTO FILE NON HA IMPORT.
 //
 // Fino al 23/8/2026 apriva con degli `import` e metteva `meta` piu' in basso. Il motore dei workflow

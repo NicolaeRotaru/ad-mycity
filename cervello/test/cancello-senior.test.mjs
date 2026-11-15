@@ -7,7 +7,16 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { chiudiSenior, allarmiDelSenior, verdettoSenior } from "../cancello-senior.mjs";
+import { execFileSync, spawnSync } from "node:child_process";
+import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { chiudiSenior, perimetroSenior, allarmiDelSenior, verdettoSenior } from "../cancello-senior.mjs";
+import { ANCORA_SENIOR } from "../pre-scrittura.mjs";
+import { BATTITO } from "../sorvegliante.mjs";
+
+const CANCELLO = join(dirname(fileURLToPath(import.meta.url)), "..", "cancello-senior.mjs");
 
 const grave = { file: "cervello/x.mjs", cosa: "malattia nuova", gravita: "grave" };
 
@@ -84,4 +93,79 @@ test("niente di niente: nessuna riga, e il senior chiude senza rumore", () => {
 
 test("un allarme non accodato blocca quanto una voce grave: un 🔴 senza lettore è un verdetto perso", () => {
   assert.equal(verdettoSenior({ allarmi: ["consegne/x.md"] }).blocca, true);
+});
+
+// ── senza ancora ─────────────────────────────────────────────────────────────
+// L'ancora manca quando nessuno l'ha piantata. Fino al 25/10 succedeva a OGNI delega: pre-scrittura
+// riconosceva solo «Task» e lo strumento oggi si chiama «Agent» (AR-1009, verificato). Per gli agenti
+// dei workflow succede anche dopo, perché partono da `Workflow` (dedotto, non osservato). Il
+// perimetro allora è TUTTO il lavoro non committato: bloccare lì vuol dire far rifare un turno
+// (50-150 mila token di contesto riletto) a un agente per una voce che può aver lasciato un altro.
+
+test("senza ancora il perimetro non è attribuibile: si racconta, e la nota dice perché non blocco", () => {
+  const p = perimetroSenior(null);
+  assert.equal(p.attribuibile, false);
+  assert.match(p.nota, /nessuna ancora/);
+  assert.match(p.nota, /non blocco/);
+});
+
+test("con l'ancora e un senior solo il perimetro è suo: attribuibile, nessuna nota", () => {
+  const p = perimetroSenior({ commit: "aaa", scatto: 3, aperti: 1 });
+  assert.equal(p.attribuibile, true);
+  assert.equal(p.nota, null);
+  assert.equal(p.rimasta, null, "l'ultimo che chiude toglie l'ancora");
+});
+
+test("con l'ancora e due senior in volo resta il perimetro condiviso di prima", () => {
+  const p = perimetroSenior({ commit: "aaa", scatto: 3, aperti: 2 });
+  assert.equal(p.attribuibile, false);
+  assert.match(p.nota, /condiviso/);
+});
+
+/** Un repo finto con una voce GRAVE viva nel battito del sorvegliante, e l'ancora solo se richiesta.
+ *  Fa girare il cancello vero come lo lancia l'hook SubagentStop e torna l'exit. */
+function giraIlCancello({ conAncora, evento = "{}" }) {
+  const dir = mkdtempSync(join(tmpdir(), "cancello-senior-"));
+  try {
+    execFileSync("git", ["init", "-q", "."], { cwd: dir });
+    execFileSync("git", ["-c", "user.email=prova@prova", "-c", "user.name=prova", "commit", "-q", "--allow-empty", "-m", "zero"], { cwd: dir });
+    const head = execFileSync("git", ["rev-parse", "HEAD"], { cwd: dir, encoding: "utf8" }).trim();
+    mkdirSync(join(dir, "cervello"), { recursive: true });
+    writeFileSync(
+      join(dir, BATTITO),
+      JSON.stringify({ scatto: 4, viste: { k: { n: 1, scatto: 4, file: "cervello/x.mjs", cosa: "malattia nuova", gravita: "grave" } } }),
+    );
+    if (conAncora) writeFileSync(join(dir, ANCORA_SENIOR), JSON.stringify({ commit: head, scatto: 3, quando: "", aperti: 1 }));
+    const r = spawnSync(process.execPath, [CANCELLO, "--hook"], {
+      input: evento,
+      encoding: "utf8",
+      env: { ...process.env, CANCELLO_SENIOR_REPO: dir },
+    });
+    return { exit: r.status, detto: `${r.stdout}${r.stderr}`, ancoraRimasta: existsSync(join(dir, ANCORA_SENIOR)) };
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+}
+
+test("IL CASO DEI WORKFLOW: senza ancora e con una voce grave il senior chiude (exit 0), ma la voce si dice", () => {
+  const r = giraIlCancello({ conAncora: false });
+  assert.equal(r.exit, 0, "senza ancora non so di chi è la voce: bloccare punisce l'agente sbagliato");
+  assert.match(r.detto, /voce grave/, "non attribuire non vuol dire tacere");
+  assert.match(r.detto, /nessuna ancora/);
+});
+
+test("con l'ancora e un senior solo la voce grave BLOCCA come prima (exit 2), e l'ancora resta per il giro di ritorno", () => {
+  const r = giraIlCancello({ conAncora: true });
+  assert.equal(r.exit, 2);
+  assert.match(r.detto, /voce grave/);
+  assert.equal(r.ancoraRimasta, true, "il senior che torna indietro lavora ancora nello stesso perimetro");
+});
+
+test("LA VALVOLA ANTI-CAPPIO: al giro di ritorno (stop_hook_active) il senior chiude anche con la voce grave, e l'ancora si toglie", () => {
+  // Senza questa valvola un senior che non riesce a sistemare la voce gira all'infinito, e ogni giro
+  // rilegge 50-150 mila token: è proprio il costo che il cancello vuole togliere.
+  const r = giraIlCancello({ conAncora: true, evento: JSON.stringify({ stop_hook_active: true }) });
+  assert.equal(r.exit, 0, "il senior sta già ripartendo per colpa mia: bloccarlo di nuovo è un cappio");
+  assert.match(r.detto, /voce grave/, "lasciarlo chiudere non vuol dire tacere");
+  assert.equal(r.ancoraRimasta, false, "il senior ha finito: l'ancora non deve passare al prossimo");
 });

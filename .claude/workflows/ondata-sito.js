@@ -1,3 +1,4 @@
+// Preventivo: 45 subagenti (il tetto di default di args.max_agenti), circa 6,75 milioni di token — sopra il tetto, si chiede a Nicola
 // 🌊 ONDATA DEL SITO — ripara UN'ondata del piano dei pacchetti con pochi agenti, e si ferma da sola.
 //
 // PERCHE' ESISTE. L'ondata 1 del piano del 15/10 l'ha orchestrata l'AD a mano: piu' di 600 lanci di

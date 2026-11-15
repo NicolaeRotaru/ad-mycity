@@ -1644,6 +1644,46 @@
    "test": "cervello/test/cancello-senior.test.mjs"
   },
   {
+   "difetto": "AR-527",
+   "nome": "senza ancora del senior il cancello torna a bloccare: un agente di workflow rifà un turno intero per voci che possono averle lasciate altri, e la prova sul repo finto senza ancora deve accorgersene",
+   "file": "cervello/cancello-senior.mjs",
+   "cerca": "  if (!ancora) {\n    return {\n      rimasta,\n      attribuibile: false,",
+   "sostituisci": "  if (!ancora) {\n    return {\n      rimasta,\n      attribuibile: true,",
+   "test": "cervello/test/cancello-senior.test.mjs"
+  },
+  {
+   "difetto": "AR-1009",
+   "nome": "il freno che parla prima torna a riconoscere solo il vecchio nome «Task»: con lo strumento «Agent» di oggi l'ancora del senior non nasce mai, e il cancello dei senior non blocca più nessuno",
+   "file": "cervello/pre-scrittura.mjs",
+   "cerca": "export const STRUMENTI_DI_DELEGA = new Set([\"Agent\", \"Task\"]);",
+   "sostituisci": "export const STRUMENTI_DI_DELEGA = new Set([\"Task\"]);",
+   "test": "cervello/test/pre-scrittura.test.mjs"
+  },
+  {
+   "difetto": "AR-1009",
+   "nome": "la mossa dell'hook torna a confrontare il nome dello strumento a mano con «Task»: l'elenco dei nomi c'è, ma la strada vera non lo usa",
+   "file": "cervello/pre-scrittura.mjs",
+   "cerca": "  if (parteUnSenior(strumento)) {",
+   "sostituisci": "  if (strumento === \"Task\") {",
+   "test": "cervello/test/pre-scrittura.test.mjs"
+  },
+  {
+   "difetto": "AR-1009",
+   "nome": "l'elenco dei nomi della delega perde «Task»: il filtro dell'hook di oggi dice Task e porta la delega Agent per alias, e non risulta più legato a nessun nome della delega",
+   "file": "cervello/pre-scrittura.mjs",
+   "cerca": "export const STRUMENTI_DI_DELEGA = new Set([\"Agent\", \"Task\"]);",
+   "sostituisci": "export const STRUMENTI_DI_DELEGA = new Set([\"Agent\"]);",
+   "test": "cervello/test/pre-scrittura.test.mjs"
+  },
+  {
+   "difetto": "AR-527",
+   "nome": "il cancello dei senior smette di leggere stop_hook_active: un senior con una voce grave che non riesce a sistemare viene rimandato indietro all'infinito, 50-150 mila token a giro",
+   "file": "cervello/cancello-senior.mjs",
+   "cerca": "      giaBloccato = Boolean(ev?.stop_hook_active);",
+   "sostituisci": "      giaBloccato = false;",
+   "test": "cervello/test/cancello-senior.test.mjs"
+  },
+  {
    "difetto": "AR-528",
    "nome": "la memoria conta come «mai risolta» anche una voce che avevo sistemato mentre lavoravo",
    "file": "cervello/memoria-guardia.mjs",

@@ -1,3 +1,4 @@
+// Preventivo: 26 subagenti (13 dimensioni, un cercatore e un verificatore ciascuna), circa 3,25 milioni di token — sopra il tetto, si chiede a Nicola
 // 🩻 RADIOGRAFIA DEL MARKETPLACE — 13 dimensioni in sola lettura, ogni problema verificato.
 //
 // AR-780 — PERCHE' QUESTO FILE NON HA IMPORT.

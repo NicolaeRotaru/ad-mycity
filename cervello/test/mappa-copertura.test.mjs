@@ -37,14 +37,28 @@ test("LA REGOLA CHE CONTA: il confronto è ancorato — Edit|Write NON copre Not
   );
 });
 
-test("AR-1019 — «Task» nel matcher NON fa sorvegliato «Agent»: la guardia si sveglia ma non pianta l'ancora, e l'attesa ha una data", async () => {
-  // Riesame del 25/10: dare Agent per coperto da un alias del matcher era un rosso travestito da verde.
-  // Il matcher «Task» sveglia pre-scrittura su Agent (libro mastro 25/10 12:01:20), ma per Agent la
-  // guardia non fa niente finché il lotto del freno dei senior non la ripara (AR-1009).
-  assert.equal(copre("Bash|Monitor|Task|mcp__.*", "Agent"), false);
-  const { IN_ATTESA } = await import("../mappa-copertura.mjs");
-  assert.match(String(IN_ATTESA.Agent?.scade || ""), /^\d{4}-\d{2}-\d{2}$/, "Agent resta in attesa, con la sua data");
-  assert.match(String(IN_ATTESA.Agent?.perche || ""), /ancora/, "e il perche' dice la causa vera: l'ancora non si pianta");
+test("una guardia svegliata su uno strumento che non sa trattare NON conta come copertura (Agent e Workflow fino al 15/11)", async () => {
+  // Fino al 15/11 il filtro svegliava pre-scrittura su Agent e Workflow e lei taceva: la mappa li dava
+  // per guardati. Adesso conta il centralino vero della guardia (`ramoDi`), non solo il filtro.
+  const { POTERI: VERI, IN_ATTESA } = await import("../mappa-copertura.mjs");
+  const { ramoDi } = await import("../pre-scrittura.mjs");
+  const filtro = freni([["Bash|Monitor|Task|Agent|Workflow|mcp__.*", "node cervello/pre-scrittura.mjs --hook"]]);
+
+  // Il caso vero: la guardia di oggi tratta Agent (ancora) e Workflow (preventivo).
+  assert.equal(ramoDi("Agent"), "delega");
+  assert.equal(ramoDi("Workflow"), "squadra");
+  assert.equal(coperturaDi("Agent", filtro, { poteri: VERI, esenzioni: {}, attese: {} }).stato, "solo-avviso");
+  assert.equal(coperturaDi("Workflow", filtro, { poteri: VERI, esenzioni: {}, attese: {} }).stato, "solo-avviso");
+
+  // Controprova: una guardia col centralino che non conosce lo strumento lo lascia scoperto, anche se
+  // il filtro la sveglia. È la bugia che la mappa diceva prima.
+  const vuota = { "pre-scrittura.mjs": { blocca: false, come: "x", ramo: () => null } };
+  const r = coperturaDi("Workflow", filtro, { poteri: vuota, esenzioni: {}, attese: {} });
+  assert.equal(r.stato, "scoperto");
+  assert.equal(r.problema, true);
+
+  assert.equal(IN_ATTESA.Agent, undefined, "Agent non è più un debito: l'attesa scaduta l'8/11 è chiusa");
+  assert.equal(IN_ATTESA.Workflow, undefined, "Workflow non è più un debito: l'attesa scaduta l'11/9 è chiusa");
 });
 
 test("un matcher con jolly copre la famiglia giusta e non le altre", () => {

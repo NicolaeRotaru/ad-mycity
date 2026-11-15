@@ -26,12 +26,18 @@
 //   ③ il quadro: quali file il senior ha toccato. Informativo, ma è l'unica riga che mi dice cosa ha
 //      fatto davvero invece di cosa dice di aver fatto.
 //
-// IL PERIMETRO, e qui c'è un limite che dichiaro invece di nasconderlo. L'evento non dice QUALE
-// senior sta finendo. Con un senior solo in volo il perimetro è esatto (l'ancora la pianta
-// `pre-scrittura.mjs` quando parte). Con più senior in parallelo — cosa che faccio spesso, ed è
-// giusto farla — il perimetro è CONDIVISO: so cosa è successo, non da quale mano. In quel caso il
-// cancello NON blocca: racconta e basta. Punire il senior sbagliato è peggio che non punire nessuno,
-// perché insegna che il verdetto non c'entra con quello che hai fatto.
+// IL PERIMETRO, e qui c'è un limite che dichiaro invece di nasconderlo. L'ancora la pianta
+// `pre-scrittura.mjs` quando parte un senior, e conta QUANTI sono in volo, non QUALI. L'evento di fine
+// porta `agent_id` e `agent_type` (lo dice la documentazione degli hook), ma l'ancora non li registra:
+// qui non so abbinare chi finisce a chi è partito. Con un senior solo in volo il perimetro è esatto.
+// Con più senior in parallelo — cosa che faccio spesso, ed è giusto farla — il perimetro è CONDIVISO:
+// so cosa è successo, non da quale mano. In quel caso il cancello NON blocca: racconta e basta.
+// Punire il senior sbagliato è peggio che non punire nessuno, perché insegna che il verdetto non
+// c'entra con quello che hai fatto. Limite aperto, dedotto e non osservato: il contatore scende a OGNI
+// fine di agente, anche di chi non l'ha alzato (un agente di workflow, un agente interno della
+// piattaforma), e quello si prende il perimetro del senior vero.
+// Lo stesso «racconto e non blocco» vale, più forte, quando l'ancora non c'è affatto: il perimetro
+// diventa tutto il lavoro non committato (`perimetroSenior`, dove sta anche il perché manca).
 //
 // COSA NON FA. Non giudica la qualità del lavoro del senior, non legge la sua risposta, non sa se ha
 // consegnato ciò che gli avevo chiesto. Tre misure meccaniche su ciò che ha lasciato per terra.
@@ -54,7 +60,9 @@ import { ANCORA_SENIOR } from "./pre-scrittura.mjs";
 import { percorsiDaGit } from "./percorsi-git.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
-const REPO = dirname(QUI);
+// L'override serve alle prove: fanno girare il cancello vero, col suo exit, su un repo finto in /tmp
+// invece che su questo, dove l'ancora e il battito sono quelli del lavoro in corso.
+const REPO = process.env.CANCELLO_SENIOR_REPO || dirname(QUI);
 const CODA = "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -75,6 +83,62 @@ export function chiudiSenior(precedente = null) {
 }
 
 /**
+ * Di chi è il perimetro che sto per giudicare: l'ancora decide se posso attribuire, e quindi bloccare.
+ *
+ * Tre casi, e solo il primo è di un senior solo:
+ *   - ancora con un senior in volo → perimetro esatto, il blocco è giusto;
+ *   - ancora con più senior in volo → perimetro condiviso, racconto senza bloccare;
+ *   - NESSUNA ancora → il perimetro è tutto il lavoro non committato e tutte le voci vive del
+ *     sorvegliante, cioè anche quelle lasciate da me o da chi è passato prima. Bloccare qui è la
+ *     stessa ingiustizia del perimetro condiviso, solo più larga — e costa cara: un turno in più di
+ *     un agente rilegge da capo tutto il suo contesto, 50-150 mila token, per una voce che magari
+ *     non è sua.
+ *
+ * PERCHÉ L'ANCORA MANCAVA — cosa è verificato e cosa no (AR-1009, 25/10):
+ *   verificato · la delega arriva all'hook col nome «Agent». Il libro mastro lo registra: il 25/10
+ *     alle 12:01:20 pre-scrittura ha visto «Agent», sulla delega a security.
+ *   verificato · la causa era UNA: `pre-scrittura.mjs` piantava l'ancora solo su «Task». Su quella
+ *     delega la riga del libro mastro chiude «ok» con motivo vuoto, cioè il ramo dei comandi e non
+ *     quello dell'ancora. Adesso il codice riconosce i due nomi (`STRUMENTI_DI_DELEGA`).
+ *   verificato · il filtro dell'hook NON c'entra. In `.claude/settings.json` è «Bash|Monitor|Task|mcp__.*»,
+ *     fermo dal 26/08, ed è lui che alle 12:01:20 ha fatto partire pre-scrittura su «Agent». Claude
+ *     Code 2.1.310 tratta «Task» come altro nome di Agent, come diceva anthropics/claude-code#29677.
+ *     Controprova che il filtro filtra davvero: alle 11:56 è passato lo strumento Skill, e pre-scrittura
+ *     non l'ha visto. La prova che il filtro di oggi porta la delega sta in `test/pre-scrittura.test.mjs`.
+ *   ne segue, dedotto dalla catena · il freno blocca già adesso, perché l'hook esegue il file della
+ *     copia di lavoro; su main bloccherà dall'unione. Da lì è vivo anche il limite del contatore scritto
+ *     in testa al file: dipende dall'unione, non dal filtro. Aggiungere «Agent» al filtro non accende
+ *     niente: è una cintura per il giorno in cui una versione nuova togliesse l'alias.
+ *   non osservato · la catena intera dal vivo (delega → ancora sul disco → blocco). Si vede alla
+ *     prossima delega: la riga di pre-scrittura nel libro mastro deve dire «ancora piantata».
+ *   dedotto · l'alias l'ho visto su un evento solo e su questa versione: non è un contratto scritto.
+ *     Se sparisse, nessuna prova offline se ne accorge; lo dice solo il libro mastro.
+ *   dedotto · gli agenti dei workflow partono dallo strumento `Workflow`, non da `Agent`: non piantano
+ *     l'ancora, filtro o no. Torna col codice e con la documentazione, non l'ho osservato su un
+ *     evento vero.
+ *
+ * `attribuibile: false` non vuol dire tacere: le righe si dicono lo stesso, cambia solo l'exit.
+ */
+export function perimetroSenior(ancora = null) {
+  const { ancora: rimasta, condiviso } = chiudiSenior(ancora);
+  if (!ancora) {
+    return {
+      rimasta,
+      attribuibile: false,
+      nota: "nessuna ancora del senior in questa copia: guardo tutto il lavoro non committato, quindi qui sotto può comparire roba di prima. Non so di chi è, quindi non blocco.",
+    };
+  }
+  if (condiviso) {
+    return {
+      rimasta,
+      attribuibile: false,
+      nota: "più senior in volo insieme: il perimetro qui sotto è condiviso, quindi dico cosa è successo ma non a chi. Non blocco nessuno.",
+    };
+  }
+  return { rimasta, attribuibile: true, nota: null };
+}
+
+/**
  * Gli allarmi scritti in una consegna senza che la coda di Nicola sia stata toccata.
  *
  * @param {Array<{file:string, testo:string}>} consegne  i file di consegna toccati dal senior
@@ -88,7 +152,8 @@ export function allarmiDelSenior(consegne = [], codaToccata = false) {
 /**
  * Il verdetto. Righe da dire + se il senior deve tornare indietro.
  *
- * `condiviso` è la valvola dell'onestà: con più senior in volo non attribuisco, quindi non blocco.
+ * `condiviso` è la valvola dell'onestà: quando il perimetro non è di un senior solo (più senior in
+ * volo, oppure nessuna ancora: vedi `perimetroSenior`) non attribuisco, quindi non blocco.
  * `giaBloccato` è la valvola anti-cappio, la stessa del cancello dello Stop: se il senior sta già
  * ripartendo per colpa mia, bloccarlo di nuovo è un senior che non finisce mai.
  */
@@ -190,14 +255,9 @@ async function main() {
   }
 
   const ancora = leggiJson(ANCORA_SENIOR);
-  const { ancora: rimasta, condiviso } = chiudiSenior(ancora);
+  const { rimasta, attribuibile, nota } = perimetroSenior(ancora);
 
   const toccati = fileDa(ancora?.commit || null);
-  const nota = ancora
-    ? condiviso
-      ? `più senior in volo insieme: il perimetro qui sotto è condiviso, quindi dico cosa è successo ma non a chi. Non blocco nessuno.`
-      : null
-    : "nessuna ancora del senior in questa copia: guardo tutto il lavoro non committato, quindi qui sotto può comparire roba di prima.";
 
   let voci = [];
   const b = leggiJson(BATTITO);
@@ -218,7 +278,7 @@ async function main() {
     voci,
     allarmi: allarmiDelSenior(consegne, codaToccata),
     fileToccati: toccati || [],
-    condiviso,
+    condiviso: !attribuibile,
     giaBloccato,
     nota,
   });
