@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-14 08:58
+aggiornato: 2026-11-15 03:12
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 15/11 02:45 | regista O2 settima | «firmo le 11 migrazioni, le due deroghe e l'unione». Le migrazioni dell'onda 2 vanno sul database vero una alla volta (passate tutte, dalle 02:45 alle 03:06). La richiesta di unione del sito entra nel ramo principale alle 03:10, e da lì parte la pubblicazione. |
 | 15/11 01:08 | regista O2 settima | «perché non hai ancora aperto regista O2 otto (deve essere otto e non ottavo)». Le registe si numerano coi numeri, non con gli ordinali: «regista O2 otto». La settima è a 652 mila token, oltre il limite di 400 mila, e passa la regia. La otto la apre Nicola dall'app, perché una figlia della settima sarebbe all'ultimo livello della catena e non potrebbe aprire sessioni |
 | 15/11 00:32 | regista O2 settima | «ok 243, 244 a, 245 sì, 246 a, 247 sì». I nove rami del giro di correzione entrano nella richiesta di unione del sito, che si carica senza tre correzioni che rompono altro. Il giro allargato si fa solo sulle 6 voci gravi, con un preventivo prima di partire. Sì all'eccezione per il pulsante di emergenza del fattorino. Sul bonifico del lunedì l'ordine fermo si segna come già pagato. Sì al controllo dei 90 file non guardati, con un tetto di 20 $ |
 | 14/11 15:18 | l'AD | Nicola ha rifiutato l'apertura di una regista nuova, l'ottava. L'AD si archivia su richiesta di Nicola: da adesso le fermate della campagna vanno a Nicola direttamente, non all'AD |

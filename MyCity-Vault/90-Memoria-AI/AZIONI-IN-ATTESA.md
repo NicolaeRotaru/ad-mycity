@@ -33,6 +33,8 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ### 🔴 #249 — Firma le migrazioni e l'unione per mettere online il sito con l'onda 2 · ⏳ accodata 2026-11-15 01:47
 
+**Stato:** ✅ FATTO 2026-11-15 03:10. Hai firmato alle 02:45. Le 11 migrazioni sono passate dalle 02:45 alle 03:06, una alla volta, e l'unione è delle 03:10.
+
 **In parole semplici.** Il lavoro dell'onda 2 è pronto nella richiesta di unione del sito. Per metterlo online servono le tue firme su tre cose: le 11 migrazioni del database vero, le due deroghe, l'unione nel ramo principale.
 
 **Cosa cambia per te.** Le migrazioni non toccano nessuna riga dei dati di oggi: le ho contate una per una, senza scrivere niente. Vanno applicate prima dell'unione. Esempio: il salvataggio di un prodotto, nel codice nuovo, usa una funzione che nasce con la migrazione 405.

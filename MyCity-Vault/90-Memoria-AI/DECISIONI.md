@@ -6922,3 +6922,8 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Perché:** il resoconto dell'onda 2 (consegne/riparazioni/2026-11-12-sito-tutto/RESOCONTO-ONDA-2.md): 78 difetti chiusi su 259, nessun grave; il giro allargato intero costerebbe circa 475 $ contro circa 185 $ rimasti nel tetto di 1.650 $.
 - **Se va bene:** la richiesta di unione del sito si aggiorna, una sessione nuova controlla le modifiche nuove e i 90 file, e la regista porta a Nicola il preventivo delle 6 gravi.
 
+## 2026-11-15 02:45 — 🔴 La pubblicazione del sito con l'onda 2 (carta 249)
+- **Chi:** Nicola alla regista O2 settima: «firmo le 11 migrazioni, le due deroghe e l'unione».
+- **Cosa:** le 11 migrazioni dell'onda 2 sul database vero, una alla volta, dalle 02:45 alle 03:06: 400, 403, 404, 405, 412, 421, 422, 424, 425, 429, 450. Le due deroghe sulle correzioni tolte col messaggio standard di git (R13-012, R17-005). L'unione della richiesta di unione del sito nel ramo principale alle 03:10 (mycity#290, commit 67666b3f), da cui parte la pubblicazione.
+- **Perché:** il controllo in sola lettura del 15/11 alle 01:47 (consegne/riparazioni/2026-11-12-sito-tutto/FERMATA-PUBBLICAZIONE-ONDA-2.md): nessuna riga di dati cambiata, nessun permesso aperto, il codice di oggi compatibile con le migrazioni nuove.
+- **Esito:** 11 migrazioni su 11 passate e controllate una per una. Un solo legame resta parziale: i punti fedeltà hanno 2 movimenti legati a ordini che non esistono più, e lì il legame vale solo per le righe nuove, come prevede la 424.
