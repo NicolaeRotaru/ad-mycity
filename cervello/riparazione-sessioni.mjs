@@ -84,6 +84,9 @@ export const TETTO_CUCITURA = 40;
 // Dentro un lotto fino a 40 voci il campione non esiste: ogni minore riparato vuole il giudizio pieno. Il campione
 // ha lasciato fuori 15 minori nell'onda 2, e il giudizio pieno costa circa 0,32 $ a voce (K08 terzo, 14/11).
 export const LOTTO_SENZA_CAMPIONE = 40;
+// I tetti dei subagenti di un riparatore: gli stessi del freno (riparazione/freno-subagenti.mjs, che non si importa
+// qui per non legare i due programmi; una prova controlla che restino uguali). Officina minima del 15/11, pezzo 6.
+export const TETTO_SUBAGENTI = Object.freeze({ "riparatore-minori": 6, "riparatore-gravi": 8 });
 export const SOGLIA_CAMPIONE = 0.9;
 export const QUOTA_CAMPIONE = 0.3;
 export const MINIMO_CAMPIONE = 5;
@@ -1244,6 +1247,9 @@ export function regoleReferto(testo, ctx) {
       if (!PROVE.includes(v.prova_tipo)) rossi.push(`${dove}: prova_tipo «${v.prova_tipo}» non è uno di ${PROVE.join("|")}`);
       if (grave && !(v.prova_tipo === "comando" && v.prova_eseguita === true)) rossi.push(`${dove}: un ${attesa.gravita} si chiude solo con una prova «comando» eseguita (l'asticella)`);
       if (v.rimessa?.esito !== "regge" || v.rimessa?.uscita !== 0 || vuoto(v.rimessa?.comando)) rossi.push(`${dove}: riparato senza la prova rimessa che regge (uscita 0 di cervello/prova-rimessa.mjs, col comando)`);
+      // Un grave riparato si dimostra col programma che toglie la correzione e vede la prova cadere: una rimessa
+      // raccontata a mano («git checkout HEAD^ … → 2 rosse») non la rifà nessuno (officina minima del 15/11).
+      else if (ctx.misura === true && grave && !/prova-rimessa\.mjs/.test(String(v.rimessa.comando))) rossi.push(`${dove}: un ${attesa.gravita} riparato vuole la prova che diventa rossa togliendo la correzione (cervello/prova-rimessa.mjs), non una rimessa scritta a mano`);
       if (v.copre_tutta_la_voce !== true) rossi.push(`${dove}: se non chiude tutta la voce l'esito è «parziale»`);
       if (r.finita === true && vuoto(v.verificato_da)) rossi.push(`${dove}: a referto finito ogni riparazione dice chi l'ha smentita (verificato_da)`);
       if (!vuoto(v.commit)) {
@@ -1272,6 +1278,17 @@ export function regoleReferto(testo, ctx) {
     if (!dichiarati) rossi.push(`il commit ${String(c).slice(0, 12)} porta ${ids.join(", ")}: una voce per commit, oppure «insieme_a» dichiarato su ognuna`);
   }
   rossi.push(...regoleNuoviDifetti(r.nuovi_difetti_visti));
+  // Le tre regole del 15/11 (misura, tetto, rimessa del grave) le applica valida-referto (ctx.misura): `applica`
+  // rilegge anche i referti delle campagne di prima, scritti quando quei campi non esistevano.
+  if (r.finita === true && ctx.misura === true) {
+    // La misura della sessione sta nel referto (regola R-H): senza, il preventivo dell'onda dopo non ha base e il
+    // freno sugli agenti non si controlla dopo. R13 non aveva un costo, quello di R14 era stimato a mano.
+    const tetto = TETTO_SUBAGENTI[ctx.voci.some((v) => GRAVI.has(v.gravita)) ? "riparatore-gravi" : "riparatore-minori"];
+    const sub = r.conto?.subagenti, costo = r.costo_usd ?? r.conto?.costo_usd;
+    if (!Number.isInteger(sub) || sub < 0) rossi.push("a referto finito manca «conto.subagenti», il numero di subagenti aperti (contali tutti, anche quelli fermati)");
+    else if (sub > tetto) rossi.push(`${sub} subagenti, oltre il tetto di ${tetto} della scheda`);
+    if (!(typeof costo === "number" && costo > 0)) rossi.push("a referto finito manca «costo_usd», letto con get_session (senza id) prima della consegna");
+  }
   if (r.finita === true) {
     for (const v of ctx.voci) if (!viste.has(v.id)) rossi.push(`${v.id}: a referto finito ogni voce della scheda deve comparire, anche quelle non fatte`);
     if (r.verifica?.esito !== "verde") rossi.push("a referto finito la verifica (npm run verify, o il cancello della macchina) deve essere verde");
@@ -1311,7 +1328,7 @@ function validaReferto(opz) {
     if (!visti) return chiudi("valida-referto", [], [`il ramo ${opz.ramo} non esiste ancora`], opz);
     ({ commitDelRamo, testaDelRamo, soloRefertoDopo } = visti);
   }
-  const { rossi, attese } = regoleReferto(testo, { nome, voci: dove.sessione.voci, chiaviDelRegistro, commitDelRamo, testaDelRamo, soloRefertoDopo });
+  const { rossi, attese } = regoleReferto(testo, { nome, voci: dove.sessione.voci, chiaviDelRegistro, commitDelRamo, testaDelRamo, soloRefertoDopo, misura: true });
   if (!chiaviDelRegistro) attese.push("il registro non si legge: non ho controllato che le chiavi ci siano");
   if (!opz.ramo) attese.push("senza --ramo non ho controllato i commit nella storia del ramo");
   return chiudi("valida-referto", rossi, attese, opz, { sessione: nome });
