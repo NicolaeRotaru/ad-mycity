@@ -31,6 +31,19 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🔴 #249 — Firma le migrazioni e l'unione per mettere online il sito con l'onda 2 · ⏳ accodata 2026-11-15 01:47
+
+**In parole semplici.** Il lavoro dell'onda 2 è pronto nella richiesta di unione del sito. Per metterlo online servono le tue firme su tre cose: le 11 migrazioni del database vero, le due deroghe, l'unione nel ramo principale.
+
+**Cosa cambia per te.** Le migrazioni non toccano nessuna riga dei dati di oggi: le ho contate una per una, senza scrivere niente. Vanno applicate prima dell'unione. Esempio: il salvataggio di un prodotto, nel codice nuovo, usa una funzione che nasce con la migrazione 405.
+
+**Cosa devi fare tu.** Scrivi alla regista «firmo le 11 migrazioni, le due deroghe e l'unione». La regista applica le migrazioni una alla volta e si ferma al primo errore. Poi unisce, e il sito si pubblica da solo.
+
+**Cosa non ho verificato.** Nessuna migrazione è ancora passata sul database vero: le ha provate solo un database di prova. Il sito online lo controllo dopo l'unione.
+
+Cosa cambia: con le firme, il sito vero riceve le 78 voci chiuse dell'onda 2 nel giro di un'ora.
+Se va bene: la regista controlla online la cassa, il salvataggio di un prodotto e un rimborso, e te lo scrive.
+
 ### 🟡 #248 — Dai il via al giro sulle 6 voci gravi dell'onda 2, per circa 70 $ · ⏳ accodata 2026-11-15 00:58
 
 **In parole semplici.** Hai scelto di riprendere solo le 6 voci gravi (carta 244 «a»). Ecco il preventivo. Le voci si dividono in tre gruppi: due sui soldi, tre sulla vetrina e sul fattorino, una falla di sicurezza riservata.
@@ -50,7 +63,7 @@ Se va bene: la regista divide le voci, apre le quattro sessioni e le sorveglia o
 
 ### 🟡 #247 — Fai finire il controllo dei 90 file di codice che nessuno ha guardato · ⏳ accodata 2026-11-14 17:16
 
-**Stato:** ⏳ in corso dal 2026-11-15 00:32. Hai scritto «247 sì»: il controllo dei 90 file parte dopo la riunione dei rami, insieme al controllo delle modifiche nuove.
+**Stato:** ✅ FATTO 2026-11-15 01:34. Il controllore ha guardato i 90 file e le modifiche nuove: nessuna voce rossa, nessun file rimasto senza controllo, 12,78 $.
 
 **In parole semplici.** Il controllore finale dell'onda 2 si è fermato al suo tetto. Ha guardato 80 file di codice su 170: gli altri 90 non li ha visti nessuno.
 
