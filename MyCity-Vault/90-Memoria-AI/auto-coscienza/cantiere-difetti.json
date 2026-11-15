@@ -26729,7 +26729,7 @@
       "gravita": "minore",
       "impatto_crescita": "basso",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-11-15 10:20",
       "nato_come": "scoperta",
       "nato_da": "collaudo indipendente dell'officina minima (ad-mycity#964, consegne/officina-minima/collaudo-2026-11-15.md), verificando AR-1180",
@@ -26740,9 +26740,12 @@
       "causa_radice": "Il controllo cerca la testa della PR dentro main; con lo squash quella testa non c'è mai.",
       "fix_proposto": "Quando la testa non è in main e manca unita, un'attesa invece del silenzio.",
       "verifica": {
-        "tipo": "umano",
-        "nota": "Si chiude con una prova su una PR unita con squash senza campo unita, che deve dare ⚪ e non verde."
-      }
+        "tipo": "comando",
+        "comando": "node --test --test-name-pattern=\"minore 3 del collaudo\" cervello/test/conti-che-arrivano-in-tempo.test.mjs",
+        "nota": "Rossa senza la correzione in prUniteSenzaRegistro, verde con; mutazione in cervello/mutanti.json collegata ad AR-1183."
+      },
+      "chiuso_il": "2026-11-15 10:40",
+      "chiuso_da": "costruttrice corta dell'officina, ramo claude/officina-correzione-2 (PR verso main): con la testa fuori da main e senza il campo «unita», conti dà un'attesa invece di tacere"
     }
   ],
   "meta": {
