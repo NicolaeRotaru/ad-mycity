@@ -61,3 +61,20 @@ Che il freno legga davvero la riga del ruolo in una sessione vera: le prove lo f
 **Il cancello della cucitura.** Sulle 18 voci di B: 7 o più che reggono, la cucitura si allarga dopo giovedì; meno di 5, si ferma. Lo si conta da `decisioni.json` per chiave.
 
 **A fine pezzo.** Unione, `npm run verify` e l'harness SQL, C03, PR in bozza sul sito, `applica` a vuoto (con AR-1184 se è unita), poi la fermata all'AD coi numeri di `conti` e il costo di ogni figlia. Le migrazioni 490-519 sul database vero solo con la firma di Nicola, una per una.
+
+## Stato al passaggio (16/11 alle 00:30, regista O3 uno → regista O3 due)
+
+La regista O3 uno passa la mano perché la sua storia è a 399 mila token, sopra i 250 mila (regola 4 del 15/11). Spesa della regia uno: 10,63 $ su 25.
+
+**Fatto.**
+- Schede R25-R27 scritte e verdi. Base dell'onda 3 spostata a `76d4c4d` (il freno, vedi il blocco qui sopra). La PR mycity#291 è unita dalle 00:05: main del sito `b6ef4afa`, che contiene `76d4c4d` così com'è. All'unione non arriva due volte.
+- K11 finito (`session_015BmpnYqdgPHMTawQWLA8LL`, ramo `claude/sito-onda-3-k11`, punta `68fb127e`), 17,89 $ con il limite duro di 18 $ dato dall'AD. 8 reggono (R04-021, R07-021, R07-022, R14-008, R14-014, R14-015, R14-017, R14-020), 8 parziali, 0 bocciate. R14-006 e R14-023 provate e non giudicate (b). La regia ha rifatto `guardia-ramo` e `valida-collaudo`: verdi (3 rossi sospesi dall'eccezione firmata `rimessa_a_mano` dell'onda 1).
+- R25, R26 e R27 aperti, piani approvati alle 00:05-00:10, freno attivo in tutti e tre (clone di ad-mycity a `33fbcdb`). Le correzioni ai piani: revisore dopo ogni lotto; voce riparata ma non rivista al tetto = «parziale, non rivista: tetto»; voci bloccate da file altrui scritte subito come serve_file_altrui; R26-004 si ferma se più di 10 delle 34 prove sono comuni; R27-005 e R27-020 con la cura più piccola, niente coda nuova.
+
+**Spesa alle 00:30** (da `get_session`, `usage.cost_usd`): R25 9,36 $ (L1 committato: `f7590d7b R25-001`, guardia verde; revisore V1 in corso) · R26 8,10 $ (L1, il grave, in subagente) · R27 8,70 $ (L1 avviato, 7 voci di soldi) · K11 17,89 $ · regia uno 10,63 $. **Totale 54,7 $ sui 215.**
+
+**Aperto, in ordine.**
+1. **Sorveglianza:** rilancia `MARKETPLACE_REPO=<clone del sito> bash cervello/riparazione/sorveglia.sh --attendi consegne/riparazioni/2026-11-12-sito-tutto 3` in sottofondo. Il segnale «ramo R25» è già in `rossi-noti.txt`. A ogni risveglio leggi `get_session` su di te e sulle tre figlie: i riparatori non sempre vedono il proprio `cost_usd`, quindi se te lo chiedono gliela dai tu. Consegna verso i 25 $, tetto 35 $.
+2. **K12 non si apre** finché l'AD non ha avuto due strade coi numeri, dentro i 215 $ che non si alzano (AD chat 4, 00:06). K11 è costato circa 1,1 $ a voce giudicata a fondo: 66 voci a fondo non stanno nei 30 $. Strade da presentare: (a) giudizio pieno su gravi, voci di B e voci di soldi/dati/permessi, campione esplicito sul resto, con la deroga di Nicola alla regola «niente campione sotto le 40 voci»; (b) i dollari che i riparatori non spendono sotto i 35 $ vanno a K12. Si apre quando il primo riparatore ha `finita: true` con guardia e referto verdi.
+3. **All'unione:** (a) R04-021, R07-021, R07-022: K02 e K10 avevano «parziale» con giudizio pieno, e `applica` fa vincere il peggiore. Va guardato come `applica` sceglie fra due collaudi prima di decidere, e senza scrivere a mano nei registri. (b) Le 5 voci di R14 che reggono sono sul ramo `claude/magical-hamilton-xouwr8-m14` (punta `2048b33`), mai unito: vanno portati dentro solo i loro commit (uno per voce), controllando che non tocchino file di R25-R27. (c) Due difetti nuovi visti da K11, da mettere nel registro: `policy_ok` letto senza controllo di tipo in extract-product:412 ed extract-products:304 (con `"false"` stringa un prodotto vietato passa); il nuovo allarme di R14-012 non si chiude mai.
+4. **Le fermate e i clic per Nicola** vanno alla quinta chat dell'AD, `session_015BmpnZ11jw7Gf6mFdaUGo9`.
