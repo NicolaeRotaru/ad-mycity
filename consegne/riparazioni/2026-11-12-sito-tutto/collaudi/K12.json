@@ -1,11 +1,12 @@
 {
   "collaudatore": "K12",
   "riparatori": [
-    "R26"
+    "R26",
+    "R25"
   ],
-  "aggiornato": "2026-11-16 01:38",
-  "finita": false,
-  "nota": "Onda 3, in catena: R26 giudicato tutto con giudizio pieno (strada «b» dell'AD, 16/11 00:52): 7 voci, due revisori qa per lente su tutte. R25 e R27 arrivano dopo nello stesso file. Prove rimesse lanciate con la copia fissata di cervello/prova-rimessa.mjs al commit aa0be11.",
+  "aggiornato": "2026-11-16 01:45",
+  "finita": true,
+  "nota": "Onda 3. Giudizio pieno su tutte le voci di R26 (7) e di R25 (1), strada «b» dell'AD del 16/11 alle 00:52: due revisori qa per lente su ogni voce, quattro subagenti in tutto (per R25 ripresi i due revisori del grave di R26). R27 lo giudica un altro collaudatore (regia, 16/11 01:41). Le prove rimesse sono lanciate con la copia fissata di cervello/prova-rimessa.mjs al commit aa0be11.",
   "voci": [
     {
       "id": "R26-001",
@@ -111,11 +112,29 @@
         "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R26-021 --base ff3b9922^ --file app/api/stripe/checkout/route.ts --prove tests/unit/riparazione-r26-la-pulizia-dopo-i-rifiuti.test.ts --json"
       },
       "nota": "Soldi, due revisori, uno per lente. Rimessa uscita 0. Prove 28 file e 252 prove sul checkout, tutte verdi. REGGE: nel percorso principale la pulizia (:612) parte dopo i rifiuti che non dipendono dalle scorte. La rilettura delle scorte parte solo se c'è merce liberata. La pulizia non gira mai due volte. Nessun rifiuto nuovo nasce dallo spostamento. IL COSA_RESTA DEL RIPARATORE È GIUSTO MA INCOMPLETO: 1) dichiarato: nel ramo della cassa già aperta pulisci() (:342) gira prima del riuso, e con «apri_nuova» la rotta scende nel percorso principale e respinge ancora dopo la pulizia. I rifiuti sono :414, :418, :421, :448, :470-471, :512 (la fascia, lo scenario di testa della voce, che il cosa_resta non nomina), :526, :548, :599 e :608. Riprodotto: cassa A aperta, tentativo B con un prodotto nascosto → 400 e A morta. 2) NON dichiarato: le scorte insufficienti (:671) arrivano sempre dopo la pulizia. Riprodotto: scorte 1, la cassa A tiene 1 pezzo, il carrello B ne chiede 3 → 409, cassa A chiusa, pezzo rimesso in vendita. È lo stesso danno della voce. 3) l'importo non valido (:703) non dipende dalle scorte e si può anticipare. 4) il codice respinto (:734) oggi non si raggiunge (CODICI_SCONTO_IN_CASSA=false). Stessa classe in un file fuori dalla voce: app/api/orders/cod/route.ts:742 pulisce prima di fascia, veloce, carrello e zona."
+    },
+    {
+      "id": "R25-001",
+      "chiave": "pagamenti-stripe|se il cliente viene rimborsato prima che il suo ordine nasca, l'ordine nasce lo stesso come pagato e il negozio viene pagato",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R25-001 --base 76d4c4d79254284a0330eb865ff029db5261e26e --file lib/stripe/webhook/ordini.ts,lib/stripe/webhook/rimborsi.ts,lib/stripe/webhook/rimborsi-da-fuori.ts --prove tests/unit/riparazione-r25-carta-tornata-prima-dell-ordine.test.ts --json ; timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R25-001 --base 97b6d3b5^ --file lib/stripe/webhook/ordini.ts,lib/stripe/webhook/rimborsi.ts,lib/stripe/webhook/rimborsi-da-fuori.ts --prove tests/unit/riparazione-r25-carta-tornata-prima-dell-ordine.test.ts --json"
+      },
+      "nota": "Grave, soldi: due revisori qa, uno per lente. Rimessa: uscita 0 dalla base (tutti e tre i commit) e uscita 0 da 97b6d3b5^ (solo l'ultima correzione). Ognuno dei tre file rimesso fa cadere la prova sul comportamento (21 casi). LENTE NATA_ROTTA → ROMPE_ALTRO (medio, nato in 97b6d3b5). La regressione del giro prima non c'è più: un rimborso parziale a mano su un carrello pagato a metà non fa più ripetere il webhook all'infinito. Adesso però ferma i bonifici dell'ordine nato e manda l'amministratore a «dividere dal pannello, anche zero» (rimborsi.ts:58, rimborsi-da-fuori.ts:386 e :588). Il pannello pretende che le parti facciano esattamente il rimborso, e che nessuna superi quanto resta sull'ordine (lib/rimborsi/divisione-del-rimborso.ts:74 e :91). Caso provato: A da 20 € nato, B da 30 € mai nato, l'admin rende i 30 € di B. A resta fermo e il pannello rifiuta ogni divisione (0, 20 e 30 €). Il negozio A, che ha consegnato, non viene pagato finché qualcuno non tocca il database a mano o non rimborsa anche A. Con 10 € l'unica divisione accettata mette su A i soldi di B. Alla base A veniva pagato pieno. Il resto regge: 500 solo a tempo (carrello PENDING senza ordini finché scade, lettura caduta, bonifico PROCESSING); ordini con rimborso piccolo che nascono; merce e codice restituiti una volta; flusso normale identico; 36+73 file di prove esistenti verdi (293 e 431). LENTE CHIUDE_TUTTA → PARZIALE. Il pezzo dichiarato regge: con rimborso pieno prima l'ordine non nasce; con parziale prima su due negozi nascono fermi; con contestazione prima nessun ordine; CANCELED è finale. Resta aperto: 1) la finestra di B (ordini.ts:261, :277, :462), nelle due varianti. Quella col rimborso PIENO il riparatore non la descrive: A diventa REFUNDED e B nasce pagato col netto pieno. La finestra è una sola esecuzione, di norma sotto il secondo, al massimo 60 secondi (vercel.json:17), e il giro dei bonifici non ricontrolla la carta (lib/stripe/payout.ts:164-330). 2) NON dichiarato: negozio solo con rimborso parziale arrivato prima. L'ordine nasce pagato col netto pieno e nessun fermo (ordini.ts:462 interviene solo con più negozi), e il rimborso si scrive solo al ritentativo di Stripe, forse dopo il bonifico. 3) la contestazione dopo la rilettura: la modifica proposta per dispute.ts copre solo il caso senza ordini (dispute.ts:89), non quello con A già nato. 4) la richiesta d'informazioni della banca è trattata come contestazione (ordini.ts:277). 5) avvisi doppi (rimborsi-da-fuori.ts:584, rimborsi.ts:58). Non verificato su Stripe vero: che una richiesta d'informazioni segni la carta come disputed, e i tempi dei ritentativi."
     }
   ],
   "campione": {
     "R26": {
       "accettato": false
+    },
+    "R25": {
+      "accettato": true
     }
   }
 }
