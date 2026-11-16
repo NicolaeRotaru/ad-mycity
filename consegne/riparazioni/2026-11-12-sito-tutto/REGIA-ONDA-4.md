@@ -17,3 +17,4 @@ Brief: `consegne/ad/2026-11-16-brief-regia-onda-4.md` (ramo `ccr-546d3724-qilkcw
 - **10:52** `dividi --base d038f105 --file-chiavi B-onda4.txt --sessioni 2 --per-sessione 25`: R28 microcopy 25 voci (1 grave), R29 qa-flussi 25 voci (2 gravi), migrazioni 520-529 e 530-539. Delle 37 di B ne entrano 19: le altre 18 restano fra le 93 della parte 2. `schede`, `copertura-prima`, `segnaposti` verdi.
 - **10:55** Riga dell'onda 3 in `misure.json`.
 - **10:44** **K14 aperto** (`session_015BmpnVoKh8ukxjK38xGnnk`, ramo `claude/sito-onda-4-k14`, partenza `db72b993`), tetto 5 $, sulle 3 voci di R16.
+- **10:50** **Fermata 1 mandata all'AD**: perimetro, preventivo (minimo 10-18 $, atteso circa 126 $ con 14-17 voci chiuse, massimo 170 $ con circa 24). Si aspetta il via di Nicola con la percentuale.
