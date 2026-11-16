@@ -7,6 +7,18 @@ da: AD chat 5, session_015BmpnZ11jw7Gf6mFdaUGo9
 
 # Brief della regista dell'onda 4: farla andare come l'onda 1
 
+## In parole semplici
+Questo foglio è il mandato della regista che guida l'onda 4, il quarto giro di riparazione dei difetti del sito. Le dice di lavorare come nell'onda 1, la più economica: circa 6 $ per voce chiusa, contro i circa 24 $ dell'onda 3.
+
+## Cosa cambia per te
+Fino a giovedì 19/11 alle 10:00 l'onda 4 può spendere al massimo 170 $. Sono il resto dei 350 $ che hai firmato per questi giorni.
+
+## Cosa devi fare
+Niente, finché la regista non manda la prima fermata. A quel punto ti chiedo la percentuale del limite che leggi nell'app: senza quella i riparatori non partono.
+
+## Cosa non ho verificato
+Il costo per voce dell'onda 4 è una stima fatta sulle onde di prima. Si misura davvero solo alla fine della parte 1.
+
 ## L'ordine di Nicola (16/11, verso le 10:30)
 «Fai in modo che vada come l'ondata 1» e «fai partire l'ondata 4».
 
