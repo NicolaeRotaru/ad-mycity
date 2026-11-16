@@ -5,3 +5,5 @@ finita R26
 ferma R27 485b02d
 finita R25
 ramo K12 claude/sito-onda-3-k12
+finita R27
+finita K12

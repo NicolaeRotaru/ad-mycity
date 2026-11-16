@@ -268,7 +268,14 @@
    "consegna_usd": 25,
    "tetto_agenti": 6,
    "ultracode": false,
-   "nota": "prompt con il LEGGIMI per intero e la scheda in sintesi + rimando al clone a 33fbcdb (la scheda intera è 38 KB)"
+   "nota": "prompt con il LEGGIMI per intero e la scheda in sintesi + rimando al clone a 33fbcdb (la scheda intera è 38 KB)",
+   "finita": true,
+   "punta": "f0f97bdb3c870cd22e4b6f4c32b4a109318b7ea6",
+   "testa": "16bfc1bbf3c9eadde25e5968611563374ef9956c",
+   "spesa_usd": 28.64,
+   "chiusa": "2026-11-16 01:47",
+   "esito": "6 riparati (009, 013, 016, 017, 018, 019), 4 parziali (001, 002, 005, 011), 1 gia_riparato_prima (015), 4 serve_file_altrui (003, 004, 006, 008), 7 non_fatto (tetto)",
+   "rossi_noti": "valida-referto rosso solo su verifica (prova comune minori-s10-catalogo-chat, la porta la regia a >2048 e <=3200 come cc0c5e70 all unione); guardia rossa solo per i messaggi di 7606bca8 e 957d753a che citano R21-001 e R24-006 (falso allarme, storia non riscritta)"
   }
  },
  "collaudatori": {
@@ -460,6 +467,20 @@
    "chiusa": "2026-11-16 01:45",
    "esito_R25": "R25-001 rompe_altro (medio, nato in 97b6d3b5): rimborso a mano di B non nato ferma il bonifico di A e blocca ogni divisione",
    "controllo_regia": "sorveglia 01:46: guardia ✅, collaudo ✅"
+  },
+  "K13": {
+   "id": "session_015BmpnYaDV1ugJ5RP8GQ3ur",
+   "ramo": "claude/sito-onda-3-k13",
+   "partenza": "e9de62857e860b68730a5909482933d614ae8906",
+   "riparatori": [
+    "R27"
+   ],
+   "onda": 3,
+   "aperta": "2026-11-16 01:49",
+   "tetto_usd": 18,
+   "tetto_nota": "39 $ in tutto per K12+K13 (AD 01:41) meno 20,90 $ di K12; consegna a 15 $",
+   "mandato": "giudizio pieno senza campione sulle 11 voci di R27; un revisore per lente, doppio solo su 016, 018/019, 009",
+   "finita": false
   }
  },
  "controllori": {
