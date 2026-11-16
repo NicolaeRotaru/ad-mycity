@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-11-12 14:34",
+  "aggiornato": "2026-11-16 01:05",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -26755,7 +26755,7 @@
       "gravita": "minore",
       "impatto_crescita": "basso",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-11-15 11:00",
       "nato_come": "scoperta",
       "origine": "collaudo",
@@ -26766,10 +26766,13 @@
       "causa_radice": "Nessun codice di produzione passa misura:true a decidi (applica e pronte): il ramo con la regola dentro decidi gira solo nei test.",
       "fix_proposto": "Decisione aperta: carta #255 (PR #966). Nicola sceglie fra (a) un campo nel piano, campione_fino_a_40_dall_onda come verifica_testa_dall_onda, passato come misura ad applica e a pronte, e (b) correggere solo la frase della riga 466 della skill riparazione. Qui non si sceglie la cura.",
       "verifica": {
-        "tipo": "umano",
-        "nota": "Si chiude con una prova che dà ad applica un collaudo a campione di un lotto sotto le 40 voci (es. K08 su R16) dall'onda del campo nel piano, e trova le voci resta_aperta."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/collaudi-guardati-insieme.test.mjs",
+        "nota": "Test 10-13 di AR-1184 (campo campione_fino_a_40_dall_onda letto da applica e pronte; valore storto → uscita 2). Rossi con riparazione-sessioni.mjs di prima (4 su 13), verdi con la correzione; 2 mutazioni AR-1184 in cervello/mutanti.json, prese. Collaudo corto indipendente del 16/11 00:42 (session_015BmpnVa1Fw7Z3tTyJdN5ge): regge."
       },
-      "decisione_aperta": "carta #255"
+      "decisione_aperta": "carta #255",
+      "chiuso_il": "2026-11-16 01:05",
+      "chiuso_come": "PR ad-mycity#973 unita da Nicola il 16/11 00:51 (2a59e77); collaudo corto indipendente: regge (559 decisioni uguali a main senza campo, campo a 2 → 197 chiusure con R16-014/015/016 aperte); 13/13 verdi qui dopo l'unione. Buchi minori a parte: AR-1188, AR-1189."
     },
     {
       "id": "AR-1185",
@@ -26912,23 +26915,23 @@
   ],
   "meta": {
     "letto": true,
-    "totale": 1025,
-    "aperti": 207,
+    "totale": 1180,
+    "aperti": 356,
     "in_corso": 1,
     "da_riverificare": 10,
-    "chiusi": 807,
+    "chiusi": 813,
     "altri": 0,
-    "da_fare": 218,
+    "da_fare": 367,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 807,
-      "aperto": 207,
+      "chiuso": 813,
+      "aperto": 356,
       "da-riverificare": 10,
       "in-corso": 1
     },
     "stati_ignoti": [],
-    "senza_owner": 218,
-    "senza_scadenza": 218,
+    "senza_owner": 222,
+    "senza_scadenza": 367,
     "scaduti": 0,
     "derivato_dalla_lista": true,
     "somma_torna": true

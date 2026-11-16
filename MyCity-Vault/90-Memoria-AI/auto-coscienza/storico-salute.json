@@ -4,15 +4,6 @@
     {
       "data": "2026-08-15",
       "voto_salute": 4,
-      "voto_riportato": false,
-      "difetti_aperti": 156,
-      "difetti_chiusi": 1,
-      "tipo": "auto-fix",
-      "nota": "Auto-fix: chiusi AR-225 (verificati nel codice)."
-    },
-    {
-      "data": "2026-08-15",
-      "voto_salute": 4,
       "voto_copertura": "radiografia",
       "voto_parziale": false,
       "voto_misurato": true,
@@ -1368,6 +1359,16 @@
       "chiusi_in_questa_passata": 23,
       "tipo": "auto-fix",
       "nota": "Auto-fix: chiusi AR-791, AR-840, AR-859, AR-867, AR-868, AR-869, AR-870, AR-871, AR-873, AR-875, AR-876, AR-878, AR-885, AR-886, AR-887, AR-891, AR-927, AR-957, AR-958, AR-959, AR-960, AR-966, AR-967 (verificati nel codice)."
+    },
+    {
+      "data": "2026-11-16",
+      "voto_salute": 4,
+      "voto_riportato": false,
+      "difetti_aperti": 367,
+      "difetti_chiusi": 813,
+      "chiusi_in_questa_passata": 1,
+      "tipo": "auto-fix",
+      "nota": "Auto-fix: chiuso AR-1184 — PR ad-mycity#973 unita da Nicola il 16/11 00:51 (2a59e77); collaudo corto indipendente: regge (559 decisioni uguali a main senza campo, campo a 2 → 197 chiusure con R16-014/015/016 aperte); 13/13 verdi qui dopo l'unione. Buchi minori a parte: AR-1188, AR-1189."
     }
   ]
 }
