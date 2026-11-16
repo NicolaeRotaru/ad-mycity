@@ -10294,7 +10294,9 @@
             "lib/zod-i18n.ts",
             "middleware.ts",
             "next.config.js",
-            "vercel.json"
+            "vercel.json",
+            "tests/e2e/12-la-cassa-dal-carrello-al-pagamento.spec.ts",
+            "tests/unit/le-prove-della-cassa-non-passano-senza-aver-guardato.test.ts"
           ],
           "migrazioni": [
             530,
