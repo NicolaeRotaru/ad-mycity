@@ -2,6 +2,9 @@
 --
 -- Nicola, 4/11/2026: «togli tutti i lavori in coda doppi ed impedisci che si creano doppioni».
 --
+-- ✅ APPLICATA sul database della memoria il 2026-11-15 alle 23:54, con la firma di Nicola in chat.
+--    Fino ad allora era rimasta spenta: in 11 giorni erano tornati 66 doppioni (82 in attesa, 16 diversi).
+--
 -- IL DIFETTO, letto dal vivo il 4/11 alle 21:40. In coda c'erano 200 lavori in attesa, ma solo 16
 -- lavori diversi. Il server è fermo dal 25/9, e ogni mattina alle 9 il battito del Pannello rimette
 -- in coda lo stesso giro e gli stessi playbook: 29 giri identici, 29 copie di ognuno dei cinque

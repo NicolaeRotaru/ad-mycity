@@ -46,7 +46,7 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 
 **La parola «quadro» aspetta la tua firma** (4/11 alle 21:10). Con una parola sola ti mostro organi, difetti della macchina casa per casa, sito, ritmo e bloccanti. È nella richiesta di unione #921. Il quadro del 4/11 dice questo: sulla macchina restano 238 difetti aperti, e 10 su 238 sono bloccanti. Sul sito ne restano 996, e 39 su 996 sono seri. Il server è fermo dal 25/9.
 
-**La coda è pulita** (4/11 alle 23:43). Nella scheda «In coda» del Pannello restano 16 lavori, tutti in attesa e tutti diversi. I 184 doppioni e i 294 lavori vecchi di agosto e settembre sono nell'Archivio, con la nota, e si possono rimettere in coda. Il freno nel database non è applicato: i doppioni ricresceranno di 6 al giorno finché il server resta spento.
+**La coda è pulita e il freno contro i doppioni è acceso** (15/11 alle 23:54). Il 4/11 avevo tolto i doppioni a mano, ma il freno era rimasto spento: in 11 giorni erano tornati 66 doppioni, 82 lavori in attesa con 16 diversi. Ora il freno è nel database, e per ogni lavoro resta in attesa una copia sola, la più recente. Nella scheda «In coda» restano 16 lavori, tutti diversi. I doppioni annullati sono nell'Archivio con la nota «[doppione]» e si possono rimettere in coda. Resta spento il server: i 16 lavori aspettano lui.
 
 **Il server è da riaccendere, e tocca a te** (4/11 alle 23:05). È spento dal 25/9 e da qui non ho le mani per entrarci. Prima di riaccenderlo va deciso il tetto di spesa, se no si ferma di nuovo alle 08:38. I passi in ordine sono nella scheda del difetto «il server tace dal 25 settembre».
 

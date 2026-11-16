@@ -84,6 +84,20 @@ export const TETTO_CUCITURA = 40;
 // Dentro un lotto fino a 40 voci il campione non esiste: ogni minore riparato vuole il giudizio pieno. Il campione
 // ha lasciato fuori 15 minori nell'onda 2, e il giudizio pieno costa circa 0,32 $ a voce (K08 terzo, 14/11).
 export const LOTTO_SENZA_CAMPIONE = 40;
+
+/**
+ * Da quale onda la regola dei 40 (sopra) vale anche per `applica` e `pronte`, non solo per `valida-collaudo` (AR-1184,
+ * Nicola, carta #256 risposta 5a, 15/11 23:35). Si legge dal piano, sullo stampo di `verifica_testa_dall_onda`.
+ * Senza il campo: null, e `decidi` resta com'era (la campagna del 12/11 non riapre niente di già chiuso a campione).
+ * Un valore che non è un numero d'onda (un intero da 1 in su) non si tratta come assente: spegnerebbe la regola in
+ * silenzio. Si ferma, e chi lo chiama esce cieco.
+ */
+export function campioneFinoA40DallOnda(piano) {
+  const v = piano?.campione_fino_a_40_dall_onda;
+  if (v === undefined || v === null) return null;
+  if (!Number.isInteger(v) || v < 1) throw new Error(`il piano dice campione_fino_a_40_dall_onda ${JSON.stringify(v)}: serve il numero dell'onda (un intero da 1 in su)`);
+  return v;
+}
 // I tetti dei subagenti di un riparatore: gli stessi del freno (riparazione/freno-subagenti.mjs, che non si importa
 // qui per non legare i due programmi; una prova controlla che restino uguali). Officina minima del 15/11, pezzo 6.
 export const TETTO_SUBAGENTI = Object.freeze({ "riparatore-minori": 6, "riparatore-gravi": 8 });
@@ -1424,7 +1438,8 @@ export function regoleCollaudo(testo, ctx) {
     // La regola «niente campione fino a 40 voci» (15/11) vale solo per i collaudi nuovi, cioè dietro ctx.misura come le
     // regole nuove del referto: valida-collaudo la applica, applica no. Su un collaudo scritto prima, quando il campione
     // era ammesso, riapriva voci già chiuse a campione accettato (collaudo dell'officina minima, 15/11: 7 voci della
-    // campagna del 12/11, R08-010 … R16-016, e applica rosso con 18 problemi).
+    // campagna del 12/11, R08-010 … R16-016, e applica rosso con 18 problemi). In applica la regola non ferma: tiene
+    // aperte le voci, dentro decidi, dall'onda scritta in `campione_fino_a_40_dall_onda` del piano (AR-1184).
     const senzaCampione = ctx.misura === true && info.voci.length <= LOTTO_SENZA_CAMPIONE;
     const minori = [];
     for (const rv of daCollaudare) {
@@ -1586,7 +1601,7 @@ function provaUnione(opz) {
  * La decisione su ogni voce, dai referti e dai collaudi. PURA. La regola del campione si ricalcola qui
  * (scorciatoia #1: misura, non chiedere): la parola «accettato» scritta dal collaudatore non conta.
  */
-export function decidi({ piano, referti, collaudi, hub, misura = false }) {
+export function decidi({ piano, referti, collaudi, hub, misura = false, misuraDallOnda = null }) {
   const decisioni = [];
   const verdetti = new Map();
   // Il verdetto più severo fra quelli SENZA giudizio pieno, voce per voce: se un pieno lo batte, la decisione lo dice
@@ -1612,6 +1627,8 @@ export function decidi({ piano, referti, collaudi, hub, misura = false }) {
     if (!prima || (pieno && !pienoPrima) || (pieno === pienoPrima && peso > pesoPrima)) verdetti.set(v.id, voce);
   }
   for (const o of piano.onde) {
+    // La regola dei 40: sempre con misura (valida-collaudo, le prove), e per applica e pronte dall'onda del piano.
+    const misuraQui = misura === true || (Number.isInteger(misuraDallOnda) && o.onda >= misuraDallOnda);
     for (const [nome, s] of Object.entries(o.sessioni)) {
       const ref = referti[nome];
       const perIdC = new Map([...verdetti].filter(([id]) => id.startsWith(`${nome}-`)));
@@ -1636,7 +1653,7 @@ export function decidi({ piano, referti, collaudi, hub, misura = false }) {
           else if (cv.verdetto !== "regge") d.perche = `collaudo: ${cv.verdetto}`;
           else if (cv.rimessa?.uscita !== 0 && !aMano) d.perche = minore && usc.includes(3) ? "prova rimessa a uscita 3: un minore chiude solo con la deroga firmata «rimessa_a_mano», il giudizio pieno e rimessa.a_mano" : "la prova rimessa del collaudatore non è uscita 0";
           else if (GRAVI.has(sv.gravita) && cv.giudizio !== "pieno") d.perche = "un grave senza giudizio pieno";
-          else if (misura === true && minore && cv.giudizio !== "pieno" && s.voci.length <= LOTTO_SENZA_CAMPIONE) d.perche = `minore senza giudizio pieno: in un lotto di ${s.voci.length} voci il campione non esiste`;
+          else if (misuraQui && minore && cv.giudizio !== "pieno" && s.voci.length <= LOTTO_SENZA_CAMPIONE) d.perche = `minore senza giudizio pieno: in un lotto di ${s.voci.length} voci il campione non esiste`;
           else if (minore && cv.giudizio !== "pieno" && !camp.accettato) d.perche = `minore fuori campione, e il campione di ${nome} non è accettato`;
           else {
             d.decisione = "si_chiude";
@@ -1728,8 +1745,8 @@ export const rosseFuoriCampagna = (decisioni, controlli = []) => {
 };
 
 function applica(opz) {
-  let per, piano;
-  try { per = leggiPerimetro(opz); piano = leggiPiano(opz); } catch (e) { return cieco("applica", e.message, opz); }
+  let per, piano, dallOndaCampione;
+  try { per = leggiPerimetro(opz); piano = leggiPiano(opz); dallOndaCampione = campioneFinoA40DallOnda(piano); } catch (e) { return cieco("applica", e.message, opz); }
   const cartella = serveCartella(opz);
   // Il registro si scrive solo dove vive (il vault) o in una cartella temporanea di prova: un --registro
   // sbagliato non riscrive un file qualunque (revisione «rischio-sicurezza» del 7/11).
@@ -1816,7 +1833,9 @@ function applica(opz) {
   // I sospesi viaggiano nel JSON anche quando applica si ferma: a schermo se ne stampano 40 (collaudo del 13/11).
   const conEccezioni = (extra = {}) => (eccezioni.length ? { ...extra, eccezioni_firmate: eccezioni } : extra);
   if (ferma.length) return chiudi("applica", ferma, [], opz, conEccezioni());
-  const decisioni = conIControlli(decidi({ piano, referti, collaudi, hub }), controlli);
+  // La regola dei 40 dall'onda del piano (AR-1184): prima applica chiamava decidi senza, e chiudeva R16-014, -015 e
+  // -016 col campione di K08 su un lotto di 21 voci, mentre valida-collaudo dava 6 rossi.
+  const decisioni = conIControlli(decidi({ piano, referti, collaudi, hub, misuraDallOnda: dallOndaCampione }), controlli);
   const fuoriCampagna = rosseFuoriCampagna(decisioni, controlli);
   if (fuoriCampagna.length) console.log(`⚠️  ${fuoriCampagna.length} voci rosse dei controllori non sono di questa campagna (restano come sono nel registro, vanno dette a Nicola): ${fuoriCampagna.slice(0, 5).join(" ; ")}`);
   const quando = opz.quando ?? timbroOra();
@@ -2123,8 +2142,8 @@ export function elenchiPronte({ piano, referti, collaudi, decisioni }) {
 }
 
 function pronte(opz) {
-  let per, piano;
-  try { per = leggiPerimetro(opz); piano = leggiPiano(opz); } catch (e) { return cieco("pronte", e.message, opz); }
+  let per, piano, dallOndaCampione;
+  try { per = leggiPerimetro(opz); piano = leggiPiano(opz); dallOndaCampione = campioneFinoA40DallOnda(piano); } catch (e) { return cieco("pronte", e.message, opz); }
   const dir = serveCartella(opz);
   const sess = leggiSessioni(opz) ?? {};
   const rel = posix.normalize(dir.slice(opz.radice.length + 1).split("\\").join("/"));
@@ -2146,7 +2165,7 @@ function pronte(opz) {
     const c = fondiVoci(colLoc[n], dalRamo(opz.radice, sess.collaudatori?.[n]?.ramo, `${rel}/collaudi/${n}.json`));
     if (c) collaudi.push(c);
   }
-  const decisioni = decidi({ piano, referti, collaudi, hub: fileHub(per.lavorabili ?? []) });
+  const decisioni = decidi({ piano, referti, collaudi, hub: fileHub(per.lavorabili ?? []), misuraDallOnda: dallOndaCampione });
   const { elenchi, precedenti, righeB } = elenchiPronte({ piano, referti, collaudi, decisioni });
   const fuoriDir = join(dir, "pronte");
   mkdirSync(fuoriDir, { recursive: true });
