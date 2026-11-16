@@ -58,7 +58,8 @@ Le spese sono quelle dette dalle sessioni. Il freno l'ho provato a mano, non su 
 1. La fermata della regista: K12, poi i numeri veri a fine pezzo (`conti`, costo di ogni figlia, cancello della cucitura sulle 18 voci B: 7 o più si allarga, sotto 5 si ferma).
 2. FATTO 16/11 01:00: #973 collaudata (regge), unita da Nicola alle 00:51 (`2a59e77`), AR-1184 chiusa nel cantiere. Resta alla regista: scrivere il campo per l'onda 3 in `piano.json` e vedere le chiusure cambiare.
 3. Una scheda nel cantiere (`node cervello/prossimo-ar.mjs`): il freno non vede le sessioni nate con «/effort ultracode», perché legge il ruolo dal primo messaggio. Con ultracode spento oggi non scatta. SCRITTA il 16/11 00:45 come AR-1190 (grave, verifica umana dichiarata).
-4. Dopo giovedì 10:00: il resto dell'onda 3 (126 rimandate, lista C 41, gravi di B 4) col preventivo dai costi misurati qui. Prima chiedere a Nicola una seconda lettura della percentuale.
+4. Nicola, 16/11 09:50: «su 900 ne hai risolti meno di 200, come mai? come risolvi tutti entro il limite che parte giovedì?». Misure: registro sito 779 aperti (696 minori, 77 gravi, 6 bloccanti); campagna 12/11: 662 lavorabili, 204 chiuse. $ a voce chiusa: onda 1 6,34 · onda 2 27 · onda 3 ~24. Proposta data: setaccio «ancora vero?», divisione per file, ricetta dell'onda 1 (senza ultracode, collaudo leggero, piccolo modello sui minori), gravi a parte, prova di giovedì mattina su 50 minori + 5 gravi (~150 $) prima del resto. Serve la percentuale letta in app per sapere quanto vale un punto (30 $ o 200 $).
+5. Dopo giovedì 10:00: il resto dell'onda 3 (126 rimandate, lista C 41, gravi di B 4) col preventivo dai costi misurati qui. Prima chiedere a Nicola una seconda lettura della percentuale.
 
 ### Regole per chi prende il posto
 - Il freno frena solo se la copia di ad-mycity è accanto al deposito prima del primo Agent, e se la riga `ruolo-freno:` è la prima del primo messaggio.
