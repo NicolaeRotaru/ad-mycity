@@ -138,3 +138,29 @@ La regista O3 due passa la mano perché è vicina ai 250 mila token (regola 4). 
   - Spesa di K12: 20,90 $ per 8 voci (circa 2,6 $ a voce). **Tetto K13 ≈ 18 $** (39 meno K12).
 - **01:47** **R27 consegna** (punta `f0f97bdb`, testa `16bfc1bb`), spesa **28,64 $** (limite 30). 6 riparati (009, 013, 016, 017, 018, 019), 4 parziali (001, 002, 005, 011), 1 già riparato prima (015), 4 serve_file_altrui (003, 004, 006, 008), 7 non_fatto. Riparazioni di soldi: il revisore della correzione dà verdi i tre casi, col `refundOrder` che rifiuta 0; nessun revert. Rossi già noti: valida-referto solo sulla verifica (la prova comune di 001) e guardia solo sui due messaggi. 5 difetti nuovi minori nel referto. Il più utile: negli scaduti, un ordine con la carta pagato tutto a credito e senza carrello rifatto va ancora a `refundOrder(0)`; succede già sulla base e oggi non scatta.
 - **01:49** **K13 aperto** (`session_015BmpnYaDV1ugJ5RP8GQ3ur`, ramo `claude/sito-onda-3-k13`, da `e9de628`) su R27: 11 voci, giudizio pieno, tetto 18 $, consegna a 15 $.
+
+## Stato al passaggio (16/11 alle 01:55, regista O3 tre → regista O3 quattro)
+
+La regista O3 tre passa la mano perché la sua storia è a 281 mila token (regola 4). Spesa della regia tre: 4,57 $ alle 01:52, poco di più a turno chiuso: leggila con `get_session` su `session_015BmpnYkGxyJiyNSKtpHjGD`. **Tetto della regia quattro: 10,69 $ meno la spesa della regia tre** (circa 5,5 $). Resta leggera: i messaggi delle figlie e le notifiche fanno crescere la storia di circa 100 mila token l'ora.
+
+**Spesa del pezzo all'01:55** (da `get_session`): R25 22,92 · R26 21,39 · R27 28,64 · K11 19,00 · K12 20,90 · K13 in corso (tetto 18) · regia uno 10,63 · due 3,31 · tre circa 5. **Circa 132 $ più K13, sui 215.**
+
+**Figlie.** Viva: **K13** (`session_015BmpnYaDV1ugJ5RP8GQ3ur`), che collauda le 11 voci di R27. Tetto 18 $, consegna a 15 $, un revisore per lente, doppio solo su 016, 018/019 e 009. Finite: R25, R26, R27, K11, K12. R25 resta in attesa sulla sua domanda per Nicola: non svegliarlo.
+
+**Aperto, in ordine.**
+1. **Sorveglianza:** rilancia `MARKETPLACE_REPO=<clone del sito> bash cervello/riparazione/sorveglia.sh --attendi consegne/riparazioni/2026-11-12-sito-tutto 3; echo EXIT=$?` in sottofondo. Senza `| tail`, che nasconde il codice di uscita. I segnali gestiti sono in `rossi-noti.txt`. Quando K13 consegna: un giro di `sorveglia.sh` senza `--attendi`, guardia di K13 e `valida-collaudo` letti dal diario.
+2. **Blocco per l'unione: la guardia di R27 è rossa per un falso allarme**, che nessuna eccezione firmata può sospendere. I messaggi di `7606bca8` (R27-001) e `957d753a` (R27-013) citano anche R21-001 e R24-006, i codici dell'onda 2 delle stesse voci. `riparazione-sessioni.mjs:1173` cerca `[A-Z]\d{2}-\d{3}` in tutto il messaggio, senza `ctx.deroga`. Il manuale (F3 punto 1) dice che un ramo con la guardia rossa non si unisce, e `applica --git` rifà la guardia. Strade per Nicola:
+   - **(a), consigliata:** una modifica piccola alla macchina (🟡, la firma Nicola). Il controllo smette di contare i codici di sessioni che non sono dell'onda in corso, oppure diventa derogabile per commit (`REGOLE_PER_COMMIT`). Poi una deroga firmata sui due commit, se serve;
+   - **(b):** R27 riscrive i due messaggi sul suo ramo con un push forzato. Il classificatore dei permessi ha bloccato la regia quando l'ha chiesto. Cambierebbero gli sha che K13 sta giudicando, quindi costa di più.
+3. **L'unione, intanto, senza R27:** porta la #973 nel ramo della regia (`git fetch origin main` e merge: main `2a59e77`). Integrazione del sito `claude/sito-onda-3` da `76d4c4d`, che main `b6ef4afa` contiene. Dentro: **R26** (punta `8cbf7c73`) e i 5 commit di R14 che reggono per K11 (R14-008, 014, 015, 017, 020, ramo `claude/magical-hamilton-xouwr8-m14` @ `2048b33`, un commit per voce, controllando che non tocchino file di R25-R27). **R25 NON entra** (R25-001 rompe altro, K12). R27 entra solo dopo la scelta di Nicola, e con lui il fix della prova comune `tests/unit/minori-s10-catalogo-chat.test.ts` (tetto dei token > 2048 e <= 3200, come `cc0c5e70`). Poi `npm run verify`, l'harness SQL, C03 (tetto 20 $), PR in bozza, `applica` a vuoto.
+4. **Il campo dei 40 voci** si scrive al livello alto di `piano.json` (non dentro un'onda) prima di `applica`. Poi si controlla che le chiusure cambino rispetto a senza campo. **L'AD vuole le due cifre.**
+5. **Nel registro all'unione:** i difetti nuovi di K12 (`CashConfirmDialog.tsx:319`, i quattro buchi di R26-001, le foto dei resi dal 24/5 al 17/8, R26-021 a `:671`, `page.tsx:141`), i 2 di K11, i 2 di R25 e i 5 di R27 (nei loro referti).
+6. **Cancello della cucitura** (18 voci di B): R25 0 reggono; R26 003 regge (K12), 002 regge (K12), 011 serve_file_altrui, 004 e 006 serve_file_altrui; R27 da K13 (013 riparata, 001 e 011 parziali, 015 già riparata prima). Soglie: 7 o più reggono → si allarga dopo giovedì; meno di 5 → si ferma.
+7. **Fermata per Nicola, nella quinta chat dell'AD** (`session_015BmpnZ11jw7Gf6mFdaUGo9`):
+   - ⛔ **la migrazione 501 NON si applica**: va corretta prima;
+   - la 500 da firmare a parte, e le foto dei resi già caricate;
+   - R25-001 come decisione (regola 8), con la sua domanda: controllo nel database o solo avviso;
+   - il blocco di R27 (punto 2);
+   - la regola nuova di `decidi` per R04-021, R07-021, R07-022;
+   - i conti: K11 a 19 $ contro 18; K12 a circa 2,6 $ a voce; perché R25 ha reso 0 voci chiuse con 22,92 $ (il grave con tre giri si è mangiato tutto);
+   - il campo dei 40 voci con le due cifre.

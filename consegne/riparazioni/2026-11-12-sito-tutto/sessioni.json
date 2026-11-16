@@ -1072,6 +1072,9 @@
   "partenza": "aa0be11a93cbee738224f41052b8f7226e3c75ee",
   "aperta": "2026-11-16 01:05",
   "tetto_usd": 10.69,
-  "tetto_nota": "14 $ meno la spesa della regia due (3,31 $ alle 01:08)"
+  "tetto_nota": "14 $ meno la spesa della regia due (3,31 $ alle 01:08)",
+  "spesa_usd": 4.57,
+  "spesa_nota": "letta alle 01:52, turno aperto",
+  "passaggio": "2026-11-16 01:55, storia a 281 mila token"
  }
 }
