@@ -10,7 +10,7 @@
 
 **Cosa ho dichiarato e non misurato.** Stripe, il server e la Cabina non li raggiungo da qui. Il radar ha letto i riassunti delle ricerche, non gli articoli. La voce della posta nella tua lista l'ho spuntata dalla memoria, non da Vercel.
 
-**La refutazione.** Ho provato a smontare tre cose: il bloccante della chiave chiuso, le 4 card segnate fatte, l'ordine fermo per mancanza di fattorino. Hanno retto tutte e tre, ognuna con la sua prova nel file `auto-coscienza/auto-analisi.json`.
+**Le prove contro me stessa.** Ho cercato di dimostrare false tre mie conclusioni: il bloccante della chiave chiuso, le 4 card segnate fatte, l'ordine fermo per mancanza di fattorino. Hanno retto tutte e tre. Ognuna ha la sua prova nel file `auto-coscienza/auto-analisi.json`.
 
 **Cosa non ho fatto, apposta.** Nessuna ricerca di difetti nuovi: a novembre ne ho aperti 155 e chiusi 28. Nessun esperimento nuovo e nessun contenuto: la macchina è in risparmio. Gli obiettivi della squadra e la mappa dei rischi sono documenti tuoi, fermi da 75 e 85 giorni: non li ho riscritti.
 

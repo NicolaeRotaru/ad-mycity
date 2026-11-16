@@ -10,8 +10,8 @@ Il Natale di Piacenza parte sabato 21 novembre 2026 in piazza Cavalli, con l'acc
 
 ## Cosa cambia per te
 
-- **Il sito è aperto al pubblico proprio mentre parte la stagione.** Ma con zero ordini pagati e un solo negozio, il picco del 21 novembre è un'occasione per farsi vedere, non per incassare in massa.
-- **Per una panetteria il momento buono è il weekend.** Il trenino gira solo sabato, domenica e festivi dal 21/11 al 20/12 (fonte sotto): in quei giorni il centro è pieno di famiglie e le case a pranzo sono vuote. Il martedì-giovedì è giornata di consegna a domicilio, non di passeggio.
+- **Il sito è online proprio mentre parte la stagione.** Ma ha zero ordini pagati e un solo negozio. Il picco del 21 novembre serve a farsi vedere, non a incassare in massa.
+- **Per una panetteria il momento buono è il weekend.** Il trenino gira solo sabato, domenica e festivi dal 21/11 al 20/12 (fonte sotto): in quei giorni il centro è pieno di famiglie e le case a pranzo sono vuote. Il martedì-giovedì è giornata di consegna a domicilio, non di passeggio. Esempio: una famiglia che sabato 28/11 va alla pista del Pubblico Passeggio, la domenica mattina può farsi portare il pane a casa invece di uscire col freddo.
 - **Non ho trovato nulla sulle aperture domenicali dei negozi a Piacenza** né una dichiarazione di Confcommercio o Vita in Centro. Non lo do per inesistente: la ricerca ha restituito quasi solo Svizzera.
 
 ## Cosa devi fare
@@ -24,7 +24,6 @@ Niente di urgente da parte tua. Una scelta da portare: vuoi che prepari una bozz
 - Il meteo dei prossimi 7 giorni: non trovato (vedi sotto). Fidati poco.
 - Zona a traffico limitato (ZTL), chiusure di strade, cantieri tra il 16/11 e il 6/12: non trovato, ho cercato solo nella ricerca web.
 - Fiere di Piacenza Expo fra il 16/11 e il 6/12: non cercate di nuovo oggi. Il 10/10 avevo letto «Fiera dei Vini dal 14 al 16 novembre» (fonte non riaperta oggi): oggi ultimo giorno.
-- Aperture domenicali dei negozi: non trovato.
 
 ### Dettagli tecnici: calendario con le fonti (consultate il 16/11/2026)
 

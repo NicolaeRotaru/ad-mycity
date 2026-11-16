@@ -44,7 +44,7 @@ Scegli una strada. (a) È una prova: annullala dal pannello dell'amministratore.
 Di quanto fidarsi: l'ordine e i suoi orari li ho letti dal database del sito stanotte alle 01:28. Chi c'è dietro l'account non lo so. Non ho toccato niente.
 
 Cosa cambia: l'unico ordine aperto del sito si chiude, oppure diventa la prima consegna vera.
-Se va bene: con la strada (c) è il primo ordine consegnato, e il passo dopo è il primo pagamento con carta sul conto Stripe del fornaio (carta #182).
+Se va bene: con la strada (c) è il primo ordine consegnato. Il passo dopo è il primo pagamento con la carta sul conto Stripe del fornaio, carta #182.
 
 ### 🟡 #253 — Firma l'eccezione per il pulsante di emergenza del fattorino · ⏳ accodata 2026-11-14 17:16
 

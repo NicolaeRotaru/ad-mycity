@@ -12,9 +12,9 @@ Le uniche cose nuove sono nazionali e riguardano i fattorini. Non le ho potute l
 
 ## Cosa cambia per te
 
-- **Il punto debole di Glovo e Deliveroo resta usabile ma con cautela.** Febbraio 2026: entrambe sotto amministrazione giudiziaria per sfruttamento dei fattorini ([L'Espresso, 25/2/2026](https://lespresso.it/c/attualita/2026/2/25/deliveroo-caporalato-controllo-giudiziario-glovo-sfruttamento-riders/60209)). Maggio 2026: ispezioni della Guardia di Finanza ([Open, 12/5/2026](https://www.open.online/2026/05/12/rider-food-delivery-inchieste-glovo-deliveroo-diritti/)). Per un panettiere di Piacenza è un argomento debole: non ha fattorini suoi sfruttati, ma non è il loro cliente tipo.
+- **Il punto debole di Glovo e Deliveroo resta usabile ma con cautela.** A febbraio 2026 tutte e due sono finite sotto amministrazione giudiziaria per lo sfruttamento dei fattorini. Fonte: [L'Espresso del 25/2/2026](https://lespresso.it/c/attualita/2026/2/25/deliveroo-caporalato-controllo-giudiziario-glovo-sfruttamento-riders/60209). A maggio 2026 sono arrivate le ispezioni della Guardia di Finanza. Fonte: [Open del 12/5/2026](https://www.open.online/2026/05/12/rider-food-delivery-inchieste-glovo-deliveroo-diritti/). Per un panettiere di Piacenza è un argomento debole: non ha fattorini suoi sfruttati, ma non è il loro cliente tipo.
 - **Just Eat è l'eccezione.** Ha assunto direttamente circa 2.500 fattorini in Italia, accordo valido fino a fine 2027 (da ricerca web, fonte singola, da confermare). Non attaccarlo su questo punto.
-- **Cortilia su Amazon copre Piacenza** (già noto da maggio 2026). Consegna il giorno dopo se si ordina entro le 12:30; gratis sopra 109 €; 8,99 € per ordini tra 49 e 88,99 € ([smartworld.it](https://www.smartworld.it/news/cortilia-amazon-amplia.html), articolo senza data chiara). Per un panettiere: loro non fanno pane caldo di quartiere, noi sì. Il nostro vantaggio è l'ora, non il prezzo.
+- **Cortilia su Amazon copre Piacenza** (già noto da maggio 2026). Consegna il giorno dopo se si ordina entro le 12:30. La consegna è gratis sopra 109 €. Costa 8,99 € per gli ordini fra 49 e 88,99 €. Fonte: [smartworld.it](https://www.smartworld.it/news/cortilia-amazon-amplia.html), un articolo senza data chiara. Per un panettiere: loro non fanno pane caldo di quartiere, noi sì. Il nostro vantaggio è l'ora, non il prezzo. Esempio: chi ordina da Cortilia lunedì alle 15 riceve martedì, chi ordina da Pane Quotidiano alle 15 può avere il pane nella fascia delle 16:30-18:00 dello stesso giorno.
 
 ## Cosa devi fare
 
@@ -24,8 +24,8 @@ Niente. Nessuna mossa dei concorrenti richiede una risposta nelle prossime 2 set
 
 - Qualunque pagina di Piacenza dei concorrenti (Glovo, Conad, Esselunga, Cortilia): non aprono da qui.
 - Se Glovo o Deliveroo hanno aggiunto la panetteria come categoria a Piacenza: non trovato.
-- Stato attuale di CompraPiacenza.it: i documenti trovati sono del progetto novembre 2020 - marzo 2021 ([Camera di Commercio, relazione](https://trasparenza.pc.camcom.it/trasparenza/Art-26-27-Dlgs33-2013/internazionalizzazione-e-studi/relazione%20progetto%20compra%20piacenza_pdf.pdf)). Non trovato altro.
-- Spesa online di Coop e Conad a Piacenza: la ricerca ha dato solo guide nazionali. Nessun costo locale verificato. Una ricerca Altroconsumo 2026 premia Coop ed Esselunga per l'e-commerce alimentare ([businessonline.it](https://www.businessonline.it/news/supermercati-discount-e-insegne-locali-le-migliori-secondo-nuova-ricerca-altroconsumo-e-la-spesa-online-non-sfonda_n81409.html)): non è dato di Piacenza.
+- Stato attuale di CompraPiacenza.it: i documenti trovati sono del progetto che va da novembre 2020 a marzo 2021. Fonte: [la relazione della Camera di Commercio](https://trasparenza.pc.camcom.it/trasparenza/Art-26-27-Dlgs33-2013/internazionalizzazione-e-studi/relazione%20progetto%20compra%20piacenza_pdf.pdf). Non ho trovato altro.
+- Spesa online di Coop e Conad a Piacenza: la ricerca ha dato solo guide nazionali. Nessun costo locale verificato. Una ricerca di Altroconsumo del 2026 premia Coop ed Esselunga per la spesa online. Fonte: [businessonline.it](https://www.businessonline.it/news/supermercati-discount-e-insegne-locali-le-migliori-secondo-nuova-ricerca-altroconsumo-e-la-spesa-online-non-sfonda_n81409.html). Non è un dato di Piacenza.
 - Quote di mercato dei delivery: due fonti discordano (Just Eat sotto il 20% oppure 31,7%). Non usarle.
 
 ## Punto debole sfruttabile (ipotesi, confidenza 50%)
