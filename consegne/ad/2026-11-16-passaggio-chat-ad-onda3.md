@@ -77,7 +77,7 @@ Le spese sono quelle dette dalle sessioni. Il freno l'ho provato a mano, non su 
 - #968 unita da Nicola alle 09:25 (`13fe89c`), #973 unita alle 00:51.
 - Il ramo `ccr-546d3724-qilkcw` riparte da main. Ha il brief dell'onda 4 e questo blocco: aprici una PR quando hai qualcosa di tuo da aggiungere, oppure subito.
 - Brief della regia dell'onda 4: `consegne/ad/2026-11-16-brief-regia-onda-4.md` (ricetta dell'onda 1, tetto di 170 $ fino a giovedì 10:00, elenco A subito, riparatori solo dopo la percentuale).
-- La regista O4 l'ha aperta la chat 5 e scrive a te.
+- La regista O4 `session_015BmpnVW3sawgGZzKKZHfbp` (ramo `claude/sito-onda-4`, parte da `claude/sito-onda-3` su ad-mycity) l'ha aperta la chat 5 e scrive a te.
 
 **Aperto per Nicola:**
 1. Le due lettere della carta 258 (`AZIONI-IN-ATTESA.md`). La chat 5 consiglia «1a, 2a»: guardia derogabile più giudizio più recente (+5 chiusure, circa 25 $), e avviso subito più controllo nel database dopo giovedì per R25-001.
