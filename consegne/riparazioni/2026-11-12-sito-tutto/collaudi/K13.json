@@ -1,0 +1,178 @@
+{
+  "collaudatore": "K13",
+  "riparatori": [
+    "R27"
+  ],
+  "aggiornato": "2026-11-16 07:05",
+  "finita": true,
+  "nota": "Collaudo di R27 (punta f0f97bdb, testa 16bfc1bb, base 76d4c4d7): giudizio pieno senza campione sulle 11 voci, 4 revisori qa in tutto, due per lente solo su 016, 018/019 e 009. Prove rimesse lanciate dal collaudatore nella sua copia ../wt-K13, allo SHA di ogni voce. I tre casi di soldi rifatti con un refundOrder finto che rifiuta 0 con la RimborsoNonRitentabile vera, e in parte col refundOrder vero (Stripe e database finti). Spesa sopra il tetto: 23,15 $ da get_session a giudizi finiti, contro 18 $.",
+  "voci": [
+    {
+      "id": "R27-001",
+      "chiave": "ai-endpoints|con un fornitore lento la risposta lunga del copilot non arriva mai: dopo due minuti il negozio legge solo «riprova»",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K13 --base 7606bca81e3faaf0fcb0854d0ad9595d5b0ce456^ --file lib/ai/run.ts,lib/ai/regole-copilot.ts,app/api/ai/copilot/route.ts --prove tests/unit/riparazione-r27-copilot-lento.test.ts --json"
+      },
+      "nota": "Un revisore qa, due lenti. Rimessa uscita 0. Prova R27 e la comune minori-s10 portata a >2048 e <=3200 solo nella copia: 349 prove ai/copilot verdi. Regge la parte fatta per il caso della voce: tetto 3000 = 75 s a 40 token/s dentro il tentativo unico da 80 s, errore chiaro (502) e niente piano monco; gli altri chiamanti di runMessage restano a 60 s e 1 ritentativo. Non regge il conto scritto in lib/ai/regole-copilot.ts:19-25 («filtro peggiore 33 s»): quei 16,3 s per tentativo sono di R21-001, che non è nella base; il filtro vero (lib/ai/moderation.ts via client.ts:208) aspetta 60 s e ritenta, quindi filtro bloccato + 80 s supera i 120 s e la 504 resta possibile. La prova R27 lo fissa a mano (filtroPeggiore 33_100, filtro finto). Non dichiarato nel «cosa resta»: col tetto 3000 i piani oltre circa 55-80 modifiche escono sempre «interrotta» anche con un fornitore veloce; persi anche i ritentativi su 429/529."
+    },
+    {
+      "id": "R27-002",
+      "chiave": "api-backend|il cron degli ordini scaduti ricopia la logica di annullo invece di usare annullaerimborsa",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 3,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K13 --base 9c7b6b29ba27e62e85524fd0a92105453257d716^ --file app/api/cron/expire-stale-orders/route.ts,lib/ordini/annulla.ts --prove tests/unit/riparazione-r27-giro-con-le-regole-dell-annullo.test.ts --json",
+        "nota": "uscita 3 (rossa per la struttura: annulla.ts alla base perde le due funzioni esportate). Rimesso il difetto com è scritto, con la sola rotta: timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K13 --base 9c7b6b29ba27e62e85524fd0a92105453257d716^ --file app/api/cron/expire-stale-orders/route.ts --prove tests/unit/riparazione-r27-giro-con-le-regole-dell-annullo.test.ts --json → uscita 0."
+      },
+      "nota": "Un revisore qa, due lenti. Merce e credito passano dalle stesse funzioni nei due punti (route.ts:404 e 412, annulla.ts:157 e 387). Restano copie nel giro: turno (route.ts:248-263 contro annulla.ts:365-380), campanelle (route.ts:444-463), avviso admin (route.ts:423-434), decisione del rimborso (route.ts:312-313), email e credito (route.ts:481, 501): le ultime tre il «cosa resta» non le nomina. I tre tentativi del credito sono sicuri solo con l indice della migrazione 143 (nel deposito: 143_wallet_credit_idempotente.sql); un credito che cade sempre costa 600 ms a ordine. 100 file e 619 prove vicine verdi."
+    },
+    {
+      "id": "R27-005",
+      "chiave": "architettura|email di annullo spedita dentro la richiesta, senza coda: fino a circa 20 s di attesa, e se fallisce resta solo nel registro",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K13 --base 2eac61a8d0f64c412bff7dc7d399d79339089870^ --file lib/ordini/annulla.ts --prove tests/unit/riparazione-r27-email-dopo-la-risposta.test.ts --json"
+      },
+      "nota": "Un revisore qa, due lenti. Rimessa uscita 0. Rompe: after() di Next 15.5.29 accoda in una p-queue senza tetto di parallelo (next/dist/server/after/after-context.js: new PQueue() di default), quindi le email del giro partono tutte insieme dopo la risposta; alla base partivano una alla volta. Con un Resend finto a 10 richieste al secondo e il sendEmail vero (un ritentativo dopo 300 ms): 12 ordini contanti scaduti nello stesso giro → 10 email, 2 perse e 2 avvisi; alla base 12 su 12. Con 2 al secondo basta un carrello di 3 ordini: 1 persa. Minore: se la lettura dell indirizzo cade per un errore passeggero, niente email e nessun avviso (annulla.ts:540, 576-581). La prova esistente minori-s03-ordini-scaduti:178 passa solo perché in vitest after() lancia. Prove: /home/user/wt-S3/tests/unit/k13-s3-email.test.ts (rilanciata da me, 7 su 7 come descritto)."
+    },
+    {
+      "id": "R27-009",
+      "chiave": "flussi-conversione|se il carrello scade tutto nello stesso giro, il cliente riceve avvisi «il conto è cambiato» con cifre già superate",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K13 --base 16bfc1bbf3c9eadde25e5968611563374ef9956c^ --file app/api/cron/expire-stale-orders/route.ts --prove tests/unit/riparazione-r27-carrello-scaduto-insieme.test.ts --json",
+        "nota": "Anche dalla riparazione prima della correzione: timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K13 --base 7e5cdeb98be99ee8d4419eb14e9b734dee5751e0^ --file app/api/cron/expire-stale-orders/route.ts --prove tests/unit/riparazione-r27-carrello-scaduto-insieme.test.ts --json → uscita 0."
+      },
+      "nota": "Soldi corretti dopo un primo giudizio contrario: due revisori qa, uno per lente. Il caso del registro regge: tre negozi contanti scaduti insieme → 3 email «non devi pagare niente», nessuna campanella del conto; due su tre → un solo avviso con cifre coerenti. Rifatto il caso (b) col refundOrder finto severo (rifiuta 0 con la RimborsoNonRitentabile vera): rimborsi 16, 13, 14; una sola email col perché del pane; con la carne che resta un solo avviso «resta pagato, 14,00 €». La riga sola aggiunta da 16bfc1bb parte solo quando deve (carta sì; contanti, rimborso pieno e conto finale no). Ma su un carrello spostato dal freno (1 € già reso sul pane) dice «ti tornano 17,00 €, cioè 15,00 € di spesa e 2,00 € di consegna» mentre la carta rende 16 € (route.ts:482 e 147-152 usano il totale nuovo, non il totale meno il già reso; lo stesso calcolo sbagliava già alla base dopo un rimborso dal cruscotto). Rischio non provato: email e campanelle raccolte a fine giro (route.ts:496-505) si perdono se la funzione muore a 300 s."
+    },
+    {
+      "id": "R27-011",
+      "chiave": "frontend-ux|con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K13 --base 74bfac3ec1693e2e1c6c1aad3a9fc477e566eb08^ --file components/home/TrendingNow.tsx --prove tests/unit/riparazione-r27-prezzo-scontato-in-tendenza.test.tsx --json"
+      },
+      "nota": "Un revisore qa, due lenti. Rimessa uscita 0. Alla base (app/product/[id]/page.tsx:503, 913, 1580) prezzo grande e barra fissa erano già scontati: R27 ha ragione su StickyAddToCart. TrendingNow regge: unità giuste (euro dentro, centesimi da discountedUnitCents, poi /100), niente doppio sconto, se gli sconti non si leggono resta il pieno, arrotondamento uguale a scheda e cassa. Non nominato nel «cosa resta»: components/home/HeroStoreCard.tsx:233 stampa ancora il prezzo pieno (formatPrice(Number(p.price))), file che R27 ha toccato in R27-013. Gli altri caroselli e addToCart della scheda restano file altrui."
+    },
+    {
+      "id": "R27-013",
+      "chiave": "immagini-media|se la foto di un prodotto è stata cancellata, la scheda resta un riquadro bianco invece della foto di ripiego",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K13 --base 957d753a79aa57ed306f07d0dbef0f73429ce352^ --file components/home/HeroStoreCard.tsx --prove tests/unit/riparazione-r27-foto-di-ripiego-nella-vetrina-hero.test.ts --json"
+      },
+      "nota": "Un revisore qa, due lenti. Rimessa uscita 0. Alla base ProductCard:169, components/checkout/CartGroupsList.tsx:43, TrendingNow:89 e la riga del carrello app/cart/page.tsx:621 usano già FotoConRipiego, che su onError passa a /foto-mancante.svg senza andare in loop. HeroStoreCard montata davvero: la miniatura che fallisce passa al ripiego. La prova R27 legge solo il sorgente. Copertura persa, dichiarata da R27 fra i file altrui: tests/unit/la-foto-chiesta-piu-piccola-del-riquadro.test.ts:111 cerca solo <Image, e in HeroStoreCard misurava 2 foto alla base e 1 alla testa (la miniatura passava, 100 >= 96 px, e ora esce dal conto). Fuori dalla voce scritta: app/shared-cart/page.tsx:275 senza ripiego."
+    },
+    {
+      "id": "R27-015",
+      "chiave": "navigazione-gerarchia|nella scheda prodotto il prezzo è quasi grande quanto il titolo e pesa meno del pulsante «+»",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Già riparato prima: un revisore qa, due lenti, ALLA BASE 76d4c4d7. components/ProductCard.tsx: titolo text-sm (riga 236), prezzo text-lg font-extrabold (righe 270 e 276), «+» a contorno con border-2 (riga 286). tests/unit/riparazione-r24-prezzo-piu-del-pulsante.test.tsx identica alla base: 2 su 2 verdi. Il colore secondary-600 del prezzo scontato resta, ma il prezzo non pesa più meno del «+»."
+    },
+    {
+      "id": "R27-016",
+      "chiave": "pagamenti-stripe|carrello carta spostato dal freno: se dopo un negozio rifiuta, la consegna dei rimasti non si ricalcola piu'",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K13 --base 0600e7cbfc814c1ce60407acba17f82b38b18c21^ --file lib/ordini/annulla.ts --prove tests/unit/riparazione-r27-freno-della-carta.test.ts --json",
+        "nota": "Anche dalla riparazione prima della correzione: timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K13 --base bf9a3d771184b2338912688486ed37355090bbf2^ --file lib/ordini/annulla.ts --prove tests/unit/riparazione-r27-freno-della-carta.test.ts --json → uscita 0."
+      },
+      "nota": "Soldi corretti dopo un primo giudizio contrario: due revisori qa, uno per lente. Rifatto il caso (a) col refundOrder finto severo: pane 17 € credito + 2 € carta, 1 € già reso → nessun refundOrder, frutta 3 + 3 €, 16 € di credito; uguale con 1, 1,50, 2,50 e 3 €; con 4 € un solo rimborso da 1 €. Col refundOrder VERO (Stripe e database finti) il caso senza credito rende 16 € (alla base 18) e chiude CANCELED. Rompe: nel giro degli scaduti, carrello spostato dal freno (pane 19 + frutta 13, 1 € già reso), la carta rende 16 € ma email e campanella dicono «ti tornano 17,00 €» (route.ts:482, 147-152; l annullo lo corregge ad annulla.ts:317-319, il giro no); col freno e 17 € di credito promette «1,00 € sulla carta» già reso; alla base quel carrello non aveva nessun avviso. Nella chiusura senza rimborso (annulla.ts:291-296) la campanella dice «Nessun addebito è andato a buon fine» a chi ha pagato 2 € con la carta, e l ordine resta CANCELED con pagamento PAID e bonifico HELD: la pagina Guadagni del negozio lo conta fra i soldi in arrivo. Non chiude tutta: se l euro del freno non è ancora tornato (rimborsato 0, «a mano»), annulla.ts:862 lascia la frutta a 1 € e 1 € e il forno rende 19 €: MyCity perde 2 €, il sintomo della voce. Prove: /home/user/wt-S1/tests/unit/k13-s1-*.test.ts e /home/user/wt-S2/tests/unit/k13-s2-*.test.ts (rilanciate da me: 37 verdi e 6 rosse, 21 verdi e 13 rosse, come descritto)."
+    },
+    {
+      "id": "R27-017",
+      "chiave": "pagamenti-stripe|due rifiuti nello stesso istante in un carrello di tre negozi: il terzo resta con 1 € di consegna e 1 € al fattorino",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K13 --base 98c25c8187169e50f6a2010b098c9827180dd310^ --file lib/ordini/annulla.ts --prove tests/unit/riparazione-r27-due-rifiuti-insieme.test.ts --json"
+      },
+      "nota": "Soldi senza primo giudizio contrario: un revisore qa, due lenti. Rimessa uscita 0. Il segno (fattorino a 0 su ordine vivo) non si confonde: il compenso è 0 solo col ritiro in negozio, che vale per tutto il carrello. Carrello di 2 negozi: 18 + 13; di 4 (15, 12, 11, 10): 16 + 13, carne 3/3 a 14, latte 1/1 a 11; l altro incrocio dà lo stesso; se cade il rimborso del pane il carrello torna com era. Residuo minore non peggiore della base: se cade il rimborso della frutta, il 3/3 resta sulla carne e un annullo dopo lascia la frutta a 13 invece di 15. La prova R27 è concorrente davvero, su un incrocio solo."
+    },
+    {
+      "id": "R27-018",
+      "chiave": "pagamenti-stripe|ordine coperto dal credito e pagato con la carta: al cliente tornano 2 € in più e la frutta resta incassata a 13 €",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K13 --base da810379daa96517d17626f080dfadf1b0d642b8^ --file lib/ordini/annulla.ts,app/api/cron/expire-stale-orders/route.ts --prove tests/unit/riparazione-r27-credito-e-carta.test.ts --json",
+        "nota": "Anche dalla riparazione prima delle correzioni: timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K13 --base 9be4a476412d71f735c264f315d24a539067f0a1^ --file lib/ordini/annulla.ts --prove tests/unit/riparazione-r27-credito-e-carta.test.ts --json → uscita 0."
+      },
+      "nota": "Soldi corretti dopo un primo giudizio contrario: due revisori qa, uno per lente. Rifatto il caso (c) col refundOrder finto severo: pane 18 € tutto credito, frutta 13 e carne 12 carta, scadono tutti → 16 + 2 = 18 € di credito, carta 11 + 14 = 25 €, nessuno «da chiudere a mano», secondo giro fermo. Varianti di soldi verdi (senza freno, tre negozi, ordini di rifiuto diversi, credito pari alla differenza, credito che copre tutto). Rompe: il credito spostato (annulla.ts:990-1013) fa della frutta un ordine carta + credito, e col refundOrder VERO (payout.ts:2224-2228: chiude solo se il rimborso copre tutto il lordo, credito compreso) il suo annullo dopo non chiude: pane 18 € credito, frutta 13 € carta, il forno rifiuta, poi il cliente annulla la frutta → tornano 13 € sulla carta e 2 € di credito, risposta ok, ma la frutta resta NEW e PARTIALLY_REFUNDED col fattorino a 0; se il negozio la consegna il cliente ha la frutta gratis. Alla base il rifiuto del pane falliva e la frutta si annullava davvero (un ordine carta + credito di un negozio solo che resta NEW c era già alla base: R27 lo rende raggiungibile da ordini nati solo carta). Le prove R27 non lo vedono: il loro finto mette sempre CANCELED. Minori nuovi: la campanella del rifiuto (reject/route.ts:112-117) dice «€18.00 tornati», ne tornano 16; l email dice «il credito che avevi usato (16,00 €)» a chi ne aveva usati 18 (annulla.ts:323) e alla frutta «(2,00 €)» (route.ts:481); corsa stretta: due annulli dello stesso pane rendono 18 € mentre la frutta ne tiene 2 (annulla.ts:156-161, 463). Fuori voce e già sulla base: il pane tutto a credito che scade senza carrello rifatto va a refundOrder(0), da chiudere a mano (route.ts:312-313)."
+    },
+    {
+      "id": "R27-019",
+      "chiave": "pagamenti-stripe|se il credito mycity copre quasi tutto l ordine annullato, la differenza della consegna non viene tolta da nessuna parte",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K13 --base da810379daa96517d17626f080dfadf1b0d642b8^ --file lib/ordini/annulla.ts,app/api/cron/expire-stale-orders/route.ts --prove tests/unit/riparazione-r27-credito-e-carta.test.ts --json",
+        "nota": "stesso commit e stessa prova di R27-018 (da810379)"
+      },
+      "nota": "Soldi corretti dopo un primo giudizio contrario: due revisori qa, uno per lente. Con le cifre esatte del registro, nell annullo e nel giro, col refundOrder finto severo: nessun rimborso sulla carta, 16 € di credito, B 13,50 carta + 1,50 credito; poi B se ne va e torna tutto. Rompe come R27-018: col refundOrder VERO la frutta (13,50 € carta + 1,50 € credito spostato) annullata dopo resta NEW con 13,50 € resi e 1,50 € di credito reso. Minore: l email del giro dice «Il rimborso torna sulla carta… ti tornano 0,00 €»."
+    }
+  ],
+  "campione": {}
+}
