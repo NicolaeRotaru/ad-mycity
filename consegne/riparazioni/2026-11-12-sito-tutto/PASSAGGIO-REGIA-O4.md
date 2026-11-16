@@ -1,14 +1,10 @@
 # Passaggio della regia dell'onda 4
 
-Preparato il 2026-11-16 alle 16:50. La nuova sessione non è ancora aperta: l'apertura è stata fermata. Decide l'AD.
+La prima regista deve passare la mano. Ha usato 282 mila token di contesto, oltre la soglia di 250 mila fissata per il cambio. Ha speso 13,95 $ dei 15 del suo tetto.
 
-**In parole semplici.** La prima regista dell'onda 4 ha passato la mano: aveva usato 282 mila token di contesto, oltre la soglia di 250 mila fissata per il passaggio, e 13,95 $ dei 15 di tetto. I due riparatori lavorano. Alla nuova regista restano da fare la consegna, il collaudo breve e la chiusura dell'onda.
+La nuova regista non è ancora aperta, perché l'apertura è stata fermata. Decide l'AD. Le regole restano le stesse. Per Nicola c'è un'eccezione da firmare, descritta più sotto.
 
-**Cosa cambia per te (Nicola).** Niente. Le regole sono le stesse. Ti serve solo sapere che c'è un'eccezione da firmare, descritta più sotto.
-
-**Cosa devi fare.** Niente adesso.
-
-**Cosa non ho verificato.** Il lavoro dei riparatori l'ho guardato solo con la guardia e con i loro resoconti. Il collaudo vero manca ancora.
+Alla nuova regista restano tre cose: le consegne dei riparatori, il collaudo breve e la chiusura dell'onda. Il lavoro dei riparatori finora è stato guardato solo con la guardia e con i loro resoconti.
 
 ---
 
