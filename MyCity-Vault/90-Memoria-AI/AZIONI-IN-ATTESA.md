@@ -48,7 +48,7 @@ Esempio vero: R27 ha riparato 6 voci e ne ha portate a metà 4. Il suo revisore 
 Cosa cambia: con la «a», le 6 riparazioni di R27 possono entrare nel sito in questo pezzo, invece di aspettare dopo giovedì.
 Se va bene: una sessione corta costruisce la modifica, una collaudatrice prova a romperla, tu la unisci, e la regista scrive la tua eccezione nel piano prima di unire R27.
 
-Dettagli: la riga è `cervello/riparazione-sessioni.mjs:1187`; la modifica la fa passare da `ctx.deroga(...)` e aggiunge la regola a `REGOLE_PER_COMMIT` (riga 858), come già fa `id_nel_commit` alle righe 1181-1185. Quaderno della regia: `consegne/riparazioni/2026-11-12-sito-tutto/REGIA-ONDA-3.md`, blocco «Stato al passaggio (16/11 alle 01:55)».
+Dettagli: il controllo è alla riga 1187 di `cervello/riparazione-sessioni.mjs`. La modifica lo fa passare da `ctx.deroga(...)`. Poi aggiunge la regola alla lista `REGOLE_PER_COMMIT`, alla riga 858. È lo stesso schema di `id_nel_commit`, righe 1181-1185. Lo stato della regia è in `consegne/riparazioni/2026-11-12-sito-tutto/REGIA-ONDA-3.md`, blocco «Stato al passaggio (16/11 alle 01:55)».
 
 ### 🟡 #256 — Scegli quanta onda 3 del sito partire prima di giovedì · ⏳ accodata 2026-11-15 11:35
 
