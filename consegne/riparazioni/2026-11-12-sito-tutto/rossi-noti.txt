@@ -1,3 +1,5 @@
 ramo R25 claude/sito-onda-3-m25
 ramo R26 claude/sito-onda-3-m26
 ramo R27 claude/sito-onda-3-m27
+finita R26
+ferma R27 485b02d
