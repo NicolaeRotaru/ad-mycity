@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-11-15 06:55
+aggiornato: 2026-11-16 10:55
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> ⏳ **2026-11-16 10:55 — L'onda 4 del sito è pronta e aspetta la tua percentuale del limite.**
+>
+> L'onda 3 ha chiuso 7 difetti per circa 167 $, cioè circa 24 $ l'uno. Hai unito la sua memoria alle 09:25 (ad-mycity#968). La regista dell'onda 4 lavora con la ricetta dell'onda 1, con un tetto di 170 $ fino a giovedì 19/11 alle 10:00. Ha pronti due riparatori da 25 voci l'uno, e il caso atteso è circa 126 $ per 14-17 difetti chiusi. I riparatori partono solo col tuo «via» e con la percentuale del limite che leggi nell'app. Restano aperte la carta 258 e l'unione di mycity#292 nel registro della campagna.
 
 > ✅ **2026-11-15 06:55 — Il registro del sito segna i 78 difetti chiusi dall'onda 2.**
 >
