@@ -276,6 +276,16 @@
    "chiusa": "2026-11-16 01:47",
    "esito": "6 riparati (009, 013, 016, 017, 018, 019), 4 parziali (001, 002, 005, 011), 1 gia_riparato_prima (015), 4 serve_file_altrui (003, 004, 006, 008), 7 non_fatto (tetto)",
    "rossi_noti": "valida-referto rosso solo su verifica (prova comune minori-s10-catalogo-chat, la porta la regia a >2048 e <=3200 come cc0c5e70 all unione); guardia rossa solo per i messaggi di 7606bca8 e 957d753a che citano R21-001 e R24-006 (falso allarme, storia non riscritta)"
+  },
+  "R28": {
+   "ramo": "claude/sito-onda-4-m28",
+   "onda": 4,
+   "stato": "aspetta il via di Nicola"
+  },
+  "R29": {
+   "ramo": "claude/sito-onda-4-m29",
+   "onda": 4,
+   "stato": "aspetta il via di Nicola"
   }
  },
  "collaudatori": {
@@ -485,6 +495,18 @@
    "spesa_usd": 23.15,
    "chiusa": "2026-11-16 06:59",
    "esito": "R27: 3 reggono (013, 015, 017), 4 parziali (001, 002, 009, 011), 4 rompono altro (005, 016, 018, 019); sopra il tetto di 18 $"
+  },
+  "K14": {
+   "id": "session_015BmpnVoKh8ukxjK38xGnnk",
+   "ramo": "claude/sito-onda-4-k14",
+   "partenza": "db72b99363a2713cd42cd97327c9d0d9a5a1a11e",
+   "riparatori": [
+    "R16"
+   ],
+   "onda": 4,
+   "aperta": "2026-11-16 10:44",
+   "tetto_usd": 5,
+   "mandato": "giudizio pieno, collaudo breve, solo R16-014, R16-015, R16-016 (elenco A utile)"
   }
  },
  "controllori": {
