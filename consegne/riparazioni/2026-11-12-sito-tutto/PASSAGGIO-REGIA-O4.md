@@ -16,8 +16,8 @@ Leggi prima: il brief dell'AD in `consegne/ad/2026-11-16-brief-regia-onda-4.md`,
 
 | Ruolo | Sessione | Ramo (repo mycity) | Stato alle 16:50 |
 |---|---|---|---|
-| R28 | session_015BmpnYgfBZJsuDMpB39sCj | claude/sito-onda-4-m28 | 30,67 $. Lotti 1-3 fatti. Revisore lotto 3 in corso (R28-015 deve rispettare tre condizioni: trasferimento idempotente, Stripe finto, prova rimessa; altrimenti avviso e parziale). Lotto 4 a non_fatto. Guardia verde col piano ripulito (fe2483e6). |
-| R29 | session_015BmpnW1hb6vTP9viJSV6uD | claude/sito-onda-4-m29 | 20,8 $ dopo L1. Gira L2, poi L3 al posto di Q4; L4 a non_fatto. Guardia ROSSA, 8 problemi: istruzioni già date alle 16:47 (vedi sotto). |
+| R28 | session_015BmpnYgfBZJsuDMpB39sCj | claude/sito-onda-4-m28 | CHIUSO a 37 $. Testa b2e93d20, guardia e referto verdi. 5 patch per la cucitura nella storia: `git show 3e9553a2:.riparazione/patch-R28/<nome>.patch`. |
+| R29 | session_015BmpnW1hb6vTP9viJSV6uD | claude/sito-onda-4-m29 | CHIUSO a 42,95 $. Testa 99ba7483 (codice 455c3f93). Guardia: solo i 4 rossi noti sui messaggi. Referto rosso solo perché la verifica aspetta le modifiche alle 9 prove comuni (serve_file_altrui di R29-002, 003, 004, 005, 012). |
 | K14 | session_015BmpnVoKh8ukxjK38xGnnk | — | Finito: 3 reggono. |
 
 Base del sito: d038f105999d3aec05dc70e3663869023c150e81. Usa sempre la sigla intera: con quella accorciata le sessioni non partono.
