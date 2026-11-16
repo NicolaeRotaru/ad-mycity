@@ -182,3 +182,5 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 | 13/11 03:45 | AD, quarta chat | la sessione della CI è a 36,8 $ contro un tetto di 30, e a 761 mila token, vicino alla compressione (784 mila). Detto a Nicola. Quota ancora in avviso |
 | 13/11 03:38 | AD, quarta chat | ancora avviso, nessun extra in uso: si rinnova il 19/11 alle 10 |
 | 12/11 23:33 | AD | avviso: il limite settimanale si avvicina, si rinnova il 19/11 alle 10 |
+
+- **2026-11-16 09:05** · Nicola, nella chat della regista O3 quattro: «via la 292». La PR mycity#292 (onda 3 senza R27: R26 più quattro voci di R14, 7 chiusure) esce dalla bozza. Il clic per unirla resta a Nicola. R27 entra dopo, in una PR sua, con la scelta della carta #258. La migrazione 501 resta da NON applicare.
