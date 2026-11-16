@@ -31,6 +31,25 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🟡 #257 — Fai entrare nel sito le 6 riparazioni di R27, bloccate da un falso allarme · ⏳ accodata 2026-11-16 02:00
+
+**In parole semplici.** Prima che il lavoro di un riparatore entri nel sito, un programma lo controlla: si chiama guardia. Uno dei suoi controlli guarda i messaggi dei salvataggi. Se un messaggio nomina una voce che non è di quel riparatore, la guardia diventa rossa e il lavoro non entra.
+Esempio vero: R27 ha riparato 6 voci e ne ha portate a metà 4. Il suo revisore dice che reggono, anche quelle sui soldi. Ma in due salvataggi R27 ha citato il codice che la stessa voce aveva nell'onda 2. La guardia non lo riconosce, diventa rossa, e il lavoro resta fuori.
+
+**Cosa cambia per te.** Oggi quel controllo non ammette eccezioni. Altri controlli della guardia, invece, accettano un'eccezione firmata da te su un salvataggio preciso. La modifica fa lo stesso qui: il controllo resta acceso, e su quei due salvataggi vale la tua firma, scritta e visibile.
+
+**Cosa devi fare tu.** Rispondi all'AD della chat 5 con una lettera:
+- a: sì alla modifica piccola della guardia e alla tua eccezione sui due salvataggi di R27. Lo consiglio. Costa circa 6 $ per costruirla e 5 $ per il collaudo, dentro i 215 $ del pezzo.
+- b: R27 riscrive i due messaggi e risalva il ramo da capo. Costa poco, ma cambia i salvataggi che il collaudatore K13 sta giudicando proprio adesso: il suo giudizio andrebbe rifatto.
+- c: R27 resta fuori da questo pezzo e va nel resto dell'onda dopo giovedì.
+
+**Cosa non ho verificato.** Il falso allarme me l'ha descritto la regista. Io ho letto la riga della guardia che lo fa scattare, ma non ho visto i due messaggi di R27.
+
+Cosa cambia: con la «a», le 6 riparazioni di R27 possono entrare nel sito in questo pezzo, invece di aspettare dopo giovedì.
+Se va bene: una sessione corta costruisce la modifica, una collaudatrice prova a romperla, tu la unisci, e la regista scrive la tua eccezione nel piano prima di unire R27.
+
+Dettagli: la riga è `cervello/riparazione-sessioni.mjs:1187`; la modifica la fa passare da `ctx.deroga(...)` e aggiunge la regola a `REGOLE_PER_COMMIT` (riga 858), come già fa `id_nel_commit` alle righe 1181-1185. Quaderno della regia: `consegne/riparazioni/2026-11-12-sito-tutto/REGIA-ONDA-3.md`, blocco «Stato al passaggio (16/11 alle 01:55)».
+
 ### 🟡 #256 — Scegli quanta onda 3 del sito partire prima di giovedì · ⏳ accodata 2026-11-15 11:35
 
 **Stato:** ✅ RISPOSTA 2026-11-15 23:35: «1 = 12%, 2 fatto, 3a, 4a, 5a». Parte il primo pezzo. Ultracode resta spento su tutti i riparatori. La regola del collaudo va nel piano. Il freno però alle 23:37 non c'era in nessuno dei due depositi: l'AD l'ha chiesto di nuovo.
@@ -54,6 +73,8 @@ Se va bene: giovedì dopo le 10:00 parte il resto dell'onda 3, col preventivo fa
 Dettagli: `consegne/riparazioni/2026-11-12-sito-tutto/FERMATA-1-ONDA-3.md` (richiesta di unione ad-mycity#968).
 
 ### 🟡 #255 — Scegli se il passo finale delle riparazioni deve tornare a controllare la regola dei 40 voci · ⏳ accodata 2026-11-15 11:15
+
+**Stato:** ✅ SUPERATA 2026-11-16 01:00. Hai scelto la «a» nella carta 256 (risposta 5a), e la regola adesso la leggono anche applica e pronte: hai unito la #973 alle 00:51.
 
 Il collaudo corto della correzione dell'officina dice che regge. Resta un rischio. La regola «niente controllo a campione sotto le 40 riparazioni» adesso la guarda solo il controllo del singolo collaudo, non più il passo finale che chiude le voci.
 
