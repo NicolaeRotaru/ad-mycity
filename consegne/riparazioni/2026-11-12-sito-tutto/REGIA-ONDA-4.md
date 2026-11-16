@@ -31,3 +31,4 @@ Brief: `consegne/ad/2026-11-16-brief-regia-onda-4.md` (ramo `ccr-546d3724-qilkcw
 - **10:55** Riga dell'onda 3 in `misure.json`.
 - **10:44** **K14 aperto** (`session_015BmpnVoKh8ukxjK38xGnnk`, ramo `claude/sito-onda-4-k14`, partenza `db72b993`), tetto 5 $, sulle 3 voci di R16.
 - **10:50** **Fermata 1 mandata all'AD**: perimetro, preventivo (minimo 10-18 $, atteso circa 126 $ con 14-17 voci chiuse, massimo 170 $ con circa 24). Si aspetta il via di Nicola con la percentuale.
+- **10:50** L'AD chiede `applica --scrivi` per l'onda 3 insieme a K14. Prova a vuoto, con R27 tolto per quel giro e poi rimesso: 204 voci si chiudono, 461 restano aperte. Nel registro adesso ce ne sono 200 riparate. Il registro si scrive quando consegna K14.
