@@ -43,7 +43,7 @@ Le spese sono quelle dette dalle sessioni. Il freno l'ho provato a mano, non su 
 - AD chat 3 `session_015BmpnUti7NiAJcN27m2Q67`: ferma a 386 mila token, non tiene più niente (K10 è su main con la #970).
 
 ### Richieste di unione
-- ad-mycity#968, in bozza, ramo `ccr-546d3724-qilkcw`: fermata, divisione dell'onda 3, carta #256, misure. CI verde su `01f78fc`. Da far uscire di bozza: la regista lavora su un ramo che parte da lì.
+- ad-mycity#968, ramo `ccr-546d3724-qilkcw`: PRONTA (fuori bozza dal 16/11 01:15, titolo e descrizione rifatti sullo stato vero). CI 14/14 su `41305c8`, nessun commento, nessun conflitto. Seguita da questa chat (subscribe_pr_activity). La unisce Nicola.
 - mycity#291: il freno nel sito, UNITA alle 00:05.
 
 ### Per Nicola, aperto
