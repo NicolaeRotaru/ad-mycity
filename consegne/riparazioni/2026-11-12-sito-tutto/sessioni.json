@@ -239,7 +239,14 @@
    "tetto_usd": 35,
    "consegna_usd": 25,
    "tetto_agenti": 8,
-   "ultracode": false
+   "ultracode": false,
+   "finita": true,
+   "punta": "8cbf7c73f8534335cfb1be7a60dd351f98d8b611",
+   "testa": "8c6a3b8ad1aa353ad31954f277e3941e3289618b",
+   "spesa_usd": 21.39,
+   "chiusa": "2026-11-16 01:04",
+   "controllo_regia": "sorveglia 01:07: guardia ✅, referto ✅ 22 voci, unione ✅",
+   "esito": "4 riparati, 3 parziali, 4 serve_file_altrui, 11 non_fatto (tetto)"
   },
   "R27": {
    "id": "session_015BmpnZWyYQkf7YyDT1g7L6",
@@ -413,11 +420,26 @@
    "mandato": "le 16 voci di pronte/A-da-ricollaudare.txt, giudizio pieno senza campione",
    "finita": true,
    "punta": "68fb127e",
-   "spesa_usd": 17.89,
+   "spesa_usd": 19,
    "chiusa": "2026-11-16 00:09",
    "esito": "8 reggono (R04-021, R07-021, R07-022, R14-008, R14-014, R14-015, R14-017, R14-020), 8 parziali, 0 bocciate; R14-006 e R14-023 provate e non giudicate (b)",
    "controllo_regia": "guardia-ramo verde, valida-collaudo verde (3 rossi sospesi dall'eccezione firmata rimessa_a_mano dell'onda 1) alle 00:11",
-   "da_decidere": "R04-021, R07-021, R07-022: K02/K10 avevano «parziale» pieno e applica fa vincere il peggiore; R14 non è unito: le 5 che reggono vanno portate nell'integrazione dal suo ramo"
+   "da_decidere": "R04-021, R07-021, R07-022: K02/K10 avevano «parziale» pieno e applica fa vincere il peggiore; R14 non è unito: le 5 che reggono vanno portate nell'integrazione dal suo ramo",
+   "spesa_nota": "17,89 $ al passaggio; 19,00 $ letti con get_session alle 01:10 (turno chiuso)"
+  },
+  "K12": {
+   "id": "session_015BmpnYkT8tPNJhEYhBJmhx",
+   "ramo": "claude/sito-onda-3-k12",
+   "partenza": "aa0be11a93cbee738224f41052b8f7226e3c75ee",
+   "riparatori": [
+    "R26"
+   ],
+   "onda": 3,
+   "aperta": "2026-11-16 01:10",
+   "tetto_usd": 43.61,
+   "tetto_nota": "strada b dell AD (00:52): 30 $ + 13,61 $ lasciati da R26 sotto i 35 $; sale con quanto lasciano R25 e R27, massimo 60 $",
+   "mandato": "giudizio pieno senza campione su R26, poi R25 e R27 in catena",
+   "finita": false
   }
  },
  "controllori": {
@@ -999,6 +1021,16 @@
   "ramo": "claude/sito-onda-3",
   "partenza": "97d51c1c52cea2cc4ad60562c7b832b62839b6ea",
   "aperta": "2026-11-16 00:39",
-  "tetto_usd": 14
+  "tetto_usd": 14,
+  "spesa_usd": 3.31,
+  "spesa_nota": "letta con get_session alle 01:08, turno ancora aperto"
+ },
+ "regista_onda3_tre": {
+  "id": "session_015BmpnYkGxyJiyNSKtpHjGD",
+  "ramo": "claude/sito-onda-3",
+  "partenza": "aa0be11a93cbee738224f41052b8f7226e3c75ee",
+  "aperta": "2026-11-16 01:05",
+  "tetto_usd": 10.69,
+  "tetto_nota": "14 $ meno la spesa della regia due (3,31 $ alle 01:08)"
  }
 }
