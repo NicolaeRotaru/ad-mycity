@@ -1,4 +1,6 @@
-# Passaggio della regia dell'onda 4 — preparato il 2026-11-16 16:50 (la nuova sessione non è ancora aperta: l'apertura è stata fermata, decide l'AD)
+# Passaggio della regia dell'onda 4
+
+Preparato il 2026-11-16 alle 16:50. La nuova sessione non è ancora aperta: l'apertura è stata fermata. Decide l'AD.
 
 **In parole semplici.** La prima regista dell'onda 4 ha passato la mano: aveva usato 282 mila token di contesto, oltre la soglia di 250 mila fissata per il passaggio, e 13,95 $ dei 15 di tetto. I due riparatori lavorano. Alla nuova regista restano da fare la consegna, il collaudo breve e la chiusura dell'onda.
 
