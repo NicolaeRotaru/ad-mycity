@@ -164,3 +164,15 @@ La regista O3 tre passa la mano perché la sua storia è a 281 mila token (regol
    - la regola nuova di `decidi` per R04-021, R07-021, R07-022;
    - i conti: K11 a 19 $ contro 18; K12 a circa 2,6 $ a voce; perché R25 ha reso 0 voci chiuse con 22,92 $ (il grave con tre giri si è mangiato tutto);
    - il campo dei 40 voci con le due cifre.
+
+## Regia O3 quattro (session_015BmpnWR7z5mBLVTMSz1yFz, dal 16/11 alle 01:56)
+
+- **01:56** Mano presa, piano in 3 righe all'AD chat 5. Spesa della regia tre da `get_session`: 4,57 $ (turno aperto) → tetto della regia quattro circa 6 $. Poi il worker di questa sessione è ripartito: si riprende alle **06:20**.
+- **06:22** Clone del sito in `/home/user/mycity` (main `b6ef4af`). `sorveglia.sh --attendi` rilanciato in sottofondo su K13.
+- **06:24** La #973 entra nel ramo della regia (merge di main `2a59e77` → `e7b7f14`, spinto). Unico conflitto: `sorvegliante-storico.json`, file scritto dagli hook, preso da main.
+- **06:26** **Integrazione del sito `claude/sito-onda-3`** da `76d4c4d`: R26 per intero (`--no-ff`, `470668b4`), poi i commit di R14 con `cherry-pick -x`: R14-008 (`8d43f44f`), R14-007+015 (`e1088bd6`, un commit solo per due voci: la 007 è parziale per K11, non rompe niente), R14-017 (`f45fb244`), R14-020 (`cb8effaa`).
+  - `214adc53` (R14-015) tocca `lib/account/cancellazione.ts`, che è anche di R26 (R26-001): righe diverse (R26 fra 90 e 345, le foto; R14 da 756, Stripe e cancellazioni doppie), nessun conflitto. Va detto a C03: nessun collaudo ha giudicato le due insieme.
+  - **R14-014 NON entra.** Il suo commit `fdd02e1b` poggia su R14-012 e R14-013 (parziali per K11, e il 012 porta l'allarme che non si chiude, difetto nuovo di K11): da solo va in conflitto sulla prova `riparazione-r14-giro-cancellazioni.test.ts`. `applica` lo darebbe «si chiude» perché K11 dice regge: **C03 deve scriverlo fra le voci rosse** («non è sul ramo unito»), come le tolte dell'onda 1.
+- **06:34** Collaudi copiati: `collaudi/K11.json` e `K12.json` (dai rami `-k11` e `-k12` di ad-mycity). Referti copiati: R14 (ramo `-m14` @ `2048b33`), R25, R26, R27.
+- **06:34** **Il campo dei 40 voci** (`campione_fino_a_40_dall_onda: 2`) scritto al livello alto di `piano.json`. `applica` a vuoto, senza il referto di R27 (la sua verifica è rossa e ferma tutto): **senza campo 208 si chiudono, con il campo 205.** Le tre di differenza sono R16-014, -015 e -016 (lotto di 21 voci, campione di K08). Uguale all'atteso del builder (AR-1184). Con il campo: 205 si chiudono, 10 già riparate, 410 restano aperte, 185 nati. Nei 205 c'è anche R14-014, che C03 deve togliere: **le chiusure vere sono 204**, R27 escluso.
+- R26-002: K12 dice regge ma il riparatore la dà parziale (la label di `PhotoSlot` in `CashConfirmDialog.tsx`, non di R26): `applica` la lascia aperta.
