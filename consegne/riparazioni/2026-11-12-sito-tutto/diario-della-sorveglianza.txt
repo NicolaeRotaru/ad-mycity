@@ -546,3 +546,9 @@
 2026-11-16 01:46 · R27 · in lavoro · guardia 🔴 · referto ⏳ 7 voci · unione (sotto) · nessuna
 2026-11-16 01:46 · K12 · collaudo · guardia ✅ · collaudo ✅ · nessuna
 2026-11-16 01:46 · onda 3 · prova-unione ✅
+2026-11-16 06:59 · R25 · in lavoro FINITA · guardia ✅ · referto ✅ 22 voci · unione (sotto) · nessuna
+2026-11-16 06:59 · R26 · in lavoro FINITA · guardia ✅ · referto ✅ 22 voci · unione (sotto) · nessuna
+2026-11-16 06:59 · R27 · in lavoro FINITA · guardia 🔴 · referto 🔴 22 voci · unione (sotto) · nessuna
+2026-11-16 06:59 · K12 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-16 06:59 · K13 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-16 06:59 · onda 3 · prova-unione ✅
