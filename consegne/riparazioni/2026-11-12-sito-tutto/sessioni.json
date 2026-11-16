@@ -235,7 +235,8 @@
    "chiusa": "2026-11-16 01:18",
    "controllo_regia": "sorveglia 01:21: guardia ✅, referto ✅ 22 voci, unione ✅",
    "esito": "1 parziale (R25-001, grave, due giri di correzione), 21 non_fatto",
-   "domanda_per_nicola": "R25-001: finestra di pochi secondi a ordini.ts:462 — controllo nel database (migrazione 490-499) in un onda dopo, o basta l avviso agli amministratori?"
+   "domanda_per_nicola": "R25-001: finestra di pochi secondi a ordini.ts:462 — controllo nel database (migrazione 490-499) in un onda dopo, o basta l avviso agli amministratori?",
+   "unione": "NON entra: R25-001 rompe altro (K12, 01:45); dopo due giri di correzione la voce va a Nicola (regola 8)"
   },
   "R26": {
    "id": "session_015BmpnYAcQyeLz2AB2gFogr",
@@ -448,13 +449,17 @@
    "tetto_usd": 43.61,
    "tetto_nota": "parte da 30 $ (strada b dell AD, 16/11 00:52, paletto 1): sale solo coi dollari che i riparatori lasciano sotto i 35 $, massimo 60 $. 43,61 = 30 + 13,61 (R26). Dalle 01:22 in vigore 55,69 $ con i 12,08 di R25 (aggiunte_usd). Torna a 0 a collaudo chiuso.",
    "mandato": "giudizio pieno senza campione su R26 e R25; R27 passa a un collaudatore nuovo (AD 01:41: storia di K12 a 261 mila token)",
-   "finita": false,
+   "finita": true,
    "aggiunte_usd": {
     "R25": 12.08
    },
-   "spesa_usd": 16.31,
-   "spesa_nota": "16,31 $ a turno chiuso dopo R26 (7 voci, circa 2,33 $ a voce): sopra la soglia di 1,5 $ dell AD. Limite di consegna 39 $ (70% di 55,69), dalle 01:42",
-   "esito_R26": "4 reggono (002, 003, 009, 020), 3 parziali (001, 019, 021), 0 non reggono, 0 rompono altro; commit da607a4"
+   "spesa_usd": 20.9,
+   "spesa_nota": "16,31 $ dopo R26; 20,90 $ alle 01:46 a consegna (turno in chiusura); 8 voci, circa 2,6 $ a voce",
+   "esito_R26": "4 reggono (002, 003, 009, 020), 3 parziali (001, 019, 021), 0 non reggono, 0 rompono altro; commit da607a4",
+   "punta": "ce4b0f8",
+   "chiusa": "2026-11-16 01:45",
+   "esito_R25": "R25-001 rompe_altro (medio, nato in 97b6d3b5): rimborso a mano di B non nato ferma il bonifico di A e blocca ogni divisione",
+   "controllo_regia": "sorveglia 01:46: guardia ✅, collaudo ✅"
   }
  },
  "controllori": {
