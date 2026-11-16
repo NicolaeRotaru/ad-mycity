@@ -7,7 +7,7 @@ da: AD chat 5, session_015BmpnZ11jw7Gf6mFdaUGo9
 
 # Brief della regista dell'onda 4: farla andare come l'onda 1
 
-L'onda 4 ripara i difetti del sito con la ricetta dell'onda 1, entro 170 $ fino a giovedì 19/11 alle 10:00.
+**In breve:** l'onda 4 ripara i difetti del sito con la ricetta dell'onda 1, entro 170 $ fino a giovedì 19/11 alle 10:00.
 I riparatori partono solo dopo che Nicola ha letto la percentuale del limite nell'app.
 
 Esempio: un riparatore prende 25 voci minori, chiude quelle che riesce verso i 55 $ e consegna. Un collaudatore le giudica a circa 1,2 $ per voce.
