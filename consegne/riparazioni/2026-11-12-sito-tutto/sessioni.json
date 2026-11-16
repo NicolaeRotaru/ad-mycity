@@ -447,7 +447,7 @@
    "aperta": "2026-11-16 01:10",
    "tetto_usd": 43.61,
    "tetto_nota": "parte da 30 $ (strada b dell AD, 16/11 00:52, paletto 1): sale solo coi dollari che i riparatori lasciano sotto i 35 $, massimo 60 $. 43,61 = 30 + 13,61 (R26). Dalle 01:22 in vigore 55,69 $ con i 12,08 di R25 (aggiunte_usd). Torna a 0 a collaudo chiuso.",
-   "mandato": "giudizio pieno senza campione su R26, poi R25 e R27 in catena",
+   "mandato": "giudizio pieno senza campione su R26 e R25; R27 passa a un collaudatore nuovo (AD 01:41: storia di K12 a 261 mila token)",
    "finita": false,
    "aggiunte_usd": {
     "R25": 12.08
