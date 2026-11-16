@@ -278,7 +278,7 @@
    "rossi_noti": "valida-referto rosso solo su verifica (prova comune minori-s10-catalogo-chat, la porta la regia a >2048 e <=3200 come cc0c5e70 all unione); guardia rossa solo per i messaggi di 7606bca8 e 957d753a che citano R21-001 e R24-006 (falso allarme, storia non riscritta)"
   },
   "R28": {
-   "id": "session_015BmpnWap9HeyrxHcJSmb24",
+   "id": "session_015BmpnYgfBZJsuDMpB39sCj",
    "ramo": "claude/sito-onda-4-m28",
    "onda": 4,
    "partenza": "2026-11-16 12:13",
@@ -287,7 +287,7 @@
    "sha_regista": "982fd335288637f05b0b81fe74e463a09b310d36"
   },
   "R29": {
-   "id": "session_015BmpnYhfD4xKiWKSnKQky6",
+   "id": "session_015BmpnW1hb6vTP9viJSV6uD",
    "ramo": "claude/sito-onda-4-m29",
    "onda": 4,
    "partenza": "2026-11-16 12:13",
