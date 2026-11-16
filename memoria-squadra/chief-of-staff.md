@@ -9,6 +9,7 @@ bootstrap: 2026-07-14 02:31
 > Formato: AAAA-MM-GG · contesto · scorecard 6 assi · atteso→reale · #tag
 
 ## Esiti
+- 2026-11-16 01:45 · coda delle card del 16/11 · V5 C5 A5 K5 I3 M4 E5 (media 4.57) · atteso card già risolte segnate e archiviate, una sola card nuova → reale 4 card fatte archiviate (#249 #251 #254 #255), card #256 nuova · #coda
 - 2026-11-15 06:55 · fase 0 del piano 15/11: registro onda 2 (PR #959) · V5 C5 A5 K5 I4 M4 E4 (media 4.57) · atteso circa 61-78 chiusure scritte nel registro → reale 78 chiusure, 0 orfane; classe A 11 voci invece di 17-24 · #riparazione #registro
 - 2026-11-15 05:55 · lezioni onde 1-2 riparazione sito e piano dentro il limite (PR #958) · V4 C4 A4 K5 I3 M5 E4 (media 4.14) · atteso preventivo 35-55 $, un piano da firmare → reale circa 13 $ (1,24 M token senza riletture); piano 35-45 difetti fino al 19/11 con circa 350 $; 7 decisioni per Nicola · #riparazione #costi
 - 2026-11-13 03:07 · Regola 10 delle sessioni (Nicola 13/11 03:05): chi scrive codice nasce con ultracode acceso; scritta in cervello/sessioni-insieme.md col controllo get_session, nessun freno a programma · V4 C5 A4 K5 I2 M4 E4 (media 4) · atteso ogni sessione di codice aperta da qui in poi ha is_ultracode_active true al primo get_session → reale da misurare alla prossima apertura: oggi 2 sessioni aperte dall'AD dopo le 02:10 ce l'hanno, la prova delle 02:02 no · #sessioni #ultracode

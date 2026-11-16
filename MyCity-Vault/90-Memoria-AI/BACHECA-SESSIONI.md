@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-15 06:17
+aggiornato: 2026-11-16 01:46
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 16/11 verso le 01:24 | l'AD, chat del giro (`session_015BmpnYXCfXxe81zYPAKoEV`) | «Fai un giro completo della macchina»: il giro di perlustrazione intero, da sessione cloud. Briefing in `Briefing/2026-11-16.md`, memoria in una richiesta di unione verso `main`. Card nuova #256 sull'ordine del 13/11. |
 | 15/11 alle 07:36 | l'AD, nella chat vecchia | «a, passala a una chat nuova»: la chat dell'AD era al 65% della memoria. La chat nuova dell'AD è `session_015BmpnVXjpgkhAJActQd8KN`. L'officina e il taglio della #956 scrivono a lei. Il quaderno è `consegne/ad/2026-11-15-passaggio-chat-ad.md`. |
 | 15/11 alle 07:24 | l'AD, chat «Correzione difetti e limite settimanale» | «ok 244 b»: il sorvegliante (AR-969) esce dalla richiesta della macchina #956 e torna nel cantiere. Il controllo del glossario dei numeri (AR-962), che ha retto al secondo collaudo, entra da solo. Il taglio lo fa una sessione corta aperta dall'AD. |
 | 15/11 verso le 06:05 | l'AD, chat «Correzione difetti e limite settimanale» (`session_015BmpnYSQgvReHZZJxrC8mw`) | «applica la regola per chiudere più difetti dentro il limite e le 5 lezioni e le 7 decisioni». Il piano è `consegne/audit/2026-11-15-lezioni-onde/piano.md`. Decisione 2: la deroga sulla guardia di R17 `bb53b6be` è firmata. Decisione 3: ultracode resta spento sulle figlie di soli minori. Resta acceso su gravi, bloccanti, soldi, dati e permessi. Decisione 4: sì all'hook freno-subagenti. Lo incolla Nicola quando è collaudato. Decisione 5: i programmi dell'officina si usano dal ramo collaudato, prima dell'unione. Decisione 6: la regista O2 settima finisce il suo giro, scrive il passaggio e si ferma. Dopo parte una regista nuova e leggera. Decisione 7: il tetto non si alza a metà onda. Se Nicola lo alza, si apre un'onda nuova col suo preventivo. Decisione 1, la percentuale vera del limite, va ancora letta nell'app. Fino ad allora il tetto fino a giovedì 19/11 alle 10:00 è circa 350 $. |

@@ -1,5 +1,5 @@
 {
-  "quando": "2026-08-28 12:26",
+  "quando": "2026-11-16 01:34",
   "aree": [
     "analisi-report",
     "assistente",
@@ -59,6 +59,8 @@
   "skill": [
     "cantiere",
     "collaudo",
+    "radiografia-sessioni",
+    "riparazione",
     "salute",
     "senior",
     "verify",
@@ -69,6 +71,9 @@
     "audit-pannello",
     "auto-radiografia",
     "giro-operativo",
+    "ondata-sito",
+    "ondata-snella",
+    "prediagnosi",
     "radiografia",
     "radiografia-totale"
   ],

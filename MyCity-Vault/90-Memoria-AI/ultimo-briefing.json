@@ -1,55 +1,55 @@
 {
-  "data": "2026-10-10 12:05",
-  "situazione": "I due database sono di nuovo accesi: li ho riaccesi con la tua firma, alle 10:16 erano attivi. I numeri veri, riletti alle 11:58, dicono che il business è fermo come a settembre: 1 negozio vero, 0 ordini pagati, 108 giorni dall'unico ordine. Il sito però non vende ancora: su Vercel mancano le chiavi, e i 10 lavori automatici non girano dal 30 luglio. Dal 5 settembre c'è anche un «Panificio Demo» approvato. Il server della macchina non prende lavori dal 7 ottobre.",
+  "data": "2026-11-16 01:46",
+  "situazione": "Venerdì 13/11 alle 14:56 è entrato il secondo ordine della storia del sito: 11,95 € in contanti su Pane Quotidiano. Il negozio l'ha segnato pronto un minuto dopo, ma nessuno l'ha preso, perché nel sito non c'è un fattorino approvato. Il sito vero risponde e la chiave del database c'è: l'ho provato dal vivo. I lavori automatici del sito sono fermi da luglio, e il server della macchina tace dal 7/10. Mossa n.1: chiudere il giro di quell'ordine.",
   "opportunita": [
     {
-      "titolo": "La finestra del Natale si gioca entro metà novembre",
-      "motivo": "Il piano ferma l'inserimento di negozi nuovi a dicembre, e l'anno scorso il mercatino in piazza Cavalli partiva il 22/11. Ogni settimana di sito fermo fra ottobre e novembre è tolta alla stagione più ricca.",
+      "titolo": "La prima consegna è a un passo: manca solo un fattorino approvato",
+      "motivo": "L'ordine di venerdì è arrivato fino a «pronto»: il negozio l'ha accettato in 44 secondi. Approvare il tuo account da fattorino richiede 15 minuti.",
       "impatto": "alto",
-      "sforzo": "medio"
-    },
-    {
-      "titolo": "Una richiesta di unione del sito è pronta e verde: rende affidabili i controlli e toglie un finto backup",
-      "motivo": "La #255 sul repo del sito ha 15 controlli su 15 verdi dal 9/9 e si unisce senza conflitti. Per far uscire davvero la copia notturna del database serve anche incollare su GitHub l'indirizzo del Session pooler di Supabase.",
-      "impatto": "medio",
       "sforzo": "basso"
     },
     {
-      "titolo": "Il mercato coperto è il primo dei segmenti di ottobre",
-      "motivo": "È l'unico dei tre con un segnale esterno verificato: il cantiere di piazza Cittadella toglie passaggio, e il Comune ha un fondo da 8.200 € per le attività colpite.",
+      "titolo": "I weekend di Natale per il pane a domicilio",
+      "motivo": "Sabato 21/11 si accende l'albero in Piazza Cavalli, e fino al 20/12 il centro si riempie il sabato e la domenica. Vale solo dopo la prima consegna e con la carta del fornaio accesa.",
       "impatto": "medio",
       "sforzo": "medio"
+    },
+    {
+      "titolo": "Verificare se i grandi portano il pane fresco di bottega a Piacenza",
+      "motivo": "È un'ipotesi al 50% del radar: Glovo e la spesa online dei supermercati forse non lo fanno. Basta una prova a mano con un indirizzo di Piacenza.",
+      "impatto": "medio",
+      "sforzo": "basso"
     }
   ],
   "azioni": [
     {
-      "titolo": "Copia su Vercel le 9 chiavi del sito che vengono da Supabase, Stripe, Resend e Upstash",
-      "motivo": "È la card #154. Il 10/10 alle 15:43 ho messo le 8 che potevo creare io, compresa quella dei lavori automatici. Senza la chiave di servizio del database il sito non registra ancora un ordine.",
+      "titolo": "Dimmi cosa fare dell'ordine del 13 novembre, fermo nel negozio da venerdì",
+      "motivo": "È la card #256: è una tua prova o un cliente vero? Se è un cliente, aspetta da venerdì e nessun avviso è partito.",
+      "livello": "giallo"
+    },
+    {
+      "titolo": "Approva il tuo account da fattorino",
+      "motivo": "È la card #210. Senza un fattorino approvato, nessuno può prendere un ordine pronto.",
+      "livello": "giallo"
+    },
+    {
+      "titolo": "Accendi su Vercel i lavori automatici del sito",
+      "motivo": "Sono fermi da luglio 8 lavori su 11: email, notifiche, bonifici al negozio e avvisi. Il controllo del sito dice «degradato».",
       "livello": "rosso"
     },
     {
-      "titolo": "Togli dalla vetrina il negozio di prova «Panificio Demo»",
-      "motivo": "È la card #201. È approvato dal 5 settembre, con 4 prodotti, e compare accanto ai negozi veri.",
+      "titolo": "Fai finire al fornaio il suo conto Stripe",
+      "motivo": "È la card #182. Oggi Pane Quotidiano non può incassare con la carta: incassi, bonifici e dati risultano tutti spenti.",
       "livello": "rosso"
     },
     {
-      "titolo": "Riaccendi il server della macchina, e prima decidi cosa fare dei 31 lavori in coda",
-      "motivo": "È la card #168. L'ultimo lavoro preso è del 7 ottobre alle 15:37.",
+      "titolo": "Completa gli allergeni di tre prodotti in vendita",
+      "motivo": "Pudding, hummus e pesto non dichiarano gli allergeni. È un obbligo di legge per gli alimenti.",
       "livello": "rosso"
     },
     {
-      "titolo": "Avvisa il fornaio del bando rifiuti del Comune, che chiude il 23 ottobre",
-      "motivo": "È la card #200. Il messaggio è pronto.",
-      "livello": "rosso"
-    },
-    {
-      "titolo": "Porta il database del sito al passo del codice",
-      "motivo": "È la card #191. Adesso che il database è acceso si può fare.",
-      "livello": "rosso"
-    },
-    {
-      "titolo": "Fai attivare i pagamenti con la carta a Pane Quotidiano",
-      "motivo": "È la card #182.",
+      "titolo": "Riaccendi il server che fa lavorare la macchina",
+      "motivo": "È la card #168. L'ultimo battito è del 7/10: da allora giro, sveglie e sentinelle non partono da sole.",
       "livello": "rosso"
     }
   ]

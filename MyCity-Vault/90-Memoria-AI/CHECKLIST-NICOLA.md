@@ -2,7 +2,7 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale, analisi completa dei lavori di Nicola del 25-26/10 (consegne/ad/2026-10-26-lavori-di-nicola.md)
-aggiornato: 2026-11-03 12:15
+aggiornato: 2026-11-16 01:38
 ---
 
 # ✅ Cose che devo fare io (Nicola)
@@ -10,6 +10,8 @@ aggiornato: 2026-11-03 12:15
 > **In due righe.** Sono 75 voci in fila, dalla più urgente alla meno: 14 fatte o già decise, 61 aperte (conto del 3/11 alle 12:15). L'analisi del 3/11 le raccoglie in cinque sedute, con i consigli sulle scelte: `consegne/ad/2026-11-03-lavori-di-nicola.md`.
 >
 > **Letto sul sito vero il 3/11 alle 07:15.** Le chiavi su Vercel sono le stesse del 10/10. Il database è fermo all'aggiornamento 163, e ne mancano 15. Il negozio di prova è ancora in vetrina. Quindi i passi della sezione 00 sono ancora tutti da fare.
+
+> **Aggiornamento del 16/11 alle 01:38, dal giro.** Ho riletto dal vivo solo le voci che si vedono dal sito e dal database: 4 sono fatte e le ho spuntate (posta, Upstash, migrazioni, chiave del database). Due voci adesso pesano di più: approvare il tuo account da fattorino, perché un ordine del 13/11 è fermo senza fattorino, e accendere i lavori a orario su Vercel, fermi dal 30 luglio. Le altre voci non le ho rilette: valgono come il 3/11.
 
 ## In parole semplici
 
@@ -92,11 +94,11 @@ Il sito dev'essere pronto entro il 15/11 e si apre solo con la carta accesa. La 
   → carta #214 · 2 minuti.
 - [x] 🔴 Cancella il Panificio Demo: un comando da incollare nell'editor SQL di Supabase.
   → fatto il 3/11 alle 11:53: l'ha lanciato l'AD col tuo «si cancellalo tu» · resta solo Pane Quotidiano, 5 prodotti.
-- [ ] 🔴 Verifica su Resend il dominio del mittente e metti chiave e mittente su Vercel: fallo per primo, la verifica può durare ore.
+- [x] 🔴 Verifica su Resend il dominio del mittente e metti chiave e mittente su Vercel: fallo per primo, la verifica può durare ore. *(Fatto: dominio verificato su Resend il 3/11 verso le 11:45, le due chiavi di Resend su Vercel il 6/11 fra le 00:45 e le 00:53)*
   → dominio verificato il 3/11 verso le 11:45, preso dal vecchio account di Resend · resta la chiave su Vercel, nella seduta con me.
 - [ ] 🟡 Su Supabase, in una visita: accendi la protezione contro le password rubate, aggiungi il www agli indirizzi di rientro, leggi data del prossimo addebito e scadenza della carta.
   → carte #210, #192, #207 · 12 minuti.
-- [ ] 🟡 Copia su Vercel le due chiavi di Upstash.
+- [x] 🟡 Copia su Vercel le due chiavi di Upstash. *(Fatto: il 6/11 fra le 00:45 e le 00:53, insieme alle chiavi di Resend)*
   → carta #154 · 10 minuti.
 - [ ] 🟡 Guarda Stripe e dimmi com'è messo: chiavi vere o di prova, conto di Pane Quotidiano, indirizzi degli avvisi.
   → carte #210, #154 · 10 minuti.
@@ -138,7 +140,7 @@ Il sito dev'essere pronto entro il 15/11 e si apre solo con la carta accesa. La 
 
 - [x] 🟡 Unisci le richieste di unione delle squadre del sito, una alla volta e solo con le prove verdi.
   → fatto: unite tutte, fino alla #280 del 1/11 alle 18:17.
-- [ ] 🔴 Applica le migrazioni firmate: prima quelle che aggiungono, poi una alla volta quelle che stringono i permessi, mai fra le 8:00 e le 10:30.
+- [x] 🔴 Applica le migrazioni firmate: prima quelle che aggiungono, poi una alla volta quelle che stringono i permessi, mai fra le 8:00 e le 10:30. *(Fatto: 21 migrazioni il 6/11 alle 00:16, altre 11 il 15/11 fra le 02:45 e le 03:06)*
   → carta #209 · circa 70 minuti.
 - [ ] 🔴 Firma la migrazione che ripara il modulo «diventa negozio».
   → carta #209 · 15 minuti.
@@ -149,16 +151,16 @@ Il sito dev'essere pronto entro il 15/11 e si apre solo con la carta accesa. La 
   → carta #154 · 15 minuti.
 - [ ] 🟡 Metti su Vercel le variabili di Sentry, in Europa.
   → carta #210 · 25 minuti.
-- [ ] 🔴 Copia su Vercel la chiave di servizio nuova del database e ripubblica l'ultimo rilascio, mai quello del 9/9.
+- [x] 🔴 Copia su Vercel la chiave di servizio nuova del database e ripubblica l'ultimo rilascio, mai quello del 9/9. *(Fatto: il 6/11 fra le 00:45 e le 00:53. Il 16/11 alle 01:32 il controllo del sito vero risponde «pronto» e legge gli 11 battiti, che solo questa chiave apre)*
   → carte #154, #210 · 10 minuti.
 
 ## 6 · Subito dopo la chiave — il primo ordine vero
 
 - [ ] 🔴 Scrivi dal pannello del sito i dati di Pane Quotidiano.
   → carta #209 · 30 minuti.
-- [ ] 🟡 Approva il tuo account da fattorino, con un'email diversa da quella dell'amministratore.
+- [ ] 🟡 Approva il tuo account da fattorino, con un'email diversa da quella dell'amministratore. **Adesso blocca un ordine:** quello del 13/11 è pronto in negozio da venerdì 13 alle 14:57, e senza un fattorino approvato nessuno può prenderlo.
   → carta #210 · 15 minuti.
-- [ ] 🔴 Fai un ordine vero da Pane Quotidiano in contanti e consegnalo tu, guardando il sito dal telefono.
+- [ ] 🔴 Fai un ordine vero da Pane Quotidiano in contanti e consegnalo tu, guardando il sito dal telefono. *(Il 13/11 alle 14:56 è entrato un ordine da 11,95 € in contanti su Pane Quotidiano: se è il tuo, è fermo al passo «pronto». Dimmi se è il tuo.)*
   → carta #210 · circa 1 ora.
 - [ ] 🟡 Carica una foto di copertina entrando come negoziante.
   → carta #210 · 10 minuti.

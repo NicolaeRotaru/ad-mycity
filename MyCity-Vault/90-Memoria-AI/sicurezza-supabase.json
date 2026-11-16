@@ -1,27 +1,27 @@
 {
   "_cosa_e": "Il controllo di sicurezza di Supabase sul database del sito, salvato dalla macchina (cervello/sicurezza-supabase.mjs dall'uscita di get_advisors). Lo legge la casella «Sicurezza & accessi» del Pannello, che mostra di quando è. Si rifà dalla sessione dell'AD o nel giro.",
-  "aggiornato": "2026-11-05 09:46",
+  "aggiornato": "2026-11-16 01:28",
   "progetto": "clmpyfvpvfjgeviworth (il database del sito)",
-  "oggetti_distinti": 47,
+  "oggetti_distinti": null,
   "avvisi": [
     {
       "nome": "rls_enabled_no_policy",
       "titolo": "RLS Enabled No Policy",
       "livello": "INFO",
-      "quanti": 12,
+      "quanti": 16,
       "link": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
       "esempi": [
         "ai_spend_daily",
         "cod_checkout_attempts",
-        "cron_heartbeats",
-        "email_queue"
+        "coupon_redemptions",
+        "cron_heartbeats"
       ]
     },
     {
       "nome": "security_definer_view",
       "titolo": "Security Definer View",
       "livello": "ERROR",
-      "quanti": 7,
+      "quanti": 8,
       "link": "https://supabase.com/docs/guides/database/database-linter?lint=0010_security_definer_view",
       "esempi": []
     },
@@ -37,7 +37,7 @@
       "nome": "anon_security_definer_function_executable",
       "titolo": "Public Can Execute SECURITY DEFINER Function",
       "livello": "WARN",
-      "quanti": 15,
+      "quanti": 16,
       "link": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable",
       "esempi": []
     },
@@ -45,7 +45,7 @@
       "nome": "authenticated_security_definer_function_executable",
       "titolo": "Signed-In Users Can Execute SECURITY DEFINER Function",
       "livello": "WARN",
-      "quanti": 39,
+      "quanti": 42,
       "link": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
       "esempi": []
     }

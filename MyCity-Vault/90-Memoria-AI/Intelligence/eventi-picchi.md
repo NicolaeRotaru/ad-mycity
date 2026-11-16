@@ -1,123 +1,53 @@
 # 📅 Eventi e picchi di domanda
 
-Aggiornato: 10 ottobre 2026 09:17 · @intelligence
+Aggiornato: 16 novembre 2026 01:30 · @intelligence
 
-> ⚠️ **Oggi il sito non può vendere.** I due database del marketplace sono in pausa. Il controllo di salute del sito risponde 503, cioè «servizio non disponibile». Nessun negozio può incassare. Quindi niente di quello che segue diventa un'azione commerciale adesso: è preparazione a costo zero (🟢), pronta per quando il sito torna a vendere.
->
-> **Il buco:** l'ultimo controllo era del 1° settembre, 39 giorni fa. Meteo, eventi e bandi erano tutti scaduti.
->
-> **Come ho cercato:** l'apertura diretta delle pagine web non ha funzionato su nessun sito. L'errore era di rete: «nome del sito non trovato». Ho fatto tutto con la ricerca web, che restituisce titolo, link e un riassunto. Ho letto i riassunti, non i testi interi.
+> **Come ho cercato.** Le pagine web non si aprono da qui (errore di rete su comune.piacenza.it, liberta.it, piacenza24.eu, meteo.it, meteoblue). Ho usato solo la ricerca web, che dà titolo, link e riassunto. Ho letto riassunti, non articoli interi.
 
-## 🆕 Novità del 10/10
+## In parole semplici
 
-### In parole semplici
+Il Natale di Piacenza parte sabato 21 novembre 2026 in piazza Cavalli, con l'accensione dell'albero e delle luminarie. È la prima data certa che abbiamo: da quel giorno il centro si riempie e la gente pensa ai regali e al cibo per le feste. Il Comune ha scritto che il programma completo sta su nataleapiacenza.it, che da qui non riesco ad aprire.
 
-Nei prossimi 21 giorni a Piacenza non c'è un grande evento in centro. E il meteo non mostra un picco di pioggia sicuro.
+## Cosa cambia per te
 
-Il meteo, in breve. Non ho una previsione affidabile per il 12-24 ottobre: le pagine meteo non si aprono da qui. Le ricerche danno solo tendenze vecchie di 5-8 giorni. Questo weekend dovrebbe migliorare, dopo l'instabilità di venerdì 9. Per mercoledì 14 è indicata nebbia in pianura, senza pioggia di rilievo. Dalla seconda metà del mese è possibile un tempo più autunnale.
+- **Il sito è aperto al pubblico proprio mentre parte la stagione.** Ma con zero ordini pagati e un solo negozio, il picco del 21 novembre è un'occasione per farsi vedere, non per incassare in massa.
+- **Per una panetteria il momento buono è il weekend.** Il trenino gira solo sabato, domenica e festivi dal 21/11 al 20/12 (fonte sotto): in quei giorni il centro è pieno di famiglie e le case a pranzo sono vuote. Il martedì-giovedì è giornata di consegna a domicilio, non di passeggio.
+- **Non ho trovato nulla sulle aperture domenicali dei negozi a Piacenza** né una dichiarazione di Confcommercio o Vita in Centro. Non lo do per inesistente: la ricerca ha restituito quasi solo Svizzera.
 
-Due date certe. Domenica 25 ottobre torna l'ora solare: da lì le serate sono più buie. Domenica 1 novembre è Ognissanti.
+## Cosa devi fare
 
-Gli eventi. Domani, domenica 11, dovrebbe esserci «Manufatto», il mercatino di chi produce a mano, in piazza Duomo. Alla fiera di Piacenza Expo, fuori dal centro, ci sono fiere di settore dal 22 al 24 ottobre. Il 31 c'è una mostra di giocattoli vintage. A novembre arrivano la Fiera dei Vini, dal 14 al 16, e una corsa in piazza Cavalli il 29.
+Niente di urgente da parte tua. Una scelta da portare: vuoi che prepari una bozza (non inviata) di messaggio WhatsApp «Pane Quotidiano per le feste: prenota il pane del weekend con consegna a casa»? Serve solo se il fornaio ha già deciso quanto può produrre in più.
 
-Il Natale 2026 non è ancora annunciato. L'anno scorso il mercatino in piazza Cavalli è durato dal 22 novembre al 24 dicembre.
+## Cosa non ho verificato
 
-### Cosa cambia per te
+- Gli orari esatti: una fonte dice 17:00 per l'accensione, un'altra 16:00 per l'inizio dell'animazione con Babbo Natale. Ho riportato entrambi.
+- Il meteo dei prossimi 7 giorni: non trovato (vedi sotto). Fidati poco.
+- Zona a traffico limitato (ZTL), chiusure di strade, cantieri tra il 16/11 e il 6/12: non trovato, ho cercato solo nella ricerca web.
+- Fiere di Piacenza Expo fra il 16/11 e il 6/12: non cercate di nuovo oggi. Il 10/10 avevo letto «Fiera dei Vini dal 14 al 16 novembre» (fonte non riaperta oggi): oggi ultimo giorno.
+- Aperture domenicali dei negozi: non trovato.
 
-- **Il Natale si decide a novembre.** Il piano dice che a dicembre si smette di inserire negozi nuovi. Quindi i negozi per i regali devono entrare entro novembre. Ogni settimana di sito fermo tra ottobre e novembre è una settimana tolta alla stagione più ricca.
-- **Il bando rifiuti del Comune chiude il 23 ottobre.** Pane Quotidiano ha i requisiti, e i soldi vanno a chi arriva prima. Se vuoi che il fornaio lo sappia, va avvisato in questi giorni.
-- Nei 39 giorni di buco si è aperto e chiuso un bando che non conoscevamo: «Digital Export», delle Camere di Commercio della regione, dal 28 settembre al 5 ottobre. Non era per noi. Ma il buco ci ha resi ciechi proprio mentre era aperto.
+### Dettagli tecnici: calendario con le fonti (consultate il 16/11/2026)
 
-### Cosa devi fare
-
-Una sola decisione: vuoi che qualcuno avvisi Pane Quotidiano del bando rifiuti prima del 23 ottobre? È un messaggio a una persona vera, quindi serve il tuo sì. Se la risposta è no, non c'è altro da fare.
-
-### Cosa non ho verificato
-
-- Il meteo giorno per giorno. Tutto viene da tendenze di 5-8 giorni fa: fidati poco, diciamo 30-40%.
-- La data di «Manufatto». Il 1° settembre il Comune indicava l'11 ottobre. Oggi il sito turistico scrive «1 October». Probabile refuso: tutte le altre date dell'anno cadono di domenica, e l'11 è domenica.
-- Il bando rifiuti: non so se i 400.000 € siano già finiti.
-- Cantieri e viabilità di ottobre. Non ho trovato ordinanze nuove, e la pagina del Comune non si apre da qui.
-- Libertà, IlPiacenza e PiacenzaSera: le ricerche non restituiscono i loro articoli recenti. Una notizia locale importante potrebbe essermi sfuggita.
-
-### Dettagli tecnici — meteo, calendario, viabilità, bandi, con le fonti
-
-**① Meteo Piacenza, 10-24 ottobre**
-
-| Periodo | Cosa dicono le fonti | Fonte | Fiducia |
+| Data | Evento | Luogo | Fonte |
 |---|---|---|---|
-| ven 9 - dom 11/10 | Weekend «a due volti»: instabilità venerdì 9, poi ritorno del bel tempo. Quadro nazionale, non locale | [fleetmagazine.com — traffico e meteo 9-11 ottobre 2026](https://www.fleetmagazine.com/previsioni-traffico-meteo-weekend-9-11-ottobre-2026/) | media |
-| 8-9/10, già passati | Il Resto del Carlino, 5/10: dopo settimane asciutte, possibile peggioramento in Emilia-Romagna l'8-9 ottobre. Lo definiva «scenario minoritario» | [ilrestodelcarlino.it — maltempo, quando e dove](https://www.ilrestodelcarlino.it/meteo/maltempo-quando-dove-pioggia-emilia-romagna-e55b5869) | storico |
-| mer 14/10 | 3BMeteo, tendenza a 12 giorni letta il 2/10: molte nubi, nubi basse e nebbia sulla pianura emiliana, niente fenomeni di rilievo. La fonte stessa dice «attendibilità bassa» | [3bmeteo.com — Emilia-Romagna](https://www.3bmeteo.com/meteo_regione-emiliaromagna.htm?giorno=12) | bassa |
-| 12-16/10 | Un articolo su Milano, a circa 60 km: lunedì 12 nubi e nebbia, minime fino a 5°, poi settimana debolmente instabile. **Non sono sicura che sia del 2026**: anche il 12 ottobre 2020 era un lunedì | [fanpage.it — Milano, lunedì 12 ottobre](https://www.fanpage.it/milano/previsioni-meteo-milano-lunedi-12-ottobre-nuvole-e-nebbia-temperature-minime-in-calo/) | bassa |
-| 17-24/10 | Tendenza mensile del 25/9: prima metà di ottobre stabile e mite; seconda metà forse più autunnale, con correnti da nord o perturbazioni atlantiche | [centrometeoitaliano.it — ottobre 2026](https://www.centrometeoitaliano.it/notizie-meteo/meteo-ottobre-2026-autunno-prova-a-decollare-possibili-svolte-nella-seconda-parte-del-mese-25-09-2026-183413/) | bassa |
-| allerte | Nessuna allerta di ottobre 2026 trovata. La pagina regionale delle allerte, nella versione indicizzata, si ferma a metà agosto | [allertameteo.regione.emilia-romagna.it](https://allertameteo.regione.emilia-romagna.it/en/aggiornamenti/-/asset_publisher/Nb5jHes0zyRl/) | — |
+| Sab 21/11, ore 17 (animazione dalle 16) | Accensione albero (donato da Confindustria) e luminarie; apre il mercatino con 3 casette del Consorzio Alimentare | Piazza Cavalli | [Comune di Piacenza](https://www.comune.piacenza.it/it/news/natale-a-piacenza-2026) · [piacenza24.eu](https://www.piacenza24.eu/natale-a-piacenza-2026/) · [Libertà](https://liberta.it/news/territorio/citta/piacenza/natale-albero-e-luminarie-accese-dal-21-novembre/111700) |
+| 21/11 – 24/12 | Periodo del mercatino/animazione (indicato da una fonte) | Piazza Cavalli | piacenza24.eu (sopra) |
+| 21/11 – 20/12, sabato, domenica e festivi | Trenino | Centro | piacenza24.eu (sopra) |
+| Dal 28/11 | Pista di pattinaggio «Piacenza on Ice» | Pubblico Passeggio | piacenza24.eu (sopra) |
+| 28/11 – 20/12 | Cori di Natale | Piazza Cavalli | sito eventi citato dalla ricerca, non aperto |
+| 18/12 | Befana (da una fonte di eventi) | non letto | idem |
 
-**Impatto:** nessun picco di pioggia prevedibile oggi. Le consegne attive sono zero, quindi l'impatto operativo è nullo. Il dato da tenere è un altro: dal 25/10 il buio arriva un'ora prima. Ipotesi, confidenza 40% e nessun nostro dato a sostegno: sere più buie e più fredde spostano un po' di spesa verso la consegna a casa. Da misurare quando ci saranno ordini. Fonti sull'ora solare: [quifinanza.it — ora solare 2026](https://quifinanza.it/info-utili/ora-solare-2026-quando-torna/1014409/) · [money.it](https://www.money.it/come-cambiare-l-ora-legale-e-solare-sul-cellulare).
+Budget del Comune: 180.000 € (115.000 per le luminarie, 65.000 per l'animazione), stessa fonte. Confidenza sulle date: 80% (il Comune e due testate concordano; due fonti riportano orari diversi). Avvertenza: alcune pagine con «22 novembre» e «Babbo Natale alle 16» sono dell'edizione 2025: non usarle.
 
-Ricerche meteo usate: «meteo Piacenza ottobre 2026 pioggia previsioni settimana», «Piacenza meteo weekend 10 11 ottobre 2026», «tendenza meteo metà ottobre 2026 Nord Italia», «allerta meteo Emilia-Romagna ottobre 2026 Arpae Piacenza», «meteo Emilia-Romagna 12 13 14 ottobre 2026».
+**Meteo (confidenza 30%, tendenza non previsione):** meteo.it del 10/11 indica «tempo instabile e aria più fredda dal 13 novembre»; Meteo Giornale parla di aria artica con raffreddamento dal 19/11, ma senza anno visibile e con testo troncato. Previsione giorno per giorno per Piacenza: **non trovata** (cercato su meteo.it, meteoblue, meteoweb; risultati agosto/settembre). Regola pratica: se il giorno prima è annunciata pioggia o gelo, la consegna a casa del pane vale di più di un giorno sereno.
 
-**② Calendario 10-31 ottobre (da 7 a 21 giorni)**
+**Mercatino 2025 da non confondere:** una guida lo localizzava al Palazzetto di via Alberici (29/11/2025–18/1/2026, [viaggiapiccoli.com](https://www.viaggiapiccoli.com/?p=55735)). Per il 2026 vale piazza Cavalli.
 
-| Data | Evento | Dove | Peso per MyCity | Fonte |
-|---|---|---|---|---|
-| sab 10 - dom 11/10 | Giornate FAI d'autunno, nazionali, in 350 città. Partecipazione di Piacenza non verificata | — | basso | [agi.it, 8/10/2026](https://www.agi.it/cultura/news/2026-10-08/cosa-e-giornate-fai-2026-39417642/) · [siviaggia.it](https://siviaggia.it/notizie/giornate-fai-autunno-10-11-ottobre-2026/605176/) |
-| dom 11/10, da confermare | «Manufatto», mercato di chi produce a mano | piazza Duomo | medio-basso: gente in centro di domenica | pagina eventi del Comune letta il 1/9 (diceva 11/10) · [visitpiacenza.it](https://visitpiacenza.it/en/?p=75913) (oggi scrive «1 October») |
-| 22-24/10 | AGV Expo e T3 Expo: fiere di settore su logistica automatica e camion | Piacenza Expo, fuori dal centro | basso | [visitpiacenza.it — fiere a Piacenza Expo](https://visitpiacenza.it/en/news/piacenza-expo-fairs/) · [logistik-heute.de](https://logistik-heute.de/termine/agv-expo-2026-automated-factory-and-warehousing-show-piacenza-it-285606.html) |
-| dom 25/10 | Torna l'ora solare | — | contesto | fonti sopra |
-| sab 31/10 | Mostra del giocattolo vintage | Piacenza Expo | basso | [visitpiacenza.it — fiere](https://visitpiacenza.it/en/news/piacenza-expo-fairs/) |
-| dom 1/11 | Ognissanti. Cade di domenica: nessun ponte | — | contesto | calendario |
-| Halloween | Nessun evento in centro trovato. Grazzano Visconti fa la sua festa ogni anno, ma la data 2026 non l'ho trovata | provincia | basso | [visitpiacenza.it — Halloween a Grazzano](https://visitpiacenza.it/en/events/halloween-a-grazzano-visconti/) |
-| Sbaracco d'autunno | Nessuna edizione di Piacenza trovata per ottobre | — | — | ricerca «Sbaracco Piacenza ottobre 2026 negozi centro» |
+## Consigli per un solo negozio-panetteria (ipotesi mie, non fatti)
 
-Geofluid, fiera di settore a Piacenza Expo dal 7 al 10/10, chiude oggi. Ricerche usate: «Piacenza eventi ottobre 2026 centro storico», «Piacenza eventi weekend 17 18 ottobre 2026», «"piazza Cavalli" ottobre 2026 evento Piacenza», «Piacenza Halloween 31 ottobre 2026 centro eventi».
-
-**③ Oltre i 21 giorni: i primi segnali di novembre e del Natale**
-- **Fiera dei Vini, da sabato 14 a lunedì 16 novembre**, Piacenza Expo, quarta edizione. Espositori: 230 secondo un comunicato di agosto, 280 secondo un'altra fonte. Novità: un'area «Osteria Piacentina». Fonti: [qds.it — Fiera dei Vini 2026](https://qds.it/fiera-dei-vini-2026-lancia-un-concorso-nazionale-di-fotografia/) · [quotidiano.net — Piacenza Expo](https://www.quotidiano.net/economia/piacenza-expo-un-hub-di-37aa42f7) · [visitpiacenza.it](https://visitpiacenza.it/en/news/piacenza-expo-fairs/). Confidenza 75%: non ho letto una pagina ufficiale di Piacenza Expo.
-- **«4 Piazze Running», domenica 29 novembre**, piazza Cavalli. Una fonte sola, la pagina delle iscrizioni: [avaibooksports.com](https://www.avaibooksports.com/inscripcion/4-piazze-running-2026/?lang=en).
-- **Manufatto** torna l'8 novembre e il 13 dicembre, secondo la stessa pagina di VisitPiacenza.
-- **13 novembre:** seconda festa di Sant'Antonino, il patrono, per il ritrovamento delle reliquie. La festa principale è il 4 luglio. Fonte: [diocesipiacenzabobbio.org](https://diocesipiacenzabobbio.org/wp-content/uploads/2024/07/4luglioSantAntonino.pdf).
-- **Natale 2026: nessun annuncio trovato.** La base dell'anno scorso: mercatini in piazza Cavalli dal 22/11 al 24/12/2025. Pista di pattinaggio al Palazzetto di via Alberici dal 29/11 al 18/1. Trenino gratis nei weekend dal 22/11 al 21/12. Fonti: [opuscolo Natale 2025 del Comune](https://piacenza-api.cloud.municipiumapp.it/s3/5141/allegati/ciao/eventi/2025/brochure-natale-2025.pdf) · [visitpiacenza.it — Natale a Piacenza](https://visitpiacenza.it/en/events/christmas-in-piacenza/). Il programma completo di solito sta su nataleapiacenza.it.
-
-**④ Viabilità e cantieri: nessuna ordinanza nuova trovata per ottobre.** Ricerca: «Piacenza ZTL cantieri viabilità ottobre 2026 lavori centro storico». Stato delle voci già note:
-- Corso Garibaldi e vie vicine, compresa via Calzolai di Pane Quotidiano: divieto di sosta fino al 10/9. **Finito.**
-- Via Maddalena: chiusura dal 7 al 19/9. **Finita.**
-- Via Morigi: senso unico sperimentale dal 24/8, senza data di fine. Stato di oggi non verificato.
-- Via Benedettine: 70 posti auto tolti fino a dicembre. Ancora valido, sulla carta.
-- Via Farnesiana, via Veneto, via Borghetto, via San Bartolomeo: lavori annunciati per fine agosto e inizio settembre. Stato di oggi non verificato.
-- Piazza Cittadella: il Comune ha un bando 2026 per risarcire le attività colpite dal cantiere. Il dettaglio è nel file dei buchi di mercato. Ad agosto la prima pietra era prevista entro aprile 2027.
-- Cornicione di Corso Vittorio Emanuele 226-234: nessuna notizia dal 19/7, cioè da 12 settimane. Da verificare sul posto prima di citarlo.
-- ZTL del centro, 8:00-19:00: invariata per quanto noto.
-- Divieto di alcolici e vetro dalle 24 alle 7, ed esercizi chiusi alle 21, in vicolo Barozzieri, vicolo Moroni e viale Pubblico Passeggio (tratto piazzale Roma - Stradone Farnese). In vigore da agosto. Pesa sulle consegne serali in quelle vie.
-
-**⑤ Bandi: nessun bando nuovo utile a botteghe o a una startup digitale, aperto per ottobre-novembre**
-
-| Bando | Stato al 10/10 | Utile a noi? | Fonte |
-|---|---|---|---|
-| Incentivi alla raccolta differenziata, Comune di Piacenza, 400.000 € | Aperto, chiude il 23/10. I soldi vanno in ordine di arrivo: fondi residui non verificati | **Sì, per Pane Quotidiano**: sotto 250 mq, sede in città. Spese ammesse: compostiere, stop al monouso, meno sprechi di cibo | [bando, pdf del Comune](https://cloud-ita.municipiumapp.it/s3/5141/allegati/servizi/per-sportello-telematico/bando-incentivi-rifiuti-2026.pdf). Data verificata il 1/9 con 4 fonti |
-| Contributi alle attività di piazza Cittadella e piazza Casali, Comune, 8.200 € | Trovato oggi. Date di apertura e chiusura non lette | Solo per chi si affaccia sulle due piazze | [bando, pdf del Comune](https://piacenza-api.cloud.municipiumapp.it/s3/5141/allegati/novit/notizie/2026/piazza-cittadella/bando-contributi-attivita-piazza-cittadella-2026.pdf) |
-| Fonti rinnovabili nelle imprese, Regione: fotovoltaico su pensiline, con accumulo | Aperto dal 30/9 al 15/11 secondo un aggregatore. Il 18/8 avevamo letto 16/11. Fino al 40%, massimo 100.000 €, spesa minima 70.000 € | No: serve un parcheggio aziendale | [reteagevolazioni.it](https://www.reteagevolazioni.it/bando-fotovoltaico-imprese-emilia-romagna/) · [unionecommerciantipc.it](https://www.unionecommerciantipc.it/bando-fotovoltaico-imprese-emilia-romagna/) |
-| Certificazioni ESG, Camera di Commercio dell'Emilia | Chiuso: era aperto dal 17 al 29/9 | No | studiobrancaleone.it, letto il 1/9 |
-| Digital Export 2026-2027, Unioncamere Emilia-Romagna | **Aperto e chiuso nel buco**: dal 28/9 al 5/10. Solo imprese manifatturiere. Contributo del 50%, da 10.000 a 20.000 € | Poco | [ucer.camcom.it — bando](https://www.ucer.camcom.it/internazionalizzazione-delle-imprese/news/notizie-2026/bando-digital-export-2026-2027/documenti/bando-digital-export-2026-2027.pdf/@@download/file) · [scheda CNA](https://forlicesena.cna.it/wp-content/uploads/2026/08/Scheda-CNA-Bando-DIGITAL-EXPORT-2026-2027.pdf) |
-| Innovazione digitale, Efficienza energetica, Piccole imprese per il territorio (Camera di Commercio) | Chiusi il 30/7 | Da ricordare per il 2027 | storico |
-| Commercio di vicinato, Regione | Chiuso il 21/7, al limite delle 350 domande | Da ricordare per il 2027 | storico |
-| Startup innovative, Regione | Edizione 2025 chiusa il 30/1/2026. Nessuna edizione 2026 trovata | Da tenere d'occhio | [reteagevolazioni.it](https://www.reteagevolazioni.it/bando-startup-innovative-emilia-romagna/) |
-
-Ricerche usate: «Camera di Commercio dell'Emilia bando contributi ottobre novembre 2026 scadenza», «emilia.camcom.it nuovo bando settembre ottobre 2026», «Regione Emilia-Romagna bando commercio negozi di vicinato 2026 domande ottobre», «Regione Emilia-Romagna bando startup innovative 2026», «Regione Emilia-Romagna nuovi bandi imprese ottobre novembre 2026», «Comune di Piacenza avviso pubblico imprese commercio ottobre 2026».
-
-**⑥ Opportunità per quando il sito torna a vendere** (tutte 🟢, preparazione)
-
-**1. La finestra del Natale (confidenza 70%).**
-- Fatto: a dicembre il piano ferma l'inserimento di negozi nuovi. Fonte: registro dei fatti, voce `strategia.segmenti-onboarding`.
-- Fatto: l'anno scorso il mercatino di Natale in piazza Cavalli è partito il 22/11.
-- Conseguenza: i negozi di novembre (enoteche, fiorai, cartolerie) devono essere dentro, e capaci di incassare, verso metà novembre. Solo così prendono il Natale.
-- Prima mossa: @vendite prepara adesso la lista dei negozi di novembre e il testo del primo contatto, senza mandarlo. Gancio già pronto per le enoteche: la Fiera dei Vini del 14-16/11.
-- Impatto: non lo stimo. Non abbiamo nessuno storico di vendite, e un numero sarebbe inventato.
-- Effetto a catena: se il sito torna dopo metà novembre, il Natale 2026 è perso per i negozi nuovi. Si arriva a gennaio con un negozio solo, e con la stagione più ricca già passata.
-
-**2. Il bando rifiuti per Pane Quotidiano (chiude il 23/10).** È l'unica cosa con una data vera che non dipende dal sito. È un favore al negozio faro, non una vendita. Serve il via di Nicola, perché è un messaggio a una persona. Fonti nella tabella dei bandi.
-
----
+1. **Venerdì 20/11:** messaggio a chi ha già ordinato o ha il contatto: «sabato e domenica pane fresco, consegna a casa». Impatto stimato: pochi ordini, ma il primo risultato in 2-4 settimane è il paletto del business.
+2. **Dal 21/11 ogni weekend:** una sola offerta semplice (cesto pane + dolce tipico per 2-4 persone), non il catalogo intero. Cinque prodotti oggi: bastano.
+3. **Fine novembre:** chiedere al fornaio quanta capacità ha per 22-24 dicembre; il picco vero della panetteria è lì, non il 21/11.
 
 ## Controlli precedenti
 

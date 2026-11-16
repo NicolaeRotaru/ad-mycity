@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-10-29 20:10** — Automatico: **36 aperte · 121 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-11-16 01:38** — Automatico: **66 aperte · 125 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -31,35 +31,21 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
-### 🟡 #255 — Scegli se il passo finale delle riparazioni deve tornare a controllare la regola dei 40 voci · ⏳ accodata 2026-11-15 11:15
+### 🟡 #256 — Dimmi cosa fare dell'ordine del 13 novembre, fermo nel negozio da venerdì · ⏳ accodata 2026-11-16 01:41 · @operations
 
-Il collaudo corto della correzione dell'officina dice che regge. Resta un rischio. La regola «niente controllo a campione sotto le 40 riparazioni» adesso la guarda solo il controllo del singolo collaudo, non più il passo finale che chiude le voci.
+Sul sito c'è un ordine nuovo, il secondo in tutto. È entrato venerdì 13/11 alle 14:56 su Pane Quotidiano: 11,95 €, da pagare in contanti alla consegna, fascia «oggi 16:30-18:00». Il negozio l'ha accettato dopo 44 secondi e l'ha segnato pronto 8 secondi dopo. Da allora è fermo lì: nessun fattorino l'ha preso, perché nel sito non c'è nessun fattorino approvato.
 
-Esempio vero: il collaudo K08 sul lotto R16, che ha 21 voci, prende 6 rossi al primo controllo. Se la regista lo salta, il passo finale chiude lo stesso tre voci di R16. Oggi la skill di riparazione promette che il passo finale rilancia tutti i controlli: per questa regola non è più vero.
+Esempio di cosa vuol dire: se è un cliente vero, aspetta da venerdì un pane che non arriva, e nessuno lo ha avvisato. I lavori automatici che manderebbero gli avvisi sono fermi dal 30 luglio. Se invece è la tua prova, va chiusa, così non resta un ordine aperto per sempre.
 
-Scegli una strada. (a) Un campo nel piano dice da quale onda vale la regola: il passo finale la guarda nelle campagne nuove e la salta in quella del 12/11. È una sessione corta. (b) Si lascia com'è e si corregge solo la frase della skill, così dice la verità.
+L'ordine l'ha fatto lo stesso account cliente del primo ordine di giugno, iscritto il 24 maggio. Per questo penso che sia una tua prova, ma non lo so.
 
-Di quanto fidarsi: non ho una campagna nuova vera: il caso l'ho ricreato trattando K08 come se fosse nuovo. Non ho fatto prove sui rami veri. Il referto è in `consegne/officina-minima/ricollaudo-2026-11-15.md`, PR #966.
+Scegli una strada. (a) È una prova: annullala dal pannello dell'amministratore. (b) L'hai consegnato a mano: dimmelo, e ti preparo i passi per segnarlo consegnato e incassato. (c) È un cliente vero: chiamalo oggi, poi approva il tuo account da fattorino (carta #210, 15 minuti) e consegna.
 
-Cosa cambia: con la strada (a), una dimenticanza non chiude più una riparazione a campione. Con la strada (b) resta una rete sola, ma scritta.
-Se va bene: l'AD apre la sessione corta, e il suo collaudo rilancia proprio il caso di K08 su R16.
+Di quanto fidarsi: l'ordine e i suoi orari li ho letti dal database del sito stanotte alle 01:28. Chi c'è dietro l'account non lo so. Non ho toccato niente.
 
-### 🟡 #254 — Aspetta a unire la richiesta dell'officina: il collaudo l'ha bocciata · ⏳ accodata 2026-11-15 09:40
+Cosa cambia: l'unico ordine aperto del sito si chiude, oppure diventa la prima consegna vera.
+Se va bene: con la strada (c) è il primo ordine consegnato, e il passo dopo è il primo pagamento con carta sul conto Stripe del fornaio (carta #182).
 
-**✅ Superata il 15/11 alle 10:23.** Nicola ha unito la #962. Dentro c'era già la correzione del bloccante (commit 41e041c). Manca il collaudo corto della correzione: lo apre l'AD.
-
-**Aggiornata il 15/11 alle 11:20.** Il ricollaudo dice che la correzione regge, con una riserva. La scelta su quella riserva è nella carta #255.
-
-**In parole semplici.** L'officina ha costruito i programmi che fanno rispettare le regole sui costi delle riparazioni. Il collaudo indipendente li ha bocciati per un difetto bloccante. La regola «niente controllo a campione sotto le 40 riparazioni» vale anche sui collaudi fatti prima che esistesse.
-
-**Cosa cambia per te.** Esempio: se unissi adesso la richiesta dell'officina, 7 riparazioni già chiuse del 12/11 tornerebbero aperte. E le 7 promosse dal collaudo K10 non entrerebbero nel registro.
-
-**Cosa devi fare tu.** Niente, per ora: non unire la #962. Una sessione corta la sta correggendo, con un tetto di 12 $. Poi un collaudo corto ricontrolla solo il pezzo cambiato, e questa carta diventa «unisci».
-
-**Cosa non ho verificato.** Del referto ho letto la parte iniziale e l'elenco dei difetti. Le prove non le ho rifatte io. Il referto è in `consegne/officina-minima/collaudo-2026-11-15.md`.
-
-Cosa cambia: la richiesta dell'officina resta ferma finché la correzione non passa il collaudo.
-Se va bene: entro oggi la richiesta torna unibile, e una sessione corta scrive le 7 chiusure di K10 nel registro.
 ### 🟡 #253 — Firma l'eccezione per il pulsante di emergenza del fattorino · ⏳ accodata 2026-11-14 17:16
 
 **Numero cambiato il 15/11:** fino a stamattina era la #245. La tua risposta «245 sì», del 15/11 alle 00:32, vale per questa carta. Il numero 245 è rimasto alla carta dell'AD nata alle 06:23: le due carte erano nate su due rami diversi con lo stesso numero, e unendo i rami il numero sarebbe valso due carte.
@@ -76,6 +62,8 @@ Se va bene: entro oggi la richiesta torna unibile, e una sessione corta scrive l
 
 Cosa cambia: la prova comune si aggiorna alla frase giusta e la riparazione rientra.
 Se va bene: la voce entra nel giro allargato o nel controllo, e si chiude se regge.
+
+---
 
 ### 🟡 #252 — Scegli quanto fare del giro allargato dell'onda 2, perché intero sfora il tetto · ⏳ accodata 2026-11-14 17:16
 
@@ -94,22 +82,7 @@ Se va bene: la voce entra nel giro allargato o nel controllo, e si chiude se reg
 Cosa cambia: con la «a» le gravi possono chiudersi in questa onda; con la «c» aspettano l'onda 3.
 Se va bene: la regista prepara il preventivo delle 6 gravi e te lo porta prima di aprire le sessioni.
 
-### 🟡 #251 — Dai il sì per mettere il lavoro dell'onda 2 nella richiesta di unione del sito · ⏳ accodata 2026-11-14 17:16
-
-**Numero cambiato il 15/11:** fino a stamattina era la #243. La tua risposta «ok 243», del 15/11 alle 00:32, vale per questa carta.
-
-**Stato:** ✅ FATTO 2026-11-15 00:54. Hai scritto «ok 243». I nove rami sono nella richiesta di unione del sito, senza le tre correzioni difettose. Le prove automatiche sono tutte verdi, e la richiesta si può unire. Resta in bozza: unirla è tua.
-
-**In parole semplici.** Le sessioni dell'onda 2 hanno riparato ognuna su una copia separata del sito. La regista le mette insieme nella richiesta di unione del sito, che è già aperta in bozza. Sul sito vero non va niente: online va solo quando unisci tu.
-
-**Cosa cambia per te.** Esempio: l'avviso «senza rete» col tasto Riprova, riparato da una sessione, entra nella richiesta insieme agli altri lavori. Con il sì, nella richiesta entrano le 4 voci chiuse dal giro di correzione. Restano fuori tre correzioni che rompono un'altra cosa: il rimborso diviso, gli allergeni, la bacheca del fattorino.
-
-**Cosa devi fare tu.** Scrivi alla regista dell'onda 2 «sì, carica».
-
-**Cosa non ho verificato.** La prova di unione fra i rami è verde. La riunione con la copia unica del sito si prova dopo il sì, prima di caricare.
-
-Cosa cambia: la richiesta di unione del sito si aggiorna con il lavoro del 14/11; il sito vero resta com'è.
-Se va bene: una sessione nuova controlla solo le modifiche nuove, con un tetto di 20 $.
+---
 
 ### 🟡 #250 — Rivedi con l'AD le decisioni ancora aperte dell'onda 2 del sito · ⏳ accodata 2026-11-15 07:10
 
@@ -128,20 +101,7 @@ Se va bene: l'AD aggiorna la lista e accoda solo quello che serve davvero, prima
 - **Reparto:** chief-of-staff
 - **Dettagli tecnici:** `consegne/riparazioni/2026-11-12-sito-tutto/RESOCONTO-ONDA-2.md`, sezione «Le decisioni che aspettano Nicola». Il numero 250 è il primo libero sopra la #249 del ramo `claude/magical-hamilton-xouwr8`.
 
-### 🔴 #249 — Firma le migrazioni e l'unione per mettere online il sito con l'onda 2 · ⏳ accodata 2026-11-15 01:47
-
-**Stato:** ✅ FATTO 2026-11-15 03:10. Hai firmato alle 02:45. Le 11 migrazioni sono passate dalle 02:45 alle 03:06, una alla volta. L'unione è delle 03:07, e alle 03:10 il sito era online.
-
-**In parole semplici.** Il lavoro dell'onda 2 è pronto nella richiesta di unione del sito. Per metterlo online servono le tue firme su tre cose: le 11 migrazioni del database vero, le due deroghe, l'unione nel ramo principale.
-
-**Cosa cambia per te.** Le migrazioni non toccano nessuna riga dei dati di oggi: le ho contate una per una, senza scrivere niente. Vanno applicate prima dell'unione. Esempio: il salvataggio di un prodotto, nel codice nuovo, usa una funzione che nasce con la migrazione 405.
-
-**Cosa devi fare tu.** Scrivi alla regista «firmo le 11 migrazioni, le due deroghe e l'unione». La regista applica le migrazioni una alla volta e si ferma al primo errore. Poi unisce, e il sito si pubblica da solo.
-
-**Cosa non ho verificato.** Nessuna migrazione è ancora passata sul database vero: le ha provate solo un database di prova. Il sito online lo controllo dopo l'unione.
-
-Cosa cambia: con le firme, il sito vero riceve le 78 voci chiuse dell'onda 2 nel giro di un'ora.
-Se va bene: la regista controlla online la cassa, il salvataggio di un prodotto e un rimborso, e te lo scrive.
+---
 
 ### 🟡 #248 — Dai il via al giro sulle 6 voci gravi dell'onda 2, per circa 70 $ · ⏳ accodata 2026-11-15 00:58
 
@@ -160,6 +120,8 @@ Se va bene: la regista controlla online la cassa, il salvataggio di un prodotto 
 Cosa cambia: con il via, le 6 voci gravi possono chiudersi in questa onda; senza, vanno all'onda 3.
 Se va bene: la regista divide le voci, apre le quattro sessioni e le sorveglia ogni 30 minuti.
 
+---
+
 ### 🟡 #247 — Fai finire il controllo dei 90 file di codice che nessuno ha guardato · ⏳ accodata 2026-11-14 17:16
 
 **Stato:** ✅ FATTO 2026-11-15 01:34. Il controllore ha guardato i 90 file e le modifiche nuove: nessuna voce rossa, nessun file rimasto senza controllo, 12,78 $.
@@ -174,6 +136,8 @@ Se va bene: la regista divide le voci, apre le quattro sessioni e le sorveglia o
 
 Cosa cambia: con il sì, ogni file dell'onda 2 avrà avuto almeno un controllo prima dell'unione.
 Se va bene: una sessione nuova parte col tuo clic su «Create Session».
+
+---
 
 ### 🔴 #246 — Rispondi su cosa fare quando un reso respinto arriva dopo il bonifico del lunedì · ⏳ accodata 2026-11-14 17:16
 
@@ -190,6 +154,8 @@ Se va bene: una sessione nuova parte col tuo clic su «Create Session».
 Cosa cambia: con la «a» il bonifico del lunedì non paga mai due volte lo stesso ordine.
 Se va bene: la riparazione entra nel giro allargato delle voci gravi.
 
+---
+
 ### 🔴 #245 — Unisci la richiesta della macchina col piano per chiudere più difetti · ⏳ accodata 2026-11-15 06:23
 
 **In parole semplici.** La richiesta contiene il piano delle onde, le 5 lezioni e le regole nuove che hai firmato stamattina. Tocca solo testi, dati e due date di scadenza: nessun programma nuovo.
@@ -202,6 +168,8 @@ Se va bene: la riparazione entra nel giro allargato delle voci gravi.
 
 Cosa cambia: le regole firmate stamattina diventano quelle di tutte le sessioni, non solo di questa.
 Se va bene: la regista della fase 1 e l'officina lavorano già con queste regole, senza leggerle da un ramo a parte.
+
+---
 
 ### 🟡 #244 — Scegli cosa fare col controllo della macchina bocciato due volte · ⏳ accodata 2026-11-15 06:23
 
@@ -218,6 +186,8 @@ Se va bene: la regista della fase 1 e l'officina lavorano già con queste regole
 Cosa cambia: con la «b» il controllo del glossario entra subito, e il sorvegliante torna nel cantiere.
 Se va bene: la regista della fase 1 o l'AD preparano la versione scelta, e la #956 diventa unibile.
 
+---
+
 ### 🟡 #243 — Leggi nell'app quanto del limite settimanale è già usato · ⏳ accodata 2026-11-15 06:23
 
 **In parole semplici.** Tutto il piano per chiudere più difetti si appoggia a un numero: quanto del limite di questa settimana è già speso. Oggi lo stimo da una tua frase del 12/11, che vale solo come tetto.
@@ -230,6 +200,8 @@ Se va bene: la regista della fase 1 o l'AD preparano la versione scelta, e la #9
 
 Cosa cambia: il tetto fino a giovedì passa dalla stima prudente di 350 $ al numero vero.
 Se va bene: ricalcolo il preventivo delle fasi e lo scrivo nel piano.
+
+---
 
 ### 🟡 #242 — Decidi se un riparatore può spendere di più per sbloccare la cassa del centro · ⏳ accodata 2026-11-13 07:22
 
@@ -244,6 +216,8 @@ Se va bene: ricalcolo il preventivo delle fasi e lo scrivo nel piano.
 Cosa cambia: con la «c» la cassa del centro torna a funzionare in questa onda; con la «b» resta rotta fino alla terza.
 Se va bene: la regista dice a R13 il tetto nuovo, e il bloccante entra nel collaudo di quest'onda.
 
+---
+
 ### 🟡 #241 — Di' sì ai sei passi per sistemare la radiografia del codice · ⏳ accodata 2026-11-13 05:25
 
 **In parole semplici.** Vuoi portare a 9 su 10 i cinque voti del codice del sito, col metodo della radiografia. Prima la radiografia va sistemata e resa ibrida. I passi sono sei. I primi quattro cambiano la macchina. Il quinto prova la radiografia su una copia vecchia del sito. Il sesto è la radiografia vera.
@@ -256,6 +230,8 @@ Se va bene: la regista dice a R13 il tetto nuovo, e il bloccante entra nel colla
 
 Cosa cambia: la radiografia si sistema in sei passi, e i primi quattro arrivano in una richiesta di unione che firmi tu.
 Se va bene: preparo i primi quattro passi, ognuno con la sua prova, e ti porto il preventivo del quinto.
+
+---
 
 ### 🟡 #240 — Fai aggiornare le quattro librerie del sito che hanno falle note, prima di domenica · ⏳ accodata 2026-11-13 05:25
 
@@ -272,6 +248,8 @@ Se va bene: il senior tech apre la richiesta di unione sul sito con le prove ver
 
 Per chi esegue: next almeno 15.5.28, @sentry/nextjs almeno 10.75.2, dompurify almeno 3.4.17, sharp almeno 0.35.5. Il perché sta nel referto `consegne/audit/2026-11-13-giudizio-codice-sito.md`, alla voce «Avvisi delle librerie».
 
+---
+
 ### 🟡 #239 — Scegli come trattare le prove comuni toccate nella prima onda · ⏳ accodata 2026-11-13 01:10
 
 **In parole semplici.** Una regola del risolutore dice che una prova usata da più riparatori la cambia solo la regista. Nella prima onda 9 riparatori su 12 l'hanno toccata lo stesso: 57 prove comuni. Per questo il programma che chiude i difetti oggi dà 63 errori sulla campagna.
@@ -286,6 +264,8 @@ Cosa cambia: i difetti chiusi della prima onda entrano nel registro, e la regola
 Se va bene: la regista lancia la chiusura dei difetti della prima onda dopo che hai unito le due richieste.
 
 **Stato:** ✅ DECISO 2026-11-13 03:27. Hai scelto «a» dopo la spiegazione: la regola resta severa, e per la sola prima onda vale un'eccezione firmata. La mette in pratica la regista nuova, prima di chiudere i difetti della prima onda. Il programma oggi non ha un interruttore per onda su questa regola. La strada più corta è un'impostazione nel piano, come quella che c'è già per la verifica legata al commit: poche righe, con la loro prova. Messa in pratica il 13/11 alle 05:40 dalla regista dell'onda 2. Con «Allarga la a» copre anche i 6 errori che non erano prove comuni. La chiusura a vuoto della prima onda adesso è verde: 115 difetti si chiudono.
+
+---
 
 ### 🔴 #238 — Riprova le tre migrazioni del sito rimaste, ma non la 350 · ⏳ accodata 2026-11-12 23:55
 
@@ -302,6 +282,8 @@ Se va bene: la regista controlla le tabelle sul database e scrive l'esito nella 
 
 **Stato:** ✅ FATTO 2026-11-13 03:17. Su tuo «riprova 361, 363 e 364» delle 03:15, le ha applicate l'AD, una alla volta. Il controllo sul database dice che tutto è al suo posto: la tabella dei codici usati, la colonna dell'obbligo degli allergeni (vera solo su «alimentari»), la guardia sulle categorie, il tipo «domanda» nelle segnalazioni e le tre regole sulle domande. La 350 resta fuori.
 
+---
+
 ### 🔴 #237 — Di' alla regista se parte la seconda onda del risolutore · ⏳ accodata 2026-11-12 23:55
 
 **In parole semplici.** La prima onda ha lavorato 300 difetti del sito e ne ha chiusi davvero 115, per circa 610 $ di consumo. La seconda onda parte solo col tuo «via la seconda». Ora i riparatori lavorano a lotti piccoli, e la stima scende a circa 435 $ per onda.
@@ -316,6 +298,8 @@ Cosa cambia: si lavora il prossimo blocco di difetti del sito, a lotti piccoli e
 Se va bene: alla fine della seconda onda la regista ti porta i numeri veri e il costo misurato.
 
 **Stato:** ✅ FATTO 2026-11-13 05:15. Hai dato il via nella sessione «Ondata 2», con «parti con l'ondata 2». La regista ha diviso l'onda: 12 riparatori per 259 difetti. Alle 05:49 hai passato la sessione in modalità Auto, e i riparatori partono da lì.
+
+---
 
 ### 🟡 #236 — Scegli se togliere alla macchina il permesso di usare il database vero senza chiedere · ⏳ accodata 2026-11-12 23:55
 
@@ -337,6 +321,8 @@ Se va bene: il buco della prima onda è chiuso prima della seconda, e il control
 
 **Stato:** ✅ FATTO 2026-11-13 03:24. Hai tolto tu la riga dal foglio dei permessi, direttamente su `main` (commit 3a5778e). L'AD ha controllato: su `main` lo strumento del database vero non è più fra quelli che si usano senza chiedere.
 
+---
+
 ### 🟡 #235 — Unisci le due richieste del risolutore quando ti va · ⏳ accodata 2026-11-12 23:55
 
 **In parole semplici.** Il lavoro di oggi sta in due richieste di unione. Quella della macchina porta il risolutore migliorato e la radiografia in sessioni. Quella del sito porta le riparazioni della prima onda.
@@ -351,6 +337,8 @@ Se va bene: il buco della prima onda è chiuso prima della seconda, e il control
 
 Cosa cambia: le regole nuove del risolutore e le riparazioni della prima onda entrano nei rami principali.
 Se va bene: chi ripara dopo lavora sul codice già unito, senza ricucire niente a mano.
+
+---
 
 ### 🔴 #234 — Prima di far partire il risolutore, di' dove sta il difetto dei contanti e scegli sugli allergeni · ⏳ accodata 2026-11-07 14:37
 
@@ -369,6 +357,8 @@ Se va bene: aggiungo il difetto dei contanti al registro, se serve, e alla tua f
 
 La verifica dei cinque difetti, con causa, correzione e prova per ognuno: `consegne/audit/2026-11-07-verifica-difetti-palestra/referto.md`. Il registro scritto dalla palestra è nella richiesta NicolaeRotaru/ad-mycity#940.
 
+---
+
 ### 🔴 #233 — Firma l'accoglienza dei negozi nuovi, provata su Pane Quotidiano · ⏳ accodata 2026-11-07 03:41
 
 **In parole semplici.** L'accoglienza è il lavoro che faccio quando entra un negozio. Lo guardo come un cliente e controllo gli obblighi. Preparo i suoi dati e provo il primo ordine in palestra. Poi lo seguo per 4 settimane. L'ho provata su Pane Quotidiano il 7/11.
@@ -383,6 +373,8 @@ Cosa cambia: ogni negozio nuovo arriva al primo cliente con vetrina vera, obblig
 Se va bene: preparo l'avviso a Pane Quotidiano con le correzioni e, alla tua firma, un controllo programmato che lancia l'accoglienza da solo quando entra un negozio.
 
 La procedura: `consegne/accoglienza-negozi/00-come-funziona-l-accoglienza.md`. Il lavoro su Pane Quotidiano: `consegne/accoglienza-negozi/2026-11-07-pane-quotidiano/`.
+
+---
 
 ### 🔴 #232 — Firma il piano della palestra, la copia del sito per le prove · ⏳ accodata 2026-11-06 19:17
 
@@ -413,6 +405,8 @@ Se va bene: costruisco la palestra e controllo che non possa toccare il sito ver
 
 Il piano completo, con le variabili per nome, i costi e cosa non si può provare: `consegne/audit/2026-11-06-radiografia-12-sessioni/piano-palestra.md`.
 
+---
+
 ### 🟡 #231 — Decidi se fare un quarto giro per i difetti rimasti senza verifica · ⏳ accodata 2026-11-06 19:17
 
 > ✅ FATTO 2026-11-07 00:34 — Il quarto giro ha rifatto gli 8 difetti, e sono veri tutti e 8. Entrano nel registro come una falla riservata grave (R310) e 7 minori. Le voci aperte passano da 688 a 696.
@@ -434,6 +428,8 @@ Se va bene: lancio i verificatori, al massimo 4 agenti per il quarto giro, e agg
 
 Fonti: `consegne/audit/2026-11-06-radiografia.md` e il diario della radiografia.
 
+---
+
 ### 🟡 #230 — Rispondi alle domande delle dodici sessioni della radiografia · ⏳ accodata 2026-11-06 19:17
 
 **In parole semplici.** Le dodici sessioni hanno lasciato 33 domande per te, tolti i doppioni. Sono raccolte in un file solo, con la sessione che le ha fatte.
@@ -448,6 +444,8 @@ Cosa cambia: ogni risposta chiude un dubbio del referto, e alcune decidono se un
 Se va bene: scrivo le risposte nel registro dei fatti e aggiorno i difetti che dipendono da loro.
 
 Fonte: `consegne/audit/2026-11-06-radiografia-12-sessioni/domande-per-nicola.md`.
+
+---
 
 ### 🔴 #229 — Revoca i token vecchi su GitHub, poi lancia la radiografia in 12 sessioni · ⏳ accodata 2026-11-06 02:30
 
@@ -473,6 +471,8 @@ Se va bene: incolli la parte 1, la sessione prepara il lavoro e si ferma a mostr
 
 Il token: commit `1f0c01267` e `bfd749929` dell'11/7, tolto dai file con `f54dd5068` il 16/7. I controlli: `consegne/ad/2026-11-06-controlli-prima-dell-apertura.md`. Le parti: `consegne/audit/PROMPT-radiografia-12-sessioni-PARTI.md`. Il prompt: `consegne/audit/PROMPT-radiografia-12-sessioni.md`. Richiesta: NicolaeRotaru/ad-mycity#935.
 
+---
+
 ### 🔴 #228 — Rileggi i testi legali e unisci il lavoro delle dieci sessioni sui difetti piccoli · ⏳ accodata 2026-11-05 18:30
 
 > ✅ FATTO 2026-11-06 00:16 — col tuo «ok migrazioni» ho fatto partire io il pulsante delle migrazioni. Ne mancavano 21, non 6: c'erano anche le 15 delle settimane scorse. Sono entrate tutte, e il catalogo si vede come prima. Resta da guardare il primo rilascio.
@@ -496,6 +496,8 @@ Se va bene: applichi i sei aggiornamenti del database, io guardo il primo rilasc
 
 Richiesta del sito: NicolaeRotaru/mycity#287. Richiesta della memoria: NicolaeRotaru/ad-mycity#932. Referto: `consegne/audit/2026-11-05-dieci-sessioni-minori/REFERTO.md`. Domande: `consegne/audit/2026-11-05-dieci-sessioni-minori/domande-per-nicola.md`.
 
+---
+
 ### 🟡 #227 — Scegli se riparare prima del lancio il conto dei soldi da dare al negozio · ⏳ accodata 2026-11-05 14:42
 
 **In parole semplici.** Hai rimandato a dopo il marketplace i 123 difetti delle sei pagine «Approfondisci» del Pannello. Uno solo è bloccante, e conta già dal lancio. La scheda dei soldi al negozio legge «già pagato» i contanti che il fattorino deve ancora portare.
@@ -512,6 +514,8 @@ Cosa cambia: il conto del bonifico del lunedì a Pane Quotidiano torna giusto da
 Se va bene: riparo una sola funzione con la sua prova; gli altri 122 difetti restano per dopo il marketplace.
 
 Referto: `consegne/audit/2026-11-05-pannello-pagine-approfondisci.md` · scheda del registro: AR-1035 · codice: `pannello/src/lib/marketplace-db.ts` (riconciliazione dei payout)
+
+---
 
 ### 🔴 #226 — Metti le tre chiavi su Vercel e premi il pulsante del database, poi scegli il «fatto» del rimborso · ⏳ accodata 2026-11-05 12:20
 
@@ -532,6 +536,8 @@ Se va bene: apro la prima ondata di riparazioni, i soldi dei contanti e gli avvi
 
 Referto: `consegne/audit/2026-11-05-radiografia.md` · memoria: https://github.com/NicolaeRotaru/ad-mycity/pull/927
 
+---
+
 ### 🔴 #225 — Unisci il piano per aprire e fai i tuoi primi passi · ⏳ accodata 2026-10-31 09:15
 
 **In parole semplici.** Ho ricontrollato sul codice tutte le 1.213 voci del registro del sito e ho scritto il piano per aprire: 7 ondate su due binari. Le prime due stanno già lavorando, l'ondata 1 qui e l'ondata 2 in una seconda sessione.
@@ -550,6 +556,8 @@ Cosa cambia: il sito arriva all'apertura con zero bloccanti e zero gravi raggiun
 Se va bene: lunedì unisci l'ondata 1, premi il pulsante delle migrazioni nuove e metti la chiave di servizio con il fermo dei lavori a orario.
 
 Piano: `consegne/audit/2026-10-31-piano-difetti-sito.md` · memoria: https://github.com/NicolaeRotaru/ad-mycity/pull/906
+
+---
 
 <!-- piano-difetti-sito -->
 
@@ -572,6 +580,8 @@ Se va bene: il sito pubblicato propone le fasce nuove, e il prossimo giro sono l
 
 Referto: `consegne/audit/2026-10-31-ondate-21-24-fasce-nuove.md` · richiesta del sito: https://github.com/NicolaeRotaru/mycity/pull/266
 
+---
+
 <!-- metodo-snello-ondate -->
 
 ### 🟡 #223 — Firma il metodo snello delle ondate del sito · ⏳ accodata 2026-10-30 19:56 · aggiornata 2026-10-30 20:27
@@ -592,6 +602,8 @@ Cosa cambia: le ondate del sito seguono otto regole nuove, e le 11 ondate dei gr
 Se va bene: costruisco il motore snello e lo provo sulla cassa che legge gli orari di Pane Quotidiano.
 
 Referto: `consegne/audit/2026-10-30-metodo-snello.md` · richiesta: https://github.com/NicolaeRotaru/ad-mycity/pull/903
+
+---
 
 <!-- chiave-anti-robot-prima-di-unire -->
 
@@ -1811,5 +1823,5 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ---
 
-> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 121.
+> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 125.
 > Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.

@@ -1,43 +1,40 @@
 # 🔍 Radar concorrenti
 
-Aggiornato: 10 ottobre 2026 09:15 · @intelligence
+Aggiornato: 16 novembre 2026 01:30 · @intelligence
 
-> ⚠️ **Oggi il sito non può vendere.** I due database del marketplace sono in pausa. Il controllo di salute del sito risponde 503, cioè «servizio non disponibile». Nessun negozio può incassare. Quindi niente di quello che segue diventa un'azione commerciale adesso: è preparazione a costo zero (🟢), pronta per quando il sito torna a vendere.
->
-> **Il buco:** l'ultimo controllo del radar era del 1° settembre, 39 giorni fa. Tutti i controlli settimanali erano scaduti.
->
-> **Come ho cercato:** l'apertura diretta delle pagine web non ha funzionato su nessun sito, nemmeno su ansa.it. L'errore era di rete: «nome del sito non trovato». Ho fatto tutto con la ricerca web, che restituisce titolo, link e un riassunto. Ho letto i riassunti, non i testi interi.
+> **Come ho cercato.** Le pagine dei concorrenti non si aprono da qui (errore di rete). Ho usato solo la ricerca web, che dà riassunti. «Nessuna novità» qui vuol dire «nessuna notizia trovata», non «ho guardato la pagina».
 
-## 🆕 Novità del 10/10
+## In parole semplici
 
-### In parole semplici
+Dal 10 ottobre non ho trovato nessuna mossa di un concorrente a Piacenza: nessuna nuova zona, promozione o servizio per Glovo, Deliveroo, Just Eat, Esselunga, Conad, Coop o Cortilia. Una ricerca separata su CompraPiacenza.it non dà nulla di recente.
 
-Nei 39 giorni di buco nessun concorrente ha fatto una mossa visibile a Piacenza. Non ho trovato nuove zone, promozioni o categorie per Glovo, Just Eat, Deliveroo, Conad, Coop, Esselunga o Amazon-Cortilia.
+Le uniche cose nuove sono nazionali e riguardano i fattorini. Non le ho potute legare a Piacenza.
 
-L'unica novità vera è nazionale. Ad agosto la Procura di Milano ha detto no al piano di Glovo per uscire dal controllo giudiziario. Poi Glovo ha ritirato la sua richiesta di uscita: il controllo resta in vigore.
+## Cosa cambia per te
 
-Tre cose che il radar non sapeva:
-- Le estetiste sono uno dei nostri segmenti di ottobre. Per loro il concorrente vero non è Glovo. È Treatwell, l'app per prenotare, già presente a Piacenza.
-- L'accordo Everli-Esselunga per la spesa a casa copre 29 province italiane. Piacenza non c'è.
-- CompraPiacenza.it è nato come progetto della Camera di Commercio per il 2020-2021. Probabilmente è fermo. Questo spiega perché da otto controlli non troviamo niente.
+- **Il punto debole di Glovo e Deliveroo resta usabile ma con cautela.** Febbraio 2026: entrambe sotto amministrazione giudiziaria per sfruttamento dei fattorini ([L'Espresso, 25/2/2026](https://lespresso.it/c/attualita/2026/2/25/deliveroo-caporalato-controllo-giudiziario-glovo-sfruttamento-riders/60209)). Maggio 2026: ispezioni della Guardia di Finanza ([Open, 12/5/2026](https://www.open.online/2026/05/12/rider-food-delivery-inchieste-glovo-deliveroo-diritti/)). Per un panettiere di Piacenza è un argomento debole: non ha fattorini suoi sfruttati, ma non è il loro cliente tipo.
+- **Just Eat è l'eccezione.** Ha assunto direttamente circa 2.500 fattorini in Italia, accordo valido fino a fine 2027 (da ricerca web, fonte singola, da confermare). Non attaccarlo su questo punto.
+- **Cortilia su Amazon copre Piacenza** (già noto da maggio 2026). Consegna il giorno dopo se si ordina entro le 12:30; gratis sopra 109 €; 8,99 € per ordini tra 49 e 88,99 € ([smartworld.it](https://www.smartworld.it/news/cortilia-amazon-amplia.html), articolo senza data chiara). Per un panettiere: loro non fanno pane caldo di quartiere, noi sì. Il nostro vantaggio è l'ora, non il prezzo.
 
-### Cosa cambia per te
+## Cosa devi fare
 
-- Il discorso «da noi i fattorini non sono sfruttati» resta vero, ora con una fonte di fine agosto 2026. Resta parcheggiato finché non ci sono negozi da convincere.
-- Quando proporremo le prenotazioni alle estetiste, ci confronteranno con Treatwell. Treatwell fa pagare una percentuale sui clienti nuovi: nel Regno Unito il 35% della prima prenotazione. Il nostro paletto è l'opposto: niente percentuale su quello che il negozio già incassava, e i clienti restano suoi.
-- CompraPiacenza: propongo di controllarlo una volta al mese invece che ogni settimana.
+Niente. Nessuna mossa dei concorrenti richiede una risposta nelle prossime 2 settimane.
 
-### Cosa devi fare
+## Cosa non ho verificato
 
-Niente. È tutta preparazione.
+- Qualunque pagina di Piacenza dei concorrenti (Glovo, Conad, Esselunga, Cortilia): non aprono da qui.
+- Se Glovo o Deliveroo hanno aggiunto la panetteria come categoria a Piacenza: non trovato.
+- Stato attuale di CompraPiacenza.it: i documenti trovati sono del progetto novembre 2020 - marzo 2021 ([Camera di Commercio, relazione](https://trasparenza.pc.camcom.it/trasparenza/Art-26-27-Dlgs33-2013/internazionalizzazione-e-studi/relazione%20progetto%20compra%20piacenza_pdf.pdf)). Non trovato altro.
+- Spesa online di Coop e Conad a Piacenza: la ricerca ha dato solo guide nazionali. Nessun costo locale verificato. Una ricerca Altroconsumo 2026 premia Coop ed Esselunga per l'e-commerce alimentare ([businessonline.it](https://www.businessonline.it/news/supermercati-discount-e-insegne-locali-le-migliori-secondo-nuova-ricerca-altroconsumo-e-la-spesa-online-non-sfonda_n81409.html)): non è dato di Piacenza.
+- Quote di mercato dei delivery: due fonti discordano (Just Eat sotto il 20% oppure 31,7%). Non usarle.
 
-### Cosa non ho verificato
+## Punto debole sfruttabile (ipotesi, confidenza 50%)
 
-- Le pagine di Glovo, Conad e Cortilia per Piacenza non si sono aperte. Quindi «nessuna novità» vuol dire «nessuna notizia nelle ricerche», non «ho guardato la pagina ed è uguale».
-- La data esatta della decisione del giudice su Glovo: le fonti non la mostrano. So solo che è dopo il 30 agosto.
-- La percentuale di Treatwell in Italia. Il 35% è il dato del Regno Unito. Per l'Italia ho trovato solo un 25% citato in un'intervista, senza certezza sulla piattaforma.
-- Lo stato attuale di CompraPiacenza: ho letto il documento della Camera di Commercio, non il sito.
-- Di quanto fidarsi: molto sul caso Glovo, perché lo riportano quattro testate diverse. Abbastanza sul resto.
+Nessun grande concorrente fa a Piacenza pane caldo dal fornaio sotto casa con consegna a orario scelto. È un'inferenza dall'assenza di notizie, non una verifica sulle app. Prima di dirlo a un negoziante, serve un controllo a mano: aprire Glovo e Conad con un indirizzo di Piacenza e cercare «pane».
+
+---
+
+## Archivio del 10 ottobre (ancora valido: i dettagli sui concorrenti, con le fonti)
 
 ### Dettagli tecnici — le novità una per una, con le fonti
 
