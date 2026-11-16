@@ -1,0 +1,14 @@
+{
+  "creato": "2026-11-15 23:38",
+  "voci": 66,
+  "per_voce_usd": 7.78,
+  "fonte": "misure.json, fase «onda 2 (13-15/11)»",
+  "stima_usd": 513.79,
+  "tetto_usd": 667.93,
+  "massimo_usd": 513.79,
+  "quote_usd": {
+    "collaudo": 77.07,
+    "regia": 51.38,
+    "riparatori": 385.34
+  }
+}

@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-11-12 14:34",
+  "aggiornato": "2026-11-16 01:05",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -26755,7 +26755,7 @@
       "gravita": "minore",
       "impatto_crescita": "basso",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-11-15 11:00",
       "nato_come": "scoperta",
       "origine": "collaudo",
@@ -26766,10 +26766,13 @@
       "causa_radice": "Nessun codice di produzione passa misura:true a decidi (applica e pronte): il ramo con la regola dentro decidi gira solo nei test.",
       "fix_proposto": "Decisione aperta: carta #255 (PR #966). Nicola sceglie fra (a) un campo nel piano, campione_fino_a_40_dall_onda come verifica_testa_dall_onda, passato come misura ad applica e a pronte, e (b) correggere solo la frase della riga 466 della skill riparazione. Qui non si sceglie la cura.",
       "verifica": {
-        "tipo": "umano",
-        "nota": "Si chiude con una prova che dà ad applica un collaudo a campione di un lotto sotto le 40 voci (es. K08 su R16) dall'onda del campo nel piano, e trova le voci resta_aperta."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/collaudi-guardati-insieme.test.mjs",
+        "nota": "Test 10-13 di AR-1184 (campo campione_fino_a_40_dall_onda letto da applica e pronte; valore storto → uscita 2). Rossi con riparazione-sessioni.mjs di prima (4 su 13), verdi con la correzione; 2 mutazioni AR-1184 in cervello/mutanti.json, prese. Collaudo corto indipendente del 16/11 00:42 (session_015BmpnVa1Fw7Z3tTyJdN5ge): regge."
       },
-      "decisione_aperta": "carta #255"
+      "decisione_aperta": "carta #255",
+      "chiuso_il": "2026-11-16 01:05",
+      "chiuso_come": "PR ad-mycity#973 unita da Nicola il 16/11 00:51 (2a59e77); collaudo corto indipendente: regge (559 decisioni uguali a main senza campo, campo a 2 → 197 chiusure con R16-014/015/016 aperte); 13/13 verdi qui dopo l'unione. Buchi minori a parte: AR-1188, AR-1189."
     },
     {
       "id": "AR-1185",
@@ -26839,27 +26842,119 @@
         "tipo": "umano",
         "nota": "Si chiude con una prova che lancia applica --scrivi e chiudi-sito due volte sulla stessa campagna e trova chiuso_il delle voci già chiuse invariato, e la ragione «rossa al controllo» ancora presente."
       }
+    },
+    {
+      "id": "AR-1188",
+      "titolo": "Un numero d'onda che non esiste nel piano spegne la regola dei 40 voci senza dirlo",
+      "dimensione": "guardrail-semaforo",
+      "dove": "cervello/riparazione-sessioni.mjs:95-99 (campioneFinoA40DallOnda), letto da applica e pronte",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-16 00:45",
+      "nato_come": "scoperta",
+      "fonte": "AD chat 5 del 15-16/11",
+      "origine": "collaudo",
+      "nato_da": "collaudo corto della PR ad-mycity#973 (AR-1184), sessione session_015BmpnVa1Fw7Z3tTyJdN5ge, sul commit 22483fc",
+      "owner": "builder-automazioni",
+      "sintomo": "Con campione_fino_a_40_dall_onda = 99 in piano.json (onde esistenti molto meno), applica esce 3 con 200 chiusure come senza campo: la regola non scatta mai e nessun messaggio lo dice. Basta un errore di battitura (20 al posto di 2). Gli altri valori sbagliati (\"2\", 0, -1, 2.5, true) escono invece 2 con un messaggio chiaro.",
+      "causa_radice": "La convalida controlla che il valore sia un intero da 1 in su, ma non lo confronta con le onde scritte nel piano.",
+      "fix_proposto": "Se il valore supera la onda più alta di piano.onde, uscita 2 con lo stesso messaggio degli altri valori sbagliati.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si chiude con un caso nuovo in cervello/test/collaudi-guardati-insieme.test.mjs: piano con onde 1-3 e campo a 99 → applica e pronte escono 2; rosso sul codice di oggi."
+      }
+    },
+    {
+      "id": "AR-1189",
+      "titolo": "Il campo della regola dei 40 voci scritto nel posto sbagliato o con un nome sbagliato viene ignorato senza avviso",
+      "dimensione": "guardrail-semaforo",
+      "dove": "cervello/riparazione-sessioni.mjs (campioneFinoA40DallOnda; stesso stampo in verifica_testa_dall_onda)",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-16 00:45",
+      "nato_come": "scoperta",
+      "fonte": "AD chat 5 del 15-16/11",
+      "origine": "collaudo",
+      "nato_da": "collaudo corto della PR ad-mycity#973 (AR-1184), sessione session_015BmpnVa1Fw7Z3tTyJdN5ge, sul commit 22483fc",
+      "owner": "builder-automazioni",
+      "sintomo": "Il campo messo dentro onde[1] invece che al livello alto di piano.json, o scritto «campione_fino_a_40_dall_onde», è ignorato: applica esce 3 con 200 chiusure come senza campo. Capita a chi modifica il piano a mano, come farà la regista per l'onda 3.",
+      "causa_radice": "Il programma legge una sola chiave al livello alto e non guarda se ci sono chiavi simili altrove.",
+      "fix_proposto": "Un avviso (o uscita 2) se una chiave che comincia con «campione_» o «verifica_testa_» compare dentro un'onda o con un nome che non esiste.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si chiude con due casi nel test della #973: campo dentro onde[1] e nome sbagliato → avviso visibile o uscita 2; rossi sul codice di oggi."
+      }
+    },
+    {
+      "id": "AR-1190",
+      "titolo": "Il freno sugli agenti non vede il ruolo delle sessioni aperte con «/effort ultracode»",
+      "dimensione": "guardrail-semaforo",
+      "dove": "cervello/riparazione/freno-subagenti.mjs:49-65 (primoPrompt) e :104-106",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-16 00:45",
+      "nato_come": "scoperta",
+      "fonte": "AD chat 5 del 15-16/11",
+      "origine": "riparazione",
+      "nato_da": "quaderno dell'AD chat 4 (consegne/ad/2026-11-16-passaggio-chat-ad-onda3.md, prossimi passi 3): debito dichiarato, scritto qui dalla chat 5",
+      "owner": "builder-automazioni",
+      "sintomo": "Il freno legge il ruolo solo dal primo messaggio della sessione. Se la sessione nasce con «/effort ultracode», il primo messaggio è il comando e non contiene la riga «ruolo-freno:»: il ruolo resta nullo e la sessione non ha tetto di agenti. Oggi non scatta perché Nicola ha spento ultracode su tutta l'onda 3; scatta alla prima sessione di campagna aperta con ultracode.",
+      "causa_radice": "primoPrompt torna il primo messaggio utente non meta, qualunque sia; un comando slash in testa prende il posto del brief.",
+      "fix_proposto": "Cercare la riga ruolo-freno nei primi messaggi utente fino al primo che non è un comando slash (o nei primi N), non solo nel primo; in alternativa far dare il ruolo dall'ambiente (FRENO_RUOLO) quando la sessione è creata da create_session.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si chiude con un caso nel test del freno: trascritto il cui primo messaggio utente è il comando /effort e il secondo ha «ruolo-freno: riparatore-minori» → ruolo letto e tetto 6; rosso sul codice di oggi."
+      }
+    },
+    {
+      "id": "AR-1191",
+      "titolo": "Il freno sugli agenti non conta le riprese di un revisore già aperto (SendMessage)",
+      "dimensione": "guardrail-semaforo",
+      "dove": "cervello/riparazione/freno-subagenti.mjs:39 (STRUMENTI = Agent, Task, Workflow) e il blocco da incollare in .claude/settings.json (matcher «Agent|Task|Workflow»)",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-16 01:45",
+      "nato_come": "scoperta",
+      "origine": "collaudo",
+      "nato_da": "nota del collaudatore K12 dell onda 3 (session_015BmpnYkT8tPNJhEYhBJmhx), girata dalla regista O3 tre il 16/11 01:40",
+      "fonte": "AD chat 5 del 15-16/11",
+      "owner": "builder-automazioni",
+      "sintomo": "Il freno conta solo i lanci nuovi di agenti. Una sessione di campagna può riprendere lo stesso revisore con SendMessage quante volte vuole: ogni ripresa costa come un passo d agente e non entra nel conto. Nell onda 3 K12 è arrivato a 2,33 $ a voce giudicata contro 1,2 $ di K11, con due revisori per lente su tutte le voci e la storia a 261 mila token.",
+      "causa_radice": "La lista degli strumenti frenati è stata scritta pensando ai lanci (Agent, Task, Workflow); la ripresa di un agente passa da un altro strumento.",
+      "fix_proposto": "Aggiungere SendMessage alla lista e al matcher, con un tetto suo di riprese per ruolo (o contarle insieme ai lanci), e una prova che lo dimostri.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si chiude con un caso nel test del freno: sessione con ruolo collaudatore che fa N+1 riprese con SendMessage → la N+1 è bloccata; rosso sul codice di oggi. Il freno in .claude/settings.json lo incolla solo Nicola."
+      }
     }
   ],
   "meta": {
     "letto": true,
-    "totale": 1025,
-    "aperti": 207,
+    "totale": 1180,
+    "aperti": 356,
     "in_corso": 1,
     "da_riverificare": 10,
-    "chiusi": 807,
+    "chiusi": 813,
     "altri": 0,
-    "da_fare": 218,
+    "da_fare": 367,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 807,
-      "aperto": 207,
+      "chiuso": 813,
+      "aperto": 356,
       "da-riverificare": 10,
       "in-corso": 1
     },
     "stati_ignoti": [],
-    "senza_owner": 218,
-    "senza_scadenza": 218,
+    "senza_owner": 222,
+    "senza_scadenza": 367,
     "scaduti": 0,
     "derivato_dalla_lista": true,
     "somma_torna": true

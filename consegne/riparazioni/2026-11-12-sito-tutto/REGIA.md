@@ -1,11 +1,13 @@
 ---
 tipo: quaderno-di-bordo
 data: 2026-11-13 05:50
-per: la regista della campagna «sito, tutto» (onda 2: dalle 08:30 del 14/11 la «regista O2 settima», id in sessioni.json)
-stima_usd: 435
+per: la regista della campagna «sito, tutto». Dal 15/11 alle 23:50 l'onda 3 riparte da REGIA-ONDA-3.md
+stima_usd: 195
 ---
 
 # La regia della campagna «sito, tutto»
+
+> **Onda 3 (15/11, 23:50):** il quaderno di adesso è `REGIA-ONDA-3.md`. Qui sotto resta la storia delle onde 1 e 2.
 
 ## In parole semplici
 Questo foglio lo legge la regista. È la sessione che apre i riparatori, li sorveglia e unisce il loro lavoro.
@@ -98,3 +100,4 @@ Decisioni di Nicola delle 06:05 (via l'AD `session_015BmpnYSQgvReHZZJxrC8mw`, pi
 - Conti delle 16:08 (tutti e quattro i ricollaudi finiti, applica a vuoto su copia, nessun rosso): onda 2 = 78 si chiudono, 3 già riparate, 178 aperte; onda 1 = 115, 7, 178. Ricollaudi 40,54 $ su 39. K08 quarto ha visto 4 difetti nuovi fuori voce (in sessioni.json). Nicola il 15/11 alle 00:32: «ok 243, 244 a, 245 sì, 246 a, 247 sì». Integrazione riunita e spinta a dbb84ebd (verify verde in locale, CI della #290 verde, unibile); fuori de5a0b46, 854ddc8a, dbb84ebd. C02 quinto (`…X3s688`) ha finito alle 01:34: 0 voci rosse, 6 nati minori, 0 file non guardati, 12,78 $. Attenzione: i referti in .riparazione/ dicono ancora «riparato» R18-019 e R20-011, tolte; prima di un nuovo collaudo vanno corretti, o un «regge» le chiuderebbe senza codice. Prossimo: il preventivo delle 6 gravi (R18-001 è riservata: binario a parte).
 - Fermata 3, lista: deroghe 10708bcf (R13) e bb53b6be (R17); R17 con 15 subagenti su 12; K05-K07 oltre il tetto; R15-005; le falle riservate (9 + la variante di K08), dettagli SOLO in chat; la migrazione 412 da firmare; i 90 file; il freno mancante sullo strumento Workflow (da incollare in `.claude/settings.json`, solo Nicola); costo e quota; R20-011 rompe_altro (terzo giro solo con Nicola); la guardia di K09 rossa (57 file in più); la migrazione 426 di R18 da firmare. K09 secondo (15:55): R17-013 rompe altro sui soldi (12,79 € invece di 13,50 quando la banca respinge un rimborso diviso), quindi il suo 33cf043 resta fuori dall'unione finché Nicola non sceglie; R17-017 ha un residuo che c'era già, legato alla migrazione 126 che manca in produzione. K07 secondo (16:00): R18-014 rompe altro, perché con la 426 un alimentare si pubblica senza allergeni su un cerchio di categorie creato a mano: b9184071 e la 426 restano fuori, e la 426 non va firmata così; campione R18 non accettato (4 su 5). La regola 10 di sessioni-insieme dice che l'ultracode perso a un riavvio «non è ancora stato visto»: è successo alla settima alle 08:35 e a K08 terzo alle 15:36, va aggiornata.
 - Costo: riparatori del giro 68,22 $ + R15 secondo 14,23 $ + R16 secondo 11,34 $ + K08 terzo 11,39 $ + K05 secondo 11,47 $; quasi tutti oltre il tetto perché usage.cost_usd compare solo a lavoro chiuso (da dire in fermata). Catena di sorveglianza allungata a 60 minuti alle 12:32 (`trig_01H5c9X5HQPiVhVbwXH9pzav`), perché nessuna figlia è viva: torna a 30 quando partono i ricollaudi. PR e CI terzo: `…ZQGy36` (#290 rossa solo su «404 page is custom», sparisce con l'unione di m15). Da non archiviare: la 4.0 e la cucitura. Copia del sito `blob:none`: scaricare in blocco i contenuti prima di sorveglia.sh e applica.
+- 2026-11-15 23:38 · preventivo (conti --preventivo): 66 voci × 7.78 $ = stima 513.79 $ · tetto 667.93 $ · massimo 513.79 $ (collaudo 77.07 $, regia 51.38 $ dentro; misure.json, fase «onda 2 (13-15/11)»)
