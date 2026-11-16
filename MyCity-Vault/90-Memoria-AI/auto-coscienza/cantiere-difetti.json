@@ -26911,6 +26911,29 @@
         "tipo": "umano",
         "nota": "Si chiude con un caso nel test del freno: trascritto il cui primo messaggio utente è il comando /effort e il secondo ha «ruolo-freno: riparatore-minori» → ruolo letto e tetto 6; rosso sul codice di oggi."
       }
+    },
+    {
+      "id": "AR-1191",
+      "titolo": "Il freno sugli agenti non conta le riprese di un revisore già aperto (SendMessage)",
+      "dimensione": "guardrail-semaforo",
+      "dove": "cervello/riparazione/freno-subagenti.mjs:39 (STRUMENTI = Agent, Task, Workflow) e il blocco da incollare in .claude/settings.json (matcher «Agent|Task|Workflow»)",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-11-16 01:45",
+      "nato_come": "scoperta",
+      "origine": "collaudo",
+      "nato_da": "nota del collaudatore K12 dell onda 3 (session_015BmpnYkT8tPNJhEYhBJmhx), girata dalla regista O3 tre il 16/11 01:40",
+      "fonte": "AD chat 5 del 15-16/11",
+      "owner": "builder-automazioni",
+      "sintomo": "Il freno conta solo i lanci nuovi di agenti. Una sessione di campagna può riprendere lo stesso revisore con SendMessage quante volte vuole: ogni ripresa costa come un passo d agente e non entra nel conto. Nell onda 3 K12 è arrivato a 2,33 $ a voce giudicata contro 1,2 $ di K11, con due revisori per lente su tutte le voci e la storia a 261 mila token.",
+      "causa_radice": "La lista degli strumenti frenati è stata scritta pensando ai lanci (Agent, Task, Workflow); la ripresa di un agente passa da un altro strumento.",
+      "fix_proposto": "Aggiungere SendMessage alla lista e al matcher, con un tetto suo di riprese per ruolo (o contarle insieme ai lanci), e una prova che lo dimostri.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si chiude con un caso nel test del freno: sessione con ruolo collaudatore che fa N+1 riprese con SendMessage → la N+1 è bloccata; rosso sul codice di oggi. Il freno in .claude/settings.json lo incolla solo Nicola."
+      }
     }
   ],
   "meta": {
