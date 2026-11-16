@@ -6996,3 +6996,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Per tornare indietro:** i quattro `drop` scritti in fondo al file SQL, poi `update public.lavori set stato='in_attesa', updated_at=now() where stato='annullato' and risultato like '%[doppione] annullato il 2026-11-15%';`
 - **Cosa resta:** il server è ancora spento (ultimo battito 39 giorni fa). Il freno ferma i doppioni, ma i lavori restano in attesa finché non si riaccende.
 - **Colore:** 🔴 scrittura sul database vero, eseguita con la firma di Nicola nella domanda in chat.
+
+## 2026-11-16 11:05 — Via ai due riparatori dell'onda 4 del sito
+- **Cosa:** Nicola in chat: «12% via ai riparatori». La regista dell'onda 4 apre R28 (testi del sito, 25 voci) e R29 (percorsi d'acquisto, 25 voci).
+- **Perché:** caso atteso circa 126 $ per 14-17 voci chiuse, dentro il tetto di 170 $ fino a giovedì 19/11 alle 10:00 (resto dei 350 $ firmati).
+- **Da chiarire:** subito dopo Nicola chiede «che cos'è questo 12%». La lettura non entra in `misure.json` finché non la conferma.
+- **Colore:** 🟡 spesa dentro un tetto già firmato.
