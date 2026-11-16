@@ -227,7 +227,15 @@
    "tetto_usd": 35,
    "consegna_usd": 25,
    "tetto_agenti": 8,
-   "ultracode": false
+   "ultracode": false,
+   "finita": true,
+   "punta": "fa246d9164b884f99ffb3e6433a178d8e2c25233",
+   "testa": "97b6d3b514ba84a14a238ee8438161ea98411cb8",
+   "spesa_usd": 22.92,
+   "chiusa": "2026-11-16 01:18",
+   "controllo_regia": "sorveglia 01:21: guardia ✅, referto ✅ 22 voci, unione ✅",
+   "esito": "1 parziale (R25-001, grave, due giri di correzione), 21 non_fatto",
+   "domanda_per_nicola": "R25-001: finestra di pochi secondi a ordini.ts:462 — controllo nel database (migrazione 490-499) in un onda dopo, o basta l avviso agli amministratori?"
   },
   "R26": {
    "id": "session_015BmpnYAcQyeLz2AB2gFogr",
@@ -432,14 +440,18 @@
    "ramo": "claude/sito-onda-3-k12",
    "partenza": "aa0be11a93cbee738224f41052b8f7226e3c75ee",
    "riparatori": [
-    "R26"
+    "R26",
+    "R25"
    ],
    "onda": 3,
    "aperta": "2026-11-16 01:10",
    "tetto_usd": 43.61,
-   "tetto_nota": "strada b dell AD (00:52): 30 $ + 13,61 $ lasciati da R26 sotto i 35 $; sale con quanto lasciano R25 e R27, massimo 60 $",
+   "tetto_nota": "parte da 30 $ (strada b dell AD, 16/11 00:52, paletto 1): sale solo coi dollari che i riparatori lasciano sotto i 35 $, massimo 60 $. 43,61 = 30 + 13,61 (R26). Dalle 01:22 in vigore 55,69 $ con i 12,08 di R25 (aggiunte_usd). Torna a 0 a collaudo chiuso.",
    "mandato": "giudizio pieno senza campione su R26, poi R25 e R27 in catena",
-   "finita": false
+   "finita": false,
+   "aggiunte_usd": {
+    "R25": 12.08
+   }
   }
  },
  "controllori": {

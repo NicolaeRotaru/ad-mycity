@@ -536,3 +536,8 @@
 2026-11-16 01:07 · R26 · in lavoro FINITA · guardia ✅ · referto ✅ 22 voci · unione (sotto) · nessuna
 2026-11-16 01:07 · R27 · in lavoro · guardia ✅ · referto ⏳ 7 voci · unione (sotto) · nessuna
 2026-11-16 01:07 · onda 3 · prova-unione ✅
+2026-11-16 01:19 · R25 · in lavoro FINITA · guardia ✅ · referto ✅ 22 voci · unione (sotto) · nessuna
+2026-11-16 01:19 · R26 · in lavoro FINITA · guardia ✅ · referto ✅ 22 voci · unione (sotto) · nessuna
+2026-11-16 01:19 · R27 · in lavoro · guardia 🔴 · referto ⏳ 7 voci · unione (sotto) · nessuna
+2026-11-16 01:19 · K12 · ramo non ancora spinto · guardia – · collaudo – · nessuna
+2026-11-16 01:19 · onda 3 · prova-unione ✅
