@@ -1,0 +1,35 @@
+{
+  "controllore": "C03",
+  "onda": 3,
+  "finita": true,
+  "aggiornato": "2026-11-16 08:50",
+  "testa": "cb8effaa900006168041087bc60e6cd74c37a9c4",
+  "base": "76d4c4d79254284a0330eb865ff029db5261e26e",
+  "verify": {
+    "comando": "NODE_OPTIONS=--max-old-space-size=8192 npm run typecheck && npm run lint && npx vitest run --reporter=dot ; tests/sql/harness/apply.sh c03_test && tests/sql/harness/run.sh c03_test",
+    "esito": "verde",
+    "nota": "Girate da C03 sull'albero unito a cb8effaa, una volta sola. tsc pulito; lint 0 errori e 99 avvisi; vitest 1587 file di prova verdi su 1588 (1 saltato) e 10445 prove su 10446 (1 saltata), 312 s, con NODE_OPTIONS=--max-old-space-size=8192. Harness SQL su un Postgres 16 locale e usa e getta: 206 migrazioni applicate su 206, comprese la 500 e la 501, poi 73 file di controllo verdi su 73, compresi i due di R26. Coincide con quanto misurato dalla regista. Nessuna voce rossa per le prove."
+  },
+  "voci_rosse": [
+    {
+      "chiave": "api-backend|l'allarme 'scrivile tu' si chiude solo se l'email parte: se la persona annulla o viene cancellata resta aperto per sempre col suo id",
+      "perche": "non è sul ramo unito: il commit di R14-014 (fdd02e1b87da, sul ramo di R14 claude/magical-hamilton-xouwr8-m14) non è antenato di cb8effaa (git merge-base --is-ancestor esce 1), e app/api/cron/process-deletions/route.ts, l'unico file di codice che tocca, è identico fra la base 76d4c4d7 e la testa. Il «regge» di K11 vale per il ramo di R14, non per questo albero. Poggia su R14-012 e R14-013, che sono a metà."
+    }
+  ],
+  "nuovi_difetti_visti": [],
+  "cancellazione_insieme": "lib/account/cancellazione.ts, toccato da R26-001 (righe 91-378: CARTELLE_PERSONALI_NEI_SECCHI_PUBBLICI, photo_urls azzerato su returns, fileDellaCartella che scende a ogni profondità) e da R14-007/R14-015 (righe 798-1043: identificativoDaChiave ed eUnDoppione sul registro, deleteUser 404/user_not_found come «già chiuso», giaCancellato nell'esito). Stanno in piedi insieme. ① Zone separate: nessuna riga in comune, nessuna funzione chiamata da tutte e due. ② Due cancellazioni dello stesso account partite insieme (lo scenario di R14-015), col passo nuovo di R26-001 in mezzo: il secondo giro elenca products/<utente>/returns già svuotata (elenco vuoto, nessun errore) o toglie file già tolti dal primo (lo storage non dà errore su un file che non c'è più); l'azzeramento di photo_urls trova 0 righe perché buyer_id è già NULL (ON DELETE SET NULL, migrazione 122). Quindi R26-001 non apre una strada nuova verso un falso «file non rimossi» → ok:false → sveglia notturna: la correzione di R14-015 resta vera. ③ L'ordine dei passi di cancellaAccount non cambia: i file di R26-001 restano nel ② e un errore di elenco ferma prima del ③ (deleteUser), come per gli altri secchi. ④ Chi legge l'esito: app/api/admin/users/[id]/delete/route.ts:85 (giaCancellato → niente seconda riga user.delete) e app/api/cron/process-deletions/route.ts:202 (ok:true → contato fra i riusciti, nessuna sveglia); nessuno dei due legge fileRimossi in un modo che il passo nuovo cambi. ⑤ Nessun altro chiamante: cancellaFilePersonali ed elencaCartella si usano solo dentro cancellazione.ts; SECCHI_CON_FILE_PERSONALI non cambia, quindi scripts/backup-db.sh resta allineato. Le prove di tutte e due (riparazione-r26-foto-dei-resi, riparazione-r14-cancella-utente, riparazione-r14-giro-cancellazioni) girano verdi nella stessa suite sull'albero unito.",
+  "unione": "Come l'ho controllata, prima dei file. R26 è entrata con un merge (470668b4) da un ramo nato esattamente sulla base 76d4c4d7: git diff 8cbf7c73 470668b4 è vuoto, quindi i file di R26 sono quelli che K12 ha collaudato, riga per riga. Le quattro scelte di R14 sono uguali agli originali del ramo di R14 (righe +/- confrontate: 5b8c0b71=8d43f44f, 214adc53=e1088bd6, 5722621e=f45fb244, 4711b970=cb8effaa). I loro file non sono cambiati fra la base di R14 (a19ff892, antenata di 76d4c4d7) e la base dell'onda: git log a19ff892..76d4c4d7 su quei file è vuoto. Nessuno dei quattro commit poggia su un altro commit di R14 rimasto fuori: sugli stessi file R14 ha solo R14-012, 013 e 014 (process-deletions, avvisi-a-chi-aspetta) e R14-018 (tolto). L'unico file toccato sia da R26 sia da R14 è lib/account/cancellazione.ts (vedi «cancellazione_insieme»).",
+  "voci_che_chiudono_guardate": "Le voci che applica chiuderebbe (riparatore «riparato», collaudo «regge»): R26-003, R26-009, R26-020, R14-008, R14-015, R14-017, R14-020 sono sul ramo unito e reggono anche qui. Le tre domande, sui pezzi cambiati: R26-003 (app/api/cron/send-push/route.ts:104-125) rilegge prima le notifiche che non aspettano, gli avvisi 'system' di R14-020 ci finiscono davanti; se la rilettura cade resta l'ordine di prima con un avviso nel log. R26-009 e R26-019 condividono app/admin/cod-remittance/page.tsx: con l'elenco tagliato a 1000 il gruppo al confine manda solo gli id mostrati, e con la 501 si sblocca solo quello. R26-020: wallet_debit si chiama solo in app/api/orders/cod/route.ts:1302, nessuna altra copia del difetto. R14-017: nessuna copia della regola larga [0-9a-f-]{36} resta in app/ o lib/. R14-020: le due scritture di avvisi del file passano entrambe da avvisaGliAmministratori. R14-008: la sola rotta che cancella un utente rifiuta il ruolo admin. R14-014 è rossa (sopra). R26-002 non chiude comunque (il riparatore la dà «parziale»); R26-001, R26-019, R26-021 e R14-007 restano aperte per il collaudo parziale, e quello che resta l'hanno già scritto K11 e K12 (fra cui la 501 da correggere prima di applicarla, K12): non lo ripeto.",
+  "esclusi": "R25 e R27 non sono sul ramo unito: le loro voci non le ho giudicate, come chiesto. Delle altre voci di R14 sul ramo unito c'è solo il codice dei quattro commit scelti; le voci di R14 rimaste fuori hanno un collaudo «parziale» o «rompe_altro» (K11) e applica non le chiude, tranne R14-014, che per questo è rossa.",
+  "file_toccati": 28,
+  "file_guardati": 14,
+  "file_non_guardati": {
+    "quanti": 14,
+    "perche": "Guardati tutti i 14 file di codice: le 11 rotte e pagine, lib/account/cancellazione.ts e le migrazioni 500 e 501. app/api/stripe/checkout/route.ts l'ho letto di corsa, senza i commenti: è solo di R26 e identico a quello collaudato da due revisori di K12. Non guardati come codice: i 13 file di prova e .riparazione/referto-R26.json. Le prove le ho fatte girare tutte, verdi, nella suite sull'albero unito."
+  },
+  "conto": {
+    "subagenti": 0,
+    "token_stimati": 190000,
+    "nota": "Nessun subagente: 14 file di codice e una sola sovrapposizione fra rami. Leggere i diff da sola costava meno di un passaggio di consegne. Il costo non lo so leggere: get_session su questa sessione non mostra usage.cost_usd, quindi i token sono una stima del contesto. Non mostra nemmeno is_ultracode_active: il prompt della regista diceva «mai Workflow», e ho seguito quello. Il database vero non l'ho mai toccato, né con Supabase né con Vercel o Stripe. Ho usato solo un Postgres 16 usa e getta su /var/tmp/c03pg, porta 5433."
+  }
+}

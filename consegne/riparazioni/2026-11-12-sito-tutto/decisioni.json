@@ -1,6 +1,6 @@
 {
   "campagna": "2026-11-12-sito-tutto",
-  "quando": "2026-11-16 06:34",
+  "quando": "2026-11-16 08:48",
   "decisioni": [
     {
       "id": "R01-001",
@@ -4229,14 +4229,15 @@
       "chiave": "api-backend|l'allarme 'scrivile tu' si chiude solo se l'email parte: se la persona annulla o viene cancellata resta aperto per sempre col suo id",
       "gravita": "minore",
       "esito": "riparato",
-      "verdetto": "regge",
+      "verdetto": "rossa_al_controllo",
       "collaudatore": "K11",
-      "decisione": "si_chiude",
-      "perche": "",
+      "decisione": "resta_aperta",
+      "perche": "rossa al controllo sul ramo unito (C03: non è sul ramo unito: il commit di R14-014 (fdd02e1b87da, sul ramo di R14 claude/magical-hamilton-xouwr8-m14) non è antenato di cb8effaa (git merge-base --is-ancestor esce 1), e app/api/cron/process-deletions/route.ts, l'unico file di codice che tocca, è identico fra la base 76d4c4d7 e la testa. Il «regge» di K11 vale per il ramo di R14, non per questo albero. Poggia su R14-012 e R14-013, che sono a metà.)",
       "come": "collaudo pieno",
       "verifica_comando": "npx vitest run tests/unit/riparazione-r14-giro-cancellazioni.test.ts",
       "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base fdd02e1b87da^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14a --base fdd02e1b87da095e94fb013c1901ce9f2e224f41^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json   (checkout fdd02e1b87da095e94fb013c1901ce9f2e224f41) → uscita 0 (K11)",
-      "nota_fix": "Ogni notte (anche quelle senza nessuno da cancellare, dove finisce chi ha annullato) si leggono gli allarmi «scrivile tu» aperti degli amministratori, si ricava la persona dalla riga «Chi aspetta: l'utente <id>» scritta dallo stesso file, e se la persona non ha più profilo (cancellata) o non ha più richiesta (annullata) l'allarme si segna letto. Chi aspetta ancora lo tiene; se il profilo non si legge non si chiude niente."
+      "nota_fix": "Ogni notte (anche quelle senza nessuno da cancellare, dove finisce chi ha annullato) si leggono gli allarmi «scrivile tu» aperti degli amministratori, si ricava la persona dalla riga «Chi aspetta: l'utente <id>» scritta dallo stesso file, e se la persona non ha più profilo (cancellata) o non ha più richiesta (annullata) l'allarme si segna letto. Chi aspetta ancora lo tiene; se il profilo non si legge non si chiude niente.",
+      "controllo": "C03: non è sul ramo unito: il commit di R14-014 (fdd02e1b87da, sul ramo di R14 claude/magical-hamilton-xouwr8-m14) non è antenato di cb8effaa (git merge-base --is-ancestor esce 1), e app/api/cron/process-deletions/route.ts, l'unico file di codice che tocca, è identico fra la base 76d4c4d7 e la testa. Il «regge» di K11 vale per il ramo di R14, non per questo albero. Poggia su R14-012 e R14-013, che sono a metà."
     },
     {
       "id": "R14-015",
@@ -7493,8 +7494,8 @@
       "chiave": "ai-endpoints|con un fornitore lento la risposta lunga del copilot non arriva mai: dopo due minuti il negozio legge solo «riprova»",
       "gravita": "minore",
       "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "verdetto": "parziale",
+      "collaudatore": "K13",
       "decisione": "resta_aperta",
       "perche": "il riparatore non l'ha scritta nel referto"
     },
@@ -7504,8 +7505,8 @@
       "chiave": "api-backend|il cron degli ordini scaduti ricopia la logica di annullo invece di usare annullaerimborsa",
       "gravita": "minore",
       "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "verdetto": "parziale",
+      "collaudatore": "K13",
       "decisione": "resta_aperta",
       "perche": "il riparatore non l'ha scritta nel referto"
     },
@@ -7537,8 +7538,8 @@
       "chiave": "architettura|email di annullo spedita dentro la richiesta, senza coda: fino a circa 20 s di attesa, e se fallisce resta solo nel registro",
       "gravita": "minore",
       "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "verdetto": "rompe_altro",
+      "collaudatore": "K13",
       "decisione": "resta_aperta",
       "perche": "il riparatore non l'ha scritta nel referto"
     },
@@ -7581,8 +7582,8 @@
       "chiave": "flussi-conversione|se il carrello scade tutto nello stesso giro, il cliente riceve avvisi «il conto è cambiato» con cifre già superate",
       "gravita": "minore",
       "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "verdetto": "parziale",
+      "collaudatore": "K13",
       "decisione": "resta_aperta",
       "perche": "il riparatore non l'ha scritta nel referto"
     },
@@ -7603,8 +7604,8 @@
       "chiave": "frontend-ux|con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato",
       "gravita": "minore",
       "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "verdetto": "parziale",
+      "collaudatore": "K13",
       "decisione": "resta_aperta",
       "perche": "il riparatore non l'ha scritta nel referto"
     },
@@ -7625,8 +7626,8 @@
       "chiave": "immagini-media|se la foto di un prodotto è stata cancellata, la scheda resta un riquadro bianco invece della foto di ripiego",
       "gravita": "minore",
       "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "verdetto": "regge",
+      "collaudatore": "K13",
       "decisione": "resta_aperta",
       "perche": "il riparatore non l'ha scritta nel referto"
     },
@@ -7647,8 +7648,8 @@
       "chiave": "navigazione-gerarchia|nella scheda prodotto il prezzo è quasi grande quanto il titolo e pesa meno del pulsante «+»",
       "gravita": "minore",
       "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "verdetto": "regge",
+      "collaudatore": "K13",
       "decisione": "resta_aperta",
       "perche": "il riparatore non l'ha scritta nel referto"
     },
@@ -7658,8 +7659,8 @@
       "chiave": "pagamenti-stripe|carrello carta spostato dal freno: se dopo un negozio rifiuta, la consegna dei rimasti non si ricalcola piu'",
       "gravita": "minore",
       "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "verdetto": "rompe_altro",
+      "collaudatore": "K13",
       "decisione": "resta_aperta",
       "perche": "il riparatore non l'ha scritta nel referto"
     },
@@ -7669,8 +7670,8 @@
       "chiave": "pagamenti-stripe|due rifiuti nello stesso istante in un carrello di tre negozi: il terzo resta con 1 € di consegna e 1 € al fattorino",
       "gravita": "minore",
       "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "verdetto": "regge",
+      "collaudatore": "K13",
       "decisione": "resta_aperta",
       "perche": "il riparatore non l'ha scritta nel referto"
     },
@@ -7680,8 +7681,8 @@
       "chiave": "pagamenti-stripe|ordine coperto dal credito e pagato con la carta: al cliente tornano 2 € in più e la frutta resta incassata a 13 €",
       "gravita": "minore",
       "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "verdetto": "rompe_altro",
+      "collaudatore": "K13",
       "decisione": "resta_aperta",
       "perche": "il riparatore non l'ha scritta nel referto"
     },
@@ -7691,8 +7692,8 @@
       "chiave": "pagamenti-stripe|se il credito mycity copre quasi tutto l ordine annullato, la differenza della consegna non viene tolta da nessuna parte",
       "gravita": "minore",
       "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "verdetto": "rompe_altro",
+      "collaudatore": "K13",
       "decisione": "resta_aperta",
       "perche": "il riparatore non l'ha scritta nel referto"
     },

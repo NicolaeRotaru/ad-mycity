@@ -541,7 +541,11 @@
    "base": "76d4c4d79254284a0330eb865ff029db5261e26e",
    "aperta": "2026-11-16 08:38",
    "tetto_usd": 20,
-   "consegna_usd": 15
+   "consegna_usd": 15,
+   "finita": true,
+   "punta": "27a0bd2",
+   "spesa_usd": 5.21,
+   "esito": "1 voce rossa (R14-014, non sul ramo unito), 0 difetti nuovi, cancellazione.ts regge"
   }
  },
  "integrazione_onda1": "b144746992176ae554d48376a00d972f5210a49f",
@@ -1096,6 +1100,9 @@
   "ramo": "claude/sito-onda-3",
   "aperta": "2026-11-16 01:56",
   "tetto_usd": 6.12,
-  "tetto_nota": "10,69 $ meno 4,57 della regia tre"
+  "tetto_nota": "10,69 $ meno 4,57 della regia tre",
+  "spesa_usd": 7.52,
+  "chiusa": "2026-11-16 08:52",
+  "pr_sito": "mycity#292 (bozza)"
  }
 }
