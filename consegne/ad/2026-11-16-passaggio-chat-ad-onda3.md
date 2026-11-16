@@ -64,3 +64,34 @@ Le spese sono quelle dette dalle sessioni. Il freno l'ho provato a mano, non su 
 ### Regole per chi prende il posto
 - Il freno frena solo se la copia di ad-mycity è accanto al deposito prima del primo Agent, e se la riga `ruolo-freno:` è la prima del primo messaggio.
 - Le altre regole del quaderno di prima valgono: `consegne/ad/2026-11-15-passaggio-chat-ad-2.md`, sezione «Regole per chi prende il posto».
+
+---
+
+## Passaggio alla chat 6 (16/11 10:45, dalla chat 5 a 467 mila token)
+
+**Chi sei:** AD chat 6 `session_015BmpnXzJ4RxUcjYFTgfqUG`. La chat 5 `session_015BmpnZ11jw7Gf6mFdaUGo9` non tocca più niente.
+
+**Le ultime parole di Nicola (16/11 verso le 10:30):** «fai in modo che vada come l'ondata 1» e «fai partire l'ondata 4».
+
+**Fatto dalla chat 5:**
+- #968 unita da Nicola alle 09:25 (`13fe89c`), #973 unita alle 00:51.
+- Il ramo `ccr-546d3724-qilkcw` riparte da main. Ha il brief dell'onda 4 e questo blocco: aprici una PR quando hai qualcosa di tuo da aggiungere, oppure subito.
+- Brief della regia dell'onda 4: `consegne/ad/2026-11-16-brief-regia-onda-4.md` (ricetta dell'onda 1, tetto di 170 $ fino a giovedì 10:00, elenco A subito, riparatori solo dopo la percentuale).
+- La regista O4 l'ha aperta la chat 5 e scrive a te.
+
+**Aperto per Nicola:**
+1. Le due lettere della carta 258 (`AZIONI-IN-ATTESA.md`). La chat 5 consiglia «1a, 2a»: guardia derogabile più giudizio più recente (+5 chiusure, circa 25 $), e avviso subito più controllo nel database dopo giovedì per R25-001.
+2. La percentuale del limite letta adesso nell'app (regola ㉗). Serve a sapere quanto vale un punto, 30 $ o 200 $, prima di aprire i riparatori dell'onda 4.
+3. L'unione di mycity#292 (R26 e 4 voci di R14). Il deposito del sito non è in questa sessione: chiedere a Nicola se aggiungerlo per seguirla. La migrazione 501 NON si applica.
+
+**I numeri che servono:**
+- Registro del sito: 779 aperti (696 minori, 77 gravi, 6 bloccanti).
+- Campagna: 662 lavorabili, 204 chiuse, circa 192 pronte.
+- Costo per voce chiusa: onda 1 6,34 $, onda 2 27 $, onda 3 circa 24 $.
+- Quota: 12% il 15/11 alle 23:35 (`misure.json`, `letture_app`).
+
+**Prossimi passi:**
+1. La fermata 1 della regista O4: girala a Nicola con la domanda della percentuale.
+2. Il suo «via» e la percentuale vanno alla regista.
+3. Dopo giovedì 10:00: la parte 2, col preventivo dalle misure della parte 1.
+4. Se Nicola dice «1a»: la costruttrice delle due modifiche alla guardia, poi un collaudo corto.
