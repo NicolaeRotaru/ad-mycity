@@ -31,7 +31,37 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🟡 #258 — Rispondi alla fermata dell'onda 3: due modifiche piccole e un difetto dei pagamenti · ⏳ accodata 2026-11-16 08:50
+
+**In parole semplici.** Il primo pezzo dell'onda 3 è finito: tutti i riparatori e i collaudatori hanno consegnato. Nel sito entrano R26 per intero e 4 voci di R14, con le prove del sito verdi, 10.445 su 10.445. Un ultimo controllore sta ricontrollando il tutto. Restano due scelte tue, più due cose da sapere.
+Esempio vero: K11 dice che tre riparazioni vecchie reggono (R04-021, R07-021, R07-022). Restano aperte lo stesso, perché il programma che chiude le voci sceglie sempre il giudizio più severo, anche se è più vecchio.
+
+**Cosa cambia per te.** Con la «a» della domanda 1 si chiudono 5 voci in più per circa 15 $. Con la domanda 2 decidi come chiudere un difetto grave dei pagamenti, che due giri di riparazione non hanno chiuso.
+
+**Cosa devi fare tu.** Rispondi all'AD della chat 5 con due lettere, per esempio «1a, 2a».
+- 1, due modifiche piccole alla macchina, costruite insieme in una sessione corta e collaudate da un'altra:
+  - a: le faccio tutte e due. La prima: la guardia accetta una tua eccezione firmata quando un messaggio cita il codice dell'onda 2 (è il falso allarme di R27). La seconda: fra due giudizi pieni vince il più recente, e a parità di data il più severo. Entrano R27-013 e R27-017, e si chiudono le tre voci di K11. Circa 15 $. Lo consiglio.
+  - b: solo la guardia, quindi solo le 2 voci di R27. Circa 11 $.
+  - c: nessuna delle due. Le 5 voci aspettano il resto dell'onda.
+- 2, il difetto grave R25-001. In un carrello pagato fra due negozi, il negozio che ha consegnato può restare senza bonifico per qualche secondo:
+  - a: subito un avviso agli amministratori, e il controllo nel database nell'onda dopo giovedì. Lo consiglio.
+  - b: solo l'avviso agli amministratori.
+  - c: solo il controllo nel database, nell'onda dopo giovedì.
+
+Da sapere, senza risposta:
+- La modifica 501 al database non si applica: va corretta prima. Oggi segna come chiusa la giornata del fattorino anche con ordini ancora in attesa. La 500 (le foto dei resi in un archivio privato) e le foto già caricate dal 24/5 al 17/8 arrivano con la richiesta di unione del sito, dopo il controllore.
+- Il pezzo costa circa 175 $ su 215 e chiude circa 7 voci nuove: circa 25 $ a voce, come l'onda 2. I collaudatori hanno sforato tutti e tre: K11 19 $ su 18, K12 2,6 $ a voce su 1,5, K13 23,15 $ su 18. Prima del resto dell'onda ti porto un piano più economico, coi costi misurati qui.
+
+**Cosa non ho verificato.** Le chiusure vere le conta il programma dopo l'ultimo controllore. I numeri sono della regista. Le stime di 15 $ e 11 $ sono mie, sul costo della correzione di AR-1184.
+
+Cosa cambia: con «1a» si chiudono 5 voci in più del sito; con «2a» il negozio che ha consegnato non resta senza soldi senza che un amministratore lo sappia.
+Se va bene: una sessione corta costruisce le due modifiche, una collaudatrice prova a romperle, tu le unisci; la regista chiude le 5 voci e prepara l'avviso.
+
+Dettagli: fermata della regia O3 quattro del 16/11 alle 08:40, in `consegne/riparazioni/2026-11-12-sito-tutto/REGIA-ONDA-3.md`. Guardia: `cervello/riparazione-sessioni.mjs`, riga 1187. Sito: ramo `claude/sito-onda-3` su `cb8effaa`. R27 su `claude/sito-onda-3-k13` (`d418e80`): reggono 013 e 017 (più una già riparata), fuori 005, 016, 018, 019 che «rompono altro».
+
 ### 🟡 #257 — Fai entrare nel sito le 6 riparazioni di R27, bloccate da un falso allarme · ⏳ accodata 2026-11-16 02:00
+
+**Stato:** ↪️ ASSORBITA 2026-11-16 08:50 nella carta 258, domanda 1. Il collaudo di R27 ha cambiato i numeri: delle sue riparazioni ne reggono 3, e solo 2 sono chiusure nuove.
 
 **In parole semplici.** Prima che il lavoro di un riparatore entri nel sito, un programma lo controlla: si chiama guardia. Uno dei suoi controlli guarda i messaggi dei salvataggi. Se un messaggio nomina una voce che non è di quel riparatore, la guardia diventa rossa e il lavoro non entra.
 Esempio vero: R27 ha riparato 6 voci e ne ha portate a metà 4. Il suo revisore dice che reggono, anche quelle sui soldi. Ma in due salvataggi R27 ha citato il codice che la stessa voce aveva nell'onda 2. La guardia non lo riconosce, diventa rossa, e il lavoro resta fuori.
