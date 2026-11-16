@@ -1,6 +1,6 @@
 {
   "_cosa_e": "I tassi misurati delle campagne di riparazione. Il preventivo di un'onda si fa SOLO da qui (lezione 3 del 15/11), mai da un rimedio sperato. Si aggiunge una riga a ogni fase misurata; le righe vecchie non si riscrivono.",
-  "_aggiornato": "2026-11-15 05:51",
+  "_aggiornato": "2026-11-16 10:55",
   "calibrazione_limite": {
     "usd_per_punto": 30.5,
     "fonte": "Nicola 12/11 sera: onda 1 (610 $) = 20% del limite settimanale",
@@ -19,7 +19,14 @@
     { "fase": "giro di correzione «strada a» (14/11)", "voci_lavorate": 20, "voci_che_reggono": 4, "usd": 68.22, "usd_per_voce_chiusa": 17,
       "nota": "rimandate allo stesso padrone del file: 11 tornate serve_file_altrui" },
     { "fase": "serve_file_altrui ripassate onda 1 → onda 2", "voci_lavorate": 12, "voci_chiuse": 0 },
-    { "fase": "collaudo breve K08 terzo (14/11)", "verdetti": 36, "usd": 11.39, "usd_per_verdetto": 0.32 }
+    { "fase": "collaudo breve K08 terzo (14/11)", "verdetti": 36, "usd": 11.39, "usd_per_verdetto": 0.32 },
+    { "fase": "onda 3, primo pezzo (16/11)", "voci_assegnate": 66, "voci_lavorate": 27, "voci_chiuse": 7, "usd": 167, "usd_per_voce_chiusa": 23.9,
+      "usd_riparatori": 72.95, "usd_per_voce_assegnata_riparatori": 1.11, "usd_per_voce_lavorata_riparatori": 2.70,
+      "non_fatte_per_il_tetto": "R25 21 su 22, R26 11 su 22, R27 7 su 22",
+      "collaudo": "K11 19,00 $ su 64 verdetti (0,30 $); K12 20,90 $ su 8 (2,61 $); K13 23,15 $ su 11 (2,10 $); 2-4 revisori per voce",
+      "controllore_usd": 5.21, "regia_usd": 26.03, "riparato_regge": "K12+K13: 7 reggono, 7 parziali, 5 rompono altro su 19",
+      "configurazione": "3 riparatori da 22 voci con tetto circa 22 $ (circa 1 $ a voce), gravi sui soldi in R25 (tre giri, 0 chiuse), 4 registe in fila, collaudi con 2-4 revisori",
+      "fonte": "REGIA-ONDA-3.md (fermata della regia O3 quattro, 16/11 08:52), referti R25-R27, collaudi K11-K13" }
   ],
   "casi_base_per_il_preventivo": {
     "minori_tasso_chiusura": "0.28 (onda 2); 0.44 solo come caso migliore",

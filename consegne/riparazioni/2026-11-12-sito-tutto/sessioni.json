@@ -1104,5 +1104,13 @@
   "spesa_usd": 7.52,
   "chiusa": "2026-11-16 08:52",
   "pr_sito": "mycity#292 (bozza)"
+ },
+ "regista_onda4": {
+  "id": "session_015BmpnVW3sawgGZzKKZHfbp",
+  "ramo": "claude/sito-onda-4",
+  "aperta": "2026-11-16 10:30",
+  "tetto_usd": 15,
+  "base_sito": "d038f1059",
+  "nota": "brief consegne/ad/2026-11-16-brief-regia-onda-4.md; parte 1 fino al 19/11 10:00, 170 $"
  }
 }
