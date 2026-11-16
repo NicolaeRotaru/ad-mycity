@@ -465,7 +465,11 @@ Il conto che l'ha decisa: nell'onda 2 il giro partiva con 20 voci bocciate su 19
    e `git show origin/<ramo>-kNN:<C>/collaudi/KNN.json > <C>/collaudi/KNN.json`. Poi, tutti verdi: `guardia-ramo`,
    `valida-referto`, `valida-collaudo`. `applica --git <deposito>` li rilancia comunque da sé, **guardia-ramo
    compresa** per ogni riparatore con il ramo in `sessioni.json`: un file rosso, non finito, o un ramo con la guardia
-   rossa la ferma. Senza `--git` la guardia non si rilancia: all'unione si usa sempre `--git`. Un ramo con la guardia
+   rossa la ferma. Una regola fa eccezione: «fino a 40 voci il collaudo non si fa a campione». `applica` e `pronte`
+   la tengono solo dall'onda scritta in `campione_fino_a_40_dall_onda` del piano. Lì non fermano niente: lasciano
+   aperte le voci chiuse a campione, e `pronte` le mette nell'elenco A da ricollaudare. Senza il campo `applica`
+   le chiude come prima, e il rosso lo dà solo `valida-collaudo`: la regista scrive il campo prima di lanciare
+   `applica`. Senza `--git` la guardia non si rilancia: all'unione si usa sempre `--git`. Un ramo con la guardia
    rossa **non si unisce**: si corregge, o si toglie dall'onda, e se serve una deroga la firma Nicola.
 2. I rami si uniscono nel ramo di integrazione `<ramo della regista>` del deposito bersaglio, in ordine di
    numero. Dentro un'onda i conflitti attesi sono **zero**: un conflitto vuol dire che un guardiano ha

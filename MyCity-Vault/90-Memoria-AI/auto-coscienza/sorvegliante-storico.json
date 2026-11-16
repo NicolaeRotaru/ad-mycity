@@ -2,203 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-24T10:38:14.726Z",
-      "scatti": 549,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-24T10:39:34.730Z",
-      "scatti": 555,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-24T11:00:50.856Z",
-      "scatti": 601,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-24T11:08:41.943Z",
-      "scatti": 617,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-24T11:19:27.104Z",
-      "scatti": 632,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-24T11:23:05.193Z",
-      "scatti": 642,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-24T11:26:45.101Z",
-      "scatti": 653,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-24T11:33:20.126Z",
-      "scatti": 679,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-24T11:41:36.374Z",
-      "scatti": 711,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-24T11:45:39.308Z",
-      "scatti": 724,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-24T11:48:19.968Z",
-      "scatti": 733,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-24T11:52:14.675Z",
-      "scatti": 750,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-24T12:00:46.249Z",
-      "scatti": 787,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-24T12:05:47.846Z",
-      "scatti": 813,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-24T12:16:03.228Z",
-      "scatti": 839,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-24T12:18:45.131Z",
-      "scatti": 852,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-27T07:19:11.386Z",
-      "scatti": 325,
-      "voci": 24,
-      "per_classe": {
-        "prova-accecata": 16,
-        "perimetro-letterale": 1,
-        "malattia-nuova": 3,
-        "esenzione-aggiunta": 1,
-        "difesa-rimossa": 3
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-27T10:46:15.081Z",
-      "scatti": 359,
-      "voci": 24,
-      "per_classe": {
-        "prova-accecata": 16,
-        "perimetro-letterale": 1,
-        "malattia-nuova": 3,
-        "esenzione-aggiunta": 1,
-        "difesa-rimossa": 3
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-27T10:57:44.295Z",
-      "scatti": 361,
-      "voci": 24,
-      "per_classe": {
-        "prova-accecata": 16,
-        "perimetro-letterale": 1,
-        "malattia-nuova": 3,
-        "esenzione-aggiunta": 1,
-        "difesa-rimossa": 3
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-27T11:40:10.238Z",
-      "scatti": 363,
-      "voci": 25,
-      "per_classe": {
-        "prova-accecata": 17,
-        "perimetro-letterale": 1,
-        "malattia-nuova": 3,
-        "esenzione-aggiunta": 1,
-        "difesa-rimossa": 3
-      },
-      "mai_risolte": [
-        {
-          "classe": "prova-accecata",
-          "file": "cervello/prossimo-ar.mjs",
-          "cosa": "la mutazione di AR-830 («il numero torna a cercarsi solo qui e su main: la finestra in cui la collisione e' evitabile ridiventa cieca») non trova più il suo pezzo in questo file",
-          "ripetuta": 2
-        }
-      ]
-    },
-    {
-      "quando": "2026-08-27T12:09:12.273Z",
-      "scatti": 369,
-      "voci": 25,
-      "per_classe": {
-        "prova-accecata": 17,
-        "perimetro-letterale": 1,
-        "malattia-nuova": 3,
-        "esenzione-aggiunta": 1,
-        "difesa-rimossa": 3
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-27T12:53:19.538Z",
-      "scatti": 371,
-      "voci": 25,
-      "per_classe": {
-        "prova-accecata": 17,
-        "perimetro-letterale": 1,
-        "malattia-nuova": 3,
-        "esenzione-aggiunta": 1,
-        "difesa-rimossa": 3
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-27T13:19:32.142Z",
       "scatti": 373,
       "voci": 25,
@@ -1822,6 +1625,48 @@
       "mai_risolte": []
     },
     {
+      "quando": "2026-11-14T18:00:34.885Z",
+      "scatti": 245,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T19:00:42.280Z",
+      "scatti": 354,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T22:08:32.252Z",
+      "scatti": 365,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T22:53:20.141Z",
+      "scatti": 365,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T23:00:21.409Z",
+      "scatti": 365,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-14T23:46:33.445Z",
+      "scatti": 365,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
       "quando": "2026-11-14T23:51:06.828Z",
       "scatti": 582,
       "voci": 0,
@@ -1829,8 +1674,113 @@
       "mai_risolte": []
     },
     {
+      "quando": "2026-11-14T23:54:16.804Z",
+      "scatti": 366,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-15T00:26:33.130Z",
+      "scatti": 371,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-15T00:34:46.453Z",
+      "scatti": 371,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-15T00:46:47.001Z",
+      "scatti": 374,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-15T02:02:35.233Z",
+      "scatti": 394,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-15T02:13:30.640Z",
+      "scatti": 395,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-15T02:20:08.960Z",
+      "scatti": 396,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-15T02:47:12.074Z",
+      "scatti": 405,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-15T03:02:21.707Z",
+      "scatti": 405,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-15T03:22:57.295Z",
+      "scatti": 441,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-15T04:07:33.177Z",
+      "scatti": 543,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-15T04:42:19.778Z",
+      "scatti": 593,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-15T05:15:31.325Z",
+      "scatti": 641,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-15T05:34:40.167Z",
+      "scatti": 664,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
       "quando": "2026-11-15T05:44:50.284Z",
       "scatti": 77,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-15T06:16:22.041Z",
+      "scatti": 715,
       "voci": 0,
       "per_classe": {},
       "mai_risolte": []
@@ -1922,7 +1872,14 @@
       "voci": 0,
       "per_classe": {},
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-15T23:57:59.988Z",
+      "scatti": 47,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-11-15T23:33:20.010Z"
+  "aggiornato": "2026-11-15T23:57:59.989Z"
 }
