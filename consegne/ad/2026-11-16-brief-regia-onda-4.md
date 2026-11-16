@@ -27,15 +27,8 @@ da: AD chat 5, session_015BmpnZ11jw7Gf6mFdaUGo9
    - il verdetto parte dalla prova (rossa senza la correzione, verde con), fatta coi comandi;
    - al massimo 2 revisori, e solo sulle voci che toccano soldi, dati o permessi;
    - attesa 1,2 $ per voce; oltre 1,5 $ per voce il collaudatore scrive alla regista prima di andare avanti.
-5. Regia leggera:
-   - `sorveglia.sh --attendi`, niente catene di send_later;
-   - si passa la mano a 250 mila token;
-   - tetto della regia 15 $.
-6. Fuori dall'onda 4:
-   - R27 e R25-001: aspettano la carta 258 di Nicola;
-   - la migrazione 501;
-   - l'elenco D (domande per Nicola);
-   - i gravi sui soldi senza una prova rossa già scritta.
+5. Regia leggera. Si aspetta con `sorveglia.sh --attendi`, non con catene di send_later. Si passa la mano a 250 mila token. La regia ha un tetto di 15 $.
+6. Quattro cose restano fuori dall'onda 4. R27 e R25-001 aspettano la carta 258 di Nicola. La migrazione 501 non si tocca. L'elenco D sono domande per Nicola. I gravi sui soldi entrano solo se hanno già una prova rossa scritta.
 7. Divisione per file con `dividi`. La base è la testa dell'integrazione dell'onda 3 (`claude/sito-onda-3` sul sito, `cb8effaa` o successiva).
 
 ## Il tetto
@@ -52,10 +45,7 @@ da: AD chat 5, session_015BmpnZ11jw7Gf6mFdaUGo9
 1. Aggiungi a `misure.json` la riga dell'onda 3, coi numeri della fermata della regia O3 quattro (`REGIA-ONDA-3.md`, commit `7ea6b67`).
 2. F0 coi programmi (skill `riparazione`): `pronte`, `dividi --file-chiavi`, `schede`, `copertura-prima`, `segnaposti`.
 3. Puoi aprire **subito** il collaudo dell'elenco A: costa meno di 100 $.
-4. Fermata 1 breve all'AD, nei quattro blocchi:
-   - il perimetro in numeri;
-   - le sessioni;
-   - il preventivo in tre numeri: minimo, atteso (caso base: minori al 28%) e massimo (caso migliore: onda 1, 44%).
+4. Fermata 1 breve all'AD, nei quattro blocchi. Dentro ci sono il perimetro in numeri e le sessioni. C'è anche il preventivo in tre numeri: minimo, atteso e massimo. L'atteso è il caso base, coi minori chiusi al 28%. Il massimo è il caso migliore, come l'onda 1 al 44%.
 5. I riparatori si aprono solo quando l'AD ti gira il «via» con la percentuale del limite letta da Nicola (regola ㉗).
 6. In ogni messaggio: il costo della tua sessione, il costo del lavoro e la percentuale del limite. Il valore di un punto è incerto: circa 30 $ o circa 200 $.
 
