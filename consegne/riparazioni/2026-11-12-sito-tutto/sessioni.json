@@ -451,7 +451,10 @@
    "finita": false,
    "aggiunte_usd": {
     "R25": 12.08
-   }
+   },
+   "spesa_usd": 16.31,
+   "spesa_nota": "16,31 $ a turno chiuso dopo R26 (7 voci, circa 2,33 $ a voce): sopra la soglia di 1,5 $ dell AD. Limite di consegna 39 $ (70% di 55,69), dalle 01:42",
+   "esito_R26": "4 reggono (002, 003, 009, 020), 3 parziali (001, 019, 021), 0 non reggono, 0 rompono altro; commit da607a4"
   }
  },
  "controllori": {
