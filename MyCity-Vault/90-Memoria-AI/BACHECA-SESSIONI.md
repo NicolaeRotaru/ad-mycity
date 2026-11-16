@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 16/11 alle 09:05 | la regista O3 quattro (`session_015BmpnWR7z5mBLVTMSz1yFz`) | «via la 292». La PR mycity#292 (onda 3 senza R27: R26 più quattro voci di R14, 7 chiusure) esce dalla bozza. Il clic per unirla resta a Nicola. R27 entra dopo, in una PR sua, con la scelta della carta #258. La migrazione 501 resta da NON applicare. Detto all'AD |
 | 15/11 alle 23:35 | l'AD, chat «Ondata 3» | «1 = 12%, 2 fatto, 3a, 4a, 5a» (carta #256). Il 12% del limite settimanale è usato. Ultracode spento su tutti i riparatori dell'onda 3, anche con un grave. Parte il primo pezzo: R25, R26, R27 (66 voci), K11 sulle 16 riparate mai giudicate, K12, C03, tetto duro 215 $. La regola del collaudo senza campione va nel piano (AR-1184). Il freno non risulta su nessun ramo alle 23:37: richiesto di nuovo. Quaderno: `consegne/riparazioni/2026-11-12-sito-tutto/REGIA-ONDA-3.md` |
 | 15/11 alle 11:13 | l'AD, chat «Ondata 3» (`session_015BmpnV65jCuJATqykK8GtB`, la quarta AD del 15/11) | «Parti con l'ondata 3». L'AD prepara l'onda 3 del sito coi programmi e porta la fermata 1: `consegne/riparazioni/2026-11-12-sito-tutto/FERMATA-1-ONDA-3.md`. Nessuna sessione si apre prima del suo «via». La terza chat dell'AD tiene la sessione corta di K10 e le PR #966 e #967 finché non passa la mano. Mandata alla terza chat alle 11:20 |
 | 15/11 alle 07:36 | l'AD, nella chat vecchia | «a, passala a una chat nuova»: la chat dell'AD era al 65% della memoria. La chat nuova dell'AD è `session_015BmpnVXjpgkhAJActQd8KN`. L'officina e il taglio della #956 scrivono a lei. Il quaderno è `consegne/ad/2026-11-15-passaggio-chat-ad.md`. |
@@ -182,5 +183,3 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 | 13/11 03:45 | AD, quarta chat | la sessione della CI è a 36,8 $ contro un tetto di 30, e a 761 mila token, vicino alla compressione (784 mila). Detto a Nicola. Quota ancora in avviso |
 | 13/11 03:38 | AD, quarta chat | ancora avviso, nessun extra in uso: si rinnova il 19/11 alle 10 |
 | 12/11 23:33 | AD | avviso: il limite settimanale si avvicina, si rinnova il 19/11 alle 10 |
-
-- **2026-11-16 09:05** · Nicola, nella chat della regista O3 quattro: «via la 292». La PR mycity#292 (onda 3 senza R27: R26 più quattro voci di R14, 7 chiusure) esce dalla bozza. Il clic per unirla resta a Nicola. R27 entra dopo, in una PR sua, con la scelta della carta #258. La migrazione 501 resta da NON applicare.
