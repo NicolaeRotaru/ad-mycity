@@ -100,7 +100,7 @@ La regista O3 due passa la mano perché è vicina ai 250 mila token (regola 4). 
 
 **R26 ha finito** (01:04, `session_015BmpnYAcQyeLz2AB2gFogr`, ora completed). Ramo `claude/sito-onda-3-m26` in testa `8cbf7c73`, referto `.riparazione/referto-R26.json`, ultimo commit di codice `8c6a3b8a`, `npm run verify` verde (10.420 prove). **Spesa finale 21,39 $** da `get_session` → lascia **13,61 $** sotto i 35 $, che vanno a K12 (paletto ① dell'AD). Esiti: 4 riparati (020, 019 con migrazione 501, 009, 003), 3 parziali (001 grave, 021 smentita in parte dal revisore a `route.ts:342`, 002), 4 serve_file_altrui (004, 006, 015, 011: per 011 la modifica scritta in scheda su `ProductCard` va tolta, il difetto lì non si raggiunge), 11 non_fatto per il tetto. Nuovo difetto minore: confermare una rimessa segna chiusa tutta la giornata del fattorino (`remitted_at`, migrazione 127). Nessuna falla riservata.
 
-**Spesa del pezzo all'01:05:** R26 21,39 (finale) · R25 ~16,5 (01:53 del suo messaggio, in C2) · R27 ~15,5 (prima della revisione del lotto 1) · K11 17,89 · regia uno 10,63 · regia due da leggere con `get_session` su `session_015BmpnUwZWwGrsy5a7qyDwZ` a turno chiuso. Circa 82 $ + regia due, sui 215.
+**Spesa del pezzo all'01:05:** R26 21,39 (finale) · R25 ~16,5 (00:53, dal suo messaggio, in C2) · R27 ~15,5 (prima della revisione del lotto 1) · K11 17,89 · regia uno 10,63 · regia due da leggere con `get_session` su `session_015BmpnUwZWwGrsy5a7qyDwZ` a turno chiuso. Circa 82 $ + regia due, sui 215.
 
 **Aperto, in ordine.**
 1. **Rifai i controlli su R26:** `MARKETPLACE_REPO=<clone del sito> bash cervello/riparazione/sorveglia.sh consegne/riparazioni/2026-11-12-sito-tutto 3` (guardia-ramo e valida-referto). Exit code letto dal comando, non da un filtro dopo.
