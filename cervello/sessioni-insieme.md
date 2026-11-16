@@ -39,7 +39,7 @@ si scrive appena cambia qualcosa.
 - La quota è passata ad «avviso» e nessuno l'ha detto: l'AD l'ha visto per caso.
 - Le sessioni già aperte non sapevano le regole nuove, e l'AD le ha mandate a mano, una per una.
 
-## Le undici regole
+## Le dodici regole
 1. **L'urgente si manda urgente.** Uno stop, la quota, la sicurezza e i soldi partono con `send_message` e
    `priority: "now"`. Chi riceve risponde subito con una riga: «ricevuto, faccio così». Chi manda, se dopo 10
    minuti non ha la risposta, guarda `get_session` di chi doveva riceverlo e riprova.
@@ -118,3 +118,11 @@ si scrive appena cambia qualcosa.
    regole che vale per lei: almeno le regole 1, 2, 4, 5, 7 e 10, scritte per intero.
    Chi apre controlla nella prima risposta che la figlia le abbia lette. Esempio vero: i 10 riparatori dell'onda 2,
    aperti fra le 05:50 e le 06:12 del 13/11, non le avevano. Le hanno avute alle 13:30, con un messaggio a testa.
+12. **Chi ha finito si chiude** (Nicola, 16/11 alle 09:10: «aggiungi questa nuova regola: chiudi le sessioni che non
+   servono»). Una sessione che ha consegnato e non aspetta più niente si archivia con `archive_session`. La chiude chi
+   l'ha aperta, appena il suo lavoro è letto e salvato: la regista chiude le figlie dopo l'unione, l'AD chiude le
+   regie. Prima di chiudere: tutto è spinto, e una domanda ancora aperta è già passata all'AD o in una carta. Restano
+   aperte solo la chat dove Nicola parla, le sessioni che lavorano e quelle che aspettano una risposta che solo loro
+   possono usare. Chi chiude toglie la riga da «Sessioni vive» della bacheca. Se serve di nuovo, `unarchive_session`.
+   Esempio vero: il 16/11 alle 09:12 la regista O3 quattro ha chiuso le 12 sessioni finite dell'onda 3 (R25-R27,
+   K11-K13, C03, le tre regie prima di lei e le due sessioni della #973).
