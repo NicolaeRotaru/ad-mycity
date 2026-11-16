@@ -1,0 +1,56 @@
+{
+ "collaudatore": "K14",
+ "riparatori": [
+  "R16"
+ ],
+ "aggiornato": "2026-11-16 11:05",
+ "finita": true,
+ "parziale": true,
+ "voci": [
+  {
+   "id": "R16-014",
+   "chiave": "qa-flussi|lo specchio activity_events chiama «azione admin» anche le azioni degli utenti",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 8d6ec52fad3c0a292951edadd230f91c642b27a4^ --file lib/audit.ts --prove tests/unit/riparazione-r16-specchio-audit.test.ts --json   (checkout 8d6ec52fad3c0a292951edadd230f91c642b27a4)"
+   },
+   "nota": "Prova rossa con lib/audit.ts della base, verde con la correzione. chiude_tutta: lo specchio scrive action 'admin' e «Azione admin» solo se profiles.role è admin (l'unico ruolo di staff nelle migrazioni: seller, rider, buyer, admin), «Azione utente» per gli altri, «Azione» senza ruolo se la lettura fallisce. nata_rotta: la lettura del ruolo è in parallelo e non lancia (try/catch → null); audit_logs non cambia; nessun lettore nel codice filtra activity_events.action='admin' (app/admin/audit filtra audit_logs per azione). lib/audit.ts identico su main d038f105."
+  },
+  {
+   "id": "R16-015",
+   "chiave": "qa-flussi|nel riepilogo dell'ordine la consegna ricavata fa sempre «torna» il totale",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base 97dcba9356cd945811cc601c4ac9753357a11a3d^ --file lib/ordini/riepilogo-ordine.ts --prove tests/unit/riparazione-r16-riepilogo-consegna.test.ts,tests/unit/minori-s02-riepilogo.test.ts --json   (checkout 97dcba9356cd945811cc601c4ac9753357a11a3d)"
+   },
+   "nota": "Prova rossa con il riepilogo della base, verde con la correzione. chiude_tutta: con delivery_fee_cents nullo la consegna non si ricava più per differenza: vale 0 solo se il totale è già spiegato, altrimenti nessuna riga inventata e torna=false con differenzaCentesimi. nata_rotta: la riga «Gratis» resta solo con consegna esattamente 0 (null !== 0); la pagina ordine del negozio mostra già la nota quando torna=false (app/seller/orders/[id]/page.tsx:686); i totali non cambiano. Resta la domanda di R16 a Nicola sulla riga «stimata»: scelta di prodotto, non difetto. File identico su main d038f105."
+  },
+  {
+   "id": "R16-016",
+   "chiave": "qa-flussi|l'etichetta da attaccare alla busta non dice quando consegnare: né «veloce» né la fascia",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R16 --base de11b93a4439f0ac08b70e0b847772efe9a41d12^ --file lib/shipping-etichetta/label.ts,app/api/seller/orders/[id]/label/route.ts --prove tests/unit/riparazione-r16-etichetta-consegna.test.ts --json   (checkout de11b93a4439f0ac08b70e0b847772efe9a41d12)"
+   },
+   "nota": "Prova rossa togliendo ognuno dei due file, verde con la correzione. chiude_tutta: la veloce stampa «CONSEGNA VELOCE» in grande, la fascia «CONSEGNA:» col giorno vero e le ore, tramite fasciaLeggibile già usata altrove (ritiro in negozio o fascia illeggibile: nessuna riga, giusto). nata_rotta: le colonne lette (delivery_slot, created_at, pickup_in_store) esistono dalle migrazioni 015/042/102; il testo passa da testoPerEtichetta (WinAnsi) come il resto dell'etichetta, quindi «·» e «–» non rompono il PDF; campo opzionale, le chiamate senza consegna restano uguali. Entrambi i file identici su main d038f105."
+  }
+ ]
+}
