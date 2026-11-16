@@ -36,12 +36,12 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 **In parole semplici.** Il primo pezzo dell'onda 3 è finito: tutti i riparatori e i collaudatori hanno consegnato. Nel sito entrano R26 per intero e 4 voci di R14, con le prove del sito verdi, 10.445 su 10.445. Un ultimo controllore sta ricontrollando il tutto. Restano due scelte tue, più due cose da sapere.
 Esempio vero: K11 dice che tre riparazioni vecchie reggono (R04-021, R07-021, R07-022). Restano aperte lo stesso, perché il programma che chiude le voci sceglie sempre il giudizio più severo, anche se è più vecchio.
 
-**Cosa cambia per te.** Con la «a» della domanda 1 si chiudono 5 voci in più per circa 15 $. Con la domanda 2 decidi come chiudere un difetto grave dei pagamenti, che due giri di riparazione non hanno chiuso.
+**Cosa cambia per te.** Con la «a» della domanda 1 si chiudono 5 voci in più per circa 25 $. Con la domanda 2 decidi come chiudere un difetto grave dei pagamenti, che due giri di riparazione non hanno chiuso.
 
 **Cosa devi fare tu.** Rispondi all'AD della chat 5 con due lettere, per esempio «1a, 2a».
 - 1, due modifiche piccole alla macchina, costruite insieme in una sessione corta e collaudate da un'altra:
-  - a: le faccio tutte e due. La prima: la guardia accetta una tua eccezione firmata quando un messaggio cita il codice dell'onda 2 (è il falso allarme di R27). La seconda: fra due giudizi pieni vince il più recente, e a parità di data il più severo. Entrano R27-013 e R27-017, e si chiudono le tre voci di K11. Circa 15 $. Lo consiglio.
-  - b: solo la guardia, quindi solo le 2 voci di R27. Circa 11 $.
+  - a: le faccio tutte e due. La prima: la guardia accetta una tua eccezione firmata quando un messaggio cita il codice dell'onda 2 (è il falso allarme di R27). La seconda: fra due giudizi pieni vince il più recente, e a parità di data il più severo. Entrano R27-013 e R27-017, e si chiudono le tre voci di K11. Circa 25 $ in tutto: 15 $ per le due modifiche e il loro collaudo, il resto per togliere da R27 le 4 riparazioni rotte, sistemare una prova comune e ripassare il controllore. Lo consiglio.
+  - b: solo la guardia, quindi solo le 2 voci di R27. Circa 20 $, col lavoro su R27 e il controllore.
   - c: nessuna delle due. Le 5 voci aspettano il resto dell'onda.
 - 2, il difetto grave R25-001. In un carrello pagato fra due negozi, il negozio che ha consegnato può restare senza bonifico per qualche secondo:
   - a: subito un avviso agli amministratori, e il controllo nel database nell'onda dopo giovedì. Lo consiglio.
@@ -50,9 +50,9 @@ Esempio vero: K11 dice che tre riparazioni vecchie reggono (R04-021, R07-021, R0
 
 Da sapere, senza risposta:
 - La modifica 501 al database non si applica: va corretta prima. Oggi segna come chiusa la giornata del fattorino anche con ordini ancora in attesa. La 500 (le foto dei resi in un archivio privato) e le foto già caricate dal 24/5 al 17/8 arrivano con la richiesta di unione del sito, dopo il controllore.
-- Il pezzo costa circa 175 $ su 215 e chiude circa 7 voci nuove: circa 25 $ a voce, come l'onda 2. I collaudatori hanno sforato tutti e tre: K11 19 $ su 18, K12 2,6 $ a voce su 1,5, K13 23,15 $ su 18. Prima del resto dell'onda ti porto un piano più economico, coi costi misurati qui.
+- Il pezzo è costato circa 167 $ su 215 e chiude 7 voci nuove: circa 24 $ a voce, come l'onda 2. Il controllore finale è verde (0 difetti nuovi), e la richiesta di unione del sito è mycity#292, in bozza: la unisci tu quando vuoi il lavoro sul sito. I collaudatori hanno sforato tutti e tre: K11 19 $ su 18, K12 2,6 $ a voce su 1,5, K13 23,15 $ su 18. Prima del resto dell'onda ti porto un piano più economico, coi costi misurati qui.
 
-**Cosa non ho verificato.** Le chiusure vere le conta il programma dopo l'ultimo controllore. I numeri sono della regista. Le stime di 15 $ e 11 $ sono mie, sul costo della correzione di AR-1184.
+**Cosa non ho verificato.** I numeri sono della regista: 204 voci chiuse in tutta la campagna, 7 da questa onda. Le stime di 25 $ e 20 $ sono mie, sul costo della correzione di AR-1184 e del controllore C03 (5,21 $).
 
 Cosa cambia: con «1a» si chiudono 5 voci in più del sito; con «2a» il negozio che ha consegnato non resta senza soldi senza che un amministratore lo sappia.
 Se va bene: una sessione corta costruisce le due modifiche, una collaudatrice prova a romperle, tu le unisci; la regista chiude le 5 voci e prepara l'avviso.
