@@ -64,7 +64,12 @@
    "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
    "tetto_usd": 35,
    "consegna_usd": 30,
-   "aperta": "2026-11-17 22:28"
+   "aperta": "2026-11-17 22:28",
+   "finita": true,
+   "punta": "ac458970",
+   "testa": "c0b2f01f58b426f5bbc3ee2862c961c83d0e1717",
+   "costo_usd": 12.41,
+   "nota": "verify verde su b593ad57, guardia-ramo verde; consegnato alla regia «Ondata 9» alle 23:13, registrato dalla 2.0"
   },
   "R10": {
    "id": "session_015BmpnVgNypE5YPDP33krPo",
