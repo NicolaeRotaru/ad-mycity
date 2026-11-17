@@ -7008,3 +7008,11 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Perché:** il permesso automatico aveva fermato due volte la spinta della seconda regista (`session_015BmpnWQotfLE7m24jK8QfZ`). Senza la spinta non partono il controllore e la richiesta di unione in bozza. Collaudo: 14 voci reggono su 19 controllate.
 - **Eccezione sulla prova dell'acquisto vero (R29-001):** non firmata. La voce resta comunque a metà.
 - **Colore:** 🟡 ramo di lavoro, nessun cambio al sito online.
+
+## 2026-11-17 09:01 — Parte l'onda 5 del sito, senza domande fino alla PR pronta
+- **Chi:** Nicola, in una chat nuova («Onda 5 senza consenso», `session_015BmpnYvNwUpgfdhaKx9PKT`), alle 08:58: «Parti con l'onda 5». Prima aveva chiesto: «senza chiedermi nemmeno un consenso fino a quando la PR non è pronta».
+- **Cosa ho capito e scritto a Nicola prima del via:** tetto 250 $ per tutta l'onda; fino a giovedì 19/11 alle 10:00 solo preparazione, perché dei 350 $ firmati fino a giovedì restano circa 40 $; i riparatori partono giovedì alle 10:00, quando si azzera il limite della settimana. La sua risposta vale come permesso per aprire le sessioni dell'onda 5, spingere i loro rami sui due depositi e aprire la PR. Non l'ha contraddetto.
+- **Cosa resta fuori senza chiedere:** la lista D (voci per Nicola), R27 e R25-001 (carta 258), la migrazione 501, le 5 domande di R28 e R29. Vanno elencate nella PR.
+- **Mai:** unire, pubblicare il sito, migrazioni sul database vero, messaggi a persone vere, chiavi.
+- **Regia:** questa chat, così i permessi stanno dove c'è la frase di Nicola. Niente cartelle: nell'onda 4 una sessione che apriva sessioni è stata fermata dal permesso automatico.
+- **Colore:** 🟡 spesa dentro un tetto dato da Nicola.
