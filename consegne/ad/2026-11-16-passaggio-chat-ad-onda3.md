@@ -95,3 +95,12 @@ Le spese sono quelle dette dalle sessioni. Il freno l'ho provato a mano, non su 
 2. Il suo «via» e la percentuale vanno alla regista.
 3. Dopo giovedì 10:00: la parte 2, col preventivo dalle misure della parte 1.
 4. Se Nicola dice «1a»: la costruttrice delle due modifiche alla guardia, poi un collaudo corto.
+
+## Stato della chat 6 (17/11 06:55)
+- #975 unita da Nicola (16/11 13:21, `572b6fb`). Il ramo `ccr-546d3724-qilkcw` riparte da lì.
+- Nicola, 16/11 verso le 12:05: «12% via ai riparatori», poi «che cos'è questo 12%». La lettura NON va in `misure.json` finché non la conferma.
+- R28 e R29 aperti alle 12:13 con la base a sigla corta: fermi fino alle 15:15, poi riaperti (R28 `session_015BmpnYgfBZJsuDMpB39sCj`, R29 `session_015BmpnW1hb6vTP9viJSV6uD`).
+- R28 consegnato a 37 $: 7 riparate, 2 a metà (fra cui il grave del tasto di emergenza), 5 alla cucitura, 1 per Nicola, 1 già riparata, 9 non fatte. R29 chiude verso i 45 $. Parte 1 a circa 98 $ su 170.
+- Regista O4 uno ferma a 282 mila token e circa 14,5 $. Regista O4 due `session_015BmpnWQotfLE7m24jK8QfZ` aperta il 17/11 alle 06:51 (tetto 8 $), controllata con get_session: connessa.
+- Per Nicola: tre domande di R28 (consegna veloce pagata e fuori tempo; abbonamento del negozio dopo rimborso o contestazione; allarme notifiche a 45 minuti) e l'eccezione sulla prova dell'acquisto vero senza dati di prova (consiglio: firmarla).
+- Difetto della macchina da registrare nel cantiere: `chiudi-sito --applica` su tutti i frammenti riscrive data e PR delle voci già chiuse.
