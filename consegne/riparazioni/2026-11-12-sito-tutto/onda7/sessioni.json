@@ -5,7 +5,7 @@
   "ramo": "ccr-30918361-coyajm",
   "partenza": "bc36f48120ec38bf20880c7d68b3171015744681",
   "nota": "main c83c3e4e + -o6 + -o6-m03 + -o6-m02 ricopiato; la unisce la regista",
-  "testa": "00bb233c09725c2685c7f1b372d823517d1226ca"
+  "testa": "a3c43d1f735d803d817b12c25fd87feb323922ca"
  },
  "sessioni": {
   "R01": {
@@ -74,9 +74,19 @@
     "R04"
    ],
    "tetto_usd": 14,
-   "finita": false,
-   "id": "session_015BmpnYRNv6mjgz8ptfTtTy"
+   "finita": true,
+   "id": "session_015BmpnYRNv6mjgz8ptfTtTy",
+   "punta": "9ac3589fe669d8acf26987f73260d93f69ab4cf8",
+   "costo_usd": 15.65
   }
  },
- "controllori": {}
+ "controllori": {
+  "C01": {
+   "ramo": "ccr-30918361-coyajm-c01",
+   "testa_controllata": "a3c43d1f735d803d817b12c25fd87feb323922ca",
+   "base": "bc36f48120ec38bf20880c7d68b3171015744681",
+   "tetto_usd": 6,
+   "finita": false
+  }
+ }
 }
