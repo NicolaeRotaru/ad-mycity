@@ -515,6 +515,30 @@
    "aperta": "2026-11-16 10:44",
    "tetto_usd": 5,
    "mandato": "giudizio pieno, collaudo breve, solo R16-014, R16-015, R16-016 (elenco A utile)"
+  },
+  "K15": {
+   "id": "session_015BmpnZXgxFHGwC7NE1PuM8",
+   "ramo": "claude/sito-onda-4-k15",
+   "partenza": "d8670ec0a15c12e1b81d075f37e2fe4939b4db23",
+   "onda": 4,
+   "tetto_usd": 13,
+   "riparatori": [
+    "R28"
+   ],
+   "aperta": "2026-11-17 06:52",
+   "mandato": "collaudo breve: 7 riparate + 2 parziali; più controllo che le 5 patch altrui non indeboliscano prove"
+  },
+  "K16": {
+   "id": "session_015BmpnX78Ha7Qjp1ntfmVrF",
+   "ramo": "claude/sito-onda-4-k16",
+   "partenza": "d8670ec0a15c12e1b81d075f37e2fe4939b4db23",
+   "onda": 4,
+   "tetto_usd": 15,
+   "riparatori": [
+    "R29"
+   ],
+   "aperta": "2026-11-17 06:52",
+   "mandato": "collaudo breve: 7 riparate + 3 parziali; più diff delle 9 prove comuni e salto dello spec e2e"
   }
  },
  "controllori": {
