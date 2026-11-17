@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-11-17 08:35",
+  "aggiornato": "2026-11-17 16:30",
   "scansioni": [
     {
       "quando": "2026-08-25 20:35",
@@ -7395,6 +7395,20 @@
       "nota": "Riletto dopo l'unione delle richieste #953, #974 e #955 (17/11): la sezione «L'elenco delle sessioni» del 14/11 diceva «/effort ultracode per chi scrive codice», scavalcata dalla regola 5 del 15/11 (ultracode solo con grave, bloccante o tocco a soldi, dati o permessi). Corretta nello stesso lotto. Il punto «il prompt porta dentro per intero» di F1 regge: la sezione Ultra Code Extra dice che quel testo va nel primo send_message.",
       "file": {
         ".claude/skills/riparazione/SKILL.md": "1a572d6b2dc7"
+      }
+    },
+    {
+      "quando": "2026-11-17 16:30",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/coerenza-fatti.mjs": "b6b64c84eba5"
       }
     }
   ]

@@ -16,14 +16,24 @@ test("la fotocopia del registro di una campagna è esente", () => {
   assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/registro-compatto.txt", []), true);
 });
 
+test("la fotocopia nella cartella di un'onda è esente", () => {
+  // Il 17/11 l'onda 6 ha la sua cartella (`--cartella …/onda6`) e il risolutore ci scrive la sua fotocopia:
+  // la CI di ad-mycity#983 è diventata rossa sugli stessi due titoli vecchi del 12/11.
+  assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/onda6/registro-compatto.txt", []), true);
+  assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/onda12/registro-compatto.txt", []), true);
+});
+
 test("le schede dei riparatori restano vive", () => {
   assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/schede/R01.md", []), false);
   assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/piano.json", []), false);
+  assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/onda6/schede/R02.md", []), false);
 });
 
 test("lo stesso nome fuori posto non è esente", () => {
   assert.equal(esente("consegne/audit/registro-compatto.txt", []), false);
   assert.equal(esente("consegne/riparazioni/a/b/registro-compatto.txt", []), false);
+  assert.equal(esente("consegne/riparazioni/a/onda/registro-compatto.txt", []), false);
+  assert.equal(esente("consegne/riparazioni/a/onda6/x/registro-compatto.txt", []), false);
   assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/registro-compatto.txt.md", []), false);
 });
 
