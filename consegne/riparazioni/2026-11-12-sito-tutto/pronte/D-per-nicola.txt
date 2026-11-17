@@ -1,4 +1,4 @@
-# elenco D di pronte (2026-11-16 10:40): 88 voci uniche, una chiave per riga
+# elenco D di pronte (2026-11-17 09:06): 90 voci uniche, una chiave per riga
 deploy-sre|il rilascio non applica le migrazioni: il codice nuovo arriva su un database vecchio
 deploy-sre|ogni unione su main pubblica in produzione senza aspettare la ci
 deploy-sre|oggi nessun cliente può ordinare: al sito vero manca la chiave di servizio del database
@@ -43,11 +43,6 @@ qa-flussi|se il fattorino sparisce senza dichiarare i contanti, l'ordine resta i
 api-backend|lo stesso cliente può usare il codice «solo primo ordine» due volte, aprendo la cassa in due schede
 privacy-legale|le domande sotto i prodotti si pubblicano subito, non si possono segnalare una per una e nessuno può toglierle
 privacy-legale|l'obbligo di dichiarare allergeni e ingredienti vale solo finché la categoria principale si chiama esattamente «alimentari», e dal pannello quel nome si può cambiare
-api-backend|la funzione che muore fra l'ordine e gli articoli lascia la merce riservata senza nessuno che la liberi
-pagamenti-stripe|il codice sconto di mycity lo paga il negozio: su 20 euro di pane con 5 euro di sconto incassa 13,50 invece di 18
-privacy-legale|il negozio può togliere il diritto di ripensamento a qualunque prodotto, anche a un maglione, e il sito rifiuta il reso dicendo al cliente che è la legge
-qa-flussi|un ordine in contanti già incassato non si rimborsa dall’amministrazione: il sito non apre da solo il reclamo come deciso il 29/10, e il pannello dice di aprirlo a chi non può
-dati-analytics|in analisi il voto medio guarda solo le recensioni ai prodotti: un negozio con tre recensioni legge «nessuna recensione», e le etichette sono in inglese
 api-backend|se la lettura delle email cade, la ricerca utenti dice «nessuno, ho cercato su tutti», e oltre mille iscritti l'email non si trova
 api-backend|confermata una rimessa, la giornata del fattorino risulta versata anche per i contanti che incassa dopo, e la guardia della cancellazione lo lascia andare
 rls-database|chi ha fatto anche un solo ordine non riesce a cancellare il proprio account
@@ -87,3 +82,10 @@ microcopy|chi spegne le promozioni continua a vederle nella campanella del sito
 pagamenti-stripe|«conferma rimessa» sblocca anche gli incassi registrati dopo che l'amministratore ha aperto la pagina
 deploy-sre|la cancellazione notturna degli account non ha un tetto per giro
 frontend-ux|il modulo del prodotto non dice che il nome ha al massimo 120 caratteri: il negozio legge solo «il valore inserito non è valido»
+microcopy|nella campanella metà degli avvisi comincia con una faccina e metà no
+pagamenti-stripe|il webhook della carta non rifà il controllo della veloce (fattorini online, 8-21) quando arrivano i soldi
+privacy-legale|chi annulla la cancellazione dell'account mentre gira il giro notturno viene cancellato lo stesso
+qa-flussi|le tre prove automatiche dell'acquisto vero sono vuote: passano in tre millesimi senza aprire niente
+privacy-legale|il negozio può togliere il diritto di reso a un prodotto già venduto, e il cliente si vede rifiutare il ripensamento
+privacy-legale|il sito non spiega da nessuna parte come verifica che le recensioni vengano da chi ha comprato, né che una recensione con foto dà punti
+privacy-legale|i termini descrivono un ordine dei risultati che il sito non usa, e lo spazio pagato si chiama «sponsored» in inglese invece di «sponsorizzato»

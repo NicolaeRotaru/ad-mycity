@@ -1,9 +1,6 @@
-# elenco A di pronte (2026-11-16 10:40): 8 voci uniche, una chiave per riga
+# elenco A di pronte (2026-11-17 09:06): 5 voci uniche, una chiave per riga
 ai-endpoints|la lettura di un prodotto da una foto va in errore 500 se il modello scrive il motivo del rifiuto in un formato inatteso
 ai-endpoints|i tagli contro i costi contano le voci degli elenchi ma non la loro lunghezza: una richiesta sotto il megabyte riempie la finestra del modello
 architettura|all'assistente ai si dice che la consegna di una pagnotta da 3,50 € costa 4 €, ma la consegna si paga sul carrello e non sul singolo prodotto
 frontend-ux|la vetrina di ogni negozio manda a google i suoi dati senza l'indirizzo della pagina, e nel browser va in conflitto con quello che ha disegnato il server
 frontend-ux|orari, stelle e indirizzo web del negozio non arrivano a google nella prima lettura
-qa-flussi|lo specchio activity_events chiama «azione admin» anche le azioni degli utenti
-qa-flussi|nel riepilogo dell'ordine la consegna ricavata fa sempre «torna» il totale
-qa-flussi|l'etichetta da attaccare alla busta non dice quando consegnare: né «veloce» né la fascia

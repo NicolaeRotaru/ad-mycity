@@ -1,12 +1,12 @@
 {
-  "creato": "2026-11-16 10:40",
+  "creato": "2026-11-17 09:06",
   "conti": {
-    "A": 8,
-    "B": 42,
-    "C": 43,
-    "D": 88
+    "A": 5,
+    "B": 43,
+    "C": 42,
+    "D": 90
   },
-  "righe_B": 61,
+  "righe_B": 64,
   "precedenti": {
     "deploy-sre|il rilascio non applica le migrazioni: il codice nuovo arriva su un database vecchio": {
       "id": "R01-001",
@@ -662,18 +662,23 @@
       "file_che_servono": []
     },
     "frontend-ux|i marchi «km 0» e «artigianale» non compaiono mai sulla scheda, perché la scheda non legge i tag": {
-      "id": "R17-005",
+      "id": "R28-008",
       "elenco": "B",
       "esito": "serve_file_altrui",
       "cosa_resta": null,
       "modifiche": [
         {
           "file": "tests/unit/aiuti/database-coi-permessi.ts",
-          "modifica": "nell'elenco COLONNE di 'products' aggiungere 'tags' dopo 'external_source_url' (il finto database rifiuta la colonna products.tags che la scheda ora chiede). Poi cherry-pick di d5687bbc (lib/queries/catalogo.ts: tags nella COLONNE_SCHEDA_PRODOTTO, filtro tagDeiMarchiDellaScheda che lascia solo Km 0/Artigianale, prova riparazione-r17-scheda-tag-dei-marchi): con questa riga le 12 prove collegate sono verdi (330 test). Senza, 25 test di il-catalogo-regge-con-i-profili-chiusi falliscono; per questo il commit e' stato tolto con git revert bb53b6be."
+          "modifica": "Riga 64, in COLONNE.products: «'external_source_url'» diventa «'external_source_url', 'tags'»."
+        },
+        {
+          "file": "lib/queries/catalogo.ts (mio, bloccato dalla riga sopra) + prova nuova tests/unit/riparazione-r28-scheda-tag-dei-marchi.test.ts",
+          "modifica": "Patch r28-008-intera.patch (mandata alla regista; si applica sulla testa)."
         }
       ],
       "file_che_servono": [
-        "tests/unit/aiuti/database-coi-permessi.ts"
+        "tests/unit/aiuti/database-coi-permessi.ts",
+        "lib/queries/catalogo.ts (mio, bloccato dalla riga sopra) + prova nuova tests/unit/riparazione-r28-scheda-tag-dei-marchi.test.ts"
       ]
     },
     "immagini-media|le tessere delle categorie in home sono foto d'archivio scritte a mano nel codice": {
@@ -1299,268 +1304,6 @@
         "lib/products/prontoPerLaVendita.ts:64, :156, :302"
       ]
     },
-    "qa-flussi|la cassa dice «troppo lontano» a chi abita in via roma o in via cavour, in pieno centro, e l'ordine non parte": {
-      "id": "R13-001",
-      "elenco": "C",
-      "esito": "parziale",
-      "cosa_resta": "Dal collaudo del lotto 5: (1) lib/shipping-coordinate.ts (non di R13): la modifica proposta in serve_file_altrui ignora solo i punti salvati fuori dal riquadro di Piacenza; deve ignorare anche un punto salvato dentro il riquadro ma a più di 5 km dal negozio. (2) components/checkout/ShippingAddressForm.tsx:62,96 (di R13) con app/checkout/page.tsx:484 (non di R13): useCoordinateDellaZona si fida delle lat/lng degli indirizzi salvati con la vecchia ricerca, quindi la cassa può restare bloccata per chi ha in rubrica un indirizzo con coordinate sbagliate. (3) app/api/orders/cod/route.ts:1115 e app/api/stripe/checkout/route.ts:598 (di R13): il controllo dei 5 km usa coordConsegna anche quando non è affidabile. Non fatto per il tetto di costo. (4) lib/geocodifica.ts: fuori Piacenza, senza CAP o con un CAP storpiato, vince l'omonimo lontano (Quarto → Napoli) invece di null. Serve una regola nuova, non una correzione piccola, perché la prova di R13-006 vuole «Via Roma 1, Milano» senza CAP → Milano.",
-      "modifiche": [
-        {
-          "file": "lib/shipping-coordinate.ts",
-          "modifica": "In coordinateDaIndirizziSalvati, non fidarsi di una coordinata salvata che cade fuori dal riquadro di Piacenza (RIQUADRO_PIACENZA, lib/ordini/zona-di-consegna.ts): quando il punto salvato è fuori riquadro, ignorarlo (ritornare null) così la rotta ricade su coordinateDiUnIndirizzo (la ricerca strutturata nuova). In alternativa, decisione di Nicola: una migrazione che azzeri/ricalcoli user_addresses.lat/lng fuori riquadro."
-        }
-      ],
-      "file_che_servono": [
-        "lib/shipping-coordinate.ts"
-      ]
-    },
-    "api-backend|la funzione che muore fra l'ordine e gli articoli lascia la merce riservata senza nessuno che la liberi": {
-      "id": "R13-002",
-      "elenco": "D",
-      "esito": "parziale",
-      "cosa_resta": "Manca il giro a orario che chiami libera_riserve_della_cassa per tutti i prodotti. Senza di lui, una riserva rimasta aperta dopo la morte prima dell'ordine, su prodotti che nessuna cassa in contanti ritocca, resta presa. Il caso dell'ordine senza articoli lo chiude già l'annullo (giro degli ordini fermi o annullo a mano). Il file è altrui: vedi serve_file_altrui. La 371 va applicata da Nicola: fino ad allora il codice fa quello di prima.",
-      "modifiche": [
-        {
-          "file": "app/api/cron/expire-stale-orders/route.ts",
-          "modifica": "Subito dopo il blocco try/catch che assegna `admin = getAdminSupabase()` e prima di `const cutoff = new Date().toISOString();`, aggiungere:\n\n  // R13-002 — Le riserve della cassa in contanti rimaste aperte da un invio morto (migrazione 371): dopo 15 minuti si sistemano qui, per tutti i prodotti. Non ferma il giro.\n  try {\n    const { data: riserve, error: errRiserve } = await admin.rpc('libera_riserve_della_cassa', {});\n    if (errRiserve) {\n      if ((errRiserve as { code?: string }).code !== 'PGRST202') logger.error('[cron] expire-stale-orders: riserve della cassa non sistemate', { message: errRiserve.message });\n    } else {\n      const r = (riserve ?? {}) as { liberate?: number; a_meta?: number; incerte?: number; errori?: number };\n      if ((r.liberate ?? 0) + (r.a_meta ?? 0) + (r.incerte ?? 0) + (r.errori ?? 0) > 0) logger.warn('[cron] expire-stale-orders: riserve della cassa sistemate', r);\n    }\n  } catch (e) {\n    logger.error('[cron] expire-stale-orders: riserve della cassa non sistemate', { message: e instanceof Error ? e.message : String(e) });\n  }\n\nSe si preferisce un lavoro a parte: una rotta nuova app/api/cron/riserve-della-cassa/route.ts (withCronAuth e fermo dei lavori come gli altri) con la stessa chiamata, e in vercel.json → crons `{ \"path\": \"/api/cron/riserve-della-cassa\", \"schedule\": \"*/15 * * * *\" }`. Se incerte o errori sono più di zero, la merce resta scalata finché qualcuno non guarda: conviene un avviso agli amministratori con la memoria di operational_alert_log, come fa expire-checkouts."
-        }
-      ],
-      "file_che_servono": [
-        "app/api/cron/expire-stale-orders/route.ts"
-      ]
-    },
-    "pagamenti-stripe|il codice sconto di mycity lo paga il negozio: su 20 euro di pane con 5 euro di sconto incassa 13,50 invece di 18": {
-      "id": "R13-003",
-      "elenco": "D",
-      "esito": "scelta_di_nicola",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
-    },
-    "privacy-legale|il negozio può togliere il diritto di ripensamento a qualunque prodotto, anche a un maglione, e il sito rifiuta il reso dicendo al cliente che è la legge": {
-      "id": "R13-004",
-      "elenco": "D",
-      "esito": "parziale",
-      "cosa_resta": "1) Il modulo ProductForm mostra ancora la spunta per categorie non alimentari: al salvataggio viene rifiutata (dal server in modifica, dal trigger 373 nella creazione diretta dal browser), quindi il difetto legale è chiuso su ogni strada di scrittura, ma la spunta potrebbe essere nascosta a monte. Non l'ho fatto apposta: gating per categoria romperebbe le prove esistenti non-R13 che montano ProductForm con categorie piatte non alimentari (il-negozio-segna-i-prodotti-esclusi con slug 'forno-di-prova', minori-s06-scorta-in-modifica con 'panetteria'), e il difetto è già chiuso lato scrittura+DB+reso. 2) La lista delle categorie ammesse (solo alimenti) è in parte una scelta di Nicola: vedi la domanda sui beni non alimentari fatti su ordinazione.",
-      "modifiche": [],
-      "file_che_servono": []
-    },
-    "qa-flussi|le tre prove automatiche dell'acquisto vero sono vuote: passano in tre millesimi senza aprire niente": {
-      "id": "R13-005",
-      "elenco": "B",
-      "esito": "serve_file_altrui",
-      "cosa_resta": null,
-      "modifiche": [
-        {
-          "file": "tests/e2e/12-la-cassa-dal-carrello-al-pagamento.spec.ts",
-          "modifica": "Scrivere i corpi veri delle tre prove oggi `async () => {}` dichiarate test.skip (contrassegno: dal carrello seminato a POST /api/orders/cod, poi SELECT ordine stato NEW + totale + campanella del negozio; carta: Stripe test con webhook firmato e ordine PAID; consegna: giro release-payouts con transfer test-mode), attive solo quando E2E_DATI_DI_PROVA è acceso con l'ambiente di prova pronto; mai un'asserzione sulla variabile stessa. Aggiornare poi tests/unit/le-prove-della-cassa-non-passano-senza-aver-guardato.test.ts e la mia guardia riparazione-r13-la-cassa-e2e-non-diventa-verde-a-vuoto.test.ts perché pretendano un ordine nato invece del salto. ANCHE (dal collaudo): La modifica proposta in serve_file_altrui, e anche cosa_resta, elenca contrassegno, «carta: Stripe webhook e ordine PAID» e bonifico, ma dimentica il corpo della seconda delle tre prove, «rifiuto del negozio su un ordine pagato: il rimborso esiste». Per quella la voce chiede espressamente «Rifiuto: rimborso registrato». La modifica non è esatta: manca il rimborso."
-        }
-      ],
-      "file_che_servono": [
-        "tests/e2e/12-la-cassa-dal-carrello-al-pagamento.spec.ts"
-      ]
-    },
-    "qa-flussi|un ordine in contanti già incassato non si rimborsa dall’amministrazione: il sito non apre da solo il reclamo come deciso il 29/10, e il pannello dice di aprirlo a chi non può": {
-      "id": "R13-007",
-      "elenco": "D",
-      "esito": "parziale",
-      "cosa_resta": "Il reclamo aperto dal sito avvisa solo gli amministratori: a differenza di /api/disputes (R03-013) non manda la campanella al negozio, il cui bonifico per quell'ordine si ferma in silenzio, né la ricevuta al cliente (lib/ordini/annulla.ts, apriIlReclamoDeiContanti). La risposta 409 della rotta del cliente per l'ordine già rimborsato non ha una prova sua.",
-      "modifiche": [],
-      "file_che_servono": []
-    },
-    "api-backend|le rotte accettano una consegna a domicilio senza fascia: l'ordine nasce senza orario, mentre la cassa ne manda sempre una": {
-      "id": "R26-004",
-      "elenco": "B",
-      "esito": "serve_file_altrui",
-      "cosa_resta": null,
-      "modifiche": [
-        {
-          "file": "tests/unit/al-lancio-carta-abbonamento-e-codici-sconto-restano-spenti-anche-con-le-chiavi.test.ts",
-          "modifica": "nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout aggiungere deliverySlot con una fascia vera di lib/quando-arriva.ts (es. FASCE_DI_DOMANI[0], compatibile con orologio e orari del negozio finto della prova); poi cherry-pick di 69b1cc57 (vale per tutte le righe sotto)"
-        },
-        {
-          "file": "tests/unit/api-stripe-checkout.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/chi-passa-ai-contanti-non-lascia-un-pagamento-aperto.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/collaudo-dopo-gia-arrivato-niente-doppione.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/con-la-carta-lo-stesso-carrello-non-apre-due-pagamenti.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/contanti-la-chiave-si-libera-se-l-ordine-non-parte.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/contanti-la-chiave-si-prende-prima.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/contanti-lo-stesso-carrello-giorni-dopo-e-un-ordine-nuovo.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/contanti-se-l-annullamento-fallisce-la-chiave-resta.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/gli-errori-della-cassa-in-contanti-parlano-la-lingua-del-sito.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/i-contanti-misurano-il-confine-in-ogni-direzione-e-da-ogni-fonte.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/i-contanti-non-nascono-se-la-carta-resta-pagabile.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/il-credito-tolto-da-un-tentativo-fallito-torna-ogni-volta.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/il-si-ai-cookie-dato-da-anonimo-vale-anche-dopo-l-accesso.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/la-carta-rifiuta-l-indirizzo-fuori-zona-come-i-contanti.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/la-carta-si-ferma-se-la-lettura-dei-negozi-torna-corta.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/la-cassa-gia-aperta-non-si-restituisce-con-un-pagamento-vecchio-vivo.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/la-cassa-in-contanti-non-perde-e-non-ricicla-la-chiave.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/la-cassa-in-contanti-si-ferma-quando-non-vede.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/la-cassa-mostra-la-spedizione-che-addebita-coi-profili-chiusi.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/la-cassa-non-dice-fatto-per-un-ordine-senza-articoli.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/la-cassa-non-fa-la-fila-di-viaggi.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/la-chiave-dei-contanti-ritrova-solo-i-suoi-ordini.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/la-conferma-in-contanti-esce-senza-il-tasto-per-smettere.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/la-posta-del-contrassegno-non-fa-la-fila.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/minori-s01-cassa-carta.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/minori-s01-negozio-senza-insegna.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/minori-s01-zona-carta.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/minori-s02-la-cassa-avvisa-chi-sistema.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/ordini-contrassegno-due-negozi.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/riparazione-r03-prezzo-cambiato-in-cassa.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/riparazione-r13-riserva-della-cassa.test.ts",
-          "modifica": "idem (prova di R13 dei lotti 1-3, usa anche file di altre sessioni) — sulla base 76d4c4d questo file non esiste."
-        },
-        {
-          "file": "tests/unit/una-consegna-a-milano-non-passa-piu-in-cassa.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "tests/unit/variante-503-dopo-chiave-abbandonata.test.ts",
-          "modifica": "deliverySlot valido (fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0]) nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout; poi cherry-pick di 69b1cc57"
-        },
-        {
-          "file": "lib/ordini/fascia-consegna.ts, app/api/orders/cod/route.ts, app/api/stripe/checkout/route.ts",
-          "modifica": "(file di R26, da fare DOPO le prove sopra) cherry-pick di 69b1cc57: le rotte rifiutano una consegna a domicilio senza fascia valida."
-        }
-      ],
-      "file_che_servono": [
-        "tests/unit/al-lancio-carta-abbonamento-e-codici-sconto-restano-spenti-anche-con-le-chiavi.test.ts",
-        "tests/unit/api-stripe-checkout.test.ts",
-        "tests/unit/chi-passa-ai-contanti-non-lascia-un-pagamento-aperto.test.ts",
-        "tests/unit/collaudo-dopo-gia-arrivato-niente-doppione.test.ts",
-        "tests/unit/con-la-carta-lo-stesso-carrello-non-apre-due-pagamenti.test.ts",
-        "tests/unit/contanti-la-chiave-si-libera-se-l-ordine-non-parte.test.ts",
-        "tests/unit/contanti-la-chiave-si-prende-prima.test.ts",
-        "tests/unit/contanti-lo-stesso-carrello-giorni-dopo-e-un-ordine-nuovo.test.ts",
-        "tests/unit/contanti-se-l-annullamento-fallisce-la-chiave-resta.test.ts",
-        "tests/unit/gli-errori-della-cassa-in-contanti-parlano-la-lingua-del-sito.test.ts",
-        "tests/unit/i-contanti-misurano-il-confine-in-ogni-direzione-e-da-ogni-fonte.test.ts",
-        "tests/unit/i-contanti-non-nascono-se-la-carta-resta-pagabile.test.ts",
-        "tests/unit/il-credito-tolto-da-un-tentativo-fallito-torna-ogni-volta.test.ts",
-        "tests/unit/il-si-ai-cookie-dato-da-anonimo-vale-anche-dopo-l-accesso.test.ts",
-        "tests/unit/la-carta-rifiuta-l-indirizzo-fuori-zona-come-i-contanti.test.ts",
-        "tests/unit/la-carta-si-ferma-se-la-lettura-dei-negozi-torna-corta.test.ts",
-        "tests/unit/la-cassa-gia-aperta-non-si-restituisce-con-un-pagamento-vecchio-vivo.test.ts",
-        "tests/unit/la-cassa-in-contanti-non-perde-e-non-ricicla-la-chiave.test.ts",
-        "tests/unit/la-cassa-in-contanti-si-ferma-quando-non-vede.test.ts",
-        "tests/unit/la-cassa-mostra-la-spedizione-che-addebita-coi-profili-chiusi.test.ts",
-        "tests/unit/la-cassa-non-dice-fatto-per-un-ordine-senza-articoli.test.ts",
-        "tests/unit/la-cassa-non-fa-la-fila-di-viaggi.test.ts",
-        "tests/unit/la-chiave-dei-contanti-ritrova-solo-i-suoi-ordini.test.ts",
-        "tests/unit/la-conferma-in-contanti-esce-senza-il-tasto-per-smettere.test.ts",
-        "tests/unit/la-posta-del-contrassegno-non-fa-la-fila.test.ts",
-        "tests/unit/minori-s01-cassa-carta.test.ts",
-        "tests/unit/minori-s01-negozio-senza-insegna.test.ts",
-        "tests/unit/minori-s01-zona-carta.test.ts",
-        "tests/unit/minori-s02-la-cassa-avvisa-chi-sistema.test.ts",
-        "tests/unit/ordini-contrassegno-due-negozi.test.ts",
-        "tests/unit/riparazione-r03-prezzo-cambiato-in-cassa.test.ts",
-        "tests/unit/riparazione-r13-riserva-della-cassa.test.ts",
-        "tests/unit/una-consegna-a-milano-non-passa-piu-in-cassa.test.ts",
-        "tests/unit/variante-503-dopo-chiave-abbandonata.test.ts",
-        "lib/ordini/fascia-consegna.ts, app/api/orders/cod/route.ts, app/api/stripe/checkout/route.ts"
-      ]
-    },
-    "dati-analytics|in analisi il voto medio guarda solo le recensioni ai prodotti: un negozio con tre recensioni legge «nessuna recensione», e le etichette sono in inglese": {
-      "id": "R13-020",
-      "elenco": "D",
-      "esito": "non_fatto",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
-    },
     "api-backend|se la lettura delle email cade, la ricerca utenti dice «nessuno, ho cercato su tutti», e oltre mille iscritti l'email non si trova": {
       "id": "R14-001",
       "elenco": "D",
@@ -1869,30 +1612,6 @@
       "modifiche": [],
       "file_che_servono": []
     },
-    "qa-flussi|lo specchio activity_events chiama «azione admin» anche le azioni degli utenti": {
-      "id": "R16-014",
-      "elenco": "A",
-      "esito": "riparato",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
-    },
-    "qa-flussi|nel riepilogo dell'ordine la consegna ricavata fa sempre «torna» il totale": {
-      "id": "R16-015",
-      "elenco": "A",
-      "esito": "riparato",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
-    },
-    "qa-flussi|l'etichetta da attaccare alla busta non dice quando consegnare: né «veloce» né la fascia": {
-      "id": "R16-016",
-      "elenco": "A",
-      "esito": "riparato",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
-    },
     "qa-flussi|prova con un nome che promette il contrario": {
       "id": "R16-017",
       "elenco": "B",
@@ -2115,8 +1834,8 @@
     "rls-database|il database accetta un codice sconto del 150% e importi in soldi negativi": {
       "id": "R18-019",
       "elenco": "D",
-      "esito": "riparato",
-      "cosa_resta": null,
+      "esito": "parziale",
+      "cosa_resta": "Tutta la voce. Il codice (commit 6eefff31) è tolto dal sito col revert 58e23838 (2026-11-14): rossa al controllo dell onda 2 (C02 terzo) e rompe_altro al ricollaudo K07 secondo. Sul sito pubblicato (mycity#290) la voce non è riparata e resta aperta.",
       "modifiche": [],
       "file_che_servono": []
     },
@@ -2443,8 +2162,8 @@
     "qa-flussi|sulla bacheca del fattorino un «accetta» perso lascia l'ordine in elenco fino a un minuto, e fa girare tutti i pulsanti insieme": {
       "id": "R20-011",
       "elenco": "D",
-      "esito": "riparato",
-      "cosa_resta": null,
+      "esito": "parziale",
+      "cosa_resta": "Tutta la voce. Il codice (commit 30b7f9ed) è tolto dal sito col revert de5a0b46 (2026-11-14 23:34): rompe_altro al ricollaudo K05 secondo; Nicola, carta 243: la voce resta aperta, terzo giro solo con lui. Sul sito pubblicato (mycity#290) la voce non è riparata e resta aperta.",
       "modifiche": [],
       "file_che_servono": []
     },
@@ -2967,33 +2686,33 @@
       ]
     },
     "pagamenti-stripe|con l'abbonamento acceso, due schede aperte creano due abbonamenti da 50 euro, e il primo resta orfano e non si disdice dal sito": {
-      "id": "R23-011",
+      "id": "R28-012",
       "elenco": "B",
       "esito": "serve_file_altrui",
       "cosa_resta": null,
       "modifiche": [
         {
           "file": "tests/unit/riparazione-r10-un-prezzo-abbonamento.test.tsx",
-          "modifica": "Nel vi.mock('@/lib/supabase/server'), prima di `getServerSupabase: async () => ({`, aggiungere `getAdminSupabase: () => ({ from: () => ({ update: () => ({ eq: () => ({ is: async () => ({ error: null }) }) }) }) }),`. Nel vi.mock('@/lib/stripe/client'), dentro `getStripe: () => ({` e prima di `subscriptions: { list: async () => ({ data: [] }) },`, aggiungere `customers: { list: async () => ({ data: [] }), create: async () => ({ id: 'cus_1' }) },`."
+          "modifica": "Nel vi.mock('@/lib/supabase/server'), prima di getServerSupabase: async () => ({, aggiungere getAdminSupabase: () => ({ from: () => ({ update: () => ({ eq: () => ({ is: async () => ({ error: null }) }) }) }) }),; nel vi.mock('@/lib/stripe/client'), dentro getStripe: () => ({ e prima di subscriptions: { list: async () => ({ data: [] }) },, aggiungere customers: { list: async () => ({ data: [] }), create: async () => ({ id: 'cus_1' }) },"
         },
         {
           "file": "tests/unit/riparazione-r10-abbonamento-dopo-il-primo-incasso.test.ts",
-          "modifica": "Riga 32, nel vi.mock('@/lib/supabase/server'), prima di `getServerSupabase: async () => ({`, aggiungere `getAdminSupabase: () => ({ from: () => ({ update: () => ({ eq: () => ({ is: async () => ({ error: null }) }) }) }) }),`. Riga 46, dentro `getStripe: () => ({` e prima di `subscriptions: { list: async () => ({ data: [] }) },`, aggiungere `customers: { list: async () => ({ data: [] }), create: async () => ({ id: 'cus_1' }) },`."
+          "modifica": "Riga 32 getAdminSupabase come sopra; riga 46 customers come sopra."
         },
         {
           "file": "tests/unit/riparazione-r10-abbonamento-doppio.test.ts",
-          "modifica": "Riga 53, nel vi.mock('@/lib/stripe/client'), subito dopo `webhooks: { constructEvent: () => stato.evento },`, aggiungere `customers: { list: async () => ({ data: [] }), create: async () => ({ id: 'cus_1' }) },`."
+          "modifica": "Riga 53, dopo webhooks: { constructEvent: () => stato.evento },, aggiungere customers: { list: async () => ({ data: [] }), create: async () => ({ id: 'cus_1' }) },"
         },
         {
-          "file": "app/api/seller/subscription/checkout/route.ts + app/api/seller/subscription/portal/route.ts",
-          "modifica": "riprendere la correzione con git cherry-pick 0a428830 16f54763 (togliendo da 16f54763 le righe sulle due prove R10, che vanno come scritte sopra), insieme alle tre modifiche ai finti di R10"
+          "file": "app/api/seller/subscription/checkout/route.ts, app/api/seller/subscription/portal/route.ts (miei, bloccati dalle prove sopra) + prova nuova tests/unit/riparazione-r28-abbonamento-due-schede.test.ts",
+          "modifica": "Patch r28-012-intera.patch (mandata alla regista; si applica sulla testa)."
         }
       ],
       "file_che_servono": [
         "tests/unit/riparazione-r10-un-prezzo-abbonamento.test.tsx",
         "tests/unit/riparazione-r10-abbonamento-dopo-il-primo-incasso.test.ts",
         "tests/unit/riparazione-r10-abbonamento-doppio.test.ts",
-        "app/api/seller/subscription/checkout/route.ts + app/api/seller/subscription/portal/route.ts"
+        "app/api/seller/subscription/checkout/route.ts, app/api/seller/subscription/portal/route.ts (miei, bloccati dalle prove sopra) + prova nuova tests/unit/riparazione-r28-abbonamento-due-schede.test.ts"
       ]
     },
     "performance|la velocità del sito vista dai clienti veri non la misura nessuno": {
@@ -3338,6 +3057,26 @@
         "scripts/backup-db.sh"
       ]
     },
+    "api-backend|le rotte accettano una consegna a domicilio senza fascia: l'ordine nasce senza orario, mentre la cassa ne manda sempre una": {
+      "id": "R28-005",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "le 33 prove elencate nella riga della voce in scheda (tests/unit/al-lancio-carta-…, api-stripe-checkout, …, variante-503-dopo-chiave-abbandonata)",
+          "modifica": "deliverySlot valido (una fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0], compatibile con orologio e orari della prova) nel corpo di ogni richiesta di consegna a domicilio a /api/orders/cod e /api/stripe/checkout."
+        },
+        {
+          "file": "lib/ordini/fascia-consegna.ts, app/api/orders/cod/route.ts, app/api/stripe/checkout/route.ts (miei, bloccati dalle prove sopra)",
+          "modifica": "Dopo le prove: cherry-pick 69b1cc57 (motivoSenzaFascia, 400 «Scegli quando vuoi ricevere l'ordine.»); la sua prova riparazione-r13-consegna-senza-fascia va rinominata riparazione-r28-…"
+        }
+      ],
+      "file_che_servono": [
+        "le 33 prove elencate nella riga della voce in scheda (tests/unit/al-lancio-carta-…, api-stripe-checkout, …, variante-503-dopo-chiave-abbandonata)",
+        "lib/ordini/fascia-consegna.ts, app/api/orders/cod/route.ts, app/api/stripe/checkout/route.ts (miei, bloccati dalle prove sopra)"
+      ]
+    },
     "microcopy|chi spegne le promozioni continua a vederle nella campanella del sito": {
       "id": "R26-014",
       "elenco": "D",
@@ -3387,6 +3126,109 @@
     },
     "frontend-ux|il modulo del prodotto non dice che il nome ha al massimo 120 caratteri: il negozio legge solo «il valore inserito non è valido»": {
       "id": "R27-012",
+      "elenco": "D",
+      "esito": "non_fatto",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "microcopy|nella campanella metà degli avvisi comincia con una faccina e metà no": {
+      "id": "R28-009",
+      "elenco": "D",
+      "esito": "non_fatto",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "pagamenti-stripe|il webhook della carta non rifà il controllo della veloce (fattorini online, 8-21) quando arrivano i soldi": {
+      "id": "R28-013",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "privacy-legale|chi annulla la cancellazione dell'account mentre gira il giro notturno viene cancellato lo stesso": {
+      "id": "R28-019",
+      "elenco": "D",
+      "esito": "non_fatto",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "privacy-legale|un cliente coi termini 2.0 e la cassa già aperta ordina lo stesso: le rotte d'ordine non guardano la versione accettata": {
+      "id": "R28-021",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "app/api/orders/cod/route.ts, app/api/stripe/checkout/route.ts (miei, bloccati) + prova nuova tests/unit/riparazione-r28-termini-in-cassa.test.ts",
+          "modifica": "Patch r28-021-intera.patch (mandata alla regista): il controllo subito dopo getServerSupabase/getAdminSupabase."
+        },
+        {
+          "file": "tests/unit/{al-lancio-carta-abbonamento-e-codici-sconto-restano-spenti-anche-con-le-chiavi, il-codice-sconto-a-uso-unico-non-resta-in-ostaggio-del-tentativo-abbandonato, il-si-ai-cookie-dato-da-anonimo-vale-anche-dopo-l-accesso, l-email-dei-contanti-legge-gli-orari-del-negozio, l-email-nuovo-ordine-dalla-rotta-dei-contanti-dice-la-scadenza-vera, minori-s02-coda-della-rotta-dei-contanti, riparazione-r12-la-rotta-dei-contanti-rifiuta-la-fascia, riparazione-r26-la-pulizia-dopo-i-rifiuti}.test.ts",
+          "modifica": "Dopo l'import di vitest: vi.mock('@/lib/auth/accettazione-testi', async (o) => ({ ...((await o()) as object), vaChiestaSenzaTrattenere: async () => 'lascia-entrare' }));"
+        }
+      ],
+      "file_che_servono": [
+        "app/api/orders/cod/route.ts, app/api/stripe/checkout/route.ts (miei, bloccati) + prova nuova tests/unit/riparazione-r28-termini-in-cassa.test.ts",
+        "tests/unit/{al-lancio-carta-abbonamento-e-codici-sconto-restano-spenti-anche-con-le-chiavi, il-codice-sconto-a-uso-unico-non-resta-in-ostaggio-del-tentativo-abbandonato, il-si-ai-cookie-dato-da-anonimo-vale-anche-dopo-l-accesso, l-email-dei-contanti-legge-gli-orari-del-negozio, l-email-nuovo-ordine-dalla-rotta-dei-contanti-dice-la-scadenza-vera, minori-s02-coda-della-rotta-dei-contanti, riparazione-r12-la-rotta-dei-contanti-rifiuta-la-fascia, riparazione-r26-la-pulizia-dopo-i-rifiuti}.test.ts"
+      ]
+    },
+    "privacy-legale|confine senza coordinate chiuso solo a parole: l'ordine non misurato passa senza nessun segno, e ora /shipping lo annuncia": {
+      "id": "R28-024",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": "La strada della carta (spenta al lancio): l'ordine nasce nel webhook (ordini.ts a 598 righe su 600), il segno va portato dal pending al webhook.",
+      "modifiche": [
+        {
+          "file": "app/api/orders/cod/route.ts (mio, bloccato) + prova nuova tests/unit/riparazione-r28-confine-non-misurato.test.ts",
+          "modifica": "Patch r28-024-intera.patch (mandata alla regista)."
+        },
+        {
+          "file": "tests/unit/ordini-contrassegno-due-negozi.test.ts",
+          "modifica": "Riga 344: expect(campanelle.length).toBe(4) diventa expect(campanelle.filter((c) => c.category === 'order').length).toBe(4) (i negozi finti non hanno posizione, quindi partono anche gli avvisi 'system' agli amministratori)."
+        }
+      ],
+      "file_che_servono": [
+        "app/api/orders/cod/route.ts (mio, bloccato) + prova nuova tests/unit/riparazione-r28-confine-non-misurato.test.ts",
+        "tests/unit/ordini-contrassegno-due-negozi.test.ts"
+      ]
+    },
+    "qa-flussi|le tre prove automatiche dell'acquisto vero sono vuote: passano in tre millesimi senza aprire niente": {
+      "id": "R29-001",
+      "elenco": "D",
+      "esito": "parziale",
+      "cosa_resta": "la CI lo fa girare davvero quando Nicola mette i segreti di test. I corpi non hanno mai girato contro un ambiente vero (qui non c'è Supabase locale né Stripe di prova): al primo giro può servire un ritocco (regole del database sull'ordine consegnato, inserimento del prodotto). Con il salto unico il contrassegno non gira più da solo senza Stripe di prova: le tre prove (e «la cassa disegna il modulo») girano solo con l'ambiente intero.",
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "privacy-legale|il negozio può togliere il diritto di reso a un prodotto già venduto, e il cliente si vede rifiutare il ripensamento": {
+      "id": "R29-020",
+      "elenco": "D",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "lib/database.types.ts",
+          "modifica": "Insieme al commit 5afe5ac7 (git cherry-pick 5afe5ac7): rigenerare con `node scripts/gen-db-types.mjs`. Aggiunge in Tables.order_items «non_recedibile: boolean | null;» in Row dopo product_image (riga ~1309) e «non_recedibile?: boolean | null;» in Insert (~1321) e Update (~1333); nient'altro cambia. Senza, tests/unit/riparazione-r11-tipi-che-possono-restare-vuoti.test.ts e tests/unit/riparazione-r11-viste-nei-tipi.test.ts («il file salvato è quello che il generatore produce») diventano rosse."
+        }
+      ],
+      "file_che_servono": [
+        "lib/database.types.ts"
+      ]
+    },
+    "privacy-legale|il sito non spiega da nessuna parte come verifica che le recensioni vengano da chi ha comprato, né che una recensione con foto dà punti": {
+      "id": "R29-023",
+      "elenco": "D",
+      "esito": "non_fatto",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "privacy-legale|i termini descrivono un ordine dei risultati che il sito non usa, e lo spazio pagato si chiama «sponsored» in inglese invece di «sponsorizzato»": {
+      "id": "R29-025",
       "elenco": "D",
       "esito": "non_fatto",
       "cosa_resta": null,

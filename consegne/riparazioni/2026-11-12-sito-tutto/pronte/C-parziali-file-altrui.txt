@@ -1,4 +1,4 @@
-# elenco C di pronte (2026-11-16 10:40): 43 voci uniche, una chiave per riga
+# elenco C di pronte (2026-11-17 09:06): 42 voci uniche, una chiave per riga
 privacy-legale|accogliere una segnalazione non toglie il prodotto: resta online, e a chi ha segnalato si scrive che è stato rimosso
 frontend-ux|la vetrina dice «recensioni · 20» ma ne fa leggere solo sei, senza modo di vedere le altre
 pagamenti-stripe|un rimborso arrivato dopo il bonifico del lunedì non viene mai ripreso al negozio
@@ -15,7 +15,6 @@ architettura|gli strumenti degli sviluppatori portano altre 19 falle note, 10 al
 pagamenti-stripe|il pannello dei bonifici non dice a nicola quanto versare a ogni negozio il lunedì
 pagamenti-stripe|una contestazione persa su una parte del carrello segna persi anche gli ordini degli altri negozi
 frontend-ux|orari passati alla cassa e 409 della rotta contanti: le prove cercano parole nel sorgente, non fanno girare pagina e rotta
-qa-flussi|la cassa dice «troppo lontano» a chi abita in via roma o in via cavour, in pieno centro, e l'ordine non parte
 api-backend|il conteggio dei promemoria «inviati» include carrelli segnati senza nessuna email
 immagini-media|le tessere delle categorie in home sono foto d'archivio scritte a mano nel codice
 navigazione-gerarchia|home, piè di pagina e mappa per google mettono in mostra categorie vuote: otto su nove non hanno prodotti

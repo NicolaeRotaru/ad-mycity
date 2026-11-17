@@ -32,9 +32,9 @@ Il costo per difetto dell'onda 4 viene dalle spese dichiarate dalle sessioni, e 
 
 ### Il tetto: 250 $, preventivo
 - Collaudo messo da parte per primo (regola 9): circa 35 $ (circa 1,2 $ a voce, 4 x 25 voci, più margine).
-- Riparatori: 4 da 25 voci, ultracode spento, effort xhigh, consegna a 40 $, tetto duro 45 $: atteso 160 $.
+- Riparatori: 4 da 25 voci, ultracode spento, effort xhigh, consegna a 38 $, tetto duro 42 $: atteso circa 150 $.
 - Controllore C05: 10 $. Regia: tetto 25 $ (questa chat).
-- Minimo circa 150 $ · atteso circa 230 $ con 25-30 chiuse (minori al 28%, gravi al 15%) · massimo 250 $, poi stop e consegna di quello che regge.
+- Minimo circa 150 $ · atteso circa 220 $ con circa 27 chiuse (93 minori al 28% = 26, 7 gravi al 15% = 1) · massimo 250 $, poi stop e consegna di quello che regge.
 - Fino a giovedì 10:00 la spesa resta dentro i 350 $ firmati: solo programmi.
 
 ### Fuori, senza chiedere (va elencato nella PR)
@@ -43,7 +43,13 @@ Lista D (voci per Nicola) · R27 e R25-001 (carta 258) · migrazione 501 · doma
 ### Stato
 - 09:01 decisione in bacheca e in DECISIONI. Onda 4: C04 finito (14 reggono, 2 minori); la regista O4 due prepara la PR del sito (`d1eaba80` toglie i referti). Nessuna PR aperta sui due depositi.
 
+- 09:05 la regista O4 due: onda 4 finita fino alla PR del sito mycity#293 in bozza. Teste: ad-mycity `4dba3247`, sito `d1eaba80` (verify verde su `074ccbc5`, d1eaba80 toglie solo `.riparazione/`). Chiuse subito le 7 di R28; le 7 di R29 aspettano Nicola (messaggi di commit).
+- 09:30 F0 fatta. Unito `claude/sito-onda-4` (conflitti: carte 257-258 tenute, bacheca coi due lati, campagna e storico dal ramo dell'onda 4). `pronte`: A 5 · B 43 · C 42 · D 90. Chiavi in `pronte/onda5-chiavi.txt` (88): B + C + non fatte di R28 e R29 + R28-016 e R29-003, senza R27, A, D, R25-001, R29-001, R29-019, R28-013 e 3 gravi sui soldi. Tolta una voce già chiusa dall'onda 4 (copertura-prima rossa al primo giro). `dividi --base d1eaba80 --sessioni 4 --per-sessione 25`: 100 voci, 63 all'onda dopo. R30 immagini-media 25 (2 gravi, migr. 540-549) · R31 microcopy 25 (1, 550-559) · R32 privacy-legale 25 (1, 560-569) · R33 qa-flussi 25 (3, 570-579). schede, copertura-prima, segnaposti verdi.
+
+### Come si aprono i riparatori (giovedì)
+- `create_session`: source_url mycity, source_revision `d1eaba8030dc40ad4479c737c3fedb6668017abf`, outcome_branch `ccr-99009024-qgfisx-mNN`, model opus, effort xhigh, permission_mode auto, tag `riparazione-2026-11-12-sito-tutto`.
+- Prompt corto, prima riga `ruolo-freno: riparatore-gravi`: clona ad-mycity accanto al deposito allo SHA della F0, legge LEGGIMI-riparatore e la sua scheda (come nell'onda 4: le schede sono 23-47 KB, incollarle costerebbe circa 100 mila token alla regia), regole dell'onda, piano a me. Se il clone non riesce, le incollo io.
+- Un minuto dopo: get_session di ognuna (sigla intera, connessa). A 10 minuti: list_sessions.
+
 ### Prossimi passi
-1. Aspettare la riga della regista O4 due con le teste finali di `claude/sito-onda-4` (ad-mycity e sito).
-2. Unire `origin/claude/sito-onda-4` nel ramo di ad-mycity. F0: `pronte --git`, `dividi --base <testa onda 4> --file-chiavi <onda5> --sessioni 4 --per-sessione 25`, `schede --ramo ccr-99009024-qgfisx --regista <id>`, `copertura-prima`, `segnaposti`. Commit, push, PR in bozza su ad-mycity.
-3. Giovedì 19/11 10:00 (risveglio programmato): get_session, aprire R30-R33, piani, collaudo breve (K17, K18), unione, verify, C05, applica, PR del sito pronta.
+1. Giovedì 19/11 10:00 (risveglio programmato): get_session, aprire R30-R33, piani, collaudo breve (K17, K18), unione, verify, C05, applica, PR del sito pronta.
