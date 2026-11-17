@@ -1,6 +1,6 @@
 ---
 tipo: bacheca
-aggiornato: 2026-11-16 01:46
+aggiornato: 2026-11-17 08:26
 regole: cervello/sessioni-insieme.md
 ---
 
@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 17/11 entro le 08:25 | l'AD, chat delle richieste aperte (`session_015BmpnYK3Rs88bCxeJWBxMa`) | «Controlla tutte le pr aperte e chiudile», poi «Chiudile nel modo corretto», con la scelta «Unisci le buone, chiudi le vecchie». Entrano in main le decisioni del 13-14/11, il giro del 16/11 e la regola delle sessioni attive. La card dell'ordine fermo diventa la 259. Resta chiusa la bozza dei controlli veloci del sito (mycity #289). |
 | 16/11 verso le 01:24 | l'AD, chat del giro (`session_015BmpnYXCfXxe81zYPAKoEV`) | «Fai un giro completo della macchina»: il giro di perlustrazione intero, da sessione cloud. Briefing in `Briefing/2026-11-16.md`, memoria in una richiesta di unione verso `main`. Card nuova #259 sull'ordine del 13/11. |
 | 16/11 alle 00:07 | l'AD, chat «Ondata 3» | «passa»: la chat dell'AD era a 399 mila token. La chat nuova riparte dal quaderno `consegne/ad/2026-11-16-passaggio-chat-ad-onda3.md`. La regista O3 uno e la costruttrice di AR-1184 mandano alla chat nuova. Alle 23:4x Nicola aveva detto «incolla i freni»: il freno del sito è entrato con la mycity#291, unita alle 00:05; quello della macchina lo incolla Nicola |
 | 15/11 alle 23:35 | l'AD, chat «Ondata 3» | «1 = 12%, 2 fatto, 3a, 4a, 5a» (carta #256). Il 12% del limite settimanale è usato. Ultracode spento su tutti i riparatori dell'onda 3, anche con un grave. Parte il primo pezzo: R25, R26, R27 (66 voci), K11 sulle 16 riparate mai giudicate, K12, C03, tetto duro 215 $. La regola del collaudo senza campione va nel piano (AR-1184). Il freno non risulta su nessun ramo alle 23:37: richiesto di nuovo. Quaderno: `consegne/riparazioni/2026-11-12-sito-tutto/REGIA-ONDA-3.md` |

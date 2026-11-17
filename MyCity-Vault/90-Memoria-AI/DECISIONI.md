@@ -7106,3 +7106,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Perché:** l'app non ha cartelle vere. Una sessione-cartella è una riga in più nell'elenco, non una in meno.
 - **Cosa cambia:** la regola 12 di `cervello/sessioni-insieme.md` e la skill `riparazione`. Chi apre una sessione la archivia appena il suo lavoro è chiuso, dopo aver guardato che non abbia sessioni vive dentro. Nessuna sessione-cartella. Il ruolo va in testa al titolo, l'onda nell'etichetta (`onda-3-riparatori`).
 - **Fatto subito:** alle 09:17 archiviate le 22 sessioni d'esempio e di prova del 14/11. Costo dei due esempi: circa 1,8 $.
+
+## 2026-11-17 08:25 — 🟡 Le richieste di unione aperte si chiudono nel modo giusto: si uniscono le buone, si chiudono le vecchie
+- **Chi:** Nicola, in una chat dell'AD (`session_015BmpnYK3Rs88bCxeJWBxMa`): «Controlla tutte le pr aperte e chiudile», poi «Chiudile nel modo corretto». Alla domanda su cosa intendesse ha scelto «Unisci le buone, chiudi le vecchie».
+- **Cosa era successo:** alle 08:17 l'AD aveva chiuso le quattro richieste aperte senza unirle: ad-mycity #974, #955 e #953, mycity #289. Nessuna era già su main, quindi il loro lavoro restava fuori.
+- **Cosa cambia:** tre entrano in main con una richiesta sola, dal ramo `ccr-aa1e5f7d-42fchn`. Sono le decisioni del 13-14/11 (#955), il giro del 16/11 con l'ordine fermo senza fattorino (#974) e la regola delle sessioni attive (#953). La card del giro sull'ordine passa da 256 a 259, perché il 256 l'aveva già la card dell'onda 3. La bozza dei controlli veloci del sito (mycity #289) resta chiusa: non era finita, ed è indietro di 393 modifiche rispetto a main. Il suo ramo si cancella, con un commento che dice perché.
+- **Lezione:** per Nicola «chiudere» una richiesta vuol dire portarla a termine. Prima si guarda cosa vale ancora e lo si unisce. Si chiude senza unire solo quello che è superato, e lo si dice sulla richiesta.
