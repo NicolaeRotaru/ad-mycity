@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-11-16 10:55
+aggiornato: 2026-11-17 13:12
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> ✅ **2026-11-17 13:12 — L'onda 5 del sito è pronta da unire.**
+>
+> L'onda 4 è già unita nel sito. L'onda 5 ha lavorato 100 difetti con quattro riparatori. Li hanno controllati due collaudi e un controllore. Nicola non ha avuto domande fino alla PR. Si chiudono 10 difetti, e altri 10 erano già riparati dall'onda 4. Altre 14 correzioni entrano nel codice senza contare come chiuse. La spesa è circa 215 $ su 250. La PR del sito è mycity#294, quella della memoria ad-mycity#979. Le domande dei riparatori sono nella carta #260.
 
 > ⏳ **2026-11-16 10:55 — L'onda 4 del sito è pronta. Aspetta la tua percentuale.**
 >

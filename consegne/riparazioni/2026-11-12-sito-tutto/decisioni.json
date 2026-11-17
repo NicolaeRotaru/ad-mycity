@@ -1,6 +1,6 @@
 {
-  "campagna": "2026-11-12-sito-tutto",
-  "quando": "2026-11-17 13:57",
+  "campagna": "campagna-copia",
+  "quando": "2026-11-17 13:07",
   "decisioni": [
     {
       "id": "R01-001",
@@ -8325,1163 +8325,1153 @@
       "sessione": "R30",
       "chiave": "immagini-media|le tessere delle categorie in home sono foto d'archivio scritte a mano nel codice",
       "gravita": "grave",
-      "esito": "senza_referto",
+      "esito": "serve_file_altrui",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "serve_file_altrui: Il codice di questa voce (avvisi delle foto di categoria in components/CategoryShowcase.tsx) non regge senza adattare due prove comuni di R15, che usano file di altre sessioni: rimesse come alla base (regista, 17/11), con la correzione 6 casi su 8 diventano rossi. Codice, prove adattate e prova nuova sono in patch; nel ramo CategoryShowcase.tsx è uguale alla base. Quello che la patch fa: (a) L'avviso «foto di categoria scartata» usa ora lo stesso ricordo della foto rotta: una volta per foto per tutta la vita della pagina, anche quando arrivano le piene e al rimontaggio. (b) Tutti e due gli avvisi passano da logger.error(new Error(frase), contesto), il canale che il sito usa già dal browser per arrivare a Sentry (lib/logger.ts → captureError); senza DSN scrive comunque in console. Nelle due prove esistenti di R15 (importano solo CategoryShowcase, che è di R30, e dei finti; nessun file di R31-R33) il finto logger raccoglie anche error con la stessa forma: niente è indebolito. Quello che resta oltre la patch: (c) La foto non si cambia ancora dal pannello admin: serve_file_altrui (patch .riparazione/patch-R30/r30-001-foto-dal-pannello.patch (al commit c8a6e575)). Se la migrazione 159 sia applicata in produzione lo dice Nicola."
     },
     {
       "id": "R30-002",
       "sessione": "R30",
       "chiave": "navigazione-gerarchia|home, piè di pagina e mappa per google mettono in mostra categorie vuote: otto su nove non hanno prodotti",
       "gravita": "grave",
-      "esito": "senza_referto",
+      "esito": "serve_file_altrui",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "serve_file_altrui: Patch provata in un worktree su d1eaba80: tsc 0, 71 file di prove vicine 688/688. Il precarico nel layout pesa su ogni pagina (~72 righe di categorie, lettura una volta ogni 60 s): lo decide chi cuce."
     },
     {
       "id": "R30-003",
       "sessione": "R30",
       "chiave": "api-backend|il conteggio dei promemoria «inviati» include carrelli segnati senza nessuna email",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "esito": "parziale",
+      "verdetto": "parziale",
+      "collaudatore": "K18",
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "parziale: (2) I carrelli chiusi prima di questa modifica hanno l'ora del giro e non si distinguono da un invio vero. Il ramo dei carrelli oltre 48 ore e la cancellazione dell'account sono in patch (una prova comune e un file di R33)."
     },
     {
       "id": "R30-004",
       "sessione": "R30",
       "chiave": "architettura|sei rami iserror scritti a mano invece del presidio lib/vista-query.ts (vistadaquery): il difetto può tornare alla settima pagina",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "serve_file_altrui",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "serve_file_altrui: app/admin/today/page.tsx (mio) usa già vistaDaQuery alla base; le altre cinque pagine non sono mie. Verificato sulla base: in ognuna 3 rami isLoading/isError scritti a mano e nessun vistaDaQuery."
     },
     {
       "id": "R30-005",
       "sessione": "R30",
       "chiave": "architettura|la traccia «chi ha cambiato il prezzo» esce in due forme diverse a seconda della porta",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "serve_file_altrui",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "serve_file_altrui: catalog-apply e salvataggio-tracciato (miei) coincidono già col modulo prodotto alla base; le altre tre porte non sono mie. Righe ricontrollate sulla base d1eaba80."
     },
     {
       "id": "R30-006",
       "sessione": "R30",
       "chiave": "architettura|gli strumenti degli sviluppatori portano altre 19 falle note, 10 alte, ma nessuna arriva al sito",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: tetto: la regista ha chiuso R30 a 38 $ dopo il lotto B (17/11) e la voce non è stata aperta; nessun file toccato. L'aggiornamento a zod 4 resta una scelta di Nicola (vedi domande)."
     },
     {
       "id": "R30-007",
       "sessione": "R30",
       "chiave": "frontend-ux|la vetrina dice «recensioni · 20» ma ne fa leggere solo sei, senza modo di vedere le altre",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
-      "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "esito": "riparato",
+      "verdetto": "regge",
+      "collaudatore": "K18",
+      "decisione": "si_chiude",
+      "perche": "",
+      "come": "collaudo pieno",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r30-recensioni-a-pagine.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 9b4f9271^ --file components/store-sections/ReviewsSection.tsx --prove tests/unit/riparazione-r30-recensioni-a-pagine.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R30-007 --base 9b4f9271^ --file components/store-sections/ReviewsSection.tsx --prove tests/unit/riparazione-r30-recensioni-a-pagine.test.tsx --json   (checkout 9b4f9271, HEAD verificato) → uscita 0 (K18)",
+      "nota_fix": "Finite le 20 della vetrina, «Mostra altre recensioni (N)» ne legge altre 20 alla volta fino al conto vero (riepilogoRecensioni.totale), con la stessa lettura di useStorePageData (stesse colonne, created_at decrescente, nomi da fetchNomiPubblici, foto come elenco, doppioni tolti). Senza conto vero non promette di più; una pagina corta ferma; una lettura caduta si dice e si riprova. Prova che monta il componente con 45 recensioni finte. useStorePageData.ts:40 (.limit(20)) può restare: è la prima pagina."
     },
     {
       "id": "R30-008",
       "sessione": "R30",
       "chiave": "frontend-ux|i marchi «km 0» e «artigianale» non compaiono mai sulla scheda, perché la scheda non legge i tag",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "serve_file_altrui",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "serve_file_altrui"
     },
     {
       "id": "R30-009",
       "sessione": "R30",
       "chiave": "immagini-media|se l'abbonamento supabase scade, le foto del sito tornano rotte e nessun controllo se ne accorge",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "esito": "parziale",
+      "verdetto": "non_regge",
+      "collaudatore": "K18",
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "parziale: La rotta di salute deve chiamare l'aiutante (serve_file_altrui). L'interruttore su Vercel lo accende Nicola, con un nuovo deploy."
     },
     {
       "id": "R30-010",
       "sessione": "R30",
       "chiave": "qa-flussi|la modifica in blocco mette in vendita un prodotto a zero euro e dà per salvato un prezzo che non ha salvato",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
-      "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "esito": "riparato",
+      "verdetto": "regge",
+      "collaudatore": "K18",
+      "decisione": "si_chiude",
+      "perche": "",
+      "come": "collaudo pieno",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r30-carrello-a-zero-euro.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 414691f2^ --file lib/ordini/valida-carrello.ts --prove tests/unit/riparazione-r30-carrello-a-zero-euro.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R30-010 --base 414691f2^ --file lib/ordini/valida-carrello.ts --prove tests/unit/riparazione-r30-carrello-a-zero-euro.test.ts --json   (checkout 414691f2, HEAD verificato) → uscita 0 (K18)",
+      "nota_fix": "La pagina e la porta di scrittura erano già a posto alla base (leggiPrezzo senza ≤0/NaN, conta solo i salvati, salvataggio-tracciato rifiuta price≤0; prova minori-s06-modifica-in-blocco). Mancava la cassa: validaRigaDelCarrello, comune a contanti e carta, scarta la riga se il prezzo da pagare, già scontato e in centesimi, non è maggiore di zero. Copre anche 0,01 € col 70% di sconto. 65 file vicini 498/498."
     },
     {
       "id": "R30-011",
       "sessione": "R30",
       "chiave": "qa-flussi|la consegna veloce si vende a tutti insieme anche con un solo fattorino: nessuno conta quante veloci ha già in mano",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: tetto: la regista ha chiuso R30 a 38 $ dopo il lotto B (17/11) e la voce non è stata aperta; nessun file toccato. Il numero di veloci per fattorino resta una scelta di Nicola (vedi domande)."
     },
     {
       "id": "R30-012",
       "sessione": "R30",
       "chiave": "qa-flussi|col telefono del negozio un po' indietro, un ordine non più ritirabile legge «entro le 12:46» invece di «ritiro non più possibile»",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: tetto: la regista ha chiuso R30 a 38 $ dopo il lotto B (17/11) e la voce non è stata aperta; nessun file toccato."
     },
     {
       "id": "R30-013",
       "sessione": "R30",
       "chiave": "qa-flussi|la prova ③ copre solo l'annullo del cliente: un ritorno a «veloce confermata» col rifiuto del negozio passa verde",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: tetto: la regista ha chiuso R30 a 38 $ dopo il lotto B (17/11) e la voce non è stata aperta; nessun file toccato."
     },
     {
       "id": "R30-014",
       "sessione": "R30",
       "chiave": "qa-flussi|salvando le taglie, se la scorta cambia a metà il negozio legge «riapri e salva di nuovo», ma le taglie tolte sono già cancellate",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: tetto: la regista ha chiuso R30 a 38 $ dopo il lotto B (17/11) e la voce non è stata aperta; nessun file toccato. La correzione è già scritta in un commit vecchio (revert -n a23283e8 con la prova sulle varianti): chi riprende la voce parte da lì."
     },
     {
       "id": "R30-015",
       "sessione": "R30",
       "chiave": "qa-flussi|cercando una parola a metà il sito trova solo una parte dei prodotti, e dentro la vetrina di un negozio può dire «nessun risultato»",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: tetto: la regista ha chiuso R30 a 38 $ dopo il lotto B (17/11) e la voce non è stata aperta; nessun file toccato."
     },
     {
       "id": "R30-016",
       "sessione": "R30",
       "chiave": "qa-flussi|il ritiro in negozio è ancora spento, mentre nicola ha deciso che al lancio è acceso e gratis per il cliente",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "serve_file_altrui",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "serve_file_altrui: Per indicazione della regista (17/11) l'interruttore lib/ritiro-in-negozio.ts:22 resta spento: accenderlo prima che il bonifico del lunedì si possa segnare (lavoro su un altro ramo, migrazione non sul database vero) lascerebbe il 10% dei ritiri pagati al banco senza compensazione. Nessun file toccato."
     },
     {
       "id": "R30-017",
       "sessione": "R30",
       "chiave": "qa-flussi|basta un solo campo fuori regola e tutta la personalizzazione della vetrina sparisce, e il salvataggio dopo la cancella",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: tetto: la regista ha chiuso R30 a 38 $ dopo il lotto B (17/11) e la voce non è stata aperta; nessun file toccato. La correzione è già scritta in un commit vecchio (cherry-pick -n 58757a63 con le due prove): chi riprende la voce parte da lì."
     },
     {
       "id": "R30-018",
       "sessione": "R30",
       "chiave": "qa-flussi|due guardie sulla veloce controllano il testo del sorgente e non il comportamento",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "serve_file_altrui",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "serve_file_altrui: Le due prove guardano file di R31 (app/checkout/page.tsx, app/cart/page.tsx): sono comuni. Le due prove di comportamento che le sostituiscono sono già nella base (tests/unit/riparazione-r22-veloce-cassa-chiede-al-server.test.ts e tests/unit/riparazione-r22-veloce-l-invio-rilegge-l-ora.test.ts, verificato)."
     },
     {
       "id": "R30-019",
       "sessione": "R30",
       "chiave": "qa-flussi|prova con un nome che promette il contrario",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: tetto: la regista ha chiuso R30 a 38 $ dopo il lotto B (17/11) e la voce non è stata aperta; nessun file toccato."
     },
     {
       "id": "R30-020",
       "sessione": "R30",
       "chiave": "qa-flussi|una prova col nome del collaudo",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: tetto: la regista ha chiuso R30 a 38 $ dopo il lotto B (17/11) e la voce non è stata aperta; nessun file toccato."
     },
     {
       "id": "R30-021",
       "sessione": "R30",
       "chiave": "qa-flussi|la prima compilazione di monta() pesa sul primo caso di ~85 file di prove",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "esito": "parziale",
+      "verdetto": "parziale",
+      "collaudatore": "K18",
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "parziale: Spostare il costo dal primo caso alla raccolta del file con un riscaldamento dentro l'aiutante monta-componente, che non è di nessuna sessione e quindi non è mio."
     },
     {
       "id": "R30-022",
       "sessione": "R30",
       "chiave": "rls-database|sul sito vero i visitatori non possono leggere la tabella dei profili, ma nessuna migrazione lo dice",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "esito": "parziale",
+      "verdetto": "non_regge",
+      "collaudatore": "K18",
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "parziale: La migrazione 541 non è nel commit: con lei le prove comuni 19 e 34 diventano rosse (permission denied for table profiles). Va in patch, insieme alle due prove adattate."
     },
     {
       "id": "R30-023",
       "sessione": "R30",
       "chiave": "sicurezza-auth|sospendere un fattorino non gli toglie le consegne in corso: continua a vedere i recapiti, ritirare e consegnare",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "esito": "parziale",
+      "verdetto": "parziale",
+      "collaudatore": "K18",
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "parziale: Rimettere in bacheca le consegne ASSIGNED al momento della sospensione (rotta di moderazione): con quella parte la prova comune riparazione-r08-moderazione diventa rossa (1 su 17), quindi va in patch insieme alla prova."
     },
     {
       "id": "R30-024",
       "sessione": "R30",
       "chiave": "sicurezza-auth|un cliente che abusa del sito non si può sospendere: l'unica strada è cancellargli l'account",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "esito": "parziale",
+      "verdetto": "parziale",
+      "collaudatore": "K18",
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "parziale: Il pannello admin non mostra ancora «Sospendi»/«Riattiva» per i clienti (file di R33: patch sotto). La sospensione vale sulle rotte del sito; il resto lo trova la regista nel messaggio finale di R30."
     },
     {
       "id": "R30-025",
       "sessione": "R30",
       "chiave": "stati-ui|nel pannello dei coupon un codice scaduto o esaurito risulta ancora «attivo»",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
-      "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "esito": "riparato",
+      "verdetto": "regge",
+      "collaudatore": "K18",
+      "decisione": "si_chiude",
+      "perche": "",
+      "come": "collaudo pieno",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r30-coupon-scaduti.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 53093965^ --file lib/admin/vista-dei-coupon.ts,app/admin/coupons/page.tsx --prove tests/unit/riparazione-r30-coupon-scaduti.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R30-025 --base 53093965^ --file lib/admin/vista-dei-coupon.ts,app/admin/coupons/page.tsx --prove tests/unit/riparazione-r30-coupon-scaduti.test.tsx --json   (checkout 53093965, HEAD verificato) → uscita 0 (K18)",
+      "nota_fix": "La vista dà a ogni coupon lo stato che gli darebbe la cassa, nell'ordine di check_coupon: disattivato, poi scaduto (expires_at), poi esaurito (uses_count ≥ max_uses), altrimenti attivo; e la scritta del badge. La pagina mostra il badge e «Scade il / Scaduto il <data>». La prova monta la pagina con l'orologio finto al 17/11/2026."
     },
     {
       "id": "R31-001",
       "sessione": "R31",
       "chiave": "microcopy|il sos del fattorino dice «stiamo chiamando il 112», ma l'app apre solo il tastierino",
       "gravita": "grave",
-      "esito": "senza_referto",
+      "esito": "serve_file_altrui",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "serve_file_altrui"
     },
     {
       "id": "R31-002",
       "sessione": "R31",
       "chiave": "accessibilita|le foto delle recensioni e l'importazione dei prodotti da file non si aprono da tastiera",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
-      "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "esito": "gia_riparato_prima",
+      "verdetto": "regge",
+      "collaudatore": "K17",
+      "decisione": "gia_riparato_prima",
+      "perche": "",
+      "prova": "commit a44980ac (R28-002) già nella base d1eaba80 (components/rider/CashConfirmDialog.tsx: il label di PhotoSlot ha focus-within:ring-2 e input sr-only; collaudo K15 «regge»). Comando: npx vitest run tests/unit/riparazione-r28-foto-e-documenti-del-fattorino-da-tastiera.test.ts --reporter=dot → verde sulla base d1eaba80 (5 file, 18 casi insieme alle altre quattro)"
     },
     {
       "id": "R31-003",
       "sessione": "R31",
       "chiave": "api-backend|le rotte accettano una consegna a domicilio senza fascia: l'ordine nasce senza orario, mentre la cassa ne manda sempre una",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "serve_file_altrui",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "serve_file_altrui"
     },
     {
       "id": "R31-004",
       "sessione": "R31",
       "chiave": "architettura|il codice pgrst204 su una colonna della 124 ora fa scattare il ripiego per tutti: con la cache dello schema di postgrest vecchia, la scrittura salta gross_total_cents anche a migrazione applicata",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "scelta_di_nicola",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "scelta_di_nicola: La modifica scritta nella scheda usa memoriaDiPostgrestVecchia, che alla testa non esiste più in lib/db/migrazione-124.ts: la sessione che l'aveva aggiunta è stata tolta dopo un collaudo dell'onda 2, perché con la memoria vecchia la contestazione parziale vinta rifaceva il bonifico al negozio a ogni ripetizione di Stripe. Rimetterla vorrebbe dire rimettere una correzione bocciata. I due ripieghi scritti a mano sono in file non miei: lib/stripe/webhook/rimborso-respinto-dalla-banca.ts:199 e lib/stripe/webhook/contestazione-parziale-vinta.ts:44."
     },
     {
       "id": "R31-005",
       "sessione": "R31",
       "chiave": "architettura|interfacce zombie: shippingforeuro vale sempre 0 ma riceve 7 ingressi; promessaspedizione ha un argomento morto e campi sempre costanti",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
-      "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "esito": "gia_riparato_prima",
+      "verdetto": "regge",
+      "collaudatore": "K17",
+      "decisione": "gia_riparato_prima",
+      "perche": "",
+      "prova": "commit 4420402b (R29-005) già nella base d1eaba80 (shippingForEuro e promessaSpedizione senza argomenti né campi morti; collaudo K16 «regge»). Comando: npx vitest run tests/unit/riparazione-r29-interfacce-senza-zombie.test.ts --reporter=dot → verde sulla base d1eaba80 (5 file, 18 casi insieme alle altre quattro)"
     },
     {
       "id": "R31-006",
       "sessione": "R31",
       "chiave": "dati-analytics|gli ordini annullati o rimborsati restano venduti per sempre in google analytics e posthog",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: Non è una modifica piccola. L'acquisto lato server parte da contaAcquisto in lib/analytics/server.ts (file non mio) verso GA4 e PostHog: servirebbe un contaAnnullamento lì, col consenso, l'evento refund di GA4 sul transaction_id (serve il client_id GA, che oggi non è salvato sull'ordine) e order_refunded/canceled su PostHog, chiamato da annullaERimborsa, dal giro degli scaduti, dal rifiuto, da rimborsi.ts, da refundOrder parziale e dal webhook. trackOrderCanceled esiste solo nel browser (orders/[id]) e manda a PostHog senza valore."
     },
     {
       "id": "R31-007",
       "sessione": "R31",
       "chiave": "frontend-ux|le domande frequenti dicono di inserire il codice sconto alla cassa, ma alla cassa il campo non c'è",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
-      "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "esito": "riparato",
+      "verdetto": "regge",
+      "collaudatore": "K17",
+      "decisione": "si_chiude",
+      "perche": "",
+      "come": "collaudo pieno",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r31-codice-sconto-in-cassa.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base ae780870^ --file lib/promesse-pubbliche.ts --prove tests/unit/riparazione-r31-codice-sconto-in-cassa.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R31-007 --base ae780870^ --file lib/promesse-pubbliche.ts --prove tests/unit/riparazione-r31-codice-sconto-in-cassa.test.ts --json   (checkout ae780870, HEAD verificato) → uscita 0 (K17)",
+      "nota_fix": "La risposta della FAQ seguiva già CODICI_SCONTO_IN_CASSA; restava la frase fissa «Se in cassa usi un codice sconto…» nel testo della consegna (spiegazioneDellaConsegna.chiusura): ora compare solo con l'interruttore acceso. La prova finge l'interruttore spento e acceso."
     },
     {
       "id": "R31-008",
       "sessione": "R31",
       "chiave": "frontend-ux|il negoziante col negozio non ancora approvato vede «negozio» al posto della sua insegna nella lista condivisa e alla cassa",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
-      "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "esito": "gia_riparato_prima",
+      "verdetto": "regge",
+      "collaudatore": "K17",
+      "decisione": "gia_riparato_prima",
+      "perche": "",
+      "prova": "commit 2c9f8412 (R29-007) già nella base d1eaba80 (app/cart/page.tsx legge l'insegna propria del negozio non approvato; collaudo K16 «regge»). Comando: npx vitest run tests/unit/riparazione-r19-insegna-del-negozio-non-approvato.test.ts --reporter=dot → verde sulla base d1eaba80 (5 file, 18 casi insieme alle altre quattro)"
     },
     {
       "id": "R31-009",
       "sessione": "R31",
       "chiave": "microcopy|il riquadro newsletter della home, se riacceso, promette «una volta a settimana, ogni venerdì», ma nessun invio esiste e le impostazioni la chiamano «mensile»",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "esito": "riparato",
+      "verdetto": "parziale",
+      "collaudatore": "K17",
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "collaudo: parziale"
     },
     {
       "id": "R31-010",
       "sessione": "R31",
       "chiave": "microcopy|la conferma d'ordine non dice quando arriva né quanto pagare in contanti, e a chi ritira in negozio parla di rider",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
-      "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "esito": "gia_riparato_prima",
+      "verdetto": "regge",
+      "collaudatore": "K17",
+      "decisione": "gia_riparato_prima",
+      "perche": "",
+      "prova": "commit 8a4ec811 (R28-010) già nella base d1eaba80 (lib/stripe/webhook/ordini.ts passa fascia, ritiro e metodo di pagamento alla conferma; collaudo K15 «regge»). Comando: npx vitest run tests/unit/riparazione-r28-conferma-carta.test.ts --reporter=dot → verde sulla base d1eaba80 (5 file, 18 casi insieme alle altre quattro)"
     },
     {
       "id": "R31-011",
       "sessione": "R31",
       "chiave": "microcopy|in tanti punti l'euro è ancora scritto all'inglese: «€12.50», «€0 – €500+», «€ 2,50»",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "esito": "parziale",
+      "verdetto": "non_regge",
+      "collaudatore": "K17",
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "parziale: 32 righe con l'euro scritto a mano (grep «€ ?[0-9]|€${», senza commenti) in 22 file fuori dalla mia lista: app/api/ai/catalog-chat, app/api/ai/copilot, app/api/ai/improve-product, app/api/cron/operational-alerts, app/api/cron/release-payouts, app/api/gift-cards/checkout, app/api/rider/cash-confirm, app/api/seller/orders/[id]/reject, app/profile/page.tsx, app/profile/referral, app/rider/orders/[id], app/seller/dashboard, app/seller/earnings/commissione.ts, app/seller/products/import, app/seller/promote, app/sign-up, components/WelcomeCreditBanner.tsx, lib/coupons.ts:84, lib/loyalty.ts, lib/products/economics.ts, lib/products/externalAlert.ts, lib/stripe/webhook/ordini.ts. Molte sono testi fissi («€5 di credito»), non importi calcolati. Tre di quei file sono anche nella mia fascia (gift-cards/checkout, seller reject, webhook/ordini.ts, quest'ultimo a 598 righe su 600) ma non nella riga della voce: rimandati all'onda dopo per il tetto di spesa."
     },
     {
       "id": "R31-012",
       "sessione": "R31",
       "chiave": "pagamenti-stripe|con la carta accesa si può pagare anche un negozio che non ha finito la verifica stripe",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "serve_file_altrui",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "serve_file_altrui"
     },
     {
       "id": "R31-013",
       "sessione": "R31",
       "chiave": "pagamenti-stripe|se la banca respinge un rimborso dal cruscotto che aspetta ancora la divisione, il sito lo toglie dagli ordini che non l'avevano mai registrato",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
-      "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "esito": "gia_riparato_prima",
+      "verdetto": "regge",
+      "collaudatore": "K17",
+      "decisione": "gia_riparato_prima",
+      "perche": "",
+      "prova": "commit eb59bba9 (R28-014) già nella base d1eaba80 (lib/stripe/rimborso-respinto.ts filtra gli ordini che non avevano registrato il rimborso; collaudo K15 «regge»). Comando: npx vitest run tests/unit/riparazione-r28-rimborso-respinto-da-dividere.test.ts --reporter=dot → verde sulla base d1eaba80 (5 file, 18 casi insieme alle altre quattro)"
     },
     {
       "id": "R31-014",
       "sessione": "R31",
       "chiave": "pagamenti-stripe|se la banca respinge un rimborso parziale su un ordine col bonifico già partito, al negozio resta tolta la sua quota",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "esito": "parziale",
+      "verdetto": "non_regge",
+      "collaudatore": "K17",
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "parziale: La riga nell'avviso (serve_file_altrui sopra) e il riaccredito automatico al negozio: domanda per Nicola (nell'onda 4 un revisore l'ha bocciato sul carrello di due negozi). Difetti trovati dal revisore, da correggere prima di applicare la riga dell'avviso: (1) rimborso-respinto.ts:295 calcola la frase solo sugli ordini da scrivere adesso, quindi al ritentativo l'avviso parte senza cifra; (2) rimborso-respinto.ts:121-139 ricalcola la quota in proporzione invece di prendere lo storno vero: con gli euro della veloce (che al negozio tolgono 0) e 4,97 € stornati da un altro reso dice di ridare 0,71 € mai tolti; col rimborso dal cruscotto su ordine pagato in parte col credito dice 4,05 € invece di 5,40 € (rimborsi-da-fuori.ts:166). La frase rimanda comunque agli storni su Stripe."
     },
     {
       "id": "R31-015",
       "sessione": "R31",
       "chiave": "privacy-legale|il buono regalo manda a stripe nome, email e messaggio privato del destinatario, e lì non si cancellano mai",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: tetto: la regista ha fermato il lotto 4 (privacy e dati) a 26,61 $ di spesa, per consegnare entro 38 $. Voce non aperta: resta per l'onda dopo."
     },
     {
       "id": "R31-016",
       "sessione": "R31",
       "chiave": "privacy-legale|un cliente coi termini 2.0 e la cassa già aperta ordina lo stesso: le rotte d'ordine non guardano la versione accettata",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "serve_file_altrui",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "serve_file_altrui"
     },
     {
       "id": "R31-017",
       "sessione": "R31",
       "chiave": "privacy-legale|nelle domande frequenti la risposta sul reso dice due volte «fatti su ordinazione»",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
-      "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "esito": "riparato",
+      "verdetto": "regge",
+      "collaudatore": "K17",
+      "decisione": "si_chiude",
+      "perche": "",
+      "come": "collaudo pieno",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r31-faq-reso.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 4f229dce^ --file app/faq/page.tsx --prove tests/unit/riparazione-r31-faq-reso.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R31-017 --base 4f229dce^ --file app/faq/page.tsx --prove tests/unit/riparazione-r31-faq-reso.test.ts --json   (checkout 4f229dce, HEAD verificato) → uscita 0 (K17)",
+      "nota_fix": "Tolto da app/faq/page.tsx il «e quelli fatti su ordinazione» aggiunto a mano dopo RESO_ESCLUSI, che lo contiene già. lib/promesse-pubbliche.ts non serviva."
     },
     {
       "id": "R31-018",
       "sessione": "R31",
       "chiave": "privacy-legale|confine senza coordinate chiuso solo a parole: l'ordine non misurato passa senza nessun segno, e ora /shipping lo annuncia",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "serve_file_altrui",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "serve_file_altrui"
     },
     {
       "id": "R31-019",
       "sessione": "R31",
       "chiave": "privacy-legale|chi cancella l'account da negozio o da fattorino lascia aperto il suo conto stripe collegato, e noi perdiamo il codice per chiuderlo",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: tetto: la regista ha fermato il lotto 4 (privacy e dati) a 26,61 $ di spesa, per consegnare entro 38 $. Voce non aperta: resta per l'onda dopo."
     },
     {
       "id": "R31-020",
       "sessione": "R31",
       "chiave": "privacy-legale|quando un negozio cancella l'account, logo, foto della vetrina e dei prodotti e storie restano nei secchi pubblici: la prova che gira per la voce delle foto dei resi, e il pezzo che quella voce non nomina",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: tetto: la regista ha fermato il lotto 4 (privacy e dati) a 26,61 $ di spesa, per consegnare entro 38 $. Voce non aperta: resta per l'onda dopo."
     },
     {
       "id": "R31-021",
       "sessione": "R31",
       "chiave": "privacy-legale|sugli alimenti confezionati il peso netto è facoltativo e il prezzo al chilo non compare mai",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "scelta_di_nicola",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "scelta_di_nicola: lib/category-attributes.ts ha «Peso / Quantità» come testo libero, lib/products/schema.ts non valida gli attributi di categoria e «confezionato» non si distingue da «sfuso»: renderlo obbligatorio vuol dire inventare il modello dei dati."
     },
     {
       "id": "R31-022",
       "sessione": "R31",
       "chiave": "qa-flussi|«annulla» dell'amministratore su un ordine in viaggio o già consegnato non avvisa fattorino e negozio e rimette a scaffale merce che non c'è più",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "esito": "parziale",
+      "verdetto": "parziale",
+      "collaudatore": "K17",
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "parziale: Da PICKED_UP o OUT_FOR_DELIVERY la merce è col fattorino e di solito torna in negozio: la correzione non la rimette a scaffale (giusto finché non è tornata) ma le campanelle di app/api/admin/orders/[id]/cancel/route.ts:121-123 dicono solo «non va più preparato né consegnato»: al fattorino non si dice di riportarla e il negozio non sa che le quantità non sono tornate in vendita (giacenza più bassa del vero). Dipende dalla domanda per Nicola su chi rimette a scaffale la merce riportata. Nota: con la carta resta una corsa stretta se il fattorino ritira fra la lettura dello stato della rotta e quella di refundOrder (coi contanti la chiude annulla.ts:390)."
     },
     {
       "id": "R31-023",
       "sessione": "R31",
       "chiave": "qa-flussi|quando un ordine viene annullato il negozio non riceve nessuna email, e se lo annulla il sito perché nessuno l'ha accettato non riceve nemmeno la campanella",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "serve_file_altrui",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "serve_file_altrui"
     },
     {
       "id": "R31-024",
       "sessione": "R31",
       "chiave": "qa-flussi|faccine nei titoli delle notifiche scritte dal codice del sito",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "esito": "parziale",
+      "verdetto": "parziale",
+      "collaudatore": "K17",
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "parziale: Gli avvisi agli amministratori (⚠️ ℹ️ ✓ ✕ 💶 📭) in ordini.ts, rimborsi.ts, annulla.ts, payout.ts (miei) e in circa 12 file webhook non miei, alcuni vincolati da prove comuni (un-avviso-ripetuto-non-rifa-il-lavoro, la-merce-del-carrello-che-non-quadra, il-rimborso-parziale-dal-cruscotto): aspetta la domanda per Nicola. E i titoli ai negozi nei file webhook non miei qui sotto (non provati: il permesso automatico ha negato di toccarli anche solo per provarli). Il revisore ne ha trovate anche verso fattorini, clienti e negozi in file non miei: app/api/rider/orders/[id]/cliente-assente/route.ts:104 e :112, app/api/returns/create/route.ts:213, app/api/rider/cash-confirm/route.ts:265 e :275 (probabile admin)."
     },
     {
       "id": "R31-025",
       "sessione": "R31",
       "chiave": "qa-flussi|la campanella «nuovo ordine» del negozio non dice per quando va consegnato: lo dice solo l'email",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
-      "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "esito": "riparato",
+      "verdetto": "regge",
+      "collaudatore": "K17",
+      "decisione": "si_chiude",
+      "perche": "",
+      "come": "collaudo pieno",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r31-campanella-quando-contanti.test.ts tests/unit/riparazione-r31-campanella-quando-carta.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 5f893345^ --file app/api/orders/cod/route.ts,lib/stripe/webhook/comune.ts,lib/stripe/webhook/ordini.ts --prove tests/unit/riparazione-r31-campanella-quando-contanti.test.ts,tests/unit/riparazione-r31-campanella-quando-carta.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R31-025 --base 5f893345^ --file app/api/orders/cod/route.ts,lib/stripe/webhook/comune.ts,lib/stripe/webhook/ordini.ts --prove tests/unit/riparazione-r31-campanella-quando-contanti.test.ts,tests/unit/riparazione-r31-campanella-quando-carta.test.ts --json   (checkout 5f893345, HEAD verificato) → uscita 0 (K17)",
+      "nota_fix": "La campanella al negozio aggiunge « — Consegna: <fascia>» (anche la veloce) o « — Ritiro in negozio», coi contanti e con la carta. ordini.ts resta a 598 righe. Le 143 prove che importano i file restano verdi; tsc ed eslint puliti. Accanto a «Domani» non c'è la data che l'email aggiunge (conLaData manca in molte prove finte dei template)."
     },
     {
       "id": "R32-001",
       "sessione": "R32",
       "chiave": "privacy-legale|accogliere una segnalazione non toglie il prodotto: resta online, e a chi ha segnalato si scrive che è stato rimosso",
       "gravita": "grave",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: R32-001: nota riservata alla regista."
     },
     {
       "id": "R32-002",
       "sessione": "R32",
       "chiave": "ai-endpoints|l'allarme del tetto di spesa ai scatta solo se la stessa copia del sito resta accesa per un'ora, e su vercel può non arrivare mai",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
     },
     {
       "id": "R32-003",
       "sessione": "R32",
       "chiave": "architettura|la regola che vieta i tipi «qualunque» non è accesa: 46 sono passati, e 40 permessi di saltare il controllo non saltano niente",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
     },
     {
       "id": "R32-004",
       "sessione": "R32",
       "chiave": "architettura|il modulo del prodotto applica le proposte dell'assistente con una seconda copia delle regole del server, e le due copie sono già diverse",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
     },
     {
       "id": "R32-005",
       "sessione": "R32",
       "chiave": "architettura|una fascia «domani» inviata alle 23:59 e arrivata alla rotta dopo mezzanotte si giudica sul giorno dopo",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
     },
     {
       "id": "R32-006",
       "sessione": "R32",
       "chiave": "deploy-sre|il ritorno indietro può ancora scegliere il rilascio sbagliato in due casi rari: un solo altro commit negli ultimi 20 rilasci, o un dominio che non dice il suo commit",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
     },
     {
       "id": "R32-007",
       "sessione": "R32",
       "chiave": "frontend-ux|con «aperti ora» acceso, l'elenco dei negozi non si aggiorna all'orario di chiusura e tiene in lista negozi con scritto «chiuso ora»",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
-      "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "esito": "gia_riparato_prima",
+      "verdetto": "regge",
+      "collaudatore": "K18",
+      "decisione": "gia_riparato_prima",
+      "perche": "",
+      "prova": "Già alla base d1eaba80: app/stores/page.tsx:216 useOraDiPiacenza() (R23-010, 9ec7e9a9) e components/ProductGrid.tsx:409 `const battito = useOraDiPiacenza(!!onlyOpenStores)` con `battito` nelle dipendenze a :461 (R28-007, b55df4ce). Comando: npx vitest run tests/unit/riparazione-r23-aperti-ora-si-aggiorna.test.ts tests/unit/riparazione-r28-prodotti-dei-negozi-aperti-si-aggiornano.test.tsx → 2 file, 5 prove verdi."
     },
     {
       "id": "R32-008",
       "sessione": "R32",
       "chiave": "frontend-ux|orari passati alla cassa e 409 della rotta contanti: le prove cercano parole nel sorgente, non fanno girare pagina e rotta",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
     },
     {
       "id": "R32-009",
       "sessione": "R32",
       "chiave": "pagamenti-stripe|una contestazione persa su una parte del carrello segna persi anche gli ordini degli altri negozi",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
     },
     {
       "id": "R32-010",
       "sessione": "R32",
       "chiave": "privacy-legale|«chi siamo» e «lavora con noi» raccontano una flotta di rider, una crescita e quattro posti di lavoro che oggi non esistono",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
     },
     {
       "id": "R32-011",
       "sessione": "R32",
       "chiave": "privacy-legale|chi rifiuta le statistiche dopo averle accettate si tiene l'identificativo di un anno, e al sì successivo le visite nuove si riattaccano a quelle di prima",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "esito": "parziale",
+      "verdetto": "parziale",
+      "collaudatore": "K18",
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "parziale: L'identificativo di PostHog: al no lib/analytics/posthog.tsx:401 fa solo opt_out_capturing, il distinct_id resta 365 giorni in cookie e localStorage e al sì successivo le visite si riattaccano. File non di R32."
     },
     {
       "id": "R32-012",
       "sessione": "R32",
       "chiave": "privacy-legale|chi si disiscrive dalla newsletter e poi si iscrive di nuovo resta segnato come disiscritto anche dopo aver confermato",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
-      "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "esito": "riparato",
+      "verdetto": "regge",
+      "collaudatore": "K18",
+      "decisione": "si_chiude",
+      "perche": "",
+      "come": "collaudo pieno",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r32-newsletter-riscritto-dopo-disiscrizione.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 22eb4216^ --file app/api/newsletter/confirm/route.ts --prove tests/unit/riparazione-r32-newsletter-riscritto-dopo-disiscrizione.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R32-012 --base 22eb4216^ --file app/api/newsletter/confirm/route.ts --prove tests/unit/riparazione-r32-newsletter-riscritto-dopo-disiscrizione.test.ts --json   (checkout 22eb4216, HEAD verificato) → uscita 0 (K18)",
+      "nota_fix": "La conferma scrive anche unsubscribed_at = null. La richiesta di iscrizione (app/api/newsletter/route.ts) resta com'era apposta: finche' la persona non conferma dalla sua casella la disiscrizione deve valere (chiunque puo' scrivere l'indirizzo di un altro). La prova fa il giro disiscritto -> nuova richiesta -> link dell'email -> conferma, con orologio finto."
     },
     {
       "id": "R32-013",
       "sessione": "R32",
       "chiave": "privacy-legale|l'esito di una segnalazione non dice né al venditore né a chi ha segnalato come si contesta la decisione",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
-      "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "esito": "gia_riparato_prima",
+      "verdetto": "regge",
+      "collaudatore": "K18",
+      "decisione": "gia_riparato_prima",
+      "perche": "",
+      "prova": "app/api/segnalazioni/esito/comunica.ts:117-118 (email a chi ha segnalato, html e testo), :126 (notifica a chi ha segnalato con l'account) e :138 (notifica al venditore) aggiungono COME_CONTESTARE (lib/admin/segnalazioni-testi.ts:37-40: contestazione gratuita da /contact entro sei mesi, riesame di un'altra persona, giudice, Termini), dal commit 15e23935 del 5/11, gia' nella base; la prova tests/unit/minori-s05-segnalazioni.test.tsx:52-63 lo controlla per il venditore e per l'email ed e' verde."
     },
     {
       "id": "R32-014",
       "sessione": "R32",
       "chiave": "privacy-legale|chi fa una segnalazione lascia la sua email lì per sempre",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "serve_file_altrui",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "serve_file_altrui: Non codice: CANCELLAZIONI_A_ORARIO=accese su Vercel Production perche' la potatura notturna cancelli davvero."
     },
     {
       "id": "R32-015",
       "sessione": "R32",
       "chiave": "privacy-legale|nessun consenso finisce a verbale: termini e scelte sui cookie restano solo nel browser, e nessuno riprova a registrarli",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "esito": "parziale",
+      "verdetto": "parziale",
+      "collaudatore": "K18",
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "parziale: (1) Termini: il verbale si riprova gia' al prossimo ingresso (accesso con password e link leggono la versione da user_metadata) e la cassa e l'area del negozio li richiedono se la riga manca (middleware.ts), ma con una sessione aperta da settimane nessuno lo riscrive da solo con la versione gia' accettata: servirebbe un tentativo automatico in middleware.ts o lib/auth/accettazione-testi.ts (non miei), e chi lo fa decide se scriverlo senza ripassare dalla pagina /accetta-condizioni. app/auth/callback/route.ts non e' cambiato. (2) Non codice: senza SUPABASE_SERVICE_ROLE_KEY su Vercel Production (la stessa cura di R01-003 in decisioni.json) nessuna riga entra nel registro, ne' cookie ne' Termini: cosa fa Nicola: Vercel -> progetto mycity -> Settings -> Environment Variables -> SUPABASE_SERVICE_ROLE_KEY per Production, poi un nuovo rilascio. Da li' le scelte rimaste in attesa nei browser arrivano da sole."
     },
     {
       "id": "R32-016",
       "sessione": "R32",
       "chiave": "privacy-legale|l'informativa non dice quanto teniamo i messaggi dei contatti e della chat, e per l'email con l'iban scrive «finché non la cancelliamo»",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
     },
     {
       "id": "R32-017",
       "sessione": "R32",
       "chiave": "privacy-legale|l'informativa privacy non dice che chiediamo la data di nascita, il codice fiscale, il mezzo e la targa al fattorino, e la data di nascita al negozio",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
     },
     {
       "id": "R32-018",
       "sessione": "R32",
       "chiave": "privacy-legale|l'informativa promette di dare i dati solo al negozio e al rider, ma poi non li elenca fra chi riceve i dati, e mette il database negli stati uniti mentre sta a parigi",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
     },
     {
       "id": "R32-019",
       "sessione": "R32",
       "chiave": "privacy-legale|ai negozi scriviamo «iva inclusa» sulla commissione, mentre la regola decisa sospende quella dicitura finché il commercialista non conferma il regime",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
     },
     {
       "id": "R32-020",
       "sessione": "R32",
       "chiave": "privacy-legale|buco nelle prove (variante): macchina: regge. le due prove della bocciatura vecchia ora passano (cb6/riacc 2/2 e cb6r 2/2), quindi il motivo è chiuso",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
     },
     {
       "id": "R32-021",
       "sessione": "R32",
       "chiave": "privacy-legale|le mappe mandano a openstreetmap e a google la zona di casa del cliente, ma l'informativa nomina openstreetmap solo per cercare gli indirizzi",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
     },
     {
       "id": "R32-022",
       "sessione": "R32",
       "chiave": "privacy-legale|il sito suggerisce di cercare il vino ma non controlla mai i 18 anni: non lo chiede all'iscrizione, non lo segnala sul prodotto e non lo fa verificare alla consegna",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
     },
     {
       "id": "R32-023",
       "sessione": "R32",
       "chiave": "privacy-legale|il modulo di segnalazione non permette di dare il nome di chi segnala né di dichiarare la buona fede",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: Tolta con git revert (ff7d7d64) per ordine della regista: il revisore ha trovato una regressione. Il modulo accetta 2000 caratteri (components/Segnala.tsx:172) ma con la marca «│ » e le righe del server il limite vero scende a circa 1880 senza nome e 1660 con nome, e la rotta risponde 400 (app/api/segnalazioni/route.ts:103); in più le segnalazioni già nel database, senza marca, nella pagina admin (app/admin/segnalazioni/page.tsx:78) apparivano tutte come righe del server. Da rifare: limite del modulo calcolato sul testo marcato (o la rotta che conta solo il testo di chi segnala) e le righe vecchie mostrate come testo di chi segnala."
     },
     {
       "id": "R32-024",
       "sessione": "R32",
       "chiave": "privacy-legale|i video di youtube e vimeo si caricano senza chiedere il consenso, e la cookie policy non li nomina",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
-      "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "esito": "riparato",
+      "verdetto": "regge",
+      "collaudatore": "K18",
+      "decisione": "si_chiude",
+      "perche": "",
+      "come": "collaudo pieno",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r32-video-youtube-vimeo.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3f6e764f^ --file app/cookies/page.tsx,app/privacy/page.tsx --prove tests/unit/riparazione-r32-video-youtube-vimeo.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R32-024 --base f65470fa^ --file app/cookies/page.tsx,app/privacy/page.tsx --prove tests/unit/riparazione-r32-video-youtube-vimeo.test.tsx --json   (checkout 3f6e764f, HEAD verificato; base f65470fa^ perché la correzione sta in due commit, f65470fa e 3f6e764f: tolgo tutte e due) → uscita 0 (K18)",
+      "nota_fix": "Il video si carica gia' solo al tocco (VideoAlClic, unico iframe del sito: la prova lo tiene fermo col clic vero). Applicato il testo della scheda: cookie policy 2.5 «Video di YouTube e Vimeo» e Vimeo/YouTube nella sezione 4; informativa: voce YouTube/Vimeo fra i destinatari. Unica correzione al testo scritto: «la pagina da cui guardi» e' diventato «il sito da cui guardi», perche' l'iframe ha referrerPolicy strict-origin-when-cross-origin e al fornitore arriva solo l'origine (la prova controlla anche questo). Correzione dopo il revisore (3f6e764f): YouTube e Vimeo non più fra i responsabili ex art. 28 con DPA/SCC ma dichiarati titolari autonomi, nell'informativa e fra i trasferimenti extra-UE della cookie policy; la prova lo controlla."
     },
     {
       "id": "R32-025",
       "sessione": "R32",
       "chiave": "privacy-legale|la pulizia dei dati personali verso sentry copre solo gli errori del browser: le misure di velocità e gli errori del server mandano l'indirizzo intero della pagina",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "esito": "parziale",
+      "verdetto": "parziale",
+      "collaudatore": "K18",
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "parziale: Le intestazioni HTTP: l'SDK di Sentry 10.78 copia tutte le intestazioni negli attributi della misura server/edge anche con sendDefaultPii false, e la pulizia tocca solo il referer (lib/analytics/sentry-config.ts:151). Così http.request.header.cookie (mc_vid, l'identificativo di un anno, mc_consent e il cookie di PostHog) arriva a Sentry in chiaro. Cura: togliere o oscurare gli attributi http.request.header.* (almeno cookie e authorization) in beforeSendTransaction/beforeSendSpan. Non fatta per il tetto di spesa."
     },
     {
       "id": "R33-001",
       "sessione": "R33",
       "chiave": "qa-flussi|nicola non viene avvisato quando arriva un ordine: il primo allarme per un ordine non accettato parte dopo un'ora, non dopo 5 minuti",
       "gravita": "grave",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
-      "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "esito": "gia_riparato_prima",
+      "verdetto": "regge",
+      "collaudatore": "K18",
+      "decisione": "gia_riparato_prima",
+      "perche": "",
+      "prova": "Riparata nell'onda 4 (commit 4fd7d59d e b6620258, collaudo K16) e presente nella base d1eaba80: vercel.json:24 fa partire /api/cron/operational-alerts con \"*/5 * * * *\"; tests/unit/minori-s03-sorvegliante.test.ts:94-95 ha già la scheda 7 scritta nella voce (ORDINE_DA_ACCETTARE, nessun «bloccato»). Comando: npx vitest run tests/unit/riparazione-r29-allarme-ordine.test.ts tests/unit/minori-s03-sorvegliante.test.ts tests/unit/l-allarme-che-non-parte-non-si-spaccia-per-spedito.test.ts → 3 file, 31 prove verdi (fra cui «ordine nato 6 minuti fa e ancora nuovo: allarme, campanella ed email» e «vercel.json fa partire il sorvegliante ogni 5 minuti»). Nessun revert: il commit 5d8f2762 non è nella base."
     },
     {
       "id": "R33-002",
       "sessione": "R33",
       "chiave": "qa-flussi|il reclamo del cliente non arriva a nessuno, e intanto ferma il bonifico al negozio senza dirglielo",
       "gravita": "grave",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "esito": "parziale",
+      "verdetto": "parziale",
+      "collaudatore": "K18",
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "parziale: ① Togliere al cliente l INSERT diretto su disputes: migrazione 570 insieme alla nuova prova 48 (blocco ⑩), nello stesso commit perché la 48 di oggi pretende l INSERT. ② Mostrare il reclamo nella pagina dell ordine del cliente (app/orders/[id]/page.tsx, non di R33). Facoltativo (non chiesto dalla scheda): lo stesso nella pagina dell ordine del negozio app/seller/orders/[id]/page.tsx; il negozio riceve comunque la campanella del bonifico fermo quando il reclamo nasce."
     },
     {
       "id": "R33-003",
       "sessione": "R33",
       "chiave": "qa-flussi|dentro il pannello dell'amministratore non c'è la campanella: gli avvisi sui soldi da sistemare a mano si vedono solo uscendo dal pannello",
       "gravita": "grave",
-      "esito": "senza_referto",
+      "esito": "serve_file_altrui",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "serve_file_altrui: Nella sostanza parziale: la campanella è già nella base, manca solo il riquadro in un file altrui."
     },
     {
       "id": "R33-004",
       "sessione": "R33",
       "chiave": "api-backend|se due giri del sorvegliante partono nello stesso istante, l'amministratore riceve due volte la stessa campanella",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
-      "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "esito": "gia_riparato_prima",
+      "verdetto": "regge",
+      "collaudatore": "K18",
+      "decisione": "gia_riparato_prima",
+      "perche": "",
+      "prova": "Riparata nell'onda 4 (commit 038ddd6a, collaudo K16) e presente nella base d1eaba80, compresa la modifica a tests/unit/l-allarme-che-non-parte-non-si-spaccia-per-spedito.test.ts. Comando: npx vitest run tests/unit/riparazione-r29-allarme-ordine.test.ts tests/unit/l-allarme-che-non-parte-non-si-spaccia-per-spedito.test.ts → verdi, fra cui «due giri nello stesso istante: una campanella e una email, non due», «la campanella rifiutata restituisce il turno: il giro dopo suona», «l email non partita restituisce il turno: il giro dopo la ritenta». Nessun revert: il commit 6df692ca non va rimesso."
     },
     {
       "id": "R33-005",
       "sessione": "R33",
       "chiave": "api-backend|le notifiche push partono due volte se due giri del cron si sovrappongono: la presa in carico non è atomica",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "serve_file_altrui",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "serve_file_altrui: PERMESSI (in chiaro): la 571 crea public.claim_pending_push(timestamptz,int) con i permessi di chi la chiama (NON security definer); revoca EXECUTE a PUBLIC, anon e authenticated e lo CONCEDE a service_role. Niente commit perché la prova comune finge rpc() = {data:true} per ogni funzione e con la presa atomica diventa rossa, e lib/database.types.ts non è di R33. Alla prova rimessa con --sql la prova SQL darebbe 3 (nomina la funzione nuova), anche se il rosso senza la 571 è di comportamento."
     },
     {
       "id": "R33-006",
       "sessione": "R33",
       "chiave": "coerenza-brand|la scala tipografica è aggirata 330 volte con misure a mano",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "esito": "parziale",
+      "verdetto": "non_regge",
+      "collaudatore": "K18",
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "parziale: Nei quattro file di R33 restano solo 15 text-[11px] (SellerShell 4, rider/earnings 4, search 4, AdminSidebar 3): dopo il gradino xxs vanno sostituiti con text-xxs (senza la classe nel config la scala si romperebbe). Restano ~250 misure a mano negli altri file (rider 73, seller 29, admin 22, components/seller 13, category 10 e il resto), non di R33."
     },
     {
       "id": "R33-007",
       "sessione": "R33",
       "chiave": "frontend-ux|se il nome del negozio comincia con un numero, un apostrofo, le virgolette o contiene una parola inglese come «table», il cliente in cassa legge «qualcosa non ha funzionato» invece del motivo vero",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "serve_file_altrui",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "serve_file_altrui"
     },
     {
       "id": "R33-008",
       "sessione": "R33",
       "chiave": "pagamenti-stripe|con l'abbonamento acceso, due schede aperte creano due abbonamenti da 50 euro, e il primo resta orfano e non si disdice dal sito",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "esito": "parziale",
+      "verdetto": "parziale",
+      "collaudatore": "K18",
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "parziale: Il doppio abbonamento non nasce più dalla corsa normale, ma restano tre casi trovati dal revisore: (1) lib/stripe/webhook/abbonamenti.ts:156 l avviso «Disdici quello in più» non dice quale: se il negozio disdice quello collegato al profilo, handleSubscriptionChanged (riga 212) segna il profilo canceled mentre il doppione continua ad addebitare 50 € e la cassa risponde 409 (checkout/route.ts:122): serve ricollegare l abbonamento rimasto o dire quale disdire; (2) abbonamenti.ts:147 nel caso tieniIlNuovo il vecchio in ritardo resta vivo sullo stesso cliente e ogni invoice.payment_failed (riga 246, per stripe_customer_id) rimette il profilo a past_due; (3) checkout/route.ts:195 la scheda che perde la corsa ha già creato un cliente Stripe mai salvato sul profilo, che la cancellazione dell account non cancella. Minori: la cassa riusata (route.ts:134) non controlla importo né metadata.seller_id; dopo un ripiego customer_email una seconda richiesta con customer nella stessa finestra di idempotenza fa rispondere 500."
     },
     {
       "id": "R33-009",
       "sessione": "R33",
       "chiave": "performance|ogni pagina scarica due caratteri in corsivo che quasi nessuna pagina usa",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "serve_file_altrui",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "serve_file_altrui: Non controllato a occhio «veri» in app/page.tsx:27, come-funziona e AuthShell: serve un build con la rete verso Google Fonts."
     },
     {
       "id": "R33-010",
       "sessione": "R33",
       "chiave": "performance-percepita|la home e la scheda prodotto partono senza il preload dei caratteri: il testo cambia faccia a metà caricamento",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: La causa non si vede dal sorgente: in app/layout.tsx i caratteri sono next/font standard e middleware.ts non ha logica sui caratteri. Servirebbe un build con l ispezione dell HTML reso di / e /product/[id] (che il registro trova senza preload, mentre /cart ne ha due); senza, nessuna modifica piccola e provata nei due file."
     },
     {
       "id": "R33-011",
       "sessione": "R33",
       "chiave": "performance-percepita|il traduttore degli errori dei moduli (zod) viaggia in ogni pagina, anche dove non c'è nessun modulo",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: Togliere l import da QueryProvider non basta: lib/errors.ts importa lib/zod-i18n (FRASI_ZOD, riga 14) ed è caricato quasi ovunque. Lavoro vero: 1) FRASI_ZOD in un file nuovo senza effetti (lib/zod-frasi.ts) importato da errors.ts; 2) z.setErrorMap solo in lib/zod-i18n.ts; 3) importarlo nei punti che usano Zod nel browser (components/SellerApplicationForm.tsx, components/VendorForm.tsx, lib/products/schema.ts e gli altri dei 51 file che importano zod), più le prove riparazione-r24-errori-dal-server, riparazione-r24-traduttore-zod e zod-i18n che leggono quei file. Moduli e prove non sono di R33: serve un passaggio della regista o una scheda dell onda dopo."
     },
     {
       "id": "R33-012",
       "sessione": "R33",
       "chiave": "qa-flussi|le prove dei permessi in sql certificano un database ricostruito dai file, non quello vero",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_codice",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_codice: Perché non è codice: le prove SQL della CI girano su un Postgres 16 ricostruito applicando tutte le migrazioni del deposito (ci.yml, lavoro rls-locale; tests/sql/harness/apply.sh), quindi certificano i file, non la produzione; il controllo notturno deriva-migrazioni-produzione.yml confronta solo i nomi delle migrazioni applicate. Confrontarsi col database vero richiede l accesso alla produzione, che le sessioni non hanno e non devono usare. Cosa deve fare Nicola: controllare che il segreto SUPABASE_DB_URL sia in GitHub e guardare ogni mattina il controllo «Deriva migrazioni (produzione)»; ogni tanto aprire l advisor di sicurezza di Supabase sul progetto vero, oppure far girare tests/sql/rls contro un ramo o una copia del database vero, e applicare le migrazioni che mancano."
     },
     {
       "id": "R33-013",
       "sessione": "R33",
       "chiave": "qa-flussi|il filtro «in attesa» aperto da «seller pending» mostra anche i fattorini",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
-      "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "esito": "gia_riparato_prima",
+      "verdetto": "regge",
+      "collaudatore": "K18",
+      "decisione": "gia_riparato_prima",
+      "perche": "",
+      "prova": "Sulla base il riquadro di /admin/today che apre il filtro si chiama «Richieste in attesa» (app/admin/today/page.tsx:162, href /admin/users?role=pending) e conta negozi e fattorini (lib/queries/cruscotto-oggi.ts:159-162, role in seller,rider con approval_status pending); il filtro «In attesa» di app/admin/users/page.tsx:414-423 mostra le stesse persone (siPuoModerare). Etichetta, conteggio e filtro coincidono: includere i fattorini è voluto. Comando: grep -n \"Richieste in attesa\" app/admin/today/page.tsx; sed -n 414,426p app/admin/users/page.tsx"
     },
     {
       "id": "R33-014",
       "sessione": "R33",
       "chiave": "qa-flussi|il giro notturno prende in carico la cancellazione di un negozio che ha ancora un ordine aperto e soldi da incassare",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
+      "esito": "parziale",
+      "verdetto": "parziale",
+      "collaudatore": "K18",
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "parziale: (1) lib/privacy/cancellazioni-in-sospeso.ts:172 (non di R33): il sorvegliante non conosce il rinvio della 572 e dal nono giorno manda ogni giorno CANCELLAZIONE_NON_ESEGUITA dicendo che nessuna regola la trattiene: serve riconoscere il rinvio per ordini aperti (come per i fattorini). (2) app/api/cron/process-deletions/route.ts:430: l avviso agli amministratori parte una volta sola per negozio e non dice quale ordine blocca. (3) PENDING_SELLER_ONBOARDING blocca finché un amministratore non interviene, per il negozio che se ne va senza aver mai attivato i pagamenti. (4) la persona rinviata non riceve il motivo (vedi nuovi_difetti_visti, lib/cron-cancellazioni.ts)."
     },
     {
       "id": "R33-015",
       "sessione": "R33",
       "chiave": "qa-flussi|il fattorino respinto che ricarica i documenti non torna nella coda dello staff, e la pulizia dei 90 giorni gli cancella i documenti nuovi",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: Tetto di costo dell onda 5 (decisione della regista alle 11:37, costo 22,69 $ su 38): la voce passa all onda dopo, senza lavoro su questo ramo."
     },
     {
       "id": "R33-016",
       "sessione": "R33",
       "chiave": "qa-flussi|il negozio può riprendersi la merce difettosa e chiudere il reso senza rimborso, senza scrivere perché, e il cliente non riceve nessuna email",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "serve_file_altrui",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "serve_file_altrui"
     },
     {
       "id": "R33-017",
       "sessione": "R33",
       "chiave": "qa-flussi|quando il negozio approva un recesso, il cliente lo sa solo dalla campanella, ma da quel momento corrono i suoi 14 giorni per rispedire",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: Tetto di costo dell onda 5 (decisione della regista alle 11:37, costo 22,69 $ su 38): la voce passa all onda dopo, senza lavoro su questo ramo."
     },
     {
       "id": "R33-018",
       "sessione": "R33",
       "chiave": "qa-flussi|la campanella del sito mostra le promozioni anche a chi le ha spente",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "serve_file_altrui",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "serve_file_altrui: I due file miei non vanno da soli: senza il filtro in useNotificationsCount la lista nasconderebbe promozioni che la campanella conta ancora (la regressione per cui un collaudo dell onda 2 aveva fatto togliere la prima correzione). SellerShell con useNotificationsCount rende rossa la prova comune, il cui finto di react-query non ha useQueryClient: la diff gli aggiunge useQueryClient e onAuthStateChange."
     },
     {
       "id": "R33-019",
       "sessione": "R33",
       "chiave": "qa-flussi|nel reclamo non si può allegare la foto del prodotto rotto, mentre nel reso sì",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: Tetto di costo dell onda 5 (decisione della regista alle 11:37, costo 22,69 $ su 38): la voce passa all onda dopo, senza lavoro su questo ramo."
     },
     {
       "id": "R33-020",
       "sessione": "R33",
       "chiave": "qa-flussi|indirizzo, cap e città del profilo non si correggono più",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "scelta_di_nicola",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "scelta_di_nicola: Nessun codice su questo ramo finché Nicola non sceglie; la regista ha deciso di lasciarla come domanda."
     },
     {
       "id": "R33-021",
       "sessione": "R33",
       "chiave": "qa-flussi|nell'analisi la cifra «ultimi 7 giorni» e le sette barre del grafico contano giorni diversi, anche se il commento dice che tornano",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
-      "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "esito": "riparato",
+      "verdetto": "regge",
+      "collaudatore": "K18",
+      "decisione": "si_chiude",
+      "perche": "",
+      "come": "collaudo pieno",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r33-analisi-sette-giorni-di-piacenza.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 7b21421d^ --file app/seller/analytics/page.tsx --prove tests/unit/riparazione-r33-analisi-sette-giorni-di-piacenza.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R33-021 --base 7b21421d^ --file app/seller/analytics/page.tsx --prove tests/unit/riparazione-r33-analisi-sette-giorni-di-piacenza.test.ts --json   (checkout 7b21421d, HEAD verificato) → uscita 0 (K18)",
+      "nota_fix": "since7 era Date.now() meno 168 ore, mentre le barre sono le sette giornate di Piacenza da mezzanotte. Ora since7 = inizioGiornoPiacenza(ultimiGiorniPiacenza(7)[0]): cifra e barre contano gli stessi giorni. Prova con vi.setSystemTime (la pagina non si monta in vitest, la prova controlla anche il sorgente)."
     },
     {
       "id": "R33-022",
       "sessione": "R33",
       "chiave": "qa-flussi|la promo «oggi, fino a mezzanotte» finisce a mezzanotte del fuso del telefono, non di piacenza",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "serve_file_altrui",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "serve_file_altrui: Prima riparata nel commit c118f9e5, poi rimessa com era su richiesta della regista: la guardia-ramo è verde (file toccati e rimessi, non entrano nell unione)."
     },
     {
       "id": "R33-023",
       "sessione": "R33",
       "chiave": "qa-flussi|le domande dei clienti sotto i prodotti non arrivano a nessuno, ma al cliente diciamo che riceverà una notifica",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "non_fatto",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "non_fatto: Tetto di costo dell onda 5 (decisione della regista alle 11:37, costo 22,69 $ su 38): la voce passa all onda dopo, senza lavoro su questo ramo."
     },
     {
       "id": "R33-024",
       "sessione": "R33",
       "chiave": "qa-flussi|ogni visitatore senza account fa una richiesta rifiutata alla vista dei nomi su ogni scheda prodotto e vetrina",
       "gravita": "minore",
-      "esito": "senza_referto",
+      "esito": "serve_file_altrui",
       "verdetto": null,
       "collaudatore": null,
       "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "perche": "serve_file_altrui: Niente commit: nella prova comune autori() non dà una sessione a chi guarda, quindi «Maria con l account» risulta senza account e la prova diventa rossa; la diff le aggiunge una riga: globale.__UTENTE__ = chi ? { id: chi } : null."
     },
     {
       "id": "R33-025",
       "sessione": "R33",
       "chiave": "qa-flussi|«compila con una foto» scrive allergeni e ingredienti letti dall'etichetta dritti nel modulo, anche sopra quelli scritti a mano (oggi spento)",
       "gravita": "minore",
-      "esito": "senza_referto",
-      "verdetto": null,
-      "collaudatore": null,
-      "decisione": "resta_aperta",
-      "perche": "il riparatore non l'ha scritta nel referto"
+      "esito": "riparato",
+      "verdetto": "regge",
+      "collaudatore": "K18",
+      "decisione": "si_chiude",
+      "perche": "",
+      "come": "collaudo pieno",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r33-foto-non-scrive-sopra.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 25b81deb4afd300d8380e7ce049a8078d65675d3^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r33-foto-non-scrive-sopra.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R33-025 --base 25b81deb^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r33-foto-non-scrive-sopra.test.ts --json   (checkout 25b81deb, HEAD verificato) → uscita 0 (K18)",
+      "nota_fix": "handleExtracted passa da pianoDallaFoto (aiutante dentro ProductForm): nome, descrizione e attributi letti dalla foto entrano solo nei campi vuoti; le dichiarazioni (allergeni, ingredienti e le altre di separaCampiDichiarativi) non entrano mai, diventano righe «Da controllare» col pulsante «Usa questo valore». La funzione resta spenta. La prova monta il modulo vero e passa la foto dal pulsante vero; le 35 prove che usano ProductForm verdi."
     }
   ],
   "eccezioni_firmate": [
-    "referti/R02.json: guardia-ramo: tests/unit/api-account.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R02.json: guardia-ramo: tests/unit/i-link-della-cabina-admin-portano-a-una-pagina-vera.test.tsx: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R02.json: guardia-ramo: tests/unit/minori-s08-esporta.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R02.json: guardia-ramo: tests/unit/minori-s09-aspetto.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R02.json: guardia-ramo: tests/unit/una-lettura-caduta-non-esce-come-elenco-vuoto.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R03.json: guardia-ramo: tests/unit/minori-s02-reclamo.test.tsx: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R04.json: guardia-ramo: tests/unit/api-ai-catalog-create-bulk.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R04.json: guardia-ramo: tests/unit/dalla-chat-un-alimento-non-va-in-vendita-senza-i-controlli-del-modulo.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R04.json: guardia-ramo: tests/unit/i-dodici-controlli-partono-insieme.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R04.json: guardia-ramo: tests/unit/il-lotto-dalle-foto-non-cade-per-una-lista-ingredienti-lunga.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R04.json: guardia-ramo: tests/unit/la-spesa-del-lotto-si-conta-quando-parte.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R04.json: guardia-ramo: tests/unit/minori-s03-prezzi-esterni.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R04.json: guardia-ramo: tests/unit/minori-s10-bozze-dalle-foto.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R04.json: guardia-ramo: tests/unit/una-pagina-corta-non-scorre-a-vuoto.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R06.json: guardia-ramo: tests/unit/la-mappa-del-sito-non-manda-a-google-categorie-vuote.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R06.json: guardia-ramo: tests/unit/lo-storico-del-fattorino-mostra-il-suo-compenso.test.tsx: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R06.json: guardia-ramo: tests/unit/minori-s09-mappa-del-sito.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R08.json: guardia-ramo: tests/unit/aiuti/salva-varianti-finta.ts: una prova nuova porta il nome della sessione (riparazione-r08-…) [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R08.json: guardia-ramo: tests/unit/chi-corregge-la-descrizione-non-rimette-in-magazzino-la-merce-venduta.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R08.json: guardia-ramo: tests/unit/due-tocchi-su-ripeti-ordine-non-raddoppiano-il-carrello.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R08.json: guardia-ramo: tests/unit/la-moderazione-dice-il-vero.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R08.json: guardia-ramo: tests/unit/la-pagina-di-modifica-salva-le-varianti-senza-rimettere-in-magazzino-il-venduto.test.ts: è una prova esistente che non importa e non nomina nessuno dei file di R08 [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R08.json: guardia-ramo: tests/unit/la-porta-del-catalogo-non-scrive-una-scorta-che-nel-frattempo-e-cambiata.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R08.json: guardia-ramo: tests/unit/la-scorta-si-confronta-con-quella-vista-non-con-quella-scritta.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R08.json: guardia-ramo: tests/unit/minori-s05-moderazione.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R08.json: guardia-ramo: tests/unit/minori-s06-scorta-in-modifica.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R08.json: guardia-ramo: tests/unit/minori-s09-aspetto.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R08.json: guardia-ramo: tests/unit/nessuno-approva-un-fattorino-minorenne.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R08.json: guardia-ramo: tests/unit/riattivare-un-sospeso-non-e-una-nuova-approvazione.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R08.json: guardia-ramo: tests/unit/si-approva-solo-con-partita-iva-e-documenti.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R08.json: guardia-ramo: tests/unit/sospendere-e-riattivare-non-scavalca-l-approvazione.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R09.json: guardia-ramo: tests/unit/il-caricamento-da-file-legge-l-excel-italiano.test.tsx: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R09.json: guardia-ramo: tests/unit/il-caricamento-da-file-non-perde-righe-per-una-virgoletta-sola.test.tsx: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R09.json: guardia-ramo: tests/unit/il-caricamento-da-file-tiene-gli-accenti-dell-excel-italiano.test.tsx: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R09.json: guardia-ramo: tests/unit/il-file-di-excel-in-italiano-si-carica-e-senza-foto-nasce-bozza.test.tsx: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R09.json: guardia-ramo: tests/unit/la-consegna-da-3-euro-ha-un-nome-solo-e-non-e-mai-gratis.test.tsx: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R09.json: guardia-ramo: tests/unit/minori-s02-freno-della-veloce.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R09.json: guardia-ramo: tests/unit/minori-s06-caricamento-da-file.test.tsx: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R09.json: guardia-ramo: tests/unit/un-alimento-caricato-da-file-non-va-in-vendita-senza-allergeni-e-ingredienti.test.tsx: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R10.json: guardia-ramo: tests/unit/ai-negozi-diciamo-un-prezzo-solo.test.tsx: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R11.json: guardia-ramo: tests/unit/il-negozio-viene-pagato-anche-dopo-un-reclamo.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R11.json: guardia-ramo: tests/unit/il-pannello-non-chiama-vuoto-una-lettura-caduta.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R11.json: guardia-ramo: tests/unit/la-contestazione-vinta-ripaga-il-negozio-del-giusto.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R11.json: guardia-ramo: tests/unit/minori-s05-bonifici-prodotti.test.tsx: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R11.json: guardia-ramo: tests/unit/se-una-colonna-sparisce-le-pagine-se-ne-accorgono.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R12.json: guardia-ramo: tests/unit/al-lancio-si-paga-solo-la-consegna.test.tsx: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R12.json: guardia-ramo: tests/unit/api-stripe-webhook-idempotency.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R12.json: guardia-ramo: tests/unit/chi-non-trova-l-email-di-conferma-puo-farsela-rimandare.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R12.json: guardia-ramo: tests/unit/dopo-un-errore-stripe-riprende-il-turno.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R12.json: guardia-ramo: tests/unit/gli-errori-di-accesso-parlano-italiano.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R12.json: guardia-ramo: tests/unit/i-minuti-della-veloce-non-sono-una-promessa-fissa.test.tsx: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R12.json: guardia-ramo: tests/unit/il-catalogo-regge-con-i-profili-chiusi.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R12.json: guardia-ramo: tests/unit/il-reso-dice-quali-prodotti-sono-esclusi.test.tsx: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R12.json: guardia-ramo: tests/unit/la-vetrina-comprata-di-notte-parte-dal-giorno-giusto.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R12.json: guardia-ramo: tests/unit/la-vetrina-non-promette-una-spedizione-che-la-cassa-fa-pagare.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R12.json: guardia-ramo: tests/unit/le-condizioni-della-veloce-hanno-una-casa-sola.test.tsx: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R12.json: guardia-ramo: tests/unit/le-pagine-vere-dell-accesso-non-chiudono-fuori-nessuno.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R12.json: guardia-ramo: tests/unit/le-promesse-che-il-sito-non-mantiene.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R12.json: guardia-ramo: tests/unit/stripe-webhook-idempotenza.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
-    "referti/R17.json: guardia-ramo: bb53b6beebd8: un commit di codice che non comincia con l'id di una voce di R17 («R17-NNN …», oppure «R17-varie …») [eccezione firmata, onda 2: Nicola, 15/11 verso le 06:05, chat dell'AD session_015BmpnYSQgvReHZZJxrC8mw, decisione 2 del piano del 15/11]",
     "collaudi/K03.json: R06-013: «regge» con una prova rimessa che non è prova-rimessa.mjs: un comando che non toglie la correzione non prova niente [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
     "collaudi/K03.json: R06-014: «regge» con una prova rimessa che non è prova-rimessa.mjs: un comando che non toglie la correzione non prova niente [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",
     "collaudi/K03.json: R12-009: «regge» con una prova rimessa che non è prova-rimessa.mjs: un comando che non toglie la correzione non prova niente [eccezione firmata, onda 1: Nicola, card 239 «a» (13/11 03:27) per le prove comuni; «Allarga la a» (13/11 05:20) per i due rossi di R08 e i quattro collaudi a mano di K03]",

@@ -1,0 +1,207 @@
+{
+ "collaudatore": "K17",
+ "riparatori": [
+  "R31"
+ ],
+ "aggiornato": "2026-11-17 13:05",
+ "finita": true,
+ "parziale": false,
+ "nota": "Onda 5, collaudo breve: voci committate (riparate e parziali) e le 5 già riparate prima. Le patch intere in .riparazione/patch-R31/ (001, 003, 016, 018, 012, 014, 023) non sono giudicate qui: le giudica la regista sul ramo unito. Revisori: 2 subagenti qa (sonnet), uno per lente, solo su R31-014 e R31-022. Nessuno strumento di Supabase, Vercel o Stripe; nessun database usato (prove con mock).",
+ "voci": [
+  {
+   "id": "R31-002",
+   "chiave": "accessibilita|le foto delle recensioni e l'importazione dei prodotti da file non si aprono da tastiera",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "prova_alla_base": {
+    "comando": "cd ../wt-base && npx vitest run tests/unit/riparazione-r28-foto-e-documenti-del-fattorino-da-tastiera.test.ts --reporter=dot   (d1eaba80)",
+    "uscita": 0
+   },
+   "nota": "Già riparato alla base d1eaba80: tutti e cinque i file della voce hanno l'input file sr-only dentro un label con focus-within (PhotoReviewUpload.tsx:198-206, seller/products/import/page.tsx:247-249, orders/[id]/return/page.tsx:422-433, rider/CashConfirmDialog.tsx:319-340, rider/onboarding/page.tsx:350-357). La prova citata esiste col nome r28 (la scheda diceva r18): 2 passate."
+  },
+  {
+   "id": "R31-005",
+   "chiave": "architettura|interfacce zombie: shippingforeuro vale sempre 0 ma riceve 7 ingressi; promessaspedizione ha un argomento morto e campi sempre costanti",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "prova_alla_base": {
+    "comando": "cd ../wt-base && npx vitest run tests/unit/riparazione-r29-interfacce-senza-zombie.test.ts --reporter=dot   (d1eaba80)",
+    "uscita": 0
+   },
+   "nota": "Già riparato alla base: lib/shipping.ts:38 shippingForEuro() senza argomenti; promessaSpedizione (promesse-pubbliche.ts:445) ha solo la consegna in centesimi, niente sottototale né sopraSoglia/mancano; i chiamanti (checkout:858, cart:74, product:553, ProductCard:135) la chiamano senza argomenti. 5 passate."
+  },
+  {
+   "id": "R31-008",
+   "chiave": "frontend-ux|il negoziante col negozio non ancora approvato vede «negozio» al posto della sua insegna nella lista condivisa e alla cassa",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "prova_alla_base": {
+    "comando": "cd ../wt-base && npx vitest run tests/unit/riparazione-r19-insegna-del-negozio-non-approvato.test.ts --reporter=dot   (d1eaba80)",
+    "uscita": 0
+   },
+   "nota": "Già riparato alla base: cart/page.tsx:168 e :507 usano insegnaPropria; checkout/page.tsx:282 legge store_name del proprio profilo; stesso schema in shared-cart. 4 passate."
+  },
+  {
+   "id": "R31-010",
+   "chiave": "microcopy|la conferma d'ordine non dice quando arriva né quanto pagare in contanti, e a chi ritira in negozio parla di rider",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "prova_alla_base": {
+    "comando": "cd ../wt-base && npx vitest run tests/unit/riparazione-r28-conferma-carta.test.ts --reporter=dot   (d1eaba80)",
+    "uscita": 0
+   },
+   "nota": "Già riparato alla base: orderConfirmedBuyerTemplate riceve deliverySlot, pickupInStore e paymentMethod sia dai contanti (orders/cod/route.ts:1732-1734, 'cod') sia dalla carta (webhook/ordini.ts:542, 'card'). 3 passate."
+  },
+  {
+   "id": "R31-013",
+   "chiave": "pagamenti-stripe|se la banca respinge un rimborso dal cruscotto che aspetta ancora la divisione, il sito lo toglie dagli ordini che non l'avevano mai registrato",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "prova_alla_base": {
+    "comando": "cd ../wt-base && npx vitest run tests/unit/riparazione-r28-rimborso-respinto-da-dividere.test.ts --reporter=dot   (d1eaba80)",
+    "uscita": 0
+   },
+   "nota": "Già riparato alla base: rimborso-respinto.ts:217 (R28-014) un ordine che non elenca il rimborso nel suo stripe_refund_id non viene toccato. 4 passate."
+  },
+  {
+   "id": "R31-024",
+   "chiave": "qa-flussi|faccine nei titoli delle notifiche scritte dal codice del sito",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R31-024 --base 7af9bf46^ --file app/api/orders/[id]/cancel/route.ts,app/api/admin/orders/[id]/cancel/route.ts,app/api/seller/orders/[id]/reject/route.ts,app/api/orders/cod/route.ts,lib/stripe/webhook/comune.ts --prove tests/unit/riparazione-r31-titoli-senza-faccine.test.ts --json   (checkout 7af9bf46, HEAD verificato)"
+   },
+   "nota": "Parziale come dichiarato. Rimessa regge (6 passate, rossa con ognuno dei 5 file della base). Nei 5 file toccati nessuna faccina resta nei titoli a clienti, negozi e fattorini (scansione di app/ e lib/ alla testa 02b6db8e). Ma cosa_resta non dice tutto: oltre ai file elencati, titoli con faccine verso non-amministratori restano anche in app/api/admin/users/[id]/moderate/route.ts:46-54 (sei titoli a fattorini e negozi: «✅ Profilo approvato», «❌ Richiesta non approvata», «✅ Negozio approvato»…), app/api/admin/disputes/[id]/resolve/route.ts:437 («✓ Reclamo risolto a tuo favore», al cliente), app/api/returns/[id]/decide/route.ts:329 («✓ Reso approvato» / «✕ Reso rifiutato», al cliente), app/api/disputes/route.ts:103 («⚖️ Un cliente ha aperto un reclamo», al negozio). La voce resta aperta."
+  },
+  {
+   "id": "R31-025",
+   "chiave": "qa-flussi|la campanella «nuovo ordine» del negozio non dice per quando va consegnato: lo dice solo l'email",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R31-025 --base 5f893345^ --file app/api/orders/cod/route.ts,lib/stripe/webhook/comune.ts,lib/stripe/webhook/ordini.ts --prove tests/unit/riparazione-r31-campanella-quando-contanti.test.ts,tests/unit/riparazione-r31-campanella-quando-carta.test.ts --json   (checkout 5f893345, HEAD verificato)"
+   },
+   "nota": "Rimessa regge (4 passate, rossa con cod/route.ts, comune.ts e ordini.ts della base). La campanella al negozio usa la stessa fascia dell'email e dell'ordine salvato: contanti body.deliverySlot (cod/route.ts:1619, come delivery_slot :1407 e l'email :1711), carta fasciaDellOrdine (ordini.ts:286-294, come l'email :575); il ritiro ha la precedenza. Nessun'altra strada crea la campanella nuovo ordine. Resta dichiarato: accanto a «Domani» manca la data che l'email aggiunge."
+  },
+  {
+   "id": "R31-014",
+   "chiave": "pagamenti-stripe|se la banca respinge un rimborso parziale su un ordine col bonifico già partito, al negozio resta tolta la sua quota",
+   "verdetto": "non_regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R31-014 --base 349268d0^ --file lib/stripe/rimborso-respinto.ts --prove tests/unit/riparazione-r31-rimborso-respinto-quota-a-mano.test.ts --json   (checkout 349268d0, HEAD verificato)"
+   },
+   "nota": "La rimessa esce 0 (5 passate) ma prova solo la funzione pura. Alla testa 02b6db8e nessun codice legge fraseDaRidareAMano né daRidareAlNegozioCents fuori da lib/stripe/rimborso-respinto.ts (grep in app/ lib/ components/, confermato da me e dai due revisori): l'unico chiamante, lib/stripe/webhook/rimborso-respinto-dalla-banca.ts:138, usa solo scritture[].valori e giaFatti, e l'avviso agli amministratori (:156-162) ha lo stesso testo della base. Per amministratori e negozio non cambia niente: il negozio resta con la quota tolta e nessuno vede la cifra. La riga che la mostrerebbe è nella patch a parte, che il riparatore stesso sconsiglia. Difetti della cifra, se un giorno la si mostra: (1) rimborso-respinto.ts:295 la frase nasce solo dalle scritture di adesso, al ritentativo l'avviso parte senza cifra; (2) :121-139 quota ricalcolata in proporzione invece dello storno vero; il lordo ripiega su total_price, che è già al netto del credito, quindi su un ordine pagato in parte col credito sbaglia; la consegna veloce non è trattata. Nessuna regressione: 20 prove vicine verdi. Per la regista: la voce va contata come non fatta."
+  },
+  {
+   "id": "R31-022",
+   "chiave": "qa-flussi|«annulla» dell'amministratore su un ordine in viaggio o già consegnato non avvisa fattorino e negozio e rimette a scaffale merce che non c'è più",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R31-022 --base acfc8a94^ --file lib/ordini/annulla.ts,lib/stripe/payout.ts,app/api/admin/orders/[id]/cancel/route.ts --prove tests/unit/riparazione-r31-annullo-merce-in-viaggio.test.ts,tests/unit/riparazione-r31-rimborso-merce-in-viaggio.test.ts --json   (checkout acfc8a94, HEAD verificato)"
+   },
+   "nota": "Parziale come dichiarato. Rimessa regge (10 passate, rossa con annulla.ts, payout.ts e la rotta admin della base). Il salto dello scaffale vale su contanti (annulla.ts ~394-415 salta restore_stock_for_order) e carta (payout.ts:2688 salta rimettiLaMerceAScaffale) e solo per PICKED_UP, OUT_FOR_DELIVERY, DELIVERED. È l'unica strada admin (il pulsante di app/admin/orders/page.tsx:109 chiama solo questa rotta). Default sicuro (=== true): gli altri chiamanti di annullaERimborsa (4) e refundOrder (8) non cambiano; idempotenza intatta (annulla.ts:385-390, 409 sul doppio annullo). 142 file di prova vicini, 946 casi verdi. Le campanelle a negozio e fattorino partivano già alla base, ma per merce già col fattorino dicono «non va più preparato né consegnato» (route.ts:117-125). cosa_resta incompleto su tre punti: la corsa fra lettura dello stato (route.ts:35, :59) e azione vale anche con la carta da ACCEPTED/READY a PICKED_UP (merce rimessa a scaffale anche se uscita: annulla.ts:270, payout.ts:2688); nessun avviso o promemoria a nessuno per rimettere a mano le quantità quando la merce torna; il rimborso pieno dal cruscotto Stripe su PICKED_UP/OUT_FOR_DELIVERY rimette ancora la merce (lib/stripe/webhook/rimborsi.ts:313-314 salta solo DELIVERED), stesso difetto su un'altra strada."
+  },
+  {
+   "id": "R31-017",
+   "chiave": "privacy-legale|nelle domande frequenti la risposta sul reso dice due volte «fatti su ordinazione»",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R31-017 --base 4f229dce^ --file app/faq/page.tsx --prove tests/unit/riparazione-r31-faq-reso.test.ts --json   (checkout 4f229dce, HEAD verificato)"
+   },
+   "nota": "Rimessa regge (rossa con la FAQ della base). La risposta sul reso ora è «…${RESO_ESCLUSI}.» e RESO_ESCLUSI (promesse-pubbliche.ts:332) contiene già «fatti su ordinazione»: una volta sola. Nessun doppione in messages/."
+  },
+  {
+   "id": "R31-007",
+   "chiave": "frontend-ux|le domande frequenti dicono di inserire il codice sconto alla cassa, ma alla cassa il campo non c'è",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R31-007 --base ae780870^ --file lib/promesse-pubbliche.ts --prove tests/unit/riparazione-r31-codice-sconto-in-cassa.test.ts --json   (checkout ae780870, HEAD verificato)"
+   },
+   "nota": "Rimessa regge (rossa con promesse-pubbliche.ts della base). La frase del codice sconto nel testo della consegna (promesse-pubbliche.ts:617) ora dipende da CODICI_SCONTO_IN_CASSA (false al lancio, funzioni-al-lancio.ts:111), come la FAQ (faq/page.tsx:100-105). Nessun altro testo per il cliente promette il codice in cassa (app/faq, app/help, messages/it.json, app/shipping)."
+  },
+  {
+   "id": "R31-009",
+   "chiave": "microcopy|il riquadro newsletter della home, se riacceso, promette «una volta a settimana, ogni venerdì», ma nessun invio esiste e le impostazioni la chiamano «mensile»",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R31-009 --base 02b6db8e^ --file app/profile/settings/page.tsx --prove tests/unit/riparazione-r31-newsletter-senza-cadenza.test.ts --json   (checkout 02b6db8e, HEAD verificato)"
+   },
+   "nota": "Rimessa regge (rossa con le impostazioni della base): l'etichetta «Newsletter mensile» è diventata «Newsletter». Ma la voce non è chiusa tutta: il riquadro newsletter della home, se riacceso, promette ancora una cadenza. Dentro il riquadro (HomeSectionRenderer.tsx:377) c'è NewsletterForm, che a :93 mostra t('blurb') = messages/it.json:158 «Cosa c'è nel piatto a Piacenza — ricetta + storia di un negoziante + 3 offerte. Ogni venerdì.» (e en.json:158 «Every Friday.»); lo stesso modulo compare nel piè di pagina con NEWSLETTER_ACCESA (Footer.tsx:336-339). messages/it.json è nella fascia di R31. Il referto dice «copre tutta la voce» e il revisore «nessuna cadenza rimasta in messages»: non è vero."
+  },
+  {
+   "id": "R31-011",
+   "chiave": "microcopy|in tanti punti l'euro è ancora scritto all'inglese: «€12.50», «€0 – €500+», «€ 2,50»",
+   "verdetto": "non_regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 2,
+    "comando": "timeout 60 node cervello/prova-rimessa.mjs --repo ../wt-base --base d1eaba80 --file \"\" --prove \"\" --json → «manca --file», uscita 2: la voce non ha commit, né file, né prova (commit null nel referto), quindi non c'è correzione da togliere e la condizione non si può sistemare"
+   },
+   "nota": "Nessuna riparazione da collaudare. È vero che gli 8 file della lista sono già a posto alla base d1eaba80 (nessun «€ 2,50» né «€12.50» scritto a mano; il filtro «€0 – €500+» non c'è più in app/category né in app/search), ma lo erano prima di R31: sul ramo questa voce non cambia nessun comportamento. Restano 35 righe di codice con l'euro scritto a mano in app/ components/ lib/ (grep «€ ?[0-9]|€${» senza commenti; il riparatore ne conta 32 in 22 file e li elenca onestamente). La voce resta aperta, all'onda dopo."
+  }
+ ]
+}
