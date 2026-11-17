@@ -1,43 +1,34 @@
-# elenco C di pronte (2026-11-17 09:06): 42 voci uniche, una chiave per riga
+# elenco C di pronte (2026-11-17 20:06): 33 voci uniche, una chiave per riga
 privacy-legale|accogliere una segnalazione non toglie il prodotto: resta online, e a chi ha segnalato si scrive che è stato rimosso
 frontend-ux|la vetrina dice «recensioni · 20» ma ne fa leggere solo sei, senza modo di vedere le altre
 pagamenti-stripe|un rimborso arrivato dopo il bonifico del lunedì non viene mai ripreso al negozio
-qa-flussi|il reclamo del cliente non arriva a nessuno, e intanto ferma il bonifico al negozio senza dirglielo
-qa-flussi|dentro il pannello dell'amministratore non c'è la campanella: gli avvisi sui soldi da sistemare a mano si vedono solo uscendo dal pannello
 ai-endpoints|l'allarme del tetto di spesa ai scatta solo se la stessa copia del sito resta accesa per un'ora, e su vercel può non arrivare mai
 architettura|il modulo del prodotto applica le proposte dell'assistente con una seconda copia delle regole del server, e le due copie sono già diverse
 architettura|la regola che vieta i tipi «qualunque» non è accesa: 46 sono passati, e 40 permessi di saltare il controllo non saltano niente
 deploy-sre|il ritorno indietro può ancora scegliere il rilascio sbagliato in due casi rari: un solo altro commit negli ultimi 20 rilasci, o un dominio che non dice il suo commit
-architettura|sei rami iserror scritti a mano invece del presidio lib/vista-query.ts (vistadaquery): il difetto può tornare alla settima pagina
-microcopy|in tanti punti l'euro è ancora scritto all'inglese: «€12.50», «€0 – €500+», «€ 2,50»
-architettura|la traccia «chi ha cambiato il prezzo» esce in due forme diverse a seconda della porta
 architettura|gli strumenti degli sviluppatori portano altre 19 falle note, 10 alte, ma nessuna arriva al sito
 pagamenti-stripe|il pannello dei bonifici non dice a nicola quanto versare a ogni negozio il lunedì
 pagamenti-stripe|una contestazione persa su una parte del carrello segna persi anche gli ordini degli altri negozi
 frontend-ux|orari passati alla cassa e 409 della rotta contanti: le prove cercano parole nel sorgente, non fanno girare pagina e rotta
+qa-flussi|la cassa dice «troppo lontano» a chi abita in via roma o in via cavour, in pieno centro, e l'ordine non parte
 api-backend|il conteggio dei promemoria «inviati» include carrelli segnati senza nessuna email
-immagini-media|le tessere delle categorie in home sono foto d'archivio scritte a mano nel codice
-navigazione-gerarchia|home, piè di pagina e mappa per google mettono in mostra categorie vuote: otto su nove non hanno prodotti
 immagini-media|se l'abbonamento supabase scade, le foto del sito tornano rotte e nessun controllo se ne accorge
 layout-responsive|col testo ingrandito al massimo sul telefono, le pagine pubbliche scorrono di lato per colpa del piè di pagina
 qa-flussi|la consegna veloce si vende a tutti insieme anche con un solo fattorino: nessuno conta quante veloci ha già in mano
-qa-flussi|indirizzo, cap e città del profilo non si correggono più
 qa-flussi|col telefono del negozio un po' indietro, un ordine non più ritirabile legge «entro le 12:46» invece di «ritiro non più possibile»
 qa-flussi|con la cassa aperta a mezzanotte, «domani» passa da sabato a domenica senza avviso e l'ordine nasce per il giorno dopo
 qa-flussi|il carrello si riempie di nuovo con la spesa già pagata o già tolta, se si usano due dispositivi o non si torna da stripe
-privacy-legale|chi fa una segnalazione lascia la sua email lì per sempre
 privacy-legale|l'informativa non dice quanto teniamo i messaggi dei contatti e della chat, e per l'email con l'iban scrive «finché non la cancelliamo»
 privacy-legale|l'informativa promette di dare i dati solo al negozio e al rider, ma poi non li elenca fra chi riceve i dati, e mette il database negli stati uniti mentre sta a parigi
 privacy-legale|il modulo di segnalazione non permette di dare il nome di chi segnala né di dichiarare la buona fede
-qa-flussi|la campanella del sito mostra le promozioni anche a chi le ha spente
-qa-flussi|il ritiro in negozio è ancora spento, mentre nicola ha deciso che al lancio è acceso e gratis per il cliente
-qa-flussi|due guardie sulla veloce controllano il testo del sorgente e non il comportamento
 tipografia|otto spaziature diverse per la stessa etichetta maiuscola
-architettura|il codice pgrst204 su una colonna della 124 ora fa scattare il ripiego per tutti: con la cache dello schema di postgrest vecchia, la scrittura salta gross_total_cents anche a migrazione applicata
 architettura|una fascia «domani» inviata alle 23:59 e arrivata alla rotta dopo mezzanotte si giudica sul giorno dopo
 coerenza-brand|la scala tipografica è aggirata 330 volte con misure a mano
-frontend-ux|se il nome del negozio comincia con un numero, un apostrofo, le virgolette o contiene una parola inglese come «table», il cliente in cassa legge «qualcosa non ha funzionato» invece del motivo vero
 qa-flussi|un capo con più di cento combinazioni di taglia e colore perde le ultime in silenzio, e il cliente che le sceglie non può comprarle
 tipografia|la scala delle dimensioni del testo viene scavalcata circa trecentotrenta volte
 architettura|email di annullo spedita dentro la richiesta, senza coda: fino a circa 20 s di attesa, e se fallisce resta solo nel registro
 frontend-ux|con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato
+sicurezza-auth|un cliente che abusa del sito non si può sospendere: l'unica strada è cancellargli l'account
+microcopy|in tanti punti l'euro è ancora scritto all'inglese: «€12.50», «€0 – €500+», «€ 2,50»
+qa-flussi|faccine nei titoli delle notifiche scritte dal codice del sito
+qa-flussi|il reclamo del cliente non arriva a nessuno, e intanto ferma il bonifico al negozio senza dirglielo

@@ -1,0 +1,28 @@
+import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { chiaveDi } from "/home/user/ad-mycity/cervello/riparazione-sessioni.mjs";
+const C="/home/user/ad-mycity/consegne/riparazioni/2026-11-12-sito-tutto";
+const per=JSON.parse(readFileSync(process.argv[2] || "/tmp/claude-0/pool2/perimetro.json","utf8"));
+const lav=new Map(per.lavorabili.map(v=>[v.chiave,v]));
+const righe=f=>readFileSync(f,"utf8").split("\n").filter(l=>l&&!l.startsWith("#"));
+const onda8=new Set([...righe(`${C}/onda8/chiavi-tappa1.txt`), ...righe(`${C}/onda8b/chiavi-B.txt`)]);
+const reg=JSON.parse(readFileSync("/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-marketplace.json","utf8"));
+const voci=new Map();const walk=o=>{if(Array.isArray(o)){o.forEach(walk);return}if(o&&typeof o==="object"){if(o.titolo&&o.severita) voci.set(chiaveDi("sito",o),o);for(const v of Object.values(o))walk(v)}};walk(reg);
+const ultimo=o=>{const ks=Object.keys(o).filter(k=>/^riparazione_\d+_\d+$/.test(k)).sort((a,b)=>{const [,d1,m1]=a.split("_").map(Number),[,d2,m2]=b.split("_").map(Number);return m1-m2||d1-d2});return ks.length?o[ks.at(-1)]:null};
+const ok=k=>lav.has(k)&&!onda8.has(k);
+const DELICATE_K=/^(pagamenti-stripe|sicurezza-auth|rls-database|privacy-legale|dati-analytics)\|/; const SENS=/stripe|payout|pagament|checkout|refund|rimbors|migrations|\.sql|auth|rls|privacy|gdpr|webhook|wallet|loyalty|cassa|bonifico|fattur|iban|password|token|segret|consenso/i; const fileDi=k=>String((lav.get(k)||{}).file||""); const DELICATE={test:k=>DELICATE_K.test(k)||SENS.test(fileDi(k))||SENS.test(k)};
+const A=righe(`${C}/pronte/A-da-ricollaudare.txt`).filter(ok);
+const B=righe(`${C}/pronte/B-serve-file-altrui.txt`).filter(ok).filter(k=>!DELICATE.test(k));
+const usati=new Set([...A,...B]);
+const gruppo=(f)=>[...lav.keys()].filter(k=>ok(k)&&!usati.has(k)&&!DELICATE.test(k)&&f(voci.get(k)));
+const mai=gruppo(o=>{const u=o&&ultimo(o);return u&&["non_fatto","senza_referto"].includes(u.esito)});mai.forEach(k=>usati.add(k));
+const Cp=righe(`${C}/pronte/C-parziali-file-altrui.txt`).filter(ok).filter(k=>!DELICATE.test(k)&&!usati.has(k));Cp.forEach(k=>usati.add(k));
+const parz=gruppo(o=>{const u=o&&ultimo(o);return u&&["parziale"].includes(u.esito)});parz.forEach(k=>usati.add(k));
+const nuovi=gruppo(o=>!ultimo(o));nuovi.forEach(k=>usati.add(k));
+const delic=[...lav.keys()].filter(k=>ok(k)&&!usati.has(k)&&DELICATE.test(k)&&!ultimo(voci.get(k)));
+console.log({lavorabili:lav.size,A:A.length,B:B.length,mai_raggiunti:mai.length,C:Cp.length,parziali:parz.length,mai_tentati_non_delicati:nuovi.length,delicati_mai_tentati:delic.length});
+const ordine=[["A collaudo",A],["B correzione scritta",B],["mai raggiunti",mai],["C parziali file altrui",Cp],["mai tentati non delicati",nuovi],["parziali",parz],["delicati",delic]];
+const out=[];const gruppi={};for(const [n,l] of ordine)for(const k of l){if(out.length>=200)break;out.push(k);gruppi[n]=(gruppi[n]||0)+1}
+console.log("onda 9:",out.length,gruppi);
+mkdirSync(`${C}/onda9`,{recursive:true});
+writeFileSync(`${C}/onda9/chiavi-onda9.txt`,`# onda 9 (17/11 20:15), in ordine: ${JSON.stringify(gruppi)}; minori lavorabili sulla base 522cfb01, fuori le 42 dell'onda 8; delicati = pagamenti, sicurezza-auth, rls, privacy, dati\n`+out.join("\n")+"\n");
+writeFileSync(`${C}/onda9/gruppi-onda9.json`,JSON.stringify(Object.fromEntries(ordine.map(([n,l])=>[n,l.filter(k=>out.includes(k))])),null,1));

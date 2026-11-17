@@ -1,0 +1,201 @@
+# onda 9 (17/11 20:15), in ordine: {"A collaudo":5,"B correzione scritta":27,"mai raggiunti":49,"C parziali file altrui":8,"mai tentati non delicati":77,"parziali":34}; minori lavorabili sulla base 522cfb01, fuori le 42 dell'onda 8; delicati = pagamenti, sicurezza-auth, rls, privacy, dati
+ai-endpoints|la lettura di un prodotto da una foto va in errore 500 se il modello scrive il motivo del rifiuto in un formato inatteso
+ai-endpoints|i tagli contro i costi contano le voci degli elenchi ma non la loro lunghezza: una richiesta sotto il megabyte riempie la finestra del modello
+architettura|all'assistente ai si dice che la consegna di una pagnotta da 3,50 € costa 4 €, ma la consegna si paga sul carrello e non sul singolo prodotto
+frontend-ux|la vetrina di ogni negozio manda a google i suoi dati senza l'indirizzo della pagina, e nel browser va in conflitto con quello che ha disegnato il server
+frontend-ux|orari, stelle e indirizzo web del negozio non arrivano a google nella prima lettura
+api-backend|se due giri del sorvegliante partono nello stesso istante, l'amministratore riceve due volte la stessa campanella
+qa-flussi|cercando una parola a metà il sito trova solo una parte dei prodotti, e dentro la vetrina di un negozio può dire «nessun risultato»
+qa-flussi|prova con un nome che promette il contrario
+qa-flussi|le domande dei clienti sotto i prodotti non arrivano a nessuno, ma al cliente diciamo che riceverà una notifica
+qa-flussi|una prova col nome del collaudo
+qa-flussi|il ritorno dopo l accesso perde ?tab=
+stati-ui|se la lettura del profilo non riesce, il negoziante approvato legge che il suo account non è da venditore e gli viene proposto di iscriversi di nuovo
+qa-flussi|salvando le taglie, se la scorta cambia a metà il negozio legge «riapri e salva di nuovo», ma le taglie tolte sono già cancellate
+qa-flussi|la prima compilazione di monta() pesa sul primo caso di ~85 file di prove
+ai-endpoints|con un fornitore lento la risposta lunga del copilot non arriva mai: dopo due minuti il negozio legge solo «riprova»
+qa-flussi|basta un solo campo fuori regola e tutta la personalizzazione della vetrina sparisce, e il salvataggio dopo la cancella
+navigazione-gerarchia|nella scheda prodotto il prezzo è quasi grande quanto il titolo e pesa meno del pulsante «+»
+qa-flussi|la scheda prodotto passa il prezzo pieno alla barra d'acquisto e al carrello con una promozione attiva
+qa-flussi|la frase vecchia sui formati foto resta in friendlyerror
+architettura|interfacce zombie: shippingforeuro vale sempre 0 ma riceve 7 ingressi; promessaspedizione ha un argomento morto e campi sempre costanti
+api-backend|il freno sulla rotta regge per 3 interruttori su 9: ai, newsletter, classifica e caricamento da file stanno solo nelle pagine
+architettura|il finto clienteavvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente
+deploy-sre|la prova «migrazione su database pieno» mette ancora i file nell'ordine vecchio
+architettura|sei rami iserror scritti a mano invece del presidio lib/vista-query.ts (vistadaquery): il difetto può tornare alla settima pagina
+architettura|la traccia «chi ha cambiato il prezzo» esce in due forme diverse a seconda della porta
+qa-flussi|il ritiro in negozio è ancora spento, mentre nicola ha deciso che al lancio è acceso e gratis per il cliente
+qa-flussi|due guardie sulla veloce controllano il testo del sorgente e non il comportamento
+qa-flussi|quando un ordine viene annullato il negozio non riceve nessuna email, e se lo annulla il sito perché nessuno l'ha accettato non riceve nemmeno la campanella
+api-backend|le notifiche push partono due volte se due giri del cron si sovrappongono: la presa in carico non è atomica
+performance|ogni pagina scarica due caratteri in corsivo che quasi nessuna pagina usa
+qa-flussi|la campanella del sito mostra le promozioni anche a chi le ha spente
+qa-flussi|ogni visitatore senza account fa una richiesta rifiutata alla vista dei nomi su ogni scheda prodotto e vetrina
+qa-flussi|la consegna veloce si vende a tutti insieme anche con un solo fattorino: nessuno conta quante veloci ha già in mano
+ai-endpoints|quando anthropic non risponde, vercel spegne la funzione ai prima che il negozio legga un errore chiaro
+architettura|la regola che vieta i tipi «qualunque» non è accesa: 46 sono passati, e 40 permessi di saltare il controllo non saltano niente
+api-backend|nelle azioni dell'amministrazione un guasto del database diventa «non trovato», e nei dati del negozio un trattino
+api-backend|la ricerca degli indirizzi chiama il servizio pubblico delle mappe più volte al secondo, senza un freno per tutto il sito
+frontend-ux|le modifiche ai dettagli del negozio e al profilo si perdono uscendo, senza nessun avviso
+frontend-ux|il «conversion rate» del negozio può superare il 100% e viene colorato di verde
+frontend-ux|l'annuncio della vetrina scade a mezzanotte nel browser ma all'una nella pagina preparata dal server
+frontend-ux|se il servizio degli indirizzi è giù o limitato, il negozio legge «indirizzo non trovato, prova ad essere più specifico»
+layout-responsive|basta un negozio col nome lungo e sul telefono la home, l'elenco negozi e «vicino a te» diventano più larghe dello schermo
+mobile-pwa|i tasti «indietro» del fattorino sono cerchi da 36 pixel, piccoli per un pollice in strada
+accessibilita|nella pagina del reclamo il bottone resta spento senza dire cosa manca
+navigazione-gerarchia|col pannello dei filtri aperto, il tasto indietro fa uscire dalla ricerca invece di chiudere il pannello
+microcopy|se il caricamento di una storia fallisce, il negoziante legge «applica la migration 035»
+microcopy|parole inglesi e da programmatore nell'interfaccia: «rating minimo» nei filtri, «id_front caricato» al fattorino, errori del gps in inglese
+deploy-sre|manca il tasto per fermare tutti gli ordini in un colpo: oggi si può solo sospendere il negozio, e il fornaio riceve un avviso brusco
+deploy-sre|la costruzione del sito dipende dal download dei caratteri da google e ogni tanto fallisce da sola
+deploy-sre|la notifica sul telefono per un nuovo ordine arriva fino a 5 minuti dopo, non in pochi secondi
+deploy-sre|due giri partiti insieme possono ancora mandare due volte il promemoria del carrello alla stessa persona
+api-backend|se il database non risponde, chi decide un reso legge «ordine non trovato» o «non autorizzato»
+frontend-ux|con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato
+deploy-sre|il giorno del lancio un errore del sito non lo vede nessuno: il registratore degli errori è spento e l'unico allarme dipende dalla chiave che manca
+ai-endpoints|«genera con ai» riscrive la descrizione partendo solo dal nome e la sostituisce a quella del negoziante, senza la regola «non inventare»
+architettura|gli strumenti degli sviluppatori portano altre 19 falle note, 10 alte, ma nessuna arriva al sito
+performance|dieci punti del sito fanno rimpicciolire la stessa foto due volte, una da supabase e una da vercel
+performance|le pagine di prodotto, negozio e categoria non usano la cache che dichiarano, e rileggono due volte la stessa riga a ogni visita
+performance|nel pannello del negozio ogni link della barra laterale, precaricato, fa ripassare il controllo d'accesso con due chiamate a supabase
+performance|ogni pagina aperta fa tre letture uguali per tutti direttamente al database, e le categorie le legge due o tre volte
+performance|quasi tutte le pagine del sito nascono vuote e le riempie il browser con chiamate al database, non solo la home e la scheda prodotto
+performance-percepita|la home e la scheda prodotto partono senza il preload dei caratteri: il testo cambia faccia a metà caricamento
+performance-percepita|le prime foto della home — copertina del negozio in vetrina e tessere delle categorie — sono tutte «pigre»: il browser le mette in coda dietro al resto
+performance-percepita|il traduttore degli errori dei moduli (zod) viaggia in ogni pagina, anche dove non c'è nessun modulo
+architettura|il modulo del prodotto applica le proposte dell'assistente con una seconda copia delle regole del server, e le due copie sono già diverse
+architettura|email di annullo spedita dentro la richiesta, senza coda: fino a circa 20 s di attesa, e se fallisce resta solo nel registro
+architettura|il segnale «tieni la chiave» ora vuol dire quattro cose diverse, e la regola nel file racconta ancora che vale solo per l invio gemello
+qa-flussi|ordinando per «prezzo crescente» alcuni prodotti spariscono dalla lista
+architettura|i soldi passano fra gli ordini del carrello con scritture una riga alla volta e una compensazione scritta a mano, non con una transazione
+architettura|il carrello in contanti si ritrova solo dalla tabella contro il doppio clic: senza quella riga la regola del negozio che rifiuta non scatta e nessuno lo sa
+flussi-conversione|se il carrello scade tutto nello stesso giro, il cliente riceve avvisi «il conto è cambiato» con cifre già superate
+frontend-ux|sul telefono il riquadro verde della scheda prodotto diventa un muro di testo di 264 caratteri, e dopo il caricamento cresce ancora di una riga
+qa-flussi|la prova ③ copre solo l'annullo del cliente: un ritorno a «veloce confermata» col rifiuto del negozio passa verde
+architettura|una fascia «domani» inviata alle 23:59 e arrivata alla rotta dopo mezzanotte si giudica sul giorno dopo
+qa-flussi|col telefono del negozio un po' indietro, un ordine non più ritirabile legge «entro le 12:46» invece di «ritiro non più possibile»
+frontend-ux|i link ai documenti del fattorino scadono dopo 2 minuti a pannello aperto
+ai-endpoints|l'allarme del tetto di spesa ai scatta solo se la stessa copia del sito resta accesa per un'ora, e su vercel può non arrivare mai
+deploy-sre|il ritorno indietro può ancora scegliere il rilascio sbagliato in due casi rari: un solo altro commit negli ultimi 20 rilasci, o un dominio che non dice il suo commit
+performance|l'elenco dei negozi fa una domanda sulla consegna veloce per ogni scheda, invece di una sola per tutta la lista
+qa-flussi|il conteggio delle novità non applica il filtro sui negozi approvati
+accessibilita|il campo file nascosto della fotocamera del negoziante si raggiunge col tab ma non mostra il fuoco
+api-backend|il conteggio dei promemoria «inviati» include carrelli segnati senza nessuna email
+immagini-media|se l'abbonamento supabase scade, le foto del sito tornano rotte e nessun controllo se ne accorge
+layout-responsive|col testo ingrandito al massimo sul telefono, le pagine pubbliche scorrono di lato per colpa del piè di pagina
+tipografia|otto spaziature diverse per la stessa etichetta maiuscola
+coerenza-brand|la scala tipografica è aggirata 330 volte con misure a mano
+qa-flussi|un capo con più di cento combinazioni di taglia e colore perde le ultime in silenzio, e il cliente che le sceglie non può comprarle
+tipografia|la scala delle dimensioni del testo viene scavalcata circa trecentotrenta volte
+qa-flussi|faccine nei titoli delle notifiche scritte dal codice del sito
+qa-flussi|con «cliente assente» la merce torna subito in vendita sul sito mentre è ancora nello zaino del fattorino
+qa-flussi|il cliente non trova l'esito del reclamo nella pagina del suo ordine
+stati-ui|creando una storia il negoziante non vede la foto scelta, solo il nome del file e il peso
+stati-ui|con la sessione scaduta il pulsante «apri reclamo» non fa niente, non chiede di rientrare e il testo scritto si perde
+qa-flussi|nessuna prova nel browser gira mai sullo schermo di un telefono, e su telefono una è già rossa
+qa-flussi|buco nelle prove dell annullo: due varianti del collaudo restano verdi anche con le chiusure rimesse com erano
+qa-flussi|le rotte di annullo dicono «ordine già annullato» quando lo stato è solo cambiato
+qa-flussi|la rotta dei contanti non dichiara maxduration con le email in fila
+qa-flussi|nessuno svuota user_carts dopo un ordine pagato con la carta senza rientro
+qa-flussi|lo stesso carrello rimandato con un'altra fascia riceve «fatto» con l'ordine vecchio
+architettura|la prova sull'export elenca ancora cod_reconciliations fra le tabelle escluse
+ai-endpoints|le rotte catalog-apply e catalog-apply-bulk non leggono l'interruttore ai_negozi_accesa
+ai-endpoints|la lettura da foto accetta il testo «false» del modello come prodotto ammesso
+ai-endpoints|un 404 del fornitore nell'aggiornamento dei prezzi esterni diventa un generico «aggiornamento non riuscito»
+architettura|nella regola della consegna per l'ai la soglia dei 10 € e' scritta a mano
+deploy-sre|nessuna pagina admin mostra la configurazione mancante (chiave di servizio, dati del titolare)
+qa-flussi|la scadenza del recesso non si sposta quando l'ultimo giorno cade di sabato, domenica o in un festivo
+qa-flussi|il salvataggio di prodotto e varianti non è una scrittura sola: resta una finestra di millisecondi
+accessibilita|nell'elenco conversazioni dell'assistenza il lettore di schermo dice solo il numero dei non letti
+microcopy|il pulsante del negozio dice «pronto per il rider»: in tutto il resto del sito è «fattorino»
+frontend-ux|se la rilettura dei reclami cade a finestra aperta, la decisione resta su dati vecchi
+frontend-ux|restano tre pagine con le foto sgranate perché `unoptimized` spegne srcset e sizes
+api-backend|«duplica» di un prodotto escluso dal recesso: finché non si sa se la colonna c'è, la copia si salva recedibile senza avviso
+layout-responsive|nelle pagine di dettaglio ordine di cliente, negozio e fattorino una nota con un link lungo fa scorrere la pagina di lato
+frontend-ux|il controllo sul taglio dei campi di testo del costruttore della home tronca ancora titoli e sottotitoli in silenzio
+architettura|il generatore dei tipi scrive le colonne array (text[], uuid[]) come string invece di string[]
+frontend-ux|il dettaglio ordine dell amministrazione mostra il codice grezzo paid_manually
+api-backend|dopo il tetto dei contanti o il rollback di un ordine in contanti il benvenuto resta bloccato fino a 2 ore
+accessibilita|tra 768 e 1023 px i tasti ordini, consegne e admin della testata sono solo un'icona senza nome per chi vede
+deploy-sre|dopo un ritorno indietro il riepilogo del rilascio rassicura a torto se una migrazione ha tolto una funzione o una vista
+deploy-sre|se lo script delle migrazioni cade fra un file e il successivo, il riepilogo accusa una migrazione sana
+architettura|la frase per l'assistente scrive a mano la soglia dei 10 euro della consegna
+ai-endpoints|quando il tetto di spesa ai blocca un lavoro sul catalogo il negoziante legge «riprova» e il lavoro risulta fallito
+ai-endpoints|un lotto ai partito e pagato ma non agganciato alla sua riga si chiude come fallito dopo 15 minuti e se ne può pagare un secondo
+ai-endpoints|il freno di sei ore sui prodotti importati in errore regge solo con upstash: senza, ogni copia del sito ripaga le chiamate ai
+layout-responsive|la home e /about scorrono di lato col testo grande sul telefono
+qa-flussi|con i più recensiti la lettura filtra .in('id', …) su tutti gli id recensiti senza spezzarli a blocchi: con molte centinaia di prodotti recensiti l'indirizzo diventa troppo lungo
+deploy-sre|il documento della copia notturna dice ancora che un secchio vuoto è sempre legittimo
+frontend-ux|il link delle storie rifiuta l'indirizzo intero del sito stesso (https://<dominio>/promozioni), che è quello che il negoziante copia dalla barra
+qa-flussi|un admin che pubblica una storia dall'area negozio lascia una foto orfana nel deposito: dopo la 404 l'inserimento gli è rifiutato
+stati-ui|la modifica prodotto dell'amministratore dice «prodotto non trovato» senza riprova quando la lettura non riesce
+api-backend|ogni tappa del reso cancella la nota del negozio, anche quando la tappa la fa il cliente
+deploy-sre|altre quattro prove dell'impalcatura sql mettono ancora le migrazioni nell'ordine di sort -v
+accessibilita|nel modulo «nuova promozione» l'etichetta «cosa scontare» non è legata a nessun campo
+qa-flussi|nella vetrina del negozio la data delle recensioni è nel fuso del telefono, non di piacenza
+qa-flussi|il rimando all accesso fatto dalla pagina delle impostazioni perde ?tab=
+flussi-conversione|la scheda prodotto promette «paghi alla consegna» anche sopra il tetto dei contanti
+qa-flussi|il lavoro «unit tests» della ci non installa chromium: la misura vera di r19-007 lì si salta
+stati-ui|il link al reclamo nella scheda ordine porta all'elenco filtrato sui reclami aperti e non mostra quelli in esame
+qa-flussi|il testo della consegna per l'ai scrive a mano la soglia dei 10 €
+architettura|migrazione-124 ha dovuto creare un suo client admin, perché la fabbrica del sito porta next/headers
+qa-flussi|il filtro «oggi» nei guadagni del fattorino taglia la giornata a mezzanotte del telefono, non di piacenza
+qa-flussi|le maschere di caricamento delle foto accettano solo jpg, png e webp, mentre la porta e lo storage ne accettano sette
+immagini-media|altre foto di prodotto restano senza ripiego quando la foto è stata cancellata
+stati-ui|nel nuovo prodotto dell'amministrazione il modulo resta attivo anche se negozi o categorie non sono arrivati
+api-backend|se il servizio di posta conserva anche le risposte d'errore, una promozione mai partita risulta spedita
+api-backend|se la lettura dei ruoli cade, all'assistenza arriva l'email «un cliente ti ha scritto» pensata per un negozio
+stati-ui|nelle notifiche il tasto «carica altre» sparisce mentre carica, e un errore cancella dalla pagina l'elenco già letto
+deploy-sre|se il secchio dello storico delle foto non si crea, lo storico finisce nello stesso secchio della copia e la notte resta verde
+qa-flussi|il drop del giorno usa il giorno di greenwich: fra mezzanotte e le 2 la home e la pagina admin sono su giorni diversi
+qa-flussi|se le email non arrivano, l'elenco dei più recenti le mostra vuote senza una riga che lo dica
+performance|ogni ricerca rilegge tutte le email degli iscritti
+api-backend|oltre 20.000 iscritti la ricerca utenti risulta sempre caduta e l'esportazione dell'elenco intero non esce, con un «riprova fra poco» che non serve
+api-backend|il giro notturno delle cancellazioni non ha un tetto di tempo nemmeno sul ciclo degli account scaduti
+api-backend|la cancellazione legge un 404 qualsiasi come «account già chiuso»: un 404 di un gateway sbagliato verrebbe scambiato per un account già cancellato
+api-backend|la chiusura dell allarme «scrivile tu» legge al massimo 200 avvisi senza ordine né filtro: oltre 200, quelli aperti possono restare fuori
+api-backend|il tetto di tempo delle email della notte parte dall inizio del giro, e il ciclo delle cancellazioni resta senza tetto: con una notte lunga non parte nessuna email e non c è allarme
+api-backend|il modulo dell'assistenza non manda nessuna chiave per invio
+api-backend|comunicare l esito di una segnalazione: se il processo muore tra «prendo il canale» e l invio, quel canale resta preso e non riparte piu
+microcopy|la conferma al cliente scrive «domani · 9:00–12:00» senza la data: chi la rilegge il giorno dopo capisce il giorno sbagliato
+deploy-sre|il sorvegliante ora gira ogni 5 minuti, ma la sua soglia di morte e il commento sono rimasti quelli dei 15 minuti
+architettura|la funzione della spedizione in centesimi accetta ancora i sette ingressi che non servono
+qa-flussi|le prove unitarie montano i componenti con react 18.3.1, ma il sito gira con il react 19.2 di next
+qa-flussi|il logger oscura solo le chiavi del contesto, non il testo del messaggio né un contesto stringa
+qa-flussi|un cliente che esiste già non ha una strada da solo per diventare fattorino
+qa-flussi|anche chi sceglie «venditore» nell'iscrizione vede il pulsante google, che probabilmente crea un cliente
+qa-flussi|dalla scheda prodotto il carrello riceve il prezzo pieno anche con una promozione attiva, e il carrello può dire che il prezzo è sceso
+qa-flussi|la pagina novità mostra tutto il catalogo, anche un prodotto di tre mesi fa, e il numero in alto conta solo i prodotti già caricati
+ai-endpoints|se l'invio di un lotto ai resta senza risposta, il sito lo rimanda e anthropic ne esegue due, uno pagato e mai visto
+ai-endpoints|un lotto ai partito ma non agganciato resta «in invio» per sempre, e la pagina del negozio non mostra né rotella né pulsante
+ai-endpoints|il tetto di spesa ai del giorno si sfora quando più chiamate partono insieme
+ai-endpoints|se si riaccende «traduci», una descrizione lunga torna tradotta solo all'inizio e il modulo la presenta come intera
+architettura|l'elenco delle librerie dichiara una libreria mai usata e ne usa una che non dichiara, e il lint gira con un comando che next 16 toglie
+architettura|se sulla macchina delle prove manca postgres, sette file di prova si saltano in silenzio e la verifica esce verde lo stesso
+api-backend|la pagina d'errore dice «abbiamo registrato il problema», ma un errore nel telefono del cliente non lo registra nessuno
+api-backend|due invii uguali all'assistenza nello stesso istante creano due messaggi e due avvisi
+api-backend|se la domanda per diventare negozio parte due volte insieme, viene registrata due volte e gli amministratori ricevono l'avviso due volte
+frontend-ux|la pagina «sotto i 10 €» mostra prodotti da 10 € e nasconde quelli che in promozione costano meno di 10
+frontend-ux|in chat, se l'assistenza scrive il secondo messaggio mentre il primo sta partendo, il secondo sparisce senza essere inviato
+layout-responsive|in chi siamo, coi caratteri del telefono un po' più grandi, la scritta «alla consegna» esce dal suo riquadro e la pagina scorre di lato
+accessibilita-visiva|in fondo alle domande frequenti, chi usa la tastiera non vede quando è sul bottone «contattaci»
+navigazione-gerarchia|su notifiche e messaggi i titoli saltano dal titolo principale al terzo livello
+microcopy|la pagina dei più recensiti presenta 40 prodotti come «scelti dai clienti» anche quando nessuno ha una recensione
+microcopy|nella pagina delle sponsorizzazioni colonne e valori sono in inglese e in codici del database
+performance|la velocità del sito vista dai clienti veri non la misura nessuno
+mobile-pwa|quando la sessione scade da sola, il telefono perde le notifiche in silenzio e al nuovo accesso nessuno le riaccende
+microcopy|gli errori dei moduli controllati dal server arrivano al cliente in inglese, per esempio «string must contain at most 120 character»
+accessibilita|nella pagina chi siamo e nella vetrina del negozio il banner ignora il testo alternativo e lascia la scritta bianca sulla foto senza velo
+ai-endpoints|il copilot non riesce a preparare una modifica su tutto il catalogo oltre circa cento prodotti: risponde «riprova» e fallisce ogni volta
+frontend-ux|incollare il link di instagram o scrivere il sito senza https blocca il salvataggio di tutta la vetrina con un messaggio che non dice dove
+qa-flussi|«annulla» dell'amministratore su un ordine in viaggio o già consegnato non avvisa fattorino e negozio e rimette a scaffale merce che non c'è più
+frontend-ux|le pagine di prodotti, negozi e categorie che non esistono rispondono «tutto ok» invece di «non trovato»
+deploy-sre|il cancello delle migrazioni promette di confrontare il contenuto ma confronta solo i nomi, e registra in un passo separato
+layout-responsive|in fondo a ogni pagina mobile restano ~14px di vuoto: l'altezza della barra a schede e' dichiarata piu' alta di quella vera
+coerenza-brand|il design system di riferimento è incompleto: mancano button, badge e card e un file importa un componente che non esiste
+coerenza-brand|la primitiva card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi
+immagini-media|quattro foto sotto la piega vengono chieste come «urgenti» su ogni home
+mobile-pwa|il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione
+ai-endpoints|nella chat assistenza la scheda della proposta promette caratteristiche che il server butta via, e dopo «applica» dice «modifiche salvate» senza aver cambiato niente
+architettura|in home ogni sezione chiede di nuovo alla vetrina lo stesso negozio, e ogni fascia compare un giro di rete più tardi
+architettura|il gancio semancalachiave rende morti i catch sulla chiave nelle rotte; senzachiave e sullaporta copiati in due file

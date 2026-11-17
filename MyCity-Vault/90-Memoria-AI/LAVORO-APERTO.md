@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-17 17:30
+aggiornato: 2026-11-17 22:00
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -30,7 +30,7 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 
 ## 1 · Cose che toccano a te
 
-**L'onda 6 del sito è ferma per il limite settimanale** (17/11 alle 16:45). Il pilota si è fermato per la tua regola: il limite segna «allowed_warning», non più «allowed». Ha speso 39,31 $ su 90 $. Ha chiuso nel registro 5 difetti, quelli già pagati dall'onda 5 che il collaudo ha confermato. Altri 6 sono riparati e aspettano collaudo e controllore. Uno regge, ma entra nel sito solo con la sua PR. 16 voci non sono state iniziate. Riparte giovedì 19/11 alle 10:00, quando il limite si azzera, oppure prima con un tuo sì. La memoria è in NicolaeRotaru/ad-mycity#983, verde. Il quaderno è `consegne/riparazioni/2026-11-12-sito-tutto/onda6/REGIA-ONDA-6.md`.
+**Le onde 6 e 7 del sito sono sul sito** (mycity#295 unita da Nicola il 17/11 alle 20:01, merge `522cfb01`). Nel registro chiusi alle 20:02: 27 dell'onda 7 e 5 dell'onda 6, più 4 già riparati confermati. Verso i 50 del 17/11: 41 chiusi. Due scelte tue nella PR (precarico delle categorie, immagini placehold.co). Un difetto nuovo grave ancora da scrivere nel registro: il carosello sponsorizzato non conta visualizzazioni e clic (`components/SponsoredCarousel.tsx`, `supabase.rpc` senza `.then`), con altri minori visti dai collaudatori (elenco in `onda7/sessioni.json`, `nati_fuori_voce`). **Le onde 8 e 8b sono sul sito** (mycity#296 unita da Nicola il 17/11 alle 21:55, merge `f93d246a`): nel registro chiusi 24 dell'onda 8 e 9 dell'8b, più 5 già riparati confermati. Il 17/11 in tutto: 79 difetti chiusi (obiettivo 50). Una scelta tua nella PR (scheletro della pagina negozio o 404 vero). **L'onda 9** (200 difetti, 10 riparatori) la guida la chat «Ondata 9» (`session_015BmpnYq3DQDRwTXdBwfzud`) da giovedì 19/11 alle 10:05; tetto 1.200 $ in tutto, sotto i 20 $ a chiuso. Memoria in NicolaeRotaru/ad-mycity#984 (bozza). Quaderno: `consegne/riparazioni/2026-11-12-sito-tutto/onda7/REGIA-ONDA-7.md`.
 
 **L'onda 5 del sito è unita** (17/11). Richiesta NicolaeRotaru/mycity#294, con prove verdi e il controllore C05 verde. Si chiudono 10 difetti, 10 erano già riparati dall'onda 4, 80 restano aperti. Spesa circa 215 $ su 250. Nicola ha unito la PR il 17/11, e le 10 chiusure sono nel registro dalle 14:14. Resta `applica --scrivi`, che scrive note e difetti nati. Oggi si ferma, perché in `sessioni.json` mancano i rami di R23-R28. Per l'onda dopo: le diff di R33 nel suo referto, R32-014, R31-012 (tolta per la colonna della 124), il collaudo delle 14 patch applicate. Carta #260. Quaderno: `consegne/riparazioni/2026-11-12-sito-tutto/REGIA-ONDA-5.md`.
 

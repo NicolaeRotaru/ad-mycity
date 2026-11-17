@@ -1,0 +1,29 @@
+# onda 8 tappa 1: 12 rimandate dall onda 7, 14 parziali/serve_file_altrui/rompe_altro dell onda 7 (fuori R01-007 e R04-011 riservate, R01-008 e R02-002 scelte di Nicola), 2 dell onda 6 (R02-001 non regge, R02-002 parziale)
+performance|le pagine che vendono si disegnano solo nel browser, e il preload della prima foto non serve a niente
+qa-flussi|il taglio sui prodotti recensiti non usa la lettura a blocchi: sopra circa 216 id dà 414
+qa-flussi|nella pagina novità il numero in alto conta anche prodotti che la griglia non mostra
+qa-flussi|se il filtro finale sui negozi approvati scarta righe, «carica altri» si ferma
+qa-flussi|il finto client supabase condiviso delle prove risponde a rpc() con «nessun errore»: una pagina che salva con una funzione del database sembra riuscita anche se non scrive niente
+qa-flussi|le prove che fanno girare tutto lo script del backup non hanno un psql finto
+stati-ui|senza database la categoria e la scheda prodotto mostrano «qualcosa è andato storto» invece del loro errore con «riprova»
+stati-ui|sulla bacheca del fattorino, se la lettura dello stato online cade, la pagina scrive «sei offline» invece di dire che non lo sa; anche il voto ignora l’errore
+stati-ui|«duplica prodotto» senza rete apre il modulo vuoto finché la rete non torna
+stati-ui|la barra cade se localstorage lancia su ogni chiave
+stati-ui|senza rete il modulo prodotto crede che il negozio non offra la consegna veloce
+stati-ui|con upstash il freno dell'accesso dice sempre di aspettare la finestra intera, anche quando ne manca meno
+qa-flussi|un doppio clic su «pubblica prodotto» mette in vendita due o tre prodotti uguali
+accessibilita|la x degli avvisi dice «close toast» in inglese e sui caricamenti non chiude niente
+navigazione-gerarchia|la tendina della ricerca «sfoglia per categoria» elenca anche le categorie vuote
+qa-flussi|la rotta del lotto sul catalogo, se non riceve l'elenco dei prodotti, applica ancora tutti i risultati
+qa-flussi|dopo aver tolto un prodotto da una lista, il conteggio in /lists resta vecchio fino a 30 secondi
+qa-flussi|chi sceglie «fattorino» nell'iscrizione e poi si registra con google diventa cliente, e non trova una strada per diventare fattorino
+flussi-conversione|sulla scheda prodotto un secondo «aggiungi al carrello» entro un secondo viene ignorato senza dire niente
+qa-flussi|il primo messaggio mandato insieme all'apertura della conversazione non avvisa il negozio
+qa-flussi|le zone del fattorino dicono «salvate» prima dell'esito
+frontend-ux|una categoria con la lettura dei prodotti caduta resta una pagina bianca
+frontend-ux|lo scheletro del negozio impedisce il 404 vero sulle pagine dei negozi anche senza lo scheletro della radice
+frontend-ux|sulla pagina del negozio il testo lungo si taglia ancora in silenzio a 4.000 caratteri
+qa-flussi|il campanello del pannello negozio conta anche le promozioni di chi le ha spente
+qa-flussi|il client supabase finto delle prove non sa concatenare .rpc().order().range()
+accessibilita|nella chat, quando i messaggi arrivano dopo l'apertura o dopo «riprova», il lettore di schermo legge tutto il filo
+accessibilita|la pagina promozioni salta ancora dall'h1 all'h3

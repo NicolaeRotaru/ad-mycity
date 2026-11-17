@@ -1,0 +1,78 @@
+{
+ "regista": "session_015BmpnWeHkst12TRwrzmMfw",
+ "integrazione": {
+  "ramo": "ccr-30918361-coyajm-o8",
+  "partenza": "1a7de5b9295a70eba644b7a340cef6d93f5379fc",
+  "testa": "7f59df78e7852ba611f2306a340a119aae1fdf59",
+  "pr": "NicolaeRotaru/mycity#296"
+ },
+ "sessioni": {
+  "R01": {
+   "id": "session_015BmpnZ6qEcy4RimJZsZwsH",
+   "ramo": "ccr-30918361-coyajm-o8-m01",
+   "onda": 1,
+   "partenza": "1a7de5b9295a70eba644b7a340cef6d93f5379fc",
+   "tetto_usd": 28,
+   "finita": true,
+   "punta": "9e74f427ccd1d3b3271a01e66568ec958cf8dd48",
+   "testa": "f52905f3fa91890f9157e8fd1584ee827d9f9ee0",
+   "costo_usd": 25.64,
+   "guardia": "rossa: due prove esistenti della chat toccate per R01-001 (riparazione-r02-chat-registro-acceso-a-filo-caricato, riparazione-r06-chat-si-annuncia): deroga da chiedere",
+   "da_togliere": [
+    "974093ba (R01-008, rompe_altro per K01)"
+   ]
+  },
+  "R02": {
+   "id": "session_015BmpnXoLzgfzuuuBdVvUAG",
+   "ramo": "ccr-30918361-coyajm-o8-m02",
+   "onda": 1,
+   "partenza": "1a7de5b9295a70eba644b7a340cef6d93f5379fc",
+   "tetto_usd": 28,
+   "finita": true,
+   "punta": "973ffd412bb8fde67b59adab2a663b582b7cab42",
+   "testa": "974de28e3179794c6d77f47be87cf74c6ced76e4",
+   "costo_usd": 24.44,
+   "da_togliere": [
+    "77997355 (R02-011, non regge)",
+    "c32c6e8d (R02-009, rompe_altro per K01)"
+   ]
+  },
+  "R03": {
+   "id": "session_015BmpnY8uEE9JYwMef9pGKS",
+   "ramo": "ccr-30918361-coyajm-o8-m03",
+   "onda": 1,
+   "partenza": "1a7de5b9295a70eba644b7a340cef6d93f5379fc",
+   "tetto_usd": 28,
+   "finita": true,
+   "punta": "50f979b5703940d06a9036c13d568c60e3c1758e",
+   "testa": "b7030c33c4c070d0a3bfd5fd16c39f9653c52e9a",
+   "costo_usd": 23.43
+  }
+ },
+ "collaudatori": {
+  "K01": {
+   "ramo": "ccr-30918361-coyajm-o8-k01",
+   "riparatori": [
+    "R01",
+    "R03",
+    "R02"
+   ],
+   "tetto_usd": 22,
+   "finita": true,
+   "id": "session_015BmpnUupLXTjHZjUohMe4U",
+   "punta": "29fdaa091a6ed849718f2318a076d86ee778706d",
+   "costo_usd": 13.59
+  }
+ },
+ "controllori": {
+  "C01": {
+   "ramo": "ccr-30918361-coyajm-o8-c01",
+   "testa_controllata": "7f59df78e7852ba611f2306a340a119aae1fdf59",
+   "base": "1a7de5b9295a70eba644b7a340cef6d93f5379fc",
+   "tetto_usd": 8,
+   "finita": true,
+   "id": "session_015BmpnZ5HU2NaFXoXnK6nTs",
+   "punta": "46f2dc3ce51ebeafb4eeb87d078be8109d7302c4"
+  }
+ }
+}

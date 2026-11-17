@@ -1,4 +1,4 @@
-# elenco A di pronte (2026-11-17 09:06): 5 voci uniche, una chiave per riga
+# elenco A di pronte (2026-11-17 20:06): 5 voci uniche, una chiave per riga
 ai-endpoints|la lettura di un prodotto da una foto va in errore 500 se il modello scrive il motivo del rifiuto in un formato inatteso
 ai-endpoints|i tagli contro i costi contano le voci degli elenchi ma non la loro lunghezza: una richiesta sotto il megabyte riempie la finestra del modello
 architettura|all'assistente ai si dice che la consegna di una pagnotta da 3,50 € costa 4 €, ma la consegna si paga sul carrello e non sul singolo prodotto

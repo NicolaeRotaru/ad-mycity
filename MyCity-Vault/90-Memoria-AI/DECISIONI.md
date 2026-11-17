@@ -7165,3 +7165,38 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cancello fra le onde:** stop se l'onda appena finita supera i 12 $ a difetto chiuso, o se il limite della settimana non è «allowed» o c'è uso extra (si azzera giovedì 19/11 alle 10:00).
 - **Nessun permesso:** nessuna sessione usa add_repo, request_credential o il modo «plan», e nessuna fa domande a Nicola. I depositi si leggono col clone, ognuno spinge solo sul suo ramo. Un passo che vuole un permesso di Nicola non si fa: va nella PR come cosa per lui.
 - **Regia:** una nuova per fase, sotto i 250 mila token; eredita il permesso da qui. Una riga alla regista O5 a ogni PR pronta, con chiusi, spesi e totale verso i 50.
+
+## 2026-11-17 17:50 — Onda 7 del sito: riparte subito, col limite in avviso (🟡, firmato da Nicola)
+**Le parole di Nicola (17/11 alle 17:38, nella chat «Ondata 7 difetti»):** «Fai partire l'ondata 7 risolvendo 50 difetti, chiedendo alla sessione ondata 5 senza consenso cosa devi sapere».
+- **Cosa vale:** è il sì per ripartire prima che il limite settimanale si azzeri (giovedì 19/11 alle 10:00). Il limite segna «allowed_warning», senza uso extra. Il rischio detto: se il limite finisce prima di giovedì si fermano tutte le sessioni, anche le chat di Nicola. Prima di ogni apertura si rilegge `rate_limit_info`: con «rejected» o uso extra ci si ferma.
+- **Il piano:** passo 0 = gli avanzi dell'onda 6 (collaudo K02 delle 6 riparate di R02 e R03, controllore C01 sulla testa unita `bc36f481` del sito, R01-011 che entra con la PR). Onda 7 = 52 minori mai tentati in 4 riparatori da 13 (49 rimandati dall'onda 6 + 15 mai iniziati per il fermo, 12 all'onda dopo), collaudo di ogni voce, controllore sulla testa unita, una PR del sito. «50 difetti» letto come un'onda da circa 50 voci verso i 50 chiusi in tutto: chiuso = regge al collaudo e al controllore.
+- **Regia:** questa chat. Le sue aperture di sessione non passano dalla guardia `cervello/pre-scrittura.mjs` perché la sessione è nata fuori da ad-mycity: lo si dice a Nicola, non è una strada cercata per scansarla.
+- **Tetto dell'onda 7, passo 0 compreso:** atteso circa 140 $, tetto 170 $, dentro i 700 $ del 17/11. Riparatori consegna 24 $, tetto 28 $; collaudo 0,5 $ a voce; controllori 6 $; regia 20 $.
+- **Colore:** 🟡 spesa e codice in rami, firmata. Merge, migrazioni e database vero restano di Nicola.
+
+## 2026-11-17 19:10 — Onda 8 del sito: 200 difetti a tappe, sotto i 20 $ a chiuso, tetto 1.200 $ (🟡, firmato da Nicola)
+**Le parole di Nicola (17/11 alle 19:06, chat «Ondata 7 difetti»):** «Adesso fai finire questa ondata e dell'ondata 8 fai 200 difetti seguendo la strategia che hai detto e stando sotto 20$ come hai detto». Alla domanda sul preventivo ha scelto «A tappe»; limite settimanale nell'app «fra 80% e 90%».
+- **Tappa 1, subito:** circa 60 difetti meno cari (12 minori leggeri rimasti, i nati delle onde 6-7, le voci con la correzione già scritta), circa 150-200 $, dentro il tetto di 700 $ del 17/11.
+- **Tappa 2, da giovedì 19/11 alle 10:00** (limite azzerato): i 140 minori delicati (soldi, dati, permessi) con ultracode e due lenti al collaudo. Il tetto totale sale a 1.200 $ (onde 6, 7 e 8 insieme).
+- **Cancello:** stop sopra i 20 $ a difetto chiuso (prima 12 $), o con il limite settimanale «rejected» o uso extra. Prima di ogni apertura si rilegge `rate_limit_info`.
+- **Preventivo detto:** circa 1.000 $ per 200 voci, 70-90 chiusi, 11-14 $ l'uno; caso peggiore circa 17 $.
+- **Colore:** 🟡 spesa e codice in rami, firmata. Merge, migrazioni e database vero restano di Nicola.
+
+## 2026-11-17 20:05 — I 200 difetti diventano l'onda 9, con 10 riparatori (🟡, firmato da Nicola)
+**Le parole di Nicola (17/11 verso le 20:00, chat «Ondata 7 difetti»):** «non riesci ad aprirne 10 risolutori che si occupano di 200 difetti minori non troppo complicati e difficili?» e poi «questi 200 difetti sono della ondata 9».
+- **Cosa cambia rispetto alla decisione delle 19:10:** l'onda 8 è solo la tappa partita alle 19:54 (40 voci, 3 riparatori). I 200 difetti sono l'onda 9, con 10 riparatori da circa 20 voci (o 14, se il conto delle voci per sessione lo consiglia).
+- **Partenza:** giovedì 19/11 alle 10:00, a limite azzerato (la strada A proposta), salvo un «prima» di Nicola. Restano il tetto totale di 1.200 $ e la soglia sotto i 20 $ a difetto chiuso.
+- **Il conto dei minori che è stato corretto:** su 709 minori aperti, 367 hanno già una nota di riparazione (27 si chiudono con l'unione di mycity#295). Non sono «circa 180» come detto alle 19:58: sono circa 335 già tentati e ancora aperti.
+- **Colore:** 🟡, firmata. Merge, migrazioni e database vero restano di Nicola.
+
+## 2026-11-17 20:20 — Onda 9: l'ordine dei 200 difetti (🟡, firmato da Nicola)
+**Le parole di Nicola (17/11 verso le 20:12):** «fai così come dici dentro "Cosa vuol dire per l'onda 9"».
+- **L'ordine:** prima le riparate mai collaudate (collaudo e basta), poi le serve_file_altrui con la correzione già scritta, poi le mai raggiunte, poi i parziali e i mai tentati. Niente delicati (soldi, dati, permessi, migrazioni).
+- **Il conto fatto dal programma sulla base `522cfb01`:** 5 + 27 + 49 + 8 + 77 + 34 = 200 (`onda9/chiavi-onda9.txt`). Si rifà giovedì sulla base di quel momento.
+- **Partenza:** giovedì 19/11 alle 10:05, con 10 riparatori da circa 20 voci (consegna a 40 $, tetto 45 $). Preventivo circa 600 $, dentro i 1.200 $ totali.
+
+## 2026-11-17 21:55 — La regia dell'onda 9 passa alla chat «Ondata 9»; le aperture di sessione non chiedono più conferma (🟡, firmato da Nicola)
+**Le parole di Nicola, nella chat «Ondata 9» (`session_015BmpnYq3DQDRwTXdBwfzud`), verificate dalla chat «Ondata 7 difetti» sulla trascrizione:** alle 21:48 «tu ti occupi dell'ondata 9, comunica con la sessione "ondata 7 difetti"»; verso le 21:55, alla domanda sulla guardia, «Firmo: le aperture passano».
+- **Regia dell'onda 9:** la chat «Ondata 9». Parte giovedì 19/11 alle 10:05 col suo promemoria; quello della chat «Ondata 7 difetti» è spento.
+- **La guardia `cervello/pre-scrittura.mjs`:** la chat «Ondata 9» la cambia solo per tre strumenti di claude-code-remote (create_session, create_trigger, update_trigger). Le scritture su GitHub, PR comprese, continuano a chiedere conferma. Va in una PR su ad-mycity (ramo `claude/adoring-bohr-kixq35`) con una prova e un collaudo: è un'auto-modifica della macchina, vale col merge di Nicola.
+- **Restano alla chat «Ondata 7 difetti»:** mycity#296 fino all'unione, le chiusure delle onde 8 e 8b nel registro, ad-mycity#984 fuori dalla bozza.

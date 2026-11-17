@@ -1,0 +1,37 @@
+{
+  "controllore": "C01",
+  "onda": 6,
+  "finita": true,
+  "aggiornato": "2026-11-17 18:12",
+  "testa": "bc36f48120ec38bf20880c7d68b3171015744681",
+  "base": "c83c3e4e6decc5c167bd0cefceb269364f388cd0",
+  "verify": {
+    "comando": "NODE_OPTIONS=--max-old-space-size=8192 npm run verify && tests/sql/harness/apply.sh && tests/sql/harness/run.sh",
+    "esito": "verde",
+    "nota": "Girato da C01 sulla testa bc36f481 (clone pulito, npm ci). npm run verify: tipi e lint puliti, 1650 file di prove passati, 10707 prove passate, nessun rosso. Harness SQL su un Postgres 16 locale: 209 migrazioni applicate, 0 fallite, tutti i file .test.sql verdi (compresa r30-profili-chiusi-ai-visitatori di R01-012). Le prove .sh che run.sh non lancia non le ho rifatte: l'unione non tocca né migrazioni né file .sql. Nessun database vero toccato, nessuno strumento Supabase, Vercel o Stripe."
+  },
+  "unione": "L'albero bc36f481 è esattamente main più i tre rami: per ogni ramo (-o6 d312818b, -o6-m03 0eaca5c7, -o6-m02 ee2988ad) git diff fra la punta del ramo e l'integrazione, sui file del ramo, è vuoto; nessun file fuori dai tre rami. Di -o6-m02 sono stati ricopiati tutti e quattro i commit (210c9447→e34bf3a5, 3f76cf43→2207f8e0 e i due del referto), non solo 3f76cf43: il codice è identico.",
+  "voci_rosse": [],
+  "voci_guardate": {
+    "reggono_sull_unione": ["R01-002", "R01-005", "R01-006", "R01-008", "R01-011", "R01-012", "R03-001", "R03-003", "R03-004", "R03-009"],
+    "aperte_controllate_che_non_rompono": ["R02-001", "R02-002"],
+    "nota": "R01-002, 005, 006, 008, 012: il codice è già in main, le loro prove sono verdi sull'unione. R01-011 (PromotionsSection.tsx, fuso di Piacenza) e le quattro di R03 sono le righe nuove dell'unione: lette, nessuna rompe soldi, permessi, dati o un flusso vicino. R03-003: l'unico che segnala una recensione è il pulsante di Segnala.tsx (prodotto: id di reviews; negozio: id di store_reviews); nessuna pagina manda tipo «messaggio»; il 404 nuovo lo mostra già il toast di Segnala.tsx:93. R02-001 (RegistroDelFilo) e R02-002 (h2 nascosto) non rompono niente: il ramo d'errore ha ancora il suo role=alert, il riprova riaccende il registro dopo il successo, lo scorrimento in fondo resta dentro il filo. Il giudizio di K02 (R02-001 non regge, R02-002 parziale) resta com'è: non l'ho rifatto."
+  },
+  "nuovi_difetti_visti": [
+    {
+      "titolo": "Un valore rovinato nella memoria del browser fa cadere la pillola della posizione, e con lei la barra in alto di ogni pagina",
+      "dimensione": "frontend-ux",
+      "severita": "minore",
+      "file": "components/LocationPill.tsx:49",
+      "descrizione": "Stesso file di R03-009, fuori dalla sua voce (la voce è la lettura che lancia, a :81, e regge). useLocalStorage (lib/hooks/index.ts:32-34) fa JSON.parse del valore salvato sotto mc_delivery_location senza guardarne la forma. Se il valore è «null», loc diventa null e la lettura loc.zip (riga 49, poi 108 e l'aria-label) lancia «Cannot read properties of null (reading 'zip')»: la pillola sta nella testata (Navbar.tsx:247), quindi cade la pagina. Se il valore è «{}», la pillola dice «Consegna a undefined undefined». Misurato da C01 con una prova di un momento sul componente vero (monta-componente), poi tolta: con «null» tre TypeError, con «{}» l'aria-label con undefined. Il sito scrive quella chiave solo da qui e sempre come oggetto, quindi serve un valore rovinato da fuori (un'estensione, una modifica a mano, una versione vecchia): per questo minore. Era così anche prima dell'unione, non l'ha portato l'onda 6."
+    }
+  ],
+  "file_toccati": 18,
+  "file_guardati": 11,
+  "file_non_guardati": "Le 7 prove nuove (tests/unit/riparazione-r02-*, riparazione-r03-o6-*, riparazione-r33-vetrina-promo-*) le ho fatte girare sull'unione (verdi) ma non le ho rilette riga per riga: se mordono lo hanno già misurato K01 e K02 con la prova rimessa, e rifarlo è il lavoro che il controllore non fa. Gli 11 guardati: gli 8 file di codice cambiati (diff e intorno) e i 3 referti .riparazione/referto-R0x.json, letti nelle copie della cartella onda6/referti.",
+  "conto": {
+    "subagenti": 0,
+    "token_stimati": 120000,
+    "nota": "Nessun subagente: l'unione cambia 8 file di codice per circa 110 righe, li ho letti io. get_session non mostra usage.cost_usd: la spesa va letta dalla regista. Il limite settimanale segna «allowed_warning», senza uso extra."
+  }
+}

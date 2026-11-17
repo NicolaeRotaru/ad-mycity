@@ -1,0 +1,69 @@
+{
+  "corsia": 2,
+  "territorio": "R02",
+  "difetti": [
+    {
+      "chiave": "architettura|le altre due porte dell'ai sul catalogo scrivono ancora la traccia a mano, nella forma vecchia",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-traccia-porte-ai-catalogo.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 80c8dc39ac6d951620b6e06dda0263bf0908d548^ --file app/api/ai/catalog-apply-bulk/route.ts,app/api/ai/catalog-batch/apply/route.ts --prove tests/unit/riparazione-r02-traccia-porte-ai-catalogo.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-2 --base 80c8dc39ac6d951620b6e06dda0263bf0908d548^ --file app/api/ai/catalog-apply-bulk/route.ts,app/api/ai/catalog-batch/apply/route.ts --prove tests/unit/riparazione-r02-traccia-porte-ai-catalogo.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Il Copilot in blocco (catalog-apply-bulk) e il lavoro massivo (catalog-batch/apply) costruiscono la voce product.update con tracciaDellaModifica (lib/products/salvataggio-tracciato.ts), come catalog-apply dopo R10-008: solo i campi cambiati, con daAi. La prova fa girare le due rotte vere col finto catalogo: un campo mandato ma uguale non entra e daAi c'è (sulla base: campi con la descrizione invariata e daAi assente). La voce product.hide della moderazione resta com'era: non è una product.update e l'aiutante non la copre."
+    },
+    {
+      "chiave": "layout-responsive|le righe delle impostazioni (toggle) non hanno min-w-0 sul testo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-interruttore-testo-lungo.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base a0d65921^ --file components/ui/Toggle.tsx --prove tests/unit/riparazione-r02-interruttore-testo-lungo.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-2 --base a0d6592149ede814d0bb61b86c0d14f1fc92370a^ --file components/ui/Toggle.tsx --prove tests/unit/riparazione-r02-interruttore-testo-lungo.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "Due commit. a0d65921: il blocco che contiene titolo e descrizione del Toggle (figlio flex accanto all'interruttore, che ha già shrink-0) prende min-w-0. 4a5964c9 (giro di correzione): lo stesso blocco prende anche break-words, perché il solo min-w-0 non spezzava una parola lunga (un'email): misurato in Chromium headless con una riga di 320px, il titolo restava largo 319px in un blocco di 234px e copriva l'interruttore; con break-words (overflow-wrap: break-word) va a capo dentro il blocco ([overflow-wrap:anywhere] dà lo stesso risultato). La prova monta il Toggle vero con testi lunghi e pretende min-w-0 e break-words sul blocco; la prova rimessa parte da prima di a0d65921, quindi copre tutta la cura."
+    },
+    {
+      "chiave": "microcopy|il dialogo dell sos dice che gli amministratori ricevono l avviso «subito», ma il push parte solo se la scrittura riesce entro 15 secondi",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-sos-avviso-admin-testo.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base b41d08b6ec8ee839ccd53e7928386bd77aefe0aa^ --file components/rider/SOSButton.tsx --prove tests/unit/riparazione-r02-sos-avviso-admin-testo.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-3 --base b41d08b6ec8ee839ccd53e7928386bd77aefe0aa^ --file components/rider/SOSButton.tsx --prove tests/unit/riparazione-r02-sos-avviso-admin-testo.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "La riga del dialogo sugli amministratori non dice più «ricevono subito»: dice che l'avviso (pannello e, con le notifiche attive, telefono) arriva quando l'SOS arriva a MyCity, che serve la connessione e che con poca rete può arrivare in ritardo o non arrivare. Il «subito» resta solo per il 112. La prova apre il dialogo vero e legge la riga (sulla base: «ricevono subito»)."
+    },
+    {
+      "chiave": "mobile-pwa|se il primo segnale gps scade prima della conferma, l'sos parte senza posizione anche se la posizione arriva un attimo dopo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-sos-posizione-dopo-timeout.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 1ae7a9a298ffa30011cfc06271bf21a62587ede9^ --file components/rider/SOSButton.tsx --prove tests/unit/riparazione-r02-sos-posizione-dopo-timeout.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-3 --base 1ae7a9a298ffa30011cfc06271bf21a62587ede9^ --file components/rider/SOSButton.tsx --prove tests/unit/riparazione-r02-sos-posizione-dopo-timeout.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "In avviaLetturaGps l'errore del primo tentativo (timeout o segnale assente) non chiude più l'attesa della posizione mentre il watch è in ascolto: la chiudono il permesso negato (code 1) o il tempo massimo di posizionePronta, e la posizione che il watch porta un attimo dopo finisce nella riga di rider_sos_events. La prova, con GPS e timer finti, fa scadere il primo tentativo prima e dopo la conferma e guarda lat/lng nell'insert (sulla base: null); controlla anche che senza posizione l'avviso parta entro il tempo massimo e che col permesso negato parta subito."
+    },
+    {
+      "chiave": "qa-flussi|la pagina contatti promette ancora «puoi provare lo stesso a inviare» quando l'anti-robot non si carica",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-contatti-anti-robot-rotto.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base ff2d8564fc810af6b059e053e4ff050e71bf4672^ --file app/contact/page.tsx --prove tests/unit/riparazione-r02-contatti-anti-robot-rotto.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-3 --base ff2d8564fc810af6b059e053e4ff050e71bf4672^ --file app/contact/page.tsx --prove tests/unit/riparazione-r02-contatti-anti-robot-rotto.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "/api/contact senza gettone risponde «Verifica anti-bot fallita» (lib/captcha.ts: «CAPTCHA mancante»), quindi la promessa era falsa. Allineata all'iscrizione (R24-016): col riquadro rotto la pagina dice «Senza questo controllo il messaggio non può partire: ricarica la pagina, oppure scrivici a <email info, con mailto>», il modulo non parte senza gettone e il messaggio a comparsa dice lo stesso guasto e la stessa strada. La prova monta la pagina vera con il riquadro finto che segnala il guasto: legge la riga e prova a inviare (sulla base: «Puoi provare lo stesso» e fetch chiamato)."
+    },
+    {
+      "chiave": "qa-flussi|la data degli eventi in home non usa il fuso di piacenza",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-eventi-home-fuso.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base ceb88720c4cde59ca418cdb002b4ea509c3d02a1^ --file components/home/HomeEvents.tsx --prove tests/unit/riparazione-r02-eventi-home-fuso.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-4 --base ceb88720c4cde59ca418cdb002b4ea509c3d02a1^ --file components/home/HomeEvents.tsx --prove tests/unit/riparazione-r02-eventi-home-fuso.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "La data della striscia «Eventi a Piacenza» (riga 48) si formatta con timeZone: FUSO_PIACENZA da lib/tempo-piacenza.ts, come già fanno le promozioni. La prova monta il componente vero con TZ=UTC e orologio finto alle 23:40 di Greenwich: un evento dalle 00:30 del 6 alle 00:15 dell'8 (ora di Piacenza) deve dire «6 nov – 8 nov» (sulla base: «5 nov – 7 nov»)."
+    },
+    {
+      "chiave": "qa-flussi|gli annunci sponsorizzati si accendono e si spengono sul giorno di greenwich, non su quello di piacenza",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-sponsorizzati-giorno-piacenza.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 68b9b653abe7704d5fbfc400fa83af62f0c335c8^ --file components/SponsoredCarousel.tsx --prove tests/unit/riparazione-r02-sponsorizzati-giorno-piacenza.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-4 --base 68b9b653abe7704d5fbfc400fa83af62f0c335c8^ --file components/SponsoredCarousel.tsx --prove tests/unit/riparazione-r02-sponsorizzati-giorno-piacenza.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "Il carosello passa a leggiSponsorizzati oggi = giornoPiacenza() (lib/tempo-piacenza.ts) invece del giorno UTC. La prova monta il carosello vero con TZ=UTC e orologio finto alle 23:30 di Greenwich (inverno e estate) e guarda il giorno che arriva ai filtri start_date <= oggi e end_date >= oggi della vista: deve essere quello di Piacenza (sulla base: il giorno prima)."
+    },
+    {
+      "chiave": "qa-flussi|gli avvisi scritti nel browser non arrivano a nessuno: logger.warn lato client è solo console.warn",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-avvisi-browser.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base f8d2a2b73f0123defab58dc159b16b1d805c97ac^ --file lib/logger.ts --prove tests/unit/riparazione-r02-avvisi-browser.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-4 --base f8d2a2b73f0123defab58dc159b16b1d805c97ac^ --file lib/logger.ts --prove tests/unit/riparazione-r02-avvisi-browser.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Lato client logger.warn, oltre a console.warn, manda l'avviso a Sentry (lo stesso canale di logger.error) con captureMessage e level 'warning', col contesto già ripulito dai dati personali; senza NEXT_PUBLIC_SENTRY_DSN non scarica niente, come gli errori. Lato server non cambia. La prova (jsdom) controlla che con il DSN l'avviso arrivi a Sentry come warning col contesto oscurato, e che senza DSN non parta niente (sulla base: zero chiamate). Resta fuori dal codice: il DSN di Sentry va impostato su Vercel (NEXT_PUBLIC_SENTRY_DSN), se no anche gli errori del browser restano nella console."
+    },
+    {
+      "chiave": "qa-flussi|la pagina delle storie accetta caratteri di controllo c1 nel link che poi il database rifiuta, lasciando una foto orfana",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-link-storie-controllo-c1.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 19e4067514ae95b594d6c3cd46f0689d657f4ac3^ --file lib/safe-redirect.ts --prove tests/unit/riparazione-r02-link-storie-controllo-c1.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-4 --base 19e4067514ae95b594d6c3cd46f0689d657f4ac3^ --file lib/safe-redirect.ts --prove tests/unit/riparazione-r02-link-storie-controllo-c1.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "safeInternalPath rifiuta ora la stessa classe che il CHECK della 403 usa ([[:cntrl:]] di glibc in UTF-8): U+0000–U+001F, U+007F–U+009F e U+2028–U+2029, invece dei soli C0 e DEL. La prova passa ogni carattere di quella classe in mezzo a un link e controlla che nessuno esca accettato dal sito e rifiutato dal CHECK riscritto in JS (sulla base: 34 passavano, U+0080…U+009F e U+2028–U+2029), e che i link buoni passino ancora."
+    }
+  ]
+}

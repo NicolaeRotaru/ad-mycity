@@ -1,0 +1,364 @@
+{
+ "collaudatore": "K02",
+ "riparatori": [
+  "R03",
+  "R04"
+ ],
+ "aggiornato": "2026-11-17 19:29",
+ "finita": true,
+ "voci": [
+  {
+   "id": "R03-001",
+   "chiave": "flussi-conversione|sulla scheda prodotto un secondo «aggiungi al carrello» entro un secondo viene ignorato senza dire niente",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "git -C /home/user/wt-R03 checkout --quiet --detach 5ddf13b7e12f1048c1714feaba0937ef7888e649 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 5ddf13b7e12f1048c1714feaba0937ef7888e649^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r03-aggiungi-frenato.test.ts --json"
+   },
+   "nota": "qa1: il caso base regge (due tocchi uguali entro 1 s: un pezzo e l'avviso; la barra in fondo passa dallo stesso gestore, page.tsx:1570). Ma il freno guarda solo il tempo (lib/ui/freno-doppio-tocco.ts:11-22), non variante né quantità: taglia S aggiunta, poi M scelta a +400 ms e aggiunta a +800 ms → nel carrello resta solo S e l'avviso nuovo dice «Già aggiunto: controlla il carrello» (app/product/[id]/page.tsx:586-588), falso; uguale con «+» sulla quantità entro 600 ms. Prova esplorativa rossa due volte su due. Il secondo «aggiungi» diverso entro un secondo è ancora ignorato, ora con un avviso sbagliato."
+  },
+  {
+   "id": "R03-002",
+   "chiave": "layout-responsive|col testo ingrandito al massimo anche la pagina chi siamo scorre di lato (466px su 360)",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "git -C /home/user/wt-R03 checkout --quiet --detach be37e7a22aed365e3cf4e3d6801c34006d359ae6 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base be37e7a22aed365e3cf4e3d6801c34006d359ae6^ --file app/about/page.tsx --prove tests/unit/riparazione-r03-chi-siamo-testo-grande.test.ts --json"
+   },
+   "nota": "qa1: misurato in Chromium con Fraunces vero e Tailwind del progetto: a 360 px col testo al 200% base 410 px, testa 360; a testo normale nessuna differenza a 320-768 px. Fuori dal metro della voce (360): a 320 px col 200% scorre ancora (337 su 320) per il titolo «Perché esistiamo» (app/about/page.tsx:143); a 360 px «Vuoi farne parte?» (riga 219) esce dal suo riquadro senza far scorrere la pagina."
+  },
+  {
+   "id": "R03-003",
+   "chiave": "microcopy|il titolo della variante a della home dice «a negozio aperto», ma la consegna può arrivare dopo la chiusura",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "git -C /home/user/wt-R03 checkout --quiet --detach cb813b984fde5e26ea893f034aceafbf957f4bca && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base cb813b984fde5e26ea893f034aceafbf957f4bca^ --file app/page.tsx --prove tests/unit/riparazione-r03-home-consegna-senza-negozio-aperto.test.ts,tests/unit/riparazione-r20-home-variante-a.test.ts --json"
+   },
+   "nota": "qa1: la prova esistente riparazione-r20-home-variante-a.test.ts ha l'asserzione invertita (come chiede la voce) più una nuova («fascia oraria che scegli»); l'altra prova del file intatta: non indebolita. La frase coincide con lib/promesse-pubbliche.ts:178 (come HowItWorks e DeliveryCutoff); nessuna pagina o prova pretende più «a negozio aperto»; 8 prove della home verdi."
+  },
+  {
+   "id": "R03-004",
+   "chiave": "navigazione-gerarchia|la vetrina della home non può filtrare le categorie vuote nell'html del server col precarico della sola home",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "K02 sulla base bc36f481: app/layout.tsx:213 legge precaricoDelSito() e :262-274 lo consegna con <HydrationBoundary state={precarico}> sopra <Navbar /> (che monta CategoryBar, components/Navbar.tsx:21); lib/queries/precarico.ts:86 mette domandaCategoriePiene nel precarico, la stessa domanda che CategoryBar legge (components/CategoryBar.tsx:140, chiave ['categories','con-prodotti'] in lib/queries/categorie-piene.ts:23). Difetto assente già alla base."
+  },
+  {
+   "id": "R03-005",
+   "chiave": "performance|sulla bacheca del fattorino, se la vista dei negozi resta giù, la pagina la rilegge ogni 5 secondi senza fine",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "git -C /home/user/wt-R03 checkout --quiet --detach 3245c9edc78f760c77f158d6ff01ba76ed3e7b51 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 3245c9edc78f760c77f158d6ff01ba76ed3e7b51^ --file app/rider/page.tsx --prove tests/unit/riparazione-r03-bacheca-attesa-crescente.test.ts --json"
+   },
+   "nota": "qa2: refetchInterval (app/rider/page.tsx:188-193) con la pagina vera e orologio finto: attese 5/10/20/40/60 s, conto a zero quando la vista risponde, vista sana sempre a 60 s come sulla base; se cade la lettura degli ordini il conto non cresce. 14 prove della bacheca verdi."
+  },
+  {
+   "id": "R03-006",
+   "chiave": "qa-flussi|il primo messaggio mandato insieme all'apertura della conversazione non avvisa il negozio",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "git -C /home/user/wt-R03 checkout --quiet --detach f25d86ebdc27f6542f557a435dbb96c675fefc54 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base e6d7bc0f13d8b8469eb3f8f176964c19d9d5a43f^ --file app/api/chat/conversations/route.ts --prove tests/unit/riparazione-r03-primo-messaggio-avvisa-il-negozio.test.ts --json"
+   },
+   "nota": "qa2 col portiere vero (withAuth e freno reali): regge la voce (una campanella e una email, chat:msg contato una volta, risposta {conversationId} 200, niente doppioni, il ripiego ha lo stesso schema e gli stessi permessi). Ma app/api/chat/conversations/route.ts:110-122 ripiega sull'inserimento diretto solo con 429 o 401: se la seconda autenticazione della rotta dei messaggi risponde 503 (AuthNonDisponibile, o lettura del profilo caduta) il primo messaggio si perde con un solo logger.warn, mentre sulla base si salvava sempre. Riprodotto due volte: rotta 200 e messaggi=[]. Minore: oggi nessun pulsante del sito manda firstMessage (ContactSellerButton manda solo sellerId). Cura: ripiegare su ogni rifiuto che esce prima dell'inserimento, non solo 429/401."
+  },
+  {
+   "id": "R03-007",
+   "chiave": "qa-flussi|due scroll-mt di altre pagine si sommano allo scroll-padding nuovo",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "git -C /home/user/wt-R03 checkout --quiet --detach 74e03d267211daa47ebe3092b421215aeae3db3d && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 74e03d267211daa47ebe3092b421215aeae3db3d^ --file app/lavora-con-noi/page.tsx,app/product/[id]/page.tsx --prove tests/unit/riparazione-r03-ancore-senza-doppio-margine.test.ts --json"
+   },
+   "nota": "qa1: le due ancore della voce reggono (app/globals.css:198-200; sotto md restano scroll-mt-24 e scroll-mt-4). Stessa famiglia fuori voce, da aprire: app/faq/page.tsx:229 (#ordini, linkata da app/help/page.tsx:28) ha scroll-mt-24 senza md:scroll-mt-0; probabile anche components/seller/DatiPerIBonifici.tsx:65 (#bonifici)."
+  },
+  {
+   "id": "R03-008",
+   "chiave": "qa-flussi|le zone del fattorino dicono «salvate» prima dell'esito",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "git -C /home/user/wt-R03 checkout --quiet --detach 2fe845f3919411efcb470d99bf4c32199688bbd8 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 69847de49ab221cdef1bedc3c870d4552a0d771b^ --file app/rider/availability/page.tsx --prove tests/unit/riparazione-r03-zone-salvate-dopo-l-esito.test.ts --json"
+   },
+   "nota": "qa2: la voce regge (pagina vera: prima cade e seconda riesce → schermo = database e un solo «salvate»; ok, ok, ko su tre tocchi → torna a [Stazione, Roma] = database). Ma la fila nuova delle scritture (app/rider/availability/page.tsx:135-144) non ha un tempo massimo: se una scrittura non risponde, i tocchi dopo non partono più (prova esplorativa rossa: 1 scrittura invece di 2) e chiudendo la pagina la scelta nuova si perde; sulla base ogni tocco si scriveva da solo. Minore, stessa classe che R03-012 cura nel cuore col tempo massimo di 10 s."
+  },
+  {
+   "id": "R03-009",
+   "chiave": "qa-flussi|quando la presa di un ordine torna vuota o con un motivo sconosciuto, il fattorino legge «non più disponibile»",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "git -C /home/user/wt-R03 checkout --quiet --detach 227673ed04efc948f3bf771f06fb9ade1fa6aff3 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 227673ed04efc948f3bf771f06fb9ade1fa6aff3^ --file app/rider/page.tsx --prove tests/unit/riparazione-r03-presa-ordine-motivo-vero.test.ts --json"
+   },
+   "nota": "qa2: l'ultima definizione di prendi_ordine è la migrazione 270 (la 540 non la tocca) e restituisce solo NON_FATTORINO, DOCUMENTI_SCADUTI, GIA_PRESO o ok con id; è l'unico punto del sito che la chiama, e la prova monta la pagina vera. Resta, già sulla base: GIA_PRESO esce anche per un ordine annullato o non più pronto."
+  },
+  {
+   "id": "R03-010",
+   "chiave": "qa-flussi|«spesso comprati insieme» mette nel carrello il prezzo pieno anche con una promozione attiva",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "git -C /home/user/wt-R03 checkout --quiet --detach 2eb57568d9596ff49c3c62a8931d694627a6116e && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 2eb57568d9596ff49c3c62a8931d694627a6116e^ --file components/products/FrequentlyBoughtTogether.tsx --prove tests/unit/riparazione-r03-comprati-insieme-scontati.test.ts --json"
+   },
+   "nota": "qa1: componente vero col vero fetchActiveDiscounts: 3,33 € al 15% → mostrato 2,83 €, nel carrello 2.83 come la pagina carrello; lettura degli sconti in errore → prezzo pieno e la fascia resta; sconto del 90% tagliato a 3 €. Stessa famiglia fuori voce (letto, non provato): la scheda prodotto mette nel carrello il prezzo pieno (app/product/[id]/page.tsx:594 e 640)."
+  },
+  {
+   "id": "R03-011",
+   "chiave": "qa-flussi|aria-busy sulla variante «cards» del caricamento può zittire l'annuncio per lo screen reader",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "git -C /home/user/wt-R03 checkout --quiet --detach 81aa847d77f63ff60d7689188373475ba3c7c84c && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 81aa847d77f63ff60d7689188373475ba3c7c84c^ --file components/ui/LoadingState.tsx --prove tests/unit/riparazione-r03-caricamento-cards-annuncia.test.ts --json"
+   },
+   "nota": "qa1: nella variante cards aria-busy non sta più sulla regione viva né sopra; le varianti inline, spinner e skeleton non lo hanno. Sul sito non cambia niente: la variante cards non la usa nessuna pagina. Stesso difetto fuori voce, da aprire: role=status con aria-busy=true sullo stesso elemento in app/loading.tsx:24, app/product/[id]/loading.tsx:14-17, app/orders/[id]/loading.tsx:9-12."
+  },
+  {
+   "id": "R03-012",
+   "chiave": "qa-flussi|il doppio tocco sul cuore con due salvataggi falliti lascia il cuore pieno e il preferito non salvato, e una richiesta che non risponde blocca la fila del prodotto",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "git -C /home/user/wt-R03 checkout --quiet --detach ae7214d9bc52343e0cb72607926b7cc10fd366a5 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 60f1ee8982073e8653e8c3d97ad738226977acc9^ --file lib/preferiti/tocco-del-cuore.ts --prove tests/unit/riparazione-r03-cuore-rifiuti-e-silenzio.test.ts --json"
+   },
+   "nota": "qa2: regola vera dentro la cache vera di react-query: scrittura tardiva mentre una fila nuova dello stesso prodotto finisce con un rifiuto, rilettura fermata dal tocco su un altro prodotto, tre tocchi col primo muto per sempre: il cuore finisce uguale al database, la fila non resta bloccata, nessun timer lasciato acceso (getTimerCount=0). Prove esistenti del cuore verdi (5 file, 43 prove)."
+  },
+  {
+   "id": "R03-013",
+   "chiave": "qa-flussi|il finto condiviso della vetrina non conosce l'aggancio storie → vista dei negozi",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "git -C /home/user/wt-R03 checkout --quiet --detach 6c6d25173ed278e52913a719b8d2fd7d929aa7e4 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 6c6d25173ed278e52913a719b8d2fd7d929aa7e4^ --file tests/unit/aiuti/database-della-vetrina.ts --prove tests/unit/riparazione-r03-vetrina-finta-aggancio-storie.test.ts --json"
+   },
+   "nota": "qa2 + K02: il finto condiviso tests/unit/aiuti/database-della-vetrina.ts non indebolisce le prove che c'erano: !inner come PostgREST (righe scartate prima di ordine e tetto, solo al primo livello); l'aggancio verso la vista è plausibile sul vero (seller_stories.seller_id → profiles, migrazione 035); il ripiego PGRST200 resta coperto da riparazione-r16-carosello-filtra-prima.test.tsx:303 (agganciAllaVista=false); storie-drop-ed-eventi non toccata; le 8 prove che lo usano verdi. qa2 nota che se !inner scarta tutte le righe una select con colonne inesistenti risponde [] invece di 42703: K02 ha controllato che sulla base il finto controlla colonne e agganci solo in proietta, riga per riga (righe 167-178), quindi un risultato vuoto non li controllava già prima. Buco vecchio del finto, non nato da questa correzione; oggi nessuna prova è falsamente verde."
+  },
+  {
+   "id": "R04-001",
+   "chiave": "frontend-ux|una categoria con la lettura dei prodotti caduta resta una pagina bianca",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "git -C /home/user/wt-R04 checkout --quiet --detach c1b6f93ee62a900b37ddd6a6d1bad1faf414e57d && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base c1b6f93ee62a900b37ddd6a6d1bad1faf414e57d^ --file app/category/[slug]/page.tsx --prove tests/unit/riparazione-r04-categoria-lettura-caduta.test.ts --json"
+   },
+   "nota": "qa4: parziale come dichiarato, il pezzo fatto non rompe niente: conteggio caduto e file piene → nessun ErrorState; tutto caduto → ErrorState, «Riprova» riuscito lo toglie e arrivano i prodotti, «Riprova» fallito lo lascia. «cosa_resta» esatto e riprodotto: con le file cadute e il conteggio che risponde la pagina resta bianca (ProductGrid.tsx:474-476 e :587-588)."
+  },
+  {
+   "id": "R04-002",
+   "chiave": "frontend-ux|la scheda di un negozio inesistente ripete «pagina non trovata» nel titolo e nella pagina, come faceva la 404",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "git -C /home/user/wt-R04 checkout --quiet --detach 377ae97e40b2e81f1004a725e6905dd1deef9843 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base 377ae97e40b2e81f1004a725e6905dd1deef9843^ --file app/store/[id]/[slug]/layout.tsx --prove tests/unit/riparazione-r04-titolo-pagina-negozio-mancante.test.ts --json"
+   },
+   "nota": "qa3: titolo «Pagina del negozio non trovata · MyCity», noindex e canonical nullo confermati, minori-s09-scheda-prodotto verde. Gemello fuori voce, da aprire come voce nuova: /store/<id inesistente> ha il titolo «Negozio non trovato · MyCity» (app/store/[id]/layout.tsx:37) che ripete l'h1 «Negozio non trovato» (app/store/[id]/page.tsx:66)."
+  },
+  {
+   "id": "R04-004",
+   "chiave": "frontend-ux|il drop del giorno in home usa ancora il giorno di greenwich",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "git -C /home/user/wt-R04 checkout --quiet --detach 04cc4b9afe900efe616879161e8203dd24acf367 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base 04cc4b9afe900efe616879161e8203dd24acf367^ --file components/home/DropOfDay.tsx --prove tests/unit/riparazione-r04-drop-giorno-di-roma.test.ts --json"
+   },
+   "nota": "qa3: componente vero con 11 istanti (mezzanotte, giornata da 25 ore il 25/10, cambio d'ora, giornata da 23 ore il 29/03, capodanno, 29/02/2028) con TZ=UTC, Europe/Rome e America/Los_Angeles: 33 su 33 verdi su chiave del giorno e conto alla rovescia. Admin e home usano lo stesso giornoPiacenza (app/admin/daily-drops/page.tsx:32)."
+  },
+  {
+   "id": "R04-005",
+   "chiave": "frontend-ux|eliminando una pagina della vetrina restano i pulsanti delle sezioni che puntavano a lei",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "git -C /home/user/wt-R04 checkout --quiet --detach 234686de7fbf24bc91fb81fefa86133d53519784 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base 234686de7fbf24bc91fb81fefa86133d53519784^ --file components/seller/site/PageListEditor.tsx --prove tests/unit/riparazione-r04-elimina-pagina-pulsanti.test.tsx --json"
+   },
+   "nota": "qa3: PageListEditor vero con 4 pagine, banner verso la pagina eliminata su home e su un'altra pagina, banner verso altre pagine, home e categoria, testo ricco, link di menu e link a metà: spariscono solo i due pulsanti giusti, le sezioni restano nello stesso ordine, la conferma li nomina, il sito passa lo schema e si rilegge. L'unico collegamento di sezione verso una pagina è la cta del banner. Minore di testo: PageListEditor.tsx:55 «Sparirà anche i pulsanti» (singolare), come già alla riga 52."
+  },
+  {
+   "id": "R04-006",
+   "chiave": "frontend-ux|sulla pagina del negozio il testo lungo si taglia ancora in silenzio a 4.000 caratteri",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "git -C /home/user/wt-R04 checkout --quiet --detach 8d5109714b92c009992db4b2a4f816ae74c05449 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base 8d5109714b92c009992db4b2a4f816ae74c05449^ --file components/seller/site/SectionConfigForm.tsx --prove tests/unit/riparazione-r04-testo-lungo-vetrina.test.tsx --json"
+   },
+   "nota": "qa3: parziale come dichiarato; «cosa_resta» esatto, ricontato con la rotta vera (3.980 «a» + « Tom & Jerry < 3 »: 3.997 per il contatore, rotta 200, 4.003 dopo la pulizia, alla rilettura vetrina di default). Togliere maxLength non apre un caso peggiore: lo stesso testo passava già prima, e lo schema conta gli a-capo come «<br>», più severo del vecchio maxLength. Fuori voce, vecchio: dopo un salvataggio con «&» la casella mostra «&amp;» (htmlInACapo non decodifica le entità)."
+  },
+  {
+   "id": "R04-007",
+   "chiave": "frontend-ux|la vetrina legge al massimo 20 recensioni mentre la linguetta mostra il totale vero",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "K02 sulla base bc36f481: components/store-sections/ReviewsSection.tsx:43-49 legge le recensioni a pagine con .range(), :250-251 continua fino al totale vero (riepilogoRecensioni.totale), lo stesso della linguetta (SectionRenderer.tsx:117); 9b4f9271 è antenato della base; tests/unit/riparazione-r30-recensioni-a-pagine.test.tsx lanciata sulla base: uscita 0, 3 su 3. Difetto assente già alla base."
+  },
+  {
+   "id": "R04-008",
+   "chiave": "frontend-ux|a menu spento, un link lasciato a metà sparisce al salvataggio senza avviso",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "git -C /home/user/wt-R04 checkout --quiet --detach 1e7e09a533ae15a66d92d17814ca20ee43361105 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base 1e7e09a533ae15a66d92d17814ca20ee43361105^ --file lib/store-site.ts --prove tests/unit/riparazione-r04-menu-spento-conserva-link.test.ts,tests/unit/riparazione-r20-menu-spento.test.ts --json"
+   },
+   "nota": "qa3: rotta vera PUT /api/seller/site con menu spento e tre link a metà (nome vuoto, pagina non scelta, «https://») più uno completo, poi rilettura con normalizeSite dopo il JSON: il sito non ripiega sul default, menu pubblico vuoto (StoreNav passa da resolveMenu); riacceso il menu l'editor rifiuta su menu.links.1.label e la rotta dà 400 senza scrivere. Schema vecchio e nuovo identici a menu acceso o senza «enabled». La modifica di riparazione-r20-menu-spento.test.ts tocca solo la riga 16 (['l2'] → ['l1','l2'], il comportamento chiesto dalla voce); «menu acceso rifiuta» e «senza enabled rifiuta» intatte: non indebolita. Minore nuovo: a menu spento un link oltre 500 caratteri, con id non valido o senza destinazione ora blocca il salvataggio (prima era scartato); dall'editor si arriva solo all'indirizzo lungo (MenuEditor.tsx:76 senza maxLength)."
+  },
+  {
+   "id": "R04-009",
+   "chiave": "navigazione-gerarchia|le pagine di una categoria madre mostrano chip verso sottocategorie vuote",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "git -C /home/user/wt-R04 checkout --quiet --detach c6fafc1ff409f32e04db278a7ca11023232cef17 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base c6fafc1ff409f32e04db278a7ca11023232cef17^ --file app/category/[slug]/page.tsx --prove tests/unit/riparazione-r04-chip-sottocategorie-piene.test.ts --json"
+   },
+   "nota": "qa4: pagina vera con react-query vero: il bottone verso una figlia piena solo nella nipote resta, la mezzana resta, le vuote spariscono; lettura delle piene caduta → tutti i bottoni come prima; lettura appesa → nessun bottone ma le file si vedono. La domanda è domandaCategoriePiene, la stessa di home, piede, menu, ricerca e precarico (nessuna lettura in più). Resta, e non è un bottone: mentre le file caricano la loro intestazione porta ancora alla figlia vuota (page.tsx:388-389)."
+  },
+  {
+   "id": "R04-011",
+   "chiave": "qa-flussi|nelle recensioni della vetrina chi ha solo il nome pubblico (senza nome vero) adesso appare come «cliente»",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "git -C /home/user/wt-R04 checkout --quiet --detach 0f92b386b30fed7fbcd030613ac056d641877698 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base 0f92b386b30fed7fbcd030613ac056d641877698^ --file components/store-sections/useStorePageData.ts --prove tests/unit/riparazione-r04-firma-col-nome-pubblico.test.ts --json"
+   },
+   "nota": "qa4: parziale come dichiarato, il pezzo fatto non rompe le recensioni: l'handle arriva solo da leggiHandlePubblici (public_profile_enabled=true, profili-pubblici.ts:53-58); rotta che lancia, 500 in HTML o appesa → recensioni intatte. Effetto accanto non dichiarato: con la rotta lenta l'elenco aspetta fino a 3 s, attesa in serie dentro la lettura (useStorePageData.ts:65). «cosa_resta» esatto (ReviewsSection.tsx:52 e :63). Un punto da valutare è stato passato solo alla regista."
+  },
+  {
+   "id": "R04-012",
+   "chiave": "qa-flussi|il conto delle categorie con prodotti si ferma al decimo livello, il modulo prodotto al ventesimo",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "git -C /home/user/wt-R04 checkout --quiet --detach bcecf354e90ea44a87e8f0fa7a94a3fe8e27e7a6 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base bcecf354e90ea44a87e8f0fa7a94a3fe8e27e7a6^ --file lib/queries/categorie-piene.ts --prove tests/unit/riparazione-r04-categorie-piene-profonde.test.ts --json"
+   },
+   "nota": "qa4: file di 19, 20, 21, 22 e 23 livelli confrontate con getAttributesForCategory: concordano sempre; quattro cicli (A↔B, madre di sé stessa, ciclo sopra la foglia, ciclo di 30) terminano. Residuo noto oltre i 22 livelli: il risultato dipende dall'ordine dei prodotti (categorie-piene.ts:52). Stessa classe fuori voce: conLeMadri ha ancora il tetto a 10 (lib/queries/categorie-dei-negozi.ts:17); resolveTop in components/seller/ProductForm.tsx:322 non ha né tetto né guardia contro i cicli."
+  },
+  {
+   "id": "R04-013",
+   "chiave": "qa-flussi|il client supabase finto delle prove non sa concatenare .rpc().order().range()",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "git -C /home/user/wt-R04 checkout --quiet --detach 2a7ff37b2e01860fefed24601509d8bb2f26bb44 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base 2a7ff37b2e01860fefed24601509d8bb2f26bb44^ --file tests/unit/aiuti/finti/supabase-client.mjs --prove tests/unit/riparazione-r04-client-finto-rpc.test.ts --json"
+   },
+   "nota": "qa4: la catena non scoppia più e il finto condiviso non indebolisce niente: le 198 prove che lo caricano verdi (1338 prove) in un comando solo; nell'app nessun .catch/.finally dopo .rpc (113 chiamate, una sola con .then, StoryViewer:94), come il builder vero; errore del database della prova e rpc che lancia arrivano ancora a chi chiama. Ma con un database della prova gli anelli dopo rpc non gli arrivano (supabase-client.mjs:76-79: order, range, eq … tornano la stessa catena), mentre from alla riga 86 passa tutta la catena: prova esplorativa con una rpc che taglia e ordina → nessun anello registrato e righe non tagliate. Una pagina che sfoglia i risultati di una rpc passerebbe la prova con dati non filtrati: la catena si accetta ma non si applica. In più il finto esegue la rpc alla chiamata (riga 70), il client vero solo al .then."
+  }
+ ],
+ "nota_campione": "lotto senza campione (onda 7, fino a 40 voci): tutti i riparati e i parziali hanno il giudizio pieno, i due già riparati prima il controllo sulla base"
+}

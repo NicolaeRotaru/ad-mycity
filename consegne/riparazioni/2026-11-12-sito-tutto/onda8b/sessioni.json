@@ -1,0 +1,56 @@
+{
+ "regista": "session_015BmpnWeHkst12TRwrzmMfw",
+ "integrazione": {
+  "ramo": "ccr-30918361-coyajm-o8",
+  "nota": "si unisce con l'onda 8",
+  "testa": "7f59df78e7852ba611f2306a340a119aae1fdf59",
+  "pr": "NicolaeRotaru/mycity#296"
+ },
+ "sessioni": {
+  "R01": {
+   "id": "session_015BmpnYRBGAQ3sBM96pErCE",
+   "ramo": "ccr-30918361-coyajm-o8b-m01",
+   "onda": 1,
+   "partenza": "522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+   "tetto_usd": 28,
+   "finita": true,
+   "punta": "67309f42de608c57bf84d2afe38616e11566b0ef",
+   "testa": "061508ce15d845310ab263c23b5c5cb6bf4d82a9",
+   "costo_usd": 21.64
+  },
+  "R02": {
+   "id": "session_015BmpnZ1MKqYmXxKyhgoX9C",
+   "ramo": "ccr-30918361-coyajm-o8b-m02",
+   "onda": 1,
+   "partenza": "522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+   "tetto_usd": 28,
+   "finita": true,
+   "punta": "ddd5f67c0032211b5a93304f704347ab38929d85",
+   "testa": "92094312a869b6c527c0600b9d907bf66da5f17a",
+   "costo_usd": 26.31
+  }
+ },
+ "collaudatori": {
+  "K01": {
+   "ramo": "ccr-30918361-coyajm-o8b-k01",
+   "riparatori": [
+    "R02",
+    "R01"
+   ],
+   "tetto_usd": 14,
+   "finita": true,
+   "id": "session_015BmpnW2ctg1tHAcy75QBH9",
+   "punta": "28171b825cbedca0dc6e59d3f8d6e90f2e6319e1",
+   "costo_usd": 10.53
+  }
+ },
+ "controllori": {
+  "C01": {
+   "ramo": "ccr-30918361-coyajm-o8-c01",
+   "nota": "lo stesso controllore dell'onda 8, sulla testa unita",
+   "id": "session_015BmpnZ5HU2NaFXoXnK6nTs",
+   "finita": true,
+   "punta": "46f2dc3ce51ebeafb4eeb87d078be8109d7302c4"
+  }
+ }
+}
