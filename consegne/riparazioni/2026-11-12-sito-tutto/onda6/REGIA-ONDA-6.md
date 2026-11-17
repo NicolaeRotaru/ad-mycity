@@ -42,3 +42,6 @@ Sui 24 nuovi: si allarga con almeno 8 che reggono e C01 senza rosse fra queste; 
 ### Stato
 - 16:13 primo commit `2f40e105`: decisioni, bacheca, scheda R01. Aperta I06 (fase 1: PR aperte del sito, R33-022, referto R01, valida-referto).
 - 16:30 cartella unica `onda6/`: perimetro 87, dividi onda 2 verde, schede R02 e R03, copertura-prima e segnaposti verdi. Si spinge dopo l'elenco delle PR aperte di I06.
+- 16:14 I06: nessuna PR aperta sul sito. La divisione dei 24 regge.
+- 16:35 nuove frasi di Nicola in DECISIONI e bacheca (`92abc45f`): obiettivo 50 chiusi in tutto, tetto 700 $, nessun permesso chiesto da nessuna sessione.
+- 16:40 le create_session di R02 e R03 hanno fatto comparire una richiesta a Nicola: l'hook `cervello/pre-scrittura.mjs` di ad-mycity chiede conferma per gli strumenti MCP con create, update, push… nel nome. Rifiutate tutte e due, non nate. Da adesso le sessioni e le PR le apre la regista O5 coi campi che le mando io. I06 non apre la PR: manda il testo. L'hook non si tocca: va nella PR come cosa per Nicola.
