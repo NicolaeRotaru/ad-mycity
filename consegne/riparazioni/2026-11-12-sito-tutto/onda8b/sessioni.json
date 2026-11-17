@@ -2,7 +2,8 @@
  "regista": "session_015BmpnWeHkst12TRwrzmMfw",
  "integrazione": {
   "ramo": "ccr-30918361-coyajm-o8",
-  "nota": "si unisce con l'onda 8"
+  "nota": "si unisce con l'onda 8",
+  "testa": "7f59df78e7852ba611f2306a340a119aae1fdf59"
  },
  "sessioni": {
   "R01": {
@@ -36,9 +37,15 @@
     "R01"
    ],
    "tetto_usd": 14,
-   "finita": false,
-   "id": "session_015BmpnW2ctg1tHAcy75QBH9"
+   "finita": true,
+   "id": "session_015BmpnW2ctg1tHAcy75QBH9",
+   "punta": "28171b825cbedca0dc6e59d3f8d6e90f2e6319e1"
   }
  },
- "controllori": {}
+ "controllori": {
+  "C01": {
+   "ramo": "ccr-30918361-coyajm-o8-c01",
+   "nota": "lo stesso controllore dell'onda 8, sulla testa unita"
+  }
+ }
 }

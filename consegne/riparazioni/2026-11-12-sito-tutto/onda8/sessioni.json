@@ -3,7 +3,7 @@
  "integrazione": {
   "ramo": "ccr-30918361-coyajm-o8",
   "partenza": "1a7de5b9295a70eba644b7a340cef6d93f5379fc",
-  "testa": "ab7afac09adb95ca96af937305f36ebb073d6b91"
+  "testa": "7f59df78e7852ba611f2306a340a119aae1fdf59"
  },
  "sessioni": {
   "R01": {
@@ -63,5 +63,13 @@
    "costo_usd": 13.59
   }
  },
- "controllori": {}
+ "controllori": {
+  "C01": {
+   "ramo": "ccr-30918361-coyajm-o8-c01",
+   "testa_controllata": "7f59df78e7852ba611f2306a340a119aae1fdf59",
+   "base": "1a7de5b9295a70eba644b7a340cef6d93f5379fc",
+   "tetto_usd": 8,
+   "finita": false
+  }
+ }
 }
