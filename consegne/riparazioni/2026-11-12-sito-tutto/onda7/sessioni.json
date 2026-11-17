@@ -1,0 +1,45 @@
+{
+ "regista": "session_015BmpnWeHkst12TRwrzmMfw",
+ "regista_madre": "session_015BmpnYvNwUpgfdhaKx9PKT",
+ "integrazione": {
+  "ramo": "ccr-30918361-coyajm",
+  "partenza": "bc36f48120ec38bf20880c7d68b3171015744681",
+  "nota": "main c83c3e4e + -o6 + -o6-m03 + -o6-m02 ricopiato; la unisce la regista"
+ },
+ "sessioni": {
+  "R01": {
+   "id": "session_015BmpnYgRJ2nThdqp4z1F41",
+   "ramo": "ccr-30918361-coyajm-m01",
+   "onda": 1,
+   "partenza": "bc36f48120ec38bf20880c7d68b3171015744681",
+   "tetto_usd": 28,
+   "finita": false
+  },
+  "R02": {
+   "id": "session_015BmpnWpKkj3VXdnrdtAc4b",
+   "ramo": "ccr-30918361-coyajm-m02",
+   "onda": 1,
+   "partenza": "bc36f48120ec38bf20880c7d68b3171015744681",
+   "tetto_usd": 28,
+   "finita": false
+  },
+  "R03": {
+   "id": "session_015BmpnZ6MiCTaF52P9H1E5L",
+   "ramo": "ccr-30918361-coyajm-m03",
+   "onda": 1,
+   "partenza": "bc36f48120ec38bf20880c7d68b3171015744681",
+   "tetto_usd": 28,
+   "finita": false
+  },
+  "R04": {
+   "id": "session_015BmpnWQtM3nnP4b4XgAfEj",
+   "ramo": "ccr-30918361-coyajm-m04",
+   "onda": 1,
+   "partenza": "bc36f48120ec38bf20880c7d68b3171015744681",
+   "tetto_usd": 28,
+   "finita": false
+  }
+ },
+ "collaudatori": {},
+ "controllori": {}
+}

@@ -52,3 +52,4 @@ Atteso 140 $, tetto 170 $: riparatori 96-112 $, collaudi 26 $, passo 0 11 $, con
 
 ### Stato
 - 17:50 cartella `onda7/` pronta, decisione in DECISIONI e bacheca.
+- 17:48 aperte, senza nessuna richiesta a Nicola: K02 dell'onda 6 `session_015BmpnYbF1A4qxsRXWWgoeH` (ramo `ccr-30918361-coyajm-o6-k02`), R01 `session_015BmpnYgRJ2nThdqp4z1F41`, R02 `session_015BmpnWpKkj3VXdnrdtAc4b`, R03 `session_015BmpnZ6MiCTaF52P9H1E5L`, R04 `session_015BmpnWQtM3nnP4b4XgAfEj`. Limite `allowed_warning`. Regia a 229 mila token e 1,78 $: resta qui oltre i 250 mila, perché una regia nuova in ad-mycity farebbe chiedere conferma a Nicola a ogni apertura (guardia `pre-scrittura.mjs`).
