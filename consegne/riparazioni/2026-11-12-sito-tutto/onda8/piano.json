@@ -1,0 +1,499 @@
+{
+  "casa": "sito",
+  "profilo": "scelta",
+  "creato": "2026-11-17 19:52",
+  "onde": [
+    {
+      "onda": 1,
+      "base": "1a7de5b9295a70eba644b7a340cef6d93f5379fc",
+      "creata": "2026-11-17 19:52",
+      "per_sessione": 14,
+      "candidate": [
+        "qa-flussi|un doppio clic su «pubblica prodotto» mette in vendita due o tre prodotti uguali",
+        "performance|le pagine che vendono si disegnano solo nel browser, e il preload della prima foto non serve a niente",
+        "stati-ui|senza database la categoria e la scheda prodotto mostrano «qualcosa è andato storto» invece del loro errore con «riprova»",
+        "qa-flussi|le zone del fattorino dicono «salvate» prima dell'esito",
+        "accessibilita|nella chat, quando i messaggi arrivano dopo l'apertura o dopo «riprova», il lettore di schermo legge tutto il filo",
+        "accessibilita|la pagina promozioni salta ancora dall'h1 all'h3",
+        "frontend-ux|una categoria con la lettura dei prodotti caduta resta una pagina bianca",
+        "qa-flussi|il finto client supabase condiviso delle prove risponde a rpc() con «nessun errore»: una pagina che salva con una funzione del database sembra riuscita anche se non scrive niente",
+        "frontend-ux|sulla pagina del negozio il testo lungo si taglia ancora in silenzio a 4.000 caratteri",
+        "accessibilita|la x degli avvisi dice «close toast» in inglese e sui caricamenti non chiude niente",
+        "flussi-conversione|sulla scheda prodotto un secondo «aggiungi al carrello» entro un secondo viene ignorato senza dire niente",
+        "navigazione-gerarchia|la tendina della ricerca «sfoglia per categoria» elenca anche le categorie vuote",
+        "frontend-ux|lo scheletro del negozio impedisce il 404 vero sulle pagine dei negozi anche senza lo scheletro della radice",
+        "qa-flussi|se il filtro finale sui negozi approvati scarta righe, «carica altri» si ferma",
+        "qa-flussi|il taglio sui prodotti recensiti non usa la lettura a blocchi: sopra circa 216 id dà 414",
+        "qa-flussi|le prove che fanno girare tutto lo script del backup non hanno un psql finto",
+        "stati-ui|«duplica prodotto» senza rete apre il modulo vuoto finché la rete non torna",
+        "stati-ui|senza rete il modulo prodotto crede che il negozio non offra la consegna veloce",
+        "qa-flussi|la rotta del lotto sul catalogo, se non riceve l'elenco dei prodotti, applica ancora tutti i risultati",
+        "stati-ui|la barra cade se localstorage lancia su ogni chiave",
+        "stati-ui|sulla bacheca del fattorino, se la lettura dello stato online cade, la pagina scrive «sei offline» invece di dire che non lo sa; anche il voto ignora l’errore",
+        "stati-ui|con upstash il freno dell'accesso dice sempre di aspettare la finestra intera, anche quando ne manca meno",
+        "qa-flussi|il primo messaggio mandato insieme all'apertura della conversazione non avvisa il negozio",
+        "qa-flussi|il campanello del pannello negozio conta anche le promozioni di chi le ha spente",
+        "qa-flussi|nella pagina novità il numero in alto conta anche prodotti che la griglia non mostra",
+        "qa-flussi|dopo aver tolto un prodotto da una lista, il conteggio in /lists resta vecchio fino a 30 secondi",
+        "qa-flussi|il client supabase finto delle prove non sa concatenare .rpc().order().range()",
+        "accessibilita|il riquadro degli avvisi si presenta al lettore di schermo come «notifications alt+t», in inglese",
+        "qa-flussi|la pagina amministrazione «nuovo prodotto» invia ancora con mutate, senza guardia contro il doppio clic",
+        "navigazione-gerarchia|menu, piede, vetrina e pagina categorie buttano via le categorie piene già note quando una ricarica fallisce",
+        "qa-flussi|nell'anteprima dell'import la colonna quantità mostra 0 accanto all'errore «quantità non valida»",
+        "qa-flussi|aggiungere o togliere un prodotto da una lista dalla pagina prodotto lascia vecchio il conteggio in /lists",
+        "qa-flussi|dopo «elimina lista» e dopo il cambio di visibilità /lists può mostrare dati vecchi",
+        "qa-flussi|le date degli eventi nell'amministrazione non usano il fuso di piacenza",
+        "layout-responsive|la riga «notifiche push del browser» delle impostazioni non ha min-w-0 sul testo",
+        "microcopy|in produzione senza chiave pubblica anti-robot il modulo contatti fallisce senza dire dove scrivere",
+        "microcopy|l'avviso «già aggiunto» si ripete a raffica e lo dice anche dopo un cambio di variante entro un secondo",
+        "layout-responsive|a 320 px con il testo al 200% la pagina chi siamo scorre ancora di lato di 17 px",
+        "qa-flussi|altre due ancore sommano il loro scroll-mt allo scroll-padding da md in su",
+        "frontend-ux|la home di un negozio inesistente ripete «negozio non trovato» nel titolo e nella pagina",
+        "qa-flussi|anche il filtro per categoria della pagina dei negozi risale solo dieci livelli di categorie madri",
+        "qa-flussi|il finto di supabase delle prove fa partire subito la chiamata alla funzione del database, mentre quello vero la manda solo quando qualcuno aspetta la risposta"
+      ],
+      "sessioni": {
+        "R01": {
+          "tema": "accessibilita",
+          "voci": [
+            {
+              "id": "R01-001",
+              "chiave": "accessibilita|nella chat, quando i messaggi arrivano dopo l'apertura o dopo «riprova», il lettore di schermo legge tutto il filo",
+              "gravita": "minore",
+              "titolo": "Nella chat, quando i messaggi arrivano dopo l'apertura o dopo «Riprova», il lettore di schermo legge tutto il filo",
+              "file": [
+                "app/messages/[id]/page.tsx"
+              ]
+            },
+            {
+              "id": "R01-002",
+              "chiave": "accessibilita|la pagina promozioni salta ancora dall'h1 all'h3",
+              "gravita": "minore",
+              "titolo": "La pagina Promozioni salta ancora dall'h1 all'h3",
+              "file": [
+                "app/promozioni/page.tsx"
+              ]
+            },
+            {
+              "id": "R01-003",
+              "chiave": "accessibilita|il riquadro degli avvisi si presenta al lettore di schermo come «notifications alt+t», in inglese",
+              "gravita": "minore",
+              "titolo": "Il riquadro degli avvisi si presenta al lettore di schermo come «Notifications alt+T», in inglese",
+              "file": [
+                "components/providers/ToastProvider.tsx"
+              ]
+            },
+            {
+              "id": "R01-004",
+              "chiave": "accessibilita|la x degli avvisi dice «close toast» in inglese e sui caricamenti non chiude niente",
+              "gravita": "minore",
+              "titolo": "La X degli avvisi dice «Close toast» in inglese e sui caricamenti non chiude niente",
+              "file": [
+                "components/providers/ToastProvider.tsx",
+                "components/seller/ProductForm.tsx"
+              ]
+            },
+            {
+              "id": "R01-005",
+              "chiave": "navigazione-gerarchia|menu, piede, vetrina e pagina categorie buttano via le categorie piene già note quando una ricarica fallisce",
+              "gravita": "minore",
+              "titolo": "Menu, piede, vetrina e pagina categorie buttano via le categorie piene già note quando una ricarica fallisce",
+              "file": [
+                "components/CategoryBar.tsx",
+                "components/CategoryShowcase.tsx",
+                "app/categorie/page.tsx",
+                "components/Footer.tsx"
+              ]
+            },
+            {
+              "id": "R01-006",
+              "chiave": "qa-flussi|le date degli eventi nell'amministrazione non usano il fuso di piacenza",
+              "gravita": "minore",
+              "titolo": "Le date degli eventi nell'amministrazione non usano il fuso di Piacenza",
+              "file": [
+                "app/admin/events/page.tsx"
+              ]
+            },
+            {
+              "id": "R01-007",
+              "chiave": "qa-flussi|il primo messaggio mandato insieme all'apertura della conversazione non avvisa il negozio",
+              "gravita": "minore",
+              "titolo": "Il primo messaggio mandato insieme all'apertura della conversazione non avvisa il negozio",
+              "file": [
+                "app/api/chat/conversations/route.ts"
+              ]
+            },
+            {
+              "id": "R01-008",
+              "chiave": "qa-flussi|le zone del fattorino dicono «salvate» prima dell'esito",
+              "gravita": "minore",
+              "titolo": "Le zone del fattorino dicono «salvate» prima dell'esito",
+              "file": [
+                "app/rider/availability/page.tsx"
+              ]
+            },
+            {
+              "id": "R01-009",
+              "chiave": "qa-flussi|aggiungere o togliere un prodotto da una lista dalla pagina prodotto lascia vecchio il conteggio in /lists",
+              "gravita": "minore",
+              "titolo": "Aggiungere o togliere un prodotto da una lista dalla pagina prodotto lascia vecchio il conteggio in /lists",
+              "file": [
+                "components/AddToListButton.tsx"
+              ]
+            },
+            {
+              "id": "R01-010",
+              "chiave": "qa-flussi|un doppio clic su «pubblica prodotto» mette in vendita due o tre prodotti uguali",
+              "gravita": "minore",
+              "titolo": "Un doppio clic su «Pubblica prodotto» mette in vendita due o tre prodotti uguali",
+              "file": [
+                "components/seller/ProductForm.tsx",
+                "app/seller/products/new/page.tsx"
+              ]
+            },
+            {
+              "id": "R01-011",
+              "chiave": "qa-flussi|le prove che fanno girare tutto lo script del backup non hanno un psql finto",
+              "gravita": "minore",
+              "titolo": "Le prove che fanno girare tutto lo script del backup non hanno un psql finto",
+              "file": [
+                "tests/unit/la-copia-delle-foto-si-riapre-davvero.test.ts"
+              ]
+            },
+            {
+              "id": "R01-012",
+              "chiave": "stati-ui|sulla bacheca del fattorino, se la lettura dello stato online cade, la pagina scrive «sei offline» invece di dire che non lo sa; anche il voto ignora l’errore",
+              "gravita": "minore",
+              "titolo": "Sulla bacheca del fattorino, se la lettura dello stato online cade, la pagina scrive «Sei offline» invece di dire che non lo sa; anche il voto ignora l’errore",
+              "file": [
+                "app/rider/page.tsx"
+              ]
+            },
+            {
+              "id": "R01-013",
+              "chiave": "stati-ui|«duplica prodotto» senza rete apre il modulo vuoto finché la rete non torna",
+              "gravita": "minore",
+              "titolo": "«Duplica prodotto» senza rete apre il modulo vuoto finché la rete non torna",
+              "file": [
+                "app/seller/products/new/page.tsx"
+              ]
+            },
+            {
+              "id": "R01-014",
+              "chiave": "stati-ui|con upstash il freno dell'accesso dice sempre di aspettare la finestra intera, anche quando ne manca meno",
+              "gravita": "minore",
+              "titolo": "Con Upstash il freno dell'accesso dice sempre di aspettare la finestra intera, anche quando ne manca meno",
+              "file": [
+                "lib/rate-limit.ts"
+              ]
+            }
+          ],
+          "file": [
+            "app/admin/events/page.tsx",
+            "app/api/chat/conversations/route.ts",
+            "app/categorie/page.tsx",
+            "app/messages/[id]/page.tsx",
+            "app/promozioni/page.tsx",
+            "app/rider/availability/page.tsx",
+            "app/rider/page.tsx",
+            "app/seller/products/new/page.tsx",
+            "components/AddToListButton.tsx",
+            "components/CategoryBar.tsx",
+            "components/CategoryShowcase.tsx",
+            "components/Footer.tsx",
+            "components/providers/ToastProvider.tsx",
+            "components/seller/ProductForm.tsx",
+            "lib/rate-limit.ts"
+          ],
+          "migrazioni": [
+            580,
+            589
+          ]
+        },
+        "R02": {
+          "tema": "flussi-conversione",
+          "voci": [
+            {
+              "id": "R02-001",
+              "chiave": "flussi-conversione|sulla scheda prodotto un secondo «aggiungi al carrello» entro un secondo viene ignorato senza dire niente",
+              "gravita": "minore",
+              "titolo": "Sulla scheda prodotto un secondo «Aggiungi al carrello» entro un secondo viene ignorato senza dire niente",
+              "file": [
+                "app/product/[id]/page.tsx"
+              ]
+            },
+            {
+              "id": "R02-002",
+              "chiave": "layout-responsive|a 320 px con il testo al 200% la pagina chi siamo scorre ancora di lato di 17 px",
+              "gravita": "minore",
+              "titolo": "a 320 px con il testo al 200% la pagina chi siamo scorre ancora di lato di 17 px",
+              "file": [
+                "app/about/page.tsx"
+              ]
+            },
+            {
+              "id": "R02-003",
+              "chiave": "layout-responsive|la riga «notifiche push del browser» delle impostazioni non ha min-w-0 sul testo",
+              "gravita": "minore",
+              "titolo": "La riga «Notifiche push del browser» delle impostazioni non ha min-w-0 sul testo",
+              "file": [
+                "app/profile/settings/page.tsx"
+              ]
+            },
+            {
+              "id": "R02-004",
+              "chiave": "microcopy|in produzione senza chiave pubblica anti-robot il modulo contatti fallisce senza dire dove scrivere",
+              "gravita": "minore",
+              "titolo": "In produzione senza chiave pubblica anti-robot il modulo contatti fallisce senza dire dove scrivere",
+              "file": [
+                "app/api/contact/route.ts"
+              ]
+            },
+            {
+              "id": "R02-005",
+              "chiave": "microcopy|l'avviso «già aggiunto» si ripete a raffica e lo dice anche dopo un cambio di variante entro un secondo",
+              "gravita": "minore",
+              "titolo": "l'avviso «già aggiunto» si ripete a raffica e lo dice anche dopo un cambio di variante entro un secondo",
+              "file": [
+                "app/product/[id]/page.tsx"
+              ]
+            },
+            {
+              "id": "R02-006",
+              "chiave": "qa-flussi|la pagina amministrazione «nuovo prodotto» invia ancora con mutate, senza guardia contro il doppio clic",
+              "gravita": "minore",
+              "titolo": "La pagina amministrazione «nuovo prodotto» invia ancora con mutate, senza guardia contro il doppio clic",
+              "file": [
+                "app/admin/products/new/page.tsx"
+              ]
+            },
+            {
+              "id": "R02-007",
+              "chiave": "qa-flussi|altre due ancore sommano il loro scroll-mt allo scroll-padding da md in su",
+              "gravita": "minore",
+              "titolo": "altre due ancore sommano il loro scroll-mt allo scroll-padding da md in su",
+              "file": [
+                "app/faq/page.tsx"
+              ]
+            },
+            {
+              "id": "R02-008",
+              "chiave": "qa-flussi|nell'anteprima dell'import la colonna quantità mostra 0 accanto all'errore «quantità non valida»",
+              "gravita": "minore",
+              "titolo": "Nell'anteprima dell'import la colonna quantità mostra 0 accanto all'errore «Quantità non valida»",
+              "file": [
+                "app/seller/products/import/page.tsx"
+              ]
+            },
+            {
+              "id": "R02-009",
+              "chiave": "qa-flussi|il campanello del pannello negozio conta anche le promozioni di chi le ha spente",
+              "gravita": "minore",
+              "titolo": "Il campanello del pannello negozio conta anche le promozioni di chi le ha spente",
+              "file": [
+                "components/seller/SellerShell.tsx"
+              ]
+            },
+            {
+              "id": "R02-010",
+              "chiave": "qa-flussi|il taglio sui prodotti recensiti non usa la lettura a blocchi: sopra circa 216 id dà 414",
+              "gravita": "minore",
+              "titolo": "Il taglio sui prodotti recensiti non usa la lettura a blocchi: sopra circa 216 id dà 414",
+              "file": [
+                "lib/queries/griglia-prodotti.ts"
+              ]
+            },
+            {
+              "id": "R02-011",
+              "chiave": "qa-flussi|nella pagina novità il numero in alto conta anche prodotti che la griglia non mostra",
+              "gravita": "minore",
+              "titolo": "Nella pagina Novità il numero in alto conta anche prodotti che la griglia non mostra",
+              "file": [
+                "lib/queries/griglia-prodotti.ts"
+              ]
+            },
+            {
+              "id": "R02-012",
+              "chiave": "qa-flussi|se il filtro finale sui negozi approvati scarta righe, «carica altri» si ferma",
+              "gravita": "minore",
+              "titolo": "Se il filtro finale sui negozi approvati scarta righe, «Carica altri» si ferma",
+              "file": [
+                "lib/queries/griglia-prodotti.ts"
+              ]
+            },
+            {
+              "id": "R02-013",
+              "chiave": "stati-ui|la barra cade se localstorage lancia su ogni chiave",
+              "gravita": "minore",
+              "titolo": "La barra cade se localStorage lancia su ogni chiave",
+              "file": [
+                "components/Navbar.tsx"
+              ]
+            }
+          ],
+          "file": [
+            "app/about/page.tsx",
+            "app/admin/products/new/page.tsx",
+            "app/api/contact/route.ts",
+            "app/faq/page.tsx",
+            "app/product/[id]/page.tsx",
+            "app/profile/settings/page.tsx",
+            "app/seller/products/import/page.tsx",
+            "components/Navbar.tsx",
+            "components/seller/SellerShell.tsx",
+            "lib/queries/griglia-prodotti.ts"
+          ],
+          "migrazioni": [
+            590,
+            599
+          ]
+        },
+        "R03": {
+          "tema": "frontend-ux",
+          "voci": [
+            {
+              "id": "R03-001",
+              "chiave": "frontend-ux|una categoria con la lettura dei prodotti caduta resta una pagina bianca",
+              "gravita": "minore",
+              "titolo": "Una categoria con la lettura dei prodotti caduta resta una pagina bianca",
+              "file": [
+                "app/category/[slug]/page.tsx"
+              ]
+            },
+            {
+              "id": "R03-002",
+              "chiave": "frontend-ux|la home di un negozio inesistente ripete «negozio non trovato» nel titolo e nella pagina",
+              "gravita": "minore",
+              "titolo": "La home di un negozio inesistente ripete «Negozio non trovato» nel titolo e nella pagina",
+              "file": [
+                "app/store/[id]/layout.tsx"
+              ]
+            },
+            {
+              "id": "R03-003",
+              "chiave": "frontend-ux|lo scheletro del negozio impedisce il 404 vero sulle pagine dei negozi anche senza lo scheletro della radice",
+              "gravita": "minore",
+              "titolo": "Lo scheletro del negozio impedisce il 404 vero sulle pagine dei negozi anche senza lo scheletro della radice",
+              "file": [
+                "app/store/loading.tsx"
+              ]
+            },
+            {
+              "id": "R03-004",
+              "chiave": "frontend-ux|sulla pagina del negozio il testo lungo si taglia ancora in silenzio a 4.000 caratteri",
+              "gravita": "minore",
+              "titolo": "Sulla pagina del negozio il testo lungo si taglia ancora in silenzio a 4.000 caratteri",
+              "file": [
+                "components/seller/site/SectionConfigForm.tsx"
+              ]
+            },
+            {
+              "id": "R03-005",
+              "chiave": "navigazione-gerarchia|la tendina della ricerca «sfoglia per categoria» elenca anche le categorie vuote",
+              "gravita": "minore",
+              "titolo": "La tendina della ricerca «Sfoglia per categoria» elenca anche le categorie vuote",
+              "file": [
+                "components/SearchBar.tsx"
+              ]
+            },
+            {
+              "id": "R03-006",
+              "chiave": "qa-flussi|la rotta del lotto sul catalogo, se non riceve l'elenco dei prodotti, applica ancora tutti i risultati",
+              "gravita": "minore",
+              "titolo": "La rotta del lotto sul catalogo, se non riceve l'elenco dei prodotti, applica ancora tutti i risultati",
+              "file": [
+                "app/api/ai/catalog-batch/apply/route.ts"
+              ]
+            },
+            {
+              "id": "R03-007",
+              "chiave": "qa-flussi|dopo «elimina lista» e dopo il cambio di visibilità /lists può mostrare dati vecchi",
+              "gravita": "minore",
+              "titolo": "Dopo «elimina lista» e dopo il cambio di visibilità /lists può mostrare dati vecchi",
+              "file": [
+                "app/lists/[id]/page.tsx"
+              ]
+            },
+            {
+              "id": "R03-008",
+              "chiave": "qa-flussi|dopo aver tolto un prodotto da una lista, il conteggio in /lists resta vecchio fino a 30 secondi",
+              "gravita": "minore",
+              "titolo": "Dopo aver tolto un prodotto da una lista, il conteggio in /lists resta vecchio fino a 30 secondi",
+              "file": [
+                "app/lists/[id]/page.tsx"
+              ]
+            },
+            {
+              "id": "R03-009",
+              "chiave": "qa-flussi|anche il filtro per categoria della pagina dei negozi risale solo dieci livelli di categorie madri",
+              "gravita": "minore",
+              "titolo": "anche il filtro per categoria della pagina dei negozi risale solo dieci livelli di categorie madri",
+              "file": [
+                "lib/queries/categorie-dei-negozi.ts"
+              ]
+            },
+            {
+              "id": "R03-010",
+              "chiave": "qa-flussi|il client supabase finto delle prove non sa concatenare .rpc().order().range()",
+              "gravita": "minore",
+              "titolo": "il client Supabase finto delle prove non sa concatenare .rpc().order().range()",
+              "file": [
+                "tests/unit/aiuti/finti/supabase-client.mjs"
+              ]
+            },
+            {
+              "id": "R03-011",
+              "chiave": "qa-flussi|il finto client supabase condiviso delle prove risponde a rpc() con «nessun errore»: una pagina che salva con una funzione del database sembra riuscita anche se non scrive niente",
+              "gravita": "minore",
+              "titolo": "Il finto client Supabase condiviso delle prove risponde a rpc() con «nessun errore»: una pagina che salva con una funzione del database sembra riuscita anche se non scrive niente",
+              "file": [
+                "tests/unit/aiuti/finti/supabase-client.mjs"
+              ]
+            },
+            {
+              "id": "R03-012",
+              "chiave": "qa-flussi|il finto di supabase delle prove fa partire subito la chiamata alla funzione del database, mentre quello vero la manda solo quando qualcuno aspetta la risposta",
+              "gravita": "minore",
+              "titolo": "Il finto di Supabase delle prove fa partire subito la chiamata alla funzione del database, mentre quello vero la manda solo quando qualcuno aspetta la risposta",
+              "file": [
+                "tests/unit/aiuti/finti/supabase-client.mjs"
+              ]
+            },
+            {
+              "id": "R03-013",
+              "chiave": "stati-ui|senza rete il modulo prodotto crede che il negozio non offra la consegna veloce",
+              "gravita": "minore",
+              "titolo": "Senza rete il modulo prodotto crede che il negozio non offra la consegna veloce",
+              "file": [
+                "lib/queries/consegna-veloce-del-negozio.ts"
+              ]
+            }
+          ],
+          "file": [
+            "app/api/ai/catalog-batch/apply/route.ts",
+            "app/category/[slug]/page.tsx",
+            "app/lists/[id]/page.tsx",
+            "app/store/[id]/layout.tsx",
+            "app/store/loading.tsx",
+            "components/SearchBar.tsx",
+            "components/seller/site/SectionConfigForm.tsx",
+            "lib/queries/categorie-dei-negozi.ts",
+            "lib/queries/consegna-veloce-del-negozio.ts",
+            "tests/unit/aiuti/finti/supabase-client.mjs"
+          ],
+          "migrazioni": [
+            600,
+            609
+          ]
+        }
+      },
+      "rimandate": [
+        "performance|le pagine che vendono si disegnano solo nel browser, e il preload della prima foto non serve a niente",
+        "stati-ui|senza database la categoria e la scheda prodotto mostrano «qualcosa è andato storto» invece del loro errore con «riprova»"
+      ],
+      "regia": []
+    }
+  ],
+  "cucitura": [],
+  "eccedenza": []
+}
