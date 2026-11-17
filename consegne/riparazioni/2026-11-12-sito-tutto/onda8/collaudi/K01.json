@@ -1,0 +1,247 @@
+{
+ "collaudatore": "K01",
+ "riparatori": [
+  "R01",
+  "R02",
+  "R03"
+ ],
+ "aggiornato": "2026-11-17 21:25",
+ "finita": false,
+ "voci": [
+  {
+   "id": "R01-001",
+   "chiave": "accessibilita|nella chat, quando i messaggi arrivano dopo l'apertura o dopo «riprova», il lettore di schermo legge tutto il filo",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "esito": "regge",
+    "comando": "cd ad-mycity && git -C ../wa checkout --detach 6719e031cb839da6ee872897d0b41839efd6674d && timeout 540 node cervello/prova-rimessa.mjs --repo ../wa --base 6719e031cb839da6ee872897d0b41839efd6674d^ --file app/messages/[id]/page.tsx --prove tests/unit/riparazione-r01-chat-registro-acceso-dopo-il-frame.test.tsx --json"
+   },
+   "nota": "K01 da sé. Prova rimessa 0. Le due prove esistenti della chat toccate (r02 registro acceso a filo caricato, r06 chat si annuncia) hanno solo un'attesa di 150 ms in più, nessuna asserzione tolta; rimessi a mano alla testa f52905f3 i due difetti vecchi: registro sempre «polite» → cadono r02 (3) e la nuova (3); registro mai acceso → cadono r06, r02 e la nuova (4). Non indebolite. Apertura, arrivo dopo la conversazione e Riprova coperti; messaggio dal vivo a registro acceso."
+  },
+  {
+   "id": "R01-002",
+   "chiave": "accessibilita|la pagina promozioni salta ancora dall'h1 all'h3",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "esito": "regge",
+    "comando": "cd ad-mycity && git -C ../wb checkout --detach f8758f305df3bd4fd3fcc805ef827f55e622a9bc && timeout 540 node cervello/prova-rimessa.mjs --repo ../wb --base f8758f305df3bd4fd3fcc805ef827f55e622a9bc^ --file app/promozioni/page.tsx --prove tests/unit/riparazione-r01-promozioni-senza-salti-di-titolo.test.tsx --json"
+   },
+   "nota": "qa A: prova 4/4; l'h2 nascosto sta fuori da scheletro, vuoto, errore e griglia; ProductGrid onlyPromo non mette titoli suoi; nessun salto h1→h3 (nell'errore due h2 di fila, non un salto)."
+  },
+  {
+   "id": "R01-003",
+   "chiave": "accessibilita|il riquadro degli avvisi si presenta al lettore di schermo come «notifications alt+t», in inglese",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "esito": "regge",
+    "comando": "cd ad-mycity && git -C ../wa checkout --detach e773dec05fdc36b68f781b2b0f4e61dff5ff78bc && timeout 540 node cervello/prova-rimessa.mjs --repo ../wa --base e773dec05fdc36b68f781b2b0f4e61dff5ff78bc^ --file components/providers/ToastProvider.tsx --prove tests/unit/riparazione-r01-riquadro-avvisi-in-italiano.test.tsx --json"
+   },
+   "nota": "qa A: in sonner 1.7.4 l'etichetta è `${containerAriaLabel} ${hotkey}` = «Avvisi, scorciatoia alt+T»; un solo Toaster nel sito; «Close toast» già coperto dalla X italiana. Prove 4/4."
+  },
+  {
+   "id": "R01-004",
+   "chiave": "accessibilita|la x degli avvisi dice «close toast» in inglese e sui caricamenti non chiude niente",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "esito": "regge",
+    "comando": "cd ad-mycity && git -C ../wb checkout --detach bbef09573ef0de0369616d3430ee328f4a81e2de && timeout 540 node cervello/prova-rimessa.mjs --repo ../wb --base bbef09573ef0de0369616d3430ee328f4a81e2de^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r01-caricamenti-che-si-chiudono.test.tsx --json"
+   },
+   "nota": "qa A: solo 3 toast.loading nel sito, tutti in ProductForm, ogni uscita li chiude con un tipo; nessun toast(…,{id}) né toast.promise altrove. Latente: dilloDopoIlPatch.ts:17 fa ancora toast(testo, opzioni), oggi nessun chiamante gli passa l'id di un caricamento."
+  },
+  {
+   "id": "R01-005",
+   "chiave": "navigazione-gerarchia|menu, piede, vetrina e pagina categorie buttano via le categorie piene già note quando una ricarica fallisce",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "esito": "regge",
+    "comando": "cd ad-mycity && git -C ../wa checkout --detach db38a0f0064b758039f6debd9b1fe1ecc660992d && timeout 540 node cervello/prova-rimessa.mjs --repo ../wa --base 83bdc3624f9485cb2ee712bda101cf2e7c8a23f5^ --file components/CategoryBar.tsx,components/CategoryShowcase.tsx,app/categorie/page.tsx,components/Footer.tsx --prove tests/unit/riparazione-r01-categorie-piene-restano-dopo-una-rilettura-caduta.test.tsx --json"
+   },
+   "nota": "qa A: i quattro chiamanti passano piene.data; soloLePiene tratta undefined come «tutte», la prima lettura caduta mostra ancora tutto; nessun altro isError che butti il dato nei quattro file; 102 file di prova collegati verdi (577)."
+  },
+  {
+   "id": "R01-006",
+   "chiave": "qa-flussi|le date degli eventi nell'amministrazione non usano il fuso di piacenza",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "esito": "regge",
+    "comando": "cd ad-mycity && git -C ../wb checkout --detach d0b9cde66a9aee18bd4e38ab3f2008b111ad1aab && timeout 540 node cervello/prova-rimessa.mjs --repo ../wb --base d0b9cde66a9aee18bd4e38ab3f2008b111ad1aab^ --file app/admin/events/page.tsx --prove tests/unit/riparazione-r01-eventi-admin-nel-fuso-di-piacenza.test.tsx --json"
+   },
+   "nota": "qa A: tabella e scheda telefono con dataEOraPiacenza (Intl Europe/Rome, ora legale compresa); provata con TZ Los Angeles e Auckland; nessun altro orario nella pagina fuori dagli aiutanti di Piacenza."
+  },
+  {
+   "id": "R01-009",
+   "chiave": "qa-flussi|aggiungere o togliere un prodotto da una lista dalla pagina prodotto lascia vecchio il conteggio in /lists",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "esito": "regge",
+    "comando": "cd ad-mycity && git -C ../wa checkout --detach 55307e9165992c45cb06102d47fcbc5d7755950e && timeout 540 node cervello/prova-rimessa.mjs --repo ../wa --base 55307e9165992c45cb06102d47fcbc5d7755950e^ --file components/AddToListButton.tsx --prove tests/unit/riparazione-r01-lista-conteggio-dalla-pagina-prodotto.test.tsx --json"
+   },
+   "nota": "qa A: chiavi ['lists','mine'], ['lists-public'], ['lists-featured'] identiche a app/lists/page.tsx; rilegge su aggiunta, rimozione e crea-e-aggiungi. Fuori voce, già così sulla base: createAndAdd.onError (AddToListButton.tsx:138) non rilegge se la lista nasce e l'inserimento cade."
+  },
+  {
+   "id": "R02-009",
+   "chiave": "qa-flussi|il campanello del pannello negozio conta anche le promozioni di chi le ha spente",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "esito": "regge",
+    "comando": "cd ad-mycity && git -C ../wc checkout --detach c32c6e8dfff4f9d7a56e13913980b22db137b536 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wc --base c32c6e8dfff4f9d7a56e13913980b22db137b536^ --file components/seller/SellerShell.tsx --prove tests/unit/riparazione-r02-campanello-negozio-promo-spente.test.ts --json"
+   },
+   "nota": "K01 da sé, alla testa 974de28e: c32c6e8d toglie le promo (neq category promo se notif_promos non è true) solo da useNotifUnread di components/seller/SellerShell.tsx; components/hooks/useNotificationsCount.ts (Navbar, AccountShell, AccountSidebar, AdminSidebar: «stesso conto della barra del sito») e app/notifications/page.tsx (lista e «non lette» dallo stesso hook) le contano ancora (grep notif_promos/category: niente). Negoziante con promo spente e 3 non lette di cui 1 promo: pannello 2, sito e lista 3; sulla base i tre numeri coincidevano. Il riparatore stesso chiede di applicarla insieme alle due modifiche ai file altrui. Se la preferenza non si legge il pallino dice 0."
+  },
+  {
+   "id": "R03-001",
+   "chiave": "frontend-ux|una categoria con la lettura dei prodotti caduta resta una pagina bianca",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "esito": "regge",
+    "comando": "cd ad-mycity && git -C ../wc checkout --detach 959a2a423140d69c2091a436f120e9202a7e27e4 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wc --base 959a2a42^ --file app/category/[slug]/page.tsx --prove tests/unit/riparazione-r03-categoria-file-cadute.test.ts --json"
+   },
+   "nota": "qa C: parziale come dichiarato. Prova e 27 file vicini verdi; chiavi uguali a ProductGrid; griglia piatta invariata. Avviso React «Cannot update CategoryPage while rendering ProductGrid» (iscrizione alla cache che scatta durante il render dei figli, page.tsx:150), snapshot stabile, nessun ciclo; chiavi copiate a mano da ProductGrid.tsx:252."
+  },
+  {
+   "id": "R03-002",
+   "chiave": "frontend-ux|la home di un negozio inesistente ripete «negozio non trovato» nel titolo e nella pagina",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "esito": "regge",
+    "comando": "cd ad-mycity && git -C ../wc checkout --detach 7f72739b13c511795e9de5844c37379ba2e3b9be && timeout 540 node cervello/prova-rimessa.mjs --repo ../wc --base 7f72739b^ --file app/store/[id]/layout.tsx --prove tests/unit/riparazione-r03-titolo-negozio-mancante.test.ts --json"
+   },
+   "nota": "qa C la dava parziale (sinonimo: il lettore sente due «non trovato»); K01 la tiene: la voce è la frase «Negozio non trovato» ripetuta, ora compare una volta sola (titolo «Vetrina non trovata · MyCity»), come la cura già accettata della 404 (app/not-found.tsx: titolo con parole diverse dall'h1). Lettura caduta lancia (solo PGRST116/22P02 danno null): il titolo non mente; noindex e canonical invariati."
+  },
+  {
+   "id": "R03-005",
+   "chiave": "navigazione-gerarchia|la tendina della ricerca «sfoglia per categoria» elenca anche le categorie vuote",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "esito": "regge",
+    "comando": "cd ad-mycity && git -C ../wc checkout --detach 3c0e939def23a1a5421752f43692528b81ca0934 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wc --base 3c0e939d^ --file components/SearchBar.tsx --prove tests/unit/riparazione-r03-tendina-categorie-ricarica-caduta.test.ts --json"
+   },
+   "nota": "qa C: l'unico isError sul dato delle piene nel SearchBar era quello; prima lettura caduta → tutte, come prima; prova e prove vicine verdi."
+  },
+  {
+   "id": "R03-007",
+   "chiave": "qa-flussi|dopo «elimina lista» e dopo il cambio di visibilità /lists può mostrare dati vecchi",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "esito": "regge",
+    "comando": "cd ad-mycity && git -C ../wc checkout --detach e66bd7a8eefdf2bbce3b8accd5d67ab0eb594253 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wc --base e66bd7a8^ --file app/lists/[id]/page.tsx --prove tests/unit/riparazione-r03-liste-dopo-elimina-e-visibilita.test.tsx --json"
+   },
+   "nota": "qa C la dava parziale; K01 la tiene: la voce è /lists, che legge solo lists.inVetrina, .public, .mine (app/lists/page.tsx:54,78,96), e tutte e tre si rileggono dopo elimina e visibilità. Fuori voce (difetti nuovi): mineMin e containing non riletti (selettore della scheda prodotto mostra la lista eliminata fino a 30 s), detail/items della lista eliminata restano in memoria, la rinomina non rilegge /lists."
+  },
+  {
+   "id": "R03-008",
+   "chiave": "qa-flussi|dopo aver tolto un prodotto da una lista, il conteggio in /lists resta vecchio fino a 30 secondi",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "K01 da sé, sulla base 1a7de5b9: app/lists/[id]/page.tsx:162-169, onSuccess di removeItem (unica strada dei due cestini, righe 342 e 386) rilegge lists.mine/.public/.inVetrina; npx vitest run tests/unit/riparazione-r02-lista-conteggio-dopo-rimozione.test.tsx → 2/2 verde. Le altre scritture sulle voci delle liste: updateNote (non cambia il conteggio) e AddToListButton, che è la voce R01-009 di quest'onda (regge): la voce si chiude insieme a lei."
+  },
+  {
+   "id": "R03-009",
+   "chiave": "qa-flussi|anche il filtro per categoria della pagina dei negozi risale solo dieci livelli di categorie madri",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "esito": "regge",
+    "comando": "cd ad-mycity && git -C ../wd checkout --detach 1b6a971580d8ccba2650f72e360d61871beca2a4 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wd --base 1b6a9715^ --file lib/queries/categorie-dei-negozi.ts --prove tests/unit/riparazione-r03-madri-oltre-dieci-livelli.test.ts --json"
+   },
+   "nota": "qa C: il ciclo senza tetto si ferma col controllo «già visto» (giro e madre mancante provati), costo lineare; unico chiamante app/stores/page.tsx:179, stesso significato."
+  },
+  {
+   "id": "R03-013",
+   "chiave": "stati-ui|senza rete il modulo prodotto crede che il negozio non offra la consegna veloce",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "esito": "regge",
+    "comando": "cd ad-mycity && git -C ../wd checkout --detach 1b4eb64f1d6ee71bf452c832a18c4eac1e0c5db4 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wd --base 1b4eb64f^ --file lib/queries/consegna-veloce-del-negozio.ts --prove tests/unit/riparazione-r03-consegna-veloce-senza-rete.test.ts --json"
+   },
+   "nota": "qa C: hook, due pagine e ProductForm:881 giusti offline. Ma con prova temporanea: modulo montato con nonLetta, poi la rete torna (offre=true), cambio prezzo e salvo → scrive express_enabled=false, perché fastDelivery (ProductForm.tsx:264, file di R01) nasce una volta sola. Come sulla base, la voce non chiude tutta."
+  }
+ ]
+}
