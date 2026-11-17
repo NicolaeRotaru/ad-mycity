@@ -7157,3 +7157,11 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Il piano:** la ricetta di `consegne/audit/2026-11-17-costo-onda-5/ricetta.md`. Passo 0: collaudo delle 13 voci vive della cucitura dell'onda 5 più R33-022 (R31-012 tolta, R32-014 fuori perché tocca la cancellazione dei dati personali e copre metà voce). Poi 2 riparatori da 12 minori mai tentati, collaudo di tutte le voci, controllore sulla testa unita, PR. Disponibili 73 minori leggeri mai tentati, non 200.
 - **Tetto:** 90 $ in tutto, regia compresa (8 $). Soglia: si allarga con almeno 8 voci nuove che reggono su 24, ci si ferma a 5 o meno.
 - **Colore:** 🟡 spesa e codice in rami, firmata.
+
+## 2026-11-17 16:35 — Onda 6: obiettivo 50 difetti chiusi, tetto 700 $, nessun permesso chiesto (🟡, firmato da Nicola)
+**Le parole di Nicola (17/11, alla regista dell'onda 5, girate alla regia O6):** verso le 16:10 «sì, 100 difetti, tetto 700»; verso le 16:12 «nessuna sessione mi deve chiedere nessun permesso, se no si ferma tutto»; verso le 16:14 «Allora 50 nuovi difetti anziché 100».
+- **Obiettivo:** 50 difetti chiusi in tutto, passo 0 compreso (chiuso = regge al collaudo e al controllore). Arrivati a 50 ci si ferma, si chiude l'ultima onda con la sua PR. Tetto massimo 700 $ per tutto, pilota compreso; spesa attesa circa 400 $.
+- **Come si allarga:** il pilota resta con la sua soglia. Se passa (almeno 8 su 24 nuovi e controllore senza rossi), la regia allarga da sola a onde da circa 50 voci, ognuna con collaudo, controllore, unione e PR. Ordine: i 49 minori leggeri rimasti, poi i minori sensibili (soldi, dati, permessi) con ultracode e due lenti al collaudo (regola 5), per ultimi gli avanzi B e C. Se il pilota non passa, ci si ferma.
+- **Cancello fra le onde:** stop se l'onda appena finita supera i 12 $ a difetto chiuso, o se il limite della settimana non è «allowed» o c'è uso extra (si azzera giovedì 19/11 alle 10:00).
+- **Nessun permesso:** nessuna sessione usa add_repo, request_credential o il modo «plan», e nessuna fa domande a Nicola. I depositi si leggono col clone, ognuno spinge solo sul suo ramo. Un passo che vuole un permesso di Nicola non si fa: va nella PR come cosa per lui.
+- **Regia:** una nuova per fase, sotto i 250 mila token; eredita il permesso da qui. Una riga alla regista O5 a ogni PR pronta, con chiusi, spesi e totale verso i 50.
