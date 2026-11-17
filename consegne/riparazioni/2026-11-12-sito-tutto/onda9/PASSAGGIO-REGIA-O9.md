@@ -8,7 +8,7 @@ a: «Ondata 9 · 2.0»
 # Onda 9: il passaggio alla regia 2.0
 
 ## In parole semplici
-La regia dell'onda 9 passa a una sessione nuova, perché la chat di partenza ha troppa storia e ogni risveglio costa quattro volte. La chat «Ondata 9» resta quella dove Nicola parla: la 2.0 le scrive solo il conto finale, che lei gli gira.
+La regia dell'onda 9 passa a una sessione nuova, perché la chat di partenza ha troppa storia e ogni risveglio costa quattro volte. La chat «Ondata 9» resta quella dove Nicola parla: la 2.0 le scrive solo il conto finale, che lei gli gira. Un esempio: quando R03, oggi a circa 22 $, arriva a 30 $, è la 2.0 a dirgli «consegna» e poi a salvare il suo referto.
 
 ## Cosa cambia per te
 Niente: i riparatori sanno già a chi scrivere.
