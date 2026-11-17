@@ -1,17 +1,9 @@
-# elenco A di pronte (2026-11-15 23:38): 16 voci uniche, una chiave per riga
+# elenco A di pronte (2026-11-16 10:40): 8 voci uniche, una chiave per riga
 ai-endpoints|la lettura di un prodotto da una foto va in errore 500 se il modello scrive il motivo del rifiuto in un formato inatteso
 ai-endpoints|i tagli contro i costi contano le voci degli elenchi ma non la loro lunghezza: una richiesta sotto il megabyte riempie la finestra del modello
 architettura|all'assistente ai si dice che la consegna di una pagnotta da 3,50 € costa 4 €, ma la consegna si paga sul carrello e non sul singolo prodotto
 frontend-ux|la vetrina di ogni negozio manda a google i suoi dati senza l'indirizzo della pagina, e nel browser va in conflitto con quello che ha disegnato il server
 frontend-ux|orari, stelle e indirizzo web del negozio non arrivano a google nella prima lettura
-api-backend|due cancellazioni dello stesso account partite insieme danno un errore falso o una riga doppia nel registro
-api-backend|la rotta che cancella un utente accetta anche un amministratore, mentre la pagina nasconde il bottone
-api-backend|il giro che annulla legge al massimo 100 ordini fermi, senza un ordine: una veloce scaduta può restare fuori dal giro
-api-backend|allarme 'persone non avvisate' riscritto ogni notte, senza dire chi: la stessa classe chiusa per le email resta aperta qui
-api-backend|avvisi ed email in un giro senza tetto di tempo: con posta appesa e ~15 in attesa, gli ultimi non hanno nemmeno l'avviso nel pannello
-api-backend|l'allarme 'scrivile tu' si chiude solo se l'email parte: se la persona annulla o viene cancellata resta aperto per sempre col suo id
-api-backend|se due giri della cancellazione account partono insieme, l'account sparisce ma agli amministratori arriva un falso allarme di cancellazione fallita
-api-backend|se l'amministratore apre i documenti di un fattorino con un codice storto, la rotta risponde con un guasto invece di dire che il codice non è valido
-api-backend|se il cliente ritira il reso mentre il negozio lo approva con rimborso, il reso resta annullato coi soldi gia' usciti
-api-backend|gli avvisi «incasso in contanti che non quadra» e «incasso senza foto» si scrivono senza guardare se sono partiti
-api-backend|la rotta che registra le visite va in errore del server se riceve un corpo vuoto o rotto, o un cookie dei consensi storto
+qa-flussi|lo specchio activity_events chiama «azione admin» anche le azioni degli utenti
+qa-flussi|nel riepilogo dell'ordine la consegna ricavata fa sempre «torna» il totale
+qa-flussi|l'etichetta da attaccare alla busta non dice quando consegnare: né «veloce» né la fascia

@@ -1,0 +1,44 @@
+{
+  "controllore": "C04",
+  "onda": 4,
+  "finita": true,
+  "aggiornato": "2026-11-17 08:45",
+  "testa": "074ccbc5c0b52af840dfe59fb2c0e82f5634cb87",
+  "base": "d038f105999d3aec05dc70e3663869023c150e81",
+  "verify": {
+    "comando": "npm run verify (typecheck, lint, vitest) sulla testa 074ccbc5",
+    "esito": "verde",
+    "nota": "Non rigirato da C04: lo ha girato la regista O4 su questa stessa testa a sigla intera (tipi 0 errori, lint pulito, 10.529 prove passate su 10.530, 1 saltata) e mi ha scritto di non rifarlo. Harness SQL non rigirato: fra la base e la testa non cambia nessun file in migrations/ né in tests/sql/ (R29-020 con la sua migrazione è rimasta fuori), quindi l'albero SQL è quello della base. Nessuna voce rossa per le prove."
+  },
+  "voci_rosse": [],
+  "nuovi_difetti_visti": [
+    {
+      "titolo": "Il sorvegliante ora gira ogni 5 minuti, ma la sua soglia di morte e il commento sono rimasti quelli dei 15 minuti",
+      "dimensione": "deploy-sre",
+      "severita": "minore",
+      "file": "lib/cron-health.ts:117",
+      "descrizione": "Nato dall'unione: R29-002 porta operational-alerts da */15 a */5 in vercel.json, R28-004 tocca lib/cron-health.ts solo per send-push. Restano il commento «operational-alerts gira ogni 15 minuti» (:117) e SOGLIA_SORVEGLIANTE_MIN = 120 (:133), tarata su 8 giri saltati: con la cadenza nuova sono 24. Se il sorvegliante muore, /api/health lo dice dopo 2 ore, mentre l'allarme dell'ordine non accettato promette 5-10 minuti. Non perde allarmi (la finestra dell'ordine è 6 ore), ma la promessa nuova non ha un battito allineato."
+    },
+    {
+      "titolo": "La funzione della spedizione in centesimi accetta ancora i sette ingressi che non servono",
+      "dimensione": "architettura",
+      "severita": "minore",
+      "file": "lib/shipping.ts:43",
+      "descrizione": "R29-005 toglie gli ingressi a shippingForEuro e l'argomento morto a promessaSpedizione, ma shippingCentsFor(_opts?: IngressiSpedizione) li accetta ancora e lib/ordini/prezzi.ts:263 glieli passa: è lo stesso difetto nello stesso file, lasciato perché prezzi.ts non era di R29 (lo dice il referto). La voce come è scritta regge; il resto va alla parte 2 con prezzi.ts."
+    }
+  ],
+  "unione": "R28 e R29 non hanno nessun file di codice in comune (diff dei due rami unificati contro la base). L'unico file toccato dopo i due merge è il commit 074ccbc5, solo 10 prove comuni (stessi diff collaudati da K16). Punti di incontro guardati: ① webhook Stripe: R29-013 aggiunge l'esito 'di-prova' in firma.ts, gestito nell'unica rotta che chiama verificaFirma (app/api/stripe/webhook/route.ts:58), prima di qualunque gestore; i gestori toccati da R28 (rimborsi, rimborso-respinto-dalla-banca, dispute, sponsorizzati, ordini) restano dietro quel cancello e non cambiano firma. handleRefundUpdated spostato in rimborso-respinto-dalla-banca.ts è uguale all'originale salvo la colonna internal_dispute_status e il parametro pausaDellaDivisione di R28-014, ed è riesportato da rimborsi.ts. ② sorveglianza: R28-006 fa saltare il battito di send-push senza chiavi VAPID, R28-004 porta la sua soglia a 45 min, R29-002/004 cambiano cadenza e turno di operational-alerts: si sommano senza conflitto, salvo la soglia del sorvegliante (difetto minore sopra). ③ spedizione: tutti i chiamanti di promessaSpedizione passano zero argomenti (nessuno passa più un sottototale che diventerebbe centesimi di consegna); shippingForEuro ha un solo chiamante (checkout).",
+  "voci_che_chiudono_guardate": "Le 14 che applica chiuderebbe (riparato + regge): R28-002, 004, 006, 007, 010, 011, 014; R29-002, 004, 005, 007, 011, 012, 013. Sui pezzi cambiati, con le tre domande, reggono anche sul ramo unito. R29-011: la conferma della rimessa con dentro un rimborsato non lo rende pagabile (confirm_cod_remittance della 501 aggiorna solo AWAITING_REMITTANCE) e scrive remitted_at, che lo toglie dal gruppo. R28-016, R28-001, R29-001, 003 e 019 sono parziali e non chiudono: non le ho rigiudicate.",
+  "esclusi": "Come chiesto dalla regista, non giudicati: le 5 patch di R28 (.riparazione/patch-R28/, non sul ramo), lib/ai/moderation.ts, app/api/admin/users/[id]/moderate/route.ts e la voce R29-020 con la sua migrazione: nessuno di questi è sul ramo unito.",
+  "file_toccati": 62,
+  "file_guardati": 31,
+  "file_non_guardati": {
+    "quanti": 31,
+    "perche": "Guardati i diff dei 29 file di codice più ci.yml e vercel.json. app/api/ai/copilot/route.ts, lib/ai/run.ts, lib/ai/regole-copilot.ts e components/rider/SOSButton.tsx li ho letti solo per l'unione: portano voci parziali (R29-003, R28-001) che non chiudono. Non guardati come codice: i 29 file di prova (girano tutti verdi nel verify della regista) e i due referti in .riparazione/."
+  },
+  "conto": {
+    "subagenti": 0,
+    "token_stimati": 130000,
+    "nota": "Nessun subagente: R28 e R29 non condividono file di codice e i diff erano circa 900 righe; leggerli da sola costava meno di un passaggio di consegne. get_session non mostra usage.cost_usd né is_ultracode_active: ho seguito il prompt della regista (ultracode spento, tetto 10 $). Il database vero non l'ho mai toccato, né con Supabase né con Vercel o Stripe; nessuna prova lanciata."
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "corsia": 14,
+  "territorio": "R14",
+  "difetti": [
+    {
+      "chiave": "api-backend|la rotta che cancella un utente accetta anche un amministratore, mentre la pagina nasconde il bottone",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r14-cancella-utente.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 5b8c0b71561f^ --file app/api/admin/users/[id]/delete/route.ts --prove tests/unit/riparazione-r14-cancella-utente.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14a --base 5b8c0b71561f08df04380cd50e8ff1bf552a9e15^ --file app/api/admin/users/[id]/delete/route.ts --prove tests/unit/riparazione-r14-cancella-utente.test.ts --json   (checkout 5b8c0b71561f08df04380cd50e8ff1bf552a9e15) → uscita 0 (K11)",
+      "nota_fix": "La rotta, letto il profilo, risponde 403 se il bersaglio ha ruolo admin (prima gli si toglie il ruolo): la stessa regola della pagina che nasconde il bottone, ora dove non si aggira. La pagina non cambia."
+    },
+    {
+      "chiave": "api-backend|se due giri della cancellazione account partono insieme, l'account sparisce ma agli amministratori arriva un falso allarme di cancellazione fallita",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r14-giro-cancellazioni.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 214adc53de82^ --file lib/account/cancellazione.ts --prove tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14b --base 214adc53de822f0007aa569c4f92b7d5981ca3fa^ --file lib/account/cancellazione.ts --prove tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json   (checkout 214adc53de822f0007aa569c4f92b7d5981ca3fa) → uscita 0 (K11)",
+      "nota_fix": "Due giri notturni insieme (prova con Promise.all sulla rotta vera e la pipeline vera): il secondo trova «utente non trovato», che ora è un account già chiuso e non una cancellazione fallita. Niente sveglia «Cancellazioni account non eseguite», failed 0, notte verde; un errore vero del servizio di accesso sveglia ancora."
+    },
+    {
+      "chiave": "api-backend|se l'amministratore apre i documenti di un fattorino con un codice storto, la rotta risponde con un guasto invece di dire che il codice non è valido",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r14-codice-storto.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 5722621ed59e1b79f70fde9c78c85035d4bf6a75^ --file app/api/kyc/documenti-rider/[id]/route.ts,app/api/admin/users/[id]/kyc/route.ts,app/api/ai/reviews-summary/route.ts --prove tests/unit/riparazione-r14-codice-storto.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14b --base 5722621ed59e1b79f70fde9c78c85035d4bf6a75^ --file app/api/kyc/documenti-rider/[id]/route.ts,app/api/admin/users/[id]/kyc/route.ts,app/api/ai/reviews-summary/route.ts --prove tests/unit/riparazione-r14-codice-storto.test.ts --json   (checkout 5722621ed59e1b79f70fde9c78c85035d4bf6a75) → uscita 0 (K11)",
+      "nota_fix": "Nelle tre rotte la regola larga [0-9a-f-]{36} e' diventata la forma vera dell'uuid (8-4-4-4-12): un codice storto riceve 400 «ID non valido» e non arriva piu' al database (prima 500, e 404 nel riepilogo recensioni). La prova usa l'involucro di accesso vero: rider, venditore e compratore restano fuori (403) e chi non ha fatto l'accesso riceve 401, come prima."
+    },
+    {
+      "chiave": "api-backend|gli avvisi «incasso in contanti che non quadra» e «incasso senza foto» si scrivono senza guardare se sono partiti",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r14-incasso-avvisi.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 4711b9701bed^ --file app/api/rider/cash-confirm/route.ts --prove tests/unit/riparazione-r14-incasso-avvisi.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R14b --base 4711b9701bedf1ffd6b23f62324ea94136eb8973^ --file app/api/rider/cash-confirm/route.ts --prove tests/unit/riparazione-r14-incasso-avvisi.test.ts --json   (checkout 4711b9701bedf1ffd6b23f62324ea94136eb8973) → uscita 0 (K11)",
+      "nota_fix": "I due avvisi passano da un aiuto che legge l'esito della lettura degli amministratori, il caso «nessun amministratore» e l'insert. Se l'avviso non parte, scrive logger.error col testo dell'avviso; incasso e risposta al fattorino restano come prima."
+    }
+  ]
+}

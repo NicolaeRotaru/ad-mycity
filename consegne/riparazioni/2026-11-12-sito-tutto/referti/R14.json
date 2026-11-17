@@ -1,0 +1,901 @@
+{
+  "sessione": "R14",
+  "aggiornato": "2026-11-13 14:43",
+  "finita": true,
+  "testa": "004218b6674bf1d1c30eb212a86c91aa232f41c7",
+  "verifica": {
+    "comando": "NODE_OPTIONS=--max-old-space-size=8192 npm run verify",
+    "esito": "verde",
+    "testa": "004218b6674bf1d1c30eb212a86c91aa232f41c7",
+    "nota": "typecheck, lint e 1433 file di prove (9731 prove) verdi. Il primo giro su de0f54b era rosso per 2 prove comuni di R11 (i tipi del database) a causa della migrazione 385: R14-021 tolta col revert 004218b e rifatto il verify."
+  },
+  "voci": [
+    {
+      "id": "R14-001",
+      "chiave": "api-backend|se la lettura delle email cade, la ricerca utenti dice «nessuno, ho cercato su tutti», e oltre mille iscritti l'email non si trova",
+      "esito": "riparato",
+      "commit": "f4ffa34fb7cd",
+      "file_toccati": [
+        "app/admin/users/page.tsx"
+      ],
+      "prova_file": [
+        "tests/unit/riparazione-r14-ricerca-utenti.test.ts"
+      ],
+      "prova_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r14-ricerca-utenti.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "rimessa": {
+        "esito": "regge",
+        "uscita": 0,
+        "comando": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base f4ffa34f^ --file app/admin/users/page.tsx --prove tests/unit/riparazione-r14-ricerca-utenti.test.ts --json"
+      },
+      "copre_tutta_la_voce": true,
+      "cosa_ho_fatto": "Le email degli utenti si leggono a finestre di mille, in ordine di id, fino in fondo (leggiTutteLeRighe sulla rpc admin_list_user_emails). Se la lettura cade, lancia un errore invece di dare un elenco vuoto. Così la ricerca risulta caduta e dice che il vuoto non vuol dire «non iscritto», e il CSV non esce con la colonna Email vuota.",
+      "nota": "La migrazione 380 non è servita: la 074 resta intatta, perché PostgREST pagina il risultato della RPC con order/offset/limit. lib/admin/esporta-utenti.ts:115 non cambia: ora un risultato di ricerca esiste solo con tutte le email lette. Le 4 prove sono rosse sul comportamento alla base e verdi con la correzione.",
+      "verificato_da": "revisore: ha rilanciato la prova R14-001 (4/4 verdi), la prova rimessa sulla copia f4ffa34fb7cd (uscita 0, «regge») e le 5 prove accanto (59/59). Con le 195 migrazioni applicate ha controllato in SQL che la 074 è un SETOF con colonna id, e che ORDER BY id LIMIT/OFFSET la pagina a finestre fino al 2500° utente senza doppioni; un non admin riceve 42501. Ha provato il tetto di leggiTutteLeRighe sopra i 20.000."
+    },
+    {
+      "id": "R14-002",
+      "chiave": "api-backend|confermata una rimessa, la giornata del fattorino risulta versata anche per i contanti che incassa dopo, e la guardia della cancellazione lo lascia andare",
+      "esito": "riparato",
+      "commit": "905ae0ce0e9c",
+      "file_toccati": [
+        "migrations/381_la_rimessa_non_chiude_una_giornata_con_contanti_in_mano.sql",
+        "app/api/admin/cod-remittance/route.ts"
+      ],
+      "prova_file": [
+        "tests/sql/rls/riparazione-r14-rimessa.test.sql",
+        "tests/unit/riparazione-r14-rimessa.test.ts"
+      ],
+      "prova_comando": "bash tests/sql/harness/apply.sh r14_l1_prova && psql -q -X -d r14_l1_prova -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r14-rimessa.test.sql && npx vitest run tests/unit/riparazione-r14-rimessa.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "rimessa": {
+        "esito": "regge",
+        "uscita": 0,
+        "comando": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 905ae0ce0e9c^ --file migrations/381_la_rimessa_non_chiude_una_giornata_con_contanti_in_mano.sql --prove tests/sql/rls/riparazione-r14-rimessa.test.sql --sql r14_l1_rimessa --json"
+      },
+      "rimessa_ts": {
+        "esito": "regge",
+        "uscita": 0,
+        "comando": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 905ae0ce0e9c^ --file app/api/admin/cod-remittance/route.ts --prove tests/unit/riparazione-r14-rimessa.test.ts --json"
+      },
+      "copre_tutta_la_voce": true,
+      "cosa_ho_fatto": "La 381 fa scrivere a confirm_cod_remittance il «versato» solo se quel giorno non resta nessun ordine in contanti consegnato e ancora da versare. Un grilletto, in fila con la rimessa sotto un lucchetto consultivo, riapre la giornata quando ne arriva uno; la migrazione riapre una volta le giornate già sbagliate. La rotta ricalcola la quadratura subito dopo la rpc senza toccare il «versato». La guardia della cancellazione e il sorvegliante leggono la stessa colonna, ora giusta: non toccati, provati in SQL e vitest.",
+      "nota": "Senza la 381 la prova SQL dà 4 controlli rossi con tutte le premesse verdi. Limite dichiarato, corretto dal revisore: una giornata più vecchia di ieri, riaperta (dalla 381 o dal grilletto) con incassato a zero e stato PENDING (riga scritta dalla vecchia conferma 127 e mai ricalcolata), la guardia della cancellazione non la vede, perché riquadra-casse rifà solo oggi e ieri (app/api/cron/riquadra-casse/route.ts:58). È raro: dove il giro notturno girava già, la riga risulta MISMATCH e la guardia la vede. Finché Nicola non applica la 381, il «versato» resta come prima.",
+      "verificato_da": "revisore: in una copia pulita su 905ae0ce ha rilanciato le prove SQL (15/15) e vitest (9/9) e le due prove rimessa, sulla 381 con --sql e sulla rotta con vitest (uscita 0, regge); run.sh e 55 file vitest accanto sono verdi. A mano in SQL ha provato la corsa conferma/consegna nei due ordini, la mezzanotte di Piacenza, un ordine HELD che torna da versare, la riassegnazione, la seconda rimessa uguale, il costo del grilletto, i permessi, la migrazione rieseguita e la riapertura una tantum: tutto giusto."
+    },
+    {
+      "id": "R14-003",
+      "chiave": "qa-flussi|nicola non viene avvisato quando arriva un ordine: il primo allarme per un ordine non accettato parte dopo un'ora, non dopo 5 minuti",
+      "esito": "serve_file_altrui",
+      "serve_file_altrui": [
+        {
+          "file": "tests/unit/minori-s03-sorvegliante.test.ts",
+          "modifica": "Scheda 7 (riga 90): `expect(corpo.alerts).toBe(0);` diventa `const dettagli = (corpo.details ?? []) as Array<{ type: string; detail: string }>; expect(dettagli.map((d) => d.type)).toEqual(['ORDINE_DA_ACCETTARE']); expect(dettagli.some((d) => /bloccato/i.test(d.detail))).toBe(false);`. È la parte di prova del commit 240530aa: l'ordine della sera per domani porta l'avviso «ordine nuovo da accettare», ma non il «bloccato». Poi va rimesso il codice di R14-003 con `git revert 5d8f2762`."
+        },
+        {
+          "file": "vercel.json",
+          "modifica": "crons: { \"path\": \"/api/cron/operational-alerts\", \"schedule\": \"*/15 * * * *\" } → \"*/5 * * * *\" (senza, il primo allarme arriva fra 5 e 20 minuti, non a 5)"
+        }
+      ],
+      "nota": "La riparazione c'era (240530aa: allarme ORDINE_DA_ACCETTARE|id dopo 5 minuti, prova rimessa che reggeva), ma cambiava la prova comune minori-s03-sorvegliante. Per la regola dell'onda 2 il codice è tolto col commit 5d8f2762 e la prova comune torna alla base. Per rimetterla: prima la modifica della prova qui sopra, poi `git revert 5d8f2762`. Correzione esatta chiesta dal revisore, da fare quando si rimette il codice: in app/api/cron/operational-alerts/route.ts (testo di 240530aa, righe 126-128) sostituire `// I più recenti per primi: sono quelli che non hanno ancora suonato.` + `.order('created_at', { ascending: false })` + `.limit(20);` con `.order('created_at', { ascending: true })` + `.limit(500);`. L'allarme suona già una volta sola per ordine grazie alla chiave ORDINE_DA_ACCETTARE|id in operational_alert_log, quindi leggere tutta la finestra di 6 ore non ripete niente. Coi più vecchi prima, nessun ordine resta senza avviso finché non ce ne sono più di 500 insieme. Prova da aggiungere in tests/unit/riparazione-r14-allarmi-ordini.test.ts: 25 ordini NEW nati in 4 minuti → al primo giro 25 chiavi ORDINE_DA_ACCETTARE (oggi 20, e i 5 più vecchi non suonano mai). Il revisore ha confermato su 240530aa che prova e prova rimessa reggono, che la modifica alla scheda 7 non indebolisce la prova, e che l'ordine con carta nasce NEW solo dopo il pagamento."
+    },
+    {
+      "id": "R14-004",
+      "chiave": "qa-flussi|un ordine fermo su «accettato» o «ritirato dal fattorino» non fa suonare nessun allarme e non scade mai",
+      "esito": "parziale",
+      "commit": "34608b208da5",
+      "file_toccati": [
+        "app/api/cron/operational-alerts/route.ts"
+      ],
+      "prova_file": [
+        "tests/unit/riparazione-r14-allarmi-ordini.test.ts"
+      ],
+      "prova_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r14-allarmi-ordini.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "rimessa": {
+        "esito": "regge",
+        "uscita": 0,
+        "comando": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 34608b208da5^ --file app/api/cron/operational-alerts/route.ts --prove tests/unit/riparazione-r14-allarmi-ordini.test.ts --json"
+      },
+      "copre_tutta_la_voce": false,
+      "cosa_ho_fatto": "Allarme ACCETTATO_FERMO dopo 2 ore dall'accettazione, e mai prima della fine della fascia, come il «pronto e fermo» del 5c. PICKED_UP entra nel controllo della consegna ferma, 45 minuti dal ritiro, con la stessa chiave RIDER_STUCK.",
+      "cosa_resta": "1) La scadenza automatica degli ordini fermi su accettato/ritirato: serve la soglia da Nicola. 2) Trovato dal revisore: la lettura del punto 5d (app/api/cron/operational-alerts/route.ts:328-329, `order accepted_at asc nullsFirst` + `limit 20`) prende i 20 più vecchi. Senza scadenza, 20 accettati dimenticati (o vecchi senza accepted_at) occupano il tetto per sempre, e un ordine nuovo fermo da 3 ore non suona mai. Va letto dai più recenti, come il punto 3 alla riga 188, o escludendo quelli già avvisati. 3) Secondario: il `limit(10)` senza ordine della riga 149-154 ora è diviso fra PICKED_UP e OUT_FOR_DELIVERY. 4) Debole: con una fascia, l'allarme suona solo dopo la fine della fascia, non all'ultimo ritiro utile.",
+      "domanda": "Dopo quanto tempo un ordine fermo su «accettato» (mai «Pronto») o su «ritirato» va annullato e rimborsato da solo? Alla fine della fascia più quante ore (e senza fascia dopo quante), oppure mai, solo l'allarme?",
+      "verificato_da": "revisore: ha rilanciato la prova (11/11), la prova rimessa (uscita 0, «regge») e 13 file di prove accanto (155/155), anche sulla testa f26ccbf1 (159/159). Sul database ricostruito dalle migrazioni ha controllato gli stati ACCEPTED/PICKED_UP e le colonne accepted_at/picked_up_at. Verdetto parziale: con una prova temporanea, 20 accettati dimenticati occupano il tetto del punto 5d e un ordine nuovo fermo da 3 ore non suona (vedi cosa_resta)."
+    },
+    {
+      "id": "R14-005",
+      "chiave": "rls-database|chi ha fatto anche un solo ordine non riesce a cancellare il proprio account",
+      "esito": "riparato",
+      "commit": "cc4c2603144e",
+      "file_toccati": [
+        "migrations/382_chi_ha_ordinato_puo_cancellare_l_account.sql",
+        "tests/sql/rls/riparazione-r14-cancellazione.test.sql"
+      ],
+      "prova_file": [
+        "tests/sql/rls/riparazione-r14-cancellazione.test.sql"
+      ],
+      "prova_comando": "bash tests/sql/harness/apply.sh r14_l2_prova && psql -q -X -d r14_l2_prova -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r14-cancellazione.test.sql",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "rimessa": {
+        "esito": "regge",
+        "uscita": 0,
+        "comando": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base cc4c2603144e^ --file migrations/382_chi_ha_ordinato_puo_cancellare_l_account.sql --prove tests/sql/rls/riparazione-r14-cancellazione.test.sql --sql r14_l2_rimessa --json"
+      },
+      "copre_tutta_la_voce": true,
+      "cosa_ho_fatto": "La 382 fa passare dal guardiano degli ordini solo lo stacco che PostgreSQL fa quando l'utente viene cancellato. Scrive il proprietario della tabella, dentro una cascata, cambia solo user_id verso NULL e il profilo non c'è più. La prova SQL cancella come il servizio di autenticazione, senza claims: è rossa senza la 382 (3 controlli su 12) e verde con (12 su 12). Controlla anche che negozio, anonimo, una manomissione del totale nella cascata e una scrittura diretta restino respinti.",
+      "nota": "lib/account/cancellazione.ts non serviva toccarlo: la chiamata vera (deleteUser) era già giusta. Una correzione consigliata alla prova esistente 31, che non è mia, è in serve_file_altrui_anche: oggi il suo DELETE eredita a mano il ruolo service_role e così non vedeva il difetto.",
+      "serve_file_altrui_anche": [
+        {
+          "file": "tests/sql/rls/31-la-cancellazione-non-lascia-l-indirizzo-di-casa.test.sql",
+          "modifica": "Alle righe 109-110 inverti l'ordine: prima `DO $$ BEGIN PERFORM set_config('request.jwt.claims', '', true); END $$;` e poi `DELETE FROM auth.users WHERE id = 'eeeeeeee-0000-0000-0000-00000000000e';`, così il DELETE non eredita il `role = service_role` scritto a mano alla riga 83. Le righe di commento 105-108 diventano: «-- La chiusura dell'account la fa il servizio di autenticazione, senza claims: lo stacco (`user_id` = NULL) lo fa PostgreSQL e la 382 lo lascia passare (R14-005).» Verificato in locale: con la 382 è verde (6 controlli), senza la 382 è rossa al DELETE."
+        }
+      ],
+      "verificato_da": "revisore: ha ricostruito il database dalle migrazioni. Prova R14 12/12 verdi, prova rimessa --sql «regge» (uscita 0), run.sh 61/61 verdi; la 382 regge anche su un database pieno. Ha provato il deleteUser vero (supabase_auth_admin, senza claims) su un cliente con un ordine passato per tutte le tappe, più reso, chat, recensione e contestazione: passa. Un browser dentro un grilletto col profilo già sparito resta respinto (42501). La 179 è l'ultima definizione e nessuna funzione esistente può ottenere lo stesso stacco."
+    },
+    {
+      "id": "R14-006",
+      "chiave": "api-backend|un doppio clic su «conferma i contanti ricevuti» registra due rimesse invece di una",
+      "esito": "riparato",
+      "commit": "288f46375fd2",
+      "file_toccati": [
+        "app/admin/cod-remittance/page.tsx",
+        "app/api/admin/cod-remittance/route.ts",
+        "migrations/383_la_seconda_conferma_della_rimessa_non_e_una_rimessa.sql"
+      ],
+      "prova_file": [
+        "tests/unit/riparazione-r14-doppia-rimessa.test.ts",
+        "tests/sql/rls/riparazione-r14-doppia-rimessa.test.sql"
+      ],
+      "prova_comando": "npx vitest run tests/unit/riparazione-r14-doppia-rimessa.test.ts && bash tests/sql/harness/apply.sh r14_l5_prova && psql -q -X -d r14_l5_prova -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r14-doppia-rimessa.test.sql",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "rimessa": {
+        "esito": "regge",
+        "uscita": 0,
+        "comando": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 288f46375fd2^ --file app/admin/cod-remittance/page.tsx,app/api/admin/cod-remittance/route.ts --prove tests/unit/riparazione-r14-doppia-rimessa.test.ts --json ; timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 288f46375fd2^ --file migrations/383_la_seconda_conferma_della_rimessa_non_e_una_rimessa.sql --prove tests/sql/rls/riparazione-r14-doppia-rimessa.test.sql --sql r14_l5_rimessa --json (tutte e due uscita 0)"
+      },
+      "copre_tutta_la_voce": true,
+      "cosa_ho_fatto": "Pagina: un segno (useRef) alzato nel clic blocca il secondo invio finché la risposta non arriva. Rotta: niente seconda riga cod.remittance_confirm se la conferma non rilascia ordini e non chiude la giornata. Migrazione 383 (dalla 381): la conferma su una giornata già versata che non rilascia niente non riscrive remitted_at/remitted_by e risponde versata_ora=false.",
+      "nota": "La 383 va applicata da Nicola dopo la 381. Una conferma che non rilascia niente perché tutti gli ordini aspettano l'incasso non lascia più una riga nel registro delle azioni (non è una rimessa): la pagina lo dice con un avviso.",
+      "verificato_da": "revisore 2 (2.0): prova unit e prova SQL verdi (apply.sh su r14_rev2_prova), rimessa pagina+rotta uscita 0 e rimessa SQL (--sql r14_rev2_rimessa) uscita 0, SQL esistenti sulla confirm_cod_remittance (11, 34, r14-rimessa) e 5 prove unit vicine verdi, tsc pulito sui file; varianti provate: seconda conferma uguale, rimessa di un altro fattorino, giornata con ordini in attesa (ramo aperto), ref che si abbassa in onSettled."
+    },
+    {
+      "id": "R14-007",
+      "chiave": "api-backend|due cancellazioni dello stesso account partite insieme danno un errore falso o una riga doppia nel registro",
+      "esito": "riparato",
+      "commit": "214adc53de82",
+      "insieme_a": [
+        "R14-015"
+      ],
+      "file_toccati": [
+        "lib/account/cancellazione.ts",
+        "app/api/admin/users/[id]/delete/route.ts"
+      ],
+      "prova_file": [
+        "tests/unit/riparazione-r14-cancella-utente.test.ts",
+        "tests/unit/riparazione-r14-giro-cancellazioni.test.ts"
+      ],
+      "prova_comando": "npx vitest run tests/unit/riparazione-r14-cancella-utente.test.ts tests/unit/riparazione-r14-giro-cancellazioni.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "rimessa": {
+        "esito": "regge",
+        "uscita": 0,
+        "comando": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 214adc53de82^ --file lib/account/cancellazione.ts,app/api/admin/users/[id]/delete/route.ts --prove tests/unit/riparazione-r14-cancella-utente.test.ts,tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json"
+      },
+      "copre_tutta_la_voce": true,
+      "cosa_ho_fatto": "deleteUser che risponde «utente non trovato» (404/user_not_found) vale come account già chiuso da una cancellazione parallela: la pipeline va avanti col profilo e risponde ok con giaCancellato; la rotta risponde 200 senza una seconda riga user.delete. L'annotazione del conto Stripe collegato ha un id ricavato da persona e conto, e il doppione vale come già annotato.",
+      "nota": "Insieme a R14-015: vivono nella stessa riga di deleteUser in lib/account/cancellazione.ts.",
+      "verificato_da": "revisore 1 (2.0): prove 007/015 verdi (14 passate), rimessa al commit 214adc5 uscita 0 (cade su cancellazione.ts e su route.ts alla base), 43 file di prove che importano i moduli toccati verdi (398); varianti lette: doppio clic/due admin (404 o user_not_found -> giaCancellato, niente seconda riga user.delete), annotazione Stripe con id derivato da persona+conto, errore vero del servizio ancora fallimento"
+    },
+    {
+      "id": "R14-008",
+      "chiave": "api-backend|la rotta che cancella un utente accetta anche un amministratore, mentre la pagina nasconde il bottone",
+      "esito": "riparato",
+      "commit": "5b8c0b71561f",
+      "file_toccati": [
+        "app/api/admin/users/[id]/delete/route.ts"
+      ],
+      "prova_file": [
+        "tests/unit/riparazione-r14-cancella-utente.test.ts"
+      ],
+      "prova_comando": "npx vitest run tests/unit/riparazione-r14-cancella-utente.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "rimessa": {
+        "esito": "regge",
+        "uscita": 0,
+        "comando": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 5b8c0b71561f^ --file app/api/admin/users/[id]/delete/route.ts --prove tests/unit/riparazione-r14-cancella-utente.test.ts --json"
+      },
+      "copre_tutta_la_voce": true,
+      "cosa_ho_fatto": "La rotta, letto il profilo, risponde 403 se il bersaglio ha ruolo admin (prima gli si toglie il ruolo): la stessa regola della pagina che nasconde il bottone, ora dove non si aggira. La pagina non cambia.",
+      "verificato_da": "revisore 2 (2.0): prova verde, rimessa uscita 0 in worktree al commit 5b8c0b7 (dopo c'e' 214adc5 sullo stesso file, che non tocca la regola); ruoli ammessi dal CHECK sono solo seller/buyer/rider/admin/pending_approval, quindi il confronto role==='admin' non ha varianti di maiuscole; unico altro chiamante di cancellaAccount e' il cron delle cancellazioni chieste dall'utente; prove vicine verdi."
+    },
+    {
+      "id": "R14-009",
+      "chiave": "api-backend|il conteggio dei promemoria «inviati» include carrelli segnati senza nessuna email",
+      "esito": "parziale",
+      "file_toccati": [
+        "app/api/cron/abandoned-carts/route.ts",
+        "lib/carrelli-abbandonati.ts"
+      ],
+      "prova": "app/api/cron/abandoned-carts/route.ts: il ramo senza consenso e quello «troppo vecchio» fanno skipped++ e continue (non sent++); sent++ solo dopo sendEmail ok. La risposta ha già conteggi separati sent / skipped / errors / giaPresi.",
+      "copre_tutta_la_voce": false,
+      "cosa_ho_fatto": "Chiusa senza migrazione (la 386 non serve e non c'e'). I due rami senza email del giro (carrello oltre 48 ore, cliente senza consenso) chiamano ancora mark_abandoned_cart_email_sent, poi mettono in recovery_email_sent_at l'ora dell'ultima attivita' del carrello; contaRendimentoRecupero legge «segno uguale a last_activity» come «gestito senza email» (un'email vera parte almeno 4 ore dopo l'ultima attivita') e non lo conta ne' fra i promemoria inviati ne' nel merito della campagna. La prova fa girare il giro vero su una tabella finta (lista, marcatura come la 166, UPDATE) e poi il conto: prima 3 promemoria su 1 invio, adesso 1; i carrelli chiusi restano fuori dal giro dopo.",
+      "cosa_resta": "Il cron dei carrelli ora segna i carrelli chiusi senza email con l ora dell ultima attivita, e il conto li tiene fuori dagli «inviati». Restano fuori: (1) un altro scrittore dello stesso segno in un file non di R14, app/api/account/delete/route.ts:189, che alla richiesta di cancellazione scrive recovery_email_sent_at = now() sui carrelli mai avvisati: quei carrelli contano ancora come promemoria inviati; (2) i carrelli chiusi prima di questa modifica, che non hanno un dato che li distingua; (3) l UPDATE del segno in app/api/cron/abandoned-carts/route.ts:88-92 non e condizionato a last_activity (se il carrello cambia tra lettura e scrittura il segno non e piu uguale e torna a contare).",
+      "commit": "4cbcf09df264b6069479a3e3c64327f633340bca",
+      "prova_file": [
+        "tests/unit/riparazione-r14-carrelli-senza-email.test.ts"
+      ],
+      "prova_comando": "npx vitest run tests/unit/riparazione-r14-carrelli-senza-email.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "rimessa": {
+        "esito": "regge",
+        "uscita": 0,
+        "comando": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 4cbcf09df264b6069479a3e3c64327f633340bca^ --file app/api/cron/abandoned-carts/route.ts,lib/carrelli-abbandonati.ts --prove tests/unit/riparazione-r14-carrelli-senza-email.test.ts --json"
+      },
+      "nota": "I carrelli chiusi senza email prima di questa riparazione hanno l'ora della marcatura nel segno e restano contati come invii: non c'e' un dato che li distingua. Lo spazio fra la marcatura e il secondo UPDATE e' di pochi millisecondi: se in quell'istante il browser riscrive il carrello, il carrello nuovo resta segnato «gestito» (succedeva gia' prima, fra la lista e la marcatura).",
+      "serve_file_altrui": [
+        {
+          "file": "app/api/account/delete/route.ts",
+          "modifica": "alla riga 189, sui carrelli mai avvisati, scrivere recovery_email_sent_at uguale al loro last_activity invece di now() (lo stesso segno «chiuso senza email» che usa app/api/cron/abandoned-carts/route.ts dal commit 4cbcf09), cosi il conto di lib/carrelli-abbandonati.ts non li conta come promemoria inviati"
+        }
+      ],
+      "verificato_da": "revisore 4 (2.0): prova verde, rimessa uscita 0, grep di tutti i lettori e scrittori di recovery_email_sent_at (cron, cart-sync, delete, funzioni SQL 029/166/215, export): il conto dei recuperi legge solo contaRendimentoRecupero, cart-sync azzera il segno a ogni modifica del carrello, nessun filtro o data mostrata sbaglia; prove vicine verdi. — dubbio: un altro scrittore in file altrui, da riparato a parziale"
+    },
+    {
+      "id": "R14-010",
+      "chiave": "api-backend|il giro che annulla legge al massimo 100 ordini fermi, senza un ordine: una veloce scaduta può restare fuori dal giro",
+      "esito": "riparato",
+      "commit": "76b57d9fed06",
+      "file_toccati": [
+        "app/api/cron/expire-stale-orders/route.ts"
+      ],
+      "prova_file": [
+        "tests/unit/riparazione-r14-scadenze.test.ts"
+      ],
+      "prova_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r14-scadenze.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "rimessa": {
+        "esito": "regge",
+        "uscita": 0,
+        "comando": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 76b57d9fed06^ --file app/api/cron/expire-stale-orders/route.ts --prove tests/unit/riparazione-r14-scadenze.test.ts --json"
+      },
+      "copre_tutta_la_voce": true,
+      "cosa_ho_fatto": "Il tetto di 100 lasciava fuori la veloce scaduta dietro gli ordini rinviati. Ora si leggono le pagine successive, fino a 2000 ordini e anche con nascite uguali al bordo, e si fanno al massimo 100 annulli per giro.",
+      "verificato_da": "prova rimessa del riparatore, tetto dei 12"
+    },
+    {
+      "id": "R14-011",
+      "chiave": "api-backend|se due giri del sorvegliante partono nello stesso istante, l'amministratore riceve due volte la stessa campanella",
+      "esito": "serve_file_altrui",
+      "serve_file_altrui": [
+        {
+          "file": "tests/unit/l-allarme-che-non-parte-non-si-spaccia-per-spedito.test.ts",
+          "modifica": "È il diff del commit 2e81dd8d su questo file:\n1. Dopo `const scritte = …` aggiungi `const tolte: string[] = [];`.\n2. Nel finto `tabella()`, accanto al push in `scritte`, aggiungi `if (nome === 'operational_alert_log' && k === 'in' && chiamate.some((x) => x.m === 'delete')) { tolte.push(...(a[1] as string[])); }`.\n3. In `attesaScritta` la condizione diventa `!String(r.alert_key).startsWith('CAMPANELLA|') && !tolte.includes(String(r.alert_key))`.\n4. Nel beforeEach aggiungi `tolte.length = 0;`.\nIl giro prende il turno prima dell'invio e, se l'email non parte, lo restituisce: conta quello che resta scritto alla fine. Poi va rimesso il codice con `git revert 6df692ca`."
+        }
+      ],
+      "nota": "La riparazione c'era (2e81dd8d: turno sulla chiave primaria di operational_alert_log prima di campanella ed email, prova rimessa che reggeva), ma cambiava la prova comune l-allarme-che-non-parte-non-si-spaccia-per-spedito. È tolta col commit 6df692ca. Per rimetterla: prima la modifica della prova qui sopra, poi `git revert 6df692ca`."
+    },
+    {
+      "id": "R14-012",
+      "chiave": "api-backend|allarme 'persone non avvisate' riscritto ogni notte, senza dire chi: la stessa classe chiusa per le email resta aperta qui",
+      "esito": "riparato",
+      "commit": "6b35624bdff5",
+      "file_toccati": [
+        "app/api/cron/process-deletions/route.ts"
+      ],
+      "prova_file": [
+        "tests/unit/riparazione-r14-giro-cancellazioni.test.ts"
+      ],
+      "prova_comando": "npx vitest run tests/unit/riparazione-r14-giro-cancellazioni.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "rimessa": {
+        "esito": "regge",
+        "uscita": 0,
+        "comando": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 6b35624bdff5^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json"
+      },
+      "copre_tutta_la_voce": true,
+      "cosa_ho_fatto": "L'allarme «Persone non avvisate» passa dal ramo con chiave di avvisaAmministratori: identificativo ricavato dagli avvisi non recapitati (stessi avvisi la notte dopo = nessuna copia; uno nuovo = allarme nuovo) e il testo dice gli identificativi di chi aspetta.",
+      "nota": "Il codice di stato non cambia: con avvisi non recapitati la notte resta rossa (500) come prima; cambia solo la copia per notte e il testo.",
+      "verificato_da": "revisore 1 (2.0): prova verde (3 passate), rimessa al commit 6b35624 uscita 0 (rossa sulla base), prove vicine verdi; varianti: stesse persone la notte dopo = nessuna copia (id da chiave+admin), persona in piu = stato nuovo, chiave senza userId ripiega sulla chiave dell'avviso, codice di stato 500 invariato"
+    },
+    {
+      "id": "R14-013",
+      "chiave": "api-backend|avvisi ed email in un giro senza tetto di tempo: con posta appesa e ~15 in attesa, gli ultimi non hanno nemmeno l'avviso nel pannello",
+      "esito": "riparato",
+      "commit": "5e2aa09fef11",
+      "file_toccati": [
+        "app/api/cron/process-deletions/route.ts",
+        "lib/privacy/avvisi-a-chi-aspetta.ts"
+      ],
+      "prova_file": [
+        "tests/unit/riparazione-r14-giro-cancellazioni.test.ts"
+      ],
+      "prova_comando": "npx vitest run tests/unit/riparazione-r14-giro-cancellazioni.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "rimessa": {
+        "esito": "regge",
+        "uscita": 0,
+        "comando": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 5e2aa09fef11^ --file app/api/cron/process-deletions/route.ts,lib/privacy/avvisi-a-chi-aspetta.ts --prove tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json"
+      },
+      "copre_tutta_la_voce": true,
+      "cosa_ho_fatto": "recapitaAvvisi scrive prima il pannello di tutti e poi le email; oltre una scadenza nessuna email nuova comincia (conto emailFuoriTempo, restano dovute e la notte dopo si riparte da lì). Il giro passa scadenza = inizio + 240 s (lavoro da 300 s, margine per l'ultima email e per gli allarmi) e risponde avvisiEmailFuoriTempo.",
+      "nota": "240 s è un margine tecnico ricavato da maxDuration 300 di vercel.json, non una regola di business. Il ciclo delle cancellazioni prima degli avvisi resta senza tetto (fuori dalla voce).",
+      "verificato_da": "revisore 1 (2.0): prova verde (5 passate), rimessa al commit 5e2aa09 uscita 0 (rossa su route e su avvisi-a-chi-aspetta), prove vicine verdi; varianti: pannelli di tutti scritti prima delle email, oltre la scadenza nessuna email nuova e conto emailFuoriTempo, nessun altro chiamante di recapitaAvvisi/rispondiAChiAspetta, attese di 24 h tra due tentativi evitano che i fermi affamino gli ultimi"
+    },
+    {
+      "id": "R14-014",
+      "chiave": "api-backend|l'allarme 'scrivile tu' si chiude solo se l'email parte: se la persona annulla o viene cancellata resta aperto per sempre col suo id",
+      "esito": "riparato",
+      "commit": "fdd02e1b87da",
+      "file_toccati": [
+        "app/api/cron/process-deletions/route.ts"
+      ],
+      "prova_file": [
+        "tests/unit/riparazione-r14-giro-cancellazioni.test.ts"
+      ],
+      "prova_comando": "npx vitest run tests/unit/riparazione-r14-giro-cancellazioni.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "rimessa": {
+        "esito": "regge",
+        "uscita": 0,
+        "comando": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base fdd02e1b87da^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json"
+      },
+      "copre_tutta_la_voce": true,
+      "cosa_ho_fatto": "Ogni notte (anche quelle senza nessuno da cancellare, dove finisce chi ha annullato) si leggono gli allarmi «scrivile tu» aperti degli amministratori, si ricava la persona dalla riga «Chi aspetta: l'utente <id>» scritta dallo stesso file, e se la persona non ha più profilo (cancellata) o non ha più richiesta (annullata) l'allarme si segna letto. Chi aspetta ancora lo tiene; se il profilo non si legge non si chiude niente.",
+      "nota": "La persona si ricava dal testo dell'allarme perché notifications non ha una colonna per i dati: titolo e frase stanno in due costanti accanto alla scrittura. Gli allarmi già scritti hanno la stessa frase, quindi si chiudono anche quelli.",
+      "verificato_da": "revisore 1 (2.0): prova verde (8 passate), rimessa al commit fdd02e1 uscita 0 (rossa sulla base), prove vicine verdi; varianti: persona cancellata o annullata chiude, chi aspetta ancora tiene, profilo illeggibile non chiude niente, chiusura anche nelle notti senza nessuno e a fine giro, titolo/frase condivisi con la scrittura"
+    },
+    {
+      "id": "R14-015",
+      "chiave": "api-backend|se due giri della cancellazione account partono insieme, l'account sparisce ma agli amministratori arriva un falso allarme di cancellazione fallita",
+      "esito": "riparato",
+      "commit": "214adc53de82",
+      "insieme_a": [
+        "R14-007"
+      ],
+      "file_toccati": [
+        "lib/account/cancellazione.ts"
+      ],
+      "prova_file": [
+        "tests/unit/riparazione-r14-giro-cancellazioni.test.ts"
+      ],
+      "prova_comando": "npx vitest run tests/unit/riparazione-r14-giro-cancellazioni.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "rimessa": {
+        "esito": "regge",
+        "uscita": 0,
+        "comando": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 214adc53de82^ --file lib/account/cancellazione.ts --prove tests/unit/riparazione-r14-giro-cancellazioni.test.ts --json"
+      },
+      "copre_tutta_la_voce": true,
+      "cosa_ho_fatto": "Due giri notturni insieme (prova con Promise.all sulla rotta vera e la pipeline vera): il secondo trova «utente non trovato», che ora è un account già chiuso e non una cancellazione fallita. Niente sveglia «Cancellazioni account non eseguite», failed 0, notte verde; un errore vero del servizio di accesso sveglia ancora.",
+      "nota": "Nessuna presa del turno per account nel giro: non serve più, perché ogni passo della pipeline si può ripetere (Stripe resource_missing, file già tolti, annotazione con id derivato, deleteUser 404). Il ciclo del giro non cambia.",
+      "verificato_da": "revisore 1 (2.0): prova verde (8 passate col file giro), rimessa al commit 214adc5 uscita 0 (rossa sulla base), prove vicine verdi; varianti: due giri insieme sulla rotta vera, failed 0 e nessuna sveglia, errore vero del servizio di accesso sveglia ancora, ripetizione dei passi della pipeline sicura"
+    },
+    {
+      "id": "R14-016",
+      "chiave": "api-backend|la notifica del nuovo ordine fa la fila dietro le promozioni",
+      "esito": "serve_file_altrui",
+      "serve_file_altrui": [
+        {
+          "file": "tests/unit/minori-s03-push.test.ts",
+          "modifica": "È il diff del commit ba36f97a su questo file. Nel finto supabase, `in` non è più `async`: risponde con `Promise.resolve(...)` nei rami update e push_subscriptions, e `if (tabella === 'notifications') return b;` lascia il filtro nella catena (risponde `limit`). Altrimenti `.in('category', [...])` sulla lettura delle notifiche rompe la catena. Poi va rimesso il codice con `git revert c81987f0`."
+        }
+      ],
+      "nota": "La riparazione c'era (ba36f97a: prima le notifiche order e system, poi le altre; prova rimessa che reggeva), ma cambiava la prova comune minori-s03-push. È tolta col commit c81987f0. Per rimetterla: prima la modifica della prova qui sopra, poi `git revert c81987f0`."
+    },
+    {
+      "id": "R14-017",
+      "chiave": "api-backend|se l'amministratore apre i documenti di un fattorino con un codice storto, la rotta risponde con un guasto invece di dire che il codice non è valido",
+      "esito": "riparato",
+      "commit": "5722621ed59e1b79f70fde9c78c85035d4bf6a75",
+      "file_toccati": [
+        "app/api/kyc/documenti-rider/[id]/route.ts",
+        "app/api/admin/users/[id]/kyc/route.ts",
+        "app/api/ai/reviews-summary/route.ts"
+      ],
+      "prova_file": [
+        "tests/unit/riparazione-r14-codice-storto.test.ts"
+      ],
+      "prova_comando": "npx vitest run tests/unit/riparazione-r14-codice-storto.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "rimessa": {
+        "esito": "regge",
+        "uscita": 0,
+        "comando": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 5722621ed59e1b79f70fde9c78c85035d4bf6a75^ --file app/api/kyc/documenti-rider/[id]/route.ts,app/api/admin/users/[id]/kyc/route.ts,app/api/ai/reviews-summary/route.ts --prove tests/unit/riparazione-r14-codice-storto.test.ts --json"
+      },
+      "copre_tutta_la_voce": true,
+      "cosa_ho_fatto": "Nelle tre rotte la regola larga [0-9a-f-]{36} e' diventata la forma vera dell'uuid (8-4-4-4-12): un codice storto riceve 400 «ID non valido» e non arriva piu' al database (prima 500, e 404 nel riepilogo recensioni). La prova usa l'involucro di accesso vero: rider, venditore e compratore restano fuori (403) e chi non ha fatto l'accesso riceve 401, come prima.",
+      "verificato_da": "revisore 4 (2.0): prova verde, rimessa uscita 0, diff delle tre rotte solo sulla regola (wrapper e permessi intatti: 403 non amministratore, 401 non entrato, provati dalla prova con l'involucro vero), regex con /i quindi uuid maiuscolo e minuscolo passano come prima, 29 file di prove vicine verdi."
+    },
+    {
+      "id": "R14-018",
+      "chiave": "api-backend|il freno sulla rotta regge per 3 interruttori su 9: ai, newsletter, classifica e caricamento da file stanno solo nelle pagine",
+      "esito": "serve_file_altrui",
+      "commit": "930e4f9ffc90098bc161164e7c237e6bef8c4942",
+      "revert": "cf976e1d072db3995709333eb67b0203c8070504",
+      "file_toccati": [
+        "app/api/ai/reviews-summary/route.ts",
+        "tests/unit/riparazione-r14-freno-ai-recensioni.test.ts",
+        "tests/unit/riparazione-r14-codice-storto.test.ts"
+      ],
+      "prova_file": [
+        "tests/unit/riparazione-r14-freno-ai-recensioni.test.ts"
+      ],
+      "prova_comando": "npx vitest run tests/unit/riparazione-r14-freno-ai-recensioni.test.ts (sul commit 930e4f9)",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "rimessa": {
+        "esito": "regge",
+        "uscita": 0,
+        "comando": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 930e4f9ffc90098bc161164e7c237e6bef8c4942^ --file app/api/ai/reviews-summary/route.ts --prove tests/unit/riparazione-r14-freno-ai-recensioni.test.ts --json (lanciata sul commit 930e4f9, prima del revert)"
+      },
+      "copre_tutta_la_voce": false,
+      "cosa_ho_fatto": "La newsletter rifiutava gia' prima della base (app/api/newsletter/route.ts:52, `if (!NEWSLETTER_ACCESA) return ApiErrors.unavailable(...)`, commit 9ec755e) e il caricamento da file pure (app/api/seller/products/import/route.ts:36). Ho messo il freno nel riepilogo recensioni (503 «non sono ancora attivi» prima di freno e letture, prova nuova rossa senza e verde con, rimessa 0), ma la prova esistente tests/unit/api-ai-reviews-summary.test.ts non finge l'interruttore e le sue 6 prove diventano 503: commit 930e4f9 tolto con il revert cf976e1.",
+      "serve_file_altrui": [
+        {
+          "file": "tests/unit/api-ai-reviews-summary.test.ts",
+          "modifica": "accanto agli altri vi.mock aggiungere `vi.mock('@/lib/funzioni-al-lancio', async (o) => ({ ...((await o()) as Record<string, unknown>), AI_NEGOZI_ACCESA: true }));` (la prova finge oggi un venditore e un modello, ma non l'interruttore, che e' spento). Poi rimettere la correzione con `git revert cf976e1d072db3995709333eb67b0203c8070504` (riporta 930e4f9: la riga in app/api/ai/reviews-summary/route.ts, la prova nuova tests/unit/riparazione-r14-freno-ai-recensioni.test.ts e l'interruttore acceso nella prova di R14-017)."
+        },
+        {
+          "file": "app/api/ai/answer-qa/route.ts",
+          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: tests/unit/api-ai-answer-qa.test.ts."
+        },
+        {
+          "file": "app/api/ai/barcode-lookup/route.ts",
+          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: tests/unit/api-ai-barcode-lookup.test.ts, un-corpo-troppo-grande-non-e-un-json-rotto, riparazione-r04-elenchi-con-tetto, la-chat-del-prodotto-dice-quello-che-il-modulo-ha-scritto, riparazione-r04-modello-ritirato."
+        },
+        {
+          "file": "app/api/ai/catalog-apply/route.ts",
+          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: il-freno-sul-prezzo-si-accende-davvero, minori-s03-email-testi, una-dichiarazione-che-la-scheda-non-ha-non-si-chiede, dalla-chat-un-alimento-non-va-in-vendita-senza-i-controlli-del-modulo, la-chat-non-dice-salvate-se-il-prezzo-e-rimasto, riparazione-r10-traccia-del-prezzo-una-forma, le-dichiarazioni-di-un-alimento-le-scrive-il-negoziante, il-prezzo-rifiutato-si-dice-anche-quando-la-chat-si-ferma-per-altro."
+        },
+        {
+          "file": "app/api/ai/catalog-apply-bulk/route.ts",
+          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: una-voce-scritta-male-non-ferma-le-modifiche-in-massa (finge gia' acceso), una-dichiarazione-che-la-scheda-non-ha-non-si-chiede, dalla-chat-un-alimento-non-va-in-vendita-senza-i-controlli-del-modulo, il-copilot-dice-cosa-non-e-entrato, minori-s10-copilot-applica, il-copilot-non-dice-applicato-se-il-prezzo-non-e-entrato, il-copilot-applica-tutto-in-una-volta, le-dichiarazioni-di-un-alimento-le-scrive-il-negoziante."
+        },
+        {
+          "file": "app/api/ai/catalog-chat/route.ts",
+          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: le-foto-che-arrivano-al-modello-sono-le-nostre, riparazione-r04-chat-non-inventa, minori-s10-catalogo-chat, minori-s10-ai-chat, la-chat-mostra-la-proposta-che-il-server-applica, riparazione-r04-chat-turni-assistente, riparazione-r04-modello-ritirato, la-cache-copre-il-pezzo-che-pesa, al-primo-messaggio-la-chat-non-propone-quello-che-non-ha-letto, riparazione-r04-chat-caratteristiche."
+        },
+        {
+          "file": "app/api/ai/catalog-create/route.ts",
+          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: minori-s10-bozze-dalle-foto (finge gia' acceso), dalla-chat-un-alimento-non-va-in-vendita-senza-i-controlli-del-modulo."
+        },
+        {
+          "file": "app/api/ai/copilot/route.ts",
+          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: api-ai-copilot, riparazione-r04-copilot-regola, niente-chiamate-a-vuoto-al-filtro, minori-s10-catalogo-chat, il-copilot-dice-cosa-non-e-entrato, riparazione-r04-copilot-cronologia, riparazione-r04-modello-ritirato."
+        },
+        {
+          "file": "app/api/ai/description/route.ts",
+          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: api-ai-description, minori-s10-bozze-dalle-foto, il-filtro-e-collegato, una-descrizione-tagliata-esce-corta-non-a-meta-parola, i-tagli-valgono-in-tutti-e-due-i-punti, l-ai-spenta-non-chiama-il-modello-neanche-con-la-chiave (finge l'interruttore)."
+        },
+        {
+          "file": "app/api/ai/diagnose/route.ts",
+          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: api-ai-diagnose, la-chat-del-prodotto-dice-quello-che-il-modulo-ha-scritto, il-filtro-e-collegato, riparazione-r04-modello-ritirato."
+        },
+        {
+          "file": "app/api/ai/improve-product/route.ts",
+          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: api-ai-improve-product, riparazione-r04-consegna-nel-prompt, minori-s10-bozze-dalle-foto, riparazione-r04-elenchi-con-tetto, il-filtro-e-collegato, riparazione-r04-modello-ritirato."
+        },
+        {
+          "file": "app/api/ai/product-chat/route.ts",
+          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: minori-s10-ai-chat, riparazione-r04-elenchi-con-tetto, la-chat-del-prodotto-dice-quello-che-il-modulo-ha-scritto, riparazione-r04-chat-turni-assistente, riparazione-r04-modello-ritirato, al-venditore-arriva-la-risposta-non-il-diario, la-cache-copre-il-pezzo-che-pesa."
+        },
+        {
+          "file": "app/api/ai/seo/route.ts",
+          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: api-ai-seo, il-filtro-e-collegato."
+        },
+        {
+          "file": "app/api/ai/variants/route.ts",
+          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: api-ai-variants, il-filtro-e-collegato, riparazione-r04-modello-ritirato, i-tagli-valgono-in-tutti-e-due-i-punti."
+        },
+        {
+          "file": "app/api/ai/voice-product/route.ts",
+          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: api-ai-voice-product, niente-chiamate-a-vuoto-al-filtro, un-corpo-troppo-grande-non-e-un-json-rotto, minori-s10-bozze-dalle-foto, la-chat-del-prodotto-dice-quello-che-il-modulo-ha-scritto, il-testo-di-altri-sta-nel-recinto, dopo-la-dettatura-il-negoziante-sa-cosa-scrivere-lui, le-parole-dell-assistente-non-fanno-da-conferma, riparazione-r04-dettatura-elenchi."
+        }
+      ],
+      "cosa_resta": "1) Rimettere 930e4f9 dopo aver preparato tests/unit/api-ai-reviews-summary.test.ts (sopra). 2) Le altre 14 rotte app/api/ai/* (elenco sopra) non leggono AI_NEGOZI_ACCESA: oggi nessuna chiama il modello da spenta perche' lo ferma lib/ai/client.ts:198 (getAnthropic lancia AiConfigError), ma consumano il freno, leggono il database e rispondono «Servizio AI non configurato». catalog-batch/status e catalog-batch/cancel le lascerei senza freno: servono a chiudere un lotto partito prima dello spegnimento. 3) Classifica inviti: non c'e' una rotta; la pagina app/profile/referral/leaderboard/page.tsx legge la vista public.referral_leaderboard dal browser (GRANT SELECT TO authenticated in migrations/151). Un freno lato server sarebbe una migrazione nuova (`REVOKE SELECT ON public.referral_leaderboard FROM authenticated;`, da ridare alla riaccensione); lib/funzioni-al-lancio.ts:26-28 oggi la dichiara un'eccezione voluta (nessun premio passa di mano): scelta di Nicola. 4) Nessun aiutante comune in lib/funzioni-al-lancio.ts: il file e' letto anche da pagine del browser e una risposta del server (next/server) li' dentro non ci sta. Gli interruttori non sono cambiati.",
+      "verificato_da": "revisore 4 (2.0): git diff 930e4f9^ cf976e1 e vuoto (il revert rimette tutti i file identici); applicando in prova revert + vi.mock AI_NEGOZI_ACCESA:true in api-ai-reviews-summary.test.ts le prove reviews-summary, freno e codice-storto passano e 41 file di prove che toccano funzioni-al-lancio restano verdi; newsletter/route.ts:52 e seller/products/import/route.ts:36 rifiutano gia con 503 da spenti (interruttori false in lib/funzioni-al-lancio.ts); elenco delle 14 rotte ai/* senza freno esatto (translate ha il suo TRADUCI_ACCESO, batch status/cancel lasciate apposta); modifiche scritte lasciate come serve_file_altrui, non applicate. Nota: i nomi delle prove da preparare per ogni rotta non li ho riverificati uno a uno."
+    },
+    {
+      "id": "R14-019",
+      "chiave": "api-backend|se il cliente ritira il reso mentre il negozio lo approva con rimborso, il reso resta annullato coi soldi gia' usciti",
+      "esito": "riparato",
+      "commit": "ef3e59716d0a",
+      "file_toccati": [
+        "app/api/returns/[id]/decide/route.ts"
+      ],
+      "prova_file": [
+        "tests/unit/riparazione-r14-reso-ritirato.test.ts"
+      ],
+      "prova_comando": "npx vitest run tests/unit/riparazione-r14-reso-ritirato.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "rimessa": {
+        "esito": "regge",
+        "uscita": 0,
+        "comando": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base ef3e59716d0a^ --file app/api/returns/[id]/decide/route.ts --prove tests/unit/riparazione-r14-reso-ritirato.test.ts --json"
+      },
+      "copre_tutta_la_voce": true,
+      "cosa_ho_fatto": "Il turno resta preso prima del rimborso (niente rimborsi doppi). Se dopo il rimborso partito la scrittura finale non trova più APPROVED perché il cliente ha ritirato il reso (CANCELED), si scrive REFUNDED sopra il ritiro (refund_id, importo, nota del negozio); ogni altro stato resta all'avviso per chi amministra. Se il rimborso non parte, il ritiro resta com'è.",
+      "nota": "Il ritiro da APPROVED resta permesso in avanza (file non del lotto): con questa correzione il rimborso partito nella finestra di pochi secondi viene registrato sul reso invece di sparire.",
+      "verificato_da": "revisore 2 (2.0): prova verde, rimessa uscita 0, 6 prove vicine (decide, recesso, avviso rimborso, annullo cliente, reso misto) e tsc verdi; varianti: rimborso fallito dopo il ritiro (rimettiInAttesa non trova APPROVED, il reso resta CANCELED senza soldi usciti, corretto), altri stati restano all'avviso. Nota minore non bloccante: nella finestra il negozio riceve in campanella 'il cliente ha ritirato la richiesta' (da avanza) mentre il reso risulta REFUNDED."
+    },
+    {
+      "id": "R14-020",
+      "chiave": "api-backend|gli avvisi «incasso in contanti che non quadra» e «incasso senza foto» si scrivono senza guardare se sono partiti",
+      "esito": "riparato",
+      "commit": "4711b9701bed",
+      "file_toccati": [
+        "app/api/rider/cash-confirm/route.ts"
+      ],
+      "prova_file": [
+        "tests/unit/riparazione-r14-incasso-avvisi.test.ts"
+      ],
+      "prova_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r14-incasso-avvisi.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "rimessa": {
+        "esito": "regge",
+        "uscita": 0,
+        "comando": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 4711b9701bed^ --file app/api/rider/cash-confirm/route.ts --prove tests/unit/riparazione-r14-incasso-avvisi.test.ts --json"
+      },
+      "copre_tutta_la_voce": true,
+      "cosa_ho_fatto": "I due avvisi passano da un aiuto che legge l'esito della lettura degli amministratori, il caso «nessun amministratore» e l'insert. Se l'avviso non parte, scrive logger.error col testo dell'avviso; incasso e risposta al fattorino restano come prima.",
+      "verificato_da": "prova rimessa del riparatore, tetto dei 12"
+    },
+    {
+      "id": "R14-021",
+      "chiave": "api-backend|comunicare due volte l'esito di una segnalazione rimanda la mail e le notifiche, e dopo un errore il nuovo tentativo rimanda anche i canali già riusciti",
+      "esito": "serve_file_altrui",
+      "commit": "76e8dc32182563128b34bdf21338d17341446997",
+      "file_toccati": [
+        "app/api/segnalazioni/esito/comunica.ts",
+        "migrations/385_l_esito_della_segnalazione_si_comunica_una_volta_per_canale.sql"
+      ],
+      "prova_file": [
+        "tests/unit/riparazione-r14-esito-segnalazione-una-volta.test.ts",
+        "tests/sql/rls/riparazione-r14-esito-segnalazione.test.sql"
+      ],
+      "prova_comando": "npx vitest run tests/unit/riparazione-r14-esito-segnalazione-una-volta.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "rimessa": {
+        "esito": "regge",
+        "uscita": 0,
+        "comando": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 76e8dc32182563128b34bdf21338d17341446997^ --file app/api/segnalazioni/esito/comunica.ts --prove tests/unit/riparazione-r14-esito-segnalazione-una-volta.test.ts",
+        "nota": "La migrazione 385 da sola con --sql r14_l6a_rimessa dà uscita 3 (rossa per struttura: le colonne nuove); la prova SQL è verde sul database ricostruito con la 385."
+      },
+      "copre_tutta_la_voce": false,
+      "cosa_ho_fatto": "Nessun registro esistente teneva traccia di cosa era partito, quindi la migrazione 385 aggiunge tre segni per canale (email, notifica, venditore) e un trigger che li azzera se la decisione cambia. comunicaEsito prende il canale con un UPDATE condizionato prima di spedire (una chiamata sola vince) e lo rimette libero se il canale fallisce; se le colonne non ci sono ancora (schema indietro) comunica come prima.",
+      "verificato_da": "revisore 3 (2.0): prova unit verde e rimessa solo codice uscita 0; apply.sh r14_rev3_prova 197 migrazioni 0 fallite, prova SQL verde (1 chiamata sola vince, decisione cambiata azzera); migrazione rigirata due volte e su 50 righe gia' decise senza errori, trigger azzera solo se cambia la decisione; ripiego colonne assenti (42703/PGRST204) e canale fallito rimesso libero letti e coperti dalla prova. Con --sql la rimessa da' 3 (rosso strutturale, file nuovo) come previsto.",
+      "commit_tolto": "76e8dc32182563128b34bdf21338d17341446997",
+      "revert": "004218b",
+      "nota": "La riparazione (commit 76e8dc3: comunica.ts prende ogni canale con un UPDATE condizionato prima di spedire, migrazione 385 con tre segni per canale su public.segnalazioni e trigger che li azzera se la decisione cambia; prova unit e prova SQL) reggeva: prova rimessa del codice uscita 0, revisore 3 regge. Il verify finale l ha trovata in contrasto con due prove comuni di R11 (tests/unit/riparazione-r11-tipi-che-possono-restare-vuoti.test.ts e tests/unit/riparazione-r11-viste-nei-tipi.test.ts): i tipi salvati lib/database.types.ts, che non sono di R14, non hanno le tre colonne nuove. Tolta intera col revert 004218b, come vuole la regola.",
+      "serve_file_altrui": [
+        {
+          "file": "lib/database.types.ts",
+          "modifica": "rimettere la riparazione con git revert 004218b (riporta comunica.ts, la migrazione 385 e le due prove di R14), poi rigenerare il file con node scripts/gen-db-types.mjs: aggiunge alla tabella segnalazioni esito_email_at: string | null (Row) e esito_email_at?: string | null (Insert e Update), e lo stesso per esito_notifica_at ed esito_venditore_at. Con questo le due prove di R11 tornano verdi."
+        }
+      ],
+      "prima_del_revert": {
+        "rimessa": {
+          "esito": "regge",
+          "uscita": 0,
+          "comando": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 76e8dc32182563128b34bdf21338d17341446997^ --file app/api/segnalazioni/esito/comunica.ts --prove tests/unit/riparazione-r14-esito-segnalazione-una-volta.test.ts",
+          "nota": "La migrazione 385 da sola con --sql r14_l6a_rimessa dà uscita 3 (rossa per struttura: le colonne nuove); la prova SQL è verde sul database ricostruito con la 385."
+        },
+        "verificato_da": "revisore 3 (2.0): prova unit verde e rimessa solo codice uscita 0; apply.sh r14_rev3_prova 197 migrazioni 0 fallite, prova SQL verde (1 chiamata sola vince, decisione cambiata azzera); migrazione rigirata due volte e su 50 righe gia' decise senza errori, trigger azzera solo se cambia la decisione; ripiego colonne assenti (42703/PGRST204) e canale fallito rimesso libero letti e coperti dalla prova. Con --sql la rimessa da' 3 (rosso strutturale, file nuovo) come previsto."
+      }
+    },
+    {
+      "id": "R14-022",
+      "chiave": "api-backend|due invii uguali all'assistenza nello stesso istante creano due messaggi e due avvisi",
+      "esito": "parziale",
+      "commit": "de0f54b18148e49437fe06523ae71c83c97b0cba",
+      "file_toccati": [
+        "app/api/support/conversation/route.ts"
+      ],
+      "prova_file": [
+        "tests/unit/riparazione-r14-assistenza-doppio-invio.test.ts"
+      ],
+      "prova_comando": "npx vitest run tests/unit/riparazione-r14-assistenza-doppio-invio.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "rimessa": {
+        "esito": "regge",
+        "uscita": 0,
+        "comando": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base de0f54b18148e49437fe06523ae71c83c97b0cba^ --file app/api/support/conversation/route.ts --prove tests/unit/riparazione-r14-assistenza-doppio-invio.test.ts"
+      },
+      "copre_tutta_la_voce": false,
+      "cosa_ho_fatto": "La rotta accetta una chiave facoltativa per ogni invio e, prima di scrivere, fa un incremento atomico sul contatore (persona + chiave, o persona + impronta del testo, finestra 5 secondi): il secondo invio uguale riceve la stessa risposta del primo e non scrive né messaggio né avviso. Correzione della regressione: se un invio e' bloccato come doppione, la rotta risponde 200 solo se il messaggio del primo invio risulta scritto (aspetta fino a circa mezzo secondo se e' ancora in corso); se il primo e' fallito, il nuovo tentativo scrive lui.",
+      "cosa_resta": "Il contatore è atomico su tutte le istanze solo con Upstash configurato; senza, regge solo dentro la stessa istanza. Nessun vincolo sul database per i messaggi (non c'è un posto dove metterlo senza toccare le chat di tutti). Il modulo non manda ancora la chiave: oggi il doppione si riconosce dall'impronta del testo nei 5 secondi. Il doppione che arriva mentre il primo insert dura piu' di circa mezzo secondo potrebbe scrivere un secondo messaggio.",
+      "serve_file_altrui": [
+        {
+          "file": "components/SupportChatModal.tsx",
+          "modifica": "In start() (riga ~88) generare un id per invio (crypto.randomUUID(), tenuto in un ref finché l'invio non riesce) e mandarlo nel corpo: JSON.stringify({ firstMessage: body, chiave: idInvio })."
+        }
+      ],
+      "commit_precedenti": [
+        "ee68faa3b895ff0405c1002c3dd7970e101c258e"
+      ]
+    },
+    {
+      "id": "R14-023",
+      "chiave": "api-backend|due segnali di accesso per lo stesso ingresso: la deduplica legge-e-poi-scrive senza vincolo sul database — e la migrazione che la reggerebbe non c'e' in questo lotto",
+      "esito": "riparato",
+      "commit": "f3b50ba93b7f361d0aebc12c70f64031841f4a5b",
+      "file_toccati": [
+        "migrations/384_un_accesso_lascia_una_riga_sola.sql",
+        "lib/activity.ts"
+      ],
+      "prova_file": [
+        "tests/sql/rls/riparazione-r14-accesso-doppio.test.sql",
+        "tests/unit/riparazione-r14-accesso-doppio.test.ts"
+      ],
+      "prova_comando": "bash tests/sql/harness/apply.sh r14_l6b_prova && psql -q -X -d r14_l6b_prova -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r14-accesso-doppio.test.sql ; npx vitest run tests/unit/riparazione-r14-accesso-doppio.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "rimessa": {
+        "esito": "regge",
+        "uscita": 0,
+        "comando": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base f3b50ba93b7f361d0aebc12c70f64031841f4a5b^ --file migrations/384_un_accesso_lascia_una_riga_sola.sql --prove tests/sql/rls/riparazione-r14-accesso-doppio.test.sql --sql r14_l6b_rimessa --json"
+      },
+      "copre_tutta_la_voce": true,
+      "cosa_ho_fatto": "La migrazione 384 (non applicata) mette in activity_events la stessa regola della deduplica (stessa persona e sessione del browser entro 30 minuti; sessione non nota entro 1 minuto; sessioni diverse sempre) in un grilletto BEFORE INSERT solo per gli accessi, sotto un lucchetto per persona: la seconda copia esce con 23505. Non un indice unico perche' la regola ha finestre di tempo (un indice su persona+sessione scarterebbe l'accesso nuovo dopo la mezz'ora, uno a fasce lascerebbe passare due segnali a cavallo del bordo). La prova SQL scrive due accessi uguali nella tabella che c'era: una riga sola con la 384, due senza (rimessa 0); controprove: altra sessione, stessa scheda dopo 31 minuti, altra persona e pagine viste entrano. Provato a mano anche con due sessioni psql vere in parallelo (la seconda aspetta il lucchetto e viene rifiutata, resta 1 riga), su un database con doppioni gia' presenti, e due giri della 384 senza errori.",
+      "nota": "Il codice trattava gia' il 23505 come «gia' registrato» prima di questa voce (lib/activity.ts:97 RIGA_GIA_PRESENTE e il controllo dopo l'insert in recordActivity): non serve un upsert, che con PostgREST non potrebbe comunque puntare a una regola con finestre. La prova unit tests/unit/riparazione-r14-accesso-doppio.test.ts (due segnali insieme, il secondo rifiutato con 23505: 204 a tutti e due, niente nel registro degli errori; un altro codice resta errore) e' verde anche sulla base: protegge quel contratto (togliendo il controllo del 23505 diventa rossa, provato). In lib/activity.ts ho cambiato solo il commento che parlava di una «migrazione proposta».",
+      "verificato_da": "revisore 4 (2.0): rimessa con --sql r14_rev4_rimessa uscita 0; su database con 200000 righe e doppioni la 384 gira due volte senza errori; pagine viste, login senza persona, login di persone diverse, login vecchi di giorni entrano; il lucchetto e per persona e solo per i login (nessun altro scrittore della tabella aspetta); insert 0,3 ms con indice user_id; finestre (30 min stessa sessione, 1 min sessione ignota, sessioni diverse sempre) uguali a lib/activity.ts accessoGiaRegistrato; unico scrittore di login con persona e /api/track via recordActivity, che tratta 23505 come gia registrato."
+    },
+    {
+      "id": "R14-024",
+      "chiave": "api-backend|la rotta che registra le visite va in errore del server se riceve un corpo vuoto o rotto, o un cookie dei consensi storto",
+      "esito": "riparato",
+      "commit": "deccd9f87bd2acf4a427346a57dfe703358ff6c1",
+      "file_toccati": [
+        "app/api/track/route.ts",
+        "lib/consent.ts"
+      ],
+      "prova_file": [
+        "tests/unit/riparazione-r14-visite-corpo-rotto.test.ts"
+      ],
+      "prova_comando": "npx vitest run tests/unit/riparazione-r14-visite-corpo-rotto.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "rimessa": {
+        "esito": "regge",
+        "uscita": 0,
+        "comando": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base deccd9f87bd2acf4a427346a57dfe703358ff6c1^ --file app/api/track/route.ts,lib/consent.ts --prove tests/unit/riparazione-r14-visite-corpo-rotto.test.ts"
+      },
+      "copre_tutta_la_voce": true,
+      "cosa_ho_fatto": "La rotta risponde 400 se il corpo è vuoto, rotto o non è un oggetto; il lettore del cookie dei consensi, se la decodifica fallisce, dice «nessun consenso» invece di dare errore. lib/api/corpo.ts non toccato.",
+      "verificato_da": "revisore 3 (2.0): prova verde, rimessa uscita 0 (route.ts e consent.ts, entrambi rossi alla base); lanciate 33 prove che importano consent/corpo/track (202 verdi); varianti: array, null, stringa, % storto nel cookie, unico altro chiamante di parseConsentCookie e' la rotta."
+    },
+    {
+      "id": "R14-025",
+      "chiave": "api-backend|la pagina d'errore dice «abbiamo registrato il problema», ma un errore nel telefono del cliente non lo registra nessuno",
+      "esito": "parziale",
+      "commit": "f19f53cd84a5a9bf99aa9d53cd0b6f51fe573c05",
+      "file_toccati": [
+        "app/error.tsx",
+        "app/admin/error.tsx",
+        "lib/analytics/sentry.tsx"
+      ],
+      "prova_file": [
+        "tests/unit/riparazione-r14-pagina-errore-registra.test.ts"
+      ],
+      "prova_comando": "npx vitest run tests/unit/riparazione-r14-pagina-errore-registra.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "rimessa": {
+        "esito": "regge",
+        "uscita": 0,
+        "comando": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base f19f53cd84a5a9bf99aa9d53cd0b6f51fe573c05^ --file app/error.tsx,app/admin/error.tsx,lib/analytics/sentry.tsx --prove tests/unit/riparazione-r14-pagina-errore-registra.test.ts"
+      },
+      "copre_tutta_la_voce": false,
+      "cosa_ho_fatto": "Le tre pagine chiamavano già captureError (global-error non promette niente). Ora captureError dice se ha consegnato l'errore (senza chiave del servizio no), parte anche se l'accensione di instrumentation-client non è ancora arrivata e non rompe mai la pagina; app/error.tsx e app/admin/error.tsx dicono «abbiamo registrato il problema» solo se la chiave NEXT_PUBLIC_SENTRY_DSN c'è. Configurare la chiave resta a Nicola.",
+      "cosa_resta": "Nelle pagine d errore del negozio e del fattorino (app/seller/error.tsx:26, app/rider/error.tsx:26), che non sono file di R14, la scritta «Abbiamo registrato il problema» resta fissa anche quando il registratore non ha la chiave. Le due pagine chiamano gia captureError, che con questo commit consegna davvero quando la chiave c e. Impostare NEXT_PUBLIC_SENTRY_DSN resta a Nicola.",
+      "serve_file_altrui": [
+        {
+          "file": "app/seller/error.tsx",
+          "modifica": "importare registratoreAcceso da @/lib/analytics/sentry (accanto a captureError) e alla riga 26 scrivere description={registratoreAcceso() ? \"Abbiamo registrato il problema. Riprova fra un momento.\" : \"Riprova fra un momento.\"}, come app/error.tsx nel commit f19f53c"
+        },
+        {
+          "file": "app/rider/error.tsx",
+          "modifica": "la stessa modifica di app/seller/error.tsx: import di registratoreAcceso e alla riga 26 la scritta «Abbiamo registrato il problema» solo se registratoreAcceso() è vero"
+        }
+      ],
+      "verificato_da": "revisore 3 (2.0): prova verde e rimessa uscita 0; captureError non rompe la pagina e la scritta di app/error.tsx e app/admin/error.tsx segue la chiave; restano fisse le pagine del negozio e del fattorino (file altrui): da riparato a parziale"
+    }
+  ],
+  "nuovi_difetti_visti": [
+    {
+      "titolo": "Falla di sicurezza da chiudere (pagamenti): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+      "dimensione": "api-backend",
+      "severita": "grave",
+      "file": "(nel referto privato)",
+      "riservato": true
+    },
+    {
+      "titolo": "Una giornata di cassa riaperta dichiara come «non ancora versati» anche i contanti già versati quel giorno",
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "file": "lib/account/cancellazione.ts:672-687",
+      "descrizione": "contantiAncoraDaVersare somma collected_cents di tutta la giornata. Ora che una giornata può riaprirsi (381), un giorno con A versato (20,50) e B da versare (20,50) scrive «risultano 41,00 € … non ancora versati». La cifra giusta va presa dagli ordini AWAITING_REMITTANCE, oppure la frase non deve dichiarare la cifra come non versata. La frase è fissata da tests/unit/chi-aspetta-la-cancellazione-sa-perche-aspetta.test.ts, che è di altri."
+    },
+    {
+      "titolo": "un fattorino o un negozio che hanno avuto anche un solo ordine non riescono a cancellare l'account",
+      "dimensione": "rls-database",
+      "severita": "grave",
+      "file": "migrations/179_l_interruttore_sull_ordine_non_si_accende_da_fuori.sql:82-85",
+      "descrizione": "Stesso meccanismo di R14-005 sulle altre chiavi verso la persona: rider_id, seller_id e cash_collected_by in orders, tutte ON DELETE SET NULL. Provato in locale con la 382 applicata, cancellando come supabase_auth_admin: il fattorino è respinto con 'riassegnazione rider non consentita', il negozio con 'campo protetto'. La 382 copre solo user_id, cioè il cliente. Per il fattorino si può estendere il ramo della 382 a rider_id e cash_collected_by, perché la guardia della cassa in cancellazione c'è già. Per il negozio serve prima una scelta di Nicola: con seller_id a NULL i bonifici ancora trattenuti (HELD) restano senza destinatario."
+    },
+    {
+      "titolo": "se le email non arrivano, l'elenco dei più recenti le mostra vuote senza una riga che lo dica",
+      "dimensione": "frontend",
+      "severita": "minore",
+      "file": "app/admin/users/page.tsx:212",
+      "descrizione": "Nell'elenco aperto senza ricerca, un errore della RPC delle email porta a righe senza email (com'era già prima, ora con logger.warn). A schermo non c'è nessun avviso: chi guarda pensa che quegli utenti non abbiano un'email."
+    },
+    {
+      "titolo": "ogni ricerca rilegge tutte le email degli iscritti",
+      "dimensione": "performance",
+      "severita": "minore",
+      "file": "app/admin/users/page.tsx:265",
+      "descrizione": "Ogni ricerca fa una chiamata alla RPC per ogni mille iscritti, più una finale, e la funzione rilegge tutto auth.users a ogni chiamata. Va bene ai numeri di oggi; con decine di migliaia di iscritti conviene una ricerca per email nel database."
+    },
+    {
+      "titolo": "il client Supabase finto delle prove non sa concatenare .rpc().order().range()",
+      "dimensione": "test",
+      "severita": "minore",
+      "file": "tests/unit/aiuti/finti/supabase-client.mjs:76",
+      "descrizione": "Nel finto, rpc è async e restituisce una Promise, non un oggetto su cui concatenare: le prove che montano una pagina con monta non possono eseguire una RPC letta a finestre."
+    },
+    {
+      "titolo": "La memoria degli allarmi (operational_alert_log) non si pulisce mai",
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "file": "migrations/084_operational_alert_dedup.sql:12",
+      "descrizione": "Nessun giro cancella le righe vecchie: ogni allarme legato a un ordine lascia due righe per sempre (la chiave email e CAMPANELLA|…), e con ORDINE_DA_ACCETTARE (R14-003) succede per quasi ogni ordine. Le letture passano dalla chiave primaria e restano veloci, ma la tabella cresce senza fine. Basterebbe cancellare le righe con last_sent_at più vecchio di qualche giorno."
+    },
+    {
+      "titolo": "oltre 20.000 iscritti la ricerca utenti risulta sempre caduta e l'esportazione dell'elenco intero non esce, con un «riprova fra poco» che non serve",
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "file": "lib/supabase/blocchi.ts:70",
+      "descrizione": "TETTO_DURO di leggiTutteLeRighe è 20.000, contro le 30 letture da 1000 di lib/admin/esporta-utenti.ts:56,62. Oltre quel numero la pagina dice «Riprova fra poco» (app/admin/users/page.tsx:565, lib/admin/elenco-utenti.ts:149), ma riprovare non serve. Non dà un «non iscritto» falso, ma il testo inganna. Oggi gli iscritti sono meno di 500."
+    },
+    {
+      "titolo": "la guardia della cancellazione dice un importo gonfiato su una giornata di cassa riaperta",
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "file": "lib/account/cancellazione.ts:674",
+      "descrizione": "Confermato dal revisore di R14-002. Su una giornata riaperta dopo un versamento parziale la guardia somma l'incassato di tutta la giornata, ordini già versati compresi: il fattorino legge «risultano 82,00 € non versati» quando da versare ci sono 20,50 €. La cancellazione si ferma comunque. Il testo è fissato da una prova di altri (chi-aspetta-la-cancellazione-sa-perche-aspetta)."
+    },
+    {
+      "titolo": "Il giro notturno delle cancellazioni non ha un tetto di tempo nemmeno sul ciclo degli account scaduti",
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "file": "app/api/cron/process-deletions/route.ts (ciclo for (const riga of scadute))",
+      "descrizione": "R14-013 mette il tetto alle email degli avvisi, ma prima c'è il ciclo che chiama cancellaAccount per ogni account scaduto (storage, Stripe, servizio di accesso), senza un tetto: con molti account o Stripe/storage lenti il lavoro può arrivare ai 300 s prima di sveglia e avvisi. Servirebbe la stessa scadenza anche lì (gli account non fatti restano per la notte dopo)."
+    },
+    {
+      "titolo": "Il negozio riceve «il cliente ha ritirato il reso» anche quando il rimborso approvato nello stesso momento è poi partito",
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "file": "app/api/returns/[id]/avanza/route.ts (ritiro da APPROVED, PARTENZE_DEL_RITIRO)",
+      "descrizione": "Con R14-019 la decisione con rimborso scrive REFUNDED sopra il ritiro del cliente arrivato durante il rimborso, ma avanza ha già mandato al negozio la campanella «↩ Il cliente ha ritirato la richiesta di reso», e fra il ritiro e la scrittura il giro dei bonifici vede l'ordine senza reso aperto per qualche secondo. Più pulito: avanza non accetta il ritiro di un reso APPROVED con decided_at di pochi secondi fa e refund_amount_cents valorizzato (rimborso in volo)."
+    },
+    {
+      "titolo": "la cancellazione legge un 404 qualsiasi come «account già chiuso»: un 404 di un gateway sbagliato verrebbe scambiato per un account già cancellato",
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "file": "lib/account/cancellazione.ts:976",
+      "descrizione": "Visto dal revisore 1 (sessione 2.0) guardando R14-007: basta lo status 404 della chiamata al servizio di accesso per dire «già chiuso», senza guardare il corpo della risposta."
+    },
+    {
+      "titolo": "la chiusura dell allarme «scrivile tu» legge al massimo 200 avvisi senza ordine né filtro: oltre 200, quelli aperti possono restare fuori",
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "file": "app/api/cron/process-deletions/route.ts:556",
+      "descrizione": "Visto dal revisore 1 (sessione 2.0) guardando R14-014: la lettura ha .limit(200) senza filtro is_read né ordine."
+    },
+    {
+      "titolo": "il tetto di tempo delle email della notte parte dall inizio del giro, e il ciclo delle cancellazioni resta senza tetto: con una notte lunga non parte nessuna email e non c è allarme",
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "file": "app/api/cron/process-deletions/route.ts:150,263",
+      "descrizione": "Visto dal revisore 1 (sessione 2.0) guardando R14-013, già detto in parte nella chiave della voce."
+    },
+    {
+      "titolo": "reso ritirato mentre il negozio lo approva: per pochi secondi il negozio riceve «il cliente ha ritirato la richiesta» mentre il reso risulta rimborsato",
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "file": "app/api/returns/[id]/decide/route.ts",
+      "descrizione": "Visto dal revisore 2 (sessione 2.0) guardando R14-019: avviso al negozio che contraddice lo stato finale nella finestra della corsa."
+    },
+    {
+      "titolo": "Le pagine d'errore del venditore e del fattorino dicono «Abbiamo registrato il problema» anche senza il registratore acceso",
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "file": "app/seller/error.tsx:26 · app/rider/error.tsx:26",
+      "descrizione": "Stessa classe di R14-025: la frase è fissa. Servirebbe la stessa condizione: description={registratoreAcceso() ? 'Abbiamo registrato il problema. Riprova fra un momento.' : 'Riprova fra un momento.'} con registratoreAcceso importata da @/lib/analytics/sentry."
+    },
+    {
+      "titolo": "Il modulo dell'assistenza non manda nessuna chiave per invio",
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "file": "components/SupportChatModal.tsx:88",
+      "descrizione": "La rotta (R14-022) accetta una chiave facoltativa per ogni invio ma il modulo non la manda: oggi il doppione si riconosce solo dall'impronta del testo in 5 secondi."
+    },
+    {
+      "titolo": "comunicare l esito di una segnalazione: se il processo muore tra «prendo il canale» e l invio, quel canale resta preso e non riparte piu",
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "file": "app/api/segnalazioni/esito/comunica.ts , migrations/385_l_esito_della_segnalazione_si_comunica_una_volta_per_canale.sql",
+      "descrizione": "Visto dal revisore 3 (sessione 2.0) guardando R14-021: il segno del canale andrebbe scritto come orario e un segno vecchio di qualche minuto contato come libero. Non fatto per il tetto di spesa."
+    }
+  ],
+  "domande_per_nicola": [
+    "R14-004: dopo quanto tempo un ordine fermo su «accettato» (mai «Pronto») o su «ritirato» va annullato e rimborsato da solo? Alla fine della fascia più quante ore (e senza fascia dopo quante), oppure mai, solo l'allarme?",
+    "La classifica degli inviti si legge dal browser (vista referral_leaderboard) anche con l interruttore della classifica spento: va chiusa anche dal server con una migrazione, o resta l eccezione voluta che dice lib/funzioni-al-lancio.ts? (R14-018)"
+  ],
+  "conto": {
+    "agenti": 20,
+    "nota": "12 della prima parte + L5 (prima sessione, 13); sessione 2.0: L6a, L6b, correzione di R14-022, revisori 1-4 (7 dei 9)"
+  },
+  "passaggio": {
+    "quando": "2026-11-13 13:50",
+    "voci_fatte": [
+      "R14-001 riparato",
+      "R14-002 riparato",
+      "R14-003 serve_file_altrui",
+      "R14-004 parziale",
+      "R14-005 riparato",
+      "R14-006 riparato",
+      "R14-007 riparato",
+      "R14-008 riparato",
+      "R14-010 riparato",
+      "R14-011 serve_file_altrui",
+      "R14-012 riparato",
+      "R14-013 riparato",
+      "R14-014 riparato",
+      "R14-015 riparato",
+      "R14-016 serve_file_altrui",
+      "R14-019 riparato",
+      "R14-020 riparato"
+    ],
+    "voci_senza_esito": [
+      "R14-009",
+      "R14-017",
+      "R14-018",
+      "R14-021",
+      "R14-022",
+      "R14-023",
+      "R14-024",
+      "R14-025"
+    ],
+    "in_corso": "niente: chiusa dalla sessione 2.0 (session_015BmpnWjBBk7GEooFEhi67r)",
+    "giri_aperti": [
+      "L6a (modello piccolo): R14-009, R14-021, R14-022, R14-024, R14-025",
+      "L6b (modello grande, permessi/dati): R14-017, R14-018 (le 17 rotte app/api/ai/* non sono di R14: parziale + serve_file_altrui), R14-023 (migrazione 384 con prova SQL)",
+      "revisori dei minori (al massimo 6 voci ciascuno): 006, 007, 008, 010, 012, 013, 014, 015, 019, 020 più quelli di L6a/L6b; i gravi 001, 002, 004, 005 sono già rivisti",
+      "alla fine: npm run verify (NODE_OPTIONS=--max-old-space-size=8192) sull'ultimo commit di codice, verifica.testa, finita true, guardia-ramo e valida-referto verdi"
+    ],
+    "migrazioni_libere": "380, 384-389 (381, 382, 383 già usate)",
+    "spesa": "56,0 $ su 80 $ alla fine di L5 (usage.cost_usd); subagenti: 12 della prima parte + 1 dei 10 in più (L5); restano 9",
+    "note": "R14-003, R14-011, R14-016 restano serve_file_altrui per la cucitura. R14-004 aspetta Nicola. La falla riservata (pagamenti) l'hanno avuta le registe in chat."
+  }
+}

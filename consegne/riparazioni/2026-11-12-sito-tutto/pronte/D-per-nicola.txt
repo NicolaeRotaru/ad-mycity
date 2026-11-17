@@ -1,4 +1,4 @@
-# elenco D di pronte (2026-11-15 23:38): 83 voci uniche, una chiave per riga
+# elenco D di pronte (2026-11-16 10:40): 88 voci uniche, una chiave per riga
 deploy-sre|il rilascio non applica le migrazioni: il codice nuovo arriva su un database vecchio
 deploy-sre|ogni unione su main pubblica in produzione senza aspettare la ci
 deploy-sre|oggi nessun cliente può ordinare: al sito vero manca la chiave di servizio del database
@@ -82,3 +82,8 @@ frontend-ux|le stelle delle recensioni partono già a 5, e una seconda recension
 qa-flussi|il modulo contatti e la porta cancella account giudicano support_email in due modi
 qa-flussi|la pagina di iscrizione promette ancora «puoi provare lo stesso a registrarti» quando l'anti-robot non si carica
 sicurezza-auth|la registrazione non passa ancora dal server: niente freno sulle iscrizioni e niente verifica anti-robot
+privacy-legale|le foto dei resi restano pubbliche su internet per sempre, anche dopo che il cliente cancella l'account
+microcopy|chi spegne le promozioni continua a vederle nella campanella del sito
+pagamenti-stripe|«conferma rimessa» sblocca anche gli incassi registrati dopo che l'amministratore ha aperto la pagina
+deploy-sre|la cancellazione notturna degli account non ha un tetto per giro
+frontend-ux|il modulo del prodotto non dice che il nome ha al massimo 120 caratteri: il negozio legge solo «il valore inserito non è valido»

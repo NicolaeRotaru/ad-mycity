@@ -1,4 +1,4 @@
-# elenco C di pronte (2026-11-15 23:38): 41 voci uniche, una chiave per riga
+# elenco C di pronte (2026-11-16 10:40): 43 voci uniche, una chiave per riga
 privacy-legale|accogliere una segnalazione non toglie il prodotto: resta online, e a chi ha segnalato si scrive che è stato rimosso
 frontend-ux|la vetrina dice «recensioni · 20» ma ne fa leggere solo sei, senza modo di vedere le altre
 pagamenti-stripe|un rimborso arrivato dopo il bonifico del lunedì non viene mai ripreso al negozio
@@ -40,3 +40,5 @@ coerenza-brand|la scala tipografica è aggirata 330 volte con misure a mano
 frontend-ux|se il nome del negozio comincia con un numero, un apostrofo, le virgolette o contiene una parola inglese come «table», il cliente in cassa legge «qualcosa non ha funzionato» invece del motivo vero
 qa-flussi|un capo con più di cento combinazioni di taglia e colore perde le ultime in silenzio, e il cliente che le sceglie non può comprarle
 tipografia|la scala delle dimensioni del testo viene scavalcata circa trecentotrenta volte
+architettura|email di annullo spedita dentro la richiesta, senza coda: fino a circa 20 s di attesa, e se fallisce resta solo nel registro
+frontend-ux|con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato
