@@ -1,0 +1,129 @@
+{
+  "collaudatore": "K02",
+  "riparatori": [
+    "R02",
+    "R03"
+  ],
+  "aggiornato": "2026-11-17 17:58",
+  "finita": true,
+  "base": "c83c3e4e6decc5c167bd0cefceb269364f388cd0",
+  "teste": {
+    "R02": {
+      "punta": "ee2988ad7364bb97d06d40cd820d4239466b2739",
+      "testa": "3f76cf433a0bf003238053b66521938b4635ad12",
+      "verify_alla_testa": "verde, dal referto (verifica.testa = testa): non rilanciato"
+    },
+    "R03": {
+      "punta": "0eaca5c7f0a0e04eab37962a37fd1ac2431a06f1",
+      "testa": "fc5cea5d3cef08c569b455a36e12876db81d6d1f",
+      "verify_alla_testa": "verde, dal referto (verifica.testa = testa): non rilanciato"
+    }
+  },
+  "nota": "Giudicate tutte e sole le 6 voci riparate, senza campione, ognuna con giudizio pieno e tutte e due le lenti (tre revisori qa, due voci ciascuno, in copie separate). Non giudicate: le voci non_fatto e R03-006 (serve_file_altrui). Sul ramo di integrazione il commit 3f76cf43 è ricopiato come 2207f8e0 con lo stesso codice: il giudizio di R02-002 vale anche per quello. Nessuna chiamata al database vero né agli strumenti Supabase, Vercel, Stripe.",
+  "voci": [
+    {
+      "id": "R02-001",
+      "chiave": "accessibilita|nella chat, quando i messaggi arrivano dopo l'apertura o dopo «riprova», il lettore di schermo legge tutto il filo",
+      "verdetto": "non_regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "commit": "210c94477cc0c006f906743334966bd4481b3f8a",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/ad-mycity && NODE_OPTIONS=--max-old-space-size=8192 timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R02-001 --base 210c94477cc0c006f906743334966bd4481b3f8a^ --file app/messages/[id]/page.tsx --prove tests/unit/riparazione-r02-chat-registro-acceso-a-filo-caricato.test.tsx --json"
+      },
+      "nota": "La prova del riparatore cade senza la correzione (3 su 3 rosse alla base c83c3e4e), ma guarda l'ordine delle modifiche al DOM dentro act, non il frame. Il registro si accende con useEffect(() => setAcceso(caricato)) (app/messages/[id]/page.tsx:73): è un commit di React, non un frame a video. Misurato dal revisore con React Query vero e senza act: il filo entra a registro «off» e il registro passa a «polite» 3,3 ms dopo, nello stesso frame. Il browser aggiorna l'albero di accessibilità al frame, quindi vede un registro già «polite» con dentro i nodi appena creati e con buona probabilità legge tutto il filo come prima (stima del revisore circa 70%, non provato con un lettore di schermo vero; nemmeno il riparatore l'ha provato). Il commento del codice dice «un giro DOPO che il filo è a video», e non è garantito. Funziona invece: il messaggio nuovo dal vivo resta annunciato, e dopo «Riprova» il registro si rispegne e si riaccende. Cura possibile: accendere il registro dopo un frame vero (requestAnimationFrame doppio o un breve timeout) e provarlo sul frame. Nel dubbio non regge."
+    },
+    {
+      "id": "R02-002",
+      "chiave": "accessibilita|la pagina promozioni salta ancora dall'h1 all'h3",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "commit": "3f76cf433a0bf003238053b66521938b4635ad12",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/ad-mycity && NODE_OPTIONS=--max-old-space-size=8192 timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R02-002 --base 3f76cf433a0bf003238053b66521938b4635ad12^ --file app/promozioni/page.tsx --prove tests/unit/riparazione-r02-promozioni-ha-il-suo-h2.test.tsx --json"
+      },
+      "nota": "Il ramo con le promozioni lette dalla funzione del database ora ha l'h2 nascosto: la prova morde (atteso 2, trovato 3 alla base), sr-only è la classe di Tailwind come in ProductGrid, eslint pulito. Ma la pagina vera montata in quattro stati salta ancora da h1 a h3 in tre: nessuna promozione e lettura fallita (h3 «Nessuna promozione attiva al momento» di ProductGrid.tsx:612, subito sotto l'h1), e prodotti col prezzo barrato mostrati da ProductGrid onlyPromo senza il suo h2 (app/promozioni/page.tsx:109-114 non passa titoloNascosto, che ProductGrid.tsx:733 sa disegnare). Con pochi negozi lo stato vuoto è probabilmente il più frequente: la voce «salta ancora dall'h1 all'h3» resta vera lì. Non rompe niente accanto."
+    },
+    {
+      "id": "R03-001",
+      "chiave": "api-backend|la newsletter non guarda l'esito dell'invio email",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "commit": "ff3b1064b0518043a8cbf07ea948677cf73bc284",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/ad-mycity && NODE_OPTIONS=--max-old-space-size=8192 timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-001 --base ff3b1064b0518043a8cbf07ea948677cf73bc284^ --file app/api/newsletter/route.ts --prove tests/unit/riparazione-r03-o6-newsletter-esito-invio.test.ts --json"
+      },
+      "nota": "La prova cade senza la correzione. Il revisore ha provato 6 casi suoi: sendEmail che lancia risponde 200 {ok:true} e scrive un errore (niente 500); chiave Resend spenta e rifiuto di Resend distinti nel registro; già iscritto, conferma in attesa e disiscritto rispondono come prima. Il registro non contiene indirizzo, gettone, città né IP. La forma letta è quella vera di SendEmailResult (lib/email/client.ts:62-65). È l'unico invio della newsletter (confirm/route.ts non chiama sendEmail). tsc pulito sulle due rotte, 7 prove newsletter esistenti verdi. Resta la riserva già scritta dal riparatore nei nuovi difetti (riga doppia e error invece di warn a chiave spenta): minore, non conta come nata rotta."
+    },
+    {
+      "id": "R03-003",
+      "chiave": "api-backend|una segnalazione di tipo recensione o messaggio si registra con un id qualsiasi",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "commit": "19de476e36c60901c7ae6c60499e0d22d6f47157",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/ad-mycity && NODE_OPTIONS=--max-old-space-size=8192 timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-003 --base 19de476e36c60901c7ae6c60499e0d22d6f47157^ --file app/api/segnalazioni/route.ts --prove tests/unit/riparazione-r03-o6-segnalazioni-oggetto-esiste.test.ts --json"
+      },
+      "nota": "La prova cade senza la correzione. Il revisore ha provato 10 casi suoi: id non uuid fermato da zod con 400 prima di ogni lettura (route.ts:31); lettura caduta su reviews, store_reviews, messages o products dà 500 senza riga né avviso, come prodotto e negozio alla base; recensione inesistente cercata in tutte e due le tabelle, poi 404 e 0 avvisi; prodotto vero 201 con avviso agli admin. Riscontro col sito: la pagina negozio passa id di store_reviews (ReviewsSection.tsx:45), la pagina prodotto id di reviews. Le tabelle esistono con id uuid (migrazioni 001, 014, 026). 13 file e 69 prove vicine verdi. Fragilità futura minore, non un difetto di oggi: un tipo nuovo aggiunto allo zod e non a TABELLE_DELL_OGGETTO farebbe un 500 (route.ts:82)."
+    },
+    {
+      "id": "R03-004",
+      "chiave": "api-backend|le pagine d'errore del venditore e del fattorino dicono «abbiamo registrato il problema» anche senza il registratore acceso",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "commit": "f393b49dbe790e5a29b76e856533df6d66338fcc",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/ad-mycity && NODE_OPTIONS=--max-old-space-size=8192 timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-004 --base f393b49dbe790e5a29b76e856533df6d66338fcc^ --file app/seller/error.tsx,app/rider/error.tsx --prove tests/unit/riparazione-r03-o6-pagine-errore-registratore.test.tsx --json"
+      },
+      "nota": "La prova cade senza la correzione (2 casi su 4 rossi con i due error.tsx della base). La domanda centrale: la funzione locale (app/seller/error.tsx:14, app/rider/error.tsx:14) legge SENTRY_DSN da lib/analytics/sentry-config.ts:19, che vale process.env.NEXT_PUBLIC_SENTRY_DSN: la stessa costante di captureError (sentry.tsx:23, :42), scritta da Next nel pacchetto del browser; next.config.js non la sovrascrive. La prova del riparatore finge sentry-config: il revisore ha provato il collegamento vero con vi.stubEnv prima dell'import, 4 casi su 4 verdi (DSN pubblico acceso: frase identica a prima e captureError chiamato come prima; DSN pubblico vuoto: solo «Riprova fra un momento.»). 37 prove vicine verdi. app/error.tsx e app/admin/error.tsx hanno ancora la frase fissa: fuori dalla voce, già nei nuovi difetti del riparatore."
+    },
+    {
+      "id": "R03-009",
+      "chiave": "frontend-ux|la pillola della posizione legge localstorage senza protezione",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "commit": "fc5cea5d3cef08c569b455a36e12876db81d6d1f",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "cd /home/user/ad-mycity && NODE_OPTIONS=--max-old-space-size=8192 timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03-009 --base fc5cea5d3cef08c569b455a36e12876db81d6d1f^ --file components/LocationPill.tsx --prove tests/unit/riparazione-r03-o6-pillola-senza-memoria-locale.test.tsx --json"
+      },
+      "nota": "La prova cade senza la correzione e monta il componente vero. Il try (components/LocationPill.tsx:85-89) copre anche l'accesso al nome localStorage, non solo getItem; le altre letture e scritture erano già protette (dismissHint riga 77, useLocalStorage in lib/hooks/index.ts:32-38 e 46-48); niente sessionStorage. Il revisore ha rotto anche window.localStorage con SecurityError, pillola normale e compatta: resta in piedi, si apre e salva 29122; la stessa prova sulla base diventa rossa. Caso normale uguale a prima (fumetto a 1400 ms, «Chiudi» ricordato, CAP riletto). 9 prove esistenti sulla pillola verdi, 30 su 30. Fuori dalla voce, solo letto: un valore guasto in memoria (\"null\") farebbe cadere loc.zip alle righe 49 e 108."
+    }
+  ],
+  "campione": {
+    "R02": {
+      "accettato": false
+    },
+    "R03": {
+      "accettato": true
+    }
+  }
+}

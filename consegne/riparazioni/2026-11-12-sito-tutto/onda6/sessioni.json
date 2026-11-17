@@ -1,14 +1,72 @@
 {
   "regista": "session_015BmpnYVx17cqeZ9Rq9pCde",
   "regista_madre": "session_015BmpnYvNwUpgfdhaKx9PKT",
-  "integrazione": { "id": "session_015BmpnWbWa99pjAPQ98v6sz", "nome": "I06", "ramo": "ccr-99009024-qgfisx-o6", "partenza": "c83c3e4e6decc5c167bd0cefceb269364f388cd0", "tetto_usd": 6 },
+  "integrazione": {
+    "id": "session_015BmpnWbWa99pjAPQ98v6sz",
+    "nome": "I06",
+    "ramo": "ccr-99009024-qgfisx-o6",
+    "partenza": "c83c3e4e6decc5c167bd0cefceb269364f388cd0",
+    "tetto_usd": 6
+  },
   "sessioni": {
-    "R01": { "id": "session_015BmpnWbWa99pjAPQ98v6sz", "ramo": "ccr-99009024-qgfisx-o6", "onda": 1, "partenza": "70064c9da552c034a463452b60935f7a57bb469a", "nota": "la cucitura dell'onda 5, scritta dall'integratore I06; per applica --scrivi il ramo va fissato allo SHA della testa prima dell'unione dei riparatori", "finita": false },
-    "R02": { "id": "session_015BmpnWGRrUvbT77eoVnJwJ", "ramo": "ccr-99009024-qgfisx-o6-m02", "onda": 2, "partenza": "c83c3e4e6decc5c167bd0cefceb269364f388cd0", "tetto_usd": 28, "finita": false },
-    "R03": { "id": "session_015BmpnXBwWt8GM29JJz6fZd", "ramo": "ccr-99009024-qgfisx-o6-m03", "onda": 2, "partenza": "c83c3e4e6decc5c167bd0cefceb269364f388cd0", "tetto_usd": 28, "finita": false }
+    "R01": {
+      "id": "session_015BmpnWbWa99pjAPQ98v6sz",
+      "ramo": "ccr-99009024-qgfisx-o6",
+      "onda": 1,
+      "partenza": "70064c9da552c034a463452b60935f7a57bb469a",
+      "nota": "la cucitura dell'onda 5, scritta dall'integratore I06; per applica --scrivi il ramo va fissato allo SHA della testa prima dell'unione dei riparatori",
+      "finita": false
+    },
+    "R02": {
+      "id": "session_015BmpnWGRrUvbT77eoVnJwJ",
+      "ramo": "ccr-99009024-qgfisx-o6-m02",
+      "onda": 2,
+      "partenza": "c83c3e4e6decc5c167bd0cefceb269364f388cd0",
+      "tetto_usd": 28,
+      "finita": false
+    },
+    "R03": {
+      "id": "session_015BmpnXBwWt8GM29JJz6fZd",
+      "ramo": "ccr-99009024-qgfisx-o6-m03",
+      "onda": 2,
+      "partenza": "c83c3e4e6decc5c167bd0cefceb269364f388cd0",
+      "tetto_usd": 28,
+      "finita": false
+    }
   },
   "collaudatori": {
-    "K01": { "id": "session_015BmpnZJpZKbaqaUumCK4jn", "ramo": "ccr-99009024-qgfisx-o6-k01", "riparatori": ["R01"], "tetto_usd": 8, "finita": false }
+    "K01": {
+      "id": "session_015BmpnZJpZKbaqaUumCK4jn",
+      "ramo": "ccr-99009024-qgfisx-o6-k01",
+      "riparatori": [
+        "R01"
+      ],
+      "tetto_usd": 8,
+      "finita": false
+    },
+    "K02": {
+      "id": "session_015BmpnYbF1A4qxsRXWWgoeH",
+      "ramo": "ccr-30918361-coyajm-o6-k02",
+      "partenza": "fe3bb9a170685f3da81c40ea040f6634b33df4f2",
+      "riparatori": [
+        "R02",
+        "R03"
+      ],
+      "tetto_usd": 5,
+      "finita": true,
+      "nota": "aperta dalla regia dell'onda 7, passo 0",
+      "punta": "552dc490cc33e65a807e7ab353b7b738764edea3",
+      "costo_usd": 7.31
+    }
   },
-  "controllori": {}
+  "controllori": {
+    "C01": {
+      "id": "session_015BmpnYX4iwyP5Nz5FfNwzf",
+      "ramo": "ccr-30918361-coyajm-o6-c01",
+      "punta": "e5ba78092e552ec23ecada8c90604514219c1bec",
+      "testa_controllata": "bc36f48120ec38bf20880c7d68b3171015744681",
+      "finita": true
+    }
+  },
+  "regista_onda7": "session_015BmpnWeHkst12TRwrzmMfw"
 }

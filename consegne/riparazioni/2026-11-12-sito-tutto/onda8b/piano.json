@@ -1,0 +1,389 @@
+{
+ "casa": "sito",
+ "profilo": "scelta",
+ "creato": "2026-11-17 20:13",
+ "onde": [
+  {
+   "onda": 1,
+   "base": "522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+   "creata": "2026-11-17 20:13",
+   "per_sessione": 13,
+   "candidate": [
+    "qa-flussi|basta un solo campo fuori regola e tutta la personalizzazione della vetrina sparisce, e il salvataggio dopo la cancella",
+    "qa-flussi|salvando le taglie, se la scorta cambia a metà il negozio legge «riapri e salva di nuovo», ma le taglie tolte sono già cancellate",
+    "ai-endpoints|con un fornitore lento la risposta lunga del copilot non arriva mai: dopo due minuti il negozio legge solo «riprova»",
+    "deploy-sre|la prova «migrazione su database pieno» mette ancora i file nell'ordine vecchio",
+    "api-backend|se due giri del sorvegliante partono nello stesso istante, l'amministratore riceve due volte la stessa campanella",
+    "stati-ui|se la lettura del profilo non riesce, il negoziante approvato legge che il suo account non è da venditore e gli viene proposto di iscriversi di nuovo",
+    "qa-flussi|il ritiro in negozio è ancora spento, mentre nicola ha deciso che al lancio è acceso e gratis per il cliente",
+    "qa-flussi|le domande dei clienti sotto i prodotti non arrivano a nessuno, ma al cliente diciamo che riceverà una notifica",
+    "qa-flussi|quando un ordine viene annullato il negozio non riceve nessuna email, e se lo annulla il sito perché nessuno l'ha accettato non riceve nemmeno la campanella",
+    "performance|ogni pagina scarica due caratteri in corsivo che quasi nessuna pagina usa",
+    "api-backend|le notifiche push partono due volte se due giri del cron si sovrappongono: la presa in carico non è atomica",
+    "navigazione-gerarchia|nella scheda prodotto il prezzo è quasi grande quanto il titolo e pesa meno del pulsante «+»",
+    "architettura|la traccia «chi ha cambiato il prezzo» esce in due forme diverse a seconda della porta",
+    "api-backend|il freno sulla rotta regge per 3 interruttori su 9: ai, newsletter, classifica e caricamento da file stanno solo nelle pagine",
+    "architettura|sei rami iserror scritti a mano invece del presidio lib/vista-query.ts (vistadaquery): il difetto può tornare alla settima pagina",
+    "architettura|interfacce zombie: shippingforeuro vale sempre 0 ma riceve 7 ingressi; promessaspedizione ha un argomento morto e campi sempre costanti",
+    "architettura|il finto clienteavvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente",
+    "qa-flussi|due guardie sulla veloce controllano il testo del sorgente e non il comportamento",
+    "qa-flussi|ogni visitatore senza account fa una richiesta rifiutata alla vista dei nomi su ogni scheda prodotto e vetrina",
+    "qa-flussi|una prova col nome del collaudo",
+    "qa-flussi|la prima compilazione di monta() pesa sul primo caso di ~85 file di prove",
+    "qa-flussi|prova con un nome che promette il contrario",
+    "qa-flussi|la frase vecchia sui formati foto resta in friendlyerror",
+    "qa-flussi|la campanella del sito mostra le promozioni anche a chi le ha spente",
+    "qa-flussi|il ritorno dopo l accesso perde ?tab="
+   ],
+   "sessioni": {
+    "R01": {
+     "tema": "ai-endpoints",
+     "voci": [
+      {
+       "id": "R01-001",
+       "chiave": "ai-endpoints|con un fornitore lento la risposta lunga del copilot non arriva mai: dopo due minuti il negozio legge solo «riprova»",
+       "gravita": "minore",
+       "titolo": "Con un fornitore lento la risposta lunga del Copilot non arriva mai: dopo due minuti il negozio legge solo «riprova»",
+       "file": [
+        "lib/ai/regole-copilot.ts",
+        "app/api/ai/copilot/route.ts",
+        "lib/ai/client.ts",
+        "lib/ai/run.ts",
+        "vercel.json"
+       ]
+      },
+      {
+       "id": "R01-002",
+       "chiave": "api-backend|le notifiche push partono due volte se due giri del cron si sovrappongono: la presa in carico non è atomica",
+       "gravita": "minore",
+       "titolo": "Le notifiche push partono due volte se due giri del cron si sovrappongono: la presa in carico non è atomica",
+       "file": [
+        "app/api/cron/send-push/route.ts",
+        "app/api/cron/send-emails/route.ts",
+        "vercel.json"
+       ]
+      },
+      {
+       "id": "R01-003",
+       "chiave": "architettura|sei rami iserror scritti a mano invece del presidio lib/vista-query.ts (vistadaquery): il difetto può tornare alla settima pagina",
+       "gravita": "minore",
+       "titolo": "Sei rami isError scritti a mano invece del presidio lib/vista-query.ts (vistaDaQuery): il difetto può tornare alla settima pagina",
+       "file": [
+        "app/admin/today/page.tsx"
+       ]
+      },
+      {
+       "id": "R01-004",
+       "chiave": "architettura|interfacce zombie: shippingforeuro vale sempre 0 ma riceve 7 ingressi; promessaspedizione ha un argomento morto e campi sempre costanti",
+       "gravita": "minore",
+       "titolo": "Interfacce zombie: shippingForEuro vale sempre 0 ma riceve 7 ingressi; promessaSpedizione ha un argomento morto e campi sempre costanti",
+       "file": [
+        "lib/shipping.ts",
+        "lib/promesse-pubbliche.ts"
+       ]
+      },
+      {
+       "id": "R01-005",
+       "chiave": "deploy-sre|la prova «migrazione su database pieno» mette ancora i file nell'ordine vecchio",
+       "gravita": "minore",
+       "titolo": "La prova «migrazione su database pieno» mette ancora i file nell'ordine vecchio",
+       "file": [
+        "tests/sql/harness/migrazione-su-database-pieno.sh"
+       ]
+      },
+      {
+       "id": "R01-006",
+       "chiave": "performance|ogni pagina scarica due caratteri in corsivo che quasi nessuna pagina usa",
+       "gravita": "minore",
+       "titolo": "Ogni pagina scarica due caratteri in corsivo che quasi nessuna pagina usa",
+       "file": [
+        "app/layout.tsx"
+       ]
+      },
+      {
+       "id": "R01-007",
+       "chiave": "qa-flussi|la campanella del sito mostra le promozioni anche a chi le ha spente",
+       "gravita": "minore",
+       "titolo": "La campanella del sito mostra le promozioni anche a chi le ha spente",
+       "file": [
+        "app/notifications/page.tsx"
+       ]
+      },
+      {
+       "id": "R01-008",
+       "chiave": "qa-flussi|la frase vecchia sui formati foto resta in friendlyerror",
+       "gravita": "minore",
+       "titolo": "La frase vecchia sui formati foto resta in friendlyError",
+       "file": [
+        "lib/errors.ts"
+       ]
+      },
+      {
+       "id": "R01-009",
+       "chiave": "qa-flussi|salvando le taglie, se la scorta cambia a metà il negozio legge «riapri e salva di nuovo», ma le taglie tolte sono già cancellate",
+       "gravita": "minore",
+       "titolo": "Salvando le taglie, se la scorta cambia a metà il negozio legge «riapri e salva di nuovo», ma le taglie tolte sono già cancellate",
+       "file": [
+        "lib/products/persistVariantsServer.ts"
+       ]
+      },
+      {
+       "id": "R01-010",
+       "chiave": "qa-flussi|basta un solo campo fuori regola e tutta la personalizzazione della vetrina sparisce, e il salvataggio dopo la cancella",
+       "gravita": "minore",
+       "titolo": "Basta un solo campo fuori regola e tutta la personalizzazione della vetrina sparisce, e il salvataggio dopo la cancella",
+       "file": [
+        "lib/store-customization.ts",
+        "components/seller/site/ThemePicker.tsx",
+        "components/seller/site/StoreDetailsEditor.tsx"
+       ]
+      },
+      {
+       "id": "R01-011",
+       "chiave": "qa-flussi|la prima compilazione di monta() pesa sul primo caso di ~85 file di prove",
+       "gravita": "minore",
+       "titolo": "La prima compilazione di monta() pesa sul primo caso di ~85 file di prove",
+       "file": [
+        "tests/unit/aiuti/monta-componente.ts"
+       ]
+      },
+      {
+       "id": "R01-012",
+       "chiave": "qa-flussi|prova con un nome che promette il contrario",
+       "gravita": "minore",
+       "titolo": "Prova con un nome che promette il contrario",
+       "file": [
+        "tests/unit/le-funzioni-spente-al-lancio-le-rifiuta-il-server.test.ts"
+       ]
+      },
+      {
+       "id": "R01-013",
+       "chiave": "stati-ui|se la lettura del profilo non riesce, il negoziante approvato legge che il suo account non è da venditore e gli viene proposto di iscriversi di nuovo",
+       "gravita": "minore",
+       "titolo": "Se la lettura del profilo non riesce, il negoziante approvato legge che il suo account non è da venditore e gli viene proposto di iscriversi di nuovo",
+       "file": [
+        "app/seller/layout.tsx",
+        "components/hooks/useProfile.ts"
+       ]
+      }
+     ],
+     "file": [
+      "app/admin/today/page.tsx",
+      "app/api/ai/copilot/route.ts",
+      "app/api/cron/send-emails/route.ts",
+      "app/api/cron/send-push/route.ts",
+      "app/layout.tsx",
+      "app/notifications/page.tsx",
+      "app/seller/layout.tsx",
+      "components/hooks/useProfile.ts",
+      "components/seller/site/StoreDetailsEditor.tsx",
+      "components/seller/site/ThemePicker.tsx",
+      "lib/ai/client.ts",
+      "lib/ai/regole-copilot.ts",
+      "lib/ai/run.ts",
+      "lib/errors.ts",
+      "lib/products/persistVariantsServer.ts",
+      "lib/promesse-pubbliche.ts",
+      "lib/shipping.ts",
+      "lib/store-customization.ts",
+      "vercel.json",
+      "tests/unit/minori-s10-catalogo-chat.test.ts",
+      "app/admin/cod-remittance/page.tsx",
+      "app/admin/payouts/page.tsx",
+      "app/admin/support/page.tsx",
+      "app/admin/products/page.tsx",
+      "app/admin/audit/page.tsx",
+      "app/checkout/page.tsx",
+      "app/cart/page.tsx",
+      "tests/sql/harness/migrazione-su-database-pieno.sh",
+      "tests/sql/harness/la-158-non-lascia-la-porta-aperta.sh",
+      "tests/sql/harness/la-159-non-lascia-la-tabella-scoperta.sh",
+      "tests/sql/harness/la-160-regge-un-ordine-annullato.sh",
+      "tests/sql/harness/lo-script-non-si-schianta-sul-database-nato-prima-del-registro.sh",
+      "tests/supabase-locale/avvia.sh",
+      "tests/unit/il-rilascio-non-riallinea-da-solo-un-database-rimasto-indietro.test.ts",
+      "app/globals.css",
+      "tests/unit/la-foto-rifiutata-lo-dice-in-italiano.test.ts",
+      "tests/unit/riparazione-r08-le-varianti-tutte-o-nessuna.test.ts",
+      "tests/unit/la-vetrina-del-negozio-resta-nei-colori-del-sito.test.ts",
+      "tests/unit/aiuti/monta-componente.ts",
+      "vitest.config.ts",
+      "tests/unit/le-funzioni-spente-al-lancio-le-rifiuta-il-server.test.ts",
+      "app/admin/layout.tsx"
+     ],
+     "migrazioni": [
+      580,
+      589
+     ]
+    },
+    "R02": {
+     "tema": "api-backend",
+     "voci": [
+      {
+       "id": "R02-001",
+       "chiave": "api-backend|se due giri del sorvegliante partono nello stesso istante, l'amministratore riceve due volte la stessa campanella",
+       "gravita": "minore",
+       "titolo": "Se due giri del sorvegliante partono nello stesso istante, l'amministratore riceve due volte la stessa campanella",
+       "file": [
+        "app/api/cron/operational-alerts/route.ts"
+       ]
+      },
+      {
+       "id": "R02-002",
+       "chiave": "api-backend|il freno sulla rotta regge per 3 interruttori su 9: ai, newsletter, classifica e caricamento da file stanno solo nelle pagine",
+       "gravita": "minore",
+       "titolo": "Il freno sulla rotta regge per 3 interruttori su 9: AI, newsletter, classifica e caricamento da file stanno solo nelle pagine",
+       "file": [
+        "app/api/newsletter/route.ts",
+        "lib/funzioni-al-lancio.ts"
+       ]
+      },
+      {
+       "id": "R02-003",
+       "chiave": "architettura|la traccia «chi ha cambiato il prezzo» esce in due forme diverse a seconda della porta",
+       "gravita": "minore",
+       "titolo": "La traccia «chi ha cambiato il prezzo» esce in due forme diverse a seconda della porta",
+       "file": [
+        "lib/products/salvataggio-tracciato.ts",
+        "app/api/ai/catalog-apply/route.ts"
+       ]
+      },
+      {
+       "id": "R02-004",
+       "chiave": "architettura|il finto clienteavvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente",
+       "gravita": "minore",
+       "titolo": "Il finto ClienteAvvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente",
+       "file": [
+        "tests/unit/aiuti/finto-giro-notturno.ts"
+       ]
+      },
+      {
+       "id": "R02-005",
+       "chiave": "navigazione-gerarchia|nella scheda prodotto il prezzo è quasi grande quanto il titolo e pesa meno del pulsante «+»",
+       "gravita": "minore",
+       "titolo": "Nella scheda prodotto il prezzo è quasi grande quanto il titolo e pesa meno del pulsante «+»",
+       "file": [
+        "components/ProductCard.tsx"
+       ]
+      },
+      {
+       "id": "R02-006",
+       "chiave": "qa-flussi|quando un ordine viene annullato il negozio non riceve nessuna email, e se lo annulla il sito perché nessuno l'ha accettato non riceve nemmeno la campanella",
+       "gravita": "minore",
+       "titolo": "Quando un ordine viene annullato il negozio non riceve nessuna email, e se lo annulla il sito perché nessuno l'ha accettato non riceve nemmeno la campanella",
+       "file": [
+        "app/api/cron/expire-stale-orders/route.ts"
+       ]
+      },
+      {
+       "id": "R02-007",
+       "chiave": "qa-flussi|le domande dei clienti sotto i prodotti non arrivano a nessuno, ma al cliente diciamo che riceverà una notifica",
+       "gravita": "minore",
+       "titolo": "Le domande dei clienti sotto i prodotti non arrivano a nessuno, ma al cliente diciamo che riceverà una notifica",
+       "file": [
+        "components/ProductQA.tsx"
+       ]
+      },
+      {
+       "id": "R02-008",
+       "chiave": "qa-flussi|ogni visitatore senza account fa una richiesta rifiutata alla vista dei nomi su ogni scheda prodotto e vetrina",
+       "gravita": "minore",
+       "titolo": "Ogni visitatore senza account fa una richiesta rifiutata alla vista dei nomi su ogni scheda prodotto e vetrina",
+       "file": [
+        "components/ProductQA.tsx",
+        "components/store-sections/useStorePageData.ts",
+        "lib/queries/seller-public-profiles.ts"
+       ]
+      },
+      {
+       "id": "R02-009",
+       "chiave": "qa-flussi|il ritiro in negozio è ancora spento, mentre nicola ha deciso che al lancio è acceso e gratis per il cliente",
+       "gravita": "minore",
+       "titolo": "Il ritiro in negozio è ancora spento, mentre Nicola ha deciso che al lancio è acceso e gratis per il cliente",
+       "file": [
+        "lib/ritiro-in-negozio.ts"
+       ]
+      },
+      {
+       "id": "R02-010",
+       "chiave": "qa-flussi|il ritorno dopo l accesso perde ?tab=",
+       "gravita": "minore",
+       "titolo": "Il ritorno dopo l accesso perde ?tab=",
+       "file": [
+        "middleware.ts"
+       ]
+      },
+      {
+       "id": "R02-011",
+       "chiave": "qa-flussi|due guardie sulla veloce controllano il testo del sorgente e non il comportamento",
+       "gravita": "minore",
+       "titolo": "Due guardie sulla veloce controllano il testo del sorgente e non il comportamento",
+       "file": [
+        "tests/unit/la-consegna-veloce-si-vende-solo-se-c-e-un-fattorino.test.ts",
+        "tests/unit/l-ordine-con-un-appuntamento-gia-passato.test.ts"
+       ]
+      },
+      {
+       "id": "R02-012",
+       "chiave": "qa-flussi|una prova col nome del collaudo",
+       "gravita": "minore",
+       "titolo": "Una prova col nome del collaudo",
+       "file": [
+        "tests/unit/zz-collaudo-termini-chi.test.tsx"
+       ]
+      }
+     ],
+     "file": [
+      "app/api/ai/catalog-apply/route.ts",
+      "app/api/cron/expire-stale-orders/route.ts",
+      "app/api/cron/operational-alerts/route.ts",
+      "app/api/newsletter/route.ts",
+      "components/ProductCard.tsx",
+      "components/ProductQA.tsx",
+      "components/store-sections/useStorePageData.ts",
+      "lib/funzioni-al-lancio.ts",
+      "lib/products/salvataggio-tracciato.ts",
+      "lib/queries/seller-public-profiles.ts",
+      "lib/ritiro-in-negozio.ts",
+      "middleware.ts",
+      "tests/unit/l-allarme-che-non-parte-non-si-spaccia-per-spedito.test.ts",
+      "tests/unit/api-ai-reviews-summary.test.ts",
+      "app/api/ai/answer-qa/route.ts",
+      "app/api/ai/barcode-lookup/route.ts",
+      "app/api/ai/catalog-apply-bulk/route.ts",
+      "app/api/ai/catalog-chat/route.ts",
+      "app/api/ai/catalog-create/route.ts",
+      "app/api/ai/description/route.ts",
+      "app/api/ai/diagnose/route.ts",
+      "app/api/ai/improve-product/route.ts",
+      "app/api/ai/product-chat/route.ts",
+      "app/api/ai/seo/route.ts",
+      "app/api/ai/variants/route.ts",
+      "app/api/ai/voice-product/route.ts",
+      "app/api/admin/products/route.ts",
+      "tests/unit/aiuti/finto-giro-notturno.ts",
+      "tests/unit/chi-vuole-cancellarsi-trova-una-strada-che-funziona.test.ts",
+      "tests/unit/la-spiegazione-per-email-che-non-parte-si-riprova-la-notte-dopo.test.ts",
+      "tests/unit/chi-aspetta-la-cancellazione-sa-perche-aspetta.test.ts",
+      "components/cart/CartUpsell.tsx",
+      "components/checkout/PaymentMethodSelector.tsx",
+      "app/admin/delivery/page.tsx",
+      "components/ui/AuthShell.tsx",
+      "app/sign-in/page.tsx",
+      "tests/unit/la-consegna-veloce-si-vende-solo-se-c-e-un-fattorino.test.ts",
+      "tests/unit/l-ordine-con-un-appuntamento-gia-passato.test.ts",
+      "tests/unit/zz-collaudo-termini-chi.test.tsx"
+     ],
+     "migrazioni": [
+      590,
+      599
+     ]
+    }
+   },
+   "rimandate": [],
+   "regia": []
+  }
+ ],
+ "cucitura": [],
+ "eccedenza": []
+}

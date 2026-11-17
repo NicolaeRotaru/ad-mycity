@@ -1,0 +1,139 @@
+{
+ "regista": "session_015BmpnWeHkst12TRwrzmMfw",
+ "regista_madre": "session_015BmpnYvNwUpgfdhaKx9PKT",
+ "integrazione": {
+  "ramo": "ccr-30918361-coyajm",
+  "partenza": "bc36f48120ec38bf20880c7d68b3171015744681",
+  "nota": "main c83c3e4e + -o6 + -o6-m03 + -o6-m02 ricopiato; la unisce la regista",
+  "testa": "1a7de5b9295a70eba644b7a340cef6d93f5379fc",
+  "pr": "NicolaeRotaru/mycity#295"
+ },
+ "sessioni": {
+  "R01": {
+   "id": "session_015BmpnYgRJ2nThdqp4z1F41",
+   "ramo": "ccr-30918361-coyajm-m01",
+   "onda": 1,
+   "partenza": "bc36f48120ec38bf20880c7d68b3171015744681",
+   "tetto_usd": 28,
+   "finita": true,
+   "punta": "a0fccbeec9031e88c576f69ca19e293c9955bcb7",
+   "testa": "d4d3f3b0ca1646137fd863eb4f068ceb607bf37c",
+   "costo_usd": 26.2
+  },
+  "R02": {
+   "id": "session_015BmpnWpKkj3VXdnrdtAc4b",
+   "ramo": "ccr-30918361-coyajm-m02",
+   "onda": 1,
+   "partenza": "bc36f48120ec38bf20880c7d68b3171015744681",
+   "tetto_usd": 28,
+   "finita": true,
+   "punta": "7a0b53abcb06e0a6fd0f7518ae3ab4cfaf911266",
+   "testa": "7254987c21ebaac17af0ea565830e4989c6e7bd0",
+   "costo_usd": 27.43
+  },
+  "R03": {
+   "id": "session_015BmpnZ6MiCTaF52P9H1E5L",
+   "ramo": "ccr-30918361-coyajm-m03",
+   "onda": 1,
+   "partenza": "bc36f48120ec38bf20880c7d68b3171015744681",
+   "tetto_usd": 28,
+   "finita": true,
+   "punta": "c9f423337a2848f6125a303e8f2ce2fee4beb8f0",
+   "testa": "55b27b4938f9840828d89dadb5ac7495d367257e",
+   "costo_usd": 28.85,
+   "guardia": "rossa: due prove esistenti toccate (database-della-vetrina.ts dato a R03 dalla regia per R03-013; riparazione-r20-home-variante-a aggiornata per R03-003). Deroga da dichiarare nella PR."
+  },
+  "R04": {
+   "id": "session_015BmpnWQtM3nnP4b4XgAfEj",
+   "ramo": "ccr-30918361-coyajm-m04",
+   "onda": 1,
+   "partenza": "bc36f48120ec38bf20880c7d68b3171015744681",
+   "tetto_usd": 28,
+   "finita": true,
+   "punta": "c7c580c00de445a5f10f052f14e3963c620720e2",
+   "testa": "2b9e7dbe46e2e607c511268b3ae9899f3fbab0a6",
+   "costo_usd": 30.77
+  }
+ },
+ "collaudatori": {
+  "K01": {
+   "ramo": "ccr-30918361-coyajm-k01",
+   "riparatori": [
+    "R01",
+    "R02"
+   ],
+   "tetto_usd": 12,
+   "finita": true,
+   "id": "session_015BmpnYLWEi1RmcXfHGEeYD",
+   "punta": "6997a5a56942c299dbcfc17eb986579b38380f8e",
+   "costo_usd": null
+  },
+  "K02": {
+   "ramo": "ccr-30918361-coyajm-k02",
+   "riparatori": [
+    "R03",
+    "R04"
+   ],
+   "tetto_usd": 14,
+   "finita": true,
+   "id": "session_015BmpnYRNv6mjgz8ptfTtTy",
+   "punta": "9ac3589fe669d8acf26987f73260d93f69ab4cf8",
+   "costo_usd": 16.96
+  }
+ },
+ "controllori": {
+  "C01": {
+   "ramo": "ccr-30918361-coyajm-c01",
+   "testa_controllata": "a3c43d1f735d803d817b12c25fd87feb323922ca",
+   "base": "bc36f48120ec38bf20880c7d68b3171015744681",
+   "tetto_usd": 6,
+   "finita": true,
+   "id": "session_015BmpnXshgCzn55efmCr1N1",
+   "punta": "188fbfadd95d740409c8974224cb432f0f3e8a7e"
+  }
+ },
+ "nati_fuori_voce": [
+  {
+   "severita": "grave",
+   "file": "components/SponsoredCarousel.tsx:71,113",
+   "titolo": "Il carosello dei prodotti sponsorizzati non conta visualizzazioni e clic: void supabase.rpc senza .then non manda la richiesta",
+   "visto_da": "K02"
+  },
+  {
+   "severita": "minore",
+   "file": "components/home/DropOfDay.tsx:52,61; app/admin/users/page.tsx:575; app/admin/orders/page.tsx:185",
+   "titolo": "Il giorno è calcolato su Greenwich invece che sul fuso di Piacenza",
+   "visto_da": "K01"
+  },
+  {
+   "severita": "minore",
+   "file": "app/api/admin/products/route.ts:266",
+   "titolo": "La traccia dell'amministrazione prodotti è ancora scritta a mano invece che con l'aiutante condiviso",
+   "visto_da": "K01"
+  },
+  {
+   "severita": "minore",
+   "file": "components/seller/site/PageListEditor.tsx:52,55",
+   "titolo": "Refuso: «Sparirà anche i pulsanti»",
+   "visto_da": "K02"
+  },
+  {
+   "severita": "minore",
+   "file": "app/loading.tsx:24; app/product/[id]/loading.tsx; app/orders/[id]/loading.tsx",
+   "titolo": "aria-busy sulla regione che fa l'annuncio, come nella variante cards già riparata",
+   "visto_da": "K02"
+  },
+  {
+   "severita": "minore",
+   "file": "components/LocationPill.tsx:49,108",
+   "titolo": "La pillola della posizione cade se in memoria c'è un valore rovinato o \"null\"",
+   "visto_da": "K02 e C01 dell'onda 6"
+  },
+  {
+   "severita": "minore",
+   "file": "app/api/reports/route.ts:82",
+   "titolo": "Un tipo nuovo nello schema delle segnalazioni senza tabella dà 500",
+   "visto_da": "K02 dell'onda 6"
+  }
+ ]
+}

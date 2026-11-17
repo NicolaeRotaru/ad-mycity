@@ -1,0 +1,43 @@
+# onda 8 tappa 1 (17/11 20:05): 27 dalle onde 6-7 (fuori R02-009: ruoli all iscrizione, va con i delicati) + 15 nati dell onda 7 (fuori 5 delicati o da decidere: prove con React 19, logger e dati personali, cliente che diventa fattorino, Google per i venditori, prezzo pieno nel carrello)
+performance|le pagine che vendono si disegnano solo nel browser, e il preload della prima foto non serve a niente
+qa-flussi|il taglio sui prodotti recensiti non usa la lettura a blocchi: sopra circa 216 id dà 414
+qa-flussi|nella pagina novità il numero in alto conta anche prodotti che la griglia non mostra
+qa-flussi|se il filtro finale sui negozi approvati scarta righe, «carica altri» si ferma
+qa-flussi|il finto client supabase condiviso delle prove risponde a rpc() con «nessun errore»: una pagina che salva con una funzione del database sembra riuscita anche se non scrive niente
+qa-flussi|le prove che fanno girare tutto lo script del backup non hanno un psql finto
+stati-ui|senza database la categoria e la scheda prodotto mostrano «qualcosa è andato storto» invece del loro errore con «riprova»
+stati-ui|sulla bacheca del fattorino, se la lettura dello stato online cade, la pagina scrive «sei offline» invece di dire che non lo sa; anche il voto ignora l’errore
+stati-ui|«duplica prodotto» senza rete apre il modulo vuoto finché la rete non torna
+stati-ui|la barra cade se localstorage lancia su ogni chiave
+stati-ui|senza rete il modulo prodotto crede che il negozio non offra la consegna veloce
+stati-ui|con upstash il freno dell'accesso dice sempre di aspettare la finestra intera, anche quando ne manca meno
+qa-flussi|un doppio clic su «pubblica prodotto» mette in vendita due o tre prodotti uguali
+accessibilita|la x degli avvisi dice «close toast» in inglese e sui caricamenti non chiude niente
+navigazione-gerarchia|la tendina della ricerca «sfoglia per categoria» elenca anche le categorie vuote
+qa-flussi|la rotta del lotto sul catalogo, se non riceve l'elenco dei prodotti, applica ancora tutti i risultati
+qa-flussi|dopo aver tolto un prodotto da una lista, il conteggio in /lists resta vecchio fino a 30 secondi
+flussi-conversione|sulla scheda prodotto un secondo «aggiungi al carrello» entro un secondo viene ignorato senza dire niente
+qa-flussi|il primo messaggio mandato insieme all'apertura della conversazione non avvisa il negozio
+qa-flussi|le zone del fattorino dicono «salvate» prima dell'esito
+frontend-ux|una categoria con la lettura dei prodotti caduta resta una pagina bianca
+frontend-ux|lo scheletro del negozio impedisce il 404 vero sulle pagine dei negozi anche senza lo scheletro della radice
+frontend-ux|sulla pagina del negozio il testo lungo si taglia ancora in silenzio a 4.000 caratteri
+qa-flussi|il campanello del pannello negozio conta anche le promozioni di chi le ha spente
+qa-flussi|il client supabase finto delle prove non sa concatenare .rpc().order().range()
+accessibilita|nella chat, quando i messaggi arrivano dopo l'apertura o dopo «riprova», il lettore di schermo legge tutto il filo
+accessibilita|la pagina promozioni salta ancora dall'h1 all'h3
+accessibilita|il riquadro degli avvisi si presenta al lettore di schermo come «notifications alt+t», in inglese
+qa-flussi|la pagina amministrazione «nuovo prodotto» invia ancora con mutate, senza guardia contro il doppio clic
+navigazione-gerarchia|menu, piede, vetrina e pagina categorie buttano via le categorie piene già note quando una ricarica fallisce
+qa-flussi|nell'anteprima dell'import la colonna quantità mostra 0 accanto all'errore «quantità non valida»
+qa-flussi|aggiungere o togliere un prodotto da una lista dalla pagina prodotto lascia vecchio il conteggio in /lists
+qa-flussi|dopo «elimina lista» e dopo il cambio di visibilità /lists può mostrare dati vecchi
+qa-flussi|le date degli eventi nell'amministrazione non usano il fuso di piacenza
+layout-responsive|la riga «notifiche push del browser» delle impostazioni non ha min-w-0 sul testo
+microcopy|in produzione senza chiave pubblica anti-robot il modulo contatti fallisce senza dire dove scrivere
+microcopy|l'avviso «già aggiunto» si ripete a raffica e lo dice anche dopo un cambio di variante entro un secondo
+layout-responsive|a 320 px con il testo al 200% la pagina chi siamo scorre ancora di lato di 17 px
+qa-flussi|altre due ancore sommano il loro scroll-mt allo scroll-padding da md in su
+frontend-ux|la home di un negozio inesistente ripete «negozio non trovato» nel titolo e nella pagina
+qa-flussi|anche il filtro per categoria della pagina dei negozi risale solo dieci livelli di categorie madri
+qa-flussi|il finto di supabase delle prove fa partire subito la chiamata alla funzione del database, mentre quello vero la manda solo quando qualcuno aspetta la risposta

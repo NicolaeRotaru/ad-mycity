@@ -1,0 +1,55 @@
+{
+  "corsia": 3,
+  "territorio": "R03",
+  "difetti": [
+    {
+      "chiave": "frontend-ux|la home di un negozio inesistente ripete «negozio non trovato» nel titolo e nella pagina",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-titolo-negozio-mancante.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 7f72739b^ --file app/store/[id]/layout.tsx --prove tests/unit/riparazione-r03-titolo-negozio-mancante.test.ts --json → uscita 0 (riparatore); cd ad-mycity && git -C ../wc checkout --detach 7f72739b13c511795e9de5844c37379ba2e3b9be && timeout 540 node cervello/prova-rimessa.mjs --repo ../wc --base 7f72739b^ --file app/store/[id]/layout.tsx --prove tests/unit/riparazione-r03-titolo-negozio-mancante.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Il doppione: generateMetadata del guscio dava il titolo «Negozio non trovato · MyCity» e la pagina (app/store/[id]/page.tsx:66) disegna il riquadro «Negozio non trovato»; Next 15 manda i metadati in streaming dentro il corpo, quindi la scritta compariva due volte (come alla 404 e alla pagina su misura del negozio prima delle loro cure). Ora il titolo è «Vetrina non trovata · MyCity», con noindex e senza canonical come prima (resta il formato «non trovat[oa] · MyCity» che pretende tests/unit/minori-s09-scheda-prodotto.test.ts). Prova: generateMetadata vera con la lettura finta, confrontata col titolo del riquadro letto dalla pagina: negozio inesistente, non approvato o non negozio → nessuna ripetizione; negozio vero → il suo nome. Le 8 prove esistenti che leggono o montano il guscio restano verdi (82 prove)."
+    },
+    {
+      "chiave": "navigazione-gerarchia|la tendina della ricerca «sfoglia per categoria» elenca anche le categorie vuote",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-tendina-categorie-ricarica-caduta.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3c0e939d^ --file components/SearchBar.tsx --prove tests/unit/riparazione-r03-tendina-categorie-ricarica-caduta.test.ts --json → uscita 0 (riparatore); cd ad-mycity && git -C ../wc checkout --detach 3c0e939def23a1a5421752f43692528b81ca0934 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wc --base 3c0e939d^ --file components/SearchBar.tsx --prove tests/unit/riparazione-r03-tendina-categorie-ricarica-caduta.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Il difetto com'è scritto era già chiuso sulla base (la tendina filtra con domandaCategoriePiene + soloLePiene); restava la variante: una ricarica caduta scartava le piene già note (piene.isError ? null : piene.data) e la tendina tornava a elencare le vuote. Ora soloLePiene(topCats, piene.data ?? null). Prova sul SearchBar vero con react-query vero e database finto: prima lettura ok poi ricarica caduta (stato error con i dati in mano) → solo la categoria piena; prima lettura caduta senza dati → tutte, come prima; lettura ok → solo le piene. Le 6 prove esistenti che montano o leggono il SearchBar restano verdi (82 prove)."
+    },
+    {
+      "chiave": "qa-flussi|dopo «elimina lista» e dopo il cambio di visibilità /lists può mostrare dati vecchi",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-liste-dopo-elimina-e-visibilita.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base e66bd7a8^ --file app/lists/[id]/page.tsx --prove tests/unit/riparazione-r03-liste-dopo-elimina-e-visibilita.test.tsx --json → uscita 0 (riparatore); cd ad-mycity && git -C ../wc checkout --detach e66bd7a8eefdf2bbce3b8accd5d67ab0eb594253 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wc --base e66bd7a8^ --file app/lists/[id]/page.tsx --prove tests/unit/riparazione-r03-liste-dopo-elimina-e-visibilita.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "Nell'onSuccess di deleteList (prima di portare a /lists) e di toggleVisibility la pagina invalida queryKeys.lists.mine, .public e .inVetrina, le tre chiavi da cui legge /lists (la prova le ricava montando /lists). Su errore niente invalidazione e, per l'eliminazione, niente spostamento. La prova monta la pagina della lista con il dialogo di conferma che risponde sì; le 8 prove che toccano la pagina restano verdi."
+    },
+    {
+      "chiave": "qa-flussi|anche il filtro per categoria della pagina dei negozi risale solo dieci livelli di categorie madri",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-madri-oltre-dieci-livelli.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 1b6a9715^ --file lib/queries/categorie-dei-negozi.ts --prove tests/unit/riparazione-r03-madri-oltre-dieci-livelli.test.ts --json → uscita 0 (riparatore); cd ad-mycity && git -C ../wd checkout --detach 1b6a971580d8ccba2650f72e360d61871beca2a4 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wd --base 1b6a9715^ --file lib/queries/categorie-dei-negozi.ts --prove tests/unit/riparazione-r03-madri-oltre-dieci-livelli.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "conLeMadri risale fino alla radice senza il tetto di 10 passi; la guardia contro i giri è «una categoria già vista non si rivisita» (c'era già, ora basta da sola). Prova: catena di 14 livelli (tutte le 15 categorie), due prodotti sulla stessa catena con la foglia prima (prima la seconda risalita si fermava su quella lasciata a metà), giro a→b→c→a raggiunto da d e categoria madre di sé stessa (si fermano). Le prove vicine (pagina Negozi, 9 file) restano verdi."
+    },
+    {
+      "chiave": "qa-flussi|il client supabase finto delle prove non sa concatenare .rpc().order().range()",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-finto-rpc-anelli.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base e551c960^ --file tests/unit/aiuti/finti/supabase-client.mjs --prove tests/unit/riparazione-r03-finto-rpc-anelli.test.ts --json → uscita 0 (riparatore); cd ad-mycity && git -C ../wd checkout --detach e551c9609b916371e180108b52622299d22bdb5f && timeout 540 node cervello/prova-rimessa.mjs --repo ../wd --base e551c960^ --file tests/unit/aiuti/finti/supabase-client.mjs --prove tests/unit/riparazione-r03-finto-rpc-anelli.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Nel client finto gli anelli dopo rpc (eq, order, range, select, single, maybeSingle…) arrivano alla risposta del database della prova quando lei li sa fare, come per from: la prova vede la finestra chiesta e le righe tagliate. Una risposta che non li sa fare (la promessa nuda dei database delle prove di oggi) li lascia passare oltre come prima: le 199 prove che caricano il finto restano verdi (200 file, 1344 prove)."
+    },
+    {
+      "chiave": "qa-flussi|il finto client supabase condiviso delle prove risponde a rpc() con «nessun errore»: una pagina che salva con una funzione del database sembra riuscita anche se non scrive niente",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-finto-rpc-non-prevista.test.ts tests/unit/riparazione-r04-client-finto-rpc.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 01a4cbaa^ --file tests/unit/aiuti/finti/supabase-client.mjs --prove tests/unit/riparazione-r03-finto-rpc-non-prevista.test.ts,tests/unit/riparazione-r04-client-finto-rpc.test.ts --json → uscita 0 (riparatore); cd ad-mycity && git -C ../wd checkout --detach 01a4cbaa2ba525c59d124889d3f4d675fc800a2e && timeout 540 node cervello/prova-rimessa.mjs --repo ../wd --base 01a4cbaa^ --file tests/unit/aiuti/finti/supabase-client.mjs --prove tests/unit/riparazione-r03-finto-rpc-non-prevista.test.ts,tests/unit/riparazione-r04-client-finto-rpc.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Una funzione del database che la prova non ha previsto (nessun database della prova con rpc) risponde { data: null, error: { code: 'RPC_NON_PREVISTA', message: '… «nome» …' } } invece di «nessun errore», anche con gli anelli e con single. Misura prima: delle 199 prove che caricano il finto ne cadeva una sola, tests/unit/riparazione-r04-client-finto-rpc.test.ts (prova esistente che importa per nome il finto e nessun file di R01/R02): i suoi due casi senza database affermavano proprio la risposta silenziosa della voce; ora affermano l'errore che nomina la funzione (la catena arriva in fondo come prima). Tutte le altre restano verdi (202 file, 1353 prove)."
+    },
+    {
+      "chiave": "qa-flussi|il finto di supabase delle prove fa partire subito la chiamata alla funzione del database, mentre quello vero la manda solo quando qualcuno aspetta la risposta",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-finto-rpc-pigro.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 34d34090^ --file tests/unit/aiuti/finti/supabase-client.mjs --prove tests/unit/riparazione-r03-finto-rpc-pigro.test.ts --json → uscita 0 (riparatore); cd ad-mycity && git -C ../wd checkout --detach 34d340906cf5b55d264149402e69f9f959ab19c4 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wd --base 34d34090^ --file tests/unit/aiuti/finti/supabase-client.mjs --prove tests/unit/riparazione-r03-finto-rpc-pigro.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Nel client finto .rpc(...) annota gli anelli e chiama il database della prova solo al then/await (o all'attesa della riga sola di single/maybeSingle), una volta sola anche se si aspetta due volte; una chiamata mai aspettata non arriva al database della prova. Commit separato da quello degli anelli. Le prove che caricano il finto restano verdi (201 file, 1348 prove). Nota: il builder vero di postgrest-js rifà la richiesta a ogni then; la regola «una volta sola» è quella chiesta dal mandato."
+    }
+  ]
+}

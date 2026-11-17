@@ -1,0 +1,26 @@
+# 27 serve_file_altrui con la correzione già scritta (elenco B di pronte), quelli senza file in comune con R01-R03 dell onda 8 (17/11 20:30)
+api-backend|se due giri del sorvegliante partono nello stesso istante, l'amministratore riceve due volte la stessa campanella
+qa-flussi|prova con un nome che promette il contrario
+qa-flussi|le domande dei clienti sotto i prodotti non arrivano a nessuno, ma al cliente diciamo che riceverà una notifica
+qa-flussi|una prova col nome del collaudo
+qa-flussi|il ritorno dopo l accesso perde ?tab=
+stati-ui|se la lettura del profilo non riesce, il negoziante approvato legge che il suo account non è da venditore e gli viene proposto di iscriversi di nuovo
+qa-flussi|salvando le taglie, se la scorta cambia a metà il negozio legge «riapri e salva di nuovo», ma le taglie tolte sono già cancellate
+qa-flussi|la prima compilazione di monta() pesa sul primo caso di ~85 file di prove
+ai-endpoints|con un fornitore lento la risposta lunga del copilot non arriva mai: dopo due minuti il negozio legge solo «riprova»
+qa-flussi|basta un solo campo fuori regola e tutta la personalizzazione della vetrina sparisce, e il salvataggio dopo la cancella
+navigazione-gerarchia|nella scheda prodotto il prezzo è quasi grande quanto il titolo e pesa meno del pulsante «+»
+qa-flussi|la frase vecchia sui formati foto resta in friendlyerror
+architettura|interfacce zombie: shippingforeuro vale sempre 0 ma riceve 7 ingressi; promessaspedizione ha un argomento morto e campi sempre costanti
+api-backend|il freno sulla rotta regge per 3 interruttori su 9: ai, newsletter, classifica e caricamento da file stanno solo nelle pagine
+architettura|il finto clienteavvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente
+deploy-sre|la prova «migrazione su database pieno» mette ancora i file nell'ordine vecchio
+architettura|sei rami iserror scritti a mano invece del presidio lib/vista-query.ts (vistadaquery): il difetto può tornare alla settima pagina
+architettura|la traccia «chi ha cambiato il prezzo» esce in due forme diverse a seconda della porta
+qa-flussi|il ritiro in negozio è ancora spento, mentre nicola ha deciso che al lancio è acceso e gratis per il cliente
+qa-flussi|due guardie sulla veloce controllano il testo del sorgente e non il comportamento
+qa-flussi|quando un ordine viene annullato il negozio non riceve nessuna email, e se lo annulla il sito perché nessuno l'ha accettato non riceve nemmeno la campanella
+api-backend|le notifiche push partono due volte se due giri del cron si sovrappongono: la presa in carico non è atomica
+performance|ogni pagina scarica due caratteri in corsivo che quasi nessuna pagina usa
+qa-flussi|la campanella del sito mostra le promozioni anche a chi le ha spente
+qa-flussi|ogni visitatore senza account fa una richiesta rifiutata alla vista dei nomi su ogni scheda prodotto e vetrina

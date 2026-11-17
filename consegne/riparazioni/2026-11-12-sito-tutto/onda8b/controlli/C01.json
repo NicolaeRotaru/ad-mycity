@@ -1,0 +1,42 @@
+{
+  "controllore": "C01",
+  "onda": "8b",
+  "finita": true,
+  "aggiornato": "2026-11-17 21:40",
+  "testa": "7f59df78e7852ba611f2306a340a119aae1fdf59",
+  "base": "1a7de5b9295a70eba644b7a340cef6d93f5379fc",
+  "verify": {
+    "comando": "NODE_OPTIONS=--max-old-space-size=8192 npm run verify && tests/sql/harness/apply.sh && tests/sql/harness/run.sh",
+    "esito": "verde",
+    "nota": "Lo stesso giro del referto onda8/controlli/C01.json: una sola prova sulla testa 7f59df78, che unisce le onde 8 e 8b. Tipi puliti, lint senza errori (99 avvisi), 1734 file di prove passati, 10969 prove passate. Harness SQL su un Postgres 16 locale: 209 migrazioni applicate, 0 fallite, tutti i .test.sql verdi. Le cinque prove .sh che R01-005 ha cambiato (ordine dei file con LC_ALL=C sort, come apply.sh) le ho lanciate una per una: la-158, la-159, la-160, lo-script-non-si-schianta-sul-database-nato-prima-del-registro e migrazione-su-database-pieno, tutte uscita 0. Il nuovo ordine dei file è identico a quello di apply.sh (sposta solo 052b e 108b dopo 052 e 108) e l'ultima migrazione resta 572. Nessun database vero toccato, nessuno strumento Supabase, Vercel o Stripe."
+  },
+  "unione": "I rami -o8b-m01 e -o8b-m02 sono uniti in 7f59df78 (fusioni 91a333f7 e 8bd53941), con i referti di lavoro tolti. La base dell'8b, 522cfb01, ha lo stesso albero di 1a7de5b9, la base dell'onda 8: git diff fra le due è vuoto. Fra i rami dell'8b e quelli dell'8 non c'è nessun file di codice in comune.",
+  "voci_rosse": [],
+  "voci_guardate": {
+    "reggono_sull_unione": ["R01-003", "R01-005", "R01-008", "R01-009", "R01-010", "R01-011", "R01-012", "R02-003", "R02-005"],
+    "gia_riparate_che_reggono": ["R01-001", "R02-001", "R02-006"],
+    "parziali_controllate_che_non_rompono": ["R01-004", "R01-013", "R02-002", "R02-004", "R02-010"],
+    "nota": "Le 9 date per «regge» hanno la loro prova nell'albero unito, e la suite intera è verde. Ho letto le righe nuove dei 16 file di codice dell'8b con le tre domande. Punti guardati apposta: ① R01-013, il cockpit dell'amministrazione: un profilo non letto mostra «Riprova» e non apre niente, chi non è autenticato va ancora all'accesso e chi ha un altro ruolo va ancora alla home; l'accesso non si allarga. ② R01-003, le cinque pagine dell'amministrazione passano da vistaDaQuery: l'errore vince sul dato come prima (una rilettura caduta dei bonifici mostrava già l'errore), e «vuoto» si decide sulla stessa lunghezza di prima. ③ R01-009, il ripiego delle varianti in tre giri ora fa prima gli aggiornamenti e poi cancellazioni e inserimenti: sulla tabella product_variants l'unico indice unico è la chiave primaria (letto sul database locale), quindi aggiornare prima di cancellare non può urtare un vincolo. ④ R01-008, lib/errors.ts importa lib/storage/carica-immagine: quel file importa solo regole-secchi e percorso-caricamento, nessuno dei due importa lib/errors, quindi nessun giro di importazioni e nessun pezzo pesante in più nel browser. ⑤ R02-010, il ritorno dopo Google: il parametro next lo ripulisce di nuovo /auth/callback con safeInternalPath, quindi non apre un rimando verso fuori. ⑥ R02-002, il freno AI sulla rotta catalog-create sta in testa al POST; le 15 rotte AI ancora senza freno sono il pezzo che resta aperto, come ha scritto K01. ⑦ R01-010, normalizeCustomization tiene i campi buoni e ricontrolla il risultato con lo schema: chi salva resta severo. Nessuna riga nuova rompe soldi, permessi o dati. Un effetto collaterale piccolo di R02-003 lo scrivo qui sotto."
+  },
+  "nuovi_difetti_visti": [
+    {
+      "titolo": "Quando l'amministrazione cambia solo le taglie di un prodotto, il registro delle azioni non scrive più niente",
+      "dimensione": "api-backend",
+      "severita": "minore",
+      "file": "app/api/admin/products/route.ts:277",
+      "descrizione": "Nato da R02-003. Prima la rotta PATCH dell'amministrazione scriveva sempre una riga product.update, anche quando cambiavano solo le varianti (metadata.fields vuoto). Ora la riga la prepara tracciaDellaModifica, che con il patch vuoto torna null, e «if (voce) await writeAudit(voce)» non scrive niente: un amministratore che cambia scorte o prezzi delle taglie non lascia traccia nel registro. La riga persa diceva poco (solo chi e quando, senza i campi), e la porta del negozio non traccia le varianti nemmeno lei: per questo minore. La cura: scrivere comunque una voce product.update quando ci sono varianti salvate, per esempio con un campo «variants» nella traccia."
+    }
+  ],
+  "note_per_la_regista": [
+    "R01-005 ha cambiato cinque prove .sh dell'harness che run.sh non lancia: le ho fatte girare io sull'unione, verdi. Il controllore finale non deve rifarle se l'harness non cambia ancora.",
+    "I nati che K01 dell'8b ha già detto non li ripeto qui."
+  ],
+  "file_toccati": 47,
+  "file_guardati": 23,
+  "file_non_guardati": "Guardati 23 su 47: i 16 file di codice dell'8b (diff e intorno dove serviva), le 5 prove .sh dell'harness (diff letto e fatte girare una per una) e i due aiuti condivisi tests/unit/aiuti/monta-componente.ts e tests/unit/aiuti/finto-giro-notturno.ts, perché un aiuto troppo largo può far passare verdi altre prove. Le altre 24 prove nuove o cambiate le ho fatte girare sull'unione (verdi) ma non le ho rilette riga per riga: se mordono lo ha già misurato K01, e rifarlo è il lavoro che il controllore non fa.",
+  "conto": {
+    "subagenti": 0,
+    "token_stimati": 190000,
+    "nota": "È lo stesso controllo del referto onda8/controlli/C01.json, contato una volta sola lì: i token non si sommano. get_session non mostra usage.cost_usd: la spesa va letta dalla regista. Limite settimanale «allowed_warning», senza uso extra."
+  }
+}

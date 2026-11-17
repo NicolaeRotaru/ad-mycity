@@ -1,0 +1,294 @@
+{
+  "casa": "sito",
+  "profilo": "scelta",
+  "creato": "2026-11-17 20:13",
+  "registro": "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-marketplace.json",
+  "deposito": "NicolaeRotaru/mycity",
+  "base": "522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+  "filtri": {
+    "gravita": null,
+    "dimensioni": null,
+    "chiavi": 25,
+    "nati_dal": null,
+    "diff": null,
+    "anche_umani": false,
+    "anche_rimandati": false
+  },
+  "conti": {
+    "aperti": 759,
+    "nel_filtro": 25,
+    "lavorabili": 25,
+    "riservate": 0,
+    "domande": 0,
+    "rimandati": 0,
+    "umani": 0,
+    "sospese": 0,
+    "senza_percorso": 0
+  },
+  "lavorabili": [
+    {
+      "chiave": "qa-flussi|basta un solo campo fuori regola e tutta la personalizzazione della vetrina sparisce, e il salvataggio dopo la cancella",
+      "titolo": "Basta un solo campo fuori regola e tutta la personalizzazione della vetrina sparisce, e il salvataggio dopo la cancella",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "lib/store-customization.ts",
+        "components/seller/site/ThemePicker.tsx",
+        "components/seller/site/StoreDetailsEditor.tsx"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|salvando le taglie, se la scorta cambia a metà il negozio legge «riapri e salva di nuovo», ma le taglie tolte sono già cancellate",
+      "titolo": "Salvando le taglie, se la scorta cambia a metà il negozio legge «riapri e salva di nuovo», ma le taglie tolte sono già cancellate",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "lib/products/persistVariantsServer.ts"
+      ]
+    },
+    {
+      "chiave": "ai-endpoints|con un fornitore lento la risposta lunga del copilot non arriva mai: dopo due minuti il negozio legge solo «riprova»",
+      "titolo": "Con un fornitore lento la risposta lunga del Copilot non arriva mai: dopo due minuti il negozio legge solo «riprova»",
+      "gravita": "minore",
+      "dimensione": "ai-endpoints",
+      "file": [
+        "lib/ai/regole-copilot.ts",
+        "app/api/ai/copilot/route.ts",
+        "lib/ai/client.ts",
+        "lib/ai/run.ts",
+        "vercel.json"
+      ]
+    },
+    {
+      "chiave": "deploy-sre|la prova «migrazione su database pieno» mette ancora i file nell'ordine vecchio",
+      "titolo": "La prova «migrazione su database pieno» mette ancora i file nell'ordine vecchio",
+      "gravita": "minore",
+      "dimensione": "deploy-sre",
+      "file": [
+        "tests/sql/harness/migrazione-su-database-pieno.sh"
+      ]
+    },
+    {
+      "chiave": "api-backend|se due giri del sorvegliante partono nello stesso istante, l'amministratore riceve due volte la stessa campanella",
+      "titolo": "Se due giri del sorvegliante partono nello stesso istante, l'amministratore riceve due volte la stessa campanella",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "app/api/cron/operational-alerts/route.ts"
+      ]
+    },
+    {
+      "chiave": "stati-ui|se la lettura del profilo non riesce, il negoziante approvato legge che il suo account non è da venditore e gli viene proposto di iscriversi di nuovo",
+      "titolo": "Se la lettura del profilo non riesce, il negoziante approvato legge che il suo account non è da venditore e gli viene proposto di iscriversi di nuovo",
+      "gravita": "minore",
+      "dimensione": "stati-ui",
+      "file": [
+        "app/seller/layout.tsx",
+        "components/hooks/useProfile.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|il ritiro in negozio è ancora spento, mentre nicola ha deciso che al lancio è acceso e gratis per il cliente",
+      "titolo": "Il ritiro in negozio è ancora spento, mentre Nicola ha deciso che al lancio è acceso e gratis per il cliente",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "lib/ritiro-in-negozio.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|le domande dei clienti sotto i prodotti non arrivano a nessuno, ma al cliente diciamo che riceverà una notifica",
+      "titolo": "Le domande dei clienti sotto i prodotti non arrivano a nessuno, ma al cliente diciamo che riceverà una notifica",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "components/ProductQA.tsx"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|quando un ordine viene annullato il negozio non riceve nessuna email, e se lo annulla il sito perché nessuno l'ha accettato non riceve nemmeno la campanella",
+      "titolo": "Quando un ordine viene annullato il negozio non riceve nessuna email, e se lo annulla il sito perché nessuno l'ha accettato non riceve nemmeno la campanella",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "app/api/cron/expire-stale-orders/route.ts"
+      ]
+    },
+    {
+      "chiave": "performance|ogni pagina scarica due caratteri in corsivo che quasi nessuna pagina usa",
+      "titolo": "Ogni pagina scarica due caratteri in corsivo che quasi nessuna pagina usa",
+      "gravita": "minore",
+      "dimensione": "performance",
+      "file": [
+        "app/layout.tsx"
+      ]
+    },
+    {
+      "chiave": "api-backend|le notifiche push partono due volte se due giri del cron si sovrappongono: la presa in carico non è atomica",
+      "titolo": "Le notifiche push partono due volte se due giri del cron si sovrappongono: la presa in carico non è atomica",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "app/api/cron/send-push/route.ts",
+        "app/api/cron/send-emails/route.ts",
+        "vercel.json"
+      ]
+    },
+    {
+      "chiave": "navigazione-gerarchia|nella scheda prodotto il prezzo è quasi grande quanto il titolo e pesa meno del pulsante «+»",
+      "titolo": "Nella scheda prodotto il prezzo è quasi grande quanto il titolo e pesa meno del pulsante «+»",
+      "gravita": "minore",
+      "dimensione": "navigazione-gerarchia",
+      "file": [
+        "components/ProductCard.tsx"
+      ]
+    },
+    {
+      "chiave": "architettura|la traccia «chi ha cambiato il prezzo» esce in due forme diverse a seconda della porta",
+      "titolo": "La traccia «chi ha cambiato il prezzo» esce in due forme diverse a seconda della porta",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "lib/products/salvataggio-tracciato.ts",
+        "app/api/ai/catalog-apply/route.ts"
+      ]
+    },
+    {
+      "chiave": "api-backend|il freno sulla rotta regge per 3 interruttori su 9: ai, newsletter, classifica e caricamento da file stanno solo nelle pagine",
+      "titolo": "Il freno sulla rotta regge per 3 interruttori su 9: AI, newsletter, classifica e caricamento da file stanno solo nelle pagine",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "app/api/newsletter/route.ts",
+        "lib/funzioni-al-lancio.ts"
+      ]
+    },
+    {
+      "chiave": "architettura|sei rami iserror scritti a mano invece del presidio lib/vista-query.ts (vistadaquery): il difetto può tornare alla settima pagina",
+      "titolo": "Sei rami isError scritti a mano invece del presidio lib/vista-query.ts (vistaDaQuery): il difetto può tornare alla settima pagina",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "app/admin/today/page.tsx"
+      ]
+    },
+    {
+      "chiave": "architettura|interfacce zombie: shippingforeuro vale sempre 0 ma riceve 7 ingressi; promessaspedizione ha un argomento morto e campi sempre costanti",
+      "titolo": "Interfacce zombie: shippingForEuro vale sempre 0 ma riceve 7 ingressi; promessaSpedizione ha un argomento morto e campi sempre costanti",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "lib/shipping.ts",
+        "lib/promesse-pubbliche.ts"
+      ]
+    },
+    {
+      "chiave": "architettura|il finto clienteavvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente",
+      "titolo": "Il finto ClienteAvvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente",
+      "gravita": "minore",
+      "dimensione": "architettura",
+      "file": [
+        "tests/unit/aiuti/finto-giro-notturno.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|due guardie sulla veloce controllano il testo del sorgente e non il comportamento",
+      "titolo": "Due guardie sulla veloce controllano il testo del sorgente e non il comportamento",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "tests/unit/la-consegna-veloce-si-vende-solo-se-c-e-un-fattorino.test.ts",
+        "tests/unit/l-ordine-con-un-appuntamento-gia-passato.test.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|ogni visitatore senza account fa una richiesta rifiutata alla vista dei nomi su ogni scheda prodotto e vetrina",
+      "titolo": "Ogni visitatore senza account fa una richiesta rifiutata alla vista dei nomi su ogni scheda prodotto e vetrina",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "components/ProductQA.tsx",
+        "components/store-sections/useStorePageData.ts",
+        "lib/queries/seller-public-profiles.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|una prova col nome del collaudo",
+      "titolo": "Una prova col nome del collaudo",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "tests/unit/zz-collaudo-termini-chi.test.tsx"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|la prima compilazione di monta() pesa sul primo caso di ~85 file di prove",
+      "titolo": "La prima compilazione di monta() pesa sul primo caso di ~85 file di prove",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "tests/unit/aiuti/monta-componente.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|prova con un nome che promette il contrario",
+      "titolo": "Prova con un nome che promette il contrario",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "tests/unit/le-funzioni-spente-al-lancio-le-rifiuta-il-server.test.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|la frase vecchia sui formati foto resta in friendlyerror",
+      "titolo": "La frase vecchia sui formati foto resta in friendlyError",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "lib/errors.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|la campanella del sito mostra le promozioni anche a chi le ha spente",
+      "titolo": "La campanella del sito mostra le promozioni anche a chi le ha spente",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "app/notifications/page.tsx"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|il ritorno dopo l accesso perde ?tab=",
+      "titolo": "Il ritorno dopo l accesso perde ?tab=",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "middleware.ts"
+      ]
+    }
+  ],
+  "fuori": {
+    "riservate": [],
+    "domande": [],
+    "rimandati": [],
+    "umani": [],
+    "sospese": [],
+    "senza_percorso": []
+  },
+  "percorsi_spariti": [
+    {
+      "chiave": "performance|ogni pagina scarica due caratteri in corsivo che quasi nessuna pagina usa",
+      "file": [
+        ".next/static/css/b09b9d933ee949bc.css"
+      ]
+    },
+    {
+      "chiave": "architettura|interfacce zombie: shippingforeuro vale sempre 0 ma riceve 7 ingressi; promessaspedizione ha un argomento morto e campi sempre costanti",
+      "file": [
+        "ProductCard.tsx",
+        "product/[id]/page.tsx",
+        "FreeShippingProgress.tsx"
+      ]
+    }
+  ]
+}
