@@ -81,7 +81,20 @@ test("AR-1180 · (b) un collaudo parziale guarda solo le voci che elenca, e non 
 
 // ── Collaudo dell'officina minima (15/11): un bloccante e due minori ─────────────────────────────────────────────
 const RADICE = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
-const CAMPAGNA = join(RADICE, "consegne/riparazioni/2026-11-12-sito-tutto");
+// La campagna del 12/11 FERMA a main del 16/11 (#968, 13fe89c): queste prove parlano dei collaudi veri di quei giorni.
+// Prima leggevano la cartella viva, e il 17/11 lo stato dell'onda 4 (referti R27-R29 con la verifica rossa, K14 che dà
+// il giudizio pieno a R16-014/015/016) le ha fatte diventare rosse senza che le regole di applica fossero cambiate.
+// La copia si prende da git: se il commit manca (clone superficiale), la prova cade e lo dice, non salta.
+const CAMPAGNA_FERMA = "13fe89c0a4ad16fe05dd9a08e604361b454343ce";
+const CAMPAGNA = mkdtempSync(join(tmpdir(), "campagna-12-11-ferma-"));
+// Si cancella solo una cartella temporanea: se qualcuno rimette qui il percorso vivo, la campagna vera non sparisce.
+process.on("exit", () => { if (CAMPAGNA.startsWith(join(tmpdir(), "campagna-12-11-ferma-"))) rmSync(CAMPAGNA, { recursive: true, force: true }); });
+{
+  const tar = spawnSync("git", ["archive", "--format=tar", `${CAMPAGNA_FERMA}:consegne/riparazioni/2026-11-12-sito-tutto`], { cwd: RADICE, maxBuffer: 1 << 30 });
+  if (tar.status !== 0) throw new Error(`la campagna ferma (${CAMPAGNA_FERMA}) non c'è in git: ${tar.stderr}`);
+  const x = spawnSync("tar", ["-x", "-C", CAMPAGNA], { input: tar.stdout });
+  if (x.status !== 0) throw new Error(`tar non ha estratto la campagna ferma: ${x.stderr}`);
+}
 const K10_VERO = join(dirname(fileURLToPath(import.meta.url)), "campagna-12-11-K10.json");
 const GIA_CHIUSE = ["R08-010", "R08-018", "R08-020", "R08-023", "R16-014", "R16-015", "R16-016"];
 const CHIUDE_K10 = ["R07-010", "R07-014", "R07-017", "R15-014", "R18-009", "R18-018", "R18-020"];

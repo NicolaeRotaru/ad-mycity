@@ -53,3 +53,4 @@ Lista D (voci per Nicola) · R27 e R25-001 (carta 258) · migrazione 501 · doma
 
 ### Prossimi passi
 1. Giovedì 19/11 10:00 (risveglio programmato): get_session, aprire R30-R33, piani, collaudo breve (K17, K18), unione, verify, C05, applica, PR del sito pronta.
+- 09:55 CI della #978 rossa sulla fetta 8: `collaudi-guardati-insieme.test.mjs` leggeva la cartella viva della campagna, e lo stato dell'onda 4 (R27-R29, K14) la faceva cadere (5 su 13). Ora legge la campagna ferma a `13fe89c` da git: 13 su 13. La stessa prova sulla cartella viva resta 8 su 13. Modifica alla macchina 🟡, nella PR.
