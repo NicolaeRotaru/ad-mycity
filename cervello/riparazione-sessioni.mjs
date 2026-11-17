@@ -30,8 +30,14 @@
 //   valida-collaudo <file>    il referto di un collaudatore rispetta formato e regola del campione
 //   prova-unione              i rami dell'onda non si pestano: nessun file in due rami, l'unione non litiga
 //   applica [--scrivi]        da referti e collaudi: chi si chiude, chi resta aperto, i difetti nati
-//   conti                     prima e dopo, incrociando le chiavi
+//   conti                     prima e dopo, incrociando le chiavi; rosso se una PR dell'onda è unita e il registro no
+//   conti --preventivo [--voci N] [--misure <file>]   stima, tetto e massimo SOLO da misure.json, in preventivo.json
+//                             e in REGIA.md; rosso con la spesa (stato-sessioni.json) al 70% e al 100% della stima
 //   deposito                  stampa il deposito dei rami della campagna (sito o macchina); 2 se non c'è
+//   pronte [--git <dir>]      quattro elenchi di chiavi in <cartella>/pronte/: A da ricollaudare, B serve_file_altrui,
+//                             C parziali con file altrui, D per Nicola (dai percorsi e dagli esiti, voce unica)
+//   segnali [--onda N]        le novità rispetto a rossi-noti.txt, una per riga (1 se ce n'è almeno una)
+//   stato [--onda N]          la campagna in 40 righe al massimo: figlie, esiti, spesa, segnali, prossima azione
 //
 // Uscita: 0 verde · 1 rosso · 2 uso sbagliato o non ho potuto misurare · 3 in attesa (mai un verde muto).
 //
@@ -65,7 +71,7 @@ const veroPercorso = (p) => { try { return realpathSync(p); } catch { return res
 // ── Le costanti del metodo ───────────────────────────────────────────────────────────────────────
 export const RANGO = Object.freeze({ bloccante: 0, grave: 1, medio: 2, minore: 3 });
 export const GRAVI = new Set(["bloccante", "grave"]);
-export const ESITI = Object.freeze(["riparato", "parziale", "gia_riparato_prima", "non_codice", "scelta_di_nicola", "serve_file_altrui", "non_fatto"]);
+export const ESITI = Object.freeze(["riparato", "parziale", "gia_riparato_prima", "non_codice", "scelta_di_nicola", "serve_file_altrui", "non_fatto", "verificata_dopo_nicola"]);
 export const VERDETTI = Object.freeze(["regge", "parziale", "non_regge", "rompe_altro"]);
 export const GIUDIZI = Object.freeze(["pieno", "nessuno"]);
 export const LENTI = Object.freeze(["chiude_tutta", "nata_rotta"]);
@@ -75,6 +81,26 @@ export const MAX_SESSIONI = 12;
 // sessioni»): un riparatore finisce in circa metà tempo, e il profilo «tutto» passa da due a tre onde.
 export const PER_SESSIONE = 25;
 export const TETTO_CUCITURA = 40;
+// Dentro un lotto fino a 40 voci il campione non esiste: ogni minore riparato vuole il giudizio pieno. Il campione
+// ha lasciato fuori 15 minori nell'onda 2, e il giudizio pieno costa circa 0,32 $ a voce (K08 terzo, 14/11).
+export const LOTTO_SENZA_CAMPIONE = 40;
+
+/**
+ * Da quale onda la regola dei 40 (sopra) vale anche per `applica` e `pronte`, non solo per `valida-collaudo` (AR-1184,
+ * Nicola, carta #256 risposta 5a, 15/11 23:35). Si legge dal piano, sullo stampo di `verifica_testa_dall_onda`.
+ * Senza il campo: null, e `decidi` resta com'era (la campagna del 12/11 non riapre niente di già chiuso a campione).
+ * Un valore che non è un numero d'onda (un intero da 1 in su) non si tratta come assente: spegnerebbe la regola in
+ * silenzio. Si ferma, e chi lo chiama esce cieco.
+ */
+export function campioneFinoA40DallOnda(piano) {
+  const v = piano?.campione_fino_a_40_dall_onda;
+  if (v === undefined || v === null) return null;
+  if (!Number.isInteger(v) || v < 1) throw new Error(`il piano dice campione_fino_a_40_dall_onda ${JSON.stringify(v)}: serve il numero dell'onda (un intero da 1 in su)`);
+  return v;
+}
+// I tetti dei subagenti di un riparatore: gli stessi del freno (riparazione/freno-subagenti.mjs, che non si importa
+// qui per non legare i due programmi; una prova controlla che restino uguali). Officina minima del 15/11, pezzo 6.
+export const TETTO_SUBAGENTI = Object.freeze({ "riparatore-minori": 6, "riparatore-gravi": 8 });
 export const SOGLIA_CAMPIONE = 0.9;
 export const QUOTA_CAMPIONE = 0.3;
 export const MINIMO_CAMPIONE = 5;
@@ -114,7 +140,7 @@ const TEMPORANEI = [
 ];
 
 // ── Opzioni ──────────────────────────────────────────────────────────────────────────────────────
-const BOOLEANE = new Set(["json", "anche-umani", "anche-rimandati", "ultima", "scrivi"]);
+const BOOLEANE = new Set(["json", "anche-umani", "anche-rimandati", "ultima", "scrivi", "tutti", "preventivo"]);
 export function leggiOpzioni(argv) {
   const opz = { posizionali: [] };
   for (let i = 0; i < argv.length; i++) {
@@ -514,6 +540,12 @@ function perimetro(opz) {
  * sessione ancora vuota, poi la meno carica. Chi si scontra con due sessioni, o trova piena la sua, passa
  * all'onda dopo. Chi tocca un file che nessuna sessione può toccare va alla regia.
  */
+/** Le prove citate da due voci o più: hanno un padrone solo nell'onda. PURA. */
+export function proveComuni(voci) {
+  const conto = new Map();
+  for (const v of voci) for (const f of new Set((v.file ?? []).map(normPerc).filter((x) => eProva(x) && !eMigrazione(x)))) conto.set(f, (conto.get(f) ?? 0) + 1);
+  return new Set([...conto].filter(([, n]) => n >= 2).map(([f]) => f));
+}
 export function assegnaOnda(voci, { sessioni: k, perSessione = PER_SESSIONE, primoNumero = 1, vietati = new Set() } = {}) {
   const ordinate = [...voci].sort((a, b) =>
     (RANGO[a.gravita] ?? 9) - (RANGO[b.gravita] ?? 9)
@@ -524,9 +556,12 @@ export function assegnaOnda(voci, { sessioni: k, perSessione = PER_SESSIONE, pri
   const sess = Array.from({ length: quante }, (_, i) => ({ nome: nomeSessione(primoNumero + i), tema: null, voci: [], file: new Set() }));
   const padrone = new Map();
   const rimandate = [], regia = [];
+  const comuni = proveComuni(ordinate);
   for (const v of ordinate) {
     if (v.file.some((f) => vietati.has(normPerc(f)))) { regia.push(v.chiave); continue; }
-    const decidono = fileCheDecidono(v.file);
+    // Una prova COMUNE (citata da due voci o più) ha un padrone solo, come un sorgente (officina minima del 15/11):
+    // il 13/11 alle 07:16 cinque voci sono state tolte con un revert perché due sessioni toccavano la stessa prova.
+    const decidono = [...new Set([...fileCheDecidono(v.file), ...v.file.map(normPerc).filter((f) => comuni.has(f))])];
     const loro = new Set(decidono.filter((f) => padrone.has(f)).map((f) => padrone.get(f)));
     let i;
     if (loro.size > 1) { rimandate.push(v.chiave); continue; }
@@ -580,7 +615,7 @@ function dividi(opz) {
     if (opz["file-chiavi"]) for (const r of readFileSync(resolve(opz["file-chiavi"]), "utf8").split(/\r?\n/)) if (r.trim() && !r.startsWith("#")) chiavi.add(r.trim());
     const ignote = [...chiavi].filter((c) => !perChiave.has(c));
     if (ignote.length) return chiudi("dividi", [`${ignote.length} chiavi non sono nel perimetro: ${ignote.slice(0, 3).join(" ; ")}`], [], opz);
-    candidate = [...chiavi].map((c) => perChiave.get(c));
+    candidate = conFileCheServono([...chiavi].map((c) => perChiave.get(c)), fileCheServono(opz));
   }
   const perSessione = Number(opz["per-sessione"] ?? PER_SESSIONE);
   let k = opz.sessioni !== undefined ? Number(opz.sessioni) : undefined;
@@ -615,11 +650,13 @@ function rigaCompatta(casa, d) {
   const piatto = (v) => String(v ?? "").replace(/[\t\r\n]+/g, " ").trim();
   return [chiaveDi(casa, d), gravitaDi(casa, d), statoDi(d), piatto(casa === "macchina" ? d.dove : d.file).slice(0, 300), piatto(d.titolo)].join("\t");
 }
-export function testoScheda({ nome, onda, casa, deposito, base, ramo, regista, cartella, sessione }) {
+export function testoScheda({ nome, onda, casa, deposito, base, ramo, regista, cartella, sessione, precedenti = {} }) {
   const prima = sessione.voci[0];
   const gravi = sessione.voci.filter((v) => GRAVI.has(v.gravita)).length;
   const righe = [
-    "---", "tipo: scheda", `sessione: ${nome}`, `onda: ${onda}`, `casa: ${casa}`, "---", "",
+    // La riga del ruolo la legge il freno sugli agenti (riparazione/freno-subagenti.mjs) nel prompt d'apertura:
+    // la regista la copia come prima riga del prompt con cui apre la sessione.
+    "---", "tipo: scheda", `sessione: ${nome}`, `onda: ${onda}`, `casa: ${casa}`, `ruolo-freno: ${gravi ? "riparatore-gravi" : "riparatore-minori"}`, "---", "",
     `# La scheda di ${nome}: ${sessione.voci.length} difetti da riparare, ${gravi} gravi`, "",
     "## In parole semplici", "",
     `Questa è la lista dei difetti che la sessione ${nome} ripara nell'onda ${onda}, e dei file che in quest'onda solo lei può toccare.`,
@@ -633,7 +670,11 @@ export function testoScheda({ nome, onda, casa, deposito, base, ramo, regista, c
     `- casa: ${casa}`, `- deposito: ${deposito}`, `- base: ${base}`, `- ramo: ${ramo}`,
     `- cartella della campagna: ${cartella}`, `- regista: ${regista}`, `- referto: ${REFERTO_DIR}/referto-${nome}.json`, "",
     "### Le mie voci", "",
-    ...sessione.voci.map((v) => `- \`${v.id}\` · ${v.gravita} · ${v.chiave} · ${v.file.join(" , ")}`), "",
+    ...sessione.voci.flatMap((v) => {
+      const pr = precedenti[v.chiave];
+      const prima = pr ? [`  - prima: ${pr.esito} (${pr.id})${pr.cosa_resta ? ` · resta: ${pr.cosa_resta}` : ""}`, ...(pr.modifiche ?? []).map((m) => `  - modifica scritta per ${m.file}: ${m.modifica}`)] : [];
+      return [`- \`${v.id}\` · ${v.gravita} · ${v.chiave} · ${v.file.join(" , ")}`, ...prima];
+    }), "",
     "### I miei file", "",
     ...sessione.file.map((f) => `- \`${f}\``), "",
     "### Le mie migrazioni", "",
@@ -658,10 +699,13 @@ function schede(opz) {
   scriviTesto(join(cartella, "registro-compatto.txt"), reg.elenco.map((d) => rigaCompatta(per.casa, d)).join("\n") + "\n");
   mkdirSync(join(cartella, "schede"), { recursive: true });
   const ramoRegista = opz.ramo ?? "<ramo>";
+  // Le voci che tornano dal giro prima portano nella scheda esito, cosa resta e la modifica scritta (pronte.json).
+  const filePronte = join(cartella, "pronte", "pronte.json");
+  const precedenti = existsSync(filePronte) ? (leggiJson(filePronte).precedenti ?? {}) : {};
   for (const [nome, s] of Object.entries(o.sessioni)) {
     const testo = testoScheda({
       nome, onda, casa: per.casa, deposito: per.deposito, base: o.base,
-      ramo: `${ramoRegista}-m${due(numeroSessione(nome))}`, regista: opz.regista ?? "<regista>", cartella: relCartella, sessione: s,
+      ramo: `${ramoRegista}-m${due(numeroSessione(nome))}`, regista: opz.regista ?? "<regista>", cartella: relCartella, sessione: s, precedenti,
     });
     scriviTesto(join(cartella, "schede", `${nome}.md`), testo);
   }
@@ -707,6 +751,12 @@ export function controllaOnda(o, { candidate, casa, maxMigrazione = null, vietat
       if (apertiNelRegistro && !apertiNelRegistro.has(v.chiave)) rossi.push(`${v.id}: la chiave «${v.chiave}» non è più aperta nel registro`);
       if (/^\d+$/.test(String(v.chiave))) rossi.push(`${v.id}: «${v.chiave}» è un indice, non una chiave`);
     }
+  }
+  // Una prova comune (citata da due voci o più) vuole un padrone nell'onda, ed è della sessione di ogni voce che la cita.
+  const comuni = proveComuni(Object.values(o.sessioni ?? {}).flatMap((s) => s.voci ?? []));
+  for (const [nome, s] of Object.entries(o.sessioni ?? {})) for (const v of s.voci ?? []) for (const f of (v.file ?? []).map(normPerc).filter((x) => comuni.has(x))) {
+    if (!padrone.has(f)) rossi.push(`${v.id}: tocca ${f}, che in quest'onda non ha un padrone`);
+    else if (padrone.get(f) !== nome) rossi.push(`${v.id}: tocca ${f}, che in quest'onda è di ${padrone.get(f)}`);
   }
   for (const c of o.rimandate ?? []) segna(c, "onda dopo");
   for (const c of o.regia ?? []) segna(c, "regia");
@@ -797,7 +847,16 @@ export const RE_SPENTA = /\b(?:it|test|describe)(?:\.\w+)*\.(?:skip|only|todo|fa
 // I commenti si tolgono prima di contare: un'asserzione COMMENTATA non controlla niente (radiografia del 12/11 notte).
 export const contaAsserzioni = (testo) => (String(testo).replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:\\])\/\/.*$/gm, "$1").match(/\bexpect\s*\(|\bassert(?:\.\w+)?\s*\(|\bt\.(?:assert|equal|deepEqual|ok|throws)\b/g) || []).length;
 /** Le regole che un'eccezione firmata può sospendere in un'onda, e solo queste. */
-export const REGOLE_DEROGABILI = Object.freeze(["prove_comuni", "prova_nuova_senza_nome", "prova_esistente_altrui", "rimessa_a_mano"]);
+export const REGOLE_DEROGABILI = Object.freeze(["prove_comuni", "prova_nuova_senza_nome", "prova_esistente_altrui", "rimessa_a_mano", "id_nel_commit"]);
+/**
+ * Le regole che una firma sospende solo su UN commit, scritto per intero (40 cifre), mai per un'onda intera.
+ * Perché esiste: nell'onda 2 il ramo di R17 porta bb53b6be, il revert di R17-005 col messaggio standard di git
+ * («Revert "R17-005 …"»), che non comincia con l'id della voce. Nicola ha firmato la deroga su quel commit solo
+ * (15/11 verso le 06:05, decisione 2 del piano del 15/11). Nel piano:
+ * `eccezioni_firmate: [{ onda: 2, commit: "<40 cifre>", regole: ["id_nel_commit"], firma: "…" }]`.
+ */
+export const REGOLE_PER_COMMIT = Object.freeze(["id_nel_commit"]);
+const SHA_INTERO = /^[0-9a-f]{40}$/;
 /**
  * L'eccezione firmata da Nicola su una regola, per un'onda sola. PURA. Torna la firma, o null.
  * Perché esiste: la campagna del 12/11 ha lavorato la sua onda 1 prima che le regole di AR-1172 ci fossero, e i
@@ -807,15 +866,26 @@ export const REGOLE_DEROGABILI = Object.freeze(["prove_comuni", "prova_nuova_sen
  * prove comuni). Nel piano: `eccezioni_firmate: [{ onda: 1, regole: [...], firma: "…" }]`. Senza firma non vale; una
  * regola fuori da REGOLE_DEROGABILI non vale; dall'onda dopo la regola è stretta.
  */
-export function eccezioneFirmata(piano, onda, regola) {
+export function eccezioneFirmata(piano, onda, regola, commit = null) {
   if (!REGOLE_DEROGABILI.includes(regola)) return null;
+  const perCommit = REGOLE_PER_COMMIT.includes(regola);
   for (const e of Array.isArray(piano?.eccezioni_firmate) ? piano.eccezioni_firmate : []) {
     // L'onda è un numero intero, scritto così: «1», true o [1] non valgono come onda 1 (collaudo del 13/11).
     if (!Number.isInteger(e?.onda) || e.onda !== Number(onda) || !Array.isArray(e?.regole) || !e.regole.includes(regola)) continue;
+    // Una regola per commit vale solo sul commit giudicato, scritto per intero: un prefisso, o nessun commit, la
+    // sospenderebbe per tutta l'onda. E un'eccezione che nomina un commit non sospende nient'altro per l'onda intera.
+    if (perCommit ? !(typeof e.commit === "string" && SHA_INTERO.test(e.commit) && e.commit === String(commit ?? "")) : e.commit !== undefined) continue;
     // Una firma vera porta lettere o cifre: una fatta di soli caratteri invisibili non è una firma (collaudo del 13/11).
     if (typeof e.firma === "string" && /[\p{L}\p{N}]/u.test(e.firma)) return e.firma.trim();
   }
   return null;
+}
+/**
+ * La rimessa fatta a mano, quando prova-rimessa esce 3 (rossa per la struttura, non per il comportamento): il
+ * comando, l'uscita senza la correzione (diversa da 0) e quella con la correzione (0). PURA.
+ */
+export function aManoValida(a) {
+  return !!a && typeof a === "object" && !vuoto(a.comando) && Number.isInteger(a.uscita_senza_correzione) && a.uscita_senza_correzione !== 0 && a.uscita_con_correzione === 0;
 }
 /**
  * Il giudizio su UN percorso toccato dalla storia di un ramo riparatore. PURA.
@@ -1071,8 +1141,8 @@ export function giudicaRamo(opz, per, piano, ramo, nome) {
   const ctx = { nome, suoi, esisteAllaBase, importaDaSuoi, fascia: dove.sessione.migrazioni ?? null, casa: per.casa };
   // Un'eccezione firmata per quest'onda non ferma il rosso in silenzio: lo elenca uno per uno, con la firma.
   const derogati = [];
-  ctx.deroga = (regola, perche) => {
-    const firma = eccezioneFirmata(piano, dove.onda.onda, regola);
+  ctx.deroga = (regola, perche, commit = null) => {
+    const firma = eccezioneFirmata(piano, dove.onda.onda, regola, commit);
     if (!firma) return false;
     derogati.push(`${perche} [eccezione firmata, onda ${dove.onda.onda}: ${firma}]`);
     return true;
@@ -1109,7 +1179,11 @@ export function giudicaRamo(opz, per, piano, ramo, nome) {
   // di un'altra sessione, non attribuisce il commit a nessuno (collaudo del 7/11).
   const primoRigoGiusto = new RegExp(`^${nome}-(?:\\d{3}|varie)\\b`);
   const senzaVoce = storia.perCommit.filter((c) => c.file.some((f) => !f.startsWith(`${REFERTO_DIR}/`)) && !primoRigoGiusto.test(c.messaggio.split("\n")[0].trim()));
-  for (const c of senzaVoce) rossi.push(`${c.commit.slice(0, 12)}: un commit di codice che non comincia con l'id di una voce di ${nome} («${nome}-NNN …», oppure «${nome}-varie …»)`);
+  for (const c of senzaVoce) {
+    const perche = `${c.commit.slice(0, 12)}: un commit di codice che non comincia con l'id di una voce di ${nome} («${nome}-NNN …», oppure «${nome}-varie …»)`;
+    // Si sospende solo con la firma su QUESTO commit (REGOLE_PER_COMMIT), e la deroga lo elenca.
+    if (!ctx.deroga("id_nel_commit", perche, c.commit)) rossi.push(perche);
+  }
   for (const c of storia.perCommit) for (const id of c.messaggio.match(/\b[A-Z]\d{2}-\d{3}\b/g) || []) if (!ids.has(id)) rossi.push(`${c.commit.slice(0, 12)}: il messaggio cita ${id}, che non è una voce di ${nome}`);
   const attese = !storia.commit.length ? [`${nome}: il ramo non ha ancora nessun commit suo`]
     : !netto.size ? [`${nome}: il ramo ha ${storia.commit.length} commit ma alla fine non cambia nessun file: non c'è niente da giudicare, non è un verde`] : [];
@@ -1204,6 +1278,9 @@ export function regoleReferto(testo, ctx) {
       if (!PROVE.includes(v.prova_tipo)) rossi.push(`${dove}: prova_tipo «${v.prova_tipo}» non è uno di ${PROVE.join("|")}`);
       if (grave && !(v.prova_tipo === "comando" && v.prova_eseguita === true)) rossi.push(`${dove}: un ${attesa.gravita} si chiude solo con una prova «comando» eseguita (l'asticella)`);
       if (v.rimessa?.esito !== "regge" || v.rimessa?.uscita !== 0 || vuoto(v.rimessa?.comando)) rossi.push(`${dove}: riparato senza la prova rimessa che regge (uscita 0 di cervello/prova-rimessa.mjs, col comando)`);
+      // Un grave riparato si dimostra col programma che toglie la correzione e vede la prova cadere: una rimessa
+      // raccontata a mano («git checkout HEAD^ … → 2 rosse») non la rifà nessuno (officina minima del 15/11).
+      else if (ctx.misura === true && grave && !/prova-rimessa\.mjs/.test(String(v.rimessa.comando))) rossi.push(`${dove}: un ${attesa.gravita} riparato vuole la prova che diventa rossa togliendo la correzione (cervello/prova-rimessa.mjs), non una rimessa scritta a mano`);
       if (v.copre_tutta_la_voce !== true) rossi.push(`${dove}: se non chiude tutta la voce l'esito è «parziale»`);
       if (r.finita === true && vuoto(v.verificato_da)) rossi.push(`${dove}: a referto finito ogni riparazione dice chi l'ha smentita (verificato_da)`);
       if (!vuoto(v.commit)) {
@@ -1220,6 +1297,7 @@ export function regoleReferto(testo, ctx) {
     }
     if (v.esito === "parziale" && vuoto(v.cosa_resta)) rossi.push(`${dove}: parziale senza «cosa_resta»`);
     if (v.esito === "gia_riparato_prima" && vuoto(v.prova)) rossi.push(`${dove}: già riparato senza la riga o il comando che lo dimostra («prova»)`);
+    if (v.esito === "verificata_dopo_nicola" && (vuoto(v.prova_comando) || !aManoValida(v.rimessa))) rossi.push(`${dove}: verificata dopo Nicola senza «prova_comando» e «rimessa» {comando, uscita_senza_correzione ≠ 0 prima della sua mossa, uscita_con_correzione 0 dopo}`);
     if (v.esito === "serve_file_altrui" && (!Array.isArray(v.serve_file_altrui) || !v.serve_file_altrui.length || v.serve_file_altrui.some((x) => vuoto(x?.file) || vuoto(x?.modifica)))) rossi.push(`${dove}: serve_file_altrui senza l'elenco {file, modifica}`);
     if (v.esito === "scelta_di_nicola" && vuoto(v.domanda)) rossi.push(`${dove}: scelta di Nicola senza la domanda in una riga`);
     if (["non_codice", "non_fatto"].includes(v.esito) && vuoto(v.nota)) rossi.push(`${dove}: ${v.esito} senza la nota (cosa deve fare Nicola, o perché)`);
@@ -1231,6 +1309,17 @@ export function regoleReferto(testo, ctx) {
     if (!dichiarati) rossi.push(`il commit ${String(c).slice(0, 12)} porta ${ids.join(", ")}: una voce per commit, oppure «insieme_a» dichiarato su ognuna`);
   }
   rossi.push(...regoleNuoviDifetti(r.nuovi_difetti_visti));
+  // Le tre regole del 15/11 (misura, tetto, rimessa del grave) le applica valida-referto (ctx.misura): `applica`
+  // rilegge anche i referti delle campagne di prima, scritti quando quei campi non esistevano.
+  if (r.finita === true && ctx.misura === true) {
+    // La misura della sessione sta nel referto (regola R-H): senza, il preventivo dell'onda dopo non ha base e il
+    // freno sugli agenti non si controlla dopo. R13 non aveva un costo, quello di R14 era stimato a mano.
+    const tetto = TETTO_SUBAGENTI[ctx.voci.some((v) => GRAVI.has(v.gravita)) ? "riparatore-gravi" : "riparatore-minori"];
+    const sub = r.conto?.subagenti, costo = r.costo_usd ?? r.conto?.costo_usd;
+    if (!Number.isInteger(sub) || sub < 0) rossi.push("a referto finito manca «conto.subagenti», il numero di subagenti aperti (contali tutti, anche quelli fermati)");
+    else if (sub > tetto) rossi.push(`${sub} subagenti, oltre il tetto di ${tetto} della scheda`);
+    if (!(typeof costo === "number" && costo > 0)) rossi.push("a referto finito manca «costo_usd», letto con get_session (senza id) prima della consegna");
+  }
   if (r.finita === true) {
     for (const v of ctx.voci) if (!viste.has(v.id)) rossi.push(`${v.id}: a referto finito ogni voce della scheda deve comparire, anche quelle non fatte`);
     if (r.verifica?.esito !== "verde") rossi.push("a referto finito la verifica (npm run verify, o il cancello della macchina) deve essere verde");
@@ -1270,7 +1359,7 @@ function validaReferto(opz) {
     if (!visti) return chiudi("valida-referto", [], [`il ramo ${opz.ramo} non esiste ancora`], opz);
     ({ commitDelRamo, testaDelRamo, soloRefertoDopo } = visti);
   }
-  const { rossi, attese } = regoleReferto(testo, { nome, voci: dove.sessione.voci, chiaviDelRegistro, commitDelRamo, testaDelRamo, soloRefertoDopo });
+  const { rossi, attese } = regoleReferto(testo, { nome, voci: dove.sessione.voci, chiaviDelRegistro, commitDelRamo, testaDelRamo, soloRefertoDopo, misura: true });
   if (!chiaviDelRegistro) attese.push("il registro non si legge: non ho controllato che le chiavi ci siano");
   if (!opz.ramo) attese.push("senza --ramo non ho controllato i commit nella storia del ramo");
   return chiudi("valida-referto", rossi, attese, opz, { sessione: nome });
@@ -1299,7 +1388,24 @@ export function campioneDi(minori, perId, hub) {
   const accettato = pieni.length >= servono && hubMancanti.length === 0 && (pieni.length === 0 || reggono / pieni.length >= SOGLIA_CAMPIONE);
   return { minori: tot, servono, nel_campione: pieni.length, reggono, hub_mancanti: hubMancanti, accettato };
 }
-/** ctx: { nome, riparatori: {RNN: {voci:[{id,chiave,gravita,file}], referto|null}}, hub:Set, deroga?(regola, perché, RNN) } */
+/**
+ * I giudizi pieni degli ALTRI collaudi finiti, voce per voce (fra due pieni vince il peggiore). PURA.
+ * Servono a valida-collaudo e ad applica per guardare il giudizio pieno sull'unione dei collaudi, non dentro ognuno.
+ */
+export function pieniAltrove(collaudi, tranne) {
+  const peso = { rompe_altro: 3, non_regge: 2, parziale: 1, regge: 0 };
+  const fuori = new Map();
+  for (const c of collaudi ?? []) {
+    if (!c || c.collaudatore === tranne || c.finita !== true) continue;
+    for (const v of c.voci ?? []) {
+      if (v?.giudizio !== "pieno" || !(c.riparatori ?? []).includes(String(v.id ?? "").slice(0, 3))) continue;
+      const prima = fuori.get(v.id);
+      if (!prima || (peso[v.verdetto] ?? 3) > (peso[prima.verdetto] ?? 3)) fuori.set(v.id, { ...v, collaudatore: c.collaudatore });
+    }
+  }
+  return fuori;
+}
+/** ctx: { nome, riparatori: {RNN: {voci:[{id,chiave,gravita,file}], referto|null}}, hub:Set, deroga?(regola, perché, RNN), altrui?: Map } */
 export function regoleCollaudo(testo, ctx) {
   const rossi = [], attese = [];
   // Un rosso che un'eccezione firmata sospende nell'onda del riparatore non entra fra i rossi (la deroga lo annota).
@@ -1318,40 +1424,60 @@ export function regoleCollaudo(testo, ctx) {
     perId.set(v?.id, v);
   }
   const campioni = {};
+  // Un collaudo parziale («parziale: true») guarda solo le voci che elenca: le altre restano senza collaudo.
+  const parziale = c.parziale === true;
+  if (parziale && Object.values(c.campione ?? {}).some((x) => x?.accettato === true)) rossi.push("un collaudo parziale non dichiara un campione accettato: il campione si conta sull'unione dei collaudi");
+  const altrui = ctx.altrui instanceof Map ? ctx.altrui : new Map();
   for (const [r, info] of Object.entries(ctx.riparatori)) {
     if (!info.referto) { attese.push(`${r}: il referto del riparatore non c'è ancora`); continue; }
     // Un referto non finito è una fotografia di metà lavoro: collaudarlo dà un verde su voci che cambieranno
     // (secondo collaudo del 7/11: letto alla «testa», il referto era quello intermedio, 1 voce su 2).
     if (info.referto.finita !== true) { rossi.push(`${r}: il referto del riparatore non è finito; si collauda il referto finito, letto alla PUNTA del suo ramo`); continue; }
     const scheda = new Map(info.voci.map((v) => [v.id, v]));
-    const daCollaudare = info.referto.voci.filter((v) => ["riparato", "parziale", "gia_riparato_prima"].includes(v.esito));
+    const daCollaudare = info.referto.voci.filter((v) => ["riparato", "parziale", "gia_riparato_prima", "verificata_dopo_nicola"].includes(v.esito));
+    // La regola «niente campione fino a 40 voci» (15/11) vale solo per i collaudi nuovi, cioè dietro ctx.misura come le
+    // regole nuove del referto: valida-collaudo la applica, applica no. Su un collaudo scritto prima, quando il campione
+    // era ammesso, riapriva voci già chiuse a campione accettato (collaudo dell'officina minima, 15/11: 7 voci della
+    // campagna del 12/11, R08-010 … R16-016, e applica rosso con 18 problemi). In applica la regola non ferma: tiene
+    // aperte le voci, dentro decidi, dall'onda scritta in `campione_fino_a_40_dall_onda` del piano (AR-1184).
+    const senzaCampione = ctx.misura === true && info.voci.length <= LOTTO_SENZA_CAMPIONE;
     const minori = [];
     for (const rv of daCollaudare) {
       const s = scheda.get(rv.id);
       const cv = perId.get(rv.id);
       if (!s) continue;
-      if (!cv) { (c.finita === true ? rossi : attese).push(`${rv.id}: ${rv.esito} nel referto di ${r}, manca nel collaudo`); continue; }
+      if (!cv) { if (!parziale) (c.finita === true ? rossi : attese).push(`${rv.id}: ${rv.esito} nel referto di ${r}, manca nel collaudo`); continue; }
       if (cv.chiave !== s.chiave) rossi.push(`${rv.id}: la chiave del collaudo non è quella della scheda`);
       if (!VERDETTI.includes(cv.verdetto)) { rossi.push(`${rv.id}: verdetto «${cv.verdetto}» non è uno di ${VERDETTI.join("|")}`); continue; }
       if (!GIUDIZI.includes(cv.giudizio)) rossi.push(`${rv.id}: giudizio «${cv.giudizio}» non è uno di ${GIUDIZI.join("|")}`);
       const lentiTutte = Array.isArray(cv.lenti) && LENTI.every((l) => cv.lenti.includes(l));
-      if (rv.esito !== "gia_riparato_prima") {
+      const senzaRimessa = ["gia_riparato_prima", "verificata_dopo_nicola"].includes(rv.esito);
+      if (!senzaRimessa) {
         if (!Number.isInteger(cv.rimessa?.uscita) || vuoto(cv.rimessa?.comando)) rossi.push(`${rv.id}: manca la prova rimessa lanciata dal collaudatore (uscita e comando)`);
-        if (cv.verdetto === "regge" && cv.rimessa?.uscita !== 0) rossi.push(`${rv.id}: «regge» con la prova rimessa uscita ${cv.rimessa?.uscita}, non 0`);
+        // Un minore a uscita 3 regge con la rimessa a mano e il giudizio pieno, ma solo dove Nicola ha firmato la
+        // deroga «rimessa_a_mano» per l'onda (officina minima del 15/11). Per gravi e bloccanti niente cambia.
+        const aMano = !GRAVI.has(s.gravita) && cv.rimessa?.uscita === 3 && cv.giudizio === "pieno" && aManoValida(cv.rimessa?.a_mano);
+        if (cv.verdetto === "regge" && cv.rimessa?.uscita !== 0) rossi.push(...(aMano ? nonDerogato("rimessa_a_mano", `${rv.id}: «regge» con la prova rimessa uscita 3 e la rimessa a mano: vale solo con l'eccezione firmata «rimessa_a_mano» nell'onda`, r) : [`${rv.id}: «regge» con la prova rimessa uscita ${cv.rimessa?.uscita}, non 0`]));
         // La prova rimessa del collaudo toglie davvero la correzione: apply.sh + run.sh, o un comando qualunque,
         // sono verdi qualunque cosa faccia la correzione (radiografia del 12/11 notte).
         if (cv.verdetto === "regge" && !vuoto(cv.rimessa?.comando) && !/prova-rimessa\.mjs/.test(String(cv.rimessa.comando))) rossi.push(...nonDerogato("rimessa_a_mano", `${rv.id}: «regge» con una prova rimessa che non è prova-rimessa.mjs: un comando che non toglie la correzione non prova niente`, r));
         if (cv.verdetto === "regge" && /--sql\b/.test(String(rv.rimessa?.comando ?? "")) && !/--sql\b/.test(String(cv.rimessa?.comando ?? ""))) rossi.push(`${rv.id}: il riparatore l'ha provata con --sql e il collaudo no: una migrazione si prova ricostruendo il database con e senza`);
       }
       if (cv.verdetto === "regge" && cv.giudizio === "pieno" && !lentiTutte) rossi.push(`${rv.id}: un giudizio pieno porta tutte e due le lenti (${LENTI.join(", ")})`);
-      if ((GRAVI.has(s.gravita) || rv.esito === "gia_riparato_prima") && cv.verdetto === "regge" && cv.giudizio !== "pieno") rossi.push(`${rv.id}: un ${rv.esito === "gia_riparato_prima" ? "«già riparato»" : s.gravita} regge solo con un giudizio pieno`);
-      if (!GRAVI.has(s.gravita) && rv.esito === "riparato") minori.push({ id: rv.id, file: s.file });
+      if ((GRAVI.has(s.gravita) || senzaRimessa) && cv.verdetto === "regge" && cv.giudizio !== "pieno") rossi.push(`${rv.id}: un ${rv.esito === "gia_riparato_prima" ? "«già riparato»" : rv.esito === "verificata_dopo_nicola" ? "«verificata dopo Nicola»" : s.gravita} regge solo con un giudizio pieno`);
+      if (!GRAVI.has(s.gravita) && rv.esito === "riparato") {
+        minori.push({ id: rv.id, file: s.file });
+        if (senzaCampione && cv.verdetto === "regge" && cv.giudizio !== "pieno" && altrui.get(rv.id)?.giudizio !== "pieno") (c.finita === true ? rossi : attese).push(`${rv.id}: minore riparato senza giudizio pieno: in un lotto di ${info.voci.length} voci (fino a ${LOTTO_SENZA_CAMPIONE}) il campione non esiste`);
+      }
     }
-    const camp = campioneDi(minori, perId, ctx.hub);
+    // Il campione si conta sull'unione: un pieno di un altro collaudo vale come voce guardata.
+    const perIdUnione = new Map(perId);
+    for (const [id, v] of altrui) if (perIdUnione.get(id)?.giudizio !== "pieno") perIdUnione.set(id, v);
+    const camp = campioneDi(minori, perIdUnione, ctx.hub);
     campioni[r] = camp;
     const dichiarato = c.campione?.[r]?.accettato;
-    if (dichiarato === true && !camp.accettato) rossi.push(`${r}: il campione è dichiarato accettato ma non lo è (${camp.reggono} reggono su ${camp.nel_campione} guardati, ne servivano ${camp.servono}${camp.hub_mancanti.length ? `, ${camp.hub_mancanti.length} sui file che legano non guardati` : ""})`);
-    if (c.finita === true && camp.nel_campione < camp.servono) rossi.push(`${r}: campione troppo piccolo: ${camp.nel_campione} minori guardati con giudizio, ne servono ${camp.servono}`);
+    if (!senzaCampione && dichiarato === true && !camp.accettato) rossi.push(`${r}: il campione è dichiarato accettato ma non lo è (${camp.reggono} reggono su ${camp.nel_campione} guardati, ne servivano ${camp.servono}${camp.hub_mancanti.length ? `, ${camp.hub_mancanti.length} sui file che legano non guardati` : ""})`);
+    if (!senzaCampione && !parziale && c.finita === true && camp.nel_campione < camp.servono) rossi.push(`${r}: campione troppo piccolo: ${camp.nel_campione} minori guardati con giudizio, ne servono ${camp.servono}`);
   }
   if (c.finita !== true) attese.push(`${ctx.nome}: collaudo non ancora finito`);
   return { rossi, attese, campioni };
@@ -1391,7 +1517,8 @@ function validaCollaudo(opz) {
   const riparatori = riparatoriDi(opz, piano, elenco);
   const fuoriPiano = Object.entries(riparatori).filter(([, x]) => !x.inPiano).map(([r]) => r);
   const derogatiK = [];
-  const { rossi, attese, campioni } = regoleCollaudo(testo, { nome: c.collaudatore, riparatori, hub: fileHub(per.lavorabili), deroga: derogaCollaudo(piano, derogatiK) });
+  const altriK = leggiCartellaJson(join(serveCartella(opz), "collaudi"), /^K\d{2}\.json$/);
+  const { rossi, attese, campioni } = regoleCollaudo(testo, { nome: c.collaudatore, riparatori, hub: fileHub(per.lavorabili), deroga: derogaCollaudo(piano, derogatiK), altrui: pieniAltrove(altriK, c.collaudatore), misura: true });
   stampaEccezioni(derogatiK);
   for (const r of fuoriPiano) rossi.push(`${r} non è nel piano`);
   const sess = leggiSessioni(opz);
@@ -1474,9 +1601,13 @@ function provaUnione(opz) {
  * La decisione su ogni voce, dai referti e dai collaudi. PURA. La regola del campione si ricalcola qui
  * (scorciatoia #1: misura, non chiedere): la parola «accettato» scritta dal collaudatore non conta.
  */
-export function decidi({ piano, referti, collaudi, hub }) {
+export function decidi({ piano, referti, collaudi, hub, misura = false, misuraDallOnda = null }) {
   const decisioni = [];
   const verdetti = new Map();
+  // Il verdetto più severo fra quelli SENZA giudizio pieno, voce per voce: se un pieno lo batte, la decisione lo dice
+  // in «avviso» invece di farlo sparire (collaudo dell'officina minima, 15/11, minore 4: un «rompe_altro» di K07
+  // spariva sotto il «regge» pieno di K10 senza lasciare traccia).
+  const scartati = new Map();
   // Un collaudatore giudica solo i riparatori che elenca: il collaudo del 7/11 ha fatto chiudere un grave di R01
   // con il «regge» di K02, che guardava R02, sopra il «non regge» di K01. Fra due verdetti vince il più severo.
   const SEVERITA_VERDETTO = { rompe_altro: 3, non_regge: 2, parziale: 1, regge: 0 };
@@ -1486,9 +1617,18 @@ export function decidi({ piano, referti, collaudi, hub }) {
     const prima = verdetti.get(v.id);
     const peso = SEVERITA_VERDETTO[v.verdetto] ?? 3;
     const pesoPrima = prima ? (SEVERITA_VERDETTO[prima.verdetto] ?? 3) : -1;
-    if (!prima || peso > pesoPrima || (peso === pesoPrima && prima.giudizio !== "pieno" && v.giudizio === "pieno")) verdetti.set(v.id, { ...v, collaudatore: c.collaudatore });
+    // Un giudizio pieno batte sempre uno che non lo è; fra due dello stesso tipo vince il peggiore (officina minima
+    // del 15/11: K07 senza giudizio su R18, K10 col pieno sulle stesse voci; applica le teneva aperte).
+    // Un collaudo non finito non presta il giudizio pieno: le sue voci contano come giudicate senza pieno (minore 5
+    // dello stesso collaudo: pronte chiudeva voci col pieno di un collaudo non ancora consegnato).
+    const pieno = v.giudizio === "pieno" && c.finita === true, pienoPrima = prima?.giudizio === "pieno";
+    const voce = { ...v, giudizio: pieno ? "pieno" : v.giudizio === "pieno" ? "nessuno" : v.giudizio, collaudatore: c.collaudatore };
+    if (!pieno && peso > (SEVERITA_VERDETTO[scartati.get(v.id)?.verdetto] ?? -1)) scartati.set(v.id, voce);
+    if (!prima || (pieno && !pienoPrima) || (pieno === pienoPrima && peso > pesoPrima)) verdetti.set(v.id, voce);
   }
   for (const o of piano.onde) {
+    // La regola dei 40: sempre con misura (valida-collaudo, le prove), e per applica e pronte dall'onda del piano.
+    const misuraQui = misura === true || (Number.isInteger(misuraDallOnda) && o.onda >= misuraDallOnda);
     for (const [nome, s] of Object.entries(o.sessioni)) {
       const ref = referti[nome];
       const perIdC = new Map([...verdetti].filter(([id]) => id.startsWith(`${nome}-`)));
@@ -1498,20 +1638,45 @@ export function decidi({ piano, referti, collaudi, hub }) {
         const rv = ref?.voci?.find((v) => v.id === sv.id);
         const cv = verdetti.get(sv.id);
         const d = { id: sv.id, sessione: nome, chiave: sv.chiave, gravita: sv.gravita, esito: rv?.esito ?? "senza_referto", verdetto: cv?.verdetto ?? null, collaudatore: cv?.collaudatore ?? null, decisione: "resta_aperta", perche: "" };
+        const sc = scartati.get(sv.id);
+        if (cv?.giudizio === "pieno" && sc && (SEVERITA_VERDETTO[sc.verdetto] ?? 3) > (SEVERITA_VERDETTO[cv.verdetto] ?? 3)) d.avviso = `${sc.collaudatore} dice «${sc.verdetto}» senza giudizio pieno; vince il «${cv.verdetto}» pieno di ${cv.collaudatore}`;
         if (!rv) d.perche = "il riparatore non l'ha scritta nel referto";
         else if (rv.esito === "riparato") {
-          if (rv.rimessa?.uscita !== 0) d.perche = "la prova rimessa del riparatore non regge";
+          const minore = !GRAVI.has(sv.gravita);
+          // Officina minima del 15/11: un minore la cui prova rimessa esce 3 (rossa per la struttura) si chiude con la
+          // rimessa a mano del collaudatore e il giudizio pieno, solo dove Nicola ha firmato «rimessa_a_mano» per
+          // l'onda. K02: 5 minori fermi a «parziale» con giudizio pieno solo per questa regola. Gravi invariati.
+          const usc = [rv.rimessa?.uscita, cv?.rimessa?.uscita];
+          const aMano = minore && usc.includes(3) && usc.every((u) => u === 0 || u === 3) && cv?.verdetto === "regge" && cv.giudizio === "pieno" && aManoValida(cv.rimessa?.a_mano) && !!eccezioneFirmata(piano, o.onda, "rimessa_a_mano");
+          if (rv.rimessa?.uscita !== 0 && !aMano) d.perche = "la prova rimessa del riparatore non regge";
           else if (!cv) d.perche = "nessun collaudo";
           else if (cv.verdetto !== "regge") d.perche = `collaudo: ${cv.verdetto}`;
-          else if (cv.rimessa?.uscita !== 0) d.perche = "la prova rimessa del collaudatore non è uscita 0";
+          else if (cv.rimessa?.uscita !== 0 && !aMano) d.perche = minore && usc.includes(3) ? "prova rimessa a uscita 3: un minore chiude solo con la deroga firmata «rimessa_a_mano», il giudizio pieno e rimessa.a_mano" : "la prova rimessa del collaudatore non è uscita 0";
           else if (GRAVI.has(sv.gravita) && cv.giudizio !== "pieno") d.perche = "un grave senza giudizio pieno";
-          else if (!GRAVI.has(sv.gravita) && cv.giudizio !== "pieno" && !camp.accettato) d.perche = `minore fuori campione, e il campione di ${nome} non è accettato`;
+          else if (misuraQui && minore && cv.giudizio !== "pieno" && s.voci.length <= LOTTO_SENZA_CAMPIONE) d.perche = `minore senza giudizio pieno: in un lotto di ${s.voci.length} voci il campione non esiste`;
+          else if (minore && cv.giudizio !== "pieno" && !camp.accettato) d.perche = `minore fuori campione, e il campione di ${nome} non è accettato`;
           else {
             d.decisione = "si_chiude";
-            d.come = cv.giudizio === "pieno" ? "collaudo pieno" : "campione";
+            d.come = aMano ? "collaudo pieno, rimessa a mano (deroga firmata)" : cv.giudizio === "pieno" ? "collaudo pieno" : "campione";
             d.verifica_comando = rv.prova_comando;
-            d.non_vacuita = `${rv.rimessa.comando} → uscita 0 (riparatore); ${cv.rimessa.comando} → uscita 0 (${cv.collaudatore})`;
+            d.non_vacuita = aMano
+              ? `${cv.rimessa.a_mano.comando} → uscita ${cv.rimessa.a_mano.uscita_senza_correzione} senza la correzione, 0 con (${cv.collaudatore}, a mano)`
+              : `${rv.rimessa.comando} → uscita 0 (riparatore); ${cv.rimessa.comando} → uscita 0 (${cv.collaudatore})`;
             d.nota_fix = rv.cosa_ho_fatto ?? "";
+          }
+        } else if (rv.esito === "verificata_dopo_nicola") {
+          // Una voce non di codice sistemata da Nicola (una chiave, un'impostazione): chiude solo con la prova che oggi
+          // passa, la rimessa che prima della sua mossa falliva, e il giudizio pieno di un'altra sessione.
+          if (vuoto(rv.prova_comando) || !aManoValida(rv.rimessa)) d.perche = "verificata dopo Nicola senza la prova e la rimessa (rossa prima della sua mossa, verde dopo)";
+          else if (!cv) d.perche = "nessun collaudo";
+          else if (cv.verdetto !== "regge" || cv.giudizio !== "pieno") d.perche = `collaudo: ${cv.verdetto}${cv.giudizio !== "pieno" ? " senza giudizio pieno" : ""}`;
+          else if (vuoto(cv.collaudatore) || cv.collaudatore === nome) d.perche = "va collaudata da un'altra sessione";
+          else {
+            d.decisione = "si_chiude";
+            d.come = "verificata dopo Nicola, collaudo pieno";
+            d.verifica_comando = rv.prova_comando;
+            d.non_vacuita = `${rv.rimessa.comando} → uscita ${rv.rimessa.uscita_senza_correzione} prima, 0 dopo (${cv.collaudatore})`;
+            d.nota_fix = rv.nota ?? rv.cosa_ho_fatto ?? "";
           }
         } else if (rv.esito === "gia_riparato_prima") {
           if (cv?.verdetto === "regge" && cv.giudizio === "pieno") { d.decisione = "gia_riparato_prima"; d.prova = rv.prova; }
@@ -1580,8 +1745,8 @@ export const rosseFuoriCampagna = (decisioni, controlli = []) => {
 };
 
 function applica(opz) {
-  let per, piano;
-  try { per = leggiPerimetro(opz); piano = leggiPiano(opz); } catch (e) { return cieco("applica", e.message, opz); }
+  let per, piano, dallOndaCampione;
+  try { per = leggiPerimetro(opz); piano = leggiPiano(opz); dallOndaCampione = campioneFinoA40DallOnda(piano); } catch (e) { return cieco("applica", e.message, opz); }
   const cartella = serveCartella(opz);
   // Il registro si scrive solo dove vive (il vault) o in una cartella temporanea di prova: un --registro
   // sbagliato non riscrive un file qualunque (revisione «rischio-sicurezza» del 7/11).
@@ -1613,6 +1778,8 @@ function applica(opz) {
   }
   const referti = {};
   const sess = leggiSessioni(opz);
+  const collaudiPerNome = Object.fromEntries(lettiK.filter((x) => x.dati).map((x) => [x.nome.replace(/\.json$/, ""), x.dati]));
+  for (const k of kFinitiMaAperti(sess, collaudiPerNome)) ferma.push(`collaudi/${k}.json: sessioni.json dice che ${k} ha finito, ma il collaudo ha ancora finita:false (le sue voci risultano senza collaudo): copia qui il collaudo finito dal suo ramo`);
   const senzaStoria = [];
   const eccezioni = [];
   for (const { nome: file, testo, dati } of lettiR) {
@@ -1648,6 +1815,7 @@ function applica(opz) {
   }
   const hub = fileHub(per.lavorabili);
   const collaudi = [];
+  const tuttiK = lettiK.map((x) => x.dati).filter(Boolean);
   for (const { nome: file, testo, dati } of lettiK) {
     if (!dati) { ferma.push(`collaudi/${file}: non è JSON`); continue; }
     if (dati.collaudatore !== file.replace(/\.json$/, "")) { ferma.push(`collaudi/${file}: dice di essere «${dati.collaudatore}»`); continue; }
@@ -1655,7 +1823,7 @@ function applica(opz) {
     if (!elenco.length) ferma.push(`collaudi/${file}: non dice quali riparatori guarda`);
     const riparatori = Object.fromEntries(elenco.map((r) => [r, { voci: sessioneNelPiano(piano, r)?.sessione.voci ?? [], referto: referti[r] ?? null }]));
     const derogatiK = [];
-    const { rossi } = regoleCollaudo(testo, { nome: dati.collaudatore, riparatori, hub, deroga: derogaCollaudo(piano, derogatiK) });
+    const { rossi } = regoleCollaudo(testo, { nome: dati.collaudatore, riparatori, hub, deroga: derogaCollaudo(piano, derogatiK), altrui: pieniAltrove(tuttiK, dati.collaudatore) });
     for (const r of rossi) ferma.push(`collaudi/${file}: ${r}`);
     for (const e of derogatiK) eccezioni.push(`collaudi/${file}: ${e}`);
     if (dati.finita !== true) ferma.push(`collaudi/${file}: il collaudo non è finito`);
@@ -1665,7 +1833,9 @@ function applica(opz) {
   // I sospesi viaggiano nel JSON anche quando applica si ferma: a schermo se ne stampano 40 (collaudo del 13/11).
   const conEccezioni = (extra = {}) => (eccezioni.length ? { ...extra, eccezioni_firmate: eccezioni } : extra);
   if (ferma.length) return chiudi("applica", ferma, [], opz, conEccezioni());
-  const decisioni = conIControlli(decidi({ piano, referti, collaudi, hub }), controlli);
+  // La regola dei 40 dall'onda del piano (AR-1184): prima applica chiamava decidi senza, e chiudeva R16-014, -015 e
+  // -016 col campione di K08 su un lotto di 21 voci, mentre valida-collaudo dava 6 rossi.
+  const decisioni = conIControlli(decidi({ piano, referti, collaudi, hub, misuraDallOnda: dallOndaCampione }), controlli);
   const fuoriCampagna = rosseFuoriCampagna(decisioni, controlli);
   if (fuoriCampagna.length) console.log(`⚠️  ${fuoriCampagna.length} voci rosse dei controllori non sono di questa campagna (restano come sono nel registro, vanno dette a Nicola): ${fuoriCampagna.slice(0, 5).join(" ; ")}`);
   const quando = opz.quando ?? timbroOra();
@@ -1677,6 +1847,8 @@ function applica(opz) {
   const restano = decisioni.filter((d) => d.decisione === "resta_aperta");
   const nati = [...Object.values(referti), ...controlli.map((c) => ({ ...c, sessione: c.controllore }))]
     .flatMap((r) => (r.nuovi_difetti_visti ?? []).map((n) => ({ ...n, sessione: r.sessione })));
+  const avvisi = decisioni.filter((d) => d.avviso).map((d) => `${d.id}: ${d.avviso}`);
+  for (const a of avvisi) console.log(`⚠️  ${a}`);
   console.log(`🧾 ${decisioni.length} voci: ${chiude.length} si chiudono (dopo l'unione), ${gia.length} erano già riparate, ${restano.length} restano aperte · ${nati.length} difetti nati`);
   // i frammenti per chiudi-sito.mjs (sito) o la lista per auto-fix (macchina): si applicano DOPO l'unione
   const perSessione = new Map();
@@ -1685,7 +1857,7 @@ function applica(opz) {
     corsia: numeroSessione(s), territorio: s,
     difetti: ds.map((d) => ({ chiave: d.chiave, esito: "riparato", verifica_comando: d.verifica_comando, non_vacuita: d.non_vacuita, nota_fix: d.nota_fix })),
   }));
-  scriviJson(join(cartella, "decisioni.json"), { campagna: nomeCampagna, quando, decisioni, ...(fuoriCampagna.length ? { rosse_fuori_campagna: fuoriCampagna } : {}), ...(eccezioni.length ? { eccezioni_firmate: eccezioni } : {}) });
+  scriviJson(join(cartella, "decisioni.json"), { campagna: nomeCampagna, quando, decisioni, ...(fuoriCampagna.length ? { rosse_fuori_campagna: fuoriCampagna } : {}), ...(avvisi.length ? { avvisi } : {}), ...(eccezioni.length ? { eccezioni_firmate: eccezioni } : {}) });
   if (!opz.scrivi) {
     console.log("   (a vuoto: ho scritto solo decisioni.json. Con --scrivi scrivo i frammenti e il registro.)");
     const attese = senzaStoria.length ? [`commit e testa non controllati sulla storia del ramo per ${senzaStoria.join(", ")} (servono --git e sessioni.json)`] : [];
@@ -1740,6 +1912,7 @@ function applica(opz) {
 function conti(opz) {
   let per, piano;
   try { per = leggiPerimetro(opz); piano = leggiPiano(opz); } catch (e) { return cieco("conti", e.message, opz); }
+  if (opz.preventivo) return contiPreventivo(opz, piano);
   const cartella = serveCartella(opz);
   const referti = leggiCartellaJson(join(cartella, "referti"), /^R\d{2}\.json$/);
   const nelPerimetro = new Set(per.lavorabili.map((v) => v.chiave));
@@ -1750,9 +1923,10 @@ function conti(opz) {
     if (!nelPerimetro.has(v.chiave)) rossi.push(`${v.id}: la chiave «${v.chiave}» non è nel perimetro`);
   }
   const assegnate = piano.onde.reduce((a, o) => a + Object.values(o.sessioni).reduce((b, s) => b + s.voci.length, 0), 0);
-  let statoOra = {};
+  let statoOra = {}, elencoReg = null;
   try {
     const reg = leggiRegistro(per.casa, opz);
+    elencoReg = reg.elenco;
     for (const d of reg.elenco) if (nelPerimetro.has(chiaveDi(per.casa, d))) statoOra[statoDi(d)] = (statoOra[statoDi(d)] ?? 0) + 1;
   } catch { statoOra = null; }
   const dec = existsSync(join(cartella, "decisioni.json")) ? leggiJson(join(cartella, "decisioni.json")).decisioni : [];
@@ -1769,17 +1943,346 @@ function conti(opz) {
   }
   // Senza decisioni.json il controllo qui sopra non si fa: lo si dice, invece di uscire verdi (radiografia del 12/11 notte).
   const senzaDecisioni = !dec.length && assegnate > 0 ? [`decisioni.json non c'è o è vuoto: il controllo «nessuna voce dimenticata» non è fatto (si scrive con applica)`] : [];
+  // Una PR dell'onda unita col registro non scritto: le voci chiuse restano aperte per tutti gli altri (la #290).
+  const repo = resolve(opz.git ?? repoDi(per.casa, opz));
+  const unita = (testa) => {
+    if (gitOk(repo, ["rev-parse", "--verify", "--quiet", `${testa}^{commit}`]) === null || gitOk(repo, ["rev-parse", "--verify", "--quiet", "origin/main"]) === null) return null;
+    return gitOk(repo, ["merge-base", "--is-ancestor", testa, "origin/main"]) !== null;
+  };
+  const pr = elencoReg ? prUniteSenzaRegistro({ sess: leggiSessioni(opz), piano, elenco: elencoReg, unita }) : { rossi: [], attese: [] };
+  rossi.push(...pr.rossi);
   console.log(`📊 perimetro ${per.lavorabili.length} lavorabili · assegnate ${assegnate} in ${piano.onde.length} onde · cucitura ${piano.cucitura?.length ?? 0} · eccedenza ${piano.eccedenza?.length ?? 0}`);
   console.log(`   esiti dei riparatori: ${Object.entries(esiti).map(([k, v]) => `${v} ${k}`).join(", ") || "nessun referto"}`);
   if (dec.length) console.log(`   decisioni: ${Object.entries(perDec).map(([k, v]) => `${v} ${k}`).join(", ")}`);
   if (statoOra) console.log(`   nel registro adesso, per le chiavi del perimetro: ${Object.entries(statoOra).map(([k, v]) => `${v} ${k}`).join(", ")}`);
-  return chiudi("conti", rossi, [...senzaDecisioni, ...(statoOra ? [] : ["il registro non si legge"])], opz, { lavorabili: per.lavorabili.length, assegnate, esiti, decisioni: perDec, registro: statoOra });
+  return chiudi("conti", rossi, [...senzaDecisioni, ...pr.attese, ...(statoOra ? [] : ["il registro non si legge"])], opz, { lavorabili: per.lavorabili.length, assegnate, esiti, decisioni: perDec, registro: statoOra });
 }
 
 // ── avvio ────────────────────────────────────────────────────────────────────────────────────────
+// ── segnali e stato: la sorveglianza muta (officina minima del 15/11, pezzo 2) ───────────────────
+// Regia dell'onda 2: 407,68 $ con 12 registe, e il 14/11 alle 12:32 e alle 13:34 giri di sorveglianza con nessuna
+// figlia viva. Un giro a vuoto costa circa 0,73 $. Qui la regista dorme finché non succede una cosa NUOVA:
+// `segnali` dice cosa è cambiato rispetto a <C>/rossi-noti.txt, `sorveglia.sh --attendi` lo chiede in un ciclo
+// in sottofondo, e `stato` riassume la campagna in 40 righe al massimo.
+// Quello che da qui non si vede (figlia in attesa di un clic, spesa, quota) arriva da <C>/stato-sessioni.json, che
+// scrive chi vede get_session: { aggiornato, spesa_usd, quota: {status, isUsingOverage}, sessioni: {R07: {stato}} }.
+export const MINUTI_FERMA = 20;
+export const SOGLIA_SPESA = 0.7;
+export const RIGHE_STATO = 40;
+
+/**
+ * I segnali che svegliano la regista, uno per riga e con l'identità dentro: «ferma R07 abc1234» resta noto finché
+ * il ramo non si muove, e torna nuovo se si ferma di nuovo su un'altra testa. PURA.
+ * @param {{ sessioni: Array<{nome, ramo, sulRemoto, finita, testa: {sha, quando}|null}>, vive?: object|null,
+ *           preventivo?: {stima_usd:number}|null, ora: number }} f
+ */
+export function segnaliDa({ sessioni = [], vive = null, preventivo = null, ora }) {
+  const out = [];
+  for (const s of sessioni) {
+    if (s.sulRemoto) out.push(`ramo ${s.nome} ${s.ramo}`);
+    if (s.finita) out.push(`finita ${s.nome}`);
+    else if (s.testa && ora - s.testa.quando > MINUTI_FERMA * 60000) out.push(`ferma ${s.nome} ${String(s.testa.sha).slice(0, 7)}`);
+    if (/requires_action|blocked/i.test(String(vive?.sessioni?.[s.nome]?.stato ?? ""))) out.push(`attesa ${s.nome}`);
+  }
+  const stima = Number(preventivo?.stima_usd), spesa = Number(vive?.spesa_usd);
+  if (stima > 0 && spesa > 0) {
+    if (spesa >= stima) out.push("spesa oltre il 100% del preventivo");
+    else if (spesa >= SOGLIA_SPESA * stima) out.push("spesa oltre il 70% del preventivo");
+  }
+  if (vive?.quota?.status === "allowed_warning") out.push("quota allowed_warning");
+  if (vive?.quota?.isUsingOverage === true) out.push("quota isUsingOverage");
+  return out;
+}
+
+/** I segnali che la regista non ha ancora visto: una riga di rossi-noti.txt per segnale, # per i commenti. PURA. */
+export function nuoviSegnali(segnali, testoNoti) {
+  const noti = new Set(String(testoNoti ?? "").split("\n").map((r) => r.trim()).filter((r) => r && !r.startsWith("#")));
+  return segnali.filter((s) => !noti.has(s));
+}
+
+/** Il riassunto della campagna, mai più di RIGHE_STATO righe (si taglia dal fondo e si dice quante). PURA. */
+export function testoStato({ campagna, ora, sessioni = [], nuovi = [], vive = null, preventivo = null, esiti = {} }) {
+  const r = [`📋 ${campagna} · ${ora}`];
+  for (const [tipo, nomeTipo] of [["R", "riparatori"], ["K", "collaudatori"], ["C", "controllori"]]) {
+    const mie = sessioni.filter((s) => s.tipo === tipo);
+    if (!mie.length) continue;
+    const fin = mie.filter((s) => s.finita), vivi = mie.filter((s) => !s.finita);
+    r.push(`${nomeTipo}: ${vivi.length} in lavoro${vivi.length ? ` (${vivi.map((s) => s.nome).join(" ")})` : ""}, ${fin.length} finiti`);
+  }
+  const conti = Object.entries(esiti).filter(([, n]) => n > 0).map(([e, n]) => `${e} ${n}`).join(", ");
+  r.push(`esiti nei referti: ${conti || "nessun referto letto"}`);
+  const stima = Number(preventivo?.stima_usd), spesa = Number(vive?.spesa_usd);
+  r.push(spesa > 0 ? `spesa: ${spesa.toFixed(2)} ${stima > 0 ? ` su ${stima.toFixed(2)} $ di preventivo (${Math.round((100 * spesa) / stima)}%)` : " (preventivo non scritto: conti --preventivo)"}`
+    : "spesa: non nota (stato-sessioni.json non c'è o non ha spesa_usd)");
+  r.push(nuovi.length ? `segnali nuovi: ${nuovi.length}` : "segnali nuovi: nessuno");
+  for (const n of nuovi) r.push(`  🔴 ${n}`);
+  const tutteFinite = sessioni.length > 0 && sessioni.every((s) => s.finita);
+  r.push(`prossima azione: ${nuovi.length ? "guarda i segnali nuovi, poi aggiungili a rossi-noti.txt" : tutteFinite ? "tutte finite: applica" : "bash cervello/riparazione/sorveglia.sh --attendi <C> <onda> in sottofondo"}`);
+  if (r.length <= RIGHE_STATO) return r;
+  const tagliate = r.length - (RIGHE_STATO - 1);
+  return [...r.slice(0, RIGHE_STATO - 2), `  … e altre ${tagliate} righe (tutto in segnali --tutti)`, r[r.length - 1]];
+}
+
+// I fatti dai rami già scaricati (il fetch lo fa sorveglia.sh) e dai file della campagna.
+function fattiDellaCampagna(opz) {
+  const dir = serveCartella(opz);
+  const sess = leggiSessioni(opz);
+  if (!sess) throw new Error(`${join(dir, "sessioni.json")} non c'è: nessuna sessione da guardare`);
+  const per = leggiPerimetro(opz);
+  const sito = resolve(opz.git ?? repoDi(per.casa, opz));
+  const onda = opz.onda === undefined ? null : Number(opz.onda);
+  const rel = posix.normalize(dir.slice(opz.radice.length + 1).split("\\").join("/"));
+  const mieR = Object.entries(sess.sessioni ?? {}).filter(([, v]) => onda === null || Number(v.onda) === onda);
+  const nomiR = new Set(mieR.map(([n]) => n));
+  const mieK = Object.entries(sess.collaudatori ?? {}).filter(([, v]) => onda === null || (v.riparatori ?? []).some((x) => nomiR.has(x)));
+  const mieC = Object.entries(sess.controllori ?? {}).filter(([, v]) => onda === null || v.onda === undefined || Number(v.onda) === onda);
+  const esiti = {};
+  const una = (tipo, nome, v, depo, percorso) => {
+    const s = { nome, tipo, ramo: v.ramo, sulRemoto: false, finita: false, testa: null };
+    if (!v.ramo || gitOk(depo, ["rev-parse", "--verify", "--quiet", `origin/${v.ramo}`]) === null) return s;
+    s.sulRemoto = true;
+    const [sha, quando] = String(gitOk(depo, ["log", "-1", "--format=%H %ct", `origin/${v.ramo}`]) ?? "").trim().split(" ");
+    if (sha) s.testa = { sha, quando: Number(quando) * 1000 };
+    const testo = gitOk(depo, ["show", `origin/${v.ramo}:${percorso}`]);
+    if (testo !== null) {
+      try {
+        const j = JSON.parse(testo);
+        s.finita = j.finita === true;
+        for (const x of j.voci ?? []) if (x?.esito) esiti[x.esito] = (esiti[x.esito] ?? 0) + 1;
+      } catch { /* referto illeggibile: non finito */ }
+    }
+    return s;
+  };
+  const sessioni = [
+    ...mieR.map(([n, v]) => una("R", n, v, sito, `${REFERTO_DIR}/referto-${n}.json`)),
+    ...mieK.map(([n, v]) => una("K", n, v, opz.radice, `${rel}/collaudi/${n}.json`)),
+    ...mieC.map(([n, v]) => una("C", n, v, opz.radice, `${rel}/controlli/${n}.json`)),
+  ];
+  const leggiSeC = (f) => (existsSync(join(dir, f)) ? leggiJson(join(dir, f)) : null);
+  const vive = leggiSeC("stato-sessioni.json"), preventivo = leggiSeC("preventivo.json");
+  const noti = existsSync(join(dir, "rossi-noti.txt")) ? readFileSync(join(dir, "rossi-noti.txt"), "utf8") : "";
+  const tutti = segnaliDa({ sessioni, vive, preventivo, ora: Date.now() });
+  return { dir, sessioni, vive, preventivo, esiti, tutti, nuovi: nuoviSegnali(tutti, noti) };
+}
+
+function segnali(opz) {
+  let f;
+  try { f = fattiDellaCampagna(opz); } catch (e) { return cieco("segnali", e.message, opz); }
+  for (const s of opz.tutti ? f.tutti : f.nuovi) console.log(s);
+  if (opz.json) console.log(JSON.stringify({ controllo: "segnali", nuovi: f.nuovi, tutti: f.tutti }));
+  return f.nuovi.length ? 1 : 0;
+}
+
+function stato(opz) {
+  let f;
+  try { f = fattiDellaCampagna(opz); } catch (e) { return cieco("stato", e.message, opz); }
+  for (const riga of testoStato({ campagna: basename(f.dir), ora: timbroOra(), ...f })) console.log(riga);
+  return f.nuovi.length ? 1 : 0;
+}
+
+// ── pronte: le voci che tornano in lavoro, in quattro elenchi (officina minima del 15/11, pezzo 4) ──
+// Le liste del giro di correzione le faceva la regista a mano: le serve_file_altrui sono passate da 14 a 29, e il
+// 14/11 su 20 voci rimandate allo stesso padrone del file 11 sono tornate serve_file_altrui. Qui gli elenchi
+// nascono dai PERCORSI dei file e dagli ESITI, mai dalle parole, dopo aver fuso voce per voce i referti e i
+// collaudi dei giri successivi (i rami «secondo», K05 secondo, K08 terzo). Si conta per voce unica (la chiave).
+export const ELENCHI_PRONTE = Object.freeze({ A: "A-da-ricollaudare.txt", B: "B-serve-file-altrui.txt", C: "C-parziali-file-altrui.txt", D: "D-per-nicola.txt" });
+const SEGRETO = /\b[A-Z][A-Z0-9_]*_(?:KEY|SECRET|TOKEN|PASSWORD)\b/;
+const PERCORSO_NEL_TESTO = /[\w@.-]+(?:\/[\w@.[\]-]+)+\.[a-z]{1,5}\b/gi;
+
+/** Due versioni dello stesso referto o collaudo, voce per voce: la più nuova vince sulle voci che porta. PURA. */
+export function fondiVoci(vecchio, nuovo) {
+  if (!nuovo) return vecchio ?? null;
+  if (!vecchio) return nuovo;
+  const perId = new Map((vecchio.voci ?? []).map((v) => [v?.id, v]));
+  for (const v of nuovo.voci ?? []) if (v?.id) perId.set(v.id, v);
+  return { ...vecchio, ...nuovo, voci: [...perId.values()] };
+}
+
+/**
+ * I quattro elenchi. PURA. Una voce sta in un elenco solo, in quest'ordine: D (per Nicola), B, C, A.
+ *  A riparate minori ancora aperte senza collaudo, senza giudizio pieno o con la prova rimessa a uscita 3;
+ *  B serve_file_altrui con ogni modifica scritta; C parziali che nominano un file di un altro padrone nel piano;
+ *  D non_codice, scelta_di_nicola, o una migrazione o un segreto nominati.
+ * Torna anche `precedenti` (per chiave: esito, cosa_resta, modifiche e file che servono), per `dividi` e `schede`.
+ */
+export function elenchiPronte({ piano, referti, collaudi, decisioni }) {
+  const dec = new Map(decisioni.map((d) => [d.id, d]));
+  const cvDi = (d) => (collaudi.find((c) => c.collaudatore === d?.collaudatore)?.voci ?? []).find((v) => v?.id === d?.id) ?? null;
+  const fuori = { A: new Map(), B: new Map(), C: new Map(), D: new Map() };
+  const precedenti = {};
+  let righeB = 0;
+  for (const o of piano.onde ?? []) {
+    const padrone = new Map();
+    for (const [n, s] of Object.entries(o.sessioni ?? {})) for (const f of [...(s.file ?? []), ...(s.voci ?? []).flatMap((v) => v.file ?? [])]) if (!padrone.has(normPerc(f))) padrone.set(normPerc(f), n);
+    for (const [nome, s] of Object.entries(o.sessioni ?? {})) {
+      for (const sv of s.voci ?? []) {
+        const rv = (referti[nome]?.voci ?? []).find((v) => v?.id === sv.id);
+        const d = dec.get(sv.id);
+        if (!rv || d?.decisione !== "resta_aperta") continue;
+        const altrui = Array.isArray(rv.serve_file_altrui) ? rv.serve_file_altrui : [];
+        const testo = [rv.cosa_resta, rv.nota, rv.domanda, ...altrui.map((x) => x?.modifica)].filter(Boolean).join("\n");
+        const nominati = [...new Set([...(sv.file ?? []), ...(rv.file_toccati ?? []), ...altrui.map((x) => x?.file), ...(String(rv.cosa_resta ?? "").match(PERCORSO_NEL_TESTO) ?? [])].filter(Boolean).map(normPerc))];
+        const cv = cvDi(d);
+        let el = null;
+        if (["non_codice", "scelta_di_nicola"].includes(rv.esito) || nominati.some(eMigrazione) || SEGRETO.test(testo)) el = "D";
+        else if (rv.esito === "serve_file_altrui" && altrui.length && altrui.every((x) => !vuoto(x?.file) && !vuoto(x?.modifica))) { el = "B"; righeB += 1; }
+        else if (rv.esito === "parziale" && nominati.some((f) => padrone.has(f) && padrone.get(f) !== nome)) el = "C";
+        else if (rv.esito === "riparato" && !GRAVI.has(sv.gravita) && !["non_regge", "rompe_altro"].includes(cv?.verdetto)
+          && (!cv || cv.giudizio !== "pieno" || [rv.rimessa?.uscita, cv.rimessa?.uscita].includes(3))) el = "A";
+        if (!el) continue;
+        // Voce unica: la stessa chiave in due onde conta una volta, e vale l'onda più nuova.
+        for (const m of Object.values(fuori)) m.delete(sv.chiave);
+        fuori[el].set(sv.chiave, sv.id);
+        precedenti[sv.chiave] = { id: sv.id, elenco: el, esito: rv.esito, cosa_resta: rv.cosa_resta ?? null, modifiche: altrui.map((x) => ({ file: normPerc(x.file), modifica: x.modifica })), file_che_servono: [...new Set(altrui.map((x) => normPerc(x.file)))] };
+      }
+    }
+  }
+  const elenchi = Object.fromEntries(Object.entries(fuori).map(([k, m]) => [k, [...m.keys()]]));
+  return { elenchi, precedenti, righeB };
+}
+
+function pronte(opz) {
+  let per, piano, dallOndaCampione;
+  try { per = leggiPerimetro(opz); piano = leggiPiano(opz); dallOndaCampione = campioneFinoA40DallOnda(piano); } catch (e) { return cieco("pronte", e.message, opz); }
+  const dir = serveCartella(opz);
+  const sess = leggiSessioni(opz) ?? {};
+  const rel = posix.normalize(dir.slice(opz.radice.length + 1).split("\\").join("/"));
+  const dalRamo = (depo, ramo, percorso) => {
+    if (!depo || !ramo) return null;
+    const ref = risolviRef(depo, ramo);
+    const t = ref ? gitOk(depo, ["show", `${ref}:${percorso}`]) : null;
+    try { return t ? JSON.parse(t) : null; } catch { return null; }
+  };
+  const sito = opz.git ? resolve(opz.git) : null;
+  const locali = (sotto) => Object.fromEntries(leggiCartellaTesti(join(dir, sotto), /^[RK]\d+\.json$/).filter((x) => x.dati).map((x) => [basename(x.nome, ".json"), x.dati]));
+  const refLoc = locali("referti"), colLoc = locali("collaudi");
+  const referti = {};
+  for (const n of new Set([...piano.onde.flatMap((o) => Object.keys(o.sessioni)), ...Object.keys(refLoc)])) {
+    referti[n] = fondiVoci(refLoc[n], dalRamo(sito, sess.sessioni?.[n]?.ramo, `${REFERTO_DIR}/referto-${n}.json`));
+  }
+  const collaudi = [];
+  for (const n of new Set([...Object.keys(colLoc), ...Object.keys(sess.collaudatori ?? {})])) {
+    const c = fondiVoci(colLoc[n], dalRamo(opz.radice, sess.collaudatori?.[n]?.ramo, `${rel}/collaudi/${n}.json`));
+    if (c) collaudi.push(c);
+  }
+  const decisioni = decidi({ piano, referti, collaudi, hub: fileHub(per.lavorabili ?? []), misuraDallOnda: dallOndaCampione });
+  const { elenchi, precedenti, righeB } = elenchiPronte({ piano, referti, collaudi, decisioni });
+  const fuoriDir = join(dir, "pronte");
+  mkdirSync(fuoriDir, { recursive: true });
+  for (const [k, file] of Object.entries(ELENCHI_PRONTE)) scriviTesto(join(fuoriDir, file), [`# elenco ${k} di pronte (${timbroOra()}): ${elenchi[k].length} voci uniche, una chiave per riga`, ...elenchi[k]].join("\n") + "\n");
+  scriviJson(join(fuoriDir, "pronte.json"), { creato: timbroOra(), conti: Object.fromEntries(Object.entries(elenchi).map(([k, v]) => [k, v.length])), righe_B: righeB, precedenti });
+  console.log(`🧺 pronte: A ${elenchi.A.length} da ricollaudare · B ${elenchi.B.length} serve_file_altrui (${righeB} righe nei referti) · C ${elenchi.C.length} parziali con file altrui · D ${elenchi.D.length} per Nicola`);
+  return chiudi("pronte", [], sito ? [] : ["senza --git i referti dei rami (i giri «secondo») non sono fusi: solo le copie in referti/"], opz, { conti: Object.fromEntries(Object.entries(elenchi).map(([k, v]) => [k, v.length])), righe_B: righeB });
+}
+
+/** Le chiavi B del file dato a `dividi --file-chiavi`, con i file che servono (da pronte.json accanto). */
+function fileCheServono(opz) {
+  const f = opz["file-chiavi"] && join(dirname(resolve(opz["file-chiavi"])), "pronte.json");
+  if (!f || !existsSync(f)) return new Map();
+  const p = leggiJson(f).precedenti ?? {};
+  return new Map(Object.entries(p).filter(([, x]) => x.elenco === "B" && x.file_che_servono?.length).map(([k, x]) => [k, x.file_che_servono]));
+}
+
+/** Una serve_file_altrui va da chi ha il file che le serve: i file che servono entrano fra i file della voce. PURA. */
+export function conFileCheServono(candidate, mappa) {
+  return candidate.map((v) => (mappa.has(v.chiave) ? { ...v, file: [...new Set([...v.file, ...mappa.get(v.chiave)])] } : v));
+}
+
+// ── i conti che arrivavano tardi (officina minima del 15/11, pezzo 5) ────────────────────────────
+// K08.json era fermo a finita:false dal 13/11 alle 16:50 mentre K08 terzo aveva finito il 14/11 alle 09:38: 18 voci
+// risultavano senza collaudo. La mycity#290 era unita dal 15/11 alle 03:07 e il registro non era scritto. La stima
+// dell'onda 2 era 376 $ contro circa 1.627 reali (4,3 volte), fatta con 1,45 $ a voce: un rimedio sperato.
+const FINITA_VERA = (f) => f === true || (typeof f === "string" && /^\d{4}-\d{2}-\d{2}/.test(f));
+
+/** I collaudatori che sessioni.json dà per finiti (anche i giri dopo, «K08 terzo») col collaudo ancora finita:false. PURA. */
+export function kFinitiMaAperti(sess, collaudiPerNome) {
+  const finiti = new Set();
+  for (const [n, v] of Object.entries(sess?.collaudatori ?? {})) if (/^K\d{2}$/.test(n) && FINITA_VERA(v?.finita)) finiti.add(n);
+  const visita = (o, prof) => {
+    if (!o || typeof o !== "object" || prof > 3) return;
+    const m = typeof o.titolo === "string" ? o.titolo.match(/^(K\d{2})\b/) : null;
+    if (m && FINITA_VERA(o.finita)) finiti.add(m[1]);
+    for (const x of Object.values(o)) visita(x, prof + 1);
+  };
+  visita(sess, 0);
+  return [...finiti].filter((k) => collaudiPerNome[k] && collaudiPerNome[k].finita !== true).sort();
+}
+
+/** Il registro porta le voci di quell'onda: almeno una scheda con un campo riparazione_* di una sua sessione. PURA. */
+export function registroScrittoPerOnda(elenco, sessioniOnda) {
+  const mie = new Set(sessioniOnda);
+  return elenco.some((d) => Object.entries(d ?? {}).some(([k, v]) => k.startsWith("riparazione_") && mie.has(v?.sessione)));
+}
+
+/**
+ * Le PR delle onde (in sessioni.json «pr_…ondaN»: {numero, testa}) unite senza il registro scritto. PURA.
+ * `unita(testa)` dice true, false o null (non lo so: il commit o main non ci sono nel deposito).
+ */
+export function prUniteSenzaRegistro({ sess, piano, elenco, unita }) {
+  const rossi = [], attese = [];
+  for (const [chiave, pr] of Object.entries(sess ?? {})) {
+    const m = chiave.match(/^pr_\w*?onda(\d+)$/);
+    if (!m || !pr || typeof pr !== "object" || vuoto(pr.testa)) continue;
+    const onda = Number(m[1]);
+    const u = FINITA_VERA(pr.unita) ? true : unita(String(pr.testa));
+    const nomi = Object.keys(piano?.onde?.[onda - 1]?.sessioni ?? {});
+    if (u === null) attese.push(`#${pr.numero ?? "?"} (onda ${onda}): non so se è unita (il commit ${String(pr.testa).slice(0, 8)} o main non sono nel deposito)`);
+    else if (u && !registroScrittoPerOnda(elenco, nomi)) rossi.push(`#${pr.numero ?? "?"} unita, onda ${onda} non scritta nel registro: applica --scrivi`);
+    // Una PR unita con squash, o con la testa riscritta, ha la testa fuori da main: senza il campo «unita» il «no»
+    // non ha guardato davvero. Si dice come attesa (collaudo dell'officina minima, 15/11, minore 3).
+    else if (!u && pr.unita === undefined && !registroScrittoPerOnda(elenco, nomi)) attese.push(`#${pr.numero ?? "?"} (onda ${onda}): la testa ${String(pr.testa).slice(0, 8)} non è in main e manca il campo «unita»: se la PR è unita con squash scrivi «unita: true» in sessioni.json`);
+  }
+  return { rossi, attese };
+}
+
+/**
+ * Il preventivo di un'onda, SOLO dalle misure (lezione 3 del 15/11). PURA. Torna null senza misure leggibili.
+ * stima = voci × $ per voce lavorata dell'ultima onda misurata (collaudo e regia sono già dentro: il 15% e il
+ * 10% sono la loro parte); tetto = stima + 30% (lo scarto ammesso fra stima e reale); massimo = voci × la
+ * misura peggiore.
+ */
+export function preventivoDa(misure, voci) {
+  const righe = (Array.isArray(misure?.misure) ? misure.misure : [])
+    .filter((m) => /^onda\b/i.test(String(m?.fase ?? "")) && Number(m.usd) > 0 && Number(m.voci_lavorate) > 0)
+    .map((m) => ({ fase: m.fase, per_voce: Number(m.usd) / Number(m.voci_lavorate) }));
+  if (!righe.length || !(Number(voci) > 0)) return null;
+  const ultima = righe[righe.length - 1];
+  const tonda = (x) => Math.round(x * 100) / 100;
+  const stima = tonda(voci * ultima.per_voce);
+  const q = misure.casi_base_per_il_preventivo ?? {};
+  const collaudo = Number(q.collaudo_quota) || 0.15, regia = Number(q.regia_quota) || 0.1;
+  return {
+    voci: Number(voci), per_voce_usd: tonda(ultima.per_voce), fonte: `misure.json, fase «${ultima.fase}»`,
+    stima_usd: stima, tetto_usd: tonda(stima * 1.3), massimo_usd: tonda(voci * Math.max(...righe.map((r) => r.per_voce))),
+    quote_usd: { collaudo: tonda(stima * collaudo), regia: tonda(stima * regia), riparatori: tonda(stima * (1 - collaudo - regia)) },
+  };
+}
+
+function contiPreventivo(opz, piano) {
+  const cartella = serveCartella(opz);
+  const fileMisure = resolve(opz.misure ?? join(opz.radice, "cervello/riparazione/misure.json"));
+  if (!existsSync(fileMisure)) return cieco("conti", `${fileMisure} non c'è: il preventivo si fa solo dalle misure, mai da un rimedio sperato`, opz);
+  const ultima = piano.onde[piano.onde.length - 1];
+  const voci = Number(opz.voci ?? ultima?.candidate?.length ?? 0);
+  const p = preventivoDa(leggiJson(fileMisure), voci);
+  if (!p) return cieco("conti", `nessuna misura d'onda leggibile in ${fileMisure}, o nessuna voce (--voci)`, opz);
+  scriviJson(join(cartella, "preventivo.json"), { creato: timbroOra(), ...p });
+  const riga = `- ${timbroOra()} · preventivo (conti --preventivo): ${p.voci} voci × ${p.per_voce_usd} $ = stima ${p.stima_usd} $ · tetto ${p.tetto_usd} $ · massimo ${p.massimo_usd} $ (collaudo ${p.quote_usd.collaudo} $, regia ${p.quote_usd.regia} $ dentro; ${p.fonte})`;
+  const regia = join(cartella, "REGIA.md");
+  scriviTesto(regia, (existsSync(regia) ? readFileSync(regia, "utf8").replace(/\n*$/, "\n") : "") + riga + "\n");
+  console.log(`💶 ${riga.slice(2)}`);
+  const vive = existsSync(join(cartella, "stato-sessioni.json")) ? leggiJson(join(cartella, "stato-sessioni.json")) : null;
+  const spesa = Number(vive?.spesa_usd);
+  const rossi = [];
+  if (spesa >= p.stima_usd) rossi.push(`spesa ${spesa} $: oltre il 100% della stima (${p.stima_usd} $)`);
+  else if (spesa >= SOGLIA_SPESA * p.stima_usd) rossi.push(`spesa ${spesa} $: oltre il 70% della stima (${p.stima_usd} $)`);
+  return chiudi("conti", rossi, spesa > 0 ? [] : ["la spesa non è nota (stato-sessioni.json senza spesa_usd): il 70% e il 100% non sono guardati"], opz, { preventivo: p, spesa_usd: spesa || null });
+}
+
 const COMANDI = {
   perimetro, dividi, schede, "copertura-prima": coperturaPrima, segnaposti, "guardia-ramo": guardiaRamo,
   "valida-referto": validaReferto, "valida-collaudo": validaCollaudo, "prova-unione": provaUnione, applica, conti, deposito,
+  segnali, stato, pronte,
 };
 export function esegui(argv) {
   const [comando, ...resto] = argv;

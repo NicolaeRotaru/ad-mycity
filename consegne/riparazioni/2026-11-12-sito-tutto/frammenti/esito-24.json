@@ -1,0 +1,41 @@
+{
+  "corsia": 24,
+  "territorio": "R24",
+  "difetti": [
+    {
+      "chiave": "immagini-media|il segnaposto «foto mancante» arriva da un sito esterno e ha tre stili diversi",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r24-foto-mancante-venditore.test.tsx",
+      "non_vacuita": "cd /home/user/mycity && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 8c131077cb580089b2a0cfed83c720b4491d3486^ --file app/seller/products/page.tsx,components/seller/FeaturedProductsPicker.tsx --prove tests/unit/riparazione-r24-foto-mancante-venditore.test.tsx --json → uscita 0 (riparatore); cd /home/user/wt-R24 && git checkout --detach 8c131077cb580089b2a0cfed83c720b4491d3486 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R24 --base 8c131077cb580089b2a0cfed83c720b4491d3486^ --file app/seller/products/page.tsx,components/seller/FeaturedProductsPicker.tsx --prove tests/unit/riparazione-r24-foto-mancante-venditore.test.tsx --json → uscita 0 (K06)",
+      "nota_fix": "Carrello, cassa, scheda e Drop del giorno usavano già /foto-mancante.svg (FOTO_MANCANTE); restavano i tre punti del venditore (elenco prodotti tabella e schede, selezione in evidenza), che ora usano lo stesso segnaposto locale: zero chiamate a placehold.co, una sola faccia."
+    },
+    {
+      "chiave": "microcopy|chi si registra con una password troppo comune legge l'avviso in inglese e non capisce cosa cambiare",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r24-password-comune.test.ts --reporter=dot",
+      "non_vacuita": "cd /home/user/mycity && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 6a55e9a6^ --file lib/errors.ts --prove tests/unit/riparazione-r24-password-comune.test.ts --json → uscita 0 (riparatore); cd /home/user/wt-R24 && git checkout --detach 6a55e9a6f01cef689a86879fcc7b25f592449caa && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R24 --base 6a55e9a6^ --file lib/errors.ts --prove tests/unit/riparazione-r24-password-comune.test.ts --json → uscita 0 (K06)",
+      "nota_fix": "traduciErroreAuth riconosce la password comune o rubata («known to be weak», pwned, leaked) e quella troppo semplice, con le frasi di /reset-password (PASSWORD_RUBATA, PASSWORD_SEMPLICE); friendlyError usa il codice weak_password solo se il testo non si riconosce. Giro di correzione: pwned/rubata si controlla PRIMA della lunghezza, come /reset-password (con «corta» e «rubata» insieme l'iscrizione diceva «almeno N caratteri»). La prova monta la pagina col flusso della base (signUp dal browser che restituisce AuthWeakPasswordError 422, reasons [pwned]) e regge anche con la rotta di R24-020; l'avviso deve essere esattamente PASSWORD_RUBATA, quindi se il codice vincesse sul testo la prova cadrebbe (provato)."
+    },
+    {
+      "chiave": "qa-flussi|col doppio clic la recensione parte due volte e il cliente legge «avevi già recensito»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r24-recensione-doppio-clic.test.tsx --reporter=dot",
+      "non_vacuita": "cd /home/user/mycity && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base a19ff892 --file 'app/orders/[id]/review/page.tsx' --prove tests/unit/riparazione-r24-recensione-doppio-clic.test.tsx --json → uscita 0 (riparatore); cd /home/user/wt-R24 && git checkout --detach 8de3e9a49229f1c4e4929b9193c46e12bfe3f0e9 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R24 --base a19ff892 --file 'app/orders/[id]/review/page.tsx' --prove tests/unit/riparazione-r24-recensione-doppio-clic.test.tsx --json → uscita 0 (K06)",
+      "nota_fix": "Un freno sincrono (useRef inviando): due clic nello stesso istante fanno una sola scrittura. Giro di correzione: il freno si riapre solo su onError, non più con onSettled, perché col successo si riapriva prima che router.push cambiasse pagina (clic, risposta, secondo clic = 2 scritture e «Avevi già recensito»). Prova: clic, successo, secondo clic → 1 scrittura; dopo un errore si può riprovare. Stelle con frecce, Home e Fine; commenti con tetto 1000 e contatore."
+    },
+    {
+      "chiave": "qa-flussi|il grafico della settimana nei guadagni del fattorino taglia i giorni all'ora di greenwich: le consegne dopo mezzanotte finiscono nel giorno prima",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r24-grafico-fattorino-ora-di-roma.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base a6656b69^ --file app/rider/earnings/page.tsx --prove tests/unit/riparazione-r24-grafico-fattorino-ora-di-roma.test.tsx --json → uscita 0 (riparatore); cd /home/user/wt-R24 && git checkout --detach a6656b69d3be2d0a3565da0743962025e72bd5e8 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R24 --base a6656b69^ --file app/rider/earnings/page.tsx --prove tests/unit/riparazione-r24-grafico-fattorino-ora-di-roma.test.tsx --json → uscita 0 (K06)",
+      "nota_fix": "Le colonne del grafico vengono da ultimiGiorniPiacenza(7) e ogni consegna va in giornoPiacenza(delivered_at), come lib/guadagni/giorni.ts. La lettera del giorno si legge con timeZone 'UTC' dalla data della colonna, uguale su ogni telefono. Prova con l'orologio finto sulla pagina vera: consegna alle 00:30 d'inverno, d'estate e la notte del cambio d'ora (25/10), più la colonna di oggi già alle 00:30; verde con TZ UTC, Europe/Rome e America/New_York."
+    },
+    {
+      "chiave": "qa-flussi|le pagine del venditore chiedono ancora il segnaposto a placehold.co",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r24-foto-mancante-venditore.test.tsx",
+      "non_vacuita": "cd /home/user/mycity && timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 8c131077cb580089b2a0cfed83c720b4491d3486^ --file app/seller/products/page.tsx,components/seller/FeaturedProductsPicker.tsx --prove tests/unit/riparazione-r24-foto-mancante-venditore.test.tsx --json → uscita 0 (riparatore); cd /home/user/wt-R24 && git checkout --detach 8c131077cb580089b2a0cfed83c720b4491d3486 && timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo /home/user/wt-R24 --base 8c131077cb580089b2a0cfed83c720b4491d3486^ --file app/seller/products/page.tsx,components/seller/FeaturedProductsPicker.tsx --prove tests/unit/riparazione-r24-foto-mancante-venditore.test.tsx --json → uscita 0 (K06)",
+      "nota_fix": "Le tre richieste a placehold.co (app/seller/products/page.tsx due volte, FeaturedProductsPicker una) ora puntano a FOTO_MANCANTE, il segnaposto locale che esisteva già."
+    }
+  ]
+}

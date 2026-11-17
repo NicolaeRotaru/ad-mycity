@@ -1,0 +1,41 @@
+{
+  "corsia": 15,
+  "territorio": "R15",
+  "difetti": [
+    {
+      "chiave": "deploy-sre|il magazzino di sicurezza delle foto punta a un secchio che non e mai esistito: la copia notturna puo diventare rossa al primo giro",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r15-backup-storico.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 91f5ecfa^ --file scripts/backup-db.sh --prove tests/unit/riparazione-r15-backup-storico.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 91f5ecfa306030b05a789075631400c6ac0e48a9^ --file scripts/backup-db.sh --prove tests/unit/riparazione-r15-backup-storico.test.ts --json   (checkout 91f5ecfa306030b05a789075631400c6ac0e48a9) → uscita 0 (K08)",
+      "nota_fix": "Se il secchio dello storico predefinito non esiste e rclone mkdir non riesce a crearlo (e STORAGE_SYNC_STORICO non e impostato), lo storico ripiega su <destinazione>/_storico, accanto ai secchi, con un avviso forte. La copia non diventa piu rossa il primo giro. Provato con un rclone finto nel PATH, dati finti, destinazione con e senza barra finale; le 15 prove esistenti su backup-db restano verdi. Un secondo commit ea2e8c26 sistema solo il tipo di un aiutante di prova (tsc)."
+    },
+    {
+      "chiave": "navigazione-gerarchia|l'indice delle categorie mostra giocattoli come le altre anche se non ha nessun prodotto, e cliccandola si trova il vuoto",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r15-l-indice-delle-categorie-mostra-solo-le-piene.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 37e5e07c5fcf5db26d12ed9d62871c6a79879f76^ --file app/categorie/page.tsx,app/category/[slug]/page.tsx --prove tests/unit/riparazione-r15-l-indice-delle-categorie-mostra-solo-le-piene.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 37e5e07c5fcf5db26d12ed9d62871c6a79879f76^ --file app/categorie/page.tsx,app/category/[slug]/page.tsx --prove tests/unit/riparazione-r15-l-indice-delle-categorie-mostra-solo-le-piene.test.tsx --json   (checkout 37e5e07c5fcf5db26d12ed9d62871c6a79879f76) → uscita 0 (K08)",
+      "nota_fix": "/categorie usa la stessa lettura di vetrina, piede e menu (domandaCategoriePiene + soloLePiene, nessun filtro nuovo). Madri e figlie vuote non compaiono più. La pagina aspetta la risposta dietro il caricamento che già mostra, così Giocattoli non compare e poi sparisce. Se la lettura fallisce le mostra tutte, come prima. Così indice e piede vanno d'accordo. Sulla pagina di una categoria vuota, «Non abbiamo trovato questo prodotto» (la frase della ricerca, search.noResultsDescription) diventa una frase da categoria, in tutti e due i punti (righe 363 e 526)."
+    },
+    {
+      "chiave": "qa-flussi|loadingstate annuncia solo il suo aria-label in una regione viva",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r15-loadingstate.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 5383b348^ --file components/ui/LoadingState.tsx --prove tests/unit/riparazione-r15-loadingstate.test.tsx --json → uscita 0 (riparatore); cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-b --base 5383b34820dea7cfcc43d0cec9a52c446d9a3ce2^ --file components/ui/LoadingState.tsx --prove tests/unit/riparazione-r15-loadingstate.test.tsx --json → uscita 0 (K10)",
+      "nota_fix": "Nella variante skeleton tolto l aria-label dal role=status e messo dentro un span sr-only col messaggio, come in ScheletroCassa. Prova di render con renderToStaticMarkup; le prove esistenti su LoadingState restano verdi."
+    },
+    {
+      "chiave": "qa-flussi|il commento di lib/queries/griglia-prodotti.ts:154 sui categoryids",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r15-commento-categoryids.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base a6227b42^ --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r15-commento-categoryids.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base a6227b42938e4e2d91007b77027d9fd50ecb91d1^ --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r15-commento-categoryids.test.ts --json   (checkout a6227b42938e4e2d91007b77027d9fd50ecb91d1) → uscita 0 (K08)",
+      "nota_fix": "Il commento ora dice che categoryIds ha la precedenza su categoryId e non allarga alle figlie. Dice anche che lo passano due pagine per motivi opposti: Regali, con le figlie già dentro, e «Altri prodotti» della categoria, solo la madre."
+    },
+    {
+      "chiave": "stati-ui|la pagina novità vuota dice di cambiare filtri che non ci sono e non offre nessuna strada per uscire",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r15-vuoto-con-via-d-uscita.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 9bbd606a^ --file app/novita/page.tsx,app/piu-venduti/page.tsx,app/regali/RegaliClient.tsx --prove tests/unit/riparazione-r15-vuoto-con-via-d-uscita.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R15 --base 9bbd606a7492328c797235d68080d478673947a7^ --file app/novita/page.tsx,app/piu-venduti/page.tsx,app/regali/RegaliClient.tsx --prove tests/unit/riparazione-r15-vuoto-con-via-d-uscita.test.ts --json   (checkout 9bbd606a7492328c797235d68080d478673947a7) → uscita 0 (K08)",
+      "nota_fix": "Le tre pagine ora passano alla griglia emptyTitle, emptyDescription ed emptySuggestions, con due link: «Sfoglia tutti i prodotti» (/search) e «Vai alle categorie» (/categorie). Novità dice «nessuna novità negli ultimi 14 giorni», Più recensiti «ancora nessun prodotto recensito», Regali «nessuna idea regalo per ora». Lo stato vuoto storico di ProductGrid non è cambiato."
+    }
+  ]
+}

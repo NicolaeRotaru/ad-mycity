@@ -95,6 +95,18 @@ fonte: le parti di CLAUDE.md che servono solo all'AD, spostate parola per parola
 > separate** (Nicola, 12/11: «usare altre sessioni nel caso in cui il lavoro richiede tanto tempo o c'è tanto lavoro»):
 > un lavoro di più ore o con tanti pezzi parte in una sessione nuova, con il quaderno come brief. La sessione dell'AD resta
 > leggera e legge solo gli esiti. Analisi: `consegne/audit/2026-11-12-conto-token-palestra.md`.
+>
+> 🧱 **Le regole che reggono da sole (15/11/2026, Nicola: «impara da tutto ciò che è successo e migliorati»).**
+> Il conto: nell'onda 2 del sito erano scritti il tetto sugli agenti per sessione, i tetti di spesa, le attese mute e
+> «oltre la stima ci si ferma». Sono stati superati tutti: circa 27 $ per voce chiusa contro i circa 5 $
+> dell'onda 1. ㉕ **Una regola che ha fallito una volta diventa un programma, oppure porta la scritta «solo
+> testo»**. Così chi legge sa di quanto fidarsi, e la prossima cosa da costruire è sempre quella. ㉖ **Il
+> preventivo si fa con le misure** (`misure.json` della campagna), mai con i rimedi sperati. Il costo per voce
+> chiusa si ricalcola a ogni quarto della spesa. Se Nicola alza il tetto, si apre un'onda nuova col suo
+> preventivo. ㉗ **La quota vera prima di spendere**: prima di un lavoro sopra i 100 $ si chiede a Nicola la
+> percentuale del limite che vede nell'app. La calibrazione da una frase è solo un tetto. Analisi e piano:
+> `consegne/audit/2026-11-15-lezioni-onde/piano.md`; le regole operative nella skill `riparazione`,
+> sezione «Le regole del 15/11».
 
 ---
 

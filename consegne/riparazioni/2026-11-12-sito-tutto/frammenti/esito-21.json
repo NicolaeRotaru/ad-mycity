@@ -1,0 +1,48 @@
+{
+  "corsia": 21,
+  "territorio": "R21",
+  "difetti": [
+    {
+      "chiave": "microcopy|se il conteggio dei negozi non riesce, la pagina chi siamo torna a dire «100% venditori locali verificati»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r21-chi-siamo-senza-cifra.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base b9fcc3f5^ --file app/about/page.tsx,components/home-sections/HomeSectionRenderer.tsx --prove tests/unit/riparazione-r21-chi-siamo-senza-cifra.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base b9fcc3f530797cea75d592e463ae999cb8ef9ec2^ --file app/about/page.tsx,components/home-sections/HomeSectionRenderer.tsx --prove tests/unit/riparazione-r21-chi-siamo-senza-cifra.test.ts  --json (al commit b9fcc3f530797cea75d592e463ae999cb8ef9ec2) → uscita 0 (K05)",
+      "nota_fix": "Tolta la statistica «100% venditori locali verificati»: col conteggio caduto, errore, eccezione o zero negozi restano tre statistiche (griglia a tre colonne), col numero vero quattro. Rilette anche «verificati uno a uno» in Chi siamo («che approviamo prima di farli entrare») e la riga della home («Commercianti locali · Negozi di Piacenza, approvati da noi prima di entrare»). La prova monta la pagina vera col database finto: lettura caduta, zero negozi, conteggio riuscito."
+    },
+    {
+      "chiave": "privacy-legale|l'informativa dice che teniamo i documenti d'identità per dieci anni per l'antiriciclaggio, ma il sito li cancella dopo un mese o alla cancellazione",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r21-kyc-informativa.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 6f87a54e^ --file app/privacy/page.tsx --prove tests/unit/riparazione-r21-kyc-informativa.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 6f87a54ec69a7f4026962a1c29166dbb8cade692^ --file app/privacy/page.tsx --prove tests/unit/riparazione-r21-kyc-informativa.test.ts  --json (al commit 6f87a54ec69a7f4026962a1c29166dbb8cade692) → uscita 0 (K05)",
+      "nota_fix": "I dieci anni erano già stati tolti il 5/11 (commit 73a08269). Restavano «antiriciclaggio» e «Obbligo di legge». Adesso la riga dice «Verifica dell'identità di Venditori e Rider (KYC)», con base «esecuzione del contratto (6.1.b) e legittimo interesse alla sicurezza (6.1.f)». La prova legge i tempi della riga e li confronta con il codice: i 90 giorni dei respinti con il p_giorni che la potatura passa davvero, i giorni dell'iscrizione a metà con GIORNI_DOCUMENTI_ISCRIZIONE_A_META (30, anche nel registro dei fatti), più la cancellazione subito."
+    },
+    {
+      "chiave": "privacy-legale|gli «ultimi visti» restano salvati per sempre e si vedono anche dopo aver tolto il consenso",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r21-ultimi-visti.test.ts && psql -d <db di prova> -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r21-ultimi-visti.test.sql",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 85f8fde7^ --file lib/privacy/potature-ritenzione.ts,lib/queries/fasce-prodotti.ts,app/privacy/page.tsx --prove tests/unit/riparazione-r21-ultimi-visti.test.ts --json (uscita 0) + PGHOST=/tmp/pg-r21-lotto2 PGUSER=postgres timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 85f8fde7^ --file migrations/450_gli_ultimi_visti_se_ne_vanno_col_consenso.sql --prove tests/sql/rls/riparazione-r21-ultimi-visti.test.sql --sql r21_rimessa --json (uscita 0) → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 85f8fde71f5b1fba13d50b61b61df332f82b327c^ --file lib/privacy/potature-ritenzione.ts,lib/queries/fasce-prodotti.ts,app/privacy/page.tsx --prove tests/unit/riparazione-r21-ultimi-visti.test.ts  --json (al commit 85f8fde71f5b1fba13d50b61b61df332f82b327c) ; timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 85f8fde71f5b1fba13d50b61b61df332f82b327c^ --file migrations/450_gli_ultimi_visti_se_ne_vanno_col_consenso.sql --prove tests/sql/rls/riparazione-r21-ultimi-visti.test.sql --sql k05_r21_rimessa --json (al commit 85f8fde71f5b1fba13d50b61b61df332f82b327c) → uscita 0 (K05)",
+      "nota_fix": "Potatura notturna nuova su recently_viewed (viewed_at più vecchio di 14 mesi, costante MESI_DEGLI_ULTIMI_VISTI, nell'elenco che process-deletions chiama con potatureNotturne). Migrazione 450: un trigger su consent_log cancella gli «Ultimi visti» di chi, con l'accesso fatto, registra un «no» ai cookie statistici (da qualunque pagina), e una volta sola ripulisce chi aveva già detto no. Il carosello (leggiVistiDiRecente) nel browser non legge senza consenso statistico attivo. L'informativa ha la riga con mesi e revoca, e la voce fra i dati raccolti."
+    },
+    {
+      "chiave": "privacy-legale|le foto della porta di casa che il fattorino rifà restano nell'archivio per sempre",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r21-prove-orfane.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 10bd0ee1^ --file lib/privacy/potature-ritenzione.ts --prove tests/unit/riparazione-r21-prove-orfane.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 85f8fde71f5b1fba13d50b61b61df332f82b327c --file lib/privacy/potature-ritenzione.ts --prove tests/unit/riparazione-r21-prove-orfane.test.ts --json (al commit 10bd0ee1e4aacb00f272e7119afd61ad807bf959) → uscita 0 (K05)",
+      "nota_fix": "Prima riparazione: nuovo passo notturno «prove-di-consegna-orfane» in potatureNotturne (lo chiama process-deletions): elenca cod-proof/<fattorino>/<ordine>/ e toglie i file che nessun ordine indica più, con 7 giorni di margine, tetto di 200 file per notte e rilettura dell'ordine prima di togliere; se gli ordini non si leggono non toglie niente. Correzione dopo il collaudo: fra le colonne lette c'è anche delivery_signature_url (migrazione 024:33), sia nel giro di tutti gli ordini sia nella rilettura, così un file indicato da una qualsiasi delle quattro colonne non è orfano."
+    },
+    {
+      "chiave": "stati-ui|nella scheda ordine dell'amministratore un reclamo aperto non si vede: c'è scritto «contestazione: —» e il bonifico resta «trattenuto» senza un motivo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r21-reclamo-nella-scheda-ordine.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 491bceb8^ --file app/admin/orders/[id]/page.tsx,lib/admin/etichette.ts --prove tests/unit/riparazione-r21-reclamo-nella-scheda-ordine.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 491bceb8cd9436ac17db41302a8c1ab96aec9188^ --file app/admin/orders/[id]/page.tsx,lib/admin/etichette.ts --prove tests/unit/riparazione-r21-reclamo-nella-scheda-ordine.test.ts  --json (al commit 491bceb8cd9436ac17db41302a8c1ab96aec9188) → uscita 0 (K05)",
+      "nota_fix": "La scheda legge insieme all'ordine internal_dispute_status e i reclami aperti dalla tabella disputes (stati open e under_review, gli stessi del giro dei bonifici). «Contestazione» mostra il reclamo aperto (con data e link ai reclami), il reclamo interno e la contestazione in banca; se i reclami non si leggono lo dice invece di «—». Accanto a «trattenuto» c'è il motivo («fermo per: reclamo aperto», «contestazione interna (…)», «contestazione in banca»). Etichetta WON aggiunta (il webhook la scrive maiuscola e usciva grezza). La logica del bonifico non è toccata."
+    },
+    {
+      "chiave": "stati-ui|la pagina del negozio del mese, quando la redazione non ha ancora scelto, non dice niente, e una lettura fallita sembra uguale",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r21-negozio-del-mese-vuoto.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3e6a2948^ --file app/shop-of-month/page.tsx,lib/queries/negozio-del-mese.ts --prove tests/unit/riparazione-r21-negozio-del-mese-vuoto.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R21 --base 3e6a2948c67e0cd6872b8347eb202b043a2fe2d9^ --file app/shop-of-month/page.tsx,lib/queries/negozio-del-mese.ts --prove tests/unit/riparazione-r21-negozio-del-mese-vuoto.test.ts  --json (al commit 3e6a2948c67e0cd6872b8347eb202b043a2fe2d9) → uscita 0 (K05)",
+      "nota_fix": "leggiNegozioDelMese lancia l'errore invece di valere «nessuna scelta». La pagina mostra «Non riesco a leggere la scelta della redazione» con Riprova se la lettura cade, e «La scelta di novembre arriva presto: intanto vota il tuo preferito qui sotto» (mese nel fuso di Piacenza) se riesce ed è vuota. In home ShopOfMonthHero usa la stessa funzione: senza scelta resta com'era; su lettura caduta react-query ora ritenta (file non di R21, non toccato)."
+    }
+  ]
+}

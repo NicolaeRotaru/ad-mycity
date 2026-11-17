@@ -1,0 +1,466 @@
+diff --git a/cervello/sorvegliante.mjs b/cervello/sorvegliante.mjs
+index 35614da15..77754ecd2 100644
+--- a/cervello/sorvegliante.mjs
++++ b/cervello/sorvegliante.mjs
+@@ -1489,7 +1489,12 @@ export function parteCheChiama(testo = "", file = "", contenuto = null) {
+ // davvero: quella resta una chiamata.
+ // ─────────────────────────────────────────────────────────────────────────────
+ 
+-/** I file di prova: la cartella delle prove del cervello, e ovunque i `*.test.*`, `*.spec.*` e `.bats`. */
++/** I file di prova: tutta la cartella delle prove del cervello (`cervello/test/`, qualunque estensione),
++ *  e fuori da lì i `*.test.*` e `*.spec.*` scritti in JS o TS più i `.bats`. Solo quelli: sono le forme
++ *  che un esecutore trova da solo (test-cervello, test-pannello). Un `x.test.sh` o un `x.test.py` fuori
++ *  da `cervello/test/` non lo lancia nessun esecutore, quindi non è una prova che parte da sola: passa
++ *  dalla domanda «chi lo lancia?» come ogni altro programma (AR-969, secondo giro di correzione: prima
++ *  questo commento diceva «ovunque i *.test.*», e prometteva più di quello che la regola fa). */
+ export const PROVA_PER_NOME = /\.(?:test|spec)\.[cm]?[jt]sx?$|\.bats$/;
+ 
+ /** Vero se il file è una prova. Più largo di `FIXTURE`, che resta com'era per i controlli ①③④. */
+@@ -1510,15 +1515,40 @@ export const RAGGIUNGE_IN_PROVA = new Set([
+   "readFileSync", "existsSync", "statSync", "copyFileSync", "cpSync",
+ ]);
+ 
++/** Le funzioni di `RAGGIUNGE_IN_PROVA` che costruiscono solo un percorso: da sole non dicono cosa ci si
++ *  fa. Decide la chiamata che le contiene. */
++export const CREA_PERCORSO = new Set(["join", "resolve", "URL", "fileURLToPath", "pathToFileURL"]);
++
++/**
++ * Le funzioni che SCRIVONO in un percorso (AR-969, secondo giro di correzione). Una prova che fa
++ * `writeFileSync(join(tmp, "cervello/x.mjs"), "…")` si costruisce una COPIA FINTA in una cartella
++ * temporanea — è la cura che il catalogo delle scorciatoie dà al punto 35 — e il programma vero non lo
++ * tocca: scrivere non è raggiungere. Prima `join` bastava, e quella copia finta teneva in vita il
++ * programma vero con lo stesso nome: il verso dell'allarme falso di AR-969.
++ * Copiare (`copyFileSync`, `cpSync`) invece raggiunge: la copia nasce dal file vero.
++ */
++export const SCRIVE_IN_PROVA = new Set([
++  "writeFileSync", "writeFile", "appendFileSync", "appendFile", "createWriteStream",
++  "mkdirSync", "mkdir", "rmSync", "rm", "unlinkSync", "unlink", "truncateSync",
++]);
++
+ /**
+  * In una riga di una prova JS/TS, le sole stringhe che raggiungono un file vero, una per riga; ""
+  * se nessuna. Una stringa raggiunge quando sta dopo `from` o `import`, oppure è un argomento — anche
+  * dentro un elenco `[…]` — di una funzione di `RAGGIUNGE_IN_PROVA`. Tutto il resto è un esempio: la
+- * chiave di una base finta, un elemento di un diff finto, una costante col nome di un file.
+- *
+- * Pura e riga per riga, perché le righe arrivano da `git grep`. Il prezzo: un elenco di argomenti
+- * scritto su più righe (`[` da solo su una riga) non si riconosce, e quella prova non tiene in vita
+- * il file. Se il file sparisce, è la prova stessa a diventare rossa: rompe forte, non in silenzio.
++ * chiave di una base finta, un elemento di un diff finto, una costante col nome di un file. E un
++ * percorso costruito (`CREA_PERCORSO`) dentro una chiamata che scrive (`SCRIVE_IN_PROVA`) è una copia
++ * finta, non il file vero.
++ *
++ * Pura e riga per riga, perché le righe arrivano da `git grep`. Il prezzo, misurato il 15/11 nel secondo
++ * giro di correzione, sono le forme che una riga sola non mostra. Non tengono in vita il file: un elenco
++ * di argomenti su più righe (`[` da solo), un elenco scorso con for-of
++ * (`for (const f of ["cervello/x.mjs"]) readFileSync(join(REPO, f))`), una costante o un template
++ * assegnati e usati più sotto, un aiutante locale (`lancia("cervello/x.mjs")`). Oggi è così per
++ * `cervello/tmp-metabolizza-append.mjs`, che una prova legge con un for-of: risulta morto. Se il file
++ * sparisce, è la prova stessa a diventare rossa: rompe forte, non in silenzio. Il verso opposto: una
++ * copia finta scritta in due righe (prima il percorso in una costante, poi `writeFileSync`) tiene
++ * ancora in vita il file vero. Sbaglia dal lato prudente: una voce in più.
+  *
+  * @param {string} riga  la riga, già senza commenti
+  */
+@@ -1543,13 +1573,27 @@ export function parteCheRaggiungeInProva(riga = "") {
+       }
+       // La parentesi che contiene questa stringa, saltando gli elenchi: `spawnSync("node", ["x"])`.
+       let chi = null;
+-      for (let k = pila.length - 1; k >= 0; k--) {
++      let k = pila.length - 1;
++      for (; k >= 0; k--) {
+         if (pila[k].ch === "[") continue;
+         if (pila[k].ch === "(") chi = pila[k].chi;
+         break;
+       }
++      // Un percorso costruito vale quanto la chiamata che lo usa: risalgo oltre gli altri percorsi e
++      // gli elenchi fino alla prima chiamata vera. Se quella scrive, è una copia finta.
++      let scrive = false;
++      if (chi && CREA_PERCORSO.has(chi)) {
++        for (let h = k - 1; h >= 0; h--) {
++          const sopra = pila[h];
++          if (sopra.ch === "[") continue;
++          if (sopra.ch !== "(") break;
++          if (CREA_PERCORSO.has(sopra.chi)) continue;
++          scrive = SCRIVE_IN_PROVA.has(sopra.chi);
++          break;
++        }
++      }
+       const prima = t.slice(0, i).trimEnd();
+-      if (/(?:^|[^\w$.])(?:from|import)$/.test(prima) || (chi && RAGGIUNGE_IN_PROVA.has(chi))) fuori.push(dentro);
++      if (/(?:^|[^\w$.])(?:from|import)$/.test(prima) || (chi && RAGGIUNGE_IN_PROVA.has(chi) && !scrive)) fuori.push(dentro);
+       i = j + 1;
+       continue;
+     }
+@@ -1576,17 +1620,72 @@ export function radiceDelNome(file = "") {
+ }
+ 
+ /**
+- * Chi lancia un file può essere morto a sua volta: allora non tiene in vita niente. Vale solo per i
+- * programmi lanciati per nome, cioè quelli direttamente in `cervello/`. Tutto il resto si dà per vivo
+- * senza chiedere: le prove le trova test-cervello per cartella, i flussi della CI e gli hook partono da
+- * soli, il Pannello trova le pagine per convenzione, le unità del server si installano a parte.
++ * Le rotte e le pagine che Next.js avvia per convenzione di cartella, in `pannello/src/app`: i nomi
++ * riservati del router (pagina, rotta, cornice, caricamento, errore, pagina mancante…) e i file di
++ * metadati che il router serve da solo (icona, sitemap, robots, manifest). Nessuno li importa per nome.
++ */
++export const CONVENZIONI_NEXT =
++  /^pannello\/(?:src\/)?app\/(?:.+\/)?(?:page|route|layout|template|loading|error|global-error|not-found|default|icon|apple-icon|opengraph-image|twitter-image|sitemap|robots|manifest)\.[cm]?[jt]sx?$/;
++
++/** Gli altri file che Next.js, PostCSS e Tailwind caricano da soli per nome: il middleware, la
++ *  strumentazione e i file di configurazione nella radice del Pannello. */
++export const RADICE_NEXT =
++  /^pannello\/(?:src\/)?(?:middleware|instrumentation)\.[cm]?[jt]s$|^pannello\/(?:next|postcss|tailwind)\.config\.[cm]?[jt]s$/;
++
++/**
++ * Chi PARTE DA SOLO: nessuno lo nomina, e non per questo è morto (AR-969, secondo giro di correzione).
++ * Sono i file che un esecutore trova per convenzione di cartella o di nome, non per una riga che li chiama:
++ *   · le prove (`eFileDiProva`): test-cervello trova `cervello/test/` per cartella, test-pannello le
++ *     `*.test.mts` del Pannello;
++ *   · i flussi della CI, `.github/workflows/*.yml`: li avvia GitHub;
++ *   · gli hook di git, `.githooks/*`: li avvia git;
++ *   · le unità e i timer del server (`*.service`, `*.timer`, `*.socket`) e un crontab versionato: li
++ *     avvia systemd o cron. Oggi stanno in `cervello/vps/`, e il crontab non c'è;
++ *   · gli hook dell'agente, `.claude/settings.json`: li avvia Claude Code;
++ *   · le rotte, le pagine e la configurazione che Next.js avvia per convenzione (`CONVENZIONI_NEXT`,
++ *     `RADICE_NEXT`).
++ * SOLO questi. Tutti gli altri programmi, in qualunque cartella, passano dalla domanda «chi lo lancia?».
++ *
++ * Perché solo questi. Il primo giro di correzione dava per vivo senza chiedere tutto ciò che non era un
++ * programma direttamente in `cervello/`. Così il difetto di AR-969 tornava nelle sottocartelle:
++ * cancellare `cervello/capacita/cap-51-la-costituzione-vivente.mjs` (uno scheletro che nessuno esegue:
++ * lo nomina solo il campo `file` di `_indice.json`) o `cervello/vps/test-giro-prompt.sh` (si lancia a
++ * mano da un manuale) dava una voce grave e faceva rossa la CI. A 31cfd2dd1 davano zero voci.
++ *
++ * @param {string} file  percorso dalla radice del repo
++ */
++export function parteDaSolo(file = "") {
++  const f = String(file || "");
++  return (
++    eFileDiProva(f) ||
++    /^\.github\/workflows\/[^/]+\.ya?ml$/.test(f) ||
++    /^\.githooks\/[^/]+$/.test(f) ||
++    /\.(?:service|timer|socket)$/.test(f) ||
++    /(?:^|\/)crontab$|\.crontab$/.test(f) ||
++    /^\.claude\/settings(?:\.local)?\.json$/.test(f) ||
++    CONVENZIONI_NEXT.test(f) ||
++    RADICE_NEXT.test(f)
++  );
++}
++
++/** Un programma: codice che si esegue, in qualunque cartella. */
++export const PROGRAMMA = /\.(?:[cm]?[jt]sx?|sh|bash|py)$/;
++
++/**
++ * Chi lancia un file può essere morto a sua volta: allora non tiene in vita niente. Vale per ogni
++ * programma che non parte da solo, in qualunque cartella (fino al secondo giro di correzione valeva
++ * solo per quelli direttamente in `cervello/`: un programma morto in una sottocartella teneva in vita
++ * quello che nominava). Un file che non è un programma — un registro JSON, una configurazione — si dà
++ * per vivo quando nomina: lo legge qualcuno, e chiedere «chi legge chi legge» costerebbe un giro in più
++ * sulla base per sbagliare dal lato del silenzio.
+  * Sbagliare qui verso «vivo» costa una voce in più; verso «morto» costerebbe un freno spento in silenzio.
+  *
+- * Vale nei due ruoli (AR-969, primo giro di correzione): per chi lancia, e per il file cancellato. Prima
+- * valeva solo per chi lancia, e un flusso della CI, un hook o una prova del Pannello cancellati
+- * risultavano «non lanciati da nessuno»: 10 prove su 15 in pannello/src/lib, misurato dal collaudo.
++ * @param {string} file  percorso dalla radice del repo
+  */
+-export const PUO_ESSERE_MORTO = /^cervello\/[^/]+\.(?:mjs|cjs|js|sh|py)$/;
++export function puoEssereMorto(file = "") {
++  const f = String(file || "");
++  return PROGRAMMA.test(f) && !parteDaSolo(f);
++}
+ 
+ /** Quanti passi all'indietro: il file, chi lo lancia, chi lancia quello. Oltre si dà per vivo. Uno
+  *  basta al caso vero: round2-applica.mjs lo nominava, in una stringa di testo, un altro programma
+@@ -1596,8 +1695,9 @@ export const PASSI_LANCIO = 1;
+ /**
+  * ⑥b su un file CANCELLATO — alla base del confronto, questo file lo lanciava qualcuno?
+  *
+- * Lanciato = almeno un ALTRO file di codice lo nomina in una riga che può chiamare (`parteCheChiama`),
+- * e quel file non è a sua volta un programma morto (`PUO_ESSERE_MORTO`, fino a `PASSI_LANCIO` passi).
++ * Lanciato = il file parte da solo (`parteDaSolo`), oppure almeno un ALTRO file di codice lo nomina in
++ * una riga che può chiamare (`parteCheChiama`), e quel file non è a sua volta un programma morto
++ * (`puoEssereMorto`, fino a `PASSI_LANCIO` passi).
+  * Pura: le righe della base arrivano da `cerca`, che nel comando vero è un `git grep` sulla base e in
+  * una prova è un repo finto.
+  *
+@@ -1610,10 +1710,11 @@ export const PASSI_LANCIO = 1;
+  * @returns {{lanciato:boolean, cieco:boolean, da:Array<{file:string, n:number|null, testo:string}>}}
+  */
+ export function chiLoLanciava(file = "", cerca = null, passi = PASSI_LANCIO) {
+-  // Chi parte da solo — un flusso della CI, un hook, una prova, una pagina del Pannello — è vivo
+-  // senza chiedere anche quando è LUI a essere cancellato, non solo quando lancia un altro file.
+-  // `da` resta vuoto: non c'è un lanciatore da nominare.
+-  if (!PUO_ESSERE_MORTO.test(String(file)) || eFileDiProva(file)) return { lanciato: true, cieco: false, da: [] };
++  // Chi parte da solo — un flusso della CI, un hook, un'unità del server, una prova, una rotta del
++  // Pannello — è vivo senza chiedere anche quando è LUI a essere cancellato. Solo lui: ogni altro
++  // file, in qualunque cartella, risponde alla domanda qui sotto. `da` resta vuoto: non c'è un
++  // lanciatore da nominare.
++  if (parteDaSolo(file)) return { lanciato: true, cieco: false, da: [] };
+   const nome = radiceDelNome(file);
+   if (!nome || typeof cerca !== "function") return { lanciato: true, cieco: true, da: [] };
+   const righe = cerca(nome);
+@@ -1625,18 +1726,22 @@ export function chiLoLanciava(file = "", cerca = null, passi = PASSI_LANCIO) {
+     if (!parteCheChiama(r.testo, r.file).includes(nome)) continue;
+     perFile.set(r.file, r);
+   }
+-  // Tre gruppi, in quest'ordine: chi è vivo senza chiedere (flussi, hook, unità, Pannello), poi i
+-  // programmi che potrebbero essere morti, e le prove per ultime. Le prove tengono in vita il file
+-  // ma non dicono da dove partiva: per `mappa-macchina.mjs`, lanciato da giro.sh e importato da una
++  // Tre gruppi, in quest'ordine: chi è vivo senza chiedere (flussi, hook, unità del server, rotte del
++  // Pannello, e i registri o le configurazioni che nominano il file), poi i programmi che potrebbero
++  // essere morti, in qualunque cartella, e le prove per ultime. Le prove tengono in vita il file ma
++  // non dicono da dove partiva: per `mappa-macchina.mjs`, lanciato da giro.sh e importato da una
+   // prova, la voce nominava solo la prova (AR-969, primo giro di correzione).
+   const vivi = [];
+   const programmi = [];
+   const prove = [];
+   for (const r of perFile.values()) {
+     if (eFileDiProva(r.file)) prove.push(r);
+-    else if (PUO_ESSERE_MORTO.test(r.file)) programmi.push(r);
++    else if (puoEssereMorto(r.file)) programmi.push(r);
+     else vivi.push(r);
+   }
++  // Fra i vivi, prima chi parte da solo: per `cervello/vps/watch-main.sh` la voce deve nominare
++  // l'unità del server che lo avvia, non i registri che citano il suo nome (secondo giro di correzione).
++  vivi.sort((a, b) => Number(parteDaSolo(b.file)) - Number(parteDaSolo(a.file)));
+   const voce = (r) => ({ file: r.file, n: r.n ?? null, testo: String(r.testo).trim() });
+   let cieco = false;
+   const da = vivi.map(voce);
+diff --git a/cervello/test/togliere-codice-morto.test.mjs b/cervello/test/togliere-codice-morto.test.mjs
+index 2e1915c85..c7eab9942 100644
+--- a/cervello/test/togliere-codice-morto.test.mjs
++++ b/cervello/test/togliere-codice-morto.test.mjs
+@@ -19,6 +19,12 @@
+ // prova una stringa che nomina un file non è una chiamata. La prova stessa di AR-969 era la
+ // dimostrazione: le sue stringhe facevano tacere chi toglie porte-gemelle dal cancello, e le chiavi
+ // della sua base finta tenevano «in vita» due programmi morti.
++//
++// Il secondo giro di correzione (15/11, dopo il secondo collaudo bocciato) aggiunge la sezione ⑧. Il
++// primo giro dava per vivo senza chiedere tutto ciò che non stava direttamente in cervello/, e il
++// difetto tornava nelle sottocartelle: cancellare uno scheletro mai eseguito
++// (cervello/capacita/cap-51-…) o uno script lanciato a mano (cervello/vps/test-giro-prompt.sh) faceva
++// di nuovo rossa la CI. Adesso è vivo senza chiedere solo chi parte davvero da solo.
+ 
+ import { test } from "node:test";
+ import assert from "node:assert/strict";
+@@ -35,7 +41,8 @@ import {
+   radiceDelNome,
+   righeDaGitGrep,
+   eCampoDiProsa,
+-  PUO_ESSERE_MORTO,
++  parteDaSolo,
++  puoEssereMorto,
+ } from "../sorvegliante.mjs";
+ 
+ // ─── la base finta ─────────────────────────────────────────────────────────
+@@ -276,17 +283,48 @@ test("chiLoLanciava: cieco non è verde — senza base, o con la base che non ri
+   assert.equal(r.cieco, true);
+ });
+ 
+-test("PUO_ESSERE_MORTO: solo i programmi lanciati per nome, direttamente in cervello/", () => {
+-  for (const f of ["cervello/round2-applica.mjs", "cervello/giro.sh", "cervello/x.py"]) assert.ok(PUO_ESSERE_MORTO.test(f), f);
++test("parteDaSolo e puoEssereMorto: vivo senza chiedere solo chi parte davvero da solo; ogni altro programma, in qualunque cartella, può essere morto", () => {
++  // Partono da soli: li avvia un esecutore per convenzione, non una riga che li nomina.
+   for (const f of [
+     ".github/workflows/notte.yml",
+-    "cervello/test/x.test.mjs",
++    ".githooks/pre-commit",
+     "cervello/vps/mycity-giro.service",
+-    "cervello/publishers/telegram.mjs",
++    "cervello/vps/mycity-giro.timer",
++    "cervello/test/x.test.mjs",
++    "cervello/test/x.bats",
++    "pannello/src/lib/carrello.test.mts",
+     "pannello/src/app/page.tsx",
++    "pannello/src/app/layout.tsx",
++    "pannello/src/app/not-found.tsx",
++    "pannello/src/app/api/notifica/route.ts",
++    "pannello/src/middleware.ts",
++    "pannello/next.config.js",
+     ".claude/settings.json",
+   ]) {
+-    assert.ok(!PUO_ESSERE_MORTO.test(f), f);
++    assert.ok(parteDaSolo(f), `${f} parte da solo`);
++    assert.ok(!puoEssereMorto(f), `${f} non può essere morto`);
++  }
++  // Non partono da soli: qualcuno deve lanciarli, e se nessuno li lancia sono morti.
++  for (const f of [
++    "cervello/round2-applica.mjs",
++    "cervello/giro.sh",
++    "cervello/x.py",
++    "cervello/capacita/cap-51-la-costituzione-vivente.mjs",
++    "cervello/vps/test-giro-prompt.sh",
++    "cervello/publishers/telegram.mjs",
++    ".claude/workflows/radiografia.js",
++    "pannello/src/lib/mani.ts",
++    "pannello/src/components/CuoreMacchina.tsx",
++    // Una «prova» in shell o in Python fuori da cervello/test/ non la trova nessun esecutore.
++    "cervello/vps/giro.test.sh",
++    "scripts/x.test.py",
++  ]) {
++    assert.ok(!parteDaSolo(f), `${f} non parte da solo`);
++    assert.ok(puoEssereMorto(f), `${f} può essere morto`);
++  }
++  // Un registro o una configurazione non è un programma: se nomina un file, lo legge qualcuno.
++  for (const f of ["cervello/capacita/_indice.json", "cervello/atti-con-porte.json", "pannello/vercel.json"]) {
++    assert.ok(!puoEssereMorto(f), f);
+   }
+ });
+ 
+@@ -573,3 +611,154 @@ test("⑦ lanciato_da nomina prima chi lo lancia davvero (il giro), poi la prova
+   assert.equal(v.length, 5);
+   for (const x of v) assert.deepEqual(x.lanciato_da, ["cervello/giro.sh", "cervello/test/round2.test.mjs"], `riga ${x.riga}`);
+ });
++
++// ─── ⑧ vivo senza chiedere SOLO chi parte davvero da solo (secondo giro di correzione) ──
++// Il secondo collaudo, a e54478190: il primo giro dava per vivo tutto ciò che non stava direttamente
++// in cervello/. Due programmi morti che a 31cfd2dd1 si cancellavano con 0 voci davano 1 voce grave e
++// il cancello usciva 1. Le righe qui sotto sono quelle vere del 15/11.
++
++const CAP51 = "cervello/capacita/cap-51-la-costituzione-vivente.mjs";
++const RIGHE_CAP51 = [
++  "const META = {",
++  '  n: 51, nome: "La Costituzione Vivente", stato: "scaffold",',
++  '  cosa_fa: "le 18 Leggi come codice eseguibile e auto-emendabile", fonte_dati: "CLAUDE.md + regole (esecubili)",',
++  '  cancello: "G6 · Specie", si_attiva_quando: "Piacenza autonoma e in utile da 6 mesi",',
++  "};",
++];
++const TEST_GIRO = "cervello/vps/test-giro-prompt.sh";
++const RIGHE_TEST_GIRO = [
++  "#!/usr/bin/env bash",
++  "# test-giro-prompt.sh — simula il prompt del giro (legge giro.md dal disco), max 3 min.",
++  "#   sudo -u mycity -H bash /opt/mycity/ad-mycity/cervello/vps/test-giro-prompt.sh",
++  'REPO="${REPO:-/opt/mycity/ad-mycity}"',
++  '. "$REPO/cervello/motore-ai.sh"',
++];
++// La base vera: lo scheletro lo nomina solo il campo `file` dell'indice, che capacita.mjs legge per
++// mostrarlo; lo script lo nomina solo un manuale. Nessuna delle due righe lo lancia.
++const BASE_SOTTOCARTELLE = {
++  [CAP51]: RIGHE_CAP51.join("\n"),
++  "cervello/capacita/_indice.json": '      "file": "cervello/capacita/cap-51-la-costituzione-vivente.mjs"',
++  "cervello/capacita.mjs": 'const indice = JSON.parse(readFileSync(join(QUI, "capacita", "_indice.json"), "utf8"));',
++  [TEST_GIRO]: RIGHE_TEST_GIRO.join("\n"),
++  "cervello/vps/CHECKLIST-VIVO.md": "   sudo -u mycity -H bash /opt/mycity/ad-mycity/cervello/vps/test-giro-prompt.sh",
++};
++const DIFESE_SOTTOCARTELLE = indiceDifese({
++  mutanti: [
++    { difetto: "AR-574", file: "CLAUDE.md", test: "cervello/test/scrittura.test.mjs" },
++    { difetto: "AR-562", file: "cervello/motore-ai.sh", test: "cervello/test/motore.test.mjs" },
++    { difetto: "AR-288", file: "cervello/worker.sh", test: "cervello/test/worker.test.mjs" },
++  ],
++  guardiani: ["cervello/gate-veri.mjs", "cervello/esegui-azione.mjs"],
++});
++
++test("⑧ uno scheletro mai eseguito in cervello/capacita/ si cancella senza voci: il campo «file» dell'indice non lo lancia", () => {
++  const e = daDiff(diffCancellazione(CAP51, RIGHE_CAP51), { difese: DIFESE_SOTTOCARTELLE, cercaAllaBase: base(BASE_SOTTOCARTELLE) });
++  assert.deepEqual(difeseRimosse(e).map((v) => `${v.file}:${v.riga}`), [], "fonte_dati «CLAUDE.md» è una menzione, in un file che non gira");
++  assert.deepEqual(chiLoLanciava(CAP51, base(BASE_SOTTOCARTELLE)), { lanciato: false, cieco: false, da: [] });
++});
++
++test("⑧ uno script del server lanciato solo a mano da un manuale si cancella senza voci", () => {
++  const e = daDiff(diffCancellazione(TEST_GIRO, RIGHE_TEST_GIRO), { difese: DIFESE_SOTTOCARTELLE, cercaAllaBase: base(BASE_SOTTOCARTELLE) });
++  assert.deepEqual(difeseRimosse(e).map((v) => `${v.file}:${v.riga}`), []);
++});
++
++test("⑧ più scheletri di cervello/capacita/ cancellati insieme: nessuna voce", () => {
++  const altro = "cervello/capacita/cap-01-il-gemello-digitale.mjs";
++  const righeAltro = ['  cosa_fa: "un gemello", fonte_dati: "CLAUDE.md + ordini",'];
++  const e = daDiff([...diffCancellazione(CAP51, RIGHE_CAP51), ...diffCancellazione(altro, righeAltro)], {
++    difese: DIFESE_SOTTOCARTELLE,
++    cercaAllaBase: base({ ...BASE_SOTTOCARTELLE, "cervello/capacita/_indice.json": `      "file": "${CAP51}"\n      "file": "${altro}"` }),
++  });
++  assert.equal(difeseRimosse(e).length, 0);
++});
++
++test("⑧ un programma in una sottocartella lanciato davvero dal giro: cancellarlo dà le voci, e la voce nomina il giro", () => {
++  const pulizia = "cervello/vps/pulizia.sh";
++  const righe = ['. "$REPO/cervello/motore-ai.sh"'];
++  const e = daDiff(diffCancellazione(pulizia, righe), {
++    difese: DIFESE_SOTTOCARTELLE,
++    cercaAllaBase: base({
++      "cervello/giro.sh": 'bash "$SCRIPT_DIR/vps/pulizia.sh" || true',
++      "cervello/vps/mycity-giro.service": "ExecStart=/usr/bin/env bash /opt/mycity/ad-mycity/cervello/giro.sh",
++    }),
++  });
++  const v = difeseRimosse(e);
++  assert.deepEqual(v.map((x) => x.riga), [1], "il giro lo lanciava: togliere il file spegne la chiamata a motore-ai.sh");
++  assert.deepEqual(v[0].lanciato_da, ["cervello/giro.sh"]);
++});
++
++test("⑧ un programma in una sottocartella avviato da un'unità del server: le voci restano, e la voce nomina prima l'unità", () => {
++  // La forma vera di cervello/vps/watch-main.sh: lo avvia mycity-watch-main.service, e un registro
++  // dei tempi ne cita il nome in una chiave. La voce deve dire da dove partiva: l'unità, non il registro.
++  const watch = "cervello/vps/watch-main.sh";
++  const righe = ['    if ! bash -n "$REPO/cervello/worker.sh" 2>/dev/null; then'];
++  const e = daDiff(diffCancellazione(watch, righe), {
++    difese: DIFESE_SOTTOCARTELLE,
++    cercaAllaBase: base({
++      "cervello/tempi-prove.json": '  "cervello/test/watch-main-reload-grazioso.bats": 223,',
++      "cervello/vps/mycity-watch-main.service": "ExecStart=/bin/bash /opt/mycity/ad-mycity/cervello/vps/watch-main.sh",
++    }),
++  });
++  const v = difeseRimosse(e);
++  assert.equal(v.length, 1);
++  assert.equal(v[0].lanciato_da[0], "cervello/vps/mycity-watch-main.service");
++});
++
++test("⑧ un programma lanciato solo da un programma morto di una sottocartella è morto anche lui", () => {
++  // Prima del secondo giro, un lanciatore fuori dalla radice di cervello/ era vivo senza chiedere:
++  // lo scheletro cap-51 avrebbe tenuto in vita lo script che nomina.
++  const aiuto = "cervello/vps/aiuto.sh";
++  const righe = ['. "$REPO/cervello/motore-ai.sh"'];
++  const cerca = base({
++    ...BASE_SOTTOCARTELLE,
++    [CAP51]: `${RIGHE_CAP51.join("\n")}\nconst r = spawnSync("bash", ["cervello/vps/aiuto.sh"]);`,
++  });
++  assert.equal(chiLoLanciava(aiuto, cerca).lanciato, false);
++  const e = daDiff(diffCancellazione(aiuto, righe), { difese: DIFESE_SOTTOCARTELLE, cercaAllaBase: cerca });
++  assert.equal(difeseRimosse(e).length, 0);
++});
++
++test("⑧ chi parte da solo resta vivo: un flusso, un hook, un'unità, una prova e una rotta del Pannello cancellati danno le loro voci", () => {
++  for (const [file, riga] of [
++    [".github/workflows/notte.yml", "      - run: node cervello/gate-veri.mjs"],
++    [".githooks/pre-commit", "node cervello/gate-veri.mjs || exit 1"],
++    ["cervello/vps/mycity-gate.service", "ExecStart=/usr/bin/env node /opt/mycity/ad-mycity/cervello/gate-veri.mjs"],
++    ["pannello/src/lib/carrello.test.mts", 'const r = spawnSync("node", [join(REPO, "cervello/gate-veri.mjs")]);'],
++    // La forma vera di pannello/src/app/api/notifica/route.ts: la rotta passa il freno al worker.
++    ["pannello/src/app/api/notifica/route.ts", '      `Invia questo AVVISO a Nicola tramite la "mano" disponibile (via cervello/esegui-azione.mjs): "${t}".`,'],
++  ]) {
++    const e = daDiff(diffCancellazione(file, [riga]), { difese: DIFESE_SOTTOCARTELLE, cercaAllaBase: base({}) });
++    assert.equal(difeseRimosse(e).length, 1, `${file}: nessuno lo nomina perché parte da solo, non perché è morto`);
++  }
++});
++
++// ─── ⑨ scrivere una copia finta non è raggiungere il file vero (secondo giro di correzione) ──
++
++test("⑨ parteCheRaggiungeInProva: una copia FINTA scritta in una cartella temporanea non raggiunge il file vero", () => {
++  for (const riga of [
++    'writeFileSync(join(tmp, "cervello/a.mjs"), "export const x = 1;\\n");',
++    'fs.writeFileSync(join(dir, "cervello", "a.mjs"), FINTO);',
++    'await writeFile(resolve(tmp, "cervello/a.mjs"), FINTO, "utf8");',
++    'appendFileSync(join(tmp, "cervello/a.mjs"), "\\n");',
++    'mkdirSync(join(tmp, "cervello/a.mjs"), { recursive: true });',
++  ]) {
++    assert.ok(!parteCheRaggiungeInProva(riga).includes("a.mjs"), riga);
++  }
++  // Copiare o leggere il file vero invece lo raggiunge, anche dentro una scrittura.
++  for (const riga of [
++    'copyFileSync(join(REPO, "cervello/a.mjs"), join(tmp, "cervello/a.mjs"));',
++    'writeFileSync(join(tmp, "b.mjs"), readFileSync(join(REPO, "cervello/a.mjs"), "utf8"));',
++  ]) {
++    assert.ok(parteCheRaggiungeInProva(riga).split("\n").includes("cervello/a.mjs"), riga);
++  }
++});
++
++test("⑨ un programma morto che una prova ricrea come copia finta resta morto: cancellarlo non fa rossa la CI", () => {
++  const cerca = base({
++    ...GEMELLO_NELLA_PROVA,
++    "cervello/test/copia.test.mjs": 'writeFileSync(join(tmp, "cervello/registra-programma-intelligenza.mjs"), "export {};\\n");',
++  });
++  assert.equal(chiLoLanciava(GEMELLO, cerca).lanciato, false);
++  const e = daDiff(diffCancellazione(GEMELLO, RIGHE_GEMELLO), { difese: DIFESE_GEMELLO, cercaAllaBase: cerca });
++  assert.equal(difeseRimosse(e).length, 0, "la prova scrive un file suo con quel nome: il programma vero non lo tocca");
++});

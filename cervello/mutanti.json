@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-11-07 09:49",
+ "aggiornato": "2026-11-15 07:56",
  "mutanti": [
   {
    "lotto": 30,
@@ -9528,14 +9528,6 @@
   },
   {
    "difetto": "AR-966",
-   "nome": "la data dell'attesa si sposta solo nella lista (un secolo avanti, qualunque sia oggi): lo scadenzario avvisa per un giorno sbagliato, e il rosso torna senza preavviso. Legata all'attesa SENZA guardiano: quando il controllo nasce, il pezzo sparisce e il banco lo dice",
-   "file": "cervello/documenti-di-governo.mjs",
-   "cerca": "    guardiano: null,\n    attesa: {\n      fino: \"20",
-   "sostituisci": "    guardiano: null,\n    attesa: {\n      fino: \"21",
-   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
-  },
-  {
-   "difetto": "AR-966",
    "nome": "la data dell'esenzione si sposta solo nel registro delle porte (un secolo avanti, qualunque sia oggi): lo scadenzario avvisa per un giorno sbagliato, e il rosso torna senza preavviso",
    "file": "cervello/atti-con-porte.json",
    "cerca": "     \"fino_al\": \"20",
@@ -11877,6 +11869,622 @@
    "cerca": "  if (dichiarata) for (const a of aree) if (parole(a) === parole(dichiarata)) return a;",
    "sostituisci": "  if (dichiarata) return dichiarata;",
    "test": "cervello/test/i-nati-della-riparazione-alzano-il-totale.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione/freno-subagenti.mjs",
+   "nome": "il freno sugli agenti non conta più: il settimo lancio di un riparatore passa (onda 2, R15-R19 a 13-15 subagenti)",
+   "cerca": "  if (posizione > tetto) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/freno-subagenti.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione/freno-subagenti.mjs",
+   "nome": "un riparatore lancia Workflow e il freno lo lascia passare (R16 e R22: 4-5 agenti con un lancio)",
+   "cerca": "  if (strumento === \"Workflow\" && SENZA_WORKFLOW.has(ruolo)) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/freno-subagenti.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione/freno-subagenti.mjs",
+   "nome": "una chiamata senza session_id passa senza essere contata",
+   "cerca": "  if (!sid || !ID_VALIDO.test(String(sid))) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/freno-subagenti.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione/freno-subagenti.mjs",
+   "nome": "due lanci partiti insieme prendono la stessa posizione e il tetto si supera in parallelo",
+   "cerca": "  return righe.indexOf(segno) + 1;",
+   "sostituisci": "  return righe.length - (righe.length > 1 ? 1 : 0);",
+   "test": "cervello/test/freno-subagenti.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "la sorveglianza muta non confronta più i rossi noti: ogni giro sveglia la regista per un segnale già visto (giri a vuoto da 0,73 $)",
+   "cerca": "  return segnali.filter((s) => !noti.has(s));",
+   "sostituisci": "  return segnali;",
+   "test": "cervello/test/sorveglianza-muta.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "un referto finito non sveglia la regista: la sorveglianza muta resta zitta fino al battito",
+   "cerca": "    if (s.finita) out.push(`finita ${s.nome}`);",
+   "sostituisci": "    if (false) out.push(`finita ${s.nome}`);",
+   "test": "cervello/test/sorveglianza-muta.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "stato non taglia più: con trenta sessioni e sessanta segnali il riassunto supera le 40 righe",
+   "cerca": "  if (r.length <= RIGHE_STATO) return r;",
+   "sostituisci": "  return r;",
+   "test": "cervello/test/sorveglianza-muta.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione/sorveglia.sh",
+   "nome": "sorveglia --attendi esce al primo giro invece di aspettare un segnale nuovo",
+   "cerca": "    sleep \"$INTERVALLO\"",
+   "sostituisci": "    exit 4",
+   "test": "cervello/test/sorveglianza-muta.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "decidi chiude anche un grave a uscita 3 con la rimessa a mano: la deroga dei minori si allarga ai gravi",
+   "cerca": "          const aMano = minore && usc.includes(3)",
+   "sostituisci": "          const aMano = usc.includes(3)",
+   "test": "cervello/test/chiusure-dopo-l-onda-2.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "decidi chiude un minore a uscita 3 senza la firma di Nicola sulla deroga «rimessa_a_mano»",
+   "cerca": " && aManoValida(cv.rimessa?.a_mano) && !!eccezioneFirmata(piano, o.onda, \"rimessa_a_mano\");",
+   "sostituisci": " && aManoValida(cv.rimessa?.a_mano);",
+   "test": "cervello/test/chiusure-dopo-l-onda-2.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "una rimessa a mano che non cade senza la correzione vale come prova",
+   "cerca": " && a.uscita_senza_correzione !== 0 && a.uscita_con_correzione === 0;",
+   "sostituisci": " && a.uscita_con_correzione === 0;",
+   "test": "cervello/test/chiusure-dopo-l-onda-2.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "valida-collaudo torna al campione nei lotti fino a 40 voci: due minori senza giudizio pieno passano verdi",
+   "cerca": "        if (senzaCampione && cv.verdetto === \"regge\" && cv.giudizio !== \"pieno\" && altrui.get(rv.id)?.giudizio !== \"pieno\") (c.finita === true ? rossi : attese)",
+   "sostituisci": "        if (false) (c.finita === true ? rossi : attese)",
+   "test": "cervello/test/chiusure-dopo-l-onda-2.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "una voce «verificata dopo Nicola» si chiude collaudata dalla stessa sessione che l'ha scritta",
+   "cerca": "          else if (vuoto(cv.collaudatore) || cv.collaudatore === nome) d.perche = \"va collaudata da un'altra sessione\";",
+   "sostituisci": "",
+   "test": "cervello/test/chiusure-dopo-l-onda-2.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "pronte mette in A anche un grave o un minore che non regge: si ricollauda quello che va rifatto",
+   "cerca": "        else if (rv.esito === \"riparato\" && !GRAVI.has(sv.gravita) && ![\"non_regge\", \"rompe_altro\"].includes(cv?.verdetto)",
+   "sostituisci": "        else if (rv.esito === \"riparato\"",
+   "test": "cervello/test/voci-pronte-per-il-giro.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "pronte conta la stessa voce due volte quando torna in due onde (43 righe contate come 43 voci)",
+   "cerca": "        for (const m of Object.values(fuori)) m.delete(sv.chiave);",
+   "sostituisci": "",
+   "test": "cervello/test/voci-pronte-per-il-giro.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "un parziale che nomina un file di un altro padrone non entra in C: torna allo stesso padrone che non può toccarlo",
+   "cerca": "        else if (rv.esito === \"parziale\" && nominati.some((f) => padrone.has(f) && padrone.get(f) !== nome)) el = \"C\";",
+   "sostituisci": "",
+   "test": "cervello/test/voci-pronte-per-il-giro.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "dividi dà la stessa prova comune a due sessioni (il revert delle 5 voci del 13/11)",
+   "cerca": "    const decidono = [...new Set([...fileCheDecidono(v.file), ...v.file.map(normPerc).filter((f) => comuni.has(f))])];",
+   "sostituisci": "    const decidono = fileCheDecidono(v.file);",
+   "test": "cervello/test/voci-pronte-per-il-giro.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "una serve_file_altrui torna a una sessione che non ha il file che le serve (11 su 20 il 14/11)",
+   "cerca": "  return candidate.map((v) => (mappa.has(v.chiave) ? { ...v, file: [...new Set([...v.file, ...mappa.get(v.chiave)])] } : v));",
+   "sostituisci": "  return candidate;",
+   "test": "cervello/test/voci-pronte-per-il-giro.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "copertura-prima tace su una prova comune senza padrone",
+   "cerca": "    if (!padrone.has(f)) rossi.push(`${v.id}: tocca ${f}, che in quest'onda non ha un padrone`);",
+   "sostituisci": "    if (false) rossi.push(`${v.id}: tocca ${f}, che in quest'onda non ha un padrone`);",
+   "test": "cervello/test/voci-pronte-per-il-giro.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "la scheda perde la modifica scritta nel referto vecchio di una serve_file_altrui",
+   "cerca": "...(pr.modifiche ?? []).map((m) => `  - modifica scritta per ${m.file}: ${m.modifica}`)",
+   "sostituisci": "",
+   "test": "cervello/test/voci-pronte-per-il-giro.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "applica non vede più il collaudatore dato per finito col collaudo ancora aperto (K08 terzo, 18 voci senza collaudo)",
+   "cerca": "  return [...finiti].filter((k) => collaudiPerNome[k] && collaudiPerNome[k].finita !== true).sort();",
+   "sostituisci": "  return [];",
+   "test": "cervello/test/conti-che-arrivano-in-tempo.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "conti tace sulla PR dell'onda unita col registro non scritto (la mycity#290)",
+   "cerca": "    else if (u && !registroScrittoPerOnda(elenco, nomi)) rossi.push(",
+   "sostituisci": "    else if (false) rossi.push(",
+   "test": "cervello/test/conti-che-arrivano-in-tempo.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "il registro risulta scritto anche senza nessuna voce dell'onda",
+   "cerca": "  return elenco.some((d) => Object.entries(d ?? {}).some(([k, v]) => k.startsWith(\"riparazione_\") && mie.has(v?.sessione)));",
+   "sostituisci": "  return elenco.length > 0;",
+   "test": "cervello/test/conti-che-arrivano-in-tempo.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "il preventivo torna a 1,45 $ a voce, un rimedio sperato invece della misura",
+   "cerca": "  const stima = tonda(voci * ultima.per_voce);",
+   "sostituisci": "  const stima = tonda(voci * 1.45);",
+   "test": "cervello/test/conti-che-arrivano-in-tempo.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "conti --preventivo non è più rosso al 70% della stima",
+   "cerca": "  else if (spesa >= SOGLIA_SPESA * p.stima_usd) rossi.push(",
+   "sostituisci": "  else if (false) rossi.push(",
+   "test": "cervello/test/conti-che-arrivano-in-tempo.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "valida-referto accetta un referto finito senza il costo letto da get_session (R13 senza costo)",
+   "cerca": "    if (!(typeof costo === \"number\" && costo > 0)) rossi.push(",
+   "sostituisci": "    if (false) rossi.push(",
+   "test": "cervello/test/referto-con-la-sua-misura.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "valida-referto non guarda più il tetto dei subagenti della scheda",
+   "cerca": "    else if (sub > tetto) rossi.push(",
+   "sostituisci": "    else if (false) rossi.push(",
+   "test": "cervello/test/referto-con-la-sua-misura.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "valida-referto accetta un referto finito senza il numero di subagenti",
+   "cerca": "    if (!Number.isInteger(sub) || sub < 0) rossi.push(",
+   "sostituisci": "    if (false) rossi.push(",
+   "test": "cervello/test/referto-con-la-sua-misura.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "un grave riparato passa con una rimessa raccontata a mano",
+   "cerca": "      else if (ctx.misura === true && grave && !/prova-rimessa\\.mjs/.test(String(v.rimessa.comando))) rossi.push(",
+   "sostituisci": "      else if (false) rossi.push(",
+   "test": "cervello/test/referto-con-la-sua-misura.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione/freno-subagenti.mjs",
+   "nome": "la verifica della scheda AR-1180 (le sei prove insieme) resta verde col freno che non conta più",
+   "cerca": "  if (posizione > tetto) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/officina-minima.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione/sorveglia.sh",
+   "nome": "sorveglia --attendi resta zitta fino al battito quando il remoto non risponde per nessun ramo",
+   "cerca": "    if [ \"$CHIESTI\" -gt 0 ] && [ \"$FALLITI\" -eq \"$CHIESTI\" ]; then",
+   "sostituisci": "    if false; then",
+   "test": "cervello/test/sorveglianza-muta.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1172",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "la deroga «id_nel_commit» firmata su un commit vale per qualunque commit: manca il confronto con lo SHA intero (deroga bb53b6be di R17, #959)",
+   "cerca": "SHA_INTERO.test(e.commit) && e.commit === String(commit ?? \"\")",
+   "sostituisci": "SHA_INTERO.test(e.commit)",
+   "test": "cervello/test/riparazione-sessioni.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "applica torna a guardare ogni collaudo da solo: il pieno di K10 non salva le voci di R18 che K07 non ha giudicato",
+   "cerca": "altrui: pieniAltrove(tuttiK, dati.collaudatore) });",
+   "sostituisci": "altrui: new Map() });",
+   "test": "cervello/test/collaudi-guardati-insieme.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "decidi lascia che un «non regge» senza giudizio batta un pieno «regge»",
+   "cerca": "    if (!prima || (pieno && !pienoPrima) || (pieno === pienoPrima && peso > pesoPrima)) verdetti.set(",
+   "sostituisci": "    if (!prima || peso > pesoPrima || (peso === pesoPrima && !pienoPrima && pieno)) verdetti.set(",
+   "test": "cervello/test/collaudi-guardati-insieme.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "valida-collaudo non guarda i pieni degli altri collaudi: un minore giudicato in pieno altrove resta rosso",
+   "cerca": "cv.giudizio !== \"pieno\" && altrui.get(rv.id)?.giudizio !== \"pieno\") (c.finita === true ? rossi : attese)",
+   "sostituisci": "cv.giudizio !== \"pieno\") (c.finita === true ? rossi : attese)",
+   "test": "cervello/test/collaudi-guardati-insieme.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "un collaudo parziale torna a dover elencare tutte le voci dei suoi riparatori (le 79 righe ricopiate da K10)",
+   "cerca": "      if (!cv) { if (!parziale) (c.finita === true ? rossi : attese)",
+   "sostituisci": "      if (!cv) { (c.finita === true ? rossi : attese)",
+   "test": "cervello/test/collaudi-guardati-insieme.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "un collaudo parziale dichiara un campione accettato",
+   "cerca": "  if (parziale && Object.values(c.campione ?? {}).some((x) => x?.accettato === true)) rossi.push(",
+   "sostituisci": "  if (false) rossi.push(",
+   "test": "cervello/test/collaudi-guardati-insieme.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "un collaudo non finito presta il suo giudizio pieno agli altri",
+   "cerca": "    if (!c || c.collaudatore === tranne || c.finita !== true) continue;",
+   "sostituisci": "    if (!c || c.collaudatore === tranne) continue;",
+   "test": "cervello/test/collaudi-guardati-insieme.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "la regola dei 40 voci torna a valere sui collaudi scritti prima (applica rosso sulla campagna del 12/11)",
+   "cerca": "    const senzaCampione = ctx.misura === true && info.voci.length <= LOTTO_SENZA_CAMPIONE;",
+   "sostituisci": "    const senzaCampione = info.voci.length <= LOTTO_SENZA_CAMPIONE;",
+   "test": "cervello/test/collaudi-guardati-insieme.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "valida-collaudo smette di applicare la regola dei 40 voci ai collaudi nuovi",
+   "cerca": "altrui: pieniAltrove(altriK, c.collaudatore), misura: true });",
+   "sostituisci": "altrui: pieniAltrove(altriK, c.collaudatore) });",
+   "test": "cervello/test/chiusure-dopo-l-onda-2.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "decidi riapre le voci chiuse a campione con la regola dei 40 anche senza misura",
+   "cerca": "          else if (misuraQui && minore && cv.giudizio !== \"pieno\" && s.voci.length <= LOTTO_SENZA_CAMPIONE) d.perche",
+   "sostituisci": "          else if (minore && cv.giudizio !== \"pieno\" && s.voci.length <= LOTTO_SENZA_CAMPIONE) d.perche",
+   "test": "cervello/test/collaudi-guardati-insieme.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1184",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "applica torna a chiamare decidi senza la regola dei 40: R16-014, -015 e -016 si chiudono col campione di K08 anche dall'onda del campo",
+   "cerca": "decidi({ piano, referti, collaudi, hub, misuraDallOnda: dallOndaCampione })",
+   "sostituisci": "decidi({ piano, referti, collaudi, hub })",
+   "test": "cervello/test/collaudi-guardati-insieme.test.mjs",
+   "perche_conta": "Nicola ha scelto la strada «a» (carta #256, 15/11 23:35): dall'onda scritta nel piano, applica non chiude un minore collaudato a campione in un lotto fino a 40 voci. Senza questo passaggio la regola resta solo in valida-collaudo, e applica scrive nel registro come chiuse voci che il collaudo non ha guardato."
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1184",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "pronte torna a chiamare decidi senza la regola dei 40: R16-014, -015 e -016 escono dall'elenco A da ricollaudare",
+   "cerca": "hub: fileHub(per.lavorabili ?? []), misuraDallOnda: dallOndaCampione })",
+   "sostituisci": "hub: fileHub(per.lavorabili ?? []) })",
+   "test": "cervello/test/collaudi-guardati-insieme.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "un «rompe_altro» senza pieno battuto da un pieno sparisce senza avviso",
+   "cerca": "    if (!pieno && peso > (SEVERITA_VERDETTO[scartati.get(v.id)?.verdetto] ?? -1)) scartati.set(v.id, voce);",
+   "sostituisci": "    void scartati;",
+   "test": "cervello/test/collaudi-guardati-insieme.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "applica non stampa gli avvisi dei verdetti battuti da un pieno",
+   "cerca": "  for (const a of avvisi) console.log(`⚠️  ${a}`);",
+   "sostituisci": "  void avvisi;",
+   "test": "cervello/test/collaudi-guardati-insieme.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1180",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "decidi presta il giudizio pieno di un collaudo non finito",
+   "cerca": "    const pieno = v.giudizio === \"pieno\" && c.finita === true, pienoPrima",
+   "sostituisci": "    const pieno = v.giudizio === \"pieno\", pienoPrima",
+   "test": "cervello/test/collaudi-guardati-insieme.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "la riga del glossario non si cerca più: qualunque KPI risulta definito, anche quello che nel glossario non c’è, come la cassa di AR-282",
+   "file": "cervello/glossario-kpi.mjs",
+   "cerca": "    const def = terminiNorm.get(spazi(k.glossario));",
+   "sostituisci": "    const def = \"una definizione qualunque\";",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "un numero nuovo consegnato dal codice fuori registro torna invisibile: la metà del controllo che guarda il codice si spegne",
+   "file": "cervello/glossario-kpi.mjs",
+   "cerca": "      if (!padrone.has(c)) {",
+   "sostituisci": "      if (false) {",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "un campo del registro che il codice non consegna più resta scritto: il registro mente e il banco finto si acceca in silenzio",
+   "file": "cervello/glossario-kpi.mjs",
+   "cerca": "      if (!Object.hasOwn(uscita, c)) {",
+   "sostituisci": "      if (false) {",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "un numero si nasconde fra i non-KPI dichiarandosi interruttore: la natura non si misura più sul valore",
+   "file": "cervello/glossario-kpi.mjs",
+   "cerca": "      if (tipoDi(v) !== NATURE[n.natura]) {",
+   "sostituisci": "      if (false) {",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "togliere una vetrina dal registro, coi suoi KPI, la toglie dal controllo con un verde",
+   "file": "cervello/glossario-kpi.mjs",
+   "cerca": "    if (!idEsposizioni.has(v)) no(",
+   "sostituisci": "    if (false) no(",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "la riga di comando non dice più alla regola quali vetrine sa eseguire: la vetrina del cruscotto si toglie dal registro e tutto resta verde",
+   "file": "cervello/glossario-kpi-check.mjs",
+   "cerca": "vetrineNote: Object.keys(ESECUTORI) });",
+   "sostituisci": "vetrineNote: [] });",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "la vetrina del cruscotto non esegue più la rotta vera: i numeri che il Pannello consegna non li guarda nessuno",
+   "file": "cervello/glossario-kpi-check.mjs",
+   "cerca": "    return comeJson(await rotta.GET());",
+   "sostituisci": "    return comeJson({});",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "importare il guardiano lo fa girare: chi lo importa viene chiuso dal suo exit",
+   "file": "cervello/glossario-kpi-check.mjs",
+   "cerca": "if (lanciatoDallaRigaDiComando()) {",
+   "sostituisci": "if (true) {",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "la lista dei documenti di governo torna a dare al glossario nessun guardiano: il controllo esiste e la lista non lo sa",
+   "file": "cervello/documenti-di-governo.mjs",
+   "cerca": "    guardiano: \"cervello/glossario-kpi-check.mjs\",",
+   "sostituisci": "    guardiano: null,",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "il giro non esegue più il guardiano del glossario: il controllo esiste e non gira",
+   "file": "cervello/giro.sh",
+   "cerca": "  _glossario_out=\"$(node \"$SCRIPT_DIR/glossario-kpi-check.mjs\" 2>&1)\"; _glossario_rc=$?",
+   "sostituisci": "  _glossario_out=\"\"; _glossario_rc=0",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "un errore imprevisto del guardiano torna a uscire 1: il giro dice al motore «un KPI senza definizione» mentre lo strumento è rotto",
+   "file": "cervello/glossario-kpi-check.mjs",
+   "cerca": "  process.on(\"unhandledRejection\", cieco);\n  main().catch(cieco);",
+   "sostituisci": "  main();",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "il cuore della cura tolto: la vetrina della cassa torna a LANCIARE il sensore, che col .env del server riscrive cassa-runway.json e manda una POST al database",
+   "file": "cervello/glossario-kpi-check.mjs",
+   "cerca": "    const { doc } = documentoCassa(CASSA_FINTA());",
+   "sostituisci": "    const doc = JSON.parse((await import(\"node:child_process\")).spawnSync(process.execPath, [join(QUI, \"sensore-cassa.mjs\"), \"--json\"], { encoding: \"utf8\", env: { PATH: process.env.PATH || \"\", CASSA_BANCA_EUR: \"1000\", BURN_MENSILE_EUR: \"500\", PAYOUT_DOVUTI_EUR: \"100\" } }).stdout);",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "l'ambiente non si svuota più: le chiavi che systemd dà al giro restano nel processo del guardiano, e il codice del Pannello le legge",
+   "file": "cervello/glossario-kpi-check.mjs",
+   "cerca": "  for (const k of Object.keys(process.env)) if (!AMBIENTE_INNOCUO.test(k)) delete process.env[k];",
+   "sostituisci": "  // ambiente lasciato com'era: le chiavi del giro restano nel processo",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "i file .env si leggono di nuovo: un modulo che li legge appena caricato porta le chiavi del server dentro il guardiano",
+   "file": "cervello/glossario-kpi-check.mjs",
+   "cerca": "  const leggeChiavi = (p) => FILE_DI_CHIAVI.test(percorsoDi(p));",
+   "sostituisci": "  const leggeChiavi = (p) => false;",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "scrivere su disco torna possibile: una vetrina che scrive un file, dentro il guardiano, lo scrive davvero",
+   "file": "cervello/glossario-kpi-check.mjs",
+   "cerca": "  [\"scrivere su disco\", fs, [\"writeFileSync\", \"writeFile\",",
+   "sostituisci": "  [\"scrivere su disco\", fs, [\"writeFile\",",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "lanciare un programma torna possibile: una vetrina che lancia un programma, dentro il guardiano, lo lancia davvero",
+   "file": "cervello/glossario-kpi-check.mjs",
+   "cerca": "[\"spawn\", \"spawnSync\", \"exec\",",
+   "sostituisci": "[\"spawn\", \"exec\",",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "la rete torna aperta (http, https, net, tls…): una vetrina che chiama un indirizzo vero con node:http, dentro il guardiano, lo chiama davvero. Togliere solo http non basta a riaprirla: http passa da net, chiuso anche lui",
+   "file": "cervello/glossario-kpi-check.mjs",
+   "cerca": "for (const [cosa, modulo, nomi] of USCITE) for (const nome of nomi) if (typeof modulo[nome] === \"function\") modulo[nome] = rifiuto(cosa, nome);",
+   "sostituisci": "for (const [cosa, modulo, nomi] of USCITE) for (const nome of nomi) if (typeof modulo[nome] === \"function\" && cosa !== \"andare in rete\") modulo[nome] = rifiuto(cosa, nome);",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "il sensore della cassa torna a caricare git-github.mjs appena importato: chi importa le sue funzioni pure si porta dentro le chiavi del server",
+   "file": "cervello/sensore-cassa.mjs",
+   "cerca": "const caricaGitGithub = async () => (gitGithub ??= await import(\"./git-github.mjs\"));",
+   "sostituisci": "import * as gitGithubSubito from \"./git-github.mjs\";\nconst caricaGitGithub = async () => (gitGithub ??= gitGithubSubito);",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "il registro torna a dire che il burn del sensore lo calcola statoCassa, che lo riceve già calcolato",
+   "file": "cervello/kpi-registro.json",
+   "cerca": "\"funzione\": \"burnMensile\"",
+   "sostituisci": "\"funzione\": \"statoCassa\"",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "un puntatore cieco torna a ripetersi una volta per KPI: da cieco 40 righe uguali",
+   "file": "cervello/glossario-kpi.mjs",
+   "cerca": "      if (!puntatoriCiechi.has(chiave)) ciechi.push(",
+   "sostituisci": "      if (true) ciechi.push(",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "da cieco ogni punto torna a stampare la sua riga, anche quando il perché è lo stesso",
+   "file": "cervello/glossario-kpi-check.mjs",
+   "cerca": "  for (const c of r.ciechi) perPerche.set(c.perche, [...(perPerche.get(c.perche) || []), c.dove]);",
+   "sostituisci": "  for (const c of r.ciechi) perPerche.set(`${c.dove}: ${c.perche}`, [c.dove]);",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "il giro torna a stampare l'uscita del guardiano con tail -6: con un'uscita lunga la riga del verdetto sparisce dal log",
+   "file": "cervello/giro.sh",
+   "cerca": "  printf '%s\\n' \"$_glossario_out\" | esito_righe 6",
+   "sostituisci": "  printf '%s\\n' \"$_glossario_out\" | tail -6",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "da cieco il vincolo torna sotto il titolo HARD di dominio, che dice il contrario del testo",
+   "file": "cervello/giro.sh",
+   "cerca": "    GLOSSARIO_KPI_TITOLO=\"GUARDIANO CIECO — AR-962: non ha misurato, NON è un numero senza definizione\"",
+   "sostituisci": "    GLOSSARIO_KPI_TITOLO=\"HARD — AR-962: un numero senza definizione condivisa\"",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "difetto": "AR-962",
+   "nome": "process.loadEnvFile torna aperto: una vetrina legge cervello/vps/.env senza passare da fs, e le chiavi del server entrano nel guardiano",
+   "file": "cervello/glossario-kpi-check.mjs",
+   "cerca": "  [\"leggere un file di chiavi\", process, [\"loadEnvFile\"]],",
+   "sostituisci": "  [\"leggere un file di chiavi\", process, []],",
+   "test": "cervello/test/glossario-kpi.test.mjs"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-1183",
+   "file": "cervello/riparazione-sessioni.mjs",
+   "nome": "conti torna a tacere su una PR unita con squash (testa fuori da main, campo «unita» assente)",
+   "cerca": "    else if (!u && pr.unita === undefined && !registroScrittoPerOnda(elenco, nomi)) attese.push(",
+   "sostituisci": "    else if (false) attese.push(",
+   "test": "cervello/test/conti-che-arrivano-in-tempo.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",
@@ -11920,5 +12528,6 @@
     "test": "cervello/test/una-mutazione-che-nessuno-puo-eseguire.test.mjs"
    }
   ]
- }
+ },
+ "_tolte_2026_11_15_ar962": "Una mutazione di AR-966 tolta il 15/11/2026 alle 04:20, nel lavoro di AR-962. Spostava di un secolo la data dell’attesa del glossario dei KPI nella lista dei documenti di governo, ed era legata apposta all’attesa SENZA guardiano: quando il controllo nasce, il pezzo sparisce e il banco lo dice. Il controllo è nato, la voce del glossario ha il suo guardiano e l’attesa non c’è più: nella lista non resta nessun’altra attesa con una data. La difesa di AR-966 resta nelle mutazioni sul modulo delle scadenze del cancello, che la prova c9 morde su dati finti."
 }

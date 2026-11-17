@@ -93,8 +93,8 @@ frattempo da altri. Quindi:
 4. **Il database di prova è tuo.** Ogni esecutore usa un database locale con un nome suo (per esempio
    `mycity_k01_r03`), creato da zero dalle migrazioni o copiato da un modello pulito. Mai un database che un altro
    sta usando: dà prove false.
-5. **Al massimo 12 subagenti in tutto** (regola del 13/11), anche in ultracode. Le due lenti su soldi, dati e
-   permessi restano, perché sono il controllo. Oltre il tetto ti fermi e lo scrivi alla regista.
+5. **Al massimo 4 subagenti in tutto** (regole del 15/11; prima erano 12), e **mai lo strumento Workflow**. Le due
+   lenti su soldi, dati e permessi restano, perché sono il controllo. Oltre il tetto ti fermi e lo scrivi alla regista.
 6. **Il verify completo** lo rilancia chi consegna, legato allo SHA (`verifica.testa` nel referto). Tu rilanci le
    prove delle voci e la prova rimessa. Il verify completo lo rifai solo se `verifica.testa` manca, o non è la testa:
    `applica` non lascia chiudere un referto così, ma se ti arriva il paracadute sei tu.
@@ -166,6 +166,13 @@ solo un altro sguardo.
 
 I verdetti: `regge | parziale | non_regge | rompe_altro`. Ogni voce `riparato`, `parziale` o
 `gia_riparato_prima` dei tuoi riparatori deve comparire. Salva e spingi ogni 20 voci, con `"finita": false`.
+
+**Il collaudo parziale** (officina minima del 15/11). Se guardi solo alcune voci, per esempio le 11 rimaste
+aperte dopo un altro collaudo, scrivi `"parziale": true`. Allora `valida-collaudo` guarda solo le voci che
+elenchi, e non serve ricopiare le altre da K02 o K07. Le voci che non elenchi restano «nessun collaudo» e non
+si chiudono da sole. Un collaudo parziale non dichiara un campione accettato. Il giudizio pieno si guarda
+sull'unione dei collaudi finiti: un tuo pieno «regge» chiude la voce anche se un altro collaudo non l'aveva
+giudicata. Se due pieni non sono d'accordo, vince il peggiore. I gravi restano come sono.
 
 ### Prima di dire «finito»
 

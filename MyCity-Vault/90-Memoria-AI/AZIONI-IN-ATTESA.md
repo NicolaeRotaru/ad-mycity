@@ -31,6 +31,279 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🟡 #258 — Rispondi alla fermata dell'onda 3: due modifiche piccole e un difetto dei pagamenti · ⏳ accodata 2026-11-16 08:50
+
+**In parole semplici.** Il primo pezzo dell'onda 3 è finito: tutti i riparatori e i collaudatori hanno consegnato. Nel sito entrano R26 per intero e 4 voci di R14, con le prove del sito verdi, 10.445 su 10.445. Un ultimo controllore sta ricontrollando il tutto. Restano due scelte tue, più due cose da sapere.
+Esempio vero: K11 dice che tre riparazioni vecchie reggono (R04-021, R07-021, R07-022). Restano aperte lo stesso, perché il programma che chiude le voci sceglie sempre il giudizio più severo, anche se è più vecchio.
+
+**Cosa cambia per te.** Con la «a» della domanda 1 si chiudono 5 voci in più per circa 25 $. Con la domanda 2 decidi come chiudere un difetto grave dei pagamenti, che due giri di riparazione non hanno chiuso.
+
+**Cosa devi fare tu.** Rispondi all'AD della chat 5 con due lettere, per esempio «1a, 2a».
+- 1, due modifiche piccole alla macchina, costruite insieme in una sessione corta e collaudate da un'altra:
+  - a: le faccio tutte e due. La prima: la guardia accetta una tua eccezione firmata quando un messaggio cita il codice dell'onda 2 (è il falso allarme di R27). La seconda: fra due giudizi pieni vince il più recente, e a parità di data il più severo. Entrano R27-013 e R27-017, e si chiudono le tre voci di K11. Circa 25 $ in tutto: 15 $ per le due modifiche e il loro collaudo, il resto per togliere da R27 le 4 riparazioni rotte, sistemare una prova comune e ripassare il controllore. Lo consiglio.
+  - b: solo la guardia, quindi solo le 2 voci di R27. Circa 20 $, col lavoro su R27 e il controllore.
+  - c: nessuna delle due. Le 5 voci aspettano il resto dell'onda.
+- 2, il difetto grave R25-001. In un carrello pagato fra due negozi, il negozio che ha consegnato può restare senza bonifico per qualche secondo:
+  - a: subito un avviso agli amministratori, e il controllo nel database nell'onda dopo giovedì. Lo consiglio.
+  - b: solo l'avviso agli amministratori.
+  - c: solo il controllo nel database, nell'onda dopo giovedì.
+
+Da sapere, senza risposta:
+- La modifica 501 al database non si applica: va corretta prima. Oggi segna come chiusa la giornata del fattorino anche con ordini ancora in attesa. La 500 (le foto dei resi in un archivio privato) e le foto già caricate dal 24/5 al 17/8 arrivano con la richiesta di unione del sito, dopo il controllore.
+- Il pezzo è costato circa 167 $ su 215 e chiude 7 voci nuove: circa 24 $ a voce, come l'onda 2. Il controllore finale è verde (0 difetti nuovi), e la richiesta di unione del sito è mycity#292, in bozza: la unisci tu quando vuoi il lavoro sul sito. I collaudatori hanno sforato tutti e tre: K11 19 $ su 18, K12 2,6 $ a voce su 1,5, K13 23,15 $ su 18. Prima del resto dell'onda ti porto un piano più economico, coi costi misurati qui.
+
+**Cosa non ho verificato.** I numeri sono della regista: 204 voci chiuse in tutta la campagna, 7 da questa onda. Le stime di 25 $ e 20 $ sono mie, sul costo della correzione di AR-1184 e del controllore C03 (5,21 $).
+
+Cosa cambia: con «1a» si chiudono 5 voci in più del sito; con «2a» il negozio che ha consegnato non resta senza soldi senza che un amministratore lo sappia.
+Se va bene: una sessione corta costruisce le due modifiche, una collaudatrice prova a romperle, tu le unisci; la regista chiude le 5 voci e prepara l'avviso.
+
+Dettagli: fermata della regia O3 quattro del 16/11 alle 08:40, in `consegne/riparazioni/2026-11-12-sito-tutto/REGIA-ONDA-3.md`. Guardia: `cervello/riparazione-sessioni.mjs`, riga 1187. Sito: ramo `claude/sito-onda-3` su `cb8effaa`. R27 su `claude/sito-onda-3-k13` (`d418e80`): reggono 013 e 017 (più una già riparata), fuori 005, 016, 018, 019 che «rompono altro».
+
+### 🟡 #257 — Fai entrare nel sito le 6 riparazioni di R27, bloccate da un falso allarme · ⏳ accodata 2026-11-16 02:00
+
+**Stato:** ↪️ ASSORBITA 2026-11-16 08:50 nella carta 258, domanda 1. Il collaudo di R27 ha cambiato i numeri: delle sue riparazioni ne reggono 3, e solo 2 sono chiusure nuove.
+
+**In parole semplici.** Prima che il lavoro di un riparatore entri nel sito, un programma lo controlla: si chiama guardia. Uno dei suoi controlli guarda i messaggi dei salvataggi. Se un messaggio nomina una voce che non è di quel riparatore, la guardia diventa rossa e il lavoro non entra.
+Esempio vero: R27 ha riparato 6 voci e ne ha portate a metà 4. Il suo revisore dice che reggono, anche quelle sui soldi. Ma in due salvataggi R27 ha citato il codice che la stessa voce aveva nell'onda 2. La guardia non lo riconosce, diventa rossa, e il lavoro resta fuori.
+
+**Cosa cambia per te.** Oggi quel controllo non ammette eccezioni. Altri controlli della guardia, invece, accettano un'eccezione firmata da te su un salvataggio preciso. La modifica fa lo stesso qui: il controllo resta acceso, e su quei due salvataggi vale la tua firma, scritta e visibile.
+
+**Cosa devi fare tu.** Rispondi all'AD della chat 5 con una lettera:
+- a: sì alla modifica piccola della guardia e alla tua eccezione sui due salvataggi di R27. Lo consiglio. Costa circa 6 $ per costruirla e 5 $ per il collaudo, dentro i 215 $ del pezzo.
+- b: R27 riscrive i due messaggi e risalva il ramo da capo. Costa poco, ma cambia i salvataggi che il collaudatore K13 sta giudicando proprio adesso: il suo giudizio andrebbe rifatto.
+- c: R27 resta fuori da questo pezzo e va nel resto dell'onda dopo giovedì.
+
+**Cosa non ho verificato.** Il falso allarme me l'ha descritto la regista. Io ho letto la riga della guardia che lo fa scattare, ma non ho visto i due messaggi di R27.
+
+Cosa cambia: con la «a», le 6 riparazioni di R27 possono entrare nel sito in questo pezzo, invece di aspettare dopo giovedì.
+Se va bene: una sessione corta costruisce la modifica, una collaudatrice prova a romperla, tu la unisci, e la regista scrive la tua eccezione nel piano prima di unire R27.
+
+Dettagli: il controllo è alla riga 1187 di `cervello/riparazione-sessioni.mjs`. La modifica lo fa passare da `ctx.deroga(...)`. Poi aggiunge la regola alla lista `REGOLE_PER_COMMIT`, alla riga 858. È lo stesso schema di `id_nel_commit`, righe 1181-1185. Lo stato della regia è in `consegne/riparazioni/2026-11-12-sito-tutto/REGIA-ONDA-3.md`, blocco «Stato al passaggio (16/11 alle 01:55)».
+
+### 🟡 #256 — Scegli quanta onda 3 del sito partire prima di giovedì · ⏳ accodata 2026-11-15 11:35
+
+**Stato:** ✅ RISPOSTA 2026-11-15 23:35: «1 = 12%, 2 fatto, 3a, 4a, 5a». Parte il primo pezzo. Ultracode resta spento su tutti i riparatori. La regola del collaudo va nel piano. Il freno però alle 23:37 non c'era in nessuno dei due depositi: l'AD l'ha chiesto di nuovo.
+
+**In parole semplici.** Hai detto «Parti con l'ondata 3». L'onda intera conta 261 voci da riparare e, coi costi veri dell'onda 2, vale circa 2.030 $. Fino a giovedì 19/11 alle 10:00 restano circa 215 $ su 350 $, il tetto firmato stamattina. Quindi propongo un primo pezzo misurato.
+
+**Cosa cambia per te.** Esempio: tre riparatori da 22 voci l'uno e un collaudo delle riparazioni mai giudicate, circa 195 $ in tutto, cioè circa il 6% della settimana. Si chiudono circa 30-45 difetti entro giovedì, e le altre circa 195 voci partono dopo le 10:00 di giovedì col limite nuovo.
+
+**Cosa devi fare tu.** Rispondi all'AD della chat «Ondata 3» con cinque risposte, per esempio «1 = 12%, 2 fatto, 3a, 4a, 5a»:
+- 1: la percentuale del limite settimanale che vedi nell'app;
+- 2: il freno sugli agenti incollato in due posti, nelle impostazioni della macchina e in quelle del sito;
+- 3, ultracode sui due riparatori che hanno un grave. a: spento, lo consiglio. b: acceso.
+- 4, quanta onda. a: il primo pezzo fino a giovedì, lo consiglio. b: solo il collaudo delle riparate. c: l'onda intera, alzando il tetto.
+- 5, la regola del collaudo senza campione. a: scritta nel piano, così la leggono tutti e tre i programmi, lo consiglio. b: la regola resta in un programma solo, e il manuale lo dice.
+
+**Cosa non ho verificato.** Il margine di 215 $ somma le spese dette dalle sessioni, non quello che vedi nell'app. La divisione l'ho provata solo su una copia. Il freno non l'ho provato su una sessione vera: quasi certamente non vede le sessioni aperte con ultracode.
+
+Cosa cambia: entro giovedì si chiudono circa 30-45 difetti del sito, con una spesa che ha un tetto per ogni sessione.
+Se va bene: giovedì dopo le 10:00 parte il resto dell'onda 3, col preventivo fatto sui costi misurati in questo pezzo.
+
+Dettagli: `consegne/riparazioni/2026-11-12-sito-tutto/FERMATA-1-ONDA-3.md` (richiesta di unione ad-mycity#968).
+
+### 🟡 #255 — Scegli se il passo finale delle riparazioni deve tornare a controllare la regola dei 40 voci · ⏳ accodata 2026-11-15 11:15
+
+**Stato:** ✅ SUPERATA 2026-11-16 01:00. Hai scelto la «a» nella carta 256 (risposta 5a), e la regola adesso la leggono anche applica e pronte: hai unito la #973 alle 00:51.
+
+Il collaudo corto della correzione dell'officina dice che regge. Resta un rischio. La regola «niente controllo a campione sotto le 40 riparazioni» adesso la guarda solo il controllo del singolo collaudo, non più il passo finale che chiude le voci.
+
+Esempio vero: il collaudo K08 sul lotto R16, che ha 21 voci, prende 6 rossi al primo controllo. Se la regista lo salta, il passo finale chiude lo stesso tre voci di R16. Oggi la skill di riparazione promette che il passo finale rilancia tutti i controlli: per questa regola non è più vero.
+
+Scegli una strada. (a) Un campo nel piano dice da quale onda vale la regola: il passo finale la guarda nelle campagne nuove e la salta in quella del 12/11. È una sessione corta. (b) Si lascia com'è e si corregge solo la frase della skill, così dice la verità.
+
+Di quanto fidarsi: non ho una campagna nuova vera: il caso l'ho ricreato trattando K08 come se fosse nuovo. Non ho fatto prove sui rami veri. Il referto è in `consegne/officina-minima/ricollaudo-2026-11-15.md`, PR #966.
+
+Cosa cambia: con la strada (a), una dimenticanza non chiude più una riparazione a campione. Con la strada (b) resta una rete sola, ma scritta.
+Se va bene: l'AD apre la sessione corta, e il suo collaudo rilancia proprio il caso di K08 su R16.
+
+### 🟡 #254 — Aspetta a unire la richiesta dell'officina: il collaudo l'ha bocciata · ⏳ accodata 2026-11-15 09:40
+
+**✅ Superata il 15/11 alle 10:23.** Nicola ha unito la #962. Dentro c'era già la correzione del bloccante (commit 41e041c). Manca il collaudo corto della correzione: lo apre l'AD.
+
+**Aggiornata il 15/11 alle 11:20.** Il ricollaudo dice che la correzione regge, con una riserva. La scelta su quella riserva è nella carta #255.
+
+**In parole semplici.** L'officina ha costruito i programmi che fanno rispettare le regole sui costi delle riparazioni. Il collaudo indipendente li ha bocciati per un difetto bloccante. La regola «niente controllo a campione sotto le 40 riparazioni» vale anche sui collaudi fatti prima che esistesse.
+
+**Cosa cambia per te.** Esempio: se unissi adesso la richiesta dell'officina, 7 riparazioni già chiuse del 12/11 tornerebbero aperte. E le 7 promosse dal collaudo K10 non entrerebbero nel registro.
+
+**Cosa devi fare tu.** Niente, per ora: non unire la #962. Una sessione corta la sta correggendo, con un tetto di 12 $. Poi un collaudo corto ricontrolla solo il pezzo cambiato, e questa carta diventa «unisci».
+
+**Cosa non ho verificato.** Del referto ho letto la parte iniziale e l'elenco dei difetti. Le prove non le ho rifatte io. Il referto è in `consegne/officina-minima/collaudo-2026-11-15.md`.
+
+Cosa cambia: la richiesta dell'officina resta ferma finché la correzione non passa il collaudo.
+Se va bene: entro oggi la richiesta torna unibile, e una sessione corta scrive le 7 chiusure di K10 nel registro.
+### 🟡 #253 — Firma l'eccezione per il pulsante di emergenza del fattorino · ⏳ accodata 2026-11-14 17:16
+
+**Numero cambiato il 15/11:** fino a stamattina era la #245. La tua risposta «245 sì», del 15/11 alle 00:32, vale per questa carta. Il numero 245 è rimasto alla carta dell'AD nata alle 06:23: le due carte erano nate su due rami diversi con lo stesso numero, e unendo i rami il numero sarebbe valso due carte.
+
+**Stato:** ✅ FATTO 2026-11-15 00:32. Hai scritto «245 sì»: l'eccezione è firmata. La riparazione rientra con le voci gravi.
+
+**In parole semplici.** Il pulsante di emergenza del fattorino promette «stiamo chiamando il 112», poi apre solo il tastierino. La riparazione è pronta e provata. È stata tolta solo perché una prova comune a tutti controlla ancora la frase sbagliata.
+
+**Cosa cambia per te.** Esempio: un fattorino in difficoltà oggi legge che il 112 è chiamato, e non è vero. Con l'eccezione, il testo dice la verità, e una delle 20 voci gravi dell'onda 2 si può chiudere.
+
+**Cosa devi fare tu.** Scrivi alla regista «sì all'eccezione del pulsante di emergenza».
+
+**Cosa non ho verificato.** La riparazione non l'ho riprovata io oggi: si riprova nel controllo dopo la riunione dei rami.
+
+Cosa cambia: la prova comune si aggiorna alla frase giusta e la riparazione rientra.
+Se va bene: la voce entra nel giro allargato o nel controllo, e si chiude se regge.
+
+### 🟡 #252 — Scegli quanto fare del giro allargato dell'onda 2, perché intero sfora il tetto · ⏳ accodata 2026-11-14 17:16
+
+**Numero cambiato il 15/11:** fino a stamattina era la #244. La tua risposta «244 a», del 15/11 alle 00:32, vale per questa carta. Il perché del cambio è scritto nella carta 253.
+
+**Stato:** ✅ FATTO 2026-11-15 00:58. Hai scelto la «a». Il preventivo è la carta 248.
+
+**In parole semplici.** Il giro allargato riprende 84 voci rimaste a metà o ferme per il file di un'altra sessione. Al ritmo vero dell'onda 2, circa 5,66 $ a voce, costerebbe circa 475 $. Prima di arrivare al tetto di 1.650 $ ne restano circa 185.
+
+**Cosa cambia per te.** Fra le 84 ci sono 6 voci gravi, fra cui il bonifico del lunedì e il pulsante di emergenza del fattorino. Esempio: fare solo quelle 6 costa una frazione del totale e tocca i difetti che pesano di più.
+
+**Cosa devi fare tu.** Scrivi alla regista una lettera. «a»: solo le 6 gravi, con un preventivo vero prima di partire (la regista consiglia questa). «b»: tutte le 84, alzando il tetto. «c»: niente adesso, tutto all'onda 3.
+
+**Cosa non ho verificato.** I 475 $ sono una stima sul costo medio per voce dell'onda 2, non un preventivo voce per voce. Il resoconto intero dell'onda 2 sta in `consegne/riparazioni/2026-11-12-sito-tutto/RESOCONTO-ONDA-2.md`.
+
+Cosa cambia: con la «a» le gravi possono chiudersi in questa onda; con la «c» aspettano l'onda 3.
+Se va bene: la regista prepara il preventivo delle 6 gravi e te lo porta prima di aprire le sessioni.
+
+### 🟡 #251 — Dai il sì per mettere il lavoro dell'onda 2 nella richiesta di unione del sito · ⏳ accodata 2026-11-14 17:16
+
+**Numero cambiato il 15/11:** fino a stamattina era la #243. La tua risposta «ok 243», del 15/11 alle 00:32, vale per questa carta.
+
+**Stato:** ✅ FATTO 2026-11-15 00:54. Hai scritto «ok 243». I nove rami sono nella richiesta di unione del sito, senza le tre correzioni difettose. Le prove automatiche sono tutte verdi, e la richiesta si può unire. Resta in bozza: unirla è tua.
+
+**In parole semplici.** Le sessioni dell'onda 2 hanno riparato ognuna su una copia separata del sito. La regista le mette insieme nella richiesta di unione del sito, che è già aperta in bozza. Sul sito vero non va niente: online va solo quando unisci tu.
+
+**Cosa cambia per te.** Esempio: l'avviso «senza rete» col tasto Riprova, riparato da una sessione, entra nella richiesta insieme agli altri lavori. Con il sì, nella richiesta entrano le 4 voci chiuse dal giro di correzione. Restano fuori tre correzioni che rompono un'altra cosa: il rimborso diviso, gli allergeni, la bacheca del fattorino.
+
+**Cosa devi fare tu.** Scrivi alla regista dell'onda 2 «sì, carica».
+
+**Cosa non ho verificato.** La prova di unione fra i rami è verde. La riunione con la copia unica del sito si prova dopo il sì, prima di caricare.
+
+Cosa cambia: la richiesta di unione del sito si aggiorna con il lavoro del 14/11; il sito vero resta com'è.
+Se va bene: una sessione nuova controlla solo le modifiche nuove, con un tetto di 20 $.
+
+### 🟡 #250 — Rivedi con l'AD le decisioni ancora aperte dell'onda 2 del sito · ⏳ accodata 2026-11-15 07:10
+
+**In parole semplici.** La regista che ha guidato l'onda 2 del sito ha lasciato un resoconto con 18 decisioni per te. Alcune le hai già prese. Le altre aspettano ancora.
+
+**Cosa cambia per te.** Ti faccio due esempi dal resoconto. La decisione 7, la deroga su R17, l'hai firmata il 15/11 verso le 06:05 ed è già applicata. La decisione 8 invece è ancora aperta: le modifiche al database dell'onda 2 si firmano una per una, e quella sugli allergeni non va firmata così.
+
+**Cosa devi fare tu.** Niente di nuovo da solo. Chiedi all'AD «cosa resta dell'onda 2»: lui spunta le decisioni già prese e ti porta solo quelle aperte, una alla volta.
+
+**Cosa non ho verificato.** Non so quali delle altre 17 decisioni siano già chiuse: le tue risposte delle 00:32 del 15/11 (carte 246, 247, 251, 252 e 253: fino al 15/11 erano le 243-247) non le ho confrontate una per una con la lista.
+
+Cosa cambia: le decisioni rimaste aperte dell'onda 2 non si perdono in un file che nessuno rilegge.
+Se va bene: l'AD aggiorna la lista e accoda solo quello che serve davvero, prima dell'onda 3.
+
+- **Colore:** 🟡 (decisioni da rivedere, niente parte senza di te)
+- **Reparto:** chief-of-staff
+- **Dettagli tecnici:** `consegne/riparazioni/2026-11-12-sito-tutto/RESOCONTO-ONDA-2.md`, sezione «Le decisioni che aspettano Nicola». Il numero 250 è il primo libero sopra la #249 del ramo `claude/magical-hamilton-xouwr8`.
+
+### 🔴 #249 — Firma le migrazioni e l'unione per mettere online il sito con l'onda 2 · ⏳ accodata 2026-11-15 01:47
+
+**Stato:** ✅ FATTO 2026-11-15 03:10. Hai firmato alle 02:45. Le 11 migrazioni sono passate dalle 02:45 alle 03:06, una alla volta. L'unione è delle 03:07, e alle 03:10 il sito era online.
+
+**In parole semplici.** Il lavoro dell'onda 2 è pronto nella richiesta di unione del sito. Per metterlo online servono le tue firme su tre cose: le 11 migrazioni del database vero, le due deroghe, l'unione nel ramo principale.
+
+**Cosa cambia per te.** Le migrazioni non toccano nessuna riga dei dati di oggi: le ho contate una per una, senza scrivere niente. Vanno applicate prima dell'unione. Esempio: il salvataggio di un prodotto, nel codice nuovo, usa una funzione che nasce con la migrazione 405.
+
+**Cosa devi fare tu.** Scrivi alla regista «firmo le 11 migrazioni, le due deroghe e l'unione». La regista applica le migrazioni una alla volta e si ferma al primo errore. Poi unisce, e il sito si pubblica da solo.
+
+**Cosa non ho verificato.** Nessuna migrazione è ancora passata sul database vero: le ha provate solo un database di prova. Il sito online lo controllo dopo l'unione.
+
+Cosa cambia: con le firme, il sito vero riceve le 78 voci chiuse dell'onda 2 nel giro di un'ora.
+Se va bene: la regista controlla online la cassa, il salvataggio di un prodotto e un rimborso, e te lo scrive.
+
+### 🟡 #248 — Dai il via al giro sulle 6 voci gravi dell'onda 2, per circa 70 $ · ⏳ accodata 2026-11-15 00:58
+
+**In parole semplici.** Hai scelto di riprendere solo le 6 voci gravi (carta 252 «a», che allora era la 244). Ecco il preventivo. Le voci si dividono in tre gruppi: due sui soldi, tre sulla vetrina e sul fattorino, una falla di sicurezza riservata.
+
+**Cosa cambia per te.** I due riparatori lavorano sul codice già riunito, quindi nessun file è di un'altra sessione. Esempio: il bonifico del lunedì e la pagina Guadagni stanno nello stesso file, e li ripara la stessa sessione.
+- Soldi: il bonifico del lunedì, con la tua scelta «a» della carta 246, e la pagina Guadagni coi soli contanti. Tetto 20 $.
+- Vetrina e fattorino: le foto delle categorie da cambiare dal pannello e le categorie vuote in home e nel piè di pagina. Poi il pulsante di emergenza, con la tua eccezione della carta 253 (allora 245). Tetto 18 $.
+- Un collaudatore per tutte e 6. Tetto 20 $.
+- La falla riservata va su una strada a parte, con i dettagli solo in chat. Tetto 12 $.
+
+**Cosa devi fare tu.** Scrivi alla regista «ok 248». Ogni sessione nuova chiede il tuo clic su «Create Session»: sono quattro.
+
+**Cosa non ho verificato.** I tetti vengono dal costo misurato del giro di correzione: 22,31 $ per 4 voci sui soldi, 14,23 $ per 2 voci della vetrina. Le sessioni di oggi hanno sforato in media del 20-50%. Il conto vero può arrivare a circa 100 $, e ci sta: prima del tetto di 1.650 $ ne restano circa 150, già tolti i 35 $ del controllore.
+
+Cosa cambia: con il via, le 6 voci gravi possono chiudersi in questa onda; senza, vanno all'onda 3.
+Se va bene: la regista divide le voci, apre le quattro sessioni e le sorveglia ogni 30 minuti.
+
+### 🟡 #247 — Fai finire il controllo dei 90 file di codice che nessuno ha guardato · ⏳ accodata 2026-11-14 17:16
+
+**Stato:** ✅ FATTO 2026-11-15 01:34. Il controllore ha guardato i 90 file e le modifiche nuove: nessuna voce rossa, nessun file rimasto senza controllo, 12,78 $.
+
+**In parole semplici.** Il controllore finale dell'onda 2 si è fermato al suo tetto. Ha guardato 80 file di codice su 170: gli altri 90 non li ha visti nessuno.
+
+**Cosa cambia per te.** Fra i 90 ci sono proprio i file del pulsante di emergenza e della pagina «non trovata», due voci aperte. Un errore lì entrerebbe nel sito senza che nessuno l'abbia visto.
+
+**Cosa devi fare tu.** Scrivi alla regista «sì, controlla i 90 file» (tetto 20 $), oppure «dopo»: li guarda il controllore di fine campagna.
+
+**Cosa non ho verificato.** I 20 $ sono una stima sul costo del primo controllore.
+
+Cosa cambia: con il sì, ogni file dell'onda 2 avrà avuto almeno un controllo prima dell'unione.
+Se va bene: una sessione nuova parte col tuo clic su «Create Session».
+
+### 🔴 #246 — Rispondi su cosa fare quando un reso respinto arriva dopo il bonifico del lunedì · ⏳ accodata 2026-11-14 17:16
+
+**Stato:** ✅ FATTO 2026-11-15 00:32. Hai scelto la «a»: l'ordine fermo si segna come già pagato.
+
+**In parole semplici.** Il lunedì il negozio riceve un bonifico. Se su un ordine si apre un reso dopo il bonifico, e poi il reso viene respinto, quell'ordine chiede di essere pagato una seconda volta.
+
+**Cosa cambia per te.** Esempio: versi 36 €, su un ordine si apre un reso, segni 18 €. Il reso viene respinto: il lunedì dopo, quell'ordine chiede di nuovo 18 €. Sono soldi pagati due volte.
+
+**Cosa devi fare tu.** Rispondi con «a» se l'ordine fermo va segnato come già pagato, e non si paga due volte (la regista consiglia questa). Oppure «b»: si lascia com'è e la voce resta a metà.
+
+**Cosa non ho verificato.** Se sia già successo davvero: il database vero non lo guardo.
+
+Cosa cambia: con la «a» il bonifico del lunedì non paga mai due volte lo stesso ordine.
+Se va bene: la riparazione entra nel giro allargato delle voci gravi.
+
+### 🔴 #245 — Unisci la richiesta della macchina col piano per chiudere più difetti · ⏳ accodata 2026-11-15 06:23
+
+**In parole semplici.** La richiesta contiene il piano delle onde, le 5 lezioni e le regole nuove che hai firmato stamattina. Tocca solo testi, dati e due date di scadenza: nessun programma nuovo.
+
+**Cosa cambia per te.** Esempio: dopo l'unione, ogni sessione nuova che parte dal ramo principale trova già le regole nuove. Il tetto di 6 agenti per riparatore e ultracode solo sui difetti gravi valgono anche per lei.
+
+**Cosa devi fare tu.** Quando i controlli automatici sono verdi, unisci la richiesta ad-mycity#958 con «Create a merge commit». Non tocca il Pannello, quindi non pubblica niente.
+
+**Cosa non ho verificato.** La richiesta della macchina #956 tocca le stesse due righe sulla scadenza del glossario dei numeri. Se entra prima quella, va tenuta la sua versione.
+
+Cosa cambia: le regole firmate stamattina diventano quelle di tutte le sessioni, non solo di questa.
+Se va bene: la regista della fase 1 e l'officina lavorano già con queste regole, senza leggerle da un ramo a parte.
+
+### 🟡 #244 — Scegli cosa fare col controllo della macchina bocciato due volte · ⏳ accodata 2026-11-15 06:23
+
+**✅ Fatto il 15/11 alle 07:24.** Nicola ha scritto «ok 244 b». Il taglio della #956 lo fa una sessione corta aperta dall'AD.
+
+**In parole semplici.** Stanotte la regista dell'onda 2 ha costruito due controlli per la macchina. Uno, quello del glossario dei numeri, ha retto al secondo collaudo. L'altro, il sorvegliante che distingue i programmi morti dai freni staccati, è stato bocciato due volte. Ha ancora un difetto grave: dei programmi morti nelle sottocartelle danno allarmi gravi falsi.
+
+**Cosa cambia per te.** Esempio: finché non scegli, la richiesta della macchina #956 non si può unire. E con lei resta fuori anche il controllo del glossario, che invece funziona.
+
+**Cosa devi fare tu.** Al terzo rosso la scelta è tua. «a» semplifica: si tiene solo la parte che regge e si toglie quella delle sottocartelle. «b» restringi: il sorvegliante esce dalla #956, e il glossario entra da solo. «c» un terzo giro. La correzione interrotta è già scritta, ma non è collaudata.
+
+**Cosa non ho verificato.** Quanto costa la «c»: il secondo giro si è fermato a metà per il tetto dell'onda 2.
+
+Cosa cambia: con la «b» il controllo del glossario entra subito, e il sorvegliante torna nel cantiere.
+Se va bene: la regista della fase 1 o l'AD preparano la versione scelta, e la #956 diventa unibile.
+
+### 🟡 #243 — Leggi nell'app quanto del limite settimanale è già usato · ⏳ accodata 2026-11-15 06:23
+
+**In parole semplici.** Tutto il piano per chiudere più difetti si appoggia a un numero: quanto del limite di questa settimana è già speso. Oggi lo stimo da una tua frase del 12/11, che vale solo come tetto.
+
+**Cosa cambia per te.** Esempio: se l'app dice 60%, fino a giovedì 19/11 alle 10:00 restano circa 1.200 $ e il piano può fare di più. Se dice 85%, ne restano circa 450 $ e mi fermo prima.
+
+**Cosa devi fare tu.** Apri l'app di Claude, Impostazioni, Utilizzo. Scrivimi la percentuale del limite settimanale, adesso e di nuovo martedì sera.
+
+**Cosa non ho verificato.** Da qui non vedo la percentuale: vedo solo se il sistema è in allarme. Stanotte alle 05:55 era «consentito», senza spese extra.
+
+Cosa cambia: il tetto fino a giovedì passa dalla stima prudente di 350 $ al numero vero.
+Se va bene: ricalcolo il preventivo delle fasi e lo scrivo nel piano.
+
 ### 🟡 #242 — Decidi se un riparatore può spendere di più per sbloccare la cassa del centro · ⏳ accodata 2026-11-13 07:22
 
 **In parole semplici.** Nella seconda onda ogni riparatore ha un tetto di 35 $ di listino. R13, il riparatore che lavora su cassa, consegne e rimborsi, arriva al tetto dopo il terzo lotto. Restano fuori 22 voci, fra cui il difetto più grave dell'onda: chi abita in via Roma o in via Cavour, in pieno centro, si sente dire «troppo lontano» alla cassa, e l'ordine non parte.
@@ -617,6 +890,7 @@ negozio — in entrambi i casi smetto di riproporti la stessa domanda ogni giorn
 ---
 
 <!-- cancello-del-sito-e-campo-prova -->
+
 ### 🟡 #186 — Decidi se costruire il cancello unico del sito, che oggi non esiste · ⏳ accodata 2026-08-28 21:40
 
 **In parole semplici.** Ho scritto il metodo per chiudere tanti difetti del sito in una volta sola.
@@ -804,6 +1078,7 @@ rotte apposta viene dal cancello, che lo stampa a ogni consegna — non l'ho ric
 ---
 
 <!-- muro-negozi-due-sql-in-ordine -->
+
 ### 🔴 #168 — Riaccendi il server che fa lavorare la macchina: tace dal 25 settembre · ⏳ accodata 2026-08-22 20:25 · riscritta 2026-10-16 18:30
 
 **In parole semplici.** Il server è il computer affittato da Hetzner che fa lavorare la macchina da sola. Non prende lavori dal
@@ -1257,7 +1532,7 @@ Solo con questo, i 2 pallini della Cabina diventano verdi (o rossi veri, se un g
 
 ---
 
-### 🟡 #42 — Togli alla macchina il permesso di eseguire qualunque programma si scriva da sola · ⏳ accodata 2026-07-29 18:50 · aggiornata 2026-11-07 10:04
+### 🟡 #42 — Togli alla macchina il permesso di eseguire qualunque programma si scriva da sola · ⏳ accodata 2026-07-29 18:50 · aggiornata 2026-11-15 04:38
 
 **Cosa cambia:** nel foglio dei permessi (`.claude/settings.json`) ci sono due righe col jolly: `node cervello/*.mjs` e `bash cervello/*.sh`. Queste righe non dicono «può lanciare questi programmi». Dicono «può lanciare qualunque programma finisca in quella cartella» — e quella cartella la scrive la macchina stessa. I freni veri (la pausa, la tua firma, il controllo su chi riceve un messaggio) stanno dentro ai singoli programmi. Con il jolly si può arrivare a un programma senza passare dal freno che contiene. Non sto dicendo che sia già successo. Sto dicendo che oggi nessuno lo impedirebbe. **Novità 13/8:** il jolly non è solo un rischio — è anche il motivo per cui `test-cervello.mjs`, `gate-veri.mjs`, `pota-apprendimento.mjs` e altri restano bloccati da un'approvazione che in sessione chat non arriva mai (documentato ~16 volte in [[STATO]] dal 4/8). Applicare questa card li sblocca anche per questo.
 **Se va bene:** sostituisci le due righe col jolly con i due blocchi qui sotto. Poi lanci `node cervello/permessi-check.mjs` e quella segnalazione sparisce. Da lì in avanti, se serve un programma nuovo, aggiungi il permesso a mano. Aggiungere una riga si vede. Il jolly no.
@@ -1320,6 +1595,7 @@ Al posto di `"Bash(node cervello/*.mjs:*)"` — 142 righe:
       "Bash(node cervello/gate-veri.mjs:*)",
       "Bash(node cervello/git-merge.mjs:*)",
       "Bash(node cervello/git-pr.mjs:*)",
+      "Bash(node cervello/glossario-kpi-check.mjs:*)",
       "Bash(node cervello/guardiani-check.mjs:*)",
       "Bash(node cervello/guardiano-capacita.mjs:*)",
       "Bash(node cervello/guardiano-tempo.mjs:*)",

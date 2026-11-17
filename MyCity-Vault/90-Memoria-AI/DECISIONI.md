@@ -6927,3 +6927,95 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Perché:** l'app non ha cartelle vere. Una sessione-cartella è una riga in più nell'elenco, non una in meno.
 - **Cosa cambia:** la regola 12 di `cervello/sessioni-insieme.md` e la skill `riparazione`. Chi apre una sessione la archivia appena il suo lavoro è chiuso, dopo aver guardato che non abbia sessioni vive dentro. Nessuna sessione-cartella. Il ruolo va in testa al titolo, l'onda nell'etichetta (`onda-3-riparatori`).
 - **Fatto subito:** alle 09:17 archiviate le 22 sessioni d'esempio e di prova del 14/11. Costo dei due esempi: circa 1,8 $.
+## 2026-11-15 00:32 — 🟡🔴 Le cinque scelte sull'onda 2 del sito (carte 243-247)
+- **Chi:** Nicola alla regista O2 settima: «ok 243, 244 a, 245 sì, 246 a, 247 sì».
+- **Cosa:** 243, la regista riunisce i rami delle sessioni nella richiesta di unione del sito e la carica, senza le tre correzioni che rompono altro (rimborso diviso, allergeni con la migrazione 426, bacheca del fattorino). 244 «a», il giro allargato si fa solo sulle 6 voci gravi, con un preventivo portato a Nicola prima di aprire le sessioni. 245, sì all'eccezione sulla prova comune che vincolava la frase sbagliata del pulsante di emergenza del fattorino. 246 «a», quando un reso respinto arriva dopo il bonifico del lunedì l'ordine fermo si segna come già pagato. 247, sì al controllo dei 90 file non guardati, tetto 20 $.
+- **Perché:** il resoconto dell'onda 2 (consegne/riparazioni/2026-11-12-sito-tutto/RESOCONTO-ONDA-2.md): 78 difetti chiusi su 259, nessun grave; il giro allargato intero costerebbe circa 475 $ contro circa 185 $ rimasti nel tetto di 1.650 $.
+- **Se va bene:** la richiesta di unione del sito si aggiorna, una sessione nuova controlla le modifiche nuove e i 90 file, e la regista porta a Nicola il preventivo delle 6 gravi.
+
+## 2026-11-15 02:45 — 🔴 La pubblicazione del sito con l'onda 2 (carta 249)
+- **Chi:** Nicola alla regista O2 settima: «firmo le 11 migrazioni, le due deroghe e l'unione».
+- **Cosa:** le 11 migrazioni dell'onda 2 sul database vero, una alla volta, dalle 02:45 alle 03:06: 400, 403, 404, 405, 412, 421, 422, 424, 425, 429, 450. Le due deroghe sulle correzioni tolte col messaggio standard di git (R13-012, R17-005). L'unione della richiesta di unione del sito nel ramo principale alle 03:10 (mycity#290, commit 67666b3f), da cui parte la pubblicazione.
+- **Perché:** il controllo in sola lettura del 15/11 alle 01:47 (consegne/riparazioni/2026-11-12-sito-tutto/FERMATA-PUBBLICAZIONE-ONDA-2.md): nessuna riga di dati cambiata, nessun permesso aperto, il codice di oggi compatibile con le migrazioni nuove.
+- **Esito:** 11 migrazioni su 11 passate e controllate una per una. Un solo legame resta parziale: i punti fedeltà hanno 2 movimenti legati a ordini che non esistono più, e lì il legame vale solo per le righe nuove, come prevede la 424.
+- **Correzione delle 03:16:** l'unione è delle 03:07:29, non delle 03:10. La pubblicazione era pronta alle 03:09:52 (fonte: il commit 67666b3f e la pubblicazione Vercel).
+## 2026-11-15 05:55 — 🟡 Le lezioni delle onde 1 e 2, e il piano per chiudere più difetti dentro il limite
+- **Chi:** Nicola, nella chat «Correzione difetti e limite settimanale»: «dimmi come risolvere il maggior numero di difetti entro il limite settimanale, impara da tutto ciò che è successo e migliorati».
+- **Cosa:** un programma ha costruito il fascicolo delle due onde (`consegne/audit/2026-11-15-lezioni-onde/fatti.json`). Poi una squadra di 8 agenti (workflow `wf_1a083b28-467`, circa 13 $, 1,24 milioni di token senza riletture) ha prodotto tre analisi, tre piani, un giudice e un critico. Il critico ha bocciato i numeri del piano vincitore: 78 chiusure fino a giovedì erano troppo ottimiste, e diventano 35-45 con circa 350 $. Il piano corretto sta in `piano.md`, il lavoro di lunedì in `AVVIO-OFFICINA.md`, i tassi misurati in `misure.json`.
+- **Il metodo cambia (🟡, vale con la firma di Nicola sull'unione):** skill `riparazione`, sezione nuova «Le regole del 15/11», con dieci regole, ognuna marcata col programma che la fa rispettare oppure con «solo testo». `cervello/MANUALE-AD.md` ha tre regole nuove: ㉕ una regola fallita diventa programma o porta «solo testo»; ㉖ il preventivo si fa con le misure e il tetto alzato apre un'onda nuova; ㉗ prima di un lavoro sopra i 100 $ si chiede a Nicola la percentuale vera del limite.
+- **Perché:** l'onda 1 è costata circa 5 $ per voce chiusa, l'onda 2 circa 27 $. Il salto viene da registe e riletture (regia da 58 a 408 $, 12 registe), da ultracode sui minori (da 2,22 a 4,16 $ per voce lavorata) e dal lavoro mai collaudato. Non viene dalla difficoltà delle voci: 92 su 100 erano minori.
+- **Aspetta Nicola:** sette sì o no nella «carta» di `piano.md`. La prima è la percentuale vera del limite letta nell'app.
+
+## 2026-11-15 06:17 — 🟡 Nicola firma il piano delle onde: le 5 lezioni e 6 decisioni su 7
+- **Chi:** Nicola in chat, verso le 06:05: «applica la regola per chiudere più difetti dentro il limite e le 5 lezioni e le 7 decisioni».
+- **Cosa vale da adesso:** deroga sulla guardia di R17 (`bb53b6be`), da scrivere in `piano.json` dalla regista nuova prima di `applica --scrivi`; ultracode spento sulle figlie di soli minori; sì all'hook freno-subagenti (lo incolla Nicola quando è collaudato); i programmi dell'officina si usano dal ramo collaudato; la regista O2 settima finisce il giro su AR-969 e AR-962, scrive il passaggio e si ferma; il tetto non si alza a metà onda.
+- **Messo in pratica:** skill `riparazione` (regole 2, 5 e 6 del 15/11 segnate come firmate; la sezione «Ultra Code Extra» vale solo dove c'è un grave o un tocco a soldi, dati o permessi); `LEGGIMI-riparatore.md` (ultracode solo sulle schede con gravi; tetto 6 subagenti, 8 con un grave, mai Workflow); `LEGGIMI-collaudo.md` (tetto 4, mai Workflow). Messaggio alla regista O2 settima; sessione nuova per l'officina.
+- **Manca:** la decisione 1, cioè la percentuale vera del limite letta in app. Fino ad allora il tetto fino a giovedì 19/11 alle 10:00 resta circa 350 $.
+
+## 2026-11-15 07:16 — 🟡 L'officina minima è costruita, in attesa del collaudo
+- **Chi:** il costruttore, sessione figlia dell'AD, dopo il «via» di Nicola delle 06:05 («applica la regola per chiudere più difetti dentro il limite e le 5 lezioni e le 7 decisioni»).
+- **Cosa:** sei programmi per i costi della riparazione, sul ramo `officina-minima`, scheda AR-1180 nel cantiere: il freno sugli agenti, la sorveglianza muta, le chiusure riviste, le voci pronte per il giro, i conti in tempo e il preventivo dalle misure, il referto con costo e subagenti.
+- **Perché:** nell'onda 2 le regole sui costi erano solo scritte e sono state superate tutte: 27 $ per voce chiusa contro 6,34 $ dell'onda 1.
+- **Se va bene:** un collaudatore in un'altra sessione prova a romperli; poi Nicola unisce la PR e incolla il freno nelle impostazioni (consegne/officina-minima/freno-agenti-da-incollare.md).
+## 2026-11-15 06:55 — 🟡 Fase 0 del piano: il registro del sito segna i 78 difetti chiusi dall'onda 2
+- **Chi:** la regista della fase 1 (`session_015BmpnZcszekRaVbNjepdKd`), aperta dall'AD per la decisione 6 di Nicola. Si è fermata da sola a circa 270 mila token, sopra la soglia di 250 mila.
+- **Cosa:** `applica --git --scrivi` sulle 559 voci delle onde 1 e 2. Ne chiude 193, cioè 115 dell'onda 1 più 78 dell'onda 2. Ci sono anche 10 già riparate, 356 aperte e 164 nati. `chiudi-sito` è passato solo sui frammenti R15-R24: con la #290 del sito risultano 78 chiusure e nessuna orfana. Il programma ora sa leggere la deroga firmata su un solo commit (bb53b6be, guardia di R17): 2 prove nuove, collaudo di un subagente. R18-019 e R20-011 tornano «parziale», perché il loro codice è stato tolto. Tutto è nella richiesta ad-mycity#959, da unire.
+- **Rifiutato dall'AD:** scrivere per un momento R18-019 come «riparato» per far passare il campione di K07. Il campione di R18 resta a 4 voci su 5 finché non lo completa K10.
+- **Dopo:** il collaudatore K10 (`session_015BmpnVoKwLXx38QpasjKQ7`, tetto 15 $) giudica una per una le 11 voci riparate senza giudizio. Erano 11 e non le 17-24 stimate nel piano: le altre avevano già un giudizio.
+
+## 2026-11-15 06:58 — 🟡 Un mio «no» è arrivato tardi, e la regista ha scritto un dato falso per un momento
+- **Cosa è successo:** alle 06:34 ho detto alla regista della fase 1 di NON rimettere R18-019 «riparato» per far passare il campione di K07. Il messaggio le è arrivato alle 06:48, dopo che l'aveva già fatto. Ha lanciato `applica --scrivi` e poi ha riportato la voce a «parziale». Me l'ha detto lei, senza giri di parole.
+- **Il danno:** nessuna chiusura cambiata, perché R18-019 resta aperta per il rompe_altro e il campione di R18 non era accettato comunque. Il dato falso era finito in `decisioni.json` e nella nota del registro: la regista li ha corretti col commit 18b602c sulla #959, e `conti` è verde.
+- **La lezione per me:** un ordine di fermarsi va mandato con priorità «now», e si aspetta la conferma prima di considerarlo arrivato. È la regola delle sessioni che lavorano insieme, e io ho usato «next».
+- **La lezione per la macchina:** il programma si fida dell'esito scritto nel referto, e nessuno lo confronta con quello che il collaudatore ha visto. Registrato nel cantiere come AR-1178, candidato al pezzo 5 dell'officina.
+- **Ancora aperti sulla #959:** la mutazione della deroga per singolo commit in `cervello/mutanti.json` e la seconda lente del collaudo («sa diventare rosso»). La regista era oltre i 250 mila token e li ha passati all'officina.
+
+## 2026-11-15 07:19 — 🟡 Fase 1: il collaudo K10 giudica gli 11 difetti riparati senza giudizio
+- **Chi:** il collaudatore K10 (`session_015BmpnVoKwLXx38QpasjKQ7`), aperto dall'AD. Ha speso 15,36 $ contro un tetto di 15 $, e ha confermato in pochi secondi l'ordine di consegnare.
+- **Esito:** 7 reggono (R07-010, R07-014, R07-017, R15-014, R18-009, R18-018, R18-020); 3 parziali (R04-023, R08-012, R15-012); 1 rompe altro (R15-013, una regressione dei preferiti già sul sito). Ramo `claude/f1-k10`, commit `30d749c`, file `collaudi/K10.json`.
+- **Perché le 7 non sono ancora nel registro:** applica è rosso per il campione di R18 dentro K07, che ha 4 voci guardate su 5. Il programma guarda ogni collaudo da solo, e non vede che K10 ha giudicato in pieno quelle voci. La correzione (giudizio pieno sull'unione dei collaudi, e un collaudo che copre solo una parte delle voci) è passata all'officina dentro il pezzo 3. Dopo, una sessione corta lancia applica --scrivi.
+- **Difetti nuovi:** K10 ne ha visti 8, tutti minori, fra cui la regressione dei preferiti. Il formato del collaudo non ha un campo per loro, e applica legge i nati solo da referti e controlli: li ho salvati in `frammenti/K10-nuovi-difetti.json`, nel formato dei referti, perché chi lancia applica li porti nel registro del sito.
+- **Spesa della fase fino a giovedì, finora:** squadra delle lezioni circa 13 $, regista O2 settima oltre il tetto dell'onda 2 (circa 22 $ dopo le 05:40), K10 15,36 $. Il costo della regista della fase 1 e dell'officina non è ancora visibile.
+
+## 2026-11-15 07:24 — 🟡 Nicola sceglie di restringere la #956: il glossario entra, il sorvegliante torna nel cantiere
+- **Chi:** Nicola in chat: «ok 244 b».
+- **Cosa:** dalla richiesta della macchina #956 (ramo `claude/magical-hamilton-xouwr8`) esce la cura di AR-969, il sorvegliante bocciato due volte. Esce con commit nuovi: la storia del ramo non si riscrive. Resta la cura di AR-962, il controllo del glossario dei numeri, che ha retto al secondo collaudo. AR-969 resta aperto nel cantiere, con la correzione interrotta in `frammenti/correzione-2-ar969-interrotta.patch` come punto di partenza. L'esenzione del vecchio programma `round2-applica.mjs` resta fino al 21/11, perché dipende da AR-969.
+- **Chi lo fa:** una sessione corta aperta dall'AD, con un tetto di 15 $. Deve anche unire `main`, dove la #958 ha spostato l'attesa del glossario al 22/11: vale la versione della #956, che toglie l'attesa e mette il controllo.
+
+## 2026-11-15 07:36 — 🟢 La chat dell'AD passa a una chat nuova, col quaderno
+- **Chi:** Nicola: «a, passala a una chat nuova». La chat di prima (`session_015BmpnYSQgvReHZZJxrC8mw`) era a 654 mila token su un milione, e alle 07:23 era costata 44,49 $.
+- **Cosa:** la chat nuova è `session_015BmpnVXjpgkhAJActQd8KN`. Riparte dal quaderno `consegne/ad/2026-11-15-passaggio-chat-ad.md`, di 63 righe, e non dalla trascrizione. L'officina e il taglio della #956 mandano i rapporti a lei. Il controllo programmato della chat vecchia è cancellato.
+- **Perché:** a ogni passo una sessione rilegge tutta la sua storia. Con 650 mila token un passo costa circa 6 volte un passo con 100 mila. La compressione automatica scatta solo verso il 90%, e il riassunto perde i dettagli.
+
+## 2026-11-15 23:50 — 🟡 Nicola fa partire il primo pezzo dell'onda 3 del sito, senza ultracode
+- **Chi:** Nicola, all'AD chat «Ondata 3» (`session_015BmpnV65jCuJATqykK8GtB`), risposta alla carta #256 alle 23:35: «1 = 12%, 2 fatto, 3a, 4a, 5a».
+- **Cosa:** l'onda 3 è divisa sulla cartella vera: R25 pagamenti-stripe, R26 privacy-legale, R27 ai-endpoints, 22 voci l'una (2 gravi, 18 voci ferme per il file di un'altra sessione). Più K11 sulle 16 riparate mai giudicate, K12 e il controllore C03. Stima 195 $, tetto duro 215 $. Ultracode spento su tutti i riparatori, anche su R25 e R26 che hanno un grave. La regola del collaudo senza campione sotto le 40 voci diventa un campo del piano (AR-1184). Le altre 126 voci partono dopo giovedì 19/11 alle 10:00.
+- **Perché:** l'onda intera (261 voci) costava circa 2.030 $ coi costi dell'onda 2, contro circa 215 $ rimasti nel tetto firmato fino a giovedì. Senza ultracode l'onda 1 ha chiuso 19 gravi su 65, l'onda 2 con ultracode 0 su 19. E il freno sugli agenti quasi certamente non vede le sessioni nate con «/effort ultracode».
+- **Da sapere:** il 12% del limite non torna con la calibrazione di 30,5 $ a punto (darebbe circa 366 $ contro circa 2.500 $ dichiarati dalle sessioni dal 12/11). Il freno, dato per «fatto», alle 23:37 non era su nessun ramo dei due depositi.
+
+## 2026-11-16 00:55 — 🟡 L'AD sceglie come pagare il collaudo K12 dell'onda 3: giudizio pieno, coi soldi lasciati dai riparatori
+- **Chi:** AD chat 5 (`session_015BmpnZ11jw7Gf6mFdaUGo9`), su proposta della regista O3 due (`session_015BmpnUwZWwGrsy5a7qyDwZ`).
+- **Cosa:** strada «b». K12 giudica a fondo tutte le voci riparate da R25, R26 e R27, senza campione. Parte con 30 $ e sale solo coi dollari che i riparatori lasciano sotto i 35 $, fino a 60 $. Il pezzo resta sotto i 215 $ firmati (conto della regista: circa 197,5 $). Se le voci da giudicare superano 50, la regista si ferma e chiede.
+- **Perché:** K11 è costato circa 1,1 $ a voce (17,89 $ per 16), quindi 30 $ bastano per circa 27 voci, e se ne aspettano 25-35. La strada «a» (campione sul resto) chiedeva a Nicola una deroga alla regola «niente campione sotto le 40 voci»; la «b» tiene la regola e non tocca il tetto del pezzo.
+- **Da sapere:** il numero di voci riparate è una stima sul ritmo del primo lotto. Spesa alle 00:50: 73,95 $ (R25 15,48 · R26 15,96 · R27 13,99 · K11 17,89 · regia uno 10,63).
+## 2026-11-15 23:54 — 🔴 Acceso il freno contro i lavori doppi nel database della memoria, e tolti i 66 doppioni ricresciuti
+- **Chi:** Nicola, 15/11 alle 23:46: «dentro la sezione lavori si sono ricreati doppioni dello stesso lavoro e tu avevi già risolto questa cosa». Alla domanda «lo attivo adesso?» ha scelto «Sì, attivalo».
+- **Il conto prima:** 82 lavori in attesa, 16 diversi. Cinque lavori del giorno (il giro, anti-churn, contenuto, recensioni, carrelli) avevano 12 copie ciascuno, una per ogni mattina dal 4/11 al 15/11. Dieci lavori della settimana ne avevano 2 ciascuno. Era quanto scritto il 4/11: «i doppioni ricresceranno di 6 al giorno finché il server resta spento».
+- **Cosa non avevo fatto il 4/11:** avevo tolto i 184 doppioni a mano, ma il freno nel database era rimasto spento. Il «risolto» di Nicola era una pulizia, non una cura.
+- **Cosa:** applicata sul database della memoria la migrazione `pannello/sql/lavori-un-solo-in-attesa.sql`, senza modifiche. Il freno sta nel posto dove scrivono tutte e quattro le mani (Pannello, cadenze, sentinelle, worker). Per ogni lavoro resta in attesa una sola copia, la più recente. Le altre passano ad «annullato» con la nota «[doppione] …», e niente si cancella.
+- **Prova:** prima di applicarla, la prova `cervello/test/coda-senza-doppioni.test.mjs` su un Postgres usa e getta: 10 casi su 10. Le colonne del database vero sono quelle che il freno si aspetta, e sulla tabella non c'erano altri trigger. Dopo: 16 in attesa, 16 diversi, 66 annullati con la nota di oggi, i due trigger presenti. Prova dal vivo dentro una transazione poi annullata: una copia nuova del giro è entrata in attesa e il conto è rimasto 16. Ricontrollato dopo l'annullo: 16 in attesa e 66 annullati, quindi la prova non ha lasciato niente.
+- **Per tornare indietro:** i quattro `drop` scritti in fondo al file SQL, poi `update public.lavori set stato='in_attesa', updated_at=now() where stato='annullato' and risultato like '%[doppione] annullato il 2026-11-15%';`
+- **Cosa resta:** il server è ancora spento (ultimo battito 39 giorni fa). Il freno ferma i doppioni, ma i lavori restano in attesa finché non si riaccende.
+- **Colore:** 🔴 scrittura sul database vero, eseguita con la firma di Nicola nella domanda in chat.
+
+## 2026-11-16 11:05 — Via ai due riparatori dell'onda 4 del sito
+- **Cosa:** Nicola in chat: «12% via ai riparatori». La regista dell'onda 4 apre R28 (testi del sito, 25 voci) e R29 (percorsi d'acquisto, 25 voci).
+- **Perché:** caso atteso circa 126 $ per 14-17 voci chiuse, dentro il tetto di 170 $ fino a giovedì 19/11 alle 10:00 (resto dei 350 $ firmati).
+- **Da chiarire:** subito dopo Nicola chiede «che cos'è questo 12%». La lettura non entra in `misure.json` finché non la conferma.
+- **Colore:** 🟡 spesa dentro un tetto già firmato.
+
+## 2026-11-17 08:15 — La regista dell'onda 4 può spingere il suo ramo sul sito
+- **Cosa:** Nicola in chat: «sì, la regista può spingere il ramo dell'onda 4 sul sito». Riguarda il ramo `claude/sito-onda-4` del sito, non il ramo principale né il sito online.
+- **Perché:** il permesso automatico aveva fermato due volte la spinta della seconda regista (`session_015BmpnWQotfLE7m24jK8QfZ`). Senza la spinta non partono il controllore e la richiesta di unione in bozza. Collaudo: 14 voci reggono su 19 controllate.
+- **Eccezione sulla prova dell'acquisto vero (R29-001):** non firmata. La voce resta comunque a metà.
+- **Colore:** 🟡 ramo di lavoro, nessun cambio al sito online.

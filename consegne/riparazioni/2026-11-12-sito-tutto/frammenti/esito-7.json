@@ -38,11 +38,32 @@
       "nota_fix": "Due commit. Il primo (81a4c190) metteva un h2 invisibile in ogni griglia; il qa ha visto che nella vetrina del negozio e nelle collezioni c'era già un h2 visibile, e il secondo staccava i prodotti dal loro titolo. Il secondo commit lo rende esplicito: ProductGrid ha la prop titoloNascosto e disegna l'h2 sr-only solo se c'è; la passano Novità, I più recensiti e Regali. Così fra l'h1 di CollectionHeader e l'h3 dei prodotti c'è un h2 solo dove mancava."
     },
     {
+      "chiave": "coerenza-brand|la pagina che si apre dal link di conferma email non sembra mycity: niente logo, carattere di sistema, bottone verde",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r07-conferma-email-marchio.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base b4184549^ --file app/auth/confirm/route.ts --prove tests/unit/riparazione-r07-conferma-email-marchio.test.ts --json → uscita 0 (riparatore); cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-a --base b4184549f21c0f54a0ad0912d3b30c34b04fad52^ --file app/auth/confirm/route.ts --prove tests/unit/riparazione-r07-conferma-email-marchio.test.ts --json → uscita 0 (K10)",
+      "nota_fix": "paginaColPulsante ora ha il nome MyCity in serif in testa, sfondo crema #FBF7F0, testo #1C1A18, titolo in serif, bottone terracotta #C0492C al posto del verde, e «così» con l'accento."
+    },
+    {
+      "chiave": "frontend-ux|in una lista, i prodotti che il negozio ha tolto dalla vetrina restano contati ma non si vedono e non si possono togliere",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r07-lista-prodotto-nascosto.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 43d1a381^ --file app/lists/[id]/page.tsx --prove tests/unit/riparazione-r07-lista-prodotto-nascosto.test.tsx --json → uscita 0 (riparatore); cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-a --base 43d1a381ad170d27d2858cff4961c38e86234a05^ --file app/lists/[id]/page.tsx --prove tests/unit/riparazione-r07-lista-prodotto-nascosto.test.tsx --json → uscita 0 (K10)",
+      "nota_fix": "Al posto di «if (!p) return null» la lista disegna una riga «Non più disponibile · il negozio l'ha tolto dalla vetrina», con il cestino per chi ha la lista (removeItem su it.product_id). Il conteggio in app/lists/page.tsx resta com'è: adesso corrisponde alle righe che si vedono."
+    },
+    {
       "chiave": "frontend-ux|se la recensione al negozio entra e quella al fattorino no, il fattorino non si puo' piu' recensire",
       "esito": "riparato",
       "verifica_comando": "npx vitest run tests/unit/riparazione-r07-recensione-fattorino.test.tsx",
       "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 75b2500d^ --file app/orders/[id]/review/page.tsx --prove tests/unit/riparazione-r07-recensione-fattorino.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 65d38e05^ --file app/orders/[id]/review/page.tsx --prove tests/unit/riparazione-r07-recensione-fattorino.test.tsx --json → uscita 0 (K02)",
       "nota_fix": "Due commit. Il primo (65d38e05) legge anche rider_reviews e chiede solo la parte che manca. Il qa ha trovato due buchi, chiusi dal secondo: nella stessa visita, se il negozio entrava e il fattorino cadeva, il modulo chiedeva ancora il negozio e al secondo invio diceva «avevi già recensito» anche se il voto al fattorino era appena entrato (ora onError rilegge l'ordine, e «già recensito» compare solo se non è entrata nessuna recensione nuova); e una lettura di store_reviews o rider_reviews caduta veniva presa per «non recensito» (ora l'errore sale e la pagina offre Riprova)."
+    },
+    {
+      "chiave": "frontend-ux|funzioni spente, da sistemare prima di riaccenderle. classifica inviti e drop leggono senza guardare l'errore, quindi mostrano «classifica vuota · sii il primo…» e «nessun drop per oggi» anche quando la lettura è caduta. il drop usa il giorno di greenwich: fra mezzanotte e l'1-2 di notte, ora di piacenza, la data minima e l'elenco sono su ieri",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r07-drop-giorno-piacenza.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 83658a41^ --file app/admin/daily-drops/page.tsx --prove tests/unit/riparazione-r07-drop-giorno-piacenza.test.tsx --json → uscita 0 (riparatore); cd /home/user/ad-mycity && PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-k10-a --base 83658a4139865fd77ff5c997cda8e829e86b4843^ --file app/admin/daily-drops/page.tsx --prove tests/unit/riparazione-r07-drop-giorno-piacenza.test.tsx --json → uscita 0 (K10)",
+      "nota_fix": "Drop: todayIso usa giornoPiacenza() al posto della data di Greenwich (data minima, data proposta e filtro dell'elenco), e la lettura dei drop caduta mostra un ErrorState con Riprova invece di «Nessun drop». La classifica inviti guardava già l'errore: app/profile/referral/leaderboard/page.tsx:30-34 lancia, :55-58 mostra l'avviso (5/11)."
     },
     {
       "chiave": "frontend-ux|dopo aver risposto a una recensione, tornando sulla pagina il negozio rivede la risposta vecchia",

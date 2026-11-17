@@ -9,7 +9,16 @@
 # Il deposito dei rami lo dice il programma (`deposito`), non questo script: prima lo indovinava, e sulle campagne
 # della macchina o col sito in <radice>/marketplace diceva «nessun rosso» con la guardia rossa (radiografia del 12/11 notte).
 # Lo stato delle sessioni (get_session) e la quota li guarda la regista a parte: da bash non si vedono.
+#
+# --attendi (officina minima del 15/11): la sorveglianza muta, da lanciare in sottofondo (run_in_background o Monitor).
+#   bash cervello/riparazione/sorveglia.sh --attendi <cartella> <onda>
+# Ogni SORVEGLIA_INTERVALLO secondi (300) scarica i rami e chiede `segnali`: esce 1 solo quando c'è un segnale che
+# non sta in <cartella>/rossi-noti.txt (referto finito, ramo nuovo, ramo fermo da 20 minuti, e da stato-sessioni.json
+# figlia in attesa, spesa oltre il 70%, quota in avviso). Esce 4 al battito, dopo SORVEGLIA_BATTITO secondi (7200).
+# Un giro a vuoto della regista costava circa 0,73 $: con questo il giro a vuoto non c'è più.
 set -uo pipefail
+ATTENDI=0
+if [ "${1:-}" = "--attendi" ]; then ATTENDI=1; shift; fi
 C="${1:?serve la cartella della campagna, relativa alla radice di ad-mycity}"; C="${C%/}"
 ONDA="${2:?serve il numero dell onda}"
 RADICE="$(cd "$(dirname "$0")/../.." && pwd)"
@@ -29,6 +38,37 @@ mapfile -t RIGHE < <(node -e '
   const mie = new Set(Object.entries(s.sessioni || {}).filter(([, v]) => Number(v.onda) === o).map(([n]) => n));
   for (const [n, v] of Object.entries(s.collaudatori || {})) if ((v.riparatori || []).some((r) => mie.has(r))) console.log("K\t" + n + "\t" + v.ramo);
 ' "$RADICE/$C/sessioni.json" "$ONDA")
+
+if [ "$ATTENDI" = 1 ]; then
+  INTERVALLO="${SORVEGLIA_INTERVALLO:-300}"; BATTITO="${SORVEGLIA_BATTITO:-7200}"; INIZIO=$SECONDS
+  until false; do
+    # Un remoto che non risponde rende muti i segnali: se nessun ramo si è potuto chiedere, il giro è cieco (uscita 2),
+    # non un silenzio fino al battito. Un ramo che non esiste ancora non conta (ls-remote esce 2).
+    CHIESTI=0; FALLITI=0
+    for riga in "${RIGHE[@]}"; do
+      IFS=$'\t' read -r TIPO N RAMO <<< "$riga"
+      if [ "$TIPO" = "R" ]; then D="$SITO"; else D="$RADICE"; fi
+      CHIESTI=$((CHIESTI + 1))
+      if ! git -C "$D" fetch --quiet origin "+refs/heads/$RAMO:refs/remotes/origin/$RAMO" 2>"$TMP/attendi-fetch.err"; then
+        git -C "$D" ls-remote --exit-code --heads origin "$RAMO" >/dev/null 2>&1; [ $? -eq 2 ] || FALLITI=$((FALLITI + 1))
+      fi
+    done
+    if [ "$CHIESTI" -gt 0 ] && [ "$FALLITI" -eq "$CHIESTI" ]; then
+      echo "⚪ sorveglianza muta cieca: il remoto non risponde per nessuno dei $CHIESTI rami ($(head -1 "$TMP/attendi-fetch.err")). Non è un verde."; exit 2
+    fi
+    NUOVI="$(p segnali --cartella "$RADICE/$C" --git "$SITO" --onda "$ONDA")"; rc=$?
+    if [ $rc -eq 1 ]; then
+      echo "🔔 $(TZ=Europe/Rome date '+%Y-%m-%d %H:%M') segnali nuovi nell'onda $ONDA:"; echo "$NUOVI"
+      echo "👉 guardali; quando li hai gestiti aggiungili a $C/rossi-noti.txt (una riga per segnale) e rilancia --attendi"
+      exit 1
+    fi
+    [ $rc -eq 0 ] || { echo "$NUOVI"; echo "⚪ sorveglianza muta cieca: segnali non ha potuto misurare. Non è un verde."; exit 2; }
+    if [ $((SECONDS - INIZIO)) -ge "$BATTITO" ]; then
+      echo "💓 battito: $((BATTITO / 60)) minuti senza segnali nuovi nell'onda $ONDA. Un giro di stato e si rilancia --attendi."; exit 4
+    fi
+    sleep "$INTERVALLO"
+  done
+fi
 
 # Un fetch che fallisce non si butta via: se il ramo sul remoto c'è (o il remoto non risponde), la sessione non è
 # guardata, e il giro non può dire verde giudicando un ramo vecchio (radiografia del 12/11 notte).
