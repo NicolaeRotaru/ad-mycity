@@ -7002,3 +7002,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Perché:** caso atteso circa 126 $ per 14-17 voci chiuse, dentro il tetto di 170 $ fino a giovedì 19/11 alle 10:00 (resto dei 350 $ firmati).
 - **Da chiarire:** subito dopo Nicola chiede «che cos'è questo 12%». La lettura non entra in `misure.json` finché non la conferma.
 - **Colore:** 🟡 spesa dentro un tetto già firmato.
+
+## 2026-11-17 08:15 — La regista dell'onda 4 può spingere il suo ramo sul sito
+- **Cosa:** Nicola in chat: «sì, la regista può spingere il ramo dell'onda 4 sul sito». Riguarda il ramo `claude/sito-onda-4` del sito, non il ramo principale né il sito online.
+- **Perché:** il permesso automatico aveva fermato due volte la spinta della seconda regista (`session_015BmpnWQotfLE7m24jK8QfZ`). Senza la spinta non partono il controllore e la richiesta di unione in bozza. Collaudo: 14 voci reggono su 19 controllate.
+- **Eccezione sulla prova dell'acquisto vero (R29-001):** non firmata. La voce resta comunque a metà.
+- **Colore:** 🟡 ramo di lavoro, nessun cambio al sito online.
