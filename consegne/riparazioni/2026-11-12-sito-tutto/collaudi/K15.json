@@ -1,0 +1,158 @@
+{
+ "collaudatore": "K15",
+ "riparatori": [
+  "R28"
+ ],
+ "aggiornato": "2026-11-17 07:30",
+ "finita": true,
+ "parziale": true,
+ "voci": [
+  {
+   "id": "R28-001",
+   "chiave": "microcopy|il sos del fattorino dice «stiamo chiamando il 112», ma l'app apre solo il tastierino",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-001 --base 442cc30d^ --file components/rider/SOSButton.tsx --prove tests/unit/riparazione-r28-sos-testo.test.tsx --json"
+   },
+   "nota": "Grave, giudicato da me (niente revisore: le regole dell'onda 4 li tengono sulle voci di soldi). Prova rimessa sulla voce intera, base 442cc30d^: uscita 0, rossa senza, verde con. La parte fatta regge: SOSButton.tsx:267 dice che la posizione arriva solo se il telefono la dà ed è connesso, ed è vero (la posizione parte con la scrittura dell'SOS). Il resto è descritto onesto: la frase «Verrà avviata la chiamata al 112» è ancora a SOSButton.tsx:263, la vincola la prova comune il-testo-dice-quello-che-succede-davvero, e si chiude con la patch r28-001 (provata applicata: verde)."
+  },
+  {
+   "id": "R28-002",
+   "chiave": "accessibilita|le foto delle recensioni e l'importazione dei prodotti da file non si aprono da tastiera",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-002 --base a44980ac^ --file components/rider/CashConfirmDialog.tsx --prove tests/unit/riparazione-r28-foto-e-documenti-del-fattorino-da-tastiera.test.ts --json"
+   },
+   "nota": "Giudizio mio, sulle due lenti. chiude_tutta: alla base d038f105 PhotoReviewUpload.tsx:198, import/page.tsx:247, return/page.tsx:422 e rider/onboarding:350 hanno già focus-within e input sr-only; mancava solo il PhotoSlot di CashConfirmDialog, ora con l'anello e input sr-only (raggiungibile con Tab). nata_rotta: cambia solo la classe del label (block aggiunto, layout dentro una griglia invariato). Prova rimessa: rossa senza la correzione, verde con.",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
+  },
+  {
+   "id": "R28-004",
+   "chiave": "api-backend|se il lavoro delle notifiche si ferma, l'allarme arriva dopo due ore, ma le notifiche più vecchie di un'ora sono già perse",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-004 --base c36f41e4^ --file lib/cron-health.ts --prove tests/unit/riparazione-r28-allarme-push-dentro-la-finestra.test.ts --json"
+   },
+   "nota": "Giudizio mio. chiude_tutta: soglia di send-push da 120 a 45 minuti, sotto la finestra di lettura di 60 e sopra la cadenza di 5: l'allarme arriva prima che le notifiche si perdano. nata_rotta: nove giri saltati prima dell'allarme, nessun falso allarme a cadenza 5; le altre soglie non cambiano. Prova rimessa: rossa senza la correzione, verde con.",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
+  },
+  {
+   "id": "R28-006",
+   "chiave": "deploy-sre|senza le chiavi delle notifiche, il lavoro delle notifiche risulta vivo anche se non manda niente",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-006 --base f7efbfe6^ --file app/api/cron/send-push/route.ts --prove tests/unit/riparazione-r28-push-senza-chiavi-niente-battito.test.ts --json"
+   },
+   "nota": "Giudizio mio. chiude_tutta: senza VAPID la risposta passa da segnaGiroNonFatto, quindi withCronAuth non scrive il battito e l'allarme di cron-health (ora a 45 min, R28-004) scatta. nata_rotta: la risposta resta 200 con skipped; unico neo dichiarato: l'intestazione dice «fermo», l'unico valore che segnaGiroNonFatto accetta oltre «solo_conta» (fermo-dei-lavori.ts:116). Prova rimessa: rossa senza la correzione, verde con.",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
+  },
+  {
+   "id": "R28-007",
+   "chiave": "frontend-ux|con «aperti ora» acceso, l'elenco dei negozi non si aggiorna all'orario di chiusura e tiene in lista negozi con scritto «chiuso ora»",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-007 --base b55df4ce^ --file components/ProductGrid.tsx --prove tests/unit/riparazione-r28-prodotti-dei-negozi-aperti-si-aggiornano.test.tsx --json"
+   },
+   "nota": "Giudizio mio. chiude_tutta: app/stores/page.tsx era già a posto (R23-010); ProductGrid aggiunge il battito del minuto alle dipendenze del filtro, solo con «aperti ora» acceso. nata_rotta: a filtro spento useOraDiPiacenza(false) non accende timer; l'ora letta resta quella vera. Prova rimessa: rossa senza la correzione, verde con.",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
+  },
+  {
+   "id": "R28-010",
+   "chiave": "microcopy|la conferma d'ordine non dice quando arriva né quanto pagare in contanti, e a chi ritira in negozio parla di rider",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-010 --base 8a4ec811^ --file lib/stripe/webhook/ordini.ts --prove tests/unit/riparazione-r28-conferma-carta.test.ts --json"
+   },
+   "nota": "Due revisori, uno per lente. chiude_tutta: modello email e contanti erano già giusti alla base d038f105 (templates.ts:137-183, cod/route.ts:1727-1735); mancava la carta, chiusa a ordini.ts:542; al ritiro la fascia è null e non si parla di rider. nata_rotta: 163 file di prova su webhook/rimborsi/email verdi (1041 casi); invio dentro dopoLaRisposta, il webhook non cade."
+  },
+  {
+   "id": "R28-011",
+   "chiave": "microcopy|se il nome del negozio è troppo lungo, l'avviso dice solo «nome del negozio» e non spiega cosa correggere",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-011 --base b07350b1^ --file components/SellerApplicationForm.tsx,app/api/seller/apply/route.ts --prove tests/unit/riparazione-r28-nome-negozio-troppo-lungo.test.tsx --json"
+   },
+   "nota": "Giudizio mio. chiude_tutta: il modulo fa trim, 3-80 caratteri come la rotta, e l'avviso dice «al massimo 80 caratteri: accorcialo»; la frase della rotta è senza parentesi, così friendlyError non la riduce a «Nome del negozio» (la prova lo controlla). nata_rotta: la rotta cambia solo le due frasi Zod; nessun altro usa le frasi vecchie. Prova rimessa: rossa senza la correzione, verde con.",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
+  },
+  {
+   "id": "R28-014",
+   "chiave": "pagamenti-stripe|se la banca respinge un rimborso dal cruscotto che aspetta ancora la divisione, il sito lo toglie dagli ordini che non l'avevano mai registrato",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-014 --base eb59bba9^ --file lib/stripe/rimborso-respinto.ts,lib/stripe/webhook/rimborsi.ts --prove tests/unit/riparazione-r28-rimborso-respinto-da-dividere.test.ts --json"
+   },
+   "nota": "Due revisori, uno per lente. chiude_tutta: la voce parla del rimborso che aspetta ancora la divisione, cioè la pausa, quindi il restringimento la copre tutta (filtro in rimborso-respinto.ts:214-218, chiamato da rimborso-respinto-dalla-banca.ts:138 dopo 4eb17108). nata_rotta: fuori dalla pausa il comportamento resta quello di prima; il rimborso pieno toglie già la pausa (rimborsi.ts:198). Minori, fuori dalla voce: dopo il respinto il carrello resta in pausa con 0 € da dividere e l'avviso non dice di scrivere le parti a 0; se il respinto arriva prima della pausa si torna alla divisione in proporzione."
+  },
+  {
+   "id": "R28-016",
+   "chiave": "pagamenti-stripe|una sponsorizzazione o un abbonamento rimborsati o contestati in banca restano attivi",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 3,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-016 --base 0a79d662^ --file lib/stripe/webhook/sponsorizzati.ts,lib/stripe/webhook/rimborsi.ts,lib/stripe/webhook/dispute.ts --prove tests/unit/riparazione-r28-sponsorizzazione-rimborsata.test.ts --json"
+   },
+   "nota": "Prova rimessa uscita 3 (sponsorizzati.ts da solo alla base rompe la struttura). Difetto rimesso a mano con i tre file alla base: 3 casi su 6 cadono sulle asserzioni («active» invece di «ended»/«paused»); con la correzione 6/6. La parte fatta regge (rimborso pieno → ended, contestazione vera → paused più avviso, parziale e richiesta informazioni non toccano; un errore di checkout.sessions.list dà 500 e Stripe ritenta senza doppie scritture). Il «cosa_resta» è onesto sull'abbonamento ma incompleto: (1) a contestazione vinta nessun avviso arriva all'amministratore (dispute.ts:314 riattiva solo i buoni regalo): «glielo dice l'avviso» vale solo per quello di apertura; (2) a contestazione persa resta «paused» e si può riaccendere per sbaglio (app/admin/sponsored/page.tsx:248-251); (3) rimborso parziale lascia «active» senza avviso (rimborsi.ts:71-73). Minori: sponsorizzati.ts:59 torna vero anche su una sessione d'ordine e zittisce il log di dispute.ts:113; se rimborso o contestazione arrivano prima che la riga nasca, la sponsorizzazione nasce attiva dopo (sponsorizzati.ts:45-54).",
+   "rimessa_a_mano": {
+    "uscita": 1,
+    "comando": "cd ../wt-016 && git checkout 0a79d662^ -- lib/stripe/webhook/sponsorizzati.ts lib/stripe/webhook/rimborsi.ts lib/stripe/webhook/dispute.ts && npx vitest run tests/unit/riparazione-r28-sponsorizzazione-rimborsata.test.ts  # 3 falliti su 6, poi git checkout HEAD -- lib/stripe/webhook → 6/6"
+   }
+  }
+ ],
+ "note": "Patch per i file altrui (3e9553a2, .riparazione/patch-R28/, 5 file) applicate su 69002b78: si applicano tutte, anche insieme. Nessuna indebolisce una prova: niente skip/only/todo; due asserzioni cambiate, tutte e due giustificate — r28-001 rovescia il caso che vincolava «Verrà avviata la chiamata al» (ora not.toContain più la frase giusta), r28-024 passa da campanelle.length 4 a 4 campanelle di categoria «order» perché nascono avvisi «system» nuovi agli amministratori. Le altre modifiche alle prove aggiungono solo finti (customers.list, getAdminSupabase, vaChiestaSenzaTrattenere) o la colonna tags, che esiste (migrazione 071). Con le 5 patch: 18 file di prova toccati, 96/96 verdi.",
+ "conto": {
+  "subagenti": 2,
+  "revisori": [
+   "qa chiude_tutta su 010/014/016",
+   "qa nata_rotta su 010/014/016"
+  ]
+ }
+}
