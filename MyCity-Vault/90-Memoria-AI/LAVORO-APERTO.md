@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-16 01:46
+aggiornato: 2026-11-17 17:30
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -29,6 +29,8 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 ---
 
 ## 1 · Cose che toccano a te
+
+**L'onda 6 del sito è ferma per il limite settimanale** (17/11 alle 16:45). Il pilota si è fermato per la tua regola: il limite segna «allowed_warning», non più «allowed». Ha speso 39,31 $ su 90 $. Ha chiuso nel registro 5 difetti, quelli già pagati dall'onda 5 che il collaudo ha confermato. Altri 6 sono riparati e aspettano collaudo e controllore. Uno regge, ma entra nel sito solo con la sua PR. 16 voci non sono state iniziate. Riparte giovedì 19/11 alle 10:00, quando il limite si azzera, oppure prima con un tuo sì. La memoria è in NicolaeRotaru/ad-mycity#983, verde. Il quaderno è `consegne/riparazioni/2026-11-12-sito-tutto/onda6/REGIA-ONDA-6.md`.
 
 **L'onda 5 del sito è unita** (17/11). Richiesta NicolaeRotaru/mycity#294, con prove verdi e il controllore C05 verde. Si chiudono 10 difetti, 10 erano già riparati dall'onda 4, 80 restano aperti. Spesa circa 215 $ su 250. Nicola ha unito la PR il 17/11, e le 10 chiusure sono nel registro dalle 14:14. Resta `applica --scrivi`, che scrive note e difetti nati. Oggi si ferma, perché in `sessioni.json` mancano i rami di R23-R28. Per l'onda dopo: le diff di R33 nel suo referto, R32-014, R31-012 (tolta per la colonna della 124), il collaudo delle 14 patch applicate. Carta #260. Quaderno: `consegne/riparazioni/2026-11-12-sito-tutto/REGIA-ONDA-5.md`.
 

@@ -415,7 +415,7 @@
     "gravi": 678,
     "minori": 2504,
     "agenti": null,
-    "aggiornato": "2026-11-17 14:14"
+    "aggiornato": "2026-11-17 16:51"
   },
   "confronto_precedente": {
     "data": "2026-11-05",
@@ -5238,7 +5238,7 @@
       "impatto": "Oggi nessun danno. Però il sito ricostruito dalle migrazioni non è uguale a quello vero, e le prove SQL certificano un permesso diverso da quello reale. Se un giorno una regola di lettura su profiles si allarga, sul sito vero non succede niente, mentre sulle copie i dati personali diventano leggibili; o viceversa.",
       "fix": "Una migrazione idempotente REVOKE SELECT ON public.profiles FROM anon, che scrive lo stato già presente in produzione, con accanto una prova SQL che lo pretende. Aggiungere il confronto dei permessi fra produzione e repo al controllo di deriva.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Prova SQL sul database ricostruito: bash tests/sql/harness/apply.sh mycity_ci && psql -X -d mycity_ci -v ON_ERROR_STOP=1 -c \"DO \\$\\$ BEGIN IF has_table_privilege('anon','public.profiles','SELECT') THEN RAISE EXCEPTION 'anon legge profiles sul database delle migrazioni, in produzione no'; END IF; END \\$\\$;\". Oggi è rossa.",
       "prova_tipo": "sql",
       "prova_eseguita": true,
@@ -5269,7 +5269,10 @@
         "sessione": "R30",
         "collaudo": "K18 non_regge",
         "perche": "parziale: La migrazione 541 non è nel commit: con lei le prove comuni 19 e 34 diventano rosse (permission denied for table profiles). Va in patch, insieme alle due prove adattate."
-      }
+      },
+      "chiuso_il": "2026-11-17 16:51",
+      "chiuso_da": "PR #294 · c83c3e4e",
+      "nota_riparazione": "Cucita in onda 5 la patch di R30-022 (d22c86a7): la migrazione nuova 541 dice quello che il sito vero fa già, i visitatori (anon) non leggono la tabella dei profili (REVOKE SELECT, con un controllo finale); prova SQL nuova, adattate le prove comuni 19 e 34. Sul Postgres locale (solo prove): prova rimessa con --sql regge (uscita 0) e la suite SQL intera alla testa è verde. La migrazione non è applicata: lo decide Nicola. Collaudo K01 (onda 6): regge. Commit d22c86a7, in main con mycity#294. — prova: bash tests/sql/harness/apply.sh mycity_test && psql -X -d mycity_test -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r30-profili-chiusi-ai-visitatori.test.sql — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base d22c86a72b4bd3e1bc62eece5d17327d6c98cbc0^ --file migrations/541_i_visitatori_non_leggono_la_tabella_dei_profili.sql --prove tests/sql/rls/riparazione-r30-profili-chiusi-ai-visitatori.test.sql --sql riparazione_r01_rimessa --json → uscita 0 (I06, cucitura); cd /home/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-012 --base d22c86a72b4bd3e1bc62eece5d17327d6c98cbc0^ --file migrations/541_i_visitatori_non_leggono_la_tabella_dei_profili.sql --prove tests/sql/rls/riparazione-r30-profili-chiusi-ai-visitatori.test.sql --sql k01_r01_012_rimessa --json → uscita 0 (K01)"
     },
     {
       "dimensione": "rls-database",
@@ -6160,7 +6163,7 @@
       "impatto": "Un venerdì alle 22:30 arriva al bar di via Calzolai un ordine a domicilio senza orario. Il barista non sa se il cliente lo aspetta stasera o domattina e deve telefonare per chiederlo. Non c'è un prezzo aggirato: la stessa spesa con «Domani · 7:30–9:00» paga la stessa consegna da 3 €.",
       "fix": "Nelle due rotte rendere la fascia obbligatoria quando non c'è ritiro (refine: pickupInStore oppure deliverySlot), con 400 «Scegli quando vuoi ricevere l'ordine». Nella rotta dei contanti il controllo va rifatto dopo la riga 357, dove un ritiro spento viene forzato a consegna e arriverebbe senza fascia.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "cp <scratchpad>/S06/C/zz-s06-c-senza-fascia.test.ts marketplace/tests/unit/ && cd marketplace && TZ=UTC npx vitest run tests/unit/zz-s06-c-senza-fascia.test.ts (poi cancellato)",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -6197,7 +6200,10 @@
         "sessione": "R31",
         "collaudo": null,
         "perche": "serve_file_altrui"
-      }
+      },
+      "chiuso_il": "2026-11-17 16:51",
+      "chiuso_da": "PR #294 · c83c3e4e",
+      "nota_riparazione": "Cucita in onda 5 la patch di R31-003 (f129e197): le rotte del contrassegno e della carta rifiutano una consegna a domicilio senza fascia oraria, come fa già la cassa; 34 prove comuni ora mandano una fascia. Prova nuova verde, prova rimessa regge (uscita 0). Collaudo K01 (onda 6): regge. Commit f129e197, in main con mycity#294. — prova: npx vitest run tests/unit/riparazione-r31-consegna-senza-fascia.test.ts — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base f129e197c6f0d1d56e8d73ab61220e68f090284c^ --file app/api/orders/cod/route.ts,app/api/stripe/checkout/route.ts --prove tests/unit/riparazione-r31-consegna-senza-fascia.test.ts --json → uscita 0 (I06, cucitura); cd /home/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-005 --base f129e197c6f0d1d56e8d73ab61220e68f090284c^ --file app/api/orders/cod/route.ts,app/api/stripe/checkout/route.ts --prove tests/unit/riparazione-r31-consegna-senza-fascia.test.ts --json → uscita 0 (K01)"
     },
     {
       "dimensione": "api-backend",
@@ -24903,7 +24909,7 @@
       "impatto": "Il negoziante che tagga un prodotto «km 0» o «artigianale» non vedrà mai il marchio previsto dal codice. L'interfaccia del venditore non glielo promette, quindi il danno è una funzione morta, non una promessa tradita. Attenzione al rimedio ovvio. Aggiungere tags alla scheda accenderebbe anche «Senza glutine», «Bio» e «Vegano» partendo dai tag. Quei tag l'assistente AI li può scrivere (aiPatch.ts:766-772), mentre le stesse caselle all'AI sono vietate (CAMPI_DICHIARATIVI, aiPatch.ts:134).",
       "fix": "Togliere da TAG_KEYWORD_MARKS i marchi dichiarativi (bio, vegano, senza glutine, senza lattosio): devono venire solo dalle caselle del negoziante. Per Km 0 e Artigianale ci sono due strade: aggiungere tags a COLONNE_SCHEDA_PRODOTTO, oppure togliere il codice morto. La prova va montata sulla forma vera della scheda.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "D=/tmp/claude-0/-home-user/d986906a-4c5d-52c8-b691-e857422e00f9/scratchpad/tmp-verifica-catalogo-query; S=/tmp/claude-0/-home-user/d986906a-4c5d-52c8-b691-e857422e00f9/scratchpad/tmp-catalogo-query; mkdir -p $D; cd /home/user/mycity && NODE_PATH=/home/user/mycity/node_modules node_modules/.bin/esbuild $S/prova-minori.ts --bundle --platform=node --format=cjs --alias:@=/home/user/mycity --log-level=error --outfile=$D/prova-minori.cjs && node $D/prova-minori.cjs; echo exit=$?  → riga ②, rieseguita il 2026-11-05: la scheda chiede i tag=false, marchi con i tag=['Km 0','Artigianale'], marchi in pagina=[]. Il bit 2 dell'uscita è acceso (exit=3; il bit 1 riguarda il barrato, scartato come già noto).",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -24944,7 +24950,10 @@
         "sessione": "R30",
         "collaudo": null,
         "perche": "serve_file_altrui"
-      }
+      },
+      "chiuso_il": "2026-11-17 16:51",
+      "chiuso_da": "PR #294 · c83c3e4e",
+      "nota_riparazione": "Cucite in onda 5 le due parti di R30-008: 221cc840 (lib/queries/catalogo.ts: la scheda legge la colonna tags e tiene solo i marchi Km 0 e Artigianale, più la prova nuova) e 1011766f (la colonna tags nell'aiutante delle prove database-coi-permessi, senza la quale 25 prove esistenti cadevano). Prova rimessa regge (uscita 0). Collaudo K01 (onda 6): regge. Commit 221cc840, 1011766f, in main con mycity#294. — prova: npx vitest run tests/unit/riparazione-r30-scheda-tag-dei-marchi.test.ts — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 221cc8405f296d2295aa5bdc58b12271184ede54^ --file lib/queries/catalogo.ts --prove tests/unit/riparazione-r30-scheda-tag-dei-marchi.test.ts --json → uscita 0 (I06, cucitura); cd /home/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-006 --base 221cc8405f296d2295aa5bdc58b12271184ede54^ --file lib/queries/catalogo.ts --prove tests/unit/riparazione-r30-scheda-tag-dei-marchi.test.ts --json → uscita 0 (K01)"
     },
     {
       "dimensione": "frontend-ux",
@@ -47953,9 +47962,9 @@
       "impatto": "",
       "fix": "«SOS registrato, MyCity è stata avvisata. Ora premi CHIAMA sul telefono per parlare col 112». Stessa correzione al ramo di ripiego a riga 79.",
       "fonte": "design",
-      "stato": "aperto",
-      "chiuso_il": "2026-08-27 10:23",
-      "chiuso_da": "richiesta #243 del marketplace, unita su main il 2026-08-27 10:23 (commit f4c3c22)",
+      "stato": "riparato",
+      "chiuso_il": "2026-11-17 16:51",
+      "chiuso_da": "PR #294 · c83c3e4e",
       "fuori_dal_referto": true,
       "riverifica_7_11": {
         "data": "2026-11-12 13:48",
@@ -47989,7 +47998,8 @@
         "sessione": "R31",
         "collaudo": null,
         "perche": "serve_file_altrui"
-      }
+      },
+      "nota_riparazione": "Cucita in onda 5 la patch di R31-001 (f57409c0): il pulsante SOS non dice più che l'app sta chiamando il 112; dialogo e avvisi dicono che si apre il telefono col 112 già scritto e che la chiamata parte quando premi CHIAMA. Adattate due prove comuni del testo. Prova nuova verde, prova rimessa regge (uscita 0). Collaudo K01 (onda 6): regge. Commit f57409c0, in main con mycity#294. — prova: npx vitest run tests/unit/riparazione-r31-sos-testo.test.tsx — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base f57409c03e521f45f73e5ea2d6eb5211315f5180^ --file components/rider/SOSButton.tsx --prove tests/unit/riparazione-r31-sos-testo.test.tsx --json → uscita 0 (I06, cucitura); cd /home/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-002 --base f57409c03e521f45f73e5ea2d6eb5211315f5180^ --file components/rider/SOSButton.tsx --prove tests/unit/riparazione-r31-sos-testo.test.tsx --json → uscita 0 (K01)"
     },
     {
       "dimensione": "microcopy",
@@ -78568,7 +78578,7 @@
       "dimensione": "privacy-legale",
       "reparto": "",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "titolo": "Un cliente coi Termini 2.0 e la cassa già aperta ordina lo stesso: le rotte d'ordine non guardano la versione accettata",
       "file": "app/api/orders/cod/route.ts e app/api/stripe/checkout/route.ts non controllano nulla. Il cancello sta solo nel middleware su /checkout, che nel dubbio (scaduto o rotto) fa passare.",
@@ -78602,7 +78612,10 @@
         "sessione": "R31",
         "collaudo": null,
         "perche": "serve_file_altrui"
-      }
+      },
+      "chiuso_il": "2026-11-17 16:51",
+      "chiuso_da": "PR #294 · c83c3e4e",
+      "nota_riparazione": "Cucita in onda 5 la patch di R31-016 (a74c227f): le rotte del contrassegno e della carta guardano la versione dei termini accettata e fermano l'ordine di chi ha accettato una versione vecchia; 8 prove comuni ora fingono l'accettazione. Prova rimessa regge (uscita 0). Collaudo K01 (onda 6): regge. Commit a74c227f, in main con mycity#294. — prova: npx vitest run tests/unit/riparazione-r31-termini-in-cassa.test.ts — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base a74c227f22543cf5ae9cc852df50061292fa7d4d^ --file app/api/orders/cod/route.ts,app/api/stripe/checkout/route.ts --prove tests/unit/riparazione-r31-termini-in-cassa.test.ts --json → uscita 0 (I06, cucitura); cd /home/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-008 --base a74c227f22543cf5ae9cc852df50061292fa7d4d^ --file app/api/orders/cod/route.ts,app/api/stripe/checkout/route.ts --prove tests/unit/riparazione-r31-termini-in-cassa.test.ts --json → uscita 0 (K01)"
     },
     {
       "dimensione": "privacy-legale",

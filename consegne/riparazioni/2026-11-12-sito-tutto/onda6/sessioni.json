@@ -1,0 +1,14 @@
+{
+  "regista": "session_015BmpnYVx17cqeZ9Rq9pCde",
+  "regista_madre": "session_015BmpnYvNwUpgfdhaKx9PKT",
+  "integrazione": { "id": "session_015BmpnWbWa99pjAPQ98v6sz", "nome": "I06", "ramo": "ccr-99009024-qgfisx-o6", "partenza": "c83c3e4e6decc5c167bd0cefceb269364f388cd0", "tetto_usd": 6 },
+  "sessioni": {
+    "R01": { "id": "session_015BmpnWbWa99pjAPQ98v6sz", "ramo": "ccr-99009024-qgfisx-o6", "onda": 1, "partenza": "70064c9da552c034a463452b60935f7a57bb469a", "nota": "la cucitura dell'onda 5, scritta dall'integratore I06; per applica --scrivi il ramo va fissato allo SHA della testa prima dell'unione dei riparatori", "finita": false },
+    "R02": { "id": "session_015BmpnWGRrUvbT77eoVnJwJ", "ramo": "ccr-99009024-qgfisx-o6-m02", "onda": 2, "partenza": "c83c3e4e6decc5c167bd0cefceb269364f388cd0", "tetto_usd": 28, "finita": false },
+    "R03": { "id": "session_015BmpnXBwWt8GM29JJz6fZd", "ramo": "ccr-99009024-qgfisx-o6-m03", "onda": 2, "partenza": "c83c3e4e6decc5c167bd0cefceb269364f388cd0", "tetto_usd": 28, "finita": false }
+  },
+  "collaudatori": {
+    "K01": { "id": "session_015BmpnZJpZKbaqaUumCK4jn", "ramo": "ccr-99009024-qgfisx-o6-k01", "riparatori": ["R01"], "tetto_usd": 8, "finita": false }
+  },
+  "controllori": {}
+}
