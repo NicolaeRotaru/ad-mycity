@@ -10,7 +10,7 @@ regia: session_015BmpnYq3DQDRwTXdBwfzud (chat «Ondata 9», decisione di Nicola 
 # Onda 9: il quaderno della regista
 
 ## In parole semplici
-L'onda 9 ripara 200 difetti piccoli del sito con 10 riparatori. L'ordine l'ha scelto Nicola: prima quelli già pagati, poi quelli con la correzione già scritta, poi quelli che nessuno ha mai raggiunto, poi i mai tentati e i lasciati a metà. Nessuno tocca soldi, dati personali o permessi. Parte giovedì 19/11 alle 10:05, quando il limite settimanale si è azzerato.
+L'onda 9 ripara 200 difetti piccoli del sito con 10 riparatori. L'ordine l'ha scelto Nicola: prima quelli già pagati, poi quelli con la correzione già scritta, poi quelli che nessuno ha mai raggiunto, poi i mai tentati e i lasciati a metà. Nessuno tocca soldi, dati personali o permessi. Un esempio vero: R03 ripara 19 difetti delle funzioni AI dei negozi, come il copilot che oltre circa cento prodotti risponde «riprova» e fallisce ogni volta. Due riparatori, R02 e R03, sono partiti il 17/11 alle 22:14 su «falla partire adesso» di Nicola. Gli altri otto partono giovedì 19/11 alle 10:05, quando il limite settimanale si è azzerato.
 
 ## Cosa cambia per te
 Niente fino alla PR del sito.
