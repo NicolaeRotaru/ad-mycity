@@ -1,12 +1,12 @@
 {
-  "creato": "2026-11-15 23:38",
+  "creato": "2026-11-17 09:06",
   "conti": {
-    "A": 16,
-    "B": 42,
-    "C": 41,
-    "D": 83
+    "A": 5,
+    "B": 43,
+    "C": 42,
+    "D": 90
   },
-  "righe_B": 53,
+  "righe_B": 64,
   "precedenti": {
     "deploy-sre|il rilascio non applica le migrazioni: il codice nuovo arriva su un database vecchio": {
       "id": "R01-001",
@@ -164,48 +164,48 @@
       "file_che_servono": []
     },
     "frontend-ux|con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato": {
-      "id": "R22-004",
-      "elenco": "B",
-      "esito": "serve_file_altrui",
-      "cosa_resta": null,
+      "id": "R27-011",
+      "elenco": "C",
+      "esito": "parziale",
+      "cosa_resta": "Gli altri caroselli e la scheda prodotto (serve_file_altrui).",
       "modifiche": [
         {
           "file": "components/SimilarProducts.tsx",
-          "modifica": "Riga 39: la queryFn applica la promozione come components/cart/CartUpsell.tsx:50-54: `queryFn: async (): Promise<Item[]> => { const righe = await leggiSimili(supabase, { productId, categoryId, sellerId }); if (righe.length === 0) return righe; const sconti = await fetchActiveDiscounts(supabase, righe.map((p) => p.id)).catch(() => new Map<string, number>()); return righe.map((p) => ({ ...p, price: discountedUnitCents(p.price, sconti.get(p.id) ?? 0) / 100 })); }` con `import { discountedUnitCents, fetchActiveDiscounts } from '@/lib/promotions';`. Così :94 `formatPrice(p.price)` stampa il prezzo che si paga."
+          "modifica": "Riga 39: `queryFn: async (): Promise<Item[]> => { const righe = await leggiSimili(supabase, { productId, categoryId, sellerId }); if (righe.length === 0) return righe; const sconti = await fetchActiveDiscounts(supabase, righe.map((p) => p.id)).catch(() => new Map<string, number>()); return righe.map((p) => ({ ...p, price: discountedUnitCents(p.price, sconti.get(p.id) ?? 0) / 100 })); }` con `import { discountedUnitCents, fetchActiveDiscounts } from '@/lib/promotions';`."
         },
         {
           "file": "components/RecentlyViewed.tsx",
-          "modifica": "Riga 72: `queryFn: async (): Promise<Item[]> => { const righe = await leggiVistiDiRecente(supabase, { userId: userId! }); if (righe.length === 0) return righe; const sconti = await fetchActiveDiscounts(supabase, righe.map((it) => it.product.id)).catch(() => new Map<string, number>()); return righe.map((it) => ({ ...it, product: { ...it.product, price: discountedUnitCents(it.product.price, sconti.get(it.product.id) ?? 0) / 100 } })); }` più lo stesso import da '@/lib/promotions'. Il prezzo stampato è a :110."
+          "modifica": "Riga 72: `queryFn: async (): Promise<Item[]> => { const righe = await leggiVistiDiRecente(supabase, { userId: userId! }); if (righe.length === 0) return righe; const sconti = await fetchActiveDiscounts(supabase, righe.map((it) => it.product.id)).catch(() => new Map<string, number>()); return righe.map((it) => ({ ...it, product: { ...it.product, price: discountedUnitCents(it.product.price, sconti.get(it.product.id) ?? 0) / 100 } })); }` più lo stesso import."
         },
         {
           "file": "components/SponsoredCarousel.tsx",
-          "modifica": "Righe 35-36: `queryFn: async (): Promise<SponsoredItem[]> => { const righe = await leggiSponsorizzati(supabase, { placement, categorySlug, oggi: new Date().toISOString().slice(0, 10) }); const ids = righe.flatMap((it) => (it.product ? [it.product.id] : [])); if (ids.length === 0) return righe; const sconti = await fetchActiveDiscounts(supabase, ids).catch(() => new Map<string, number>()); return righe.map((it) => (it.product ? { ...it, product: { ...it.product, price: discountedUnitCents(it.product.price, sconti.get(it.product.id) ?? 0) / 100 } } : it)); }` più l'import. Il prezzo stampato è a :122."
-        },
-        {
-          "file": "components/home/TrendingNow.tsx",
-          "modifica": "Riga 48 (carosello non nominato dalla voce ma con lo stesso prezzo pieno, :120 `formatPrice(p.price)` con `p = it.product`): `queryFn: async (): Promise<Trending[]> => { const righe = await leggiTendenze(supabase); if (righe.length === 0) return righe; const sconti = await fetchActiveDiscounts(supabase, righe.map((it) => it.product.id)).catch(() => new Map<string, number>()); return righe.map((it) => ({ ...it, product: { ...it.product, price: discountedUnitCents(it.product.price, sconti.get(it.product.id) ?? 0) / 100 } })); }` più l'import."
+          "modifica": "Righe 35-36: `queryFn: async (): Promise<SponsoredItem[]> => { const righe = await leggiSponsorizzati(supabase, { placement, categorySlug, oggi: new Date().toISOString().slice(0, 10) }); const ids = righe.flatMap((it) => (it.product ? [it.product.id] : [])); if (ids.length === 0) return righe; const sconti = await fetchActiveDiscounts(supabase, ids).catch(() => new Map<string, number>()); return righe.map((it) => (it.product ? { ...it, product: { ...it.product, price: discountedUnitCents(it.product.price, sconti.get(it.product.id) ?? 0) / 100 } } : it)); }` più l'import."
         },
         {
           "file": "components/products/FrequentlyBoughtTogether.tsx",
-          "modifica": "Riga 47 (fascia della scheda prodotto non nominata dalla voce, :100 `formatPrice(Number(p.price))`): come SimilarProducts, `const righe = await leggiSpessoCompratiInsieme(supabase, { productId, sellerId }); … return righe.map((p) => ({ ...p, price: discountedUnitCents(p.price, sconti.get(p.id) ?? 0) / 100 }));` più l'import; così anche addOne mette nel carrello il prezzo che si paga, come CartUpsell."
+          "modifica": "Riga 47: come SimilarProducts, `const righe = await leggiSpessoCompratiInsieme(supabase, { productId, sellerId }); … return righe.map((p) => ({ ...p, price: discountedUnitCents(p.price, sconti.get(p.id) ?? 0) / 100 }));` più l'import. Così anche addOne mette nel carrello il prezzo che si paga."
         },
         {
           "file": "components/SearchBar.tsx",
-          "modifica": "Riga 56 (la voce la nomina, :242 allora, :244 oggi): `queryFn: async (): Promise<Suggestion[]> => { const righe = await leggiSuggerimentiRicerca(supabase, debounced); const ids = righe.flatMap((s) => (s.kind === 'product' ? [s.id] : [])); if (ids.length === 0) return righe; const sconti = await fetchActiveDiscounts(supabase, ids).catch(() => new Map<string, number>()); return righe.map((s) => (s.kind === 'product' ? { ...s, price: discountedUnitCents(s.price, sconti.get(s.id) ?? 0) / 100 } : s)); }` più l'import."
+          "modifica": "Riga 56: `queryFn: async (): Promise<Suggestion[]> => { const righe = await leggiSuggerimentiRicerca(supabase, debounced); const ids = righe.flatMap((s) => (s.kind === 'product' ? [s.id] : [])); if (ids.length === 0) return righe; const sconti = await fetchActiveDiscounts(supabase, ids).catch(() => new Map<string, number>()); return righe.map((s) => (s.kind === 'product' ? { ...s, price: discountedUnitCents(s.price, sconti.get(s.id) ?? 0) / 100 } : s)); }` più l'import."
         },
         {
           "file": "app/product/[id]/page.tsx",
-          "modifica": "Righe 582-583 e 625: `price: prezzoPieno` diventa `price` (il prezzo unitario già scontato di :486), e il commento di :582 dice perché: il carrello (app/cart/page.tsx:424-431) e la cassa (app/checkout/page.tsx:303-308) confrontano il prezzo salvato con quello scontato di oggi, e col pieno scrivono «Buona notizia: il prezzo è sceso» / «Il prezzo è cambiato» su un prodotto in promozione appena aggiunto (la parte addToCart e carrello della descrizione della voce). Nessun doppio sconto: carrello e cassa ripartono dal prezzo del database (app/cart/page.tsx:312-316, app/checkout/page.tsx:192-296). Insieme va cambiata tests/unit/minori-s09-scheda-prodotto.test.ts:91-93, che fissa due `price: prezzoPieno,` col motivo «non due volte»: deve fissare due `price,` (o meglio montare la scheda e leggere il prezzo salvato nel carrello)."
+          "modifica": "Righe 608 e 654 (582-583 e 625 nella scheda): `price: prezzoPieno` diventa `price` (il prezzo unitario già scontato), con un commento: carrello e cassa confrontano il prezzo salvato con quello scontato di oggi, e col pieno scrivono «il prezzo è sceso» o «è cambiato» su un prodotto in promozione appena aggiunto. Nessun doppio sconto: carrello e cassa ripartono dal prezzo del database."
+        },
+        {
+          "file": "tests/unit/minori-s09-scheda-prodotto.test.ts",
+          "modifica": "Righe 91-93: oggi fissa due `price: prezzoPieno,` col motivo «non due volte». Deve fissare due `price,`, o meglio montare la scheda e leggere il prezzo salvato nel carrello. Va cambiata insieme a app/product/[id]/page.tsx."
         }
       ],
       "file_che_servono": [
         "components/SimilarProducts.tsx",
         "components/RecentlyViewed.tsx",
         "components/SponsoredCarousel.tsx",
-        "components/home/TrendingNow.tsx",
         "components/products/FrequentlyBoughtTogether.tsx",
         "components/SearchBar.tsx",
-        "app/product/[id]/page.tsx"
+        "app/product/[id]/page.tsx",
+        "tests/unit/minori-s09-scheda-prodotto.test.ts"
       ]
     },
     "frontend-ux|la vetrina dice «recensioni · 20» ma ne fa leggere solo sei, senza modo di vedere le altre": {
@@ -545,26 +545,26 @@
       ]
     },
     "architettura|il finto clienteavvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente": {
-      "id": "R23-007",
+      "id": "R27-006",
       "elenco": "B",
       "esito": "serve_file_altrui",
       "cosa_resta": null,
       "modifiche": [
         {
           "file": "tests/unit/aiuti/finto-giro-notturno.ts",
-          "modifica": "riapplicare il commit 2a5754cf del ramo claude/magical-hamilton-xouwr8-m23 (git show 2a5754cf): scenario.chiaviUniche (doppione su id → 'duplicate key … _pkey' 23505), scenario.indirizzi (auth.admin.getUserById), scenario.guasti (Guasto{tabella, azione select|insert, messaggio, codice, seFiltro, seRiga}, modificabile a notte in corso), FintaQuery.single()/maybeSingle(). Tutto opzionale: le 13 prove che lo usano restano verdi. Con lui torna la prova tests/unit/riparazione-r23-finto-clienteavvisi.test.ts."
+          "modifica": "Riapplicare il commit 2a5754cf (ramo claude/magical-hamilton-xouwr8-m23, `git show 2a5754cf`): scenario.chiaviUniche (doppione su id con errore 23505 'duplicate key … _pkey'), scenario.indirizzi (auth.admin.getUserById), scenario.guasti (Guasto{tabella, azione select|insert, messaggio, codice, seFiltro, seRiga}, modificabile a notte in corso), FintaQuery.single() e maybeSingle(). Tutto opzionale: le 13 prove che lo usano restano verdi. Il commit porta anche tests/unit/riparazione-r23-finto-clienteavvisi.test.ts."
         },
         {
           "file": "tests/unit/chi-vuole-cancellarsi-trova-una-strada-che-funziona.test.ts",
-          "modifica": "togliere adminDiProva (:70) e le patch a mano di insert/eq/select/single (rifiutaAvvisiA, rifiutaLetturaDi, registroInviiRotto, registroInviiRifiutaLeRighe, getUserById) usando fintoGiroNotturno({indirizzi, guasti}); spostare in file propri le due prove di rotta e di scansione del sorgente (:560-576)"
+          "modifica": "Togliere adminDiProva (:70) e le patch a mano di insert/eq/select/single (rifiutaAvvisiA, rifiutaLetturaDi, registroInviiRotto, registroInviiRifiutaLeRighe, getUserById) usando fintoGiroNotturno({indirizzi, guasti}); spostare in file propri le due prove di rotta e di scansione del sorgente (:560-576)."
         },
         {
           "file": "tests/unit/la-spiegazione-per-email-che-non-parte-si-riprova-la-notte-dopo.test.ts",
-          "modifica": "sostituire databaseVero()/cliente (:26-75) con fintoGiroNotturno({chiaviUniche:true, guasti}).admin as unknown as ClienteAvvisi; `rotte` diventa push/pop su `finto.guasti`"
+          "modifica": "Sostituire databaseVero()/cliente (:26-75) con `fintoGiroNotturno({chiaviUniche:true, guasti}).admin as unknown as ClienteAvvisi`; `rotte` diventa push/pop su `finto.guasti`."
         },
         {
           "file": "tests/unit/chi-aspetta-la-cancellazione-sa-perche-aspetta.test.ts",
-          "modifica": "sostituire letturaVuota() (:293) e i clienti inline `inCorsa`/`rotto` (:223-252) con fintoGiroNotturno({guasti:[{tabella:'notifications',azione:'select',messaggio:…}]}).admin"
+          "modifica": "Sostituire letturaVuota() (:293) e i clienti inline `inCorsa`/`rotto` (:223-252) con `fintoGiroNotturno({guasti:[{tabella:'notifications',azione:'select',messaggio:…}]}).admin`."
         }
       ],
       "file_che_servono": [
@@ -662,18 +662,23 @@
       "file_che_servono": []
     },
     "frontend-ux|i marchi «km 0» e «artigianale» non compaiono mai sulla scheda, perché la scheda non legge i tag": {
-      "id": "R17-005",
+      "id": "R28-008",
       "elenco": "B",
       "esito": "serve_file_altrui",
       "cosa_resta": null,
       "modifiche": [
         {
           "file": "tests/unit/aiuti/database-coi-permessi.ts",
-          "modifica": "nell'elenco COLONNE di 'products' aggiungere 'tags' dopo 'external_source_url' (il finto database rifiuta la colonna products.tags che la scheda ora chiede). Poi cherry-pick di d5687bbc (lib/queries/catalogo.ts: tags nella COLONNE_SCHEDA_PRODOTTO, filtro tagDeiMarchiDellaScheda che lascia solo Km 0/Artigianale, prova riparazione-r17-scheda-tag-dei-marchi): con questa riga le 12 prove collegate sono verdi (330 test). Senza, 25 test di il-catalogo-regge-con-i-profili-chiusi falliscono; per questo il commit e' stato tolto con git revert bb53b6be."
+          "modifica": "Riga 64, in COLONNE.products: «'external_source_url'» diventa «'external_source_url', 'tags'»."
+        },
+        {
+          "file": "lib/queries/catalogo.ts (mio, bloccato dalla riga sopra) + prova nuova tests/unit/riparazione-r28-scheda-tag-dei-marchi.test.ts",
+          "modifica": "Patch r28-008-intera.patch (mandata alla regista; si applica sulla testa)."
         }
       ],
       "file_che_servono": [
-        "tests/unit/aiuti/database-coi-permessi.ts"
+        "tests/unit/aiuti/database-coi-permessi.ts",
+        "lib/queries/catalogo.ts (mio, bloccato dalla riga sopra) + prova nuova tests/unit/riparazione-r28-scheda-tag-dei-marchi.test.ts"
       ]
     },
     "immagini-media|le tessere delle categorie in home sono foto d'archivio scritte a mano nel codice": {
@@ -697,7 +702,7 @@
       ]
     },
     "architettura|interfacce zombie: shippingforeuro vale sempre 0 ma riceve 7 ingressi; promessaspedizione ha un argomento morto e campi sempre costanti": {
-      "id": "R08-009",
+      "id": "R26-006",
       "elenco": "B",
       "esito": "serve_file_altrui",
       "cosa_resta": null,
@@ -742,23 +747,48 @@
       ]
     },
     "deploy-sre|la prova «migrazione su database pieno» mette ancora i file nell'ordine vecchio": {
-      "id": "R18-003",
+      "id": "R27-008",
       "elenco": "B",
       "esito": "serve_file_altrui",
       "cosa_resta": null,
       "modifiche": [
         {
           "file": "tests/sql/harness/migrazione-su-database-pieno.sh",
-          "modifica": "Riga 42: `ULTIMA=\"$(ls \"$MIG\"/*.sql | sort -V | tail -1)\"` → `ULTIMA=\"$(ls \"$MIG\"/*.sql | LC_ALL=C sort | tail -1)\"`. Riga 50: `for f in $(ls \"$MIG\"/*.sql | sort -V); do` → `for f in $(ls \"$MIG\"/*.sql | LC_ALL=C sort); do`. Patch pronta: /home/user/r18-attrezzi/lotti/r18-003-serve-file-altrui.patch."
+          "modifica": "Riga 42: `ULTIMA=\"$(ls \"$MIG\"/*.sql | sort -V | tail -1)\"` diventa `ULTIMA=\"$(ls \"$MIG\"/*.sql | LC_ALL=C sort | tail -1)\"`. Riga 50: `for f in $(ls \"$MIG\"/*.sql | sort -V); do` diventa `for f in $(ls \"$MIG\"/*.sql | LC_ALL=C sort); do`."
         },
         {
-          "file": "tests/sql/harness/la-158-non-lascia-la-porta-aperta.sh:54 · la-159-non-lascia-la-tabella-scoperta.sh:61 · la-160-regge-un-ordine-annullato.sh:45 · lo-script-non-si-schianta-sul-database-nato-prima-del-registro.sh:55 (gira in CI, ci.yml:329) · tests/supabase-locale/avvia.sh:36 · il test che simula il rilascio (il-rilascio-non-riallinea…test.ts:35-38)",
-          "modifica": "Stessa causa radice: `sort -V` diventa `LC_ALL=C sort`, come in apply.sh, in ognuno di questi punti (revisore C)."
+          "file": "tests/sql/harness/la-158-non-lascia-la-porta-aperta.sh",
+          "modifica": "Riga 54: `sort -V` diventa `LC_ALL=C sort`, come in apply.sh."
+        },
+        {
+          "file": "tests/sql/harness/la-159-non-lascia-la-tabella-scoperta.sh",
+          "modifica": "Riga 61: `sort -V` diventa `LC_ALL=C sort`."
+        },
+        {
+          "file": "tests/sql/harness/la-160-regge-un-ordine-annullato.sh",
+          "modifica": "Riga 45: `sort -V` diventa `LC_ALL=C sort`."
+        },
+        {
+          "file": "tests/sql/harness/lo-script-non-si-schianta-sul-database-nato-prima-del-registro.sh",
+          "modifica": "Riga 55 (gira in CI, ci.yml:329): `sort -V` diventa `LC_ALL=C sort`."
+        },
+        {
+          "file": "tests/supabase-locale/avvia.sh",
+          "modifica": "Riga 36: `sort -V` diventa `LC_ALL=C sort`."
+        },
+        {
+          "file": "tests/unit/il-rilascio-non-riallinea-da-solo-un-database-rimasto-indietro.test.ts",
+          "modifica": "Righe 35-38: la simulazione del rilascio usa `sort -V`. Stessa sostituzione con `LC_ALL=C sort`. Controllare anche tests/unit/minori-s03-ordine-migrazioni.test.ts, che nomina `sort -V`."
         }
       ],
       "file_che_servono": [
         "tests/sql/harness/migrazione-su-database-pieno.sh",
-        "tests/sql/harness/la-158-non-lascia-la-porta-aperta.sh:54 · la-159-non-lascia-la-tabella-scoperta.sh:61 · la-160-regge-un-ordine-annullato.sh:45 · lo-script-non-si-schianta-sul-database-nato-prima-del-registro.sh:55 (gira in CI, ci.yml:329) · tests/supabase-locale/avvia.sh:36 · il test che simula il rilascio (il-rilascio-non-riallinea…test.ts:35-38)"
+        "tests/sql/harness/la-158-non-lascia-la-porta-aperta.sh",
+        "tests/sql/harness/la-159-non-lascia-la-tabella-scoperta.sh",
+        "tests/sql/harness/la-160-regge-un-ordine-annullato.sh",
+        "tests/sql/harness/lo-script-non-si-schianta-sul-database-nato-prima-del-registro.sh",
+        "tests/supabase-locale/avvia.sh",
+        "tests/unit/il-rilascio-non-riallinea-da-solo-un-database-rimasto-indietro.test.ts"
       ]
     },
     "immagini-media|se l'abbonamento supabase scade, le foto del sito tornano rotte e nessun controllo se ne accorge": {
@@ -1165,14 +1195,14 @@
       "file_che_servono": []
     },
     "architettura|una prova sul webhook di stripe controlla l'ordine delle righe cercando una parola, e basta togliere uno spazio per ingannarla": {
-      "id": "R23-001",
+      "id": "R27-004",
       "elenco": "B",
       "esito": "serve_file_altrui",
       "cosa_resta": null,
       "modifiche": [
         {
           "file": "tests/unit/webhook-diviso-per-mestiere.test.ts",
-          "modifica": "Applicare esattamente `git diff 8b854ced 87694264 -- tests/unit/webhook-diviso-per-mestiere.test.ts` (ramo claude/magical-hamilton-xouwr8-m23), con un solo cambio: nel commento sopra marcatureFuoriPosto, `riparazione-r23-webhook-marca-dopo-il-gestore.test.ts` diventa `riparazione-r23-webhook.test.ts`. Cioè: alle righe 55-59 i due indexOf e le loro asserzioni lasciano il posto a `const { smistamento, marcature, primaDelloSmistamento } = marcatureFuoriPosto(readFileSync(ROTTA, 'utf8'));` con le asserzioni smistamento > 0, marcature > 0, primaDelloSmistamento === 0; si aggiunge il caso «non si inganna togliendo uno spazio (R23-001)»; in fondo si aggiunge la funzione marcatureFuoriPosto del commit 87694264."
+          "modifica": "Applicare `git diff 8b854ced 87694264 -- tests/unit/webhook-diviso-per-mestiere.test.ts` (ramo claude/magical-hamilton-xouwr8-m23), con un solo cambio: nel commento sopra marcatureFuoriPosto, `riparazione-r23-webhook-marca-dopo-il-gestore.test.ts` diventa `riparazione-r23-webhook.test.ts`. Alle righe 55-59 i due indexOf e le loro asserzioni lasciano il posto a `const { smistamento, marcature, primaDelloSmistamento } = marcatureFuoriPosto(readFileSync(ROTTA, 'utf8'));` con le asserzioni smistamento > 0, marcature > 0, primaDelloSmistamento === 0. Si aggiunge il caso «non si inganna togliendo uno spazio (R23-001)» e in fondo la funzione marcatureFuoriPosto del commit 87694264."
         }
       ],
       "file_che_servono": [
@@ -1274,263 +1304,6 @@
         "lib/products/prontoPerLaVendita.ts:64, :156, :302"
       ]
     },
-    "qa-flussi|la cassa dice «troppo lontano» a chi abita in via roma o in via cavour, in pieno centro, e l'ordine non parte": {
-      "id": "R13-001",
-      "elenco": "C",
-      "esito": "parziale",
-      "cosa_resta": "Dal collaudo del lotto 5: (1) lib/shipping-coordinate.ts (non di R13): la modifica proposta in serve_file_altrui ignora solo i punti salvati fuori dal riquadro di Piacenza; deve ignorare anche un punto salvato dentro il riquadro ma a più di 5 km dal negozio. (2) components/checkout/ShippingAddressForm.tsx:62,96 (di R13) con app/checkout/page.tsx:484 (non di R13): useCoordinateDellaZona si fida delle lat/lng degli indirizzi salvati con la vecchia ricerca, quindi la cassa può restare bloccata per chi ha in rubrica un indirizzo con coordinate sbagliate. (3) app/api/orders/cod/route.ts:1115 e app/api/stripe/checkout/route.ts:598 (di R13): il controllo dei 5 km usa coordConsegna anche quando non è affidabile. Non fatto per il tetto di costo. (4) lib/geocodifica.ts: fuori Piacenza, senza CAP o con un CAP storpiato, vince l'omonimo lontano (Quarto → Napoli) invece di null. Serve una regola nuova, non una correzione piccola, perché la prova di R13-006 vuole «Via Roma 1, Milano» senza CAP → Milano.",
-      "modifiche": [
-        {
-          "file": "lib/shipping-coordinate.ts",
-          "modifica": "In coordinateDaIndirizziSalvati, non fidarsi di una coordinata salvata che cade fuori dal riquadro di Piacenza (RIQUADRO_PIACENZA, lib/ordini/zona-di-consegna.ts): quando il punto salvato è fuori riquadro, ignorarlo (ritornare null) così la rotta ricade su coordinateDiUnIndirizzo (la ricerca strutturata nuova). In alternativa, decisione di Nicola: una migrazione che azzeri/ricalcoli user_addresses.lat/lng fuori riquadro."
-        }
-      ],
-      "file_che_servono": [
-        "lib/shipping-coordinate.ts"
-      ]
-    },
-    "api-backend|la funzione che muore fra l'ordine e gli articoli lascia la merce riservata senza nessuno che la liberi": {
-      "id": "R13-002",
-      "elenco": "D",
-      "esito": "parziale",
-      "cosa_resta": "Manca il giro a orario che chiami libera_riserve_della_cassa per tutti i prodotti. Senza di lui, una riserva rimasta aperta dopo la morte prima dell'ordine, su prodotti che nessuna cassa in contanti ritocca, resta presa. Il caso dell'ordine senza articoli lo chiude già l'annullo (giro degli ordini fermi o annullo a mano). Il file è altrui: vedi serve_file_altrui. La 371 va applicata da Nicola: fino ad allora il codice fa quello di prima.",
-      "modifiche": [
-        {
-          "file": "app/api/cron/expire-stale-orders/route.ts",
-          "modifica": "Subito dopo il blocco try/catch che assegna `admin = getAdminSupabase()` e prima di `const cutoff = new Date().toISOString();`, aggiungere:\n\n  // R13-002 — Le riserve della cassa in contanti rimaste aperte da un invio morto (migrazione 371): dopo 15 minuti si sistemano qui, per tutti i prodotti. Non ferma il giro.\n  try {\n    const { data: riserve, error: errRiserve } = await admin.rpc('libera_riserve_della_cassa', {});\n    if (errRiserve) {\n      if ((errRiserve as { code?: string }).code !== 'PGRST202') logger.error('[cron] expire-stale-orders: riserve della cassa non sistemate', { message: errRiserve.message });\n    } else {\n      const r = (riserve ?? {}) as { liberate?: number; a_meta?: number; incerte?: number; errori?: number };\n      if ((r.liberate ?? 0) + (r.a_meta ?? 0) + (r.incerte ?? 0) + (r.errori ?? 0) > 0) logger.warn('[cron] expire-stale-orders: riserve della cassa sistemate', r);\n    }\n  } catch (e) {\n    logger.error('[cron] expire-stale-orders: riserve della cassa non sistemate', { message: e instanceof Error ? e.message : String(e) });\n  }\n\nSe si preferisce un lavoro a parte: una rotta nuova app/api/cron/riserve-della-cassa/route.ts (withCronAuth e fermo dei lavori come gli altri) con la stessa chiamata, e in vercel.json → crons `{ \"path\": \"/api/cron/riserve-della-cassa\", \"schedule\": \"*/15 * * * *\" }`. Se incerte o errori sono più di zero, la merce resta scalata finché qualcuno non guarda: conviene un avviso agli amministratori con la memoria di operational_alert_log, come fa expire-checkouts."
-        }
-      ],
-      "file_che_servono": [
-        "app/api/cron/expire-stale-orders/route.ts"
-      ]
-    },
-    "pagamenti-stripe|il codice sconto di mycity lo paga il negozio: su 20 euro di pane con 5 euro di sconto incassa 13,50 invece di 18": {
-      "id": "R13-003",
-      "elenco": "D",
-      "esito": "scelta_di_nicola",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
-    },
-    "privacy-legale|il negozio può togliere il diritto di ripensamento a qualunque prodotto, anche a un maglione, e il sito rifiuta il reso dicendo al cliente che è la legge": {
-      "id": "R13-004",
-      "elenco": "D",
-      "esito": "parziale",
-      "cosa_resta": "1) Il modulo ProductForm mostra ancora la spunta per categorie non alimentari: al salvataggio viene rifiutata (dal server in modifica, dal trigger 373 nella creazione diretta dal browser), quindi il difetto legale è chiuso su ogni strada di scrittura, ma la spunta potrebbe essere nascosta a monte. Non l'ho fatto apposta: gating per categoria romperebbe le prove esistenti non-R13 che montano ProductForm con categorie piatte non alimentari (il-negozio-segna-i-prodotti-esclusi con slug 'forno-di-prova', minori-s06-scorta-in-modifica con 'panetteria'), e il difetto è già chiuso lato scrittura+DB+reso. 2) La lista delle categorie ammesse (solo alimenti) è in parte una scelta di Nicola: vedi la domanda sui beni non alimentari fatti su ordinazione.",
-      "modifiche": [],
-      "file_che_servono": []
-    },
-    "qa-flussi|le tre prove automatiche dell'acquisto vero sono vuote: passano in tre millesimi senza aprire niente": {
-      "id": "R13-005",
-      "elenco": "B",
-      "esito": "serve_file_altrui",
-      "cosa_resta": null,
-      "modifiche": [
-        {
-          "file": "tests/e2e/12-la-cassa-dal-carrello-al-pagamento.spec.ts",
-          "modifica": "Scrivere i corpi veri delle tre prove oggi `async () => {}` dichiarate test.skip (contrassegno: dal carrello seminato a POST /api/orders/cod, poi SELECT ordine stato NEW + totale + campanella del negozio; carta: Stripe test con webhook firmato e ordine PAID; consegna: giro release-payouts con transfer test-mode), attive solo quando E2E_DATI_DI_PROVA è acceso con l'ambiente di prova pronto; mai un'asserzione sulla variabile stessa. Aggiornare poi tests/unit/le-prove-della-cassa-non-passano-senza-aver-guardato.test.ts e la mia guardia riparazione-r13-la-cassa-e2e-non-diventa-verde-a-vuoto.test.ts perché pretendano un ordine nato invece del salto. ANCHE (dal collaudo): La modifica proposta in serve_file_altrui, e anche cosa_resta, elenca contrassegno, «carta: Stripe webhook e ordine PAID» e bonifico, ma dimentica il corpo della seconda delle tre prove, «rifiuto del negozio su un ordine pagato: il rimborso esiste». Per quella la voce chiede espressamente «Rifiuto: rimborso registrato». La modifica non è esatta: manca il rimborso."
-        }
-      ],
-      "file_che_servono": [
-        "tests/e2e/12-la-cassa-dal-carrello-al-pagamento.spec.ts"
-      ]
-    },
-    "qa-flussi|un ordine in contanti già incassato non si rimborsa dall’amministrazione: il sito non apre da solo il reclamo come deciso il 29/10, e il pannello dice di aprirlo a chi non può": {
-      "id": "R13-007",
-      "elenco": "D",
-      "esito": "parziale",
-      "cosa_resta": "Il reclamo aperto dal sito avvisa solo gli amministratori: a differenza di /api/disputes (R03-013) non manda la campanella al negozio, il cui bonifico per quell'ordine si ferma in silenzio, né la ricevuta al cliente (lib/ordini/annulla.ts, apriIlReclamoDeiContanti). La risposta 409 della rotta del cliente per l'ordine già rimborsato non ha una prova sua.",
-      "modifiche": [],
-      "file_che_servono": []
-    },
-    "api-backend|le rotte accettano una consegna a domicilio senza fascia: l'ordine nasce senza orario, mentre la cassa ne manda sempre una": {
-      "id": "R13-012",
-      "elenco": "B",
-      "esito": "serve_file_altrui",
-      "cosa_resta": "Bisogna rimettere 69b1cc57 (cherry-pick) dopo aver aggiunto un deliverySlot valido ai corpi delle 34 prove comuni elencate in serve_file_altrui.",
-      "modifiche": [
-        {
-          "file": "tests/unit/al-lancio-carta-abbonamento-e-codici-sconto-restano-spenti-anche-con-le-chiavi.test.ts",
-          "modifica": "nel corpo di ogni richiesta di consegna a domicilio alle rotte /api/orders/cod e /api/stripe/checkout aggiungere deliverySlot con una fascia vera di lib/quando-arriva.ts (es. FASCE_DI_DOMANI[0], compatibile con orologio e orari del negozio finto della prova); poi cherry-pick di 69b1cc57 (vale per tutte le righe sotto)"
-        },
-        {
-          "file": "tests/unit/api-stripe-checkout.test.ts",
-          "modifica": "idem: deliverySlot valido nei corpi senza ritiro"
-        },
-        {
-          "file": "tests/unit/chi-passa-ai-contanti-non-lascia-un-pagamento-aperto.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/collaudo-dopo-gia-arrivato-niente-doppione.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/con-la-carta-lo-stesso-carrello-non-apre-due-pagamenti.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/contanti-la-chiave-si-libera-se-l-ordine-non-parte.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/contanti-la-chiave-si-prende-prima.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/contanti-lo-stesso-carrello-giorni-dopo-e-un-ordine-nuovo.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/contanti-se-l-annullamento-fallisce-la-chiave-resta.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/gli-errori-della-cassa-in-contanti-parlano-la-lingua-del-sito.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/i-contanti-misurano-il-confine-in-ogni-direzione-e-da-ogni-fonte.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/i-contanti-non-nascono-se-la-carta-resta-pagabile.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/il-credito-tolto-da-un-tentativo-fallito-torna-ogni-volta.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/il-si-ai-cookie-dato-da-anonimo-vale-anche-dopo-l-accesso.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/la-carta-rifiuta-l-indirizzo-fuori-zona-come-i-contanti.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/la-carta-si-ferma-se-la-lettura-dei-negozi-torna-corta.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/la-cassa-gia-aperta-non-si-restituisce-con-un-pagamento-vecchio-vivo.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/la-cassa-in-contanti-non-perde-e-non-ricicla-la-chiave.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/la-cassa-in-contanti-si-ferma-quando-non-vede.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/la-cassa-mostra-la-spedizione-che-addebita-coi-profili-chiusi.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/la-cassa-non-dice-fatto-per-un-ordine-senza-articoli.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/la-cassa-non-fa-la-fila-di-viaggi.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/la-chiave-dei-contanti-ritrova-solo-i-suoi-ordini.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/la-conferma-in-contanti-esce-senza-il-tasto-per-smettere.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/la-posta-del-contrassegno-non-fa-la-fila.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/minori-s01-cassa-carta.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/minori-s01-negozio-senza-insegna.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/minori-s01-zona-carta.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/minori-s02-la-cassa-avvisa-chi-sistema.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/ordini-contrassegno-due-negozi.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/riparazione-r03-prezzo-cambiato-in-cassa.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/riparazione-r13-riserva-della-cassa.test.ts",
-          "modifica": "idem (prova di R13 dei lotti 1-3, usa anche file di altre sessioni)"
-        },
-        {
-          "file": "tests/unit/una-consegna-a-milano-non-passa-piu-in-cassa.test.ts",
-          "modifica": "idem"
-        },
-        {
-          "file": "tests/unit/variante-503-dopo-chiave-abbandonata.test.ts",
-          "modifica": "idem"
-        }
-      ],
-      "file_che_servono": [
-        "tests/unit/al-lancio-carta-abbonamento-e-codici-sconto-restano-spenti-anche-con-le-chiavi.test.ts",
-        "tests/unit/api-stripe-checkout.test.ts",
-        "tests/unit/chi-passa-ai-contanti-non-lascia-un-pagamento-aperto.test.ts",
-        "tests/unit/collaudo-dopo-gia-arrivato-niente-doppione.test.ts",
-        "tests/unit/con-la-carta-lo-stesso-carrello-non-apre-due-pagamenti.test.ts",
-        "tests/unit/contanti-la-chiave-si-libera-se-l-ordine-non-parte.test.ts",
-        "tests/unit/contanti-la-chiave-si-prende-prima.test.ts",
-        "tests/unit/contanti-lo-stesso-carrello-giorni-dopo-e-un-ordine-nuovo.test.ts",
-        "tests/unit/contanti-se-l-annullamento-fallisce-la-chiave-resta.test.ts",
-        "tests/unit/gli-errori-della-cassa-in-contanti-parlano-la-lingua-del-sito.test.ts",
-        "tests/unit/i-contanti-misurano-il-confine-in-ogni-direzione-e-da-ogni-fonte.test.ts",
-        "tests/unit/i-contanti-non-nascono-se-la-carta-resta-pagabile.test.ts",
-        "tests/unit/il-credito-tolto-da-un-tentativo-fallito-torna-ogni-volta.test.ts",
-        "tests/unit/il-si-ai-cookie-dato-da-anonimo-vale-anche-dopo-l-accesso.test.ts",
-        "tests/unit/la-carta-rifiuta-l-indirizzo-fuori-zona-come-i-contanti.test.ts",
-        "tests/unit/la-carta-si-ferma-se-la-lettura-dei-negozi-torna-corta.test.ts",
-        "tests/unit/la-cassa-gia-aperta-non-si-restituisce-con-un-pagamento-vecchio-vivo.test.ts",
-        "tests/unit/la-cassa-in-contanti-non-perde-e-non-ricicla-la-chiave.test.ts",
-        "tests/unit/la-cassa-in-contanti-si-ferma-quando-non-vede.test.ts",
-        "tests/unit/la-cassa-mostra-la-spedizione-che-addebita-coi-profili-chiusi.test.ts",
-        "tests/unit/la-cassa-non-dice-fatto-per-un-ordine-senza-articoli.test.ts",
-        "tests/unit/la-cassa-non-fa-la-fila-di-viaggi.test.ts",
-        "tests/unit/la-chiave-dei-contanti-ritrova-solo-i-suoi-ordini.test.ts",
-        "tests/unit/la-conferma-in-contanti-esce-senza-il-tasto-per-smettere.test.ts",
-        "tests/unit/la-posta-del-contrassegno-non-fa-la-fila.test.ts",
-        "tests/unit/minori-s01-cassa-carta.test.ts",
-        "tests/unit/minori-s01-negozio-senza-insegna.test.ts",
-        "tests/unit/minori-s01-zona-carta.test.ts",
-        "tests/unit/minori-s02-la-cassa-avvisa-chi-sistema.test.ts",
-        "tests/unit/ordini-contrassegno-due-negozi.test.ts",
-        "tests/unit/riparazione-r03-prezzo-cambiato-in-cassa.test.ts",
-        "tests/unit/riparazione-r13-riserva-della-cassa.test.ts",
-        "tests/unit/una-consegna-a-milano-non-passa-piu-in-cassa.test.ts",
-        "tests/unit/variante-503-dopo-chiave-abbandonata.test.ts"
-      ]
-    },
-    "dati-analytics|in analisi il voto medio guarda solo le recensioni ai prodotti: un negozio con tre recensioni legge «nessuna recensione», e le etichette sono in inglese": {
-      "id": "R13-020",
-      "elenco": "D",
-      "esito": "non_fatto",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
-    },
     "api-backend|se la lettura delle email cade, la ricerca utenti dice «nessuno, ho cercato su tutti», e oltre mille iscritti l'email non si trova": {
       "id": "R14-001",
       "elenco": "D",
@@ -1583,22 +1356,6 @@
       "modifiche": [],
       "file_che_servono": []
     },
-    "api-backend|due cancellazioni dello stesso account partite insieme danno un errore falso o una riga doppia nel registro": {
-      "id": "R14-007",
-      "elenco": "A",
-      "esito": "riparato",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
-    },
-    "api-backend|la rotta che cancella un utente accetta anche un amministratore, mentre la pagina nasconde il bottone": {
-      "id": "R14-008",
-      "elenco": "A",
-      "esito": "riparato",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
-    },
     "api-backend|il conteggio dei promemoria «inviati» include carrelli segnati senza nessuna email": {
       "id": "R14-009",
       "elenco": "C",
@@ -1613,14 +1370,6 @@
       "file_che_servono": [
         "app/api/account/delete/route.ts"
       ]
-    },
-    "api-backend|il giro che annulla legge al massimo 100 ordini fermi, senza un ordine: una veloce scaduta può restare fuori dal giro": {
-      "id": "R14-010",
-      "elenco": "A",
-      "esito": "riparato",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
     },
     "api-backend|se due giri del sorvegliante partono nello stesso istante, l'amministratore riceve due volte la stessa campanella": {
       "id": "R14-011",
@@ -1637,38 +1386,6 @@
         "tests/unit/l-allarme-che-non-parte-non-si-spaccia-per-spedito.test.ts"
       ]
     },
-    "api-backend|allarme 'persone non avvisate' riscritto ogni notte, senza dire chi: la stessa classe chiusa per le email resta aperta qui": {
-      "id": "R14-012",
-      "elenco": "A",
-      "esito": "riparato",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
-    },
-    "api-backend|avvisi ed email in un giro senza tetto di tempo: con posta appesa e ~15 in attesa, gli ultimi non hanno nemmeno l'avviso nel pannello": {
-      "id": "R14-013",
-      "elenco": "A",
-      "esito": "riparato",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
-    },
-    "api-backend|l'allarme 'scrivile tu' si chiude solo se l'email parte: se la persona annulla o viene cancellata resta aperto per sempre col suo id": {
-      "id": "R14-014",
-      "elenco": "A",
-      "esito": "riparato",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
-    },
-    "api-backend|se due giri della cancellazione account partono insieme, l'account sparisce ma agli amministratori arriva un falso allarme di cancellazione fallita": {
-      "id": "R14-015",
-      "elenco": "A",
-      "esito": "riparato",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
-    },
     "api-backend|la notifica del nuovo ordine fa la fila dietro le promozioni": {
       "id": "R14-016",
       "elenco": "B",
@@ -1684,114 +1401,30 @@
         "tests/unit/minori-s03-push.test.ts"
       ]
     },
-    "api-backend|se l'amministratore apre i documenti di un fattorino con un codice storto, la rotta risponde con un guasto invece di dire che il codice non è valido": {
-      "id": "R14-017",
-      "elenco": "A",
-      "esito": "riparato",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
-    },
     "api-backend|il freno sulla rotta regge per 3 interruttori su 9: ai, newsletter, classifica e caricamento da file stanno solo nelle pagine": {
-      "id": "R14-018",
+      "id": "R27-003",
       "elenco": "B",
       "esito": "serve_file_altrui",
-      "cosa_resta": "1) Rimettere 930e4f9 dopo aver preparato tests/unit/api-ai-reviews-summary.test.ts (sopra). 2) Le altre 14 rotte app/api/ai/* (elenco sopra) non leggono AI_NEGOZI_ACCESA: oggi nessuna chiama il modello da spenta perche' lo ferma lib/ai/client.ts:198 (getAnthropic lancia AiConfigError), ma consumano il freno, leggono il database e rispondono «Servizio AI non configurato». catalog-batch/status e catalog-batch/cancel le lascerei senza freno: servono a chiudere un lotto partito prima dello spegnimento. 3) Classifica inviti: non c'e' una rotta; la pagina app/profile/referral/leaderboard/page.tsx legge la vista public.referral_leaderboard dal browser (GRANT SELECT TO authenticated in migrations/151). Un freno lato server sarebbe una migrazione nuova (`REVOKE SELECT ON public.referral_leaderboard FROM authenticated;`, da ridare alla riaccensione); lib/funzioni-al-lancio.ts:26-28 oggi la dichiara un'eccezione voluta (nessun premio passa di mano): scelta di Nicola. 4) Nessun aiutante comune in lib/funzioni-al-lancio.ts: il file e' letto anche da pagine del browser e una risposta del server (next/server) li' dentro non ci sta. Gli interruttori non sono cambiati.",
+      "cosa_resta": "Il freno del copilot e le prove da preparare vanno insieme. Il resto è della scheda: 1) rimettere 930e4f9 dopo aver preparato api-ai-reviews-summary; 2) le altre 13 rotte app/api/ai/*; 3) la classifica inviti, scelta di Nicola (nessuna rotta: la pagina app/profile/referral/leaderboard/page.tsx legge la vista dal browser; un freno lato server sarebbe una migrazione `REVOKE SELECT ON public.referral_leaderboard FROM authenticated;`, da ridare alla riaccensione). Il caricamento da file non è stato verificato.",
       "modifiche": [
         {
+          "file": "app/api/ai/copilot/route.ts (di R27, ma va insieme alle 7 prove che mockano lib/api/middleware di R25)",
+          "modifica": "Aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e, in testa al gestore POST (dentro withSellerAuth, prima di `env.anthropicKey()`): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');`. Nello stesso commit, `vi.mock('@/lib/funzioni-al-lancio', async (o) => ({ ...((await o()) as Record<string, unknown>), AI_NEGOZI_ACCESA: true }));` nelle 7 prove elencate."
+        },
+        {
           "file": "tests/unit/api-ai-reviews-summary.test.ts",
-          "modifica": "accanto agli altri vi.mock aggiungere `vi.mock('@/lib/funzioni-al-lancio', async (o) => ({ ...((await o()) as Record<string, unknown>), AI_NEGOZI_ACCESA: true }));` (la prova finge oggi un venditore e un modello, ma non l'interruttore, che e' spento). Poi rimettere la correzione con `git revert cf976e1d072db3995709333eb67b0203c8070504` (riporta 930e4f9: la riga in app/api/ai/reviews-summary/route.ts, la prova nuova tests/unit/riparazione-r14-freno-ai-recensioni.test.ts e l'interruttore acceso nella prova di R14-017)."
+          "modifica": "Accanto agli altri vi.mock, aggiungere `vi.mock('@/lib/funzioni-al-lancio', async (o) => ({ ...((await o()) as Record<string, unknown>), AI_NEGOZI_ACCESA: true }));`. Poi rimettere la correzione con `git revert cf976e1d072db3995709333eb67b0203c8070504` (riporta 930e4f9: riga in app/api/ai/reviews-summary/route.ts, prova tests/unit/riparazione-r14-freno-ai-recensioni.test.ts e interruttore acceso nella prova di R14-017)."
         },
         {
-          "file": "app/api/ai/answer-qa/route.ts",
-          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: tests/unit/api-ai-answer-qa.test.ts."
-        },
-        {
-          "file": "app/api/ai/barcode-lookup/route.ts",
-          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: tests/unit/api-ai-barcode-lookup.test.ts, un-corpo-troppo-grande-non-e-un-json-rotto, riparazione-r04-elenchi-con-tetto, la-chat-del-prodotto-dice-quello-che-il-modulo-ha-scritto, riparazione-r04-modello-ritirato."
-        },
-        {
-          "file": "app/api/ai/catalog-apply/route.ts",
-          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: il-freno-sul-prezzo-si-accende-davvero, minori-s03-email-testi, una-dichiarazione-che-la-scheda-non-ha-non-si-chiede, dalla-chat-un-alimento-non-va-in-vendita-senza-i-controlli-del-modulo, la-chat-non-dice-salvate-se-il-prezzo-e-rimasto, riparazione-r10-traccia-del-prezzo-una-forma, le-dichiarazioni-di-un-alimento-le-scrive-il-negoziante, il-prezzo-rifiutato-si-dice-anche-quando-la-chat-si-ferma-per-altro."
-        },
-        {
-          "file": "app/api/ai/catalog-apply-bulk/route.ts",
-          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: una-voce-scritta-male-non-ferma-le-modifiche-in-massa (finge gia' acceso), una-dichiarazione-che-la-scheda-non-ha-non-si-chiede, dalla-chat-un-alimento-non-va-in-vendita-senza-i-controlli-del-modulo, il-copilot-dice-cosa-non-e-entrato, minori-s10-copilot-applica, il-copilot-non-dice-applicato-se-il-prezzo-non-e-entrato, il-copilot-applica-tutto-in-una-volta, le-dichiarazioni-di-un-alimento-le-scrive-il-negoziante."
-        },
-        {
-          "file": "app/api/ai/catalog-chat/route.ts",
-          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: le-foto-che-arrivano-al-modello-sono-le-nostre, riparazione-r04-chat-non-inventa, minori-s10-catalogo-chat, minori-s10-ai-chat, la-chat-mostra-la-proposta-che-il-server-applica, riparazione-r04-chat-turni-assistente, riparazione-r04-modello-ritirato, la-cache-copre-il-pezzo-che-pesa, al-primo-messaggio-la-chat-non-propone-quello-che-non-ha-letto, riparazione-r04-chat-caratteristiche."
-        },
-        {
-          "file": "app/api/ai/catalog-create/route.ts",
-          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: minori-s10-bozze-dalle-foto (finge gia' acceso), dalla-chat-un-alimento-non-va-in-vendita-senza-i-controlli-del-modulo."
-        },
-        {
-          "file": "app/api/ai/copilot/route.ts",
-          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: api-ai-copilot, riparazione-r04-copilot-regola, niente-chiamate-a-vuoto-al-filtro, minori-s10-catalogo-chat, il-copilot-dice-cosa-non-e-entrato, riparazione-r04-copilot-cronologia, riparazione-r04-modello-ritirato."
-        },
-        {
-          "file": "app/api/ai/description/route.ts",
-          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: api-ai-description, minori-s10-bozze-dalle-foto, il-filtro-e-collegato, una-descrizione-tagliata-esce-corta-non-a-meta-parola, i-tagli-valgono-in-tutti-e-due-i-punti, l-ai-spenta-non-chiama-il-modello-neanche-con-la-chiave (finge l'interruttore)."
-        },
-        {
-          "file": "app/api/ai/diagnose/route.ts",
-          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: api-ai-diagnose, la-chat-del-prodotto-dice-quello-che-il-modulo-ha-scritto, il-filtro-e-collegato, riparazione-r04-modello-ritirato."
-        },
-        {
-          "file": "app/api/ai/improve-product/route.ts",
-          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: api-ai-improve-product, riparazione-r04-consegna-nel-prompt, minori-s10-bozze-dalle-foto, riparazione-r04-elenchi-con-tetto, il-filtro-e-collegato, riparazione-r04-modello-ritirato."
-        },
-        {
-          "file": "app/api/ai/product-chat/route.ts",
-          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: minori-s10-ai-chat, riparazione-r04-elenchi-con-tetto, la-chat-del-prodotto-dice-quello-che-il-modulo-ha-scritto, riparazione-r04-chat-turni-assistente, riparazione-r04-modello-ritirato, al-venditore-arriva-la-risposta-non-il-diario, la-cache-copre-il-pezzo-che-pesa."
-        },
-        {
-          "file": "app/api/ai/seo/route.ts",
-          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: api-ai-seo, il-filtro-e-collegato."
-        },
-        {
-          "file": "app/api/ai/variants/route.ts",
-          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: api-ai-variants, il-filtro-e-collegato, riparazione-r04-modello-ritirato, i-tagli-valgono-in-tutti-e-due-i-punti."
-        },
-        {
-          "file": "app/api/ai/voice-product/route.ts",
-          "modifica": "aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e in testa al gestore POST, dentro withSellerAuth e prima di tutto il resto (freno, `env.anthropicKey()`, corpo): `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove che importano la rotta e non fingono l'interruttore vanno preparate prima con `AI_NEGOZI_ACCESA: true` in un vi.mock di '@/lib/funzioni-al-lancio', se no diventano 503: api-ai-voice-product, niente-chiamate-a-vuoto-al-filtro, un-corpo-troppo-grande-non-e-un-json-rotto, minori-s10-bozze-dalle-foto, la-chat-del-prodotto-dice-quello-che-il-modulo-ha-scritto, il-testo-di-altri-sta-nel-recinto, dopo-la-dettatura-il-negoziante-sa-cosa-scrivere-lui, le-parole-dell-assistente-non-fanno-da-conferma, riparazione-r04-dettatura-elenchi."
+          "file": "app/api/ai/{answer-qa,barcode-lookup,catalog-apply,catalog-apply-bulk,catalog-chat,catalog-create,description,diagnose,improve-product,product-chat,seo,variants,voice-product}/route.ts",
+          "modifica": "In ciascuna: `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e, in testa al gestore POST dentro withSellerAuth e prima di tutto il resto, `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');` (stessa riga di app/api/ai/catalog-batch/start/route.ts:42). Le prove di ciascuna rotta (elenco per rotta nella scheda R27, voce R27-003) vanno prima preparate col vi.mock di AI_NEGOZI_ACCESA: true. catalog-batch/status e catalog-batch/cancel restano senza freno: servono a chiudere un lotto già partito."
         }
       ],
       "file_che_servono": [
+        "app/api/ai/copilot/route.ts (di R27, ma va insieme alle 7 prove che mockano lib/api/middleware di R25)",
         "tests/unit/api-ai-reviews-summary.test.ts",
-        "app/api/ai/answer-qa/route.ts",
-        "app/api/ai/barcode-lookup/route.ts",
-        "app/api/ai/catalog-apply/route.ts",
-        "app/api/ai/catalog-apply-bulk/route.ts",
-        "app/api/ai/catalog-chat/route.ts",
-        "app/api/ai/catalog-create/route.ts",
-        "app/api/ai/copilot/route.ts",
-        "app/api/ai/description/route.ts",
-        "app/api/ai/diagnose/route.ts",
-        "app/api/ai/improve-product/route.ts",
-        "app/api/ai/product-chat/route.ts",
-        "app/api/ai/seo/route.ts",
-        "app/api/ai/variants/route.ts",
-        "app/api/ai/voice-product/route.ts"
+        "app/api/ai/{answer-qa,barcode-lookup,catalog-apply,catalog-apply-bulk,catalog-chat,catalog-create,description,diagnose,improve-product,product-chat,seo,variants,voice-product}/route.ts"
       ]
-    },
-    "api-backend|se il cliente ritira il reso mentre il negozio lo approva con rimborso, il reso resta annullato coi soldi gia' usciti": {
-      "id": "R14-019",
-      "elenco": "A",
-      "esito": "riparato",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
-    },
-    "api-backend|gli avvisi «incasso in contanti che non quadra» e «incasso senza foto» si scrivono senza guardare se sono partiti": {
-      "id": "R14-020",
-      "elenco": "A",
-      "esito": "riparato",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
     },
     "api-backend|comunicare due volte l'esito di una segnalazione rimanda la mail e le notifiche, e dopo un errore il nuovo tentativo rimanda anche i canali già riusciti": {
       "id": "R14-021",
@@ -1811,14 +1444,6 @@
     "api-backend|due segnali di accesso per lo stesso ingresso: la deduplica legge-e-poi-scrive senza vincolo sul database — e la migrazione che la reggerebbe non c'e' in questo lotto": {
       "id": "R14-023",
       "elenco": "D",
-      "esito": "riparato",
-      "cosa_resta": null,
-      "modifiche": [],
-      "file_che_servono": []
-    },
-    "api-backend|la rotta che registra le visite va in errore del server se riceve un corpo vuoto o rotto, o un cookie dei consensi storto": {
-      "id": "R14-024",
-      "elenco": "A",
       "esito": "riparato",
       "cosa_resta": null,
       "modifiche": [],
@@ -2209,8 +1834,8 @@
     "rls-database|il database accetta un codice sconto del 150% e importi in soldi negativi": {
       "id": "R18-019",
       "elenco": "D",
-      "esito": "riparato",
-      "cosa_resta": null,
+      "esito": "parziale",
+      "cosa_resta": "Tutta la voce. Il codice (commit 6eefff31) è tolto dal sito col revert 58e23838 (2026-11-14): rossa al controllo dell onda 2 (C02 terzo) e rompe_altro al ricollaudo K07 secondo. Sul sito pubblicato (mycity#290) la voce non è riparata e resta aperta.",
       "modifiche": [],
       "file_che_servono": []
     },
@@ -2359,23 +1984,18 @@
       "file_che_servono": []
     },
     "frontend-ux|il negoziante col negozio non ancora approvato vede «negozio» al posto della sua insegna nella lista condivisa e alla cassa": {
-      "id": "R19-006",
+      "id": "R26-011",
       "elenco": "B",
       "esito": "serve_file_altrui",
-      "cosa_resta": "Carrello e scheda prodotto: il proprietario di un negozio non ancora approvato legge «Negozio» invece della sua insegna.",
+      "cosa_resta": null,
       "modifiche": [
         {
           "file": "app/cart/page.tsx",
-          "modifica": "Per i negozi che la vista pubblica non restituisce (idNegozi assenti da negoziRes) leggere supabase.from('profiles').select('id, store_name').in('id', senzaVista) — le regole fanno tornare solo la propria riga — in un try/catch, tenerli in uno stato insegnaPropria, e a :487 usare it.storeName ?? insegnaPropria[it.sellerId] ?? 'Negozio'. Stesso schema già in app/checkout/page.tsx e app/shared-cart/page.tsx (commit 23cf610b)."
-        },
-        {
-          "file": "app/product/[id]/page.tsx",
-          "modifica": "Dopo sellerProfile: const insegna = sellerProfile?.store_name ?? (profile?.id && profile.id === product.seller_id ? profile.store_name ?? undefined : undefined) (profile viene già da useProfile, che legge store_name). Usare insegna nelle due righe del carrello (:587, :629, storeName: insegna ?? undefined) e nella scheda venditore (:962, storeName={insegna ?? 'Negozio'}). Facoltativo, stesso sintomo: :1100, :1217 («Venduto da») e :1236 leggono ancora product.profiles?.store_name."
+          "modifica": "Per i negozi che la vista pubblica non restituisce (idNegozi assenti da negoziRes) leggere supabase.from('profiles').select('id, store_name').in('id', senzaVista) in un try/catch (le regole fanno tornare solo la propria riga), tenerli in uno stato insegnaPropria, e a :487 usare it.storeName ?? insegnaPropria[it.sellerId] ?? 'Negozio'. Stesso schema di app/checkout/page.tsx e app/shared-cart/page.tsx (commit 23cf610b). Prova: aggiungere 'app/cart/page.tsx' al ciclo di tests/unit/riparazione-r19-insegna-del-negozio-non-approvato.test.ts, o un montaggio vero del carrello."
         }
       ],
       "file_che_servono": [
-        "app/cart/page.tsx",
-        "app/product/[id]/page.tsx"
+        "app/cart/page.tsx"
       ]
     },
     "privacy-legale|la domanda sui termini si fa solo sulle pagine: le api di ordine non la controllano": {
@@ -2542,8 +2162,8 @@
     "qa-flussi|sulla bacheca del fattorino un «accetta» perso lascia l'ordine in elenco fino a un minuto, e fa girare tutti i pulsanti insieme": {
       "id": "R20-011",
       "elenco": "D",
-      "esito": "riparato",
-      "cosa_resta": null,
+      "esito": "parziale",
+      "cosa_resta": "Tutta la voce. Il codice (commit 30b7f9ed) è tolto dal sito col revert de5a0b46 (2026-11-14 23:34): rompe_altro al ricollaudo K05 secondo; Nicola, carta 243: la voce resta aperta, terzo giro solo con lui. Sul sito pubblicato (mycity#290) la voce non è riparata e resta aperta.",
       "modifiche": [],
       "file_che_servono": []
     },
@@ -3066,33 +2686,33 @@
       ]
     },
     "pagamenti-stripe|con l'abbonamento acceso, due schede aperte creano due abbonamenti da 50 euro, e il primo resta orfano e non si disdice dal sito": {
-      "id": "R23-011",
+      "id": "R28-012",
       "elenco": "B",
       "esito": "serve_file_altrui",
       "cosa_resta": null,
       "modifiche": [
         {
           "file": "tests/unit/riparazione-r10-un-prezzo-abbonamento.test.tsx",
-          "modifica": "Nel vi.mock('@/lib/supabase/server'), prima di `getServerSupabase: async () => ({`, aggiungere `getAdminSupabase: () => ({ from: () => ({ update: () => ({ eq: () => ({ is: async () => ({ error: null }) }) }) }) }),`. Nel vi.mock('@/lib/stripe/client'), dentro `getStripe: () => ({` e prima di `subscriptions: { list: async () => ({ data: [] }) },`, aggiungere `customers: { list: async () => ({ data: [] }), create: async () => ({ id: 'cus_1' }) },`."
+          "modifica": "Nel vi.mock('@/lib/supabase/server'), prima di getServerSupabase: async () => ({, aggiungere getAdminSupabase: () => ({ from: () => ({ update: () => ({ eq: () => ({ is: async () => ({ error: null }) }) }) }) }),; nel vi.mock('@/lib/stripe/client'), dentro getStripe: () => ({ e prima di subscriptions: { list: async () => ({ data: [] }) },, aggiungere customers: { list: async () => ({ data: [] }), create: async () => ({ id: 'cus_1' }) },"
         },
         {
           "file": "tests/unit/riparazione-r10-abbonamento-dopo-il-primo-incasso.test.ts",
-          "modifica": "Riga 32, nel vi.mock('@/lib/supabase/server'), prima di `getServerSupabase: async () => ({`, aggiungere `getAdminSupabase: () => ({ from: () => ({ update: () => ({ eq: () => ({ is: async () => ({ error: null }) }) }) }) }),`. Riga 46, dentro `getStripe: () => ({` e prima di `subscriptions: { list: async () => ({ data: [] }) },`, aggiungere `customers: { list: async () => ({ data: [] }), create: async () => ({ id: 'cus_1' }) },`."
+          "modifica": "Riga 32 getAdminSupabase come sopra; riga 46 customers come sopra."
         },
         {
           "file": "tests/unit/riparazione-r10-abbonamento-doppio.test.ts",
-          "modifica": "Riga 53, nel vi.mock('@/lib/stripe/client'), subito dopo `webhooks: { constructEvent: () => stato.evento },`, aggiungere `customers: { list: async () => ({ data: [] }), create: async () => ({ id: 'cus_1' }) },`."
+          "modifica": "Riga 53, dopo webhooks: { constructEvent: () => stato.evento },, aggiungere customers: { list: async () => ({ data: [] }), create: async () => ({ id: 'cus_1' }) },"
         },
         {
-          "file": "app/api/seller/subscription/checkout/route.ts + app/api/seller/subscription/portal/route.ts",
-          "modifica": "riprendere la correzione con git cherry-pick 0a428830 16f54763 (togliendo da 16f54763 le righe sulle due prove R10, che vanno come scritte sopra), insieme alle tre modifiche ai finti di R10"
+          "file": "app/api/seller/subscription/checkout/route.ts, app/api/seller/subscription/portal/route.ts (miei, bloccati dalle prove sopra) + prova nuova tests/unit/riparazione-r28-abbonamento-due-schede.test.ts",
+          "modifica": "Patch r28-012-intera.patch (mandata alla regista; si applica sulla testa)."
         }
       ],
       "file_che_servono": [
         "tests/unit/riparazione-r10-un-prezzo-abbonamento.test.tsx",
         "tests/unit/riparazione-r10-abbonamento-dopo-il-primo-incasso.test.ts",
         "tests/unit/riparazione-r10-abbonamento-doppio.test.ts",
-        "app/api/seller/subscription/checkout/route.ts + app/api/seller/subscription/portal/route.ts"
+        "app/api/seller/subscription/checkout/route.ts, app/api/seller/subscription/portal/route.ts (miei, bloccati dalle prove sopra) + prova nuova tests/unit/riparazione-r28-abbonamento-due-schede.test.ts"
       ]
     },
     "performance|la velocità del sito vista dai clienti veri non la misura nessuno": {
@@ -3411,6 +3031,209 @@
       "file_che_servono": [
         "tailwind.config.ts"
       ]
+    },
+    "privacy-legale|le foto dei resi restano pubbliche su internet per sempre, anche dopo che il cliente cancella l'account": {
+      "id": "R26-001",
+      "elenco": "D",
+      "esito": "parziale",
+      "cosa_resta": "Il modulo del reso carica ancora in products, che è pubblico: finché l'account vive la foto si vede da chi ha il link. Il passaggio al secchio privato chiede prima la riga in lib/storage/regole-secchi.ts (serve_file_altrui), poi, tutte insieme e con la 500 applicata: 1) app/orders/[id]/return/page.tsx: secchio 'returns', cartella params.id, accept={attributoAccept('returns')}; photo_urls salva ${NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/authenticated/returns/<percorso>, anteprima con createSignedUrl; 2) components/seller/ReturnRequestCard.tsx: createSignedUrl per quei riferimenti; 3) lib/account/cancellazione.ts: 'returns' in SECCHI_CON_FILE_PERSONALI. Non codice per Nicola: applicare la 500; le foto già caricate in products/<cliente>/returns/ vanno spostate o cancellate. Due note del revisore: (a) il commento in migrations/500_le_foto_dei_resi_in_un_secchio_privato.sql:26-27 dice che la cancellazione svuota già la cartella nel secchio 'returns', ma 'returns' entra in SECCHI_CON_FILE_PERSONALI solo col passo 3: va corretto insieme; (b) non verificabile: prima della migrazione 114 il caricamento in products accettava qualunque percorso, quindi foto di resi più vecchie salvate fuori da <cliente>/returns/ restano pubbliche, e photo_urls viene azzerato prima della pulizia dei file, così il riferimento per ritrovarle si perde.",
+      "modifiche": [
+        {
+          "file": "lib/storage/regole-secchi.ts",
+          "modifica": "In REGOLE, dopo 'cod-proof': returns: { nome: 'returns', tipiAmmessi: TIPI_IMMAGINE, maxByte: DIECI_MIB, cartellaStaffAmmessa: false, pubblico: false, tettoNelDeposito: true } — secchio privato della migrations/500. Senza questa riga caricaImmagine e attributoAccept rifiutano 'returns'."
+        },
+        {
+          "file": "tests/unit/la-regola-di-ogni-magazzino-sta-in-un-posto-solo.test.ts",
+          "modifica": "Insieme alla riga sopra: QUATTRO = ['products','reviews','stories','cod-proof','returns']; in `dove` aggiungere ['returns','500_le_foto_dei_resi_in_un_secchio_privato.sql','returns insert own order']; in SCHERMATE_DEI_MAGAZZINI 'app/orders/[id]/return/page.tsx' passa a 'returns'; nel ciclo della cartella dello staff aggiungere 'returns'."
+        },
+        {
+          "file": "scripts/backup-db.sh",
+          "modifica": "Quando 'returns' entra in SECCHI_CON_FILE_PERSONALI: SECCHI_SVUOTATI_DALL_APP=\"kyc-docs cod-proof reviews returns\" (riparazione-r15-backup-secchio-vuoto.test.ts li vuole uguali)."
+        }
+      ],
+      "file_che_servono": [
+        "lib/storage/regole-secchi.ts",
+        "tests/unit/la-regola-di-ogni-magazzino-sta-in-un-posto-solo.test.ts",
+        "scripts/backup-db.sh"
+      ]
+    },
+    "api-backend|le rotte accettano una consegna a domicilio senza fascia: l'ordine nasce senza orario, mentre la cassa ne manda sempre una": {
+      "id": "R28-005",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "le 33 prove elencate nella riga della voce in scheda (tests/unit/al-lancio-carta-…, api-stripe-checkout, …, variante-503-dopo-chiave-abbandonata)",
+          "modifica": "deliverySlot valido (una fascia vera di lib/quando-arriva.ts, es. FASCE_DI_DOMANI[0], compatibile con orologio e orari della prova) nel corpo di ogni richiesta di consegna a domicilio a /api/orders/cod e /api/stripe/checkout."
+        },
+        {
+          "file": "lib/ordini/fascia-consegna.ts, app/api/orders/cod/route.ts, app/api/stripe/checkout/route.ts (miei, bloccati dalle prove sopra)",
+          "modifica": "Dopo le prove: cherry-pick 69b1cc57 (motivoSenzaFascia, 400 «Scegli quando vuoi ricevere l'ordine.»); la sua prova riparazione-r13-consegna-senza-fascia va rinominata riparazione-r28-…"
+        }
+      ],
+      "file_che_servono": [
+        "le 33 prove elencate nella riga della voce in scheda (tests/unit/al-lancio-carta-…, api-stripe-checkout, …, variante-503-dopo-chiave-abbandonata)",
+        "lib/ordini/fascia-consegna.ts, app/api/orders/cod/route.ts, app/api/stripe/checkout/route.ts (miei, bloccati dalle prove sopra)"
+      ]
+    },
+    "microcopy|chi spegne le promozioni continua a vederle nella campanella del sito": {
+      "id": "R26-014",
+      "elenco": "D",
+      "esito": "non_fatto",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "microcopy|la conferma d'ordine non dice quando arriva né quanto pagare in contanti, e a chi ritira in negozio parla di rider": {
+      "id": "R26-015",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "lib/stripe/webhook/ordini.ts",
+          "modifica": "Alla chiamata orderConfirmedBuyerTemplate (circa riga 537) aggiungere deliverySlot: <la fascia del pending, delivery.slot già letto più in alto; null se ritiro>, pickupInStore: <ritiro del pending> e paymentMethod: 'card'. Il template li accetta già."
+        }
+      ],
+      "file_che_servono": [
+        "lib/stripe/webhook/ordini.ts"
+      ]
+    },
+    "pagamenti-stripe|«conferma rimessa» sblocca anche gli incassi registrati dopo che l'amministratore ha aperto la pagina": {
+      "id": "R26-019",
+      "elenco": "D",
+      "esito": "riparato",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "architettura|email di annullo spedita dentro la richiesta, senza coda: fino a circa 20 s di attesa, e se fallisce resta solo nel registro": {
+      "id": "R27-005",
+      "elenco": "C",
+      "esito": "parziale",
+      "cosa_resta": "Ritentare da sola l'email caduta usando la coda che c'è già (email_queue e il giro send-emails), senza tabelle nuove. Serve un modello 'order_canceled' in TEMPLATE_CICLO_DI_VITA e TEMPLATE_DI_SERVIZIO di lib/email/templates.ts, che rifà l'email dai metadata {order_id, motivo, come, righe del carrello, credito tornato}. Sulla posta rifiutata, avvisaIlClienteDellAnnullo scrive una riga in email_queue (user_id, template 'order_canceled', metadata) al posto dell'avviso. File altrui: lib/email/templates.ts, app/api/cron/send-emails/route.ts. after() tiene viva la funzione solo fino al suo maxDuration: il giro da 100 ordini resta legato ai 300 s. La prova esistente tests/unit/minori-s03-ordini-scaduti.test.ts:186 («il giro aspetta l email prima di rispondere») ha un presupposto vecchio ma resta verde; non toccata perché usa file di R25.",
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "deploy-sre|la cancellazione notturna degli account non ha un tetto per giro": {
+      "id": "R27-007",
+      "elenco": "D",
+      "esito": "non_fatto",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "frontend-ux|il modulo del prodotto non dice che il nome ha al massimo 120 caratteri: il negozio legge solo «il valore inserito non è valido»": {
+      "id": "R27-012",
+      "elenco": "D",
+      "esito": "non_fatto",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "microcopy|nella campanella metà degli avvisi comincia con una faccina e metà no": {
+      "id": "R28-009",
+      "elenco": "D",
+      "esito": "non_fatto",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "pagamenti-stripe|il webhook della carta non rifà il controllo della veloce (fattorini online, 8-21) quando arrivano i soldi": {
+      "id": "R28-013",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "privacy-legale|chi annulla la cancellazione dell'account mentre gira il giro notturno viene cancellato lo stesso": {
+      "id": "R28-019",
+      "elenco": "D",
+      "esito": "non_fatto",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "privacy-legale|un cliente coi termini 2.0 e la cassa già aperta ordina lo stesso: le rotte d'ordine non guardano la versione accettata": {
+      "id": "R28-021",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "app/api/orders/cod/route.ts, app/api/stripe/checkout/route.ts (miei, bloccati) + prova nuova tests/unit/riparazione-r28-termini-in-cassa.test.ts",
+          "modifica": "Patch r28-021-intera.patch (mandata alla regista): il controllo subito dopo getServerSupabase/getAdminSupabase."
+        },
+        {
+          "file": "tests/unit/{al-lancio-carta-abbonamento-e-codici-sconto-restano-spenti-anche-con-le-chiavi, il-codice-sconto-a-uso-unico-non-resta-in-ostaggio-del-tentativo-abbandonato, il-si-ai-cookie-dato-da-anonimo-vale-anche-dopo-l-accesso, l-email-dei-contanti-legge-gli-orari-del-negozio, l-email-nuovo-ordine-dalla-rotta-dei-contanti-dice-la-scadenza-vera, minori-s02-coda-della-rotta-dei-contanti, riparazione-r12-la-rotta-dei-contanti-rifiuta-la-fascia, riparazione-r26-la-pulizia-dopo-i-rifiuti}.test.ts",
+          "modifica": "Dopo l'import di vitest: vi.mock('@/lib/auth/accettazione-testi', async (o) => ({ ...((await o()) as object), vaChiestaSenzaTrattenere: async () => 'lascia-entrare' }));"
+        }
+      ],
+      "file_che_servono": [
+        "app/api/orders/cod/route.ts, app/api/stripe/checkout/route.ts (miei, bloccati) + prova nuova tests/unit/riparazione-r28-termini-in-cassa.test.ts",
+        "tests/unit/{al-lancio-carta-abbonamento-e-codici-sconto-restano-spenti-anche-con-le-chiavi, il-codice-sconto-a-uso-unico-non-resta-in-ostaggio-del-tentativo-abbandonato, il-si-ai-cookie-dato-da-anonimo-vale-anche-dopo-l-accesso, l-email-dei-contanti-legge-gli-orari-del-negozio, l-email-nuovo-ordine-dalla-rotta-dei-contanti-dice-la-scadenza-vera, minori-s02-coda-della-rotta-dei-contanti, riparazione-r12-la-rotta-dei-contanti-rifiuta-la-fascia, riparazione-r26-la-pulizia-dopo-i-rifiuti}.test.ts"
+      ]
+    },
+    "privacy-legale|confine senza coordinate chiuso solo a parole: l'ordine non misurato passa senza nessun segno, e ora /shipping lo annuncia": {
+      "id": "R28-024",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": "La strada della carta (spenta al lancio): l'ordine nasce nel webhook (ordini.ts a 598 righe su 600), il segno va portato dal pending al webhook.",
+      "modifiche": [
+        {
+          "file": "app/api/orders/cod/route.ts (mio, bloccato) + prova nuova tests/unit/riparazione-r28-confine-non-misurato.test.ts",
+          "modifica": "Patch r28-024-intera.patch (mandata alla regista)."
+        },
+        {
+          "file": "tests/unit/ordini-contrassegno-due-negozi.test.ts",
+          "modifica": "Riga 344: expect(campanelle.length).toBe(4) diventa expect(campanelle.filter((c) => c.category === 'order').length).toBe(4) (i negozi finti non hanno posizione, quindi partono anche gli avvisi 'system' agli amministratori)."
+        }
+      ],
+      "file_che_servono": [
+        "app/api/orders/cod/route.ts (mio, bloccato) + prova nuova tests/unit/riparazione-r28-confine-non-misurato.test.ts",
+        "tests/unit/ordini-contrassegno-due-negozi.test.ts"
+      ]
+    },
+    "qa-flussi|le tre prove automatiche dell'acquisto vero sono vuote: passano in tre millesimi senza aprire niente": {
+      "id": "R29-001",
+      "elenco": "D",
+      "esito": "parziale",
+      "cosa_resta": "la CI lo fa girare davvero quando Nicola mette i segreti di test. I corpi non hanno mai girato contro un ambiente vero (qui non c'è Supabase locale né Stripe di prova): al primo giro può servire un ritocco (regole del database sull'ordine consegnato, inserimento del prodotto). Con il salto unico il contrassegno non gira più da solo senza Stripe di prova: le tre prove (e «la cassa disegna il modulo») girano solo con l'ambiente intero.",
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "privacy-legale|il negozio può togliere il diritto di reso a un prodotto già venduto, e il cliente si vede rifiutare il ripensamento": {
+      "id": "R29-020",
+      "elenco": "D",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "lib/database.types.ts",
+          "modifica": "Insieme al commit 5afe5ac7 (git cherry-pick 5afe5ac7): rigenerare con `node scripts/gen-db-types.mjs`. Aggiunge in Tables.order_items «non_recedibile: boolean | null;» in Row dopo product_image (riga ~1309) e «non_recedibile?: boolean | null;» in Insert (~1321) e Update (~1333); nient'altro cambia. Senza, tests/unit/riparazione-r11-tipi-che-possono-restare-vuoti.test.ts e tests/unit/riparazione-r11-viste-nei-tipi.test.ts («il file salvato è quello che il generatore produce») diventano rosse."
+        }
+      ],
+      "file_che_servono": [
+        "lib/database.types.ts"
+      ]
+    },
+    "privacy-legale|il sito non spiega da nessuna parte come verifica che le recensioni vengano da chi ha comprato, né che una recensione con foto dà punti": {
+      "id": "R29-023",
+      "elenco": "D",
+      "esito": "non_fatto",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "privacy-legale|i termini descrivono un ordine dei risultati che il sito non usa, e lo spazio pagato si chiama «sponsored» in inglese invece di «sponsorizzato»": {
+      "id": "R29-025",
+      "elenco": "D",
+      "esito": "non_fatto",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
     }
   }
 }

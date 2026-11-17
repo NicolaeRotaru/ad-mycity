@@ -1,24 +1,24 @@
 {
   "_cosa_e": "Guardiano stampo senior: legge il CONTENUTO di mansionario, kit e quaderno di ogni agente e lo confronta col debito dichiarato in cervello/stampo-baseline.json.",
   "_cosa_NON_prova": "Non prova che un kit sia BUONO né che un ESITO sia vero: misura spessore relativo, fotocopie, struttura e presenza di righe ESITO datate. Un kit lungo e originale può essere sbagliato, e una riga ESITO può contenere un numero inventato — quella parte la giudicano il direttore-creativo e la calibrazione, non questo controllo.",
-  "aggiornato": "2026-11-16 01:27",
+  "aggiornato": "2026-11-17 10:28",
   "origine": "cloud",
   "copertura": 120,
   "scritto_da": "stampo-check.mjs",
   "totale_agenti": 120,
   "soglia_sottile_byte": 7025,
   "quaderni": {
-    "vivi": 11,
-    "vuoti": 69,
-    "fermi": 40,
+    "vivi": 14,
+    "vuoti": 68,
+    "fermi": 38,
     "assenti": 0
   },
   "con_difetti": 113,
   "senza_difetti": 7,
   "per_tipo": {
     "loop_senza_varianti": 82,
-    "quaderno_vuoto": 69,
-    "quaderno_fermo": 40,
+    "quaderno_vuoto": 68,
+    "quaderno_fermo": 38,
     "kit_sottile": 10,
     "kit_fotocopia": 10,
     "kit_struttura_rotta": 9,
@@ -46,10 +46,6 @@
     },
     {
       "nome": "ai-video",
-      "difetto": "quaderno_fermo"
-    },
-    {
-      "nome": "analista",
       "difetto": "quaderno_fermo"
     },
     {
@@ -137,10 +133,6 @@
       "difetto": "quaderno_fermo"
     },
     {
-      "nome": "operations",
-      "difetto": "quaderno_fermo"
-    },
-    {
       "nome": "partner-management",
       "difetto": "quaderno_fermo"
     },
@@ -215,11 +207,6 @@
       "nome": "ai-video",
       "difetto": "quaderno_fermo",
       "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
-    },
-    {
-      "nome": "analista",
-      "difetto": "quaderno_fermo",
-      "perche": "nessun esito è sparito (ultimo 2026-08-03, era 2026-07-27): a muoversi è stato il calendario"
     },
     {
       "nome": "contabilita",
@@ -327,11 +314,6 @@
       "perche": "nessun esito è sparito (ultimo 2026-07-14, era 2026-07-14): a muoversi è stato il calendario"
     },
     {
-      "nome": "operations",
-      "difetto": "quaderno_fermo",
-      "perche": "nessun esito è sparito (ultimo 2026-07-20, era 2026-07-20): a muoversi è stato il calendario"
-    },
-    {
       "nome": "partner-management",
       "difetto": "quaderno_fermo",
       "perche": "nessun esito è sparito (ultimo 2026-07-20, era 2026-07-20): a muoversi è stato il calendario"
@@ -396,6 +378,10 @@
     {
       "nome": "platform-infra",
       "difetto": "quaderno_vuoto"
+    },
+    {
+      "nome": "scadenzario",
+      "difetto": "quaderno_vuoto"
     }
   ],
   "azioni_dei_guariti": [
@@ -404,6 +390,12 @@
       "difetto": "quaderno_vuoto",
       "azione": "togli-e-scrivi-data",
       "testo": "e scrivi in ultimo_esito \"platform-infra\": \"2026-11-13\""
+    },
+    {
+      "nome": "scadenzario",
+      "difetto": "quaderno_vuoto",
+      "azione": "togli-e-scrivi-data",
+      "testo": "e scrivi in ultimo_esito \"scadenzario\": \"2026-11-16\""
     }
   ],
   "baseline_cieca": [],

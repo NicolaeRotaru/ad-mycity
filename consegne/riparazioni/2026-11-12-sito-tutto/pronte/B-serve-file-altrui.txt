@@ -1,28 +1,21 @@
-# elenco B di pronte (2026-11-15 23:38): 42 voci uniche, una chiave per riga
-architettura|interfacce zombie: shippingforeuro vale sempre 0 ma riceve 7 ingressi; promessaspedizione ha un argomento morto e campi sempre costanti
+# elenco B di pronte (2026-11-17 09:06): 43 voci uniche, una chiave per riga
 performance|ogni pagina scarica due caratteri in corsivo che quasi nessuna pagina usa
-qa-flussi|le tre prove automatiche dell'acquisto vero sono vuote: passano in tre millesimi senza aprire niente
-api-backend|le rotte accettano una consegna a domicilio senza fascia: l'ordine nasce senza orario, mentre la cassa ne manda sempre una
 qa-flussi|nicola non viene avvisato quando arriva un ordine: il primo allarme per un ordine non accettato parte dopo un'ora, non dopo 5 minuti
 api-backend|se due giri del sorvegliante partono nello stesso istante, l'amministratore riceve due volte la stessa campanella
 api-backend|la notifica del nuovo ordine fa la fila dietro le promozioni
-api-backend|il freno sulla rotta regge per 3 interruttori su 9: ai, newsletter, classifica e caricamento da file stanno solo nelle pagine
 qa-flussi|cercando una parola a metà il sito trova solo una parte dei prodotti, e dentro la vetrina di un negozio può dire «nessun risultato»
 microcopy|il sos del fattorino dice «stiamo chiamando il 112», ma l'app apre solo il tastierino
 qa-flussi|prova con un nome che promette il contrario
 pagamenti-stripe|il bonifico del lunedì al negozio non si può segnare: i soldi dei contanti restano «in attesa» per sempre, sia per il negozio sia per nicola
-frontend-ux|i marchi «km 0» e «artigianale» non compaiono mai sulla scheda, perché la scheda non legge i tag
 pagamenti-stripe|se la banca respinge un rimborso dal cruscotto che aspetta ancora la divisione, il sito lo toglie dagli ordini che non l'avevano mai registrato
 pagamenti-stripe|se la banca respinge un rimborso parziale su un ordine col bonifico già partito, al negozio resta tolta la sua quota
 accessibilita|le foto delle recensioni e l'importazione dei prodotti da file non si aprono da tastiera
-deploy-sre|la prova «migrazione su database pieno» mette ancora i file nell'ordine vecchio
 privacy-legale|i video di youtube e vimeo si caricano senza chiedere il consenso, e la cookie policy non li nomina
 qa-flussi|la promo «oggi, fino a mezzanotte» finisce a mezzanotte del fuso del telefono, non di piacenza
 qa-flussi|le domande dei clienti sotto i prodotti non arrivano a nessuno, ma al cliente diciamo che riceverà una notifica
 qa-flussi|una prova col nome del collaudo
 rls-database|sul sito vero i visitatori non possono leggere la tabella dei profili, ma nessuna migrazione lo dice
 sicurezza-auth|sospendere un fattorino non gli toglie le consegne in corso: continua a vedere i recapiti, ritirare e consegnare
-frontend-ux|il negoziante col negozio non ancora approvato vede «negozio» al posto della sua insegna nella lista condivisa e alla cassa
 privacy-legale|la domanda sui termini si fa solo sulle pagine: le api di ordine non la controllano
 qa-flussi|la cassa propone i contanti anche sopra il tetto di legge
 qa-flussi|la cassa accetta ordini senza limite nella stessa fascia oraria, mentre il tetto deciso è 5
@@ -32,12 +25,20 @@ qa-flussi|salvando le taglie, se la scorta cambia a metà il negozio legge «ria
 qa-flussi|la prima compilazione di monta() pesa sul primo caso di ~85 file di prove
 ai-endpoints|con un fornitore lento la risposta lunga del copilot non arriva mai: dopo due minuti il negozio legge solo «riprova»
 qa-flussi|basta un solo campo fuori regola e tutta la personalizzazione della vetrina sparisce, e il salvataggio dopo la cancella
-frontend-ux|con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato
-architettura|una prova sul webhook di stripe controlla l'ordine delle righe cercando una parola, e basta togliere uno spazio per ingannarla
-architettura|il finto clienteavvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente
 frontend-ux|con «aperti ora» acceso, l'elenco dei negozi non si aggiorna all'orario di chiusura e tiene in lista negozi con scritto «chiuso ora»
-pagamenti-stripe|con l'abbonamento acceso, due schede aperte creano due abbonamenti da 50 euro, e il primo resta orfano e non si disdice dal sito
 immagini-media|se la foto di un prodotto è stata cancellata, la scheda resta un riquadro bianco invece della foto di ripiego
 navigazione-gerarchia|nella scheda prodotto il prezzo è quasi grande quanto il titolo e pesa meno del pulsante «+»
 qa-flussi|la scheda prodotto passa il prezzo pieno alla barra d'acquisto e al carrello con una promozione attiva
 qa-flussi|la frase vecchia sui formati foto resta in friendlyerror
+architettura|interfacce zombie: shippingforeuro vale sempre 0 ma riceve 7 ingressi; promessaspedizione ha un argomento morto e campi sempre costanti
+frontend-ux|il negoziante col negozio non ancora approvato vede «negozio» al posto della sua insegna nella lista condivisa e alla cassa
+microcopy|la conferma d'ordine non dice quando arriva né quanto pagare in contanti, e a chi ritira in negozio parla di rider
+api-backend|il freno sulla rotta regge per 3 interruttori su 9: ai, newsletter, classifica e caricamento da file stanno solo nelle pagine
+architettura|una prova sul webhook di stripe controlla l'ordine delle righe cercando una parola, e basta togliere uno spazio per ingannarla
+architettura|il finto clienteavvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente
+deploy-sre|la prova «migrazione su database pieno» mette ancora i file nell'ordine vecchio
+api-backend|le rotte accettano una consegna a domicilio senza fascia: l'ordine nasce senza orario, mentre la cassa ne manda sempre una
+frontend-ux|i marchi «km 0» e «artigianale» non compaiono mai sulla scheda, perché la scheda non legge i tag
+pagamenti-stripe|con l'abbonamento acceso, due schede aperte creano due abbonamenti da 50 euro, e il primo resta orfano e non si disdice dal sito
+privacy-legale|un cliente coi termini 2.0 e la cassa già aperta ordina lo stesso: le rotte d'ordine non guardano la versione accettata
+privacy-legale|confine senza coordinate chiuso solo a parole: l'ordine non misurato passa senza nessun segno, e ora /shipping lo annuncia

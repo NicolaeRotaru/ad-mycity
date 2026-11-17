@@ -524,3 +524,31 @@
 2026-11-15 01:06 · onda 2 (regista O2 settima) · C02 quarto senza ultracode dopo un riavvio, archiviato prima di cominciare · azione: aperto C02 quinto con lo stesso compito
 2026-11-15 01:30 · onda 2 (regista O2 settima) · C02 quinto al lavoro, ultracode acceso, 12,78 $ su 35, 273 mila token · azione: nessuna, catena riarmata a 30 minuti
 2026-11-15 01:35 · onda 2 (regista O2 settima) · C02 quinto finito: 0 voci rosse, 6 nati minori, 0 file non guardati, 12,78 $; archiviato · applica a vuoto su copia: onda 2 = 78 si chiudono
+2026-11-16 00:49 · R25 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-16 00:49 · R26 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-16 00:49 · R27 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-16 00:49 · onda 3 · prova-unione ⏳
+2026-11-16 00:54 · R25 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-16 00:54 · R26 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-16 00:54 · R27 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-16 00:54 · onda 3 · prova-unione ✅
+2026-11-16 01:07 · R25 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-16 01:07 · R26 · in lavoro FINITA · guardia ✅ · referto ✅ 22 voci · unione (sotto) · nessuna
+2026-11-16 01:07 · R27 · in lavoro · guardia ✅ · referto ⏳ 7 voci · unione (sotto) · nessuna
+2026-11-16 01:07 · onda 3 · prova-unione ✅
+2026-11-16 01:19 · R25 · in lavoro FINITA · guardia ✅ · referto ✅ 22 voci · unione (sotto) · nessuna
+2026-11-16 01:19 · R26 · in lavoro FINITA · guardia ✅ · referto ✅ 22 voci · unione (sotto) · nessuna
+2026-11-16 01:19 · R27 · in lavoro · guardia 🔴 · referto ⏳ 7 voci · unione (sotto) · nessuna
+2026-11-16 01:19 · K12 · ramo non ancora spinto · guardia – · collaudo – · nessuna
+2026-11-16 01:19 · onda 3 · prova-unione ✅
+2026-11-16 01:46 · R25 · in lavoro FINITA · guardia ✅ · referto ✅ 22 voci · unione (sotto) · nessuna
+2026-11-16 01:46 · R26 · in lavoro FINITA · guardia ✅ · referto ✅ 22 voci · unione (sotto) · nessuna
+2026-11-16 01:46 · R27 · in lavoro · guardia 🔴 · referto ⏳ 7 voci · unione (sotto) · nessuna
+2026-11-16 01:46 · K12 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-16 01:46 · onda 3 · prova-unione ✅
+2026-11-16 06:59 · R25 · in lavoro FINITA · guardia ✅ · referto ✅ 22 voci · unione (sotto) · nessuna
+2026-11-16 06:59 · R26 · in lavoro FINITA · guardia ✅ · referto ✅ 22 voci · unione (sotto) · nessuna
+2026-11-16 06:59 · R27 · in lavoro FINITA · guardia 🔴 · referto 🔴 22 voci · unione (sotto) · nessuna
+2026-11-16 06:59 · K12 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-16 06:59 · K13 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-16 06:59 · onda 3 · prova-unione ✅

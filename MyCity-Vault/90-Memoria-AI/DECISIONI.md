@@ -7008,6 +7008,14 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Perché:** il permesso automatico aveva fermato due volte la spinta della seconda regista (`session_015BmpnWQotfLE7m24jK8QfZ`). Senza la spinta non partono il controllore e la richiesta di unione in bozza. Collaudo: 14 voci reggono su 19 controllate.
 - **Eccezione sulla prova dell'acquisto vero (R29-001):** non firmata. La voce resta comunque a metà.
 - **Colore:** 🟡 ramo di lavoro, nessun cambio al sito online.
+
+## 2026-11-17 09:01 — Parte l'onda 5 del sito, senza domande fino alla PR pronta
+- **Chi:** Nicola, in una chat nuova («Onda 5 senza consenso», `session_015BmpnYvNwUpgfdhaKx9PKT`), alle 08:58: «Parti con l'onda 5». Prima aveva chiesto: «senza chiedermi nemmeno un consenso fino a quando la PR non è pronta».
+- **Cosa ho capito e scritto a Nicola prima del via:** tetto 250 $ per tutta l'onda; fino a giovedì 19/11 alle 10:00 solo preparazione, perché dei 350 $ firmati fino a giovedì restano circa 40 $; i riparatori partono giovedì alle 10:00, quando si azzera il limite della settimana. La sua risposta vale come permesso per aprire le sessioni dell'onda 5, spingere i loro rami sui due depositi e aprire la PR. Non l'ha contraddetto.
+- **Cosa resta fuori senza chiedere:** la lista D (voci per Nicola), R27 e R25-001 (carta 258), la migrazione 501, le 5 domande di R28 e R29. Vanno elencate nella PR.
+- **Mai:** unire, pubblicare il sito, migrazioni sul database vero, messaggi a persone vere, chiavi.
+- **Regia:** questa chat, così i permessi stanno dove c'è la frase di Nicola. Niente cartelle: nell'onda 4 una sessione che apriva sessioni è stata fermata dal permesso automatico.
+- **Colore:** 🟡 spesa dentro un tetto dato da Nicola.
 ## 2026-11-13 05:49 — 🟡 L'onda 2 parte: modalità Auto e ultracode in ogni sessione che lavora sul codice
 - **Chi:** Nicola, nell'app. Alle 05:49 ha passato la sessione «Ondata 2» in Auto, alle 05:53 ha acceso ultracode su R13. Entro le 06:05, alla regista: «accendi ultracode in ogni sessione dove si lavora con il codice».
 - **Perché serve lui:** una sessione figlia in Auto nasce solo da una madre in Auto. Ultracode si accende solo dall'app, sessione per sessione: `create_session` non ha l'interruttore, e la parola nel testo d'avvio non basta.
@@ -7112,3 +7120,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa era successo:** alle 08:17 l'AD aveva chiuso le quattro richieste aperte senza unirle: ad-mycity #974, #955 e #953, mycity #289. Nessuna era già su main, quindi il loro lavoro restava fuori.
 - **Cosa cambia:** tre entrano in main con una richiesta sola, dal ramo `ccr-aa1e5f7d-42fchn`. Sono le decisioni del 13-14/11 (#955), il giro del 16/11 con l'ordine fermo senza fattorino (#974) e la regola delle sessioni attive (#953). La card del giro sull'ordine passa da 256 a 259, perché il 256 l'aveva già la card dell'onda 3. La bozza dei controlli veloci del sito (mycity #289) resta chiusa: non era finita, ed è indietro di 393 modifiche rispetto a main. Sulla richiesta c'è un commento che dice perché. Il ramo `claude/ci-tre-minuti` resta: questa sessione può scrivere solo sul suo ramo, e la cancellazione è stata rifiutata. Lo cancella Nicola dal pulsante «Delete branch».
 - **Lezione:** per Nicola «chiudere» una richiesta vuol dire portarla a termine. Prima si guarda cosa vale ancora e lo si unisce. Si chiude senza unire solo quello che è superato, e lo si dice sulla richiesta.
+
+## 2026-11-17 10:24 — Le due PR fuori bozza, e l'onda 5 parte subito invece di giovedì
+- **Chi:** Nicola, 17/11 verso le 10:20, nella chat dell'onda 5: «Perché non hai tolto la bozza dalle due PR, sia quella di AdMyCity che quella del repo di MyCity e del marketplace? E perché non sei partito con un 8.5?».
+- **Cosa:** mycity#293 (onda 4) e ad-mycity#978 (memoria dell'onda 5) fuori bozza alle 10:22, con la CI verde e senza conflitti. L'unione resta sua. «Perché non sei partito» letto come via subito: aperti R30-R33 alle 10:24, tolto il risveglio di giovedì. Il tetto resta 250 $ per tutta l'onda.
+- **Perché aspettavo:** il tetto di 350 $ firmato fino a giovedì alle 10:00. La sua domanda lo supera per l'onda 5.
+- **Il rischio detto:** se il limite della settimana finisce prima di giovedì alle 10:00, le sessioni si fermano fino al rinnovo. Freno: ogni riparatore legge il suo stato prima di ogni lotto e non apre lotti nuovi fuori da «allowed».
+- **Colore:** 🟡 spesa dentro un tetto dato da Nicola.

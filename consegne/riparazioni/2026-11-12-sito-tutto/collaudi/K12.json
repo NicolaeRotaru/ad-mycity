@@ -1,0 +1,140 @@
+{
+  "collaudatore": "K12",
+  "riparatori": [
+    "R26",
+    "R25"
+  ],
+  "aggiornato": "2026-11-16 01:45",
+  "finita": true,
+  "nota": "Onda 3. Giudizio pieno su tutte le voci di R26 (7) e di R25 (1), strada «b» dell'AD del 16/11 alle 00:52: due revisori qa per lente su ogni voce, quattro subagenti in tutto (per R25 ripresi i due revisori del grave di R26). R27 lo giudica un altro collaudatore (regia, 16/11 01:41). Le prove rimesse sono lanciate con la copia fissata di cervello/prova-rimessa.mjs al commit aa0be11.",
+  "voci": [
+    {
+      "id": "R26-001",
+      "chiave": "privacy-legale|le foto dei resi restano pubbliche su internet per sempre, anche dopo che il cliente cancella l'account",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R26-001a --base da2d9cbc^ --file lib/account/cancellazione.ts --prove tests/unit/riparazione-r26-foto-dei-resi.test.ts --json ; PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R26-001b --base da2d9cbc^ --file migrations/500_le_foto_dei_resi_in_un_secchio_privato.sql --prove tests/sql/rls/riparazione-r26-foto-dei-resi.test.sql --json --sql k12_r26_001_rimessa"
+      },
+      "nota": "Grave, due revisori qa, uno per lente. Rimessa: uscita 0 su cancellazione.ts e uscita 0 sulla migrazione 500 con --sql (il primo giro --sql era uscito 2 per il nome del database senza «rimessa»: rinominato e rilanciato una volta). REGGE il pezzo dichiarato: la cancellazione toglie products/<utente>/returns/** a ogni profondità (provati 8 livelli, nomi strani, 3700 file con paginazione, prefissi simili <id>x/ e returnsx/ intatti, file di un cliente che è anche negozio intatti), conta solo file veri, si ferma su un errore di elenco e si può ritentare; photo_urls jsonb accetta []; la 500 si applica due volte pulita e le sue regole tengono (scrive solo il cliente sul suo ordine; leggono cliente, negozio dell'ordine, admin; anonimo, rider e negozio estraneo niente). Le prove esistenti sono verdi (29 file, 239 prove). RESTA APERTO, e il cosa_resta del riparatore ne dichiara solo una parte: 1) dichiarato: il modulo del reso carica ancora nel secchio pubblico products (app/orders/[id]/return/page.tsx:153-157, carica-immagine.ts:131) e 'returns' non è in SECCHI_CON_FILE_PERSONALI (cancellazione.ts:91), così il commento della 500 (:26-27) oggi è falso; 2) NON dichiarato: 'stories' manca dall'elenco (cancellazione.ts:91); 3) NON dichiarato: il negozio che cancella l'account lascia logo, vetrina e foto prodotto in products (cancellazione.ts:104-106 ha solo returns); 4) NON dichiarato: nessuna potatura delle foto orfane in <utente>/returns/ (potature-ritenzione.ts:176 pota solo kyc-docs e cod-proof), e la 500 non dà al cliente nessuna regola per togliere le sue foto; 5) NON dichiarato: l'informativa non nomina le foto dei resi (app/privacy/page.tsx:106 e :185); 6) le foto caricate dal 24/5 al 17/8/2026 in products/returns/<ordine>/ (commit 398bf3e6 → 87f33bae) non le raggiunge nessuna pulizia; si ritrovano da returns.order_id. Se in quella finestra esistano resi veri non è verificato (niente accesso alla produzione)."
+    },
+    {
+      "id": "R26-002",
+      "chiave": "accessibilita|le foto delle recensioni e l'importazione dei prodotti da file non si aprono da tastiera",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R26-002 --base 8c6a3b8a^ --file app/rider/onboarding/page.tsx --prove tests/unit/riparazione-r26-campi-file-da-tastiera.test.ts --json"
+      },
+      "nota": "Rimessa uscita 0. La voce scritta (foto delle recensioni, importazione CSV, reso) era già chiusa alla base 76d4c4d7: PhotoReviewUpload.tsx:197-207, app/seller/products/import/page.tsx:247-249, app/orders/[id]/return/page.tsx:422-433 hanno campo sr-only, nome accessibile e anello focus-within; prove r26 1/1, r18 2/2, minori-s09 3/3 verdi. La modifica in più su app/rider/onboarding/page.tsx è giusta e non rompe lo stato disabilitato (con etaConfermata false il campo è disabled, l'anello non si accende; ring è box-shadow, il layout non si sposta; visto su classi e jsdom, non in un browser). Il riparatore la dichiara parziale per components/rider/CashConfirmDialog.tsx:319: quel file non è nella voce scritta e il suo campo si raggiunge già col Tab; manca solo l'anello sulla label, da aprire come voce nuova (criterio 2.4.7). Lacuna di prova: nessun test guarda l'anello di PhotoReviewUpload."
+    },
+    {
+      "id": "R26-003",
+      "chiave": "api-backend|la notifica del nuovo ordine fa la fila dietro le promozioni",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R26-003 --base 8af8a855^ --file app/api/cron/send-push/route.ts --prove tests/unit/riparazione-r26-push-ordine-prima-delle-promozioni.test.ts --json"
+      },
+      "nota": "Rimessa uscita 0, prove 6/6 con minori-s03-push. La categoria ammette solo order, promo, group, newsletter, system: «quello che non aspetta» è order e system, come chiede la voce; il ribasso sui preferiti scrive 'promo' (migrazione 215) e finisce dietro. Provato a rompere: niente doppio invio (doppioni tolti per id), tetto 100 tenuto, una lettura sola sotto le 100, errore della seconda lettura → avviso e si va avanti. Le promo restano indietro solo con 100 urgenti nella stessa ora. Nota accanto, non nata dalla correzione: «Torna disponibile» (071:74) scrive senza categoria, diventa 'order' e passa davanti come un nuovo ordine."
+    },
+    {
+      "id": "R26-009",
+      "chiave": "frontend-ux|le rimesse contanti hanno ancora un tetto di 1000 righe senza avviso, mentre bonifici e prodotti adesso lo dicono",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R26-009 --base a824b5d5^ --file app/admin/cod-remittance/page.tsx --prove tests/unit/riparazione-r26-il-tetto-delle-rimesse.test.tsx --json"
+      },
+      "nota": "Rimessa uscita 0, prove 6/6 sulla pagina. Il conteggio esatto arriva dal database e ignora il limit; la proprietà totale sopravvive alla cache di react-query (stesso schema di payouts e products); «almeno» e «Elenco tagliato» compaiono; con 1000 righe il blocco del gruppo al confine (page.tsx:184-185, :237) ora scatta. Resta solo il caso teorico del conteggio nullo, che torna al silenzio di prima."
+    },
+    {
+      "id": "R26-019",
+      "chiave": "pagamenti-stripe|«conferma rimessa» sblocca anche gli incassi registrati dopo che l'amministratore ha aperto la pagina",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R26-019a --base 5d273159^ --file app/admin/cod-remittance/page.tsx,app/api/admin/cod-remittance/route.ts --prove tests/unit/riparazione-r26-la-rimessa-conferma-solo-gli-ordini-visti.test.tsx --json ; PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R26-019b --base 5d273159^ --file migrations/501_la_rimessa_conferma_solo_gli_ordini_visti.sql --prove tests/sql/rls/riparazione-r26-la-rimessa-conferma-solo-gli-ordini-visti.test.sql --json --sql k12_r26_019_rimessa"
+      },
+      "nota": "Soldi, due revisori, uno per lente. Rimessa: uscita 0 sulla pagina e la rotta; uscita 0 sulla 501 con --sql. Il giro --sql è stato rilanciato due volte: la prima volta è uscito 2 per il nome del database; la seconda è uscito 1 «non_verde» perché due ricostruzioni giravano insieme sullo stesso Postgres (i ruoli sono comuni a tutto il server). Da solo apply.sh applica 206 migrazioni su 206, e il terzo giro, da solo, è uscito 0. REGGE: gli ordini mai visti restano in attesa. Provato sul database locale con la 501: elenco con doppioni, ordine di un altro fattorino, ordine di 3 giorni prima e id inesistente → rilasciato solo il giusto. Elenco vuoto o nullo → 0 rilasciati. Anonimo e non admin respinti. SECURITY DEFINER con search_path. Le due firme convivono senza ambiguità. Il ripiego della rotta scatta solo su PGRST202/42883 e non su altri errori. RESTA APERTO, dentro la voce: 1) un ordine mostrato «senza incasso», con l'incasso dichiarato dopo l'apertura della pagina, viene rilasciato lo stesso, perché page.tsx:141 mette in orderIds anche gli ordini di g.senzaIncasso (:143) mentre la pagina dice «la rimessa le salta». Bisogna mandare solo gli id che al caricamento avevano l'incasso. 2) Sul sito non vale finché la 501 non è applicata: ogni conferma ripiega sul giorno intero (route.ts:65-73) e scrive un errore a ogni clic. orderIds resta facoltativo (route.ts:22), quindi «copre_tutta_la_voce: true» è troppo. ACCANTO, minore, da correggere nella 501 PRIMA di applicarla: la 501 segna la giornata come versata (501:66-69, cod_reconciliations.remitted_at) anche quando lascia in attesa ordini con incasso che l'admin non ha visto. contantiAncoraDaVersare (lib/account/cancellazione.ts:693-711) guarda solo remitted_at, quindi quel fattorino risulta senza contanti da versare. La classe c'era già per gli ordini dichiarati dopo il clic: la 501 la allarga a tutto il tempo tra apertura e clic."
+    },
+    {
+      "id": "R26-020",
+      "chiave": "pagamenti-stripe|se l'addebito del credito risponde con un errore, la cassa lo considera mai avvenuto: l'ordine si paga per intero e il credito, se era già stato tolto, non torna",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R26-020 --base dc61fb5a^ --file app/api/orders/cod/route.ts --prove tests/unit/riparazione-r26-credito-della-cassa.test.ts --json"
+      },
+      "nota": "Soldi, due revisori, uno per lente. Rimessa uscita 0. Prove 3/3 più 47 file e 363 prove esistenti sulla rotta COD, tutte verdi. Provato: diario con la riga −2000 e ordine che poi non nasce → 500, con storno di 2000 sullo stesso riferimento. Riga positiva → credito 0, mai negativo. Due negozi, con errore e diario illeggibile al secondo → 500, ordine 1 tolto, storno solo dei 1000 del primo, merce rimessa per tutti e due. Riga −700 → nessun doppio sconto. L'indice unico (reason, ref) della 143 e un ref per gruppo escludono il doppio conteggio. Resta, fuori dal testo della voce: la corsa tra rilettura e commit di wallet_debit (cod/route.ts:1322), aperta solo con una connessione caduta."
+    },
+    {
+      "id": "R26-021",
+      "chiave": "pagamenti-stripe|la pulizia gira prima di ogni convalida del carrello: un tentativo respinto uccide una cassa ancora buona",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R26-021 --base ff3b9922^ --file app/api/stripe/checkout/route.ts --prove tests/unit/riparazione-r26-la-pulizia-dopo-i-rifiuti.test.ts --json"
+      },
+      "nota": "Soldi, due revisori, uno per lente. Rimessa uscita 0. Prove 28 file e 252 prove sul checkout, tutte verdi. REGGE: nel percorso principale la pulizia (:612) parte dopo i rifiuti che non dipendono dalle scorte. La rilettura delle scorte parte solo se c'è merce liberata. La pulizia non gira mai due volte. Nessun rifiuto nuovo nasce dallo spostamento. IL COSA_RESTA DEL RIPARATORE È GIUSTO MA INCOMPLETO: 1) dichiarato: nel ramo della cassa già aperta pulisci() (:342) gira prima del riuso, e con «apri_nuova» la rotta scende nel percorso principale e respinge ancora dopo la pulizia. I rifiuti sono :414, :418, :421, :448, :470-471, :512 (la fascia, lo scenario di testa della voce, che il cosa_resta non nomina), :526, :548, :599 e :608. Riprodotto: cassa A aperta, tentativo B con un prodotto nascosto → 400 e A morta. 2) NON dichiarato: le scorte insufficienti (:671) arrivano sempre dopo la pulizia. Riprodotto: scorte 1, la cassa A tiene 1 pezzo, il carrello B ne chiede 3 → 409, cassa A chiusa, pezzo rimesso in vendita. È lo stesso danno della voce. 3) l'importo non valido (:703) non dipende dalle scorte e si può anticipare. 4) il codice respinto (:734) oggi non si raggiunge (CODICI_SCONTO_IN_CASSA=false). Stessa classe in un file fuori dalla voce: app/api/orders/cod/route.ts:742 pulisce prima di fascia, veloce, carrello e zona."
+    },
+    {
+      "id": "R25-001",
+      "chiave": "pagamenti-stripe|se il cliente viene rimborsato prima che il suo ordine nasca, l'ordine nasce lo stesso come pagato e il negozio viene pagato",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R25-001 --base 76d4c4d79254284a0330eb865ff029db5261e26e --file lib/stripe/webhook/ordini.ts,lib/stripe/webhook/rimborsi.ts,lib/stripe/webhook/rimborsi-da-fuori.ts --prove tests/unit/riparazione-r25-carta-tornata-prima-dell-ordine.test.ts --json ; timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R25-001 --base 97b6d3b5^ --file lib/stripe/webhook/ordini.ts,lib/stripe/webhook/rimborsi.ts,lib/stripe/webhook/rimborsi-da-fuori.ts --prove tests/unit/riparazione-r25-carta-tornata-prima-dell-ordine.test.ts --json"
+      },
+      "nota": "Grave, soldi: due revisori qa, uno per lente. Rimessa: uscita 0 dalla base (tutti e tre i commit) e uscita 0 da 97b6d3b5^ (solo l'ultima correzione). Ognuno dei tre file rimesso fa cadere la prova sul comportamento (21 casi). LENTE NATA_ROTTA → ROMPE_ALTRO (medio, nato in 97b6d3b5). La regressione del giro prima non c'è più: un rimborso parziale a mano su un carrello pagato a metà non fa più ripetere il webhook all'infinito. Adesso però ferma i bonifici dell'ordine nato e manda l'amministratore a «dividere dal pannello, anche zero» (rimborsi.ts:58, rimborsi-da-fuori.ts:386 e :588). Il pannello pretende che le parti facciano esattamente il rimborso, e che nessuna superi quanto resta sull'ordine (lib/rimborsi/divisione-del-rimborso.ts:74 e :91). Caso provato: A da 20 € nato, B da 30 € mai nato, l'admin rende i 30 € di B. A resta fermo e il pannello rifiuta ogni divisione (0, 20 e 30 €). Il negozio A, che ha consegnato, non viene pagato finché qualcuno non tocca il database a mano o non rimborsa anche A. Con 10 € l'unica divisione accettata mette su A i soldi di B. Alla base A veniva pagato pieno. Il resto regge: 500 solo a tempo (carrello PENDING senza ordini finché scade, lettura caduta, bonifico PROCESSING); ordini con rimborso piccolo che nascono; merce e codice restituiti una volta; flusso normale identico; 36+73 file di prove esistenti verdi (293 e 431). LENTE CHIUDE_TUTTA → PARZIALE. Il pezzo dichiarato regge: con rimborso pieno prima l'ordine non nasce; con parziale prima su due negozi nascono fermi; con contestazione prima nessun ordine; CANCELED è finale. Resta aperto: 1) la finestra di B (ordini.ts:261, :277, :462), nelle due varianti. Quella col rimborso PIENO il riparatore non la descrive: A diventa REFUNDED e B nasce pagato col netto pieno. La finestra è una sola esecuzione, di norma sotto il secondo, al massimo 60 secondi (vercel.json:17), e il giro dei bonifici non ricontrolla la carta (lib/stripe/payout.ts:164-330). 2) NON dichiarato: negozio solo con rimborso parziale arrivato prima. L'ordine nasce pagato col netto pieno e nessun fermo (ordini.ts:462 interviene solo con più negozi), e il rimborso si scrive solo al ritentativo di Stripe, forse dopo il bonifico. 3) la contestazione dopo la rilettura: la modifica proposta per dispute.ts copre solo il caso senza ordini (dispute.ts:89), non quello con A già nato. 4) la richiesta d'informazioni della banca è trattata come contestazione (ordini.ts:277). 5) avvisi doppi (rimborsi-da-fuori.ts:584, rimborsi.ts:58). Non verificato su Stripe vero: che una richiesta d'informazioni segni la carta come disputed, e i tempi dei ritentativi."
+    }
+  ],
+  "campione": {
+    "R26": {
+      "accettato": false
+    },
+    "R25": {
+      "accettato": true
+    }
+  }
+}

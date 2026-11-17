@@ -1,0 +1,27 @@
+{
+  "corsia": 26,
+  "territorio": "R26",
+  "difetti": [
+    {
+      "chiave": "api-backend|la notifica del nuovo ordine fa la fila dietro le promozioni",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r26-push-ordine-prima-delle-promozioni.test.ts tests/unit/minori-s03-push.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 8af8a8550a3012b153ff9a69df3afce7b30b4f47^ --file app/api/cron/send-push/route.ts --prove tests/unit/riparazione-r26-push-ordine-prima-delle-promozioni.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R26-003 --base 8af8a855^ --file app/api/cron/send-push/route.ts --prove tests/unit/riparazione-r26-push-ordine-prima-delle-promozioni.test.ts --json → uscita 0 (K12)",
+      "nota_fix": "Se la prima lettura (le 100 più vecchie) è piena e contiene promo, group o newsletter, il giro fa una seconda lettura delle sole notifiche che non aspettano (category null o fuori da quelle tre) e le mette davanti, tetto 100; se la seconda lettura cade, avviso nel log e si va avanti con la prima. Rifatta dalla descrizione (i commit ba36f97a e c81987f0 non esistono nel deposito): minori-s03-push.test.ts, comune con R25, resta verde senza toccarla, quindi nessun serve_file_altrui."
+    },
+    {
+      "chiave": "frontend-ux|le rimesse contanti hanno ancora un tetto di 1000 righe senza avviso, mentre bonifici e prodotti adesso lo dicono",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r26-il-tetto-delle-rimesse.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base a824b5d5^ --file app/admin/cod-remittance/page.tsx --prove tests/unit/riparazione-r26-il-tetto-delle-rimesse.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R26-009 --base a824b5d5^ --file app/admin/cod-remittance/page.tsx --prove tests/unit/riparazione-r26-il-tetto-delle-rimesse.test.tsx --json → uscita 0 (K12)",
+      "nota_fix": "La pagina legge con count 'exact' e calcola tagliato = max(conteggio, righe) > 1000, come bonifici e prodotti: «Elenco tagliato» e «almeno» compaiono anche quando il server consegna al massimo 1000 righe."
+    },
+    {
+      "chiave": "pagamenti-stripe|se l'addebito del credito risponde con un errore, la cassa lo considera mai avvenuto: l'ordine si paga per intero e il credito, se era già stato tolto, non torna",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r26-credito-della-cassa.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base dc61fb5a^ --file app/api/orders/cod/route.ts --prove tests/unit/riparazione-r26-credito-della-cassa.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R26-020 --base dc61fb5a^ --file app/api/orders/cod/route.ts --prove tests/unit/riparazione-r26-credito-della-cassa.test.ts --json → uscita 0 (K12)",
+      "nota_fix": "Quando wallet_debit risponde con un errore, la rotta rilegge wallet_ledger (user_id, 'order_cod', stesso riferimento): se la riga c'è, quel credito si scala dal totale; se la rilettura fallisce si ferma (annulla gli ordini precedenti, rimette la merce, avvisa gli amministratori, 500) invece di proseguire a credito zero."
+    }
+  ]
+}
