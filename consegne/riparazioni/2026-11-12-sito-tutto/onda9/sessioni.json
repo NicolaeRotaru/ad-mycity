@@ -22,7 +22,12 @@
    "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
    "tetto_usd": 35,
    "consegna_usd": 30,
-   "aperta": "2026-11-17 22:15"
+   "aperta": "2026-11-17 22:15",
+   "finita": true,
+   "punta": "75f2f25a",
+   "testa": "276fc3fad8d9eb76fc2c4690e555579e1c062861",
+   "costo_usd": 17.11,
+   "nota": "verify verde su e19e93f0; rate limit allowed_warning, nessun uso extra"
   },
   "R01": {
    "id": "session_015BmpnXsG8PNg7ifyDEH21e",
