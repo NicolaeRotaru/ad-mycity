@@ -1,661 +1,678 @@
 {
-  "casa": "sito",
-  "profilo": "scelta",
-  "creato": "2026-11-17 17:44",
-  "onde": [
-    {
-      "onda": 1,
-      "base": "bc36f48120ec38bf20880c7d68b3171015744681",
-      "creata": "2026-11-17 17:44",
-      "per_sessione": 13,
-      "candidate": [
-        "qa-flussi|nell'import da file la quantità scritta male diventa un numero sbagliato senza nessun errore (oggi spento)",
-        "qa-flussi|un doppio clic su «pubblica prodotto» mette in vendita due o tre prodotti uguali",
-        "performance|le pagine che vendono si disegnano solo nel browser, e il preload della prima foto non serve a niente",
-        "qa-flussi|nelle recensioni della vetrina chi ha solo il nome pubblico (senza nome vero) adesso appare come «cliente»",
-        "qa-flussi|due scroll-mt di altre pagine si sommano allo scroll-padding nuovo",
-        "stati-ui|senza database la categoria e la scheda prodotto mostrano «qualcosa è andato storto» invece del loro errore con «riprova»",
-        "frontend-ux|la vetrina legge al massimo 20 recensioni mentre la linguetta mostra il totale vero",
-        "layout-responsive|le righe delle impostazioni (toggle) non hanno min-w-0 sul testo",
-        "qa-flussi|le zone del fattorino dicono «salvate» prima dell'esito",
-        "frontend-ux|il drop del giorno in home usa ancora il giorno di greenwich",
-        "frontend-ux|una categoria con la lettura dei prodotti caduta resta una pagina bianca",
-        "qa-flussi|il finto client supabase condiviso delle prove risponde a rpc() con «nessun errore»: una pagina che salva con una funzione del database sembra riuscita anche se non scrive niente",
-        "performance|l'elenco dei negozi fa una domanda sulla consegna veloce per ogni scheda, invece di una sola per tutta la lista",
-        "architettura|le altre due porte dell'ai sul catalogo scrivono ancora la traccia a mano, nella forma vecchia",
-        "frontend-ux|sulla pagina del negozio il testo lungo si taglia ancora in silenzio a 4.000 caratteri",
-        "accessibilita|la x degli avvisi dice «close toast» in inglese e sui caricamenti non chiude niente",
-        "microcopy|il freno «after n seconds» di supabase non è tradotto per «password dimenticata?»",
-        "flussi-conversione|sulla scheda prodotto un secondo «aggiungi al carrello» entro un secondo viene ignorato senza dire niente",
-        "architettura|il modulo prodotto non passa i due campi nuovi alle regole comuni delle proposte dell'assistente",
-        "layout-responsive|col testo ingrandito al massimo anche la pagina chi siamo scorre di lato (466px su 360)",
-        "qa-flussi|gli avvisi scritti nel browser non arrivano a nessuno: logger.warn lato client è solo console.warn",
-        "qa-flussi|fetchpriority in camelcase su react 18.3.1 fa scrivere un avviso a react a ogni disegno delle tessere",
-        "navigazione-gerarchia|la tendina della ricerca «sfoglia per categoria» elenca anche le categorie vuote",
-        "navigazione-gerarchia|le pagine di una categoria madre mostrano chip verso sottocategorie vuote",
-        "frontend-ux|lo scheletro del negozio impedisce il 404 vero sulle pagine dei negozi anche senza lo scheletro della radice",
-        "navigazione-gerarchia|la vetrina della home non può filtrare le categorie vuote nell'html del server col precarico della sola home",
-        "qa-flussi|se il filtro finale sui negozi approvati scarta righe, «carica altri» si ferma",
-        "qa-flussi|il precarico proposto nel layout pesa su ogni pagina (costo dichiarato, da far decidere a chi lo applica)",
-        "qa-flussi|l'avviso «foto di categoria scartata» si ripete a ogni ricalcolo delle tessere e a ogni rimontaggio",
-        "qa-flussi|il taglio sui prodotti recensiti non usa la lettura a blocchi: sopra circa 216 id dà 414",
-        "qa-flussi|il conteggio delle novità non applica il filtro sui negozi approvati",
-        "frontend-ux|la scheda di un negozio inesistente ripete «pagina non trovata» nel titolo e nella pagina, come faceva la 404",
-        "qa-flussi|le prove che fanno girare tutto lo script del backup non hanno un psql finto",
-        "microcopy|il dialogo dell sos dice che gli amministratori ricevono l avviso «subito», ma il push parte solo se la scrittura riesce entro 15 secondi",
-        "qa-flussi|la pagina delle storie accetta caratteri di controllo c1 nel link che poi il database rifiuta, lasciando una foto orfana",
-        "stati-ui|«duplica prodotto» senza rete apre il modulo vuoto finché la rete non torna",
-        "stati-ui|senza rete il modulo prodotto crede che il negozio non offra la consegna veloce",
-        "qa-flussi|il finto condiviso della vetrina non conosce l'aggancio storie → vista dei negozi",
-        "qa-flussi|la rotta del lotto sul catalogo, se non riceve l'elenco dei prodotti, applica ancora tutti i risultati",
-        "accessibilita|il campo file nascosto della fotocamera del negoziante si raggiunge col tab ma non mostra il fuoco",
-        "stati-ui|la barra cade se localstorage lancia su ogni chiave",
-        "stati-ui|sulla bacheca del fattorino, se la lettura dello stato online cade, la pagina scrive «sei offline» invece di dire che non lo sa; anche il voto ignora l’errore",
-        "stati-ui|con upstash il freno dell'accesso dice sempre di aspettare la finestra intera, anche quando ne manca meno",
-        "qa-flussi|il primo messaggio mandato insieme all'apertura della conversazione non avvisa il negozio",
-        "qa-flussi|il campanello del pannello negozio conta anche le promozioni di chi le ha spente",
-        "qa-flussi|chi sceglie «fattorino» nell'iscrizione e poi si registra con google diventa cliente, e non trova una strada per diventare fattorino",
-        "qa-flussi|«spesso comprati insieme» mette nel carrello il prezzo pieno anche con una promozione attiva",
-        "qa-flussi|la pagina contatti promette ancora «puoi provare lo stesso a inviare» quando l'anti-robot non si carica",
-        "immagini-media|next.config.js ammette ancora le immagini di placehold.co, che il sito non usa più",
-        "qa-flussi|gli annunci sponsorizzati si accendono e si spengono sul giorno di greenwich, non su quello di piacenza",
-        "microcopy|il titolo della variante a della home dice «a negozio aperto», ma la consegna può arrivare dopo la chiusura",
-        "performance|sulla bacheca del fattorino, se la vista dei negozi resta giù, la pagina la rilegge ogni 5 secondi senza fine",
-        "qa-flussi|quando la presa di un ordine torna vuota o con un motivo sconosciuto, il fattorino legge «non più disponibile»",
-        "frontend-ux|eliminando una pagina della vetrina restano i pulsanti delle sezioni che puntavano a lei",
-        "frontend-ux|a menu spento, un link lasciato a metà sparisce al salvataggio senza avviso",
-        "qa-flussi|una voce della chat sul campanello può restare accesa anche se la chat è stata letta mentre era aperta",
-        "mobile-pwa|se il primo segnale gps scade prima della conferma, l'sos parte senza posizione anche se la posizione arriva un attimo dopo",
-        "qa-flussi|il conto delle categorie con prodotti si ferma al decimo livello, il modulo prodotto al ventesimo",
-        "qa-flussi|nella pagina novità il numero in alto conta anche prodotti che la griglia non mostra",
-        "qa-flussi|il doppio tocco sul cuore con due salvataggi falliti lascia il cuore pieno e il preferito non salvato, e una richiesta che non risponde blocca la fila del prodotto",
-        "qa-flussi|la data degli eventi in home non usa il fuso di piacenza",
-        "qa-flussi|dopo aver tolto un prodotto da una lista, il conteggio in /lists resta vecchio fino a 30 secondi",
-        "qa-flussi|aria-busy sulla variante «cards» del caricamento può zittire l'annuncio per lo screen reader",
-        "qa-flussi|il client supabase finto delle prove non sa concatenare .rpc().order().range()"
-      ],
-      "sessioni": {
-        "R01": {
-          "tema": "accessibilita",
-          "voci": [
-            {
-              "id": "R01-001",
-              "chiave": "accessibilita|la x degli avvisi dice «close toast» in inglese e sui caricamenti non chiude niente",
-              "gravita": "minore",
-              "titolo": "La X degli avvisi dice «Close toast» in inglese e sui caricamenti non chiude niente",
-              "file": [
-                "components/providers/ToastProvider.tsx",
-                "components/seller/ProductForm.tsx"
-              ]
-            },
-            {
-              "id": "R01-002",
-              "chiave": "accessibilita|il campo file nascosto della fotocamera del negoziante si raggiunge col tab ma non mostra il fuoco",
-              "gravita": "minore",
-              "titolo": "il campo file nascosto della fotocamera del negoziante si raggiunge col Tab ma non mostra il fuoco",
-              "file": [
-                "components/seller/CameraCapture.tsx"
-              ]
-            },
-            {
-              "id": "R01-003",
-              "chiave": "architettura|il modulo prodotto non passa i due campi nuovi alle regole comuni delle proposte dell'assistente",
-              "gravita": "minore",
-              "titolo": "Il modulo prodotto non passa i due campi nuovi alle regole comuni delle proposte dell'assistente",
-              "file": [
-                "components/seller/ProductForm.tsx"
-              ]
-            },
-            {
-              "id": "R01-004",
-              "chiave": "microcopy|il freno «after n seconds» di supabase non è tradotto per «password dimenticata?»",
-              "gravita": "minore",
-              "titolo": "Il freno «after N seconds» di Supabase non è tradotto per «Password dimenticata?»",
-              "file": [
-                "app/sign-in/page.tsx"
-              ]
-            },
-            {
-              "id": "R01-005",
-              "chiave": "navigazione-gerarchia|la tendina della ricerca «sfoglia per categoria» elenca anche le categorie vuote",
-              "gravita": "minore",
-              "titolo": "La tendina della ricerca «Sfoglia per categoria» elenca anche le categorie vuote",
-              "file": [
-                "components/SearchBar.tsx"
-              ]
-            },
-            {
-              "id": "R01-006",
-              "chiave": "performance|l'elenco dei negozi fa una domanda sulla consegna veloce per ogni scheda, invece di una sola per tutta la lista",
-              "gravita": "minore",
-              "titolo": "L'elenco dei negozi fa una domanda sulla consegna veloce per ogni scheda, invece di una sola per tutta la lista",
-              "file": [
-                "components/ui/DeliveryCutoff.tsx"
-              ]
-            },
-            {
-              "id": "R01-007",
-              "chiave": "qa-flussi|una voce della chat sul campanello può restare accesa anche se la chat è stata letta mentre era aperta",
-              "gravita": "minore",
-              "titolo": "Una voce della chat sul campanello può restare accesa anche se la chat è stata letta mentre era aperta",
-              "file": [
-                "app/api/chat/messages/route.ts"
-              ]
-            },
-            {
-              "id": "R01-008",
-              "chiave": "qa-flussi|il precarico proposto nel layout pesa su ogni pagina (costo dichiarato, da far decidere a chi lo applica)",
-              "gravita": "minore",
-              "titolo": "Il precarico proposto nel layout pesa su ogni pagina (costo dichiarato, da far decidere a chi lo applica)",
-              "file": [
-                "app/layout.tsx"
-              ]
-            },
-            {
-              "id": "R01-009",
-              "chiave": "qa-flussi|nell'import da file la quantità scritta male diventa un numero sbagliato senza nessun errore (oggi spento)",
-              "gravita": "minore",
-              "titolo": "Nell'import da file la quantità scritta male diventa un numero sbagliato senza nessun errore (oggi spento)",
-              "file": [
-                "app/seller/products/import/page.tsx",
-                "lib/funzioni-al-lancio.ts"
-              ]
-            },
-            {
-              "id": "R01-010",
-              "chiave": "qa-flussi|fetchpriority in camelcase su react 18.3.1 fa scrivere un avviso a react a ogni disegno delle tessere",
-              "gravita": "minore",
-              "titolo": "fetchPriority in camelCase su React 18.3.1 fa scrivere un avviso a React a ogni disegno delle tessere",
-              "file": [
-                "components/CategoryShowcase.tsx"
-              ]
-            },
-            {
-              "id": "R01-011",
-              "chiave": "qa-flussi|l'avviso «foto di categoria scartata» si ripete a ogni ricalcolo delle tessere e a ogni rimontaggio",
-              "gravita": "minore",
-              "titolo": "L'avviso «foto di categoria scartata» si ripete a ogni ricalcolo delle tessere e a ogni rimontaggio",
-              "file": [
-                "components/CategoryShowcase.tsx"
-              ]
-            },
-            {
-              "id": "R01-012",
-              "chiave": "qa-flussi|un doppio clic su «pubblica prodotto» mette in vendita due o tre prodotti uguali",
-              "gravita": "minore",
-              "titolo": "Un doppio clic su «Pubblica prodotto» mette in vendita due o tre prodotti uguali",
-              "file": [
-                "components/seller/ProductForm.tsx",
-                "app/seller/products/new/page.tsx"
-              ]
-            },
-            {
-              "id": "R01-013",
-              "chiave": "qa-flussi|il conteggio delle novità non applica il filtro sui negozi approvati",
-              "gravita": "minore",
-              "titolo": "Il conteggio delle Novità non applica il filtro sui negozi approvati",
-              "file": [
-                "lib/queries/griglia-prodotti.ts"
-              ]
-            }
-          ],
-          "file": [
-            "app/api/chat/messages/route.ts",
-            "app/layout.tsx",
-            "app/seller/products/import/page.tsx",
-            "app/seller/products/new/page.tsx",
-            "app/sign-in/page.tsx",
-            "components/CategoryShowcase.tsx",
-            "components/SearchBar.tsx",
-            "components/providers/ToastProvider.tsx",
-            "components/seller/CameraCapture.tsx",
-            "components/seller/ProductForm.tsx",
-            "components/ui/DeliveryCutoff.tsx",
-            "lib/funzioni-al-lancio.ts",
-            "lib/queries/griglia-prodotti.ts"
-          ],
-          "migrazioni": [
-            580,
-            589
-          ]
-        },
-        "R02": {
-          "tema": "architettura",
-          "voci": [
-            {
-              "id": "R02-001",
-              "chiave": "architettura|le altre due porte dell'ai sul catalogo scrivono ancora la traccia a mano, nella forma vecchia",
-              "gravita": "minore",
-              "titolo": "Le altre due porte dell'AI sul catalogo scrivono ancora la traccia a mano, nella forma vecchia",
-              "file": [
-                "app/api/ai/catalog-apply-bulk/route.ts"
-              ]
-            },
-            {
-              "id": "R02-002",
-              "chiave": "immagini-media|next.config.js ammette ancora le immagini di placehold.co, che il sito non usa più",
-              "gravita": "minore",
-              "titolo": "next.config.js ammette ancora le immagini di placehold.co, che il sito non usa più",
-              "file": [
-                "next.config.js"
-              ]
-            },
-            {
-              "id": "R02-003",
-              "chiave": "layout-responsive|le righe delle impostazioni (toggle) non hanno min-w-0 sul testo",
-              "gravita": "minore",
-              "titolo": "Le righe delle impostazioni (Toggle) non hanno min-w-0 sul testo",
-              "file": [
-                "components/ui/Toggle.tsx"
-              ]
-            },
-            {
-              "id": "R02-004",
-              "chiave": "microcopy|il dialogo dell sos dice che gli amministratori ricevono l avviso «subito», ma il push parte solo se la scrittura riesce entro 15 secondi",
-              "gravita": "minore",
-              "titolo": "Il dialogo dell SOS dice che gli amministratori ricevono l avviso «subito», ma il push parte solo se la scrittura riesce entro 15 secondi",
-              "file": [
-                "components/rider/SOSButton.tsx"
-              ]
-            },
-            {
-              "id": "R02-005",
-              "chiave": "mobile-pwa|se il primo segnale gps scade prima della conferma, l'sos parte senza posizione anche se la posizione arriva un attimo dopo",
-              "gravita": "minore",
-              "titolo": "Se il primo segnale GPS scade prima della conferma, l'SOS parte senza posizione anche se la posizione arriva un attimo dopo",
-              "file": [
-                "components/rider/SOSButton.tsx"
-              ]
-            },
-            {
-              "id": "R02-006",
-              "chiave": "qa-flussi|la rotta del lotto sul catalogo, se non riceve l'elenco dei prodotti, applica ancora tutti i risultati",
-              "gravita": "minore",
-              "titolo": "La rotta del lotto sul catalogo, se non riceve l'elenco dei prodotti, applica ancora tutti i risultati",
-              "file": [
-                "app/api/ai/catalog-batch/apply/route.ts"
-              ]
-            },
-            {
-              "id": "R02-007",
-              "chiave": "qa-flussi|la pagina contatti promette ancora «puoi provare lo stesso a inviare» quando l'anti-robot non si carica",
-              "gravita": "minore",
-              "titolo": "La pagina contatti promette ancora «Puoi provare lo stesso a inviare» quando l'anti-robot non si carica",
-              "file": [
-                "app/contact/page.tsx"
-              ]
-            },
-            {
-              "id": "R02-008",
-              "chiave": "qa-flussi|dopo aver tolto un prodotto da una lista, il conteggio in /lists resta vecchio fino a 30 secondi",
-              "gravita": "minore",
-              "titolo": "Dopo aver tolto un prodotto da una lista, il conteggio in /lists resta vecchio fino a 30 secondi",
-              "file": [
-                "app/lists/[id]/page.tsx"
-              ]
-            },
-            {
-              "id": "R02-009",
-              "chiave": "qa-flussi|chi sceglie «fattorino» nell'iscrizione e poi si registra con google diventa cliente, e non trova una strada per diventare fattorino",
-              "gravita": "minore",
-              "titolo": "Chi sceglie «fattorino» nell'iscrizione e poi si registra con Google diventa cliente, e non trova una strada per diventare fattorino",
-              "file": [
-                "app/sign-up/page.tsx"
-              ]
-            },
-            {
-              "id": "R02-010",
-              "chiave": "qa-flussi|la data degli eventi in home non usa il fuso di piacenza",
-              "gravita": "minore",
-              "titolo": "La data degli eventi in home non usa il fuso di Piacenza",
-              "file": [
-                "components/home/HomeEvents.tsx"
-              ]
-            },
-            {
-              "id": "R02-011",
-              "chiave": "qa-flussi|gli annunci sponsorizzati si accendono e si spengono sul giorno di greenwich, non su quello di piacenza",
-              "gravita": "minore",
-              "titolo": "Gli annunci sponsorizzati si accendono e si spengono sul giorno di Greenwich, non su quello di Piacenza",
-              "file": [
-                "components/SponsoredCarousel.tsx"
-              ]
-            },
-            {
-              "id": "R02-012",
-              "chiave": "qa-flussi|gli avvisi scritti nel browser non arrivano a nessuno: logger.warn lato client è solo console.warn",
-              "gravita": "minore",
-              "titolo": "Gli avvisi scritti nel browser non arrivano a nessuno: logger.warn lato client è solo console.warn",
-              "file": [
-                "lib/logger.ts"
-              ]
-            },
-            {
-              "id": "R02-013",
-              "chiave": "qa-flussi|la pagina delle storie accetta caratteri di controllo c1 nel link che poi il database rifiuta, lasciando una foto orfana",
-              "gravita": "minore",
-              "titolo": "La pagina delle storie accetta caratteri di controllo C1 nel link che poi il database rifiuta, lasciando una foto orfana",
-              "file": [
-                "lib/safe-redirect.ts"
-              ]
-            }
-          ],
-          "file": [
-            "app/api/ai/catalog-apply-bulk/route.ts",
-            "app/api/ai/catalog-batch/apply/route.ts",
-            "app/contact/page.tsx",
-            "app/lists/[id]/page.tsx",
-            "app/sign-up/page.tsx",
-            "components/SponsoredCarousel.tsx",
-            "components/home/HomeEvents.tsx",
-            "components/rider/SOSButton.tsx",
-            "components/ui/Toggle.tsx",
-            "lib/logger.ts",
-            "lib/safe-redirect.ts",
-            "next.config.js"
-          ],
-          "migrazioni": [
-            590,
-            599
-          ]
-        },
-        "R03": {
-          "tema": "flussi-conversione",
-          "voci": [
-            {
-              "id": "R03-001",
-              "chiave": "flussi-conversione|sulla scheda prodotto un secondo «aggiungi al carrello» entro un secondo viene ignorato senza dire niente",
-              "gravita": "minore",
-              "titolo": "Sulla scheda prodotto un secondo «Aggiungi al carrello» entro un secondo viene ignorato senza dire niente",
-              "file": [
-                "app/product/[id]/page.tsx"
-              ]
-            },
-            {
-              "id": "R03-002",
-              "chiave": "layout-responsive|col testo ingrandito al massimo anche la pagina chi siamo scorre di lato (466px su 360)",
-              "gravita": "minore",
-              "titolo": "Col testo ingrandito al massimo anche la pagina Chi siamo scorre di lato (466px su 360)",
-              "file": [
-                "app/about/page.tsx"
-              ]
-            },
-            {
-              "id": "R03-003",
-              "chiave": "microcopy|il titolo della variante a della home dice «a negozio aperto», ma la consegna può arrivare dopo la chiusura",
-              "gravita": "minore",
-              "titolo": "Il titolo della variante A della home dice «a negozio aperto», ma la consegna può arrivare dopo la chiusura",
-              "file": [
-                "app/page.tsx"
-              ]
-            },
-            {
-              "id": "R03-004",
-              "chiave": "navigazione-gerarchia|la vetrina della home non può filtrare le categorie vuote nell'html del server col precarico della sola home",
-              "gravita": "minore",
-              "titolo": "La vetrina della home non può filtrare le categorie vuote nell'HTML del server col precarico della sola home",
-              "file": [
-                "components/CategoryBar.tsx"
-              ]
-            },
-            {
-              "id": "R03-005",
-              "chiave": "performance|sulla bacheca del fattorino, se la vista dei negozi resta giù, la pagina la rilegge ogni 5 secondi senza fine",
-              "gravita": "minore",
-              "titolo": "Sulla bacheca del fattorino, se la vista dei negozi resta giù, la pagina la rilegge ogni 5 secondi senza fine",
-              "file": [
-                "app/rider/page.tsx"
-              ]
-            },
-            {
-              "id": "R03-006",
-              "chiave": "qa-flussi|il primo messaggio mandato insieme all'apertura della conversazione non avvisa il negozio",
-              "gravita": "minore",
-              "titolo": "Il primo messaggio mandato insieme all'apertura della conversazione non avvisa il negozio",
-              "file": [
-                "app/api/chat/conversations/route.ts"
-              ]
-            },
-            {
-              "id": "R03-007",
-              "chiave": "qa-flussi|due scroll-mt di altre pagine si sommano allo scroll-padding nuovo",
-              "gravita": "minore",
-              "titolo": "Due scroll-mt di altre pagine si sommano allo scroll-padding nuovo",
-              "file": [
-                "app/lavora-con-noi/page.tsx",
-                "app/product/[id]/page.tsx"
-              ]
-            },
-            {
-              "id": "R03-008",
-              "chiave": "qa-flussi|le zone del fattorino dicono «salvate» prima dell'esito",
-              "gravita": "minore",
-              "titolo": "Le zone del fattorino dicono «salvate» prima dell'esito",
-              "file": [
-                "app/rider/availability/page.tsx"
-              ]
-            },
-            {
-              "id": "R03-009",
-              "chiave": "qa-flussi|quando la presa di un ordine torna vuota o con un motivo sconosciuto, il fattorino legge «non più disponibile»",
-              "gravita": "minore",
-              "titolo": "Quando la presa di un ordine torna vuota o con un motivo sconosciuto, il fattorino legge «non più disponibile»",
-              "file": [
-                "app/rider/page.tsx"
-              ]
-            },
-            {
-              "id": "R03-010",
-              "chiave": "qa-flussi|«spesso comprati insieme» mette nel carrello il prezzo pieno anche con una promozione attiva",
-              "gravita": "minore",
-              "titolo": "«Spesso comprati insieme» mette nel carrello il prezzo pieno anche con una promozione attiva",
-              "file": [
-                "components/products/FrequentlyBoughtTogether.tsx"
-              ]
-            },
-            {
-              "id": "R03-011",
-              "chiave": "qa-flussi|aria-busy sulla variante «cards» del caricamento può zittire l'annuncio per lo screen reader",
-              "gravita": "minore",
-              "titolo": "aria-busy sulla variante «cards» del caricamento può zittire l'annuncio per lo screen reader",
-              "file": [
-                "components/ui/LoadingState.tsx"
-              ]
-            },
-            {
-              "id": "R03-012",
-              "chiave": "qa-flussi|il doppio tocco sul cuore con due salvataggi falliti lascia il cuore pieno e il preferito non salvato, e una richiesta che non risponde blocca la fila del prodotto",
-              "gravita": "minore",
-              "titolo": "Il doppio tocco sul cuore con due salvataggi falliti lascia il cuore pieno e il preferito non salvato, e una richiesta che non risponde blocca la fila del prodotto",
-              "file": [
-                "lib/preferiti/tocco-del-cuore.ts"
-              ]
-            },
-            {
-              "id": "R03-013",
-              "chiave": "qa-flussi|il finto condiviso della vetrina non conosce l'aggancio storie → vista dei negozi",
-              "gravita": "minore",
-              "titolo": "Il finto condiviso della vetrina non conosce l'aggancio storie → vista dei negozi",
-              "file": [
-                "tests/unit/aiuti/database-della-vetrina.ts"
-              ]
-            }
-          ],
-          "file": [
-            "app/about/page.tsx",
-            "app/api/chat/conversations/route.ts",
-            "app/lavora-con-noi/page.tsx",
-            "app/page.tsx",
-            "app/product/[id]/page.tsx",
-            "app/rider/availability/page.tsx",
-            "app/rider/page.tsx",
-            "components/CategoryBar.tsx",
-            "components/products/FrequentlyBoughtTogether.tsx",
-            "components/ui/LoadingState.tsx",
-            "lib/preferiti/tocco-del-cuore.ts"
-          ],
-          "migrazioni": [
-            600,
-            609
-          ]
-        },
-        "R04": {
-          "tema": "frontend-ux",
-          "voci": [
-            {
-              "id": "R04-001",
-              "chiave": "frontend-ux|una categoria con la lettura dei prodotti caduta resta una pagina bianca",
-              "gravita": "minore",
-              "titolo": "Una categoria con la lettura dei prodotti caduta resta una pagina bianca",
-              "file": [
-                "app/category/[slug]/page.tsx"
-              ]
-            },
-            {
-              "id": "R04-002",
-              "chiave": "frontend-ux|la scheda di un negozio inesistente ripete «pagina non trovata» nel titolo e nella pagina, come faceva la 404",
-              "gravita": "minore",
-              "titolo": "La scheda di un negozio inesistente ripete «Pagina non trovata» nel titolo e nella pagina, come faceva la 404",
-              "file": [
-                "app/store/[id]/[slug]/layout.tsx"
-              ]
-            },
-            {
-              "id": "R04-003",
-              "chiave": "frontend-ux|lo scheletro del negozio impedisce il 404 vero sulle pagine dei negozi anche senza lo scheletro della radice",
-              "gravita": "minore",
-              "titolo": "Lo scheletro del negozio impedisce il 404 vero sulle pagine dei negozi anche senza lo scheletro della radice",
-              "file": [
-                "app/store/loading.tsx"
-              ]
-            },
-            {
-              "id": "R04-004",
-              "chiave": "frontend-ux|il drop del giorno in home usa ancora il giorno di greenwich",
-              "gravita": "minore",
-              "titolo": "Il Drop del giorno in home usa ancora il giorno di Greenwich",
-              "file": [
-                "components/home/DropOfDay.tsx"
-              ]
-            },
-            {
-              "id": "R04-005",
-              "chiave": "frontend-ux|eliminando una pagina della vetrina restano i pulsanti delle sezioni che puntavano a lei",
-              "gravita": "minore",
-              "titolo": "Eliminando una pagina della vetrina restano i pulsanti delle sezioni che puntavano a lei",
-              "file": [
-                "components/seller/site/PageListEditor.tsx"
-              ]
-            },
-            {
-              "id": "R04-006",
-              "chiave": "frontend-ux|sulla pagina del negozio il testo lungo si taglia ancora in silenzio a 4.000 caratteri",
-              "gravita": "minore",
-              "titolo": "Sulla pagina del negozio il testo lungo si taglia ancora in silenzio a 4.000 caratteri",
-              "file": [
-                "components/seller/site/SectionConfigForm.tsx"
-              ]
-            },
-            {
-              "id": "R04-007",
-              "chiave": "frontend-ux|la vetrina legge al massimo 20 recensioni mentre la linguetta mostra il totale vero",
-              "gravita": "minore",
-              "titolo": "La vetrina legge al massimo 20 recensioni mentre la linguetta mostra il totale vero",
-              "file": [
-                "components/store-sections/useStorePageData.ts"
-              ]
-            },
-            {
-              "id": "R04-008",
-              "chiave": "frontend-ux|a menu spento, un link lasciato a metà sparisce al salvataggio senza avviso",
-              "gravita": "minore",
-              "titolo": "A menu spento, un link lasciato a metà sparisce al salvataggio senza avviso",
-              "file": [
-                "lib/store-site.ts"
-              ]
-            },
-            {
-              "id": "R04-009",
-              "chiave": "navigazione-gerarchia|le pagine di una categoria madre mostrano chip verso sottocategorie vuote",
-              "gravita": "minore",
-              "titolo": "Le pagine di una categoria madre mostrano chip verso sottocategorie vuote",
-              "file": [
-                "app/category/[slug]/page.tsx"
-              ]
-            },
-            {
-              "id": "R04-010",
-              "chiave": "qa-flussi|il campanello del pannello negozio conta anche le promozioni di chi le ha spente",
-              "gravita": "minore",
-              "titolo": "Il campanello del pannello negozio conta anche le promozioni di chi le ha spente",
-              "file": [
-                "components/seller/SellerShell.tsx"
-              ]
-            },
-            {
-              "id": "R04-011",
-              "chiave": "qa-flussi|nelle recensioni della vetrina chi ha solo il nome pubblico (senza nome vero) adesso appare come «cliente»",
-              "gravita": "minore",
-              "titolo": "Nelle recensioni della vetrina chi ha solo il nome pubblico (senza nome vero) adesso appare come «Cliente»",
-              "file": [
-                "components/store-sections/useStorePageData.ts"
-              ]
-            },
-            {
-              "id": "R04-012",
-              "chiave": "qa-flussi|il conto delle categorie con prodotti si ferma al decimo livello, il modulo prodotto al ventesimo",
-              "gravita": "minore",
-              "titolo": "Il conto delle categorie con prodotti si ferma al decimo livello, il modulo prodotto al ventesimo",
-              "file": [
-                "lib/queries/categorie-piene.ts"
-              ]
-            },
-            {
-              "id": "R04-013",
-              "chiave": "qa-flussi|il client supabase finto delle prove non sa concatenare .rpc().order().range()",
-              "gravita": "minore",
-              "titolo": "il client Supabase finto delle prove non sa concatenare .rpc().order().range()",
-              "file": [
-                "tests/unit/aiuti/finti/supabase-client.mjs"
-              ]
-            }
-          ],
-          "file": [
-            "app/category/[slug]/page.tsx",
-            "app/store/[id]/[slug]/layout.tsx",
-            "app/store/loading.tsx",
-            "components/home/DropOfDay.tsx",
-            "components/seller/SellerShell.tsx",
-            "components/seller/site/PageListEditor.tsx",
-            "components/seller/site/SectionConfigForm.tsx",
-            "components/store-sections/useStorePageData.ts",
-            "lib/queries/categorie-piene.ts",
-            "lib/store-site.ts",
-            "tests/unit/aiuti/finti/supabase-client.mjs"
-          ],
-          "migrazioni": [
-            610,
-            619
-          ]
-        }
+ "casa": "sito",
+ "profilo": "scelta",
+ "creato": "2026-11-17 17:44",
+ "onde": [
+  {
+   "onda": 1,
+   "base": "bc36f48120ec38bf20880c7d68b3171015744681",
+   "creata": "2026-11-17 17:44",
+   "per_sessione": 13,
+   "candidate": [
+    "qa-flussi|nell'import da file la quantità scritta male diventa un numero sbagliato senza nessun errore (oggi spento)",
+    "qa-flussi|un doppio clic su «pubblica prodotto» mette in vendita due o tre prodotti uguali",
+    "performance|le pagine che vendono si disegnano solo nel browser, e il preload della prima foto non serve a niente",
+    "qa-flussi|nelle recensioni della vetrina chi ha solo il nome pubblico (senza nome vero) adesso appare come «cliente»",
+    "qa-flussi|due scroll-mt di altre pagine si sommano allo scroll-padding nuovo",
+    "stati-ui|senza database la categoria e la scheda prodotto mostrano «qualcosa è andato storto» invece del loro errore con «riprova»",
+    "frontend-ux|la vetrina legge al massimo 20 recensioni mentre la linguetta mostra il totale vero",
+    "layout-responsive|le righe delle impostazioni (toggle) non hanno min-w-0 sul testo",
+    "qa-flussi|le zone del fattorino dicono «salvate» prima dell'esito",
+    "frontend-ux|il drop del giorno in home usa ancora il giorno di greenwich",
+    "frontend-ux|una categoria con la lettura dei prodotti caduta resta una pagina bianca",
+    "qa-flussi|il finto client supabase condiviso delle prove risponde a rpc() con «nessun errore»: una pagina che salva con una funzione del database sembra riuscita anche se non scrive niente",
+    "performance|l'elenco dei negozi fa una domanda sulla consegna veloce per ogni scheda, invece di una sola per tutta la lista",
+    "architettura|le altre due porte dell'ai sul catalogo scrivono ancora la traccia a mano, nella forma vecchia",
+    "frontend-ux|sulla pagina del negozio il testo lungo si taglia ancora in silenzio a 4.000 caratteri",
+    "accessibilita|la x degli avvisi dice «close toast» in inglese e sui caricamenti non chiude niente",
+    "microcopy|il freno «after n seconds» di supabase non è tradotto per «password dimenticata?»",
+    "flussi-conversione|sulla scheda prodotto un secondo «aggiungi al carrello» entro un secondo viene ignorato senza dire niente",
+    "architettura|il modulo prodotto non passa i due campi nuovi alle regole comuni delle proposte dell'assistente",
+    "layout-responsive|col testo ingrandito al massimo anche la pagina chi siamo scorre di lato (466px su 360)",
+    "qa-flussi|gli avvisi scritti nel browser non arrivano a nessuno: logger.warn lato client è solo console.warn",
+    "qa-flussi|fetchpriority in camelcase su react 18.3.1 fa scrivere un avviso a react a ogni disegno delle tessere",
+    "navigazione-gerarchia|la tendina della ricerca «sfoglia per categoria» elenca anche le categorie vuote",
+    "navigazione-gerarchia|le pagine di una categoria madre mostrano chip verso sottocategorie vuote",
+    "frontend-ux|lo scheletro del negozio impedisce il 404 vero sulle pagine dei negozi anche senza lo scheletro della radice",
+    "navigazione-gerarchia|la vetrina della home non può filtrare le categorie vuote nell'html del server col precarico della sola home",
+    "qa-flussi|se il filtro finale sui negozi approvati scarta righe, «carica altri» si ferma",
+    "qa-flussi|il precarico proposto nel layout pesa su ogni pagina (costo dichiarato, da far decidere a chi lo applica)",
+    "qa-flussi|l'avviso «foto di categoria scartata» si ripete a ogni ricalcolo delle tessere e a ogni rimontaggio",
+    "qa-flussi|il taglio sui prodotti recensiti non usa la lettura a blocchi: sopra circa 216 id dà 414",
+    "qa-flussi|il conteggio delle novità non applica il filtro sui negozi approvati",
+    "frontend-ux|la scheda di un negozio inesistente ripete «pagina non trovata» nel titolo e nella pagina, come faceva la 404",
+    "qa-flussi|le prove che fanno girare tutto lo script del backup non hanno un psql finto",
+    "microcopy|il dialogo dell sos dice che gli amministratori ricevono l avviso «subito», ma il push parte solo se la scrittura riesce entro 15 secondi",
+    "qa-flussi|la pagina delle storie accetta caratteri di controllo c1 nel link che poi il database rifiuta, lasciando una foto orfana",
+    "stati-ui|«duplica prodotto» senza rete apre il modulo vuoto finché la rete non torna",
+    "stati-ui|senza rete il modulo prodotto crede che il negozio non offra la consegna veloce",
+    "qa-flussi|il finto condiviso della vetrina non conosce l'aggancio storie → vista dei negozi",
+    "qa-flussi|la rotta del lotto sul catalogo, se non riceve l'elenco dei prodotti, applica ancora tutti i risultati",
+    "accessibilita|il campo file nascosto della fotocamera del negoziante si raggiunge col tab ma non mostra il fuoco",
+    "stati-ui|la barra cade se localstorage lancia su ogni chiave",
+    "stati-ui|sulla bacheca del fattorino, se la lettura dello stato online cade, la pagina scrive «sei offline» invece di dire che non lo sa; anche il voto ignora l’errore",
+    "stati-ui|con upstash il freno dell'accesso dice sempre di aspettare la finestra intera, anche quando ne manca meno",
+    "qa-flussi|il primo messaggio mandato insieme all'apertura della conversazione non avvisa il negozio",
+    "qa-flussi|il campanello del pannello negozio conta anche le promozioni di chi le ha spente",
+    "qa-flussi|chi sceglie «fattorino» nell'iscrizione e poi si registra con google diventa cliente, e non trova una strada per diventare fattorino",
+    "qa-flussi|«spesso comprati insieme» mette nel carrello il prezzo pieno anche con una promozione attiva",
+    "qa-flussi|la pagina contatti promette ancora «puoi provare lo stesso a inviare» quando l'anti-robot non si carica",
+    "immagini-media|next.config.js ammette ancora le immagini di placehold.co, che il sito non usa più",
+    "qa-flussi|gli annunci sponsorizzati si accendono e si spengono sul giorno di greenwich, non su quello di piacenza",
+    "microcopy|il titolo della variante a della home dice «a negozio aperto», ma la consegna può arrivare dopo la chiusura",
+    "performance|sulla bacheca del fattorino, se la vista dei negozi resta giù, la pagina la rilegge ogni 5 secondi senza fine",
+    "qa-flussi|quando la presa di un ordine torna vuota o con un motivo sconosciuto, il fattorino legge «non più disponibile»",
+    "frontend-ux|eliminando una pagina della vetrina restano i pulsanti delle sezioni che puntavano a lei",
+    "frontend-ux|a menu spento, un link lasciato a metà sparisce al salvataggio senza avviso",
+    "qa-flussi|una voce della chat sul campanello può restare accesa anche se la chat è stata letta mentre era aperta",
+    "mobile-pwa|se il primo segnale gps scade prima della conferma, l'sos parte senza posizione anche se la posizione arriva un attimo dopo",
+    "qa-flussi|il conto delle categorie con prodotti si ferma al decimo livello, il modulo prodotto al ventesimo",
+    "qa-flussi|nella pagina novità il numero in alto conta anche prodotti che la griglia non mostra",
+    "qa-flussi|il doppio tocco sul cuore con due salvataggi falliti lascia il cuore pieno e il preferito non salvato, e una richiesta che non risponde blocca la fila del prodotto",
+    "qa-flussi|la data degli eventi in home non usa il fuso di piacenza",
+    "qa-flussi|dopo aver tolto un prodotto da una lista, il conteggio in /lists resta vecchio fino a 30 secondi",
+    "qa-flussi|aria-busy sulla variante «cards» del caricamento può zittire l'annuncio per lo screen reader",
+    "qa-flussi|il client supabase finto delle prove non sa concatenare .rpc().order().range()"
+   ],
+   "sessioni": {
+    "R01": {
+     "tema": "accessibilita",
+     "voci": [
+      {
+       "id": "R01-001",
+       "chiave": "accessibilita|la x degli avvisi dice «close toast» in inglese e sui caricamenti non chiude niente",
+       "gravita": "minore",
+       "titolo": "La X degli avvisi dice «Close toast» in inglese e sui caricamenti non chiude niente",
+       "file": [
+        "components/providers/ToastProvider.tsx",
+        "components/seller/ProductForm.tsx"
+       ]
       },
-      "rimandate": [
-        "performance|le pagine che vendono si disegnano solo nel browser, e il preload della prima foto non serve a niente",
-        "qa-flussi|il taglio sui prodotti recensiti non usa la lettura a blocchi: sopra circa 216 id dà 414",
-        "qa-flussi|nella pagina novità il numero in alto conta anche prodotti che la griglia non mostra",
-        "qa-flussi|se il filtro finale sui negozi approvati scarta righe, «carica altri» si ferma",
-        "qa-flussi|il finto client supabase condiviso delle prove risponde a rpc() con «nessun errore»: una pagina che salva con una funzione del database sembra riuscita anche se non scrive niente",
-        "qa-flussi|le prove che fanno girare tutto lo script del backup non hanno un psql finto",
-        "stati-ui|senza database la categoria e la scheda prodotto mostrano «qualcosa è andato storto» invece del loro errore con «riprova»",
-        "stati-ui|sulla bacheca del fattorino, se la lettura dello stato online cade, la pagina scrive «sei offline» invece di dire che non lo sa; anche il voto ignora l’errore",
-        "stati-ui|«duplica prodotto» senza rete apre il modulo vuoto finché la rete non torna",
-        "stati-ui|la barra cade se localstorage lancia su ogni chiave",
-        "stati-ui|senza rete il modulo prodotto crede che il negozio non offra la consegna veloce",
-        "stati-ui|con upstash il freno dell'accesso dice sempre di aspettare la finestra intera, anche quando ne manca meno"
-      ],
-      "regia": []
+      {
+       "id": "R01-002",
+       "chiave": "accessibilita|il campo file nascosto della fotocamera del negoziante si raggiunge col tab ma non mostra il fuoco",
+       "gravita": "minore",
+       "titolo": "il campo file nascosto della fotocamera del negoziante si raggiunge col Tab ma non mostra il fuoco",
+       "file": [
+        "components/seller/CameraCapture.tsx"
+       ]
+      },
+      {
+       "id": "R01-003",
+       "chiave": "architettura|il modulo prodotto non passa i due campi nuovi alle regole comuni delle proposte dell'assistente",
+       "gravita": "minore",
+       "titolo": "Il modulo prodotto non passa i due campi nuovi alle regole comuni delle proposte dell'assistente",
+       "file": [
+        "components/seller/ProductForm.tsx"
+       ]
+      },
+      {
+       "id": "R01-004",
+       "chiave": "microcopy|il freno «after n seconds» di supabase non è tradotto per «password dimenticata?»",
+       "gravita": "minore",
+       "titolo": "Il freno «after N seconds» di Supabase non è tradotto per «Password dimenticata?»",
+       "file": [
+        "app/sign-in/page.tsx"
+       ]
+      },
+      {
+       "id": "R01-005",
+       "chiave": "navigazione-gerarchia|la tendina della ricerca «sfoglia per categoria» elenca anche le categorie vuote",
+       "gravita": "minore",
+       "titolo": "La tendina della ricerca «Sfoglia per categoria» elenca anche le categorie vuote",
+       "file": [
+        "components/SearchBar.tsx"
+       ]
+      },
+      {
+       "id": "R01-006",
+       "chiave": "performance|l'elenco dei negozi fa una domanda sulla consegna veloce per ogni scheda, invece di una sola per tutta la lista",
+       "gravita": "minore",
+       "titolo": "L'elenco dei negozi fa una domanda sulla consegna veloce per ogni scheda, invece di una sola per tutta la lista",
+       "file": [
+        "components/ui/DeliveryCutoff.tsx"
+       ]
+      },
+      {
+       "id": "R01-007",
+       "chiave": "qa-flussi|una voce della chat sul campanello può restare accesa anche se la chat è stata letta mentre era aperta",
+       "gravita": "minore",
+       "titolo": "Una voce della chat sul campanello può restare accesa anche se la chat è stata letta mentre era aperta",
+       "file": [
+        "app/api/chat/messages/route.ts"
+       ]
+      },
+      {
+       "id": "R01-008",
+       "chiave": "qa-flussi|il precarico proposto nel layout pesa su ogni pagina (costo dichiarato, da far decidere a chi lo applica)",
+       "gravita": "minore",
+       "titolo": "Il precarico proposto nel layout pesa su ogni pagina (costo dichiarato, da far decidere a chi lo applica)",
+       "file": [
+        "app/layout.tsx"
+       ]
+      },
+      {
+       "id": "R01-009",
+       "chiave": "qa-flussi|nell'import da file la quantità scritta male diventa un numero sbagliato senza nessun errore (oggi spento)",
+       "gravita": "minore",
+       "titolo": "Nell'import da file la quantità scritta male diventa un numero sbagliato senza nessun errore (oggi spento)",
+       "file": [
+        "app/seller/products/import/page.tsx",
+        "lib/funzioni-al-lancio.ts"
+       ]
+      },
+      {
+       "id": "R01-010",
+       "chiave": "qa-flussi|fetchpriority in camelcase su react 18.3.1 fa scrivere un avviso a react a ogni disegno delle tessere",
+       "gravita": "minore",
+       "titolo": "fetchPriority in camelCase su React 18.3.1 fa scrivere un avviso a React a ogni disegno delle tessere",
+       "file": [
+        "components/CategoryShowcase.tsx"
+       ]
+      },
+      {
+       "id": "R01-011",
+       "chiave": "qa-flussi|l'avviso «foto di categoria scartata» si ripete a ogni ricalcolo delle tessere e a ogni rimontaggio",
+       "gravita": "minore",
+       "titolo": "L'avviso «foto di categoria scartata» si ripete a ogni ricalcolo delle tessere e a ogni rimontaggio",
+       "file": [
+        "components/CategoryShowcase.tsx"
+       ]
+      },
+      {
+       "id": "R01-012",
+       "chiave": "qa-flussi|un doppio clic su «pubblica prodotto» mette in vendita due o tre prodotti uguali",
+       "gravita": "minore",
+       "titolo": "Un doppio clic su «Pubblica prodotto» mette in vendita due o tre prodotti uguali",
+       "file": [
+        "components/seller/ProductForm.tsx",
+        "app/seller/products/new/page.tsx"
+       ]
+      },
+      {
+       "id": "R01-013",
+       "chiave": "qa-flussi|il conteggio delle novità non applica il filtro sui negozi approvati",
+       "gravita": "minore",
+       "titolo": "Il conteggio delle Novità non applica il filtro sui negozi approvati",
+       "file": [
+        "lib/queries/griglia-prodotti.ts"
+       ]
+      }
+     ],
+     "file": [
+      "app/api/chat/messages/route.ts",
+      "app/layout.tsx",
+      "app/seller/products/import/page.tsx",
+      "app/seller/products/new/page.tsx",
+      "app/sign-in/page.tsx",
+      "components/CategoryShowcase.tsx",
+      "components/SearchBar.tsx",
+      "components/providers/ToastProvider.tsx",
+      "components/seller/CameraCapture.tsx",
+      "components/seller/ProductForm.tsx",
+      "components/ui/DeliveryCutoff.tsx",
+      "lib/funzioni-al-lancio.ts",
+      "lib/queries/griglia-prodotti.ts"
+     ],
+     "migrazioni": [
+      580,
+      589
+     ]
+    },
+    "R02": {
+     "tema": "architettura",
+     "voci": [
+      {
+       "id": "R02-001",
+       "chiave": "architettura|le altre due porte dell'ai sul catalogo scrivono ancora la traccia a mano, nella forma vecchia",
+       "gravita": "minore",
+       "titolo": "Le altre due porte dell'AI sul catalogo scrivono ancora la traccia a mano, nella forma vecchia",
+       "file": [
+        "app/api/ai/catalog-apply-bulk/route.ts"
+       ]
+      },
+      {
+       "id": "R02-002",
+       "chiave": "immagini-media|next.config.js ammette ancora le immagini di placehold.co, che il sito non usa più",
+       "gravita": "minore",
+       "titolo": "next.config.js ammette ancora le immagini di placehold.co, che il sito non usa più",
+       "file": [
+        "next.config.js"
+       ]
+      },
+      {
+       "id": "R02-003",
+       "chiave": "layout-responsive|le righe delle impostazioni (toggle) non hanno min-w-0 sul testo",
+       "gravita": "minore",
+       "titolo": "Le righe delle impostazioni (Toggle) non hanno min-w-0 sul testo",
+       "file": [
+        "components/ui/Toggle.tsx"
+       ]
+      },
+      {
+       "id": "R02-004",
+       "chiave": "microcopy|il dialogo dell sos dice che gli amministratori ricevono l avviso «subito», ma il push parte solo se la scrittura riesce entro 15 secondi",
+       "gravita": "minore",
+       "titolo": "Il dialogo dell SOS dice che gli amministratori ricevono l avviso «subito», ma il push parte solo se la scrittura riesce entro 15 secondi",
+       "file": [
+        "components/rider/SOSButton.tsx"
+       ]
+      },
+      {
+       "id": "R02-005",
+       "chiave": "mobile-pwa|se il primo segnale gps scade prima della conferma, l'sos parte senza posizione anche se la posizione arriva un attimo dopo",
+       "gravita": "minore",
+       "titolo": "Se il primo segnale GPS scade prima della conferma, l'SOS parte senza posizione anche se la posizione arriva un attimo dopo",
+       "file": [
+        "components/rider/SOSButton.tsx"
+       ]
+      },
+      {
+       "id": "R02-006",
+       "chiave": "qa-flussi|la rotta del lotto sul catalogo, se non riceve l'elenco dei prodotti, applica ancora tutti i risultati",
+       "gravita": "minore",
+       "titolo": "La rotta del lotto sul catalogo, se non riceve l'elenco dei prodotti, applica ancora tutti i risultati",
+       "file": [
+        "app/api/ai/catalog-batch/apply/route.ts"
+       ]
+      },
+      {
+       "id": "R02-007",
+       "chiave": "qa-flussi|la pagina contatti promette ancora «puoi provare lo stesso a inviare» quando l'anti-robot non si carica",
+       "gravita": "minore",
+       "titolo": "La pagina contatti promette ancora «Puoi provare lo stesso a inviare» quando l'anti-robot non si carica",
+       "file": [
+        "app/contact/page.tsx"
+       ]
+      },
+      {
+       "id": "R02-008",
+       "chiave": "qa-flussi|dopo aver tolto un prodotto da una lista, il conteggio in /lists resta vecchio fino a 30 secondi",
+       "gravita": "minore",
+       "titolo": "Dopo aver tolto un prodotto da una lista, il conteggio in /lists resta vecchio fino a 30 secondi",
+       "file": [
+        "app/lists/[id]/page.tsx"
+       ]
+      },
+      {
+       "id": "R02-009",
+       "chiave": "qa-flussi|chi sceglie «fattorino» nell'iscrizione e poi si registra con google diventa cliente, e non trova una strada per diventare fattorino",
+       "gravita": "minore",
+       "titolo": "Chi sceglie «fattorino» nell'iscrizione e poi si registra con Google diventa cliente, e non trova una strada per diventare fattorino",
+       "file": [
+        "app/sign-up/page.tsx"
+       ]
+      },
+      {
+       "id": "R02-010",
+       "chiave": "qa-flussi|la data degli eventi in home non usa il fuso di piacenza",
+       "gravita": "minore",
+       "titolo": "La data degli eventi in home non usa il fuso di Piacenza",
+       "file": [
+        "components/home/HomeEvents.tsx"
+       ]
+      },
+      {
+       "id": "R02-011",
+       "chiave": "qa-flussi|gli annunci sponsorizzati si accendono e si spengono sul giorno di greenwich, non su quello di piacenza",
+       "gravita": "minore",
+       "titolo": "Gli annunci sponsorizzati si accendono e si spengono sul giorno di Greenwich, non su quello di Piacenza",
+       "file": [
+        "components/SponsoredCarousel.tsx"
+       ]
+      },
+      {
+       "id": "R02-012",
+       "chiave": "qa-flussi|gli avvisi scritti nel browser non arrivano a nessuno: logger.warn lato client è solo console.warn",
+       "gravita": "minore",
+       "titolo": "Gli avvisi scritti nel browser non arrivano a nessuno: logger.warn lato client è solo console.warn",
+       "file": [
+        "lib/logger.ts"
+       ]
+      },
+      {
+       "id": "R02-013",
+       "chiave": "qa-flussi|la pagina delle storie accetta caratteri di controllo c1 nel link che poi il database rifiuta, lasciando una foto orfana",
+       "gravita": "minore",
+       "titolo": "La pagina delle storie accetta caratteri di controllo C1 nel link che poi il database rifiuta, lasciando una foto orfana",
+       "file": [
+        "lib/safe-redirect.ts"
+       ]
+      }
+     ],
+     "file": [
+      "app/api/ai/catalog-apply-bulk/route.ts",
+      "app/api/ai/catalog-batch/apply/route.ts",
+      "app/contact/page.tsx",
+      "app/lists/[id]/page.tsx",
+      "app/sign-up/page.tsx",
+      "components/SponsoredCarousel.tsx",
+      "components/home/HomeEvents.tsx",
+      "components/rider/SOSButton.tsx",
+      "components/ui/Toggle.tsx",
+      "lib/logger.ts",
+      "lib/safe-redirect.ts",
+      "next.config.js"
+     ],
+     "migrazioni": [
+      590,
+      599
+     ]
+    },
+    "R03": {
+     "tema": "flussi-conversione",
+     "voci": [
+      {
+       "id": "R03-001",
+       "chiave": "flussi-conversione|sulla scheda prodotto un secondo «aggiungi al carrello» entro un secondo viene ignorato senza dire niente",
+       "gravita": "minore",
+       "titolo": "Sulla scheda prodotto un secondo «Aggiungi al carrello» entro un secondo viene ignorato senza dire niente",
+       "file": [
+        "app/product/[id]/page.tsx"
+       ]
+      },
+      {
+       "id": "R03-002",
+       "chiave": "layout-responsive|col testo ingrandito al massimo anche la pagina chi siamo scorre di lato (466px su 360)",
+       "gravita": "minore",
+       "titolo": "Col testo ingrandito al massimo anche la pagina Chi siamo scorre di lato (466px su 360)",
+       "file": [
+        "app/about/page.tsx"
+       ]
+      },
+      {
+       "id": "R03-003",
+       "chiave": "microcopy|il titolo della variante a della home dice «a negozio aperto», ma la consegna può arrivare dopo la chiusura",
+       "gravita": "minore",
+       "titolo": "Il titolo della variante A della home dice «a negozio aperto», ma la consegna può arrivare dopo la chiusura",
+       "file": [
+        "app/page.tsx"
+       ]
+      },
+      {
+       "id": "R03-004",
+       "chiave": "navigazione-gerarchia|la vetrina della home non può filtrare le categorie vuote nell'html del server col precarico della sola home",
+       "gravita": "minore",
+       "titolo": "La vetrina della home non può filtrare le categorie vuote nell'HTML del server col precarico della sola home",
+       "file": [
+        "components/CategoryBar.tsx"
+       ]
+      },
+      {
+       "id": "R03-005",
+       "chiave": "performance|sulla bacheca del fattorino, se la vista dei negozi resta giù, la pagina la rilegge ogni 5 secondi senza fine",
+       "gravita": "minore",
+       "titolo": "Sulla bacheca del fattorino, se la vista dei negozi resta giù, la pagina la rilegge ogni 5 secondi senza fine",
+       "file": [
+        "app/rider/page.tsx"
+       ]
+      },
+      {
+       "id": "R03-006",
+       "chiave": "qa-flussi|il primo messaggio mandato insieme all'apertura della conversazione non avvisa il negozio",
+       "gravita": "minore",
+       "titolo": "Il primo messaggio mandato insieme all'apertura della conversazione non avvisa il negozio",
+       "file": [
+        "app/api/chat/conversations/route.ts"
+       ]
+      },
+      {
+       "id": "R03-007",
+       "chiave": "qa-flussi|due scroll-mt di altre pagine si sommano allo scroll-padding nuovo",
+       "gravita": "minore",
+       "titolo": "Due scroll-mt di altre pagine si sommano allo scroll-padding nuovo",
+       "file": [
+        "app/lavora-con-noi/page.tsx",
+        "app/product/[id]/page.tsx"
+       ]
+      },
+      {
+       "id": "R03-008",
+       "chiave": "qa-flussi|le zone del fattorino dicono «salvate» prima dell'esito",
+       "gravita": "minore",
+       "titolo": "Le zone del fattorino dicono «salvate» prima dell'esito",
+       "file": [
+        "app/rider/availability/page.tsx"
+       ]
+      },
+      {
+       "id": "R03-009",
+       "chiave": "qa-flussi|quando la presa di un ordine torna vuota o con un motivo sconosciuto, il fattorino legge «non più disponibile»",
+       "gravita": "minore",
+       "titolo": "Quando la presa di un ordine torna vuota o con un motivo sconosciuto, il fattorino legge «non più disponibile»",
+       "file": [
+        "app/rider/page.tsx"
+       ]
+      },
+      {
+       "id": "R03-010",
+       "chiave": "qa-flussi|«spesso comprati insieme» mette nel carrello il prezzo pieno anche con una promozione attiva",
+       "gravita": "minore",
+       "titolo": "«Spesso comprati insieme» mette nel carrello il prezzo pieno anche con una promozione attiva",
+       "file": [
+        "components/products/FrequentlyBoughtTogether.tsx"
+       ]
+      },
+      {
+       "id": "R03-011",
+       "chiave": "qa-flussi|aria-busy sulla variante «cards» del caricamento può zittire l'annuncio per lo screen reader",
+       "gravita": "minore",
+       "titolo": "aria-busy sulla variante «cards» del caricamento può zittire l'annuncio per lo screen reader",
+       "file": [
+        "components/ui/LoadingState.tsx"
+       ]
+      },
+      {
+       "id": "R03-012",
+       "chiave": "qa-flussi|il doppio tocco sul cuore con due salvataggi falliti lascia il cuore pieno e il preferito non salvato, e una richiesta che non risponde blocca la fila del prodotto",
+       "gravita": "minore",
+       "titolo": "Il doppio tocco sul cuore con due salvataggi falliti lascia il cuore pieno e il preferito non salvato, e una richiesta che non risponde blocca la fila del prodotto",
+       "file": [
+        "lib/preferiti/tocco-del-cuore.ts"
+       ]
+      },
+      {
+       "id": "R03-013",
+       "chiave": "qa-flussi|il finto condiviso della vetrina non conosce l'aggancio storie → vista dei negozi",
+       "gravita": "minore",
+       "titolo": "Il finto condiviso della vetrina non conosce l'aggancio storie → vista dei negozi",
+       "file": [
+        "tests/unit/aiuti/database-della-vetrina.ts"
+       ]
+      }
+     ],
+     "file": [
+      "app/about/page.tsx",
+      "app/api/chat/conversations/route.ts",
+      "app/lavora-con-noi/page.tsx",
+      "app/page.tsx",
+      "app/product/[id]/page.tsx",
+      "app/rider/availability/page.tsx",
+      "app/rider/page.tsx",
+      "components/CategoryBar.tsx",
+      "components/products/FrequentlyBoughtTogether.tsx",
+      "components/ui/LoadingState.tsx",
+      "lib/preferiti/tocco-del-cuore.ts"
+     ],
+     "migrazioni": [
+      600,
+      609
+     ]
+    },
+    "R04": {
+     "tema": "frontend-ux",
+     "voci": [
+      {
+       "id": "R04-001",
+       "chiave": "frontend-ux|una categoria con la lettura dei prodotti caduta resta una pagina bianca",
+       "gravita": "minore",
+       "titolo": "Una categoria con la lettura dei prodotti caduta resta una pagina bianca",
+       "file": [
+        "app/category/[slug]/page.tsx"
+       ]
+      },
+      {
+       "id": "R04-002",
+       "chiave": "frontend-ux|la scheda di un negozio inesistente ripete «pagina non trovata» nel titolo e nella pagina, come faceva la 404",
+       "gravita": "minore",
+       "titolo": "La scheda di un negozio inesistente ripete «Pagina non trovata» nel titolo e nella pagina, come faceva la 404",
+       "file": [
+        "app/store/[id]/[slug]/layout.tsx"
+       ]
+      },
+      {
+       "id": "R04-003",
+       "chiave": "frontend-ux|lo scheletro del negozio impedisce il 404 vero sulle pagine dei negozi anche senza lo scheletro della radice",
+       "gravita": "minore",
+       "titolo": "Lo scheletro del negozio impedisce il 404 vero sulle pagine dei negozi anche senza lo scheletro della radice",
+       "file": [
+        "app/store/loading.tsx"
+       ]
+      },
+      {
+       "id": "R04-004",
+       "chiave": "frontend-ux|il drop del giorno in home usa ancora il giorno di greenwich",
+       "gravita": "minore",
+       "titolo": "Il Drop del giorno in home usa ancora il giorno di Greenwich",
+       "file": [
+        "components/home/DropOfDay.tsx"
+       ]
+      },
+      {
+       "id": "R04-005",
+       "chiave": "frontend-ux|eliminando una pagina della vetrina restano i pulsanti delle sezioni che puntavano a lei",
+       "gravita": "minore",
+       "titolo": "Eliminando una pagina della vetrina restano i pulsanti delle sezioni che puntavano a lei",
+       "file": [
+        "components/seller/site/PageListEditor.tsx"
+       ]
+      },
+      {
+       "id": "R04-006",
+       "chiave": "frontend-ux|sulla pagina del negozio il testo lungo si taglia ancora in silenzio a 4.000 caratteri",
+       "gravita": "minore",
+       "titolo": "Sulla pagina del negozio il testo lungo si taglia ancora in silenzio a 4.000 caratteri",
+       "file": [
+        "components/seller/site/SectionConfigForm.tsx"
+       ]
+      },
+      {
+       "id": "R04-007",
+       "chiave": "frontend-ux|la vetrina legge al massimo 20 recensioni mentre la linguetta mostra il totale vero",
+       "gravita": "minore",
+       "titolo": "La vetrina legge al massimo 20 recensioni mentre la linguetta mostra il totale vero",
+       "file": [
+        "components/store-sections/useStorePageData.ts"
+       ]
+      },
+      {
+       "id": "R04-008",
+       "chiave": "frontend-ux|a menu spento, un link lasciato a metà sparisce al salvataggio senza avviso",
+       "gravita": "minore",
+       "titolo": "A menu spento, un link lasciato a metà sparisce al salvataggio senza avviso",
+       "file": [
+        "lib/store-site.ts"
+       ]
+      },
+      {
+       "id": "R04-009",
+       "chiave": "navigazione-gerarchia|le pagine di una categoria madre mostrano chip verso sottocategorie vuote",
+       "gravita": "minore",
+       "titolo": "Le pagine di una categoria madre mostrano chip verso sottocategorie vuote",
+       "file": [
+        "app/category/[slug]/page.tsx"
+       ]
+      },
+      {
+       "id": "R04-010",
+       "chiave": "qa-flussi|il campanello del pannello negozio conta anche le promozioni di chi le ha spente",
+       "gravita": "minore",
+       "titolo": "Il campanello del pannello negozio conta anche le promozioni di chi le ha spente",
+       "file": [
+        "components/seller/SellerShell.tsx"
+       ]
+      },
+      {
+       "id": "R04-011",
+       "chiave": "qa-flussi|nelle recensioni della vetrina chi ha solo il nome pubblico (senza nome vero) adesso appare come «cliente»",
+       "gravita": "minore",
+       "titolo": "Nelle recensioni della vetrina chi ha solo il nome pubblico (senza nome vero) adesso appare come «Cliente»",
+       "file": [
+        "components/store-sections/useStorePageData.ts"
+       ]
+      },
+      {
+       "id": "R04-012",
+       "chiave": "qa-flussi|il conto delle categorie con prodotti si ferma al decimo livello, il modulo prodotto al ventesimo",
+       "gravita": "minore",
+       "titolo": "Il conto delle categorie con prodotti si ferma al decimo livello, il modulo prodotto al ventesimo",
+       "file": [
+        "lib/queries/categorie-piene.ts"
+       ]
+      },
+      {
+       "id": "R04-013",
+       "chiave": "qa-flussi|il client supabase finto delle prove non sa concatenare .rpc().order().range()",
+       "gravita": "minore",
+       "titolo": "il client Supabase finto delle prove non sa concatenare .rpc().order().range()",
+       "file": [
+        "tests/unit/aiuti/finti/supabase-client.mjs"
+       ]
+      }
+     ],
+     "file": [
+      "app/category/[slug]/page.tsx",
+      "app/store/[id]/[slug]/layout.tsx",
+      "app/store/loading.tsx",
+      "components/home/DropOfDay.tsx",
+      "components/seller/SellerShell.tsx",
+      "components/seller/site/PageListEditor.tsx",
+      "components/seller/site/SectionConfigForm.tsx",
+      "components/store-sections/useStorePageData.ts",
+      "lib/queries/categorie-piene.ts",
+      "lib/store-site.ts",
+      "tests/unit/aiuti/finti/supabase-client.mjs"
+     ],
+     "migrazioni": [
+      610,
+      619
+     ]
     }
-  ],
-  "cucitura": [],
-  "eccedenza": []
+   },
+   "rimandate": [
+    "performance|le pagine che vendono si disegnano solo nel browser, e il preload della prima foto non serve a niente",
+    "qa-flussi|il taglio sui prodotti recensiti non usa la lettura a blocchi: sopra circa 216 id dà 414",
+    "qa-flussi|nella pagina novità il numero in alto conta anche prodotti che la griglia non mostra",
+    "qa-flussi|se il filtro finale sui negozi approvati scarta righe, «carica altri» si ferma",
+    "qa-flussi|il finto client supabase condiviso delle prove risponde a rpc() con «nessun errore»: una pagina che salva con una funzione del database sembra riuscita anche se non scrive niente",
+    "qa-flussi|le prove che fanno girare tutto lo script del backup non hanno un psql finto",
+    "stati-ui|senza database la categoria e la scheda prodotto mostrano «qualcosa è andato storto» invece del loro errore con «riprova»",
+    "stati-ui|sulla bacheca del fattorino, se la lettura dello stato online cade, la pagina scrive «sei offline» invece di dire che non lo sa; anche il voto ignora l’errore",
+    "stati-ui|«duplica prodotto» senza rete apre il modulo vuoto finché la rete non torna",
+    "stati-ui|la barra cade se localstorage lancia su ogni chiave",
+    "stati-ui|senza rete il modulo prodotto crede che il negozio non offra la consegna veloce",
+    "stati-ui|con upstash il freno dell'accesso dice sempre di aspettare la finestra intera, anche quando ne manca meno"
+   ],
+   "regia": []
+  }
+ ],
+ "cucitura": [],
+ "eccedenza": [],
+ "eccezioni_firmate": [
+  {
+   "onda": 1,
+   "sessione": "R03",
+   "regole": [
+    "prove_comuni",
+    "prova_esistente_altrui"
+   ],
+   "file": [
+    "tests/unit/aiuti/database-della-vetrina.ts",
+    "tests/unit/riparazione-r20-home-variante-a.test.ts"
+   ],
+   "perche": "R03 ha modificato due prove esistenti: database-della-vetrina.ts gliel'ha dato la regia per R03-013 (errore della regia: per regola una prova esistente la tocca solo la regista), riparazione-r20-home-variante-a.test.ts andava aggiornata per il testo nuovo di R03-003. Il collaudo K02 le ha guardate tutte e due (nessuna prova indebolita) e il controllore C01 non ha trovato voci rosse. Il programma applica l'eccezione all'onda 1 di questa cartella; l'unica sessione che la fa scattare è R03.",
+   "firma": "Nicola, 17/11 verso le 19:40, chat dell'AD session_015BmpnWeHkst12TRwrzmMfw: «Firmo l'eccezione»",
+   "scritta": "2026-11-17 19:48, regia dell'onda 7"
+  }
+ ]
 }

@@ -1,0 +1,42 @@
+{
+  "controllore": "C01",
+  "onda": 7,
+  "finita": true,
+  "aggiornato": "2026-11-17 19:32",
+  "testa": "a3c43d1f735d803d817b12c25fd87feb323922ca",
+  "base": "bc36f48120ec38bf20880c7d68b3171015744681",
+  "verify": {
+    "comando": "NODE_OPTIONS=--max-old-space-size=8192 npm run verify && tests/sql/harness/apply.sh && tests/sql/harness/run.sh",
+    "esito": "verde",
+    "nota": "Girato da C01 sulla testa a3c43d1f (clone pulito del sito, npm ci). Tipi puliti, lint pulito, 1687 file di prove passati, 10809 prove passate, nessun rosso. Harness SQL su un Postgres 16 locale del contenitore (socket /var/run/postgresql): 209 migrazioni applicate, 0 fallite, tutti i file .test.sql verdi. L'onda 7 non tocca né migrazioni né file .sql, quindi le prove .sh che run.sh non lancia non le ho rifatte. Nessun database vero toccato, nessuno strumento Supabase, Vercel o Stripe."
+  },
+  "unione": "a3c43d1f è la base bc36f481 più i rami -m01, -m02, -m03, -m04 (fusioni b4226f24, 02cfbbea, b795430d, a5e2c7a3) più i tre revert. I revert hanno tolto tutto: per ogni commit annullato (7a09dcc5 di R01-007; e6d7bc0f e f25d86eb di R03-006; 69847de4 e 2fe845f3 di R03-008) git diff fra la base e la testa, sui file di quel commit, è vuoto: app/api/chat/messages/route.ts, app/api/chat/conversations/route.ts e app/rider/availability/page.tsx sono identici alla base, e le tre prove di quelle voci non ci sono più. Lo stesso per le tre non_fatto di R01 tolte dal riparatore (R01-002 CameraCapture.tsx, R01-006 DeliveryCutoff.tsx, R01-013 griglia-prodotti.ts): identiche alla base.",
+  "voci_rosse": [],
+  "voci_guardate": {
+    "reggono_sull_unione": ["R01-003", "R01-004", "R01-009", "R02-001", "R02-003", "R02-004", "R02-005", "R02-007", "R02-010", "R02-011", "R02-012", "R02-013", "R03-002", "R03-003", "R03-005", "R03-007", "R03-009", "R03-010", "R03-011", "R03-012", "R03-013", "R04-002", "R04-004", "R04-005", "R04-008", "R04-009", "R04-012"],
+    "gia_riparate_che_reggono": ["R01-010", "R01-011", "R03-004", "R04-007"],
+    "parziali_controllate_che_non_rompono": ["R01-001", "R01-012", "R02-008", "R02-009", "R03-001", "R04-001", "R04-006", "R04-011", "R04-013"],
+    "nota": "Le 27 date per «regge» hanno tutte la loro prova nell'albero unito, e la suite intera è verde. Ho letto le righe nuove dei 32 file di codice con le tre domande: nessuna rompe soldi, permessi, dati o un flusso vicino, e nei file toccati non resta lo stesso difetto in un altro punto (cercati: giorno di Greenwich in SponsoredCarousel, DropOfDay e HomeEvents; aria-busy sulle altre varianti di LoadingState; tetto dei livelli in categorie-piene; scroll-mt con l'altezza della testata; altre sezioni con un pulsante verso una pagina oltre al banner: c'è solo il banner). Due incroci guardati apposta: ① R04-008 conserva i link a metà col menu spento; resolveMenu (lib/store-site.ts:417) non mostra niente a menu spento e a menu acceso il salvataggio li rifiuta ancora, quindi un indirizzo a metà non arriva mai alla vetrina pubblica. ② R02-012 manda a Sentry gli avvisi del browser: le righe nuove delle altre voci non aggiungono nessun logger.warn, e la lettura nuova di R04-011 (conAutoriPubblici) ha già il suo try/catch e il suo tempo massimo, quindi un guasto lì non fa cadere le recensioni. Le parziali: il codice rimasto non rompe niente; R01-012 protegge davvero solo la pagina «nuovo prodotto» (le altre tre pagine del modulo passano un onSubmit che non aspetta), e la voce resta aperta come ha detto K01. R01-005 non ha codice nell'unione. Su R04-011 vale la nota riservata di K02, che non ho visto."
+  },
+  "nuovi_difetti_visti": [
+    {
+      "titolo": "Il finto di Supabase delle prove fa partire subito la chiamata alla funzione del database, mentre quello vero la manda solo quando qualcuno aspetta la risposta",
+      "dimensione": "qa-flussi",
+      "severita": "minore",
+      "file": "tests/unit/aiuti/finti/supabase-client.mjs:71",
+      "descrizione": "Riga nuova di R04-013. catenaDiUnaFunzione chiama clientDellaProva().rpc(...) appena si chiama supabase.rpc, prima di .then. Il client vero di Supabase invece non manda niente finché la risposta non si aspetta: per questo `void supabase.rpc(...)` senza `.then` in SponsoredCarousel.tsx:75 e :117 della testa unita (:71 e :113 nel collaudo K02) non conta impressioni e clic (il nato grave già visto da K02). Una prova che usasse questo finto per controllare quelle chiamate passerebbe verde mentre in produzione la richiesta non parte. Era così anche prima (rpc era una funzione async, che parte subito): la riga nuova lo conserva, non lo porta. Le prove degli annunci sponsorizzati oggi usano un loro finto, quindi nessuna prova verde è falsa adesso: per questo minore."
+    }
+  ],
+  "note_per_la_regista": [
+    "Anche R04 ha cambiato una prova che c'era già: tests/unit/riparazione-r20-menu-spento.test.ts:16 (commit 1e7e09a5 di R04-008) ora si aspetta ['l1', 'l2'] invece di ['l2'], perché il link a metà adesso si conserva. Il cambio è coerente con la voce e non indebolisce la prova (la prova accanto, menu acceso che rifiuta il link vuoto, è intatta), ma è la stessa deroga di R03 e va scritta nella PR; la guardia-ramo di R04 era verde, quindi questo caso non l'ha visto.",
+    "I nati che K01 e K02 hanno già detto (fra cui il grave di SponsoredCarousel.tsx, che sulla testa unita sta alle righe 75 e 117) non li ripeto qui."
+  ],
+  "file_toccati": 77,
+  "file_guardati": 40,
+  "file_non_guardati": "Guardati 40 su 77: i 32 file di codice (diff e intorno dove serviva), i 4 referti .riparazione/referto-R0x.json (letti nelle copie della cartella onda7/referti) e 4 prove: le due che c'erano già (riparazione-r20-home-variante-a, riparazione-r20-menu-spento) e i due aiuti condivisi (aiuti/database-della-vetrina.ts, aiuti/finti/supabase-client.mjs), perché un finto troppo largo può far passare verdi altre prove. Le altre 37 prove nuove le ho fatte girare sull'unione (verdi) ma non le ho rilette riga per riga: se mordono lo hanno già misurato K01 e K02, e rifarlo è il lavoro che il controllore non fa.",
+  "conto": {
+    "subagenti": 0,
+    "token_stimati": 150000,
+    "nota": "Nessun subagente: l'unione cambia 32 file di codice per circa 600 righe, li ho letti io una volta sola. get_session non mostra usage.cost_usd: la spesa va letta dalla regista. Limite settimanale «allowed_warning», senza uso extra. get_session non mostra is_ultracode_active: ho lavorato lo stesso, perché le regole dell'onda vietano lo strumento Workflow."
+  }
+}

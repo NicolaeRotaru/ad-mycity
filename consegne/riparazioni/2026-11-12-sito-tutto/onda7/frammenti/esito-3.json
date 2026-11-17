@@ -1,0 +1,69 @@
+{
+  "corsia": 3,
+  "territorio": "R03",
+  "difetti": [
+    {
+      "chiave": "layout-responsive|col testo ingrandito al massimo anche la pagina chi siamo scorre di lato (466px su 360)",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-chi-siamo-testo-grande.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base be37e7a22aed365e3cf4e3d6801c34006d359ae6^ --file app/about/page.tsx --prove tests/unit/riparazione-r03-chi-siamo-testo-grande.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R03 checkout --quiet --detach be37e7a22aed365e3cf4e3d6801c34006d359ae6 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base be37e7a22aed365e3cf4e3d6801c34006d359ae6^ --file app/about/page.tsx --prove tests/unit/riparazione-r03-chi-siamo-testo-grande.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "break-words hyphens-auto sull'h1 e, al posto di grid-cols-2, le colonne del piede con il gap della griglia (grid-cols-[repeat(auto-fit,minmax(max(8rem,calc((100%_-_1rem)/2)),1fr))], lg invariato). Misurato con Playwright/Chromium su un render statico con Tailwind compilato e Fraunces vero a 360px e html 200%: prima 410px, dopo 360; a testo normale la griglia resta a due colonne identiche. Prova leggera sulle classi della pagina renderizzata. Prova rimessa ricontrollata da R03 (uscita 0)."
+    },
+    {
+      "chiave": "microcopy|il titolo della variante a della home dice «a negozio aperto», ma la consegna può arrivare dopo la chiusura",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-home-consegna-senza-negozio-aperto.test.ts tests/unit/riparazione-r20-home-variante-a.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base cb813b984fde5e26ea893f034aceafbf957f4bca^ --file app/page.tsx --prove tests/unit/riparazione-r03-home-consegna-senza-negozio-aperto.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R03 checkout --quiet --detach cb813b984fde5e26ea893f034aceafbf957f4bca && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base cb813b984fde5e26ea893f034aceafbf957f4bca^ --file app/page.tsx --prove tests/unit/riparazione-r03-home-consegna-senza-negozio-aperto.test.ts,tests/unit/riparazione-r20-home-variante-a.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Tolto «, a negozio aperto»: la frase è ora «Consegna {QUANDO_ARRIVA_SENZA_NEGOZIO}.» = «Consegna in giornata, nella fascia oraria che scegli.», la stessa di lib/promesse-pubbliche.ts, senza promesse nuove. La prova rende la home vera sulla variante a e legge il sottotitolo. Modificata (dichiarata) la prova esistente tests/unit/riparazione-r20-home-variante-a.test.ts, che legge app/page.tsx per nome e pretendeva «a negozio aperto»: ora pretende che non ci sia e che la frase dica «fascia oraria che scegli»; l'altra sua asserzione resta intatta. Prova rimessa ricontrollata da R03 (uscita 0)."
+    },
+    {
+      "chiave": "performance|sulla bacheca del fattorino, se la vista dei negozi resta giù, la pagina la rilegge ogni 5 secondi senza fine",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-bacheca-attesa-crescente.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3245c9edc78f760c77f158d6ff01ba76ed3e7b51^ --file app/rider/page.tsx --prove tests/unit/riparazione-r03-bacheca-attesa-crescente.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R03 checkout --quiet --detach 3245c9edc78f760c77f158d6ff01ba76ed3e7b51 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 3245c9edc78f760c77f158d6ff01ba76ed3e7b51^ --file app/rider/page.tsx --prove tests/unit/riparazione-r03-bacheca-attesa-crescente.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "La pagina conta le letture di fila tornate senza negozi (useRef aggiornato nella queryFn) e refetchInterval raddoppia l'attesa 5, 10, 20, 40 s fino al tetto di 60 s (il valore normale); quando la vista risponde il conto torna a zero e un guasto nuovo riparte da 5 s. Prova con orologio finto sulle attese fra le letture; le 11 prove della bacheca (compresa quella del ritorno rapido del nome) verdi. Prova rimessa ricontrollata da R03 (uscita 0)."
+    },
+    {
+      "chiave": "qa-flussi|due scroll-mt di altre pagine si sommano allo scroll-padding nuovo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-ancore-senza-doppio-margine.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 74e03d267211daa47ebe3092b421215aeae3db3d^ --file app/lavora-con-noi/page.tsx,app/product/[id]/page.tsx --prove tests/unit/riparazione-r03-ancore-senza-doppio-margine.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R03 checkout --quiet --detach 74e03d267211daa47ebe3092b421215aeae3db3d && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 74e03d267211daa47ebe3092b421215aeae3db3d^ --file app/lavora-con-noi/page.tsx,app/product/[id]/page.tsx --prove tests/unit/riparazione-r03-ancore-senza-doppio-margine.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Controllato che app/globals.css:199-201 abbia html{scroll-padding-top} da md. #posizioni di lavora con noi passa a «scroll-mt-24 md:scroll-mt-0» e #recensioni della scheda prodotto da «md:scroll-mt-[var(--header-height)]» a «md:scroll-mt-0» (sotto md restano scroll-mt-24 e scroll-mt-4), come già LegalLayout; aggiornato il commento accanto. Prova leggera sulle classi, rossa togliendo l'uno o l'altro file. Prova rimessa ricontrollata da R03 (uscita 0)."
+    },
+    {
+      "chiave": "qa-flussi|quando la presa di un ordine torna vuota o con un motivo sconosciuto, il fattorino legge «non più disponibile»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-presa-ordine-motivo-vero.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 227673ed04efc948f3bf771f06fb9ade1fa6aff3^ --file app/rider/page.tsx --prove tests/unit/riparazione-r03-presa-ordine-motivo-vero.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R03 checkout --quiet --detach 227673ed04efc948f3bf771f06fb9ade1fa6aff3 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 227673ed04efc948f3bf771f06fb9ade1fa6aff3^ --file app/rider/page.tsx --prove tests/unit/riparazione-r03-presa-ordine-motivo-vero.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "«Ordine già preso da un altro rider» esce solo col motivo GIA_PRESO (l'unico che prendi_ordine, migrazione 270, usa per l'ordine non più libero); risposta nulla, storta, ok senza id o motivo sconosciuto danno «Non siamo riusciti a prendere l'ordine. Riprova.». NON_FATTORINO e DOCUMENTI_SCADUTI invariati; le 10 prove esistenti della bacheca verdi. Prova rimessa ricontrollata da R03 (uscita 0)."
+    },
+    {
+      "chiave": "qa-flussi|«spesso comprati insieme» mette nel carrello il prezzo pieno anche con una promozione attiva",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-comprati-insieme-scontati.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 2eb57568d9596ff49c3c62a8931d694627a6116e^ --file components/products/FrequentlyBoughtTogether.tsx --prove tests/unit/riparazione-r03-comprati-insieme-scontati.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R03 checkout --quiet --detach 2eb57568d9596ff49c3c62a8931d694627a6116e && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 2eb57568d9596ff49c3c62a8931d694627a6116e^ --file components/products/FrequentlyBoughtTogether.tsx --prove tests/unit/riparazione-r03-comprati-insieme-scontati.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "La queryFn della fascia ora fa lo stesso calcolo di CartUpsell (fetchActiveDiscounts + discountedUnitCents, aiutanti esistenti non toccati): prezzo mostrato e prezzo messo nel carrello sono quelli con la promo attiva. La prova monta la fascia vera con uno sconto finto del 20%: il carrello riceve 8 € invece di 10 €, e il prodotto senza sconto resta a prezzo pieno. Prova rimessa ricontrollata da R03 (uscita 0)."
+    },
+    {
+      "chiave": "qa-flussi|aria-busy sulla variante «cards» del caricamento può zittire l'annuncio per lo screen reader",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-caricamento-cards-annuncia.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 81aa847d77f63ff60d7689188373475ba3c7c84c^ --file components/ui/LoadingState.tsx --prove tests/unit/riparazione-r03-caricamento-cards-annuncia.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R03 checkout --quiet --detach 81aa847d77f63ff60d7689188373475ba3c7c84c && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 81aa847d77f63ff60d7689188373475ba3c7c84c^ --file components/ui/LoadingState.tsx --prove tests/unit/riparazione-r03-caricamento-cards-annuncia.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Nella variante cards aria-busy=\"true\" è tolto dal div role=status/aria-live e messo sulla sola griglia degli scheletri (figlia, non antenata); il messaggio resta nella regione viva. Prova leggera di render: nessun aria-busy=true sulla regione o sopra, e il testo è dentro. Prova rimessa ricontrollata da R03 (uscita 0)."
+    },
+    {
+      "chiave": "qa-flussi|il doppio tocco sul cuore con due salvataggi falliti lascia il cuore pieno e il preferito non salvato, e una richiesta che non risponde blocca la fila del prodotto",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-cuore-rifiuti-e-silenzio.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 60f1ee8982073e8653e8c3d97ad738226977acc9^ --file lib/preferiti/tocco-del-cuore.ts --prove tests/unit/riparazione-r03-cuore-rifiuti-e-silenzio.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R03 checkout --quiet --detach ae7214d9bc52343e0cb72607926b7cc10fd366a5 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 60f1ee8982073e8653e8c3d97ad738226977acc9^ --file lib/preferiti/tocco-del-cuore.ts --prove tests/unit/riparazione-r03-cuore-rifiuti-e-silenzio.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "La fila di ogni prodotto ricorda l'ultimo stato confermato dal server e un rifiuto dell'ultimo tocco rimette il cuore lì invece di ribaltarlo (due rifiuti in fila: cuore vuoto). Ogni scrittura ha un tempo massimo di 10 s: senza risposta vale come rifiutata, la fila va avanti e il cuore torna allo stato confermato. Prove esistenti del cuore (r15 e il-cuore-dei-preferiti) verdi. Giro di correzione: la scrittura scaduta non si fermava e, arrivata dopo la rilettura, cambiava il database sotto il cuore (togli a 12 s: cuore pieno, preferito cancellato). Ora quando una scrittura scaduta arriva comunque (riuscita o rifiutata) si rilegge l'elenco, a fila vuota; con altri tocchi in fila lo fa la fine della fila, così niente stato di passaggio. Prova con rilettura vera (QueryObserver sul finto database) e orologio finto: i due casi del revisore, la scrittura tardiva che fallisce e quella che arriva a metà fila. Commit 60f1ee89 e ae7214d9. Prova rimessa ricontrollata da R03 (uscita 0)."
+    },
+    {
+      "chiave": "qa-flussi|il finto condiviso della vetrina non conosce l'aggancio storie → vista dei negozi",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-vetrina-finta-aggancio-storie.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 6c6d25173ed278e52913a719b8d2fd7d929aa7e4^ --file tests/unit/aiuti/database-della-vetrina.ts --prove tests/unit/riparazione-r03-vetrina-finta-aggancio-storie.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R03 checkout --quiet --detach 6c6d25173ed278e52913a719b8d2fd7d929aa7e4 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 6c6d25173ed278e52913a719b8d2fd7d929aa7e4^ --file tests/unit/aiuti/database-della-vetrina.ts --prove tests/unit/riparazione-r03-vetrina-finta-aggancio-storie.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Il finto conosce l'aggancio seller_stories → seller_public_profiles (su seller_id) e la regola di !inner al primo livello (righe senza aggancio scartate prima di ordine e tetto, come Postgres), invece di rispondere PGRST200. Così storie-drop-ed-eventi-reggono-con-i-profili-chiusi.test.ts («le storie dei negozi in home», 9 casi) passa ora dalla strada nuova del carosello e non più dal ripiego; le 5 prove che usano il finto restano verdi. File assegnato dalla regista in quest'onda. Il file tests/unit/aiuti/database-della-vetrina.ts è stato assegnato a R03 dalla regista in quest'onda: non è di nessun'altra sessione. Prova rimessa ricontrollata da R03 (uscita 0)."
+    }
+  ]
+}

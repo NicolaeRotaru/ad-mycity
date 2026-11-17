@@ -1,0 +1,48 @@
+{
+  "corsia": 4,
+  "territorio": "R04",
+  "difetti": [
+    {
+      "chiave": "frontend-ux|la scheda di un negozio inesistente ripete «pagina non trovata» nel titolo e nella pagina, come faceva la 404",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r04-titolo-pagina-negozio-mancante.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 377ae97e40b2e81f1004a725e6905dd1deef9843^ --file app/store/[id]/[slug]/layout.tsx --prove tests/unit/riparazione-r04-titolo-pagina-negozio-mancante.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R04 checkout --quiet --detach 377ae97e40b2e81f1004a725e6905dd1deef9843 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base 377ae97e40b2e81f1004a725e6905dd1deef9843^ --file app/store/[id]/[slug]/layout.tsx --prove tests/unit/riparazione-r04-titolo-pagina-negozio-mancante.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Il titolo dei metadati per la pagina di vetrina mancante diventa «Pagina del negozio non trovata · MyCity»: dice ancora «non trovata» (noindex e canonical nullo invariati, e la forma che la prova minori-s09-scheda-prodotto cerca resta) ma non contiene più l'h1 «Pagina non trovata», come la correzione R15-005 della 404."
+    },
+    {
+      "chiave": "frontend-ux|il drop del giorno in home usa ancora il giorno di greenwich",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r04-drop-giorno-di-roma.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 04cc4b9afe900efe616879161e8203dd24acf367^ --file components/home/DropOfDay.tsx --prove tests/unit/riparazione-r04-drop-giorno-di-roma.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R04 checkout --quiet --detach 04cc4b9afe900efe616879161e8203dd24acf367 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base 04cc4b9afe900efe616879161e8203dd24acf367^ --file components/home/DropOfDay.tsx --prove tests/unit/riparazione-r04-drop-giorno-di-roma.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Il giorno del drop (chiave e filtro drop_date) viene da giornoPiacenza() di lib/tempo-piacenza.ts, lo stesso aiutante della pagina admin, importato senza modificarlo; il conto alla rovescia arriva alla mezzanotte di Piacenza (inizioGiornoPiacenza del giorno dopo meno 1 ms) invece che a quella del dispositivo. Prova con orologio finto alle 23:30 UTC."
+    },
+    {
+      "chiave": "frontend-ux|eliminando una pagina della vetrina restano i pulsanti delle sezioni che puntavano a lei",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r04-elimina-pagina-pulsanti.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 234686de7fbf24bc91fb81fefa86133d53519784^ --file components/seller/site/PageListEditor.tsx --prove tests/unit/riparazione-r04-elimina-pagina-pulsanti.test.tsx --json → uscita 0 (riparatore); git -C /home/user/wt-R04 checkout --quiet --detach 234686de7fbf24bc91fb81fefa86133d53519784 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base 234686de7fbf24bc91fb81fefa86133d53519784^ --file components/seller/site/PageListEditor.tsx --prove tests/unit/riparazione-r04-elimina-pagina-pulsanti.test.tsx --json → uscita 0 (K02)",
+      "nota_fix": "Alla cancellazione di una pagina, i banner delle altre pagine il cui pulsante (cta, l'unico collegamento di sezione verso una pagina nello schema) la apriva perdono il pulsante, la sezione resta; la conferma nomina quei pulsanti prima, come già faceva per le voci del menu."
+    },
+    {
+      "chiave": "frontend-ux|a menu spento, un link lasciato a metà sparisce al salvataggio senza avviso",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r04-menu-spento-conserva-link.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 1e7e09a533ae15a66d92d17814ca20ee43361105^ --file lib/store-site.ts --prove tests/unit/riparazione-r04-menu-spento-conserva-link.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R04 checkout --quiet --detach 1e7e09a533ae15a66d92d17814ca20ee43361105 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base 1e7e09a533ae15a66d92d17814ca20ee43361105^ --file lib/store-site.ts --prove tests/unit/riparazione-r04-menu-spento-conserva-link.test.ts,tests/unit/riparazione-r20-menu-spento.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "A menu acceso un link a metà resta nell'editor e il salvataggio lo rifiuta dicendo quale completare; a menu spento (esplicito) adesso si conserva com'è invece di essere scartato: il salvataggio non si blocca, il sito pubblico non mostra link, e riacceso il menu vale lo stesso controllo (stesso percorso d'errore menu.links.N). Modificata la prova esistente tests/unit/riparazione-r20-menu-spento.test.ts (importa solo lib/store-site.ts): aspettava lo scarto, ora aspetta che il link resti."
+    },
+    {
+      "chiave": "navigazione-gerarchia|le pagine di una categoria madre mostrano chip verso sottocategorie vuote",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r04-chip-sottocategorie-piene.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base c6fafc1ff409f32e04db278a7ca11023232cef17^ --file app/category/[slug]/page.tsx --prove tests/unit/riparazione-r04-chip-sottocategorie-piene.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R04 checkout --quiet --detach c6fafc1ff409f32e04db278a7ca11023232cef17 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base c6fafc1ff409f32e04db278a7ca11023232cef17^ --file app/category/[slug]/page.tsx --prove tests/unit/riparazione-r04-chip-sottocategorie-piene.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "La pagina legge le categorie piene (domandaCategoriePiene, stessa chiave di home, piede e indice) e filtra con soloLePiene i bottoni delle sottocategorie: nel ramo madre (hub), nel ramo a griglia di una sottocategoria con figlie e nei «forse cercavi» dello stato vuoto. Mentre la lettura carica non mostra bottoni; se cade li mostra tutti come prima. Le file dei prodotti restano su tutte le figlie (si nascondono da sole se vuote)."
+    },
+    {
+      "chiave": "qa-flussi|il conto delle categorie con prodotti si ferma al decimo livello, il modulo prodotto al ventesimo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r04-categorie-piene-profonde.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base bcecf354e90ea44a87e8f0fa7a94a3fe8e27e7a6^ --file lib/queries/categorie-piene.ts --prove tests/unit/riparazione-r04-categorie-piene-profonde.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R04 checkout --quiet --detach bcecf354e90ea44a87e8f0fa7a94a3fe8e27e7a6 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base bcecf354e90ea44a87e8f0fa7a94a3fe8e27e7a6^ --file lib/queries/categorie-piene.ts --prove tests/unit/riparazione-r04-categorie-piene-profonde.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "categorieConProdotti risale fino a 20 gradini sopra la categoria del prodotto, come getAttributesForCategory; il 20 del modulo (lib/category-attributes.ts:285) non è esportato, quindi è ripetuto in una costante locale con lo stesso nome e il rimando. La prova confronta i due su una fila di 21 livelli."
+    }
+  ]
+}

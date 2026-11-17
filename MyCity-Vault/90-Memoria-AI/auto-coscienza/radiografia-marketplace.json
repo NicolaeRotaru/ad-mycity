@@ -410,10 +410,10 @@
   "fonti_non_lette": [],
   "sintesi": "Il problema più grave trovato oggi era una chiave del database leggibile da chiunque, e Nicola l'ha già spenta. Dei difetti nuovi nessuno è bloccante, ma il rimborso di un ordine in contanti va ancora fatto a mano, fuori dal sito.",
   "meta": {
-    "findings": 3219,
+    "findings": 3239,
     "bloccanti": 37,
     "gravi": 678,
-    "minori": 2504,
+    "minori": 2524,
     "agenti": null,
     "aggiornato": "2026-11-17 16:51"
   },
@@ -1707,7 +1707,13 @@
       "causa_radice": "parseInt(...) || 0 trasforma in silenzio un valore sbagliato in un numero valido.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-11-06 · S07"
+      "fonte_radiografia": "radiografia 2026-11-06 · S07",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R01",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -2684,7 +2690,13 @@
       "causa_radice": "Lo stato di attesa di react-query arriva al pulsante solo al disegno successivo, e qui prima della mutazione c'è anche la convalida asincrona del modulo. È lo stesso schema di liste e recensioni, un pulsante protetto solo da isPending, e manca una chiave che renda l'inserimento ripetibile senza doppioni.",
       "giro": 5,
       "verificato": true,
-      "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)"
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)",
+      "riparazione_17_11": {
+        "esito": "parziale",
+        "sessione": "R01",
+        "collaudo": "parziale",
+        "perche": "parziale: Il doppio clic ravvicinato e il doppio Invio ora fanno un solo inserimento (commit f9e140ab e 69035163, rimessa uscita 0). Resta una finestra dopo un inserimento riuscito: la guardia si toglie nel finally (components/seller/ProductForm.tsx:897) e la pagina passa submitting={create.isPending} (app/seller/products/new/page.tsx:303), che torna falso prima che router.push (page.tsx:240) cambi pagina; un clic in quel momento crea un secondo prodotto. Cura: in new/page.tsx tenere submitting vero dopo il successo fino al cambio di pagina (uno stato «pubblicato» messo a vero nell'onSuccess). Non fatto per la consegna anticipata."
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -74677,6 +74689,12 @@
         "run": "radiografia 2026-11-06 · S01 (session_015BmpnXbX6VZwivvy7fbRF2) · verifica wf_cb60977a-9e3",
         "codice": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
         "nota": "Chi ha solo il nome pubblico appare ancora «Cliente»."
+      },
+      "riparazione_17_11": {
+        "esito": "parziale",
+        "sessione": "R04",
+        "collaudo": "parziale",
+        "perche": "parziale: Le recensioni oltre le prime 20, lette con «Mostra altre recensioni» in components/store-sections/ReviewsSection.tsx:43-65 (leggiAltreRecensioni, file non mio, R30-007), usano ancora solo fetchNomiPubblici: chi ha solo il nome pubblico lì appare ancora «Cliente»."
       }
     },
     {
@@ -82358,7 +82376,13 @@
         "codice": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
         "nota": "Le due ancore si fermano ancora più in basso."
       },
-      "fuori_dal_referto": true
+      "fuori_dal_referto": true,
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R03",
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -82520,7 +82544,15 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R02",
-      "stato": "aperto"
+      "stato": "gia_riparato_prima",
+      "chiuso_il": "2026-11-17 19:48",
+      "chiuso_da": "riparazione onda7 · R04 · collaudo K02",
+      "riparazione_17_11": {
+        "esito": "gia_riparato_prima",
+        "sessione": "R04",
+        "collaudo": "K02",
+        "prova": "components/store-sections/ReviewsSection.tsx:43-49 e :250-268 sulla base (commit 9b4f9271 R30-007, antenato della base): useStorePageData.ts:40 legge ancora le prime 20, ma «Mostra altre recensioni» ne chiede altre 20 alla volta con .range() finché non arriva al totale vero di store_review_stats, lo stesso della linguetta (SectionRenderer.tsx:117). Lo dimostra tests/unit/riparazione-r30-recensioni-a-pagine.test.tsx («con 45 nel database si arriva a leggerle tutte e 45»), verde: npx vitest run --reporter=dot tests/unit/riparazione-r30-recensioni-a-pagine.test.tsx → 0 (3 passate)."
+      }
     },
     {
       "dimensione": "layout-responsive",
@@ -82531,7 +82563,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R02",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "api-backend",
@@ -82555,7 +82593,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R03",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R03",
+        "collaudo": "rompe_altro",
+        "perche": "collaudo: rompe_altro"
+      }
     },
     {
       "dimensione": "privacy-legale",
@@ -82699,7 +82743,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R07",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R04",
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "accessibilita",
@@ -82735,7 +82785,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R07",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "parziale",
+        "sessione": "R04",
+        "collaudo": "parziale",
+        "perche": "parziale: La pagina mostra ErrorState solo quando cade anche la domanda di conteggio. Se cadono le file di components/ProductGrid.tsx (che leggono anche seller_public_profiles, lib/queries/griglia-prodotti.ts:266) e il conteggio risponde, la categoria madre resta bianca sotto i bottoni delle sottocategorie: lo smentitore l'ha provato. Serve un segnale diretto dalla fila, che non è un file di R04. Effetto accanto: se il conteggio cade mentre le file caricano, il messaggio d'errore compare sotto le file in caricamento (page.tsx:405-415) e sparisce se poi arrivano piene."
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -82793,7 +82849,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R10",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "non_fatto",
+        "sessione": "R01",
+        "collaudo": null,
+        "perche": "non_fatto: La correzione (79a90576, coda raggruppata in DeliveryCutoff.tsx) è stata tolta col commit d4d3f3b0: la smentita di S2 ha mostrato che con più negozi in chiusura insieme le domande diventano più di prima (20 negozi, 10 in chiusura: 36 contro 20; 20 su 20: 40 contro 20), contro il tetto di 120 domande al minuto per indirizzo, e che al ritorno sulla pagina non si raggruppano (12 su 12). La cura vuole prima la rotta app/api/consegna/veloce/route.ts (non mia): una risposta negozio per negozio per un elenco di negozi; poi DeliveryCutoff.tsx può fare una domanda sola per lista. DeliveryCutoff.tsx è tornato identico alla base."
+      }
     },
     {
       "dimensione": "architettura",
@@ -82805,7 +82867,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R10",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "frontend-ux",
@@ -82841,7 +82909,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R10",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "parziale",
+        "sessione": "R04",
+        "collaudo": "parziale",
+        "perche": "parziale: Il taglio silenzioso del campo (maxLength) non c'è più e il contatore avvisa, ma contatore (SectionConfigForm.tsx:115) e schema (lib/store-site.ts:153, z.string().max(RICHTEXT_MAX)) contano il testo PRIMA della sanitizzazione, e la rotta app/api/seller/site/route.ts:47-52 sanitizza dopo il controllo senza ricontrollare. Un testo vicino al limite con & o < (per esempio 3.980 «a» + « Tom & Jerry < 3 »: 3.997 per il contatore, 4.003 dopo sanitizeRichText) si salva, e alla rilettura normalizeSite (lib/store-site.ts:371-376) ripiega sul sito di default: spariscono blocco, pagine, menu e tema. È il caso della cura «come in R10-014». La cura sta nei file di R04: in lib/store-site.ts:153 fare come lib/home-site.ts:178-181 (lunghezzaDelTesto più un tetto sull'HTML sanitizzato) e contare così anche nel contatore. Non fatta per la consegna anticipata chiesta dalla regista. Il difetto c'era già sulla base."
+      }
     },
     {
       "dimensione": "layout-responsive",
@@ -82948,7 +83022,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R12",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "parziale",
+        "sessione": "R01",
+        "collaudo": "parziale",
+        "perche": "parziale: L'etichetta «Chiudi avviso» c'è su tutti i tipi di avviso e la X dei caricamenti non resta finta (commit e3c2bb62, rimessa uscita 0). Resta il caso di un caricamento chiuso con toast(msg, { id }): in sonner 1.7.4 resta di tipo loading, senza X e senza scadenza. Succede in components/seller/ProductForm.tsx:671 e :709 (miei: usare toast.info/toast.success con lo stesso id) e in components/seller/dilloDopoIlPatch.ts:17 (non mio, tono neutro: stessa modifica). Oggi è dormiente: i tre flussi passano da aiAccesa, spenta al lancio."
+      }
     },
     {
       "dimensione": "flussi-conversione",
@@ -82970,7 +83050,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R12",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R01",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "privacy-legale",
@@ -83029,7 +83115,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C01",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R03",
+        "collaudo": "parziale",
+        "perche": "collaudo: parziale"
+      }
     },
     {
       "dimensione": "privacy-legale",
@@ -83149,7 +83241,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C01",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R01",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "layout-responsive",
@@ -83161,7 +83259,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R15",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R03",
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -83174,7 +83278,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R15",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -83187,7 +83297,15 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R15",
-      "stato": "aperto"
+      "stato": "gia_riparato_prima",
+      "chiuso_il": "2026-11-17 19:48",
+      "chiuso_da": "riparazione onda7 · R01 · collaudo K01",
+      "riparazione_17_11": {
+        "esito": "gia_riparato_prima",
+        "sessione": "R01",
+        "collaudo": "K01",
+        "prova": "Sul sito il difetto non c'è: package.json e node_modules hanno react/react-dom 18.3.1, ma il sito ha solo il router app (nessuna cartella pages/) e Next 15.5.29 lo disegna col React che porta con sé, 19.2.0-canary-0bdb9206-20250818 (alias react$ → next/dist/compiled/react in node_modules/next/dist/build/create-compiler-aliases.js:251), che conosce fetchPriority. Comando: `NODE_ENV=development node -e \"const R=require('next/dist/compiled/react'),{renderToString:s}=require('next/dist/compiled/react-dom/server.node');const e=[];console.error=(...a)=>e.push(a[0]);s(R.createElement('img',{src:'x',fetchPriority:'high'}));const n=e.length;s(R.createElement('img',{src:'x',fetchpriority:'high'}));console.log(R.version,'camel:',n,'minuscolo:',e.length-n)\"` → «19.2.0-canary-0bdb9206-20250818 camel: 0 minuscolo: 1». Il minuscolo proposto farebbe scrivere a React 19 «Invalid DOM property `fetchpriority`. Did you mean `fetchPriority`?» e toglierebbe la priorità dal preload che React 19 aggiunge: per questo components/CategoryShowcase.tsx:277 resta com'è. L'avviso «React does not recognize the `fetchPriority` prop» esce solo nelle prove vitest, che montano le tessere con il react 18.3.1 di node_modules."
+      }
     },
     {
       "dimensione": "navigazione-gerarchia",
@@ -83199,7 +83317,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R15",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "parziale",
+        "sessione": "R01",
+        "collaudo": "parziale",
+        "perche": "parziale: Il difetto com'è scritto è chiuso sulla base (la tendina disegna le sole categorie piene: components/SearchBar.tsx:76-77 sulla base bc36f481: la tendina filtra le principali con domandaCategoriePiene + soloLePiene (`const catPiene = soloLePiene(topCa…). Resta una variante trovata da S3: components/SearchBar.tsx:77, soloLePiene(topCats, piene.isError ? null : piene.data), butta via le piene già note quando una ricarica fallisce (react-query 5 tiene i dati in stato di errore) e la tendina torna a elencare le categorie vuote. Cura: soloLePiene(topCats, piene.data ?? null). Nessun commit: non fatto per la consegna anticipata."
+      }
     },
     {
       "dimensione": "navigazione-gerarchia",
@@ -83211,7 +83335,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R15",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R04",
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "layout-responsive",
@@ -83235,7 +83365,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R15",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "serve_file_altrui",
+        "sessione": "R04",
+        "collaudo": null,
+        "perche": "serve_file_altrui"
+      }
     },
     {
       "dimensione": "navigazione-gerarchia",
@@ -83247,7 +83383,15 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R15",
-      "stato": "aperto"
+      "stato": "gia_riparato_prima",
+      "chiuso_il": "2026-11-17 19:48",
+      "chiuso_da": "riparazione onda7 · R03 · collaudo K02",
+      "riparazione_17_11": {
+        "esito": "gia_riparato_prima",
+        "sessione": "R03",
+        "collaudo": "K02",
+        "prova": "app/layout.tsx:213 e :262 — sulla base il layout carica precaricaSito() e lo consegna con <HydrationBoundary state={precarico}> SOPRA <Navbar /> (quindi prima di CategoryBar); lib/queries/precarico.ts:86 mette domandaCategoriePiene (chiave ['categories','con-prodotti']) in quel precarico (commit b5918e08 del 17/11, già nella base). Controllato con un render sul server usa-e-getta (non lasciato nel ramo): CategoryBar vera + vetrina che legge le piene; col solo precarico dentro la pagina la vetrina dice «non so», col precarico sopra il menu vede le piene nell'HTML del server. Nessuna modifica a CategoryBar né a app/page.tsx."
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -83283,7 +83427,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R15",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "scelta_di_nicola",
+        "sessione": "R01",
+        "collaudo": null,
+        "perche": "scelta_di_nicola: Non ho toccato niente. Spostarlo solo sulla home non basta: menu e piede, che lo leggono, stanno su ogni pagina (e app/page.tsx non è un mio file)."
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -83296,7 +83446,15 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R15",
-      "stato": "aperto"
+      "stato": "gia_riparato_prima",
+      "chiuso_il": "2026-11-17 19:48",
+      "chiuso_da": "riparazione onda7 · R01 · collaudo K01",
+      "riparazione_17_11": {
+        "esito": "gia_riparato_prima",
+        "sessione": "R01",
+        "collaudo": "K01",
+        "prova": "components/CategoryShowcase.tsx:95-104 sulla base bc36f481: l'avviso passa da diLaFotoScartata, che usa il ricordo a livello di modulo `fotoGiaDette` (chiave «scartata|slug|indirizzo»), lo stesso della foto rotta: una volta sola per foto, anche al ricalcolo delle tessere e al rimontaggio. Chiuso dalla cucitura 95d0b987 (onda 5, R30-001a), antenata della base. Comando: `npx vitest run tests/unit/riparazione-r30-foto-di-categoria.test.tsx --reporter=dot` → 3/3 verdi, fra cui «non si ridice quando arrivano le piene, né tornando in home» (rerender con le piene e rimontaggio → un solo avviso)."
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -83322,7 +83480,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R15",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "non_fatto",
+        "sessione": "R01",
+        "collaudo": null,
+        "perche": "non_fatto: La correzione (889144c6, conteggio agganciato con seller_public_profiles!inner(id)) è stata tolta col commit 233f5421: la smentita di S2 ha trovato dalle migrazioni due strade fra products e la vista (products_seller_id_fkey e la tabella recently_viewed, 027:205-209), quindi PostgREST rifiuterebbe la domanda (PGRST201) e il conteggio delle Novità tornerebbe sempre vuoto. Cura di una parola, da provare su un PostgREST vero: in lib/queries/griglia-prodotti.ts (contaProdottiDellaGriglia) agganciare con seller_public_profiles!products_seller_id_fkey!inner(id), con una prova il cui finto conosca le due strade."
+      }
     },
     {
       "dimensione": "frontend-ux",
@@ -83334,7 +83498,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R15",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R04",
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "deploy-sre",
@@ -83370,7 +83540,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R16",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "rls-database",
@@ -83394,7 +83570,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R16",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "frontend-ux",
@@ -83467,7 +83649,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R16",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R03",
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -83611,7 +83799,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R18",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "serve_file_altrui",
+        "sessione": "R02",
+        "collaudo": null,
+        "perche": "serve_file_altrui: La cura nella rotta (mia) fa diventare rosse 13 prove in 5 file esistenti che chiamano la rotta col solo jobId. Quei file mettono in vi.mock lib/funzioni-al-lancio.ts (di R01 in quest'onda) e altri file non miei: per la regola delle prove comuni non li tocco. Ho provato in locale rotta + le cinque modifiche qui sopra: 7 file, 87 prove verdi (npx vitest run dei 5 file più le-funzioni-spente-le-ferma-la-rotta-anche-a-mano e riparazione-r18-lotto-applica-quello-che-si-vede). Nessun commit: la rotta da sola romperebbe il verify."
+      }
     },
     {
       "dimensione": "accessibilita",
@@ -83635,7 +83829,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R18",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "non_fatto",
+        "sessione": "R01",
+        "collaudo": null,
+        "perche": "non_fatto: La correzione (ff8f44da, tabIndex={-1} sul campo file) è stata tolta col commit 2df89a97: la smentita di S1 col components/ui/Modal.tsx vero ha mostrato che la trappola del fuoco (Modal.tsx:73 e :94, selettore input:not([disabled])) conta anche i campi con tabindex=-1, quindi Maiusc+Tab da «Chiudi» finiva lo stesso sul campo invisibile e il Tab dal pulsante «Usa la fotocamera del telefono» usciva dalla finestra (regressione). La cura vuole prima Modal.tsx (non mio): aggiungere :not([tabindex=\"-1\"]) ai selettori delle righe 73 e 94; poi CameraCapture.tsx:153 tabIndex={-1}. CameraCapture.tsx è tornato identico alla base."
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -83840,7 +84040,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R22",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R03",
+        "collaudo": "rompe_altro",
+        "perche": "collaudo: rompe_altro"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -83852,7 +84058,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R22",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "serve_file_altrui",
+        "sessione": "R04",
+        "collaudo": null,
+        "perche": "serve_file_altrui: Esito corretto dallo smentitore: la regola è già decisa dalla campagna (il collaudo K05 ha tolto R22-013 come «rompe_altro» proprio perché SellerShell.tsx:105-122 contava ancora le promozioni; la voce del sito sulla campanella che mostra le promozioni a chi le ha spente è ancora aperta, in pronte/C-parziali-file-altrui.txt:32). SellerShell.tsx è di R04: la sua parte della stessa diff va applicata insieme alle due sopra, perché da sola farebbe divergere il campanello del negozio dall'elenco. Non fatta per la consegna anticipata."
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -83984,7 +84196,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R24",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "parziale",
+        "perche": "collaudo: parziale"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -83996,7 +84214,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R24",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R03",
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -84008,7 +84232,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R24",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "immagini-media",
@@ -84020,7 +84250,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R24",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "scelta_di_nicola",
+        "sessione": "R02",
+        "collaudo": null,
+        "perche": "scelta_di_nicola: Il codice dice il contrario della voce: placehold.co è ancora ammesso apposta in quattro elenchi tenuti uguali da prove (togliendolo solo da next.config.js diventa rossa tests/unit/l-indirizzo-che-il-sito-non-sa-mostrare-lo-dice-subito.test.ts:284), e seeds/001_piacenza_stores.sql:130-153 crea prodotti con foto placehold.co. Per sapere se il database vero ha ancora indirizzi placehold.co serve una lettura del database che il riparatore non può fare. Se la risposta è sì, va tolto insieme da tutti i file elencati, che a parte next.config.js non sono di R02. Prima: Non tolto: lib/ usa ancora placehold.co come host ammesso. lib/indirizzo-immagine-ammesso.ts:34 (HOST_IMMAGINI_AMMESSI, il campo «indirizzo immagine» lo accetta; la prova l-indirizzo-che-il-sito-non-sa-mostrare-lo-dice-subito.test.ts:284 pretende che sia uguale a remotePatterns, quindi togliendolo solo da next.config.js diventa rossa), lib/immagine-categoria.ts:47 (HOST_FOTO_AMMESSI, le foto di categoria da placehold.co sono ammesse), lib/ai/productContext.ts:50 (HOST_ESTERNI_DICHIARATI, foto mandate al modello). In più middleware.ts:313 (img-src della CSP) e seeds/001_piacenza_stores.sql:130-153 (prodotti in bozza con foto placehold.co). Per chiudere la voce va tolto insieme da next.config.js:51 e da questi elenchi (file non miei), aggiornando le prove che li legano."
+      }
     },
     {
       "dimensione": "immagini-media",
@@ -84104,7 +84340,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C02",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "microcopy",
@@ -84116,7 +84358,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C02",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R03",
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "performance",
@@ -84128,7 +84376,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C02",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R03",
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -84140,7 +84394,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C02",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R03",
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "frontend-ux",
@@ -84152,7 +84412,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C02",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R04",
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "frontend-ux",
@@ -84164,7 +84430,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C02",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R04",
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "stati-ui",
@@ -84200,7 +84472,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C02",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R01",
+        "collaudo": "rompe_altro",
+        "perche": "collaudo: rompe_altro"
+      }
     },
     {
       "dimensione": "api-backend",
@@ -84236,7 +84514,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C02",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "dati-analytics",
@@ -84260,7 +84544,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C02",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R04",
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "deploy-sre",
@@ -84308,7 +84598,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · K10",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R03",
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -84332,7 +84628,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · K10",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -84344,7 +84646,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · K10",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "parziale",
+        "perche": "collaudo: parziale"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -84368,7 +84676,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · K10",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R03",
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -84454,7 +84768,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R14",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R04",
+        "collaudo": "parziale",
+        "perche": "collaudo: parziale"
+      }
     },
     {
       "dimensione": "api-backend",
@@ -84706,6 +85026,247 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C04",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "accessibilita",
+      "reparto": "Accessibilita'",
+      "titolo": "Il riquadro degli avvisi si presenta al lettore di schermo come «Notifications alt+T», in inglese",
+      "severita": "minore",
+      "file": "components/providers/ToastProvider.tsx:90",
+      "descrizione": "Il Toaster di sonner usa containerAriaLabel di fabbrica («Notifications»): basta passare containerAriaLabel=\"Avvisi\". Non riparato: fuori dalla voce R01-001, che parla solo della X.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda7 · R01",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "Le prove unitarie montano i componenti con React 18.3.1, ma il sito gira con il React 19.2 di Next",
+      "severita": "minore",
+      "file": "package.json:51-52 · vitest.config.ts",
+      "descrizione": "package.json chiede react/react-dom ^18.2.0 (installati 18.3.1) e vitest li usa; il router app di Next 15.5.29 invece disegna col React vendorizzato 19.2.0-canary (node_modules/next/dist/build/create-compiler-aliases.js:251). Le prove dei componenti girano quindi su un React diverso da quello del sito: per esempio l avviso su fetchPriority (R01-010) esce solo nelle prove, e un comportamento proprio di React 19 non si vedrebbe. Cura possibile: portare react/react-dom a 19.x in package.json, scelta da fare con chi tiene le dipendenze. Non riparato: file non miei.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda7 · R01",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "La pagina amministrazione «nuovo prodotto» invia ancora con mutate, senza guardia contro il doppio clic",
+      "severita": "minore",
+      "file": "app/admin/products/new/page.tsx",
+      "descrizione": "Visto da S1 smentendo R01-012: la pagina dell'amministrazione usa create.mutate come faceva quella del negozio prima della correzione. Non riparato: file non mio.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda7 · R01",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "navigazione-gerarchia",
+      "reparto": "Navigazione",
+      "titolo": "Menu, piede, vetrina e pagina categorie buttano via le categorie piene già note quando una ricarica fallisce",
+      "severita": "minore",
+      "file": "components/CategoryBar.tsx:141 · components/CategoryShowcase.tsx:162 · app/categorie/page.tsx:48 · components/Footer.tsx:188",
+      "descrizione": "Stesso schema di SearchBar.tsx:77 (R01-005): «piene.isError ? null : piene.data» scarta i dati in cache quando la ricarica fallisce e torna a mostrare le categorie vuote. Cura: usare piene.data ?? null. Visto da S3; non riparato per la consegna anticipata.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda7 · R01",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "Nell'anteprima dell'import la colonna quantità mostra 0 accanto all'errore «Quantità non valida»",
+      "severita": "minore",
+      "file": "app/seller/products/import/page.tsx:134",
+      "descrizione": "Dopo R01-009 una quantità scritta male dà l'errore di riga, ma nell'anteprima la cella mostra 0. Visto da S1; oggi il caricamento da file è spento.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda7 · R01",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "Aggiungere o togliere un prodotto da una lista dalla pagina prodotto lascia vecchio il conteggio in /lists",
+      "severita": "minore",
+      "file": "components/AddToListButton.tsx:96-101",
+      "descrizione": "invalida solo ['lists','items'] e containing, non lists.mine/public/inVetrina; anche «crea e aggiungi» (120-126) non invalida lists.mine. Stesso difetto di R02-008 da un'altra strada.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda7 · R02",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "Dopo «elimina lista» e dopo il cambio di visibilità /lists può mostrare dati vecchi",
+      "severita": "minore",
+      "file": "app/lists/[id]/page.tsx:143-146 e 193-196",
+      "descrizione": "elimina va a /lists senza invalidare lists.mine (la lista eliminata resta visibile, aprirla dà «Lista non trovata»); la visibilità non rilegge lists.public. Fuori dalla voce R02-008, che parla solo della rimozione di un prodotto.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda7 · R02",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "dimensione_dichiarata": "privacy",
+      "reparto": "Flussi critici",
+      "titolo": "Il logger oscura solo le chiavi del contesto, non il testo del messaggio né un contesto stringa",
+      "severita": "minore",
+      "file": "lib/logger.ts:69",
+      "descrizione": "toCtx mette una stringa in {detail} senza oscurarla e il messaggio arriva com'è: logger.warn('x', 'mario@x.it') arriva a Sentry in chiaro. Ereditato dal canale degli errori; nessun chiamante client di oggi lo fa.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda7 · R02",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "Un cliente che esiste già non ha una strada da solo per diventare fattorino",
+      "severita": "minore",
+      "file": "app/help/page.tsx:56-60",
+      "descrizione": "«Diventa rider» porta a /contact; lavora-con-noi porta ancora a /sign-up?role=rider mentre il reclutamento dal sito è chiuso (decisione del 26/10). Da decidere con Nicola.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda7 · R02",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "Le date degli eventi nell'amministrazione non usano il fuso di Piacenza",
+      "severita": "minore",
+      "file": "app/admin/events/page.tsx:211 e 265",
+      "descrizione": "toLocaleString senza timeZone.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda7 · R02",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "layout-responsive",
+      "reparto": "Layout e schermi",
+      "titolo": "La riga «Notifiche push del browser» delle impostazioni non ha min-w-0 sul testo",
+      "severita": "minore",
+      "file": "app/profile/settings/page.tsx:696-706",
+      "descrizione": "stessa struttura del Toggle corretta in R02-003, ma scritta a mano.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda7 · R02",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "titolo": "In produzione senza chiave pubblica anti-robot il modulo contatti fallisce senza dire dove scrivere",
+      "severita": "minore",
+      "file": "app/api/contact/route.ts:65",
+      "descrizione": "con la chiave segreta presente e la pubblica assente il server risponde «Verifica anti-bot fallita. Riprova.»: riprovare non serve e non c'è l'email. Preesistente.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda7 · R02",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "Anche chi sceglie «venditore» nell'iscrizione vede il pulsante Google, che probabilmente crea un cliente",
+      "severita": "minore",
+      "file": "app/sign-up/page.tsx:352",
+      "descrizione": "la correzione di R02-009 nasconde Google solo per il fattorino, come dice la voce; per il venditore non verificato.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda7 · R02",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "dalla scheda prodotto il carrello riceve il prezzo pieno anche con una promozione attiva, e il carrello può dire che il prezzo è sceso",
+      "severita": "minore",
+      "file": "app/product/[id]/page.tsx:594",
+      "descrizione": "Le aggiunte dalla scheda (righe 594 e 640) mettono nel carrello il prezzo pieno, mentre app/cart/page.tsx:440-450 confronta col prezzo scontato di oggi: per un prodotto in promozione il carrello mostrerebbe «il prezzo è sceso» anche se non è cambiato. Visto solo leggendo il codice, non riparato (fuori dalle voci).",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda7 · R03",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "titolo": "l'avviso «già aggiunto» si ripete a raffica e lo dice anche dopo un cambio di variante entro un secondo",
+      "severita": "minore",
+      "file": "app/product/[id]/page.tsx:587",
+      "descrizione": "Il toast.info del tocco frenato non ha un id, quindi più tocchi impilano avvisi uguali (basterebbe id: 'gia-aggiunto'). Se entro un secondo si cambia variante e si ripreme, il freno (già così sulla base) scarta il tocco e l'avviso dice «già aggiunto» anche se la nuova variante non è entrata.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda7 · R03",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "layout-responsive",
+      "reparto": "Layout e schermi",
+      "titolo": "a 320 px con il testo al 200% la pagina chi siamo scorre ancora di lato di 17 px",
+      "severita": "minore",
+      "file": "app/about/page.tsx:143",
+      "descrizione": "A 320 px (la larghezza di riferimento WCAG per il reflow) con html al 200% la pagina arriva a 337 px per la parola «esistiamo» del titolo «Perché esistiamo». A 360 px, la larghezza della voce, non scorre più.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda7 · R03",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "altre due ancore sommano il loro scroll-mt allo scroll-padding da md in su",
+      "severita": "minore",
+      "file": "app/faq/page.tsx:229",
+      "descrizione": "app/faq/page.tsx:229 e components/seller/DatiPerIBonifici.tsx:65 hanno scroll-mt-24 senza md:scroll-mt-0, quindi da md in su si fermano più in basso del dovuto, come le due ancore riparate.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda7 · R03",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "titolo": "La home di un negozio inesistente ripete «Negozio non trovato» nel titolo e nella pagina",
+      "severita": "minore",
+      "file": "app/store/[id]/layout.tsx:37",
+      "descrizione": "Stessa forma della voce sulla pagina in più del negozio: generateMetadata risponde «Negozio non trovato · MyCity» e app/store/[id]/page.tsx:66 disegna lo stato vuoto con titolo «Negozio non trovato» (h3 di EmptyState). Con i metadati in streaming nel corpo la scritta compare due volte. Fuori dai file di R04: non toccato.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda7 · R04",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "anche il filtro per categoria della pagina dei negozi risale solo dieci livelli di categorie madri",
+      "severita": "minore",
+      "file": "lib/queries/categorie-dei-negozi.ts:17",
+      "descrizione": "conLeMadri, usata dal filtro per categoria di app/stores/page.tsx, si ferma con passi < 10, mentre il modulo prodotto e adesso categorie-piene arrivano a 20 livelli: un negozio con prodotti in una categoria più profonda di dieci livelli non compare filtrando per la radice. Visto dallo smentitore A di R04, fuori dai file di R04.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda7 · R04",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "Il finto di Supabase delle prove fa partire subito la chiamata alla funzione del database, mentre quello vero la manda solo quando qualcuno aspetta la risposta",
+      "severita": "minore",
+      "file": "tests/unit/aiuti/finti/supabase-client.mjs:71",
+      "descrizione": "Riga nuova di R04-013. catenaDiUnaFunzione chiama clientDellaProva().rpc(...) appena si chiama supabase.rpc, prima di .then. Il client vero di Supabase invece non manda niente finché la risposta non si aspetta: per questo `void supabase.rpc(...)` senza `.then` in SponsoredCarousel.tsx:75 e :117 della testa unita (:71 e :113 nel collaudo K02) non conta impressioni e clic (il nato grave già visto da K02). Una prova che usasse questo finto per controllare quelle chiamate passerebbe verde mentre in produzione la richiesta non parte. Era così anche prima (rpc era una funzione async, che parte subito): la riga nuova lo conserva, non lo porta. Le prove degli annunci sponsorizzati oggi usano un loro finto, quindi nessuna prova verde è falsa adesso: per questo minore.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda7 · C01",
       "stato": "aperto"
     }
   ],
