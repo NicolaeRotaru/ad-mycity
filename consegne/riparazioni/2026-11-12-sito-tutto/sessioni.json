@@ -299,7 +299,8 @@
    "id": "session_015BmpnZVidxbyda8rhpR4fh",
    "ramo": "ccr-99009024-qgfisx-m30",
    "onda": 5,
-   "partenza": "d1eaba8030dc40ad4479c737c3fedb6668017abf"
+   "partenza": "d1eaba8030dc40ad4479c737c3fedb6668017abf",
+   "finita": true
   },
   "R31": {
    "id": "session_015BmpnYR73VWZ4jYrxgmT5Y",
@@ -319,7 +320,8 @@
    "id": "session_015BmpnVuDeiYKphvCW4kJMC",
    "ramo": "ccr-99009024-qgfisx-m33",
    "onda": 5,
-   "partenza": "d1eaba8030dc40ad4479c737c3fedb6668017abf"
+   "partenza": "d1eaba8030dc40ad4479c737c3fedb6668017abf",
+   "finita": true
   }
  },
  "collaudatori": {
@@ -655,6 +657,13 @@
    "tetto_usd": 10,
    "integrazione": "claude/sito-onda-4@074ccbc5c0b52af840dfe59fb2c0e82f5634cb87",
    "aperta": "2026-11-17 08:19"
+  },
+  "C05": {
+   "id": "session_015BmpnXacWiunqvnKCGMu5i",
+   "ramo": "ccr-99009024-qgfisx-c05",
+   "integrazione": "ccr-99009024-qgfisx@fcf20b7843469927f47a3143729d818019e460df",
+   "base": "85dd9ce4",
+   "onda": 5
   }
  },
  "integrazione_onda1": "b144746992176ae554d48376a00d972f5210a49f",

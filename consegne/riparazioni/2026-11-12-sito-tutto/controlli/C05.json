@@ -1,0 +1,75 @@
+{
+  "controllore": "C05",
+  "onda": 5,
+  "finita": true,
+  "aggiornato": "2026-11-17 13:04",
+  "testa": "fcf20b78",
+  "base": "85dd9ce410a3e7032d5c4f5dc636a59867771958",
+  "verify": {
+    "comando": "npm run verify && tests/sql/harness/apply.sh && tests/sql/harness/run.sh",
+    "esito": "verde",
+    "nota": "Rigirato da C05 sulla testa fcf20b78. npm run verify: tipi e lint puliti, 1642 file di prove passati (1 saltato), 10687 prove passate (1 saltata). Il primo giro è caduto per memoria esaurita di tsc nel contenitore (heap di Node), non per il codice: rifatto con NODE_OPTIONS=--max-old-space-size=6144. Harness SQL su un Postgres 16 locale: 209 migrazioni applicate, 0 fallite, tutti i file .test.sql verdi (comprese le tre nuove: r30-profili-chiusi-ai-visitatori, r30-rider-sospeso, r33-cancellazione-con-ordini). In più, verdi anche le quattro prove .sh che run.sh non lancia: lo-script-non-si-schianta-sul-database-nato-prima-del-registro (tocca lo script della deriva cambiato da R30-022), migrazione-su-database-pieno (572 su un database con ordini), la-160-regge-un-ordine-annullato, riparazione-r12-le-semine-girano. Nessun database vero toccato."
+  },
+  "patch_della_cucitura": {
+    "esito": "nessuna patch da togliere",
+    "nota": "Lette tutte le 15 patch, la riga di tests/unit/aiuti/database-coi-permessi.ts (1011766f) e il revert di R31-012 (fcf20b78). Nessuna rompe soldi, permessi o dati. Il revert è completo: git diff ba596c3a~1 fcf20b78 sui file della patch è vuoto, e nella rotta della carta restano solo le righe di R31-003 e R31-016. Controllato con prova sul Postgres locale: la 540 cambia solo tre condizioni (is_rider_approvato in verify_pickup_code, verify_delivery_code e nella regola di lettura del fattorino), il resto delle due funzioni è identico alla versione di prima (pg_get_functiondef prima e dopo). La 541 toglie solo SELECT su profiles ad anon. La 572 è SECURITY DEFINER con search_path fissato ed EXECUTE solo a service_role (anon e authenticated: no). R31-003 e R31-016 rispondono prima della presa della chiave di idempotenza, quindi non lasciano chiavi appese; la cassa manda sempre la fascia (etichettaPerLOrdine è null solo col ritiro). R30-023 rimette READY le consegne ASSIGNED col client di servizio: il passaggio ASSIGNED→READY è già previsto dai trigger (215, 321). R30-008: products.tags è leggibile da anon e authenticated sullo schema ricostruito. Tre punti minori sotto, nessuno da togliere."
+  },
+  "voci_rosse": [
+    {
+      "chiave": "sicurezza-auth|un cliente che abusa del sito non si può sospendere: l'unica strada è cancellargli l'account",
+      "perche": "Parziale e resta tale: la sospensione del cliente ferma le rotte del sito (lib/api/middleware.ts:304-322 e :42-48 per /api/chat), ma non le regole del database sulla chat. messages_insert_self (migrations/026_chat_messaging.sql:71) e conversations_insert_buyer guardano solo auth.uid(), e authenticated ha INSERT su messages e conversations (provato sul Postgres locale): il cliente sospeso scrive ancora ai negozi chiamando il database con la sua sessione. Oggi sul sito vero nessun cliente si può sospendere, quindi non è un'apertura nuova. Secondo pezzo: clienteSospeso (lib/shopping-access.ts) guarda solo role='buyer', e canRolePurchase fa comprare anche i negozi, quindi un negozio sospeso che compra in modalità acquisto passa. Commit 54aec469.",
+      "id": "R30-024"
+    },
+    {
+      "chiave": "qa-flussi|quando un ordine viene annullato il negozio non riceve nessuna email, e se lo annulla il sito perché nessuno l'ha accettato non riceve nemmeno la campanella",
+      "perche": "La patch (27cf4bfc) manda l'email di annullo al negozio da tre rotte (cliente, amministrazione, giro degli ordini scaduti), ma app/api/rider/orders/[id]/cliente-assente/route.ts:73 annulla con annullaERimborsa e avvisa il negozio solo con la campanella: chi lavora dall'email non sa che l'ordine è annullato e che la merce torna col fattorino. Stesso difetto, un quarto flusso.",
+      "id": "R31-023"
+    },
+    {
+      "chiave": "pagamenti-stripe|se la banca respinge un rimborso parziale su un ordine col bonifico già partito, al negozio resta tolta la sua quota",
+      "perche": "Non regge, come già detto da K17: nel ramo unito i campi nuovi fraseDaRidareAMano e daRidareAlNegozioCents (lib/stripe/rimborso-respinto.ts:64, 94, 285, 295) non li legge nessuno; l'unico chiamante (lib/stripe/webhook/rimborso-respinto-dalla-banca.ts:138) usa solo piano.scritture. Codice morto: la banca respinge un rimborso parziale con il bonifico già partito, e nessuno viene avvisato, come prima. Commit 349268d0.",
+      "id": "R31-014"
+    },
+    {
+      "chiave": "immagini-media|se l'abbonamento supabase scade, le foto del sito tornano rotte e nessun controllo se ne accorge",
+      "perche": "Non regge, come già detto da K18, e la parte arrivata con la patch 4497158c può dare un falso «degradato»: app/api/health/route.ts:347-366 prende la prima di 20 foto in vendita senza ordine, e sizedImage trasforma qualunque host *.supabase.co, non solo il nostro progetto. Una foto lenta o di un altro progetto fa risultare tutto il sito «degraded». Il ramo pubblico di /api/health non espone il dettaglio.",
+      "id": "R30-009"
+    }
+  ],
+  "nuovi_difetti_visti": [
+    {
+      "titolo": "Con due abbonamenti sullo stesso negozio, il secondo non pagato segna «in ritardo» anche il primo, che è a posto",
+      "dimensione": "pagamenti-stripe",
+      "severita": "minore",
+      "file": "lib/stripe/webhook/abbonamenti.ts:245",
+      "descrizione": "R33-008 (2503a4fb) fa nascere un solo cliente Stripe per negozio. Il doppione S2 non viene salvato sul profilo (return a :156), ma vive sullo stesso cliente. Se la fattura di S2 fallisce, handleInvoicePaymentFailed controlla S2 con statoDaStripe e poi scrive subscription_status='past_due' su tutti i profili con quel stripe_customer_id (la scrittura per cliente c'era già nella base): il negozio con S1 pagato risulta in ritardo e riceve «Pagamento abbonamento non riuscito». Prima i doppioni nascevano su clienti diversi e la scrittura non toccava il profilo. Minore perché l'abbonamento è spento al lancio e serve un doppione lasciato attivo e non pagato."
+    },
+    {
+      "titolo": "La cancellazione di un negozio può restare bloccata per sempre, e chi l'ha chiesta non lo sa",
+      "dimensione": "privacy-legale",
+      "severita": "minore",
+      "file": "migrations/572_la_cancellazione_aspetta_gli_ordini_aperti_del_negozio.sql:44",
+      "descrizione": "R33-014 (d139fcd3, 161cbd95). La 572 ferma la cancellazione per qualunque ordine in contanti non consegnato né annullato (coalesce(delivery_status,'NEW')) e per qualunque payout_status in HELD, FAILED, PROCESSING, PENDING_SELLER_ONBOARDING o AWAITING_REMITTANCE, senza limite di tempo. Un contrassegno vecchio rimasto NEW o un bonifico FAILED mai chiuso tiene ferma la richiesta di cancellazione (art. 17 GDPR) senza fine. L'amministratore riceve un avviso solo (app/api/cron/process-deletions/route.ts:415); chi ha chiesto la cancellazione non riceve niente. Da decidere con Nicola: un tetto di giorni o un avviso alla persona."
+    },
+    {
+      "titolo": "Ogni pagina del sito ora aspetta il database per le categorie quando la copia in memoria è scaduta, senza un tempo massimo",
+      "dimensione": "performance-percepita",
+      "severita": "minore",
+      "file": "app/layout.tsx:213",
+      "descrizione": "Patch R30-002 (b5918e08): il layout radice fa await di precaricoDelSito (unstable_cache, 60 s) su tutte le pagine, cassa e pannelli compresi. Il client anonimo (lib/supabase/anonimo.ts) non ha un tetto di tempo e precarica non ne mette: con la copia scaduta e il database lento, la pagina resta ferma finché la lettura non torna. Un errore invece non blocca (precarica rende lo stato vuoto). Prima il layout radice non leggeva il database. Cura semplice: un tetto di 1-2 s attorno al precarico, poi stato vuoto."
+    }
+  ],
+  "fuori_per_scelta": "Già dichiarati nei referti e non ricontati qui: R31-018 resta aperta sulla carta (app/api/stripe/checkout/route.ts:602-615, nessuna campanella per la distanza non misurata); R31-012 di nuovo aperta dopo il revert; R33-008 errore 500 sulla stessa chiave di idempotenza col cliente non preparato (app/api/seller/subscription/checkout/route.ts:~97-137). Estetico: in lib/stripe/webhook/comune.ts:290-294 quandoAlNegozio è finita fra il commento lungo e suonaLaCampanellaAiNegozi.",
+  "per_nicola": [
+    "R30-024: un negozio sospeso che compra in modalità acquisto va fermato come un cliente sospeso, o no? Oggi passa.",
+    "R33-014 / 572: la cancellazione di un negozio con un ordine in contanti o un bonifico mai chiuso aspetta per sempre: serve un tetto di giorni, o un avviso a chi l'ha chiesta?"
+  ],
+  "file_toccati": 158,
+  "file_guardati": 51,
+  "file_non_guardati": "Dei 158 file, 95 sono prove: le hanno fatte girare verify e harness, non le ho lette. Dei 63 file di codice, migrazioni e configurazione ne sono stati letti 51 sui pezzi cambiati. Non letti 12: app/admin/coupons/page.tsx e lib/admin/vista-dei-coupon.ts (R30-025, regge per K18), components/store-sections/ReviewsSection.tsx (R30-007, regge), components/seller/ProductForm.tsx (R33-025, regge), app/seller/analytics/page.tsx (R33-021, regge), app/privacy/page.tsx e app/cookies/page.tsx (R32-023/024, 024 regge), app/faq/page.tsx (R31-017, regge), lib/promesse-pubbliche.ts (R31-007, regge), app/profile/settings/page.tsx (R31-009, parziale per K17), components/rider/SOSButton.tsx (patch R31-001, solo testo, sua prova verde), scripts/check-migration-drift.mjs (R30-022, provato con la prova .sh della deriva, verde). Sono file di pagina o di testo, su un solo ramo, senza punti d'incontro con altri.",
+  "conto": {
+    "subagenti": 2,
+    "token_stimati": 600000,
+    "nota": "Due subagenti sonnet in parallelo (soldi e ordini 180 mila, permessi e privacy 153 mila); il resto è la sessione. Il costo vero lo legge la regista."
+  }
+}

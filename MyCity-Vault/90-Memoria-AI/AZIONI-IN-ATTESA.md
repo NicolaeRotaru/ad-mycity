@@ -31,6 +31,27 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🟡 #260 — Unisci l'onda 5 del sito e rispondi alle sue domande quando hai tempo · ⏳ accodata 2026-11-17 13:15
+
+**In parole semplici.** L'onda 5 ha riparato i difetti del sito con quattro riparatori. Si chiudono 10 difetti nuovi, e altri 10 erano già a posto dall'onda 4. La richiesta di unione è mycity#294, fuori bozza, con tutte le prove verdi.
+Esempio vero: un fattorino sospeso non può più confermare un incasso in contanti.
+
+**Cosa cambia per te.** Unendola, il sito prende le riparazioni. Le tre migrazioni nuove (540, 541, 572) restano da applicare sul database solo col tuo «ok migrazioni».
+
+**Cosa devi fare tu.** Unire mycity#294 se ti va bene. Le domande dei riparatori non bloccano l'unione: sono 21, nei referti R30-R33 e nel controllo C05. Le più importanti:
+- la consegna veloce: quante ne può avere un fattorino insieme;
+- il riaccredito al negozio dopo un rimborso respinto dalla banca;
+- «Annulla» sugli ordini già in viaggio o consegnati;
+- dopo quanti mesi si tolgono i dati di chi fa una segnalazione;
+- l'indirizzo nel profilo: rimettere i campi o cancellare le colonne.
+
+**Cosa non ho verificato.** Le 14 modifiche scritte dai riparatori e applicate nella richiesta non hanno avuto un collaudo voce per voce: le hanno provate i riparatori, le prove intere e il controllore C05.
+
+Cosa cambia: unendo, 10 difetti del sito si chiudono nel registro e altre 14 correzioni entrano nel codice.
+Se va bene: dopo l'unione si segnano le chiusure col programma delle chiusure, e l'onda dopo controlla le 14 correzioni.
+
+Dettagli: quaderno `consegne/riparazioni/2026-11-12-sito-tutto/REGIA-ONDA-5.md`, collaudi K17 e K18, controllo C05. Una falla riservata è stata data a Nicola solo in chat.
+
 ### 🟡 #259 — Dimmi cosa fare dell'ordine del 13 novembre, fermo nel negozio da venerdì · ⏳ accodata 2026-11-16 01:41 · @operations
 
 **Numero cambiato il 17/11:** nella richiesta del giro del 16/11 (#974) questa carta era la #256. Quel numero era già della carta dell'onda 3, accodata il 15/11 alle 11:35, e la 257 e la 258 sono nate dopo. Il primo numero libero è 259.
