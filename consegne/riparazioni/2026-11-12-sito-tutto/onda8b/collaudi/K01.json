@@ -4,8 +4,8 @@
     "R01",
     "R02"
   ],
-  "aggiornato": "2026-11-17 22:45",
-  "finita": false,
+  "aggiornato": "2026-11-17 22:55",
+  "finita": true,
   "voci": [
     {
       "id": "R01-001",
@@ -135,6 +135,21 @@
       "nota": "Il caso in tests/unit/le-funzioni-spente-al-lancio-le-rifiuta-il-server.test.ts:139 ora si chiama per quello che fa: withAdminAuth è finto (:41-44), getAdminSupabase risponde (:60) e la prova controlla che non venga chiesto (chiesto === false), coerente con app/api/admin/daily-drops/route.ts:42 (freno prima di getAdminSupabase a :52). Corpo invariato; 9/9 verdi. La guardia del nome legge il file (ammesso su un minore)."
     },
     {
+      "id": "R01-013",
+      "chiave": "stati-ui|se la lettura del profilo non riesce, il negoziante approvato legge che il suo account non è da venditore e gli viene proposto di iscriversi di nuovo",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-013 --base 10fe32bf05d7dd1e5bbd71d1055bdd86ec7bff47^ --file app/admin/layout.tsx --prove tests/unit/riparazione-r01-profilo-non-letto-in-amministrazione.test.tsx --json"
+      },
+      "nota": "Due subagenti, una lente ciascuno, perché tocca i permessi. NASCE ROTTO (accesso): regge. Il cockpit si monta solo con !isLoading, isAuthenticated, profile presente e profile.role === 'admin', come alla base; il ramo nuovo (app/admin/layout.tsx:32-44) toglie solo il rimando a '/' col profilo non letto e lì non monta niente; il rimando per il profilo letto non admin resta in tutti i casi (righe 23-24 contro 18-19 della base). Misurato su 23 stati del hook (layout vero, base e testa) e sul cambio d'utente nella stessa memoria del browser (useProfile vero): figli e barra mai disegnati per un non amministratore. Il server protegge comunque: middleware.ts:67-68 e :711-725, e withAdminAuth su tutte le 27 funzioni delle 19 rotte app/api/admin (lib/api/middleware.ts:540-551). 39 file di prova vicini verdi. SA DIVENTARE ROSSO: la prova nuova cade su tutte le rotture del difetto vero (Accesso riservato rimesso, rimando col profilo non letto, cockpit montato con l'errore, Riprova tolto o finto); la parte del negozio era già alla base (app/seller/layout.tsx:77-78 e :96-107, invariata) e riparazione-r19-profilo-non-letto-nel-negozio cade su quattro rotture. MA la voce non è chiusa tutta: app/sell/page.tsx:51 legge il profilo ignorando l'errore e :113 aspetta solo il caricamento, quindi con la lettura non riuscita o senza rete un negozio approvato (o in attesa) vede il modulo d'iscrizione vuoto (:155): «gli viene proposto di iscriversi di nuovo», la seconda metà della voce. Riprodotto con una prova usa e getta. Il server poi respinge la richiesta (app/api/seller/apply/route.ts:149 e :154), ma solo dopo il modulo compilato. Rilievi minori sulle prove: isError sempre falso in components/hooks/useProfile.ts:148 e if (error) throw → return null a :124 lasciano verdi 167 prove su 167; il caricamento trattato come errore (admin/layout.tsx:27, seller/layout.tsx:93) non lo vede nessuna prova."
+    },
+    {
       "id": "R02-001",
       "chiave": "api-backend|se due giri del sorvegliante partono nello stesso istante, l'amministratore riceve due volte la stessa campanella",
       "verdetto": "regge",
@@ -231,5 +246,13 @@
       },
       "nota": "La correzione regge sull'accesso: middleware.ts:442 e :583 tengono la query (ritornoDopoLAccesso), l'accesso con email usa returnTo (app/sign-in/page.tsx:89, :257), Google ora manda next a /auth/callback, che lo ripulisce (safeInternalPath, app/auth/callback/route.ts:29: //evil, /\\evil, https:, javascript: respinti). Ma una variante della voce resta aperta: app/sign-in/page.tsx:302-304 porta returnTo verso /sign-up, la registrazione con email lo rispetta (app/sign-up/page.tsx:78, :153, :195), mentre app/sign-up/page.tsx:357 monta <AuthAlternatives condizioniDalModulo={acceptTos} /> senza returnTo. Pagina protetta con ?tab= → /sign-in?returnTo=… → «Registrati» → Google: il ritorno si perde. Va aggiunto returnTo={safeInternalPath(returnTo, '/')} lì, con tests/unit/minori-s10-accessi-alternativi.test.tsx:28 (prova comune che legge quella riga alla lettera). 27 prove vicine verdi."
     }
-  ]
+  ],
+  "campione": {
+    "R01": {
+      "accettato": false
+    },
+    "R02": {
+      "accettato": false
+    }
+  }
 }
