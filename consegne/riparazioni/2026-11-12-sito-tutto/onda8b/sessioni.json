@@ -19,9 +19,21 @@
    "onda": 1,
    "partenza": "522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
    "tetto_usd": 28,
+   "finita": true,
+   "punta": "ddd5f67c0032211b5a93304f704347ab38929d85",
+   "testa": "92094312a869b6c527c0600b9d907bf66da5f17a",
+   "costo_usd": 25.8
+  }
+ },
+ "collaudatori": {
+  "K01": {
+   "ramo": "ccr-30918361-coyajm-o8b-k01",
+   "riparatori": [
+    "R02"
+   ],
+   "tetto_usd": 10,
    "finita": false
   }
  },
- "collaudatori": {},
  "controllori": {}
 }

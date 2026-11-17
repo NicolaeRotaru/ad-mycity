@@ -40,3 +40,4 @@ Atteso circa 110 $: riparatori 3 × 26 $, collaudo circa 15 $, controllore 6 $, 
 - 20:10 cartella pronta.
 - 19:54 aperti R01 `session_015BmpnZ6qEcy4RimJZsZwsH`, R02 `session_015BmpnXoLzgfzuuuBdVvUAG`, R03 `session_015BmpnY8uEE9JYwMef9pGKS` (limite `allowed_warning`, regia 14,21 $). Regole nuove nel prompt: spesa letta prima di ogni lotto, oltre 20 $ niente lotti nuovi, prove esistenti altrui mai.
 - 20:05 Nicola: i 200 difetti sono l'onda 9 (10 riparatori). Quest'onda 8 resta di 40 voci. Partenza dell'onda 9 letta: giovedì 19/11 alle 10:00.
+- 20:58 R01 consegnato (`9e74f427`, testa `f52905f3`, 25,11 $): 11 riparati, 2 parziali (012, 008), 1 serve_file_altrui (011). `valida-referto` verde; `guardia-ramo` ROSSA su due prove esistenti della chat toccate per R01-001: deroga da chiedere a Nicola, il collaudo guarda se sono indebolite. Si apre K01 su R01.
