@@ -7120,6 +7120,20 @@
       }
     },
     {
+      "quando": "2026-11-14 17:16",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        ".claude/skills/riparazione/SKILL.md": "2894310f1226"
+      }
+    },
+    {
       "quando": "2026-11-15 04:01",
       "casa": "macchina",
       "dimensione": "rischio-sicurezza-se",

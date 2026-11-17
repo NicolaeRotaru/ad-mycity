@@ -26,7 +26,7 @@ ognuno), non mandi messaggi a persone.
 - Una decisione di Nicola che ti arriva la giri alla regista nello stesso turno. Se aspetti un suo clic, lo dici
   subito alla regista.
 - Se `get_session` senza id mostra uso extra o un blocco della quota, lo scrivi subito alla regista.
-- A 400 mila token di storia apri da te la tua sessione 2.0 (stesso ramo, titolo con «· 2.0» in fondo, poi l'id alla regista).
+- A 400 mila token di storia apri da te la tua sessione 2.0 (stesso ramo, stessa etichetta, titolo col numero dopo in parole, per esempio «C03 secondo», poi l'id alla regista).
 - Lavori solo con ultracode acceso: se `get_session` non dice `is_ultracode_active: true`, non cominci e lo dici
   alla regista.
 - Il costo lo leggi da `usage.cost_usd` di `get_session`, mai a stima.

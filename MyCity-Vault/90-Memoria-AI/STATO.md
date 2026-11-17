@@ -24,6 +24,10 @@ fonte: AD digitale (giro, cervello/giro.md)
 >
 > Nicola ha firmato alle 02:45. Le 11 migrazioni sono passate sul database vero una alla volta, dalle 02:45 alle 03:06, senza cambiare nessuna riga di dati. Alle 03:07 la richiesta di unione del sito (mycity#290) è entrata nel ramo principale, e alle 03:10 il sito era online. Controllo online: le pagine principali si aprono, nessun errore in produzione, e cassa, prodotti e rimborsi rifiutano chi non ha fatto l'accesso. L'onda chiude 78 difetti piccoli; dei 20 gravi nessuno. Il costo è circa 1.580 $ su un tetto di 1.650. Restano la carta 248 sulle 6 voci gravi e l'onda 3, con la regista O2 otto da aprire dall'app. Il resoconto sta in `consegne/riparazioni/2026-11-12-sito-tutto/RESOCONTO-ONDA-2.md`.
 
+> 🔧 **2026-11-14 17:20 — Nell'elenco delle sessioni restano solo quelle attive, e l'onda 2 fa un giro di correzione prima della fermata 3.**
+>
+> Hai chiesto di non dover scorrere fra 10-20 sessioni finite. La regola 12 ora dice che chi apre una sessione la archivia appena finisce, e che non ci sono sessioni-cartella. I titoli sono corti, e chi prende il posto di una sessione prende il numero dopo, in parole: «C02 terzo». È nella richiesta #953, che aspetta la tua unione. Intanto l'onda 2 rifà le voci bocciate, quelle lasciate a metà e quelle che chiedono il file di un'altra sessione. Il tetto dell'onda è salito a 1.650 $ (bacheca, 14/11 alle 10:20). La fermata 3 viene dopo questo giro.
+
 > ✅ **2026-11-13 02:55 — Hai unito la richiesta della macchina #944.**
 >
 > Da adesso valgono le regole nuove del risolutore e delle sessioni. Ogni riparatore prende al massimo 25 difetti, la regia lavora in una sessione sua e dopo ogni onda c'è un controllore. Ci sono anche le nove regole per le sessioni che lavorano insieme. Una sessione nuova che parte da `main` adesso le legge da sola. Resta in bozza la richiesta del sito, mycity#288, fino al controllore finale della campagna.
