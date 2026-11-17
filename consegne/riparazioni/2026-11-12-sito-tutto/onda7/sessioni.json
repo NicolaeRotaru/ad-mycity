@@ -47,7 +47,10 @@
    "onda": 1,
    "partenza": "bc36f48120ec38bf20880c7d68b3171015744681",
    "tetto_usd": 28,
-   "finita": false
+   "finita": true,
+   "punta": "c7c580c00de445a5f10f052f14e3963c620720e2",
+   "testa": "2b9e7dbe46e2e607c511268b3ae9899f3fbab0a6",
+   "costo_usd": 30.43
   }
  },
  "collaudatori": {
@@ -60,6 +63,15 @@
    "tetto_usd": 12,
    "finita": false,
    "id": "session_015BmpnYLWEi1RmcXfHGEeYD"
+  },
+  "K02": {
+   "ramo": "ccr-30918361-coyajm-k02",
+   "riparatori": [
+    "R03",
+    "R04"
+   ],
+   "tetto_usd": 14,
+   "finita": false
   }
  },
  "controllori": {}
