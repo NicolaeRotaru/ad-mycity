@@ -13,7 +13,12 @@
    "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
    "tetto_usd": 35,
    "consegna_usd": 30,
-   "aperta": "2026-11-17 22:14"
+   "aperta": "2026-11-17 22:14",
+   "finita": true,
+   "punta": "9c137e87",
+   "testa": "b164a55be3181615c3184edc53ffb7e3c773e917",
+   "costo_usd": 37.48,
+   "nota": "verify verde su e669a8d7; oltre il tetto di 35 $: «consegna» della regia 2.0 alle 23:41, revisore del lotto 3 fermato (R03-007, 012, 015, 018, 019 e la seconda parte di 009 senza smentita)"
   },
   "R02": {
    "id": "session_015BmpnUuqaZeyg8n3BBxy6h",
