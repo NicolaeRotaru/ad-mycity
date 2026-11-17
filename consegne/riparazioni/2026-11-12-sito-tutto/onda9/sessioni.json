@@ -1,0 +1,43 @@
+{
+ "regista": "session_015BmpnYq3DQDRwTXdBwfzud",
+ "sha_regista": "2c3a9e9ed32bc0f289314c88ed8861f44c4f4e82",
+ "integrazione": {
+  "ramo": "claude/adoring-bohr-kixq35-o9",
+  "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc"
+ },
+ "sessioni": {
+  "R03": {
+   "id": "session_015BmpnYY5FRfV2QHnGfxmLq",
+   "ramo": "claude/adoring-bohr-kixq35-o9-m03",
+   "onda": 1,
+   "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
+   "tetto_usd": 35,
+   "consegna_usd": 30,
+   "aperta": "2026-11-17 22:14"
+  },
+  "R02": {
+   "id": "session_015BmpnUuqaZeyg8n3BBxy6h",
+   "ramo": "claude/adoring-bohr-kixq35-o9-m02",
+   "onda": 1,
+   "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
+   "tetto_usd": 35,
+   "consegna_usd": 30,
+   "aperta": "2026-11-17 22:15"
+  }
+ },
+ "collaudatori": {},
+ "controllori": {},
+ "da_aprire_giovedi": [
+  "R01",
+  "R04",
+  "R05",
+  "R06",
+  "R07",
+  "R08",
+  "R09",
+  "R10",
+  "collaudo gruppo A",
+  "K01-K04",
+  "C01"
+ ]
+}
