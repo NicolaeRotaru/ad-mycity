@@ -7,33 +7,8 @@
   "frontend-ux|orari, stelle e indirizzo web del negozio non arrivano a google nella prima lettura"
  ],
  "B correzione scritta": [
-  "api-backend|se due giri del sorvegliante partono nello stesso istante, l'amministratore riceve due volte la stessa campanella",
   "qa-flussi|cercando una parola a metà il sito trova solo una parte dei prodotti, e dentro la vetrina di un negozio può dire «nessun risultato»",
-  "qa-flussi|prova con un nome che promette il contrario",
-  "qa-flussi|le domande dei clienti sotto i prodotti non arrivano a nessuno, ma al cliente diciamo che riceverà una notifica",
-  "qa-flussi|una prova col nome del collaudo",
-  "qa-flussi|il ritorno dopo l accesso perde ?tab=",
-  "stati-ui|se la lettura del profilo non riesce, il negoziante approvato legge che il suo account non è da venditore e gli viene proposto di iscriversi di nuovo",
-  "qa-flussi|salvando le taglie, se la scorta cambia a metà il negozio legge «riapri e salva di nuovo», ma le taglie tolte sono già cancellate",
-  "qa-flussi|la prima compilazione di monta() pesa sul primo caso di ~85 file di prove",
-  "ai-endpoints|con un fornitore lento la risposta lunga del copilot non arriva mai: dopo due minuti il negozio legge solo «riprova»",
-  "qa-flussi|basta un solo campo fuori regola e tutta la personalizzazione della vetrina sparisce, e il salvataggio dopo la cancella",
-  "navigazione-gerarchia|nella scheda prodotto il prezzo è quasi grande quanto il titolo e pesa meno del pulsante «+»",
-  "qa-flussi|la scheda prodotto passa il prezzo pieno alla barra d'acquisto e al carrello con una promozione attiva",
-  "qa-flussi|la frase vecchia sui formati foto resta in friendlyerror",
-  "architettura|interfacce zombie: shippingforeuro vale sempre 0 ma riceve 7 ingressi; promessaspedizione ha un argomento morto e campi sempre costanti",
-  "api-backend|il freno sulla rotta regge per 3 interruttori su 9: ai, newsletter, classifica e caricamento da file stanno solo nelle pagine",
-  "architettura|il finto clienteavvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente",
-  "deploy-sre|la prova «migrazione su database pieno» mette ancora i file nell'ordine vecchio",
-  "architettura|sei rami iserror scritti a mano invece del presidio lib/vista-query.ts (vistadaquery): il difetto può tornare alla settima pagina",
-  "architettura|la traccia «chi ha cambiato il prezzo» esce in due forme diverse a seconda della porta",
-  "qa-flussi|il ritiro in negozio è ancora spento, mentre nicola ha deciso che al lancio è acceso e gratis per il cliente",
-  "qa-flussi|due guardie sulla veloce controllano il testo del sorgente e non il comportamento",
-  "qa-flussi|quando un ordine viene annullato il negozio non riceve nessuna email, e se lo annulla il sito perché nessuno l'ha accettato non riceve nemmeno la campanella",
-  "api-backend|le notifiche push partono due volte se due giri del cron si sovrappongono: la presa in carico non è atomica",
-  "performance|ogni pagina scarica due caratteri in corsivo che quasi nessuna pagina usa",
-  "qa-flussi|la campanella del sito mostra le promozioni anche a chi le ha spente",
-  "qa-flussi|ogni visitatore senza account fa una richiesta rifiutata alla vista dei nomi su ogni scheda prodotto e vetrina"
+  "qa-flussi|la scheda prodotto passa il prezzo pieno alla barra d'acquisto e al carrello con una promozione attiva"
  ],
  "mai raggiunti": [
   "qa-flussi|la consegna veloce si vende a tutti insieme anche con un solo fattorino: nessuno conta quante veloci ha già in mano",
@@ -173,7 +148,27 @@
   "qa-flussi|il logger oscura solo le chiavi del contesto, non il testo del messaggio né un contesto stringa",
   "qa-flussi|un cliente che esiste già non ha una strada da solo per diventare fattorino",
   "qa-flussi|anche chi sceglie «venditore» nell'iscrizione vede il pulsante google, che probabilmente crea un cliente",
-  "qa-flussi|dalla scheda prodotto il carrello riceve il prezzo pieno anche con una promozione attiva, e il carrello può dire che il prezzo è sceso"
+  "qa-flussi|dalla scheda prodotto il carrello riceve il prezzo pieno anche con una promozione attiva, e il carrello può dire che il prezzo è sceso",
+  "navigazione-gerarchia|la ricerca, la pagina di una categoria e i chip della home buttano via le categorie piene già note quando una rilettura fallisce",
+  "qa-flussi|il conteggio della griglia non riceve i filtri «aperti ora» e «col voto»",
+  "qa-flussi|la lettura dei negozi della griglia non va a blocchi",
+  "layout-responsive|chi siamo a 280 px col testo al 200% scorre ancora di lato",
+  "qa-flussi|le visualizzazioni e i clic dei prodotti sponsorizzati non arrivano mai al database",
+  "qa-flussi|dopo aver cambiato titolo o descrizione di una lista, /lists mostra ancora quelli vecchi",
+  "frontend-ux|dopo un salvataggio, il blocco di testo della vetrina mostra «&amp;» al posto di «&» (e «&lt;» al posto di «<»)",
+  "qa-flussi|la pagina dei negozi legge le categorie senza range: oltre il tetto di righe di postgrest si perderebbero delle categorie madri",
+  "stati-ui|quando la rete torna, le pagine prodotto del negoziante rimettono il caricamento al posto del modulo e le modifiche non salvate si perdono",
+  "qa-flussi|dopo l'eliminazione di una lista il menu «aggiungi a lista» della scheda prodotto la mostra ancora",
+  "navigazione-gerarchia|altre tendine e vetrine di categorie buttano via le categorie piene già note quando una ricarica cade, e tornano a mostrare anche le vuote",
+  "navigazione-gerarchia|la pagina di una categoria madre rimette i bottoni delle sottocategorie vuote quando una rilettura delle categorie piene cade",
+  "qa-flussi|dopo aver rinominato una lista, la pagina delle liste mostra ancora il titolo vecchio",
+  "deploy-sre|un'ultima prova ordina ancora le migrazioni con l'ordine vecchio",
+  "ai-endpoints|il filtro di moderazione prima del copilot non ha un tempo suo",
+  "navigazione-gerarchia|nel «completa con» del carrello un prezzo da 5000 € in su spinge fuori il pulsante «+»",
+  "architettura|una quinta copia scritta a mano del finto clienteavvisi nelle prove degli avvisi",
+  "qa-flussi|quando il fattorino segna «cliente assente» il negozio riceve solo la campanella, non l'email di annullo",
+  "api-backend|un patch dell'amministrazione su un prodotto che non esiste risponde 200 e lascia una traccia con «prima» vuoto",
+  "api-backend|quando l'amministrazione cambia solo le taglie di un prodotto, il registro delle azioni non scrive più niente"
  ],
  "parziali": [
   "qa-flussi|la pagina novità mostra tutto il catalogo, anche un prodotto di tre mesi fa, e il numero in alto conta solo i prodotti già caricati",
@@ -209,7 +204,12 @@
   "mobile-pwa|il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione",
   "ai-endpoints|nella chat assistenza la scheda della proposta promette caratteristiche che il server butta via, e dopo «applica» dice «modifiche salvate» senza aver cambiato niente",
   "architettura|in home ogni sezione chiede di nuovo alla vetrina lo stesso negozio, e ogni fascia compare un giro di rete più tardi",
-  "architettura|il gancio semancalachiave rende morti i catch sulla chiave nelle rotte; senzachiave e sullaporta copiati in due file"
+  "architettura|il gancio semancalachiave rende morti i catch sulla chiave nelle rotte; senzachiave e sullaporta copiati in due file",
+  "microcopy|il piede rimette «abbigliamento» dopo la lettura se la categoria è attiva nel database (non verificato)",
+  "qa-flussi|buco nelle prove del carrello: alcune mutanti del collaudo sul conto della consegna restano verdi",
+  "deploy-sre|dopo il deploy il freno della veloce può risultare «mai partito» per un attimo, con un falso allarme agli amministratori",
+  "architettura|carrello di più negozi: se cade la scrittura del secondo ordine, il primo resta spostato in silenzio",
+  "qa-flussi|nelle recensioni della vetrina chi ha solo il nome pubblico (senza nome vero) adesso appare come «cliente»"
  ],
  "delicati": []
 }

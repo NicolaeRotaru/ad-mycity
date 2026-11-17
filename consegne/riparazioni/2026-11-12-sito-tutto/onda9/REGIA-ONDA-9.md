@@ -46,3 +46,9 @@ Fuori: 83 delicati mai tentati (pagamenti, accessi, permessi, privacy, dati, mig
 ### Il preventivo
 Circa 3 $ per voce data: 195 voci danno circa 585 $, più la regia, circa 600 $. Dentro il tetto totale di 1.200 $: le onde 6, 7 e 8 ne hanno spesi circa 325. Se regge il 50% come nell'onda 7, circa 95 difetti chiusi a circa 6 $ l'uno. Nel caso peggiore, 30%, circa 10 $. Il cancello è a 20 $ a difetto chiuso.
 - 20:16 Le 25 correzioni già scritte (gruppo B) sono passate all'onda 8b, chiesta da Nicola alle 20:28. Il programma della scelta adesso esclude anche `onda8b/chiavi-B.txt`: giovedì il posto delle B lo prendono le voci dopo nell'ordine.
+
+### Stato (regia «Ondata 9», session_015BmpnYq3DQDRwTXdBwfzud)
+- 21:47 Nicola dà la regia a questa chat. 21:50 firma la guardia delle aperture (ad-mycity#985). 21:56 il promemoria della chat «Ondata 7 difetti» è spento, il mio parte giovedì alle 10:05.
+- 22:2x Nicola: «falla partire adesso». Limite visto nell'app: fra 90% e 95%. Scelta: «mi fermo prima», con circa il 3% lasciato alle sue chat. Stasera circa 60-70 $ (2 riparatori, consegna a 30 $, tetto 35 $); gli altri giovedì alle 10:05.
+- 22:12 Elenco rifatto sulla base del sito `f93d246a` (main dopo mycity#296): 200 voci, 5 solo collaudo (`chiavi-collaudo-A.txt`), 195 da riparare (`chiavi-riparatori.txt`). Perimetro verde, `dividi --sessioni 10 --per-sessione 20`: 152 voci in R01-R10, 43 al giro dopo. Schede, copertura-prima e segnaposti verdi. Rami `claude/adoring-bohr-kixq35-o9-mNN` sul sito.
+- Stasera R05 (20 voci, 8 mai raggiunte) e R09 (20 voci, 6 mai raggiunte). Giovedì R01-R04, R06-R08, R10, il collaudo del gruppo A, i collaudatori e il controllore.
