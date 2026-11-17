@@ -2,20 +2,8 @@
   "_cosa_e": "📅 LO SCADENZARIO — le scadenze esterne come DATI, non come racconto dentro i Report. Lo legge cervello/scadenzario-check.mjs a ogni giro, che CALCOLA quanto manca invece di leggere una frase. Nasce da AR-147 (l'agente `scadenzario` esisteva da sempre e non aveva mai prodotto un artefatto-dati) e da AR-214 (due schede della stessa pagina davano due countdown diversi).",
   "_perche_esiste": "Misurato il 28/7 alle 05:59: due file dicevano «mancano 3 giorni» per PI26, mentre ne mancavano 2,4. E non divergevano fra loro — concordavano, e sbagliavano tutti e due, il che è peggio perché sembra una conferma. Il numero era stato TRASCRITTO invece che calcolato: vero il giorno in cui è stato scritto, poi invecchiato in silenzio sembrando aggiornato. Nel vault la deriva si legge riga per riga: «mancano 4 giorni», «~2,5 residui», «~2,3», «~2,2», «mancano 3 giorni».",
   "_come_si_usa": "Ogni scadenza esterna con una conseguenza reale va qui, con la data come DATO (ISO col fuso) e la FONTE di quella data. Chi la mostra la calcola: nessuno la trascrive. Quando è passata si sposta in `chiuse` — la storia non si cancella. Una voce che annuncia una data capace di far rosso un passo del cancello (un'esenzione del registro delle porte, un'attesa della lista dei documenti di governo) porta il campo `cancello: { registro, chiave }`: la prova c9 la confronta con la data vera, nei due versi. Le altre voci non lo hanno, e il loro id è libero.",
-  "aggiornato": "2026-11-15 07:36",
+  "aggiornato": "2026-11-16 01:36",
   "scadenze": [
-    {
-      "id": "bando-rifiuti-piacenza-2026",
-      "titolo": "Bando rifiuti del Comune di Piacenza: incentivi per la differenziata, da girare a Pane Quotidiano",
-      "scade": "2026-10-23T23:59:00+02:00",
-      "colore": "🔴",
-      "chi": "Nicola: manda al fornaio il messaggio già pronto (card #200)",
-      "conseguenza": "Il Comune ha 400.000 € per le piccole attività che migliorano la differenziata, assegnati in ordine di arrivo: dopo il 23/10 Pane Quotidiano non può più chiedere la sua parte. L'ora di chiusura non la sappiamo: conviene che il fornaio faccia domanda entro il 22.",
-      "fonte": "https://www.comune.piacenza.it/it/news/incentivi-rifiuti — letta il 2026-09-01 e ricontrollata dal reparto intelligence il 2026-10-10 (apertura 31/8, chiusura 23/10/2026). Messaggio pronto: consegne/account-negozi/2026-10-10-pane-quotidiano-bando-rifiuti.md",
-      "nota_ora": "La fonte dice il giorno, non l'ora: la scadenza è messa alla fine del 23/10, la lettura letterale di «chiude il 23 ottobre». Fino al secondo collaudo dell'11/10 era all'inizio del 23: il guardiano avrebbe detto «scaduta» per tutto l'ultimo giorno utile, e un giro poteva rinunciare a un bando ancora aperto. Scritta qui l'11/10 alle 02:06: fino ad allora il bando stava solo nella card #200, e il guardiano sorvegliava un registro vuoto (AR-964).",
-      "chi_la_chiude": "Dopo il 23/10 la sposta in `chiuse`, con l'esito (domanda fatta o no), una sessione di lavoro sulla macchina. Il giro non può: pubblica solo la memoria, mai `cervello/` (giro.sh, MEM_DIRS). Finché resta aperta, il guardiano la segnala «scaduta» a ogni giro — com'è successo a PI26 dal 30/7 al 13/8.",
-      "_titolo": "Comincia con «Bando rifiuti» apposta: il guardiano riconosce i countdown trascritti nei file vivi dall'id o dalle prime 12 lettere del titolo, e i file vivi lo chiamano così."
-    },
     {
       "id": "esenzione-round2-applica",
       "titolo": "Vecchio programma del 25 luglio da togliere, o la CI torna rossa per tutti",
@@ -60,6 +48,19 @@
       "conseguenza": "Dal 22/11 all'01:00 la prova «IL PUNTO» di c9-governo-senza-sveglia diventa rossa, e con lei la CI di ogni richiesta di unione: per la lista dei documenti di governo un'attesa scaduta torna a essere un buco. È la stessa trappola che ha fatto rossa la CI il 30/9: qui serve ad accorgersene tre giorni prima.",
       "fonte": "cervello/documenti-di-governo.mjs → voce glossario-kpi, attesa.fino «2026-11-22», letta come mezzanotte di Greenwich (Date.UTC), cioè l'01:00 a Piacenza. La prova c9-governo-senza-sveglia controlla che le due date restino uguali, nei due versi.",
       "chi_la_chiude": "Chi costruisce il controllo del glossario, o sposta la data, sposta questa voce in `chiuse` (intera, con la sua fonte) o ne aggiorna la data nello stesso lavoro: la prova c9 lo pretende. Quando il controllo nasce, che l'attesa sparisca o resti scritta accanto al guardiano, dal registro delle mutazioni va tolta anche quella di AR-966 che sposta la data dell'attesa: senza una data da rompere il banco la dà per cieca, e il cancello si ferma."
+    },
+    {
+      "id": "bando-rifiuti-piacenza-2026",
+      "titolo": "Bando rifiuti del Comune di Piacenza: incentivi per la differenziata, da girare a Pane Quotidiano",
+      "scade": "2026-10-23T23:59:00+02:00",
+      "colore": "🔴",
+      "chi": "Nicola: manda al fornaio il messaggio già pronto (card #200)",
+      "conseguenza": "Il Comune ha 400.000 € per le piccole attività che migliorano la differenziata, assegnati in ordine di arrivo: dopo il 23/10 Pane Quotidiano non può più chiedere la sua parte. L'ora di chiusura non la sappiamo: conviene che il fornaio faccia domanda entro il 22.",
+      "fonte": "https://www.comune.piacenza.it/it/news/incentivi-rifiuti — letta il 2026-09-01 e ricontrollata dal reparto intelligence il 2026-10-10 (apertura 31/8, chiusura 23/10/2026). Messaggio pronto: consegne/account-negozi/2026-10-10-pane-quotidiano-bando-rifiuti.md",
+      "nota_ora": "La fonte dice il giorno, non l'ora: la scadenza è messa alla fine del 23/10, la lettura letterale di «chiude il 23 ottobre». Fino al secondo collaudo dell'11/10 era all'inizio del 23: il guardiano avrebbe detto «scaduta» per tutto l'ultimo giorno utile, e un giro poteva rinunciare a un bando ancora aperto. Scritta qui l'11/10 alle 02:06: fino ad allora il bando stava solo nella card #200, e il guardiano sorvegliava un registro vuoto (AR-964).",
+      "chi_la_chiude": "Dopo il 23/10 la sposta in `chiuse`, con l'esito (domanda fatta o no), una sessione di lavoro sulla macchina. Il giro non può: pubblica solo la memoria, mai `cervello/` (giro.sh, MEM_DIRS). Finché resta aperta, il guardiano la segnala «scaduta» a ogni giro — com'è successo a PI26 dal 30/7 al 13/8.",
+      "_titolo": "Comincia con «Bando rifiuti» apposta: il guardiano riconosce i countdown trascritti nei file vivi dall'id o dalle prime 12 lettere del titolo, e i file vivi lo chiamano così.",
+      "esito": "2026-11-16 01:36 — chiusa, scaduta senza domanda risultante. La card #200 era stata archiviata il 2026-10-25 12:57 con «ok 130» di Nicola («superata: il bando chiudeva il 23 ottobre»). Non risulta che il fornaio abbia fatto domanda. Spostata qui dal giro dell’AD del 16/11, perché il guardiano la dava «scaduta» a ogni giro da 555 ore."
     }
   ]
 }

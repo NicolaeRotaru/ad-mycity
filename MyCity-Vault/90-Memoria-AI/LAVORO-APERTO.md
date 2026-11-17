@@ -1,7 +1,7 @@
 ---
 tipo: lavoro-aperto
 fonte: AD digitale
-aggiornato: 2026-11-15 05:57
+aggiornato: 2026-11-16 01:46
 regola: si legge PRIMA di cercare cosa manca; si aggiorna a ogni lavoro che si apre o si chiude
 ---
 
@@ -29,6 +29,8 @@ La pagina dice com'era il lavoro il 31 ottobre alle 01:45. Ogni voce va riletta 
 ---
 
 ## 1 · Cose che toccano a te
+
+**L'ordine del 13/11 è fermo a «pronto»** (giro del 16/11 alle 01:28). 11,95 € in contanti su Pane Quotidiano, entrato alle 14:56. Nessuno l'ha preso: nel sito i fattorini approvati sono 0 su 1. Va detto se è una tua prova o un cliente vero: carta #259. Se è un cliente, prima si approva il tuo account da fattorino (carta #210). Lo stesso giro ha chiuso il bloccante della chiave del database, provata sul sito vero, e trovato 8 lavori automatici del sito su 11 fermi da luglio. Briefing: `Briefing/2026-11-16.md`.
 
 **Il piano per chiudere più difetti dentro il limite è firmato** (15/11 alle 06:16). Hai firmato 6 decisioni su 7. Manca la percentuale vera del limite settimanale, da leggere nell'app: è la carta #243. L'onda 1 è costata circa 5 $ per difetto chiuso, l'onda 2 circa 27 $, soprattutto per registe e riletture. Fino a giovedì 19/11 alle 10:00 il piano spende al massimo circa 350 $ per circa 35-45 difetti. La settimana dopo ne chiude circa 90-110, fino a circa 170 con le tue firme. La fase 0 è fatta (2026-11-15 06:55): il registro del sito segna i 78 difetti chiusi dall'onda 2, nella richiesta ad-mycity#959. Sono al lavoro due sessioni. L'officina costruisce sei programmi per i costi. Il collaudatore K10 giudica le 11 voci riparate senza giudizio. Le regole nuove sono scritte nella skill `riparazione`, sezione «Le regole del 15/11». Le tre regole generali sono nel manuale dell'AD, numeri 25, 26 e 27. Piano: `consegne/audit/2026-11-15-lezioni-onde/piano.md`. Richiesta: ad-mycity#958, carta #245. La scelta sul sorvegliante bocciato due volte è la carta #244.
 
