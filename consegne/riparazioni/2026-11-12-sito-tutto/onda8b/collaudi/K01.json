@@ -4,7 +4,7 @@
     "R01",
     "R02"
   ],
-  "aggiornato": "2026-11-17 22:30",
+  "aggiornato": "2026-11-17 22:45",
   "finita": false,
   "voci": [
     {
@@ -19,6 +19,21 @@
       "nota": "Già alla base 522cfb01: lib/ai/regole-copilot.ts:25 TEMPO_COPILOT_MS 80_000 e :34 tetto min(3000, 1024+60·prodotti); app/api/ai/copilot/route.ts:241-244 max_tokens, timeoutMs, senzaRitentativi: true; lib/ai/run.ts:443-448 opzioniDellaChiamata → { timeout, maxRetries: 0 } passato davvero a messages.create (:458-465); vercel.json:14 maxDuration 120. Prove citate verdi alla base (11/11). senzaRitentativi: false → cade «un tentativo che scade non si ripete»; tetto riportato a 6000 → cadono 2 casi (minori-s10 e r29). File invariati fra base e testa. Fuori voce, come dice il riparatore: il filtro assertSafeText usa il tempo del client (60 s, un ritentativo) con un fornitore che non risponde affatto."
     },
     {
+      "id": "R01-003",
+      "chiave": "architettura|sei rami iserror scritti a mano invece del presidio lib/vista-query.ts (vistadaquery): il difetto può tornare alla settima pagina",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-003 --base da2237edda489e9b0777d288500d23e29971bad1^ --file app/admin/cod-remittance/page.tsx,app/admin/payouts/page.tsx,app/admin/support/page.tsx,app/admin/products/page.tsx,app/admin/audit/page.tsx --prove tests/unit/riparazione-r01-pannello-dal-presidio.test.ts --json"
+      },
+      "nota": "Le sei pagine del registro: disputes usava già vistaDaQuery alla base (app/admin/disputes/page.tsx:94); le altre cinque (audit, cod-remittance, payouts, products, support) ora passano dal presidio con testi, scheletri, ErrorState e Riprova uguali a prima; products con enabled già gestito. 134 prove vicine verdi. Fuori dalle sei del registro restano rami isError scritti a mano in altre pagine admin (funnel:280, categories:162, support-chat:29, events:182, activity:95): nuovi difetti visti, non questa voce."
+    },
+    {
       "id": "R01-004",
       "chiave": "architettura|interfacce zombie: shippingforeuro vale sempre 0 ma riceve 7 ingressi; promessaspedizione ha un argomento morto e campi sempre costanti",
       "verdetto": "parziale",
@@ -28,6 +43,66 @@
         "nata_rotta"
       ],
       "nota": "Le due funzioni nominate sono pulite alla base (lib/shipping.ts:38 shippingForEuro() senza ingressi; lib/promesse-pubbliche.ts:445 promessaSpedizione con il solo argomento della consegna, che usa; niente sopraSoglia né mancano; chiamanti senza argomenti; FreeShippingProgress tolto). Ma l'interfaccia zombie della voce vive ancora un passo più in là: il commit R29-005 (4420402b) ha spostato i sette ingressi da shippingForEuro a shippingCentsFor(_opts?: IngressiSpedizione) (lib/shipping.ts:43), che li ignora e vale sempre 0, e lib/ordini/prezzi.ts:263-271 glieli calcola e passa tutti e sette (subtotal, storeLat, storeLng, deliveryLat, deliveryLng, pickupInStore, freeShipping, con coordinateNegozio letto per ogni negozio). Il commento in lib/shipping.ts lo ammette. Chi legge prezzi.ts crede ancora che la spedizione dipenda da soglia e distanza: è il difetto della voce. Per chiuderla: togliere _opts da shippingCentsFor e i sette campi in prezzi.ts (file delicato dei conti, va con i delicati, come dice il riparatore)."
+    },
+    {
+      "id": "R01-005",
+      "chiave": "deploy-sre|la prova «migrazione su database pieno» mette ancora i file nell'ordine vecchio",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-005 --base 21af7a5515fba2c30ca1c5a23d7314b5d46fb0b6^ --file tests/sql/harness/migrazione-su-database-pieno.sh,tests/sql/harness/la-158-non-lascia-la-porta-aperta.sh,tests/sql/harness/la-159-non-lascia-la-tabella-scoperta.sh,tests/sql/harness/la-160-regge-un-ordine-annullato.sh,tests/sql/harness/lo-script-non-si-schianta-sul-database-nato-prima-del-registro.sh,tests/supabase-locale/avvia.sh,tests/unit/il-rilascio-non-riallinea-da-solo-un-database-rimasto-indietro.test.ts --prove tests/unit/riparazione-r01-ordine-delle-migrazioni.test.ts --json"
+      },
+      "nota": "sort -V → LC_ALL=C sort, come tests/sql/harness/apply.sh:34, nei sette punti; nessun sort -V eseguibile rimasto negli script (solo commenti in scripts/applica-migrazioni-mancanti.sh:11 e :229 e un'asserzione di prova, già nei nuovi_difetti_visti del riparatore); gen-db-types.mjs:140 ordina già per byte. bash -n verde sui sei script. Gli script SQL non sono stati eseguiti contro un Postgres: la modifica è solo l'ordinamento dei nomi, provata dalla prova che confronta ogni ordinamento con apply.sh."
+    },
+    {
+      "id": "R01-008",
+      "chiave": "qa-flussi|la frase vecchia sui formati foto resta in friendlyerror",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-008 --base ee8327791cc75d83942772ed21c823306efbddee^ --file lib/errors.ts --prove tests/unit/riparazione-r01-formati-foto.test.ts,tests/unit/la-foto-rifiutata-lo-dice-in-italiano.test.ts --json"
+      },
+      "nota": "lib/errors.ts:334-339 costruisce la frase dalla lista vera TIPI_IMMAGINE (lib/storage/regole-secchi.ts:49-57, sette formati), la stessa di lib/storage/carica-immagine.ts:163-165; nessun ciclo d'import. Il subagente ha segnalato «rompe_altro»: i depositi avatars e stores accettano solo jpeg/png/webp (migrations/127_minori_22_agosto.sql:587), quindi un logo HEIC leggerebbe una frase falsa. Controllato e scartato: nessun codice del sito carica più in avatars o stores (nessun riferimento in app, components, lib; regole-secchi non li dichiara e caricaImmagine lancia su un deposito non dichiarato), e i depositi usati (products, reviews, stories, cod-proof) accettano i sette formati. Le frasi «JPG, PNG o WEBP» rimaste in 7 componenti stanno accanto a dropzone che accettano davvero solo quei tre: coerenti, e fuori da friendlyError. 27 prove sugli errori verdi."
+    },
+    {
+      "id": "R01-009",
+      "chiave": "qa-flussi|salvando le taglie, se la scorta cambia a metà il negozio legge «riapri e salva di nuovo», ma le taglie tolte sono già cancellate",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-009 --base a902a5f592a0ca13b2f341d152847582fdf494f5^ --file lib/products/persistVariantsServer.ts --prove tests/unit/riparazione-r01-taglie-tolte.test.ts,tests/unit/riparazione-r08-le-varianti-tutte-o-nessuna.test.ts --json"
+      },
+      "nota": "Nel ripiego a pezzi di lib/products/persistVariantsServer.ts prima gli aggiornamenti condizionati sulla scorta, poi quelli senza condizione, poi cancellazioni e inserimenti: al conflitto nessuna taglia tolta è già cancellata e nessuna è doppia (nessun UNIQUE su product_variants). Restano scritti gli aggiornamenti fatti prima del conflitto: non è «tutto o niente», ma innocuo e si riprova. La strada principale (rpc salva_varianti) invariata; il messaggio «riapri e salva di nuovo» ora dice il vero. 15 prove delle varianti verdi."
+    },
+    {
+      "id": "R01-010",
+      "chiave": "qa-flussi|basta un solo campo fuori regola e tutta la personalizzazione della vetrina sparisce, e il salvataggio dopo la cancella",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-010 --base e8f0070376c0e13e85a3f23ea2bc7847afa8438e^ --file lib/store-customization.ts --prove tests/unit/riparazione-r01-vetrina-un-campo-alla-volta.test.ts,tests/unit/la-vetrina-del-negozio-resta-nei-colori-del-sito.test.ts,tests/unit/store-customization.test.ts --json ; giro di correzione 061508ce misurato dalla base: timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-010b --base e8f0070376c0e13e85a3f23ea2bc7847afa8438e^ --file lib/store-customization.ts --prove tests/unit/riparazione-r01-vetrina-un-campo-alla-volta.test.ts,tests/unit/la-vetrina-del-negozio-resta-nei-colori-del-sito.test.ts,tests/unit/store-customization.test.ts --json → uscita 0"
+      },
+      "nota": "Guardata apposta col giro a mano 061508ce. 21 casi scomodi su normalizeCustomization (annuncio con until non data, passata, testo da 500, enabled stringa; colore inventato; social non valido; badge sconosciuto fra due buoni; prodotti duplicati, troppi o sporchi; campi in più; null, undefined, array, stringa): nessun crash, il risultato passa sempre lo schema severo di salvataggio, normalizzare due volte dà lo stesso risultato. Salvataggio: StoreDetailsEditor.tsx:90 normalizza prima di VendorForm (rivalida a :206), ThemePicker.tsx:65 normalizza e scrive un valore già valido: un campo buono non sparisce salvando. La vetrina pubblica usa la stessa funzione (useStorePageData.ts:113). Visto e lasciato fuori, perché c'è identico alla base e non è il difetto della voce: una scadenza con la forma giusta ma una data impossibile («2026-13-45») passa lo schema (lib/store-customization.ts:196-199, solo regex) e announcementActive (:303-311) la tratta come mai scaduta, quindi l'annuncio resta acceso per sempre (provato alla base 522cfb01 e alla testa 061508ce: attivo in tutti e due). Un annuncio spento per un campo fuori regola si salva spento senza avviso: scelta del giro di correzione. 51 prove della vetrina verdi."
     },
     {
       "id": "R01-011",
