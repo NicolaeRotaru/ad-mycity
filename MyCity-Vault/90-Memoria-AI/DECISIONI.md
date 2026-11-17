@@ -7127,3 +7127,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Perché aspettavo:** il tetto di 350 $ firmato fino a giovedì alle 10:00. La sua domanda lo supera per l'onda 5.
 - **Il rischio detto:** se il limite della settimana finisce prima di giovedì alle 10:00, le sessioni si fermano fino al rinnovo. Freno: ogni riparatore legge il suo stato prima di ogni lotto e non apre lotti nuovi fuori da «allowed».
 - **Colore:** 🟡 spesa dentro un tetto dato da Nicola.
+
+## 2026-11-17 14:15 — Onda 4 nel registro: chiusi i 7 difetti di R28, i 7 di R29 aspettano una modifica al programma
+- **Chi:** Nicola, 17/11, nella chat dell'AD (session_015BmpnXzJ4RxUcjYFTgfqUG): «1 sì, 2 sì», confermato con «tutte e 14». Firma 1: eccezione per i 4 messaggi dei salvataggi di R29 che citano voci di altre onde (4fd7d59d, 038ddd6a, f734e255, 2c9f8412). Firma 2: per il referto di R29 vale la verifica sull'integrazione (claude/sito-onda-4 a 074ccbc5: tipi 0 errori, lint pulito, 10.529 prove su 10.530), non quella sul suo ramo.
+- **Cosa:** dopo l'unione di mycity#293 (85dd9ce4), chiusi nel registro i 7 difetti di R28 (002, 004, 006, 007, 010, 011, 014), solo le chiavi ancora aperte. Riparati da 208 a 215, aperti da 444 a 437. R27 (aspetta la carta 258) e R29 tolti solo per il giro. La firma 1 è scritta in `piano.json`, sotto `eccezioni_firmate`, con le sigle intere.
+- **Perché R29 resta aperto:** nessuna delle due firme ha effetto nel programma. La regola «la verifica deve essere verde» non accetta deroghe. Anche la regola «il messaggio cita una voce che non è tua» non accetta deroghe: è un controllo diverso da quello di `id_nel_commit`. L'AD ha scelto (strada A) di chiudere ora R28, e porta a Nicola la modifica al programma. Il programma non l'ho toccato.
+- **Correzione fatta:** `applica --scrivi` aveva riscritto la data di 10 voci «già riparato prima», dal 16/11 al 17/11. Le ho rimesse com'erano.
+- **Colore:** 🟡 registro della memoria, su firma di Nicola.

@@ -1,0 +1,55 @@
+{
+  "corsia": 28,
+  "territorio": "R28",
+  "difetti": [
+    {
+      "chiave": "accessibilita|le foto delle recensioni e l'importazione dei prodotti da file non si aprono da tastiera",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r28-foto-e-documenti-del-fattorino-da-tastiera.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base a44980ac^ --file components/rider/CashConfirmDialog.tsx --prove tests/unit/riparazione-r28-foto-e-documenti-del-fattorino-da-tastiera.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-002 --base a44980ac^ --file components/rider/CashConfirmDialog.tsx --prove tests/unit/riparazione-r28-foto-e-documenti-del-fattorino-da-tastiera.test.ts --json → uscita 0 (K15)",
+      "nota_fix": "Sulla base PhotoReviewUpload (:197), import CSV (:247), reso (:422) e onboarding (:349-350) avevano già il focus-within; mancava solo il PhotoSlot di CashConfirmDialog (:319): aggiunta la diff della scheda. Prova nuova col contenuto della scheda: il caso dei contanti morde, quello dell'onboarding è già verde sulla base."
+    },
+    {
+      "chiave": "api-backend|se il lavoro delle notifiche si ferma, l'allarme arriva dopo due ore, ma le notifiche più vecchie di un'ora sono già perse",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r28-allarme-push-dentro-la-finestra.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base c36f41e4^ --file lib/cron-health.ts --prove tests/unit/riparazione-r28-allarme-push-dentro-la-finestra.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-004 --base c36f41e4^ --file lib/cron-health.ts --prove tests/unit/riparazione-r28-allarme-push-dentro-la-finestra.test.ts --json → uscita 0 (K15)",
+      "nota_fix": "Soglia dell'allarme di send-push da 120 a 45 minuti (finestra di lettura 60, cadenza 5). Prova con orologio finto: fermo da 50 minuti è allarme, da 10 no; soglia < 60 e > cadenza. Le prove sulle soglie restano verdi."
+    },
+    {
+      "chiave": "deploy-sre|senza le chiavi delle notifiche, il lavoro delle notifiche risulta vivo anche se non manda niente",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r28-push-senza-chiavi-niente-battito.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base f7efbfe6^ --file app/api/cron/send-push/route.ts --prove tests/unit/riparazione-r28-push-senza-chiavi-niente-battito.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-006 --base f7efbfe6^ --file app/api/cron/send-push/route.ts --prove tests/unit/riparazione-r28-push-senza-chiavi-niente-battito.test.ts --json → uscita 0 (K15)",
+      "nota_fix": "Senza VAPID la risposta è marcata con segnaGiroNonFatto(..., 'fermo'): withCronAuth (middleware.ts:658, giroNonFatto) non scrive il battito e il semaforo non lo mostra vivo. lib/api/middleware.ts non toccato."
+    },
+    {
+      "chiave": "frontend-ux|con «aperti ora» acceso, l'elenco dei negozi non si aggiorna all'orario di chiusura e tiene in lista negozi con scritto «chiuso ora»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r28-prodotti-dei-negozi-aperti-si-aggiornano.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base b55df4ce^ --file components/ProductGrid.tsx --prove tests/unit/riparazione-r28-prodotti-dei-negozi-aperti-si-aggiornano.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-007 --base b55df4ce^ --file components/ProductGrid.tsx --prove tests/unit/riparazione-r28-prodotti-dei-negozi-aperti-si-aggiornano.test.tsx --json → uscita 0 (K15)",
+      "nota_fix": "app/stores/page.tsx era già a posto (R23-010: useOraDiPiacenza() a :216, prova riparazione-r23-aperti-ora-si-aggiorna). Applicata a ProductGrid la modifica della scheda: battito = useOraDiPiacenza(!!onlyOpenStores) nelle dipendenze del useMemo filtered. Prova jsdom con timer finti (12:59:30 → +60 s): il prodotto del forno esce."
+    },
+    {
+      "chiave": "microcopy|la conferma d'ordine non dice quando arriva né quanto pagare in contanti, e a chi ritira in negozio parla di rider",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r28-conferma-carta.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 8a4ec811^ --file lib/stripe/webhook/ordini.ts --prove tests/unit/riparazione-r28-conferma-carta.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-010 --base 8a4ec811^ --file lib/stripe/webhook/ordini.ts --prove tests/unit/riparazione-r28-conferma-carta.test.ts --json → uscita 0 (K15)",
+      "nota_fix": "Sulla base il modello dell'email e la rotta dei contanti erano già a posto; mancava il webhook della carta, che ora passa deliverySlot (fascia dell'ordine), pickupInStore e paymentMethod 'card'. Una riga sola: ordini.ts deve restare sotto le 600 righe (webhook-diviso-per-mestiere.test.ts:47), ora è a 598."
+    },
+    {
+      "chiave": "microcopy|se il nome del negozio è troppo lungo, l'avviso dice solo «nome del negozio» e non spiega cosa correggere",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r28-nome-negozio-troppo-lungo.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base b07350b1^ --file components/SellerApplicationForm.tsx,app/api/seller/apply/route.ts --prove tests/unit/riparazione-r28-nome-negozio-troppo-lungo.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-011 --base b07350b1^ --file components/SellerApplicationForm.tsx,app/api/seller/apply/route.ts --prove tests/unit/riparazione-r28-nome-negozio-troppo-lungo.test.tsx --json → uscita 0 (K15)",
+      "nota_fix": "Il modulo fa trim, minimo 3 e massimo 80 come la rotta, con l'avviso «Il nome del negozio può avere al massimo 80 caratteri: accorcialo». La frase della rotta è riscritta senza parentesi, così friendlyError (non toccato) non la riduce a «Nome del negozio». Prova: modulo con 81, 80 caratteri e soli spazi, e friendlyError sulla frase della rotta."
+    },
+    {
+      "chiave": "pagamenti-stripe|se la banca respinge un rimborso dal cruscotto che aspetta ancora la divisione, il sito lo toglie dagli ordini che non l'avevano mai registrato",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r28-rimborso-respinto-da-dividere.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base eb59bba9^ --file lib/stripe/rimborso-respinto.ts,lib/stripe/webhook/rimborsi.ts --prove tests/unit/riparazione-r28-rimborso-respinto-da-dividere.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-014 --base eb59bba9^ --file lib/stripe/rimborso-respinto.ts,lib/stripe/webhook/rimborsi.ts --prove tests/unit/riparazione-r28-rimborso-respinto-da-dividere.test.ts --json → uscita 0 (K15)",
+      "nota_fix": "Nel caso della voce (carrello in pausa di divisione, rimborso dal cruscotto senza etichetta order_id) si toccano solo gli ordini che elencano il refundId in stripe_refund_id; se nessuno lo elenca non si scrive niente e l'avviso agli amministratori dice «Non era ancora scritto su nessun ordine»."
+    }
+  ]
+}
