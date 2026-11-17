@@ -1,0 +1,154 @@
+{
+ "collaudatore": "K16",
+ "riparatori": [
+  "R29"
+ ],
+ "aggiornato": "2026-11-17 07:12",
+ "finita": true,
+ "parziale": true,
+ "voci": [
+  {
+   "id": "R29-001",
+   "chiave": "qa-flussi|le tre prove automatiche dell'acquisto vero sono vuote: passano in tre millesimi senza aprire niente",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R29-001 --base 9e492350^ --file \"tests/e2e/12-la-cassa-dal-carrello-al-pagamento.spec.ts,.github/workflows/ci.yml\" --prove tests/unit/le-prove-della-cassa-non-passano-senza-aver-guardato.test.ts,tests/unit/riparazione-r29-la-cassa-e2e-non-diventa-verde-a-vuoto.test.ts --json   (checkout 455c3f93e44e0d92296bb2782d06960518f04e02)"
+   },
+   "nota": "Parziale come dichiarato. Prova rimessa regge (16 passate; rossa togliendo spec e ci.yml). Revisore qa: un solo salto, beforeEach spec:268, scatta se manca E2E_DATI_DI_PROVA o il database locale, sk_test_ col segreto del webhook, acct_ o CRON_SECRET, col motivo; dentro le tre prove nessun salto né ritorno anticipato; senza variabile risultano skipped, non passed (provato con Playwright). L altro salto (spec:144) è del percorso nel browser senza JavaScript, non delle tre prove. Corpi veri: contrassegno (ordine NEW, totale, righe, campanella), rifiuto (rimborso riletto da ordine e da Stripe), consegna (TRANSFERRED tr_ riletto su Stripe). CI: lavoro skipped con variabile spenta, il cancello non lo conta come passato. Due appunti. ① Le due guardie unit si aggirano con un guscio avversario: le parole chiave dentro una stringa letterale e un request.get qualsiasi le lasciano verdi (riparazione-r29-…:157-158 cercano nel testo anche dentro le stringhe; le-prove-…:107-115 si accontentano di un ECONNREFUSED qualsiasi). Lo spec di oggi è sano, ma la guardia non fermerebbe un guscio furbo: va detto in cosa_resta, che oggi non lo dice. ② Boolean(E2E_DATI_DI_PROVA) a spec:257 accende anche con «0»: minore, il salto resta se manca l ambiente. cosa_resta onesto sul resto: i corpi non hanno mai girato contro Supabase locale e Stripe di prova."
+  },
+  {
+   "id": "R29-002",
+   "chiave": "qa-flussi|nicola non viene avvisato quando arriva un ordine: il primo allarme per un ordine non accettato parte dopo un'ora, non dopo 5 minuti",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R29-002 --base 4fd7d59d^ --file \"app/api/cron/operational-alerts/route.ts,vercel.json\" --prove tests/unit/riparazione-r29-allarme-ordine.test.ts --json   (checkout b66202587f8c5f5c025226e25432766200caf2ed)"
+   },
+   "nota": "Prova rimessa regge (rossa con route.ts e con vercel.json della base). Letto alla testa: route.ts:118-139 avvisa ORDINE_DA_ACCETTARE per ogni ordine NEW più vecchio di 5 minuti (finestra delle 6 ore, chiave per ordine, una volta sola); vercel.json */15 → */5. Primo allarme fra 5 e 10 minuti. La prova comune minori-s03 col diff del serve_file_altrui torna verde e resta stretta (esattamente [ORDINE_DA_ACCETTARE], nessun «bloccato»). Residuo solo di commento: lib/cron-health.ts:115 dice ancora 15 minuti (dichiarato)."
+  },
+  {
+   "id": "R29-003",
+   "chiave": "ai-endpoints|con un fornitore lento la risposta lunga del copilot non arriva mai: dopo due minuti il negozio legge solo «riprova»",
+   "verdetto": "parziale",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R29-003 --base f734e255^ --file \"lib/ai/run.ts,lib/ai/regole-copilot.ts,app/api/ai/copilot/route.ts\" --prove tests/unit/riparazione-r29-copilot-lento.test.ts --json   (checkout f734e255643f0a1454fe753c98ce8f1c36a2b071)"
+   },
+   "nota": "Parziale: prova rimessa regge (rossa con run.ts, regole-copilot.ts, copilot/route.ts della base). Parte fatta: tentativo unico da 80 s e tetto token 3000. cosa_resta onesto: manca lo streaming (escluso dalla regia) e il filtro dell istruzione (lib/ai/moderation.ts, file altrui) resta a 60 s × 2, con modifica scritta nei serve_file_altrui. La prova comune minori-s10 col diff torna verde (2048 < tetto ≤ 3200, come la scheda)."
+  },
+  {
+   "id": "R29-004",
+   "chiave": "api-backend|se due giri del sorvegliante partono nello stesso istante, l'amministratore riceve due volte la stessa campanella",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R29-004 --base 038ddd6a^ --file \"app/api/cron/operational-alerts/route.ts\" --prove tests/unit/riparazione-r29-allarme-ordine.test.ts --json   (checkout 038ddd6a9987045d1a73fdc8001462a9067d17c7)"
+   },
+   "nota": "Prova rimessa regge (cadono i due test «due giri» con route.ts della base). La prova comune l-allarme-che-non-parte col diff torna verde: il diff esclude dalle scritte attese le chiavi restituite (turno preso e reso se l email non parte), come scritto nella scheda; nessuna asserzione tolta. Giudizio pieno (collaudatore): prendiIlTurno (route.ts) rinfresca solo le chiavi scadute con update condizionato e inserisce le nuove rifiutando il doppione 23505, quindi di due giri insieme suona solo chi vince; campanella ed email prendono il turno prima di suonare e se l invio fallisce liberaIlTurno lo restituisce. Su errore del database il turno è aperto a tutti (si suona lo stesso): nessun allarme perso, al massimo un doppione nel caso raro.",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
+  },
+  {
+   "id": "R29-005",
+   "chiave": "architettura|interfacce zombie: shippingforeuro vale sempre 0 ma riceve 7 ingressi; promessaspedizione ha un argomento morto e campi sempre costanti",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R29-005 --base 4420402b^ --file \"lib/shipping.ts,lib/promesse-pubbliche.ts,app/checkout/page.tsx,app/product/[id]/page.tsx,components/ProductCard.tsx\" --prove tests/unit/riparazione-r29-interfacce-senza-zombie.test.ts --json   (checkout 4420402bfaac433fb3f94430cc0749769781f208)"
+   },
+   "nota": "Prova rimessa regge. Revisore qa: shippingForEuro() senza ingressi (lib/shipping.ts:38), promessaSpedizione senza sopraSoglia/mancano; in app/, components/, lib/ nessun chiamante passa argomenti o legge quei campi; resta lib/ordini/prezzi.ts:263 → shippingCentsFor({...}) con parametro ignorato (dichiarato). L importo addebitato non cambia (consegna 300 cent). Da sapere: la pastiglia «gratis» ora si accende con dettaglioConsegna === null, cioè solo se la consegna non si paga davvero; oggi resta spenta. tsc 0 errori coi diff delle prove comuni."
+  },
+  {
+   "id": "R29-007",
+   "chiave": "frontend-ux|il negoziante col negozio non ancora approvato vede «negozio» al posto della sua insegna nella lista condivisa e alla cassa",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R29-007 --base 2c9f8412^ --file \"app/cart/page.tsx\" --prove tests/unit/riparazione-r19-insegna-del-negozio-non-approvato.test.ts --json   (checkout 2c9f8412b07e452330ae25727c3d73cfa5ea512e)"
+   },
+   "nota": "Prova rimessa regge (rossa con app/cart/page.tsx della base). Cassa e lista condivisa già a posto alla base (R19-006), come dichiarato. Giudizio pieno (collaudatore): app/cart/page.tsx legge profiles (id, store_name) solo per i negozi assenti dalla vista pubblica, in try/catch, con il controllo di vivo; il nome entra nei gruppi calcolati a ogni render (nessun memo da aggiornare); se la lettura fallisce resta «Negozio» come prima. Non ho verificato le regole di profiles sul database (per regola).",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
+  },
+  {
+   "id": "R29-011",
+   "chiave": "pagamenti-stripe|un ordine in contanti rimborsato tutto prima della rimessa sparisce dai contanti da chiedere al fattorino",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R29-011 --base fca65a61^ --file \"app/admin/cod-remittance/page.tsx\" --prove tests/unit/riparazione-r29-contanti-del-rimborsato.test.tsx --json   (checkout fca65a61e7979a50ee41974affc1487992062756)"
+   },
+   "nota": "Prova rimessa regge. Revisore qa: il rimborso in contanti diventa credito sul portafoglio (payout.ts ~2370), quindi il fattorino ha ancora i soldi e la pagina fa bene a chiederli; nessun doppio conteggio (AWAITING_REMITTANCE e REFUNDED disgiunti); rimborso dopo rimessa confermata non ricompare; cash_confirmed_at nullo → delivered_at; rimborso parziale resta nella lettura principale; errore della query nuova mostrato. Rischio residuo non provato: page.tsx:142 legge i REFUNDED senza limite di data, un vecchio contante rimborsato mai passato dalle rimesse comparirebbe per sempre (non verificato sul database, per regola). Allarme 48 ore guarda ancora solo AWAITING_REMITTANCE (dichiarato in nota)."
+  },
+  {
+   "id": "R29-012",
+   "chiave": "pagamenti-stripe|la consegna da 3 € ha ancora altri nomi: «costo di consegna» su stripe, «consegna a domicilio» in cassa, «consegna a casa» in home",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R29-012 --base 36e83099^ --file \"app/checkout/page.tsx,lib/promesse-pubbliche.ts\" --prove tests/unit/riparazione-r29-un-nome-per-la-consegna.test.ts --json   (checkout 36e830990e3a5ba58ab957a8a0787b620ddccfd5)"
+   },
+   "nota": "Prova rimessa regge. Revisore qa: riquadro della cassa {VOCE_CONSEGNA} (checkout/page.tsx:1572), titolo gratuito con VOCE_CONSEGNA; su Stripe la riga delivery_fee è già `${VOCE_CONSEGNA} — negozio` (lib/stripe/client.ts:228), la riga «Spedizione» parte solo con shipping_cost > 0, cioè mai. HeroStoreCard.tsx:251 e promessa-consegna.ts:63 sono slogan senza cifra. Residuo cosmetico: breve «Consegna gratuita» non usa la costante. Le tre prove comuni coi diff tornano verdi."
+  },
+  {
+   "id": "R29-013",
+   "chiave": "pagamenti-stripe|il sito vero lavora anche gli avvisi stripe «di prova»",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R29-013 --base 831e3ccb^ --file \"lib/stripe/webhook/firma.ts,app/api/stripe/webhook/route.ts\" --prove tests/unit/riparazione-r29-avvisi-stripe-di-prova.test.ts --json   (checkout 831e3ccb3bc4d8cea4055507c3b6f720622d51bd)"
+   },
+   "nota": "Prova rimessa regge. Revisore qa: firma.ts:94 scarta solo livemode === false con chiave sk_live_/rk_live_; un evento live passa sempre, anche con livemode assente; chiave di prova lavora tutto come prima; un solo chiamante (webhook/route.ts:53), parametro con valore predefinito; «di-prova» → 200 senza scritture. Prove vicine (webhook-diviso-per-mestiere, signature, idempotency, dispute, r23) verdi."
+  },
+  {
+   "id": "R29-019",
+   "chiave": "privacy-legale|il lotto riaccende una rotta che alla base era morta: il fattorino vede «kyc inviato, verifica in corso», ma nessuna parte del sistema chiude mai quello stato. i difetti qui sotto erano dormienti e ora si possono raggiungere",
+   "verdetto": "parziale",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R29-019 --base a194f532^ --file \"app/api/cron/operational-alerts/route.ts\" --prove tests/unit/riparazione-r29-allarme-ordine.test.ts --json   (checkout ad20ae7f3f3a55f3077ff6b1eba78b0cb08e6c09)"
+   },
+   "nota": "Parziale: prova rimessa regge (cade il fattorino a 72 ore con route.ts della base). Parte fatta: il sorvegliante avvisa per la verifica d identità ferma da 48 ore anche dei fattorini; il commento di start-check non promette più un webhook che non esiste. cosa_resta onesto: nessuno scrive ancora la decisione (moderate/route.ts altrui, modifica scritta nei serve_file_altrui) e manca il webhook Onfido; domanda per Nicola presente."
+  }
+ ],
+ "note": "Prove comuni (serve_file_altrui di R29-002, -003, -004, -005, -012): 10 diff su 10 file, applicati puliti su 455c3f93. Nessuna asserzione tolta, nessuno skip/only/fixme aggiunto: al-lancio passa da un giro su 5 sottototali a una chiamata (il sottototale non è più un argomento) e in più pretende che sopraSoglia/mancano non esistano; l-ordine aggiunge un expect; minori-s03 passa da alerts=0 a esattamente [ORDINE_DA_ACCETTARE] senza «bloccato»; minori-s10 abbassa il tetto da (4096,6000] a (2048,3200] come la scheda; l-allarme esclude le chiavi restituite, come 2e81dd8d. Con i diff: tsc --noEmit 0 errori, vitest sui 10 file 148/148 verdi. Senza i diff: 19 rossi in 9 file, come dichiarato nel referto. Revisori: 2 qa (R29-011+013; R29-001+005+012). Spesa non leggibile: get_session non espone usage.cost_usd."
+}
