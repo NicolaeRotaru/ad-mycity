@@ -39,11 +39,11 @@ Esempio vero: un fattorino sospeso non può più confermare un incasso in contan
 **Cosa cambia per te.** Unendola, il sito prende le riparazioni. Le tre migrazioni nuove (540, 541, 572) restano da applicare sul database solo col tuo «ok migrazioni».
 
 **Cosa devi fare tu.** Unire mycity#294 se ti va bene. Le domande dei riparatori non bloccano l'unione: sono 21, nei referti R30-R33 e nel controllo C05. Le più importanti:
-- la consegna veloce: quante ne può avere un fattorino insieme;
-- il riaccredito al negozio dopo un rimborso respinto dalla banca;
-- «Annulla» sugli ordini già in viaggio o consegnati;
-- dopo quanti mesi si tolgono i dati di chi fa una segnalazione;
-- l'indirizzo nel profilo: rimettere i campi o cancellare le colonne.
+- Quante consegne veloci può avere insieme un fattorino.
+- Se il negozio va riaccreditato dopo un rimborso respinto dalla banca.
+- Se «Annulla» resta sugli ordini già in viaggio o consegnati.
+- Dopo quanti mesi si tolgono i dati di chi fa una segnalazione.
+- Se rimettere i campi dell'indirizzo nel profilo o cancellare le colonne.
 
 **Cosa non ho verificato.** Le 14 modifiche scritte dai riparatori e applicate nella richiesta non hanno avuto un collaudo voce per voce: le hanno provate i riparatori, le prove intere e il controllore C05.
 
