@@ -1,0 +1,389 @@
+{
+ "collaudatore": "K18",
+ "riparatori": [
+  "R32",
+  "R30",
+  "R33"
+ ],
+ "aggiornato": "2026-11-17 12:46",
+ "finita": true,
+ "parziale": false,
+ "nota": "Onda 5, collaudo breve, tre riparatori in fila. Si giudicano le voci con un commit (riparate e parziali) e le già riparate prima (un comando ciascuna); le patch in serve_file_altrui le giudica la regista sul ramo unito. Non giudicate: R32-001 (nota riservata) e R32-023 (tolta col revert ff7d7d64). Rimessa rilanciata da me su ogni voce con un commit; dove la correzione sta in due commit (R32-024, R33-014) tolgo tutti e due. Prove SQL solo sul Postgres locale (k18_r30_023_rimessa, k18_r33_014_rimessa, k18_rev1_*, k18_rev2_prova). Revisori: 3 subagenti qa (sonnet), solo su permessi e soldi: R30-022/023/024 · R33-014 · R33-002 e R33-008. Nessuno strumento di Supabase, Vercel o Stripe. R32: nessun revisore, voci minori giudicate da me; prove vicine alla testa 3f6e764f 51 file, 345 prove verdi. Per Nicola: SUPABASE_SERVICE_ROLE_KEY su Vercel Production (R32-015) e la posizione di YouTube/Vimeo nell'informativa (R32-024).",
+ "voci": [
+  {
+   "id": "R32-007",
+   "chiave": "frontend-ux|con «aperti ora» acceso, l'elenco dei negozi non si aggiorna all'orario di chiusura e tiene in lista negozi con scritto «chiuso ora»",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "prova_alla_base": {
+    "comando": "cd ../wt-base && npx vitest run tests/unit/riparazione-r23-aperti-ora-si-aggiorna.test.ts tests/unit/riparazione-r28-prodotti-dei-negozi-aperti-si-aggiornano.test.tsx --reporter=dot   (d1eaba80, HEAD verificato)",
+    "uscita": 0
+   },
+   "nota": "Già riparato alla base d1eaba80: app/stores/page.tsx:216 useOraDiPiacenza() rifà la pagina al battito del minuto, e il filtro «aperti ora» (:255-257) ricalcola apertiAdesso; components/ProductGrid.tsx:409 battito = useOraDiPiacenza(!!onlyOpenStores), con battito fra le dipendenze del filtro (:461). 2 file, 5 prove verdi."
+  },
+  {
+   "id": "R32-013",
+   "chiave": "privacy-legale|l'esito di una segnalazione non dice né al venditore né a chi ha segnalato come si contesta la decisione",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "prova_alla_base": {
+    "comando": "cd ../wt-base && npx vitest run tests/unit/minori-s05-segnalazioni.test.tsx --reporter=dot   (d1eaba80, HEAD verificato)",
+    "uscita": 0
+   },
+   "nota": "Già riparato alla base: COME_CONTESTARE (lib/admin/segnalazioni-testi.ts:37-40) è in tutti e tre i canali di app/api/segnalazioni/esito/comunica.ts: email a chi ha segnalato (:117 html, :118 testo), notifica a chi ha segnalato con l'account (:126), notifica al venditore per prodotto e negozio (:138). Commit 15e23935 antenato di d1eaba80. 7 prove verdi. Restano fuori dalla voce, già nel referto: /contact e /terms scritti come percorsi e non come link nell'email; la domanda per Nicola sul riesame «da una persona diversa»."
+  },
+  {
+   "id": "R32-011",
+   "chiave": "privacy-legale|chi rifiuta le statistiche dopo averle accettate si tiene l'identificativo di un anno, e al sì successivo le visite nuove si riattaccano a quelle di prima",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R32-011 --base 376d6cff^ --file app/api/consent/route.ts,app/api/track/route.ts --prove tests/unit/riparazione-r32-statistiche-revocate-senza-identificativo.test.ts --json   (checkout 376d6cff, HEAD verificato)"
+   },
+   "nota": "Parziale come dichiarato. Rimessa regge (4 passate, rossa con consent/route.ts e con track/route.ts della base). Col no alle statistiche /api/consent cancella mc_vid anche se il registro fallisce (alla testa 3f6e764f anche sul 503 della chiave mancante, consent/route.ts:131-153); /api/track lo cancella quando arriva senza consenso (track/route.ts:155-163) e non lo rimette, perché vid nasce solo col consenso (:194-200). Cancellazione con gli stessi attributi del cookie vero (path /, secure, httpOnly). Se il no viene frenato (429, consent/route.ts:35) mc_vid resta fino al nuovo invio di R32-015 o al primo evento di accesso. Resta, ed è il motivo del parziale: l'identificativo di PostHog (lib/analytics/posthog.tsx:401 fa solo opt_out_capturing), file non di R32, in serve_file_altrui. Per un utente con l'account le visite si riattaccano comunque per user_id: fuori dalla voce."
+  },
+  {
+   "id": "R32-012",
+   "chiave": "privacy-legale|chi si disiscrive dalla newsletter e poi si iscrive di nuovo resta segnato come disiscritto anche dopo aver confermato",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R32-012 --base 22eb4216^ --file app/api/newsletter/confirm/route.ts --prove tests/unit/riparazione-r32-newsletter-riscritto-dopo-disiscrizione.test.ts --json   (checkout 22eb4216, HEAD verificato)"
+   },
+   "nota": "Rimessa regge (2 passate, rossa con la conferma della base). La conferma ora scrive unsubscribed_at = null insieme ad active = true (confirm/route.ts:49); la nuova richiesta (app/api/newsletter/route.ts:116-131) lascia la data finché la persona non conferma, quindi un estraneo non riattiva nessuno. Le uniche altre scritture sono la disiscrizione (migrazione 118:50, che la rimette) e la cancellazione dell'account. La potatura (potature-ritenzione.ts:414-420) cancella solo righe mai confermate: chi si era disiscritto ha confirmed_at scritto e non viene toccato. Un link di conferma vecchio non riattiva: il gettone è null dopo la prima conferma."
+  },
+  {
+   "id": "R32-015",
+   "chiave": "privacy-legale|nessun consenso finisce a verbale: termini e scelte sui cookie restano solo nel browser, e nessuno riprova a registrarli",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R32-015 --base 3586af3d^ --file lib/consent.ts,app/api/consent/route.ts --prove tests/unit/riparazione-r32-consenso-che-si-rimanda.test.ts,tests/unit/riparazione-r32-registro-consensi-senza-chiave.test.ts --json   (checkout 3586af3d, HEAD verificato)"
+   },
+   "nota": "Parziale come dichiarato. Rimessa regge (6 passate, rossa con lib/consent.ts e con consent/route.ts della base). La scelta sui cookie si segna in localStorage e si rimanda al primo readConsent della pagina dopo, solo su 5xx, 429 o rete caduta; una scelta nuova prende il posto della vecchia (writeConsent alza il segno prima di leggere); readConsent resta fuori dal server (typeof window). Senza chiave di servizio la rotta risponde 503 invece di cadere. Resta, come scritto nel referto: i Termini non si riprovano da soli con la sessione aperta (middleware.ts e lib/auth/accettazione-testi.ts, non di R32); le scelte perse prima di oggi non hanno il segno e non si rimandano. Cose da sapere, non difetti: «una volta per pagina» vuol dire una volta per caricamento intero (la navigazione interna non riprova); la riga rimandata porta l'ora del nuovo invio, non quella della scelta; se la risposta si perde dopo la scrittura nasce una riga doppia. Rischio per la regista: finché manca SUPABASE_SERVICE_ROLE_KEY su Vercel Production (R01-003, spetta a Nicola), ogni caricamento intero di chi ha una scelta in attesa manda un POST che finisce in 503 e in un logger.error, cioè un evento Sentry (lib/logger.ts:1): più eventi di prima, uno per pagina invece che uno per scelta, frenati a 30 ogni 10 minuti per indirizzo."
+  },
+  {
+   "id": "R32-024",
+   "chiave": "privacy-legale|i video di youtube e vimeo si caricano senza chiedere il consenso, e la cookie policy non li nomina",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R32-024 --base f65470fa^ --file app/cookies/page.tsx,app/privacy/page.tsx --prove tests/unit/riparazione-r32-video-youtube-vimeo.test.tsx --json   (checkout 3f6e764f, HEAD verificato; base f65470fa^ perché la correzione sta in due commit, f65470fa e 3f6e764f: tolgo tutte e due)"
+   },
+   "nota": "Rimessa regge togliendo tutte e due i commit della voce (4 passate, rossa con cookies e privacy della base); fra f65470fa^ e 3f6e764f i due file li tocca solo R32-023, tolto col revert ff7d7d64. L'unico iframe del sito è components/store-sections/VideoAlClic.tsx:44, usato da vetrina, home e CMS: si carica al tocco, e il pulsante dice prima che YouTube o Vimeo ricevono l'IP (:36-38); referrerPolicy strict-origin-when-cross-origin (:48), quindi «il sito da cui guardi» è vero. La cookie policy li nomina (2.5 e sezione 4, come titolari autonomi). Per Nicola, già nelle domande del referto: nell'informativa la voce YouTube/Vimeo sta nell'elenco introdotto da «operano come Responsabili del trattamento ex art. 28 GDPR, vincolati da accordo DPA» (privacy/page.tsx:251-252), mentre la voce stessa dice che non lo sono: il testo si contraddice con la sua intestazione. Non cambia il comportamento, ma va spostata in un elenco suo."
+  },
+  {
+   "id": "R32-025",
+   "chiave": "privacy-legale|la pulizia dei dati personali verso sentry copre solo gli errori del browser: le misure di velocità e gli errori del server mandano l'indirizzo intero della pagina",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R32-025 --base 5c0775ff^ --file lib/analytics/sentry-config.ts,sentry.server.config.ts,sentry.edge.config.ts --prove tests/unit/riparazione-r32-sentry-senza-indirizzo-intero.test.ts --json   (checkout 5c0775ff, HEAD verificato)"
+   },
+   "nota": "Parziale come dichiarato. Rimessa regge (4 passate, rossa con ognuno dei tre file della base). Server ed edge passano errori e misure da ripulisciEvento (sentry.server.config.ts:30-37, prima il filtro del freno resta), che ora pulisce anche contexts.trace.data, contexts.nextjs.request_path e negli span url.full, http.target, referer, togliendo query, frammento e IP; nessuna API del browser dentro la pulizia, quindi gira anche sul server. Resta, ed è dentro la voce («la pulizia dei dati personali verso Sentry»): le altre intestazioni negli attributi delle misure server ed edge, fra cui http.request.header.cookie con mc_vid, mc_consent e il cookie di PostHog; pulito solo il referer (sentry-config.ts:151)."
+  },
+  {
+   "id": "R30-003",
+   "verdetto": "parziale",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R30-003 --base 8785910a^ --file app/api/cron/abandoned-carts/route.ts,lib/carrelli-abbandonati.ts --prove tests/unit/riparazione-r30-carrelli-chiusi-senza-email.test.ts --json   (checkout 8785910a, HEAD verificato)"
+   },
+   "nota": "Parziale come dichiarato. Rimessa regge (3 passate, rossa con la rotta e con lib/carrelli-abbandonati.ts della base). Il carrello chiuso senza consenso prende come segno l'ora dell'ultima attività, e il conto dei promemoria non lo conta come email. Resta, dichiarato: i carrelli chiusi prima di oggi hanno l'ora del giro e si contano ancora come inviati; il ramo oltre 48 ore e la cancellazione dell'account sono in patch.",
+   "chiave": "api-backend|il conteggio dei promemoria «inviati» include carrelli segnati senza nessuna email",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
+  },
+  {
+   "id": "R30-007",
+   "verdetto": "regge",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R30-007 --base 9b4f9271^ --file components/store-sections/ReviewsSection.tsx --prove tests/unit/riparazione-r30-recensioni-a-pagine.test.tsx --json   (checkout 9b4f9271, HEAD verificato)"
+   },
+   "nota": "Rimessa regge (3 passate, rossa con la sezione della base). «Mostra altre recensioni» legge 20 alla volta con la stessa lettura della vetrina (stesse colonne, stesso store_id, created_at decrescente: useStorePageData.ts:35-40), quindi non mostra niente che la vetrina non mostrasse già; il totale viene dal riepilogo vero, una pagina corta ferma, l'errore si dice con un avviso e si riprova.",
+   "chiave": "frontend-ux|la vetrina dice «recensioni · 20» ma ne fa leggere solo sei, senza modo di vedere le altre",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
+  },
+  {
+   "id": "R30-009",
+   "verdetto": "non_regge",
+   "rimessa": {
+    "uscita": 3,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R30-009 --base 80bdba2d^ --file lib/image-url.ts --prove tests/unit/riparazione-r30-foto-salute.test.ts --json   (checkout 80bdba2d, HEAD verificato) → rossa solo per la struttura: alla base controllaTrasformazioneFoto non esiste"
+   },
+   "nota": "Uscita 3, quindi ho rimesso il difetto com'è scritto nella voce: «le foto tornano rotte e nessun controllo se ne accorge». Sul sito non cambia niente con o senza la correzione: alla testa 8efa4e29 nessun file chiama controllaTrasformazioneFoto (grep in app/ lib/ components/), e il resto del commit è un commento. Il controllo esiste solo se la regista applica la patch alla rotta di salute (serve_file_altrui): da giudicare sul ramo unito. Come R31-014 in K17: la voce va contata come non fatta.",
+   "chiave": "immagini-media|se l'abbonamento supabase scade, le foto del sito tornano rotte e nessun controllo se ne accorge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
+  },
+  {
+   "id": "R30-010",
+   "verdetto": "regge",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R30-010 --base 414691f2^ --file lib/ordini/valida-carrello.ts --prove tests/unit/riparazione-r30-carrello-a-zero-euro.test.ts --json   (checkout 414691f2, HEAD verificato)"
+   },
+   "nota": "Rimessa regge (4 passate, rossa con valida-carrello della base). La pagina e la porta di scrittura erano già giuste alla base (tests/unit/minori-s06-modifica-in-blocco*, 4 prove verdi su d1eaba80); ora anche la cassa, comune a contanti e carta, scarta una riga che costa zero centesimi dopo lo sconto. Nessun prodotto vero si perde: le promo vanno dal 5 al 70% (migrazione 031:8), quindi a zero arriva solo un prezzo di pochi centesimi.",
+   "chiave": "qa-flussi|la modifica in blocco mette in vendita un prodotto a zero euro e dà per salvato un prezzo che non ha salvato",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
+  },
+  {
+   "id": "R30-021",
+   "verdetto": "parziale",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R30-021 --base b8246095^ --file vitest.config.ts --prove tests/unit/riparazione-r30-il-primo-caso-ha-tempo.test.ts --json   (checkout b8246095, HEAD verificato)"
+   },
+   "nota": "Parziale come dichiarato. Rimessa regge (rossa con vitest.config.ts della base). Il tempo per prova sale da 5 a 15 secondi: il primo caso non cade più a caso, ma il peso della prima compilazione resta dov'era (il riscaldamento in monta-componente non è di R30). Effetto accanto: una prova davvero bloccata ora si ferma dopo 15 secondi invece di 5.",
+   "chiave": "qa-flussi|la prima compilazione di monta() pesa sul primo caso di ~85 file di prove",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
+  },
+  {
+   "id": "R30-022",
+   "verdetto": "non_regge",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R30-022 --base 1a1e78f9^ --file scripts/check-migration-drift.mjs --prove tests/unit/riparazione-r30-deriva-dei-permessi.test.ts --json   (checkout 1a1e78f9, HEAD verificato)"
+   },
+   "nota": "Revisore qa (permessi), confermato da me. La rimessa esce 0 (5 passate) ma prova solo lo script. Il confronto dei permessi parte solo con PERMESSI_ATTESI o PERMESSI_ESPORTA (check-migration-drift.mjs:515-516), e nessun workflow né package.json li imposta: db:check-drift gira in CI (ci.yml:350, deploy-dopo-ci.yml:598, migrazioni-a-mano.yml:424, deriva-migrazioni-produzione.yml:82) sempre senza l'elenco atteso. La migrazione 541 non è nel commit, quindi su un database ricostruito dalle migrazioni anon legge ancora profiles. Sul sito e in CI non cambia niente: è il caso di R30-009. cosa_resta parla solo della 541, non del controllo che non parte. Da rivedere sul ramo unito se la regista applica la 541 e accende il confronto in CI.",
+   "chiave": "rls-database|sul sito vero i visitatori non possono leggere la tabella dei profili, ma nessuna migrazione lo dice",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
+  },
+  {
+   "id": "R30-023",
+   "verdetto": "parziale",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R30-023 --base 46596883^ --file migrations/540_il_fattorino_sospeso_non_tocca_piu_le_consegne.sql --prove tests/sql/rls/riparazione-r30-rider-sospeso.test.sql --sql k18_r30_023_rimessa --json (uscita 0); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R30-023 --base 46596883^ --file app/api/rider/cash-confirm/route.ts,app/api/rider/orders/[id]/cliente-assente/route.ts --prove tests/unit/riparazione-r30-fattorino-sospeso-rotte.test.ts --json (uscita 0)   (checkout 46596883, HEAD verificato, Postgres locale)"
+   },
+   "nota": "Parziale come dichiarato. Rimessa regge su tutte e due le parti (prova SQL sul Postgres locale, rossa senza la 540; prova unitaria rossa con le due rotte della base). Revisore qa (permessi) su due database locali, con e senza la 540: firma, SECURITY DEFINER, search_path e permessi di verify_pickup_code e verify_delivery_code uguali a prima, cambia solo il controllo is_rider_approvato(); il fattorino approvato legge, ritira e consegna come prima (run.sh tutto verde, 22 file vicini, 137 prove). cosa_resta non dice tutto: il fattorino sospeso legge ancora le righe d'ordine delle consegne assegnate (regola «Riders can view order_items of assigned orders») e le sue rimesse (cod_rider_read su cod_reconciliations), perché guardano solo rider_id = auth.uid(); i recapiti invece non li vede più. Resta, dichiarato: rimettere in bacheca le consegne già assegnate (patch).",
+   "chiave": "sicurezza-auth|sospendere un fattorino non gli toglie le consegne in corso: continua a vedere i recapiti, ritirare e consegnare",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
+  },
+  {
+   "id": "R30-024",
+   "verdetto": "parziale",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R30-024 --base 54aec469^ --file app/api/admin/users/[id]/moderate/route.ts,lib/api/middleware.ts,lib/shopping-access.ts --prove tests/unit/riparazione-r30-cliente-sospeso.test.ts --json   (checkout 54aec469, HEAD verificato)"
+   },
+   "nota": "Rimessa regge (8 passate, rossa con ognuno dei tre file della base). Revisore qa (permessi), confermato da me. Regge la parte sugli ordini: authenticated non ha INSERT su orders e le uniche porte che li creano (orders/cod, stripe/checkout) sono chiuse al cliente sospeso. Negozi, fattorini e clienti nuovi (pending) come prima. Non regge la parte sulla chat, che è il caso tipico di un cliente che abusa: il portiere chiude solo le rotte /api/chat (lib/api/middleware.ts:42-48), ma le regole conversations_insert_buyer e messages_insert_self (migrazione 154:71-78) lasciano scrivere direttamente dal browser col client Supabase; il revisore ha fatto gli INSERT da cliente sospeso e sono passati. Stessa strada aperta per recensioni prodotto (app/product/[id]/page.tsx:253), recensioni negozio (app/orders/[id]/review/page.tsx:171) e domande ai negozi (components/ProductQA.tsx:85). cosa_resta non lo dice. Resta anche, dichiarato: il pulsante «Sospendi» per i clienti nel pannello (patch).",
+   "chiave": "sicurezza-auth|un cliente che abusa del sito non si può sospendere: l'unica strada è cancellargli l'account",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
+  },
+  {
+   "id": "R30-025",
+   "verdetto": "regge",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R30-025 --base 53093965^ --file lib/admin/vista-dei-coupon.ts,app/admin/coupons/page.tsx --prove tests/unit/riparazione-r30-coupon-scaduti.test.tsx --json   (checkout 53093965, HEAD verificato)"
+   },
+   "nota": "Rimessa regge (4 passate, rossa con la vista e con la pagina della base). Lo stato del badge segue l'ordine della cassa: disattivato, scaduto (expires_at < adesso), esaurito (uses_count ≥ max_uses), come check_coupon nella migrazione 230:19-27. La spesa minima resta una condizione del carrello, non dello stato: giusto che non cambi il badge.",
+   "chiave": "stati-ui|nel pannello dei coupon un codice scaduto o esaurito risulta ancora «attivo»",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
+  },
+  {
+   "id": "R33-001",
+   "verdetto": "regge",
+   "prova_alla_base": {
+    "comando": "cd ../wt-base && npx vitest run tests/unit/riparazione-r29-allarme-ordine.test.ts tests/unit/minori-s03-sorvegliante.test.ts tests/unit/l-allarme-che-non-parte-non-si-spaccia-per-spedito.test.ts --reporter=dot   (d1eaba80, HEAD verificato)",
+    "uscita": 0
+   },
+   "nota": "Grave, già riparato alla base dall'onda 4: vercel.json:24 fa girare /api/cron/operational-alerts ogni 5 minuti, e le prove dell'allarme dell'ordine da accettare sono verdi (3 file, 31 prove).",
+   "chiave": "qa-flussi|nicola non viene avvisato quando arriva un ordine: il primo allarme per un ordine non accettato parte dopo un'ora, non dopo 5 minuti",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
+  },
+  {
+   "id": "R33-004",
+   "verdetto": "regge",
+   "prova_alla_base": {
+    "comando": "cd ../wt-base && npx vitest run tests/unit/riparazione-r29-allarme-ordine.test.ts tests/unit/l-allarme-che-non-parte-non-si-spaccia-per-spedito.test.ts --reporter=dot   (d1eaba80, HEAD verificato; stesso giro della R33-001, 31 prove verdi)",
+    "uscita": 0
+   },
+   "nota": "Già riparato alla base dall'onda 4: fra le prove verdi c'è «due giri nello stesso istante: una campanella e una email, non due».",
+   "chiave": "api-backend|se due giri del sorvegliante partono nello stesso istante, l'amministratore riceve due volte la stessa campanella",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
+  },
+  {
+   "id": "R33-013",
+   "verdetto": "regge",
+   "prova_alla_base": {
+    "comando": "cd ../wt-base && grep -n \"Richieste in attesa\" app/admin/today/page.tsx   (d1eaba80) → :162, href /admin/users?role=pending",
+    "uscita": 0
+   },
+   "nota": "Già a posto alla base: il riquadro si chiama «Richieste in attesa» (app/admin/today/page.tsx:162), conta negozi e fattorini in attesa (lib/queries/cruscotto-oggi.ts:162), e il filtro «In attesa» mostra gli stessi (app/admin/users/page.tsx:414-424, siPuoModerare). Etichetta, conto e filtro coincidono: i fattorini ci sono apposta.",
+   "chiave": "qa-flussi|il filtro «in attesa» aperto da «seller pending» mostra anche i fattorini",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
+  },
+  {
+   "id": "R33-002",
+   "verdetto": "parziale",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R33-002 --base d857d932^ --file app/api/cron/operational-alerts/route.ts --prove tests/unit/riparazione-r33-reclamo-fermo.test.ts --json   (checkout d857d932, HEAD verificato)"
+   },
+   "nota": "Grave, parziale come dichiarato. Rimessa regge (12 passate, rossa col sorvegliante della base). Revisore qa (soldi). Dalla pagina il reclamo passa da /api/disputes, che avvisa amministratori e negozio (route.ts:87-115). Resta aperta la strada che la voce descrive: la regola disputes_open_insert (migrazione 215:277) lascia scrivere un reclamo open direttamente dal browser; il trigger dispute_block_payout (063:97) ferma il bonifico e nessuno viene avvisato. Il sorvegliante nuovo (operational-alerts:525-545) copre questa strada solo in parte: dopo 24 ore, solo all'amministratore, il negozio non lo sa, e legge al massimo 50 reclami. La migrazione 570 che chiude l'INSERT è in patch. Il sorvegliante non manda doppioni e non rompe gli altri allarmi (14 file, 128 prove verdi).",
+   "chiave": "qa-flussi|il reclamo del cliente non arriva a nessuno, e intanto ferma il bonifico al negozio senza dirglielo",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
+  },
+  {
+   "id": "R33-006",
+   "verdetto": "non_regge",
+   "rimessa": {
+    "uscita": 2,
+    "comando": "git -C ../marketplace diff --stat d1eaba80 4cfe8975 -- components/seller/SellerShell.tsx app/rider/earnings/page.tsx app/search/page.tsx components/admin/AdminSidebar.tsx → vuoto; prova-rimessa non lanciabile: la voce non ha commit, né file, né prova"
+   },
+   "nota": "Nessuna riparazione da collaudare: la voce non ha commit e i suoi quattro file sono identici alla base. Tutto il lavoro è nella patch a tailwind.config.ts (gradino xxs) più la sostituzione dei 15 text-[11px], che non è ancora scritta. Sul ramo non cambia niente: la voce resta aperta.",
+   "chiave": "coerenza-brand|la scala tipografica è aggirata 330 volte con misure a mano",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
+  },
+  {
+   "id": "R33-008",
+   "verdetto": "parziale",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R33-008 --base 2503a4fb^ --file app/api/seller/subscription/checkout/route.ts,lib/stripe/webhook/abbonamenti.ts --prove tests/unit/riparazione-r33-abbonamento-due-schede.test.ts --json   (checkout 2503a4fb, HEAD verificato)"
+   },
+   "nota": "Parziale come dichiarato. Rimessa regge (6 passate, rossa con tutti e due i file della base). Revisore qa (soldi). La corsa fra due schede è chiusa: cliente Stripe salvato con update is null e rilettura (checkout/route.ts:195-215), poi la cassa aperta si riusa. cosa_resta non dice tutto: (1) handleInvoicePaymentFailed (abbonamenti.ts:242-247) scrive past_due su tutti i profili con quel cliente Stripe, e il doppione ora sta sullo stesso cliente: se il doppione non si paga, il negozio va in ritardo anche se l'abbonamento tenuto è regolare. Alla base poteva già succedere quando le due schede usavano il cliente esistente (checkout:123-124), quindi non lo conto come rottura nuova; (2) la scheda che perde la corsa lascia un cliente Stripe vuoto; (3) due richieste a cavallo della finestra di 10 minuti della chiave di idempotenza. Primo abbonamento, rinnovo e disdetta come prima (prove vecchie verdi).",
+   "chiave": "pagamenti-stripe|con l'abbonamento acceso, due schede aperte creano due abbonamenti da 50 euro, e il primo resta orfano e non si disdice dal sito",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
+  },
+  {
+   "id": "R33-014",
+   "verdetto": "parziale",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "PGHOST=/var/run/postgresql timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R33-014 --base d139fcd3^ --file migrations/572_la_cancellazione_aspetta_gli_ordini_aperti_del_negozio.sql --prove tests/sql/rls/riparazione-r33-cancellazione-con-ordini.test.sql --sql k18_r33_014_rimessa --json (uscita 0); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R33-014 --base d139fcd3^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r33-cancellazione-con-ordini.test.ts --json (uscita 0)   (checkout 161cbd95, HEAD verificato; base d139fcd3^ perché la correzione sta in due commit, Postgres locale)"
+   },
+   "nota": "Parziale come dichiarato. Rimessa regge su tutti e due i commit (migrazione e rotta). Revisore qa (dati e soldi) sul suo Postgres locale: la 572 è uguale alla 040 a parte il filtro (stessa firma, SECURITY DEFINER, search_path public); permessi come prima (solo service_role); clienti, fattorini e negozi senza ordini si cancellano ancora; ogni negozio ha il suo ordine, quindi seller_id basta. cosa_resta non dice tutto, provato con righe finte: (1) manca REVERSAL_FAILED nel filtro (572:52), che vuol dire soldi da riprendere dal negozio (rimborsi.ts:213): il negozio si cancella e quei soldi non si recuperano più; (2) un reclamo aperto su un ordine già pagato non ferma la cancellazione, e la tabella returns non è guardata; (3) CASH_IN_STORE non ferma. Il primo è il più vicino alla voce («soldi da incassare»).",
+   "chiave": "qa-flussi|il giro notturno prende in carico la cancellazione di un negozio che ha ancora un ordine aperto e soldi da incassare",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
+  },
+  {
+   "id": "R33-021",
+   "verdetto": "regge",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R33-021 --base 7b21421d^ --file app/seller/analytics/page.tsx --prove tests/unit/riparazione-r33-analisi-sette-giorni-di-piacenza.test.ts --json   (checkout 7b21421d, HEAD verificato)"
+   },
+   "nota": "Rimessa regge (2 passate, rossa con la pagina della base). La cifra «ultimi 7 giorni» parte dalla mezzanotte di Piacenza del primo dei sette giorni delle barre (inizioGiornoPiacenza(ultimiGiorniPiacenza(7)[0])): cifra e grafico contano gli stessi giorni.",
+   "chiave": "qa-flussi|nell'analisi la cifra «ultimi 7 giorni» e le sette barre del grafico contano giorni diversi, anche se il commento dice che tornano",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
+  },
+  {
+   "id": "R33-025",
+   "verdetto": "regge",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R33-025 --base 25b81deb^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r33-foto-non-scrive-sopra.test.ts --json   (checkout 25b81deb, HEAD verificato)"
+   },
+   "nota": "Rimessa regge (3 passate, rossa col modulo della base). La prova monta il modulo vero e passa la foto dal pulsante vero: nome, descrizione e attributi entrano solo nei campi vuoti, allergeni e ingredienti diventano righe «Da controllare». La funzione resta spenta al lancio.",
+   "chiave": "qa-flussi|«compila con una foto» scrive allergeni e ingredienti letti dall'etichetta dritti nel modulo, anche sopra quelli scritti a mano (oggi spento)",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ]
+  }
+ ]
+}
