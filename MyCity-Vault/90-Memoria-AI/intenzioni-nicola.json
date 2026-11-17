@@ -5,7 +5,7 @@
     {
       "titolo": "Dimmi se l'ordine di venerdì è una tua prova o un cliente vero",
       "quando": "oggi",
-      "come": "rispondi alla card #256 con la strada a, b o c",
+      "come": "rispondi alla card #259 con la strada a, b o c",
       "priorita": "alta",
       "ad_prepara": "i passi per annullarlo, o per segnarlo consegnato e incassato",
       "senior": "@operations",
@@ -74,11 +74,6 @@
       "ambito": "ordine del 13/11",
       "cosa_manca": "chi l'ha fatto",
       "domanda_per_nicola": "L'ordine di venerdì da 11,95 € su Pane Quotidiano è una tua prova o un cliente vero?"
-    },
-    {
-      "ambito": "spesa",
-      "cosa_manca": "la percentuale vera del limite settimanale",
-      "domanda_per_nicola": "Quanto del limite settimanale vedi già usato nell'app? (card #243)"
     },
     {
       "ambito": "pagamenti",

@@ -2,8 +2,8 @@
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
   "data": "2026-11-16 01:46",
   "voto_fiducia": 80,
-  "sintesi_giro_corrente": "Giro completo chiesto da Nicola alle 01:24, fatto da una sessione cloud. I 77 passi dei controlli automatici di giro.sh girati qui, senza motore e senza push su main: 17 avvisi letti uno per uno. Numeri veri dal database del sito via MCP alle 01:28: c'è un secondo ordine, del 13/11, fermo a «pronto» perché non esiste un fattorino approvato. Sito vero provato dal vivo: controllo di prontezza 200, quindi la chiave del database c'è e il bloccante relativo è chiuso con la prova. Radar rinfrescato dal reparto intelligence. Coda pulita di 4 card già risolte, una scadenza finta tolta, card #256 accodata.",
-  "sintesi": "Venerdì è entrato un ordine, forse una prova di Nicola, ed è fermo perché non c'è un fattorino approvato. Il sito regge, ma i lavori automatici sono fermi da luglio e il server della macchina tace dal 7/10. Mossa n.1: card #256.",
+  "sintesi_giro_corrente": "Giro completo chiesto da Nicola alle 01:24, fatto da una sessione cloud. I 77 passi dei controlli automatici di giro.sh girati qui, senza motore e senza push su main: 17 avvisi letti uno per uno. Numeri veri dal database del sito via MCP alle 01:28: c'è un secondo ordine, del 13/11, fermo a «pronto» perché non esiste un fattorino approvato. Sito vero provato dal vivo: controllo di prontezza 200, quindi la chiave del database c'è e il bloccante relativo è chiuso con la prova. Radar rinfrescato dal reparto intelligence. Coda pulita di 4 card già risolte, una scadenza finta tolta, card #259 accodata.",
+  "sintesi": "Venerdì è entrato un ordine, forse una prova di Nicola, ed è fermo perché non c'è un fattorino approvato. Il sito regge, ma i lavori automatici sono fermi da luglio e il server della macchina tace dal 7/10. Mossa n.1: card #259.",
   "trend_fiducia": "▼ 82→80: i numeri questa volta sono misurati dal database e dal sito vero, ma due mie righe sono passate dal controllo solo al secondo sguardo (un conto di ore sbagliato, 82 invece di 58, e «ordine vero» scritto prima di sapere chi l'ha fatto). Le ho corrette prima di consegnare. Resta fuori portata il server.",
   "entita_verificate": [
     {
@@ -14,7 +14,7 @@
     {
       "nome": "Ordine del 13/11 (0d5c8c5c), 11,95 € in contanti, fermo a «pronto»",
       "stato": "confermato",
-      "fonte": "Supabase MCP clmpyfvpvfjgeviworth → orders, 2026-11-16 01:28. Chi l'ha fatto: da verificare (card #256)"
+      "fonte": "Supabase MCP clmpyfvpvfjgeviworth → orders, 2026-11-16 01:28. Chi l'ha fatto: da verificare (card #259)"
     },
     {
       "nome": "Chiave di servizio del database presente in produzione",
@@ -43,13 +43,7 @@
     {
       "tipo": "decisione",
       "domanda": "L'ordine di venerdì da 11,95 € su Pane Quotidiano è una tua prova o un cliente vero?",
-      "azione": "card #256",
-      "colore": "🟡"
-    },
-    {
-      "tipo": "dato",
-      "domanda": "Quanto del limite settimanale vedi già usato nell'app?",
-      "azione": "card #243",
+      "azione": "card #259",
       "colore": "🟡"
     }
   ]

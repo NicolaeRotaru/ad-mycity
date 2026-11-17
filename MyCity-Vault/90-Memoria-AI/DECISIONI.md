@@ -6976,6 +6976,17 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** la chat nuova è `session_015BmpnVXjpgkhAJActQd8KN`. Riparte dal quaderno `consegne/ad/2026-11-15-passaggio-chat-ad.md`, di 63 righe, e non dalla trascrizione. L'officina e il taglio della #956 mandano i rapporti a lei. Il controllo programmato della chat vecchia è cancellato.
 - **Perché:** a ogni passo una sessione rilegge tutta la sua storia. Con 650 mila token un passo costa circa 6 volte un passo con 100 mila. La compressione automatica scatta solo verso il 90%, e il riassunto perde i dettagli.
 
+## 2026-11-15 23:50 — 🟡 Nicola fa partire il primo pezzo dell'onda 3 del sito, senza ultracode
+- **Chi:** Nicola, all'AD chat «Ondata 3» (`session_015BmpnV65jCuJATqykK8GtB`), risposta alla carta #256 alle 23:35: «1 = 12%, 2 fatto, 3a, 4a, 5a».
+- **Cosa:** l'onda 3 è divisa sulla cartella vera: R25 pagamenti-stripe, R26 privacy-legale, R27 ai-endpoints, 22 voci l'una (2 gravi, 18 voci ferme per il file di un'altra sessione). Più K11 sulle 16 riparate mai giudicate, K12 e il controllore C03. Stima 195 $, tetto duro 215 $. Ultracode spento su tutti i riparatori, anche su R25 e R26 che hanno un grave. La regola del collaudo senza campione sotto le 40 voci diventa un campo del piano (AR-1184). Le altre 126 voci partono dopo giovedì 19/11 alle 10:00.
+- **Perché:** l'onda intera (261 voci) costava circa 2.030 $ coi costi dell'onda 2, contro circa 215 $ rimasti nel tetto firmato fino a giovedì. Senza ultracode l'onda 1 ha chiuso 19 gravi su 65, l'onda 2 con ultracode 0 su 19. E il freno sugli agenti quasi certamente non vede le sessioni nate con «/effort ultracode».
+- **Da sapere:** il 12% del limite non torna con la calibrazione di 30,5 $ a punto (darebbe circa 366 $ contro circa 2.500 $ dichiarati dalle sessioni dal 12/11). Il freno, dato per «fatto», alle 23:37 non era su nessun ramo dei due depositi.
+
+## 2026-11-16 00:55 — 🟡 L'AD sceglie come pagare il collaudo K12 dell'onda 3: giudizio pieno, coi soldi lasciati dai riparatori
+- **Chi:** AD chat 5 (`session_015BmpnZ11jw7Gf6mFdaUGo9`), su proposta della regista O3 due (`session_015BmpnUwZWwGrsy5a7qyDwZ`).
+- **Cosa:** strada «b». K12 giudica a fondo tutte le voci riparate da R25, R26 e R27, senza campione. Parte con 30 $ e sale solo coi dollari che i riparatori lasciano sotto i 35 $, fino a 60 $. Il pezzo resta sotto i 215 $ firmati (conto della regista: circa 197,5 $). Se le voci da giudicare superano 50, la regista si ferma e chiede.
+- **Perché:** K11 è costato circa 1,1 $ a voce (17,89 $ per 16), quindi 30 $ bastano per circa 27 voci, e se ne aspettano 25-35. La strada «a» (campione sul resto) chiedeva a Nicola una deroga alla regola «niente campione sotto le 40 voci»; la «b» tiene la regola e non tocca il tetto del pezzo.
+- **Da sapere:** il numero di voci riparate è una stima sul ritmo del primo lotto. Spesa alle 00:50: 73,95 $ (R25 15,48 · R26 15,96 · R27 13,99 · K11 17,89 · regia uno 10,63).
 ## 2026-11-15 23:54 — 🔴 Acceso il freno contro i lavori doppi nel database della memoria, e tolti i 66 doppioni ricresciuti
 - **Chi:** Nicola, 15/11 alle 23:46: «dentro la sezione lavori si sono ricreati doppioni dello stesso lavoro e tu avevi già risolto questa cosa». Alla domanda «lo attivo adesso?» ha scelto «Sì, attivalo».
 - **Il conto prima:** 82 lavori in attesa, 16 diversi. Cinque lavori del giorno (il giro, anti-churn, contenuto, recensioni, carrelli) avevano 12 copie ciascuno, una per ogni mattina dal 4/11 al 15/11. Dieci lavori della settimana ne avevano 2 ciascuno. Era quanto scritto il 4/11: «i doppioni ricresceranno di 6 al giorno finché il server resta spento».
@@ -6989,7 +7000,18 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 ## 2026-11-16 01:46 — 🟡 Il giro chiude un bloccante del sito, toglie una scadenza finta e pulisce la coda
 
 - **Chi l'ha chiesto:** Nicola, verso le 01:24, «Fai un giro completo della macchina». Fatto da una sessione cloud: i controlli automatici di `giro.sh` girati qui, senza motore AI e senza push diretto su `main`. La memoria va in una richiesta di unione verso `main`.
-- **Cosa ho fatto:** ① chiuso nel registro del sito il bloccante «al sito vero manca la chiave di servizio del database». La prova `curl https://www.mycity-marketplace.com/api/health/ready` era 503 il 5/11 e dà 200 «pronto» il 16/11 alle 01:32, con 11 battiti letti. Strumento: `chiudi-sito.mjs --applica`. ② Spostato il bando rifiuti del Comune da `scadenze` a `chiuse` in `cervello/scadenzario.json`, con l'esito: la card #200 era archiviata dal 25/10 con «ok 130». ③ Segnate fatte le card #249, #251, #254 e #255, ognuna con la prova (unioni #290 del sito, #966, #967, #973), e archiviate dal programma della coda. ④ Accodata la card #256 sull'ordine del 13/11.
+- **Cosa ho fatto:** ① chiuso nel registro del sito il bloccante «al sito vero manca la chiave di servizio del database». La prova `curl https://www.mycity-marketplace.com/api/health/ready` era 503 il 5/11 e dà 200 «pronto» il 16/11 alle 01:32, con 11 battiti letti. Strumento: `chiudi-sito.mjs --applica`. ② Spostato il bando rifiuti del Comune da `scadenze` a `chiuse` in `cervello/scadenzario.json`, con l'esito: la card #200 era archiviata dal 25/10 con «ok 130». ③ Segnate fatte le card #249, #251, #254 e #255, ognuna con la prova (unioni #290 del sito, #966, #967, #973), e archiviate dal programma della coda. ④ Accodata la card #259 sull'ordine del 13/11.
 - **Perché:** il tasso di chiusura di novembre è 0,18. Il giro non apre ricerche nuove e spende il turno a chiudere con prove che girano. La regola d'oro della North Star chiede mosse che avvicinano il primo ordine pagato.
 - **Colore:** 🟡. Il registro del sito e la coda sono memoria. Lo scadenzario sta in `cervello/`: vale con la tua unione della richiesta.
 - **Per tornare indietro:** `git revert` del commit del giro.
+## 2026-11-16 11:05 — Via ai due riparatori dell'onda 4 del sito
+- **Cosa:** Nicola in chat: «12% via ai riparatori». La regista dell'onda 4 apre R28 (testi del sito, 25 voci) e R29 (percorsi d'acquisto, 25 voci).
+- **Perché:** caso atteso circa 126 $ per 14-17 voci chiuse, dentro il tetto di 170 $ fino a giovedì 19/11 alle 10:00 (resto dei 350 $ firmati).
+- **Da chiarire:** subito dopo Nicola chiede «che cos'è questo 12%». La lettura non entra in `misure.json` finché non la conferma.
+- **Colore:** 🟡 spesa dentro un tetto già firmato.
+
+## 2026-11-17 08:15 — La regista dell'onda 4 può spingere il suo ramo sul sito
+- **Cosa:** Nicola in chat: «sì, la regista può spingere il ramo dell'onda 4 sul sito». Riguarda il ramo `claude/sito-onda-4` del sito, non il ramo principale né il sito online.
+- **Perché:** il permesso automatico aveva fermato due volte la spinta della seconda regista (`session_015BmpnWQotfLE7m24jK8QfZ`). Senza la spinta non partono il controllore e la richiesta di unione in bozza. Collaudo: 14 voci reggono su 19 controllate.
+- **Eccezione sulla prova dell'acquisto vero (R29-001):** non firmata. La voce resta comunque a metà.
+- **Colore:** 🟡 ramo di lavoro, nessun cambio al sito online.

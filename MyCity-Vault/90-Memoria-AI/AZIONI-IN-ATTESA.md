@@ -31,7 +31,9 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
-### 🟡 #256 — Dimmi cosa fare dell'ordine del 13 novembre, fermo nel negozio da venerdì · ⏳ accodata 2026-11-16 01:41 · @operations
+### 🟡 #259 — Dimmi cosa fare dell'ordine del 13 novembre, fermo nel negozio da venerdì · ⏳ accodata 2026-11-16 01:41 · @operations
+
+> 🔄 **2026-11-17 08:31 — Riletto dal database: adesso gli ordini fermi sono due.** Quello del 13/11 è ancora «pronto», senza fattorino. Ieri, 16/11 alle 10:55, lo stesso account ha fatto un terzo ordine su Pane Quotidiano: 13,90 € in contanti, fascia «oggi 11:00-13:00». Il negozio non l'ha nemmeno accettato. I fattorini approvati restano 0 su 1. La risposta vale per tutti e due.
 
 Sul sito c'è un ordine nuovo, il secondo in tutto. È entrato venerdì 13/11 alle 14:56 su Pane Quotidiano: 11,95 €, da pagare in contanti alla consegna, fascia «oggi 16:30-18:00». Il negozio l'ha accettato dopo 44 secondi e l'ha segnato pronto 8 secondi dopo. Da allora è fermo lì: nessun fattorino l'ha preso, perché nel sito non c'è nessun fattorino approvato.
 
@@ -45,6 +47,77 @@ Di quanto fidarsi: l'ordine e i suoi orari li ho letti dal database del sito sta
 
 Cosa cambia: l'unico ordine aperto del sito si chiude, oppure diventa la prima consegna vera.
 Se va bene: con la strada (c) è il primo ordine consegnato. Il passo dopo è il primo pagamento con la carta sul conto Stripe del fornaio, carta #182.
+
+### 🟡 #258 — Rispondi alla fermata dell'onda 3: due modifiche piccole e un difetto dei pagamenti · ⏳ accodata 2026-11-16 08:50
+
+**In parole semplici.** Il primo pezzo dell'onda 3 è finito: tutti i riparatori e i collaudatori hanno consegnato. Nel sito entrano R26 per intero e 4 voci di R14, con le prove del sito verdi, 10.445 su 10.445. Un ultimo controllore sta ricontrollando il tutto. Restano due scelte tue, più due cose da sapere.
+Esempio vero: K11 dice che tre riparazioni vecchie reggono (R04-021, R07-021, R07-022). Restano aperte lo stesso, perché il programma che chiude le voci sceglie sempre il giudizio più severo, anche se è più vecchio.
+
+**Cosa cambia per te.** Con la «a» della domanda 1 si chiudono 5 voci in più per circa 25 $. Con la domanda 2 decidi come chiudere un difetto grave dei pagamenti, che due giri di riparazione non hanno chiuso.
+
+**Cosa devi fare tu.** Rispondi all'AD della chat 5 con due lettere, per esempio «1a, 2a».
+- 1, due modifiche piccole alla macchina, costruite insieme in una sessione corta e collaudate da un'altra:
+  - a: le faccio tutte e due. La prima: la guardia accetta una tua eccezione firmata quando un messaggio cita il codice dell'onda 2 (è il falso allarme di R27). La seconda: fra due giudizi pieni vince il più recente, e a parità di data il più severo. Entrano R27-013 e R27-017, e si chiudono le tre voci di K11. Circa 25 $ in tutto: 15 $ per le due modifiche e il loro collaudo, il resto per togliere da R27 le 4 riparazioni rotte, sistemare una prova comune e ripassare il controllore. Lo consiglio.
+  - b: solo la guardia, quindi solo le 2 voci di R27. Circa 20 $, col lavoro su R27 e il controllore.
+  - c: nessuna delle due. Le 5 voci aspettano il resto dell'onda.
+- 2, il difetto grave R25-001. In un carrello pagato fra due negozi, il negozio che ha consegnato può restare senza bonifico per qualche secondo:
+  - a: subito un avviso agli amministratori, e il controllo nel database nell'onda dopo giovedì. Lo consiglio.
+  - b: solo l'avviso agli amministratori.
+  - c: solo il controllo nel database, nell'onda dopo giovedì.
+
+Da sapere, senza risposta:
+- La modifica 501 al database non si applica: va corretta prima. Oggi segna come chiusa la giornata del fattorino anche con ordini ancora in attesa. La 500 (le foto dei resi in un archivio privato) e le foto già caricate dal 24/5 al 17/8 arrivano con la richiesta di unione del sito, dopo il controllore.
+- Il pezzo è costato circa 167 $ su 215 e chiude 7 voci nuove: circa 24 $ a voce, come l'onda 2. Il controllore finale è verde (0 difetti nuovi), e la richiesta di unione del sito è mycity#292, in bozza: la unisci tu quando vuoi il lavoro sul sito. I collaudatori hanno sforato tutti e tre: K11 19 $ su 18, K12 2,6 $ a voce su 1,5, K13 23,15 $ su 18. Prima del resto dell'onda ti porto un piano più economico, coi costi misurati qui.
+
+**Cosa non ho verificato.** I numeri sono della regista: 204 voci chiuse in tutta la campagna, 7 da questa onda. Le stime di 25 $ e 20 $ sono mie, sul costo della correzione di AR-1184 e del controllore C03 (5,21 $).
+
+Cosa cambia: con «1a» si chiudono 5 voci in più del sito; con «2a» il negozio che ha consegnato non resta senza soldi senza che un amministratore lo sappia.
+Se va bene: una sessione corta costruisce le due modifiche, una collaudatrice prova a romperle, tu le unisci; la regista chiude le 5 voci e prepara l'avviso.
+
+Dettagli: fermata della regia O3 quattro del 16/11 alle 08:40, in `consegne/riparazioni/2026-11-12-sito-tutto/REGIA-ONDA-3.md`. Guardia: `cervello/riparazione-sessioni.mjs`, riga 1187. Sito: ramo `claude/sito-onda-3` su `cb8effaa`. R27 su `claude/sito-onda-3-k13` (`d418e80`): reggono 013 e 017 (più una già riparata), fuori 005, 016, 018, 019 che «rompono altro».
+
+### 🟡 #257 — Fai entrare nel sito le 6 riparazioni di R27, bloccate da un falso allarme · ⏳ accodata 2026-11-16 02:00
+
+**Stato:** ↪️ ASSORBITA 2026-11-16 08:50 nella carta 258, domanda 1. Il collaudo di R27 ha cambiato i numeri: delle sue riparazioni ne reggono 3, e solo 2 sono chiusure nuove.
+
+**In parole semplici.** Prima che il lavoro di un riparatore entri nel sito, un programma lo controlla: si chiama guardia. Uno dei suoi controlli guarda i messaggi dei salvataggi. Se un messaggio nomina una voce che non è di quel riparatore, la guardia diventa rossa e il lavoro non entra.
+Esempio vero: R27 ha riparato 6 voci e ne ha portate a metà 4. Il suo revisore dice che reggono, anche quelle sui soldi. Ma in due salvataggi R27 ha citato il codice che la stessa voce aveva nell'onda 2. La guardia non lo riconosce, diventa rossa, e il lavoro resta fuori.
+
+**Cosa cambia per te.** Oggi quel controllo non ammette eccezioni. Altri controlli della guardia, invece, accettano un'eccezione firmata da te su un salvataggio preciso. La modifica fa lo stesso qui: il controllo resta acceso, e su quei due salvataggi vale la tua firma, scritta e visibile.
+
+**Cosa devi fare tu.** Rispondi all'AD della chat 5 con una lettera:
+- a: sì alla modifica piccola della guardia e alla tua eccezione sui due salvataggi di R27. Lo consiglio. Costa circa 6 $ per costruirla e 5 $ per il collaudo, dentro i 215 $ del pezzo.
+- b: R27 riscrive i due messaggi e risalva il ramo da capo. Costa poco, ma cambia i salvataggi che il collaudatore K13 sta giudicando proprio adesso: il suo giudizio andrebbe rifatto.
+- c: R27 resta fuori da questo pezzo e va nel resto dell'onda dopo giovedì.
+
+**Cosa non ho verificato.** Il falso allarme me l'ha descritto la regista. Io ho letto la riga della guardia che lo fa scattare, ma non ho visto i due messaggi di R27.
+
+Cosa cambia: con la «a», le 6 riparazioni di R27 possono entrare nel sito in questo pezzo, invece di aspettare dopo giovedì.
+Se va bene: una sessione corta costruisce la modifica, una collaudatrice prova a romperla, tu la unisci, e la regista scrive la tua eccezione nel piano prima di unire R27.
+
+Dettagli: il controllo è alla riga 1187 di `cervello/riparazione-sessioni.mjs`. La modifica lo fa passare da `ctx.deroga(...)`. Poi aggiunge la regola alla lista `REGOLE_PER_COMMIT`, alla riga 858. È lo stesso schema di `id_nel_commit`, righe 1181-1185. Lo stato della regia è in `consegne/riparazioni/2026-11-12-sito-tutto/REGIA-ONDA-3.md`, blocco «Stato al passaggio (16/11 alle 01:55)».
+
+### 🟡 #256 — Scegli quanta onda 3 del sito partire prima di giovedì · ⏳ accodata 2026-11-15 11:35
+
+**Stato:** ✅ RISPOSTA 2026-11-15 23:35: «1 = 12%, 2 fatto, 3a, 4a, 5a». Parte il primo pezzo. Ultracode resta spento su tutti i riparatori. La regola del collaudo va nel piano. Il freno però alle 23:37 non c'era in nessuno dei due depositi: l'AD l'ha chiesto di nuovo.
+
+**In parole semplici.** Hai detto «Parti con l'ondata 3». L'onda intera conta 261 voci da riparare e, coi costi veri dell'onda 2, vale circa 2.030 $. Fino a giovedì 19/11 alle 10:00 restano circa 215 $ su 350 $, il tetto firmato stamattina. Quindi propongo un primo pezzo misurato.
+
+**Cosa cambia per te.** Esempio: tre riparatori da 22 voci l'uno e un collaudo delle riparazioni mai giudicate, circa 195 $ in tutto, cioè circa il 6% della settimana. Si chiudono circa 30-45 difetti entro giovedì, e le altre circa 195 voci partono dopo le 10:00 di giovedì col limite nuovo.
+
+**Cosa devi fare tu.** Rispondi all'AD della chat «Ondata 3» con cinque risposte, per esempio «1 = 12%, 2 fatto, 3a, 4a, 5a»:
+- 1: la percentuale del limite settimanale che vedi nell'app;
+- 2: il freno sugli agenti incollato in due posti, nelle impostazioni della macchina e in quelle del sito;
+- 3, ultracode sui due riparatori che hanno un grave. a: spento, lo consiglio. b: acceso.
+- 4, quanta onda. a: il primo pezzo fino a giovedì, lo consiglio. b: solo il collaudo delle riparate. c: l'onda intera, alzando il tetto.
+- 5, la regola del collaudo senza campione. a: scritta nel piano, così la leggono tutti e tre i programmi, lo consiglio. b: la regola resta in un programma solo, e il manuale lo dice.
+
+**Cosa non ho verificato.** Il margine di 215 $ somma le spese dette dalle sessioni, non quello che vedi nell'app. La divisione l'ho provata solo su una copia. Il freno non l'ho provato su una sessione vera: quasi certamente non vede le sessioni aperte con ultracode.
+
+Cosa cambia: entro giovedì si chiudono circa 30-45 difetti del sito, con una spesa che ha un tetto per ogni sessione.
+Se va bene: giovedì dopo le 10:00 parte il resto dell'onda 3, col preventivo fatto sui costi misurati in questo pezzo.
+
+Dettagli: `consegne/riparazioni/2026-11-12-sito-tutto/FERMATA-1-ONDA-3.md` (richiesta di unione ad-mycity#968).
 
 ### 🟡 #253 — Firma l'eccezione per il pulsante di emergenza del fattorino · ⏳ accodata 2026-11-14 17:16
 

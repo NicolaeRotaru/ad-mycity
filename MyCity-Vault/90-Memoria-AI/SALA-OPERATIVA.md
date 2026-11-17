@@ -688,4 +688,4 @@ Esempi:
 - 2026-11-16 01:35 · @AD · FATTO · chiuso il bloccante del sito «manca la chiave di servizio del database»: /api/health/ready sul sito vero 200 «pronto» con 11 battiti letti (era 503 il 5/11)
 - 2026-11-16 01:36 · @scadenzario · FATTO · bando rifiuti del Comune spostato fra le scadenze chiuse: card #200 già archiviata da Nicola il 25/10, suonava «scaduto» da 555 ore
 - 2026-11-16 01:39 · @chief-of-staff · FATTO · coda: 4 card già risolte segnate fatte (#249, #251, #254, #255) e archiviate; lista di Nicola aggiornata con 4 voci verificate dal vivo
-- 2026-11-16 01:41 · @operations · PASSO-A · Nicola · card #256: l'ordine del 13/11 è una prova o un cliente vero? Senza fattorino approvato resta fermo
+- 2026-11-16 01:41 · @operations · PASSO-A · Nicola · card #259: l'ordine del 13/11 è una prova o un cliente vero? Senza fattorino approvato resta fermo

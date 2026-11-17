@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-11-16 01:46
+aggiornato: 2026-11-16 10:55
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> ⏳ **2026-11-16 10:55 — L'onda 4 del sito è pronta. Aspetta la tua percentuale.**
+>
+> L'onda 3 ha chiuso 7 difetti per circa 167 $, cioè circa 24 $ l'uno. Hai unito la sua memoria alle 09:25 (ad-mycity#968). La regista dell'onda 4 lavora con la ricetta dell'onda 1, con un tetto di 170 $ fino a giovedì 19/11 alle 10:00. Ha pronti due riparatori da 25 voci l'uno, e il caso atteso è circa 126 $ per 14-17 difetti chiusi. I riparatori partono solo col tuo «via» e con la percentuale del limite che leggi nell'app. Restano aperte la carta 258 e l'unione di mycity#292 nel registro della campagna.
 
 > 🧭 **2026-11-16 01:46 — Il giro: venerdì è entrato un ordine nuovo, ed è fermo perché non c'è un fattorino.**
 >
@@ -1015,7 +1019,7 @@ se l'attività è ferma.
 | Negozi REALI approvati | **1** (Pane Quotidiano) | = (il negozio di prova è stato cancellato il 3/11) | ≥1 LIVE vero | Un solo profilo `role=seller`, approvato |
 | Negozi con payout attivo | **0 reali** | = | 1 | Letto dal database il 16/11 alle 01:28: per Pane Quotidiano `stripe_charges_enabled`, `stripe_payouts_enabled` e `stripe_details_submitted` sono tutti `false`. Card #182 |
 | Prodotti VERI del faro pubblicati | **5** (tutti `status=available`) | = | ≥5 | 3 su 5 senza il campo allergeni: pudding, hummus, pesto. Il kefir di capra ha gli ingredienti ma non il campo allergeni |
-| Ordini creati | **2** | ▲ +1 | ≥1 valido | Nuovo: id `0d5c8c5c`, 11,95 €, contanti, creato il 13/11 alle 14:56, accettato e pronto alle 14:57, **mai ritirato**: non c'è un fattorino approvato. Stesso account cliente dell'ordine del 24/6. Card #256 |
+| Ordini creati | **2** | ▲ +1 | ≥1 valido | Nuovo: id `0d5c8c5c`, 11,95 €, contanti, creato il 13/11 alle 14:56, accettato e pronto alle 14:57, **mai ritirato**: non c'è un fattorino approvato. Stesso account cliente dell'ordine del 24/6. Card #259 |
 | Ordini pagati | **0** | = | 1 | **North Star 0**: nessun ordine pagato da quando il sito esiste. Ordini negli ultimi 7 giorni: 1, quello del 13/11, non pagato |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | non eseguibile finché lo Stripe del fornaio resta spento |
