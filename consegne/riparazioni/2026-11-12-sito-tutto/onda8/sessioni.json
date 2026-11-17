@@ -28,7 +28,8 @@
    "testa": "974de28e3179794c6d77f47be87cf74c6ced76e4",
    "costo_usd": 23.74,
    "da_togliere": [
-    "77997355 (R02-011, non regge)"
+    "77997355 (R02-011, non regge)",
+    "c32c6e8d (R02-009, rompe_altro per K01)"
    ]
   },
   "R03": {
