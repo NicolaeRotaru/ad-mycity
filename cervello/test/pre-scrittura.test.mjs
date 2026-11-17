@@ -89,6 +89,17 @@ test("aprire sessioni e creare o cambiare promemoria NON chiede: l'eccezione fir
   }
 });
 
+test("l'eccezione vale per il nome, non per ogni argomento: spingere dritto su main e cambiare modello chiedono", () => {
+  for (const ramo of ["main", "master", " Main ", "refs/heads/main"]) {
+    assert.equal(decidi({ strumento: "mcp__claude-code-remote__create_session", input: { outcome_branch: ramo } }).chiedi, true, ramo);
+  }
+  assert.equal(decidi({ strumento: "mcp__claude-code-remote__update_trigger", input: { trigger_id: "trig_x", model: "claude-x" } }).chiedi, true);
+  // e i sì restano sì: un ramo di lavoro, o un promemoria a cui si cambia solo il testo
+  assert.equal(decidi({ strumento: "mcp__claude-code-remote__create_session", input: { outcome_branch: "claude/o9-m01", title: "R01" } }).chiedi, false);
+  assert.equal(decidi({ strumento: "mcp__claude-code-remote__update_trigger", input: { trigger_id: "trig_x", prompt: "nuovo" } }).chiedi, false);
+  assert.equal(decidi({ strumento: "mcp__claude-code-remote__create_trigger", input: { name: "x", prompt: "y" } }).chiedi, false);
+});
+
 test("l'eccezione resta stretta: gli altri strumenti che scrivono, anche dello stesso server, chiedono ancora", () => {
   for (const s of [
     "mcp__claude-code-remote__create_environment",

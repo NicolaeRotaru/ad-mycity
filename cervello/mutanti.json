@@ -1607,16 +1607,24 @@
    "difetto": "AR-525",
    "nome": "l'eccezione firmata per aprire sessioni sparisce: la regia dell'onda torna a fermarsi alla prima apertura",
    "file": "cervello/pre-scrittura.mjs",
-   "cerca": "    if (ORCHESTRAZIONE_FIRMATA.has(strumento)) return no;",
-   "sostituisci": "",
+   "cerca": "    if (ORCHESTRAZIONE_FIRMATA.has(strumento)) {",
+   "sostituisci": "    if (false) {",
    "test": "cervello/test/pre-scrittura.test.mjs"
   },
   {
    "difetto": "AR-525",
    "nome": "l'eccezione si allarga a tutto il server: cambiare l'ambiente o aggiungere un deposito passano senza domanda",
    "file": "cervello/pre-scrittura.mjs",
-   "cerca": "    if (ORCHESTRAZIONE_FIRMATA.has(strumento)) return no;",
-   "sostituisci": "    if (strumento.startsWith(\"mcp__claude-code-remote__\")) return no;",
+   "cerca": "    if (ORCHESTRAZIONE_FIRMATA.has(strumento)) {",
+   "sostituisci": "    if (strumento.startsWith(\"mcp__claude-code-remote__\")) {",
+   "test": "cervello/test/pre-scrittura.test.mjs"
+  },
+  {
+   "difetto": "AR-525",
+   "nome": "l'eccezione smette di guardare gli argomenti: una sessione può spingere dritta su main senza domanda",
+   "file": "cervello/pre-scrittura.mjs",
+   "cerca": "      if (!fuori) return no;",
+   "sostituisci": "      return no;",
    "test": "cervello/test/pre-scrittura.test.mjs"
   },
   {
