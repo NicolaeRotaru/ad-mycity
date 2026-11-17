@@ -56,9 +56,17 @@
    "finita": true,
    "nota": "aperta dalla regia dell'onda 7, passo 0",
    "punta": "552dc490cc33e65a807e7ab353b7b738764edea3",
-   "costo_usd": 6.39
+   "costo_usd": 7.31
   }
  },
- "controllori": {},
+ "controllori": {
+  "C01": {
+   "id": "session_015BmpnYX4iwyP5Nz5FfNwzf",
+   "ramo": "ccr-30918361-coyajm-o6-c01",
+   "punta": "e5ba78092e552ec23ecada8c90604514219c1bec",
+   "testa_controllata": "bc36f48120ec38bf20880c7d68b3171015744681",
+   "finita": true
+  }
+ },
  "regista_onda7": "session_015BmpnWeHkst12TRwrzmMfw"
 }
