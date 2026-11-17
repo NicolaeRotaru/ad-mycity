@@ -312,7 +312,8 @@
    "id": "session_015BmpnX7wQbfR8T1cwG4VTs",
    "ramo": "ccr-99009024-qgfisx-m32",
    "onda": 5,
-   "partenza": "d1eaba8030dc40ad4479c737c3fedb6668017abf"
+   "partenza": "d1eaba8030dc40ad4479c737c3fedb6668017abf",
+   "finita": true
   },
   "R33": {
    "id": "session_015BmpnVuDeiYKphvCW4kJMC",
@@ -571,6 +572,17 @@
    "partenza": "e4e3a5dd66867ee9757df68b2d47d56fa3da1a58",
    "riparatori": [
     "R31"
+   ],
+   "onda": 5
+  },
+  "K18": {
+   "id": "session_015BmpnWBPzZvbiwBjGVpw3v",
+   "ramo": "ccr-99009024-qgfisx-k18",
+   "partenza": "e4e3a5dd66867ee9757df68b2d47d56fa3da1a58",
+   "riparatori": [
+    "R32",
+    "R30",
+    "R33"
    ],
    "onda": 5
   }
