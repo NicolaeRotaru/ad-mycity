@@ -7088,3 +7088,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
   6. R18-019 si toglie (revert di 6eefff31, lo fa «PR e CI terzo»);
   7. si apre in bozza la richiesta di unione del ramo della macchina `claude/magical-hamilton-xouwr8` → main (la apre la regista).
 - **Dove:** bacheca, commit 077d91a74; tetto in sessioni.json, commit febc67458.
+## 2026-11-16 01:46 — 🟡 Il giro chiude un bloccante del sito, toglie una scadenza finta e pulisce la coda
+
+- **Chi l'ha chiesto:** Nicola, verso le 01:24, «Fai un giro completo della macchina». Fatto da una sessione cloud: i controlli automatici di `giro.sh` girati qui, senza motore AI e senza push diretto su `main`. La memoria va in una richiesta di unione verso `main`.
+- **Cosa ho fatto:** ① chiuso nel registro del sito il bloccante «al sito vero manca la chiave di servizio del database». La prova `curl https://www.mycity-marketplace.com/api/health/ready` era 503 il 5/11 e dà 200 «pronto» il 16/11 alle 01:32, con 11 battiti letti. Strumento: `chiudi-sito.mjs --applica`. ② Spostato il bando rifiuti del Comune da `scadenze` a `chiuse` in `cervello/scadenzario.json`, con l'esito: la card #200 era archiviata dal 25/10 con «ok 130». ③ Segnate fatte le card #249, #251, #254 e #255, ognuna con la prova (unioni #290 del sito, #966, #967, #973), e archiviate dal programma della coda. ④ Accodata la card #259 sull'ordine del 13/11.
+- **Perché:** il tasso di chiusura di novembre è 0,18. Il giro non apre ricerche nuove e spende il turno a chiudere con prove che girano. La regola d'oro della North Star chiede mosse che avvicinano il primo ordine pagato.
+- **Colore:** 🟡. Il registro del sito e la coda sono memoria. Lo scadenzario sta in `cervello/`: vale con la tua unione della richiesta.
+- **Per tornare indietro:** `git revert` del commit del giro.

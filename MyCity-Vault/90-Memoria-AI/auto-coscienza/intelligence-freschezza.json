@@ -1,8 +1,12 @@
 {
   "_cosa_e": "Quanto è vecchia ogni scheda della card «Intelligence & opportunità». La soglia è DERIVATA dalle cadenze delle fonti in radar-fonti.json, non scritta a mano: cambiando la cadenza di una fonte, la soglia si aggiorna da sola.",
-  "aggiornato": "2026-09-01 11:54",
-  "oggi": "2026-09-01",
-  "scadute": [],
+  "aggiornato": "2026-11-16 01:34",
+  "oggi": "2026-11-16",
+  "scadute": [
+    "buchi",
+    "leve",
+    "reputazione"
+  ],
   "non_misurabili": [],
   "schede": [
     {
@@ -13,7 +17,7 @@
       "fonti": 4,
       "stato": "fresca",
       "giorni": 0,
-      "data": "2026-09-01",
+      "data": "2026-11-16",
       "scaduta": false,
       "frase": "aggiornata oggi"
     },
@@ -25,7 +29,7 @@
       "fonti": 6,
       "stato": "fresca",
       "giorni": 0,
-      "data": "2026-09-01",
+      "data": "2026-11-16",
       "scaduta": false,
       "frase": "aggiornata oggi"
     },
@@ -35,11 +39,11 @@
       "etichetta": "Buchi di mercato",
       "soglia": 2,
       "fonti": 1,
-      "stato": "fresca",
-      "giorni": 0,
-      "data": "2026-09-01",
-      "scaduta": false,
-      "frase": "aggiornata oggi"
+      "stato": "scaduta",
+      "giorni": 37,
+      "data": "2026-10-10",
+      "scaduta": true,
+      "frase": "aggiornata 37 giorni fa"
     },
     {
       "id": "leve",
@@ -47,11 +51,11 @@
       "etichetta": "Leve in uscita",
       "soglia": 2,
       "fonti": 5,
-      "stato": "fresca",
-      "giorni": 0,
+      "stato": "scaduta",
+      "giorni": 76,
       "data": "2026-09-01",
-      "scaduta": false,
-      "frase": "aggiornata oggi"
+      "scaduta": true,
+      "frase": "aggiornata 76 giorni fa"
     },
     {
       "id": "reputazione",
@@ -59,11 +63,11 @@
       "etichetta": "Reputazione",
       "soglia": 2,
       "fonti": 2,
-      "stato": "fresca",
-      "giorni": 0,
+      "stato": "scaduta",
+      "giorni": 76,
       "data": "2026-09-01",
-      "scaduta": false,
-      "frase": "aggiornata oggi"
+      "scaduta": true,
+      "frase": "aggiornata 76 giorni fa"
     }
   ]
 }

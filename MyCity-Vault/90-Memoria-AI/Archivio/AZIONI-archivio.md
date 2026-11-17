@@ -1,8 +1,15 @@
 ---
 tipo: archivio-azioni
-aggiornato: 2026-10-29 20:10
+aggiornato: 2026-11-16 01:38
 fonte: cervello/housekeeping-azioni.mjs
 ---
+
+# 🗄️ Archivio — le card già chiuse
+
+> Le card approvate o annullate finiscono qui, per tenere la coda viva sotto il tetto di lettura
+> del cancello (200.000 caratteri). La coda viva è in [[AZIONI-IN-ATTESA]].
+> Ultima pulizia: 2026-11-16 01:38 · 125 card totali.
+> Le card non si buttano: si spostano. Chi cerca una card chiusa la cerca QUI.
 
 # 🗄️ Archivio — le card già chiuse
 
@@ -3563,3 +3570,81 @@ Scrivere `cervello/vercel.mjs` — uno script Node che, usando `VERCEL_TOKEN` da
 - **Reparto:** builder-automazioni
 
 <!-- chiudi-pr-422 -->
+
+---
+
+### ✅ #255 — Scegli se il passo finale delle riparazioni deve tornare a controllare la regola dei 40 voci · ⏳ accodata 2026-11-15 11:15 · ✅ fatta 2026-11-16 00:51
+
+> ✅ **2026-11-16 00:51 — Fatta.** Hai unito la richiesta #973 alle 00:51: è la strada (a), il piano dice da quale onda vale la regola dei 40. Segnata dal giro dell’AD del 16/11 alle 01:39.
+
+Il collaudo corto della correzione dell'officina dice che regge. Resta un rischio. La regola «niente controllo a campione sotto le 40 riparazioni» adesso la guarda solo il controllo del singolo collaudo, non più il passo finale che chiude le voci.
+
+Esempio vero: il collaudo K08 sul lotto R16, che ha 21 voci, prende 6 rossi al primo controllo. Se la regista lo salta, il passo finale chiude lo stesso tre voci di R16. Oggi la skill di riparazione promette che il passo finale rilancia tutti i controlli: per questa regola non è più vero.
+
+Scegli una strada. (a) Un campo nel piano dice da quale onda vale la regola: il passo finale la guarda nelle campagne nuove e la salta in quella del 12/11. È una sessione corta. (b) Si lascia com'è e si corregge solo la frase della skill, così dice la verità.
+
+Di quanto fidarsi: non ho una campagna nuova vera: il caso l'ho ricreato trattando K08 come se fosse nuovo. Non ho fatto prove sui rami veri. Il referto è in `consegne/officina-minima/ricollaudo-2026-11-15.md`, PR #966.
+
+Cosa cambia: con la strada (a), una dimenticanza non chiude più una riparazione a campione. Con la strada (b) resta una rete sola, ma scritta.
+Se va bene: l'AD apre la sessione corta, e il suo collaudo rilancia proprio il caso di K08 su R16.
+
+---
+
+### ✅ #254 — Aspetta a unire la richiesta dell'officina: il collaudo l'ha bocciata · ⏳ accodata 2026-11-15 09:40 · ✅ fatta 2026-11-15 20:18
+
+> ✅ **2026-11-15 20:18 — Fatta.** Il ricollaudo dell’officina ha detto «regge» (richiesta #966 alle 11:38), e l’officina è su main (richiesta #967 alle 20:18). Segnata dal giro dell’AD del 16/11 alle 01:39.
+
+**✅ Superata il 15/11 alle 10:23.** Nicola ha unito la #962. Dentro c'era già la correzione del bloccante (commit 41e041c). Manca il collaudo corto della correzione: lo apre l'AD.
+
+**Aggiornata il 15/11 alle 11:20.** Il ricollaudo dice che la correzione regge, con una riserva. La scelta su quella riserva è nella carta #255.
+
+**In parole semplici.** L'officina ha costruito i programmi che fanno rispettare le regole sui costi delle riparazioni. Il collaudo indipendente li ha bocciati per un difetto bloccante. La regola «niente controllo a campione sotto le 40 riparazioni» vale anche sui collaudi fatti prima che esistesse.
+
+**Cosa cambia per te.** Esempio: se unissi adesso la richiesta dell'officina, 7 riparazioni già chiuse del 12/11 tornerebbero aperte. E le 7 promosse dal collaudo K10 non entrerebbero nel registro.
+
+**Cosa devi fare tu.** Niente, per ora: non unire la #962. Una sessione corta la sta correggendo, con un tetto di 12 $. Poi un collaudo corto ricontrolla solo il pezzo cambiato, e questa carta diventa «unisci».
+
+**Cosa non ho verificato.** Del referto ho letto la parte iniziale e l'elenco dei difetti. Le prove non le ho rifatte io. Il referto è in `consegne/officina-minima/collaudo-2026-11-15.md`.
+
+Cosa cambia: la richiesta dell'officina resta ferma finché la correzione non passa il collaudo.
+Se va bene: entro oggi la richiesta torna unibile, e una sessione corta scrive le 7 chiusure di K10 nel registro.
+
+---
+
+### ✅ #251 — Dai il sì per mettere il lavoro dell'onda 2 nella richiesta di unione del sito · ⏳ accodata 2026-11-14 17:16 · ✅ fatta 2026-11-15 03:07
+
+> ✅ **2026-11-15 03:07 — Fatta.** Il lavoro dell’onda 2 è entrato nel sito con l’unione di mycity#290 alle 03:07. Segnata dal giro dell’AD del 16/11 alle 01:39.
+
+**Numero cambiato il 15/11:** fino a stamattina era la #243. La tua risposta «ok 243», del 15/11 alle 00:32, vale per questa carta.
+
+**Stato:** ✅ FATTO 2026-11-15 00:54. Hai scritto «ok 243». I nove rami sono nella richiesta di unione del sito, senza le tre correzioni difettose. Le prove automatiche sono tutte verdi, e la richiesta si può unire. Resta in bozza: unirla è tua.
+
+**In parole semplici.** Le sessioni dell'onda 2 hanno riparato ognuna su una copia separata del sito. La regista le mette insieme nella richiesta di unione del sito, che è già aperta in bozza. Sul sito vero non va niente: online va solo quando unisci tu.
+
+**Cosa cambia per te.** Esempio: l'avviso «senza rete» col tasto Riprova, riparato da una sessione, entra nella richiesta insieme agli altri lavori. Con il sì, nella richiesta entrano le 4 voci chiuse dal giro di correzione. Restano fuori tre correzioni che rompono un'altra cosa: il rimborso diviso, gli allergeni, la bacheca del fattorino.
+
+**Cosa devi fare tu.** Scrivi alla regista dell'onda 2 «sì, carica».
+
+**Cosa non ho verificato.** La prova di unione fra i rami è verde. La riunione con la copia unica del sito si prova dopo il sì, prima di caricare.
+
+Cosa cambia: la richiesta di unione del sito si aggiorna con il lavoro del 14/11; il sito vero resta com'è.
+Se va bene: una sessione nuova controlla solo le modifiche nuove, con un tetto di 20 $.
+
+---
+
+### ✅ #249 — Firma le migrazioni e l'unione per mettere online il sito con l'onda 2 · ⏳ accodata 2026-11-15 01:47 · ✅ fatta 2026-11-15 03:07
+
+> ✅ **2026-11-15 03:07 — Fatta.** Hai firmato alle 02:45: le 11 migrazioni sono passate sul database vero fra le 02:45 e le 03:06, e la richiesta del sito mycity#290 è entrata alle 03:07 (bacheca delle sessioni, STATO del 15/11 03:16). Segnata dal giro dell’AD del 16/11 alle 01:39.
+
+**Stato:** ✅ FATTO 2026-11-15 03:10. Hai firmato alle 02:45. Le 11 migrazioni sono passate dalle 02:45 alle 03:06, una alla volta. L'unione è delle 03:07, e alle 03:10 il sito era online.
+
+**In parole semplici.** Il lavoro dell'onda 2 è pronto nella richiesta di unione del sito. Per metterlo online servono le tue firme su tre cose: le 11 migrazioni del database vero, le due deroghe, l'unione nel ramo principale.
+
+**Cosa cambia per te.** Le migrazioni non toccano nessuna riga dei dati di oggi: le ho contate una per una, senza scrivere niente. Vanno applicate prima dell'unione. Esempio: il salvataggio di un prodotto, nel codice nuovo, usa una funzione che nasce con la migrazione 405.
+
+**Cosa devi fare tu.** Scrivi alla regista «firmo le 11 migrazioni, le due deroghe e l'unione». La regista applica le migrazioni una alla volta e si ferma al primo errore. Poi unisce, e il sito si pubblica da solo.
+
+**Cosa non ho verificato.** Nessuna migrazione è ancora passata sul database vero: le ha provate solo un database di prova. Il sito online lo controllo dopo l'unione.
+
+Cosa cambia: con le firme, il sito vero riceve le 78 voci chiuse dell'onda 2 nel giro di un'ora.
+Se va bene: la regista controlla online la cassa, il salvataggio di un prodotto e un rimborso, e te lo scrive.

@@ -8,6 +8,7 @@ reparto: operations
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-11-16 01:45 · ordine del 13/11 fermo a pronto senza fattorino · V5 C5 A4 K5 I4 M3 E5 (media 4.43) · atteso ordine chiuso o consegnato entro il 20/11 → reale in attesa della risposta di Nicola alla card #259 · #ordine
 - 2026-07-20 18:32 · eliminazione fisica prodotti finti · Nicola «elimina i 245 prodotti finti» 18:31 · 253 righe DELETE dal DB (252 draft + 1 orfano) · REST: 1 negozio · 5 prodotti PQ · atteso→reale ok · L-408 · #supervisione #demo #catalogo
 - 2026-07-20 18:30 · #elimina-negozi-demo ESEGUITO · Nicola «te lo approvo in chat» 18:28 · 16 demo rimossi · prod demo prima nascosti (draft) · REST: 1 negozio PQ · 5 prodotti · supervisione 1 negozio · atteso→reale ok · L-407 · #supervisione #demo #pq
 - 2026-07-20 17:56 · Casella Supervisione pulizia demo · Nicola «elimina tutti tranne pane quotidiano» · REST 17 negozi (16 demo + PQ) · accodato #elimina-negozi-demo 🔴 con piano pulizia · atteso firma Nicola → 1 negozio 5 prodotti · L-401 · #supervisione #demo #pq
