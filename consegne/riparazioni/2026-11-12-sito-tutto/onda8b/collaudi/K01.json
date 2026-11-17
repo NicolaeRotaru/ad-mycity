@@ -1,0 +1,24 @@
+{
+  "collaudatore": "K01",
+  "riparatori": ["R02"],
+  "aggiornato": "2026-11-17 21:40",
+  "finita": false,
+  "voci": [
+    {
+      "id": "R02-001",
+      "chiave": "api-backend|se due giri del sorvegliante partono nello stesso istante, l'amministratore riceve due volte la stessa campanella",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": ["chiude_tutta", "nata_rotta"],
+      "nota": "Già alla base 522cfb01: app/api/cron/operational-alerts/route.ts:787 prendiIlTurno prima dell'insert in notifications (:804) e :869 prima dell'email; prendiIlTurno (:1028-1061) rinfresca solo le chiavi ancora vecchie (update condizionato .lt cutoff) e inserisce le nuove sulla chiave primaria alert_key (migrations/084_operational_alert_dedup.sql:13), 23505 = turno non preso. Prove citate verdi alla base (19/19). Svuotato prendiIlTurno alla base (prende sempre tutto): cadono i 2 casi «due giri partiti insieme» di tests/unit/riparazione-r29-allarme-ordine.test.ts. File invariato fra base e testa."
+    },
+    {
+      "id": "R02-006",
+      "chiave": "qa-flussi|quando un ordine viene annullato il negozio non riceve nessuna email, e se lo annulla il sito perché nessuno l'ha accettato non riceve nemmeno la campanella",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": ["chiude_tutta", "nata_rotta"],
+      "nota": "Già alla base 522cfb01: app/api/cron/expire-stale-orders/route.ts:359-367 campanella al negozio e :385-387 email (avvisaIlNegozioDellAnnullo, lib/ordini/annulla.ts:537); seller_id è nella select (:105), quindi gira anche sul sito e non solo nel finto. Email al negozio anche su annullo del cliente (app/api/orders/[id]/cancel/route.ts:113, COLONNE_ANNULLO con seller_id) e dell'amministrazione (app/api/admin/orders/[id]/cancel/route.ts:129). Prove citate verdi alla base (19/19). Spenti i due if (sellerId) del giro: cadono 3 casi (minori-s03 :180 e :1876, r31 caso della voce); spente le email su annullo cliente e amministrazione: cadono i 2 casi r31 relativi. Strade guardate e fuori dalla voce: rifiuto del negozio (lo annulla il negozio stesso) e cliente assente del rider (app/api/rider/orders/[id]/cliente-assente/route.ts:117-125 campanella al negozio, la merce torna in negozio col rider: nessun rischio di preparare un ordine annullato). File invariati fra base e testa."
+    }
+  ]
+}
