@@ -7188,3 +7188,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Partenza:** giovedì 19/11 alle 10:00, a limite azzerato (la strada A proposta), salvo un «prima» di Nicola. Restano il tetto totale di 1.200 $ e la soglia sotto i 20 $ a difetto chiuso.
 - **Il conto dei minori che è stato corretto:** su 709 minori aperti, 367 hanno già una nota di riparazione (27 si chiudono con l'unione di mycity#295). Non sono «circa 180» come detto alle 19:58: sono circa 335 già tentati e ancora aperti.
 - **Colore:** 🟡, firmata. Merge, migrazioni e database vero restano di Nicola.
+
+## 2026-11-17 20:20 — Onda 9: l'ordine dei 200 difetti (🟡, firmato da Nicola)
+**Le parole di Nicola (17/11 verso le 20:12):** «fai così come dici dentro "Cosa vuol dire per l'onda 9"».
+- **L'ordine:** prima le riparate mai collaudate (collaudo e basta), poi le serve_file_altrui con la correzione già scritta, poi le mai raggiunte, poi i parziali e i mai tentati. Niente delicati (soldi, dati, permessi, migrazioni).
+- **Il conto fatto dal programma sulla base `522cfb01`:** 5 + 27 + 49 + 8 + 77 + 34 = 200 (`onda9/chiavi-onda9.txt`). Si rifà giovedì sulla base di quel momento.
+- **Partenza:** giovedì 19/11 alle 10:05, con 10 riparatori da circa 20 voci (consegna a 40 $, tetto 45 $). Preventivo circa 600 $, dentro i 1.200 $ totali.
