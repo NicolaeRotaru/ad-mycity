@@ -31,7 +31,12 @@
    "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
    "tetto_usd": 35,
    "consegna_usd": 30,
-   "aperta": "2026-11-17 22:28"
+   "aperta": "2026-11-17 22:28",
+   "finita": true,
+   "punta": "420096d6",
+   "testa": "675c91f9cab17e739bada9e7ac98206882577a35",
+   "costo_usd": 14.0,
+   "nota": "verify verde su 8853089a; consegnato alla regia «Ondata 9» alle 23:08, registrato dalla 2.0"
   },
   "R06": {
    "id": "session_015BmpnXuKeg9UZV4VTeijA9",
