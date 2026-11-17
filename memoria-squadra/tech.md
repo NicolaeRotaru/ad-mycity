@@ -8,6 +8,7 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-11-17 13:08 · onda 5 del sito, 4 riparatori da 25 voci, regia senza domande a Nicola · V5 C4 A4 K2 I3 M4 E3 (media 3.57) · atteso circa 27 chiuse a circa 220 $ → reale 10 chiuse e 10 già riparate a circa 215 $; 14 correzioni in patch nel codice per la regola del verify verde · #riparazione #onda5
 - 2026-11-15 23:49 · Regia onda 3 sito, preparazione: schede R25-R27, freno assente, aperto solo K11 · V5 C5 A4 K5 I3 M3 E4 (media 4.14) · atteso aprire K11 e i tre riparatori in questo turno → reale aperto solo K11: il freno sugli agenti non è attaccato in nessun main, riparatori fermi in attesa di Nicola · #riparazione #onda3 #freno
 - 2026-11-15 11:51 · applica K10 sulla campagna del sito 12/11: 7 chiusure e 8 nati nel registro (riparate 1390→1397, voci 3185→3193) · V5 C4 A5 K4 I2 M3 E3 (media 3.71) · atteso +7 riparate, +8 aperte, nient'altro → reale +7 riparate, +8 aperte; in più 5 note di applica col verdetto di K10 e 7 date ritimbrate da applica (rimesse al 13/11); una prova del cervello adattata · #registro #k10 #applica
 - 2026-11-15 06:54 · F0 del piano del 15/11: registro dell'onda 2 del sito e deroga su un commit di R17 · V5 C4 A5 K4 I3 M3 E3 (media 3.86) · atteso applica verde con la sola deroga in piano.json, circa 61-78 chiusure, classe A 17-24 → reale la deroga ha chiesto una modifica al programma; applica rosso anche sul campione di R18 dopo la correzione di R18-019; 78 chiusure; classe A 11 · #riparazione #registro #deroga

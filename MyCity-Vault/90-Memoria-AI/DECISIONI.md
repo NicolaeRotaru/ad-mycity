@@ -7127,3 +7127,11 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Perché aspettavo:** il tetto di 350 $ firmato fino a giovedì alle 10:00. La sua domanda lo supera per l'onda 5.
 - **Il rischio detto:** se il limite della settimana finisce prima di giovedì alle 10:00, le sessioni si fermano fino al rinnovo. Freno: ogni riparatore legge il suo stato prima di ogni lotto e non apre lotti nuovi fuori da «allowed».
 - **Colore:** 🟡 spesa dentro un tetto dato da Nicola.
+
+## 2026-11-17 13:15 — L'onda 5 del sito finisce con la PR pronta da unire
+- **Cosa:** quattro riparatori (R30-R33, 100 voci), due collaudi (K17, K18), un controllore (C05). Integrazione sul sito `ccr-99009024-qgfisx`, mycity#294 fuori bozza, CI verde, verify 1642 file e 10687 prove.
+- **Esito misurato (`applica` a vuoto, senza R27 e R29 come la regia O4):** 10 voci si chiudono, 10 già riparate, 80 restano aperte. Nella PR anche 14 patch dei riparatori (cucitura), senza collaudo voce per voce; tolta R31-012 per una colonna della 124 senza ripiego.
+- **Spesa:** riparatori 149,83 $, collaudi e controllo 22,68 $, regia circa 42 $: circa 215 $ su 250. Circa 21 $ per voce chiusa nuova, contro i 7,4 $ dell'onda 4: molte correzioni sono finite in patch per la regola del verify verde.
+- **Lezioni:** ① il verify verde alla testa evita il blocco di R29, ma sposta molte voci in `serve_file_altrui`: la cucitura va pianificata nel preventivo; ② `pronte` mette in B voci già riparate da un'onda non ancora unita (8 su 100); ③ le figlie non vedono il proprio costo: lo legge la regista; ④ una figlia aperta con la sigla corta non parte (C05, come R28 e R29 nell'onda 4).
+- **Riservato:** una falla su `segnalazioni` trovata da R32, con la correzione 561, data a Nicola solo in chat.
+- **Colore:** 🟡 spesa dentro il tetto dato da Nicola; nessuna migrazione applicata.
