@@ -415,7 +415,7 @@
     "gravi": 678,
     "minori": 2504,
     "agenti": null,
-    "aggiornato": "2026-11-17 14:12"
+    "aggiornato": "2026-11-17 14:14"
   },
   "confronto_precedente": {
     "data": "2026-11-05",
@@ -725,7 +725,7 @@
       "impatto": "Sabato alle 11:05 il fornaio riceve sul telefono la push «Nuovo ordine · 18,00 €»: non sa se e' per le 12:00-13:00 o per domani finche' non apre l'ordine o l'email. Su una consegna veloce da 10 minuti quel passaggio in piu' costa il ritardo.",
       "fix": "Aggiungere alla body della campanella la fascia (o «consegna veloce» / «ritiro in negozio»), con lo stesso testo che usa l'email, in tutte e due le strade; meglio una funzione sola che scrive la campanella per contanti e carta.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "lettura del codice alle righe citate",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": true,
@@ -733,12 +733,9 @@
       "giro": 1,
       "verificato": true,
       "fonte_radiografia": "radiografia 2026-11-06 · S01",
-      "riparazione_17_11": {
-        "esito": "senza_referto",
-        "sessione": "R31",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
-      }
+      "chiuso_il": "2026-11-17 14:14",
+      "chiuso_da": "PR #294 · c83c3e4e",
+      "nota_riparazione": "La campanella al negozio aggiunge « — Consegna: <fascia>» (anche la veloce) o « — Ritiro in negozio», coi contanti e con la carta. ordini.ts resta a 598 righe. Le 143 prove che importano i file restano verdi; tsc ed eslint puliti. Accanto a «Domani» non c'è la data che l'email aggiunge (conLaData manca in molte prove finte dei template). — prova: npx vitest run tests/unit/riparazione-r31-campanella-quando-contanti.test.ts tests/unit/riparazione-r31-campanella-quando-carta.test.ts — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 5f893345^ --file app/api/orders/cod/route.ts,lib/stripe/webhook/comune.ts,lib/stripe/webhook/ordini.ts --prove tests/unit/riparazione-r31-campanella-quando-contanti.test.ts,tests/unit/riparazione-r31-campanella-quando-carta.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R31-025 --base 5f893345^ --file app/api/orders/cod/route.ts,lib/stripe/webhook/comune.ts,lib/stripe/webhook/ordini.ts --prove tests/unit/riparazione-r31-campanella-quando-contanti.test.ts,tests/unit/riparazione-r31-campanella-quando-carta.test.ts --json   (checkout 5f893345, HEAD verificato) → uscita 0 (K17)"
     },
     {
       "dimensione": "qa-flussi",
@@ -942,10 +939,10 @@
       "verificato": true,
       "fonte_radiografia": "radiografia 2026-11-06 · S02",
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R33",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui"
       }
     },
     {
@@ -967,10 +964,10 @@
       "verificato": true,
       "fonte_radiografia": "radiografia 2026-11-06 · S02",
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R33",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: Tetto di costo dell onda 5 (decisione della regista alle 11:37, costo 22,69 $ su 38): la voce passa all onda dopo, senza lavoro su questo ramo."
       }
     },
     {
@@ -1379,10 +1376,10 @@
         "perche": "parziale: 1) Il numero VELOCI_PER_FATTORINO (lib/ordini/consegna-veloce.ts:35) è null: lo deve scegliere Nicola (vedi domanda). 2) Le tre rotte che chiamano veloceSiPuo non sono mie e non passano ancora velociInCorso (vedi serve_file_altrui). 3) La voce parla anche delle consegne «in fascia vicina»: non si contano, servirebbe una regola su quali fasce occupano un fattorino (anche questa è una scelta di Nicola). 4) Il controllo non è atomico: due clienti nello stesso istante leggono lo stesso conteggio prima che l'ordine esista, e i checkout con carta aperti ma non ancora pagati non contano. Un tetto stretto chiede un blocco nel database: una RPC con lock e una migrazione nuova nella fascia 390-399, mai applicata. 5) Quando il tetto ci sarà, lib/promessa-consegna.ts (non mio) parla ancora di «tre condizioni» della veloce. Dal collaudo: lib/ordini/consegna-veloce.ts:35 VELOCI_PER_FATTORINO = null e le rotte (app/api/consegna/veloce/route.ts:98, app/api/orders/cod/route.ts:922, app/api/stripe/checkout/route.ts:335 e 504) non passano velociInCorso: il difetto della voce resta identico in produzione. lib/ordini/consegna-veloce.ts:136-141 contaVelociInCorso non ha una finestra di tempo. Il cron expire-stale-orders chiude solo gli ordini fermi in NEW: una veloce rimasta in ACCEPTED, READY o ASSIGNED (consegna mai segnata) conta per sempre. Quando il tetto avrà un numero, può spegnere la veloce per giorni. Non è nel cosa_resta. lib/ordini/consegna-veloce.ts:136-141 Conta gli ordini, non le consegne. La rotta dei contanti (app/api/orders/cod/route.ts:1369) crea una riga per negozio, ognuna con delivery_slot «Adesso»: un carrello veloce con 3 negozi occupa 3 posti. Gli ordini con delivery_status NULL invece non contano (migrazione 230: esistono)."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R30",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tetto: la regista ha chiuso R30 a 38 $ dopo il lotto B (17/11) e la voce non è stata aperta; nessun file toccato. Il numero di veloci per fattorino resta una scelta di Nicola (vedi domande)."
       }
     },
     {
@@ -1581,10 +1578,10 @@
         "perche": "serve_file_altrui: Fatta in 58757a63 (prova rimessa uscita 0), poi tolta col revert 50b1f5dc perché cambiava la prova comune la-vetrina-del-negozio-resta-nei-colori-del-sito. La riprende la cucitura dell'onda 2 dopo l'unione."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R30",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tetto: la regista ha chiuso R30 a 38 $ dopo il lotto B (17/11) e la voce non è stata aperta; nessun file toccato. La correzione è già scritta in un commit vecchio (cherry-pick -n 58757a63 con le due prove): chi riprende la voce parte da lì."
       }
     },
     {
@@ -1914,10 +1911,10 @@
         "perche": "serve_file_altrui: Provata su una copia fuori dal ramo: la prova nuova monta la sezione col processo in Asia/Tokyo, Pacific/Auckland, America/New_York ed Europe/Rome; 3/3 verde con la modifica, prova-rimessa uscita 0 (cade togliendo la correzione, anche con TZ=Europe/Rome prima di lanciare)."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R33",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui: Prima riparata nel commit c118f9e5, poi rimessa com era su richiesta della regista: la guardia-ramo è verde (file toccati e rimessi, non entrano nell unione)."
       }
     },
     {
@@ -1930,7 +1927,7 @@
       "impatto": "Venerdì 6/11 alle 10 un ordine da 50 euro del 30/10 alle 15 entra nella cifra degli ultimi 7 giorni ma in nessuna barra: il negoziante vede 45 euro sopra e zero nel grafico.",
       "fix": "Derivare since7 dall'inizio del primo giorno di ultimiGiorniPiacenza(7).",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "cd marketplace && node <scratchpad>/verifica/v-date/c.cjs (metricheVenditore e ultimiGiorniPiacenza veri, adesso 6/11 10:00 Piacenza)",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -1945,12 +1942,9 @@
         "run": "palestra, lotto 3 (wf_7c0f812f-fe9), verificatori indipendenti e ricontrollo (wf_7eed37ec-d10)",
         "visto_in_piu": "slowProducts (page.tsx:189-193) ordina i prodotti disponibili per visite crescenti e ne prende 3, senza togliere quelli già in topProducts (page.tsx:177-181). Con 1-3 prodotti lo stesso articolo è insieme 1° fra i più visti, in «Da migliorare» e nel consiglio «è poco visto». Questa parte non è in nessuna voce del registro. La parte sulla conversione oltre il 100% è invece la voce [167], non la [29]."
       },
-      "riparazione_17_11": {
-        "esito": "senza_referto",
-        "sessione": "R33",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
-      }
+      "chiuso_il": "2026-11-17 14:14",
+      "chiuso_da": "PR #294 · c83c3e4e",
+      "nota_riparazione": "since7 era Date.now() meno 168 ore, mentre le barre sono le sette giornate di Piacenza da mezzanotte. Ora since7 = inizioGiornoPiacenza(ultimiGiorniPiacenza(7)[0]): cifra e barre contano gli stessi giorni. Prova con vi.setSystemTime (la pagina non si monta in vitest, la prova controlla anche il sorgente). — prova: npx vitest run tests/unit/riparazione-r33-analisi-sette-giorni-di-piacenza.test.ts — mutazione: node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 7b21421d^ --file app/seller/analytics/page.tsx --prove tests/unit/riparazione-r33-analisi-sette-giorni-di-piacenza.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R33-021 --base 7b21421d^ --file app/seller/analytics/page.tsx --prove tests/unit/riparazione-r33-analisi-sette-giorni-di-piacenza.test.ts --json   (checkout 7b21421d, HEAD verificato) → uscita 0 (K18)"
     },
     {
       "dimensione": "qa-flussi",
@@ -2008,7 +2002,7 @@
       "impatto": "Il fornaio rifotografa la focaccia per cambiare la foto e gli allergeni che aveva scritto a mano, «glutine, sesamo», diventano quelli letti male dall'etichetta.",
       "fix": "Far passare handleExtracted dallo stesso piano di applyPatch: le dichiarazioni in «Da controllare» e nessun campo già pieno sovrascritto.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "lettura di ProductForm.tsx:359-443 e confronto con :498-502",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": true,
@@ -2016,12 +2010,9 @@
       "giro": 1,
       "verificato": true,
       "fonte_radiografia": "radiografia 2026-11-06 · S07",
-      "riparazione_17_11": {
-        "esito": "senza_referto",
-        "sessione": "R33",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
-      }
+      "chiuso_il": "2026-11-17 14:14",
+      "chiuso_da": "PR #294 · c83c3e4e",
+      "nota_riparazione": "handleExtracted passa da pianoDallaFoto (aiutante dentro ProductForm): nome, descrizione e attributi letti dalla foto entrano solo nei campi vuoti; le dichiarazioni (allergeni, ingredienti e le altre di separaCampiDichiarativi) non entrano mai, diventano righe «Da controllare» col pulsante «Usa questo valore». La funzione resta spenta. La prova monta il modulo vero e passa la foto dal pulsante vero; le 35 prove che usano ProductForm verdi. — prova: npx vitest run tests/unit/riparazione-r33-foto-non-scrive-sopra.test.ts — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 25b81deb4afd300d8380e7ce049a8078d65675d3^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r33-foto-non-scrive-sopra.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R33-025 --base 25b81deb^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r33-foto-non-scrive-sopra.test.ts --json   (checkout 25b81deb, HEAD verificato) → uscita 0 (K18)"
     },
     {
       "dimensione": "qa-flussi",
@@ -2042,10 +2033,10 @@
       "verificato": true,
       "fonte_radiografia": "radiografia 2026-11-06 · S07",
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R33",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: Tetto di costo dell onda 5 (decisione della regista alle 11:37, costo 22,69 $ su 38): la voce passa all onda dopo, senza lavoro su questo ramo."
       }
     },
     {
@@ -2264,10 +2255,10 @@
         "perche": "serve_file_altrui: La strada principale è già atomica da R08-008 (salva_varianti, migrazione 323). Secondo la regista la 323 è già applicata sul database vero (onda 1): oggi il riordino servirebbe solo al ripiego a pezzi (PGRST202), che parte se la funzione manca. Il riordino era nel commit 33fc7ac3 ma rendeva rossa per forza la prova comune riparazione-r08, che R20 non può toccare: il commit a23283e8 lo toglie, con la scelta della regista. Sul ramo persistVariantsServer.ts, la prova r08 e la prova r20-taglie-tolte sono identiche alla base. Non c’è una rimessa perché sul ramo non resta una correzione."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R30",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tetto: la regista ha chiuso R30 a 38 $ dopo il lotto B (17/11) e la voce non è stata aperta; nessun file toccato. La correzione è già scritta in un commit vecchio (revert -n a23283e8 con la prova sulle varianti): chi riprende la voce parte da lì."
       }
     },
     {
@@ -2440,10 +2431,10 @@
       "verificato": true,
       "fonte_radiografia": "palestra 2026-11-07/08 · lotto 2, prove da cliente (wf_f4377721-1cd)",
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R33",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: Tetto di costo dell onda 5 (decisione della regista alle 11:37, costo 22,69 $ su 38): la voce passa all onda dopo, senza lavoro su questo ramo."
       }
     },
     {
@@ -3031,10 +3022,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R33",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K18 parziale",
+        "perche": "parziale: Il doppio abbonamento non nasce più dalla corsa normale, ma restano tre casi trovati dal revisore: (1) lib/stripe/webhook/abbonamenti.ts:156 l avviso «Disdici quello in più» non dice quale: se il negozio disdice quello collegato al profilo, handleSubscriptionChanged (riga 212) segna il profilo canceled mentre il doppione continua ad addebitare 50 € e la cassa risponde 409 (checkout/route"
       }
     },
     {
@@ -3226,10 +3217,10 @@
         "perche": "parziale: La divisione automatica della perdita fra i negozi (scrivere la quota persa su ciascun ordine e sbloccare il resto del bonifico): stessa radice della voce 1639 e dello strumento dei rimborsi da dividere (lib/stripe/rimborsi-da-dividere.ts, non mio). Oggi i bonifici del carrello restano fermi finché Nicola divide a mano. Dal collaudo K04: gli ordini rimasti LOST per una perdita parziale non si sbloccano da nessuno strumento (il giro paga solo null/WON, release-payouts:93, e la rotta del bonifico a mano rifiuta): finché non c'è la divisione, li sblocca solo una correzione a mano sul database."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R32",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
       }
     },
     {
@@ -3294,10 +3285,10 @@
       "verificato": true,
       "fonte_radiografia": "radiografia 2026-11-06 · S03",
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R31",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui"
       }
     },
     {
@@ -4245,10 +4236,10 @@
       "verificato": true,
       "fonte_radiografia": "radiografia 2026-11-06 · S04",
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R30",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K18 parziale",
+        "perche": "parziale: Il pannello admin non mostra ancora «Sospendi»/«Riattiva» per i clienti (file di R33: patch sotto). La sospensione vale sulle rotte del sito; il resto lo trova la regista nel messaggio finale di R30."
       }
     },
     {
@@ -5274,10 +5265,10 @@
         "perche": "serve_file_altrui: Giro di correzione del 14/11: il numero 426 ora è della migrazione di R18-014 (426_la_risalita_delle_categorie_si_ferma_su_un_cerchio.sql). La patch di questa voce, ancora da applicare, prenderà un numero nuovo nell'onda 3 (decisione della regista O2)."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R30",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K18 non_regge",
+        "perche": "parziale: La migrazione 541 non è nel commit: con lei le prove comuni 19 e 34 diventano rosse (permission denied for table profiles). Va in patch, insieme alle due prove adattate."
       }
     },
     {
@@ -5630,10 +5621,10 @@
         "perche": "parziale: Conti a oggi (npx eslint --report-unused-disable-directives app components lib middleware.ts): 29 direttive eslint-disable che non spengono niente, tutte in file non miei, elencate una per una in serve_file_altrui (24 su no-img-element, gia' spenta in .eslintrc.json; 2 su jsx-a11y/media-has-caption; 1 su no-head-element; 1 vuota in app/api/cron/send-emails/route.ts:242; 1 su no-explicit-any messa una riga troppo in alto in lib/email/avviso-messaggio-negozio.ts:64). Gli any espliciti sono 29 avvisi per next lint (32 contando tutta la repo, prove comprese), non i 46 della voce: restano come avvisi, da togliere file per file. Dopo, si puo' aggiungere --report-unused-disable-directives al lint."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R32",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
       }
     },
     {
@@ -6202,10 +6193,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R31",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui"
       }
     },
     {
@@ -6956,10 +6947,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "gia_riparato_prima",
         "sessione": "R33",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K18 regge",
+        "perche": "gia_riparato_prima"
       }
     },
     {
@@ -9191,10 +9182,10 @@
         "run": "palestra, lotto 2 (wf_f4377721-1cd), verificatori indipendenti e ricontrollo (wf_287a2540-933)"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R32",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
       }
     },
     {
@@ -9207,7 +9198,7 @@
       "impatto": "È la risposta sul diritto di recesso: chi la legge pensa a un refuso e si fida meno della pagina legale.",
       "fix": "Togliere « e quelli fatti su ordinazione» dalla riga 118.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "cd marketplace && npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/B/vitest.s09b.config.ts /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/B/faq-recesso.test.ts",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -9227,12 +9218,9 @@
         "collaudo": null,
         "perche": "il riparatore non l'ha scritta nel referto"
       },
-      "riparazione_17_11": {
-        "esito": "senza_referto",
-        "sessione": "R31",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
-      }
+      "chiuso_il": "2026-11-17 14:14",
+      "chiuso_da": "PR #294 · c83c3e4e",
+      "nota_riparazione": "Tolto da app/faq/page.tsx il «e quelli fatti su ordinazione» aggiunto a mano dopo RESO_ESCLUSI, che lo contiene già. lib/promesse-pubbliche.ts non serviva. — prova: npx vitest run tests/unit/riparazione-r31-faq-reso.test.ts — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 4f229dce^ --file app/faq/page.tsx --prove tests/unit/riparazione-r31-faq-reso.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R31-017 --base 4f229dce^ --file app/faq/page.tsx --prove tests/unit/riparazione-r31-faq-reso.test.ts --json   (checkout 4f229dce, HEAD verificato) → uscita 0 (K17)"
     },
     {
       "dimensione": "privacy-legale",
@@ -9415,10 +9403,10 @@
         "perche": "parziale: In app/api/segnalazioni/route.ts:74-76 la neutralizzazione in testa di riga non copre i segni combinanti a larghezza zero, i caratteri vuoti e alcune forme simili alla lineetta (dettagli alla regista): meglio marcare o separare ogni riga di chi segnala invece di inseguire le forme. La garanzia piena resta quella di due colonne vere (migrazione, lib/database.types.ts e pagina admin, file non di R21)."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R32",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: Tolta con git revert (ff7d7d64) per ordine della regista: il revisore ha trovato una regressione. Il modulo accetta 2000 caratteri (components/Segnala.tsx:172) ma con la marca «│ » e le righe del server il limite vero scende a circa 1880 senza nome e 1660 con nome, e la rotta risponde 400 (app/api/segnalazioni/route.ts:103); in più le segnalazioni già nel database, senza marca, nella pa"
       }
     },
     {
@@ -9560,10 +9548,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R32",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
       }
     },
     {
@@ -9661,10 +9649,10 @@
         "run": "palestra, lotto 3 (wf_7c0f812f-fe9), verificatori indipendenti e ricontrollo (wf_7eed37ec-d10)"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R31",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tetto: la regista ha fermato il lotto 4 (privacy e dati) a 26,61 $ di spesa, per consegnare entro 38 $. Voce non aperta: resta per l'onda dopo."
       }
     },
     {
@@ -9769,10 +9757,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R32",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K18 parziale",
+        "perche": "parziale: L'identificativo di PostHog: al no lib/analytics/posthog.tsx:401 fa solo opt_out_capturing, il distinct_id resta 365 giorni in cookie e localStorage e al sì successivo le visite si riattaccano. File non di R32."
       }
     },
     {
@@ -9893,7 +9881,7 @@
       "impatto": "Oggi non tocca nessuno: la newsletter è spenta e nessun invio legge la tabella. Si sveglia il giorno della riaccensione. Chi si è reiscritto ha una riga contraddittoria. «Scarica i miei dati» gli mostra una data di disiscrizione falsa. Ogni invio o pulizia che legge unsubscribed_at come «non scrivermi più» lo tratta in modo sbagliato: per esempio la potatura in lib/privacy/potature-ritenzione.ts usa quella colonna per tenere la riga come prova del rifiuto. Va sistemato prima di riaccendere la newsletter.",
       "fix": "Nella conferma, scrivere unsubscribed_at: null insieme ad active: true (app/api/newsletter/confirm/route.ts:45). È il punto giusto: la disiscrizione resta vera finché la persona non conferma davvero la nuova iscrizione. In alternativa si può farlo nella POST (app/api/newsletter/route.ts) quando riscrive la riga di un disiscritto. Ma così la data di disiscrizione si perderebbe anche se la persona poi non conferma.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Test vitest proposto: tests/unit/la-conferma-della-newsletter-cancella-la-vecchia-disiscrizione.test.ts. Mock di @/lib/supabase/server: un getAdminSupabase che salva l'oggetto passato a update() e risponde {data:{id:'x'}, error:null} a eq().select().maybeSingle(). Mock di @/lib/rate-limit: rateLimitAsync risponde {allowed:true} e getClientIp risponde '1.2.3.4'. Il test chiama GET(new Request('http://x/api/newsletter/confirm?token=t')) e controlla expect(aggiornamento).toHaveProperty('unsubscribed_at', null). Oggi l'update porta solo active, confirmed_at e confirm_token, quindi il test è rosso. Comando: cd /home/user/mycity && npx vitest run tests/unit/la-conferma-della-newsletter-cancella-la-vecchia-disiscrizione.test.ts",
       "prova_tipo": "vitest",
       "prova_eseguita": true,
@@ -9907,12 +9895,9 @@
         "collaudo": null,
         "perche": "il riparatore non l'ha scritta nel referto"
       },
-      "riparazione_17_11": {
-        "esito": "senza_referto",
-        "sessione": "R32",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
-      }
+      "chiuso_il": "2026-11-17 14:14",
+      "chiuso_da": "PR #294 · c83c3e4e",
+      "nota_riparazione": "La conferma scrive anche unsubscribed_at = null. La richiesta di iscrizione (app/api/newsletter/route.ts) resta com'era apposta: finche' la persona non conferma dalla sua casella la disiscrizione deve valere (chiunque puo' scrivere l'indirizzo di un altro). La prova fa il giro disiscritto -> nuova richiesta -> link dell'email -> conferma, con orologio finto. — prova: npx vitest run tests/unit/riparazione-r32-newsletter-riscritto-dopo-disiscrizione.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 22eb4216^ --file app/api/newsletter/confirm/route.ts --prove tests/unit/riparazione-r32-newsletter-riscritto-dopo-disiscrizione.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R32-012 --base 22eb4216^ --file app/api/newsletter/confirm/route.ts --prove tests/unit/riparazione-r32-newsletter-riscritto-dopo-disiscrizione.test.ts --json   (checkout 22eb4216, HEAD verificato) → uscita 0 (K18)"
     },
     {
       "dimensione": "privacy-legale",
@@ -12851,19 +12836,16 @@
       "impatto": "Oggi basso, perché al lancio i codici sono spenti in cassa. Quando si accenderanno, l'amministratore vedrà «Attivo» un codice che la cassa rifiuta e potrebbe darlo ai clienti.",
       "fix": "Leggere expires_at e usage_limit, calcolare lo stato («Scaduto», «Esaurito») e mostrare la scadenza.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Con un coupon scaduto e uno esaurito, la pagina deve scrivere «Scaduto» ed «Esaurito», non «Attivo».",
       "prova_tipo": "vitest",
       "prova_eseguita": true,
       "giro": 5,
       "verificato": true,
       "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)",
-      "riparazione_17_11": {
-        "esito": "senza_referto",
-        "sessione": "R30",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
-      }
+      "chiuso_il": "2026-11-17 14:14",
+      "chiuso_da": "PR #294 · c83c3e4e",
+      "nota_riparazione": "La vista dà a ogni coupon lo stato che gli darebbe la cassa, nell'ordine di check_coupon: disattivato, poi scaduto (expires_at), poi esaurito (uses_count ≥ max_uses), altrimenti attivo; e la scritta del badge. La pagina mostra il badge e «Scade il / Scaduto il <data>». La prova monta la pagina con l'orologio finto al 17/11/2026. — prova: npx vitest run tests/unit/riparazione-r30-coupon-scaduti.test.tsx — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 53093965^ --file lib/admin/vista-dei-coupon.ts,app/admin/coupons/page.tsx --prove tests/unit/riparazione-r30-coupon-scaduti.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R30-025 --base 53093965^ --file lib/admin/vista-dei-coupon.ts,app/admin/coupons/page.tsx --prove tests/unit/riparazione-r30-coupon-scaduti.test.tsx --json   (checkout 53093965, HEAD verificato) → uscita 0 (K18)"
     },
     {
       "dimensione": "stati-ui",
@@ -14231,10 +14213,10 @@
         "perche": "parziale: Restano circa 48 righe con l'euro scritto a mano fuori dai miei file (grep \"€ ?[0-9]|€${\" in app/components/lib, senza commenti). Le più visibili: app/profile/referral, app/sign-up, app/profile/gift-cards, components/seller/SubscriptionBanner, e le rotte AI/gift-card/reject/cash-confirm. Lo cura un'altra sessione col proprio territorio. Fra questi c'è il titolo del filtro prezzo «€0 – €500+» in app/category/[slug]/page.tsx:220 (anche app/search/page.tsx ha il suo)."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R31",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K17 non_regge",
+        "perche": "parziale: 32 righe con l'euro scritto a mano (grep «€ ?[0-9]|€${», senza commenti) in 22 file fuori dalla mia lista: app/api/ai/catalog-chat, app/api/ai/copilot, app/api/ai/improve-product, app/api/cron/operational-alerts, app/api/cron/release-payouts, app/api/gift-cards/checkout, app/api/rider/cash-confirm, app/api/seller/orders/[id]/reject, app/profile/page.tsx, app/profile/referral, app/rider/o"
       }
     },
     {
@@ -14969,10 +14951,10 @@
         "perche": "parziale: Nell'HTML del server piede, vetrina della home e chip dell'eroe mostrano ancora le categorie vuote, perché il server non consegna le piene prima che si disegnino. ATTENZIONE: il precarico proposto al primo giro (domandaCategoriePiene dentro precaricaHome) da solo NON basta: CategoryBar, nel menu, crea la domanda ['categories','con-prodotti'] nel QueryClient prima della pagina, e la HydrationBoundary della home (dentro la pagina) trova una domanda già esistente e la riempie solo in un effetto, cioè mai sul server. Provato con una prova usa-e-getta: CategoryBar + HydrationBoundary della home + CategoryShowcase → la vetrina mostra ancora /category/elettronica; senza CategoryBar (la prova del revisore) la filtra. Il precarico giusto sta nel layout, SOPRA il menu, con le due chiavi che piede, menu e vetrina leggono davvero: ['categories','tree'] e ['categories','con-prodotti'] (prima modifica di serve_file_altrui, che sostituisce quella su precaricaHome). Provato in un worktree: con quel precarico piede, vetrina e chip dell'eroe nell'HTML del server mostrano solo /category/alimentari; tsc 0, eslint 0, 65 file di prove vicine 672/672. Poi, non miei: i chip dell'eroe scritti nel codice (HomeSectionRenderer.tsx:67-72,155-170, 3 vuote su 4); la tendina della ricerca «Sfoglia per categoria» (components/SearchBar.tsx:61-73,315-323) che elenca fino a 8 principali senza filtro; la descrizione del sito (lib/site-branding.ts:81) e di /stores (app/stores/layout.tsx:7) che promettono casa, elettronica e libri. Le modifiche esatte sono in serve_file_altrui; il diff completo provato sta in /tmp/claude-0/-home-user-mycity/ac5c5bce-d77c-5008-9900-2c8dc498dca7/scratchpad/proposte.diff (più il file nuovo ChipDelleCategorie.proposta.tsx nella stessa cartella). Mappa del sito e noindex delle categorie vuote erano già a posto. Dal collaudo di chiusura: confermato che nell'HTML del server il piede elenca ancora le 8 di riserva finché il precarico nel layout (serve_file_altrui) non c'è; quel precarico pesa su ogni pagina e lo decide chi cuce."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R30",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui: Patch provata in un worktree su d1eaba80: tsc 0, 71 file di prove vicine 688/688. Il precarico nel layout pesa su ogni pagina (~72 righe di categorie, lettura una volta ogni 60 s): lo decide chi cuce."
       }
     },
     {
@@ -17857,10 +17839,10 @@
         "perche": "parziale: Il negoziante può rimettere in vendita con «Attiva» il prodotto tolto: la pagina del negoziante non è mia."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R32",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: R32-001: nota riservata alla regista."
       }
     },
     {
@@ -18082,10 +18064,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "gia_riparato_prima",
         "sessione": "R32",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K18 regge",
+        "perche": "gia_riparato_prima"
       }
     },
     {
@@ -18488,10 +18470,10 @@
       },
       "fuori_dal_referto": true,
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R32",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K18 parziale",
+        "perche": "parziale: Le intestazioni HTTP: l'SDK di Sentry 10.78 copia tutte le intestazioni negli attributi della misura server/edge anche con sendDefaultPii false, e la pulizia tocca solo il referer (lib/analytics/sentry-config.ts:151). Così http.request.header.cookie (mc_vid, l'identificativo di un anno, mc_consent e il cookie di PostHog) arriva a Sentry in chiaro. Cura: togliere o oscurare gli attributi "
       }
     },
     {
@@ -18735,10 +18717,10 @@
       },
       "fuori_dal_referto": true,
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R31",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tetto: la regista ha fermato il lotto 4 (privacy e dati) a 26,61 $ di spesa, per consegnare entro 38 $. Voce non aperta: resta per l'onda dopo."
       }
     },
     {
@@ -18971,7 +18953,7 @@
       "impatto": "Chi apre una vetrina o la home con un video manda IP e pagina a terzi negli Stati Uniti prima di aver scelto sui cookie, e la policy non lo dice. Pesa solo dove un negozio o l'admin ha messo un video.",
       "fix": "Mostrare un'anteprima statica col pulsante «Guarda il video (YouTube)» e caricare l'iframe solo al clic o col consenso. Aggiungere YouTube (Google) e Vimeo alla cookie policy e alla sezione dei trasferimenti extra-UE.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Sola lettura: `cd /home/user/mycity && grep -n \"youtube-nocookie\\|player.vimeo\\|<iframe\" components/store-sections/VideoSection.tsx components/home-sections/HomeSectionRenderer.tsx components/cms/CmsBlockRenderer.tsx && grep -ci \"youtube\\|vimeo\" app/cookies/page.tsx app/privacy/page.tsx`. Gli ultimi due conteggi danno 0.",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -19008,12 +18990,9 @@
         "collaudo": null,
         "perche": "serve_file_altrui: Il codice era già a posto sulla base (components/store-sections/VideoSection.tsx:29 usa VideoAlClic): il commit 89cd5c2d aggiunge solo la prova col clic vero. Quello che resta della voce (la cookie policy e l informativa che nominano YouTube e Vimeo) sta in file non di R18."
       },
-      "riparazione_17_11": {
-        "esito": "senza_referto",
-        "sessione": "R32",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
-      }
+      "chiuso_il": "2026-11-17 14:14",
+      "chiuso_da": "PR #294 · c83c3e4e",
+      "nota_riparazione": "Il video si carica gia' solo al tocco (VideoAlClic, unico iframe del sito: la prova lo tiene fermo col clic vero). Applicato il testo della scheda: cookie policy 2.5 «Video di YouTube e Vimeo» e Vimeo/YouTube nella sezione 4; informativa: voce YouTube/Vimeo fra i destinatari. Unica correzione al testo scritto: «la pagina da cui guardi» e' diventato «il sito da cui guardi», perche' l'iframe ha referrerPolicy strict-origin-when-cross-origin e al fornitore arriva solo l'origine (la prova controlla anche questo). Correzione dopo il revisore (3f6e764f): YouTube e Vimeo non più fra i responsabili ex art. 28 con DPA/SCC ma dichiarati titolari autonomi, nell'informativa e fra i trasferimenti extra-UE della cookie policy; la prova lo controlla. — prova: npx vitest run tests/unit/riparazione-r32-video-youtube-vimeo.test.tsx --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3f6e764f^ --file app/cookies/page.tsx,app/privacy/page.tsx --prove tests/unit/riparazione-r32-video-youtube-vimeo.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R32-024 --base f65470fa^ --file app/cookies/page.tsx,app/privacy/page.tsx --prove tests/unit/riparazione-r32-video-youtube-vimeo.test.tsx --json   (checkout 3f6e764f, HEAD verificato; base f65470fa^ perché la correzione sta in due commit, f65470fa e 3f6e764f: tolgo tutte e due) → uscita 0 (K18)"
     },
     {
       "dimensione": "privacy-legale",
@@ -19215,10 +19194,10 @@
         "perche": "parziale: (1) Il termine per l'email con l'IBAN nella casella dell'assistenza: QUANTO_TENIAMO_L_IBAN e LA_COPIA_NELLA_CASELLA in lib/privacy/iban-per-email.ts dicono ancora «finché non la cancelliamo», e un numero non c'è né nel codice né nel registro dei fatti. (2) Se serve, una scadenza in mesi per la chat, con la sua potatura. (3) Anche la chat con l'Assistenza (app/api/support/conversation/route.ts:134, SupportChatModal) scrive in messages, e l'informativa non la copre: né la riga «Chat col negozio» né quella dei Contatti."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R32",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
       }
     },
     {
@@ -19314,10 +19293,10 @@
       },
       "fuori_dal_referto": true,
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R31",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tetto: la regista ha fermato il lotto 4 (privacy e dati) a 26,61 $ di spesa, per consegnare entro 38 $. Voce non aperta: resta per l'onda dopo."
       }
     },
     {
@@ -19355,10 +19334,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R32",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
       }
     },
     {
@@ -19551,10 +19530,10 @@
         "perche": "parziale: ① Togliere al cliente l'INSERT diretto su disputes: l'avevo scritto (migrazione 273 che lascia cadere disputes_open_insert) ma la prova SQL esistente tests/sql/rls/48-i-difetti-minori-del-database.test.sql (⑩, «il cliente apre ancora un reclamo vero (1660)») pretende proprio che il cliente possa inserirlo, e non è un mio file: l'ho tolta. ② Il reclamo mostrato nella pagina dell'ordine del cliente e in quella del negozio, ③ l'avviso «reclamo aperto da più di N ore» in operational-alerts: file non miei."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R33",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K18 parziale",
+        "perche": "parziale: ① Togliere al cliente l INSERT diretto su disputes: migrazione 570 insieme alla nuova prova 48 (blocco ⑩), nello stesso commit perché la 48 di oggi pretende l INSERT. ② Mostrare il reclamo nella pagina dell ordine del cliente (app/orders/[id]/page.tsx, non di R33). Facoltativo (non chiesto dalla scheda): lo stesso nella pagina dell ordine del negozio app/seller/orders/[id]/page.tsx; il n"
       }
     },
     {
@@ -19716,10 +19695,10 @@
         "perche": "parziale: Il riquadro «Avvisi da gestire» in /admin/today, proposto dalla voce come secondo pezzo, sta in app/admin/today/page.tsx, che non è fra i miei file."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R33",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui: Nella sostanza parziale: la campanella è già nella base, manca solo il riquadro in un file altrui."
       }
     },
     {
@@ -19916,10 +19895,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "gia_riparato_prima",
         "sessione": "R33",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K18 regge",
+        "perche": "gia_riparato_prima"
       }
     },
     {
@@ -20311,10 +20290,10 @@
         "perche": "serve_file_altrui: Prova che avrei committato: la funzione trova solo p-1 per «foca» su 'Focaccia', 'Focaccia genovese', 'Focaccia classica', e il risultato deve contenerli tutti e tre con 'Focaccia' per primo. Il caso in vetrina del negozio passa già sulla base grazie al supplemento del 5/11."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R30",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tetto: la regista ha chiuso R30 a 38 $ dopo il lotto B (17/11) e la voce non è stata aperta; nessun file toccato."
       }
     },
     {
@@ -20389,10 +20368,10 @@
         "perche": "parziale: dipende da R17-002: il bonifico del lunedì al negozio non si può ancora segnare (la riparazione è su un altro ramo e la sua migrazione non è sul database vero), ed è proprio lì che va compensato il 10% dei ritiri pagati al banco. Poi, per accenderlo: (1) interruttore: lib/ritiro-in-negozio.ts:22 `RITIRO_IN_NEGOZIO_ATTIVO = false` → true, col commento :7-20 da riscrivere (il motivo «coi negozi non se n'è ancora parlato» non vale più; resta il controllo che le migrazioni 124 e 179 siano applicate in produzione, come dice :19-20). Lo leggono: app/api/orders/cod/route.ts:365 e app/api/stripe/checkout/route.ts:133 (lo spengono lato server), app/checkout/page.tsx:1411, components/checkout/PaymentMethodSelector.tsx:175, lib/store-hours.ts:375, lib/store-customization.ts:127, lib/ordini/zona-di-consegna.ts:65, lib/promesse-pubbliche.ts:67-147, lib/email/templates.ts:766, lib/order-status.ts:44, app/admin/delivery/page.tsx:140-143, app/store/[id]/layout.tsx:43. (2) Cassa: la tessera del ritiro (PaymentMethodSelector.tsx:175-205) promette «Sconto {pickupDiscountPercent}%» e «Niente spedizione, sconto subito» mentre PICKUP_DISCOUNT_PERCENT vale 0 (lib/constants.ts:87): accesa scriverebbe «Sconto 0%». Va detto «gratis, nessun costo di consegna» (la consegna a zero col ritiro c'è già, lib/shipping.ts:79); il commento :162-173 è vecchio. (3) Contanti al banco: la scelta dei contanti dice solo «Contanti alla consegna · Paghi al rider quando ricevi il pacco» (PaymentMethodSelector.tsx:154-158), nessun testo per chi ritira e paga al banco; lato database contanti + ritiro diventa già CASH_IN_STORE (migrations/179:206). (4) Compensazione del 10%: lib/guadagni/negozio.ts calcola commissioneDovutaCents ma nessun codice la scala dal bonifico del lunedì né segna sull'ordine che è stata scalata (serve colonna + funzione, già detto nel parziale di R11-005); il resto nella fattura del mese con l'abbonamento non esiste; i ritiri al banco poi rimborsati restano contati. (5) Payout: app/api/cron/release-payouts/route.ts non tratta CASH_IN_STORE; il bonifico del lunedì fatto a mano (segna_bonifico_manuale, migrazione 350) è quello di R17-002. (6) Testi: app/admin/delivery/page.tsx:139-143 dice «Messo da parte: non se n’è ancora parlato coi negozi» e, acceso, «− 0%». (7) Prove che fissano lo spento, da girare insieme all'interruttore: tests/unit/ritiro-in-negozio-messo-da-parte.test.ts:22-33 e tests/unit/le-promesse-che-il-sito-non-mantiene.test.ts:65. Da verificare prima di accendere anche il codice di ritiro al banco (il #30 citato dalla voce; app/orders/[id]/page.tsx:213 e confirm_pickup_by_seller ci sono)."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R30",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui: Per indicazione della regista (17/11) l'interruttore lib/ritiro-in-negozio.ts:22 resta spento: accenderlo prima che il bonifico del lunedì si possa segnare (lavoro su un altro ramo, migrazione non sul database vero) lascerebbe il 10% dei ritiri pagati al banco senza compensazione. Nessun file toccato."
       }
     },
     {
@@ -20546,10 +20525,10 @@
         "perche": "serve_file_altrui: Il testo di components/ProductQA.tsx non promette più nessuna notifica già dal 5/11 (riga 96: «Domanda pubblicata: la risposta del negozio comparirà qui sotto»): niente da cambiare nel mio file. La parte che manca (avviso reale al negozio) sta in migrazione e pannello venditore."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R33",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: Tetto di costo dell onda 5 (decisione della regista alle 11:37, costo 22,69 $ su 38): la voce passa all onda dopo, senza lavoro su questo ramo."
       }
     },
     {
@@ -20613,7 +20592,7 @@
       "impatto": "Il negoziante che dal telefono scrive 0 nella colonna sbagliata (prezzo e scorta sono affiancate) mette il prodotto in vetrina a 0,00 €; se accetta l'ordine senza guardare consegna merce gratis. Con «2,50 €» crede di aver cambiato il prezzo e non l'ha cambiato.",
       "fix": "Nella pagina leggere il prezzo come l'import (leggiPrezzo), rifiutare zero, negativi e NaN con errore sulla riga e contare solo le righe salvate; nel server rifiutare price <= 0 ogni volta che il prezzo è nel payload; in cassa scartare una riga a prezzo zero.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "node /tmp/claude-0/-home-user/d986906a-4c5d-52c8-b691-e857422e00f9/scratchpad/tmp-seller-pagine/prezzo-zero.cjs — esegue la vera salvaProdottoTracciato con un database finto su una focaccia in vendita a 4,50 € e payload {price: 0}. Rieseguita in verifica: scritto [{price:0}], esce con codice 1.",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -20632,12 +20611,9 @@
         "nota": "S01 lo dava «non_piu_vero»; il verificatore indipendente lo smentisce, la voce resta aperta."
       },
       "fuori_dal_referto": true,
-      "riparazione_17_11": {
-        "esito": "senza_referto",
-        "sessione": "R30",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
-      }
+      "chiuso_il": "2026-11-17 14:14",
+      "chiuso_da": "PR #294 · c83c3e4e",
+      "nota_riparazione": "La pagina e la porta di scrittura erano già a posto alla base (leggiPrezzo senza ≤0/NaN, conta solo i salvati, salvataggio-tracciato rifiuta price≤0; prova minori-s06-modifica-in-blocco). Mancava la cassa: validaRigaDelCarrello, comune a contanti e carta, scarta la riga se il prezzo da pagare, già scontato e in centesimi, non è maggiore di zero. Copre anche 0,01 € col 70% di sconto. 65 file vicini 498/498. — prova: npx vitest run tests/unit/riparazione-r30-carrello-a-zero-euro.test.ts — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 414691f2^ --file lib/ordini/valida-carrello.ts --prove tests/unit/riparazione-r30-carrello-a-zero-euro.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R30-010 --base 414691f2^ --file lib/ordini/valida-carrello.ts --prove tests/unit/riparazione-r30-carrello-a-zero-euro.test.ts --json   (checkout 414691f2, HEAD verificato) → uscita 0 (K18)"
     },
     {
       "dimensione": "qa-flussi",
@@ -21368,10 +21344,10 @@
       },
       "fuori_dal_referto": true,
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R31",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui"
       }
     },
     {
@@ -22591,10 +22567,10 @@
         "perche": "serve_file_altrui"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R30",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K18 parziale",
+        "perche": "parziale: Rimettere in bacheca le consegne ASSIGNED al momento della sospensione (rotta di moderazione): con quella parte la prova comune riparazione-r08-moderazione diventa rossa (1 su 17), quindi va in patch insieme alla prova."
       }
     },
     {
@@ -23914,10 +23890,10 @@
         "perche": "parziale: Il motivo «fuori zona» arriva ancora come «Qualcosa non ha funzionato» coi nomi come «Bistrot La Table»: app/api/orders/cod/route.ts:1055 e app/api/stripe/checkout/route.ts:629 rifiutano con invalidRequest(motivoFuoriZona(store_name)), cioè INVALID_REQUEST, di cui friendlyError non si fida (porta anche i testi grezzi di Zod)."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R33",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui"
       }
     },
     {
@@ -24339,7 +24315,7 @@
       "impatto": "Il cliente che ha un codice lo cerca alla cassa e non trova dove scriverlo. Si ferma o scrive all'assistenza. Il danno è basso: nessuna perdita di soldi, solo confusione.",
       "fix": "Far nascere la risposta dall'interruttore: se è spento la domanda non compare, oppure dice «al momento non si possono usare codici sconto». Togliere la frase sul codice in spiegazioneDellaConsegna quando l'interruttore è spento. Nella pagina Aiuto togliere «modifica» e il numero 25.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Eseguiti: grep -n \"CODICI_SCONTO_IN_CASSA: boolean\" lib/funzioni-al-lancio.ts dà 107 e false. grep -n -iE \"coupon|codice sconto\" app/faq/page.tsx dà 87-88, testo fisso. sed -n 1629,1631p app/checkout/page.tsx mostra il campo legato all'interruttore. grep -n \"funzioni-al-lancio\" lib/promesse-pubbliche.ts mostra che il file importa solo CARTA_ACCESA.",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -24364,12 +24340,9 @@
         "collaudo": null,
         "perche": "il riparatore non l'ha scritta nel referto"
       },
-      "riparazione_17_11": {
-        "esito": "senza_referto",
-        "sessione": "R31",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
-      }
+      "chiuso_il": "2026-11-17 14:14",
+      "chiuso_da": "PR #294 · c83c3e4e",
+      "nota_riparazione": "La risposta della FAQ seguiva già CODICI_SCONTO_IN_CASSA; restava la frase fissa «Se in cassa usi un codice sconto…» nel testo della consegna (spiegazioneDellaConsegna.chiusura): ora compare solo con l'interruttore acceso. La prova finge l'interruttore spento e acceso. — prova: npx vitest run tests/unit/riparazione-r31-codice-sconto-in-cassa.test.ts — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base ae780870^ --file lib/promesse-pubbliche.ts --prove tests/unit/riparazione-r31-codice-sconto-in-cassa.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R31-007 --base ae780870^ --file lib/promesse-pubbliche.ts --prove tests/unit/riparazione-r31-codice-sconto-in-cassa.test.ts --json   (checkout ae780870, HEAD verificato) → uscita 0 (K17)"
     },
     {
       "dimensione": "frontend-ux",
@@ -24967,10 +24940,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R30",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui"
       }
     },
     {
@@ -25442,7 +25415,7 @@
       "impatto": "Il cliente che vuole leggere le opinioni prima di comprare ne vede sei, mentre il numero ne promette di più. Le recensioni più vecchie, con le risposte del negozio, restano invisibili.",
       "fix": "Aggiungere «Mostra altre recensioni», che allarga la lista e carica anche oltre le 20. In alternativa, allineare il numero nella scheda a quelle davvero visibili.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Scenario (non eseguito, minore): negozio con 12 recensioni. La scheda dice «Recensioni · 12» (SectionRenderer.tsx:116) e l'intestazione «(12)» (ReviewsSection.tsx:206). Atteso: si possono leggere tutte. Reale: ReviewsSection.tsx:211 ne disegna 6 e non c'è nessun comando per le altre.",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": false,
@@ -25479,12 +25452,9 @@
         "collaudo": "parziale",
         "perche": "parziale: La vetrina legge al massimo 20 recensioni (components/store-sections/useStorePageData.ts:40, non mio) mentre la linguetta mostra il totale vero: con «Recensioni · 45» se ne leggono 20."
       },
-      "riparazione_17_11": {
-        "esito": "senza_referto",
-        "sessione": "R30",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
-      }
+      "chiuso_il": "2026-11-17 14:14",
+      "chiuso_da": "PR #294 · c83c3e4e",
+      "nota_riparazione": "Finite le 20 della vetrina, «Mostra altre recensioni (N)» ne legge altre 20 alla volta fino al conto vero (riepilogoRecensioni.totale), con la stessa lettura di useStorePageData (stesse colonne, created_at decrescente, nomi da fetchNomiPubblici, foto come elenco, doppioni tolti). Senza conto vero non promette di più; una pagina corta ferma; una lettura caduta si dice e si riprova. Prova che monta il componente con 45 recensioni finte. useStorePageData.ts:40 (.limit(20)) può restare: è la prima pagina. — prova: npx vitest run tests/unit/riparazione-r30-recensioni-a-pagine.test.tsx — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 9b4f9271^ --file components/store-sections/ReviewsSection.tsx --prove tests/unit/riparazione-r30-recensioni-a-pagine.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R30-007 --base 9b4f9271^ --file components/store-sections/ReviewsSection.tsx --prove tests/unit/riparazione-r30-recensioni-a-pagine.test.tsx --json   (checkout 9b4f9271, HEAD verificato) → uscita 0 (K18)"
     },
     {
       "dimensione": "frontend-ux",
@@ -27668,10 +27638,10 @@
         "nota": "Negozio e fattorino ora ricevono la campanella. Un ordine consegnato non torna più a scaffale: in contanti l'annullo viene rifiutato, con la carta si rimborsa senza rimettere la merce. Resta il caso dell'ordine in viaggio, carta o contanti: la merce torna subito in vendita mentre è ancora col fattorino, o è già dal cliente."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R31",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K17 parziale",
+        "perche": "parziale: Da PICKED_UP o OUT_FOR_DELIVERY la merce è col fattorino e di solito torna in negozio: la correzione non la rimette a scaffale (giusto finché non è tornata) ma le campanelle di app/api/admin/orders/[id]/cancel/route.ts:121-123 dicono solo «non va più preparato né consegnato»: al fattorino non si dice di riportarla e il negozio non sa che le quantità non sono tornate in vendita (giacenza "
       }
     },
     {
@@ -27806,10 +27776,10 @@
         "nota": "Le prove dei permessi girano ancora solo sul database ricostruito dai file, su Postgres 16."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_codice",
         "sessione": "R33",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_codice: Perché non è codice: le prove SQL della CI girano su un Postgres 16 ricostruito applicando tutte le migrazioni del deposito (ci.yml, lavoro rls-locale; tests/sql/harness/apply.sh), quindi certificano i file, non la produzione; il controllo notturno deriva-migrazioni-produzione.yml confronta solo i nomi delle migrazioni applicate. Confrontarsi col database vero richiede l accesso alla p"
       }
     },
     {
@@ -28363,10 +28333,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R32",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K18 parziale",
+        "perche": "parziale: (1) Termini: il verbale si riprova gia' al prossimo ingresso (accesso con password e link leggono la versione da user_metadata) e la cassa e l'area del negozio li richiedono se la riga manca (middleware.ts), ma con una sessione aperta da settimane nessuno lo riscrive da solo con la versione gia' accettata: servirebbe un tentativo automatico in middleware.ts o lib/auth/accettazione-testi."
       }
     },
     {
@@ -28581,10 +28551,10 @@
         "perche": "parziale: Il ruolo del Rider. I Termini (app/terms/page.tsx:355, punto 10) dicono «titolare autonomo», il registro dice «per conto di MyCity»: è una qualifica legale, quindi non la scrivo."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R32",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
       }
     },
     {
@@ -28735,10 +28705,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R32",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
       }
     },
     {
@@ -29002,10 +28972,10 @@
         "nota": "Il vino non è più fra le ricerche suggerite a tutti, ma per chi compra il controllo dei 18 anni manca ancora ovunque: iscrizione, scheda, cassa, rider. Restano anche la categoria «Bevande», l'enoteca in Chi siamo e «vino» fra le parole della pagina Regali."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R32",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
       }
     },
     {
@@ -29127,10 +29097,10 @@
         "nota": "Invariato."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "scelta_di_nicola",
         "sessione": "R31",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "scelta_di_nicola: lib/category-attributes.ts ha «Peso / Quantità» come testo libero, lib/products/schema.ts non valida gli attributi di categoria e «confezionato» non si distingue da «sfuso»: renderlo obbligatorio vuol dire inventare il modello dei dati."
       }
     },
     {
@@ -32812,10 +32782,10 @@
         "nota": "Nessun evento di rimborso/annullo verso GA4 o PostHog."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R31",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: Non è una modifica piccola. L'acquisto lato server parte da contaAcquisto in lib/analytics/server.ts (file non mio) verso GA4 e PostHog: servirebbe un contaAnnullamento lì, col consenso, l'evento refund di GA4 sul transaction_id (serve il client_id GA, che oggi non è salvato sull'ordine) e order_refunded/canceled su PostHog, chiamato da annullaERimborsa, dal giro degli scaduti, dal rifi"
       }
     },
     {
@@ -33738,10 +33708,10 @@
         "perche": "parziale: La frase della voce «nessuna arriva al sito» non regge del tutto. Nell'albero di produzione resta 1 falla alta: zod 3.25.76 (GHSA-mrhx-c7xc-m3w5, memoria esaurita con collezioni enormi), dipendenza diretta usata in 45 file per validare le richieste, che si ripara solo con zod 4 (salto maggiore, cambia l'API: è una scelta). I tetti sulla grandezza del JSON nelle rotte la attenuano, ma nessuno l'ha misurato. Negli strumenti restano webpack-dev-middleware via @storybook/builder-webpack5 (nessuna correzione in 10.x) e le falle dei bundler Sentry, di resend e di react-email. Overrides e cancello in CI: vedi serve_file_altrui."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R30",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tetto: la regista ha chiuso R30 a 38 $ dopo il lotto B (17/11) e la voce non è stata aperta; nessun file toccato. L'aggiornamento a zod 4 resta una scelta di Nicola (vedi domande)."
       }
     },
     {
@@ -34170,10 +34140,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R33",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui: Non controllato a occhio «veri» in app/page.tsx:27, come-funziona e AuthShell: serve un build con la rete verso Google Fonts."
       }
     },
     {
@@ -35541,10 +35511,10 @@
         "perche": "parziale: (1) La cancellazione dell'account non ripulisce ancora le segnalazioni: serve la modifica a lib/account/cancellazione.ts qui sotto. (2) Le segnalazioni mai decise (ricevuta o in_esame) tengono l'email senza un tetto: l'informativa dice «dalla decisione», quindi non mente, ma manca un limite per quelle righe. (3) Il 12 viene dalla ricetta del 24/10, non da una scelta firmata di Nicola (domanda nel referto). (4) Come tutte le potature, cancella davvero solo con CANCELLAZIONI_A_ORARIO=accese su Vercel."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R32",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui: Non codice: CANCELLAZIONI_A_ORARIO=accese su Vercel Production perche' la potatura notturna cancelli davvero."
       }
     },
     {
@@ -36504,10 +36474,10 @@
         "visto_in_piu": "Il lato del cliente. Una persona con un ordine suo in consegna (OUT_FOR_DELIVERY) chiede di cancellarsi, e né la pagina (scheda danger), né la risposta della rotta, né il riquadro dopo dicono una parola sull'ordine. Non c'è nemmeno un rinvio per gli ordini aperti del cliente: in lib/cron-cancellazioni.ts, riga 66, MOTIVI_DI_RINVIO contiene solo 'cassa_da_versare'. Titolo e impatto della 967 parlano solo del negozio, con un ordine aperto e un bonifico da fare."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R33",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K18 parziale",
+        "perche": "parziale: (1) lib/privacy/cancellazioni-in-sospeso.ts:172 (non di R33): il sorvegliante non conosce il rinvio della 572 e dal nono giorno manda ogni giorno CANCELLAZIONE_NON_ESEGUITA dicendo che nessuna regola la trattiene: serve riconoscere il rinvio per ordini aperti (come per i fattorini). (2) app/api/cron/process-deletions/route.ts:430: l avviso agli amministratori parte una volta sola per neg"
       }
     },
     {
@@ -36841,10 +36811,10 @@
         "nota": "Due giri sovrapposti possono mandare due volte la stessa push."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R33",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui: PERMESSI (in chiaro): la 571 crea public.claim_pending_push(timestamptz,int) con i permessi di chi la chiama (NON security definer); revoca EXECUTE a PUBLIC, anon e authenticated e lo CONCEDE a service_role. Niente commit perché la prova comune finge rpc() = {data:true} per ogni funzione e con la presa atomica diventa rossa, e lib/database.types.ts non è di R33. Alla prova rimes"
       }
     },
     {
@@ -39086,10 +39056,10 @@
         "perche": "parziale: Nei miei file restano 21 `text-[11px]` (nella scala non c'è l'11 e il registro non dice se andare a 10 o a 12: serve un gradino nuovo in tailwind.config.ts, file altrui) e un `text-[13px]` solo in un commento di app/globals.css. Negli altri file restano circa 250 misure a mano (273 in tutto nel sito, 95 file), le cartelle più cariche: app/rider (73), app/seller (29), app/admin (22), components/seller (13), app/category (10), components/account (9), components/ui (8), components/products (8), app/about (8), components/home (6), components/admin (6), app/lavora-con-noi (6). Con altre misure fuori scala: 32, 28, 17, 54, mezzi pixel."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R33",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K18 non_regge",
+        "perche": "parziale: Nei quattro file di R33 restano solo 15 text-[11px] (SellerShell 4, rider/earnings 4, search 4, AdminSidebar 3): dopo il gradino xxs vanno sostituiti con text-xxs (senza la classe nel config la scala si romperebbe). Restano ~250 misure a mano negli altri file (rider 73, seller 29, admin 22, components/seller 13, category 10 e il resto), non di R33."
       }
     },
     {
@@ -41373,10 +41343,10 @@
         "perche": "parziale: 1) La foto non si cambia ancora dal pannello admin. app/api/admin/categories/route.ts non accetta image_url (zod lo scarta) e app/admin/categories/page.tsx non ha il campo: oggi la si cambia solo dal database, senza ripubblicare il sito. Che la migrazione 159 sia applicata in produzione lo decide Nicola (non_codice). 2) L'avviso è logger.warn nel browser, cioè solo console.warn (lib/logger.ts:122-124): non arriva a Sentry né ai log del server. Chi gestisce il sito quindi non vede ancora una foto sparita. Manca un canale, per esempio un controllo dal server sugli image_url, in file non miei. 3) Nella modifica proposta per la rotta admin, fotoDiCategoria accetta anche qualunque *.supabase.co (lib/immagine-categoria.ts:59), non solo gli host della CSP. Chiuso in questo giro: l'avviso doppio nella corsa e l'avviso ripetuto a ogni rimontaggio (components/CategoryShowcase.tsx:92-98, :258, :276). Dal collaudo: components/CategoryShowcase.tsx:168-173 Nello stesso componente l'altro avviso sul silenzio delle foto, «foto di categoria scartata» (useEffect su tessere), ha ancora i due buchi chiusi per la foto rotta. Si ripete quando arrivano le piene (tessere ricalcolate) e a ogni rimontaggio: 3 avvisi per la stessa foto nel mio esperimento. Il file è di R15, ma il difetto non è corretto e non compare in cosa_resta. app/api/admin/categories/route.ts:67-70, 89-95 La modifica in serve_file_altrui non è esatta. Dice «salvare la stringa vuota come null» ma non dice di aggiungere image_url all'oggetto dell'insert in POST né al costruttore di patch in PATCH (lì ogni campo è scritto a mano). Inoltre il messaggio del refine promette «host della CSP», mentre fotoDiCategoria accetta qualunque *.supabase.co (lib/immagine-categoria.ts:59). Chi ripara lo ammette al punto 3, ma la propone lo stesso. components/CategoryShowcase.tsx:92-98, 255-277 cosa_resta 2 è il cuore della voce: una foto sparita «nessuno se ne accorge», e resta vero perché l'avviso va solo in console.warn. Per questo pezzo non c'è nessun {file, modifica} esatto, solo «per esempio un controllo dal server sugli image_url, in file non miei». La regola 5 chiede l'elenco esatto. tests/unit/riparazione-r15-la-foto-rotta-si-dice-una-volta.test.tsx: La prova rimessa è stata lanciata con base bb56980b^ e con una sola prova. La regola dice che, con un secondo commit, la base è il genitore del primo commit della voce (116e2134^ = a19ff892) e che vanno messe tutte e due le prove. Rifatta da me a mano (il componente della base sull'albero di HEAD, tutte e due le prove): rosse sul comportamento. Nella sostanza reggerebbe: è uno scostamento di procedura."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R30",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui: Il codice di questa voce (avvisi delle foto di categoria in components/CategoryShowcase.tsx) non regge senza adattare due prove comuni di R15, che usano file di altre sessioni: rimesse come alla base (regista, 17/11), con la correzione 6 casi su 8 diventano rossi. Codice, prove adattate e prova nuova sono in patch; nel ramo CategoryShowcase.tsx è uguale alla base. Quello che la "
       }
     },
     {
@@ -44257,10 +44227,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R33",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: La causa non si vede dal sorgente: in app/layout.tsx i caratteri sono next/font standard e middleware.ts non ha logica sui caratteri. Servirebbe un build con l ispezione dell HTML reso di / e /product/[id] (che il registro trova senza preload, mentre /cart ne ha due); senza, nessuna modifica piccola e provata nei due file."
       }
     },
     {
@@ -44392,10 +44362,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R33",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: Togliere l import da QueryProvider non basta: lib/errors.ts importa lib/zod-i18n (FRASI_ZOD, riga 14) ed è caricato quasi ovunque. Lavoro vero: 1) FRASI_ZOD in un file nuovo senza effetti (lib/zod-frasi.ts) importato da errors.ts; 2) z.setErrorMap solo in lib/zod-i18n.ts; 3) importarlo nei punti che usano Zod nel browser (components/SellerApplicationForm.tsx, components/VendorForm.tsx, "
       }
     },
     {
@@ -48015,10 +47985,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R31",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui"
       }
     },
     {
@@ -54733,10 +54703,10 @@
         "perche": "parziale: catalog-apply ora coincide col modulo prodotto. Restano però altre porte con forme diverse, in file non miei: app/api/ai/catalog-apply-bulk/route.ts:250-258 e app/api/ai/catalog-batch/apply/route.ts:321-330 (tutte le chiavi, nessun daAi), e app/api/admin/products/route.ts:225-231, che registra solo {fields}, senza prima né dopo."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R30",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui: catalog-apply e salvataggio-tracciato (miei) coincidono già col modulo prodotto alla base; le altre tre porte non sono mie. Righe ricontrollate sulla base d1eaba80."
       }
     },
     {
@@ -56650,10 +56620,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R31",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K17 non_regge",
+        "perche": "parziale: La riga nell'avviso (serve_file_altrui sopra) e il riaccredito automatico al negozio: domanda per Nicola (nell'onda 4 un revisore l'ha bocciato sul carrello di due negozi). Difetti trovati dal revisore, da correggere prima di applicare la riga dell'avviso: (1) rimborso-respinto.ts:295 calcola la frase solo sugli ordini da scrivere adesso, quindi al ritentativo l'avviso parte senza cifra;"
       }
     },
     {
@@ -56985,10 +56955,10 @@
         "perche": "parziale: Il modulo vero deve passare i due dati nuovi: senza, pianoPatchPerIlModulo si comporta come prima (attributiAttuali assente = toglie tutto, haVarianti assente = senza varianti)."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R32",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
       }
     },
     {
@@ -59635,10 +59605,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "gia_riparato_prima",
         "sessione": "R31",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K17 regge",
+        "perche": "gia_riparato_prima"
       }
     },
     {
@@ -59851,10 +59821,10 @@
         "perche": "parziale: Il controllo automatico: la rotta di salute deve chiedere una foto vera tramite la trasformazione e segnalare degradato se risponde 403. Sta in app/api/health, non di R15. Va anche impostata la variabile su Vercel da Nicola quando serve. Dal collaudo: lib/image-url.ts:96-102 Il commento dice «si cambia senza toccare il codice», ma NEXT_PUBLIC_* viene incorporata a build time da Next, quindi serve un nuovo deploy, non basta cambiare la variabile su Vercel. Nel cosa_resta andrebbe scritto che serve un nuovo deploy. Resta anche che l'interruttore è manuale: senza il controllo di salute nessuno si accorge che serve."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R30",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K18 non_regge",
+        "perche": "parziale: La rotta di salute deve chiamare l'aiutante (serve_file_altrui). L'interruttore su Vercel lo accende Nicola, con un nuovo deploy."
       }
     },
     {
@@ -60850,10 +60820,10 @@
         "perche": "parziale: Le altre cinque pagine non sono mie: app/admin/cod-remittance, payouts, support, products e audit (page.tsx)."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R30",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui: app/admin/today/page.tsx (mio) usa già vistaDaQuery alla base; le altre cinque pagine non sono mie. Verificato sulla base: in ognuna 3 rami isLoading/isError scritti a mano e nessun vistaDaQuery."
       }
     },
     {
@@ -63300,10 +63270,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "gia_riparato_prima",
         "sessione": "R31",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K17 regge",
+        "perche": "gia_riparato_prima"
       }
     },
     {
@@ -63932,10 +63902,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R31",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui"
       }
     },
     {
@@ -65234,10 +65204,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "riparato",
         "sessione": "R31",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K17 parziale",
+        "perche": "collaudo: parziale"
       }
     },
     {
@@ -69507,10 +69477,10 @@
         "perche": "parziale: I ripieghi fatti a mano in due file non di R23, contestazione-parziale-vinta.ts:43 e rimborsi.ts:506: modifiche esatte in serve_file_altrui."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "scelta_di_nicola",
         "sessione": "R31",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "scelta_di_nicola: La modifica scritta nella scheda usa memoriaDiPostgrestVecchia, che alla testa non esiste più in lib/db/migrazione-124.ts: la sessione che l'aveva aggiunta è stata tolta dopo un collaudo dell'onda 2, perché con la memoria vecchia la contestazione parziale vinta rifaceva il bonifico al negozio a ogni ripetizione di Stripe. Rimetterla vorrebbe dire rimettere una correzione bocciata"
       }
     },
     {
@@ -71402,10 +71372,10 @@
         "perche": "parziale: Le due guardie sul testo restano nelle prove vecchie: nessuna delle due importa o legge per nome un file del territorio di R22 (leggono app/checkout/page.tsx, components/checkout/DeliverySlotPicker.tsx, le due rotte d'ordine e app/cart/page.tsx), quindi non le ho toccate. Vanno sostituite dalle due prove nuove di comportamento, già nel ramo: vedi serve_file_altrui."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R30",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui: Le due prove guardano file di R31 (app/checkout/page.tsx, app/cart/page.tsx): sono comuni. Le due prove di comportamento che le sostituiscono sono già nella base (tests/unit/riparazione-r22-veloce-cassa-chiede-al-server.test.ts e tests/unit/riparazione-r22-veloce-l-invio-rilegge-l-ora.test.ts, verificato)."
       }
     },
     {
@@ -72934,10 +72904,10 @@
         "nota": "Il buco nella prova resta."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R30",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tetto: la regista ha chiuso R30 a 38 $ dopo il lotto B (17/11) e la voce non è stata aperta; nessun file toccato."
       }
     },
     {
@@ -73516,10 +73486,10 @@
         "perche": "parziale: La metà sulla pagina della cassa (orari passati al selettore e al freno): montare app/checkout/page.tsx in jsdom è pesante e i due test testuali non sono miei."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R32",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
       }
     },
     {
@@ -73590,10 +73560,10 @@
         "perche": "parziale: Le rotte oggi non ricevono l'istante della proposta, quindi in produzione non cambia ancora niente: servono tre file non di R23, scritti in serve_file_altrui."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R32",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
       }
     },
     {
@@ -74006,10 +73976,10 @@
         "perche": "parziale: Il caso generale dell'orologio indietro su un ordine che ERA ritirabile: passata l'ora dell'ultimo ritiro, un telefono 30 secondi indietro legge ancora «entro le 12:45» per quei 30 secondi, perché le pagine scrivono la riga con l'ora del browser (lettoAlle). Serve l'ora del server nelle pagine app/seller/orders/*.tsx, che non sono di questo lotto."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R30",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tetto: la regista ha chiuso R30 a 38 $ dopo il lotto B (17/11) e la voce non è stata aperta; nessun file toccato."
       }
     },
     {
@@ -74232,10 +74202,10 @@
         "perche": "parziale: Il cron dei carrelli ora segna i carrelli chiusi senza email con l ora dell ultima attivita, e il conto li tiene fuori dagli «inviati». Restano fuori: (1) un altro scrittore dello stesso segno in un file non di R14, app/api/account/delete/route.ts:189, che alla richiesta di cancellazione scrive recovery_email_sent_at = now() sui carrelli mai avvisati: quei carrelli contano ancora come promemoria inviati; (2) i carrelli chiusi prima di questa modifica, che non hanno un dato che li distingua; (3) l UPDATE del segno in app/api/cron/abandoned-carts/route.ts:88-92 non e condizionato a last_activity (se il carrello cambia tra lettura e scrittura il segno non e piu uguale e torna a contare)."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R30",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K18 parziale",
+        "perche": "parziale: (2) I carrelli chiusi prima di questa modifica hanno l'ora del giro e non si distinguono da un invio vero. Il ramo dei carrelli oltre 48 ore e la cancellazione dell'account sono in patch (una prova comune e un file di R33)."
       }
     },
     {
@@ -74727,10 +74697,10 @@
         "nota": "Il rumore per i visitatori anonimi c è ancora."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R33",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui: Niente commit: nella prova comune autori() non dà una sessione a chi guarda, quindi «Maria con l account» risulta senza account e la prova diventa rossa; la diff le aggiunge una riga: globale.__UTENTE__ = chi ? { id: chi } : null."
       }
     },
     {
@@ -78533,10 +78503,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R32",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
       }
     },
     {
@@ -78628,10 +78598,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R31",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui"
       }
     },
     {
@@ -79882,10 +79852,10 @@
         "perche": "parziale: Il cron degli avvisi (file non di R04) deve chiamare la funzione: finche' non lo fa, in produzione l'allarme non parte."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R32",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
       }
     },
     {
@@ -80187,10 +80157,10 @@
         "perche": "parziale: Caso A (un solo altro commit negli ultimi 20 rilasci): le prove esistenti (il-ritorno-indietro-torna-a-quello-che-usano-i-clienti.test.ts:83, il-ritorno-indietro-non-torna-sullo-stesso-commit.test.ts:29 e :54) fissano apposta «un solo altro commit → si torna lì», e cambiarle vorrebbe dire indebolirle. Strada senza toccarle: allargare l elenco dei rilasci letti."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R32",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
       }
     },
     {
@@ -80912,10 +80882,10 @@
       },
       "fuori_dal_referto": true,
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R31",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K17 parziale",
+        "perche": "parziale: Gli avvisi agli amministratori (⚠️ ℹ️ ✓ ✕ 💶 📭) in ordini.ts, rimborsi.ts, annulla.ts, payout.ts (miei) e in circa 12 file webhook non miei, alcuni vincolati da prove comuni (un-avviso-ripetuto-non-rifa-il-lavoro, la-merce-del-carrello-che-non-quadra, il-rimborso-parziale-dal-cruscotto): aspetta la domanda per Nicola. E i titoli ai negozi nei file webhook non miei qui sotto (non provati"
       }
     },
     {
@@ -80957,10 +80927,10 @@
         "perche": "serve_file_altrui: Difetto ancora presente: il file esiste col prefisso zz-collaudo e il nome non dice cosa protegge (verifica del 13/11)."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R30",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tetto: la regista ha chiuso R30 a 38 $ dopo il lotto B (17/11) e la voce non è stata aperta; nessun file toccato."
       }
     },
     {
@@ -81002,10 +80972,10 @@
         "perche": "serve_file_altrui: Nessun commit, nessun file toccato. Misure su 155 file di prove che usano monta() (tutti verdi, 73 s, 4 core): mediana del primo caso 257 ms contro 14 ms di un caso qualunque; i peggiori 0,6-1,1 s; nessun timeout (testTimeout è 5000). Il costo del primo caso = compilazione in un processo node a parte (execFileSync, circa 80-120 ms a riposo, circa 400 ms con 8 in parallelo) più il primo import di react, react-dom e pacchetti condivisi (circa 190 ms; il resto dell'import è il grafo del componente stesso, per la home circa 450 ms, e non si può scaldare). Prova in una copia nello scratchpad (fuori dal deposito): con il blocco di riscaldamento qui sotto l'import del primo caso scende da 187 ms a circa 100 ms e il primo caso da 287 ms a circa 180 ms, perché il costo passa alla raccolta del file, che non conta nel timeout del caso. Il guadagno è modesto: la vera sicurezza contro i rossi per tempo sui computer lenti è alzare il testTimeout."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "parziale",
         "sessione": "R30",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K18 parziale",
+        "perche": "parziale: Spostare il costo dal primo caso alla raccolta del file con un riscaldamento dentro l'aiutante monta-componente, che non è di nessuna sessione e quindi non è mio."
       }
     },
     {
@@ -81074,10 +81044,10 @@
       },
       "fuori_dal_referto": true,
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "gia_riparato_prima",
         "sessione": "R33",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "collaudo": "K18 regge",
+        "perche": "gia_riparato_prima"
       }
     },
     {
@@ -81167,10 +81137,10 @@
         "perche": "serve_file_altrui"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "non_fatto",
         "sessione": "R30",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "non_fatto: tetto: la regista ha chiuso R30 a 38 $ dopo il lotto B (17/11) e la voce non è stata aperta; nessun file toccato."
       }
     },
     {
@@ -81650,10 +81620,10 @@
         "perche": "parziale: Il campanello del pannello venditore (components/seller/SellerShell.tsx, useNotifUnread) conta ancora le promozioni anche a chi le ha spente: file fuori dal territorio di R22."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "serve_file_altrui",
         "sessione": "R33",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "serve_file_altrui: I due file miei non vanno da soli: senza il filtro in useNotificationsCount la lista nasconderebbe promozioni che la campanella conta ancora (la regressione per cui un collaudo dell onda 2 aveva fatto togliere la prima correzione). SellerShell con useNotificationsCount rende rossa la prova comune, il cui finto di react-query non ha useQueryClient: la diff gli aggiunge useQueryCl"
       }
     },
     {
@@ -81833,10 +81803,10 @@
         "perche": "parziale: Il titolo della voce resta vero: indirizzo, CAP e città del profilo stanno ancora nel database e l'utente non li vede, non li corregge e non li cancella (app/profile/page.tsx:19-25 ha solo nome e telefono); l'esportazione dei dati (app/api/account/export/route.ts:144, select('*')) li consegna ancora. Serve la scelta già chiesta a Nicola: rimettere i campi nel Profilo o cancellare le colonne. Anche prima della correzione, in /sell il valore precompilato si poteva correggere."
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
+        "esito": "scelta_di_nicola",
         "sessione": "R33",
         "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "perche": "scelta_di_nicola: Nessun codice su questo ramo finché Nicola non sceglie; la regista ha deciso di lasciarla come domanda."
       }
     },
     {

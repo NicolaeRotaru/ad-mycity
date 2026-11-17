@@ -76,3 +76,4 @@ Lista D (voci per Nicola) · R27 e R25-001 (carta 258) · migrazione 501 · doma
 1. `node cervello/chiudi-sito.mjs consegne/riparazioni/2026-11-12-sito-tutto/frammenti --applica --pr 294 --commit <sha>` solo sulle 10 voci che si chiudono (non su tutti i frammenti: riscriverebbe data e PR delle voci già chiuse).
 2. `applica --scrivi` per note e nati, dopo aver rimesso in `sessioni.json` i rami di R23-R28.
 3. Onda dopo: diff di R33 nel suo referto, R32-014, R31-012 (con conRipiegoSchema), collaudo delle 14 patch della cucitura, le 21 domande di Nicola (carta #260).
+- 14:14 Nicola ha unito mycity#294 (merge c83c3e4e) e ad-mycity#979. Frammenti dell'onda 5 scritti in `frammenti/esito-30..33.json`, con la stessa logica di applica. `chiudi-sito --applica --pr 294 --commit c83c3e4e` lanciato solo su quei quattro file: 10 chiusure nel registro. Resta `applica --scrivi` per note e nati, dopo aver rimesso i rami di R23-R28.

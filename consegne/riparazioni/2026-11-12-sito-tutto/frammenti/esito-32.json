@@ -1,0 +1,20 @@
+{
+  "corsia": 32,
+  "territorio": "R32",
+  "difetti": [
+    {
+      "chiave": "privacy-legale|chi si disiscrive dalla newsletter e poi si iscrive di nuovo resta segnato come disiscritto anche dopo aver confermato",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r32-newsletter-riscritto-dopo-disiscrizione.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 22eb4216^ --file app/api/newsletter/confirm/route.ts --prove tests/unit/riparazione-r32-newsletter-riscritto-dopo-disiscrizione.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R32-012 --base 22eb4216^ --file app/api/newsletter/confirm/route.ts --prove tests/unit/riparazione-r32-newsletter-riscritto-dopo-disiscrizione.test.ts --json   (checkout 22eb4216, HEAD verificato) → uscita 0 (K18)",
+      "nota_fix": "La conferma scrive anche unsubscribed_at = null. La richiesta di iscrizione (app/api/newsletter/route.ts) resta com'era apposta: finche' la persona non conferma dalla sua casella la disiscrizione deve valere (chiunque puo' scrivere l'indirizzo di un altro). La prova fa il giro disiscritto -> nuova richiesta -> link dell'email -> conferma, con orologio finto."
+    },
+    {
+      "chiave": "privacy-legale|i video di youtube e vimeo si caricano senza chiedere il consenso, e la cookie policy non li nomina",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r32-video-youtube-vimeo.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3f6e764f^ --file app/cookies/page.tsx,app/privacy/page.tsx --prove tests/unit/riparazione-r32-video-youtube-vimeo.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R32-024 --base f65470fa^ --file app/cookies/page.tsx,app/privacy/page.tsx --prove tests/unit/riparazione-r32-video-youtube-vimeo.test.tsx --json   (checkout 3f6e764f, HEAD verificato; base f65470fa^ perché la correzione sta in due commit, f65470fa e 3f6e764f: tolgo tutte e due) → uscita 0 (K18)",
+      "nota_fix": "Il video si carica gia' solo al tocco (VideoAlClic, unico iframe del sito: la prova lo tiene fermo col clic vero). Applicato il testo della scheda: cookie policy 2.5 «Video di YouTube e Vimeo» e Vimeo/YouTube nella sezione 4; informativa: voce YouTube/Vimeo fra i destinatari. Unica correzione al testo scritto: «la pagina da cui guardi» e' diventato «il sito da cui guardi», perche' l'iframe ha referrerPolicy strict-origin-when-cross-origin e al fornitore arriva solo l'origine (la prova controlla anche questo). Correzione dopo il revisore (3f6e764f): YouTube e Vimeo non più fra i responsabili ex art. 28 con DPA/SCC ma dichiarati titolari autonomi, nell'informativa e fra i trasferimenti extra-UE della cookie policy; la prova lo controlla."
+    }
+  ]
+}

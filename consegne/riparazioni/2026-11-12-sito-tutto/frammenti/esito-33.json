@@ -1,0 +1,20 @@
+{
+  "corsia": 33,
+  "territorio": "R33",
+  "difetti": [
+    {
+      "chiave": "qa-flussi|nell'analisi la cifra «ultimi 7 giorni» e le sette barre del grafico contano giorni diversi, anche se il commento dice che tornano",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r33-analisi-sette-giorni-di-piacenza.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 7b21421d^ --file app/seller/analytics/page.tsx --prove tests/unit/riparazione-r33-analisi-sette-giorni-di-piacenza.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R33-021 --base 7b21421d^ --file app/seller/analytics/page.tsx --prove tests/unit/riparazione-r33-analisi-sette-giorni-di-piacenza.test.ts --json   (checkout 7b21421d, HEAD verificato) → uscita 0 (K18)",
+      "nota_fix": "since7 era Date.now() meno 168 ore, mentre le barre sono le sette giornate di Piacenza da mezzanotte. Ora since7 = inizioGiornoPiacenza(ultimiGiorniPiacenza(7)[0]): cifra e barre contano gli stessi giorni. Prova con vi.setSystemTime (la pagina non si monta in vitest, la prova controlla anche il sorgente)."
+    },
+    {
+      "chiave": "qa-flussi|«compila con una foto» scrive allergeni e ingredienti letti dall'etichetta dritti nel modulo, anche sopra quelli scritti a mano (oggi spento)",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r33-foto-non-scrive-sopra.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 25b81deb4afd300d8380e7ce049a8078d65675d3^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r33-foto-non-scrive-sopra.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R33-025 --base 25b81deb^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r33-foto-non-scrive-sopra.test.ts --json   (checkout 25b81deb, HEAD verificato) → uscita 0 (K18)",
+      "nota_fix": "handleExtracted passa da pianoDallaFoto (aiutante dentro ProductForm): nome, descrizione e attributi letti dalla foto entrano solo nei campi vuoti; le dichiarazioni (allergeni, ingredienti e le altre di separaCampiDichiarativi) non entrano mai, diventano righe «Da controllare» col pulsante «Usa questo valore». La funzione resta spenta. La prova monta il modulo vero e passa la foto dal pulsante vero; le 35 prove che usano ProductForm verdi."
+    }
+  ]
+}
