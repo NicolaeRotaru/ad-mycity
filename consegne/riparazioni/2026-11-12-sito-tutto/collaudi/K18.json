@@ -1,0 +1,119 @@
+{
+ "collaudatore": "K18",
+ "riparatori": [
+  "R32",
+  "R30",
+  "R33"
+ ],
+ "aggiornato": "2026-11-17 12:35",
+ "finita": false,
+ "parziale": false,
+ "nota": "Onda 5, collaudo breve. R32: voci committate (2 riparate, 3 parziali) e le 2 già riparate prima. Non giudicate: R32-001 (nota riservata), R32-023 (tolta col revert ff7d7d64), la patch di R32-014 e le serve_file_altrui (le giudica la regista sul ramo unito). Nessun revisore subagente su R32: voci minori, giudicate da me, i tre revisori restano per i gravi di R30 e R33. Prove vicine alla testa 3f6e764f: 51 file, 345 prove verdi. Nessuno strumento di Supabase, Vercel o Stripe; nessun database usato (prove con finte). Per Nicola, da R32: la chiave SUPABASE_SERVICE_ROLE_KEY su Vercel Production (senza, il registro dei consensi resta vuoto) e la posizione di YouTube/Vimeo nell'informativa.",
+ "voci": [
+  {
+   "id": "R32-007",
+   "chiave": "frontend-ux|con «aperti ora» acceso, l'elenco dei negozi non si aggiorna all'orario di chiusura e tiene in lista negozi con scritto «chiuso ora»",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "prova_alla_base": {
+    "comando": "cd ../wt-base && npx vitest run tests/unit/riparazione-r23-aperti-ora-si-aggiorna.test.ts tests/unit/riparazione-r28-prodotti-dei-negozi-aperti-si-aggiornano.test.tsx --reporter=dot   (d1eaba80, HEAD verificato)",
+    "uscita": 0
+   },
+   "nota": "Già riparato alla base d1eaba80: app/stores/page.tsx:216 useOraDiPiacenza() rifà la pagina al battito del minuto, e il filtro «aperti ora» (:255-257) ricalcola apertiAdesso; components/ProductGrid.tsx:409 battito = useOraDiPiacenza(!!onlyOpenStores), con battito fra le dipendenze del filtro (:461). 2 file, 5 prove verdi."
+  },
+  {
+   "id": "R32-013",
+   "chiave": "privacy-legale|l'esito di una segnalazione non dice né al venditore né a chi ha segnalato come si contesta la decisione",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "prova_alla_base": {
+    "comando": "cd ../wt-base && npx vitest run tests/unit/minori-s05-segnalazioni.test.tsx --reporter=dot   (d1eaba80, HEAD verificato)",
+    "uscita": 0
+   },
+   "nota": "Già riparato alla base: COME_CONTESTARE (lib/admin/segnalazioni-testi.ts:37-40) è in tutti e tre i canali di app/api/segnalazioni/esito/comunica.ts: email a chi ha segnalato (:117 html, :118 testo), notifica a chi ha segnalato con l'account (:126), notifica al venditore per prodotto e negozio (:138). Commit 15e23935 antenato di d1eaba80. 7 prove verdi. Restano fuori dalla voce, già nel referto: /contact e /terms scritti come percorsi e non come link nell'email; la domanda per Nicola sul riesame «da una persona diversa»."
+  },
+  {
+   "id": "R32-011",
+   "chiave": "privacy-legale|chi rifiuta le statistiche dopo averle accettate si tiene l'identificativo di un anno, e al sì successivo le visite nuove si riattaccano a quelle di prima",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R32-011 --base 376d6cff^ --file app/api/consent/route.ts,app/api/track/route.ts --prove tests/unit/riparazione-r32-statistiche-revocate-senza-identificativo.test.ts --json   (checkout 376d6cff, HEAD verificato)"
+   },
+   "nota": "Parziale come dichiarato. Rimessa regge (4 passate, rossa con consent/route.ts e con track/route.ts della base). Col no alle statistiche /api/consent cancella mc_vid anche se il registro fallisce (alla testa 3f6e764f anche sul 503 della chiave mancante, consent/route.ts:131-153); /api/track lo cancella quando arriva senza consenso (track/route.ts:155-163) e non lo rimette, perché vid nasce solo col consenso (:194-200). Cancellazione con gli stessi attributi del cookie vero (path /, secure, httpOnly). Se il no viene frenato (429, consent/route.ts:35) mc_vid resta fino al nuovo invio di R32-015 o al primo evento di accesso. Resta, ed è il motivo del parziale: l'identificativo di PostHog (lib/analytics/posthog.tsx:401 fa solo opt_out_capturing), file non di R32, in serve_file_altrui. Per un utente con l'account le visite si riattaccano comunque per user_id: fuori dalla voce."
+  },
+  {
+   "id": "R32-012",
+   "chiave": "privacy-legale|chi si disiscrive dalla newsletter e poi si iscrive di nuovo resta segnato come disiscritto anche dopo aver confermato",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R32-012 --base 22eb4216^ --file app/api/newsletter/confirm/route.ts --prove tests/unit/riparazione-r32-newsletter-riscritto-dopo-disiscrizione.test.ts --json   (checkout 22eb4216, HEAD verificato)"
+   },
+   "nota": "Rimessa regge (2 passate, rossa con la conferma della base). La conferma ora scrive unsubscribed_at = null insieme ad active = true (confirm/route.ts:49); la nuova richiesta (app/api/newsletter/route.ts:116-131) lascia la data finché la persona non conferma, quindi un estraneo non riattiva nessuno. Le uniche altre scritture sono la disiscrizione (migrazione 118:50, che la rimette) e la cancellazione dell'account. La potatura (potature-ritenzione.ts:414-420) cancella solo righe mai confermate: chi si era disiscritto ha confirmed_at scritto e non viene toccato. Un link di conferma vecchio non riattiva: il gettone è null dopo la prima conferma."
+  },
+  {
+   "id": "R32-015",
+   "chiave": "privacy-legale|nessun consenso finisce a verbale: termini e scelte sui cookie restano solo nel browser, e nessuno riprova a registrarli",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R32-015 --base 3586af3d^ --file lib/consent.ts,app/api/consent/route.ts --prove tests/unit/riparazione-r32-consenso-che-si-rimanda.test.ts,tests/unit/riparazione-r32-registro-consensi-senza-chiave.test.ts --json   (checkout 3586af3d, HEAD verificato)"
+   },
+   "nota": "Parziale come dichiarato. Rimessa regge (6 passate, rossa con lib/consent.ts e con consent/route.ts della base). La scelta sui cookie si segna in localStorage e si rimanda al primo readConsent della pagina dopo, solo su 5xx, 429 o rete caduta; una scelta nuova prende il posto della vecchia (writeConsent alza il segno prima di leggere); readConsent resta fuori dal server (typeof window). Senza chiave di servizio la rotta risponde 503 invece di cadere. Resta, come scritto nel referto: i Termini non si riprovano da soli con la sessione aperta (middleware.ts e lib/auth/accettazione-testi.ts, non di R32); le scelte perse prima di oggi non hanno il segno e non si rimandano. Cose da sapere, non difetti: «una volta per pagina» vuol dire una volta per caricamento intero (la navigazione interna non riprova); la riga rimandata porta l'ora del nuovo invio, non quella della scelta; se la risposta si perde dopo la scrittura nasce una riga doppia. Rischio per la regista: finché manca SUPABASE_SERVICE_ROLE_KEY su Vercel Production (R01-003, spetta a Nicola), ogni caricamento intero di chi ha una scelta in attesa manda un POST che finisce in 503 e in un logger.error, cioè un evento Sentry (lib/logger.ts:1): più eventi di prima, uno per pagina invece che uno per scelta, frenati a 30 ogni 10 minuti per indirizzo."
+  },
+  {
+   "id": "R32-024",
+   "chiave": "privacy-legale|i video di youtube e vimeo si caricano senza chiedere il consenso, e la cookie policy non li nomina",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R32-024 --base f65470fa^ --file app/cookies/page.tsx,app/privacy/page.tsx --prove tests/unit/riparazione-r32-video-youtube-vimeo.test.tsx --json   (checkout 3f6e764f, HEAD verificato; base f65470fa^ perché la correzione sta in due commit, f65470fa e 3f6e764f: tolgo tutte e due)"
+   },
+   "nota": "Rimessa regge togliendo tutte e due i commit della voce (4 passate, rossa con cookies e privacy della base); fra f65470fa^ e 3f6e764f i due file li tocca solo R32-023, tolto col revert ff7d7d64. L'unico iframe del sito è components/store-sections/VideoAlClic.tsx:44, usato da vetrina, home e CMS: si carica al tocco, e il pulsante dice prima che YouTube o Vimeo ricevono l'IP (:36-38); referrerPolicy strict-origin-when-cross-origin (:48), quindi «il sito da cui guardi» è vero. La cookie policy li nomina (2.5 e sezione 4, come titolari autonomi). Per Nicola, già nelle domande del referto: nell'informativa la voce YouTube/Vimeo sta nell'elenco introdotto da «operano come Responsabili del trattamento ex art. 28 GDPR, vincolati da accordo DPA» (privacy/page.tsx:251-252), mentre la voce stessa dice che non lo sono: il testo si contraddice con la sua intestazione. Non cambia il comportamento, ma va spostata in un elenco suo."
+  },
+  {
+   "id": "R32-025",
+   "chiave": "privacy-legale|la pulizia dei dati personali verso sentry copre solo gli errori del browser: le misure di velocità e gli errori del server mandano l'indirizzo intero della pagina",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R32-025 --base 5c0775ff^ --file lib/analytics/sentry-config.ts,sentry.server.config.ts,sentry.edge.config.ts --prove tests/unit/riparazione-r32-sentry-senza-indirizzo-intero.test.ts --json   (checkout 5c0775ff, HEAD verificato)"
+   },
+   "nota": "Parziale come dichiarato. Rimessa regge (4 passate, rossa con ognuno dei tre file della base). Server ed edge passano errori e misure da ripulisciEvento (sentry.server.config.ts:30-37, prima il filtro del freno resta), che ora pulisce anche contexts.trace.data, contexts.nextjs.request_path e negli span url.full, http.target, referer, togliendo query, frammento e IP; nessuna API del browser dentro la pulizia, quindi gira anche sul server. Resta, ed è dentro la voce («la pulizia dei dati personali verso Sentry»): le altre intestazioni negli attributi delle misure server ed edge, fra cui http.request.header.cookie con mc_vid, mc_consent e il cookie di PostHog; pulito solo il referer (sentry-config.ts:151)."
+  }
+ ]
+}
