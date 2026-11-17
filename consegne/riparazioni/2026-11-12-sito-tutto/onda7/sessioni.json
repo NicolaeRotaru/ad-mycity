@@ -13,7 +13,10 @@
    "onda": 1,
    "partenza": "bc36f48120ec38bf20880c7d68b3171015744681",
    "tetto_usd": 28,
-   "finita": false
+   "finita": true,
+   "punta": "a0fccbeec9031e88c576f69ca19e293c9955bcb7",
+   "testa": "d4d3f3b0ca1646137fd863eb4f068ceb607bf37c",
+   "costo_usd": 25.83
   },
   "R02": {
    "id": "session_015BmpnWpKkj3VXdnrdtAc4b",
@@ -21,7 +24,10 @@
    "onda": 1,
    "partenza": "bc36f48120ec38bf20880c7d68b3171015744681",
    "tetto_usd": 28,
-   "finita": false
+   "finita": true,
+   "punta": "7a0b53abcb06e0a6fd0f7518ae3ab4cfaf911266",
+   "testa": "7254987c21ebaac17af0ea565830e4989c6e7bd0",
+   "costo_usd": 27.1
   },
   "R03": {
    "id": "session_015BmpnZ6MiCTaF52P9H1E5L",
@@ -40,6 +46,16 @@
    "finita": false
   }
  },
- "collaudatori": {},
+ "collaudatori": {
+  "K01": {
+   "ramo": "ccr-30918361-coyajm-k01",
+   "riparatori": [
+    "R01",
+    "R02"
+   ],
+   "tetto_usd": 12,
+   "finita": false
+  }
+ },
  "controllori": {}
 }
