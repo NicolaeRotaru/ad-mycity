@@ -1,7 +1,9 @@
 {
   "collaudatore": "K01",
-  "riparatori": ["R02"],
-  "aggiornato": "2026-11-17 21:40",
+  "riparatori": [
+    "R02"
+  ],
+  "aggiornato": "2026-11-17 21:55",
   "finita": false,
   "voci": [
     {
@@ -9,16 +11,97 @@
       "chiave": "api-backend|se due giri del sorvegliante partono nello stesso istante, l'amministratore riceve due volte la stessa campanella",
       "verdetto": "regge",
       "giudizio": "pieno",
-      "lenti": ["chiude_tutta", "nata_rotta"],
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "nota": "Già alla base 522cfb01: app/api/cron/operational-alerts/route.ts:787 prendiIlTurno prima dell'insert in notifications (:804) e :869 prima dell'email; prendiIlTurno (:1028-1061) rinfresca solo le chiavi ancora vecchie (update condizionato .lt cutoff) e inserisce le nuove sulla chiave primaria alert_key (migrations/084_operational_alert_dedup.sql:13), 23505 = turno non preso. Prove citate verdi alla base (19/19). Svuotato prendiIlTurno alla base (prende sempre tutto): cadono i 2 casi «due giri partiti insieme» di tests/unit/riparazione-r29-allarme-ordine.test.ts. File invariato fra base e testa."
+    },
+    {
+      "id": "R02-002",
+      "chiave": "api-backend|il freno sulla rotta regge per 3 interruttori su 9: ai, newsletter, classifica e caricamento da file stanno solo nelle pagine",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02-002 --base 5023c7ce922c8a1c5f3595de58e1a46bdd8afbfd^ --file app/api/ai/catalog-create/route.ts --prove tests/unit/riparazione-r02-freno-ai-sulla-rotta.test.ts --json"
+      },
+      "nota": "Parziale dichiarato e onesto. Il freno AI_NEGOZI_ACCESA in app/api/ai/catalog-create/route.ts sta in testa al POST, prima del limite, della chiave e del corpo; l'unico chiamante (components/SupportProductAssistant.tsx:308) è già nascosto da canUseAi (components/SupportChatModal.tsx:80) e mostra l'errore in un toast: il 503 non rompe l'interfaccia. Newsletter (app/api/newsletter/route.ts:52) e import (app/api/seller/products/import/route.ts:36) frenati già alla base. Resta aperto: 15 rotte AI senza freno sulla rotta (answer-qa, barcode-lookup, catalog-apply, catalog-apply-bulk, catalog-chat, copilot, description, diagnose, improve-product, product-chat, reviews-summary, seo, translate, variants, voice-product) e la classifica inviti. Prove vicine: 112 file, 679 casi verdi alla testa."
+    },
+    {
+      "id": "R02-003",
+      "chiave": "architettura|la traccia «chi ha cambiato il prezzo» esce in due forme diverse a seconda della porta",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02-003 --base 5b35a2d83bfaee200949dc2edecf91b27a3b900a^ --file app/api/admin/products/route.ts,lib/products/salvataggio-tracciato.ts --prove tests/unit/riparazione-r02-traccia-admin-prodotti.test.ts --json"
+      },
+      "nota": "Tutte le scritture product.update passano ora da tracciaDellaModifica (app/api/admin/products/route.ts:277, app/api/seller/products/[id]/route.ts:70); catalog-apply-bulk e catalog-batch/apply già alla base; le altre writeAudit sono product.create, un'azione diversa. altreColonne è facoltativa: gli altri chiamanti non cambiano. Lettura prima fallita → 500 senza scrivere niente (la lettura c'era già per le varianti); riga assente → prima {} e tutti i campi segnati come cambiati, innocuo. Prova della voce e 5 file vicini (63 casi) verdi alla testa."
+    },
+    {
+      "id": "R02-004",
+      "chiave": "architettura|il finto clienteavvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02-004 --base e0c38fe9097de00b1adcb4d132646174d4210bad^ --file tests/unit/aiuti/finto-giro-notturno.ts --prove tests/unit/riparazione-r02-finto-clienteavvisi.test.ts --json"
+      },
+      "nota": "Parziale dichiarato: la prova lunga chi-vuole-cancellarsi… resta intera (divisione tolta col commit a806446a, serve la regista). Quello che c'è regge: le due prove convertite hanno alla testa gli stessi casi e asserzioni della base (8 casi/31 asserzioni e 13 casi/40 asserzioni); rompendo lib/privacy/avvisi-a-chi-aspetta.ts (righe 234, 387, 422) le due prove cadono (1, 4 e 3 casi); le 18 prove che usano il finto sono verdi alla testa (216 casi). Resta anche la quinta copia a mano in tests/unit/minori-s08-avvisi.test.ts:40-70."
+    },
+    {
+      "id": "R02-005",
+      "chiave": "navigazione-gerarchia|nella scheda prodotto il prezzo è quasi grande quanto il titolo e pesa meno del pulsante «+»",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02-005 --base 74a765ab1e2749d3260338a8218feaa2b3ae756f^ --file components/cart/CartUpsell.tsx --prove tests/unit/riparazione-r02-completa-con-prezzo-piu-del-pulsante.test.tsx --json"
+      },
+      "nota": "Alla base ProductCard era già a posto (nome text-sm :238, prezzo text-lg extrabold :272/:278, «+» a contorno :288). CartUpsell ora: prezzo text-base extrabold contro nome 12 px, «+» a contorno, h-11 w-11 e anello di focus invariati; FrequentlyBoughtTogether già in ordine (nome text-sm, prezzo text-base). Guardata e lasciata fuori: app/lists/[id]/page.tsx:364-365 (nome 16 px semibold, prezzo text-sm bold) è una riga di lista salvata senza pulsante «+», non una scheda prodotto. Rischio accettato e già nei nuovi_difetti_visti del riparatore: dai prezzi di circa 5000,00 € in su il prezzo spinge il «+» fuori dalla scheda (w-36); prima succedeva da circa 10.000 €. Prove vicine verdi."
     },
     {
       "id": "R02-006",
       "chiave": "qa-flussi|quando un ordine viene annullato il negozio non riceve nessuna email, e se lo annulla il sito perché nessuno l'ha accettato non riceve nemmeno la campanella",
       "verdetto": "regge",
       "giudizio": "pieno",
-      "lenti": ["chiude_tutta", "nata_rotta"],
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
       "nota": "Già alla base 522cfb01: app/api/cron/expire-stale-orders/route.ts:359-367 campanella al negozio e :385-387 email (avvisaIlNegozioDellAnnullo, lib/ordini/annulla.ts:537); seller_id è nella select (:105), quindi gira anche sul sito e non solo nel finto. Email al negozio anche su annullo del cliente (app/api/orders/[id]/cancel/route.ts:113, COLONNE_ANNULLO con seller_id) e dell'amministrazione (app/api/admin/orders/[id]/cancel/route.ts:129). Prove citate verdi alla base (19/19). Spenti i due if (sellerId) del giro: cadono 3 casi (minori-s03 :180 e :1876, r31 caso della voce); spente le email su annullo cliente e amministrazione: cadono i 2 casi r31 relativi. Strade guardate e fuori dalla voce: rifiuto del negozio (lo annulla il negozio stesso) e cliente assente del rider (app/api/rider/orders/[id]/cliente-assente/route.ts:117-125 campanella al negozio, la merce torna in negozio col rider: nessun rischio di preparare un ordine annullato). File invariati fra base e testa."
+    },
+    {
+      "id": "R02-010",
+      "chiave": "qa-flussi|il ritorno dopo l accesso perde ?tab=",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02-010 --base 355b58d5c7a940c8569d2ea53a7dd3ccfd0dc8c6^ --file components/ui/AuthShell.tsx,app/sign-in/page.tsx --prove tests/unit/riparazione-r02-ritorno-con-google.test.tsx --json"
+      },
+      "nota": "La correzione regge sull'accesso: middleware.ts:442 e :583 tengono la query (ritornoDopoLAccesso), l'accesso con email usa returnTo (app/sign-in/page.tsx:89, :257), Google ora manda next a /auth/callback, che lo ripulisce (safeInternalPath, app/auth/callback/route.ts:29: //evil, /\\evil, https:, javascript: respinti). Ma una variante della voce resta aperta: app/sign-in/page.tsx:302-304 porta returnTo verso /sign-up, la registrazione con email lo rispetta (app/sign-up/page.tsx:78, :153, :195), mentre app/sign-up/page.tsx:357 monta <AuthAlternatives condizioniDalModulo={acceptTos} /> senza returnTo. Pagina protetta con ?tab= → /sign-in?returnTo=… → «Registrati» → Google: il ritorno si perde. Va aggiunto returnTo={safeInternalPath(returnTo, '/')} lì, con tests/unit/minori-s10-accessi-alternativi.test.tsx:28 (prova comune che legge quella riga alla lettera). 27 prove vicine verdi."
     }
   ]
 }
