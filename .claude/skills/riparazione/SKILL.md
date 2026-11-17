@@ -355,9 +355,10 @@ cartelle-sessione del 13/11 («Riparatori · onda N», «Regia · onda N» e le 
   il suo collaudo è chiuso e il ramo è unito o tolto dall'onda. Un collaudatore si archivia quando il suo verdetto è nella
   cartella, un controllore quando `applica` ha letto il suo referto. Prima si guarda che non abbia sessioni vive dentro.
   Se serve un altro giro, si riapre con `unarchive_session`.
-- **Il resto non cambia**: `model: "claude-opus-5-5"`, `effort: "xhigh"`, `permission_mode: "auto"`, il prompt
-  esattamente `/effort ultracode` per chi scrive codice, e il compito subito dopo con `send_message` (LEGGIMI, scheda e
-  regole delle sessioni).
+- **Il resto non cambia**: `model: "claude-opus-5-5"`, `effort: "xhigh"`, `permission_mode: "auto"`, e il compito con
+  `send_message` (LEGGIMI, scheda e regole delle sessioni). Il prompt è esattamente `/effort ultracode` solo per le
+  figlie con un grave, un bloccante o un tocco a soldi, dati o permessi: le figlie di soli minori nascono senza ultracode
+  (regola 5 del 15/11, nella sezione «Ultra Code Extra» qui sopra).
 - Gli id vanno in `sessioni.json` come prima. La chiave `"cartelle"` non serve più.
 
 ## F1 — I riparatori
