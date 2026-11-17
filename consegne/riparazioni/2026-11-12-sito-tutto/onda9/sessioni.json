@@ -40,7 +40,12 @@
    "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
    "tetto_usd": 35,
    "consegna_usd": 30,
-   "aperta": "2026-11-17 22:28"
+   "aperta": "2026-11-17 22:28",
+   "finita": true,
+   "punta": "1035a190",
+   "testa": "677b393d04c004441f81b6dd175ff16135bb3375",
+   "costo_usd": 13.16,
+   "nota": "verify verde con NODE_OPTIONS=--max-old-space-size=6144"
   },
   "R07": {
    "id": "session_015BmpnY5Tr9sb9jVsUfgDzU",
