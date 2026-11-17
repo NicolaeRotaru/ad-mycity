@@ -11,6 +11,7 @@ regia: session_015BmpnYq3DQDRwTXdBwfzud (chat «Ondata 9», decisione di Nicola 
 
 ## In parole semplici
 L'onda 9 ripara 200 difetti piccoli del sito con 10 riparatori. L'ordine l'ha scelto Nicola: prima quelli già pagati, poi quelli con la correzione già scritta, poi quelli che nessuno ha mai raggiunto, poi i mai tentati e i lasciati a metà. Nessuno tocca soldi, dati personali o permessi. Un esempio vero: R03 ripara 19 difetti delle funzioni AI dei negozi, come il copilot che oltre circa cento prodotti risponde «riprova» e fallisce ogni volta. Due riparatori, R02 e R03, sono partiti il 17/11 alle 22:14 su «falla partire adesso» di Nicola. Gli altri otto partono giovedì 19/11 alle 10:05, quando il limite settimanale si è azzerato.
+Esempio: un difetto che nell'onda 5 è rimasto «mai raggiunto», perché il riparatore ha finito tempo e soldi prima di arrivarci, nell'onda 9 viene prima di quelli mai tentati.
 
 ## Cosa cambia per te
 Niente fino alla PR del sito.
@@ -51,6 +52,6 @@ Circa 3 $ per voce data: 195 voci danno circa 585 $, più la regia, circa 600 $.
 - 21:47 Nicola dà la regia a questa chat. 21:50 firma la guardia delle aperture (ad-mycity#985). 21:56 il promemoria della chat «Ondata 7 difetti» è spento, il mio parte giovedì alle 10:05.
 - 22:2x Nicola: «falla partire adesso». Limite visto nell'app: fra 90% e 95%. Scelta: «mi fermo prima», con circa il 3% lasciato alle sue chat. Stasera circa 60-70 $ (2 riparatori, consegna a 30 $, tetto 35 $); gli altri giovedì alle 10:05.
 - 22:12 Elenco rifatto sulla base del sito `f93d246a` (main dopo mycity#296): 200 voci, 5 solo collaudo (`chiavi-collaudo-A.txt`), 195 da riparare (`chiavi-riparatori.txt`). Perimetro verde, `dividi --sessioni 10 --per-sessione 20`: 152 voci in R01-R10, 43 al giro dopo. Schede, copertura-prima e segnaposti verdi. Rami `claude/adoring-bohr-kixq35-o9-mNN` sul sito.
-- Stasera R05 (20 voci, 8 mai raggiunte) e R09 (20 voci, 6 mai raggiunte). Giovedì R01-R04, R06-R08, R10, il collaudo del gruppo A, i collaudatori e il controllore.
+- Prima scelta per stasera: R05 (20 voci, 8 mai raggiunte) e R09 (20 voci, 6 mai raggiunte), poi cambiata in R03 e R02 (riga sotto). Giovedì R01-R04, R06-R08, R10, il collaudo del gruppo A, i collaudatori e il controllore.
 - 22:14 aperti R03 `session_015BmpnYY5FRfV2QHnGfxmLq` e 22:15 R02 `session_015BmpnUuqaZeyg8n3BBxy6h`, senza conferme (la guardia di ad-mycity#985 regge dal vivo). Al posto di R05 e R09: in R05 ci sono annullo ordini, soldi fra ordini del carrello, cancellazione ed esportazione dell'account; il filtro dei delicati di `scelta-onda9.mjs` guarda le dimensioni e pochi nomi di file, non il testo. Regola 3 nel prompt: voci con soldi, dati personali, permessi o migrazioni → `non_fatto` «delicata: fuori dall'onda 9». Da fare prima di giovedì: rifiltrare R04 (12 voci sospette su 20), R05 (8), R09 (7) e le altre, sul testo delle voci.
 - Stasera: consegna a 30 $, tetto 35 $ a riparatore. La spesa la legge la regia con get_session.

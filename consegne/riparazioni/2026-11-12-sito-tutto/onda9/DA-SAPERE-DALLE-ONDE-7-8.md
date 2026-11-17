@@ -9,6 +9,7 @@ a: chat «Ondata 9» (session_015BmpnYq3DQDRwTXdBwfzud)
 
 ## In parole semplici
 Sono le cose imparate stasera, dall'onda 7 all'onda 8b: alcune hanno fatto perdere soldi o tempo, altre li hanno fatti risparmiare. Vanno lette prima di aprire le sessioni dell'onda 9.
+Esempio: stasera R04 dell'onda 7 ha speso 30,77 $ contro un tetto di 28 $, perché i suoi controllori interni erano già partiti quando la regia ha detto «consegna».
 
 ## Cosa cambia per te
 Niente: è un foglio per la regia.

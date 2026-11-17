@@ -9,6 +9,7 @@ tetto_usd: 130
 
 ## In parole semplici
 La tappa 1 dell'onda 8 ripara 40 difetti piccoli del sito, in 3 sessioni da 13-14. Sono le voci rimaste dall'onda 7, quelle a metà o con la correzione già scritta, e i difetti nati oggi. I 140 delicati (soldi, dati, permessi) partono giovedì 19/11 alle 10:00 come tappa 2.
+Esempio: R01 ha avuto 14 difetti, ne ha riparati 11, e 10 hanno retto al collaudo.
 
 ## Cosa cambia per te
 Niente finché la PR del sito non è pronta.
