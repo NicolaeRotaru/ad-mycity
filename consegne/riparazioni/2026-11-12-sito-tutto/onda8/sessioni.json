@@ -23,7 +23,13 @@
    "onda": 1,
    "partenza": "1a7de5b9295a70eba644b7a340cef6d93f5379fc",
    "tetto_usd": 28,
-   "finita": false
+   "finita": true,
+   "punta": "973ffd412bb8fde67b59adab2a663b582b7cab42",
+   "testa": "974de28e3179794c6d77f47be87cf74c6ced76e4",
+   "costo_usd": 23.74,
+   "da_togliere": [
+    "77997355 (R02-011, non regge)"
+   ]
   },
   "R03": {
    "id": "session_015BmpnY8uEE9JYwMef9pGKS",
@@ -42,9 +48,10 @@
    "ramo": "ccr-30918361-coyajm-o8-k01",
    "riparatori": [
     "R01",
-    "R03"
+    "R03",
+    "R02"
    ],
-   "tetto_usd": 18,
+   "tetto_usd": 22,
    "finita": false,
    "id": "session_015BmpnUupLXTjHZjUohMe4U"
   }
