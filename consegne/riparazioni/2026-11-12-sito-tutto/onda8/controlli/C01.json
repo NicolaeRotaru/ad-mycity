@@ -1,0 +1,51 @@
+{
+  "controllore": "C01",
+  "onda": 8,
+  "finita": true,
+  "aggiornato": "2026-11-17 21:40",
+  "testa": "7f59df78e7852ba611f2306a340a119aae1fdf59",
+  "base": "1a7de5b9295a70eba644b7a340cef6d93f5379fc",
+  "verify": {
+    "comando": "NODE_OPTIONS=--max-old-space-size=8192 npm run verify && tests/sql/harness/apply.sh && tests/sql/harness/run.sh",
+    "esito": "verde",
+    "nota": "Girato da C01 sulla testa 7f59df78 (clone pulito del sito, npm ci), che è l'unione delle onde 8 e 8b: lo stesso albero vale per i due referti. Tipi puliti, lint senza errori (99 avvisi), 1734 file di prove passati, 10969 prove passate, nessun rosso. Harness SQL su un Postgres 16 locale del contenitore (socket /var/run/postgresql): 209 migrazioni applicate, 0 fallite, tutti i file .test.sql verdi. In più ho fatto girare le cinque prove .sh cambiate dall'8b (la-158, la-159, la-160, lo-script-non-si-schianta…, migrazione-su-database-pieno): tutte uscita 0. Nessun database vero toccato, nessuno strumento Supabase, Vercel o Stripe."
+  },
+  "unione": "7f59df78 è la base 1a7de5b9 più i rami -o8-m01, -m02, -m03 (fusioni 4ebed1ed, 5a9b7372, a600f262), i tre revert, e poi i due rami dell'8b (91a333f7, 8bd53941), con i referti di lavoro tolti. La base dell'8b (522cfb01, main dopo mycity#295) ha lo stesso albero di 1a7de5b9: git diff fra le due è vuoto, quindi 8 e 8b sono state riparate sullo stesso codice. I revert hanno tolto tutto: per 974093ba (R01-008) e c32c6e8d (R02-009) i due file di ogni commit (app/rider/availability/page.tsx con la sua prova, components/seller/SellerShell.tsx con la sua prova) sono identici alla base. Per 77997355 (R02-011) la prova non c'è più e in lib/queries/griglia-prodotti.ts, fra il genitore di 77997355 e il revert, resta solo la riga di R02-012 (righeLette): nessuna riga di R02-011 sopravvive (le tre righe uguali che si trovano, «let totale = 0» e il ciclo dei blocchi, sono di R02-010 in contaProdottiDellaGriglia).",
+  "voci_rosse": [],
+  "voci_guardate": {
+    "reggono_sull_unione": ["R01-001", "R01-002", "R01-003", "R01-004", "R01-005", "R01-006", "R01-007", "R01-009", "R01-010", "R01-014", "R02-001", "R02-002", "R02-003", "R02-004", "R02-005", "R02-008", "R02-010", "R03-002", "R03-005", "R03-007", "R03-009", "R03-010", "R03-011", "R03-012"],
+    "gia_riparate_che_reggono": ["R02-013", "R03-008"],
+    "parziali_controllate_che_non_rompono": ["R01-012", "R01-013", "R02-006", "R02-007", "R02-012", "R03-001", "R03-004", "R03-013"],
+    "tolte_coi_revert": ["R01-008", "R02-009", "R02-011"],
+    "nota": "Le 24 date per «regge» e le 2 già riparate hanno la loro prova nell'albero unito, e la suite intera è verde; mancano solo le prove di R01-008 e R02-009, tolte coi revert, come deve essere. Ho letto le righe nuove dei 29 file di codice dell'onda 8 con le tre domande. Punti guardati apposta: ① R01-007, il primo messaggio passa dalla rotta dei messaggi: la rotta risponde 403, 404, 409 o 500 solo dal salvataggio (rispostaPerErroreDatabase), e l'avviso dopo il salvataggio ha il suo try/catch, quindi il ripiego con l'inserimento diretto non può scrivere il messaggio due volte. ② R03-001, la pagina categoria legge lo stato delle file dalla memoria di react-query: le chiavi che cerca ({categoryId, limit 12, sort relevance} e {categoryIds [madre], …}) sono le stesse che ProductGrid costruisce per le file del hub (le altre proprietà sono undefined e la chiave le scarta), quindi la strada vecchia dell'errore non resta spenta per sempre. ③ R02-010, la lettura a blocchi riordina le righe con lo stesso ordine del database (prezzo o data, poi id decrescente) e taglia la finestra dopo l'unione: giusto. ④ R02-012 non regge ma è innocua: righeLette non la legge nessun file del sito. ⑤ R01-005: soloLePiene tratta undefined come null, quindi senza un elenco mai letto si mostrano tutte, come prima. ⑥ Gli aiuti delle prove di R03-010/011/012 (finto di Supabase): la chiamata alla funzione parte solo quando qualcuno aspetta la risposta, come il client vero; questo chiude anche il minore che il C01 dell'onda 7 aveva visto su quel finto, e la suite dell'8b gira verde con lui. Nessuna riga nuova rompe soldi, permessi o dati. Nei file toccati ho trovato due punti con lo stesso difetto di una voce, rimasti com'erano già alla base: li scrivo qui sotto."
+  },
+  "nuovi_difetti_visti": [
+    {
+      "titolo": "La pagina di una categoria madre rimette i bottoni delle sottocategorie vuote quando una rilettura delle categorie piene cade",
+      "dimensione": "navigazione-gerarchia",
+      "severita": "minore",
+      "file": "app/category/[slug]/page.tsx:100",
+      "descrizione": "Stesso difetto che R01-005 ha chiuso in menu, piede, vetrina e pagina categorie: qui resta «soloLePiene(subcategories, piene.isError ? null : piene.data)». Se una rilettura delle categorie piene cade, react-query tiene l'elenco già noto in data ma accende isError, e la riga lo butta via: tornano i bottoni verso sottocategorie senza prodotti. Lo stesso in components/home-sections/ChipDelleCategorie.tsx:27 (pieneNote = piene.isError ? null : piene.data), che quest'onda non tocca. C'era già alla base 1a7de5b9: non è nato dalla riparazione, e la voce R01-005 nominava solo i quattro posti che ha sistemato, quindi regge. La cura è la stessa: passare piene.data."
+    },
+    {
+      "titolo": "Dopo aver rinominato una lista, la pagina delle liste mostra ancora il titolo vecchio",
+      "dimensione": "qa-flussi",
+      "severita": "minore",
+      "file": "app/lists/[id]/page.tsx:138",
+      "descrizione": "R03-007 rilegge le tre chiavi di /lists (lists.mine, lists.public, lists.inVetrina) dopo «elimina lista» e dopo il cambio di visibilità. Il cambio di titolo e descrizione (updateMeta, onSuccess alla riga 138) rilegge solo la scheda della lista: /lists prende titolo e descrizione proprio da quelle tre chiavi (app/lists/page.tsx:59, 83, 103) e mostra quelli vecchi finché le chiavi non scadono. C'era già alla base; la voce R03-007 parlava solo di eliminazione e visibilità, quindi regge. La cura: chiamare rileggiLeListeDiLists() anche lì."
+    }
+  ],
+  "note_per_la_regista": [
+    "Onda 8 e 8b insieme non litigano: nessun file di codice in comune fra i cinque rami (in comune c'erano solo i referti di lavoro .riparazione/, poi tolti), stessa base, e la suite intera è verde sull'unione. Gli unici pezzi condivisi sono gli aiuti delle prove (finto di Supabase cambiato dall'8, monta-componente e finto-giro-notturno cambiati dall'8b): li ho letti, aggiungono senza cambiare il comportamento di chi non li usa, e le prove dell'altra onda passano con loro.",
+    "La deroga sulle due prove della chat toccate da R01-001 resta da chiedere a Nicola, come ha scritto K01: girano verdi sull'unione.",
+    "I nati che K01 ha già detto non li ripeto qui."
+  ],
+  "file_toccati": 66,
+  "file_guardati": 30,
+  "file_non_guardati": "Guardati 30 su 66: i 29 file di codice dell'onda 8 (diff e intorno dove serviva) e l'aiuto condiviso tests/unit/aiuti/finti/supabase-client.mjs, perché un finto troppo largo può far passare verdi altre prove. Le altre 36 prove nuove o cambiate le ho fatte girare sull'unione (verdi) ma non le ho rilette riga per riga: se mordono lo ha già misurato K01, e rifarlo è il lavoro che il controllore non fa.",
+  "conto": {
+    "subagenti": 0,
+    "token_stimati": 190000,
+    "nota": "Nessun subagente: le due onde insieme cambiano 45 file di codice per circa 650 righe, li ho letti io una volta sola. Il conto vale per i due referti (onda8 e onda8b), che sono un controllo solo. get_session non mostra usage.cost_usd: la spesa va letta dalla regista. Limite settimanale «allowed_warning», senza uso extra. get_session non mostra is_ultracode_active: ho lavorato lo stesso, perché le regole dell'onda vietano lo strumento Workflow."
+  }
+}

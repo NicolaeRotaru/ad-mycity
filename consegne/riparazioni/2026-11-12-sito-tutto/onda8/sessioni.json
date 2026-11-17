@@ -3,7 +3,8 @@
  "integrazione": {
   "ramo": "ccr-30918361-coyajm-o8",
   "partenza": "1a7de5b9295a70eba644b7a340cef6d93f5379fc",
-  "testa": "7f59df78e7852ba611f2306a340a119aae1fdf59"
+  "testa": "7f59df78e7852ba611f2306a340a119aae1fdf59",
+  "pr": "NicolaeRotaru/mycity#296"
  },
  "sessioni": {
   "R01": {
@@ -69,8 +70,9 @@
    "testa_controllata": "7f59df78e7852ba611f2306a340a119aae1fdf59",
    "base": "1a7de5b9295a70eba644b7a340cef6d93f5379fc",
    "tetto_usd": 8,
-   "finita": false,
-   "id": "session_015BmpnZ5HU2NaFXoXnK6nTs"
+   "finita": true,
+   "id": "session_015BmpnZ5HU2NaFXoXnK6nTs",
+   "punta": "46f2dc3ce51ebeafb4eeb87d078be8109d7302c4"
   }
  }
 }

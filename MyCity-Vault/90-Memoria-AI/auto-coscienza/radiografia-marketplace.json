@@ -410,10 +410,10 @@
   "fonti_non_lette": [],
   "sintesi": "Il problema più grave trovato oggi era una chiave del database leggibile da chiunque, e Nicola l'ha già spenta. Dei difetti nuovi nessuno è bloccante, ma il rimborso di un ordine in contanti va ancora fatto a mano, fuori dal sito.",
   "meta": {
-    "findings": 3239,
+    "findings": 3259,
     "bloccanti": 37,
     "gravi": 678,
-    "minori": 2524,
+    "minori": 2544,
     "agenti": null,
     "aggiornato": "2026-11-17 20:02"
   },
@@ -1578,10 +1578,10 @@
         "perche": "serve_file_altrui: Fatta in 58757a63 (prova rimessa uscita 0), poi tolta col revert 50b1f5dc perché cambiava la prova comune la-vetrina-del-negozio-resta-nei-colori-del-sito. La riprende la cucitura dell'onda 2 dopo l'unione."
       },
       "riparazione_17_11": {
-        "esito": "non_fatto",
-        "sessione": "R30",
-        "collaudo": null,
-        "perche": "non_fatto: tetto: la regista ha chiuso R30 a 38 $ dopo il lotto B (17/11) e la voce non è stata aperta; nessun file toccato. La correzione è già scritta in un commit vecchio (cherry-pick -n 58757a63 con le due prove): chi riprende la voce parte da lì."
+        "esito": "riparato",
+        "sessione": "R01",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -2267,10 +2267,10 @@
         "perche": "serve_file_altrui: La strada principale è già atomica da R08-008 (salva_varianti, migrazione 323). Secondo la regista la 323 è già applicata sul database vero (onda 1): oggi il riordino servirebbe solo al ripiego a pezzi (PGRST202), che parte se la funzione manca. Il riordino era nel commit 33fc7ac3 ma rendeva rossa per forza la prova comune riparazione-r08, che R20 non può toccare: il commit a23283e8 lo toglie, con la scelta della regista. Sul ramo persistVariantsServer.ts, la prova r08 e la prova r20-taglie-tolte sono identiche alla base. Non c’è una rimessa perché sul ramo non resta una correzione."
       },
       "riparazione_17_11": {
-        "esito": "non_fatto",
-        "sessione": "R30",
-        "collaudo": null,
-        "perche": "non_fatto: tetto: la regista ha chiuso R30 a 38 $ dopo il lotto B (17/11) e la voce non è stata aperta; nessun file toccato. La correzione è già scritta in un commit vecchio (revert -n a23283e8 con la prova sulle varianti): chi riprende la voce parte da lì."
+        "esito": "riparato",
+        "sessione": "R01",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -2698,10 +2698,10 @@
       "verificato": true,
       "fonte_radiografia": "palestra 2026-11-08 · lotto 3, prove da negozio (wf_7c0f812f-fe9)",
       "riparazione_17_11": {
-        "esito": "parziale",
+        "esito": "riparato",
         "sessione": "R01",
-        "collaudo": "parziale",
-        "perche": "parziale: Il doppio clic ravvicinato e il doppio Invio ora fanno un solo inserimento (commit f9e140ab e 69035163, rimessa uscita 0). Resta una finestra dopo un inserimento riuscito: la guardia si toglie nel finally (components/seller/ProductForm.tsx:897) e la pagina passa submitting={create.isPending} (app/seller/products/new/page.tsx:303), che torna falso prima che router.push (page.tsx:240) cambi pagina; un clic in quel momento crea un secondo prodotto. Cura: in new/page.tsx tenere submitting vero dopo il successo fino al cambio di pagina (uno stato «pubblicato» messo a vero nell'onSuccess). Non fatto per la consegna anticipata."
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -4159,7 +4159,7 @@
       "impatto": "Oggi nessuno, perché l'AI dei negozi è spenta. Quando si riaccende, lo subisce un negozio con più di circa 80 prodotti che chiede una modifica su tutto il catalogo mentre il fornitore è lento, per esempio nelle ore di punta. Aspetta due minuti e legge «riprova». Riprova e aspetta di nuovo. Per ogni tentativo MyCity paga due generazioni lunghe del modello grande, e il negozio non vede niente.",
       "fix": "Togliere l'ipotesi dei 100 token/s, in uno di due modi. Primo modo: lo streaming nel Copilot (client.messages.stream), con una scadenza comune ricavata dal tempo che resta alla rotta. Se il tempo finisce, si restituisce il piano parziale con l'avviso «entrato fino al prodotto N». Secondo modo: abbassare il tetto a quanto arriva in un tentativo alla velocità peggiore, circa 40 token/s × 45 s, cioè circa 1800 token, e dividere il piano in pezzi. In alternativa, il modello restituisce la regola (filtro più operazione) e il server calcola le modifiche, come già propone la voce 577. In ogni caso, nessun ritentativo automatico su una chiamata lunga che non ha più tempo.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "gia_riparato_prima",
       "prova": "Test vitest proposto: tests/unit/il-copilot-risponde-in-tempo-anche-col-fornitore-lento.test.ts. Usa gli stessi finti di tests/unit/minori-s10-catalogo-chat.test.ts: withSellerAuth finto, database finto con 200 prodotti, AI_NEGOZI_ACCESA true, ANTHROPIC_API_KEY finta, runMessage finto che registra gli argomenti. Chiama POST /api/ai/copilot con l'istruzione «abbassa del 10% tutto». Pretende una delle due: args.stream === true, oppure args.max_tokens / 40 ≤ 45. La seconda vuol dire che la risposta più lunga arriva in un tentativo solo anche a 40 token/s, con margine sui 60 s del client e sui 120 s della rotta. Comando: `npx vitest run tests/unit/il-copilot-risponde-in-tempo-anche-col-fornitore-lento.test.ts`. Oggi è rosso: max_tokens vale 6000, cioè 150 s a 40 token/s, e non c'è streaming.",
       "prova_tipo": "vitest",
       "prova_eseguita": true,
@@ -4186,11 +4186,13 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
-        "sessione": "R29",
-        "collaudo": "parziale",
-        "perche": "il riparatore non l'ha scritta nel referto"
-      }
+        "esito": "gia_riparato_prima",
+        "sessione": "R01",
+        "collaudo": "K01",
+        "prova": "Alla base 522cfb01 (commit f734e255 dell'onda di R29): lib/ai/regole-copilot.ts:25 TEMPO_COPILOT_MS = 80_000 e :34 Math.min(3_000, 1024 + 60·prodotti); app/api/ai/copilot/route.ts:241-244 max_tokens: tettoTokenCopilot(...), timeoutMs: TEMPO_COPILOT_MS, senzaRitentativi: true; lib/ai/run.ts:58-63 (timeoutMs, senzaRitentativi) e :443-448 opzioniDellaChiamata → { timeout, maxRetries: 0 }; vercel.json:14 app/api/ai/**/route.ts maxDuration 120; tests/unit/minori-s10-catalogo-chat.test.ts:152-163 chiede già > 2048 e <= 3200. Comando: npx vitest run tests/unit/riparazione-r29-copilot-lento.test.ts tests/unit/minori-s10-catalogo-chat.test.ts --reporter=dot → 11 verdi."
+      },
+      "chiuso_il": "2026-11-17 21:44",
+      "chiuso_da": "riparazione onda8b · R01 · collaudo K01"
     },
     {
       "dimensione": "ai-endpoints",
@@ -4559,10 +4561,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
-        "sessione": "R27",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "esito": "riparato",
+        "sessione": "R01",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -6944,7 +6946,7 @@
       "impatto": "Rumore per gli amministratori: due avvisi identici per la stessa anomalia, e domani anche due push (quando saranno accese) e due email. Succede quando il calendario di Vercel e un cron esterno battono nello stesso momento (c'è già il precedente di Vercel e cron-job.org alla stessa ora), oppure con un giro a mano durante quello del calendario. Non tocca soldi né dati.",
       "fix": "Rivendicare la chiave prima di suonare. Una funzione SQL fa insert in operational_alert_log … ON CONFLICT (alert_key) DO UPDATE SET last_sent_at = now() WHERE operational_alert_log.last_sent_at < cutoff RETURNING alert_key. Campanella ed email partono solo per le chiavi restituite, e se poi la scrittura della campanella cade la chiave si libera. In alternativa, la notifica prende un identificativo fisso ricavato dalla chiave e dalla finestra di sei ore, come fa già notifyAdmins con unaVoltaPer: così il secondo insert sbatte sulla chiave primaria.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "gia_riparato_prima",
       "prova": "vitest proposto: tests/unit/due-giri-insieme-del-sorvegliante-suonano-una-volta.test.ts. Si parte dal finto database con memoria di tests/unit/la-campanella-degli-allarmi-suona-una-volta-anche-senza-posta.test.ts, con ogni risposta ritardata da un setTimeout(0) perché le due chiamate si intreccino. Con un'anomalia fresca: await Promise.all([POST(req), POST(req)]); expect(campanelle).toBe(1). Comando: cd /home/user/mycity && npx vitest run tests/unit/due-giri-insieme-del-sorvegliante-suonano-una-volta.test.ts — oggi rosso (2 campanelle).",
       "prova_tipo": "vitest",
       "prova_eseguita": true,
@@ -6972,10 +6974,12 @@
       },
       "riparazione_17_11": {
         "esito": "gia_riparato_prima",
-        "sessione": "R33",
-        "collaudo": "K18 regge",
-        "perche": "gia_riparato_prima"
-      }
+        "sessione": "R02",
+        "collaudo": "K01",
+        "prova": "app/api/cron/operational-alerts/route.ts:786-793 prendiIlTurno sulla chiave CAMPANELLA| prima dell'insert in notifications (suona solo chi ha il turno); :867-874 stesso turno prima dell'email; liberaIlTurno a :811 e :950 se l'invio cade. Arrivato col commit 038ddd6a. La prova tests/unit/l-allarme-che-non-parte-non-si-spaccia-per-spedito.test.ts ha già le 'tolte' (righe 19-20, 39-42, 80, 86). npx vitest run tests/unit/riparazione-r29-allarme-ordine.test.ts tests/unit/l-allarme-che-non-parte-non-si-spaccia-per-spedito.test.ts --reporter=dot → 19/19 verdi; il caso dei due giri nello stesso istante a riparazione-r29-allarme-ordine.test.ts:341-374."
+      },
+      "chiuso_il": "2026-11-17 21:44",
+      "chiuso_da": "riparazione onda8b · R02 · collaudo K01"
     },
     {
       "dimensione": "api-backend",
@@ -12752,10 +12756,10 @@
         "perche": "serve_file_altrui: Giro di correzione del 14/11 (collaudo K06, verdetto parziale). Nicola, 14/11 09:14: le voci serve_file_altrui entrano nel prossimo giro di correzione con i file dati a un padrone solo; le diff qui sotto sono il punto di partenza, provate nell'albero e poi rimesse com'erano (tsc --noEmit verde, 53 file di prova vicini verdi, 622 prove). Il layout di /admin ha lo stesso schema ma non è di nessuna sessione dell'onda 2."
       },
       "riparazione_17_11": {
-        "esito": "serve_file_altrui",
-        "sessione": "R19",
+        "esito": "riparato",
+        "sessione": "R01",
         "collaudo": "parziale",
-        "perche": "serve_file_altrui: Giro di correzione del 14/11 (collaudo K06, verdetto parziale). Nicola, 14/11 09:14: le voci serve_file_altrui entrano nel prossimo giro di correzione con i file dati a un padrone solo; le diff qui sotto sono il punto di partenza, provate nell'albero e poi rimesse com'erano (tsc --noEmit verde, 53 file di prova vicini verdi, 622 prove). Il layout di /admin ha lo stesso schema ma non è di nessuna sessione dell'onda 2."
+        "perche": "collaudo: parziale"
       }
     },
     {
@@ -20392,10 +20396,10 @@
         "perche": "parziale: dipende da R17-002: il bonifico del lunedì al negozio non si può ancora segnare (la riparazione è su un altro ramo e la sua migrazione non è sul database vero), ed è proprio lì che va compensato il 10% dei ritiri pagati al banco. Poi, per accenderlo: (1) interruttore: lib/ritiro-in-negozio.ts:22 `RITIRO_IN_NEGOZIO_ATTIVO = false` → true, col commento :7-20 da riscrivere (il motivo «coi negozi non se n'è ancora parlato» non vale più; resta il controllo che le migrazioni 124 e 179 siano applicate in produzione, come dice :19-20). Lo leggono: app/api/orders/cod/route.ts:365 e app/api/stripe/checkout/route.ts:133 (lo spengono lato server), app/checkout/page.tsx:1411, components/checkout/PaymentMethodSelector.tsx:175, lib/store-hours.ts:375, lib/store-customization.ts:127, lib/ordini/zona-di-consegna.ts:65, lib/promesse-pubbliche.ts:67-147, lib/email/templates.ts:766, lib/order-status.ts:44, app/admin/delivery/page.tsx:140-143, app/store/[id]/layout.tsx:43. (2) Cassa: la tessera del ritiro (PaymentMethodSelector.tsx:175-205) promette «Sconto {pickupDiscountPercent}%» e «Niente spedizione, sconto subito» mentre PICKUP_DISCOUNT_PERCENT vale 0 (lib/constants.ts:87): accesa scriverebbe «Sconto 0%». Va detto «gratis, nessun costo di consegna» (la consegna a zero col ritiro c'è già, lib/shipping.ts:79); il commento :162-173 è vecchio. (3) Contanti al banco: la scelta dei contanti dice solo «Contanti alla consegna · Paghi al rider quando ricevi il pacco» (PaymentMethodSelector.tsx:154-158), nessun testo per chi ritira e paga al banco; lato database contanti + ritiro diventa già CASH_IN_STORE (migrations/179:206). (4) Compensazione del 10%: lib/guadagni/negozio.ts calcola commissioneDovutaCents ma nessun codice la scala dal bonifico del lunedì né segna sull'ordine che è stata scalata (serve colonna + funzione, già detto nel parziale di R11-005); il resto nella fattura del mese con l'abbonamento non esiste; i ritiri al banco poi rimborsati restano contati. (5) Payout: app/api/cron/release-payouts/route.ts non tratta CASH_IN_STORE; il bonifico del lunedì fatto a mano (segna_bonifico_manuale, migrazione 350) è quello di R17-002. (6) Testi: app/admin/delivery/page.tsx:139-143 dice «Messo da parte: non se n’è ancora parlato coi negozi» e, acceso, «− 0%». (7) Prove che fissano lo spento, da girare insieme all'interruttore: tests/unit/ritiro-in-negozio-messo-da-parte.test.ts:22-33 e tests/unit/le-promesse-che-il-sito-non-mantiene.test.ts:65. Da verificare prima di accendere anche il codice di ritiro al banco (il #30 citato dalla voce; app/orders/[id]/page.tsx:213 e confirm_pickup_by_seller ci sono)."
       },
       "riparazione_17_11": {
-        "esito": "serve_file_altrui",
-        "sessione": "R30",
+        "esito": "non_fatto",
+        "sessione": "R02",
         "collaudo": null,
-        "perche": "serve_file_altrui: Per indicazione della regista (17/11) l'interruttore lib/ritiro-in-negozio.ts:22 resta spento: accenderlo prima che il bonifico del lunedì si possa segnare (lavoro su un altro ramo, migrazione non sul database vero) lascerebbe il 10% dei ritiri pagati al banco senza compensazione. Nessun file toccato."
+        "perche": "non_fatto: Resta spento per indicazione della regista del 17/11 (lib/ritiro-in-negozio.ts:22 `export const RITIRO_IN_NEGOZIO_ATTIVO = false;`, commento :7-21): accenderlo prima che la compensazione del 10% dei ritiri pagati al banco si possa segnare nel bonifico del lunedì lascerebbe quel 10% senza compensazione. Per segnarla servono una migrazione (niente migrazioni in quest'onda) e due file altrui (lib/guadagni/negozio.ts, app/api/cron/release-payouts/route.ts); il bonifico manuale (migrazione 350) non è sulla base. Le modifiche da fare all'accensione, sulle righe di oggi, sono qui sotto."
       }
     },
     {
@@ -20550,9 +20554,9 @@
       },
       "riparazione_17_11": {
         "esito": "non_fatto",
-        "sessione": "R33",
+        "sessione": "R02",
         "collaudo": null,
-        "perche": "non_fatto: Tetto di costo dell onda 5 (decisione della regista alle 11:37, costo 22,69 $ su 38): la voce passa all onda dopo, senza lavoro su questo ramo."
+        "perche": "non_fatto: serve una migrazione: va in un'onda con l'ok migrazioni di Nicola. La promessa al cliente è già tolta (components/ProductQA.tsx:95-96 toast «Domanda pubblicata: la risposta del negozio comparirà qui sotto.», e :136-138); manca l'avviso vero al negozio e a chi chiede. Le modifiche esatte sono in modifiche_scritte (colonne verificate sulle migrazioni 001, 008, 027, 055, 115, 215, 364; SQL non passato da nessun Postgres: va provato con --sql rNN_rimessa quando si scrive)."
       }
     },
     {
@@ -21348,7 +21352,7 @@
       "impatto": "Il forno legge tardi l'email «nuovo ordine», prepara la spesa e poi scopre sul sito che l'ordine è annullato. Nicola non riceve il segnale che quel negozio non sta guardando la posta.",
       "fix": "Nel giro degli scaduti: campanella ed email al negozio («Ordine #… annullato: non è stato accettato entro le 12:45») e un avviso agli amministratori una volta per ordine. Nella rotta di annullo del cliente, anche un'email al negozio.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "gia_riparato_prima",
       "prova": "Lettura: expire-stale-orders/route.ts:282-289 (insert con il solo user_id del cliente), :94 (la select senza seller_id). cancel/route.ts:79-96 scrive due campanelle e nessuna sendEmail al negozio.",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": true,
@@ -21368,11 +21372,13 @@
       },
       "fuori_dal_referto": true,
       "riparazione_17_11": {
-        "esito": "serve_file_altrui",
-        "sessione": "R31",
-        "collaudo": null,
-        "perche": "serve_file_altrui"
-      }
+        "esito": "gia_riparato_prima",
+        "sessione": "R02",
+        "collaudo": "K01",
+        "prova": "app/api/cron/expire-stale-orders/route.ts:357-368 campanella al negozio (scriviCampanella, link /seller/orders/<id>); :384-387 email al negozio (avvisaIlNegozioDellAnnullo, lib/ordini/annulla.ts:537, template lib/email/templates.ts:512); l'email parte anche da app/api/orders/[id]/cancel/route.ts:113 e app/api/admin/orders/[id]/cancel/route.ts:129. Arrivato con 27cf4bfc. npx vitest run tests/unit/riparazione-r31-email-al-negozio-annullo.test.ts tests/unit/minori-s03-ordini-scaduti.test.ts tests/unit/minori-s01-giro-notturno.test.ts --reporter=dot → 19/19 verdi; campanella al negozio provata a minori-s03-ordini-scaduti.test.ts:171."
+      },
+      "chiuso_il": "2026-11-17 21:44",
+      "chiuso_da": "riparazione onda8b · R02 · collaudo K01"
     },
     {
       "dimensione": "qa-flussi",
@@ -34168,9 +34174,9 @@
       },
       "riparazione_17_11": {
         "esito": "serve_file_altrui",
-        "sessione": "R33",
+        "sessione": "R01",
         "collaudo": null,
-        "perche": "serve_file_altrui: Non controllato a occhio «veri» in app/page.tsx:27, come-funziona e AuthShell: serve un build con la rete verso Google Fonts."
+        "perche": "serve_file_altrui: La variante (Inter e Fraunces principali solo col dritto, più due istanze del solo corsivo senza preload, più le regole CSS) NON regge con tests/unit/il-corsivo-del-sito-e-un-corsivo-vero.test.ts così com'è. Quella prova legge app/layout.tsx, prende i nomi dall'import di next/font/google (riga 3: Inter, Fraunces) e per ogni nome guarda solo la PRIMA chiamata `Nome({` (regex senza 'g', righe 58-60). Pretende: (a) che fra i caratteri ci siano Inter e Fraunces e che le loro opzioni si trovino; (b) che in quella prima chiamata style: [...] contenga sia 'italic' sia 'normal' (righe 109-121); (c) che il corsivo esista nel catalogo di next; (d) che nessuna prima chiamata abbia preload: false (righe 132-141); (e) che almeno un punto del sito chieda il corsivo (className italic o <em>), fra cui app/page.tsx. Con le principali solo 'normal' diventa rossa la (b) («non chiede il corsivo») per tutti e due i caratteri. Mettendo prima le istanze del corsivo diventano rosse la (b) («non chiede più il dritto») e la (d). Tenere 'italic' nella prima istanza lascia il corsivo precaricato, perché next/font precarica i file per sottoinsieme e non per stile (node_modules/next/dist/compiled/@next/font/dist/google/find-font-files-in-css.js:28): così il difetto resta. Una variante tutta in territorio non c'è: la prova comune va cambiata insieme. Le altre prove sono a posto: riparazione-r10-manifest-nel-head.test.tsx:19-21 e riparazione-r15-la-pagina-non-trovata-non-si-presenta-come-la-home.test.ts:19-21 fingono next/font (ogni chiamata dà {variable, className}), quindi le istanze in più non le rompono, e nessun'altra prova legge le opzioni dei caratteri. Non controllato a occhio: serve un build con la rete verso Google Fonts."
       }
     },
     {
@@ -36838,10 +36844,10 @@
         "nota": "Due giri sovrapposti possono mandare due volte la stessa push."
       },
       "riparazione_17_11": {
-        "esito": "serve_file_altrui",
-        "sessione": "R33",
+        "esito": "non_fatto",
+        "sessione": "R01",
         "collaudo": null,
-        "perche": "serve_file_altrui: PERMESSI (in chiaro): la 571 crea public.claim_pending_push(timestamptz,int) con i permessi di chi la chiama (NON security definer); revoca EXECUTE a PUBLIC, anon e authenticated e lo CONCEDE a service_role. Niente commit perché la prova comune finge rpc() = {data:true} per ogni funzione e con la presa atomica diventa rossa, e lib/database.types.ts non è di R33. Alla prova rimes"
+        "perche": "non_fatto: serve una migrazione: va in un'onda con l'ok migrazioni di Nicola. Tocca anche i permessi di una funzione SQL (claim_pending_push: niente SECURITY DEFINER, EXECUTE tolto a PUBLIC, anon e authenticated e dato a service_role), quindi è anche delicata. La correzione R33-005 (diff intera in lotto2.json) si applica pulita sulla base: i file di partenza della diff hanno blob identici alla base (route.ts ced6bf7f, lib/database.types.ts bd3a4c9f, e le cinque prove 01279396, 6d22b39a, b12a819c, 9bc7c3cf, 03128336). Il numero 571 è libero sulla base (ci sono 541 e 572). Il difetto c'è ancora."
       }
     },
     {
@@ -44011,10 +44017,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
-        "sessione": "R29",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -54731,10 +54737,10 @@
         "perche": "parziale: catalog-apply ora coincide col modulo prodotto. Restano però altre porte con forme diverse, in file non miei: app/api/ai/catalog-apply-bulk/route.ts:250-258 e app/api/ai/catalog-batch/apply/route.ts:321-330 (tutte le chiavi, nessun daAi), e app/api/admin/products/route.ts:225-231, che registra solo {fields}, senza prima né dopo."
       },
       "riparazione_17_11": {
-        "esito": "serve_file_altrui",
-        "sessione": "R30",
-        "collaudo": null,
-        "perche": "serve_file_altrui: catalog-apply e salvataggio-tracciato (miei) coincidono già col modulo prodotto alla base; le altre tre porte non sono mie. Righe ricontrollate sulla base d1eaba80."
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -60523,10 +60529,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
-        "sessione": "R27",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "esito": "parziale",
+        "sessione": "R02",
+        "collaudo": "parziale",
+        "perche": "parziale: 1) Il freno sulle altre 12 rotte mie: answer-qa (POST :48), barcode-lookup :66, catalog-apply :44, catalog-apply-bulk :60, catalog-chat :180, description :47, diagnose :95, improve-product :216, product-chat :164, seo :59, variants :70, voice-product :60. In ognuna, dopo `import { ApiErrors } from '@/lib/api/responses';` aggiungere `import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio';` e come prima riga del POST `if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');`. Rimandato perché ogni rotta fa rosse delle prove comuni (39 file in serve_file_altrui) da cambiare nello stesso commit: provato nell'albero, freno sulle 13 rotte + le 39 prove preparate = 56 file, 407 casi verdi, poi rimesso com'era. 2) Copilot e reviews-summary: serve_file_altrui. 3) Classifica inviti: nessuna rotta (app/profile/referral/leaderboard/page.tsx:111 legge la vista dal browser); un freno lato server sarebbe una migrazione `REVOKE SELECT ON public.referral_leaderboard FROM authenticated;` da ridare alla riaccensione: scelta di Nicola, e niente migrazioni in quest'onda. catalog-batch/status e catalog-batch/cancel restano senza freno: servono a chiudere un lotto partito prima dello spegnimento."
       }
     },
     {
@@ -60848,10 +60854,10 @@
         "perche": "parziale: Le altre cinque pagine non sono mie: app/admin/cod-remittance, payouts, support, products e audit (page.tsx)."
       },
       "riparazione_17_11": {
-        "esito": "serve_file_altrui",
-        "sessione": "R30",
-        "collaudo": null,
-        "perche": "serve_file_altrui: app/admin/today/page.tsx (mio) usa già vistaDaQuery alla base; le altre cinque pagine non sono mie. Verificato sulla base: in ognuna 3 rami isLoading/isError scritti a mano e nessun vistaDaQuery."
+        "esito": "riparato",
+        "sessione": "R01",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -63299,9 +63305,9 @@
       },
       "riparazione_17_11": {
         "esito": "gia_riparato_prima",
-        "sessione": "R31",
-        "collaudo": "K17 regge",
-        "perche": "gia_riparato_prima"
+        "sessione": "R01",
+        "collaudo": "parziale",
+        "perche": "collaudo: parziale"
       }
     },
     {
@@ -64629,10 +64635,10 @@
         "perche": "il riparatore non l'ha scritta nel referto"
       },
       "riparazione_17_11": {
-        "esito": "senza_referto",
-        "sessione": "R27",
-        "collaudo": null,
-        "perche": "il riparatore non l'ha scritta nel referto"
+        "esito": "parziale",
+        "sessione": "R02",
+        "collaudo": "parziale",
+        "perche": "parziale: La prova lunga chi-vuole-cancellarsi… (1035 righe, 48 casi): togliere adminDiProva e le patch a mano usando il finto unico, e spezzarla in rotte / notte / scansione del sorgente. Fatto e provato nel commit e0c38fe9 (48 casi prima = 48 dopo nei tre file, 35 file e 270 casi verdi), poi tolto col commit a806446a perché guardia-ramo vieta che una prova esistente perda asserzioni (165 → 49), anche quando i casi si spostano in file nuovi: lo può fare solo la regista (vedi serve_file_altrui). Resta anche una quinta copia scritta a mano del ClienteAvvisi, non nominata dalla correzione: tests/unit/minori-s08-avvisi.test.ts:40-70 (`database()`, con pannelloRottoPer e turnoRotto), da passare al finto unico (file non mio)."
       }
     },
     {
@@ -71401,9 +71407,9 @@
       },
       "riparazione_17_11": {
         "esito": "serve_file_altrui",
-        "sessione": "R30",
+        "sessione": "R02",
         "collaudo": null,
-        "perche": "serve_file_altrui: Le due prove guardano file di R31 (app/checkout/page.tsx, app/cart/page.tsx): sono comuni. Le due prove di comportamento che le sostituiscono sono già nella base (tests/unit/riparazione-r22-veloce-cassa-chiede-al-server.test.ts e tests/unit/riparazione-r22-veloce-l-invio-rilegge-l-ora.test.ts, verificato)."
+        "perche": "serve_file_altrui: Fatta e provata (commit 0dbe534c, rimessa a 0), poi tolta col commit 9f071f72: guardia-ramo vieta di togliere asserzioni da una prova esistente (25 → 21 e 63 → 60) e la regola non ha deroga per il riparatore. Le prove di comportamento che sostituiscono i due casi sono già sulla base e verdi: tests/unit/riparazione-r22-veloce-cassa-chiede-al-server.test.ts:147 e tests/unit/riparazione-r22-veloce-l-invio-rilegge-l-ora.test.ts:153."
       }
     },
     {
@@ -74731,10 +74737,10 @@
         "nota": "Il rumore per i visitatori anonimi c è ancora."
       },
       "riparazione_17_11": {
-        "esito": "serve_file_altrui",
-        "sessione": "R33",
+        "esito": "non_fatto",
+        "sessione": "R02",
         "collaudo": null,
-        "perche": "serve_file_altrui: Niente commit: nella prova comune autori() non dà una sessione a chi guarda, quindi «Maria con l account» risulta senza account e la prova diventa rossa; la diff le aggiunge una riga: globale.__UTENTE__ = chi ? { id: chi } : null."
+        "perche": "non_fatto: delicata, privacy: va con i delicati. Il difetto c'è ancora sulla base: components/ProductQA.tsx:73 e components/store-sections/useStorePageData.ts:61 chiamano fetchNomiPubblici senza guardare l'account, e lib/queries/seller-public-profiles.ts:257 chiede sempre la vista nomi_pubblici (il rifiuto finisce in logger.warn a :269). La diff scritta sta in correzioni-scritte.json alla chiave della voce."
       }
     },
     {
@@ -80964,10 +80970,10 @@
         "perche": "serve_file_altrui: Difetto ancora presente: il file esiste col prefisso zz-collaudo e il nome non dice cosa protegge (verifica del 13/11)."
       },
       "riparazione_17_11": {
-        "esito": "non_fatto",
-        "sessione": "R30",
+        "esito": "serve_file_altrui",
+        "sessione": "R02",
         "collaudo": null,
-        "perche": "non_fatto: tetto: la regista ha chiuso R30 a 38 $ dopo il lotto B (17/11) e la voce non è stata aperta; nessun file toccato."
+        "perche": "serve_file_altrui: Fatta e provata (commit 695e6bc9, rimessa a 0), poi tolta col commit 92094312: guardia-ramo legge la rinomina come cancellazione di una prova esistente, e quella regola non ha deroga per il riparatore. Il nome scritto nella correzione (i-termini-nominano-…) farebbe anche rosso «prova nuova senza il nome della sessione»: per questo il nome nuovo porta riparazione-r02-. Nessun file del deposito nomina il vecchio percorso; la prova importa solo app/terms/page."
       }
     },
     {
@@ -81009,10 +81015,10 @@
         "perche": "serve_file_altrui: Nessun commit, nessun file toccato. Misure su 155 file di prove che usano monta() (tutti verdi, 73 s, 4 core): mediana del primo caso 257 ms contro 14 ms di un caso qualunque; i peggiori 0,6-1,1 s; nessun timeout (testTimeout è 5000). Il costo del primo caso = compilazione in un processo node a parte (execFileSync, circa 80-120 ms a riposo, circa 400 ms con 8 in parallelo) più il primo import di react, react-dom e pacchetti condivisi (circa 190 ms; il resto dell'import è il grafo del componente stesso, per la home circa 450 ms, e non si può scaldare). Prova in una copia nello scratchpad (fuori dal deposito): con il blocco di riscaldamento qui sotto l'import del primo caso scende da 187 ms a circa 100 ms e il primo caso da 287 ms a circa 180 ms, perché il costo passa alla raccolta del file, che non conta nel timeout del caso. Il guadagno è modesto: la vera sicurezza contro i rossi per tempo sui computer lenti è alzare il testTimeout."
       },
       "riparazione_17_11": {
-        "esito": "parziale",
-        "sessione": "R30",
-        "collaudo": "K18 parziale",
-        "perche": "parziale: Spostare il costo dal primo caso alla raccolta del file con un riscaldamento dentro l'aiutante monta-componente, che non è di nessuna sessione e quindi non è mio."
+        "esito": "riparato",
+        "sessione": "R01",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -81174,10 +81180,10 @@
         "perche": "serve_file_altrui"
       },
       "riparazione_17_11": {
-        "esito": "non_fatto",
-        "sessione": "R30",
-        "collaudo": null,
-        "perche": "non_fatto: tetto: la regista ha chiuso R30 a 38 $ dopo il lotto B (17/11) e la voce non è stata aperta; nessun file toccato."
+        "esito": "riparato",
+        "sessione": "R01",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -81219,10 +81225,10 @@
         "perche": "serve_file_altrui: Contraddice la prova comune la-foto-rifiutata-lo-dice-in-italiano, che pretende la frase dei tre formati."
       },
       "riparazione_17_11": {
-        "esito": "serve_file_altrui",
-        "sessione": "R24",
-        "collaudo": null,
-        "perche": "serve_file_altrui: Contraddice la prova comune la-foto-rifiutata-lo-dice-in-italiano, che pretende la frase dei tre formati."
+        "esito": "riparato",
+        "sessione": "R01",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -81658,9 +81664,9 @@
       },
       "riparazione_17_11": {
         "esito": "serve_file_altrui",
-        "sessione": "R33",
+        "sessione": "R01",
         "collaudo": null,
-        "perche": "serve_file_altrui: I due file miei non vanno da soli: senza il filtro in useNotificationsCount la lista nasconderebbe promozioni che la campanella conta ancora (la regressione per cui un collaudo dell onda 2 aveva fatto togliere la prima correzione). SellerShell con useNotificationsCount rende rossa la prova comune, il cui finto di react-query non ha useQueryClient: la diff gli aggiunge useQueryCl"
+        "perche": "serve_file_altrui: Il difetto c'è ancora: app/notifications/page.tsx:101-106 legge tutte le notifiche, promozioni comprese. La diff R33-018 (lotto2.json) si applica pulita sulla base: i file di partenza hanno blob identici (page 36f3ac92, useNotificationsCount b857d458, SellerShell dac32fc6, minori-s06 48149841, il-pannello-negozio d838f85b). Una variante tutta in territorio non c'è: filtrare solo la pagina lascia il numero sul campanello (useNotificationsCount in Navbar, AccountShell, AccountSidebar e AdminSidebar, più useNotifUnread del negozio) a contare promozioni che la lista non mostra più. È la regressione per cui un collaudo dell'onda 2 aveva fatto togliere la prima correzione (nota R33-018). notifications.category è NOT NULL DEFAULT 'order' (migrations/115_privacy_radiografia.sql:210), quindi .neq('category','promo') non nasconde righe senza categoria. CONSENSI: sì, tocca un consenso, ma solo in lettura. notif_promos è l'interruttore delle promozioni (spento di default dalla 119, spento dalla disiscrizione 118). La correzione legge la riga di profiles della persona stessa, che il client legge già in app/profile/settings/page.tsx:210, e nasconde le promozioni quando notif_promos non è true. Non scrive consensi, non cambia permessi né RLS, non tratta dati nuovi. Se va con i delicati lo decide la regista."
       }
     },
     {
@@ -81750,10 +81756,10 @@
         "perche": "serve_file_altrui: Giro di correzione del 14/11 (collaudo K06, verdetto parziale). Nicola, 14/11 09:14: le voci serve_file_altrui entrano nel prossimo giro di correzione con i file dati a un padrone solo; le diff qui sotto sono il punto di partenza, provate nell'albero e poi rimesse com'erano (tsc --noEmit verde, 53 file di prova vicini verdi, 622 prove). L'accesso con Google perde ancora tutto il ritorno: il pulsante sta in components/ui/AuthShell.tsx (di nessuna sessione dell'onda 2) e la pagina di accesso che lo monta è di R10/R21. /auth/callback legge già next e lo ripulisce con safeInternalPath."
       },
       "riparazione_17_11": {
-        "esito": "serve_file_altrui",
-        "sessione": "R19",
+        "esito": "riparato",
+        "sessione": "R02",
         "collaudo": "parziale",
-        "perche": "serve_file_altrui: Giro di correzione del 14/11 (collaudo K06, verdetto parziale). Nicola, 14/11 09:14: le voci serve_file_altrui entrano nel prossimo giro di correzione con i file dati a un padrone solo; le diff qui sotto sono il punto di partenza, provate nell'albero e poi rimesse com'erano (tsc --noEmit verde, 53 file di prova vicini verdi, 622 prove). L'accesso con Google perde ancora tutto il ritorno: il pulsante sta in components/ui/AuthShell.tsx (di nessuna sessione dell'onda 2) e la pagina di accesso che lo monta è di R10/R21. /auth/callback legge già next e lo ripulisce con safeInternalPath."
+        "perche": "collaudo: parziale"
       }
     },
     {
@@ -82613,10 +82619,10 @@
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R03",
       "stato": "aperto",
       "riparazione_17_11": {
-        "esito": "riparato",
-        "sessione": "R03",
+        "esito": "parziale",
+        "sessione": "R01",
         "collaudo": "rompe_altro",
-        "perche": "collaudo: rompe_altro"
+        "perche": "parziale: «Zone salvate» ora arriva solo dopo l'esito e una scrittura appesa non blocca più la fila (tempo massimo 10 s, commit 974093ba, rimessa uscita 0). Resta il difetto dell'ordine invertito in un caso: app/rider/availability/page.tsx:143 (if (tardi) scriviZone(confermate.elenco, confermate.numero, true)) fissa l'elenco confermato quando la riscrittura entra in fila, poi aspetta dietro un tocco più nuovo già partito e lo sovrascrive: con scrittura 0 appesa, tocco 1 riuscito dopo 10 s, tocco 2 in volo e la 0 che arriva tardi, il database resta [Stazione,Roma] mentre lo schermo mostra tre zone e due «Zone salvate». Cura: la riscrittura deve leggere l'elenco confermato al momento in cui parte (non quando entra in fila), o saltarla se dopo di lei in fila c'è un tocco più nuovo. Resta anche: chiudendo la pagina entro i 10 s di una scrittura appesa il tocco in fila si perde. Non fatto: la regista ha chiesto la consegna (spesa oltre 20 $)."
       }
     },
     {
@@ -82701,7 +82707,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R06",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R01",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "dati-analytics",
@@ -82794,7 +82806,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R07",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R01",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "frontend-ux",
@@ -82809,9 +82827,9 @@
       "stato": "aperto",
       "riparazione_17_11": {
         "esito": "parziale",
-        "sessione": "R04",
+        "sessione": "R03",
         "collaudo": "parziale",
-        "perche": "parziale: La pagina mostra ErrorState solo quando cade anche la domanda di conteggio. Se cadono le file di components/ProductGrid.tsx (che leggono anche seller_public_profiles, lib/queries/griglia-prodotti.ts:266) e il conteggio risponde, la categoria madre resta bianca sotto i bottoni delle sottocategorie: lo smentitore l'ha provato. Serve un segnale diretto dalla fila, che non è un file di R04. Effetto accanto: se il conteggio cade mentre le file caricano, il messaggio d'errore compare sotto le file in caricamento (page.tsx:405-415) e sparisce se poi arrivano piene."
+        "perche": "parziale: Il caso della voce è chiuso (la categoria madre con le file cadute e il conteggio che risponde mostra l'errore con «Riprova»; prova rimessa uscita 0), ma lo smentitore ha visto che la cura introduce l'avviso di React «Cannot update a component (CategoryPage) while rendering a different component (ProductGrid/ProductCard)», 2 volte anche nella prova ufficiale e con le file miste; con la pagina della base 0 volte. Causa probabile: l'iscrizione a tutta la QueryCache con useSyncExternalStore (app/category/[slug]/page.tsx:137-163, riga 143): le domande create mentre si disegnano i figli avvisano la cache durante il render. Solo in sviluppo; in produzione un ridisegno in più. Cura nel mio file: filtrare gli eventi della cache alle sole chiavi delle file e rimandare la notifica (notifyManager.batchCalls / iscrizione in un effetto), oppure la prop onError di ProductGrid (file non mio, modifica già descritta nell'onda prima). Niente giro di correzione: spesa oltre i 20 $."
       }
     },
     {
@@ -82824,7 +82842,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R08",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R03",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "microcopy",
@@ -82936,9 +82960,9 @@
       "stato": "aperto",
       "riparazione_17_11": {
         "esito": "parziale",
-        "sessione": "R04",
+        "sessione": "R03",
         "collaudo": "parziale",
-        "perche": "parziale: Il taglio silenzioso del campo (maxLength) non c'è più e il contatore avvisa, ma contatore (SectionConfigForm.tsx:115) e schema (lib/store-site.ts:153, z.string().max(RICHTEXT_MAX)) contano il testo PRIMA della sanitizzazione, e la rotta app/api/seller/site/route.ts:47-52 sanitizza dopo il controllo senza ricontrollare. Un testo vicino al limite con & o < (per esempio 3.980 «a» + « Tom & Jerry < 3 »: 3.997 per il contatore, 4.003 dopo sanitizeRichText) si salva, e alla rilettura normalizeSite (lib/store-site.ts:371-376) ripiega sul sito di default: spariscono blocco, pagine, menu e tema. È il caso della cura «come in R10-014». La cura sta nei file di R04: in lib/store-site.ts:153 fare come lib/home-site.ts:178-181 (lunghezzaDelTesto più un tetto sull'HTML sanitizzato) e contare così anche nel contatore. Non fatta per la consegna anticipata chiesta dalla regista. Il difetto c'era già sulla base."
+        "perche": "parziale: Il salvataggio non lo blocca ancora nessuno: SiteEditor.tsx (non mio) controlla con storeSiteSchema, che conta il testo prima della pulizia (lib/store-site.ts:153), e la rotta app/api/seller/site/route.ts:47-52 pulisce dopo senza ricontrollare. Quindi oggi il modulo mostra l'errore, ma un clic su «Salva» manda lo stesso il testo, il server ne salva 4.003 e alla rilettura normalizeSite (lib/store-site.ts:371-376) ripiega sul sito di partenza. Con la modifica qui sotto lo schema rifiuta il testo sia nel browser (SiteEditor mostra il messaggio e non manda) sia nella rotta. Nota dello smentitore: finché lib/store-site.ts non conta il testo pulito, il salvataggio passa (SiteEditor.tsx:98 → rotta app/api/seller/site/route.ts:47-52 → «Sito salvato!» → alla rilettura normalizeSite ripiega sul default) e il messaggio d'errore del modulo promette un blocco che oggi non c'è."
       }
     },
     {
@@ -83048,10 +83072,10 @@
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R12",
       "stato": "aperto",
       "riparazione_17_11": {
-        "esito": "parziale",
+        "esito": "riparato",
         "sessione": "R01",
-        "collaudo": "parziale",
-        "perche": "parziale: L'etichetta «Chiudi avviso» c'è su tutti i tipi di avviso e la X dei caricamenti non resta finta (commit e3c2bb62, rimessa uscita 0). Resta il caso di un caricamento chiuso con toast(msg, { id }): in sonner 1.7.4 resta di tipo loading, senza X e senza scadenza. Succede in components/seller/ProductForm.tsx:671 e :709 (miei: usare toast.info/toast.success con lo stesso id) e in components/seller/dilloDopoIlPatch.ts:17 (non mio, tono neutro: stessa modifica). Oggi è dormiente: i tre flussi passano da aiAccesa, spenta al lancio."
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -83145,9 +83169,9 @@
       "stato": "aperto",
       "riparazione_17_11": {
         "esito": "riparato",
-        "sessione": "R03",
-        "collaudo": "parziale",
-        "perche": "collaudo: parziale"
+        "sessione": "R02",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -83355,10 +83379,10 @@
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R15",
       "stato": "aperto",
       "riparazione_17_11": {
-        "esito": "parziale",
-        "sessione": "R01",
-        "collaudo": "parziale",
-        "perche": "parziale: Il difetto com'è scritto è chiuso sulla base (la tendina disegna le sole categorie piene: components/SearchBar.tsx:76-77 sulla base bc36f481: la tendina filtra le principali con domandaCategoriePiene + soloLePiene (`const catPiene = soloLePiene(topCa…). Resta una variante trovata da S3: components/SearchBar.tsx:77, soloLePiene(topCats, piene.isError ? null : piene.data), butta via le piene già note quando una ricarica fallisce (react-query 5 tiene i dati in stato di errore) e la tendina torna a elencare le categorie vuote. Cura: soloLePiene(topCats, piene.data ?? null). Nessun commit: non fatto per la consegna anticipata."
+        "esito": "riparato",
+        "sessione": "R03",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -83406,10 +83430,10 @@
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R15",
       "stato": "aperto",
       "riparazione_17_11": {
-        "esito": "serve_file_altrui",
-        "sessione": "R04",
+        "esito": "scelta_di_nicola",
+        "sessione": "R03",
         "collaudo": null,
-        "perche": "serve_file_altrui"
+        "perche": "scelta_di_nicola: Codice sulla base: c'è (app/store/loading.tsx disegna ScheletroNegozio sopra app/store/[id]/layout.tsx, che è async e aspetta precaricaNegozio). Misura: oggi nessun file sotto app/store importa next/navigation né chiama notFound() sul server (le due «notFound» di app/store/[id]/[slug] sono un riquadro disegnato nel browser e un oggetto di metadati); e app/loading.tsx della radice avvolge anche il guscio del negozio (un loading.tsx copre tutto quello che sta sotto il suo layout), quindi anche togliendo app/store/loading.tsx la risposta resta 200 in streaming. La cura di R03-002 cambia solo il titolo, non rende naturale un notFound() nel guscio (servirebbe distinguere «non esiste» da «lettura caduta» e cambierebbe la pagina che vede il cliente: la 404 generica al posto del riquadro col «Vedi tutti i negozi»). Quindi togliere app/store/loading.tsx oggi non dà nessun 404 e riporta lo scheletro generico della radice mentre il guscio legge (il salto che la prova proteggeva): resta solo la scelta. Se Nicola sceglie il 404, il lavoro è pronto e tutto nei miei file: cancellare app/store/loading.tsx e capovolgere il caso «il sipario copre anche il guscio, non solo la pagina» di tests/unit/aprendo-un-negozio-si-vede-una-cosa-sola-mentre-arriva.test.ts (righe 90-106) in «sotto app/store/ nessun loading.tsx sopra il guscio, che deve poter rispondere 404» (prova esistente toccabile: legge per nome app/store/loading.tsx e app/store/[id]/layout.tsx, miei, e ScheletroNegozio.tsx, HeroSection.tsx e misure-vetrina, che non sono di R01 né di R02); app/loading.tsx resta (protetto da tests/unit/minori-s09-aspetto.test.ts:219-224). Una via che tiene tutte e due le cose (lo scheletro del negozio dentro il guscio, in un Suspense dopo il controllo di esistenza) cambia la forma del guscio e due prove che lo eseguono (il-guscio-della-pagina-legge-il-negozio-sul-server, la-vetrina-del-negozio-parte-gia-piena): non l'ho fatta senza la scelta."
       }
     },
     {
@@ -83442,7 +83466,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R15",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "parziale",
+        "sessione": "R02",
+        "collaudo": "non_regge",
+        "perche": "parziale: Chi decide «Carica altri» è ProductGrid (file non mio), che conta ancora la lunghezza dell'ultima pagina in due punti (righe 279 e 723): vanno applicate tutte e due le modifiche qui sotto insieme a questo commit. Limite noto e confermato dallo smentitore: con @tanstack/query-core 5.100.14, dopo una rilettura in cui l'ultima pagina cambia, replaceEqualDeep ricopia l'array e la proprietà non enumerabile si perde; in quel caso si torna alla lunghezza, cioè al comportamento di prima. Non c'è persistenza della cache né preparazione lato server della griglia."
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -83506,7 +83536,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R15",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -83570,7 +83606,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R15",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "serve_file_altrui",
+        "sessione": "R01",
+        "collaudo": null,
+        "perche": "serve_file_altrui"
+      }
     },
     {
       "dimensione": "microcopy",
@@ -83672,7 +83714,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R16",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R01",
+        "collaudo": "parziale",
+        "perche": "collaudo: parziale"
+      }
     },
     {
       "dimensione": "stati-ui",
@@ -83684,7 +83732,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R16",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R03",
+        "collaudo": "parziale",
+        "perche": "collaudo: parziale"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -83853,9 +83907,9 @@
       "stato": "aperto",
       "riparazione_17_11": {
         "esito": "serve_file_altrui",
-        "sessione": "R02",
+        "sessione": "R03",
         "collaudo": null,
-        "perche": "serve_file_altrui: La cura nella rotta (mia) fa diventare rosse 13 prove in 5 file esistenti che chiamano la rotta col solo jobId. Quei file mettono in vi.mock lib/funzioni-al-lancio.ts (di R01 in quest'onda) e altri file non miei: per la regola delle prove comuni non li tocco. Ho provato in locale rotta + le cinque modifiche qui sopra: 7 file, 87 prove verdi (npx vitest run dei 5 file più le-funzioni-spente-le-ferma-la-rotta-anche-a-mano e riparazione-r18-lotto-applica-quello-che-si-vede). Nessun commit: la rotta da sola romperebbe il verify."
+        "perche": "serve_file_altrui: Chiamanti: l'unico è app/seller/products/ai-batch/page.tsx:439, che manda sempre productIds (job.results.map(r => r.product_id)), anche con «Applica a tutti» (stessa funzione apply): la cura non rompe l'app. Misura con la cura messa a mano e poi tolta: 13 prove rosse in 5 file (le stesse dell'onda 7). Tutti e 5 i file usano lib/rate-limit.ts, che in quest'onda è di R01 (3 lo mockano, 2 importano __resetRateLimitBuckets): per la regola delle prove esistenti non li posso toccare, quindi la rotta resta com'è e chiedo tutto insieme. Ho provato la proposta intera nell'albero (rotta + 5 prove + prova nuova) e l'ho tolta: 9 file, 92 prove verdi; la prova nuova senza la rotta corretta è rossa (2 casi su 3: 200 invece di 400). Gli altri file che chiamano la rotta restano verdi senza cambi: riparazione-r02-traccia-porte-ai-catalogo e riparazione-r18-lotto-applica-quello-che-si-vede mandano già productIds, le-funzioni-spente-le-ferma-la-rotta-anche-a-mano si ferma prima (funzione spenta, 503)."
       }
     },
     {
@@ -83986,7 +84040,15 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R19",
-      "stato": "aperto"
+      "stato": "gia_riparato_prima",
+      "chiuso_il": "2026-11-17 21:44",
+      "chiuso_da": "riparazione onda8 · R02 · collaudo K01",
+      "riparazione_17_11": {
+        "esito": "gia_riparato_prima",
+        "sessione": "R02",
+        "collaudo": "K01",
+        "prova": "components/LocationPill.tsx:85-89 legge localStorage dentro try/catch (commit fc5cea5d, antenato della base); components/Navbar.tsx:59-78 ha ogni accesso a window.localStorage già in try/catch. tests/unit/riparazione-r02-barra-senza-memoria.test.ts è verde sulla base e rosso con components/LocationPill.tsx di fc5cea5d^ (prova-rimessa uscita 0)."
+      }
     },
     {
       "dimensione": "stati-ui",
@@ -83998,7 +84060,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R20",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "parziale",
+        "sessione": "R01",
+        "collaudo": "parziale",
+        "perche": "parziale: La lettura caduta ora dice «Non so se sei online» / «Non riesco a leggere il tuo voto» (commit 340318af, rimessa uscita 0), ma app/rider/page.tsx:217 (statoOnlineIgnoto = !pref && letturaPref.isError) e :237 (votoIgnoto) guardano solo isError: con la regola vera di QueryProvider (retry 1, attesa di 1 s) durante l'attesa del nuovo tentativo, e se la rete cade e il tentativo va in pausa finché la rete non torna, la scheda dice ancora «Sei offline · Vai online per iniziare» con l'interruttore attivo. La prova usa retry:false e non lo vede. Cura: trattare come «non so» anche il tentativo in corso dopo un errore (failureCount > 0 o fetchStatus 'paused' senza dati), come fa R01-013 nella pagina del nuovo prodotto, e provarlo con retry 1. Non fatto: la regista ha chiesto la consegna (spesa oltre 20 $)."
+      }
     },
     {
       "dimensione": "privacy-legale",
@@ -84058,7 +84126,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R21",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R01",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "microcopy",
@@ -84097,9 +84171,9 @@
       "stato": "aperto",
       "riparazione_17_11": {
         "esito": "riparato",
-        "sessione": "R03",
-        "collaudo": "rompe_altro",
-        "perche": "collaudo: rompe_altro"
+        "sessione": "R01",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -84114,10 +84188,10 @@
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R22",
       "stato": "aperto",
       "riparazione_17_11": {
-        "esito": "serve_file_altrui",
-        "sessione": "R04",
-        "collaudo": null,
-        "perche": "serve_file_altrui: Esito corretto dallo smentitore: la regola è già decisa dalla campagna (il collaudo K05 ha tolto R22-013 come «rompe_altro» proprio perché SellerShell.tsx:105-122 contava ancora le promozioni; la voce del sito sulla campanella che mostra le promozioni a chi le ha spente è ancora aperta, in pronte/C-parziali-file-altrui.txt:32). SellerShell.tsx è di R04: la sua parte della stessa diff va applicata insieme alle due sopra, perché da sola farebbe divergere il campanello del negozio dall'elenco. Non fatta per la consegna anticipata."
+        "esito": "parziale",
+        "sessione": "R02",
+        "collaudo": "rompe_altro",
+        "perche": "parziale: La lista di /notifications e il campanello del sito vanno filtrati allo stesso modo e applicati insieme a questo commit: da solo il pannello negozio conta meno della lista (verificato che su 1a7de5b9 né app/notifications/page.tsx né components/hooks/useNotificationsCount.ts contengono notif_promos o category). In quei due file l'errore della preferenza si lancia, come già fanno con l'errore della lettura."
       }
     },
     {
@@ -84658,7 +84732,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C02",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "non_fatto",
+        "sessione": "R02",
+        "collaudo": null,
+        "perche": "non_fatto: La correzione nel commit 77997355 non regge (smentitore B, dallo schema): l'aggancio senza indicazione 'negozio:seller_public_profiles!inner(id)' (lib/queries/griglia-prodotti.ts:356) è ambiguo per PostgREST, perché oltre a products_seller_id_fkey c'è una molti-a-molti prodotti↔profili attraverso recently_viewed (chiave (user_id, product_id), migrations/027_growth_engagement_foundations.sql:205-210). PostgREST risponde PGRST201, il ripiego scatta sempre e il numero resta quello di prima, con una domanda fallita e un logger.warn in più a ogni conteggio. La prova passa solo perché il PostgREST finto accetta l'aggancio. Alla regista: togliere 77997355 all'integrazione (con la sua prova tests/unit/riparazione-r02-novita-conteggio-negozi.test.ts), oppure correggere in 'negozio:seller_public_profiles!products_seller_id_fkey!inner(id)' e provarlo su un PostgREST locale vero (lo smentitore non l'ha potuto avviare). Non corretto qui: spesa sopra i 20 $, niente giri di correzione."
+      }
     },
     {
       "dimensione": "architettura",
@@ -84736,13 +84816,15 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · K10",
-      "stato": "aperto",
+      "stato": "gia_riparato_prima",
       "riparazione_17_11": {
-        "esito": "riparato",
-        "sessione": "R02",
-        "collaudo": "parziale",
-        "perche": "collaudo: parziale"
-      }
+        "esito": "gia_riparato_prima",
+        "sessione": "R03",
+        "collaudo": "K01",
+        "prova": "app/lists/[id]/page.tsx:162-169 sulla base 1a7de5b9 (oggi 174-181): l'onSuccess di removeItem, usato da tutti e due i cestini della pagina (righe 355 e 399), invalida queryKeys.lists.mine, .public e .inVetrina; comando: npx vitest run tests/unit/riparazione-r02-lista-conteggio-dopo-rimozione.test.tsx --reporter=dot → verde, 2 prove su 2 (uscita 0)"
+      },
+      "chiuso_il": "2026-11-17 21:44",
+      "chiuso_da": "riparazione onda8 · R03 · collaudo K01"
     },
     {
       "dimensione": "qa-flussi",
@@ -84864,9 +84946,9 @@
       "stato": "aperto",
       "riparazione_17_11": {
         "esito": "riparato",
-        "sessione": "R04",
-        "collaudo": "parziale",
-        "perche": "collaudo: parziale"
+        "sessione": "R03",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
       }
     },
     {
@@ -85134,7 +85216,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione onda7 · R01",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R01",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -85158,7 +85246,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione onda7 · R01",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "parziale",
+        "perche": "collaudo: parziale"
+      }
     },
     {
       "dimensione": "navigazione-gerarchia",
@@ -85170,7 +85264,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione onda7 · R01",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R01",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -85182,7 +85282,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione onda7 · R01",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -85194,7 +85300,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione onda7 · R02",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R01",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -85206,7 +85318,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione onda7 · R02",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R03",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -85243,7 +85361,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione onda7 · R02",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R01",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "layout-responsive",
@@ -85255,7 +85379,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione onda7 · R02",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "microcopy",
@@ -85267,7 +85397,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione onda7 · R02",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -85303,7 +85439,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione onda7 · R03",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "layout-responsive",
@@ -85315,7 +85457,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione onda7 · R03",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -85327,7 +85475,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione onda7 · R03",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "parziale",
+        "sessione": "R02",
+        "collaudo": "parziale",
+        "perche": "parziale: L'altra ancora della voce, il modulo #bonifici in components/seller/DatiPerIBonifici.tsx, non è mio: da md in su si ferma ancora 6rem più in basso."
+      }
     },
     {
       "dimensione": "frontend-ux",
@@ -85339,7 +85493,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione onda7 · R04",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R03",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -85351,7 +85511,13 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione onda7 · R04",
-      "stato": "aperto"
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R03",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -85363,6 +85529,252 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione onda7 · C01",
+      "stato": "aperto",
+      "riparazione_17_11": {
+        "esito": "riparato",
+        "sessione": "R03",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      }
+    },
+    {
+      "dimensione": "navigazione-gerarchia",
+      "reparto": "Navigazione",
+      "titolo": "La ricerca, la pagina di una categoria e i chip della home buttano via le categorie piene già note quando una rilettura fallisce",
+      "severita": "minore",
+      "file": "components/SearchBar.tsx:77 · app/category/[slug]/page.tsx:100 · components/home-sections/ChipDelleCategorie.tsx:27",
+      "descrizione": "Stesso schema della voce sulle categorie piene: «piene.isError ? null : piene.data» scarta l'elenco che react-query tiene dopo una rilettura caduta, e rimette in mostra le categorie (o sottocategorie, o chip) vuote. La cura è la stessa: usare piene.data.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda8 · R01",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "Il conteggio della griglia non riceve i filtri «aperti ora» e «col voto»",
+      "severita": "minore",
+      "file": "components/ProductGrid.tsx:290",
+      "descrizione": "Il conteggio della griglia non passa apertiOra e idsColVoto: oggi non pesa perché la pagina Novità non usa quei filtri, ma una griglia che li usa conterebbe più prodotti di quelli mostrati.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda8 · R02",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "La lettura dei negozi della griglia non va a blocchi",
+      "severita": "minore",
+      "file": "lib/queries/seller-public-profiles.ts:155",
+      "descrizione": "leggiDallaVista fa un solo .in('id', unique) senza blocchi: con «In promozione» una pagina arriva a 300 righe e oltre circa 216 negozi diversi può dare 414.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda8 · R02",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "layout-responsive",
+      "reparto": "Layout e schermi",
+      "titolo": "Chi siamo a 280 px col testo al 200% scorre ancora di lato",
+      "severita": "minore",
+      "file": "app/about/page.tsx",
+      "descrizione": "A 280 px con html al 200% la pagina arriva a 319 px: sotto la larghezza di riferimento WCAG (320), quindi fuori dalla voce.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda8 · R02",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "le visualizzazioni e i clic dei prodotti sponsorizzati non arrivano mai al database",
+      "severita": "minore",
+      "file": "components/SponsoredCarousel.tsx:75",
+      "descrizione": "void supabase.rpc('track_sponsored_impression', …) e, alla riga 117, void supabase.rpc('track_sponsored_click', …) non aspettano mai la risposta: nel client vero (postgrest-js) rpc() restituisce un builder pigro che manda la richiesta solo al then/await, quindi le due chiamate non partono. Basta aspettarle (per esempio .then(() => {}, () => {})).",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda8 · R03",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "dopo aver cambiato titolo o descrizione di una lista, /lists mostra ancora quelli vecchi",
+      "severita": "minore",
+      "file": "app/lists/[id]/page.tsx:138",
+      "descrizione": "L'onSuccess di updateMeta rilegge solo queryKeys.lists.detail: /lists legge titoli e descrizioni da lists.mine, .public e .inVetrina e li mostra vecchi finché non scadono. La voce di questo lotto nomina solo eliminazione e visibilità, quindi non l'ho toccato: la cura è chiamare anche lì rileggiLeListeDiLists().",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda8 · R03",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "titolo": "dopo un salvataggio, il blocco di testo della vetrina mostra «&amp;» al posto di «&» (e «&lt;» al posto di «<»)",
+      "severita": "minore",
+      "file": "components/seller/site/SectionConfigForm.tsx:76",
+      "descrizione": "La rotta salva il testo pulito (sanitizeRichText): se il testo contiene un «<», anche solo un a-capo diventato «<br>», «&» diventa «&amp;» e «<» «&lt;». Dopo il salvataggio SiteEditor rimette nella bozza il sito salvato, e la casella mostra htmlInACapo(body), che riconverte solo i «<br>»: il negoziante vede «Pane &amp; vino». Vecchio, fuori voce: la cura è decodificare le entità in htmlInACapo (e ricodificare in aCapoInHtml) senza cambiare quello che si salva.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda8 · R03",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "la pagina dei negozi legge le categorie senza range: oltre il tetto di righe di PostgREST si perderebbero delle categorie madri",
+      "severita": "minore",
+      "file": "app/stores/page.tsx:91-94",
+      "descrizione": "Visto dallo smentitore del lotto A: la lettura delle categorie per il filtro non pagina; con più di 1.000 categorie (tetto di Supabase) la risalita delle madri lavorerebbe su un elenco tagliato.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda8 · R03",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "stati-ui",
+      "reparto": "Stati dell'interfaccia",
+      "titolo": "quando la rete torna, le pagine prodotto del negoziante rimettono il caricamento al posto del modulo e le modifiche non salvate si perdono",
+      "severita": "minore",
+      "file": "app/seller/products/new/page.tsx:127 · app/seller/products/[id]/edit/page.tsx:144",
+      "descrizione": "Visto dallo smentitore del lotto A, già presente sulla base: alla ripresa della rete la lettura della consegna veloce riparte e la pagina mostra il caricamento invece del modulo, che si smonta.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda8 · R03",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "dopo l'eliminazione di una lista il menu «aggiungi a lista» della scheda prodotto la mostra ancora",
+      "severita": "minore",
+      "file": "components/AddToListButton.tsx (chiave lists.mineMin) · app/lists/[id]/page.tsx",
+      "descrizione": "Visto dallo smentitore del lotto A: lists.mineMin, letto dal pulsante della scheda prodotto, non si rilegge dopo l'eliminazione di una lista.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda8 · R03",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "navigazione-gerarchia",
+      "reparto": "Navigazione",
+      "titolo": "altre tendine e vetrine di categorie buttano via le categorie piene già note quando una ricarica cade, e tornano a mostrare anche le vuote",
+      "severita": "minore",
+      "file": "components/Footer.tsx:188 · components/CategoryShowcase.tsx:162 · components/CategoryBar.tsx:141 · app/categorie/page.tsx:48",
+      "descrizione": "Visto dallo smentitore del lotto B: lo stesso schema «piene.isError ? null : piene.data» chiuso in SearchBar resta in questi quattro file (non miei). Cura: piene.data ?? null.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda8 · R03",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "navigazione-gerarchia",
+      "reparto": "Navigazione",
+      "titolo": "La pagina di una categoria madre rimette i bottoni delle sottocategorie vuote quando una rilettura delle categorie piene cade",
+      "severita": "minore",
+      "file": "app/category/[slug]/page.tsx:100",
+      "descrizione": "Stesso difetto che R01-005 ha chiuso in menu, piede, vetrina e pagina categorie: qui resta «soloLePiene(subcategories, piene.isError ? null : piene.data)». Se una rilettura delle categorie piene cade, react-query tiene l'elenco già noto in data ma accende isError, e la riga lo butta via: tornano i bottoni verso sottocategorie senza prodotti. Lo stesso in components/home-sections/ChipDelleCategorie.tsx:27 (pieneNote = piene.isError ? null : piene.data), che quest'onda non tocca. C'era già alla base 1a7de5b9: non è nato dalla riparazione, e la voce R01-005 nominava solo i quattro posti che ha sistemato, quindi regge. La cura è la stessa: passare piene.data.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda8 · C01",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "Dopo aver rinominato una lista, la pagina delle liste mostra ancora il titolo vecchio",
+      "severita": "minore",
+      "file": "app/lists/[id]/page.tsx:138",
+      "descrizione": "R03-007 rilegge le tre chiavi di /lists (lists.mine, lists.public, lists.inVetrina) dopo «elimina lista» e dopo il cambio di visibilità. Il cambio di titolo e descrizione (updateMeta, onSuccess alla riga 138) rilegge solo la scheda della lista: /lists prende titolo e descrizione proprio da quelle tre chiavi (app/lists/page.tsx:59, 83, 103) e mostra quelli vecchi finché le chiavi non scadono. C'era già alla base; la voce R03-007 parlava solo di eliminazione e visibilità, quindi regge. La cura: chiamare rileggiLeListeDiLists() anche lì.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda8 · C01",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "deploy-sre",
+      "reparto": "Rilascio e affidabilita'",
+      "titolo": "Un'ultima prova ordina ancora le migrazioni con l'ordine vecchio",
+      "severita": "minore",
+      "file": "tests/unit/le-migrazioni-a-mano-partono-solo-con-la-conferma.test.ts:507",
+      "descrizione": "spawnSync('sort', ['-V']) prende le ultime 4 migrazioni e le confronta con conta-migrazioni-mancanti.sh, che ordina con LC_ALL=C sort. Oggi innocuo (052b e 108b non sono fra le ultime 4), ma è la stessa causa di R01-005: sostituire con LC_ALL=C sort. Prova non di R01 (fuori scheda).",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda8b · R01",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "ai-endpoints",
+      "reparto": "Endpoint AI",
+      "titolo": "Il filtro di moderazione prima del Copilot non ha un tempo suo",
+      "severita": "minore",
+      "file": "lib/ai/moderation.ts:78-82",
+      "descrizione": "assertSafeText usa il tempo del client (60 s con un ritentativo): con un fornitore che non risponde affatto, filtro più Copilot (80 s) possono superare i 120 s di maxDuration. File non di R01.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda8b · R01",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "navigazione-gerarchia",
+      "reparto": "Navigazione",
+      "titolo": "Nel «Completa con» del carrello un prezzo da 5000 € in su spinge fuori il pulsante «+»",
+      "severita": "minore",
+      "file": "components/cart/CartUpsell.tsx:106",
+      "descrizione": "La scheda è larga w-36; il prezzo (ora text-base extrabold) non ha min-w-0 né truncate e il «+» ha shrink-0: da circa «5000,00 €» il prezzo supera gli 82 px liberi e spinge il pulsante oltre l'overflow-hidden (a «10.000,00 €» circa 7 px tagliati). Prima succedeva da «10.000 €». Cura possibile: min-w-0 truncate sul prezzo (riga :106), oppure il prezzo su una riga sua. In una spesa di quartiere prezzi così sono rari.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda8b · R02",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "titolo": "Una quinta copia scritta a mano del finto ClienteAvvisi nelle prove degli avvisi",
+      "severita": "minore",
+      "file": "tests/unit/minori-s08-avvisi.test.ts:40",
+      "descrizione": "database() (righe 40-70, con pannelloRottoPer e turnoRotto) riscrive il ClienteAvvisi invece di usare fintoGiroNotturno, che ora sa dare guasti, chiavi uniche e indirizzi.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda8b · R02",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "Quando il fattorino segna «cliente assente» il negozio riceve solo la campanella, non l'email di annullo",
+      "severita": "minore",
+      "file": "app/api/rider/orders/[id]/cliente-assente/route.ts:117",
+      "descrizione": "Le altre tre porte di annullo (cron degli ordini scaduti, annullo del cliente, annullo dell'amministrazione) mandano anche l'email al negozio con avvisaIlNegozioDellAnnullo; questa (righe 117-124) scrive solo la campanella.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda8b · R02",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "titolo": "Un PATCH dell'amministrazione su un prodotto che non esiste risponde 200 e lascia una traccia con «prima» vuoto",
+      "severita": "minore",
+      "file": "app/api/admin/products/route.ts:229",
+      "descrizione": "La lettura prima dell'update non trova righe e l'update non tocca niente, ma la risposta è 200 e la voce di audit resta (righe 229-231 e 269-277). C'era già prima della correzione di R02-003 (allora con { fields }).",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda8b · R02",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "titolo": "Quando l'amministrazione cambia solo le taglie di un prodotto, il registro delle azioni non scrive più niente",
+      "severita": "minore",
+      "file": "app/api/admin/products/route.ts:277",
+      "descrizione": "Nato da R02-003. Prima la rotta PATCH dell'amministrazione scriveva sempre una riga product.update, anche quando cambiavano solo le varianti (metadata.fields vuoto). Ora la riga la prepara tracciaDellaModifica, che con il patch vuoto torna null, e «if (voce) await writeAudit(voce)» non scrive niente: un amministratore che cambia scorte o prezzi delle taglie non lascia traccia nel registro. La riga persa diceva poco (solo chi e quando, senza i campi), e la porta del negozio non traccia le varianti nemmeno lei: per questo minore. La cura: scrivere comunque una voce product.update quando ci sono varianti salvate, per esempio con un campo «variants» nella traccia.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione onda8b · C01",
       "stato": "aperto"
     }
   ],

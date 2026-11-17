@@ -1,0 +1,20 @@
+{
+  "corsia": 2,
+  "territorio": "R02",
+  "difetti": [
+    {
+      "chiave": "architettura|la traccia «chi ha cambiato il prezzo» esce in due forme diverse a seconda della porta",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-traccia-admin-prodotti.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 5b35a2d83bfaee200949dc2edecf91b27a3b900a^ --file app/api/admin/products/route.ts,lib/products/salvataggio-tracciato.ts --prove tests/unit/riparazione-r02-traccia-admin-prodotti.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02-003 --base 5b35a2d83bfaee200949dc2edecf91b27a3b900a^ --file app/api/admin/products/route.ts,lib/products/salvataggio-tracciato.ts --prove tests/unit/riparazione-r02-traccia-admin-prodotti.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "PATCH /api/admin/products scriveva { fields: [...] }: ora legge com'era il prodotto e scrive la voce con tracciaDellaModifica, origine 'admin' ({ origine, campi, prima, dopo, daAi } coi soli campi cambiati); tracciaDellaModifica ha l'opzione altreColonne per seller_id ed external_*. catalog-apply-bulk (:251-263) e catalog-batch/apply (:323-334) usavano già tracciaDellaModifica (commit 80c8dc39): era l'unica porta rimasta. Prove vicine: 16 file, 85 casi verdi."
+    },
+    {
+      "chiave": "navigazione-gerarchia|nella scheda prodotto il prezzo è quasi grande quanto il titolo e pesa meno del pulsante «+»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-completa-con-prezzo-piu-del-pulsante.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 74a765ab1e2749d3260338a8218feaa2b3ae756f^ --file components/cart/CartUpsell.tsx --prove tests/unit/riparazione-r02-completa-con-prezzo-piu-del-pulsante.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02-005 --base 74a765ab1e2749d3260338a8218feaa2b3ae756f^ --file components/cart/CartUpsell.tsx --prove tests/unit/riparazione-r02-completa-con-prezzo-piu-del-pulsante.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "ProductCard era già a posto (components/ProductCard.tsx:238 nome text-sm, :272/:278 prezzo text-lg extrabold, :288 «+» a contorno; prova riparazione-r24-prezzo-piu-del-pulsante). Restava il «Completa con» del carrello: in CartUpsell il prezzo passa da text-sm bold a text-base extrabold (16 px contro i 12 del nome) e il «+» diventa a contorno (border-2 border-primary-600 bg-transparent text-primary-700), stessa misura h-11 w-11 e stesso anello di focus. La prova monta il CartUpsell vero. 12 file di prove che lo nominano, 152 casi verdi."
+    }
+  ]
+}

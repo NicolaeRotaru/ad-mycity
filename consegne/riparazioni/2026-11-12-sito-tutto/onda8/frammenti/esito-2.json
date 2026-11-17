@@ -1,0 +1,55 @@
+{
+  "corsia": 2,
+  "territorio": "R02",
+  "difetti": [
+    {
+      "chiave": "flussi-conversione|sulla scheda prodotto un secondo «aggiungi al carrello» entro un secondo viene ignorato senza dire niente",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-aggiungi-variante.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 90df58408ec0a74c9f063eef0d249b54daa36113^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r02-aggiungi-variante.test.ts --json → uscita 0 (riparatore); cd ad-mycity && git -C ../wa checkout --detach 90df58408ec0a74c9f063eef0d249b54daa36113 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wa --base 90df58408ec0a74c9f063eef0d249b54daa36113^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r02-aggiungi-variante.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "La scheda ricorda la scelta dell'ultima aggiunta (variante + quantità, ref sceltaFrenata); quando la scelta cambia, il freno riparte da capo. Così S poi M entro un secondo sono due aggiunte, e anche «+» entro 600 ms aggiunge. Lo stesso tocco ripetuto sulla stessa scelta resta frenato. La prova monta la scheda vera con l'orologio finto; anche la prova r03 resta verde."
+    },
+    {
+      "chiave": "layout-responsive|a 320 px con il testo al 200% la pagina chi siamo scorre ancora di lato di 17 px",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r02-chi-siamo-320.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 0e15e4b4bf6b43f25603dc12192dd5405b393f1d^ --file app/about/page.tsx --prove tests/unit/riparazione-r02-chi-siamo-320.test.ts --json → uscita 0 (riparatore); cd ad-mycity && git -C ../wc checkout --detach 0e15e4b4bf6b43f25603dc12192dd5405b393f1d && timeout 540 node cervello/prova-rimessa.mjs --repo ../wc --base 0e15e4b4bf6b43f25603dc12192dd5405b393f1d^ --file app/about/page.tsx --prove tests/unit/riparazione-r02-chi-siamo-320.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Il titolo «Perché esistiamo» prende break-words hyphens-auto come l'h1 e la sua cella di griglia min-w-0 come le caselle dei numeri; sistemato il titolo restavano 5 px dalle tre schede «I nostri valori» (stessa causa, cella di griglia senza min-w-0), che prendono min-w-0 break-words. Misurato con Playwright (Chromium preinstallato) su next dev con env finte, html{font-size:200%}: prima scrollWidth 337 su 320, dopo 320 (anche con la sillabazione spenta), 360 resta 360, 1280 invariato."
+    },
+    {
+      "chiave": "layout-responsive|la riga «notifiche push del browser» delle impostazioni non ha min-w-0 sul testo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r02-riga-push-a-capo.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 8263dd2add53f5977e250e186422bc40d7a05c47^ --file app/profile/settings/page.tsx --prove tests/unit/riparazione-r02-riga-push-a-capo.test.ts --json → uscita 0 (riparatore); cd ad-mycity && git -C ../wc checkout --detach 8263dd2add53f5977e250e186422bc40d7a05c47 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wc --base 8263dd2add53f5977e250e186422bc40d7a05c47^ --file app/profile/settings/page.tsx --prove tests/unit/riparazione-r02-riga-push-a-capo.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Il contenitore del testo della riga push prende min-w-0 break-words, lo stesso delle righe di components/ui/Toggle.tsx nella stessa scheda. Prova leggera: pagina vera montata sulla scheda Notifiche, la classe del contenitore è quella degli interruttori."
+    },
+    {
+      "chiave": "microcopy|in produzione senza chiave pubblica anti-robot il modulo contatti fallisce senza dire dove scrivere",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-contatti-chiave-pubblica-assente.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 253d81b5aa737377d3fce0d1fc205f62b88f5d6b^ --file app/api/contact/route.ts --prove tests/unit/riparazione-r02-contatti-chiave-pubblica-assente.test.ts --json → uscita 0 (riparatore); cd ad-mycity && git -C ../wa checkout --detach 253d81b5aa737377d3fce0d1fc205f62b88f5d6b && timeout 540 node cervello/prova-rimessa.mjs --repo ../wa --base 253d81b5aa737377d3fce0d1fc205f62b88f5d6b^ --file app/api/contact/route.ts --prove tests/unit/riparazione-r02-contatti-chiave-pubblica-assente.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Se il controllo anti-robot fallisce senza gettone e manca NEXT_PUBLIC_TURNSTILE_SITE_KEY, la rotta risponde 503 con «…Scrivici a info@…» (indirizzoContatto('info') di lib/contatti-pubblici.ts, lo stesso della pagina Contatti), anche in details.recapito. Il robot vero (chiave pubblica presente e gettone assente o falso) dà ancora 400 «Verifica anti-bot fallita. Riprova.»."
+    },
+    {
+      "chiave": "microcopy|l'avviso «già aggiunto» si ripete a raffica e lo dice anche dopo un cambio di variante entro un secondo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-avviso-gia-aggiunto.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 47f3beeaa51210a8326bcbb6580ee41265fd5255^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r02-avviso-gia-aggiunto.test.ts --json → uscita 0 (riparatore); cd ad-mycity && git -C ../wa checkout --detach 47f3beeaa51210a8326bcbb6580ee41265fd5255 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wa --base 47f3beeaa51210a8326bcbb6580ee41265fd5255^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r02-avviso-gia-aggiunto.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Aggiunto id fisso 'gia-aggiunto' al toast.info del tocco frenato: quattro tocchi frenati portano lo stesso id e sonner non li impila. Il pezzo «dopo un cambio di variante» lo chiude il commit di R02-001 (90df5840): una variante diversa ora entra nel carrello e non riceve più il «già aggiunto» falso."
+    },
+    {
+      "chiave": "qa-flussi|nell'anteprima dell'import la colonna quantità mostra 0 accanto all'errore «quantità non valida»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-anteprima-quantita.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base af15e3a070d0e078d71be522787e3f6eaccdcde7^ --file app/seller/products/import/page.tsx --prove tests/unit/riparazione-r02-anteprima-quantita.test.ts --json → uscita 0 (riparatore); cd ad-mycity && git -C ../wa checkout --detach af15e3a070d0e078d71be522787e3f6eaccdcde7 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wa --base af15e3a070d0e078d71be522787e3f6eaccdcde7^ --file app/seller/products/import/page.tsx --prove tests/unit/riparazione-r02-anteprima-quantita.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "ParsedRow.stock diventa number | null: una quantità scritta male resta null e la cella dell'anteprima mostra «—» accanto all'errore; uno 0 scritto nel file si vede 0. Le righe valide vanno al server come prima (stock ?? 0, mai null per una riga valida)."
+    },
+    {
+      "chiave": "qa-flussi|il taglio sui prodotti recensiti non usa la lettura a blocchi: sopra circa 216 id dà 414",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r02-voti-a-blocchi.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3892d3285efdb8b4ae287567c9b513851a1abd66^ --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r02-voti-a-blocchi.test.ts --json → uscita 0 (riparatore); cd ad-mycity && git -C ../wa checkout --detach 3892d3285efdb8b4ae287567c9b513851a1abd66 && timeout 540 node cervello/prova-rimessa.mjs --repo ../wa --base 3892d3285efdb8b4ae287567c9b513851a1abd66^ --file lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r02-voti-a-blocchi.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Il taglio su idsColVoto non sta più dentro base(): fino a 100 id la domanda resta identica (una, con range/limit), oltre ogni blocco di leggiInBlocchi (lib/supabase/blocchi.ts, DIMENSIONE_BLOCCO) chiede le prime righe fino a fine finestra, le righe si riuniscono, si riordinano come il database (prezzo o data, poi id) e si taglia la finestra; stessa cosa sul ripiego per nome del ramo pertinenza e nel conteggio (somma dei conti per blocco, id deduplicati). Prova con il finto PostgREST che dà 414: con 500 id nessun .in supera 100 id e le righe coincidono con una lettura sola (3 ordinamenti, 2 finestre)."
+    }
+  ]
+}
