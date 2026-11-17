@@ -7173,3 +7173,11 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Regia:** questa chat. Le sue aperture di sessione non passano dalla guardia `cervello/pre-scrittura.mjs` perché la sessione è nata fuori da ad-mycity: lo si dice a Nicola, non è una strada cercata per scansarla.
 - **Tetto dell'onda 7, passo 0 compreso:** atteso circa 140 $, tetto 170 $, dentro i 700 $ del 17/11. Riparatori consegna 24 $, tetto 28 $; collaudo 0,5 $ a voce; controllori 6 $; regia 20 $.
 - **Colore:** 🟡 spesa e codice in rami, firmata. Merge, migrazioni e database vero restano di Nicola.
+
+## 2026-11-17 19:10 — Onda 8 del sito: 200 difetti a tappe, sotto i 20 $ a chiuso, tetto 1.200 $ (🟡, firmato da Nicola)
+**Le parole di Nicola (17/11 alle 19:06, chat «Ondata 7 difetti»):** «Adesso fai finire questa ondata e dell'ondata 8 fai 200 difetti seguendo la strategia che hai detto e stando sotto 20$ come hai detto». Alla domanda sul preventivo ha scelto «A tappe»; limite settimanale nell'app «fra 80% e 90%».
+- **Tappa 1, subito:** circa 60 difetti meno cari (12 minori leggeri rimasti, i nati delle onde 6-7, le voci con la correzione già scritta), circa 150-200 $, dentro il tetto di 700 $ del 17/11.
+- **Tappa 2, da giovedì 19/11 alle 10:00** (limite azzerato): i 140 minori delicati (soldi, dati, permessi) con ultracode e due lenti al collaudo. Il tetto totale sale a 1.200 $ (onde 6, 7 e 8 insieme).
+- **Cancello:** stop sopra i 20 $ a difetto chiuso (prima 12 $), o con il limite settimanale «rejected» o uso extra. Prima di ogni apertura si rilegge `rate_limit_info`.
+- **Preventivo detto:** circa 1.000 $ per 200 voci, 70-90 chiusi, 11-14 $ l'uno; caso peggiore circa 17 $.
+- **Colore:** 🟡 spesa e codice in rami, firmata. Merge, migrazioni e database vero restano di Nicola.
