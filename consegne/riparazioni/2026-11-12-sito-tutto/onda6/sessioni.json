@@ -53,8 +53,10 @@
     "R03"
    ],
    "tetto_usd": 5,
-   "finita": false,
-   "nota": "aperta dalla regia dell'onda 7, passo 0"
+   "finita": true,
+   "nota": "aperta dalla regia dell'onda 7, passo 0",
+   "punta": "552dc490cc33e65a807e7ab353b7b738764edea3",
+   "costo_usd": 6.39
   }
  },
  "controllori": {},
