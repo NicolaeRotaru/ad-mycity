@@ -26,3 +26,4 @@ Che le correzioni scritte siano ancora giuste sul codice di oggi: 88 delle 95 mo
 - Le correzioni scritte, voce per voce: `correzioni-scritte.json` (referto, id, nota, modifiche file per file).
 - Base `522cfb01` (main dopo mycity#295). `dividi --sessioni 2 --per-sessione 13`: R01 ai-endpoints 13, R02 api-backend 12. Nessun file in comune con R01-R03 dell'onda 8. Rami `ccr-30918361-coyajm-o8b-mNN`. Si uniscono nell'integrazione `ccr-30918361-coyajm-o8` dell'onda 8.
 - Collaudo: lo stesso collaudatore dell'onda 8, oppure uno suo. Il controllore dell'onda 8 guarda anche questi.
+- 20:15 aperti R01 `session_015BmpnYRBGAQ3sBM96pErCE` e R02 `session_015BmpnZ1MKqYmXxKyhgoX9C` (limite `allowed_warning`, regia 24,04 $).
