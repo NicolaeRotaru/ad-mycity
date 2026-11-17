@@ -1,5 +1,5 @@
 {
- "regista": "session_015BmpnYq3DQDRwTXdBwfzud",
+ "regista": "session_015BmpnVz75xRKsz1trmeMzu",
  "sha_regista": "2c3a9e9ed32bc0f289314c88ed8861f44c4f4e82",
  "integrazione": {
   "ramo": "claude/adoring-bohr-kixq35-o9",
@@ -76,5 +76,14 @@
   "collaudo gruppo A",
   "K01-K04",
   "C01"
- ]
+ ],
+ "regista_prima": "session_015BmpnYq3DQDRwTXdBwfzud",
+ "promemoria": {
+  "spesa": "trig_01CE9YMeeT8hwPB7aB7G56tC",
+  "giovedi_10_05": "trig_016hPs5zgKshzayv8gxfTKVG",
+  "spenti": [
+   "trig_01FDAq4rdkNroMeX9LiUDDbZ",
+   "trig_01WEachfCUXzLjny8CWWTMx4"
+  ]
+ }
 }
