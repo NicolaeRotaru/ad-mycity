@@ -4,6 +4,7 @@ tipo: quaderno della regista
 stima_usd: 600
 tetto_usd: 650
 partenza: 2026-11-19 10:05
+regia: session_015BmpnYq3DQDRwTXdBwfzud (chat «Ondata 9», decisione di Nicola del 17/11 alle 21:48)
 ---
 
 # Onda 9: il quaderno della regista

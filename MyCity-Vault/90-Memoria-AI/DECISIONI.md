@@ -7194,3 +7194,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **L'ordine:** prima le riparate mai collaudate (collaudo e basta), poi le serve_file_altrui con la correzione già scritta, poi le mai raggiunte, poi i parziali e i mai tentati. Niente delicati (soldi, dati, permessi, migrazioni).
 - **Il conto fatto dal programma sulla base `522cfb01`:** 5 + 27 + 49 + 8 + 77 + 34 = 200 (`onda9/chiavi-onda9.txt`). Si rifà giovedì sulla base di quel momento.
 - **Partenza:** giovedì 19/11 alle 10:05, con 10 riparatori da circa 20 voci (consegna a 40 $, tetto 45 $). Preventivo circa 600 $, dentro i 1.200 $ totali.
+
+## 2026-11-17 21:55 — La regia dell'onda 9 passa alla chat «Ondata 9»; le aperture di sessione non chiedono più conferma (🟡, firmato da Nicola)
+**Le parole di Nicola, nella chat «Ondata 9» (`session_015BmpnYq3DQDRwTXdBwfzud`), verificate dalla chat «Ondata 7 difetti» sulla trascrizione:** alle 21:48 «tu ti occupi dell'ondata 9, comunica con la sessione "ondata 7 difetti"»; verso le 21:55, alla domanda sulla guardia, «Firmo: le aperture passano».
+- **Regia dell'onda 9:** la chat «Ondata 9». Parte giovedì 19/11 alle 10:05 col suo promemoria; quello della chat «Ondata 7 difetti» è spento.
+- **La guardia `cervello/pre-scrittura.mjs`:** la chat «Ondata 9» la cambia solo per tre strumenti di claude-code-remote (create_session, create_trigger, update_trigger). Le scritture su GitHub, PR comprese, continuano a chiedere conferma. Va in una PR su ad-mycity (ramo `claude/adoring-bohr-kixq35`) con una prova e un collaudo: è un'auto-modifica della macchina, vale col merge di Nicola.
+- **Restano alla chat «Ondata 7 difetti»:** mycity#296 fino all'unione, le chiusure delle onde 8 e 8b nel registro, ad-mycity#984 fuori dalla bozza.
