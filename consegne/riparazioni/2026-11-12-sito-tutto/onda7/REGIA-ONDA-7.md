@@ -9,6 +9,7 @@ tetto_usd: 170
 
 ## In parole semplici
 L'onda 7 ripara 52 difetti piccoli del sito mai tentati, in 4 sessioni da 13. Prima chiude il lavoro già pagato dell'onda 6: 6 riparazioni da collaudare e una che regge già.
+Esempio: R02 ha avuto 13 difetti, ne ha riparati 11, e 9 hanno retto al collaudo.
 
 ## Cosa cambia per te
 Niente finché la PR del sito non è pronta: quello che spetta a Nicola sarà scritto lì.

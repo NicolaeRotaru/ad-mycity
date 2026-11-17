@@ -9,6 +9,7 @@ tetto_usd: 75
 
 ## In parole semplici
 Sono 25 difetti piccoli che un riparatore di un'onda passata aveva già studiato, scrivendo cosa cambiare. Non li aveva potuti toccare perché il file era di un'altra sessione. Adesso li applicano 2 riparatori, poi c'è il collaudo. Nicola l'ha chiesto alle 20:28: «non riesci ad aggiungere in questa sessione i 27 con la correzione già scritta».
+Esempio: R02 aveva 12 correzioni scritte; ne ha applicate 3 che reggono, perché molte stavano in prove usate da altri.
 
 ## Cosa cambia per te
 Niente fino alla PR del sito, che sarà insieme a quella dell'onda 8.
