@@ -1,0 +1,292 @@
+{
+  "collaudatore": "K01",
+  "riparatori": [
+    "R01",
+    "R02"
+  ],
+  "aggiornato": "2026-11-17 19:03",
+  "finita": true,
+  "voci": [
+    {
+      "id": "R01-003",
+      "chiave": "architettura|il modulo prodotto non passa i due campi nuovi alle regole comuni delle proposte dell'assistente",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-1 --base cc46a00405bf597a22a9227fbcc0c0b882ab6bc2^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r01-proposte-con-varianti-e-attributi.test.tsx --json"
+      },
+      "nota": "pianoPatchPerIlModulo ha un solo chiamante (components/seller/ProductForm.tsx:562) e ora riceve haVarianti e attributiAttuali; le tre rotte server passano già has_variants e attributes a resolveAiPatch. Prodotto senza varianti né attributi: false e {}, comportamento uguale. Prova verde sulla testa d4d3f3b0."
+    },
+    {
+      "id": "R01-009",
+      "chiave": "qa-flussi|nell'import da file la quantità scritta male diventa un numero sbagliato senza nessun errore (oggi spento)",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-1 --base 27a8b6d0d3e13bcfe7d62412cfff50aafd333813^ --file app/seller/products/import/page.tsx --prove tests/unit/riparazione-r01-quantita-scritta-male-nel-file.test.tsx --json"
+      },
+      "nota": "Provati «1,5», «3pz», «-2», cella vuota (errore di riga), «  3 » (3), «0» (0), numero enorme (errore «Stock non valido» già esistente, tetto 99999). La colonna stock è obbligatoria (page.tsx:115). L'anteprima con 0 accanto all'errore è il difetto nuovo già dichiarato dal riparatore, non contato contro la voce. Funzione spenta al lancio."
+    },
+    {
+      "id": "R01-004",
+      "chiave": "microcopy|il freno «after n seconds» di supabase non è tradotto per «password dimenticata?»",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-2 --base b7fa1b600a73d19842decfcf1203a226fcbd8d6c^ --file app/sign-in/page.tsx --prove tests/unit/riparazione-r01-password-dimenticata-freno-dei-secondi.test.tsx --json"
+      },
+      "nota": "traduciErroreAuth: «after 37 seconds», «after 1 second», codice senza numero e numero enorme non mangiano altri errori; «email rate limit exceeded» resta tradotto; singolare/plurale giusti. Minori fuori voce: la frase vecchia «once every 60 seconds» non è tradotta; sull'accesso (sign-in/page.tsx:272) la frase «Hai appena chiesto un link» sarebbe fuori posto, ma lì il messaggio «after N seconds» non esce."
+    },
+    {
+      "id": "R01-007",
+      "chiave": "qa-flussi|una voce della chat sul campanello può restare accesa anche se la chat è stata letta mentre era aperta",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-2 --base 7a09dcc542a2d178a6ef4948955d3ef6d0e4e41d^ --file app/api/chat/messages/route.ts --prove tests/unit/riparazione-r01-campanella-chat-letta-nel-mezzo.test.ts --json"
+      },
+      "nota": "La corsa della voce è chiusa (prova verde, rimessa uscita 0), ma la correzione cambia un permesso accanto: vedi nota riservata in chat."
+    },
+    {
+      "id": "R01-012",
+      "chiave": "qa-flussi|un doppio clic su «pubblica prodotto» mette in vendita due o tre prodotti uguali",
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-1 --base f9e140abdcee95a6f993f19135f1f91a36f70a45^ --file components/seller/ProductForm.tsx,app/seller/products/new/page.tsx --prove tests/unit/riparazione-r01-doppio-clic-pubblica.test.tsx,tests/unit/riparazione-r01-doppio-clic-pubblica-pagina.test.tsx --json"
+      },
+      "nota": "Parziale come dichiara il riparatore: il doppio clic ravvicinato e il doppio Invio fanno un solo inserimento (rimessa uscita 0 dalla base f9e140ab^ con la testa della voce 69035163, due commit), resta la finestra dopo un inserimento riuscito (submitting={create.isPending} torna falso prima del cambio di pagina). Resta aperta."
+    },
+    {
+      "id": "R01-001",
+      "chiave": "accessibilita|la x degli avvisi dice «close toast» in inglese e sui caricamenti non chiude niente",
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-1 --base e3c2bb62626a38905f8ac63f8779154b7066940b^ --file components/providers/ToastProvider.tsx --prove tests/unit/riparazione-r01-la-x-degli-avvisi.test.tsx --json"
+      },
+      "nota": "Parziale come dichiara il riparatore: etichetta «Chiudi avviso» e niente X finta sui caricamenti (rimessa uscita 0); resta il caricamento chiuso con toast(msg, { id }) che in sonner 1.7.4 resta loading senza X (ProductForm.tsx:671 e :709, dilloDopoIlPatch.ts:17). Resta aperta."
+    },
+    {
+      "id": "R01-005",
+      "chiave": "navigazione-gerarchia|la tendina della ricerca «sfoglia per categoria» elenca anche le categorie vuote",
+      "verdetto": "parziale",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 2,
+        "comando": "nessuna prova rimessa: la voce non ha commit nel referto di R01 (parziale senza codice, il difetto com'è scritto è già assente sulla base, resta la variante della ricarica fallita in components/SearchBar.tsx:77)"
+      },
+      "nota": "Nessun codice da collaudare: resta aperta con la variante dichiarata dal riparatore (soloLePiene(topCats, piene.isError ? null : piene.data) butta via le piene note quando una ricarica fallisce)."
+    },
+    {
+      "id": "R01-010",
+      "chiave": "qa-flussi|fetchpriority in camelcase su react 18.3.1 fa scrivere un avviso a react a ogni disegno delle tessere",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Già assente sulla base bc36f481: nessuna cartella pages/, il router app di Next 15.5.29 disegna col React vendorizzato (node_modules/next/dist/build/create-compiler-aliases.js:251). Rilanciato il comando del referto: «19.2.0-canary-0bdb9206-20250818 camel: 0 minuscolo: 1». components/CategoryShowcase.tsx:277 usa fetchPriority, giusto per React 19; l'avviso esce solo nelle prove vitest con react 18.3.1."
+    },
+    {
+      "id": "R01-011",
+      "chiave": "qa-flussi|l'avviso «foto di categoria scartata» si ripete a ogni ricalcolo delle tessere e a ogni rimontaggio",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Già assente sulla base bc36f481: components/CategoryShowcase.tsx:100-109, diLaFotoScartata passa dal ricordo di modulo fotoGiaDette (95d0b987 antenato della base). npx vitest run tests/unit/riparazione-r30-foto-di-categoria.test.tsx sulla base: 3/3 verdi; tolto il controllo «if (fotoGiaDette.has(chiave)) return;» la prova cade (2 su 3 rosse), poi file rimesso."
+    },
+    {
+      "id": "R02-001",
+      "chiave": "architettura|le altre due porte dell'ai sul catalogo scrivono ancora la traccia a mano, nella forma vecchia",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-2 --base 80c8dc39ac6d951620b6e06dda0263bf0908d548^ --file app/api/ai/catalog-apply-bulk/route.ts,app/api/ai/catalog-batch/apply/route.ts --prove tests/unit/riparazione-r02-traccia-porte-ai-catalogo.test.ts --json"
+      },
+      "nota": "Le due porte chiamano tracciaDellaModifica con gli stessi argomenti di catalog-apply: forma della traccia identica. Le chiavi che resolveAiPatch scrive stanno in COLONNE_DEL_VENDITORE; la riga di partenza è lo snapshot non modificato; la traccia parte dopo l'update con void writeAudit, quindi un suo errore non blocca la modifica e la risposta non cambia. Fuori voce: app/api/admin/products/route.ts:266 scrive ancora product.update a mano (non è una porta AI)."
+    },
+    {
+      "id": "R02-003",
+      "chiave": "layout-responsive|le righe delle impostazioni (toggle) non hanno min-w-0 sul testo",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-2 --base a0d6592149ede814d0bb61b86c0d14f1fc92370a^ --file components/ui/Toggle.tsx --prove tests/unit/riparazione-r02-interruttore-testo-lungo.test.tsx --json"
+      },
+      "nota": "Toggle ha un solo uso (app/profile/settings/page.tsx), desc obbligatorio; l'interruttore ha shrink-0, quindi min-w-0 e break-words non lo schiacciano. Altre righe role=switch (app/rider/page.tsx:437, app/rider/availability/page.tsx:178) hanno testi fissi e corti, fuori voce. Rimessa dalla base a0d65921^ con la testa della voce 4a5964c9 (due commit)."
+    },
+    {
+      "id": "R02-004",
+      "chiave": "microcopy|il dialogo dell sos dice che gli amministratori ricevono l avviso «subito», ma il push parte solo se la scrittura riesce entro 15 secondi",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-3 --base b41d08b6ec8ee839ccd53e7928386bd77aefe0aa^ --file components/rider/SOSButton.tsx --prove tests/unit/riparazione-r02-sos-avviso-admin-testo.test.tsx --json"
+      },
+      "nota": "Cambia solo il testo (SOSButton.tsx:278): niente «subito» per gli amministratori, resta solo per il 112. Il commit dopo (R02-005, stesso file) non lo disfa; nessuna frase simile altrove in app/ e components/."
+    },
+    {
+      "id": "R02-005",
+      "chiave": "mobile-pwa|se il primo segnale gps scade prima della conferma, l'sos parte senza posizione anche se la posizione arriva un attimo dopo",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-3 --base 1ae7a9a298ffa30011cfc06271bf21a62587ede9^ --file components/rider/SOSButton.tsx --prove tests/unit/riparazione-r02-sos-posizione-dopo-timeout.test.tsx --json"
+      },
+      "nota": "Provati permesso negato (l'attesa si chiude e l'SOS parte senza posizione), posizione che non arriva mai (attesa massima circa 5,5 s poi invio), dialogo chiuso o componente smontato (ferma() pulisce il watch), posizione arrivata due volte (vale l'ultima). Il doppio tocco su Conferma ha una finestra stretta (sending è uno stato), ma c'era già prima."
+    },
+    {
+      "id": "R02-007",
+      "chiave": "qa-flussi|la pagina contatti promette ancora «puoi provare lo stesso a inviare» quando l'anti-robot non si carica",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-3 --base ff2d8564fc810af6b059e053e4ff050e71bf4672^ --file app/contact/page.tsx --prove tests/unit/riparazione-r02-contatti-anti-robot-rotto.test.tsx --json"
+      },
+      "nota": "Senza gettone il modulo non parte (contact/page.tsx:68) e /api/contact rifiuta comunque (route.ts:57): testi e comportamento ora coincidono. Anti-robot caricato dopo l'errore: onVerify toglie l'avviso e azzera captchaRotto (riga 195)."
+    },
+    {
+      "id": "R02-008",
+      "chiave": "qa-flussi|dopo aver tolto un prodotto da una lista, il conteggio in /lists resta vecchio fino a 30 secondi",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-3 --base 422b77e368526914d9072fcf98442fbf98ec984b^ --file app/lists/[id]/page.tsx --prove tests/unit/riparazione-r02-lista-conteggio-dopo-rimozione.test.tsx --json"
+      },
+      "nota": "Da /lists/[id] il conteggio ora si rilegge (chiavi lists.mine, lists.public, lists.inVetrina lette in app/lists/page.tsx:54, 78, 96). Ma la voce dice «dopo aver tolto un prodotto da una lista» e c'è un secondo modo di toglierlo: il pulsante della scheda prodotto, components/AddToListButton.tsx:97-101, dice «Rimosso dalla lista» e invalida solo lists.containing e ['lists','items'], non ['lists','mine']: /lists mostra ancora il conteggio vecchio. Controllato sulla testa 7254987c."
+    },
+    {
+      "id": "R02-009",
+      "chiave": "qa-flussi|chi sceglie «fattorino» nell'iscrizione e poi si registra con google diventa cliente, e non trova una strada per diventare fattorino",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-3 --base aba9fbc03efc17e44bf5b7383be441a180a8a380^ --file app/sign-up/page.tsx --prove tests/unit/riparazione-r02-iscrizione-fattorino-senza-google.test.ts --json"
+      },
+      "nota": "Con Rider scelto (mattonella o ?role=rider) Google sparisce, e riappare tornando ad Acquirente: bene. Ma la voce dice anche «e non trova una strada per diventare fattorino»: chi è già diventato cliente (prima della correzione, o con Google dalla pagina di accesso, app/sign-in/page.tsx:383) non ha una strada: /lavora-con-noi rimanda a /sign-up?role=rider (app/lavora-con-noi/page.tsx:36), cioè a un’iscrizione nuova con email e password: l’account cliente che esiste non diventa fattorino. Stesso schema, fuori lettera: con ?role=seller il pulsante Google c'è ancora (app/sign-up/page.tsx:352-358) e il ruolo non arriva alla callback."
+    },
+    {
+      "id": "R02-010",
+      "chiave": "qa-flussi|la data degli eventi in home non usa il fuso di piacenza",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-4 --base ceb88720c4cde59ca418cdb002b4ea509c3d02a1^ --file components/home/HomeEvents.tsx --prove tests/unit/riparazione-r02-eventi-home-fuso.test.tsx --json"
+      },
+      "nota": "toLocaleDateString con timeZone FUSO_PIACENZA provato con browser in UTC, Los Angeles e Auckland, alle 00:30 di Roma e con date solo giorno; componente solo client (useQuery) e fuso fisso, niente scarto server/browser; usa l'aiutante comune lib/tempo-piacenza.ts. Fuori voce: components/home/DropOfDay.tsx:52 e :61 calcolano ancora il giorno su Greenwich."
+    },
+    {
+      "id": "R02-011",
+      "chiave": "qa-flussi|gli annunci sponsorizzati si accendono e si spengono sul giorno di greenwich, non su quello di piacenza",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-4 --base 68b9b653abe7704d5fbfc400fa83af62f0c335c8^ --file components/SponsoredCarousel.tsx --prove tests/unit/riparazione-r02-sponsorizzati-giorno-piacenza.test.tsx --json"
+      },
+      "nota": "giornoPiacenza() alimenta start_date <= oggi e end_date >= oggi (lib/queries/fasce-prodotti.ts:179-180); chi scrive start_date usa giornoLocale (stesso fuso Europe/Rome), quindi lettura e scrittura concordano. Provate le 23:30 UTC d'inverno e d'estate, non i giorni del cambio d'ora. Fuori voce, stesso schema UTC: app/admin/users/page.tsx:575, app/admin/orders/page.tsx:185."
+    },
+    {
+      "id": "R02-012",
+      "chiave": "qa-flussi|gli avvisi scritti nel browser non arrivano a nessuno: logger.warn lato client è solo console.warn",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-4 --base f8d2a2b73f0123defab58dc159b16b1d805c97ac^ --file lib/logger.ts --prove tests/unit/riparazione-r02-avvisi-browser.test.ts --json"
+      },
+      "nota": "Senza DSN esce subito; con DSN captureMessage a livello warning e contesto passato da toCtx (oscura le chiavi personali); lato server non cambia. I chiamanti nel browser sono pochi e a evento singolo, nessuno in un ciclo di disegno o di tasti. Rischio minore, già presente per logger.error: redact guarda i nomi delle chiavi, non i valori, e quattro chiamanti passano un errore di Supabase come contesto (app/seller/reviews/page.tsx:61, app/events/page.tsx:112, app/messages/page.tsx:152, app/messages/[id]/page.tsx:203): il campo details può portare un valore di riga a Sentry. Non riprodotto."
+    },
+    {
+      "id": "R02-013",
+      "chiave": "qa-flussi|la pagina delle storie accetta caratteri di controllo c1 nel link che poi il database rifiuta, lasciando una foto orfana",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-4 --base 19e4067514ae95b594d6c3cd46f0689d657f4ac3^ --file lib/safe-redirect.ts --prove tests/unit/riparazione-r02-link-storie-controllo-c1.test.ts --json"
+      },
+      "nota": "Regex confrontata col CHECK di migrations/403 (!~ '[[:cntrl:]]'): rifiutati U+0085, U+009F, U+2029; accettati accenti, emoji, query, U+00A0, U+2027, U+FEFF, U+200B; %C2%85 già codificato passa e il database lo accetta (solo ASCII). safeInternalPath restituisce la stringa ripulita e la pagina delle storie salva quella (app/seller/stories/page.tsx:144). Login, auth/callback, verify-email, accetta-condizioni, link-email, home-site: nessun percorso buono rifiutato. Non provata una locale Postgres diversa da glibc UTF-8."
+    }
+  ],
+  "campione": {}
+}
