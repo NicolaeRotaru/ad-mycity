@@ -12,7 +12,7 @@ L'onda 6 è il pilota della ricetta per riparare i difetti piccoli del sito sott
 Niente finché la PR non è pronta: quello che spetta a Nicola sarà scritto lì.
 
 ## Cosa devi fare
-Niente adesso.
+Una decisione, quando vuoi: la guardia `cervello/pre-scrittura.mjs` di ad-mycity chiede la tua conferma ogni volta che una regista apre una sessione. Oggi alle 16:40 due aperture sono state rifiutate, alle 16:24 tre sono passate. Scegli se le aperture delle sessioni di riparazione devono passare senza conferma, o restare così. Finché non decidi, la guardia resta com'è e nessuno la scavalca.
 
 ## Cosa non ho verificato
 Quante voci reggeranno: lo dicono il collaudo e il controllore.
@@ -45,3 +45,4 @@ Sui 24 nuovi: si allarga con almeno 8 che reggono e C01 senza rosse fra queste; 
 - 16:14 I06: nessuna PR aperta sul sito. La divisione dei 24 regge.
 - 16:35 nuove frasi di Nicola in DECISIONI e bacheca (`92abc45f`): obiettivo 50 chiusi in tutto, tetto 700 $, nessun permesso chiesto da nessuna sessione.
 - 16:40 le create_session di R02 e R03 hanno fatto comparire una richiesta a Nicola: l'hook `cervello/pre-scrittura.mjs` di ad-mycity chiede conferma per gli strumenti MCP con create, update, push… nel nome. Rifiutate tutte e due, non nate. Da adesso le sessioni e le PR le apre la regista O5 coi campi che le mando io. I06 non apre la PR: manda il testo. L'hook non si tocca: va nella PR come cosa per Nicola.
+- 16:45 la regista O5 annulla: le sessioni le apre la regia O6, e se la guardia chiede conferma si aspetta Nicola senza cercare altre strade. 16:24 (ora del server) aperte insieme R02 `session_015BmpnWGRrUvbT77eoVnJwJ`, R03 `session_015BmpnXBwWt8GM29JJz6fZd` e K01 `session_015BmpnZJpZKbaqaUumCK4jn` (aspetta la testa del referto R01). `sessioni.json` scritto. Da aprire quando servono: K02 (collaudo delle 24) e C01 (controllore).
