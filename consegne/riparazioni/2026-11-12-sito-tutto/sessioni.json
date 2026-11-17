@@ -600,6 +600,15 @@
    "punta": "27a0bd2",
    "spesa_usd": 5.21,
    "esito": "1 voce rossa (R14-014, non sul ramo unito), 0 difetti nuovi, cancellazione.ts regge"
+  },
+  "C04": {
+   "id": "session_015BmpnYx68ekNMjiyYwU5uc",
+   "ramo": "claude/sito-onda-4-c04",
+   "partenza": "8809de7220a6bc450ee73be58ecab97501d9a6be",
+   "onda": 4,
+   "tetto_usd": 10,
+   "integrazione": "claude/sito-onda-4@074ccbc5c0b52af840dfe59fb2c0e82f5634cb87",
+   "aperta": "2026-11-17 08:19"
   }
  },
  "integrazione_onda1": "b144746992176ae554d48376a00d972f5210a49f",
