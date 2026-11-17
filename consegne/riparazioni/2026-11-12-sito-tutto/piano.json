@@ -24,6 +24,50 @@
       "perche": "Il commit è il revert di R17-005 (d5687bbc) scritto col messaggio standard di git («Revert \"R17-005 …\"»): non comincia con «R17-005», ma tocca solo i file di R17-005 e li rimette com'erano.",
       "firma": "Nicola, 15/11 verso le 06:05, chat dell'AD session_015BmpnYSQgvReHZZJxrC8mw, decisione 2 del piano del 15/11",
       "scritta": "2026-11-15 06:45, regista della fase 1"
+    },
+    {
+      "onda": 4,
+      "sessione": "R29",
+      "commit": "4fd7d59dd945ec88a19d029d2c98e6ca447da6fe",
+      "regole": [
+        "id_nel_commit"
+      ],
+      "perche": "Il messaggio del salvataggio di R29 cita R14-003, una voce di un'altra onda (il commit precedente da cui riparte), non una voce di R29. Il codice non c'entra: la sessione non poteva riscrivere i messaggi (permesso negato come azione distruttiva, regia onda 4, 16/11 17:10).",
+      "firma": "Nicola, 17/11, chat dell'AD session_015BmpnXzJ4RxUcjYFTgfqUG: «1 sì, 2 sì», confermata con «tutte e 14» (punto 1: eccezione per i 4 messaggi di commit di R29)",
+      "scritta": "2026-11-17 13:00, sessione delle chiusure onda 4 (session_015BmpnVJDyo8bYKbJc5xyiN)"
+    },
+    {
+      "onda": 4,
+      "sessione": "R29",
+      "commit": "038ddd6a9987045d1a73fdc8001462a9067d17c7",
+      "regole": [
+        "id_nel_commit"
+      ],
+      "perche": "Il messaggio del salvataggio di R29 cita R14-011, una voce di un'altra onda (il commit precedente da cui riparte), non una voce di R29. Il codice non c'entra: la sessione non poteva riscrivere i messaggi (permesso negato come azione distruttiva, regia onda 4, 16/11 17:10).",
+      "firma": "Nicola, 17/11, chat dell'AD session_015BmpnXzJ4RxUcjYFTgfqUG: «1 sì, 2 sì», confermata con «tutte e 14» (punto 1: eccezione per i 4 messaggi di commit di R29)",
+      "scritta": "2026-11-17 13:00, sessione delle chiusure onda 4 (session_015BmpnVJDyo8bYKbJc5xyiN)"
+    },
+    {
+      "onda": 4,
+      "sessione": "R29",
+      "commit": "f734e255643f0a1454fe753c98ce8f1c36a2b071",
+      "regole": [
+        "id_nel_commit"
+      ],
+      "perche": "Il messaggio del salvataggio di R29 cita R21-002, una voce di un'altra onda (il commit precedente da cui riparte), non una voce di R29. Il codice non c'entra: la sessione non poteva riscrivere i messaggi (permesso negato come azione distruttiva, regia onda 4, 16/11 17:10).",
+      "firma": "Nicola, 17/11, chat dell'AD session_015BmpnXzJ4RxUcjYFTgfqUG: «1 sì, 2 sì», confermata con «tutte e 14» (punto 1: eccezione per i 4 messaggi di commit di R29)",
+      "scritta": "2026-11-17 13:00, sessione delle chiusure onda 4 (session_015BmpnVJDyo8bYKbJc5xyiN)"
+    },
+    {
+      "onda": 4,
+      "sessione": "R29",
+      "commit": "2c9f8412b07e452330ae25727c3d73cfa5ea512e",
+      "regole": [
+        "id_nel_commit"
+      ],
+      "perche": "Il messaggio del salvataggio di R29 cita R19-006, una voce di un'altra onda (il commit precedente da cui riparte), non una voce di R29. Il codice non c'entra: la sessione non poteva riscrivere i messaggi (permesso negato come azione distruttiva, regia onda 4, 16/11 17:10).",
+      "firma": "Nicola, 17/11, chat dell'AD session_015BmpnXzJ4RxUcjYFTgfqUG: «1 sì, 2 sì», confermata con «tutte e 14» (punto 1: eccezione per i 4 messaggi di commit di R29)",
+      "scritta": "2026-11-17 13:00, sessione delle chiusure onda 4 (session_015BmpnVJDyo8bYKbJc5xyiN)"
     }
   ],
   "onde": [
