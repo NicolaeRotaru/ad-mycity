@@ -7200,3 +7200,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Regia dell'onda 9:** la chat «Ondata 9». Parte giovedì 19/11 alle 10:05 col suo promemoria; quello della chat «Ondata 7 difetti» è spento.
 - **La guardia `cervello/pre-scrittura.mjs`:** la chat «Ondata 9» la cambia solo per tre strumenti di claude-code-remote (create_session, create_trigger, update_trigger). Le scritture su GitHub, PR comprese, continuano a chiedere conferma. Va in una PR su ad-mycity (ramo `claude/adoring-bohr-kixq35`) con una prova e un collaudo: è un'auto-modifica della macchina, vale col merge di Nicola.
 - **Restano alla chat «Ondata 7 difetti»:** mycity#296 fino all'unione, le chiusure delle onde 8 e 8b nel registro, ad-mycity#984 fuori dalla bozza.
+
+## 2026-11-17 22:35 — Onda 9: parte subito una prima tappa di 6 riparatori, dentro il limite della settimana (🟡, firmato da Nicola)
+**Le parole di Nicola, nella chat «Ondata 9» (`session_015BmpnYq3DQDRwTXdBwfzud`):** verso le 22:20 «falla partire adesso»; alla domanda sul limite «Fra 90% e 95%» e «Mi fermo prima (Raccomandato)», cioè lasciare circa il 3% alle sue chat; alle 22:35, dopo la domanda «perché solo questi 2 riparatori e non di più?», «89%».
+- **Cosa vale:** il «prima» detto il 17/11 alle 20:05 per l'onda 9. Stasera lavorano 6 riparatori su 10 (R01, R02, R03, R06, R07, R10), con consegna a 30 $ e tetto 35 $ ciascuno: circa 210 $ al massimo, dentro i circa 240 $ che restano tolto il 3%. R04, R05, R08, R09, il collaudo del gruppo A, i collaudatori e il controllore partono giovedì 19/11 alle 10:05.
+- **Il filtro dei delicati:** quello del programma della scelta guarda le dimensioni e pochi nomi di file, non il testo. In R05 c'erano annullo ordini e account. Regola nel prompt di ogni riparatore: soldi, dati personali, permessi o migrazioni → `non_fatto` «delicata: fuori dall'onda 9». Da rifare prima di giovedì sul testo delle voci.
+- **Stanotte:** Nicola dorme; nessuna azione che chiede conferma.
+- **Colore:** 🟡 spesa e codice in rami, firmata. Merge, migrazioni e database vero restano di Nicola.

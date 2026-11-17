@@ -23,19 +23,51 @@
    "tetto_usd": 35,
    "consegna_usd": 30,
    "aperta": "2026-11-17 22:15"
+  },
+  "R01": {
+   "id": "session_015BmpnXsG8PNg7ifyDEH21e",
+   "ramo": "claude/adoring-bohr-kixq35-o9-m01",
+   "onda": 1,
+   "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
+   "tetto_usd": 35,
+   "consegna_usd": 30,
+   "aperta": "2026-11-17 22:28"
+  },
+  "R06": {
+   "id": "session_015BmpnXuKeg9UZV4VTeijA9",
+   "ramo": "claude/adoring-bohr-kixq35-o9-m06",
+   "onda": 1,
+   "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
+   "tetto_usd": 35,
+   "consegna_usd": 30,
+   "aperta": "2026-11-17 22:28"
+  },
+  "R07": {
+   "id": "session_015BmpnY5Tr9sb9jVsUfgDzU",
+   "ramo": "claude/adoring-bohr-kixq35-o9-m07",
+   "onda": 1,
+   "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
+   "tetto_usd": 35,
+   "consegna_usd": 30,
+   "aperta": "2026-11-17 22:28"
+  },
+  "R10": {
+   "id": "session_015BmpnVgNypE5YPDP33krPo",
+   "ramo": "claude/adoring-bohr-kixq35-o9-m10",
+   "onda": 1,
+   "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
+   "tetto_usd": 35,
+   "consegna_usd": 30,
+   "aperta": "2026-11-17 22:29"
   }
  },
  "collaudatori": {},
  "controllori": {},
  "da_aprire_giovedi": [
-  "R01",
   "R04",
   "R05",
-  "R06",
-  "R07",
   "R08",
   "R09",
-  "R10",
   "collaudo gruppo A",
   "K01-K04",
   "C01"
