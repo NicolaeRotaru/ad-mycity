@@ -35,7 +35,11 @@
    "onda": 1,
    "partenza": "bc36f48120ec38bf20880c7d68b3171015744681",
    "tetto_usd": 28,
-   "finita": false
+   "finita": true,
+   "punta": "c9f423337a2848f6125a303e8f2ce2fee4beb8f0",
+   "testa": "55b27b4938f9840828d89dadb5ac7495d367257e",
+   "costo_usd": 28.36,
+   "guardia": "rossa: due prove esistenti toccate (database-della-vetrina.ts dato a R03 dalla regia per R03-013; riparazione-r20-home-variante-a aggiornata per R03-003). Deroga da dichiarare nella PR."
   },
   "R04": {
    "id": "session_015BmpnWQtM3nnP4b4XgAfEj",
@@ -54,7 +58,8 @@
     "R02"
    ],
    "tetto_usd": 12,
-   "finita": false
+   "finita": false,
+   "id": "session_015BmpnYLWEi1RmcXfHGEeYD"
   }
  },
  "controllori": {}
