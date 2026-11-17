@@ -140,3 +140,21 @@ test("il comando si legge solo dove esiste: uno strumento senza `command` non ne
   assert.equal(comandoDi({ file_path: "a.md" }), "");
   assert.equal(comandoDi(undefined), "");
 });
+
+test("la guardia vera, chiamata come la chiama Claude Code: l'apertura passa, quella su main chiede", async () => {
+  const { spawnSync } = await import("node:child_process");
+  const { fileURLToPath } = await import("node:url");
+  const guardia = fileURLToPath(new URL("../pre-scrittura.mjs", import.meta.url));
+  const chiama = (tool_input) =>
+    spawnSync(process.execPath, [guardia, "--hook"], {
+      input: JSON.stringify({ hook_event_name: "PreToolUse", tool_name: "mcp__claude-code-remote__create_session", tool_input }),
+      encoding: "utf8",
+      timeout: 20000,
+    });
+  const si = chiama({ title: "R01", outcome_branch: "claude/o9-m01" });
+  assert.equal(si.status, 0, si.stderr);
+  assert.equal(si.stdout.trim(), "");
+  const no = chiama({ title: "R01", outcome_branch: "main" });
+  assert.equal(no.status, 0, no.stderr);
+  assert.equal(JSON.parse(no.stdout).hookSpecificOutput.permissionDecision, "ask");
+});
