@@ -51,6 +51,12 @@ Lista D (voci per Nicola) · R27 e R25-001 (carta 258) · migrazione 501 · doma
 - Prompt corto, prima riga `ruolo-freno: riparatore-gravi`: clona ad-mycity accanto al deposito allo SHA della F0, legge LEGGIMI-riparatore e la sua scheda (come nell'onda 4: le schede sono 23-47 KB, incollarle costerebbe circa 100 mila token alla regia), regole dell'onda, piano a me. Se il clone non riesce, le incollo io.
 - Un minuto dopo: get_session di ognuna (sigla intera, connessa). A 10 minuti: list_sessions.
 
+- 10:20 Nicola: «Perché non hai tolto la bozza dalle due PR [...] E perché non sei partito?». 10:22 mycity#293 e ad-mycity#978 fuori bozza (CI verde, nessun conflitto). Letto come via subito: il risveglio di giovedì è tolto, il tetto resta 250 $.
+- 10:24 aperti R30 `session_015BmpnZVidxbyda8rhpR4fh`, R31 `session_015BmpnYR73VWZ4jYrxgmT5Y`, R32 `session_015BmpnX7wQbfR8T1cwG4VTs`, R33 `session_015BmpnVuDeiYKphvCW4kJMC`. Partenza `d1eaba80`, regole e schede dal clone di ad-mycity a `df9c7c8b`. Ultracode spento, effort xhigh, auto. Consegna a 38 $, tetto 42 $.
+- La regia resta in questa chat oltre i 250 mila token (alle 10:20 era a 407 mila, 12,25 $): il permesso di Nicola è scritto qui, e una regista nuova rischierebbe le richieste sul telefono. Turni pochi e corti.
+
 ### Prossimi passi
-1. Giovedì 19/11 10:00 (risveglio programmato): get_session, aprire R30-R33, piani, collaudo breve (K17, K18), unione, verify, C05, applica, PR del sito pronta.
+1. Piani di R30-R33: leggerli contro la scheda e rispondere «approvato» o correggere. Controllo a 15 minuti con list_sessions.
+2. Sorveglianza con `bash cervello/riparazione/sorveglia.sh consegne/riparazioni/2026-11-12-sito-tutto 5` solo quando arriva un esito.
+3. Collaudo breve (K17 su R30+R31, K18 su R32+R33), unione su `ccr-99009024-qgfisx` del sito, verify, C05, applica, PR del sito fuori bozza.
 - 09:55 CI della #978 rossa sulla fetta 8: `collaudi-guardati-insieme.test.mjs` leggeva la cartella viva della campagna, e lo stato dell'onda 4 (R27-R29, K14) la faceva cadere (5 su 13). Ora legge la campagna ferma a `13fe89c` da git: 13 su 13. La stessa prova sulla cartella viva resta 8 su 13. Modifica alla macchina 🟡, nella PR.
