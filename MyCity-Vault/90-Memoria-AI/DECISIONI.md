@@ -7181,3 +7181,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cancello:** stop sopra i 20 $ a difetto chiuso (prima 12 $), o con il limite settimanale «rejected» o uso extra. Prima di ogni apertura si rilegge `rate_limit_info`.
 - **Preventivo detto:** circa 1.000 $ per 200 voci, 70-90 chiusi, 11-14 $ l'uno; caso peggiore circa 17 $.
 - **Colore:** 🟡 spesa e codice in rami, firmata. Merge, migrazioni e database vero restano di Nicola.
+
+## 2026-11-17 20:05 — I 200 difetti diventano l'onda 9, con 10 riparatori (🟡, firmato da Nicola)
+**Le parole di Nicola (17/11 verso le 20:00, chat «Ondata 7 difetti»):** «non riesci ad aprirne 10 risolutori che si occupano di 200 difetti minori non troppo complicati e difficili?» e poi «questi 200 difetti sono della ondata 9».
+- **Cosa cambia rispetto alla decisione delle 19:10:** l'onda 8 è solo la tappa partita alle 19:54 (40 voci, 3 riparatori). I 200 difetti sono l'onda 9, con 10 riparatori da circa 20 voci (o 14, se il conto delle voci per sessione lo consiglia).
+- **Partenza:** giovedì 19/11 alle 10:00, a limite azzerato (la strada A proposta), salvo un «prima» di Nicola. Restano il tetto totale di 1.200 $ e la soglia sotto i 20 $ a difetto chiuso.
+- **Il conto dei minori che è stato corretto:** su 709 minori aperti, 367 hanno già una nota di riparazione (27 si chiudono con l'unione di mycity#295). Non sono «circa 180» come detto alle 19:58: sono circa 335 già tentati e ancora aperti.
+- **Colore:** 🟡, firmata. Merge, migrazioni e database vero restano di Nicola.

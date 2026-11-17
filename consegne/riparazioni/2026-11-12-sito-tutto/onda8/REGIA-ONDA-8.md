@@ -5,7 +5,7 @@ stima_usd: 110
 tetto_usd: 130
 ---
 
-# Onda 8, tappa 1: il quaderno della regista
+# Onda 8: il quaderno della regista (i 200 difetti sono l'onda 9)
 
 ## In parole semplici
 La tappa 1 dell'onda 8 ripara 40 difetti piccoli del sito, in 3 sessioni da 13-14. Sono le voci rimaste dall'onda 7, quelle a metà o con la correzione già scritta, e i difetti nati oggi. I 140 delicati (soldi, dati, permessi) partono giovedì 19/11 alle 10:00 come tappa 2.
@@ -39,3 +39,4 @@ Atteso circa 110 $: riparatori 3 × 26 $, collaudo circa 15 $, controllore 6 $, 
 ### Stato
 - 20:10 cartella pronta.
 - 19:54 aperti R01 `session_015BmpnZ6qEcy4RimJZsZwsH`, R02 `session_015BmpnXoLzgfzuuuBdVvUAG`, R03 `session_015BmpnY8uEE9JYwMef9pGKS` (limite `allowed_warning`, regia 14,21 $). Regole nuove nel prompt: spesa letta prima di ogni lotto, oltre 20 $ niente lotti nuovi, prove esistenti altrui mai.
+- 20:05 Nicola: i 200 difetti sono l'onda 9 (10 riparatori). Quest'onda 8 resta di 40 voci. Partenza dell'onda 9 letta: giovedì 19/11 alle 10:00.
