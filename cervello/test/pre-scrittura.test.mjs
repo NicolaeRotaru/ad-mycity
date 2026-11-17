@@ -77,6 +77,32 @@ test("il riconoscimento è per FORMA del verbo, non per elenco: uno strumento nu
   assert.ok(VERBI_DI_SCRITTURA.test("apply_migration"));
 });
 
+test("aprire sessioni e creare o cambiare promemoria NON chiede: l'eccezione firmata da Nicola il 17/11", () => {
+  // Una regia di riparazione apre una quindicina di sessioni per onda. Con la domanda a ogni apertura,
+  // l'onda di giovedì alle 10:05 si sarebbe fermata alla prima, finché Nicola non cliccava.
+  for (const s of [
+    "mcp__claude-code-remote__create_session",
+    "mcp__claude-code-remote__create_trigger",
+    "mcp__claude-code-remote__update_trigger",
+  ]) {
+    assert.equal(decidi({ strumento: s }).chiedi, false, s);
+  }
+});
+
+test("l'eccezione resta stretta: gli altri strumenti che scrivono, anche dello stesso server, chiedono ancora", () => {
+  for (const s of [
+    "mcp__claude-code-remote__create_environment",
+    "mcp__claude-code-remote__update_environment",
+    "mcp__claude-code-remote__delete_trigger",
+    "mcp__claude-code-remote__add_repo",
+    "mcp__github__create_pull_request",
+    "mcp__github__push_files",
+    "mcp__altro-server__create_session",
+  ]) {
+    assert.equal(decidi({ strumento: s }).chiedi, true, s);
+  }
+});
+
 // ── la busta e l'ancora dei senior ───────────────────────────────────────────
 
 test("la busta è «ask», mai «deny»: il potere di dire di no resta di Nicola", () => {

@@ -80,6 +80,23 @@ export const VERBI_DI_SCRITTURA = /(create|update|delete|push|write|merge|apply|
 /** Riconosce uno strumento MCP dal nome, che per contratto comincia così. */
 export const E_MCP = /^mcp__/;
 
+/**
+ * L'eccezione firmata da Nicola il 17/11/2026 verso le 21:55, nella chat «Ondata 9», con la scelta
+ * «Firmo: le aperture passano». Aprire una sessione, creare un promemoria e cambiarlo non scrivono
+ * su nessun deposito e su nessun database: spostano il lavoro. Una regia di riparazione ne apre una
+ * quindicina per onda, e «nessuna sessione mi deve chiedere nessun permesso, se no si ferma tutto»
+ * (Nicola, 17/11 verso le 16:12). Le scritture su GitHub continuano a chiedere, PR comprese.
+ *
+ * Elenco CHIUSO per nome esatto, al contrario dei verbi qui sopra: un'eccezione deve restare stretta.
+ * Uno strumento nuovo, anche dello stesso server (create_environment, delete_trigger, …), resta
+ * coperto dalla regola ④ dal giorno zero.
+ */
+export const ORCHESTRAZIONE_FIRMATA = new Set([
+  "mcp__claude-code-remote__create_session",
+  "mcp__claude-code-remote__create_trigger",
+  "mcp__claude-code-remote__update_trigger",
+]);
+
 // ─────────────────────────────────────────────────────────────────────────────
 // IL CUORE — puro. Riceve la mossa già letta e torna la decisione: così una prova può eseguire ogni
 // caso senza avere né un repo né un evento vero.
@@ -100,6 +117,7 @@ export function decidi({ strumento = "", comando = "", difese = new Map() } = {}
   // ④ Uno strumento MCP che scrive. Vale PRIMA degli altri perché è l'unico caso in cui, se taccio,
   //    non parlerà più nessuno: dopo non resta nemmeno un diff locale da guardare.
   if (E_MCP.test(strumento)) {
+    if (ORCHESTRAZIONE_FIRMATA.has(strumento)) return no;
     const verbo = strumento.split("__").pop() || "";
     if (VERBI_DI_SCRITTURA.test(verbo)) {
       return {
