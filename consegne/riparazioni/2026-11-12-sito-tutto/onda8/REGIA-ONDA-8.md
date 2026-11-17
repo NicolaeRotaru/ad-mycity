@@ -38,3 +38,4 @@ Atteso circa 110 $: riparatori 3 × 26 $, collaudo circa 15 $, controllore 6 $, 
 
 ### Stato
 - 20:10 cartella pronta.
+- 19:54 aperti R01 `session_015BmpnZ6qEcy4RimJZsZwsH`, R02 `session_015BmpnXoLzgfzuuuBdVvUAG`, R03 `session_015BmpnY8uEE9JYwMef9pGKS` (limite `allowed_warning`, regia 14,21 $). Regole nuove nel prompt: spesa letta prima di ogni lotto, oltre 20 $ niente lotti nuovi, prove esistenti altrui mai.

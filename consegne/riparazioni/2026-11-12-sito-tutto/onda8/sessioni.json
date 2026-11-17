@@ -1,0 +1,35 @@
+{
+ "regista": "session_015BmpnWeHkst12TRwrzmMfw",
+ "integrazione": {
+  "ramo": "ccr-30918361-coyajm-o8",
+  "partenza": "1a7de5b9295a70eba644b7a340cef6d93f5379fc"
+ },
+ "sessioni": {
+  "R01": {
+   "id": "session_015BmpnZ6qEcy4RimJZsZwsH",
+   "ramo": "ccr-30918361-coyajm-o8-m01",
+   "onda": 1,
+   "partenza": "1a7de5b9295a70eba644b7a340cef6d93f5379fc",
+   "tetto_usd": 28,
+   "finita": false
+  },
+  "R02": {
+   "id": "session_015BmpnXoLzgfzuuuBdVvUAG",
+   "ramo": "ccr-30918361-coyajm-o8-m02",
+   "onda": 1,
+   "partenza": "1a7de5b9295a70eba644b7a340cef6d93f5379fc",
+   "tetto_usd": 28,
+   "finita": false
+  },
+  "R03": {
+   "id": "session_015BmpnY8uEE9JYwMef9pGKS",
+   "ramo": "ccr-30918361-coyajm-o8-m03",
+   "onda": 1,
+   "partenza": "1a7de5b9295a70eba644b7a340cef6d93f5379fc",
+   "tetto_usd": 28,
+   "finita": false
+  }
+ },
+ "collaudatori": {},
+ "controllori": {}
+}
