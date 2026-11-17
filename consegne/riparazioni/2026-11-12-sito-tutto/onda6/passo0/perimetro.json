@@ -1,0 +1,178 @@
+{
+  "casa": "sito",
+  "profilo": "scelta",
+  "creato": "2026-11-17 16:11",
+  "registro": "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-marketplace.json",
+  "deposito": "NicolaeRotaru/mycity",
+  "base": "c83c3e4e6decc5c167bd0cefceb269364f388cd0",
+  "filtri": {
+    "gravita": null,
+    "dimensioni": null,
+    "chiavi": 14,
+    "nati_dal": null,
+    "diff": null,
+    "anche_umani": false,
+    "anche_rimandati": false
+  },
+  "conti": {
+    "aperti": 780,
+    "nel_filtro": 14,
+    "lavorabili": 14,
+    "riservate": 0,
+    "domande": 0,
+    "rimandati": 0,
+    "umani": 0,
+    "sospese": 0,
+    "senza_percorso": 0
+  },
+  "lavorabili": [
+    {
+      "chiave": "qa-flussi|la promo «oggi, fino a mezzanotte» finisce a mezzanotte del fuso del telefono, non di piacenza",
+      "titolo": "La promo «Oggi, fino a mezzanotte» finisce a mezzanotte del fuso del telefono, non di Piacenza",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "app/seller/promotions/page.tsx"
+      ]
+    },
+    {
+      "chiave": "sicurezza-auth|un cliente che abusa del sito non si può sospendere: l'unica strada è cancellargli l'account",
+      "titolo": "Un cliente che abusa del sito non si può sospendere: l'unica strada è cancellargli l'account",
+      "gravita": "minore",
+      "dimensione": "sicurezza-auth",
+      "file": [
+        "app/api/admin/users/[id]/moderate/route.ts",
+        "lib/api/middleware.ts",
+        "lib/shopping-access.ts"
+      ]
+    },
+    {
+      "chiave": "rls-database|sul sito vero i visitatori non possono leggere la tabella dei profili, ma nessuna migrazione lo dice",
+      "titolo": "Sul sito vero i visitatori non possono leggere la tabella dei profili, ma nessuna migrazione lo dice",
+      "gravita": "minore",
+      "dimensione": "rls-database",
+      "file": [
+        "tests/sql/harness/00_shim_supabase.sql"
+      ]
+    },
+    {
+      "chiave": "api-backend|le rotte accettano una consegna a domicilio senza fascia: l'ordine nasce senza orario, mentre la cassa ne manda sempre una",
+      "titolo": "Le rotte accettano una consegna a domicilio senza fascia: l'ordine nasce senza orario, mentre la cassa ne manda sempre una",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "lib/ordini/fascia-consegna.ts",
+        "app/api/orders/cod/route.ts",
+        "app/api/stripe/checkout/route.ts"
+      ]
+    },
+    {
+      "chiave": "navigazione-gerarchia|home, piè di pagina e mappa per google mettono in mostra categorie vuote: otto su nove non hanno prodotti",
+      "titolo": "Home, piè di pagina e mappa per Google mettono in mostra categorie vuote: otto su nove non hanno prodotti",
+      "gravita": "grave",
+      "dimensione": "navigazione-gerarchia",
+      "file": [
+        "components/CategoryShowcase.tsx",
+        "components/Footer.tsx",
+        "app/sitemap.ts",
+        "app/category/[slug]/layout.tsx"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|quando un ordine viene annullato il negozio non riceve nessuna email, e se lo annulla il sito perché nessuno l'ha accettato non riceve nemmeno la campanella",
+      "titolo": "Quando un ordine viene annullato il negozio non riceve nessuna email, e se lo annulla il sito perché nessuno l'ha accettato non riceve nemmeno la campanella",
+      "gravita": "minore",
+      "dimensione": "qa-flussi",
+      "file": [
+        "app/api/cron/expire-stale-orders/route.ts"
+      ]
+    },
+    {
+      "chiave": "sicurezza-auth|sospendere un fattorino non gli toglie le consegne in corso: continua a vedere i recapiti, ritirare e consegnare",
+      "titolo": "Sospendere un fattorino non gli toglie le consegne in corso: continua a vedere i recapiti, ritirare e consegnare",
+      "gravita": "minore",
+      "dimensione": "sicurezza-auth",
+      "file": [
+        "app/api/admin/users/[id]/moderate/route.ts"
+      ]
+    },
+    {
+      "chiave": "frontend-ux|i marchi «km 0» e «artigianale» non compaiono mai sulla scheda, perché la scheda non legge i tag",
+      "titolo": "I marchi «Km 0» e «Artigianale» non compaiono mai sulla scheda, perché la scheda non legge i tag",
+      "gravita": "minore",
+      "dimensione": "frontend-ux",
+      "file": [
+        "lib/queries/catalogo.ts"
+      ]
+    },
+    {
+      "chiave": "immagini-media|le tessere delle categorie in home sono foto d'archivio scritte a mano nel codice",
+      "titolo": "Le tessere delle categorie in home sono foto d'archivio scritte a mano nel codice",
+      "gravita": "grave",
+      "dimensione": "immagini-media",
+      "file": [
+        "components/CategoryShowcase.tsx"
+      ]
+    },
+    {
+      "chiave": "microcopy|il sos del fattorino dice «stiamo chiamando il 112», ma l'app apre solo il tastierino",
+      "titolo": "Il SOS del fattorino dice «Stiamo chiamando il 112», ma l'app apre solo il tastierino",
+      "gravita": "grave",
+      "dimensione": "microcopy",
+      "file": [
+        "components/rider/SOSButton.tsx"
+      ]
+    },
+    {
+      "chiave": "immagini-media|se l'abbonamento supabase scade, le foto del sito tornano rotte e nessun controllo se ne accorge",
+      "titolo": "Se l'abbonamento Supabase scade, le foto del sito tornano rotte e nessun controllo se ne accorge",
+      "gravita": "minore",
+      "dimensione": "immagini-media",
+      "file": [
+        "lib/image-url.ts",
+        "lib/image-loader.ts"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|confine senza coordinate chiuso solo a parole: l'ordine non misurato passa senza nessun segno, e ora /shipping lo annuncia",
+      "titolo": "Confine senza coordinate chiuso solo a parole: l'ordine non misurato passa senza nessun segno, e ora /shipping lo annuncia",
+      "gravita": "minore",
+      "dimensione": "privacy-legale",
+      "file": [
+        "app/shipping/page.tsx",
+        "app/admin/delivery/page.tsx",
+        "app/api/orders/cod/route.ts",
+        "app/api/stripe/checkout/route.ts"
+      ]
+    },
+    {
+      "chiave": "api-backend|il conteggio dei promemoria «inviati» include carrelli segnati senza nessuna email",
+      "titolo": "Il conteggio dei promemoria «inviati» include carrelli segnati senza nessuna email",
+      "gravita": "minore",
+      "dimensione": "api-backend",
+      "file": [
+        "app/api/cron/abandoned-carts/route.ts",
+        "lib/carrelli-abbandonati.ts"
+      ]
+    },
+    {
+      "chiave": "privacy-legale|un cliente coi termini 2.0 e la cassa già aperta ordina lo stesso: le rotte d'ordine non guardano la versione accettata",
+      "titolo": "Un cliente coi Termini 2.0 e la cassa già aperta ordina lo stesso: le rotte d'ordine non guardano la versione accettata",
+      "gravita": "minore",
+      "dimensione": "privacy-legale",
+      "file": [
+        "app/api/orders/cod/route.ts",
+        "app/api/stripe/checkout/route.ts"
+      ]
+    }
+  ],
+  "fuori": {
+    "riservate": [],
+    "domande": [],
+    "rimandati": [],
+    "umani": [],
+    "sospese": [],
+    "senza_percorso": []
+  },
+  "percorsi_spariti": []
+}

@@ -7148,3 +7148,12 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Proposta (ricetta):** solo minori mai tentati con tutti i file a un solo riparatore, collaudo anche delle patch dopo la cucitura, regia nuova sotto i 250 mila token. Atteso 8,6 $ a chiusa. Pilota da circa 70 $ più 7 $ di collaudo delle patch già pagate: si allarga sopra 8 chiuse su 24, si ferma a 5 o meno. Preventivo per circa 200 minori: 412 / 480 / 530 $.
 - **Dove:** `consegne/audit/2026-11-17-costo-onda-5/` (analisi.md, ricetta.md), righe delle onde 4 e 5 in `cervello/riparazione/misure.json`, PR ad-mycity#982.
 - **Colore:** 🟢 analisi; il pilota è 🟡 spesa e parte solo col sì di Nicola.
+
+
+## 2026-11-17 16:20 — Onda 6 del sito: il pilota della ricetta, senza consensi fino alla PR (🟡, firmato da Nicola)
+**Le parole di Nicola (17/11, alla regista dell'onda 5):** «risolvere almeno 200 difetti usando sempre una strategia come questa, leggera. Magari ti concentri solo sui minori [...] e usi la strategia del non chiedere nessun consenso solo alla fine e in nessuna delle sessioni che aprirai». E: «Devi consumare meno di $10 a difetto [...] ci deve essere sempre il collaudo e il controllore [...] non solo fare bene il lavoro di riparazione, ma anche controllare se quel lavoro è stato fatto bene». Alle 16:00: «Apri la sessione che si occuperà dell'ondata 6 e verifica che sa cosa deve fare». Verso le 16:05: «Devi far partire l'ondata 6».
+- **Cosa vale:** permesso scritto per aprire le sessioni dell'onda 6, spingere i loro rami (ognuna solo sul suo, con la sigla di partenza intera) e aprire le PR. A Nicola non si chiede niente fino alla PR pronta da unire: quello che spetta a lui va scritto nella PR. Mai unire una PR, mai database vero, Vercel, Stripe, messaggi a persone o migrazioni applicate.
+- **Chi:** regia O6 `session_015BmpnYVx17cqeZ9Rq9pCde`, aperta dalla regista dell'onda 5 `session_015BmpnYvNwUpgfdhaKx9PKT`, che ha dato il via alle 16:08.
+- **Il piano:** la ricetta di `consegne/audit/2026-11-17-costo-onda-5/ricetta.md`. Passo 0: collaudo delle 13 voci vive della cucitura dell'onda 5 più R33-022 (R31-012 tolta, R32-014 fuori perché tocca la cancellazione dei dati personali e copre metà voce). Poi 2 riparatori da 12 minori mai tentati, collaudo di tutte le voci, controllore sulla testa unita, PR. Disponibili 73 minori leggeri mai tentati, non 200.
+- **Tetto:** 90 $ in tutto, regia compresa (8 $). Soglia: si allarga con almeno 8 voci nuove che reggono su 24, ci si ferma a 5 o meno.
+- **Colore:** 🟡 spesa e codice in rami, firmata.
