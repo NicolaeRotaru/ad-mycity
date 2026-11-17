@@ -1,0 +1,41 @@
+{
+  "corsia": 1,
+  "territorio": "R01-onda6",
+  "difetti": [
+    {
+      "chiave": "microcopy|il sos del fattorino dice «stiamo chiamando il 112», ma l'app apre solo il tastierino",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r31-sos-testo.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base f57409c03e521f45f73e5ea2d6eb5211315f5180^ --file components/rider/SOSButton.tsx --prove tests/unit/riparazione-r31-sos-testo.test.tsx --json → uscita 0 (I06, cucitura); cd /home/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-002 --base f57409c03e521f45f73e5ea2d6eb5211315f5180^ --file components/rider/SOSButton.tsx --prove tests/unit/riparazione-r31-sos-testo.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "Cucita in onda 5 la patch di R31-001 (f57409c0): il pulsante SOS non dice più che l'app sta chiamando il 112; dialogo e avvisi dicono che si apre il telefono col 112 già scritto e che la chiamata parte quando premi CHIAMA. Adattate due prove comuni del testo. Prova nuova verde, prova rimessa regge (uscita 0). Collaudo K01 (onda 6): regge. Commit f57409c0, in main con mycity#294."
+    },
+    {
+      "chiave": "api-backend|le rotte accettano una consegna a domicilio senza fascia: l'ordine nasce senza orario, mentre la cassa ne manda sempre una",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r31-consegna-senza-fascia.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base f129e197c6f0d1d56e8d73ab61220e68f090284c^ --file app/api/orders/cod/route.ts,app/api/stripe/checkout/route.ts --prove tests/unit/riparazione-r31-consegna-senza-fascia.test.ts --json → uscita 0 (I06, cucitura); cd /home/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-005 --base f129e197c6f0d1d56e8d73ab61220e68f090284c^ --file app/api/orders/cod/route.ts,app/api/stripe/checkout/route.ts --prove tests/unit/riparazione-r31-consegna-senza-fascia.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Cucita in onda 5 la patch di R31-003 (f129e197): le rotte del contrassegno e della carta rifiutano una consegna a domicilio senza fascia oraria, come fa già la cassa; 34 prove comuni ora mandano una fascia. Prova nuova verde, prova rimessa regge (uscita 0). Collaudo K01 (onda 6): regge. Commit f129e197, in main con mycity#294."
+    },
+    {
+      "chiave": "frontend-ux|i marchi «km 0» e «artigianale» non compaiono mai sulla scheda, perché la scheda non legge i tag",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r30-scheda-tag-dei-marchi.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 221cc8405f296d2295aa5bdc58b12271184ede54^ --file lib/queries/catalogo.ts --prove tests/unit/riparazione-r30-scheda-tag-dei-marchi.test.ts --json → uscita 0 (I06, cucitura); cd /home/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-006 --base 221cc8405f296d2295aa5bdc58b12271184ede54^ --file lib/queries/catalogo.ts --prove tests/unit/riparazione-r30-scheda-tag-dei-marchi.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Cucite in onda 5 le due parti di R30-008: 221cc840 (lib/queries/catalogo.ts: la scheda legge la colonna tags e tiene solo i marchi Km 0 e Artigianale, più la prova nuova) e 1011766f (la colonna tags nell'aiutante delle prove database-coi-permessi, senza la quale 25 prove esistenti cadevano). Prova rimessa regge (uscita 0). Collaudo K01 (onda 6): regge. Commit 221cc840, 1011766f, in main con mycity#294."
+    },
+    {
+      "chiave": "privacy-legale|un cliente coi termini 2.0 e la cassa già aperta ordina lo stesso: le rotte d'ordine non guardano la versione accettata",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r31-termini-in-cassa.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base a74c227f22543cf5ae9cc852df50061292fa7d4d^ --file app/api/orders/cod/route.ts,app/api/stripe/checkout/route.ts --prove tests/unit/riparazione-r31-termini-in-cassa.test.ts --json → uscita 0 (I06, cucitura); cd /home/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-008 --base a74c227f22543cf5ae9cc852df50061292fa7d4d^ --file app/api/orders/cod/route.ts,app/api/stripe/checkout/route.ts --prove tests/unit/riparazione-r31-termini-in-cassa.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Cucita in onda 5 la patch di R31-016 (a74c227f): le rotte del contrassegno e della carta guardano la versione dei termini accettata e fermano l'ordine di chi ha accettato una versione vecchia; 8 prove comuni ora fingono l'accettazione. Prova rimessa regge (uscita 0). Collaudo K01 (onda 6): regge. Commit a74c227f, in main con mycity#294."
+    },
+    {
+      "chiave": "rls-database|sul sito vero i visitatori non possono leggere la tabella dei profili, ma nessuna migrazione lo dice",
+      "esito": "riparato",
+      "verifica_comando": "bash tests/sql/harness/apply.sh mycity_test && psql -X -d mycity_test -v ON_ERROR_STOP=1 -f tests/sql/rls/riparazione-r30-profili-chiusi-ai-visitatori.test.sql",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base d22c86a72b4bd3e1bc62eece5d17327d6c98cbc0^ --file migrations/541_i_visitatori_non_leggono_la_tabella_dei_profili.sql --prove tests/sql/rls/riparazione-r30-profili-chiusi-ai-visitatori.test.sql --sql riparazione_r01_rimessa --json → uscita 0 (I06, cucitura); cd /home/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-012 --base d22c86a72b4bd3e1bc62eece5d17327d6c98cbc0^ --file migrations/541_i_visitatori_non_leggono_la_tabella_dei_profili.sql --prove tests/sql/rls/riparazione-r30-profili-chiusi-ai-visitatori.test.sql --sql k01_r01_012_rimessa --json → uscita 0 (K01)",
+      "nota_fix": "Cucita in onda 5 la patch di R30-022 (d22c86a7): la migrazione nuova 541 dice quello che il sito vero fa già, i visitatori (anon) non leggono la tabella dei profili (REVOKE SELECT, con un controllo finale); prova SQL nuova, adattate le prove comuni 19 e 34. Sul Postgres locale (solo prove): prova rimessa con --sql regge (uscita 0) e la suite SQL intera alla testa è verde. La migrazione non è applicata: lo decide Nicola. Collaudo K01 (onda 6): regge. Commit d22c86a7, in main con mycity#294."
+    }
+  ]
+}
