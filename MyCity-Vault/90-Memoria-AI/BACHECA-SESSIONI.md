@@ -69,6 +69,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 | regista (`…XsL6Y7`) | ferma a 450 mila token: passaggio scritto in fondo a `consegne/riparazioni/2026-11-12-sito-tutto/REGIA.md` (13/11 01:35). L'onda 2 la guida una regista nuova, aperta dall'AD al «via la seconda» | la campagna del 12/11, la skill `riparazione` |
 | CI della macchina | Finita: Nicola ha unito la #948 alle 03:44 (`92b4c15`). Il cancello ci mette 2 min 28 s, prima 10 min 21 s. Prima dell'unione la sessione ha riparato le due cause del rosso: la scusa dei permessi e Ubuntu 26.04. Alla fine era a 36,8 $ su 30 | nessuno |
 | Radiografia del codice · seguito (`…ZCaWUi`) | segue la richiesta del giudizio sul codice del sito (ad-mycity#947) e aspetta Nicola su due scelte: le quattro librerie con falle note da aggiornare prima di domenica 15/11, e il piano con i costi del riordino dopo il lancio. Il codice del sito non lo tocca senza la sua firma | `consegne/audit/2026-11-13-giudizio-codice-sito.md` |
+| CI del sito in 3 minuti · 2.0 | Ferma. Il 17/11 alle 08:17 la richiesta mycity#289 è stata chiusa senza unione; non si sa da chi né perché. Ultima misura, 13/11: tutta verde, 3 min 10 s a cache calda, 10 s sopra il tetto, per una macchina lenta su PostgreSQL. Il ramo `claude/ci-tre-minuti` resta con i tre commit. L'AD quinta chat era inattiva, quindi l'avviso sta qui | nessuno |
 | radiografia | finita: aspetta il «via» alla prima corsa | la skill `radiografia-sessioni`, il suo programma |
 
 ## Le sessioni vive
@@ -77,7 +78,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 | AD, quinta chat (dal 13/11 alle 04:39) | `session_015BmpnYWmNDPKAztZMPww6M` |
 | AD quarta chat, da non usare (508 mila token) | `session_015BmpnVpk1kywXGH5kMWQTH` |
 | AD terza chat, da non usare (471 mila token) | `session_015BmpnZ5ufx6s554FgYbUju` |
-| CI del sito in 3 minuti · 2.0 (dal 13/11 alle 13:46, passaggio in `consegne/tech/passaggio-ci-sito-tre-minuti-2.md`) | `session_015BmpnW2CbV77Rdm3v8Ph7f` |
+| CI del sito in 3 minuti · 2.0, ferma dal 17/11 08:17 (la #289 è chiusa) | `session_015BmpnW2CbV77Rdm3v8Ph7f` |
 | CI del sito in 3 minuti · seguito, da non usare (circa 360 mila token, regola 7) | `session_015BmpnUqVt6v4HuqvPF3X7B` |
 | CI della macchina e del sito, da non usare (oltre il 40% del contesto) | `session_015BmpnWjSJvwxssvANzndUF` |
 | Radiografia del codice · seguito (dal 13/11 alle 03:28) | `session_015BmpnZCaWUijDqfTAvJ4Dx` |
