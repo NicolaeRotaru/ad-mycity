@@ -11,6 +11,7 @@ regia: session_015BmpnYq3DQDRwTXdBwfzud (chat «Ondata 9», decisione di Nicola 
 
 ## In parole semplici
 L'onda 9 ripara 200 difetti piccoli del sito con 10 riparatori. L'ordine l'ha scelto Nicola: prima quelli già pagati, poi quelli con la correzione già scritta, poi quelli che nessuno ha mai raggiunto, poi i mai tentati e i lasciati a metà. Nessuno tocca soldi, dati personali o permessi. Parte giovedì 19/11 alle 10:05, quando il limite settimanale si è azzerato.
+Esempio: un difetto che nell'onda 5 è rimasto «mai raggiunto», perché il riparatore ha finito tempo e soldi prima di arrivarci, nell'onda 9 viene prima di quelli mai tentati.
 
 ## Cosa cambia per te
 Niente fino alla PR del sito.
