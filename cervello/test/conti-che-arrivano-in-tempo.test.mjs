@@ -14,7 +14,11 @@ import { kFinitiMaAperti, prUniteSenzaRegistro, preventivoDa } from "../riparazi
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const PROGRAMMA = join(QUI, "..", "riparazione-sessioni.mjs");
-const MISURE = JSON.parse(readFileSync(join(QUI, "..", "riparazione", "misure.json"), "utf8"));
+const TUTTE = JSON.parse(readFileSync(join(QUI, "..", "riparazione", "misure.json"), "utf8"));
+// Le misure com'erano dopo l'onda 2. Il preventivo usa l'ultima onda misurata: le righe vere delle onde
+// dopo (onda 4 a 2,65 $ e onda 5 a 2,32 $ per voce) non devono cambiare una prova che parla dell'onda 2.
+const FINE_ONDA_2 = TUTTE.misure.findIndex((m) => /^onda 2\b/.test(String(m.fase)));
+const MISURE = { ...TUTTE, misure: TUTTE.misure.slice(0, FINE_ONDA_2 + 1) };
 
 function campagna() {
   const t = mkdtempSync(join(tmpdir(), "conti-"));
@@ -75,6 +79,7 @@ test("AR-1180 · prUniteSenzaRegistro: una PR non unita non è rossa, e se non l
 });
 
 test("AR-1180 · preventivo: 259 voci con le misure dell'onda 2 fanno almeno 1.600 $, mai 1,45 $ a voce", () => {
+  assert.ok(FINE_ONDA_2 >= 0, "in misure.json manca la riga dell'onda 2");
   const p = preventivoDa(MISURE, 259);
   assert.ok(p.stima_usd >= 1600, `stima ${p.stima_usd}`);
   assert.ok(p.per_voce_usd > 6, `per voce ${p.per_voce_usd}`);
@@ -82,13 +87,16 @@ test("AR-1180 · preventivo: 259 voci con le misure dell'onda 2 fanno almeno 1.6
   assert.ok(p.tetto_usd > p.stima_usd && p.massimo_usd >= p.stima_usd);
   assert.equal(Math.round(p.quote_usd.collaudo / p.stima_usd * 100), 15);
   assert.equal(preventivoDa(null, 259), null, "senza misure niente preventivo");
+  const onde = TUTTE.misure.filter((m) => /^onda\b/i.test(String(m.fase)) && Number(m.usd) > 0 && Number(m.voci_lavorate) > 0);
+  assert.ok(preventivoDa(TUTTE, 259).fonte.includes(onde[onde.length - 1].fase), "con tutte le misure vale l'ultima onda");
 });
 
 test("AR-1180 · conti --preventivo: senza misure.json esce 2; con le misure scrive preventivo.json e REGIA.md, ed è rosso al 70%", () => {
   const { t, C, scrivi, lancia } = campagna();
   try {
     assert.equal(lancia("conti", "--preventivo", "--voci", "259", "--misure", join(t, "non-c-e.json")).status, 2);
-    const fileMisure = join(QUI, "..", "riparazione", "misure.json");
+    const fileMisure = join(t, "misure-fino-all-onda-2.json");
+    writeFileSync(fileMisure, JSON.stringify(MISURE));
     let r = lancia("conti", "--preventivo", "--voci", "259", "--misure", fileMisure);
     assert.equal(r.status, 3, r.stdout + r.stderr);
     const p = JSON.parse(readFileSync(join(C, "preventivo.json"), "utf8"));

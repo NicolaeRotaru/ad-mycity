@@ -1,6 +1,6 @@
 {
   "_cosa_e": "I tassi misurati delle campagne di riparazione. Il preventivo di un'onda si fa SOLO da qui (lezione 3 del 15/11), mai da un rimedio sperato. Si aggiunge una riga a ogni fase misurata; le righe vecchie non si riscrivono.",
-  "_aggiornato": "2026-11-15 23:50",
+  "_aggiornato": "2026-11-17 16:15",
   "calibrazione_limite": {
     "usd_per_punto": 30.5,
     "fonte": "Nicola 12/11 sera: onda 1 (610 $) = 20% del limite settimanale",
@@ -56,6 +56,40 @@
       "verdetti": 36,
       "usd": 11.39,
       "usd_per_verdetto": 0.32
+    },
+    {
+      "fase": "onda 4 (16-17/11)",
+      "voci_lavorate": 50,
+      "voci_toccate": 27,
+      "voci_che_reggono": 17,
+      "voci_chiuse_nel_registro": 10,
+      "usd": 132.48,
+      "usd_riparatori": 85.47,
+      "usd_collaudo_e_controllo": 13.99,
+      "usd_regia": 33.02,
+      "usd_per_voce_lavorata": 2.65,
+      "usd_per_voce_chiusa": 7.79,
+      "nota": "17 = 14 di R28 e R29 che reggono al collaudo più 3 di K14 (elenco A); le 7 di R29 sono ancora aperte nel registro, in attesa di una deroga sui messaggi di commit. Usage letti il 17/11 alle 15:45: R28 39,94, R29 45,53, K15 5,09, C04 2,96, regia O4 uno 25,04 e due 7,98; K14 2,06 e K16 3,88 dal quaderno.",
+      "configurazione": "2 riparatori da 25 voci, ultracode spento, effort xhigh, 6-7 subagenti, collaudo breve, controllore"
+    },
+    {
+      "fase": "onda 5 (17/11)",
+      "voci_lavorate": 100,
+      "voci_toccate": 64,
+      "voci_chiuse": 10,
+      "usd": 231.94,
+      "usd_riparatori": 149.83,
+      "usd_collaudo_e_controllo": 22.68,
+      "usd_regia": 59.43,
+      "usd_per_voce_lavorata": 2.32,
+      "usd_riparatori_per_voce_lavorata": 1.5,
+      "usd_riparatori_per_voce_toccata": 2.34,
+      "usd_per_voce_chiusa": 23.19,
+      "quota_lettura_storia": 0.6,
+      "esiti_riparatori": "riparato 11 (reggono 10) · serve_file_altrui 22 · parziale 17 · già riparato prima 10 · non fatto 36 · scelta di Nicola o non codice 4",
+      "primo_lotto_usd": "R30 9,95 · R31 13,78 · R33 9,18 (25-40% del totale)",
+      "nota": "Stessa spesa per voce delle onde 1 e 4, un quarto della resa: 88 chiavi tutte avanzi (34 elenco B, 38 elenco C, 16 non fatte dell onda 4). 15 patch applicate alla cucitura senza collaudo, quindi non chiuse. Regia in una chat da 407 a 796 mila token: 43,10 $ di sola lettura. Analisi: consegne/audit/2026-11-17-costo-onda-5/.",
+      "configurazione": "4 riparatori da 25 voci, ultracode spento, effort xhigh, 2-5 subagenti, consegna a 38 $, regola verify verde alla testa, collaudo breve K17 e K18, controllore C05"
     }
   ],
   "casi_base_per_il_preventivo": {
@@ -72,5 +106,14 @@
       "fonte": "Nicola in chat all'AD «Ondata 3», risposta 1 della carta #256",
       "nota": "Con la calibrazione di 30,5 $ a punto il 12% varrebbe circa 366 $, ma dal 12/11 alle 10:00 le sessioni hanno dichiarato circa 2.500 $ di listino. Quindi o un punto vale circa 200 $, o la percentuale conta un'altra cosa. Da rimisurare con una seconda lettura dopo questo pezzo: costo misurato diviso i punti saliti."
     }
-  ]
+  ],
+  "tariffe_misurate_usd_per_milione": {
+    "letti_cache": 0.2,
+    "scritti_cache_5_minuti": 5,
+    "scritti_cache_1_ora": 8,
+    "ingresso": 4,
+    "uscita": 20,
+    "fonte": "risolte su 4 turni di R30 (model_usage_since_last_result, costBasis list), controllate sul totale di R30: 35,41 $ calcolati contro 35,41 $ letti. Sostituiscono le tariffe stimate per i preventivi.",
+    "quando": "2026-11-17 15:45"
+  }
 }
