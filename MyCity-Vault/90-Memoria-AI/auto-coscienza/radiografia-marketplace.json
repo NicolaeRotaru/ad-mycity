@@ -415,7 +415,7 @@
     "gravi": 678,
     "minori": 2524,
     "agenti": null,
-    "aggiornato": "2026-11-17 16:51"
+    "aggiornato": "2026-11-17 20:02"
   },
   "confronto_precedente": {
     "data": "2026-11-05",
@@ -1700,7 +1700,7 @@
       "impatto": "Quando l'import sarà acceso, un negozio carica 1.000 pezzi di farina scritti «1.000»: ne risulta 1, e dopo il primo ordine il prodotto è esaurito.",
       "fix": "Una leggiQuantita sul modello di leggiPrezzo che accetti solo interi puliti e dia «Quantità non valida».",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "cd marketplace && node <scratchpad>/verifica/v-catalogo/f.cjs",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -1713,7 +1713,10 @@
         "sessione": "R01",
         "collaudo": "K01 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "Al posto di parseInt(…) || 0 la pagina legge la quantità con leggiQuantita (solo cifre, intero non negativo): «1.5», «10abc», «1.000», «-3» danno l'errore di riga «Quantità non valida (…)», «12» e « 7 » passano come numeri. Anche una cella vuota ora è un errore invece di 0. CARICAMENTO_DA_FILE_ACCESO resta false (lib/funzioni-al-lancio.ts non toccato); la prova accende la funzione solo nel suo finto. — prova: npx vitest run tests/unit/riparazione-r01-quantita-scritta-male-nel-file.test.tsx --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 27a8b6d0d3e13bcfe7d62412cfff50aafd333813^ --file app/seller/products/import/page.tsx --prove tests/unit/riparazione-r01-quantita-scritta-male-nel-file.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-1 --base 27a8b6d0d3e13bcfe7d62412cfff50aafd333813^ --file app/seller/products/import/page.tsx --prove tests/unit/riparazione-r01-quantita-scritta-male-nel-file.test.tsx --json → uscita 0 (K01)"
     },
     {
       "dimensione": "qa-flussi",
@@ -1883,7 +1886,7 @@
       "impatto": "Il negoziante in viaggio a New York crea il 6/11 una promo «Oggi»: lo sconto a Piacenza dura fino alle 5:59 del 7/11, sei ore in più; da Tokyo finisce alle 15:59 del 6/11.",
       "fix": "Calcolare la fine con l'inizio del giorno dopo nel fuso di Piacenza e formattare le date con timeZone 'Europe/Rome'.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "cd marketplace && TZ=<fuso> node <scratchpad>/verifica/v-date/a.cjs (copia di endDateFor, adesso fisso 2026-11-06T10:00Z)",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -1921,7 +1924,10 @@
         "sessione": "R33",
         "collaudo": null,
         "perche": "serve_file_altrui: Prima riparata nel commit c118f9e5, poi rimessa com era su richiesta della regista: la guardia-ramo è verde (file toccati e rimessi, non entrano nell unione)."
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "Commit di quest'onda (5e534104): applicata con git apply la diff di R33-022 dal referto di R33. La vetrina del negozio (components/store-sections/PromotionsSection.tsx) scrive «fino al» col giorno di Piacenza (timeZone FUSO_PIACENZA); app/seller/promotions/page.tsx usava già il fuso. Prova nuova rossa senza la diff (3 su 3) e verde con la diff; prova rimessa regge (uscita 0). Collaudo K01 (onda 6): regge; controllore C01 dell onda 6: 0 voci rosse. Commit 5e534104, in main con mycity#295 (merge 522cfb01). — prova: npx vitest run tests/unit/riparazione-r33-vetrina-promo-fino-al-di-piacenza.test.tsx — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 5e53410467067f5cc208427e816980e524d5a8d0^ --file components/store-sections/PromotionsSection.tsx --prove tests/unit/riparazione-r33-vetrina-promo-fino-al-di-piacenza.test.tsx --json → uscita 0"
     },
     {
       "dimensione": "qa-flussi",
@@ -82365,7 +82371,7 @@
       "file": "app/lavora-con-noi/page.tsx:174 · app/product/[id]/page.tsx:1100",
       "descrizione": "Con html { scroll-padding-top } da md in su (scheda 666), le ancore che hanno anche uno scroll-mt proprio si fermano più in basso del dovuto. Vanno portate a md:scroll-mt-0 (S06 e S09).",
       "fonte": "dieci sessioni del 5/11, S10 (visto strada facendo)",
-      "stato": "aperto",
+      "stato": "riparato",
       "nato_oggi": true,
       "giro": "dieci-sessioni-5-11",
       "riverifica_6_11": {
@@ -82382,7 +82388,10 @@
         "sessione": "R03",
         "collaudo": "K02 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "Controllato che app/globals.css:199-201 abbia html{scroll-padding-top} da md. #posizioni di lavora con noi passa a «scroll-mt-24 md:scroll-mt-0» e #recensioni della scheda prodotto da «md:scroll-mt-[var(--header-height)]» a «md:scroll-mt-0» (sotto md restano scroll-mt-24 e scroll-mt-4), come già LegalLayout; aggiornato il commento accanto. Prova leggera sulle classi, rossa togliendo l'uno o l'altro file. Prova rimessa ricontrollata da R03 (uscita 0). — prova: npx vitest run tests/unit/riparazione-r03-ancore-senza-doppio-margine.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 74e03d267211daa47ebe3092b421215aeae3db3d^ --file app/lavora-con-noi/page.tsx,app/product/[id]/page.tsx --prove tests/unit/riparazione-r03-ancore-senza-doppio-margine.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R03 checkout --quiet --detach 74e03d267211daa47ebe3092b421215aeae3db3d && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 74e03d267211daa47ebe3092b421215aeae3db3d^ --file app/lavora-con-noi/page.tsx,app/product/[id]/page.tsx --prove tests/unit/riparazione-r03-ancore-senza-doppio-margine.test.ts --json → uscita 0 (K02)"
     },
     {
       "dimensione": "qa-flussi",
@@ -82520,7 +82529,10 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R02",
-      "stato": "aperto"
+      "stato": "riparato",
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "Il controllo «l'oggetto esiste» ora vale anche per recensione (tabelle reviews e store_reviews, perché il pulsante c'è su prodotti e negozi) e messaggio (messages). Stesso client di servizio di prima; id inventato = 404, nessuna riga, nessun avviso agli admin. Collaudo K02 (onda 6): regge; controllore C01 dell onda 6: 0 voci rosse. Commit 19de476e, in main con mycity#295 (merge 522cfb01). — prova: npx vitest run tests/unit/riparazione-r03-o6-segnalazioni-oggetto-esiste.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 19de476e36c60901c7ae6c60499e0d22d6f47157^ --file app/api/segnalazioni/route.ts --prove tests/unit/riparazione-r03-o6-segnalazioni-oggetto-esiste.test.ts --json → uscita 0"
     },
     {
       "dimensione": "architettura",
@@ -82563,13 +82575,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R02",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_17_11": {
         "esito": "riparato",
         "sessione": "R02",
         "collaudo": "K01 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "Due commit. a0d65921: il blocco che contiene titolo e descrizione del Toggle (figlio flex accanto all'interruttore, che ha già shrink-0) prende min-w-0. 4a5964c9 (giro di correzione): lo stesso blocco prende anche break-words, perché il solo min-w-0 non spezzava una parola lunga (un'email): misurato in Chromium headless con una riga di 320px, il titolo restava largo 319px in un blocco di 234px e copriva l'interruttore; con break-words (overflow-wrap: break-word) va a capo dentro il blocco ([overflow-wrap:anywhere] dà lo stesso risultato). La prova monta il Toggle vero con testi lunghi e pretende min-w-0 e break-words sul blocco; la prova rimessa parte da prima di a0d65921, quindi copre tutta la cura. — prova: npx vitest run tests/unit/riparazione-r02-interruttore-testo-lungo.test.tsx --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base a0d65921^ --file components/ui/Toggle.tsx --prove tests/unit/riparazione-r02-interruttore-testo-lungo.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-2 --base a0d6592149ede814d0bb61b86c0d14f1fc92370a^ --file components/ui/Toggle.tsx --prove tests/unit/riparazione-r02-interruttore-testo-lungo.test.tsx --json → uscita 0 (K01)"
     },
     {
       "dimensione": "api-backend",
@@ -82581,7 +82596,10 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R03",
-      "stato": "aperto"
+      "stato": "riparato",
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "La rotta ora legge l'esito di sendEmail: se Resend rifiuta, scrive un errore nel registro (senza indirizzo). La risposta alla persona resta uguale. Collaudo K02 (onda 6): regge; controllore C01 dell onda 6: 0 voci rosse. Commit ff3b1064, in main con mycity#295 (merge 522cfb01). — prova: npx vitest run tests/unit/riparazione-r03-o6-newsletter-esito-invio.test.ts --reporter=dot — mutazione: NODE_OPTIONS=--max-old-space-size=8192 timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base ff3b1064b0518043a8cbf07ea948677cf73bc284^ --file app/api/newsletter/route.ts --prove tests/unit/riparazione-r03-o6-newsletter-esito-invio.test.ts --json → uscita 0"
     },
     {
       "dimensione": "qa-flussi",
@@ -82743,13 +82761,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R07",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_17_11": {
         "esito": "riparato",
         "sessione": "R04",
         "collaudo": "K02 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "Il giorno del drop (chiave e filtro drop_date) viene da giornoPiacenza() di lib/tempo-piacenza.ts, lo stesso aiutante della pagina admin, importato senza modificarlo; il conto alla rovescia arriva alla mezzanotte di Piacenza (inizioGiornoPiacenza del giorno dopo meno 1 ms) invece che a quella del dispositivo. Prova con orologio finto alle 23:30 UTC. — prova: npx vitest run --reporter=dot tests/unit/riparazione-r04-drop-giorno-di-roma.test.ts — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 04cc4b9afe900efe616879161e8203dd24acf367^ --file components/home/DropOfDay.tsx --prove tests/unit/riparazione-r04-drop-giorno-di-roma.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R04 checkout --quiet --detach 04cc4b9afe900efe616879161e8203dd24acf367 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base 04cc4b9afe900efe616879161e8203dd24acf367^ --file components/home/DropOfDay.tsx --prove tests/unit/riparazione-r04-drop-giorno-di-roma.test.ts --json → uscita 0 (K02)"
     },
     {
       "dimensione": "accessibilita",
@@ -82867,13 +82888,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R10",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_17_11": {
         "esito": "riparato",
         "sessione": "R02",
         "collaudo": "K01 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "Il Copilot in blocco (catalog-apply-bulk) e il lavoro massivo (catalog-batch/apply) costruiscono la voce product.update con tracciaDellaModifica (lib/products/salvataggio-tracciato.ts), come catalog-apply dopo R10-008: solo i campi cambiati, con daAi. La prova fa girare le due rotte vere col finto catalogo: un campo mandato ma uguale non entra e daAi c'è (sulla base: campi con la descrizione invariata e daAi assente). La voce product.hide della moderazione resta com'era: non è una product.update e l'aiutante non la copre. — prova: npx vitest run tests/unit/riparazione-r02-traccia-porte-ai-catalogo.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 80c8dc39ac6d951620b6e06dda0263bf0908d548^ --file app/api/ai/catalog-apply-bulk/route.ts,app/api/ai/catalog-batch/apply/route.ts --prove tests/unit/riparazione-r02-traccia-porte-ai-catalogo.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-2 --base 80c8dc39ac6d951620b6e06dda0263bf0908d548^ --file app/api/ai/catalog-apply-bulk/route.ts,app/api/ai/catalog-batch/apply/route.ts --prove tests/unit/riparazione-r02-traccia-porte-ai-catalogo.test.ts --json → uscita 0 (K01)"
     },
     {
       "dimensione": "frontend-ux",
@@ -83050,13 +83074,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R12",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_17_11": {
         "esito": "riparato",
         "sessione": "R01",
         "collaudo": "K01 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "translateAuthError (il ripiego della pagina di accesso, sopra traduciErroreAuth di lib/errors.ts) legge «after N seconds» e risponde «Hai appena chiesto un link: puoi chiederne un altro fra N secondi.» (la frase di /reset-password per la stessa richiesta), invece di «Accesso non riuscito. Riprova.». Il tetto orario con lo stesso codice over_email_send_rate_limit («email rate limit exceeded») resta tradotto da traduciErroreAuth come prima. lib/errors.ts non toccato. — prova: npx vitest run tests/unit/riparazione-r01-password-dimenticata-freno-dei-secondi.test.tsx --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base b7fa1b600a73d19842decfcf1203a226fcbd8d6c^ --file app/sign-in/page.tsx --prove tests/unit/riparazione-r01-password-dimenticata-freno-dei-secondi.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-2 --base b7fa1b600a73d19842decfcf1203a226fcbd8d6c^ --file app/sign-in/page.tsx --prove tests/unit/riparazione-r01-password-dimenticata-freno-dei-secondi.test.tsx --json → uscita 0 (K01)"
     },
     {
       "dimensione": "privacy-legale",
@@ -83241,13 +83268,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C01",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_17_11": {
         "esito": "riparato",
         "sessione": "R01",
         "collaudo": "K01 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "Le regole comuni sono pianoPatchPerIlModulo (lib/products/aiPatch.ts) e i due campi nuovi di R04-020 sono haVarianti e attributiAttuali: applyPatch del modulo ora li passa (hasVariants e attributes). Con le varianti la disponibilità proposta non si scrive né si dice «aggiornata», e togliere un attributo assente non conta come cambiato. — prova: npx vitest run tests/unit/riparazione-r01-proposte-con-varianti-e-attributi.test.tsx --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base cc46a00405bf597a22a9227fbcc0c0b882ab6bc2^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r01-proposte-con-varianti-e-attributi.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-1 --base cc46a00405bf597a22a9227fbcc0c0b882ab6bc2^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r01-proposte-con-varianti-e-attributi.test.tsx --json → uscita 0 (K01)"
     },
     {
       "dimensione": "layout-responsive",
@@ -83259,13 +83289,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R15",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_17_11": {
         "esito": "riparato",
         "sessione": "R03",
         "collaudo": "K02 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "break-words hyphens-auto sull'h1 e, al posto di grid-cols-2, le colonne del piede con il gap della griglia (grid-cols-[repeat(auto-fit,minmax(max(8rem,calc((100%_-_1rem)/2)),1fr))], lg invariato). Misurato con Playwright/Chromium su un render statico con Tailwind compilato e Fraunces vero a 360px e html 200%: prima 410px, dopo 360; a testo normale la griglia resta a due colonne identiche. Prova leggera sulle classi della pagina renderizzata. Prova rimessa ricontrollata da R03 (uscita 0). — prova: npx vitest run tests/unit/riparazione-r03-chi-siamo-testo-grande.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base be37e7a22aed365e3cf4e3d6801c34006d359ae6^ --file app/about/page.tsx --prove tests/unit/riparazione-r03-chi-siamo-testo-grande.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R03 checkout --quiet --detach be37e7a22aed365e3cf4e3d6801c34006d359ae6 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base be37e7a22aed365e3cf4e3d6801c34006d359ae6^ --file app/about/page.tsx --prove tests/unit/riparazione-r03-chi-siamo-testo-grande.test.ts --json → uscita 0 (K02)"
     },
     {
       "dimensione": "qa-flussi",
@@ -83278,13 +83311,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R15",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_17_11": {
         "esito": "riparato",
         "sessione": "R02",
         "collaudo": "K01 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "Lato client logger.warn, oltre a console.warn, manda l'avviso a Sentry (lo stesso canale di logger.error) con captureMessage e level 'warning', col contesto già ripulito dai dati personali; senza NEXT_PUBLIC_SENTRY_DSN non scarica niente, come gli errori. Lato server non cambia. La prova (jsdom) controlla che con il DSN l'avviso arrivi a Sentry come warning col contesto oscurato, e che senza DSN non parta niente (sulla base: zero chiamate). Resta fuori dal codice: il DSN di Sentry va impostato su Vercel (NEXT_PUBLIC_SENTRY_DSN), se no anche gli errori del browser restano nella console. — prova: npx vitest run tests/unit/riparazione-r02-avvisi-browser.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base f8d2a2b73f0123defab58dc159b16b1d805c97ac^ --file lib/logger.ts --prove tests/unit/riparazione-r02-avvisi-browser.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-4 --base f8d2a2b73f0123defab58dc159b16b1d805c97ac^ --file lib/logger.ts --prove tests/unit/riparazione-r02-avvisi-browser.test.ts --json → uscita 0 (K01)"
     },
     {
       "dimensione": "qa-flussi",
@@ -83335,13 +83371,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R15",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_17_11": {
         "esito": "riparato",
         "sessione": "R04",
         "collaudo": "K02 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "La pagina legge le categorie piene (domandaCategoriePiene, stessa chiave di home, piede e indice) e filtra con soloLePiene i bottoni delle sottocategorie: nel ramo madre (hub), nel ramo a griglia di una sottocategoria con figlie e nei «forse cercavi» dello stato vuoto. Mentre la lettura carica non mostra bottoni; se cade li mostra tutti come prima. Le file dei prodotti restano su tutte le figlie (si nascondono da sole se vuote). — prova: npx vitest run --reporter=dot tests/unit/riparazione-r04-chip-sottocategorie-piene.test.ts — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base c6fafc1ff409f32e04db278a7ca11023232cef17^ --file app/category/[slug]/page.tsx --prove tests/unit/riparazione-r04-chip-sottocategorie-piene.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R04 checkout --quiet --detach c6fafc1ff409f32e04db278a7ca11023232cef17 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base c6fafc1ff409f32e04db278a7ca11023232cef17^ --file app/category/[slug]/page.tsx --prove tests/unit/riparazione-r04-chip-sottocategorie-piene.test.ts --json → uscita 0 (K02)"
     },
     {
       "dimensione": "layout-responsive",
@@ -83498,13 +83537,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R15",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_17_11": {
         "esito": "riparato",
         "sessione": "R04",
         "collaudo": "K02 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "Il titolo dei metadati per la pagina di vetrina mancante diventa «Pagina del negozio non trovata · MyCity»: dice ancora «non trovata» (noindex e canonical nullo invariati, e la forma che la prova minori-s09-scheda-prodotto cerca resta) ma non contiene più l'h1 «Pagina non trovata», come la correzione R15-005 della 404. — prova: npx vitest run --reporter=dot tests/unit/riparazione-r04-titolo-pagina-negozio-mancante.test.ts — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 377ae97e40b2e81f1004a725e6905dd1deef9843^ --file app/store/[id]/[slug]/layout.tsx --prove tests/unit/riparazione-r04-titolo-pagina-negozio-mancante.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R04 checkout --quiet --detach 377ae97e40b2e81f1004a725e6905dd1deef9843 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base 377ae97e40b2e81f1004a725e6905dd1deef9843^ --file app/store/[id]/[slug]/layout.tsx --prove tests/unit/riparazione-r04-titolo-pagina-negozio-mancante.test.ts --json → uscita 0 (K02)"
     },
     {
       "dimensione": "deploy-sre",
@@ -83540,13 +83582,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R16",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_17_11": {
         "esito": "riparato",
         "sessione": "R02",
         "collaudo": "K01 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "La riga del dialogo sugli amministratori non dice più «ricevono subito»: dice che l'avviso (pannello e, con le notifiche attive, telefono) arriva quando l'SOS arriva a MyCity, che serve la connessione e che con poca rete può arrivare in ritardo o non arrivare. Il «subito» resta solo per il 112. La prova apre il dialogo vero e legge la riga (sulla base: «ricevono subito»). — prova: npx vitest run tests/unit/riparazione-r02-sos-avviso-admin-testo.test.tsx --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base b41d08b6ec8ee839ccd53e7928386bd77aefe0aa^ --file components/rider/SOSButton.tsx --prove tests/unit/riparazione-r02-sos-avviso-admin-testo.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-3 --base b41d08b6ec8ee839ccd53e7928386bd77aefe0aa^ --file components/rider/SOSButton.tsx --prove tests/unit/riparazione-r02-sos-avviso-admin-testo.test.tsx --json → uscita 0 (K01)"
     },
     {
       "dimensione": "rls-database",
@@ -83570,13 +83615,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R16",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_17_11": {
         "esito": "riparato",
         "sessione": "R02",
         "collaudo": "K01 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "safeInternalPath rifiuta ora la stessa classe che il CHECK della 403 usa ([[:cntrl:]] di glibc in UTF-8): U+0000–U+001F, U+007F–U+009F e U+2028–U+2029, invece dei soli C0 e DEL. La prova passa ogni carattere di quella classe in mezzo a un link e controlla che nessuno esca accettato dal sito e rifiutato dal CHECK riscritto in JS (sulla base: 34 passavano, U+0080…U+009F e U+2028–U+2029), e che i link buoni passino ancora. — prova: npx vitest run tests/unit/riparazione-r02-link-storie-controllo-c1.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 19e4067514ae95b594d6c3cd46f0689d657f4ac3^ --file lib/safe-redirect.ts --prove tests/unit/riparazione-r02-link-storie-controllo-c1.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-4 --base 19e4067514ae95b594d6c3cd46f0689d657f4ac3^ --file lib/safe-redirect.ts --prove tests/unit/riparazione-r02-link-storie-controllo-c1.test.ts --json → uscita 0 (K01)"
     },
     {
       "dimensione": "frontend-ux",
@@ -83649,13 +83697,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R16",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_17_11": {
         "esito": "riparato",
         "sessione": "R03",
         "collaudo": "K02 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "Il finto conosce l'aggancio seller_stories → seller_public_profiles (su seller_id) e la regola di !inner al primo livello (righe senza aggancio scartate prima di ordine e tetto, come Postgres), invece di rispondere PGRST200. Così storie-drop-ed-eventi-reggono-con-i-profili-chiusi.test.ts («le storie dei negozi in home», 9 casi) passa ora dalla strada nuova del carosello e non più dal ripiego; le 5 prove che usano il finto restano verdi. File assegnato dalla regista in quest'onda. Il file tests/unit/aiuti/database-della-vetrina.ts è stato assegnato a R03 dalla regista in quest'onda: non è di nessun'altra sessione. Prova rimessa ricontrollata da R03 (uscita 0). — prova: npx vitest run tests/unit/riparazione-r03-vetrina-finta-aggancio-storie.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 6c6d25173ed278e52913a719b8d2fd7d929aa7e4^ --file tests/unit/aiuti/database-della-vetrina.ts --prove tests/unit/riparazione-r03-vetrina-finta-aggancio-storie.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R03 checkout --quiet --detach 6c6d25173ed278e52913a719b8d2fd7d929aa7e4 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 6c6d25173ed278e52913a719b8d2fd7d929aa7e4^ --file tests/unit/aiuti/database-della-vetrina.ts --prove tests/unit/riparazione-r03-vetrina-finta-aggancio-storie.test.ts --json → uscita 0 (K02)"
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -83883,7 +83934,10 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R19",
-      "stato": "aperto"
+      "stato": "riparato",
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "La lettura di localStorage al montaggio della pillola ora sta in un try: se il browser la rifiuta la pillola resta in piedi e il fumetto non compare (non si potrebbe ricordare il «chiudi»). La prova monta la pillola con getItem e setItem che lanciano: si apre e salva un CAP senza errori. Collaudo K02 (onda 6): regge; controllore C01 dell onda 6: 0 voci rosse. Commit fc5cea5d, in main con mycity#295 (merge 522cfb01). — prova: npx vitest run tests/unit/riparazione-r03-o6-pillola-senza-memoria-locale.test.tsx --reporter=dot — mutazione: cd /home/user/mycity && NODE_OPTIONS=--max-old-space-size=8192 timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base fc5cea5d3cef08c569b455a36e12876db81d6d1f^ --file components/LocationPill.tsx --prove tests/unit/riparazione-r03-o6-pillola-senza-memoria-locale.test.tsx --json → uscita 0"
     },
     {
       "dimensione": "flussi-conversione",
@@ -84214,13 +84268,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R24",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_17_11": {
         "esito": "riparato",
         "sessione": "R03",
         "collaudo": "K02 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "La queryFn della fascia ora fa lo stesso calcolo di CartUpsell (fetchActiveDiscounts + discountedUnitCents, aiutanti esistenti non toccati): prezzo mostrato e prezzo messo nel carrello sono quelli con la promo attiva. La prova monta la fascia vera con uno sconto finto del 20%: il carrello riceve 8 € invece di 10 €, e il prodotto senza sconto resta a prezzo pieno. Prova rimessa ricontrollata da R03 (uscita 0). — prova: npx vitest run tests/unit/riparazione-r03-comprati-insieme-scontati.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 2eb57568d9596ff49c3c62a8931d694627a6116e^ --file components/products/FrequentlyBoughtTogether.tsx --prove tests/unit/riparazione-r03-comprati-insieme-scontati.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R03 checkout --quiet --detach 2eb57568d9596ff49c3c62a8931d694627a6116e && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 2eb57568d9596ff49c3c62a8931d694627a6116e^ --file components/products/FrequentlyBoughtTogether.tsx --prove tests/unit/riparazione-r03-comprati-insieme-scontati.test.ts --json → uscita 0 (K02)"
     },
     {
       "dimensione": "qa-flussi",
@@ -84232,13 +84289,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R24",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_17_11": {
         "esito": "riparato",
         "sessione": "R02",
         "collaudo": "K01 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "/api/contact senza gettone risponde «Verifica anti-bot fallita» (lib/captcha.ts: «CAPTCHA mancante»), quindi la promessa era falsa. Allineata all'iscrizione (R24-016): col riquadro rotto la pagina dice «Senza questo controllo il messaggio non può partire: ricarica la pagina, oppure scrivici a <email info, con mailto>», il modulo non parte senza gettone e il messaggio a comparsa dice lo stesso guasto e la stessa strada. La prova monta la pagina vera con il riquadro finto che segnala il guasto: legge la riga e prova a inviare (sulla base: «Puoi provare lo stesso» e fetch chiamato). — prova: npx vitest run tests/unit/riparazione-r02-contatti-anti-robot-rotto.test.tsx --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base ff2d8564fc810af6b059e053e4ff050e71bf4672^ --file app/contact/page.tsx --prove tests/unit/riparazione-r02-contatti-anti-robot-rotto.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-3 --base ff2d8564fc810af6b059e053e4ff050e71bf4672^ --file app/contact/page.tsx --prove tests/unit/riparazione-r02-contatti-anti-robot-rotto.test.tsx --json → uscita 0 (K01)"
     },
     {
       "dimensione": "immagini-media",
@@ -84340,13 +84400,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C02",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_17_11": {
         "esito": "riparato",
         "sessione": "R02",
         "collaudo": "K01 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "Il carosello passa a leggiSponsorizzati oggi = giornoPiacenza() (lib/tempo-piacenza.ts) invece del giorno UTC. La prova monta il carosello vero con TZ=UTC e orologio finto alle 23:30 di Greenwich (inverno e estate) e guarda il giorno che arriva ai filtri start_date <= oggi e end_date >= oggi della vista: deve essere quello di Piacenza (sulla base: il giorno prima). — prova: npx vitest run tests/unit/riparazione-r02-sponsorizzati-giorno-piacenza.test.tsx --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 68b9b653abe7704d5fbfc400fa83af62f0c335c8^ --file components/SponsoredCarousel.tsx --prove tests/unit/riparazione-r02-sponsorizzati-giorno-piacenza.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-4 --base 68b9b653abe7704d5fbfc400fa83af62f0c335c8^ --file components/SponsoredCarousel.tsx --prove tests/unit/riparazione-r02-sponsorizzati-giorno-piacenza.test.tsx --json → uscita 0 (K01)"
     },
     {
       "dimensione": "microcopy",
@@ -84358,13 +84421,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C02",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_17_11": {
         "esito": "riparato",
         "sessione": "R03",
         "collaudo": "K02 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "Tolto «, a negozio aperto»: la frase è ora «Consegna {QUANDO_ARRIVA_SENZA_NEGOZIO}.» = «Consegna in giornata, nella fascia oraria che scegli.», la stessa di lib/promesse-pubbliche.ts, senza promesse nuove. La prova rende la home vera sulla variante a e legge il sottotitolo. Modificata (dichiarata) la prova esistente tests/unit/riparazione-r20-home-variante-a.test.ts, che legge app/page.tsx per nome e pretendeva «a negozio aperto»: ora pretende che non ci sia e che la frase dica «fascia oraria che scegli»; l'altra sua asserzione resta intatta. Prova rimessa ricontrollata da R03 (uscita 0). — prova: npx vitest run tests/unit/riparazione-r03-home-consegna-senza-negozio-aperto.test.ts tests/unit/riparazione-r20-home-variante-a.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base cb813b984fde5e26ea893f034aceafbf957f4bca^ --file app/page.tsx --prove tests/unit/riparazione-r03-home-consegna-senza-negozio-aperto.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R03 checkout --quiet --detach cb813b984fde5e26ea893f034aceafbf957f4bca && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base cb813b984fde5e26ea893f034aceafbf957f4bca^ --file app/page.tsx --prove tests/unit/riparazione-r03-home-consegna-senza-negozio-aperto.test.ts,tests/unit/riparazione-r20-home-variante-a.test.ts --json → uscita 0 (K02)"
     },
     {
       "dimensione": "performance",
@@ -84376,13 +84442,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C02",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_17_11": {
         "esito": "riparato",
         "sessione": "R03",
         "collaudo": "K02 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "La pagina conta le letture di fila tornate senza negozi (useRef aggiornato nella queryFn) e refetchInterval raddoppia l'attesa 5, 10, 20, 40 s fino al tetto di 60 s (il valore normale); quando la vista risponde il conto torna a zero e un guasto nuovo riparte da 5 s. Prova con orologio finto sulle attese fra le letture; le 11 prove della bacheca (compresa quella del ritorno rapido del nome) verdi. Prova rimessa ricontrollata da R03 (uscita 0). — prova: npx vitest run tests/unit/riparazione-r03-bacheca-attesa-crescente.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3245c9edc78f760c77f158d6ff01ba76ed3e7b51^ --file app/rider/page.tsx --prove tests/unit/riparazione-r03-bacheca-attesa-crescente.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R03 checkout --quiet --detach 3245c9edc78f760c77f158d6ff01ba76ed3e7b51 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 3245c9edc78f760c77f158d6ff01ba76ed3e7b51^ --file app/rider/page.tsx --prove tests/unit/riparazione-r03-bacheca-attesa-crescente.test.ts --json → uscita 0 (K02)"
     },
     {
       "dimensione": "qa-flussi",
@@ -84394,13 +84463,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C02",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_17_11": {
         "esito": "riparato",
         "sessione": "R03",
         "collaudo": "K02 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "«Ordine già preso da un altro rider» esce solo col motivo GIA_PRESO (l'unico che prendi_ordine, migrazione 270, usa per l'ordine non più libero); risposta nulla, storta, ok senza id o motivo sconosciuto danno «Non siamo riusciti a prendere l'ordine. Riprova.». NON_FATTORINO e DOCUMENTI_SCADUTI invariati; le 10 prove esistenti della bacheca verdi. Prova rimessa ricontrollata da R03 (uscita 0). — prova: npx vitest run tests/unit/riparazione-r03-presa-ordine-motivo-vero.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 227673ed04efc948f3bf771f06fb9ade1fa6aff3^ --file app/rider/page.tsx --prove tests/unit/riparazione-r03-presa-ordine-motivo-vero.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R03 checkout --quiet --detach 227673ed04efc948f3bf771f06fb9ade1fa6aff3 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 227673ed04efc948f3bf771f06fb9ade1fa6aff3^ --file app/rider/page.tsx --prove tests/unit/riparazione-r03-presa-ordine-motivo-vero.test.ts --json → uscita 0 (K02)"
     },
     {
       "dimensione": "frontend-ux",
@@ -84412,13 +84484,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C02",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_17_11": {
         "esito": "riparato",
         "sessione": "R04",
         "collaudo": "K02 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "Alla cancellazione di una pagina, i banner delle altre pagine il cui pulsante (cta, l'unico collegamento di sezione verso una pagina nello schema) la apriva perdono il pulsante, la sezione resta; la conferma nomina quei pulsanti prima, come già faceva per le voci del menu. — prova: npx vitest run --reporter=dot tests/unit/riparazione-r04-elimina-pagina-pulsanti.test.tsx — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 234686de7fbf24bc91fb81fefa86133d53519784^ --file components/seller/site/PageListEditor.tsx --prove tests/unit/riparazione-r04-elimina-pagina-pulsanti.test.tsx --json → uscita 0 (riparatore); git -C /home/user/wt-R04 checkout --quiet --detach 234686de7fbf24bc91fb81fefa86133d53519784 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base 234686de7fbf24bc91fb81fefa86133d53519784^ --file components/seller/site/PageListEditor.tsx --prove tests/unit/riparazione-r04-elimina-pagina-pulsanti.test.tsx --json → uscita 0 (K02)"
     },
     {
       "dimensione": "frontend-ux",
@@ -84430,13 +84505,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C02",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_17_11": {
         "esito": "riparato",
         "sessione": "R04",
         "collaudo": "K02 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "A menu acceso un link a metà resta nell'editor e il salvataggio lo rifiuta dicendo quale completare; a menu spento (esplicito) adesso si conserva com'è invece di essere scartato: il salvataggio non si blocca, il sito pubblico non mostra link, e riacceso il menu vale lo stesso controllo (stesso percorso d'errore menu.links.N). Modificata la prova esistente tests/unit/riparazione-r20-menu-spento.test.ts (importa solo lib/store-site.ts): aspettava lo scarto, ora aspetta che il link resti. — prova: npx vitest run --reporter=dot tests/unit/riparazione-r04-menu-spento-conserva-link.test.ts — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 1e7e09a533ae15a66d92d17814ca20ee43361105^ --file lib/store-site.ts --prove tests/unit/riparazione-r04-menu-spento-conserva-link.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R04 checkout --quiet --detach 1e7e09a533ae15a66d92d17814ca20ee43361105 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base 1e7e09a533ae15a66d92d17814ca20ee43361105^ --file lib/store-site.ts --prove tests/unit/riparazione-r04-menu-spento-conserva-link.test.ts,tests/unit/riparazione-r20-menu-spento.test.ts --json → uscita 0 (K02)"
     },
     {
       "dimensione": "stati-ui",
@@ -84514,13 +84592,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C02",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_17_11": {
         "esito": "riparato",
         "sessione": "R02",
         "collaudo": "K01 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "In avviaLetturaGps l'errore del primo tentativo (timeout o segnale assente) non chiude più l'attesa della posizione mentre il watch è in ascolto: la chiudono il permesso negato (code 1) o il tempo massimo di posizionePronta, e la posizione che il watch porta un attimo dopo finisce nella riga di rider_sos_events. La prova, con GPS e timer finti, fa scadere il primo tentativo prima e dopo la conferma e guarda lat/lng nell'insert (sulla base: null); controlla anche che senza posizione l'avviso parta entro il tempo massimo e che col permesso negato parta subito. — prova: npx vitest run tests/unit/riparazione-r02-sos-posizione-dopo-timeout.test.tsx --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 1ae7a9a298ffa30011cfc06271bf21a62587ede9^ --file components/rider/SOSButton.tsx --prove tests/unit/riparazione-r02-sos-posizione-dopo-timeout.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-3 --base 1ae7a9a298ffa30011cfc06271bf21a62587ede9^ --file components/rider/SOSButton.tsx --prove tests/unit/riparazione-r02-sos-posizione-dopo-timeout.test.tsx --json → uscita 0 (K01)"
     },
     {
       "dimensione": "dati-analytics",
@@ -84544,13 +84625,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C02",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_17_11": {
         "esito": "riparato",
         "sessione": "R04",
         "collaudo": "K02 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "categorieConProdotti risale fino a 20 gradini sopra la categoria del prodotto, come getAttributesForCategory; il 20 del modulo (lib/category-attributes.ts:285) non è esportato, quindi è ripetuto in una costante locale con lo stesso nome e il rimando. La prova confronta i due su una fila di 21 livelli. — prova: npx vitest run --reporter=dot tests/unit/riparazione-r04-categorie-piene-profonde.test.ts — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base bcecf354e90ea44a87e8f0fa7a94a3fe8e27e7a6^ --file lib/queries/categorie-piene.ts --prove tests/unit/riparazione-r04-categorie-piene-profonde.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R04 checkout --quiet --detach bcecf354e90ea44a87e8f0fa7a94a3fe8e27e7a6 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base bcecf354e90ea44a87e8f0fa7a94a3fe8e27e7a6^ --file lib/queries/categorie-piene.ts --prove tests/unit/riparazione-r04-categorie-piene-profonde.test.ts --json → uscita 0 (K02)"
     },
     {
       "dimensione": "deploy-sre",
@@ -84598,13 +84682,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · K10",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_17_11": {
         "esito": "riparato",
         "sessione": "R03",
         "collaudo": "K02 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "La fila di ogni prodotto ricorda l'ultimo stato confermato dal server e un rifiuto dell'ultimo tocco rimette il cuore lì invece di ribaltarlo (due rifiuti in fila: cuore vuoto). Ogni scrittura ha un tempo massimo di 10 s: senza risposta vale come rifiutata, la fila va avanti e il cuore torna allo stato confermato. Prove esistenti del cuore (r15 e il-cuore-dei-preferiti) verdi. Giro di correzione: la scrittura scaduta non si fermava e, arrivata dopo la rilettura, cambiava il database sotto il cuore (togli a 12 s: cuore pieno, preferito cancellato). Ora quando una scrittura scaduta arriva comunque (riuscita o rifiutata) si rilegge l'elenco, a fila vuota; con altri tocchi in fila lo fa la fine della fila, così niente stato di passaggio. Prova con rilettura vera (QueryObserver sul finto database) e orologio finto: i due casi del revisore, la scrittura tardiva che fallisce e quella che arriva a metà fila. Commit 60f1ee89 e ae7214d9. Prova rimessa ricontrollata da R03 (uscita 0). — prova: npx vitest run tests/unit/riparazione-r03-cuore-rifiuti-e-silenzio.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 60f1ee8982073e8653e8c3d97ad738226977acc9^ --file lib/preferiti/tocco-del-cuore.ts --prove tests/unit/riparazione-r03-cuore-rifiuti-e-silenzio.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R03 checkout --quiet --detach ae7214d9bc52343e0cb72607926b7cc10fd366a5 && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 60f1ee8982073e8653e8c3d97ad738226977acc9^ --file lib/preferiti/tocco-del-cuore.ts --prove tests/unit/riparazione-r03-cuore-rifiuti-e-silenzio.test.ts --json → uscita 0 (K02)"
     },
     {
       "dimensione": "qa-flussi",
@@ -84628,13 +84715,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · K10",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_17_11": {
         "esito": "riparato",
         "sessione": "R02",
         "collaudo": "K01 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "La data della striscia «Eventi a Piacenza» (riga 48) si formatta con timeZone: FUSO_PIACENZA da lib/tempo-piacenza.ts, come già fanno le promozioni. La prova monta il componente vero con TZ=UTC e orologio finto alle 23:40 di Greenwich: un evento dalle 00:30 del 6 alle 00:15 dell'8 (ora di Piacenza) deve dire «6 nov – 8 nov» (sulla base: «5 nov – 7 nov»). — prova: npx vitest run tests/unit/riparazione-r02-eventi-home-fuso.test.tsx --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base ceb88720c4cde59ca418cdb002b4ea509c3d02a1^ --file components/home/HomeEvents.tsx --prove tests/unit/riparazione-r02-eventi-home-fuso.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-4 --base ceb88720c4cde59ca418cdb002b4ea509c3d02a1^ --file components/home/HomeEvents.tsx --prove tests/unit/riparazione-r02-eventi-home-fuso.test.tsx --json → uscita 0 (K01)"
     },
     {
       "dimensione": "qa-flussi",
@@ -84676,13 +84766,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · K10",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_17_11": {
         "esito": "riparato",
         "sessione": "R03",
         "collaudo": "K02 · collaudo pieno",
         "nota": "si chiude dopo l'unione della PR"
-      }
+      },
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "Nella variante cards aria-busy=\"true\" è tolto dal div role=status/aria-live e messo sulla sola griglia degli scheletri (figlia, non antenata); il messaggio resta nella regione viva. Prova leggera di render: nessun aria-busy=true sulla regione o sopra, e il testo è dentro. Prova rimessa ricontrollata da R03 (uscita 0). — prova: npx vitest run tests/unit/riparazione-r03-caricamento-cards-annuncia.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 81aa847d77f63ff60d7689188373475ba3c7c84c^ --file components/ui/LoadingState.tsx --prove tests/unit/riparazione-r03-caricamento-cards-annuncia.test.ts --json → uscita 0 (riparatore); git -C /home/user/wt-R03 checkout --quiet --detach 81aa847d77f63ff60d7689188373475ba3c7c84c && cd /home/user/ad-mycity && timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 81aa847d77f63ff60d7689188373475ba3c7c84c^ --file components/ui/LoadingState.tsx --prove tests/unit/riparazione-r03-caricamento-cards-annuncia.test.ts --json → uscita 0 (K02)"
     },
     {
       "dimensione": "qa-flussi",
@@ -84894,7 +84987,10 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R14",
-      "stato": "aperto"
+      "stato": "riparato",
+      "chiuso_il": "2026-11-17 20:02",
+      "chiuso_da": "PR #295 · 522cfb0139670ca1ac8c8de95390c06c5c9c6e15",
+      "nota_riparazione": "Sulla base registratoreAcceso() non esiste (nemmeno in app/error.tsx, che ha ancora la frase fissa) e sentry.tsx non è mio: ho messo in ogni pagina una piccola funzione locale che guarda SENTRY_DSN (lo stesso che usa captureError). Senza DSN la frase diventa solo «Riprova fra un momento.» Collaudo K02 (onda 6): regge; controllore C01 dell onda 6: 0 voci rosse. Commit f393b49d, in main con mycity#295 (merge 522cfb01). — prova: npx vitest run tests/unit/riparazione-r03-o6-pagine-errore-registratore.test.tsx --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base f393b49dbe790e5a29b76e856533df6d66338fcc^ --file app/seller/error.tsx,app/rider/error.tsx --prove tests/unit/riparazione-r03-o6-pagine-errore-registratore.test.tsx --json → uscita 0"
     },
     {
       "dimensione": "api-backend",
