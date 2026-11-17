@@ -44,3 +44,4 @@ Fuori: 83 delicati mai tentati (pagamenti, accessi, permessi, privacy, dati, mig
 
 ### Il preventivo
 Circa 3 $ per voce data: 195 voci danno circa 585 $, più la regia, circa 600 $. Dentro il tetto totale di 1.200 $: le onde 6, 7 e 8 ne hanno spesi circa 325. Se regge il 50% come nell'onda 7, circa 95 difetti chiusi a circa 6 $ l'uno. Nel caso peggiore, 30%, circa 10 $. Il cancello è a 20 $ a difetto chiuso.
+- 20:16 Le 25 correzioni già scritte (gruppo B) sono passate all'onda 8b, chiesta da Nicola alle 20:28. Il programma della scelta adesso esclude anche `onda8b/chiavi-B.txt`: giovedì il posto delle B lo prendono le voci dopo nell'ordine.

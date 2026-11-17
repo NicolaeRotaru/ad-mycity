@@ -4,7 +4,7 @@ const C="/home/user/ad-mycity/consegne/riparazioni/2026-11-12-sito-tutto";
 const per=JSON.parse(readFileSync(process.argv[2] || "/tmp/claude-0/pool2/perimetro.json","utf8"));
 const lav=new Map(per.lavorabili.map(v=>[v.chiave,v]));
 const righe=f=>readFileSync(f,"utf8").split("\n").filter(l=>l&&!l.startsWith("#"));
-const onda8=new Set(righe(`${C}/onda8/chiavi-tappa1.txt`));
+const onda8=new Set([...righe(`${C}/onda8/chiavi-tappa1.txt`), ...righe(`${C}/onda8b/chiavi-B.txt`)]);
 const reg=JSON.parse(readFileSync("/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-marketplace.json","utf8"));
 const voci=new Map();const walk=o=>{if(Array.isArray(o)){o.forEach(walk);return}if(o&&typeof o==="object"){if(o.titolo&&o.severita) voci.set(chiaveDi("sito",o),o);for(const v of Object.values(o))walk(v)}};walk(reg);
 const ultimo=o=>{const ks=Object.keys(o).filter(k=>/^riparazione_\d+_\d+$/.test(k)).sort((a,b)=>{const [,d1,m1]=a.split("_").map(Number),[,d2,m2]=b.split("_").map(Number);return m1-m2||d1-d2});return ks.length?o[ks.at(-1)]:null};
