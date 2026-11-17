@@ -15,7 +15,10 @@
    "punta": "9e74f427ccd1d3b3271a01e66568ec958cf8dd48",
    "testa": "f52905f3fa91890f9157e8fd1584ee827d9f9ee0",
    "costo_usd": 25.11,
-   "guardia": "rossa: due prove esistenti della chat toccate per R01-001 (riparazione-r02-chat-registro-acceso-a-filo-caricato, riparazione-r06-chat-si-annuncia): deroga da chiedere"
+   "guardia": "rossa: due prove esistenti della chat toccate per R01-001 (riparazione-r02-chat-registro-acceso-a-filo-caricato, riparazione-r06-chat-si-annuncia): deroga da chiedere",
+   "da_togliere": [
+    "974093ba (R01-008, rompe_altro per K01)"
+   ]
   },
   "R02": {
    "id": "session_015BmpnXoLzgfzuuuBdVvUAG",
