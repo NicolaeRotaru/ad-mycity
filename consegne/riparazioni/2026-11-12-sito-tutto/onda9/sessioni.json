@@ -78,7 +78,12 @@
    "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
    "tetto_usd": 35,
    "consegna_usd": 30,
-   "aperta": "2026-11-17 22:29"
+   "aperta": "2026-11-17 22:29",
+   "finita": true,
+   "punta": "53239e21",
+   "testa": "8965d7afca58bf03beb55cc5fbd9768cbbe52ce4",
+   "costo_usd": 28.86,
+   "nota": "verify verde su 8965d7af; 6/6 subagenti; una falla di dati riservata (preesistente) passata alla regia a voce, nel referto solo il titolo"
   }
  },
  "collaudatori": {},
