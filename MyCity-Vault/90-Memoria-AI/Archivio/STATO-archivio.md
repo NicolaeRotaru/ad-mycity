@@ -2172,3 +2172,92 @@ fonte: AD digitale (chat)
 > 🔁 **18/8 06:41 — Giro richiesto in chat, 11 minuti dopo il passaggio 06:30. Riverificato dal vivo (SQL diretto `orders`/`profiles` + `verifica-sensori.mjs` + `coerenza-fatti.mjs` + `ci-stato.mjs`): stato bit-per-bit identico.** `orders`: 1 riga, 0 pagati, ultimo 2026-06-24 (annullato) — stallo North Star 55 giorni, dentro la pausa concordata fino al 24/8-1/9. Pane Quotidiano: `charges_enabled`/`payouts_enabled`/`details_submitted` ancora tutti `false`. Stesse 6 PR rosse per colpa propria (#761/#754/#753/#749/#741/#735). `coerenza-fatti.mjs` ✅ 39 fatti, 0 cacce. `test-cervello.mjs` bloccato dall'allowlist di sessione (card #104/#42), non ritentato oltre un colpo. Nessuna riscrittura dei JSON pesanti (freschi da 11 minuti, dati identici), nessun sub-agente lanciato: disciplina RISPARMIO, coerente col vincolo North Star.
 >
 > **Mossa n.1, invariata.** Coda in ordine di età/impatto: **#62/#116** (pratica pagamenti Pane Quotidiano — il vero blocco al 1° ordine pagato) · **#104/#42** (permessi VPS che sbloccano gli script diagnostici da qui) · **#36/#37/#38** (sicurezza/marketplace, 20+ giorni) · **#92** (radiografia completa arretrata, >10gg) · **6 PR croniche rosse** (#761/#754/#753/#749/#741/#735, stesso pattern test-del-cervello) · domande aperte senza risposta: #113 (letargo), #117 (ritmo dei giri), #121 (esperimenti), #105 (margine test-cervello), #109 (come riparare le PR croniche) — non le riformulo di nuovo qui.
+
+> 🔁 **21/8 16:27 — Passaggio di verifica lampo, stato identico al giro delle 14:40 (nessuna riscrittura pesante: macchina in SOPRAVVIVENZA, quota AI 151%).**
+
+> 🩺 **21/8 16:05 — La macchina è ferma dal 18 mattina, e cinque dei dodici pallini rossi erano guasti miei. Quelli li ho chiusi.**
+>
+> Nicola manda lo schermo della Cabina: dodici organi rossi. Rifatta la visita dal vivo, i dodici non
+> sono dodici problemi: **otto hanno un padre solo**, cioè il server che ha smesso di lavorare
+> **lunedì 18 agosto alle 8:55** — settantasette ore senza un giro, un piano del mattino, un report
+> della sera. Da qui il server non lo tocco: è la **carta 🔴 #143**, con la diagnosi e i comandi già
+> scritti. Quegli otto si spengono da soli quando riparte.
+>
+> **Gli altri cinque erano difetti di codice, e sono chiusi con una prova che diventa rossa se
+> tornano.** ① Il controllo che cerca le chiavi finite nel repo era **spento** da giorni senza dirlo:
+> la spazzata dei referti cancellava un file dal disco e lasciava che git continuasse a nominarlo, e
+> chi cercava di aprirlo si dichiarava cieco. ② La pubblicazione della memoria si era inceppata:
+> **422 rinvii di fila**, tutti verdi, perché l'uscita di sicurezza si spegneva per un solo file di
+> codice lasciato a metà — già successo il 30 luglio, 1716 rinvii e 31 ore. Ora l'attesa ha un tetto.
+> ③ La macchina non riusciva più a provare sé stessa: la suite ci metteva **822 secondi** contro un
+> tetto di 300, perché due prove aspettavano tre minuti a testa un programma già morto. Adesso sono
+> **316 secondi, verde**. ④ Il percorso del vecchio PC Windows era **rientrato** nel codice: Nicola
+> l'aveva fatto togliere il 4 luglio chiedendo di impedire che riaccadesse, e il guardiano che doveva
+> impedirlo non era mai stato scritto. Adesso c'è, e gira a ogni giro. ⑤ Nelle risposte lunghe che
+> ti mando mancava quasi sempre il pezzo che dice **di quanto fidarti** — cosa non ho provato. Il
+> freno c'era per la chat, non per i messaggi che scrive il server: adesso c'è da tutte e due le
+> parti.
+>
+> **Cosa mi ha corretto il collaudo, e va detto.** La prima stesura del quinto rispondeva «non manca
+> niente» anche quando il controllo non era riuscito a partire: un verde regalato. Me l'ha
+> contestato un guardiano di casa, non io. Ora dice due cose separate: se ha misurato, e cosa manca.
+>
+> **La cosa da ricordare:** tre di questi quattro non erano errori, erano **verdi ripetuti** — un
+> «riprovo da solo» senza limite. Una macchina che rimanda all'infinito è indistinguibile da una
+> macchina ferma.
+>
+> Referto: `consegne/salute/2026-08-21-1418-claude.md` · ramo `claude/risolvi-tutti-problemi-nddcnp`.
+
+> 🔁 **21/8 14:40 — Giro completo. Business invariato (1 ordine, 0 pagati, stallo dentro la pausa concordata), ma due card di sicurezza da 3 settimane erano già risolte e nessuno l'aveva segnato.**
+>
+> **I 7 numeri chiave** (via MCP Supabase, query dirette 14:29-14:31): ordini totali **1** (invariato), ordini pagati **0** (invariato), ultimo ordine 2026-06-24 (annullato, invariato), profili totali **8** (▲ da 7 — nuovo il 20/8 15:57, email `nicolarotaru2000@gmail.com`, quasi certamente un account di prova di Nicola stesso, non un cliente reale — nessun negozio nuovo), negozi con vetrina **1** (Pane Quotidiano, invariato), pratica pagamenti Stripe di Pane Quotidiano **ancora tutta spenta** (`charges_enabled`/`payouts_enabled`/`details_submitted` = false, invariato), sensori **9 ok / 3 ciechi per motivo noto** (PostHog spento per scelta, sito 503 per migrazione Vercel, Telegram non configurato — nessuna cecità nuova).
+>
+> **Il lavoro vero di questo giro: ho riverificato sul database reale, non sulla carta, le tre card di sicurezza aperte dal 29/7** (`#36` pulsante ordini, `#37` 4 falle RLS, `#38` 5 fughe di soldi) per capire se il grande lotto di riparazioni del 20-21/8 (migrazioni 107-124) le avesse già chiuse senza che nessuno lo controllasse. Risultato: **`#36` e `#37` erano già completamente risolte** — le ho chiuse — e **`#38` per due quinti** (compenso rider protetto, coupon restituito dopo checkout abbandonato; restano da verificare nel codice doppia-vendita, payout su spedizione gratis, reclamo che blocca per sempre). Dettaglio tecnico in [[AZIONI-IN-ATTESA]] card #36/#37/#38, esito registrato nel quaderno `@security` (`memoria-squadra/security.md`).
+>
+> **Perché conta:** senza questa verifica, `CHECKLIST-NICOLA.md` ti avrebbe chiesto ancora la firma su due lavori già fatti — tempo tuo sprecato su un problema che non c'è più. La checklist è stata rigenerata (era ferma dal 17/8, oltre i 2 giorni della regola).
+>
+> **Restano aperte, invariate:** 7 PR sul repo `ad-mycity` tutte rosse sullo stesso controllo (`test-cervello.mjs`, bloccato anche in questa sessione dai permessi) · card `#62` (pagamenti Pane Quotidiano, il vero blocco al primo incasso) · card `#140/#141/#139/#138/#137/#134/#142` dal lotto del 20-21/8, tutte in attesa di firma.
+
+> 🏁 **21/8 03:30 — Gli ultimi difetti del sito sono chiusi. Da 29 aperti a 3, e tutti e tre sono lavori a metà con un perché scritto.**
+>
+> Dei ventinove rimasti: **cinque erano già riparati** e nessuno l'aveva segnato (cancellazione account dall'admin, ripartizione dello sconto in contanti, rimborso parziale prima del pagamento, prezzo riletto in cassa, sconto ritiro scritto due volte). **Ventuno chiusi oggi. Tre restano a metà**, e sono difetti che non si chiudono senza qualcosa che non ho: aprire il sito in un browser (83 e 168) o toccare la produzione (229).
+>
+> **Il difetto nuovo, più grosso di tutti quelli sulla lista: la vetrina dei negozi non mostrava nessun negozio.** Trovato riparando il riquadro della home. La migrazione 108b aveva messo sulla vetrina pubblica i due booleani di stato pagamento — servono al bollino «Verificato». La 112 ha ricreato la vista senza, rimandando alla 114, dove non sono mai arrivati. **Sei pagine li chiedono** (elenco negozi, negozi vicini, pagina negozio, riquadro home, scheda venditore, vetrina home) e il database rifiuta la richiesta intera quando una colonna manca: quelle pagine non ricevevano un negozio senza bollino, **non ricevevano niente**. Riparato nella 124, con controllo SQL che diventa rosso se qualcuno li toglie ancora.
+>
+> **Le cinque riparazioni sui soldi.** ① Il fattorino non veniva pagato per **nessuna** consegna in contanti: ora trattiene il compenso dall'incasso e rimette il resto. ② Il ritiro in negozio non arrivava mai a «consegnato»: ora lo chiude il venditore col codice del cliente, e sul contante l'ordine finisce in `CASH_IN_STORE` invece di generare un bonifico a un negozio che ha già incassato. ③ Il rimborso divideva per due basi diverse: su un ordine da 50 euro con 20 di credito toglieva al negozio **15 euro invece di 9**, e un ordine coperto per intero da gift card non era rimborsabile affatto. ④ Contestazione vinta: tornava in coda solo il negozio, il fattorino restava «stornato» per sempre — e la chiave di idempotenza avrebbe restituito il bonifico già stornato a entrambi. ⑤ Ordine in contanti da due negozi: gli avvisi partivano dentro il ciclo, quindi il primo negozio riceveva la posta di un ordine poi cancellato.
+>
+> **Le misure, non le impressioni.** Pagine servite dalla cache: **da 2 a 96 su 203** (misurato con due build vere; la causa era una riga che leggeva la lingua del browser a ogni caricamento). Righe della rotta del webhook: **da 1002 a 178**, gli otto mestieri divisi in `lib/stripe/webhook/`. Colonne nei tipi del database: **da 191 a 740** (il generatore leggeva una sola colonna per istruzione e perdeva `seller_payout_cents`). Prove: **933 verdi** (erano 876), **otto file di controlli SQL**, fra cui uno nuovo che percorre la catena dell'ordine dall'inizio alla fine.
+>
+> **Restano a Nicola:** **#140** applicare la migrazione 124 (senza, la vetrina resta vuota) · **#141** far partire il rilascio solo a controlli verdi · **#139** un Supabase di prova · più le carte già in coda #137, #134, #136.
+>
+> Referto: `consegne/audit/2026-08-21-marketplace-ultimi-difetti.md` · ramo `claude/marketplace-bugs-njlgi8`.
+
+> 🎯 **20/8 17:00 — I quattro bloccanti: tre chiusi, uno spento. Restano 29 aperti su 245, un solo bloccante.** Nicola ha risposto a tutti e quattro in chat e ho messo le risposte nel codice (`mycity#229`).
+>
+> **① Il compenso del fattorino e' 3 euro fissi**, non piu' 2,50 + 1,20 al km. Era il difetto dei soldi: sopra i 30 euro la spedizione e' gratis, restavano solo i 3 euro di fee di consegna, e bastavano fino a **420 metri**. Adesso la fee copre il compenso da sola, sempre. Prova su 6 subtotali per 3 distanze: col vecchio calcolo **15 casi scoperti**, verificato.
+>
+> **② I fattorini si approvano dal pannello.** La causa vera NON era la bonifica della 114: misurato sul database, i profili seller/rider sono due e Pane Quotidiano e' approvato regolarmente. Il fermo era un fattorino iscritto il **25 maggio** e mai approvato, perche' i pulsanti comparivano solo accanto ai negozi. L'endpoint sapeva gia' farlo. **Il clic resta a Nicola** — carta #137.
+>
+> **③ Niente partita IVA finta.** Nicola: «non c'e' ancora una partita IVA attiva, la attivo quando raggiungero i 5000 euro; per il responsabile di privacy sono io: Nicolae Rotaru». Le quattro pagine leggono la fonte unica: senza dati veri la riga non si stampa affatto. Il referente non e' dichiarato DPO, perche' quella nomina non c'e'. Il guardiano guardava una porta sola: ora scandisce **ogni pagina del sito** piu' il pie' di pagina.
+>
+> **④ Il ritiro in negozio e' messo da parte** — l'opzione intera, non il solo sconto, perche' il motivo di Nicola («non ne ho ancora parlato con i negozi») vale per l'opzione e perche' togliendo solo la percentuale il vicolo cieco restava. **Non e' riparato: e' spento.** Il difetto torna il giorno in cui si riaccende, ed e' l'unico bloccante ancora aperto nel registro.
+>
+> **Conti:** registro 207 riparati · 29 aperti (**1 bloccante**, 15 gravi, 13 minori) · **876 prove verdi** (erano 860) · typecheck pulito · lint 0 errori.
+>
+> **Restano a Nicola:** #137 (approvare il fattorino), #134 (i due segreti del backup), #136 (una domanda: la spedizione del cliente resta a distanza o diventa fissa?).
+
+> ✅ **20/8 14:40 — Il database vero e' allineato al codice: applicata anche la 123.** Nicola in chat: «applica la 123», dopo aver unito `mycity#228` alle 14:25. Registrata come `presa_ordine_dal_fattorino`. **Prima:** la funzione non c'era, e il codice gia' online la chiamava. **Dopo:** `prendi_ordine` esiste, gira coi permessi del proprietario, ha il percorso di ricerca fissato, e la puo' chiamare solo chi e' entrato — **l'anonimo no**. Provata dal vivo su un utente che non e' un fattorino: risponde `NON_FATTORINO` senza toccare niente.
+>
+> **Gli otto pezzi del lotto, contati sul database vero:** bacheca senza recapiti ✅ · le due notifiche con la categoria ✅ · tetto sponsorizzati ✅ · sconti in una chiamata ✅ · vetrine per negozio ✅ · **4 chiavi esterne su 4 a `SET NULL`** ✅ · doppio clic in contanti ✅ · presa dell'ordine ✅. La policy del fattorino e' `rider_id = auth.uid()`, cioe' la stretta regge: la falla dei recapiti resta chiusa. L'unico ordine vero e' intatto, zero righe di prova rimaste.
+>
+> **La carta #135 e' chiusa. Resta una firma sola: #134**, i due segreti del backup. Piu' i quattro bloccanti che aspettano un numero o una scelta di Nicola.
+
+> 🔧 **20/8 13:30 — La migrazione 122 e' applicata al database vero, e ha scoperto un errore mio.** Nicola in chat: «applica la migrazione 122». Applicata a blocchi, uno per uno, con la verifica dopo ognuno (`radiografia_20_agosto_01` … `_07` nel registro Supabase, progetto `clmpyfvpvfjgeviworth`, Postgres 17.6). **Prima:** nessuno dei sette pezzi esisteva, 4 chiavi esterne a `CASCADE`. **Dopo:** vista `ordini_disponibili_rider` creata con 0 colonne sensibili e `anon` escluso · le due funzioni di notifica scrivono `category` · tetto sponsorizzati provato dal vivo, **60 su 65** visualizzazioni e **10 su 20** clic (righe di prova cancellate) · `product_active_discounts` e `store_cards` create, e `store_cards` risponde **4 prodotti su 5 veri** per Pane Quotidiano · **4 chiavi esterne a `SET NULL`, 0 rimaste a `CASCADE`** · `cod_checkout_attempts` creata.
+>
+> **L'errore:** la stretta sulla lettura degli ordini rompe la **presa dell'ordine da parte del fattorino**. In PostgreSQL anche il `WHERE` di un `UPDATE` passa dalle regole di lettura: su un ordine libero `rider_id` e' vuoto, la riga risulta non sua, l'aggiornamento trova zero righe. Misurato su un database ricostruito dalle migrazioni: **bacheca 1 riga, presa 0 righe**. Il fattorino vede l'ordine e si sente rispondere «gia' preso da un altro». Oggi il danno e' zero (**0 fattorini approvati**, 1 ordine annullato a giugno), diventa reale col primo fattorino.
+>
+> **Rimedio pronto, non applicato:** migrazione **123** con la funzione fidata `prendi_ordine`, piu' sei controlli nuovi (`06-il-fattorino-prende-l-ordine.test.sql`) rossi senza e verdi con. Richiesta `mycity#228`. Cancelli: **124 migrazioni su 124** da zero, 6 file SQL su 6 verdi, 860 prove verdi, typecheck pulito. Carta **#135** in coda.
+>
+> **Restano due firme:** #135 (applicare la 123) e #134 (parola d'ordine del backup).
+
+---

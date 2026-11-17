@@ -1,4 +1,22 @@
-# 🔬 AUTO-ANALISI — 2026-10-10 09:50
+# 🔬 AUTO-ANALISI — 2026-11-16 01:46
+
+## Il giro completo del 16 novembre, chiesto in chat
+
+**Voto di fiducia: 80/100** (▼ da 82).
+
+**In parole semplici.** I fatti che contano li ho letti io, dal database del sito e dal sito vero. Il database dice che venerdì è entrato un ordine, fermo a «pronto». Il sito dice che la chiave del database c'è. Due letture indipendenti che si confermano: l'ordine è entrato proprio perché la chiave c'è.
+
+**Due errori miei, trovati prima di consegnare.** Avevo scritto che l'ordine era fermo da 82 ore: sono circa 58, dal 13/11 alle 14:57. E avevo scritto «ordine vero» prima di sapere chi l'ha fatto: potrebbe essere una tua prova. Li ho corretti in tutti i file del giro.
+
+**Cosa ho dichiarato e non misurato.** Stripe, il server e la Cabina non li raggiungo da qui. Il radar ha letto i riassunti delle ricerche, non gli articoli. La voce della posta nella tua lista l'ho spuntata dalla memoria, non da Vercel.
+
+**Le prove contro me stessa.** Ho cercato di dimostrare false tre mie conclusioni: il bloccante della chiave chiuso, le 4 card segnate fatte, l'ordine fermo per mancanza di fattorino. Hanno retto tutte e tre. Ognuna ha la sua prova nel file `auto-coscienza/auto-analisi.json`.
+
+**Cosa non ho fatto, apposta.** Nessuna ricerca di difetti nuovi: a novembre ne ho aperti 155 e chiusi 28. Nessun esperimento nuovo e nessun contenuto: la macchina è in risparmio. Gli obiettivi della squadra e la mappa dei rischi sono documenti tuoi, fermi da 75 e 85 giorni: non li ho riscritti.
+
+---
+
+## Passaggio precedente — 2026-10-10 09:50
 
 ## Giro, visita, numeri e coda: «fai tutte e 4», dopo 39 giorni senza un giro
 

@@ -13536,7 +13536,7 @@
       "impatto": "Il primo cliente vero preme «Ordina» e riceve un errore: Pane Quotidiano non riceve nessun ordine, e negozio e fattorino non possono lavorarlo perché passano dalle stesse rotte. Nessun lavoro automatico gira: cancellazioni di account non eseguite, ordini scaduti non annullati, nessun allarme, nessun bonifico. Le scelte sui cookie non vengono registrate. Così la data del 15/11 non è raggiungibile.",
       "fix": "Azione rossa, firma di Nicola: mettere SUPABASE_SERVICE_ROLE_KEY fra le variabili di produzione su Vercel e ripubblicare. Poi verificare che /api/health/ready risponda 200 e che in cron_heartbeats ci sia un battito di oggi. Nel rilascio aggiungere una prova di fumo che fa diventare rosso il rilascio se /api/health/ready risponde 503.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Eseguito in sola lettura il 2026-11-05 09:35 UTC: GET https://mycity-59sw4ockb-nicolaerotarus-projects.vercel.app/api/health/ready (strumento Vercel web_fetch) → atteso 200, reale 503 {\"status\":\"not_ready\",...\"error\":\"battiti non letti: il server non ha la chiave di servizio del database (configurazione)...\"}. Vercel filter_project_envs (senza decifrare) → 12 variabili, nessuna SUPABASE_SERVICE_ROLE_KEY. Vercel get_runtime_errors 7d → 614 errori «Service role Supabase non configurato». SQL: select max(last_run_at) from cron_heartbeats → 2026-07-30 07:40:16 UTC.",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -13568,6 +13568,9 @@
         "collaudo": null,
         "perche": "non_codice: Il codice gestisce gia la chiave mancante (lib/api/middleware.ts:247-262, opzione seMancaLaChiave, e la rotta risponde 503 invece di rompersi). Cosa fa Nicola: Vercel → progetto mycity → Settings → Environment Variables → SUPABASE_SERVICE_ROLE_KEY per Production (Supabase → Project Settings → API → service_role), poi un nuovo rilascio."
       },
+      "chiuso_il": "2026-11-16 01:35",
+      "chiuso_da": "lotto dei gravi del sito",
+      "nota_riparazione": "Riparato da Nicola su Vercel il 6/11 00:45-00:53 (chiave di servizio in Production). Confermato anche dall'ordine del 13/11 14:56 registrato dal sito. Prova sul sito vero rifatta dal giro dell'AD del 16/11 01:32. — prova: curl -sL -o /dev/null -w '%{http_code}' https://www.mycity-marketplace.com/api/health/ready  # atteso 200 con status ready e 11 battiti letti — mutazione: La stessa prova era rossa il 2026-11-05 09:35 UTC (503 not_ready, «battiti non letti»: la chiave mancava, scritto nella scheda). Il 2026-11-16 00:32 UTC dà 200 «ready» e legge 11 battiti su 11 da cron_heartbeats, tabella che con RLS senza regole apre solo la chiave di servizio.",
       "riparazione_16_11": {
         "esito": "non_codice",
         "sessione": "R01",
@@ -80941,7 +80944,7 @@
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-11-15 11:45",
+    "aggiornato": "2026-11-16 01:33",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
