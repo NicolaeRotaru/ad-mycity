@@ -305,7 +305,8 @@
    "id": "session_015BmpnYR73VWZ4jYrxgmT5Y",
    "ramo": "ccr-99009024-qgfisx-m31",
    "onda": 5,
-   "partenza": "d1eaba8030dc40ad4479c737c3fedb6668017abf"
+   "partenza": "d1eaba8030dc40ad4479c737c3fedb6668017abf",
+   "finita": true
   },
   "R32": {
    "id": "session_015BmpnX7wQbfR8T1cwG4VTs",
@@ -563,6 +564,15 @@
    ],
    "aperta": "2026-11-17 06:52",
    "mandato": "collaudo breve: 7 riparate + 3 parziali; più diff delle 9 prove comuni e salto dello spec e2e"
+  },
+  "K17": {
+   "id": "session_015BmpnX188B8RPtt7t68cgL",
+   "ramo": "ccr-99009024-qgfisx-k17",
+   "partenza": "e4e3a5dd66867ee9757df68b2d47d56fa3da1a58",
+   "riparatori": [
+    "R31"
+   ],
+   "onda": 5
   }
  },
  "controllori": {
