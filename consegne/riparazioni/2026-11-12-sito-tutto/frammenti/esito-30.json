@@ -1,0 +1,27 @@
+{
+  "corsia": 30,
+  "territorio": "R30",
+  "difetti": [
+    {
+      "chiave": "frontend-ux|la vetrina dice «recensioni · 20» ma ne fa leggere solo sei, senza modo di vedere le altre",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r30-recensioni-a-pagine.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 9b4f9271^ --file components/store-sections/ReviewsSection.tsx --prove tests/unit/riparazione-r30-recensioni-a-pagine.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R30-007 --base 9b4f9271^ --file components/store-sections/ReviewsSection.tsx --prove tests/unit/riparazione-r30-recensioni-a-pagine.test.tsx --json   (checkout 9b4f9271, HEAD verificato) → uscita 0 (K18)",
+      "nota_fix": "Finite le 20 della vetrina, «Mostra altre recensioni (N)» ne legge altre 20 alla volta fino al conto vero (riepilogoRecensioni.totale), con la stessa lettura di useStorePageData (stesse colonne, created_at decrescente, nomi da fetchNomiPubblici, foto come elenco, doppioni tolti). Senza conto vero non promette di più; una pagina corta ferma; una lettura caduta si dice e si riprova. Prova che monta il componente con 45 recensioni finte. useStorePageData.ts:40 (.limit(20)) può restare: è la prima pagina."
+    },
+    {
+      "chiave": "qa-flussi|la modifica in blocco mette in vendita un prodotto a zero euro e dà per salvato un prezzo che non ha salvato",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r30-carrello-a-zero-euro.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 414691f2^ --file lib/ordini/valida-carrello.ts --prove tests/unit/riparazione-r30-carrello-a-zero-euro.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R30-010 --base 414691f2^ --file lib/ordini/valida-carrello.ts --prove tests/unit/riparazione-r30-carrello-a-zero-euro.test.ts --json   (checkout 414691f2, HEAD verificato) → uscita 0 (K18)",
+      "nota_fix": "La pagina e la porta di scrittura erano già a posto alla base (leggiPrezzo senza ≤0/NaN, conta solo i salvati, salvataggio-tracciato rifiuta price≤0; prova minori-s06-modifica-in-blocco). Mancava la cassa: validaRigaDelCarrello, comune a contanti e carta, scarta la riga se il prezzo da pagare, già scontato e in centesimi, non è maggiore di zero. Copre anche 0,01 € col 70% di sconto. 65 file vicini 498/498."
+    },
+    {
+      "chiave": "stati-ui|nel pannello dei coupon un codice scaduto o esaurito risulta ancora «attivo»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r30-coupon-scaduti.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 53093965^ --file lib/admin/vista-dei-coupon.ts,app/admin/coupons/page.tsx --prove tests/unit/riparazione-r30-coupon-scaduti.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R30-025 --base 53093965^ --file lib/admin/vista-dei-coupon.ts,app/admin/coupons/page.tsx --prove tests/unit/riparazione-r30-coupon-scaduti.test.tsx --json   (checkout 53093965, HEAD verificato) → uscita 0 (K18)",
+      "nota_fix": "La vista dà a ogni coupon lo stato che gli darebbe la cassa, nell'ordine di check_coupon: disattivato, poi scaduto (expires_at), poi esaurito (uses_count ≥ max_uses), altrimenti attivo; e la scritta del badge. La pagina mostra il badge e «Scade il / Scaduto il <data>». La prova monta la pagina con l'orologio finto al 17/11/2026."
+    }
+  ]
+}

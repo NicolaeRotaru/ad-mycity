@@ -1,0 +1,27 @@
+{
+  "corsia": 31,
+  "territorio": "R31",
+  "difetti": [
+    {
+      "chiave": "frontend-ux|le domande frequenti dicono di inserire il codice sconto alla cassa, ma alla cassa il campo non c'è",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r31-codice-sconto-in-cassa.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base ae780870^ --file lib/promesse-pubbliche.ts --prove tests/unit/riparazione-r31-codice-sconto-in-cassa.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R31-007 --base ae780870^ --file lib/promesse-pubbliche.ts --prove tests/unit/riparazione-r31-codice-sconto-in-cassa.test.ts --json   (checkout ae780870, HEAD verificato) → uscita 0 (K17)",
+      "nota_fix": "La risposta della FAQ seguiva già CODICI_SCONTO_IN_CASSA; restava la frase fissa «Se in cassa usi un codice sconto…» nel testo della consegna (spiegazioneDellaConsegna.chiusura): ora compare solo con l'interruttore acceso. La prova finge l'interruttore spento e acceso."
+    },
+    {
+      "chiave": "privacy-legale|nelle domande frequenti la risposta sul reso dice due volte «fatti su ordinazione»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r31-faq-reso.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 4f229dce^ --file app/faq/page.tsx --prove tests/unit/riparazione-r31-faq-reso.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R31-017 --base 4f229dce^ --file app/faq/page.tsx --prove tests/unit/riparazione-r31-faq-reso.test.ts --json   (checkout 4f229dce, HEAD verificato) → uscita 0 (K17)",
+      "nota_fix": "Tolto da app/faq/page.tsx il «e quelli fatti su ordinazione» aggiunto a mano dopo RESO_ESCLUSI, che lo contiene già. lib/promesse-pubbliche.ts non serviva."
+    },
+    {
+      "chiave": "qa-flussi|la campanella «nuovo ordine» del negozio non dice per quando va consegnato: lo dice solo l'email",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r31-campanella-quando-contanti.test.ts tests/unit/riparazione-r31-campanella-quando-carta.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 5f893345^ --file app/api/orders/cod/route.ts,lib/stripe/webhook/comune.ts,lib/stripe/webhook/ordini.ts --prove tests/unit/riparazione-r31-campanella-quando-contanti.test.ts,tests/unit/riparazione-r31-campanella-quando-carta.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R31-025 --base 5f893345^ --file app/api/orders/cod/route.ts,lib/stripe/webhook/comune.ts,lib/stripe/webhook/ordini.ts --prove tests/unit/riparazione-r31-campanella-quando-contanti.test.ts,tests/unit/riparazione-r31-campanella-quando-carta.test.ts --json   (checkout 5f893345, HEAD verificato) → uscita 0 (K17)",
+      "nota_fix": "La campanella al negozio aggiunge « — Consegna: <fascia>» (anche la veloce) o « — Ritiro in negozio», coi contanti e con la carta. ordini.ts resta a 598 righe. Le 143 prove che importano i file restano verdi; tsc ed eslint puliti. Accanto a «Domani» non c'è la data che l'email aggiunge (conLaData manca in molte prove finte dei template)."
+    }
+  ]
+}

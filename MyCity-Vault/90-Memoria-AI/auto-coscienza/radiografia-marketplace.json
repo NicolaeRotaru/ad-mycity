@@ -415,7 +415,7 @@
     "gravi": 678,
     "minori": 2498,
     "agenti": null,
-    "aggiornato": "2026-11-16 11:04"
+    "aggiornato": "2026-11-17 14:14"
   },
   "confronto_precedente": {
     "data": "2026-11-05",
@@ -725,14 +725,17 @@
       "impatto": "Sabato alle 11:05 il fornaio riceve sul telefono la push «Nuovo ordine · 18,00 €»: non sa se e' per le 12:00-13:00 o per domani finche' non apre l'ordine o l'email. Su una consegna veloce da 10 minuti quel passaggio in piu' costa il ritardo.",
       "fix": "Aggiungere alla body della campanella la fascia (o «consegna veloce» / «ritiro in negozio»), con lo stesso testo che usa l'email, in tutte e due le strade; meglio una funzione sola che scrive la campanella per contanti e carta.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "lettura del codice alle righe citate",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": true,
       "causa_radice": "Campanella ed email del nuovo ordine sono scritte in due punti diversi per strada di pagamento, senza un modello comune: la fascia aggiunta all'email il 30/10 non e' arrivata alla campanella.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-11-06 · S01"
+      "fonte_radiografia": "radiografia 2026-11-06 · S01",
+      "chiuso_il": "2026-11-17 14:14",
+      "chiuso_da": "PR #294 · c83c3e4e",
+      "nota_riparazione": "La campanella al negozio aggiunge « — Consegna: <fascia>» (anche la veloce) o « — Ritiro in negozio», coi contanti e con la carta. ordini.ts resta a 598 righe. Le 143 prove che importano i file restano verdi; tsc ed eslint puliti. Accanto a «Domani» non c'è la data che l'email aggiunge (conLaData manca in molte prove finte dei template). — prova: npx vitest run tests/unit/riparazione-r31-campanella-quando-contanti.test.ts tests/unit/riparazione-r31-campanella-quando-carta.test.ts — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 5f893345^ --file app/api/orders/cod/route.ts,lib/stripe/webhook/comune.ts,lib/stripe/webhook/ordini.ts --prove tests/unit/riparazione-r31-campanella-quando-contanti.test.ts,tests/unit/riparazione-r31-campanella-quando-carta.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R31-025 --base 5f893345^ --file app/api/orders/cod/route.ts,lib/stripe/webhook/comune.ts,lib/stripe/webhook/ordini.ts --prove tests/unit/riparazione-r31-campanella-quando-contanti.test.ts,tests/unit/riparazione-r31-campanella-quando-carta.test.ts --json   (checkout 5f893345, HEAD verificato) → uscita 0 (K17)"
     },
     {
       "dimensione": "qa-flussi",
@@ -1798,7 +1801,7 @@
       "impatto": "Venerdì 6/11 alle 10 un ordine da 50 euro del 30/10 alle 15 entra nella cifra degli ultimi 7 giorni ma in nessuna barra: il negoziante vede 45 euro sopra e zero nel grafico.",
       "fix": "Derivare since7 dall'inizio del primo giorno di ultimiGiorniPiacenza(7).",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "cd marketplace && node <scratchpad>/verifica/v-date/c.cjs (metricheVenditore e ultimiGiorniPiacenza veri, adesso 6/11 10:00 Piacenza)",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -1812,7 +1815,10 @@
         "prova": "confermato in palestra (S07-P030): Stesso file (app/seller/analytics/page.tsx, since7 di 168 ore contro ultimiGiorniPiacenza(7)) e stesso comportamento = [29]. La conversione oltre il 100% (250,0% su 2 visite) è la [167], aperta, in letture-dell-andamento.ts. Resta fuori dal registro solo un residuo minore: lo stesso prodotto compare insieme fra i «più visti» e in «Da migliorare» (slowProducts non esclude i primi); va aggiunto come nota alla [29] o alla [167], non come voce nuova.",
         "run": "palestra, lotto 3 (wf_7c0f812f-fe9), verificatori indipendenti e ricontrollo (wf_7eed37ec-d10)",
         "visto_in_piu": "slowProducts (page.tsx:189-193) ordina i prodotti disponibili per visite crescenti e ne prende 3, senza togliere quelli già in topProducts (page.tsx:177-181). Con 1-3 prodotti lo stesso articolo è insieme 1° fra i più visti, in «Da migliorare» e nel consiglio «è poco visto». Questa parte non è in nessuna voce del registro. La parte sulla conversione oltre il 100% è invece la voce [167], non la [29]."
-      }
+      },
+      "chiuso_il": "2026-11-17 14:14",
+      "chiuso_da": "PR #294 · c83c3e4e",
+      "nota_riparazione": "since7 era Date.now() meno 168 ore, mentre le barre sono le sette giornate di Piacenza da mezzanotte. Ora since7 = inizioGiornoPiacenza(ultimiGiorniPiacenza(7)[0]): cifra e barre contano gli stessi giorni. Prova con vi.setSystemTime (la pagina non si monta in vitest, la prova controlla anche il sorgente). — prova: npx vitest run tests/unit/riparazione-r33-analisi-sette-giorni-di-piacenza.test.ts — mutazione: node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 7b21421d^ --file app/seller/analytics/page.tsx --prove tests/unit/riparazione-r33-analisi-sette-giorni-di-piacenza.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R33-021 --base 7b21421d^ --file app/seller/analytics/page.tsx --prove tests/unit/riparazione-r33-analisi-sette-giorni-di-piacenza.test.ts --json   (checkout 7b21421d, HEAD verificato) → uscita 0 (K18)"
     },
     {
       "dimensione": "qa-flussi",
@@ -1864,14 +1870,17 @@
       "impatto": "Il fornaio rifotografa la focaccia per cambiare la foto e gli allergeni che aveva scritto a mano, «glutine, sesamo», diventano quelli letti male dall'etichetta.",
       "fix": "Far passare handleExtracted dallo stesso piano di applyPatch: le dichiarazioni in «Da controllare» e nessun campo già pieno sovrascritto.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "lettura di ProductForm.tsx:359-443 e confronto con :498-502",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": true,
       "causa_radice": "Le porte d'ingresso dell'AI nel modulo sono tre e solo due usano il filtro comune.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-11-06 · S07"
+      "fonte_radiografia": "radiografia 2026-11-06 · S07",
+      "chiuso_il": "2026-11-17 14:14",
+      "chiuso_da": "PR #294 · c83c3e4e",
+      "nota_riparazione": "handleExtracted passa da pianoDallaFoto (aiutante dentro ProductForm): nome, descrizione e attributi letti dalla foto entrano solo nei campi vuoti; le dichiarazioni (allergeni, ingredienti e le altre di separaCampiDichiarativi) non entrano mai, diventano righe «Da controllare» col pulsante «Usa questo valore». La funzione resta spenta. La prova monta il modulo vero e passa la foto dal pulsante vero; le 35 prove che usano ProductForm verdi. — prova: npx vitest run tests/unit/riparazione-r33-foto-non-scrive-sopra.test.ts — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 25b81deb4afd300d8380e7ce049a8078d65675d3^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r33-foto-non-scrive-sopra.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R33-025 --base 25b81deb^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r33-foto-non-scrive-sopra.test.ts --json   (checkout 25b81deb, HEAD verificato) → uscita 0 (K18)"
     },
     {
       "dimensione": "qa-flussi",
@@ -8166,7 +8175,7 @@
       "impatto": "È la risposta sul diritto di recesso: chi la legge pensa a un refuso e si fida meno della pagina legale.",
       "fix": "Togliere « e quelli fatti su ordinazione» dalla riga 118.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "cd marketplace && npx vitest run --config /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/B/vitest.s09b.config.ts /tmp/claude-0/-home-user-ad-mycity/6974d8f9-266a-59f8-a724-3592d5f0ca84/scratchpad/B/faq-recesso.test.ts",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -8185,7 +8194,10 @@
         "sessione": "R29",
         "collaudo": null,
         "perche": "il riparatore non l'ha scritta nel referto"
-      }
+      },
+      "chiuso_il": "2026-11-17 14:14",
+      "chiuso_da": "PR #294 · c83c3e4e",
+      "nota_riparazione": "Tolto da app/faq/page.tsx il «e quelli fatti su ordinazione» aggiunto a mano dopo RESO_ESCLUSI, che lo contiene già. lib/promesse-pubbliche.ts non serviva. — prova: npx vitest run tests/unit/riparazione-r31-faq-reso.test.ts — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 4f229dce^ --file app/faq/page.tsx --prove tests/unit/riparazione-r31-faq-reso.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R31-017 --base 4f229dce^ --file app/faq/page.tsx --prove tests/unit/riparazione-r31-faq-reso.test.ts --json   (checkout 4f229dce, HEAD verificato) → uscita 0 (K17)"
     },
     {
       "dimensione": "privacy-legale",
@@ -8768,7 +8780,7 @@
       "impatto": "Oggi non tocca nessuno: la newsletter è spenta e nessun invio legge la tabella. Si sveglia il giorno della riaccensione. Chi si è reiscritto ha una riga contraddittoria. «Scarica i miei dati» gli mostra una data di disiscrizione falsa. Ogni invio o pulizia che legge unsubscribed_at come «non scrivermi più» lo tratta in modo sbagliato: per esempio la potatura in lib/privacy/potature-ritenzione.ts usa quella colonna per tenere la riga come prova del rifiuto. Va sistemato prima di riaccendere la newsletter.",
       "fix": "Nella conferma, scrivere unsubscribed_at: null insieme ad active: true (app/api/newsletter/confirm/route.ts:45). È il punto giusto: la disiscrizione resta vera finché la persona non conferma davvero la nuova iscrizione. In alternativa si può farlo nella POST (app/api/newsletter/route.ts) quando riscrive la riga di un disiscritto. Ma così la data di disiscrizione si perderebbe anche se la persona poi non conferma.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Test vitest proposto: tests/unit/la-conferma-della-newsletter-cancella-la-vecchia-disiscrizione.test.ts. Mock di @/lib/supabase/server: un getAdminSupabase che salva l'oggetto passato a update() e risponde {data:{id:'x'}, error:null} a eq().select().maybeSingle(). Mock di @/lib/rate-limit: rateLimitAsync risponde {allowed:true} e getClientIp risponde '1.2.3.4'. Il test chiama GET(new Request('http://x/api/newsletter/confirm?token=t')) e controlla expect(aggiornamento).toHaveProperty('unsubscribed_at', null). Oggi l'update porta solo active, confirmed_at e confirm_token, quindi il test è rosso. Comando: cd /home/user/mycity && npx vitest run tests/unit/la-conferma-della-newsletter-cancella-la-vecchia-disiscrizione.test.ts",
       "prova_tipo": "vitest",
       "prova_eseguita": true,
@@ -8781,7 +8793,10 @@
         "sessione": "R28",
         "collaudo": null,
         "perche": "il riparatore non l'ha scritta nel referto"
-      }
+      },
+      "chiuso_il": "2026-11-17 14:14",
+      "chiuso_da": "PR #294 · c83c3e4e",
+      "nota_riparazione": "La conferma scrive anche unsubscribed_at = null. La richiesta di iscrizione (app/api/newsletter/route.ts) resta com'era apposta: finche' la persona non conferma dalla sua casella la disiscrizione deve valere (chiunque puo' scrivere l'indirizzo di un altro). La prova fa il giro disiscritto -> nuova richiesta -> link dell'email -> conferma, con orologio finto. — prova: npx vitest run tests/unit/riparazione-r32-newsletter-riscritto-dopo-disiscrizione.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 22eb4216^ --file app/api/newsletter/confirm/route.ts --prove tests/unit/riparazione-r32-newsletter-riscritto-dopo-disiscrizione.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R32-012 --base 22eb4216^ --file app/api/newsletter/confirm/route.ts --prove tests/unit/riparazione-r32-newsletter-riscritto-dopo-disiscrizione.test.ts --json   (checkout 22eb4216, HEAD verificato) → uscita 0 (K18)"
     },
     {
       "dimensione": "privacy-legale",
@@ -11333,13 +11348,16 @@
       "impatto": "Oggi basso, perché al lancio i codici sono spenti in cassa. Quando si accenderanno, l'amministratore vedrà «Attivo» un codice che la cassa rifiuta e potrebbe darlo ai clienti.",
       "fix": "Leggere expires_at e usage_limit, calcolare lo stato («Scaduto», «Esaurito») e mostrare la scadenza.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Con un coupon scaduto e uno esaurito, la pagina deve scrivere «Scaduto» ed «Esaurito», non «Attivo».",
       "prova_tipo": "vitest",
       "prova_eseguita": true,
       "giro": 5,
       "verificato": true,
-      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)"
+      "fonte_radiografia": "palestra 2026-11-08 · lotto 4, prove da amministratore e fattorino (wf_236a009c-b2d, doppioni wf_971dc016-c32)",
+      "chiuso_il": "2026-11-17 14:14",
+      "chiuso_da": "PR #294 · c83c3e4e",
+      "nota_riparazione": "La vista dà a ogni coupon lo stato che gli darebbe la cassa, nell'ordine di check_coupon: disattivato, poi scaduto (expires_at), poi esaurito (uses_count ≥ max_uses), altrimenti attivo; e la scritta del badge. La pagina mostra il badge e «Scade il / Scaduto il <data>». La prova monta la pagina con l'orologio finto al 17/11/2026. — prova: npx vitest run tests/unit/riparazione-r30-coupon-scaduti.test.tsx — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 53093965^ --file lib/admin/vista-dei-coupon.ts,app/admin/coupons/page.tsx --prove tests/unit/riparazione-r30-coupon-scaduti.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R30-025 --base 53093965^ --file lib/admin/vista-dei-coupon.ts,app/admin/coupons/page.tsx --prove tests/unit/riparazione-r30-coupon-scaduti.test.tsx --json   (checkout 53093965, HEAD verificato) → uscita 0 (K18)"
     },
     {
       "dimensione": "stati-ui",
@@ -17126,7 +17144,7 @@
       "impatto": "Chi apre una vetrina o la home con un video manda IP e pagina a terzi negli Stati Uniti prima di aver scelto sui cookie, e la policy non lo dice. Pesa solo dove un negozio o l'admin ha messo un video.",
       "fix": "Mostrare un'anteprima statica col pulsante «Guarda il video (YouTube)» e caricare l'iframe solo al clic o col consenso. Aggiungere YouTube (Google) e Vimeo alla cookie policy e alla sezione dei trasferimenti extra-UE.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Sola lettura: `cd /home/user/mycity && grep -n \"youtube-nocookie\\|player.vimeo\\|<iframe\" components/store-sections/VideoSection.tsx components/home-sections/HomeSectionRenderer.tsx components/cms/CmsBlockRenderer.tsx && grep -ci \"youtube\\|vimeo\" app/cookies/page.tsx app/privacy/page.tsx`. Gli ultimi due conteggi danno 0.",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -17162,7 +17180,10 @@
         "sessione": "R18",
         "collaudo": null,
         "perche": "serve_file_altrui: Il codice era già a posto sulla base (components/store-sections/VideoSection.tsx:29 usa VideoAlClic): il commit 89cd5c2d aggiunge solo la prova col clic vero. Quello che resta della voce (la cookie policy e l informativa che nominano YouTube e Vimeo) sta in file non di R18."
-      }
+      },
+      "chiuso_il": "2026-11-17 14:14",
+      "chiuso_da": "PR #294 · c83c3e4e",
+      "nota_riparazione": "Il video si carica gia' solo al tocco (VideoAlClic, unico iframe del sito: la prova lo tiene fermo col clic vero). Applicato il testo della scheda: cookie policy 2.5 «Video di YouTube e Vimeo» e Vimeo/YouTube nella sezione 4; informativa: voce YouTube/Vimeo fra i destinatari. Unica correzione al testo scritto: «la pagina da cui guardi» e' diventato «il sito da cui guardi», perche' l'iframe ha referrerPolicy strict-origin-when-cross-origin e al fornitore arriva solo l'origine (la prova controlla anche questo). Correzione dopo il revisore (3f6e764f): YouTube e Vimeo non più fra i responsabili ex art. 28 con DPA/SCC ma dichiarati titolari autonomi, nell'informativa e fra i trasferimenti extra-UE della cookie policy; la prova lo controlla. — prova: npx vitest run tests/unit/riparazione-r32-video-youtube-vimeo.test.tsx --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3f6e764f^ --file app/cookies/page.tsx,app/privacy/page.tsx --prove tests/unit/riparazione-r32-video-youtube-vimeo.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R32-024 --base f65470fa^ --file app/cookies/page.tsx,app/privacy/page.tsx --prove tests/unit/riparazione-r32-video-youtube-vimeo.test.tsx --json   (checkout 3f6e764f, HEAD verificato; base f65470fa^ perché la correzione sta in due commit, f65470fa e 3f6e764f: tolgo tutte e due) → uscita 0 (K18)"
     },
     {
       "dimensione": "privacy-legale",
@@ -18636,7 +18657,7 @@
       "impatto": "Il negoziante che dal telefono scrive 0 nella colonna sbagliata (prezzo e scorta sono affiancate) mette il prodotto in vetrina a 0,00 €; se accetta l'ordine senza guardare consegna merce gratis. Con «2,50 €» crede di aver cambiato il prezzo e non l'ha cambiato.",
       "fix": "Nella pagina leggere il prezzo come l'import (leggiPrezzo), rifiutare zero, negativi e NaN con errore sulla riga e contare solo le righe salvate; nel server rifiutare price <= 0 ogni volta che il prezzo è nel payload; in cassa scartare una riga a prezzo zero.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "node /tmp/claude-0/-home-user/d986906a-4c5d-52c8-b691-e857422e00f9/scratchpad/tmp-seller-pagine/prezzo-zero.cjs — esegue la vera salvaProdottoTracciato con un database finto su una focaccia in vendita a 4,50 € e payload {price: 0}. Rieseguita in verifica: scritto [{price:0}], esce con codice 1.",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -18654,7 +18675,10 @@
         "codice": "db5164c52e856c0e3eab1c02197ae755fca76eb3",
         "nota": "S01 lo dava «non_piu_vero»; il verificatore indipendente lo smentisce, la voce resta aperta."
       },
-      "fuori_dal_referto": true
+      "fuori_dal_referto": true,
+      "chiuso_il": "2026-11-17 14:14",
+      "chiuso_da": "PR #294 · c83c3e4e",
+      "nota_riparazione": "La pagina e la porta di scrittura erano già a posto alla base (leggiPrezzo senza ≤0/NaN, conta solo i salvati, salvataggio-tracciato rifiuta price≤0; prova minori-s06-modifica-in-blocco). Mancava la cassa: validaRigaDelCarrello, comune a contanti e carta, scarta la riga se il prezzo da pagare, già scontato e in centesimi, non è maggiore di zero. Copre anche 0,01 € col 70% di sconto. 65 file vicini 498/498. — prova: npx vitest run tests/unit/riparazione-r30-carrello-a-zero-euro.test.ts — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 414691f2^ --file lib/ordini/valida-carrello.ts --prove tests/unit/riparazione-r30-carrello-a-zero-euro.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R30-010 --base 414691f2^ --file lib/ordini/valida-carrello.ts --prove tests/unit/riparazione-r30-carrello-a-zero-euro.test.ts --json   (checkout 414691f2, HEAD verificato) → uscita 0 (K18)"
     },
     {
       "dimensione": "qa-flussi",
@@ -22260,7 +22284,7 @@
       "impatto": "Il cliente che ha un codice lo cerca alla cassa e non trova dove scriverlo. Si ferma o scrive all'assistenza. Il danno è basso: nessuna perdita di soldi, solo confusione.",
       "fix": "Far nascere la risposta dall'interruttore: se è spento la domanda non compare, oppure dice «al momento non si possono usare codici sconto». Togliere la frase sul codice in spiegazioneDellaConsegna quando l'interruttore è spento. Nella pagina Aiuto togliere «modifica» e il numero 25.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Eseguiti: grep -n \"CODICI_SCONTO_IN_CASSA: boolean\" lib/funzioni-al-lancio.ts dà 107 e false. grep -n -iE \"coupon|codice sconto\" app/faq/page.tsx dà 87-88, testo fisso. sed -n 1629,1631p app/checkout/page.tsx mostra il campo legato all'interruttore. grep -n \"funzioni-al-lancio\" lib/promesse-pubbliche.ts mostra che il file importa solo CARTA_ACCESA.",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -22284,7 +22308,10 @@
         "sessione": "R29",
         "collaudo": null,
         "perche": "il riparatore non l'ha scritta nel referto"
-      }
+      },
+      "chiuso_il": "2026-11-17 14:14",
+      "chiuso_da": "PR #294 · c83c3e4e",
+      "nota_riparazione": "La risposta della FAQ seguiva già CODICI_SCONTO_IN_CASSA; restava la frase fissa «Se in cassa usi un codice sconto…» nel testo della consegna (spiegazioneDellaConsegna.chiusura): ora compare solo con l'interruttore acceso. La prova finge l'interruttore spento e acceso. — prova: npx vitest run tests/unit/riparazione-r31-codice-sconto-in-cassa.test.ts — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base ae780870^ --file lib/promesse-pubbliche.ts --prove tests/unit/riparazione-r31-codice-sconto-in-cassa.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R31-007 --base ae780870^ --file lib/promesse-pubbliche.ts --prove tests/unit/riparazione-r31-codice-sconto-in-cassa.test.ts --json   (checkout ae780870, HEAD verificato) → uscita 0 (K17)"
     },
     {
       "dimensione": "frontend-ux",
@@ -23327,7 +23354,7 @@
       "impatto": "Il cliente che vuole leggere le opinioni prima di comprare ne vede sei, mentre il numero ne promette di più. Le recensioni più vecchie, con le risposte del negozio, restano invisibili.",
       "fix": "Aggiungere «Mostra altre recensioni», che allarga la lista e carica anche oltre le 20. In alternativa, allineare il numero nella scheda a quelle davvero visibili.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Scenario (non eseguito, minore): negozio con 12 recensioni. La scheda dice «Recensioni · 12» (SectionRenderer.tsx:116) e l'intestazione «(12)» (ReviewsSection.tsx:206). Atteso: si possono leggere tutte. Reale: ReviewsSection.tsx:211 ne disegna 6 e non c'è nessun comando per le altre.",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": false,
@@ -23363,7 +23390,10 @@
         "sessione": "R02",
         "collaudo": "parziale",
         "perche": "parziale: La vetrina legge al massimo 20 recensioni (components/store-sections/useStorePageData.ts:40, non mio) mentre la linguetta mostra il totale vero: con «Recensioni · 45» se ne leggono 20."
-      }
+      },
+      "chiuso_il": "2026-11-17 14:14",
+      "chiuso_da": "PR #294 · c83c3e4e",
+      "nota_riparazione": "Finite le 20 della vetrina, «Mostra altre recensioni (N)» ne legge altre 20 alla volta fino al conto vero (riepilogoRecensioni.totale), con la stessa lettura di useStorePageData (stesse colonne, created_at decrescente, nomi da fetchNomiPubblici, foto come elenco, doppioni tolti). Senza conto vero non promette di più; una pagina corta ferma; una lettura caduta si dice e si riprova. Prova che monta il componente con 45 recensioni finte. useStorePageData.ts:40 (.limit(20)) può restare: è la prima pagina. — prova: npx vitest run tests/unit/riparazione-r30-recensioni-a-pagine.test.tsx — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 9b4f9271^ --file components/store-sections/ReviewsSection.tsx --prove tests/unit/riparazione-r30-recensioni-a-pagine.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R30-007 --base 9b4f9271^ --file components/store-sections/ReviewsSection.tsx --prove tests/unit/riparazione-r30-recensioni-a-pagine.test.tsx --json   (checkout 9b4f9271, HEAD verificato) → uscita 0 (K18)"
     },
     {
       "dimensione": "frontend-ux",
