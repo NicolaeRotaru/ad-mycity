@@ -32,11 +32,11 @@ Calcolato il 17/11 alle 20:15 sulla base `522cfb01` (main dopo mycity#295) dai m
 4. C, parziali con file altrui: 8.
 5. Mai tentati: 77.
 6. Parziali: 34.
-Fuori: 83 delicati mai tentati (pagamenti, accessi, permessi, privacy, dati, migrazioni, o file come stripe, payout, checkout, webhook, cassa), le riservate e quelle con una domanda per Nicola. Il programma che ha fatto l'elenco: `cervello/riparazione/scelta-onda9.mjs`.
+Fuori: 83 delicati mai tentati (pagamenti, accessi, permessi, privacy, dati, migrazioni, o file come stripe, payout, checkout, webhook, cassa), le riservate e quelle con una domanda per Nicola. Il programma che ha fatto l'elenco: `onda9/scelta-onda9.mjs` (argomento: il perimetro dei minori, `perimetro --gravita minore` in una cartella di prova).
 
 ### Il giro di giovedì
 1. `get_session`: il limite deve essere `allowed` (azzerato).
-2. Rifare l'elenco sulla base di quel momento (main dopo l'onda 8): `node cervello/riparazione/scelta-onda9.mjs`, dopo il perimetro in `/tmp/claude-0/pool2`. Le voci chiuse dall'onda 8 escono da sole.
+2. Rifare l'elenco sulla base di quel momento (main dopo l'onda 8): `node consegne/riparazioni/2026-11-12-sito-tutto/onda9/scelta-onda9.mjs <perimetro.json>`. Le voci chiuse dall'onda 8 escono da sole.
 3. `perimetro --profilo scelta --file-chiavi onda9/chiavi-onda9.txt`, `dividi --sessioni 10 --per-sessione 20` per le 195 da riparare, schede con `--ramo ccr-30918361-coyajm-o9`.
 4. Le 5 del gruppo A vanno a un collaudatore, senza riparatore.
 5. 10 riparatori: Opus, xhigh, senza ultracode, 6 subagenti, consegna a 40 $ e tetto 45 $ per 20 voci. La spesa la legge la regia: i riparatori non la vedono.

@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { chiaveDi } from "/home/user/ad-mycity/cervello/riparazione-sessioni.mjs";
 const C="/home/user/ad-mycity/consegne/riparazioni/2026-11-12-sito-tutto";
-const per=JSON.parse(readFileSync("/tmp/claude-0/pool2/perimetro.json","utf8"));
+const per=JSON.parse(readFileSync(process.argv[2] || "/tmp/claude-0/pool2/perimetro.json","utf8"));
 const lav=new Map(per.lavorabili.map(v=>[v.chiave,v]));
 const righe=f=>readFileSync(f,"utf8").split("\n").filter(l=>l&&!l.startsWith("#"));
 const onda8=new Set(righe(`${C}/onda8/chiavi-tappa1.txt`));
