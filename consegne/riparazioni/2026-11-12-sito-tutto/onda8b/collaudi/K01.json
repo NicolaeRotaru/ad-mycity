@@ -1,11 +1,64 @@
 {
   "collaudatore": "K01",
   "riparatori": [
+    "R01",
     "R02"
   ],
-  "aggiornato": "2026-11-17 21:55",
+  "aggiornato": "2026-11-17 22:30",
   "finita": false,
   "voci": [
+    {
+      "id": "R01-001",
+      "chiave": "ai-endpoints|con un fornitore lento la risposta lunga del copilot non arriva mai: dopo due minuti il negozio legge solo «riprova»",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Già alla base 522cfb01: lib/ai/regole-copilot.ts:25 TEMPO_COPILOT_MS 80_000 e :34 tetto min(3000, 1024+60·prodotti); app/api/ai/copilot/route.ts:241-244 max_tokens, timeoutMs, senzaRitentativi: true; lib/ai/run.ts:443-448 opzioniDellaChiamata → { timeout, maxRetries: 0 } passato davvero a messages.create (:458-465); vercel.json:14 maxDuration 120. Prove citate verdi alla base (11/11). senzaRitentativi: false → cade «un tentativo che scade non si ripete»; tetto riportato a 6000 → cadono 2 casi (minori-s10 e r29). File invariati fra base e testa. Fuori voce, come dice il riparatore: il filtro assertSafeText usa il tempo del client (60 s, un ritentativo) con un fornitore che non risponde affatto."
+    },
+    {
+      "id": "R01-004",
+      "chiave": "architettura|interfacce zombie: shippingforeuro vale sempre 0 ma riceve 7 ingressi; promessaspedizione ha un argomento morto e campi sempre costanti",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Le due funzioni nominate sono pulite alla base (lib/shipping.ts:38 shippingForEuro() senza ingressi; lib/promesse-pubbliche.ts:445 promessaSpedizione con il solo argomento della consegna, che usa; niente sopraSoglia né mancano; chiamanti senza argomenti; FreeShippingProgress tolto). Ma l'interfaccia zombie della voce vive ancora un passo più in là: il commit R29-005 (4420402b) ha spostato i sette ingressi da shippingForEuro a shippingCentsFor(_opts?: IngressiSpedizione) (lib/shipping.ts:43), che li ignora e vale sempre 0, e lib/ordini/prezzi.ts:263-271 glieli calcola e passa tutti e sette (subtotal, storeLat, storeLng, deliveryLat, deliveryLng, pickupInStore, freeShipping, con coordinateNegozio letto per ogni negozio). Il commento in lib/shipping.ts lo ammette. Chi legge prezzi.ts crede ancora che la spedizione dipenda da soglia e distanza: è il difetto della voce. Per chiuderla: togliere _opts da shippingCentsFor e i sette campi in prezzi.ts (file delicato dei conti, va con i delicati, come dice il riparatore)."
+    },
+    {
+      "id": "R01-011",
+      "chiave": "qa-flussi|la prima compilazione di monta() pesa sul primo caso di ~85 file di prove",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-011 --base ef7318a84d4d4072be3fe1acaaf84489c499c446^ --file tests/unit/aiuti/monta-componente.ts --prove tests/unit/riparazione-r01-monta-scalda-i-pacchetti.test.ts --json"
+      },
+      "nota": "La metà testTimeout 15000 c'era già alla base (vitest.config.ts:27); il commit aggiunge in tests/unit/aiuti/monta-componente.ts:30-31 l'import di primo livello dei cinque pacchetti, così il costo cade nella raccolta del file. 197 file usano monta(); i due che fingono uno dei pacchetti scaldati (vi.mock di @tanstack/react-query: la-pagina-di-modifica-salva-le-varianti… e la-scorta-si-scrive-solo-se…) restano verdi col riscaldamento (vi.mock è sollevato, l'aiutante riceve il finto). Prova della voce verde. Il costo della compilazione del singolo componente resta nel primo caso, come dichiarato, coperto dal tempo massimo di 15 s."
+    },
+    {
+      "id": "R01-012",
+      "chiave": "qa-flussi|prova con un nome che promette il contrario",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-012 --base ce56056f8b97563c0c5e97be95a35b2ea3d6ea82^ --file tests/unit/le-funzioni-spente-al-lancio-le-rifiuta-il-server.test.ts --prove tests/unit/riparazione-r01-il-nome-della-prova-del-drop.test.ts --json"
+      },
+      "nota": "Il caso in tests/unit/le-funzioni-spente-al-lancio-le-rifiuta-il-server.test.ts:139 ora si chiama per quello che fa: withAdminAuth è finto (:41-44), getAdminSupabase risponde (:60) e la prova controlla che non venga chiesto (chiesto === false), coerente con app/api/admin/daily-drops/route.ts:42 (freno prima di getAdminSupabase a :52). Corpo invariato; 9/9 verdi. La guardia del nome legge il file (ammesso su un minore)."
+    },
     {
       "id": "R02-001",
       "chiave": "api-backend|se due giri del sorvegliante partono nello stesso istante, l'amministratore riceve due volte la stessa campanella",
