@@ -1,0 +1,292 @@
+{
+  "collaudatore": "K02",
+  "riparatori": [
+    "R01",
+    "R07",
+    "R10"
+  ],
+  "aggiornato": "2026-11-18 06:45",
+  "finita": false,
+  "voci": [
+    {
+      "id": "R01-001",
+      "chiave": "accessibilita|nell'elenco conversazioni dell'assistenza il lettore di schermo dice solo il numero dei non letti",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base f93d246a42b25cd5fa86da712755526d7d6388dc --file app/admin/support-chat/page.tsx --prove tests/unit/riparazione-r01-non-letti-assistenza.test.ts --json"
+      },
+      "nota": "bozza: prova rimessa fatta, giudizio pieno in corso"
+    },
+    {
+      "id": "R01-002",
+      "chiave": "accessibilita|nella pagina del reclamo il bottone resta spento senza dire cosa manca",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base 750c726e3f52bea5019afa2c6352790b9fc2e284 --file app/orders/[id]/dispute/page.tsx --prove tests/unit/riparazione-r01-reclamo-dice-cosa-manca.test.tsx --json"
+      },
+      "nota": "bozza: prova rimessa fatta, giudizio pieno in corso"
+    },
+    {
+      "id": "R01-003",
+      "chiave": "accessibilita|nel modulo «nuova promozione» l'etichetta «cosa scontare» non è legata a nessun campo",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base 560394a66a48eb8ec6c13c7a89ce422baeee1da6 --file app/seller/promotions/page.tsx --prove tests/unit/riparazione-r01-cosa-scontare.test.ts --json"
+      },
+      "nota": "bozza: prova rimessa fatta, giudizio pieno in corso"
+    },
+    {
+      "id": "R01-005",
+      "chiave": "accessibilita|tra 768 e 1023 px i tasti ordini, consegne e admin della testata sono solo un'icona senza nome per chi vede",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base a281044b352a452455719a80a2f5fb72c9500680 --file components/Navbar.tsx --prove tests/unit/riparazione-r01-tasti-testata-tablet.test.ts --json"
+      },
+      "nota": "bozza: prova rimessa fatta, giudizio pieno in corso"
+    },
+    {
+      "id": "R01-006",
+      "chiave": "accessibilita|il campo file nascosto della fotocamera del negoziante si raggiunge col tab ma non mostra il fuoco",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base 4a4bee7eeb6e8145fcd23e9e35a7cdb23ce061e7 --file components/seller/CameraCapture.tsx --prove tests/unit/riparazione-r01-fotocamera-fuoco.test.tsx --json"
+      },
+      "nota": "bozza: prova rimessa fatta, giudizio pieno in corso"
+    },
+    {
+      "id": "R01-008",
+      "chiave": "qa-flussi|il rimando all accesso fatto dalla pagina delle impostazioni perde ?tab=",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "prova": "git -C ../wt-base (f93d246a) sed -n 194,203p app/profile/settings/page.tsx; npx vitest run tests/unit/riparazione-r19-ritorno-con-la-scheda-dalle-impostazioni.test.tsx: 3/3 verdi alla base",
+      "nota": "Alla base f93d246a app/profile/settings/page.tsx:200-202 costruisce il ritorno con window.location.search (tetto 512 caratteri come il portiere), arrivato col commit 6f880b3c (R19-020). La prova R19 alla base è verde 3/3. L'altro rimando all'accesso (riga 341, dopo il cambio password) è un flusso diverso, voluto, non quello della voce. Nessun codice cambiato dal riparatore: niente di rotto."
+    },
+    {
+      "id": "R01-010",
+      "chiave": "qa-flussi|le visualizzazioni e i clic dei prodotti sponsorizzati non arrivano mai al database",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base 85f2677b7576b29c7e7e8594699dcba58609579f --file components/SponsoredCarousel.tsx --prove tests/unit/riparazione-r01-sponsorizzati-contano.test.tsx --json"
+      },
+      "nota": "bozza: prova rimessa fatta, giudizio pieno in corso"
+    },
+    {
+      "id": "R01-011",
+      "chiave": "qa-flussi|col telefono del negozio un po' indietro, un ordine non più ritirabile legge «entro le 12:46» invece di «ritiro non più possibile»",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "prova": "git -C ../wt-base sed -n 285,305p lib/ordini/scadenza-accettazione.ts; npx vitest run tests/unit/riparazione-r18-ritiro-impossibile-col-telefono-indietro.test.ts: 3/3 verdi alla base con orologio finto",
+      "nota": "Alla base lib/ordini/scadenza-accettazione.ts:297-299 guarda ultimoMomentoDelRitiro === 'impossibile' prima di confrontare con adesso; le due pagine del negozio (app/seller/orders/page.tsx:225, app/seller/orders/[id]/page.tsx:451) usano solo rigaScadenzaPerIlNegozio, ed entroQuandoAccettare non è usata altrove. La prova R18 riproduce l'esempio esatto della voce (nato 12:46:01, telefono 12:45:31) ed è verde alla base. Nessun codice cambiato."
+    },
+    {
+      "id": "R01-012",
+      "chiave": "stati-ui|con la sessione scaduta il pulsante «apri reclamo» non fa niente, non chiede di rientrare e il testo scritto si perde",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base d4b70c7db3e14e1af859d4a5afc3e8714184282c --file app/orders/[id]/dispute/page.tsx --prove tests/unit/riparazione-r01-reclamo-sessione-scaduta.test.tsx --json"
+      },
+      "nota": "bozza: prova rimessa fatta, giudizio pieno in corso"
+    },
+    {
+      "id": "R07-001",
+      "chiave": "deploy-sre|dopo un ritorno indietro il riepilogo del rilascio rassicura a torto se una migrazione ha tolto una funzione o una vista",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 8acb4d95a506dbadf5fc36f4bd412ef1ec22fb5d --file .github/workflows/deploy-dopo-ci.yml --prove tests/unit/riparazione-r07-ritorno-vede-ogni-drop.test.ts --json"
+      },
+      "nota": "bozza: prova rimessa fatta, giudizio pieno in corso"
+    },
+    {
+      "id": "R07-002",
+      "chiave": "deploy-sre|se lo script delle migrazioni cade fra un file e il successivo, il riepilogo accusa una migrazione sana",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 3b65a6a9774430498f6d800131f3a431d008821c --file .github/workflows/deploy-dopo-ci.yml --prove tests/unit/riparazione-r07-migrazioni-cadute-fra-due-file.test.ts --json"
+      },
+      "nota": "bozza: prova rimessa fatta, giudizio pieno in corso"
+    },
+    {
+      "id": "R07-004",
+      "chiave": "deploy-sre|il documento della copia notturna dice ancora che un secchio vuoto è sempre legittimo",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 9842603c7f13329f724d28639cc2d79063082258 --file docs/backup-restore.md --prove tests/unit/riparazione-r07-documento-secchio-vuoto.test.ts --json"
+      },
+      "nota": "bozza: prova rimessa fatta, giudizio pieno in corso"
+    },
+    {
+      "id": "R07-005",
+      "chiave": "deploy-sre|dopo il deploy il freno della veloce può risultare «mai partito» per un attimo, con un falso allarme agli amministratori",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "prova": "git -C ../wt-base sed -n 21-25 migrations/250_battiti_iniziali_dei_lavori_nuovi.sql; grep veloce-non-confermata lib/cron-health.ts vercel.json; npx vitest run tests/unit/riparazione-r01-battiti-iniziali.test.ts: 3/3 verdi alla base",
+      "nota": "Alla base la migrazione 250 semina 'veloce-non-confermata' (con external-price-alerts e riquadra-casse) in cron_heartbeats con now() e ON CONFLICT DO NOTHING; il passo «Applica le migrazioni al database, prima di pubblicare» di .github/workflows/deploy-dopo-ci.yml viene prima della pubblicazione; la prova R01-019 fa rossa ogni soglia di CRON_MAX_STALENESS_MIN senza seme, ed è verde alla base. Nessun codice cambiato."
+    },
+    {
+      "id": "R07-006",
+      "chiave": "deploy-sre|il sorvegliante ora gira ogni 5 minuti, ma la sua soglia di morte e il commento sono rimasti quelli dei 15 minuti",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base f93d246a42b25cd5fa86da712755526d7d6388dc --file lib/cron-health.ts --prove tests/unit/riparazione-r07-soglia-sorvegliante.test.ts --json"
+      },
+      "nota": "bozza: prova rimessa fatta, giudizio pieno in corso"
+    },
+    {
+      "id": "R07-007",
+      "chiave": "deploy-sre|nessuna pagina admin mostra la configurazione mancante (chiave di servizio, dati del titolare)",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "prova": "git -C ../wt-base sed -n 161,176p e 244,255p app/admin/page.tsx; sed -n 14,28p app/api/admin/configurazione/route.ts; git show c0b2f01f",
+      "nota": "Alla base app/admin/page.tsx legge /api/admin/configurazione e mostra il riquadro «Configurazione da completare» (chiave di servizio mancante, dati del titolare incompleti coi nomi); la rotta è dietro withAdminAuth e restituisce solo c'è/manca e i nomi, mai i valori (commit a3c7915f, R06-023). L'unico cambio del riparatore è c0b2f01f, solo un commento in lib/health/checks.ts:264: niente di rotto."
+    },
+    {
+      "id": "R07-009",
+      "chiave": "deploy-sre|se il secchio dello storico delle foto non si crea, lo storico finisce nello stesso secchio della copia e la notte resta verde",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base b02fd960e1869f7ed24b9c6aefcfc01e40c81d95 --file scripts/backup-db.sh --prove tests/unit/riparazione-r07-storico-nello-stesso-secchio.test.ts --json"
+      },
+      "nota": "bozza: prova rimessa fatta, giudizio pieno in corso"
+    },
+    {
+      "id": "R07-012",
+      "chiave": "deploy-sre|altre quattro prove dell'impalcatura sql mettono ancora le migrazioni nell'ordine di sort -v",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "prova": "git -C ../wt-base grep -n sort -- tests/sql/harness/la-158-non-lascia-la-porta-aperta.sh la-159-non-lascia-la-tabella-scoperta.sh la-160-regge-un-ordine-annullato.sh lo-script-non-si-schianta-sul-database-nato-prima-del-registro.sh",
+      "nota": "Alla base i quattro file della voce hanno «for f in $(ls \"$MIG\"/*.sql | LC_ALL=C sort)» (righe 54, 61, 45, 55): la cura chiesta dalla voce c'è già. Il «sort -V» di scripts/applica-migrazioni-mancanti.sh:11 sta nel paragrafo «PERCHE' ESISTE» e cita il ciclo vecchio, non è un'istruzione d'uso; il ciclo vero (riga 229-230) usa LC_ALL=C. Nessun codice cambiato."
+    },
+    {
+      "id": "R10-003",
+      "chiave": "microcopy|nella pagina delle sponsorizzazioni colonne e valori sono in inglese e in codici del database",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base f93d246a42b25cd5fa86da712755526d7d6388dc --file app/admin/sponsored/page.tsx --prove tests/unit/riparazione-r10-sponsorizzati-categoria.test.ts --json"
+      },
+      "nota": "bozza: prova rimessa fatta, giudizio pieno in corso"
+    },
+    {
+      "id": "R10-005",
+      "chiave": "navigazione-gerarchia|su notifiche e messaggi i titoli saltano dal titolo principale al terzo livello",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 6c74b905103fc9d4a451a13c1f485dacf9f04ff6 --file app/messages/page.tsx,app/notifications/page.tsx --prove tests/unit/riparazione-r10-titoli-notifiche-messaggi.test.ts --json"
+      },
+      "nota": "più commit: rimessa sul commit finale della voce con base il padre del primo, come il riparatore · bozza: prova rimessa fatta, giudizio pieno in corso"
+    },
+    {
+      "id": "R10-012",
+      "chiave": "stati-ui|nelle notifiche il tasto «carica altre» sparisce mentre carica, e un errore cancella dalla pagina l'elenco già letto",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base b03a4312fa1741a42b1776040b257cafa34dad6e --file app/notifications/page.tsx --prove tests/unit/riparazione-r10-notifiche-carica-altre.test.ts --json"
+      },
+      "nota": "più commit: rimessa sul commit finale della voce con base il padre del primo, come il riparatore · bozza: prova rimessa fatta, giudizio pieno in corso"
+    },
+    {
+      "id": "R10-002",
+      "chiave": "layout-responsive|la home e /about scorrono di lato col testo grande sul telefono",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base bdf98f47671b21189da9d1a7fb79fc9d453e073a --file components/home-sections/HomeSectionRenderer.tsx --prove tests/unit/riparazione-r10-home-non-scorre-di-lato.test.ts --json"
+      },
+      "nota": "più commit: rimessa sul commit finale della voce con base il padre del primo, come il riparatore · bozza: prova rimessa fatta, giudizio pieno in corso"
+    },
+    {
+      "id": "R10-007",
+      "chiave": "qa-flussi|dopo aver cambiato titolo o descrizione di una lista, /lists mostra ancora quelli vecchi",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base acb4bc5320b3a9ff7b30561982d444d59b4cf7a9 --file app/lists/[id]/page.tsx --prove tests/unit/riparazione-r10-lista-rinominata-in-lists.test.ts --json"
+      },
+      "nota": "bozza: prova rimessa fatta, giudizio pieno in corso"
+    },
+    {
+      "id": "R10-008",
+      "chiave": "qa-flussi|dopo aver rinominato una lista, la pagina delle liste mostra ancora il titolo vecchio",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base acb4bc5320b3a9ff7b30561982d444d59b4cf7a9 --file app/lists/[id]/page.tsx --prove tests/unit/riparazione-r10-lista-rinominata-in-lists.test.ts --json"
+      },
+      "nota": "stessa correzione e stessa prova di R10-007 (commit 6dea92f3): rimessa lanciata una volta · bozza: prova rimessa fatta, giudizio pieno in corso"
+    },
+    {
+      "id": "R10-009",
+      "chiave": "qa-flussi|dopo l'eliminazione di una lista il menu «aggiungi a lista» della scheda prodotto la mostra ancora",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 6dea92f379d278176497564b820491568db8c0dd --file app/lists/[id]/page.tsx --prove tests/unit/riparazione-r10-lista-eliminata-nel-menu.test.ts --json"
+      },
+      "nota": "più commit: rimessa sul commit finale della voce con base il padre del primo, come il riparatore · bozza: prova rimessa fatta, giudizio pieno in corso"
+    },
+    {
+      "id": "R10-011",
+      "chiave": "stati-ui|nel nuovo prodotto dell'amministrazione il modulo resta attivo anche se negozi o categorie non sono arrivati",
+      "verdetto": "regge",
+      "giudizio": "nessuno",
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base a9c59da359dd02a8389a8971b30cf7d62ee40f1e --file app/admin/products/new/page.tsx --prove tests/unit/riparazione-r10-nuovo-prodotto-aspetta-negozi-e-categorie.test.ts --json"
+      },
+      "nota": "più commit: rimessa sul commit finale della voce con base il padre del primo, come il riparatore · bozza: prova rimessa fatta, giudizio pieno in corso"
+    }
+  ]
+}
