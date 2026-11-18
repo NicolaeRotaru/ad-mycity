@@ -5,289 +5,486 @@
   "R03",
   "R06"
  ],
- "aggiornato": "2026-11-18 07:05",
- "finita": false,
+ "aggiornato": "2026-11-18 08:10",
+ "finita": true,
  "voci": [
   {
    "id": "R02-001",
    "chiave": "accessibilita-visiva|in fondo alle domande frequenti, chi usa la tastiera non vede quando è sul bottone «contattaci»",
    "verdetto": "regge",
-   "giudizio": "nessuno"
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Comando sulla base f93d246a: app/faq/page.tsx:270 il Link «Contattaci» ha già focus-visible:outline-white, che vince su :focus-visible di app/globals.css:295-298 (0,2,0 contro 0,1,0). La prova tests/unit/riparazione-r04-faq-fuoco.test.ts è verde sulla base. Cercato un altro bottone in fondo alle FAQ senza anello: nessuno."
   },
   {
    "id": "R02-002",
    "chiave": "layout-responsive|chi siamo a 280 px col testo al 200% scorre ancora di lato",
-   "verdetto": "regge",
-   "giudizio": "nessuno",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base f07aaad50144ae663f2c203e8022ba5557b1324c^ --file app/about/page.tsx --prove tests/unit/riparazione-r02-chi-siamo-280.test.ts --json"
-   }
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Revisore D + mio controllo del diff: le colonne reggono (Tailwind genera minmax(min(100%,max(8rem,…)),1fr), col testo normale sopra i 280 px non cambia niente). Ma la banda finale in app/about/page.tsx:224 passa da p-8 a px-4 py-8 sm:p-8 e i due bottoni (:237, :243) da px-5 a px-4: sotto i 640 px, su ogni telefono e col testo NORMALE, il margine laterale scende da 32 a 16 px (a 375 px il testo della banda passa da 263 a 295 px). Il referto dice «a 320-412 px e col testo normale nulla cambia»: non è vero. Estetico, minore; si evitava limitando a max-[300px]. La barra in alto (Navbar.tsx, 295 px) è dichiarata in cosa_resta."
   },
   {
    "id": "R02-003",
    "chiave": "layout-responsive|in chi siamo, coi caratteri del telefono un po' più grandi, la scritta «alla consegna» esce dal suo riquadro e la pagina scorre di lato",
    "verdetto": "regge",
-   "giudizio": "nessuno"
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Comando sulla base: app/about/page.tsx:74 colonne auto-fit minmax(max(8rem,…)) al posto di grid-cols-2, :127 min-w-0, :129 text-xl … break-words; be37e7a2 è antenato della base. La prova tests/unit/riparazione-r03-chi-siamo-testo-grande.test.ts è verde sulla base."
   },
   {
    "id": "R02-004",
    "chiave": "layout-responsive|in fondo a ogni pagina mobile restano ~14px di vuoto: l'altezza della barra a schede e' dichiarata piu' alta di quella vera",
    "verdetto": "regge",
-   "giudizio": "nessuno"
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Comando sulla base: app/globals.css:153 --tabbar-altezza-vera: 58px e :345 il padding del body la usa sotto i 768 px; --tabbar-height resta 72 per le corsie flottanti (scelta scritta). La prova tests/unit/riparazione-r04-fondo-pagina-mobile.test.ts (calcola l'altezza dalle classi di MobileTabBar) è verde sulla base."
   },
   {
    "id": "R02-005",
    "chiave": "layout-responsive|col testo ingrandito al massimo sul telefono, le pagine pubbliche scorrono di lato per colpa del piè di pagina",
    "verdetto": "regge",
-   "giudizio": "nessuno",
+   "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base ab1dfaf95e60051ea94380aeb479fd3568a06c74^ --file components/Footer.tsx --prove tests/unit/riparazione-r02-piede-280.test.ts --json"
-   }
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Revisore D: il piede usa la stessa formula min(100%,…), generata da Tailwind; col testo normale non cambia niente. Riga email (Footer.tsx:366) rifatta in Chromium col vero Inter a 280 px e 200%: va a capo, la pagina resta 280 px. /faq, /returns e /lavora-con-noi scorrono ancora per colpa loro (faq:219 e :232, returns:122, lavora-con-noi:183), dichiarato in cosa_resta e serve_file_altrui. 24 prove vicine verdi."
   },
   {
    "id": "R02-006",
    "chiave": "microcopy|il piede rimette «abbigliamento» dopo la lettura se la categoria è attiva nel database (non verificato)",
    "verdetto": "regge",
-   "giudizio": "nessuno"
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Comando sulla base: components/Footer.tsx:126-137 la riserva non ha «Abbigliamento»; :188-192 dopo la lettura l'elenco passa da soloLePiene(madriLette, piene.data), quindi una categoria vuota sparisce. Le prove la-home-e-il-piede-non-tengono-l-abbigliamento e le-categorie-vuote-non-si-mostrano-in-home-nel-piede-ne-a-google sono verdi sulla base. Resta il ripiego dichiarato (piene mai lette → tutte le madri)."
   },
   {
    "id": "R02-007",
    "chiave": "navigazione-gerarchia|altre tendine e vetrine di categorie buttano via le categorie piene già note quando una ricarica cade, e tornano a mostrare anche le vuote",
    "verdetto": "regge",
-   "giudizio": "nessuno"
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Comando sulla base: 83bdc362 (R01-005) è antenato della base; nei quattro punti (Footer.tsx:190, CategoryShowcase.tsx:164, CategoryBar.tsx:144, app/categorie/page.tsx:51) si usa piene.data e «isError ? null» non compare più (0 occorrenze). La prova riparazione-r01-categorie-piene-restano-dopo-una-rilettura-caduta (react-query vero) è verde sulla base."
   },
   {
    "id": "R02-009",
    "chiave": "qa-flussi|la pagina dei negozi legge le categorie senza range: oltre il tetto di righe di postgrest si perderebbero delle categorie madri",
    "verdetto": "regge",
-   "giudizio": "nessuno",
+   "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 6324bb64c1ff4c7c8dcbd8b4f73460f399870b7e^ --file app/stores/page.tsx --prove tests/unit/riparazione-r02-negozi-categorie-a-pagine.test.tsx --json"
-   }
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Revisore D: il ciclo a finestre (lib/supabase/blocchi.ts:82-94) si ferma anche con esattamente 1000 o 2000 righe, tetto duro 20.000; ordine per nome e id stabile, niente sovrapposizioni né salti. Un errore a metà tiene le righe lette (prima: zero). La pagina è client e il ciclo gira dentro fetchStoresData chiamato da useQuery (app/stores/page.tsx:205). 6 prove vicine verdi (32 casi)."
   },
   {
    "id": "R02-010",
    "chiave": "qa-flussi|nella vetrina del negozio la data delle recensioni è nel fuso del telefono, non di piacenza",
    "verdetto": "regge",
-   "giudizio": "nessuno",
+   "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 3b19f233b21caeccc7bd57d9763159a32291a0ea^ --file components/store-sections/ReviewsSection.tsx --prove tests/unit/riparazione-r02-recensioni-giorno-di-piacenza.test.tsx --json"
-   }
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Revisore C: provato in 5 fusi del telefono (UTC, New York, Tokyo, Kiritimati, Los Angeles) intorno a mezzanotte, ai cambi d'ora e a capodanno: sempre il giorno di Piacenza, stessa stringa su server e telefono. Difetto fratello fuori dalla voce: le recensioni nella pagina prodotto (app/product/[id]/page.tsx:1504) sono ancora nel fuso del telefono."
   },
   {
    "id": "R02-012",
    "chiave": "tipografia|la scala delle dimensioni del testo viene scavalcata circa trecentotrenta volte",
    "verdetto": "regge",
-   "giudizio": "nessuno",
+   "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 276fc3fad8d9eb76fc2c4690e555579e1c062861^ --file components/ProductCard.tsx --prove tests/unit/riparazione-r02-scala-del-testo-scheda-prodotto.test.ts --json"
-   }
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Revisore D: in components/ProductCard.tsx non resta nessun text-[…px] (solo dentro un commento a :235); i due text-[11px] (:235, :273) sono text-xs = 12 px, passaggio scritto nel commento e in cosa_resta. Ricontate 272 occorrenze in 93 file come dice cosa_resta. 26 prove su ProductCard verdi."
   },
   {
    "id": "R03-013",
    "chiave": "ai-endpoints|il tetto di spesa ai del giorno si sfora quando più chiamate partono insieme",
    "verdetto": "regge",
-   "giudizio": "nessuno",
+   "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base ef3188359d8c51ed964382bc2fd585450196f6f3^ --file lib/ai/run.ts --prove tests/unit/riparazione-r03-tetto-fra-copie.test.ts --json"
-   }
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Revisore A: i due soli chiamanti del tetto (runMessage, lib/ai/run.ts:515-519, e la rotta del lotto, start/route.ts:178-193) liberano la prenotazione nel finally, anche quando il tetto ferma. Funzione spenta o Upstash lento: la prenotazione resta al massimo 15 minuti, il tetto diventa più prudente, non si sfora. Senza Upstash (o oltre 500 ms) si torna alla prenotazione per copia: sforamento fra copie di nuovo possibile, dichiarato nella nota. Rimessa: la modifica a start/route.ts aggiunge solo await a liberaPrenotazione e non fa cadere la prova da sola (uscita 1 con i due file); la correzione sta in lib/ai/run.ts, rimessa su quel file uscita 0 come dichiarato dal riparatore."
   },
   {
    "id": "R03-009",
    "chiave": "ai-endpoints|se l'invio di un lotto ai resta senza risposta, il sito lo rimanda e anthropic ne esegue due, uno pagato e mai visto",
-   "verdetto": "regge",
-   "giudizio": "nessuno",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base df5d420d55fdf3c4d8c370c67f5aa83ef7a047da^ --file lib/ai/batch.ts --prove tests/unit/riparazione-r03-lotto-524.test.ts,tests/unit/riparazione-r03-lotto-errore-del-fornitore.test.ts --json"
-   }
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Revisore A, giudicate tutte e due le parti (d5cc3827 e df5d420d, la seconda mai smentita prima). Reggono: maxRetries 0, timeout di 60 s = «forse partito», un solo chiamante di submitBatch, 400/503/529 rifiuti puliti. Non regge il 520 di Cloudflare: lib/ai/batch.ts:170 lo lascia fuori dai «forse partito», ma il 520 copre anche l'origine che cade dopo aver ricevuto la richiesta. Provato sulla rotta vera: un 520 all'invio scrive la riga failed e risponde 502 «Riprova», e se il primo lotto era nato se ne paga un secondo; la prova riparazione-r03-lotto-524.test.ts:60 fissa questo comportamento. Accanto, minori: un 2xx con corpo non JSON fa uscire submitBatch con un lotto senza id (riga processing senza batch_id per sempre, status/route.ts:136); dopo un 500/502/504/524 la rotella resta 24 ore e il lavoro non si può scartare (cancel/route.ts:39 accetta solo ready)."
   },
   {
    "id": "R03-003",
    "chiave": "ai-endpoints|un lotto ai partito e pagato ma non agganciato alla sua riga si chiude come fallito dopo 15 minuti e se ne può pagare un secondo",
    "verdetto": "regge",
-   "giudizio": "nessuno",
+   "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 83c59ea12b146183cee1002f512df9cca8df4deb^ --file app/api/ai/catalog-batch/start/route.ts,app/api/ai/catalog-batch/status/route.ts --prove tests/unit/riparazione-r03-lotto-non-agganciato.test.ts --json"
-   }
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Revisore A: il pezzo fatto regge. Il motivo con l'id è scritto (start/route.ts:228), lo stato aggancia il lotto a qualunque età della riga, un secondo avvio riceve 409; se fallisce la scrittura di aggancio la riga arriva comunque a ready a fine lotto. cosa_resta onesto (terza scrittura rotta → failed dopo 15 minuti → secondo lotto pagato); la riga 206 citata lì oggi è la 228."
   },
   {
    "id": "R03-004",
    "chiave": "ai-endpoints|un lotto ai partito ma non agganciato resta «in invio» per sempre, e la pagina del negozio non mostra né rotella né pulsante",
    "verdetto": "regge",
-   "giudizio": "nessuno"
+   "giudizio": "pieno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 83c59ea12b146183cee1002f512df9cca8df4deb^ --file app/api/ai/catalog-batch/start/route.ts,app/api/ai/catalog-batch/status/route.ts --prove tests/unit/riparazione-r03-lotto-non-agganciato.test.ts --json"
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Revisore A: la pagina sulla base aveva già rotella per «in invio»/«in corso» e pulsante per «fallito»; ora il lotto non agganciato si aggancia dal motivo, la pagina interroga ogni 5 s e arriva ready; con tutte le scritture rotte la riga diventa failed dopo 15 minuti e compare il pulsante. Nessuno stato senza rotella né pulsante, salvo il 2xx non JSON di R03-009. Rimessa: stesso commit, stessi file e stessa prova di R03-003, una sola corsa."
   },
   {
    "id": "R03-002",
    "chiave": "ai-endpoints|quando il tetto di spesa ai blocca un lavoro sul catalogo il negoziante legge «riprova» e il lavoro risulta fallito",
    "verdetto": "regge",
-   "giudizio": "nessuno",
+   "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base c81e4d0b498d68d522cc31274964e8af013543b5^ --file app/api/ai/catalog-batch/start/route.ts --prove tests/unit/riparazione-r03-lotto-fermato-dal-tetto.test.ts --json"
-   }
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Revisore A: il blocco del tetto chiude la riga come canceled col motivo (start/route.ts:253) e risponde 503 «Budget AI giornaliero esaurito. Riprova domani.»; friendlyError mostra la frase intera e riprendiUltimo non ripesca la riga annullata. Caso limite minore: se fallisce anche la scrittura di canceled, la rotella resta 15 minuti."
   },
   {
    "id": "R03-005",
    "chiave": "ai-endpoints|il copilot non riesce a preparare una modifica su tutto il catalogo oltre circa cento prodotti: risponde «riprova» e fallisce ogni volta",
    "verdetto": "regge",
-   "giudizio": "nessuno",
+   "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 8ba0223f7e8658776890814c7aa67903f20e398f^ --file app/api/ai/copilot/route.ts --prove tests/unit/riparazione-r03-copilot-tutto-il-catalogo.test.ts --json"
-   }
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Revisore B: con «tutti» gli id vengono dall'elenco già filtrato per negozio (copilot/route.ts:149-156, :265-267), nessun id altrui può entrare; tetto 200 prodotti già esistente e dichiarato nella risposta; il client manda a catalog-apply-bulk che accetta 200 modifiche. Varianti accanto fuori dalla voce: un sottoinsieme oltre circa 120 id scritti uno per uno sfora ancora i token; «tutti»: true con id parziali vince il catalogo intero (l'anteprima lo mostra prima di Applica)."
   },
   {
    "id": "R03-010",
    "chiave": "ai-endpoints|quando anthropic non risponde, vercel spegne la funzione ai prima che il negozio legga un errore chiaro",
    "verdetto": "regge",
-   "giudizio": "nessuno",
+   "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base d28d5e71502d1e09d313b4901aa1dd6f01718290^ --file lib/ai/client.ts,vercel.json,app/api/vision/extract-product/route.ts --prove tests/unit/riparazione-r03-tempo-sotto-la-rotta.test.ts --json"
-   }
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Revisore B: il pezzo fatto regge: un tentativo da 60 s, ogni rotta sotto app/api/ai/** resta sotto i 120 s (in fila al massimo 90 s); extract-product ha 120 s in vercel.json e la verifica sul web usa solo il tempo che resta (route.ts:342-349, :390); la riga nuova di vercel.json punta a un file che esiste. A cosa_resta manca una rotta: app/api/cron/external-price-alerts/route.ts:101-106 fa 10 prodotti in fila da 60 s ciascuno (600 s contro 300 del cron); nessun negozio legge quell'errore."
   },
   {
    "id": "R03-011",
    "chiave": "ai-endpoints|il filtro di moderazione prima del copilot non ha un tempo suo",
    "verdetto": "regge",
-   "giudizio": "nessuno",
+   "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 96421fef6e09ecb92907aef48c575bbf0666553e^ --file lib/ai/moderation.ts --prove tests/unit/riparazione-r03-filtro-col-suo-tempo.test.ts --json"
-   }
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Revisore B: il tempo arriva all'SDK ({timeout:10000, maxRetries:0}, moderation.ts:94-95); se il filtro scade blocca (502 «Errore nel servizio AI. Riprova.») e il copilot non parte, coerente col «nel dubbio si nega» e dichiarato. Conto: 10 + 80 = 90 s su 120; caso peggiore product-chat 10+10+10+60 = 90 s. 23 file vicini verdi."
   },
   {
    "id": "R03-008",
    "chiave": "ai-endpoints|la lettura da foto accetta il testo «false» del modello come prodotto ammesso",
-   "verdetto": "regge",
-   "giudizio": "nessuno",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 5ba3e28cb87c3c0ffb27c04b115227793e2ecbe6^ --file app/api/vision/extract-product/route.ts --prove tests/unit/riparazione-r03-foto-policy-testo.test.ts --json"
-   }
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Revisore B + mio controllo: in extract-product la correzione regge su tutte le varianti (\"False\", \" false \", \"no\", \"0\", 0, null, assente, \"true\", \"sì\", 1, false danno 400; passa solo il booleano true). Ma la lettura da foto di più prodotti ha lo stesso difetto: app/api/vision/extract-products/route.ts:304 policy_ok: p.policy_ok !== false; provato: \"false\" come testo e campo assente escono policy_ok true, BulkPhotoCreate.tsx:147 li rende creabili e catalog-create-bulk non ricontrolla la foto. Il file non è di R03 e nessuna scheda dell'onda lo possiede: serve una voce o un passaggio a chi ne è responsabile."
   },
   {
    "id": "R03-006",
    "chiave": "ai-endpoints|«genera con ai» riscrive la descrizione partendo solo dal nome e la sostituisce a quella del negoziante, senza la regola «non inventare»",
    "verdetto": "regge",
-   "giudizio": "nessuno",
+   "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 71116772673508287f469b9ea698c6d0da47a05f^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r03-descrizione-proposta.test.tsx --json"
-   }
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Revisore C: sulla base la rotta aveva già «non inventare» e mandava la descrizione intera; il commit chiude la sostituzione silenziosa (ProductForm.tsx:1022-1024: con testo già scritto compare la proposta con «Usa questa» e «Tieni la mia», col campo vuoto entra subito). AIDescriptionButton lo usa solo il ProductForm; «riempi dalla foto» scrive solo nei campi vuoti (riga 433). Cosmetico: il toast «Descrizione generata — modifica come preferisci» compare anche per una proposta."
   },
   {
    "id": "R03-015",
    "chiave": "ai-endpoints|nella chat assistenza la scheda della proposta promette caratteristiche che il server butta via, e dopo «applica» dice «modifiche salvate» senza aver cambiato niente",
    "verdetto": "regge",
-   "giudizio": "nessuno",
+   "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 54319c41bc7f55f0c151fce65ff6be7c1ebaddec^ --file lib/products/aiPatch.ts --prove tests/unit/riparazione-r03-chat-togli-solo-cio-che-ce.test.ts --json"
-   }
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Revisore C: confrontate su catalog-chat e sul server rimozioni di dati assenti, presenti, vuoti, scritti e tolti insieme: la scheda non promette più rimozioni che il server non fa; se il server non cambia niente catalog-apply risponde 400 «Nessuna modifica valida» (route.ts:120) e «Modifiche salvate» (SupportProductAssistant.tsx:476) compare solo col successo. Difetto opposto, già sulla base (nasce da R04-019, non da questo commit): un dato rimasto da una categoria vecchia il server lo toglie e la scheda tace (aiPatch.ts:449-457 contro prontoPerLaVendita.ts:770)."
   },
   {
    "id": "R03-018",
    "chiave": "architettura|il modulo del prodotto applica le proposte dell'assistente con una seconda copia delle regole del server, e le due copie sono già diverse",
    "verdetto": "regge",
-   "giudizio": "nessuno",
+   "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base a55668fb332309f58aa991803e7d916317e250ba^ --file lib/products/aiPatch.ts --prove tests/unit/riparazione-r03-modulo-e-server-una-copia.test.ts --json"
-   }
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Revisore C: il modulo (ProductForm.tsx:566) usa pianoPatchPerIlModulo, il server resolveAiPatch (importato da catalog-apply, catalog-apply-bulk e catalog-batch/apply); tag, caratteristiche, prezzo pieno, disponibilità e rimozioni da funzioni condivise. 160 casi scomodi (40 proposte su 4 prodotti, con e senza categoria, varianti, prezzo zero): modulo e server scrivono e dicono la stessa cosa; unica differenza dichiarata sulla chiave vuota. Nessun import nuovo verso il browser. Restano doppioni su «riempi dalla foto» e nelle rotte translate/seo, altre porte."
   },
   {
    "id": "R03-007",
    "chiave": "ai-endpoints|un 404 del fornitore nell'aggiornamento dei prezzi esterni diventa un generico «aggiornamento non riuscito»",
    "verdetto": "regge",
-   "giudizio": "nessuno",
+   "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 7b7dcd779ab489c01264da80b183ac7b0af275eb^ --file app/api/products/[id]/external-refresh/route.ts,app/api/cron/external-price-alerts/route.ts --prove tests/unit/riparazione-r03-prezzi-esterni-404.test.ts --json"
-   }
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Revisore B: il 404 distinto è solo quello di Anthropic (status da AiCallError); una pagina esterna sparita arriva come contenuto della ricerca, non come HTTP 404. Il cron prosegue (catch dentro il ciclo) e il pannello admin (ExternalDataPanel.tsx:57-58) mostra davvero «Funzione AI momentaneamente non disponibile.». 20 file vicini verdi. Osservazione: su un 404 il prodotto è ancora segnato external_sync_status error (external-refresh route.ts:91-94, cron :146), contro il commento della correzione."
   },
   {
    "id": "R03-012",
    "chiave": "ai-endpoints|se si riaccende «traduci», una descrizione lunga torna tradotta solo all'inizio e il modulo la presenta come intera",
    "verdetto": "regge",
-   "giudizio": "nessuno",
+   "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 7ffe94441a90a1bfe309877ea37c4b87ad8dfd77^ --file app/api/ai/catalog-batch/start/route.ts,app/seller/products/ai-batch/page.tsx --prove tests/unit/riparazione-r03-traduzione-lotto-lunga.test.ts --json"
-   }
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Revisore A: la strada di «traduci» del singolo prodotto era già chiusa sulla base (R04-016): translate/route.ts:106 rifiuta prima di spendere oltre 2500 caratteri, max_tokens 2048, runMessage rifiuta una risposta tagliata (AiRispostaTagliataError, run.ts:602-610). Il commit chiude il lotto: schede oltre 2500 caratteri fuori (start/route.ts:129), la pagina lo dice con toast.warning, tutte troppo lunghe → 400 prima di aprire la riga. Fuori dalla voce: «migliora» e «ri-descrivi» tagliano ancora in silenzio oltre 4000 caratteri."
   },
   {
    "id": "R03-019",
    "chiave": "stati-ui|quando la rete torna, le pagine prodotto del negoziante rimettono il caricamento al posto del modulo e le modifiche non salvate si perdono",
    "verdetto": "regge",
-   "giudizio": "nessuno",
+   "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 19b705f73405290d1d04903958e50d55480d8090^ --file app/seller/products/new/page.tsx,app/seller/products/[id]/edit/page.tsx --prove tests/unit/riparazione-r03-modulo-resta-quando-torna-la-rete.test.tsx --json"
-   }
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Revisore C: il primo caricamento e il primo errore si vedono ancora; al ritorno della rete il modulo resta e non si rimonta; refetchOnWindowFocus è già spento nel QueryProvider; dopo il salvataggio invalida e va alla lista. 22 prove vicine verdi. Nota marginale già sulla base: «Nuovo prodotto» non si rimonta se cambia solo l'indirizzo (?from=A → /new)."
   },
   {
    "id": "R06-002",
    "chiave": "coerenza-brand|la primitiva card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi",
    "verdetto": "regge",
-   "giudizio": "nessuno",
+   "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 677b393d04c004441f81b6dd175ff16135bb3375^ --file app/search/page.tsx --prove tests/unit/riparazione-r06-card-della-ricerca.test.ts --json"
-   }
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Revisore D: cn (lib/cn.ts) unisce le classi senza scartarne; la Card esce con rounded-2xl bg-white border border-cream-300 shadow-warm p-4 più hidden md:block md:col-span-1 h-fit md:sticky md:top-[var(--header-height)], lo stesso insieme di prima; as, variant, radius e className sono nel tipo Props. Restano card a mano anche nei file di R06 (rider/earnings:214, :220, help:93), dichiarato in cosa_resta (il commento della prova invece è inesatto)."
   },
   {
    "id": "R06-003",
    "chiave": "coerenza-brand|il design system di riferimento è incompleto: mancano button, badge e card e un file importa un componente che non esiste",
    "verdetto": "regge",
-   "giudizio": "nessuno"
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Comando sulla base: docs/mockup/components/core/Badge.jsx, Button.jsx e Card.jsx esistono; commerce/ProductCard.jsx:2 importa ../core/Badge.jsx che esiste; dei 41 percorsi del _ds_manifest.json non ne manca nessuno. La prova riparazione-r12-il-design-system-e-completo è verde sulla base."
   },
   {
    "id": "R06-005",
    "chiave": "mobile-pwa|il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione",
-   "verdetto": "regge",
-   "giudizio": "nessuno"
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 1,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 5153b28c^ --file public/manifest.json --prove tests/unit/riparazione-r10-manifest-nel-head.test.tsx --json"
+   },
+   "nota": "Nessun commit di R06: la voce non ha cambiato codice. Comando sulla base: public/manifest.json non ha più orientation, ha id \"/\" (riga 5) e display_override (riga 8), dal commit 5153b28c. Ma nessuna prova difende il blocco in verticale tolto: nessun file in tests/ nomina orientation o display_override, e la rimessa sul vecchio commit con la prova del manifest dà 1 (non morde). Restano le schermate per la finestra d'installazione, immagini che deve dare Nicola: la voce resta aperta."
   },
   {
    "id": "R06-008",
    "chiave": "qa-flussi|il filtro «oggi» nei guadagni del fattorino taglia la giornata a mezzanotte del telefono, non di piacenza",
    "verdetto": "regge",
-   "giudizio": "nessuno",
+   "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 289c7de989^ --file app/rider/earnings/page.tsx --prove tests/unit/riparazione-r06-oggi-del-fattorino.test.tsx --json"
-   }
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Revisore C: bordi provati sulla pagina vera: 23:30 di Piacenza con telefono a Tokyo, 00:30 del 25/10 con telefono a Los Angeles, 29/3 con telefono UTC. «7 giorni» e «30 giorni» sono finestre mobili, non dipendono dal fuso. Difetto fratello fuori dalla voce: la data di ogni consegna nella lista è ancora nel fuso del telefono (app/rider/earnings/page.tsx:231)."
   },
   {
    "id": "R06-009",
    "chiave": "qa-flussi|il drop del giorno usa il giorno di greenwich: fra mezzanotte e le 2 la home e la pagina admin sono su giorni diversi",
    "verdetto": "regge",
-   "giudizio": "nessuno"
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Comando sulla base: components/home/DropOfDay.tsx:68 today = giornoPiacenza() e :56-60 la fine giornata con inizioGiornoPiacenza; app/admin/daily-drops/page.tsx:32 usa lo stesso giornoPiacenza. Le prove riparazione-r07-drop-giorno-piacenza e riparazione-r04-drop-giorno-di-roma sono verdi sulla base."
   },
   {
    "id": "R06-011",
    "chiave": "stati-ui|la modifica prodotto dell'amministratore dice «prodotto non trovato» senza riprova quando la lettura non riesce",
    "verdetto": "regge",
-   "giudizio": "nessuno"
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Comando sulla base: app/admin/products/[id]/edit/page.tsx:46 una lettura con errore lancia (non diventa null); :147 il testo «Non riesco a leggere questo prodotto…» e :152-155 il bottone «Riprova»; «Prodotto non trovato» solo se la riga manca. La prova riparazione-r22-prodotto-admin-lettura-caduta è verde sulla base. Le varianti illeggibili non hanno Riprova ma dicono di ricaricare: non è il «prodotto non trovato» della voce."
   },
   {
    "id": "R06-012",
    "chiave": "tipografia|otto spaziature diverse per la stessa etichetta maiuscola",
    "verdetto": "regge",
-   "giudizio": "nessuno",
+   "giudizio": "pieno",
    "rimessa": {
     "uscita": 0,
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 801c438ab17969d8f8561a42b2e10d1311dfc3cf^ --file components/seller/SellerShell.tsx,components/admin/AdminSidebar.tsx,app/rider/earnings/page.tsx,app/search/page.tsx,components/home/DropOfDay.tsx --prove tests/unit/riparazione-r06-etichette-maiuscole.test.ts --json"
-   }
+   },
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Revisore D: tracking-label c'è già sulla base (tailwind.config.ts:164, 0.04em) e Tailwind 3.4.19 genera .tracking-label{letter-spacing:0.04em}: le 11 etichette passano al valore unico. Numeri ricontati sulla base e sulla testa, coincidono con cosa_resta (66 fuori, in file di altre sessioni, più 2 senza spaziatura in rider/earnings:134 e :138). 36 prove vicine verdi."
   }
  ],
- "campione": {}
+ "campione": {
+  "R02": {
+   "accettato": true
+  },
+  "R03": {
+   "accettato": false,
+   "perche": "R03-009 e R03-008 sono parziali: 11 minori riparati su 13 reggono"
+  },
+  "R06": {
+   "accettato": true
+  }
+ },
+ "note": {
+  "domanda_1_prove_altrui_toccate_da_R02": "Non sono indebolite. tests/unit/riparazione-r03-chi-siamo-testo-grande.test.ts (commit f07aaad5) e tests/unit/riparazione-r15-col-testo-grande-la-pagina-non-scorre-di-lato.test.tsx (commit ab1dfaf9) cambiano una riga ciascuna: la classe attesa delle colonne, sempre confrontata per intero con toContain (da minmax(max(8rem,…)) a minmax(min(100%,max(8rem,…)))), più un commento. Nessuna asserzione tolta, nessun not.toContain(\"grid-cols-2\") toccato. Provato alla testa 276fc3fa: verdi (9 casi); rimesso il difetto vecchio (grid-cols-2 nella pagina Chi siamo, poi nel piede) → tutte e due rosse; rimesse le colonne di prima di R02 → tutte e due rosse. Le due prove leggono solo app/about/page.tsx e components/Footer.tsx, file di R02 in quest onda.",
+  "domanda_2_commit_che_citano_voci_di_onde_precedenti": "Tutti e sei toccano la voce del loro titolo e nessun file di codice di altre sessioni: ab1dfaf9 (R02-005) components/Footer.tsx + la sua prova + la prova R15 della domanda 1; f07aaad5 (R02-002) app/about/page.tsx + la sua prova + la prova R03 della domanda 1; d5cc3827 (R03-009) lib/ai/batch.ts + la sua prova; ef318835 (R03-013) lib/ai/run.ts e app/api/ai/catalog-batch/start/route.ts + la sua prova; 7ffe9444 (R03-012) start/route.ts e app/seller/products/ai-batch/page.tsx + la sua prova; 677b393d (R06-002) app/search/page.tsx + la sua prova. Le voci vecchie compaiono solo come contesto («era già tolto (R04-014)», «la prenotazione di R04-017 valeva dentro una copia», «la primitiva lo offre già (R10-010)»). Controllato anche sull intero BASE..punta di ogni ramo: tutti i file di codice cambiati sono nel perimetro della scheda del riparatore; fuori ci sono solo le prove nuove, il referto e le due prove della domanda 1. Unico punto da sapere: 7ffe9444 tocca la traduzione del lotto, non i file che il registro nomina per R03-012 (productContext, translate, QuickAiTools); il revisore ha confermato che quella strada era già chiusa sulla base (R04-016), quindi la voce regge.",
+  "rimesse": "Tutte le voci con commit danno uscita 0 con cervello/prova-rimessa.mjs nella copia allo SHA della voce. R03-013: con anche start/route.ts la rimessa dà 1, perché quel file aggiunge solo await a liberaPrenotazione; sul file della correzione (lib/ai/run.ts) uscita 0, come il riparatore. Le voci già riparate prima le ho provate con comandi sulla base f93d246a e con le loro prove esistenti (10 file, 32 casi verdi sulla base), senza agente, come chiesto dalla regia."
+ },
+ "nuovi_difetti_visti": [
+  "app/api/vision/extract-products/route.ts:304 — la lettura di più prodotti da foto ammette policy_ok \"false\" scritto come testo o assente (stesso difetto di R03-008; file senza padrone nell onda)",
+  "lib/ai/batch.ts:170 — il 520 di Cloudflare all invio del lotto resta «fallito»: può far pagare un secondo lotto (resto di R03-009)",
+  "lib/ai/batch.ts — un 2xx con corpo non JSON fa uscire submitBatch con un lotto senza id: riga processing senza batch_id per sempre (status/route.ts:136)",
+  "app/api/ai/catalog-batch/cancel/route.ts:39 — dopo un invio incerto la rotella resta 24 ore e il lavoro non si può scartare (cancel accetta solo ready)",
+  "app/api/cron/external-price-alerts/route.ts:101-106 — 10 prodotti in fila da 60 s contro i 300 s del cron (manca in cosa_resta di R03-010)",
+  "app/api/products/[id]/external-refresh/route.ts:91-94 e cron :146 — su un 404 del modello il prodotto è segnato external_sync_status error, contro il commento della correzione di R03-007",
+  "lib/products/aiPatch.ts:449-457 contro lib/products/prontoPerLaVendita.ts:770 — nella chat il server toglie un dato rimasto da una categoria vecchia e la scheda della proposta non lo dice (già sulla base)",
+  "app/rider/earnings/page.tsx:231 — la data di ogni consegna nella lista dei guadagni è nel fuso del telefono",
+  "app/product/[id]/page.tsx:1504 — la data delle recensioni nella pagina prodotto è nel fuso del telefono",
+  "app/about/page.tsx:224, :237, :243 — la banda finale di Chi siamo ha perso metà del margine laterale su tutti i telefoni col testo normale (rompe_altro di R02-002)",
+  "public/manifest.json — nessuna prova difende il blocco in verticale tolto (R06-005)"
+ ]
 }
