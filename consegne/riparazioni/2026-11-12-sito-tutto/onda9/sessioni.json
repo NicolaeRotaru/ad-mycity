@@ -3,7 +3,9 @@
  "sha_regista": "2c3a9e9ed32bc0f289314c88ed8861f44c4f4e82",
  "integrazione": {
   "ramo": "claude/adoring-bohr-kixq35-o9",
-  "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc"
+  "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
+  "unione_di_prova": "b97aa0f0",
+  "nota": "locale, non spinta: m01, m02, m03, m06, m07, m10 su f93d246a, poi tolti R01-012 (85f2677b), R02-002 (f07aaad5), R07-002 (9842603c), R10-005 (55edefd4, b03a4312)"
  },
  "sessioni": {
   "R03": {
@@ -103,7 +105,11 @@
    ],
    "aperta": "2026-11-18 06:35",
    "consegna_usd": 25,
-   "tetto_usd": 30
+   "tetto_usd": 30,
+   "finita": true,
+   "punta": "6806f283",
+   "costo_usd": 14.54,
+   "nota": "32 voci a giudizio pieno, 23 prove rimesse su 23; valida-collaudo e guardia-ramo verdi; le due prove comuni di R02 non indebolite; i sei commit con id di onde vecchie toccano solo la voce del titolo"
   },
   "K02": {
    "id": "session_015BmpnW613YVoZNdJNzfsos",
