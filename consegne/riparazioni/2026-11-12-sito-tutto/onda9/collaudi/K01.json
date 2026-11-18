@@ -1,0 +1,293 @@
+{
+ "collaudatore": "K01",
+ "riparatori": [
+  "R02",
+  "R03",
+  "R06"
+ ],
+ "aggiornato": "2026-11-18 07:05",
+ "finita": false,
+ "voci": [
+  {
+   "id": "R02-001",
+   "chiave": "accessibilita-visiva|in fondo alle domande frequenti, chi usa la tastiera non vede quando è sul bottone «contattaci»",
+   "verdetto": "regge",
+   "giudizio": "nessuno"
+  },
+  {
+   "id": "R02-002",
+   "chiave": "layout-responsive|chi siamo a 280 px col testo al 200% scorre ancora di lato",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base f07aaad50144ae663f2c203e8022ba5557b1324c^ --file app/about/page.tsx --prove tests/unit/riparazione-r02-chi-siamo-280.test.ts --json"
+   }
+  },
+  {
+   "id": "R02-003",
+   "chiave": "layout-responsive|in chi siamo, coi caratteri del telefono un po' più grandi, la scritta «alla consegna» esce dal suo riquadro e la pagina scorre di lato",
+   "verdetto": "regge",
+   "giudizio": "nessuno"
+  },
+  {
+   "id": "R02-004",
+   "chiave": "layout-responsive|in fondo a ogni pagina mobile restano ~14px di vuoto: l'altezza della barra a schede e' dichiarata piu' alta di quella vera",
+   "verdetto": "regge",
+   "giudizio": "nessuno"
+  },
+  {
+   "id": "R02-005",
+   "chiave": "layout-responsive|col testo ingrandito al massimo sul telefono, le pagine pubbliche scorrono di lato per colpa del piè di pagina",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base ab1dfaf95e60051ea94380aeb479fd3568a06c74^ --file components/Footer.tsx --prove tests/unit/riparazione-r02-piede-280.test.ts --json"
+   }
+  },
+  {
+   "id": "R02-006",
+   "chiave": "microcopy|il piede rimette «abbigliamento» dopo la lettura se la categoria è attiva nel database (non verificato)",
+   "verdetto": "regge",
+   "giudizio": "nessuno"
+  },
+  {
+   "id": "R02-007",
+   "chiave": "navigazione-gerarchia|altre tendine e vetrine di categorie buttano via le categorie piene già note quando una ricarica cade, e tornano a mostrare anche le vuote",
+   "verdetto": "regge",
+   "giudizio": "nessuno"
+  },
+  {
+   "id": "R02-009",
+   "chiave": "qa-flussi|la pagina dei negozi legge le categorie senza range: oltre il tetto di righe di postgrest si perderebbero delle categorie madri",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 6324bb64c1ff4c7c8dcbd8b4f73460f399870b7e^ --file app/stores/page.tsx --prove tests/unit/riparazione-r02-negozi-categorie-a-pagine.test.tsx --json"
+   }
+  },
+  {
+   "id": "R02-010",
+   "chiave": "qa-flussi|nella vetrina del negozio la data delle recensioni è nel fuso del telefono, non di piacenza",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 3b19f233b21caeccc7bd57d9763159a32291a0ea^ --file components/store-sections/ReviewsSection.tsx --prove tests/unit/riparazione-r02-recensioni-giorno-di-piacenza.test.tsx --json"
+   }
+  },
+  {
+   "id": "R02-012",
+   "chiave": "tipografia|la scala delle dimensioni del testo viene scavalcata circa trecentotrenta volte",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 276fc3fad8d9eb76fc2c4690e555579e1c062861^ --file components/ProductCard.tsx --prove tests/unit/riparazione-r02-scala-del-testo-scheda-prodotto.test.ts --json"
+   }
+  },
+  {
+   "id": "R03-013",
+   "chiave": "ai-endpoints|il tetto di spesa ai del giorno si sfora quando più chiamate partono insieme",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base ef3188359d8c51ed964382bc2fd585450196f6f3^ --file lib/ai/run.ts --prove tests/unit/riparazione-r03-tetto-fra-copie.test.ts --json"
+   }
+  },
+  {
+   "id": "R03-009",
+   "chiave": "ai-endpoints|se l'invio di un lotto ai resta senza risposta, il sito lo rimanda e anthropic ne esegue due, uno pagato e mai visto",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base df5d420d55fdf3c4d8c370c67f5aa83ef7a047da^ --file lib/ai/batch.ts --prove tests/unit/riparazione-r03-lotto-524.test.ts,tests/unit/riparazione-r03-lotto-errore-del-fornitore.test.ts --json"
+   }
+  },
+  {
+   "id": "R03-003",
+   "chiave": "ai-endpoints|un lotto ai partito e pagato ma non agganciato alla sua riga si chiude come fallito dopo 15 minuti e se ne può pagare un secondo",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 83c59ea12b146183cee1002f512df9cca8df4deb^ --file app/api/ai/catalog-batch/start/route.ts,app/api/ai/catalog-batch/status/route.ts --prove tests/unit/riparazione-r03-lotto-non-agganciato.test.ts --json"
+   }
+  },
+  {
+   "id": "R03-004",
+   "chiave": "ai-endpoints|un lotto ai partito ma non agganciato resta «in invio» per sempre, e la pagina del negozio non mostra né rotella né pulsante",
+   "verdetto": "regge",
+   "giudizio": "nessuno"
+  },
+  {
+   "id": "R03-002",
+   "chiave": "ai-endpoints|quando il tetto di spesa ai blocca un lavoro sul catalogo il negoziante legge «riprova» e il lavoro risulta fallito",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base c81e4d0b498d68d522cc31274964e8af013543b5^ --file app/api/ai/catalog-batch/start/route.ts --prove tests/unit/riparazione-r03-lotto-fermato-dal-tetto.test.ts --json"
+   }
+  },
+  {
+   "id": "R03-005",
+   "chiave": "ai-endpoints|il copilot non riesce a preparare una modifica su tutto il catalogo oltre circa cento prodotti: risponde «riprova» e fallisce ogni volta",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 8ba0223f7e8658776890814c7aa67903f20e398f^ --file app/api/ai/copilot/route.ts --prove tests/unit/riparazione-r03-copilot-tutto-il-catalogo.test.ts --json"
+   }
+  },
+  {
+   "id": "R03-010",
+   "chiave": "ai-endpoints|quando anthropic non risponde, vercel spegne la funzione ai prima che il negozio legga un errore chiaro",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base d28d5e71502d1e09d313b4901aa1dd6f01718290^ --file lib/ai/client.ts,vercel.json,app/api/vision/extract-product/route.ts --prove tests/unit/riparazione-r03-tempo-sotto-la-rotta.test.ts --json"
+   }
+  },
+  {
+   "id": "R03-011",
+   "chiave": "ai-endpoints|il filtro di moderazione prima del copilot non ha un tempo suo",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 96421fef6e09ecb92907aef48c575bbf0666553e^ --file lib/ai/moderation.ts --prove tests/unit/riparazione-r03-filtro-col-suo-tempo.test.ts --json"
+   }
+  },
+  {
+   "id": "R03-008",
+   "chiave": "ai-endpoints|la lettura da foto accetta il testo «false» del modello come prodotto ammesso",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 5ba3e28cb87c3c0ffb27c04b115227793e2ecbe6^ --file app/api/vision/extract-product/route.ts --prove tests/unit/riparazione-r03-foto-policy-testo.test.ts --json"
+   }
+  },
+  {
+   "id": "R03-006",
+   "chiave": "ai-endpoints|«genera con ai» riscrive la descrizione partendo solo dal nome e la sostituisce a quella del negoziante, senza la regola «non inventare»",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 71116772673508287f469b9ea698c6d0da47a05f^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r03-descrizione-proposta.test.tsx --json"
+   }
+  },
+  {
+   "id": "R03-015",
+   "chiave": "ai-endpoints|nella chat assistenza la scheda della proposta promette caratteristiche che il server butta via, e dopo «applica» dice «modifiche salvate» senza aver cambiato niente",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 54319c41bc7f55f0c151fce65ff6be7c1ebaddec^ --file lib/products/aiPatch.ts --prove tests/unit/riparazione-r03-chat-togli-solo-cio-che-ce.test.ts --json"
+   }
+  },
+  {
+   "id": "R03-018",
+   "chiave": "architettura|il modulo del prodotto applica le proposte dell'assistente con una seconda copia delle regole del server, e le due copie sono già diverse",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base a55668fb332309f58aa991803e7d916317e250ba^ --file lib/products/aiPatch.ts --prove tests/unit/riparazione-r03-modulo-e-server-una-copia.test.ts --json"
+   }
+  },
+  {
+   "id": "R03-007",
+   "chiave": "ai-endpoints|un 404 del fornitore nell'aggiornamento dei prezzi esterni diventa un generico «aggiornamento non riuscito»",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 7b7dcd779ab489c01264da80b183ac7b0af275eb^ --file app/api/products/[id]/external-refresh/route.ts,app/api/cron/external-price-alerts/route.ts --prove tests/unit/riparazione-r03-prezzi-esterni-404.test.ts --json"
+   }
+  },
+  {
+   "id": "R03-012",
+   "chiave": "ai-endpoints|se si riaccende «traduci», una descrizione lunga torna tradotta solo all'inizio e il modulo la presenta come intera",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 7ffe94441a90a1bfe309877ea37c4b87ad8dfd77^ --file app/api/ai/catalog-batch/start/route.ts,app/seller/products/ai-batch/page.tsx --prove tests/unit/riparazione-r03-traduzione-lotto-lunga.test.ts --json"
+   }
+  },
+  {
+   "id": "R03-019",
+   "chiave": "stati-ui|quando la rete torna, le pagine prodotto del negoziante rimettono il caricamento al posto del modulo e le modifiche non salvate si perdono",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 19b705f73405290d1d04903958e50d55480d8090^ --file app/seller/products/new/page.tsx,app/seller/products/[id]/edit/page.tsx --prove tests/unit/riparazione-r03-modulo-resta-quando-torna-la-rete.test.tsx --json"
+   }
+  },
+  {
+   "id": "R06-002",
+   "chiave": "coerenza-brand|la primitiva card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 677b393d04c004441f81b6dd175ff16135bb3375^ --file app/search/page.tsx --prove tests/unit/riparazione-r06-card-della-ricerca.test.ts --json"
+   }
+  },
+  {
+   "id": "R06-003",
+   "chiave": "coerenza-brand|il design system di riferimento è incompleto: mancano button, badge e card e un file importa un componente che non esiste",
+   "verdetto": "regge",
+   "giudizio": "nessuno"
+  },
+  {
+   "id": "R06-005",
+   "chiave": "mobile-pwa|il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione",
+   "verdetto": "regge",
+   "giudizio": "nessuno"
+  },
+  {
+   "id": "R06-008",
+   "chiave": "qa-flussi|il filtro «oggi» nei guadagni del fattorino taglia la giornata a mezzanotte del telefono, non di piacenza",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 289c7de989^ --file app/rider/earnings/page.tsx --prove tests/unit/riparazione-r06-oggi-del-fattorino.test.tsx --json"
+   }
+  },
+  {
+   "id": "R06-009",
+   "chiave": "qa-flussi|il drop del giorno usa il giorno di greenwich: fra mezzanotte e le 2 la home e la pagina admin sono su giorni diversi",
+   "verdetto": "regge",
+   "giudizio": "nessuno"
+  },
+  {
+   "id": "R06-011",
+   "chiave": "stati-ui|la modifica prodotto dell'amministratore dice «prodotto non trovato» senza riprova quando la lettura non riesce",
+   "verdetto": "regge",
+   "giudizio": "nessuno"
+  },
+  {
+   "id": "R06-012",
+   "chiave": "tipografia|otto spaziature diverse per la stessa etichetta maiuscola",
+   "verdetto": "regge",
+   "giudizio": "nessuno",
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 801c438ab17969d8f8561a42b2e10d1311dfc3cf^ --file components/seller/SellerShell.tsx,components/admin/AdminSidebar.tsx,app/rider/earnings/page.tsx,app/search/page.tsx,components/home/DropOfDay.tsx --prove tests/unit/riparazione-r06-etichette-maiuscole.test.ts --json"
+   }
+  }
+ ],
+ "campione": {}
+}
