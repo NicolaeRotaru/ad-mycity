@@ -91,7 +91,34 @@
    "nota": "verify verde su 8965d7af; 6/6 subagenti; una falla di dati riservata (preesistente) passata alla regia a voce, nel referto solo il titolo"
   }
  },
- "collaudatori": {},
+ "collaudatori": {
+  "K01": {
+   "id": "session_015BmpnVJ6naVBFudcnNeXr1",
+   "ramo": "claude/adoring-bohr-kixq35-o9-k01",
+   "partenza": "fa2772cae2770d13c10aa20c4449771895215353",
+   "riparatori": [
+    "R02",
+    "R03",
+    "R06"
+   ],
+   "aperta": "2026-11-18 06:35",
+   "consegna_usd": 25,
+   "tetto_usd": 30
+  },
+  "K02": {
+   "id": "session_015BmpnW613YVoZNdJNzfsos",
+   "ramo": "claude/adoring-bohr-kixq35-o9-k02",
+   "partenza": "fa2772cae2770d13c10aa20c4449771895215353",
+   "riparatori": [
+    "R01",
+    "R07",
+    "R10"
+   ],
+   "aperta": "2026-11-18 06:35",
+   "consegna_usd": 25,
+   "tetto_usd": 30
+  }
+ },
  "controllori": {},
  "da_aprire_giovedi": [
   "R04",
