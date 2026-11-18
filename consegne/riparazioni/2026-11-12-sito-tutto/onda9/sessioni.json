@@ -1,5 +1,5 @@
 {
- "regista": "session_015BmpnVz75xRKsz1trmeMzu",
+ "regista": "session_015BmpnZQiGiFfMYaWbMDKVT",
  "sha_regista": "2c3a9e9ed32bc0f289314c88ed8861f44c4f4e82",
  "integrazione": {
   "ramo": "claude/adoring-bohr-kixq35-o9",
@@ -154,13 +154,17 @@
   "K01-K04",
   "C01"
  ],
- "regista_prima": "session_015BmpnYq3DQDRwTXdBwfzud",
+ "regista_prima": [
+  "session_015BmpnYq3DQDRwTXdBwfzud",
+  "session_015BmpnVz75xRKsz1trmeMzu"
+ ],
  "promemoria": {
-  "spesa": "trig_01CE9YMeeT8hwPB7aB7G56tC",
-  "giovedi_10_05": "trig_016hPs5zgKshzayv8gxfTKVG",
+  "spesa": "trig_01CE9YMeeT8hwPB7aB7G56tC (spento, si riaccende con update_trigger)",
+  "giovedi_10_05": "trig_01DWA51xXu14HBQKnUJd5Tgz",
   "spenti": [
    "trig_01FDAq4rdkNroMeX9LiUDDbZ",
-   "trig_01WEachfCUXzLjny8CWWTMx4"
+   "trig_01WEachfCUXzLjny8CWWTMx4",
+   "trig_016hPs5zgKshzayv8gxfTKVG"
   ]
  }
 }
