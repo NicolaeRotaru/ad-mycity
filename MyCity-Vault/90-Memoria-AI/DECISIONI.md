@@ -7207,3 +7207,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Il filtro dei delicati:** quello del programma della scelta guarda le dimensioni e pochi nomi di file, non il testo. In R05 c'erano annullo ordini e account. Regola nel prompt di ogni riparatore: soldi, dati personali, permessi o migrazioni → `non_fatto` «delicata: fuori dall'onda 9». Da rifare prima di giovedì sul testo delle voci.
 - **Stanotte:** Nicola dorme; nessuna azione che chiede conferma.
 - **Colore:** 🟡 spesa e codice in rami, firmata. Merge, migrazioni e database vero restano di Nicola.
+
+## 2026-11-18 12:52 — Onda 9: Nicola firma le eccezioni sulle prove comuni e sui sei commit di R02, R03 e R06 (🟡, firmato da Nicola)
+**Le parole di Nicola, nella chat «Ondata 9 · 3.0» (`session_015BmpnZQiGiFfMYaWbMDKVT`):** «Firmo l'eccezione», in risposta alla richiesta di firmare le due eccezioni.
+- **Cosa vale:** `eccezioni_firmate` in `consegne/riparazioni/2026-11-12-sito-tutto/onda9/piano.json`, onda 1: le due prove comuni ritoccate da R02 (`prove_comuni`) e i sei commit di R02, R03 e R06 (`id_nel_commit`).
+- **Cosa ha prodotto:** `applica --git` sospende le due prove comuni. I sei commit restano rossi per un'altra regola, «il messaggio cita una voce di un'altra sessione», che il programma oggi non lascia sospendere con una firma. Serve una scelta di Nicola.
+- **Colore:** 🟡 regole della campagna, firmate. Il codice del sito è già unito da Nicola (mycity#297).
