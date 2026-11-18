@@ -1,0 +1,372 @@
+{
+  "collaudatore": "K02",
+  "riparatori": [
+    "R01",
+    "R07",
+    "R10"
+  ],
+  "aggiornato": "2026-11-18 06:51",
+  "finita": true,
+  "voci": [
+    {
+      "id": "R01-001",
+      "chiave": "accessibilita|nell'elenco conversazioni dell'assistenza il lettore di schermo dice solo il numero dei non letti",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base f93d246a42b25cd5fa86da712755526d7d6388dc --file app/admin/support-chat/page.tsx --prove tests/unit/riparazione-r01-non-letti-assistenza.test.ts --json"
+      },
+      "nota": "Revisore A: pagina vera montata con 0, 1, 5 e nessun non letto: il link si legge «Maria 1 messaggio non letto…», «Gino 5 messaggi non letti…», il numero non è detto due volte e senza non letti il pallino non c'è; nessun altro pallino col numero nudo nel sito (grep). La prova legge solo il sorgente come testo (ammesso sui minori): il comportamento l'ha guardato il revisore montando la pagina."
+    },
+    {
+      "id": "R01-002",
+      "chiave": "accessibilita|nella pagina del reclamo il bottone resta spento senza dire cosa manca",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base 750c726e3f52bea5019afa2c6352790b9fc2e284 --file app/orders/[id]/dispute/page.tsx --prove tests/unit/riparazione-r01-reclamo-dice-cosa-manca.test.tsx --json"
+      },
+      "nota": "Revisore A: provati 25 spazi, 19 caratteri più a capo, sessione scaduta insieme a un testo corto: la scritta «cosa manca» segue sempre le stesse condizioni che spengono il bottone, e il server (app/api/disputes/route.ts:33, trim e minimo 20) conta allo stesso modo. Restano opacity-50 sul bottone spento (nel registro solo un'osservazione) e due avvisi a :128-129 che non possono più scattare: niente di rotto. Con R01-012 sullo stesso file convive senza doppioni."
+    },
+    {
+      "id": "R01-003",
+      "chiave": "accessibilita|nel modulo «nuova promozione» l'etichetta «cosa scontare» non è legata a nessun campo",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base 560394a66a48eb8ec6c13c7a89ce422baeee1da6 --file app/seller/promotions/page.tsx --prove tests/unit/riparazione-r01-cosa-scontare.test.ts --json"
+      },
+      "nota": "Revisore A: eslint sulla base e sulla testa, l'avviso jsx-a11y di :311 sparisce; fieldset con legend come il blocco «Sconto», la select delle categorie resta nel gruppo. Prova solo testuale (ammessa sui minori)."
+    },
+    {
+      "id": "R01-005",
+      "chiave": "accessibilita|tra 768 e 1023 px i tasti ordini, consegne e admin della testata sono solo un'icona senza nome per chi vede",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base a281044b352a452455719a80a2f5fb72c9500680 --file components/Navbar.tsx --prove tests/unit/riparazione-r01-tasti-testata-tablet.test.ts --json"
+      },
+      "nota": "Revisore A: i tre link compaiono una volta sola (Navbar.tsx:300, :306, :312) e la prova guarda quelli giusti; «cosa_resta» onesto: il title non si vede su tablet touch né da tastiera, e la prova R09-016 (righe 17-20) esige davvero sr-only lg:not-sr-only."
+    },
+    {
+      "id": "R01-006",
+      "chiave": "accessibilita|il campo file nascosto della fotocamera del negoziante si raggiunge col tab ma non mostra il fuoco",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base 4a4bee7eeb6e8145fcd23e9e35a7cdb23ce061e7 --file components/seller/CameraCapture.tsx --prove tests/unit/riparazione-r01-fotocamera-fuoco.test.tsx --json"
+      },
+      "nota": "Revisore D: un clic sull'etichetta o sull'icona arriva al campo file una volta sola; capture=\"environment\" e accept restano; scelto il file la foto passa una volta e la finestra si chiude una volta. I due chiamanti (PhotoFillButton.tsx:157, ProductImagesField.tsx:262) passano gli stessi parametri e la trappola del fuoco del Modal include ancora il campo. Nota estetica: l'anello di fuoco compare anche dopo un clic col mouse."
+    },
+    {
+      "id": "R01-008",
+      "chiave": "qa-flussi|il rimando all accesso fatto dalla pagina delle impostazioni perde ?tab=",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "prova": "git -C ../wt-base (f93d246a) sed -n 194,203p app/profile/settings/page.tsx; npx vitest run tests/unit/riparazione-r19-ritorno-con-la-scheda-dalle-impostazioni.test.tsx: 3/3 verdi alla base",
+      "nota": "Alla base f93d246a app/profile/settings/page.tsx:200-202 costruisce il ritorno con window.location.search (tetto 512 caratteri come il portiere), arrivato col commit 6f880b3c (R19-020). La prova R19 alla base è verde 3/3. L'altro rimando all'accesso (riga 341, dopo il cambio password) è un flusso diverso, voluto, non quello della voce. Nessun codice cambiato dal riparatore: niente di rotto."
+    },
+    {
+      "id": "R01-010",
+      "chiave": "qa-flussi|le visualizzazioni e i clic dei prodotti sponsorizzati non arrivano mai al database",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base 85f2677b7576b29c7e7e8594699dcba58609579f --file components/SponsoredCarousel.tsx --prove tests/unit/riparazione-r01-sponsorizzati-contano.test.tsx --json"
+      },
+      "nota": "Revisore D: col difetto rimesso (void supabase.rpc) la prova è rossa, con la correzione verde; una rpc che fallisce non dà errori non gestiti, il carosello resta e il clic si conta senza bloccare il cambio pagina; una scheda che entra, esce e rientra conta una sola visualizzazione; in postgrest-js 2.106.1 la richiesta parte solo con .then e le POST non si ritentano. Le funzioni delle migrazioni locali 151 (righe 224, 241) e 425 chiedono p_id uuid, il carosello passa { p_id } con l'id della campagna. Nessun altro void supabase.rpc nel codice."
+    },
+    {
+      "id": "R01-011",
+      "chiave": "qa-flussi|col telefono del negozio un po' indietro, un ordine non più ritirabile legge «entro le 12:46» invece di «ritiro non più possibile»",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "prova": "git -C ../wt-base sed -n 285,305p lib/ordini/scadenza-accettazione.ts; npx vitest run tests/unit/riparazione-r18-ritiro-impossibile-col-telefono-indietro.test.ts: 3/3 verdi alla base con orologio finto",
+      "nota": "Alla base lib/ordini/scadenza-accettazione.ts:297-299 guarda ultimoMomentoDelRitiro === 'impossibile' prima di confrontare con adesso; le due pagine del negozio (app/seller/orders/page.tsx:225, app/seller/orders/[id]/page.tsx:451) usano solo rigaScadenzaPerIlNegozio, ed entroQuandoAccettare non è usata altrove. La prova R18 riproduce l'esempio esatto della voce (nato 12:46:01, telefono 12:45:31) ed è verde alla base. Nessun codice cambiato."
+    },
+    {
+      "id": "R01-012",
+      "chiave": "stati-ui|con la sessione scaduta il pulsante «apri reclamo» non fa niente, non chiede di rientrare e il testo scritto si perde",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base d4b70c7db3e14e1af859d4a5afc3e8714184282c --file app/orders/[id]/dispute/page.tsx --prove tests/unit/riparazione-r01-reclamo-sessione-scaduta.test.tsx --json"
+      },
+      "nota": "Revisore A, verificato da K02 sulle righe: il difetto della voce è chiuso (dopo il 401 compare l'avviso col link d'accesso, il ritorno è /sign-in?returnTo=%2Forders%2F<id>%2Fdispute, la bozza torna e si cancella quando il reclamo parte, quella di un altro ordine no). Ma la bozza nata con la correzione porta un difetto nuovo: in app/orders/[id]/dispute/page.tsx si scrive solo al 401 (:144) e si cancella solo quando il reclamo riesce (:152); quando viene rimessa nel modulo (:77-82) non si cancella né si aggiorna. Passi: 401 col testo A, rientro (torna A), modifico in B, esco senza inviare, riapro nella stessa scheda: ricompare A. Lo stesso se il cliente svuota tutto per rinunciare, e la bozza resta anche col reclamo già aperto (:121). Un secondo difetto della stessa bozza riguarda dati personali: i dettagli sono andati solo alla regia. Cura possibile: cancellare la bozza appena rimessa (o tenerla allineata al testo) e cancellarla anche col reclamo già aperto."
+    },
+    {
+      "id": "R07-001",
+      "chiave": "deploy-sre|dopo un ritorno indietro il riepilogo del rilascio rassicura a torto se una migrazione ha tolto una funzione o una vista",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 8acb4d95a506dbadf5fc36f4bd412ef1ec22fb5d --file .github/workflows/deploy-dopo-ci.yml --prove tests/unit/riparazione-r07-ritorno-vede-ogni-drop.test.ts --json"
+      },
+      "nota": "Revisore B: passo vero eseguito sotto set -euo pipefail con 37 varianti di migrazione: DROP FUNCTION/VIEW/MATERIALIZED VIEW, IF EXISTS, minuscole, tab, CRLF, ALTER TABLE…DROP su due righe tutte viste; DROP TYPE/INDEX/TRIGGER/POLICY restano tranquilli; un DROP dentro un commento dà un falso allarme, ma dalla parte prudente. Sulle 209 migrazioni vere nessun DROP mancato. YAML caricato con js-yaml, tutti i blocchi run: passano bash -n; la prova esegue il bash vero."
+    },
+    {
+      "id": "R07-002",
+      "chiave": "deploy-sre|se lo script delle migrazioni cade fra un file e il successivo, il riepilogo accusa una migrazione sana",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 3b65a6a9774430498f6d800131f3a431d008821c --file .github/workflows/deploy-dopo-ci.yml --prove tests/unit/riparazione-r07-migrazioni-cadute-fra-due-file.test.ts --json"
+      },
+      "nota": "Revisore B, righe verificate da K02 (git show 9842603c): il caso della voce è chiuso, ma il ramo nuovo per un'uscita diversa da 3 (.github/workflows/deploy-dopo-ci.yml:578 e :584) dà per certo che lo script sia «caduto fra un file e il successivo» e scrive «Nessuna migrazione da correggere… rilancia il rilascio». psql 16 esce con 2 anche quando la connessione cade a METÀ di un file -f: riprodotto sul passo vero con una migrazione col suo COMMIT (stile 115/117), il database resta a metà e il registro non la ha, mentre il riepilogo rassicura. Prima della correzione diceva «se contiene un COMMIT suo può essere rimasta a metà», che in quel caso era vero. Cura minima: con uscita 2 tenere l'incertezza, oppure far scrivere allo script una riga «✔ registrata <nome>» dopo l'INSERT e decidere da quella."
+    },
+    {
+      "id": "R07-004",
+      "chiave": "deploy-sre|il documento della copia notturna dice ancora che un secchio vuoto è sempre legittimo",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 9842603c7f13329f724d28639cc2d79063082258 --file docs/backup-restore.md --prove tests/unit/riparazione-r07-documento-secchio-vuoto.test.ts --json"
+      },
+      "nota": "Revisore B: docs/backup-restore.md:263-281 confrontato regola per regola con scripts/backup-db.sh (336-356, 418-470, 546-592): le cinque regole e il file di memoria dicono il vero, compreso «dalla notte dopo torna verde»; la frase vecchia non c'è più in nessun documento. Prova solo testuale (ammessa sui minori). Fuori voce: il commento di tests/unit/la-copia-delle-foto-si-riapre-davvero.test.ts:147 dice ancora la regola vecchia."
+    },
+    {
+      "id": "R07-005",
+      "chiave": "deploy-sre|dopo il deploy il freno della veloce può risultare «mai partito» per un attimo, con un falso allarme agli amministratori",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "prova": "git -C ../wt-base sed -n 21-25 migrations/250_battiti_iniziali_dei_lavori_nuovi.sql; grep veloce-non-confermata lib/cron-health.ts vercel.json; npx vitest run tests/unit/riparazione-r01-battiti-iniziali.test.ts: 3/3 verdi alla base",
+      "nota": "Alla base la migrazione 250 semina 'veloce-non-confermata' (con external-price-alerts e riquadra-casse) in cron_heartbeats con now() e ON CONFLICT DO NOTHING; il passo «Applica le migrazioni al database, prima di pubblicare» di .github/workflows/deploy-dopo-ci.yml viene prima della pubblicazione; la prova R01-019 fa rossa ogni soglia di CRON_MAX_STALENESS_MIN senza seme, ed è verde alla base. Nessun codice cambiato."
+    },
+    {
+      "id": "R07-006",
+      "chiave": "deploy-sre|il sorvegliante ora gira ogni 5 minuti, ma la sua soglia di morte e il commento sono rimasti quelli dei 15 minuti",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base f93d246a42b25cd5fa86da712755526d7d6388dc --file lib/cron-health.ts --prove tests/unit/riparazione-r07-soglia-sorvegliante.test.ts --json"
+      },
+      "nota": "Revisore B: vercel.json dice */5, 40 minuti sono 8 giri, in linea con gli altri lavori a 5 minuti (veloce 30, send-push 45); la soglia la leggono solo /api/health e /api/health/ready, che con un lavoro fermo danno «degradato» con 200, mai 503; il battito si scrive solo a giro sano. La prova usa l'orologio finto e 3 casi su 4 diventano rossi rimettendo il difetto. I due punti della voce (commento :117 e soglia :133) sono a posto. Fuori voce: «Cron ogni 15min» resta nella citazione degli esperti in app/api/cron/operational-alerts/route.ts:27 e in tests/unit/la-campanella-degli-allarmi-suona-una-volta-anche-senza-posta.test.ts:7 e :109."
+    },
+    {
+      "id": "R07-007",
+      "chiave": "deploy-sre|nessuna pagina admin mostra la configurazione mancante (chiave di servizio, dati del titolare)",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "prova": "git -C ../wt-base sed -n 161,176p e 244,255p app/admin/page.tsx; sed -n 14,28p app/api/admin/configurazione/route.ts; git show c0b2f01f",
+      "nota": "Alla base app/admin/page.tsx legge /api/admin/configurazione e mostra il riquadro «Configurazione da completare» (chiave di servizio mancante, dati del titolare incompleti coi nomi); la rotta è dietro withAdminAuth e restituisce solo c'è/manca e i nomi, mai i valori (commit a3c7915f, R06-023). L'unico cambio del riparatore è c0b2f01f, solo un commento in lib/health/checks.ts:264: niente di rotto."
+    },
+    {
+      "id": "R07-009",
+      "chiave": "deploy-sre|se il secchio dello storico delle foto non si crea, lo storico finisce nello stesso secchio della copia e la notte resta verde",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base b02fd960e1869f7ed24b9c6aefcfc01e40c81d95 --file scripts/backup-db.sh --prove tests/unit/riparazione-r07-storico-nello-stesso-secchio.test.ts --json"
+      },
+      "nota": "Revisore B, verificato da K02 sul registro e su docs/backup-restore.md: la parte fatta regge (::warning:: più una riga nel riepilogo col percorso _storico, stessa copia, stessa uscita; la prova esegue il blocco vero con un rclone finto e diventa rossa rimettendo il difetto). Ma il residuo dichiarato è incompleto: la voce dice anche «docs/backup-restore.md conosce solo il secchio -storico: chi ripristina dopo un incidente non trova le foto spostate nelle notti di ripiego», e il documento (righe 224-232) ancora non nomina <destinazione>/_storico. Né cosa_resta né domanda lo dicono: è una riga di documento, non una scelta di Nicola. Resta aperta: la scelta sulla notte rossa (domanda onesta) più la riga del documento."
+    },
+    {
+      "id": "R07-012",
+      "chiave": "deploy-sre|altre quattro prove dell'impalcatura sql mettono ancora le migrazioni nell'ordine di sort -v",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "prova": "git -C ../wt-base grep -n sort -- tests/sql/harness/la-158-non-lascia-la-porta-aperta.sh la-159-non-lascia-la-tabella-scoperta.sh la-160-regge-un-ordine-annullato.sh lo-script-non-si-schianta-sul-database-nato-prima-del-registro.sh",
+      "nota": "Alla base i quattro file della voce hanno «for f in $(ls \"$MIG\"/*.sql | LC_ALL=C sort)» (righe 54, 61, 45, 55): la cura chiesta dalla voce c'è già. Il «sort -V» di scripts/applica-migrazioni-mancanti.sh:11 sta nel paragrafo «PERCHE' ESISTE» e cita il ciclo vecchio, non è un'istruzione d'uso; il ciclo vero (riga 229-230) usa LC_ALL=C. Nessun codice cambiato."
+    },
+    {
+      "id": "R10-003",
+      "chiave": "microcopy|nella pagina delle sponsorizzazioni colonne e valori sono in inglese e in codici del database",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base f93d246a42b25cd5fa86da712755526d7d6388dc --file app/admin/sponsored/page.tsx --prove tests/unit/riparazione-r10-sponsorizzati-categoria.test.ts --json"
+      },
+      "nota": "Revisore D: provate una categoria sparita dalla tabella e una lettura delle categorie che cade: esce lo slug reso leggibile («Casa tessili vecchia»), mai il codice grezzo, e la tabella resta intera. Il residuo è dichiarato onestamente ed esatto: lib/admin/vista-delle-campagne.ts righe 279, 285, 287 («Impressions», «CTR medio», la percentuale col punto), e l'elenco dei file altrui è giusto (comprese le righe 90/100/130/180 della prova sui riquadri)."
+    },
+    {
+      "id": "R10-005",
+      "chiave": "navigazione-gerarchia|su notifiche e messaggi i titoli saltano dal titolo principale al terzo livello",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 6c74b905103fc9d4a451a13c1f485dacf9f04ff6 --file app/messages/page.tsx,app/notifications/page.tsx --prove tests/unit/riparazione-r10-titoli-notifiche-messaggi.test.ts --json"
+      },
+      "nota": "più commit: rimessa sul commit finale della voce con base il padre del primo, come il riparatore · Revisore D, regola CSS verificata da K02: l'ordine dei titoli regge in ogni stato (vuoto, errore, pieno) e l'h2 solo per lettori di schermo «Le tue conversazioni» è usato bene. Ma i due h2 nuovi degli stati vuoti, app/messages/page.tsx:181 «Nessuna conversazione» e app/notifications/page.tsx:245 «Nessuna notifica», non hanno classi di misura né di carattere, e prendono le regole d'elemento di app/globals.css (h1, h2, h3 in serif alle righe 222-225; h2 a --text-xl alla riga 257): il testo che era un <p> a 16px in Inter diventa 20px in Fraunces. Lo vede chiunque abbia la casella vuota, quasi ogni cliente nuovo. Dedotto dal CSS, non visto in un browser. Cura: font-sans text-base tracking-normal sui due h2. La prova monta le pagine solo vuote e per lo stato pieno legge il sorgente con una regex."
+    },
+    {
+      "id": "R10-012",
+      "chiave": "stati-ui|nelle notifiche il tasto «carica altre» sparisce mentre carica, e un errore cancella dalla pagina l'elenco già letto",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base b03a4312fa1741a42b1776040b257cafa34dad6e --file app/notifications/page.tsx --prove tests/unit/riparazione-r10-notifiche-carica-altre.test.ts --json"
+      },
+      "nota": "più commit: rimessa sul commit finale della voce con base il padre del primo, come il riparatore · Revisore D, col react-query vero: doppio e triplo clic su «Carica altre» mentre carica, il tasto si spegne subito su «Caricamento…» e alla fine le righe sono 100 tutte diverse (si chiedono le prime N, non le successive); con un errore le 50 righe lette restano a video e dopo «Riprova» arrivano le 100; la pagina non ascolta l'elenco in tempo reale. Riprodotto il caso dichiarato aperto («Segna tutte» riuscito, rilettura caduta: le notifiche restano «Non letta» col tasto visibile): residuo onesto."
+    },
+    {
+      "id": "R10-002",
+      "chiave": "layout-responsive|la home e /about scorrono di lato col testo grande sul telefono",
+      "verdetto": "non_regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base bdf98f47671b21189da9d1a7fb79fc9d453e073a --file components/home-sections/HomeSectionRenderer.tsx --prove tests/unit/riparazione-r10-home-non-scorre-di-lato.test.ts --json"
+      },
+      "nota": "più commit: rimessa sul commit finale della voce con base il padre del primo, come il riparatore · Revisore C, misura in Chrome a 360 px col testo al 200%, CSS compilato dalla repo e il font Fraunces caricato come sul sito (strumento tarato: alla base la home misura 422 px, il numero della voce): alla testa la home scorre ancora di lato, 372 px. Escono la riga «Live» di components/LiveActivityFeed.tsx:60 e :158, spinta fuori dal titolo in Fraunces, e il titolo «Ricevi e paghi alla consegna» di components/home/HowItWorks.tsx:81, accanto a un cerchio che non si stringe, senza min-w-0 né break-words. Il 360 del riparatore era misurato senza Fraunces (ripiego più stretto); il revisore ha usato Fraunces 600, il sito usa 700 e 800, più larghi. /about regge (360 px). La descrizione della voce misura anche /come-funziona (oggi 438 px, app/come-funziona/page.tsx:75-84) e /privacy (393 px, components/ui/LegalLayout.tsx:41): nessun commit le tocca e il referto non le nomina, ma dice copre_tutta_la_voce. La prova disegna la sezione ma cerca solo classi: resta verde con la home a 372 px."
+    },
+    {
+      "id": "R10-007",
+      "chiave": "qa-flussi|dopo aver cambiato titolo o descrizione di una lista, /lists mostra ancora quelli vecchi",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base acb4bc5320b3a9ff7b30561982d444d59b4cf7a9 --file app/lists/[id]/page.tsx --prove tests/unit/riparazione-r10-lista-rinominata-in-lists.test.ts --json"
+      },
+      "nota": "Revisore C: /lists legge tre chiavi (app/lists/page.tsx:54, 78, 96: le mie, le pubbliche, in vetrina) e tutte e tre si rileggono dopo la modifica (app/lists/[id]/page.tsx:143); la prova monta davvero /lists e la pagina della lista. Difetto nuovo, fuori dal testo della voce: lo stesso onSuccess (app/lists/[id]/page.tsx:141-143) non rilegge lists.mineMin, la chiave del menu «Aggiungi a lista» che mostra i titoli (components/AddToListButton.tsx:40-48): rinominata «Colazione» in «Merenda», riaperto il menu entro 30 secondi mostra ancora «Colazione» (riprodotto con una prova temporanea). Da aprire come voce nuova."
+    },
+    {
+      "id": "R10-008",
+      "chiave": "qa-flussi|dopo aver rinominato una lista, la pagina delle liste mostra ancora il titolo vecchio",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base acb4bc5320b3a9ff7b30561982d444d59b4cf7a9 --file app/lists/[id]/page.tsx --prove tests/unit/riparazione-r10-lista-rinominata-in-lists.test.ts --json"
+      },
+      "nota": "stessa correzione e stessa prova di R10-007 (commit 6dea92f3): rimessa lanciata una volta · Revisore C: stessa riga e stessa verifica di R10-007 (le tre chiavi di /lists si rileggono dopo la rinomina). Vale anche qui il difetto nuovo del menu «Aggiungi a lista» (lists.mineMin non riletta), fuori dal testo della voce."
+    },
+    {
+      "id": "R10-009",
+      "chiave": "qa-flussi|dopo l'eliminazione di una lista il menu «aggiungi a lista» della scheda prodotto la mostra ancora",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 6dea92f379d278176497564b820491568db8c0dd --file app/lists/[id]/page.tsx --prove tests/unit/riparazione-r10-lista-eliminata-nel-menu.test.ts --json"
+      },
+      "nota": "più commit: rimessa sul commit finale della voce con base il padre del primo, come il riparatore · Revisore C: l'unica cancellazione su product_lists è app/lists/[id]/page.tsx:204 (il delete di components/AddToListButton.tsx:93 toglie un prodotto, non la lista; nessuna RPC o pagina admin elimina liste); con la memoria del menu vuota setQueryData non scrive niente, per un ospite resta null. La prova monta davvero il menu con la rete lenta."
+    },
+    {
+      "id": "R10-011",
+      "chiave": "stati-ui|nel nuovo prodotto dell'amministrazione il modulo resta attivo anche se negozi o categorie non sono arrivati",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base a9c59da359dd02a8389a8971b30cf7d62ee40f1e --file app/admin/products/new/page.tsx --prove tests/unit/riparazione-r10-nuovo-prodotto-aspetta-negozi-e-categorie.test.ts --json"
+      },
+      "nota": "più commit: rimessa sul commit finale della voce con base il padre del primo, come il riparatore · Revisore C, sonde sull'impianto della prova: con zero negozi o zero categorie arrivati il modulo si accende e dice «Non c'è ancora nessun negozio»; una rilettura dei negozi caduta dopo il primo arrivo lascia il modulo acceso e il negozio scelto, e «Pubblica» invia; il campo express si comporta come prima (l'ultimo commit toglie solo un avviso del lint); il fieldset spegne davvero «Pubblica» e «Salva come bozza». Nota minore: col modulo spento è spento anche «Annulla/Scarta», si esce dal link «← Prodotti»."
+    }
+  ]
+}

@@ -116,7 +116,11 @@
    ],
    "aperta": "2026-11-18 06:35",
    "consegna_usd": 25,
-   "tetto_usd": 30
+   "tetto_usd": 30,
+   "finita": true,
+   "punta": "cb5acf89",
+   "costo_usd": 13.67,
+   "nota": "25 voci a giudizio pieno, 19 prove rimesse su 19; valida-collaudo e guardia-ramo verdi"
   }
  },
  "controllori": {},
