@@ -1,0 +1,170 @@
+{
+ "regista": "session_015BmpnZQiGiFfMYaWbMDKVT",
+ "sha_regista": "2c3a9e9ed32bc0f289314c88ed8861f44c4f4e82",
+ "integrazione": {
+  "ramo": "claude/adoring-bohr-kixq35-o9",
+  "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
+  "unione_di_prova": "7f081d21",
+  "nota": "locale, non spinta: m01, m02, m03, m06, m07, m10 su f93d246a, poi tolti R01-012 (85f2677b), R02-002 (f07aaad5), R07-002 (9842603c), R10-005 (55edefd4, b03a4312), R10-002 (9be1a8a1, 4f0bd4ad), R03-019 (19b705f7, togliendo anche la sua prova ritoccata da b164a55b)",
+  "tree": "e7de3f27017f16c7a6dbb8584f7e39a5c5441cde"
+ },
+ "sessioni": {
+  "R03": {
+   "id": "session_015BmpnYY5FRfV2QHnGfxmLq",
+   "ramo": "claude/adoring-bohr-kixq35-o9-m03",
+   "onda": 1,
+   "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
+   "tetto_usd": 35,
+   "consegna_usd": 30,
+   "aperta": "2026-11-17 22:14",
+   "finita": true,
+   "punta": "9c137e87",
+   "testa": "b164a55be3181615c3184edc53ffb7e3c773e917",
+   "costo_usd": 37.48,
+   "nota": "verify verde su e669a8d7; oltre il tetto di 35 $: «consegna» della regia 2.0 alle 23:41, revisore del lotto 3 fermato (R03-007, 012, 015, 018, 019 e la seconda parte di 009 senza smentita)"
+  },
+  "R02": {
+   "id": "session_015BmpnUuqaZeyg8n3BBxy6h",
+   "ramo": "claude/adoring-bohr-kixq35-o9-m02",
+   "onda": 1,
+   "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
+   "tetto_usd": 35,
+   "consegna_usd": 30,
+   "aperta": "2026-11-17 22:15",
+   "finita": true,
+   "punta": "75f2f25a",
+   "testa": "276fc3fad8d9eb76fc2c4690e555579e1c062861",
+   "costo_usd": 17.11,
+   "nota": "verify verde su e19e93f0; rate limit allowed_warning, nessun uso extra"
+  },
+  "R01": {
+   "id": "session_015BmpnXsG8PNg7ifyDEH21e",
+   "ramo": "claude/adoring-bohr-kixq35-o9-m01",
+   "onda": 1,
+   "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
+   "tetto_usd": 35,
+   "consegna_usd": 30,
+   "aperta": "2026-11-17 22:28",
+   "finita": true,
+   "punta": "420096d6",
+   "testa": "675c91f9cab17e739bada9e7ac98206882577a35",
+   "costo_usd": 14.0,
+   "nota": "verify verde su 8853089a; consegnato alla regia «Ondata 9» alle 23:08, registrato dalla 2.0"
+  },
+  "R06": {
+   "id": "session_015BmpnXuKeg9UZV4VTeijA9",
+   "ramo": "claude/adoring-bohr-kixq35-o9-m06",
+   "onda": 1,
+   "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
+   "tetto_usd": 35,
+   "consegna_usd": 30,
+   "aperta": "2026-11-17 22:28",
+   "finita": true,
+   "punta": "1035a190",
+   "testa": "677b393d04c004441f81b6dd175ff16135bb3375",
+   "costo_usd": 13.16,
+   "nota": "verify verde con NODE_OPTIONS=--max-old-space-size=6144"
+  },
+  "R07": {
+   "id": "session_015BmpnY5Tr9sb9jVsUfgDzU",
+   "ramo": "claude/adoring-bohr-kixq35-o9-m07",
+   "onda": 1,
+   "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
+   "tetto_usd": 35,
+   "consegna_usd": 30,
+   "aperta": "2026-11-17 22:28",
+   "finita": true,
+   "punta": "ac458970",
+   "testa": "c0b2f01f58b426f5bbc3ee2862c961c83d0e1717",
+   "costo_usd": 12.41,
+   "nota": "verify verde su b593ad57, guardia-ramo verde; consegnato alla regia «Ondata 9» alle 23:13, registrato dalla 2.0"
+  },
+  "R10": {
+   "id": "session_015BmpnVgNypE5YPDP33krPo",
+   "ramo": "claude/adoring-bohr-kixq35-o9-m10",
+   "onda": 1,
+   "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
+   "tetto_usd": 35,
+   "consegna_usd": 30,
+   "aperta": "2026-11-17 22:29",
+   "finita": true,
+   "punta": "53239e21",
+   "testa": "8965d7afca58bf03beb55cc5fbd9768cbbe52ce4",
+   "costo_usd": 28.86,
+   "nota": "verify verde su 8965d7af; 6/6 subagenti; una falla di dati riservata (preesistente) passata alla regia a voce, nel referto solo il titolo"
+  }
+ },
+ "collaudatori": {
+  "K01": {
+   "id": "session_015BmpnVJ6naVBFudcnNeXr1",
+   "ramo": "claude/adoring-bohr-kixq35-o9-k01",
+   "partenza": "fa2772cae2770d13c10aa20c4449771895215353",
+   "riparatori": [
+    "R02",
+    "R03",
+    "R06"
+   ],
+   "aperta": "2026-11-18 06:35",
+   "consegna_usd": 25,
+   "tetto_usd": 30,
+   "finita": true,
+   "punta": "6806f283",
+   "costo_usd": 14.54,
+   "nota": "32 voci a giudizio pieno, 23 prove rimesse su 23; valida-collaudo e guardia-ramo verdi; le due prove comuni di R02 non indebolite; i sei commit con id di onde vecchie toccano solo la voce del titolo"
+  },
+  "K02": {
+   "id": "session_015BmpnW613YVoZNdJNzfsos",
+   "ramo": "claude/adoring-bohr-kixq35-o9-k02",
+   "partenza": "fa2772cae2770d13c10aa20c4449771895215353",
+   "riparatori": [
+    "R01",
+    "R07",
+    "R10"
+   ],
+   "aperta": "2026-11-18 06:35",
+   "consegna_usd": 25,
+   "tetto_usd": 30,
+   "finita": true,
+   "punta": "cb5acf89",
+   "costo_usd": 13.67,
+   "nota": "25 voci a giudizio pieno, 19 prove rimesse su 19; valida-collaudo e guardia-ramo verdi"
+  }
+ },
+ "controllori": {
+  "C01": {
+   "id": "session_015BmpnW8bJu58n6Y74o6ARk",
+   "ramo": "claude/adoring-bohr-kixq35-o9-c01",
+   "partenza": "3ea2aaf80733265eb077069aec11634a637f2770",
+   "integrazione_tree": "0831f34091715cc1bf68a9f71d69f60db80072f6",
+   "aperta": "2026-11-18 07:15",
+   "consegna_usd": 15,
+   "tetto_usd": 20,
+   "finita": true,
+   "punta": "653e2ecf",
+   "costo_usd": 9.96,
+   "nota": "5 voci rosse (R03-019 grave rompe_altro, R10-002 rompe_altro, R07-001, R03-009, R03-003), 3 difetti nuovi minori, 41 file di codice guardati su 41"
+  }
+ },
+ "da_aprire_giovedi": [
+  "R04",
+  "R05",
+  "R08",
+  "R09",
+  "collaudo gruppo A",
+  "K01-K04",
+  "C01"
+ ],
+ "regista_prima": [
+  "session_015BmpnYq3DQDRwTXdBwfzud",
+  "session_015BmpnVz75xRKsz1trmeMzu"
+ ],
+ "promemoria": {
+  "spesa": "trig_01CE9YMeeT8hwPB7aB7G56tC (spento, si riaccende con update_trigger)",
+  "giovedi_10_05": "trig_01DWA51xXu14HBQKnUJd5Tgz",
+  "spenti": [
+   "trig_01FDAq4rdkNroMeX9LiUDDbZ",
+   "trig_01WEachfCUXzLjny8CWWTMx4",
+   "trig_016hPs5zgKshzayv8gxfTKVG"
+  ]
+ }
+}

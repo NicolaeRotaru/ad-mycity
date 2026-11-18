@@ -2,169 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-27T14:24:14.882Z",
-      "scatti": 379,
-      "voci": 25,
-      "per_classe": {
-        "prova-accecata": 17,
-        "perimetro-letterale": 1,
-        "malattia-nuova": 3,
-        "esenzione-aggiunta": 1,
-        "difesa-rimossa": 3
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-27T15:02:40.616Z",
-      "scatti": 381,
-      "voci": 25,
-      "per_classe": {
-        "prova-accecata": 17,
-        "perimetro-letterale": 1,
-        "malattia-nuova": 3,
-        "esenzione-aggiunta": 1,
-        "difesa-rimossa": 3
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-27T15:18:37.382Z",
-      "scatti": 383,
-      "voci": 25,
-      "per_classe": {
-        "prova-accecata": 17,
-        "perimetro-letterale": 1,
-        "malattia-nuova": 3,
-        "esenzione-aggiunta": 1,
-        "difesa-rimossa": 3
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-27T15:52:40.256Z",
-      "scatti": 389,
-      "voci": 25,
-      "per_classe": {
-        "prova-accecata": 17,
-        "perimetro-letterale": 1,
-        "malattia-nuova": 3,
-        "esenzione-aggiunta": 1,
-        "difesa-rimossa": 3
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-27T16:11:08.072Z",
-      "scatti": 391,
-      "voci": 25,
-      "per_classe": {
-        "prova-accecata": 17,
-        "perimetro-letterale": 1,
-        "malattia-nuova": 3,
-        "esenzione-aggiunta": 1,
-        "difesa-rimossa": 3
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-27T16:31:37.791Z",
-      "scatti": 393,
-      "voci": 25,
-      "per_classe": {
-        "prova-accecata": 17,
-        "perimetro-letterale": 1,
-        "malattia-nuova": 3,
-        "esenzione-aggiunta": 1,
-        "difesa-rimossa": 3
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-27T16:56:02.872Z",
-      "scatti": 395,
-      "voci": 25,
-      "per_classe": {
-        "prova-accecata": 17,
-        "perimetro-letterale": 1,
-        "malattia-nuova": 3,
-        "esenzione-aggiunta": 1,
-        "difesa-rimossa": 3
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-27T17:10:40.829Z",
-      "scatti": 397,
-      "voci": 25,
-      "per_classe": {
-        "prova-accecata": 17,
-        "perimetro-letterale": 1,
-        "malattia-nuova": 3,
-        "esenzione-aggiunta": 1,
-        "difesa-rimossa": 3
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-27T17:33:35.684Z",
-      "scatti": 399,
-      "voci": 25,
-      "per_classe": {
-        "prova-accecata": 17,
-        "perimetro-letterale": 1,
-        "malattia-nuova": 3,
-        "esenzione-aggiunta": 1,
-        "difesa-rimossa": 3
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-27T17:50:52.896Z",
-      "scatti": 401,
-      "voci": 26,
-      "per_classe": {
-        "prova-accecata": 18,
-        "perimetro-letterale": 1,
-        "malattia-nuova": 3,
-        "esenzione-aggiunta": 1,
-        "difesa-rimossa": 3
-      },
-      "mai_risolte": [
-        {
-          "classe": "prova-accecata",
-          "file": "cervello/worker-coda.sh",
-          "cosa": "la mutazione di AR-838 («la presa non passa piu' la spesa contata a chi sceglie: il tetto torna a non avere chi lo alimenta») non trova più il suo pezzo in questo file",
-          "ripetuta": 2
-        }
-      ]
-    },
-    {
-      "quando": "2026-08-27T18:05:22.894Z",
-      "scatti": 403,
-      "voci": 26,
-      "per_classe": {
-        "prova-accecata": 18,
-        "perimetro-letterale": 1,
-        "malattia-nuova": 3,
-        "esenzione-aggiunta": 1,
-        "difesa-rimossa": 3
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-27T18:24:10.303Z",
-      "scatti": 405,
-      "voci": 26,
-      "per_classe": {
-        "prova-accecata": 18,
-        "perimetro-letterale": 1,
-        "malattia-nuova": 3,
-        "esenzione-aggiunta": 1,
-        "difesa-rimossa": 3
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-27T18:48:37.677Z",
       "scatti": 407,
       "voci": 26,
@@ -1865,7 +1702,91 @@
       "voci": 0,
       "per_classe": {},
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-17T21:38:20.894Z",
+      "scatti": 115,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-17T21:46:48.208Z",
+      "scatti": 117,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-17T21:57:56.671Z",
+      "scatti": 119,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-17T22:18:36.608Z",
+      "scatti": 128,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-17T22:19:21.223Z",
+      "scatti": 19,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-17T22:36:48.920Z",
+      "scatti": 26,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-17T22:48:59.401Z",
+      "scatti": 39,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-17T22:58:56.817Z",
+      "scatti": 41,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-17T23:08:24.233Z",
+      "scatti": 47,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-18T06:01:12.870Z",
+      "scatti": 65,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-18T06:21:58.765Z",
+      "scatti": 78,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-18T06:28:59.058Z",
+      "scatti": 79,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-11-17T07:31:28.544Z"
+  "aggiornato": "2026-11-18T06:28:59.059Z"
 }

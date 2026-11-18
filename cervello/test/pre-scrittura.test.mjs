@@ -77,6 +77,43 @@ test("il riconoscimento è per FORMA del verbo, non per elenco: uno strumento nu
   assert.ok(VERBI_DI_SCRITTURA.test("apply_migration"));
 });
 
+test("aprire sessioni e creare o cambiare promemoria NON chiede: l'eccezione firmata da Nicola il 17/11", () => {
+  // Una regia di riparazione apre una quindicina di sessioni per onda. Con la domanda a ogni apertura,
+  // l'onda di giovedì alle 10:05 si sarebbe fermata alla prima, finché Nicola non cliccava.
+  for (const s of [
+    "mcp__claude-code-remote__create_session",
+    "mcp__claude-code-remote__create_trigger",
+    "mcp__claude-code-remote__update_trigger",
+  ]) {
+    assert.equal(decidi({ strumento: s }).chiedi, false, s);
+  }
+});
+
+test("l'eccezione vale per il nome, non per ogni argomento: spingere dritto su main e cambiare modello chiedono", () => {
+  for (const ramo of ["main", "master", " Main ", "refs/heads/main"]) {
+    assert.equal(decidi({ strumento: "mcp__claude-code-remote__create_session", input: { outcome_branch: ramo } }).chiedi, true, ramo);
+  }
+  assert.equal(decidi({ strumento: "mcp__claude-code-remote__update_trigger", input: { trigger_id: "trig_x", model: "claude-x" } }).chiedi, true);
+  // e i sì restano sì: un ramo di lavoro, o un promemoria a cui si cambia solo il testo
+  assert.equal(decidi({ strumento: "mcp__claude-code-remote__create_session", input: { outcome_branch: "claude/o9-m01", title: "R01" } }).chiedi, false);
+  assert.equal(decidi({ strumento: "mcp__claude-code-remote__update_trigger", input: { trigger_id: "trig_x", prompt: "nuovo" } }).chiedi, false);
+  assert.equal(decidi({ strumento: "mcp__claude-code-remote__create_trigger", input: { name: "x", prompt: "y" } }).chiedi, false);
+});
+
+test("l'eccezione resta stretta: gli altri strumenti che scrivono, anche dello stesso server, chiedono ancora", () => {
+  for (const s of [
+    "mcp__claude-code-remote__create_environment",
+    "mcp__claude-code-remote__update_environment",
+    "mcp__claude-code-remote__delete_trigger",
+    "mcp__claude-code-remote__add_repo",
+    "mcp__github__create_pull_request",
+    "mcp__github__push_files",
+    "mcp__altro-server__create_session",
+  ]) {
+    assert.equal(decidi({ strumento: s }).chiedi, true, s);
+  }
+});
+
 // ── la busta e l'ancora dei senior ───────────────────────────────────────────
 
 test("la busta è «ask», mai «deny»: il potere di dire di no resta di Nicola", () => {
@@ -102,4 +139,22 @@ test("il comando si legge solo dove esiste: uno strumento senza `command` non ne
   assert.equal(comandoDi({ command: "ls" }), "ls");
   assert.equal(comandoDi({ file_path: "a.md" }), "");
   assert.equal(comandoDi(undefined), "");
+});
+
+test("la guardia vera, chiamata come la chiama Claude Code: l'apertura passa, quella su main chiede", async () => {
+  const { spawnSync } = await import("node:child_process");
+  const { fileURLToPath } = await import("node:url");
+  const guardia = fileURLToPath(new URL("../pre-scrittura.mjs", import.meta.url));
+  const chiama = (tool_input) =>
+    spawnSync(process.execPath, [guardia, "--hook"], {
+      input: JSON.stringify({ hook_event_name: "PreToolUse", tool_name: "mcp__claude-code-remote__create_session", tool_input }),
+      encoding: "utf8",
+      timeout: 20000,
+    });
+  const si = chiama({ title: "R01", outcome_branch: "claude/o9-m01" });
+  assert.equal(si.status, 0, si.stderr);
+  assert.equal(si.stdout.trim(), "");
+  const no = chiama({ title: "R01", outcome_branch: "main" });
+  assert.equal(no.status, 0, no.stderr);
+  assert.equal(JSON.parse(no.stdout).hookSpecificOutput.permissionDecision, "ask");
 });

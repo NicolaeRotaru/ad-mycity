@@ -80,6 +80,42 @@ export const VERBI_DI_SCRITTURA = /(create|update|delete|push|write|merge|apply|
 /** Riconosce uno strumento MCP dal nome, che per contratto comincia così. */
 export const E_MCP = /^mcp__/;
 
+/**
+ * L'eccezione firmata da Nicola il 17/11/2026 verso le 21:50, nella chat «Ondata 9», con la scelta
+ * «Firmo: le aperture passano». Aprire una sessione, creare un promemoria e cambiarlo spostano il
+ * lavoro. Una regia di riparazione ne apre una quindicina per onda, e «nessuna sessione mi deve
+ * chiedere nessun permesso, se no si ferma tutto» (Nicola, 17/11 verso le 16:12). Le scritture su
+ * GitHub continuano a chiedere, PR comprese.
+ *
+ * Elenco CHIUSO per nome esatto, al contrario dei verbi qui sopra: un'eccezione deve restare stretta.
+ * Uno strumento nuovo dello stesso server resta coperto dalla regola ④ se il suo nome porta uno dei
+ * verbi di scrittura (create_environment, delete_trigger, …). Chi non ne porta nessuno
+ * (send_message, archive_session, …) non chiedeva prima e non chiede adesso.
+ *
+ * L'eccezione vale per il NOME, non per qualunque argomento: due usi che Nicola non ha firmato
+ * continuano a chiedere (collaudo del 17/11). Una sessione che spinge dritta su main o master
+ * (`outcome_branch`) è una scrittura su GitHub senza PR. Il cambio di `model` di un promemoria è
+ * proprio il caso che lo strumento stesso riserva a «a human explicitly asks».
+ */
+export const ORCHESTRAZIONE_FIRMATA = new Set([
+  "mcp__claude-code-remote__create_session",
+  "mcp__claude-code-remote__create_trigger",
+  "mcp__claude-code-remote__update_trigger",
+]);
+
+/** Gli argomenti che riportano la domanda anche su uno strumento dell'eccezione. `null` = nessuno. */
+export function argomentoNonFirmato(strumento = "", input = {}) {
+  const i = input && typeof input === "object" ? input : {};
+  if (strumento.endsWith("__create_session")) {
+    const ramo = String(i.outcome_branch ?? "").trim().replace(/^refs\/heads\//, "").toLowerCase();
+    if (ramo === "main" || ramo === "master") return `una sessione che spinge dritta su «${ramo}»`;
+  }
+  if (strumento.endsWith("__update_trigger") && i.model !== undefined && i.model !== null && i.model !== "") {
+    return "il cambio del modello di un promemoria";
+  }
+  return null;
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // IL CUORE — puro. Riceve la mossa già letta e torna la decisione: così una prova può eseguire ogni
 // caso senza avere né un repo né un evento vero.
@@ -94,12 +130,21 @@ export const E_MCP = /^mcp__/;
  * @param {Map<string,string>} m.difese  percorso → perché qualcuno lo dichiara difesa
  * @returns {{chiedi:boolean, motivo:string|null, classe:string|null}}
  */
-export function decidi({ strumento = "", comando = "", difese = new Map() } = {}) {
+export function decidi({ strumento = "", comando = "", difese = new Map(), input = {} } = {}) {
   const no = { chiedi: false, motivo: null, classe: null };
 
   // ④ Uno strumento MCP che scrive. Vale PRIMA degli altri perché è l'unico caso in cui, se taccio,
   //    non parlerà più nessuno: dopo non resta nemmeno un diff locale da guardare.
   if (E_MCP.test(strumento)) {
+    if (ORCHESTRAZIONE_FIRMATA.has(strumento)) {
+      const fuori = argomentoNonFirmato(strumento, input);
+      if (!fuori) return no;
+      return {
+        chiedi: true,
+        classe: "scrittura-senza-guardia",
+        motivo: `«${strumento}» passa senza domanda per l'eccezione firmata il 17/11, ma non per ${fuori}: quello Nicola non l'ha firmato.`,
+      };
+    }
     const verbo = strumento.split("__").pop() || "";
     if (VERBI_DI_SCRITTURA.test(verbo)) {
       return {
@@ -263,7 +308,7 @@ async function main() {
     process.exit(0);
   }
 
-  const d = decidi({ strumento, comando: comandoDi(ev?.tool_input), difese: difeseDelRepo() });
+  const d = decidi({ strumento, comando: comandoDi(ev?.tool_input), difese: difeseDelRepo(), input: ev?.tool_input });
   const busta = bustaDecisione(d);
   if (busta) console.log(busta);
   chiudi(mastro, d.chiedi ? "chiede" : "ok", d.chiedi ? d.motivo : "");
