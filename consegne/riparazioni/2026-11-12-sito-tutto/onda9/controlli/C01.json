@@ -1,0 +1,88 @@
+{
+  "controllore": "C01",
+  "onda": 9,
+  "finita": true,
+  "testa": "0831f34091715cc1bf68a9f71d69f60db80072f6",
+  "testa_nota": "testa = impronta dell'albero unito verificata dalla regia (git rev-parse HEAD^{tree}); HEAD locale cbb87ed5822fab5872e08083a044ff5b5269b355 = f93d246a + merge m01, m02, m03, m06, m07, m10 + revert di R01-012, R02-002, R07-002, R10-005",
+  "head_locale": "cbb87ed5822fab5872e08083a044ff5b5269b355",
+  "aggiornato": "2026-11-18 07:45",
+  "verify": {
+    "comando": "npm run verify (lanciato dalla regia sulla stessa impronta 0831f340: tipi senza errori, stile 0 errori e 98 avvisi, 11.137 prove passate; non rilanciato qui per suo mandato)",
+    "esito": "verde",
+    "nota": "Harness SQL non lanciato: l'onda non tocca migrations/, supabase/ né tests/sql/ (0 file su 86). Rilanciata qui solo una prova mirata, quella del difetto grave su R03-019: rossa sull'unione, verde con la pagina di modifica della base."
+  },
+  "voci_rosse": [
+    {
+      "chiave": "stati-ui|quando la rete torna, le pagine prodotto del negoziante rimettono il caricamento al posto del modulo e le modifiche non salvate si perdono",
+      "voce": "R03-019",
+      "severita": "grave",
+      "perche": "Rompe altro: app/seller/products/[id]/edit/page.tsx:252 e :302 tengono montato il modulo aperto, e ProductForm.tsx:293 legge le taglie solo quando si monta. Se il prodotto è in memoria e le taglie arrivano dopo (rete tornata), il modulo resta con 0 taglie per tutta la sessione e il Salva scrive la scorta del prodotto come se non avesse taglie: la scorta si stacca dalla somma delle taglie (il trigger 080 scatta solo su product_variants). Sulla base la pagina rimontava il modulo con le taglie. In «Duplica» la stessa voce ha messo il freno variantiNonArrivate (new/page.tsx:173), in «Modifica» no.",
+      "prova": "Prova del controllore (copia fuori dal deposito): prodotto in memoria, taglie no, pagina senza rete, taglie dopo 40 ms. Sull'unione: modulo montato 1 volta con 0 taglie, prova rossa (AssertionError). Con edit/page.tsx della base f93d246a: modulo montato 2 volte con 1 taglia, prova verde. Rilanciata due volte da C01."
+    },
+    {
+      "chiave": "ai-endpoints|se l'invio di un lotto ai resta senza risposta, il sito lo rimanda e anthropic ne esegue due, uno pagato e mai visto",
+      "voce": "R03-009",
+      "severita": "minore",
+      "perche": "Oltre al 520 già nella nota del collaudo: lib/ai/batch.ts:90, il tempo di 60 s dell'SDK vale solo fino alle intestazioni. Se dopo un 2xx il corpo si ferma, await invio resta appeso fino ai 120 s di Vercel (vercel.json, app/api/ai/**), il catch non gira, la riga resta «in invio» senza motivo e status/route.ts:114-129 la chiude come fallita dopo 15 minuti: il secondo avvio paga un secondo lotto. Raro, ma è il caso «2xx col corpo illeggibile» che la voce dà per chiuso. Cura possibile: signal AbortSignal.timeout (~70 s) nelle opzioni di batches.create.",
+      "prova": "Script node con l'SDK vero 0.100.1 e un fetch finto (200, corpo che non finisce): asResponse risolve in 33 ms, await invio ancora appeso dopo 3000 ms."
+    },
+    {
+      "chiave": "ai-endpoints|un lotto ai partito e pagato ma non agganciato alla sua riga si chiude come fallito dopo 15 minuti e se ne può pagare un secondo",
+      "voce": "R03-003",
+      "severita": "minore",
+      "perche": "Il residuo dichiarato nomina solo la scrittura di route.ts:206. Ma anche app/api/ai/catalog-batch/start/route.ts:240, la scrittura del motivo INVIO_SENZA_RISPOSTA, non controlla error: se il database la rifiuta, la riga resta «in invio» senza motivo e status/route.ts:114-115 la chiude come fallita dopo 15 minuti invece che dopo 24 ore, e un secondo avvio paga un altro lotto. Con R03-009 da qui passano anche 500, 502, 504, 524 e il 2xx illeggibile: la strada si usa più di prima.",
+      "prova": "Righe lette: start/route.ts:233-246 (update senza controllo di error) e status/route.ts:114-115 (le 24 ore valgono solo se error === INVIO_SENZA_RISPOSTA)."
+    },
+    {
+      "chiave": "deploy-sre|dopo un ritorno indietro il riepilogo del rilascio rassicura a torto se una migrazione ha tolto una funzione o una vista",
+      "voce": "R07-001",
+      "severita": "minore",
+      "perche": "Il filtro nuovo di .github/workflows/deploy-dopo-ci.yml:793 (grep -viE 'DROP (DEFAULT|IDENTITY|EXPRESSION)…') butta via la riga intera, non solo quel pezzo: una riga con «DROP VIEW IF EXISTS v; ALTER TABLE t ALTER COLUMN c DROP DEFAULT;» o «ALTER COLUMN status DROP DEFAULT, DROP legacy_status;» fa scrivere al riepilogo che nessuna migrazione toglie qualcosa. È la rassicurazione a torto della voce. Latente: 0 migrazioni su 209 hanno oggi DROP DEFAULT/IDENTITY/EXPRESSION.",
+      "prova": "Funzione nota_database estratta dal YAML vero (js-yaml) ed eseguita sotto set -euo pipefail su migrazioni finte: casi 901, 902, 903 danno la frase rassicurante; il caso di controllo 904 (DROP di colonna da solo) dà il ⛔."
+    },
+    {
+      "chiave": "layout-responsive|la home e /about scorrono di lato col testo grande sul telefono",
+      "voce": "R10-002",
+      "severita": "minore",
+      "perche": "Rompe altro, oltre al non_regge già del collaudo: components/home-sections/HomeSectionRenderer.tsx:391 ha perso whitespace-nowrap sul link della fascia sellerCta. Da 640 a 1535 px la fascia è una riga flex e il pulsante «Diventa venditore» va su due righe dentro la pillola, a ogni visita della home (la fascia è nella home di default, lib/home-site.ts:244 e :303). Sulla base restava su una riga a ogni larghezza. Cura provata: sm:shrink-0 sul link (una riga da 640 px in su, a 360 px può ancora andare a capo).",
+      "prova": "Markup della fascia con il CSS compilato dal tailwind.config.ts della repo, misurato in Chrome headless: base 1 riga a ogni larghezza; testa 2 righe a 640, 1024, 1280, 1366 e 1440 px. Font di ripiego, non Inter e Fraunces (coi font veri il testo accanto è più largo)."
+    }
+  ],
+  "nuovi_difetti_visti": [
+    {
+      "titolo": "Se lo storico delle foto impostato a mano non esiste, l'avviso resta solo nel registro e la notte è verde",
+      "dimensione": "deploy-sre",
+      "severita": "minore",
+      "file": "scripts/backup-db.sh:538",
+      "descrizione": "R07-009 ha portato nell'avviso del lavoro e nel riepilogo solo il caso del ripiego su _storico. Il caso accanto (STORAGE_SYNC_STORICO impostata ma il secchio non risponde e non si crea, per esempio un nome sbagliato) scrive ancora solo nel registro: 0 avvisi, 0 righe di riepilogo, uscita 0, e la riga finale (591) dice «storico in <secchio inesistente>». La prima notte in cui un negozio cancella una foto, --backup-dir fa fallire la copia delle foto (riga 556): la rete manca proprio quando serve. Provato col blocco vero e un rclone finto."
+    },
+    {
+      "titolo": "Tolto un prodotto da una lista, il menu «Aggiungi a lista» lo segna ancora dentro",
+      "dimensione": "qa-flussi",
+      "severita": "minore",
+      "file": "app/lists/[id]/page.tsx:175",
+      "descrizione": "C'era già prima dell'onda, stessa classe di R10-009 nello stesso file. removeItem.onSuccess rilegge items, mine, public e inVetrina ma non lists.containing(productId), la chiave della spunta del menu (components/AddToListButton.tsx:57). Tornando alla scheda entro 30 secondi la lista risulta ancora spuntata; toccarla per rimettere il prodotto cancella una riga che non c'è, il messaggio dice «Rimosso dalla lista» e il prodotto resta fuori. Cura: invalidare anche ['lists','containing']. Provato con AddToListButton e la pagina della lista nello stesso QueryClient: aria-pressed resta 'true' con 0 righe nel database."
+    },
+    {
+      "titolo": "«Aggiorna ora» dei prezzi esterni: col budget AI finito l'admin legge ancora «Riprova»",
+      "dimensione": "ai-endpoints",
+      "severita": "minore",
+      "file": "app/api/products/[id]/external-refresh/route.ts:167",
+      "descrizione": "R03-007 distingue solo il 404. Il blocco del tetto di spesa (AiCallError 503, motivo tetto_spesa) e il 429 finiscono ancora in «Aggiornamento non riuscito. Riprova.», lo stesso difetto che R03-002 ha chiuso nei lotti del catalogo. Passare ogni AiCallError a mapAiError (lib/ai/run.ts) lo chiude. Righe lette: external-refresh/route.ts:160-169."
+    }
+  ],
+  "file_toccati": 86,
+  "file_guardati": 41,
+  "file_nota": "Guardati riga per riga i 41 file di codice e documenti, tutti, divisi in 4 gruppi (rotte AI 15, rilascio e backup 6, flussi e stati 9, accessibilità e impaginazione 11). Non riletti a occhio i 39 file di prova (tests/unit/riparazione-*): sono coperti dal verify verde della regia sulla stessa impronta, e i subagenti li hanno aperti solo dove serviva a una verifica. Non riletti i 6 referti .riparazione/referto-R*.json: sono la contabilità dei riparatori, nel ramo per regola di LEGGIMI-riparatore.md.",
+  "controlli_fatti": [
+    "I due revert dentro file che tengono un'altra riparazione hanno lasciato i file puliti: app/orders/[id]/dispute/page.tsx (resta solo R01-002, intera) e app/notifications/page.tsx (resta solo R10-012, intera); .github/workflows/deploy-dopo-ci.yml (resta R07-001 intera, niente pezzi di R07-002); app/about/page.tsx esce dal diff, quindi il revert di R02-002 è completo.",
+    "app/api/ai/catalog-batch/start/route.ts, cambiato da quattro voci (R03-002, R03-003, R03-012, R03-013): insieme reggono, i catch sono nell'ordine giusto e la prenotazione si libera in ogni ramo.",
+    "app/lists/[id]/page.tsx (R10-007, R10-008, R10-009) e le etichette maiuscole di R06-012 su sei file convivono senza pestarsi.",
+    "Nessuna falla di sicurezza nuova vista nei file toccati."
+  ],
+  "conto": {
+    "subagenti": 4,
+    "token_stimati": 530000,
+    "token_nota": "Subagenti, dalle loro ricevute: 168.335 (rotte AI) + 98.418 (rilascio e backup) + 119.464 (flussi e stati) + 55.656 (accessibilità) = 441.873. Il resto è la storia di C01, stimata. Il costo vero lo legge la regia."
+  }
+}
