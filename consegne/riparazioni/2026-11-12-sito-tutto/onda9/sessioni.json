@@ -129,7 +129,17 @@
    "nota": "25 voci a giudizio pieno, 19 prove rimesse su 19; valida-collaudo e guardia-ramo verdi"
   }
  },
- "controllori": {},
+ "controllori": {
+  "C01": {
+   "id": "session_015BmpnW8bJu58n6Y74o6ARk",
+   "ramo": "claude/adoring-bohr-kixq35-o9-c01",
+   "partenza": "3ea2aaf80733265eb077069aec11634a637f2770",
+   "integrazione_tree": "0831f34091715cc1bf68a9f71d69f60db80072f6",
+   "aperta": "2026-11-18 07:15",
+   "consegna_usd": 15,
+   "tetto_usd": 20
+  }
+ },
  "da_aprire_giovedi": [
   "R04",
   "R05",
