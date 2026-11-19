@@ -1,0 +1,24 @@
+{
+ "scritto": "2026-11-19 10:20, regia 4.0 dell'onda 9",
+ "regola": "R04, R05, R08 e R09 si aprono solo con le voci che dal TESTO non toccano soldi, dati personali, permessi o migrazioni. Le altre restano aperte nel registro: il riparatore le scrive non_fatto con il motivo «fuori dal giro del 19/11».",
+ "dentro": {
+  "R04": ["R04-001","R04-002","R04-005","R04-009","R04-013","R04-015","R04-017","R04-019"],
+  "R05": ["R05-001","R05-002","R05-011","R05-013","R05-014","R05-015","R05-016","R05-017","R05-019"],
+  "R08": ["R08-002","R08-003","R08-004","R08-005","R08-006","R08-007","R08-008","R08-011"],
+  "R09": ["R09-002","R09-003","R09-004","R09-005","R09-006","R09-007","R09-008","R09-009","R09-010","R09-011","R09-013","R09-014","R09-015","R09-016","R09-017","R09-018","R09-020"]
+ },
+ "fuori": {
+  "R04-003": "permessi e dati personali (moderazione e cancellazione utenti)",
+  "R04-004": "permessi (lettura dei ruoli) e dati personali",
+  "R04-006": "dati personali (cancellazioni)", "R04-007": "dati personali (cancellazioni)", "R04-008": "dati personali (cancellazioni)",
+  "R04-010": "soldi (contanti)", "R04-011": "soldi (resi)", "R04-012": "soldi e permessi (resi)",
+  "R04-014": "permessi (diventare negozio)", "R04-016": "dati personali (errori mandati al registratore)",
+  "R04-018": "dati personali (cancellazione account)", "R04-020": "dati personali (ricerca ed esportazione utenti)",
+  "R05-003": "dati personali (rotte di esportazione e cancellazione)", "R05-004": "migrazioni",
+  "R05-005": "soldi (annullo)", "R05-006": "soldi", "R05-007": "soldi (contanti)", "R05-008": "soldi (carrello)",
+  "R05-009": "soldi (soglia della consegna)", "R05-010": "soldi (soglia della consegna)", "R05-012": "soldi (spedizione)",
+  "R05-018": "dati personali (esportazione)", "R05-020": "soldi (conto cambiato)",
+  "R08-001": "soldi (tetto dei contanti)", "R08-009": "soldi (prezzo al carrello)", "R08-010": "soldi (prezzo al carrello)",
+  "R09-001": "soldi (reclami)", "R09-012": "soldi (prezzo mostrato)", "R09-019": "fuori misura: cambia come nascono quasi tutte le pagine"
+ }
+}

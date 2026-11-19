@@ -1,0 +1,348 @@
+{
+  "creato": "2026-11-19 10:11",
+  "conti": {
+    "A": 0,
+    "B": 8,
+    "C": 2,
+    "D": 8
+  },
+  "righe_B": 8,
+  "precedenti": {
+    "accessibilita|nella pagina chi siamo e nella vetrina del negozio il banner ignora il testo alternativo e lascia la scritta bianca sulla foto senza velo": {
+      "id": "R01-004",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": "Il negoziante non può ancora scrivere il testo alternativo del banner della vetrina (oggi esce sempre alt vuoto = foto di sfondo). Lettura dell'alt e velo sono già chiusi nei miei file.",
+      "modifiche": [
+        {
+          "file": "components/seller/site/BannerFields.tsx",
+          "modifica": "Dopo il <Textarea label=\"Sottotitolo\" …/> (righe 64-71) e prima di <Select label=\"Sfondo del testo\"> (riga 72) aggiungere: <Input label=\"Testo alternativo della foto\" value={c.alt ?? ''} maxLength={160} onChange={(e) => set({ alt: e.target.value })} placeholder=\"Descrivi la foto per chi non la vede (vuoto = foto solo di sfondo)\" />. Input è già importato e alt è già nel tipo Cfg."
+        }
+      ],
+      "file_che_servono": [
+        "components/seller/site/BannerFields.tsx"
+      ]
+    },
+    "layout-responsive|chi siamo a 280 px col testo al 200% scorre ancora di lato": {
+      "id": "R02-002",
+      "elenco": "C",
+      "esito": "parziale",
+      "cosa_resta": "A 280 px col testo al 200% la pagina arriva ancora a 295 px per la barra in alto (components/Navbar.tsx, non mio). Il piede (288 px) è corretto in R02-005.",
+      "modifiche": [
+        {
+          "file": "components/Navbar.tsx",
+          "modifica": "riga 363, Link «Accedi» della barra mobile: togliere shrink-0 e aggiungere min-w-0 [overflow-wrap:anywhere] text-right («MyCity» 146 px + «Accedi» 93 px + px-3 e gap-2 non stanno in 280). Simulato nel DOM in Chrome: da 295 a 280."
+        }
+      ],
+      "file_che_servono": [
+        "components/Navbar.tsx"
+      ]
+    },
+    "layout-responsive|col testo ingrandito al massimo sul telefono, le pagine pubbliche scorrono di lato per colpa del piè di pagina": {
+      "id": "R02-005",
+      "elenco": "C",
+      "esito": "parziale",
+      "cosa_resta": "Il piede non fa più scorrere nessuna pagina (288 → 280 px a 280 px col testo al 200%). Restano: (1) nei miei file, fuori dal piede, a 320 e 280 px col testo al 200% scorrono ancora per colpa loro /faq 344 px (app/faq/page.tsx:219 h1 senza break-words, :232 h2 «Account e impostazioni», :245 bottoni delle domande), /returns 357 px (app/returns/page.tsx:63 e :72 parole lunghe nelle liste, :122 bottone «Contatta supporto»), /lavora-con-noi 341 px (app/lavora-con-noi/page.tsx:171 didascalie, :183 h2 «Posizioni aperte», :231 bottone «Invia una candidatura spontanea»); a 360 px sono già a posto da R15-008. (2) Le pagine non mie scorrono ancora a 360 px col testo al 200%, misurate col piede già corretto: / 422, /help 391, /contact 429, /terms 393, /privacy 414; le modifiche in serve_file_altrui, simulate nel DOM in Chrome, le riportano tutte a 360. Il Turnstile da 300 px di /contact non è misurato (serve la chiave del sito).",
+      "modifiche": [
+        {
+          "file": "app/help/page.tsx",
+          "modifica": "righe 107, 115 e 123: aggiungere min-w-0 sui tre riquadri (a mail, a WhatsApp, Link /contact); il <div> del testo dentro (109, 117, 125) diventa <div className=\"min-w-0 [overflow-wrap:anywhere]\">"
+        },
+        {
+          "file": "app/contact/page.tsx",
+          "modifica": "riga 143: 'grid md:grid-cols-5 gap-8' diventa 'grid grid-cols-1 md:grid-cols-5 gap-8'; riga 100: aggiungere break-words hyphens-auto all'h1 «Contattaci»"
+        },
+        {
+          "file": "app/terms/page.tsx",
+          "modifica": "righe 115 e 117: mettere {' '} prima di <em>organici</em> e di <em>sponsorizzati</em> (oggi si legge «risultatiorganici», «contenutisponsorizzati», una parola sola che non va a capo)"
+        },
+        {
+          "file": "components/ui/LegalLayout.tsx",
+          "modifica": "riga 41: aggiungere break-words hyphens-auto all'h1 (su /privacy «Informativa» esce; vale per tutte le pagine legali)"
+        },
+        {
+          "file": "components/home-sections/HomeSectionRenderer.tsx",
+          "modifica": "riga 389: togliere whitespace-nowrap e aggiungere max-w-full al bottone «Diventa venditore», className=\"shrink-0\" all'icona Store (391); riga 273: <div> diventa <div className=\"min-w-0 break-words\">"
+        },
+        {
+          "file": "components/home/HowItWorks.tsx",
+          "modifica": "riga 81: aggiungere min-w-0 break-words all'h3 dei passi"
+        },
+        {
+          "file": "components/LiveActivityFeed.tsx",
+          "modifica": "righe 56 e 151: aggiungere min-w-0 all'h2; righe 55 e 150: aggiungere gap-2 al div che lo contiene"
+        }
+      ],
+      "file_che_servono": [
+        "app/help/page.tsx",
+        "app/contact/page.tsx",
+        "app/terms/page.tsx",
+        "components/ui/LegalLayout.tsx",
+        "components/home-sections/HomeSectionRenderer.tsx",
+        "components/home/HowItWorks.tsx",
+        "components/LiveActivityFeed.tsx"
+      ]
+    },
+    "qa-flussi|la scadenza del recesso non si sposta quando l'ultimo giorno cade di sabato, domenica o in un festivo": {
+      "id": "R02-011",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "ai-endpoints|le rotte catalog-apply e catalog-apply-bulk non leggono l'interruttore ai_negozi_accesa": {
+      "id": "R03-001",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "app/api/ai/catalog-apply/route.ts",
+          "modifica": "(di R03, da applicare solo insieme alle prove qui sotto) aggiungere import { AI_NEGOZI_ACCESA } from '@/lib/funzioni-al-lancio'; e come prima riga del POST: if (!AI_NEGOZI_ACCESA) return ApiErrors.unavailable('Gli strumenti AI per i negozi non sono ancora attivi.');"
+        },
+        {
+          "file": "app/api/ai/catalog-apply-bulk/route.ts",
+          "modifica": "(di R03, insieme alle prove) lo stesso import e la stessa prima riga del POST"
+        },
+        {
+          "file": "tests/unit/il-copilot-applica-tutto-in-una-volta.test.ts",
+          "modifica": "accanto agli altri vi.mock: vi.mock('@/lib/funzioni-al-lancio', async (originale) => ({ ...((await originale()) as Record<string, unknown>), AI_NEGOZI_ACCESA: true }));"
+        },
+        {
+          "file": "tests/unit/il-copilot-dice-cosa-non-e-entrato.test.ts",
+          "modifica": "lo stesso vi.mock di funzioni-al-lancio con AI_NEGOZI_ACCESA: true"
+        },
+        {
+          "file": "tests/unit/il-copilot-non-dice-applicato-se-il-prezzo-non-e-entrato.test.ts",
+          "modifica": "lo stesso vi.mock di funzioni-al-lancio con AI_NEGOZI_ACCESA: true"
+        },
+        {
+          "file": "tests/unit/il-freno-sul-prezzo-si-accende-davvero.test.ts",
+          "modifica": "lo stesso vi.mock di funzioni-al-lancio con AI_NEGOZI_ACCESA: true"
+        },
+        {
+          "file": "tests/unit/il-prezzo-rifiutato-si-dice-anche-quando-la-chat-si-ferma-per-altro.test.ts",
+          "modifica": "lo stesso vi.mock di funzioni-al-lancio con AI_NEGOZI_ACCESA: true"
+        },
+        {
+          "file": "tests/unit/la-chat-non-dice-salvate-se-il-prezzo-e-rimasto.test.ts",
+          "modifica": "lo stesso vi.mock di funzioni-al-lancio con AI_NEGOZI_ACCESA: true"
+        },
+        {
+          "file": "tests/unit/minori-s10-copilot-applica.test.ts",
+          "modifica": "lo stesso vi.mock di funzioni-al-lancio con AI_NEGOZI_ACCESA: true"
+        },
+        {
+          "file": "tests/unit/riparazione-r10-traccia-del-prezzo-una-forma.test.ts",
+          "modifica": "lo stesso vi.mock di funzioni-al-lancio con AI_NEGOZI_ACCESA: true"
+        },
+        {
+          "file": "tests/unit/una-dichiarazione-che-la-scheda-non-ha-non-si-chiede.test.ts",
+          "modifica": "lo stesso vi.mock di funzioni-al-lancio con AI_NEGOZI_ACCESA: true"
+        }
+      ],
+      "file_che_servono": [
+        "app/api/ai/catalog-apply/route.ts",
+        "app/api/ai/catalog-apply-bulk/route.ts",
+        "tests/unit/il-copilot-applica-tutto-in-una-volta.test.ts",
+        "tests/unit/il-copilot-dice-cosa-non-e-entrato.test.ts",
+        "tests/unit/il-copilot-non-dice-applicato-se-il-prezzo-non-e-entrato.test.ts",
+        "tests/unit/il-freno-sul-prezzo-si-accende-davvero.test.ts",
+        "tests/unit/il-prezzo-rifiutato-si-dice-anche-quando-la-chat-si-ferma-per-altro.test.ts",
+        "tests/unit/la-chat-non-dice-salvate-se-il-prezzo-e-rimasto.test.ts",
+        "tests/unit/minori-s10-copilot-applica.test.ts",
+        "tests/unit/riparazione-r10-traccia-del-prezzo-una-forma.test.ts",
+        "tests/unit/una-dichiarazione-che-la-scheda-non-ha-non-si-chiede.test.ts"
+      ]
+    },
+    "ai-endpoints|l'allarme del tetto di spesa ai scatta solo se la stessa copia del sito resta accesa per un'ora, e su vercel può non arrivare mai": {
+      "id": "R03-014",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "app/api/cron/operational-alerts/route.ts",
+          "modifica": "Dopo l'import da '@/lib/privacy/cancellazioni-in-sospeso' (riga 18) aggiungere: import { allarmiTettoSpesaAiPerIlCron } from '@/lib/ai/tettoSpesa'; poi subito prima di `const incompleto = controlliSaltati.length > 0;` (riga 674 sulla base) aggiungere: alerts.push(...(await allarmiTettoSpesaAiPerIlCron())); La funzione non lancia, legge da sola AI_GLOBAL_DAILY_BUDGET_EUR e AI_COPIE_ATTESE e restituisce righe {key,type,detail,url} già nella forma AlertRow."
+        }
+      ],
+      "file_che_servono": [
+        "app/api/cron/operational-alerts/route.ts"
+      ]
+    },
+    "ai-endpoints|il freno di sei ore sui prodotti importati in errore regge solo con upstash: senza, ogni copia del sito ripaga le chiamate ai": {
+      "id": "R03-016",
+      "elenco": "D",
+      "esito": "non_fatto",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "coerenza-brand|la scala tipografica è aggirata 330 volte con misure a mano": {
+      "id": "R06-001",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "microcopy|gli errori dei moduli controllati dal server arrivano al cliente in inglese, per esempio «string must contain at most 120 character»": {
+      "id": "R06-004",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": "le 13 rotte qui sopra rispondono ancora coi testi predefiniti inglesi di Zod; la correzione sta in file non miei",
+      "modifiche": [
+        {
+          "file": "lib/api/responses.ts",
+          "modifica": "aggiungere in testa `import '@/lib/zod-i18n';`: accende il traduttore italiano di Zod in tutte le rotte che rispondono con ApiErrors, cioè le 13 che rimandano issues[0].message senza traduttore: admin/branding, admin/categories, admin/cms/[slug], admin/daily-drops, admin/home, admin/products, chat/conversations, chat/messages, marketplace/import-fetch, products/rehost-images, seller/apply, seller/site, support/conversation. In alternativa la stessa riga in ognuna di quelle route.ts."
+        }
+      ],
+      "file_che_servono": [
+        "lib/api/responses.ts"
+      ]
+    },
+    "qa-flussi|quando il fattorino segna «cliente assente» il negozio riceve solo la campanella, non l'email di annullo": {
+      "id": "R06-006",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "tests/unit/il-cliente-assente-col-credito-non-tornato-legge-la-verita.test.ts",
+          "modifica": "righe 172-173: sostituire `expect(sendEmailMock).toHaveBeenCalledTimes(1); const posta = sendEmailMock.mock.calls[0][0];` con `const alCliente = sendEmailMock.mock.calls.filter(([m]) => (m as { tags?: Array<{ value: string }> }).tags?.[0]?.value === 'order_canceled'); expect(alCliente).toHaveLength(1); const posta = alCliente[0][0];`; riga 189: `sendEmailMock.mock.calls.at(-1)![0]` diventa `sendEmailMock.mock.calls.filter(([m]) => (m as { tags?: Array<{ value: string }> }).tags?.[0]?.value === 'order_canceled').at(-1)![0]` (stesso numero di asserzioni: l'email al cliente resta una sola, si aggiunge quella al negozio)."
+        },
+        {
+          "file": "tests/unit/riparazione-r30-fattorino-sospeso-rotte.test.ts",
+          "modifica": "nel vi.mock('@/lib/ordini/annulla') (riga 37) aggiungere `avvisaIlNegozioDellAnnullo: vi.fn(async () => true),` dopo COLONNE_ANNULLO."
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/il-cliente-assente-col-credito-non-tornato-legge-la-verita.test.ts",
+        "tests/unit/riparazione-r30-fattorino-sospeso-rotte.test.ts"
+      ]
+    },
+    "deploy-sre|la notifica sul telefono per un nuovo ordine arriva fino a 5 minuti dopo, non in pochi secondi": {
+      "id": "R07-003",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": "Dentro send-push/route.ts non c'è una correzione piccola: il ritardo viene dalla cadenza del lavoro, non dal codice del giro.",
+      "modifiche": [
+        {
+          "file": "vercel.json",
+          "modifica": "riga 21: \"schedule\": \"*/5 * * * *\" → \"* * * * *\" per /api/cron/send-push (solo se Nicola accetta il costo)"
+        },
+        {
+          "file": "app/api/cron/send-push/route.ts",
+          "modifica": "riga 63 (mio): il commento «Cadenza: ogni 5 minuti» va aggiornato insieme a vercel.json se la cadenza cambia"
+        }
+      ],
+      "file_che_servono": [
+        "vercel.json",
+        "app/api/cron/send-push/route.ts"
+      ]
+    },
+    "deploy-sre|il giorno del lancio un errore del sito non lo vede nessuno: il registratore degli errori è spento e l'unico allarme dipende dalla chiave che manca": {
+      "id": "R07-008",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": "Accendere Sentry o un allarme oggi spento è una scelta di Nicola (costi e chiavi): nessuna modifica fatta.",
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "deploy-sre|il cancello delle migrazioni promette di confrontare il contenuto ma confronta solo i nomi, e registra in un passo separato": {
+      "id": "R07-010",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": "La metà «confronta solo i nomi» non c'è più già sulla base: scripts/check-migration-drift.mjs:296-306 confronta l'md5 registrato con quello del file (R16-003) e la promessa in testa (:8-11, :54-63) dice «il contenuto dove il registro tiene l'impronta». Resta la registrazione in un passo separato: scripts/applica-migrazioni-mancanti.sh:359 applica e :360-362 registra con un secondo psql (documentato a :334-339). Le migrazioni registrate prima dell'impronta si riconoscono ancora solo per numero e nome.",
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "deploy-sre|il ritorno indietro può ancora scegliere il rilascio sbagliato in due casi rari: un solo altro commit negli ultimi 20 rilasci, o un dominio che non dice il suo commit": {
+      "id": "R07-011",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": "Modifica proposta, non fatta: in scripts/prova-di-fumo.mjs:326-329 restituire null invece di candidati[0] quando il dominio non dice un altro commit.",
+      "modifiche": [],
+      "file_che_servono": []
+    },
+    "deploy-sre|un'ultima prova ordina ancora le migrazioni con l'ordine vecchio": {
+      "id": "R07-013",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": "La modifica è pronta e provata (37/37 verdi), ma la guardia-ramo la dà rossa: la prova nomina anche scripts/conta-migrazioni-mancanti.sh, che non è di R07 («prova esistente che usa anche file di altre sessioni: la tocca solo la regista»). L'ho tolta dal ramo; serve la regista o un'eccezione firmata in piano.json.",
+      "modifiche": [
+        {
+          "file": "tests/unit/le-migrazioni-a-mano-partono-solo-con-la-conferma.test.ts",
+          "modifica": "alla riga 507, in `const migrazioni = () => spawnSync('sort', ['-V'], { input: …, encoding: 'utf8' })` sostituire `['-V']` con `[]` e aggiungere fra le opzioni `env: { ...process.env, LC_ALL: 'C' }` (lo stesso ordine di LC_ALL=C sort dello script); nessuna asserzione da toccare. Provato in locale: 37/37 verdi."
+        }
+      ],
+      "file_che_servono": [
+        "tests/unit/le-migrazioni-a-mano-partono-solo-con-la-conferma.test.ts"
+      ]
+    },
+    "immagini-media|se l'abbonamento supabase scade, le foto del sito tornano rotte e nessun controllo se ne accorge": {
+      "id": "R10-001",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "app/api/health/ready/route.ts",
+          "modifica": "far guardare anche le foto alla rotta che il monitor esterno interroga: chiamare controllaTrasformazioneFoto (lib/image-url.ts) con una foto vera di un prodotto in vendita, come fa app/api/health/route.ts:340-360, e quando foto.ok === false rispondere come per il database non pronto (il codice che fa avvisare il monitor), con il motivo nel corpo"
+        }
+      ],
+      "file_che_servono": [
+        "app/api/health/ready/route.ts"
+      ]
+    },
+    "microcopy|il pulsante del negozio dice «pronto per il rider»: in tutto il resto del sito è «fattorino»": {
+      "id": "R10-004",
+      "elenco": "B",
+      "esito": "serve_file_altrui",
+      "cosa_resta": null,
+      "modifiche": [
+        {
+          "file": "lib/order-status.ts",
+          "modifica": "riga 45: 'Pronto per il rider' → 'Pronto per il fattorino' (file di R10: non messo nel ramo da solo perché fa diventare rosse 5 prove esistenti, 4 delle quali usano file di altre sessioni; va applicata insieme alle righe sotto, con una prova etichettaPronto(false) === 'Pronto per il fattorino')"
+        },
+        {
+          "file": "tests/unit/la-targhetta-dell-ordine-non-manda-il-cliente-a-ritirarlo.test.ts",
+          "modifica": "riga 26: .toMatch(/rider/i) → .toMatch(/fattorino/i), e il messaggio 'l’etichetta deve dire che passa il fattorino'"
+        },
+        {
+          "file": "tests/unit/le-promesse-della-consegna-cambiano-solo-di-proposito.test.tsx",
+          "modifica": "riga 108: 'Pronto per il rider' → 'Pronto per il fattorino' (usa lib/promesse-pubbliche, di R08)"
+        },
+        {
+          "file": "tests/unit/minori-s02-varie.test.ts",
+          "modifica": "righe 46 e 48 (e la 52 per coerenza): 'Pronto per il rider' → 'Pronto per il fattorino' (legge app/seller/orders/[id]/page.tsx di R09 e app/globals.css di R02)"
+        },
+        {
+          "file": "tests/unit/minori-s06-centro-venditori.test.ts",
+          "modifica": "riga 29: '\"Pronto per il rider\"' → '\"Pronto per il fattorino\"' (il testo dell'aiuto in app/seller/help/domande.ts:54 segue da solo etichettaPronto)"
+        },
+        {
+          "file": "tests/unit/minori-s06-ordine-del-negozio.test.tsx",
+          "modifica": "riga 105: 'Pronto per il rider' → 'Pronto per il fattorino' (disegna app/seller/orders/[id]/page.tsx di R09)"
+        }
+      ],
+      "file_che_servono": [
+        "lib/order-status.ts",
+        "tests/unit/la-targhetta-dell-ordine-non-manda-il-cliente-a-ritirarlo.test.ts",
+        "tests/unit/le-promesse-della-consegna-cambiano-solo-di-proposito.test.tsx",
+        "tests/unit/minori-s02-varie.test.ts",
+        "tests/unit/minori-s06-centro-venditori.test.ts",
+        "tests/unit/minori-s06-ordine-del-negozio.test.tsx"
+      ]
+    },
+    "qa-flussi|la consegna veloce si vende a tutti insieme anche con un solo fattorino: nessuno conta quante veloci ha già in mano": {
+      "id": "R10-010",
+      "elenco": "D",
+      "esito": "scelta_di_nicola",
+      "cosa_resta": null,
+      "modifiche": [],
+      "file_che_servono": []
+    }
+  }
+}

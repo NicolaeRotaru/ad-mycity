@@ -1,0 +1,11 @@
+{
+ "regista": "session_015BmpnXTF1dKwFmtRWd5L1s",
+ "integrazione": {
+  "ramo": "main del sito",
+  "partenza": "336f2fbda9b1b50209fbe94e1f5fde1c74134ab7",
+  "nota": "giro di correzione del 19/11: i rami -o9g2-mNN partono da main (336f2fbd); la PR nuova del sito parte da main"
+ },
+ "sessioni": {},
+ "collaudatori": {},
+ "controllori": {}
+}

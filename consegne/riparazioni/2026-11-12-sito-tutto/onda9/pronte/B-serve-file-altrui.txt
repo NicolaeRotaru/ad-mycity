@@ -1,0 +1,9 @@
+# elenco B di pronte (2026-11-19 10:11): 8 voci uniche, una chiave per riga
+accessibilita|nella pagina chi siamo e nella vetrina del negozio il banner ignora il testo alternativo e lascia la scritta bianca sulla foto senza velo
+ai-endpoints|le rotte catalog-apply e catalog-apply-bulk non leggono l'interruttore ai_negozi_accesa
+ai-endpoints|l'allarme del tetto di spesa ai scatta solo se la stessa copia del sito resta accesa per un'ora, e su vercel può non arrivare mai
+microcopy|gli errori dei moduli controllati dal server arrivano al cliente in inglese, per esempio «string must contain at most 120 character»
+qa-flussi|quando il fattorino segna «cliente assente» il negozio riceve solo la campanella, non l'email di annullo
+deploy-sre|un'ultima prova ordina ancora le migrazioni con l'ordine vecchio
+immagini-media|se l'abbonamento supabase scade, le foto del sito tornano rotte e nessun controllo se ne accorge
+microcopy|il pulsante del negozio dice «pronto per il rider»: in tutto il resto del sito è «fattorino»
