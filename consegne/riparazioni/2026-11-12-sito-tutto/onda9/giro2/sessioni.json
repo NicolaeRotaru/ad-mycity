@@ -92,7 +92,10 @@
    "aperta": "2026-11-19 11:53",
    "consegna_usd": 25,
    "tetto_usd": 30,
-   "finita": false
+   "finita": true,
+   "punta": "92eb3caa",
+   "costo_usd": 17.11,
+   "nota": "13 voci: 8 reggono, 3 parziali, 2 rompe_altro (R03-006 minore, R04-007 grave: secondo giro fallito, va a Nicola)"
   }
  },
  "controllori": {}

@@ -99,3 +99,4 @@ Circa 3 $ per voce data: 195 voci danno circa 585 $, più la regia, circa 600 $.
 - 19/11 11:52 K04 finito (13,15 $): 17 reggono su 18 (R08 6 su 7, R09 11 su 11), nessun rompe_altro; le 4 prove adattate reggono.
 - 19/11 11:53 R04 g2 consegnato (19,35 $), guardia e referto verdi: 4 riparati (fra cui R03-019 grave, la scorta in Modifica prodotto), 2 parziali, 1 serve_file_altrui. Prima dell'unione la CI deve avere Chromium per la prova della home. La domanda su R04-003 ha già risposta nelle 12 scelte (notte rossa).
 - 19/11 11:54 Giro 2 tutto consegnato. Aperti K01 g2 `session_015BmpnXjLt1YzgPeiC2aNGS` (R01, R02; parte riservata solo in chat) e K02 g2 `session_015BmpnWwKgsr121zG854BW2` (R03, R04), senza ultracode.
+- 19/11 12:12 K02 g2 finito (17,11 $): 8 reggono su 13. Rompe_altro R03-006 (un errore a Sentry a ogni giro del cron se il conto manca) e R04-007 GRAVE (la scorta in Modifica e Duplica, secondo giro fallito: si toglie e va a Nicola, regola 8).
