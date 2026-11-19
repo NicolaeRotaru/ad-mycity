@@ -285,7 +285,7 @@
     ["^next\\.config\\.js$", ["S11", "S12"]],
     ["^(sentry\\.[^/]+\\.config\\.ts|instrumentation[^/]*\\.ts)$", ["S08"]],
     ["@radice-config", ["S12"]],
-    ["^(stories|\\.storybook|tests|types|\\.claude)/", ["S12"]],
+    ["^(stories|\\.storybook|tests|types|\\.claude|\\.riparazione)/", ["S12"]],
     ["^docs/", ["S12"]],
     ["^docs/(unit-economics|business-plan)\\.md$", ["S02"]],
     ["^docs/(business-plan|acquisition-plan-90d|dpa-vendors)\\.md$", ["S09"]],
