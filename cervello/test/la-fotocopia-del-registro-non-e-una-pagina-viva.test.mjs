@@ -23,6 +23,15 @@ test("la fotocopia nella cartella di un'onda è esente", () => {
   assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/onda12/registro-compatto.txt", []), true);
 });
 
+test("la fotocopia nella cartella di una radiografia è esente", () => {
+  // Il 19/11 `radiografia-sessioni.mjs prepara` ha scritto la sua fotocopia in consegne/radiografia/<giorno>/:
+  // la CI di ad-mycity#986 è diventata rossa sugli stessi due titoli vecchi del 12/11.
+  assert.equal(esente("consegne/radiografia/2026-11-19-ricontrollo/registro-compatto.txt", []), true);
+  // il resto della cartella resta vivo, e il nome fuori posto no
+  assert.equal(esente("consegne/radiografia/2026-11-19-ricontrollo/REGIA.md", []), false);
+  assert.equal(esente("consegne/radiografia/2026-11-19-ricontrollo/lotti/registro-compatto.txt", []), false);
+});
+
 test("le schede dei riparatori restano vive", () => {
   assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/schede/R01.md", []), false);
   assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/piano.json", []), false);

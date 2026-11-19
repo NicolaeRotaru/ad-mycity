@@ -92,6 +92,9 @@ const DESTINAZIONE = [
   // collaudi): come consegne/audit è lavoro tecnico sul sito e sulla macchina. Mappata prima della prima
   // campagna, perché la #938 è diventata rossa proprio per una cartella nuova lasciata senza mappa.
   ["consegne/riparazioni/", "macchina"],
+  // 19/11/2026 — le cartelle della skill `radiografia-sessioni` (piano, lotti, schede, referti): la sorella
+  // di consegne/riparazioni, che trova invece di riparare. La #986 è diventata rossa per 16 file lì.
+  ["consegne/radiografia/", "macchina"],
   ["consegne/automazioni/", "macchina"],
   ["consegne/bonifica/", "macchina"],
   ["consegne/devops/", "macchina"],
