@@ -79,7 +79,10 @@
    "aperta": "2026-11-19 11:53",
    "consegna_usd": 20,
    "tetto_usd": 25,
-   "finita": false
+   "finita": true,
+   "punta": "28301c8b",
+   "costo_usd": 10.75,
+   "nota": "11 voci: reggono R01-001, R01-varie, R02-001, 004, 007; parziali R01-003, R02-005, 006, 008; R02-002 scelta (decisa: menu account); rompe_altro R01-002 (campanello azzerato all utente a video) e R02-003 (la prova di fumo dopo il deploy farebbe rollback da sola); parte riservata regge; 5 prove di R02-007 non indebolite"
   },
   "K02": {
    "id": "session_015BmpnWwKgsr121zG854BW2",
