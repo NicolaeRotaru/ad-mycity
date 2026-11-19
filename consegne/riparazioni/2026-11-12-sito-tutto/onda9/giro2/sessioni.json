@@ -15,7 +15,11 @@
    "consegna_usd": 15,
    "aperta": "2026-11-19 10:16",
    "ultracode": true,
-   "finita": false
+   "finita": true,
+   "punta": "96e08bb2",
+   "testa": "8aa18de2",
+   "costo_usd": 25.37,
+   "nota": "oltre il tetto di 20 $; 2 riparati, R01-003 parziale, R01-varie sistemato; valida-referto verde; guardia rossa solo per 2 messaggi che citano R10-012; dettagli riservati solo in chat"
   },
   "R02": {
    "id": "session_015BmpnZ1Wkp2xNjd4ANiCvc",

@@ -94,3 +94,4 @@ Circa 3 $ per voce data: 195 voci danno circa 585 $, più la regia, circa 600 $.
 - 19/11 11:35 R09 consegnato (25,81 $), guardia e referto verdi: 4 riparati, 7 parziali; 009, 010, 011 tolti col revert (strada B).
 - 19/11 11:35 Aperto K04 `session_015BmpnVvsN3i7mXAnN2SwsB` su R08 e R09 (25/30 $).
 - 19/11 11:36 R02 g2 consegnato (9,66 $): 4 riparati, 3 parziali, R02-002 scelta di Nicola. valida-referto verde; guardia rossa per le 5 prove ritoccate da R02-007 («fattorino»): vanno nella firma delle prove ritoccate.
+- 19/11 11:40 R01 g2 consegnato (25,37 $, oltre il tetto di 20): 2 riparati, R01-003 parziale, R01-varie sistemato; valida-referto verde; guardia rossa solo per 2 messaggi di commit che citano la voce vecchia. Il resto riservato è in chat.
