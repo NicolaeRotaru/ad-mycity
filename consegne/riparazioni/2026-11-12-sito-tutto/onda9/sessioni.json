@@ -148,8 +148,11 @@
    "consegna_usd": 40,
    "aperta": "2026-11-19 10:16",
    "ultracode": false,
-   "finita": false,
-   "nota": "giro del 19/11: solo le voci del rifiltro (rifiltro-R04-R05-R08-R09.json)"
+   "finita": true,
+   "nota": "giro del 19/11: solo le voci del rifiltro (rifiltro-R04-R05-R08-R09.json); 11:34 consegnato: 4 riparati, 7 parziali, 1 serve_file_altrui, 1 scelta di Nicola, 003/009/010/011 non_fatto (009, 010, 011 tolti col revert: peggioravano); guardia e referto verdi",
+   "punta": "cc9da732",
+   "testa": "e6672c3d",
+   "costo_usd": 25.81
   }
  },
  "collaudatori": {
