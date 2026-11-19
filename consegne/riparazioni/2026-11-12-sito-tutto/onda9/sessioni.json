@@ -1,5 +1,5 @@
 {
- "regista": "session_015BmpnXTF1dKwFmtRWd5L1s",
+ "regista": "session_015BmpnZZ9mpJFdTk5mxvbY8",
  "pr_sito": "NicolaeRotaru/mycity#297, ramo claude/adoring-bohr-kixq35-o9, albero e7de3f27: aperta il 18/11 alle 08:12, unita da Nicola alle 08:26 (merge 336f2fbd, albero di main e7de3f27)",
  "sha_regista": "2c3a9e9ed32bc0f289314c88ed8861f44c4f4e82",
  "integrazione": {
@@ -244,7 +244,8 @@
  "regista_prima": [
   "session_015BmpnYq3DQDRwTXdBwfzud",
   "session_015BmpnVz75xRKsz1trmeMzu",
-  "session_015BmpnZQiGiFfMYaWbMDKVT"
+  "session_015BmpnZQiGiFfMYaWbMDKVT",
+  "session_015BmpnXTF1dKwFmtRWd5L1s"
  ],
  "promemoria": {
   "spesa": "trig_01CE9YMeeT8hwPB7aB7G56tC (spento, si riaccende con update_trigger)",

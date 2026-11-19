@@ -1,5 +1,5 @@
 {
- "regista": "session_015BmpnXTF1dKwFmtRWd5L1s",
+ "regista": "session_015BmpnZZ9mpJFdTk5mxvbY8",
  "integrazione": {
   "ramo": "main del sito",
   "partenza": "336f2fbda9b1b50209fbe94e1f5fde1c74134ab7",
@@ -101,5 +101,8 @@
    "nota": "13 voci: 8 reggono, 3 parziali, 2 rompe_altro (R03-006 minore, R04-007 grave: secondo giro fallito, va a Nicola)"
   }
  },
- "controllori": {}
+ "controllori": {},
+ "regista_prima": [
+  "session_015BmpnXTF1dKwFmtRWd5L1s"
+ ]
 }
