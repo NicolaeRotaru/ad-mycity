@@ -118,11 +118,11 @@
    "consegna_usd": 40,
    "aperta": "2026-11-19 10:16",
    "ultracode": false,
-   "finita": false,
+   "finita": true,
    "nota": "giro del 19/11: solo le voci del rifiltro (rifiltro-R04-R05-R08-R09.json); 10:00 consegnato: 2 riparati, 2 parziali, 5 serve_file_altrui, 11 fuori giro; guardia-ramo rossa (il-corsivo-del-sito: 10→9 asserzioni), rimandato a R05; R05-016 alla regia all unione (cherry-pick eddf0534 + gen-db-types)",
-   "punta": "a7d82c37",
-   "testa": "0cb2424c",
-   "costo_usd": 4.73
+   "punta": "2973cd14",
+   "testa": "dbbb9793",
+   "costo_usd": 6.01
   },
   "R08": {
    "id": "session_015BmpnZWxZNVKRuQDQUizeQ",
