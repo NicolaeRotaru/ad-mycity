@@ -16,7 +16,7 @@
    "senza_data|minore": 30,
    "file_spariti|minore": 3
   },
-  "righe_oltre_la_fine": 5,
+  "righe_oltre_la_fine": 6,
   "dichiarate_riparate_ma_aperte": 59,
   "dichiarate_riparate_per_classe": {
    "righe_toccate": 38,
@@ -4346,7 +4346,9 @@
    "toccati": [
     "package-lock.json"
    ],
-   "righe_fuori": [],
+   "righe_fuori": [
+    "lib/sanitize-html.ts:47"
+   ],
    "riparazione": "-",
    "dichiarato_riparato": false,
    "titolo": "Le falle note nelle librerie sono passate da 3 a 15, ma oggi nessuna colpisce il sito in produzione"

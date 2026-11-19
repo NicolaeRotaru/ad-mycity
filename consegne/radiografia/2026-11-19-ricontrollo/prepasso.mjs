@@ -2,14 +2,15 @@
 // dice se i file citati esistono ancora alla base, e se sono cambiati dall'ultima volta che la voce è stata
 // confermata vera. Uso: node prepasso.mjs <radice ad-mycity> <copia del sito con la storia> <base> <cartella>
 import { readFileSync, writeFileSync } from "node:fs";
-import { execFileSync } from "node:child_process";
 import { join } from "node:path";
 
 const [radice, sito, base, cartella] = process.argv.slice(2);
 const { fileCitati, eRiservataTitolo } = await import(join(radice, "cervello/radiografia-sessioni.mjs"));
 const { chiaveProblema } = await import(join(radice, "cervello/referti-sito.mjs"));
 const reg = JSON.parse(readFileSync(join(radice, "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-marketplace.json"), "utf8"));
-const git = (args) => execFileSync("git", ["-C", sito, ...args], { encoding: "utf8", maxBuffer: 1 << 28 });
+// l'esecutore unico di git della macchina, col suo tetto (malattia «git-letto-senza-tetto»)
+const { gitEsegui } = await import(join(radice, "cervello/git-github.mjs"));
+const git = (args) => gitEsegui(args, sito);
 
 const allaBase = new Set(git(["ls-tree", "-r", "--name-only", base]).split("\n").filter(Boolean));
 const righe = new Map();

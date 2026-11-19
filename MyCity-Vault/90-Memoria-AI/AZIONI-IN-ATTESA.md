@@ -31,6 +31,26 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- fasce-nuove-della-cassa -->
 
+### 🟡 #261 — Scegli quanti difetti aperti del sito far ricontrollare, e dimmi a che punto è il limite · ⏳ accodata 2026-11-19 02:10 · @qa
+
+**In parole semplici.** Hai chiesto se i difetti aperti del sito sono veri e se ci sono ancora. Nel registro ne restano aperti 741. Di questi, 665 su 741 si possono ricontrollare; gli altri 76 sono falle riservate. Un programma, senza agenti, ha già guardato il codice: per 293 su 665 le righe citate sono uguali a quando il difetto era stato confermato, per 320 su 665 sono cambiate.
+Esempio vero: il bloccante «la cassa dice troppo lontano a chi abita in Via Roma» ha le righe cambiate. Solo un agente che rilegge il codice può dire se c'è ancora.
+
+**Cosa cambia per te.** Niente finché non scegli. Il registro non è stato toccato.
+
+**Cosa devi fare tu.** Scegliere una misura e dirmi la percentuale del limite settimanale che vedi nell'app. Le misure, con la stima del programma:
+- A, i gravi e i bloccanti: 64 voci, circa 77 $. È quella che consiglio, dopo le 10:00 di oggi.
+- B, i minori fuori dall'onda 9 che il programma non garantisce: 237 voci, circa 113 $. Va dopo che l'onda 9 è segnata nel registro.
+- A e B insieme: 301 voci, circa 135 $.
+- Tutto: 665 voci, circa 222 $. Pagherebbe anche le 200 voci che l'onda 9 sta già riparando.
+
+**Cosa non ho verificato.** Nessuna voce è stata riletta nel codice. Le righe uguali sono un indizio, non una prova: 17 voci con le righe uguali risultano già riparate dai riparatori.
+
+Cosa cambia: col tuo via, una o più sessioni rileggono le voci scelte e chiudono nel registro quelle che non sono più vere.
+Se va bene: il registro dice il numero vero dei difetti che fermano il lancio, e le onde dopo non spendono su difetti già spariti.
+
+Dettagli: quaderno `consegne/radiografia/2026-11-19-ricontrollo/REGIA.md`, richiesta ad-mycity#986.
+
 ### 🟡 #260 — Unisci l'onda 5 del sito e rispondi alle sue domande quando hai tempo · ⏳ accodata 2026-11-17 13:15
 
 **In parole semplici.** L'onda 5 ha riparato i difetti del sito con quattro riparatori. Si chiudono 10 difetti nuovi, e altri 10 erano già a posto dall'onda 4. La richiesta di unione è mycity#294, fuori bozza, con tutte le prove verdi.
