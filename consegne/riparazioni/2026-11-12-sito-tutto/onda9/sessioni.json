@@ -183,6 +183,19 @@
    "punta": "cb5acf89",
    "costo_usd": 13.67,
    "nota": "25 voci a giudizio pieno, 19 prove rimesse su 19; valida-collaudo e guardia-ramo verdi"
+  },
+  "K03": {
+   "id": "session_015BmpnWtVmWvSe3nCowtz2w",
+   "ramo": "claude/adoring-bohr-kixq35-o9-k03",
+   "partenza": "9a921f58c43b99cadde779f9254a72091769a576",
+   "riparatori": [
+    "R04",
+    "R05"
+   ],
+   "aperta": "2026-11-19 11:10",
+   "consegna_usd": 20,
+   "tetto_usd": 25,
+   "finita": false
   }
  },
  "controllori": {
