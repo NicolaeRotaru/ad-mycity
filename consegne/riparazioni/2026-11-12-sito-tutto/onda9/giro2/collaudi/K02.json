@@ -1,0 +1,107 @@
+{
+ "collaudatore": "K02",
+ "riparatori": [
+  "R03",
+  "R04"
+ ],
+ "aggiornato": "2026-11-19 12:40",
+ "finita": false,
+ "voci": [
+  {
+   "id": "R03-003",
+   "chiave": "ai-endpoints|la lettura da foto accetta il testo «false» del modello come prodotto ammesso",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 63742fade53e2b2c94cb5b179020e7cfa01c7847^ --file app/api/vision/extract-products/route.ts --prove tests/unit/riparazione-r03-foto-solo-si-vero.test.ts --json",
+    "commit": "63742fade53e2b2c94cb5b179020e7cfa01c7847"
+   },
+   "nota": "Chiude tutta: extract-product regge dall'onda 9 (route.ts:433 policy_ok !== true) e ora extract-products:306 usa === true, quindi il collaudo vecchio K01 (parziale per extract-products:304 !== false) è chiuso. Le due rotte che rimandano policy_ok sono tutte e due coperte; BulkPhotoCreate.tsx:147 e :275 leggono policy_ok, e il campo mancante ora esce «Non pubblicabile» senza motivo, come in extract-product. Nata rotta: no, lo schema dello strumento ha policy_ok obbligatorio, nessun altro lettore. La prova rimessa è a 0."
+  },
+  {
+   "id": "R04-001",
+   "chiave": "deploy-sre|dopo un ritorno indietro il riepilogo del rilascio rassicura a torto se una migrazione ha tolto una funzione o una vista",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base 94c6d30ce3a7fac777b273db92b68b14fbd764c7^ --file .github/workflows/deploy-dopo-ci.yml --prove tests/unit/riparazione-r04-ritorno-non-scarta-la-riga.test.ts --json",
+    "commit": "94c6d30ce3a7fac777b273db92b68b14fbd764c7"
+   },
+   "nota": "Chiude tutta: il sed toglie dalla riga solo DROP DEFAULT/IDENTITY/EXPRESSION (con la I, anche in minuscolo) e cerca il resto. I casi del controllore C01 adesso si vedono: «DROP VIEW …; … DROP DEFAULT;» per il ramo VIEW, «DROP DEFAULT, DROP legacy_status;» per il ramo nuovo con la virgola. Controllati a mano: DROP IDENTITY IF EXISTS non dà un falso allarme, DROP NOT NULL e DROP CONSTRAINT sono come sulla base, CRLF e tab passano, e il `|| true` copre il pipefail. La prova esegue il passo vero; rimessa 0."
+  },
+  {
+   "id": "R04-002",
+   "chiave": "deploy-sre|se lo script delle migrazioni cade fra un file e il successivo, il riepilogo accusa una migrazione sana",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base 93c6dc2c36f6d3a10baf07918cad01a483a234bd^ --file .github/workflows/deploy-dopo-ci.yml --prove tests/unit/riparazione-r04-migrazioni-cadute-incertezza.test.ts --json",
+    "commit": "93c6dc2c36f6d3a10baf07918cad01a483a234bd"
+   },
+   "nota": "Chiude tutta e chiude il rompe_altro del collaudo vecchio K02 (con l'uscita 2 a metà file il riepilogo rassicurava). Adesso solo l'uscita 3 accusa il file, e in scripts/applica-migrazioni-mancanti.sh l'uscita 3 viene solo da psql -f (riga 359). L'INSERT di riga 360 (-c) esce con 1, la connessione persa con 2. Ogni uscita diversa da 3 tiene l'incertezza: applicata, a metà o non registrata. Non dice più «niente da correggere». Rimessa 0."
+  },
+  {
+   "id": "R04-003",
+   "chiave": "deploy-sre|se il secchio dello storico delle foto non si crea, lo storico finisce nello stesso secchio della copia e la notte resta verde",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base 96727f3c^ --file scripts/backup-db.sh --prove tests/unit/riparazione-r07-storico-nello-stesso-secchio.test.ts --json",
+    "commit": "be90b6d3e3966191fac92a7b0b7e2768113245ef"
+   },
+   "nota": "Parziale onesto. Il pezzo fatto sta già sulla base (96727f3c). backup-db.sh:530 (<destinazione>/_storico), :535-536 (::warning:: e la riga del riepilogo) e :556 (--backup-dir <storico>/<TS UTC>/<secchio>) sono come dichiarato; la rimessa con --base 96727f3c^ è a 0. Il residuo del collaudo vecchio K02 (la riga di docs/backup-restore.md mancava nel cosa_resta) adesso c'è, in serve_file_altrui. Il testo sostituisce esattamente le righe 229-232 di oggi, e percorsi, ora UTC e frase del riepilogo coincidono con lo script. La copia è per secchio (${DEST}/${secchio}), quindi _storico non si sovrappone alla destinazione. Resta la scelta di Nicola (domanda onesta) e la riga del documento."
+  },
+  {
+   "id": "R04-005",
+   "chiave": "layout-responsive|la home e /about scorrono di lato col testo grande sul telefono",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base 3b5afcaefce6fae1f0efd191e03fce8c0b423038^ --file components/LiveActivityFeed.tsx,components/home/HowItWorks.tsx,components/home-sections/HomeSectionRenderer.tsx --prove tests/unit/riparazione-r04-home-non-scorre-di-lato-misurata.test.tsx --json",
+    "commit": "be90b6d3e3966191fac92a7b0b7e2768113245ef"
+   },
+   "nota": "La parte fatta regge. La prova rimessa ha girato in Chromium qui, a uscita 0: 6 prove verdi alla testa, rosse sul comportamento togliendo uno qualsiasi dei tre file; la prova controlla anche che Fraunces si sia caricato. Il rompe_altro del controllore C01 su R10-002 è chiuso: il link della fascia ha sm:shrink-0 sm:whitespace-nowrap, quindi una riga da 640 px in su. Cosa resta, onesto: /come-funziona e /privacy (modifiche esatte in serve_file_altrui) e 324 px a 320 px. ⚠️ Condizione per l'unione: senza il passo Chromium in .github/workflows/ci.yml questa prova nella CI è rossa (dichiarato dal riparatore)."
+  },
+  {
+   "id": "R04-006",
+   "chiave": "microcopy|gli errori dei moduli controllati dal server arrivano al cliente in inglese, per esempio «string must contain at most 120 character»",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base 1037f1e7051f333e44d0c491399d5585b584cded^ --file lib/api/responses.ts --prove tests/unit/riparazione-r04-errori-rotte-in-italiano.test.ts --json",
+    "commit": "1037f1e7051f333e44d0c491399d5585b584cded"
+   },
+   "nota": "Chiude tutta. Tutte e 13 le rotte elencate più contact importano lib/api/responses o zod-i18n (controllate una per una sulla testa). Nessuna rotta di app/api che rimanda issues[0].message/flatten resta senza traduttore: grep su tutte le route.ts, 0 trovate. Nata rotta: nessun codice confronta i testi inglesi di Zod (grep su app/lib/components); l'unica prova che li cita usa errorMap: z.defaultErrorMap esplicito. Gli altri casi ancora inglesi (invalid_union, unrecognized_keys…) sono dichiarati nei nuovi difetti e non sono quelli della voce (.max/.min senza messaggio). Rimessa 0."
+  }
+ ]
+}
