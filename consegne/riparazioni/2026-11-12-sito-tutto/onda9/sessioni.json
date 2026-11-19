@@ -103,8 +103,11 @@
    "consegna_usd": 40,
    "aperta": "2026-11-19 10:16",
    "ultracode": false,
-   "finita": false,
-   "nota": "giro del 19/11: solo le voci del rifiltro (rifiltro-R04-R05-R08-R09.json)"
+   "finita": true,
+   "nota": "giro del 19/11: solo le voci del rifiltro (rifiltro-R04-R05-R08-R09.json); 11:08 consegnato: 4 riparati, 1 parziale (019), 1 gia riparato (013), 1 scelta di Nicola (009, tolto: col freno unico un ordine prende coordinate nulle e salta il controllo della zona), 1 non_fatto per migrazione (015); guardia e referto verdi",
+   "punta": "847ee782",
+   "testa": "cdcb621a",
+   "costo_usd": 12.63
   },
   "R05": {
    "id": "session_015BmpnZKi93orVTQfZFJCjz",
