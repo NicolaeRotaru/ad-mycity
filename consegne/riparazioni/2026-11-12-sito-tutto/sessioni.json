@@ -587,6 +587,19 @@
     "R33"
    ],
    "onda": 5
+  },
+  "K19": {
+   "id": "session_015BmpnW6kBdnSmn7kksSx1P",
+   "ramo": "claude/adoring-bohr-kixq35-o9-k19",
+   "partenza": "7497f27fe98620dfd64c2ea262c6463e92941176",
+   "riparatori": [
+    "R04",
+    "R07"
+   ],
+   "aperta": "2026-11-19 10:18",
+   "consegna_usd": 15,
+   "tetto_usd": 20,
+   "nota": "onda 9, gruppo A: solo R04-012, R04-015, R04-021, R07-021, R07-022, giudicate su main 336f2fbd"
   }
  },
  "controllori": {
