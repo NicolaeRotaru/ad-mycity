@@ -1,0 +1,189 @@
+{
+  "collaudatore": "K03",
+  "riparatori": [
+    "R04",
+    "R05"
+  ],
+  "aggiornato": "2026-11-19 11:30",
+  "finita": true,
+  "voci": [
+    {
+      "id": "R04-001",
+      "chiave": "api-backend|quando l'amministrazione cambia solo le taglie di un prodotto, il registro delle azioni non scrive più niente",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 885efa0c21e541b5318f8f957dcdc30f64160224^ --file app/api/admin/products/route.ts --prove tests/unit/riparazione-r04-001-taglie-traccia.test.ts --json"
+      },
+      "nota": "La voce si chiude: solo le taglie cambiate scrivono una voce product.update con «variants»; la prova cade togliendo tutti e due i commit (885efa0c^) e anche solo d9c91355 (d9c91355^, uscita 0). Con il corpo vero del modulo 16 casi su 18 tengono (salvataggio identico, solo prezzo, solo scorta, taglia tolta o nuova, 409, 403 non amministratore). Rompe: la traccia dice il falso. Esempio: l'amministrazione apre la scheda con M e L, il negozio aggiunge la XL, l'amministrazione salva senza toccare niente; la voce scrive prima [M,L,XL] e dopo [M,L], ma la XL resta nel database. Il «dopo» si costruisce solo dalle taglie inviate (app/api/admin/products/route.ts:315), mentre una taglia mai vista non si cancella (lib/products/persistVariantsServer.ts:120-121). Sulla base in quel caso non si scriveva niente. Secondo caso, raro: con le posizioni delle taglie tutte a 0 un salvataggio identico scrive un riordino. Il riparatore aveva visto tutti e due i casi (nuovi_difetti_visti). Controllo amministratore invariato, tsc verde."
+    },
+    {
+      "id": "R04-002",
+      "chiave": "api-backend|un patch dell'amministrazione su un prodotto che non esiste risponde 200 e lascia una traccia con «prima» vuoto",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base fd6db8a9d5618950aca9b241e821d9a4c0c25d62^ --file app/api/admin/products/route.ts --prove tests/unit/riparazione-r04-002-prodotto-inesistente.test.ts --json"
+      },
+      "nota": "Prodotto inesistente con solo campi, solo taglie o solo id: 404, nessuna scrittura, nessuna traccia. Guasto nella lettura: 500, non 404. Prodotto esistente: 200 come prima. 10 file di prova che importano la rotta verdi (45 su 45); senza la correzione ne cadono due. Rimessa anche alla testa cdcb621a con base fd6db8a9^: uscita 0. Fuori voce: route.ts:259 non conta le righe aggiornate (prodotto cancellato fra lettura e salvataggio: 200 con traccia, ma «prima» pieno)."
+    },
+    {
+      "id": "R04-005",
+      "chiave": "api-backend|il conteggio dei promemoria «inviati» include carrelli segnati senza nessuna email",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base cd07e425a37bcf7a35a53ae6f2cab9fbd99511c6^ --file app/api/cron/abandoned-carts/route.ts --prove tests/unit/riparazione-r04-005-promemoria-non-partiti.test.ts --json"
+      },
+      "nota": "Rimessa su tutti e due i commit (cd07e425^) e sul solo eca4bba2: uscita 0. Niente email a ogni giro: la lista prende solo i carrelli col segno vuoto (migrations/215_minori_s04_database.sql:230), il segno rimesso all'ultima attività non è vuoto, e si azzera solo se il carrello cambia (lib/cart-sync.ts:166). Conteggio degli inviati giusto in tutti i rami, oltre 48 ore compreso (già a posto sulla base, come il ramo senza consenso). Prove della rotta: 13 file, 181 verdi. Resto fuori voce: un invio scaduto oltre 10 s (lib/email/client.ts:216) può essere partito ma conta come non inviato, lo dice il commento di route.ts:76."
+    },
+    {
+      "id": "R04-013",
+      "chiave": "api-backend|comunicare l esito di una segnalazione: se il processo muore tra «prendo il canale» e l invio, quel canale resta preso e non riparte piu",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": null,
+      "nota": "Già riparato prima, confermato sulla base f93d246a: app/api/segnalazioni/esito/comunica.ts non prende mai il canale (legge, spedisce, scrive notifiche), app/api/segnalazioni/route.ts:217-246 non fa update né rpc, in migrations/ nessun file 38x. Uguale su origin/main. Il meccanismo è esistito solo sul ramo claude/magical-hamilton-xouwr8-m14 (aggiunto in 76e8dc32, tolto in 004218b6), mai nella base, in main o nella testa."
+    },
+    {
+      "id": "R04-017",
+      "chiave": "api-backend|il modulo dell'assistenza non manda nessuna chiave per invio",
+      "verdetto": "non_regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base 790e7c4ff0d2897d123b88a1d6ca15a2db7bfb08^ --file components/SupportChatModal.tsx --prove tests/unit/riparazione-r04-assistenza-chiave-per-invio.test.ts --json"
+      },
+      "nota": "Rimessa con tutti e due i commit tolti (790e7c4f^): uscita 0. Tolto solo cdcb621a esce 3 (rossa per la struttura: manca il ripiego senza crypto.randomUUID). Il lato modulo regge (stessa chiave sui ritentativi, nuova dopo un invio riuscito o un testo diverso, ripiego senza crypto, nessun doppio invio; 14 file, 164 prove verdi). Ma la voce non si chiude: nessuno legge la chiave. La rotta app/api/support/conversation/route.ts è identica fra base e testa, e lo schema (riga 14) ha solo firstMessage: nessuna intestazione letta (righe 13-15, 83). La premessa del registro («la rotta R14-022 accetta una chiave») non vale sulla base: R14-022 esiste solo sul ramo origin/claude/magical-hamilton-xouwr8-m14 (de0f54b1), dove la chiave è il campo `chiave` del corpo (route.ts:17 e :89). Il modulo invece la manda come intestazione idempotency-key (components/SupportChatModal.tsx:108) e il corpo resta { firstMessage } (:111): anche con R14-022 unita, la chiave sarebbe ignorata. Effetto di oggi: zero."
+    },
+    {
+      "id": "R04-019",
+      "chiave": "api-backend|se il servizio di posta conserva anche le risposte d'errore, una promozione mai partita risulta spedita",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base bf341cdea232996cd91c20dc836762363ce3ff1c^ --file lib/email/client.ts --prove tests/unit/riparazione-r04-019-posta-senza-id.test.ts --json"
+      },
+      "nota": "Parziale come dichiarato. La parte fatta regge: con l'SDK resend 3.5.0 una risposta 2xx dà {data: corpo, error: null}, il finto della prova ha la forma vera; senza la correzione la prova cade (2 su 3). Chi riceve ok:false non mostra errori e non manda doppioni (la coda ritenta con la stessa chiave; lib/stripe/payout.ts:1855 scrive solo nel log). 14 file, 62 prove della posta verdi. Il resto dichiarato è esatto: lib/email/client.ts:207-210 tratta il 409 come spedito, lib/email/unsubscribe.ts:65 ha una parte casuale, tests/unit/riparazione-r22-coda-email-timeout.test.ts:128-130 vuole il 409 come spedito."
+    },
+    {
+      "id": "R05-001",
+      "chiave": "architettura|la regola che vieta i tipi «qualunque» non è accesa: 46 sono passati, e 40 permessi di saltare il controllo non saltano niente",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base 6f4a1412dcb17f2281f5ee161baf27bb6dcf0561^ --file .eslintrc.json --prove tests/unit/riparazione-r05-regola-tipi-qualunque.test.ts --json"
+      },
+      "nota": "Parziale come dichiarato, ma il resto dichiarato è incompleto. Rimessa alla testa dbbb9793 (base 6f4a1412^): uscita 0. La parte fatta regge: npm run lint esce 0 (0 errori, 36 avvisi nei 16 file dell'elenco), un file nuovo con un any in lib/ o in app/orders/[id]/ dà errore, gli override cambiano solo no-explicit-any (print-config). Il cosa_resta dice 2 direttive morte: con --report-unused-disable-directives ne restano 29 (le 24 su no-img-element, components/seller/BarcodeScanner.tsx:130, components/seller/CameraCapture.tsx:161, app/product/[id]/layout.tsx:140, più le 2 dichiarate). Il flag chiesto dal registro non è nello script (package.json:9) né in .eslintrc.json, e non è dichiarato. lib/api/corpo.ts:113 ha una direttiva vuota che nasconde il Promise<any> di jsonRichiesta (circa 53 rotte): quell'any sfugge alla regola e non è contato."
+    },
+    {
+      "id": "R05-014",
+      "chiave": "architettura|gli strumenti degli sviluppatori portano altre 19 falle note, 10 alte, ma nessuna arriva al sito",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base 2b0cdbb645fb1103a4727f2b43116ba482fab6f0^ --file package-lock.json --prove tests/unit/riparazione-r05-falle-degli-sviluppatori.test.ts --json"
+      },
+      "nota": "Parziale come dichiarato, con il resto dichiarato inesatto. La parte fatta regge: le 14 voci del lock sono tutte dev:true, nessuna libreria del sito cambia; @typescript-eslint tutto a 8.73.0, compatibile con eslint 8.57.1, TypeScript 5.9.3 ed eslint-config-next; audit da 23 a 18. Il cosa_resta dice «18 avvisi chiedono --force»: 10 sono librerie del sito (zod alta, resend); per i 3 di Sentry oggi basta audit fix senza --force; gli 8 solo-sviluppo non hanno correzione nemmeno con --force. Il cancello CI npm audit --omit=dev --audit-level=high chiesto dal registro manca in .github/ e non è dichiarato."
+    },
+    {
+      "id": "R05-015",
+      "chiave": "architettura|l'elenco delle librerie dichiara una libreria mai usata e ne usa una che non dichiara, e il lint gira con un comando che next 16 toglie",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base 67cbd9915ce1c6fd36d614385294ee985e937166^ --file package.json,package-lock.json --prove tests/unit/riparazione-r05-librerie-dichiarate.test.ts --json"
+      },
+      "nota": "Rimessa uscita 0 (prova verde alla testa, cade rimettendo il difetto). Il plugin @typescript-eslint/eslint-plugin dichiarato regge (package.json:74; senza il parser accanto: con legacy-peer-deps nessuno tiene allineate le due versioni). Il pezzo di iconv-lite non va fatto: nessun file del sito la importa, ma restructure la chiede quando gira (node_modules/restructure/src/DecodeStream.js:2, require dentro try/catch), e restructure con fontkit serve a pdfkit, che sta in serverExternalPackages (next.config.js:77). Il commit b20fa13d l'aveva dichiarata apposta per pdfkit («cintura e bretelle»). Oggi non si rompe niente: nel lock resta node_modules/iconv-lite 0.6.3 non-dev, portata da un'altra libreria; ma se quella la lascia, il PDF la perde in silenzio. Lo script lint era già eslint diretto sulla base."
+    },
+    {
+      "id": "R05-019",
+      "chiave": "deploy-sre|la costruzione del sito dipende dal download dei caratteri da google e ogni tanto fallisce da sola",
+      "verdetto": "rompe_altro",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base 1894c2f34064082fd07ff363baf3f016967ecd24^ --file app/layout.tsx --prove tests/unit/riparazione-r05-caratteri-dal-disco.test.ts --json"
+      },
+      "nota": "La rete esce dalla costruzione: nessun next/font/google, fonts.googleapis o fonts.gstatic in app, components, lib, public, .github, tailwind e globals.css (solo in docs/mockup); ci.yml:80-88 è solo il passo Build. Rimessa anche alla testa dbbb9793: uscita 0. Rompe l'uguaglianza a vista fuori dal latin. Alla base subsets:['latin'] decideva solo il precarico: next/font/google scaricava e serviva i file di tutti i sottoinsiemi (find-font-files-in-css.js, preloadFontFile solo per i subset elencati). Alla testa app/layout.tsx:54-71 serve solo i file latin: Inter perde 1392 caratteri su 1622 (latin-ext, cirillico, greco, vietnamita), Fraunces 362 su 584. Esempi: ă ș ț ł č ř ő ğ, che ora escono in Arial o Times New Roman nel testo degli utenti (nomi, negozi, prodotti, recensioni). Nel latin è uguale: stessi glifi ai pesi 100/400/700/800/900, stessi assi, metriche, GSUB/GPOS. Altri due punti: la riserva di metriche di Fraunces (app/layout.tsx:70) ora si calcola sul peso di default del file, 900: size-adjust da 115.45% a 126.68%, quindi il salto prima del caricamento cresce; il commento di app/layout.tsx:50-53 («identici byte per byte… stessi md5… stessa riserva di metriche») e il titolo di tests/unit/riparazione-r05-caratteri-dal-disco.test.ts:32 sono falsi, come ammette la nota del referto."
+    }
+  ],
+  "campione": {
+    "R04": {
+      "accettato": false,
+      "perche": "giudizio pieno su tutte le voci: dei 4 minori riparati reggono 2 (R04-002, R04-005); R04-001 rompe_altro, R04-017 non_regge"
+    },
+    "R05": {
+      "accettato": false,
+      "perche": "giudizio pieno su tutte le voci: dei 2 minori riparati non ne regge nessuno (R05-015 parziale, R05-019 rompe_altro)"
+    }
+  },
+  "note": {
+    "R04-009_revert": "Verificato: 53e804a4 ed ec5b406c sono tolti da bcaeaf49. Sul ramo, dalla base f93d246a alla punta 847ee782, app/api/geocode/route.ts, lib/geocodifica.ts e tests/unit/riparazione-r04-nominatim-freno-unico.test.ts sono identici alla base (diff vuoto). I file di codice cambiati sul ramo sono solo app/api/admin/products/route.ts, app/api/cron/abandoned-carts/route.ts, components/SupportChatModal.tsx e lib/email/client.ts.",
+    "R05-016_revert": "eddf0534 è tolto da 0cb2424c: scripts/gen-db-types.mjs non compare nel diff base..punta di R05.",
+    "prove_esistenti_toccate_da_R05": "Giudicate una per una alla testa dbbb9793: tutte e tre non indebolite. (1) tests/unit/il-corsivo-del-sito-e-un-corsivo-vero.test.ts: 10 expect alla base, 18 alla testa, nessuno perso; il controllo sul catalogo di Google ora legge il bit del corsivo e l'angolo nei woff2, più forte. Rossa in 7 difetti rimessi su 7 (dritto copiato sul corsivo di Inter e di Fraunces, righe italic tolte tutte o una, corsivo che punta al file dritto, italic dichiarato normal, file cancellato). Buco: con la riga italic messa in commento resta verde, ma lo era anche alla base (7 su 7 verdi lì). (2) tests/unit/riparazione-r10-manifest-nel-head.test.tsx: 5 asserzioni identiche; il finto next/font/local cambia solo la classe di html, che nessuna asserzione legge; rossa togliendo il manifest dall'head (1 su 3) e rimettendo manifest e icona nei metadata (3 su 3). (3) tests/unit/riparazione-r15-la-pagina-non-trovata-non-si-presenta-come-la-home.test.ts: 8 prove identiche, cambia solo il finto; rossa con la 404 che eredita i metadati della home (3 su 8) e con l'anteprima della home (1 su 8). Alla testa 24 prove verdi su 24 (corsivo 9, r10 3, r15 8, R05-019 4).",
+    "rimesse": "Tutte con cervello/prova-rimessa.mjs nella copia allo SHA della voce (uscita 0). Per le voci con due commit ho tolto anche tutti e due (base = primo commit^): R04-001 e R04-005 uscita 0 in tutti e due i modi; R04-017 uscita 3 togliendo solo cdcb621a (struttura) e 0 togliendoli tutti e due, come il riparatore. R04-002, R05-001 e R05-019 rilanciate anche alla testa del riparatore: uscita 0.",
+    "costo": "usage.cost_usd non compare in get_session di questa sessione: costo non leggibile da qui."
+  },
+  "nuovi_difetti_visti": [
+    "app/api/admin/products/route.ts:315 — la traccia delle taglie dice «tolta» una taglia aggiunta da un'altra scheda e rimasta nel database (rompe_altro di R04-001)",
+    "app/api/admin/products/route.ts:259 — un prodotto cancellato fra la lettura e il salvataggio dà 200 con traccia (fuori da R04-002)",
+    "app/api/support/conversation/route.ts:13-15 — la rotta non legge nessuna chiave per invio; R14-022 (ramo non unito) usa il campo `chiave` del corpo, il modulo manda l'intestazione idempotency-key (components/SupportChatModal.tsx:108)",
+    "lib/api/corpo.ts:113 — una direttiva eslint-disable vuota nasconde il Promise<any> di jsonRichiesta, usata da circa 53 rotte",
+    "27 direttive eslint-disable morte non dichiarate da R05-001: 24 su @next/next/no-img-element, components/seller/BarcodeScanner.tsx:130, components/seller/CameraCapture.tsx:161, app/product/[id]/layout.tsx:140",
+    ".github/workflows — manca il cancello npm audit --omit=dev --audit-level=high chiesto dal registro di R05-014",
+    "package.json:74 — @typescript-eslint/eslint-plugin dichiarato senza il parser: con legacy-peer-deps nessuno tiene allineate le versioni",
+    "package.json — iconv-lite tolta: restructure la chiede quando gira (DecodeStream.js:2) per pdfkit (next.config.js:77); oggi c'è solo perché la porta un'altra libreria",
+    "app/layout.tsx:54-71 — solo i file latin: ă ș ț ł č ř e cirillico/greco/vietnamita escono in Arial o Times New Roman (Inter 1392 caratteri su 1622 persi, Fraunces 362 su 584)",
+    "app/layout.tsx:70 — riserva di metriche di Fraunces calcolata sul peso 900: size-adjust da 115.45% a 126.68%",
+    "app/layout.tsx:50-53 e tests/unit/riparazione-r05-caratteri-dal-disco.test.ts:32 — dicono «identici byte per byte, stessi md5»: falso",
+    "tests/unit/il-corsivo-del-sito-e-un-corsivo-vero.test.ts — con la riga italic in commento resta verde (già così sulla base)"
+  ]
+}
