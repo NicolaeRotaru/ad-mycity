@@ -26,7 +26,11 @@
    "consegna_usd": 30,
    "aperta": "2026-11-19 10:16",
    "ultracode": false,
-   "finita": false
+   "finita": true,
+   "punta": "8ef61d3f",
+   "testa": "d0def26c",
+   "costo_usd": 9.66,
+   "nota": "4 riparati, 3 parziali, 1 scelta di Nicola (002: didascalia stringe la ricerca da 114 a 52 px); valida-referto verde; guardia rossa solo per le 5 prove esistenti ritoccate per «fattorino» (R02-007, dichiarate)"
   },
   "R03": {
    "id": "session_015BmpnXkBjEmdqxziZHfEuL",
