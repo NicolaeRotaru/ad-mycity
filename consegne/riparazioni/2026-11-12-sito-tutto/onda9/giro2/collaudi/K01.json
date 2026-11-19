@@ -1,0 +1,177 @@
+{
+ "collaudatore": "K01",
+ "riparatori": [
+  "R01",
+  "R02"
+ ],
+ "aggiornato": "2026-11-19 12:14",
+ "finita": true,
+ "voci": [
+  {
+   "id": "R01-001",
+   "chiave": "navigazione-gerarchia|su notifiche e messaggi i titoli saltano dal titolo principale al terzo livello",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r01-001 --base 4aeb86fc^ --file app/notifications/page.tsx,app/messages/page.tsx --prove tests/unit/riparazione-r01-titoli-in-ordine-in-ogni-stato.test.tsx --json"
+   },
+   "nota": "Revisore qa: CSS di Tailwind generato davvero; le classi font-sans text-base tracking-normal (peso 0,1,0) vincono sulle regole d'elemento h1/h2/h3 di app/globals.css (0,0,1), quindi i due h2 degli stati vuoti tornano Inter 16px con riga 24px, peso, colore e margini del vecchio <p>: il difetto nato nell'onda 9 è chiuso. Ordine dei titoli h1→h2→h3 giusto su notifiche e messaggi negli stati vuoto, errore e pieno. Nel caricamento c'è solo la rotellina, come sulla base."
+  },
+  {
+   "id": "R01-002",
+   "chiave": "stati-ui|nelle notifiche il tasto «carica altre» sparisce mentre carica, e un errore cancella dalla pagina l'elenco già letto",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r01-002 --base 9a60bc75^ --file app/notifications/page.tsx --prove tests/unit/riparazione-r01-notifiche-carica-altre-e-segna-lette.test.tsx --json"
+   },
+   "nota": "Il residuo dell'onda 9 è chiuso: con 120 non lette, «Carica altre» due volte e le riletture cadute, «Segna tutte come lette» toglie ogni «Non letta» e il pulsante, anche oltre le prime 50; chiavi uguali a quelle del campanello. Ma il commit c8a1e2bf porta un difetto nuovo: app/notifications/page.tsx:184 mette a 0 il conto del campanello dell'utente a video quando la scrittura finisce, senza controllare che sia lo stesso utente che ha segnato lette. Se la sessione cambia mentre la scrittura è in volo e la rilettura del conto cade, il campanello del nuovo utente dice 0 con notifiche non lette, fino alla rilettura successiva (entro 60 s). Raro, minore; cura di una riga provata dal revisore: azzerare il conto solo se l'utente della scrittura è quello a video. A parte, c'era già sulla base e non nasce da R01: «Carica altre» in volo più «Segna tutte» riuscito fa tornare le «Non letta» (manca cancelQueries in onMutate)."
+  },
+  {
+   "id": "R01-003",
+   "chiave": "stati-ui|con la sessione scaduta il pulsante «apri reclamo» non fa niente, non chiede di rientrare e il testo scritto si perde",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r01-003 --base 185675b7^ --file app/orders/[id]/dispute/page.tsx --prove tests/unit/riparazione-r01-reclamo-rientra-con-la-bozza.test.tsx --json"
+   },
+   "nota": "Revisore qa con banco di prova suo e tre mutazioni: i casi del collaudo dell'onda 9 sono chiusi (dopo il rientro e una modifica la bozza vecchia non torna, svuotare il campo resta vuoto, col reclamo già aperto la bozza si cancella). Al 401 l'avviso porta a /sign-in?returnTo= giusto, il testo torna al rientro e non entra in un altro ordine. La bozza riprende il testo solo per chi l'ha scritta. Il residuo dichiarato è vero ed esatto nei tre punti; il primo (:141, testo cambiato mentre l'invio è in corso) fa ancora tornare il testo vecchio, anche se il campo è stato svuotato, ma solo in quella finestra breve: la cura di una riga dichiarata funziona e va messa con la sua prova prima di chiudere la voce."
+  },
+  {
+   "id": "R01-varie",
+   "chiave": "R01-varie|le notifiche si rileggono da capo quando cambia chi le guarda",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r01-varie --base 7ad94a30^ --file app/notifications/page.tsx --prove tests/unit/riparazione-r01-notifiche-di-chi-guarda.test.tsx --json"
+   },
+   "nota": "Revisore qa col QueryProvider e react-query veri, nei due ordini di ascolto e con la lettura nuova tenuta ferma: le notifiche si rileggono da capo quando cambia chi le guarda, con la schermata di attesa; anche dopo «Carica altre», con «Carica altre» in volo e con la rilettura che cade (pagina d'errore). Non provato in un browser vero con supabase-js."
+  },
+  {
+   "id": "R02-001",
+   "chiave": "accessibilita|nella pagina chi siamo e nella vetrina del negozio il banner ignora il testo alternativo e lascia la scritta bianca sulla foto senza velo",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r02-001 --base 58d69a76^ --file components/seller/site/BannerFields.tsx --prove tests/unit/riparazione-r02-banner-alt.test.tsx --json"
+   },
+   "nota": "Revisore qa: col file alla base le 3 prove sono rosse. Giro intero seguito: campo con maxLength 160 → app/api/seller/site/route.ts:47 storeSiteSchema → lib/store-site.ts:159 alt shortText(160), vuoto accettato → BannerSection.tsx:49 alt (vuoto = decorativa), velo presente; chi siamo: CmsBlockRenderer.tsx:48 e :37, campo alt nel CMS admin. Il pezzo mancante dell'onda 9 è chiuso."
+  },
+  {
+   "id": "R02-003",
+   "chiave": "immagini-media|se l'abbonamento supabase scade, le foto del sito tornano rotte e nessun controllo se ne accorge",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r02-003 --base 60635a10^ --file app/api/health/ready/route.ts --prove tests/unit/riparazione-r02-pronto-guarda-le-foto.test.ts --json"
+   },
+   "nota": "Il controllo delle foto fa quello che dichiara (7 casi in più: interruttore NEXT_PUBLIC_FOTO_SENZA_TRASFORMAZIONE acceso → 200 senza chiamate, foto non Supabase, elenchi vuoti, 408/429, 304; tetto di tempo e annulli giusti; parte database invariata). Ma rompe accanto, verificato da me sui file: l'unico consumatore di /api/health/ready nel deposito è la prova di fumo dopo la pubblicazione, che vuole un 2xx (scripts/prova-di-fumo.mjs:73-77) ed esce 1 = sito rotto (:664); sull'1 .github/workflows/deploy-dopo-ci.yml (passo «Torna indietro», :723-725, rollback a :821) rimette online la versione di prima. Con la trasformata in 4xx e l'originale 2xx (piano scaduto prima di accendere l'interruttore, o l'unica foto campionata che non si trasforma) ogni pubblicazione verrebbe tolta da sola: tornare indietro non cura un guasto del fornitore e lascia il codice vecchio sopra migrazioni già applicate. La stessa prova di fumo dice che un «degradato» non deve far tornare indietro. Il referto non ne parla."
+  },
+  {
+   "id": "R02-004",
+   "chiave": "layout-responsive|chi siamo a 280 px col testo al 200% scorre ancora di lato",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r02-004 --base a272b522^ --file app/about/page.tsx,components/Navbar.tsx --prove tests/unit/riparazione-r02-chi-siamo-280.test.tsx --json"
+   },
+   "nota": "Misurato da me in Chromium (next dev, variabili finte, Inter e Fraunces caricati), base 336f2fbd contro testa: col testo al 200% /about a 280 px 319→280, a 320 resta 320. Col testo normale a 375 e 1280 px /about ha la stessa altezza (5161 e 2925 px) e gli stessi titoli; il diff tocca la banda e i bottoni solo con varianti max-[300px], quindi il difetto nato nell'onda 9 (margini della banda su ogni telefono) è chiuso. Le dieci pagine pubbliche misurate hanno altezza identica alla base a 375 e 1280 px: il cambio di «Accedi» non sposta la barra."
+  },
+  {
+   "id": "R02-005",
+   "chiave": "layout-responsive|col testo ingrandito al massimo sul telefono, le pagine pubbliche scorrono di lato per colpa del piè di pagina",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r02-005 --base f215f5af^ --file app/faq/page.tsx,app/returns/page.tsx,app/lavora-con-noi/page.tsx,app/help/page.tsx,app/contact/page.tsx,app/terms/page.tsx,components/ui/LegalLayout.tsx --prove tests/unit/riparazione-r02-pagine-testo-grande.test.tsx,tests/unit/riparazione-r02-pagine-testo-grande-giro2.test.tsx --json"
+   },
+   "nota": "Misurato da me in Chromium, testo al 200%, base → testa: a 280 e 320 px /faq 344→280/320, /returns 357, /lavora-con-noi 341, /help 391, /contact 429, /terms 393, /privacy 414, /cookies 345, /accessibility 468, tutte → larghezza della finestra; a 360 px tutte a 360. Resta solo la home (422 px a 280, 320 e 360), come dichiarato. Col testo normale a 375 e 1280 px le dieci pagine hanno altezza identica alla base e nessuna parola spezzata a metà nei titoli, nei paragrafi, nei link e nei bottoni. /terms e /privacy a 375 px: i tre titoli di /terms e l'h1 di /privacy sono già su 2 righe nella base, schermate uguali alla base: nessun peggioramento visibile in Chromium (il «da 1 a 2 righe» del referto non si riproduce). Non verificato: la sillabazione dell'h1 (hyphens-auto) su Safari e Android, che Chromium per Linux non fa."
+  },
+  {
+   "id": "R02-006",
+   "chiave": "microcopy|nella pagina delle sponsorizzazioni colonne e valori sono in inglese e in codici del database",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r02-006 --base c4fa85f0^ --file app/admin/sponsored/page.tsx --prove tests/unit/riparazione-r02-sponsorizzati-data-e-posizione.test.tsx --json"
+   },
+   "nota": "Revisore qa: il residuo dichiarato è vero ed esatto (lib/admin/vista-delle-campagne.ts:279 «Impressions», :285 «CTR»/«CTR medio», :287 percentuale col punto), quello già trovato nell'onda 9. Nel resto della pagina intestazioni, filtri, stati, pulsanti, conferme, avvisi, errore e tabella vuota sono in italiano; data mancante «—», posizione sconosciuta leggibile. 17 prove verdi."
+  },
+  {
+   "id": "R02-007",
+   "chiave": "microcopy|il pulsante del negozio dice «pronto per il rider»: in tutto il resto del sito è «fattorino»",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r02-007 --base d05f1136^ --file lib/order-status.ts --prove tests/unit/riparazione-r02-etichetta-fattorino.test.ts,tests/unit/la-targhetta-dell-ordine-non-manda-il-cliente-a-ritirarlo.test.ts,tests/unit/le-promesse-della-consegna-cambiano-solo-di-proposito.test.tsx,tests/unit/minori-s02-varie.test.ts,tests/unit/minori-s06-centro-venditori.test.ts,tests/unit/minori-s06-ordine-del-negozio.test.tsx --json"
+   },
+   "nota": "Revisore qa, le 5 prove esistenti ritoccate una per una (diff d05f1136^..d05f1136 e difetto rimesso in lib/order-status.ts:45, ogni prova lanciata da sola): la-targhetta-dell-ordine-non-manda-il-cliente-a-ritirarlo, le-promesse-della-consegna-cambiano-solo-di-proposito, minori-s02-varie, minori-s06-centro-venditori, minori-s06-ordine-del-negozio: in tutte asserzioni intatte (stesso numero di expect, cambia solo il testo dell'etichetta) e rosse col difetto, per l'etichetta. Prova nuova rossa col difetto. Nessun altro pulsante «Pronto per il rider»; app/seller/help/domande.ts:54 segue etichettaPronto. Fuori dalla voce: altre frasi con «rider» per il negozio (lib/order-status.ts:52, app/seller/orders/[id]/page.tsx:619 e :624, app/seller/orders/page.tsx:181) mancano nei nuovi difetti del referto."
+  },
+  {
+   "id": "R02-008",
+   "chiave": "tipografia|otto spaziature diverse per la stessa etichetta maiuscola",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r02-008 --base 13d33303^ --file app/returns/page.tsx,app/admin/sponsored/page.tsx,components/Footer.tsx,components/Navbar.tsx --prove tests/unit/riparazione-r02-etichette-maiuscole.test.ts --json"
+   },
+   "nota": "Verificato da me: tracking-label vale 0.04em (tailwind.config.ts:164); nei file di R02 nessuna etichetta maiuscola con spaziatura fuori token (restano solo le iniziali degli avatar in Navbar.tsx:527 e :553, che non sono etichette); otto etichette passate a tracking-label (wide valeva già 0.04em, wider e [0.05em] cambiano di 0.01em). Il residuo dichiarato è esatto: 101 righe in 62 file di altre sessioni. Altezze delle pagine col piede identiche alla base."
+  }
+ ],
+ "nota": "Giro 2 dell'onda 9. Prova rimessa lanciata dal collaudatore su tutte le 11 voci (uscita 0). R02-002 è scelta_di_nicola: niente collaudo. Senza campione (lotti sotto le 40 voci): giudizio pieno su tutte. Tre revisori qa; le misure in Chromium di R02-004, R02-005 e R02-008 le ho fatte io, perché il quarto revisore è stato rifiutato dal controllo della sessione."
+}
