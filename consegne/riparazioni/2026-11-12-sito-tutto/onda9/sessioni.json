@@ -198,7 +198,10 @@
    "aperta": "2026-11-19 11:10",
    "consegna_usd": 20,
    "tetto_usd": 25,
-   "finita": false
+   "finita": true,
+   "punta": "d12ae0a7",
+   "costo_usd": 11.7,
+   "nota": "10 voci, 3 reggono (R04-002, 005, 013); parziali R04-019, R05-001, 014, 015; non regge R04-017; rompe_altro R04-001 e R05-019 (si tolgono all unione); le tre prove adattate da R05 non indebolite"
   }
  },
  "controllori": {
