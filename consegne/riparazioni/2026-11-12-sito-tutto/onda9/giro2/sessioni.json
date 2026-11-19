@@ -60,7 +60,11 @@
    "consegna_usd": 35,
    "aperta": "2026-11-19 10:16",
    "ultracode": true,
-   "finita": false
+   "finita": true,
+   "punta": "d2db4b86",
+   "testa": "be90b6d3",
+   "costo_usd": 19.35,
+   "nota": "4 riparati, 2 parziali, 1 serve_file_altrui; guardia e referto verdi; la prova della home vuole Chromium nella CI (modifica di ci.yml nel referto)"
   }
  },
  "collaudatori": {},
