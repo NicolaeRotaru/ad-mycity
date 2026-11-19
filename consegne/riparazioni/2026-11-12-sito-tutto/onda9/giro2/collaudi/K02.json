@@ -4,9 +4,41 @@
   "R03",
   "R04"
  ],
- "aggiornato": "2026-11-19 12:40",
- "finita": false,
+ "aggiornato": "2026-11-19 12:11",
+ "finita": true,
  "voci": [
+  {
+   "id": "R03-001",
+   "chiave": "ai-endpoints|le rotte catalog-apply e catalog-apply-bulk non leggono l'interruttore ai_negozi_accesa",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base cad84038a5f3d5fde855bc8a32e11614e4922c51^ --file app/api/ai/catalog-apply/route.ts,app/api/ai/catalog-apply-bulk/route.ts --prove tests/unit/riparazione-r03-interruttore-apply.test.ts --json",
+    "commit": "cad84038a5f3d5fde855bc8a32e11614e4922c51"
+   },
+   "nota": "Chiude tutta: catalog-apply e catalog-apply-bulk rispondono 503 come prima riga del gestore, dentro withSellerAuth. Nata rotta: no. Senza sessione resta 401 (provato col middleware vero e l'interruttore spento, database non toccato); interfaccia e getAnthropic sono già spenti con l'interruttore; 16 prove vicine verdi (148/148). Le 9 prove esistenti ritoccate, giudicate una per una dal diff: cambia solo la riga vi.mock(funzioni-al-lancio, AI_NEGOZI_ACCESA: true) e nessuna asserzione è persa. 8 su 9 tornano rosse rimettendo il loro difetto originale (freno sul prezzo, frase sulle dichiarazioni, motivo del prezzo, price: current.price, uscita anticipata, via freno, errore delle categorie, campiDallAi). La nona (una-dichiarazione-che-la-scheda-non-ha) aggiunge solo quella riga (numstat 1/0). Rimessa 0."
+  },
+  {
+   "id": "R03-002",
+   "chiave": "ai-endpoints|un lotto ai partito e pagato ma non agganciato alla sua riga si chiude come fallito dopo 15 minuti e se ne può pagare un secondo",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base fa420ddadd45f30b7956b3a98fae85fba8f7e2a9^ --file app/api/ai/catalog-batch/start/route.ts --prove tests/unit/riparazione-r03-lotto-motivo-rifiutato.test.ts,tests/unit/riparazione-r03-lotto-chiusura-ritentata.test.ts --json",
+    "commit": "7e32fbc1c6fa71408b86e88bf4accadcfb3cec71"
+   },
+   "nota": "Due revisori, uno per lente. Chiude tutta: la riga nasce già col motivo INVIO_SENZA_RISPOSTA (start/route.ts:159). Una funzione che muore o una scrittura rifiutata la lasciano aperta 24 ore, non 15 minuti: provato a 16 minuti, riga aperta e secondo avvio 409. Togliendo il motivo dall'insert la prova ha 2 rossi su 4. I verdetti vecchi (K01 «terza scrittura rotta», C01 «motivo senza controllo a :240») sono chiusi. Nata rotta: un invio normale non mostra errori, la pagina legge solo 'submitting' (statoLavoroCatalogo.ts:41-42); nessun altro lettore della colonna; le scritture ritentate non scavalcano un aggancio; 30 prove sul lotto verdi. Costi residui dichiarati dal riparatore: dopo 24 ore il negozio legge «potrebbe essere stato pagato», e il 409 dice «fra qualche minuto» (start/route.ts:103) per un blocco che può durare 24 ore. Rimessa 0."
+  },
   {
    "id": "R03-003",
    "chiave": "ai-endpoints|la lettura da foto accetta il testo «false» del modello come prodotto ammesso",
@@ -22,6 +54,70 @@
     "commit": "63742fade53e2b2c94cb5b179020e7cfa01c7847"
    },
    "nota": "Chiude tutta: extract-product regge dall'onda 9 (route.ts:433 policy_ok !== true) e ora extract-products:306 usa === true, quindi il collaudo vecchio K01 (parziale per extract-products:304 !== false) è chiuso. Le due rotte che rimandano policy_ok sono tutte e due coperte; BulkPhotoCreate.tsx:147 e :275 leggono policy_ok, e il campo mancante ora esce «Non pubblicabile» senza motivo, come in extract-product. Nata rotta: no, lo schema dello strumento ha policy_ok obbligatorio, nessun altro lettore. La prova rimessa è a 0."
+  },
+  {
+   "id": "R03-004",
+   "chiave": "ai-endpoints|se l'invio di un lotto ai resta senza risposta, il sito lo rimanda e anthropic ne esegue due, uno pagato e mai visto",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base e60c12967ef0a90e47693d0af78dbe179f89d9f2^ --file lib/ai/batch.ts --prove tests/unit/riparazione-r03-lotto-forse-partito.test.ts,tests/unit/riparazione-r03-lotto-524.test.ts --json",
+    "commit": "e60c12967ef0a90e47693d0af78dbe179f89d9f2"
+   },
+   "nota": "Due revisori, uno per lente. Chiude tutta, provato con l'SDK vero 0.100.1, getAnthropic vero e un server locale. Diventano «forse partito»: il 2xx col corpo fermo (a 70,0 s), il non-2xx col corpo fermo (il caso dato senza prova), il 2xx in HTML o senza id, il 520, il 500 e la connessione chiusa. 503 e 429 restano rifiuti. Sempre una sola richiesta, anche con x-should-retry. Chiusi i verdetti vecchi: 520 e 2xx illeggibile (K01), corpo fermo oltre i 60 s (C01). Nata rotta: nessun timer resta acceso; solo start chiama submitBatch; il 520 tolto dai rifiuti nella prova 524 è spostato fra i «forse partito», non perso. Nota minore: un 503/529/400 col corpo fermo oltre 70 s ora vale «forse partito» (batch.ts:106): stima di spesa prenotata e negozio fermo 24 ore. È dalla parte prudente. Con l'interruzione lo stato non si distingue da un 500/502 col corpo fermo; sulla base lo stesso caso restava appeso oltre i 120 s e si chiudeva dopo 15 minuti. Rimessa 0."
+  },
+  {
+   "id": "R03-005",
+   "chiave": "ai-endpoints|quando anthropic non risponde, vercel spegne la funzione ai prima che il negozio legga un errore chiaro",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 730fa8c3eb504e85a60891ce7b84b7abf2c17ac9^ --file vercel.json --prove tests/unit/riparazione-r03-durata-delle-rotte-ai.test.ts --json",
+    "commit": "730fa8c3eb504e85a60891ce7b84b7abf2c17ac9"
+   },
+   "nota": "Parziale onesto. Il pezzo fatto regge: maxDuration 120 per extract-products, photo-order, import-fetch e products/*/external-refresh. Il glob * copre un livello di cartella (documentazione Vercel) e prende esattamente il file con [id]; tolta la riga, la prova ha 1 rosso su 27. Cosa resta, confermato: catalog-batch/apply fa gruppi da 5 in fila, ognuno con un filtro senza timeoutMs (apply/route.ts:44-54, :222), e oltre 5 prodotti supera i 120 s. Le due modifiche altrui sono esatte. Nessun'altra rotta letta da un negozio supera i 120 s. Il verdetto vecchio di K01 (external-price-alerts) è nei nuovi difetti: è un cron che nessun negozio legge. Non provata la build di Vercel col glob (vercel.com non raggiungibile). Rimessa 0."
+  },
+  {
+   "id": "R03-006",
+   "chiave": "ai-endpoints|l'allarme del tetto di spesa ai scatta solo se la stessa copia del sito resta accesa per un'ora, e su vercel può non arrivare mai",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 12fb179639202bc617ce304135aeb8237e089bb1^ --file app/api/cron/operational-alerts/route.ts,lib/ai/tettoSpesa.ts --prove tests/unit/riparazione-r03-allarme-tetto-nel-cron.test.ts,tests/unit/riparazione-r03-tetto-senza-tetto.test.ts --json",
+    "commit": "17e99ba760c9bc9c37ba9fcee67cf25702736a68"
+   },
+   "nota": "Chiude tutta. Il cron chiama allarmiTettoSpesaAiPerIlCron, provato con una copia nuova del modulo a ogni giro come su Vercel e la memoria delle sei ore vera. Conto irraggiungibile: prima email dopo 65 minuti, una sola fino alle 13:00. Conto assente: email al primo giro, una sola in 3 ore. Senza tetto: 0 chiamate e 0 righe (giro 17e99ba7). Mutazioni: senza la chiamata 6 rossi, senza il freno 3 rossi. Prova esistente ritoccata (l-allarme-che-non-parte…, riga 54, aggiunto rpc al database finto): nessuna asserzione persa, e col difetto originale 3 rossi su 4. ROMPE ALTRO (minore). Con il tetto impostato e il conto assente, ogni giro del cron (ogni 5 minuti) manda un logger.error a Sentry: 37 errori in 37 giri, circa 288 al giorno. Lo stesso col conto irraggiungibile da oltre un'ora. Il freno «uno all'ora» vive nella memoria della copia (tettoSpesa.ts:185-206), e prima di questa voce il cron non interrogava il conto. Il riparatore l'ha visto e dichiarato nei nuovi difetti, ma non l'ha riparato. Cura: freno su operational_alert_log come l'email, oppure niente logger.error nel percorso del cron. Rimessa 0."
+  },
+  {
+   "id": "R03-007",
+   "chiave": "qa-flussi|quando il fattorino segna «cliente assente» il negozio riceve solo la campanella, non l'email di annullo",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 3bba8949bfb210165426e738f7f082f6f7375f65^ --file \"app/api/rider/orders/[id]/cliente-assente/route.ts\" --prove tests/unit/riparazione-r03-cliente-assente-email.test.ts --json",
+    "commit": "3bba8949bfb210165426e738f7f082f6f7375f65"
+   },
+   "nota": "Chiude tutta e non rompe niente, provato col vero annullaERimborsa. Contanti e carta: una sola email, al negozio giusto (seller_id, tag order_canceled_seller). Seconda richiesta: 409, nessuna seconda email. Due richieste insieme: una 200 e una 409, una sola email. Se getUserById o sendEmail lanciano, o se sendEmail risponde ok:false: 200, annullo e campanella scritti. 11 prove vicine verdi (60/60). Le 2 prove esistenti ritoccate: nessuna asserzione persa. il-cliente-assente-col-credito… è più stretta di prima (una sola al cliente più l'insieme esatto di due email) e torna rossa tre volte col difetto rimesso (righe 173, 176, 192). riparazione-r30-fattorino-sospeso-rotte cambia solo il mock e torna rossa togliendo il controllo del fattorino sospeso (200 invece di 403). Rimessa 0."
   },
   {
    "id": "R04-001",
@@ -102,6 +198,23 @@
     "commit": "1037f1e7051f333e44d0c491399d5585b584cded"
    },
    "nota": "Chiude tutta. Tutte e 13 le rotte elencate più contact importano lib/api/responses o zod-i18n (controllate una per una sulla testa). Nessuna rotta di app/api che rimanda issues[0].message/flatten resta senza traduttore: grep su tutte le route.ts, 0 trovate. Nata rotta: nessun codice confronta i testi inglesi di Zod (grep su app/lib/components); l'unica prova che li cita usa errorMap: z.defaultErrorMap esplicito. Gli altri casi ancora inglesi (invalid_union, unrecognized_keys…) sono dichiarati nei nuovi difetti e non sono quelli della voce (.max/.min senza messaggio). Rimessa 0."
+  },
+  {
+   "id": "R04-007",
+   "chiave": "stati-ui|quando la rete torna, le pagine prodotto del negoziante rimettono il caricamento al posto del modulo e le modifiche non salvate si perdono",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base 169132cb^ --file \"app/seller/products/new/page.tsx,app/seller/products/[id]/edit/page.tsx\" --prove tests/unit/riparazione-r04-modulo-resta-quando-torna-la-rete.test.tsx --json",
+    "commit": "fe6b3b0532b8d32f75a24d4e912c8aae2502a2ec"
+   },
+   "nota": "Due revisori, uno per lente; le loro prove le ho rilanciate io sulla testa be90b6d3 e con le due pagine della base 336f2fbd. CHIUDE TUTTA: parziale. Il caricamento non prende più il posto del modulo: 6 strade rosse sulla base e verdi sulla testa (rilettura caduta del prodotto e delle taglie, consegna, categorie, invalidazione, reset delle taglie; Modifica, Nuovo, Duplica). Però la prova del riparatore non copre la rilettura caduta: tolta la protezione sugli errori (edit/page.tsx:287, new/page.tsx:286-296) resta verde 7/7. ROMPE ALTRO, GRAVE: il difetto del controllore C01 torna per un'altra strada. In «Modifica» con una copia vecchia in memoria a 0 taglie, aperta senza rete, la rilettura delle taglie che cade al ritorno della rete lascia il modulo aperto con 0 taglie, senza avviso. edit/page.tsx:287 mette erroreVarianti sotto restaAperto, e :320-323 non rimonta perché le taglie lette non cambiano. Il Salva scrive products.stock contro la vecchia somma (ProductForm.tsx:830, :856-873), e la scorta si stacca dalla somma delle taglie. Sulla base compariva «Non riesco a leggere le taglie» e il modulo si chiudeva. Prova E2: rossa sulla testa, verde sulla base. In «Duplica» succede lo stesso: new/page.tsx:286 (moduloAperto scavalca variantiNonArrivate) fa nascere la copia senza taglie e con la scorta della vecchia somma (prova D2: rossa sulla testa, verde sulla base). Minori: da «Nuovo» a «Duplica» senza rimontare la pagina la copia si apre vuota (D4b e K2: rosse sulla testa, verdi sulla base). Se le taglie cambiano senza rete il modulo si rimonta e il testo non salvato si perde (E4, D3: rosse sulla testa, verdi sulla base; scelta dichiarata dal riparatore). Rimessa 0."
   }
- ]
+ ],
+ "nota": "Giudizio pieno su tutte le 13 voci riparate o parziali (R04-004 è serve_file_altrui, fuori dal collaudo). Prova rimessa a uscita 0 su tutte e 13: R04-005 in Chromium qui; R04-003 senza commit di R04, rimessa sulla correzione 96727f3c già in base. 4 subagenti qa (tetto 4), con due lenti separate su R04-007, R03-002 e R03-004. Nessun database, nessuno strumento Supabase/Vercel/Stripe, nessuna chiamata ad Anthropic. Le 13 prove esistenti ritoccate da R03 (le 12 segnalate più riparazione-r03-lotto-524) non perdono asserzioni."
 }
