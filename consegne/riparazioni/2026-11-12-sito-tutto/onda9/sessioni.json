@@ -133,8 +133,11 @@
    "consegna_usd": 40,
    "aperta": "2026-11-19 10:16",
    "ultracode": false,
-   "finita": false,
-   "nota": "giro del 19/11: solo le voci del rifiltro (rifiltro-R04-R05-R08-R09.json)"
+   "finita": true,
+   "nota": "giro del 19/11: solo le voci del rifiltro (rifiltro-R04-R05-R08-R09.json); 11:16 consegnato: 5 riparati, 2 parziali, 1 serve_file_altrui; guardia rossa solo per 2 messaggi che citano voci altrui (f6d4f4c1 R03-005, a431ee63 R24-018), la stessa regola senza deroga",
+   "punta": "78d1ef08",
+   "testa": "a431ee63",
+   "costo_usd": 10.37
   },
   "R09": {
    "id": "session_015BmpnWTvf4Fkpq2LgkmiUm",
