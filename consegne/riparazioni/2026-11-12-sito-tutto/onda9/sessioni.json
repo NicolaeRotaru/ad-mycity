@@ -217,7 +217,10 @@
    "aperta": "2026-11-19 11:35",
    "consegna_usd": 25,
    "tetto_usd": 30,
-   "finita": false
+   "finita": true,
+   "punta": "2509d58f",
+   "costo_usd": 13.15,
+   "nota": "18 voci, 17 reggono; R08-011 parziale (ogni opzione tagliata a 30 valori); nessun rompe_altro; revert di R09 alla base; 4 prove adattate non indebolite"
   }
  },
  "controllori": {

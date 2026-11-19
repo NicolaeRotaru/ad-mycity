@@ -1,0 +1,329 @@
+{
+  "collaudatore": "K04",
+  "riparatori": [
+    "R08",
+    "R09"
+  ],
+  "aggiornato": "2026-11-19 11:51",
+  "finita": true,
+  "voci": [
+    {
+      "id": "R08-011",
+      "chiave": "qa-flussi|un capo con più di cento combinazioni di taglia e colore perde le ultime in silenzio, e il cliente che le sceglie non può comprarle",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R08 --base a431ee637d8472097fc63cc377c4b4c738a5597b^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r08-varianti-scheda.test.ts --json",
+        "commit": "a431ee637d8472097fc63cc377c4b4c738a5597b"
+      },
+      "nota": "La parte fatta non rompe niente, ma il cosa_resta è incompleto. Con la sola pagina alla base f93d246a (variants.ts alla testa) delle 3 prove della scheda cade solo quella su aria-disabled: «Questa combinazione non c'è» e «Scegli taglia e colore» c'erano già sulla base (R24-018). Nel sito R08 aggiunge quindi solo aria-disabled; contaCombinazioni non la usa nessuna parte dell'app. Rimettendo il difetto com'è scritto nel registro nessuna prova cade: riparazione-r08-varianti-oltre-cento dà per voluto il taglio a 100 e resta verde anche con variants.ts alla base originale (prova rimessa 65beb1e4^: uscita 1, non morde). Sonda sulla pagina vera, nessuna rottura: un valore aria-disabled si seleziona ma il pulsante d'acquisto si spegne e compare l'avviso; S+Rosso e M+Blu entrano nel carrello; con un asse solo niente si spegne; scorta zero si legge «esaurito»; un capo 7×4×4 = 112 tagliato a 100 spegne i colori mancanti della taglia 7. Il cosa_resta (ProductForm.tsx:359 taglia in silenzio via reconcileVariants) è vero ma non completo: lib/products/variants.ts:86 (assiPuliti) taglia in silenzio ogni asse a 30 valori (MAX_OPTION_VALUES, sulla base a :84) e contaCombinazioni conta dopo quel taglio. Esempio misurato: 35 colori × 3 taglie = 105 combinazioni volute, contaCombinazioni risponde 90 e ne crea 90, 15 perse senza avviso; components/seller/AttributesFields.tsx non limita a 30 e Colore è testo libero, quindi anche il modulo corretto come chiede il cosa_resta non avviserebbe. Il commento «PRIMA del tetto» (variants.ts:90) è sbagliato."
+    },
+    {
+      "id": "R08-003",
+      "chiave": "immagini-media|altre foto di prodotto restano senza ripiego quando la foto è stata cancellata",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R08 --base 86c234c671dcf06ed56b426a1002f565fb330f42^ --file app/product/[id]/page.tsx,components/RecentlyViewed.tsx,components/cart/CartUpsell.tsx --prove tests/unit/riparazione-r08-foto-con-ripiego.test.ts --json",
+        "commit": "7c414b78117dafef4157d0a48b831ea62495b99e"
+      },
+      "nota": "CartUpsell vero montato con next/image vero: conserva fill (stile absolute), sizes, className e loader; dopo un errore passa a /foto-mancante.svg e con un secondo errore ci resta, senza giro. Lo zoom è al sicuro anche senza segnaposto: lo stato si aggiorna una volta per indirizzo. Nei tre file della voce l'unico <img> rimasto è quello dello zoom (page.tsx:818), con onError; nessuna <Image> nuda. Prova rimessa sui tre file, ognuno da solo rosso. Fuori voce, stessa classe di difetto (foto prodotto senza ripiego): components/home-sections/ReorderRail.tsx:202 e :232, components/SearchBar.tsx:242, components/home/DropOfDay.tsx:179."
+    },
+    {
+      "id": "R08-006",
+      "chiave": "navigazione-gerarchia|nel «completa con» del carrello un prezzo da 5000 € in su spinge fuori il pulsante «+»",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R08 --base edab34ecd39a58ef9da18c1f5420016eb249938b^ --file components/cart/CartUpsell.tsx --prove tests/unit/riparazione-r08-completa-con-prezzo-lungo.test.ts --json",
+        "commit": "78e4c02b6b9e51d587a2aaf6470809608ac33830"
+      },
+      "nota": "Misurata la resa vera in Chrome headless (Inter, CSS compilato con la configurazione Tailwind del sito, 13 prezzi): sulla base il «+» esce dalla scheda da 12.345,00 € in su; alla testa resta dentro e cliccabile fino a 999.999,99 €, e fino a 999,99 € il layout è identico alla base. CartUpsell.tsx alla base: 3 casi su 4 rossi; 14 file di prova che toccano CartUpsell verdi (162 casi), compreso il ripiego foto di R08-003. Effetto estetico minore: con gap-x-1 il «+» va a capo già da circa 1.234,56 € (sulla base ci stava con 2,6 px), e una scheda andata a capo allunga tutta la fila (components/cart/CartUpsell.tsx:77 senza items-start)."
+    },
+    {
+      "id": "R08-002",
+      "chiave": "frontend-ux|sul telefono il riquadro verde della scheda prodotto diventa un muro di testo di 264 caratteri, e dopo il caricamento cresce ancora di una riga",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R08 --base 9e32206158da01b7c7a692bd6728bc216f4caea2^ --file app/product/[id]/page.tsx,components/ui/DeliveryCutoff.tsx --prove tests/unit/riparazione-r08-riquadro-consegna-corto.test.tsx --json",
+        "commit": "090abeb80ccb8968531ea8dc292efe85da5c6cb3"
+      },
+      "nota": "Parziale onesto. La cassa mostra ancora la tariffa intera (app/checkout/page.tsx:1576) e lib/promesse-pubbliche.ts è identico alla base. Riga corta 47 caratteri (65 con «come si calcola») con importi dalle costanti via titolo, contro 264 della tariffa intera; il «gratuita» del titolo non può finire nel riquadro (la riga si vede solo con dettaglioConsegna non null). Il cosa_resta è vero: con orari 08-13 la frase da negozio chiuso misura 87 caratteri (80 senza «domani»); le tre righe a 360 punti non sono misurabili in jsdom. La variante inline di DeliveryCutoff la usa solo la scheda prodotto (HomeSectionRenderer usa la banner); unico effetto: sul computer, con una riga sola, resta circa 1,25rem di spazio vuoto, solo estetico. Prove esistenti adattate (eccezione firmata): tests/unit/la-consegna-da-3-euro-ha-un-nome-solo-e-non-e-mai-gratis.test.tsx non indebolita, expect 31 alla base e 32 alla testa, nessuna persa, rossa con {rigaConsegna} ripetuta due volte e con {spedizione.dettaglioConsegna} rimessa nel riquadro (resta un controllo per regex come sulla base: spedizione[\"dettaglioConsegna\"] gli sfugge, ma la prova nuova sul DOM la ferma); tests/unit/minori-s10-veloce.test.tsx non indebolita, expect 6 alla base e 7 alla testa, nessuna persa, rossa togliendo min-h-[2.5rem] e con DeliveryCutoff alla base (il controllo nuovo vieta solo sm:min-h-0: un md:min-h-0 passerebbe)."
+    },
+    {
+      "id": "R08-007",
+      "chiave": "navigazione-gerarchia|la ricerca, la pagina di una categoria e i chip della home buttano via le categorie piene già note quando una rilettura fallisce",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R08 --base f6d4f4c1e380865c79ed0354de882186508e044e^ --file app/category/[slug]/page.tsx,components/home-sections/ChipDelleCategorie.tsx --prove tests/unit/riparazione-r08-piene-rilettura-caduta.test.ts --json",
+        "commit": "f6d4f4c1e380865c79ed0354de882186508e044e"
+      },
+      "nota": "La prova monta i componenti veri con react-query vero. Pagina alla base: 1 caso su 3 rosso sulla figlia vuota rimessa dalla rilettura caduta; chip alla base: 1 su 3 rosso sul controllo equivalente. Altre 9 prove sulla pagina o sui chip verdi (77 casi). La ricerca era già riparata sulla base (SearchBar.tsx:79 con piene.data ?? null, commit 3c0e939d antenato della base). Nessun altro isError ? null per le categorie piene (piede, CategoryShowcase, CategoryBar, /categorie leggono piene.data). Fuori voce: lo stesso schema resta in components/store-sections/useStorePageData.ts:128 (riepilogo recensioni)."
+    },
+    {
+      "id": "R08-005",
+      "chiave": "navigazione-gerarchia|la pagina di una categoria madre rimette i bottoni delle sottocategorie vuote quando una rilettura delle categorie piene cade",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R08 --base f6d4f4c1e380865c79ed0354de882186508e044e^ --file app/category/[slug]/page.tsx,components/home-sections/ChipDelleCategorie.tsx --prove tests/unit/riparazione-r08-piene-rilettura-caduta.test.ts --json",
+        "commit": "f6d4f4c1e380865c79ed0354de882186508e044e"
+      },
+      "nota": "Stessa riga e stessa cura di R08-007 (app/category/[slug]/page.tsx:102). Prima lettura caduta: si vedono tutte le figlie, come sulla base. Rilettura caduta dopo un successo: restano le piene note, la figlia vuota non torna. Prova rimessa sul commit comune con R08-007."
+    },
+    {
+      "id": "R08-004",
+      "chiave": "microcopy|la conferma al cliente scrive «domani · 9:00–12:00» senza la data: chi la rilegge il giorno dopo capisce il giorno sbagliato",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R08 --base 25ee7dee805958675584c46c9524c24ea5cc4b75^ --file lib/email/templates.ts --prove tests/unit/riparazione-r08-conferma-con-la-data.test.ts --json",
+        "commit": "bd58ec878fa0cdf5f0878e965c9541f35c474225"
+      },
+      "nota": "Data dopo la fascia per «Oggi» e «Domani» nel testo e nell'HTML, provata col fuso del processo Europe/Rome, UTC e America/Los_Angeles: mezzanotte di Roma (22:59:59Z e 23:00Z), cambio d'ora del 29/3 e del 25/10, 31/12, 29/2. «Adesso» senza data; createdAt malformato lascia la fascia senza data, vuoto o null conta da adesso. Email al negozio invariata, r28 verde e non toccata, 64 file di prova sulle email verdi (367 casi). createdAt non passato dai chiamanti: l'email parte nella stessa richiesta (lib/stripe/webhook/ordini.ts:286-294), quindi resta scoperto solo qualche secondo a cavallo della mezzanotte. Ritiro in negozio come sulla base (app/api/orders/cod/route.ts:1755). Limiti: le fasce vecchie «Stasera …» e «In giornata …» restano senza data (lib/quando-arriva.ts:86-87, la cassa non le propone dal 30/10); con giornoVero su 'UTC' invece di 'Europe/Rome' le 19 prove restano verdi (nessun caso fra le 23 e le 24 di Roma). Prova esistente adattata tests/unit/minori-s03-email-testi.test.ts: non indebolita, 24 asserzioni alla base e 24 alla testa, nessuna persa; rossa in 5 difetti rimessi su 5 (fascia tolta, importo dei contanti sbagliato, «rider» nel testo, data tolta, data prima della fascia) e con templates.ts alla base."
+    },
+    {
+      "id": "R09-004",
+      "chiave": "frontend-ux|la pagina «sotto i 10 €» mostra prodotti da 10 € e nasconde quelli che in promozione costano meno di 10",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R09 --base 9a18af532280d5195d5b416549731c7bed7f81d4^ --file components/ProductGrid.tsx --prove tests/unit/riparazione-r09-sotto-i-dieci-totale.test.tsx --json",
+        "commit": "9a18af532280d5195d5b416549731c7bed7f81d4"
+      },
+      "nota": "Parziale onesto. ProductGrid montato col finto modulo di lettura, 11 sonde verdi alla testa: «Sotto i 10 €» non mostra mai 40 prima di 106 (la testa resta vuota mentre il conteggio arriva); con il conteggio null o in errore ripiega sulle schede caricate e non scrive 0. Le altre griglie non chiedono il conteggio (categoria, ricerca con maxPrice, vetrina); gli unici chiamanti con prezzoSotto, soloRecensiti o soloNovita sono piccoli-prezzi, piu-venduti e novita, e Novità conta come prima. ProductGrid.tsx alla base: prova del riparatore rossa e 3 sonde rosse. Il cosa_resta è vero: negozi senza insegna contati (lib/queries/griglia-prodotti.ts:348-376 contro :334), ProductGrid.tsx:279 su ultima.length invece di righeLette, prodotti in promozione sotto i 10 € fuori. Minore: con un conteggio che fallisce davvero la testa resta vuota circa 7 secondi (3 ritentativi di React Query) prima di ripiegare."
+    },
+    {
+      "id": "R09-005",
+      "chiave": "frontend-ux|il «conversion rate» del negozio può superare il 100% e viene colorato di verde",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R09 --base 3651417d99f403a982c4578cdbf7025fec49248c^ --file app/seller/analytics/letture-dell-andamento.ts,app/seller/analytics/page.tsx --prove tests/unit/riparazione-r09-tasso-di-conversione.test.ts --json",
+        "commit": "3651417d99f403a982c4578cdbf7025fec49248c"
+      },
+      "nota": "Parziale onesto. tassoDiConversione null quando gli ordini superano le visite; il NaN non può arrivare (lib/seller/andamento-negozio.ts:36 ripulisce i non finiti). Il consiglio a page.tsx:293 è intatto, l'etichetta va a capo senza troncarsi. Rimessa: letture-dell-andamento.ts alla base 1 rosso su 3; page.tsx alla base 1 rosso su 3, solo sul controllo del testo (voce minore). Il cosa_resta è vero: con 0 visite la scheda dice «Serve il conto delle visite», con ordini uguali alle visite esce 100,0% in verde. Non dichiarato, fuori titolo: tassi fra il 50% e il 99% restano verdi pur gonfiati dal consenso ai cookie."
+    },
+    {
+      "id": "R09-006",
+      "chiave": "frontend-ux|il link delle storie rifiuta l'indirizzo intero del sito stesso (https://<dominio>/promozioni), che è quello che il negoziante copia dalla barra",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R09 --base 8e442b1100aecdcb5b718e5a6115d81bd3de2853^ --file app/seller/stories/page.tsx --prove tests/unit/riparazione-r09-storie-link-intero.test.tsx --json",
+        "commit": "b7c16513df29e9adf00688d5093c84561020e6ae"
+      },
+      "nota": "Parziale onesto. 21 varianti nella pagina vera: rifiutate tutte le 15 cattive (backslash, tab e a capo fra le barre, tre barre, porta diversa, https al posto di http, javascript:, data:, blob: con la nostra origine, il nostro indirizzo come parametro, localhost.altro-dominio, //altro, http:altro senza barre, ws:, credenziali seguite da un altro host); accettate e ridotte a percorso le 6 buone (maiuscole, credenziali sul nostro host, sola origine, query, lettera accentata, %2F). Ogni percorso salvato passa safeInternalPath, lo stesso del visore (StoryViewer.tsx:151), e il vincolo della migrazione 403. page.tsx alla base: 8 rossi su 28. Il cosa_resta è vero (migrations/403:21-25 cancella i link interi vecchi; http:// del nostro dominio rifiutato). Non verificabile da qui: se il sito risponde sia con www sia senza, un indirizzo copiato dall'altro host riceve «siti esterni»."
+    },
+    {
+      "id": "R09-007",
+      "chiave": "frontend-ux|restano tre pagine con le foto sgranate perché `unoptimized` spegne srcset e sizes",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R09 --base 44e65457b9f41a2cc02aac06fb552582a40527df^ --file app/shared-cart/page.tsx,app/seller/products/page.tsx,app/orders/[id]/page.tsx --prove tests/unit/riparazione-r09-foto-con-il-caricatore.test.ts --json",
+        "commit": "44e65457b9f41a2cc02aac06fb552582a40527df"
+      },
+      "nota": "Parziale onesto. Otto tipi di indirizzo passati dal vero getImageProps col caricatore (Supabase pubblico e firmato, Pexels, placehold.co, sito esterno, data:, blob:, /foto-mancante.svg): nessuna foto rotta; width 44 dà srcSet a 48 e 96, fill con sizes 44px dà larghezze w; data: e blob: passano da soli in unoptimized. Il ritaglio quadrato sotto i 200 px tocca riquadri quadrati con object-cover, come la base (thumb quadrato da 100). Ognuno dei tre file alla base fa cadere la prova nuova (3 su 3); 123 prove vicine verdi. Il cosa_resta è vero e completo: resta solo il logo unoptimized (oggi app/orders/[id]/page.tsx:860, non 859). Prova esistente adattata (eccezione firmata) tests/unit/la-foto-chiesta-piu-piccola-del-riquadro.test.ts: non indebolita, 28 asserzioni alla base e 28 alla testa, nessuna persa, elenco atteso ristretto da tre file a uno; rossa rimettendo unoptimized in 2 file su 3 (carrello condiviso, prodotti del negozio); sul terzo, app/orders/[id], è cieca per costruzione perché il file contiene già unoptimized per il logo, e quel caso lo copre la prova nuova. Il commento alla riga 170 parla ancora di «questi tre file»."
+    },
+    {
+      "id": "R09-008",
+      "chiave": "frontend-ux|il controllo sul taglio dei campi di testo del costruttore della home tronca ancora titoli e sottotitoli in silenzio",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R09 --base ba37e217b3d9d84761b67861f2519e1950539528^ --file components/admin/home/HomeSectionConfigForm.tsx --prove tests/unit/riparazione-r09-home-campi-brevi.test.tsx --json",
+        "commit": "ba37e217b3d9d84761b67861f2519e1950539528"
+      },
+      "nota": "Parziale onesto. I 28 tetti del modulo coincidono con lo schema (lib/home-site.ts:118-210, trim().max()). Sonda sul salvataggio vero (prepareForSave, homeSiteSchema.safeParse, erroreConIlPosto, friendlyError): un titolo di 200 caratteri più spazi in coda si salva, uno di 201 si ferma prima del server con «Sezione 1 : Massimo 200 caratteri», le emoji contate allo stesso modo da modulo e schema. Il file alla base fa cadere la prova (2 su 3). Il cosa_resta è vero: BannerFields.tsx ha tre maxLength (60, 67, 91) e un vantaggio troppo lungo dice «vantaggio 1: manca il titolo» o «manca la descrizione» (riprodotto). Fuori voce, stessa classe di difetto: components/seller/site/SectionConfigForm.tsx:54,127,149,158,159; components/seller/site/PageEditor.tsx:89; app/admin/pages/[slug]/page.tsx:113."
+    },
+    {
+      "id": "R09-013",
+      "chiave": "frontend-ux|il dettaglio ordine dell amministrazione mostra il codice grezzo paid_manually",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R09 --base a7793b07c7fcdac81872c04ee7756086d3bc0cae^ --file lib/admin/etichette.ts --prove tests/unit/riparazione-r09-etichetta-pagato-a-mano.test.ts --json",
+        "commit": "a7793b07c7fcdac81872c04ee7756086d3bc0cae"
+      },
+      "nota": "Gli 11 valori ammessi da migrations/130 più PAID_MANUALLY, 12 in tutto, hanno ognuno l'etichetta; nessun codice usato nel sito (lib/guadagni, pagine dei guadagni e dei bonifici) resta senza. Nessun punto mostra payout_status grezzo: l'unico, app/admin/orders/[id]/page.tsx:254, passa da etichettaStatoBonifico. Il file alla base fa cadere la prova (1 su 2)."
+    },
+    {
+      "id": "R09-014",
+      "chiave": "frontend-ux|l'annuncio della vetrina scade a mezzanotte nel browser ma all'una nella pagina preparata dal server",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R09 --base 33472da75000dfb4e60627eda3938fe6203b1604^ --file lib/store-customization.ts --prove tests/unit/riparazione-r09-annuncio-fuso.test.ts --json",
+        "commit": "33472da75000dfb4e60627eda3938fe6203b1604"
+      },
+      "nota": "Il diff dalla base su lib/store-customization.ts è solo quello di R09-014 (4 righe aggiunte, 2 tolte): l'annullo di R09-011 è pulito. Sonda di 13 casi sotto cinque fusi del processo (UTC, Rome, Los Angeles, Tokyo, Kiritimati): mezzanotte di Piacenza d'inverno e d'estate, i due cambi d'ora, capodanno, until vuoto o malformato, tutti verdi; col file della base la sonda cade sotto UTC e passa sotto Rome. La prova della voce cade in 6 casi su 16 col file alla base. La pagina del negozio è un componente client: server e browser calcolano lo stesso giorno. Minore: la cache di 300 secondi del layout può tenere l'annuncio fino a 5 minuti dopo mezzanotte."
+    },
+    {
+      "id": "R09-016",
+      "chiave": "layout-responsive|nelle pagine di dettaglio ordine di cliente, negozio e fattorino una nota con un link lungo fa scorrere la pagina di lato",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R09 --base cb46ae5166a8f68fcd0198f6bd25d4f17c774c5d^ --file app/orders/[id]/page.tsx,app/seller/orders/[id]/page.tsx,app/rider/orders/[id]/page.tsx --prove tests/unit/riparazione-r09-note-con-link-lungo.test.ts --json",
+        "commit": "cb46ae5166a8f68fcd0198f6bd25d4f17c774c5d"
+      },
+      "nota": "Tailwind 3.4.19 compilato con la configurazione vera (legge anche app/**) genera [overflow-wrap:anywhere], break-words e min-w-0. In Chrome a 360 px, con un indirizzo lungo nella nota, la larghezza scorrevole scende a 360 (2691→360 cliente, 2668→360 negozio, 2521→360 fattorino); con una nota corta l'altezza resta identica alla base. Ognuno dei tre file alla base fa cadere la prova (3 su 3)."
+    },
+    {
+      "id": "R09-017",
+      "chiave": "microcopy|la pagina dei più recensiti presenta 40 prodotti come «scelti dai clienti» anche quando nessuno ha una recensione",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R09 --base 7a2e695e190056453b14bfa0457c0692305d7ccc^ --file app/piu-venduti/page.tsx --prove tests/unit/riparazione-r09-piu-recensiti-occhiello.test.tsx --json",
+        "commit": "7a2e695e190056453b14bfa0457c0692305d7ccc"
+      },
+      "nota": "Parziale onesto. L'occhiello è «Con recensioni»; «Scelti dai clienti» non resta in nessun punto del sito, solo nei commenti. app/piu-venduti/page.tsx alla base: la prova va rossa. Il conteggio dei recensiti nessuna prova della voce lo esegue (dichiarato), ma le sonde mostrano che conta con gli id col voto, non parte prima di averli, e con zero recensioni dà 0 e lo stato vuoto. La frase «ordinati per numero di recensioni» che non è vera è dichiarata nel cosa_resta. Non dichiarato, minore: quella frase resta anche quando il visitatore sceglie un altro ordinamento."
+    },
+    {
+      "id": "R09-018",
+      "chiave": "mobile-pwa|i tasti «indietro» del fattorino sono cerchi da 36 pixel, piccoli per un pollice in strada",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R09 --base b91478cea6467233a1de202b909df2ae44501e68^ --file app/rider/help/page.tsx,app/rider/onboarding/page.tsx --prove tests/unit/riparazione-r09-tasti-indietro-del-fattorino.test.ts --json",
+        "commit": "b91478cea6467233a1de202b909df2ae44501e68"
+      },
+      "nota": "Nelle pagine del fattorino i tasti indietro sono tre (help:105, onboarding:255, orders/[id]:494), tutti h-11 w-11 con inline-flex, items-center e justify-center: l'icona resta centrata. Ognuno dei due file cambiati alla base fa cadere la prova. Fuori voce: il tasto indietro di components/ui/ErrorState.tsx:107-109 (py-2.5 con text-sm) è alto 40 px e compare nella pagina d'errore del fattorino (app/rider/error.tsx:37)."
+    },
+    {
+      "id": "R09-020",
+      "chiave": "qa-flussi|la pagina novità mostra tutto il catalogo, anche un prodotto di tre mesi fa, e il numero in alto conta solo i prodotti già caricati",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R09 --base a6227b42938e4e2d91007b77027d9fd50ecb91d1 --file app/novita/page.tsx --prove tests/unit/riparazione-r15-novita-conteggio.test.ts,tests/unit/riparazione-r15-novita-finestra.test.ts --json",
+        "commit": "e6672c3da9c3074f6c8db9da8ee89fd9ca192019"
+      },
+      "nota": "Parziale onesto, nessun commit in questo giro. lib/queries/griglia-prodotti.ts, app/novita/page.tsx e lib/constants.ts sono identici alla base; alla base c'erano già la finestra (inizioFinestraNovita a :101, NEW_PRODUCT_DAYS 14) e il conteggio con creatiDal. Prova rimessa contro la correzione R15-011 (715b96dc): app/novita/page.tsx a 715b96dc^ fa cadere le prove r15 sul comportamento (uscita 0); con anche griglia-prodotti.ts la macchina non decide (nomi nuovi). A mano: togliendo il filtro creatiDal da applicaFiltriComuni le prove R15 vanno rosse (2 su 5). Il cosa_resta coincide con quello di R09-004 ed è vero. La finestra arrotondata all'ora fa entrare fino a 59 minuti in più: trascurabile."
+    }
+  ],
+  "campione": {
+    "R08": {
+      "accettato": true,
+      "perche": "giudizio pieno su tutte le 7 voci (sotto le 40 niente campione): dei 5 minori riparati reggono 5; R08-002 regge come parziale onesto, R08-011 è parziale (cosa_resta incompleto)"
+    },
+    "R09": {
+      "accettato": true,
+      "perche": "giudizio pieno su tutte le 11 voci: dei 4 minori riparati reggono 4; le 7 parziali reggono tutte come parziali oneste"
+    }
+  },
+  "note": {
+    "revert_R09": "Verificati alla testa e6672c3d (= punta cc9da732 nel codice): app/u/[handle]/page.tsx (R09-002), components/seller/site/SectionConfigForm.tsx (R09-009), components/VendorForm.tsx, components/seller/site/StoreDetailsEditor.tsx, app/seller/profile/page.tsx (R09-010), components/seller/SocialLinksFields.tsx, components/seller/CustomizationSection.tsx (R09-011) identici alla base f93d246a; components/seller/useAvvisoUscita.ts e le prove riparazione-r09-pagine-non-trovate, -modifiche-non-salvate, -tutte-le-impostazioni, -testo-vetrina-entita, -social-vetrina assenti come alla base; lib/store-customization.ts diverso dalla base solo per le righe di 33472da7 (R09-014).",
+    "prove_esistenti_adattate": "Giudicate una per una, tutte non indebolite. R08: la-consegna-da-3-euro-ha-un-nome-solo-e-non-e-mai-gratis (31→32 expect, rossa con la riga ripetuta e con la tariffa intera rimessa nel riquadro), minori-s10-veloce (6→7 expect, rossa togliendo min-h-[2.5rem] e con DeliveryCutoff alla base; vieta solo sm:min-h-0), minori-s03-email-testi (24→24 expect, rossa in 5 difetti rimessi su 5). R09: la-foto-chiesta-piu-piccola-del-riquadro (28→28 expect, elenco ristretto da tre file a uno, rossa rimettendo unoptimized in 2 file su 3; cieca su app/orders/[id] per costruzione, coperta dalla prova nuova).",
+    "rimesse_in_piu": "R08-011: con lib/products/variants.ts a 43a41dfa^ la prova oltre-cento regge (uscita 0); a 65beb1e4^ (base originale) non morde (uscita 1); con anche funzioni-pure la macchina non decide (uscita 3, nomi nuovi). R09-020 (nessun commit): con anche lib/queries/griglia-prodotti.ts a 715b96dc^ uscita 3 (nomi nuovi); registrata la rimessa sulla sola app/novita/page.tsx (uscita 0).",
+    "lavoro": "4 subagenti qa in tutto, uno per gruppo di voci, ognuno nella sua copia allo SHA esatto; nessun database, nessuno strumento Supabase, Vercel o Stripe. Il costo della sessione non è leggibile da qui (get_session non mostra usage.cost_usd)."
+  },
+  "nuovi_difetti_visti": [
+    "lib/products/variants.ts:86 — assiPuliti taglia in silenzio ogni asse a 30 valori (MAX_OPTION_VALUES) e contaCombinazioni conta dopo il taglio: 35 colori × 3 taglie danno 90 combinazioni invece di 105, senza avviso; components/seller/AttributesFields.tsx non limita a 30 (fuori dal cosa_resta di R08-011)",
+    "components/home-sections/ReorderRail.tsx:202 e :232, components/SearchBar.tsx:242, components/home/DropOfDay.tsx:179 — foto prodotto senza ripiego, stessa classe di R08-003",
+    "components/seller/site/SectionConfigForm.tsx:54,127,149,158,159, components/seller/site/PageEditor.tsx:89, app/admin/pages/[slug]/page.tsx:113 — maxLength che tronca in silenzio, stessa classe di R09-008",
+    "components/ui/ErrorState.tsx:107-109 — il tasto indietro è alto 40 px e compare nella pagina d'errore del fattorino (app/rider/error.tsx:37)",
+    "components/cart/CartUpsell.tsx:77 — con gap-x-1 il «+» va a capo già da circa 1.234,56 € e la scheda andata a capo allunga tutta la fila (manca items-start)",
+    "components/store-sections/useStorePageData.ts:128 — il riepilogo delle recensioni usa ancora isError ? null (stessa classe di R08-007)",
+    "components/ProductGrid.tsx — con un conteggio che fallisce davvero la testa di «Sotto i 10 €» resta vuota circa 7 secondi (3 ritentativi di React Query) prima di ripiegare",
+    "app/piu-venduti/page.tsx — la frase «ordinati per numero di recensioni» resta anche quando il visitatore sceglie un altro ordinamento",
+    "app/seller/analytics/page.tsx — tassi di conversione fra il 50% e il 99% restano verdi pur gonfiati dal consenso ai cookie",
+    "tests/unit/la-foto-chiesta-piu-piccola-del-riquadro.test.ts:170 — il commento parla ancora di «questi tre file»",
+    "lib/email/templates.ts — con giornoVero su 'UTC' invece di 'Europe/Rome' le 19 prove di R08-004 restano verdi: nessun caso fra le 23 e le 24 di Roma",
+    "app/store/[id]/layout.tsx — la cache di 300 secondi può tenere l'annuncio della vetrina fino a 5 minuti dopo la mezzanotte di Piacenza"
+  ]
+}
