@@ -7213,3 +7213,19 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa vale:** `eccezioni_firmate` in `consegne/riparazioni/2026-11-12-sito-tutto/onda9/piano.json`, onda 1: le due prove comuni ritoccate da R02 (`prove_comuni`) e i sei commit di R02, R03 e R06 (`id_nel_commit`).
 - **Cosa ha prodotto:** `applica --git` sospende le due prove comuni. I sei commit restano rossi per un'altra regola, «il messaggio cita una voce di un'altra sessione», che il programma oggi non lascia sospendere con una firma. Serve una scelta di Nicola.
 - **Colore:** 🟡 regole della campagna, firmate. Il codice del sito è già unito da Nicola (mycity#297).
+
+## 2026-11-19 11:50 — Le 12 scelte dell'onda 9 le decide l'AD, su delega di Nicola (🟡, delega firmata da Nicola)
+**Le parole di Nicola, nella chat «Ondata 9» (`session_015BmpnYq3DQDRwTXdBwfzud`), 19/11 verso le 11:45:** «rispondi tu alle 12 scelte, dimmi tu».
+1. **Recesso nei festivi (R02-011):** la scadenza si sposta alla fine del primo giorno lavorativo dopo, se il 14° giorno cade di sabato, di domenica, in un festivo nazionale o il 4 luglio. Fatto `legale.recesso-scadenza-festivi`.
+2. **Testo a 11 pixel (R06-001, 71 punti):** a 12 pixel, la misura più piccola che c'è già nella scala (`text-xs`). Nessuna misura nuova.
+3. **Tasti Ordini, Consegne e Admin sui tablet (R01-005):** fra 768 e 1023 px vanno nel menu dell'account. Una scritta sotto l'icona toglierebbe spazio alla ricerca.
+4. **Consegne veloci (R10-010):** una alla volta per fattorino disponibile. Fatto `consegna.veloce-per-fattorino`.
+5. **Notifiche dell'ordine (R07-003):** partono subito, alla creazione dell'ordine; il giro a orario resta come rete di sicurezza. È già scritto in `controllo.tre-livelli` («fa suonare i telefoni in pochi secondi»).
+6. **Registro degli errori e allarme (R07-008):** si accendono prima del lancio, sul piano gratuito di Sentry. Il Pannello legge già gli errori di Sentry (`controllo.tre-livelli`). Serve un clic di Nicola: creare l'account e mettere la chiave pubblica (DSN) su Vercel.
+7. **Controllo notturno (R07-009):** se l'archivio dello storico delle foto non si crea, la notte diventa rossa.
+8. **Aggiornamenti del database (R07-010):** ogni migrazione si applica e si registra nella stessa transazione. Le poche che non possono stare in una transazione lo dichiarano nel nome.
+9. **Ritorno alla versione precedente (R07-011):** resta a mano. Lo script propone la versione e si ferma se non è sicuro.
+10. **Upstash o colonna nuova (R03-014, R03-016):** nessuno dei due adesso, perché l'IA per i negozi è spenta al lancio (`prodotto.spente-al-lancio`). Quando si riaccende, la colonna nel database: niente servizio nuovo e niente chiavi nuove.
+11. **Foto (R10-001):** il piano Pro di Supabase comprende 100 foto trasformate al mese, poi 5 $ ogni 1.000 (documentazione Supabase, letta il 19/11). Il controllo di 5 minuti del Pannello deve caricare anche una foto vera di prodotto, così una foto rotta diventa un allarme. L'indirizzo del controllo esterno è `https://mycity-marketplace.com/api/health`.
+12. **Schermate dell'app installabile (R06-005):** non servono adesso, l'app installabile è spenta al lancio. Quando si riaccende, le fa l'AD dal sito col browser.
+- **Colore:** 🟡. Codice nei rami; unione, migrazioni e database vero restano di Nicola. Il punto 6 chiede un suo clic.

@@ -28,6 +28,7 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 19/11 11:45 | all'AD, chat «Ondata 9» (`session_015BmpnYq3DQDRwTXdBwfzud`) | «rispondi tu alle 12 scelte, dimmi tu». Le 12 risposte dell'AD sono in DECISIONI.md, 19/11 11:50. Fatti nuovi: `legale.recesso-scadenza-festivi` e `consegna.veloce-per-fattorino`. Il punto del registro degli errori chiede un clic di Nicola (account Sentry gratuito e chiave su Vercel). |
 | 18/11 12:52 | alla chat «Ondata 9 · 3.0» (`session_015BmpnZQiGiFfMYaWbMDKVT`) | «Firmo l'eccezione»: le eccezioni dell'onda 9 sulle due prove comuni di R02 e sui sei commit di R02, R03 e R06. Scritte in `onda9/piano.json`. |
 | 17/11 22:20-22:35 | all'AD, chat «Ondata 9» (`session_015BmpnYq3DQDRwTXdBwfzud`) | «falla partire adesso». Limite «fra 90% e 95%», poi letto «89%»; scelta «mi fermo prima», con circa il 3% lasciato alle sue chat. Stasera 6 riparatori dell'onda 9 su 10 (R01, R02, R03, R06, R07, R10), consegna a 30 $ e tetto 35 $. Gli altri giovedì 19/11 alle 10:05. |
 | 17/11 21:55 | alla chat «Ondata 9» | Alla domanda sulla guardia delle aperture Nicola risponde: «Firmo: le aperture passano». La guardia è `cervello/pre-scrittura.mjs`. Oggi chiede conferma a ogni sessione aperta da una chat nata in ad-mycity. La chat «Ondata 9» la cambia solo per tre strumenti: create_session, create_trigger e update_trigger. Le scritture su GitHub chiedono ancora conferma. La modifica va in una PR su ad-mycity, ramo `claude/adoring-bohr-kixq35`, con prova e collaudo. |
