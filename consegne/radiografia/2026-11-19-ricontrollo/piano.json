@@ -1,0 +1,336 @@
+{
+  "versione": 1,
+  "creato": "2026-11-19 01:45",
+  "profilo": "ricontrollo",
+  "base": "336f2fbda9b1b50209fbe94e1f5fde1c74134ab7",
+  "diff": null,
+  "temi_scelti": [
+    "S01"
+  ],
+  "minori_aperti": 659,
+  "soglia_minori": 100,
+  "minori_ammessi": false,
+  "gravita_cercate": [],
+  "ricontrollo": [
+    "bloccante",
+    "grave",
+    "minore"
+  ],
+  "palestra_prima": false,
+  "voci_da_ricontrollare": 665,
+  "file_perimetro": 3274,
+  "codice_fuori_profilo": 1160,
+  "lenti_fuori": [
+    "architettura",
+    "sicurezza-auth",
+    "rls-database",
+    "pagamenti-stripe",
+    "privacy-legale",
+    "performance",
+    "frontend-ux",
+    "accessibilita",
+    "qa-flussi",
+    "api-backend",
+    "ai-endpoints",
+    "dati-analytics",
+    "deploy-sre",
+    "layout-responsive",
+    "coerenza-brand",
+    "tipografia",
+    "accessibilita-visiva",
+    "stati-ui",
+    "immagini-media",
+    "mobile-pwa",
+    "flussi-conversione",
+    "microcopy",
+    "navigazione-gerarchia",
+    "performance-percepita"
+  ],
+  "angoli_fuori": [
+    "X-soldi",
+    "X-permessi-db-live",
+    "X-produzione-dal-vivo",
+    "X-sito-dal-vero",
+    "X-regole-business",
+    "X-prove-automatiche",
+    "X-flussi-utente",
+    "X-concorrenza",
+    "X-privacy-ciclo",
+    "Y-attaccante-anonimo",
+    "Y-attaccante-cliente",
+    "Y-attaccante-negozio-rider",
+    "Y-errori-silenziosi",
+    "Y-tempo-e-date",
+    "Y-promesse-vs-codice",
+    "Y-avvisi-e-notifiche",
+    "Y-dati-veri-incoerenti",
+    "Z-account-di-prova",
+    "Z-database-a-163",
+    "Z-rimborso-contanti",
+    "Z-documenti-fiscali"
+  ],
+  "sessioni": {
+    "S01": {
+      "tema": "S01",
+      "nome": "Ricontrollo dei difetti aperti",
+      "rischio": "alto",
+      "lenti": [],
+      "angoli": [],
+      "prefissi": [],
+      "tetto": 12,
+      "lotti": [
+        {
+          "id": "L01",
+          "voci": 15
+        },
+        {
+          "id": "L02",
+          "voci": 15
+        },
+        {
+          "id": "L03",
+          "voci": 15
+        },
+        {
+          "id": "L04",
+          "voci": 15
+        },
+        {
+          "id": "L05",
+          "voci": 15
+        },
+        {
+          "id": "L06",
+          "voci": 15
+        },
+        {
+          "id": "L07",
+          "voci": 15
+        },
+        {
+          "id": "L08",
+          "voci": 15
+        }
+      ],
+      "onda": 1
+    },
+    "S01b": {
+      "tema": "S01",
+      "nome": "Ricontrollo dei difetti aperti",
+      "rischio": "alto",
+      "lenti": [],
+      "angoli": [],
+      "prefissi": [],
+      "tetto": 12,
+      "lotti": [
+        {
+          "id": "L01",
+          "voci": 15
+        },
+        {
+          "id": "L02",
+          "voci": 15
+        },
+        {
+          "id": "L03",
+          "voci": 15
+        },
+        {
+          "id": "L04",
+          "voci": 15
+        },
+        {
+          "id": "L05",
+          "voci": 15
+        },
+        {
+          "id": "L06",
+          "voci": 15
+        },
+        {
+          "id": "L07",
+          "voci": 15
+        },
+        {
+          "id": "L08",
+          "voci": 15
+        }
+      ],
+      "onda": 1
+    },
+    "S01c": {
+      "tema": "S01",
+      "nome": "Ricontrollo dei difetti aperti",
+      "rischio": "alto",
+      "lenti": [],
+      "angoli": [],
+      "prefissi": [],
+      "tetto": 12,
+      "lotti": [
+        {
+          "id": "L01",
+          "voci": 15
+        },
+        {
+          "id": "L02",
+          "voci": 15
+        },
+        {
+          "id": "L03",
+          "voci": 15
+        },
+        {
+          "id": "L04",
+          "voci": 15
+        },
+        {
+          "id": "L05",
+          "voci": 15
+        },
+        {
+          "id": "L06",
+          "voci": 15
+        },
+        {
+          "id": "L07",
+          "voci": 15
+        },
+        {
+          "id": "L08",
+          "voci": 15
+        }
+      ],
+      "onda": 1
+    },
+    "S01d": {
+      "tema": "S01",
+      "nome": "Ricontrollo dei difetti aperti",
+      "rischio": "alto",
+      "lenti": [],
+      "angoli": [],
+      "prefissi": [],
+      "tetto": 12,
+      "lotti": [
+        {
+          "id": "L01",
+          "voci": 15
+        },
+        {
+          "id": "L02",
+          "voci": 15
+        },
+        {
+          "id": "L03",
+          "voci": 15
+        },
+        {
+          "id": "L04",
+          "voci": 15
+        },
+        {
+          "id": "L05",
+          "voci": 15
+        },
+        {
+          "id": "L06",
+          "voci": 15
+        },
+        {
+          "id": "L07",
+          "voci": 15
+        },
+        {
+          "id": "L08",
+          "voci": 15
+        }
+      ],
+      "onda": 1
+    },
+    "S01e": {
+      "tema": "S01",
+      "nome": "Ricontrollo dei difetti aperti",
+      "rischio": "alto",
+      "lenti": [],
+      "angoli": [],
+      "prefissi": [],
+      "tetto": 12,
+      "lotti": [
+        {
+          "id": "L01",
+          "voci": 15
+        },
+        {
+          "id": "L02",
+          "voci": 15
+        },
+        {
+          "id": "L03",
+          "voci": 15
+        },
+        {
+          "id": "L04",
+          "voci": 15
+        },
+        {
+          "id": "L05",
+          "voci": 15
+        },
+        {
+          "id": "L06",
+          "voci": 15
+        },
+        {
+          "id": "L07",
+          "voci": 15
+        },
+        {
+          "id": "L08",
+          "voci": 15
+        }
+      ],
+      "onda": 1
+    },
+    "S01f": {
+      "tema": "S01",
+      "nome": "Ricontrollo dei difetti aperti",
+      "rischio": "alto",
+      "lenti": [],
+      "angoli": [],
+      "prefissi": [],
+      "tetto": 12,
+      "lotti": [
+        {
+          "id": "L01",
+          "voci": 15
+        },
+        {
+          "id": "L02",
+          "voci": 15
+        },
+        {
+          "id": "L03",
+          "voci": 15
+        },
+        {
+          "id": "L04",
+          "voci": 15
+        },
+        {
+          "id": "L05",
+          "voci": 5
+        }
+      ],
+      "onda": 1
+    }
+  },
+  "onde": [
+    [
+      "S01",
+      "S01b",
+      "S01c",
+      "S01d",
+      "S01e",
+      "S01f"
+    ]
+  ]
+}
