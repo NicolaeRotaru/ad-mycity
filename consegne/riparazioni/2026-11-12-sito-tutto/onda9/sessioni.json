@@ -236,6 +236,19 @@
    "punta": "653e2ecf",
    "costo_usd": 9.96,
    "nota": "5 voci rosse (R03-019 grave rompe_altro, R10-002 rompe_altro, R07-001, R03-009, R03-003), 3 difetti nuovi minori, 41 file di codice guardati su 41"
+  },
+  "C02": {
+   "id": "session_015BmpnXDdxh75bFwuTcnGHM",
+   "ramo": "claude/adoring-bohr-kixq35-o9-c02",
+   "partenza": "6820f5e9b5ada12fe5b5161ba082d879231e3336",
+   "integrazione": "claude/adoring-bohr-kixq35-o9b @ 4d155973",
+   "base": "336f2fbd",
+   "aperta": "2026-11-20 00:05",
+   "consegna_usd": 15,
+   "tetto_usd": 20,
+   "ultracode": false,
+   "finita": false,
+   "nota": "giro del 19/11: 8 rami uniti, verify verde (11.382 su 11.383, 1 saltata)"
   }
  },
  "da_aprire_giovedi": [
