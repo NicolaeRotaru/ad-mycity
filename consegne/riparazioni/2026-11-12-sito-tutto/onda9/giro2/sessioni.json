@@ -67,6 +67,33 @@
    "nota": "4 riparati, 2 parziali, 1 serve_file_altrui; guardia e referto verdi; la prova della home vuole Chromium nella CI (modifica di ci.yml nel referto)"
   }
  },
- "collaudatori": {},
+ "collaudatori": {
+  "K01": {
+   "id": "session_015BmpnXjLt1YzgPeiC2aNGS",
+   "ramo": "claude/adoring-bohr-kixq35-o9g2-k01",
+   "partenza": "18a0bc417ca207edf82ab9e73df73fad9ffadfd3",
+   "riparatori": [
+    "R01",
+    "R02"
+   ],
+   "aperta": "2026-11-19 11:53",
+   "consegna_usd": 20,
+   "tetto_usd": 25,
+   "finita": false
+  },
+  "K02": {
+   "id": "session_015BmpnWwKgsr121zG854BW2",
+   "ramo": "claude/adoring-bohr-kixq35-o9g2-k02",
+   "partenza": "18a0bc417ca207edf82ab9e73df73fad9ffadfd3",
+   "riparatori": [
+    "R03",
+    "R04"
+   ],
+   "aperta": "2026-11-19 11:53",
+   "consegna_usd": 25,
+   "tetto_usd": 30,
+   "finita": false
+  }
+ },
  "controllori": {}
 }
