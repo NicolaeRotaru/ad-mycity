@@ -5,7 +5,52 @@
   "partenza": "336f2fbda9b1b50209fbe94e1f5fde1c74134ab7",
   "nota": "giro di correzione del 19/11: i rami -o9g2-mNN partono da main (336f2fbd); la PR nuova del sito parte da main"
  },
- "sessioni": {},
+ "sessioni": {
+  "R01": {
+   "id": "session_015BmpnYSh3TqJYaUAn5LbzC",
+   "ramo": "claude/adoring-bohr-kixq35-o9g2-m01",
+   "onda": 1,
+   "partenza": "336f2fbda9b1b50209fbe94e1f5fde1c74134ab7",
+   "tetto_usd": 20,
+   "consegna_usd": 15,
+   "aperta": "2026-11-19 10:16",
+   "ultracode": true,
+   "finita": false
+  },
+  "R02": {
+   "id": "session_015BmpnZ1Wkp2xNjd4ANiCvc",
+   "ramo": "claude/adoring-bohr-kixq35-o9g2-m02",
+   "onda": 2,
+   "partenza": "336f2fbda9b1b50209fbe94e1f5fde1c74134ab7",
+   "tetto_usd": 35,
+   "consegna_usd": 30,
+   "aperta": "2026-11-19 10:16",
+   "ultracode": false,
+   "finita": false
+  },
+  "R03": {
+   "id": "session_015BmpnXkBjEmdqxziZHfEuL",
+   "ramo": "claude/adoring-bohr-kixq35-o9g2-m03",
+   "onda": 2,
+   "partenza": "336f2fbda9b1b50209fbe94e1f5fde1c74134ab7",
+   "tetto_usd": 35,
+   "consegna_usd": 30,
+   "aperta": "2026-11-19 10:16",
+   "ultracode": true,
+   "finita": false
+  },
+  "R04": {
+   "id": "session_015BmpnX1yEdRhDCAv37ejnv",
+   "ramo": "claude/adoring-bohr-kixq35-o9g2-m04",
+   "onda": 2,
+   "partenza": "336f2fbda9b1b50209fbe94e1f5fde1c74134ab7",
+   "tetto_usd": 40,
+   "consegna_usd": 35,
+   "aperta": "2026-11-19 10:16",
+   "ultracode": true,
+   "finita": false
+  }
+ },
  "collaudatori": {},
  "controllori": {}
 }

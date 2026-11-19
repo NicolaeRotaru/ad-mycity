@@ -93,6 +93,54 @@
    "testa": "8965d7afca58bf03beb55cc5fbd9768cbbe52ce4",
    "costo_usd": 28.86,
    "nota": "verify verde su 8965d7af; 6/6 subagenti; una falla di dati riservata (preesistente) passata alla regia a voce, nel referto solo il titolo"
+  },
+  "R04": {
+   "id": "session_015BmpnX57F89TyKPH7UYXks",
+   "ramo": "claude/adoring-bohr-kixq35-o9-m04",
+   "onda": 1,
+   "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
+   "tetto_usd": 45,
+   "consegna_usd": 40,
+   "aperta": "2026-11-19 10:16",
+   "ultracode": false,
+   "finita": false,
+   "nota": "giro del 19/11: solo le voci del rifiltro (rifiltro-R04-R05-R08-R09.json)"
+  },
+  "R05": {
+   "id": "session_015BmpnZKi93orVTQfZFJCjz",
+   "ramo": "claude/adoring-bohr-kixq35-o9-m05",
+   "onda": 1,
+   "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
+   "tetto_usd": 45,
+   "consegna_usd": 40,
+   "aperta": "2026-11-19 10:16",
+   "ultracode": false,
+   "finita": false,
+   "nota": "giro del 19/11: solo le voci del rifiltro (rifiltro-R04-R05-R08-R09.json)"
+  },
+  "R08": {
+   "id": "session_015BmpnZWxZNVKRuQDQUizeQ",
+   "ramo": "claude/adoring-bohr-kixq35-o9-m08",
+   "onda": 1,
+   "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
+   "tetto_usd": 45,
+   "consegna_usd": 40,
+   "aperta": "2026-11-19 10:16",
+   "ultracode": false,
+   "finita": false,
+   "nota": "giro del 19/11: solo le voci del rifiltro (rifiltro-R04-R05-R08-R09.json)"
+  },
+  "R09": {
+   "id": "session_015BmpnWTvf4Fkpq2LgkmiUm",
+   "ramo": "claude/adoring-bohr-kixq35-o9-m09",
+   "onda": 1,
+   "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
+   "tetto_usd": 45,
+   "consegna_usd": 40,
+   "aperta": "2026-11-19 10:16",
+   "ultracode": false,
+   "finita": false,
+   "nota": "giro del 19/11: solo le voci del rifiltro (rifiltro-R04-R05-R08-R09.json)"
   }
  },
  "collaudatori": {
@@ -147,13 +195,7 @@
   }
  },
  "da_aprire_giovedi": [
-  "R04",
-  "R05",
-  "R08",
-  "R09",
-  "collaudo gruppo A",
-  "K01-K04",
-  "C01"
+  "controllore e collaudatori del giro"
  ],
  "regista_prima": [
   "session_015BmpnYq3DQDRwTXdBwfzud",
