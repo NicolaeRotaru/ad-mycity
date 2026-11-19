@@ -8,7 +8,7 @@ a: «Ondata 9 · 4.0»
 # Onda 9: il passaggio alla regia 4.0
 
 ## In parole semplici
-Il 18/11 la 3.0 ha portato sul sito le riparazioni della notte del 17/11. Nicola ha unito sia la memoria della macchina sia il codice del sito: 27 difetti riparati sono in produzione. Il 19/11 alle 10:05 è scattato il promemoria del giro di correzione, col limite settimanale di nuovo «allowed». La 3.0 non lo apre: ha 343 mila token di storia, e ogni risveglio costerebbe circa il triplo. Il giro lo fa la 4.0, dall'inizio alla fine.
+Il 18/11 la 3.0 ha portato sul sito le riparazioni della notte del 17/11. Nicola ha unito sia la memoria della macchina sia il codice del sito: 27 difetti riparati sono in produzione. Un esempio: dopo aver rinominato una lista, la pagina delle liste mostrava ancora il titolo vecchio, e adesso no. Il 19/11 alle 10:05 è scattato il promemoria del giro di correzione, col limite settimanale di nuovo «allowed». La 3.0 non lo apre: ha 343 mila token di storia, e ogni risveglio costerebbe circa il triplo. Il giro lo fa la 4.0, dall'inizio alla fine.
 
 ## Cosa cambia per te
 Niente: Nicola scrive alla 4.0 come scriveva alla 3.0.
