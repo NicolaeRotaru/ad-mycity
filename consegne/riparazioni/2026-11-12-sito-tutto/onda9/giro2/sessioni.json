@@ -37,7 +37,11 @@
    "consegna_usd": 30,
    "aperta": "2026-11-19 10:16",
    "ultracode": true,
-   "finita": false
+   "finita": true,
+   "punta": "b94d0f04",
+   "testa": "17e99ba7",
+   "costo_usd": 22.56,
+   "nota": "6 riparati, 1 parziale (005); valida-referto verde; guardia rossa: 12 prove comuni ritoccate (dichiarate, nel piano approvato: servono la firma prove_comuni o la regia) e il commit 3bba8949 che cita R06-006 e R31-023"
   },
   "R04": {
    "id": "session_015BmpnX1yEdRhDCAv37ejnv",
