@@ -1,0 +1,137 @@
+{
+ "collaudatore": "K19",
+ "riparatori": [
+  "R04",
+  "R07"
+ ],
+ "aggiornato": "2026-11-19 10:30",
+ "finita": true,
+ "parziale": true,
+ "nota": "Onda 9, gruppo A (chiavi-collaudo-A.txt): 5 voci riparate il 12/11 e mai giudicate una per una, tutte a giudizio pieno, senza campione. Base di giudizio: main del sito 336f2fbda9b1b50209fbe94e1f5fde1c74134ab7, dove i sei commit delle voci sono antenati. Referto R04 letto alla punta vera del ramo claude/sweet-galileo-0skkay-m04, a9ba1139 (uguale a referti/R04.json): la punta c7c580c0 data nel mandato è del ramo ccr-30918361-coyajm-m04 di un'altra campagna e il suo R04-012 è un'altra voce. Referto R07 alla punta beb811fb. Prova rimessa due volte per voce: al commit della voce (base C^) e su main (base = main senza la correzione, commit locale fatto con git revert; R04-012 a mano perché il revert va in conflitto). Tutte uscita 3 per un file nuovo importato dalla prova o, in R04-012, per il TypeError che è il difetto stesso; per ognuna rimessa a mano su main, rosso sul comportamento e verde con la correzione: vale con l'eccezione «rimessa_a_mano» firmata per l'onda 1 nel piano. Revisori: 2 subagenti qa (sonnet), uno per riparatore, nelle copie wt-qa-r04 e wt-qa-r07 a 336f2fbd. Nessuno strumento di Supabase, Vercel o Stripe, nessun database. Dove mi discosto dai revisori: davano «parziale» anche a R04-021, R07-021 e R07-022; ho controllato i loro punti e li tengo fuori dalla voce, scritti nelle note come cose da guardare: il +1 € per negozio in più non detto all'AI (la regola detta è la tariffa vera di un carrello con un negozio); la variabile NEXT_PUBLIC_APP_URL senza https è un'ipotesi, nessun segno che in produzione sia scritta così; con la rpc caduta la pagina resta in piedi senza stelle. Voce nuova vista: app/api/ai/variants/route.ts con options non elenco dà 500.",
+ "voci": [
+  {
+   "id": "R04-012",
+   "chiave": "ai-endpoints|la lettura di un prodotto da una foto va in errore 500 se il modello scrive il motivo del rifiuto in un formato inatteso",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 3,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-main --base ac9827733c18787fa30ceef0c22ecbe7da1603b6 --file app/api/vision/extract-product/route.ts --prove tests/unit/riparazione-r04-foto-uscita-modello.test.ts --json   (wt-main a 336f2fbd; base = main col difetto rimesso a mano, commit locale: il revert di 61c6e995 va in conflitto con 5ba3e28c e d28d5e71)",
+    "a_mano": {
+     "comando": "su main 336f2fbd: in app/api/vision/extract-product/route.ts rimesse le righe di prima di 61c6e995 (reason = toolInput.policy_reason?.trim(); name, description, category_slug, suggested_price senza controllo di tipo), poi npx vitest run tests/unit/riparazione-r04-foto-uscita-modello.test.ts",
+     "uscita_senza_correzione": 1,
+     "uscita_con_correzione": 0
+    }
+   },
+   "rimessa_al_commit": {
+    "uscita": 3,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-c --base 61c6e995c2219d23eaf589652a6110a6f3b4415b^ --file app/api/vision/extract-product/route.ts --prove tests/unit/riparazione-r04-foto-uscita-modello.test.ts --json"
+   },
+   "nota": "Uscita 3 perché il difetto stesso è un TypeError: senza la correzione la prima prova cade con «toolInput.policy_reason?.trim is not a function» (il 500 della voce), la seconda con un'asserzione (expected ['Sedia'] to be ''): rosso sul comportamento, 2 su 2; con la correzione 0. Revisore qa: 29 uscite storte del modello (attributes, tags, image_quality, alt_text, confidence, category_slug, prezzo come testo, policy_ok «false», policy_reason oggetto, anche nel secondo giro di verifica): 29 su 29 sotto 500. Non aperto il modulo del venditore nel browser con nome vuoto o prezzo null."
+  },
+  {
+   "id": "R04-015",
+   "chiave": "ai-endpoints|i tagli contro i costi contano le voci degli elenchi ma non la loro lunghezza: una richiesta sotto il megabyte riempie la finestra del modello",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 3,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-main --base 5b0cd40ff7e5ed24f82f73cfbefd49c003e40a00 --file app/api/ai/improve-product/route.ts,app/api/ai/product-chat/route.ts,app/api/ai/barcode-lookup/route.ts,lib/ai/productContext.ts --prove tests/unit/riparazione-r04-elenchi-con-tetto.test.ts --json   (wt-main a 336f2fbd; base = main con git revert di 7482bc60, commit locale)",
+    "a_mano": {
+     "comando": "su main 336f2fbd, una rotta alla volta: tolti solo voceCorta/opzioniCorte (il filtro dei null resta) in improve-product, product-chat e barcode-lookup, poi npx vitest run tests/unit/riparazione-r04-elenchi-con-tetto.test.ts: prompt 824761, 401786, 401647 caratteri contro il tetto di 20000, uscita 1 per ognuna; productContext.ts di prima: uscita 1; con la correzione 0",
+     "uscita_senza_correzione": 1,
+     "uscita_con_correzione": 0
+    }
+   },
+   "rimessa_al_commit": {
+    "uscita": 3,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-c --base 7482bc60053bd1e7552e3182158acc8761d9da3a^ --file app/api/ai/improve-product/route.ts,app/api/ai/product-chat/route.ts,app/api/ai/barcode-lookup/route.ts,lib/ai/productContext.ts --prove tests/unit/riparazione-r04-elenchi-con-tetto.test.ts --json"
+   },
+   "nota": "Le quattro parti corrette reggono su main (rimesse a mano: rosso sul comportamento). Ma la voce non è chiusa tutta: app/api/ai/variants/route.ts:115-121 taglia variantableFields a 20 campi e 30 opzioni (conta le voci) e mette nel prompt key, label e opzioni senza tetto di lunghezza; variants è fra le rotte che la voce nomina (buildProductContext «usato da seo, translate, variants…») e l'elenco entra proprio nel lead di buildProductContext. Provato con una prova temporanea su main: corpo da 850310 byte (sotto il megabyte di TETTO_JSON) → prompt da 850416 caratteri al modello. In più, options scritto come testo (key 'a', options 'xyz') fa cadere la rotta con TypeError «opzioni.join is not a function» fuori dal try (500): lo stesso genere dell'elemento null che la correzione ha chiuso nelle altre tre rotte. Prove vicine del revisore: 73 file, 664 test verdi."
+  },
+  {
+   "id": "R04-021",
+   "chiave": "architettura|all'assistente ai si dice che la consegna di una pagnotta da 3,50 € costa 4 €, ma la consegna si paga sul carrello e non sul singolo prodotto",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 3,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-main --base 1995989696690e20929e1270db8815bfa9193478 --file lib/products/economics.ts,app/api/ai/improve-product/route.ts --prove tests/unit/riparazione-r04-consegna-nel-prompt.test.ts --json   (wt-main a 336f2fbd; base = main con git revert di 89a69345, commit locale; b44d9899 di R22 resta)",
+    "a_mano": {
+     "comando": "su main 336f2fbd: app/api/ai/improve-product/route.ts del commit senza la correzione (torna «Fee di consegna a domicilio: €…» del singolo prodotto), economics.ts resta, poi npx vitest run tests/unit/riparazione-r04-consegna-nel-prompt.test.ts: «expected … not to match /Fee di consegna a domicilio: €/»",
+     "uscita_senza_correzione": 1,
+     "uscita_con_correzione": 0
+    }
+   },
+   "rimessa_al_commit": {
+    "uscita": 3,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-c --base 89a69345ac1270694410deeb42f8f5e7f076c645^ --file lib/products/economics.ts,app/api/ai/improve-product/route.ts --prove tests/unit/riparazione-r04-consegna-nel-prompt.test.ts --json"
+   },
+   "nota": "L'uscita 3 viene solo da economics.ts (la funzione nuova regolaConsegnaPerAi è importata); improve-product da solo cade sul comportamento. Su main nessun prompt dice più una consegna per singolo prodotto: deliveryFee di sellerEconomics resta calcolato (lib/products/economics.ts:54-62) ma né improve-product né diagnose lo mettono nel prompt. La regola detta all'AI usa tariffaConsegnaCents (lib/ordini/prezzi.ts:213), cioè vociDellaConsegna con un negozio: 3 € da 10 € in su, 4 € sotto. Il testo di sistema di R22-008 (improve-product:50) e la riga di R04-021 (:313) si ripetono senza contraddirsi. Resto fuori dalla voce: la regola non nomina il +1 € per ogni negozio in più nello stesso carrello né il ritiro in negozio a 0 €."
+  },
+  {
+   "id": "R07-021",
+   "chiave": "frontend-ux|la vetrina di ogni negozio manda a google i suoi dati senza l'indirizzo della pagina, e nel browser va in conflitto con quello che ha disegnato il server",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 3,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-main --base e0bab82f0f452970a754b9301afda90448b52e71 --file lib/queries/precarico.ts,lib/queries/riepilogo-recensioni-negozio.ts --prove tests/unit/riparazione-r07-vetrina-stelle-dal-server.test.ts --json   (wt-main a 336f2fbd; base = main con git revert di c38145e8, commit locale; b5918e08 resta)",
+    "a_mano": {
+     "comando": "su main 336f2fbd: lib/queries/precarico.ts del commit senza la correzione (precaricaNegozio non precarica il riepilogo), il file nuovo resta, poi npx vitest run tests/unit/riparazione-r07-vetrina-stelle-dal-server.test.ts: «expected undefined to deeply equal (media 4.6, totale 37)»",
+     "uscita_senza_correzione": 1,
+     "uscita_con_correzione": 0
+    }
+   },
+   "rimessa_al_commit": {
+    "uscita": 3,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-c --base c38145e83ea0a129842ddc88c62555d4c824ab42^ --file lib/queries/precarico.ts,lib/queries/riepilogo-recensioni-negozio.ts --prove tests/unit/riparazione-r07-vetrina-stelle-dal-server.test.ts --json"
+   },
+   "nota": "L'uscita 3 viene solo dal file nuovo, che la prova importa; precarico.ts da solo cade sul comportamento. Revisore qa su main: aggregateRating esce nell'HTML del server (app/store/[id]/page.tsx:107-111); chiave [...reviews.store(id),'riepilogo'], staleTime 60000 e forma uguali fra riepilogo-recensioni-negozio.ts:25-34 e useStorePageData.ts:84-92; store_review_stats aperta ad anon (migrations/052:59); layout.tsx:96 chiama precaricaNegozio, unico chiamante; se la rpc fallisce la pagina resta in piedi (allSettled, precarico.ts:70). L'url esce dal dominio pubblico dal 5/11, già alla base (page.tsx:27 e :114). Restano fuori dalla voce, da guardare: page.tsx:27 legge NEXT_PUBLIC_APP_URL senza normalizzaIndirizzo (lib/env.ts:151), quindi un valore scritto senza https darebbe un url relativo; con la rpc caduta sul server lo schema esce senza aggregateRating e il browser lo aggiunge dopo. Prove vicine: 49 file, 558 test verdi."
+  },
+  {
+   "id": "R07-022",
+   "chiave": "frontend-ux|orari, stelle e indirizzo web del negozio non arrivano a google nella prima lettura",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 3,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-main --base 51b255b3197c01e15433f667910c3d0a2cec186e --file 'app/store/[id]/page.tsx',components/store-sections/orari-schema.ts --prove tests/unit/riparazione-r07-vetrina-orari-schema.test.tsx --json   (wt-main a 336f2fbd; base = main con git revert di 597e1015 e 9f9fe6ec, commit locale)",
+    "a_mano": {
+     "comando": "su main 336f2fbd: app/store/[id]/page.tsx del commit senza la correzione (niente openingHoursSpecification nello schema), orari-schema.ts resta, poi npx vitest run tests/unit/riparazione-r07-vetrina-orari-schema.test.tsx: «expected undefined to deeply equal» le tre fasce attese",
+     "uscita_senza_correzione": 1,
+     "uscita_con_correzione": 0
+    }
+   },
+   "rimessa_secondo_commit": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-main --base ed57df5c0cd27464f29a20e0d291133a6d8c4e00 --file components/store-sections/orari-schema.ts --prove tests/unit/riparazione-r07-vetrina-orari-schema.test.tsx --json   (base = main con git revert del solo 597e1015, commit locale)"
+   },
+   "rimessa_al_commit": {
+    "uscita": 3,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-c --base 9f9fe6ec3b90496ca74f19b61cbc99bf7b5671ca^ --file 'app/store/[id]/page.tsx',components/store-sections/orari-schema.ts --prove tests/unit/riparazione-r07-vetrina-orari-schema.test.tsx --json"
+   },
+   "nota": "L'uscita 3 viene solo dal file nuovo orari-schema.ts, che la prova importa; page.tsx da solo cade sul comportamento, e togliendo solo il secondo commit (orari scritti male) la macchina dà regge (uscita 0, anche al commit 597e1015 con base 9f9fe6ec). Revisore qa su main: orari dalla prima lettura (orariPerLoSchema(store.store_hours), page.tsx:96), dayOfWeek come URL schema.org per chiave (mon…), opens/closes in HH:MM, fasce spezzate in due voci, giorni chiusi senza voce, mezzanotte e fasce invertite come lib/store-hours.ts, nessun openingHoursSpecification senza orari. Stelle: col precarico di R07-021; indirizzo web: dominio pubblico, già alla base. Non provato un orario che apre alle «24:00»."
+  }
+ ]
+}
