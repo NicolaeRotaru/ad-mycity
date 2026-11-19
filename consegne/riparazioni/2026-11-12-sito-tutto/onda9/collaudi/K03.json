@@ -4,7 +4,7 @@
     "R04",
     "R05"
   ],
-  "aggiornato": "2026-11-19 11:30",
+  "aggiornato": "2026-11-19 11:31",
   "finita": true,
   "voci": [
     {
@@ -170,7 +170,7 @@
     "R05-016_revert": "eddf0534 è tolto da 0cb2424c: scripts/gen-db-types.mjs non compare nel diff base..punta di R05.",
     "prove_esistenti_toccate_da_R05": "Giudicate una per una alla testa dbbb9793: tutte e tre non indebolite. (1) tests/unit/il-corsivo-del-sito-e-un-corsivo-vero.test.ts: 10 expect alla base, 18 alla testa, nessuno perso; il controllo sul catalogo di Google ora legge il bit del corsivo e l'angolo nei woff2, più forte. Rossa in 7 difetti rimessi su 7 (dritto copiato sul corsivo di Inter e di Fraunces, righe italic tolte tutte o una, corsivo che punta al file dritto, italic dichiarato normal, file cancellato). Buco: con la riga italic messa in commento resta verde, ma lo era anche alla base (7 su 7 verdi lì). (2) tests/unit/riparazione-r10-manifest-nel-head.test.tsx: 5 asserzioni identiche; il finto next/font/local cambia solo la classe di html, che nessuna asserzione legge; rossa togliendo il manifest dall'head (1 su 3) e rimettendo manifest e icona nei metadata (3 su 3). (3) tests/unit/riparazione-r15-la-pagina-non-trovata-non-si-presenta-come-la-home.test.ts: 8 prove identiche, cambia solo il finto; rossa con la 404 che eredita i metadati della home (3 su 8) e con l'anteprima della home (1 su 8). Alla testa 24 prove verdi su 24 (corsivo 9, r10 3, r15 8, R05-019 4).",
     "rimesse": "Tutte con cervello/prova-rimessa.mjs nella copia allo SHA della voce (uscita 0). Per le voci con due commit ho tolto anche tutti e due (base = primo commit^): R04-001 e R04-005 uscita 0 in tutti e due i modi; R04-017 uscita 3 togliendo solo cdcb621a (struttura) e 0 togliendoli tutti e due, come il riparatore. R04-002, R05-001 e R05-019 rilanciate anche alla testa del riparatore: uscita 0.",
-    "costo": "usage.cost_usd non compare in get_session di questa sessione: costo non leggibile da qui."
+    "costo": "usage.cost_usd letto con get_session alle 11:31: 11,70 $ (prima della consegna; nelle prime letture il campo usage non compariva)."
   },
   "nuovi_difetti_visti": [
     "app/api/admin/products/route.ts:315 — la traccia delle taglie dice «tolta» una taglia aggiunta da un'altra scheda e rimasta nel database (rompe_altro di R04-001)",
