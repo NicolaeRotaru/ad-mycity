@@ -1,0 +1,64 @@
+{
+ "regista": "session_015BmpnUxR79mzccgeUCjeKq",
+ "regista_prima": [],
+ "sha_regista": "33a5ed84edc81067ff211d9144fc1e064dfa7ce7",
+ "integrazione": {
+  "ramo": "main del sito",
+  "partenza": "b2c62f34e26f6ff86eab45ccf39fa456ed3767bb",
+  "nota": "giro 3 del 20/11: i rami -o9g3-mNN e -o9g3-s01 partono da main (b2c62f34)"
+ },
+ "sessioni": {
+  "R01": {
+   "id": "session_015BmpnVnqBa8mcjBgHWL9BD",
+   "ramo": "claude/adoring-bohr-kixq35-o9g3-m01",
+   "onda": 1,
+   "ultracode": true,
+   "riservata": true
+  },
+  "R02": {
+   "id": "session_015BmpnUzRf5L5V9bpr27DmE",
+   "ramo": "claude/adoring-bohr-kixq35-o9g3-m02",
+   "onda": 2,
+   "ultracode": true
+  },
+  "R03": {
+   "id": "session_015BmpnWyJjuh3P8Kc6STkAB",
+   "ramo": "claude/adoring-bohr-kixq35-o9g3-m03",
+   "onda": 2,
+   "ultracode": true
+  },
+  "R04": {
+   "id": "session_015BmpnZPAkdiE7yje1p4gsJ",
+   "ramo": "claude/adoring-bohr-kixq35-o9g3-m04",
+   "onda": 2,
+   "ultracode": true
+  },
+  "R05": {
+   "id": "session_015BmpnWyVuh8zNjW5CB1sRM",
+   "ramo": "claude/adoring-bohr-kixq35-o9g3-m05",
+   "onda": 2,
+   "ultracode": true
+  }
+ },
+ "fuori_programma": {
+  "S01": {
+   "id": "session_015BmpnWSwd3ok7udTCp8Adg",
+   "ramo": "claude/adoring-bohr-kixq35-o9g3-s01",
+   "scheda": "giro3/S01-scorta.md",
+   "ultracode": true
+  }
+ },
+ "tetti_usd": {
+  "R01": 15,
+  "R02": 35,
+  "R03": 35,
+  "R04": 35,
+  "R05": 35,
+  "S01": 25,
+  "collaudo": 44,
+  "controllore": 10,
+  "regia": 25
+ },
+ "collaudatori": {},
+ "controllori": {}
+}
