@@ -1184,7 +1184,17 @@ export function giudicaRamo(opz, per, piano, ramo, nome) {
     // Si sospende solo con la firma su QUESTO commit (REGOLE_PER_COMMIT), e la deroga lo elenca.
     if (!ctx.deroga("id_nel_commit", perche, c.commit)) rossi.push(perche);
   }
-  for (const c of storia.perCommit) for (const id of c.messaggio.match(/\b[A-Z]\d{2}-\d{3}\b/g) || []) if (!ids.has(id)) rossi.push(`${c.commit.slice(0, 12)}: il messaggio cita ${id}, che non è una voce di ${nome}`);
+  // Anche la voce altrui citata nel messaggio si sospende solo con la firma su QUESTO commit: Nicola ha firmato
+  // «id_nel_commit» su sei commit di R02, R03, R06 il 18/11 alle 12:52, ma senza questa riga la firma non contava
+  // e le chiusure di mycity#297 restavano ferme (regia 5.0 dell'onda 9, firma di Nicola del 20/11).
+  // ⚠️ Un nome solo, «id_nel_commit», copre i due controlli sull'id dello stesso commit: la firma su un commit
+  // sospende sia «non comincia con l'id» sia «cita una voce altrui». Così si riattivano anche le 4 firme di R29
+  // dell'onda 4 (4fd7d59d, 038ddd6a, f734e255, 2c9f8412): è quello che Nicola aveva firmato (DECISIONI 17/11 14:15).
+  for (const c of storia.perCommit) for (const id of c.messaggio.match(/\b[A-Z]\d{2}-\d{3}\b/g) || []) {
+    if (ids.has(id)) continue;
+    const perche = `${c.commit.slice(0, 12)}: il messaggio cita ${id}, che non è una voce di ${nome}`;
+    if (!ctx.deroga("id_nel_commit", perche, c.commit)) rossi.push(perche);
+  }
   const attese = !storia.commit.length ? [`${nome}: il ramo non ha ancora nessun commit suo`]
     : !netto.size ? [`${nome}: il ramo ha ${storia.commit.length} commit ma alla fine non cambia nessun file: non c'è niente da giudicare, non è un verde`] : [];
   return esito(rossi, attese, { commit: storia.commit.length, file_toccati: netto.size, ...(rimessi.length ? { toccati_e_rimessi_com_erano: rimessi } : {}), ...(derogati.length ? { eccezioni_firmate: derogati } : {}) }, rimessi);

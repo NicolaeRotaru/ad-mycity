@@ -396,6 +396,47 @@ test("guardia-ramo: un commit di codice senza l'id della voce è rosso", () => {
   } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
 });
 
+test("onda 9 (20/11) · guardia-ramo: la voce altrui citata nel messaggio si sospende con la firma su QUEL commit", () => {
+  const { dir, g, scrivi, base } = depositoFinto();
+  const c = cartellaCampagna(base);
+  const conEccezione = (e) => { const p = JSON.parse(readFileSync(join(c, "piano.json"), "utf8")); p.eccezioni_firmate = e; writeFileSync(join(c, "piano.json"), JSON.stringify(p)); };
+  try {
+    g("checkout", "-q", "-b", "r01", base);
+    scrivi("lib/a.ts", "export const a = 3;\n"); g("commit", "-qam", "R01-001 la riparazione, come R09-004");
+    const citato = g("rev-parse", "HEAD");
+    scrivi("lib/a.ts", "export const a = 4;\n"); g("commit", "-qam", "R01-001 il resto, vedi R07-002");
+    const altro = g("rev-parse", "HEAD");
+    const firma = "Nicola, prova";
+    const rossiCita = (out) => (out.match(/🔴 [0-9a-f]{12}: il messaggio cita [A-Z]\d{2}-\d{3}, che non è una voce di R01/g) || []).length;
+    // senza firma: due rossi
+    conEccezione([]);
+    let r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.equal(r.status, 1, r.stdout);
+    assert.equal(rossiCita(r.stdout), 2, r.stdout);
+    // firmato il primo: resta rosso solo l'altro, e il sospeso si elenca con la firma
+    conEccezione([{ onda: 1, commit: citato, regole: ["id_nel_commit"], firma }]);
+    r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.equal(r.status, 1, r.stdout);
+    assert.equal(rossiCita(r.stdout), 1, r.stdout);
+    assert.match(r.stdout, new RegExp(`🔴 ${altro.slice(0, 12)}: il messaggio cita R07-002`));
+    assert.match(r.stdout, new RegExp(`ℹ️ ${citato.slice(0, 12)}: il messaggio cita R09-004.*\\[eccezione firmata, onda 1: ${firma}\\]`));
+    // firmati tutti e due: verde
+    conEccezione([{ onda: 1, commit: citato, regole: ["id_nel_commit"], firma }, { onda: 1, commit: altro, regole: ["id_nel_commit"], firma }]);
+    r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.equal(r.status, 0, r.stdout);
+    // una firma per l'onda intera, l'onda sbagliata o un prefisso non sospendono niente
+    for (const e of [
+      [{ onda: 1, regole: ["id_nel_commit"], firma }],
+      [{ onda: 2, commit: citato, regole: ["id_nel_commit"], firma }],
+      [{ onda: 1, commit: citato.slice(0, 12), regole: ["id_nel_commit"], firma }],
+    ]) {
+      conEccezione(e);
+      r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+      assert.equal(rossiCita(r.stdout), 2, `${JSON.stringify(e)}\n${r.stdout}`);
+    }
+  } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
+});
+
 test("deroga di R17 (15/11) · guardia-ramo: la firma su UN commit intero sospende solo quel commit, e lo elenca", () => {
   const { dir, g, scrivi, base } = depositoFinto();
   const c = cartellaCampagna(base);
