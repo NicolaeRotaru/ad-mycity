@@ -7250,3 +7250,8 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** Nicola, chat «Ondata 9 · 6.0»: «Va bene il tetto 240, le 12 voci tienile dentro e via». Giro 3 dell'onda 9 sul sito da `b2c62f34`: 89 voci minori in R01 (riservata) e R02-R05, più la sessione dedicata alla scorta (S01, 20-30 $ a parte, decisa alle 19:31). Le 12 voci al terzo giro (regola 8) restano dentro: cambia il riparatore e il motivo della bocciatura è scritto.
 - **Chi:** la regia 6.0 (`session_015BmpnUxR79mzccgeUCjeKq`).
 - **Colore:** 🟡, firmato da Nicola. Unione e migrazioni restano sue.
+
+## 2026-11-21 00:08 — Onda 9 giro 3: tetto a 280 $, scorta S01-001 tolta, fascia scelta, firme, ok migrazioni
+- **Cosa:** Nicola, chat «Ondata 9 · 7.0»: «280 sì, b, fascia, firmo tutto, ok migrazioni, Sentry dopo». ① Tetto del giro 3 alzato da 240 a 280 $ (speso 258,87 $ alle 23:31). ② S01-001 (la scorta) tolta dall'unione dopo due bocciature, S01-002 resta. ③ R05-008: se cade la scrittura del secondo ordine veloce, il primo resta nella fascia oraria scelta dal cliente (non torna «Adesso»): regola per il prossimo giro. ④ Firmate le prove ritoccate di R02 (3) e R04 (4) e i commit di R02 che citano voci di altre onde (`fa5dd0fa`, `19291cd4`, `e3231f8e`, quest'ultimo è il ritocco delle due prove firmate): scritte in `giro3/piano.json` → `eccezioni_firmate`. ⑤ «ok migrazioni» per la 620 (R05-006). ⑥ Sentry resta spento per ora.
+- **Chi:** la regia 7.0 (`session_015BmpnYruq7734YUce72wCa`).
+- **Colore:** 🔴 per tetto e migrazione, firmati da Nicola. L'unione della PR resta sua.

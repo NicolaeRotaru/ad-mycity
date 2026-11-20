@@ -1157,5 +1157,69 @@
     }
   ],
   "cucitura": [],
-  "eccedenza": []
+  "eccedenza": [],
+  "eccezioni_firmate": [
+    {
+      "onda": 2,
+      "sessione": "R02",
+      "regole": [
+        "prove_comuni",
+        "prova_esistente_altrui"
+      ],
+      "file": [
+        "tests/unit/minori-s09-scheda-prodotto.test.ts",
+        "tests/unit/riparazione-r07-storico-nello-stesso-secchio.test.ts",
+        "tests/unit/riparazione-r15-backup-storico.test.ts"
+      ],
+      "perche": "R02 ha ritoccato tre prove esistenti: secondo il collaudo K02 del giro 3 codificavano il difetto e nessuna è indebolita.",
+      "firma": "Nicola, 21/11 poco prima delle 00:08, chat «Ondata 9 · 7.0» session_015BmpnYruq7734YUce72wCa: «firmo tutto»",
+      "scritta": "2026-11-21 00:08, regia 7.0 dell onda 9"
+    },
+    {
+      "onda": 2,
+      "sessione": "R04",
+      "regole": [
+        "prove_comuni"
+      ],
+      "file": [
+        "tests/unit/l-email-nuovo-ordine-dalla-rotta-dei-contanti-dice-la-scadenza-vera.test.ts",
+        "tests/unit/le-rotte-fanno-pagare-la-veloce-in-centesimi.test.ts",
+        "tests/unit/minori-s02-coda-della-rotta-dei-contanti.test.ts",
+        "tests/unit/riparazione-r31-campanella-quando-contanti.test.ts"
+      ],
+      "perche": "R04 ha adattato quattro prove della rotta dei contanti: il collaudo K03 del giro 3 le ha giudicate non indebolite.",
+      "firma": "Nicola, 21/11 poco prima delle 00:08, chat «Ondata 9 · 7.0» session_015BmpnYruq7734YUce72wCa: «firmo tutto»",
+      "scritta": "2026-11-21 00:08, regia 7.0 dell onda 9"
+    },
+    {
+      "onda": 2,
+      "commit": "fa5dd0fa691631fe62b69a0117b99a5759c1adc0",
+      "regole": [
+        "id_nel_commit"
+      ],
+      "perche": "Commit di R02 che cita voci di altre onde: tocca solo la sua voce (e3231f8e è il ritocco delle due prove firmate qui sopra).",
+      "firma": "Nicola, 21/11 poco prima delle 00:08, chat «Ondata 9 · 7.0» session_015BmpnYruq7734YUce72wCa: «firmo tutto»",
+      "scritta": "2026-11-21 00:08, regia 7.0 dell onda 9"
+    },
+    {
+      "onda": 2,
+      "commit": "19291cd47c91dfac1a4b465e434e608850f8e658",
+      "regole": [
+        "id_nel_commit"
+      ],
+      "perche": "Commit di R02 che cita voci di altre onde: tocca solo la sua voce (e3231f8e è il ritocco delle due prove firmate qui sopra).",
+      "firma": "Nicola, 21/11 poco prima delle 00:08, chat «Ondata 9 · 7.0» session_015BmpnYruq7734YUce72wCa: «firmo tutto»",
+      "scritta": "2026-11-21 00:08, regia 7.0 dell onda 9"
+    },
+    {
+      "onda": 2,
+      "commit": "e3231f8ec44dc59351d5eb7d2d328a32a14047cb",
+      "regole": [
+        "id_nel_commit"
+      ],
+      "perche": "Commit di R02 che cita voci di altre onde: tocca solo la sua voce (e3231f8e è il ritocco delle due prove firmate qui sopra).",
+      "firma": "Nicola, 21/11 poco prima delle 00:08, chat «Ondata 9 · 7.0» session_015BmpnYruq7734YUce72wCa: «firmo tutto»",
+      "scritta": "2026-11-21 00:08, regia 7.0 dell onda 9"
+    }
+  ]
 }
