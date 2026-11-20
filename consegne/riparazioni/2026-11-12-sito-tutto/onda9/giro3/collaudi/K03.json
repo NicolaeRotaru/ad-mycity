@@ -1,9 +1,10 @@
 {
  "collaudatore": "K03",
  "riparatori": [
-  "R04"
+  "R04",
+  "R03"
  ],
- "aggiornato": "2026-11-20 21:58",
+ "aggiornato": "2026-11-20 23:20",
  "finita": true,
  "voci": [
   {
@@ -155,11 +156,119 @@
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base a88b03eb679e2635a1bc01e476e9d63b2819db53^ --file lib/ordini/consegna-veloce.ts,app/api/orders/cod/route.ts --prove tests/unit/riparazione-r04-una-veloce-per-fattorino.test.ts --json"
    },
    "nota": "Due revisori qa, uno per lente; prova-rimessa uscita 0. NATA_ROTTA (rompe_altro, minore): cassa e carrello chiedono la veloce a GET /api/consegna/veloce (checkout/page.tsx:692, cart/page.tsx:211, DeliveryCutoff.tsx:70), che le veloci in corso non le conta: con 1 fattorino e 1 veloce in corso la cassa offre «Adesso» e il clic finale in contanti prende 409; dopo il 409 la pagina rilegge la rotta (page.tsx:1118), riceve di nuovo sì e «Adesso» resta proposta. Prima di R04 le due decisioni coincidevano (prova temporanea rossa: veloceSiPuo(velociInCorso=1) no, GET {possibile:true}). R04 lo cita nel residuo, ma il comportamento nasce con questo commit. CHIUDE_TUTTA (parziale, residuo incompleto): oltre alla carta (:333, :532) e a /api/consegna/veloce, già nel residuo: (a) contaVelociInCorso (consegna-veloce.ts:140-152) non ha finestra di tempo: un ordine «Adesso» fermo (es. READY dal 16/11) dà 409 a un fattorino libero il 19/11, prova temporanea rossa; alla base era 200; (b) due clienti insieme con un fattorino passano tutti e due (conteggio a cod:943, ordine a :1460, nessun blocco), prova temporanea rossa; (c) le casse con carta aperte non si contano; (d) si contano righe e non consegne (carrello di 2 negozi = 2 righe). Ordini standard non toccati (la chiamata è dentro if (consegnaVeloce), cod:938-946). La fonte del fatto consegna.veloce-per-fattorino dice «scelta dell'AD su delega», non scelta diretta di Nicola come scrivono il codice e la prova R15."
+  },
+  {
+   "id": "R03-004",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 16e307758e199536e17c11f22d46297604cc5b2e^ --file app/api/health/route.ts,app/api/cron/operational-alerts/route.ts,next.config.js,docs/runbook.md --prove tests/unit/riparazione-r03-registratore-errori.test.ts --json"
+   },
+   "rimessa_correzioni": [
+    {
+     "uscita": 0,
+     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base e4bcd5aecc48eb90dcc76b4d63ef3d334ef45474^ --file app/api/cron/operational-alerts/route.ts --prove tests/unit/riparazione-r03-registratore-errori.test.ts --json",
+     "commit": "e4bcd5ae"
+    }
+   ],
+   "nota": "Una lente (nata_rotta), un revisore qa; prova-rimessa uscita 0 sulla voce (alla testa e4bcd5ae, base 16e30775^) e sulla sola correzione e4bcd5ae. Parziale come dichiarato (manca instrumentation-client.ts, file di altri, e la parte di Nicola: account Sentry e DSN su Vercel). NATA_ROTTA: senza DSN next.config.js esporta la configurazione di prima; col DSN e senza token si carica (sourcemaps.disable, productionBrowserSourceMaps=false), solo avvisi di deprecazione. /api/health: 200/503 e semaforo invariati, registratoreErrori non entra nel calcolo (route.ts:419-422), aggiunge solo campi. L'allarme parte solo con VERCEL_ENV=production, una volta ogni 24 ore dall'ultimo invio (non per giorno di calendario), e il giorno dopo torna. 30 file di prove su health e operational-alerts verdi (312 casi). Effetto collaterale da sapere, minore: se in produzione manca SUPPORT_EMAIL, con Sentry spento il sorvegliante risponde 500 a ogni giro (288 al giorno) con un logger.error ogni volta (operational-alerts/route.ts:886-893), dove prima rispondeva 200 «No anomalies»; la campanella suona una volta sola. SUPPORT_EMAIL su Vercel non verificata (vietato da qui). Minore: nei rami «già notificato» (:770-781, :862-872) la risposta non porta più cancellazioniRinviate. tsc verde.",
+   "chiave": "deploy-sre|il giorno del lancio un errore del sito non lo vede nessuno: il registratore degli errori è spento e l'unico allarme dipende dalla chiave che manca"
+  },
+  {
+   "id": "R03-007",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 19e4d5572dee5612b1427187016f093ec5bca629^ --file app/admin/disputes/page.tsx --prove tests/unit/riparazione-r03-reclami-rilettura-caduta.test.ts --json"
+   },
+   "nota": "Due revisori qa, uno per lente; prova-rimessa uscita 0. Il revisore chiude_tutta proponeva parziale per difetti della stessa classe accanto; li tengo fuori voce, come in R04-002, perché il titolo parla della rilettura dei reclami e quella è chiusa, e i difetti c'erano già alla base. NATA_ROTTA: pagina montata col QueryProvider di produzione: il ritorno sulla scheda non rilegge (refetchOnWindowFocus spento), ma il caso nasce davvero con la riconnessione della rete: rilettura caduta → pulsanti spenti e avviso; «Riprova» che ricade → spenti; «Riprova» riuscito → accesi. Una lettura degli ordini caduta non spegne la decisione a torto; il server rifiuta la doppia decisione (.in('status',['open','under_review'])). 4 file di prove sulla pagina verdi (58 casi). Buco della prova, non del codice: il mutante isError && !isFetching resta verde e accenderebbe i pulsanti durante un «Riprova» in volo. FUORI VOCE, già alla base, da aprire: (D) se cade la rilettura degli ordini (page.tsx:100) il riquadro «Rimborsabile al massimo» resta coi numeri vecchi, senza avviso (:396 vuole pagamentiNonLetti && !pagamento) e coi pulsanti accesi (prova temporanea, 2 corse); (A) dopo una decisione :143 invalida queryKeys.admin.disputes() = ['admin','disputes','all'] (lib/queries/keys.ts:150), mentre col filtro «Aperti» la chiave è [...,'open']: la lista non si rilegge e «Decidi» resta sul reclamo chiuso; (B) col filtro «Tutti», dopo un «Riprova» riuscito che dice resolved_buyer, la finestra resta aperta (:364) e i pulsanti si riaccendono (datiVecchi :157 guarda solo isError). Coi tre il server risponde 409 (route.ts:196, :264). Nei circa 2 s del nuovo tentativo automatico (retry:1) i pulsanti restano accesi: minore, c'era già.",
+   "chiave": "frontend-ux|se la rilettura dei reclami cade a finestra aperta, la decisione resta su dati vecchi"
+  },
+  {
+   "id": "R03-012",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 4d8a00614c42b5c66c48a990191ca0790b3f2f19^ --file components/StickyAddToCart.tsx --prove tests/unit/riparazione-r03-barra-prezzo-promozione.test.ts --json"
+   },
+   "nota": "Due revisori qa, uno per lente; prova-rimessa uscita 0. Parziale come dichiarato, ma il residuo è incompleto. CHIUDE_TUTTA: vero che la barra mostrava già il prezzo scontato (app/product/[id]/page.tsx:494, passato a :1594, già alla base); la scheda non passa prezzoPieno (:1593-1604), quindi sul sito il barrato oggi non compare; FrequentlyBoughtTogether e CartUpsell scontano davvero (:53-54). Manca dal residuo un carosello vero: components/store-sections/CollectionSection.tsx:74-81 e :93-107 (collezione manuale del negozio, carosello e griglia, ProductCard senza discountPercent → prezzo pieno). Stessa classe, non caroselli: components/StoreFeaturedStrip.tsx:72-83, app/favorites/page.tsx:121, app/lists/[id]/page.tsx:387, app/product/[id]/layout.tsx:99 (prezzo nei dati strutturati), letti nel codice (ProductCard sconta solo con discountPercent, :55-60). NATA_ROTTA: senza il prop, e con prezzoPieno uguale, minore, NaN, 0 o −5, l'HTML della barra è identico byte per byte a 4d8a0061^ (con e senza quantità, da esaurita); con la promozione il totale da pagare non cambia; prop in euro come price; su schermo stretto si taglia prima il barrato, mai il prezzo; prova del riparatore 3/3 verde.",
+   "chiave": "frontend-ux|con una promozione attiva la barra d'acquisto e i caroselli mostrano il prezzo pieno, mentre sopra c'è quello scontato"
+  },
+  {
+   "id": "R03-020",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 1c99f8d195a3e5c421deaeb0d64723e9494d8bb4^ --file app/sign-up/page.tsx --prove tests/unit/riparazione-r03-iscrizione-venditore-senza-google.test.ts --json"
+   },
+   "nota": "Un revisore qa sulla lente chiude_tutta; nata_rotta del collaudatore sul diff (14 righe). prova-rimessa uscita 0. CHIUDE_TUTTA: il pulsante sparisce in tutte le strade della pagina d'iscrizione: link ?role=seller, mattonella, cambio di scelta avanti e indietro, arrivo dal carrello (ruolo forzato a cliente, giusto), messaggi d'errore (nessuno consiglia Google), anti-bot rotto, primo disegno dentro Suspense; prova 4/4 verde. NATA_ROTTA: senzaGoogle = role === 'rider' || role === 'seller'; per il cliente il ramo AuthAlternatives e il messaggio anti-bot sono identici a prima, il fattorino resta come R02-009. Fuori titolo: su /sign-in Google resta (lì non si sceglie un ruolo); chi sceglie «Venditore» e poi «Accedi» arriva su /sign-in senza ritorno a /sell, e con Google diventa cliente e finisce in home; da /sell un cliente può comunque chiedere di diventare negozio (/api/seller/apply accetta i clienti).",
+   "chiave": "qa-flussi|anche chi sceglie «venditore» nell'iscrizione vede il pulsante google, che probabilmente crea un cliente"
+  },
+  {
+   "id": "R03-018",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 2,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 7017ffc9d2a6d57e88ff7d4b768dd2e23cd6dfa7^ --file tests/unit/riparazione-r03-carrello-consegna.test.ts --prove tests/unit/riparazione-r03-carrello-consegna.test.ts --json",
+    "a_mano": "Voce di sole prove: la macchina non decide («un file non puo' essere insieme correzione e prova»). Mutanti rimesse a mano dal revisore qa in app/cart/page.tsx alla testa e4bcd5ae, una alla volta, file rimesso dopo ognuna: 37 mutanti, la prova nuova ne uccide 27, tutte su un'asserzione (0 per tempo scaduto); le 10 verdi lanciate anche sulle altre 25 prove che montano il carrello (325 casi, verdi senza mutanti)."
+   },
+   "nota": "Due revisori qa, uno per lente. Parziale: la prova chiude gran parte del buco, ma una mutante storica della voce resta verde. CHIUDE_TUTTA: 27 mutanti su 37 rosse (spedizione tolta o doppia, Math.floor, avviso «sotto i 10 €» dal primo negozio, coordinate scambiate o nulle, raggruppamento per nome, consegna di un negozio doppia o assente, frasi e riga «Consegna», barra in fondo). Resta VERDE su tutta la suite, e non è equivalente, il subtotale per negozio con Math.ceil (app/cart/page.tsx:529), la mutante che il collaudo K03 del 12/11 su R10-025 chiedeva di aggiungere: con 0,39 € + 3 × 3,20 € il conto vale 9,99 €, (0.39 + 3.2*3)*100 = 999,0000000000002 e Math.ceil scrive 1000, quindi niente avviso e consegna 3,00 € mentre la cassa addebita 4,00 € (prova temporanea: verde sul codice giusto, rossa con la mutante). Verdi e non prese da nessuna prova anche: prezzo di riga senza quantità (:768, fuori dal conto della consegna); soglia dell'avviso > invece di >= scritta nella pagina (:606; la soglia vera in lib/promesse-pubbliche.ts:546 la prende un'altra prova). B05 (gruppi da items invece di righe, :504) la prende solo un grep sul sorgente. Equivalenti nei fatti: spedizione arrotondata all'euro (:544), arrotondamento per articolo (:529). Punti deboli: test:237 if (voci.length > 0) non scatta mai sul codice giusto; test:279 dipende dal separatore « · »; Math.floor muore solo grazie al prezzo 1,15 € (test:261). NATA_ROTTA: stabile, 8 corse su 8 verdi (249-299 ms), 3 su 3 sotto due processi che caricano la CPU, 2 su 2 insieme a tre prove vicine (67 casi); nessun effetto su altre prove (vitest isola i file, _setup.ts fotografa l'ambiente, timer finti tolti). Difetto: l'attesa non è verificata. finoA (test:130-137) esce allo scadere degli 8 s senza fallire, e letturaFinita conta la richiesta partita, non quella servita (test:84, test:122). Con la lettura dei prodotti che non risponde mai, 5 casi su 6 passano lo stesso (8022 ms ciascuno): un carrello che smette di leggere dal server resta verde. Cura: un expect(letturaFinita()).toBe(true) in fondo a finoA, contando la risposta.",
+   "chiave": "qa-flussi|buco nelle prove del carrello: alcune mutanti del collaudo sul conto della consegna restano verdi"
+  },
+  {
+   "id": "R03-021",
+   "verdetto": "non_regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 7ad5d14ff338a29cae70903dd6882c93720d323c^ --file lib/logger.ts --prove tests/unit/riparazione-r03-logger-testo-oscurato.test.ts --json"
+   },
+   "rimessa_correzioni": [
+    {
+     "uscita": 3,
+     "comando": "PROVA_RIMESSA_TIMEOUT_MS=420000 PROVA_RIMESSA_TOTALE_MS=530000 timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 5e181dcf3e58fd776483f74d591fa89ca24ef27f^ --file lib/logger.ts --prove tests/unit/riparazione-r03-logger-testo-oscurato.test.ts --json",
+     "commit": "5e181dcf",
+     "nota": "Prima corsa coi tempi di default: uscita 2 (tempo scaduto al passo ②); ripetuta una volta coi tempi lunghi: uscita 3, rossa per la struttura. Confronto a mano fra il logger di 7ad5d14f e quello della testa fatto dal revisore."
+    }
+   ],
+   "nota": "Due revisori qa, uno per lente; prova-rimessa uscita 0 sulla voce (base 7ad5d14f^). Non regge: dettagli riservati, solo nel messaggio alla regista.",
+   "chiave": "qa-flussi|il logger oscura solo le chiavi del contesto, non il testo del messaggio né un contesto stringa"
   }
  ],
  "campione": {
   "R04": {
    "accettato": true
+  },
+  "R03": {
+   "accettato": false
   }
  },
  "prove_ritoccate": [
