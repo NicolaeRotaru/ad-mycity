@@ -7245,3 +7245,8 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Perché:** due giri di riparazione falliti sullo stesso buco (scorta che si stacca dalla somma delle taglie).
 - **Chi:** la regia 6.0 (`session_015BmpnUxR79mzccgeUCjeKq`), avvisata in chat.
 - **Colore:** 🟡, deciso da Nicola.
+
+## 2026-11-20 19:58 — Onda 9 giro 3: tetto 240 $, le 12 voci al terzo giro dentro, via
+- **Cosa:** Nicola, chat «Ondata 9 · 6.0»: «Va bene il tetto 240, le 12 voci tienile dentro e via». Giro 3 dell'onda 9 sul sito da `b2c62f34`: 89 voci minori in R01 (riservata) e R02-R05, più la sessione dedicata alla scorta (S01, 20-30 $ a parte, decisa alle 19:31). Le 12 voci al terzo giro (regola 8) restano dentro: cambia il riparatore e il motivo della bocciatura è scritto.
+- **Chi:** la regia 6.0 (`session_015BmpnUxR79mzccgeUCjeKq`).
+- **Colore:** 🟡, firmato da Nicola. Unione e migrazioni restano sue.
