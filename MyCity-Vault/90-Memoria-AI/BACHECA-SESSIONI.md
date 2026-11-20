@@ -28,6 +28,8 @@ che ha messo in pratica la decisione: la seconda chat li aveva segnati da 3 a 12
 
 | Quando | A chi | Cosa ha deciso |
 |---|---|---|
+| 20/11 sera | alla chat «Ondata 9 · 5.0» (`session_015BmpnZZ9mpJFdTk5mxvbY8`) | «Scorte sessione dedicata»: la scorta in Modifica/Duplica (R04-007 del giro 2) va a una sessione sola su quella voce, fuori dal giro dopo. Passata alla 6.0 (`session_015BmpnUxR79mzccgeUCjeKq`). DECISIONI 20/11. |
+| 20/11 | alla chat «Ondata 9 · 5.0» | «Firmo i 3 commit del giro 2», «Ti do il permesso sulle 2 cose» (riga nel programma per la firma sulla voce altrui citata, 2 commit di R08), «ti firmo le 23 prove ritoccate», «Dimmi tu se la 298 è pronta» (tolta di bozza dall'AD, unita da Nicola, merge `b2c62f34`). DECISIONI 20/11. |
 | 19/11 11:45 | all'AD, chat «Ondata 9» | «rispondi tu alle 12 scelte, dimmi tu». Le 12 risposte dell'AD sono in DECISIONI.md, 19/11 11:50. Fatti nuovi: `legale.recesso-scadenza-festivi` e `consegna.veloce-per-fattorino`. Il punto del registro degli errori chiede un clic di Nicola (account Sentry gratuito e chiave su Vercel). |
 | 18/11 12:52 | alla chat «Ondata 9 · 3.0» (`session_015BmpnZQiGiFfMYaWbMDKVT`) | «Firmo l'eccezione»: le eccezioni dell'onda 9 sulle due prove comuni di R02 e sui sei commit di R02, R03 e R06. Scritte in `onda9/piano.json`. |
 | 17/11 22:20-22:35 | all'AD, chat «Ondata 9» (`session_015BmpnYq3DQDRwTXdBwfzud`) | «falla partire adesso». Limite «fra 90% e 95%», poi letto «89%»; scelta «mi fermo prima», con circa il 3% lasciato alle sue chat. Stasera 6 riparatori dell'onda 9 su 10 (R01, R02, R03, R06, R07, R10), consegna a 30 $ e tetto 35 $. Gli altri giovedì 19/11 alle 10:05. |
