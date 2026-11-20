@@ -16,3 +16,4 @@
 2026-11-20 21:00 · R02 20,38 · R03 16,14 · R05 17,04 (guardia 🔴 8 prove comuni, ripristino non ancora spinto) · R01 10,4 e S01 13,3 finite · R04 ~17 in chiusura · azione: «niente lotti nuovi» a R02, R03, R05
 2026-11-20 21:18 · R05 · finita 23,11 $ · guardia ✅ (8 prove comuni tornate come la base) · referto 🔴 solo forma (chiavi senza dimensione, insieme_a, conto, costo) · azione: sistemare il referto
 2026-11-20 21:19 · R02 finita 25,72 $ · guardia 🔴 (3 prove esistenti ritoccate: minori-s09 comune, r07 e r15 storico; 2 messaggi citano id di altre onde) · referto ✅ · R05 referto: solo rimessa a mano (atteso) e insieme_a · azione: K02 su R02 e R05, firma di Nicola sulle 3 prove dopo il giudizio
+2026-11-20 21:23 · R04 · finita 28,24 $ · azione: K03
