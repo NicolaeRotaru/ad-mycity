@@ -412,5 +412,49 @@
     }
   ],
   "cucitura": [],
-  "eccedenza": []
+  "eccedenza": [],
+  "eccezioni_firmate": [
+    {
+      "onda": 2,
+      "sessione": "R02",
+      "regole": [
+        "prove_comuni",
+        "prova_esistente_altrui"
+      ],
+      "file": [
+        "tests/unit/la-targhetta-dell-ordine-non-manda-il-cliente-a-ritirarlo.test.ts",
+        "tests/unit/le-promesse-della-consegna-cambiano-solo-di-proposito.test.tsx",
+        "tests/unit/minori-s02-varie.test.ts",
+        "tests/unit/minori-s06-centro-venditori.test.ts",
+        "tests/unit/minori-s06-ordine-del-negozio.test.tsx"
+      ],
+      "perche": "R02-007 (pronto per il fattorino) ha cambiato la parola in 5 prove esistenti. Il collaudo K01 del giro 2 le ha giudicate non indebolite.",
+      "firma": "Nicola, 20/11 alle 18:04, chat «Ondata 9 · 5.0» session_015BmpnZZ9mpJFdTk5mxvbY8: «ti firmo le 23 prove ritoccate»",
+      "scritta": "2026-11-20 18:04, regia 5.0 dell onda 9"
+    },
+    {
+      "onda": 2,
+      "sessione": "R03",
+      "regole": [
+        "prove_comuni"
+      ],
+      "file": [
+        "tests/unit/il-cliente-assente-col-credito-non-tornato-legge-la-verita.test.ts",
+        "tests/unit/il-copilot-applica-tutto-in-una-volta.test.ts",
+        "tests/unit/il-copilot-dice-cosa-non-e-entrato.test.ts",
+        "tests/unit/il-copilot-non-dice-applicato-se-il-prezzo-non-e-entrato.test.ts",
+        "tests/unit/il-freno-sul-prezzo-si-accende-davvero.test.ts",
+        "tests/unit/il-prezzo-rifiutato-si-dice-anche-quando-la-chat-si-ferma-per-altro.test.ts",
+        "tests/unit/l-allarme-che-non-parte-non-si-spaccia-per-spedito.test.ts",
+        "tests/unit/la-chat-non-dice-salvate-se-il-prezzo-e-rimasto.test.ts",
+        "tests/unit/minori-s10-copilot-applica.test.ts",
+        "tests/unit/riparazione-r10-traccia-del-prezzo-una-forma.test.ts",
+        "tests/unit/riparazione-r30-fattorino-sospeso-rotte.test.ts",
+        "tests/unit/una-dichiarazione-che-la-scheda-non-ha-non-si-chiede.test.ts"
+      ],
+      "perche": "R03 del giro 2 ha ritoccato 12 prove comuni (catalog-apply, cliente assente, tetto). Il collaudo K02 del giro 2 le ha giudicate non indebolite.",
+      "firma": "Nicola, 20/11 alle 18:04, chat «Ondata 9 · 5.0» session_015BmpnZZ9mpJFdTk5mxvbY8: «ti firmo le 23 prove ritoccate»",
+      "scritta": "2026-11-20 18:04, regia 5.0 dell onda 9"
+    }
+  ]
 }

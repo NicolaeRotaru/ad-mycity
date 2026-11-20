@@ -7229,3 +7229,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 11. **Foto (R10-001):** il piano Pro di Supabase comprende 100 foto trasformate al mese, poi 5 $ ogni 1.000 (documentazione Supabase, letta il 19/11). Il controllo di 5 minuti del Pannello deve caricare anche una foto vera di prodotto, così una foto rotta diventa un allarme. L'indirizzo del controllo esterno è `https://mycity-marketplace.com/api/health`.
 12. **Schermate dell'app installabile (R06-005):** non servono adesso, l'app installabile è spenta al lancio. Quando si riaccende, le fa l'AD dal sito col browser.
 - **Colore:** 🟡. Codice nei rami; unione, migrazioni e database vero restano di Nicola. Il punto 6 chiede un suo clic.
+
+## 2026-11-20 18:05 — Onda 9: firme di Nicola sulle regole della guardia (chat «Ondata 9 · 5.0»)
+- **Cosa:** Nicola, 20/11: «Ti do il permesso sulle 2 cose» e «ti firmo le 23 prove ritoccate». (1) Il programma della riparazione legge la firma «id_nel_commit» anche quando il messaggio di un commit cita una voce di un'altra sessione (riga in `cervello/riparazione-sessioni.mjs`, prova nuova, collaudo di un agente diverso). (2) Firmati i 2 commit di R08 del 19/11 (`f6d4f4c1`, `a431ee63`). (3) Firmate le prove esistenti ritoccate: 17 del giro 2 (5 di R02, 12 di R03) scritte in `onda9/giro2/piano.json`; le altre già coperte dall'eccezione del 18/11, più quella del drop corretta dalla regia (`d403fa41`).
+- **Perché:** senza la riga le firme del 18/11 non contavano e le chiusure di mycity#297 e #298 restavano ferme. I collaudatori K01–K04 avevano giudicato le prove non indebolite.
+- **Resta aperto:** firma su 3 commit del giro 2 (`3bba8949` di R03, `9a60bc75` e `8aa18de2` di R01); la strada per la scorta in Modifica/Duplica (R04-007 del giro 2).
+- **Colore:** 🟡, firmato da Nicola.
