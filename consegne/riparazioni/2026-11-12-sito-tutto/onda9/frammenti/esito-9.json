@@ -1,0 +1,34 @@
+{
+  "corsia": 9,
+  "territorio": "R09",
+  "difetti": [
+    {
+      "chiave": "frontend-ux|il dettaglio ordine dell amministrazione mostra il codice grezzo paid_manually",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r09-etichetta-pagato-a-mano.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base a7793b07c7fcdac81872c04ee7756086d3bc0cae^ --file lib/admin/etichette.ts --prove tests/unit/riparazione-r09-etichetta-pagato-a-mano.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R09 --base a7793b07c7fcdac81872c04ee7756086d3bc0cae^ --file lib/admin/etichette.ts --prove tests/unit/riparazione-r09-etichetta-pagato-a-mano.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "Aggiunta l'etichetta PAID_MANUALLY («pagato a mano») all'elenco degli stati del bonifico; app/admin/orders/[id]/page.tsx usa già etichettaStatoBonifico e non è cambiato."
+    },
+    {
+      "chiave": "frontend-ux|l'annuncio della vetrina scade a mezzanotte nel browser ma all'una nella pagina preparata dal server",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r09-annuncio-fuso.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 33472da75000dfb4e60627eda3938fe6203b1604^ --file lib/store-customization.ts --prove tests/unit/riparazione-r09-annuncio-fuso.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R09 --base 33472da75000dfb4e60627eda3938fe6203b1604^ --file lib/store-customization.ts --prove tests/unit/riparazione-r09-annuncio-fuso.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "announcementActive confronta il giorno di Piacenza di adesso (giornoPiacenza, già in lib/tempo-piacenza.ts) con until, invece di costruire una data nel fuso del processo. Prova con orologio finto e TZ del processo UTC, Rome, Los Angeles e Tokyo, in inverno e in estate."
+    },
+    {
+      "chiave": "layout-responsive|nelle pagine di dettaglio ordine di cliente, negozio e fattorino una nota con un link lungo fa scorrere la pagina di lato",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r09-note-con-link-lungo.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base cb46ae5166a8f68fcd0198f6bd25d4f17c774c5d^ --file app/orders/[id]/page.tsx,app/seller/orders/[id]/page.tsx,app/rider/orders/[id]/page.tsx --prove tests/unit/riparazione-r09-note-con-link-lungo.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R09 --base cb46ae5166a8f68fcd0198f6bd25d4f17c774c5d^ --file app/orders/[id]/page.tsx,app/seller/orders/[id]/page.tsx,app/rider/orders/[id]/page.tsx --prove tests/unit/riparazione-r09-note-con-link-lungo.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "Alla nota di consegna delle tre pagine [overflow-wrap:anywhere] e break-words; min-w-0 sugli elementi dentro i flex (indirizzo del cliente, indirizzo nella pagina del negozio, nota del fattorino). La prova legge il sorgente."
+    },
+    {
+      "chiave": "mobile-pwa|i tasti «indietro» del fattorino sono cerchi da 36 pixel, piccoli per un pollice in strada",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r09-tasti-indietro-del-fattorino.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base b91478cea6467233a1de202b909df2ae44501e68^ --file app/rider/help/page.tsx,app/rider/onboarding/page.tsx --prove tests/unit/riparazione-r09-tasti-indietro-del-fattorino.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R09 --base b91478cea6467233a1de202b909df2ae44501e68^ --file app/rider/help/page.tsx,app/rider/onboarding/page.tsx --prove tests/unit/riparazione-r09-tasti-indietro-del-fattorino.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "I tasti indietro della guida e dell'iscrizione del fattorino passano da h-9 w-9 a h-11 w-11 (44 px); quello di app/rider/orders/[id]/page.tsx:494 era già h-11 w-11 sulla base. La prova legge il sorgente delle tre pagine."
+    }
+  ]
+}

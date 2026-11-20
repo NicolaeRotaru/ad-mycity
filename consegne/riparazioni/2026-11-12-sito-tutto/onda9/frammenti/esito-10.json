@@ -1,0 +1,34 @@
+{
+  "corsia": 10,
+  "territorio": "R10",
+  "difetti": [
+    {
+      "chiave": "qa-flussi|dopo aver cambiato titolo o descrizione di una lista, /lists mostra ancora quelli vecchi",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r10-lista-rinominata-in-lists.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 6dea92f379d278176497564b820491568db8c0dd^ --file app/lists/[id]/page.tsx --prove tests/unit/riparazione-r10-lista-rinominata-in-lists.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base acb4bc5320b3a9ff7b30561982d444d59b4cf7a9 --file app/lists/[id]/page.tsx --prove tests/unit/riparazione-r10-lista-rinominata-in-lists.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Dopo il salvataggio di titolo e descrizione, la pagina della lista rilegge anche le tre chiavi da cui legge /lists (mine, public, inVetrina), oltre al dettaglio. La prova monta /lists e la pagina della lista in un QueryClient vero, con staleTime di 30 secondi come sul sito: dopo la rinomina /lists mostra titolo e descrizione nuovi."
+    },
+    {
+      "chiave": "qa-flussi|dopo aver rinominato una lista, la pagina delle liste mostra ancora il titolo vecchio",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r10-lista-rinominata-in-lists.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 6dea92f379d278176497564b820491568db8c0dd^ --file app/lists/[id]/page.tsx --prove tests/unit/riparazione-r10-lista-rinominata-in-lists.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base acb4bc5320b3a9ff7b30561982d444d59b4cf7a9 --file app/lists/[id]/page.tsx --prove tests/unit/riparazione-r10-lista-rinominata-in-lists.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Stessa riga e stessa correzione di R10-007: dopo il salvataggio, updateMeta.onSuccess chiama anche rileggiLeListeDiLists()."
+    },
+    {
+      "chiave": "qa-flussi|dopo l'eliminazione di una lista il menu «aggiungi a lista» della scheda prodotto la mostra ancora",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r10-lista-eliminata-nel-menu.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base a9c59da3^ --file app/lists/[id]/page.tsx --prove tests/unit/riparazione-r10-lista-eliminata-nel-menu.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base 6dea92f379d278176497564b820491568db8c0dd --file app/lists/[id]/page.tsx --prove tests/unit/riparazione-r10-lista-eliminata-nel-menu.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Quando la lista viene eliminata, deleteList la toglie subito dai dati in memoria della chiave del menu (lists.mineMin) con setQueryData e poi invalida la chiave: il menu, che legge solo quando è aperto, non la mostra più nemmeno per un attimo. La prova riapre il menu subito dopo l'eliminazione con la rete finta lenta (150 ms)."
+    },
+    {
+      "chiave": "stati-ui|nel nuovo prodotto dell'amministrazione il modulo resta attivo anche se negozi o categorie non sono arrivati",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r10-nuovo-prodotto-aspetta-negozi-e-categorie.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 0669b5e4^ --file app/admin/products/new/page.tsx --prove tests/unit/riparazione-r10-nuovo-prodotto-aspetta-negozi-e-categorie.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R10 --base a9c59da359dd02a8389a8971b30cf7d62ee40f1e --file app/admin/products/new/page.tsx --prove tests/unit/riparazione-r10-nuovo-prodotto-aspetta-negozi-e-categorie.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "ProductForm sta dentro un <fieldset disabled> che si accende solo quando negozi e categorie sono davvero arrivati (sellersData && categoriesData): senza rete resta spento col messaggio d'attesa, e una rilettura in sottofondo caduta con i dati in mano non lo spegne; l'ErrorState con «Riprova» compare solo quando i dati mancano. Il terzo commit toglie un avviso eslint (exhaustive-deps) leggendo da sellersData."
+    }
+  ]
+}

@@ -1,30 +1,13 @@
 {
-  "data": "2026-11-19 11:46",
-  "esito": "incoerenze",
-  "copertura": 1847,
+  "data": "2026-11-20 18:08",
+  "esito": "ok",
+  "copertura": 1862,
   "origine": "cloud",
   "scritto_da": "coerenza-fatti.mjs",
   "fatti_totali": 74,
   "cacce_aperte": 29,
-  "file_scansionati": 1847,
-  "incoerenze": [
-    {
-      "fatto": "pagamenti.al-lancio",
-      "pattern": "Al lancio si paga solo in contanti alla consegna",
-      "valore_nuovo": "Al lancio si paga in contanti alla consegna e con la carta. La carta entra nel lancio ma resta spenta finché Nicola non accende l'interruttore CARTA_ACCESA: il giorno in cui Stripe ha verificato il conto del negozio, dopo la sua firma sugli ordini in contanti già pagati a mano (HELD) e dopo un ordine di prova con carta nell'anteprima. Le chiavi di test di Stripe stanno solo nell'anteprima, mai in produzione. Quando un pagamento va storto il sito si ferma e avvisa Nicola con la cifra. Il negozio, per i contanti, lo paga Nicola con un bonifico a mano dopo la rimessa registrata. Eccezione temporanea al paletto 7 («la piattaforma non tocca mai i fondi») accettata da Nicola per il lancio, in attesa del parere del legale. Scelte 3 e 4 della carta #209 (26/10), poi la carta accesa al lancio: Nicola, 31/10/2026, «accendi solo la carta».",
-      "file": "consegne/riparazioni/2026-11-12-sito-tutto/onda9/giro2/registro-compatto.txt",
-      "riga": 2215,
-      "testo": "microcopy|il passo 3 del tour promette «oppure con carta adesso», ma al lancio si paga solo in contanti alla consegna\tminore\tdoppione\tlib/promesse-pubbliche.ts:176, METODI_AL_CHECKOUT contiene 'carta-"
-    },
-    {
-      "fatto": "consegna.raggio",
-      "pattern": "fino a 10 km dal negozio",
-      "valore_nuovo": "Si consegna fino a 5 km dal negozio, in linea d'aria: al lancio consegna Nicola, in bici. Nicola, 2026-10-28: «mi ero sbagliato, la consegna va fatta in un area 5 km». Prima il confine era 10 km (27/10) e 25 km (26/10); il codice del sito (RAGGIO_CONSEGNA_KM) passa a 5 nel sesto giro della fase 2.",
-      "file": "consegne/riparazioni/2026-11-12-sito-tutto/onda9/giro2/registro-compatto.txt",
-      "riga": 2400,
-      "testo": "flussi-conversione|il sito accetta consegne fino a 10 km dal negozio, ma nicola ha deciso 5 km il 28/10\tgrave\triparato\tlib/constants.ts:53 (RAGGIO_CONSEGNA_KM = 10) · tests/unit/al-lancio-si-consegna-"
-    }
-  ],
+  "file_scansionati": 1862,
+  "incoerenze": [],
   "cacce": [
     {
       "fatto": "consegna.fasce-orarie",
@@ -132,7 +115,7 @@
       "fatto": "consegna.raggio",
       "pattern": "fino a 10 km dal negozio",
       "dal": "2026-10-28 08:35",
-      "copie_trovate": 1
+      "copie_trovate": 0
     },
     {
       "fatto": "consegna.raggio",
@@ -168,7 +151,7 @@
       "fatto": "pagamenti.al-lancio",
       "pattern": "Al lancio si paga solo in contanti alla consegna",
       "dal": "2026-10-31 08:24",
-      "copie_trovate": 1
+      "copie_trovate": 0
     },
     {
       "fatto": "pagamenti.al-lancio",
@@ -210,5 +193,5 @@
     "MyCity-Vault/90-Memoria-AI/registro-fatti.json",
     "memoria-squadra/"
   ],
-  "istruzioni": "Riscrivi ogni file elencato col valore nuovo del fatto, poi riesegui `node cervello/coerenza-fatti.mjs` finché passa. Le cacce con 0 copie sono bonificate: chiudile con `chiudi-caccia <id>`."
+  "istruzioni": "Memoria coerente: nessuna copia vecchia nei file vivi."
 }
