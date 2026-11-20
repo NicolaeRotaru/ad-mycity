@@ -2,50 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-09-01T04:41:06.677Z",
-      "scatti": 5587,
-      "voci": 9,
-      "per_classe": {
-        "gate-orfano": 2,
-        "difesa-rimossa": 3,
-        "prova-accecata": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-09-01T04:43:27.200Z",
-      "scatti": 5595,
-      "voci": 9,
-      "per_classe": {
-        "gate-orfano": 2,
-        "difesa-rimossa": 3,
-        "prova-accecata": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-09-01T06:36:33.473Z",
-      "scatti": 5639,
-      "voci": 9,
-      "per_classe": {
-        "gate-orfano": 2,
-        "difesa-rimossa": 3,
-        "prova-accecata": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-09-01T08:39:41.636Z",
-      "scatti": 5695,
-      "voci": 9,
-      "per_classe": {
-        "gate-orfano": 2,
-        "difesa-rimossa": 3,
-        "prova-accecata": 4
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-09-01T09:20:29.658Z",
       "scatti": 5734,
       "voci": 9,
@@ -1680,7 +1636,35 @@
       "voci": 0,
       "per_classe": {},
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-20T21:11:28.373Z",
+      "scatti": 77,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-20T21:21:12.779Z",
+      "scatti": 77,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-20T21:36:16.427Z",
+      "scatti": 78,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-11-20T21:50:07.988Z",
+      "scatti": 78,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-11-20T20:57:50.793Z"
+  "aggiornato": "2026-11-20T21:50:07.989Z"
 }
