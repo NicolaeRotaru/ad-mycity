@@ -6,3 +6,5 @@
 2026-11-20 20:39 · R05 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
 2026-11-20 20:39 · onda 2 · prova-unione ⏳
 2026-11-20 20:39 · tutte · in corso · guardia ✅ (R01, R04, S01 spinti; R02 R03 R05 ⏳) · costo R01 9,57 R02 12,41 R03 8,71 R04 13,93 R05 9,13 S01 10,72 = 64,5 $ in 38 min · R01 avvisato al 70%
+2026-11-20 20:45 · R05 · lotto 1 spinto 32ea8e9c · guardia 🔴 (8 prove comuni ritoccate nel finto supabase) · azione: rimetterle e far reggere il ripiego senza rpc, o commit a parte da firmare
+2026-11-20 20:48 · R05 · accetta: 8 prove comuni tornano come la base, ripiego senza rpc provato · azione: ricontrollo la guardia al prossimo giro
