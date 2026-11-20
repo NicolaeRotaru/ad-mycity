@@ -814,16 +814,6 @@
               ]
             },
             {
-              "id": "R04-014",
-              "chiave": "api-backend|«duplica» di un prodotto escluso dal recesso: finché non si sa se la colonna c'è, la copia si salva recedibile senza avviso",
-              "gravita": "minore",
-              "titolo": "«Duplica» di un prodotto escluso dal recesso: finché non si sa se la colonna c'è, la copia si salva recedibile senza avviso",
-              "file": [
-                "app/seller/products/new/page.tsx",
-                "components/seller/ProductForm.tsx"
-              ]
-            },
-            {
               "id": "R04-015",
               "chiave": "api-backend|il modulo dell'assistenza non manda nessuna chiave per invio",
               "gravita": "minore",
@@ -916,9 +906,7 @@
             "app/error.tsx",
             "app/global-error.tsx",
             "app/seller/layout.tsx",
-            "app/seller/products/new/page.tsx",
             "components/SupportChatModal.tsx",
-            "components/seller/ProductForm.tsx",
             "components/store-sections/useStorePageData.ts",
             "lib/account/cancellazione.ts",
             "lib/analytics/sentry.tsx",
@@ -1162,7 +1150,9 @@
           ]
         }
       },
-      "rimandate": [],
+      "rimandate": [
+        "api-backend|«duplica» di un prodotto escluso dal recesso: finché non si sa se la colonna c'è, la copia si salva recedibile senza avviso"
+      ],
       "regia": []
     }
   ],

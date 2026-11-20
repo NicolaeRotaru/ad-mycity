@@ -2,7 +2,7 @@
 
 Decisione di Nicola, 20/11 19:31: «Scorte sessione dedicata». Una voce sola, terzo giro: due giri sono falliti.
 
-- **Voce:** `stati-ui|quando la rete torna, le pagine prodotto del negoziante rimettono il caricamento al posto del modulo e le modifiche non salvate si perdono` (onda9 R03-019 → giro2 R04-007).
+- **Voci:** due. (1) `stati-ui|quando la rete torna, le pagine prodotto del negoziante rimettono il caricamento al posto del modulo e le modifiche non salvate si perdono` (onda9 R03-019 → giro2 R04-007), id `S01-001`. (2) `api-backend|«duplica» di un prodotto escluso dal recesso: finché non si sa se la colonna c'è, la copia si salva recedibile senza avviso`, id `S01-002` (tolta a R04 del giro 3 perché vive in `new/page.tsx`).
 - **Base:** `main` del sito `b2c62f34`. **Ramo:** `claude/adoring-bohr-kixq35-o9g3-s01`.
 - **File tuoi:** `app/seller/products/[id]/edit/page.tsx`, `app/seller/products/new/page.tsx`, `components/seller/ProductForm.tsx` (solo per l'avviso del Salva) e le loro prove in `tests/`.
 
@@ -16,4 +16,4 @@ Decisione di Nicola, 20/11 19:31: «Scorte sessione dedicata». Una voce sola, t
 **Se le taglie non arrivano, il Salva si blocca con un avviso e il testo scritto resta nel modulo.** Niente scrittura della scorta su una somma che non è stata letta.
 
 ## Prima di tutto
-Scrivi E2 e D2 come prove automatiche (vitest + Testing Library, come `tests/unit/riparazione-r04-modulo-resta-quando-torna-la-rete.test.tsx`) e falle diventare rosse su `b2c62f34`. Solo dopo ripari. Una voce, commit con l'id `S01-001`. `prova-rimessa` sui tre file.
+Scrivi E2 e D2 come prove automatiche (vitest + Testing Library, come `tests/unit/riparazione-r04-modulo-resta-quando-torna-la-rete.test.tsx`) e falle diventare rosse su `b2c62f34`. Solo dopo ripari. Un commit per voce, con l'id `S01-001` o `S01-002`. `prova-rimessa` sui tre file.
