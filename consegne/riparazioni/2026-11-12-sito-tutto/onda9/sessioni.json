@@ -247,8 +247,11 @@
    "consegna_usd": 15,
    "tetto_usd": 20,
    "ultracode": false,
-   "finita": false,
-   "nota": "giro del 19/11: 8 rami uniti, verify verde (11.382 su 11.383, 1 saltata)"
+   "finita": true,
+   "nota": "0 voci rosse, 0 difetti nuovi, 127 file su 127 con 8 revisori; verify verde (11.383 su 11.383), SQL 209 migrazioni verdi; la prova del drop ritoccata dalla regia non indebolita",
+   "punta": "eb5de05",
+   "testa_controllata": "d403fa41",
+   "costo_usd": 6.6
   }
  },
  "da_aprire_giovedi": [
