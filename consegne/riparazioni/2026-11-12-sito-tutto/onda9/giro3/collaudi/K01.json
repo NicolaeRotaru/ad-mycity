@@ -1,0 +1,106 @@
+{
+ "collaudatore": "K01",
+ "riparatori": [
+  "R01",
+  "S01"
+ ],
+ "aggiornato": "2026-11-20 21:06",
+ "finita": true,
+ "voci": [
+  {
+   "id": "R01-001",
+   "chiave": "stati-ui|nelle notifiche il tasto «carica altre» sparisce mentre carica, e un errore cancella dalla pagina l'elenco già letto",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base 42ebc8186899bdbf98d6fdd33959afcd1ac7ff51^ --file app/notifications/page.tsx --prove tests/unit/riparazione-r01-notifiche-carica-altre.test.tsx --json"
+   },
+   "nota": "Due revisori qa, uno per lente; prova-rimessa uscita 0 (cade togliendo page.tsx, 6/6 con la cura). NATA_ROTTA: regge (chiavi e tipi giusti, mutationFn che esce con null non dà falsi messaggi, 15 file di prove vicine verdi). CHIUDE_TUTTA: parziale, minore. Il residuo «Segna tutte riuscito, rilettura caduta» torna per la finestra del nuovo tentativo: «Carica altre» cade, poi «Segna tutte» riesce, poi la rilettura cade → con retry 1 e retryDelay 2000 ms di produzione (impostazioni di react-query del sito) per circa 2 s tornano 50 «Non letta» col pulsante «Segna tutte». Causa: onSuccess segna letta solo la chiave [list, quante, chi] (app/notifications/page.tsx:181), ma il segnaposto viene dalla chiave precedente [list,50,chi] (page.tsx:105-106), non segnata. La prova del riparatore usa retry:false e non lo vede. Riprodotto dal revisore con una prova (rossa); meccanismo riletto da K01 sulle righe. A parte, c'è ancora il caso preesistente «Carica altre» in volo + «Segna tutte» riuscito: restano 60 «Non letta» finché non si rilegge (page.tsx:187 invalida senza cancelQueries), stessa classe, fuori dal titolo. Cura per tutti e due: cancelQueries sull'elenco prima della scrittura e setQueriesData su tutte le chiavi elenco di chi."
+  },
+  {
+   "id": "R01-002",
+   "chiave": "stati-ui|con la sessione scaduta il pulsante «apri reclamo» non fa niente, non chiede di rientrare e il testo scritto si perde",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base 162d7a97ffcc2a5c16ba021479b0e55f5fcdb6eb^ --file app/orders/[id]/dispute/page.tsx --prove tests/unit/riparazione-r01-reclamo-sessione-scaduta.test.tsx --json"
+   },
+   "nota": "Due revisori qa, uno per lente; prova-rimessa uscita 0 (cade togliendo page.tsx, 4/4 con la cura). CHIUDE_TUTTA: regge sul percorso vero 401 → /sign-in?returnTo= → setSession dello stesso utente (app/sign-in/page.tsx:235) → router.push nella stessa scheda: torna il testo cambiato dopo il clic; campo svuotato durante l'invio resta vuoto (prove del revisore, verdi); un altro utente non vede la bozza. NATA_ROTTA: regge (l'effetto non riscrive dopo l'invio riuscito, chiave per ordine e per scheda, prove vicine verdi)."
+  },
+  {
+   "id": "S01-001",
+   "chiave": "stati-ui|quando la rete torna, le pagine prodotto del negoziante rimettono il caricamento al posto del modulo e le modifiche non salvate si perdono",
+   "fuori_programma": true,
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-S01 --base b2c62f34e26f6ff86eab45ccf39fa456ed3767bb --file app/seller/products/[id]/edit/page.tsx,app/seller/products/new/page.tsx,components/seller/ProductForm.tsx --prove tests/unit/riparazione-s01-scorta-taglie-non-lette.test.tsx --json",
+    "nota": "commit c5147aae; cade togliendo ognuno dei tre file da solo; anche per commit: --base c5147aae^ su new/page.tsx uscita 0"
+   },
+   "nota": "Due revisori qa, uno per lente. E2 e D2 rosse sulla base (12 rosse su 17 con le due prove nuove) e verdi sulla testa (17/17); D4b, K2, E4, D3 verdi. Verdi anche: Invio implicito e «Salva come bozza» con rilettura caduta, 0 taglie vere, rilettura caduta dopo l'apertura, invalidazione con reset lento, Duplica X→Y, Nuovo mai fermo, nessun ciclo. CHIUDE_TUTTA: parziale, grave per impatto e raro. In Modifica, con una copia delle taglie in memoria di meno di 30 s (staleTime), pagina aperta senza rete: quando la rete torna il Salva si sblocca mentre la rilettura delle taglie è ancora in volo e scrive stock:8 con stock_visto:5 e taglie [] (la porta di scrittura accetta: in banca dati c'è ancora 5), quindi la scorta si stacca dalla somma delle taglie lette. Riga: app/seller/products/[id]/edit/page.tsx:318, la clausola «|| !variantiVecchie» conta come lette le taglie fresche in memoria anche prima che la rilettura di questa apertura finisca. Riprodotto dal revisore con due prove (rosse); riga riletta da K01. Cura proposta: togliere «|| !variantiVecchie». NATA_ROTTA: rompe_altro, grave per impatto e raro. Il modulo ora resta aperto con la riga del prodotto presa dalla memoria anche dopo che la rilettura porta quella vera (edit/page.tsx:262 restaAperto, ProductForm con key id-giro a :401-402, che cambia solo con «Riapri»); il Salva guarda solo le taglie (:337-355) e riscrive tutte le colonne del venditore (lib/products/salvataggio-tracciato.ts, COLONNE_DEL_VENDITORE). Passi: Modifica aperta negli ultimi 5 min (in vendita, 40 €); da un altro telefono il prodotto passa a bozza o a 45 €; si apre Modifica senza rete, la rete torna, si corregge il nome e si salva → partono status:'available' e price:40: il prodotto nascosto torna in vendita e il prezzo torna indietro. Prove del revisore rosse sulla testa e verdi sulla base, anche con lo staleTime di 30 s del sito; meccanismo riletto da K01. Cura proposta: una firma anche sulla riga del prodotto (es. updated_at all'apertura contro quello riletto) con lo stesso avviso «Riapri», o scrittura dei soli campi toccati. Minore, di aspetto: dopo un Salva riuscito che aggiunge o toglie una taglia compare per un attimo l'avviso rosso «le taglie sono cambiate» sotto «Modifiche salvate», finché la navigazione non porta via."
+  },
+  {
+   "id": "S01-002",
+   "chiave": "api-backend|«duplica» di un prodotto escluso dal recesso: finché non si sa se la colonna c'è, la copia si salva recedibile senza avviso",
+   "fuori_programma": true,
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-S01 --base bf5338f5848d431908a13092016b05bd059e04bd^ --file app/seller/products/new/page.tsx --prove tests/unit/riparazione-s01-duplica-recesso.test.tsx --json"
+   },
+   "nota": "Due revisori qa, uno per lente. CHIUDE_TUTTA: regge; la chiave ['duplicate-source', …] ha un solo queryFn con select * (new/page.tsx:152), nessun segnaposto o initialData la riempie; se la lettura della sorgente cade il modulo non si apre; il valore arriva all'insert diretto (new/page.tsx:232 e :192). NATA_ROTTA: regge; senza la colonna (prima della 180) la copia si salva senza mandare non_recedibile; spunta tolta a mano → resta il predefinito false; «Nuovo» da zero invariato. 25 file di prove vicine verdi. Confermato FUORI dalla voce (la colonna si sa, è il valore a essere vecchio) il difetto vicino dichiarato dal riparatore: Duplica di X, Modifica di X con la spunta, di nuovo Duplica di X entro 5 min → la copia nasce recedibile senza avviso (le invalidazioni della Modifica non toccano duplicate-source). Va aperto come voce propria."
+  }
+ ],
+ "campione": {
+  "R01": {
+   "accettato": false
+  }
+ },
+ "nota": "R01-varie: non regge",
+ "nuovi_difetti_visti": [
+  {
+   "titolo": "«Duplica» parte dalla sorgente vecchia in memoria: dopo una Modifica che mette «escluso dal recesso», la copia rifatta entro 5 minuti nasce recedibile senza avviso",
+   "file": "app/seller/products/new/page.tsx:150",
+   "severita": "minore",
+   "dimensione": "stati-ui",
+   "fonte": "dichiarato da S01, confermato da K01 con due prove"
+  },
+  {
+   "titolo": "In «Modifica» un dato delle taglie cambiato da un'altra scheda non ferma il Salva finché qualcosa non rilegge",
+   "file": "app/seller/products/[id]/edit/page.tsx:318",
+   "severita": "minore",
+   "dimensione": "stati-ui",
+   "fonte": "K01, prova del revisore; concorrenza fra schede, fuori da S01-001"
+  },
+  {
+   "titolo": "Notifiche: «Carica altre» in volo più «Segna tutte» riuscito lascia le notifiche «Non letta» finché non si rilegge",
+   "file": "app/notifications/page.tsx:187",
+   "severita": "minore",
+   "dimensione": "stati-ui",
+   "fonte": "preesistente sulla base, già segnalato al giro 2, ancora presente"
+  }
+ ],
+ "domande_per_la_regia": [
+  "S01-001: per salvare dopo che la rilettura porta taglie diverse, l'unica uscita è «Riapri», che perde il testo non salvato. La regola di Nicola («il testo resta nel modulo») è rispettata alla lettera (il testo resta a video), ma va riscritto: decidete se basta."
+ ]
+}
