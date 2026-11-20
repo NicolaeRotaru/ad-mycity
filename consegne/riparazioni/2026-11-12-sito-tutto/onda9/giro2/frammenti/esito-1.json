@@ -1,0 +1,13 @@
+{
+  "corsia": 1,
+  "territorio": "R01",
+  "difetti": [
+    {
+      "chiave": "navigazione-gerarchia|su notifiche e messaggi i titoli saltano dal titolo principale al terzo livello",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-titoli-in-ordine-in-ogni-stato.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 4aeb86fc^ --file app/notifications/page.tsx,app/messages/page.tsx --prove tests/unit/riparazione-r01-titoli-in-ordine-in-ogni-stato.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r01-001 --base 4aeb86fc^ --file app/notifications/page.tsx,app/messages/page.tsx --prove tests/unit/riparazione-r01-titoli-in-ordine-in-ogni-stato.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "Messaggi: h2 sr-only «Le tue conversazioni» sopra le righe h3. Negli stati vuoti «Nessuna conversazione» e «Nessuna notifica» sono h2 con font-sans text-base tracking-normal (tornano Inter 16px, come il vecchio <p>). L'errore a pagina intera delle notifiche ha sopra l'h1 «Notifiche». La prova monta davvero le due pagine vuote, in errore e piene."
+    }
+  ]
+}

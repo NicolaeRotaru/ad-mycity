@@ -410,12 +410,12 @@
   "fonti_non_lette": [],
   "sintesi": "Il problema più grave trovato oggi era una chiave del database leggibile da chiunque, e Nicola l'ha già spenta. Dei difetti nuovi nessuno è bloccante, ma il rimborso di un ordine in contanti va ancora fatto a mano, fuori dal sito.",
   "meta": {
-    "findings": 3312,
+    "findings": 3327,
     "bloccanti": 37,
     "gravi": 678,
-    "minori": 2597,
+    "minori": 2612,
     "agenti": null,
-    "aggiornato": "2026-11-20 18:08"
+    "aggiornato": "2026-11-20 19:29"
   },
   "confronto_precedente": {
     "data": "2026-11-05",
@@ -3923,8 +3923,8 @@
       "riparazione_20_11": {
         "esito": "parziale",
         "sessione": "R03",
-        "collaudo": "regge",
-        "perche": "parziale: Un tempo in vercel.json per le rotte non di R03 che chiamano il modello: app/api/vision/extract-products e app/api/vision/photo-order (es. \"maxDuration\": 120), e anche marketplace/import-fetch; classifyProductPolicy (lib/ai/moderation.ts:131) senza un tempo suo, chiamata a gruppi di 5 su fino a 200 righe da catalog-batch/apply (file non di R03), può superare i 120 s; products/[id]/external-refresh non ha durata in vercel.json."
+        "collaudo": "parziale",
+        "perche": "parziale: catalog-batch/apply con Anthropic che non risponde supera ancora i 120 s e Vercel la spegne prima della risposta: la cura sta nelle due modifiche altrui."
       }
     },
     {
@@ -3937,7 +3937,7 @@
       "impatto": "Con l'AI accesa: un negozio lancia «migliora tutto il catalogo» su 200 prodotti, con una stima di circa 0,6 €. Anthropic accetta l'invio ma risponde dopo più di 60 s. Ne paghiamo circa 1,2 €, il tetto ne vede 0,6 e i risultati del primo lotto non arrivano a nessuno. Oggi è spento (AI_NEGOZI_ACCESA = false).",
       "fix": "batches.create(..., { maxRetries: 0 }). Su un timeout, mettere la riga in «da verificare» e cercare il lotto con batches.list invece di dichiararlo fallito.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "cd <scratchpad>/ai/copia (copia di db5164c con node_modules del sito) && npx vitest run tests/unit/zz-s12-lotto-quando-anthropic-tace.test.ts (primo caso: fornitore finto che accetta il primo POST e non risponde per 60 s)",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -3978,9 +3978,12 @@
       "riparazione_20_11": {
         "esito": "riparato",
         "sessione": "R03",
-        "collaudo": "parziale",
-        "perche": "collaudo: parziale"
-      }
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      },
+      "chiuso_il": "2026-11-20 19:29",
+      "chiuso_da": "PR #298 · b2c62f34",
+      "nota_riparazione": "In batch.ts il 520 entra fra i «forse partito»; un 2xx senza id di lotto lancia l'errore di risposta illeggibile, che vale «forse partito»; l'invio ha un tempo suo di 70 s per risposta e corpo (AbortController passato come signal a batches.create, accettato dall'SDK 0.100.1) e l'interruzione finisce nel ramo «forse partito». Prova col client vero dell'SDK su fetch finto e orologio finto. — prova: npx vitest run tests/unit/riparazione-r03-lotto-forse-partito.test.ts tests/unit/riparazione-r03-lotto-524.test.ts — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base e60c1296^ --file lib/ai/batch.ts --prove tests/unit/riparazione-r03-lotto-forse-partito.test.ts,tests/unit/riparazione-r03-lotto-524.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base e60c12967ef0a90e47693d0af78dbe179f89d9f2^ --file lib/ai/batch.ts --prove tests/unit/riparazione-r03-lotto-forse-partito.test.ts,tests/unit/riparazione-r03-lotto-524.test.ts --json → uscita 0 (K02)"
     },
     {
       "dimensione": "ai-endpoints",
@@ -10302,8 +10305,8 @@
       "riparazione_20_11": {
         "esito": "parziale",
         "sessione": "R02",
-        "collaudo": "regge",
-        "perche": "parziale: Il piede non fa più scorrere nessuna pagina (288 → 280 px a 280 px col testo al 200%). Restano: (1) nei miei file, fuori dal piede, a 320 e 280 px col testo al 200% scorrono ancora per colpa loro /faq 344 px (app/faq/page.tsx:219 h1 senza break-words, :232 h2 «Account e impostazioni», :245 bottoni delle domande), /returns 357 px (app/returns/page.tsx:63 e :72 parole lunghe nelle liste, :122 bottone «Contatta supporto»), /lavora-con-noi 341 px (app/lavora-con-noi/page.tsx:171 didascalie, :183 h2 «Posizioni aperte», :231 bottone «Invia una candidatura spontanea»); a 360 px sono già a posto da R15-008. (2) Le pagine non mie scorrono ancora a 360 px col testo al 200%, misurate col piede già corretto: / 422, /help 391, /contact 429, /terms 393, /privacy 414; le modifiche in serve_file_altrui, simulate nel DOM in Chrome, le riportano tutte a 360. Il Turnstile da 300 px di /contact non è misurato (serve la chiave del sito)."
+        "collaudo": "parziale",
+        "perche": "parziale: La home (/) scorre ancora a 422 px a 360 px col testo al 200%: i suoi tre file non sono miei (HomeSectionRenderer è nella scheda di R04)."
       }
     },
     {
@@ -11621,7 +11624,7 @@
       "impatto": "Chi scorre per titoli col lettore di schermo sente «livello 3» venti volte e pensa che manchi una sezione.",
       "fix": "Cambiare gli <h3> delle voci in <h2>: lo stile è già scritto con classi esplicite e non cambia.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "cd marketplace && grep -nE '<h[1-6]' app/notifications/page.tsx app/messages/page.tsx",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -11655,10 +11658,13 @@
       },
       "riparazione_20_11": {
         "esito": "riparato",
-        "sessione": "R10",
-        "collaudo": "rompe_altro",
-        "perche": "collaudo: rompe_altro"
-      }
+        "sessione": "R01",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      },
+      "chiuso_il": "2026-11-20 19:29",
+      "chiuso_da": "PR #298 · b2c62f34",
+      "nota_riparazione": "Messaggi: h2 sr-only «Le tue conversazioni» sopra le righe h3. Negli stati vuoti «Nessuna conversazione» e «Nessuna notifica» sono h2 con font-sans text-base tracking-normal (tornano Inter 16px, come il vecchio <p>). L'errore a pagina intera delle notifiche ha sopra l'h1 «Notifiche». La prova monta davvero le due pagine vuote, in errore e piene. — prova: npx vitest run tests/unit/riparazione-r01-titoli-in-ordine-in-ogni-stato.test.tsx — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 4aeb86fc^ --file app/notifications/page.tsx,app/messages/page.tsx --prove tests/unit/riparazione-r01-titoli-in-ordine-in-ogni-stato.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r01-001 --base 4aeb86fc^ --file app/notifications/page.tsx,app/messages/page.tsx --prove tests/unit/riparazione-r01-titoli-in-ordine-in-ogni-stato.test.tsx --json → uscita 0 (K01)"
     },
     {
       "dimensione": "navigazione-gerarchia",
@@ -12414,9 +12420,9 @@
       },
       "riparazione_20_11": {
         "esito": "parziale",
-        "sessione": "R10",
+        "sessione": "R02",
         "collaudo": "parziale",
-        "perche": "parziale: I quattro riquadri in cima dicono ancora «Impressions», «CTR medio» e «3.55%» col punto: li scrive lib/admin/vista-delle-campagne.ts, che non è in nessuna sessione (vedi serve_file_altrui)."
+        "perche": "parziale: I quattro riquadri in cima («Impressions», «CTR medio», «3.55%» col punto) li scrive lib/admin/vista-delle-campagne.ts, che non è in nessuna sessione: vedi serve_file_altrui."
       }
     },
     {
@@ -12705,10 +12711,10 @@
       "verificato": true,
       "fonte_radiografia": "palestra 2026-11-07/08 · lotto 2, prove da cliente (wf_f4377721-1cd)",
       "riparazione_20_11": {
-        "esito": "riparato",
+        "esito": "parziale",
         "sessione": "R01",
-        "collaudo": "rompe_altro",
-        "perche": "collaudo: rompe_altro"
+        "collaudo": "parziale",
+        "perche": "parziale: 1) Regressione portata dal giro di correzione (8993adc8): app/orders/[id]/dispute/page.tsx:141 ha tolto sessioneScaduta dalle dipendenze dell'effetto che copia il modulo nella bozza, così al 401 resta il testo preso al clic: scrivo A, invio, mentre la richiesta va cambio in B, arriva 401 → il modulo mostra B, la bozza tiene A, e alla visita dopo torna A (lo stesso con un secondo 401). Cura provata a mano dal revisore e poi tolta: rimettere sessioneScaduta fra le dipendenze a :141, tenendo il controllo su bozzaInCorso (le 11 prove della voce e i due casi restano verdi); manca la prova che la fissa. 2) Minore, già nel primo commit: :97 toglie la bozza prima di leggere l'ordine; se quella lettura cade (pagina «Riprova») e si ricarica, il testo si perde. Cura: togliere la bozza solo dopo che la lettura dell'ordine è riuscita. 3) Serve un file altrui, vedi serve_file_altrui. Non fatto perché la sessione ha passato il tetto di spesa (20 $)."
       }
     },
     {
@@ -14366,7 +14372,7 @@
       "impatto": "Succede raramente nei moduli dei clienti, perché i casi tipici hanno già messaggi italiani. È più facile nelle rotte del venditore e dell'amministrazione. Quando capita, toglie fiducia e non dice cosa fare.",
       "fix": "La soluzione è registrare lib/zod-i18n anche sul server, per esempio importandola in instrumentation.ts o in un modulo comune delle rotte. In alternativa le rotte rispondono sempre con un messaggio italiano fisso, come già fa /api/orders/cod con «Dati ordine non validi». In più, in lib/errors.ts le frasi che cominciano con «String must|Expected|Required|Invalid» vanno trattate come tecniche. Nel traduttore servono anche il plurale giusto per «almeno 1 elemento», una mappa dei tipi in italiano, e niente chiavi interne nelle frasi.",
       "fonte": "design",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "timeout 30 curl -s -X POST http://localhost:3100/api/contact -H 'content-type: application/json' -d '{\"name\":\"<121 A>\",\"email\":\"a@b.it\",\"message\":\"ciao ciao ciao ciao\"}'. Poi ho passato la risposta alla vera friendlyError, impacchettata con esbuild da lib/errors.ts: node prova-errori.cjs nella mia cartella.",
       "prova_tipo": "comando",
       "prova_eseguita": "Il server ha risposto {\"ok\":false,\"error\":{\"code\":\"INVALID_REQUEST\",\"message\":\"String must contain at most 120 character(s)\"}}. friendlyError restituisce «String must contain at most 120 character». Con un oggetto vuoto la risposta è «String must contain at least 1 character». Anche «Required» ed «Expected number, received string» passano tali e quali. · Verifica tecnica: Ho letto app/api/contact/route.ts:19-38, app/contact/page.tsx:48-77 (nessun maxLength) e lib/zod-i18n.ts:15-60. Ho cercato «zod-i18n» nel codice: c'è un solo import, in QueryProvider. Ho mandato con curl a http://localhost:3100/api/contact un nome di 121 caratteri. Risposta: {\"ok\":false,\"error\":{\"code\":\"INVALID_REQUEST\",\"message\":\"String must contain at most 120 character(s)\"}}. Ho ricostruito lib/errors.ts con esbuild: apiErrorMessage restituisce la frase inglese; friendlyError restituisce «String must contain at most 120 character»; «Required» ed «Expected number, received string» passano invariati.",
@@ -14415,11 +14421,14 @@
         "perche": "parziale: Le altre rotte che validano con Zod rispondono ancora in inglese finché il traduttore non è acceso nel modulo comune (serve_file_altrui). Sul server il traduttore si accende per tutto il processo solo quando una rotta che lo importa (contatti, o una che carica lib/errors) è già stata caricata: finché non c'è la riga in lib/api/responses.ts le altre rotte rispondono a volte in italiano e a volte in inglese. components/products/ImportFromUrlBox.tsx:84,116,125 mostra body.error.message così com'è, senza friendlyError (serve_file_altrui)."
       },
       "riparazione_20_11": {
-        "esito": "serve_file_altrui",
-        "sessione": "R06",
-        "collaudo": null,
-        "perche": "serve_file_altrui: La parte del modulo contatti era già riparata: app/api/contact/route.ts:21 importa lib/zod-i18n e :28-32 ha un messaggio italiano per ogni limite (120, 200, 5000); lo confermano tests/unit/riparazione-r24-errori-dal-server.test.ts e api-contact.test.ts, verdi. Il ripiego lato browser c'è già (lib/errors.ts:178 traduciTestoDiZod). Nei miei file non c'è un punto comune che chiuda il resto."
-      }
+        "esito": "riparato",
+        "sessione": "R04",
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      },
+      "chiuso_il": "2026-11-20 19:29",
+      "chiuso_da": "PR #298 · b2c62f34",
+      "nota_riparazione": "In testa a lib/api/responses.ts c'è import '@/lib/zod-i18n', e tutte e 13 le rotte elencate importano quel file (controllato con grep). La prova chiama le rotte vere admin/categories e chat/messages, con accesso e database finti. Risponde «Massimo 60 caratteri», «Campo obbligatorio», «ID non valido»; senza la correzione i tre casi sono rossi. Il modulo contatti era già a posto. — prova: npx vitest run tests/unit/riparazione-r04-errori-rotte-in-italiano.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 1037f1e7051f333e44d0c491399d5585b584cded^ --file lib/api/responses.ts --prove tests/unit/riparazione-r04-errori-rotte-in-italiano.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base 1037f1e7051f333e44d0c491399d5585b584cded^ --file lib/api/responses.ts --prove tests/unit/riparazione-r04-errori-rotte-in-italiano.test.ts --json → uscita 0 (K02)"
     },
     {
       "dimensione": "microcopy",
@@ -22882,7 +22891,7 @@
       "impatto": "Chi usa un lettore di schermo sente il titolo del banner due volte di fila. Con una foto chiara e il velo «nessuno», titolo e sottotitolo bianchi diventano difficili da leggere per chiunque, anche al sole sul telefono.",
       "fix": "Estrarre il banner in un componente unico usato da home, pagine e vetrina. Il testo alternativo va preso dal campo dedicato (da aggiungere allo schema del negozio). Con il velo 'none' va messa la stessa sfumatura minima sotto il testo che usa la home.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Stesso comando eseguito per il video nella pagina Chi siamo: il banner esce con `alt=\"Pane ogni mattina\"` (il titolo) invece di «Il bancone del forno» scritto nel campo alt, senza nessun div di velo. Stampa «ROSSO: il testo alternativo scritto nel pannello non arriva alla foto». Per la vetrina, lettura del codice: BannerSection.tsx:15 con `overlay === 'none'` dà `overlayClass = ''`, e la riga 27 ha `alt={config.heading ?? ''}`.",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -22926,11 +22935,14 @@
         "perche": "parziale: Il negozio non può ancora scrivere il testo alternativo: serve il campo nell'editor components/seller/site/BannerFields.tsx (file non di R20). Finché non c'è, le foto della vetrina escono con alt vuoto."
       },
       "riparazione_20_11": {
-        "esito": "serve_file_altrui",
-        "sessione": "R01",
-        "collaudo": null,
-        "perche": "serve_file_altrui: Nei miei file la voce è già chiusa sulla base: components/cms/CmsBlockRenderer.tsx:48 alt={c.alt ?? ''} e :37 sfumatura col velo; components/store-sections/BannerSection.tsx:51 alt={config.alt ?? ''} e :39 sfumatura; lib/store-site.ts:159 alt: shortText(160) facoltativo (R20-003, commit ad621b51). Prova tests/unit/riparazione-r20-banner-vetrina.test.tsx verde 4/4. Resta solo il campo nel modulo, file non mio (come in R20-003, parziale). Nessun commit."
-      }
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      },
+      "chiuso_il": "2026-11-20 19:29",
+      "chiuso_da": "PR #298 · b2c62f34",
+      "nota_riparazione": "Lettura dell'alt e velo erano già sulla base (CmsBlockRenderer.tsx:48, BannerSection.tsx:51, store-site.ts:159 shortText(160), prova r20 verde). Aggiunto in BannerFields.tsx il campo «Testo alternativo della foto» (maxLength 160) tra Sottotitolo e Sfondo del testo. Il CMS di Chi siamo ha già il suo campo alt (components/admin/home/HomeSectionConfigForm.tsx:235-240). — prova: npx vitest run tests/unit/riparazione-r02-banner-alt.test.tsx — mutazione: node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 58d69a7637c957eb2d28463184192f389c902764^ --file components/seller/site/BannerFields.tsx --prove tests/unit/riparazione-r02-banner-alt.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r02-001 --base 58d69a76^ --file components/seller/site/BannerFields.tsx --prove tests/unit/riparazione-r02-banner-alt.test.tsx --json → uscita 0 (K01)"
     },
     {
       "dimensione": "accessibilita",
@@ -40588,9 +40600,9 @@
       },
       "riparazione_20_11": {
         "esito": "parziale",
-        "sessione": "R06",
-        "collaudo": "regge",
-        "perche": "parziale: Righe uppercase nel sito, prima → dopo: wider 42→37, label 17→28, [0.03em] 17→16, [0.06em] 3→2, [0.08em] 5→1; invariate wide 39, [0.05em] 7, [0.04em] 4, widest 3. Fuori token ne restano 66, tutte in file di altre sessioni (wider 37, [0.03em] 16, [0.05em] 7, widest 3, [0.06em] 2, [0.08em] 1 in components/account/AccountSidebar.tsx:143): la cura è la stessa, tracking-label. Nei miei file restano 2 etichette maiuscole senza spaziatura scritta (app/rider/earnings/page.tsx:134 e :138, text-2xs font-bold uppercase): la voce conta le spaziature scritte, ma per coerenza andrebbero su tracking-label. Ci sono poi 4 tracking-[0.04em] scritti a mano con lo stesso valore del token."
+        "sessione": "R02",
+        "collaudo": "parziale",
+        "perche": "parziale: Fuori dai miei file restano 101 righe uppercase con spaziatura fuori token in 62 file (68 con wider/widest/[0.0Xem], le altre con wide, che vale già 0.04em come label). I più carichi: app/admin/funnel/page.tsx 5; components/StoreProductExplorer.tsx, app/seller/customers/page.tsx, app/profile/referral/page.tsx, app/admin/users/page.tsx 4; components/seller/ImproveAllPanel.tsx, components/home-sections/HomeSectionRenderer.tsx, components/admin/AdminUI.tsx, app/rider/availability/page.tsx, app/profile/loyalty/page.tsx, app/category/[slug]/page.tsx 3; altri 51 file con 1-2 righe. Elenco: grep -rnE uppercase app components lib | grep -E 'tracking-(wide|wider|widest|\\[0\\.0[0-9]+em\\])'."
       }
     },
     {
@@ -60253,10 +60265,10 @@
         "perche": "parziale: La rotta di salute deve chiamare l'aiutante (serve_file_altrui). L'interruttore su Vercel lo accende Nicola, con un nuovo deploy."
       },
       "riparazione_20_11": {
-        "esito": "serve_file_altrui",
-        "sessione": "R10",
-        "collaudo": null,
-        "perche": "serve_file_altrui: Per Nicola, non codice: controllare che il piano Supabase comprenda le Image Transformations e quale rotta interroga davvero il monitor esterno (il CHANGELOG:44 dice /api/health, il codice /api/health/ready); se il piano scade, NEXT_PUBLIC_FOTO_SENZA_TRASFORMAZIONE=1 su Vercel e rifare il deploy."
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "rompe_altro",
+        "perche": "collaudo: rompe_altro"
       }
     },
     {
@@ -80395,10 +80407,10 @@
         "perche": "non_fatto: tetto: la sessione ha superato la soglia di 38 $ (40,17 $ alle 12:17) e la regista ha fermato i lotti 3 e 4; la voce non è stata aperta."
       },
       "riparazione_20_11": {
-        "esito": "serve_file_altrui",
+        "esito": "riparato",
         "sessione": "R03",
-        "collaudo": null,
-        "perche": "serve_file_altrui: Il difetto c'è ancora: segnalaRipiego (lib/ai/tettoSpesa.ts:185-231) conta l'ora nella memoria della singola copia; allarmiTettoSpesaAiPerIlCron (tettoSpesa.ts:407, R04-018) ricorda l'inizio del guasto in operational_alert_log ma non ha chiamanti. Il cron degli avvisi è di R07 in quest'onda; in tettoSpesa.ts non serve cambiare niente."
+        "collaudo": "rompe_altro",
+        "perche": "collaudo: rompe_altro"
       }
     },
     {
@@ -83174,13 +83186,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R04",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_20_11": {
-        "esito": "serve_file_altrui",
+        "esito": "riparato",
         "sessione": "R03",
-        "collaudo": null,
-        "perche": "serve_file_altrui: Il difetto c'è ancora: nessuna delle due rotte legge AI_NEGOZI_ACCESA. La cura (la stessa di catalog-batch/apply) provata e tolta senza commit: con l'interruttore spento fa diventare rossi 26 casi in 9 prove esistenti comuni (fanno vi.mock di lib/api/middleware e lib/supabase/server, di R05). Va applicata tutta insieme, con una prova nuova «con AI_NEGOZI_ACCESA false, POST → 503 e nessuna scrittura»."
-      }
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      },
+      "chiuso_il": "2026-11-20 19:29",
+      "chiuso_da": "PR #298 · b2c62f34",
+      "nota_riparazione": "Nelle due rotte import di AI_NEGOZI_ACCESA e, come prima riga del gestore dentro withSellerAuth (come le rotte sorelle), return ApiErrors.unavailable(...): chi non è autenticato riceve ancora 401. La prova nuova, con l'interruttore spento, controlla 503, nessun accesso al database, nessuna scrittura, nessun filtro e niente audit; poi le stesse richieste con l'interruttore acceso. — prova: npx vitest run tests/unit/riparazione-r03-interruttore-apply.test.ts — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base cad84038^ --file app/api/ai/catalog-apply/route.ts,app/api/ai/catalog-apply-bulk/route.ts --prove tests/unit/riparazione-r03-interruttore-apply.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base cad84038a5f3d5fde855bc8a32e11614e4922c51^ --file app/api/ai/catalog-apply/route.ts,app/api/ai/catalog-apply-bulk/route.ts --prove tests/unit/riparazione-r03-interruttore-apply.test.ts --json → uscita 0 (K02)"
     },
     {
       "dimensione": "ai-endpoints",
@@ -83192,13 +83207,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R04",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_20_11": {
         "esito": "riparato",
         "sessione": "R03",
-        "collaudo": "parziale",
-        "perche": "collaudo: parziale"
-      }
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      },
+      "chiuso_il": "2026-11-20 19:29",
+      "chiuso_da": "PR #298 · b2c62f34",
+      "nota_riparazione": "extract-product regge già dall'onda 9 (riga 433 policy_ok !== true, riga 339 verifica sul web solo con === true). In extract-products policy_ok: p.policy_ok !== false diventa p.policy_ok === true, la stessa regola. La prova copre per extract-products 'false', 'False', ' false ', 'no', '0', 0, null, campo assente e 'true' testo → false, true → true; per extract-product quattro varianti (400) e la controprova (200). — prova: npx vitest run tests/unit/riparazione-r03-foto-solo-si-vero.test.ts — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 63742fad^ --file app/api/vision/extract-products/route.ts --prove tests/unit/riparazione-r03-foto-solo-si-vero.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 63742fade53e2b2c94cb5b179020e7cfa01c7847^ --file app/api/vision/extract-products/route.ts --prove tests/unit/riparazione-r03-foto-solo-si-vero.test.ts --json → uscita 0 (K02)"
     },
     {
       "dimensione": "ai-endpoints",
@@ -83445,13 +83463,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R09",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_20_11": {
-        "esito": "serve_file_altrui",
-        "sessione": "R10",
-        "collaudo": null,
-        "perche": "serve_file_altrui: Il difetto c'è ancora sulla base (lib/order-status.ts:45). La stessa etichetta gira nella targhetta, nella timeline, nell'aiuto per i negozi e nella pagina Spedizioni: cambia ovunque, come chiede la voce."
-      }
+        "esito": "riparato",
+        "sessione": "R02",
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      },
+      "chiuso_il": "2026-11-20 19:29",
+      "chiuso_da": "PR #298 · b2c62f34",
+      "nota_riparazione": "lib/order-status.ts:45 'Pronto per il rider' diventa 'Pronto per il fattorino'. Le 5 prove esistenti cambiano solo nelle righe con l'etichetta (approvato dalla regista il 19/11). Il grep in tutto il deposito non trova altro testo visibile. — prova: npx vitest run tests/unit/riparazione-r02-etichetta-fattorino.test.ts — mutazione: node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base d05f11361ab373a6d0d315e5bd38548b31d8f66d^ --file lib/order-status.ts --prove tests/unit/riparazione-r02-etichetta-fattorino.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r02-007 --base d05f1136^ --file lib/order-status.ts --prove tests/unit/riparazione-r02-etichetta-fattorino.test.ts,tests/unit/la-targhetta-dell-ordine-non-manda-il-cliente-a-ritirarlo.test.ts,tests/unit/le-promesse-della-consegna-cambiano-solo-di-proposito.test.tsx,tests/unit/minori-s02-varie.test.ts,tests/unit/minori-s06-centro-venditori.test.ts,tests/unit/minori-s06-ordine-del-negozio.test.tsx --json → uscita 0 (K01)"
     },
     {
       "dimensione": "microcopy",
@@ -83812,10 +83833,10 @@
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C01",
       "stato": "aperto",
       "riparazione_20_11": {
-        "esito": "parziale",
-        "sessione": "R01",
-        "collaudo": "parziale",
-        "perche": "parziale: Il title dà il nome col mouse e ai lettori di schermo, ma tra 768 e 1023 px su tablet touch (e da tastiera) il nome resta invisibile (components/Navbar.tsx:300, :306, :312). Una scritta visibile (md:inline / md:not-sr-only) riapre lo spazio stretto della ricerca della testata (R09-016) e fa diventare rossa tests/unit/riparazione-r09-ricerca-della-testata-su-tablet.test.ts:17-20, che esige sr-only lg:not-sr-only: serve una scelta di regia sullo spazio della testata (didascalia piccola sotto l'icona, oppure queste voci nel menu account sotto lg)."
+        "esito": "scelta_di_nicola",
+        "sessione": "R02",
+        "collaudo": null,
+        "perche": "scelta_di_nicola: Nessun commit. Misure in Chromium su next dev (variabili finte, testata dell'utente admin+negozio+fattorino composta nel DOM): prima la ricerca è larga 114 px a 768, 900 e 1023 px; con la didascalia text-2xs aria-hidden sotto l'icona (link in flex-col fra md e lg) scende a 52 px, la riga resta di 44 px, niente a capo né scorrimento di lato. La prova R09-016 non ha una soglia in numeri: il suo difetto era «restavano 152 px». Sulla base restano già il title (4a4bee7e) e l'etichetta sr-only lg:not-sr-only. Per decisione della regista nessuna voce va spostata nel menu."
       }
     },
     {
@@ -83884,13 +83905,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C01",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_20_11": {
         "esito": "riparato",
-        "sessione": "R07",
-        "collaudo": "rossa_al_controllo",
-        "perche": "rossa al controllo sul ramo unito (C01: Il filtro nuovo di .github/workflows/deploy-dopo-ci.yml:793 (grep -viE 'DROP (DEFAULT|IDENTITY|EXPRESSION)…') butta via la riga intera, non solo quel pezzo: una riga con «DROP VIEW IF EXISTS v; ALTER TABLE t ALTER COLUMN c DROP DEFAULT;» o «ALTER COLUMN status DROP DEFAULT, DROP legacy_status;» fa scrivere al riepilogo che nessuna migrazione toglie qualcosa. È la rassicurazione a torto della voce. Latente: 0 migrazioni su 209 hanno oggi DROP DEFAULT/IDENTITY/EXPRESSION.)"
-      }
+        "sessione": "R04",
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      },
+      "chiuso_il": "2026-11-20 19:29",
+      "chiuso_da": "PR #298 · b2c62f34",
+      "nota_riparazione": "Il filtro del ritorno indietro non butta più la riga intera. Un sed toglie dalla riga solo DROP DEFAULT/IDENTITY/EXPRESSION, il resto si cerca come prima, e c'è un ramo nuovo per «, DROP col». La prova esegue nota_database estratta dal YAML vero, sotto set -euo pipefail. I casi 901, 902, 902b e 903 sono rossi col filtro di 3b65a6a9; 904 e «solo DROP DEFAULT» restano come devono. — prova: npx vitest run tests/unit/riparazione-r04-ritorno-non-scarta-la-riga.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 94c6d30ce3a7fac777b273db92b68b14fbd764c7^ --file .github/workflows/deploy-dopo-ci.yml --prove tests/unit/riparazione-r04-ritorno-non-scarta-la-riga.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base 94c6d30ce3a7fac777b273db92b68b14fbd764c7^ --file .github/workflows/deploy-dopo-ci.yml --prove tests/unit/riparazione-r04-ritorno-non-scarta-la-riga.test.ts --json → uscita 0 (K02)"
     },
     {
       "dimensione": "deploy-sre",
@@ -83902,13 +83926,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C01",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_20_11": {
         "esito": "riparato",
-        "sessione": "R07",
-        "collaudo": "rompe_altro",
-        "perche": "collaudo: rompe_altro"
-      }
+        "sessione": "R04",
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      },
+      "chiuso_il": "2026-11-20 19:29",
+      "chiuso_da": "PR #298 · b2c62f34",
+      "nota_riparazione": "Lo script è scripts/applica-migrazioni-mancanti.sh (non mio, senza riga «✔ registrata»), quindi l'incertezza resta nel YAML. Con uscita 3 il riepilogo accusa la migrazione rotta. Con ogni altra uscita parla dell'«ultima cominciata», che può essere applicata, rimasta a metà (se ha un COMMIT suo) o non registrata, e non dice più «Nessuna migrazione da correggere». La prova gira sul passo vero e sullo script vero, con un psql finto: (a) è rossa sulla base, (b) è rossa sul codice di 9842603c. Il residuo «INSERT di registrazione caduto = uscita 3», che temevo, non c'è: il revisore ha visto che l'INSERT è psql -c ed esce con 1, quindi finisce nel ramo prudente. — prova: npx vitest run tests/unit/riparazione-r04-migrazioni-cadute-incertezza.test.ts --reporter=dot — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 93c6dc2c36f6d3a10baf07918cad01a483a234bd^ --file .github/workflows/deploy-dopo-ci.yml --prove tests/unit/riparazione-r04-migrazioni-cadute-incertezza.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R04 --base 93c6dc2c36f6d3a10baf07918cad01a483a234bd^ --file .github/workflows/deploy-dopo-ci.yml --prove tests/unit/riparazione-r04-migrazioni-cadute-incertezza.test.ts --json → uscita 0 (K02)"
     },
     {
       "dimensione": "architettura",
@@ -83959,13 +83986,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C01",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_20_11": {
-        "esito": "parziale",
+        "esito": "riparato",
         "sessione": "R03",
-        "collaudo": "regge",
-        "perche": "parziale: Se il database rifiuta anche la terza scrittura (quella del motivo con l'id, app/api/ai/catalog-batch/start/route.ts:206, esito non controllato) — lo scenario realistico di un timeout del database — dopo 15 minuti lo stato chiude la riga come fallita e un secondo avvio paga un secondo lotto. Chiuderlo vuole un segno fuori dal database (es. Upstash per negozio) o un ritocco della regola dei 15 minuti fissata dalla prova comune riparazione-r04-lavoro-in-invio."
-      }
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      },
+      "chiuso_il": "2026-11-20 19:29",
+      "chiuso_da": "PR #298 · b2c62f34",
+      "nota_riparazione": "Cura solo in start/route.ts: la riga nasce già nell'insert col motivo INVIO_SENZA_RISPOSTA (che status tiene aperto 24 ore); aggancio e fallimento netto tolgono il motivo; le due scritture del motivo leggono error e lo registrano. Se il database le rifiuta la riga resta «forse partito», non si chiude dopo 15 minuti e il secondo avvio riceve 409. — prova: npx vitest run tests/unit/riparazione-r03-lotto-motivo-rifiutato.test.ts tests/unit/riparazione-r03-lotto-chiusura-ritentata.test.ts — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base fa420dda^ --file app/api/ai/catalog-batch/start/route.ts --prove tests/unit/riparazione-r03-lotto-motivo-rifiutato.test.ts --json (rilanciata dopo 154f87e4 con --base e60c1296: regge, 0) → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base fa420ddadd45f30b7956b3a98fae85fba8f7e2a9^ --file app/api/ai/catalog-batch/start/route.ts --prove tests/unit/riparazione-r03-lotto-motivo-rifiutato.test.ts,tests/unit/riparazione-r03-lotto-chiusura-ritentata.test.ts --json → uscita 0 (K02)"
     },
     {
       "dimensione": "ai-endpoints",
@@ -84124,10 +84154,10 @@
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · R15",
       "stato": "aperto",
       "riparazione_20_11": {
-        "esito": "riparato",
-        "sessione": "R10",
-        "collaudo": "non_regge",
-        "perche": "collaudo: non_regge"
+        "esito": "parziale",
+        "sessione": "R04",
+        "collaudo": "parziale",
+        "perche": "parziale: /come-funziona (438-450 px) e /privacy (414 px) stanno in file non miei: le modifiche esatte sono qui sotto. ⚠️ Nella CI il lavoro unit-tests non ha Chromium: finché .github/workflows/ci.yml non lo installa (modifica qui sotto, da fare PRIMA dell'unione), lì questa prova è rossa. /about non è nella prova (pagina server asincrona); il collaudo e il revisore la misurano già a 360 px. Osservato dal revisore, fuori dal dichiarato (360 px): a 320 px col testo al 200% la home misura 324 px (sulla base 422)."
       }
     },
     {
@@ -85506,10 +85536,10 @@
       "fonte": "nato dalla riparazione 2026-11-12-sito-tutto · C02",
       "stato": "aperto",
       "riparazione_20_11": {
-        "esito": "parziale",
-        "sessione": "R10",
-        "collaudo": "parziale",
-        "perche": "parziale: Dopo «Segna tutte come lette» riuscito, se la rilettura cade e prima non c era stato un «Carica altre», le notifiche restano a video come «Non letta» con il pulsante ancora visibile: react-query tiene i dati vecchi della domanda in errore e `notifications = data ?? ultimoElenco` (app/notifications/page.tsx:206) usa quelli, non l elenco tenuto aggiornato (:151-155). Cura proposta: nel successo della mutazione segnare lette anche le righe in memoria (queryClient.setQueryData sulla chiave delle notifiche). Non fatta per il budget di stasera."
+        "esito": "riparato",
+        "sessione": "R01",
+        "collaudo": "rompe_altro",
+        "perche": "collaudo: rompe_altro"
       }
     },
     {
@@ -85579,9 +85609,9 @@
       "stato": "aperto",
       "riparazione_20_11": {
         "esito": "parziale",
-        "sessione": "R07",
+        "sessione": "R04",
         "collaudo": "parziale",
-        "perche": "parziale: Lo storico finisce ancora nello stesso secchio della copia e la notte resta verde (con avviso): rifiutare il ripiego o rendere rossa la notte cambia cosa fa la copia → scelta di Nicola."
+        "perche": "parziale: La scelta di Nicola sulla notte di ripiego (verde con avviso come oggi, rossa, o ripiego rifiutato) e la riga di docs/backup-restore.md che dice dove finisce lo storico nelle notti di ripiego e come lo trova chi ripristina (file non mio: modifica esatta in serve_file_altrui)."
       }
     },
     {
@@ -86596,13 +86626,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione onda8 · R02",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_20_11": {
-        "esito": "parziale",
+        "esito": "riparato",
         "sessione": "R02",
-        "collaudo": "rompe_altro",
-        "perche": "parziale: A 280 px col testo al 200% la pagina arriva ancora a 295 px per la barra in alto (components/Navbar.tsx, non mio). Il piede (288 px) è corretto in R02-005."
-      }
+        "collaudo": "K01 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      },
+      "chiuso_il": "2026-11-20 19:29",
+      "chiuso_da": "PR #298 · b2c62f34",
+      "nota_riparazione": "Misurato in Chromium (next dev, html{font-size:200%}): /about a 280 px scorreva fino a 319 px. Il link «Accedi» della barra mobile (Navbar.tsx) perde shrink-0 e prende min-w-0 [overflow-wrap:anywhere] text-right; in app/about/page.tsx solo varianti max-[300px]: (griglia dei numeri a una colonna, px-3 e max-w-full sui due bottoni della banda). Dopo: 280 su 280; a 300 e 320 px col 200% nessuno scorrimento. A 375 px col testo normale la banda resta p-8 (32 px per lato) e il bottone px-5 (20 px), come sulla base: il difetto del collaudo K01 non c'è. — prova: npx vitest run tests/unit/riparazione-r02-chi-siamo-280.test.tsx — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base a272b5221578da634a7f1f92daa0c6b6bf0162c7^ --file app/about/page.tsx,components/Navbar.tsx --prove tests/unit/riparazione-r02-chi-siamo-280.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r02-004 --base a272b522^ --file app/about/page.tsx,components/Navbar.tsx --prove tests/unit/riparazione-r02-chi-siamo-280.test.tsx --json → uscita 0 (K01)"
     },
     {
       "dimensione": "qa-flussi",
@@ -86698,9 +86731,9 @@
       "stato": "aperto",
       "riparazione_20_11": {
         "esito": "riparato",
-        "sessione": "R03",
-        "collaudo": "rossa_al_controllo",
-        "perche": "rossa al controllo sul ramo unito (C01: Rompe altro: app/seller/products/[id]/edit/page.tsx:252 e :302 tengono montato il modulo aperto, e ProductForm.tsx:293 legge le taglie solo quando si monta. Se il prodotto è in memoria e le taglie arrivano dopo (rete tornata), il modulo resta con 0 taglie per tutta la sessione e il Salva scrive la scorta del prodotto come se non avesse taglie: la scorta si stacca dalla somma delle taglie (il trigger 080 scatta solo su product_variants). Sulla base la pagina rimontava il modulo con le taglie. In «Duplica» la stessa voce ha messo il freno variantiNonArrivate (new/page.tsx:173), in «Modifica» no.)"
+        "sessione": "R04",
+        "collaudo": "rompe_altro",
+        "perche": "collaudo: rompe_altro"
       }
     },
     {
@@ -86799,9 +86832,9 @@
       "stato": "aperto",
       "riparazione_20_11": {
         "esito": "serve_file_altrui",
-        "sessione": "R07",
+        "sessione": "R04",
         "collaudo": null,
-        "perche": "serve_file_altrui: Oggi innocuo: con LC_ALL=C sort e con sort -V le ultime quattro migrazioni sono le stesse (501, 540, 541, 572)."
+        "perche": "serve_file_altrui: Modifica fatta e provata (37/37 verdi) e messa in un commit, ma guardia-ramo è uscita rossa: «è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista». Il commit, mai spinto, l'ho tolto con git reset --hard HEAD~1, come voleva la regia. Oggi l'ordine con LC_ALL=C e con -V è lo stesso: la prova non può ancora diventare rossa."
       }
     },
     {
@@ -86874,13 +86907,16 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione onda8b · R02",
-      "stato": "aperto",
+      "stato": "riparato",
       "riparazione_20_11": {
-        "esito": "serve_file_altrui",
-        "sessione": "R06",
-        "collaudo": null,
-        "perche": "serve_file_altrui: La cura nel mio file è pronta ma non è nel ramo, perché da sola rende rosse due prove esistenti comuni (usano file di R04, R05, R07). Riusa avvisaIlNegozioDellAnnullo (lib/ordini/annulla, R31-023) dopo la campanella, con la stessa frase; non tocca contanti, rimborsi o importi. Porta la prova nuova tests/unit/riparazione-r06-cliente-assente-email.test.ts (1 caso rosso senza la cura, 3 verdi con). Con le due modifiche alle prove comuni i 6 file di prova del cliente assente sono verdi (29 casi). Dopo l'adeguamento: git apply della patch in cura_pronta_patch, commit «R06-006 …», prova rimessa. Attenzione per chi applica la patch delle prove comuni: «esattamente 1 email» diventa «1 email order_canceled», quindi un'eventuale terza email non verrebbe più vista."
-      }
+        "esito": "riparato",
+        "sessione": "R03",
+        "collaudo": "K02 · collaudo pieno",
+        "nota": "si chiude dopo l'unione della PR"
+      },
+      "chiuso_il": "2026-11-20 19:29",
+      "chiuso_da": "PR #298 · b2c62f34",
+      "nota_riparazione": "Applicate pulite con git apply cura_pronta_patch e prove_comuni_patch di R06-006 (referto R06, ramo o9-m06); prova nuova rinominata riparazione-r03-cliente-assente-email.test.ts. La rotta chiama await avvisaIlNegozioDellAnnullo(admin, order, fraseAlNegozio) dopo la campanella, come le altre rotte d'annullo; non tocca contanti, rimborsi o importi. — prova: npx vitest run tests/unit/riparazione-r03-cliente-assente-email.test.ts — mutazione: timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 3bba8949^ --file \"app/api/rider/orders/[id]/cliente-assente/route.ts\" --prove tests/unit/riparazione-r03-cliente-assente-email.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R03 --base 3bba8949bfb210165426e738f7f082f6f7375f65^ --file \"app/api/rider/orders/[id]/cliente-assente/route.ts\" --prove tests/unit/riparazione-r03-cliente-assente-email.test.ts --json → uscita 0 (K02)"
     },
     {
       "dimensione": "api-backend",
@@ -87555,6 +87591,188 @@
       "impatto": "",
       "fix": "",
       "fonte": "nato dalla riparazione onda9 · C01",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "stati-ui",
+      "reparto": "Stati dell'interfaccia",
+      "titolo": "notifiche: segnaposto alla rilettura, sistemato in R01-varie",
+      "severita": "minore",
+      "file": "app/notifications/page.tsx",
+      "descrizione": "sistemato nei commit 7ad94a30 e 8aa18de2 (R01-varie), prova tests/unit/riparazione-r01-notifiche-di-chi-guarda.test.tsx, prova rimessa uscita 0 con base 7ad94a30^; confermato da due revisori",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione giro2 · R01",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "dimensione_dichiarata": "qa",
+      "reparto": "Flussi critici",
+      "titolo": "l'aiutante di prova accendi non regge due montaggi di una pagina con use(params) dopo un invio",
+      "severita": "minore",
+      "file": "tests/unit/aiuti/schermo.ts",
+      "descrizione": "montare due volte nella stessa prova una pagina che usa use(params), dopo un submit, dà «A component suspended while responding to synchronous input» (probabile window.event rimasto); aggirato nella prova R01 con un <Suspense>, aiutante non toccato",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione giro2 · R01",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "dimensione_dichiarata": "qa",
+      "reparto": "Flussi critici",
+      "titolo": "il finto di react-query non ha setQueriesData",
+      "severita": "minore",
+      "file": "tests/unit/aiuti/finti/react-query.mjs",
+      "descrizione": "manca setQueriesData: chi lo usa nel codice rompe le prove che montano il finto (es. riparazione-r22-campanello); per questo R01-002 usa setQueryData chiave per chiave",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione giro2 · R01",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "layout-responsive",
+      "reparto": "Layout e schermi",
+      "titolo": "In Lavora con noi, a 280 px col testo grande, le righe delle posizioni restano strettissime: il titolo e «Candidati» vanno quasi una lettera per riga",
+      "severita": "minore",
+      "file": "app/lavora-con-noi/page.tsx:190-211",
+      "descrizione": "Non scorre più di lato, ma la colonna del titolo e il link «Candidati» stanno in pochi pixel: andrebbero uno sotto l'altro sotto i 300 px.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione giro2 · R02",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "titolo": "Il cliente e l'email leggono ancora «un rider passa a prenderlo», mentre il pulsante del negozio ora dice «fattorino»",
+      "severita": "minore",
+      "file": "app/orders/[id]/page.tsx:380 · lib/email/templates.ts:379",
+      "descrizione": "La frase per l'ordine pronto dice «rider» nella pagina dell'ordine del cliente e nell'email; anche app/orders/[id]/page.tsx:382/383/637 e app/seller/orders/[id]/page.tsx:556/571/572/631 dicono «rider». Il sito usa tutte e due le parole: serve una parola sola per tutto il sito.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione giro2 · R02",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "deploy-sre",
+      "reparto": "Rilascio e affidabilita'",
+      "titolo": "La rotta «sei pronto» legge i battiti dei lavori pianificati senza un tetto di tempo: un database lento la lascia appesa",
+      "severita": "minore",
+      "file": "app/api/health/ready/route.ts:205-216 (sulla base 336f2fbd riga 150)",
+      "descrizione": "La lettura di cron_heartbeats nel ramo if (dbOk && admin) non ha timeout. Era già sulla base e non fa parte della voce R02-003, per questo è rimasta com'era.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione giro2 · R02",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "ai-endpoints",
+      "reparto": "Endpoint AI",
+      "titolo": "Un lavoro sul catalogo «forse partito» non si può scartare",
+      "severita": "minore",
+      "file": "app/api/ai/catalog-batch/cancel/route.ts:39",
+      "descrizione": "cancel accetta solo status 'ready': una riga «in invio» con INVIO_SENZA_RISPOSTA resta bloccata fino a 24 ore. La modifica esatta è nel serve_file_altrui di R03-004.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione giro2 · R03",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "ai-endpoints",
+      "reparto": "Endpoint AI",
+      "titolo": "La pagina del lotto mostra la rotella «tra poco lo vedi partire» per 24 ore su un invio senza risposta",
+      "severita": "minore",
+      "file": "app/api/ai/catalog-batch/status/route.ts:114-131",
+      "descrizione": "La riga incerta si restituisce come 'submitting' e la pagina mostra la rotella. La modifica esatta (flag incerto con il limite dei 3 minuti) è nel serve_file_altrui di R03-004.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione giro2 · R03",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "ai-endpoints",
+      "reparto": "Endpoint AI",
+      "titolo": "il freno «un errore all'ora» del tetto di spesa AI vive nella memoria della copia: con il tetto impostato e la migrazione del conto assente l'errore può arrivare a ogni giro del cron",
+      "severita": "minore",
+      "file": "lib/ai/tettoSpesa.ts:185",
+      "descrizione": "Su Vercel ogni giro del cron può nascere su una copia nuova, quindi il logger.error di segnalaRipiego non è frenato a uno all'ora (l'email resta frenata a 6 ore da operational_alert_log). Visto dallo smentitore B; non riparato in questo giro.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione giro2 · R03",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "ai-endpoints",
+      "reparto": "Endpoint AI",
+      "titolo": "due avvii insieme di un lavoro sul catalogo superano entrambi il controllo dei lavori aperti",
+      "severita": "minore",
+      "file": "app/api/ai/catalog-batch/start/route.ts:87-106",
+      "descrizione": "Il controllo «c'è già un lavoro aperto» è una lettura seguita da un insert, senza indice unico per negozio: due richieste contemporanee partono tutte e due e pagano due lotti. C'era già prima di R03-002; la cura vera è un indice unico parziale (migrazione), non fatta in questo giro senza migrazioni.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione giro2 · R03",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "ai-endpoints",
+      "reparto": "Endpoint AI",
+      "titolo": "il sorvegliante dei prezzi esterni può superare i suoi 300 s con 10 chiamate al modello in fila",
+      "severita": "minore",
+      "file": "app/api/cron/external-price-alerts/route.ts:101-106",
+      "descrizione": "Fino a 10 chiamate al modello una dopo l'altra, 60 s l'una, contro una durata di 300 s. Nessun negozio legge la risposta; visto dallo smentitore A.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione giro2 · R03",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "stati-ui",
+      "reparto": "Stati dell'interfaccia",
+      "titolo": "Nella pagina di amministrazione del prodotto, quando torna la rete, il caricamento prende il posto del modulo e le modifiche si perdono; senza rete il modulo si apre con 0 taglie",
+      "severita": "minore",
+      "file": "app/admin/products/[id]/edit/page.tsx:137",
+      "descrizione": "Stesso difetto di R04-007 nella pagina admin (anche :141): la rilettura con refetchOnMount 'always' rimette il caricamento; senza rete e senza taglie in memoria il modulo si apre con 0 taglie; senza il prodotto in memoria dice «Prodotto non trovato» invece di «Riprova» (manca il controllo fetchStatus 'paused').",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione giro2 · R04",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "deploy-sre",
+      "reparto": "Rilascio e affidabilita'",
+      "titolo": "Con una destinazione che ha una cartella dentro il secchio, lo storico predefinito finisce nello stesso secchio della copia senza avviso e la notte resta verde",
+      "severita": "minore",
+      "file": "scripts/backup-db.sh:313",
+      "descrizione": "Con STORAGE_SYNC_DEST=\"b2:mycity-foto/copie\" lo storico predefinito diventa b2:mycity-foto/copie-storico, una cartella dello stesso secchio: niente ripiego dichiarato né avviso (visto con rclone finto; probabile anche con un remote alias o cifrato usato alla radice, «cifrata:-storico»).",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione giro2 · R04",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "deploy-sre",
+      "reparto": "Rilascio e affidabilita'",
+      "titolo": "Con STORAGE_SYNC_STORICO impostata ma il secchio che manca, lo dice solo il registro: niente avviso né riga nel riepilogo",
+      "severita": "minore",
+      "file": "scripts/backup-db.sh:538",
+      "descrizione": "Se poi la copia fallisce, il riepilogo dice «non sincronizzato» senza nominare lo storico mancante.",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione giro2 · R04",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "titolo": "Alcuni errori di Zod arrivano ancora in inglese: «Invalid input» di un'unione, chiavi non riconosciute, literal sbagliato, refine senza messaggio",
+      "severita": "minore",
+      "file": "lib/zod-i18n.ts",
+      "descrizione": "Il traduttore copre i casi comuni (lunghezze, campo obbligatorio, formato), ma non invalid_union, unrecognized_keys, invalid_literal e custom senza messaggio. Per esempio string().max(8).optional().or(z.literal('')) con un numero dà «Invalid input» (visto dal revisore di R04-006).",
+      "impatto": "",
+      "fix": "",
+      "fonte": "nato dalla riparazione giro2 · R04",
       "stato": "aperto"
     }
   ],

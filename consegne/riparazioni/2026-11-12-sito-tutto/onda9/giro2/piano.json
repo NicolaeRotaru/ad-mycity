@@ -455,6 +455,36 @@
       "perche": "R03 del giro 2 ha ritoccato 12 prove comuni (catalog-apply, cliente assente, tetto). Il collaudo K02 del giro 2 le ha giudicate non indebolite.",
       "firma": "Nicola, 20/11 alle 18:04, chat «Ondata 9 · 5.0» session_015BmpnZZ9mpJFdTk5mxvbY8: «ti firmo le 23 prove ritoccate»",
       "scritta": "2026-11-20 18:04, regia 5.0 dell onda 9"
+    },
+    {
+      "onda": 1,
+      "commit": "9a60bc759392d51d483100c3a9593b9af3fac2ec",
+      "regole": [
+        "id_nel_commit"
+      ],
+      "perche": "Commit di R01 del giro 2: il messaggio cita una voce di un altra sessione; le voci di R01 le ha giudicate il collaudo K01 del giro 2.",
+      "firma": "Nicola, 20/11 alle 19:28, chat «Ondata 9 · 5.0» session_015BmpnZZ9mpJFdTk5mxvbY8: «Firmo i 3 commit del giro 2»",
+      "scritta": "2026-11-20 19:28, regia 5.0 dell onda 9"
+    },
+    {
+      "onda": 1,
+      "commit": "8aa18de2c530c6339e88f26bbdefc1ce4556abad",
+      "regole": [
+        "id_nel_commit"
+      ],
+      "perche": "Commit di R01 del giro 2: il messaggio cita una voce di un altra sessione; le voci di R01 le ha giudicate il collaudo K01 del giro 2.",
+      "firma": "Nicola, 20/11 alle 19:28, chat «Ondata 9 · 5.0» session_015BmpnZZ9mpJFdTk5mxvbY8: «Firmo i 3 commit del giro 2»",
+      "scritta": "2026-11-20 19:28, regia 5.0 dell onda 9"
+    },
+    {
+      "onda": 2,
+      "commit": "3bba8949bfb210165426e738f7f082f6f7375f65",
+      "regole": [
+        "id_nel_commit"
+      ],
+      "perche": "Commit di R03 del giro 2: il messaggio cita una voce di un altra sessione; le voci di R03 le ha giudicate il collaudo K02 del giro 2.",
+      "firma": "Nicola, 20/11 alle 19:28, chat «Ondata 9 · 5.0» session_015BmpnZZ9mpJFdTk5mxvbY8: «Firmo i 3 commit del giro 2»",
+      "scritta": "2026-11-20 19:28, regia 5.0 dell onda 9"
     }
   ]
 }

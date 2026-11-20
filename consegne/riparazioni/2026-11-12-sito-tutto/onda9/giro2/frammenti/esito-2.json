@@ -1,0 +1,27 @@
+{
+  "corsia": 2,
+  "territorio": "R02",
+  "difetti": [
+    {
+      "chiave": "accessibilita|nella pagina chi siamo e nella vetrina del negozio il banner ignora il testo alternativo e lascia la scritta bianca sulla foto senza velo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-banner-alt.test.tsx",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 58d69a7637c957eb2d28463184192f389c902764^ --file components/seller/site/BannerFields.tsx --prove tests/unit/riparazione-r02-banner-alt.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r02-001 --base 58d69a76^ --file components/seller/site/BannerFields.tsx --prove tests/unit/riparazione-r02-banner-alt.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "Lettura dell'alt e velo erano già sulla base (CmsBlockRenderer.tsx:48, BannerSection.tsx:51, store-site.ts:159 shortText(160), prova r20 verde). Aggiunto in BannerFields.tsx il campo «Testo alternativo della foto» (maxLength 160) tra Sottotitolo e Sfondo del testo. Il CMS di Chi siamo ha già il suo campo alt (components/admin/home/HomeSectionConfigForm.tsx:235-240)."
+    },
+    {
+      "chiave": "layout-responsive|chi siamo a 280 px col testo al 200% scorre ancora di lato",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-chi-siamo-280.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base a272b5221578da634a7f1f92daa0c6b6bf0162c7^ --file app/about/page.tsx,components/Navbar.tsx --prove tests/unit/riparazione-r02-chi-siamo-280.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r02-004 --base a272b522^ --file app/about/page.tsx,components/Navbar.tsx --prove tests/unit/riparazione-r02-chi-siamo-280.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "Misurato in Chromium (next dev, html{font-size:200%}): /about a 280 px scorreva fino a 319 px. Il link «Accedi» della barra mobile (Navbar.tsx) perde shrink-0 e prende min-w-0 [overflow-wrap:anywhere] text-right; in app/about/page.tsx solo varianti max-[300px]: (griglia dei numeri a una colonna, px-3 e max-w-full sui due bottoni della banda). Dopo: 280 su 280; a 300 e 320 px col 200% nessuno scorrimento. A 375 px col testo normale la banda resta p-8 (32 px per lato) e il bottone px-5 (20 px), come sulla base: il difetto del collaudo K01 non c'è."
+    },
+    {
+      "chiave": "microcopy|il pulsante del negozio dice «pronto per il rider»: in tutto il resto del sito è «fattorino»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-etichetta-fattorino.test.ts",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base d05f11361ab373a6d0d315e5bd38548b31d8f66d^ --file lib/order-status.ts --prove tests/unit/riparazione-r02-etichetta-fattorino.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-r02-007 --base d05f1136^ --file lib/order-status.ts --prove tests/unit/riparazione-r02-etichetta-fattorino.test.ts,tests/unit/la-targhetta-dell-ordine-non-manda-il-cliente-a-ritirarlo.test.ts,tests/unit/le-promesse-della-consegna-cambiano-solo-di-proposito.test.tsx,tests/unit/minori-s02-varie.test.ts,tests/unit/minori-s06-centro-venditori.test.ts,tests/unit/minori-s06-ordine-del-negozio.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "lib/order-status.ts:45 'Pronto per il rider' diventa 'Pronto per il fattorino'. Le 5 prove esistenti cambiano solo nelle righe con l'etichetta (approvato dalla regista il 19/11). Il grep in tutto il deposito non trova altro testo visibile."
+    }
+  ]
+}

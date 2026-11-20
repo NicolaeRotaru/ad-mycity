@@ -7235,3 +7235,7 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Perché:** senza la riga le firme del 18/11 non contavano e le chiusure di mycity#297 e #298 restavano ferme. I collaudatori K01–K04 avevano giudicato le prove non indebolite.
 - **Resta aperto:** firma su 3 commit del giro 2 (`3bba8949` di R03, `9a60bc75` e `8aa18de2` di R01); la strada per la scorta in Modifica/Duplica (R04-007 del giro 2).
 - **Colore:** 🟡, firmato da Nicola.
+
+## 2026-11-20 19:29 — Onda 9: firma di Nicola sui 3 commit del giro 2
+- **Cosa:** «Firmo i 3 commit del giro 2»: `9a60bc75` e `8aa18de2` (R01), `3bba8949` (R03), regola «id_nel_commit», scritti in `onda9/giro2/piano.json`. Chiuse 12 voci del giro 2 con mycity#298.
+- **Colore:** 🟡, firmato da Nicola.
