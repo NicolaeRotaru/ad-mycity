@@ -72,6 +72,15 @@
    "fuori_programma": [
     "S01"
    ]
+  },
+  "K02": {
+   "id": "session_015BmpnXmBkqfsys4pAxG5ub",
+   "ramo": "claude/adoring-bohr-kixq35-o9g3-k02",
+   "partenza": "ec82bbebd9b6d4d3d61c63f25edc28ba8d9700fc",
+   "riparatori": [
+    "R02",
+    "R05"
+   ]
   }
  },
  "controllori": {}
