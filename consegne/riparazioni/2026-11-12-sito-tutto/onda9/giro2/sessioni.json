@@ -1,5 +1,5 @@
 {
- "regista": "session_015BmpnZZ9mpJFdTk5mxvbY8",
+ "regista": "session_015BmpnUxR79mzccgeUCjeKq",
  "integrazione": {
   "ramo": "main del sito",
   "partenza": "336f2fbda9b1b50209fbe94e1f5fde1c74134ab7",
@@ -103,7 +103,8 @@
  },
  "controllori": {},
  "regista_prima": [
-  "session_015BmpnXTF1dKwFmtRWd5L1s"
+  "session_015BmpnXTF1dKwFmtRWd5L1s",
+  "session_015BmpnZZ9mpJFdTk5mxvbY8"
  ],
  "pr_sito_giro2": "NicolaeRotaru/mycity#298, ramo claude/adoring-bohr-kixq35-o9b @ d403fa41: unita da Nicola il 20/11 (merge b2c62f34, albero 180c80eb)"
 }

@@ -115,3 +115,4 @@ Circa 3 $ per voce data: 195 voci danno circa 585 $, più la regia, circa 600 $.
 - 20/11 19:29 Nicola firma i 3 commit del giro 2 (`9a60bc75`, `8aa18de2` di R01; `3bba8949` di R03). `applica --scrivi` del giro 2 verde: 12 si chiudono, 15 nati scritti (1 riservato fuori). `chiudi-sito --applica`: 12 chiusure con #298. Registro: 748 aperte (745 + 15 nati − 12).
 - 20/11 19:30 Passaggio scritto in `PASSAGGIO-REGIA-O9-6.md` per la 6.0 (5.0 a circa 385 mila token, nessuna figlia al lavoro).
 - 20/11 19:30 Aperta la 6.0 `session_015BmpnUxR79mzccgeUCjeKq`; falle riservate passate solo in chat. La 5.0 si ferma.
+- 20/11 19:31 La 6.0 `session_015BmpnUxR79mzccgeUCjeKq` prende la regia; sito clonato in `../mycity` su `b2c62f34`. Ricevute in chat le falle riservate (due pezzi in un file comune, R01-varie).
