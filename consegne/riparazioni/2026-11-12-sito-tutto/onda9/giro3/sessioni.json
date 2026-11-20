@@ -1,6 +1,8 @@
 {
- "regista": "session_015BmpnUxR79mzccgeUCjeKq",
- "regista_prima": [],
+ "regista": "session_015BmpnYruq7734YUce72wCa",
+ "regista_prima": [
+  "session_015BmpnUxR79mzccgeUCjeKq"
+ ],
  "sha_regista": "33a5ed84edc81067ff211d9144fc1e064dfa7ce7",
  "integrazione": {
   "ramo": "main del sito",
