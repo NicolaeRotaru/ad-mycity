@@ -133,3 +133,4 @@ Circa 3 $ per voce data: 195 voci danno circa 585 $, più la regia, circa 600 $.
 - 20/11 22:52 R03 finita (33,22 $): 007, 018, 020, 021 riparate; 012, 004 parziali; 002, 003 rimandate da Nicola; 14 non_fatto. Passata a K03 (dettagli riservati di R03-021 solo in chat).
 - 20/11 22:53 K03 riavviato senza ultracode (14,49 $): R03 lo collauda «K03 secondo» (session_015BmpnZ3kSSA8QhZAbWqcHY), 12 $. Terza sessione che perde l'ultracode al riavvio stasera (R01, K01, K03).
 - 20/11 23:21 Collaudo K03 secondo di R03: 007 e 020 reggono, 004 012 018 parziali, 021 non regge (motivo riservato, in chat). Tutte le figlie hanno finito. Passaggio scritto in `PASSAGGIO-REGIA-O9-7.md` per la 7.0 (6.0 a circa 650 mila token).
+- 20/11 23:22 Aperta la 7.0 `session_015BmpnYruq7734YUce72wCa`; falle riservate passate solo in chat. La 6.0 si ferma.
