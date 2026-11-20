@@ -81,6 +81,15 @@
     "R02",
     "R05"
    ]
+  },
+  "K03": {
+   "id": "session_015BmpnYDZ2HVhzzZZ4s5C8J",
+   "ramo": "claude/adoring-bohr-kixq35-o9g3-k03",
+   "partenza": "2fe686ab8373414af61427cfc774b5d96f3258bd",
+   "riparatori": [
+    "R04",
+    "R03"
+   ]
   }
  },
  "controllori": {}
