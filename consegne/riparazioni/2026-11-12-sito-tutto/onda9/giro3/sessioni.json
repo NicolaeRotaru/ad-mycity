@@ -7,7 +7,8 @@
  "integrazione": {
   "ramo": "main del sito",
   "partenza": "b2c62f34e26f6ff86eab45ccf39fa456ed3767bb",
-  "nota": "giro 3 del 20/11: i rami -o9g3-mNN e -o9g3-s01 partono da main (b2c62f34)"
+  "nota": "giro 3 del 20/11: i rami -o9g3-mNN e -o9g3-s01 partono da main (b2c62f34)",
+  "ramo_unione": "claude/adoring-bohr-kixq35-o9c"
  },
  "sessioni": {
   "R01": {
@@ -96,5 +97,12 @@
    "secondo": "session_015BmpnZ3kSSA8QhZAbWqcHY"
   }
  },
- "controllori": {}
+ "controllori": {
+  "C03": {
+   "id": "session_015BmpnWiPKLB7SiCD9YqqBh",
+   "ramo": "claude/adoring-bohr-kixq35-c03",
+   "partenza": "de61b94b066569f8277c62ae3f38dd59586b8904",
+   "integrazione": "claude/adoring-bohr-kixq35-o9c@ee85dafac2355383eb1af256d64a3af9af3c7976"
+  }
+ }
 }
