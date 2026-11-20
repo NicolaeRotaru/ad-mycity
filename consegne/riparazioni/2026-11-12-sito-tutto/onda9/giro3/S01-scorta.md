@@ -11,10 +11,17 @@ Decisione di Nicola, 20/11 19:31: «Scorte sessione dedicata». Una voce sola, t
 - **File tuoi:** `app/seller/products/[id]/edit/page.tsx`, `app/seller/products/new/page.tsx`, `components/seller/ProductForm.tsx` (solo per l'avviso del Salva) e le loro prove in `tests/`.
 
 ## Il buco (dal collaudo K02 del giro 2)
-- In «Modifica», con una copia vecchia in memoria a 0 taglie e la pagina aperta senza rete, la rilettura delle taglie che cade al ritorno della rete lascia il modulo aperto con 0 taglie e senza avviso (`edit/page.tsx` ~287 mette l'errore sotto «resta aperto»; ~320-323 non rimonta perché le taglie lette non cambiano). Il Salva scrive `products.stock` sulla vecchia somma (`ProductForm.tsx` ~830, ~856-873): la scorta si stacca dalla somma delle taglie. **Prova E2**: deve essere rossa sulla base di partenza della riparazione vecchia e verde dopo la tua.
-- In «Duplica» lo stesso: `new/page.tsx` alla riga 286 circa (il modulo aperto scavalca «taglie non arrivate») fa nascere la copia senza taglie e con la scorta della vecchia somma. **Prova D2**.
-- Minori dello stesso collaudo, da tenere verdi: da «Nuovo» a «Duplica» senza rimontare la pagina la copia non deve aprirsi vuota (D4b, K2); se le taglie cambiano senza rete il testo non salvato non si perde (E4, D3).
-- La prova vecchia del riparatore restava verde togliendo la protezione sugli errori: la tua prova deve cadere se la togli.
+**In «Modifica» (prova E2).** Il negoziante ha una copia vecchia in memoria con 0 taglie. Apre la pagina senza rete. Quando la rete torna, la rilettura delle taglie cade. Il modulo resta aperto con 0 taglie e nessun avviso.
+Il codice: `edit/page.tsx` verso la riga 287 mette l'errore sotto «resta aperto». Verso le righe 320-323 non rimonta, perché le taglie lette non cambiano.
+L'effetto: il Salva scrive `products.stock` sulla vecchia somma (`ProductForm.tsx`, righe 830 e 856-873 circa). La scorta si stacca dalla somma delle taglie.
+
+**In «Duplica» (prova D2).** Succede lo stesso. In `new/page.tsx`, verso la riga 286, il modulo aperto scavalca «taglie non arrivate». La copia nasce senza taglie e con la scorta della vecchia somma.
+
+**Da tenere verdi.** Primo: passando da «Nuovo» a «Duplica» senza rimontare la pagina, la copia non si apre vuota (D4b, K2). Secondo: se le taglie cambiano senza rete, il testo non salvato resta (E4, D3).
+
+**La prova vecchia non bastava.** Restava verde anche togliendo la protezione sugli errori. La tua deve cadere.
+
+**Attenzione:** su `b2c62f34` le due riparazioni vecchie sono annullate. Quindi anche la prima metà va rifatta: il caricamento non deve prendere il posto del modulo.
 
 ## La regola da applicare
 **Se le taglie non arrivano, il Salva si blocca con un avviso e il testo scritto resta nel modulo.** Niente scrittura della scorta su una somma che non è stata letta.
