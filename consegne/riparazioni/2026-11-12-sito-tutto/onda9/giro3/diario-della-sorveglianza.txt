@@ -14,3 +14,4 @@
 2026-11-20 21:00 · R05 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
 2026-11-20 21:00 · onda 2 · prova-unione ⏳
 2026-11-20 21:00 · R02 20,38 · R03 16,14 · R05 17,04 (guardia 🔴 8 prove comuni, ripristino non ancora spinto) · R01 10,4 e S01 13,3 finite · R04 ~17 in chiusura · azione: «niente lotti nuovi» a R02, R03, R05
+2026-11-20 21:18 · R05 · finita 23,11 $ · guardia ✅ (8 prove comuni tornate come la base) · referto 🔴 solo forma (chiavi senza dimensione, insieme_a, conto, costo) · azione: sistemare il referto
