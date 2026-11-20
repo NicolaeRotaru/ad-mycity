@@ -1,0 +1,282 @@
+{
+ "collaudatore": "K02",
+ "riparatori": [
+  "R02",
+  "R05"
+ ],
+ "aggiornato": "2026-11-20 21:45",
+ "finita": true,
+ "voci": [
+  {
+   "id": "R02-004",
+   "chiave": "deploy-sre|la notifica sul telefono per un nuovo ordine arriva fino a 5 minuti dopo, non in pochi secondi",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 3,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base d65247a8^ --file lib/push/subito.ts --prove tests/unit/riparazione-r02-push-nuovo-ordine-subito.test.ts --json"
+   },
+   "nota": "Un revisore qa per tutte e due le lenti (minore, niente soldi). Prova rimessa uscita 3: il file nuovo lib/push/subito.ts è importato dalla prova, la macchina non decide; per questo il massimo è parziale. CHIUDE_TUTTA: parziale, e oggi in produzione non cambia niente: l'aiutante non lo chiama nessuno (servono le diff altrui di app/api/orders/cod/route.ts e lib/stripe/webhook/comune.ts). Le due diff si applicano pulite alla testa: 182 file di prova COD+webhook (1248 prove) verdi, tsc pulito, poi tolte. Il cosa_resta è vero: il giro legge senza prendere (app/api/cron/send-push/route.ts:57-64) e segna solo a :220-225, quindi la finestra di doppio invio resta; lib/push/subito.ts:113 sta fuori dal try. NATA_ROTTA: regge, le costanti spostate dal giro all'aiutante sono identiche byte per byte, 18 file di prova push (143 prove) verdi."
+  },
+  {
+   "id": "R02-005",
+   "chiave": "deploy-sre|se il secchio dello storico delle foto non si crea, lo storico finisce nello stesso secchio della copia e la notte resta verde",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 19291cd4^ --file scripts/backup-db.sh --prove tests/unit/riparazione-r02-backup-storico-rosso.test.ts --json",
+    "altre": [
+     {
+      "uscita": 0,
+      "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 19291cd4^ --file scripts/backup-db.sh --prove tests/unit/riparazione-r02-backup-storico-rosso.test.ts,tests/unit/riparazione-r15-backup-storico.test.ts,tests/unit/riparazione-r07-storico-nello-stesso-secchio.test.ts --json"
+     }
+    ]
+   },
+   "nota": "Un revisore qa per tutte e due le lenti. Prova rimessa uscita 0 sul commit della voce, e uscita 0 anche alla testa e3231f8e con le prove R15/R07 ritoccate insieme (cadono tutte e tre togliendo backup-db.sh). CHIUDE_TUTTA: il ripiego su «_storico» non c'è più in nessun ramo; uscita 5 nei quattro casi provati (predefinito, barre doppie, storico a mano, storico vuoto), caso normale 0. NATA_ROTTA: uscita 5, riepilogo rosso e «esito-foto: fallita» come le altre copie delle foto fallite; il database si copia prima delle foto e resta; 20 file di prova del backup (163 prove) verdi. Visti, fuori dalla voce e già sulla base: .github/workflows/backup-db.yml:390/402 per ogni uscita 5 scrive «stanotte non c'è una copia nuova del database» anche se il database c'è; con STORAGE_SYNC_DEST=\"b2:mycity-foto/copia\" lo storico va in \"b2:mycity-foto/copia-storico\", nello stesso secchio, e la notte resta verde (scripts/backup-db.sh:313/518); l'uscita 5 copre un eventuale 6 (:532)."
+  },
+  {
+   "id": "R02-007",
+   "chiave": "flussi-conversione|la scheda prodotto promette «paghi alla consegna» anche sopra il tetto dei contanti",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 07593c05^ --file app/product/[id]/page.tsx,lib/promesse-pubbliche.ts --prove tests/unit/riparazione-r02-contanti-sopra-il-tetto.test.tsx --json"
+   },
+   "nota": "SOLDI: due revisori qa, uno per lente. Prova rimessa uscita 0 (cade togliendo ognuno dei due file). CHIUDE_TUTTA: parziale. Sopra il tetto spariscono tutti e cinque i punti che promettono il contante (frase verde, pulsante, «Compri sicuro», nota della barra, ricordo di 'cod'); il lordo è quello della cassa e della rotta COD per un prodotto solo con la consegna standard. Il cosa_resta (carrello già pieno) è vero ma INCOMPLETO: la consegna veloce costa 1 € in più (lib/constants.ts:145), quindi fra 4.995,99 e 4.996,99 € di merce la scheda promette i contanti e la cassa li rifiuta; una promo scaduta a pagina aperta (app/product/[id]/page.tsx:336-347) fa contare il prezzo scontato; e la cura indicata (sommare getCart() a :663) non basta: getCart non si aggiorna a pagina disegnata e con più negozi la consegna non è 3 € (vociDellaConsegna: +1 € per negozio in più e per negozio sotto i 10 €), serve prezziDelCarrello su tutti i gruppi. La rotta COD resta il presidio. NATA_ROTTA: non rompe niente; gli altri sei chiamanti di frasePagamento non passano lordoCents; la barra senza nota mostra «Totale» (StickyAddToCart.tsx:208); senza il ricordo 'cod' la cassa parte dal metodo di sempre (checkout/page.tsx:727) e sopra il tetto forza la carta (:851); tsc ed eslint puliti, 268 file di prove vicine (1815 prove) verdi."
+  },
+  {
+   "id": "R02-009",
+   "chiave": "frontend-ux|sul telefono il riquadro verde della scheda prodotto diventa un muro di testo di 264 caratteri, e dopo il caricamento cresce ancora di una riga",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base fa5dd0fa^ --file components/ui/DeliveryCutoff.tsx --prove tests/unit/riparazione-r02-riga-consegna-non-cresce.test.tsx --json"
+   },
+   "nota": "Un revisore qa per tutte e due le lenti. Prova rimessa uscita 0. CHIUDE_TUTTA: misurate in Chrome vero (Inter 14px) le 22 frasi della regola: al massimo 3 righe a 320/360 px e a 1024-1279 (colonna di 253 px), 2 da 1280; lo spazio tenuto basta, la riga non cresce più; la prima metà (muro di testo) era già chiusa sulla base da R08-002. NATA_ROTTA: la variante inline la usa solo la scheda prodotto (page.tsx:971); 38 file di prova (316 prove) verdi, comprese le comuni minori-s10/R08. Estetico: fra 375-1023 e 1100-1279 px la frase più lunga sta in 2 righe ma se ne tengono 3, circa 20 px vuoti (components/ui/DeliveryCutoff.tsx:229)."
+  },
+  {
+   "id": "R02-018",
+   "chiave": "performance|l'elenco dei negozi fa una domanda sulla consegna veloce per ogni scheda, invece di una sola per tutta la lista",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 27bd25a9^ --file components/ui/DeliveryCutoff.tsx --prove tests/unit/riparazione-r02-veloce-una-domanda-per-la-lista.test.tsx --json"
+   },
+   "nota": "Un revisore qa per tutte e due le lenti. Prova rimessa uscita 0 (la rotta nuova è importata dalla prova e non sta in --file). CHIUDE_TUTTA: parziale, il cosa_resta è vero e provato in Chrome: con un visibilitychange vero i microtask girano dopo ogni ascoltatore (5 giri da 1, ogni scheda alla rotta vecchia), con dispatchEvent da script un giro solo da 5, che è quello che usa la prova (test:134). Una scheda sola va davvero alla rotta vecchia (DeliveryCutoff.tsx:84-90). NATA_ROTTA: rotta nuova senza accesso richiesto come la vecchia, freno 30/min, UUID validati, tetto 100, nessun dato in più. Minori: gli errori della rotta nuova escono come {esiti:{}} e non nella forma del progetto {ok:false,error:{code,message}} (app/api/consegna/veloce/negozi/route.ts:44,54,66,87, copiata dalla rotta sorella); non verificato, bassa confidenza: un setInterval per scheda (lib/promessa-consegna.ts:274-277) può far chiedere le schede una per una all'inizio dell'ora della veloce."
+  },
+  {
+   "id": "R02-020",
+   "chiave": "qa-flussi|dalla scheda prodotto il carrello riceve il prezzo pieno anche con una promozione attiva, e il carrello può dire che il prezzo è sceso",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 96c07a90^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r02-prezzo-promo-al-carrello.test.tsx --json",
+    "altre": [
+     {
+      "uscita": 0,
+      "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 96c07a90^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r02-prezzo-promo-al-carrello.test.tsx,tests/unit/minori-s09-scheda-prodotto.test.ts --json"
+     }
+    ]
+   },
+   "nota": "SOLDI: due revisori qa, uno per lente. Prova rimessa uscita 0 sul commit della voce, e uscita 0 alla testa e401a7d7 insieme alla prova comune minori-s09 ritoccata. CHIUDE_TUTTA: scheda, carrello e cassa usano la stessa discountedUnitCents sullo stesso pieno del database (34,90 € al -15% = 2967 centesimi nei tre posti), il mezzo centesimo non fa più scattare «sceso» né «salito»; varianti senza prezzo proprio, quantità e promo che scade a pagina aperta a posto; la cassa sul server ricalcola dal database (lib/ordini/valida-carrello.ts:170). NATA_ROTTA: nessun doppio sconto (cart/page.tsx:323 e checkout/page.tsx:225 sostituiscono il prezzo salvato; rotte cod e stripe leggono il database); le altre entrate (ProductCard.tsx:101, CartUpsell, FrequentlyBoughtTogether) passavano già lo scontato; add_to_cart (lib/cart.ts:185) e il carrello condiviso (ShareCartButton.tsx:49) ora ricevono il valore vero. Non peggiora la voce aperta del centesimo vetrina/cassa (ProductCard.tsx:56/101)."
+  },
+  {
+   "id": "R02-021",
+   "chiave": "qa-flussi|la scheda prodotto passa il prezzo pieno alla barra d'acquisto e al carrello con una promozione attiva",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 96c07a90^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r02-prezzo-promo-al-carrello.test.tsx --json",
+    "altre": [
+     {
+      "uscita": 0,
+      "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02 --base 96c07a90^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r02-prezzo-promo-al-carrello.test.tsx,tests/unit/minori-s09-scheda-prodotto.test.ts --json"
+     }
+    ]
+   },
+   "nota": "SOLDI: due revisori qa, uno per lente; stesso commit e stessa prova di R02-020 (rimessa uscita 0). CHIUDE_TUTTA: la barra mostra price e il suo onAdd mette nel carrello lo stesso prezzo, anche «Compra ora». NATA_ROTTA: come R02-020, nessun doppio sconto, prove vicine verdi."
+  },
+  {
+   "id": "R05-005",
+   "chiave": "architettura|email di annullo spedita dentro la richiesta, senza coda: fino a circa 20 s di attesa, e se fallisce resta solo nel registro",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base beb8e4ec^ --file lib/ordini/annulla.ts --prove tests/unit/riparazione-r05-email-annullo-dopo-la-risposta.test.ts  --json"
+   },
+   "nota": "Un revisore qa per tutte e due le lenti. Prova rimessa rilanciata da me (il riparatore l'aveva fatta a mano): uscita 0. CHIUDE_TUTTA: parziale, il cosa_resta è vero ma INCOMPLETO: l'email di annullo al NEGOZIO (avvisaIlNegozioDellAnnullo, lib/ordini/annulla.ts:585-623) parte ancora dentro la richiesta e se cade resta solo nel registro (cron expire-stale-orders/route.ts:386, orders/[id]/cancel:113, annullo admin:129, cliente-assente:131; nel cron l'attesa di 2×10 s per ordine resta per metà); con la carta anche «Rimborso emesso» (lib/stripe/payout.ts:1105) parte dentro la richiesta. NATA_ROTTA: after() funziona in Next 15.5.29 anche nel cron, fuori da una richiesta aspetta come prima; «una volta per ordine» lo tiene la tabella notifications con id fisso (lib/stripe/webhook/comune.ts:144-175). Rischio nuovo, minore, ragionato sul codice e non provato contro Resend: after() fa partire tutti i lavori insieme (coda di Next senza limite), quindi nel cron N ordini scaduti nello stesso giro fanno N email in parallelo invece che in fila; sendEmail ritenta una volta dopo 300 ms senza freno suo (lib/email/client.ts:175-219): possibili invii caduti e N avvisi agli amministratori."
+  },
+  {
+   "id": "R05-006",
+   "chiave": "architettura|i soldi passano fra gli ordini del carrello con scritture una riga alla volta e una compensazione scritta a mano, non con una transazione",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base 32ea8e9c^ --file lib/ordini/annulla.ts --prove tests/unit/riparazione-r05-soldi-in-transazione.test.ts  --json",
+    "altre": [
+     {
+      "uscita": 3,
+      "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base 41a60e5f^ --file lib/ordini/annulla.ts --prove tests/unit/riparazione-r05-soldi-in-transazione.test.ts  --json"
+     },
+     {
+      "uscita": 3,
+      "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base 32ea8e9c^ --file migrations/620_i_soldi_fra_gli_ordini_del_carrello_passano_in_una_transazione.sql --prove tests/sql/rls/riparazione-r05-soldi-in-transazione.test.sql --sql k02_r05_rimessa --json"
+     }
+    ]
+   },
+   "nota": "SOLDI: due revisori qa, uno per lente. Prova rimessa rilanciata da me: uscita 0 togliendo annulla.ts dei due commit (base 32ea8e9c^ = b2c62f34, rossa sul comportamento); uscita 3 togliendo solo il secondo commit (41a60e5f^) e uscita 3 con --sql togliendo la sola migrazione 620 (la prova SQL nomina la funzione che solo la 620 crea). CHIUDE_TUTTA: parziale. Il ripiego (620 assente, cioè la produzione di oggi) resta uguale alla base: 43 file di prova di annulla (286 prove) verdi col client finto e con PGRST202 su tutte; PGRST202 è il codice di PostgREST per una funzione che non c'è; con 42501, rete, PGRST203 tre tentativi e poi si ferma senza scrivere. La funzione nuova sul Postgres locale: prova SQL 14/14, SECURITY INVOKER, search_path fisso, eseguibile solo da service_role, FOR UPDATE in ordine di id, e in concorrenza vera con due sessioni risponde false senza scrivere; la p_righe vera di annulla.ts la funzione la legge. Ma la voce oggi non è chiusa: in produzione non cambia niente finché Nicola non applica la 620, mentre il referto scrive «riparato» e copre_tutta_la_voce=true; e restano come ripiego le circa 260 righe di controllo di concorrenza in TypeScript che la voce indica (annulla.ts da 993 a 1167 righe), senza un impegno a toglierle. Aggiornamento perso visto su Postgres locale: total_price e gross_total_cents non sono confrontati (migrations/620_…sql:97 e :31, annulla.ts:691, i commenti promettono «ogni riga ancora come letta»): cambiato il totale della frutta a 10 € mentre la funzione aspetta, risponde true e lo riscrive a 15 € calcolato sui 13 € letti; il riparatore lo dichiara uguale alla base. NATA_ROTTA: regge; le prove della base non toccate, 8 prove comuni sul percorso nuovo (620 finta) 59/59, la 620 si applica da zero (210 migrazioni, 0 fallite) e due volte di fila, tsc pulito. Minore non dichiarato: su un ordine vecchio (prima della 111) col rimborso caduto, rimetti scrive rider_fee_cents=0 invece di NULL (annulla.ts:1046-1066), e lib/stripe/webhook/dispute.ts:241 legge NULL come «usa shipping_cost»."
+  },
+  {
+   "id": "R05-007",
+   "chiave": "architettura|il carrello in contanti si ritrova solo dalla tabella contro il doppio clic: senza quella riga la regola del negozio che rifiuta non scatta e nessuno lo sa",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base 52c5225a^ --file lib/ordini/annulla.ts --prove tests/unit/riparazione-r05-carrello-contanti-senza-tentativo.test.ts  --json"
+   },
+   "nota": "SOLDI: due revisori qa, uno per lente. Prova rimessa rilanciata da me: uscita 0. ROMPE_ALTRO (nata_rotta): il ripiego che ritrova il carrello in contanti dagli ordini (finestra di 2 minuti, lib/ordini/annulla.ts:778-787) mette consegna e compenso del fattorino sull'ordine di un ALTRO carrello, cosa che la base non faceva. Riprodotto: carrello B con b1 annullato e b2 a 1 € di consegna e 1 € al fattorino, con la sua riga in cod_checkout_attempts; carrello A (pane, frutta) senza riga, nato 1 minuto dopo; annullo del pane → b2 passa da 14,00 € a 16,00 € (3 e 3), la frutta resta a 13,00 €: cambia il contante da incassare alla porta di b2 e il compenso va sul giro sbagliato. Il riparatore lo dichiara nel cosa_resta (1), ma dichiararlo non lo toglie. Succede anche quando NESSUNO dei due carrelli ha la riga, se l'altro ha il negozio principale annullato senza giro rifatto (lo stato che il difetto produceva): carrello A pane 15 € + frutta 12 €, carrello B un minuto dopo con b1 annullato e latte 13 € a 1 € di consegna, il forno rifiuta → il latte sale a 3 € e 3 €, la frutta resta 1 € e 1 €; quindi il punto (2) «conto null» non è sempre vero e il controllo incrociato con la tabella proposto come cura non basterebbe. Minore: se il gruppo mescola due carrelli e il conto non torna, sull'ordine annullato ora si scrive il fattorino a 0 (la base no). CHIUDE_TUTTA: parziale e cosa_resta incompleto: la seconda posizione della voce nel registro (unAltroOrdineDelCarrelloTieneIlCodice) non è toccata né dichiarata; tieneIlCodice (annulla.ts:1193) risponde «no» appena manca la sessione Stripe e il commento a :257-263 dice ancora che il carrello in contanti non si trova: con un carrello pane+frutta in contanti col codice PRIMI50 e la riga presente, annullando il pane parte release_coupon mentre la frutta tiene il codice, e il codice monouso torna riusabile (c'era già sulla base). Non entrano nel gruppo ordini con la carta né di un altro cliente; due carrelli di un negozio solo a 30 s non spostano niente; 33 file di prova che importano annulla.ts ed economics.ts (203 prove) verdi."
+  },
+  {
+   "id": "R05-009",
+   "chiave": "architettura|la frase per l'assistente scrive a mano la soglia dei 10 euro della consegna",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base c5531abf^ --file lib/products/economics.ts --prove tests/unit/riparazione-r05-soglia-della-consegna-per-l-ai.test.ts  --json"
+   },
+   "nota": "SOLDI (soglia della consegna): due revisori qa, uno per lente. Prova rimessa rilanciata da me: uscita 0. CHIUDE_TUTTA: soglia, 999/1000 e testo vengono da SPESA_SENZA_SUPPLEMENTO_CENTS; nella funzione e nel testo per l'assistente (app/api/ai/improve-product/route.ts:313) non resta nessuna cifra della consegna scritta a mano; la prova finge davvero la costante con vi.mock e la finta arriva fino a lib/ordini/prezzi.ts. NATA_ROTTA: la frase per l'assistente è identica byte per byte alla base; l'unico consumatore è il prompt di improve-product, le sue prove verdi."
+  },
+  {
+   "id": "R05-010",
+   "chiave": "architettura|nella regola della consegna per l'ai la soglia dei 10 € e' scritta a mano",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base c5531abf^ --file lib/products/economics.ts --prove tests/unit/riparazione-r05-soglia-della-consegna-per-l-ai.test.ts  --json"
+   },
+   "nota": "SOLDI (soglia della consegna): due revisori qa, uno per lente; stesso commit, stessa riga e stessa prova di R05-009 (rimessa uscita 0). CHIUDE_TUTTA e NATA_ROTTA come R05-009."
+  }
+ ],
+ "campione": {
+  "R02": {
+   "accettato": true
+  },
+  "R05": {
+   "accettato": false
+  }
+ },
+ "annullate_controllate": [
+  {
+   "id": "R02-022",
+   "esito": "uguale alla base",
+   "comando": "git diff --stat b2c62f34 81134426 -- lib/products/variants.ts tests/unit/riparazione-r02-varianti-senza-tagli.test.tsx tests/unit/riparazione-r08-varianti-funzioni-pure.test.ts (vuoto; vuoto anche verso la punta 6b6dc73e)",
+   "nota": "62c6bc7f annullato da 81134426: i tre file toccati sono identici alla base, la prova nuova non c'è più."
+  },
+  {
+   "id": "R05-020",
+   "esito": "uguale alla base",
+   "comando": "git diff --stat b2c62f34 71c24880 -- app/api/cron/expire-stale-orders/route.ts tests/unit/riparazione-r05-carrello-scaduto-nello-stesso-giro.test.ts (vuoto; vuoto anche verso la punta 948dbae9)",
+   "nota": "22f76c4e annullato da 71c24880: il file e la prova sono identici alla base."
+  }
+ ],
+ "prove_ritoccate": [
+  {
+   "file": "tests/unit/minori-s09-scheda-prodotto.test.ts",
+   "commit": "e401a7d7",
+   "voce": "R02-020/R02-021",
+   "codificava_il_difetto": true,
+   "indebolita": false,
+   "file_letti": [
+    "app/product/[id]/page.tsx",
+    "app/product/[id]/layout.tsx",
+    "app/store/[id]/layout.tsx",
+    "app/store/[id]/[slug]/layout.tsx",
+    "app/category/[slug]/layout.tsx",
+    "lib/queries/catalogo",
+    "lib/queries/metadati-vetrina"
+   ],
+   "nota": "Il ritocco tocca solo l'asserzione 310 su app/product/[id]/page.tsx (era «al carrello il prezzo pieno», il difetto; ora niente 'price: prezzoPieno' e due 'price,': stessa forza, verso girato). Le asserzioni sui file delle altre sessioni sono intatte. Controllo incrociato simmetrico: la prova vecchia alla testa è rossa solo sul 310, la nuova sulla base è rossa solo sul 310."
+  },
+  {
+   "file": "tests/unit/riparazione-r07-storico-nello-stesso-secchio.test.ts",
+   "commit": "e3231f8e",
+   "voce": "R02-005",
+   "codificava_il_difetto": true,
+   "indebolita": false,
+   "file_letti": [
+    "scripts/backup-db.sh (tramite bloccoFoto() dell'aiutante tests/unit/riparazione-r15-rclone-finto, non toccato nel giro)"
+   ],
+   "nota": "Pretendeva uscita 0 e lo storico in «_storico» (il ripiego verde scartato da Nicola). Ora pretende uscita 5 esatta e controlla anche il disco: più forte. Effetto collaterale: nel secondo caso, non ritoccato, due not.toContain sono diventati banalmente veri (non si scrive più niente). Nessun file di altre sessioni."
+  },
+  {
+   "file": "tests/unit/riparazione-r15-backup-storico.test.ts",
+   "commit": "e3231f8e",
+   "voce": "R02-005",
+   "codificava_il_difetto": true,
+   "indebolita": false,
+   "file_letti": [
+    "scripts/backup-db.sh (tramite lo stesso aiutante R15)"
+   ],
+   "nota": "Pretendeva verde col mkdir dello storico che fallisce. Ora le stesse due asserzioni col verso girato. Il titolo dice «la copia non si tocca» ma la prova non lo controlla (c'era già prima). Nessun file di altre sessioni."
+  }
+ ]
+}
