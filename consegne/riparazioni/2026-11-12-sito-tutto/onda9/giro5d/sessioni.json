@@ -37,7 +37,8 @@
     "R02"
    ],
    "ultracode": true,
-   "tetto_usd": 30
+   "tetto_usd": 30,
+   "costo_usd": 25.86
   }
  },
  "controllori": {}
