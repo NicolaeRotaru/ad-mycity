@@ -69,4 +69,4 @@ Quante voci risulteranno sparite: lo dicono i referti delle 4 sessioni.
 - 2026-11-22 00:36 piano R09 approvato; tolta R09-010 (oscurare dati personali nei log): ai delicati.
 - 2026-11-22 00:38 piano R10 approvato; tolta R10-002 (stato «verificato» documenti fattorino): ai delicati. R10-016 solo la lettura unica, force-dynamic resta.
 - 2026-11-22 00:39 piano R11 approvato senza tolte (12 voci).
-- 2026-11-22 00:40 piano R12 approvato senza tolte (14 voci). Tutti e 12 i piani approvati: 10 voci tolte (8 ai delicati, 1 a Nicola, R03-005 ai delicati). Sorveglianza: send_later 01:09.
+- 2026-11-22 00:40 piano R12 approvato senza tolte (14 voci). Tutti e 12 i piani approvati: 11 voci tolte (10 ai delicati, R06-008 a Nicola). Sorveglianza: send_later 01:09.
