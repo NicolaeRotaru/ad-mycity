@@ -64,7 +64,8 @@ lo decide `dividi`, onda per onda; chi si scontra passa all'onda dopo, che parte
    senza il numero davanti. *Solo testo: lo fa la regia, in F0, prima della FERMATA 1.*
 2. **Lotti da 12-16 voci, anche nei giri di correzione.** Il terzo giro ne ha date 21-22 a testa: 53 voci su 87
    mai toccate perché il tetto era finito. Il valore di partenza di `dividi` è ancora 25 (`PER_SESSIONE`): si
-   passa sempre `--per-sessione 16` o meno. *Solo testo, finché `dividi` non rifiuta più di 16.*
+   passa sempre `--per-sessione 16` o meno. *Solo testo, finché `dividi` non rifiuta più di 16: lo fa la regia
+   in F0, al passo della divisione.*
 3. **La regia passa la mano a 250 mila token, davvero.** A ogni risveglio legge il suo `get_session` (senza id)
    e sopra 250 mila scrive il passaggio. Nell'onda 9: 7 regie, passaggi fra 343 e 650 mila, 151 $ cioè il 20%
    della spesa, 0,63 $ per voce data contro il tetto di 0,25 $. La regola 4 del 15/11 lo diceva già: senza
