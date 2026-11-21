@@ -37,7 +37,8 @@
     "R01"
    ],
    "ultracode": false,
-   "tetto_usd": 20
+   "tetto_usd": 20,
+   "costo_usd": 8.97
   }
  },
  "controllori": {}

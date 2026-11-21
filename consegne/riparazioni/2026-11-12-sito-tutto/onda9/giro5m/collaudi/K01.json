@@ -1,11 +1,130 @@
 {
   "collaudatore": "K01",
   "riparatori": [
+    "R01",
     "R02"
   ],
-  "aggiornato": "2026-11-21 05:56",
+  "aggiornato": "2026-11-21 06:30",
   "finita": true,
   "voci": [
+    {
+      "id": "R01-001",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-001 --base a3271121^ --file .eslintrc.json --prove tests/unit/riparazione-r01-niente-any.test.ts --json"
+      },
+      "nota": "La parte fatta regge: rimessa 0; la prova usa la .eslintrc.json vera (useEslintrc, radice del sito), e il revisore l'ha vista diventare rossa togliendo reportUnusedDisableDirectives e mettendo no-explicit-any a warn. npm run lint alla testa esce 0 (127 avvisi, 0 errori); il passo lint della CI (ci.yml:75) non ha --max-warnings, quindi i nuovi avvisi non lo fanno cadere. Resta aperto quello che il referto dichiara: 29 direttive eslint-disable morte e 36 any in 16 file a warn, tutti in file altrui. no-explicit-any era gia' error alla base.",
+      "chiave": "architettura|la regola che vieta i tipi «qualunque» non è accesa: 46 sono passati, e 40 permessi di saltare il controllo non saltano niente"
+    },
+    {
+      "id": "R01-002",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Alla base .github/workflows/ci.yml:90-109 (job unit-tests) ha gia' il passo R01-011 che accende PostgreSQL e quello che esce 1 se initdb manca o psql non risponde, prima del passo Test. tests/unit/riparazione-r01-prove-col-database-in-ci.test.ts verde alla base (nelle 13 su 13 lanciate da me). La variabile PROVE_POSTGRES_OBBLIGATORIE che nessuno legge e' nei nuovi difetti del referto: non tocca la voce.",
+      "chiave": "architettura|se sulla macchina delle prove manca postgres, sette file di prova si saltano in silenzio e la verifica esce verde lo stesso"
+    },
+    {
+      "id": "R01-004",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Alla base: lo script lint e' gia' eslint da riga di comando (package.json:9), @typescript-eslint/eslint-plugin e' dichiarato (package.json:75). iconv-lite resta dichiarato (package.json:42) per scelta provata: fontkit, che pdfkit usa per le fatture, fa require('iconv-lite') (node_modules/fontkit/dist/main.cjs), e riparazione-r05-librerie-dichiarate lo pretende. Le prove r05 e r23 delle librerie verdi alla base.",
+      "chiave": "architettura|l'elenco delle librerie dichiara una libreria mai usata e ne usa una che non dichiara, e il lint gira con un comando che next 16 toglie"
+    },
+    {
+      "id": "R01-005",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "nota": "Alla base scripts/gen-db-types.mjs:35-40 riconosce '[]' e '_tipo' prima del tipo base e restituisce '<tipo>[]'; lib/database.types.ts ha 18 colonne string[]. tests/unit/riparazione-r05-tipi-colonne-array.test.ts verde alla base.",
+      "chiave": "architettura|il generatore dei tipi scrive le colonne array (text[], uuid[]) come string invece di string[]"
+    },
+    {
+      "id": "R01-006",
+      "verdetto": "non_regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 2,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-006 --base b856771f^ --file tests/unit/minori-s08-avvisi.test.ts --prove tests/unit/minori-s08-avvisi.test.ts --json",
+        "a_mano": {
+          "comando": "git show <rev>:tests/unit/minori-s08-avvisi.test.ts > /tmp/s08.ts; sh -c \"! grep -qE 'ClienteAvvisi = \\{|from: \\(t\\) => \\(\\{' /tmp/s08.ts && grep -q fintoGiroNotturno /tmp/s08.ts\" con rev=b856771f^ e rev=b856771f",
+          "uscita_senza_correzione": 1,
+          "uscita_con_correzione": 0
+        }
+      },
+      "nota": "Verdetto di regola, non di merito, come R02-001. prova-rimessa esce 2 («un file non puo' essere insieme correzione e prova»): la voce e' la prova stessa. Il mio giudizio pieno: regge e non indebolisce niente. Controllo di struttura rifatto da me: 1 senza la correzione, 0 con; 8 casi su 8 verdi; nessuna riga expect nel diff. Il revisore ha lanciato 8 mutanti di lib/privacy/avvisi-a-chi-aspetta.ts contro la prova vecchia (b856771f^) e la nuova: esito identico mutante per mutante (4 presi da tutte e due, 4 vivi in tutte e due), quindi nessun indebolimento. Il finto comune da' lo stesso testo d'errore sui doppioni (piu' code 23505) e il codice guarda solo il testo. I 4 mutanti vivi (doppione non riconosciuto, guasto del registro degli invii ignorato, doppione sul turno email che lancia, lettura senza filtro sull'id) c'erano gia' prima: buco vecchio, fuori voce.",
+      "chiave": "architettura|una quinta copia scritta a mano del finto clienteavvisi nelle prove degli avvisi"
+    },
+    {
+      "id": "R01-007",
+      "chiave": "deploy-sre|la costruzione del sito dipende dal download dei caratteri da google e ogni tanto fallisce da sola",
+      "verdetto": "regge",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 0,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-007 --base 37e5b8cc^ --file app/layout.tsx,app/fonts/fraunces-latin-400-italic.woff2,app/fonts/fraunces-latin-400-normal.woff2,app/fonts/fraunces-latin-500-italic.woff2,app/fonts/fraunces-latin-500-normal.woff2,app/fonts/fraunces-latin-600-italic.woff2,app/fonts/fraunces-latin-600-normal.woff2,app/fonts/fraunces-latin-700-italic.woff2,app/fonts/fraunces-latin-700-normal.woff2,app/fonts/fraunces-latin-800-italic.woff2,app/fonts/fraunces-latin-800-normal.woff2,app/fonts/inter-latin-wght-italic.woff2,app/fonts/inter-latin-wght-normal.woff2 --prove tests/unit/riparazione-r01-caratteri-locali.test.ts --json"
+      },
+      "nota": "Rimessa 0, con ognuno dei 12 woff2 tolto da solo rosso. Revisore: alla base Fraunces era chiesto 400-800 dritto e corsivo senza assi (niente opsz, SOFT, WONK) e Inter variabile 100-900: i file locali danno gli stessi pesi, stili, variabili CSS e display; nel codice nessun peso fuori da quelli caricati. Glifi italiani presenti in tutti i 12 file (fontkit, offline): àèéìòù ÀÈÉÌÒÙ € «» ’ “ ” — …; i corsivi hanno davvero l'angolo (-16 e -9,4). npx next build esce 0 con il proxy chiuso: nessuna richiesta a Google, 12 woff2 in .next/static/media. Prove comuni: nessuna indebolisce. r10 e r15 aggiungono solo il finto di next/font/local accanto a quello di google. Nel corsivo lo skipIf salta di meno: prima CATALOGO === null, ora CATALOGO === null && !carattere.locale, nessun caso salta adesso e non prima. Buco nuovo, non della riparazione: per i caratteri locali la prova del corsivo guarda solo che il file inclinato esista, quindi un woff2 dritto dichiarato style italic passa 7 su 7 (provato dal revisore); si chiude leggendo l'angolo con fontkit. Schermate: il revisore ha fatto solo la testa (si caricano solo woff2 locali, h1 in Fraunces); la base non e' partita in 4 minuti, quindi il confronto prima/dopo non l'ho rifatto. I numeri del referto (a fuzz 30 da 1 a 15 pixel diversi, 0 fra due «prima» di fila) dicono bordi del testo, non righe spostate."
+    },
+    {
+      "id": "R01-009",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 2,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-head --base 0f98fb8a --file public/manifest.json --json  (nessun commit e nessuna prova: «manca --prove»)"
+      },
+      "nota": "Nessun commit: public/manifest.json e' identico alla base. Alla base niente orientation, \"id\": \"/\" e display_override ci sono gia'. Manca screenshots (narrow e wide), che la voce chiede: servono schermate vere del sito date da Nicola. Parziale e' il verdetto giusto.",
+      "chiave": "mobile-pwa|il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione"
+    },
+    {
+      "id": "R01-010",
+      "verdetto": "parziale",
+      "giudizio": "pieno",
+      "lenti": [
+        "chiude_tutta",
+        "nata_rotta"
+      ],
+      "rimessa": {
+        "uscita": 2,
+        "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-010 --base 9ea41313^ --file tests/unit/riparazione-r01-carrello-arrotondamento.test.ts --prove tests/unit/riparazione-r01-carrello-arrotondamento.test.ts --json",
+        "a_mano": {
+          "comando": "python: in app/cart/page.tsx sostituire «subtotalCents: Math.round(g.items.reduce((somma, it) => somma + it.price * it.quantity, 0) * 100),» con «subtotalCents: g.items.reduce((somma, it) => somma + it.price * it.quantity, 0) * 100,»; npx vitest run tests/unit/riparazione-r01-carrello-arrotondamento.test.ts --reporter=dot; git checkout -- app/cart/page.tsx",
+          "uscita_senza_correzione": 1,
+          "uscita_con_correzione": 0
+        }
+      },
+      "nota": "La prova nuova morde: monta il CartPage vero, e con la mutante scritta bene (solo Math.round tolto) cade sull'asserzione «consegna 4,00 € invece di 3,00 €»; con Math.round 2 su 2. Attenzione: il comando a mano del referto (sed con \\(.*\\) goloso) toglie anche la parentesi che chiude reduce, il file non compila e vitest dice «no tests»: e' rosso per la struttura, va riscritto nel referto. Resta viva una mutante sul conto della consegna, alla stessa riga 529: Math.ceil al posto di Math.round passa tutte le 341 prove delle 29 che montano il carrello (revisore). Caso concreto trovato da me: 3 × 1,35 € + 5,94 € = 9,99 € fa 999,0000000000002 centesimi, Math.ceil da' 1000 e la consegna esce 3 € invece di 4 € (altri: 1,60 × 3 + 5,19; 2,43 × 3 + 2,70). Le altre 17 mutanti del revisore muoiono.",
+      "chiave": "qa-flussi|buco nelle prove del carrello: alcune mutanti del collaudo sul conto della consegna restano verdi"
+    },
     {
       "id": "R02-001",
       "verdetto": "non_regge",
