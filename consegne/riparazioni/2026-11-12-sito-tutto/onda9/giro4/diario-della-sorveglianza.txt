@@ -70,3 +70,4 @@
 2026-11-21 05:06 · archiviati R01-R04 g4, K01, K01 secondo, K02 secondo, C04 · costi finali giro 4: riparatori 117,47 $ (29,11 + 24,34 + 36,18 + 27,84), collaudi 35,76 $, controllore 7,96 $ = 161,19 $ per 34 chiusure (≈ 4,7 $ l'una), 29 nati
 2026-11-21 05:06 · PR in bozza sul sito: NicolaeRotaru/mycity#300 (integrazione 0f98fb8a, nessuna migrazione nuova)
 2026-11-21 05:07 · aperta S01 g5, la riservata (session_015BmpnUzW8AxERgG23qX2Lj, ultracode, tetto 25 $), ramo claude/adoring-bohr-kixq35-o9g5-s01: dettagli solo in chat
+2026-11-21 05:17 · giro 5 · R01 g5d 7,86 $ · R02 g5d 6,66 $ · R01 g5m 3,03 $ · R02 g5m 6,58 $ (lotto A spinto, 2bd6cf84; rosso atteso: prova comune di R02-001) · S01 2,20 $ · totale 26,33 $ · nessuno fermo
