@@ -1,5 +1,23 @@
 # Regia · settimana dei 700 (aperta 2026-11-21 14:00)
 
+## In parole semplici
+Questo quaderno serve a riprendere la settimana dei 700 senza rileggere la chat.
+Il 21/11 alle 15:20 Nicola ha dato un tetto di 1.200 $ e le due firme.
+Ha anche detto sì al ricontrollo, che parte prima delle riparazioni.
+Il ricontrollo guarda 459 voci con 4 sessioni, per circa 169 $.
+
+## Cosa cambia per te
+Niente sul sito: il ricontrollo legge e basta.
+Le voci che risultano sparite si chiudono senza pagare una riparazione.
+
+## Cosa devi fare
+Niente, finché la regia non ti scrive in chat.
+
+## Cosa non ho verificato
+Quante voci risulteranno sparite: lo dicono i referti delle 4 sessioni.
+
+## Dettagli tecnici
+
 - Regista: session_015BmpnV6hh4YTsgDkt8stTW, ramo `claude/stoic-ride-btlf2d` (memoria della notte, fino all'unione di ad-mycity#988).
 - Base del sito: `main` @ 1ad51b4c (unione di mycity#300). Deposito del sito aggiunto alle 14:00.
 - Perimetro (2026-11-21 14:00): 749 aperti · 577 lavorabili (4 bloccanti, 55 gravi, 518 minori) · fuori: 88 riservate, 67 con domanda, 17 senza percorso.
@@ -8,7 +26,9 @@
 - Quota alle 14:00: `allowed_warning`, rinnovo 26/11 alle 10:00.
 
 ## Scelte di Nicola (21/11 15:20)
-- Tetto 1.200 $ (`stima_usd` della settimana). Firme a e b. Prima il ricontrollo (circa 450 voci), poi le riparazioni.
+- Il tetto della settimana è 1.200 $.
+- Le firme a e b sono date.
+- Prima si fa il ricontrollo, circa 450 voci. Poi si riparano le voci ancora vere.
 - Dettagli riservati ricevuti in chat dalla 10.0 alle 13:58: restano solo in chat.
 
 ## Fermo su
