@@ -1,0 +1,76 @@
+{
+  "corsia": 3,
+  "territorio": "R03",
+  "difetti": [
+    {
+      "chiave": "ai-endpoints|quando il tetto di spesa ai blocca un lavoro sul catalogo il negoziante legge «riprova» e il lavoro risulta fallito",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-lotto-fermato-dal-tetto.test.ts",
+      "non_vacuita": "timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base c81e4d0b498d68d522cc31274964e8af013543b5^ --file app/api/ai/catalog-batch/start/route.ts --prove tests/unit/riparazione-r03-lotto-fermato-dal-tetto.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base c81e4d0b498d68d522cc31274964e8af013543b5^ --file app/api/ai/catalog-batch/start/route.ts --prove tests/unit/riparazione-r03-lotto-fermato-dal-tetto.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Nel catch della rotta di avvio il blocco del tetto (AiCallError tetto_spesa) non passa più dal ramo dei guasti: risponde 503 «Budget AI giornaliero esaurito. Riprova domani.» via mapAiError e la riga si chiude «canceled» col motivo del tetto, invece di «failed» con un 502 «Riprova»."
+    },
+    {
+      "chiave": "ai-endpoints|un lotto ai partito ma non agganciato resta «in invio» per sempre, e la pagina del negozio non mostra né rotella né pulsante",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-lotto-non-agganciato.test.ts",
+      "non_vacuita": "timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base 83c59ea12b146183cee1002f512df9cca8df4deb^ --file app/api/ai/catalog-batch/start/route.ts,app/api/ai/catalog-batch/status/route.ts --prove tests/unit/riparazione-r03-lotto-non-agganciato.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 83c59ea12b146183cee1002f512df9cca8df4deb^ --file app/api/ai/catalog-batch/start/route.ts,app/api/ai/catalog-batch/status/route.ts --prove tests/unit/riparazione-r03-lotto-non-agganciato.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Sulla base R04-005 aveva già sistemato la pagina (rotella per «in invio», pulsante per «fallito», chiusura a 15 minuti). Restava il caso esatto della voce, il lotto partito ma non agganciato, che ora si aggancia con lo stesso commit di R03-003. La pagina non è stata toccata."
+    },
+    {
+      "chiave": "ai-endpoints|il copilot non riesce a preparare una modifica su tutto il catalogo oltre circa cento prodotti: risponde «riprova» e fallisce ogni volta",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-copilot-tutto-il-catalogo.test.ts",
+      "non_vacuita": "node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base 8ba0223f7e8658776890814c7aa67903f20e398f^ --file app/api/ai/copilot/route.ts --prove tests/unit/riparazione-r03-copilot-tutto-il-catalogo.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 8ba0223f7e8658776890814c7aa67903f20e398f^ --file app/api/ai/copilot/route.ts --prove tests/unit/riparazione-r03-copilot-tutto-il-catalogo.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Anche la regola con gli id supera il tetto di token oltre circa 120 prodotti. Ora la regola ha «tutti»: true e gli id li mette il server dall'elenco che il modello ha visto: «abbassa del 10% tutto» su 150 prodotti dà 150 modifiche. Il prompt chiede al massimo 40 voci singole (tetto solo nel prompt, non misurato col modello vero)."
+    },
+    {
+      "chiave": "ai-endpoints|«genera con ai» riscrive la descrizione partendo solo dal nome e la sostituisce a quella del negoziante, senza la regola «non inventare»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-descrizione-proposta.test.tsx",
+      "non_vacuita": "node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base 71116772673508287f469b9ea698c6d0da47a05f^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r03-descrizione-proposta.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 71116772673508287f469b9ea698c6d0da47a05f^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r03-descrizione-proposta.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "Sulla base la rotta era già a posto (S10: «Non inventare», niente provenienza locale, descrizione attuale intera fino a 4000 caratteri). Restava il modulo che sostituiva il testo in silenzio: sopra un testo già scritto il risultato ora si mostra come proposta con «Usa questa» e «Tieni la mia»; su un campo vuoto entra subito. La prova monta il ProductForm vero e guarda anche la rotta."
+    },
+    {
+      "chiave": "ai-endpoints|un 404 del fornitore nell'aggiornamento dei prezzi esterni diventa un generico «aggiornamento non riuscito»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-prezzi-esterni-404.test.ts",
+      "non_vacuita": "node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base 7b7dcd779ab489c01264da80b183ac7b0af275eb^ --file app/api/products/[id]/external-refresh/route.ts,app/api/cron/external-price-alerts/route.ts --prove tests/unit/riparazione-r03-prezzi-esterni-404.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 7b7dcd779ab489c01264da80b183ac7b0af275eb^ --file app/api/products/[id]/external-refresh/route.ts,app/api/cron/external-price-alerts/route.ts --prove tests/unit/riparazione-r03-prezzi-esterni-404.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Cambiati solo la classificazione e il testo dell'errore: con un AiCallError 404 «Aggiorna ora» risponde 503 «Funzione AI momentaneamente non disponibile.» (le parole di mapAiError) invece di 502 «Aggiornamento non riuscito. Riprova.»; nel refresh in sottofondo e nel giro a orario parte l'allarme sul modello (AI_MODELLO_SMART) e il giro lo scrive nella risposta. Prezzi e scritture non cambiano."
+    },
+    {
+      "chiave": "ai-endpoints|il filtro di moderazione prima del copilot non ha un tempo suo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-filtro-col-suo-tempo.test.ts",
+      "non_vacuita": "node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base 96421fef6e09ecb92907aef48c575bbf0666553e^ --file lib/ai/moderation.ts --prove tests/unit/riparazione-r03-filtro-col-suo-tempo.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 96421fef6e09ecb92907aef48c575bbf0666553e^ --file lib/ai/moderation.ts --prove tests/unit/riparazione-r03-filtro-col-suo-tempo.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "assertSafeText ha un tempo suo: un tentativo da 10 s senza ritentativi. Filtro più Copilot (80 s) fanno 90 s, sotto i 120 della rotta. La prova passa dalla rotta del Copilot vera, col filtro vero."
+    },
+    {
+      "chiave": "ai-endpoints|se si riaccende «traduci», una descrizione lunga torna tradotta solo all'inizio e il modulo la presenta come intera",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-traduzione-lotto-lunga.test.ts",
+      "non_vacuita": "node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base 7ffe94441a90a1bfe309877ea37c4b87ad8dfd77^ --file app/api/ai/catalog-batch/start/route.ts,app/seller/products/ai-batch/page.tsx --prove tests/unit/riparazione-r03-traduzione-lotto-lunga.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 7ffe94441a90a1bfe309877ea37c4b87ad8dfd77^ --file app/api/ai/catalog-batch/start/route.ts,app/seller/products/ai-batch/page.tsx --prove tests/unit/riparazione-r03-traduzione-lotto-lunga.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Dal modulo la strada era già chiusa sulla base (R04-016: translate/route.ts:106 rifiuta prima di spendere, runMessage rifiuta un'uscita tagliata). Restava il lotto «traduci» del catalogo (catalogBatch.ts:192 taglia a 4000 caratteri senza dirlo): ora la rotta start, con operation translate, lascia fuori le schede oltre i 2500 caratteri fra nome e descrizione (lo stesso tetto del modulo), lo dice in esclusiTroppoLunghi e la pagina lo scrive; se sono tutte lunghe risponde 400 e non parte niente."
+    },
+    {
+      "chiave": "ai-endpoints|il tetto di spesa ai del giorno si sfora quando più chiamate partono insieme",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-tetto-fra-copie.test.ts",
+      "non_vacuita": "timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base ef3188359d8c51ed964382bc2fd585450196f6f3^ --file lib/ai/run.ts --prove tests/unit/riparazione-r03-tetto-fra-copie.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base ef3188359d8c51ed964382bc2fd585450196f6f3^ --file lib/ai/run.ts --prove tests/unit/riparazione-r03-tetto-fra-copie.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Dentro una copia la prenotazione c'era già (R04-017); ora controllaTettoSpesaAi prenota la stima anche su Upstash (INCRBY atomico, finestre di 5 minuti con scadenza 15) prima di leggere lo speso, e la toglie a spesa registrata o a tetto che ferma. Nessuna migrazione; nella rotta del lotto solo l'await sulla liberazione, ora asincrona."
+    },
+    {
+      "chiave": "ai-endpoints|nella chat assistenza la scheda della proposta promette caratteristiche che il server butta via, e dopo «applica» dice «modifiche salvate» senza aver cambiato niente",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-chat-togli-solo-cio-che-ce.test.ts",
+      "non_vacuita": "node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base 54319c41bc7f55f0c151fce65ff6be7c1ebaddec^ --file lib/products/aiPatch.ts --prove tests/unit/riparazione-r03-chat-togli-solo-cio-che-ce.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base 54319c41bc7f55f0c151fce65ff6be7c1ebaddec^ --file lib/products/aiPatch.ts --prove tests/unit/riparazione-r03-chat-togli-solo-cio-che-ce.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "propostaPerLaChat teneva «Rimuovi <caratteristica>» anche se il prodotto non l'aveva, e il server non toglieva niente. Ora, con gli attributi attuali noti, la proposta tiene una rimozione solo se il dato c'è o se la stessa proposta lo scrive, come attributiDaTogliere sul server. La prova passa dalla rotta catalog-chat vera."
+    },
+    {
+      "chiave": "architettura|il modulo del prodotto applica le proposte dell'assistente con una seconda copia delle regole del server, e le due copie sono già diverse",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-modulo-e-server-una-copia.test.ts",
+      "non_vacuita": "node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base a55668fb332309f58aa991803e7d916317e250ba^ --file lib/products/aiPatch.ts --prove tests/unit/riparazione-r03-modulo-e-server-una-copia.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03 --base a55668fb332309f58aa991803e7d916317e250ba^ --file lib/products/aiPatch.ts --prove tests/unit/riparazione-r03-modulo-e-server-una-copia.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Restavano due differenze fra pianoPatchPerIlModulo e resolveAiPatch (prezzo pieno barrato taciuto dal modulo; caratteristica scritta e tolta nella stessa proposta). Ora tag, caratteristiche da scrivere e prezzo pieno stanno in un solo posto (tagDelPatch, caratteristicheDaScrivere, prezzoPienoDalPatch) usato da tutte e due; la prova manda 25 casi su due prodotti per le due strade e controlla che scrivano e dicano la stessa cosa."
+    }
+  ]
+}

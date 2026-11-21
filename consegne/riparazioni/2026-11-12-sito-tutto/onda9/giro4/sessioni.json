@@ -1,0 +1,98 @@
+{
+ "regista": "session_015BmpnZ6sDXhTVpCDMSp2nP",
+ "regista_prima": [
+  "session_015BmpnVsaBSAMXVLwgUxhRH",
+  "session_015BmpnYruq7734YUce72wCa",
+  "session_015BmpnX37gUC8Poxk3muVMa"
+ ],
+ "sha_regista": "717a8e651fed10717dbb1783dceb2e9f00b239a6",
+ "integrazione": {
+  "ramo": "claude/stoic-ramanujan-p9tmso (sito)",
+  "partenza": "2d19787b789236307ac7ddd6c05b038a658a3d9d",
+  "unita": "0f98fb8a372c6f31bcda8ca3c2ef4385c9c21b23",
+  "pr": "NicolaeRotaru/mycity#300"
+ },
+ "sessioni": {
+  "R01": {
+   "id": "session_015BmpnYYucAqVBr7nJGfNnu",
+   "ramo": "claude/adoring-bohr-kixq35-o9g4-m01",
+   "onda": 1,
+   "ultracode": false,
+   "costo_usd": 29.11
+  },
+  "R02": {
+   "id": "session_015BmpnXTYcNLHuqHCtPy8uw",
+   "ramo": "claude/adoring-bohr-kixq35-o9g4-m02",
+   "onda": 1,
+   "ultracode": false,
+   "costo_usd": 24.34
+  },
+  "R03": {
+   "id": "session_015BmpnZ5wA1LkPL3qZuawv1",
+   "ramo": "claude/adoring-bohr-kixq35-o9g4-m03",
+   "onda": 1,
+   "ultracode": true,
+   "costo_usd": 36.18
+  },
+  "R04": {
+   "id": "session_015BmpnZLFNqvaVHUjPwSmo6",
+   "ramo": "claude/adoring-bohr-kixq35-o9g4-m04",
+   "onda": 1,
+   "ultracode": true,
+   "costo_usd": 27.84
+  }
+ },
+ "tetti_usd": {
+  "R01": 35,
+  "R02": 35,
+  "R03": 35,
+  "R04": 35,
+  "riservata": 25,
+  "collaudo": 60,
+  "controllore": 10,
+  "regia": 15
+ },
+ "collaudatori": {
+  "K01": {
+   "id": "session_015BmpnZ4cmytXiuJNEUHbjF",
+   "ramo": "claude/adoring-bohr-kixq35-o9g4-k01",
+   "partenza": "ce5c5c561b855aa140eb2e86c2f4d5ea3d5fca57",
+   "riparatori": [
+    "R02",
+    "R01"
+   ],
+   "ultracode": false,
+   "secondo": {
+    "id": "session_015BmpnXJDYTrbKj6zcC9iir",
+    "partenza": "4b8d2ee37ae4fcea5371ceda27b7dff4bd813e8f",
+    "riparatori": [
+     "R01"
+    ],
+    "costo_usd": 4.49
+   },
+   "costo_usd": 10.24,
+   "tetto_usd": 25
+  },
+  "K02": {
+   "id": "session_015BmpnVznX8Z2f413vhALzY",
+   "titolo": "K02 secondo",
+   "ramo": "claude/adoring-bohr-kixq35-o9g4-k02",
+   "partenza": "709d7abb2ed6b56f52c092d3d659187557c91191",
+   "riparatori": [
+    "R04",
+    "R03"
+   ],
+   "ultracode": true,
+   "tetto_usd": 35,
+   "nota": "il primo K02 (session_015BmpnY2rLqpA8XfBuSBkzY) non è mai partito: commit di partenza scritto a mano e sbagliato; archiviato"
+  }
+ },
+ "controllori": {
+  "C04": {
+   "id": "session_015BmpnXKo33YzvVFzsQLFiR",
+   "ramo": "claude/adoring-bohr-kixq35-o9g4-c04",
+   "costo_usd": 7.96
+  }
+ },
+ "nota_regia": "2026-11-21 03:20 · la 10.0 prende la mano dalla 9.0 (passaggio PASSAGGIO-REGIA-O9-10.md); profondità 0"
+}

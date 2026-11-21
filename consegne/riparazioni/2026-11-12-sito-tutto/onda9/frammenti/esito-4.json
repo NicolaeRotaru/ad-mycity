@@ -1,0 +1,20 @@
+{
+  "corsia": 4,
+  "territorio": "R04",
+  "difetti": [
+    {
+      "chiave": "api-backend|un patch dell'amministrazione su un prodotto che non esiste risponde 200 e lascia una traccia con «prima» vuoto",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-002-prodotto-inesistente.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base fd6db8a9d5618950aca9b241e821d9a4c0c25d62^ --file app/api/admin/products/route.ts --prove tests/unit/riparazione-r04-002-prodotto-inesistente.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base fd6db8a9d5618950aca9b241e821d9a4c0c25d62^ --file app/api/admin/products/route.ts --prove tests/unit/riparazione-r04-002-prodotto-inesistente.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "La lettura di com'era il prodotto ora viene prima di tutto (anche con solo le taglie): se non esiste risponde 404 e non salva varianti né scrive la traccia."
+    },
+    {
+      "chiave": "api-backend|il conteggio dei promemoria «inviati» include carrelli segnati senza nessuna email",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r04-005-promemoria-non-partiti.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base cd07e425a37bcf7a35a53ae6f2cab9fbd99511c6^ --file app/api/cron/abandoned-carts/route.ts --prove tests/unit/riparazione-r04-005-promemoria-non-partiti.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04 --base cd07e425a37bcf7a35a53ae6f2cab9fbd99511c6^ --file app/api/cron/abandoned-carts/route.ts --prove tests/unit/riparazione-r04-005-promemoria-non-partiti.test.ts --json → uscita 0 (K03)",
+      "nota_fix": "Il ramo senza consenso era già a posto sulla base (R30-003). Restavano due rami che lasciavano un carrello rivendicato col segno «avvisato» senza nessuna email: l'invio fallito e il modello dell'email mancante. Ora tutti e due rimettono il segno all'ultima attività con lo stesso update condizionato (aiutante segnoSenzaEmailPartita), che chiusoSenzaEmail e il conteggio riconoscono; nessun nuovo invio."
+    }
+  ]
+}

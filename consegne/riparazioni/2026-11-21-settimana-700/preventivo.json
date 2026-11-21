@@ -1,0 +1,14 @@
+{
+  "creato": "2026-11-21 13:59",
+  "voci": 577,
+  "per_voce_usd": 3.88,
+  "fonte": "misure.json, fase «onda 9 giro 5, correzione del giro 4 (21/11 notte)»",
+  "stima_usd": 2241.04,
+  "tetto_usd": 2913.35,
+  "massimo_usd": 4491.77,
+  "quote_usd": {
+    "collaudo": 336.16,
+    "regia": 224.1,
+    "riparatori": 1680.78
+  }
+}

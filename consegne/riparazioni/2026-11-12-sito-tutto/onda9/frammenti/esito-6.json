@@ -1,0 +1,13 @@
+{
+  "corsia": 6,
+  "territorio": "R06",
+  "difetti": [
+    {
+      "chiave": "qa-flussi|il filtro «oggi» nei guadagni del fattorino taglia la giornata a mezzanotte del telefono, non di piacenza",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r06-oggi-del-fattorino.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 289c7de9^ --file app/rider/earnings/page.tsx --prove tests/unit/riparazione-r06-oggi-del-fattorino.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R06 --base 289c7de989^ --file app/rider/earnings/page.tsx --prove tests/unit/riparazione-r06-oggi-del-fattorino.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "Il filtro «Oggi» confronta giornoPiacenza(delivered_at) con giornoPiacenza() invece della mezzanotte del telefono (setHours); gli importi non sono toccati (è una data, eccezione della regola 3). La prova monta la pagina vera con orologio finto e fuso del processo UTC e America/New_York, d'inverno e d'estate: 3 casi rossi senza la cura, verdi con la cura."
+    }
+  ]
+}

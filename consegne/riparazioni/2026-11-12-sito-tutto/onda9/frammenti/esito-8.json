@@ -1,0 +1,41 @@
+{
+  "corsia": 8,
+  "territorio": "R08",
+  "difetti": [
+    {
+      "chiave": "immagini-media|altre foto di prodotto restano senza ripiego quando la foto è stata cancellata",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r08-foto-con-ripiego.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 7c414b78117dafef4157d0a48b831ea62495b99e^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r08-foto-con-ripiego.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R08 --base 86c234c671dcf06ed56b426a1002f565fb330f42^ --file app/product/[id]/page.tsx,components/RecentlyViewed.tsx,components/cart/CartUpsell.tsx --prove tests/unit/riparazione-r08-foto-con-ripiego.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "Le tre <Image> nude (le foto delle recensioni nella scheda, RecentlyViewed, CartUpsell) ora passano da FotoConRipiego, il componente che il sito usa già per la foto rotta. Le due foto della galleria (:708 e :772) erano già riparate sulla base. Anche lo zoom a schermo intero della scheda (un <img> nudo) ha ora il ripiego: stesso segnaposto /foto-mancante.svg via onError, senza un giro infinito se manca anche il segnaposto. La prova apre lo zoom nella pagina vera, fa cadere la foto e vede il segnaposto."
+    },
+    {
+      "chiave": "microcopy|la conferma al cliente scrive «domani · 9:00–12:00» senza la data: chi la rilegge il giorno dopo capisce il giorno sbagliato",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r08-conferma-con-la-data.test.ts tests/unit/minori-s03-email-testi.test.ts tests/unit/riparazione-r28-conferma-carta.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base bd58ec878fa0cdf5f0878e965c9541f35c474225^ --file lib/email/templates.ts --prove tests/unit/riparazione-r08-conferma-con-la-data.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R08 --base 25ee7dee805958675584c46c9524c24ea5cc4b75^ --file lib/email/templates.ts --prove tests/unit/riparazione-r08-conferma-con-la-data.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "La conferma al cliente scrive la data DOPO la fascia, «Domani · 9:00–12:00 (sabato 31/10)», sia per Oggi sia per Domani. «Adesso» della veloce resta com'è. Il giorno si conta a Roma da createdAt (argomento opzionale), altrimenti da adesso. L'email al negozio (conLaData) non cambia. Prova esistente aggiornata con orologio finto, senza indebolirla: tests/unit/minori-s03-email-testi.test.ts (importa lib/email/templates). Il primo commit metteva la data prima della fascia e rompeva tests/unit/riparazione-r28-conferma-carta.test.ts:89, una prova non nostra: il secondo commit la sposta dopo, e r28 torna verde senza essere toccata."
+    },
+    {
+      "chiave": "navigazione-gerarchia|la pagina di una categoria madre rimette i bottoni delle sottocategorie vuote quando una rilettura delle categorie piene cade",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r08-piene-rilettura-caduta.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base f6d4f4c1e380865c79ed0354de882186508e044e^ --file app/category/[slug]/page.tsx,components/home-sections/ChipDelleCategorie.tsx --prove tests/unit/riparazione-r08-piene-rilettura-caduta.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R08 --base f6d4f4c1e380865c79ed0354de882186508e044e^ --file app/category/[slug]/page.tsx,components/home-sections/ChipDelleCategorie.tsx --prove tests/unit/riparazione-r08-piene-rilettura-caduta.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "Stessa riga e stessa cura di R08-007, quindi un commit solo, dichiarato. Con la rilettura caduta il bottone della sottocategoria vuota non torna."
+    },
+    {
+      "chiave": "navigazione-gerarchia|nel «completa con» del carrello un prezzo da 5000 € in su spinge fuori il pulsante «+»",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r08-completa-con-prezzo-lungo.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 78e4c02b6b9e51d587a2aaf6470809608ac33830^ --file components/cart/CartUpsell.tsx --prove tests/unit/riparazione-r08-completa-con-prezzo-lungo.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R08 --base edab34ecd39a58ef9da18c1f5420016eb249938b^ --file components/cart/CartUpsell.tsx --prove tests/unit/riparazione-r08-completa-con-prezzo-lungo.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "Il prezzo resta intero (whitespace-nowrap, niente truncate) e la riga di prezzo e «+» va a capo (flex-wrap): con un prezzo da 5.000 € in su il «+» scende sotto invece di uscire dalla scheda. È la seconda cura indicata dalla voce («il prezzo su una riga sua»). Il primo commit troncava l'importo, e il revisore l'ha bocciato. La prova è di stile, e ogni caso cade senza la correzione."
+    },
+    {
+      "chiave": "navigazione-gerarchia|la ricerca, la pagina di una categoria e i chip della home buttano via le categorie piene già note quando una rilettura fallisce",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r08-piene-rilettura-caduta.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base f6d4f4c1e380865c79ed0354de882186508e044e^ --file app/category/[slug]/page.tsx,components/home-sections/ChipDelleCategorie.tsx --prove tests/unit/riparazione-r08-piene-rilettura-caduta.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo /home/user/wt-R08 --base f6d4f4c1e380865c79ed0354de882186508e044e^ --file app/category/[slug]/page.tsx,components/home-sections/ChipDelleCategorie.tsx --prove tests/unit/riparazione-r08-piene-rilettura-caduta.test.ts --json → uscita 0 (K04)",
+      "nota_fix": "La pagina categoria e i chip della home usano ora `piene.data ?? null` invece di `isError ? null : data`: una rilettura caduta tiene le categorie piene già note. Il terzo punto, la ricerca (SearchBar.tsx:77), era già riparato sulla base dal commit 3c0e939d (R03-005)."
+    }
+  ]
+}

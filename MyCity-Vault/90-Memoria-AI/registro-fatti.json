@@ -509,6 +509,16 @@
       ]
     },
     {
+      "id": "consegna.veloce-per-fattorino",
+      "nome": "Consegna veloce: quante per fattorino",
+      "valore": "Una consegna veloce alla volta per ogni fattorino disponibile: mentre un fattorino ne ha una in corso, la cassa non propone la veloce a nessun altro carrello. Al lancio il fattorino è solo Nicola, quindi una veloce alla volta in tutta la città.",
+      "fonte": "Nicola, chat «Ondata 9», 2026-11-19 11:45: «rispondi tu alle 12 scelte, dimmi tu» (scelta dell'AD su delega)",
+      "aggiornato": "2026-11-19 11:46",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
       "id": "controllo.tre-livelli",
       "nome": "Chi si accorge dei guasti",
       "valore": "Tre livelli che si guardano a vicenda. 1) Il sito fa suonare i telefoni in pochi secondi, e ha il tasto «ferma gli ordini». 2) Il Pannello, su un progetto Vercel separato dal sito, fa la guardia ogni 5 minuti senza IA: prova home, cassa e login, legge gli errori nuovi di Sentry, fa girare le regole sui dati; scrive negli Avvisi e manda una notifica al telefono Android di Nicola; ha anche lui il tasto «ferma gli ordini». 3) L'AD sul server ragiona con calma: conto della sera, diagnosi accurata dei guasti (dove, perché, cosa colpisce, come ripararlo), analisi dei negozi. La riparazione la fa Nicola con Claude Code. Le paure da coprire per prime: soldi sbagliati, il negozio che non sa dell'ordine, pagine con errori.",
@@ -726,6 +736,16 @@
       "valore": "Dal recesso di 14 giorni sono esclusi i prodotti che si deteriorano in fretta (pane, dolci, salumi, latticini e gli altri freschi) e quelli fatti su ordinazione. Su tutto il resto il recesso resta di 14 giorni. Ogni scheda prodotto dice se il prodotto è escluso.",
       "fonte": "Nicola in chat il 31/10/2026, risposta alle domande prima dell'ondata 6 (letta alle 2026-10-31 16:13)",
       "aggiornato": "2026-10-31 16:13",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "legale.recesso-scadenza-festivi",
+      "nome": "Recesso: scadenza nei festivi",
+      "valore": "Se il quattordicesimo giorno del recesso cade di sabato, di domenica, in un festivo nazionale o il 4 luglio (Sant'Antonino, patrono di Piacenza), la scadenza si sposta alla fine del primo giorno lavorativo dopo. È la regola europea sui termini (regolamento 1182/71, articolo 3): spostarla a favore del cliente non costa niente e toglie il rischio di contestazioni.",
+      "fonte": "Nicola, chat «Ondata 9», 2026-11-19 11:45: «rispondi tu alle 12 scelte, dimmi tu» (scelta dell'AD su delega)",
+      "aggiornato": "2026-11-19 11:46",
       "storia": [],
       "caccia": [],
       "esenzioni": []

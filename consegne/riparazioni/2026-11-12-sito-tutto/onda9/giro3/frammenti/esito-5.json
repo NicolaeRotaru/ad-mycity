@@ -1,0 +1,20 @@
+{
+  "corsia": 5,
+  "territorio": "R05",
+  "difetti": [
+    {
+      "chiave": "architettura|la frase per l'assistente scrive a mano la soglia dei 10 euro della consegna",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r05-soglia-della-consegna-per-l-ai.test.ts",
+      "non_vacuita": "node cervello/prova-rimessa.mjs --repo ../mycity --base c5531abf^ --file lib/products/economics.ts --prove tests/unit/riparazione-r05-soglia-della-consegna-per-l-ai.test.ts → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base c5531abf^ --file lib/products/economics.ts --prove tests/unit/riparazione-r05-soglia-della-consegna-per-l-ai.test.ts  --json → uscita 0 (K02)",
+      "nota_fix": "In regolaConsegnaPerAi la soglia (999/1000 centesimi e il testo «10 €») viene da SPESA_SENZA_SUPPLEMENTO_CENTS; valore invariato. La prova finge la costante a 15 € e la frase la segue."
+    },
+    {
+      "chiave": "architettura|nella regola della consegna per l'ai la soglia dei 10 € e' scritta a mano",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r05-soglia-della-consegna-per-l-ai.test.ts",
+      "non_vacuita": "node cervello/prova-rimessa.mjs --repo ../mycity --base c5531abf^ --file lib/products/economics.ts --prove tests/unit/riparazione-r05-soglia-della-consegna-per-l-ai.test.ts → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R05 --base c5531abf^ --file lib/products/economics.ts --prove tests/unit/riparazione-r05-soglia-della-consegna-per-l-ai.test.ts  --json → uscita 0 (K02)",
+      "nota_fix": "Stesso punto di R05-009 (regolaConsegnaPerAi): un solo commit con i due id."
+    }
+  ]
+}

@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-11-21 03:35
+aggiornato: 2026-11-21 13:55
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> ✅ **2026-11-21 13:55 — I giri 4 e 5 dell'onda 9 sono sul sito e nel registro.**
+>
+> Nicola ha unito la PR del sito alle 13:01. Nel registro si chiudono 45 difetti: 34 del giro 4 e 11 del giro di correzione. Nella stessa notte ne sono nati 43. Per questo gli aperti scendono solo da 751 a 749.
 
 > ✅ **2026-11-21 03:35 — La macchina si riaccende solo a zero difetti, minori compresi.**
 >

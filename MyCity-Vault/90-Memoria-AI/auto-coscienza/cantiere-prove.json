@@ -1,24 +1,24 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-11-16 01:28",
+  "aggiornato": "2026-11-21 13:38",
   "giorni_sospetto": 3,
-  "difetti_aperti": 365,
-  "difetti_da_fare": 365,
+  "difetti_aperti": 370,
+  "difetti_da_fare": 370,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 1177,
-    "chiusi": 812,
-    "aperti": 354,
+    "totale": 1183,
+    "chiusi": 813,
+    "aperti": 359,
     "in_corso": 1,
     "da_riverificare": 10,
     "altri": 0,
-    "da_fare": 365,
+    "da_fare": 370,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 812,
-      "aperto": 354,
+      "chiuso": 813,
+      "aperto": 359,
       "da-riverificare": 10,
       "in-corso": 1
     },
@@ -26,14 +26,14 @@
   },
   "bilancio": {
     "torna": true,
-    "attese": 365,
-    "viste": 365,
+    "attese": 370,
+    "viste": 370,
     "fuori": 0,
-    "motivo": "bilancio a posto: 812 chiuse + 365 classificate = 1177 schede, e ogni stato vivo è dentro (354 aperto · 1 in-corso · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 813 chiuse + 370 classificate = 1183 schede, e ogni stato vivo è dentro (359 aperto · 1 in-corso · 10 da-riverificare)"
   },
   "per_classe": {
-    "umana": 320,
-    "prova-debole-su-grave": 26,
+    "umana": 323,
+    "prova-debole-su-grave": 28,
     "auto-comando": 15,
     "auto-sospetta": 4
   },
@@ -195,11 +195,23 @@
       "gravita": "grave",
       "impatto_crescita": null,
       "perche": "questo difetto è un GRAVE, e la sua prova è una prova che dichiara una forma che non ha. Un difetto così si chiude solo con `{comando: \"node cervello/test/<nome>.test.mjs\"}` — una prova che diventa rossa se il difetto torna — oppure con `{tipo:\"umano\"}` dichiarato, se nessun guardiano potrà mai chiuderlo."
+    },
+    {
+      "id": "AR-1192",
+      "gravita": "grave",
+      "impatto_crescita": null,
+      "perche": "questo difetto è un GRAVE, e la sua prova è una prova che dichiara una forma che non ha. Un difetto così si chiude solo con `{comando: \"node cervello/test/<nome>.test.mjs\"}` — una prova che diventa rossa se il difetto torna — oppure con `{tipo:\"umano\"}` dichiarato, se nessun guardiano potrà mai chiuderlo."
+    },
+    {
+      "id": "AR-1193",
+      "gravita": "grave",
+      "impatto_crescita": null,
+      "perche": "questo difetto è un GRAVE, e la sua prova è una prova che dichiara una forma che non ha. Un difetto così si chiude solo con `{comando: \"node cervello/test/<nome>.test.mjs\"}` — una prova che diventa rossa se il difetto torna — oppure con `{tipo:\"umano\"}` dichiarato, se nessun guardiano potrà mai chiuderlo."
     }
   ],
   "chiuderebbe_lo_stesso": [],
   "schede_non_giudicabili": 10,
-  "schede_campi_illeggibili": 26,
+  "schede_campi_illeggibili": 28,
   "campi_illeggibili": [
     {
       "id": "AR-576",
@@ -330,6 +342,16 @@
       "id": "AR-952",
       "gravita": "minore",
       "impatto_crescita": "Nullo finche' non scatta. Se scatta, Nicola legge un numero di riparazioni piu' alto del vero e una corsia perde la firma sul suo lavoro. Non corrompe il registro: i campi hanno la stessa forma, cambia solo chi risulta averli scritti."
+    },
+    {
+      "id": "AR-1192",
+      "gravita": null,
+      "impatto_crescita": null
+    },
+    {
+      "id": "AR-1193",
+      "gravita": null,
+      "impatto_crescita": null
     }
   ],
   "chiuse_su_prova_non_ammessa": 0,
@@ -397,7 +419,7 @@
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
     }
   ],
-  "non_auto_chiudibili": 350,
+  "non_auto_chiudibili": 355,
   "bloccanti_ciechi": [
     "AR-518",
     "AR-568",
@@ -482,6 +504,20 @@
     },
     {
       "id": "AR-946",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-1192",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-1193",
       "gravita": "grave",
       "manca": [
         "impatto_crescita"
@@ -1811,6 +1847,30 @@
           "anche_canonico": false
         }
       ]
+    },
+    {
+      "id": "AR-1192",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-1193",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
     }
   ],
   "timbri_storti": [
@@ -1915,7 +1975,7 @@
     {
       "id": "AR-119",
       "gravita": "grave",
-      "eta_giorni": 123,
+      "eta_giorni": 128,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -1928,7 +1988,7 @@
     {
       "id": "AR-128",
       "gravita": "grave",
-      "eta_giorni": 123,
+      "eta_giorni": 128,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -1944,7 +2004,7 @@
     {
       "id": "AR-132",
       "gravita": "grave",
-      "eta_giorni": 123,
+      "eta_giorni": 128,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -1957,7 +2017,7 @@
     {
       "id": "AR-133",
       "gravita": "grave",
-      "eta_giorni": 123,
+      "eta_giorni": 128,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -1973,7 +2033,7 @@
     {
       "id": "AR-142",
       "gravita": "bloccante",
-      "eta_giorni": 116,
+      "eta_giorni": 121,
       "impatto_crescita": "medio",
       "prova_esegue": true,
       "prova_obbligatoria": true,
@@ -1986,7 +2046,7 @@
     {
       "id": "AR-146",
       "gravita": "grave",
-      "eta_giorni": 116,
+      "eta_giorni": 121,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -1999,7 +2059,7 @@
     {
       "id": "AR-158",
       "gravita": "grave",
-      "eta_giorni": 112,
+      "eta_giorni": 117,
       "impatto_crescita": "alto",
       "prova_esegue": true,
       "prova_obbligatoria": true,
@@ -2012,7 +2072,7 @@
     {
       "id": "AR-160",
       "gravita": "grave",
-      "eta_giorni": 112,
+      "eta_giorni": 117,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2028,7 +2088,7 @@
     {
       "id": "AR-161",
       "gravita": "grave",
-      "eta_giorni": 112,
+      "eta_giorni": 117,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2044,7 +2104,7 @@
     {
       "id": "AR-174",
       "gravita": "grave",
-      "eta_giorni": 112,
+      "eta_giorni": 117,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2060,7 +2120,7 @@
     {
       "id": "AR-175",
       "gravita": "grave",
-      "eta_giorni": 112,
+      "eta_giorni": 117,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2073,7 +2133,7 @@
     {
       "id": "AR-181",
       "gravita": "grave",
-      "eta_giorni": 112,
+      "eta_giorni": 117,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2089,20 +2149,20 @@
     {
       "id": "AR-184",
       "gravita": "minore",
-      "eta_giorni": 112,
+      "eta_giorni": 117,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
       "non_giudicabile": false,
       "titolo": "Il vincolo che dovrebbe sbloccare l'apprendimento chiede di promuovere lezioni mature che non esistono più",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 112 giorni (cervello/giro.sh ~ /promuovi a .{1,2}principio.{1,2} 2-3 lezioni mature/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 117 giorni (cervello/giro.sh ~ /promuovi a .{1,2}principio.{1,2} 2-3 lezioni mature/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-189",
       "gravita": "grave",
-      "eta_giorni": 112,
+      "eta_giorni": 117,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2115,7 +2175,7 @@
     {
       "id": "AR-190",
       "gravita": "grave",
-      "eta_giorni": 112,
+      "eta_giorni": 117,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2131,7 +2191,7 @@
     {
       "id": "AR-192",
       "gravita": "grave",
-      "eta_giorni": 112,
+      "eta_giorni": 117,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2147,7 +2207,7 @@
     {
       "id": "AR-193",
       "gravita": "medio",
-      "eta_giorni": 112,
+      "eta_giorni": 117,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2160,7 +2220,7 @@
     {
       "id": "AR-199",
       "gravita": "grave",
-      "eta_giorni": 112,
+      "eta_giorni": 117,
       "impatto_crescita": "alto",
       "prova_esegue": true,
       "prova_obbligatoria": true,
@@ -2173,7 +2233,7 @@
     {
       "id": "AR-200",
       "gravita": "grave",
-      "eta_giorni": 112,
+      "eta_giorni": 117,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2189,7 +2249,7 @@
     {
       "id": "AR-206",
       "gravita": "bloccante",
-      "eta_giorni": 112,
+      "eta_giorni": 117,
       "impatto_crescita": "alto",
       "prova_esegue": true,
       "prova_obbligatoria": true,
@@ -2202,7 +2262,7 @@
     {
       "id": "AR-210",
       "gravita": "minore",
-      "eta_giorni": 112,
+      "eta_giorni": 117,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2215,7 +2275,7 @@
     {
       "id": "AR-216",
       "gravita": "grave",
-      "eta_giorni": 112,
+      "eta_giorni": 117,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2228,7 +2288,7 @@
     {
       "id": "AR-274",
       "gravita": "grave",
-      "eta_giorni": 112,
+      "eta_giorni": 117,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2244,7 +2304,7 @@
     {
       "id": "AR-283",
       "gravita": "grave",
-      "eta_giorni": 112,
+      "eta_giorni": 117,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2260,7 +2320,7 @@
     {
       "id": "AR-289",
       "gravita": "grave",
-      "eta_giorni": 112,
+      "eta_giorni": 117,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2276,7 +2336,7 @@
     {
       "id": "AR-290",
       "gravita": "grave",
-      "eta_giorni": 112,
+      "eta_giorni": 117,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2292,7 +2352,7 @@
     {
       "id": "AR-325",
       "gravita": "grave",
-      "eta_giorni": 112,
+      "eta_giorni": 117,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2305,7 +2365,7 @@
     {
       "id": "AR-326",
       "gravita": "minore",
-      "eta_giorni": 112,
+      "eta_giorni": 117,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2318,7 +2378,7 @@
     {
       "id": "AR-329",
       "gravita": "grave",
-      "eta_giorni": 112,
+      "eta_giorni": 117,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2334,7 +2394,7 @@
     {
       "id": "AR-331",
       "gravita": "grave",
-      "eta_giorni": 112,
+      "eta_giorni": 117,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2347,7 +2407,7 @@
     {
       "id": "AR-335",
       "gravita": "medio",
-      "eta_giorni": 111,
+      "eta_giorni": 116,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2360,7 +2420,7 @@
     {
       "id": "AR-346",
       "gravita": "grave",
-      "eta_giorni": 110,
+      "eta_giorni": 115,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2373,7 +2433,7 @@
     {
       "id": "AR-350",
       "gravita": "grave",
-      "eta_giorni": 110,
+      "eta_giorni": 115,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2386,33 +2446,33 @@
     {
       "id": "AR-351",
       "gravita": "minore",
-      "eta_giorni": 110,
+      "eta_giorni": 115,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
       "non_giudicabile": false,
       "titolo": "Centouno difetti dello stampo sono stati dichiarati e da allora sono verdi: nessuno ha un proprietario ne una ",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 110 giorni (cervello/stampo-baseline.json ~ /rivedere_entro/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 115 giorni (cervello/stampo-baseline.json ~ /rivedere_entro/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-352",
       "gravita": "minore",
-      "eta_giorni": 110,
+      "eta_giorni": 115,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
       "non_giudicabile": false,
       "titolo": "AR-012 dichiarato chiuso ma vivo: la riga del comando «fai un giro» manda ancora a leggere i dati dall'MCP, tr",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 110 giorni (cervello/MANUALE-AD.md ~ /\\*\\*\"fai un giro\"\\*\\*[\\s\\S]{0,300}REST/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 115 giorni (cervello/MANUALE-AD.md ~ /\\*\\*\"fai un giro\"\\*\\*[\\s\\S]{0,300}REST/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-375",
       "gravita": "grave",
-      "eta_giorni": 110,
+      "eta_giorni": 115,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2425,20 +2485,20 @@
     {
       "id": "AR-386",
       "gravita": "minore",
-      "eta_giorni": 110,
+      "eta_giorni": 115,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
       "non_giudicabile": false,
       "titolo": "In prova a vuoto lo scheduler dei contenuti non mette in coda niente: le pubblicazioni da firmare spariscono i",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 110 giorni (cervello/autopilot.mjs ~ /if \\(effettivo !== \"🟢\"\\)/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 115 giorni (cervello/autopilot.mjs ~ /if \\(effettivo !== \"🟢\"\\)/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-396",
       "gravita": "grave",
-      "eta_giorni": 110,
+      "eta_giorni": 115,
       "impatto_crescita": "medio",
       "prova_esegue": true,
       "prova_obbligatoria": true,
@@ -2451,7 +2511,7 @@
     {
       "id": "AR-398",
       "gravita": "minore",
-      "eta_giorni": 110,
+      "eta_giorni": 115,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2464,7 +2524,7 @@
     {
       "id": "AR-411",
       "gravita": "grave",
-      "eta_giorni": 110,
+      "eta_giorni": 115,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2480,7 +2540,7 @@
     {
       "id": "AR-418",
       "gravita": "grave",
-      "eta_giorni": 110,
+      "eta_giorni": 115,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2493,7 +2553,7 @@
     {
       "id": "AR-432",
       "gravita": "grave",
-      "eta_giorni": 110,
+      "eta_giorni": 115,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2506,7 +2566,7 @@
     {
       "id": "AR-045",
       "gravita": "minore",
-      "eta_giorni": 136,
+      "eta_giorni": 141,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2519,7 +2579,7 @@
     {
       "id": "AR-047",
       "gravita": "minore",
-      "eta_giorni": 136,
+      "eta_giorni": 141,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2532,7 +2592,7 @@
     {
       "id": "AR-048",
       "gravita": "minore",
-      "eta_giorni": 136,
+      "eta_giorni": 141,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2545,7 +2605,7 @@
     {
       "id": "AR-049",
       "gravita": "minore",
-      "eta_giorni": 136,
+      "eta_giorni": 141,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2558,7 +2618,7 @@
     {
       "id": "AR-070",
       "gravita": "grave",
-      "eta_giorni": 136,
+      "eta_giorni": 141,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2571,7 +2631,7 @@
     {
       "id": "AR-090",
       "gravita": "grave",
-      "eta_giorni": 136,
+      "eta_giorni": 141,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2584,7 +2644,7 @@
     {
       "id": "AR-100",
       "gravita": "minore",
-      "eta_giorni": 105,
+      "eta_giorni": 110,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2597,7 +2657,7 @@
     {
       "id": "AR-102",
       "gravita": "minore",
-      "eta_giorni": 105,
+      "eta_giorni": 110,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2610,7 +2670,7 @@
     {
       "id": "AR-103",
       "gravita": "minore",
-      "eta_giorni": 105,
+      "eta_giorni": 110,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2623,7 +2683,7 @@
     {
       "id": "AR-104",
       "gravita": "minore",
-      "eta_giorni": 105,
+      "eta_giorni": 110,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2636,7 +2696,7 @@
     {
       "id": "AR-518",
       "gravita": "bloccante",
-      "eta_giorni": 104,
+      "eta_giorni": 109,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2652,7 +2712,7 @@
     {
       "id": "AR-560",
       "gravita": "grave",
-      "eta_giorni": 98,
+      "eta_giorni": 103,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2668,7 +2728,7 @@
     {
       "id": "AR-561",
       "gravita": "grave",
-      "eta_giorni": 98,
+      "eta_giorni": 103,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2684,7 +2744,7 @@
     {
       "id": "AR-568",
       "gravita": "bloccante",
-      "eta_giorni": 98,
+      "eta_giorni": 103,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2697,7 +2757,7 @@
     {
       "id": "AR-576",
       "gravita": "grave",
-      "eta_giorni": 95,
+      "eta_giorni": 100,
       "impatto_crescita": null,
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2713,7 +2773,7 @@
     {
       "id": "AR-584",
       "gravita": "grave",
-      "eta_giorni": 95,
+      "eta_giorni": 100,
       "impatto_crescita": null,
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2729,7 +2789,7 @@
     {
       "id": "AR-588",
       "gravita": "grave",
-      "eta_giorni": 95,
+      "eta_giorni": 100,
       "impatto_crescita": null,
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2745,7 +2805,7 @@
     {
       "id": "AR-598",
       "gravita": "grave",
-      "eta_giorni": 95,
+      "eta_giorni": 100,
       "impatto_crescita": null,
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2761,7 +2821,7 @@
     {
       "id": "AR-601",
       "gravita": "minore",
-      "eta_giorni": 95,
+      "eta_giorni": 100,
       "impatto_crescita": null,
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2774,7 +2834,7 @@
     {
       "id": "AR-611",
       "gravita": "grave",
-      "eta_giorni": 95,
+      "eta_giorni": 100,
       "impatto_crescita": null,
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2790,7 +2850,7 @@
     {
       "id": "AR-618",
       "gravita": "minore",
-      "eta_giorni": 95,
+      "eta_giorni": 100,
       "impatto_crescita": null,
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2803,7 +2863,7 @@
     {
       "id": "AR-622",
       "gravita": "grave",
-      "eta_giorni": 95,
+      "eta_giorni": 100,
       "impatto_crescita": null,
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2819,7 +2879,7 @@
     {
       "id": "AR-640",
       "gravita": "grave",
-      "eta_giorni": 95,
+      "eta_giorni": 100,
       "impatto_crescita": null,
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2835,7 +2895,7 @@
     {
       "id": "AR-641",
       "gravita": "grave",
-      "eta_giorni": 95,
+      "eta_giorni": 100,
       "impatto_crescita": null,
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2851,7 +2911,7 @@
     {
       "id": "AR-659",
       "gravita": "minore",
-      "eta_giorni": 95,
+      "eta_giorni": 100,
       "impatto_crescita": null,
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2864,7 +2924,7 @@
     {
       "id": "AR-669",
       "gravita": "minore",
-      "eta_giorni": 94,
+      "eta_giorni": 99,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2877,7 +2937,7 @@
     {
       "id": "AR-688",
       "gravita": "minore",
-      "eta_giorni": 94,
+      "eta_giorni": 99,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2903,7 +2963,7 @@
     {
       "id": "AR-712",
       "gravita": "minore",
-      "eta_giorni": 93,
+      "eta_giorni": 98,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2916,7 +2976,7 @@
     {
       "id": "AR-720",
       "gravita": "minore",
-      "eta_giorni": 93,
+      "eta_giorni": 98,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2929,7 +2989,7 @@
     {
       "id": "AR-721",
       "gravita": "minore",
-      "eta_giorni": 93,
+      "eta_giorni": 98,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2942,7 +3002,7 @@
     {
       "id": "AR-722",
       "gravita": "minore",
-      "eta_giorni": 93,
+      "eta_giorni": 98,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2955,7 +3015,7 @@
     {
       "id": "AR-726",
       "gravita": "medio",
-      "eta_giorni": 93,
+      "eta_giorni": 98,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2968,7 +3028,7 @@
     {
       "id": "AR-727",
       "gravita": "minore",
-      "eta_giorni": 93,
+      "eta_giorni": 98,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2981,7 +3041,7 @@
     {
       "id": "AR-728",
       "gravita": "minore",
-      "eta_giorni": 93,
+      "eta_giorni": 98,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2994,7 +3054,7 @@
     {
       "id": "AR-729",
       "gravita": "minore",
-      "eta_giorni": 93,
+      "eta_giorni": 98,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3007,7 +3067,7 @@
     {
       "id": "AR-731",
       "gravita": "minore",
-      "eta_giorni": 93,
+      "eta_giorni": 98,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3020,7 +3080,7 @@
     {
       "id": "AR-732",
       "gravita": "medio",
-      "eta_giorni": 93,
+      "eta_giorni": 98,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3033,7 +3093,7 @@
     {
       "id": "AR-733",
       "gravita": "minore",
-      "eta_giorni": 93,
+      "eta_giorni": 98,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3046,7 +3106,7 @@
     {
       "id": "AR-734",
       "gravita": "medio",
-      "eta_giorni": 93,
+      "eta_giorni": 98,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3059,7 +3119,7 @@
     {
       "id": "AR-735",
       "gravita": "minore",
-      "eta_giorni": 93,
+      "eta_giorni": 98,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3072,7 +3132,7 @@
     {
       "id": "AR-736",
       "gravita": "minore",
-      "eta_giorni": 93,
+      "eta_giorni": 98,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3085,7 +3145,7 @@
     {
       "id": "AR-737",
       "gravita": "grave",
-      "eta_giorni": 93,
+      "eta_giorni": 98,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": true,
       "prova_obbligatoria": true,
@@ -3098,7 +3158,7 @@
     {
       "id": "AR-738",
       "gravita": "medio",
-      "eta_giorni": 93,
+      "eta_giorni": 98,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3111,7 +3171,7 @@
     {
       "id": "AR-739",
       "gravita": "minore",
-      "eta_giorni": 93,
+      "eta_giorni": 98,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3124,7 +3184,7 @@
     {
       "id": "AR-740",
       "gravita": "medio",
-      "eta_giorni": 93,
+      "eta_giorni": 98,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3137,7 +3197,7 @@
     {
       "id": "AR-741",
       "gravita": "minore",
-      "eta_giorni": 93,
+      "eta_giorni": 98,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3150,7 +3210,7 @@
     {
       "id": "AR-742",
       "gravita": "minore",
-      "eta_giorni": 93,
+      "eta_giorni": 98,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3163,7 +3223,7 @@
     {
       "id": "AR-745",
       "gravita": "medio",
-      "eta_giorni": 93,
+      "eta_giorni": 98,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3176,7 +3236,7 @@
     {
       "id": "AR-746",
       "gravita": "medio",
-      "eta_giorni": 93,
+      "eta_giorni": 98,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3189,7 +3249,7 @@
     {
       "id": "AR-747",
       "gravita": "medio",
-      "eta_giorni": 93,
+      "eta_giorni": 98,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3202,7 +3262,7 @@
     {
       "id": "AR-748",
       "gravita": "minore",
-      "eta_giorni": 93,
+      "eta_giorni": 98,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3215,7 +3275,7 @@
     {
       "id": "AR-750",
       "gravita": "medio",
-      "eta_giorni": 92,
+      "eta_giorni": 97,
       "impatto_crescita": "indiretto: e debito della macchina, ma mura una porta che serve a ogni sessione che non sia il server",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3228,7 +3288,7 @@
     {
       "id": "AR-754",
       "gravita": "medio",
-      "eta_giorni": 92,
+      "eta_giorni": 97,
       "impatto_crescita": "indiretto, ma il costo lo paga Nicola: ogni volta deve accorgersene lui e chiedermelo, e intanto la richiesta non si può unire",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3241,7 +3301,7 @@
     {
       "id": "AR-767",
       "gravita": "minore",
-      "eta_giorni": 91,
+      "eta_giorni": 96,
       "impatto_crescita": "tocca la porta che Nicola usa di piu: se il filo e lungo e ha girato per molti temi, le regole che gli arrivano possono essere quelle sbagliate",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3254,7 +3314,7 @@
     {
       "id": "AR-782",
       "gravita": "medio",
-      "eta_giorni": 86,
+      "eta_giorni": 91,
       "impatto_crescita": "Indiretto ma reale: il cancello che decide se un lotto si consegna puo' uscire rosso per un motivo che non c'entra, e manda a cercare il guasto nel posto sbagliato. Rallenta ogni consegna futura.",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3267,7 +3327,7 @@
     {
       "id": "AR-786",
       "gravita": "medio",
-      "eta_giorni": 86,
+      "eta_giorni": 91,
       "impatto_crescita": "indiretto: ogni accusa falsa insegna a scorrere l'elenco senza leggerlo, e allora il guardiano vero non lo vede piu' nessuno",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3280,7 +3340,7 @@
     {
       "id": "AR-787",
       "gravita": "grave",
-      "eta_giorni": 86,
+      "eta_giorni": 91,
       "impatto_crescita": "indiretto ma sul metro: e la macchina che si misura da sola, e un banco che punisce chi cura rallenta ogni lotto da qui al 29 settembre",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -3293,7 +3353,7 @@
     {
       "id": "AR-792",
       "gravita": "medio",
-      "eta_giorni": 86,
+      "eta_giorni": 91,
       "impatto_crescita": "indiretto: e la difesa che impedisce a una sessione senza chiavi di sovrascrivere i numeri veri del server, cioe di far mentire il Pannello a Nicola",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3306,7 +3366,7 @@
     {
       "id": "AR-797",
       "gravita": "grave",
-      "eta_giorni": 85,
+      "eta_giorni": 90,
       "impatto_crescita": "alto",
       "prova_esegue": true,
       "prova_obbligatoria": true,
@@ -3319,7 +3379,7 @@
     {
       "id": "AR-798",
       "gravita": "medio",
-      "eta_giorni": 85,
+      "eta_giorni": 90,
       "impatto_crescita": "alto",
       "prova_esegue": true,
       "prova_obbligatoria": true,
@@ -3332,7 +3392,7 @@
     {
       "id": "AR-799",
       "gravita": "grave",
-      "eta_giorni": 85,
+      "eta_giorni": 90,
       "impatto_crescita": "indiretto: la serie della salute e' il grafico che Nicola guarda in Cabina, e una prova che ci scrive dentro gli fa vedere un crollo mai avvenuto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -3345,7 +3405,7 @@
     {
       "id": "AR-801",
       "gravita": "bloccante",
-      "eta_giorni": 85,
+      "eta_giorni": 90,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -3358,7 +3418,7 @@
     {
       "id": "AR-802",
       "gravita": "bloccante",
-      "eta_giorni": 85,
+      "eta_giorni": 90,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -3371,7 +3431,7 @@
     {
       "id": "AR-803",
       "gravita": "grave",
-      "eta_giorni": 85,
+      "eta_giorni": 90,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -3384,7 +3444,7 @@
     {
       "id": "AR-808",
       "gravita": "grave",
-      "eta_giorni": 85,
+      "eta_giorni": 90,
       "impatto_crescita": "basso",
       "prova_esegue": true,
       "prova_obbligatoria": true,
@@ -3397,7 +3457,7 @@
     {
       "id": "AR-809",
       "gravita": "medio",
-      "eta_giorni": 85,
+      "eta_giorni": 90,
       "impatto_crescita": "indiretto: e' il controllo che impedisce a un freno di nascere gia' scollegato, cioe' la ricaduta di AR-796",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3410,7 +3470,7 @@
     {
       "id": "AR-811",
       "gravita": "grave",
-      "eta_giorni": 84,
+      "eta_giorni": 89,
       "impatto_crescita": "indiretto e caro: due sessioni che lavorano lo stesso repo si assegnano gli stessi numeri, e chi unisce per secondo o perde un difetto in silenzio o paga un giro di fusione. Il 24/8 e' costato un turno intero a una delle due.",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -3423,7 +3483,7 @@
     {
       "id": "AR-817",
       "gravita": "grave",
-      "eta_giorni": 83,
+      "eta_giorni": 88,
       "impatto_crescita": "rende la CI rossa a caso su lotti sani: è successo il 25/8 sulla PR #845, dove l'unico rosso era questa prova. Una CI che diventa rossa senza colpa è la cosa che insegna a ignorare il rosso — e a quattro giorni dalla data del 29/8 è il modo più veloce per far passare un difetto vero.",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -3436,7 +3496,7 @@
     {
       "id": "AR-824",
       "gravita": "grave",
-      "eta_giorni": 82,
+      "eta_giorni": 87,
       "impatto_crescita": "l'archivio delle lezioni è la memoria di quello che la macchina ha imparato: oltre il tetto la Cabina smette di mostrarlo e lo dichiara «troppo-grande». Oggi il margine è 84 byte su 1.048.576, cioè meno di una riga: la prossima lezione che qualcuno scrive lo sfonda, e in quel momento Nicola apre il Pannello e non trova più niente lì dentro.",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -3449,7 +3509,7 @@
     {
       "id": "AR-825",
       "gravita": "grave",
-      "eta_giorni": 82,
+      "eta_giorni": 87,
       "impatto_crescita": "diretto sulla fiducia in ogni verdetto: il cancello e' il freno che protegge tutto il resto del lavoro. Se il suo «no» non ferma niente, ogni altro guardiano montato li' dentro vale quanto il piu' distratto di chi unisce.",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -3462,7 +3522,7 @@
     {
       "id": "AR-831",
       "gravita": "medio",
-      "eta_giorni": 82,
+      "eta_giorni": 87,
       "impatto_crescita": "indiretto: ogni scontro costa un'unione da rifare a mano e mette a rischio una scheda. Tre volte in due giorni, con due sessioni che lavorano la stessa casa.",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3475,7 +3535,7 @@
     {
       "id": "AR-833",
       "gravita": "grave",
-      "eta_giorni": 82,
+      "eta_giorni": 87,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -3488,7 +3548,7 @@
     {
       "id": "AR-832",
       "gravita": "medio",
-      "eta_giorni": 82,
+      "eta_giorni": 87,
       "impatto_crescita": "indiretto: è il freno che impedisce a un controllo nuovo del cancello di nascere già rotto sul server. Se comincia ad accusare innocenti, si impara a scorrere il suo elenco — e allora l'accusa vera, quella che il freno esiste per dare, non la legge più nessuno.",
       "prova_esegue": true,
       "prova_obbligatoria": false,
@@ -3501,7 +3561,7 @@
     {
       "id": "AR-852",
       "gravita": "minore",
-      "eta_giorni": 82,
+      "eta_giorni": 87,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3514,7 +3574,7 @@
     {
       "id": "AR-862",
       "gravita": "minore",
-      "eta_giorni": 80,
+      "eta_giorni": 85,
       "impatto_crescita": "nessun impatto diretto oggi: si tratta di una verifica di ESISTENZA, non di una lettura né di un'esecuzione, e l'archivio delle lezioni lo scrive la macchina stessa. Vale la pena chiuderlo perché e' il campo da cui dipende l'immortalita' di una lezione: chi riuscisse a scriverci potrebbe tenere viva per sempre una regola sbagliata puntando a un file che esiste di sicuro.",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3527,7 +3587,7 @@
     {
       "id": "AR-863",
       "gravita": "grave",
-      "eta_giorni": 80,
+      "eta_giorni": 85,
       "impatto_crescita": "diretto sulla fiducia nel cantiere: un difetto vivo che risulta chiuso sparisce da ogni conto, da ogni coda e da ogni radiografia. Nessuno lo cerca piu', e il numero dei difetti aperti — che e' il numero su cui questa casa decide cosa fare — diventa piu' basso della verita'.",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -3540,7 +3600,7 @@
     {
       "id": "AR-864",
       "gravita": "minore",
-      "eta_giorni": 79,
+      "eta_giorni": 84,
       "impatto_crescita": "indiretto ma su un file che Nicola legge per decidere: restano due cartelli dell'archivio nello stesso file, e quello vecchio porta un numero sbagliato. Il 29/8 diceva «Adesso sono 25» mentre le carte chiuse erano 27. Chi legge non sa quale dei due credere, e il piu' in alto e' quello falso.",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3553,7 +3613,7 @@
     {
       "id": "AR-892",
       "gravita": "grave",
-      "eta_giorni": 80,
+      "eta_giorni": 85,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -3566,7 +3626,7 @@
     {
       "id": "AR-893",
       "gravita": "grave",
-      "eta_giorni": 74,
+      "eta_giorni": 79,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -3579,7 +3639,7 @@
     {
       "id": "AR-895",
       "gravita": "grave",
-      "eta_giorni": 74,
+      "eta_giorni": 79,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -3592,7 +3652,7 @@
     {
       "id": "AR-898",
       "gravita": "minore",
-      "eta_giorni": 74,
+      "eta_giorni": 79,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3605,7 +3665,7 @@
     {
       "id": "AR-899",
       "gravita": "minore",
-      "eta_giorni": 74,
+      "eta_giorni": 79,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3618,7 +3678,7 @@
     {
       "id": "AR-900",
       "gravita": "minore",
-      "eta_giorni": 74,
+      "eta_giorni": 79,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3631,7 +3691,7 @@
     {
       "id": "AR-901",
       "gravita": "minore",
-      "eta_giorni": 74,
+      "eta_giorni": 79,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3644,7 +3704,7 @@
     {
       "id": "AR-902",
       "gravita": "minore",
-      "eta_giorni": 74,
+      "eta_giorni": 79,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3657,7 +3717,7 @@
     {
       "id": "AR-904",
       "gravita": "minore",
-      "eta_giorni": 74,
+      "eta_giorni": 79,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3670,7 +3730,7 @@
     {
       "id": "AR-905",
       "gravita": "minore",
-      "eta_giorni": 74,
+      "eta_giorni": 79,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3683,7 +3743,7 @@
     {
       "id": "AR-906",
       "gravita": "grave",
-      "eta_giorni": 74,
+      "eta_giorni": 79,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -3696,7 +3756,7 @@
     {
       "id": "AR-907",
       "gravita": "minore",
-      "eta_giorni": 74,
+      "eta_giorni": 79,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3709,7 +3769,7 @@
     {
       "id": "AR-908",
       "gravita": "minore",
-      "eta_giorni": 74,
+      "eta_giorni": 79,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3722,7 +3782,7 @@
     {
       "id": "AR-909",
       "gravita": "minore",
-      "eta_giorni": 74,
+      "eta_giorni": 79,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3735,7 +3795,7 @@
     {
       "id": "AR-910",
       "gravita": "minore",
-      "eta_giorni": 74,
+      "eta_giorni": 79,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3748,7 +3808,7 @@
     {
       "id": "AR-911",
       "gravita": "minore",
-      "eta_giorni": 74,
+      "eta_giorni": 79,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3761,7 +3821,7 @@
     {
       "id": "AR-912",
       "gravita": "minore",
-      "eta_giorni": 74,
+      "eta_giorni": 79,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3774,7 +3834,7 @@
     {
       "id": "AR-865",
       "gravita": "medio",
-      "eta_giorni": 80,
+      "eta_giorni": 85,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3787,7 +3847,7 @@
     {
       "id": "AR-866",
       "gravita": "medio",
-      "eta_giorni": 80,
+      "eta_giorni": 85,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3800,7 +3860,7 @@
     {
       "id": "AR-872",
       "gravita": "grave",
-      "eta_giorni": 79,
+      "eta_giorni": 84,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -3813,7 +3873,7 @@
     {
       "id": "AR-874",
       "gravita": "grave",
-      "eta_giorni": 79,
+      "eta_giorni": 84,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -3826,7 +3886,7 @@
     {
       "id": "AR-877",
       "gravita": "grave",
-      "eta_giorni": 79,
+      "eta_giorni": 84,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -3839,7 +3899,7 @@
     {
       "id": "AR-879",
       "gravita": "grave",
-      "eta_giorni": 79,
+      "eta_giorni": 84,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -3852,7 +3912,7 @@
     {
       "id": "AR-880",
       "gravita": "grave",
-      "eta_giorni": 80,
+      "eta_giorni": 85,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -3865,7 +3925,7 @@
     {
       "id": "AR-881",
       "gravita": "medio",
-      "eta_giorni": 80,
+      "eta_giorni": 85,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3878,7 +3938,7 @@
     {
       "id": "AR-882",
       "gravita": "medio",
-      "eta_giorni": 80,
+      "eta_giorni": 85,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3891,7 +3951,7 @@
     {
       "id": "AR-883",
       "gravita": "grave",
-      "eta_giorni": 80,
+      "eta_giorni": 85,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -3904,7 +3964,7 @@
     {
       "id": "AR-884",
       "gravita": "medio",
-      "eta_giorni": 79,
+      "eta_giorni": 84,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3917,7 +3977,7 @@
     {
       "id": "AR-928",
       "gravita": "minore",
-      "eta_giorni": 76,
+      "eta_giorni": 81,
       "impatto_crescita": null,
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3930,7 +3990,7 @@
     {
       "id": "AR-934",
       "gravita": "grave",
-      "eta_giorni": 75,
+      "eta_giorni": 80,
       "impatto_crescita": null,
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -3943,7 +4003,7 @@
     {
       "id": "AR-946",
       "gravita": "grave",
-      "eta_giorni": 71,
+      "eta_giorni": 76,
       "impatto_crescita": null,
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -3956,7 +4016,7 @@
     {
       "id": "AR-952",
       "gravita": "minore",
-      "eta_giorni": 69,
+      "eta_giorni": 74,
       "impatto_crescita": "Nullo finche' non scatta. Se scatta, Nicola legge un numero di riparazioni piu' alto del vero e una corsia perde la firma sul suo lavoro. Non corrompe il registro: i campi hanno la stessa forma, cambia solo chi risulta averli scritti.",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3969,7 +4029,7 @@
     {
       "id": "AR-956",
       "gravita": "medio",
-      "eta_giorni": 37,
+      "eta_giorni": 42,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3982,7 +4042,7 @@
     {
       "id": "AR-961",
       "gravita": "medio",
-      "eta_giorni": 36,
+      "eta_giorni": 41,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3995,7 +4055,7 @@
     {
       "id": "AR-962",
       "gravita": "medio",
-      "eta_giorni": 36,
+      "eta_giorni": 41,
       "impatto_crescita": "medio",
       "prova_esegue": true,
       "prova_obbligatoria": false,
@@ -4008,7 +4068,7 @@
     {
       "id": "AR-963",
       "gravita": "minore",
-      "eta_giorni": 36,
+      "eta_giorni": 41,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4021,7 +4081,7 @@
     {
       "id": "AR-964",
       "gravita": "medio",
-      "eta_giorni": 36,
+      "eta_giorni": 41,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4034,7 +4094,7 @@
     {
       "id": "AR-965",
       "gravita": "minore",
-      "eta_giorni": 36,
+      "eta_giorni": 41,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4047,7 +4107,7 @@
     {
       "id": "AR-968",
       "gravita": "medio",
-      "eta_giorni": 36,
+      "eta_giorni": 41,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4060,7 +4120,7 @@
     {
       "id": "AR-969",
       "gravita": "medio",
-      "eta_giorni": 36,
+      "eta_giorni": 41,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4073,7 +4133,7 @@
     {
       "id": "AR-970",
       "gravita": "medio",
-      "eta_giorni": 36,
+      "eta_giorni": 41,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4086,7 +4146,7 @@
     {
       "id": "AR-971",
       "gravita": "minore",
-      "eta_giorni": 36,
+      "eta_giorni": 41,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4099,7 +4159,7 @@
     {
       "id": "AR-972",
       "gravita": "medio",
-      "eta_giorni": 36,
+      "eta_giorni": 41,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4112,7 +4172,7 @@
     {
       "id": "AR-973",
       "gravita": "medio",
-      "eta_giorni": 36,
+      "eta_giorni": 41,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4125,7 +4185,7 @@
     {
       "id": "AR-974",
       "gravita": "minore",
-      "eta_giorni": 36,
+      "eta_giorni": 41,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4138,7 +4198,7 @@
     {
       "id": "AR-975",
       "gravita": "minore",
-      "eta_giorni": 36,
+      "eta_giorni": 41,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4151,7 +4211,7 @@
     {
       "id": "AR-976",
       "gravita": "minore",
-      "eta_giorni": 36,
+      "eta_giorni": 41,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4164,7 +4224,7 @@
     {
       "id": "AR-977",
       "gravita": "minore",
-      "eta_giorni": 36,
+      "eta_giorni": 41,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4177,7 +4237,7 @@
     {
       "id": "AR-978",
       "gravita": "bloccante",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4190,7 +4250,7 @@
     {
       "id": "AR-979",
       "gravita": "grave",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4203,7 +4263,7 @@
     {
       "id": "AR-980",
       "gravita": "bloccante",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4216,7 +4276,7 @@
     {
       "id": "AR-981",
       "gravita": "grave",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4229,7 +4289,7 @@
     {
       "id": "AR-982",
       "gravita": "grave",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4242,7 +4302,7 @@
     {
       "id": "AR-983",
       "gravita": "bloccante",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4255,7 +4315,7 @@
     {
       "id": "AR-984",
       "gravita": "grave",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4268,7 +4328,7 @@
     {
       "id": "AR-985",
       "gravita": "grave",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4281,7 +4341,7 @@
     {
       "id": "AR-986",
       "gravita": "medio",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4294,7 +4354,7 @@
     {
       "id": "AR-987",
       "gravita": "grave",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4307,7 +4367,7 @@
     {
       "id": "AR-988",
       "gravita": "medio",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4320,7 +4380,7 @@
     {
       "id": "AR-989",
       "gravita": "grave",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4333,7 +4393,7 @@
     {
       "id": "AR-990",
       "gravita": "grave",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4346,7 +4406,7 @@
     {
       "id": "AR-991",
       "gravita": "medio",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4359,7 +4419,7 @@
     {
       "id": "AR-992",
       "gravita": "medio",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4372,7 +4432,7 @@
     {
       "id": "AR-993",
       "gravita": "grave",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4385,7 +4445,7 @@
     {
       "id": "AR-994",
       "gravita": "minore",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4398,7 +4458,7 @@
     {
       "id": "AR-995",
       "gravita": "grave",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4411,7 +4471,7 @@
     {
       "id": "AR-996",
       "gravita": "medio",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4424,7 +4484,7 @@
     {
       "id": "AR-997",
       "gravita": "grave",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4437,7 +4497,7 @@
     {
       "id": "AR-998",
       "gravita": "grave",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4450,7 +4510,7 @@
     {
       "id": "AR-999",
       "gravita": "medio",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4463,7 +4523,7 @@
     {
       "id": "AR-1000",
       "gravita": "grave",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4476,7 +4536,7 @@
     {
       "id": "AR-1001",
       "gravita": "grave",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4489,7 +4549,7 @@
     {
       "id": "AR-1002",
       "gravita": "medio",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4502,7 +4562,7 @@
     {
       "id": "AR-1003",
       "gravita": "grave",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4515,7 +4575,7 @@
     {
       "id": "AR-1004",
       "gravita": "medio",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4528,7 +4588,7 @@
     {
       "id": "AR-1005",
       "gravita": "grave",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4541,7 +4601,7 @@
     {
       "id": "AR-1006",
       "gravita": "medio",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4554,7 +4614,7 @@
     {
       "id": "AR-1007",
       "gravita": "grave",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4567,7 +4627,7 @@
     {
       "id": "AR-1008",
       "gravita": "grave",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4580,7 +4640,7 @@
     {
       "id": "AR-1009",
       "gravita": "medio",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4593,7 +4653,7 @@
     {
       "id": "AR-1010",
       "gravita": "grave",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4606,7 +4666,7 @@
     {
       "id": "AR-1011",
       "gravita": "medio",
-      "eta_giorni": 31,
+      "eta_giorni": 36,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4619,7 +4679,7 @@
     {
       "id": "AR-1012",
       "gravita": "minore",
-      "eta_giorni": 22,
+      "eta_giorni": 27,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4632,7 +4692,7 @@
     {
       "id": "AR-1016",
       "gravita": "minore",
-      "eta_giorni": 22,
+      "eta_giorni": 27,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4645,7 +4705,7 @@
     {
       "id": "AR-1017",
       "gravita": "minore",
-      "eta_giorni": 22,
+      "eta_giorni": 27,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4658,7 +4718,7 @@
     {
       "id": "AR-1018",
       "gravita": "minore",
-      "eta_giorni": 22,
+      "eta_giorni": 27,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4671,7 +4731,7 @@
     {
       "id": "AR-1022",
       "gravita": "minore",
-      "eta_giorni": 22,
+      "eta_giorni": 27,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4684,7 +4744,7 @@
     {
       "id": "AR-1023",
       "gravita": "minore",
-      "eta_giorni": 22,
+      "eta_giorni": 27,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4697,7 +4757,7 @@
     {
       "id": "AR-1024",
       "gravita": "minore",
-      "eta_giorni": 22,
+      "eta_giorni": 27,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4710,7 +4770,7 @@
     {
       "id": "AR-1025",
       "gravita": "grave",
-      "eta_giorni": 20,
+      "eta_giorni": 25,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4723,7 +4783,7 @@
     {
       "id": "AR-1026",
       "gravita": "grave",
-      "eta_giorni": 20,
+      "eta_giorni": 25,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4736,7 +4796,7 @@
     {
       "id": "AR-1028",
       "gravita": "minore",
-      "eta_giorni": 19,
+      "eta_giorni": 24,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4749,7 +4809,7 @@
     {
       "id": "AR-1029",
       "gravita": "minore",
-      "eta_giorni": 19,
+      "eta_giorni": 24,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4762,7 +4822,7 @@
     {
       "id": "AR-1030",
       "gravita": "minore",
-      "eta_giorni": 17,
+      "eta_giorni": 22,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4775,7 +4835,7 @@
     {
       "id": "AR-1031",
       "gravita": "minore",
-      "eta_giorni": 17,
+      "eta_giorni": 22,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4788,7 +4848,7 @@
     {
       "id": "AR-1032",
       "gravita": "grave",
-      "eta_giorni": 12,
+      "eta_giorni": 17,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4801,7 +4861,7 @@
     {
       "id": "AR-1033",
       "gravita": "minore",
-      "eta_giorni": 12,
+      "eta_giorni": 17,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4814,7 +4874,7 @@
     {
       "id": "AR-1034",
       "gravita": "minore",
-      "eta_giorni": 12,
+      "eta_giorni": 17,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -4827,7 +4887,7 @@
     {
       "id": "AR-1035",
       "gravita": "bloccante",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4840,7 +4900,7 @@
     {
       "id": "AR-1036",
       "gravita": "grave",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4853,7 +4913,7 @@
     {
       "id": "AR-1037",
       "gravita": "grave",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4866,7 +4926,7 @@
     {
       "id": "AR-1038",
       "gravita": "grave",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4879,7 +4939,7 @@
     {
       "id": "AR-1039",
       "gravita": "grave",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4892,7 +4952,7 @@
     {
       "id": "AR-1040",
       "gravita": "grave",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4905,7 +4965,7 @@
     {
       "id": "AR-1041",
       "gravita": "grave",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4918,7 +4978,7 @@
     {
       "id": "AR-1042",
       "gravita": "grave",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4931,7 +4991,7 @@
     {
       "id": "AR-1043",
       "gravita": "grave",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4944,7 +5004,7 @@
     {
       "id": "AR-1044",
       "gravita": "grave",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4957,7 +5017,7 @@
     {
       "id": "AR-1045",
       "gravita": "grave",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4970,7 +5030,7 @@
     {
       "id": "AR-1046",
       "gravita": "grave",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4983,7 +5043,7 @@
     {
       "id": "AR-1047",
       "gravita": "grave",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -4996,7 +5056,7 @@
     {
       "id": "AR-1048",
       "gravita": "grave",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -5009,7 +5069,7 @@
     {
       "id": "AR-1049",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5022,7 +5082,7 @@
     {
       "id": "AR-1050",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5035,7 +5095,7 @@
     {
       "id": "AR-1051",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5048,7 +5108,7 @@
     {
       "id": "AR-1052",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5061,7 +5121,7 @@
     {
       "id": "AR-1053",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5074,7 +5134,7 @@
     {
       "id": "AR-1054",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5087,7 +5147,7 @@
     {
       "id": "AR-1055",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5100,7 +5160,7 @@
     {
       "id": "AR-1056",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5113,7 +5173,7 @@
     {
       "id": "AR-1057",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5126,7 +5186,7 @@
     {
       "id": "AR-1058",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5139,7 +5199,7 @@
     {
       "id": "AR-1059",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5152,7 +5212,7 @@
     {
       "id": "AR-1060",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5165,7 +5225,7 @@
     {
       "id": "AR-1061",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5178,7 +5238,7 @@
     {
       "id": "AR-1062",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5191,7 +5251,7 @@
     {
       "id": "AR-1063",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5204,7 +5264,7 @@
     {
       "id": "AR-1064",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5217,7 +5277,7 @@
     {
       "id": "AR-1065",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5230,7 +5290,7 @@
     {
       "id": "AR-1066",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5243,7 +5303,7 @@
     {
       "id": "AR-1067",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5256,7 +5316,7 @@
     {
       "id": "AR-1068",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5269,7 +5329,7 @@
     {
       "id": "AR-1069",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5282,7 +5342,7 @@
     {
       "id": "AR-1070",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5295,7 +5355,7 @@
     {
       "id": "AR-1071",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5308,7 +5368,7 @@
     {
       "id": "AR-1072",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5321,7 +5381,7 @@
     {
       "id": "AR-1073",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5334,7 +5394,7 @@
     {
       "id": "AR-1074",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5347,7 +5407,7 @@
     {
       "id": "AR-1075",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5360,7 +5420,7 @@
     {
       "id": "AR-1076",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5373,7 +5433,7 @@
     {
       "id": "AR-1077",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5386,7 +5446,7 @@
     {
       "id": "AR-1078",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5399,7 +5459,7 @@
     {
       "id": "AR-1079",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5412,7 +5472,7 @@
     {
       "id": "AR-1080",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5425,7 +5485,7 @@
     {
       "id": "AR-1081",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5438,7 +5498,7 @@
     {
       "id": "AR-1082",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5451,7 +5511,7 @@
     {
       "id": "AR-1083",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5464,7 +5524,7 @@
     {
       "id": "AR-1084",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5477,7 +5537,7 @@
     {
       "id": "AR-1085",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5490,7 +5550,7 @@
     {
       "id": "AR-1086",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5503,7 +5563,7 @@
     {
       "id": "AR-1087",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5516,7 +5576,7 @@
     {
       "id": "AR-1088",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5529,7 +5589,7 @@
     {
       "id": "AR-1089",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5542,7 +5602,7 @@
     {
       "id": "AR-1090",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5555,7 +5615,7 @@
     {
       "id": "AR-1091",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5568,7 +5628,7 @@
     {
       "id": "AR-1092",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5581,7 +5641,7 @@
     {
       "id": "AR-1093",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5594,7 +5654,7 @@
     {
       "id": "AR-1094",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5607,7 +5667,7 @@
     {
       "id": "AR-1095",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5620,7 +5680,7 @@
     {
       "id": "AR-1096",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5633,7 +5693,7 @@
     {
       "id": "AR-1097",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5646,7 +5706,7 @@
     {
       "id": "AR-1098",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5659,7 +5719,7 @@
     {
       "id": "AR-1099",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5672,7 +5732,7 @@
     {
       "id": "AR-1100",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5685,7 +5745,7 @@
     {
       "id": "AR-1101",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5698,7 +5758,7 @@
     {
       "id": "AR-1102",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5711,7 +5771,7 @@
     {
       "id": "AR-1103",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5724,7 +5784,7 @@
     {
       "id": "AR-1104",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5737,7 +5797,7 @@
     {
       "id": "AR-1105",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5750,7 +5810,7 @@
     {
       "id": "AR-1106",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5763,7 +5823,7 @@
     {
       "id": "AR-1107",
       "gravita": "medio",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5776,7 +5836,7 @@
     {
       "id": "AR-1108",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5789,7 +5849,7 @@
     {
       "id": "AR-1109",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5802,7 +5862,7 @@
     {
       "id": "AR-1110",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5815,7 +5875,7 @@
     {
       "id": "AR-1111",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5828,7 +5888,7 @@
     {
       "id": "AR-1112",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5841,7 +5901,7 @@
     {
       "id": "AR-1113",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5854,7 +5914,7 @@
     {
       "id": "AR-1114",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5867,7 +5927,7 @@
     {
       "id": "AR-1115",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5880,7 +5940,7 @@
     {
       "id": "AR-1116",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5893,7 +5953,7 @@
     {
       "id": "AR-1117",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5906,7 +5966,7 @@
     {
       "id": "AR-1118",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5919,7 +5979,7 @@
     {
       "id": "AR-1119",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5932,7 +5992,7 @@
     {
       "id": "AR-1120",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5945,7 +6005,7 @@
     {
       "id": "AR-1121",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5958,7 +6018,7 @@
     {
       "id": "AR-1122",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5971,7 +6031,7 @@
     {
       "id": "AR-1123",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5984,7 +6044,7 @@
     {
       "id": "AR-1124",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -5997,7 +6057,7 @@
     {
       "id": "AR-1125",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6010,7 +6070,7 @@
     {
       "id": "AR-1126",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6023,7 +6083,7 @@
     {
       "id": "AR-1127",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6036,7 +6096,7 @@
     {
       "id": "AR-1128",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6049,7 +6109,7 @@
     {
       "id": "AR-1129",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6062,7 +6122,7 @@
     {
       "id": "AR-1130",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6075,7 +6135,7 @@
     {
       "id": "AR-1131",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6088,7 +6148,7 @@
     {
       "id": "AR-1132",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6101,7 +6161,7 @@
     {
       "id": "AR-1133",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6114,7 +6174,7 @@
     {
       "id": "AR-1134",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6127,7 +6187,7 @@
     {
       "id": "AR-1135",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6140,7 +6200,7 @@
     {
       "id": "AR-1136",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6153,7 +6213,7 @@
     {
       "id": "AR-1137",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6166,7 +6226,7 @@
     {
       "id": "AR-1138",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6179,7 +6239,7 @@
     {
       "id": "AR-1139",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6192,7 +6252,7 @@
     {
       "id": "AR-1140",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6205,7 +6265,7 @@
     {
       "id": "AR-1141",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6218,7 +6278,7 @@
     {
       "id": "AR-1142",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6231,7 +6291,7 @@
     {
       "id": "AR-1143",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6244,7 +6304,7 @@
     {
       "id": "AR-1144",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6257,7 +6317,7 @@
     {
       "id": "AR-1145",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6270,7 +6330,7 @@
     {
       "id": "AR-1146",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6283,7 +6343,7 @@
     {
       "id": "AR-1147",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6296,7 +6356,7 @@
     {
       "id": "AR-1148",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6309,7 +6369,7 @@
     {
       "id": "AR-1149",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6322,7 +6382,7 @@
     {
       "id": "AR-1150",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6335,7 +6395,7 @@
     {
       "id": "AR-1151",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6348,7 +6408,7 @@
     {
       "id": "AR-1152",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6361,7 +6421,7 @@
     {
       "id": "AR-1153",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6374,7 +6434,7 @@
     {
       "id": "AR-1154",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6387,7 +6447,7 @@
     {
       "id": "AR-1155",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6400,7 +6460,7 @@
     {
       "id": "AR-1156",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6413,7 +6473,7 @@
     {
       "id": "AR-1157",
       "gravita": "minore",
-      "eta_giorni": 11,
+      "eta_giorni": 16,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6426,7 +6486,7 @@
     {
       "id": "AR-1159",
       "gravita": "minore",
-      "eta_giorni": 10,
+      "eta_giorni": 15,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6439,7 +6499,7 @@
     {
       "id": "AR-1160",
       "gravita": "minore",
-      "eta_giorni": 10,
+      "eta_giorni": 15,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6452,7 +6512,7 @@
     {
       "id": "AR-1161",
       "gravita": "minore",
-      "eta_giorni": 10,
+      "eta_giorni": 15,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6465,7 +6525,7 @@
     {
       "id": "AR-1162",
       "gravita": "minore",
-      "eta_giorni": 10,
+      "eta_giorni": 15,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6478,7 +6538,7 @@
     {
       "id": "AR-1163",
       "gravita": "grave",
-      "eta_giorni": 9,
+      "eta_giorni": 14,
       "impatto_crescita": "alto",
       "prova_esegue": true,
       "prova_obbligatoria": true,
@@ -6491,7 +6551,7 @@
     {
       "id": "AR-1164",
       "gravita": "minore",
-      "eta_giorni": 9,
+      "eta_giorni": 14,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6504,7 +6564,7 @@
     {
       "id": "AR-1165",
       "gravita": "minore",
-      "eta_giorni": 9,
+      "eta_giorni": 14,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6517,7 +6577,7 @@
     {
       "id": "AR-1166",
       "gravita": "minore",
-      "eta_giorni": 9,
+      "eta_giorni": 14,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6530,7 +6590,7 @@
     {
       "id": "AR-1167",
       "gravita": "minore",
-      "eta_giorni": 9,
+      "eta_giorni": 14,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6543,7 +6603,7 @@
     {
       "id": "AR-1171",
       "gravita": "grave",
-      "eta_giorni": 3,
+      "eta_giorni": 8,
       "impatto_crescita": "medio",
       "prova_esegue": true,
       "prova_obbligatoria": true,
@@ -6556,7 +6616,7 @@
     {
       "id": "AR-1172",
       "gravita": "grave",
-      "eta_giorni": 3,
+      "eta_giorni": 8,
       "impatto_crescita": "medio",
       "prova_esegue": true,
       "prova_obbligatoria": true,
@@ -6569,7 +6629,7 @@
     {
       "id": "AR-1173",
       "gravita": "grave",
-      "eta_giorni": 3,
+      "eta_giorni": 8,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -6582,7 +6642,7 @@
     {
       "id": "AR-1174",
       "gravita": "minore",
-      "eta_giorni": 1,
+      "eta_giorni": 6,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6595,7 +6655,7 @@
     {
       "id": "AR-1175",
       "gravita": "medio",
-      "eta_giorni": 1,
+      "eta_giorni": 6,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6608,7 +6668,7 @@
     {
       "id": "AR-1176",
       "gravita": "medio",
-      "eta_giorni": 1,
+      "eta_giorni": 6,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -6621,7 +6681,7 @@
     {
       "id": "AR-1177",
       "gravita": "medio",
-      "eta_giorni": 1,
+      "eta_giorni": 6,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6634,7 +6694,7 @@
     {
       "id": "AR-1178",
       "gravita": "medio",
-      "eta_giorni": 1,
+      "eta_giorni": 6,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6647,7 +6707,7 @@
     {
       "id": "AR-1180",
       "gravita": "grave",
-      "eta_giorni": 1,
+      "eta_giorni": 6,
       "impatto_crescita": "alto",
       "prova_esegue": true,
       "prova_obbligatoria": true,
@@ -6660,7 +6720,7 @@
     {
       "id": "AR-1181",
       "gravita": "minore",
-      "eta_giorni": 1,
+      "eta_giorni": 6,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6673,7 +6733,7 @@
     {
       "id": "AR-1182",
       "gravita": "minore",
-      "eta_giorni": 1,
+      "eta_giorni": 6,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6684,22 +6744,9 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-1184",
-      "gravita": "minore",
-      "eta_giorni": 1,
-      "impatto_crescita": "basso",
-      "prova_esegue": false,
-      "prova_obbligatoria": false,
-      "non_giudicabile": false,
-      "titolo": "Applica e pronte chiudono voci collaudate a campione sotto le 40, perché solo valida-collaudo tiene la regola",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-1185",
       "gravita": "minore",
-      "eta_giorni": 1,
+      "eta_giorni": 6,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6712,7 +6759,7 @@
     {
       "id": "AR-1186",
       "gravita": "minore",
-      "eta_giorni": 1,
+      "eta_giorni": 6,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6725,7 +6772,7 @@
     {
       "id": "AR-1187",
       "gravita": "minore",
-      "eta_giorni": 1,
+      "eta_giorni": 6,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -6733,6 +6780,90 @@
       "titolo": "Applica e chiudi-sito rimettono la data di oggi su voci già chiuse, e applica riscrive la ragione di voci che ",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-1188",
+      "gravita": "minore",
+      "eta_giorni": 5,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "Un numero d'onda che non esiste nel piano spegne la regola dei 40 voci senza dirlo",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-1189",
+      "gravita": "minore",
+      "eta_giorni": 5,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "Il campo della regola dei 40 voci scritto nel posto sbagliato o con un nome sbagliato viene ignorato senza avv",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-1190",
+      "gravita": "grave",
+      "eta_giorni": 5,
+      "impatto_crescita": "medio",
+      "prova_esegue": false,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "Il freno sugli agenti non vede il ruolo delle sessioni aperte con «/effort ultracode»",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-1191",
+      "gravita": "grave",
+      "eta_giorni": 5,
+      "impatto_crescita": "medio",
+      "prova_esegue": false,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "Il freno sugli agenti non conta le riprese di un revisore già aperto (SendMessage)",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-1192",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": null,
+      "prova_esegue": false,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "Una firma di Nicola su una prova comune fa passare in silenzio tutte le prove comuni del giro, anche quelle ma",
+      "classe": "prova-debole-su-grave",
+      "prova_impossibile": false,
+      "prova_debole_su_grave": true,
+      "senza_controllo": false,
+      "perche": "questo difetto è un GRAVE, e la sua prova è una prova che dichiara una forma che non ha. Un difetto così si chiude solo con `{comando: \"node cervello/test/<nome>.test.mjs\"}` — una prova che diventa rossa se il difetto torna — oppure con `{tipo:\"umano\"}` dichiarato, se nessun guardiano potrà mai chiuderlo.",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-1193",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": null,
+      "prova_esegue": false,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "La guardia dei rami non vede cinque modi di spegnere una prova che c'era, e il ramo passa verde",
+      "classe": "prova-debole-su-grave",
+      "prova_impossibile": false,
+      "prova_debole_su_grave": true,
+      "senza_controllo": false,
+      "perche": "questo difetto è un GRAVE, e la sua prova è una prova che dichiara una forma che non ha. Un difetto così si chiude solo con `{comando: \"node cervello/test/<nome>.test.mjs\"}` — una prova che diventa rossa se il difetto torna — oppure con `{tipo:\"umano\"}` dichiarato, se nessun guardiano potrà mai chiuderlo.",
       "auto_chiudibile": false
     }
   ]

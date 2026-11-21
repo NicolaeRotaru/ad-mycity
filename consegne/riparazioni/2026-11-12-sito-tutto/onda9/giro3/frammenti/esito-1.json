@@ -1,0 +1,13 @@
+{
+  "corsia": 1,
+  "territorio": "R01",
+  "difetti": [
+    {
+      "chiave": "stati-ui|con la sessione scaduta il pulsante «apri reclamo» non fa niente, non chiede di rientrare e il testo scritto si perde",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-reclamo-sessione-scaduta.test.tsx --reporter=dot",
+      "non_vacuita": "git status --porcelain && git checkout 162d7a97^ -- 'app/orders/[id]/dispute/page.tsx' && npx vitest run tests/unit/riparazione-r01-reclamo-sessione-scaduta.test.tsx --reporter=dot && git checkout 162d7a97 -- 'app/orders/[id]/dispute/page.tsx' && npx vitest run tests/unit/riparazione-r01-reclamo-sessione-scaduta.test.tsx --reporter=dot && git status --porcelain → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base 162d7a97ffcc2a5c16ba021479b0e55f5fcdb6eb^ --file app/orders/[id]/dispute/page.tsx --prove tests/unit/riparazione-r01-reclamo-sessione-scaduta.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "Sulla base c'erano già l'avviso con il link /sign-in?returnTo=… e il pulsante che resta usabile. Rimesso sessioneScaduta fra le dipendenze dell'effetto che copia il modulo nella bozza (resta legato a bozzaInCorso, come voleva 8993adc8): al 401 la bozza prende il testo cambiato dopo il clic. La bozza scritta al 401 e quella che segue il modulo portano perIlRientro:true, così sopravvive a un SIGNED_OUT non chiesto (sessione scaduta) e torna al rientro dello stesso utente; un altro utente non la vede; l'invio riuscito la toglie."
+    }
+  ]
+}

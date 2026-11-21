@@ -1,6 +1,6 @@
 {
   "_cosa_e": "I tassi misurati delle campagne di riparazione. Il preventivo di un'onda si fa SOLO da qui (lezione 3 del 15/11), mai da un rimedio sperato. Si aggiunge una riga a ogni fase misurata; le righe vecchie non si riscrivono.",
-  "_aggiornato": "2026-11-21 03:00",
+  "_aggiornato": "2026-11-21 06:50",
   "calibrazione_limite": {
     "usd_per_punto": 30.5,
     "fonte": "Nicola 12/11 sera: onda 1 (610 $) = 20% del limite settimanale",
@@ -188,6 +188,38 @@
       "nati": 19,
       "nota": "Chiuso il 21/11: mycity#299 unita da Nicola alle 01:38, 15 chiusure, 19 nati. C03 2,69 $ (2 voci rosse). Regia 7.0 contata a 4,90 $, fino alle 01:25: il resto va al giro 4. Avanzi e delicati insieme: R01 11,14 + secondo 8,81 · R02 25,72 · R03 33,22 · R04 28,24 · R05 23,11 · S01 13,30 + secondo 10,99 $. 53 voci su 87 di R02-R05 mai toccate per il tetto (lotti da 21-22). Collaudi 77,33 $ contro un tetto di 44: circa 2 $ a verdetto, perché tutte le sessioni avevano ultracode e tre (R01, K01, K03) l hanno perso al riavvio e sono state rifatte. Regia 6.0 27,01 $.",
       "configurazione": "5 riparatori da 21-22 voci più una sessione dedicata alla scorta, ultracode su tutte, tetto firmato 240 poi 280 $"
+    },
+    {
+      "fase": "onda 9 giro 4 (21/11 notte)",
+      "voci_lavorate": 88,
+      "voci_che_reggono": 34,
+      "voci_chiuse": 34,
+      "usd": 161.19,
+      "usd_riparatori": 117.47,
+      "usd_collaudo_e_controllo": 43.72,
+      "usd_regia": null,
+      "usd_per_voce_lavorata": 1.83,
+      "usd_per_voce_che_regge": 4.74,
+      "usd_per_voce_chiusa": 4.74,
+      "nati": 29,
+      "nota": "Regia 9.0 poi 10.0 (la 10.0 non ha un contatore leggibile: turno unico aperto). R01 29,11 · R02 24,34 · R03 36,18 · R04 27,84 $; collaudi K01 10,24 + K01 secondo 5,60 + K02 secondo 19,92 $ (il primo K02 mai partito: commit di partenza sbagliato); controllore C04 7,96 $. 20 si chiudono dopo l unione + 14 già riparate; tolte all unione R03-019 (rompe_altro con R04-021), R03-014 e R04-010. Chiuso il 21/11: Nicola firma le sei prove comuni alle 11:44 e unisce mycity#300 alle 13:01 (commit 1ad51b4c). Nel registro: 20 riparate e 14 già riparate, 28 nati scritti più 1 riservato tenuto fuori.",
+      "configurazione": "4 riparatori da 21-24 voci, 2 con ultracode (R03, R04), regia corta, collaudi in catena"
+    },
+    {
+      "fase": "onda 9 giro 5, correzione del giro 4 (21/11 notte)",
+      "voci_lavorate": 43,
+      "voci_che_reggono": 12,
+      "voci_chiuse": 11,
+      "usd": 167.01,
+      "usd_riparatori": 108.56,
+      "usd_collaudo_e_controllo": 58.45,
+      "usd_regia": null,
+      "usd_per_voce_lavorata": 3.88,
+      "usd_per_voce_che_regge": 13.92,
+      "usd_per_voce_chiusa": 15.18,
+      "nati": 15,
+      "nota": "Voci delicate (g5d, ultracode) 19: 3 reggono, tutte già riparate nel giro 4; R02-007 rompe_altro, tolta. Non delicate (g5m, modello piccolo) 20: 8 reggono, più 2 bloccate solo dal programma (rimessa a mano con uscita 2). Riservata S01 4: 1 regge, 2 rompe_altro tolte. R01 g5d 30,28 · R02 g5d 30,28 · R01 g5m 12,51 · R02 g5m 12,16 · S01 23,33 $; collaudi K01 g5d 25,86 · K01 g5m 9,84 · KS01 15,02 $; C05 7,73 $: una voce rossa in g5m (R02-007, link social), tolti due suoi commit all unione. Lezione: il secondo giro sulle voci delicate a metà rende poco (3 su 19) e costa come il primo; le non delicate col modello piccolo reggono 8 su 20 a circa 3 $ l una. I nati si contano con applica dopo le firme di Nicola. Chiuso il 21/11 con mycity#300 (unita alle 13:01, commit 1ad51b4c): g5d 3 già riparate e 10 nati; g5m 4 riparate, 4 già riparate e 5 nati, scritto alle 13:27 dopo la correzione della guardia dei rami autorizzata da Nicola (due collaudi indipendenti). La voce che regge della riservata S01 si chiude a parte, con la sessione riservata. Le 2 voci di g5m bloccate dalla rimessa a mano con uscita 2 restano aperte: Nicola non ha autorizzato quella correzione del programma.",
+      "configurazione": "2+2 riparatori da 9-10 voci (delicate con ultracode, non delicate senza), 1 riservata, collaudi separati"
     }
   ],
   "casi_base_per_il_preventivo": {

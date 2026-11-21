@@ -23,10 +23,21 @@ test("la fotocopia nella cartella di un'onda è esente", () => {
   assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/onda12/registro-compatto.txt", []), true);
 });
 
+test("la fotocopia nella cartella di un giro dentro un'onda è esente", () => {
+  // Il 21/11 il giro 4 dell'onda 9 ha la sua cartella (`onda9/giro4`): il guardiano usciva 3 sui titoli
+  // di due difetti («al lancio si paga solo in contanti», «fino a 10 km dal negozio»).
+  assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/onda9/giro4/registro-compatto.txt", []), true);
+  assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/onda9/giro12/registro-compatto.txt", []), true);
+  // Lo stesso 21/11 il giro di correzione ha due cartelle, `giro5d` per le voci delicate e `giro5m` per le altre.
+  assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/onda9/giro5d/registro-compatto.txt", []), true);
+  assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/onda9/giro5m/registro-compatto.txt", []), true);
+});
+
 test("le schede dei riparatori restano vive", () => {
   assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/schede/R01.md", []), false);
   assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/piano.json", []), false);
   assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/onda6/schede/R02.md", []), false);
+  assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/onda9/giro4/schede/R01.md", []), false);
 });
 
 test("lo stesso nome fuori posto non è esente", () => {
@@ -34,6 +45,11 @@ test("lo stesso nome fuori posto non è esente", () => {
   assert.equal(esente("consegne/riparazioni/a/b/registro-compatto.txt", []), false);
   assert.equal(esente("consegne/riparazioni/a/onda/registro-compatto.txt", []), false);
   assert.equal(esente("consegne/riparazioni/a/onda6/x/registro-compatto.txt", []), false);
+  assert.equal(esente("consegne/riparazioni/a/giro4/registro-compatto.txt", []), false);
+  assert.equal(esente("consegne/riparazioni/a/onda9/giro4/x/registro-compatto.txt", []), false);
+  assert.equal(esente("consegne/riparazioni/a/onda9/giro/registro-compatto.txt", []), false);
+  assert.equal(esente("consegne/riparazioni/a/onda9/giro5dd/registro-compatto.txt", []), false);
+  assert.equal(esente("consegne/riparazioni/a/onda9/giro5d/schede/registro-compatto.txt", []), false);
   assert.equal(esente("consegne/riparazioni/2026-11-12-sito-tutto/registro-compatto.txt.md", []), false);
 });
 

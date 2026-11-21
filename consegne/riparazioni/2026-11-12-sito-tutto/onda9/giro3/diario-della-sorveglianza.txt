@@ -1,0 +1,19 @@
+2026-11-20 20:39 · R01 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-20 20:39 · onda 1 · prova-unione ✅
+2026-11-20 20:39 · R02 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-20 20:39 · R03 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-20 20:39 · R04 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-20 20:39 · R05 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-20 20:39 · onda 2 · prova-unione ⏳
+2026-11-20 20:39 · tutte · in corso · guardia ✅ (R01, R04, S01 spinti; R02 R03 R05 ⏳) · costo R01 9,57 R02 12,41 R03 8,71 R04 13,93 R05 9,13 S01 10,72 = 64,5 $ in 38 min · R01 avvisato al 70%
+2026-11-20 20:45 · R05 · lotto 1 spinto 32ea8e9c · guardia 🔴 (8 prove comuni ritoccate nel finto supabase) · azione: rimetterle e far reggere il ripiego senza rpc, o commit a parte da firmare
+2026-11-20 20:48 · R05 · accetta: 8 prove comuni tornano come la base, ripiego senza rpc provato · azione: ricontrollo la guardia al prossimo giro
+2026-11-20 21:00 · R02 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-20 21:00 · R03 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-20 21:00 · R04 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-20 21:00 · R05 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-20 21:00 · onda 2 · prova-unione ⏳
+2026-11-20 21:00 · R02 20,38 · R03 16,14 · R05 17,04 (guardia 🔴 8 prove comuni, ripristino non ancora spinto) · R01 10,4 e S01 13,3 finite · R04 ~17 in chiusura · azione: «niente lotti nuovi» a R02, R03, R05
+2026-11-20 21:18 · R05 · finita 23,11 $ · guardia ✅ (8 prove comuni tornate come la base) · referto 🔴 solo forma (chiavi senza dimensione, insieme_a, conto, costo) · azione: sistemare il referto
+2026-11-20 21:19 · R02 finita 25,72 $ · guardia 🔴 (3 prove esistenti ritoccate: minori-s09 comune, r07 e r15 storico; 2 messaggi citano id di altre onde) · referto ✅ · R05 referto: solo rimessa a mano (atteso) e insieme_a · azione: K02 su R02 e R05, firma di Nicola sulle 3 prove dopo il giudizio
+2026-11-20 21:23 · R04 · finita 28,24 $ · azione: K03

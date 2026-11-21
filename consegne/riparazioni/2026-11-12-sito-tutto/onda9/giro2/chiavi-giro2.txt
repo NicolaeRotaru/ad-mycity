@@ -1,0 +1,26 @@
+# onda 9, giro di correzione del 19/11 (regia 4.0): le 6 tolte, le 3 rosse del controllore, le parziali e le serve_file_altrui. Fuori: R06-005 (schermate di Nicola), R02-012 e R06-002 (spazzate su centinaia di file, una voce per padrone non regge)
+accessibilita|nella pagina chi siamo e nella vetrina del negozio il banner ignora il testo alternativo e lascia la scritta bianca sulla foto senza velo
+ai-endpoints|le rotte catalog-apply e catalog-apply-bulk non leggono l'interruttore ai_negozi_accesa
+ai-endpoints|l'allarme del tetto di spesa ai scatta solo se la stessa copia del sito resta accesa per un'ora, e su vercel può non arrivare mai
+microcopy|gli errori dei moduli controllati dal server arrivano al cliente in inglese, per esempio «string must contain at most 120 character»
+qa-flussi|quando il fattorino segna «cliente assente» il negozio riceve solo la campanella, non l'email di annullo
+deploy-sre|un'ultima prova ordina ancora le migrazioni con l'ordine vecchio
+immagini-media|se l'abbonamento supabase scade, le foto del sito tornano rotte e nessun controllo se ne accorge
+microcopy|il pulsante del negozio dice «pronto per il rider»: in tutto il resto del sito è «fattorino»
+layout-responsive|chi siamo a 280 px col testo al 200% scorre ancora di lato
+layout-responsive|col testo ingrandito al massimo sul telefono, le pagine pubbliche scorrono di lato per colpa del piè di pagina
+deploy-sre|se lo script delle migrazioni cade fra un file e il successivo, il riepilogo accusa una migrazione sana
+navigazione-gerarchia|su notifiche e messaggi i titoli saltano dal titolo principale al terzo livello
+layout-responsive|la home e /about scorrono di lato col testo grande sul telefono
+stati-ui|quando la rete torna, le pagine prodotto del negoziante rimettono il caricamento al posto del modulo e le modifiche non salvate si perdono
+stati-ui|con la sessione scaduta il pulsante «apri reclamo» non fa niente, non chiede di rientrare e il testo scritto si perde
+deploy-sre|dopo un ritorno indietro il riepilogo del rilascio rassicura a torto se una migrazione ha tolto una funzione o una vista
+ai-endpoints|se l'invio di un lotto ai resta senza risposta, il sito lo rimanda e anthropic ne esegue due, uno pagato e mai visto
+ai-endpoints|un lotto ai partito e pagato ma non agganciato alla sua riga si chiude come fallito dopo 15 minuti e se ne può pagare un secondo
+accessibilita|tra 768 e 1023 px i tasti ordini, consegne e admin della testata sono solo un'icona senza nome per chi vede
+ai-endpoints|la lettura da foto accetta il testo «false» del modello come prodotto ammesso
+ai-endpoints|quando anthropic non risponde, vercel spegne la funzione ai prima che il negozio legga un errore chiaro
+tipografia|otto spaziature diverse per la stessa etichetta maiuscola
+deploy-sre|se il secchio dello storico delle foto non si crea, lo storico finisce nello stesso secchio della copia e la notte resta verde
+microcopy|nella pagina delle sponsorizzazioni colonne e valori sono in inglese e in codici del database
+stati-ui|nelle notifiche il tasto «carica altre» sparisce mentre carica, e un errore cancella dalla pagina l'elenco già letto

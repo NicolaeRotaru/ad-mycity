@@ -1,5 +1,6 @@
 {
- "regista": "session_015BmpnZQiGiFfMYaWbMDKVT",
+ "regista": "session_015BmpnUxR79mzccgeUCjeKq",
+ "pr_sito": "NicolaeRotaru/mycity#297, ramo claude/adoring-bohr-kixq35-o9, albero e7de3f27: aperta il 18/11 alle 08:12, unita da Nicola alle 08:26 (merge 336f2fbd, albero di main e7de3f27)",
  "sha_regista": "2c3a9e9ed32bc0f289314c88ed8861f44c4f4e82",
  "integrazione": {
   "ramo": "claude/adoring-bohr-kixq35-o9",
@@ -48,7 +49,7 @@
    "finita": true,
    "punta": "420096d6",
    "testa": "675c91f9cab17e739bada9e7ac98206882577a35",
-   "costo_usd": 14.0,
+   "costo_usd": 14,
    "nota": "verify verde su 8853089a; consegnato alla regia «Ondata 9» alle 23:08, registrato dalla 2.0"
   },
   "R06": {
@@ -92,6 +93,66 @@
    "testa": "8965d7afca58bf03beb55cc5fbd9768cbbe52ce4",
    "costo_usd": 28.86,
    "nota": "verify verde su 8965d7af; 6/6 subagenti; una falla di dati riservata (preesistente) passata alla regia a voce, nel referto solo il titolo"
+  },
+  "R04": {
+   "id": "session_015BmpnX57F89TyKPH7UYXks",
+   "ramo": "claude/adoring-bohr-kixq35-o9-m04",
+   "onda": 1,
+   "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
+   "tetto_usd": 45,
+   "consegna_usd": 40,
+   "aperta": "2026-11-19 10:16",
+   "ultracode": false,
+   "finita": true,
+   "nota": "giro del 19/11: solo le voci del rifiltro (rifiltro-R04-R05-R08-R09.json); 11:08 consegnato: 4 riparati, 1 parziale (019), 1 gia riparato (013), 1 scelta di Nicola (009, tolto: col freno unico un ordine prende coordinate nulle e salta il controllo della zona), 1 non_fatto per migrazione (015); guardia e referto verdi",
+   "punta": "847ee782",
+   "testa": "cdcb621a",
+   "costo_usd": 12.63
+  },
+  "R05": {
+   "id": "session_015BmpnZKi93orVTQfZFJCjz",
+   "ramo": "claude/adoring-bohr-kixq35-o9-m05",
+   "onda": 1,
+   "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
+   "tetto_usd": 45,
+   "consegna_usd": 40,
+   "aperta": "2026-11-19 10:16",
+   "ultracode": false,
+   "finita": true,
+   "nota": "giro del 19/11: solo le voci del rifiltro (rifiltro-R04-R05-R08-R09.json); 10:00 consegnato: 2 riparati, 2 parziali, 5 serve_file_altrui, 11 fuori giro; guardia-ramo rossa (il-corsivo-del-sito: 10→9 asserzioni), rimandato a R05; R05-016 alla regia all unione (cherry-pick eddf0534 + gen-db-types)",
+   "punta": "2973cd14",
+   "testa": "dbbb9793",
+   "costo_usd": 6.01
+  },
+  "R08": {
+   "id": "session_015BmpnZWxZNVKRuQDQUizeQ",
+   "ramo": "claude/adoring-bohr-kixq35-o9-m08",
+   "onda": 1,
+   "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
+   "tetto_usd": 45,
+   "consegna_usd": 40,
+   "aperta": "2026-11-19 10:16",
+   "ultracode": false,
+   "finita": true,
+   "nota": "giro del 19/11: solo le voci del rifiltro (rifiltro-R04-R05-R08-R09.json); 11:16 consegnato: 5 riparati, 2 parziali, 1 serve_file_altrui; guardia rossa solo per 2 messaggi che citano voci altrui (f6d4f4c1 R03-005, a431ee63 R24-018), la stessa regola senza deroga",
+   "punta": "78d1ef08",
+   "testa": "a431ee63",
+   "costo_usd": 10.37
+  },
+  "R09": {
+   "id": "session_015BmpnWTvf4Fkpq2LgkmiUm",
+   "ramo": "claude/adoring-bohr-kixq35-o9-m09",
+   "onda": 1,
+   "partenza": "f93d246a42b25cd5fa86da712755526d7d6388dc",
+   "tetto_usd": 45,
+   "consegna_usd": 40,
+   "aperta": "2026-11-19 10:16",
+   "ultracode": false,
+   "finita": true,
+   "nota": "giro del 19/11: solo le voci del rifiltro (rifiltro-R04-R05-R08-R09.json); 11:34 consegnato: 4 riparati, 7 parziali, 1 serve_file_altrui, 1 scelta di Nicola, 003/009/010/011 non_fatto (009, 010, 011 tolti col revert: peggioravano); guardia e referto verdi",
+   "punta": "cc9da732",
+   "testa": "e6672c3d",
+   "costo_usd": 25.81
   }
  },
  "collaudatori": {
@@ -128,6 +189,38 @@
    "punta": "cb5acf89",
    "costo_usd": 13.67,
    "nota": "25 voci a giudizio pieno, 19 prove rimesse su 19; valida-collaudo e guardia-ramo verdi"
+  },
+  "K03": {
+   "id": "session_015BmpnWtVmWvSe3nCowtz2w",
+   "ramo": "claude/adoring-bohr-kixq35-o9-k03",
+   "partenza": "9a921f58c43b99cadde779f9254a72091769a576",
+   "riparatori": [
+    "R04",
+    "R05"
+   ],
+   "aperta": "2026-11-19 11:10",
+   "consegna_usd": 20,
+   "tetto_usd": 25,
+   "finita": true,
+   "punta": "d12ae0a7",
+   "costo_usd": 11.7,
+   "nota": "10 voci, 3 reggono (R04-002, 005, 013); parziali R04-019, R05-001, 014, 015; non regge R04-017; rompe_altro R04-001 e R05-019 (si tolgono all unione); le tre prove adattate da R05 non indebolite"
+  },
+  "K04": {
+   "id": "session_015BmpnVvsN3i7mXAnN2SwsB",
+   "ramo": "claude/adoring-bohr-kixq35-o9-k04",
+   "partenza": "927713f47284458ca15a31425833440000f9146b",
+   "riparatori": [
+    "R08",
+    "R09"
+   ],
+   "aperta": "2026-11-19 11:35",
+   "consegna_usd": 25,
+   "tetto_usd": 30,
+   "finita": true,
+   "punta": "2509d58f",
+   "costo_usd": 13.15,
+   "nota": "18 voci, 17 reggono; R08-011 parziale (ogni opzione tagliata a 30 valori); nessun rompe_altro; revert di R09 alla base; 4 prove adattate non indebolite"
   }
  },
  "controllori": {
@@ -143,20 +236,33 @@
    "punta": "653e2ecf",
    "costo_usd": 9.96,
    "nota": "5 voci rosse (R03-019 grave rompe_altro, R10-002 rompe_altro, R07-001, R03-009, R03-003), 3 difetti nuovi minori, 41 file di codice guardati su 41"
+  },
+  "C02": {
+   "id": "session_015BmpnXDdxh75bFwuTcnGHM",
+   "ramo": "claude/adoring-bohr-kixq35-o9-c02",
+   "partenza": "6820f5e9b5ada12fe5b5161ba082d879231e3336",
+   "integrazione": "claude/adoring-bohr-kixq35-o9b @ 4d155973",
+   "base": "336f2fbd",
+   "aperta": "2026-11-20 00:05",
+   "consegna_usd": 15,
+   "tetto_usd": 20,
+   "ultracode": false,
+   "finita": true,
+   "nota": "0 voci rosse, 0 difetti nuovi, 127 file su 127 con 8 revisori; verify verde (11.383 su 11.383), SQL 209 migrazioni verdi; la prova del drop ritoccata dalla regia non indebolita",
+   "punta": "eb5de05",
+   "testa_controllata": "d403fa41",
+   "costo_usd": 6.6
   }
  },
  "da_aprire_giovedi": [
-  "R04",
-  "R05",
-  "R08",
-  "R09",
-  "collaudo gruppo A",
-  "K01-K04",
-  "C01"
+  "controllore e collaudatori del giro"
  ],
  "regista_prima": [
   "session_015BmpnYq3DQDRwTXdBwfzud",
-  "session_015BmpnVz75xRKsz1trmeMzu"
+  "session_015BmpnVz75xRKsz1trmeMzu",
+  "session_015BmpnZQiGiFfMYaWbMDKVT",
+  "session_015BmpnXTF1dKwFmtRWd5L1s",
+  "session_015BmpnZZ9mpJFdTk5mxvbY8"
  ],
  "promemoria": {
   "spesa": "trig_01CE9YMeeT8hwPB7aB7G56tC (spento, si riaccende con update_trigger)",

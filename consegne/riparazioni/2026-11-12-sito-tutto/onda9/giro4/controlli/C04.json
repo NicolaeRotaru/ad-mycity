@@ -1,0 +1,89 @@
+{
+ "controllore": "C04",
+ "onda": 9,
+ "giro": 4,
+ "finita": true,
+ "testa": "0f98fb8a372c6f31bcda8ca3c2ef4385c9c21b23",
+ "base": "2d19787b789236307ac7ddd6c05b038a658a3d9d",
+ "ramo_integrazione": "claude/stoic-ramanujan-p9tmso",
+ "sha_regista": "5b8919c9cd369eab869c80c9da54241a36f00812",
+ "tolte_con_revert": [
+  "R03-019",
+  "R03-014",
+  "R04-010"
+ ],
+ "verify": {
+  "comando": "npm run verify && tests/sql/harness/apply.sh && tests/sql/harness/run.sh",
+  "esito": "verde",
+  "dettaglio": "verify: typecheck ok, lint 0 errori (98 avvisi), 1889 file di prova verdi e 1 saltato (11721 prove). apply: 210 migrazioni applicate, 0 fallite, su Postgres 16 locale. run: tutti i controlli SQL verdi."
+ },
+ "voci_rosse": [
+  {
+   "chiave": "deploy-sre|il cancello delle migrazioni promette di confrontare il contenuto ma confronta solo i nomi, e registra in un passo separato",
+   "id": "R02-004",
+   "perche": "scripts/applica-migrazioni-mancanti.sh:357-361: applicazione e registrazione stanno in un solo psql --single-transaction, ma una migrazione con un suo BEGIN/COMMIT (una ventina, fra cui la 115 e la 117, come dice il commento alle righe 322-330) chiude la transazione, e l'INSERT di registro gira poi da solo. Per quelle la registrazione resta un passo separato. Il referto dice «riparato» senza cosa_resta, e il commento alla riga 334 promette il ritorno indietro senza questo limite."
+  },
+  {
+   "chiave": "deploy-sre|il giorno del lancio un errore del sito non lo vede nessuno: il registratore degli errori è spento e l'unico allarme dipende dalla chiave che manca",
+   "id": "R01-005",
+   "perche": "lib/logger.ts:211-215: il conto nuovo prende solo le chiamate a logger.error sul server. Due casi restano fuori: gli errori delle pagine, che passano da onRequestError (instrumentation.ts:26) e vanno solo a Sentry, che è spento; e gli errori del browser (ramo client, logger.ts:216-218). Con Sentry spento quegli errori non li vede ancora nessuno. La voce era già parziale, ma questo pezzo non sta in cosa_resta."
+  }
+ ],
+ "nuovi_difetti_visti": [
+  {
+   "titolo": "Con la promozione e il prezzo barrato insieme, la scheda prodotto mostra due prezzi barrati e un risparmio sbagliato",
+   "dimensione": "flussi-conversione",
+   "severita": "minore",
+   "file": "app/product/[id]/page.tsx:514",
+   "descrizione": "compareValid confronta il prezzo di listino col prezzo pieno e non guarda scontoPromo. Esempio: pieno 10 €, listino 12 €, promo del 20%: il cliente paga 8 €, vede due prezzi barrati e legge «Risparmi 2,00» calcolato sul pieno. La scheda delle griglie in questo caso nasconde il listino (components/ProductCard.tsx:62)."
+  },
+  {
+   "titolo": "L'ordine «prezzo crescente» ordina sul prezzo pieno, mentre la griglia mostra il prezzo scontato",
+   "dimensione": "flussi-conversione",
+   "severita": "minore",
+   "file": "lib/queries/griglia-prodotti.ts:308",
+   "descrizione": "Un prodotto da 12 € al -25% (a video 9 €) finisce dopo uno da 10 €. È lo stesso difetto di R01-008, rimasto nello stesso file: R01-008 ha corretto solo il filtro «sotto X €»."
+  },
+  {
+   "titolo": "Il filtro «prezzo minimo» taglia sul prezzo pieno, non su quello che il cliente paga",
+   "dimensione": "flussi-conversione",
+   "severita": "minore",
+   "file": "lib/queries/griglia-prodotti.ts:180",
+   "descrizione": "Con minimo 10 €, un prodotto da 12 € al -25% (9 € alla cassa) resta nell'elenco. È l'altro lato del difetto di R01-008, nello stesso file."
+  },
+  {
+   "titolo": "Il cliente con la carta riceve un'email in più, quasi vuota, quando il suo carrello scade tutto nello stesso giro",
+   "dimensione": "flussi-conversione",
+   "severita": "minore",
+   "file": "app/api/cron/expire-stale-orders/route.ts:441",
+   "descrizione": "Dopo R04-018 l'avviso di fine giro di un ordine pagato con carta può restare con rimasti vuoto. carrello resta vero e parte comunque l'email di annullo, che ripete il «Rimborso emesso» già mandato dal rimborso, senza nessuna riga del carrello. La campanella invece si ferma (riga 444). Sulla base l'email doppia c'era già, ma con le cifre sbagliate."
+  },
+  {
+   "titolo": "Il freno della veloce in contanti, se manca la riga del carrello, tratta ogni ordine da solo senza dirlo a nessuno",
+   "dimensione": "architettura",
+   "severita": "minore",
+   "file": "lib/ordini/veloce-non-confermata.ts:210",
+   "descrizione": "È lo stesso difetto di R04-007, chiuso solo in lib/ordini/annulla.ts. Se in cod_checkout_attempts non c'è la riga, ordiniDelCarrello torna null e il chiamante ripiega su [o] senza registro né avviso. Gli ordini dello stesso carrello passano alla fascia uno alla volta, con due campanelle."
+  },
+  {
+   "titolo": "Se la lettura dell'email cade, la cancellazione dell'account lascia l'indirizzo nella newsletter e nessuno lo sa",
+   "dimensione": "api-backend",
+   "severita": "minore",
+   "file": "lib/account/cancellazione.ts:566",
+   "descrizione": "togliDallaNewsletter scarta l'errore di getUserById. Con la lettura caduta emailUtente è null, la funzione esce senza log, poi l'account si cancella e l'indirizzo resta in newsletter_subscribers. È un punto vicino a R03-015, rimasto com'era."
+  }
+ ],
+ "controlli_dei_revert": "Le tre tolte sono pulite. lib/analytics/sentry.tsx e lib/shipping.ts sono tornati identici alla base: non compaiono nel diff base..testa. In cod/route.ts, dopo daa3682c, non restano import, variabili o prove orfane di R03-019. Con R04-021 rimasto, nessun chiamante di contaFattoriniOnline conta il proprio ordine: la rotta dei contanti conta prima di scrivere, la carta crea gli ordini solo dal webhook, e GET /api/consegna/veloce e /negozi non passano velociInCorso. Il logger di R01-005 non dipendeva da sentry.tsx di R03-014.",
+ "incroci_fra_riparatori": "Nessun file è toccato da due riparatori: R01 22 file, R02 16, R03 11, R04 5 (contati i due tornati alla base). L'unico incrocio di significato era R03-019 con R04-021, ed è stato tolto.",
+ "voci_parziali_gia_dichiarate": "I parziali dichiarati nei referti (fra gli altri R03-003, R03-006, R03-013, R03-018, R01-002, R02-022, R04-007, R04-008, R04-021) restano come scritti in cosa_resta. Non li conto come rossi.",
+ "file_toccati": 108,
+ "file_guardati": 52,
+ "file_non_guardati": "Ho guardato tutti i 52 file di codice e di documentazione del diff. Non ho riletto a occhio i 52 file di prova e i 4 referti in .riparazione/: le prove le ha eseguite verify, tutte verdi.",
+ "ultracode": "spento: la regia ha chiesto un controllo leggero (niente Workflow, al massimo 4 subagenti, tetto 10 $)",
+ "conto": {
+  "subagenti": 4,
+  "token_stimati": 283000,
+  "costo_usd": 6.54,
+  "nota_costo": "usage.cost_usd di get_session, fermo all'aggiornamento delle 04:00 UTC: il costo finale è un po' più alto"
+ }
+}

@@ -1,0 +1,27 @@
+{
+  "controllore": "C02",
+  "onda": 9,
+  "giro": "2026-11-19",
+  "finita": true,
+  "testa": "d403fa41fbb64be92df870a5bf30a6c1a281d4b2",
+  "base": "336f2fbda9b1b50209fbe94e1f5fde1c74134ab7",
+  "ramo": "claude/adoring-bohr-kixq35-o9b",
+  "verify": {
+    "comando": "NODE_OPTIONS=--max-old-space-size=8192 npm run verify && tests/sql/harness/apply.sh && tests/sql/harness/run.sh",
+    "esito": "verde",
+    "dettaglio": "tipi 0 errori; stile 0 errori e 98 avvisi; prove 1815 file e 11383 casi passati; SQL 209 migrazioni applicate su Postgres locale, tutti i controlli verdi"
+  },
+  "voci_rosse": [],
+  "nuovi_difetti_visti": [],
+  "note": [
+    "La prova esistente tests/unit/storie-drop-ed-eventi-reggono-con-i-profili-chiusi.test.ts è stata ritoccata dalla regia nel commit d403fa41 (giorno del drop con giornoPiacenza, come components/home/DropOfDay.tsx:68): non indebolita, va dentro le prove ritoccate da firmare.",
+    "onda9/R04-017 regge come scritta (il modulo manda idempotency-key), ma il server di app/api/support non la legge ancora: due invii uguali fanno ancora due messaggi finché non si ripara R04-015 (non_fatto, dichiarato).",
+    "onda9/R04-002: resta una corsa stretta fra la lettura e l'update senza condizione in app/api/admin/products/route.ts:242 se il prodotto sparisce in mezzo; non è il difetto della voce.",
+    "Scartati dopo verifica due sospetti minori dei revisori: la data della conferma con carta (l'ordine nasce nello stesso webhook, lib/stripe/webhook/ordini.ts:573-576) e il tetto del testo alternativo (120 nello schema della home dell'amministrazione, 160 in lib/store-site.ts:159: due schemi diversi).",
+    "Le 6 cancellazioni .riparazione/referto-*.json sono la pulizia voluta del ramo (commit 4e35ac3b)."
+  ],
+  "file_toccati": 127,
+  "file_guardati": 127,
+  "file_guardati_nota": "121 file di codice e prove divisi fra 8 revisori, più le 6 cancellazioni .riparazione guardate da me. Delle prove nuove i revisori hanno controllato elenco dei casi e assenza di skip/only, non ogni asserzione: le hanno già giudicate i collaudatori.",
+  "conto": { "subagenti": 8, "token_stimati": 520000 }
+}

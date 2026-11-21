@@ -1,0 +1,7 @@
+2026-11-21 05:16 · R01 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-21 05:16 · R02 · in lavoro · guardia 🔴 · referto ⏳ 5 voci · unione (sotto) · nessuna
+2026-11-21 05:16 · onda 1 · prova-unione ⏳
+2026-11-21 05:48 · R01 · in lavoro · guardia 🔴 · referto 🔴 10 voci · unione (sotto) · nessuna
+2026-11-21 05:48 · R02 · in lavoro FINITA · guardia 🔴 · referto ✅ 10 voci · unione (sotto) · nessuna
+2026-11-21 05:48 · K01 · ramo non ancora spinto · guardia – · collaudo – · nessuna
+2026-11-21 05:48 · onda 1 · prova-unione ✅

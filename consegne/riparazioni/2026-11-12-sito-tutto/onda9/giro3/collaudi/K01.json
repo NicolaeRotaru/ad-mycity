@@ -1,0 +1,143 @@
+{
+ "collaudatore": "K01",
+ "riparatori": [
+  "R01",
+  "S01"
+ ],
+ "aggiornato": "2026-11-20 22:29",
+ "finita": true,
+ "voci": [
+  {
+   "id": "R01-001",
+   "chiave": "stati-ui|nelle notifiche il tasto «carica altre» sparisce mentre carica, e un errore cancella dalla pagina l'elenco già letto",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base cf52a649^ --file app/notifications/page.tsx --prove tests/unit/riparazione-r01-notifiche-segna-tutte.test.tsx,tests/unit/riparazione-r01-notifiche-carica-altre.test.tsx --json",
+    "nota": "ricollaudo giro 3 sui commit cf52a649 + 7e70f860, worktree a b2487f94 (stessi file di 7e70f860: b2487f94 tocca solo la prova varie-c). Uscita 0: 10 verdi, rossa sul comportamento togliendo page.tsx. Seconda corsa --base 7e70f860^ sulla sola segna-tutte: uscita 0 (4 verdi, rossa senza 7e70f860). Il campo commit del referto R01 (7e70f8603f8c…) non esiste nel deposito: il commit vero è 7e70f8600e49da9fff629bef0ae331f19a6ba82a."
+   },
+   "nota": "RICOLLAUDO (giro 3, K01 secondo). Due lenti, due esecutori diversi: un revisore qa per chiude_tutta, K01 per nata_rotta. NATA_ROTTA: regge. Prova rimessa uscita 0; 51 file di prove vicine 296/296 verdi alla testa b2487f94. CHIUDE_TUTTA: i due casi del primo collaudo ora reggono, con le impostazioni del sito (retry 1, attesa 2 s), orologio finto a passi di 100 ms per 12 s: «Carica altre» cade, «Segna tutte» riesce, rilettura caduta → mai «Non letta»; «Segna tutte» durante l'attesa del nuovo tentativo; «Carica altre» in volo, anche con la rete che cade. Caso a due utenti verde: u2 entra mentre la risposta di u1 è in volo, con uscita di u1 o cambio diretto; chiavi, chip e campanello di u2 intatti. Campanello del negozio (seller-bell) di chi preme a 0. RESTA un residuo minore e raro, stesso sintomo della voce: se getUser cade all'apertura, components/hooks/useUtente.ts tiene «nessuno» in memoria e l'elenco si salva sotto la chiave [list,50,null] con le righe di u1 (la sua lettura rifà getUser e riesce). Il filtro dell'ultimo pezzo della chiave (app/notifications/page.tsx:194, at(-1) === chi) la salta: dopo «Segna tutte» riuscita e rilettura caduta tornano 50 «Non letta» col pulsante. Prova del revisore rossa alla testa, riprodotta due volte e rilanciata da K01. Cura possibile: segnare lette le righe per n.user_id su tutte le chiavi elenco, non per chiave."
+  },
+  {
+   "id": "R01-002",
+   "chiave": "stati-ui|con la sessione scaduta il pulsante «apri reclamo» non fa niente, non chiede di rientrare e il testo scritto si perde",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01 --base 162d7a97ffcc2a5c16ba021479b0e55f5fcdb6eb^ --file app/orders/[id]/dispute/page.tsx --prove tests/unit/riparazione-r01-reclamo-sessione-scaduta.test.tsx --json"
+   },
+   "nota": "Due revisori qa, uno per lente; prova-rimessa uscita 0 (cade togliendo page.tsx, 4/4 con la cura). CHIUDE_TUTTA: regge sul percorso vero 401 → /sign-in?returnTo= → setSession dello stesso utente (app/sign-in/page.tsx:235) → router.push nella stessa scheda: torna il testo cambiato dopo il clic; campo svuotato durante l'invio resta vuoto (prove del revisore, verdi); un altro utente non vede la bozza. NATA_ROTTA: regge (l'effetto non riscrive dopo l'invio riuscito, chiave per ordine e per scheda, prove vicine verdi)."
+  },
+  {
+   "id": "S01-001",
+   "chiave": "stati-ui|quando la rete torna, le pagine prodotto del negoziante rimettono il caricamento al posto del modulo e le modifiche non salvate si perdono",
+   "fuori_programma": true,
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-S01 --base 6dc1280d^ --file app/seller/products/[id]/edit/page.tsx,components/seller/ProductForm.tsx --prove tests/unit/riparazione-s01-scorta-taglie-non-lette.test.tsx --json",
+    "nota": "ricollaudo giro 3, worktree a 7c4c0b69. Tutte uscita 0 (22 verdi, rossa sul comportamento): --base 6dc1280d^ sui due file e su edit/page.tsx da solo; --base 6d72dc20^ su edit/page.tsx (firma della riga e delle taglie); --base f28a17f5^ su edit/page.tsx (taglia rinominata o spostata); --base 7c4c0b69^ su ProductForm.tsx (testo); a 6dc1280d --base 6dc1280d^ su edit/page.tsx (14 verdi)."
+   },
+   "nota": "RICOLLAUDO (giro 3, K01 secondo). Due revisori qa, uno per lente, ciascuno nella sua copia a 7c4c0b69, con le impostazioni del sito (staleTime 30 s, retry 1, retryDelay del sito). VERDI alla testa (rossi su c5147aae): (a) taglie fresche in memoria e rilettura caduta una volta, in pausa o con la rete che cade a metà: Salva, Invio implicito e «Salva come bozza» non scrivono niente prima delle taglie rilette; (b) stato a bozza o prezzo a 45 € da un altro telefono, con la riga in volo, in pausa, caduta una o due volte: mai status o prezzo vecchi, dopo «Riapri» si salva 45; taglia aggiunta, tolta, rinominata e spostata: Salva fermo; «Riapri» riprende riga e taglie nuove. Una vendita nel frattempo non ferma il Salva: taglia a 0, scorta da 5 a 3, ultimo pezzo da 1 a 0 (le vendite toccano solo stock e has_variants, migrazioni 161 e 080; l'unico trigger su una colonna della firma è trg_auto_republish, che porta uno stato vecchio out_of_stock ad available: lì il blocco è giusto). Nuovo e Duplica non si fermano a torto; 53 file di prove vicine 291/291 verdi. ROMPE_ALTRO, grave: la spunta «escluso dal recesso» torna vecchia e il Salva la riscrive. components/seller/ProductForm.tsx:301 ricalcola recedibileAllApertura a ogni disegno dalle initialValues, che app/seller/products/[id]/edit/page.tsx:440 ricostruisce dalla riga riletta; lo stato nonRecedibile (ProductForm.tsx:302) resta quello dell'apertura, e il confronto a ProductForm.tsx:852-853 vede un cambio che nessuno ha fatto. non_recedibile è fuori da COLONNE_RISCRITTE (edit/page.tsx:64), quindi la firma non ferma. Passi: Modifica aperta senza rete con la riga in memoria (non_recedibile false); da un altro telefono il prodotto diventa escluso dal recesso; torna la rete, la spunta a video resta vuota; si corregge il nome e si salva → parte non_recedibile:false. Al contrario parte true. Effetto: un prodotto escluso torna recedibile, o si nega un recesso dovuto. Prova del revisore rossa alla testa e su c5147aae; su b2c62f34 il modulo si rimontava (il guaio della voce), quindi nasce dalla riparazione; meccanismo riletto da K01. Cura possibile: fissare il valore dell'apertura all'apertura (stato o ref, non ricalcolato) o mettere non_recedibile nella firma. MINORI nati dalla correzione: (1) Salva riprovato dopo una risposta persa: la riga riletta porta il nome scritto dal negoziante stesso, la firma è diversa e il Salva si ferma con «Questo prodotto è cambiato… (per esempio da un altro telefono)»; si esce solo con «Riapri», che perde le taglie non salvate (edit/page.tsx:363-364, 413-416; anche l'annullo delle taglie caduto, riga 249). (2) Dopo «Modifiche salvate», finché la pagina non cambia, compaiono avvisi rossi di Salva fermo («senza rete non arrivano» anche con la rete, poi «questo prodotto è cambiato»), righe 257, 260, 353, 363, 413. Prove del revisore rosse alla testa e verdi su c5147aae e b2c62f34. Minore anche: in Duplica la firma delle taglie resta sui soli id in ordine (app/seller/products/new/page.tsx:67-69): sorgente con una taglia rinominata o spostata altrove → la copia nasce coi nomi vecchi (copia nuova, nessuna sovrascrittura)."
+  },
+  {
+   "id": "S01-002",
+   "chiave": "api-backend|«duplica» di un prodotto escluso dal recesso: finché non si sa se la colonna c'è, la copia si salva recedibile senza avviso",
+   "fuori_programma": true,
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-S01 --base bf5338f5848d431908a13092016b05bd059e04bd^ --file app/seller/products/new/page.tsx --prove tests/unit/riparazione-s01-duplica-recesso.test.tsx --json"
+   },
+   "nota": "Due revisori qa, uno per lente. CHIUDE_TUTTA: regge; la chiave ['duplicate-source', …] ha un solo queryFn con select * (new/page.tsx:152), nessun segnaposto o initialData la riempie; se la lettura della sorgente cade il modulo non si apre; il valore arriva all'insert diretto (new/page.tsx:232 e :192). NATA_ROTTA: regge; senza la colonna (prima della 180) la copia si salva senza mandare non_recedibile; spunta tolta a mano → resta il predefinito false; «Nuovo» da zero invariato. 25 file di prove vicine verdi. Confermato FUORI dalla voce (la colonna si sa, è il valore a essere vecchio) il difetto vicino dichiarato dal riparatore: Duplica di X, Modifica di X con la spunta, di nuovo Duplica di X entro 5 min → la copia nasce recedibile senza avviso (le invalidazioni della Modifica non toccano duplicate-source). Va aperto come voce propria."
+  }
+ ],
+ "campione": {
+  "R01": {
+   "accettato": false
+  }
+ },
+ "nota": "R01-varie: parziale, solo minori (ricollaudo giro 3: i due buchi del primo collaudo reggono; due residui minori, dettagli alla regia).",
+ "nuovi_difetti_visti": [
+  {
+   "titolo": "«Duplica» parte dalla sorgente vecchia in memoria: dopo una Modifica che mette «escluso dal recesso», la copia rifatta entro 5 minuti nasce recedibile senza avviso",
+   "file": "app/seller/products/new/page.tsx:150",
+   "severita": "minore",
+   "dimensione": "stati-ui",
+   "fonte": "dichiarato da S01, confermato da K01 con due prove"
+  },
+  {
+   "titolo": "In «Modifica» un dato delle taglie cambiato da un'altra scheda non ferma il Salva finché qualcosa non rilegge",
+   "file": "app/seller/products/[id]/edit/page.tsx:318",
+   "severita": "minore",
+   "dimensione": "stati-ui",
+   "fonte": "K01, prova del revisore; concorrenza fra schede, fuori da S01-001"
+  },
+  {
+   "titolo": "Notifiche: «Carica altre» in volo più «Segna tutte» riuscito lascia le notifiche «Non letta» finché non si rilegge",
+   "file": "app/notifications/page.tsx:187",
+   "severita": "minore",
+   "dimensione": "stati-ui",
+   "fonte": "preesistente sulla base, già segnalato al giro 2, ancora presente"
+  },
+  {
+   "titolo": "Notifiche: una notifica arrivata mentre «Segna tutte» è in viaggio si vede letta se la rilettura cade, e aprirla non la segna",
+   "file": "app/notifications/page.tsx:200",
+   "severita": "minore",
+   "dimensione": "stati-ui",
+   "fonte": "K01 ricollaudo, prova del revisore; l'update non restituisce gli id scritti e la pagina segna lette tutte le righe di chi ha premuto"
+  },
+  {
+   "titolo": "«Modifica» prodotto: il Salva riprovato dopo una risposta persa si ferma per la scrittura dello stesso negoziante e dà la colpa a «un altro telefono»",
+   "file": "app/seller/products/[id]/edit/page.tsx:363",
+   "severita": "minore",
+   "dimensione": "stati-ui",
+   "fonte": "K01 ricollaudo, prova del revisore; nato da 6d72dc20"
+  },
+  {
+   "titolo": "«Modifica» prodotto: dopo «Modifiche salvate» lampeggiano avvisi rossi di Salva fermo finché la pagina non cambia",
+   "file": "app/seller/products/[id]/edit/page.tsx:257",
+   "severita": "minore",
+   "dimensione": "stati-ui",
+   "fonte": "K01 ricollaudo, prova del revisore; nato da 6dc1280d e 6d72dc20"
+  },
+  {
+   "titolo": "«Duplica»: la firma delle taglie guarda solo gli id, una taglia rinominata o spostata altrove nasce col nome vecchio nella copia",
+   "file": "app/seller/products/new/page.tsx:67",
+   "severita": "minore",
+   "dimensione": "stati-ui",
+   "fonte": "K01 ricollaudo, prova del revisore"
+  },
+  {
+   "riservato": true,
+   "titolo": "Due residui minori della falla riservata di R01: i dettagli solo alla regia",
+   "file": "(nel messaggio alla regia)",
+   "severita": "minore",
+   "dimensione": "stati-ui",
+   "fonte": "K01 ricollaudo"
+  }
+ ],
+ "domande_per_la_regia": [
+  "S01-001: per salvare dopo che la rilettura porta taglie diverse, l'unica uscita è «Riapri», che perde il testo non salvato. La regola di Nicola («il testo resta nel modulo») è rispettata alla lettera (il testo resta a video), ma va riscritto: decidete se basta."
+ ]
+}

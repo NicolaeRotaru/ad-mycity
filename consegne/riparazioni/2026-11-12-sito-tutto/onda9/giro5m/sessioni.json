@@ -1,0 +1,45 @@
+{
+ "regista": "session_015BmpnZ6sDXhTVpCDMSp2nP",
+ "sha_regista": "b800d83d433fbb4867c173cefe85fbddb5df88a4",
+ "integrazione": {
+  "ramo": "claude/stoic-ramanujan-p9tmso",
+  "partenza": "0f98fb8a372c6f31bcda8ca3c2ef4385c9c21b23",
+  "nota": "giro di correzione del giro 4, 21/11 notte"
+ },
+ "sessioni": {
+  "R01": {
+   "id": "session_015BmpnY55nAAiPz2MPJBwAF",
+   "ramo": "claude/adoring-bohr-kixq35-o9g5m-m01",
+   "onda": 1,
+   "ultracode": false,
+   "costo_usd": 12.51
+  },
+  "R02": {
+   "id": "session_015BmpnWpEnWtzbkrdkX2fM9",
+   "ramo": "claude/adoring-bohr-kixq35-o9g5m-m02",
+   "onda": 1,
+   "ultracode": false,
+   "costo_usd": 12.16
+  }
+ },
+ "tetti_usd": {
+  "R01": 30,
+  "R02": 30,
+  "collaudo": 20
+ },
+ "collaudatori": {
+  "K01": {
+   "id": "session_015BmpnWJLSnSoZ5uQbJjDPJ",
+   "ramo": "claude/adoring-bohr-kixq35-o9g5m-k01",
+   "partenza": "07765dee327bc9276307d23b634a74e58dc36fec",
+   "riparatori": [
+    "R02",
+    "R01"
+   ],
+   "ultracode": false,
+   "tetto_usd": 20,
+   "costo_usd": 8.97
+  }
+ },
+ "controllori": {}
+}

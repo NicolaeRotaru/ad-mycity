@@ -18,7 +18,7 @@ import { symlinkSync } from "node:fs";
 import {
   fileDaCampoSito, fileDaSchedaMacchina, assegnaOnda, controllaOnda, giudicaPercorso, importDi, percorsiNominati,
   regoleReferto, regoleCollaudo, campioneDi, decidi, chiaviDoppie, classifica, CONDIVISI_MACCHINA, RE_SPENTA, contaAsserzioni,
-  eccezioneFirmata,
+  eccezioneFirmata, restringeIlSalto,
 } from "../riparazione-sessioni.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
@@ -393,6 +393,47 @@ test("guardia-ramo: un commit di codice senza l'id della voce è rosso", () => {
     const r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
     assert.equal(r.status, 1);
     assert.match(r.stdout, /non comincia con l'id di una voce di R01/);
+  } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
+});
+
+test("onda 9 (20/11) · guardia-ramo: la voce altrui citata nel messaggio si sospende con la firma su QUEL commit", () => {
+  const { dir, g, scrivi, base } = depositoFinto();
+  const c = cartellaCampagna(base);
+  const conEccezione = (e) => { const p = JSON.parse(readFileSync(join(c, "piano.json"), "utf8")); p.eccezioni_firmate = e; writeFileSync(join(c, "piano.json"), JSON.stringify(p)); };
+  try {
+    g("checkout", "-q", "-b", "r01", base);
+    scrivi("lib/a.ts", "export const a = 3;\n"); g("commit", "-qam", "R01-001 la riparazione, come R09-004");
+    const citato = g("rev-parse", "HEAD");
+    scrivi("lib/a.ts", "export const a = 4;\n"); g("commit", "-qam", "R01-001 il resto, vedi R07-002");
+    const altro = g("rev-parse", "HEAD");
+    const firma = "Nicola, prova";
+    const rossiCita = (out) => (out.match(/🔴 [0-9a-f]{12}: il messaggio cita [A-Z]\d{2}-\d{3}, che non è una voce di R01/g) || []).length;
+    // senza firma: due rossi
+    conEccezione([]);
+    let r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.equal(r.status, 1, r.stdout);
+    assert.equal(rossiCita(r.stdout), 2, r.stdout);
+    // firmato il primo: resta rosso solo l'altro, e il sospeso si elenca con la firma
+    conEccezione([{ onda: 1, commit: citato, regole: ["id_nel_commit"], firma }]);
+    r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.equal(r.status, 1, r.stdout);
+    assert.equal(rossiCita(r.stdout), 1, r.stdout);
+    assert.match(r.stdout, new RegExp(`🔴 ${altro.slice(0, 12)}: il messaggio cita R07-002`));
+    assert.match(r.stdout, new RegExp(`ℹ️ ${citato.slice(0, 12)}: il messaggio cita R09-004.*\\[eccezione firmata, onda 1: ${firma}\\]`));
+    // firmati tutti e due: verde
+    conEccezione([{ onda: 1, commit: citato, regole: ["id_nel_commit"], firma }, { onda: 1, commit: altro, regole: ["id_nel_commit"], firma }]);
+    r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.equal(r.status, 0, r.stdout);
+    // una firma per l'onda intera, l'onda sbagliata o un prefisso non sospendono niente
+    for (const e of [
+      [{ onda: 1, regole: ["id_nel_commit"], firma }],
+      [{ onda: 2, commit: citato, regole: ["id_nel_commit"], firma }],
+      [{ onda: 1, commit: citato.slice(0, 12), regole: ["id_nel_commit"], firma }],
+    ]) {
+      conEccezione(e);
+      r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+      assert.equal(rossiCita(r.stdout), 2, `${JSON.stringify(e)}\n${r.stdout}`);
+    }
   } finally { rmSync(dir, { recursive: true, force: true }); rmSync(c, { recursive: true, force: true }); }
 });
 
@@ -1216,4 +1257,50 @@ test("AR-1172 · eccezione firmata: un collaudo con la rimessa a mano ferma appl
     assert.equal(r.status, 1, r.stdout);
     assert.equal(ultimo(r.stdout).eccezioni_firmate.length, 1, `applica fermo per un altro motivo porta lo stesso i sospesi: ${r.stdout}`);
   } finally { rmSync(c, { recursive: true, force: true }); }
+});
+
+test("onda 9 giro 5m (21/11) · un salto che si stringe soltanto non è una prova spenta, uno che si allarga sì", () => {
+  const vecchia = "    it.skipIf(CATALOGO === null)(";
+  assert.ok(restringeIlSalto(vecchia, "    it.skipIf(CATALOGO === null && !carattere.locale)("), "il caso vero della prova del corsivo");
+  assert.ok(restringeIlSalto(vecchia, "    it.skipIf(CATALOGO === null && process.env.CI)("), "un nome con i punti");
+  for (const r of [
+    "    it.skipIf(CATALOGO === null && false || true)(", "    it.skipIf(CATALOGO === null || true)(", "    it.skipIf(true)(",
+    "    it.skip(", "    test.skipIf(CATALOGO === null && x)(", "    it.skipIf(CATALOGO === null && a ? b : c)(",
+    "    it.skipIf(CATALOGO === null && a, true)(", "    it.skipIf(CATALOGO === null && (a)) || true)(", "    it.skipIf(CATALOGO === null &&)(",
+    "    it.skipIf(CATALOGO === null && (a || b))(", "    it.skipIf(CATALOGO === null && delete process.env.DB_URL)(",
+    // I cinque inganni del primo collaudo (21/11 13:20): commento con apostrofo, regex con virgolette, commento che
+    // apre la riga dopo, parentesi dentro una stringa della condizione vecchia, spread.
+    "    it.skipIf(CATALOGO === null && !carattere.locale /* l'ultimo */ || true /* dell'onda */)(",
+    "    it.skipIf(CATALOGO === null && b /* ' */ ? 1 : 1 /* ' */)(", "    it.skipIf(CATALOGO === null && /\"/ || \"/\")(",
+    "    it.skipIf(CATALOGO === null && !locale // )(",
+  ]) assert.ok(!restringeIlSalto(vecchia, r), r);
+  assert.ok(!restringeIlSalto('it.skipIf(motivo.includes(")"))(', 'it.skipIf(motivo.includes(")" && ""))('), "una ) dentro una stringa");
+  assert.ok(!restringeIlSalto('it.skipIf(sep !== ")")(', 'it.skipIf(sep !== " && x)")('), "la X dentro la stringa");
+  assert.ok(!restringeIlSalto("it.skipIf(...cond)(", "it.skipIf(...cond && x)("), "lo spread");
+  // Il secondo collaudo (21/11 13:40): uno skipIf che non è di vitest, e un'assegnazione riletta da un'altra prova.
+  assert.ok(!restringeIlSalto("it.runIf(cfg.skipIf(a === 1))('x', () => {", "it.runIf(cfg.skipIf(a === 1 && locale))('x', () => {"), "uno skipIf dentro runIf");
+  assert.ok(!restringeIlSalto("it.skipIf(soloLocale = !process.env.CI)('a', () => {", "it.skipIf(soloLocale = !process.env.CI && rete)('a', () => {"), "un'assegnazione");
+  assert.ok(restringeIlSalto("describe.concurrent.skipIf(a !== b)('x', () => {", "describe.concurrent.skipIf(a !== b && c)('x', () => {"), "!== non è un'assegnazione");
+  const { dir, g, scrivi } = depositoFinto();
+  scrivi("tests/unit/corsivo.test.ts", "import { a } from '@/lib/a';\nit.skipIf(a === 0)('x', () => { expect(a).toBe(1); });\n");
+  g("add", "-A"); g("commit", "-qm", "una prova con un salto");
+  const base = g("rev-parse", "HEAD");
+  const c = cartellaCampagna(base);
+  try {
+    g("checkout", "-q", "-b", "r01", base);
+    scrivi("tests/unit/corsivo.test.ts", "import { a } from '@/lib/a';\nit.skipIf(a === 0 && !locale)('x', () => { expect(a).toBe(1); });\n");
+    g("commit", "-qam", "R01-001 il salto si stringe");
+    let r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.doesNotMatch(r.stdout, /prova spenta/, r.stdout);
+    g("checkout", "-q", "-B", "r01", base);
+    scrivi("tests/unit/corsivo.test.ts", "import { a } from '@/lib/a';\nit.skipIf(a === 0 || true)('x', () => { expect(a).toBe(1); });\n");
+    g("commit", "-qam", "R01-001 il salto si allarga");
+    r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.match(r.stdout, /prova spenta/, "allargare il salto resta rosso");
+    g("checkout", "-q", "-B", "r01", base);
+    scrivi("tests/unit/corsivo.test.ts", "import { a } from '@/lib/a';\nit.skipIf(a === 0 && !locale)('x', () => { expect(a).toBe(1); });\nit.skipIf(a === 0 && !locale)('y', () => { expect(a).toBe(1); });\n");
+    g("commit", "-qam", "R01-001 una riga stretta e una nuova");
+    r = lancia("guardia-ramo", "r01", "R01", "--cartella", c, "--git", dir);
+    assert.match(r.stdout, /prova spenta/, "una riga tolta vale per una sola riga aggiunta");
+  } finally { rmSync(c, { recursive: true, force: true }); rmSync(dir, { recursive: true, force: true }); }
 });

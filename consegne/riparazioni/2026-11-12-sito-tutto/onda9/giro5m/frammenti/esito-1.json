@@ -1,0 +1,13 @@
+{
+  "corsia": 1,
+  "territorio": "R01",
+  "difetti": [
+    {
+      "chiave": "deploy-sre|la costruzione del sito dipende dal download dei caratteri da google e ogni tanto fallisce da sola",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-caratteri-locali.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 37e5b8cc768f1e0ee64398b4de164ce9b81d8b28^ --file app/layout.tsx,app/fonts/fraunces-latin-400-italic.woff2,app/fonts/fraunces-latin-400-normal.woff2,app/fonts/fraunces-latin-500-italic.woff2,app/fonts/fraunces-latin-500-normal.woff2,app/fonts/fraunces-latin-600-italic.woff2,app/fonts/fraunces-latin-600-normal.woff2,app/fonts/fraunces-latin-700-italic.woff2,app/fonts/fraunces-latin-700-normal.woff2,app/fonts/fraunces-latin-800-italic.woff2,app/fonts/fraunces-latin-800-normal.woff2,app/fonts/inter-latin-wght-italic.woff2,app/fonts/inter-latin-wght-normal.woff2 --prove tests/unit/riparazione-r01-caratteri-locali.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-007 --base 37e5b8cc^ --file app/layout.tsx,app/fonts/fraunces-latin-400-italic.woff2,app/fonts/fraunces-latin-400-normal.woff2,app/fonts/fraunces-latin-500-italic.woff2,app/fonts/fraunces-latin-500-normal.woff2,app/fonts/fraunces-latin-600-italic.woff2,app/fonts/fraunces-latin-600-normal.woff2,app/fonts/fraunces-latin-700-italic.woff2,app/fonts/fraunces-latin-700-normal.woff2,app/fonts/fraunces-latin-800-italic.woff2,app/fonts/fraunces-latin-800-normal.woff2,app/fonts/inter-latin-wght-italic.woff2,app/fonts/inter-latin-wght-normal.woff2 --prove tests/unit/riparazione-r01-caratteri-locali.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "app/layout.tsx passa da next/font/google a next/font/local con gli stessi caratteri: Inter variabile (peso 100 900) e Fraunces 400-800, normale e corsivo, sottoinsieme latino, stesse variabili CSS, display swap e preload, adjustFontFallback Arial per Inter e Times New Roman per Fraunces come fa Google. 12 woff2 da @fontsource-variable/inter 5.3.0 e @fontsource/fraunces 5.3.0 in app/fonts con OFL-Inter.txt e OFL-Fraunces.txt accanto (fuori da --file della rimessa: da sole non cambiano il comportamento). Nessuna dipendenza nuova; la costruzione non scarica più niente da Google. In ci.yml:80-88 non c era nessun ripiego da togliere."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "corsia": 7,
+  "territorio": "R07",
+  "difetti": [
+    {
+      "chiave": "deploy-sre|il documento della copia notturna dice ancora che un secchio vuoto è sempre legittimo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r07-documento-secchio-vuoto.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base 0c1ffcc2^ --file docs/backup-restore.md --prove tests/unit/riparazione-r07-documento-secchio-vuoto.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base 9842603c7f13329f724d28639cc2d79063082258 --file docs/backup-restore.md --prove tests/unit/riparazione-r07-documento-secchio-vuoto.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "In docs/backup-restore.md la frase «Un singolo secchio vuoto resta legittimo» è sostituita dalle regole che applica oggi scripts/backup-db.sh (R15-004): vuoto da sempre va bene; rosso se il database elenca ancora file, o se products/stories avevano file e ora sono vuoti anche nel database; reviews svuotato dall'app verde con avviso; database muto decide la memoria; il file <destinazione>/_memoria-copia/<secchio>.aveva-file si toglie a mano se lo svuotamento è voluto; tutti vuoti resta rosso. Prova leggera sul testo, confrontato con SECCHI_SVUOTATI_DALL_APP e il nome della memoria nello script."
+    },
+    {
+      "chiave": "deploy-sre|il sorvegliante ora gira ogni 5 minuti, ma la sua soglia di morte e il commento sono rimasti quelli dei 15 minuti",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r07-soglia-sorvegliante.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node /home/user/ad-mycity/cervello/prova-rimessa.mjs --repo . --base 8acb4d95^ --file lib/cron-health.ts --prove tests/unit/riparazione-r07-soglia-sorvegliante.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R07 --base f93d246a42b25cd5fa86da712755526d7d6388dc --file lib/cron-health.ts --prove tests/unit/riparazione-r07-soglia-sorvegliante.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Il commento di lib/cron-health.ts ora dice che operational-alerts gira ogni 5 minuti e SOGLIA_SORVEGLIANTE_MIN passa da 120 a 40 (di nuovo otto giri saltati). La prova, con orologio finto, pretende che un sorvegliante fermo da un'ora esca «fermi» dalle porte di salute e che la soglia non superi otto giri della cadenza letta da vercel.json."
+    }
+  ]
+}

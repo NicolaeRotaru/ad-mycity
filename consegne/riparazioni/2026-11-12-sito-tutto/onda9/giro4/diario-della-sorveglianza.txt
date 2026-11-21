@@ -1,0 +1,88 @@
+2026-11-21 02:33 · R01 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-21 02:33 · R02 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-21 02:33 · R03 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-21 02:33 · R04 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-21 02:33 · onda 1 · prova-unione ⏳
+2026-11-21 02:33 · R01 · al lavoro (lotto 1) · guardia ⏳ · referto ⏳ · unione ⏳ · regia passata alla 8.0, avvisato
+2026-11-21 02:33 · R02 · al lavoro (lotto 1) · guardia ⏳ · referto ⏳ · unione ⏳ · regia passata alla 8.0, avvisato
+2026-11-21 02:33 · R03 · al lavoro (lotto 1) · guardia ⏳ · referto ⏳ · unione ⏳ · regia passata alla 8.0, avvisato
+2026-11-21 02:33 · R04 · al lavoro (lotto 1) · guardia ⏳ · referto ⏳ · unione ⏳ · regia passata alla 8.0, avvisato
+2026-11-21 02:50 · R01 9,81 $ · R02 12,62 $ · R03 10,85 $ · R04 9,20 $ · nessun ramo spinto · lotto 1 di 3 per tutti · ritmo sopra il tetto: soglia d'allarme R02 a 20 $ senza commit
+2026-11-21 02:54 · R01 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-21 02:54 · R02 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-21 02:54 · R03 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-21 02:54 · R04 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-21 02:54 · onda 1 · prova-unione ⏳
+2026-11-21 02:54 · R02 · lotto 1 spinto (0a157ea3), lotto 2 su sonnet · guardia 🔴 (1 prova comune ritoccata, c7525734) · referto ⏳ · unione ⏳ · scritto a R02: motivo nel referto, firma a Nicola all'unione
+2026-11-21 02:54 · R03 · lotto 1 spinto · guardia 🔴 (2 prove comuni: finto database allineato, 82d3d4c4 e 155d11a4) · referto ⏳ · unione ⏳ · scritto a R03: motivo nel referto, firma a Nicola all'unione
+2026-11-21 03:02 · R01 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-21 03:02 · R02 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-21 03:02 · R03 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-21 03:02 · R04 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-21 03:02 · onda 1 · prova-unione ⏳
+2026-11-21 03:03 · R01 13,81 $ · R02 16,53 $ · R03 16,64 $ · R04 13,96 $ · totale 60,94 $ · regia 9.0 al primo giro
+2026-11-21 03:03 · R01 · lotto 1 in corso, ramo non ancora spinto · guardia – · referto – · unione – · nessuna (sorvegliare: 13,8 $ senza commit)
+2026-11-21 03:03 · R02 · lotti 1-2 spinti (06fa5e4d), lotto 3 in corso · guardia 🔴 (prova comune c7525734, già nota) · referto ⏳ · unione ⏳ · nessuna
+2026-11-21 03:03 · R03 · lotti 1-2 in spinta (82d3d4c4) · guardia 🔴 (2 prove comuni, già note) · referto ⏳ · unione ⏳ · nessuna
+2026-11-21 03:03 · R04 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna (sorvegliare: 14 $ senza commit)
+2026-11-21 03:03 · regia 9.0 · send_later rifiutato (profondità 8 su 8): catena di sorveglianza con un timer locale; collaudatori, controllore e riservata non si possono aprire da qui, chiesto a Nicola
+2026-11-21 03:07 · R02 · tre lotti spinti (1b418f27): 8 riparati, 5 parziali, 3 già riparati, 3 serve_file_altrui, 3 non_fatto · 17,84 $, stima finale 24-27 $ · revisori in corso · ok della regia
+2026-11-21 03:19 · R01 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-21 03:19 · R02 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-21 03:19 · R03 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-21 03:19 · R04 · in lavoro · guardia 🔴 · referto – · unione (sotto) · nessuna
+2026-11-21 03:19 · onda 1 · prova-unione 🔴
+2026-11-21 03:22 · regia 10.0 (session_015BmpnZ6sDXhTVpCDMSp2nP, profondità 0) prende la mano dalla 9.0 · avvisati R01-R04 e la 9.0
+2026-11-21 03:22 · R01 21,20 $ · R02 23,50 $ · R03 23,76 $ · R04 22,79 $ · totale 91,25 $ · regia 10.0 al primo giro
+2026-11-21 03:22 · R04 · guardia 🔴: commit di unione fd1400c9 (stesso contenuto del primo genitore ac69a108) · scritto a R04: reset o rebase su ac69a108 e push --force-with-lease sul suo ramo
+2026-11-21 03:22 · R03 · chiede quale tetto vale (70% o 33 $) · risposto a tutti e quattro: sopra 24,50 $ niente lotti o giri nuovi, quello partito si finisce, fermata dura a 33 $
+2026-11-21 03:26 · R01 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-21 03:26 · R02 · in lavoro FINITA · guardia ✅ · referto ✅ 22 voci · unione (sotto) · nessuna
+2026-11-21 03:26 · R03 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-21 03:26 · R04 · in lavoro · guardia ✅ · referto – · unione (sotto) · nessuna
+2026-11-21 03:26 · onda 1 · prova-unione ✅
+2026-11-21 03:27 · R04 · unione tolta (356502b7, stesso albero) · guardia ✅ · 25,71 $: lotto C non_fatto per il tetto · firme chieste per R04-016, R04-009, R04-019, R04-010
+2026-11-21 03:27 · R02 · FINITA: punta 6f6c827b, testa adf7ec6e, verify verde, 23,82 $ · 9 riparati, 6 parziali, 3 già riparati, 3 serve_file_altrui, 1 non_fatto · al collaudo K01
+2026-11-21 03:27 · regia · guardia-ramo: le eccezioni firmate del giro 4 portano «sessione» e «file», ma eccezioneFirmata() le applica a tutta l'onda per regola: la firma di R02-004 sospende anche prove mai firmate (R02-006, R03-008, R03-013, R02-008). Detto a Nicola; le prove non firmate le tiene la regia a mano.
+2026-11-21 03:29 · K01 aperto (session_015BmpnZ4cmytXiuJNEUHbjF, senza ultracode, tetto 25 $) su R02; R01 dopo
+2026-11-21 03:47 · R01 · in lavoro FINITA · guardia ✅ · referto ✅ 24 voci · unione (sotto) · nessuna
+2026-11-21 03:47 · R02 · in lavoro FINITA · guardia ✅ · referto ✅ 22 voci · unione (sotto) · nessuna
+2026-11-21 03:47 · R03 · in lavoro FINITA · guardia ✅ · referto 🔴 21 voci · unione (sotto) · nessuna
+2026-11-21 03:47 · R04 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-21 03:47 · K01 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-21 03:47 · onda 1 · prova-unione ✅
+2026-11-21 03:47 · Nicola ha fermato la regia (messaggio a R01 rifiutato); ripartita alle 04:24 con «lavora senza mai fermarti risolvendo il maggior numero di difetti»
+2026-11-21 03:57 · K01 secondo: R01 collaudato, 10 reggono su 15, 5 parziali (già dichiarate), 0 non_regge, 3 nati minori (1 da R01-015); 4,49 $
+2026-11-21 04:25 · K02 non era mai partito (commit di partenza sbagliato, errore della regia): archiviato, aperto «K02 secondo» (session_015BmpnVznX8Z2f413vhALzY, ultracode, tetto 35 $) su R04 e R03
+2026-11-21 04:25 · R03 · referto rosso su R03-018 (commit condiviso con R03-001): chiesto di segnarla parziale
+2026-11-21 04:45 · regia 11.0 ferma dalle 04:29 su un permesso «Add Repo» che solo Nicola può dare (dorme): interrotta e archiviata; la regia resta alla 10.0
+2026-11-21 04:45 · R03 · punta dedbe1c3, R03-018 parziale senza commit · valida-referto ✅ · guardia ✅ · passata a K02 secondo
+2026-11-21 04:45 · K02 secondo · in lavoro su R04 e R03, ultracode attivo, 16,89 $
+2026-11-21 04:47 · K02 secondo: R04 5 reggono su 10 (4 parziali, R04-010 non regge); R03 14 reggono su 19 (3 parziali, R03-014 non regge, R03-019 rompe_altro con R04-021: veloce in contanti bloccata con un fattorino solo); 16,89 $
+2026-11-21 04:52 · integrazione claude/stoic-ramanujan-p9tmso (sito) da 2d19787b: R01-R04 uniti senza conflitti; tolti col loro commit R03-019, R03-014, R04-010
+2026-11-21 04:55 · harness SQL: 210 migrazioni applicate, 0 fallite; run.sh tutti verdi · verify in corso
+2026-11-21 04:56 · applica a vuoto: 88 voci, 20 si chiudono dopo l'unione, 14 già riparate, 54 aperte, 23 nati · spesa giro 4: riparatori 110,65 $ + collaudi 31,62 $ = 142,27 $ (≈ 4,2 $ per chiusa)
+2026-11-21 04:53 · C04 aperto (session_015BmpnXKo33YzvVFzsQLFiR, tetto 10 $) sull'integrazione 0f98fb8a
+2026-11-21 05:00 · giro di correzione preparato: giro5d (19 delicate: soldi, annulli, cancellazioni, rilascio) e giro5m (20 non delicate), base 0f98fb8a, 2+2 sessioni da 9-10 voci, nessun file in comune; fuori 7 voci (2 legate alla scelta di Nicola su Sentry, 1 alla riservata, 4 rifacimenti larghi da sessione dedicata) e 6 in attesa di scelte o firme di Nicola
+2026-11-21 05:00 · verify verde su 0f98fb8a (1890 file, 11722 prove, lint 0 errori) · aperti R01/R02 g5d (ultracode) e R01/R02 g5m (senza), base 0f98fb8a, tetto 30 $ ciascuno
+2026-11-21 05:03 · i riparatori del giro 5 non possono clonare ad-mycity (add_repo negato): regole, schede e referti del giro 4 messi in sola lettura sul sito, ramo claude/adoring-bohr-kixq35-o9g5-istruzioni @ 15a3f53d; i controlli del programma li lancia la regia
+2026-11-21 05:05 · C04: integrazione verde (verify 1889+1 saltato, 210 migrazioni, SQL verdi); 2 voci rosse già aperte (R02-004, R01-005), 6 nati minori, nessun grave; 6,54 $ · applica a vuoto: 20 si chiudono, 14 già riparate, 54 aperte, 29 nati
+2026-11-21 05:06 · archiviati R01-R04 g4, K01, K01 secondo, K02 secondo, C04 · costi finali giro 4: riparatori 117,47 $ (29,11 + 24,34 + 36,18 + 27,84), collaudi 35,76 $, controllore 7,96 $ = 161,19 $ per 34 chiusure (≈ 4,7 $ l'una), 29 nati
+2026-11-21 05:06 · PR in bozza sul sito: NicolaeRotaru/mycity#300 (integrazione 0f98fb8a, nessuna migrazione nuova)
+2026-11-21 05:07 · aperta S01 g5, la riservata (session_015BmpnUzW8AxERgG23qX2Lj, ultracode, tetto 25 $), ramo claude/adoring-bohr-kixq35-o9g5-s01: dettagli solo in chat
+2026-11-21 05:17 · giro 5 · R01 g5d 7,86 $ · R02 g5d 6,66 $ · R01 g5m 3,03 $ · R02 g5m 6,58 $ (lotto A spinto, 2bd6cf84; rosso atteso: prova comune di R02-001) · S01 2,20 $ · totale 26,33 $ · nessuno fermo
+2026-11-21 05:42 · giro 5 · R01 g5d lotto 1 spinto (78ef78ad, guardia ✅): R01-009 ha fatto nascere una contraddizione fra riquadro e pulsante, giro di correzione concesso sotto 24 $ o revert · R02 g5m quasi finito (6 riparati, 1 parziale, 10,73 $): righe spostate in una prova nuova · R01 g5m lotto B spinto · R02 g5d lotto A (34cd633e): guardia 🔴 sul file dei tipi generati (non derogabile, errore della regia aver detto sì) → R02-002 tolta dal ramo e lasciata serve_file_altrui; due prove comuni di R02-001 in attesa di firma
+2026-11-21 05:45 · R02 g5m FINITA (e188c39f, verify verde, valida-referto ✅, guardia: solo la prova comune di R02-001), 11,86 $ · aperto K01 g5m (session_015BmpnWJLSnSoZ5uQbJjDPJ, senza ultracode, tetto 20 $) su R02, R01 dopo
+2026-11-21 05:48 · giro 5 · R01 g5d 22,70 $ (correzione R01-009 in corso) · R02 g5d 21,48 $ (lotto B; referto del giro 4 ancora sul ramo) · R01 g5m 7,99 $ (referto: R01-006 prova_tipo e rimessa da correggere) · R02 g5m finita 11,86 $ · S01 17,59 $ (correzione finale) · K01 g5m su R02 · totale riparatori ≈ 81,6 $
+2026-11-21 05:57 · K01 g5m su R02: 4 reggono (002, 009, 005, 010), 3 parziali (003, 006, 007), R02-001 non_regge per regola: prova-rimessa esce 2 e valida-collaudo apre la deroga «rimessa_a_mano» solo con l'uscita 3 (limite del programma, da dire a Nicola)
+2026-11-21 05:57 · R01 g5d alla fermata dura (27,91 $): chiude senza revisori, R01-009 al collaudo · S01 21,54 $: prima le due regressioni nate da S01-001, revert se non chiuse a 23 $
+2026-11-21 06:03 · R01 g5d FINITA (1a846a33, testa 90ee7bd3, verify verde, guardia ✅; referto: campo commit di R01-009 da correggere) · aperto K01 g5d (session_015BmpnZNv7fMEVNfte1J3kC, ultracode, tetto 30 $) su R01, R02 dopo
+2026-11-21 06:08 · R02 g5d FINITA (cccfb116, testa e8f65c46, verify verde; guardia: solo le due prove comuni di R02-001) · passato a K01 g5d · archiviati R01 g5d (30,28 $), R02 g5d (30,28 $), R02 g5m (12,16 $)
+2026-11-21 06:10 · S01 (riservata) FINITA: testa 84f81123, verify verde, 1 riparata e 3 parziali, 6 difetti nuovi visti (dettagli solo in chat), 23,33 $ · archiviata · aperto KS01 (session_015BmpnVkL7dDA2P7LMyfACU, ultracode, tetto 15 $), verdetto solo in chat
+2026-11-21 06:13 · R01 g5m FINITA (efb74bf6, testa 9ea41313, verify verde, valida-referto ✅; guardia: 5 rossi attesi sulle prove comuni toccate con permesso) · 12,51 $ · archiviato · passato a K01 g5m · riparatori del giro 5 tutti finiti: 30,28 + 30,28 + 12,51 + 12,16 + 23,33 (S01) = 108,56 $
+2026-11-21 06:30 · K01 g5m FINITO (42c8c45e, valida-collaudo ✅, 8,97 $): R01 4 reggono, 3 parziali, R01-006 non_regge per regola; R02 4 reggono, 3 parziali, R02-001 non_regge per regola. Nessun rompe_altro. Le prove comuni toccate non indeboliscono niente. Limite del programma: valida-collaudo apre la deroga «rimessa_a_mano» solo con l'uscita 3, non con la 2 (voci in cui la prova è il file corretto) · archiviato
+2026-11-21 06:35 · KS01 (collaudo riservato) FINITO, 15,02 $, verdetto solo in chat: S01-002 regge; S01-001 rompe_altro; S01-003 rompe_altro; S01-004 parziale (la parte fatta regge). All'unione restano solo e5a3766c (S01-002) e 5a17985c (S01-004 b); 850523da, 84f81123 e ed80388c si tolgono. Nati riservati: dettagli solo in chat, per la prossima sessione riservata · archiviato
+2026-11-21 06:37 · K01 g5d FINITO (4c5f44f6, valida-collaudo ✅, 25,86 $): R01 2 reggono, 4 parziali, R01-003 non regge (la voce nasce da una correzione mai entrata; 2befc639 ripara comunque un altro difetto vero e resta); R02 1 regge, 3 parziali, R02-007 rompe_altro (con l'INSERT prima del file una migrazione rotta dopo il suo COMMIT resta registrata e non si riprova) → all'unione si toglie 9e1bbc0b · archiviato
+2026-11-21 06:45 · integrazione: uniti g5m (verify verde su aa061650: 1900 file, 11776 prove), poi g5d m01/m02 e s01 (conflitti solo sui referti, .riparazione tolta); tolti R02-007 (9e1bbc0b), S01-001 (850523da, 84f81123), S01-003 (ed80388c); nessuna migrazione nuova; harness SQL 210/0, tutti verdi · verify finale in corso
+2026-11-21 06:45 · applica a vuoto su giro5d e giro5m: rosso finché Nicola non firma le prove comuni (R02-001 g5d: 2 prove; g5m: R01-006, R01-007 ×3, R02-001) · conto a mano dai collaudi: g5m 8 reggono, g5d 3 reggono (tutte già riparate nel giro 4), S01 1 · ≈ 12 chiusure per ≈ 159 $ (riparatori 108,56 + collaudi 50,72) ≈ 13 $ l'una: sopra 12 $, e le delicate sono al secondo giro → niente altri giri senza Nicola
+2026-11-21 07:03 · C05 FINITO (25baea88, 6,51 $): su 57211132 verify verde, SQL 210/210 verde · giro5d 0 voci rosse, 1 nato minore · giro5m 1 voce rossa: R02-007 (link social) faceva salvare un link facebook /people/… come «people» senza errore → tolti all'unione a5c30d5d e 576c9344 (af9095ae resta: solo dove compare l'errore, e il revert litiga con R02-006); tsc verde, 7 file di prova che usano store-customization verdi; integrazione a35f5c11, la verifica completa la fa la CI

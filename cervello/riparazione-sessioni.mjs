@@ -843,6 +843,40 @@ export const RE_SETACCIO = /\b(?:readdirSync|readdir|opendirSync|opendir|globSyn
 const senzaCommentiJs = (t) => String(t).replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:\\])\/\/.*$/gm, "$1");
 // Radiografia del 12/11 notte: anche `.skip.each(…)`, `.skip.each\`…\``, `describe.skip.each` e `ctx.skip()` / `context.skip()`.
 export const RE_SPENTA = /\b(?:it|test|describe)(?:\.\w+)*\.(?:skip|only|todo|fails|skipIf|runIf)(?:\.\w+)*\s*[(`]|\bx(?:it|test|describe)\s*\(|\{\s*(?:skip|todo)\s*:|\b(?:t|ctx|context)\.(?:skip|todo)\s*\(/;
+/**
+ * Vero se la riga aggiunta STRINGE il salto della riga tolta: la stessa riga, con `.skipIf(VECCHIA)` diventato
+ * `.skipIf(VECCHIA && X)`. Una prova che si salta solo con una condizione in più si salta meno spesso, non di più. PURA.
+ * Perché esiste: nell'onda 9, giro 5m (21/11), R01-007 ha portato `it.skipIf(CATALOGO === null)` a
+ * `it.skipIf(CATALOGO === null && !carattere.locale)` nella prova del corsivo. La guardia l'ha letta come «prova spenta»
+ * e ha fermato tutto il giro nel registro, dopo l'unione di mycity#300. Correzione autorizzata da Nicola (21/11 verso
+ * le 13:10, «Prova del corsivo»).
+ * Volutamente stretta: il primo collaudo (21/11 13:20) ha trovato cinque modi di far passare un salto PIÙ largo quando X
+ * poteva contenere stringhe, commenti, regex o parentesi (per esempio un commento con un apostrofo che nasconde un
+ * `|| true`). Adesso: nessun
+ * commento in nessuna delle due righe, nessuna virgoletta, barra o `...` prima della fine della condizione vecchia, e X è
+ * solo un nome, anche negato o con i punti (`!carattere.locale`). Il secondo collaudo (21/11 13:40) ha aggiunto: lo
+ * `.skipIf` è quello di vitest in testa alla riga, e la condizione vecchia non assegna. Ogni altro cambio resta rosso.
+ */
+export function restringeIlSalto(tolta, aggiunta) {
+  const pezzi = (riga) => {
+    const t = String(riga).trim();
+    const m = /\.skipIf\s*\(/.exec(t);
+    if (!m || /\/\/|\/\*|\*\//.test(t)) return null;
+    const apre = m.index + m[0].length - 1;
+    for (let i = apre, prof = 0; i < t.length; i++) {
+      if (t[i] === "(") prof++;
+      else if (t[i] === ")" && --prof === 0) return { prima: t.slice(0, apre + 1), cond: t.slice(apre + 1, i).trim(), dopo: t.slice(i) };
+    }
+    return null;
+  };
+  const a = pezzi(tolta), b = pezzi(aggiunta);
+  if (!a || !b || !a.cond || a.prima !== b.prima || a.dopo !== b.dopo || !b.cond.startsWith(a.cond)) return false;
+  if (/['"`/]|\.\.\./.test(a.prima + a.cond)) return false;
+  // Secondo collaudo (21/11 13:40): il salto è quello di vitest, chiamato in testa alla riga, e la condizione vecchia
+  // non assegna niente (un `x = A && X` stringerebbe x e allargherebbe un `!x` letto da un'altra prova).
+  if (!/^(?:it|test|describe)(?:\.\w+)*\.skipIf\s*\($/.test(a.prima) || /(?:^|[^=!<>])=(?![=>])/.test(a.cond)) return false;
+  return /^&&\s*!?\s*[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*$/.test(b.cond.slice(a.cond.length).trim());
+}
 /** Quante asserzioni porta il testo di una prova (vitest, node:test, assert). PURA. */
 // I commenti si tolgono prima di contare: un'asserzione COMMENTATA non controlla niente (radiografia del 12/11 notte).
 export const contaAsserzioni = (testo) => (String(testo).replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:\\])\/\/.*$/gm, "$1").match(/\bexpect\s*\(|\bassert(?:\.\w+)?\s*\(|\bt\.(?:assert|equal|deepEqual|ok|throws)\b/g) || []).length;
@@ -1166,7 +1200,17 @@ export function giudicaRamo(opz, per, piano, ramo, nome) {
   for (const p of [...cancellati].sort()) if (eProva(p) && esisteAllaBase(p)) rossi.push(`${p}: una prova esistente non si cancella`);
   for (const p of daGiudicare.filter((f) => eProva(f) && !cancellati.has(f)).sort()) {
     const diff = gitOk(dir, ["diff", partenza, ref, "--", p]) ?? "";
-    if (diff.split("\n").some((r) => r.startsWith("+") && !r.startsWith("+++") && RE_SPENTA.test(r))) rossi.push(`${p}: aggiunge una prova spenta (.skip, .only, .todo, .fails, .skipIf, { skip: }, xit): una prova non si spegne per farla passare`);
+    // Una riga spenta che c'era e si stringe soltanto (restringeIlSalto) non è una prova spenta nuova: ogni riga tolta
+    // vale per una sola riga aggiunta.
+    const righeDiff = diff.split("\n");
+    const tolteSpente = righeDiff.filter((r) => r.startsWith("-") && !r.startsWith("---") && RE_SPENTA.test(r)).map((r) => r.slice(1));
+    const spenteNuove = righeDiff.filter((r) => r.startsWith("+") && !r.startsWith("+++") && RE_SPENTA.test(r)).filter((r) => {
+      const i = tolteSpente.findIndex((t) => restringeIlSalto(t, r.slice(1)));
+      if (i < 0) return true;
+      tolteSpente.splice(i, 1);
+      return false;
+    });
+    if (spenteNuove.length) rossi.push(`${p}: aggiunge una prova spenta (.skip, .only, .todo, .fails, .skipIf, { skip: }, xit): una prova non si spegne per farla passare`);
     // Una prova svuotata non porta nessun «.skip»: le si tolgono le asserzioni. Si contano alla base e alla punta.
     if (esisteAllaBase(p)) {
       const prima = contaAsserzioni(gitOk(dir, ["show", `${partenza}:${p}`]) ?? "");
@@ -1184,7 +1228,17 @@ export function giudicaRamo(opz, per, piano, ramo, nome) {
     // Si sospende solo con la firma su QUESTO commit (REGOLE_PER_COMMIT), e la deroga lo elenca.
     if (!ctx.deroga("id_nel_commit", perche, c.commit)) rossi.push(perche);
   }
-  for (const c of storia.perCommit) for (const id of c.messaggio.match(/\b[A-Z]\d{2}-\d{3}\b/g) || []) if (!ids.has(id)) rossi.push(`${c.commit.slice(0, 12)}: il messaggio cita ${id}, che non è una voce di ${nome}`);
+  // Anche la voce altrui citata nel messaggio si sospende solo con la firma su QUESTO commit: Nicola ha firmato
+  // «id_nel_commit» su sei commit di R02, R03, R06 il 18/11 alle 12:52, ma senza questa riga la firma non contava
+  // e le chiusure di mycity#297 restavano ferme (regia 5.0 dell'onda 9, firma di Nicola del 20/11).
+  // ⚠️ Un nome solo, «id_nel_commit», copre i due controlli sull'id dello stesso commit: la firma su un commit
+  // sospende sia «non comincia con l'id» sia «cita una voce altrui». Così si riattivano anche le 4 firme di R29
+  // dell'onda 4 (4fd7d59d, 038ddd6a, f734e255, 2c9f8412): è quello che Nicola aveva firmato (DECISIONI 17/11 14:15).
+  for (const c of storia.perCommit) for (const id of c.messaggio.match(/\b[A-Z]\d{2}-\d{3}\b/g) || []) {
+    if (ids.has(id)) continue;
+    const perche = `${c.commit.slice(0, 12)}: il messaggio cita ${id}, che non è una voce di ${nome}`;
+    if (!ctx.deroga("id_nel_commit", perche, c.commit)) rossi.push(perche);
+  }
   const attese = !storia.commit.length ? [`${nome}: il ramo non ha ancora nessun commit suo`]
     : !netto.size ? [`${nome}: il ramo ha ${storia.commit.length} commit ma alla fine non cambia nessun file: non c'è niente da giudicare, non è un verde`] : [];
   return esito(rossi, attese, { commit: storia.commit.length, file_toccati: netto.size, ...(rimessi.length ? { toccati_e_rimessi_com_erano: rimessi } : {}), ...(derogati.length ? { eccezioni_firmate: derogati } : {}) }, rimessi);
