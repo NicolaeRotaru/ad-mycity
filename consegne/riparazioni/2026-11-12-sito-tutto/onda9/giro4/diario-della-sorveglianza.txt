@@ -26,3 +26,4 @@
 2026-11-21 03:03 · R03 · lotti 1-2 in spinta (82d3d4c4) · guardia 🔴 (2 prove comuni, già note) · referto ⏳ · unione ⏳ · nessuna
 2026-11-21 03:03 · R04 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna (sorvegliare: 14 $ senza commit)
 2026-11-21 03:03 · regia 9.0 · send_later rifiutato (profondità 8 su 8): catena di sorveglianza con un timer locale; collaudatori, controllore e riservata non si possono aprire da qui, chiesto a Nicola
+2026-11-21 03:07 · R02 · tre lotti spinti (1b418f27): 8 riparati, 5 parziali, 3 già riparati, 3 serve_file_altrui, 3 non_fatto · 17,84 $, stima finale 24-27 $ · revisori in corso · ok della regia
