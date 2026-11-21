@@ -67,3 +67,4 @@ Quante voci risulteranno sparite: lo dicono i referti delle 4 sessioni.
 - 2026-11-22 00:34 piano R07 approvato; tolta R07-008 (annullo ordine, merce rimessa in vendita): ai delicati.
 - 2026-11-22 00:35 piano R08 approvato; tolta R08-002 (filtro dati personali del filmato): ai delicati.
 - 2026-11-22 00:36 piano R09 approvato; tolta R09-010 (oscurare dati personali nei log): ai delicati.
+- 2026-11-22 00:38 piano R10 approvato; tolta R10-002 (stato «verificato» documenti fattorino): ai delicati. R10-016 solo la lettura unica, force-dynamic resta.
