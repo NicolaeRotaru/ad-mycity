@@ -2138,10 +2138,10 @@
       "prova": "cd /home/user/ad-mycity/marketplace && npx vitest run tests/unit/riparazione-r03-il-reclamo-arriva-a-qualcuno.test.ts tests/unit/riparazione-r03-pagina-del-reclamo.test.tsx && mkdir -p tests/unit/_s01c && cp /tmp/claude-0/-home-user-ad-mycity/3a6dd9f1-c577-50de-a79b-fcb1dfee42de/scratchpad/prove/L04-reclamo.test.ts tests/unit/_s01c/L04-reclamo.test.ts && npx vitest run tests/unit/_s01c/L04-reclamo.test.ts; rm -f tests/unit/_s01c/L04-reclamo.test.ts; tests/sql/harness/apply.sh mycity_s01c_l04 && psql -X -q -v ON_ERROR_STOP=1 -d mycity_s01c_l04 -f /tmp/claude-0/-home-user-ad-mycity/3a6dd9f1-c577-50de-a79b-fcb1dfee42de/scratchpad/prove/L04-reclamo-diretto.sql; psql -q -X -d postgres -c \"DROP DATABASE IF EXISTS mycity_s01c_l04 WITH (FORCE);\"",
       "prova_tipo": "comando",
       "prova_eseguita": true,
-      "esito_prova": "r03: 2 file, 4 test verdi. L04-reclamo: 1 file, 1 test verde (avviso agli amministratori, al negozio con «il bonifico … resta fermo», ricevuta al cliente). apply.sh: 210 migrazioni applicate, 0 fallite. psql: uscita 0, INFO «il cliente scrive ancora il reclamo direttamente in disputes (ruolo authenticated)» e «notifiche nate dalla scrittura diretta: 0».",
+      "esito_prova": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]",
       "verificato": false,
       "verificato_da": null,
-      "nota": "Dal sito il difetto è riparato. La pagina chiama POST /api/disputes (app/orders/[id]/dispute/page.tsx:186-196). La rotta (app/api/disputes/route.ts:85-135) avvisa gli amministratori e scrive al negozio che il bonifico è fermo. Manda anche la ricevuta al cliente. Resta l'altra forma: il database accetta ancora un reclamo scritto direttamente dal browser. Lo permettono la policy disputes_open_insert (migrations/215_minori_s04_database.sql:276-290) e il permesso INSERT dato ad authenticated in 425:71. Quel reclamo non avvisa nessuno, e ferma lo stesso il bonifico (release-payouts/route.ts:233 e :491). La migrazione 570, annunciata da R33 il 17/11, nel repo non c'è. tests/sql/rls/48 ⑩ pretende ancora che il cliente possa fare l'INSERT."
+      "nota": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]"
     },
     {
       "chiave": "coerenza-brand|ombre nere fredde accanto alle ombre calde del brand; il token creato apposta non è usato mai",

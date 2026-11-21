@@ -37,3 +37,4 @@ Quante voci risulteranno sparite: lo dicono i referti delle 4 sessioni.
 - 2026-11-21 15:25 aperte S01, S01b, S01c, S01d (ricontrollo, ultracode attivo, stima 169 $). Sorveglianza: send_later ogni 30 min, `node cervello/radiografia-sessioni.mjs sorveglia --cartella consegne/radiografia/2026-11-21-ricontrollo --onda 1`.
 - 2026-11-21 16:11 S01b finita (120 voci: 31 non più vere, 3 gravi chiusi da riverificare in un'altra sessione). S01d finita alle 15:53 (99 voci: 25 non più vere), 16,81 $.
 - 2026-11-21 16:14 tutte e 4 finite: 114 non più vere (6 gravi confermati), costo 104,72 $ su 169. Prossimo: controllore finale CF.
+- 2026-11-21 16:35 CF finito: 3 gravi di S01b confermati, 117 chiusure scritte nel registro (749 → 632). Dettagli di alcune falle tolti dai referti nella cartella; restano nella storia dei rami pubblici: decide Nicola. Difetto nuovo da registrare: rimborso del negozio «1.250,00» → 1,25 € (ReturnRequestCard.tsx:116 e :147).

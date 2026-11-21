@@ -1375,8 +1375,8 @@
         "perche": "Servirebbe il database vero, vietato"
       },
       {
-        "cosa": "L03: Il referto privato del 5/11 sulla classifica degli inviti",
-        "perche": "Non è nel deposito; ho giudicato sul codice e sul referto R18"
+        "cosa": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]",
+        "perche": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]"
       },
       {
         "cosa": "L03: Il comportamento del browser con «1.250,00» nel campo type=number di BulkPhotoCreate",
@@ -1616,7 +1616,7 @@
       "esito_prova": "Tutto il modulo resta in localStorage. Si cancella solo quando qualcuno riapre la cassa, e sceltaIl serve solo per il giorno e le fasce.",
       "verificato": false,
       "verificato_da": null,
-      "nota": "I campi personali tornano a qualunque età della bozza. L'uscita dall'account non la cancella e la cookie policy non la elenca."
+      "nota": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]"
     },
     {
       "chiave": "privacy-legale|sulla commissione i termini dicono «10% iva esclusa», il codice trattiene il 10% del prezzo lordo, e né commissione né abbonamento vengono mai fatturati al negozio",
@@ -1885,13 +1885,13 @@
     {
       "chiave": "qa-flussi|privacy: una classifica degli inviti mostra dati personali oltre il necessario (inviti spenti al lancio)",
       "esito": "cambiato",
-      "prova": "migrations/421:68-90 (get_referral_leaderboard); migrations/151:84-85 e 425:187 (GRANT SELECT authenticated)",
+      "prova": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": true,
-      "esito_prova": "La classifica ora dà solo il nome di battesimo, senza cognome. A ogni utente con account dà ancora user_id, nome e store_name.",
+      "esito_prova": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]",
       "verificato": false,
       "verificato_da": null,
-      "nota": "I dettagli originali sono in un referto privato che non ho potuto confrontare. Il cognome non c'è più; l'id utente esposto a tutti potrebbe essere ancora «oltre il necessario». Voce lasciata aperta."
+      "nota": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]"
     },
     {
       "chiave": "qa-flussi|rilanciando la migrazione 424 la validazione non si riprova, e in produzione due movimenti punti orfani vanno ripuliti prima del validate",
@@ -1917,13 +1917,13 @@
     },
     {
       "chiave": "qa-flussi|se il negoziante scrive il prezzo all'italiana col punto delle migliaia, «1.250,00», il prodotto va in vendita a 1,25 euro senza nessun avviso",
-      "esito": "non_verificabile",
+      "esito": "non_piu_vero",
       "prova": "npx vitest run tests/unit/riparazione-r03-il-prezzo-all-italiana-nel-modulo.test.tsx tests/unit/riparazione-r03-prezzo-con-il-punto-delle-migliaia.test.ts, più la controprova scratchpad/prove/L03/mutante-prezzo-all-italiana.py su una copia",
       "prova_tipo": "comando",
       "prova_eseguita": true,
       "esito_prova": "Oggi 2 file e 5 prove verdi. Col difetto rimesso su una copia (z.coerce.number + type=number) le 2 prove del modulo diventano rosse.",
-      "verificato": false,
-      "verificato_da": null,
+      "verificato": true,
+      "verificato_da": "controllore finale CF del 21/11: qa nuovo del CF: i 2 test citati 5 su 5 verdi; due mutazioni (schema col vecchio z.coerce.number + campi type=number → 2 rossi; leggiPrezzo senza la lettura del punto come migliaia → 2 rossi), copia ripristinata; «1.250,00»→1250, «1250,5»→1250,5, «12,50»→12,5; «abc», vuoto, 0 e -5 danno l'errore visibile",
       "nota": "Il prezzo e il prezzo pieno ora sono campi di testo letti con leggiPrezzo dallo schema, e «1.250,00» diventa 1250. Fuori dalla voce, BulkPhotoCreate.tsx:370 ha ancora un campo prezzo type=number, ma crea solo bozze e il danno non l'ho provato. · Il verificatore non ha confermato la chiusura (verificatore qa nuovo fermato dai controlli di sicurezza del modello dopo due passi, senza verdetto): resta aperta."
     },
     {
@@ -1965,10 +1965,10 @@
       "prova": "psql -d mycity_s01b_l04 -f prove/L04/v01_fattorino_scaduto.sql (DB ricostruito dalle 210 migrazioni) + npx vitest run tests/unit/riparazione-r03-profilo-documento-scaduto.test.tsx",
       "prova_tipo": "comando",
       "prova_eseguita": true,
-      "esito_prova": "A) polizza scaduta: prendi_ordine → DOCUMENTI_SCADUTI; B) il fattorino si riscrive la scadenza 2030-01-01 dal browser: riesce; C) prendi_ordine → ok:true. Test del profilo 5/5 verde.",
+      "esito_prova": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]",
       "verificato": false,
       "verificato_da": null,
-      "nota": "Riparato a metà. La migrazione 270 blocca la presa e il profilo ora dice «Scaduta». Ma le migrazioni 365/400 lasciano al fattorino la scrittura delle date: si sblocca da solo senza un documento nuovo."
+      "nota": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]"
     },
     {
       "chiave": "qa-flussi|un ordine fermo su «accettato» o «ritirato dal fattorino» non fa suonare nessun allarme e non scade mai",
@@ -2027,13 +2027,13 @@
     },
     {
       "chiave": "rls-database|l'approvazione di un negozio non pretende la partita iva, e chi e' gia' approvato non ha nessuna pagina per inserirla",
-      "esito": "non_verificabile",
+      "esito": "non_piu_vero",
       "prova": "npx vitest run tests/unit/si-approva-solo-con-partita-iva-e-documenti.test.ts tests/unit/riparazione-r08-partita-iva-dopo-l-approvazione.test.ts",
       "prova_tipo": "comando",
       "prova_eseguita": true,
       "esito_prova": "23/23 verdi. Asserzioni: «senza partita IVA: 400 e niente scritto» (approve) e «un negozio approvato senza partita IVA la inserisce: 200».",
-      "verificato": false,
-      "verificato_da": null,
+      "verificato": true,
+      "verificato_da": "controllore finale CF del 21/11: qa nuovo del CF: i 2 test citati 23 su 23 verdi; 12 casi limite in più (vuota, spazi, lunghezza, zeri, lettere, cifra di controllo) tutti 400 senza scrittura; mutazione senza motivoPerNonApprovare → 8 rossi su 23, copia ripristinata; nessun'altra strada verso «approvato»; le rotte del venditore scrivono solo il proprio profilo",
       "nota": "moderate/route.ts:315 chiama motivoPerNonApprovare (regole-approvazione.ts:174-178). Chi è già approvato ha il campo Partita IVA nel profilo (DatiPerIBonifici, PATCH /api/seller/apply) e la rotta /api/seller/partita-iva. · Il verificatore non ha confermato la chiusura (verificatore qa nuovo fermato dai controlli di sicurezza del modello dopo due passi, senza verdetto): resta aperta."
     },
     {
@@ -2053,10 +2053,10 @@
       "prova": "psql -f prove/L04/v08_v09_prodotti_dal_browser.sql e prove/L04/v09_update_dal_browser.sql; lettura app/seller/products/new/page.tsx:279-281",
       "prova_tipo": "comando",
       "prova_eseguita": true,
-      "esito_prova": "Inserimento dal browser riuscito, audit_logs +0. Un negozio SOSPESO cambia nome e prezzo (0,01) dal browser, audit_logs +0.",
+      "esito_prova": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]",
       "verificato": false,
       "verificato_da": null,
-      "nota": "La regola UPDATE della 001:92 c'è ancora, senza controllo di approvazione, e new/page.tsx inserisce ancora dal browser. Solo l'importazione ora passa dal server (/api/seller/products/import, con writeAudit)."
+      "nota": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]"
     },
     {
       "chiave": "rls-database|punti fedeltà e premio invito restano al cliente anche quando l'ordine viene rimborsato",
@@ -2067,7 +2067,7 @@
       "esito_prova": "0 file. I trigger trg_buyer_achievements e trg_reward_referrer_on_delivery sono attivi.",
       "verificato": false,
       "verificato_da": null,
-      "nota": "Punti e premio invito si danno alla consegna. Nessun percorso di rimborso li toglie."
+      "nota": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]"
     },
     {
       "chiave": "sicurezza-auth|commento e prova dicono che senza la chiave di servizio il drop spento risponde comunque 409, ma la rotta vera in quel caso risponde 503",
@@ -2324,13 +2324,13 @@
     },
     {
       "chiave": "privacy-legale|accogliere una segnalazione non toglie il prodotto: resta online, e a chi ha segnalato si scrive che è stato rimosso",
-      "esito": "non_verificabile",
+      "esito": "non_piu_vero",
       "prova": "cd marketplace && npx vitest run tests/unit/riparazione-r02-segnalazione-accolta-pagina.test.tsx tests/unit/riparazione-r02-segnalazione-accolta.test.ts tests/unit/riparazione-r02-segnalazione-esito-solo-se-tolto.test.ts",
       "prova_tipo": "comando",
       "prova_eseguita": true,
       "esito_prova": "3 file, 11 test verdi. Col difetto sarebbero rosse: pagina riga 87, expect(iTolto).toBeGreaterThanOrEqual(0); rotta riga 54, scrittura products status='draft'.",
-      "verificato": false,
-      "verificato_da": null,
+      "verificato": true,
+      "verificato_da": "controllore finale CF del 21/11: qa nuovo del CF: i 3 test citati 11 su 11 verdi (più il test negozio 3 su 3); cinque mutazioni, ognuna fa diventare rossa almeno una prova; su Postgres locale con regola e funzione della migrazione 129 il prodotto si vede in 'available' (1 riga) e sparisce in 'draft' (0 righe); nessun'altra strada scrive «rimosso»",
       "nota": "Con «accolta» su un prodotto, la pagina (segnalazioni/page.tsx:82-89) chiama /api/admin/segnalazioni/accogli prima di registrare la decisione. La rotta mette il prodotto in bozza e scrive l'audit. La RLS pubblica (migrazione 129:77-83) mostra solo i prodotti 'available'. Se togliere fallisce, l'esito non parte. La ripubblicazione da parte del venditore è già nel registro come voce separata. · Il verificatore non ha confermato la chiusura (verificatore non lanciato: tetto dei 12 subagenti raggiunto e i due verificatori precedenti fermati dai controlli di sicurezza del modello): resta aperta."
     },
     {

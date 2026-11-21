@@ -1035,8 +1035,8 @@
         "perche": "serve il database vero, vietato"
       },
       {
-        "cosa": "L06: Esecuzione delle semine sul Postgres locale (riparazione-r12-le-semine-girano.sh)",
-        "perche": "il Postgres locale è riservato alle voci gravi o bloccanti, questa è minore"
+        "cosa": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]",
+        "perche": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]"
       },
       {
         "cosa": "L06: app/seller/layout.tsx, app/rider/layout.tsx, app/rider/profile/page.tsx",
@@ -1382,7 +1382,7 @@
     {
       "chiave": "qa-flussi|un ordine in contanti già incassato non si rimborsa dall’amministrazione: il sito non apre da solo il reclamo come deciso il 29/10, e il pannello dice di aprirlo a chi non può",
       "esito": "ancora_vero",
-      "prova": "lib/ordini/annulla.ts:281-284 esce con CONTANTI_INCASSATI senza scrivere niente. app/api/admin/orders/[id]/cancel/route.ts:73-80 risponde «apri un reclamo», app/api/orders/[id]/cancel/route.ts:64-66 risponde «scrivi all'assistenza». L'unico inserimento in disputes oggi è app/api/disputes/route.ts:57-75, che lo permette solo se order.user_id === user.id. La regola migrations/215:276-290 è invariata.",
+      "prova": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": false,
       "esito_prova": null,
@@ -1954,7 +1954,7 @@
     {
       "chiave": "rls-database|chi apre un reclamo può indirizzarlo a un negozio qualunque, e il negozio giusto non lo vede",
       "esito": "ancora_vero",
-      "prova": "L'ultima definizione di disputes_open_insert è migrations/215_minori_s04_database.sql:276-290. Il WITH CHECK controlla l'ordine di chi apre il reclamo ma mai against_id. Nessuna migrazione successiva e nessun trigger la ridefinisce: le 422, 424 e 425 toccano solo la lettura dell'admin, la FK e i permessi.",
+      "prova": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": false,
       "esito_prova": null,

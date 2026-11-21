@@ -1289,8 +1289,8 @@
     "perche": "Manderebbe il lockfile a un servizio esterno: ho letto solo le versioni nel lockfile"
    },
    {
-    "cosa": "Prova con comando per le due voci gravi (merce riservata, alimento senza allergeni)",
-    "perche": "Nessuna delle due si chiude: restano aperte con prova di lettura, quindi non serviva un database locale"
+    "cosa": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]",
+    "perche": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]"
    },
    {
     "cosa": "Riproduzione delle gare (reso, push doppie, carrello che si sposta) con test temporanei",
@@ -1451,7 +1451,7 @@
    "esito_prova": "controllaTettoSpesaAi(feature, stimaCents) confronta la spesa solo con AI_GLOBAL_DAILY_BUDGET_EUR: non riceve l'utente e non esiste un conto per giorno e utente. import-fetch ammette ancora 15 chiamate ogni 5 minuti per utente. Il messaggio a tutti resta «Budget AI giornaliero esaurito. Riprova domani.» (run.ts:492).",
    "verificato": false,
    "verificato_da": null,
-   "nota": null
+   "nota": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]"
   },
   {
    "chiave": "api-backend|allarme 'persone non avvisate' riscritto ogni notte, senza dire chi: la stessa classe chiusa per le email resta aperta qui",
@@ -1481,10 +1481,10 @@
    "prova": "migrations/501_la_rimessa_conferma_solo_gli_ordini_visti.sql:66-69 ; grep -ln remitted_at migrations/*.sql (solo 097, 126, 127, 501) ; lib/account/cancellazione.ts:681-728 (contantiAncoraDaVersare) e :912-934 ; lib/cassa/quadratura.ts e app/api/admin/cod-remittance/route.ts:56-70 senza remitted_at",
    "prova_tipo": "lettura-codice",
    "prova_eseguita": true,
-   "esito_prova": "La nuova forma di confirm_cod_remittance (migrazione 501) scrive ancora remitted_at = now() senza condizioni. Nessuna migrazione successiva e nessun grilletto riapre la giornata. contantiAncoraDaVersare legge solo cod_reconciliations e considera aperta una giornata solo se remitted_at è null (:711-713). cancellaAccount non controlla altro sugli ordini del fattorino ancora AWAITING_REMITTANCE.",
+   "esito_prova": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]",
    "verificato": false,
    "verificato_da": null,
-   "nota": "Con la 501 il caso si allarga: l'amministratore rilascia solo gli ordini che ha visto, gli altri dello stesso giorno restano AWAITING_REMITTANCE, ma la giornata viene segnata versata lo stesso. È un difetto grave: non si chiude senza una prova che gira."
+   "nota": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]"
   },
   {
    "chiave": "api-backend|doppio tocco sull annullo con la carta: il secondo dice «rimborso fallito» e manda agli amministratori un falso «carrello da sistemare a mano»",
@@ -1525,10 +1525,10 @@
    "prova": "cd marketplace && npx vitest run tests/unit/le-funzioni-spente-le-ferma-la-rotta-anche-a-mano.test.ts tests/unit/l-ai-spenta-non-chiama-il-modello-neanche-con-la-chiave.test.ts ; lettura di app/api/newsletter/route.ts:52, lib/ai/client.ts:217-219, app/api/seller/products/import/route.ts:36, app/profile/referral/leaderboard/page.tsx:31 e :111, lib/funzioni-al-lancio.ts:23-34",
    "prova_tipo": "comando",
    "prova_eseguita": true,
-   "esito_prova": "2 file e 12 test, tutti verdi. Newsletter, AI (il controllo sta nel client unico del modello) e caricamento da file ora hanno il freno nella rotta. La classifica inviti resta frenata solo dalla pagina: i dati vengono dalla vista referral_leaderboard, letta dal browser.",
+   "esito_prova": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]",
    "verificato": false,
    "verificato_da": null,
-   "nota": "Tre dei quattro interruttori nominati nel titolo ora sono frenati dalla rotta. Resta solo la classifica, frenata dalla pagina e dichiarata eccezione voluta in lib/funzioni-al-lancio.ts:26-28 (nessuna rotta, nessun premio)."
+   "nota": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]"
   },
   {
    "chiave": "api-backend|il giro che annulla legge al massimo 100 ordini fermi, senza un ordine: una veloce scaduta può restare fuori dal giro",
@@ -1627,7 +1627,7 @@
    "esito_prova": "La scrittura finale con .eq('status', statoRivendicato).select('id') adesso tratta 0 righe come errore: avvisa gli amministratori e risponde 500 (RIMBORSO_PARTITO_MA_NON_REGISTRATO). Però il ritiro del cliente parte ancora da APPROVED, e lo blocca solo giaSullOrdine, che nella finestra di refundOrder è ancora vuoto.",
    "verificato": false,
    "verificato_da": null,
-   "nota": "La gara c'è ancora: il reso resta Annullato coi soldi usciti. Non è più silenziosa: niente risposta ok, arriva un avviso agli amministratori e serve la correzione a mano."
+   "nota": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]"
   },
   {
    "chiave": "api-backend|un alimento gia' in vendita senza allergeni non si salva dal modulo: l'app lo ammette, il trigger 126 lo rifiuta",
@@ -1734,7 +1734,7 @@
    "prova": "lib/ordini/annulla.ts:1349-1376 (tieneIlCodice) e 1378-1390 (restituisciIlCodiceDellOrdine); commento 257-267",
    "prova_tipo": "lettura-codice",
    "prova_eseguita": true,
-   "esito_prova": "tieneIlCodice fa `if (!order.stripe_session_id) return false`: coi contanti non trova mai gli altri ordini dello stesso carrello, e release_coupon parte lo stesso. Il commento R04-007 del 21/11 lo dichiara come limite: per chiuderlo serve una migrazione.",
+   "esito_prova": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]",
    "verificato": false,
    "verificato_da": null,
    "nota": null
@@ -1781,7 +1781,7 @@
    "esito_prova": "Oggi le vulnerabilità sono 10: 1 alta e 9 medie, nessuna critica (prima erano 15). Il lockfile ha next 15.5.29, dompurify 3.4.17, qs 6.17.1, fflate 0.4.9 e sharp 0.35.5: i 15 avvisi di prima sono spariti. Quelli nuovi sono zod (alta, GHSA-mrhx-c7xc-m3w5), glob e minimatch tramite @sentry, js-beautify ed editorconfig tramite resend e @react-email/render.",
    "verificato": false,
    "verificato_da": null,
-   "nota": "Il rumore c'è ancora, in un'altra forma: 10 avvisi diversi al posto dei 15 di prima. Non ho controllato se l'avviso alto su zod (troppa memoria quando valida liste molto grandi con un limite) sia sfruttabile. Va guardato, perché zod valida i dati in arrivo alle rotte (per esempio app/api/orders/cod/route.ts:80-105). Il danno possibile è un disservizio, non dati esposti."
+   "nota": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]"
   },
   {
    "chiave": "architettura|ogni scheda dell elenco dei negozi chiede la veloce da sola: oltre 30 negozi consumano il limite di 30 domande al minuto per indirizzo, lo stesso che serve al carrello e alla cassa",
@@ -1819,10 +1819,10 @@
   {
    "chiave": "architettura|sul ramo carta l'annullo non prende il turno prima del rimborso: due annulli da strade diverse possono restituire il credito due volte",
    "esito": "ancora_vero",
-   "prova": "lib/ordini/annulla.ts:286-336 (ramo carta), 157-171 (wallet_credit con p_reason=motivoCredito e p_ref=order.id); motivi diversi in app/api/admin/orders/[id]/cancel:68, seller/orders/[id]/reject:73, orders/[id]/cancel:60, rider/orders/[id]/cliente-assente:76; lib/stripe/payout.ts:2195-2226",
+   "prova": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]",
    "prova_tipo": "lettura-codice",
    "prova_eseguita": true,
-   "esito_prova": "Sul ramo carta, prima di refundOrder, non c'è nessuna scrittura che prenda il turno: la condizione sullo stato annullato c'è solo sul ramo contanti. La chiave del credito è motivo+ordine, e il motivo cambia per strada. L'unica guardia è la prenotazione con tetto dentro refundOrder.",
+   "esito_prova": "[tolto per riservatezza dal CF del 21/11: il dettaglio resta nella chat della sessione]",
    "verificato": false,
    "verificato_da": null,
    "nota": null
