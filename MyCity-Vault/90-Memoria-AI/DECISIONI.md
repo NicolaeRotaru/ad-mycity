@@ -7265,3 +7265,10 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 ## 2026-11-21 02:30 — Onda 9 giro 4: strada A, tetto 250 $, via
 - **Cosa:** Nicola, chat «Ondata 9 · 7.0»: «A» sul preventivo del giro 4 (proposta: «A, tetto 250, via»). 89 voci minori (69 rimaste aperte dal giro 3, 19 nati del giro 3, la scorta), 4 riparatori da 35 $, collaudi 60 $, riservata 25 $, controllore e regia 25 $. Attesi circa 15 chiusi (misura del giro 3: circa 18 $ a chiuso). Fuori: R03-002 e R03-003 rimandate da Nicola; R03-021 riservata va in una sessione riservata dopo l'onda 1 (lib/logger.ts è di R01).
 - **Chi:** la regia 7.0. **Colore:** 🔴 spesa, firmata da Nicola.
+
+## 2026-11-21 03:03 — Onda 9: tutti i difetti in 1-2 settimane, si ripara per causa
+- **Cosa:** Nicola, chat «Ondata 9 · 8.0»: «devono essere risolti in 1/2 settimane» e «usa la strategia che proponi, però mantieni la stessa efficienza». Dal giro 5: minori raggruppati per file e per causa con prediagnosi; modello piccolo e ultracode spento sui minori non delicati, grande e ultracode solo sui delicati; firme date prima su prove comuni ritoccate senza togliere asserzioni e sul testo dei commit (i testi vanno mostrati prima del giro 5).
+- **Perché:** nell'onda 9 circa 19 chiusi al giorno, uno su tre regge al collaudo, circa 12 $ a chiusa e per ogni chiuso circa 1,5 nati; due giorni fermi ad aspettare firme. Al ritmo di oggi i difetti non finiscono.
+- **Vincolo:** «stessa efficienza» = la quota che regge al collaudo e il costo per chiusa non peggiorano; si misurano a ogni giro, se peggiorano la regia si ferma e lo dice.
+- **Aperti con Nicola:** il tetto di spesa per le 1-2 settimane; se i minori nati durante le riparazioni vanno in una lista «dopo» che non sposta il traguardo; la proposta su gravi e bloccanti per `ad.uso-e-crediti`.
+- **Chi:** la regia 8.0, poi la 9.0. **Colore:** 🟡 metodo; la spesa resta 🔴 a ogni preventivo.
