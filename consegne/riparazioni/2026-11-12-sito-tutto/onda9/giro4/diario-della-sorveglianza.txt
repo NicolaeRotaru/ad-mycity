@@ -1,0 +1,9 @@
+2026-11-21 02:33 · R01 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-21 02:33 · R02 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-21 02:33 · R03 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-21 02:33 · R04 · ramo non ancora spinto · guardia – · referto – · unione – · nessuna
+2026-11-21 02:33 · onda 1 · prova-unione ⏳
+2026-11-21 02:33 · R01 · al lavoro (lotto 1) · guardia ⏳ · referto ⏳ · unione ⏳ · regia passata alla 8.0, avvisato
+2026-11-21 02:33 · R02 · al lavoro (lotto 1) · guardia ⏳ · referto ⏳ · unione ⏳ · regia passata alla 8.0, avvisato
+2026-11-21 02:33 · R03 · al lavoro (lotto 1) · guardia ⏳ · referto ⏳ · unione ⏳ · regia passata alla 8.0, avvisato
+2026-11-21 02:33 · R04 · al lavoro (lotto 1) · guardia ⏳ · referto ⏳ · unione ⏳ · regia passata alla 8.0, avvisato
