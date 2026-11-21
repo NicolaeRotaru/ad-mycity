@@ -250,7 +250,9 @@ function fileDaScansionare() {
 // si paga solo in contanti», «fino a 10 km dal negozio»). Solo quel file: le schede restano vive.
 // Il 17/11 l'onda 6 ha avuto la sua cartella (`--cartella <campagna>/onda6`) e la stessa fotocopia ha
 // fatto rossa la #983: vale anche dentro `ondaN/`, non in altre sottocartelle.
-const ESENZIONI_FORMA = [/^consegne\/riparazioni\/[^/]+\/(?:onda\d+\/)?registro-compatto\.txt$/];
+// Il 21/11 il giro 4 dell'onda 9 ha avuto la sua cartella (`onda9/giro4`) e la stessa fotocopia faceva
+// uscire 3 il guardiano sul ramo della regia: vale anche dentro `ondaN/giroN/`, non altrove.
+const ESENZIONI_FORMA = [/^consegne\/riparazioni\/[^/]+\/(?:onda\d+\/(?:giro\d+\/)?)?registro-compatto\.txt$/];
 
 export function esente(relPath, esenzioniFatto) {
   const tutte = [...ESENZIONI_DEFAULT, ...(esenzioniFatto || [])];
