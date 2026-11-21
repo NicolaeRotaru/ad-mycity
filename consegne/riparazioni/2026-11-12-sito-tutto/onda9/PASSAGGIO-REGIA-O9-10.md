@@ -27,6 +27,8 @@ Niente: Nicola scrive alla 10.0 come alla 9.0.
 2. Ricevere dalla 9.0, in chat, i dettagli della riservata (mai nel deposito).
 3. Sorvegliare R01-R04 ogni 30 minuti (`bash cervello/riparazione/sorveglia.sh consegne/riparazioni/2026-11-12-sito-tutto/onda9/giro4 1`), tetto di spesa 35 $ per ciascun riparatore.
 4. A «finita» con guardia e referto verdi: collaudatori (F2), poi unione, verify, harness SQL, controllore, PR in bozza (F3 della skill `riparazione` sul ramo `claude/stoic-ramanujan-p9tmso`).
+5. Unire main nel ramo della regia: Nicola ha unito ad-mycity#987 alle 03:13, con le lezioni delle onde 6-9. In DECISIONI e BACHECA si tengono tutte e due le parti.
+6. A fine giro 4 scrivere la riga del giro in `cervello/riparazione/misure.json` (regola 7 del 21/11).
 
 
 ---
