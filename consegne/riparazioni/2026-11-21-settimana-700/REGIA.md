@@ -7,6 +7,9 @@
 - Preventivo del programma: 3,88 $ a voce lavorata · stima 2.241 $ · tetto 2.913 $ · massimo 4.492 $.
 - Quota alle 14:00: `allowed_warning`, rinnovo 26/11 alle 10:00.
 
+## Scelte di Nicola (21/11 15:20)
+- Tetto 1.200 $ (`stima_usd` della settimana). Firme a e b. Prima il ricontrollo (circa 450 voci), poi le riparazioni.
+- Dettagli riservati ricevuti in chat dalla 10.0 alle 13:58: restano solo in chat.
+
 ## Fermo su
-- FERMATA 1 mandata a Nicola: tetto di spesa, firme sulle prove comuni, conferma del traguardo realistico. Nessun riparatore aperto.
-- Dettagli delle voci riservate: in arrivo in chat dalla regia 10.0, mai nel deposito.
+- Niente: si apre il ricontrollo.
