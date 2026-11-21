@@ -78,3 +78,4 @@
 2026-11-21 05:57 · R01 g5d alla fermata dura (27,91 $): chiude senza revisori, R01-009 al collaudo · S01 21,54 $: prima le due regressioni nate da S01-001, revert se non chiuse a 23 $
 2026-11-21 06:03 · R01 g5d FINITA (1a846a33, testa 90ee7bd3, verify verde, guardia ✅; referto: campo commit di R01-009 da correggere) · aperto K01 g5d (session_015BmpnZNv7fMEVNfte1J3kC, ultracode, tetto 30 $) su R01, R02 dopo
 2026-11-21 06:08 · R02 g5d FINITA (cccfb116, testa e8f65c46, verify verde; guardia: solo le due prove comuni di R02-001) · passato a K01 g5d · archiviati R01 g5d (30,28 $), R02 g5d (30,28 $), R02 g5m (12,16 $)
+2026-11-21 06:10 · S01 (riservata) FINITA: testa 84f81123, verify verde, 1 riparata e 3 parziali, 6 difetti nuovi visti (dettagli solo in chat), 23,33 $ · archiviata · aperto KS01 (session_015BmpnVkL7dDA2P7LMyfACU, ultracode, tetto 15 $), verdetto solo in chat
