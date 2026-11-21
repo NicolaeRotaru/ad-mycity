@@ -78,14 +78,18 @@
    "prova_tipo": "comando",
    "prova_eseguita": true,
    "rimessa": {
-    "esito": "regge (manuale)",
+    "esito": "regge",
     "uscita": 0,
-    "comando": "git checkout b2c62f34 -- lib/ordini/annulla.ts && npx vitest run tests/unit/riparazione-r05-soldi-in-transazione.test.ts → rossa su expect([PRIMA, DOPO]).toContainEqual(comEScritto()) (r.100/118/126, carrello a metà); git checkout 41a60e5f^ -- lib/ordini/annulla.ts → rossi i 2 casi del ripiego su expect(comEScritto()).toEqual(DOPO) (r.151); git checkout 41a60e5f -- lib/ordini/annulla.ts → verde 7/7. SQL: senza la 620 cade (42883), con la 620 14/14"
+    "comando": "node cervello/prova-rimessa.mjs --repo ../mycity --base b2c62f34 --file lib/ordini/annulla.ts --prove tests/unit/riparazione-r05-soldi-in-transazione.test.ts",
+    "nota": "regia 7.0, 21/11: rimessa rilanciata con cervello/prova-rimessa.mjs sul ramo unito ee85dafa (claude/adoring-bohr-kixq35-o9c); la migrazione 620 da sola dà rosso_strutturale (uscita 3, la prova SQL nomina la funzione nuova): quella parte la decide il collaudo K02, che regge"
    },
    "copre_tutta_la_voce": true,
    "cosa_ho_fatto": "Commit 32ea8e9c + 41a60e5f. Migrazione 620 (non applicata): funzione sposta_la_consegna_nel_carrello(p_righe jsonb) returns boolean, tutte le scritture del giro in una transazione, FOR UPDATE in ordine di id, controllo delle righe lette (consegna, fattorino, stato, rimborsato, contanti), altrimenti false senza scrivere; risponde solo true/false (mai NULL); SECURITY INVOKER, search_path fisso, revoke da PUBLIC/anon/authenticated, grant solo a service_role. annulla.ts: stesso conto e stesse cifre; giro e rimetti in una sola rpc ciascuno; su false/errore rilegge e rifà il conto (max 3). Ripiego sul percorso riga per riga di prima (invariato) se rpc assente, PGRST202/42883 o risposta non booleana: è il percorso finché Nicola non applica la 620. Le 8 prove comuni sono identiche alla base.",
    "nota": "Chiude la voce quando Nicola applica la 620. Residui visti dal revisore (non peggiorano la base): risposta della rpc persa dopo il commit e poi rimborso caduto → rimetti non torna indietro e non avvisa (annulla.ts:1002/1071, raro); avviso agli amministratori con testo sbagliato se rimetti perde la risposta dopo il commit (annulla.ts:1066); la 620 non confronta total_price/gross_total_cents (come la base; commento r.102-106 promette di più); su ordini vecchi con rider_fee_cents NULL (prima della 111) la 620 sposta dove la base non trovava la riga. Il percorso della 620 è provato in unit solo sul carrello pane+frutta con carta.",
-   "verificato_da": "revisore R05 G1 (subagente distinto da chi ha riparato): regge"
+   "verificato_da": "revisore R05 G1 (subagente distinto da chi ha riparato): regge",
+   "commit_precedenti": [
+    "32ea8e9c120786cddf0b434250c48fa8a7eec7b2"
+   ]
   },
   {
    "id": "R05-007",
@@ -135,12 +139,15 @@
    "prova_tipo": "comando",
    "prova_eseguita": true,
    "rimessa": {
-    "esito": "regge (manuale)",
+    "esito": "regge",
     "uscita": 0,
-    "comando": "git checkout c5531abf^ -- lib/products/economics.ts && npx vitest run … → rossa su expect(testo).toContain('€3.00 per una spesa da 15 € in su') (r.20); git checkout c5531abf -- … → verde"
+    "comando": "node cervello/prova-rimessa.mjs --repo ../mycity --base c5531abf^ --file lib/products/economics.ts --prove tests/unit/riparazione-r05-soglia-della-consegna-per-l-ai.test.ts",
+    "nota": "regia 7.0, 21/11: rimessa rilanciata con cervello/prova-rimessa.mjs sul ramo unito ee85dafa (claude/adoring-bohr-kixq35-o9c)"
    },
    "copre_tutta_la_voce": true,
-   "insieme_a": "R05-010",
+   "insieme_a": [
+    "R05-010"
+   ],
    "cosa_ho_fatto": "In regolaConsegnaPerAi la soglia (999/1000 centesimi e il testo «10 €») viene da SPESA_SENZA_SUPPLEMENTO_CENTS; valore invariato. La prova finge la costante a 15 € e la frase la segue.",
    "verificato_da": "revisore R05 G2 (subagente distinto da chi ha riparato): regge"
   },
@@ -159,12 +166,15 @@
    "prova_tipo": "comando",
    "prova_eseguita": true,
    "rimessa": {
-    "esito": "regge (manuale)",
+    "esito": "regge",
     "uscita": 0,
-    "comando": "come R05-009 (stesso commit, stessa riga)"
+    "comando": "node cervello/prova-rimessa.mjs --repo ../mycity --base c5531abf^ --file lib/products/economics.ts --prove tests/unit/riparazione-r05-soglia-della-consegna-per-l-ai.test.ts",
+    "nota": "regia 7.0, 21/11: rimessa rilanciata con cervello/prova-rimessa.mjs sul ramo unito ee85dafa (claude/adoring-bohr-kixq35-o9c)"
    },
    "copre_tutta_la_voce": true,
-   "insieme_a": "R05-009",
+   "insieme_a": [
+    "R05-009"
+   ],
    "cosa_ho_fatto": "Stesso punto di R05-009 (regolaConsegnaPerAi): un solo commit con i due id.",
    "verificato_da": "revisore R05 G2 (subagente distinto da chi ha riparato): regge"
   },

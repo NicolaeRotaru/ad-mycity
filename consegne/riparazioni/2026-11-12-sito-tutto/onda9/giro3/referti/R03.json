@@ -212,7 +212,7 @@
   {
    "id": "R03-018",
    "chiave": "qa-flussi|buco nelle prove del carrello: alcune mutanti del collaudo sul conto della consegna restano verdi",
-   "esito": "riparato",
+   "esito": "parziale",
    "commit": "7017ffc9d2a6d57e88ff7d4b768dd2e23cd6dfa7",
    "commit_precedenti": [
     "77d198dbfa0052795f6029e1fdd66821cccaf00d"
@@ -231,9 +231,11 @@
     "uscita": 0,
     "comando": "dopo il commit 7017ffc9, albero pulito: node /tmp/claude-0/r03/mut/run.mjs /tmp/claude-0/r03/mut/tutti.json \"tests/unit/riparazione-r03-carrello-consegna.test.ts\" K04 K11 K18 K24 K26 K32 K35 K42 K43 K45 → tutti e 10 ROSSI, ognuno su un'asserzione (nessun tempo scaduto), esiti in /tmp/claude-0/r03/mut/esiti-1795210497643.json; poi git checkout -- app/cart/page.tsx, albero pulito. Stabilità: 15 corse di fila verdi + 20 corse a coppie in parallelo con due processi che caricano la CPU (4 core) verdi: 35/35."
    },
-   "copre_tutta_la_voce": true,
+   "copre_tutta_la_voce": false,
    "cosa_ho_fatto": "Originale: prova nuova che monta il carrello vero con la spedizione a distanza accesa per finta e pretende consegna e totale della cassa (riepilogoDaMostrare) più i casi di presentazione: i 10 mutanti rimasti verdi diventano rossi, nessuna modifica al carrello. Correzione: al posto dei 12 giri fissi ogni caso gira finché la rete finta non ha risposto all'ultima lettura del carrello e quello che il caso guarda (la consegna della cassa, le voci attese, l'avviso, la frase) non è fermo per tre giri, con un tetto di 8 secondi veri; le asserzioni sono le stesse di prima.",
-   "verificato_da": "revisore avversario del lotto A: regge (10 mutanti del riparatore + 8 nuovi). Unico difetto, la prova instabile per i 12 giri fissi, chiuso dal giro di correzione 7017ffc9 (35 corse su 35 verdi, anche sotto carico; i 10 mutanti restano rossi)."
+   "verificato_da": "revisore avversario del lotto A: regge (10 mutanti del riparatore + 8 nuovi). Unico difetto, la prova instabile per i 12 giri fissi, chiuso dal giro di correzione 7017ffc9 (35 corse su 35 verdi, anche sotto carico; i 10 mutanti restano rossi).",
+   "nota_regia": "regia 7.0, 21/11: la correzione è solo nella prova (mutanti a mano), prova-rimessa.mjs non la può misurare; il collaudo K03 secondo la giudica parziale: esito allineato a quel giudizio",
+   "cosa_resta": "Dal collaudo K03: 27 mutanti su 37 rosse, ma resta verde quella del subtotale per negozio con Math.ceil (app/cart/page.tsx:529), chiesta già dal collaudo del 12/11 su R10-025: serve una prova che la prenda."
   },
   {
    "id": "R03-019",
