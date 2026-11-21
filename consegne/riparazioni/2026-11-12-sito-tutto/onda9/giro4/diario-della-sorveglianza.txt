@@ -45,3 +45,9 @@
 2026-11-21 03:27 · R02 · FINITA: punta 6f6c827b, testa adf7ec6e, verify verde, 23,82 $ · 9 riparati, 6 parziali, 3 già riparati, 3 serve_file_altrui, 1 non_fatto · al collaudo K01
 2026-11-21 03:27 · regia · guardia-ramo: le eccezioni firmate del giro 4 portano «sessione» e «file», ma eccezioneFirmata() le applica a tutta l'onda per regola: la firma di R02-004 sospende anche prove mai firmate (R02-006, R03-008, R03-013, R02-008). Detto a Nicola; le prove non firmate le tiene la regia a mano.
 2026-11-21 03:29 · K01 aperto (session_015BmpnZ4cmytXiuJNEUHbjF, senza ultracode, tetto 25 $) su R02; R01 dopo
+2026-11-21 03:47 · R01 · in lavoro FINITA · guardia ✅ · referto ✅ 24 voci · unione (sotto) · nessuna
+2026-11-21 03:47 · R02 · in lavoro FINITA · guardia ✅ · referto ✅ 22 voci · unione (sotto) · nessuna
+2026-11-21 03:47 · R03 · in lavoro FINITA · guardia ✅ · referto 🔴 21 voci · unione (sotto) · nessuna
+2026-11-21 03:47 · R04 · in lavoro FINITA · guardia ✅ · referto ✅ 21 voci · unione (sotto) · nessuna
+2026-11-21 03:47 · K01 · collaudo · guardia ✅ · collaudo ✅ · nessuna
+2026-11-21 03:47 · onda 1 · prova-unione ✅
