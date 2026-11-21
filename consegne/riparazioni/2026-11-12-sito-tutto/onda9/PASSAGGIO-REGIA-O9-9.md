@@ -7,6 +7,8 @@ a: «Ondata 9 · 9.0»
 
 # Onda 9, giro 4: il passaggio alla regia 9.0
 
+Questo foglio passa la regia del giro 4 dalla 8.0 alla 9.0. Un esempio di cosa contiene: R02 alle 03:02 ha chiuso il secondo lotto, e due sue voci aspettano una scelta.
+
 ## In parole semplici
 Il giro 4 è in corso da 02:33: quattro riparatori, 89 difetti minori, tutti ancora sul primo o secondo lotto.
 La 8.0 passa la mano perché ha superato i 250 mila token. Alla 9.0 restano sorveglianza, collaudi, unione, controllore e PR.
@@ -16,10 +18,10 @@ Nicola ha chiesto un traguardo nuovo, «tutti i difetti risolti in 1-2 settimane
 Niente: Nicola scrive alla 9.0 come scriveva alla 8.0.
 
 ## Cosa devi fare
-1. Dire ai quattro riparatori il tuo id (le risposte arrivano alla 8.0 finché non lo sanno).
-2. La catena di sorveglianza della 8.0 (`trig_01YX157iitNbqVSBra94Hdpj`, 03:04) la cancella la 8.0: la 9.0 ne apre una sua a 30 minuti.
-3. Sorvegliare R01-R04: il tetto è 35 $ ciascuno. A «finita» si aprono i collaudi. Dopo l'onda 1 parte la riservata: i dettagli li manda la 8.0 in chat.
-4. Unione, verify, harness SQL, controllore, PR in bozza: come il giro 3 (skill `riparazione`, F3, sul ramo `claude/stoic-ramanujan-p9tmso`).
+- Dire ai quattro riparatori il tuo id (le risposte arrivano alla 8.0 finché non lo sanno).
+- La catena di sorveglianza della 8.0 (`trig_01YX157iitNbqVSBra94Hdpj`, 03:04) la cancella la 8.0: la 9.0 ne apre una sua a 30 minuti.
+- Sorvegliare R01-R04: il tetto è 35 $ ciascuno. A «finita» si aprono i collaudi. Dopo l'onda 1 parte la riservata: i dettagli li manda la 8.0 in chat.
+- Unione, verify, harness SQL, controllore, PR in bozza: come il giro 3 (skill `riparazione`, F3, sul ramo `claude/stoic-ramanujan-p9tmso`).
 
 ## Cosa non ho verificato
 - Il codice dei riparatori: solo la guardia, nessun referto ancora finito.
