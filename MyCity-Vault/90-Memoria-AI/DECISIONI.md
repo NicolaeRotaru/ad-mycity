@@ -7255,3 +7255,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** Nicola, chat «Ondata 9 · 7.0»: «280 sì, b, fascia, firmo tutto, ok migrazioni, Sentry dopo». ① Tetto del giro 3 alzato da 240 a 280 $ (speso 258,87 $ alle 23:31). ② S01-001 (la scorta) tolta dall'unione dopo due bocciature, S01-002 resta. ③ R05-008: se cade la scrittura del secondo ordine veloce, il primo resta nella fascia oraria scelta dal cliente (non torna «Adesso»): regola per il prossimo giro. ④ Firmate le prove ritoccate di R02 (3) e R04 (4) e i commit di R02 che citano voci di altre onde (`fa5dd0fa`, `19291cd4`, `e3231f8e`, quest'ultimo è il ritocco delle due prove firmate): scritte in `giro3/piano.json` → `eccezioni_firmate`. ⑤ «ok migrazioni» per la 620 (R05-006). ⑥ Sentry resta spento per ora.
 - **Chi:** la regia 7.0 (`session_015BmpnYruq7734YUce72wCa`).
 - **Colore:** 🔴 per tetto e migrazione, firmati da Nicola. L'unione della PR resta sua.
+
+## 2026-11-21 02:01 — 🔴 Sei migrazioni nel database vero, col via di Nicola
+- **Cosa:** dopo l'unione di mycity#299 la 620 non era in produzione: il «Rilascio dopo CI verde» si ferma senza le chiavi Vercel e Vercel pubblica da solo, senza migrazioni. La «Deriva migrazioni» del 20/11 diceva che mancavano già 500, 501, 540, 541 e 572 (unioni dell'onda 9). Nicola: «ok 6 migrazioni» (21/11 ~01:50). Lanciato «Migrazioni a mano» (giro 44846535636: APPLICA, quante 6, ultima 620); passo di scrittura verde alle 01:59.
+- **Verificato dopo, in sola lettura:** il registro di produzione ha le 6 versioni; la funzione `sposta_la_consegna_nel_carrello` della 620 esiste.
+- **Resta aperto:** finché mancano le chiavi Vercel su GitHub, ogni migrazione nuova del sito resta fuori dal database dopo l'unione, e va messa col pulsante.
+- **Chi:** la regia 7.0 (`session_015BmpnYruq7734YUce72wCa`). **Colore:** 🔴 scrittura sul database vero, firmata da Nicola.
