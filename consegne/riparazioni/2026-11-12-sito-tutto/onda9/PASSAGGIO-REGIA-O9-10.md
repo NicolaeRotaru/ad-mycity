@@ -1,7 +1,7 @@
 ---
 data: 2026-11-21 03:12
 tipo: passaggio di regia
-scopo: questo foglio serve alla regia 10.0 per sapere a che punto è il giro 4 e cosa le resta da fare, per esempio aprire i collaudi quando un riparatore finisce
+scopo: dire alla regia 10.0 a che punto è il giro 4. Esempio: chi deve aprire i collaudi.
 da: «Ondata 9 · 9.0», session_015BmpnVsaBSAMXVLwgUxhRH
 perche: 231 mila token, regola 3 del 21/11
 a: «Ondata 9 · 10.0», aperta da Nicola o dall'AD
