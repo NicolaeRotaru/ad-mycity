@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-11-21 01:45
+aggiornato: 2026-11-21 06:50
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> ⏳ **2026-11-21 06:50 — L'onda 9 aspetta Nicola nella PR mycity#300.**
+>
+> Alle 04:24 Nicola ha scritto «lavora senza fermarti». Stanotte la regia 10.0 ha chiuso il giro 4 e un giro di correzione. Tutto sta nella PR in bozza mycity#300, che è verde. Il giro 4 chiude 34 voci, a circa 4,7 $ l'una. Il giro di correzione ne chiude circa 12, a circa 13 $ l'una: sopra la soglia di 12 $, quindi la regia si è fermata. Per chiudere servono le firme di Nicola su alcune prove comuni. Le migrazioni nuove sono zero.
 
 > ✅ **2026-11-21 01:45 — Il giro 3 dell'onda 9 è sul sito.**
 >

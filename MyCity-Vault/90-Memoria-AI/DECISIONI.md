@@ -7290,3 +7290,13 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** Nicola, «firmo tutte e due». R01-021: spostate di 2 giorni le date di due prove sul recesso (cadevano di domenica). R02-009: il cricchetto delle foto senza caricatore passa da tre a zero.
 - **Perché:** nessuna asserzione tolta; senza firma le due riparazioni tornavano indietro.
 - **Chi:** regia 9.0. **Colore:** 🟡.
+
+## 2026-11-21 04:24 — Onda 9: la notte senza fermarsi
+- **Cosa:** Nicola, alla regia 10.0: «Adesso vado a dormire, lavora senza mai fermati risolvendo il maggior numero di difetti». La regia chiude il giro 4 (unione nel ramo del sito, PR in bozza mycity#300), apre il giro di correzione (giro 5: 2 sessioni delicate con ultracode, 2 non delicate col modello piccolo, 1 riservata) e lo unisce nello stesso ramo. Firme, «ok migrazioni» e unione sul sito restano di Nicola.
+- **Perché:** «lavora senza fermarti» è il sì al giro di correzione; il costo per chiusa atteso (6-7 $) stava sotto la soglia di 12 $.
+- **Chi:** regia 10.0. **Colore:** 🟡 (nessuna azione sul sito vero).
+
+## 2026-11-21 06:45 — Onda 9: dopo il giro 5 niente altri giri senza Nicola
+- **Cosa:** la regia non apre un terzo giro. Il giro 5 ha reso circa 12 voci che reggono per circa 159 $ (≈13 $ l'una, sopra la soglia di 12 $), e le voci delicate erano al secondo tentativo (regola 8 del 15/11: dopo due giri falliti decide Nicola).
+- **Perché:** regola 1 del 21/11 e regola 8 del 15/11.
+- **Chi:** regia 10.0. **Colore:** 🟡.
