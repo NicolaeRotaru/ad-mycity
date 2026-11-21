@@ -1,28 +1,32 @@
 ---
 data: 2026-11-21 03:12
 tipo: passaggio di regia
-da: «Ondata 9 · 9.0» (session_015BmpnVsaBSAMXVLwgUxhRH), a 231 mila token (regola 3 del 21/11)
-a: «Ondata 9 · 10.0», aperta da Nicola o dall'AD (la 9.0 è a profondità 8 su 8)
+da: «Ondata 9 · 9.0», session_015BmpnVsaBSAMXVLwgUxhRH
+perche: 231 mila token, regola 3 del 21/11
+a: «Ondata 9 · 10.0», aperta da Nicola o dall'AD
+nota: la 9.0 è a profondità 8 su 8
 ---
 
 # Onda 9, giro 4: il passaggio alla regia 10.0
 
 ## In parole semplici
+Questo foglio serve alla regia che segue: dice a che punto è il giro 4 dell'onda 9 e cosa le resta da fare.
 Il giro 4 continua: quattro riparatori, 89 difetti minori. La 9.0 passa la mano presto perché le istruzioni iniziali pesano già circa 200 mila token.
 Se la 10.0 la apre una sessione a profondità 8, anche lei non potrà aprire sessioni: meglio che la apra Nicola dal Pannello o da claude.ai (profondità 0).
 
 ## Cosa cambia per te
 Niente: Nicola scrive alla 10.0 come alla 9.0.
 
+## Cosa non ho verificato
+- Il codice dei riparatori: nessun referto finito.
+- Il conto dei difetti aperti nel registro (824 voci aperte contate a mano, 751 voci secondo la skill): da rifare con `conti` prima di dare numeri.
+
 ## Cosa devi fare
 1. Mettere il tuo id in `giro4/sessioni.json` («regista», la 9.0 in «regista_prima») e scriverlo ai quattro riparatori e alla 9.0.
 2. Ricevere dalla 9.0, in chat, i dettagli della riservata (mai nel deposito).
-3. Sorvegliare R01-R04 ogni 30 minuti (`bash cervello/riparazione/sorveglia.sh consegne/riparazioni/2026-11-12-sito-tutto/onda9/giro4 1`), tetto 35 $ ciascuno.
+3. Sorvegliare R01-R04 ogni 30 minuti (`bash cervello/riparazione/sorveglia.sh consegne/riparazioni/2026-11-12-sito-tutto/onda9/giro4 1`), tetto di spesa 35 $ per ciascun riparatore.
 4. A «finita» con guardia e referto verdi: collaudatori (F2), poi unione, verify, harness SQL, controllore, PR in bozza (F3 della skill `riparazione` sul ramo `claude/stoic-ramanujan-p9tmso`).
 
-## Cosa non ho verificato
-- Il codice dei riparatori: nessun referto finito.
-- Il conto dei difetti aperti nel registro (824 a mano contro 751 della skill): da rifare con `conti` prima di dare numeri.
 
 ---
 
