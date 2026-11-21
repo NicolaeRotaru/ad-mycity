@@ -7,3 +7,4 @@
 2026-11-21 02:33 · R02 · al lavoro (lotto 1) · guardia ⏳ · referto ⏳ · unione ⏳ · regia passata alla 8.0, avvisato
 2026-11-21 02:33 · R03 · al lavoro (lotto 1) · guardia ⏳ · referto ⏳ · unione ⏳ · regia passata alla 8.0, avvisato
 2026-11-21 02:33 · R04 · al lavoro (lotto 1) · guardia ⏳ · referto ⏳ · unione ⏳ · regia passata alla 8.0, avvisato
+2026-11-21 02:50 · R01 9,81 $ · R02 12,62 $ · R03 10,85 $ · R04 9,20 $ · nessun ramo spinto · lotto 1 di 3 per tutti · ritmo sopra il tetto: soglia d'allarme R02 a 20 $ senza commit
