@@ -7261,3 +7261,7 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Verificato dopo, in sola lettura:** il registro di produzione ha le 6 versioni; la funzione `sposta_la_consegna_nel_carrello` della 620 esiste.
 - **Resta aperto:** finché mancano le chiavi Vercel su GitHub, ogni migrazione nuova del sito resta fuori dal database dopo l'unione, e va messa col pulsante.
 - **Chi:** la regia 7.0 (`session_015BmpnYruq7734YUce72wCa`). **Colore:** 🔴 scrittura sul database vero, firmata da Nicola.
+
+## 2026-11-21 02:30 — Onda 9 giro 4: strada A, tetto 250 $, via
+- **Cosa:** Nicola, chat «Ondata 9 · 7.0»: «A» sul preventivo del giro 4 (proposta: «A, tetto 250, via»). 89 voci minori (69 rimaste aperte dal giro 3, 19 nati del giro 3, la scorta), 4 riparatori da 35 $, collaudi 60 $, riservata 25 $, controllore e regia 25 $. Attesi circa 15 chiusi (misura del giro 3: circa 18 $ a chiuso). Fuori: R03-002 e R03-003 rimandate da Nicola; R03-021 riservata va in una sessione riservata dopo l'onda 1 (lib/logger.ts è di R01).
+- **Chi:** la regia 7.0. **Colore:** 🔴 spesa, firmata da Nicola.
