@@ -26934,6 +26934,29 @@
         "tipo": "umano",
         "nota": "Si chiude con un caso nel test del freno: sessione con ruolo collaudatore che fa N+1 riprese con SendMessage → la N+1 è bloccata; rosso sul codice di oggi. Il freno in .claude/settings.json lo incolla solo Nicola."
       }
+    },
+    {
+      "id": "AR-1192",
+      "titolo": "Una firma di Nicola su una prova comune fa passare in silenzio tutte le prove comuni del giro, anche quelle mai firmate",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-11-21 03:36",
+      "origine": "regia 10.0 dell'onda 9 del sito, giro 4 (sorveglianza delle 03:26)",
+      "dove": "cervello/riparazione-sessioni.mjs, eccezioneFirmata() (verso la riga 870); le eccezioni del giro 4 in consegne/riparazioni/2026-11-12-sito-tutto/onda9/giro4/piano.json",
+      "descrizione": "Le eccezioni firmate del giro 4 portano i campi «sessione» e «file»: Nicola firma la modifica di una prova precisa. eccezioneFirmata() guarda solo onda e regola, e non legge né «sessione» né «file». Così la prima firma del giro (R02-004, il psql finto, 21/11 03:08) sospende la regola «prove_comuni» per tutta l'onda. Esempio vero: guardia-ramo di R02 dà «sospesa con la firma del psql» anche la prova dei contanti di R02-006, che Nicola non ha firmato; R02 e R03 sono passati da rosso a verde alle 03:19 senza nessuna firma sulle loro prove.",
+      "impatto": "Una modifica a una prova comune che protegge una riparazione vecchia può arrivare al sito senza la firma di Nicola: è il controllo che deve fermare un passo indietro nascosto. applica, che rilancia guardia-ramo all'unione, la lascerebbe passare.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "node --input-type=module -e \"import {eccezioneFirmata} from \\\"./cervello/riparazione-sessioni.mjs\\\"; const piano={eccezioni_firmate:[{onda:1,sessione:\\\"R02\\\",regole:[\\\"prove_comuni\\\"],file:[\\\"tests/unit/firmata.test.ts\\\"],firma:\\\"Nicola, prova\\\"}]}; const f=eccezioneFirmata(piano,1,\\\"prove_comuni\\\",null,{sessione:\\\"R03\\\",file:\\\"tests/unit/mai-firmata.test.ts\\\"}); console.log(f?\\\"la firma di R02 su firmata.test.ts sospende anche mai-firmata.test.ts di R03\\\":\\\"la firma vale solo per i suoi file\\\"); process.exit(f?1:0)\""
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-11-21 03:36",
+        "nota": "Eseguita adesso: la firma di R02 su un file sospende la regola anche per un file mai firmato di R03 → exit 1. La prova passa a 0 quando eccezioneFirmata accetta un contesto {sessione, file} e rispetta i campi dell'eccezione."
+      },
+      "nato_come": "scoperta",
+      "cura_proposta": "eccezioneFirmata(piano, onda, regola, commit, contesto): se l'eccezione ha «sessione», vale solo per quella sessione; se ha «file», vale solo per quei percorsi. Le eccezioni vecchie senza i due campi restano per l'onda intera, come oggi. guardia-ramo, valida-collaudo e applica passano il contesto. Chiesto il sì di Nicola il 21/11 03:31."
     }
   ],
   "meta": {

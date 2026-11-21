@@ -11,21 +11,22 @@ a: «Ondata 9 · 8.0»
 Il giro 3 è chiuso e unito (mycity#299), e le 6 migrazioni che mancavano sono in produzione.
 Il giro 4 è partito alle 02:33: quattro riparatori lavorano su 89 difetti minori, coi piani già approvati.
 Alla 8.0 restano la sorveglianza, i collaudi, l'unione, il controllore e la PR.
+Per esempio: se R03 o R04 si fermano a metà non si riavviano, perché perderebbero ultracode; si apre una sessione nuova, «R03 secondo».
 
 ## Cosa cambia per te
 Niente: Nicola scrive alla 8.0 come scriveva alla 7.0.
-
-## Cosa devi fare
-1. Dire ai quattro riparatori il tuo id: le loro risposte arrivano ancora alla 7.0 finché non lo sanno.
-2. Sorvegliare R01-R04 (tetto 35 $ ciascuno), rispondere alle domande, e a «finita» aprire i collaudi.
-3. Dopo l'onda 1, la sessione riservata su R03-021 col residuo (i dettagli te li manda la 7.0 in chat).
-4. Unione, verify, harness SQL, controllore C04, PR in bozza: come il giro 3 (skill `riparazione`, F3).
 
 ## Cosa non ho verificato
 - Che R04 abbia ultracode acceso: lo dice lui nel piano, io l'ho letto solo su R03.
 - Le spese dei riparatori: alle 02:33 erano appena nati.
 
 ---
+
+## Cosa devi fare
+1. Dire ai quattro riparatori il tuo id: le loro risposte arrivano ancora alla 7.0 finché non lo sanno.
+2. Sorvegliare R01-R04 (tetto 35 $ ciascuno), rispondere alle domande, e a «finita» aprire i collaudi.
+3. Dopo l'onda 1, la sessione riservata su R03-021 col residuo (i dettagli te li manda la 7.0 in chat).
+4. Unione, verify, harness SQL, controllore C04, PR in bozza: come il giro 3 (skill `riparazione`, F3).
 
 ## Dettagli tecnici
 
@@ -40,7 +41,7 @@ Niente: Nicola scrive alla 8.0 come scriveva alla 7.0.
 Sul ramo ad-mycity `claude/stoic-ramanujan-p9tmso` (commit 29ccb95), non ancora su main: `git fetch origin claude/stoic-ramanujan-p9tmso && git show FETCH_HEAD:.claude/skills/riparazione/SKILL.md`, sezione «Le regole del 21/11». `cervello/riparazione/misure.json` non va toccato sul nostro ramo finché il loro non è unito.
 
 ### Lezioni del giro 3 che valgono per l'unione
-- I referti dei riparatori del giro 3 avevano la prova rimessa «manuale»: `applica` vuole `esito: "regge"`, `uscita: 0` e il comando. La regia l'ha rilanciata con `cervello/prova-rimessa.mjs --repo ../mycity` sul ramo unito. Il nato del controllore deve avere severita bloccante/grave/minore («medio» non vale).
+- I referti dei riparatori del giro 3 avevano la prova rimessa «manuale»: `applica` vuole `esito: "regge"`, `uscita: 0` e il comando. La regia l'ha rilanciata con `cervello/prova-rimessa.mjs --repo ../mycity` sul ramo unito. Il nato del controllore deve avere una delle tre gravità del registro («medio» non vale).
 - Il «Rilascio dopo CI verde» del sito non applica migrazioni (mancano le chiavi Vercel su GitHub): una migrazione nuova va messa col pulsante «Migrazioni a mano» con l'ok di Nicola (APPLICA, quante, ultima), poi verifica in sola lettura.
 - Un giro CI rosso sul push per `next/font` (download dei caratteri Google) non è del codice: rilanciare una volta.
 

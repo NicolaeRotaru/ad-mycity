@@ -14,16 +14,16 @@ Un esempio di cosa entra: il prezzo in promozione adesso arriva davvero al carre
 ## Cosa cambia per te
 Niente: Nicola scrive alla 7.0 come scriveva alla 6.0.
 
-## Cosa devi fare
-1. Aspettare la scelta di Nicola sulla scorta (sotto).
-2. Unire i rami, togliere con `git revert` le riparazioni bocciate, verify e harness SQL, controllore C03, PR in bozza.
-3. Chiedere a Nicola le firme sulle prove ritoccate e l'«ok migrazioni» per la 620.
-
 ## Cosa non ho verificato
 - Non ho provato l'unione dei sei rami fra loro: `prova-unione` non l'ho lanciato a giro finito.
 - I costi di «R01 secondo», «S01 secondo» e K02 non li ho letti a fine lavoro.
 
 ---
+
+## Cosa devi fare
+1. Aspettare la scelta di Nicola sulla scorta (sotto).
+2. Unire i rami, togliere con `git revert` le riparazioni bocciate, verify e harness SQL, controllore C03, PR in bozza.
+3. Chiedere a Nicola le firme sulle prove ritoccate e l'«ok migrazioni» per la 620.
 
 ## Dettagli tecnici
 
