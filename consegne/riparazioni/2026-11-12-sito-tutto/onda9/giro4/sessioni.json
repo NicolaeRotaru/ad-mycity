@@ -1,0 +1,48 @@
+{
+ "regista": "session_015BmpnYruq7734YUce72wCa",
+ "regista_prima": [],
+ "sha_regista": "717a8e651fed10717dbb1783dceb2e9f00b239a6",
+ "integrazione": {
+  "ramo": "main del sito",
+  "partenza": "2d19787b789236307ac7ddd6c05b038a658a3d9d",
+  "nota": "giro 4 del 21/11: i rami -o9g4-mNN partono da main (2d19787b)"
+ },
+ "sessioni": {
+  "R01": {
+   "id": "session_015BmpnYYucAqVBr7nJGfNnu",
+   "ramo": "claude/adoring-bohr-kixq35-o9g4-m01",
+   "onda": 1,
+   "ultracode": false
+  },
+  "R02": {
+   "id": "session_015BmpnXTYcNLHuqHCtPy8uw",
+   "ramo": "claude/adoring-bohr-kixq35-o9g4-m02",
+   "onda": 1,
+   "ultracode": false
+  },
+  "R03": {
+   "id": "session_015BmpnZ5wA1LkPL3qZuawv1",
+   "ramo": "claude/adoring-bohr-kixq35-o9g4-m03",
+   "onda": 1,
+   "ultracode": true
+  },
+  "R04": {
+   "id": "session_015BmpnZLFNqvaVHUjPwSmo6",
+   "ramo": "claude/adoring-bohr-kixq35-o9g4-m04",
+   "onda": 1,
+   "ultracode": true
+  }
+ },
+ "tetti_usd": {
+  "R01": 35,
+  "R02": 35,
+  "R03": 35,
+  "R04": 35,
+  "riservata": 25,
+  "collaudo": 60,
+  "controllore": 10,
+  "regia": 15
+ },
+ "collaudatori": {},
+ "controllori": {}
+}
