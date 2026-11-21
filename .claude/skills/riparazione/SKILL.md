@@ -44,6 +44,61 @@ E una regola nuova, che le campagne passate non avevano: **nella stessa onda un 
 Le zone fisse non reggono: sul sito il 37% delle voci aperte cita file di zone diverse. Quindi il padrone
 lo decide `dividi`, onda per onda; chi si scontra passa all'onda dopo, che parte dal lavoro già unito.
 
+## Le regole del 21/11 — le lezioni delle onde 6-9 (valgono SOPRA le sezioni più vecchie che le contraddicono)
+
+> Nicola, 21/11: *«sì, scrivi le lezioni nelle misure e nella guida»*. Il conto, da `misure.json`: con
+> ultracode spento e la regia corta un difetto si chiude con 4-8 $ (onde 1, 4, 6, 7, 8, 8b e primo giro
+> dell'onda 9); con ultracode acceso con 12-27 $ (onda 2, giro del 19/11 in parte, terzo giro dell'onda 9 a
+> 17,76 $).
+> Un avanzo non costa di più per forza: l'onda 8, quasi tutta avanzi, ha chiuso a 4,35 $. L'onda 9, fino al
+> terzo giro, è costata circa 745 $ per 62 chiusi: circa 12 $ l'uno. La ricetta del 17/11
+> (`consegne/audit/2026-11-17-costo-onda-5/ricetta.md`) diceva già quasi tutto: quattro punti su sei sono
+> saltati perché nessun programma li controllava.
+
+1. **Ogni giro ha il suo costo per chiusa atteso, e sopra i 12 $ decide Nicola.** La regia lo calcola a mano
+   dalle righe di `misure.json` con la stessa configurazione (ultracode sì o no, delicati sì o no, regia
+   corta o lunga), guidata da `casi_misurati_17_21_11`: `conti --preventivo` usa solo l'ultima riga «onda».
+   Se supera 12 $, a Nicola va il numero, non solo il tetto. Il terzo giro dell'onda 9 è partito con un tetto
+   firmato (240 poi 280 $) ma senza il costo per chiusa: 17,76 $. Dopo due giri falliti la voce va a
+   Nicola (regola 8 del 15/11): nel terzo giro dodici voci al terzo tentativo sono rimaste dentro col suo sì,
+   senza il numero davanti. *Solo testo: lo fa la regia, in F0, prima della FERMATA 1.*
+2. **Lotti da 12-16 voci, anche nei giri di correzione.** Il terzo giro ne ha date 21-22 a testa: 53 voci su 87
+   mai toccate perché il tetto era finito. Il valore di partenza di `dividi` è ancora 25 (`PER_SESSIONE`): si
+   passa sempre `--per-sessione 16` o meno. *Solo testo, finché `dividi` non rifiuta più di 16: lo fa la regia
+   in F0, al passo della divisione.*
+3. **La regia passa la mano a 250 mila token, davvero.** A ogni risveglio legge il suo `get_session` (senza id)
+   e sopra 250 mila scrive il passaggio. Nell'onda 9: 7 regie, passaggi fra 343 e 650 mila, 151 $ cioè il 20%
+   della spesa, 0,63 $ per voce data contro il tetto di 0,25 $. La regola 4 del 15/11 lo diceva già: senza
+   un controllo non ha tenuto. *Solo testo: lo fa la regia stessa, a ogni risveglio.*
+4. **I delicati in un'onda a parte, e il filtro legge il testo della voce.** `scelta-onda9.mjs` guardava le
+   dimensioni e i nomi dei file: rileggendo il testo, 29 voci su 71 erano delicate (annullo ordini,
+   cancellazione dell'account). Mischiarli accende ultracode su tutte le sessioni (regola 5 del 15/11): nel
+   terzo giro i collaudi sono costati 77 $ contro 44, circa 2 $ a verdetto contro 0,4-0,5. *Solo testo: lo fa
+   la regia in F0, rileggendo il testo di ogni voce prima di `dividi`.*
+5. **Una sessione con ultracode non si riavvia: se ne apre una nuova.** Un `/effort ultracode` mandato da
+   un'altra sessione arriva come testo, e al riavvio l'ultracode si perde. Nel terzo giro è successo tre volte
+   (R01, K01, K03). Si apre «NOME secondo» dalla punta del suo ramo, nata con ultracode. *Solo testo: lo fa la
+   regia, ogni volta che una figlia con ultracode si ferma a metà.*
+6. **Niente id di altre voci nei messaggi di commit.** `guardia-ramo` li ferma (`id_nel_commit`) e serve una
+   firma di Nicola: nell'onda 9 quattro firme, e le chiusure nel registro ferme dal 18 al 20/11. Va nel primo
+   messaggio ai riparatori ed è scritto in `cervello/riparazione/LEGGIMI-riparatore.md`. *Lo ferma
+   `guardia-ramo`, ma solo dopo il commit.*
+7. **A fine giro la regia scrive la sua riga in `misure.json`.** Il file era fermo al 17/11 mentre giravano le
+   onde 6-9: il preventivo dell'onda 9 ha preso a memoria il 50% dell'onda 7, non dal file. Una fase non chiusa si scrive con
+   «in corso: » davanti, così `conti --preventivo` non la legge. *Solo testo.*
+
+**Cosa ha funzionato, da tenere:** il doppio controllo. Nell'onda 9 collaudatori e controllori hanno tolto 17
+riparazioni prima che arrivassero al sito, perché rompevano altro, non reggevano o si incrociavano. Tre erano
+gravi, una per giro (R03-019, R04-007, S01-001), tutte sulla scorta e sulla spunta del recesso in «Modifica
+prodotto».
+
+**Il fatto che non è una regola, in attesa di Nicola:** nelle onde 6-9 sono entrati nel registro almeno 127
+difetti nuovi contro 132 chiusi, fino al terzo giro dell'onda 9; le voci aperte sono 751, di cui 669 minori, 77
+gravi e 5 bloccanti. Con
+`ad.uso-e-crediti` com'è oggi (il server si riaccende a zero difetti) il traguardo non arriva. Proposta dell'AD
+del 21/11: contare solo gravi e bloccanti (82), i minori quando li vede un cliente. Finché Nicola non firma,
+il fatto resta com'è.
+
 ## Le regole del 15/11 — le lezioni delle onde 1 e 2 (valgono SOPRA le sezioni più vecchie che le contraddicono)
 
 > Nicola, 15/11: *«dimmi come risolvere il maggior numero di difetti entro il limite settimanale, impara da
