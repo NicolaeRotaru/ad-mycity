@@ -1,0 +1,105 @@
+{
+ "collaudatore": "K01",
+ "riparatori": [
+  "R01",
+  "R02"
+ ],
+ "aggiornato": "2026-11-21 06:27",
+ "finita": false,
+ "voci": [
+  {
+   "id": "R01-002",
+   "chiave": "api-backend|il tetto di tempo delle email della notte parte dall inizio del giro, e il ciclo delle cancellazioni resta senza tetto: con una notte lunga non parte nessuna email e non c è allarme",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K01 --base 79bbcb28ccb2ffdddac4b7264a0f7e6736e67e05^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r01-email-della-notte-col-loro-tempo.test.ts --json"
+   },
+   "nota": "Rimessa 0 (79bbcb28). Due qa, una lente ciascuno, tutti e due «parziale» sullo stesso residuo. Regge: tetto delle email a 240 s, allarme dell'email ferma subito, allarme con chiave per le email senza tempo; la notte dopo l'email si riprova davvero (provato: la riga nel pannello non blocca emailDovuta, notte 2 → 2 email, 200); conteggi della risposta uguali alla base; chiave lunga ridotta a UUID da identificativoAvviso; prove del giro notturno verdi (35 file, 312 prove). NON chiusa la seconda metà della voce, «il ciclo delle cancellazioni resta senza tetto»: route.ts:225 guarda il tetto solo prima di prendere un account e cancellaAccount (lib/account/cancellazione.ts:912) non ha tempo massimo. Prova temporanea dei due qa: account preso a 149 s che dura 152-155 s → prima scrittura in notifications a 301-304 s, oltre i 300 s di vercel.json:13: sul sito vero la funzione è già ferma, nessuna email, nessun allarme, nessun battito — proprio il caso della voce, mentre il referto dice copre_tutta_la_voce true. Il residuo coincide col nuovo difetto dichiarato da R01 («un account preso poco prima del tetto del ciclo non ha un tempo suo»). Contesto: la voce nasce guardando R14-013 (5e2aa09f), mai entrata nella base. Minori: l'avviso «Spiegazioni non partite per email» (route.ts:509) non si chiude mai, anche dopo che le email partono; con lo stesso arretrato la notte resta 500 ogni notte (route.ts:382) mentre il tetto delle cancellazioni risponde 200; notti fra 240 e ~270 s che prima mandavano le email ora finiscono rosse e le rimandano di un giorno."
+  },
+  {
+   "id": "R01-003",
+   "chiave": "api-backend|la chiusura dell allarme «scrivile tu» legge al massimo 200 avvisi senza ordine né filtro: oltre 200, quelli aperti possono restare fuori",
+   "verdetto": "non_regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K01 --base 2befc63942ff1cde0c9232cecde4c589af669144^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r01-rinviate-oltre-duecento.test.ts --json"
+   },
+   "nota": "Rimessa 0 (2befc639), ma il commit ripara un'altra cosa. La voce nasce dalla correzione R14-014 (fdd02e1b87da, funzione chiudiGliAllarmiDiChiNonAspettaPiu: select('id, body, is_read').limit(200) sulle notifiche, senza filtro is_read né ordine), e fdd02e1b NON è antenato della base (merge-base --is-ancestor esce 1; R14-014 è ancora aperta nel registro). Quella lettura non esiste né alla base né alla testa: la premessa del riparatore («la voce sbaglia il nome della funzione») è sbagliata. 2befc639 cambia segnalaLeCancellazioniRinviate (lettura dei profili a pagine): un difetto vero e diverso, e la lente nata_rotta lo trova giusto (finto che ordina come Postgres, 450+37, 200+1, 600+250 con 2 soli orari: nessun negozio perso né avvisato due volte; il '+' del fuso passa come %2B; un avviso per negozio). Chiuderla come «riparato» la nasconderebbe: se un giorno si unisce la correzione di R14-014 così com'è, il limit(200) torna senza che nessuno lo guardi. Va tenuta legata a R14-014 o chiusa dalla regia come «non presente alla base». Minori sulla funzione cambiata: col tetto dei 45 s che scatta ogni notte l'ordine è sempre lo stesso e quelli in coda non vengono mai avvisati (route.ts:620-625), rinviatePerOrdiniAperti conta meno del vero; il passo ora può consumare fino a ~45 s dei 150 e dei 240 s contati dall'inizio del giro."
+  },
+  {
+   "id": "R01-004",
+   "chiave": "api-backend|la chiusura della rivendicazione del benvenuto non è limitata al tentativo in corso",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Già riparato prima (155d11a4 nella base). Prova tests/unit/riparazione-r03-benvenuto-del-tentativo.test.ts verde alla base 0f98fb8a e alla testa 90ee7bd3 (lanciata da me). Alla base e alla testa la rotta contanti chiude solo la riga del tentativo in corso (cod/route.ts:1146-1163 e :1204-1215). La chiusura nuova di R01-006 nello stesso file tocca solo casse già morte (PENDING→EXPIRED atomico, pagina Stripe chiusa o scaduta, stesso cliente: riserve-abbandonate.ts:236-291); una scheda con la carta ancora pagabile finisce in ancoraPagabili e la rotta rifiuta (:812). La garanzia della voce regge."
+  },
+  {
+   "id": "R01-005",
+   "chiave": "api-backend|con la carta, se la cassa cade dopo la rivendicazione del benvenuto, il codice resta bloccato fino a 2 minuti",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Già riparato prima (8842b08b nella base); stripe/checkout/route.ts identico fra base e testa; prova tests/unit/riparazione-r03-benvenuto-carta-cassa-caduta.test.ts verde alla base e alla testa (lanciata da me). Ma «tutte le uscite dopo l'aggancio passano da rilasciaCoupon» non è vero: app/api/stripe/checkout/route.ts:1072-1084 (id della sessione non salvato, expire riuscito, l'update PENDING→CANCELED non prende la riga perché il database sbaglia o il webhook l'ha già presa) risponde 500 senza rilasciaCoupon. Il codice torna solo da carrello-scaduto.ts:73, col solo p_code, quindi la rivendicazione resta aperta fino a 2 minuti. Prova temporanea del qa: primo tentativo 500 con rivendicazione aperta, secondo 10 s dopo 400 «Coupon non disponibile» — il caso della voce. Servono due guasti di fila o la gara col webhook (in parte è il nuovo difetto dichiarato da R01 sul webhook della sessione scaduta)."
+  },
+  {
+   "id": "R01-006",
+   "chiave": "api-backend|il codice di benvenuto restituito dopo un rifiuto della carta resta bloccato al tentativo dopo",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K01 --base 99502c06ff4695b1a6e98824db512e55dd36ef0f^ --file app/api/orders/cod/route.ts --prove tests/unit/riparazione-r01-benvenuto-carta-rifiutata-poi-contanti.test.ts --json"
+   },
+   "nota": "Rimessa 0 (99502c06). Lente nata_rotta: regge — chiude solo rivendicazioni di casse dello stesso cliente già morte, delivery.rivendicazione la scrive solo il server (stripe/checkout/route.ts:1012), nessun secondo uso; prove di contanti, benvenuto, carta e riserve verdi (88 file, 609 prove, comprese r03-benvenuto-del-tentativo e r04-benvenuto-dopo-i-contanti). Lente chiude_tutta: parziale. carta→carta era già coperta alla base (checkout/route.ts:639-663 e :932-949), carta→contanti la copre il commit (cod/route.ts:773-793). Restano i webhook che la voce stessa diceva di non aver controllato: lib/stripe/webhook/fascia-al-pagamento.ts:97-101 e lib/stripe/webhook/quadratura.ts:114-117 restituiscono il codice col solo release_coupon(p_code) senza chiudere la rivendicazione (controllato da me). Scattano al pagamento, 30-60 s dopo la rivendicazione: il tentativo dopo (carta o contanti) legge «Coupon non disponibile» fino a 2 minuti dalla rivendicazione (migrations/361:94-99), e l'avviso della fascia persa invita proprio a rifare subito l'ordine. Prova temporanea del qa su rimborsaLaFasciaPersa: una sola chiamata release_coupon {p_code}, nessun accesso a coupon_redemptions. File non di R01: andava scritto serve_file_altrui. Minore dichiarato: cod/route.ts:773 chiude la rivendicazione anche se release_coupon è caduto (un uso globale perso), contro la regola R04-007 dello stesso file (:1197-1198)."
+  },
+  {
+   "id": "R01-007",
+   "chiave": "api-backend|all'assistenza la stessa chiave con un testo diverso fa perdere il secondo testo in silenzio",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Già riparato prima (82d3d4c4 nella base). app/api/support/conversation/route.ts identico fra base e testa (diff vuoto). Prova tests/unit/riparazione-r03-assistenza-stessa-chiave.test.ts verde alla base e alla testa (lanciata da me); 146 prove dell'assistenza verdi. Con l'id già usato (23505) la rotta rilegge il messaggio: stesso testo 200, testo diverso 409, rilettura caduta 503; confronto sul testo ripulito dagli spazi agli estremi sia dal client sia da zod; nessun trigger riscrive messages.body; nessun allegato; conversazione nuova o esistente passano dallo stesso controllo; il client genera una chiave nuova quando il testo cambia (SupportChatModal.tsx:90)."
+  },
+  {
+   "id": "R01-009",
+   "chiave": "flussi-conversione|la scheda prodotto promette «paghi alla consegna» anche sopra il tetto dei contanti",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K01 --base 90ee7bd3e32e9715dc953eb931319128c880cafe^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r01-contanti-dopo-aggiungi.test.tsx,tests/unit/riparazione-r01-contanti-strade-divergenti.test.tsx,tests/unit/riparazione-r01-contanti-prezzo-di-oggi.test.tsx --json"
+   },
+   "nota": "Rimessa 0 su 90ee7bd3 (base 90ee7bd3^); rifatta togliendo TUTTA la voce (--base 0f98fb8a, 16 prove → rossa sul comportamento → verde: uscita 0) e su 85b822a4 da sola (uscita 0). Lente nata_rotta: regge — una lettura per cambio dell'insieme dei prodotti delle altre righe (page.tsx:402), non a ogni quantità; lettura superata scartata (vivo); 42 file che montano la scheda verdi (429 prove); tsc 0 errori. La domanda della regia sulle varianti è verificata con una prova temporanea: le varianti non hanno prezzo proprio (migrations/080:5) e la cassa usa il prezzo del prodotto (lib/ordini/valida-carrello.ts:170), quindi la riga di un'altra variante al prezzo della scheda è uguale alla cassa. Lente chiude_tutta: parziale. Finché la rilettura dei prezzi è in corso, o se cade, la scheda usa il prezzo salvato nel carrello (page.tsx:614; errore a :413). Prova temporanea con la lettura bloccata: riga salvata a 2.000 €, oggi 3.000 €, scheda 2.500 € → la scheda mostra «Compra ora · paghi alla consegna», il riquadro dei contanti e al clic ricorda 'cod'; la cassa rifiuterebbe (5.500 € sopra il tetto). Con la lettura caduta la promessa sbagliata resta. La prova riparazione-r01-contanti-prezzo-di-oggi.test.tsx scrive questo ripiego come voluto. Cura indicata: finché i prezzi non sono riletti, o se la lettura cade, non promettere i contanti. Caso stretto (prezzo salito dopo l'aggiunta e totale vicino al tetto), ma è il caso della voce."
+  }
+ ],
+ "campione": {}
+}
