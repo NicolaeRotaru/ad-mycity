@@ -21,6 +21,15 @@ test("la scheda del risolutore si riconosce, e solo lei", () => {
   assert.equal(eSchedaRisolutore("consegne/audit/schede/R01.md"), false);
 });
 
+test("anche la scheda di una cercatrice della radiografia si riconosce, e solo lei", () => {
+  assert.equal(eSchedaRisolutore("consegne/radiografia/2026-11-21-ricontrollo/schede/S01.md"), true);
+  assert.equal(eSchedaRisolutore("consegne/radiografia/2026-11-21-ricontrollo/schede/S01b.md"), true);
+  assert.equal(eSchedaRisolutore("consegne/radiografia/2026-11-21-ricontrollo/schede/S12.md"), true);
+  assert.equal(eSchedaRisolutore("consegne/radiografia/2026-11-21-ricontrollo/REGIA.md"), false);
+  assert.equal(eSchedaRisolutore("consegne/radiografia/2026-11-21-ricontrollo/schede/note.md"), false);
+  assert.equal(eSchedaRisolutore("consegne/radiografia/2026-11-21-ricontrollo/schede/S1.md"), false);
+});
+
 test("una scheda con difetti bloccanti non è un allarme non accodato", () => {
   assert.deepEqual(allarmiSenzaCoda([{ file: SCHEDA, contenuto: ELENCO }], false, []), []);
   assert.deepEqual(allarmiSenzaCoda([], false, [{ file: SCHEDA, righe: [ELENCO] }]), []);

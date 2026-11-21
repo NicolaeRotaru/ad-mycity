@@ -253,7 +253,11 @@ function fileDaScansionare() {
 // Il 21/11 il giro 4 dell'onda 9 ha avuto la sua cartella (`onda9/giro4`) e la stessa fotocopia faceva
 // uscire 3 il guardiano sul ramo della regia: vale anche dentro `ondaN/giroN/`, non altrove. Lo stesso giorno il
 // giro di correzione ha diviso le voci in `giro5d` (delicate) e `giro5m`: una lettera dopo il numero vale.
-const ESENZIONI_FORMA = [/^consegne\/riparazioni\/[^/]+\/(?:onda\d+\/(?:giro\d+[a-z]?\/)?)?registro-compatto\.txt$/];
+const ESENZIONI_FORMA = [
+  /^consegne\/riparazioni\/[^/]+\/(?:onda\d+\/(?:giro\d+[a-z]?\/)?)?registro-compatto\.txt$/,
+  // 21/11: la stessa fotocopia del registro la scrive `radiografia-sessioni.mjs prepara` (ricontrollo, #990).
+  /^consegne\/radiografia\/[^/]+\/registro-compatto\.txt$/,
+];
 
 export function esente(relPath, esenzioniFatto) {
   const tutte = [...ESENZIONI_DEFAULT, ...(esenzioniFatto || [])];

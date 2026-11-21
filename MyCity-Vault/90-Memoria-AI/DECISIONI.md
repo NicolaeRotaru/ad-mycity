@@ -7316,3 +7316,9 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** respinta la proposta dell'AD delle 02:20 (contare solo gravi e bloccanti, 82 su 751). Il fatto `ad.uso-e-crediti` dice ora «nessun difetto aperto, minori compresi»; la guida della riparazione lo scrive come traguardo deciso.
 - **Il conto da battere:** onde 6-9, almeno 127 nati contro 132 chiusi; aperte 751 (669 minori, 77 gravi, 5 bloccanti). Il numero scende solo se ogni giro chiude più voci di quante ne nascono.
 - **Colore:** 🔴 scelta di visione di Nicola; la scrittura nei file è 🟡, ramo `claude/stoic-ramanujan-p9tmso`.
+
+## 2026-11-21 15:20 — Settimana dei 700: tetto 1.200 $, due firme, prima il ricontrollo (🔴, decisione di Nicola)
+- **Chi e quando:** Nicola, in chat alla regia «Settimana dei 700 · regia», 21/11 verso le 15:20, rispondendo alle tre domande.
+- **Cosa:** tetto di spesa 1.200 $ (al posto dei 600 $ fino a giovedì o dei 2.300 $ proposti). Firme a e b valide per tutta la settimana. Prima il ricontrollo delle voci con le righe cambiate, senza data o senza file (circa 450), poi le riparazioni sulle voci ancora vere.
+- **Perché:** 700 chiusi in una settimana non sono raggiungibili (577 lavorabili); il ricontrollo costa circa 0,33 $ a voce contro circa 7 $ per una chiusura con riparazione.
+- **Colore:** 🔴 spesa firmata da Nicola; ramo `claude/settimana-700-regia`.

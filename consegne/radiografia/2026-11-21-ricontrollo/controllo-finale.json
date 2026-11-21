@@ -1,0 +1,95 @@
+{
+  "aggiornato": "2026-11-21 16:24",
+  "cartella": "consegne/radiografia/2026-11-21-ricontrollo",
+  "commit_controllato": "73532257d1a3b77b3c1a4b23872289c32e712813",
+  "base_sito": "1ad51b4c18d58b3e2a2cac6e60f1bbc61f086f46",
+  "profilo": "ricontrollo",
+  "conti": "verde",
+  "rossi_conti": [],
+  "conti_uscita": "referti 4 di 4 · difetti trovati 0 (bloccanti 0, gravi 0, minori 0) · scartati 0 · nel grezzo 0 · fuori dal grezzo 0 · copertura-dopo: perimetro 0 file, verde",
+  "riservatezza": [
+    { "dove": "referti/S01b.json", "campo": "ricontrolli[38].prova, esito_prova, nota", "cosa": "tipo a+b, confidenza 75%: dettagli di una voce aperta (esito cambiato) che il registro teneva apposta in un referto privato" },
+    { "dove": "referti/S01.json", "campo": "ricontrolli[11].esito_prova, nota", "cosa": "tipo a+b, confidenza 65%: stessa voce del segno precedente, la parte che la riguarda" },
+    { "dove": "referti/S01.json, referti/S01b.json", "campo": "copertura.non_guardato (le due righe che rimandano a quella voce e al referto privato)", "cosa": "tipo b, confidenza 50%" },
+    { "dove": "referti/S01b.json", "campo": "ricontrolli[45].esito_prova, nota", "cosa": "tipo a, confidenza 85%: passo e migrazioni di una falla aperta (esito cambiato)" },
+    { "dove": "referti/S01b.json", "campo": "ricontrolli[53].esito_prova, nota", "cosa": "tipo a, confidenza 70%: regola e riga di una falla aperta (ancora_vero)" },
+    { "dove": "referti/S01d.json", "campo": "ricontrolli[81].prova", "cosa": "tipo a, confidenza alta sul dettaglio, media che sia una falla: ricetta di una falla aperta (ancora_vero); lo stesso dettaglio è già nel registro pubblico, come voce minore non riservata" },
+    { "dove": "referti/S01c.json", "campo": "ricontrolli[50].esito_prova, nota", "cosa": "tipo a, confidenza media: insieme al segno precedente completa la strada (esito cambiato)" },
+    { "dove": "referti/S01.json", "campo": "ricontrolli[7].esito_prova, nota", "cosa": "tipo a, confidenza 55% (ancora_vero)" },
+    { "dove": "referti/S01.json", "campo": "ricontrolli[30].esito_prova", "cosa": "tipo a, confidenza 50% (ancora_vero)" },
+    { "dove": "referti/S01.json", "campo": "ricontrolli[38].prova, esito_prova", "cosa": "tipo a, confidenza 45%" },
+    { "dove": "referti/S01d.json", "campo": "ricontrolli[29].prova", "cosa": "tipo a di contorno, confidenza bassa (ancora_vero)" },
+    { "dove": "referti/S01.json, referti/S01b.json", "campo": "S01 ricontrolli[4], [20], [34].nota e la riga non_guardato sull'avviso di una libreria; S01b ricontrolli[13], [54]", "cosa": "tipo a, confidenza 25-35%" }
+  ],
+  "riservatezza_note": [
+    "Puliti: grezzo.json, trovati.txt, diario-della-sorveglianza.txt, doppioni.json, piano.json, le quattro schede, lotti e conto.nota.",
+    "Il confronto (b) delle otto parole è parziale: i testi delle 85 falle riservate non sono nel deposito, solo il titolo-maschera, e contro le maschere nessuna ripetizione. I segni (b) sono per inferenza.",
+    "Tutte le voci segnate sono voci pubbliche e non riservate del registro: i referti ne aggiungono il dettaglio. Va deciso voce per voce se è una falla; se sì, va tolta anche dal registro pubblico.",
+    "I quattro referti sono già spinti su rami pubblici (claude/settimana-700-regia al 7353225 e i quattro rami delle sessioni): per la regola delle falle riservate va avvisato Nicola, che decide se riscrivere i rami.",
+    "Il corpo della PR della regista non c'era ancora: non è stato riletto."
+  ],
+  "sorpresa": [
+    { "id": "S01c · privacy-legale · città del cliente nel riquadro dal vivo (non_piu_vero, grave)",
+      "comando": "tests/sql/harness/apply.sh mycity_cf_sorpresa && psql -d mycity_cf_sorpresa -f tests/sql/rls/riparazione-r03-vetrina-senza-citta-del-cliente.test.sql && npx vitest run tests/unit/riparazione-r03-vetrina-dal-vivo-senza-citta.test.ts",
+      "esito": "verde come scritto: 210 migrazioni applicate, 0 fallite; prova SQL exit 0, 3 controlli verdi («città lette: Piacenza»); vitest 1 file, 1 test verde. Il test temporaneo della sessione (nel suo scratchpad) non c'è più e non è stato rilanciato." },
+    { "id": "S01 · navigazione-gerarchia · categorie vuote in home, piede e mappa (non_piu_vero, grave)",
+      "comando": "npx vitest run tests/unit/riparazione-r01-categorie-piene-restano-dopo-una-rilettura-caduta.test.tsx tests/unit/le-categorie-vuote-non-si-mostrano-in-home-nel-piede-ne-a-google.test.tsx tests/unit/la-mappa-del-sito-non-manda-a-google-categorie-vuote.test.ts",
+      "esito": "verde come scritto: 3 file, 13 test verdi (il referto ne conta 14 col test temporaneo cancellato)" },
+    { "id": "S01 · pagamenti-stripe · negozio approvato senza pagina per IBAN e dati ditta (non_piu_vero, grave)",
+      "comando": "npx vitest run tests/unit/riparazione-r11-dati-per-i-bonifici.test.ts",
+      "esito": "verde come scritto: 1 file, 5 test verdi. Il test temporaneo della sessione non c'è più e non è stato rilanciato." }
+  ],
+  "sorpresa_nota": "Il grezzo è vuoto (profilo ricontrollo, 0 difetti nuovi): le tre prove sono state estratte a caso (seme 20261121) fra le 6 chiusure gravi con prova a comando delle quattro sessioni, e rilanciate sulla copia del sito al 1ad51b4c con un Postgres locale usa e getta, poi cancellato.",
+  "togli": [],
+  "simili_nota": "doppioni.json non ha simili né simili_registro: niente da decidere.",
+  "verifiche_s01b": [
+    {
+      "chiave": "qa-flussi|se il negoziante scrive il prezzo all'italiana col punto delle migliaia, «1.250,00», il prodotto va in vendita a 1,25 euro senza nessun avviso",
+      "esito": "chiusura confermata",
+      "verificato_da": "qa nuovo del CF: i 2 test citati 5 su 5 verdi; due mutazioni (schema col vecchio z.coerce.number + campi type=number → 2 rossi; leggiPrezzo senza la lettura del punto come migliaia → 2 rossi), copia ripristinata; «1.250,00»→1250, «1250,5»→1250,5, «12,50»→12,5; «abc», vuoto, 0 e -5 danno l'errore visibile",
+      "peso": "grave reggeva per il difetto di allora; oggi i percorsi che mettono in vendita (modulo prodotto, modifica veloce dei prezzi, import da file) sono a posto",
+      "residui": [
+        "components/seller/BulkPhotoCreate.tsx:370 ha ancora un campo prezzo type=number: crea bozze, che poi si pubblicano dal modulo di modifica (mostrerebbe 1.25). Voce minore a parte.",
+        "components/seller/ReturnRequestCard.tsx:116 e :147: l'importo del rimborso si legge con parseFloat(amount.replace(',', '.')), quindi «1.250,00» diventa 1,25 € senza avviso. Riletto anche dal CF. Tocca soldi: è un difetto nuovo, che il profilo ricontrollo non ammette nel grezzo; la regista decide dove portarlo.",
+        "«1,250.00» all'inglese e «1.2500» diventano 1,25 senza avviso: minori."
+      ]
+    },
+    {
+      "chiave": "rls-database|l'approvazione di un negozio non pretende la partita iva, e chi e' gia' approvato non ha nessuna pagina per inserirla",
+      "esito": "chiusura confermata",
+      "verificato_da": "qa nuovo del CF: i 2 test citati 23 su 23 verdi; 12 casi limite in più (vuota, spazi, lunghezza, zeri, lettere, cifra di controllo) tutti 400 senza scrittura; mutazione senza motivoPerNonApprovare → 8 rossi su 23, copia ripristinata; nessun'altra strada verso «approvato»; le rotte del venditore scrivono solo il proprio profilo",
+      "peso": "grave reggeva per il difetto di allora, oggi chiuso",
+      "residui": [
+        "La rotta di iscrizione ha un controllo suo che accetta 00000000000: un negozio approvato può salvarla dal profilo e poi non cambiarla più. Minore.",
+        "Il test «la riattivazione chiede la stessa cosa» passa per il motivo sbagliato. Minore.",
+        "Una partita IVA salvata come soli spazi resterebbe bloccata: ipotesi, non vista nei dati."
+      ]
+    },
+    {
+      "chiave": "privacy-legale|accogliere una segnalazione non toglie il prodotto: resta online, e a chi ha segnalato si scrive che è stato rimosso",
+      "esito": "chiusura confermata",
+      "verificato_da": "qa nuovo del CF: i 3 test citati 11 su 11 verdi (più il test negozio 3 su 3); cinque mutazioni, ognuna fa diventare rossa almeno una prova; su Postgres locale con regola e funzione della migrazione 129 il prodotto si vede in 'available' (1 riga) e sparisce in 'draft' (0 righe); nessun'altra strada scrive «rimosso»",
+      "peso": "grave reggeva quando la voce è nata, oggi la voce si chiude",
+      "residui": [
+        "Sul ramo negozio pagina e serratura guardano approval_status='approved' mentre la vetrina usa is_approved=true: con approval_status NULL e is_approved true il negozio non verrebbe sospeso e «rimosso» partirebbe lo stesso. Teorico (il valore di partenza è 'pending'), non verificato sui dati veri. Minore."
+      ]
+    }
+  ],
+  "buchi": [
+    "Il database vero: se sono applicate in produzione le migrazioni 166, 191, 215, 260, 271, 350, 361, 364, 412/620, 501, 540, 572; i conteggi veri (alimenti senza allergeni, coordinate di Roma, contestazioni aperte, credito, notifiche, orari vuoti, iscritti). Vietato a tutte le sessioni.",
+    "Vercel: le variabili di produzione e anteprima (titolare, Upstash, tipo della chiave anti-robot, PostHog, Sentry, budget AI), l'interruttore Web Analytics, il commit davvero pubblicato.",
+    "Il pannello di Supabase Auth: protezione dalle password rubate, modelli email «Reset password» e «Confirm signup», tetto max_rows di PostgREST.",
+    "Le impostazioni di GitHub: il ruleset «Main» e i segreti del deposito.",
+    "Le misure nel browser: pagine a 280/320/360 px col testo al 200%, codice HTTP delle pagine inesistenti, il campo type=number con «1.250,00» in BulkPhotoCreate, i cookie di PostHog dopo la revoca del consenso.",
+    "Le gare non riprodotte dal vivo: doppio tocco sull'annullo, ritiro contro rimborso del reso, due annulli con la carta insieme, doppio promemoria del carrello.",
+    "I servizi esterni: Stripe (source_transaction oltre il residuo), Nominatim, il limite 429 del fornitore AI, npm audit.",
+    "La storia git: la copia del sito è superficiale, nessuno sa dire quando sono arrivate le riparazioni.",
+    "Le mutazioni dei collaudi vecchi che non sono più nel deposito, e i test temporanei delle sessioni rimasti nei loro scratchpad (non rilanciabili da qui).",
+    "Le altre 5 voci non_verificabile di S01b (regole doppie in produzione, contatore condiviso del freno password, chiave anti-robot leggibile su Vercel, protezione password rubate, doppio promemoria del carrello): dipendono dalla produzione, il CF non le ha toccate.",
+    "Il corpo della PR della regista: da rileggere per la riservatezza quando c'è."
+  ],
+  "agenti": 5,
+  "agenti_dettaglio": "2 security (riservatezza: S01+S01b, S01c+S01d) e 3 qa nuovi (le tre chiusure gravi di S01b); le tre prove a sorpresa le ha rilanciate il CF senza subagenti",
+  "token_subagenti": 548807,
+  "divieto": "nessuno strumento del database vero, di Vercel o di Stripe, né per il CF né per i subagenti: solo la copia del sito al 1ad51b4c in tre worktree locali e un Postgres locale usa e getta"
+}

@@ -96,8 +96,13 @@ const ePrDocSoltanto = (file) => /^consegne\/tech\/pr-[^/]+-\d+\.md$/.test(file)
  * difetti del registro con la loro gravità, quindi «bloccante» per mestiere, letto da una sessione e non
  * da Nicola. È la stessa malattia dei referti di PR qui sopra. Trovato il 12/11 sulla prima campagna
  * (ad-mycity#944): R01-R03 accusate di «allarme non accodato», R06 di «testo difficile per Nicola».
+ * Lo stesso vale per le schede che la radiografia in sessioni scrive per le cercatrici
+ * (`radiografia-sessioni.mjs schede`, S01-S12 e i lotti S01b, S01c…): trovato il 21/11 sul ricontrollo
+ * della settimana dei 700 (ad-mycity#990), quattro schede accusate di «allarme» e «testo difficile».
  */
-export const eSchedaRisolutore = (file) => /^consegne\/riparazioni\/[^/]+\/schede\/R\d{2}\.md$/.test(file);
+export const eSchedaRisolutore = (file) =>
+  /^consegne\/riparazioni\/[^/]+\/schede\/R\d{2}\.md$/.test(file) ||
+  /^consegne\/radiografia\/[^/]+\/schede\/S\d{2}[a-z]?\.md$/.test(file);
 const ePrDoc = (file) => ePrDocSoltanto(file) || eSchedaRisolutore(file);
 
 // ─────────────────────────────────────────────────────────────────────────────
