@@ -1,6 +1,6 @@
 {
   "campagna": "giro5d",
-  "quando": "2026-11-21 11:44",
+  "quando": "2026-11-21 13:02",
   "decisioni": [
     {
       "id": "R01-001",
@@ -216,7 +216,7 @@
     }
   ],
   "eccezioni_firmate": [
-    "referti/R02.json: guardia-ramo: tests/unit/api-cron-expire-stale-orders.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, 21/11 11:44, chat «Regia onda 9 MyCity 10.0» session_015BmpnZ6sDXhTVpCDMSp2nP: «Firmo solo alcuni», poi spuntati tutti e sei i gruppi del foglio DA-FIRMARE-21-11 (1-6)]",
-    "referti/R02.json: guardia-ramo: tests/unit/chi-paga-alla-consegna-sa-che-l-ordine-e-annullato.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, 21/11 11:44, chat «Regia onda 9 MyCity 10.0» session_015BmpnZ6sDXhTVpCDMSp2nP: «Firmo solo alcuni», poi spuntati tutti e sei i gruppi del foglio DA-FIRMARE-21-11 (1-6)]"
+    "referti/R02.json: guardia-ramo: tests/unit/api-cron-expire-stale-orders.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, 21/11 11:44, chat «Regia onda 9 MyCity 10.0» session_015BmpnZ6sDXhTVpCDMSp2nP: prima «Firmo solo alcuni», poi spuntati tutti e sei i gruppi del foglio DA-FIRMARE-21-11 e scritto «La prima domanda ho risposto per sbaglio»: vale «firmo 1-6»]",
+    "referti/R02.json: guardia-ramo: tests/unit/chi-paga-alla-consegna-sa-che-l-ordine-e-annullato.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, 21/11 11:44, chat «Regia onda 9 MyCity 10.0» session_015BmpnZ6sDXhTVpCDMSp2nP: prima «Firmo solo alcuni», poi spuntati tutti e sei i gruppi del foglio DA-FIRMARE-21-11 e scritto «La prima domanda ho risposto per sbaglio»: vale «firmo 1-6»]"
   ]
 }

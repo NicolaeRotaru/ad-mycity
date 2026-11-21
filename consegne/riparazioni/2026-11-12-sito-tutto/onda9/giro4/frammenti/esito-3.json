@@ -1,0 +1,48 @@
+{
+  "corsia": 3,
+  "territorio": "R03",
+  "difetti": [
+    {
+      "chiave": "api-backend|nella scheda utente dell'amministrazione il codice fiscale appare vuoto mentre si sta ancora caricando",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-scheda-utente-admin-in-caricamento.test.ts --reporter=dot",
+      "non_vacuita": "git checkout 975d2aa^ -- app/admin/users/page.tsx && npx vitest run <prova> → rossa (1 fallito: il codice fiscale in caricamento era «—»); git checkout 975d2aa -- app/admin/users/page.tsx → verde (2/2) → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03-001 --base 975d2aa1^ --file app/admin/users/page.tsx --prove tests/unit/riparazione-r03-scheda-utente-admin-in-caricamento.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Nella funzione datoIdentita, se la lettura non è ancora arrivata (dato assente) la scheda scrive «Caricamento…» invece del trattino. Vale per i due pannelli (venditore e fattorino). Il trattino resta solo dove il dato manca davvero."
+    },
+    {
+      "chiave": "api-backend|quando l'amministrazione cambia solo le taglie di un prodotto, il registro delle azioni non scrive più niente",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-traccia-taglie-admin.test.ts --reporter=dot",
+      "non_vacuita": "git checkout 3cabf7a6^ -- app/api/admin/products/route.ts && npx vitest run <prova> → rossa (2 falliti); git checkout 3cabf7a6 -- … → verde (3/3) → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03-002 --base 3cabf7a6^ --file app/api/admin/products/route.ts --prove tests/unit/riparazione-r03-traccia-taglie-admin.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Con `variants` nella richiesta, la rotta legge le taglie dalla banca dati prima e dopo il salvataggio (nome, opzioni, scorta, in ordine di posizione). Se sono cambiate, `variants` entra nella stessa voce product.update, col prima e il dopo, anche quando è l'unico campo cambiato. Un salvataggio identico non scrive niente. Se una delle due letture cade, la voce si scrive lo stesso con null dove il valore non si sa."
+    },
+    {
+      "chiave": "api-backend|se la lettura dei ruoli cade, all'assistenza arriva l'email «un cliente ti ha scritto» pensata per un negozio",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-chat-ruoli-non-letti.test.ts --reporter=dot",
+      "non_vacuita": "git checkout 398fc475^ -- app/api/chat/messages/route.ts && npx vitest run <prova> → rossa (1 fallito); git checkout 398fc475 -- … → verde (2/2) → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03-004 --base 398fc475^ --file app/api/chat/messages/route.ts --prove tests/unit/riparazione-r03-chat-ruoli-non-letti.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "La rotta ora legge anche l'errore della lettura dei ruoli. Se la lettura cade, scrive logger.warn e non manda l'email da negozio. Campanella e messaggio restano come prima."
+    },
+    {
+      "chiave": "api-backend|il giro notturno delle cancellazioni non ha un tetto di tempo nemmeno sul ciclo degli account scaduti",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-giro-cancellazioni-tetto.test.ts --reporter=dot",
+      "non_vacuita": "git checkout 85236e6f^ -- app/api/cron/process-deletions/route.ts && npx vitest run <prova> → rossa (1 fallito); git checkout 85236e6f -- … → verde (2/2) → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03-005 --base 85236e6f^ --file app/api/cron/process-deletions/route.ts --prove tests/unit/riparazione-r03-giro-cancellazioni-tetto.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Nel ciclo `for (const riga of scadute)` c'è ora un tetto, TETTO_CANCELLAZIONI_MS = 150 s, contato da `adesso`, cioè dall'inizio del giro. Passato il tetto non si prende in carico un account nuovo: la sua richiesta resta e la riprende la notte dopo. Il numero va nella risposta come `rimandateAlGiroDopo`. La prova usa l'orologio finto: ogni cancellazione dura un minuto."
+    },
+    {
+      "chiave": "api-backend|un profilo in attesa con approval_requested_at rimasto valorizzato non riceve mai consenso né avviso",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-domanda-negozio-data-rimasta.test.ts --reporter=dot",
+      "non_vacuita": "git checkout 44dca33e^ -- app/api/seller/apply/route.ts && npx vitest run <prova> → rossa (1 fallito); git checkout 44dca33e -- … → verde (2/2) → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03-009 --base 44dca33e^ --file app/api/seller/apply/route.ts --prove tests/unit/riparazione-r03-domanda-negozio-data-rimasta.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "`giaAVerbale` ed `eraGiaInAttesa` richiedono ora anche role === 'seller', come fanno /sell e la coda dell'amministrazione: ogni profilo nasce «pending». Un cliente con approval_requested_at rimasta da prima riceve verbale del consenso e avviso agli amministratori. Un negozio già in coda che corregge la domanda non li riceve una seconda volta."
+    },
+    {
+      "chiave": "api-backend|la cancellazione legge un 404 qualsiasi come «account già chiuso»: un 404 di un gateway sbagliato verrebbe scambiato per un account già cancellato",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r03-cancellazione-404.test.ts --reporter=dot",
+      "non_vacuita": "git checkout b9ccb89a^ -- lib/account/cancellazione.ts && npx vitest run <prova> → rossa (2 falliti); git checkout b9ccb89a -- … → verde (4/4) → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R03-015 --base b9ccb89a^ --file lib/account/cancellazione.ts --prove tests/unit/riparazione-r03-cancellazione-404.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "`giaChiuso` vale solo con code === 'user_not_found', oppure con status 404 e testo esatto «User not found» (per le versioni di GoTrue che non mandano il codice). Un 404 generico o con un altro codice è un guasto: l'account non è cancellato e il profilo non viene svuotato."
+    }
+  ]
+}

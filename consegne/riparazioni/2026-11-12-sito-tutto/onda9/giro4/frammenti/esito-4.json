@@ -1,0 +1,20 @@
+{
+  "corsia": 4,
+  "territorio": "R04",
+  "difetti": [
+    {
+      "chiave": "flussi-conversione|se il carrello scade tutto nello stesso giro, il cliente riceve avvisi «il conto è cambiato» con cifre già superate",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r04-carrello-scaduto-nello-stesso-giro.test.ts",
+      "non_vacuita": "git checkout 83806000^ -- app/api/cron/expire-stale-orders/route.ts && npx vitest run --reporter=dot tests/unit/riparazione-r04-carrello-scaduto-nello-stesso-giro.test.ts (ROSSA, 2 su 3) ; git checkout 83806000 -- app/api/cron/expire-stale-orders/route.ts && npx vitest run --reporter=dot tests/unit/riparazione-r04-carrello-scaduto-nello-stesso-giro.test.ts (VERDE) ; git status pulito → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04-018 --base 83806000^ --file app/api/cron/expire-stale-orders/route.ts --prove tests/unit/riparazione-r04-carrello-scaduto-nello-stesso-giro.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "Email e campanella del carrello partono a fine giro. Un ordine annullato anche lui nel giro non si nomina fra quelli che restano; un ordine che resta si dice una volta sola, con le cifre di prima del giro e quelle finali; senza ordini che restano la campanella «il conto è cambiato» non parte. Un solo ordine scaduto: come prima."
+    },
+    {
+      "chiave": "qa-flussi|il conteggio delle veloci in corso non ha una finestra di tempo: con il tetto a 1 una veloce dimenticata spegne la veloce",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run --reporter=dot tests/unit/riparazione-r04-veloce-dimenticata.test.ts",
+      "non_vacuita": "git checkout d380c652^ -- lib/ordini/consegna-veloce.ts && npx vitest run --reporter=dot tests/unit/riparazione-r04-veloce-dimenticata.test.ts (ROSSA, 2 su 3) ; git checkout d380c652 -- lib/ordini/consegna-veloce.ts && npx vitest run --reporter=dot tests/unit/riparazione-r04-veloce-dimenticata.test.ts (VERDE) ; git status pulito → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R04-020 --base d380c652^ --file lib/ordini/consegna-veloce.ts --prove tests/unit/riparazione-r04-veloce-dimenticata.test.ts --json → uscita 0 (K02)",
+      "nota_fix": "contaVelociInCorso conta solo le veloci nate nelle ultime ORE_PER_ACCETTARE (3) ore, la costante esistente più prudente (dopo 3 ore senza conferma il giro notturno la annulla). Una nascita illeggibile conta (prudente). Orologio finto: l'«Adesso» del 16/11 non conta il 19/11; una veloce in ritardo di 2,5 ore conta; il confine è a 3 ore."
+    }
+  ]
+}

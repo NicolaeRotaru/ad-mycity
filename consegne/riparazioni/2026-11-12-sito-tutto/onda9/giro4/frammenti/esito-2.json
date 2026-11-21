@@ -1,0 +1,48 @@
+{
+  "corsia": 2,
+  "territorio": "R02",
+  "difetti": [
+    {
+      "chiave": "frontend-ux|il «conversion rate» del negozio può superare il 100% e viene colorato di verde",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-tasso-di-conversione-scheda.test.tsx tests/unit/riparazione-r09-tasso-di-conversione.test.ts --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 51c73ef7^ --file app/seller/analytics/letture-dell-andamento.ts,app/seller/analytics/page.tsx --prove tests/unit/riparazione-r02-tasso-di-conversione-scheda.test.tsx,tests/unit/riparazione-r09-tasso-di-conversione.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02-008 --base 51c73ef7^ --file app/seller/analytics/letture-dell-andamento.ts,app/seller/analytics/page.tsx --prove tests/unit/riparazione-r02-tasso-di-conversione-scheda.test.tsx,tests/unit/riparazione-r09-tasso-di-conversione.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Sulla base oltre il 100% non si mostrava già più (tassoDiConversione null con ordini > visite, etichetta «Visite che diventano ordini»). Restavano i due casi del collaudo: ordini pari alle visite misurate davano «100,0%» in verde (ora tassoDiConversione torna null anche a pari: trattino, colore neutro); con zero visite misurate e ordini veri la scheda diceva «Serve il conto delle visite» accanto a Visite 0 (ora, con le visite lette e ordini > 0, «Campione troppo piccolo: N ordini su M visite misurate»; con le visite non lette resta «Serve il conto delle visite»). lib/analytics/visita-prodotto.ts:35 non cambia: le visite si contano solo col consenso, ed è giusto così. Prova sulla pagina vera «Analisi» col database finto: 4/200 = 2,0% verde; 5/5 = «—» non verde con «Campione troppo piccolo: 5 ordini su 5…»; 3/0 = «—» con «…3 ordini su 0 visite misurate»; visite non lette = «Serve il conto». 9 file di prova vicini verdi."
+    },
+    {
+      "chiave": "frontend-ux|restano tre pagine con le foto sgranate perché `unoptimized` spegne srcset e sizes",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-foto-nitide.test.ts --reporter=dot",
+      "non_vacuita": "node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 6d2e1e7f^ --file app/shared-cart/page.tsx,app/seller/products/page.tsx,app/orders/[id]/page.tsx --prove tests/unit/riparazione-r02-foto-nitide.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02-009a --base 6d2e1e7f^ --file app/shared-cart/page.tsx,app/seller/products/page.tsx,app/orders/[id]/page.tsx --prove tests/unit/riparazione-r02-foto-nitide.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Tolto unoptimized in tutte le Image delle tre pagine e messo loader={caricatoreFotoRemote} (lib/image-loader.ts, lo stesso già usato da orders/page, cart ecc.) più sizes (64px, 44px, 44px, 40px). Nessun problema di origini: il loader gira gli URL a Supabase/Pexels senza passare da remotePatterns, che resta com'è."
+    },
+    {
+      "chiave": "frontend-ux|un componente della home mostra il prezzo pieno con una promozione attiva",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-prezzo-promo-vetrina-home.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 704eb327^ --file components/home/HeroStoreCard.tsx --prove tests/unit/riparazione-r02-prezzo-promo-vetrina-home.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02-010 --base 704eb327^ --file components/home/HeroStoreCard.tsx --prove tests/unit/riparazione-r02-prezzo-promo-vetrina-home.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "Dopo vetrina_home il riquadro legge lo sconto attivo dei prodotti con fetchActiveDiscounts (stessa fonte di griglia e cassa, come CartUpsell e FrequentlyBoughtTogether; se la lettura cade resta il pieno) e stampa discountedUnitCents con il prezzo pieno barrato, come ProductCard. Prova montando il componente: 10 € al -20% si legge 8,00 € con «Prezzo pieno 10,00 €» barrato; senza promo nessun barrato; una sola domanda di sconti per la vetrina. Le 7 prove vicine che montano o leggono HeroStoreCard restano verdi."
+    },
+    {
+      "chiave": "frontend-ux|nelle collezioni scelte a mano dal negozio i prodotti in promozione hanno il prezzo pieno",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-prezzo-promo-collezione.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base a3074206^ --file components/store-sections/CollectionSection.tsx --prove tests/unit/riparazione-r02-prezzo-promo-collezione.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02-013 --base a3074206^ --file components/store-sections/CollectionSection.tsx --prove tests/unit/riparazione-r02-prezzo-promo-collezione.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "ManualCollection, dopo la lettura dei prodotti, legge lo sconto attivo con fetchActiveDiscounts (la fonte di ProductGrid e della cassa; se cade resta il pieno) e passa discountPercent a ProductCard, che disegna già prezzo scontato e pieno barrato. Prova montando la sezione con react-query vero: la torta al -25% arriva alla scheda con discountPercent 25, senza promo 0, sconto non letto = sezione visibile a prezzo pieno. Le 3 prove vicine su CollectionSection restano verdi."
+    },
+    {
+      "chiave": "qa-flussi|cambiando categoria gli assi delle varianti della categoria vecchia restano",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-assi-al-cambio-di-categoria.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 0a157ea3^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r02-assi-al-cambio-di-categoria.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02-020 --base 0a157ea3^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r02-assi-al-cambio-di-categoria.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "Al cambio di categoria (qualunque strada: i due menu, la scansione EAN, la proposta dell'assistente, perché si guarda category_id) il modulo tiene solo gli assi che la categoria nuova fa variare (campi variantable) e rigenera le combinazioni con reconcileVariants. È un aggiustamento dello stato durante il disegno (la categoria nota agli assi si ricorda in uno stato), non un effetto: al primo disegno e con le categorie non ancora lette non tocca niente, quindi un prodotto aperto in modifica non perde varianti. Prova sul modulo vero: Abbigliamento Taglia×Colore (4) → Casa = solo i colori (2); in Casa un colore in più = 3 varianti, non 6; sottocategoria della stessa categoria = assi e scorte intatti. 45 file di prova vicini del modulo verdi."
+    },
+    {
+      "chiave": "qa-flussi|un capo con più di cento combinazioni di taglia e colore perde le ultime in silenzio, e il cliente che le sceglie non può comprarle",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r02-varianti-oltre-il-tetto.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base ec5bbd4c^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r02-varianti-oltre-il-tetto.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R02-021 --base ec5bbd4c^ --file components/seller/ProductForm.tsx --prove tests/unit/riparazione-r02-varianti-oltre-il-tetto.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "La parte della scheda c'era già sulla base: app/product/[id]/page.tsx usa statoSceltaVarianti (combinazione che non c'è = «Questa combinazione non c'è», non «Scegli») e valoreSenzaVariante (valori senza variante spenti). Restava il taglio silenzioso nel modulo del negozio (ProductForm.tsx, file di R02): applyAxes ora controlla gli assi prima di reconcileVariants e, sopra un tetto di lib/products/variants.ts (MAX_VARIANTS 100, MAX_OPTION_VALUES 30 contati puliti e senza doppioni, MAX_OPTION_TYPES 3), non li applica e mostra il motivo («110 combinazioni, il massimo è 100. Togli qualche valore.»; «Colore: 31 valori, il massimo è 30…»). La tabella delle varianti mostra «N di 100 combinazioni»; la proposta dell'assistente passa da applyAxes e oltre il tetto non dice «Proposte». lib/products/variants.ts non è cambiato: i tetti restano (PostgREST non pagina), il prodotto cartesiano non cresce. Prova sul modulo vero: 10×10 = 100 con il conto; l'undicesima taglia non entra e l'avviso dice 110; il trentunesimo colore non entra; 9×11 = 99 entrano conservando le scorte. 48 file di prova vicini (modulo, AttributesFields, varianti) verdi."
+    }
+  ]
+}

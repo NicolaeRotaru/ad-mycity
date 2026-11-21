@@ -1,0 +1,48 @@
+{
+  "corsia": 1,
+  "territorio": "R01",
+  "difetti": [
+    {
+      "chiave": "accessibilita|tra 768 e 1023 px i tasti ordini, consegne e admin della testata sono solo un'icona senza nome per chi vede",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-tasti-di-mestiere-nel-menu-sui-tablet.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 6ab1441c^ --file components/Navbar.tsx --prove tests/unit/riparazione-r01-tasti-di-mestiere-nel-menu-sui-tablet.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-001 --base 6ab1441c^ --file components/Navbar.tsx --prove tests/unit/riparazione-r01-tasti-di-mestiere-nel-menu-sui-tablet.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "Applicata la scelta del 19/11 (DECISIONI, punto 3): sotto lg i tre tasti escono dalla barra (hidden lg:inline-flex) e stanno nel menu dell'account col loro nome; a chi ha più mestieri il menu aggiunge «Ordini ricevuti» e «Consegne». Da lg in su la barra resta com'era."
+    },
+    {
+      "chiave": "deploy-sre|nei log la spesa dell ai non mostra i token",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-token-nei-log-della-spesa.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 26cb0598^ --file lib/ai/run.ts --prove tests/unit/riparazione-r01-token-nei-log-della-spesa.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-004 --base 26cb0598^ --file lib/ai/run.ts --prove tests/unit/riparazione-r01-token-nei-log-della-spesa.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Il logger oscura ogni chiave che contiene «token», quindi ai_usage usciva «[redacted]». Ora i numeri escono con chiavi senza quella parola (ingresso, uscita, cacheScritta, cacheLetta) più unita:'token'. Stessa cura sull'avviso ai_risposta_tagliata. Logger non toccato."
+    },
+    {
+      "chiave": "frontend-ux|la pagina «sotto i 10 €» mostra prodotti da 10 € e nasconde quelli che in promozione costano meno di 10",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-sotto-i-dieci-in-promo.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base dba68fbf^ --file components/ProductGrid.tsx,lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r01-sotto-i-dieci-in-promo.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-008 --base dba68fbf^ --file components/ProductGrid.tsx,lib/queries/griglia-prodotti.ts --prove tests/unit/riparazione-r01-sotto-i-dieci-in-promo.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "Il 10,00 escluso e il numero vero in alto c'erano già. Restavano fuori i prodotti che solo in promozione scendono sotto 10: idsCheInPromoScendonoSotto li trova (active_promo_products più discountedUnitCents) e il filtro di prezzo li lascia passare con un or price.lte/id.in, sia nella lettura sia nel conteggio. Se quella domanda cade, la griglia resta com'era prima."
+    },
+    {
+      "chiave": "frontend-ux|la scheda prodotto delle griglie calcola il prezzo scontato con una formula sua",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-prezzo-scontato-scheda.test.tsx --reporter=dot",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 8a4c9546^ --file components/ProductCard.tsx --prove tests/unit/riparazione-r01-prezzo-scontato-scheda.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-011 --base 8a4c9546^ --file components/ProductCard.tsx --prove tests/unit/riparazione-r01-prezzo-scontato-scheda.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "La scheda calcola lo scontato con discountedUnitCents di lib/promotions.ts, la funzione di carrello e cassa (importata, non modificata): arrotonda al centesimo e tiene lo sconto fra 0 e 70. Prima 1,15 € al -10% la scheda scriveva 1,04 € contro 1,03 € della cassa. La prova monta la scheda vera."
+    },
+    {
+      "chiave": "qa-flussi|la scadenza del recesso non si sposta quando l'ultimo giorno cade di sabato, domenica o in un festivo",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-recesso-sabato-domenica-festivi.test.ts",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base 5bdb23a1^ --file lib/ordini/termine-del-recesso.ts --prove tests/unit/riparazione-r01-recesso-sabato-domenica-festivi.test.ts --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-021 --base 5bdb23a1^ --file lib/ordini/termine-del-recesso.ts --prove tests/unit/riparazione-r01-recesso-sabato-domenica-festivi.test.ts --json → uscita 0 (K01)",
+      "nota_fix": "Se il 14° giorno cade di sabato, di domenica o in un festivo, il termine si sposta al primo giorno lavorativo dopo. Festivi: le feste nazionali (dal 2026 anche il 4 ottobre), il lunedì dell'Angelo e il patrono (Sant'Antonino, 4 luglio), come dice il fatto legale.recesso-scadenza-festivi. Pagina e server usano la stessa funzione."
+    },
+    {
+      "chiave": "stati-ui|quando la rete torna, le pagine prodotto del negoziante rimettono il caricamento al posto del modulo e le modifiche non salvate si perdono",
+      "esito": "riparato",
+      "verifica_comando": "npx vitest run tests/unit/riparazione-r01-modulo-prodotto-quando-torna-la-rete.test.tsx",
+      "non_vacuita": "timeout 540 node ../ad-mycity/cervello/prova-rimessa.mjs --repo . --base d59eee42^ --file 'app/seller/products/new/page.tsx,app/seller/products/[id]/edit/page.tsx' --prove tests/unit/riparazione-r01-modulo-prodotto-quando-torna-la-rete.test.tsx --json → uscita 0 (riparatore); timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-R01-022 --base d59eee42^ --file app/seller/products/new/page.tsx,app/seller/products/[id]/edit/page.tsx --prove tests/unit/riparazione-r01-modulo-prodotto-quando-torna-la-rete.test.tsx --json → uscita 0 (K01)",
+      "nota_fix": "Rifatta tutta dalla base. Una volta aperto, il modulo resta aperto quando torna la rete, in Modifica, Nuovo e Duplica, e tiene riga, taglie e risposta sulla consegna dell'apertura. Il Salva non scrive finché riga e taglie non sono rilette (senza rete, in volo o cadute): lo dice e il testo resta. Non riscrive quello che è cambiato su un altro telefono e che qui nessuno ha toccato (escluso dal recesso, prezzo, stato, taglie); se le taglie sono state toccate anche qui chiede «Riapri». Una copia non nasce sulle taglie della memoria."
+    }
+  ]
+}
