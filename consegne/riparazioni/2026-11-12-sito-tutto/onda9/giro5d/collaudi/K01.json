@@ -4,8 +4,8 @@
   "R01",
   "R02"
  ],
- "aggiornato": "2026-11-21 06:27",
- "finita": false,
+ "aggiornato": "2026-11-21 06:36",
+ "finita": true,
  "voci": [
   {
    "id": "R01-002",
@@ -99,6 +99,77 @@
     "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K01 --base 90ee7bd3e32e9715dc953eb931319128c880cafe^ --file app/product/[id]/page.tsx --prove tests/unit/riparazione-r01-contanti-dopo-aggiungi.test.tsx,tests/unit/riparazione-r01-contanti-strade-divergenti.test.tsx,tests/unit/riparazione-r01-contanti-prezzo-di-oggi.test.tsx --json"
    },
    "nota": "Rimessa 0 su 90ee7bd3 (base 90ee7bd3^); rifatta togliendo TUTTA la voce (--base 0f98fb8a, 16 prove → rossa sul comportamento → verde: uscita 0) e su 85b822a4 da sola (uscita 0). Lente nata_rotta: regge — una lettura per cambio dell'insieme dei prodotti delle altre righe (page.tsx:402), non a ogni quantità; lettura superata scartata (vivo); 42 file che montano la scheda verdi (429 prove); tsc 0 errori. La domanda della regia sulle varianti è verificata con una prova temporanea: le varianti non hanno prezzo proprio (migrations/080:5) e la cassa usa il prezzo del prodotto (lib/ordini/valida-carrello.ts:170), quindi la riga di un'altra variante al prezzo della scheda è uguale alla cassa. Lente chiude_tutta: parziale. Finché la rilettura dei prezzi è in corso, o se cade, la scheda usa il prezzo salvato nel carrello (page.tsx:614; errore a :413). Prova temporanea con la lettura bloccata: riga salvata a 2.000 €, oggi 3.000 €, scheda 2.500 € → la scheda mostra «Compra ora · paghi alla consegna», il riquadro dei contanti e al clic ricorda 'cod'; la cassa rifiuterebbe (5.500 € sopra il tetto). Con la lettura caduta la promessa sbagliata resta. La prova riparazione-r01-contanti-prezzo-di-oggi.test.tsx scrive questo ripiego come voluto. Cura indicata: finché i prezzi non sono riletti, o se la lettura cade, non promettere i contanti. Caso stretto (prezzo salito dopo l'aggiunta e totale vicino al tetto), ma è il caso della voce."
+  },
+  {
+   "id": "R02-001",
+   "chiave": "architettura|email di annullo spedita dentro la richiesta, senza coda: fino a circa 20 s di attesa, e se fallisce resta solo nel registro",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K01 --base 790590f5ac0bb6a073670d1de4c5209ab53049a4^ --file lib/ordini/annulla.ts,app/api/cron/expire-stale-orders/route.ts --prove tests/unit/riparazione-r02-email-rimborso-dopo-la-risposta.test.ts --json"
+   },
+   "nota": "Rimessa 0 (790590f5, due file tolti uno alla volta: rossi sul comportamento). Lente nata_rotta: regge — importo uguale a prima (importoCents = safeAmountCents, lib/stripe/payout.ts:2728 contro :2706), modo sempre 'carta', niente email doppia (notifyBuyer:false non manda niente), niente email se il rimborso fallisce o vale zero, after() fuori da una richiesta preso nel try/catch; 402 prove dei 53 file collegati verdi, tsc 0 errori. Lente chiude_tutta: parziale. Nessuna email di annullo resta attesa dentro la richiesta in nessuna delle sette strade, ma «se fallisce resta solo nel registro» resta vero sui contanti: lib/ordini/annulla.ts:486-487 avvisa gli amministratori solo su 'invio-fallito', e :596-607 trasforma un getUserById in errore in 'senza-indirizzo' (commento a :486: «un indirizzo che non si legge resta nel registro, come prima»; controllato da me). Scenario riprodotto dal qa: annullo in contanti (o giro degli scaduti in contanti) con l'API di accesso giù → 0 email, 0 avvisi. È lo stesso residuo scritto dal collaudo precedente (annulla.ts:505-520 → 'senza-indirizzo'). Sulla carta lo stesso guasto avvisa: comportamento incoerente. Stessa classe per l'email al negozio (annulla.ts:683, :702-709). Prove comuni cambiate (domanda della regia): api-cron-expire-stale-orders e chi-paga-alla-consegna-sa-che-l-ordine-e-annullato non controllano più da sole l'avviso al cliente del rimborso; togliendo per prova la chiamata ad avvisaIlClienteDelRimborso (annulla.ts:328, poi route.ts:270) cadono 2 prove, solo nel file nuovo riparazione-r02-email-rimborso-dopo-la-risposta: la regressione la prende oggi una prova sola. Non indebolite nel resto (nessuna asserzione tolta). Rischio non verificato sul conto Resend: after() di Next 15.5 fa partire tutti gli invii insieme (concorrenza senza limite, after-context.js:30,106); un giro degli scaduti con più di ~10 ordini carta manda tutti i «Rimborso emesso» insieme, sendEmail ritenta una volta (lib/email/client.ts:219), possibili 429 e una campanella per ordine."
+  },
+  {
+   "id": "R02-003",
+   "chiave": "architettura|carrello di più negozi: se cade la scrittura del secondo ordine, il primo resta spostato in silenzio",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K01 --base fa0f8ed718230b4e53d496c4f8b29541abd5b535^ --file lib/ordini/veloce-non-confermata.ts --prove tests/unit/riparazione-r02-veloce-scrittura-passata-con-errore.test.ts --json"
+   },
+   "nota": "Dichiarata parziale. Rimessa 0 (fa0f8ed7). La parte fatta regge: scrittureIncerte (lib/ordini/veloce-non-confermata.ts:619, 660, 763-779) non muove soldi (credito e rimborso partono prima della scrittura con la loro chiave per ordine: nessun credito restituito due volte), prende solo gli ordini di questo carrello la cui scrittura ha risposto errore, delivery_fee_cents è intero (rilettura vera = finto); 255 prove dei 30 file del freno verdi; tsc 0 errori. Il «resta» dichiarato è vero (scrittura del primo ordine passata con errore :656/:923/:953; doppio guasto :758) ma NON è completo: se la scrittura del secondo ordine cade davvero e l'ordine è ancora NEW (:786-789), l'avviso agli amministratori (:939) promette «il cliente lo avvisa il freno al giro dopo», ma il giro dopo cerca solo ordini NEW (:877): se entro 5 minuti il negozio accetta B o il cliente lo annulla, il cliente non riceve mai la frase del freno e la promessa agli amministratori è falsa. Minori: due giri del freno sovrapposti sulla stessa fascia mandano gli avvisi due volte (soldi fermi); nessuna prova copre il ramo «nella fascia ma consegna non scesa»."
+  },
+  {
+   "id": "R02-007",
+   "chiave": "deploy-sre|il cancello delle migrazioni promette di confrontare il contenuto ma confronta solo i nomi, e registra in un passo separato",
+   "verdetto": "rompe_altro",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K01 --base 9e1bbc0b07b8e5e2075ba2dba7a63489b808364b^ --file scripts/applica-migrazioni-mancanti.sh --prove tests/unit/riparazione-r02-registrazione-col-commit-proprio.test.ts --json"
+   },
+   "nota": "Rimessa 0 (9e1bbc0b; la prova avvia un PostgreSQL usa e getta locale). Lente nata_rotta: rompe_altro. In scripts/applica-migrazioni-mancanti.sh:367-371 l'INSERT nel registro ora viene PRIMA del file (controllato da me), quindi il primo COMMIT del file conferma anche la registrazione: una migrazione che lavora dopo il proprio COMMIT e lì si rompe resta REGISTRATA e mai più riapplicata. Provato dal qa sul Postgres usa e getta: file «BEGIN; COMMIT; ALTER TABLE t ADD CONSTRAINT … CHECK» su dati che violano → giro 1 uscita 3 ma già registrata; giro 2 uscita 0 «gia' presenti 1»; giro 3 coi dati sistemati: vincolo mai creato. Sulla base lo script riprova a ogni giro e al giro 3 lo crea. Stesso esito con «COMMIT;» seguito da CREATE INDEX CONCURRENTLY (l'unico modo di fare un indice concorrente con questo script) e con lo stile della 115 e della 117. Dopo il primo giro rosso è tutto verde, anche il controllo della deriva (confronta solo l'md5); l'avviso forte (r.354) compare solo nel giro rosso, e deploy-dopo-ci.yml:577-579 consiglia ancora «correggi la migrazione rotta, il rilascio riparte», che ora non è più vero. Il riparatore lo dichiara come prezzo, ma sostituisce un guasto che si ripara da solo con uno silenzioso. Migliorano davvero le 39 migrazioni su 41 col COMMIT proprio seguito solo da NOTIFY; 69 prove dei 9 file sullo script verdi; md5 e testo registrati uguali a prima. Cura indicata: registrare prima solo i file che dopo il COMMIT hanno NOTIFY o niente; per gli altri registrare dopo come la base, oppure fermare lo script. Lente chiude_tutta: anche parziale. Il primo pezzo (confronto del contenuto) era già alla base (R16-003: check-migration-drift.mjs:280-306, usato da deploy-dopo-ci.yml:601-606), ma una riga del registro senza impronta passa verde anche col file cambiato (:302-303, continue): sono 196 migrazioni su 210, registrate prima del 13/11 o da editor/CLI; sonda: 100_x modificata senza impronta → uscita 0. Mancano il riempimento delle impronte storiche o un controllo in CI che vieti di cambiare una migrazione già su main."
+  },
+  {
+   "id": "R02-008",
+   "chiave": "deploy-sre|il ritorno indietro può ancora scegliere il rilascio sbagliato in due casi rari: un solo altro commit negli ultimi 20 rilasci, o un dominio che non dice il suo commit",
+   "verdetto": "parziale",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "rimessa": {
+    "uscita": 0,
+    "comando": "timeout 540 node cervello/prova-rimessa.mjs --repo ../wt-K01 --base cf7c607558b0e605d98ed40b183ffee338813832^ --file scripts/prova-di-fumo.mjs --prove tests/unit/riparazione-r02-ritorno-indietro-commit-ripetuto.test.ts --json"
+   },
+   "nota": "Dichiarata parziale. Rimessa 0 (cf7c6075; e67311ec tocca solo i tipi della prova). Lente nata_rotta: regge — aggiunge solo un return null (scripts/prova-di-fumo.mjs:347), non può scegliere un rilascio nuovo e sbagliato; col dominio letto bene niente cambia; [Y,X], [Y,X,X], anteprime, rilasci non pronti e commit in maiuscolo come la base; [Y,Y,X], [Y,X,Y], [X,Y] ora null (ritorno a mano), con ::warning:: e, se la prova di fumo cade, ::error:: e exit 1 (deploy-dopo-ci.yml:817-826); uscita compatibile con || true (r.658); prove verdi (57 nei 9 file che importano lo script, 187 nei 20 del lavoro di rilascio). Lente chiude_tutta: Riserva E (dominio che risponde senza commit) chiusa, già alla base (:333-345); Riserva A chiusa nei casi nominati (7 delle 8 prove nuove rosse alla base). Il «resta» è vero ma va allargato: oltre a [Y,X] tornano ancora a X anche gli elenchi [X] e [X,X] senza Y, quando l'elenco si legge prima che il rilascio automatico di Y sia pronto (deploy-dopo-ci.yml:639-640) o col rilascio automatico spento (:267)."
+  },
+  {
+   "id": "R02-009",
+   "chiave": "qa-flussi|nella scheda utente dell'amministrazione i dati del negozio mostrano «—» mentre si caricano",
+   "verdetto": "regge",
+   "giudizio": "pieno",
+   "lenti": [
+    "chiude_tutta",
+    "nata_rotta"
+   ],
+   "nota": "Già riparato prima (975d2aa1 nella storia della base). app/admin/users/page.tsx identico fra base e testa. Prova tests/unit/riparazione-r03-scheda-utente-admin-in-caricamento.test.ts verde alla base e alla testa (2/2, lanciata da me). datoIdentita (:1051-1056) dice «Caricamento…» mentre la lettura è in corso, per codice fiscale e P.IVA del negozio (:1141, :1151) e codice fiscale del fattorino (:1251); i dati del fattorino caricati a parte (età, veicolo, targa, documenti) mostrano «…» o «Sto caricando i documenti…»; email, telefono e gli altri dati del negozio arrivano con la lettura dell'elenco. Fuori voce: con la lettura di ripiego (COLONNE_MINIME, :101) o quella delle email cadute, ragione sociale, PEC ed email mostrano «—» (lettura caduta, non in corso)."
   }
  ],
  "campione": {}
