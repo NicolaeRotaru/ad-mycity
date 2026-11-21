@@ -10,11 +10,16 @@ a: la regia seconda della settimana dei 700
 ## In parole semplici
 Il ricontrollo è finito: 117 difetti erano già spariti e sono chiusi nel registro.
 Gli aperti scendono da 749 a 632: 559 minori, 68 gravi e 5 bloccanti.
+Per esempio la pagina Guadagni prometteva 18 € già in cassa per un ritiro pagato al banco: oggi non lo fa più, e la voce è chiusa.
 Adesso si riparano le voci ancora vere, con il tetto di 1.200 $ firmato da Nicola.
 Spesi finora circa 130 $: 115,59 $ del ricontrollo e circa 14 $ della regia.
 
 ## Cosa cambia per te
 Niente sul sito: il ricontrollo ha solo letto. Le chiusure sono nel registro del ramo `claude/settimana-700-regia`.
+
+## Cosa non ho verificato
+- Il difetto nuovo del rimborso non è ancora nel registro: va aggiunto come nato al primo `applica` della riparazione.
+- Quanto vale un punto del limite settimanale: le misure non tornano.
 
 ## Cosa devi fare
 1. Leggi la skill `riparazione`, `REGIA.md` e questo foglio.
@@ -23,10 +28,6 @@ Niente sul sito: il ricontrollo ha solo letto. Le chiusure sono nel registro del
 4. Rifai `perimetro` e `dividi` su `main` del sito `1ad51b4c` col registro nuovo, a 16 voci per sessione, con i delicati in un'onda a parte (regola 4 del 21/11).
 5. Fai il preventivo con `conti --preventivo` e controlla il costo per chiusa sulle righe di `misure.json` con la stessa configurazione. Sopra 12 $ a chiusa decide Nicola.
 6. Passa la mano a 250 mila token, con un foglio come questo.
-
-## Cosa non ho verificato
-- Il difetto nuovo del rimborso non è ancora nel registro: va aggiunto come nato al primo `applica` della riparazione.
-- Quanto vale un punto del limite settimanale: le misure non tornano.
 
 ---
 
