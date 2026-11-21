@@ -1172,6 +1172,35 @@
       "perche": "R02-009: il cricchetto delle foto senza caricatore passa da tre a zero (prova più forte).",
       "firma": "Nicola, 21/11, chat «Ondata 9 · 9.0» session_015BmpnVsaBSAMXVLwgUxhRH: «firmo tutte e due»",
       "scritta": "2026-11-21 03:17, regia 9.0 dell onda 9"
+    },
+    {
+      "onda": 1,
+      "sessione": "R02",
+      "regole": [
+        "prove_comuni",
+        "prova_esistente_altrui"
+      ],
+      "file": [
+        "tests/unit/riparazione-r02-contanti-sopra-il-tetto.test.tsx"
+      ],
+      "perche": "Firma 1, R02-006: la prova del tetto dei contanti conta anche l'euro della consegna veloce; il prezzo limite della prova scende di 1 euro.",
+      "firma": "Nicola, 21/11 11:44, chat «Regia onda 9 MyCity 10.0» session_015BmpnZ6sDXhTVpCDMSp2nP: prima «Firmo solo alcuni», poi spuntati tutti e sei i gruppi del foglio DA-FIRMARE-21-11 e scritto «La prima domanda ho risposto per sbaglio»: vale «firmo 1-6»",
+      "scritta": "2026-11-21 11:46, regia 10.0 dell onda 9"
+    },
+    {
+      "onda": 1,
+      "sessione": "R03",
+      "regole": [
+        "prove_comuni",
+        "prova_esistente_altrui"
+      ],
+      "file": [
+        "tests/unit/riparazione-r04-assistenza-doppione.test.ts",
+        "tests/unit/riparazione-r04-benvenuto-dopo-i-contanti.test.ts"
+      ],
+      "perche": "Firma 2, R03-013 e R03-008: il finto database delle due prove vecchie impara due cose nuove (2 e 5 righe), senza togliere asserzioni.",
+      "firma": "Nicola, 21/11 11:44, chat «Regia onda 9 MyCity 10.0» session_015BmpnZ6sDXhTVpCDMSp2nP: prima «Firmo solo alcuni», poi spuntati tutti e sei i gruppi del foglio DA-FIRMARE-21-11 e scritto «La prima domanda ho risposto per sbaglio»: vale «firmo 1-6»",
+      "scritta": "2026-11-21 11:46, regia 10.0 dell onda 9"
     }
   ]
 }

@@ -1,0 +1,222 @@
+{
+  "campagna": "giro5d",
+  "quando": "2026-11-21 11:44",
+  "decisioni": [
+    {
+      "id": "R01-001",
+      "sessione": "R01",
+      "chiave": "api-backend|cancellazione utente e annullo ordine dell'amministrazione rispondono 500 senza scrivere nel registro",
+      "gravita": "minore",
+      "esito": "serve_file_altrui",
+      "verdetto": null,
+      "collaudatore": null,
+      "decisione": "resta_aperta",
+      "perche": "serve_file_altrui: Nessun dato personale nelle righe: id ordine, codice e messaggio del database, motivo. Per l'annullo dell'amministrazione con ANNULLAMENTO_FALLITO escono due righe (lib e rotta, etichette diverse): se si vuole una riga sola, basta quella di lib più il punto (2) della rotta; il punto (3) resta la rete per motivi futuri. Diff provato: /tmp/claude-0/-home-user-mycity/16cc4363-c500-54cf-8466-1c5214c91507/scratchpad/r01-lotto2/r001-proposta.diff."
+    },
+    {
+      "id": "R01-002",
+      "sessione": "R01",
+      "chiave": "api-backend|il tetto di tempo delle email della notte parte dall inizio del giro, e il ciclo delle cancellazioni resta senza tetto: con una notte lunga non parte nessuna email e non c è allarme",
+      "gravita": "minore",
+      "esito": "riparato",
+      "verdetto": "parziale",
+      "collaudatore": "K01",
+      "decisione": "resta_aperta",
+      "perche": "collaudo: parziale"
+    },
+    {
+      "id": "R01-003",
+      "sessione": "R01",
+      "chiave": "api-backend|la chiusura dell allarme «scrivile tu» legge al massimo 200 avvisi senza ordine né filtro: oltre 200, quelli aperti possono restare fuori",
+      "gravita": "minore",
+      "esito": "riparato",
+      "verdetto": "non_regge",
+      "collaudatore": "K01",
+      "decisione": "resta_aperta",
+      "perche": "collaudo: non_regge"
+    },
+    {
+      "id": "R01-004",
+      "sessione": "R01",
+      "chiave": "api-backend|la chiusura della rivendicazione del benvenuto non è limitata al tentativo in corso",
+      "gravita": "minore",
+      "esito": "gia_riparato_prima",
+      "verdetto": "regge",
+      "collaudatore": "K01",
+      "decisione": "gia_riparato_prima",
+      "perche": "",
+      "prova": "Già sulla base 0f98fb8a col commit 155d11a4 (app/api/orders/cod/route.ts: la rotta legge l'id della riga di coupon_redemptions subito dopo la rivendicazione e al rilascio chiude solo quella riga per id). Prova: npx vitest run tests/unit/riparazione-r03-benvenuto-del-tentativo.test.ts --reporter=dot → verde sulla base (2/2). Rossa senza la correzione: prova-rimessa.mjs --repo . --base 155d11a4^ --file app/api/orders/cod/route.ts --prove tests/unit/riparazione-r03-benvenuto-del-tentativo.test.ts → uscita 0 (collaudo K02 del giro 4: rossa 1 fallita, «chiusa la rivendicazione dell'altra scheda»)."
+    },
+    {
+      "id": "R01-005",
+      "sessione": "R01",
+      "chiave": "api-backend|con la carta, se la cassa cade dopo la rivendicazione del benvenuto, il codice resta bloccato fino a 2 minuti",
+      "gravita": "minore",
+      "esito": "gia_riparato_prima",
+      "verdetto": "parziale",
+      "collaudatore": "K01",
+      "decisione": "resta_aperta",
+      "perche": "collaudo: parziale"
+    },
+    {
+      "id": "R01-006",
+      "sessione": "R01",
+      "chiave": "api-backend|il codice di benvenuto restituito dopo un rifiuto della carta resta bloccato al tentativo dopo",
+      "gravita": "minore",
+      "esito": "riparato",
+      "verdetto": "parziale",
+      "collaudatore": "K01",
+      "decisione": "resta_aperta",
+      "perche": "collaudo: parziale"
+    },
+    {
+      "id": "R01-007",
+      "sessione": "R01",
+      "chiave": "api-backend|all'assistenza la stessa chiave con un testo diverso fa perdere il secondo testo in silenzio",
+      "gravita": "minore",
+      "esito": "gia_riparato_prima",
+      "verdetto": "regge",
+      "collaudatore": "K01",
+      "decisione": "gia_riparato_prima",
+      "perche": "",
+      "prova": "Già sulla base 0f98fb8a col commit 82d3d4c4 (app/api/support/conversation/route.ts: con l'id già usato, 23505, la rotta rilegge il messaggio salvato: stesso testo 200 giaRicevuto, testo diverso 409, rilettura caduta 503). Prova: npx vitest run tests/unit/riparazione-r03-assistenza-stessa-chiave.test.ts --reporter=dot → verde sulla base (3/3). Rossa senza la correzione: prova-rimessa.mjs --repo . --base 82d3d4c4^ --file app/api/support/conversation/route.ts --prove tests/unit/riparazione-r03-assistenza-stessa-chiave.test.ts → uscita 0 (collaudo K02: rossa 2 falliti, «200 giaRicevuto col testo diverso»)."
+    },
+    {
+      "id": "R01-008",
+      "sessione": "R01",
+      "chiave": "api-backend|se il servizio di posta conserva anche le risposte d'errore, una promozione mai partita risulta spedita",
+      "gravita": "minore",
+      "esito": "serve_file_altrui",
+      "verdetto": null,
+      "collaudatore": null,
+      "decisione": "resta_aperta",
+      "perche": "serve_file_altrui: Diagnosi ricontrollata sul codice: firmaDisiscrizione usa crypto.randomBytes(12) (lib/email/unsubscribe.ts:65); sendEmail firma il link a ogni invio (lib/email/client.ts:142) e per le promozioni lo mette nel corpo e in List-Unsubscribe (client.ts:157-171); la coda rimanda la riga con la stessa chiave `email-queue/${row.id}` (app/api/cron/send-emails/route.ts:533), quindi il corpo cambia, Resend dà 409 invalid_idempotent_request e client.ts:207-209 risponde { ok: true, id: '' } → la coda scrive sent_at anche se la prima risposta conservata era un errore. Nei modelli delle promozioni non ho trovato altro di casuale. client.ts NON toccato. Modifica per il GIRO DOPO, solo dopo quella di unsubscribe.ts (testo, non applicata): in lib/email/client.ts togliere le righe 203-210 (commento «13/11/2026 (R22-001, R22-011) — Il 409…» e l'if `opzioni && String(error.name) === 'invalid_idempotent_request'` che ritorna { ok: true, id: '' }); così il 409 cade nel ramo d'errore normale (lastErr = error.message, non ritentabile) e sendEmail risponde { ok: false, error }. Provato in copia: con le due modifiche i 27 file che usano il client vero + r22 verdi (241 prove); con la sola modifica di client.ts r22 «anche una promozione … non esce due volte» diventa rossa, che è il motivo dell'ordine."
+    },
+    {
+      "id": "R01-009",
+      "sessione": "R01",
+      "chiave": "flussi-conversione|la scheda prodotto promette «paghi alla consegna» anche sopra il tetto dei contanti",
+      "gravita": "minore",
+      "esito": "riparato",
+      "verdetto": "parziale",
+      "collaudatore": "K01",
+      "decisione": "resta_aperta",
+      "perche": "collaudo: parziale"
+    },
+    {
+      "id": "R01-010",
+      "sessione": "R01",
+      "chiave": "qa-flussi|un cliente che esiste già non ha una strada da solo per diventare fattorino",
+      "gravita": "minore",
+      "esito": "serve_file_altrui",
+      "verdetto": null,
+      "collaudatore": null,
+      "decisione": "resta_aperta",
+      "perche": "serve_file_altrui: Per Nicola: oggi il reclutamento dal sito è chiuso per tua decisione del 26/10, anche per i fattorini nuovi; questa strada lo riapre e serve il tuo sì. Per un cliente: da «Diventa rider» compila i suoi dati e, al primo salvataggio, il suo account diventa fattorino in attesa; poi carica documento, selfie, patente e polizza; finché non è approvato non vede le consegne, e da quel momento con quell'account non può più fare ordini (gli ordini già fatti restano visibili; se ne ha uno in corso, deve aspettare che arrivi prima di candidarsi). Per l'amministrazione: riceve un avviso, controlla i documenti in Utenti e approva o respinge come per i fattorini nuovi; se respinge, l'account resta fattorino respinto e per farlo tornare cliente serve l'amministrazione."
+    },
+    {
+      "id": "R02-001",
+      "sessione": "R02",
+      "chiave": "architettura|email di annullo spedita dentro la richiesta, senza coda: fino a circa 20 s di attesa, e se fallisce resta solo nel registro",
+      "gravita": "minore",
+      "esito": "riparato",
+      "verdetto": "parziale",
+      "collaudatore": "K01",
+      "decisione": "resta_aperta",
+      "perche": "collaudo: parziale"
+    },
+    {
+      "id": "R02-002",
+      "sessione": "R02",
+      "chiave": "architettura|il carrello in contanti si ritrova solo dalla tabella contro il doppio clic: senza quella riga la regola del negozio che rifiuta non scatta e nessuno lo sa",
+      "gravita": "minore",
+      "esito": "serve_file_altrui",
+      "verdetto": null,
+      "collaudatore": null,
+      "decisione": "resta_aperta",
+      "perche": "serve_file_altrui: La migrazione 640 entra sul database vero solo con l'«ok migrazioni» di Nicola. Con il diff applicato e lib/database.types.ts rigenerato le 3 guardie di schema sono verdi (19 prove). Senza la scrittura nella rotta la colonna resta vuota e il codice fa come oggi. Giudizio del revisore del lotto A su f8e6c95a (stesso codice): vedi verificato_da. Lievi (revisore): la 640 non ha `NOTIFY pgrst, 'reload schema'` (lo hanno 40 delle 55 migrazioni che aggiungono colonne): aggiungerlo quando si applica; i due testi sistemati non hanno una prova leggera."
+    },
+    {
+      "id": "R02-003",
+      "sessione": "R02",
+      "chiave": "architettura|carrello di più negozi: se cade la scrittura del secondo ordine, il primo resta spostato in silenzio",
+      "gravita": "minore",
+      "esito": "parziale",
+      "verdetto": "parziale",
+      "collaudatore": "K01",
+      "decisione": "resta_aperta",
+      "perche": "parziale: Trovato dal revisore del lotto A (stessa causa, sul PRIMO ordine): se la scrittura del primo ordine passa ma risponde errore, il freno lancia con `fatto` vuoto (lib/ordini/veloce-non-confermata.ts ~690) e gli amministratori leggono «fermo prima di cominciare… non ha fatto niente» (~960), falso: il primo è già nella fascia con la consegna scesa, cliente e negozi senza avviso, e il giro dopo non lo ritrova. Cura: su i === 0 con errore rileggere fascia e consegna del primo come fa il nuovo ciclo dei rimasti; se è già nella fascia contarlo fra gli scritti e proseguire (almeno «già passato alla fascia» in `fatto`). Minore: scrittura passata con errore e rilettura caduta (doppio guasto): gli amministratori leggono che il cliente lo avvisa il giro dopo (~792, ~973), ma il giro dopo non fa niente; cura: con scrittureIncerte non vuota e rilettura caduta scrivere «avvisa tu il cliente». Non corretti: sopra 21 $ niente giri di correzione (regola della regia)."
+    },
+    {
+      "id": "R02-004",
+      "sessione": "R02",
+      "chiave": "architettura|la funzione della spedizione in centesimi accetta ancora i sette ingressi che non servono",
+      "gravita": "minore",
+      "esito": "serve_file_altrui",
+      "verdetto": null,
+      "collaudatore": null,
+      "decisione": "resta_aperta",
+      "perche": "serve_file_altrui: il mio file da solo non si committa: tsc rosso in prezzi.ts e nelle prove"
+    },
+    {
+      "id": "R02-005",
+      "sessione": "R02",
+      "chiave": "architettura|una fascia «domani» inviata alle 23:59 e arrivata alla rotta dopo mezzanotte si giudica sul giorno dopo",
+      "gravita": "minore",
+      "esito": "serve_file_altrui",
+      "verdetto": null,
+      "collaudatore": null,
+      "decisione": "resta_aperta",
+      "perche": "serve_file_altrui: Si chiede al cliente di riscegliere invece di giudicare la fascia sul giorno di delivery_date, perché lib/ordini/scadenza-accettazione.ts legge «Domani» dall'ora di creazione dell'ordine: un ordine creato alle 00:01 e giudicato sul martedì verrebbe poi trattato come mercoledì da scadenza, giro degli scaduti e pagine. La cassa fa già così dopo mezzanotte (app/checkout/page.tsx:650-657). store-hours.ts (negozioPuoServire con propostaIl) non cambia."
+    },
+    {
+      "id": "R02-006",
+      "sessione": "R02",
+      "chiave": "deploy-sre|la notifica sul telefono per un nuovo ordine arriva fino a 5 minuti dopo, non in pochi secondi",
+      "gravita": "minore",
+      "esito": "serve_file_altrui",
+      "verdetto": null,
+      "collaudatore": null,
+      "decisione": "resta_aperta",
+      "perche": "serve_file_altrui: Nessun cambio al cron, che resta la rete di sicurezza per le push non mandate (pushed_at vuoto). Nessun costo Vercel."
+    },
+    {
+      "id": "R02-007",
+      "sessione": "R02",
+      "chiave": "deploy-sre|il cancello delle migrazioni promette di confrontare il contenuto ma confronta solo i nomi, e registra in un passo separato",
+      "gravita": "minore",
+      "esito": "riparato",
+      "verdetto": "rompe_altro",
+      "collaudatore": "K01",
+      "decisione": "resta_aperta",
+      "perche": "collaudo: rompe_altro"
+    },
+    {
+      "id": "R02-008",
+      "sessione": "R02",
+      "chiave": "deploy-sre|il ritorno indietro può ancora scegliere il rilascio sbagliato in due casi rari: un solo altro commit negli ultimi 20 rilasci, o un dominio che non dice il suo commit",
+      "gravita": "minore",
+      "esito": "parziale",
+      "verdetto": "parziale",
+      "collaudatore": "K01",
+      "decisione": "resta_aperta",
+      "perche": "parziale: col dominio non letto e un solo altro commit [Y,X] si torna ancora a X (la scena di ogni giorno)"
+    },
+    {
+      "id": "R02-009",
+      "sessione": "R02",
+      "chiave": "qa-flussi|nella scheda utente dell'amministrazione i dati del negozio mostrano «—» mentre si caricano",
+      "gravita": "minore",
+      "esito": "gia_riparato_prima",
+      "verdetto": "regge",
+      "collaudatore": "K01",
+      "decisione": "gia_riparato_prima",
+      "perche": "",
+      "prova": "app/admin/users/page.tsx:1053 (datoIdentita, r.1051-1056: `if (!d) return 'Caricamento…';`, dal commit 975d2aa1; usata per codice fiscale r.1141 e P.IVA r.1151 del negozio e codice fiscale del fattorino r.1251). Comando: `git show 975d2aa1 -- app/admin/users/page.tsx | git apply -R` e `npx vitest run --reporter=dot tests/unit/riparazione-r03-scheda-utente-admin-in-caricamento.test.ts` → ROSSA (1 fallita su 2: «lettura in corso: codice fiscale e partita IVA non sono «—»», AssertionError «il codice fiscale in caricamento sembra «nessun codice fiscale»: expected '—' not to be '—'»); difetto rimesso solo sulla riga della P.IVA (r.1151) → ROSSA «la partita IVA in caricamento sembra «nessuna partita IVA»»; `git checkout -- app/admin/users/page.tsx` → VERDE (2/2); git status pulito."
+    }
+  ],
+  "eccezioni_firmate": [
+    "referti/R02.json: guardia-ramo: tests/unit/api-cron-expire-stale-orders.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, 21/11 11:44, chat «Regia onda 9 MyCity 10.0» session_015BmpnZ6sDXhTVpCDMSp2nP: «Firmo solo alcuni», poi spuntati tutti e sei i gruppi del foglio DA-FIRMARE-21-11 (1-6)]",
+    "referti/R02.json: guardia-ramo: tests/unit/chi-paga-alla-consegna-sa-che-l-ordine-e-annullato.test.ts: è una prova esistente che usa anche file di altre sessioni dell'onda: non è di nessuno, la tocca solo la regista [eccezione firmata, onda 1: Nicola, 21/11 11:44, chat «Regia onda 9 MyCity 10.0» session_015BmpnZ6sDXhTVpCDMSp2nP: «Firmo solo alcuni», poi spuntati tutti e sei i gruppi del foglio DA-FIRMARE-21-11 (1-6)]"
+  ]
+}

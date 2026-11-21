@@ -7300,3 +7300,8 @@ Ha ripubblicato tre volte lo stesso codice di main (db5164c). L'ultima pubblicaz
 - **Cosa:** la regia non apre un terzo giro. Il giro 5 ha reso circa 12 voci che reggono per circa 159 $ (≈13 $ l'una, sopra la soglia di 12 $), e le voci delicate erano al secondo tentativo (regola 8 del 15/11: dopo due giri falliti decide Nicola).
 - **Perché:** regola 1 del 21/11 e regola 8 del 15/11.
 - **Chi:** regia 10.0. **Colore:** 🟡.
+
+## 2026-11-21 11:44 — Onda 9: Nicola firma le sei prove comuni e la PR del sito esce di bozza
+- **Cosa:** Nicola firma i sei gruppi di prove comuni del foglio `onda9/DA-FIRMARE-21-11.md` (alla prima domanda ha risposto «firmo solo alcuni» per sbaglio, poi ha spuntato tutti e sei e l'ha scritto in chat). Le firme sono in `eccezioni_firmate` dei piani di giro4, giro5d e giro5m. Su sua richiesta la regia toglie mycity#300 dalla bozza alle 11:50. La deroga «rimessa a mano» delle firme 4 e 5 non è firmata: va col «sì al programma».
+- **Perché:** le firme erano l'unica cosa che teneva la PR in bozza. Prove di GitHub verdi su `a35f5c11`, nessun conflitto con main. `applica` a vuoto è verde su giro4 e giro5d. Su giro5m resta un rosso del guardiano: `it.skipIf` sulla prova del corsivo, che in realtà restringe un salto già presente alla base. Ferma solo le chiusure di R01 di giro5m nel registro, non il codice.
+- **Chi:** Nicola (firma), regia 10.0 (scrittura e bozza). **Colore:** 🟡.

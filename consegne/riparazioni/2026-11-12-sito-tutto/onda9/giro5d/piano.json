@@ -249,5 +249,22 @@
     }
   ],
   "cucitura": [],
-  "eccedenza": []
+  "eccedenza": [],
+  "eccezioni_firmate": [
+    {
+      "onda": 1,
+      "sessione": "R02",
+      "regole": [
+        "prove_comuni",
+        "prova_esistente_altrui"
+      ],
+      "file": [
+        "tests/unit/api-cron-expire-stale-orders.test.ts",
+        "tests/unit/chi-paga-alla-consegna-sa-che-l-ordine-e-annullato.test.ts"
+      ],
+      "perche": "Firma 3, R02-001: le due prove aspettano che l'email «Rimborso emesso» parta dopo la risposta, non dentro.",
+      "firma": "Nicola, 21/11 11:44, chat «Regia onda 9 MyCity 10.0» session_015BmpnZ6sDXhTVpCDMSp2nP: prima «Firmo solo alcuni», poi spuntati tutti e sei i gruppi del foglio DA-FIRMARE-21-11 e scritto «La prima domanda ho risposto per sbaglio»: vale «firmo 1-6»",
+      "scritta": "2026-11-21 11:46, regia 10.0 dell onda 9"
+    }
+  ]
 }

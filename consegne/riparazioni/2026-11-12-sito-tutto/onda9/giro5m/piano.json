@@ -277,5 +277,51 @@
     }
   ],
   "cucitura": [],
-  "eccedenza": []
+  "eccedenza": [],
+  "eccezioni_firmate": [
+    {
+      "onda": 1,
+      "sessione": "R02",
+      "regole": [
+        "prove_comuni",
+        "prova_esistente_altrui"
+      ],
+      "file": [
+        "tests/unit/le-migrazioni-a-mano-partono-solo-con-la-conferma.test.ts"
+      ],
+      "perche": "Firma 4, R02-001: la prova dell'ordine delle migrazioni usa lo stesso ordinamento dello script vero. La deroga rimessa_a_mano NON è firmata qui: va col «sì al programma».",
+      "firma": "Nicola, 21/11 11:44, chat «Regia onda 9 MyCity 10.0» session_015BmpnZ6sDXhTVpCDMSp2nP: prima «Firmo solo alcuni», poi spuntati tutti e sei i gruppi del foglio DA-FIRMARE-21-11 e scritto «La prima domanda ho risposto per sbaglio»: vale «firmo 1-6»",
+      "scritta": "2026-11-21 11:46, regia 10.0 dell onda 9"
+    },
+    {
+      "onda": 1,
+      "sessione": "R01",
+      "regole": [
+        "prove_comuni",
+        "prova_esistente_altrui"
+      ],
+      "file": [
+        "tests/unit/minori-s08-avvisi.test.ts"
+      ],
+      "perche": "Firma 5, R01-006: la prova scritta a mano usa il finto comune degli avvisi, stessi casi e stesso esito. La deroga rimessa_a_mano NON è firmata qui: va col «sì al programma».",
+      "firma": "Nicola, 21/11 11:44, chat «Regia onda 9 MyCity 10.0» session_015BmpnZ6sDXhTVpCDMSp2nP: prima «Firmo solo alcuni», poi spuntati tutti e sei i gruppi del foglio DA-FIRMARE-21-11 e scritto «La prima domanda ho risposto per sbaglio»: vale «firmo 1-6»",
+      "scritta": "2026-11-21 11:46, regia 10.0 dell onda 9"
+    },
+    {
+      "onda": 1,
+      "sessione": "R01",
+      "regole": [
+        "prove_comuni",
+        "prova_esistente_altrui"
+      ],
+      "file": [
+        "tests/unit/il-corsivo-del-sito-e-un-corsivo-vero.test.ts",
+        "tests/unit/riparazione-r10-manifest-nel-head.test.tsx",
+        "tests/unit/riparazione-r15-la-pagina-non-trovata-non-si-presenta-come-la-home.test.ts"
+      ],
+      "perche": "Firma 6, R01-007: tre prove si adattano ai caratteri salvati nel sito invece che scaricati da Google.",
+      "firma": "Nicola, 21/11 11:44, chat «Regia onda 9 MyCity 10.0» session_015BmpnZ6sDXhTVpCDMSp2nP: prima «Firmo solo alcuni», poi spuntati tutti e sei i gruppi del foglio DA-FIRMARE-21-11 e scritto «La prima domanda ho risposto per sbaglio»: vale «firmo 1-6»",
+      "scritta": "2026-11-21 11:46, regia 10.0 dell onda 9"
+    }
+  ]
 }
